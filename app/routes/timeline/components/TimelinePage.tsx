@@ -14,13 +14,7 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 const TimelinePage = () => {
   const dispatch = useAppDispatch();
 
-  usePreparedEffect(
-    'fetchTimeline',
-    () => {
-      dispatch(fetchPersonalFeed());
-    },
-    []
-  );
+  usePreparedEffect('fetchTimeline', () => dispatch(fetchPersonalFeed()), []);
 
   const feed = useAppSelector((state) =>
     selectFeedById(state, {

@@ -21,9 +21,7 @@ const InterestGroupEdit = () => {
 
   usePreparedEffect(
     'fetchInterestGroupEdit',
-    () => {
-      groupId && dispatch(fetchGroup(groupId));
-    },
+    () => groupId && dispatch(fetchGroup(groupId)),
     [groupId]
   );
 

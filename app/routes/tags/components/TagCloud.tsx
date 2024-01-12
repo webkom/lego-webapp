@@ -41,7 +41,7 @@ const TagCloud = () => {
     'fetchMoreTags',
     () => {
       if (hasMore && !fetching) {
-        dispatch(fetchAll({ next: true }));
+        return dispatch(fetchAll({ next: true }));
       }
     },
 

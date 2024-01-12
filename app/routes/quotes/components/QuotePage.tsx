@@ -77,18 +77,11 @@ const QuotePage = () => {
 
   usePreparedEffect(
     'fetchQuotePage',
-    () => {
-      if (quoteId) {
-        dispatch(fetchQuote(quoteId));
-      } else {
-        dispatch(
-          fetchAll({
-            query,
-          })
-        );
-      }
-      dispatch(fetchEmojis());
-    },
+    () =>
+      Promise.resolve([
+        quoteId ? dispatch(fetchQuote(quoteId)) : dispatch(fetchAll({ query })),
+        dispatch(fetchEmojis()),
+      ]),
     [query]
   );
 

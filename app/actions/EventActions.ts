@@ -82,7 +82,7 @@ export const fetchData = ({
   const endpoint = getEndpoint(pagination, queryString, loadNextPage);
 
   if (!endpoint) {
-    return Promise.resolve(null);
+    return Promise.resolve();
   }
 
   if (refresh && !loadNextPage) {
@@ -91,7 +91,7 @@ export const fetchData = ({
     });
   }
 
-  dispatch(fetchList({ endpoint, queryString }));
+  return dispatch(fetchList({ endpoint, queryString }));
 };
 
 export const getEndpoint = (

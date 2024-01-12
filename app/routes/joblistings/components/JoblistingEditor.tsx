@@ -144,7 +144,7 @@ const JoblistingEditor = () => {
     'fetchContacts',
     () => {
       if (!isNew && joblisting?.company) {
-        fetchContacts(joblisting?.company);
+        return fetchContacts(joblisting?.company);
       }
     },
     [isNew, joblisting?.company]

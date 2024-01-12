@@ -21,13 +21,7 @@ const SurveyListPage = ({ templates }: Props) => {
   const dispatch = useAppDispatch();
   const fetchAll = templates ? fetchTemplates : fetchSurveys;
 
-  usePreparedEffect(
-    'fetchSurveys',
-    () => {
-      dispatch(fetchAll());
-    },
-    [templates]
-  );
+  usePreparedEffect('fetchSurveys', () => dispatch(fetchAll()), [templates]);
 
   const surveys = useAppSelector((state) =>
     templates
