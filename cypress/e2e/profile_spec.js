@@ -78,6 +78,7 @@ describe('Profile settings', () => {
     cy.visit('/users/me/settings/profile');
 
     cy.contains('Lagre').should('be.disabled');
+
     cy.get('input[name=firstName]').clear().type(updatedUser.firstName);
     cy.get('input[name=lastName]').clear().type(updatedUser.lastName);
     cy.get('input[name=gender]').check(updatedUser.gender);
@@ -86,14 +87,12 @@ describe('Profile settings', () => {
 
     cy.contains('Lagre').should('not.be.disabled').click();
 
-    // TODO: Should use me in URL instead of username
-    // cy.url().should('include', '/users/me');
-    cy.url().should('include', `/users/${initialUser.username}`);
-
-    cy.window().then(() => {
-      // TODO: Should be scrolled to top
-      // expect(win.scrollY).to.be.closeTo(0, 50);
-    });
+    cy.url().should('include', '/users/me');
+    cy.get(c('infoCard'))
+      .first()
+      .find('button')
+      .should('contain', 'Innstillinger')
+      .click();
 
     // Check that settings were changed properly
     cy.visit('/users/me/settings/profile');

@@ -1,6 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
@@ -21,9 +20,6 @@ import {
 } from './AttendeeElements';
 import type {
   EventRegistration,
-  EventRegistrationPresence,
-  EventRegistrationPaymentStatus,
-  ID,
   EventAdministrate,
   EventPool,
   PhotoConsent,
@@ -33,15 +29,6 @@ import type {
 type Props = {
   registered: Array<EventRegistration>;
   loading: boolean;
-  handlePresence: (
-    registrationId: ID,
-    presence: EventRegistrationPresence
-  ) => Promise<any>;
-  handlePayment: (
-    registrationId: ID,
-    paymentStatus: EventRegistrationPaymentStatus
-  ) => Promise<any>;
-  handleUnregister: (registrationId: ID) => Promise<void>;
   showPresence: boolean;
   showUnregister: boolean;
   event: EventAdministrate;
@@ -193,253 +180,235 @@ const ConsentIcons = ({
   );
 };
 
-export class RegisteredTable extends Component<Props> {
-  render() {
-    const {
-      registered,
-      loading,
-      handlePresence,
-      handlePayment,
-      handleUnregister,
-      showPresence,
-      showUnregister,
-      event,
-      pools,
-    } = this.props;
+export const RegisteredTable = ({
+  registered,
+  loading,
+  showPresence,
+  showUnregister,
+  event,
+  pools,
+}: Props) => {
+  const gradeColumn = {
+    title: 'Klassetrinn',
+    dataIndex: 'user.grade',
+    render: GradeRenderer,
+    sorter: (a, b) => {
+      if (a.user.grade && b.user.grade) {
+        if (a.user.grade.name === b.user.grade.name) return 0;
+        if (a.user.grade.name > b.user.grade.name) return 1;
+      }
+      if (!a.user.grade && b.user.grade) return 1;
+      else return -1;
+    },
+  };
 
-    const gradeColumn = {
-      title: 'Klassetrinn',
-      dataIndex: 'user.grade',
-      render: GradeRenderer,
+  const columns = [
+    {
+      title: '#',
+      dataIndex: 'nr',
+      render: (_, registration) => (
+        <span>{registered.indexOf(registration) + 1}.</span>
+      ),
       sorter: (a, b) => {
-        if (a.user.grade && b.user.grade) {
-          if (a.user.grade.name === b.user.grade.name) return 0;
-          if (a.user.grade.name > b.user.grade.name) return 1;
-        }
-        if (!a.user.grade && b.user.grade) return 1;
+        if (registered.indexOf(a) > registered.indexOf(b)) return 1;
         else return -1;
       },
-    };
+    },
+    {
+      title: 'Bruker',
+      dataIndex: 'user',
+      search: true,
+      centered: false,
+      render: (user) => (
+        <Link to={`/users/${user.username}`}>{user.fullName}</Link>
+      ),
+      filterMapping: (user) => user.fullName,
+    },
+    {
+      title: 'Status',
+      dataIndex: 'pool',
+      render: (pool, registration) => {
+        const registrationInfo = getRegistrationInfo(registration);
+        return (
+          <RegistrationPill
+            status={registrationInfo.status}
+            reason={registrationInfo.reason}
+            className={registrationInfo.className}
+          />
+        );
+      },
+      sorter: (a, b) => {
+        if (a.pool && !b.pool) return -1;
+        if (!a.pool && b.pool) return 1;
+        return 0;
+      },
+    },
+    {
+      title: 'Til stede',
+      dataIndex: 'presence',
+      visible: showPresence,
+      render: (presence, registration) => {
+        return (
+          <PresenceIcons registrationId={registration.id} presence={presence} />
+        );
+      },
+    },
+    {
+      title: 'Dato',
+      dataIndex: 'registrationDate',
+      render: (date) => (
+        <Tooltip content={<Time time={date} format="DD.MM.YYYY HH:mm:ss" />}>
+          <Time time={date} format="DD.MM.YYYY" />
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Samtykke',
+      dataIndex: 'photoConsents',
+      visible: !!event.useConsent,
+      render: (_, registration) => {
+        const eventSemester = getEventSemesterFromStartTime(event.startTime);
+        const photoConsents = registration.photoConsents;
+        const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
+        return (
+          <div className={styles.consents}>
+            <ConsentIcons
+              LEGACY_photoConsent={LEGACY_photoConsent}
+              photoConsents={photoConsents}
+              eventSemester={eventSemester}
+            />
+          </div>
+        );
+      },
+    },
+    pools.length === 1
+      ? {
+          ...gradeColumn,
+        }
+      : {
+          dataIndex: 'gradeOrPool',
+          columnChoices: [
+            {
+              ...gradeColumn,
+            },
+            {
+              title: 'Pool',
+              dataIndex: 'pool',
+              render: (pool) => {
+                const poolName = getPoolName(pools, pool);
+                return <span>{poolName}</span>;
+              },
+              sorter: true,
+            },
+          ],
+        },
+    {
+      title: 'Betaling',
+      dataIndex: 'paymentStatus',
+      visible: !!event.isPriced,
+      render: (paymentStatus, registration) => (
+        <StripeStatus
+          registrationId={registration.id}
+          paymentStatus={paymentStatus}
+        />
+      ),
+      sorter: (a, b) => {
+        const paymentStatusA = a.paymentStatus ?? 'failed';
+        const paymentStatusB = b.paymentStatus ?? 'failed';
+        return paymentStatusA > paymentStatusB ? 1 : -1;
+      },
+    },
+    {
+      title: 'Tilbakemelding',
+      dataIndex: 'feedback',
+      centered: false,
+      render: (feedback) => <span>{feedback || '-'}</span>,
+      sorter: (a, b) => a.feedback.localeCompare(b.feedback),
+    },
+    {
+      dataIndex: 'unregister',
+      visible: showUnregister,
+      render: (fetching, registration) => (
+        <Unregister fetching={fetching} registration={registration} />
+      ),
+    },
+  ];
 
-    const columns = [
-      {
-        title: '#',
-        dataIndex: 'nr',
-        render: (_, registration) => (
-          <span>{registered.indexOf(registration) + 1}.</span>
-        ),
-        sorter: (a, b) => {
-          if (registered.indexOf(a) > registered.indexOf(b)) return 1;
-          else return -1;
-        },
-      },
-      {
-        title: 'Bruker',
-        dataIndex: 'user',
-        search: true,
-        centered: false,
-        render: (user) => (
-          <Link to={`/users/${user.username}`}>{user.fullName}</Link>
-        ),
-        filterMapping: (user) => user.fullName,
-      },
-      {
-        title: 'Status',
-        dataIndex: 'pool',
-        render: (pool, registration) => {
-          const registrationInfo = getRegistrationInfo(registration);
-          return (
-            <RegistrationPill
-              status={registrationInfo.status}
-              reason={registrationInfo.reason}
-              className={registrationInfo.className}
-            />
-          );
-        },
-        sorter: (a, b) => {
-          if (a.pool && !b.pool) return -1;
-          if (!a.pool && b.pool) return 1;
-          return 0;
-        },
-      },
-      {
-        title: 'Til stede',
-        dataIndex: 'presence',
-        visible: showPresence,
-        render: (presence, registration) => {
-          return (
-            <PresenceIcons
-              id={registration.id}
-              presence={presence}
-              handlePresence={handlePresence}
-            />
-          );
-        },
-      },
-      {
-        title: 'Dato',
-        dataIndex: 'registrationDate',
-        render: (date) => (
-          <Tooltip content={<Time time={date} format="DD.MM.YYYY HH:mm:ss" />}>
-            <Time time={date} format="DD.MM.YYYY" />
-          </Tooltip>
-        ),
-      },
-      {
-        title: 'Samtykke',
-        dataIndex: 'photoConsents',
-        visible: !!event.useConsent,
-        render: (_, registration) => {
-          const eventSemester = getEventSemesterFromStartTime(event.startTime);
-          const photoConsents = registration.photoConsents;
-          const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
-          return (
-            <div className={styles.consents}>
-              <ConsentIcons
-                LEGACY_photoConsent={LEGACY_photoConsent}
-                photoConsents={photoConsents}
-                eventSemester={eventSemester}
-              />
-            </div>
-          );
-        },
-      },
-      pools.length === 1
-        ? {
-            ...gradeColumn,
-          }
-        : {
-            dataIndex: 'gradeOrPool',
-            columnChoices: [
-              {
-                ...gradeColumn,
-              },
-              {
-                title: 'Pool',
-                dataIndex: 'pool',
-                render: (pool) => {
-                  const poolName = getPoolName(pools, pool);
-                  return <span>{poolName}</span>;
-                },
-                sorter: true,
-              },
-            ],
-          },
-      {
-        title: 'Betaling',
-        dataIndex: 'paymentStatus',
-        visible: !!event.isPriced,
-        render: (paymentStatus, registration) => (
-          <StripeStatus
-            id={registration.id}
-            paymentStatus={paymentStatus}
-            handlePayment={handlePayment}
-          />
-        ),
-        sorter: (a, b) => {
-          const paymentStatusA = a.paymentStatus ?? 'failed';
-          const paymentStatusB = b.paymentStatus ?? 'failed';
-          return paymentStatusA > paymentStatusB ? 1 : -1;
-        },
-      },
-      {
-        title: 'Tilbakemelding',
-        dataIndex: 'feedback',
-        centered: false,
-        render: (feedback) => <span>{feedback || '-'}</span>,
-        sorter: (a, b) => a.feedback.localeCompare(b.feedback),
-      },
-      {
-        dataIndex: 'unregister',
-        visible: showUnregister,
-        render: (fetching, registration) => (
-          <Unregister
-            fetching={fetching}
-            handleUnregister={handleUnregister}
-            registration={registration}
-          />
-        ),
-      },
-    ];
-    return (
-      <Table
-        hasMore={false}
-        columns={columns}
-        loading={loading}
-        data={registered}
-      />
-    );
-  }
-}
+  return (
+    <Table
+      hasMore={false}
+      columns={columns}
+      loading={loading}
+      data={registered}
+    />
+  );
+};
+
 type UnregisteredTableProps = {
   loading: boolean;
-  unregistered: Array<EventRegistration>;
-  handlePayment: (
-    registrationId: ID,
-    paymentStatus: EventRegistrationPaymentStatus
-  ) => Promise<any>;
+  unregistered: EventRegistration[];
   event: EventAdministrate;
 };
-export class UnregisteredTable extends Component<UnregisteredTableProps> {
-  render() {
-    const { loading, unregistered, handlePayment, event } = this.props;
-    const columns = [
-      {
-        title: 'Bruker',
-        dataIndex: 'user',
-        filterMessage: 'Filtrer på navn',
-        render: (user) => (
-          <Tooltip content={user.fullName}>
-            <Link to={`/users/${user.username}`}>{user.username}</Link>
-          </Tooltip>
-        ),
-      },
-      {
-        title: 'Påmeldt',
-        dataIndex: 'registrationDate',
-        render: (registrationDate) => (
-          <Tooltip
-            content={
-              <Time time={registrationDate} format="DD.MM.YYYY HH:mm:ss" />
-            }
-          >
-            <Time time={registrationDate} format="DD.MM.YYYY" />
-          </Tooltip>
-        ),
-      },
-      {
-        title: 'Avmeldt',
-        dataIndex: 'unregistrationDate',
-        render: (unregistrationDate) => (
-          <Tooltip
-            content={
-              <Time time={unregistrationDate} format="DD.MM.YYYY HH:mm:ss" />
-            }
-          >
-            <Time time={unregistrationDate} format="DD.MM.YYYY" />
-          </Tooltip>
-        ),
-      },
-      {
-        title: 'Betaling',
-        dataIndex: 'paymentStatus',
-        visible: !!event.isPriced,
-        render: (paymentStatus, registration) => (
-          <StripeStatus
-            id={registration.id}
-            paymentStatus={paymentStatus}
-            handlePayment={handlePayment}
-          />
-        ),
-      },
-    ];
-    return (
-      <Table
-        hasMore={false}
-        columns={columns}
-        loading={loading}
-        data={unregistered}
-      />
-    );
-  }
-}
+export const UnregisteredTable = ({
+  loading,
+  unregistered,
+  event,
+}: UnregisteredTableProps) => {
+  const columns = [
+    {
+      title: 'Bruker',
+      dataIndex: 'user',
+      filterMessage: 'Filtrer på navn',
+      render: (user) => (
+        <Tooltip content={user.fullName}>
+          <Link to={`/users/${user.username}`}>{user.username}</Link>
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Påmeldt',
+      dataIndex: 'registrationDate',
+      render: (registrationDate) => (
+        <Tooltip
+          content={
+            <Time time={registrationDate} format="DD.MM.YYYY HH:mm:ss" />
+          }
+        >
+          <Time time={registrationDate} format="DD.MM.YYYY" />
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Avmeldt',
+      dataIndex: 'unregistrationDate',
+      render: (unregistrationDate) => (
+        <Tooltip
+          content={
+            <Time time={unregistrationDate} format="DD.MM.YYYY HH:mm:ss" />
+          }
+        >
+          <Time time={unregistrationDate} format="DD.MM.YYYY" />
+        </Tooltip>
+      ),
+    },
+    {
+      title: 'Betaling',
+      dataIndex: 'paymentStatus',
+      visible: !!event.isPriced,
+      render: (paymentStatus, registration) => (
+        <StripeStatus
+          registrationId={registration.id}
+          paymentStatus={paymentStatus}
+        />
+      ),
+    },
+  ];
+  return (
+    <Table
+      hasMore={false}
+      columns={columns}
+      loading={loading}
+      data={unregistered}
+    />
+  );
+};

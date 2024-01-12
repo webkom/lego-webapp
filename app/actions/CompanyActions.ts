@@ -1,5 +1,3 @@
-import { push } from 'redux-first-history';
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import {
   companySchema,
@@ -11,7 +9,7 @@ import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event, Joblistings } from './ActionTypes';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { AppDispatch } from 'app/store/createStore';
+import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
 import type { ID } from 'app/store/models';
 import type {
   AdminListCompany,
@@ -21,7 +19,6 @@ import type {
   ListCompany,
 } from 'app/store/models/Company';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
-import type { GetState } from 'app/types';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
   return callAPI<ListCompany[]>({
@@ -52,60 +49,46 @@ export function fetchAllAdmin() {
 }
 
 export function fetch(companyId: ID) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<DetailedCompany>({
-        types: Company.FETCH,
-        endpoint: `/companies/${companyId}/`,
-        schema: companySchema,
-        meta: {
-          errorMessage: 'Henting av en bedrift feilet',
-        },
-        propagateError: true,
-      })
-    );
+  return callAPI<DetailedCompany>({
+    types: Company.FETCH,
+    endpoint: `/companies/${companyId}/`,
+    schema: companySchema,
+    meta: {
+      errorMessage: 'Henting av en bedrift feilet',
+    },
+    propagateError: true,
+  });
 }
 
 export function fetchAdmin(companyId: ID) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: Company.FETCH,
-        endpoint: `/bdb/${companyId}/`,
-        schema: companySchema,
-        meta: {
-          errorMessage: 'Henting av en bedrift feilet',
-        },
-        propagateError: true,
-      })
-    );
+  return callAPI({
+    types: Company.FETCH,
+    endpoint: `/bdb/${companyId}/`,
+    schema: companySchema,
+    meta: {
+      errorMessage: 'Henting av en bedrift feilet',
+    },
+    propagateError: true,
+  });
 }
 
-export const fetchEventsForCompany =
-  ({
-    queryString,
-    loadNextPage = false,
-  }: {
-    queryString: string;
-    loadNextPage: boolean;
-  }) =>
-  (dispatch: AppDispatch, getState: GetState) => {
-    const endpoint = loadNextPage
-      ? getState().events.pagination[queryString].nextPage
-      : `/events/${queryString}`;
-
-    return dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint,
-        schema: [eventSchema],
-        meta: {
-          queryString,
-          errorMessage: 'Henting av tilknyttede arrangementer feilet',
-        },
-      })
-    );
-  };
+export const fetchEventsForCompany = ({
+  endpoint,
+  queryString,
+}: {
+  endpoint: string;
+  queryString: string;
+}) => {
+  return callAPI({
+    types: Event.FETCH,
+    endpoint,
+    schema: [eventSchema],
+    meta: {
+      queryString,
+      errorMessage: 'Henting av tilknyttede arrangementer feilet',
+    },
+  });
+};
 
 export function fetchJoblistingsForCompany(companyId: ID) {
   return callAPI<ListJoblisting[]>({
@@ -119,144 +102,76 @@ export function fetchJoblistingsForCompany(companyId: ID) {
 }
 
 export function addCompany(data: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<DetailedCompany>({
-        types: Company.ADD,
-        endpoint: '/bdb/',
-        method: 'POST',
-        body: data,
-        schema: companySchema,
-        meta: {
-          errorMessage: 'Legg til bedrift feilet',
-        },
-      })
-    ).then((action) => {
-      const id = action.payload.result;
-      dispatch(
-        addToast({
-          message: 'Bedrift lagt til.',
-        })
-      );
-      dispatch(push(`/bdb/${id}`));
-    });
-  };
+  return callAPI<DetailedCompany>({
+    types: Company.ADD,
+    endpoint: '/bdb/',
+    method: 'POST',
+    body: data,
+    schema: companySchema,
+    meta: {
+      errorMessage: 'Legg til bedrift feilet',
+    },
+  });
 }
 
 export function editCompany({ companyId, ...data }: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<DetailedCompany>({
-        types: Company.EDIT,
-        endpoint: `/bdb/${companyId}/`,
-        method: 'PATCH',
-        body: data,
-        schema: companySchema,
-        meta: {
-          errorMessage: 'Endring av bedrift feilet',
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedrift endret.',
-        })
-      );
-      dispatch(push(`/bdb/${companyId}/`));
-    });
-  };
+  return callAPI<DetailedCompany>({
+    types: Company.EDIT,
+    endpoint: `/bdb/${companyId}/`,
+    method: 'PATCH',
+    body: data,
+    schema: companySchema,
+    meta: {
+      errorMessage: 'Endring av bedrift feilet',
+    },
+  });
 }
 
 export function deleteCompany(companyId: ID) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI({
-        types: Company.DELETE,
-        endpoint: `/bdb/${companyId}/`,
-        method: 'DELETE',
-        meta: {
-          id: Number(companyId),
-          errorMessage: 'Sletting av bedrift feilet',
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedrift slettet.',
-        })
-      );
-      dispatch(push('/bdb/'));
-    });
-  };
+  return callAPI({
+    types: Company.DELETE,
+    endpoint: `/bdb/${companyId}/`,
+    method: 'DELETE',
+    meta: {
+      id: Number(companyId),
+      errorMessage: 'Sletting av bedrift feilet',
+    },
+  });
 }
 
-export function addSemesterStatus(
-  { companyId, ...data }: Record<string, any>,
-  options: { detail: boolean } = {
-    detail: false,
-  }
-) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<DetailedSemesterStatus>({
-        types: Company.ADD_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/`,
-        method: 'POST',
-        body: data,
-        meta: {
-          errorMessage: 'Legg til semesterstatus feilet',
-          companyId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Semester status lagt til.',
-        })
-      );
-
-      if (options.detail) {
-        dispatch(push(`/bdb/${companyId}/`));
-      } else {
-        dispatch(push('/bdb/'));
-      }
-    });
-  };
+export function addSemesterStatus({ companyId, ...data }: Record<string, any>) {
+  return callAPI<DetailedSemesterStatus>({
+    types: Company.ADD_SEMESTER_STATUS,
+    endpoint: `/companies/${companyId}/semester-statuses/`,
+    method: 'POST',
+    body: data,
+    meta: {
+      errorMessage: 'Legg til semesterstatus feilet',
+      companyId,
+    },
+  });
 }
 
-export function editSemesterStatus(
-  { companyId, semesterStatusId, ...data }: Record<string, any>,
-  options: { detail: boolean } = {
-    detail: false,
-  }
-) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<DetailedSemesterStatus>({
-        types: Company.EDIT_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
-        method: 'PATCH',
-        body: data,
-        meta: {
-          errorMessage: 'Endring av semester status feilet',
-          companyId,
-          semesterStatusId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Semesterstatus endret.',
-        })
-      );
-
-      if (options.detail) {
-        dispatch(push(`/bdb/${companyId}/`));
-      } else {
-        dispatch(push('/bdb/'));
-      }
-    });
-  };
+export function editSemesterStatus({
+  companyId,
+  semesterStatusId,
+  ...data
+}: {
+  companyId: ID;
+  semesterStatusId: ID;
+  data: Record<string, any>;
+}) {
+  return callAPI<DetailedSemesterStatus>({
+    types: Company.EDIT_SEMESTER_STATUS,
+    endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
+    method: 'PATCH',
+    body: data,
+    meta: {
+      errorMessage: 'Endring av semester status feilet',
+      companyId,
+      semesterStatusId,
+    },
+  });
 }
 
 export function deleteSemesterStatus(companyId: ID, semesterStatusId: ID) {
@@ -284,39 +199,33 @@ export function fetchCompanyContacts({ companyId }: { companyId: ID }) {
   });
 }
 
+type CompanyContactEditorSubmitBody = {
+  companyId: ID;
+  companyContactId: ID;
+} & CompanyContactEditorFormValues;
+
 export function addCompanyContact({
   companyId,
   name,
   role,
   mail,
   phone,
-}: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<CompanyContact>({
-        types: Company.ADD_COMPANY_CONTACT,
-        endpoint: `/companies/${companyId}/company-contacts/`,
-        method: 'POST',
-        body: {
-          name,
-          role,
-          mail,
-          phone,
-        },
-        meta: {
-          errorMessage: 'Legg til bedriftskontakt feilet',
-          companyId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedriftskontakt lagt til.',
-        })
-      );
-      dispatch(push(`/bdb/${companyId}/`));
-    });
-  };
+}: CompanyContactEditorSubmitBody) {
+  return callAPI<CompanyContact>({
+    types: Company.ADD_COMPANY_CONTACT,
+    endpoint: `/companies/${companyId}/company-contacts/`,
+    method: 'POST',
+    body: {
+      name,
+      role,
+      mail,
+      phone,
+    },
+    meta: {
+      errorMessage: 'Legg til bedriftskontakt feilet',
+      companyId,
+    },
+  });
 }
 
 export function editCompanyContact({
@@ -326,34 +235,24 @@ export function editCompanyContact({
   role,
   mail,
   phone,
-}: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI<CompanyContact>({
-        types: Company.EDIT_COMPANY_CONTACT,
-        endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
-        method: 'PATCH',
-        body: {
-          name,
-          role,
-          mail,
-          phone,
-        },
-        meta: {
-          errorMessage: 'Endring av bedriftskontakt feilet',
-          companyId,
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Bedriftskontakt endret.',
-        })
-      );
-      dispatch(push(`/bdb/${companyId}`));
-    });
-  };
+}: CompanyContactEditorSubmitBody) {
+  return callAPI<CompanyContact>({
+    types: Company.EDIT_COMPANY_CONTACT,
+    endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
+    method: 'PATCH',
+    body: {
+      name,
+      role,
+      mail,
+      phone,
+    },
+    meta: {
+      errorMessage: 'Endring av bedriftskontakt feilet',
+      companyId,
+    },
+  });
 }
+
 export function deleteCompanyContact(companyId: ID, companyContactId: ID) {
   return callAPI({
     types: Company.DELETE_COMPANY_CONTACT,

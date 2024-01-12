@@ -4,13 +4,21 @@ import {
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchMemberships } from 'app/actions/GroupActions';
+import {
+  createMeeting,
+  deleteMeeting,
+  editMeeting,
+  fetchMeeting,
+  inviteUsersAndGroups,
+} from 'app/actions/MeetingActions';
 import { Content } from 'app/components/Content';
 import {
   Button,
@@ -28,9 +36,16 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import config from 'app/config';
+import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
+import { selectMeetingById } from 'app/reducers/meetings';
+import { selectUserById } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EDITOR_EMPTY } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import {
   createValidator,
   ifField,
@@ -39,12 +54,19 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
 import type { ID } from 'app/store/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { AutocompleteUser, CurrentUser } from 'app/store/models/User';
-import type { History } from 'history';
+import type { AutocompleteUser } from 'app/store/models/User';
+
+const time = (hours: number, minutes?: number) =>
+  moment()
+    .tz(config.timezone)
+    .startOf('day')
+    .add({
+      hours,
+      minutes,
+    })
+    .toISOString();
 
 export type MeetingFormValues = {
   id?: ID;
@@ -59,32 +81,6 @@ export type MeetingFormValues = {
   reportAuthor?: { value: ID; label: string; id: ID };
   users?: AutocompleteUser[];
   groups?: AutocompleteGroup[];
-};
-
-type Props = {
-  meetingId?: string;
-  meeting: DetailedMeeting;
-  currentUser: CurrentUser;
-  meetingInvitations: MeetingInvitationWithUser[];
-  initialValues: MeetingFormValues;
-  handleSubmitCallback: (
-    data: MeetingFormValues
-  ) => Promise<{ payload: { result: ID } }>;
-  push: History['push'];
-  inviteUsersAndGroups: (args: {
-    id: ID;
-    users: [
-      {
-        id: ID;
-      }
-    ];
-    groups: [
-      {
-        value: ID;
-      }
-    ];
-  }) => Promise<void>;
-  deleteMeeting: (args: ID) => Promise<void>;
 };
 
 const validate = createValidator({
@@ -103,19 +99,24 @@ const validate = createValidator({
   ],
 });
 
-const MeetingEditor = ({
-  meetingId,
-  meeting,
-  currentUser,
-  meetingInvitations,
-  initialValues,
-  handleSubmitCallback,
-  push,
-  deleteMeeting,
-  inviteUsersAndGroups,
-}: Props) => {
-  const history = useHistory();
+const MeetingEditor = () => {
+  const { meetingId } = useParams<{ meetingId?: string }>();
   const isEditPage = meetingId !== undefined;
+  const meeting = useAppSelector((state) =>
+    selectMeetingById(state, { meetingId })
+  );
+  const meetingInvitations = useAppSelector((state) =>
+    selectMeetingInvitationsForMeeting(state, {
+      meetingId,
+    })
+  );
+  const reportAuthor = useAppSelector((state) =>
+    selectUserById(state, {
+      userId: meeting?.reportAuthor,
+    })
+  );
+
+  const { currentUser } = useUserContext();
 
   const [fetchedGroupIds, setFetchedGroupIds] = useState<ID[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<
@@ -124,25 +125,36 @@ const MeetingEditor = ({
 
   const dispatch = useAppDispatch();
 
+  usePreparedEffect(
+    'fetchMeetingEdit',
+    () => meetingId && dispatch(fetchMeeting(meetingId)),
+    []
+  );
+
   const fetchAndSetGroupMembers = async (groupId: number) => {
-    setFetchedGroupIds((prevIds) => [...prevIds, groupId]);
+    dispatch(fetchMemberships(groupId)).then((res) => {
+      setFetchedGroupIds((prevIds) => [...prevIds, groupId]);
 
-    const response = await dispatch(fetchMemberships(groupId));
-
-    const members = Object.values(response.payload.entities.users || {}).map(
-      (member) => ({
-        value: member.username,
-        label: member.fullName,
-        id: member.id,
-        groupId: groupId,
-      })
-    );
-
-    setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
+      const members = Object.values(res.payload.entities.users || {}).map(
+        (member) => ({
+          value: member.username,
+          label: member.fullName,
+          id: member.id,
+          groupId: groupId,
+        })
+      );
+      setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
+    });
   };
 
+  const navigate = useNavigate();
+
   if (isEditPage && !meeting) {
-    return <LoadingIndicator loading />;
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
   }
 
   const currentUserSearchable = {
@@ -160,34 +172,61 @@ const MeetingEditor = ({
     : [];
 
   const onSubmit = (values) =>
-    handleSubmitCallback(values).then((result) => {
-      const id = meetingId || result.payload.result;
-      const { groups, users } = values;
+    dispatch(isEditPage ? editMeeting(values) : createMeeting(values)).then(
+      (result) => {
+        const id = meetingId || result.payload.result;
+        const { groups, users } = values;
 
-      if (groups || users) {
-        return inviteUsersAndGroups({
-          id,
-          users,
-          groups,
-        }).then(() => push(`/meetings/${id}`));
+        if (groups || users) {
+          return dispatch(
+            inviteUsersAndGroups({
+              id,
+              users,
+              groups,
+            })
+          ).then(() => navigate(`/meetings/${id}`));
+        }
+
+        navigate(`/meetings/${id}`);
       }
+    );
 
-      push(`/meetings/${id}`);
-    });
-
-  const onDeleteMeeting = async () =>
-    await deleteMeeting(meeting?.id).then(() => history.push('/meetings/'));
+  const onDeleteMeeting = () =>
+    dispatch(deleteMeeting(meeting?.id)).then(() => navigate('/meetings/'));
 
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
 
+  const initialValues = isEditPage
+    ? {
+        ...meeting,
+        reportAuthor: reportAuthor && {
+          id: reportAuthor.id,
+          value: reportAuthor.username,
+          label: reportAuthor.fullName,
+        },
+        report: meeting.report,
+        description: meeting.description ?? '',
+        mazemapPoi: meeting.mazemapPoi && {
+          label: meeting.location,
+          value: meeting.mazemapPoi,
+        },
+        useMazemap: meeting.mazemapPoi > 0,
+      }
+    : {
+        startTime: time(16, 15),
+        endTime: time(18),
+        report: EDITOR_EMPTY,
+        useMazemap: true,
+      };
+
+  const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
+
   return (
     <Content>
-      <Helmet
-        title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
-      />
+      <Helmet title={title} />
       <NavigationTab
-        title={isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte'}
+        title={title}
         className={styles.detailTitle}
         back={{
           label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
@@ -371,7 +410,7 @@ const MeetingEditor = ({
                 <Button
                   flat
                   onClick={() =>
-                    push(`/meetings/${isEditPage ? meeting.id : ''}`)
+                    navigate(`/meetings/${isEditPage ? meeting.id : ''}`)
                   }
                 >
                   Avbryt
@@ -402,4 +441,4 @@ const MeetingEditor = ({
   );
 };
 
-export default MeetingEditor;
+export default guardLogin(MeetingEditor);

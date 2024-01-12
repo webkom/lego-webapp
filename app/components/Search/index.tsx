@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
-import { push } from 'redux-first-history';
+import { useNavigate } from 'react-router-dom';
 import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectAutocompleteRedux } from 'app/reducers/search';
@@ -13,7 +13,6 @@ import SearchResults from './SearchResults';
 import { getExternalLinks, getAdminLinks, getRegularLinks } from './utils';
 
 const Search = () => {
-  const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectIsLoggedIn);
   const results = useAppSelector(selectAutocompleteRedux);
   const searching = useAppSelector((state) => state.search.searching);
@@ -21,11 +20,13 @@ const Search = () => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const debouncedAutoComplete = useMemo(
     () => debounce((query) => dispatch(autocomplete(query)), 300),
     [dispatch]
   );
-
   const onCloseSearch = () => dispatch(toggleSearch());
 
   const handleKeyDown = (e) => {
@@ -45,9 +46,9 @@ const Search = () => {
         const result = results[selectedIndex];
 
         if (selectedIndex === -1 || !result) {
-          dispatch(push(`/search?q=${query}`));
+          navigate(`/search?q=${query}`);
         } else {
-          result.link && dispatch(push(result.link));
+          result.link && navigate(result.link);
         }
 
         onCloseSearch();

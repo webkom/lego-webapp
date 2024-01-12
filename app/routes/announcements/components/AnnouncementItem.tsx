@@ -1,24 +1,26 @@
 import { Button, Flex } from '@webkom/lego-bricks';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  deleteAnnouncement,
+  sendAnnouncement,
+} from 'app/actions/AnnouncementsActions';
 import Time from 'app/components/Time';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './AnnouncementsList.css';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 
 type Props = {
   announcement: DetailedAnnouncement;
-  sendAnnouncement: (id: ID) => Promise<unknown>;
-  deleteAnnouncement: (id: ID) => Promise<unknown>;
   actionGrant: ActionGrant;
 };
 
-const AnnouncementItem = ({
-  announcement,
-  sendAnnouncement,
-  deleteAnnouncement,
-  actionGrant,
-}: Props) => {
+const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
+  const dispatch = useAppDispatch();
+  const [deleting, setDeleting] = useState(false);
+  const [sending, setSending] = useState(false);
+
   return (
     <Flex className={styles.item}>
       <Flex column>
@@ -29,7 +31,7 @@ const AnnouncementItem = ({
             'Ikke sendt'
           )}
         </Flex>
-        <Flex className={styles.msg}>{announcement.message}</Flex>
+        <Flex>{announcement.message}</Flex>
         {announcement.fromGroup && (
           <Flex wrap>
             {'Sendt fra: '}
@@ -93,18 +95,36 @@ const AnnouncementItem = ({
           </Flex>
         </Flex>
       </Flex>
-      {!announcement.sent &&
-        actionGrant.includes('send') &&
-        actionGrant.includes('delete') && (
-          <Flex className={styles.wrapperSendButton}>
-            <Button danger onClick={() => deleteAnnouncement(announcement.id)}>
+      {!announcement.sent && (
+        <Flex className={styles.wrapperSendButton}>
+          {actionGrant.includes('delete') && (
+            <Button
+              danger
+              disabled={deleting}
+              onClick={async () => {
+                setDeleting(true);
+                await dispatch(deleteAnnouncement(announcement.id));
+                setDeleting(false);
+              }}
+            >
               Slett
             </Button>
-            <Button secondary onClick={() => sendAnnouncement(announcement.id)}>
+          )}
+          {actionGrant.includes('send') && (
+            <Button
+              secondary
+              disabled={sending}
+              onClick={async () => {
+                setSending(true);
+                await dispatch(sendAnnouncement(announcement.id));
+                setSending(false);
+              }}
+            >
               Send
             </Button>
-          </Flex>
-        )}
+          )}
+        </Flex>
+      )}
     </Flex>
   );
 };

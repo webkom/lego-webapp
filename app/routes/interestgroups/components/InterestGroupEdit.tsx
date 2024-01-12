@@ -4,45 +4,47 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab from 'app/components/NavigationTab';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectGroup } from 'app/reducers/groups';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
 const InterestGroupEdit = () => {
-  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   const { groupId } = useParams<{ groupId: string }>();
   const interestGroup = useAppSelector((state) =>
     selectGroup(state, { groupId })
   );
+  const editing = groupId !== undefined;
 
   const dispatch = useAppDispatch();
+
   usePreparedEffect(
     'fetchInterestGroupEdit',
-    () => {
-      dispatch(fetchGroup(groupId));
-    },
+    () => groupId && dispatch(fetchGroup(groupId)),
     [groupId]
   );
 
-  if (!isLoggedIn) {
-    return <LoginPage />;
+  if (editing && (!interestGroup || !interestGroup.text)) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
   }
 
-  if (!interestGroup) {
-    return <LoadingIndicator loading />;
-  }
+  const title = editing
+    ? `Redigerer${interestGroup ? `: ${interestGroup?.name}` : ''}`
+    : 'Opprett gruppe';
 
   return (
     <Content>
-      <Helmet title={`Redigerer: ${interestGroup.name}`} />
+      <Helmet title={title} />
       <NavigationTab
-        title={`Redigerer: ${interestGroup.name}`}
+        title={title}
         back={{
           label: 'Tilbake',
-          path: `/interest-groups/${interestGroup.id}`,
+          path: `/interest-groups/${editing ? groupId : ''}`,
         }}
       />
       <GroupForm isInterestGroup />
@@ -50,4 +52,4 @@ const InterestGroupEdit = () => {
   );
 };
 
-export default InterestGroupEdit;
+export default guardLogin(InterestGroupEdit);

@@ -1,15 +1,13 @@
 import qs from 'qs';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
 import type { SearchResult } from 'app/reducers/search';
-import type { Location } from 'history';
 import type { ChangeEventHandler, KeyboardEvent } from 'react';
 
 type Props<T> = {
-  searching: boolean;
-  location: Location;
   inputRef?: {
     current: HTMLInputElement | null | undefined;
   };
@@ -22,12 +20,15 @@ type Props<T> = {
 const SearchPage = <SearchType extends SearchResult>(
   props: Props<SearchType>
 ) => {
+  const location = useLocation();
+
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [query, setQuery] = useState<unknown>(
-    qs.parse(props.location.search, {
+    qs.parse(location.search, {
       ignoreQueryPrefix: true,
     }).q || ''
   );
+
   useEffect(() => {
     // Make sure the selectedIndex is within 0 <= index < results.length:
     const adjustedSelectedIndex = Math.min(
@@ -75,13 +76,12 @@ const SearchPage = <SearchType extends SearchResult>(
     props.onQueryChanged(query);
   };
 
-  const { inputRef, placeholder, searching, results } = props;
+  const { inputRef, placeholder, results } = props;
   const value = typeof query === 'string' ? query : '';
   return (
     <div>
       <SearchPageInput
         inputRef={inputRef}
-        isSearching={searching}
         value={value}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}

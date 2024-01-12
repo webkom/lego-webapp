@@ -1,44 +1,57 @@
+import loadable from '@loadable/component';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { Route, Routes, useParams } from 'react-router-dom';
+import { fetchAdministrate } from 'app/actions/EventActions';
 import { Content } from 'app/components/Content';
-import { LoginPage } from 'app/components/LoginForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { selectEventById } from 'app/reducers/events';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import type { ID } from 'app/store/models';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
-import type { CurrentUser } from 'app/store/models/User';
-import type { ReactNode } from 'react';
+const Statistics = loadable(() => import('./Statistics'));
+const Attendees = loadable(() => import('./Attendees'));
+const Allergies = loadable(() => import('./Allergies'));
+const AdminRegister = loadable(() => import('./AdminRegister'));
+const Abacard = loadable(() => import('./Abacard'));
 
-type Props = {
-  children: (props: Props) => ReactNode;
-  currentUser: CurrentUser;
-  isMe: boolean;
-  event?: AdministrateEvent;
-  match: {
-    params: {
-      eventId: string;
-    };
-  };
-  pools: Array<ID>;
-};
+const EventAdministrateIndex = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const fetching = useAppSelector((state) => state.events.fetching);
+  const { currentUser } = useUserContext();
 
-const EventAdministrateIndex = (props: Props) => {
-  const base = `/events/${props.match.params.eventId}/administrate`;
-  // At the moment changing settings for other users only works
-  // for the settings under `/profile` - so no point in showing
-  // the other tabs.
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchAdministrate',
+    () => eventId && dispatch(fetchAdministrate(eventId)),
+    [eventId]
+  );
+
+  const base = `/events/${eventId}/administrate`;
+
+  if (!event) {
+    return (
+      <Content>
+        <LoadingIndicator loading={fetching} />
+      </Content>
+    );
+  }
 
   return (
     <Content>
       <NavigationTab
-        title={props.event ? props.event.title : ''}
+        title={event ? event.title : ''}
         back={{
           label: 'Tilbake',
-          path: '/events/' + props.event?.slug,
+          path: '/events/' + event.slug,
         }}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {props.event && canSeeAllergies(props.currentUser, props.event) && (
+        {event && canSeeAllergies(currentUser, event) && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
         )}
         <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
@@ -47,9 +60,16 @@ const EventAdministrateIndex = (props: Props) => {
         </NavigationLink>
         <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
       </NavigationTab>
-      {props.children(props)}
+
+      <Routes>
+        <Route path="attendees" element={<Attendees />} />
+        <Route path="allergies" element={<Allergies />} />
+        <Route path="statistics" element={<Statistics />} />
+        <Route path="admin-register" element={<AdminRegister />} />
+        <Route path="abacard" element={<Abacard />} />
+      </Routes>
     </Content>
   );
 };
 
-export default replaceUnlessLoggedIn(LoginPage)(EventAdministrateIndex);
+export default guardLogin(EventAdministrateIndex);

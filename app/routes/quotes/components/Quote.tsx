@@ -1,56 +1,38 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { approve, deleteQuote, unapprove } from 'app/actions/QuoteActions';
 import Dropdown from 'app/components/Dropdown';
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import Time from 'app/components/Time';
+import { selectEmojis } from 'app/reducers/emojis';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Quotes.css';
 import type { ActionGrant } from 'app/models';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type QuoteType from 'app/store/models/Quote';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   quote: QuoteType;
-  deleteQuote: (id: ID) => Promise<void>;
-  approve: (id: ID) => Promise<void>;
-  unapprove: (id: ID) => Promise<void>;
   actionGrant: ActionGrant;
   toggleDisplayAdmin: () => void;
   displayAdmin: boolean;
-  currentUser: CurrentUser;
   loggedIn: boolean;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
-  emojis: Emoji[];
 };
 
 const Quote = ({
   quote,
-  deleteQuote,
-  approve,
-  unapprove,
   actionGrant,
   toggleDisplayAdmin,
   displayAdmin,
-  emojis,
-  addReaction,
-  deleteReaction,
-  fetchEmojis,
-  fetchingEmojis,
   loggedIn,
 }: Props) => {
+  const emojis = useAppSelector(selectEmojis);
+  const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
+
   const [deleting, setDeleting] = useState(false);
+  const dispatch = useAppDispatch();
 
   let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: ID })[] = [];
 
@@ -116,8 +98,8 @@ const Quote = ({
                       <button
                         onClick={() =>
                           quote.approved
-                            ? unapprove(quote.id)
-                            : approve(quote.id)
+                            ? dispatch(unapprove(quote.id))
+                            : dispatch(approve(quote.id))
                         }
                       >
                         {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
@@ -141,7 +123,7 @@ const Quote = ({
                       </Dropdown.ListItem>
                     ) : (
                       <Dropdown.ListItem>
-                        <button onClick={() => deleteQuote(quote.id)}>
+                        <button onClick={() => dispatch(deleteQuote(quote.id))}>
                           Er du sikker?
                         </button>
                       </Dropdown.ListItem>
@@ -156,10 +138,6 @@ const Quote = ({
       <div className={styles.quoteReactions}>
         <Reactions
           emojis={mappedEmojis}
-          fetchEmojis={fetchEmojis}
-          fetchingEmojis={fetchingEmojis}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
           contentTarget={quote.contentTarget}
           loggedIn={loggedIn}
         >
@@ -173,8 +151,6 @@ const Quote = ({
                 reactionId={reaction.reactionId}
                 hasReacted={reaction.hasReacted}
                 canReact={loggedIn}
-                addReaction={addReaction}
-                deleteReaction={deleteReaction}
                 contentTarget={quote.contentTarget}
               />
             );

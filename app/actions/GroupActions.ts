@@ -1,10 +1,11 @@
-import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import { Group, Membership } from './ActionTypes';
+import type { GroupType } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type MembershipType from 'app/store/models/Membership';
+import type { CurrentUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 
 export type AddMemberArgs = {
@@ -29,6 +30,7 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
     },
   });
 }
+
 export function removeMember(membership: MembershipType) {
   return callAPI({
     types: Membership.REMOVE,
@@ -42,6 +44,7 @@ export function removeMember(membership: MembershipType) {
     },
   });
 }
+
 export function fetchGroup(groupId: ID, { propagateError = true } = {}) {
   return callAPI({
     types: Group.FETCH,
@@ -53,6 +56,7 @@ export function fetchGroup(groupId: ID, { propagateError = true } = {}) {
     propagateError,
   });
 }
+
 export function fetchAll() {
   return callAPI({
     types: Group.FETCH,
@@ -64,7 +68,8 @@ export function fetchAll() {
     propagateError: true,
   });
 }
-export function fetchAllWithType(type: string) {
+
+export function fetchAllWithType(type: GroupType) {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/?type=${type}`,
@@ -75,38 +80,29 @@ export function fetchAllWithType(type: string) {
     propagateError: true,
   });
 }
+
 export function editGroup(group: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: Group.UPDATE,
-        endpoint: `/groups/${group.id}/`,
-        schema: groupSchema,
-        method: 'PATCH',
-        body: group,
-        meta: {
-          group,
-          errorMessage:
-            group.type === 'interesse'
-              ? 'Endring av interessegruppe feilet'
-              : 'Oppdatering av gruppe feilet',
-          successMessage:
-            group.type === 'interesse'
-              ? 'Endring av interessegruppe fullført'
-              : 'Oppdatering av gruppe fullført',
-        },
-      })
-    ).then(() =>
-      group.type === 'interesse'
-        ? dispatch(push(`/interest-groups/${group.id}`))
-        : null
-    );
+  return callAPI({
+    types: Group.UPDATE,
+    endpoint: `/groups/${group.id}/`,
+    schema: groupSchema,
+    method: 'PATCH',
+    body: group,
+    meta: {
+      group,
+      errorMessage:
+        group.type === 'interesse'
+          ? 'Endring av interessegruppe feilet'
+          : 'Oppdatering av gruppe feilet',
+      successMessage:
+        group.type === 'interesse'
+          ? 'Endring av interessegruppe fullført'
+          : 'Oppdatering av gruppe fullført',
+    },
+  });
 }
-export function joinGroup(
-  groupId: number,
-  user: Record<string, any>,
-  role = 'member'
-) {
+
+export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
   return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
@@ -130,7 +126,8 @@ export function joinGroup(
       return dispatch(fetchMemberships(groupId));
     });
 }
-export function leaveGroup(membership: Record<string, any>, groupId: number) {
+
+export function leaveGroup(membership: MembershipType, groupId: ID) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -150,7 +147,8 @@ export function leaveGroup(membership: Record<string, any>, groupId: number) {
     });
   };
 }
-export function fetchAllMemberships(groupId: number, descendants = false) {
+
+export function fetchAllMemberships(groupId: ID, descendants = false) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       fetchMembershipsPagination({
@@ -164,8 +162,9 @@ export function fetchAllMemberships(groupId: number, descendants = false) {
     );
   };
 }
+
 export function fetchMemberships(
-  groupId: number,
+  groupId: ID,
   descendants = false,
   query: Record<string, any> = {}
 ) {
@@ -176,25 +175,26 @@ export function fetchMemberships(
     query,
   });
 }
+
 export function fetchMembershipsPagination({
   groupId,
   next,
   descendants = false,
   query = {},
 }: {
-  groupId: number;
+  groupId: ID;
   next: boolean;
   descendants: boolean;
   query?: Record<string, string | number | boolean>;
 }) {
-  return callAPI({
+  return callAPI<MembershipType[]>({
     types: Group.MEMBERSHIP_FETCH,
     endpoint: `/groups/${groupId}/memberships/`,
     schema: [membershipSchema],
     pagination: {
       fetchNext: next,
     },
-    query: { ...query, descendants },
+    query: descendants ? { ...query, descendants } : query,
     meta: {
       groupId: groupId,
       errorMessage: 'Henting av medlemmene for gruppen feilet',
@@ -202,64 +202,33 @@ export function fetchMembershipsPagination({
     propagateError: true,
   });
 }
-export function createGroup(group: Record<string, any>) {
-  return (dispatch: AppDispatch) => {
-    const { name, description, text, logo, type, showBadge, active } = group;
-    return dispatch(
-      callAPI({
-        types: Group.CREATE,
-        endpoint: '/groups/',
-        schema: groupSchema,
-        method: 'POST',
-        body: {
-          name,
-          description,
-          text,
-          logo,
-          type,
-          showBadge,
-          active,
-        },
-        meta: {
-          group,
-          errorMessage:
-            group.type === 'interesse'
-              ? 'Opprettelse av interessegruppe feilet'
-              : 'Opprettelse av gruppe feilet',
-          successMessage:
-            group.type === 'interesse'
-              ? 'Opprettelse av interessegruppe fullført'
-              : 'Opprettelse av gruppe fullført',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) {
-        return;
-      }
 
-      const groupId = action.payload.result;
-      dispatch(push(`/interest-groups/${groupId}`));
-    });
-  };
-}
-export function removeGroup(id: string, group: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: Group.REMOVE,
-        endpoint: `/groups/${id}/`,
-        method: 'DELETE',
-        meta: {
-          id,
-          errorMessage:
-            group.type === 'interesse'
-              ? 'Sletting av interessegruppe feilet'
-              : 'Sletting av gruppe feilet',
-          successMessage:
-            group.type === 'interesse'
-              ? 'Sletting av interessegruppe fullført'
-              : 'Sletting av gruppe fullført',
-        },
-      })
-    ).then(() => dispatch(push('/interest-groups/')));
+export function createGroup(group: Record<string, any>) {
+  const { name, description, text, logo, type, showBadge, active } = group;
+  return callAPI({
+    types: Group.CREATE,
+    endpoint: '/groups/',
+    schema: groupSchema,
+    method: 'POST',
+    body: {
+      name,
+      description,
+      text,
+      logo,
+      type,
+      showBadge,
+      active,
+    },
+    meta: {
+      group,
+      errorMessage:
+        group.type === 'interesse'
+          ? 'Opprettelse av interessegruppe feilet'
+          : 'Opprettelse av gruppe feilet',
+      successMessage:
+        group.type === 'interesse'
+          ? 'Opprettelse av interessegruppe fullført'
+          : 'Opprettelse av gruppe fullført',
+    },
+  });
 }

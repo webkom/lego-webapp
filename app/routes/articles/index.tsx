@@ -1,64 +1,17 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
+import Overview from 'app/routes/articles/components/Overview';
 import PageNotFound from '../pageNotFound';
-import ArticleCreateRoute from './ArticleCreateRoute';
-import ArticleDetailRoute from './ArticleDetailRoute';
-import ArticleEditRoute from './ArticleEditRoute';
-import ArticleListRoute from './ArticleListRoute';
+import ArticleDetail from './components/ArticleDetail';
+import ArticleEditor from './components/ArticleEditor';
 
-const articleRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/new`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:articleIdOrSlug`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleDetailRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:articleId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={ArticleEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const ArticleRoute = () => (
+  <Routes>
+    <Route index element={<Overview />} />
+    <Route path="new" element={<ArticleEditor />} />
+    <Route path=":articleIdOrSlug" element={<ArticleDetail />} />
+    <Route path=":articleId/edit" element={<ArticleEditor />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Articles() {
-  return <Route path="/articles" component={articleRoute} />;
-}
+export default ArticleRoute;

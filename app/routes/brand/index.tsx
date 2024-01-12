@@ -1,20 +1,12 @@
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
 import BrandPage from './components/BrandPage';
 
-const brandRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <Switch>
-    <Route exact path={`${match.path}`} component={BrandPage} />
-    <Route component={PageNotFound} />
-  </Switch>
+const BrandRoute = () => (
+  <Routes>
+    <Route index element={<BrandPage />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Brand() {
-  return <Route path="/brand" component={brandRoute} />;
-}
+export default BrandRoute;

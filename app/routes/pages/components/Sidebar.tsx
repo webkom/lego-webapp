@@ -5,13 +5,12 @@ import styles from './Sidebar.css';
 import type { HierarchySectionEntity } from './PageHierarchy';
 
 type Props = {
-  currentUrl: string;
   pageHierarchy: Array<HierarchySectionEntity>;
   isOpen: boolean;
   handleClose: () => void;
 };
 
-const Sidebar = ({ currentUrl, pageHierarchy, isOpen, handleClose }: Props) => {
+const Sidebar = ({ pageHierarchy, isOpen, handleClose }: Props) => {
   return (
     <div className={cx(styles.sidebar, isOpen || styles.sidebarClosed)}>
       <button className={styles.sidebarCloseButton} onClick={handleClose}>
@@ -20,7 +19,6 @@ const Sidebar = ({ currentUrl, pageHierarchy, isOpen, handleClose }: Props) => {
       <h2 className={styles.sidebarHeader}>Om Abakus</h2>
       <PageHierarchy
         pageHierarchy={pageHierarchy}
-        currentUrl={currentUrl}
         handleCloseSidebar={handleClose}
       />
     </div>

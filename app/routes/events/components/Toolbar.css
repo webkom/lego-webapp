@@ -2,14 +2,14 @@
 
 .root {
   display: grid;
-  grid-template: 'time list calender create' 1fr / 1fr 1fr 1fr 1fr;
+  grid-template: 'time list calendar create' 1fr / 1fr 1fr 1fr 1fr;
   white-space: nowrap;
   margin-bottom: 20px;
 
   @media (--mobile-device) {
     grid-template:
       'time create'
-      'list calender';
+      'list calendar';
   }
 }
 
@@ -24,8 +24,8 @@
   grid-area: list;
 }
 
-.calender {
-  grid-area: calender;
+.calendar {
+  grid-area: calendar;
 }
 
 .pickerItem {

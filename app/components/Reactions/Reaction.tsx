@@ -1,32 +1,23 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Reaction.css';
 import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   className?: string;
-  user: CurrentUser;
   emoji: string;
   count: number;
   users?: { fullName: string }[];
   unicodeString: string;
-  addReaction: (args: {
-    emoji: string;
-    user: CurrentUser;
-    contentTarget: ContentTarget;
-    unicodeString?: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   hasReacted: boolean;
   canReact: boolean;
-  reactionId: ID;
+  reactionId?: ID;
   contentTarget: ContentTarget;
   showPeople?: boolean;
 };
@@ -35,19 +26,20 @@ type Props = {
 
 const Reaction = ({
   className,
-  user,
   emoji,
   count,
   users,
   unicodeString,
-  addReaction,
-  deleteReaction,
   hasReacted,
   canReact,
   reactionId,
   contentTarget,
   showPeople,
 }: Props) => {
+  const dispatch = useAppDispatch();
+
+  const { currentUser } = useUserContext();
+
   const classes = [
     className ? className : styles.reaction,
     canReact && styles.clickable,
@@ -84,18 +76,21 @@ const Reaction = ({
             canReact
               ? () =>
                   hasReacted
-                    ? deleteReaction({
-                        reactionId,
-                        user: user,
-                        contentTarget: contentTarget,
-                      })
-                    : addReaction({
-                        emoji,
-                        user: user,
-                        contentTarget,
-                        unicodeString,
-                      })
-              : null
+                    ? dispatch(
+                        deleteReaction({
+                          reactionId,
+                          contentTarget: contentTarget,
+                        })
+                      )
+                    : dispatch(
+                        addReaction({
+                          emoji,
+                          user: currentUser,
+                          contentTarget,
+                          unicodeString,
+                        })
+                      )
+              : undefined
           }
         >
           <div>

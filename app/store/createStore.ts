@@ -1,6 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { createBrowserHistory, createMemoryHistory } from 'history';
-import { createReduxHistoryContext } from 'redux-first-history';
 import { addToast } from 'app/actions/ToastActions';
 import createRootReducer from 'app/store/createRootReducer';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
@@ -21,11 +19,6 @@ const createStore = (
     getCookie: GetCookie;
   }
 ) => {
-  const { createReduxHistory, routerMiddleware } = createReduxHistoryContext({
-    history: __CLIENT__ ? createBrowserHistory() : createMemoryHistory(),
-    reduxTravelling: __DEV__,
-  });
-
   const store = configureStore({
     preloadedState: initialState,
     reducer: createRootReducer(),
@@ -43,7 +36,6 @@ const createStore = (
         .prepend(promiseMiddleware())
         .concat(
           [
-            routerMiddleware,
             createMessageMiddleware(
               (message) =>
                 addToast({
@@ -59,8 +51,6 @@ const createStore = (
         ),
   });
 
-  const connectedHistory = createReduxHistory(store);
-
   if (module.hot) {
     module.hot.accept('app/store/createRootReducer', () => {
       const nextReducer = require('app/store/createRootReducer').default;
@@ -69,11 +59,10 @@ const createStore = (
     });
   }
 
-  return { connectedHistory, store };
+  return store;
 };
 
 export default createStore;
 
-export type StoreWithHistory = ReturnType<typeof createStore>;
-export type Store = StoreWithHistory['store'];
+export type Store = ReturnType<typeof createStore>;
 export type AppDispatch = Store['dispatch'];

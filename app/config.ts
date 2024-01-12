@@ -15,3 +15,4 @@ export const configWithSSR: Config =
     : defaultConfigWithSSR;
 
 export default config;
+export type { Config };

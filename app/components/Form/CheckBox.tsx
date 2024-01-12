@@ -46,6 +46,7 @@ const CheckBox = ({
       <div className={cx(styles.checkbox, styles.bounce, className)}>
         <input
           {...props}
+          onChange={() => props.onChange?.(!checked)}
           id={id}
           checked={normalizedValue}
           type="checkbox"

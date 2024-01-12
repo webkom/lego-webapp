@@ -2,7 +2,6 @@ import cookie from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
-import { push } from 'redux-first-history';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';
@@ -11,6 +10,8 @@ import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { setStatusCode } from './RoutingActions';
 import type { AddPenalty, ID, PhotoConsent } from 'app/models';
+import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
+import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
 import type { CurrentUser, UpdateUser } from 'app/store/models/User';
@@ -18,7 +19,7 @@ import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
-function saveToken(token: EncodedToken) {
+export function saveToken(token: EncodedToken) {
   const decoded = jwtDecode<Token>(token);
   const expires = moment.unix(decoded.exp);
   return cookie.set(USER_STORAGE_KEY, token, {
@@ -79,13 +80,6 @@ export function login(username: string, password: string) {
     });
 }
 
-export function logoutWithRedirect() {
-  return (dispatch: AppDispatch) => {
-    dispatch(logout());
-    dispatch(push('/'));
-  };
-}
-
 export function logout() {
   return (dispatch: AppDispatch) => {
     removeToken();
@@ -99,10 +93,8 @@ export function logout() {
 export function updateUser(
   user: UpdateUser,
   options: {
-    noRedirect: boolean;
     updateProfilePicture?: boolean;
   } = {
-    noRedirect: false,
     updateProfilePicture: false,
   }
 ) {
@@ -121,56 +113,42 @@ export function updateUser(
     githubUsername,
     linkedinId,
   } = user;
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI({
-        types: User.UPDATE,
-        endpoint: `/users/${username}/`,
-        method: 'PATCH',
-        body: {
-          username,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          gender,
-          allergies,
-          selectedTheme,
-          isAbakusMember,
-          emailListsEnabled,
-          githubUsername,
-          linkedinId,
-          ...(options.updateProfilePicture
-            ? {
-                profilePicture,
-              }
-            : null),
-        },
-        schema: userSchema,
-        meta: {
-          successMessage: 'Oppdatering av bruker fullført',
-          errorMessage: 'Oppdatering av bruker feilet',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) return;
-
-      if (!options.noRedirect) {
-        dispatch(push(`/users/${username}`));
-      }
-    });
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/`,
+    method: 'PATCH',
+    body: {
+      username,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      gender,
+      allergies,
+      selectedTheme,
+      isAbakusMember,
+      emailListsEnabled,
+      githubUsername,
+      linkedinId,
+      ...(options.updateProfilePicture
+        ? {
+            profilePicture,
+          }
+        : null),
+    },
+    schema: userSchema,
+    meta: {
+      successMessage: 'Oppdatering av bruker fullført',
+      errorMessage: 'Oppdatering av bruker feilet',
+    },
+  });
 }
 
-type PasswordPayload = {
-  password: string;
-  newPassword: string;
-  retypeNewPassword: string;
-};
 export function changePassword({
   password,
   newPassword,
   retypeNewPassword,
-}: PasswordPayload) {
+}: ChangePasswordFormValues) {
   return callAPI({
     types: User.PASSWORD_CHANGE,
     endpoint: '/password-change/',
@@ -389,34 +367,21 @@ export function validateRegistrationToken(token: string) {
       })
     );
 }
-export function createUser(token: string, user: string) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<{ user: CurrentUser; token: EncodedToken }>({
-        types: User.CREATE_USER,
-        endpoint: `/users/?token=${token}`,
-        method: 'POST',
-        body: user,
-        meta: {
-          errorMessage: 'Opprettelse av bruker feilet',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) return;
-      const { user, token } = action.payload;
-      saveToken(token);
-      return dispatch({
-        type: User.FETCH.SUCCESS,
-        payload: normalize(user, userSchema),
-        meta: {
-          isCurrentUser: true,
-        },
-      });
-    });
+
+export function createUser(token: string, data: UserConfirmationFormValues) {
+  return callAPI<{ user: CurrentUser; token: EncodedToken }>({
+    types: User.CREATE_USER,
+    endpoint: `/users/?token=${token}`,
+    method: 'POST',
+    body: data,
+    meta: {
+      errorMessage: 'Opprettelse av bruker feilet',
+    },
+  });
 }
 
 export function deleteUser(password: string) {
-  return callAPI<void>({
+  return callAPI({
     types: User.DELETE,
     endpoint: '/user-delete/',
     method: 'POST',
@@ -430,8 +395,12 @@ export function deleteUser(password: string) {
   });
 }
 
+type StartStudentAuthResponse = {
+  url: string;
+  status: string;
+};
 export function startStudentAuth() {
-  return callAPI({
+  return callAPI<StartStudentAuthResponse>({
     types: User.INIT_STUDENT_AUTH,
     endpoint: `/oidc/authorize/`,
     method: 'GET',
@@ -441,14 +410,26 @@ export function startStudentAuth() {
   });
 }
 
-export function confirmStudentAuth({
-  code,
-  state,
-}: {
-  code: string;
-  state: string;
-}) {
-  return callAPI({
+type ConfirmStudentAuthResponseCommonFields = {
+  studyProgrammes: string[];
+  grade: string;
+};
+type ConfirmStudentAuthBaseResponse = ConfirmStudentAuthResponseCommonFields & {
+  status: 'unauthorized' | 'success';
+};
+type ConfirmStudentAuthErrorResponse =
+  ConfirmStudentAuthResponseCommonFields & {
+    status: 'error';
+    detail: string;
+  };
+export type ConfirmStudentAuthResponse =
+  | ConfirmStudentAuthBaseResponse
+  | ConfirmStudentAuthErrorResponse;
+export function confirmStudentAuth(
+  code: string | qs.ParsedQs | string[] | qs.ParsedQs[],
+  state: string | qs.ParsedQs | string[] | qs.ParsedQs[]
+) {
+  return callAPI<ConfirmStudentAuthResponse>({
     types: User.COMPLETE_STUDENT_AUTH,
     endpoint: `/oidc/validate/?code=${code}&state=${state}`,
     method: 'GET',
@@ -467,10 +448,11 @@ export function sendForgotPasswordEmail({ email }: { email: string }) {
       email,
     },
     meta: {
-      errorMessage: 'Sending av tilbakestill passord e-post feilet',
+      errorMessage: 'Sending av tilbakestill-passord-e-post feilet',
     },
   });
 }
+
 export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
   return callAPI({
     types: Penalty.CREATE,
@@ -488,7 +470,8 @@ export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
     },
   });
 }
-export function deletePenalty(id: number) {
+
+export function deletePenalty(id: ID) {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,
@@ -501,6 +484,7 @@ export function deletePenalty(id: number) {
     body: {},
   });
 }
+
 export function resetPassword({
   token,
   password,

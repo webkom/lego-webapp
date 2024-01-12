@@ -190,7 +190,9 @@ export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
   (companies, companyId) => {
-    const company = companies.find((company) => company.id === companyId);
+    const company = companies.find(
+      (company) => company.id === Number(companyId)
+    );
     return company || {};
   }
 );
@@ -222,7 +224,7 @@ export const selectCompanyContactById = createSelector(
   (company, companyContactId) => {
     if (!company || !company.companyContacts) return {};
     return company.companyContacts.find(
-      (contact) => contact.id === companyContactId
+      (contact) => contact.id === Number(companyContactId)
     );
   }
 );

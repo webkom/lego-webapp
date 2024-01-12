@@ -1,28 +1,62 @@
 import { Button, Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
+import { fetch } from 'app/actions/EmailUserActions';
+import { fetchAllWithType } from 'app/actions/GroupActions';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { GroupType } from 'app/models';
-import { emailUsersDefaultQuery } from 'app/routes/admin/email/EmailUsersRoute';
+import { selectEmailUsers } from 'app/reducers/emailUsers';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import type { Group } from 'app/models';
-import type { History } from 'history';
 
-type Props = {
-  fetching: boolean;
-  hasMore: boolean;
-  emailUsers: Array<Record<string, any>>;
-  fetch: (arg0: {
-    query?: Record<string, any>;
-    next?: boolean;
-  }) => Promise<any>;
-  query: Record<string, any>;
-  push: History['push'];
-  committees: Group[];
-  grades: Group[];
+const emailUsersDefaultQuery = {
+  enabled: undefined as undefined | 'true' | 'false',
+  userGrade: undefined as undefined | string,
+  userCommittee: undefined as undefined | string,
+  email: '',
+  userFullname: '',
 };
-const EmailUsers = (props: Props) => {
+
+const EmailUsers = () => {
   const { query, setQuery } = useQuery(emailUsersDefaultQuery);
+
+  const { pagination } = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: '/email-users/',
+      entity: 'emailUsers',
+      query,
+    })(state)
+  );
+  const emailUsers = useAppSelector((state) =>
+    selectEmailUsers(state, { pagination })
+  );
+  const fetching = useAppSelector((state) => state.emailUsers.fetching);
+  const committees = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: GroupType.Committee,
+    })
+  );
+  const grades = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: GroupType.Grade,
+    })
+  );
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEmailUsers',
+    () =>
+      Promise.resolve([
+        dispatch(fetchAllWithType(GroupType.Committee)),
+        dispatch(fetchAllWithType(GroupType.Grade)),
+        dispatch(fetch({ query })),
+      ]),
+    []
+  );
 
   const columns = [
     {
@@ -54,7 +88,7 @@ const EmailUsers = (props: Props) => {
       dataIndex: 'userCommittee',
       inlineFiltering: false,
       filterMessage: '- for å få brukere uten komite',
-      filter: props.committees
+      filter: committees
         .map((committee) => ({
           label: committee.name,
           value: committee.name,
@@ -81,7 +115,7 @@ const EmailUsers = (props: Props) => {
     {
       title: 'Klasse',
       dataIndex: 'userGrade',
-      filter: props.grades
+      filter: grades
         .map((grade) => ({
           label: grade.name,
           value: grade.name,
@@ -127,6 +161,7 @@ const EmailUsers = (props: Props) => {
         ),
     },
   ];
+
   return (
     <div>
       <p>
@@ -152,19 +187,20 @@ const EmailUsers = (props: Props) => {
         </Link>
       </Flex>
       <Table
-        infiniteScroll
         columns={columns}
         onLoad={() => {
-          props.fetch({
-            next: true,
-            query,
-          });
+          dispatch(
+            fetch({
+              next: true,
+              query: query,
+            })
+          );
         }}
         filters={query}
         onChange={setQuery}
-        hasMore={props.hasMore}
-        loading={props.fetching}
-        data={props.emailUsers}
+        hasMore={pagination.hasMore}
+        loading={fetching}
+        data={emailUsers}
       />
     </div>
   );

@@ -1,85 +1,17 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from 'app/routes/pageNotFound';
-import CompanyInterestEditRoute from './CompanyInterestEditRoute';
-import CompanyInterestListRoute from './CompanyInterestListRoute';
-import CompanyInterestRoute from './CompanyInterestRoute';
-import CompanySemesterGUIRoute from './CompanySemesterGUIRoute';
+import CompanyInterestList from './components/CompanyInterestList';
+import CompanyInterestPage from './components/CompanyInterestPage';
+import CompanySemesterGUI from './components/CompanySemesterGUI';
 
-const companyInterestRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={CompanyInterestListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/create`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={CompanyInterestRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/semesters`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={CompanySemesterGUIRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:companyInterestId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={CompanyInterestEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const CompanyInterestRoute = () => (
+  <Routes>
+    <Route index element={<CompanyInterestList />} />
+    <Route path="create" element={<CompanyInterestPage />} />
+    <Route path="semesters" element={<CompanySemesterGUI />} />
+    <Route path=":companyInterestId/edit" element={<CompanyInterestPage />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export const CompanyInterestInfoRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <RouteWrapper
-        exact
-        path={`${match.path}`}
-        passedProps={{
-          currentUser,
-          loggedIn,
-        }}
-        Component={CompanyInterestRoute}
-      />
-    )}
-  </UserContext.Consumer>
-);
-export function CompanyInterest() {
-  return <Route path="/companyInterest" component={companyInterestRoute} />;
-}
+export default CompanyInterestRoute;

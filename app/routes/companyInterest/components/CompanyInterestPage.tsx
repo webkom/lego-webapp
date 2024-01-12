@@ -1,9 +1,19 @@
 import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  fetchSemesters,
+  fetchSemestersForInterestform,
+} from 'app/actions/CompanyActions';
+import {
+  createCompanyInterest,
+  fetchCompanyInterest,
+  updateCompanyInterest,
+} from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import { Content } from 'app/components/Content';
@@ -11,17 +21,24 @@ import { FlexRow } from 'app/components/FlexBox';
 import {
   TextEditor,
   TextInput,
+  LegoFinalForm,
   CheckBox,
   SelectInput,
   RadioButton,
   MultiSelectGroup,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
+import { selectCompanyInterestById } from 'app/reducers/companyInterest';
+import {
+  selectCompanySemesters,
+  type CompanySemesterEntity,
+  selectCompanySemestersForInterestForm,
+} from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -29,67 +46,30 @@ import {
   isEmail,
   requiredIf,
 } from 'app/utils/validation';
-import { interestText, semesterToText } from '../utils';
+import {
+  interestText,
+  semesterToText,
+  targetGradeToString,
+  eventToString,
+  surveyOffersToString,
+  otherOffersToString,
+  collaborationToString,
+  PARTICIPANT_RANGE_MAP,
+  sortSemesterChronologically,
+  PARTICIPANT_RANGE_TYPES,
+} from '../utils';
 import styles from './CompanyInterest.css';
 import {
-  COLLABORATION_TYPES,
   EVENTS,
   README,
   SURVEY_OFFERS,
   TARGET_GRADES,
   FORM_LABELS,
-  COMPANY_TYPES,
   OFFICE_IN_TRONDHEIM,
+  COLLABORATION_TYPES,
+  COMPANY_TYPES,
 } from './Translations';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { History } from 'history';
 import type { ReactNode } from 'react';
-
-export const PARTICIPANT_RANGE_TYPES = {
-  first: '10-30',
-  second: '30-60',
-  third: '60-100',
-  fourth: '100+',
-};
-
-export const PARTICIPANT_RANGE_MAP = {
-  first: [10, 40],
-  second: [30, 60],
-  third: [60, 100],
-  fourth: [100, null],
-};
-
-export const EVENT_TYPE_OPTIONS = [
-  { value: '', label: 'Vis alle arrangementstyper' },
-  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
-  { value: 'course', label: 'Kurs' },
-  { value: 'breakfast_talk', label: 'Frokostforedrag' },
-  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
-  { value: 'bedex', label: 'BedEx' },
-  { value: 'digital_presentation', label: 'Digital presentasjon' },
-  { value: 'other', label: 'Alternativt arrangement' },
-  { value: 'sponsor', label: 'Sponser' },
-  { value: 'start_up', label: 'Start-up kveld' },
-  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
-];
-
-const eventToString = (event) =>
-  Object.keys(EVENTS)[Number(event.charAt(event.length - 2))];
-
-const surveyOffersToString = (offer) =>
-  Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
-
-const otherOffersToString = (offer) =>
-  Object.keys(README)[Number(offer.charAt(offer.length - 2))];
-
-const collaborationToString = (collab) =>
-  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
-
-const targetGradeToString = (targetGrade) =>
-  Object.keys(TARGET_GRADES)[
-    Number(targetGrade.charAt(targetGrade.length - 2))
-  ];
 
 const SemesterBox = ({
   fields,
@@ -277,39 +257,7 @@ type CompanyInterestFormEntity = {
   companyToCompanyComment: string;
   companyPresentationComment: string;
   companyType: string;
-  officeInTrondheim: boolean;
-};
-
-type Props = {
-  allowedBdb: boolean;
-  onSubmit: (
-    arg0: CompanyInterestFormEntity,
-    arg1: boolean | null | undefined
-  ) => Promise<any>;
-  push: History['push'];
-  events: Array<Record<string, any>>;
-  companyCourseThemes: Array<Record<string, any>>;
-  semesters: Array<CompanySemesterEntity>;
-  otherOffers: Array<Record<string, any>>;
-  collaborations: Array<Record<string, any>>;
-  targetGrades: Array<Record<string, any>>;
-  participantRange: string;
-  edit: boolean;
-  interestForm: Record<string, any>;
-  companyInterest?: CompanyInterestEntity;
-  language: string;
-  comment: string;
-  courseComment: string;
-  breakfastTalkComment: string;
-  otherEventComment: string;
-  startupComment: string;
-  lunchPresentationComment: string;
-  bedexComment: string;
-  companyToCompanyComment: string;
-  companyPresentationComment: string;
-  companyType: string;
-  officeInTrondheim: boolean;
-  initialValues: any;
+  officeInTrondheim: 'yes' | 'no';
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -349,12 +297,101 @@ const validate = createValidator({
   companyToCompanyComment: [requiredIfEventType('company_to_company')],
 });
 
-const CompanyInterestPage = (props: Props) => {
-  if (props.edit && !props.companyInterest) {
+const CompanyInterestPage = () => {
+  const { companyInterestId } = useParams();
+  const edit = companyInterestId !== undefined;
+  const companyInterest = useAppSelector((state) =>
+    selectCompanyInterestById(state, { companyInterestId })
+  );
+  const semesters = useAppSelector((state) => {
+    if (edit) {
+      return selectCompanySemesters(state);
+    }
+    return selectCompanySemestersForInterestForm(state);
+  });
+
+  const allowedBdb = useAppSelector((state) => state.allowed.bdb);
+
+  const { pathname } = useLocation();
+  const language = pathname === '/register-interest' ? 'english' : 'norwegian';
+  const isEnglish = language === 'english';
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect('fetchCompanyInterestPage', () => {
+    Promise.all([
+      edit && dispatch(fetchSemesters()),
+      edit &&
+        companyInterestId &&
+        dispatch(fetchCompanyInterest(companyInterestId)),
+      !edit && dispatch(fetchSemestersForInterestform()),
+    ]);
+  });
+
+  const allEvents = Object.keys(EVENTS);
+  const allOtherOffers = Object.keys(README);
+  const allCollaborations = Object.keys(COLLABORATION_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADES);
+  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
+  const allSurveyOffers = Object.keys(SURVEY_OFFERS);
+  const participantRange =
+    allParticipantRanges.filter(
+      (p) =>
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart
+    ) || null;
+
+  const initialValues: CompanyInterestFormEntity = {
+    ...companyInterest,
+    company: companyInterest?.company
+      ? {
+          label: companyInterest.company.name,
+          title: companyInterest.company.name,
+          value: '' + companyInterest.company.id,
+        }
+      : {
+          label: companyInterest?.companyName,
+          title: companyInterest?.companyName,
+        },
+    events: allEvents.map((event) => ({
+      name: event,
+      checked: companyInterest?.events.includes(event) || false,
+    })),
+    companyCourseThemes: allSurveyOffers.map((offer) => ({
+      name: offer,
+      checked: companyInterest?.companyCourseThemes?.includes(offer) || false,
+    })),
+    otherOffers: allOtherOffers.map((offer) => ({
+      name: offer,
+      checked: companyInterest?.otherOffers?.includes(offer) || false,
+    })),
+    collaborations: allCollaborations.map((collab) => ({
+      name: collab,
+      checked: companyInterest?.collaborations?.includes(collab) || false,
+    })),
+    targetGrades: allTargetGrades.map((targetGrade) => ({
+      name: targetGrade,
+      checked:
+        companyInterest?.targetGrades?.includes(Number(targetGrade)) || false,
+    })),
+    participantRange: (participantRange && participantRange[0]) || null,
+    officeInTrondheim: companyInterest?.officeInTrondheim ? 'yes' : 'no',
+    semesters: edit
+      ? semesters
+          .map((semester) => ({
+            ...semester,
+            checked: companyInterest?.semesters?.includes(semester.id),
+          }))
+          .filter((semester) => semester.activeInterestForm || semester.checked)
+          .sort(sortSemesterChronologically)
+      : semesters.sort(sortSemesterChronologically),
+  };
+
+  if (edit && !companyInterest) {
     return <LoadingIndicator loading />;
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
     const nameOnly = company['__isNew__'] || !company.value;
     const companyId = nameOnly ? null : Number(company['value']);
@@ -401,19 +438,19 @@ const CompanyInterestPage = (props: Props) => {
       companyToCompanyComment: data.companyToCompanyComment,
       companyPresentationComment: data.companyPresentationComment,
     };
-    return props
-      .onSubmit(newData, isEnglish)
-      .then(() =>
-        props.push(
-          props.allowedBdb
-            ? '/companyInterest/'
-            : '/pages/bedrifter/for-bedrifter'
-        )
-      );
-  };
 
-  const { language } = props;
-  const isEnglish = language === 'english';
+    if (edit) {
+      await dispatch(updateCompanyInterest(companyInterestId, newData));
+    } else {
+      await dispatch(createCompanyInterest(newData, isEnglish));
+    }
+
+    dispatch(
+      navigate(
+        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
+      )
+    );
+  };
 
   const eventTypeEntities = [
     {
@@ -481,7 +518,7 @@ const CompanyInterestPage = (props: Props) => {
       <LegoFinalForm
         onSubmit={onSubmit}
         validate={validate}
-        initialValues={props.initialValues}
+        initialValues={initialValues}
         subscription={{}}
         mutators={{
           ...arrayMutators,
@@ -491,7 +528,7 @@ const CompanyInterestPage = (props: Props) => {
           <form onSubmit={handleSubmit}>
             <FlexRow alignItems="center" justifyContent="space-between">
               <h1>{FORM_LABELS.mainHeading[language]}</h1>
-              {!props.edit && (
+              {!edit && (
                 <Link to={isEnglish ? '/interesse' : '/register-interest'}>
                   <LanguageFlag language={language} />
                 </Link>
@@ -726,7 +763,7 @@ const CompanyInterestPage = (props: Props) => {
 
             <SubmissionError />
             <SubmitButton>
-              {props.edit
+              {edit
                 ? 'Oppdater bedriftsinteresse'
                 : FORM_LABELS.create[language]}
             </SubmitButton>

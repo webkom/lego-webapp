@@ -17,6 +17,7 @@ export const Event = {
   FETCH: generateStatuses('Event.FETCH') as AAT,
   FETCH_PREVIOUS: generateStatuses('Event.FETCH_PREVIOUS') as AAT,
   FETCH_UPCOMING: generateStatuses('Event.FETCH_UPCOMING') as AAT,
+  FETCH_ANALYTICS: generateStatuses('Event.FETCH_ANALYTICS') as AAT,
   CREATE: generateStatuses('Event.CREATE') as AAT,
   EDIT: generateStatuses('Event.EDIT') as AAT,
   DELETE: generateStatuses('Event.DELETE') as AAT,

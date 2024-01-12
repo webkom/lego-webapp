@@ -2,9 +2,10 @@ import callAPI from 'app/actions/callAPI';
 import { emailUserSchema } from 'app/reducers';
 import { EmailUser } from './ActionTypes';
 import type { EmailUserEntity } from 'app/reducers/emailUsers';
-import type { EntityID, Thunk } from 'app/types';
+import type { ID } from 'app/store/models';
+import type { Thunk } from 'app/types';
 
-export function fetchEmailUser(userId: EntityID): Thunk<any> {
+export function fetchEmailUser(userId: ID) {
   return callAPI({
     types: EmailUser.FETCH,
     endpoint: `/email-users/${userId}/`,
@@ -15,7 +16,8 @@ export function fetchEmailUser(userId: EntityID): Thunk<any> {
     propagateError: true,
   });
 }
-export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
+
+export function createEmailUser(emailUser: EmailUserEntity) {
   return callAPI({
     types: EmailUser.CREATE,
     endpoint: '/email-users/',
@@ -27,7 +29,8 @@ export function createEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     },
   });
 }
-export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
+
+export function editEmailUser(emailUser: EmailUserEntity) {
   return callAPI({
     types: EmailUser.EDIT,
     endpoint: `/email-users/${emailUser.id}/`,
@@ -39,6 +42,7 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<any> {
     },
   });
 }
+
 export function fetch({
   next,
   query,

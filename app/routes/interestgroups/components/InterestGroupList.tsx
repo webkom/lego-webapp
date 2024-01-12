@@ -1,18 +1,30 @@
 import { Button } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { fetchAllWithType } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
+import { GroupType } from 'app/models';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.css';
-import type { ActionGrant, Group } from 'app/models';
 
-export type Props = {
-  actionGrant: ActionGrant;
-  interestGroups: Array<Group>;
-};
+const InterestGroupList = () => {
+  const actionGrant = useAppSelector((state) => state.groups.actionGrant);
+  const interestGroups = useAppSelector((state) =>
+    selectGroupsWithType(state, { groupType: GroupType.Interest })
+  );
 
-const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchAllInterestGroups',
+    () => dispatch(fetchAllWithType(GroupType.Interest)),
+    []
+  );
+
   const canCreate = actionGrant.includes('create');
   // Sorts interest groups in alphabetical order. Sorting using localeCompare will fail to sort ÆØÅ correctly.
   // Use spread operator to do sorting not in-place
@@ -22,6 +34,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
   const notActiveGroups = [...interestGroups]
     .filter((a) => !a.active)
     .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name));
+
   return (
     <Content>
       <Helmet title="Interessegrupper" />

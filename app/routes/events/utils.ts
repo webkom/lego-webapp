@@ -4,7 +4,6 @@ import config from 'app/config';
 import type {
   TransformEvent,
   Event,
-  EventType,
   AddPenalty,
   PhotoConsent,
   PhotoConsentDomain,
@@ -12,10 +11,11 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
+import type { EventType } from 'app/store/models/Event';
 import type { DetailedUser } from 'app/store/models/User';
 
 // Current eventTypes
-export const EVENT_CONSTANTS = {
+export const EVENT_CONSTANTS: Record<EventType, string> = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
   alternative_presentation: 'Alternativ bedpres',
@@ -86,6 +86,7 @@ export type EditingEvent = Event & {
   isClarified: boolean;
   authors: Option[];
   responsibleUsers: DetailedUser[];
+  saveToImageGallery: boolean;
 };
 
 // Event fields that should be created or updated based on the API.
@@ -343,3 +344,14 @@ export const toReadableSemester = (
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;
 };
+
+export const isTBA = (value) =>
+  value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
+
+export const containsAllergier = (value) =>
+  value && value.toLowerCase().indexOf('allergi') !== -1
+    ? `Matallergier/preferanser kan hentes fra adminsidene til arrangementet`
+    : undefined;
+
+export const tooLow = (value) =>
+  value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;

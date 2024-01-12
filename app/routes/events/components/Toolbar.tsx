@@ -14,18 +14,20 @@ const Toolbar = ({ actionGrant }: Props) => (
     <Time format="ll" className={styles.timeNow} />
 
     <NavLink
-      exact
+      end
       to="/events"
-      activeClassName={styles.active}
-      className={cx(styles.pickerItem, styles.list)}
+      className={({ isActive }) =>
+        cx(isActive ? styles.active : '', styles.pickerItem, styles.list)
+      }
     >
       Liste
     </NavLink>
 
     <NavLink
       to="/events/calendar"
-      activeClassName={styles.active}
-      className={cx(styles.pickerItem, styles.calender)}
+      className={({ isActive }) =>
+        cx(isActive ? styles.active : '', styles.pickerItem, styles.calendar)
+      }
     >
       Kalender
     </NavLink>

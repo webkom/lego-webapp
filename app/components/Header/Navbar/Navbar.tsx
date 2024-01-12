@@ -69,7 +69,7 @@ const Navbar = () => {
           <NavLink
             key={link.to}
             to={link.to}
-            activeClassName={styles.activeItem}
+            className={({ isActive }) => (isActive ? styles.activeItem : '')}
             onMouseEnter={() => focusLinkAtIndex(i)}
           >
             {link.title}

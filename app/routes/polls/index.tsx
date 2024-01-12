@@ -1,54 +1,16 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import PollsCreateRoute from './PollsCreateRoute';
-import PollsDetailRoute from './PollsDetailRoute';
-import PollsListRoute from './PollsListRoute';
+import PollDetail from './components/PollDetail';
+import PollEditor from './components/PollEditor';
+import PollsList from './components/PollsList';
 
-const pollsRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PollsListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/new`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PollsCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:pollsId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={PollsDetailRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const PollsRoute = () => (
+  <Routes>
+    <Route index element={<PollsList />} />
+    <Route path="new" element={<PollEditor />} />
+    <Route path=":pollsId" element={<PollDetail />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Polls() {
-  return <Route path="/polls" component={pollsRoute} />;
-}
+export default PollsRoute;

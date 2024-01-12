@@ -8,7 +8,7 @@ import Tooltip from 'app/components/Tooltip';
 import { colorForEvent } from 'app/routes/events/utils';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
-import type { Event } from 'app/models';
+import type { ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';
@@ -20,7 +20,7 @@ type statusIconProps = {
   tooltip: string;
 };
 
-const eventStatusObject = (event: Event): statusIconProps => {
+const eventStatusObject = (event: ListEvent): statusIconProps => {
   const { isAdmitted, eventStatusType } = event;
 
   switch (eventStatusType) {
@@ -67,7 +67,7 @@ const Attendance = ({ event }) => {
 };
 
 type TimeStampProps = {
-  event: Event;
+  event: ListEvent;
 };
 
 const TimeStamp = ({ event }: TimeStampProps) => {
@@ -127,7 +127,7 @@ const RegistrationIcon = ({ event }: TimeStampProps) => {
 };
 
 type EventItemProps = {
-  event: Event;
+  event: ListEvent;
   showTags?: boolean;
   eventStyle?: EventStyle;
 };

@@ -1,8 +1,8 @@
 import { SelectInput, CheckBox } from 'app/components/Form';
-import type { PublicGroup } from 'app/store/models/Group';
+import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
 /*
- * Usage inside redux-form:
+ * Usage inside 'redux-form' or 'react-final-form':
  *
  *   <Fields
  *     component={ObjectPermissions}
@@ -18,18 +18,16 @@ import type { PublicGroup } from 'app/store/models/Group';
  *
  * You also have to run the values through the 'normalizeObjectPermissions' function below
  *
+ * With 'react-final-form' you may import Fields from 'app/components/Form/Fields' and
+ * use it the same as you would by importing Fields from 'redux-form'
+ *
  * */
 const ObjectPermissions = ({
   canEditUsers,
   canEditGroups,
   canViewGroups,
   requireAuth,
-}: {
-  canEditUsers?: PublicGroup[];
-  canEditGroups?: PublicGroup[];
-  canViewGroups?: PublicGroup[];
-  requireAuth?: boolean;
-}) => {
+}: ObjectPermissionsMixin) => {
   return [
     requireAuth && (
       <CheckBox.Field
@@ -99,9 +97,9 @@ export const objectPermissionsToInitialValues = ({
     ?.filter(Boolean)
     .map((user) => ({ ...user, label: user.fullName, value: user.id }));
   return {
-    canEditUsers: canEditUsers ?? {},
-    canEditGroups: canEditGroups ?? {},
-    canViewGroups: canViewGroups ?? {},
+    canEditUsers: canEditUsers ?? [],
+    canEditGroups: canEditGroups ?? [],
+    canViewGroups: canViewGroups ?? [],
   };
 };
 export const objectPermissionsInitialValues = {

@@ -1,9 +1,13 @@
 import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
+import { useNavigate } from 'react-router-dom';
+import { deleteCompany } from 'app/actions/CompanyActions';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { useAppDispatch } from 'app/store/hooks';
 import type { Semester, CompanySemesterContactedStatus } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { ID } from 'app/store/models';
 import type { ReactNode } from 'react';
 
 export const statusStrings = {
@@ -151,43 +155,52 @@ export const getContactedStatuses = (
   });
   return contacted;
 };
+
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/companyInterest/">Interesseskjema</NavigationLink>
+    <NavigationLink to="/companyInterest">Interesseskjema</NavigationLink>
     <NavigationLink to="/bdb">BDB</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
+
 export const DetailNavigation = ({
   title,
   companyId,
-  deleteFunction,
 }: {
   title: ReactNode;
-  companyId: number;
-  deleteFunction: (arg0: number) => Promise<any>;
-}) => (
-  <NavigationTab
-    title={title}
-    back={{
-      label: 'Tilbake til liste',
-      path: '/bdb',
-    }}
-  >
-    <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-    <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
-    <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
-    <ConfirmModal
-      title="Slett bedrift"
-      message="Er du sikker på at du vil slette denne bedriften?"
-      onConfirm={() => deleteFunction(companyId)}
+  companyId: ID;
+}) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  return (
+    <NavigationTab
+      title={title}
+      back={{
+        label: 'Tilbake til liste',
+        path: '/bdb',
+      }}
     >
-      {({ openConfirmModal }) => (
-        <Button onClick={openConfirmModal} danger>
-          <Icon name="trash" size={19} />
-          Slett bedrift
-        </Button>
-      )}
-    </ConfirmModal>
-  </NavigationTab>
-);
+      <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
+      <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
+      <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
+      <ConfirmModal
+        title="Slett bedrift"
+        message="Er du sikker på at du vil slette denne bedriften?"
+        onConfirm={() =>
+          dispatch(deleteCompany(companyId)).then(() => {
+            navigate('/bdb');
+          })
+        }
+      >
+        {({ openConfirmModal }) => (
+          <Button onClick={openConfirmModal} danger>
+            <Icon name="trash" size={19} />
+            Slett bedrift
+          </Button>
+        )}
+      </ConfirmModal>
+    </NavigationTab>
+  );
+};

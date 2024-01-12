@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
-import { QuestionTypes } from 'app/routes/surveys/utils';
+import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from '../surveys.css';
 
 type Props = {
@@ -16,7 +16,7 @@ const RemoveButton = ({ remove }: { remove?: () => void }) =>
   remove ? <Icon name="close" onClick={remove} /> : null;
 
 const Option = (props: Props) => {
-  return props.questionType === QuestionTypes('single') ? (
+  return props.questionType === SurveyQuestionType.SingleChoice ? (
     <MultipleChoice {...props} />
   ) : (
     <Checkbox {...props} />

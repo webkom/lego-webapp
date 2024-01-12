@@ -1,7 +1,7 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './InfoBubble.css';
-import type { ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
   /** Icon name */
@@ -21,14 +21,25 @@ type Props = {
 
   /** Custom class name */
   className?: string;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
 const httpCheck = (link) =>
   link.startsWith('http://') || link.startsWith('https://')
     ? link
     : `http://${link}`;
 
-const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
+type IconComponentProps = {
+  icon: string;
+  bubbleClass: string;
+  iconClass: string;
+  link?: string;
+};
+const IconComponent = ({
+  icon,
+  bubbleClass,
+  iconClass,
+  link,
+}: IconComponentProps) => {
   if (link) {
     return (
       <div className={bubbleClass}>
@@ -46,7 +57,12 @@ const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
   );
 };
 
-const dataComponent = (dataClass, data, link = undefined) => {
+type DataComponentProps = {
+  dataClass: string;
+  data: ReactNode;
+  link?: string;
+};
+const DataComponent = ({ dataClass, data, link }: DataComponentProps) => {
   if (link) {
     return (
       <a href={httpCheck(link)}>
@@ -72,13 +88,15 @@ function InfoBubble({
   const dataClass = small ? styles.smallData : styles.data;
   const metaClass = small ? styles.smallMeta : styles.meta;
   return (
-    <div
-      className={cx(styles.infoBubble, className)}
-      {...(props as Record<string, any>)}
-    >
-      {iconComponent(icon, bubbleClass, iconClass, link)}
-      {dataComponent(dataClass, data, link)}
-      {meta && dataComponent(metaClass, meta)}
+    <div className={cx(styles.infoBubble, className)} {...props}>
+      <IconComponent
+        icon={icon}
+        bubbleClass={bubbleClass}
+        iconClass={iconClass}
+        link={link}
+      />
+      <DataComponent dataClass={dataClass} data={data} link={link} />
+      {meta && <DataComponent dataClass={metaClass} data={meta} />}
     </div>
   );
 }

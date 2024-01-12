@@ -1,7 +1,15 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import {
+  fetch,
+  fetchEventsForCompany,
+  fetchJoblistingsForCompany,
+} from 'app/actions/CompanyActions';
+import { getEndpoint } from 'app/actions/EventActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   Content,
@@ -13,33 +21,78 @@ import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
 import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
+import {
+  selectCompanyById,
+  selectEventsForCompany,
+  selectJoblistingsForCompany,
+} from 'app/reducers/companies';
+import { selectPagination } from 'app/reducers/selectors';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import createQueryString from 'app/utils/createQueryString';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
-import type { Event } from 'app/models';
-import type { DetailedCompany } from 'app/store/models/Company';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
+import type { ID } from 'app/store/models';
 
-type Props = {
-  company: DetailedCompany;
-  companyEvents: Event[];
-  joblistings: ListJoblisting[];
-  showFetchMoreEvents: boolean;
-  fetchMoreEvents: () => Promise<any>;
-  loading: boolean;
-};
+const queryString = (companyId: ID) =>
+  createQueryString({
+    company: companyId,
+    ordering: '-start_time',
+  });
 
-const CompanyDetail = ({
-  company,
-  companyEvents,
-  joblistings,
-  fetchMoreEvents,
-  showFetchMoreEvents,
-  loading,
-}: Props) => {
+const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
+  const { companyId, loading } = useParams<{
+    companyId: string;
+    loading: string;
+  }>();
+  const showFetchMoreEvents = useAppSelector((state) =>
+    selectPagination('events', {
+      queryString: queryString(companyId),
+    })(state)
+  );
+  const company = useAppSelector((state) =>
+    selectCompanyById(state, { companyId })
+  );
+  const companyEvents = useAppSelector((state) =>
+    selectEventsForCompany(state, { companyId })
+  );
+  const joblistings = useAppSelector((state) =>
+    selectJoblistingsForCompany(state, { companyId })
+  );
+  const pagination = useAppSelector((state) => state.events.pagination);
+  const endpoint = getEndpoint(pagination, queryString(companyId));
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchDetailedCompany',
+    () =>
+      companyId &&
+      Promise.all([
+        dispatch(fetch(companyId)),
+        dispatch(
+          fetchEventsForCompany({
+            endpoint: `/events/${queryString(companyId)}`,
+            queryString: queryString(companyId),
+          })
+        ),
+        dispatch(fetchJoblistingsForCompany(companyId)),
+      ]),
+    [companyId]
+  );
+
   if (!company) {
-    return <LoadingIndicator loading={loading} />;
+    return <LoadingIndicator loading={Boolean(loading)} />;
   }
+
+  const fetchMoreEvents = () =>
+    dispatch(
+      fetchEventsForCompany({
+        endpoint,
+        queryString: queryString(companyId),
+      })
+    );
 
   const sortedEvents = companyEvents.sort(
     (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix()
@@ -162,4 +215,4 @@ const CompanyDetail = ({
   );
 };
 
-export default CompanyDetail;
+export default guardLogin(CompanyDetail);

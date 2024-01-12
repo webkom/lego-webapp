@@ -10,7 +10,7 @@ describe('Change password', () => {
   const newPassword = 'Abakus123';
   const weakPassword = 'Testing123';
 
-  it('Can change password', () => {
+  it('can change password', () => {
     cy.visit('/users/me/settings/profile');
 
     button('Endre passord').should('be.disabled');
@@ -25,7 +25,7 @@ describe('Change password', () => {
     cy.url().should('include', `/users/me`);
   });
 
-  it('Should require certain password strength', () => {
+  it('should require certain password strength', () => {
     cy.visit('/users/me/settings/profile');
 
     field('password').type(password).blur();

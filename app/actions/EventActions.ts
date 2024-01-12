@@ -1,5 +1,3 @@
-import { push } from 'redux-first-history';
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import {
   eventSchema,
@@ -11,111 +9,132 @@ import { Event } from './ActionTypes';
 import type { EventRegistrationPresence } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
-import type { DetailedEvent, UnknownEvent } from 'app/store/models/Event';
+import type {
+  DetailedEvent,
+  ListEvent,
+  UnknownEvent,
+} from 'app/store/models/Event';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
-export function fetchEvent(eventId: string) {
+
+export function fetchEvent(eventId: ID) {
   return callAPI<DetailedEvent>({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
     meta: {
-      errorMessage: 'Henting av hendelse feilet',
+      errorMessage: 'Henting av arrangement feilet',
     },
     propagateError: true,
   });
 }
-export function fetchPrevious(): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FETCH_PREVIOUS,
-        endpoint: '/events/previous/',
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Henting av hendelser feilet',
-        },
-        propagateError: true,
-      })
-    );
-}
-export function fetchUpcoming(): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FETCH_UPCOMING,
-        endpoint: '/events/upcoming/',
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Henting av hendelser feilet',
-        },
-        propagateError: true,
-      })
-    );
+
+export function fetchPrevious() {
+  return callAPI({
+    types: Event.FETCH_PREVIOUS,
+    endpoint: '/events/previous/',
+    schema: [eventSchema],
+    meta: {
+      errorMessage: 'Henting av tidligere arrangementer feilet',
+    },
+    propagateError: true,
+  });
 }
 
-const getEndpoint = (state, loadNextPage, queryString) => {
-  const pagination = state.events.pagination;
+export function fetchUpcoming() {
+  return callAPI({
+    types: Event.FETCH_UPCOMING,
+    endpoint: '/events/upcoming/',
+    schema: [eventSchema],
+    meta: {
+      errorMessage: 'Henting av kommende arrangementer feilet',
+    },
+    propagateError: true,
+  });
+}
+
+export const fetchData = ({
+  dateAfter,
+  dateBefore,
+  refresh,
+  loadNextPage,
+  pagination,
+  dispatch,
+}: {
+  dateAfter?: string;
+  dateBefore?: string;
+  refresh?: boolean;
+  loadNextPage?: boolean;
+  pagination: any;
+  dispatch: AppDispatch;
+}) => {
+  const query = {
+    date_after: dateAfter,
+    date_before: dateBefore,
+  };
+
+  if (dateBefore && dateAfter) {
+    query.page_size = 60;
+  }
+
+  const queryString = createQueryString(query);
+  const endpoint = getEndpoint(pagination, queryString, loadNextPage);
+
+  if (!endpoint) {
+    return Promise.resolve();
+  }
+
+  if (refresh && !loadNextPage) {
+    dispatch({
+      type: Event.CLEAR,
+    });
+  }
+
+  return dispatch(fetchList({ endpoint, queryString }));
+};
+
+export const getEndpoint = (
+  pagination: any,
+  queryString: string,
+  loadNextPage?: boolean
+) => {
   let endpoint = `/events/${queryString}`;
   const paginationObject = pagination[queryString];
 
   if (
     loadNextPage &&
     paginationObject &&
-    paginationObject.queryString === queryString
+    paginationObject.queryString === queryString &&
+    paginationObject.nextPage
   ) {
-    endpoint = pagination[queryString].nextPage;
+    endpoint = paginationObject.nextPage;
   }
 
   return endpoint;
 };
 
-export const fetchList =
-  ({
-    dateAfter,
-    dateBefore,
-    refresh = false,
-    loadNextPage = false,
-  }: Record<string, any> = {}): Thunk<any> =>
-  (dispatch, getState) => {
-    const query: Record<string, any> = {
-      date_after: dateAfter,
-      date_before: dateBefore,
-    };
+export const fetchList = ({
+  endpoint,
+  queryString,
+}: {
+  endpoint: string;
+  queryString: string;
+}) => {
+  return callAPI<ListEvent[]>({
+    types: Event.FETCH,
+    endpoint: endpoint,
+    schema: [eventSchema],
+    meta: {
+      errorMessage: 'Fetching events failed',
+      queryString,
+      endpoint,
+    },
+    propagateError: true,
+  });
+};
 
-    if (dateBefore && dateAfter) {
-      query.page_size = 60;
-    }
-
-    const queryString = createQueryString(query);
-    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
-
-    if (refresh && !loadNextPage) {
-      dispatch({
-        type: Event.CLEAR,
-      });
-    }
-
-    return dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint: endpoint,
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Fetching events failed',
-          queryString,
-          endpoint,
-        },
-        propagateError: true,
-      })
-    );
-  };
-export function fetchAdministrate(eventId: number): Thunk<any> {
+export function fetchAdministrate(eventId: ID) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/administrate/`,
@@ -126,7 +145,7 @@ export function fetchAdministrate(eventId: number): Thunk<any> {
   });
 }
 
-export function fetchAllergies(eventId: number): Thunk<any> {
+export function fetchAllergies(eventId: ID) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/allergies/`,
@@ -138,58 +157,40 @@ export function fetchAllergies(eventId: number): Thunk<any> {
 }
 
 export function createEvent(event: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<UnknownEvent>({
-        types: Event.CREATE,
-        endpoint: '/events/',
-        method: 'POST',
-        body: event,
-        schema: eventSchema,
-        meta: {
-          errorMessage: 'Opprettelse av hendelse feilet',
-        },
-      })
-    ).then(
-      (action) =>
-        'success' in action &&
-        dispatch(push(`/events/${action.payload.result}/`))
-    );
+  return callAPI<UnknownEvent>({
+    types: Event.CREATE,
+    endpoint: '/events/',
+    method: 'POST',
+    body: event,
+    schema: eventSchema,
+    meta: {
+      errorMessage: 'Opprettelse av arrangement feilet',
+    },
+  });
 }
-export function editEvent(event: Record<string, any>): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.EDIT,
-        endpoint: `/events/${event.id}/`,
-        method: 'PUT',
-        body: { ...event, cover: event.cover || undefined },
-        meta: {
-          errorMessage: 'Endring av hendelse feilet',
-        },
-      })
-    ).then(() => dispatch(push(`/events/${event.id}`)));
+
+export function editEvent(event: Record<string, any>) {
+  return callAPI({
+    types: Event.EDIT,
+    endpoint: `/events/${event.id}/`,
+    method: 'PUT',
+    body: { ...event, cover: event.cover || undefined },
+    meta: {
+      errorMessage: 'Endring av arrangement feilet',
+    },
+  });
 }
-export function deleteEvent(eventId: number): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.DELETE,
-        endpoint: `/events/${eventId}/`,
-        method: 'DELETE',
-        meta: {
-          id: eventId,
-          errorMessage: 'Sletting av hendelse feilet',
-        },
-      })
-    ).then(() => {
-      dispatch(
-        addToast({
-          message: 'Deleted',
-        })
-      );
-      dispatch(push('/events'));
-    });
+
+export function deleteEvent(eventId: ID) {
+  return callAPI({
+    types: Event.DELETE,
+    endpoint: `/events/${eventId}/`,
+    method: 'DELETE',
+    meta: {
+      id: eventId,
+      errorMessage: 'Sletting av arrangement feilet',
+    },
+  });
 }
 
 export function register({
@@ -198,11 +199,11 @@ export function register({
   feedback,
   userId,
 }: {
-  eventId: number;
+  eventId: ID;
   captchaResponse: string;
   feedback: string;
-  userId: number;
-}): Thunk<any> {
+  userId: ID;
+}) {
   return callAPI({
     types: Event.REQUEST_REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
@@ -214,41 +215,40 @@ export function register({
     meta: {
       id: eventId,
       userId,
-      errorMessage: 'Registering til hendelse feilet',
+      errorMessage: 'Registering til arrangement feilet',
     },
   });
 }
+
 export function unregister({
   eventId,
   registrationId,
-  userId,
   admin = false,
 }: {
-  eventId: number;
-  registrationId: number;
-  userId: number;
-  admin: boolean;
-}): Thunk<any> {
+  eventId: ID;
+  registrationId: ID;
+  admin?: boolean;
+}) {
   return callAPI({
     types: Event.REQUEST_UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'DELETE',
     body: {},
     meta: {
-      errorMessage: 'Avregistrering fra hendelse feilet',
+      errorMessage: 'Avregistrering fra arrangement feilet',
       admin,
-      userId,
       id: Number(registrationId),
     },
   });
 }
+
 export function adminRegister(
-  eventId: number,
-  userId: number,
-  poolId: number | undefined,
+  eventId: ID,
+  userId: ID,
+  poolId: ID | undefined,
   feedback: string,
   adminRegistrationReason: string
-): Thunk<any> {
+) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
     endpoint: `/events/${eventId}/registrations/admin_register/`,
@@ -265,7 +265,8 @@ export function adminRegister(
     },
   });
 }
-export function payment(eventId: number): Thunk<any> {
+
+export function payment(eventId: ID) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
@@ -275,31 +276,27 @@ export function payment(eventId: number): Thunk<any> {
     },
   });
 }
+
 export function updateFeedback(
-  eventId: number,
-  registrationId: number,
+  eventId: ID,
+  registrationId: ID,
   feedback: string
-): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.UPDATE_REGISTRATION,
-        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'PATCH',
-        body: {
-          feedback,
-        },
-        meta: {
-          successMessage: 'Tilbakemelding oppdatert',
-          errorMessage: 'Tilbakemelding oppdatering feilet',
-        },
-      })
-    );
+) {
+  return callAPI({
+    types: Event.UPDATE_REGISTRATION,
+    endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+    method: 'PATCH',
+    body: {
+      feedback,
+    },
+    meta: {
+      successMessage: 'Tilbakemelding oppdatert',
+      errorMessage: 'Tilbakemelding oppdatering feilet',
+    },
+  });
 }
-export function markUsernamePresent(
-  eventId: number,
-  username: string
-): Thunk<Promise<any>> {
+
+export function markUsernamePresent(eventId: ID, username: string) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
     endpoint: `/events/${eventId}/registration_search/`,
@@ -309,11 +306,12 @@ export function markUsernamePresent(
     },
   });
 }
+
 export function updatePresence(
-  eventId: number,
-  registrationId: number,
+  eventId: ID,
+  registrationId: ID,
   presence: EventRegistrationPresence
-): Thunk<Promise<any>> {
+) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
@@ -327,72 +325,58 @@ export function updatePresence(
     },
   });
 }
+
 export function updatePayment(
-  eventId: number,
-  registrationId: number,
+  eventId: ID,
+  registrationId: ID,
   paymentStatus: string
 ): Thunk<Promise<Action | null | undefined>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.UPDATE_REGISTRATION,
-        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'PATCH',
-        body: {
-          paymentStatus,
-        },
-        meta: {
-          errorMessage: 'Oppdatering av betaling feilet',
-        },
-      })
-    ).then(() =>
-      dispatch(
-        addToast({
-          message: 'Payment updated',
-        })
-      )
-    );
-}
-export function follow(userId: number, eventId: number): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FOLLOW,
-        enableOptimistic: true,
-        endpoint: `/followers-event/`,
-        schema: followersEventSchema,
-        method: 'POST',
-        body: {
-          target: eventId,
-          follower: userId,
-        },
-        meta: {
-          errorMessage: 'Registrering av interesse feilet',
-        },
-      })
-    );
-}
-export function unfollow(
-  followId: number,
-  eventId: number
-): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.UNFOLLOW,
-        endpoint: `/followers-event/${followId}/`,
-        enableOptimistic: true,
-        method: 'DELETE',
-        meta: {
-          id: followId,
-          eventId,
-          errorMessage: 'Avregistrering fra interesse feilet',
-        },
-      })
-    );
-}
-export function isUserFollowing(eventId: number): Thunk<any> {
   return callAPI({
+    types: Event.UPDATE_REGISTRATION,
+    endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+    method: 'PATCH',
+    body: {
+      paymentStatus,
+    },
+    meta: {
+      errorMessage: 'Oppdatering av betaling feilet',
+    },
+  });
+}
+
+export function follow(userId: ID, eventId: ID) {
+  return callAPI({
+    types: Event.FOLLOW,
+    enableOptimistic: true,
+    endpoint: `/followers-event/`,
+    schema: followersEventSchema,
+    method: 'POST',
+    body: {
+      target: eventId,
+      follower: userId,
+    },
+    meta: {
+      errorMessage: 'Registrering av interesse feilet',
+    },
+  });
+}
+
+export function unfollow(followId: ID, eventId: ID) {
+  return callAPI({
+    types: Event.UNFOLLOW,
+    endpoint: `/followers-event/${followId}/`,
+    enableOptimistic: true,
+    method: 'DELETE',
+    meta: {
+      id: followId,
+      eventId,
+      errorMessage: 'Avregistrering fra interesse feilet',
+    },
+  });
+}
+
+export function isUserFollowing(eventId: ID) {
+  return callAPI<boolean>({
     types: Event.IS_USER_FOLLOWING,
     endpoint: `/followers-event/?target=${eventId}`,
     schema: [followersEventSchema],
@@ -402,9 +386,18 @@ export function isUserFollowing(eventId: number): Thunk<any> {
     },
   });
 }
-export function fetchAnalytics(eventId: ID): Thunk<Promise<Action>> {
-  return callAPI({
-    types: Event.FETCH,
+
+export function fetchAnalytics(eventId: ID) {
+  return callAPI<
+    {
+      bounceRate: number | null;
+      date: string;
+      pageviews: number | null;
+      visitDuration: number | null;
+      visitors: number | null;
+    }[]
+  >({
+    types: Event.FETCH_ANALYTICS,
     endpoint: `/events/${String(eventId)}/statistics/`,
     method: 'GET',
     meta: {

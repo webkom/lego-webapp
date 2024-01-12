@@ -1,33 +1,40 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
+import { fetchData } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
+import { selectSortedEvents } from 'app/reducers/events';
+import { selectPagination } from 'app/reducers/selectors';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import createQueryString from 'app/utils/createQueryString';
 import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
 import styles from './EventList.css';
 import Toolbar from './Toolbar';
-import type { Event, ActionGrant, IcalToken } from 'app/models';
 import type { ListEvent } from 'app/store/models/Event';
 
 type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
 type FilterRegistrationsType = 'all' | 'open' | 'future';
+
 export const eventListDefaultQuery = {
   eventTypes: [] as FilterEventType[],
   registrations: 'all' as FilterRegistrationsType,
 };
 
 type GroupedEvents = {
-  currentWeek?: Event[];
-  nextWeek?: Event[];
-  later?: Event[];
+  currentWeek?: ListEvent[];
+  nextWeek?: ListEvent[];
+  later?: ListEvent[];
 };
 
 const groupEvents = (
-  events: Array<Event>,
+  events: ListEvent,
   field?: EventTime = EventTime.start
 ): GroupedEvents => {
   const nextWeek = moment().add(1, 'week');
@@ -56,7 +63,7 @@ const EventListGroup = ({
 }: {
   name: string;
   field?: EventTime;
-  events?: Array<Event>;
+  events?: ListEvent[];
   loggedIn: boolean;
 }) => {
   return isEmpty(events) ? null : (
@@ -75,18 +82,8 @@ const EventListGroup = ({
   );
 };
 
-type EventListProps = {
-  events: Array<Event>;
-  actionGrant: ActionGrant;
-  icalToken: IcalToken;
-  showFetchMore: boolean;
-  fetchMore: () => Promise<any>;
-  loggedIn: boolean;
-  location: Record<string, any>;
-  fetching: boolean;
-};
 type Option = {
-  filterRegDateFunc: (arg0: Event) => boolean;
+  filterRegDateFunc: (arg0: ListEvent) => boolean;
   label: string;
   value: FilterRegistrationsType;
   field: EventTime;
@@ -116,15 +113,7 @@ const filterRegDateOptions: Array<Option> = [
   },
 ];
 
-const EventList = ({
-  icalToken,
-  showFetchMore,
-  fetchMore,
-  events,
-  loggedIn,
-  fetching,
-  actionGrant,
-}: EventListProps) => {
+const EventList = () => {
   const { query, setQueryValue } = useQuery(eventListDefaultQuery);
 
   const regDateFilter =
@@ -140,6 +129,41 @@ const EventList = ({
   const showCompanyPresentation = query.eventTypes.includes(
     'company_presentation'
   );
+
+  const { currentUser, loggedIn } = useUserContext();
+  const icalToken = currentUser?.icalToken;
+
+  const queryString = createQueryString(query);
+  const showFetchMore = useAppSelector((state) =>
+    selectPagination('events', { queryString })(state)
+  );
+
+  const actionGrant = useAppSelector((state) => state.events.actionGrant);
+  const fetching = useAppSelector((state) => state.events.fetching);
+  const events = useAppSelector(selectSortedEvents);
+  const pagination = useAppSelector((state) => state.events.pagination);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEventList',
+    () =>
+      fetchData({
+        dateAfter: moment().format('YYYY-MM-DD'),
+        pagination,
+        dispatch,
+      }),
+    []
+  );
+
+  const fetchMore = () =>
+    fetchData({
+      dateAfter: moment().format('YYYY-MM-DD'),
+      refresh: false,
+      loadNextPage: true,
+      pagination,
+      dispatch,
+    });
 
   const filterEventTypesFunc = (event: ListEvent) => {
     if (!showCompanyPresentation && !showCourse && !showSocial && !showOther)
@@ -266,7 +290,9 @@ const EventList = ({
         </EmptyState>
       )}
       {showFetchMore && field === 'startTime' && (
-        <Button onClick={fetchMore}>Last inn mer</Button>
+        <Button onClick={fetchMore} pending={!isEmpty(events) && fetching}>
+          Last inn mer
+        </Button>
       )}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />

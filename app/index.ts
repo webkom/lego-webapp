@@ -28,7 +28,8 @@ import config from 'app/config';
 import createStore from 'app/store/createStore';
 import renderApp from './render';
 
-console.error(`
+!__DEV__ &&
+  console.error(`
                      \`smMMms\`
                      NMMMMMMN
             \`.\`      NMMMMMMN      \`.\`
@@ -69,7 +70,7 @@ Sentry.init({
   normalizeDepth: 10,
 });
 const preloadedState = window.__PRELOADED_STATE__;
-const { connectedHistory, store } = createStore(preloadedState, {
+const store = createStore(preloadedState, {
   Sentry,
   getCookie: (key) => cookie.get(key),
 });
@@ -91,7 +92,6 @@ store.dispatch({
 
 renderApp({
   store,
-  connectedHistory,
   isSSR,
 });
 
@@ -99,7 +99,6 @@ if (module.hot) {
   module.hot.accept('./render', () => {
     renderApp({
       store,
-      connectedHistory,
       isSSR,
     });
   });

@@ -1,96 +1,67 @@
 import loadable from '@loadable/component';
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from './app';
 
-const CompanyInterestInfoRoute = loadable(() => import('./companyInterest'), {
-  resolveComponent: (components) => components.CompanyInterestInfoRoute,
-});
-const CompanyInterest = loadable(() => import('./companyInterest'), {
-  resolveComponent: (components) => components.CompanyInterest,
-});
-const Companies = loadable(() => import('./company'));
-const Users = loadable(() => import('./users'));
-const Articles = loadable(() => import('./articles'));
-const Meetings = loadable(() => import('./meetings'));
-const Admin = loadable(() => import('./admin'));
-const Quotes = loadable(() => import('./quotes'));
-const Photos = loadable(() => import('./photos'));
-const Pages = loadable(() => import('./pages'));
-const Search = loadable(() => import('./search'));
-const InterestGroups = loadable(() => import('./interestgroups'));
-const Joblistings = loadable(() => import('./joblistings'));
-const PageNotFound = loadable(() => import('./pageNotFound'));
-const Announcements = loadable(() => import('./announcements'));
-const Bdb = loadable(() => import('./bdb'));
-const Contact = loadable(() => import('./contact'));
-const Timeline = loadable(() => import('./timeline'));
-const Surveys = loadable(() => import('./surveys'));
-const Tags = loadable(() => import('./tags'));
-const Brand = loadable(() => import('./brand'));
-const UserValidator = loadable(() => import('./userValidator'));
-const Polls = loadable(() => import('./polls'));
-const Events = loadable(() => import('./events'));
+const AdminRoute = loadable(() => import('./admin'));
+const AnnouncementsRoute = loadable(() => import('./announcements'));
+const ArticlesRoute = loadable(() => import('./articles'));
+const BdbRoute = loadable(() => import('./bdb'));
+const BrandRoute = loadable(() => import('./brand'));
+const CompaniesRoute = loadable(() => import('./company'));
+const CompanyInterestPage = loadable(
+  () => import('./companyInterest/components/CompanyInterestPage')
+);
+const CompanyInterestRoute = loadable(() => import('./companyInterest'));
+const ContactRoute = loadable(() => import('./contact'));
+const EventsRoute = loadable(() => import('./events'));
+const InterestGroupsRoute = loadable(() => import('./interestgroups'));
+const JoblistingsRoute = loadable(() => import('./joblistings'));
+const MeetingsRoute = loadable(() => import('./meetings'));
 const Overview = loadable(() => import('./overview'));
+const PageNotFound = loadable(() => import('./pageNotFound'));
+const PagesRoute = loadable(() => import('./pages'));
+const PhotosRoute = loadable(() => import('./photos'));
+const PollsRoute = loadable(() => import('./polls'));
+const QuotesRoute = loadable(() => import('./quotes'));
+const SearchRoute = loadable(() => import('./search'));
+const SurveysRoute = loadable(() => import('./surveys'));
+const TagsRoute = loadable(() => import('./tags'));
+const TimelineRoute = loadable(() => import('./timeline'));
+const UsersRoute = loadable(() => import('./users'));
+const UserValidatorRoute = loadable(() => import('./userValidator'));
 
 const RouterConfig = () => (
-  <>
-    <Route path="/" component={AppWrapper} />
-  </>
-);
-
-const AppWrapper = () => (
   <AppRoute>
-    <UserContext.Consumer>
-      {({ currentUser, loggedIn }) => (
-        <Switch>
-          <RouteWrapper
-            exact
-            path="/"
-            passedProps={{
-              currentUser,
-              loggedIn,
-            }}
-            Component={Overview}
-          />
-          <Route path="/announcements" component={Announcements} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/events" component={Events} />
-          <Route path="/companies" component={Companies} />
-          <Route path={['/contact', '/kontakt']} component={Contact} />
-          <Route
-            path={['/interest-groups', '/interestgroups']}
-            component={InterestGroups}
-          />
-          <Route path="/joblistings" component={Joblistings} />
-          <Route path="/meetings" component={Meetings} />
-          <Route path="/pages" component={Pages} />
-          <Route path="/photos" component={Photos} />
-          <Route path="/polls" component={Polls} />
-          <Route path="/quotes" component={Quotes} />
-          <Route path="/search" component={Search} />
-          <Route path="/surveys" component={Surveys} />
-          <Route path="/tags" component={Tags} />
-          <Route path="/timeline" component={Timeline} />
-          <Route path="/users" component={Users} />
-          <Route path="/validator" component={UserValidator} />
-          <Route path="/brand" component={Brand} />
-          <Route
-            path="/(register-interest|interesse)"
-            component={CompanyInterestInfoRoute}
-          />
-          <Route path="/companyInterest" component={CompanyInterest} />
-          <Route path="/bdb" component={Bdb} />
-          <Route path="/articles" component={Articles} />
-          {/* 
-          This will eat all routes that are written after this
-          So one cant put any routes after pageNotFound
-          */}
-          <Route component={PageNotFound} />
-        </Switch>
-      )}
-    </UserContext.Consumer>
+    <Routes>
+      <Route index element={<Overview />} />
+      <Route path="admin/*" element={<AdminRoute />} />
+      <Route path="announcements/*" element={<AnnouncementsRoute />} />
+      <Route path="articles/*" element={<ArticlesRoute />} />
+      <Route path="bdb/*" element={<BdbRoute />} />
+      <Route path="brand/*" element={<BrandRoute />} />
+      <Route path="companies/*" element={<CompaniesRoute />} />
+      <Route path="register-interest" element={<CompanyInterestPage />} />
+      <Route path="interesse" element={<CompanyInterestPage />} />
+      <Route path="companyInterest/*" element={<CompanyInterestRoute />} />
+      <Route path="contact" element={<ContactRoute />} />
+      <Route path="kontakt" element={<ContactRoute />} />
+      <Route path="events/*" element={<EventsRoute />} />
+      <Route path="interest-groups/*" element={<InterestGroupsRoute />} />
+      <Route path="interestgroups/*" element={<InterestGroupsRoute />} />
+      <Route path="joblistings/*" element={<JoblistingsRoute />} />
+      <Route path="meetings/*" element={<MeetingsRoute />} />
+      <Route path="pages/*" element={<PagesRoute />} />
+      <Route path="photos/*" element={<PhotosRoute />} />
+      <Route path="polls/*" element={<PollsRoute />} />
+      <Route path="quotes/*" element={<QuotesRoute />} />
+      <Route path="search" element={<SearchRoute />} />
+      <Route path="surveys/*" element={<SurveysRoute />} />
+      <Route path="tags/*" element={<TagsRoute />} />
+      <Route path="timeline" element={<TimelineRoute />} />
+      <Route path="users/*" element={<UsersRoute />} />
+      <Route path="validator" element={<UserValidatorRoute />} />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   </AppRoute>
 );
 

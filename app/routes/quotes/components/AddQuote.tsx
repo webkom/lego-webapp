@@ -1,23 +1,21 @@
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
+import { addQuotes } from 'app/actions/QuoteActions';
+import { addToast } from 'app/actions/ToastActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { withSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 import styles from './Quotes.css';
-import type { ActionGrant } from 'app/models';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-
-type Props = {
-  addQuotes: (quote: { text: string; source: string }) => Promise<void>;
-  actionGrant: ActionGrant;
-};
 
 type FormValues = {
   text: string;
@@ -34,10 +32,13 @@ const validate = createValidator({
   source: [required()],
 });
 
-const AddQuote = ({ addQuotes, actionGrant }: Props) => {
-  const removeUnnecessaryDash = (source: string) => {
-    if (source === undefined) return undefined;
+const AddQuote = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
+  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
+
+  const removeUnnecessaryDash = (source: string) => {
     const dashIndex = source.indexOf('-');
     if (source.slice(0, dashIndex).match(/^ *$/)) {
       source = source.slice(dashIndex + 1).trim();
@@ -47,9 +48,20 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
   };
 
   const onSubmit = (quote: { text: string; source: string }) =>
-    withSubmissionErrorFinalForm(addQuotes)({
-      text: quote.text,
-      source: removeUnnecessaryDash(quote.source),
+    dispatch(
+      addQuotes({
+        text: quote.text,
+        source: removeUnnecessaryDash(quote.source),
+      })
+    ).then(() => {
+      navigate('/quotes');
+      dispatch(
+        addToast({
+          message:
+            'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+          dismissAfter: 10000,
+        })
+      );
     });
 
   return (
@@ -94,23 +106,18 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
             <div className={styles.innerPreview}>
               {spyValues<FormValues>((values) => (
                 <RandomQuote
-                  fetchRandomQuote={() => Promise.resolve()}
-                  addReaction={() => Promise.resolve()}
-                  deleteReaction={() => Promise.resolve()}
-                  fetchEmojis={() => Promise.resolve()}
-                  fetchingEmojis={false}
-                  emojis={[]}
-                  currentQuote={{
+                  dummyQuote={{
                     id: 1,
                     text: values.text || 'Det er bare å gjøre det',
-                    source: removeUnnecessaryDash(values.source) || 'Esso',
+                    source:
+                      (values.source && removeUnnecessaryDash(values.source)) ||
+                      'Esso',
                     approved: true,
                     contentTarget: '' as ContentTarget,
                     reactionsGrouped: [],
                     createdAt: moment(),
                     tags: [],
                   }}
-                  loggedIn={true}
                   useReactions={false}
                 />
               ))}
@@ -122,4 +129,4 @@ const AddQuote = ({ addQuotes, actionGrant }: Props) => {
   );
 };
 
-export default AddQuote;
+export default guardLogin(AddQuote);

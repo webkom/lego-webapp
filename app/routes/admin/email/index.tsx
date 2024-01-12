@@ -1,76 +1,45 @@
-import { Route, Switch } from 'react-router-dom';
-import PageNotFound from '../../pageNotFound';
-import CreateEmailListRoute from './CreateEmailListRoute';
-import CreateEmailUserRoute from './CreateEmailUserRoute';
-import CreateRestrictedMailRoute from './CreateRestrictedMailRoute';
-import EmailListRoute from './EmailListRoute';
-import EmailListsRoute from './EmailListsRoute';
-import EmailUserRoute from './EmailUserRoute';
-import EmailUsersRoute from './EmailUsersRoute';
-import RestrictedMailRoute from './RestrictedMailRoute';
-import RestrictedMailsRoute from './RestrictedMailsRoute';
-import EmailRoute from './components/EmailRoute';
+import { Helmet } from 'react-helmet-async';
+import { Route, Routes } from 'react-router-dom';
+import { Content } from 'app/components/Content';
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import EmailListEditor from 'app/routes/admin/email/components/EmailListEditor';
+import EmailLists from 'app/routes/admin/email/components/EmailLists';
+import EmailUserEditor from 'app/routes/admin/email/components/EmailUserEditor';
+import EmailUsers from 'app/routes/admin/email/components/EmailUsers';
+import RestrictedMailEditor from 'app/routes/admin/email/components/RestrictedMailEditor';
+import RestrictedMails from 'app/routes/admin/email/components/RestrictedMails';
+import PageNotFound from 'app/routes/pageNotFound';
 
-const groupRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <Switch>
-    <Route path={`${match.path}`}>
-      <EmailRoute>
-        <Switch>
-          <Route exact path={`${match.path}`} component={EmailListsRoute} />
-          <Route
-            exact
-            path={`${match.path}/lists/new`}
-            component={CreateEmailListRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/lists/:emailListId`}
-            component={EmailListRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/users`}
-            component={EmailUsersRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/users/new`}
-            component={CreateEmailUserRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/users/:emailUserId`}
-            component={EmailUserRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/restricted`}
-            component={RestrictedMailsRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/restricted/new`}
-            component={CreateRestrictedMailRoute}
-          />
-          <Route
-            exact
-            path={`${match.path}/restricted/:restrictedMailId`}
-            component={RestrictedMailRoute}
-          />
-          <Route component={PageNotFound} />
-        </Switch>
-      </EmailRoute>
-    </Route>
-    <Route component={PageNotFound} />
-  </Switch>
+const EmailRoute = () => (
+  <Content>
+    <Helmet title="E-post" />
+    <NavigationTab title="E-post">
+      <NavigationLink to="/admin/email">Lister</NavigationLink>
+      <NavigationLink to="/admin/email/users?enabled=true">
+        Brukere
+      </NavigationLink>
+      <NavigationLink to="/admin/email/restricted">
+        Begrenset e-post
+      </NavigationLink>
+    </NavigationTab>
+
+    <Routes>
+      <Route index element={<EmailLists />} />
+      <Route path="lists/new`" element={<EmailListEditor />} />
+      <Route path="lists/:emailListId" element={<EmailListEditor />} />
+      <Route path="users" element={<EmailUsers />} />
+      <Route path="users/new" element={<EmailUserEditor />} />
+      <Route path="users/:emailUserId" element={<EmailUserEditor />} />
+      <Route path="restricted" element={<RestrictedMails />} />
+      <Route path="restricted/new" element={<RestrictedMailEditor />} />
+      <Route
+        path="restricted/:restrictedMailId"
+        element={<RestrictedMailEditor />}
+      />
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
+  </Content>
 );
 
-export default function Email() {
-  return <Route path="/admin/email" component={groupRoute} />;
-}
+export default EmailRoute;

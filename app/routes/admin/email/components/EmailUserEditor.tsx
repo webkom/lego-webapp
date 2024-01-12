@@ -1,30 +1,61 @@
-import { Button } from '@webkom/lego-bricks';
-import { reduxForm, Form, Field } from 'redux-form';
-import { TextInput, SelectInput, CheckBox } from 'app/components/Form';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { get } from 'lodash';
+import { Field } from 'react-final-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  createEmailUser,
+  editEmailUser,
+  fetchEmailUser,
+} from 'app/actions/EmailUserActions';
+import {
+  TextInput,
+  Form,
+  SelectInput,
+  CheckBox,
+  LegoFinalForm,
+} from 'app/components/Form';
+import SubmissionError from 'app/components/Form/SubmissionError';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { selectEmailUserById } from 'app/reducers/emailUsers';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
-import type { History } from 'history';
 
-export type Props = {
-  emailUserId?: number;
-  submitting: boolean;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-  push: History['push'];
-  mutateFunction: (arg0: Record<string, any>) => Promise<any>;
-  change: (arg0: string, arg1: Record<string, any>) => void;
-};
 type AutocompleteUserValue = {
   title: string;
 };
 
-const EmailUserEditor = ({
-  emailUserId,
-  mutateFunction,
-  submitting,
-  push,
-  handleSubmit,
-  change,
-}: Props) => {
-  const onUserChange = (data: AutocompleteUserValue) => {
+const validate = createValidator({
+  user: [required()],
+  internalEmail: [required()],
+});
+
+const EmailUserEditor = () => {
+  const { emailUserId } = useParams<{ emailUserId: string }>();
+  const isNew = emailUserId === 'new';
+  const emailUser = useAppSelector((state) =>
+    selectEmailUserById(state, { emailUserId })
+  );
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEmailUser',
+    () => !isNew && emailUserId && dispatch(fetchEmailUser(emailUserId)),
+    [emailUserId]
+  );
+
+  const initialValues = isNew
+    ? {}
+    : {
+        ...emailUser,
+        user: {
+          label: get(emailUser, 'user.fullName', ''),
+          value: get(emailUser, 'user.id', ''),
+        },
+        internalEmailEnable: get(emailUser, 'internalEmailEnabled', false),
+      };
+
+  const onUserChange = (data: AutocompleteUserValue, form) => {
     const nameSplit = data.title.toLowerCase().split(' ');
     if (nameSplit.length < 2) return;
     let email = nameSplit[0] + '.' + nameSplit[nameSplit.length - 1];
@@ -40,59 +71,67 @@ const EmailUserEditor = ({
     );
     // Remove any other non-a-z characters
     email = email.replace(/[^a-z0-9.-]/gi, '');
-    change('internalEmail', email);
+    form.change('internalEmail', email);
   };
 
-  const onSubmit = (data) => {
-    mutateFunction({
-      ...data,
-      user: data.user.value,
-      internalEmailEnabled: !!data.internalEmailEnabled,
-    }).then(({ payload }) => {
-      if (!emailUserId) {
-        push(`/admin/email/users/${payload.result}`);
+  const navigate = useNavigate();
+
+  const handleSubmit = (values) => {
+    const payload = {
+      ...values,
+      user: values.user.value,
+      internalEmailEnabled: !!values.internalEmailEnabled,
+    };
+
+    dispatch(isNew ? createEmailUser(payload) : editEmailUser(payload)).then(
+      (res) => {
+        navigate(`/admin/email/users/${res.payload.result}`);
       }
-    });
+    );
   };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Field
-        label="Bruker"
-        name="user"
-        required
-        disabled={emailUserId}
-        filter={['users.user']}
-        component={SelectInput.AutocompleteField}
-        onChange={(data) => onUserChange(data as any as AutocompleteUserValue)}
-      />
-      <Field
-        required
-        disabled={emailUserId}
-        placeholder="abakus"
-        suffix="@abakus.no"
-        name="internalEmail"
-        label="G Suite e-post"
-        component={TextInput.Field}
-      />
-      <Field
-        label="Aktiv e-post"
-        name="internalEmailEnabled"
-        component={CheckBox.Field}
-        normalize={(v) => !!v}
-      />
-      <Button submit disabled={submitting}>
-        {emailUserId ? 'Oppdater e-postbruker' : 'Lag e-postbruker'}
-      </Button>
-    </Form>
+    <LegoFinalForm
+      onSubmit={handleSubmit}
+      validate={validate}
+      initialValues={initialValues}
+    >
+      {({ handleSubmit, form }) => (
+        <Form onSubmit={(values) => handleSubmit(values)}>
+          <Field
+            label="Bruker"
+            name="user"
+            required
+            disabled={emailUserId}
+            filter={['users.user']}
+            component={SelectInput.AutocompleteField}
+            onChange={(data: AutocompleteUserValue) => onUserChange(data, form)}
+          />
+          <Field
+            required
+            disabled={emailUserId}
+            placeholder="abakus"
+            suffix="@abakus.no"
+            name="internalEmail"
+            label="G Suite e-post"
+            component={TextInput.Field}
+          />
+          <Field
+            label="Aktiv e-post"
+            name="internalEmailEnabled"
+            component={CheckBox.Field}
+            type="checkbox"
+            parse={(value) => !!value}
+          />
+
+          <SubmissionError />
+          <SubmitButton>
+            {emailUserId ? 'Oppdater e-postbruker' : 'Lag e-postbruker'}
+          </SubmitButton>
+        </Form>
+      )}
+    </LegoFinalForm>
   );
 };
 
-export default reduxForm({
-  form: 'emailUser',
-  enableReinitialize: true,
-  validate: createValidator({
-    email: [required()],
-    name: [required()],
-  }),
-})(EmailUserEditor);
+export default EmailUserEditor;

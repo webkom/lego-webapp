@@ -1,5 +1,9 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
+import qs from 'qs';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+import { fetchAll } from 'app/actions/ArticleActions';
+import { fetchPopular } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -7,12 +11,12 @@ import Paginator from 'app/components/Paginator';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
+import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectPopularTags } from 'app/reducers/tags';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Overview.css';
-import type { ActionGrant } from 'app/models';
-import type {
-  ArticleWithAuthorDetails,
-  articlesListDefaultQuery,
-} from 'app/routes/articles/ArticleListRoute';
+import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
 
 const HEADLINE_EVENTS = 2;
 
@@ -59,30 +63,45 @@ export const OverviewItem = ({
   </div>
 );
 
-type Props = {
-  articles: ArticleWithAuthorDetails[];
-  fetching: boolean;
-  hasMore: boolean;
-  fetchAll: (arg0: {
-    next?: boolean;
-    query: Record<string, string>;
-  }) => Promise<any>;
-  tags: Array<Record<string, any>>;
-  location: any;
-  actionGrant: ActionGrant;
-  query: typeof articlesListDefaultQuery;
-};
-const Overview = ({
-  articles,
-  actionGrant = [],
-  query,
-  tags,
-  hasMore,
-  fetching,
-  fetchAll,
-}: Props) => {
+const Overview = () => {
+  const location = useLocation();
+  const query = {
+    tag: qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    }).tag,
+  };
+  const { pagination } = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: `/articles/`,
+      query,
+      entity: 'articles',
+    })(state)
+  );
+  const hasMore = pagination.hasMore;
+  const articles = useAppSelector((state) =>
+    selectArticlesWithAuthorDetails(state, {
+      pagination,
+    })
+  );
+  const fetching = useAppSelector((state) => state.articles.fetching);
+  const actionGrant = useAppSelector((state) => state.articles.actionGrant);
+  const tags = useAppSelector((state) => selectPopularTags(state));
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchArticlesOverview',
+    () =>
+      Promise.resolve([
+        dispatch(fetchPopular()),
+        dispatch(fetchAll({ next: false, query })),
+      ]),
+    []
+  );
+
   const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
   const normalEvents = articles.slice(HEADLINE_EVENTS);
+
   return (
     <Content>
       <Helmet title="Artikler" />
@@ -93,7 +112,7 @@ const Overview = ({
       </NavigationTab>
       <Tags>
         {tags.map((tag) => {
-          const isSelected = query.tag === tag.tag;
+          const isSelected = query && query.tag === tag.tag;
           return (
             <Tag
               tag={tag.tag}
@@ -113,14 +132,15 @@ const Overview = ({
       </Tags>
       <section className={styles.frontpage}>
         <Paginator
-          infiniteScroll={true}
           hasMore={hasMore}
           fetching={fetching}
           fetchNext={() => {
-            fetchAll({
-              query,
-              next: true,
-            });
+            dispatch(
+              fetchAll({
+                query,
+                next: true,
+              })
+            );
           }}
         >
           <div className={styles.overview}>

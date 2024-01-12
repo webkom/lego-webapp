@@ -7,9 +7,9 @@ import {
   CheckBox,
   SelectInput,
 } from 'app/components/Form';
+import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import {
-  mappings,
-  QuestionTypes,
+  questionTypeOptions,
   QuestionTypeOption,
   QuestionTypeValue,
 } from '../../utils';
@@ -65,7 +65,7 @@ const Question = ({
             }}
           />
         </div>
-        {questionData.questionType?.value === QuestionTypes('text') ? (
+        {questionData.questionType?.value === SurveyQuestionType.TextField ? (
           <TextArea
             className={styles.freeText}
             placeholder="Fritekst - sånn her vil den se ut :smile:"
@@ -88,7 +88,7 @@ const Question = ({
               placeholder="Velg type"
               component={SelectInput.Field}
               components={{
-                Option: (props: any) => {
+                Option: (props) => {
                   const value = props.data.value;
                   return (
                     <QuestionTypeOption
@@ -97,7 +97,7 @@ const Question = ({
                     />
                   );
                 },
-                SingleValue: (props: any) => {
+                SingleValue: (props) => {
                   const value = props.data.value;
                   return (
                     <QuestionTypeValue
@@ -107,7 +107,7 @@ const Question = ({
                   );
                 },
               }}
-              options={mappings}
+              options={questionTypeOptions}
               className={styles.questionType}
               clearable={false}
               backspaceRemoves={false}
