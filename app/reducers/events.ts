@@ -321,7 +321,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
               pool.permissionGroups
             );
             const registrations = total.registrations.concat(
-              pool.registrations.map((regId) => {
+              pool.registrations?.map((regId) => {
                 const registration = registrationsById[regId];
                 return { ...registration, user: usersById[registration.user] };
               })

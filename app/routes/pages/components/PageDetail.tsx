@@ -232,8 +232,13 @@ const getSection = (sectionName) =>
     fetchItemActions: [],
   };
 
-const loadData = async (pageSlug, section, loggedIn, dispatch) => {
-  const { fetchItemActions } = getSection(section);
+const loadData = async (
+  pageSlug: string | undefined,
+  sectionName: string | undefined,
+  loggedIn: boolean,
+  dispatch
+) => {
+  const { fetchItemActions } = getSection(sectionName);
 
   // Only handle flatpages and groups when user isn't authenticated
   if (!loggedIn) {
@@ -244,7 +249,7 @@ const loadData = async (pageSlug, section, loggedIn, dispatch) => {
     return Promise.all([...actionsToDispatch, dispatch(fetchAllPages())]);
   }
 
-  const itemActions = [];
+  const itemActions: (typeof dispatch)[] = [];
 
   for (let i = 0; i < fetchItemActions.length; i++) {
     itemActions[i] = await dispatch(fetchItemActions[i](pageSlug));
@@ -298,7 +303,7 @@ const PageDetail = () => {
     })
   );
 
-  const loggedIn = useUserContext();
+  const { loggedIn } = useUserContext();
 
   const dispatch = useAppDispatch();
 

@@ -1,7 +1,7 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { debounce } from 'lodash';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { search } from 'app/actions/SearchActions';
 import { Content } from 'app/components/Content';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 const SearchPageWrapper = () => {
   const results = useAppSelector((state) => selectResult(state));
 
+  const location = useLocation();
   const query = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   }).q;

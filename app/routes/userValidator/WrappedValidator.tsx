@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
 import { fetchUser } from 'app/actions/UserActions';
 import { Content } from 'app/components/Content';
@@ -14,6 +14,7 @@ const searchTypes = ['users.user'];
 const WrappedValidator = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const clearSearch = () =>
     navigate(`/validator?${qs.stringify({ ...search, q: '' })}`);
