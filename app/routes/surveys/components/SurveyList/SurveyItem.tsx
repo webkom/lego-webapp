@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
-import { colorForEvent } from 'app/routes/events/utils';
+import { colorForEventType } from 'app/routes/events/utils';
 import styles from '../surveys.css';
 import type { SelectedSurvey } from 'app/reducers/surveys';
 
@@ -15,7 +15,7 @@ const SurveyItem = (props: Props) => {
     <div
       className={styles.surveyItem}
       style={{
-        borderColor: colorForEvent(
+        borderColor: colorForEventType(
           survey.templateType || survey.event.eventType
         ),
       }}

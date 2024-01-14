@@ -1,9 +1,10 @@
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
 import config from 'app/config';
+import { EventType } from 'app/store/models/Event';
 import type {
-  TransformEvent,
   Event,
+  TransformEvent,
   AddPenalty,
   PhotoConsent,
   PhotoConsentDomain,
@@ -11,70 +12,94 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
-import type { EventType } from 'app/store/models/Event';
 import type { DetailedUser } from 'app/store/models/User';
 
-// Current eventTypes
-export const EVENT_CONSTANTS: Record<EventType, string> = {
-  company_presentation: 'Bedriftspresentasjon',
-  lunch_presentation: 'Lunsjpresentasjon',
-  alternative_presentation: 'Alternativ bedpres',
-  course: 'Kurs',
-  breakfast_talk: 'Frokostforedrag',
-  party: 'Fest',
-  social: 'Sosialt',
-  event: 'Arrangement',
-  kid_event: 'KiD-arrangement',
-  other: 'Annet',
-} as const;
+export type ConfigProperties = {
+  displayName: string;
+  color: string;
+  textColor: string;
+};
+
+export const EventTypeConfig: Record<EventType, ConfigProperties> = {
+  [EventType.COMPANY_PRESENTATION]: {
+    displayName: 'Bedriftspresentasjon',
+    color: '#A1C34A',
+    textColor: '#000',
+  },
+  [EventType.COURSE]: {
+    displayName: 'Kurs',
+    color: '#52B0EC',
+    textColor: '#000',
+  },
+  [EventType.PARTY]: {
+    displayName: 'Fest',
+    color: '#FCD748',
+    textColor: '#000',
+  },
+  [EventType.SOCIAL]: {
+    displayName: 'Sosialt',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
+  },
+  [EventType.BREAKFAST_TALK]: {
+    displayName: 'Frokostforedrag',
+    color: '#86D1D0',
+    textColor: '#000',
+  },
+  [EventType.LUNCH_PRESENTATION]: {
+    displayName: 'Lunsjpresentasjon',
+    color: '#A1C34A',
+    textColor: '#000',
+  },
+  [EventType.EVENT]: {
+    displayName: 'Arrangement',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
+  },
+  [EventType.ALTERNATIVE_PRESENTATION]: {
+    displayName: 'Alternativ bedpres',
+    color: '#8A2BE2',
+    textColor: '#FFF',
+  },
+  [EventType.KiD_EVENT]: {
+    displayName: 'KiD-arrangement',
+    color: 'var(--color-event-black)',
+    textColor: '#FFF',
+  },
+  [EventType.OTHER]: {
+    displayName: 'Annet',
+    color: 'var(--color-event-black)',
+    textColor: '#FFF',
+  },
+};
 
 // Returns the string representation of an EventType
-export const eventTypeToString = (eventType: EventType): string => {
-  return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
-};
-// Colors for different event types
-const COLOR_CONSTANTS: Record<EventType, string> = {
-  company_presentation: '#A1C34A',
-  lunch_presentation: '#A1C34A',
-  alternative_presentation: '#8A2BE2',
-  course: '#52B0EC',
-  breakfast_talk: '#86D1D0',
-  party: '#FCD748',
-  social: 'var(--color-event-red)',
-  event: 'var(--color-event-red)',
-  kid_event: 'var(--color-event-black)',
-  other: 'var(--color-event-black)',
-} as const;
-// Returns the color code of an EventType
-export const colorForEvent = (eventType: EventType) => {
-  return COLOR_CONSTANTS[eventType] || COLOR_CONSTANTS['other'];
+export const displayNameForEventType = (eventType: EventType) => {
+  return (
+    EventTypeConfig[eventType]?.displayName ||
+    EventTypeConfig[EventType.OTHER].displayName
+  );
 };
 
-// Hard-coded text colors for different event types
-const TEXT_COLOR_CONSTANTS: Record<EventType, string> = {
-  company_presentation: '#000',
-  lunch_presentation: '#000',
-  alternative_presentation: '#FFF',
-  course: '#000',
-  breakfast_talk: '#000',
-  party: '#000',
-  social: '#FFF',
-  event: '#FFF',
-  kid_event: 'var(--color-white)',
-  other: 'var(--color-white)',
-} as const;
+// Returns the color code of an EventType
+export const colorForEventType = (eventType: EventType) => {
+  return (
+    EventTypeConfig[eventType]?.color || EventTypeConfig[EventType.OTHER].color
+  );
+};
+
 // Returns a color that is appropriate to be used for text put on top of a background with the color code of an EventType
-export const textColorForEvent = (eventType: EventType) => {
-  return TEXT_COLOR_CONSTANTS[eventType] || TEXT_COLOR_CONSTANTS['other'];
+export const textColorForEventType = (eventType: EventType) => {
+  return (
+    EventTypeConfig[eventType]?.textColor ||
+    EventTypeConfig[EventType.OTHER].textColor
+  );
 };
 
 type Option<T = string, K = string> = { label: T; value: K };
 
 export type EditingEvent = Event & {
-  eventType: Option<
-    (typeof EVENT_CONSTANTS)[keyof typeof EVENT_CONSTANTS],
-    EventType
-  >;
+  eventType: EventType;
   company: Option;
   responsibleGroup: Option;
   isGroupOnly: boolean;

@@ -21,8 +21,8 @@ import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
-import type { CompanySemesterContactedStatus } from 'app/models';
 import type { ID } from 'app/store/models';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
 const BdbPage = () => {
@@ -74,7 +74,7 @@ const BdbPage = () => {
     companyId: ID,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
-    contactedStatus: CompanySemesterContactedStatus[]
+    contactedStatus: CompanySemesterContactStatus[]
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const companySemester = indexToSemester(

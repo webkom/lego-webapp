@@ -1,9 +1,12 @@
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {
+  NonEventContactStatus,
+  type CompanySemesterContactStatus,
+} from 'app/store/models/Company';
 import { indexToSemester } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import styles from './bdb.css';
-import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   company: Record<string, any>;
@@ -13,7 +16,7 @@ type Props = {
     arg0: number,
     arg1: number,
     arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactedStatus>
+    arg3: Array<CompanySemesterContactStatus>
   ) => Promise<any> | null | undefined;
 };
 export default class CompanySingleRow extends Component<Props> {
@@ -25,7 +28,7 @@ export default class CompanySingleRow extends Component<Props> {
         (status) =>
           status.year === result.year && status.semester === result.semester
       ) || {
-        contactedStatus: ['not_contacted'],
+        contactedStatus: [NonEventContactStatus.NOT_CONTACTED],
       }
     );
   };

@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
-import { colorForEvent } from 'app/routes/events/utils';
+import { colorForEventType } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import styles from './NextEvent.css';
 import type { Event } from 'app/models';
@@ -54,7 +54,7 @@ class EventItem extends Component<Props, State> {
         <Flex
           column
           style={{
-            borderColor: colorForEvent(selected.eventType),
+            borderColor: colorForEventType(selected.eventType),
           }}
           className={styles.eventItem}
         >

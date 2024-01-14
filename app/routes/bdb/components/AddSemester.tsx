@@ -23,16 +23,16 @@ import {
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import {
   semesterCodeToName,
-  getContactedStatuses,
+  getContactStatuses,
+  getStatusColor,
   selectMostProminentStatus,
-  selectColorCode,
   DetailNavigation,
 } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
+import styles from './AddSemester.css';
 import SemesterStatusContent from './SemesterStatusContent';
-import styles from './bdb.css';
 
 const validate = createValidator({
   year: [required()],
@@ -145,7 +145,7 @@ const AddSemester = () => {
     <Content>
       <DetailNavigation title="Legg til semester" companyId={companyId} />
 
-      <div className={styles.detail}>
+      <div>
         <Card severity="info">
           <Card.Header>Hint</Card.Header>
           <span>
@@ -194,28 +194,20 @@ const AddSemester = () => {
               <Field name="semesterStatus">
                 {({ input }) => (
                   <div
+                    className={styles.semesterStatus}
                     style={{
-                      width: '200px',
-                      minHeight: '30px',
-                      margin: '15px 0 25px',
-                      borderRadius: 'var(--border-radius-md)',
-                      border: '1px solid var(--border-gray)',
+                      backgroundColor: getStatusColor(
+                        selectMostProminentStatus(input.value.contactedStatus)
+                      ),
                     }}
-                    className={
-                      styles[
-                        selectColorCode(
-                          selectMostProminentStatus(input.value.contactedStatus)
-                        )
-                      ]
-                    }
                   >
                     <SemesterStatusContent
                       semesterStatus={input.value}
-                      editFunction={(statusString) => {
+                      editFunction={(status) => {
                         input.onChange({
-                          contactedStatus: getContactedStatuses(
+                          contactedStatus: getContactStatuses(
                             input.value.contactedStatus,
-                            statusString
+                            status
                           ),
                         });
                       }}
@@ -242,7 +234,9 @@ const AddSemester = () => {
                 </Card>
               )}
               <SubmissionError />
-              <SubmitButton onClick={() => setSubmit(true)}>Lagre</SubmitButton>
+              <SubmitButton onClick={() => setSubmit(true)}>
+                Legg til
+              </SubmitButton>
             </form>
           )}
         </LegoFinalForm>

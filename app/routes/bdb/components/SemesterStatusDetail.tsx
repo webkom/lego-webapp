@@ -10,14 +10,14 @@ import FileUpload from 'app/components/Upload/FileUpload';
 import { useAppDispatch } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
 import {
-  selectColorCode,
-  semesterCodeToName,
+  getStatusColor,
   selectMostProminentStatus,
+  semesterCodeToName,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
-import type { CompanySemesterContactedStatus } from 'app/models';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 const FILE_NAME_LENGTH = 30;
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
   companyId: number;
   editFunction: (
     semesterStatus: SemesterStatusEntity,
-    statusString: CompanySemesterContactedStatus
+    statusString: CompanySemesterContactStatus
   ) => Promise<any>;
   addFileToSemester: (
     arg0: string,
@@ -72,16 +72,12 @@ const SemesterStatusDetail = (props: Props) => {
     <tr key={semesterStatus.id}>
       <td>{humanReadableSemester}</td>
       <td
-        className={
-          styles[
-            selectColorCode(
-              selectMostProminentStatus(semesterStatus.contactedStatus)
-            )
-          ]
-        }
         style={{
           padding: '5px',
           lineHeight: '18px',
+          backgroundColor: getStatusColor(
+            selectMostProminentStatus(semesterStatus.contactedStatus)
+          ),
         }}
       >
         <SemesterStatusContent

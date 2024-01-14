@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { eventTypeToString } from 'app/routes/events/utils';
+import { displayNameForEventType } from 'app/routes/events/utils';
 import styles from './ContentHeader.css';
 import type {
   AuthUserDetailedEvent,
@@ -43,7 +43,7 @@ function ContentHeader({
           }}
           className={styles.eventType}
         >
-          {eventTypeToString(event.eventType)}
+          {displayNameForEventType(event.eventType)}
         </strong>
       )}
     </div>

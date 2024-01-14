@@ -55,7 +55,7 @@ import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import {
-  colorForEvent,
+  colorForEventType,
   penaltyHours,
   getEventSemesterFromStartTime,
   registrationCloseTime,
@@ -294,7 +294,7 @@ const EventDetail = () => {
     );
   }
 
-  const color = colorForEvent(event.eventType);
+  const color = colorForEventType(event.eventType);
 
   const onRegisterClick = event.following
     ? () => dispatch(unfollow(event.following as number, event.id))

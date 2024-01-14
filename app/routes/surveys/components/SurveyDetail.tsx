@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
 import { useFetchedSurvey } from 'app/reducers/surveys';
-import { eventTypeToString } from 'app/routes/events/utils';
+import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { DetailNavigation } from '../utils';
@@ -42,7 +42,7 @@ const SurveyDetailPage = () => {
               }}
             >
               Dette er malen for arrangementer av type{' '}
-              {eventTypeToString(survey.templateType)}
+              {displayNameForEventType(survey.templateType)}
             </h2>
           ) : (
             <div>

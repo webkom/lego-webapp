@@ -98,15 +98,15 @@
   --color-purple-8: #62189b;
   --color-purple-9: #440d66;
 
-  --color-yellow-1: #fffbe6;
-  --color-yellow-2: #fff9cc;
-  --color-yellow-3: #fff7b2;
-  --color-yellow-4: #fff595;
-  --color-yellow-5: #fff368;
-  --color-yellow-6: #ffea00;
-  --color-yellow-7: #b3a300;
-  --color-yellow-8: #807300;
-  --color-yellow-9: #403600;
+  --color-yellow-1: #fff9cc;
+  --color-yellow-2: #ffe169;
+  --color-yellow-3: #fad643;
+  --color-yellow-4: #edc531;
+  --color-yellow-5: #dbb42c;
+  --color-yellow-6: #c9a227;
+  --color-yellow-7: #b69121;
+  --color-yellow-8: #a47e1b;
+  --color-yellow-9: #926c15;
 
   --color-red-hover-alpha: 5%;
 
@@ -216,15 +216,15 @@
   --color-purple-8: #e8d4fe;
   --color-purple-9: #f4eaff;
 
-  --color-yellow-1: #403600;
-  --color-yellow-2: #807300;
-  --color-yellow-3: #b3a300;
-  --color-yellow-4: #ffea00;
-  --color-yellow-5: #fff368;
-  --color-yellow-6: #fff595;
-  --color-yellow-7: #fff7b2;
-  --color-yellow-8: #fff9cc;
-  --color-yellow-9: #fffbe6;
+  --color-yellow-1: #926c15;
+  --color-yellow-2: #a47e1b;
+  --color-yellow-3: #b69121;
+  --color-yellow-4: #c9a227;
+  --color-yellow-5: #dbb42c;
+  --color-yellow-6: #edc531;
+  --color-yellow-7: #fad643;
+  --color-yellow-8: #ffe169;
+  --color-yellow-9: #fff9cc;
 
   --color-red-hover-alpha: 10%;
 }
