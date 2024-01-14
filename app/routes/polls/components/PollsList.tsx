@@ -40,7 +40,7 @@ const PollsList = () => {
         }
       />
       <Paginator
-        hasMore={hasMore}
+        hasMore={!!hasMore}
         fetching={fetching}
         fetchNext={() => {
           dispatch(

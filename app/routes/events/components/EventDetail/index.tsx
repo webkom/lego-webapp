@@ -212,7 +212,7 @@ const EventDetail = () => {
   }
 
   const currentPool = pools.find((pool) =>
-    pool.registrations.some(
+    pool.registrations?.some(
       (registration) => registration.user?.id === currentUser.id
     )
   );
