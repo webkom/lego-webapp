@@ -24,7 +24,7 @@ const LendableObject = ({
           alt={`${lendableObject.title}`}
         />
         <div className={styles.lendableObjectFooter}>
-          <p>{lendableObject.title}</p>
+          <h2>{lendableObject.title}</h2>
         </div>
       </Card>
     </Link>
