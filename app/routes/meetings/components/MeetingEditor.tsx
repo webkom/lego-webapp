@@ -5,9 +5,9 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { unionBy } from 'lodash';
+import { debounce, unionBy } from 'lodash';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -105,6 +105,8 @@ type MeetingEditorParams = {
 };
 const MeetingEditor = () => {
   const { meetingId } = useParams<MeetingEditorParams>();
+  const [formKey, setFormKey] = useState(0);
+  const [reportValue, setReportValue] = useState('');
   const meeting = useAppSelector((state) =>
     meetingId
       ? (selectMeetingById(state, meetingId) as DetailedMeeting)
@@ -121,6 +123,31 @@ const MeetingEditor = () => {
       ? selectUserById(state, meeting?.reportAuthor)
       : undefined,
   );
+
+  const updateReportValue = useCallback(
+    (newReportValue) => {
+      const debouncedFunction = debounce(() => {
+        const storedReport = localStorage.getItem(`meeting-${meetingId}-temp`);
+        if (!storedReport || storedReport.length < newReportValue.length) {
+          setReportValue(newReportValue);
+        }
+      }, 4500);
+
+      debouncedFunction();
+    },
+    [meetingId],
+  );
+
+  useEffect(() => {
+    if (meeting && meetingId) {
+      const storedReport = localStorage.getItem(
+        `meeting-${meeting?.id}-report`,
+      );
+      if (!storedReport || storedReport.length < reportValue.length) {
+        localStorage.setItem(`meeting-${meeting?.id}-report`, reportValue);
+      }
+    }
+  }, [reportValue, meeting, meetingId]);
 
   const currentUser = useCurrentUser();
 
@@ -239,6 +266,14 @@ const MeetingEditor = () => {
 
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
 
+  const loadReportFromLocalStorage = (form) => {
+    const storedReport = localStorage.getItem(`meeting-${meeting.id}-report`);
+    if (storedReport) {
+      form.change('report', storedReport);
+      setFormKey(formKey + 1);
+    }
+  };
+
   return (
     <Content>
       <Helmet title={title} />
@@ -269,7 +304,16 @@ const MeetingEditor = () => {
                 name="report"
                 label="Referat"
                 component={EditorField.Field}
+                key={formKey}
               />
+
+              <FormSpy
+                subscription={{ values: true }}
+                onChange={({ values }) => {
+                  updateReportValue(values.report || '');
+                }}
+              />
+
               <Field
                 name="description"
                 label="Kort beskrivelse"
@@ -452,6 +496,31 @@ const MeetingEditor = () => {
                     )}
                   </ConfirmModal>
                 )}
+                {isEditPage &&
+                  canDelete &&
+                  localStorage.getItem(`meeting-${meeting.id}-report`) !==
+                    null && (
+                    <ConfirmModal
+                      title="Hente inn referat fra localstorage?"
+                      message={`Fant ${
+                        localStorage.getItem(`meeting-${meeting.id}-report`) !==
+                        null
+                          ? 1
+                          : 0
+                      } lagret backup for dette møtet. Dette vil overskrive det nåværende referatet lokalt.`}
+                      onConfirm={() => {
+                        loadReportFromLocalStorage(form);
+                      }}
+                      closeOnConfirm
+                    >
+                      {({ openConfirmModal }) => (
+                        <Button danger onClick={openConfirmModal}>
+                          <Icon name="cloud-download-outline"></Icon>
+                          Hent referat lokalt
+                        </Button>
+                      )}
+                    </ConfirmModal>
+                  )}
               </Flex>
             </Form>
           );
