@@ -6,7 +6,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';
-import NavigationTab from 'app/components/NavigationTab';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 import styles from './LendableObjectsList.css';
 
@@ -91,7 +91,11 @@ const LendableObjectsList = () => {
   return (
     <Content>
       <Helmet title="Utlån" />
-      <NavigationTab title="Utlån"></NavigationTab>
+      <NavigationTab title="Utlån">
+        <NavigationLink to={`/lending/new`}>Nytt utlånsobjekt</NavigationLink>
+        <NavigationLink to={`/lending/approve`}>Godkjenn utlånsobjekter</NavigationLink>
+      </NavigationTab>
+
       <TextInput
         className={styles.searchBar}
         prefix="search"
