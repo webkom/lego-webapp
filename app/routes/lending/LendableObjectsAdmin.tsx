@@ -2,8 +2,9 @@ import { Card } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import styles from './LendableObjectsAdmin.css';
+import { NavLink } from 'react-router-dom';
 
 type LendingRequestProps = {
   pending: boolean;
@@ -12,9 +13,11 @@ type LendingRequestProps = {
 
 const LendingRequest = ({ request }: LendingRequestProps) => {
   return (
-    <Card>
-      {request.lendableObject.title} - {request.user}
-    </Card>
+    <NavLink className={styles.navLink} to={`/lending/approve/${request.id}`}>
+      <Card className={styles.lendingRequest}>
+        {request.lendableObject.title} - {request.user}
+      </Card>
+    </NavLink>
   );
 };
 
