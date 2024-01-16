@@ -9,9 +9,6 @@ export const generateStatuses = (name: string): AsyncActionType => ({
 // Create shorthand to make code format cleaner
 type AAT = AsyncActionType;
 
-/**
- *
- */
 export const Event = {
   CLEAR: 'Event.CLEAR',
   FETCH: generateStatuses('Event.FETCH') as AAT,
@@ -39,9 +36,6 @@ export const Event = {
   IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING') as AAT,
 };
 
-/**
- *
- */
 export const Article = {
   FETCH: generateStatuses('Article.FETCH') as AAT,
   CREATE: generateStatuses('Article.CREATE') as AAT,
@@ -49,36 +43,24 @@ export const Article = {
   DELETE: generateStatuses('Article.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const EmailList = {
   FETCH: generateStatuses('EmailList.FETCH') as AAT,
   CREATE: generateStatuses('EmailList.CREATE') as AAT,
   EDIT: generateStatuses('EmailList.EDIT') as AAT,
 };
 
-/**
- *
- */
 export const RestrictedMail = {
   FETCH: generateStatuses('RestrictedMail.FETCH') as AAT,
   CREATE: generateStatuses('RestrictedMail.CREATE') as AAT,
   EDIT: generateStatuses('RestrictedMail.EDIT') as AAT,
 };
 
-/**
- *
- */
 export const EmailUser = {
   FETCH: generateStatuses('EmailUser.FETCH') as AAT,
   CREATE: generateStatuses('EmailUser.CREATE') as AAT,
   EDIT: generateStatuses('EmailUser.EDIT') as AAT,
 };
 
-/**
- *
- */
 export const Gallery = {
   FETCH: generateStatuses('Gallery.FETCH') as AAT,
   CREATE: generateStatuses('Gallery.CREATE') as AAT,
@@ -91,9 +73,6 @@ export const ImageGallery = {
   FETCH_ALL: generateStatuses('ImageGallery.FETCH_ALL') as AAT,
 };
 
-/**
- *
- */
 export const GalleryPicture = {
   FETCH: generateStatuses('GalleryPicture.FETCH') as AAT,
   FETCH_SIBLING: generateStatuses('GalleryPicture.FETCH_SIBLING') as AAT,
@@ -104,9 +83,6 @@ export const GalleryPicture = {
   CLEAR: 'GalleryPicture.CLEAR',
 };
 
-/**
- *
- */
 export const Joblistings = {
   FETCH: generateStatuses('Joblistings.FETCH') as AAT,
   CREATE: generateStatuses('Joblistings.CREATE') as AAT,
@@ -114,9 +90,6 @@ export const Joblistings = {
   DELETE: generateStatuses('Joblistings.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const Announcements = {
   FETCH_ALL: generateStatuses('Announcements.FETCH_ALL') as AAT,
   CREATE: generateStatuses('Announcements.CREATE') as AAT,
@@ -124,9 +97,6 @@ export const Announcements = {
   DELETE: generateStatuses('Announcements.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH') as AAT,
   SET_INVITATION_STATUS: generateStatuses(
@@ -141,9 +111,6 @@ export const Meeting = {
   RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN',
 };
 
-/**
- *
- */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH') as AAT,
   UPDATE: generateStatuses('Group.UPDATE') as AAT,
@@ -167,24 +134,15 @@ export const Membership = {
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP') as AAT,
 };
 
-/**
- *
- */
 export const Favorite = {
   FETCH_ALL: generateStatuses('Favorite.FETCH_ALL') as AAT,
 };
 
-/**
- *
- */
 export const Comment = {
   ADD: generateStatuses('Comment.ADD') as AAT,
   DELETE: generateStatuses('Comment.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const Company = {
   FETCH: generateStatuses('Company.FETCH') as AAT,
   FETCH_COMPANY_CONTACT: generateStatuses(
@@ -208,9 +166,6 @@ export const Company = {
   EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER') as AAT,
 };
 
-/**
- *
- */
 export const Quote = {
   FETCH: generateStatuses('Quote.FETCH') as AAT,
   FETCH_ALL_APPROVED: generateStatuses('Quote.FETCH_ALL_APPROVED') as AAT,
@@ -222,9 +177,6 @@ export const Quote = {
   ADD: generateStatuses('Quote.ADD') as AAT,
 };
 
-/**
- *
- */
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH') as AAT,
   AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE') as AAT,
@@ -242,9 +194,6 @@ export const NotificationsFeed = {
   MARK: generateStatuses('NotificationsFeed.MARK') as AAT,
 };
 
-/**
- *
- */
 export const User = {
   FETCH: generateStatuses('User.FETCH') as AAT,
   UPDATE: generateStatuses('User.UPDATE') as AAT,
@@ -274,9 +223,6 @@ export const Penalty = {
   DELETE: generateStatuses('Penalty.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const Page = {
   FETCH: generateStatuses('Page.FETCH') as AAT,
   CREATE: generateStatuses('Page.CREATE') as AAT,
@@ -284,16 +230,10 @@ export const Page = {
   DELETE: generateStatuses('Page.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const Bdb = {
   FETCH: generateStatuses('Bdb.FETCH') as AAT,
 };
 
-/**
- *
- */
 export const Survey = {
   FETCH: generateStatuses('Survey.FETCH') as AAT,
   ADD: generateStatuses('Survey.ADD') as AAT,
@@ -302,9 +242,6 @@ export const Survey = {
   HIDE: generateStatuses('Survey.HIDE') as AAT,
 };
 
-/**
- *
- */
 export const SurveySubmission = {
   FETCH_ALL: generateStatuses('SurveySubmission.FETCH_ALL') as AAT,
   FETCH: generateStatuses('SurveySubmission.FETCH') as AAT,
@@ -318,32 +255,20 @@ export const Emoji = {
   FETCH_ALL: generateStatuses('Emoji.FETCH_ALL') as AAT,
 };
 
-/**
- *
- */
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST') as AAT,
   UPLOAD: generateStatuses('File.UPLOAD') as AAT,
   PATCH: generateStatuses('File.PATCH') as AAT,
 };
 
-/**
- *
- */
 export const Feed = {
   FETCH: generateStatuses('Feed.FETCH') as AAT,
 };
 
-/**
- *
- */
 export const Routing = {
   SET_STATUS_CODE: 'Routing.SET_STATUS_CODE',
 };
 
-/**
- *
- */
 export const OAuth2 = {
   FETCH_APPLICATIONS: generateStatuses('OAuth2.FETCH_APPLICATIONS') as AAT,
   FETCH_APPLICATION: generateStatuses('OAuth2.FETCH_APPLICATION') as AAT,
@@ -353,9 +278,6 @@ export const OAuth2 = {
   DELETE_GRANT: generateStatuses('OAuth2.DELETE_GRANT') as AAT,
 };
 
-/**
- *
- */
 export const NotificationSettings = {
   FETCH_ALTERNATIVES: generateStatuses(
     'NotificationSettings.FETCH_ALTERNATIVES'
@@ -364,16 +286,10 @@ export const NotificationSettings = {
   UPDATE: generateStatuses('NotificationSettings.UPDATE') as AAT,
 };
 
-/**
- *
- */
 export const Contact = {
   SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE') as AAT,
 };
 
-/**
- *
- */
 export const Meta = {
   FETCH: generateStatuses('Meta.FETCH') as AAT,
 };
@@ -401,17 +317,11 @@ export const Poll = {
   UPDATE: generateStatuses('Poll.UPDATE') as AAT,
 };
 
-/**
- *
- */
 export const Reaction = {
   ADD: generateStatuses('Reaction.ADD') as AAT,
   DELETE: generateStatuses('Reaction.DELETE') as AAT,
 };
 
-/**
- *
- */
 export const LendableObject = {
   FETCH: generateStatuses('LendableObject.FETCH') as AAT,
   CREATE: generateStatuses('LendableObject.CREATE') as AAT,
