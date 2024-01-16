@@ -41,8 +41,8 @@ const LendableObjectDetail = () => {
       <Helmet title={`Utlån av ${lendableObject.title}`} />
 
       <NavigationTab title={`Utlån av ${lendableObject.title}`}>
-        <NavigationLink to="/lending/approve">
-          Godkjenn utlånsforespørsler
+        <NavigationLink to={`/lending/${lendableObject.id}/edit`}>
+          Rediger
         </NavigationLink>
       </NavigationTab>
 
