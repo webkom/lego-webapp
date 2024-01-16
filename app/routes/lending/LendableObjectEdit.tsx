@@ -39,11 +39,6 @@ const LendableObjectEdit = () => {
       <LegoFinalForm onSubmit={onSubmit} subscription={{}}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <FormSpy>
-              {(form) => {
-                return <pre>{JSON.stringify(form.values, undefined, 2)}</pre>;
-              }}
-            </FormSpy>
             <Field
               name="title"
               label="Navn"
