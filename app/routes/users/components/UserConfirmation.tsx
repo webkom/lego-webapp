@@ -4,7 +4,7 @@ import { normalize } from 'normalizr';
 import qs from 'qs';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { User } from 'app/actions/ActionTypes';
 import {
   createUser,
@@ -28,16 +28,6 @@ import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 
-const loadData = ({ location: { search } }, dispatch) => {
-  const { token } = qs.parse(search, {
-    ignoreQueryPrefix: true,
-  });
-
-  if (token && typeof token === 'string') {
-    return dispatch(validateRegistrationToken(token));
-  }
-};
-
 export type FormValues = {
   username?: string;
   firstName?: string;
@@ -54,7 +44,21 @@ const UserConfirmationForm = () => {
 
   const token = useAppSelector((state) => state.auth.registrationToken);
 
-  usePreparedEffect('fetchUserConfirmation', () => loadData, []);
+  const { search } = useLocation();
+
+  usePreparedEffect(
+    'fetchUserConfirmation',
+    () => {
+      const { token } = qs.parse(search, {
+        ignoreQueryPrefix: true,
+      });
+
+      if (token && typeof token === 'string') {
+        return dispatch(validateRegistrationToken(token));
+      }
+    },
+    []
+  );
 
   const dispatch = useAppDispatch();
 
