@@ -22,6 +22,7 @@ import UserGrid from 'app/components/UserGrid';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
@@ -120,11 +121,14 @@ const InterestGroupDetail = () => {
   const memberships = useAppSelector((state) =>
     selectMembershipsForGroup(state, { groupId })
   );
+
   const group = { ...selectedGroup, memberships };
   const canEdit = group.actionGrant?.includes('edit');
   const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
 
   const dispatch = useAppDispatch();
+
+  const { loggedIn } = useUserContext();
 
   usePreparedEffect(
     'fetchInterestGroupDetail',
@@ -132,9 +136,9 @@ const InterestGroupDetail = () => {
       groupId &&
       Promise.resolve([
         dispatch(fetchGroup(groupId)),
-        dispatch(fetchAllMemberships(groupId)),
+        loggedIn && dispatch(fetchAllMemberships(groupId)),
       ]),
-    []
+    [loggedIn]
   );
 
   return (
@@ -151,8 +155,9 @@ const InterestGroupDetail = () => {
         <ContentMain>
           <p>{group.description}</p>
           <DisplayContent content={group.text} />
-          <ButtonRow group={group} />
+          {loggedIn && <ButtonRow group={group} />}
         </ContentMain>
+
         <ContentSidebar>
           <Image
             alt={`${group.name} logo`}
@@ -160,17 +165,23 @@ const InterestGroupDetail = () => {
             src={logo}
             placeholder={group.logoPlaceholder}
           />
-          <Members group={group} members={group.memberships} />
-          <Contact group={group} />
+          {group.memberships.length > 0 && (
+            <>
+              <Members group={group} members={group.memberships} />
+              <Contact group={group} />
+            </>
+          )}
 
-          <h3>Admin</h3>
           {canEdit && (
-            <Link to={`/interest-groups/${group.id}/edit`}>
-              <Button>
-                <Icon name="create-outline" size={19} />
-                Rediger
-              </Button>
-            </Link>
+            <>
+              <h3>Admin</h3>
+              <Link to={`/interest-groups/${group.id}/edit`}>
+                <Button>
+                  <Icon name="create-outline" size={19} />
+                  Rediger
+                </Button>
+              </Link>
+            </>
           )}
 
           <AnnouncementInLine group={group} />
