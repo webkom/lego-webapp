@@ -26,6 +26,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
+import Confetti from './Confetti';
 import PasswordField from './PasswordField';
 
 export type FormValues = {
@@ -80,24 +81,29 @@ const UserConfirmationForm = () => {
 
   if (submitSucceeded) {
     return (
-      <Content>
-        <h1>Du er nå registrert!</h1>
-        <Card severity="warning">
-          <Card.Header>Er du student?</Card.Header>
-          <span>
-            For å kunne melde deg på arrangementer i Abakus må du verifisere at
-            du er student.
-          </span>
-        </Card>
-        <Flex column gap="1rem">
-          <Link to="/users/me/settings/student-confirmation/">
-            <Button success>Verifiser studentstatus</Button>
-          </Link>
-          <Link to="/">
-            <Button>Eller gå til hovedsiden</Button>
-          </Link>
-        </Flex>
-      </Content>
+      <>
+        <Confetti />
+
+        <Content>
+          <h1>Du er nå registrert!</h1>
+
+          <Card severity="warning">
+            <Card.Header>Er du student?</Card.Header>
+            <span>
+              For å kunne melde deg på arrangementer i Abakus må du verifisere
+              at du er student.
+            </span>
+          </Card>
+          <Flex gap="1rem">
+            <Link to="/users/me/settings/student-confirmation/">
+              <Button success>Verifiser studentstatus</Button>
+            </Link>
+            <Link to="/">
+              <Button>Eller gå til hovedsiden</Button>
+            </Link>
+          </Flex>
+        </Content>
+      </>
     );
   }
 
