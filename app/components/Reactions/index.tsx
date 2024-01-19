@@ -2,6 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchEmojis } from 'app/actions/EmojiActions';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch } from 'app/store/hooks';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
@@ -16,23 +17,19 @@ type Props = {
   className?: string;
   emojis: EmojiWithReactionData[];
   contentTarget: ContentTarget;
-  loggedIn: boolean;
 };
 
-// Note: Most use cases won't want to use this class directly. Instead, use
-// app/components/LegoReactions.
-
-const Reactions = ({
-  children,
-  className,
-  emojis,
-  contentTarget,
-  loggedIn,
-}: Props) => {
+/**
+ *  Note: Most use cases won't want to use this class directly. Instead, use
+ *  app/components/LegoReactions.
+ */
+const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
   const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
   const [addEmojiHovered, setAddEmojiHovered] = useState(false);
   const [fetchedEmojis, setFetchedEmojis] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
+
+  const { loggedIn } = useUserContext();
 
   const dispatch = useAppDispatch();
 

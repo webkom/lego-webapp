@@ -7,10 +7,9 @@ import type QuoteType from 'app/store/models/Quote';
 type Props = {
   quotes: QuoteType[];
   actionGrant: ActionGrant;
-  loggedIn: boolean;
 };
 
-const QuoteList = ({ quotes, actionGrant, loggedIn }: Props) => {
+const QuoteList = ({ quotes, actionGrant }: Props) => {
   const [displayAdminId, setDisplayAdminId] = useState<ID>();
 
   return (
@@ -26,7 +25,6 @@ const QuoteList = ({ quotes, actionGrant, loggedIn }: Props) => {
             )
           }
           displayAdmin={quote.id === displayAdminId}
-          loggedIn={loggedIn}
         />
       ))}
     </ul>

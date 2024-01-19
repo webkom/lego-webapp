@@ -1,7 +1,6 @@
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import { selectEmojis } from 'app/reducers/emojis';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppSelector } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
@@ -25,7 +24,6 @@ export type EmojiWithReactionData = Emoji & {
 const LegoReactions = ({ parentEntity, showPeople }: Props) => {
   const emojis = useAppSelector(selectEmojis);
   const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
-  const { loggedIn } = useUserContext();
 
   let mappedEmojis: EmojiWithReactionData[] = [];
 
@@ -57,27 +55,15 @@ const LegoReactions = ({ parentEntity, showPeople }: Props) => {
   }
 
   return (
-    <Reactions
-      emojis={mappedEmojis}
-      contentTarget={parentEntity.contentTarget}
-      loggedIn={loggedIn}
-    >
-      {parentEntity.reactionsGrouped?.map((reaction) => {
-        return (
-          <Reaction
-            key={`reaction-${reaction.emoji}`}
-            emoji={reaction.emoji}
-            count={reaction.count}
-            users={usersByReaction[reaction.emoji]}
-            unicodeString={reaction.unicodeString}
-            reactionId={reaction.reactionId}
-            hasReacted={reaction.hasReacted}
-            canReact={loggedIn}
-            contentTarget={parentEntity.contentTarget}
-            showPeople={showPeople}
-          />
-        );
-      })}
+    <Reactions emojis={mappedEmojis} contentTarget={parentEntity.contentTarget}>
+      {parentEntity.reactionsGrouped?.map((reaction) => (
+        <Reaction
+          key={`reaction-${reaction.emoji}`}
+          reaction={{ ...reaction, users: usersByReaction[reaction.emoji] }}
+          contentTarget={parentEntity.contentTarget}
+          showPeople={showPeople}
+        />
+      ))}
     </Reactions>
   );
 };
