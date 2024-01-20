@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useCallback } from 'react';
+import { useState } from 'react';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
@@ -30,7 +30,9 @@ const Reaction = ({
   const { emoji, count, unicodeString, hasReacted, reactionId, users } =
     reaction;
 
-  const dispatch = useAppDispatch();
+  const [optimisticCount, setOptimisticCount] = useState(count);
+  const [optimisticHasReacted, setOptimisticHasReacted] = useState(hasReacted);
+  const [optimisticUsers, setOptimisticUsers] = useState(users);
 
   const { currentUser, loggedIn } = useUserContext();
   const canReact = loggedIn;
@@ -38,38 +40,58 @@ const Reaction = ({
   const classNames = cx({
     [className || styles.reaction]: true,
     [styles.clickable]: canReact,
-    [styles.reacted]: hasReacted,
+    [styles.reacted]: optimisticHasReacted,
   });
 
-  const handleReaction = useCallback(() => {
+  const dispatch = useAppDispatch();
+
+  const optimisticAdd = () => {
+    setOptimisticCount((count) => count + 1);
+    setOptimisticHasReacted(true);
+    setOptimisticUsers((users) => [...(users || []), currentUser]);
+  };
+
+  const optimisticRemove = () => {
+    setOptimisticCount((count) => count - 1);
+    setOptimisticHasReacted(false);
+    setOptimisticUsers((users) =>
+      users?.filter((user) => user.id !== currentUser.id)
+    );
+  };
+
+  const handleReaction = () => {
     if (!canReact) {
       return;
     }
 
-    if (hasReacted) {
-      dispatch(deleteReaction({ reactionId, contentTarget }));
+    if (optimisticHasReacted) {
+      optimisticRemove();
+      hasReacted &&
+        dispatch(deleteReaction({ reactionId, contentTarget })).catch(() => {
+          optimisticAdd();
+        });
     } else {
-      dispatch(
-        addReaction({ emoji, user: currentUser, contentTarget, unicodeString })
-      );
+      optimisticAdd();
+      !hasReacted &&
+        dispatch(
+          addReaction({
+            emoji,
+            user: currentUser,
+            contentTarget,
+            unicodeString,
+          })
+        ).catch(() => {
+          optimisticRemove();
+        });
     }
-  }, [
-    canReact,
-    hasReacted,
-    dispatch,
-    reactionId,
-    contentTarget,
-    emoji,
-    currentUser,
-    unicodeString,
-  ]);
+  };
 
-  if (count === 0) {
+  if (optimisticCount === 0) {
     return <></>;
   }
 
   let tooltipContent =
-    showPeople && users?.map((user) => user.fullName).join(', ');
+    showPeople && optimisticUsers?.map((user) => user.fullName).join(', ');
   tooltipContent = tooltipContent ? `${tooltipContent} reagerte med ` : '';
   tooltipContent += emoji;
 
@@ -86,7 +108,7 @@ const Reaction = ({
           <div>
             <Emoji unicodeString={unicodeString} />
           </div>
-          <span className={styles.reactionCount}>{count}</span>
+          <span className={styles.reactionCount}>{optimisticCount}</span>
         </Flex>
       </Tooltip>
     </>
