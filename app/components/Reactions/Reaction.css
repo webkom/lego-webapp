@@ -2,6 +2,7 @@
   position: relative;
   height: 29px;
   width: 54px;
+  user-select: none;
   border-radius: var(--border-radius-lg);
   background-color: var(--additive-background);
   border: 0 solid var(--color-red-4);
