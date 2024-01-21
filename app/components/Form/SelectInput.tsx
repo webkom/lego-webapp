@@ -73,6 +73,9 @@ export const selectTheme: ThemeConfig = (theme) => ({
   },
 });
 
+const NO_OPTIONS_MESSAGE = 'Ingen treff';
+const LOADING_MESSAGE = 'Laster inn ...';
+
 const SelectInput = <Option, IsMulti extends boolean = false>({
   name,
   label,
@@ -115,6 +118,8 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
             onSearch?.(value);
             return value;
           }}
+          loadingMessage={() => LOADING_MESSAGE}
+          noOptionsMessage={() => NO_OPTIONS_MESSAGE}
         />
       </div>
     );
@@ -138,6 +143,8 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
         blurInputOnSelect={false}
+        loadingMessage={() => LOADING_MESSAGE}
+        noOptionsMessage={() => NO_OPTIONS_MESSAGE}
       />
     </div>
   );
