@@ -12,7 +12,7 @@ type Props = {
   canDeletePenalties: boolean;
 };
 
-function Penalties({ penalties, userId, canDeletePenalties }: Props) {
+const Penalties = ({ penalties, userId, canDeletePenalties }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
@@ -58,9 +58,9 @@ function Penalties({ penalties, userId, canDeletePenalties }: Props) {
       ) : (
         <span className="secondaryFontColor">Ingen prikker</span>
       )}
-      <PenaltyForm user={userId} />
+      <PenaltyForm userId={userId} />
     </div>
   );
-}
+};
 
 export default Penalties;

@@ -5,13 +5,13 @@ import { EventType } from 'app/store/models/Event';
 import type {
   Event,
   TransformEvent,
-  AddPenalty,
   PhotoConsent,
   PhotoConsentDomain,
   EventSemester,
   Dateish,
   EventStatusType,
 } from 'app/models';
+import type Penalty from 'app/store/models/Penalty';
 import type { DetailedUser } from 'app/store/models/User';
 
 export type ConfigProperties = {
@@ -288,9 +288,9 @@ export const unregistrationIsClosed = (event: Event) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
 
-export const sumPenalties = (penalties: Array<AddPenalty>) =>
+export const sumPenalties = (penalties: Penalty[]) =>
   sumBy(penalties, 'weight');
-export const penaltyHours = (penalties: Array<AddPenalty>) => {
+export const penaltyHours = (penalties: Penalty[]) => {
   switch (sumPenalties(penalties)) {
     case 0:
       return 0;

@@ -110,15 +110,6 @@ export type User = {
   linkedinId?: string;
 };
 
-export type Penalty = {
-  id: ID;
-  createdAt: Dateish;
-  user: ID;
-  reason: string;
-  weight: number;
-  sourceEvent: ID;
-  exactExpiration: Dateish;
-};
 export type Tags = string;
 
 export enum GroupType {
@@ -325,14 +316,6 @@ export type Meeting = {
   contentTarget?: string;
   actionGrant?: ActionGrant;
   reactionsGrouped?: ReactionsGrouped;
-};
-
-export type AddPenalty = {
-  id: ID;
-  user: ID;
-  reason: string;
-  weight: number;
-  sourceEvent: ID;
 };
 
 export type FollowerItem = {

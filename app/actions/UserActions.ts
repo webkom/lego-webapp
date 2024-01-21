@@ -9,11 +9,13 @@ import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { setStatusCode } from './RoutingActions';
-import type { AddPenalty, ID, PhotoConsent } from 'app/models';
+import type { PhotoConsent } from 'app/models';
 import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
+import type { ID } from 'app/store/models';
+import type { Penalty as PenaltyType } from 'app/store/models/Penalty';
 import type { CurrentUser, UpdateUser } from 'app/store/models/User';
 import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
 
@@ -453,18 +455,19 @@ export function sendForgotPasswordEmail({ email }: { email: string }) {
   });
 }
 
-export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
-  return callAPI({
+export type AddPenaltyBody = {
+  user: ID;
+  reason: string;
+  weight: number;
+  sourceEvent: ID;
+};
+export function addPenalty(body: AddPenaltyBody) {
+  return callAPI<PenaltyType>({
     types: Penalty.CREATE,
     endpoint: '/penalties/',
     method: 'POST',
     schema: penaltySchema,
-    body: {
-      user,
-      reason,
-      weight,
-      sourceEvent,
-    },
+    body,
     meta: {
       errorMessage: 'Opprettelse av prikk feilet',
     },

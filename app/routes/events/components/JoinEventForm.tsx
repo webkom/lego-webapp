@@ -34,10 +34,10 @@ import PaymentRequestForm from './StripeElement';
 import type {
   EventRegistration,
   EventRegistrationStatus,
-  Penalty,
   Event,
 } from 'app/models';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';
+import type Penalty from 'app/store/models/Penalty';
 import type { CurrentUser } from 'app/store/models/User';
 
 export type Props = {

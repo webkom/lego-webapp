@@ -1,7 +1,7 @@
 import type { Dateish } from 'app/models';
 import type { ID } from 'app/store/models/index';
 
-export default interface Penalty {
+export interface Penalty {
   id: ID;
   createdAt: Dateish;
   user: ID;
@@ -10,3 +10,5 @@ export default interface Penalty {
   sourceEvent: ID;
   exactExpiration: Dateish;
 }
+
+export default Penalty;
