@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { addPenalty } from 'app/actions/UserActions';
@@ -12,6 +12,7 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, isInteger, required } from 'app/utils/validation';
+import styles from './Penalties.css';
 import type { searchMapping } from 'app/reducers/search';
 import type { ID } from 'app/store/models';
 import type { FormApi } from 'final-form';
@@ -50,7 +51,11 @@ const PenaltyForm = ({ userId }: Props) => {
         sourceEvent: values.sourceEvent && values.sourceEvent.value,
       })
     ).then(() => {
+      setHidden(true);
       setSent(true);
+      setTimeout(() => {
+        setSent(false);
+      }, 3000);
       form.reset();
     });
   };
@@ -72,10 +77,17 @@ const PenaltyForm = ({ userId }: Props) => {
       <div>
         {!sent ? (
           <Button onClick={handleHide}>
-            {!showForm ? 'Lag ny prikk' : 'Avbryt'}
+            {!showForm ? 'Gi ny prikk' : 'Avbryt'}
           </Button>
         ) : (
-          <i>Prikken er registrert</i>
+          <Flex
+            alignItems="center"
+            gap="0.5rem"
+            className={styles.successMessage}
+          >
+            <Icon name="checkmark-outline" className={styles.success} />
+            <span>Prikken er registrert!</span>
+          </Flex>
         )}
       </div>
 
@@ -86,7 +98,7 @@ const PenaltyForm = ({ userId }: Props) => {
               <Field
                 name="reason"
                 component={TextArea.Field}
-                placeholder="Skriv begrunnelse for prikk"
+                placeholder="Skriv begrunnelse for prikken"
               />
               <Field
                 name="weight"
@@ -95,11 +107,11 @@ const PenaltyForm = ({ userId }: Props) => {
               />
               <Field
                 name="sourceEvent"
-                placeholder="Arrangement"
+                placeholder="For hvilket arrangement?"
                 filter={['events.event']}
                 component={SelectInput.AutocompleteField}
               />
-              <SubmitButton>Lag prikk</SubmitButton>
+              <SubmitButton>Gi prikk</SubmitButton>
             </Form>
           )}
         </TypedLegoForm>

@@ -8,7 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
+import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -29,7 +29,6 @@ import {
   selectUpcomingEvents,
 } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsWithType } from 'app/reducers/groups';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useIsCurrentUser } from 'app/routes/users/utils';
@@ -189,15 +188,8 @@ const UserProfile = () => {
   const previousEvents = useAppSelector(selectPreviousEvents);
   const upcomingEvents = useAppSelector(selectUpcomingEvents);
 
-  const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, {
-      userId: user?.id,
-    })
-  );
-
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
   const canEditEmailLists = useAppSelector((state) => state.allowed.email);
-  const canDeletePenalties = useAppSelector((state) => state.allowed.penalties);
 
   const groups = useAppSelector((state) =>
     selectGroupsWithType(state, {
@@ -229,10 +221,6 @@ const UserProfile = () => {
       </Content>
     );
   }
-
-  const sumPenalties = () => {
-    return sumBy(penalties, 'weight');
-  };
 
   const renderFields = () => {
     const fields = Object.keys(fieldTranslations).filter(
@@ -505,13 +493,9 @@ const UserProfile = () => {
 
           {showSettings && (
             <div>
-              <h3>Prikker ({sumPenalties()} stk)</h3>
+              <h3>Prikker</h3>
               <Card className={styles.infoCard}>
-                <Penalties
-                  penalties={penalties}
-                  userId={user.id}
-                  canDeletePenalties={canDeletePenalties}
-                />
+                <Penalties userId={user.id} />
               </Card>
             </div>
           )}
