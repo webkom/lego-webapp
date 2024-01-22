@@ -24,7 +24,12 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { userSchema } from 'app/reducers';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
-import { createValidator, required, sameAs } from 'app/utils/validation';
+import {
+  createValidator,
+  isValidAllergy,
+  required,
+  sameAs,
+} from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 
@@ -203,6 +208,7 @@ const validate = createValidator(
     password: [required(), validPassword()],
     retypePassword: [required(), sameAs('password', 'Passordene er ikke like')],
     gender: [required()],
+    allergies: [isValidAllergy()],
   },
   undefined,
   true

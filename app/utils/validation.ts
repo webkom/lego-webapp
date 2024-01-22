@@ -160,7 +160,19 @@ export const isValidAllergy =
     message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
   ) =>
   (value: string) => {
-    const notValidAnswers = ['ingen', 'ingenting', 'nei', 'nope', 'nada'];
+    const notValidAnswers = [
+      'ingen',
+      'ingenting',
+      'nei',
+      'no',
+      'nope',
+      'none',
+      'n/a',
+      'null',
+      'nada',
+      'indøk',
+      'matte 4',
+    ];
 
     return [!notValidAnswers.includes(value.toLowerCase()), message] as const;
   };
