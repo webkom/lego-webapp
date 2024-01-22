@@ -241,18 +241,17 @@ const loadData = async (
   const { fetchItemActions } = getSection(sectionName);
 
   // Only handle flatpages and groups when user isn't authenticated
+  let actionsToDispatch = fetchItemActions;
   if (!loggedIn) {
-    const actionsToDispatch = fetchItemActions
-      .filter((action) => !action.toString().includes('fetchAllMemberships'))
-      .map((action) => dispatch(action(pageSlug)));
-
-    return Promise.all([...actionsToDispatch, dispatch(fetchAllPages())]);
+    actionsToDispatch = fetchItemActions.filter(
+      (action) => !action.toString().includes('fetchAllMemberships')
+    );
   }
 
   const itemActions: (typeof dispatch)[] = [];
 
-  for (let i = 0; i < fetchItemActions.length; i++) {
-    itemActions[i] = await dispatch(fetchItemActions[i](pageSlug));
+  for (let i = 0; i < actionsToDispatch.length; i++) {
+    itemActions[i] = await dispatch(actionsToDispatch[i](pageSlug));
   }
 
   // Avoid dispatching duplicate actions
