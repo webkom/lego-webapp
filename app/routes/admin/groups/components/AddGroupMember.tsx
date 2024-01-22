@@ -39,6 +39,7 @@ const AddGroupMember = ({ groupId }: Props) => {
         role: roleOptions.find(({ value }) => value === 'member'),
       }}
       subscription={{}}
+      validateOnSubmitOnly
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>

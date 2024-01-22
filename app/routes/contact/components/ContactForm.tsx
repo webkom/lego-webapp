@@ -1,4 +1,4 @@
-import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
@@ -15,6 +15,7 @@ import {
   SelectInput,
   LegoFinalForm,
 } from 'app/components/Form';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
 import { selectGroup, selectGroupsWithType } from 'app/reducers/groups';
 import { useUserContext } from 'app/routes/app/AppRoute';
@@ -102,12 +103,12 @@ const ContactForm = () => {
     <LegoFinalForm
       onSubmit={onSubmit}
       validate={validate}
+      validateOnSubmitOnly
       initialValues={{
         anonymous: !loggedIn,
       }}
-      validateOnSubmitOnly
     >
-      {({ handleSubmit, submitting, pristine }) => (
+      {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <p>
             Dette skjemaet er et verktøy for å nå ut til Abakus sine komiteer
@@ -196,9 +197,7 @@ const ContactForm = () => {
             component={Captcha.Field}
           />
 
-          <Button disabled={submitting || pristine} submit>
-            Send
-          </Button>
+          <SubmitButton>Send</SubmitButton>
         </Form>
       )}
     </LegoFinalForm>

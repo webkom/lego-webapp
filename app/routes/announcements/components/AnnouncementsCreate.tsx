@@ -123,6 +123,7 @@ const AnnouncementsCreate = ({ actionGrant }: Props) => {
           <h1>Ny kunngjøring</h1>
           <LegoFinalForm
             validate={validate}
+            validateOnSubmitOnly
             onSubmit={onSubmit}
             initialValues={initialValues}
             className={styles.form}

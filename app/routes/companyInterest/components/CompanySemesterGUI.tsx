@@ -84,7 +84,7 @@ const AddSemesterForm = () => {
         ? editSemester({ ...existingCompanySemester, activeInterestForm: true })
         : addSemester({ year: Number(year), semester }) // Default is activeInterestForm: true
     ).then(() => {
-      form.restart();
+      form.reset();
     });
   };
 

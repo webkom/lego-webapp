@@ -1,7 +1,8 @@
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
-import { Button, Form, LegoFinalForm } from 'app/components/Form';
+import { Form, LegoFinalForm } from 'app/components/Form';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
@@ -39,8 +40,12 @@ const AddGroupPermission = ({ group }: Props) => {
   };
 
   return (
-    <LegoFinalForm onSubmit={handleSubmit} validate={validate}>
-      {({ handleSubmit, submitting, pristine }) => (
+    <LegoFinalForm
+      onSubmit={handleSubmit}
+      validate={validate}
+      validateOnSubmitOnly
+    >
+      {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <h3>Legg til ny rettighet</h3>
           <Field
@@ -49,10 +54,7 @@ const AddGroupPermission = ({ group }: Props) => {
             placeholder="/sudo/admin/events/create/"
             component={TextInput.Field}
           />
-
-          <Button submit disabled={submitting || pristine}>
-            Legg til rettighet
-          </Button>
+          <SubmitButton>Legg til</SubmitButton>
         </Form>
       )}
     </LegoFinalForm>
