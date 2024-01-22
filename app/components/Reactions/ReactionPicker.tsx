@@ -133,7 +133,7 @@ const searchEmojis = (
 
 const ReactionPicker = ({ emojis, contentTarget }: Props) => {
   const [activeCategory, setActiveCategory] = useState<string>();
-  const [searchString, setSearchString] = useState<string>();
+  const [searchString, setSearchString] = useState<string>('');
   const categories = useMemo(() => {
     if (!emojis) {
       return {};
@@ -160,16 +160,18 @@ const ReactionPicker = ({ emojis, contentTarget }: Props) => {
   }, [emojis]);
 
   const searchResults = useMemo(() => {
-    if (searchString === null || searchString === '') {
+    if (searchString === '') {
       return null;
     }
 
     return searchEmojis(emojis, searchString);
   }, [searchString, emojis]);
+
   const onCategoryClick = useCallback((category) => {
     setActiveCategory(category);
-    setSearchString(undefined);
+    setSearchString('');
   }, []);
+
   const onSearch = useCallback(
     (searchString) => setSearchString(searchString.trim().toLowerCase()),
     []
@@ -183,7 +185,7 @@ const ReactionPicker = ({ emojis, contentTarget }: Props) => {
         activeCategory={activeCategory}
         categories={Object.keys(categories)}
         onCategoryClick={onCategoryClick}
-        isSearching={searchString !== null && searchString !== ''}
+        isSearching={searchString !== ''}
       />
       {isLoading ? (
         <div className={styles.emojiLoading}>
