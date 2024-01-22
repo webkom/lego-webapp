@@ -23,8 +23,8 @@ const AddGroupMember = ({ groupId }: Props) => {
     dispatch(
       addMember({
         groupId,
-        userId: values.user,
-        role: values.role,
+        userId: values.user.id,
+        role: values.role.value,
       })
     ).then(() => {
       form.reset();
@@ -46,7 +46,6 @@ const AddGroupMember = ({ groupId }: Props) => {
           <Field
             label="Bruker"
             name="user"
-            placeholder="Inviter en ny bruker"
             filter={['users.user']}
             component={SelectInput.AutocompleteField}
           />
@@ -54,7 +53,6 @@ const AddGroupMember = ({ groupId }: Props) => {
           <Field
             label="Rolle"
             name="role"
-            placeholder="Velg rolle"
             options={roleOptions}
             component={SelectInput.Field}
           />
