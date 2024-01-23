@@ -9,15 +9,17 @@ type Props = {
   allowPristine?: boolean;
   danger?: boolean;
   disabled?: boolean;
+  dark?: boolean;
 };
 
-export const SubmitButton = ({
+const SubmitButton = ({
   children,
   onClick,
   className,
   allowPristine,
   danger = false,
   disabled = false,
+  dark = false,
 }: Props) =>
   spySubmittable(
     (submittable) => (
@@ -27,9 +29,12 @@ export const SubmitButton = ({
         onClick={onClick}
         className={className}
         danger={danger}
+        dark={dark}
       >
         {children}
       </Button>
     ),
     { allowPristine }
   );
+
+export default SubmitButton;
