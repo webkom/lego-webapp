@@ -53,7 +53,7 @@ const CommentForm = ({
               parent,
             })
           ).then(() => {
-            form.restart();
+            form.reset();
           });
         }}
       >

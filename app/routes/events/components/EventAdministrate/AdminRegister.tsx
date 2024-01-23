@@ -48,12 +48,17 @@ const AdminRegister = () => {
         )
       )
     );
-    form.restart();
+    form.reset();
   };
 
   return (
     <LoadingIndicator loading={fetching}>
-      <TypedLegoForm onSubmit={onSubmit} validate={validate} subscription={{}}>
+      <TypedLegoForm
+        onSubmit={onSubmit}
+        validate={validate}
+        validateOnSubmitOnly
+        subscription={{}}
+      >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field
