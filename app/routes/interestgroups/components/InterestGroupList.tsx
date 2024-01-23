@@ -57,24 +57,23 @@ const InterestGroupList = () => {
         )}
       </Flex>
 
-      {activeGroups.map((g) => (
-        <InterestGroupComponent group={g} key={g.id} active={true} />
+      {activeGroups.map((group) => (
+        <InterestGroupComponent group={group} key={group.id} active={true} />
       ))}
 
       <div className={styles.inactiveHeader}>
         <h2>Ikke-aktive interessegrupper</h2>
         <p>
-          Send gjerne e-post til
+          Send gjerne e-post til{' '}
           <a href="mailTo:interessegrupper@abakus.no">
-            {' '}
-            interessegrupper@abakus.no{' '}
+            interessegrupper@abakus.no
           </a>{' '}
           hvis du ønsker å åpne en av disse igjen!
         </p>
       </div>
 
-      {notActiveGroups.map((g) => (
-        <InterestGroupComponent group={g} key={g.id} active={false} />
+      {notActiveGroups.map((group) => (
+        <InterestGroupComponent group={group} key={group.id} active={false} />
       ))}
     </Content>
   );

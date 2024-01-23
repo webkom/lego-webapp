@@ -1,11 +1,10 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
+import ABAKUS_ICON from 'app/assets/icon-192x192.png';
 import { Image } from 'app/components/Image';
 import styles from './InterestGroup.css';
 import type { Group } from 'app/models';
-// TODO: rather handle this in the backend
-const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
 
 type Props = {
   group: Group;
@@ -31,7 +30,11 @@ const InterestGroupComponent = ({ group, active }: Props) => {
       </Flex>
       <Image
         className={active ? styles.logoMedium : styles.logoSmall}
-        src={group.logo || SAMPLE_LOGO}
+        src={group.logo || ABAKUS_ICON}
+        onError={({ currentTarget }) => {
+          currentTarget.src = ABAKUS_ICON;
+          currentTarget.onerror = null;
+        }}
         alt={active ? `${group.name} logo` : 'logo'}
       />
     </Link>

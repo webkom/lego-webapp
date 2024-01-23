@@ -9,6 +9,7 @@
   max-height: 100px;
   max-width: 100px;
   border-radius: 100%;
+  flex-shrink: 0;
 }
 
 .logoSmall {
@@ -17,6 +18,7 @@
   border-radius: 100%;
   filter: grayscale(100%);
   opacity: 0.7;
+  flex-shrink: 0;
 }
 
 .listItem {
@@ -26,7 +28,7 @@
   gap: 10px;
   color: var(--lego-font-color);
   border-radius: var(--border-radius-lg);
-  padding: 15px 20px 15px;
+  padding: 15px 20px;
   margin: 3px 0 12px;
   transition: background-color var(--easing-fast);
 
@@ -40,7 +42,6 @@
 }
 
 .listItemName {
-  font-weight: 600;
   margin: 0 0 10px;
   color: var(--lego-font-color);
 }
