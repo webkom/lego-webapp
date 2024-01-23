@@ -4,7 +4,7 @@ import { normalize } from 'normalizr';
 import qs from 'qs';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { User } from 'app/actions/ActionTypes';
 import {
   createUser,
@@ -31,17 +31,8 @@ import {
   sameAs,
 } from 'app/utils/validation';
 import { validPassword } from '../utils';
+import Confetti from './Confetti';
 import PasswordField from './PasswordField';
-
-const loadData = ({ location: { search } }, dispatch) => {
-  const { token } = qs.parse(search, {
-    ignoreQueryPrefix: true,
-  });
-
-  if (token && typeof token === 'string') {
-    return dispatch(validateRegistrationToken(token));
-  }
-};
 
 export type FormValues = {
   username?: string;
@@ -59,7 +50,21 @@ const UserConfirmationForm = () => {
 
   const token = useAppSelector((state) => state.auth.registrationToken);
 
-  usePreparedEffect('fetchUserConfirmation', () => loadData, []);
+  const { search } = useLocation();
+
+  usePreparedEffect(
+    'fetchUserConfirmation',
+    () => {
+      const { token } = qs.parse(search, {
+        ignoreQueryPrefix: true,
+      });
+
+      if (token && typeof token === 'string') {
+        return dispatch(validateRegistrationToken(token));
+      }
+    },
+    []
+  );
 
   const dispatch = useAppDispatch();
 
@@ -81,24 +86,29 @@ const UserConfirmationForm = () => {
 
   if (submitSucceeded) {
     return (
-      <Content>
-        <h1>Du er nå registrert!</h1>
-        <Card severity="warning">
-          <Card.Header>Er du student?</Card.Header>
-          <span>
-            For å kunne melde deg på arrangementer i Abakus må du verifisere at
-            du er student.
-          </span>
-        </Card>
-        <Flex column gap="1rem">
-          <Link to="/users/me/settings/student-confirmation/">
-            <Button success>Verifiser studentstatus</Button>
-          </Link>
-          <Link to="/">
-            <Button>Eller gå til hovedsiden</Button>
-          </Link>
-        </Flex>
-      </Content>
+      <>
+        <Confetti />
+
+        <Content>
+          <h1>Du er nå registrert!</h1>
+
+          <Card severity="warning">
+            <Card.Header>Er du student?</Card.Header>
+            <span>
+              For å kunne melde deg på arrangementer i Abakus må du verifisere
+              at du er student.
+            </span>
+          </Card>
+          <Flex gap="1rem">
+            <Link to="/users/me/settings/student-confirmation/">
+              <Button success>Verifiser studentstatus</Button>
+            </Link>
+            <Link to="/">
+              <Button>Eller gå til hovedsiden</Button>
+            </Link>
+          </Flex>
+        </Content>
+      </>
     );
   }
 
