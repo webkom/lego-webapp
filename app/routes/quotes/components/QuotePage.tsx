@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
 import { SelectInput } from 'app/components/Form';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -38,9 +37,6 @@ const defaultQuotesQuery = {
 };
 
 const QuotePage = () => {
-  const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-
   const { quoteId } = useParams();
   const isSingle = !!quoteId;
 
@@ -75,6 +71,8 @@ const QuotePage = () => {
     (option) => option.value === query.ordering
   );
 
+  const dispatch = useAppDispatch();
+
   usePreparedEffect(
     'fetchQuotePage',
     () =>
@@ -105,13 +103,7 @@ const QuotePage = () => {
         </div>
       )}
 
-      {errorMessage || (
-        <QuoteList
-          actionGrant={actionGrant}
-          quotes={quotes}
-          loggedIn={loggedIn}
-        />
-      )}
+      {errorMessage || <QuoteList actionGrant={actionGrant} quotes={quotes} />}
 
       {showFetchMore && (
         <LoadingIndicator loading={fetching}>

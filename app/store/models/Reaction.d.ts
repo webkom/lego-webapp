@@ -1,4 +1,5 @@
 import type { ID } from 'app/store/models';
+import type { PublicUser } from 'app/store/users/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export default interface Reaction {
@@ -15,5 +16,5 @@ export interface ReactionsGrouped {
   count: number;
   hasReacted: boolean;
   reactionId?: ID;
-  users?: string[];
+  users?: PublicUser[];
 }

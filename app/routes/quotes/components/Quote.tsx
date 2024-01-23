@@ -18,7 +18,6 @@ type Props = {
   actionGrant: ActionGrant;
   toggleDisplayAdmin: () => void;
   displayAdmin: boolean;
-  loggedIn: boolean;
 };
 
 const Quote = ({
@@ -26,7 +25,6 @@ const Quote = ({
   actionGrant,
   toggleDisplayAdmin,
   displayAdmin,
-  loggedIn,
 }: Props) => {
   const emojis = useAppSelector(selectEmojis);
   const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
@@ -136,25 +134,14 @@ const Quote = ({
         </div>
       </div>
       <div className={styles.quoteReactions}>
-        <Reactions
-          emojis={mappedEmojis}
-          contentTarget={quote.contentTarget}
-          loggedIn={loggedIn}
-        >
-          {quote.reactionsGrouped.map((reaction) => {
-            return (
-              <Reaction
-                key={`reaction-${reaction.emoji}`}
-                emoji={reaction.emoji}
-                count={reaction.count}
-                unicodeString={reaction.unicodeString}
-                reactionId={reaction.reactionId}
-                hasReacted={reaction.hasReacted}
-                canReact={loggedIn}
-                contentTarget={quote.contentTarget}
-              />
-            );
-          })}
+        <Reactions emojis={mappedEmojis} contentTarget={quote.contentTarget}>
+          {quote.reactionsGrouped.map((reaction) => (
+            <Reaction
+              key={`reaction-${reaction.emoji}`}
+              reaction={reaction}
+              contentTarget={quote.contentTarget}
+            />
+          ))}
         </Reactions>
       </div>
     </li>
