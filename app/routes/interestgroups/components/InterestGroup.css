@@ -9,6 +9,7 @@
   max-height: 100px;
   max-width: 100px;
   border-radius: 100%;
+  flex-shrink: 0;
 }
 
 .logoSmall {
@@ -17,16 +18,45 @@
   border-radius: 100%;
   filter: grayscale(100%);
   opacity: 0.7;
+  flex-shrink: 0;
 }
 
 .listItem {
-  margin: 8px;
-  padding-left: 4px;
-  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--lego-font-color);
+  border-radius: var(--border-radius-lg);
+  padding: 15px 20px;
+  margin: 3px 0 12px;
+  transition: background-color var(--easing-fast);
+
+  &:hover {
+    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  }
+}
+
+.inactiveListItem:hover {
+  background-color: rgba(123, 123, 123, var(--color-red-hover-alpha));
+}
+
+.listItemName {
+  margin: 0 0 10px;
+  color: var(--lego-font-color);
+}
+
+.inactiveListItem .listItemName {
+  margin: 0;
+  color: var(--color-gray-4);
 }
 
 .listItemContent {
-  padding: 4px;
+  opacity: 0.8;
+}
+
+.inactiveHeader {
+  margin: 30px 0;
 }
 
 .textEdit {

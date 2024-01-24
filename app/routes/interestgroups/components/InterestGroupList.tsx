@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -38,32 +38,43 @@ const InterestGroupList = () => {
   return (
     <Content>
       <Helmet title="Interessegrupper" />
-      <div className={styles.section}>
-        <NavigationTab title="Interessegrupper" />
-        <p>
+      <NavigationTab title="Interessegrupper" />
+      <Flex
+        wrap
+        gap={10}
+        margin={'0 0 30px'}
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <p style={{ margin: 0 }}>
           <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner
           du all praktisk informasjon knyttet til våre interessegrupper.
         </p>
         {canCreate && (
-          <Link to="/interest-groups/create" className={styles.link}>
+          <Link to="/interest-groups/create">
             <Button>Lag ny interessegruppe</Button>
           </Link>
         )}
-      </div>
-      <div className="groups">
-        {activeGroups.map((g) => (
-          <InterestGroupComponent group={g} key={g.id} active={true} />
-        ))}
+      </Flex>
+
+      {activeGroups.map((group) => (
+        <InterestGroupComponent group={group} key={group.id} active={true} />
+      ))}
+
+      <div className={styles.inactiveHeader}>
         <h2>Ikke-aktive interessegrupper</h2>
         <p>
-          Send gjerne e-post til
-          <a href="mailTo:interessegrupper@abakus.no"> oss </a> hvis du ønsker å
-          åpne en av disse igjen!
+          Send gjerne e-post til{' '}
+          <a href="mailTo:interessegrupper@abakus.no">
+            interessegrupper@abakus.no
+          </a>{' '}
+          hvis du ønsker å åpne en av disse igjen!
         </p>
-        {notActiveGroups.map((g) => (
-          <InterestGroupComponent group={g} key={g.id} active={false} />
-        ))}
       </div>
+
+      {notActiveGroups.map((group) => (
+        <InterestGroupComponent group={group} key={group.id} active={false} />
+      ))}
     </Content>
   );
 };
