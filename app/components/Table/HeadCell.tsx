@@ -2,7 +2,7 @@ import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useRef } from 'react';
 import Dropdown from 'app/components/Dropdown';
-import { TextInput, RadioButton } from 'app/components/Form';
+import { TextInput, RadioButton, CheckBox } from 'app/components/Form';
 import styles from './Table.css';
 import type { ColumnProps, Filters, IsShown, ShowColumn, Sort } from '.';
 
@@ -43,8 +43,24 @@ const HeadCell: React.FC<HeadCellProps> = ({
     });
   };
 
-  const changeFilter = (filterIndex: string, value: string) =>
-    setFilters({ ...filters, [filterIndex]: value });
+  const toggleFilter = (filterIndex: string, value: string) =>
+    setFilters((prevFilters) => {
+      const filter = prevFilters[filterIndex];
+      const updatedFilters = { ...prevFilters };
+      if (filter === undefined) {
+        updatedFilters[filterIndex] = [value];
+        return updatedFilters;
+      }
+      if (!column.filterOptions?.multiSelect) {
+        return filter[0] === value
+          ? { ...filters, [filterIndex]: undefined }
+          : { ...filters, [filterIndex]: [value] };
+      }
+      updatedFilters[filterIndex] = filter.includes(value)
+        ? filter.filter((filter) => filter !== value)
+        : [...filter, value];
+      return updatedFilters;
+    });
 
   const toggleIsShown = (filterIndex: string) =>
     setIsShown({
@@ -72,6 +88,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
     title,
     sorter,
     filter,
+    filterOptions,
     search,
     filterMessage,
   } = chosenProps;
@@ -108,8 +125,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
                 name="search"
                 size={16}
                 className={cx(
-                  (filters[filterIndex] && filters[filterIndex].length) ||
-                    isShown[filterIndex]
+                  (filters[filterIndex] ?? []).length || isShown[filterIndex]
                     ? styles.iconActive
                     : styles.icon
                 )}
@@ -123,7 +139,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
               removeBorder
               placeholder={filterMessage}
               value={filters[filterIndex]}
-              onChange={(e) => changeFilter(filterIndex, e.target.value)}
+              onChange={(e) => toggleFilter(filterIndex, e.target.value)}
               onKeyDown={({ keyCode }) => {
                 if (keyCode === 13) {
                   toggleIsShown(filterIndex);
@@ -141,7 +157,8 @@ const HeadCell: React.FC<HeadCellProps> = ({
                 name="funnel"
                 size={16}
                 className={cx(
-                  filters[filterIndex] !== undefined || isShown[filterIndex]
+                  (filters[filterIndex] ?? []).length > 0 ||
+                    isShown[filterIndex]
                     ? styles.iconActive
                     : styles.icon
                 )}
@@ -150,22 +167,29 @@ const HeadCell: React.FC<HeadCellProps> = ({
             contentClassName={styles.checkbox}
             rootClose
           >
-            {filter.map(({ label, value }) => (
-              <div key={label}>
-                <RadioButton
-                  id={filterIndex + value}
-                  name={filterIndex}
-                  label={label}
-                  checked={value === filters[filterIndex]}
-                  onChange={() =>
-                    changeFilter(
-                      filterIndex,
-                      filters[filterIndex] === value ? undefined : value
-                    )
-                  }
-                />
-              </div>
-            ))}
+            {filter.map(({ label, value }) =>
+              filterOptions?.multiSelect ? (
+                <div
+                  key={label}
+                  onClick={() => toggleFilter(filterIndex, value)}
+                >
+                  <CheckBox
+                    label={label}
+                    checked={filters[filterIndex]?.includes(value)}
+                  />
+                </div>
+              ) : (
+                <div key={label}>
+                  <RadioButton
+                    id={filterIndex + value}
+                    name={filterIndex}
+                    label={label}
+                    checked={filters[filterIndex]?.includes(value)}
+                    onClick={() => toggleFilter(filterIndex, value)}
+                  />
+                </div>
+              )
+            )}
             <Button
               flat
               onClick={() => {
@@ -205,7 +229,6 @@ const HeadCell: React.FC<HeadCellProps> = ({
                   <RadioButton
                     id={dataIndexColumnChoices + index}
                     name={dataIndexColumnChoices}
-                    inputValue={showColumn[dataIndexColumnChoices]}
                     value={index}
                     label={title}
                     checked={showColumn[dataIndexColumnChoices] === index}

@@ -156,6 +156,9 @@ const GroupMembersList = ({
       title: 'Rolle',
       dataIndex: 'role',
       filter: roleOptions,
+      filterOptions: {
+        multiSelect: true,
+      },
       search: false,
       inlineFiltering: false,
       filterMapping: (role: RoleType) =>

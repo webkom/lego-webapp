@@ -1,16 +1,16 @@
 import { get } from 'lodash';
-import type { ColumnProps, ShowColumn } from '.';
+import type { ColumnProps, ShowColumn, TableData } from '.';
 
 type CellProps = {
   column: ColumnProps;
-  data: Record<string, any>;
+  data: TableData;
   index: number;
-  showColumn?: ShowColumn;
+  showColumn: ShowColumn;
 };
 
 const BodyCell: React.FC<CellProps> = ({ column, data, index, showColumn }) => {
   if (column.columnChoices) {
-    if (!showColumn) {
+    if (Object.keys(showColumn).length === 0) {
       return null;
     }
     const columnIndex: number = showColumn[column.dataIndex];
