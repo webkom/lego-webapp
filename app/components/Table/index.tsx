@@ -1,30 +1,33 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get } from 'lodash';
-import { Component } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
-import Dropdown from 'app/components/Dropdown';
-import { TextInput, CheckBox, RadioButton } from 'app/components/Form';
+import BodyCell from './BodyCell';
+import HeadCell from './HeadCell';
 import styles from './Table.css';
-import type { ReactNode, ChangeEvent } from 'react';
+import type { ReactNode } from 'react';
 
-type sortProps = {
+export type Sort = {
   direction?: 'asc' | 'desc';
   dataIndex?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
 };
+export type Filters = Record<string, any>;
+export type IsShown = Record<string, any>;
+export type ShowColumn = Record<string, any>;
 
-type checkFilter = {
+type CheckFilter = {
   label: string;
   value: any;
 };
 
-type columnProps = {
+export type ColumnProps = {
   dataIndex: string;
   filterIndex?: string;
   title?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
-  filter?: Array<checkFilter>;
+  filter?: Array<CheckFilter>;
 
   /*
    * Map the value to to "another" value to use
@@ -41,336 +44,97 @@ type columnProps = {
   centered?: boolean;
   inlineFiltering?: boolean;
   filterMessage?: string;
-  columnChoices?: Array<columnProps>;
+  columnChoices?: Array<ColumnProps>;
 };
 
-type Props = {
+type TableProps = {
   rowKey?: string;
-  columns: Array<columnProps>;
+  columns: Array<ColumnProps>;
   data: Array<Record<string, any>>;
   hasMore: boolean;
   loading: boolean;
-  onChange?: (filters: Record<string, any>, sort: sortProps) => void;
-  onLoad?: (filters: Record<string, any>, sort: sortProps) => void;
+  onChange?: (filters: Record<string, any>, sort: Sort) => void;
+  onLoad?: (filters: Record<string, any>, sort: Sort) => void;
   filters?: Record<string, any>;
   className?: string;
 };
 
-type State = {
-  filters: Record<string, any>;
-  isShown: Record<string, any>;
-  sort: sortProps;
-  showColumn: Record<string, any>;
-};
+const isVisible = ({ visible = true }: ColumnProps) => visible;
 
-const isVisible = ({ visible = true }: columnProps) => visible;
+const Table: React.FC<TableProps> = ({
+  columns,
+  data,
+  rowKey = 'id',
+  hasMore,
+  loading,
+  className,
+  onChange,
+  onLoad,
+  ...props
+}) => {
+  const [sort, setSort] = useState<Sort>({});
+  const [filters, setFilters] = useState<Filters>(props.filters || {});
+  const [isShown, setIsShown] = useState<IsShown>({});
+  const [showColumn, setShowColumn] = useState<ShowColumn>();
 
-export default class Table extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
+  useEffect(() => {
     const initialShowColumn = {};
-    props.columns.forEach((column) => {
+    columns.forEach((column) => {
       if (column.columnChoices) {
         initialShowColumn[column.dataIndex] = 0;
       }
     });
-    this.state = {
-      sort: {},
-      filters: props.filters || {},
-      isShown: {},
-      showColumn: initialShowColumn,
-    };
-  }
+    setShowColumn(initialShowColumn);
+  }, [columns]);
 
-  static defaultProps = {
-    rowKey: 'id',
-  };
-  toggleSearch = (filterIndex: string) => {
-    this.setState({
-      isShown: {
-        [filterIndex]: !this.state.isShown[filterIndex],
-      },
-    });
-  };
-  toggleFilter = (filterIndex: string) => {
-    this.setState({
-      isShown: {
-        [filterIndex]: !this.state.isShown[filterIndex],
-      },
-    });
-  };
-  toggleChooseColumn = (filterIndex: string) => {
-    this.setState({
-      isShown: {
-        [filterIndex]: !this.state.isShown[filterIndex],
-      },
-    });
-  };
-  onSearchInput = (
-    { target }: ChangeEvent<HTMLInputElement>,
-    filterIndex: string
-  ) => {
-    this.setState(
-      {
-        filters: { ...this.state.filters, [filterIndex]: target.value },
-      },
-      () => this.onChange()
-    );
-  };
-  onFilterInput = (value: any, filterIndex: string) => {
-    this.setState(
-      {
-        filters: { ...this.state.filters, [filterIndex]: value },
-      },
-      () => this.onChange()
-    );
-  };
-  onChooseColumnInput = (columnIndex: any, dataIndex: any) => {
-    this.setState(
-      {
-        showColumn: {
-          [dataIndex]: columnIndex,
-        },
-      },
-      () => this.onChange()
-    );
-  };
-  onSortInput = (dataIndex: any, sorter: any) => {
-    const direction =
-      this.state.sort.dataIndex === dataIndex &&
-      this.state.sort.direction === 'asc'
-        ? 'desc'
-        : 'asc';
-    this.setState(
-      {
-        sort: {
-          direction,
-          dataIndex,
-          sorter,
-        },
-      },
-      () => this.onChange()
-    );
-  };
-  renderCell = (
-    column: columnProps,
-    data: Record<string, any>,
-    index: number
-  ) => {
-    if (column.columnChoices) {
-      const columnIndex: number = this.state.showColumn[column.dataIndex];
-      column = column.columnChoices[columnIndex];
-    }
+  useEffect(() => {
+    debounce(() => {
+      if (onChange) {
+        onChange(filters, sort);
+      }
+    }, 170)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, sort]);
 
-    const cellData = get(data, column.dataIndex);
-    const {
-      render = (cellData) => cellData,
-      dataIndex,
-      centered = true,
-    } = column;
-    return (
-      <td
-        key={`${dataIndex}-${index}-${data.id}`}
-        style={
-          centered
-            ? {
-                textAlign: 'center',
-              }
-            : {}
-        }
-      >
-        {render(cellData, data)}
-      </td>
+  const sortedData = useMemo<typeof data>(() => {
+    let sorter = sort.sorter;
+    const { direction, dataIndex } = sort;
+    if (dataIndex && typeof sorter == 'boolean')
+      sorter = (a, b) => {
+        if (a[dataIndex] > b[dataIndex]) return 1;
+        return -1;
+      };
+    const sortedData = [...data].sort((a, b) =>
+      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0
     );
-  };
-  renderHeadCell = (props: columnProps, index: number) => {
-    let chosenProps = props;
-    const columnChoices = props.columnChoices;
-    const dataIndexColumnChoices = props.dataIndex;
+    if (direction === 'desc') sortedData.reverse();
+    return sortedData;
+  }, [sort, data]);
 
-    if (props.columnChoices) {
-      const columnIndex = this.state.showColumn[dataIndexColumnChoices];
-      chosenProps = { ...props, ...props.columnChoices[columnIndex] };
-    }
-
-    const {
-      dataIndex,
-      filterIndex = dataIndex,
-      title,
-      sorter,
-      filter,
-      search,
-      filterMessage,
-    } = chosenProps;
-    const sortIconName =
-      this.state.sort.dataIndex === dataIndex
-        ? this.state.sort.direction === 'asc'
-          ? 'sort-asc'
-          : 'sort-desc'
-        : 'sort';
-    const { filters, isShown } = this.state;
-
-    return (
-      <th key={`${dataIndex}-${index}`}>
-        <Flex alignItems="center" justifyContent="center" gap={4.5}>
-          {sorter && (
-            <i
-              onClick={() => this.onSortInput(dataIndex, sorter)}
-              className={`fa fa-${sortIconName}`}
-            />
-          )}
-          {title}
-          {search && (
-            <Dropdown
-              show={isShown[filterIndex]}
-              toggle={() => this.toggleSearch(filterIndex)}
-              triggerComponent={
-                <Icon
-                  name="search"
-                  size={16}
-                  className={cx(
-                    (filters[filterIndex] && filters[filterIndex].length) ||
-                      isShown[filterIndex]
-                      ? styles.iconActive
-                      : styles.icon
-                  )}
-                />
-              }
-              contentClassName={styles.overlay}
-              rootClose
-            >
-              <TextInput
-                autoFocus
-                removeBorder
-                placeholder={filterMessage}
-                value={filters[filterIndex]}
-                onChange={(e) => this.onSearchInput(e, filterIndex)}
-                onKeyDown={({ keyCode }) => {
-                  if (keyCode === 13) {
-                    this.toggleSearch(filterIndex);
-                  }
-                }}
-              />
-            </Dropdown>
-          )}
-          {filter && (
-            <Dropdown
-              show={isShown[filterIndex]}
-              toggle={() => this.toggleFilter(filterIndex)}
-              triggerComponent={
-                <Icon
-                  name="funnel"
-                  size={16}
-                  className={cx(
-                    filters[filterIndex] !== undefined || isShown[filterIndex]
-                      ? styles.iconActive
-                      : styles.icon
-                  )}
-                />
-              }
-              contentClassName={styles.checkbox}
-              rootClose
-            >
-              {filter.map(({ label, value }) => (
-                <div
-                  key={label}
-                  onClick={() =>
-                    this.onFilterInput(
-                      this.state.filters[filterIndex] === value
-                        ? undefined
-                        : value,
-                      filterIndex
-                    )
-                  }
-                >
-                  <CheckBox
-                    label={label}
-                    value={value === this.state.filters[filterIndex]}
-                  />
-                </div>
-              ))}
-              <Button
-                flat
-                onClick={() =>
-                  this.setState(
-                    (state) => ({
-                      filters: { ...state.filters, [filterIndex]: undefined },
-                    }),
-                    () => {
-                      this.toggleFilter(filterIndex);
-                      this.onChange();
-                    }
-                  )
-                }
-              >
-                Nullstill
-              </Button>
-            </Dropdown>
-          )}
-          {columnChoices && (
-            <Dropdown
-              show={isShown[filterIndex]}
-              toggle={() => this.toggleChooseColumn(filterIndex)}
-              triggerComponent={
-                <Icon
-                  name="options"
-                  size={16}
-                  className={cx(
-                    filters[filterIndex] !== undefined || isShown[filterIndex]
-                      ? styles.iconActive
-                      : styles.icon
-                  )}
-                />
-              }
-              contentClassName={styles.overlay}
-              rootClose
-            >
-              {columnChoices.map(({ title }, index) => (
-                <div
-                  key={title}
-                  onClick={() => {
-                    this.onChooseColumnInput(index, dataIndexColumnChoices);
-                  }}
-                >
-                  <RadioButton
-                    id={dataIndexColumnChoices}
-                    name={dataIndexColumnChoices}
-                    inputValue={this.state.showColumn[dataIndexColumnChoices]}
-                    value={index}
-                    label={title}
-                  />
-                </div>
-              ))}
-            </Dropdown>
-          )}
-        </Flex>
-      </th>
-    );
-  };
-  filter = (item: Record<string, any>) => {
-    if (isEmpty(this.state.filters)) {
+  const filter = (item: Record<string, any>) => {
+    if (isEmpty(filters)) {
       return true;
     }
 
-    const match = Object.keys(this.state.filters).filter((key) => {
+    const match = Object.keys(filters).filter((key) => {
       const {
         inlineFiltering = true,
         filterMapping = (val) => val,
         dataIndex = key,
-      } = this.props.columns.find(
-        (col) => col.filterIndex ?? col.dataIndex === key
+      } = columns.find(
+        (column) => column.filterIndex ?? column.dataIndex === key
       ) || {};
       if (!inlineFiltering) return true;
 
-      if (this.state.filters[key] === undefined) {
+      if (filters[key] === undefined) {
         return true;
       }
 
-      if (typeof this.state.filters[key] === 'boolean') {
-        return this.state.filters[key] === get(item, key);
+      if (typeof filters[key] === 'boolean') {
+        return filters[key] === get(item, key);
       }
 
-      const filter = this.state.filters[key].toLowerCase();
+      const filter = filters[key].toLowerCase();
 
       if (!filter.length) {
         return true;
@@ -380,64 +144,65 @@ export default class Table extends Component<Props, State> {
     }).length;
     return match > 0;
   };
-  loadMore = () => {
-    if (this.props.onLoad && !this.props.loading) {
-      this.props.onLoad(this.state.filters, this.state.sort);
+
+  const loadMore = () => {
+    if (onLoad && !loading) {
+      onLoad(filters, sort);
     }
   };
-  onChange = debounce(() => {
-    if (this.props.onChange) {
-      this.props.onChange(this.state.filters, this.state.sort);
-    }
-  }, 170);
 
-  render() {
-    const { columns, data, rowKey, hasMore, loading, className } = this.props;
-    let sorter = this.state.sort.sorter;
-    const { direction, dataIndex } = this.state.sort;
-    if (typeof sorter == 'boolean')
-      sorter = (a, b) => {
-        if (a[dataIndex] > b[dataIndex]) return 1;
-        return -1;
-      };
-    const sortedData = [...data].sort((a, b) =>
-      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0
-    );
-    if (direction === 'desc') sortedData.reverse();
-
-    return (
-      <div className={cx(styles.wrapper, className)}>
-        <table>
-          <thead>
-            <tr>
-              {columns
-                .filter(isVisible)
-                .map((column, index) => this.renderHeadCell(column, index))}
-            </tr>
-          </thead>
-          <InfiniteScroll
-            element="tbody"
-            hasMore={hasMore && !loading}
-            loadMore={this.loadMore}
-            threshold={50}
-          >
-            {sortedData.filter(this.filter).map((item) => (
-              <tr key={item[rowKey]}>
-                {columns
-                  .filter(isVisible)
-                  .map((column, index) => this.renderCell(column, item, index))}
-              </tr>
+  return (
+    <div className={cx(styles.wrapper, className)}>
+      <table>
+        <thead>
+          <tr>
+            {columns.filter(isVisible).map((column, index) => (
+              <HeadCell
+                key={column.dataIndex + column.title}
+                column={column}
+                index={index}
+                sort={sort}
+                filters={filters}
+                isShown={isShown}
+                showColumn={showColumn}
+                setSort={setSort}
+                setFilters={setFilters}
+                setIsShown={setIsShown}
+                setShowColumn={setShowColumn}
+              />
             ))}
-            {loading && (
-              <tr>
-                <td className={styles.loader} colSpan={columns.length}>
-                  <LoadingIndicator loading={loading} />
-                </td>
-              </tr>
-            )}
-          </InfiniteScroll>
-        </table>
-      </div>
-    );
-  }
-}
+          </tr>
+        </thead>
+        <InfiniteScroll
+          element="tbody"
+          hasMore={hasMore && !loading}
+          loadMore={loadMore}
+          threshold={50}
+        >
+          {sortedData.filter(filter).map((data) => (
+            <tr key={data[rowKey]}>
+              {columns.filter(isVisible).map((column, index) => (
+                <BodyCell
+                  key={column.title + column.dataIndex}
+                  column={column}
+                  data={data}
+                  index={index}
+                  showColumn={showColumn}
+                />
+              ))}
+            </tr>
+          ))}
+          {loading && (
+            <tr>
+              <td className={styles.loader} colSpan={columns.length}>
+                <LoadingIndicator loading={loading} />
+              </td>
+            </tr>
+          )}
+        </InfiniteScroll>
+      </table>
+    </div>
+  );
+};
+
+export default Table;

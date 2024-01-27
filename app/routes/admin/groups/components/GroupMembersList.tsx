@@ -121,7 +121,7 @@ const GroupMembersList = ({
         )}
         <ConfirmModal
           title="Bekreft utmelding"
-          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup].name}"?`}
+          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup]?.name}"?`}
           onConfirm={() => dispatch(removeMember(membership))}
         >
           {({ openConfirmModal }) => (
