@@ -6,6 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
 import styles from './Table.css';
+import type { ID } from 'app/store/models';
 import type { ReactNode } from 'react';
 
 export type Sort = {
@@ -13,9 +14,12 @@ export type Sort = {
   dataIndex?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
 };
-export type Filters = Record<string, any>;
-export type IsShown = Record<string, any>;
-export type ShowColumn = Record<string, any>;
+export type Filters = Record<string, string[] | undefined>;
+type QueryFilters = Record<string, string | undefined>;
+export type IsShown = Record<string, boolean>;
+export type ShowColumn = Record<string, number>;
+
+export type TableData = object & { id: ID };
 
 type CheckFilter = {
   label: string;
@@ -28,6 +32,9 @@ export type ColumnProps = {
   title?: string;
   sorter?: boolean | ((arg0: any, arg1: any) => number);
   filter?: Array<CheckFilter>;
+  filterOptions?: {
+    multiSelect?: boolean;
+  };
 
   /*
    * Map the value to to "another" value to use
@@ -44,22 +51,42 @@ export type ColumnProps = {
   centered?: boolean;
   inlineFiltering?: boolean;
   filterMessage?: string;
-  columnChoices?: Array<ColumnProps>;
+  columnChoices?: ColumnProps[];
 };
 
 type TableProps = {
   rowKey?: string;
-  columns: Array<ColumnProps>;
-  data: Array<Record<string, any>>;
+  columns: ColumnProps[];
+  data: TableData[];
   hasMore: boolean;
   loading: boolean;
-  onChange?: (filters: Record<string, any>, sort: Sort) => void;
-  onLoad?: (filters: Record<string, any>, sort: Sort) => void;
-  filters?: Record<string, any>;
+  onChange?: (queryFilters: QueryFilters, querySort: Sort) => void;
+  onLoad?: (queryFilters: QueryFilters, querySort: Sort) => void;
+  filters?: QueryFilters;
   className?: string;
 };
 
 const isVisible = ({ visible = true }: ColumnProps) => visible;
+
+const filtersToQueryFilters: (filters: Filters) => QueryFilters = (filters) => {
+  const queryFilters: QueryFilters = {};
+  Object.entries(filters).forEach(
+    ([key, filter]) =>
+      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined)
+  );
+  return queryFilters;
+};
+
+const queryFiltersToFilters: (queryFilters?: QueryFilters) => Filters = (
+  queryFilters
+) => {
+  if (!queryFilters) return {};
+  const filters: Filters = {};
+  Object.entries(queryFilters).forEach(
+    ([key, queryFilter]) => (filters[key] = queryFilter?.split(','))
+  );
+  return filters;
+};
 
 const Table: React.FC<TableProps> = ({
   columns,
@@ -73,9 +100,11 @@ const Table: React.FC<TableProps> = ({
   ...props
 }) => {
   const [sort, setSort] = useState<Sort>({});
-  const [filters, setFilters] = useState<Filters>(props.filters || {});
+  const [filters, setFilters] = useState<Filters>(
+    queryFiltersToFilters(props.filters)
+  );
   const [isShown, setIsShown] = useState<IsShown>({});
-  const [showColumn, setShowColumn] = useState<ShowColumn>();
+  const [showColumn, setShowColumn] = useState<ShowColumn>({});
 
   useEffect(() => {
     const initialShowColumn = {};
@@ -90,7 +119,7 @@ const Table: React.FC<TableProps> = ({
   useEffect(() => {
     debounce(() => {
       if (onChange) {
-        onChange(filters, sort);
+        onChange(filtersToQueryFilters(filters), sort);
       }
     }, 170)();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +140,7 @@ const Table: React.FC<TableProps> = ({
     return sortedData;
   }, [sort, data]);
 
-  const filter = (item: Record<string, any>) => {
+  const filter: (item: TableData) => boolean = (item) => {
     if (isEmpty(filters)) {
       return true;
     }
@@ -134,20 +163,16 @@ const Table: React.FC<TableProps> = ({
         return filters[key] === get(item, key);
       }
 
-      const filter = filters[key].toLowerCase();
-
-      if (!filter.length) {
-        return true;
-      }
-
-      return filterMapping(get(item, dataIndex)).toLowerCase().includes(filter);
+      return filters[key]?.some((arrayFilter) =>
+        filterMapping(get(item, dataIndex)).toLowerCase().includes(arrayFilter)
+      );
     }).length;
     return match > 0;
   };
 
   const loadMore = () => {
     if (onLoad && !loading) {
-      onLoad(filters, sort);
+      onLoad(filtersToQueryFilters(filters), sort);
     }
   };
 
