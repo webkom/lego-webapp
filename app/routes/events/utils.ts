@@ -64,12 +64,12 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   [EventType.KiD_EVENT]: {
     displayName: 'KiD-arrangement',
     color: 'var(--color-event-black)',
-    textColor: '#FFF',
+    textColor: 'var(--color-white)',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',
     color: 'var(--color-event-black)',
-    textColor: '#FFF',
+    textColor: 'var(--color-white)',
   },
 };
 
