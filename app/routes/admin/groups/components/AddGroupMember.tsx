@@ -1,10 +1,15 @@
 import { Field } from 'react-final-form';
-import { addMember } from 'app/actions/GroupActions';
+import {
+  addMember,
+  fetchMembershipsPagination,
+} from 'app/actions/GroupActions';
 import { Form, LegoFinalForm, SelectInput } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
 import { useAppDispatch } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
+import useQuery from 'app/utils/useQuery';
 import { createValidator, required } from 'app/utils/validation';
 
 const validate = createValidator({
@@ -18,6 +23,7 @@ type Props = {
 
 const AddGroupMember = ({ groupId }: Props) => {
   const dispatch = useAppDispatch();
+  const { query } = useQuery(defaultGroupMembersQuery);
 
   const handleSubmit = (values, form) => {
     dispatch(
@@ -26,9 +32,19 @@ const AddGroupMember = ({ groupId }: Props) => {
         userId: values.user.id,
         role: values.role.value,
       })
-    ).then(() => {
-      form.reset();
-    });
+    )
+      .then(() =>
+        dispatch(
+          fetchMembershipsPagination({
+            groupId,
+            next: true,
+            query,
+          })
+        )
+      )
+      .then(() => {
+        form.reset();
+      });
   };
 
   return (
