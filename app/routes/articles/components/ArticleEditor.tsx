@@ -178,6 +178,7 @@ const ArticleEditor = () => {
             <Field
               label="Festet på forsiden"
               name="pinned"
+              type="checkbox"
               component={CheckBox.Field}
               normalize={(v) => !!v}
             />

@@ -152,6 +152,7 @@ const RestrictedMailEditor = () => {
             disabled={!isNew}
             name="hideSender"
             label={hiddenSenderLabel}
+            type="checkbox"
             component={CheckBox.Field}
             parse={(v) => !!v}
           />
@@ -159,6 +160,7 @@ const RestrictedMailEditor = () => {
             disabled={!isNew}
             name="weekly"
             label={restrictedMailLabel}
+            type="checkbox"
             component={CheckBox.Field}
             parse={(v) => !!v}
           />

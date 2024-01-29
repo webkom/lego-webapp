@@ -105,6 +105,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
             <Field
               label="Vis badge på brukerprofiler"
               name="showBadge"
+              type="checkbox"
               component={CheckBox.Field}
               normalize={(v) => !!v}
             />
@@ -113,6 +114,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
             <Field
               label="Aktiv gruppe"
               name="active"
+              type="checkbox"
               component={CheckBox.Field}
               normalize={(v) => !!v}
             />

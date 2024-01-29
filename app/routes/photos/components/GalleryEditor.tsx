@@ -305,6 +305,7 @@ const GalleryEditor = () => {
             <Field
               label="Publiser metadata for deling på sosiale medier. Dette deler kun cover, tittel og beskrivelse."
               name="publicMetadata"
+              type="checkbox"
               component={CheckBox.Field}
               normalize={(v) => !!v}
             />

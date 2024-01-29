@@ -31,6 +31,7 @@ const ObjectPermissions = ({
   return [
     requireAuth && (
       <CheckBox.Field
+        type="checkbox"
         description="Gi alle brukere lesetilgang. Dette inkluderer også brukere som ikke har logget inn."
         inverted
         {...requireAuth}

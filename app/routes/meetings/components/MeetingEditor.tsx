@@ -292,8 +292,8 @@ const MeetingEditor = () => {
               <Field
                 label="Bruk mazemap"
                 name="useMazemap"
-                component={CheckBox.Field}
                 type="checkbox"
+                component={CheckBox.Field}
               />
               {spyValues<MeetingFormValues>((values) => {
                 return values?.useMazemap ? (

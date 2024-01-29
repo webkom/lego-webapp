@@ -168,11 +168,13 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
             <Field
               name="pinned"
               label="Vis på forsiden"
+              type="checkbox"
               component={CheckBox.Field}
             />
             <Field
               name="resultsHidden"
               label="Skjul resultatet"
+              type="checkbox"
               component={CheckBox.Field}
             />
             <Field
