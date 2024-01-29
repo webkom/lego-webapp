@@ -356,7 +356,7 @@ const EventEditor = () => {
           ...arrayMutators,
         }}
       >
-        {({ handleSubmit, values }) => (
+        {({ form, handleSubmit, values }) => (
           <Form onSubmit={handleSubmit}>
             <Field
               name="cover"
@@ -385,7 +385,7 @@ const EventEditor = () => {
                         placeholder={e.coverPlaceholder}
                         alt={`${e.cover} bilde`}
                         onClick={() => {
-                          change('cover', `${e.key}:${e.token}`);
+                          form.change('cover', `${e.key}:${e.token}`);
                           setShowImageGallery(false);
                           setUseImageGallery(true);
                           setImageGalleryUrl(e.cover);
