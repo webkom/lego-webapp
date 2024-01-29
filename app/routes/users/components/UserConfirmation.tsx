@@ -217,6 +217,8 @@ const validate = createValidator(
     username: [required()],
     password: [required(), validPassword()],
     retypePassword: [required(), sameAs('password', 'Passordene er ikke like')],
+    firstName: [required()],
+    lastName: [required()],
     gender: [required()],
     allergies: [isValidAllergy()],
   },

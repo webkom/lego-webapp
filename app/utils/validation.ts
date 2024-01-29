@@ -155,11 +155,12 @@ export const mergeTimeAfterAllPoolsActivation =
     return [isAfterAll, message] as const;
   };
 
-export const isValidAllergy =
+export const isValidAllergy: Validator<string | undefined> =
   (
     message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
   ) =>
-  (value: string) => {
+  (value) => {
+    if (!value) return [true] as const;
     const notValidAnswers = [
       'ingen',
       'ingenting',
