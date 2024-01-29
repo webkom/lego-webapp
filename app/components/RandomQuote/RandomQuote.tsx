@@ -24,6 +24,8 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
   useEffect(() => {
     const quoteId = randomQuote.id;
 
+    if (!quoteId) return;
+
     if (!seenQuotes.current.includes(quoteId)) {
       seenQuotes.current = [...seenQuotes.current, quoteId];
     }
