@@ -31,7 +31,7 @@ const validate = createValidator({
 
 const EmailUserEditor = () => {
   const { emailUserId } = useParams<{ emailUserId: string }>();
-  const isNew = emailUserId === 'new';
+  const isNew = emailUserId === undefined;
   const emailUser = useAppSelector((state) =>
     selectEmailUserById(state, { emailUserId })
   );
@@ -126,7 +126,7 @@ const EmailUserEditor = () => {
 
           <SubmissionError />
           <SubmitButton>
-            {emailUserId ? 'Oppdater e-postbruker' : 'Lag e-postbruker'}
+            {isNew ? 'Lag e-postbruker' : 'Oppdater e-postbruker'}
           </SubmitButton>
         </Form>
       )}
