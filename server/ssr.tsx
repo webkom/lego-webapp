@@ -108,8 +108,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
       return res.redirect(302, context.url);
     }
 
-    // TODO: remove workaround when redux-form is replaced
-    const state: RootState = { ...store.getState(), form: {} };
+    const state: RootState = store.getState();
 
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);

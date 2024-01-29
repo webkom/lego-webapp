@@ -1,9 +1,7 @@
 @import url('~app/styles/variables.css');
 
-.feedbackLabel {
-  display: flex;
-  flex: 1;
-  margin-top: 16px;
+.feedback {
+  margin-top: 1rem;
 }
 
 .feedbackText {

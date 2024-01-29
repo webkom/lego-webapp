@@ -1,7 +1,11 @@
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import { registrationIsClosed } from '../utils';
-import type { Dateish, Event, EventRegistration } from 'app/models';
+import type { Dateish, EventRegistration } from 'app/models';
+import type {
+  AuthUserDetailedEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
 import type { Duration } from 'moment-timezone';
 import type { ComponentType, ReactNode } from 'react';
 
@@ -19,10 +23,14 @@ type State = {
   buttonOpen: boolean;
   registrationOpensIn: string | null | undefined;
 };
-export type Props = {
-  event: Event;
+export type Props = State & {
+  event: UserDetailedEvent | AuthUserDetailedEvent;
   registration: EventRegistration | null | undefined;
   render?: (state: State) => ReactNode;
+  pendingRegistration: EventRegistration | null | undefined;
+  registrationPending: boolean;
+  formOpen: boolean;
+  captchaOpen: boolean;
 };
 const COUNTDOWN_STARTS_WHEN_MINUTES_LEFT = 10;
 // How often to check when to start the real countdown
