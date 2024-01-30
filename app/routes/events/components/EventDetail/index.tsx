@@ -71,6 +71,7 @@ import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
+import type { ReadRegistration } from 'app/store/models/Registration';
 
 type InterestedButtonProps = {
   isInterested: boolean;
@@ -178,8 +179,8 @@ const EventDetail = () => {
       ? selectMergedPoolWithRegistrations(state, { eventId })
       : selectPoolsWithRegistrationsForEvent(state, { eventId })
   );
-  const registrations = useAppSelector((state) =>
-    selectRegistrationsFromPools(state, { eventId })
+  const registrations: ReadRegistration[] | undefined = useAppSelector(
+    (state) => selectRegistrationsFromPools(state, { eventId })
   );
   const waitingRegistrations = useAppSelector((state) =>
     selectWaitingRegistrationsForEvent(state, { eventId })
