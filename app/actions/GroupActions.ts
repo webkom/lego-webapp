@@ -123,7 +123,7 @@ export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
         },
       })
     ).then(() => {
-      return dispatch(fetchMemberships(groupId));
+      return dispatch(fetchMemberships({ groupId }));
     });
 }
 
@@ -143,7 +143,7 @@ export function leaveGroup(membership: MembershipType, groupId: ID) {
         },
       })
     ).then(() => {
-      return dispatch(fetchMemberships(groupId));
+      return dispatch(fetchMemberships({ groupId }));
     });
   };
 }
@@ -163,16 +163,23 @@ export function fetchAllMemberships(groupId: ID, descendants = false) {
   };
 }
 
-export function fetchMemberships(
-  groupId: ID,
+export function fetchMemberships({
+  groupId,
   descendants = false,
-  query: Record<string, any> = {}
-) {
+  query = {},
+  propagateError = true,
+}: {
+  groupId: ID;
+  descendants?: boolean;
+  query?: Record<string, any>;
+  propagateError?: boolean;
+}) {
   return fetchMembershipsPagination({
     groupId,
     descendants,
     next: true,
     query,
+    propagateError,
   });
 }
 
@@ -181,11 +188,13 @@ export function fetchMembershipsPagination({
   next,
   descendants = false,
   query = {},
+  propagateError = true,
 }: {
   groupId: ID;
   next: boolean;
   descendants: boolean;
   query?: Record<string, string | number | boolean>;
+  propagateError?: boolean;
 }) {
   return callAPI<MembershipType[]>({
     types: Group.MEMBERSHIP_FETCH,
@@ -199,7 +208,7 @@ export function fetchMembershipsPagination({
       groupId: groupId,
       errorMessage: 'Henting av medlemmene for gruppen feilet',
     },
-    propagateError: true,
+    propagateError,
   });
 }
 
