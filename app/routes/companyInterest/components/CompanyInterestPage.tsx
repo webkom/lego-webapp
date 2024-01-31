@@ -319,15 +319,19 @@ const CompanyInterestPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchCompanyInterestPage', () => {
-    Promise.all([
-      edit && dispatch(fetchSemesters()),
-      edit &&
-        companyInterestId &&
-        dispatch(fetchCompanyInterest(companyInterestId)),
-      !edit && dispatch(fetchSemestersForInterestform()),
-    ]);
-  });
+  usePreparedEffect(
+    'fetchCompanyInterestPage',
+    () => {
+      Promise.all([
+        edit && dispatch(fetchSemesters()),
+        edit &&
+          companyInterestId &&
+          dispatch(fetchCompanyInterest(companyInterestId)),
+        !edit && dispatch(fetchSemestersForInterestform()),
+      ]);
+    },
+    [companyInterestId, edit]
+  );
 
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(README);
@@ -439,17 +443,15 @@ const CompanyInterestPage = () => {
       companyPresentationComment: data.companyPresentationComment,
     };
 
-    if (edit) {
-      await dispatch(updateCompanyInterest(companyInterestId, newData));
-    } else {
-      await dispatch(createCompanyInterest(newData, isEnglish));
-    }
-
     dispatch(
+      edit
+        ? updateCompanyInterest(companyInterestId, newData)
+        : createCompanyInterest(newData, isEnglish)
+    ).then(() => {
       navigate(
         allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
-      )
-    );
+      );
+    });
   };
 
   const eventTypeEntities = [
