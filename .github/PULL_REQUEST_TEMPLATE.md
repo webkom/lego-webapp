@@ -4,7 +4,33 @@ Please write a summary of the changes, and please include relevant motivation an
 
 # Result
 
-If you've made visual changes, please include **before** and **after** images, preferably with a description. Make sure they do not contain any real user information.
+If you've made visual changes, please check the boxes below and include images showing the changes. Descriptions are appreciated.
+
+- [ ] Changes look good on both light and dark theme.
+- [ ] Changes look good with different viewports (mobile, tablet, etc.).
+- [ ] Changes look good with slower Internet connections.
+
+> [!CAUTION]
+> Make sure your images do not contain any real user information.
+
+<table>
+    <tr>
+        <td width="25%">Description</td>
+        <td>Before</td>
+        <td>After</td>
+    </tr>
+    <tr>
+        <td>
+            ...
+        </td>
+        <td>
+            ...
+        </td>
+        <td>
+            ...
+        </td>
+    </tr>
+</table>
 
 # Testing
 
