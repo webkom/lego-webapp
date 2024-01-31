@@ -279,14 +279,16 @@ const CompanyEditor = () => {
                     <Field
                       name="Yes"
                       label="Ja"
+                      value="true"
+                      type="radio"
                       component={RadioButton.Field}
-                      inputValue="true"
                     />
                     <Field
                       name="No"
                       label="Nei"
+                      value="false"
+                      type="radio"
                       component={RadioButton.Field}
-                      inputValue="false"
                     />
                   </MultiSelectGroup>
                 </div>

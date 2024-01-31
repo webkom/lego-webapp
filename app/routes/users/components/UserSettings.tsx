@@ -142,24 +142,24 @@ const UserSettings = () => {
 
             <MultiSelectGroup label="Kjønn" name="gender">
               <Field
-                type="radio"
                 name="gender"
                 label="Mann"
                 value="male"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
-                type="radio"
                 name="gender"
                 label="Kvinne"
                 value="female"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
-                type="radio"
                 name="gender"
                 label="Annet"
                 value="other"
+                type="radio"
                 component={RadioButton.Field}
               />
             </MultiSelectGroup>
@@ -200,19 +200,22 @@ const UserSettings = () => {
               <Field
                 name="selectedTheme"
                 label="Auto"
-                inputValue="auto"
+                value="auto"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
                 name="selectedTheme"
                 label="Light"
-                inputValue="light"
+                value="light"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
                 name="selectedTheme"
                 label="Dark"
-                inputValue="dark"
+                value="dark"
+                type="radio"
                 component={RadioButton.Field}
               />
             </MultiSelectGroup>
@@ -222,14 +225,16 @@ const UserSettings = () => {
                 <Field
                   name="isMemberYes"
                   label="Ja"
+                  value="true"
+                  type="radio"
                   component={RadioButton.Field}
-                  inputValue="true"
                 />
                 <Field
                   name="isMemberNo"
                   label="Nei"
+                  value="false"
+                  type="radio"
                   component={RadioButton.Field}
-                  inputValue="false"
                 />
               </MultiSelectGroup>
             )}

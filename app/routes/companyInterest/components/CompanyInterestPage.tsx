@@ -585,10 +585,10 @@ const CompanyInterestPage = () => {
                     <Field
                       key={key}
                       name={key}
+                      value={key}
                       label={COMPANY_TYPES[key][language]}
                       type="radio"
                       component={RadioButton.Field}
-                      value={key}
                       showErrors={false}
                     />
                   ))}
@@ -603,10 +603,10 @@ const CompanyInterestPage = () => {
                     <Field
                       key={key}
                       name={key}
+                      value={key}
                       label={OFFICE_IN_TRONDHEIM[key][language]}
                       type="radio"
                       component={RadioButton.Field}
-                      value={key}
                       showErrors={false}
                     />
                   ))}
@@ -705,10 +705,10 @@ const CompanyInterestPage = () => {
                     <Field
                       key={key}
                       name={key}
+                      value={key}
                       label={PARTICIPANT_RANGE_TYPES[key]}
                       type="radio"
                       component={RadioButton.Field}
-                      value={key}
                     />
                   ))}
                 </MultiSelectGroup>
