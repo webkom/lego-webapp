@@ -233,7 +233,6 @@ const ArticleEditor = () => {
               name="content"
               label="Innhold"
               component={EditorField.Field}
-              initialized={isNew || !!article}
             />
 
             <Flex wrap>

@@ -23,13 +23,8 @@ class NoSSRError {
     this.error = new Error(msg);
   }
 }
-/*
- * The reason for the initialized prop is an issue(https://github.com/redux-form/redux-form/issues/621) in redux form that causes all fields to be initially rendered with an empty string as value,
- * due to the form not being initialized. Because the editor state is immutable, the editor field does not update once it is passed the correct initial value on the second render.
- * The initialized prop "solves" the issue by enabling the editor field to only render once the form has been initialized.
- */
 
-const EditorField = ({ className, name, initialized, ...props }: Props) => {
+const EditorField = ({ className, name, ...props }: Props) => {
   if (!__CLIENT__) {
     throw new NoSSRError('Cannot SSR editor');
   }
@@ -50,26 +45,18 @@ const EditorField = ({ className, name, initialized, ...props }: Props) => {
 
   return (
     <div name={name}>
-      {initialized && (
-        <Editor
-          className={cx(styles.input, className)}
-          {...props}
-          {...props.input}
-          {...props.meta}
-          imageUpload={imageUpload}
-        />
-      )}
+      <Editor
+        className={cx(styles.input, className)}
+        {...props}
+        {...props.input}
+        {...props.meta}
+        imageUpload={imageUpload}
+      />
     </div>
   );
 };
 
-EditorField.AutoInitialized = (props) =>
-  EditorField({
-    initialized: !!(props.value || props.input?.value),
-    ...props,
-  });
-
-EditorField.Field = createField(EditorField.AutoInitialized, {
+EditorField.Field = createField(EditorField, {
   noLabel: true,
 });
 export default EditorField;
