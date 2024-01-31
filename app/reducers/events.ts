@@ -411,13 +411,15 @@ export const selectCommentsForEvent = createSelector(
 );
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
-  (pools) =>
-    orderBy(
-      // $FlowFixMe
-      pools.flatMap((pool) => pool.registrations || []),
+  (pools) => {
+    const registrationPools = pools.filter((pool) => pool.registrations);
+    if (registrationPools.length === 0) return;
+    return orderBy(
+      registrationPools.flatMap((pool) => pool.registrations || []),
       'sharedMemberships',
       'desc'
-    )
+    );
+  }
 );
 export const getRegistrationGroups = createSelector(
   selectAllRegistrationsForEvent,
