@@ -9,7 +9,6 @@ type Props = InputHTMLAttributes<HTMLInputElement> & {
   id?: string;
   type?: string;
   label?: string;
-  value?: boolean;
   checked?: boolean;
   inverted?: boolean;
   className?: string;

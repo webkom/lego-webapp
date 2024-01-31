@@ -107,7 +107,6 @@
     "react-youtube": "^10.1.0",
     "recharts": "^2.10.4",
     "redux": "^4.2.1",
-    "redux-form": "8.3.10",
     "redux-logger": "^3.0.1",
     "redux-sentry-middleware": "^0.2.2",
     "regenerator-runtime": "^0.14.0",

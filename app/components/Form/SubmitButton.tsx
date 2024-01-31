@@ -12,7 +12,7 @@ type Props = {
   dark?: boolean;
 };
 
-const SubmitButton = ({
+export const SubmitButton = ({
   children,
   onClick,
   className,

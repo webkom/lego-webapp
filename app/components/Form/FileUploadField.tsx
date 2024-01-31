@@ -4,7 +4,6 @@ import { Component } from 'react';
 import FileUpload from 'app/components/Upload/FileUpload';
 import { createField } from './Field';
 import styles from './FileUploadField.css';
-import type { FieldProps } from 'redux-form';
 
 type Props = {
   className?: string;
@@ -13,13 +12,13 @@ type Props = {
   value?: string;
   onChange: (arg0: string) => void;
   placeholder: string;
-} & FieldProps;
+};
 
 class FileUploadField extends Component<Props> {
   static Field: any;
 
   render() {
-    const { className, style, input, value, meta, placeholder, ...restprops } =
+    const { className, style, value, meta, placeholder, ...restprops } =
       this.props;
     return (
       <Flex
@@ -27,7 +26,7 @@ class FileUploadField extends Component<Props> {
         className={cx(styles.base, className)}
         style={style}
       >
-        <FileUpload {...restprops} {...input} {...meta} />
+        <FileUpload {...restprops} {...meta} />
         <span className={styles.value}>{value ? value : placeholder}</span>
         {value && (
           <Icon

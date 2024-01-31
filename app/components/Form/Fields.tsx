@@ -15,9 +15,6 @@ type Props<Name extends string = string> = {
   component: ComponentType<Record<Name, FieldRenderProps<unknown>>>;
 };
 
-/**
- * Equivalent to redux-form's Fields component
- */
 const Fields = ({
   names,
   subscription,
