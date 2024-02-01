@@ -6,10 +6,42 @@
 }
 
 .lendingRequest {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 15px;
+  border-radius: var(--border-radius-lg);
+  color: var(--lego-font-color);
+  transition: background-color var(--easing-fast);
+}
+
+.notPending {
   cursor: pointer;
 }
 
 .navLink {
   text-decoration: none;
+}
+
+.newLendableObject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid var(--color-green-6);
+  color: var(--color-green-6);
+  transition: var(--easing-fast);
+  padding: 15px;
+
+  &:hover {
+    background-color: var(--color-green-6);
+    color: var(--color-absolute-white);
+  }
+}
+
+.lendableObject {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

@@ -23,12 +23,12 @@ const lendingRoute = ({
     />
     <Route
       exact
-      path={`${match.path}/approve`}
+      path={`${match.path}/admin`}
       component={LendableObjectsAdmin}
     />
     <Route
       exact
-      path={`${match.path}/approve/:lendableObjectId`}
+      path={`${match.path}/admin/:lendableObjectId`}
       component={LendableObjectAdminDetail}
     />
     <Route
