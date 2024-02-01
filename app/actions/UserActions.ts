@@ -1,5 +1,5 @@
 import cookie from 'js-cookie';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
