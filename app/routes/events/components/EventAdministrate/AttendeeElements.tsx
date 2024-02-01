@@ -66,7 +66,7 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex justifyContent="center" gap={5}>
+    <Flex justifyContent="center">
       <TooltipIcon
         content="Til stede"
         iconClass={cx('fa fa-check', styles.greenIcon)}
@@ -103,7 +103,7 @@ export const StripeStatus = ({
   const dispatch = useAppDispatch();
 
   return (
-    <Flex justifyContent="center" gap={5}>
+    <Flex justifyContent="center">
       <TooltipIcon
         content="Betalt via Stripe"
         iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
@@ -154,14 +154,16 @@ export const Unregister = ({ fetching, registration }: UnregisterProps) => {
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
-            <Tooltip content="Meld av bruker">
-              <Icon
-                onClick={openConfirmModal}
-                name="person-remove-outline"
-                size={18}
-                danger
-              />
-            </Tooltip>
+            <Flex justifyContent="center">
+              <Tooltip content="Meld av bruker">
+                <Icon
+                  onClick={openConfirmModal}
+                  name="person-remove-outline"
+                  size={18}
+                  danger
+                />
+              </Tooltip>
+            </Flex>
           )}
         </ConfirmModal>
       )}
