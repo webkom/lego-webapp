@@ -100,6 +100,7 @@ export const places = [
     value: 'Kongsvinger',
   },
 ];
+
 export const jobTypes = [
   {
     label: 'Sommerjobb',
@@ -122,6 +123,7 @@ export const jobTypes = [
     value: 'other',
   },
 ];
+
 export const yearValues = [
   {
     value: 1,
