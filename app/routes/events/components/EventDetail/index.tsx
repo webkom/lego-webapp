@@ -9,14 +9,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import {
-  fetchEvent,
-  follow,
-  register,
-  unfollow,
-  unregister,
-  updateFeedback,
-} from 'app/actions/EventActions';
+import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
 import mazemapLogo from 'app/assets/mazemap.png';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -250,42 +243,6 @@ const EventDetail = () => {
     () => eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
     [eventIdOrSlug, loggedIn]
   );
-
-  const handleRegistration = ({ captchaResponse, feedback, type }) => {
-    switch (type) {
-      case 'feedback':
-        return (
-          eventId &&
-          dispatch(updateFeedback(eventId, currentRegistration.id, feedback))
-        );
-
-      case 'register':
-        // Note that we do not return this promise due to custom submitting handling
-        eventId &&
-          dispatch(
-            register({
-              eventId,
-              captchaResponse,
-              feedback,
-              userId: currentUser.id,
-            })
-          );
-        return;
-
-      case 'unregister':
-        eventId &&
-          dispatch(
-            unregister({
-              eventId,
-              registrationId: currentRegistration.id,
-            })
-          );
-        return;
-
-      default:
-        return undefined;
-    }
-  };
 
   if (!eventId || !event.text) {
     return (
@@ -636,7 +593,6 @@ const EventDetail = () => {
                     registration={currentRegistration}
                     currentUser={currentUser}
                     pendingRegistration={pendingRegistration}
-                    onSubmit={handleRegistration}
                   />
                 </div>
               )}

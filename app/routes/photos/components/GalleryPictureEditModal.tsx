@@ -138,6 +138,7 @@ const GalleryPictureEditModal = () => {
               <Field
                 label="Synlig for alle brukere"
                 name="active"
+                type="checkbox"
                 component={CheckBox.Field}
                 id="gallery-picture-active"
                 normalize={(v) => !!v}

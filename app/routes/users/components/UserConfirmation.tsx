@@ -173,20 +173,23 @@ const UserConfirmationForm = () => {
               <Field
                 name="genderMan"
                 label="Mann"
+                value="male"
+                type="radio"
                 component={RadioButton.Field}
-                inputValue="male"
               />
               <Field
                 name="genderWoman"
                 label="Kvinne"
+                value="female"
+                type="radio"
                 component={RadioButton.Field}
-                inputValue="female"
               />
               <Field
                 name="genderOther"
                 label="Annet"
+                value="other"
+                type="radio"
                 component={RadioButton.Field}
-                inputValue="other"
               />
             </MultiSelectGroup>
 

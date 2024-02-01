@@ -154,6 +154,7 @@ const EmailListEditor = () => {
             label="Kun for for brukere med internmail (@abakus.no)"
             description="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få e-post fra denne listen"
             name="requireInternalAddress"
+            type="checkbox"
             component={CheckBox.Field}
             normalize={(v) => !!v}
           />

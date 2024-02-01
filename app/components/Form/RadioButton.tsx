@@ -10,7 +10,6 @@ type Props = {
   type?: string;
   label?: string;
   className?: string;
-  inputValue?: string;
   checked?: boolean;
   value?: string | number;
 } & InputHTMLAttributes<HTMLInputElement>;
@@ -18,16 +17,11 @@ type Props = {
 function RadioButton({
   id,
   label,
-  inputValue,
   checked,
   className,
   value,
   ...props
 }: Props) {
-  // TODO: Remove this when redux-form is gone
-  checked = inputValue ? inputValue === value : checked;
-  value = inputValue ?? value;
-
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();

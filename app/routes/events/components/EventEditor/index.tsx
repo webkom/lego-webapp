@@ -433,6 +433,7 @@ const EventEditor = () => {
                   label="Lagre til bildegalleriet"
                   description="Lagre bildet til bildegalleriet slik at det kan bli brukt til andre arrangementer"
                   name="saveToImageGallery"
+                  type="checkbox"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
@@ -451,6 +452,7 @@ const EventEditor = () => {
             <Field
               label="Festet på forsiden"
               name="pinned"
+              type="checkbox"
               component={CheckBox.Field}
               fieldClassName={styles.metaField}
               className={styles.formField}
@@ -483,7 +485,6 @@ const EventEditor = () => {
                   placeholder="Dette blir tidenes fest ..."
                   className={styles.descriptionEditor}
                   uploadFile={uploadFile}
-                  initialized={isEditPage || !!event}
                 />
                 <Flex className={styles.tagRow}>
                   {(values.tags || []).map((tag, i) => (
@@ -547,6 +548,7 @@ const EventEditor = () => {
                 <Field
                   label="Bruk MazeMap"
                   name="useMazemap"
+                  type="checkbox"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
@@ -583,6 +585,7 @@ const EventEditor = () => {
                   label="Fremmedspråklig"
                   description="Arrangementet er på et annet språk enn norsk (engelsk)"
                   name="isForeignLanguage"
+                  type="checkbox"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
@@ -592,6 +595,7 @@ const EventEditor = () => {
                   label="Kun for spesifikk gruppe"
                   description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
                   name="isGroupOnly"
+                  type="checkbox"
                   component={CheckBox.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
@@ -654,6 +658,7 @@ const EventEditor = () => {
                   <Field
                     label="Betalt arrangement"
                     name="isPriced"
+                    type="checkbox"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
@@ -666,6 +671,7 @@ const EventEditor = () => {
                       label="Betaling via Abakus.no"
                       description="Manuell betaling kan også godkjennes av oss i etterkant"
                       name="useStripe"
+                      type="checkbox"
                       component={CheckBox.Field}
                       fieldClassName={styles.metaField}
                       className={styles.formField}
@@ -695,6 +701,7 @@ const EventEditor = () => {
                   <Field
                     label="Bruk prikker"
                     name="heedPenalties"
+                    type="checkbox"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
@@ -724,6 +731,7 @@ const EventEditor = () => {
                     label="Separat avregistreringsfrist"
                     description="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)"
                     name="separateDeadlines"
+                    type="checkbox"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
@@ -774,6 +782,7 @@ const EventEditor = () => {
                     label="Samtykke til bilder"
                     description="Bruk samtykke til bilder"
                     name="useConsent"
+                    type="checkbox"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
@@ -787,6 +796,7 @@ const EventEditor = () => {
                     label="Informasjon kan deles til smittesporing"
                     description="Navn, telefonnummer og e-post kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen."
                     name="useContactTracing"
+                    type="checkbox"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
@@ -801,6 +811,7 @@ const EventEditor = () => {
                     label="Påmeldingsspørsmål"
                     description="Still et spørsmål ved påmelding"
                     name="hasFeedbackQuestion"
+                    type="checkbox"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
@@ -823,6 +834,7 @@ const EventEditor = () => {
                       <Field
                         name="feedbackRequired"
                         label="Obligatorisk"
+                        type="checkbox"
                         component={CheckBox.Field}
                         fieldClassName={styles.metaField}
                         className={styles.formField}
@@ -905,6 +917,7 @@ const EventEditor = () => {
                   </>
                 }
                 name="isClarified"
+                type="checkbox"
                 component={CheckBox.Field}
                 fieldClassName={styles.metaFieldInformation}
                 className={styles.formField}

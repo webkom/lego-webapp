@@ -178,6 +178,7 @@ const ArticleEditor = () => {
             <Field
               label="Festet på forsiden"
               name="pinned"
+              type="checkbox"
               component={CheckBox.Field}
               normalize={(v) => !!v}
             />
@@ -232,7 +233,6 @@ const ArticleEditor = () => {
               name="content"
               label="Innhold"
               component={EditorField.Field}
-              initialized={isNew || !!article}
             />
 
             <Flex wrap>

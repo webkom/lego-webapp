@@ -18,7 +18,6 @@ import {
   followersEvent,
   followersUser,
 } from 'app/reducers/followers';
-import form from 'app/reducers/forms';
 import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
 import galleryPictures from 'app/reducers/galleryPictures';
@@ -65,7 +64,6 @@ const createRootReducer = () => {
     events,
     feedActivities,
     feeds,
-    form,
     frontpage,
     imageGalleryEntries,
     galleries,

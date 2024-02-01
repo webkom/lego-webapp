@@ -1,10 +1,8 @@
 import moment from 'moment-timezone';
-import { startSubmit, stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
 import { Meeting } from './ActionTypes';
 import type { MeetingFormValues } from 'app/routes/meetings/components/MeetingEditor';
-import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
@@ -159,25 +157,14 @@ export function inviteUsersAndGroups({
 }
 
 export function answerMeetingInvitation(action: string, token: string) {
-  return (dispatch: AppDispatch) => {
-    dispatch(startSubmit('answerMeetingInvitation'));
-    return dispatch(
-      callAPI<unknown>({
-        types: Meeting.ANSWER_INVITATION_TOKEN,
-        endpoint: `/meeting-token/${action}/?token=${token}`,
-        method: 'POST',
-        meta: {
-          errorMessage: 'Svar på invitasjon feilet',
-        },
-      })
-    )
-      .then(() => {
-        dispatch(stopSubmit('answerMeetingInvitation'));
-      })
-      .catch(() => {
-        dispatch(stopSubmit('answerMeetingInvitation', null));
-      });
-  };
+  return callAPI<unknown>({
+    types: Meeting.ANSWER_INVITATION_TOKEN,
+    endpoint: `/meeting-token/${action}/?token=${token}`,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Svar på invitasjon feilet',
+    },
+  });
 }
 
 export function editMeeting({

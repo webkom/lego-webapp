@@ -16,11 +16,14 @@ import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import stripeStyles from './Stripe.css';
 import type { EventRegistrationPaymentStatus } from 'app/models';
-import type { AuthUserDetailedEvent } from 'app/store/models/Event';
+import type {
+  AuthUserDetailedEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
 import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
-  event: AuthUserDetailedEvent;
+  event: AuthUserDetailedEvent | UserDetailedEvent;
   currentUser: CurrentUser;
   paymentStatus: EventRegistrationPaymentStatus;
   clientSecret?: string;

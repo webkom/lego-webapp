@@ -2,7 +2,7 @@ import { SelectInput, CheckBox } from 'app/components/Form';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
 /*
- * Usage inside 'redux-form' or 'react-final-form':
+ * Usage inside 'react-final-form':
  *
  *   <Fields
  *     component={ObjectPermissions}
@@ -18,8 +18,7 @@ import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin
  *
  * You also have to run the values through the 'normalizeObjectPermissions' function below
  *
- * With 'react-final-form' you may import Fields from 'app/components/Form/Fields' and
- * use it the same as you would by importing Fields from 'redux-form'
+ * You may import Fields from 'app/components/Form/Fields'
  *
  * */
 const ObjectPermissions = ({
@@ -31,6 +30,7 @@ const ObjectPermissions = ({
   return [
     requireAuth && (
       <CheckBox.Field
+        type="checkbox"
         description="Gi alle brukere lesetilgang. Dette inkluderer også brukere som ikke har logget inn."
         inverted
         {...requireAuth}

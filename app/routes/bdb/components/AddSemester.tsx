@@ -176,15 +176,17 @@ const AddSemester = () => {
                   <Field
                     name="Spring"
                     label="Vår"
+                    value="spring"
+                    type="radio"
                     component={RadioButton.Field}
-                    inputValue="spring"
                     showErrors={false}
                   />
                   <Field
                     name="Autumn"
                     label="Høst"
+                    value="autumn"
+                    type="radio"
                     component={RadioButton.Field}
-                    inputValue="autumn"
                     showErrors={false}
                   />
                 </MultiSelectGroup>

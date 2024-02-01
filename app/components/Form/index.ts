@@ -15,8 +15,12 @@ export { default as Captcha } from './Captcha';
 export { default as FileUploadField } from './FileUploadField';
 export { default as ImageUploadField } from './ImageUploadField';
 export { createField } from './Field';
-export { withSubmissionError, handleSubmissionError } from './utils';
-export { default as legoForm } from './legoForm';
+export {
+  handleSubmissionErrorFinalForm,
+  withSubmissionErrorFinalForm,
+} from './utils';
 export { default as LegoFinalForm } from './LegoFinalForm';
 export { default as ObjectPermissions } from './ObjectPermissions';
 export { default as Fields } from './Fields';
+export { default as SubmitButton } from './SubmitButton';
+export { default as SubmissionError } from './SubmissionError';

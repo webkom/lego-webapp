@@ -96,6 +96,7 @@ const AddSemesterForm = () => {
     <TypedLegoForm
       onSubmit={onSubmit}
       validate={validate}
+      validateOnSubmitOnly
       initialValues={initialValues}
       subscription={{}}
     >
@@ -115,17 +116,18 @@ const AddSemesterForm = () => {
             <Field
               name="Spring"
               label="Vår"
+              value={Semester.Spring}
+              type="radio"
               component={RadioButton.Field}
-              inputValue={Semester.Spring}
             />
             <Field
               name="Autumn"
               label="Høst"
+              value={Semester.Autumn}
+              type="radio"
               component={RadioButton.Field}
-              inputValue={Semester.Autumn}
             />
           </MultiSelectGroup>
-
           <SubmissionError />
           <SubmitButton>Legg til semester</SubmitButton>
         </Form>
