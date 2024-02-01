@@ -30,7 +30,7 @@ const eventStatusObject = (event: ListEvent): statusIconProps => {
         return {
           status: 'Admitted',
           icon: 'checkmark-circle-outline',
-          color: 'var(--color-green-6)',
+          color: 'var(--success-color)',
           tooltip: 'Du er påmeldt',
         } as statusIconProps;
       }

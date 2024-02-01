@@ -25,7 +25,7 @@ export const NonEventContactStatusConfig: Record<
   },
   [NonEventContactStatus.INTERESTED]: {
     displayName: 'Interessert',
-    color: 'var(--color-green-6)',
+    color: 'var(--success-color)',
     textColor: '#000',
   },
   [NonEventContactStatus.NOT_INTERESTED]: {
