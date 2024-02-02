@@ -61,7 +61,7 @@ import {
 import styles from './CompanyInterest.css';
 import {
   EVENTS,
-  README,
+  OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
   FORM_LABELS,
@@ -181,7 +181,7 @@ const OtherBox = ({
       <Field
         key={`otherOffers[${index}]`}
         name={`otherOffers[${index}].checked`}
-        label={readmeIfy(README[otherOffersToString(key)][language])}
+        label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
         normalize={(v) => !!v}
@@ -334,7 +334,7 @@ const CompanyInterestPage = () => {
   );
 
   const allEvents = Object.keys(EVENTS);
-  const allOtherOffers = Object.keys(README);
+  const allOtherOffers = Object.keys(OTHER_OFFERS);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADES);
   const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
