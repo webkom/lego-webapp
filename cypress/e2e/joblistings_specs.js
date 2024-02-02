@@ -4,6 +4,7 @@ import {
   selectField,
   selectFieldDropdown,
   selectEditor,
+  NO_OPTIONS_MESSAGE,
 } from '../support/utils.js';
 
 describe('Create joblisting', () => {
@@ -25,7 +26,7 @@ describe('Create joblisting', () => {
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
     selectFieldDropdown('company')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
 

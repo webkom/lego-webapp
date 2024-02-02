@@ -8,6 +8,7 @@ import {
   selectEditor,
   setDatePickerDate,
   uploadHeader,
+  NO_OPTIONS_MESSAGE,
 } from '../support/utils.js';
 
 describe('Create event', () => {
@@ -182,7 +183,7 @@ describe('Create event', () => {
     cy.focused().type('BEKK', { force: true });
     selectField('company')
       .find('[id=react-select-company-listbox]')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
 
@@ -190,7 +191,7 @@ describe('Create event', () => {
     selectField('responsibleGroup').click();
     cy.focused().type('bedk', { force: true });
     selectFieldDropdown('responsibleGroup')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
 
@@ -277,7 +278,7 @@ describe('Create event', () => {
     cy.focused().type('Webkom', { force: true });
     selectField('pools[0]\\.permissionGroups')
       .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Webkom');
     cy.focused().type('{enter}', { force: true });
 
@@ -289,14 +290,14 @@ describe('Create event', () => {
     cy.focused().type('Bedkom', { force: true });
     selectField('pools[1]\\.permissionGroups')
       .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
     selectField('pools[1]\\.permissionGroups').click();
     cy.focused().type('Abakus', { force: true });
     selectField('pools[1]\\.permissionGroups')
       .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 
@@ -390,7 +391,7 @@ describe('Create event', () => {
     cy.focused().type('Abaku', { force: true });
     selectField('pools[0]\\.permissionGroups')
       .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 

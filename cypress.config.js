@@ -7,6 +7,8 @@ module.exports = defineConfig({
   viewportHeight: 1300,
   modifyObstructiveCode: false,
   chromeWebSecurity: false,
+  video: true,
+  videoCompression: true,
   retries: {
     runMode: 2,
     openMode: 0,
