@@ -132,19 +132,28 @@ const MeetingEditor = () => {
   );
 
   const fetchAndSetGroupMembers = async (groupId: number) => {
-    dispatch(fetchMemberships(groupId)).then((res) => {
-      setFetchedGroupIds((prevIds) => [...prevIds, groupId]);
+    dispatch(fetchMemberships({ groupId, propagateError: false }))
+      .then((res) => {
+        setFetchedGroupIds((prevIds) => [...prevIds, groupId]);
 
-      const members = Object.values(res.payload.entities.users || {}).map(
-        (member) => ({
-          value: member.username,
-          label: member.fullName,
-          id: member.id,
-          groupId: groupId,
-        })
-      );
-      setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
-    });
+        const members = Object.values(res.payload.entities.users || {}).map(
+          (member) => ({
+            value: member.username,
+            label: member.fullName,
+            id: member.id,
+            groupId: groupId,
+          })
+        );
+        setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
+      })
+      .catch((error) => {
+        // Allow users to invite groups they can't see the members of
+        if (error?.payload?.response?.status === 403) {
+          setFetchedGroupIds((prevIds) => [...prevIds, groupId]);
+          return;
+        }
+        throw error;
+      });
   };
 
   const navigate = useNavigate();
