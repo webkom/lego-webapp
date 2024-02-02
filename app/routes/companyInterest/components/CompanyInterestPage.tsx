@@ -513,9 +513,13 @@ const CompanyInterestPage = () => {
     },
   ];
 
+  const title = edit
+    ? 'Rediger bedriftsinteresse'
+    : FORM_LABELS.mainHeading[language];
+
   return (
     <Content>
-      <Helmet title={isEnglish ? 'Company interest' : 'Bedriftsinteresse'} />
+      <Helmet title={title} />
 
       <LegoFinalForm
         onSubmit={onSubmit}
@@ -529,19 +533,22 @@ const CompanyInterestPage = () => {
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <FlexRow alignItems="center" justifyContent="space-between">
-              <h1>{FORM_LABELS.mainHeading[language]}</h1>
+              <h1>{title}</h1>
               {!edit && (
                 <Link to={isEnglish ? '/interesse' : '/register-interest'}>
                   <LanguageFlag language={language} />
                 </Link>
               )}
             </FlexRow>
-            <Card severity="info">
-              {FORM_LABELS.subHeading[language]}
-              <a href={'mailto:bedriftskontakt@abakus.no'}>
-                bedriftskontakt@abakus.no
-              </a>
-            </Card>
+
+            {!edit && (
+              <Card severity="info">
+                {FORM_LABELS.subHeading[language]}
+                <a href={'mailto:bedriftskontakt@abakus.no'}>
+                  bedriftskontakt@abakus.no
+                </a>
+              </Card>
+            )}
 
             <Field
               name="company"
