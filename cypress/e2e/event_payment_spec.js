@@ -9,6 +9,7 @@ import {
   stripeError,
   clearCardDetails,
   uploadHeader,
+  NO_OPTIONS_MESSAGE,
 } from '../support/utils.js';
 
 describe('Event registration & payment', () => {
@@ -68,7 +69,7 @@ describe('Event registration & payment', () => {
       cy.focused().type('Webkom', { force: true });
       selectField('pools[0].permissionGroups')
         .find('[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]')
-        .should('not.contain', 'No results')
+        .should('not.contain', NO_OPTIONS_MESSAGE)
         .and('contain', 'Webkom');
       cy.focused().type('{enter}', { force: true });
 

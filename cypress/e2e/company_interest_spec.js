@@ -1,4 +1,4 @@
-import { field, selectField } from '../support/utils.js';
+import { field, selectField, NO_OPTIONS_MESSAGE } from '../support/utils.js';
 
 const createCompanyInterest = () => {
   cy.visit('/interesse');
@@ -8,7 +8,7 @@ const createCompanyInterest = () => {
   cy.focused().type('BEKK', { force: true });
   selectField('company')
     .find('[id=react-select-company-listbox]')
-    .should('not.contain', 'No results')
+    .should('not.contain', NO_OPTIONS_MESSAGE)
     .and('contain', 'BEKK');
   cy.focused().type('{enter}', { force: true });
 
@@ -67,7 +67,7 @@ describe('Admin company interest', () => {
     cy.focused().type('BEKK', { force: true });
     selectField('company')
       .find('.Select-menu-outer')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
 
