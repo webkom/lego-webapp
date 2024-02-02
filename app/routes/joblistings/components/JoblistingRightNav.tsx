@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import { jobTypes as allJobTypes } from '../constants';
+import { jobTypes as allJobTypes, yearValues } from '../constants';
 import { defaultJoblistingsQuery } from './JoblistingPage';
 import styles from './JoblistingRightNav.css';
 
@@ -76,11 +76,11 @@ const JoblistingsRightNav = () => {
         />
 
         <h3 className={styles.rightHeader}>Klassetrinn</h3>
-        {['1', '2', '3', '4', '5'].map((element) => (
+        {yearValues.map((year) => (
           <FilterCheckbox
-            key={element}
-            value={element}
-            label={element}
+            key={year.value}
+            value={String(year.value)}
+            label={year.label}
             activeFilters={grades}
             onChange={setQueryValue('grades')}
           />
