@@ -202,6 +202,16 @@ export const RegisteredTable = ({
     },
   };
 
+  const hasNonEmptyFeedback = pools.some((pool) =>
+    pool.registrations.some(
+      (registration) => registration.feedback?.trim() !== ''
+    )
+  );
+  const showFeedback =
+    event.feedbackRequired ||
+    (event.feedbackDescription && event.feedbackDescription !== '') ||
+    hasNonEmptyFeedback;
+
   const columns = [
     {
       title: '#',
@@ -318,11 +328,11 @@ export const RegisteredTable = ({
         return paymentStatusA > paymentStatusB ? 1 : -1;
       },
     },
-    {
+    showFeedback && {
       title: 'Tilbakemelding',
       dataIndex: 'feedback',
       centered: false,
-      render: (feedback) => <span>{feedback || '-'}</span>,
+      render: (feedback) => <span>{feedback || ''}</span>,
       sorter: (a, b) => a.feedback.localeCompare(b.feedback),
     },
     {
@@ -332,7 +342,7 @@ export const RegisteredTable = ({
         <Unregister fetching={fetching} registration={registration} />
       ),
     },
-  ];
+  ].filter(Boolean);
 
   return (
     <Table

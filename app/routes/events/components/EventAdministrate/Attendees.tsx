@@ -18,10 +18,13 @@ import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppSelector } from 'app/store/hooks';
 import styles from './Abacard.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const event = useAppSelector((state) =>
+    selectEventById(state, { eventId })
+  ) as AdministrateEvent;
   const pools = useAppSelector((state) =>
     event?.isMerged
       ? selectMergedPoolWithRegistrations(state, { eventId })
@@ -69,9 +72,12 @@ const Attendees = () => {
     moment().isBefore(moment(event.endTime).add(1, 'day')) ||
     moment().isBefore(event.unregistrationCloseTime) ||
     moment().isBefore(event.registrationCloseTime);
+
   const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
                 og skal kun distribueres gjennom e-post. Dersom informasjonen skal deles med personer utenfor Abakus
                 må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`;
+
+  const eventHasEnded = moment().isAfter(moment(event.endTime));
 
   const createInfoCSV = async () => {
     const data = registered.map((registration) => ({
@@ -125,19 +131,27 @@ const Attendees = () => {
         <div>
           <strong>Påmeldte:</strong>
           <div className={styles.attendeeStatistics}>
-            {`${registerCount}/${event.registrationCount} har møtt opp`}
+            {`${registerCount}/${event.registrationCount} ${
+              eventHasEnded ? 'møtte opp' : 'har møtt opp'
+            }`}
           </div>
           <div className={styles.attendeeStatistics}>
-            {`${adminRegisterCount}/${event.registrationCount} er adminpåmeldt`}
+            {`${adminRegisterCount}/${event.registrationCount} ${
+              eventHasEnded ? 'ble' : 'er'
+            } adminpåmeldt`}
           </div>
           <div className={styles.attendeeStatistics}>
             {registeredPaidCount > 0
-              ? `${registeredPaidCount}/${event.registrationCount} registrerte har betalt`
+              ? `${registeredPaidCount}/${
+                  event.registrationCount
+                } registrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
               : ''}
           </div>
           <div className={styles.attendeeStatistics}>
             {unRegisteredPaidCount > 0
-              ? `${unRegisteredPaidCount}/${unregistered.length} avregistrerte har betalt`
+              ? `${unRegisteredPaidCount}/${
+                  unregistered.length
+                } avregistrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
               : ''}
           </div>
         </div>
