@@ -72,9 +72,7 @@ const PollsList = () => {
                         <Icon
                           name="checkmark-circle-outline"
                           size={20}
-                          style={{
-                            color: 'var(--color-green-6)',
-                          }}
+                          className={styles.success}
                         />
                       </>
                     ) : (

@@ -55,7 +55,7 @@
 }
 
 .iconSelected {
-  color: var(--color-green-6);
+  color: var(--success-color);
 }
 
 .createState {

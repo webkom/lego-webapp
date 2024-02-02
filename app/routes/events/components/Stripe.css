@@ -43,7 +43,7 @@
 }
 
 .success {
-  background: var(--color-green-6);
+  background: var(--success-color);
   color: var(--color-absolute-white);
   text-align: center;
   padding: 5px 10px;

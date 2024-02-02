@@ -53,7 +53,7 @@
 
 .success {
   composes: clickable;
-  color: var(--color-green-6);
+  color: var(--success-color);
 
   &:hover,
   &:focus-visible {

@@ -22,3 +22,7 @@
 .heading {
   margin-left: 15px;
 }
+
+.success {
+  color: var(--success-color);
+}

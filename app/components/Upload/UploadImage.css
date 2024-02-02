@@ -48,7 +48,7 @@
 }
 
 .dragAccept .placeholderContainer {
-  border: 3px dashed var(--color-green-6);
+  border: 3px dashed var(--success-color);
 }
 
 .dragReject .placeholderContainer {
