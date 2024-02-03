@@ -74,10 +74,14 @@ export const SURVEY_OFFERS = {
   },
 };
 
-export const README = {
+export const OTHER_OFFERS = {
   readme: {
     norwegian: 'Annonse i readme',
     english: 'Advertisement in readme',
+  },
+  social_media: {
+    norwegian: 'Profilering på sosiale medier',
+    english: 'Profiling on social media',
   },
 };
 

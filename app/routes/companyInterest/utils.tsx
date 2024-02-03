@@ -5,8 +5,8 @@ import config from 'app/config';
 import {
   COLLABORATION_TYPES,
   EVENTS,
-  README,
   SURVEY_OFFERS,
+  OTHER_OFFERS,
   TARGET_GRADES,
 } from './components/Translations';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
@@ -73,7 +73,7 @@ export const surveyOffersToString = (offer) =>
   Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
 
 export const otherOffersToString = (offer) =>
-  Object.keys(README)[Number(offer.charAt(offer.length - 2))];
+  Object.keys(OTHER_OFFERS)[Number(offer.charAt(offer.length - 2))];
 
 export const collaborationToString = (collab) =>
   Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];

@@ -61,7 +61,7 @@ import {
 import styles from './CompanyInterest.css';
 import {
   EVENTS,
-  README,
+  OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
   FORM_LABELS,
@@ -181,7 +181,7 @@ const OtherBox = ({
       <Field
         key={`otherOffers[${index}]`}
         name={`otherOffers[${index}].checked`}
-        label={readmeIfy(README[otherOffersToString(key)][language])}
+        label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
         normalize={(v) => !!v}
@@ -334,7 +334,7 @@ const CompanyInterestPage = () => {
   );
 
   const allEvents = Object.keys(EVENTS);
-  const allOtherOffers = Object.keys(README);
+  const allOtherOffers = Object.keys(OTHER_OFFERS);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADES);
   const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
@@ -513,9 +513,13 @@ const CompanyInterestPage = () => {
     },
   ];
 
+  const title = edit
+    ? 'Rediger bedriftsinteresse'
+    : FORM_LABELS.mainHeading[language];
+
   return (
     <Content>
-      <Helmet title={isEnglish ? 'Company interest' : 'Bedriftsinteresse'} />
+      <Helmet title={title} />
 
       <LegoFinalForm
         onSubmit={onSubmit}
@@ -529,19 +533,22 @@ const CompanyInterestPage = () => {
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <FlexRow alignItems="center" justifyContent="space-between">
-              <h1>{FORM_LABELS.mainHeading[language]}</h1>
+              <h1>{title}</h1>
               {!edit && (
                 <Link to={isEnglish ? '/interesse' : '/register-interest'}>
                   <LanguageFlag language={language} />
                 </Link>
               )}
             </FlexRow>
-            <Card severity="info">
-              {FORM_LABELS.subHeading[language]}
-              <a href={'mailto:bedriftskontakt@abakus.no'}>
-                bedriftskontakt@abakus.no
-              </a>
-            </Card>
+
+            {!edit && (
+              <Card severity="info">
+                {FORM_LABELS.subHeading[language]}
+                <a href={'mailto:bedriftskontakt@abakus.no'}>
+                  bedriftskontakt@abakus.no
+                </a>
+              </Card>
+            )}
 
             <Field
               name="company"
