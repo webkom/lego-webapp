@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { setInvitationStatus } from 'app/actions/MeetingActions';
+import AddToCalender from 'app/components/AddToCalender/AddToCalender';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -190,6 +191,15 @@ const MeetingDetails = () => {
           <ul>
             {attendanceButtons(statusMe, meeting.startTime)}
             <InfoList items={infoItems} />
+            <li>
+              <AddToCalender
+                title={meeting.title}
+                startTime={meeting.startTime}
+                endTime={meeting.endTime}
+                description={meeting.description}
+                location={meeting.location}
+              ></AddToCalender>
+            </li>
             <li>
               <AttendanceModal
                 isMeeting
