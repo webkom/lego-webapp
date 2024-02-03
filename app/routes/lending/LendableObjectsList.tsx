@@ -1,7 +1,6 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Card } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
-import cx from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Content } from 'app/components/Content';
@@ -12,6 +11,7 @@ import type { ListLendableObject } from 'app/store/models/LendableObject';
 import styles from './LendableObjectsList.css';
 import moment from 'moment';
 import { useState } from 'react';
+import { LendingRequest, status } from './components/LendingRequest';
 
 const LendableObject = ({
   lendableObject,
@@ -48,76 +48,7 @@ const parseQuery = (search: string): Query => {
   };
 };
 
-enum status {
-  PENDING = "pending",
-  APPROVED = "approved",
-  DENIED = "denied",
-}
-
-const ApprovedFlag = () => {
-  return (
-    <div className={cx(styles.status, styles.approved)}>
-      <Icon name={'checkmark-circle-outline'} size={30} />
-      Godkjent!
-    </div>
-  )
-}
-
-const PendingFlag = () => {
-  return (
-    <div className={cx(styles.status, styles.pending)}>
-      <Icon name={'time-outline'} size={30} />
-      Venter på svar
-    </div>
-  )
-}
-
-const DeniedFlag = () => {
-  return (
-    <div className={cx(styles.status, styles.denied)}>
-      <Icon name={'close-circle-outline'} size={30} />
-      Avslått..
-    </div>
-  )
-}
-
-const Request = ({ request }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  return (
-    <Card 
-      shadow 
-      isHoverable
-      key={request.id} 
-      className={styles.request}
-      onClick={() => setIsOpen(!isOpen)}
-    >
-      <Flex column>
-        <h3>{request.lendableObject.title}</h3>
-        {isOpen && (
-          <>
-            <p>{request.message}</p>
-            <p>
-                {request.startTime.format('DD.MM.YYYY HH:mm')} - {request.endTime.format('DD.MM.YYYY HH:mm')}
-            </p>
-            {request.status === status.PENDING && (
-              <Button>Trekk forespørsel</Button>
-            )}
-          </>
-        )}
-      </Flex>
-      <Flex alignItems='center' gap={10}>
-        {
-          request.status === status.PENDING ? <PendingFlag /> : 
-          request.status === status.APPROVED ? <ApprovedFlag /> :
-          <DeniedFlag />
-        }
-      </Flex>
-    </Card>
-  )
-}
-
-const LendableObjectsList = () => {
+export const LendableObjectsList = () => {
   const location = useLocation();
   const query = parseQuery(location.search);
   const history = useHistory();
@@ -160,62 +91,62 @@ const LendableObjectsList = () => {
     },
   ];
   const myRequests = [
-      {
+    {
+      id: 1,
+      user: 'Test Testesen',
+      startTime: moment().subtract({ hours: 2 }),
+      endTime: moment(),
+      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
+      status: status.PENDING,
+      lendableObject: {
         id: 1,
-        user: 'Test Testesen',
-        startTime: moment().subtract({ hours: 2 }),
-        endTime: moment(),
-        message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-        status: status.PENDING,
-        lendableObject: {
-          id: 1,
-          title: 'Grill',
-          image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-        },
+        title: 'Grill',
+        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
       },
-      {
+    },
+    {
+      id: 2,
+      user: 'Test Testesen',
+      startTime: moment().subtract({ days: 2 }),
+      endTime: moment().subtract({ days: 1 }),
+      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
+      approved: false,
+      status: status.DENIED,
+      lendableObject: {
         id: 2,
-        user: 'Test Testesen',
-        startTime: moment().subtract({ days: 2 }),
-        endTime: moment().subtract({ days: 1 }),
-        message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-        approved: false,
-        status: status.DENIED,
-        lendableObject: {
-          id: 2,
-          title: 'Grill',
-          image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-        },
+        title: 'Grill',
+        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
       },
-      {
-        id: 3,
-        user: 'Test Testesen',
-        startTime: moment().add({ hours: 2 }),
-        endTime: moment().add({ hours: 4 }),
-        message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-        approved: false,
-        status: status.APPROVED,
-        lendableObject: {
-          id: 2,
-          title: 'Grill',
-          image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-        },
+    },
+    {
+      id: 3,
+      user: 'Test Testesen',
+      startTime: moment().add({ hours: 2 }),
+      endTime: moment().add({ hours: 4 }),
+      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
+      approved: false,
+      status: status.APPROVED,
+      lendableObject: {
+        id: 2,
+        title: 'Grill',
+        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
       },
-      {
-        id: 3,
-        user: 'Test Testesen',
-        startTime: moment().add({ hours: 2 }),
-        endTime: moment().add({ hours: 4 }),
-        message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-        approved: false,
-        status: status.DENIED,
-        lendableObject: {
-          id: 2,
-          title: 'Grill',
-          image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-        },
+    },
+    {
+      id: 3,
+      user: 'Test Testesen',
+      startTime: moment().add({ hours: 2 }),
+      endTime: moment().add({ hours: 4 }),
+      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
+      approved: false,
+      status: status.DENIED,
+      lendableObject: {
+        id: 2,
+        title: 'Grill',
+        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
       },
-  ]
+    },
+  ];
 
   const [showFetchMore, setShowFetchMore] = useState(false);
 
@@ -227,23 +158,29 @@ const LendableObjectsList = () => {
       </NavigationTab>
 
       <h2>Mine forespørsler</h2>
-      {myRequests.length === 0 ? (
-        <p>Her var det tomt!</p>
-      ) : (
-        myRequests
-          .filter((request) => request.endTime.isAfter(moment().startOf('day')))
-          // sorting?
-          .map((request) => <Request key={request.id} request={request} />)
-      )}
+      <div className={styles.myRequestsList}>
+        {myRequests.length === 0 ? (
+          <p className="secondaryFontColor">Her var det tomt!</p>
+        ) : (
+          myRequests
+            .filter((request) =>
+              request.endTime.isAfter(moment().startOf('day'))
+            )
+            // sorting?
+            .map((request) => (
+              <LendingRequest key={request.id} request={request} />
+            ))
+        )}
+      </div>
 
-      <br />
-      {showFetchMore ? (
-        <Button>Hent fler</Button>
-      ) : (
-        <Button>Hent gamle forespørsler</Button>
-      )}
+      {myRequests.length !== 0 &&
+        (showFetchMore ? (
+          <Button>Hent fler</Button>
+        ) : (
+          <Button>Hent gamle forespørsler</Button>
+        ))}
 
-      <h2 style={{ marginTop: "30px" }}>Utlånsobjekter</h2>
+      <h2 style={{ marginTop: '30px' }}>Utlånsobjekter</h2>
       <TextInput
         className={styles.searchBar}
         prefix="search"

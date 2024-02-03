@@ -1,3 +1,5 @@
+@import url('~app/styles/variables.css');
+
 .heading {
   font-size: var(--font-size-lg);
   border-bottom: 1px solid var(--border-gray);

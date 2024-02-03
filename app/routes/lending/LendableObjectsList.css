@@ -1,32 +1,7 @@
 @import url('~app/styles/variables.css');
 
-.request {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.status {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px 25px;
-  border-radius: var(--border-radius-lg);
-  font-weight: 400;
-}
-
-.pending {
-  background-color: var(--color-orange-6);
-}
-
-.approved {
-  background-color: var(--color-green-6);
-}
-
-.denied {
-  background-color: var(--color-red-6);
+.myRequestsList {
+  margin-bottom: 30px;
 }
 
 .searchBar {

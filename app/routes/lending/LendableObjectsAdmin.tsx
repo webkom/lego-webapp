@@ -1,5 +1,4 @@
 import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
-import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -8,55 +7,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import styles from './LendableObjectsAdmin.css';
 import { useState } from 'react';
 import { ListLendableObject } from 'app/store/models/LendableObject';
-
-type LendingRequestProps = {
-  pending: boolean;
-  request: any;
-};
-
-enum status {
-  PENDING,
-  APPROVED,
-  DENIED,
-}
-
-const LendingRequest = ({ request }: LendingRequestProps) => {
-  const isPending = request.status === status.PENDING; 
-  const [isOpen, setIsOpen] = useState(isPending);
-
-  return (
-    <Card 
-      shadow 
-      isHoverable={!isPending} 
-      className={cx(styles.lendingRequest, !isPending && styles.notPending)}
-      onClick={() => {
-        if (!isPending) {
-          setIsOpen(!isOpen);
-        }
-      }}
-    >
-        <Flex column>
-          <h3 className={styles.lendingRequestTitle}>
-            {request.lendableObject.title} - {request.user} - {request.id}
-          </h3>
-          {isOpen && (
-            <Flex column>
-              <p>{request.message}</p>
-              <p>
-                {request.startTime.format('DD.MM.YYYY HH:mm')} - {request.endTime.format('DD.MM.YYYY HH:mm')}
-              </p>
-            </Flex>
-          )}
-        </Flex>
-        {isPending && (
-          <Flex alignItems='center' gap={5}>
-            <Button success>Godkjenn</Button>
-            <Button dark>Avslå</Button>
-          </Flex>
-        )}
-    </Card>
-  );
-};
+import { LendingRequest, status } from './components/LendingRequest';
 
 const LendableObjectsAdmin = () => {
   const lendingRequests = [
@@ -150,52 +101,48 @@ const LendableObjectsAdmin = () => {
   return (
     <Content>
       <Helmet title="Utlån" />
-      <NavigationTab 
-        title="Utlånsforespørsler" 
+      <NavigationTab
+        title="Utlånsforespørsler"
         back={{
           label: 'Tilbake',
           path: '/lending',
         }}
       />
       <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
-      <Flex column gap={10}>
+      <Flex column gap={10} margin="0 0 30px">
         {lendingRequests
           .filter((request) => request.status === status.PENDING)
           .map((request) => (
-            <LendingRequest key={request.id} pending={true} request={request} />
+            <LendingRequest key={request.id} request={request} isAdmin />
           ))}
       </Flex>
-      <br />
-      <h2 className={styles.heading}>Godkjente utlånsforespørsler</h2>
-      <Flex column gap={10}>
+
+      <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
+      <Flex column gap={10} margin="0 0 30px">
         {lendingRequests
           .filter((request) => request.status !== status.PENDING)
           .map((request) => (
-            <LendingRequest key={request.id} pending={false} request={request} />
+            <LendingRequest key={request.id} request={request} isAdmin />
           ))}
-          {showFetchMore && (
-            <Button onClick={() => {}}>Last inn mer</Button>
-          )}
+        {showFetchMore && <Button onClick={() => {}}>Last inn mer</Button>}
       </Flex>
-      <br />
+
       <h2 className={styles.heading}>Utlånsobjekter</h2>
       <Flex column gap={10}>
         <Link to={`/lending/new`}>
-          <Card 
-            shadow 
-            isHoverable 
-            className={styles.newLendableObject}
-          >
+          <Card shadow isHoverable className={styles.newLendableObject}>
             <Icon name="add-outline" size={30} />
           </Card>
         </Link>
         {lendableObjects.map((lendableObject) => (
-          <Card 
-            key={lendableObject.id} 
-            shadow 
+          <Card
+            key={lendableObject.id}
+            shadow
             className={styles.lendableObject}
           >
-            <h3>{lendableObject.id} - {lendableObject.title}</h3>
+            <h3>
+              {lendableObject.id} - {lendableObject.title}
+            </h3>
             <Link to={`/lending/${lendableObject.id}/edit`}>
               <Button>
                 <Icon name="create-outline" size={19} />
