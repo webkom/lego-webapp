@@ -185,8 +185,14 @@ const UserProfile = () => {
   const showSettings =
     (isCurrentUser || actionGrant.includes('edit')) && user?.username;
 
-  const previousEvents = useAppSelector(selectPreviousEvents);
   const upcomingEvents = useAppSelector(selectUpcomingEvents);
+  const fetchingUpcoming = useAppSelector(
+    (state) => state.events.fetchingUpcoming
+  );
+  const previousEvents = useAppSelector(selectPreviousEvents);
+  const fetchingPrevious = useAppSelector(
+    (state) => state.events.fetchingPrevious
+  );
 
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
   const canEditEmailLists = useAppSelector((state) => state.allowed.email);
@@ -196,8 +202,6 @@ const UserProfile = () => {
       groupType: 'klasse',
     })
   );
-
-  const loading = useAppSelector((state) => state.events.fetching);
 
   const dispatch = useAppDispatch();
 
@@ -251,7 +255,6 @@ const UserProfile = () => {
       </ul>
     );
   };
-
   //If you wonder what this is, ask somebody
   const FRAMEID = [6050, 5962, 7276, 7434, 7747, 8493];
 
@@ -726,26 +729,30 @@ const UserProfile = () => {
                 events={orderBy(upcomingEvents, 'startTime')}
                 noEventsMessage="Du har ingen kommende arrangementer"
                 eventStyle="compact"
-                loading={loading}
+                loading={fetchingUpcoming}
               />
               <h3>
                 Dine tidligere arrangementer (
-                {previousEvents === undefined ? 0 : previousEvents.length})
+                {!fetchingPrevious
+                  ? previousEvents === undefined
+                    ? 0
+                    : previousEvents.length
+                  : '...'}
+                )
               </h3>
               <EventListCompact
                 events={
-                  previousEvents === undefined
-                    ? []
-                    : orderBy(
-                        previousEvents
-                          .filter((e) => e.userReg.pool !== null)
-                          .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
-                        'startTime'
-                      ).reverse()
+                  previousEvents &&
+                  orderBy(
+                    previousEvents
+                      .filter((e) => e.userReg.pool !== null)
+                      .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
+                    'startTime'
+                  ).reverse()
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
-                loading={loading}
+                loading={fetchingPrevious}
               />
             </div>
           )}
