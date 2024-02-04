@@ -20,6 +20,12 @@
   word-break: break-word;
 }
 
+.skeletonHeader {
+  margin: 15px 0;
+  width: 210px;
+  height: 34px;
+}
+
 .navigator {
   display: flex;
   flex-flow: row wrap;

@@ -1,4 +1,4 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, Skeleton } from '@webkom/lego-bricks';
 import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -12,6 +12,7 @@ type Props = {
   style?: CSSProperties;
   placeholder?: string;
   collapsedHeight?: number;
+  skeleton?: boolean;
 };
 
 /**
@@ -24,6 +25,7 @@ function CollapsibleDisplayContent({
   className,
   placeholder,
   collapsedHeight = 250,
+  skeleton = false,
 }: Props) {
   let domParser = null;
 
@@ -50,17 +52,27 @@ function CollapsibleDisplayContent({
           : collapsedHeight + 'px' ?? collapsedHeight,
       }}
     >
-      <div key={content} id={id} style={style} className={className} ref={ref}>
-        <Editor
-          onChange={() => {}}
-          onBlur={() => {}}
-          onFocus={() => {}}
-          value={content}
-          placeholder={placeholder}
-          disabled
-          domParser={domParser}
-        />
-      </div>
+      {skeleton ? (
+        <Skeleton className={styles.skeleton} />
+      ) : (
+        <div
+          key={content}
+          id={id}
+          style={style}
+          className={className}
+          ref={ref}
+        >
+          <Editor
+            onChange={() => {}}
+            onBlur={() => {}}
+            onFocus={() => {}}
+            value={content}
+            placeholder={placeholder}
+            disabled
+            domParser={domParser}
+          />
+        </div>
+      )}
       {useCollapse && (
         <div className={styles.showMore}>
           <Icon

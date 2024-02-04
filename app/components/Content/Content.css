@@ -26,12 +26,13 @@
 .cover {
   composes: contentContainer from '~app/styles/utilities.css';
   max-height: 400px;
+  aspect-ratio: 3.3;
+  width: 100%;
   padding: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   overflow: hidden;
   position: relative;
-  width: 100%;
 
   & img {
     object-fit: cover;

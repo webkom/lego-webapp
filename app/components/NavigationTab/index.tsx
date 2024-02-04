@@ -1,4 +1,4 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
 import NavigationLink from './NavigationLink';
@@ -14,6 +14,7 @@ type Props = {
   details?: ReactNode;
   headerClassName?: string;
   className?: string;
+  skeleton?: boolean;
   children?: ReactNode;
 };
 
@@ -23,6 +24,7 @@ const NavigationTab = ({
   details,
   headerClassName,
   className,
+  skeleton,
   children,
 }: Props) => (
   <>
@@ -42,7 +44,13 @@ const NavigationTab = ({
       </NavLink>
     )}
     <div className={cx(styles.container, className)}>
-      <h1 className={cx(styles.header, headerClassName)}>{title}</h1>
+      {skeleton ? (
+        <Skeleton
+          className={cx(styles.header, styles.skeletonHeader, headerClassName)}
+        />
+      ) : (
+        <h1 className={cx(styles.header, headerClassName)}>{title}</h1>
+      )}
       <div className={styles.navigator}>{children}</div>
     </div>
     <div className={styles.details}>{details}</div>
