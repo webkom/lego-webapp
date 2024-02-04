@@ -29,18 +29,38 @@ div .cont {
   padding: 1em;
 }
 
-.header {
-  margin: 10px 0;
-}
-
 .headWrapper {
   display: flex;
   flex-flow: column wrap;
   margin-top: -15px;
 }
 
-.header1 {
+.header {
   text-align: center;
+  margin: 0 auto;
+}
+
+.skeletonHeader {
+  width: 18rem;
+  height: 3rem;
+}
+
+.skeletonBody1 {
+  margin-top: 2rem;
+  width: 60%;
+  height: 80px;
+}
+
+.skeletonBody2 {
+  margin-top: 1rem;
+  width: 40%;
+  height: 65px;
+}
+
+.skeletonBody3 {
+  margin-top: 1rem;
+  width: 80%;
+  height: 70px;
 }
 
 .main {
@@ -71,6 +91,7 @@ div .cont {
 
 .banner {
   padding-bottom: 2px;
+  aspect-ratio: 3.3;
 }
 
 .banner img {
@@ -135,7 +156,7 @@ div .cont {
     padding-bottom: 1em;
   }
 
-  .header1 {
+  .header {
     text-align: center;
     word-break: break-word;
     margin-top: 0;

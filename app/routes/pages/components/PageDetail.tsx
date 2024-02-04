@@ -1,5 +1,6 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import cx from 'classnames';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -56,7 +57,6 @@ const GroupRenderer: PageRenderer = ({ page }) => {
   return (
     <article className={styles.detail}>
       <DisplayContent content={text} />
-
       {Object.values(membershipsByRole).some((array) => array.length > 0) && (
         <>
           <h3 className={styles.heading}>Medlemmer</h3>
@@ -282,6 +282,20 @@ type PageRendererProps = {
 };
 export type PageRenderer = ComponentType<PageRendererProps>;
 
+const PageSkeleton = () => {
+  return (
+    <Flex column gap="2rem">
+      <Skeleton className={styles.banner} />
+      <Skeleton className={cx(styles.header, styles.skeletonHeader)} />
+      <div>
+        <Skeleton className={styles.skeletonBody1} />
+        <Skeleton className={styles.skeletonBody2} />
+        <Skeleton className={styles.skeletonBody3} />
+      </div>
+    </Flex>
+  );
+};
+
 const PageDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -312,11 +326,8 @@ const PageDetail = () => {
     [pageSlug]
   );
 
-  if (!selectedPage) {
-    return <LoadingIndicator loading />;
-  }
-
   const { editUrl, actionGrant = [], isComplete } = selectedPageInfo;
+
   return (
     <Content className={styles.cont}>
       <Helmet title={selectedPageInfo.title} />
@@ -351,7 +362,7 @@ const PageDetail = () => {
                 ChildPageRenderer={PageRenderer}
               />
             ) : (
-              <LoadingIndicator loading />
+              <PageSkeleton />
             )}
           </div>
         </Flex>
@@ -387,7 +398,7 @@ export const MainPageRenderer = ({
           </div>
         )}
         {title !== 'Info om Abakus' && (
-          <h1 className={styles.header1}>{readmeIfy(title)}</h1>
+          <h1 className={styles.header}>{readmeIfy(title)}</h1>
         )}
       </div>
       <ChildPageRenderer page={page} pageInfo={pageInfo} />
