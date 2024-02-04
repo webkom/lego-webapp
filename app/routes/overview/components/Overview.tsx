@@ -29,9 +29,12 @@ import type { Event } from 'app/models';
 import type { WithDocumentType } from 'app/reducers/frontpage';
 import type { PublicArticle } from 'app/store/models/Article';
 
+const EVENTS_TO_SHOW = 9;
+const ARTICLES_TO_SHOW = 2;
+
 const Overview = () => {
-  const [eventsToShow, setEventsToShow] = useState(9);
-  const [articlesToShow, setArticlesToShow] = useState(2);
+  const [eventsToShow, setEventsToShow] = useState(EVENTS_TO_SHOW);
+  const [articlesToShow, setArticlesToShow] = useState(ARTICLES_TO_SHOW);
 
   const showMore = () => {
     setEventsToShow(eventsToShow + 6);
@@ -93,10 +96,6 @@ const Overview = () => {
     [articles, articlesToShow, pinned]
   );
 
-  const pinnedComponent = pinned && (
-    <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
-  );
-
   const readMe = (
     <Flex className={styles.readMe}>
       <LatestReadme
@@ -118,8 +117,12 @@ const Overview = () => {
       <Flex className={styles.desktopContainer}>
         <Flex column className={styles.leftColumn}>
           <CompactEvents events={events} />
-          {pinnedComponent}
-          <Events events={eventsShown} loggedIn={loggedIn} />
+          <Pinned
+            item={pinned}
+            url={itemUrl(pinned)}
+            meta={renderMeta(pinned)}
+          />
+          <Events events={eventsShown} />
         </Flex>
         <Flex column className={styles.rightColumn}>
           <NextEventSection events={events} />
@@ -133,13 +136,13 @@ const Overview = () => {
       <section className={styles.mobileContainer}>
         <CompactEvents events={events} />
         <NextEvent events={events} />
-        {pinnedComponent}
+        <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
         <PollItem />
         <QuoteItem />
         {readMe}
         <Weekly weeklyArticle={weeklyArticle} />
         <Articles articles={articlesShown} />
-        <Events events={eventsShown} loggedIn={loggedIn} />
+        <Events events={eventsShown} />
       </section>
 
       {frontpage.length > 8 && (
@@ -151,77 +154,97 @@ const Overview = () => {
   );
 };
 
-const Events = ({
-  events,
-  loggedIn,
-}: {
-  events: WithDocumentType<Event>[];
-  loggedIn: boolean;
-}) => (
-  <Flex column className={styles.events}>
-    <Link to="/events">
-      <h3 className="u-ui-heading">Arrangementer</h3>
-    </Link>
+const Events = ({ events }: { events: WithDocumentType<Event>[] }) => {
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.events.fetching
+  );
 
-    <Flex column gap={20}>
-      {events.map((event) => (
-        <EventItem
-          key={event.id}
-          item={event}
-          url={itemUrl(event)}
-          meta={renderMeta(event)}
-          loggedIn={loggedIn}
-          isFrontPage={true}
-        />
-      ))}
+  return (
+    <Flex column className={styles.events}>
+      <Link to="/events">
+        <h3 className="u-ui-heading">Arrangementer</h3>
+      </Link>
+
+      <Flex column gap={20}>
+        {fetching && !events.length
+          ? [...Array(EVENTS_TO_SHOW)].map((i) => (
+              <EventItem key={i} url="" meta={<></>} isFrontPage={true} />
+            ))
+          : events.map((event) => (
+              <EventItem
+                key={event.id}
+                item={event}
+                url={itemUrl(event)}
+                meta={renderMeta(event)}
+                isFrontPage={true}
+              />
+            ))}
+      </Flex>
     </Flex>
-  </Flex>
-);
+  );
+};
 
 const Weekly = ({
   weeklyArticle,
 }: {
   weeklyArticle: WithDocumentType<PublicArticle>;
-}) => (
-  <Flex column>
-    {weeklyArticle && (
-      <>
-        <Link to="/articles?tag=weekly">
-          <h3 className="u-ui-heading">Weekly</h3>
-        </Link>
+}) => {
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.articles.fetching
+  );
 
+  return (
+    <Flex column>
+      <Link to="/articles?tag=weekly">
+        <h3 className="u-ui-heading">Weekly</h3>
+      </Link>
+
+      {(fetching && !weeklyArticle) || !weeklyArticle ? (
+        <ArticleItem url="" meta={<></>} />
+      ) : (
         <ArticleItem
           key={weeklyArticle.id}
           item={weeklyArticle}
           url={itemUrl(weeklyArticle)}
           meta={renderMeta(weeklyArticle)}
         />
-      </>
-    )}
-  </Flex>
-);
+      )}
+    </Flex>
+  );
+};
+
 const Articles = ({
   articles,
 }: {
   articles: WithDocumentType<PublicArticle>[];
-}) => (
-  <Flex column>
-    <Link to="/articles">
-      <h3 className="u-ui-heading">Artikler</h3>
-    </Link>
+}) => {
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.articles.fetching
+  );
 
-    <Flex column gap={20}>
-      {articles.map((article) => (
-        <ArticleItem
-          key={article.id}
-          item={article}
-          url={itemUrl(article)}
-          meta={renderMeta(article)}
-        />
-      ))}
+  return (
+    <Flex column>
+      <Link to="/articles">
+        <h3 className="u-ui-heading">Artikler</h3>
+      </Link>
+
+      <Flex column gap={20}>
+        {(fetching && !articles.length) || !articles.length
+          ? [...Array(ARTICLES_TO_SHOW)].map((i) => (
+              <ArticleItem key={i} url="" meta={<></>} />
+            ))
+          : articles.map((article) => (
+              <ArticleItem
+                key={article.id}
+                item={article}
+                url={itemUrl(article)}
+                meta={renderMeta(article)}
+              />
+            ))}
+      </Flex>
     </Flex>
-  </Flex>
-);
+  );
+};
 
 const NextEventSection = ({ events }: { events: Event[] }) => (
   <Flex column>
@@ -235,19 +258,20 @@ const NextEventSection = ({ events }: { events: Event[] }) => (
 
 const PollItem = () => {
   const poll = useAppSelector(selectPinnedPolls)[0];
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.polls.fetching
+  );
 
   return (
-    <Flex column>
-      {poll && (
-        <>
-          <Link to="/polls">
-            <h3 className="u-ui-heading">Avstemning</h3>
-          </Link>
+    (fetching || poll) && (
+      <Flex column>
+        <Link to="/polls">
+          <h3 className="u-ui-heading">Avstemning</h3>
+        </Link>
 
-          <Poll poll={poll} truncate={3} />
-        </>
-      )}
-    </Flex>
+        <Poll poll={poll} truncate={3} />
+      </Flex>
+    )
   );
 };
 

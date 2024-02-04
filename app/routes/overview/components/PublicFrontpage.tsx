@@ -42,14 +42,6 @@ const PublicFrontpage = () => {
   );
 
   const pinned = frontpage[0];
-  const pinnedComponent = pinned && (
-    <Pinned
-      style={{ gridArea: 'article' }}
-      item={pinned}
-      url={itemUrl(pinned)}
-      meta={renderMeta(pinned)}
-    />
-  );
 
   return (
     <Container>
@@ -71,7 +63,12 @@ const PublicFrontpage = () => {
         <Card style={{ gridArea: 'hsp' }}>
           <HspInfo />
         </Card>
-        {pinnedComponent}
+        <Pinned
+          style={{ gridArea: 'article' }}
+          item={pinned}
+          url={itemUrl(pinned)}
+          meta={renderMeta(pinned)}
+        />
         <LatestReadme
           readmes={readmes}
           expandedInitially

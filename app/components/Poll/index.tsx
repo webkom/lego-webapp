@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { votePoll } from 'app/actions/PollActions';
 import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 
@@ -29,7 +29,7 @@ export const perfectRatios = (
     .sort((a, b) => b.ratio - a.ratio);
 };
 
-const optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
+const optionsWithPerfectRatios = (options: OptionEntity[]) => {
   const totalVotes = options.reduce((a, option) => a + option.votes, 0);
   const ratios = options.map((option) => {
     return { ...option, ratio: (option.votes / totalVotes) * 100 };
@@ -38,7 +38,7 @@ const optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
 };
 
 type Props = {
-  poll: PollEntity;
+  poll?: PollEntity;
   allowedToViewHiddenResults?: boolean;
   truncate?: number;
   details?: boolean;
@@ -58,9 +58,9 @@ const Poll = ({
   const [expanded, setExpanded] = useState(true);
 
   useEffect(() => {
-    const options = optionsWithPerfectRatios(poll.options);
+    const options = poll && optionsWithPerfectRatios(poll.options);
 
-    if (truncate && options.length > truncate) {
+    if (truncate && options && options.length > truncate) {
       setTruncateOptions(true);
       setExpanded(false);
     } else {
@@ -73,29 +73,30 @@ const Poll = ({
     setExpanded(!expanded);
   };
 
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.polls.fetching
+  );
   const dispatch = useAppDispatch();
 
-  const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
-    poll;
-  const options = optionsWithPerfectRatios(poll.options);
+  const options = poll && optionsWithPerfectRatios(poll.options);
   const orderedOptions = options;
   const optionsToShow = expanded
     ? orderedOptions
-    : orderedOptions.slice(0, truncate);
-  const showResults = !resultsHidden || allowedToViewHiddenResults;
+    : orderedOptions?.slice(0, truncate);
+  const showResults = !poll?.resultsHidden || allowedToViewHiddenResults;
 
   return (
-    <Card>
+    <Card skeleton={fetching && !poll} className={styles.poll}>
       <Flex column gap="1rem">
         <Flex
           alignItems="center"
           justifyContent="space-between"
           className={styles.pollHeader}
         >
-          <Link to={`/polls/${id}`}>
+          <Link to={`/polls/${poll?.id}`}>
             <Flex alignItems="center" gap={10}>
               <Icon name="stats-chart" size={20} />
-              <span className={styles.pollHeader}>{title}</span>
+              <span className={styles.pollHeader}>{poll?.title}</span>
             </Flex>
           </Link>
           <Tooltip content="Avstemningen er anonym">
@@ -113,11 +114,11 @@ const Poll = ({
                 },
               }}
             >
-              {description}
+              {poll?.description}
             </Linkify>
           </div>
         )}
-        {hasAnswered && !showResults && (
+        {poll?.hasAnswered && !showResults && (
           <Flex justifyContent="center" alignItems="center" gap={5}>
             Du har svart
             <Icon
@@ -127,11 +128,11 @@ const Poll = ({
             />
           </Flex>
         )}
-        {hasAnswered && showResults && (
+        {poll?.hasAnswered && showResults && (
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
-                {optionsToShow.map(({ id, name, votes, ratio }) => {
+                {optionsToShow?.map(({ id, name, votes, ratio }) => {
                   return (
                     <tr key={id}>
                       <td className={styles.textColumn}>{name}</td>
@@ -169,7 +170,7 @@ const Poll = ({
                 })}
               </tbody>
             </table>
-            {resultsHidden && (
+            {poll?.resultsHidden && (
               <p
                 className="secondaryFontColor"
                 style={{
@@ -181,7 +182,7 @@ const Poll = ({
             )}
           </Flex>
         )}
-        {!hasAnswered && (
+        {!poll?.hasAnswered && (
           <Flex column className={styles.optionWrapper}>
             {!expanded && (
               <Flex
@@ -195,7 +196,7 @@ const Poll = ({
               </Flex>
             )}
             {options &&
-              optionsToShow.map((option) => (
+              optionsToShow?.map((option) => (
                 <Flex
                   justifyContent="space-between"
                   style={{ flexGrow: '1' }}
@@ -216,8 +217,8 @@ const Poll = ({
         <div>
           <div className={styles.moreOptionsLink}>
             {truncateOptions &&
-              (!hasAnswered ||
-                !resultsHidden ||
+              (!poll?.hasAnswered ||
+                !poll?.resultsHidden ||
                 allowedToViewHiddenResults) && (
                 <Flex alignItems="center" justifyContent="center">
                   <Icon
@@ -230,10 +231,10 @@ const Poll = ({
           </div>
           <Flex justifyContent="space-between">
             <span>
-              <span className={styles.totalVotes}>{totalVotes}</span>{' '}
-              {totalVotes === 1 ? 'stemme' : 'stemmer'}
+              <span className={styles.totalVotes}>{poll?.totalVotes}</span>{' '}
+              {poll?.totalVotes === 1 ? 'stemme' : 'stemmer'}
             </span>
-            {hasAnswered && !showResults && (
+            {poll?.hasAnswered && !showResults && (
               <span className="secondaryFontColor">Resultatet er skjult</span>
             )}
           </Flex>
