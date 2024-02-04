@@ -1,17 +1,15 @@
 import { Button, Card } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import qs from 'qs';
+import moment from 'moment';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { ListLendableObject } from 'app/store/models/LendableObject';
 import styles from './LendableObjectsList.css';
-import moment from 'moment';
-import { useState } from 'react';
-import { LendingRequest, status } from './components/LendingRequest';
+import { LendingRequest, status } from './LendingRequest';
+import type { ListLendableObject } from 'app/store/models/LendableObject';
 
 const LendableObject = ({
   lendableObject,
@@ -34,32 +32,9 @@ const LendableObject = ({
   );
 };
 
-type Query = {
-  title?: string;
-};
-
-const parseQuery = (search: string): Query => {
-  const { title } = qs.parse(search, {
-    ignoreQueryPrefix: true,
-  });
-
-  return {
-    title: typeof title === 'string' ? title : undefined,
-  };
-};
-
 export const LendableObjectsList = () => {
-  const location = useLocation();
-  const query = parseQuery(location.search);
-  const history = useHistory();
-
-  usePreparedEffect(
-    'fetchLendableObjects',
-    () => {
-      console.log(query.title);
-    },
-    [query.title]
-  );
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showFetchMore, setShowFetchMore] = useState(false);
 
   const lendableObjects: Array<ListLendableObject> = [
     {
@@ -148,7 +123,6 @@ export const LendableObjectsList = () => {
     },
   ];
 
-  const [showFetchMore, setShowFetchMore] = useState(false);
 
   return (
     <Content>
@@ -177,7 +151,7 @@ export const LendableObjectsList = () => {
         (showFetchMore ? (
           <Button>Hent fler</Button>
         ) : (
-          <Button>Hent gamle forespørsler</Button>
+          <Button onClick={() => setShowFetchMore(true)}>Hent gamle forespørsler</Button>
         ))}
 
       <h2 style={{ marginTop: '30px' }}>Utlånsobjekter</h2>
@@ -185,22 +159,15 @@ export const LendableObjectsList = () => {
         className={styles.searchBar}
         prefix="search"
         placeholder="Søk etter utlånsobjekter"
-        onChange={(e) => {
-          history.replace({
-            search: qs.stringify({
-              ...query,
-              title: e.target.value ? e.target.value : undefined,
-            }),
-          });
-        }}
+        onChange={(e) => setSearchParams(e.target.value && { search: e.target.value })}
       />
       <div className={styles.lendableObjectsContainer}>
         {lendableObjects
           .filter((lendableObject) =>
-            query.title
+            searchParams.get("search")
               ? lendableObject.title
                   .toLowerCase()
-                  .includes(query.title.toLowerCase())
+                  .includes((searchParams.get("search") || "").toLowerCase())
               : true
           )
           .map((lendableObject) => (

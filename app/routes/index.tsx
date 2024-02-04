@@ -16,6 +16,7 @@ const ContactRoute = loadable(() => import('./contact'));
 const EventsRoute = loadable(() => import('./events'));
 const InterestGroupsRoute = loadable(() => import('./interestgroups'));
 const JoblistingsRoute = loadable(() => import('./joblistings'));
+const LendingRoute = loadable(() => import('./lending'));
 const MeetingsRoute = loadable(() => import('./meetings'));
 const Overview = loadable(() => import('./overview'));
 const PageNotFound = loadable(() => import('./pageNotFound'));
@@ -49,6 +50,7 @@ const RouterConfig = () => (
       <Route path="interest-groups/*" element={<InterestGroupsRoute />} />
       <Route path="interestgroups/*" element={<InterestGroupsRoute />} />
       <Route path="joblistings/*" element={<JoblistingsRoute />} />
+      <Route path="lending/*" element={<LendingRoute />} />
       <Route path="meetings/*" element={<MeetingsRoute />} />
       <Route path="pages/*" element={<PagesRoute />} />
       <Route path="photos/*" element={<PhotosRoute />} />

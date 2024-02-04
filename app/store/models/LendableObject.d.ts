@@ -1,5 +1,5 @@
-import type { RoleType } from 'app/utils/constants';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { RoleType } from 'app/utils/constants';
 import type { Duration } from 'moment-timezone';
 
 interface LendableObject {

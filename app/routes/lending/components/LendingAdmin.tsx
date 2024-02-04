@@ -1,13 +1,13 @@
 import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
-import styles from './LendableObjectsAdmin.css';
-import { useState } from 'react';
-import { ListLendableObject } from 'app/store/models/LendableObject';
-import { LendingRequest, status } from './components/LendingRequest';
+import styles from './LendingAdmin.css';
+import { LendingRequest, status } from './LendingRequest';
+import type { ListLendableObject } from 'app/store/models/LendableObject';
 
 const LendableObjectsAdmin = () => {
   const lendingRequests = [

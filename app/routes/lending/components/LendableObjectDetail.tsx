@@ -12,8 +12,8 @@ import { Content } from 'app/components/Content';
 import { Button, TextArea, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { DetailedLendableObject } from 'app/store/models/LendableObject';
 import { createValidator, required } from 'app/utils/validation';
+import type { DetailedLendableObject } from 'app/store/models/LendableObject';
 
 type Params = {
   lendableObjectId: string;
