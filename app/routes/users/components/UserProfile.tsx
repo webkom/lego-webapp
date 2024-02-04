@@ -714,14 +714,6 @@ const UserProfile = () => {
           )}
         </div>
         <div className={styles.rightContent}>
-          {/*
-           <h3>Nylig aktivitet</h3>
-           {feed ? (
-             <Feed items={feedItems} feed={feed} />
-           ) : (
-             <LoadingIndicator loading />
-           )}
-           */}
           {isCurrentUser && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>

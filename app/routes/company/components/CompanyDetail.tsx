@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -42,15 +42,13 @@ const queryString = (companyId: ID) =>
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
-  const { companyId, loading } = useParams<{
-    companyId: string;
-    loading: string;
-  }>();
+  const { companyId } = useParams<{ companyId: string }>();
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
     })(state)
   );
+  const fetching = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
     selectCompanyById(state, { companyId })
   );
@@ -82,11 +80,8 @@ const CompanyDetail = () => {
     [companyId]
   );
 
-  if (!company) {
-    return <LoadingIndicator loading={Boolean(loading)} />;
-  }
-
   const fetchMoreEvents = () =>
+    companyId &&
     dispatch(
       fetchEventsForCompany({
         endpoint,
@@ -149,6 +144,8 @@ const CompanyDetail = () => {
             events={upcomingEvents}
             noEventsMessage="Ingen kommende arrangementer"
             eventStyle="extra-compact"
+            loading={fetching}
+            extraCompactSkeletonLimit={1}
           />
 
           {oldEvents.length > 0 && (
@@ -165,6 +162,7 @@ const CompanyDetail = () => {
                 events={oldEvents}
                 noEventsMessage="Ingen tidligere arrangementer"
                 eventStyle="extra-compact"
+                loading={fetching}
               />
             </>
           )}

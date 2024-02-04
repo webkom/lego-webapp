@@ -1,13 +1,15 @@
 .eventItem {
+  min-height: 50px;
   padding-left: 20px;
   border-left: 4px solid transparent;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
 }
 
 .eventItemCompact {
   composes: eventItem;
+  min-height: 156px;
   flex-direction: column;
   justify-content: space-between;
 }
