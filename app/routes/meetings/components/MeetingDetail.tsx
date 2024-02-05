@@ -198,7 +198,7 @@ const MeetingDetails = () => {
                 endTime={meeting.endTime}
                 description={meeting.description}
                 location={meeting.location}
-              ></AddToCalender>
+              / >
             </li>
             <li>
               <AttendanceModal
