@@ -11,14 +11,12 @@
   font-weight: bold;
 }
 
-/* Ensure .calendarLink is defined before .calendarLink:hover and separated by an empty line */
 .calendarLink {
   display: block;
   margin-top: 5px;
   margin-left: 10px;
 }
 
-/* Adding an empty line before .calendarLink:hover as recommended */
 .calendarLink:hover {
   cursor: pointer;
 }
