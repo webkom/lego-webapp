@@ -76,8 +76,8 @@ const AddToCalenderToggle = ({ icalToken, meeting }: Props) => {
               {/* For React list rendering performance */}
               <a
                 href={
-                  option.type == 'single_meeting'
-                    ? getIcalUrlGoogle(icalToken, option.name)
+                  option.type != 'single_meeting'
+                    ? getIcalUrlGoogle(icalToken, option.type)
                     : createGoogleCalenderLink(meeting)
                 }
                 target="_blank"
