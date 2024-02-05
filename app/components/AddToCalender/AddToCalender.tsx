@@ -15,6 +15,7 @@ type calendarOptionAttributes = {
   type: string;
   bold?: boolean;
 };
+const calendarTypes: string[] = ['Google Calendar', 'iCalendar'];
 //Copied from EventFooter.tsx
 const getIcalUrl = (icalToken, icalType) =>
   `${config.serverUrl}/calendar-ical/${icalType}/?token=${icalToken}`;
@@ -59,7 +60,7 @@ const formatTimeForGoogle = (dateTime: string) => {
 
 const AddToCalenderToggle = ({ icalToken, meeting }: Props) => {
   const [calendarIsOpen, setCalendarIsOpen] = useState(false);
-
+  const [googleCalendar, setGoogleCalandar] = useState(false);
   return (
     <div>
       <Button
@@ -68,29 +69,60 @@ const AddToCalenderToggle = ({ icalToken, meeting }: Props) => {
       >
         {!calendarIsOpen ? 'Vis kalender 📅' : 'Skjul kalender ♻️'}
       </Button>
+
       {calendarIsOpen && (
-        <ul>
-          {optionArray.map((option) => (
-            <li key={option.name}>
-              {' '}
-              {/* For React list rendering performance */}
-              <a
-                href={
-                  option.type != 'single_meeting'
-                    ? getIcalUrlGoogle(icalToken, option.type)
-                    : createGoogleCalenderLink(meeting)
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className={
-                  styles.calendarLink + (option.bold ? ' ' + styles.bold : '')
-                }
-              >
-                {option.name}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <>
+          <br />
+          <Button
+            className={`${styles.leftCalendarTypeButton} ${
+              styles.calendarButton
+            } ${googleCalendar ? styles.selected : ''}`}
+            onClick={() => setGoogleCalandar(true)}
+          >
+            GoogleCalendar
+          </Button>
+          {/* Style is used to overwrite current <Button/> implementation */}
+          <Button
+            className={`${styles.rightCalendarTypeButton} ${
+              styles.calendarButton
+            } ${!googleCalendar ? styles.selected : ''}`}
+            style={{ marginLeft: 0 }}
+            onClick={() => setGoogleCalandar(false)}
+          >
+            iCalendar
+          </Button>
+
+          <ul>
+            {calendarTypes.map((type) =>
+              (googleCalendar && type == 'Google Calendar') ||
+              (!googleCalendar && type == 'iCalendar') ? (
+                <li key={type}>
+                  {optionArray.map((option) => (
+                    <li key={option.name}>
+                      <a
+                        href={
+                          option.type !== 'single_meeting'
+                            ? type !== 'iCalendar'
+                              ? getIcalUrlGoogle(icalToken, option.type)
+                              : getIcalUrl(icalToken, option.type)
+                            : createGoogleCalenderLink(meeting)
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={
+                          styles.calendarLink +
+                          (option.bold ? ' ' + styles.bold : '')
+                        }
+                      >
+                        {option.name}
+                      </a>
+                    </li>
+                  ))}
+                </li>
+              ) : null
+            )}
+          </ul>
+        </>
       )}
     </div>
   );

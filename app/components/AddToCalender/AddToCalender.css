@@ -1,9 +1,9 @@
 .calendarButton {
   max-width: 180px;
-  max-height: 30px;
+  max-height: 35px;
   margin-top: 5px;
   margin-bottom: 5px;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-md);
 }
 
 .calendarOptions {
@@ -23,4 +23,22 @@
 
 .bold {
   font-weight: bold;
+}
+
+.selected {
+  background-color: var(--button-background-hover);
+}
+
+.leftCalendarTypeButton {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  max-height: 30px;
+  font-size: var(--font-size-sm);
+}
+
+.rightCalendarTypeButton {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  max-height: 30px;
+  font-size: var(--font-size-sm);
 }
