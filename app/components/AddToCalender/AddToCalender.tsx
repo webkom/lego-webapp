@@ -2,8 +2,8 @@ import { Button } from '@webkom/lego-bricks';
 
 type AddToCalenderProps = {
   title: string;
-  startTime: string; // Format: YYYYMMDDTHHMMSSZ
-  endTime: string; // Format: YYYYMMDDTHHMMSSZ
+  startTime: Dateish;
+  endTime: Dateish;
   description?: string;
   location?: string;
 };
