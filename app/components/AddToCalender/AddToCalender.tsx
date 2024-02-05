@@ -1,4 +1,4 @@
-import { Button } from 'packages/lego-bricks/src/components/Button';
+import { Button } from '@webkom/lego-bricks';
 
 type AddToCalenderProps = {
   title: string;
