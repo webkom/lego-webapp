@@ -50,6 +50,7 @@ const UserLink = ({ user }: { user: PublicUser }) =>
 const MeetingDetails = () => {
   const { meetingId } = useParams<{ meetingId: string }>();
   const { currentUser } = useUserContext();
+  const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
     selectMeetingById(state, {
       meetingId,
@@ -192,13 +193,7 @@ const MeetingDetails = () => {
             {attendanceButtons(statusMe, meeting.startTime)}
             <InfoList items={infoItems} />
             <li>
-              <AddToCalender
-                title={meeting.title}
-                startTime={meeting.startTime}
-                endTime={meeting.endTime}
-                description={meeting.description}
-                location={meeting.location}
-              / >
+              <AddToCalender icalToken={icalToken} meeting={meeting} />
             </li>
             <li>
               <AttendanceModal

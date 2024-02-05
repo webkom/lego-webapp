@@ -1,0 +1,28 @@
+.calendarButton {
+  max-width: 180px;
+  max-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: var(--font-size-sm);
+}
+
+.calendarOptions {
+  text-decoration: solid;
+  font-weight: bold;
+}
+
+/* Ensure .calendarLink is defined before .calendarLink:hover and separated by an empty line */
+.calendarLink {
+  display: block;
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+/* Adding an empty line before .calendarLink:hover as recommended */
+.calendarLink:hover {
+  cursor: pointer;
+}
+
+.bold {
+  font-weight: bold;
+}
