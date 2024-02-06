@@ -20,7 +20,7 @@ export const selectLendableObjects = createSelector(
 );
 export const selectLendableObjectById = createSelector(
   (state: RootState) => state.lendableObjects.byId,
-  (_: RootState, id: EntityId) => id,
+  (_: RootState, props) => props.lendableObjectId,
   (lendableObjectsById, lendableObjectId) =>
     lendableObjectsById[lendableObjectId]
 );
