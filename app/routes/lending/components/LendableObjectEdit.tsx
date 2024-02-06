@@ -1,6 +1,10 @@
 import { Field, FormSpy } from 'react-final-form';
-import { useParams } from 'react-router-dom';
-import { createLendableObject } from 'app/actions/LendableObjectActions';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  createLendableObject,
+  editLendableObject,
+  fetchLendableObject,
+} from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
 import {
   Button,
@@ -11,9 +15,14 @@ import {
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
 import { spySubmittable } from 'app/utils/formSpyUtils';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { selectLendableObjectById } from 'app/reducers/lendableObjects';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { fetchGroup } from 'app/actions/GroupActions';
+import { selectGroups } from 'app/reducers/groups';
 
 type Params = {
   lendableObjectId: string | undefined;
@@ -24,19 +33,82 @@ const LendableObjectEdit = () => {
   const isNew = lendableObjectId === undefined;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const onSubmit = (values) =>
-    dispatch(
-      createLendableObject({
-        ...values,
-        responsibleGroups: values.responsibleGroups.map((group) => group.id),
-        responsibleRoles: values.responsibleRoles.map((role) => role.value),
-      })
+  if (!isNew) {
+    usePreparedEffect(
+      'fetchLendableObject',
+      () => dispatch(fetchLendableObject(Number(lendableObjectId))),
+      []
     );
+  }
+
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, {
+      lendableObjectId,
+    })
+  );
+
+  const groups = useAppSelector((state) => selectGroups(state));
+
+  const onSubmit = (values) => {
+    if (isNew) {
+      dispatch(
+        createLendableObject({
+          ...values,
+          responsibleGroups: values.responsibleGroups.map((group) => group.id),
+          responsibleRoles: values.responsibleRoles.map((role) => role.value),
+        })
+      ).then(() => navigate('/lending'));
+    } else {
+      dispatch(
+        editLendableObject({
+          id: lendableObjectId,
+          ...values,
+          responsibleGroups: values.responsibleGroups.map((group) => group.id),
+          responsibleRoles: values.responsibleRoles.map((role) => role.value),
+        })
+      ).then(() => navigate(`/lending/${lendableObjectId}`));
+    }
+  };
+
+  if (!isNew && !lendableObject) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
+
+  /*for (let group of lendableObject.responsibleGroups) {
+    dispatch(fetchGroup(group));
+  }*/
+
+  if (!isNew && !groups) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
+
+  const initialValues = !isNew
+    ? {
+        ...lendableObject,
+        responsibleRoles: lendableObject.responsibleRoles.map((role) => ({
+          label: roleOptions.find((r) => r.value === role)?.label || role,
+          value: role,
+        })),
+      }
+    : {};
 
   return (
     <Content>
-      <LegoFinalForm onSubmit={onSubmit} subscription={{}}>
+      <LegoFinalForm
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        subscription={{}}
+      >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Field
@@ -49,7 +121,6 @@ const LendableObjectEdit = () => {
               name="description"
               label="Beskrivelse"
               component={EditorField.Field}
-              initialized={true}
             />
             <Field
               name="responsibleGroups"

@@ -129,7 +129,7 @@ const LendableObjectsAdmin = () => {
 
       <h2 className={styles.heading}>Utlånsobjekter</h2>
       <Flex column gap={10}>
-        <Link to={`/lending/new`}>
+        <Link to={`/lending/create`}>
           <Card shadow isHoverable className={styles.newLendableObject}>
             <Icon name="add-outline" size={30} />
           </Card>
