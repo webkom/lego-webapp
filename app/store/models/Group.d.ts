@@ -1,9 +1,16 @@
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
+
 interface Group {
   id: number;
   name: string;
   description: string;
   contactEmail: string;
   parent: number;
+  permissions: string[];
+  parentPermissions: {
+    abakusGroup: Pick<Group, 'id' | 'name'>;
+    permissions: string[];
+  }[];
   logo: string | null;
   logoPlaceholder: string | null;
   numberOfUsers: number;
@@ -48,6 +55,11 @@ export type PublicListGroup = Pick<Group, 'numberOfUsers'> & PublicGroup;
 export type PublicDetailedGroup = Pick<Group, 'text'> & PublicListGroup;
 
 export type SearchGroup = Pick<Group, 'id' | 'name' | 'type' | 'logo'>;
+
+export type AutocompleteGroup = Pick<Group, 'name' | 'type' | 'logo' | 'id'> & {
+  contentType: AutocompleteContentType.Group;
+  text: 'text';
+};
 
 export type UnknownGroup =
   | PublicGroup

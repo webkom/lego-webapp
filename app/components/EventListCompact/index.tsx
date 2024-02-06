@@ -1,7 +1,6 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import EmptyState from 'app/components/EmptyState';
 import EventItem, { type EventStyle } from 'app/components/EventItem';
-import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
 
 type Props = {
@@ -17,10 +16,17 @@ const EventListCompact = ({
   eventStyle = 'default',
   loading,
 }: Props) => {
-  if (loading) {
+  if (loading && (!events || events.length === 0)) {
     return <LoadingIndicator loading margin="20px auto" />;
   }
-  return events && events.length ? (
+
+  if (!events || events.length === 0) {
+    return (
+      <EmptyState className="secondaryFontColor">{noEventsMessage}</EmptyState>
+    );
+  }
+
+  return (
     <Flex column wrap>
       {events.map((event) => (
         <EventItem
@@ -31,8 +37,6 @@ const EventListCompact = ({
         />
       ))}
     </Flex>
-  ) : (
-    <EmptyState className="secondaryFontColor">{noEventsMessage}</EmptyState>
   );
 };
 export default EventListCompact;

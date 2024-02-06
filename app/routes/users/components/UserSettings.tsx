@@ -1,4 +1,8 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import { fetchUser, updateUser } from 'app/actions/UserActions';
 import {
   Form,
   TextInput,
@@ -9,10 +13,12 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import type { UserEntity } from 'app/reducers/users';
+import { selectUserByUsername } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { useIsCurrentUser } from 'app/routes/users/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import {
   createValidator,
   required,
@@ -30,18 +36,8 @@ export type PasswordPayload = {
   password: string;
   retype_new_password: string;
 };
-interface Props {
-  changePassword: (arg0: PasswordPayload) => Promise<void>;
-  updateUser: (arg0: Record<string, any>) => Promise<void>;
-  deleteUser: (arg0: Record<string, any>) => Promise<void>;
-  user: UserEntity;
-  push: (arg0: string) => void;
-  updatePicture: (arg0: Record<string, any>) => void;
-  removePicture: (arg0: string) => Promise<any>;
-  initialValues: FormValues;
-}
 
-interface FormValues {
+type FormValues = {
   username: string;
   firstName: string;
   lastName: string;
@@ -53,7 +49,9 @@ interface FormValues {
   isAbakusMember: string;
   githubUsername: string;
   linkedinId: string;
-}
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const validate = createValidator({
   username: [required()],
@@ -66,31 +64,52 @@ const validate = createValidator({
   linkedinId: [isValidLinkedinId()],
 });
 
-const UserSettings = (props: Props) => {
-  const {
-    changePassword,
-    updatePicture,
-    removePicture,
-    push,
-    user,
-    deleteUser,
-    initialValues,
-    updateUser,
-  } = props;
-  const isCurrentUser = useIsCurrentUser(user.username);
+const UserSettings = () => {
+  const params = useParams<{ username: string }>();
+  const { currentUser } = useUserContext();
+  const isCurrentUser = useIsCurrentUser(params.username);
+  const username = isCurrentUser ? currentUser.username : params.username;
+  const user = useAppSelector((state) =>
+    selectUserByUsername(state, {
+      username,
+    })
+  );
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchUserSettings',
+    () => dispatch(fetchUser(username)),
+    []
+  );
+
+  const navigate = useNavigate();
+
+  if (!user) {
+    return <LoadingIndicator loading />;
+  }
+
   const showAbakusMembership = user.isStudent;
 
-  const onSubmit = (values: FormValues) => updateUser(values);
+  const onSubmit = (values: FormValues) =>
+    dispatch(updateUser(values)).then(() => {
+      navigate('/users/me');
+    });
+
+  const initialValues = {
+    ...user,
+    isAbakusMember: user?.isAbakusMember.toString(),
+  };
 
   return (
-    <div>
+    <>
       <div className={styles.pictureSection}>
-        <UserImage user={user} updatePicture={updatePicture} />
+        <UserImage user={user} />
       </div>
 
-      <RemovePicture username={user.username} removePicture={removePicture} />
+      <RemovePicture username={user.username} />
 
-      <LegoFinalForm
+      <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
         validate={validate}
@@ -123,24 +142,24 @@ const UserSettings = (props: Props) => {
 
             <MultiSelectGroup label="Kjønn" name="gender">
               <Field
-                type="radio"
                 name="gender"
                 label="Mann"
                 value="male"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
-                type="radio"
                 name="gender"
                 label="Kvinne"
                 value="female"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
-                type="radio"
                 name="gender"
                 label="Annet"
                 value="other"
+                type="radio"
                 component={RadioButton.Field}
               />
             </MultiSelectGroup>
@@ -181,19 +200,22 @@ const UserSettings = (props: Props) => {
               <Field
                 name="selectedTheme"
                 label="Auto"
-                inputValue="auto"
+                value="auto"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
                 name="selectedTheme"
                 label="Light"
-                inputValue="light"
+                value="light"
+                type="radio"
                 component={RadioButton.Field}
               />
               <Field
                 name="selectedTheme"
                 label="Dark"
-                inputValue="dark"
+                value="dark"
+                type="radio"
                 component={RadioButton.Field}
               />
             </MultiSelectGroup>
@@ -203,14 +225,16 @@ const UserSettings = (props: Props) => {
                 <Field
                   name="isMemberYes"
                   label="Ja"
+                  value="true"
+                  type="radio"
                   component={RadioButton.Field}
-                  inputValue="true"
                 />
                 <Field
                   name="isMemberNo"
                   label="Nei"
+                  value="false"
+                  type="radio"
                   component={RadioButton.Field}
-                  inputValue="false"
                 />
               </MultiSelectGroup>
             )}
@@ -219,23 +243,19 @@ const UserSettings = (props: Props) => {
             <SubmitButton>Lagre</SubmitButton>
           </Form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
 
       {isCurrentUser && (
         <>
           <div className={styles.changePassword}>
             <h2>Endre passord</h2>
-            <ChangePassword
-              push={push}
-              changePassword={changePassword}
-              user={user}
-            />
+            <ChangePassword />
           </div>
           <h2 className={styles.deleteUser}>Slett bruker</h2>
-          <DeleteUser push={push} user={user} deleteUser={deleteUser} />
+          <DeleteUser />
         </>
       )}
-    </div>
+    </>
   );
 };
 

@@ -5,17 +5,25 @@ import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
-import type { DetailedEvent } from 'app/store/models/Event';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
+import type { DetailedEvent } from 'app/store/models/Event';
 
 type State = any;
 const mutateEvent = produce((newState: State, action: any): void => {
   switch (action.type) {
+    case Event.FETCH_PREVIOUS.BEGIN:
+      newState.fetchingPrevious = true;
+      break;
+
+    case Event.FETCH_PREVIOUS.FAILURE:
+      newState.fetchingPrevious = false;
+      break;
+
     case Event.FETCH_PREVIOUS.SUCCESS:
       for (const eventId in action.payload.entities.events) {
         const event = action.payload.entities.events[eventId];
@@ -23,7 +31,16 @@ const mutateEvent = produce((newState: State, action: any): void => {
           e.isUsersUpcoming = false;
         });
       }
+      newState.fetchingPrevious = false;
 
+      break;
+
+    case Event.FETCH_UPCOMING.BEGIN:
+      newState.fetchingUpcoming = true;
+      break;
+
+    case Event.FETCH_UPCOMING.FAILURE:
+      newState.fetchingUpcoming = false;
       break;
 
     case Event.FETCH_UPCOMING.SUCCESS:
@@ -33,6 +50,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
           e.isUsersUpcoming = true;
         });
       }
+      newState.fetchingUpcoming = false;
 
       break;
 
@@ -167,6 +185,10 @@ export default createEntityReducer<'events'>({
     delete: Event.DELETE,
   },
   mutate,
+  initialState: {
+    fetchingPrevious: false,
+    fetchingUpcoming: false,
+  },
 });
 
 function transformEvent(event: DetailedEvent) {
@@ -208,6 +230,7 @@ export const selectSortedEvents = createSelector(selectEvents, (events) =>
     (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix()
   )
 );
+
 export const selectEventById = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventId,
@@ -221,6 +244,7 @@ export const selectEventById = createSelector(
     return {};
   }
 );
+
 export const selectEventBySlug = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventSlug,
@@ -235,6 +259,19 @@ export const selectEventBySlug = createSelector(
 
     return {};
   }
+);
+
+export const selectEventByIdOrSlug = createSelector(
+  (state, props) => {
+    const { eventIdOrSlug } = props;
+    if (!isNaN(Number(eventIdOrSlug))) {
+      return selectEventById(state, { eventId: eventIdOrSlug });
+    }
+    return selectEventBySlug(state, {
+      eventSlug: eventIdOrSlug,
+    });
+  },
+  (event) => event
 );
 
 export const selectPoolsForEvent = createSelector(
@@ -306,7 +343,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
               pool.permissionGroups
             );
             const registrations = total.registrations.concat(
-              pool.registrations.map((regId) => {
+              pool.registrations?.map((regId) => {
                 const registration = registrationsById[regId];
                 return { ...registration, user: usersById[registration.user] };
               })
@@ -386,21 +423,25 @@ export const selectRegistrationForEventByUserId = createSelector(
 );
 export const selectCommentsForEvent = createSelector(
   selectEventById,
-  (state) => state.comments.byId,
-  (event, commentsById) => {
+  selectCommentEntities,
+  (event, commentEntities) => {
     if (!event) return [];
-    return (event.comments || []).map((commentId) => commentsById[commentId]);
+    return (event.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
-  (pools) =>
-    orderBy(
-      // $FlowFixMe
-      pools.flatMap((pool) => pool.registrations || []),
+  (pools) => {
+    const registrationPools = pools.filter((pool) => pool.registrations);
+    if (registrationPools.length === 0) return;
+    return orderBy(
+      registrationPools.flatMap((pool) => pool.registrations || []),
       'sharedMemberships',
       'desc'
-    )
+    );
+  }
 );
 export const getRegistrationGroups = createSelector(
   selectAllRegistrationsForEvent,

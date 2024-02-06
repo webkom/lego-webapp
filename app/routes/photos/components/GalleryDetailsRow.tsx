@@ -1,10 +1,11 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import styles from './GalleryDetailsRow.css';
+import type { DetailedGallery } from 'app/store/models/Gallery';
 
 type Props = {
-  gallery: Record<string, any>;
+  gallery: DetailedGallery;
   showDescription?: boolean;
   small?: boolean;
 };

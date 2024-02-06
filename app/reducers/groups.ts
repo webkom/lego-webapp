@@ -1,9 +1,9 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import type { ID } from 'app/models';
 import { GroupType } from 'app/models';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Group, Membership } from '../actions/ActionTypes';
+import type { ID } from 'app/models';
 
 export const resolveGroupLink = (group: { type: string; id: ID }) => {
   switch (group.type) {

@@ -1,6 +1,9 @@
 import type { Dateish } from 'app/models';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import type { PublicEvent } from 'app/store/models/Event';
 import type { GalleryCoverPicture } from 'app/store/models/GalleryPicture';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import type { PublicUser } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
 
 interface Gallery {
@@ -12,8 +15,8 @@ interface Gallery {
   takenAt: Dateish;
   createdAt: Dateish;
   pictureCount: number;
-  event: ID;
-  photographers: ID[];
+  event: PublicEvent;
+  photographers: PublicUser[];
   publicMetadata: unknown;
   pictures: ID[];
 }
@@ -50,6 +53,11 @@ export type SearchGallery = Pick<
   Gallery,
   'id' | 'title' | 'location' | 'description'
 >;
+
+export type AutocompleteGallery = Pick<Gallery, 'title' | 'id'> & {
+  contentType: AutocompleteContentType.Gallery;
+  text: 'text';
+};
 
 export type GalleryMetadata = Pick<
   Gallery,

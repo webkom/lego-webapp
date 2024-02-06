@@ -1,11 +1,15 @@
 import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { joblistingsSchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { Joblistings } from './ActionTypes';
+import type { ID } from 'app/store/models';
+import type {
+  DetailedJoblisting,
+  ListJoblisting,
+} from 'app/store/models/Joblisting';
 
-export function fetchAll(): Thunk<any> {
-  return callAPI({
+export function fetchAll() {
+  return callAPI<ListJoblisting>({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
     schema: [joblistingsSchema],
@@ -15,8 +19,8 @@ export function fetchAll(): Thunk<any> {
     propagateError: true,
   });
 }
-export function fetchJoblisting(id: number): Thunk<any> {
-  return callAPI({
+export function fetchJoblisting(id: ID) {
+  return callAPI<DetailedJoblisting>({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
     schema: joblistingsSchema,
@@ -26,7 +30,7 @@ export function fetchJoblisting(id: number): Thunk<any> {
     propagateError: true,
   });
 }
-export function deleteJoblisting(id: number): Thunk<any> {
+export function deleteJoblisting(id: ID) {
   return callAPI({
     types: Joblistings.DELETE,
     endpoint: `/joblistings/${id}/`,
@@ -44,8 +48,8 @@ export function createJoblisting({
   visibleTo,
   visibleFrom,
   ...data
-}: Record<string, any>): Thunk<any> {
-  return callAPI({
+}: Record<string, any>) {
+  return callAPI<DetailedJoblisting>({
     types: Joblistings.CREATE,
     endpoint: '/joblistings/',
     method: 'POST',
@@ -71,8 +75,8 @@ export function editJoblisting({
   visibleTo,
   visibleFrom,
   ...data
-}: Record<string, any>): Thunk<any> {
-  return callAPI({
+}: Record<string, any>) {
+  return callAPI<DetailedJoblisting>({
     types: Joblistings.EDIT,
     endpoint: `/joblistings/${id}/`,
     method: 'PUT',
@@ -84,6 +88,7 @@ export function editJoblisting({
       visibleFrom: moment(visibleFrom).toISOString(),
       visibleTo: moment(visibleTo).toISOString(),
     },
+    schema: joblistingsSchema,
     meta: {
       errorMessage: 'Endring av jobbannonse feilet',
     },

@@ -1,67 +1,62 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
-import { Component } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Card from 'app/components/Card';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  fetchAllAdmin,
+  addSemesterStatus,
+  editSemesterStatus,
+  fetchSemesters,
+  addSemester,
+} from 'app/actions/CompanyActions';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type {
-  CompanyEntity,
-  BaseSemesterStatusEntity,
-} from 'app/reducers/companies';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { selectCompanies, type CompanyEntity } from 'app/reducers/companies';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
-import type { Location } from 'history';
+import type { ID } from 'app/store/models';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
+import type { ChangeEvent, KeyboardEvent } from 'react';
 
-type Props = {
-  companies: Array<CompanyEntity>;
-  query: Record<string, any>;
-  fetching: boolean;
-  editSemesterStatus: (
-    arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
-  ) => Promise<any>;
-  addSemesterStatus: (
-    arg0: BaseSemesterStatusEntity,
-    arg1: Record<string, any> | null | undefined
-  ) => Promise<any>;
-  addSemester: (arg0: CompanySemesterEntity) => Promise<any>;
-  companySemesters: Array<CompanySemesterEntity>;
-  push: (arg0: string) => void;
-  location: Location;
-};
-type State = {
-  startYear: number;
-  startSem: number;
-  submitted: boolean;
-  filters: Record<string, Record<string, any>>;
-  searchQuery: string;
-};
-export default class BdbPage extends Component<Props, State> {
-  state = {
-    startYear: 2016,
-    startSem: 0,
-    submitted: false,
-    filters: {},
-    searchQuery: '',
-  };
+const BdbPage = () => {
+  const [startYear, setStartYear] = useState(2016);
+  const [startSem, setStartSem] = useState(0);
+  const [filters, setFilters] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // eslint-disable-next-line
-  componentWillMount() {
+  const companies = useAppSelector(selectCompanies);
+  const companySemesters = useAppSelector(selectCompanySemesters);
+  const fetching = useAppSelector((state) => state.companies.fetching);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const query = qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
+
+  useEffect(() => {
     const date = new Date();
-    this.setState({
-      startYear: date.getFullYear(),
-      startSem: date.getMonth() > 6 ? 1 : 0,
-    });
-  }
+    setStartYear(date.getFullYear());
+    setStartSem(date.getMonth() > 6 ? 1 : 0);
+  }, []);
 
-  navigateThroughTime = (options: Record<string, any>) => {
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchBdb',
+    () => dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin())),
+    []
+  );
+
+  const navigateThroughTime = (options: Record<string, any>) => {
     // Change which three semesters are displayed (move ahead or back in time)
-    const { startSem, startYear } = this.state;
     const newSem = (startSem + 1) % 2;
     let newYear = 0;
 
@@ -71,22 +66,17 @@ export default class BdbPage extends Component<Props, State> {
       newYear = startSem === 1 ? startYear : startYear - 1;
     }
 
-    this.setState({ ...this.state, startYear: newYear, startSem: newSem });
+    setStartYear(newYear);
+    setStartSem(newSem);
   };
-  editChangedStatuses = (
-    companyId: number,
+
+  const editChangedStatuses = (
+    companyId: ID,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
-    contactedStatus: Array<CompanySemesterContactedStatus>
+    contactedStatus: CompanySemesterContactStatus[]
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
-    const {
-      companySemesters,
-      addSemester,
-      addSemesterStatus,
-      editSemesterStatus,
-    } = this.props;
-    const { startYear, startSem } = this.state;
     const companySemester = indexToSemester(
       tableIndex,
       startYear,
@@ -97,49 +87,47 @@ export default class BdbPage extends Component<Props, State> {
       companyId,
       contactedStatus,
       semesterStatusId,
-      semester:
-        typeof companySemester.id === 'undefined'
-          ? undefined
-          : companySemester.id,
+      semester: companySemester?.id,
     };
 
     if (typeof companySemester.id === 'undefined') {
-      return addSemester(companySemester).then((response) => {
+      return dispatch(addSemester(companySemester)).then((response) => {
         const updatedStatus = { ...newStatus, semester: response.payload.id };
         return typeof updatedStatus.semesterStatusId === 'undefined'
-          ? addSemesterStatus(updatedStatus)
-          : editSemesterStatus(updatedStatus);
+          ? dispatch(addSemesterStatus(updatedStatus)).then(() => {
+              navigate('/bdb');
+            })
+          : dispatch(editSemesterStatus(updatedStatus));
       });
     }
 
     return typeof newStatus.semesterStatusId === 'undefined'
-      ? addSemesterStatus(newStatus)
-      : editSemesterStatus(newStatus);
+      ? dispatch(addSemesterStatus(newStatus)).then(() => {
+          navigate('/bdb');
+        })
+      : dispatch(editSemesterStatus(newStatus));
   };
-  updateFilters = (name: string, value: unknown) => {
+
+  const updateFilters = (name: string, value: unknown) => {
     // For OptionsBox
-    const filters = { ...this.state.filters, [name]: value };
-    this.setState({
-      filters,
-    });
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
-  removeFilters = (name: string) => {
+
+  const removeFilters = (name: string) => {
     // For OptionsBox
-    const filters = { ...this.state.filters, [name]: undefined };
-    this.setState({
-      filters,
-    });
+    setFilters((prev) => ({ ...prev, [name]: undefined }));
   };
-  companySearch = (companies: CompanyEntity[]): CompanyEntity[] =>
+
+  const companySearch = (companies: CompanyEntity[]): CompanyEntity[] =>
     companies.filter((company: CompanyEntity) =>
-      company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+      company.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  filterCompanies = (companies: Array<CompanyEntity>): CompanyEntity[] => {
-    if (this.state.searchQuery !== '') {
-      companies = this.companySearch(companies);
+
+  const filterCompanies = (companies: CompanyEntity[]): CompanyEntity[] => {
+    if (searchQuery !== '') {
+      companies = companySearch(companies);
     }
 
-    const { filters } = this.state;
     return companies.filter((company) => {
       // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
       for (const key of Object.keys(filters)) {
@@ -164,71 +152,59 @@ export default class BdbPage extends Component<Props, State> {
       return true;
     });
   };
-  updateSearchQuery = (event: Record<string, any>) => {
-    const searchQuery = event.target.value;
-    this.setState({
-      searchQuery,
-    });
+
+  const updateSearchQuery = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
   };
 
-  render() {
-    const { location, companies, fetching, push } = this.props;
-    const query = qs.parse(location.search, {
-      ignoreQueryPrefix: true,
-    });
-
-    if (!companies) {
-      return <LoadingIndicator loading />;
-    }
-
-    const sortedCompanies = sortCompanies(
-      companies,
-      query,
-      this.state.startYear,
-      this.state.startSem
-    );
-    const filteredCompanies = this.filterCompanies(sortedCompanies);
-
-    const searchKeyPress = (event: Record<string, any>) => {
-      if (event.key === 'Enter' && filteredCompanies.length === 1) {
-        push(`/bdb/${filteredCompanies[0].id}`);
-      }
-    };
-
-    return (
-      <Content>
-        <Helmet title="Bedriftsdatabase" />
-        <ListNavigation title="Bedriftsdatabase" />
-
-        <TextInput
-          prefix="search"
-          placeholder="Søk etter bedrifter"
-          onChange={this.updateSearchQuery}
-          onKeyPress={searchKeyPress}
-        />
-
-        <OptionsBox
-          companies={companies}
-          updateFilters={this.updateFilters}
-          removeFilters={this.removeFilters}
-          filters={this.state.filters}
-        />
-
-        <Card severity="info">
-          <Card.Header>Tips</Card.Header>
-          Du kan endre semestere ved å trykke på dem i listen!
-        </Card>
-
-        <CompanyList
-          companies={filteredCompanies}
-          startYear={this.state.startYear}
-          startSem={this.state.startSem}
-          query={query}
-          navigateThroughTime={this.navigateThroughTime}
-          editChangedStatuses={this.editChangedStatuses}
-          fetching={fetching}
-        />
-      </Content>
-    );
+  if (!companies) {
+    return <LoadingIndicator loading={fetching} />;
   }
-}
+
+  const sortedCompanies = sortCompanies(companies, query, startYear, startSem);
+  const filteredCompanies = filterCompanies(sortedCompanies);
+
+  const searchKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && filteredCompanies.length === 1) {
+      navigate(`/bdb/${filteredCompanies[0].id}`);
+    }
+  };
+
+  return (
+    <Content>
+      <Helmet title="Bedriftsdatabase" />
+      <ListNavigation title="Bedriftsdatabase" />
+
+      <TextInput
+        prefix="search"
+        placeholder="Søk etter bedrifter"
+        onChange={updateSearchQuery}
+        onKeyPress={searchKeyPress}
+      />
+
+      <OptionsBox
+        companies={companies}
+        updateFilters={updateFilters}
+        removeFilters={removeFilters}
+        filters={filters}
+      />
+
+      <Card severity="info">
+        <Card.Header>Tips</Card.Header>
+        Du kan endre semestere ved å trykke på dem i listen!
+      </Card>
+
+      <CompanyList
+        companies={filteredCompanies}
+        startYear={startYear}
+        startSem={startSem}
+        query={query}
+        navigateThroughTime={navigateThroughTime}
+        editChangedStatuses={editChangedStatuses}
+        fetching={fetching}
+      />
+    </Content>
+  );
+};
+
+export default guardLogin(BdbPage);

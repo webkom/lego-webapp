@@ -3,7 +3,7 @@
 .collapse {
   position: relative;
   overflow: hidden;
-  transition: height var(--easing-slow);
+  transition: height var(--easing-medium);
 }
 
 .base {

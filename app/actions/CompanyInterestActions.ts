@@ -1,12 +1,18 @@
 import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { companyInterestSchema } from 'app/reducers';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import type { Thunk } from 'app/types';
 import { CompanyInterestForm } from './ActionTypes';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { AppDispatch } from 'app/store/createStore';
+import type { ID } from 'app/store/models';
+import type {
+  DetailedCompanyInterest,
+  ListCompanyInterest,
+} from 'app/store/models/CompanyInterest';
+import type { GetState } from 'app/types';
 
-export function fetchAll(): Thunk<any> {
-  return callAPI({
+export function fetchAll() {
+  return callAPI<ListCompanyInterest[]>({
     types: CompanyInterestForm.FETCH_ALL,
     endpoint: '/company-interests/',
     schema: [companyInterestSchema],
@@ -15,8 +21,9 @@ export function fetchAll(): Thunk<any> {
     },
   });
 }
-export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
-  return callAPI({
+
+export function fetchCompanyInterest(companyInterestId: ID) {
+  return callAPI<DetailedCompanyInterest>({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,
     schema: companyInterestSchema,
@@ -25,13 +32,14 @@ export function fetchCompanyInterest(companyInterestId: number): Thunk<any> {
     },
   });
 }
+
 export function createCompanyInterest(
   data: CompanyInterestEntity,
   isEnglish: boolean
-): Thunk<any> {
-  return (dispatch) => {
+) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
-      callAPI({
+      callAPI<DetailedCompanyInterest>({
         types: CompanyInterestForm.CREATE,
         endpoint: '/company-interests/',
         method: 'POST',
@@ -52,8 +60,9 @@ export function createCompanyInterest(
     );
   };
 }
-export function deleteCompanyInterest(id: number): Thunk<any> {
-  return (dispatch) => {
+
+export function deleteCompanyInterest(id: ID) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.DELETE,
@@ -73,11 +82,9 @@ export function deleteCompanyInterest(id: number): Thunk<any> {
     );
   };
 }
-export function updateCompanyInterest(
-  id: number,
-  data: CompanyInterestEntity
-): Thunk<any> {
-  return (dispatch) => {
+
+export function updateCompanyInterest(id: ID, data: CompanyInterestEntity) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.UPDATE,
@@ -87,28 +94,24 @@ export function updateCompanyInterest(
         meta: {
           companyInterestId: id,
           errorMessage: 'Endring av bedriftsinteresse feilet!',
+          successMessage: 'Bedriftsinteresse endret!',
         },
       })
-    ).then(() =>
-      dispatch(
-        addToast({
-          message: 'Bedriftsinteresse endret!',
-        })
-      )
     );
   };
 }
+
 export function fetch({
   next,
   filters,
 }: {
   next?: boolean;
   filters?: Record<string, string | number>;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
+} = {}) {
+  return (dispatch: AppDispatch, getState: GetState) => {
     const cursor = next ? getState().companyInterest.pagination.next : {};
     return dispatch(
-      callAPI({
+      callAPI<ListCompanyInterest[]>({
         types: CompanyInterestForm.FETCH_ALL,
         endpoint: '/company-interests/',
         query: { ...cursor, ...filters },

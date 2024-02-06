@@ -1,34 +1,12 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import SearchRoute from './SearchRoute';
+import SearchPageWrapper from './SearchPageWrapper';
 
-const searchRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={SearchRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const SearchRoute = () => (
+  <Routes>
+    <Route index element={<SearchPageWrapper />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Quotes() {
-  return <Route path="/search" component={searchRoute} />;
-}
+export default SearchRoute;

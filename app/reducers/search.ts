@@ -2,12 +2,13 @@ import { produce } from 'immer';
 import { get } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import type { User, Event, Group, Meeting, Dateish } from 'app/models';
 import { resolveGroupLink } from 'app/reducers/groups';
-import { categoryOptions } from 'app/routes/pages/PageDetailRoute';
+import { categoryOptions } from 'app/routes/pages/components/PageDetail';
+import { Search } from '../actions/ActionTypes';
+import type { User, Event, Group, Meeting, Dateish } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
 import type { SearchArticle } from 'app/store/models/Article';
 import type { SearchCompany } from 'app/store/models/Company';
-import { Search } from '../actions/ActionTypes';
 
 type SearchResultBase = {
   type?: string;
@@ -57,9 +58,9 @@ interface SearchMapping {
   'meetings.meeting': SearchResultMapping<Meeting>;
 }
 
-export interface RawSearchResult extends Record<string, string> {
+export type RawSearchResult = object & {
   contentType: string;
-}
+};
 
 const initialState = {
   results: [],
@@ -69,7 +70,7 @@ const initialState = {
   open: false,
 };
 
-const searchMapping: SearchMapping = {
+export const searchMapping: SearchMapping = {
   'users.user': {
     label: (user) => `${user.fullName} (${user.username})`,
     title: 'fullName',
@@ -252,11 +253,11 @@ export const selectAutocomplete = (autocomplete: Array<RawSearchResult>) =>
   autocomplete.map(transformResult).filter(Boolean);
 
 export const selectAutocompleteRedux = createSelector(
-  (state) => state.search.autocomplete,
+  (state: RootState) => state.search.autocomplete,
   (autocomplete) => autocomplete.map(transformResult).filter(Boolean)
 );
 
 export const selectResult = createSelector(
-  (state) => state.search.results,
+  (state: RootState) => state.search.results,
   (results) => results.map(transformResult).filter(Boolean)
 );

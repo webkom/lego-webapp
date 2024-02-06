@@ -1,37 +1,24 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { omit } from 'lodash';
 import { createSelector } from 'reselect';
-import type { EventType } from 'app/models';
-import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
-import type { UnknownSurvey } from 'app/store/models/Survey';
+import {
+  fetchSurvey,
+  fetchTemplate,
+  fetchWithToken,
+} from 'app/actions/SurveyActions';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Survey } from '../actions/ActionTypes';
 import { selectEvents } from './events';
-
-export type OptionEntity = {
-  id: number;
-  optionText: string;
-};
-export type QuestionEntity = {
-  id: number;
-  questionType: string;
-  questionText: string;
-  displayType: string;
-  mandatory?: boolean;
-  options: Array<OptionEntity>;
-  relativeIndex: number;
-};
-export type SurveyEntity = {
-  id: number;
-  title: string;
-  event: any;
-  activeFrom?: string;
-  questions: Array<QuestionEntity>;
-  templateType?: EventType;
-  token?: string;
-  results?: Record<string, any>;
-  submissionCount?: number;
-};
+import type { RootState } from 'app/store/createRootReducer';
+import type { ID } from 'app/store/models';
+import type { EventForSurvey, EventType } from 'app/store/models/Event';
+import type {
+  DetailedSurvey,
+  PublicResultsSurvey,
+  UnknownSurvey,
+} from 'app/store/models/Survey';
+import type { Overwrite } from 'utility-types';
 
 export default createEntityReducer<UnknownSurvey>({
   key: 'surveys',
@@ -40,28 +27,37 @@ export default createEntityReducer<UnknownSurvey>({
     mutate: Survey.ADD,
   },
 });
+
+export type SelectedSurvey = Overwrite<
+  DetailedSurvey,
+  { event: EventForSurvey }
+>;
+export type SelectedPublicResultsSurvey = Overwrite<
+  PublicResultsSurvey,
+  { event: EventForSurvey }
+>;
 export const selectSurveys = createSelector(
   (state: RootState) => state.surveys.items,
   (state: RootState) => state.surveys.byId,
   selectEvents,
   (surveyIds, surveysById, events) => {
-    return surveyIds.map((surveyId) => ({
-      ...surveysById[surveyId],
-      event: events.find((event) => event.id === surveysById[surveyId].event),
-    }));
+    return surveyIds.map(
+      (surveyId) =>
+        ({
+          ...surveysById[surveyId],
+          event: events.find(
+            (event) => event.id === surveysById[surveyId].event
+          ),
+        } as unknown as SelectedSurvey)
+    );
   }
 );
 
-type SurveyByIdProps = {
-  surveyId: ID;
-};
-
 export const selectSurveyById = createSelector(
   (state: RootState) => selectSurveys(state),
-  (state: RootState, props: SurveyByIdProps) => props.surveyId,
+  (_: RootState, surveyId: ID) => surveyId,
   (surveys, surveyId) => {
-    const survey = surveys.find((survey) => survey.id === surveyId);
-    return survey || {};
+    return surveys.find((survey) => survey.id === Number(surveyId));
   }
 );
 export const selectSurveyTemplates = createSelector(
@@ -70,24 +66,76 @@ export const selectSurveyTemplates = createSelector(
 );
 
 type SurveyTemplateProps = {
-  templateType: NonNullable<UnknownSurvey['templateType']>;
+  templateType: EventType;
+};
+export type SurveyTemplate = Omit<
+  DetailedSurvey,
+  'id' | 'event' | 'activeForm' | 'templateType'
+> & {
+  questions: (Omit<DetailedSurvey['questions'][number], 'id'> & {
+    options: Omit<DetailedSurvey['questions'][number]['options'], 'id'>;
+  })[];
+  templateType: EventType;
 };
 
 export const selectSurveyTemplate = createSelector(
   (state: RootState) => selectSurveys(state),
-  (state, props: SurveyTemplateProps) => props.templateType,
+  (_: RootState, props: SurveyTemplateProps) => props.templateType,
   (surveys, templateType) => {
     const template = surveys.find(
       (survey) => survey.templateType === templateType
     );
-    if (!template) return false;
+    if (!template) return undefined;
     const questions = (template.questions || []).map((question) => ({
       ...omit(question, 'id'),
       options: question.options.map((option) => omit(option, 'id')),
     }));
     return {
-      ...omit(template, ['id', 'event', 'activeFrom', 'templateType']),
+      ...omit(template, ['id', 'event', 'activeFrom']),
       questions,
-    };
+    } as SurveyTemplate;
   }
 );
+
+export const useFetchedTemplate = (
+  prepareId: string,
+  templateType?: EventType
+): SurveyTemplate | undefined => {
+  const dispatch = useAppDispatch();
+  usePreparedEffect(
+    `useFetchedTemplate-${prepareId}`,
+    () => templateType && dispatch(fetchTemplate(templateType)),
+    [templateType]
+  );
+  return useAppSelector((state: RootState) =>
+    templateType ? selectSurveyTemplate(state, { templateType }) : undefined
+  );
+};
+
+export function useFetchedSurvey(
+  prepareId: string,
+  surveyId: ID,
+  token: string
+): SelectedPublicResultsSurvey | undefined;
+export function useFetchedSurvey(
+  prepareId: string,
+  surveyId: ID
+): SelectedSurvey | undefined;
+export function useFetchedSurvey(
+  prepareId: string,
+  surveyId: ID,
+  token?: string
+) {
+  const dispatch = useAppDispatch();
+  usePreparedEffect(
+    `useFetchedSurvey-${prepareId}`,
+    () =>
+      token
+        ? dispatch(fetchWithToken(surveyId, token))
+        : dispatch(fetchSurvey(surveyId)),
+    [surveyId]
+  );
+  return useAppSelector((state: RootState) =>
+    selectSurveyById(state, surveyId)
+  ) as SelectedSurvey | SelectedPublicResultsSurvey | undefined;
+}

@@ -21,7 +21,7 @@
 
   --button-success-background: var(--color-green-4);
   --button-success-background-hover: var(--color-green-5);
-  --button-success-background-active: var(--color-green-6);
+  --button-success-background-active: var(--success-color);
   --button-success-box-shadow-focus: #2da44e44;
 }
 

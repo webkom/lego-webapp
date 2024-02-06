@@ -1,12 +1,24 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { without, find } from 'lodash';
 import moment from 'moment-timezone';
-import { Component } from 'react';
+import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
-import { Field, Fields } from 'redux-form';
-import Card from 'app/components/Card';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {
+  createGallery,
+  deleteGallery,
+  fetchGallery,
+  updateGallery,
+  updateGalleryCover,
+} from 'app/actions/GalleryActions';
+import {
+  fetch,
+  deletePicture,
+  updatePicture,
+} from 'app/actions/GalleryPictureActions';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {
@@ -17,46 +29,27 @@ import {
   DatePicker,
   SelectInput,
   ObjectPermissions,
-  legoForm,
+  Fields,
+  LegoFinalForm,
 } from 'app/components/Form';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import {
+  objectPermissionsInitialValues,
+  objectPermissionsToInitialValues,
+  normalizeObjectPermissions,
+} from 'app/components/Form/ObjectPermissions';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
 import GalleryComponent from 'app/components/Gallery';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
 import NavigationTab from 'app/components/NavigationTab';
-import type { ID } from 'app/models';
-import type { GalleryEntity } from 'app/reducers/galleries';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import { selectGalleryById, type GalleryEntity } from 'app/reducers/galleries';
+import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { createValidator, required } from 'app/utils/validation';
 import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.css';
-import type { Push } from 'connected-react-router';
-
-type Props = {
-  isNew: boolean;
-  gallery: GalleryEntity;
-  pictures: Array<GalleryPictureEntity>;
-  submitFunction: (arg0: GalleryEntity) => Promise<any>;
-  handleSubmit: (arg0: any) => void;
-  push: Push;
-  submitting: boolean;
-  fetch: (
-    galleryId: number,
-    args: {
-      next?: boolean;
-      filters?: Record<string, any>;
-    }
-  ) => Promise<any>;
-  hasMore: boolean;
-  fetching: boolean;
-  deleteGallery: (arg0: ID) => Promise<any>;
-  updateGalleryCover: (arg0: number, arg1: number) => Promise<any>;
-  updatePicture: (arg0: Record<string, any>) => Promise<any>;
-  deletePicture: (galleryId: ID, photoId: ID) => Promise<any>;
-};
-type State = {
-  selected: Array<number>;
-};
+import type { Dateish } from 'app/models';
+import type { searchMapping } from 'app/reducers/search';
+import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
 const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {
   const isSelected = selected.includes(photo.id);
@@ -90,261 +83,299 @@ const renderEmpty = (gallery: GalleryEntity) => (
   </EmptyState>
 );
 
-class GalleryEditor extends Component<Props, State> {
-  state = {
-    selected: [],
+export type FormValues = {
+  title: string;
+  takenAt: Dateish;
+  location: string;
+  photographers: (typeof searchMapping)['users.user'];
+  event: (typeof searchMapping)['events.event'];
+  description: string;
+  publicMetadata: boolean;
+} & ObjectPermissionsMixin;
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
+const validate = createValidator({
+  title: [required('Du må gi albumet en tittel')],
+  location: [required('Du må velge en lokasjon for albumet')],
+});
+
+const GalleryEditor = () => {
+  const [selected, setSelected] = useState<number[]>([]);
+
+  const { galleryId } = useParams<{ galleryId: string }>();
+  const isNew = galleryId === undefined;
+  const gallery = useAppSelector((state) =>
+    selectGalleryById(state, {
+      galleryId,
+    })
+  );
+  const pictures = useAppSelector((state) =>
+    SelectGalleryPicturesByGalleryId(state, {
+      galleryId,
+    })
+  );
+  const fetching = useAppSelector(
+    (state) => state.galleries.fetching || state.galleryPictures.fetching
+  );
+  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+
+  const initialValues = isNew
+    ? { ...objectPermissionsInitialValues }
+    : {
+        ...gallery,
+        ...objectPermissionsToInitialValues(gallery),
+        photographers: gallery.photographers.map((photographer) => ({
+          label: photographer.fullName,
+          value: photographer.id,
+        })),
+        event: gallery.event && {
+          label: gallery.event.title,
+          value: gallery.event.id,
+        },
+      };
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchGalleryEdit',
+    () =>
+      !isNew &&
+      galleryId &&
+      Promise.all([
+        dispatch(fetch(Number(galleryId))),
+        dispatch(fetchGallery(galleryId)),
+      ]),
+    []
+  );
+
+  const navigate = useNavigate();
+
+  const onSubmit = (data: FormValues) => {
+    const body = {
+      ...normalizeObjectPermissions(data),
+      // id: data.id,
+      publicMetadata: !!data.publicMetadata,
+      title: data.title,
+      description: data.description,
+      takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
+      location: data.location,
+      event: data.event ? parseInt(data.event.value, 10) : undefined,
+      photographers:
+        data.photographers && data.photographers.map((p) => p.value),
+    };
+
+    dispatch(
+      isNew ? createGallery(body) : updateGallery(gallery.id, body)
+    ).then(({ payload }) => {
+      navigate(`/photos/${payload.result}`);
+    });
   };
-  handleClick = (picture: Record<string, any>) => {
-    if (this.state.selected.indexOf(picture.id) === -1) {
-      this.setState({
-        selected: this.state.selected.concat([picture.id]),
-      });
+
+  const handleClick = (picture: Record<string, any>) => {
+    if (selected.indexOf(picture.id) === -1) {
+      setSelected(selected.concat([picture.id]));
     } else {
-      this.setState((state) => ({
-        selected: without(state.selected, picture.id),
-      }));
+      setSelected(without(selected, picture.id));
     }
   };
-  onDeleteGallery = () =>
-    this.props.deleteGallery(this.props.gallery.id).then(() => {
-      this.props.push('/photos');
-    });
-  onUpdateGalleryCover = () => {
-    this.props.updateGalleryCover(
-      this.props.gallery.id,
-      this.state.selected[0]
-    );
-    this.setState({
-      selected: [],
+
+  const onDeleteGallery = () => {
+    dispatch(deleteGallery(gallery.id)).then(() => {
+      navigate('/photos');
     });
   };
-  onDeletePictures = () => {
-    this.state.selected.forEach((photo) => {
-      this.props.deletePicture(this.props.gallery.id, photo);
-    });
-    this.setState({
-      selected: [],
-    });
+
+  const onUpdateGalleryCover = () => {
+    dispatch(updateGalleryCover(gallery.id, selected[0]));
+    setSelected([]);
   };
-  onTogglePicturesStatus = (active) => {
-    this.state.selected.forEach((photo) => {
-      this.props.updatePicture({
-        id: photo,
-        gallery: this.props.gallery.id,
-        active,
-      });
+
+  const onDeletePictures = () => {
+    selected.forEach((photo) => {
+      dispatch(deletePicture(gallery.id, photo));
     });
-    this.setState({
-      selected: [],
-    });
+    setSelected([]);
   };
-  pictureStatus = () => {
-    const activePictures = this.state.selected
-      .map((id) => find(this.props.pictures, ['id', id]) || {})
+
+  const onTogglePicturesStatus = (active) => {
+    selected.forEach((photo) => {
+      dispatch(
+        updatePicture({
+          id: photo,
+          gallery: gallery.id,
+          active,
+        })
+      );
+    });
+    setSelected([]);
+  };
+
+  const pictureStatus = () => {
+    const activePictures = selected
+      .map((id) => find(pictures, ['id', id]) || {})
       .filter((picture) => picture.active);
-    const inactivePictures = this.state.selected
-      .map((id) => find(this.props.pictures, ['id', id]) || {})
+    const inactivePictures = selected
+      .map((id) => find(pictures, ['id', id]) || {})
       .filter((picture) => !picture.active);
 
-    if (activePictures.length === this.state.selected.length) {
+    if (activePictures.length === selected.length) {
       return 0;
     }
 
-    if (inactivePictures.length === this.state.selected.length) {
+    if (inactivePictures.length === selected.length) {
       return 1;
     }
 
     return -1;
   };
-  onDeselect = () => {
-    this.setState({
-      selected: [],
-    });
+
+  const onDeselect = () => {
+    setSelected([]);
   };
 
-  render() {
-    const {
-      pictures,
-      isNew,
-      fetch,
-      hasMore,
-      fetching,
-      handleSubmit,
-      gallery,
-      submitting,
-      push,
-    } = this.props;
-    const { selected } = this.state;
-    return (
-      <Content>
-        <Helmet
-          title={gallery ? `Redigerer: ${gallery.title}` : 'Nytt album'}
-        />
-        <NavigationTab
-          title={gallery ? `Redigerer: ${gallery.title}` : 'Nytt album'}
-          back={{
-            label: 'Tilbake',
-            path: '/photos',
-          }}
-        />
-        <Form onSubmit={handleSubmit}>
-          <Field
-            placeholder="Title"
-            label="Title"
-            name="title"
-            component={TextInput.Field}
-            id="gallery-title"
-            required
-          />
-          <Field
-            placeholder="Dato"
-            dateFormat="ll"
-            label="Dato"
-            showTimePicker={false}
-            name="takenAt"
-            id="gallery-takenAt"
-            component={DatePicker.Field}
-          />
-          <Field
-            placeholder="Sted"
-            name="location"
-            label="Sted"
-            component={TextInput.Field}
-            id="gallery-location"
-          />
-          <Field
-            label="Fotografer"
-            name="photographers"
-            id="gallery-photographers"
-            filter={['users.user']}
-            placeholder="Skriv inn navn på fotografer"
-            component={SelectInput.AutocompleteField}
-            isMulti
-          />
-          <Field
-            name="event"
-            filter={['events.event']}
-            label="Event"
-            placeholder="Skriv inn navn på eventet"
-            component={SelectInput.AutocompleteField}
-          />
-          <Field
-            placeholder="Album beskrivelse"
-            label="Beskrivelse"
-            name="description"
-            required
-            component={TextArea.Field}
-            id="gallery-description"
-          />
-          <Field
-            label="Publiser metadata for deling på sosiale medier. Dette deler kun cover, tittel og beskrivelse."
-            name="publicMetadata"
-            component={CheckBox.Field}
-            normalize={(v) => !!v}
-          />
-          <Fields
-            names={[
-              'requireAuth',
-              'canViewGroups',
-              'canEditUsers',
-              'canEditGroups',
-            ]}
-            component={ObjectPermissions}
-          />
+  const title = !isNew ? `Redigerer: ${gallery.title}` : 'Nytt album';
 
-          <Flex className={styles.buttonRow} justifyContent="flex-end">
-            <Button flat onClick={() => push(`/photos/${gallery.id}`)}>
-              Avbryt
-            </Button>
-            <Button disabled={submitting} submit>
-              {isNew ? 'Opprett' : 'Lagre'}
-            </Button>
-            {!isNew && (
-              <ConfirmModal
-                title="Slett album"
-                message="Vil du slette hele albumet og alle bildene albumet inneholder?"
-                onConfirm={this.onDeleteGallery}
-              >
-                {({ openConfirmModal }) => (
-                  <Button danger onClick={openConfirmModal}>
-                    <Icon name="trash" size={19} />
-                    Slett album
-                  </Button>
-                )}
-              </ConfirmModal>
-            )}
-          </Flex>
-        </Form>
-        <GalleryEditorActions
-          selectedCount={selected.length}
-          newPicutureStatus={this.pictureStatus()}
-          onUpdateGalleryCover={this.onUpdateGalleryCover}
-          onDeselect={this.onDeselect}
-          onTogglePicturesStatus={this.onTogglePicturesStatus}
-          onDeletePictures={this.onDeletePictures}
-        />
-        <Flex>
-          {isNew ? (
-            <Card severity="info">
-              For å legge inn bilder må du først lage albumet!
-            </Card>
-          ) : (
-            <GalleryComponent
-              photos={pictures}
-              hasMore={hasMore}
-              fetching={fetching}
-              fetchNext={() =>
-                fetch(gallery.id, {
-                  next: true,
-                })
-              }
-              renderOverlay={(photo) => photoOverlay(photo, selected)}
-              renderBottom={(photo) => renderBottom(photo, gallery)}
-              renderEmpty={() => renderEmpty(gallery)}
-              onClick={this.handleClick}
-              srcKey="file"
+  return (
+    <Content>
+      <Helmet title={title} />
+      <NavigationTab
+        title={title}
+        back={{
+          label: 'Tilbake',
+          path: '/photos',
+        }}
+      />
+
+      <TypedLegoForm
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={initialValues}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              placeholder="Title"
+              label="Title"
+              name="title"
+              component={TextInput.Field}
+              id="gallery-title"
+              required
             />
-          )}
-        </Flex>
-      </Content>
-    );
-  }
-}
+            <Field
+              placeholder="Dato"
+              dateFormat="ll"
+              label="Dato"
+              showTimePicker={false}
+              name="takenAt"
+              id="gallery-takenAt"
+              component={DatePicker.Field}
+            />
+            <Field
+              placeholder="Sted"
+              name="location"
+              label="Sted"
+              component={TextInput.Field}
+              id="gallery-location"
+            />
+            <Field
+              label="Fotografer"
+              name="photographers"
+              id="gallery-photographers"
+              filter={['users.user']}
+              placeholder="Skriv inn navn på fotografer"
+              component={SelectInput.AutocompleteField}
+              isMulti
+            />
+            <Field
+              name="event"
+              filter={['events.event']}
+              label="Arrangement"
+              placeholder="Skriv inn navnet på arrangementet"
+              component={SelectInput.AutocompleteField}
+            />
+            <Field
+              placeholder="Albumbeskrivelse"
+              label="Beskrivelse"
+              name="description"
+              required
+              component={TextArea.Field}
+              id="gallery-description"
+            />
+            <Field
+              label="Publiser metadata for deling på sosiale medier. Dette deler kun cover, tittel og beskrivelse."
+              name="publicMetadata"
+              type="checkbox"
+              component={CheckBox.Field}
+              normalize={(v) => !!v}
+            />
+            <Fields
+              names={[
+                'requireAuth',
+                'canViewGroups',
+                'canEditUsers',
+                'canEditGroups',
+              ]}
+              component={ObjectPermissions}
+            />
 
-const onSubmit = (data, dispatch, { submitFunction, push }: Props) => {
-  const body: GalleryEntity = {
-    ...normalizeObjectPermissions(data),
-    id: data.id,
-    publicMetadata: !!data.publicMetadata,
-    title: data.title,
-    description: data.description,
-    takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
-    location: data.location,
-    event: data.event ? parseInt(data.event.value, 10) : undefined,
-    photographers: data.photographers && data.photographers.map((p) => p.value),
-  };
-  return submitFunction(body).then(({ payload }) => {
-    push(`/photos/${payload.result}`);
-  });
+            <Flex className={styles.buttonRow} justifyContent="flex-end">
+              <Button flat onClick={() => navigate(`/photos/${gallery.id}`)}>
+                Avbryt
+              </Button>
+              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+              {!isNew && (
+                <ConfirmModal
+                  title="Slett album"
+                  message="Vil du slette hele albumet og alle bildene albumet inneholder?"
+                  onConfirm={onDeleteGallery}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button danger onClick={openConfirmModal}>
+                      <Icon name="trash" size={19} />
+                      Slett album
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+            </Flex>
+          </Form>
+        )}
+      </TypedLegoForm>
+
+      <GalleryEditorActions
+        selectedCount={selected.length}
+        newPicutureStatus={pictureStatus()}
+        onUpdateGalleryCover={onUpdateGalleryCover}
+        onDeselect={onDeselect}
+        onTogglePicturesStatus={onTogglePicturesStatus}
+        onDeletePictures={onDeletePictures}
+      />
+      <Flex>
+        {isNew ? (
+          <Card severity="info">
+            For å legge inn bilder må du først lage albumet!
+          </Card>
+        ) : (
+          <GalleryComponent
+            photos={pictures}
+            hasMore={hasMore}
+            fetching={fetching}
+            fetchNext={() =>
+              fetch(gallery.id, {
+                next: true,
+              })
+            }
+            renderOverlay={(photo) => photoOverlay(photo, selected)}
+            renderBottom={(photo) => renderBottom(photo, gallery)}
+            renderEmpty={() => renderEmpty(gallery)}
+            onClick={handleClick}
+            srcKey="file"
+          />
+        )}
+      </Flex>
+    </Content>
+  );
 };
 
-const validate = (values) => {
-  const errors = {};
-
-  if (!values.title) {
-    errors.title = 'Du må gi albumet en tittel';
-  }
-
-  if (!values.location) {
-    errors.location = 'Du må velge en lokasjon for albumet';
-  }
-
-  return errors;
-};
-
-export default legoForm({
-  form: 'galleryEditor',
-  enableReinitialize: true,
-  validate,
-  onSubmit,
-})(GalleryEditor);
+export default guardLogin(GalleryEditor);

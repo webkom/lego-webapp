@@ -1,30 +1,31 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
+import {
+  addSemester,
+  editSemester,
+  fetchSemesters,
+} from 'app/actions/CompanyActions';
 import { Content } from 'app/components/Content';
 import {
   Form,
   TextInput,
   RadioButton,
   MultiSelectGroup,
+  LegoFinalForm,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
+import {
+  selectCompanySemesters,
+  selectCompanySemestersForInterestForm,
+} from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
-import type CompanySemester from 'app/store/models/CompanySemester';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText, SemesterNavigation } from '../utils';
 import styles from './CompanyInterest.css';
 import type { FormApi } from 'final-form';
-
-type Props = {
-  semesters: Array<CompanySemester>;
-  editSemester: (semester: CompanySemester) => Promise<void>;
-  addSemester: (semester: Omit<CompanySemester, 'id'>) => Promise<void>;
-  activeSemesters: Array<CompanySemester>;
-  initialValues: Partial<FormValues>;
-};
 
 type FormValues = {
   year: string;
@@ -38,45 +39,36 @@ const validate = createValidator({
   semester: [required()],
 });
 
-const CompanySemesterGUI = (props: Props) => (
-  <Content>
-    <SemesterNavigation title="Endre aktive semestre" />
-    <Flex className={styles.guiWrapper}>
-      <Flex
-        column
-        style={{
-          marginRight: '50px',
-        }}
-      >
-        <AddSemesterForm
-          semesters={props.semesters}
-          addSemester={props.addSemester}
-          editSemester={props.editSemester}
-          initialValues={props.initialValues}
-        />
+const CompanySemesterGUI = () => {
+  return (
+    <Content>
+      <SemesterNavigation title="Endre aktive semestre" />
+      <Flex className={styles.guiWrapper}>
+        <Flex
+          column
+          style={{
+            marginRight: '50px',
+          }}
+        >
+          <AddSemesterForm />
+        </Flex>
+        <Flex column>
+          <label className={styles.heading}>Deaktiver semestre</label>
+          <ActiveSemesters />
+        </Flex>
       </Flex>
-      <Flex column>
-        <label className={styles.heading}>Deaktiver semestre</label>
-        <ActiveSemesters
-          semesters={props.activeSemesters}
-          editSemester={props.editSemester}
-        />
-      </Flex>
-    </Flex>
-  </Content>
-);
+    </Content>
+  );
+};
 
-type AddSemesterProps = Pick<
-  Props,
-  'semesters' | 'addSemester' | 'editSemester' | 'initialValues'
->;
-const AddSemesterForm = ({
-  semesters,
-  addSemester,
-  editSemester,
-  initialValues,
-}: AddSemesterProps) => {
-  const onSubmit = async (
+const AddSemesterForm = () => {
+  const semesters = useAppSelector((state) => selectCompanySemesters(state));
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect('fetchSemesters', () => dispatch(fetchSemesters()), []);
+
+  const onSubmit = (
     { year, semester }: FormValues,
     form: FormApi<FormValues>
   ) => {
@@ -86,24 +78,25 @@ const AddSemesterForm = ({
         companySemester.semester === semester
       );
     });
-    if (existingCompanySemester)
-      await editSemester({
-        ...existingCompanySemester,
-        activeInterestForm: true,
-      });
-    else
-      await addSemester({
-        year: Number(year),
-        semester,
-      }); // Default is activeInterestForm: true
 
-    form.restart();
+    dispatch(
+      existingCompanySemester
+        ? editSemester({ ...existingCompanySemester, activeInterestForm: true })
+        : addSemester({ year: Number(year), semester }) // Default is activeInterestForm: true
+    ).then(() => {
+      form.reset();
+    });
+  };
+
+  const initialValues: Partial<FormValues> = {
+    semester: Semester.Spring,
   };
 
   return (
     <TypedLegoForm
       onSubmit={onSubmit}
       validate={validate}
+      validateOnSubmitOnly
       initialValues={initialValues}
       subscription={{}}
     >
@@ -123,17 +116,18 @@ const AddSemesterForm = ({
             <Field
               name="Spring"
               label="Vår"
+              value={Semester.Spring}
+              type="radio"
               component={RadioButton.Field}
-              inputValue={Semester.Spring}
             />
             <Field
               name="Autumn"
               label="Høst"
+              value={Semester.Autumn}
+              type="radio"
               component={RadioButton.Field}
-              inputValue={Semester.Autumn}
             />
           </MultiSelectGroup>
-
           <SubmissionError />
           <SubmitButton>Legg til semester</SubmitButton>
         </Form>
@@ -142,25 +136,29 @@ const AddSemesterForm = ({
   );
 };
 
-type ActiveSemestersProps = {
-  semesters: Array<CompanySemester>;
-  editSemester: (semester: CompanySemester) => void;
+const ActiveSemesters = () => {
+  const activeSemesters = useAppSelector((state) =>
+    selectCompanySemestersForInterestForm(state)
+  );
+
+  const dispatch = useAppDispatch();
+
+  return (
+    <Flex column>
+      {activeSemesters.map((semester, index) => (
+        <Flex key={index} className={styles.guiBoxes}>
+          <div>{semesterToText({ ...semester, language: 'norwegian' })}</div>
+          <Icon
+            name="close-circle"
+            onClick={() =>
+              dispatch(editSemester({ ...semester, activeInterestForm: false }))
+            }
+            className={styles.remove}
+          />
+        </Flex>
+      ))}
+    </Flex>
+  );
 };
-const ActiveSemesters = ({ semesters, editSemester }: ActiveSemestersProps) => (
-  <Flex column>
-    {semesters.map((semester, index) => (
-      <Flex key={index} className={styles.guiBoxes}>
-        <div>{semesterToText({ ...semester, language: 'norwegian' })}</div>
-        <Icon
-          name="close-circle"
-          onClick={() =>
-            editSemester({ ...semester, activeInterestForm: false })
-          }
-          className={styles.remove}
-        />
-      </Flex>
-    ))}
-  </Flex>
-);
 
 export default CompanySemesterGUI;

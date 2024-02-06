@@ -1,86 +1,114 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { useState } from 'react';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
-import Flex from 'app/components/Layout/Flex';
 import Tooltip from 'app/components/Tooltip';
-import type { ID } from 'app/store/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './Reaction.css';
+import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   className?: string;
-  emoji: string;
-  count: number;
-  unicodeString: string;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString?: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  hasReacted: boolean;
-  canReact: boolean;
-  reactionId: ID;
+  reaction: ReactionsGrouped;
   contentTarget: ContentTarget;
+  showPeople?: boolean;
 };
-// Note: Most use cases won't want to use this class directly. Instead, use
-// app/components/LegoReactions.
 
+/**
+ *  Note: Most use cases won't want to use this class directly. Instead, use
+ *  app/components/LegoReactions.
+ */
 const Reaction = ({
   className,
-  emoji,
-  count,
-  unicodeString,
-  addReaction,
-  deleteReaction,
-  hasReacted,
-  canReact,
-  reactionId,
+  reaction,
   contentTarget,
+  showPeople,
 }: Props) => {
-  const classes = [
-    className ? className : styles.reaction,
-    canReact && styles.clickable,
-  ];
+  const { emoji, count, unicodeString, hasReacted, reactionId, users } =
+    reaction;
 
-  if (hasReacted) {
-    classes.push(styles.reacted);
-  }
+  const [optimisticCount, setOptimisticCount] = useState(count);
+  const [optimisticHasReacted, setOptimisticHasReacted] = useState(hasReacted);
+  const [optimisticUsers, setOptimisticUsers] = useState(users);
 
-  if (count === 0) {
+  const { currentUser, loggedIn } = useUserContext();
+  const canReact = loggedIn;
+
+  const classNames = cx({
+    [className || styles.reaction]: true,
+    [styles.clickable]: canReact,
+    [styles.reacted]: optimisticHasReacted,
+  });
+
+  const dispatch = useAppDispatch();
+
+  const optimisticAdd = () => {
+    setOptimisticCount((count) => count + 1);
+    setOptimisticHasReacted(true);
+    setOptimisticUsers((users) => [...(users || []), currentUser]);
+  };
+
+  const optimisticRemove = () => {
+    setOptimisticCount((count) => count - 1);
+    setOptimisticHasReacted(false);
+    setOptimisticUsers((users) =>
+      users?.filter((user) => user.id !== currentUser.id)
+    );
+  };
+
+  const handleReaction = () => {
+    if (!canReact) {
+      return;
+    }
+
+    if (optimisticHasReacted) {
+      optimisticRemove();
+      hasReacted &&
+        dispatch(deleteReaction({ reactionId, contentTarget })).catch(() => {
+          optimisticAdd();
+        });
+    } else {
+      optimisticAdd();
+      !hasReacted &&
+        dispatch(
+          addReaction({
+            emoji,
+            user: currentUser,
+            contentTarget,
+            unicodeString,
+          })
+        ).catch(() => {
+          optimisticRemove();
+        });
+    }
+  };
+
+  if (optimisticCount === 0) {
     return <></>;
   }
 
+  let tooltipContent =
+    showPeople && optimisticUsers?.map((user) => user.fullName).join(', ');
+  tooltipContent = tooltipContent ? `${tooltipContent} reagerte med ` : '';
+  tooltipContent += emoji;
+
   return (
     <>
-      <Tooltip content={emoji}>
+      <Tooltip content={tooltipContent}>
         <Flex
           gap={4}
           justifyContent="center"
           alignItems="center"
-          className={cx(classes)}
-          onClick={
-            canReact
-              ? () =>
-                  hasReacted
-                    ? deleteReaction({
-                        reactionId,
-                        contentTarget: contentTarget,
-                      })
-                    : addReaction({
-                        emoji,
-                        contentTarget,
-                        unicodeString,
-                      })
-              : null
-          }
+          className={classNames}
+          onClick={handleReaction}
         >
           <div>
             <Emoji unicodeString={unicodeString} />
           </div>
-          <span className={styles.reactionCount}>{count}</span>
+          <span className={styles.reactionCount}>{optimisticCount}</span>
         </Flex>
       </Tooltip>
     </>

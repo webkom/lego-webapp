@@ -1,95 +1,84 @@
-import { Button } from '@webkom/lego-bricks';
-import { Component } from 'react';
+import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
-import type { ActionGrant } from 'app/models';
-import type { SurveyEntity } from 'app/reducers/surveys';
-import { eventTypeToString } from 'app/routes/events/utils';
-import type { ID } from 'app/store/models';
+import { useFetchedSurvey } from 'app/reducers/surveys';
+import { displayNameForEventType } from 'app/routes/events/utils';
+import { useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { DetailNavigation } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
-import styles from './surveyDetail.css';
-import type { Push } from 'connected-react-router';
+import styles from './surveys.css';
 
-type Props = {
-  survey: SurveyEntity;
-  actionGrant: ActionGrant;
-  push: Push;
-  shareSurvey: (surveyId: ID) => Promise<void>;
-  hideSurvey: (surveyId: ID) => Promise<void>;
-};
+const SurveyDetailPage = () => {
+  const { surveyId } = useParams<{ surveyId: string }>();
+  const survey = useFetchedSurvey('surveyDetail', surveyId);
+  const fetching = useAppSelector((state) => state.surveys.fetching);
+  const actionGrant = survey?.actionGrant;
 
-class SurveyDetail extends Component<Props> {
-  componentDidMount() {
-    const { survey, actionGrant = [], push } = this.props;
+  const navigate = useNavigate();
 
-    if (!actionGrant.includes('edit')) {
-      push(`/surveys/${survey.id}/answer`);
-    }
+  if (fetching || !actionGrant) {
+    return <LoadingIndicator loading />;
   }
 
-  render() {
-    const { survey, actionGrant = [], shareSurvey, hideSurvey } = this.props;
-    return (
-      <Content
-        className={styles.surveyDetail}
-        banner={!survey.templateType && survey.event.cover}
-      >
-        <Helmet title={survey.title} />
-        <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
+  if (!actionGrant?.includes('edit')) {
+    navigate(`/surveys/${surveyId}/answer`);
+  }
 
-        <ContentSection>
-          <ContentMain>
-            {survey.templateType ? (
-              <h2
-                style={{
-                  color: 'var(--lego-red-color)',
-                }}
-              >
-                Dette er malen for arrangementer av type{' '}
-                {eventTypeToString(survey.templateType)}
-              </h2>
-            ) : (
-              <div>
-                <div className={styles.surveyTime}>
-                  Spørreundersøkelse for{' '}
-                  <Link to={`/events/${survey.event.id}`}>
-                    {survey.event.title}
-                  </Link>
-                </div>
+  return (
+    <Content banner={survey.templateType ? undefined : survey.event.cover}>
+      <Helmet title={survey.title} />
+      <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
-                <div className={styles.surveyTime}>
-                  Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
-                </div>
-
-                <Link to={`/surveys/${survey.id}/answer`}>
-                  <Button
-                    style={{
-                      marginTop: '30px',
-                    }}
-                  >
-                    Svar på undersøkelsen
-                  </Button>
+      <ContentSection>
+        <ContentMain>
+          {survey.templateType ? (
+            <h2
+              style={{
+                color: 'var(--lego-red-color)',
+              }}
+            >
+              Dette er malen for arrangementer av type{' '}
+              {displayNameForEventType(survey.templateType)}
+            </h2>
+          ) : (
+            <div>
+              <div className={styles.surveyTime}>
+                Spørreundersøkelse for{' '}
+                <Link to={`/events/${survey.event.id}`}>
+                  {survey.event.title}
                 </Link>
               </div>
-            )}
-            <StaticSubmission survey={survey} />
-          </ContentMain>
 
-          <AdminSideBar
-            surveyId={survey.id}
-            actionGrant={actionGrant}
-            token={survey.token}
-            shareSurvey={shareSurvey}
-            hideSurvey={hideSurvey}
-          />
-        </ContentSection>
-      </Content>
-    );
-  }
-}
+              <div className={styles.surveyTime}>
+                Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
+              </div>
 
-export default SurveyDetail;
+              <Link to={`/surveys/${survey.id}/answer`}>
+                <Button
+                  style={{
+                    marginTop: '30px',
+                  }}
+                >
+                  Svar på undersøkelsen
+                </Button>
+              </Link>
+            </div>
+          )}
+          <StaticSubmission survey={survey} />
+        </ContentMain>
+
+        <AdminSideBar
+          surveyId={survey.id}
+          actionGrant={actionGrant}
+          token={survey.token}
+        />
+      </ContentSection>
+    </Content>
+  );
+};
+
+export default guardLogin(SurveyDetailPage);

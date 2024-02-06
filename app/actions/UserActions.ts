@@ -1,22 +1,27 @@
-import { push } from 'connected-react-router';
 import cookie from 'js-cookie';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
-import type { AddPenalty, ID, PhotoConsent } from 'app/models';
 import { userSchema, penaltySchema } from 'app/reducers';
-import type { UpdateUser } from 'app/store/models/User';
-import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { setStatusCode } from './RoutingActions';
+import type { PhotoConsent } from 'app/models';
+import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
+import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
+import type { AppDispatch } from 'app/store/createStore';
+import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
+import type { ID } from 'app/store/models';
+import type { Penalty as PenaltyType } from 'app/store/models/Penalty';
+import type { CurrentUser, UpdateUser } from 'app/store/models/User';
+import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
-function saveToken(token: EncodedToken) {
+export function saveToken(token: EncodedToken) {
   const decoded = jwtDecode<Token>(token);
   const expires = moment.unix(decoded.exp);
   return cookie.set(USER_STORAGE_KEY, token, {
@@ -33,7 +38,7 @@ function removeToken() {
   });
 }
 
-function getToken(getCookie: GetCookie): Token | null | undefined {
+function getToken(getCookie: GetCookie): Token | undefined {
   const encodedToken = getCookie(USER_STORAGE_KEY);
   if (!encodedToken) return;
 
@@ -46,13 +51,10 @@ function getToken(getCookie: GetCookie): Token | null | undefined {
   }
 }
 
-export function login(
-  username: string,
-  password: string
-): Thunk<Promise<Action | null | undefined>> {
-  return (dispatch) =>
+export function login(username: string, password: string) {
+  return (dispatch: AppDispatch) =>
     dispatch(
-      callAPI({
+      callAPI<{ user: CurrentUser; token: EncodedToken }>({
         types: User.LOGIN,
         endpoint: '//authorization/token-auth/',
         method: 'POST',
@@ -79,14 +81,9 @@ export function login(
       });
     });
 }
-export function logoutWithRedirect(): Thunk<void> {
-  return (dispatch) => {
-    dispatch(logout());
-    dispatch(push('/'));
-  };
-}
-export function logout(): Thunk<void> {
-  return (dispatch) => {
+
+export function logout() {
+  return (dispatch: AppDispatch) => {
     removeToken();
     dispatch({
       type: User.LOGOUT,
@@ -94,16 +91,15 @@ export function logout(): Thunk<void> {
     dispatch(fetchMeta());
   };
 }
+
 export function updateUser(
   user: UpdateUser,
   options: {
-    noRedirect: boolean;
     updateProfilePicture?: boolean;
   } = {
-    noRedirect: false,
     updateProfilePicture: false,
   }
-): Thunk<Promise<void | Action | null | undefined>> {
+) {
   const {
     username,
     firstName,
@@ -119,55 +115,42 @@ export function updateUser(
     githubUsername,
     linkedinId,
   } = user;
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.UPDATE,
-        endpoint: `/users/${username}/`,
-        method: 'PATCH',
-        body: {
-          username,
-          firstName,
-          lastName,
-          email,
-          phoneNumber,
-          gender,
-          allergies,
-          selectedTheme,
-          isAbakusMember,
-          emailListsEnabled,
-          githubUsername,
-          linkedinId,
-          ...(options.updateProfilePicture
-            ? {
-                profilePicture,
-              }
-            : null),
-        },
-        schema: userSchema,
-        meta: {
-          successMessage: 'Oppdatering av bruker fullført',
-          errorMessage: 'Oppdatering av bruker feilet',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) return;
-
-      if (!options.noRedirect) {
-        dispatch(push(`/users/${username}`));
-      }
-    });
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/`,
+    method: 'PATCH',
+    body: {
+      username,
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      gender,
+      allergies,
+      selectedTheme,
+      isAbakusMember,
+      emailListsEnabled,
+      githubUsername,
+      linkedinId,
+      ...(options.updateProfilePicture
+        ? {
+            profilePicture,
+          }
+        : null),
+    },
+    schema: userSchema,
+    meta: {
+      successMessage: 'Oppdatering av bruker fullført',
+      errorMessage: 'Oppdatering av bruker feilet',
+    },
+  });
 }
-type PasswordPayload = {
-  password: string;
-  newPassword: string;
-  retypeNewPassword: string;
-};
+
 export function changePassword({
   password,
   newPassword,
   retypeNewPassword,
-}: PasswordPayload): Thunk<void> {
+}: ChangePasswordFormValues) {
   return callAPI({
     types: User.PASSWORD_CHANGE,
     endpoint: '/password-change/',
@@ -184,7 +167,7 @@ export function changePassword({
     },
   });
 }
-export function changeGrade(groupId: ID, username: string): Thunk<void> {
+export function changeGrade(groupId: ID, username: string) {
   return callAPI({
     types: User.UPDATE,
     endpoint: `/users/${username}/change_grade/`,
@@ -199,30 +182,27 @@ export function changeGrade(groupId: ID, username: string): Thunk<void> {
     },
   });
 }
-export function removePicture(username: string): Thunk<void> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.UPDATE,
-        endpoint: `/users/${username}/`,
-        method: 'PATCH',
-        body: {
-          username,
-          profilePicture: null,
-        },
-        schema: userSchema,
-        meta: {
-          successMessage: 'Fjerning av profilbilde fullført',
-          errorMessage: 'Fjerning av profilbilde feilet',
-        },
-      })
-    );
+export function removePicture(username: string) {
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/`,
+    method: 'PATCH',
+    body: {
+      username,
+      profilePicture: null,
+    },
+    schema: userSchema,
+    meta: {
+      successMessage: 'Fjerning av profilbilde fullført',
+      errorMessage: 'Fjerning av profilbilde feilet',
+    },
+  });
 }
 export function updatePhotoConsent(
   photoConsent: PhotoConsent,
   username: string,
   userId: number
-): Thunk<void> {
+) {
   const { year, semester, domain, isConsenting } = photoConsent;
   return callAPI({
     types: User.UPDATE,
@@ -248,8 +228,8 @@ export function updatePicture({
 }: {
   picture: File;
   username: string;
-}): Thunk<void> {
-  return (dispatch) => {
+}) {
+  return (dispatch: AppDispatch) => {
     return dispatch(
       uploadFile({
         file: picture,
@@ -259,8 +239,7 @@ export function updatePicture({
         updateUser(
           {
             username,
-            profilePicture:
-              action && action.meta ? action.meta.fileToken : null,
+            profilePicture: action.meta.fileToken,
           },
           {
             noRedirect: true,
@@ -279,8 +258,8 @@ const defaultOptions = {
 export function fetchUser(
   username = 'me',
   { propagateError } = defaultOptions
-): Thunk<void> {
-  return callAPI({
+) {
+  return callAPI<CurrentUser>({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
@@ -291,8 +270,9 @@ export function fetchUser(
     propagateError,
   });
 }
-export function refreshToken(token: EncodedToken): Thunk<void> {
-  return callAPI({
+
+export function refreshToken(token: EncodedToken) {
+  return callAPI<{ token: EncodedToken }>({
     types: User.REFRESH_TOKEN,
     endpoint: '//authorization/token-auth/refresh/',
     method: 'POST',
@@ -301,8 +281,9 @@ export function refreshToken(token: EncodedToken): Thunk<void> {
     },
   });
 }
-export function loginWithExistingToken(token: Token): Thunk<void> {
-  return (dispatch) => {
+
+export function loginWithExistingToken(token: Token) {
+  return (dispatch: AppDispatch) => {
     const now = moment();
     const expirationTime = moment.unix(token.exp);
 
@@ -324,16 +305,16 @@ export function loginWithExistingToken(token: Token): Thunk<void> {
 /**
  * Refreshes the token if it was issued any other day than today.
  */
-export function maybeRefreshToken(): Thunk<void> {
-  return (dispatch, getState, { getCookie }) => {
+export function maybeRefreshToken(): Thunk<Promise<unknown>> {
+  return (dispatch, _, { getCookie }) => {
     const token = getToken(getCookie);
     if (!token) return Promise.resolve();
     const issuedTime = moment.unix(token.orig_iat);
 
     if (!issuedTime.isSame(moment(), 'day')) {
       return dispatch(refreshToken(token.encodedToken))
-        .then((action: any) => saveToken(action.payload.token))
-        .catch((err) => {
+        .then((action) => saveToken(action.payload.token))
+        .catch((err: RejectedPromiseAction) => {
           removeToken();
           throw err;
         });
@@ -346,7 +327,7 @@ export function maybeRefreshToken(): Thunk<void> {
 /**
  * Dispatch a login success if a token exists in local storage.
  */
-export function loginAutomaticallyIfPossible(): Thunk<void> {
+export function loginAutomaticallyIfPossible(): Thunk<Promise<unknown>> {
   return (dispatch, getState, { getCookie }) => {
     const token = getToken(getCookie);
 
@@ -361,30 +342,24 @@ type EmailArgs = {
   email: string;
   captchaResponse: string;
 };
-export function sendRegistrationEmail({
-  email,
-  captchaResponse,
-}: EmailArgs): Thunk<void> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.SEND_REGISTRATION_TOKEN,
-        endpoint: '/users-registration-request/',
-        method: 'POST',
-        body: {
-          email,
-          captchaResponse,
-        },
-        meta: {
-          errorMessage: 'Sending av registrerings-e-post feilet',
-        },
-      })
-    );
+export function sendRegistrationEmail({ email, captchaResponse }: EmailArgs) {
+  return callAPI<unknown>({
+    types: User.SEND_REGISTRATION_TOKEN,
+    endpoint: '/users-registration-request/',
+    method: 'POST',
+    body: {
+      email,
+      captchaResponse,
+    },
+    meta: {
+      errorMessage: 'Sending av registrerings-e-post feilet',
+    },
+  });
 }
-export function validateRegistrationToken(token: string): Thunk<void> {
-  return (dispatch) =>
+export function validateRegistrationToken(token: string) {
+  return (dispatch: AppDispatch) =>
     dispatch(
-      callAPI({
+      callAPI<unknown>({
         types: User.VALIDATE_REGISTRATION_TOKEN,
         endpoint: `/users-registration-request/?token=${token}`,
         meta: {
@@ -394,51 +369,40 @@ export function validateRegistrationToken(token: string): Thunk<void> {
       })
     );
 }
-export function createUser(token: string, user: string): Thunk<void> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.CREATE_USER,
-        endpoint: `/users/?token=${token}`,
-        method: 'POST',
-        body: user,
-        meta: {
-          errorMessage: 'Opprettelse av bruker feilet',
-        },
-      })
-    ).then((action) => {
-      if (!action || !action.payload) return;
-      const { user, token } = action.payload;
-      saveToken(token);
-      return dispatch({
-        type: User.FETCH.SUCCESS,
-        payload: normalize(user, userSchema),
-        meta: {
-          isCurrentUser: true,
-        },
-      });
-    });
-}
-export function deleteUser(password: string): Thunk<Promise<void>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.DELETE,
-        endpoint: '/user-delete/',
-        method: 'POST',
-        body: {
-          password,
-        },
-        meta: {
-          errorMessage: 'Sletting av bruker feilet',
-          successMessage: 'Bruker har blitt slettet',
-        },
-      })
-    );
+
+export function createUser(token: string, data: UserConfirmationFormValues) {
+  return callAPI<{ user: CurrentUser; token: EncodedToken }>({
+    types: User.CREATE_USER,
+    endpoint: `/users/?token=${token}`,
+    method: 'POST',
+    body: data,
+    meta: {
+      errorMessage: 'Opprettelse av bruker feilet',
+    },
+  });
 }
 
-export function startStudentAuth(): Thunk<void> {
+export function deleteUser(password: string) {
   return callAPI({
+    types: User.DELETE,
+    endpoint: '/user-delete/',
+    method: 'POST',
+    body: {
+      password,
+    },
+    meta: {
+      errorMessage: 'Sletting av bruker feilet',
+      successMessage: 'Bruker har blitt slettet',
+    },
+  });
+}
+
+type StartStudentAuthResponse = {
+  url: string;
+  status: string;
+};
+export function startStudentAuth() {
+  return callAPI<StartStudentAuthResponse>({
     types: User.INIT_STUDENT_AUTH,
     endpoint: `/oidc/authorize/`,
     method: 'GET',
@@ -448,14 +412,26 @@ export function startStudentAuth(): Thunk<void> {
   });
 }
 
-export function confirmStudentAuth({
-  code,
-  state,
-}: {
-  code: string;
-  state: string;
-}): Thunk<void> {
-  return callAPI({
+type ConfirmStudentAuthResponseCommonFields = {
+  studyProgrammes: string[];
+  grade: string;
+};
+type ConfirmStudentAuthBaseResponse = ConfirmStudentAuthResponseCommonFields & {
+  status: 'unauthorized' | 'success';
+};
+type ConfirmStudentAuthErrorResponse =
+  ConfirmStudentAuthResponseCommonFields & {
+    status: 'error';
+    detail: string;
+  };
+export type ConfirmStudentAuthResponse =
+  | ConfirmStudentAuthBaseResponse
+  | ConfirmStudentAuthErrorResponse;
+export function confirmStudentAuth(
+  code: string | qs.ParsedQs | string[] | qs.ParsedQs[],
+  state: string | qs.ParsedQs | string[] | qs.ParsedQs[]
+) {
+  return callAPI<ConfirmStudentAuthResponse>({
     types: User.COMPLETE_STUDENT_AUTH,
     endpoint: `/oidc/validate/?code=${code}&state=${state}`,
     method: 'GET',
@@ -465,49 +441,40 @@ export function confirmStudentAuth({
   });
 }
 
-export function sendForgotPasswordEmail({
-  email,
-}: {
-  email: string;
-}): Thunk<void> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.SEND_FORGOT_PASSWORD_REQUEST,
-        endpoint: '/password-reset-request/',
-        method: 'POST',
-        body: {
-          email,
-        },
-        meta: {
-          errorMessage: 'Sending av tilbakestill passord e-post feilet',
-        },
-      })
-    );
-}
-export function addPenalty({
-  user,
-  reason,
-  weight,
-  sourceEvent,
-}: AddPenalty): Thunk<void> {
+export function sendForgotPasswordEmail({ email }: { email: string }) {
   return callAPI({
+    types: User.SEND_FORGOT_PASSWORD_REQUEST,
+    endpoint: '/password-reset-request/',
+    method: 'POST',
+    body: {
+      email,
+    },
+    meta: {
+      errorMessage: 'Sending av tilbakestill-passord-e-post feilet',
+    },
+  });
+}
+
+export type AddPenaltyBody = {
+  user: ID;
+  reason: string;
+  weight: number;
+  sourceEvent: ID;
+};
+export function addPenalty(body: AddPenaltyBody) {
+  return callAPI<PenaltyType>({
     types: Penalty.CREATE,
     endpoint: '/penalties/',
     method: 'POST',
     schema: penaltySchema,
-    body: {
-      user,
-      reason,
-      weight,
-      sourceEvent,
-    },
+    body,
     meta: {
       errorMessage: 'Opprettelse av prikk feilet',
     },
   });
 }
-export function deletePenalty(id: number): Thunk<void> {
+
+export function deletePenalty(id: ID) {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,
@@ -520,26 +487,36 @@ export function deletePenalty(id: number): Thunk<void> {
     body: {},
   });
 }
+
 export function resetPassword({
   token,
   password,
 }: {
   token: string;
   password: string;
-}): Thunk<void> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: User.RESET_PASSWORD,
-        endpoint: '/password-reset-perform/',
-        method: 'POST',
-        body: {
-          token,
-          password,
-        },
-        meta: {
-          errorMessage: 'Tilbakestilling av passord feilet',
-        },
-      })
-    );
+}) {
+  return callAPI({
+    types: User.RESET_PASSWORD,
+    endpoint: '/password-reset-perform/',
+    method: 'POST',
+    body: {
+      token,
+      password,
+    },
+    meta: {
+      errorMessage: 'Tilbakestilling av passord feilet',
+    },
+  });
+}
+
+export function updateUserTheme(username: string, theme: 'light' | 'dark') {
+  return updateUser(
+    {
+      username,
+      selectedTheme: theme,
+    },
+    {
+      noRedirect: true,
+    }
+  );
 }

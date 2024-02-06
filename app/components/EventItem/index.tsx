@@ -1,15 +1,14 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import type { Event } from 'app/models';
-import { colorForEvent } from 'app/routes/events/utils';
+import { colorForEventType } from 'app/routes/events/utils';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
+import type { ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';
@@ -21,7 +20,7 @@ type statusIconProps = {
   tooltip: string;
 };
 
-const eventStatusObject = (event: Event): statusIconProps => {
+const eventStatusObject = (event: ListEvent): statusIconProps => {
   const { isAdmitted, eventStatusType } = event;
 
   switch (eventStatusType) {
@@ -31,7 +30,7 @@ const eventStatusObject = (event: Event): statusIconProps => {
         return {
           status: 'Admitted',
           icon: 'checkmark-circle-outline',
-          color: 'var(--color-green-6)',
+          color: 'var(--success-color)',
           tooltip: 'Du er påmeldt',
         } as statusIconProps;
       }
@@ -68,20 +67,46 @@ const Attendance = ({ event }) => {
 };
 
 type TimeStampProps = {
-  event: Event;
+  event: ListEvent;
 };
 
 const TimeStamp = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
       <Flex alignItems="center" gap={10}>
-        <Icon name="calendar-number-outline" size={20} />
+        <Tooltip content={'Arrangementsdato'}>
+          <Icon name="calendar-number-outline" size={20} />
+        </Tooltip>
         <Time time={event.startTime} format="ll" />
       </Flex>
       <Flex alignItems="center" gap={10}>
-        <Icon name="time-outline" size={20} />
+        <Tooltip content={'Starttidspunkt'}>
+          <Icon name="time-outline" size={20} />
+        </Tooltip>
         <Time time={event.startTime} format="HH:mm" />
       </Flex>
+    </div>
+  );
+};
+
+const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
+  return (
+    <div className={styles.eventTime}>
+      <Flex alignItems="center" gap={10}>
+        <Tooltip content={'Arrangementstart'}>
+          <Icon name="calendar-number-outline" size={20} />
+        </Tooltip>
+        <Time time={event.startTime} format="ll HH:mm" />
+      </Flex>
+
+      {!!event.activationTime && (
+        <Flex alignItems="center" gap={10}>
+          <Tooltip content={'Påmelding åpner'}>
+            <Icon name="alarm-outline" size={20} />
+          </Tooltip>
+          <Time time={event.activationTime} format="ll HH:mm" />
+        </Flex>
+      )}
     </div>
   );
 };
@@ -102,7 +127,7 @@ const RegistrationIcon = ({ event }: TimeStampProps) => {
 };
 
 type EventItemProps = {
-  event: Event;
+  event: ListEvent;
   showTags?: boolean;
   eventStyle?: EventStyle;
 };
@@ -117,7 +142,7 @@ const EventItem = ({
       return (
         <div
           style={{
-            borderColor: colorForEvent(event.eventType),
+            borderColor: colorForEventType(event.eventType),
           }}
           className={styles.eventItem}
         >
@@ -145,7 +170,7 @@ const EventItem = ({
     case 'compact':
       return (
         <div
-          style={{ borderColor: colorForEvent(event.eventType) }}
+          style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
           <Flex width="100%">
@@ -190,7 +215,7 @@ const EventItem = ({
       return (
         <div
           style={{
-            borderColor: colorForEvent(event.eventType),
+            borderColor: colorForEventType(event.eventType),
           }}
           className={styles.eventItem}
         >
@@ -199,7 +224,7 @@ const EventItem = ({
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
               {event.totalCapacity > 0 && <Attendance event={event} />}
             </Link>
-            <TimeStamp event={event} />
+            <TimeStartAndRegistration event={event} />
             {showTags && (
               <Flex wrap>
                 {event.tags.map((tag, index) => (

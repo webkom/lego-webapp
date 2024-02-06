@@ -1,9 +1,14 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
-import type { ComponentType, CSSProperties, InputHTMLAttributes } from 'react';
+import type {
+  ChangeEvent,
+  ComponentType,
+  CSSProperties,
+  InputHTMLAttributes,
+} from 'react';
+import type { FieldRenderProps } from 'react-final-form';
 
 const FieldError = ({
   error,
@@ -15,13 +20,6 @@ const FieldError = ({
   error ? (
     <div className={styles.fieldError} data-error-field-name={fieldName}>
       {typeof error === 'object' ? JSON.stringify(error) : error}
-    </div>
-  ) : null;
-
-const FieldWarning = ({ warning }: { warning?: string }) =>
-  warning ? (
-    <div className={styles.fieldWarning}>
-      {typeof warning === 'object' ? JSON.stringify(warning) : warning}
     </div>
   ) : null;
 
@@ -44,27 +42,9 @@ export const RenderErrorMessage = ({
 
   return <FieldError error={error} fieldName={fieldName} />;
 };
-export const RenderWarningMessage = ({
-  warning,
-}: {
-  warning: Array<string> | string;
-}) => {
-  if (Array.isArray(warning)) {
-    return (
-      <>
-        {warning.map((warning) => (
-          <RenderWarningMessage key={warning} warning={warning} />
-        ))}
-      </>
-    );
-  }
 
-  return <FieldWarning warning={warning} key={warning} />;
-};
 export type FormProps = {
   className?: string;
-  input: InputHTMLAttributes<HTMLInputElement>;
-  meta: Record<string, any>;
   required?: boolean;
   label?: string;
   description?: string;
@@ -72,8 +52,9 @@ export type FormProps = {
   fieldClassName?: string;
   labelClassName?: string;
   showErrors?: boolean;
-  onChange?: (value: string) => void;
+  onChange?: (value: string | ChangeEvent) => void;
 };
+
 type Options = {
   // Removes the html <label> around the component
   noLabel?: boolean;
@@ -81,13 +62,21 @@ type Options = {
   inlineLabel?: boolean;
 };
 
+export type FieldType = FieldRenderProps<
+  FormProps,
+  HTMLInputElement,
+  FormProps
+>;
+
 /**
- * Wraps field component
- * http://redux-form.com/6.0.5/docs/api/Field.md/
+ * Wraps the Field component
  * https://final-form.org/docs/react-final-form/api/Field
  */
-export function createField(Component: ComponentType<any>, options?: Options) {
-  const Field = (field: FormProps) => {
+export function createField<
+  P extends InputHTMLAttributes<HTMLInputElement>,
+  ExtraProps extends object
+>(Component: ComponentType<P & ExtraProps>, options?: Options) {
+  const Field = (field: FieldType & ExtraProps) => {
     const {
       input,
       meta,
@@ -102,10 +91,9 @@ export function createField(Component: ComponentType<any>, options?: Options) {
       className = null,
       ...props
     } = field;
-    const { error, submitError, warning, touched } = meta;
+    const { error, submitError, touched } = meta;
     const anyError = error || submitError;
-    const hasError = showErrors && touched && anyError?.length > 0;
-    const hasWarning = showErrors && touched && warning?.length > 0;
+    const hasError = showErrors && touched && anyError && anyError.length > 0;
     const fieldName = input?.name;
     const { noLabel, inlineLabel } = options || {};
 
@@ -135,18 +123,14 @@ export function createField(Component: ComponentType<any>, options?: Options) {
 
     const component = (
       <Component
-        {...input}
-        {...props}
+        {...(input as P)}
+        {...(props as ExtraProps)}
         label={!noLabel && !inlineLabel && label}
         onChange={(value) => {
           input.onChange?.(value);
           onChange?.(value);
         }}
-        className={cx(
-          className,
-          hasWarning && styles.inputWithWarning,
-          hasError && styles.inputWithError
-        )}
+        className={cx(className, hasError && styles.inputWithError)}
       />
     );
 
@@ -168,7 +152,6 @@ export function createField(Component: ComponentType<any>, options?: Options) {
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}
-        {hasWarning && <RenderWarningMessage warning={warning} />}
       </div>
     );
   };

@@ -1,15 +1,15 @@
 import moment from 'moment-timezone';
-import { startSubmit, stopSubmit } from 'redux-form';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
-import type { UserEntity } from 'app/reducers/users';
-import type { ID } from 'app/store/models';
-import type { Thunk, Action } from 'app/types';
-import createQueryString from 'app/utils/createQueryString';
 import { Meeting } from './ActionTypes';
+import type { MeetingFormValues } from 'app/routes/meetings/components/MeetingEditor';
+import type { ID } from 'app/store/models';
+import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
+import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import type { CurrentUser } from 'app/store/models/User';
 
-export function fetchMeeting(meetingId: string): Thunk<any> {
-  return callAPI({
+export function fetchMeeting(meetingId: string) {
+  return callAPI<DetailedMeeting>({
     types: Meeting.FETCH,
     endpoint: `/meetings/${meetingId}/`,
     schema: meetingSchema,
@@ -20,72 +20,51 @@ export function fetchMeeting(meetingId: string): Thunk<any> {
   });
 }
 
-const getEndpoint = (state, loadNextPage, queryString) => {
-  const pagination = state.meetings.pagination;
+export const getEndpoint = (
+  pagination: any,
+  queryString: string,
+  loadNextPage?: boolean
+): string => {
   let endpoint = `/meetings/${queryString}`;
   const paginationObject = pagination[queryString];
 
   if (
     loadNextPage &&
     paginationObject &&
-    paginationObject.queryString === queryString
+    paginationObject.queryString === queryString &&
+    paginationObject.nextPage
   ) {
-    endpoint = pagination[queryString].nextPage;
+    endpoint = paginationObject.nextPage;
   }
 
   return endpoint;
 };
 
 export function fetchAll({
-  dateAfter,
-  dateBefore,
-  ordering,
-  loadNextPage,
+  endpoint,
+  queryString,
 }: {
-  dateAfter?: string;
-  dateBefore?: string;
-  ordering?: string;
-  refresh?: boolean;
-  loadNextPage?: boolean;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    const query: Record<string, any> = {
-      date_after: dateAfter,
-      date_before: dateBefore,
-      ordering,
-    };
-
-    if (dateBefore && dateAfter) {
-      query.page_size = 60;
-    }
-
-    const queryString = createQueryString(query);
-    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-
-    if (!endpoint) {
-      return Promise.resolve(null);
-    }
-
-    return dispatch(
-      callAPI({
-        types: Meeting.FETCH,
-        endpoint,
-        schema: [meetingSchema],
-        meta: {
-          queryString,
-          errorMessage: 'Henting av møter feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+  endpoint: string;
+  queryString?: string;
+}) {
+  return callAPI<ListMeeting[]>({
+    types: Meeting.FETCH,
+    endpoint,
+    schema: [meetingSchema],
+    meta: {
+      queryString,
+      errorMessage: 'Henting av møter feilet',
+    },
+    propagateError: true,
+  });
 }
+
 export function setInvitationStatus(
-  meetingId: number,
-  status: string,
-  user: UserEntity
-): Thunk<any> {
-  return callAPI({
+  meetingId: ID,
+  status: MeetingInvitationStatus,
+  user: CurrentUser
+) {
+  return callAPI<{ status: MeetingInvitationStatus }>({
     types: Meeting.SET_INVITATION_STATUS,
     endpoint: `/meetings/${meetingId}/invitations/${user.id}/`,
     method: 'PUT',
@@ -101,7 +80,8 @@ export function setInvitationStatus(
     },
   });
 }
-export function deleteMeeting(id: number): Thunk<any> {
+
+export function deleteMeeting(id: ID) {
   return callAPI({
     types: Meeting.DELETE,
     endpoint: `/meetings/${id}/`,
@@ -112,6 +92,7 @@ export function deleteMeeting(id: number): Thunk<any> {
     },
   });
 }
+
 export function createMeeting({
   title,
   report,
@@ -122,8 +103,8 @@ export function createMeeting({
   reportAuthor,
   mazemapPoi,
   useMazemap,
-}: Record<string, any>): Thunk<any> {
-  return callAPI({
+}: MeetingFormValues) {
+  return callAPI<DetailedMeeting>({
     types: Meeting.CREATE,
     endpoint: '/meetings/',
     method: 'POST',
@@ -143,6 +124,7 @@ export function createMeeting({
     },
   });
 }
+
 export function inviteUsersAndGroups({
   id,
   users,
@@ -159,8 +141,8 @@ export function inviteUsersAndGroups({
       value: ID;
     }
   ];
-}): Thunk<Promise<void>> {
-  return callAPI({
+}) {
+  return callAPI<{ users: ID[]; groups: ID[] }>({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'POST',
@@ -173,30 +155,18 @@ export function inviteUsersAndGroups({
     },
   });
 }
-export function answerMeetingInvitation(
-  action: string,
-  token: string
-): Thunk<Promise<void>> {
-  return (dispatch) => {
-    dispatch(startSubmit('answerMeetingInvitation'));
-    return dispatch(
-      callAPI({
-        types: Meeting.ANSWER_INVITATION_TOKEN,
-        endpoint: `/meeting-token/${action}/?token=${token}`,
-        method: 'POST',
-        meta: {
-          errorMessage: 'Svar på invitasjon feilet',
-        },
-      })
-    )
-      .then(() => {
-        dispatch(stopSubmit('answerMeetingInvitation'));
-      })
-      .catch(() => {
-        dispatch(stopSubmit('answerMeetingInvitation', null));
-      });
-  };
+
+export function answerMeetingInvitation(action: string, token: string) {
+  return callAPI<unknown>({
+    types: Meeting.ANSWER_INVITATION_TOKEN,
+    endpoint: `/meeting-token/${action}/?token=${token}`,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Svar på invitasjon feilet',
+    },
+  });
 }
+
 export function editMeeting({
   title,
   report,
@@ -208,8 +178,8 @@ export function editMeeting({
   id,
   mazemapPoi,
   useMazemap,
-}: Record<string, any>): Thunk<any> {
-  return callAPI({
+}: MeetingFormValues) {
+  return callAPI<DetailedMeeting>({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/`,
     method: 'PUT',
@@ -230,19 +200,26 @@ export function editMeeting({
     },
   });
 }
-export function resetMeetingsToken(): Action {
+
+export function resetMeetingsToken() {
   return {
     type: Meeting.RESET_MEETINGS_TOKEN,
   };
 }
 
-const calculateMazemapPoi = (useMazemap, mazemapPoi) => {
-  if (!useMazemap || !mazemapPoi.value) {
+const calculateMazemapPoi = (
+  useMazemap: boolean,
+  mazemapPoi?: { value: number; label: string }
+) => {
+  if (!useMazemap || !mazemapPoi?.value) {
     return null;
   }
 
   return mazemapPoi.value;
 };
 
-const calculateLocation = (useMazemap, mazemapPoi, location) =>
-  useMazemap ? mazemapPoi.label : location;
+const calculateLocation = (
+  useMazemap: boolean,
+  mazemapPoi?: { value: number; label: string },
+  location?: string
+) => (useMazemap ? mazemapPoi?.label : location);

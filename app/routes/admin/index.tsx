@@ -1,33 +1,15 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import OverviewRoute from './OverviewRoute';
+import EmailRoute from './email';
+import GroupPage from './groups/components/GroupPage';
 
-const adminRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={OverviewRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const AdminRoute = () => (
+  <Routes>
+    <Route path="groups/:groupId/*" element={<GroupPage />} />
+    <Route path="groups" element={<GroupPage />} />
+    <Route path="email/*" element={<EmailRoute />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Admin() {
-  return <Route path="/admin" component={adminRoute} />;
-}
+export default AdminRoute;

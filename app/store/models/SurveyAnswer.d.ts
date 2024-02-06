@@ -1,5 +1,6 @@
+import type { ID } from 'app/store/models';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
-import type { ID } from 'app/store/models/index';
+import type { Overwrite } from 'utility-types';
 
 interface CompleteSurveyAnswer {
   id: ID;
@@ -17,3 +18,10 @@ export type SurveyAnswer = Pick<
 
 export type AdminSurveyAnswer = Pick<CompleteSurveyAnswer, 'hideFromPublic'> &
   CompleteSurveyAnswer;
+
+export type FormSurveyAnswer = Overwrite<
+  Pick<CompleteSurveyAnswer, 'question' | 'answerText' | 'selectedOptions'>,
+  {
+    question: ID;
+  }
+>;

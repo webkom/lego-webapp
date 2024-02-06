@@ -1,147 +1,28 @@
 import loadable from '@loadable/component';
-import { Route, Switch } from 'react-router-dom';
-import { UserContext } from 'app/routes/app/AppRoute';
-import EventStatistics from 'app/routes/events/EventStatisticsRoute';
+import { Route, Routes } from 'react-router-dom';
 
-const EventEditRoute = loadable(() => import('./EventEditRoute'));
+const EventDetail = loadable(() => import('./components/EventDetail'));
+const EventEditor = loadable(() => import('./components/EventEditor'));
 const EventAdministrateRoute = loadable(
-  () => import('./EventAdministrateRoute')
+  () => import('./components/EventAdministrate')
 );
-const EventAttendeeRoute = loadable(() => import('./EventAttendeeRoute'));
-const EventAllergiesRoute = loadable(() => import('./EventAllergiesRoute'));
-const EventAdminRegisterRoute = loadable(
-  () => import('./components/EventAdministrate/AdminRegister')
-);
-const EventAbacardRoute = loadable(() => import('./EventAbacardRoute'));
 const PageNotFound = loadable(() => import('../pageNotFound'));
-const RouteWrapper = loadable(() => import('app/components/RouteWrapper'));
-const CalendarRoute = loadable(() => import('./CalendarRoute'));
-const CreateRoute = loadable(() => import('./EventCreateRoute'));
-const DetailRoute = loadable(() => import('./EventDetailRoute'));
-const EventListRoute = loadable(() => import('./EventListRoute'));
+const Calendar = loadable(() => import('./components/Calendar'));
+const EventList = loadable(() => import('./components/EventList'));
 
-const eventRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          Component={EventListRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-        />
-        <RouteWrapper
-          path={`${match.path}/calendar/:year?/:month?`}
-          Component={CalendarRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-        />
-        <RouteWrapper
-          path={`${match.path}/create`}
-          Component={CreateRoute}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:eventIdOrSlug`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={DetailRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/:eventIdOrSlug/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={EventEditRoute}
-        />
-        <Route path={`${match.path}/:eventId/administrate`}>
-          {({ match }) => (
-            <EventAdministrateRoute
-              {...{
-                match,
-                currentUser,
-                loggedIn,
-              }}
-            >
-              {(props) => (
-                <>
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/attendees`}
-                    Component={EventAttendeeRoute}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                  />
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/allergies`}
-                    Component={EventAllergiesRoute}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                  />
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/statistics`}
-                    Component={EventStatistics}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                  />
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/admin-register`}
-                    Component={EventAdminRegisterRoute}
-                    passedProps={{
-                      event: props.event,
-                    }}
-                  />
-                  <RouteWrapper
-                    exact
-                    path={`${match.path}/abacard`}
-                    Component={EventAbacardRoute}
-                    passedProps={{
-                      currentUser,
-                      loggedIn,
-                      ...props,
-                    }}
-                  />
-                </>
-              )}
-            </EventAdministrateRoute>
-          )}
-        </Route>
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const EventsRoute = () => (
+  <Routes>
+    <Route index element={<EventList />} />
+    <Route path="calendar/:year?/:month?" element={<Calendar />} />
+    <Route path="create" element={<EventEditor />} />
+    <Route path=":eventIdOrSlug" element={<EventDetail />} />
+    <Route path=":eventIdOrSlug/edit" element={<EventEditor />} />
+    <Route
+      path=":eventId/administrate/*"
+      element={<EventAdministrateRoute />}
+    />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Events() {
-  return <Route path="/events" component={eventRoute} />;
-}
+export default EventsRoute;

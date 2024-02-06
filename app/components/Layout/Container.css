@@ -1,5 +1,0 @@
-.content {
-  composes: container from '~app/styles/utilities.css';
-  width: 100%;
-  padding-top: 20px;
-}

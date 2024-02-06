@@ -1,5 +1,6 @@
 import { get, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
+import type { RootState } from 'app/store/createRootReducer';
 import type { Schema } from 'normalizr';
 
 export const selectPagination =
@@ -11,7 +12,7 @@ export const selectPagination =
       queryString: string;
     }
   ) =>
-  (state: any) =>
+  (state: RootState) =>
     get(state, [entityName, 'pagination', queryString, 'nextPage']) !== null;
 export const selectPaginationNext =
   ({
@@ -25,7 +26,7 @@ export const selectPaginationNext =
     schema?: Schema;
     entity?: string;
   }) =>
-  (state: any) => {
+  (state: RootState) => {
     const paginationKey = `${endpoint}${createQueryString(query)}`;
     let schemaKey = entity;
 
@@ -45,6 +46,7 @@ export const selectPaginationNext =
         next: { ...query, cursor: '' },
         previous: false,
         items: [],
+        ids: [],
       },
       paginationKey,
     };

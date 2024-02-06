@@ -1,6 +1,8 @@
+import type { ActionGrant } from './models';
+import type { ID } from './store/models';
+import type { NormalizedPayloadEntities } from './store/models/entities';
+import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from './models';
-import type { ThunkAction } from '@reduxjs/toolkit';
 import type { JwtPayload } from 'jwt-decode';
 import type { Overwrite } from 'utility-types';
 
@@ -18,9 +20,9 @@ export type ValueLabel<T extends object, K extends keyof T> = Overwrite<
 >;
 
 export type AsyncActionType = {
-  BEGIN: string;
-  SUCCESS: string;
-  FAILURE: string;
+  BEGIN: `${string}.BEGIN`;
+  SUCCESS: `${string}.SUCCESS`;
+  FAILURE: `${string}.FAILURE`;
 };
 export type AsyncActionTypeArray = [string, string, string];
 export type EntityID = number;
@@ -33,13 +35,6 @@ export type ArticleEntity = {
   cover: string;
   description: string;
   pinned: boolean;
-};
-export type GalleryPictureEntity = {
-  description?: string;
-  active: boolean;
-  file: string;
-  galleryId: number;
-  taggees?: Array<Record<string, any>>;
 };
 export type GalleryEntity = {
   title: string;
@@ -64,27 +59,27 @@ export type Token = DecodedToken & {
 
 export type Action = {
   type: string;
-  payload?: any;
-  meta?: any;
-  error?: boolean;
-  success?: boolean; // 65 WAT M8 https://github.com/acdlite/flux-standard-action
+  payload: any;
 };
-export type PromiseAction<T> = {
-  types: AsyncActionType;
-  promise: Promise<T>;
-  meta?: any;
-  payload?: any;
+
+export type NormalizedApiPayload<T = unknown> = {
+  actionGrant?: ActionGrant;
+  entities: NormalizedPayloadEntities<T extends Array<infer E> ? E : T>;
+  next?: string;
+  previous?: string;
+  result: T extends Array<unknown> ? ID[] : ID;
 };
+
 export type GetState = () => RootState;
 export type GetCookie = (arg0: string) => EncodedToken | null | undefined;
 
-export type Thunk<Returned> = ThunkAction<
-  Returned,
+export type Thunk<ReturnType> = ThunkAction<
+  ReturnType,
   RootState,
   {
     getCookie: GetCookie;
   },
-  Action
+  AnyAction
 >;
 
 export type ReduxFormProps = {

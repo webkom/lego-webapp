@@ -8,6 +8,10 @@ type Validator<T = any, C = any> = (
   message?: string
 ) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
 
+type AsyncValidator<T = any, C = any> = (
+  message?: string
+) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
+
 export type ValidatorResult = ValidationErrors;
 
 export const EMAIL_REGEX = /.+@.+\..+/;
@@ -16,12 +20,16 @@ const YOUTUBE_URL_REGEX =
 
 export const required =
   (message = 'Feltet må fylles ut') =>
-  (value) => {
+  (value: unknown) => {
     if (Array.isArray(value)) {
-      const atLeastOneTrue = value.reduce((accumulator, currentValue) => {
-        return accumulator || currentValue.checked;
-      }, false);
-      return [!!atLeastOneTrue, message] as const;
+      if (value.length === 0) {
+        // List of values must have at least one value
+        return [false, message] as const;
+      } else if (value.some((v) => 'checked' in v)) {
+        // Checkbox array must have at least one checked
+        const atLeastOneTrue = value.some((v) => v.checked);
+        return [atLeastOneTrue, message] as const;
+      }
     }
     return [!!value, message] as const;
   };
@@ -30,6 +38,31 @@ export const requiredIf =
   (conditionalFn, message = `Feltet må fylles ut`) =>
   (value, allValues) => {
     return [conditionalFn(allValues) ? !!value : true, message] as const;
+  };
+
+export const conditionalValidation = (conditionalFn, validationFnGenerator) => {
+  return (value, allValues) => {
+    if (conditionalFn(allValues)) {
+      const validators = validationFnGenerator();
+      for (const validator of validators) {
+        const [isValid, message] = validator(value, allValues);
+        if (!isValid) {
+          return [false, message] as const;
+        }
+      }
+    }
+    return [true] as const;
+  };
+};
+
+export const atLeastOneFieldRequired =
+  (fieldNames: string[], message = 'Du må fylle ut minst ett felt') =>
+  (_, allValues) => {
+    const hasAtLeastOneValue = fieldNames.some((fieldName) => {
+      const value = allValues[fieldName];
+      return Boolean(value && (Array.isArray(value) ? value.length : true));
+    });
+    return [hasAtLeastOneValue, message] as const;
   };
 
 export const legoEditorRequired =
@@ -42,6 +75,21 @@ export const maxLength =
   (value) =>
     [!value || value.length < length, message] as const;
 
+export const maxSize =
+  (size, message = `Må være mindre enn ${size}`) =>
+  (value) =>
+    [!value || value < size, message] as const;
+
+export const minSize =
+  (size, message = `Må være mer enn ${size}`) =>
+  (value) =>
+    [!value || value > size, message] as const;
+
+export const isInteger =
+  (message = 'Verdi må være heltall') =>
+  (value) =>
+    [!value || /^-?\d+$/.test(value), message] as const;
+
 export const matchesRegex = (regex, message) => (value) =>
   [
     // Ignore empty values here, since we want to validate
@@ -53,7 +101,7 @@ export const matchesRegex = (regex, message) => (value) =>
 export const isEmail = (message = 'Ugyldig e-post') =>
   matchesRegex(EMAIL_REGEX, message);
 
-export const validYoutubeUrl = (message = 'Ikke gyldig YouTube URL.') =>
+export const validYoutubeUrl = (message = 'Ugyldig YouTube-URL') =>
   matchesRegex(YOUTUBE_URL_REGEX, message);
 
 export const whenPresent =
@@ -74,12 +122,58 @@ export const timeIsAfter = (otherField, message) => (value, context) => {
   return [true] as const;
 };
 
-export const isValidAllergy =
+export const timeIsAtLeastDurationAfter =
+  (otherField, duration, message) => (value, allValues) => {
+    const firstTime = moment(allValues[otherField]);
+    const secondTime = moment(value);
+
+    if (!firstTime.isValid() || !secondTime.isValid()) {
+      return [true] as const;
+    }
+
+    const minimumSecondTime = firstTime.clone().add(duration);
+    if (secondTime.isAfter(minimumSecondTime)) {
+      return [true] as const;
+    }
+
+    return [false, message] as const;
+  };
+
+export const mergeTimeAfterAllPoolsActivation =
+  (message) => (mergeTime, allValues) => {
+    if (!mergeTime || !allValues.pools || allValues.pools.length === 0) {
+      return [true] as const; // No validation if mergeTime or pools are not set
+    }
+
+    const isAfterAll = allValues.pools.every((pool) => {
+      const activationTime = moment(pool.activationDate);
+      return (
+        !activationTime.isValid() || moment(mergeTime).isAfter(activationTime)
+      );
+    });
+
+    return [isAfterAll, message] as const;
+  };
+
+export const isValidAllergy: Validator<string | undefined> =
   (
     message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
   ) =>
-  (value: string) => {
-    const notValidAnswers = ['ingen', 'ingenting', 'nei', 'nope', 'nada'];
+  (value) => {
+    if (!value) return [true] as const;
+    const notValidAnswers = [
+      'ingen',
+      'ingenting',
+      'nei',
+      'no',
+      'nope',
+      'none',
+      'n/a',
+      'null',
+      'nada',
+      'indøk',
+      'matte 4',
+    ];
 
     return [!notValidAnswers.includes(value.toLowerCase()), message] as const;
   };
@@ -93,7 +187,7 @@ export const isValidGithubUsername =
   };
 
 export const isValidLinkedinId =
-  (message = 'Ikke en gyldig Linkedin ID') =>
+  (message = 'Ikke en gyldig LinkedIn-ID') =>
   (value: string) => {
     const validRegex = /^[a-zA-Z0-9-]{0,70}$/i;
 
@@ -109,18 +203,57 @@ export const ifNotField =
     context[field] ? ([true] as const) : validator(value, context);
 
 export function createValidator(
-  fieldValidators: { [field: string]: ReturnType<Validator>[] },
-  rawValidator?: (input) => ValidatorResult
+  fieldValidators: {
+    [field: string]: (ReturnType<Validator> | ReturnType<AsyncValidator>)[];
+  },
+  rawValidator?: (input) => ValidatorResult,
+  async = false
 ) {
+  if (async) {
+    return async function validate(input) {
+      const rawValidatorErrors: ValidatorResult = rawValidator?.(input) || {};
+
+      // Run validators on each field
+      const fieldValidationResults = {};
+      for (const field of Object.keys(fieldValidators)) {
+        const validationResult = await Promise.all(
+          fieldValidators[field].map(async (validator) => {
+            let result = validator(input[field], input);
+            if (result instanceof Promise) {
+              result = await result;
+            }
+            return result;
+          })
+        );
+
+        fieldValidationResults[field] = validationResult;
+      }
+
+      // Extract errors from each validation
+      const fieldValidationErrors = {};
+      for (const field of Object.keys(fieldValidators)) {
+        const validationErrors =
+          fieldValidationResults[field]
+            ?.filter(([isValid]) => !isValid)
+            .map(([, message]) => message || 'not valid') ?? [];
+
+        if (validationErrors.length)
+          fieldValidationErrors[field] = validationErrors;
+      }
+
+      return merge(fieldValidationErrors, rawValidatorErrors);
+    };
+  }
+
   return function validate(input) {
     const rawValidatorErrors: ValidatorResult = rawValidator?.(input) || {};
     const fieldValidatorErrors = Object.keys(fieldValidators).reduce(
       (errors: ValidatorResult, field) => {
         const fieldErrors =
           fieldValidators[field]
-            .map((validator) => validator(input[field], input))
+            ?.map((validator) => validator(input[field], input))
             .filter(([isValid]) => !isValid)
-            .map(([, message]) => message || 'not valid') || 0;
+            .map(([, message]) => message || 'not valid') ?? [];
         if (fieldErrors.length) errors[field] = fieldErrors;
         return errors;
       },

@@ -1,28 +1,18 @@
+import { Card } from '@webkom/lego-bricks';
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/store/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import { useAppSelector } from 'app/store/hooks';
 import styles from './ReactionPicker.css';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
+import type { EmojiWithReactionData } from 'app/components/LegoReactions';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
-  isLoading: boolean;
   emojis: EmojiWithReactionData[];
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
   contentTarget: ContentTarget;
 };
 
@@ -141,15 +131,9 @@ const searchEmojis = (
   return [...matchingEmojis, ...results.map((result) => result.original)];
 };
 
-const ReactionPicker = ({
-  isLoading,
-  emojis,
-  addReaction,
-  deleteReaction,
-  contentTarget,
-}: Props) => {
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [searchString, setSearchString] = useState<string>(null);
+const ReactionPicker = ({ emojis, contentTarget }: Props) => {
+  const [activeCategory, setActiveCategory] = useState<string>();
+  const [searchString, setSearchString] = useState<string>('');
   const categories = useMemo(() => {
     if (!emojis) {
       return {};
@@ -174,21 +158,26 @@ const ReactionPicker = ({
     });
     return mappedCategories;
   }, [emojis]);
+
   const searchResults = useMemo(() => {
-    if (searchString === null || searchString === '') {
+    if (searchString === '') {
       return null;
     }
 
     return searchEmojis(emojis, searchString);
   }, [searchString, emojis]);
+
   const onCategoryClick = useCallback((category) => {
     setActiveCategory(category);
-    setSearchString(null);
+    setSearchString('');
   }, []);
+
   const onSearch = useCallback(
     (searchString) => setSearchString(searchString.trim().toLowerCase()),
     []
   );
+
+  const isLoading = useAppSelector((state) => state.emojis.fetching);
 
   return (
     <Card className={styles.reactionPicker}>
@@ -196,7 +185,7 @@ const ReactionPicker = ({
         activeCategory={activeCategory}
         categories={Object.keys(categories)}
         onCategoryClick={onCategoryClick}
-        isSearching={searchString !== null && searchString !== ''}
+        isSearching={searchString !== ''}
       />
       {isLoading ? (
         <div className={styles.emojiLoading}>
@@ -210,8 +199,6 @@ const ReactionPicker = ({
               : []
           }
           searchResults={searchResults}
-          addReaction={addReaction}
-          deleteReaction={deleteReaction}
           contentTarget={contentTarget}
         />
       )}

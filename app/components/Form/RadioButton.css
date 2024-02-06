@@ -42,7 +42,8 @@
   }
 }
 
-.radioButton input:hover:not(:disabled) {
+.radioButton input:hover:not(:disabled),
+.radioButton input:focus:not(:disabled) {
   --s: 2px;
   --b: var(--border-hover);
 }

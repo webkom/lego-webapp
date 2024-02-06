@@ -1,33 +1,44 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
-import { type ReactNode } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  fetchSemesters,
+  fetchSemestersForInterestform,
+} from 'app/actions/CompanyActions';
+import {
+  createCompanyInterest,
+  fetchCompanyInterest,
+  updateCompanyInterest,
+} from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
-import Card from 'app/components/Card';
 import { Content } from 'app/components/Content';
 import { FlexRow } from 'app/components/FlexBox';
 import {
   TextEditor,
   TextInput,
+  LegoFinalForm,
   CheckBox,
   SelectInput,
   RadioButton,
   MultiSelectGroup,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import Flex from 'app/components/Layout/Flex';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
-import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import { selectCompanyInterestById } from 'app/reducers/companyInterest';
+import {
+  selectCompanySemesters,
+  type CompanySemesterEntity,
+  selectCompanySemestersForInterestForm,
+} from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -35,63 +46,30 @@ import {
   isEmail,
   requiredIf,
 } from 'app/utils/validation';
-import { interestText, semesterToText } from '../utils';
+import {
+  interestText,
+  semesterToText,
+  targetGradeToString,
+  eventToString,
+  surveyOffersToString,
+  otherOffersToString,
+  collaborationToString,
+  PARTICIPANT_RANGE_MAP,
+  sortSemesterChronologically,
+  PARTICIPANT_RANGE_TYPES,
+} from '../utils';
 import styles from './CompanyInterest.css';
 import {
-  COLLABORATION_TYPES,
   EVENTS,
-  README,
+  OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
   FORM_LABELS,
-  COMPANY_TYPES,
   OFFICE_IN_TRONDHEIM,
+  COLLABORATION_TYPES,
+  COMPANY_TYPES,
 } from './Translations';
-
-export const PARTICIPANT_RANGE_TYPES = {
-  first: '10-30',
-  second: '30-60',
-  third: '60-100',
-  fourth: '100+',
-};
-
-export const PARTICIPANT_RANGE_MAP = {
-  first: [10, 40],
-  second: [30, 60],
-  third: [60, 100],
-  fourth: [100, null],
-};
-
-export const EVENT_TYPE_OPTIONS = [
-  { value: '', label: 'Vis alle arrangementstyper' },
-  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
-  { value: 'course', label: 'Kurs' },
-  { value: 'breakfast_talk', label: 'Frokostforedrag' },
-  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
-  { value: 'bedex', label: 'BedEx' },
-  { value: 'digital_presentation', label: 'Digital presentasjon' },
-  { value: 'other', label: 'Alternativt arrangement' },
-  { value: 'sponsor', label: 'Sponser' },
-  { value: 'start_up', label: 'Start-up kveld' },
-  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
-];
-
-const eventToString = (event) =>
-  Object.keys(EVENTS)[Number(event.charAt(event.length - 2))];
-
-const surveyOffersToString = (offer) =>
-  Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
-
-const otherOffersToString = (offer) =>
-  Object.keys(README)[Number(offer.charAt(offer.length - 2))];
-
-const collaborationToString = (collab) =>
-  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
-
-const targetGradeToString = (targetGrade) =>
-  Object.keys(TARGET_GRADES)[
-    Number(targetGrade.charAt(targetGrade.length - 2))
-  ];
+import type { ReactNode } from 'react';
 
 const SemesterBox = ({
   fields,
@@ -203,7 +181,7 @@ const OtherBox = ({
       <Field
         key={`otherOffers[${index}]`}
         name={`otherOffers[${index}].checked`}
-        label={readmeIfy(README[otherOffersToString(key)][language])}
+        label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
         normalize={(v) => !!v}
@@ -279,39 +257,7 @@ type CompanyInterestFormEntity = {
   companyToCompanyComment: string;
   companyPresentationComment: string;
   companyType: string;
-  officeInTrondheim: boolean;
-};
-
-type Props = {
-  allowedBdb: boolean;
-  onSubmit: (
-    arg0: CompanyInterestFormEntity,
-    arg1: boolean | null | undefined
-  ) => Promise<any>;
-  push: (arg0: string) => void;
-  events: Array<Record<string, any>>;
-  companyCourseThemes: Array<Record<string, any>>;
-  semesters: Array<CompanySemesterEntity>;
-  otherOffers: Array<Record<string, any>>;
-  collaborations: Array<Record<string, any>>;
-  targetGrades: Array<Record<string, any>>;
-  participantRange: string;
-  edit: boolean;
-  interestForm: Record<string, any>;
-  companyInterest?: CompanyInterestEntity;
-  language: string;
-  comment: string;
-  courseComment: string;
-  breakfastTalkComment: string;
-  otherEventComment: string;
-  startupComment: string;
-  lunchPresentationComment: string;
-  bedexComment: string;
-  companyToCompanyComment: string;
-  companyPresentationComment: string;
-  companyType: string;
-  officeInTrondheim: boolean;
-  initialValues: any;
+  officeInTrondheim: 'yes' | 'no';
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -352,12 +298,105 @@ const validate = createValidator({
   companyToCompanyComment: [requiredIfEventType('company_to_company')],
 });
 
-const CompanyInterestPage = (props: Props) => {
-  if (props.edit && !props.companyInterest) {
+const CompanyInterestPage = () => {
+  const { companyInterestId } = useParams();
+  const edit = companyInterestId !== undefined;
+  const companyInterest = useAppSelector((state) =>
+    selectCompanyInterestById(state, { companyInterestId })
+  );
+  const semesters = useAppSelector((state) => {
+    if (edit) {
+      return selectCompanySemesters(state);
+    }
+    return selectCompanySemestersForInterestForm(state);
+  });
+
+  const allowedBdb = useAppSelector((state) => state.allowed.bdb);
+
+  const { pathname } = useLocation();
+  const language = pathname === '/register-interest' ? 'english' : 'norwegian';
+  const isEnglish = language === 'english';
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchCompanyInterestPage',
+    () => {
+      Promise.all([
+        edit && dispatch(fetchSemesters()),
+        edit &&
+          companyInterestId &&
+          dispatch(fetchCompanyInterest(companyInterestId)),
+        !edit && dispatch(fetchSemestersForInterestform()),
+      ]);
+    },
+    [companyInterestId, edit]
+  );
+
+  const allEvents = Object.keys(EVENTS);
+  const allOtherOffers = Object.keys(OTHER_OFFERS);
+  const allCollaborations = Object.keys(COLLABORATION_TYPES);
+  const allTargetGrades = Object.keys(TARGET_GRADES);
+  const allParticipantRanges = Object.keys(PARTICIPANT_RANGE_MAP);
+  const allSurveyOffers = Object.keys(SURVEY_OFFERS);
+  const participantRange =
+    allParticipantRanges.filter(
+      (p) =>
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart
+    ) || null;
+
+  const initialValues: CompanyInterestFormEntity = {
+    ...companyInterest,
+    company: companyInterest?.company
+      ? {
+          label: companyInterest.company.name,
+          title: companyInterest.company.name,
+          value: '' + companyInterest.company.id,
+        }
+      : {
+          label: companyInterest?.companyName,
+          title: companyInterest?.companyName,
+        },
+    events: allEvents.map((event) => ({
+      name: event,
+      checked: companyInterest?.events.includes(event) || false,
+    })),
+    companyCourseThemes: allSurveyOffers.map((offer) => ({
+      name: offer,
+      checked: companyInterest?.companyCourseThemes?.includes(offer) || false,
+    })),
+    otherOffers: allOtherOffers.map((offer) => ({
+      name: offer,
+      checked: companyInterest?.otherOffers?.includes(offer) || false,
+    })),
+    collaborations: allCollaborations.map((collab) => ({
+      name: collab,
+      checked: companyInterest?.collaborations?.includes(collab) || false,
+    })),
+    targetGrades: allTargetGrades.map((targetGrade) => ({
+      name: targetGrade,
+      checked:
+        companyInterest?.targetGrades?.includes(Number(targetGrade)) || false,
+    })),
+    participantRange: (participantRange && participantRange[0]) || null,
+    officeInTrondheim: companyInterest?.officeInTrondheim ? 'yes' : 'no',
+    semesters: edit
+      ? semesters
+          .map((semester) => ({
+            ...semester,
+            checked: companyInterest?.semesters?.includes(semester.id),
+          }))
+          .filter((semester) => semester.activeInterestForm || semester.checked)
+          .sort(sortSemesterChronologically)
+      : semesters.sort(sortSemesterChronologically),
+  };
+
+  if (edit && !companyInterest) {
     return <LoadingIndicator loading />;
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
     const nameOnly = company['__isNew__'] || !company.value;
     const companyId = nameOnly ? null : Number(company['value']);
@@ -404,28 +443,89 @@ const CompanyInterestPage = (props: Props) => {
       companyToCompanyComment: data.companyToCompanyComment,
       companyPresentationComment: data.companyPresentationComment,
     };
-    return props
-      .onSubmit(newData, isEnglish)
-      .then(() =>
-        props.push(
-          props.allowedBdb
-            ? '/companyInterest/'
-            : '/pages/bedrifter/for-bedrifter'
-        )
+
+    dispatch(
+      edit
+        ? updateCompanyInterest(companyInterestId, newData)
+        : createCompanyInterest(newData, isEnglish)
+    ).then(() => {
+      navigate(
+        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
       );
+    });
   };
 
-  const { language } = props;
-  const isEnglish = language === 'english';
+  const eventTypeEntities = [
+    {
+      name: 'company_presentation',
+      translated: EVENTS.company_presentation[language],
+      description: interestText.companyPresentationDescription[language],
+      commentName: 'companyPresentationComment',
+      commentPlaceholder: interestText.companyPresentationComment[language],
+    },
+    {
+      name: 'lunch_presentation',
+      translated: EVENTS.lunch_presentation[language],
+      description: interestText.lunchPresentationDescriptiont[language],
+      commentName: 'lunchPresentationComment',
+      commentPlaceholder: interestText.lunchPresentationComment[language],
+    },
+    {
+      name: 'course',
+      translated: EVENTS.course[language],
+      description: interestText.courseDescription[language],
+      commentName: 'courseComment',
+      commentPlaceholder: interestText.courseComment[language],
+    },
+    {
+      name: 'breakfast_talk',
+      translated: EVENTS.breakfast_talk[language],
+      description: interestText.breakfastTalkDescription[language],
+      commentName: 'breakfastTalkComment',
+      commentPlaceholder: interestText.breakfastTalkComment[language],
+    },
+    {
+      name: 'bedex',
+      translated: EVENTS.bedex[language],
+      description: interestText.bedexDescription[language],
+      commentName: 'bedexComment',
+      commentPlaceholder: interestText.bedexComment[language],
+    },
+    {
+      name: 'other',
+      translated: EVENTS.other[language],
+      description: interestText.otherEventDescription[language],
+      commentName: 'otherEventComment',
+      commentPlaceholder: interestText.otherEventComment[language],
+    },
+    {
+      name: 'start_up',
+      translated: EVENTS.start_up[language],
+      description: interestText.startUpDescription[language],
+      commentName: 'startupComment',
+      commentPlaceholder: interestText.startUpComment[language],
+    },
+    {
+      name: 'company_to_company',
+      translated: EVENTS.company_to_company[language],
+      description: interestText.companyToCompanyDescription[language],
+      commentName: 'companyToCompanyComment',
+      commentPlaceholder: interestText.companyToCompanyComment[language],
+    },
+  ];
+
+  const title = edit
+    ? 'Rediger bedriftsinteresse'
+    : FORM_LABELS.mainHeading[language];
 
   return (
     <Content>
-      <Helmet title={isEnglish ? 'Company interest' : 'Bedriftsinteresse'} />
+      <Helmet title={title} />
 
       <LegoFinalForm
         onSubmit={onSubmit}
         validate={validate}
-        initialValues={props.initialValues}
+        initialValues={initialValues}
         subscription={{}}
         mutators={{
           ...arrayMutators,
@@ -434,19 +534,22 @@ const CompanyInterestPage = (props: Props) => {
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <FlexRow alignItems="center" justifyContent="space-between">
-              <h1>{FORM_LABELS.mainHeading[language]}</h1>
-              {!props.edit && (
+              <h1>{title}</h1>
+              {!edit && (
                 <Link to={isEnglish ? '/interesse' : '/register-interest'}>
                   <LanguageFlag language={language} />
                 </Link>
               )}
             </FlexRow>
-            <Card severity="info">
-              {FORM_LABELS.subHeading[language]}
-              <a href={'mailto:bedriftskontakt@abakus.no'}>
-                bedriftskontakt@abakus.no
-              </a>
-            </Card>
+
+            {!edit && (
+              <Card severity="info">
+                {FORM_LABELS.subHeading[language]}
+                <a href={'mailto:bedriftskontakt@abakus.no'}>
+                  bedriftskontakt@abakus.no
+                </a>
+              </Card>
+            )}
 
             <Field
               name="company"
@@ -490,10 +593,10 @@ const CompanyInterestPage = (props: Props) => {
                     <Field
                       key={key}
                       name={key}
+                      value={key}
                       label={COMPANY_TYPES[key][language]}
                       type="radio"
                       component={RadioButton.Field}
-                      value={key}
                       showErrors={false}
                     />
                   ))}
@@ -508,10 +611,10 @@ const CompanyInterestPage = (props: Props) => {
                     <Field
                       key={key}
                       name={key}
+                      value={key}
                       label={OFFICE_IN_TRONDHEIM[key][language]}
                       type="radio"
                       component={RadioButton.Field}
-                      value={key}
                       showErrors={false}
                     />
                   ))}
@@ -578,8 +681,8 @@ const CompanyInterestPage = (props: Props) => {
                     language={language}
                     component={EventBox}
                   />
-                </Flex>
-              </MultiSelectGroup>
+                </MultiSelectGroup>
+              </Flex>
               <Flex column className={styles.interestBox}>
                 <label htmlFor="collaborations" className={styles.heading}>
                   {FORM_LABELS.collaborations[language]}
@@ -613,10 +716,10 @@ const CompanyInterestPage = (props: Props) => {
                     <Field
                       key={key}
                       name={key}
+                      value={key}
                       label={PARTICIPANT_RANGE_TYPES[key]}
                       type="radio"
                       component={RadioButton.Field}
-                      value={key}
                     />
                   ))}
                 </MultiSelectGroup>
@@ -637,215 +740,32 @@ const CompanyInterestPage = (props: Props) => {
             </h3>
             <p>{FORM_LABELS.eventDescriptionIntro[language]}</p>
 
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showCompanyPresentation = values.events?.some(
-                (e) => e.name === 'company_presentation' && e.checked === true
-              );
+            {eventTypeEntities.map((eventTypeEntity) => {
+              return spyValues((values: CompanyInterestFormEntity) => {
+                const showComment = values.events?.some(
+                  (e) => e.name === eventTypeEntity.name && e.checked === true
+                );
 
-              return (
-                showCompanyPresentation && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.company_presentation[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>
-                      {interestText.companyPresentationDescription[language]}
-                    </p>
-                    <Field
-                      placeholder={
-                        interestText.companyPresentationComment[language]
-                      }
-                      name="companyPresentationComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
+                return (
+                  showComment && (
+                    <div className={styles.topline}>
+                      <Flex alignItems="center" gap={1}>
+                        <h4>{eventTypeEntity.translated}</h4>
+                        <p className={styles.label}>*</p>
+                      </Flex>
 
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showLunchPresentationComment = values.events?.some(
-                (e) => e.name === 'lunch_presentation' && e.checked === true
-              );
-
-              return (
-                showLunchPresentationComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.lunch_presentation[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>
-                      {interestText.lunchPresentationDescriptiont[language]}
-                    </p>
-                    <Field
-                      placeholder={
-                        interestText.lunchPresentationComment[language]
-                      }
-                      name="lunchPresentationComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showCourseComment = values.events?.some(
-                (e) => e.name === 'course' && e.checked === true
-              );
-
-              return (
-                showCourseComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.course[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.courseDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.courseComment[language]}
-                      name="courseComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showBreakfastTalkComment = values.events?.some(
-                (e) => e.name === 'breakfast_talk' && e.checked === true
-              );
-
-              return (
-                showBreakfastTalkComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.breakfast_talk[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.breakfastTalkDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.breakfastTalkComment[language]}
-                      name="breakfastTalkComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showBedexComment = values.events?.some(
-                (e) => e.name === 'bedex' && e.checked === true
-              );
-
-              return (
-                showBedexComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.bedex[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.bedexDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.bedexComment[language]}
-                      name="bedexComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showOtherEventComment = values.events?.some(
-                (e) => e.name === 'other' && e.checked === true
-              );
-
-              return (
-                showOtherEventComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.other[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.otherEventDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.otherEventComment[language]}
-                      name="otherEventComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showStartupComment = values.events?.some(
-                (e) => e.name === 'start_up' && e.checked === true
-              );
-
-              return (
-                showStartupComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.start_up[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-                    <p>{interestText.startUpDescription[language]}</p>
-                    <Field
-                      placeholder={interestText.startUpComment[language]}
-                      name="startupComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
-            })}
-
-            {spyValues((values: CompanyInterestFormEntity) => {
-              const showCompanyToCompanyComment = values.events?.some(
-                (e) => e.name === 'company_to_company' && e.checked === true
-              );
-
-              return (
-                showCompanyToCompanyComment && (
-                  <div className={styles.topline}>
-                    <Flex alignItems="center" gap={1}>
-                      <h4>{EVENTS.company_to_company[language]}</h4>
-                      <p className={styles.label}>*</p>
-                    </Flex>
-
-                    <p>{interestText.companyToCompanyDescription[language]}</p>
-                    <Field
-                      placeholder={
-                        interestText.companyToCompanyComment[language]
-                      }
-                      name="companyToCompanyComment"
-                      component={TextEditor.Field}
-                      rows={10}
-                      className={styles.textEditor}
-                    />
-                  </div>
-                )
-              );
+                      <p>{eventTypeEntity.description}</p>
+                      <Field
+                        placeholder={eventTypeEntity.commentPlaceholder}
+                        name={eventTypeEntity.commentName}
+                        component={TextEditor.Field}
+                        rows={10}
+                        className={styles.textEditor}
+                      />
+                    </div>
+                  )
+                );
+              });
             })}
 
             <div className={styles.topline}>
@@ -856,7 +776,7 @@ const CompanyInterestPage = (props: Props) => {
 
             <SubmissionError />
             <SubmitButton>
-              {props.edit
+              {edit
                 ? 'Oppdater bedriftsinteresse'
                 : FORM_LABELS.create[language]}
             </SubmitButton>

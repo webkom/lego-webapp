@@ -1,24 +1,18 @@
 import cx from 'classnames';
-import type { ID } from 'app/store/models';
-import type CommentType from 'app/store/models/Comment';
-import type { ContentAuthors } from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
-import type { Tree } from 'app/utils';
 import Comment from './Comment';
 import styles from './CommentTree.css';
+import type CommentType from 'app/store/models/Comment';
+import type { ContentAuthors } from 'app/store/models/Comment';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { Tree } from 'app/utils';
 
 type Props = {
   comments: Tree<CommentType>;
   isChild?: boolean;
   commentFormProps: {
     contentTarget: ContentTarget;
-    user: CurrentUser;
-    loggedIn: boolean;
   };
   level?: number;
-  deleteComment: (id: ID, contentTarget: ContentTarget) => Promise<void>;
-  user: CurrentUser;
   contentTarget: ContentTarget;
   contentAuthors?: ContentAuthors;
 };
@@ -28,8 +22,6 @@ function CommentTree({
   isChild = false,
   commentFormProps,
   level = 0,
-  deleteComment,
-  user,
   contentTarget,
   contentAuthors,
 }: Props) {
@@ -46,8 +38,6 @@ function CommentTree({
           <Comment
             comment={comment}
             commentFormProps={commentFormProps}
-            deleteComment={deleteComment}
-            user={user}
             contentTarget={contentTarget}
             contentAuthors={contentAuthors}
           />
@@ -57,8 +47,6 @@ function CommentTree({
             isChild
             level={level + 1}
             commentFormProps={commentFormProps}
-            deleteComment={deleteComment}
-            user={user}
             contentTarget={contentTarget}
             contentAuthors={contentAuthors}
           />
@@ -72,8 +60,6 @@ function CommentTree({
           key={comment.id}
           comment={comment}
           commentFormProps={commentFormProps}
-          deleteComment={deleteComment}
-          user={user}
           contentTarget={contentTarget}
           contentAuthors={contentAuthors}
         />

@@ -1,55 +1,45 @@
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { fetchAll } from 'app/actions/AnnouncementsActions';
 import { Content, ContentMain } from 'app/components/Content';
-import Flex from 'app/components/Layout/Flex';
-import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
-import type {
-  DetailedAnnouncement,
-  ListAnnouncement,
-} from 'app/store/models/Announcement';
+import { selectAnnouncements } from 'app/reducers/announcements';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
 import styles from './AnnouncementsList.css';
 
-type Props = {
-  announcements: Array<ListAnnouncement>;
-  actionGrant: ActionGrant;
-  sendAnnouncement: (id: ID) => Promise<unknown>;
-  createAnnouncement: (
-    announcement: DetailedAnnouncement & { send: boolean }
-  ) => Promise<unknown>;
-  deleteAnnouncement: (id: ID) => Promise<unknown>;
-};
+const AnnouncementsList = () => {
+  const dispatch = useAppDispatch();
 
-const AnnouncementsList = ({
-  createAnnouncement,
-  sendAnnouncement,
-  deleteAnnouncement,
-  announcements,
-  actionGrant,
-}: Props) => {
+  usePreparedEffect('fetchAllAnnouncements', () => dispatch(fetchAll()), []);
+
+  const announcements = useAppSelector((state) => selectAnnouncements(state));
+  const fetching = useAppSelector((state) => state.announcements.fetching);
+  const actionGrant = useAppSelector(
+    (state) => state.announcements.actionGrant
+  );
+
   return (
-    <Content>
-      <AnnouncementsCreate
-        createAnnouncement={createAnnouncement}
-        actionGrant={actionGrant}
-      />
-      {actionGrant.includes('list') && actionGrant.includes('delete') && (
-        <ContentMain>
-          <h1> Dine kunngjøringer </h1>
-          <Flex column className={styles.list}>
-            {announcements.map((a, i) => (
-              <AnnouncementItem
-                key={i}
-                announcement={a}
-                sendAnnouncement={sendAnnouncement}
-                deleteAnnouncement={deleteAnnouncement}
-                actionGrant={actionGrant}
-              />
-            ))}
-          </Flex>
-        </ContentMain>
-      )}
-    </Content>
+    <LoadingIndicator loading={fetching}>
+      <Content>
+        <AnnouncementsCreate actionGrant={actionGrant} />
+
+        {actionGrant.includes('list') && actionGrant.includes('delete') && (
+          <ContentMain>
+            <h1>Dine kunngjøringer</h1>
+            <Flex column className={styles.list}>
+              {announcements.map((a, i) => (
+                <AnnouncementItem
+                  key={i}
+                  announcement={a}
+                  actionGrant={actionGrant}
+                />
+              ))}
+            </Flex>
+          </ContentMain>
+        )}
+      </Content>
+    </LoadingIndicator>
   );
 };
 

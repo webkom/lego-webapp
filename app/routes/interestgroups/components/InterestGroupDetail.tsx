@@ -1,6 +1,13 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import {
+  fetchAllMemberships,
+  fetchGroup,
+  joinGroup,
+  leaveGroup,
+} from 'app/actions/GroupActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import {
   Content,
@@ -9,14 +16,19 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
-import type { Group, User, GroupMembership, ID } from 'app/models';
+import { selectCurrentUser } from 'app/reducers/auth';
+import { selectGroup } from 'app/reducers/groups';
+import { selectMembershipsForGroup } from 'app/reducers/memberships';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
+import type { Group, GroupMembership } from 'app/models';
+import type { DetailedGroup } from 'app/store/models/Group';
+import type Membership from 'app/store/models/Membership';
 
 type MembersProps = {
   members: Array<GroupMembership>;
@@ -38,24 +50,22 @@ const Members = ({ group, members }: MembersProps) => (
 );
 
 type ButtonRowProps = {
-  group: Group;
-  currentUser: User;
-  leaveGroup: (arg0: GroupMembership, arg1: ID) => void;
-  joinGroup: (arg0: ID, arg1: User) => void;
+  group: DetailedGroup & { memberships: Membership[] };
 };
 
-const ButtonRow = ({
-  group,
-  currentUser,
-  joinGroup,
-  leaveGroup,
-}: ButtonRowProps) => {
+const ButtonRow = ({ group }: ButtonRowProps) => {
+  const currentUser = useAppSelector((state) => selectCurrentUser(state));
+
   const [membership] = group.memberships.filter(
     (m) => m.user.id === currentUser.id
   );
+
+  const dispatch = useAppDispatch();
+
   const onClick = membership
-    ? () => leaveGroup(membership, group.id)
-    : () => joinGroup(group.id, currentUser);
+    ? () => dispatch(leaveGroup(membership, group.id))
+    : () => dispatch(joinGroup(group.id, currentUser));
+
   return (
     <Flex>
       <Button
@@ -103,17 +113,34 @@ const Contact = ({ group }: { group: Group }) => {
   );
 };
 
-type Props = {
-  joinGroup: (arg0: ID, arg1: User) => void;
-  leaveGroup: (arg0: GroupMembership) => void;
-  currentUser: User;
-  group: Group;
-};
+const InterestGroupDetail = () => {
+  const { groupId } = useParams();
+  const selectedGroup = useAppSelector((state) =>
+    selectGroup(state, { groupId })
+  );
+  const memberships = useAppSelector((state) =>
+    selectMembershipsForGroup(state, { groupId })
+  );
 
-function InterestGroupDetail(props: Props) {
-  const { group } = props;
+  const group = { ...selectedGroup, memberships };
   const canEdit = group.actionGrant?.includes('edit');
   const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
+
+  const dispatch = useAppDispatch();
+
+  const { loggedIn } = useUserContext();
+
+  usePreparedEffect(
+    'fetchInterestGroupDetail',
+    () =>
+      groupId &&
+      Promise.resolve([
+        dispatch(fetchGroup(groupId)),
+        loggedIn && dispatch(fetchAllMemberships(groupId)),
+      ]),
+    [loggedIn]
+  );
+
   return (
     <Content>
       <Helmet title={group.name} />
@@ -128,8 +155,9 @@ function InterestGroupDetail(props: Props) {
         <ContentMain>
           <p>{group.description}</p>
           <DisplayContent content={group.text} />
-          <ButtonRow {...props} />
+          {loggedIn && <ButtonRow group={group} />}
         </ContentMain>
+
         <ContentSidebar>
           <Image
             alt={`${group.name} logo`}
@@ -137,17 +165,23 @@ function InterestGroupDetail(props: Props) {
             src={logo}
             placeholder={group.logoPlaceholder}
           />
-          <Members group={group} members={group.memberships} />
-          <Contact group={group} />
+          {group.memberships.length > 0 && (
+            <>
+              <Members group={group} members={group.memberships} />
+              <Contact group={group} />
+            </>
+          )}
 
-          <h3>Admin</h3>
           {canEdit && (
-            <Link to={`/interest-groups/${group.id}/edit`}>
-              <Button>
-                <Icon name="create-outline" size={19} />
-                Rediger
-              </Button>
-            </Link>
+            <>
+              <h3>Admin</h3>
+              <Link to={`/interest-groups/${group.id}/edit`}>
+                <Button>
+                  <Icon name="create-outline" size={19} />
+                  Rediger
+                </Button>
+              </Link>
+            </>
           )}
 
           <AnnouncementInLine group={group} />
@@ -155,6 +189,6 @@ function InterestGroupDetail(props: Props) {
       </ContentSection>
     </Content>
   );
-}
+};
 
 export default InterestGroupDetail;

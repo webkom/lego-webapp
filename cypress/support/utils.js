@@ -3,6 +3,8 @@ import mockMazemapApiResponse from '../fixtures/mockApiResponses/mazemap.json';
 export const apiBaseUrl =
   Cypress.env('API_BASE_URL') || 'http://localhost:8000';
 
+export const NO_OPTIONS_MESSAGE = 'Ingen treff';
+
 // CSS Selector to match classnames by their prefix
 export const c = (classname) => `[class*="${classname}"]`;
 
@@ -28,7 +30,7 @@ export const selectFromSelectField = (name, option, search) => {
   selectField(name).click();
   cy.focused().type(search ?? option, { force: true });
   selectFieldDropdown(name)
-    .should('not.contain', 'No results')
+    .should('not.contain', NO_OPTIONS_MESSAGE)
     .and('contain', option);
   cy.focused().type('{enter}', { force: true });
 };
@@ -61,7 +63,7 @@ export const setDatePickerDate = (name, date, isNextMonth = false) => {
   field(name).click();
 
   if (isNextMonth) {
-    cy.get('ion-icon[arrow-forward-outline]')
+    cy.get('ion-icon[name="arrow-forward-outline"]')
       .first()
       .should('not.be.disabled')
       .click();
@@ -142,7 +144,7 @@ export const uploadHeader = () => {
     'images/screenshot.png'
   );
   cy.get('.cropper-move').click();
-  cy.get(c('Modal__content'))
+  cy.get(t('Modal__content'))
     .contains('Last opp')
     .should('not.be.disabled')
     .click();

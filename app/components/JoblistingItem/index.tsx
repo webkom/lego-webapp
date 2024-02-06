@@ -1,12 +1,12 @@
+import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
-import { Flex } from 'app/components/Layout';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
 import styles from './JoblistingItem.css';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 type JobListingItemProps = {
   joblisting: ListJoblisting;
@@ -27,11 +27,16 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
     )}
     <div className={styles.listItem}>
       <div>
-        <Flex wrap gap={4}>
+        <Flex
+          wrap
+          alignItems="center"
+          gap={6}
+          className={styles.joblistingItemTitle}
+        >
           {moment(joblisting.createdAt).isAfter(
             moment().subtract(3, 'days')
           ) && <Tag tag="Ny" color="green" />}
-          <span className={styles.joblistingItemTitle}>{joblisting.title}</span>
+          <span>{joblisting.title}</span>
         </Flex>
         <div>
           {joblisting.company.name}

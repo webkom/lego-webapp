@@ -97,42 +97,6 @@
   width: 80%;
 }
 
-.companyPresentation {
-  background-color: #3fff3f;
-}
-
-.lunchPresentation {
-  background-color: #84ff84;
-}
-
-.course {
-  background-color: #9fff3f;
-}
-
-.breakfastTalk {
-  background-color: #86d1d0;
-}
-
-.interested {
-  background-color: var(--color-yellow-3);
-}
-
-.notInterested {
-  background-color: #f00;
-}
-
-.contacted {
-  background-color: #ffff7f;
-}
-
-.notContacted {
-  background-color: var(--additive-background);
-}
-
-.bedex {
-  background-color: #00fff6;
-}
-
 .files {
   margin-top: 20px;
 }
@@ -181,21 +145,6 @@
 .showAscending .downArrow,
 .showDescending .upArrow {
   display: none !important;
-}
-
-.dropDownItem {
-  font-size: var(--font-size-sm);
-  justify-content: space-between;
-  width: 100%;
-}
-
-/* We have a seperate component for circles, but it takes a color code while
-the function from utils I use to choose color just adds a class with
-background-color. By making it this way I don't have to rewrite it 🤷 */
-.lazyCircle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
 }
 
 /* Semesters in detailroute */
@@ -392,19 +341,6 @@ option {
   font-size: 25px;
 }
 
-.choices {
-  margin: 20px 0;
-}
-
-.choices h3 {
-  margin: 0 0 7px;
-}
-
-.yearForm {
-  width: 100px;
-  display: block;
-}
-
 .semesterStatusForm {
   width: 300px;
   margin: 15px 0;
@@ -447,4 +383,9 @@ option {
 .surveyContainer {
   display: flex;
   justify-content: center;
+}
+
+.newestFirst {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
 }

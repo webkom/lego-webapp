@@ -1,102 +1,88 @@
 import { debounce } from 'lodash';
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { useState } from 'react';
 import { autocomplete } from 'app/actions/SearchActions';
+import { useAppDispatch } from 'app/store/hooks';
 import type { SearchResult } from 'app/reducers/search';
 import type { ComponentType } from 'react';
 
 type InjectedProps = {
-  filter: Array<string>;
-  autocomplete: (
-    query: string,
-    filter?: Array<string>
-  ) => Promise<SearchResult[]>;
+  options: SearchResult[];
+  onSearch: (query: string) => void;
+  fetching: boolean;
 };
 
-type State = {
-  searching: boolean;
-  result: SearchResult[];
+type Props = {
+  filter?: string[];
 };
 
-function withAutocomplete<Props>({
+const useAutocomplete = ({
+  retainFailedQuery = false,
+  filter,
+}: {
+  retainFailedQuery?: boolean;
+  filter?: string[];
+}) => {
+  const [options, setOptions] = useState<SearchResult[]>([]);
+  const [fetching, setFetching] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const handleSearch = async (query: string): Promise<void> => {
+    setFetching(true);
+
+    try {
+      // Set the result to the response result
+      let result: SearchResult[] = await dispatch(autocomplete(query, filter));
+
+      // Retain a query with no match
+      if (retainFailedQuery && result.length === 0) {
+        result = [
+          {
+            title: query,
+            label: query,
+          },
+        ];
+      }
+
+      setOptions(result);
+      setFetching(false);
+    } catch (e) {
+      setFetching(false);
+    }
+  };
+
+  const debouncedHandleSearch = debounce(handleSearch, 100);
+
+  return { options, fetching, onSearch: debouncedHandleSearch };
+};
+
+function withAutocomplete<P extends InjectedProps & Props>({
   WrappedComponent,
   retainFailedQuery = false,
 }: {
-  WrappedComponent: ComponentType<Props>;
+  WrappedComponent: ComponentType<P>;
   retainFailedQuery?: boolean;
 }) {
+  const Component = (props: Omit<P, keyof InjectedProps>) => {
+    const { options, fetching, onSearch } = useAutocomplete({
+      retainFailedQuery,
+      filter: props.filter,
+    });
+
+    return (
+      <WrappedComponent
+        {...(props as P)}
+        options={options}
+        fetching={fetching}
+        onSearch={onSearch}
+        filterOption={() => true}
+      />
+    );
+  };
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
-  return class extends Component<InjectedProps & Props, State> {
-    static displayName = `Autocomplete(${displayName})`;
-    state = {
-      searching: false,
-      result: [],
-    };
-    _isMounted = false;
-
-    componentDidMount() {
-      this._isMounted = true;
-    }
-
-    componentWillUnmount() {
-      this._isMounted = false;
-    }
-
-    handleSearch = (query: string, filter): void => {
-      this.setState({
-        searching: true,
-      });
-      this.props
-        .autocomplete(query, filter)
-        .then((result) => {
-          // Set the result to the response result
-          let finalResult = result;
-
-          // Retain a query with no match
-          if (retainFailedQuery && result.length === 0) {
-            finalResult = [
-              {
-                title: query,
-                label: query,
-              },
-            ];
-          }
-
-          if (this._isMounted) {
-            this.setState({
-              result: finalResult,
-              searching: false,
-            });
-          }
-        })
-        .catch(() => {
-          if (this._isMounted) {
-            this.setState({
-              searching: false,
-            });
-          }
-        });
-    };
-
-    render() {
-      const { filter, ...restProps } = this.props;
-      return (
-        <WrappedComponent
-          {...(restProps as Props)}
-          options={this.state.result}
-          onSearch={debounce((query) => this.handleSearch(query, filter), 100)}
-          fetching={this.state.searching}
-          filterOption={() => true}
-        />
-      );
-    }
-  };
+  Component.displayName = `Autocomplete(${displayName})`;
+  return Component;
 }
 
-const mapDispatchToProps = {
-  autocomplete,
-};
-
-export default compose(connect(null, mapDispatchToProps), withAutocomplete);
+export default withAutocomplete;

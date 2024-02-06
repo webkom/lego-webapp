@@ -1,49 +1,40 @@
-import { Component, Fragment } from 'react';
-import { Field } from 'redux-form';
+import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { TextInput } from 'app/components/Form';
-import type { UserEntity } from 'app/reducers/users';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
+import type { User } from 'app/store/models/User';
+
+export type PasswordFieldUser = Partial<
+  Pick<User, 'username' | 'firstName' | 'lastName'>
+>;
 
 type Props = {
-  user: UserEntity;
-  label: string;
-  name: string;
-};
-type State = {
-  password: string;
+  user: PasswordFieldUser;
+  name?: string;
+  label?: string;
 };
 
-class PasswordField extends Component<Props, State> {
-  state = {
-    password: '',
-  };
-  static defaultProps = {
-    user: {},
-    label: 'Passord',
-    name: 'password',
-  };
+const PasswordField = ({
+  user,
+  name = 'password',
+  label = 'Passord',
+}: Props) => {
+  const [password, setPassword] = useState('');
 
-  render() {
-    const { name, label, user } = this.props;
-    return (
-      <Fragment>
-        <Field
-          name={name}
-          type="password"
-          placeholder={label}
-          label={label}
-          autocomplete="new-password"
-          component={TextInput.Field}
-          onChange={(e) =>
-            this.setState({
-              password: e.target.value,
-            })
-          }
-        />
-        <PasswordStrengthMeter password={this.state.password} user={user} />
-      </Fragment>
-    );
-  }
-}
+  return (
+    <>
+      <Field
+        name={name}
+        type="password"
+        placeholder={label}
+        label={label}
+        autocomplete="new-password"
+        component={TextInput.Field}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <PasswordStrengthMeter password={password} user={user} />
+    </>
+  );
+};
 
 export default PasswordField;

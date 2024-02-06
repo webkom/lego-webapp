@@ -1,35 +1,55 @@
-import { Component } from 'react';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import { fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
-import GroupForm from 'app/components/GroupForm';
 import NavigationTab from 'app/components/NavigationTab';
+import { selectGroup } from 'app/reducers/groups';
+import GroupForm from 'app/routes/admin/groups/components/GroupForm';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
-export default class InterestGroupEdit extends Component<{
-  interestGroup: Record<string, any>;
-  initialValues: Record<string, any>;
-  uploadFile: (arg0: string) => Promise<any>;
-  handleSubmitCallback: (arg0: Record<string, any>) => Promise<any>;
-}> {
-  render() {
-    const { interestGroup, initialValues, uploadFile, handleSubmitCallback } =
-      this.props;
+const InterestGroupEdit = () => {
+  const { groupId } = useParams<{ groupId: string }>();
+  const interestGroup = useAppSelector((state) =>
+    selectGroup(state, { groupId })
+  );
+  const editing = groupId !== undefined;
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchInterestGroupEdit',
+    () => groupId && dispatch(fetchGroup(groupId)),
+    [groupId]
+  );
+
+  if (editing && (!interestGroup || !interestGroup.text)) {
     return (
       <Content>
-        <Helmet title={`Redigerer: ${interestGroup.name}`} />
-        <NavigationTab
-          title={`Redigerer: ${interestGroup.name}`}
-          back={{
-            label: 'Tilbake',
-            path: `/interest-groups/${interestGroup.id}`,
-          }}
-        />
-        <GroupForm
-          handleSubmitCallback={handleSubmitCallback}
-          group={interestGroup}
-          uploadFile={uploadFile}
-          initialValues={initialValues}
-        />
+        <LoadingIndicator loading />
       </Content>
     );
   }
-}
+
+  const title = editing
+    ? `Redigerer${interestGroup ? `: ${interestGroup?.name}` : ''}`
+    : 'Opprett gruppe';
+
+  return (
+    <Content>
+      <Helmet title={title} />
+      <NavigationTab
+        title={title}
+        back={{
+          label: 'Tilbake',
+          path: `/interest-groups/${editing ? groupId : ''}`,
+        }}
+      />
+      <GroupForm isInterestGroup />
+    </Content>
+  );
+};
+
+export default guardLogin(InterestGroupEdit);

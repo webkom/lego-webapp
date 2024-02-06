@@ -1,86 +1,45 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
-import type {
-  EventAdministrate,
-  EventPool,
-  ActionGrant,
-  User,
-  ID,
-  EventRegistration,
-  EventRegistrationPaymentStatus,
-  EventRegistrationPresence,
-} from 'app/models';
-import type Comment from 'app/store/models/Comment';
-import type { CurrentUser } from 'app/store/models/User';
+import { useParams } from 'react-router-dom';
+import {
+  getRegistrationGroups,
+  selectEventById,
+  selectMergedPoolWithRegistrations,
+  selectPoolsWithRegistrationsForEvent,
+} from 'app/reducers/events';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppSelector } from 'app/store/hooks';
 import styles from './Abacard.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
-export type Props = {
-  eventId: number;
-  event: EventAdministrate;
-  comments: Comment[];
-  pools: Array<EventPool>;
-  loggedIn: boolean;
-  currentUser: CurrentUser;
-  error: Record<string, any>;
-  loading: boolean;
-  registered: Array<EventRegistration>;
-  unregistered: Array<EventRegistration>;
-  unregister: (registrationId: {
-    eventId: ID;
-    registrationId: ID;
-    admin: boolean;
-  }) => Promise<void>;
-  updatePresence: (
-    eventId: number,
-    registrationId: number,
-    presence: string
-  ) => Promise<any>;
-  updatePayment: (
-    arg0: ID,
-    arg1: ID,
-    arg2: EventRegistrationPaymentStatus
-  ) => Promise<any>;
-  usersResult: Array<User>;
-  actionGrant: ActionGrant;
-  onQueryChanged: (value: string) => any;
-  searching: boolean;
-};
-
-const Attendees = ({
-  eventId,
-  event,
-  pools,
-  currentUser,
-  error,
-  loading,
-  registered,
-  unregistered,
-  unregister,
-  updatePresence,
-  updatePayment,
-}: Props) => {
-  const [generatedCsvUrl, setGeneratedCsvUrl] = useState('');
-
-  const handleUnregister = async (registrationId: number) => {
-    await unregister({
+const Attendees = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const event = useAppSelector((state) =>
+    selectEventById(state, { eventId })
+  ) as AdministrateEvent;
+  const pools = useAppSelector((state) =>
+    event?.isMerged
+      ? selectMergedPoolWithRegistrations(state, { eventId })
+      : selectPoolsWithRegistrationsForEvent(state, { eventId })
+  );
+  const loading = useAppSelector((state) => state.events.fetching);
+  const { registered, unregistered } = useAppSelector((state) =>
+    getRegistrationGroups(state, {
       eventId,
-      registrationId,
-      admin: true,
-    });
-  };
-  const handlePresence = (
-    registrationId: ID,
-    presence: EventRegistrationPresence
-  ) => updatePresence(eventId, registrationId, presence);
-  const handlePayment = (
-    registrationId: number,
-    paymentStatus: EventRegistrationPaymentStatus
-  ) => updatePayment(eventId, registrationId, paymentStatus);
+    })
+  );
+
+  const { currentUser } = useUserContext();
+
+  const [generatedCsvUrl, setGeneratedCsvUrl] = useState('');
 
   const registerCount = registered.filter(
     (reg) => reg.presence === 'PRESENT' && reg.pool
@@ -98,12 +57,8 @@ const Attendees = ({
       unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual'
   ).length;
 
-  if (loading) {
-    return <LoadingIndicator loading />;
-  }
-
-  if (error) {
-    return <div>{error.message}</div>;
+  if (loading || !event) {
+    return <LoadingIndicator loading={loading} />;
   }
 
   // Not showing the presence column until 1 day before start or if someone has been given set to presence
@@ -117,9 +72,12 @@ const Attendees = ({
     moment().isBefore(moment(event.endTime).add(1, 'day')) ||
     moment().isBefore(event.unregistrationCloseTime) ||
     moment().isBefore(event.registrationCloseTime);
+
   const exportInfoMessage = `Informasjonen du eksporterer MÅ slettes når det ikke lenger er behov for den,
                 og skal kun distribueres gjennom e-post. Dersom informasjonen skal deles med personer utenfor Abakus
                 må det spesifiseres for de påmeldte hvem informasjonen skal deles med.`;
+
+  const eventHasEnded = moment().isAfter(moment(event.endTime));
 
   const createInfoCSV = async () => {
     const data = registered.map((registration) => ({
@@ -173,19 +131,27 @@ const Attendees = ({
         <div>
           <strong>Påmeldte:</strong>
           <div className={styles.attendeeStatistics}>
-            {`${registerCount}/${event.registrationCount} har møtt opp`}
+            {`${registerCount}/${event.registrationCount} ${
+              eventHasEnded ? 'møtte opp' : 'har møtt opp'
+            }`}
           </div>
           <div className={styles.attendeeStatistics}>
-            {`${adminRegisterCount}/${event.registrationCount} er adminpåmeldt`}
+            {`${adminRegisterCount}/${event.registrationCount} ${
+              eventHasEnded ? 'ble' : 'er'
+            } adminpåmeldt`}
           </div>
           <div className={styles.attendeeStatistics}>
             {registeredPaidCount > 0
-              ? `${registeredPaidCount}/${event.registrationCount} registrerte har betalt`
+              ? `${registeredPaidCount}/${
+                  event.registrationCount
+                } registrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
               : ''}
           </div>
           <div className={styles.attendeeStatistics}>
             {unRegisteredPaidCount > 0
-              ? `${unRegisteredPaidCount}/${unregistered.length} avregistrerte har betalt`
+              ? `${unRegisteredPaidCount}/${
+                  unregistered.length
+                } avregistrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
               : ''}
           </div>
         </div>
@@ -196,9 +162,6 @@ const Attendees = ({
             event={event}
             registered={registered}
             loading={loading}
-            handlePresence={handlePresence}
-            handlePayment={handlePayment}
-            handleUnregister={handleUnregister}
             showPresence={showPresence}
             showUnregister={showUnregister}
             pools={pools}
@@ -218,7 +181,6 @@ const Attendees = ({
             unregistered={unregistered}
             loading={loading}
             event={event}
-            handlePayment={handlePayment}
           />
         )}
       </Flex>

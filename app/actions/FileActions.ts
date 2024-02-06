@@ -1,8 +1,9 @@
 import slug from 'slugify';
 import { imageGallerySchema } from 'app/reducers';
-import type { Thunk } from 'app/types';
 import { File as FileType, ImageGallery } from './ActionTypes';
 import callAPI from './callAPI';
+import type { AppDispatch } from 'app/store/createStore';
+import type { SignedPost } from 'app/store/models/File';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options
@@ -24,8 +25,8 @@ const slugifyFilename: (filename: string) => string = (filename) => {
   return slug(filename, slugOpts);
 };
 
-export function fetchSignedPost(key: string, isPublic: boolean): Thunk<any> {
-  return callAPI({
+export function fetchSignedPost(key: string, isPublic: boolean) {
+  return callAPI<SignedPost>({
     types: FileType.FETCH_SIGNED_POST,
     method: 'POST',
     endpoint: '/files/',
@@ -51,13 +52,17 @@ export function uploadFile({
   fileName,
   isPublic = false,
   timeout,
-}: UploadArgs): Thunk<any> {
-  return (dispatch) =>
+}: UploadArgs) {
+  return (dispatch: AppDispatch) =>
     dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(
       (action) => {
-        if (!action || !action.payload) return;
+        const meta = {
+          fileKey: action.payload.file_key,
+          fileToken: action.payload.file_token,
+          errorMessage: 'Filopplasting feilet',
+        };
         return dispatch(
-          callAPI({
+          callAPI<void, typeof meta>({
             types: FileType.UPLOAD,
             method: 'POST',
             endpoint: action.payload.url,
@@ -69,11 +74,7 @@ export function uploadFile({
               Accept: 'application/json',
             },
             requiresAuthentication: false,
-            meta: {
-              fileKey: action.payload.file_key,
-              fileToken: action.payload.file_token,
-              errorMessage: 'Filopplasting feilet',
-            },
+            meta,
           })
         );
       }
@@ -82,8 +83,8 @@ export function uploadFile({
 export function fetchImageGallery({
   query,
 }: {
-  query?: Record<string, any>;
-} = {}): Thunk<any> {
+  query?: Record<string, string>;
+} = {}) {
   return callAPI({
     types: ImageGallery.FETCH_ALL,
     endpoint: '/events/cover_image_gallery/',
@@ -97,22 +98,15 @@ export function fetchImageGallery({
   });
 }
 
-export function setSaveForUse(
-  key: string,
-  token: string,
-  saveForUse: boolean
-): Thunk<Promise<any>> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: FileType.PATCH,
-        endpoint: `/files/${key}/imagegallery/`,
-        method: 'PATCH',
-        body: { token: token, save_for_use: saveForUse },
-        meta: {
-          errorMessage: 'Endring av hendelse feilet',
-          id: key,
-        },
-      })
-    );
+export function setSaveForUse(key: string, token: string, saveForUse: boolean) {
+  return callAPI({
+    types: FileType.PATCH,
+    endpoint: `/files/${key}/imagegallery/`,
+    method: 'PATCH',
+    body: { token: token, save_for_use: saveForUse },
+    meta: {
+      errorMessage: 'Endring av hendelse feilet',
+      id: key,
+    },
+  });
 }

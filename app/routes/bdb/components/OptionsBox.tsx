@@ -1,8 +1,8 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
-import Flex from 'app/components/Layout/Flex';
-import type { CompanyEntity } from 'app/reducers/companies';
 import styles from './OptionsBox.css';
+import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
   companies: Array<CompanyEntity>;
@@ -81,7 +81,6 @@ export default class OptionsBox extends Component<Props, State> {
                 name="active"
                 id="active"
                 label="Vis bare aktive bedrifter"
-                inputValue={true}
                 value={this.state.values.active}
                 onChange={() => this.updateFilters('active', true)}
               />
@@ -89,7 +88,6 @@ export default class OptionsBox extends Component<Props, State> {
                 name="active"
                 id="inactive"
                 label="Vis bare inaktive bedrifter"
-                inputValue={false}
                 value={this.state.values.active}
                 onChange={() => this.updateFilters('active', false)}
               />

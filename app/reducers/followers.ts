@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 import { Event } from 'app/actions/ActionTypes';
-import type { EntityReducerTypes } from 'app/utils/createEntityReducer';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectCurrentUser } from './auth';
+import type { EntityReducerTypes } from 'app/utils/createEntityReducer';
 
 export const selectFollowersCurrentUser = createSelector(
   (state, props) =>

@@ -1,18 +1,14 @@
+import { createAction } from '@reduxjs/toolkit';
 import callAPI from 'app/actions/callAPI';
 import { selectAutocomplete } from 'app/reducers/search';
-import type { Action, Thunk } from 'app/types';
 import { Search } from './ActionTypes';
+import type { AppDispatch } from 'app/store/createStore';
+import type { Thunk } from 'app/types';
 
-export function toggleSearch(): Action {
-  return {
-    type: Search.TOGGLE_OPEN,
-  };
-}
-export function autocomplete(
-  query: string,
-  filter?: Array<string>
-): Thunk<Promise<Array<any>>> {
-  return (dispatch) => {
+export const toggleSearch = createAction(Search.TOGGLE_OPEN);
+
+export function autocomplete(query: string, filter?: Array<string>) {
+  return (dispatch: AppDispatch) => {
     if (!query) {
       return Promise.resolve([]);
     }

@@ -1,14 +1,17 @@
 import cx from 'classnames';
-import type { Event } from 'app/models';
-import { eventTypeToString } from 'app/routes/events/utils';
+import { displayNameForEventType } from 'app/routes/events/utils';
 import styles from './ContentHeader.css';
+import type {
+  AuthUserDetailedEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {
   className?: string;
   borderColor?: string;
   children: ReactNode;
-  event?: Event;
+  event?: AuthUserDetailedEvent | UserDetailedEvent;
   color?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -40,7 +43,7 @@ function ContentHeader({
           }}
           className={styles.eventType}
         >
-          {eventTypeToString(event.eventType)}
+          {displayNameForEventType(event.eventType)}
         </strong>
       )}
     </div>

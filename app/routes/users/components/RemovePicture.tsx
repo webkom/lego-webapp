@@ -1,53 +1,44 @@
-import { Button } from '@webkom/lego-bricks';
-import { Component } from 'react';
-import Icon from 'app/components/Icon';
+import { Button, Icon } from '@webkom/lego-bricks';
+import { useState } from 'react';
+import { removePicture } from 'app/actions/UserActions';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './RemovePicture.css';
 
 type Props = {
-  removePicture: (arg0: string) => Promise<any>;
   username: string;
 };
-type State = {
-  selected: boolean;
-};
-export default class RemovePicture extends Component<Props, State> {
-  constructor() {
-    super();
-    this.state = {
-      selected: false,
-    };
-  }
 
-  handleOnClick = () => {
-    if (this.state.selected)
-      this.props.removePicture(this.props.username).then(() =>
-        this.setState({
-          selected: false,
-        })
-      );
+const RemovePicture = (props: Props) => {
+  const [selected, setSelected] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const handleOnClick = () => {
+    if (selected)
+      dispatch(removePicture(props.username)).then(() => {
+        setSelected(false);
+      });
   };
-  toggleSelected = () =>
-    this.setState({
-      selected: !this.state.selected,
-    });
 
-  render() {
-    return (
-      <div className={styles.buttons}>
-        {this.state.selected ? (
-          <Button onClick={this.toggleSelected}>Avbryt</Button>
-        ) : (
-          <Button danger onClick={this.toggleSelected}>
-            <Icon name="trash" size={19} />
-            Slett profilbildet
-          </Button>
-        )}
-        {this.state.selected && (
-          <Button danger onClick={this.handleOnClick}>
-            Bekreft
-          </Button>
-        )}
-      </div>
-    );
-  }
-}
+  const toggleSelected = () => setSelected(!selected);
+
+  return (
+    <div className={styles.buttons}>
+      {selected ? (
+        <Button onClick={toggleSelected}>Avbryt</Button>
+      ) : (
+        <Button danger onClick={toggleSelected}>
+          <Icon name="trash" size={19} />
+          Slett profilbildet
+        </Button>
+      )}
+      {selected && (
+        <Button danger onClick={handleOnClick}>
+          Bekreft
+        </Button>
+      )}
+    </div>
+  );
+};
+
+export default RemovePicture;

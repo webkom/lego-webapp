@@ -1,5 +1,4 @@
-import Icon from '../Icon';
-import Flex from '../Layout/Flex';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import styles from './Search.css';
 import type { Dispatch, KeyboardEventHandler, SetStateAction } from 'react';
 
@@ -54,7 +53,7 @@ const SearchBar = ({
         onClick={onCloseSearch}
         name={'close'}
         size={30}
-        data-testid="closeButton"
+        data-test-id="closeButton"
       />
     </Flex>
   );

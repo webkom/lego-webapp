@@ -1,4 +1,4 @@
-import { selectField, c, field, uploadHeader } from '../support/utils.js';
+import { selectField, c, t, field, uploadHeader } from '../support/utils.js';
 
 const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
 const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
@@ -49,14 +49,12 @@ describe('Editor', () => {
     cy.get('._legoEditor_root img').should('not.exist');
 
     // Open file upload modal
-    cy.get('.ReactModal__Overlay').should('not.exist');
     cy.get(c('_legoEditor_imageUploader')).should('not.exist');
 
     cy.get('._legoEditor_root button .fa-image').click();
-    cy.get('.ReactModal__Overlay').should('be.visible');
+    cy.get(c('_legoEditor_imageUploader')).should('be.visible');
 
-    // TODO: Upload button should be disabled when no image is uploaded
-    // cy.get(c('Modal__content')).contains('Last opp').should('be.disabled');
+    cy.get(t('Modal__content')).contains('Last opp').should('be.disabled');
 
     // Upload file
     cy.upload_file(
@@ -67,8 +65,8 @@ describe('Editor', () => {
     // Wait for image to appear
     cy.get('.ReactCrop').should('be.visible');
 
-    cy.get('._legoEditor_modal_applyButton')
-      .contains('Apply')
+    cy.get(t('Modal__content'))
+      .contains('Last opp')
       .should('not.be.disabled')
       .click();
 

@@ -1,4 +1,4 @@
-import Icon from 'app/components/Icon';
+import { Icon } from '@webkom/lego-bricks';
 import joinValues from 'app/utils/joinValues';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity, TagInfo } from '../types';

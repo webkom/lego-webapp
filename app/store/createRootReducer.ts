@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { connectRouter } from 'connected-react-router';
 import allowed from 'app/reducers/allowed';
 import announcements from 'app/reducers/announcements';
 import articles from 'app/reducers/articles';
@@ -19,7 +18,6 @@ import {
   followersEvent,
   followersUser,
 } from 'app/reducers/followers';
-import form from 'app/reducers/forms';
 import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
 import galleryPictures from 'app/reducers/galleryPictures';
@@ -41,7 +39,6 @@ import quotes from 'app/reducers/quotes';
 import readme from 'app/reducers/readme';
 import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
-import type { RoutingState } from 'app/reducers/routing';
 import routing from 'app/reducers/routing';
 import search from 'app/reducers/search';
 import surveySubmissions from 'app/reducers/surveySubmissions';
@@ -50,16 +47,10 @@ import tags from 'app/reducers/tags';
 import theme from 'app/reducers/theme';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
-import type { StrictReducer } from 'app/utils/joinReducers';
-import joinReducers from 'app/utils/joinReducers';
-import type { History } from 'history';
 
-const createRootReducer = (history: History) =>
-  combineReducers({
-    router: joinReducers(
-      connectRouter(history) as StrictReducer<RoutingState>,
-      routing
-    ),
+const createRootReducer = () => {
+  return combineReducers({
+    router: routing,
     allowed,
     announcements,
     articles,
@@ -73,7 +64,6 @@ const createRootReducer = (history: History) =>
     events,
     feedActivities,
     feeds,
-    form,
     frontpage,
     imageGalleryEntries,
     galleries,
@@ -108,6 +98,7 @@ const createRootReducer = (history: History) =>
     followersUser,
     followersEvent,
   });
+};
 
 export type RootState = ReturnType<ReturnType<typeof createRootReducer>>;
 export default createRootReducer;

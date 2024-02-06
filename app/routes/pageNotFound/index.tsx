@@ -1,6 +1,10 @@
-import { Route } from 'react-router-dom';
-import PageNotFoundRoute from './PageNotFoundRoute';
+import { Route, Routes } from 'react-router-dom';
+import HTTPError from 'app/routes/errors/HTTPError';
 
-export default function PathNotFound() {
-  return <Route path="" component={PageNotFoundRoute} />;
-}
+const PathNotFound = () => (
+  <Routes>
+    <Route path="*" element={<HTTPError />} />
+  </Routes>
+);
+
+export default PathNotFound;

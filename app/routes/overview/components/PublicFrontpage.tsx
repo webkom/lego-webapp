@@ -1,35 +1,27 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Card, Container, Flex } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
+import { fetchData } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
 import komtekGraphic from 'app/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
-import netcompany from 'app/assets/netcompany_dark.png';
+import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 // import Banner from 'app/components/Banner';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import { Container, Flex } from 'app/components/Layout';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import type { Readme } from 'app/models';
-import type { WithDocumentType } from 'app/reducers/frontpage';
-import type { ArticleWithAuthorDetails } from 'app/routes/articles/ArticleListRoute';
+import { selectFrontpage, type WithDocumentType } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/overview/components/LatestReadme';
 import Pinned from 'app/routes/overview/components/Pinned';
 import { itemUrl, renderMeta } from 'app/routes/overview/components/utils';
-import type { PublicEvent } from 'app/store/models/Event';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
-
-type Props = {
-  frontpage: (
-    | WithDocumentType<ArticleWithAuthorDetails>
-    | WithDocumentType<PublicEvent>
-  )[];
-  readmes: Array<Readme>;
-};
+import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
+import type { PublicEvent } from 'app/store/models/Event';
 
 const isEvent = (
   item:
@@ -37,7 +29,18 @@ const isEvent = (
     | WithDocumentType<PublicEvent>
 ): item is WithDocumentType<PublicEvent> => item.documentType === 'event';
 
-const PublicFrontpage = ({ frontpage, readmes }: Props) => {
+const PublicFrontpage = () => {
+  const frontpage = useAppSelector(selectFrontpage);
+  const readmes = useAppSelector((state) => state.readme);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchIndex',
+    () => Promise.all([dispatch(fetchData())]),
+    []
+  );
+
   const pinned = frontpage[0];
   const pinnedComponent = pinned && (
     <Pinned

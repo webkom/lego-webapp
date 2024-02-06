@@ -1,0 +1,81 @@
+/* stylelint-disable selector-class-pattern */
+
+.flex {
+  display: flex;
+}
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.column-reverse {
+  flex-direction: column-reverse;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.wrap > .flex {
+  @media (--mobile-device) {
+    flex-basis: 15em !important;
+  }
+}
+
+.wrapReverse {
+  flex-wrap: wrap-reverse;
+}
+
+.wrapReverse > .flex {
+  @media (--mobile-device) {
+    flex-basis: 15em !important;
+  }
+}
+
+.justifyContent__flex-start {
+  justify-content: flex-start;
+}
+
+.justifyContent__flex-end {
+  justify-content: flex-end;
+}
+
+.justifyContent__center {
+  justify-content: center;
+}
+
+.justifyContent__space-between {
+  justify-content: space-between;
+}
+
+.justifyContent__space-around {
+  justify-content: space-around;
+}
+
+.justifyContent__space-evenly {
+  justify-content: space-evenly;
+}
+
+.alignItems__flex-start {
+  align-items: flex-start;
+}
+
+.alignItems__flex-end {
+  align-items: flex-end;
+}
+
+.alignItems__center {
+  align-items: center;
+}
+
+.alignItems__baseline {
+  align-items: baseline;
+}
+
+.alignItems__stretch {
+  align-items: stretch;
+}

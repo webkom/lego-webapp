@@ -1,12 +1,12 @@
+import { Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import { Flex } from 'app/components/Layout';
 import {
   ForgotPasswordForm,
   LoginForm,
   RegisterForm,
 } from 'app/components/LoginForm';
 import styles from './AuthSection.css';
-import type { ReactNode, MouseEvent } from 'react';
+import type { MouseEvent, ComponentType } from 'react';
 
 enum AuthMode {
   LOGIN,
@@ -20,17 +20,17 @@ const titles: { [M in AuthMode]: string } = {
   [AuthMode.FORGOT_PASSWORD]: 'Glemt passord',
 };
 
-const forms: { [M in AuthMode]: ReactNode } = {
-  [AuthMode.LOGIN]: <LoginForm />,
-  [AuthMode.REGISTER]: <RegisterForm />,
-  [AuthMode.FORGOT_PASSWORD]: <ForgotPasswordForm />,
+const forms: { [M in AuthMode]: ComponentType } = {
+  [AuthMode.LOGIN]: LoginForm,
+  [AuthMode.REGISTER]: RegisterForm,
+  [AuthMode.FORGOT_PASSWORD]: ForgotPasswordForm,
 };
 
 const AuthSection = () => {
   const [authMode, setAuthMode] = useState<AuthMode>(AuthMode.LOGIN);
 
   const title = titles[authMode];
-  const form = forms[authMode];
+  const Form = forms[authMode];
 
   const createModeSelector = (mode: AuthMode) => (e: MouseEvent) => {
     setAuthMode(mode);
@@ -40,6 +40,8 @@ const AuthSection = () => {
   return (
     <>
       <Flex
+        wrap
+        gap="0.5rem"
         component="h2"
         justifyContent="space-between"
         alignItems="center"
@@ -50,21 +52,21 @@ const AuthSection = () => {
       >
         {title}
         {authMode === AuthMode.LOGIN ? (
-          <div>
+          <Flex gap="0.5rem">
             <button
               onClick={createModeSelector(AuthMode.FORGOT_PASSWORD)}
               className={styles.toggleButton}
             >
               Glemt passord
             </button>
-            <span className={styles.toggleButton}>&bull;</span>
+            <span className={styles.dot}>&bull;</span>
             <button
               onClick={createModeSelector(AuthMode.REGISTER)}
               className={styles.toggleButton}
             >
               Jeg er ny
             </button>
-          </div>
+          </Flex>
         ) : (
           <button
             onClick={createModeSelector(AuthMode.LOGIN)}
@@ -74,7 +76,7 @@ const AuthSection = () => {
           </button>
         )}
       </Flex>
-      {form}
+      <Form />
     </>
   );
 };

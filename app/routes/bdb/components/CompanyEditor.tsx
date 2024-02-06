@@ -1,5 +1,13 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  addCompany,
+  editCompany,
+  fetchAdmin,
+} from 'app/actions/CompanyActions';
+import { addToast } from 'app/actions/ToastActions';
 import { Content } from 'app/components/Content';
 import {
   TextEditor,
@@ -13,66 +21,122 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
-import type {
-  CompanyEntity,
-  SubmitCompanyEntity,
-} from 'app/reducers/companies';
+import { selectCompanyById } from 'app/reducers/companies';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
 import styles from './bdb.css';
-
-type Props = {
-  uploadFile: (arg0: Record<string, any>) => Promise<any>;
-  company: CompanyEntity;
-  autoFocus: any;
-  fetching: boolean;
-  submitFunction: (arg0: SubmitCompanyEntity) => Promise<any>;
-  deleteCompany: (arg0: number) => Promise<any>;
-};
+import type { AutocompleteUser } from 'app/store/models/User';
 
 const validate = createValidator({
   name: [required()],
   paymentMail: [isEmail()],
 });
 
-const CompanyEditor = ({
-  company,
-  autoFocus,
-  uploadFile,
-  fetching,
-  deleteCompany,
-  submitFunction,
-}: Props) => {
-  if (fetching) {
-    return <LoadingIndicator loading />;
+type FormValues = {
+  logo?: string;
+  name?: string;
+  description?: string;
+  companyType?: string;
+  website?: string;
+  address?: string;
+  studentContact?: AutocompleteUser;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
+const CompanyEditor = () => {
+  const { companyId } = useParams<{ companyId: string }>();
+  const isNew = companyId === undefined;
+  const company = useAppSelector((state) =>
+    selectCompanyById(state, { companyId })
+  );
+  const fetching = useAppSelector((state) => state.companies.fetching);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEditCompany',
+    () => companyId && dispatch(fetchAdmin(companyId)),
+    [companyId]
+  );
+
+  const navigate = useNavigate();
+
+  if (!isNew && fetching) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
   }
 
   const nameField = (
     <Field
       placeholder="Bedriftens navn"
       label=" "
-      autoFocus={autoFocus}
       name="name"
       component={TextInput.Field}
       className={styles.editTitle}
     />
   );
 
-  const onSubmit = (formContent) =>
-    submitFunction({
+  const onSubmit = (formContent: FormValues) => {
+    const body = {
       ...formContent,
       logo: formContent.logo || undefined,
       studentContact:
         formContent.studentContact && Number(formContent.studentContact.id),
-      website: httpCheck(formContent.website),
+      website: formContent.website && httpCheck(formContent.website),
       companyId: company && company.id,
+    };
+
+    dispatch(isNew ? addCompany(body) : editCompany(body)).then((res) => {
+      dispatch(
+        addToast({
+          message: isNew ? 'Bedrift lagt til' : 'Bedrift oppdatert',
+        })
+      );
+      navigate(`/bdb/${isNew ? res.payload.result : companyId}`);
     });
+  };
+
+  const initialValues = isNew
+    ? {
+        name: '',
+        description: '',
+        adminComment: '',
+        website: '',
+        studentContact: '',
+        active: 'true',
+        phone: '',
+        companyType: '',
+        paymentMail: '',
+        address: '',
+      }
+    : {
+        name: company.name,
+        description: company.description,
+        adminComment: company.adminComment,
+        website: company.website,
+        studentContact: company.studentContact && {
+          value: Number(company.studentContact.id),
+          label: company.studentContact.fullName,
+        },
+        active: company.active ? 'true' : 'false',
+        phone: company.phone,
+        companyType: company.companyType,
+        paymentMail: company.paymentMail,
+        address: company.address,
+      };
 
   return (
     <Content>
       <div className={styles.detail}>
-        <LegoFinalForm
+        <TypedLegoForm
           onSubmit={onSubmit}
+          initialValues={initialValues}
           validate={validate}
           subscription={{}}
         >
@@ -81,17 +145,12 @@ const CompanyEditor = ({
               <Field
                 name="logo"
                 component={ImageUploadField}
-                uploadFile={uploadFile}
                 aspectRatio={20 / 6}
                 img={company && company.logo}
               />
 
-              {company ? (
-                <DetailNavigation
-                  title={nameField}
-                  companyId={company.id}
-                  deleteFunction={deleteCompany}
-                />
+              {!isNew ? (
+                <DetailNavigation title={nameField} companyId={company.id} />
               ) : (
                 <ListNavigation title={nameField} />
               )}
@@ -100,7 +159,6 @@ const CompanyEditor = ({
                 <Field
                   placeholder="Beskrivelse av bedriften"
                   label=" "
-                  autoFocus={autoFocus}
                   name="description"
                   component={TextEditor.Field}
                 />
@@ -113,7 +171,6 @@ const CompanyEditor = ({
                     <Field
                       placeholder="Type bedrift"
                       label=" "
-                      autoFocus={autoFocus}
                       name="companyType"
                       component={TextInput.Field}
                       className={styles.editBubble}
@@ -130,7 +187,6 @@ const CompanyEditor = ({
                     <Field
                       placeholder="Fakturamail"
                       label=" "
-                      autoFocus={autoFocus}
                       name="paymentMail"
                       component={TextInput.Field}
                       className={styles.editBubble}
@@ -148,7 +204,6 @@ const CompanyEditor = ({
                     <Field
                       placeholder="Telefonnummer"
                       label=" "
-                      autoFocus={autoFocus}
                       name="phone"
                       component={TextInput.Field}
                       className={styles.editBubble}
@@ -168,7 +223,6 @@ const CompanyEditor = ({
                     <Field
                       placeholder="Nettside"
                       label=" "
-                      autoFocus={autoFocus}
                       name="website"
                       component={TextInput.Field}
                       className={styles.editBubble}
@@ -186,7 +240,6 @@ const CompanyEditor = ({
                     <Field
                       placeholder="Adresse"
                       label=" "
-                      autoFocus={autoFocus}
                       name="address"
                       component={TextInput.Field}
                       className={styles.editBubble}
@@ -203,11 +256,10 @@ const CompanyEditor = ({
                     <Field
                       placeholder="Studentkontakt"
                       label=" "
-                      autoFocus={autoFocus}
                       name="studentContact"
                       component={SelectInput.AutocompleteField}
                       className={styles.editBubble}
-                      filter={['users.user']}
+                      filter={[AutocompleteContentType.User]}
                     />
                   }
                   meta="Studentkontakt"
@@ -227,14 +279,16 @@ const CompanyEditor = ({
                     <Field
                       name="Yes"
                       label="Ja"
+                      value="true"
+                      type="radio"
                       component={RadioButton.Field}
-                      inputValue="true"
                     />
                     <Field
                       name="No"
                       label="Nei"
+                      value="false"
+                      type="radio"
                       component={RadioButton.Field}
-                      inputValue="false"
                     />
                   </MultiSelectGroup>
                 </div>
@@ -244,7 +298,6 @@ const CompanyEditor = ({
                 <Field
                   placeholder="Bedriften ønsker kun kurs"
                   label="Notat fra Bedkom"
-                  autoFocus={autoFocus}
                   name="adminComment"
                   component={TextEditor.Field}
                 />
@@ -254,7 +307,7 @@ const CompanyEditor = ({
               <SubmitButton>Lagre</SubmitButton>
             </form>
           )}
-        </LegoFinalForm>
+        </TypedLegoForm>
       </div>
     </Content>
   );

@@ -25,10 +25,11 @@ import {
   maybeRefreshToken,
 } from 'app/actions/UserActions';
 import config from 'app/config';
-import createStore, { history } from 'app/store/createStore';
+import createStore from 'app/store/createStore';
 import renderApp from './render';
 
-console.error(`
+!__DEV__ &&
+  console.error(`
                      \`smMMms\`
                      NMMMMMMN
             \`.\`      NMMMMMMN      \`.\`
@@ -69,11 +70,12 @@ Sentry.init({
   normalizeDepth: 10,
 });
 const preloadedState = window.__PRELOADED_STATE__;
-const isSSR = window.__IS_SSR__;
 const store = createStore(preloadedState, {
   Sentry,
   getCookie: (key) => cookie.get(key),
 });
+
+const isSSR = window.__IS_SSR__;
 
 if (isSSR) {
   store.dispatch(maybeRefreshToken());
@@ -87,9 +89,9 @@ if (isSSR) {
 store.dispatch({
   type: 'REHYDRATED',
 });
+
 renderApp({
   store,
-  history,
   isSSR,
 });
 
@@ -97,7 +99,6 @@ if (module.hot) {
   module.hot.accept('./render', () => {
     renderApp({
       store,
-      history,
       isSSR,
     });
   });

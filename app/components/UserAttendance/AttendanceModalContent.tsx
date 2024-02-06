@@ -1,13 +1,13 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash';
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
-import Flex from 'app/components/Layout/Flex';
+import styles from './AttendanceModalContent.css';
 import type { ID } from 'app/store/models';
 import type { PublicUser } from 'app/store/models/User';
-import styles from './AttendanceModalContent.css';
 
 export type Registration = {
   id: ID;

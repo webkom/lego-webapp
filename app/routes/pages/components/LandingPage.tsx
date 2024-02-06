@@ -1,13 +1,10 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
-import Icon from 'app/components/Icon';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
-import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
 import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';
@@ -15,6 +12,7 @@ import Statistic from './subcomponents/Statistic';
 import TextWithBoldTitle, {
   TextWithTitle,
 } from './subcomponents/TextWithTitle';
+import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
 
 const LandingPage: PageRenderer = ({ loggedIn }) => {
   return (

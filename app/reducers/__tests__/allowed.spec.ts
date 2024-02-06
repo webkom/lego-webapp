@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { Meta } from '../../actions/ActionTypes';
+import { Meta } from 'app/actions/ActionTypes';
 import allowed from '../allowed';
 
 describe('reducers', () => {

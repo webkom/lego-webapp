@@ -1,54 +1,15 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import QuoteDetailRoute from './QuoteDetailRoute';
-import QuoteEditorRoute from './QuoteEditorRoute';
-import QuotesRoute from './QuotesRoute';
+import AddQuote from './components/AddQuote';
+import QuotePage from './components/QuotePage';
 
-const quotesRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={QuotesRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/add`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={QuoteEditorRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:quoteId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={QuoteDetailRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const QuotesRoute = () => (
+  <Routes>
+    <Route index element={<QuotePage />} />
+    <Route path="add" element={<AddQuote />} />
+    <Route path=":quoteId" element={<QuotePage />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Quotes() {
-  return <Route path="/quotes" component={quotesRoute} />;
-}
+export default QuotesRoute;

@@ -70,7 +70,12 @@ module.exports = {
             pattern: 'app/**',
             group: 'internal',
           },
+          {
+            pattern: '@webkom/lego-bricks',
+            group: 'external',
+          },
         ],
+        pathGroupsExcludedImportTypes: ['type'],
         alphabetize: {
           order: 'asc',
         },

@@ -1,18 +1,15 @@
+import { updatePicture } from 'app/actions/UserActions';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import { useAppDispatch } from 'app/store/hooks';
 import type { User } from 'app/models';
 
 type Props = {
-  updatePicture: ({
-    picture,
-    username,
-  }: {
-    picture: File;
-    username: string;
-  }) => void;
   user: User;
 };
 
-function UploadPage({ updatePicture, user }: Props) {
+const UploadPage = ({ user }: Props) => {
+  const dispatch = useAppDispatch();
+
   return (
     <div
       style={{
@@ -23,16 +20,18 @@ function UploadPage({ updatePicture, user }: Props) {
     >
       <ImageUpload
         onSubmit={(file) =>
-          updatePicture({
-            username: user.username,
-            picture: file,
-          })
+          dispatch(
+            updatePicture({
+              username: user.username,
+              picture: file,
+            })
+          )
         }
         aspectRatio={1}
         img={user.profilePicture}
       />
     </div>
   );
-}
+};
 
 export default UploadPage;

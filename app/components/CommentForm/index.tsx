@@ -1,22 +1,20 @@
+import { Card, Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
-import Card from 'app/components/Card';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
-import Flex from 'app/components/Layout/Flex';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch } from 'app/store/hooks';
-import type { ID } from 'app/store/models';
-import type { CurrentUser } from 'app/store/models/User';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
+import type { ID } from 'app/store/models';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
-  contentTarget: string;
-  user: CurrentUser;
-  loggedIn: boolean;
+  contentTarget: ContentTarget;
   submitText?: string;
   autoFocus?: boolean;
   parent?: ID;
@@ -29,14 +27,14 @@ const validate = createValidator({
 
 const CommentForm = ({
   contentTarget,
-  user,
-  loggedIn,
   submitText = 'Kommenter',
   autoFocus = false,
   parent,
   placeholder = 'Skriv en kommentar ...',
 }: Props) => {
   const dispatch = useAppDispatch();
+
+  const { currentUser, loggedIn } = useUserContext();
 
   if (!loggedIn) {
     return <div>Vennligst logg inn for å kommentere</div>;
@@ -47,23 +45,23 @@ const CommentForm = ({
       <LegoFinalForm
         validateOnSubmitOnly
         validate={validate}
-        onSubmit={async ({ text }, form) => {
-          await dispatch(
+        onSubmit={({ text }, form) => {
+          dispatch(
             addComment({
               contentTarget,
               text,
               parent,
             })
-          );
-
-          form.restart();
+          ).then(() => {
+            form.reset();
+          });
         }}
       >
         {({ handleSubmit }) => {
           return (
             <form onSubmit={handleSubmit}>
               <Flex alignItems="center" gap="1rem">
-                <ProfilePicture size={40} user={user} />
+                <ProfilePicture size={40} user={currentUser} />
 
                 <div className={styles.field}>
                   <Field

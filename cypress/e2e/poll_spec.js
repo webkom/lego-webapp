@@ -1,5 +1,6 @@
 import {
   c,
+  t,
   field,
   fieldError,
   selectField,
@@ -52,7 +53,7 @@ describe('Polls', () => {
     // Add new option and remove it
     cy.contains('button', 'Legg til alternativ').click();
     cy.get(c('deleteOption')).last().click();
-    cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
 
     field('description').type(poll_form.description).blur();
     if (poll_form.pinned) {
@@ -95,13 +96,13 @@ describe('Polls', () => {
     field('pinned').check();
 
     cy.get(c('deleteOption')).first().click();
-    cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
     cy.get(c('deleteOption')).first().click();
-    cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
     cy.get(c('deleteOption')).first().click();
-    cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
     cy.get(c('deleteOption')).first().click();
-    cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
 
     cy.contains('button', 'Legg til alternativ').click();
     cy.contains('button', 'Legg til alternativ').click();
@@ -111,11 +112,7 @@ describe('Polls', () => {
 
     cy.contains('Lagre endringer').click();
 
-    // cannot check url because there is no url change on save, so let's check that the button disappears
-    cy.contains('Lagre endringer').should('not.exist');
-    cy.contains(poll_form.title);
-    cy.contains(poll_form.choice_1);
-    cy.contains(poll_form.choice_2);
+    cy.url().should('not.contain', '/polls/1');
 
     cy.visit('/');
     cy.contains('Avstemning');
@@ -135,9 +132,9 @@ describe('Polls', () => {
 
     cy.contains('button', 'Rediger').click();
     cy.contains('button', 'Slett avstemning').click();
-    cy.get(c('Modal__content')).should('be.visible').contains('Ja').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
 
-    cy.get(c('Modal__content')).should('not.exist');
+    cy.get(t('Modal__content')).should('not.exist');
 
     cy.visit('/polls');
 

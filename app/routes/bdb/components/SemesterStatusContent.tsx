@@ -1,24 +1,25 @@
-import { Button } from '@webkom/lego-bricks';
-import cx from 'classnames';
+import { Icon } from '@webkom/lego-bricks';
 import { Component } from 'react';
+import Circle from 'app/components/Circle';
 import Dropdown from 'app/components/Dropdown';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import {
+  NonEventContactStatus,
+  type CompanySemesterContactStatus,
+} from 'app/store/models/Company';
 import {
   sortStatusesByProminence,
-  getStatusString,
-  statusStrings,
-  selectColorCode,
+  getStatusColor,
+  getStatusDisplayName,
+  contactStatuses,
 } from '../utils';
-import styles from './bdb.css';
+import type { CSSProperties } from 'react';
 
 type Props = {
-  semesterStatus: Record<string, any>;
+  semesterStatus: { contactedStatus: CompanySemesterContactStatus[] };
   editFunction: (
-    arg0: CompanySemesterContactedStatus
+    arg0: CompanySemesterContactStatus
   ) => Promise<any> | null | undefined | void;
-  style?: Record<string, any>;
+  style?: CSSProperties;
 };
 
 type State = {
@@ -42,37 +43,10 @@ export default class SemesterStatusContent extends Component<Props, State> {
         {semesterStatus.contactedStatus.length > 0
           ? sortStatusesByProminence(semesterStatus.contactedStatus)
               .slice()
-              .map((status) => getStatusString(status))
+              .map((status) => getStatusDisplayName(status))
               .join(', ')
-          : getStatusString('not_contacted')}
+          : getStatusDisplayName()}
       </div>
-    );
-
-    const statusCodes = sortStatusesByProminence(
-      Object.keys(statusStrings)
-    ).filter((code) => code !== 'not_contacted');
-
-    const dropDownItems = (
-      <Dropdown.List>
-        {statusCodes.map((statusString, j) => (
-          <Dropdown.ListItem key={j} className={styles.dropDownItem}>
-            <Button flat onClick={() => editFunction(statusString)}>
-              <Flex alignItems="center">
-                {getStatusString(statusString)}
-                {semesterStatus.contactedStatus.indexOf(statusString) !==
-                  -1 && <Icon name="checkmark" success size={25} />}
-              </Flex>
-              <div
-                className={cx(
-                  styles[selectColorCode(statusString)],
-                  styles.lazyCircle
-                )}
-              />
-            </Button>
-            {j !== statusCodes.length - 1 && <Dropdown.Divider />}
-          </Dropdown.ListItem>
-        ))}
-      </Dropdown.List>
     );
 
     return (
@@ -90,7 +64,33 @@ export default class SemesterStatusContent extends Component<Props, State> {
         }}
         triggerComponent={statusesToRender}
       >
-        {dropDownItems}
+        <Dropdown.List>
+          {contactStatuses
+            .filter((status) => status !== NonEventContactStatus.NOT_CONTACTED)
+            .map((status, index) => {
+              const active =
+                semesterStatus.contactedStatus.indexOf(status) !== -1;
+
+              return (
+                <Dropdown.ListItem key={status}>
+                  <button
+                    onClick={() => editFunction(status)}
+                    style={{
+                      backgroundColor: active ? getStatusColor(status) : '',
+                    }}
+                  >
+                    {getStatusDisplayName(status)}
+                    {active ? (
+                      <Icon name="checkmark" />
+                    ) : (
+                      <Circle color={getStatusColor(status)} size={20} />
+                    )}
+                  </button>
+                  {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
+                </Dropdown.ListItem>
+              );
+            })}
+        </Dropdown.List>
       </Dropdown>
     );
   }

@@ -1,15 +1,14 @@
 import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
+import { createContext, type ReactElement, type ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
-import { ReactReduxContext } from 'react-redux';
-import { StaticRouter } from 'react-router';
-import type { RootState } from 'app/store/createRootReducer';
+import { Provider } from 'react-redux';
+import { StaticRouter } from 'react-router-dom/server';
 import createStore from 'app/store/createStore';
 import RouteConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
+import type { RootState } from 'app/store/createRootReducer';
 import type { Request, Response } from 'express';
-import type { ReactElement } from 'react';
-import type { StaticRouterContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
 export const helmetContext = {}; // AntiPattern because of babel
@@ -25,7 +24,7 @@ class TimeoutError extends Error {
 const isTimeoutError = (error: unknown): error is TimeoutError =>
   error instanceof TimeoutError;
 
-const prepareWithTimeout = (app): Promise<string> =>
+const prepareWithTimeout = (app: ReactNode): Promise<string> =>
   Promise.race([
     prepare(app),
     new Promise((resolve) => {
@@ -52,20 +51,9 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     );
   };
 
-  const context: StaticRouterContext = {};
+  const StaticContext = createContext({});
+  const context = {};
   const log = req.app.get('log');
-
-  const ServerConfig = ({
-    req,
-    context,
-  }: {
-    req: Request;
-    context: StaticRouterContext;
-  }) => (
-    <StaticRouter location={req.url} context={context}>
-      <RouteConfig />
-    </StaticRouter>
-  );
 
   const store = createStore(
     {},
@@ -93,9 +81,13 @@ const createServerSideRenderer = (req: Request, res: Response) => {
 
   const app = (
     <HelmetProvider context={helmetContext}>
-      <ReactReduxContext.Provider value={providerData}>
-        <ServerConfig req={req} context={context} />
-      </ReactReduxContext.Provider>
+      <Provider store={store}>
+        <StaticRouter location={req.url}>
+          <StaticContext.Provider value={context}>
+            <RouteConfig />
+          </StaticContext.Provider>
+        </StaticRouter>
+      </Provider>
     </HelmetProvider>
   );
 
@@ -116,8 +108,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
       return res.redirect(302, context.url);
     }
 
-    // TODO: remove workaround when redux-form is replaced
-    const state: RootState = { ...store.getState(), form: {} };
+    const state: RootState = store.getState();
 
     const statusCode = state.router.statusCode || 200;
     res.status(statusCode);

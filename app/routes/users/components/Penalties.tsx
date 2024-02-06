@@ -1,50 +1,72 @@
-import { Button } from '@webkom/lego-bricks';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import { Link } from 'react-router-dom';
+import { deletePenalty } from 'app/actions/UserActions';
 import { FormatTime } from 'app/components/Time';
-import type { Penalty } from 'app/models';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
+import type Penalty from 'app/store/models/Penalty';
 
 type Props = {
-  penalties: Array<Penalty>;
-  deletePenalty: (arg0: number) => Promise<void>;
   userId: number;
-  canDeletePenalties: boolean;
 };
 
-function Penalties({
-  penalties,
-  deletePenalty,
-  userId,
-  canDeletePenalties,
-}: Props) {
+const Penalties = ({ userId }: Props) => {
+  const penalties = useAppSelector((state) =>
+    selectPenaltyByUserId(state, {
+      userId,
+    })
+  ) as Penalty[];
+  const canDeletePenalties = useAppSelector((state) => state.allowed.penalties);
+
+  const dispatch = useAppDispatch();
+
   return (
-    <div>
+    <Flex column gap="1rem">
       {penalties.length ? (
-        <ul>
-          {penalties.map((penalty) => {
-            const word = penalty.weight > 1 ? 'prikker' : 'prikk';
-            return (
-              <li key={penalty.id} className={styles.penalty}>
-                <div>
-                  <strong>
-                    {penalty.weight} {word}
-                  </strong>
-                </div>
-                <>
-                  Begrunnelse: <i>{penalty.reason}</i>
-                </>
-                <div>
-                  Utgår:{' '}
-                  <i>
-                    <FormatTime time={penalty.exactExpiration} />
-                  </i>
-                </div>
+        <>
+          {penalties.map((penalty) => (
+            <>
+              <Flex key={penalty.id} column gap="0.5rem">
+                <Flex column className={styles.info}>
+                  <span className={styles.weight}>
+                    {penalty.weight} {penalty.weight > 1 ? 'prikker' : 'prikk'}
+                  </span>
+                  {penalty.sourceEvent && (
+                    <span className="secondaryFontColor">
+                      fra{' '}
+                      <Link
+                        to={`/events/${
+                          penalty.sourceEvent.slug || penalty.sourceEvent.id
+                        }`}
+                        className={styles.eventLink}
+                      >
+                        {penalty.sourceEvent.title}
+                      </Link>
+                    </span>
+                  )}
+                </Flex>
+                <Flex column className={styles.info}>
+                  <span>Begrunnelse</span>
+                  <span className="secondaryFontColor">{penalty.reason}</span>
+                </Flex>
+                <Flex column className={styles.info}>
+                  <span>Utgår</span>
+                  <FormatTime
+                    time={penalty.exactExpiration}
+                    className={cx('secondaryFontColor', styles.time)}
+                  />
+                </Flex>
+
                 {canDeletePenalties && (
                   <ConfirmModal
                     title="Slett prikk"
                     message="Er du sikker på at du vil slette denne prikken?"
-                    onConfirm={() => deletePenalty(penalty.id)}
+                    onConfirm={() => {
+                      dispatch(deletePenalty(penalty.id));
+                    }}
                     closeOnConfirm
                   >
                     {({ openConfirmModal }) => (
@@ -54,16 +76,33 @@ function Penalties({
                     )}
                   </ConfirmModal>
                 )}
-              </li>
-            );
-          })}
-        </ul>
+              </Flex>
+
+              <div className={styles.divider} />
+            </>
+          ))}
+        </>
       ) : (
-        <span className="secondaryFontColor">Ingen prikker</span>
+        <>
+          <Flex alignItems="center" gap="1rem">
+            <Icon
+              name="thumbs-up-outline"
+              size={40}
+              className={styles.success}
+            />
+            <Flex column className={cx('secondaryFontColor', styles.info)}>
+              <span>Puh ...</span>
+              <span>Du har ingen prikker!</span>
+            </Flex>
+          </Flex>
+
+          <div className={styles.divider} />
+        </>
       )}
-      <PenaltyForm user={userId} />
-    </div>
+
+      <PenaltyForm userId={userId} />
+    </Flex>
   );
-}
+};
 
 export default Penalties;

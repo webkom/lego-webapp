@@ -1,36 +1,25 @@
-import moment from 'moment-timezone';
-import Icon from 'app/components/Icon';
+import { Icon } from '@webkom/lego-bricks';
+import { Helmet } from 'react-helmet-async';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
-import type { ActionGrant, Dateish } from 'app/models';
-import type { ID } from 'app/store/models';
+import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './components/surveys.css';
+import type { ActionGrant } from 'app/models';
+import type { ID } from 'app/store/models';
 import type { ReactNode } from 'react';
 
-const questionStrings = {
-  single: 'single_choice',
-  multiple: 'multiple_choice',
-  text: 'text_field',
+export const questionTypeString: Record<SurveyQuestionType, string> = {
+  single_choice: 'Enkeltvalg',
+  multiple_choice: 'Avkrysningsbokser',
+  text_field: 'Fritekst',
 };
-export const QuestionTypes = (choice: string) => {
-  return questionStrings[choice] || questionStrings[0];
-};
-export const PresentableQuestionType = (choice: string) => {
-  const questionTypeToString = {
-    single_choice: 'Enkeltvalg',
-    multiple_choice: 'Avkrysningsbokser',
-    text_field: 'Fritekst',
-  };
-  return questionTypeToString[choice] || questionTypeToString[0];
-};
-export const mappings = Object.keys(questionStrings).map((key) => ({
-  value: questionStrings[key],
-  label: PresentableQuestionType(questionStrings[key]),
-})) as Array<{
-  value: string;
-  label: string;
-}>;
+export const questionTypeOptions = Object.values(SurveyQuestionType).map(
+  (questionType) => ({
+    value: questionType,
+    label: questionTypeString[questionType],
+  })
+);
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/surveys">Undersøkelser</NavigationLink>
@@ -42,21 +31,30 @@ export const DetailNavigation = ({
   title,
   surveyId,
 }: {
-  title: ReactNode;
-  surveyId: number;
+  title: string;
+  surveyId?: ID;
   actionGrant?: ActionGrant;
 }) => (
   <NavigationTab
     title={title}
-    back={{
-      label: 'Tilbake til undersøkelser',
-      path: '/surveys',
-    }}
+    back={{ label: 'Tilbake til undersøkelser', path: '/surveys' }}
   >
-    <NavigationLink to={`/surveys/${surveyId}`}>Undersøkelsen</NavigationLink>
-    <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
-      Resultater
-    </NavigationLink>
+    <Helmet title={title} />
+    {surveyId && (
+      <>
+        <NavigationLink to={`/surveys/${surveyId}`}>
+          Undersøkelsen
+        </NavigationLink>
+        <NavigationLink
+          to={`/surveys/${surveyId}/submissions/summary`}
+          additionalActivePaths={[
+            `/surveys/${surveyId}/submissions/individual`,
+          ]}
+        >
+          Resultater
+        </NavigationLink>
+      </>
+    )}
   </NavigationTab>
 );
 export const TokenNavigation = ({
@@ -65,26 +63,17 @@ export const TokenNavigation = ({
   actionGrant = [],
 }: {
   title: ReactNode;
-  surveyId: number;
+  surveyId: ID;
   actionGrant?: ActionGrant;
 }) => (
   <NavigationTab title={title}>
-    {actionGrant.includes('EDIT') && (
+    {actionGrant.includes('edit') && (
       <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
         Adminversjon
       </NavigationLink>
     )}
   </NavigationTab>
 );
-export const getActiveFrom = (
-  eventEndTime: Dateish,
-  hours: number,
-  minutes: number
-) =>
-  moment(eventEndTime)
-    .startOf('day')
-    .add({ days: 1, hours, minutes })
-    .toISOString();
 
 export const getCsvUrl = (surveyId: ID) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;

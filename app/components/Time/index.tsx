@@ -45,9 +45,11 @@ function Time({
 export const FormatTime = ({
   time,
   format,
+  className,
 }: {
   time: Dateish;
   format?: string;
+  className?: string;
 }) => {
   const dateTime = moment(time);
 
@@ -55,9 +57,11 @@ export const FormatTime = ({
     const defaultFormat = moment().isSame(dateTime, 'year')
       ? 'dddd DD. MMM HH:mm'
       : 'dddd DD. MMM YYYY HH:mm';
-    return <Time time={dateTime} format={defaultFormat} />;
+    return (
+      <Time time={dateTime} format={defaultFormat} className={className} />
+    );
   } else {
-    return <Time time={dateTime} format={format} />;
+    return <Time time={dateTime} format={format} className={className} />;
   }
 };
 

@@ -1,13 +1,13 @@
 import moment from 'moment-timezone';
-import { Field } from 'redux-form';
+import { Field } from 'react-final-form';
 import {
   TextInput,
   DatePicker,
   SelectInput,
   Button,
 } from 'app/components/Form';
-import type { Dateish, EventStatusType } from 'app/models';
 import styles from './EventEditor.css';
+import type { Dateish, EventStatusType } from 'app/models';
 
 type poolProps = {
   fields: Record<string, any>;
@@ -15,11 +15,10 @@ type poolProps = {
   eventStatusType: EventStatusType;
 };
 
-const minimumOne = (value) =>
-  value && value < 1 ? `Pools må ha minst 1 plass` : undefined;
-
 const highWarning = (value) =>
-  value && value >= 500 ? 'Åpent event gir uendelig plasser 😁' : undefined;
+  value && value >= 500
+    ? 'Åpent arrangement gir uendelig plasser 😁'
+    : undefined;
 
 const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul
@@ -33,6 +32,12 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
         <Field
           label="Navn"
           name={`pools[${index}].name`}
+          validate={(value) => {
+            if (!value || value === '') {
+              return 'Navn er påkrevd';
+            }
+            return undefined;
+          }}
           fieldClassName={styles.metaField}
           className={styles.formField}
           component={TextInput.Field}
@@ -41,9 +46,20 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           <Field
             label="Kapasitet"
             name={`pools[${index}].capacity`}
+            validate={(value) => {
+              if (!value || isNaN(parseInt(value, 10))) {
+                return 'Kapasitet er påkrevd og må være et tall';
+              }
+              if (Number(value) < 0) {
+                return 'Kapasitet kan ikke være negativt';
+              }
+              if (Number(value) < 1) {
+                return 'Pools må ha minst 1 plass';
+              }
+              return undefined;
+            }}
             type="number"
             placeholder="20,30,50"
-            validate={minimumOne}
             warn={highWarning}
             fieldClassName={styles.metaField}
             className={styles.formField}
@@ -60,6 +76,12 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
         <Field
           label="Grupper med rettighet"
           name={`pools[${index}].permissionGroups`}
+          validate={(value) => {
+            if (!value || value.length === 0) {
+              return 'Rettighetsgruppe er påkrevd';
+            }
+            return undefined;
+          }}
           fieldClassName={styles.metaField}
           filter={['users.abakusgroup']}
           component={SelectInput.AutocompleteField}
@@ -69,7 +91,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           <div className={styles.centeredButton}>
             <Button
               disabled={
-                fields.get(index).registrations.length > 0 ||
+                fields.value[index].registrations?.length > 0 ||
                 fields.length === 1
               }
               onClick={() => fields.remove(index)}
@@ -105,38 +127,4 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   </ul>
 );
 
-type PermissionGroup = unknown;
-type Pool = {
-  capacity: number;
-  permissionGroups: Array<PermissionGroup>;
-  name?: string | null | undefined;
-};
-
-type ValidationError<T> = Partial<{ [key in keyof T]: string | string[] }>;
-
-export const validatePools = (pools: Array<Pool>) => {
-  const capacity = pools.reduce((a, b) => a + b.capacity, 0);
-  const errors = pools.map((pool) => {
-    const poolError: ValidationError<Pool> = {};
-
-    if (!pool.name) {
-      poolError.name = 'Navn påkrevet';
-    }
-
-    if (isNaN(parseInt(`${pool.capacity}`, 10))) {
-      poolError.capacity = 'Kapasitet påkrevet';
-    }
-
-    if (Number(pool.capacity) === 0 && (capacity > 0 || pools.length > 1)) {
-      poolError.capacity = 'En ubegrenset pool kan kun eksistere alene';
-    }
-
-    if (pool.permissionGroups.length === 0) {
-      poolError.permissionGroups = 'Rettighetsgruppe er påkrevet';
-    }
-
-    return poolError;
-  }) as Array<Record<string, string>>;
-  return errors;
-};
 export default renderPools;

@@ -1,11 +1,10 @@
+import { Card, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import Card from 'app/components/Card';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
-import type { Event } from 'app/models';
-import { colorForEvent } from 'app/routes/events/utils';
+import { colorForEventType } from 'app/routes/events/utils';
 import { eventStatus } from 'app/utils/eventStatus';
 import styles from './EventItem.css';
+import type { Event } from 'app/models';
 
 type Props = {
   item: Event;
@@ -54,7 +53,7 @@ const EventItem = ({ item, url, meta, loggedIn, isFrontPage }: Props) => {
           <div
             className={styles.right}
             style={{
-              borderBottom: `5px solid ${colorForEvent(item.eventType)}`,
+              borderBottom: `5px solid ${colorForEventType(item.eventType)}`,
             }}
           >
             <>

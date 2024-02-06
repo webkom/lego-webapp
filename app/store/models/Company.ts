@@ -1,22 +1,27 @@
+import type { EventType } from './Event';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
-export enum CompanyContactedStatus {
-  CompanyPresentation = 'company_presentation',
-  Course = 'course',
-  BreakfastTalk = 'breakfast_talk',
-  LunchPresentation = 'lunch_presentation',
-  Bedex = 'bedex',
-  Interested = 'interested',
-  NotInterested = 'not_interested',
-  Contacted = 'contacted',
-  NotContacted = 'not_contacted',
+export enum NonEventContactStatus {
+  BEDEX = 'bedex',
+  INTERESTED = 'interested',
+  NOT_INTERESTED = 'not_interested',
+  CONTACTED = 'contacted',
+  NOT_CONTACTED = 'not_contacted',
 }
+
+export type CompanySemesterContactStatus =
+  | EventType.BREAKFAST_TALK
+  | EventType.COMPANY_PRESENTATION
+  | EventType.COURSE
+  | EventType.LUNCH_PRESENTATION
+  | NonEventContactStatus;
 
 interface CompleteSemesterStatus {
   id: ID;
   semester: ID;
-  contactedStatus: CompanyContactedStatus[];
+  contactedStatus: CompanySemesterContactStatus[];
   contract?: string;
   statistics?: string;
   evaluation?: string;
@@ -63,11 +68,11 @@ interface Company {
   id: ID;
   name: string;
   active: boolean;
-  description: string;
-  website: string;
-  companyType: string;
-  logo: string;
-  logoPlaceholder: string;
+  description?: string;
+  website?: string;
+  companyType?: string;
+  logo?: string;
+  logoPlaceholder?: string;
   phone?: string;
   address?: string;
   eventCount?: number;
@@ -126,6 +131,14 @@ export type SearchCompany = Pick<
   Company,
   'id' | 'name' | 'description' | 'website' | 'companyType' | 'address'
 >;
+
+export type AutocompleteCompany = Pick<
+  Company,
+  'name' | 'description' | 'id'
+> & {
+  contentType: AutocompleteContentType.Company;
+  text: 'text';
+};
 
 export type AdminDetailCompany = Pick<
   Company,

@@ -1,47 +1,39 @@
 import Select from 'react-select';
 import Creatable from 'react-select/creatable';
-import mazemapAutocomplete from '../Search/mazemapAutocomplete';
+import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
 import style from './SelectInput.css';
 import type { ChangeEvent, FocusEvent } from 'react';
-import type { GroupBase, StylesConfig, ThemeConfig } from 'react-select';
+import type { StylesConfig, ThemeConfig } from 'react-select';
 
-type Props = {
+type Props<Option, IsMulti extends boolean = false> = {
   name: string;
   label: string;
   placeholder?: string;
-  multiple?: boolean;
   tags?: boolean;
   fetching: boolean;
   className?: string;
-  selectStyle?: StylesConfig<any, false, GroupBase<any>>;
+  selectStyle?: StylesConfig<Option, IsMulti>;
   onBlur: (
     event: FocusEvent<HTMLInputElement>,
     newValue?: string,
     previousValue?: string,
     name?: string
   ) => void;
-  onChange?: (
-    event: ChangeEvent,
-    newValue: string,
-    previousValue: string
-  ) => void;
-  onSearch: (arg0: string) => void;
-  shouldKeyDownEventCreateNewOption: (arg0: number) => boolean;
+  onChange?: (event: ChangeEvent | string) => void;
+  onSearch: (search: string) => void;
   isValidNewOption: (arg0: string) => boolean;
   value: any;
   disabled?: boolean;
-  options?: Record<string, any>[];
+  options?: Option[];
   creatable?: boolean;
   isMulti?: boolean;
+  isClearable?: boolean;
 };
 
-export const selectStyles = {
-  control: (
-    styles: Record<string, any>,
-    { isDisabled }: { isDisabled: boolean }
-  ) => ({
+export const selectStyles: StylesConfig = {
+  control: (styles, { isDisabled }) => ({
     ...styles,
     cursor: 'pointer',
     opacity: isDisabled ? '0.5' : 1,
@@ -50,25 +42,14 @@ export const selectStyles = {
     borderRadius: 'var(--border-radius-md)',
     fontSize: '14px',
   }),
-  option: (
-    styles: Record<string, any>,
-    {
-      isDisabled,
-      isSelected,
-    }: {
-      isDisabled: boolean;
-      isSelected: boolean;
-    }
-  ) => ({
+  option: (styles, { isDisabled, isSelected }) => ({
     ...styles,
     cursor: isDisabled ? 'not-allowed' : 'pointer',
     color: isSelected ? 'var(--color-gray-1)' : undefined,
     fontSize: '14px',
   }),
 };
-export const selectTheme = (
-  theme: ThemeConfig & { colors: Record<string, string> }
-) => ({
+export const selectTheme: ThemeConfig = (theme) => ({
   ...theme,
   colors: {
     ...theme.colors,
@@ -92,21 +73,24 @@ export const selectTheme = (
   },
 });
 
-function SelectInput({
+const NO_OPTIONS_MESSAGE = 'Ingen treff';
+const LOADING_MESSAGE = 'Laster inn ...';
+
+const SelectInput = <Option, IsMulti extends boolean = false>({
   name,
   label,
   fetching,
   selectStyle,
-  onBlur,
-  shouldKeyDownEventCreateNewOption,
+  onBlur = () => {},
   isValidNewOption,
   value,
   options = [],
   disabled = false,
   placeholder,
   creatable,
+  onSearch,
   ...props
-}: Props) {
+}: Props<Option, IsMulti>) => {
   if (props.tags) {
     creatable = true;
     props.isMulti = true;
@@ -126,18 +110,16 @@ function SelectInput({
           onBlur={() => onBlur(value)}
           value={value}
           isValidNewOption={isValidNewOption}
-          shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
           options={options}
           isLoading={fetching}
           styles={selectStyle ?? selectStyles}
           theme={selectTheme}
           onInputChange={(value) => {
-            if (props.onSearch) {
-              props.onSearch(value);
-            }
-
+            onSearch?.(value);
             return value;
           }}
+          loadingMessage={() => LOADING_MESSAGE}
+          noOptionsMessage={() => NO_OPTIONS_MESSAGE}
         />
       </div>
     );
@@ -150,25 +132,23 @@ function SelectInput({
         isDisabled={disabled}
         placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
         instanceId={name}
-        shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
         onBlur={() => onBlur(value)}
         value={value}
         options={options}
         isLoading={fetching}
         onInputChange={(value) => {
-          if (props.onSearch) {
-            props.onSearch(value);
-          }
-
+          onSearch?.(value);
           return value;
         }}
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
         blurInputOnSelect={false}
+        loadingMessage={() => LOADING_MESSAGE}
+        noOptionsMessage={() => NO_OPTIONS_MESSAGE}
       />
     </div>
   );
-}
+};
 
 SelectInput.Field = createField(SelectInput);
 SelectInput.AutocompleteField = withAutocomplete({
@@ -177,7 +157,7 @@ SelectInput.AutocompleteField = withAutocomplete({
 SelectInput.WithAutocomplete = withAutocomplete({
   WrappedComponent: SelectInput,
 });
-SelectInput.MazemapAutocomplete = mazemapAutocomplete({
+SelectInput.MazemapAutocomplete = withMazemapAutocomplete({
   WrappedComponent: SelectInput.Field,
 });
 export default SelectInput;

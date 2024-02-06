@@ -1,15 +1,14 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
-import Select from 'react-select';
-import { selectStyles, selectTheme } from 'app/components/Form/SelectInput';
-import Flex from 'app/components/Layout/Flex';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
-import type { PhotoConsent } from 'app/models';
+import { updatePhotoConsent } from 'app/actions/UserActions';
+import SelectInput from 'app/components/Form/SelectInput';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
-import type { ID } from 'app/store/models';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './PhotoConsents.css';
+import type { PhotoConsent } from 'app/models';
+import type { ID } from 'app/store/models';
 
 const ConsentManager = ({
   consent,
@@ -85,17 +84,11 @@ const ConsentManager = ({
 const PhotoConsents = ({
   photoConsents,
   username,
-  updatePhotoConsent,
   userId,
   isCurrentUser,
 }: {
   photoConsents: Array<PhotoConsent>;
   username: string;
-  updatePhotoConsent: (
-    photoConsent: PhotoConsent,
-    username: string,
-    userId: ID
-  ) => Promise<void>;
   userId: ID;
   isCurrentUser: boolean;
 }) => {
@@ -122,17 +115,19 @@ const PhotoConsents = ({
     semesterOptions[0]
   );
 
+  const dispatch = useAppDispatch();
+
   const updateConsent = (consent: PhotoConsent) =>
-    updatePhotoConsent(consent, username, userId);
+    dispatch(updatePhotoConsent(consent, username, userId));
 
   return (
     <Flex column={true}>
       <label htmlFor="select-semester">
         <h3>Semester</h3>
       </label>
-      <Select
+      <SelectInput
         name="select-semester"
-        clearable={false}
+        isClearable={false}
         options={semesterOptions}
         value={selectedSemesterOption}
         onChange={({ value }) =>
@@ -141,9 +136,6 @@ const PhotoConsents = ({
             value,
           })
         }
-        theme={selectTheme}
-        styles={selectStyles}
-        instanceId="profile-consent-semester"
       />
       <ConsentManager
         consent={getConsent(

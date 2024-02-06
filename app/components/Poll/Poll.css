@@ -113,3 +113,7 @@
     pointer-events: none;
   }
 }
+
+.success {
+  color: var(--success-color);
+}

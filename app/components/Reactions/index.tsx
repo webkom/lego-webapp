@@ -1,64 +1,49 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import Flex from 'app/components/Layout/Flex';
-import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ID } from 'app/models';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
 import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
+import type { EmojiWithReactionData } from 'app/components/LegoReactions';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { ReactNode, SyntheticEvent } from 'react';
 
 type Props = {
   children: ReactNode;
   className?: string;
   emojis: EmojiWithReactionData[];
-  fetchingEmojis: boolean;
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  fetchEmojis: () => Promise<void>;
   contentTarget: ContentTarget;
-  loggedIn: boolean;
 };
 
-// Note: Most use cases won't want to use this class directly. Instead, use
-// app/components/LegoReactions.
-
-const Reactions = ({
-  children,
-  className,
-  emojis,
-  fetchingEmojis,
-  addReaction,
-  deleteReaction,
-  fetchEmojis,
-  contentTarget,
-  loggedIn,
-}: Props) => {
+/**
+ *  Note: Most use cases won't want to use this class directly. Instead, use
+ *  app/components/LegoReactions.
+ */
+const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
   const [reactionPickerOpen, setReactionPickerOpen] = useState(false);
   const [addEmojiHovered, setAddEmojiHovered] = useState(false);
   const [fetchedEmojis, setFetchedEmojis] = useState(false);
-  const nodeRef = useRef<HTMLDivElement>();
+  const nodeRef = useRef<HTMLDivElement>(null);
+
+  const { loggedIn } = useUserContext();
+
+  const dispatch = useAppDispatch();
 
   const toggleReactionPicker = useCallback(
     (e: MouseEvent | SyntheticEvent) => {
       if (!reactionPickerOpen && !fetchedEmojis) {
-        fetchEmojis();
+        dispatch(fetchEmojis());
       }
 
       setReactionPickerOpen(!reactionPickerOpen);
       setFetchedEmojis(true);
       e.stopPropagation();
     },
-    [fetchEmojis, fetchedEmojis, reactionPickerOpen]
+    [dispatch, fetchedEmojis, reactionPickerOpen]
   );
 
   useEffect(() => {
@@ -109,13 +94,7 @@ const Reactions = ({
 
       {reactionPickerOpen && (
         <div className={styles.reactionPickerContainer}>
-          <ReactionPicker
-            emojis={emojis}
-            isLoading={fetchingEmojis}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            contentTarget={contentTarget}
-          />
+          <ReactionPicker emojis={emojis} contentTarget={contentTarget} />
         </div>
       )}
     </div>

@@ -48,10 +48,17 @@ const defaultProps = {
   },
   registration: null,
   event: EVENT,
+  formOpen: false,
+  captchaOpen: false,
+  buttonOpen: false,
+  registrationOpensIn: null,
 };
 const store = configureStore([])({
   theme: {
     theme: 'light',
+  },
+  penalties: {
+    items: [],
   },
 });
 

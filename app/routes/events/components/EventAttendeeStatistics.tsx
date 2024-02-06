@@ -1,8 +1,7 @@
+import { Card, Flex } from '@webkom/lego-bricks';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
-  AreaChart,
-  Area,
   CartesianGrid,
   Legend,
   Line,
@@ -12,17 +11,16 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { fetchAnalytics } from 'app/actions/EventActions';
-import Card from 'app/components/Card';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
-import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import { Flex } from 'app/components/Layout';
-import type { Dateish } from 'app/models';
-import { useAppDispatch } from 'app/store/hooks';
-import type { ID } from 'app/store/models';
-import type { DetailedRegistration } from 'app/store/models/Registration';
+import { GroupType, type Dateish } from 'app/models';
+import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import { useAppSelector } from 'app/store/hooks';
+import Analytics from './Analytics';
 import styles from './EventAttendeeStatistics.css';
+import type { DistributionDataPoint } from 'app/components/Chart/utils';
+import type { DetailedRegistration } from 'app/store/models/Registration';
 
 interface RegistrationDateDataPoint {
   name: string;
@@ -51,10 +49,7 @@ const PieChartWithLabel = ({
     <Card>
       <Card.Header>{label}</Card.Header>
       <Flex alignItems="center" wrap column>
-        <DistributionPieChart
-          dataKey="count"
-          distributionData={distributionData}
-        />
+        <DistributionPieChart distributionData={distributionData} />
         <ChartLabel distributionData={distributionData} />
       </Flex>
     </Card>
@@ -224,135 +219,32 @@ const isEventFromPreviousSemester = (eventStartTime: Dateish): boolean => {
   );
 };
 
-const initialMetricValue = {
-  visitors: { title: 'Besøkende', value: 0 },
-  pageviews: { title: 'Sidevisninger', value: 0 },
-  visitDuration: { title: 'Besøkstid', value: 0 },
-};
-
-const calculateMetrics = (data) => {
-  // Copy initialMetricValue to avoid mutating it
-  const initialValue = JSON.parse(JSON.stringify(initialMetricValue));
-
-  return data.reduce((acc, item) => {
-    acc.visitors.value += item.visitors;
-    acc.pageviews.value += item.pageviews;
-    acc.visitDuration.value += item.visitDuration;
-
-    return acc;
-  }, initialValue);
-};
-
-const Analytics = ({ eventId }: { eventId: ID }) => {
-  const [metrics, setMetrics] = useState<{
-    visitors: { title: string; value: number };
-    pageviews: { title: string; value: number };
-    visitDuration: { title: string; value: number };
-  }>(initialMetricValue);
-  const [data, setData] = useState<{ date: string; visitors: number }[]>([]);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    eventId &&
-      dispatch(fetchAnalytics(eventId)).then((res) => {
-        setData(res.payload);
-        setMetrics(calculateMetrics(res.payload));
-      });
-  }, [eventId, dispatch]);
-
-  return (
-    <>
-      <Flex wrap gap={40} className={styles.metrics}>
-        {Object.values(metrics).map((metric, i) => (
-          <>
-            {i !== 0 && <div className={styles.metricDivider} />}
-
-            <Flex column justifyContent="center" key={metric.title}>
-              <span className={styles.metricHeader}>{metric.title}</span>
-              <span className={styles.metricNumber}>
-                {metric.value.toLocaleString('no-NO')}
-              </span>
-            </Flex>
-          </>
-        ))}
-      </Flex>
-
-      <ResponsiveContainer width="100%" aspect={2.0 / 0.8}>
-        <AreaChart data={data}>
-          <defs>
-            <linearGradient id="colorView" x1="0" y1="0" x2="0" y2="1">
-              <stop
-                offset="30%"
-                stopColor="var(--color-blue-6)"
-                stopOpacity={0.4}
-              />
-              <stop
-                offset="75%"
-                stopColor="var(--color-blue-5)"
-                stopOpacity={0.3}
-              />
-              <stop
-                offset="95%"
-                stopColor="var(--color-white)"
-                stopOpacity={0.2}
-              />
-            </linearGradient>
-          </defs>
-          <Tooltip
-            contentStyle={{
-              borderColor: 'var(--border-gray)',
-              borderRadius: 'var(--border-radius-md)',
-              backgroundColor: 'var(--lego-card-color)',
-            }}
-          />
-          <CartesianGrid
-            strokeDasharray="4 4"
-            stroke="var(--color-blue-5)"
-            opacity={0.4}
-          />
-          <XAxis
-            dataKey="date"
-            tick={{ fill: 'var(--secondary-font-color)' }}
-            stroke="var(--border-gray)"
-          />
-          <YAxis
-            dataKey="visitors"
-            tick={{ fill: 'var(--secondary-font-color)' }}
-            stroke="var(--border-gray)"
-          />
-          <Area
-            name="Besøkende"
-            dataKey="visitors"
-            type="monotone"
-            stroke="var(--color-blue-6)"
-            strokeWidth={3}
-            strokeOpacity={1}
-            fill="url(#colorView)"
-          />
-        </AreaChart>
-      </ResponsiveContainer>
-    </>
-  );
-};
-
 type Props = {
-  eventId: ID;
-  registrations: DetailedRegistration[];
-  unregistrations: DetailedRegistration[];
-  committeeGroupIDs: number[];
-  revueGroupIDs: number[];
-  eventStartTime: Dateish;
+  viewStartTime: Dateish;
+  viewEndTime: Dateish;
 };
 
-const EventAttendeeStatistics = ({
-  eventId,
-  registrations,
-  unregistrations,
-  committeeGroupIDs,
-  revueGroupIDs,
-  eventStartTime,
-}: Props) => {
+const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const { registered, unregistered } = useAppSelector((state) =>
+    getRegistrationGroups(state, {
+      eventId: eventId,
+    })
+  );
+  const committees = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: GroupType.Committee,
+    })
+  );
+  const committeeGroupIDs = committees.map((group) => group.id);
+  const revueGroups = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: GroupType.Revue,
+    })
+  );
+  const revueGroupIDs = revueGroups.map((group) => group.id);
+
   const {
     genderDistribution,
     groupDistribution,
@@ -361,15 +253,15 @@ const EventAttendeeStatistics = ({
     komTekDistribution,
     totalDistribution,
   } = createAttendeeDataPoints(
-    registrations,
-    unregistrations,
+    registered,
+    unregistered,
     committeeGroupIDs,
     revueGroupIDs
   );
 
   return (
     <>
-      {isEventFromPreviousSemester(eventStartTime) && (
+      {isEventFromPreviousSemester(event?.startTime) && (
         <Card severity="warning">
           <span>
             Dette arrangementet er fra et tidligere semester, og kan derfor ha
@@ -380,20 +272,22 @@ const EventAttendeeStatistics = ({
         </Card>
       )}
 
-      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
-      <p className={styles.sectionDividerDescription}>
-        Statistikk av besøkende på arrangementssiden.
-      </p>
-
-      <Analytics eventId={eventId} />
-
       <h2 className={styles.sectionDividerTitle}>Analyse</h2>
       <p className={styles.sectionDividerDescription}>
-        Analyse av brukerne som er påmeldt arrangementet.
+        Analyse av besøkende på arrangementssiden
       </p>
 
-      {registrations.length === 0 ? (
-        <p className={styles.noRegistrationsText}>Ingen er påmeldt enda.</p>
+      <Analytics viewStartTime={viewStartTime} viewEndTime={viewEndTime} />
+
+      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
+      <p className={styles.sectionDividerDescription}>
+        Statistikk av brukerne som{' '}
+        {moment().isAfter(moment(event.endTime)) ? 'var' : 'er'} påmeldt
+        arrangementet
+      </p>
+
+      {registered.length === 0 ? (
+        <p className={styles.noRegistrationsText}>Ingen er påmeldt enda</p>
       ) : (
         <div className={styles.chartContainer}>
           <PieChartWithLabel
@@ -418,6 +312,7 @@ const EventAttendeeStatistics = ({
           />
         </div>
       )}
+
       <Card className={styles.graphCard}>
         <Card.Header>Påmeldinger og avmeldinger per dag</Card.Header>
         <ResponsiveContainer width="100%" height={300}>

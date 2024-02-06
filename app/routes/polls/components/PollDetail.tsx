@@ -1,81 +1,76 @@
-import { Button } from '@webkom/lego-bricks';
-import { Component } from 'react';
+import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
+import { fetchPoll } from 'app/actions/PollActions';
 import { Content } from 'app/components/Content';
-import Icon from 'app/components/Icon';
 import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
-import type { ActionGrant, ID } from 'app/models';
-import type { PollEntity } from 'app/reducers/polls';
+import { selectPollById } from 'app/reducers/polls';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import PollEditor from './PollEditor';
 
-type Props = {
-  poll: PollEntity;
-  editPoll: (arg0: PollEntity) => Promise<any>;
-  deletePoll: (id: ID) => Promise<any>;
-  votePoll: (pollId: ID, optionId: ID) => Promise<any>;
-  fetching: boolean;
-  actionGrant: ActionGrant;
-  initialValues: PollEntity;
-};
-type State = {
-  editing: boolean;
-};
+const PollDetail = () => {
+  const [editing, setEditing] = useState(false);
 
-class PollDetail extends Component<Props, State> {
-  state = {
-    editing: false,
-  };
-  toggleEdit = () => {
-    this.setState({
-      editing: !this.state.editing,
-    });
+  const toggleEdit = () => {
+    setEditing(!editing);
   };
 
-  render() {
+  const { pollsId } = useParams<{ pollsId: string }>();
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect('fetchPoll', () => dispatch(fetchPoll(pollsId)), []);
+
+  const poll = useAppSelector((state) => selectPollById(state, pollsId));
+  const fetching = useAppSelector((state) => state.polls.fetching);
+  const actionGrant = poll?.actionGrant ?? [];
+
+  if (!poll) {
     return (
       <Content>
-        <Helmet title={this.props.poll.title} />
-        <NavigationTab
-          title={this.props.poll.title}
-          back={{
-            label: 'Tilbake',
-            path: '/polls',
-          }}
-        >
-          {this.props.actionGrant.includes('edit') && (
-            <Button onClick={this.toggleEdit}>
-              {this.state.editing ? (
-                'Avbryt'
-              ) : (
-                <>
-                  <Icon name="create-outline" size={19} />
-                  Rediger
-                </>
-              )}
-            </Button>
-          )}
-        </NavigationTab>
-        {!this.state.editing && (
-          <Poll
-            poll={this.props.poll}
-            handleVote={this.props.votePoll}
-            allowedToViewHiddenResults={this.props.actionGrant.includes('edit')}
-            details
-          />
-        )}
-        {this.state.editing && (
-          <PollEditor
-            initialValues={this.props.initialValues}
-            editing
-            editOrCreatePoll={this.props.editPoll}
-            toggleEdit={this.toggleEdit}
-            deletePoll={() => this.props.deletePoll(this.props.poll.id)}
-          />
-        )}
+        <LoadingIndicator loading={fetching} />
       </Content>
     );
   }
-}
 
-export default PollDetail;
+  return (
+    <Content>
+      <Helmet title={poll.title} />
+      <NavigationTab
+        title={poll.title}
+        back={{
+          label: 'Tilbake',
+          path: '/polls',
+        }}
+      >
+        {actionGrant.includes('edit') && (
+          <Button onClick={toggleEdit}>
+            {editing ? (
+              'Avbryt'
+            ) : (
+              <>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </>
+            )}
+          </Button>
+        )}
+      </NavigationTab>
+      {!editing ? (
+        <Poll
+          poll={poll}
+          allowedToViewHiddenResults={actionGrant.includes('edit')}
+          details
+        />
+      ) : (
+        <PollEditor poll={poll} editing toggleEdit={toggleEdit} />
+      )}
+    </Content>
+  );
+};
+
+export default guardLogin(PollDetail);

@@ -1,13 +1,11 @@
-import moment from 'moment';
-import timekeeper from 'timekeeper';
-import { describe, it, expect } from 'vitest';
-import { Announcements } from '../../actions/ActionTypes';
+import { describe, it, expect, vi } from 'vitest';
+import { Announcements } from 'app/actions/ActionTypes';
 import announcements from '../announcements';
 
 describe('reducers', () => {
   describe('announcements', () => {
-    const time = Date.now();
-    timekeeper.freeze(time);
+    vi.useFakeTimers().setSystemTime(new Date());
+
     it('Announcements.SEND.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
@@ -33,7 +31,7 @@ describe('reducers', () => {
         byId: {
           99: {
             id: 99,
-            sent: moment(),
+            sent: new Date().toISOString(),
           },
         },
       });

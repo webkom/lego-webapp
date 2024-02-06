@@ -1,5 +1,6 @@
 import {
   c,
+  t,
   field,
   fieldError,
   selectField,
@@ -7,6 +8,7 @@ import {
   selectEditor,
   setDatePickerDate,
   uploadHeader,
+  NO_OPTIONS_MESSAGE,
 } from '../support/utils.js';
 
 describe('Create event', () => {
@@ -34,7 +36,6 @@ describe('Create event', () => {
     fieldError('cover').should('be.visible');
     fieldError('title').should('be.visible');
     fieldError('description').should('be.visible');
-    fieldError('mazemapPoi').should('be.visible');
     fieldError('eventType').should('be.visible');
     fieldError('isClarified').should('be.visible');
 
@@ -48,10 +49,10 @@ describe('Create event', () => {
     field('description').type('blir fett').blur();
     fieldError('description').should('not.exist');
 
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('R4');
     fieldError('mazemapPoi').should('not.exist');
+    fieldError('location').should('not.exist');
 
     field('isClarified').check();
     fieldError('isClarified').should('not.exist');
@@ -106,14 +107,11 @@ describe('Create event', () => {
     cy.get('._legoEditor_root img').should('not.exist');
 
     // Open file upload modal
-    cy.get('.ReactModal__Overlay').should('not.exist');
     cy.get(c('_legoEditor_imageUploader')).should('not.exist');
 
     cy.get('._legoEditor_root button .fa-image').click();
-    cy.get('.ReactModal__Overlay').should('be.visible');
 
-    // TODO: Upload button should be disabled when no image is uploaded
-    // cy.get(c('Modal__content')).contains('Last opp').should('be.disabled');
+    cy.get(c('_legoEditor_imageUploader')).should('be.visible');
 
     // Upload file
     cy.upload_file(
@@ -124,8 +122,8 @@ describe('Create event', () => {
     // This is needed so that the crop module is activated because of how we mock upload files in these tests
     cy.get('.ReactCrop__drag-handle.ord-n').click({ force: true });
 
-    cy.get('._legoEditor_modal_applyButton')
-      .contains('Apply')
+    cy.get(t('Modal__content'))
+      .contains('Last opp')
       .should('not.be.disabled')
       .click();
 
@@ -146,7 +144,6 @@ describe('Create event', () => {
     uploadHeader();
     field('title').type('Pils på Webkomkontoret!').blur();
     field('description').type('blir fett').blur();
-    field('useMazemap').uncheck();
     field('location').type('DT').blur();
     field('isClarified').check();
     selectField('eventType').click();
@@ -179,7 +176,6 @@ describe('Create event', () => {
     selectField('eventType').click();
     cy.focused().type('be{enter}', { force: true });
 
-    field('useMazemap').uncheck();
     field('location').type('DT').blur();
 
     // Select company
@@ -187,7 +183,7 @@ describe('Create event', () => {
     cy.focused().type('BEKK', { force: true });
     selectField('company')
       .find('[id=react-select-company-listbox]')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
 
@@ -195,7 +191,7 @@ describe('Create event', () => {
     selectField('responsibleGroup').click();
     cy.focused().type('bedk', { force: true });
     selectFieldDropdown('responsibleGroup')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
 
@@ -222,7 +218,6 @@ describe('Create event', () => {
     field('title').type('Ubestemt event').blur();
     field('description').type('mer info kommer').blur();
     selectEditor().type('mer info kommer');
-    field('useMazemap').uncheck();
     field('location').type('DT').blur();
 
     // Select type
@@ -273,7 +268,6 @@ describe('Create event', () => {
     cy.focused().type('Vanlig{enter}', { force: true });
 
     // Set location
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('R4');
 
@@ -284,7 +278,7 @@ describe('Create event', () => {
     cy.focused().type('Webkom', { force: true });
     selectField('pools[0]\\.permissionGroups')
       .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Webkom');
     cy.focused().type('{enter}', { force: true });
 
@@ -296,14 +290,14 @@ describe('Create event', () => {
     cy.focused().type('Bedkom', { force: true });
     selectField('pools[1]\\.permissionGroups')
       .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
     selectField('pools[1]\\.permissionGroups').click();
     cy.focused().type('Abakus', { force: true });
     selectField('pools[1]\\.permissionGroups')
       .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 
@@ -345,7 +339,6 @@ describe('Create event', () => {
     cy.focused().type('Uten{enter}', { force: true });
 
     // Set location
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('Kjellern');
 
@@ -381,7 +374,6 @@ describe('Create event', () => {
     cy.focused().type('Med på{enter}', { force: true });
 
     // Set location
-    field('useMazemap').uncheck();
     cy.contains('Sted').click();
     cy.focused().type('EL6');
 
@@ -399,7 +391,7 @@ describe('Create event', () => {
     cy.focused().type('Abaku', { force: true });
     selectField('pools[0]\\.permissionGroups')
       .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
 

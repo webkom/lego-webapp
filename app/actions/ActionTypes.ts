@@ -1,6 +1,6 @@
 import type { AsyncActionType } from 'app/types';
 
-const generateStatuses = (name: string): AsyncActionType => ({
+export const generateStatuses = (name: string): AsyncActionType => ({
   BEGIN: `${name}.BEGIN`,
   SUCCESS: `${name}.SUCCESS`,
   FAILURE: `${name}.FAILURE`,
@@ -17,6 +17,7 @@ export const Event = {
   FETCH: generateStatuses('Event.FETCH') as AAT,
   FETCH_PREVIOUS: generateStatuses('Event.FETCH_PREVIOUS') as AAT,
   FETCH_UPCOMING: generateStatuses('Event.FETCH_UPCOMING') as AAT,
+  FETCH_ANALYTICS: generateStatuses('Event.FETCH_ANALYTICS') as AAT,
   CREATE: generateStatuses('Event.CREATE') as AAT,
   EDIT: generateStatuses('Event.EDIT') as AAT,
   DELETE: generateStatuses('Event.DELETE') as AAT,
@@ -177,7 +178,6 @@ export const Favorite = {
  *
  */
 export const Comment = {
-  FETCH: generateStatuses('Comment.FETCH') as AAT,
   ADD: generateStatuses('Comment.ADD') as AAT,
   DELETE: generateStatuses('Comment.DELETE') as AAT,
 };

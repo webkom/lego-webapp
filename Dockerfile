@@ -1,4 +1,4 @@
-FROM node:16-alpine as builder
+FROM node:18-alpine as builder
 
 WORKDIR /app/
 COPY . /app
@@ -40,7 +40,7 @@ RUN sentry-cli releases finalize ${RELEASE}
 RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
-FROM node:16-alpine
+FROM node:18-alpine
 
 RUN apk add curl
 

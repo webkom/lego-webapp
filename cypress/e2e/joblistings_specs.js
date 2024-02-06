@@ -4,6 +4,7 @@ import {
   selectField,
   selectFieldDropdown,
   selectEditor,
+  NO_OPTIONS_MESSAGE,
 } from '../support/utils.js';
 
 describe('Create joblisting', () => {
@@ -25,8 +26,13 @@ describe('Create joblisting', () => {
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
     selectFieldDropdown('company')
-      .should('not.contain', 'No results')
+      .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
+    cy.focused().type('{enter}', { force: true });
+
+    selectField('workplaces').click();
+    cy.focused().type('Oslo', { force: true });
+    selectFieldDropdown('workplaces').and('contain', 'Oslo');
     cy.focused().type('{enter}', { force: true });
 
     // TODO sometimes there is an issue in the joblisting editor where you have to click
@@ -41,6 +47,8 @@ describe('Create joblisting', () => {
     //.first()
     //.clear();
     //cy.contains('button', 'Lagre endringer').should('be.disabled');
+
+    cy.wait(100); // wait for editor debounce
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
     //TODO: check new url

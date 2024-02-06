@@ -1,71 +1,77 @@
-import { Button } from '@webkom/lego-bricks';
-import { Field } from 'redux-form';
-import { TextInput, Form, legoForm } from 'app/components/Form';
-import type { UserEntity } from 'app/reducers/users';
-import { createAsyncValidator } from 'app/utils/asyncValidator';
+import { Field } from 'react-final-form';
+import { useNavigate } from 'react-router-dom';
+import { changePassword } from 'app/actions/UserActions';
+import { TextInput } from 'app/components/Form';
+import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
-import type { FormProps } from 'redux-form';
 
-type PasswordPayload = {
-  newPassword: string;
+export type FormValues = {
   password: string;
-  retype_new_password: string;
-};
-type Props = FormProps & {
-  push: (arg0: string) => void;
-  changePassword: (arg0: PasswordPayload) => Promise<void>;
-  user: UserEntity;
+  newPassword: string;
+  retypeNewPassword: string;
 };
 
-const ChangePassword = ({
-  handleSubmit,
-  invalid,
-  pristine,
-  submitting,
-  user,
-}: Props) => {
-  const disabledButton = invalid || pristine || submitting;
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
+const ChangePasswordForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = (data: FormValues) =>
+    dispatch(changePassword(data)).then(() => {
+      navigate('/users/me');
+    });
+
+  const { currentUser } = useUserContext();
+
   return (
-    <Form onSubmit={handleSubmit}>
-      <Field
-        label="Gammelt passord"
-        name="password"
-        type="password"
-        autocomplete="current-password"
-        component={TextInput.Field}
-      />
-      <PasswordField user={user} label="Nytt passord" name="newPassword" />
-      <Field
-        label="Nytt passord (gjenta)"
-        name="retypeNewPassword"
-        autocomplete="new-password"
-        type="password"
-        component={TextInput.Field}
-      />
-      <Button disabled={disabledButton} submit danger>
-        Endre passord
-      </Button>
-    </Form>
+    <TypedLegoForm onSubmit={onSubmit} validate={validate}>
+      {({ handleSubmit, valid }) => (
+        <form onSubmit={handleSubmit}>
+          <Field
+            label="Gammelt passord"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            component={TextInput.Field}
+          />
+          <PasswordField
+            user={currentUser}
+            label="Nytt passord"
+            name="newPassword"
+          />
+          <Field
+            label="Gjenta nytt passord"
+            name="retypeNewPassword"
+            autocomplete="new-password"
+            type="password"
+            component={TextInput.Field}
+          />
+          <SubmitButton disabled={!valid} danger>
+            Endre passord
+          </SubmitButton>
+        </form>
+      )}
+    </TypedLegoForm>
   );
 };
 
-const validate = createValidator({
-  password: [required()],
-  newPassword: [required()],
-  retypeNewPassword: [
-    required(),
-    sameAs('newPassword', 'Passordene er ikke like'),
-  ],
-});
-const asyncValidate = createAsyncValidator({
-  newPassword: [validPassword()],
-});
-export default legoForm({
-  form: 'changePassword',
-  validate,
-  asyncValidate,
-  onSubmit: (data, dispatch, { changePassword, push }: Props) =>
-    changePassword(data).then(() => push('/users/me')),
-})(ChangePassword);
+const validate = createValidator(
+  {
+    password: [required()],
+    newPassword: [required(), validPassword()],
+    retypeNewPassword: [
+      required(),
+      sameAs('newPassword', 'Passordene er ikke like'),
+    ],
+  },
+  undefined,
+  true
+);
+
+export default ChangePasswordForm;

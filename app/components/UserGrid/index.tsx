@@ -2,8 +2,8 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
-import type { PublicUser } from 'app/store/models/User';
 import styles from './UserGrid.css';
+import type { PublicUser } from 'app/store/models/User';
 
 const UserGrid = ({
   users,

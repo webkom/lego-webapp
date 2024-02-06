@@ -1,12 +1,17 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import GroupDetailRoute from '../GroupDetailRoute';
+import { selectGroup, selectGroups } from 'app/reducers/groups';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import GroupForm from './GroupForm';
+import GroupMembers from './GroupMembers';
 import styles from './GroupPage.css';
+import GroupPermissions from './GroupPermissions';
 import GroupTree from './GroupTree';
-import type { Location } from 'history';
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
@@ -46,22 +51,29 @@ const GroupPageNavigation = ({
   );
 };
 
-type GroupPageProps = {
-  groups: Array<Record<string, any>>;
-  location: Location;
-  match: {
-    path: string;
-    params: {
-      groupId: string;
-    };
-  };
-};
+const GroupPage = () => {
+  const { groupId } = useParams<{ groupId?: string }>();
+  const group = useAppSelector((state) => selectGroup(state, { groupId }));
+  const groups = useAppSelector(selectGroups);
 
-const GroupPage = ({ groups, location, match }: GroupPageProps) => {
+  const location = useLocation();
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchAllGroups',
+    () =>
+      Promise.all([
+        dispatch(fetchAll()),
+        groupId && dispatch(fetchGroup(groupId)),
+      ]),
+    [groupId]
+  );
+
   return (
     <Content>
-      <Helmet title="Grupper" />
-      <GroupPageNavigation groupId={match.params.groupId} />
+      <Helmet title={group ? group.name : 'Grupper'} />
+      <GroupPageNavigation groupId={groupId} />
       <div className={styles.groupPage}>
         <section className={styles.sidebar}>
           <GroupTree
@@ -71,10 +83,19 @@ const GroupPage = ({ groups, location, match }: GroupPageProps) => {
         </section>
 
         <section className={styles.main}>
-          <Switch>
-            <Route exact path="/admin/groups" component={SelectGroup} />
-            <Route path={`${match.path}`} component={GroupDetailRoute} />
-          </Switch>
+          {group && (
+            <header>
+              <h2>{group.name}</h2>
+              <span>{group.description || ''}</span>
+            </header>
+          )}
+
+          <Routes>
+            <Route path="settings" element={<GroupForm />} />
+            <Route path="members" element={<GroupMembers />} />
+            <Route path="permissions" element={<GroupPermissions />} />
+            <Route path="*" element={<SelectGroup />} />
+          </Routes>
         </section>
       </div>
     </Content>

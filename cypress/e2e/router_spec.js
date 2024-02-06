@@ -1,4 +1,4 @@
-import { c, a } from '../support/utils.js';
+import { c, a, t } from '../support/utils.js';
 
 describe('Navigate throughout app', () => {
   beforeEach(() => {
@@ -166,7 +166,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Artikler');
 
     // Go back
-    cy.get('[data-testid="closeButton"]').click();
+    cy.get(t('closeButton')).click();
     cy.url().should('contain', '/');
     cy.contains('Festet oppslag');
     cy.contains('Påmeldinger');

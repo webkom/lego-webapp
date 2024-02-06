@@ -1,4 +1,6 @@
-import { Flex } from 'app/components/Layout';
+import { Flex } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import styles from './ContentSection.css';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -7,11 +9,7 @@ type Props = {
 };
 
 function ContentSection({ children, className }: Props) {
-  return (
-    <Flex wrap className={className}>
-      {children}
-    </Flex>
-  );
+  return <Flex className={cx(styles.section, className)}>{children}</Flex>;
 }
 
 export default ContentSection;

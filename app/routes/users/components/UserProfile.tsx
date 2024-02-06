@@ -1,38 +1,44 @@
-import { Button } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  Modal,
+} from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { sumBy, sortBy, uniqBy, groupBy, orderBy } from 'lodash';
+import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
+import { fetchAllWithType } from 'app/actions/GroupActions';
+import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
-import Card from 'app/components/Card';
+import { Content } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
-import Icon from 'app/components/Icon';
 import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
-import Modal from 'app/components/Modal';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
-import type {
-  User,
-  Group,
-  AddPenalty,
-  Event,
-  ID,
-  PhotoConsent,
-  Dateish,
-  Penalty,
-  UserMembership,
-} from 'app/models';
-import { resolveGroupLink } from 'app/reducers/groups';
-import type { CurrentUser } from 'app/store/models/User';
-//import Feed from 'app/components/Feed';
+import { GroupType } from 'app/models';
+import {
+  selectPreviousEvents,
+  selectUpcomingEvents,
+} from 'app/reducers/events';
+import { resolveGroupLink, selectGroupsWithType } from 'app/reducers/groups';
+import { selectUserWithGroups } from 'app/reducers/users';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsCurrentUser } from 'app/routes/users/utils';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GroupChange from './GroupChange';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
+import type { User, Group, Dateish, UserMembership } from 'app/models';
 
 const fieldTranslations = {
   username: 'Brukernavn',
@@ -68,31 +74,6 @@ const fieldRenders = {
   email: emailFieldRender,
   internalEmailAddress: emailFieldRender,
   githubUsername: githubFieldRender,
-};
-type Props = {
-  user: CurrentUser;
-  showSettings: boolean;
-  //feedItems: Array<any>,
-  //feed: Object,
-  isCurrentUser: boolean;
-  loggedIn: boolean;
-  loading: boolean;
-  previousEvents: Array<Event>;
-  upcomingEvents: Array<Event>;
-  addPenalty: (arg0: AddPenalty) => void;
-  deletePenalty: (arg0: number) => Promise<void>;
-  penalties: Penalty[];
-  canDeletePenalties: boolean;
-  groups: Array<Group>;
-  canChangeGrade: boolean;
-  canEditEmailLists: boolean;
-  changeGrade: (arg0: ID, arg1: string) => Promise<void>;
-  updatePhotoConsent: (
-    photoConsent: PhotoConsent,
-    username: string,
-    userId: number
-  ) => Promise<void>;
-  photoConsents: Array<PhotoConsent>;
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -131,7 +112,6 @@ const GroupBadge = ({
   );
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
-  // $FlowFixMe
   const sortedMemberships = orderBy(memberships, (membership) =>
     moment(membership.startDate || membership.createdAt)
   );
@@ -186,15 +166,67 @@ type PermissionTreeNode = Group & {
 
 type PermissionTree = { [key: number]: PermissionTreeNode };
 
-const UserProfile = (props: Props) => {
+const UserProfile = () => {
   const [showAbaId, setShowAbaId] = useState(false);
 
-  const sumPenalties = () => {
-    return sumBy(props.penalties, 'weight');
-  };
+  const params = useParams<{ username: string }>();
+  const { currentUser } = useUserContext();
+  const isCurrentUser =
+    useIsCurrentUser(params.username) || params.username === 'me';
+  const username =
+    isCurrentUser && currentUser ? currentUser?.username : params.username;
+  const user = useAppSelector((state) =>
+    selectUserWithGroups(state, {
+      username,
+    })
+  );
+
+  const actionGrant = user?.actionGrant || [];
+  const showSettings =
+    (isCurrentUser || actionGrant.includes('edit')) && user?.username;
+
+  const upcomingEvents = useAppSelector(selectUpcomingEvents);
+  const fetchingUpcoming = useAppSelector(
+    (state) => state.events.fetchingUpcoming
+  );
+  const previousEvents = useAppSelector(selectPreviousEvents);
+  const fetchingPrevious = useAppSelector(
+    (state) => state.events.fetchingPrevious
+  );
+
+  const canChangeGrade = useAppSelector((state) => state.allowed.groups);
+  const canEditEmailLists = useAppSelector((state) => state.allowed.email);
+
+  const groups = useAppSelector((state) =>
+    selectGroupsWithType(state, {
+      groupType: 'klasse',
+    })
+  );
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchUserProfile',
+    () =>
+      Promise.all([
+        dispatch(fetchAllWithType(GroupType.Grade)),
+        isCurrentUser && dispatch(fetchPrevious()),
+        isCurrentUser && dispatch(fetchUpcoming()),
+        dispatch(fetchUser(username)),
+      ]),
+
+    [params.username, isCurrentUser]
+  );
+
+  if (!user) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
 
   const renderFields = () => {
-    const { user } = props;
     const fields = Object.keys(fieldTranslations).filter(
       (field) => user[field]
     );
@@ -207,16 +239,14 @@ const UserProfile = (props: Props) => {
     return (
       <ul>
         {tags}
-        {props?.user.linkedinId && (
+        {user.linkedinId && (
           <li key="linkedinId">
             <span>
               <Flex alignItems="center">
                 <Icon name={'logo-linkedin'} className={styles.githubIcon} />
-                <a
-                  href={`https://www.linkedin.com/in/${props?.user.linkedinId}`}
-                >
+                <a href={`https://www.linkedin.com/in/${user.linkedinId}`}>
                   {' '}
-                  {props?.user.fullName}
+                  {user.fullName}
                 </a>
               </Flex>
             </span>
@@ -225,26 +255,9 @@ const UserProfile = (props: Props) => {
       </ul>
     );
   };
-  const {
-    user,
-    isCurrentUser,
-    showSettings,
-    //feedItems,
-    //feed,
-    loading,
-    previousEvents,
-    upcomingEvents,
-    deletePenalty,
-    penalties,
-    canDeletePenalties,
-    groups,
-    canChangeGrade,
-    changeGrade,
-    canEditEmailLists,
-    updatePhotoConsent,
-  } = props;
   //If you wonder what this is, ask somebody
   const FRAMEID = [6050, 5962, 7276, 7434, 7747, 8493];
+
   const {
     pastMemberships = [],
     abakusGroups = [],
@@ -254,7 +267,7 @@ const UserProfile = (props: Props) => {
     abakusEmailLists = [],
     permissionsPerGroup = [],
     photoConsents,
-  } = user;
+  } = user || {};
 
   const allAbakusGroupsWithPerms = uniqBy(
     permissionsPerGroup.concat(
@@ -416,8 +429,8 @@ const UserProfile = (props: Props) => {
           setShowAbaId(false);
         }}
       >
-        <QRCode value={props.user?.username ?? ''} />
-        <h2>{props.user?.username}</h2>
+        <QRCode value={user.username ?? ''} />
+        <h2>{user.username}</h2>
       </Modal>
 
       <Flex wrap className={styles.header}>
@@ -473,26 +486,19 @@ const UserProfile = (props: Props) => {
             <h3>Brukerinfo</h3>
             <Card className={styles.infoCard}>
               {renderFields()}
-              {showSettings ? (
+              {showSettings && (
                 <Link to={`/users/${user.username}/settings/profile`}>
                   <Button>Innstillinger</Button>
                 </Link>
-              ) : (
-                ''
               )}
             </Card>
           </div>
 
           {showSettings && (
             <div>
-              <h3>Prikker ({sumPenalties()} stk)</h3>
+              <h3>Prikker</h3>
               <Card className={styles.infoCard}>
-                <Penalties
-                  penalties={penalties}
-                  deletePenalty={deletePenalty}
-                  userId={user.id}
-                  canDeletePenalties={canDeletePenalties}
-                />
+                <Penalties userId={user.id} />
               </Card>
             </div>
           )}
@@ -503,7 +509,6 @@ const UserProfile = (props: Props) => {
                 <PhotoConsents
                   photoConsents={photoConsents}
                   username={user.username}
-                  updatePhotoConsent={updatePhotoConsent}
                   userId={user.id}
                   isCurrentUser={isCurrentUser}
                 />
@@ -518,7 +523,6 @@ const UserProfile = (props: Props) => {
                 <GroupChange
                   grades={groups}
                   abakusGroups={abakusGroups}
-                  changeGrade={changeGrade}
                   username={user.username}
                 />
               </Card>
@@ -685,7 +689,7 @@ const UserProfile = (props: Props) => {
 
           {isCurrentUser && user.email !== user.emailAddress && (
             <div>
-              <h3>Google GSuite</h3>
+              <h3>Google G Suite</h3>
               <Card className={styles.infoCard}>
                 <p>
                   Din konto er linket opp mot Abakus sitt domene i Google
@@ -725,26 +729,30 @@ const UserProfile = (props: Props) => {
                 events={orderBy(upcomingEvents, 'startTime')}
                 noEventsMessage="Du har ingen kommende arrangementer"
                 eventStyle="compact"
-                loading={loading}
+                loading={fetchingUpcoming}
               />
               <h3>
                 Dine tidligere arrangementer (
-                {previousEvents === undefined ? 0 : previousEvents.length})
+                {!fetchingPrevious
+                  ? previousEvents === undefined
+                    ? 0
+                    : previousEvents.length
+                  : '...'}
+                )
               </h3>
               <EventListCompact
                 events={
-                  previousEvents === undefined
-                    ? []
-                    : orderBy(
-                        previousEvents
-                          .filter((e) => e.userReg.pool !== null)
-                          .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
-                        'startTime'
-                      ).reverse()
+                  previousEvents &&
+                  orderBy(
+                    previousEvents
+                      .filter((e) => e.userReg.pool !== null)
+                      .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
+                    'startTime'
+                  ).reverse()
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
-                loading={loading}
+                loading={fetchingPrevious}
               />
             </div>
           )}
@@ -754,4 +762,4 @@ const UserProfile = (props: Props) => {
   );
 };
 
-export default UserProfile;
+export default guardLogin(UserProfile);

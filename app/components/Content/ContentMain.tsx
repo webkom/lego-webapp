@@ -1,4 +1,4 @@
-import { Flex } from 'app/components/Layout';
+import { Flex } from '@webkom/lego-bricks';
 import type { ReactNode } from 'react';
 
 type Props = {

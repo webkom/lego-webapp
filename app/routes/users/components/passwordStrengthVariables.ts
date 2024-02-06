@@ -8,7 +8,7 @@ export const passwordLabel = {
 export const barColor = {
   0: 'var(--danger-color)',
   1: 'var(--color-orange-6)',
-  2: 'var(--color-yellow-6)',
+  2: 'var(--color-yellow-5)',
   3: 'var(--color-green-6)',
   4: 'var(--color-green-7)',
 };

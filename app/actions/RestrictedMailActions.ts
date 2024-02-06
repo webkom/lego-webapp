@@ -1,10 +1,11 @@
 import callAPI from 'app/actions/callAPI';
 import { restrictedMailSchema } from 'app/reducers';
-import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
-import type { EntityID, Thunk } from 'app/types';
 import { RestrictedMail } from './ActionTypes';
+import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
+import type { ID } from 'app/store/models';
+import type { Thunk } from 'app/types';
 
-export function fetchRestrictedMail(restrictedMailId: EntityID): Thunk<any> {
+export function fetchRestrictedMail(restrictedMailId: ID) {
   return callAPI({
     types: RestrictedMail.FETCH,
     endpoint: `/restricted-mail/${restrictedMailId}/`,
@@ -15,9 +16,8 @@ export function fetchRestrictedMail(restrictedMailId: EntityID): Thunk<any> {
     propagateError: true,
   });
 }
-export function createRestrictedMail(
-  restrictedMail: RestrictedMailEntity
-): Thunk<any> {
+
+export function createRestrictedMail(restrictedMail: RestrictedMailEntity) {
   return callAPI({
     types: RestrictedMail.CREATE,
     endpoint: '/restricted-mail/',
@@ -29,6 +29,7 @@ export function createRestrictedMail(
     },
   });
 }
+
 export function fetch({
   next,
 }: {

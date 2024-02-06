@@ -1,23 +1,18 @@
+import { Card, Flex, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
-import Card from 'app/components/Card';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  type ConfirmStudentAuthResponse,
+  confirmStudentAuth,
+  startStudentAuth,
+  updateUser,
+} from 'app/actions/UserActions';
 import { Button } from 'app/components/Form';
-import { Container, Flex } from 'app/components/Layout';
-import Modal from 'app/components/Modal';
-import type { CurrentUser } from 'app/store/models/User';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch } from 'app/store/hooks';
 import styles from './UserConfirmation.css';
-
-type Props = {
-  startStudentAuth: () => Promise<void>;
-  confirmStudentAuth: (options: {
-    code: string;
-    state: string;
-  }) => Promise<void>;
-  updateUser: () => Promise<void>;
-  currentUser: CurrentUser;
-  isStudent: boolean;
-};
+import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
 
 const NotEligibleInfo = () => (
   <div className={styles.notEligibleInfo}>
@@ -44,59 +39,55 @@ const NotEligibleInfo = () => (
   </div>
 );
 
-const StudentConfirmation = ({
-  startStudentAuth,
-  confirmStudentAuth,
-  updateUser,
-  isStudent,
-  currentUser,
-}: Props) => {
-  const [authRes, setAuthRes] = useState();
+const StudentConfirmation = () => {
+  const [authRes, setAuthRes] = useState<ConfirmStudentAuthResponse>();
   const [showMemberModal, setShowMemberModal] = useState(false);
 
   const { search } = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { code, state } = qs.parse(search, { ignoreQueryPrefix: true });
 
+  const { currentUser } = useUserContext();
+
+  const dispatch = useAppDispatch();
+
   const performStudentAuth = async () => {
-    const auth_res = await startStudentAuth();
+    const auth_res = await dispatch(startStudentAuth());
     const auth_uri = auth_res.payload.url;
     window.location.href = auth_uri;
   };
 
   const setAbakusMember = async (member: boolean) => {
-    await updateUser(
-      { ...currentUser, isAbakusMember: member },
-      { noRedirect: true }
-    );
+    await dispatch(updateUser({ ...currentUser, isAbakusMember: member }));
     setShowMemberModal(false);
   };
 
   useEffect(() => {
-    const validateStudentAuth = async () => {
+    const validateStudentAuth = () => {
       if (code && state) {
-        try {
-          const res = await confirmStudentAuth({ code, state });
-          setAuthRes(res.payload);
-        } catch (e) {
-          setAuthRes(e.payload.response.jsonData);
-        }
-        history.replace({ search: '' });
+        dispatch(confirmStudentAuth(code, state))
+          .then((res) => {
+            setAuthRes(res.payload);
+          })
+          .catch((err: RejectedPromiseAction) => {
+            setAuthRes(err.payload.response.jsonData);
+          });
+        navigate({ search: '' }, { replace: true });
       }
     };
 
     validateStudentAuth();
-  }, [code, state, confirmStudentAuth, history]);
+  }, [code, state, navigate, dispatch]);
 
   useEffect(() => {
     authRes?.status === 'success' && setShowMemberModal(true);
   }, [authRes]);
 
   return (
-    <Container>
+    <>
       <h2>Verifiser studentstatus</h2>
 
-      {isStudent === null && (
+      {currentUser.isStudent === null && (
         <p>
           For å kunne bli medlem i Abakus og få mulighet til å delta på
           arrangementer, få tilgang til bilder og interessegrupper og mer må du
@@ -107,8 +98,8 @@ const StudentConfirmation = ({
         </p>
       )}
 
-      {isStudent !== null &&
-        (isStudent ? (
+      {currentUser.isStudent !== null &&
+        (currentUser.isStudent ? (
           <Card severity="info">
             <Card.Header>Du er verifisert som student</Card.Header>
             <p className={styles.infoText}>
@@ -165,7 +156,7 @@ const StudentConfirmation = ({
       <Button success onClick={() => performStudentAuth()}>
         Verifiser med FEIDE
       </Button>
-      {isStudent !== null && (
+      {currentUser.isStudent !== null && (
         <p className={styles.infoText}>
           Du har allerede verifisert din status. Dersom du har byttet studie og
           ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og vi vil
@@ -216,7 +207,7 @@ const StudentConfirmation = ({
           </Button>
         </Flex>
       </Modal>
-    </Container>
+    </>
   );
 };
 

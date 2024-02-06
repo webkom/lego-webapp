@@ -1,13 +1,12 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Icon from 'app/components/Icon';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type { CompanyEntity } from 'app/reducers/companies';
 import { indexToSemester } from '../utils';
 import CompanySingleRow from './CompanySingleRow';
 import styles from './bdb.css';
+import type { CompanyEntity } from 'app/reducers/companies';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 type Props = {
   companies: Array<CompanyEntity>;
@@ -20,7 +19,7 @@ type Props = {
     arg0: number,
     arg1: number,
     arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactedStatus>
+    arg3: Array<CompanySemesterContactStatus>
   ) => Promise<any> | null | undefined;
 };
 export default class CompanyList extends Component<Props> {

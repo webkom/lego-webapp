@@ -1,5 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
 import styles from './ReactionPickerCategory.css';
 
 type Props = {

@@ -1,34 +1,12 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import AnnouncementsRoute from './AnnouncementsRoute';
+import AnnouncementsList from './components/AnnouncementsList';
 
-const announcementsRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={AnnouncementsRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const AnnouncementsRoute = () => (
+  <Routes>
+    <Route index element={<AnnouncementsList />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function Announcements() {
-  return <Route path="/announcements" component={announcementsRoute} />;
-}
+export default AnnouncementsRoute;

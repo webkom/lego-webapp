@@ -1,8 +1,8 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import type { EventRegistration } from 'app/models';
 import styles from './Registrations.css';
+import type { EventRegistration } from 'app/models';
 
 type RegistrationProps = {
   registration: EventRegistration;

@@ -2,6 +2,13 @@ import qs from 'qs';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
+import {
+  COLLABORATION_TYPES,
+  EVENTS,
+  SURVEY_OFFERS,
+  OTHER_OFFERS,
+  TARGET_GRADES,
+} from './components/Translations';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { ReactNode } from 'react';
 
@@ -17,6 +24,7 @@ export const sortSemesterChronologically = (
     ? Number(a.year) - Number(b.year)
     : semesterCodeToPriority[a.semester] - semesterCodeToPriority[b.semester];
 };
+
 export const SemesterNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab
     title={title}
@@ -29,16 +37,52 @@ export const SemesterNavigation = ({ title }: { title: ReactNode }) => (
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
-export const SEMESTER_TRANSLATION = {
-  spring: {
-    norwegian: 'Vår',
-    english: 'Spring',
-  },
-  autumn: {
-    norwegian: 'Høst',
-    english: 'Autumn',
-  },
+
+export const PARTICIPANT_RANGE_TYPES = {
+  first: '10-30',
+  second: '30-60',
+  third: '60-100',
+  fourth: '100+',
 };
+
+export const PARTICIPANT_RANGE_MAP = {
+  first: [10, 40],
+  second: [30, 60],
+  third: [60, 100],
+  fourth: [100, null],
+};
+
+export const EVENT_TYPE_OPTIONS = [
+  { value: '', label: 'Vis alle arrangementstyper' },
+  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
+  { value: 'course', label: 'Kurs' },
+  { value: 'breakfast_talk', label: 'Frokostforedrag' },
+  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
+  { value: 'bedex', label: 'BedEx' },
+  { value: 'digital_presentation', label: 'Digital presentasjon' },
+  { value: 'other', label: 'Alternativt arrangement' },
+  { value: 'sponsor', label: 'Sponser' },
+  { value: 'start_up', label: 'Start-up kveld' },
+  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
+];
+
+export const eventToString = (event) =>
+  Object.keys(EVENTS)[Number(event.charAt(event.length - 2))];
+
+export const surveyOffersToString = (offer) =>
+  Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
+
+export const otherOffersToString = (offer) =>
+  Object.keys(OTHER_OFFERS)[Number(offer.charAt(offer.length - 2))];
+
+export const collaborationToString = (collab) =>
+  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
+
+export const targetGradeToString = (targetGrade) =>
+  Object.keys(TARGET_GRADES)[
+    Number(targetGrade.charAt(targetGrade.length - 2))
+  ];
+
 export const getCsvUrl = (
   year: number | string,
   semester: string,
@@ -49,6 +93,17 @@ export const getCsvUrl = (
     semester,
     event,
   })}`;
+
+export const SEMESTER_TRANSLATION = {
+  spring: {
+    norwegian: 'Vår',
+    english: 'Spring',
+  },
+  autumn: {
+    norwegian: 'Høst',
+    english: 'Autumn',
+  },
+};
 
 export const semesterToText = ({
   semester,
@@ -155,9 +210,9 @@ export const interestText = {
   },
   bedexDescription: {
     norwegian:
-      'BedEx er Abakus sin bedriftsekskursjon til Oslo for studenter i 4. og 5. klasse. I løpet av 3 dager i Oslo får dere besøke 6 spennende bedrifter som tar dere imot i sine kontorlokaler. Her vil dere gjennom opplegg fra bedriften og møte med de ansatte få et ekstra godt innblikk i hva bedriften driver med, og hvordan de jobber. BedEx-teamet bestiller felles flytur fra Trondheim til Oslo på morgenen onsdag 07. september, og hotell til og med lørdag 10. september. Hjemreisen bestiller hver enkelt deltaker selv, slik at de som vil besøke familie i nærheten eller ta en langhelg i Oslo har muligheten til dette.',
+      'BedEx er Abakus sin bedriftsekskursjon til Oslo, spesialtilrettelagt for studenter i 4. og 5. klasse. Gjennom et firedagers opphold i Oslo, får studentene muligheten til å besøke 6 fremstående bedrifter. Disse bedriftene ønsker studentene velkommen i sine lokaler, hvor de gjennom nøye planlagte aktiviteter og direkte dialog med ansatte, tilbyr dybdeinnsikt i både sine operasjoner og arbeidskultur. BedEx-teamet organiserer en gruppeflyvning fra Trondheim til Oslo på formiddagen tirsdag 10. september, samt hotellopphold frem til og med fredag 13. september. Returreisen står hver student fritt til å arrangere selv, noe som gir rom for de som ønsker å tilbringe ekstra tid med familie i området eller nyte en forlenget helg i Oslo.',
     english:
-      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. Over the course of 3 days in Oslo, you will visit 6 exciting companies that will welcome you to their office space. Through activities arranged by the companies and meetings with their employees, you will gain a deeper insight into what the company does and how they operate. The BedEx team will book a shared flight from Trondheim to Oslo on the morning of Wednesday, September 7th, as well as hotel accommodations until Saturday, September 10th. Each participant is responsible for booking their own return travel, giving those who wish to visit family in the area or spend an extended weekend in Oslo the opportunity to do so.",
+      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo.",
   },
   otherEventDescription: {
     norwegian:

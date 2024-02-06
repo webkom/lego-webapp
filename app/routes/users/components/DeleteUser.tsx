@@ -1,20 +1,34 @@
 import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import { Field } from 'redux-form';
-import { TextInput, Form, legoForm } from 'app/components/Form';
-import type { UserEntity } from 'app/reducers/users';
+import { Field } from 'react-final-form';
+import { useNavigate } from 'react-router-dom';
+import { deleteUser } from 'app/actions/UserActions';
+import { TextInput, Form, LegoFinalForm } from 'app/components/Form';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
-import type { FormProps } from 'redux-form';
 
-type Props = FormProps & {
-  push: (arg0: string) => void;
-  deleteUser: (arg0: string) => Promise<void>;
-  user: UserEntity;
+type FormValues = {
+  password: string;
 };
 
-const DeleteUser = ({ handleSubmit, invalid, pristine, submitting }: Props) => {
-  const disabledButton = invalid || pristine || submitting;
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
+const validate = createValidator({
+  password: [required()],
+});
+
+const DeleteUser = () => {
   const [show, setShow] = useState(false);
+
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = (data: { password: string }) =>
+    dispatch(deleteUser(data.password)).then(() => {
+      navigate('/');
+    });
+
   return (
     <>
       {!show && (
@@ -25,31 +39,26 @@ const DeleteUser = ({ handleSubmit, invalid, pristine, submitting }: Props) => {
       {show && (
         <>
           <Button onClick={() => setShow(false)}>Avbryt</Button>
-          <h3> Skriv inn passordet ditt: </h3>
-          <Form onSubmit={handleSubmit}>
-            <Field
-              label="Nåværende passord"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              component={TextInput.Field}
-            />
-            <Button danger disabled={disabledButton} submit>
-              Slett bruker
-            </Button>
-          </Form>
+          <h3>Skriv inn passordet ditt:</h3>
+
+          <TypedLegoForm onSubmit={onSubmit} validate={validate}>
+            {({ handleSubmit }) => (
+              <Form onSubmit={handleSubmit}>
+                <Field
+                  label="Nåværende passord"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  component={TextInput.Field}
+                />
+                <SubmitButton danger>Slett bruker</SubmitButton>
+              </Form>
+            )}
+          </TypedLegoForm>
         </>
       )}
     </>
   );
 };
 
-const validate = createValidator({
-  password: [required()],
-});
-export default legoForm({
-  form: 'deleteUser',
-  validate,
-  onSubmit: (data, dispatch, { deleteUser, push }: Props) =>
-    deleteUser(data.password).then(() => push('/')),
-})(DeleteUser);
+export default DeleteUser;

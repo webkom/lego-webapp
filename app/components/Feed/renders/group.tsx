@@ -1,5 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
 import DisplayContent from 'app/components/DisplayContent';
-import Icon from 'app/components/Icon';
 import { GroupType } from 'app/models';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity, Activity, TagInfo } from '../types';

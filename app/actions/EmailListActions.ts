@@ -1,10 +1,10 @@
 import callAPI from 'app/actions/callAPI';
 import { emailListSchema } from 'app/reducers';
-import type { EmailListEntity } from 'app/reducers/emailLists';
-import type { EntityID, Thunk } from 'app/types';
 import { EmailList } from './ActionTypes';
+import type { EmailListEntity } from 'app/reducers/emailLists';
+import type { ID } from 'app/store/models';
 
-export function fetchEmailList(emailListId: EntityID): Thunk<any> {
+export function fetchEmailList(emailListId: ID) {
   return callAPI({
     types: EmailList.FETCH,
     endpoint: `/email-lists/${emailListId}/`,
@@ -15,7 +15,8 @@ export function fetchEmailList(emailListId: EntityID): Thunk<any> {
     propagateError: true,
   });
 }
-export function createEmailList(emailList: EmailListEntity): Thunk<any> {
+
+export function createEmailList(emailList: EmailListEntity) {
   return callAPI({
     types: EmailList.CREATE,
     endpoint: '/email-lists/',
@@ -27,7 +28,8 @@ export function createEmailList(emailList: EmailListEntity): Thunk<any> {
     },
   });
 }
-export function editEmailList(emailList: EmailListEntity): Thunk<any> {
+
+export function editEmailList(emailList: EmailListEntity) {
   return callAPI({
     types: EmailList.EDIT,
     endpoint: `/email-lists/${emailList.id}/`,
@@ -39,13 +41,14 @@ export function editEmailList(emailList: EmailListEntity): Thunk<any> {
     },
   });
 }
+
 export function fetch({
   next,
   query,
 }: {
   next?: boolean;
   query?: Record<string, string | number>;
-} = {}): Thunk<any> {
+} = {}) {
   return callAPI({
     types: EmailList.FETCH,
     endpoint: '/email-lists/',

@@ -48,6 +48,10 @@ const getFieldErrorArray = async <T>(
   ).filter(([, fieldErrors]) => fieldErrors.length);
 };
 
+/**
+ * @deprecated
+ * use createValidator (with async=true) instead
+ */
 export const createAsyncValidator = <T>(
   fieldValidators: FieldValidators<T>
 ) => {

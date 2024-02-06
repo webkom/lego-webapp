@@ -55,7 +55,7 @@
 }
 
 .iconSelected {
-  color: var(--color-green-6);
+  color: var(--success-color);
 }
 
 .createState {
@@ -88,16 +88,4 @@
   & h1 {
     margin-bottom: 0;
   }
-}
-
-.selectedElements {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Required for migrating react-collapse v4 -> v5 */
-/* stylelint-disable-next-line selector-class-pattern */
-:global(.ReactCollapse--collapse) {
-  transition: height var(--easing-medium);
 }

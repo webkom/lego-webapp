@@ -1,30 +1,49 @@
-import { NavLink } from 'react-router-dom';
+import cx from 'classnames';
+import { NavLink, useLocation } from 'react-router-dom';
 import styles from './NavigationLink.css';
-import type { ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
 
 type Props = {
   to: string;
-  onClick?: (e: Event) => void;
+  additionalActivePaths?: string[];
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   children?: ReactNode;
 };
 
+/*
+ * A NavLink wrapper which handles query params and multiple active paths.
+ *
+ * NOTICE: Preferably use the NavLink component from `react-router-dom` directly if possible.
+ */
 const NavigationLink = (props: Props) => {
-  // Custom isActive function as NavLink does not compare query params by default
-  const isActive = (match, location) => {
-    const regex = /\/+$/i; // Regex to remove trailing / for comparison
+  const location = useLocation();
 
-    const comparePath = location.pathname + location.search;
-    return props.to.replace(regex, '') === comparePath.replace(regex, '');
+  // Custom isActive function to handle query params and additional active paths
+  const isActive = () => {
+    const regex = /\/+$/i; // Regex to remove trailing / for comparison
+    const currentPath = location.pathname + location.search;
+    const normalizedCurrentPath = currentPath.replace(regex, '');
+
+    if (normalizedCurrentPath === props.to.replace(regex, '')) {
+      return true;
+    }
+
+    if (props.additionalActivePaths) {
+      return props.additionalActivePaths.some(
+        (additionalPath) =>
+          additionalPath.replace(regex, '') === normalizedCurrentPath
+      );
+    }
+
+    return false;
   };
 
   return (
     <NavLink
-      exact
-      isActive={isActive}
+      end
       to={props.to}
       onClick={props.onClick}
-      className={styles.link}
-      activeClassName={styles.active}
+      className={cx(isActive() ? styles.active : '', styles.link)}
     >
       {props.children}
     </NavLink>

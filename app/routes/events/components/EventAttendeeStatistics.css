@@ -1,3 +1,5 @@
+@import url('~app/styles/variables.css');
+
 .sectionDividerTitle {
   margin-top: 1em;
   margin-bottom: 0;
@@ -6,29 +8,6 @@
 .sectionDividerDescription {
   color: var(--secondary-font-color);
   margin-bottom: 1em;
-}
-
-.metrics {
-  height: 80px;
-  line-height: 1.3;
-  margin-bottom: 1rem;
-}
-
-.metricHeader {
-  font-weight: 500;
-  text-transform: uppercase;
-  color: var(--secondary-font-color);
-}
-
-.metricNumber {
-  font-size: var(--font-size-xl);
-  font-weight: 500;
-}
-
-.metricDivider {
-  width: 2px;
-  height: 100%;
-  background-color: var(--border-gray);
 }
 
 .noRegistrationsText {
@@ -42,8 +21,20 @@
   grid-template-columns: 1fr 1fr;
   gap: 1em;
   padding: 6px;
+
+  @media (--mobile-device) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .graphCard {
+  margin-top: 1em;
+}
+
+.filterContainer {
+  margin: 1em 0;
+}
+
+.filterContainer > label {
   margin-top: 1em;
 }

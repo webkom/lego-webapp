@@ -1,13 +1,12 @@
 import { Component } from 'react';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
 import {
-  selectColorCode,
+  getStatusColor,
+  getContactStatuses,
   selectMostProminentStatus,
-  getContactedStatuses,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
-import styles from './bdb.css';
+import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 type Props = {
   semesterStatus: BaseSemesterStatusEntity;
@@ -15,7 +14,7 @@ type Props = {
     arg0: number,
     arg1: number,
     arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactedStatus>
+    arg3: Array<CompanySemesterContactStatus>
   ) => any;
   companyId: number;
   semIndex: number;
@@ -32,25 +31,21 @@ export default class SemesterStatus extends Component<Props, State> {
     const { semesterStatus, companyId, semIndex } = this.props;
     return (
       <td
-        className={
-          styles[
-            selectColorCode(
-              selectMostProminentStatus(semesterStatus.contactedStatus)
-            )
-          ]
-        }
         style={{
           padding: 0,
+          backgroundColor: getStatusColor(
+            selectMostProminentStatus(semesterStatus.contactedStatus)
+          ),
         }}
       >
         <SemesterStatusContent
           semesterStatus={semesterStatus}
-          editFunction={(statusString) =>
+          editFunction={(status) =>
             this.props.editChangedStatuses(
               companyId,
               semIndex,
               semesterStatus.id,
-              getContactedStatuses(semesterStatus.contactedStatus, statusString)
+              getContactStatuses(semesterStatus.contactedStatus, status)
             )
           }
         />

@@ -1,28 +1,19 @@
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
+import { selectEmojis } from 'app/reducers/emojis';
+import { useAppSelector } from 'app/store/hooks';
 import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
-  addReaction: (args: {
-    emoji: string;
-    contentTarget: ContentTarget;
-    unicodeString: string;
-  }) => Promise<void>;
-  deleteReaction: (args: {
-    reactionId: ID;
-    contentTarget: ContentTarget;
-  }) => Promise<void>;
-  fetchEmojis: () => Promise<void>;
-  fetchingEmojis: boolean;
-  emojis: Emoji[];
   parentEntity: {
     contentTarget: ContentTarget;
     reactionsGrouped?: ReactionsGrouped[];
+    reactions?: { author: { fullName: string }; emoji: string }[];
   };
-  loggedIn: boolean;
+  showPeople?: boolean;
 };
 
 export type EmojiWithReactionData = Emoji & {
@@ -30,16 +21,10 @@ export type EmojiWithReactionData = Emoji & {
   reactionId: ID;
 };
 
-const LegoReactions = (props: Props) => {
-  const {
-    addReaction,
-    deleteReaction,
-    emojis,
-    fetchEmojis,
-    fetchingEmojis,
-    parentEntity,
-    loggedIn,
-  } = props;
+const LegoReactions = ({ parentEntity, showPeople }: Props) => {
+  const emojis = useAppSelector(selectEmojis);
+  const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
+
   let mappedEmojis: EmojiWithReactionData[] = [];
 
   if (!fetchingEmojis) {
@@ -58,32 +43,27 @@ const LegoReactions = (props: Props) => {
     });
   }
 
+  const usersByReaction = {};
+
+  if (parentEntity.reactions) {
+    for (const reaction of parentEntity.reactions) {
+      if (!usersByReaction[reaction.emoji]) {
+        usersByReaction[reaction.emoji] = [];
+      }
+      usersByReaction[reaction.emoji].push(reaction.author);
+    }
+  }
+
   return (
-    <Reactions
-      emojis={mappedEmojis}
-      fetchEmojis={fetchEmojis}
-      fetchingEmojis={fetchingEmojis}
-      addReaction={addReaction}
-      deleteReaction={deleteReaction}
-      contentTarget={parentEntity.contentTarget}
-      loggedIn={loggedIn}
-    >
-      {parentEntity.reactionsGrouped.map((reaction) => {
-        return (
-          <Reaction
-            key={`reaction-${reaction.emoji}`}
-            emoji={reaction.emoji}
-            count={reaction.count}
-            unicodeString={reaction.unicodeString}
-            reactionId={reaction.reactionId}
-            hasReacted={reaction.hasReacted}
-            canReact={loggedIn}
-            addReaction={addReaction}
-            deleteReaction={deleteReaction}
-            contentTarget={parentEntity.contentTarget}
-          />
-        );
-      })}
+    <Reactions emojis={mappedEmojis} contentTarget={parentEntity.contentTarget}>
+      {parentEntity.reactionsGrouped?.map((reaction) => (
+        <Reaction
+          key={`reaction-${reaction.emoji}`}
+          reaction={{ ...reaction, users: usersByReaction[reaction.emoji] }}
+          contentTarget={parentEntity.contentTarget}
+          showPeople={showPeople}
+        />
+      ))}
     </Reactions>
   );
 };

@@ -1,3 +1,4 @@
+import type { EventType } from './store/models/Event';
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
@@ -7,23 +8,19 @@ import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
 export type ID = number;
 export type Dateish = Moment | Date | string;
-export type ActionGrant = Array<string>;
+export type ActionGrant = (
+  | 'create'
+  | 'edit'
+  | 'delete'
+  | 'list'
+  | 'view'
+  | string
+)[];
 export type IcalToken = string;
 export enum EventTime {
   activate = 'activationTime',
   start = 'startTime',
 }
-export type EventType =
-  | 'company_presentation'
-  | 'alternative_presentation'
-  | 'lunch_presentation'
-  | 'course'
-  | 'breakfast_talk'
-  | 'kid_event'
-  | 'party'
-  | 'social'
-  | 'other'
-  | 'event';
 type SelectInput = {
   label: string;
   value: string;
@@ -113,15 +110,6 @@ export type User = {
   linkedinId?: string;
 };
 
-export type Penalty = {
-  id: ID;
-  createdAt: Dateish;
-  user: ID;
-  reason: string;
-  weight: number;
-  sourceEvent: ID;
-  exactExpiration: Dateish;
-};
 export type Tags = string;
 
 export enum GroupType {
@@ -281,6 +269,7 @@ export type Event = EventBase & {
   isUsersUpcoming?: boolean;
   documentType?: 'event';
   responsibleUsers: ID[];
+  isForeignLanguage: boolean;
 };
 
 type EventTransformPool = EventPoolBase & {
@@ -288,7 +277,6 @@ type EventTransformPool = EventPoolBase & {
 };
 
 export type TransformEvent = EventBase & {
-  addFee: boolean;
   pools: Array<EventTransformPool>;
   company: SelectInput;
   responsibleGroup: SelectInput;
@@ -298,11 +286,8 @@ export type TransformEvent = EventBase & {
   useMazemap: boolean;
   hasFeedbackQuestion: boolean;
   responsibleUsers: DetailedUser[];
+  isForeignLanguage: boolean;
 };
-
-export type Feed = Record<string, any>;
-
-export type FeedItem = Record<string, any>;
 
 export type Workplace = {
   town: string;
@@ -314,17 +299,6 @@ export type Joblisting = {
   toYear: number;
   workplaces: Array<Workplace>;
 };
-
-export type CompanySemesterContactedStatus =
-  | 'company_presentation'
-  | 'course'
-  | 'breakfast_talk'
-  | 'lunch_presentation'
-  | 'interested'
-  | 'bedex'
-  | 'not_interested'
-  | 'contacted'
-  | 'not_contacted';
 
 export type Meeting = {
   id: ID;
@@ -342,14 +316,6 @@ export type Meeting = {
   contentTarget?: string;
   actionGrant?: ActionGrant;
   reactionsGrouped?: ReactionsGrouped;
-};
-
-export type AddPenalty = {
-  id: ID;
-  user: ID;
-  reason: string;
-  weight: number;
-  sourceEvent: ID;
 };
 
 export type FollowerItem = {

@@ -1,36 +1,46 @@
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { get } from 'lodash';
-import type { addToast } from 'app/actions/ToastActions';
+import qs from 'qs';
+import { useLocation, useParams } from 'react-router-dom';
+import { markUsernamePresent } from 'app/actions/EventActions';
+import { autocomplete } from 'app/actions/SearchActions';
 import Validator from 'app/components/UserValidator';
-import type { EventRegistration, Event } from 'app/models';
-import type { UserSearchResult } from 'app/reducers/search';
+import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Abacard.css';
-import type { Location } from 'history';
 
-type Props = {
-  registered: Array<EventRegistration>;
-  event: Event;
-  clearSearch: () => void;
-  markUsernamePresent: (arg0: string, arg1: string) => Promise<any>;
-  location: Location;
-  onQueryChanged: (arg0: string) => void;
-  results: Array<UserSearchResult>;
-  searching: boolean;
-  addToast: typeof addToast;
-};
+const Abacard = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const { registered } = useAppSelector((state) =>
+    getRegistrationGroups(state, {
+      eventId,
+    })
+  );
 
-const Abacard = (props: Props) => {
-  const {
-    registered,
-    event: { id, registrationCount },
-    markUsernamePresent,
-    ...validatorProps
-  } = props;
+  const location = useLocation();
+  const query = qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchEventAbacard',
+    () => {
+      if (query && typeof query === 'string') {
+        return dispatch(autocomplete(query, ['users.user']));
+      }
+    },
+    [query]
+  );
+
   const registerCount = registered.filter(
     (reg) => reg.presence === 'PRESENT' && reg.pool
   ).length;
 
   const handleSelect = ({ username }: { username: string }) =>
-    markUsernamePresent(id.toString(), username).then(async (result) => {
+    dispatch(markUsernamePresent(eventId, username)).then((result) => {
       const payload = get(result, 'payload.response.jsonData');
       if (payload && payload.error) return result;
       return result;
@@ -38,13 +48,9 @@ const Abacard = (props: Props) => {
 
   return (
     <div>
-      <Validator
-        {...validatorProps}
-        handleSelect={handleSelect}
-        validateAbakusGroup={false}
-      />
+      <Validator handleSelect={handleSelect} validateAbakusGroup={false} />
       <div className={styles.counter}>
-        {registerCount}/{registrationCount} har møtt opp
+        {registerCount}/{event.registrationCount} har møtt opp
       </div>
     </div>
   );

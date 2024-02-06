@@ -1,44 +1,33 @@
-import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
-import { useState } from 'react';
-import { connect } from 'react-redux';
-import { autocomplete } from 'app/actions/SearchActions';
-import type { Allowed } from 'app/reducers/allowed';
+import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
+import { selectIsLoggedIn } from 'app/reducers/auth';
 import { selectAutocompleteRedux } from 'app/reducers/search';
-import type { RootState } from 'app/store/createRootReducer';
-import type { AppDispatch } from 'app/store/createStore';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
 import QuickLinks from './QuickLinks';
 import styles from './Search.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import { getAdminLinks, getExternalLinks, getRegularLinks } from './utils';
+import { getExternalLinks, getAdminLinks, getRegularLinks } from './utils';
 
-type StateProps = {
-  allowed: Allowed;
-};
-
-type DispatchProps = {
-  onQueryChanged: (value: string) => any;
-  openSearchRoute: (query: string) => any;
-  push: (arg0: string) => void;
-};
-
-type Props = StateProps &
-  DispatchProps & {
-    loggedIn: boolean;
-    results: Array<any>;
-    onCloseSearch: () => void;
-    searching: boolean;
-    username?: string;
-    updateUserTheme: (username: string, theme: string) => Promise<any>;
-  };
-
-const Search = (props: Props) => {
+const Search = () => {
+  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const results = useAppSelector(selectAutocompleteRedux);
+  const searching = useAppSelector((state) => state.search.searching);
+  const allowed = useAppSelector((state) => state.allowed);
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const { allowed, loggedIn, results, onCloseSearch, searching } = props;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const debouncedAutoComplete = useMemo(
+    () => debounce((query) => dispatch(autocomplete(query)), 300),
+    [dispatch]
+  );
+  const onCloseSearch = () => dispatch(toggleSearch());
 
   const handleKeyDown = (e) => {
     switch (e.which) {
@@ -49,20 +38,20 @@ const Search = (props: Props) => {
 
       case Keyboard.DOWN:
         e.preventDefault();
-        setSelectedIndex(Math.min(props.results.length, selectedIndex + 1));
+        setSelectedIndex(Math.min(results.length, selectedIndex + 1));
         break;
 
       case Keyboard.ENTER: {
         e.preventDefault();
-        const result = props.results[selectedIndex];
+        const result = results[selectedIndex];
 
         if (selectedIndex === -1 || !result) {
-          props.openSearchRoute(query);
+          navigate(`/search?q=${query}`);
         } else {
-          props.push(result.link);
+          result.link && navigate(result.link);
         }
 
-        props.onCloseSearch();
+        onCloseSearch();
         break;
       }
     }
@@ -70,7 +59,7 @@ const Search = (props: Props) => {
 
   const onQueryChanged = (query) => {
     setQuery(query);
-    props.onQueryChanged(query);
+    debouncedAutoComplete(query);
   };
 
   const regularLinks = getRegularLinks({
@@ -131,20 +120,4 @@ const Search = (props: Props) => {
   );
 };
 
-function mapStateToProps(state: RootState): StateProps {
-  return {
-    allowed: state.allowed,
-    results: selectAutocompleteRedux(state),
-    searching: state.search.searching,
-  };
-}
-
-function mapDispatchToProps(dispatch: AppDispatch): DispatchProps {
-  return {
-    onQueryChanged: debounce((query) => dispatch(autocomplete(query)), 300),
-    openSearchRoute: (query) => dispatch(push(`/search?q=${query}`)),
-    push: (uri) => dispatch(push(uri)),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default Search;

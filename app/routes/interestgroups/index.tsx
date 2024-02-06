@@ -1,68 +1,17 @@
-import { Route, Switch } from 'react-router-dom';
-import RouteWrapper from 'app/components/RouteWrapper';
-import { UserContext } from 'app/routes/app/AppRoute';
+import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import InterestGroupCreateRoute from './InterestGroupCreateRoute';
-import InterestGroupDetailRoute from './InterestGroupDetailRoute';
-import InterestGroupEditRoute from './InterestGroupEditRoute';
-import InterestGroupListRoute from './InterestGroupListRoute';
+import InterestGroupDetail from './components/InterestGroupDetail';
+import InterestGroupEdit from './components/InterestGroupEdit';
+import InterestGroupList from './components/InterestGroupList';
 
-const interestGroupRoute = ({
-  match,
-}: {
-  match: {
-    path: string;
-  };
-}) => (
-  <UserContext.Consumer>
-    {({ currentUser, loggedIn }) => (
-      <Switch>
-        <RouteWrapper
-          exact
-          path={`${match.path}`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupListRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/create`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupCreateRoute}
-        />
-        <RouteWrapper
-          exact
-          path={`${match.path}/:interestGroupId`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupDetailRoute}
-        />
-        <RouteWrapper
-          path={`${match.path}/:interestGroupId/edit`}
-          passedProps={{
-            currentUser,
-            loggedIn,
-          }}
-          Component={InterestGroupEditRoute}
-        />
-        <Route component={PageNotFound} />
-      </Switch>
-    )}
-  </UserContext.Consumer>
+const InterestGroupsRoute = () => (
+  <Routes>
+    <Route index element={<InterestGroupList />} />
+    <Route path="create" element={<InterestGroupEdit />} />
+    <Route path=":groupId" element={<InterestGroupDetail />} />
+    <Route path=":groupId/edit" element={<InterestGroupEdit />} />
+    <Route path="*" element={<PageNotFound />} />
+  </Routes>
 );
 
-export default function InterestGroups() {
-  return (
-    <Route
-      path={['/interest-groups', '/interestgroups']}
-      component={interestGroupRoute}
-    />
-  );
-}
+export default InterestGroupsRoute;

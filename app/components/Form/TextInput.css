@@ -1,5 +1,6 @@
 .input {
-  font-size: var(--font-size);
+  font-size: var(--font-size-sm);
+  font-family: Inter, sans-serif;
   border: 1.5px solid var(--border-gray);
   border-radius: var(--border-radius-md);
   color: var(--lego-font-color);
@@ -7,6 +8,7 @@
   overflow: hidden;
 
   &:focus-within {
+    transition: border-color var(--easing-medium);
     border-color: var(--color-gray-4);
   }
 }
@@ -31,12 +33,10 @@
   background-color: inherit;
   border: none;
   outline: none;
-  box-shadow: none;
   color: var(--lego-font-color);
 
   &:focus {
     border: none;
-    box-shadow: none;
   }
 
   &::placeholder {
@@ -59,8 +59,7 @@
 
 span.suffix {
   display: flex;
-  justify-content: center;
-  align-content: center;
+  place-content: center center;
   flex-direction: column;
   width: fit-content;
   height: inherit;

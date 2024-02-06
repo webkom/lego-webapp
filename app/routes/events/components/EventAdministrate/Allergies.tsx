@@ -1,55 +1,61 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
-import { Flex } from 'app/components/Layout';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { Link, useParams } from 'react-router-dom';
+import { fetchAllergies } from 'app/actions/EventActions';
 import Table from 'app/components/Table';
-import type { ActionGrant } from 'app/models';
+import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import HTTPError from 'app/routes/errors/HTTPError';
-import type { ID } from 'app/store/models';
-import type Comment from 'app/store/models/Comment';
-import type { AdministrateEvent } from 'app/store/models/Event';
-import type { DetailedRegistration } from 'app/store/models/Registration';
-import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
-
-export type Props = {
-  eventId: number;
-  event: AdministrateEvent;
-  comments: Comment[];
-  pools: Array<ID>;
-  loggedIn: boolean;
-  currentUser: CurrentUser;
-  error: Record<string, any>;
-  loading: boolean;
-  registered: Array<DetailedRegistration>;
-  unregistered: Array<DetailedRegistration>;
-  usersResult: Array<DetailedUser>;
-  actionGrant: ActionGrant;
-  onQueryChanged: (value: string) => any;
-  searching: boolean;
-};
+import type { ID } from 'app/store/models';
+import type { AdministrateEvent } from 'app/store/models/Event';
+import type { CurrentUser } from 'app/store/models/User';
 
 export const canSeeAllergies = (
-  currentUser: CurrentUser,
-  event: AdministrateEvent
+  currentUser?: CurrentUser,
+  event?: AdministrateEvent
 ) => {
+  if (!currentUser || !event) {
+    return false;
+  }
   return (
-    currentUser?.id === event.createdBy?.id ||
-    currentUser.abakusGroups.includes(event.responsibleGroup?.id as ID)
+    currentUser.id === event.createdBy?.id ||
+    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as ID)
   );
 };
 
-const Allergies = (props: Props) => {
-  if (props.loading) {
-    return <LoadingIndicator loading />;
-  }
-
-  if (props.error) {
-    return <div>{props.error.message}</div>;
-  }
-
-  const registeredAllergies = props.registered.filter((registration) => {
+const Allergies = () => {
+  const { eventId } = useParams<{ eventId: string }>();
+  const event = useAppSelector((state) =>
+    selectEventById(state, { eventId })
+  ) as AdministrateEvent;
+  const { registered } = useAppSelector((state) =>
+    getRegistrationGroups(state, {
+      eventId,
+    })
+  );
+  const registeredAllergies = registered.filter((registration) => {
     return registration?.user.allergies;
   });
+  const fetching = useAppSelector((state) => state.events.fetching);
+  const { currentUser } = useUserContext();
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchAllergies',
+    () => eventId && dispatch(fetchAllergies(eventId)),
+    [eventId]
+  );
+
+  if (!event?.id) {
+    return <LoadingIndicator loading={fetching} />;
+  }
+
+  if (!canSeeAllergies(currentUser, event)) {
+    return <HTTPError statusCode={403} />;
+  }
 
   const data = registeredAllergies
     .filter(
@@ -104,7 +110,7 @@ const Allergies = (props: Props) => {
     },
   ];
 
-  const columns = props.event.feedbackRequired
+  const columns = event.feedbackRequired
     ? initialColumns.concat({
         title: 'Tilbakemelding',
         dataIndex: 'feedback',
@@ -114,44 +120,31 @@ const Allergies = (props: Props) => {
       })
     : initialColumns;
 
-  const numOfAllergies = () => {
-    return props.registered.filter(
-      (registration) => registration.user.allergies?.length !== 0
-    ).length;
-  };
   return (
     <>
-      {canSeeAllergies(props.currentUser, props.event) ? (
-        <>
-          <Flex column>
-            {numOfAllergies() === 0 ? (
-              <p>Ingen påmeldte med allergier</p>
-            ) : (
-              <Table
-                hasMore={false}
-                columns={columns}
-                loading={props.loading}
-                data={registeredAllergies}
-              />
-            )}
-          </Flex>
-          <br></br>
-          <Flex justifyContent="space-between">
-            <Button>
-              <a
-                href={allergiesTXT}
-                download={
-                  'allergier_' + props.event.title.replaceAll(' ', '_') + '.txt'
-                }
-              >
-                Last ned påmeldte til tekstfil
-              </a>
-            </Button>
-          </Flex>
-        </>
-      ) : (
-        <HTTPError statusCode={403} location={location} />
-      )}
+      <Flex column>
+        {registeredAllergies.length === 0 && !fetching ? (
+          <p className="secondaryFontColor">Ingen påmeldte med allergier</p>
+        ) : (
+          <Table
+            hasMore={false}
+            columns={columns}
+            loading={fetching}
+            data={registeredAllergies}
+          />
+        )}
+      </Flex>
+      <br></br>
+      <Flex justifyContent="space-between">
+        <a
+          href={allergiesTXT}
+          download={'allergier_' + event.title.replaceAll(' ', '_') + '.txt'}
+        >
+          <Button>
+            <Icon name="download-outline" /> Last ned allergier som tekstfil
+          </Button>
+        </a>
+      </Flex>
     </>
   );
 };

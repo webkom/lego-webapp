@@ -1,19 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory, createMemoryHistory } from 'history';
 import { addToast } from 'app/actions/ToastActions';
-import type { RootState } from 'app/store/createRootReducer';
 import createRootReducer from 'app/store/createRootReducer';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
+import { isTruthy } from 'app/utils';
+import type { RootState } from 'app/store/createRootReducer';
 import type { GetCookie } from 'app/types';
-import type { History } from 'history';
-
-export const history: History = __CLIENT__
-  ? createBrowserHistory()
-  : createMemoryHistory();
 
 const createStore = (
   initialState: RootState | Record<string, never> = {},
@@ -22,12 +16,12 @@ const createStore = (
     getCookie,
   }: {
     Sentry?: any;
-    getCookie?: GetCookie;
-  } = {}
+    getCookie: GetCookie;
+  }
 ) => {
   const store = configureStore({
     preloadedState: initialState,
-    reducer: createRootReducer(history),
+    reducer: createRootReducer(),
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         thunk: {
@@ -42,7 +36,6 @@ const createStore = (
         .prepend(promiseMiddleware())
         .concat(
           [
-            routerMiddleware(history),
             createMessageMiddleware(
               (message) =>
                 addToast({
@@ -54,7 +47,7 @@ const createStore = (
             __CLIENT__ &&
               require('app/store/middleware/websocketMiddleware').default(),
             __CLIENT__ && __DEV__ && loggerMiddleware,
-          ].filter(Boolean)
+          ].filter(isTruthy)
         ),
   });
 
@@ -62,7 +55,7 @@ const createStore = (
     module.hot.accept('app/store/createRootReducer', () => {
       const nextReducer = require('app/store/createRootReducer').default;
 
-      store.replaceReducer(nextReducer(history));
+      store.replaceReducer(nextReducer());
     });
   }
 

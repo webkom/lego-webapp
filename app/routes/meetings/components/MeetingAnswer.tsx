@@ -1,15 +1,16 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { resetMeetingsToken } from 'app/actions/MeetingActions';
+import { useAppDispatch } from 'app/store/hooks';
+import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { MeetingsTokenResponse } from 'app/reducers/meetingsToken';
 import type { ID } from 'app/store/models';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { PublicUser } from 'app/store/models/User';
 
 type Props = {
   response: MeetingsTokenResponse;
   user: PublicUser;
   status: MeetingInvitationStatus;
-  resetMeetingsToken: () => void;
   meeting: ID;
 };
 
@@ -19,22 +20,18 @@ const statusTexts: { [value in MeetingInvitationStatus]: string } = {
   [MeetingInvitationStatus.NoAnswer]: 'har nå ikke svart på om de skal delta',
 };
 
-const MeetingAnswer = ({
-  response,
-  user,
-  meeting,
-  status,
-  resetMeetingsToken,
-}: Props) => {
-  const history = useHistory();
+const MeetingAnswer = ({ response, user, meeting, status }: Props) => {
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   if (!response) {
     return <LoadingIndicator loading />;
   }
 
   const handleLink = () => {
-    history.push(`/meetings/${meeting}`);
-    resetMeetingsToken();
+    navigate(`/meetings/${meeting}`);
+    dispatch(resetMeetingsToken());
   };
 
   if (response === 'SUCCESS') {

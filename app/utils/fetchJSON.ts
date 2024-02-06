@@ -11,9 +11,9 @@ export type HttpResponse<T> = {
 export type HttpRequestOptions = {
   method?: HttpMethod;
   headers: Record<string, string>;
-  body?: Record<string, any> | string;
+  body?: Record<string, unknown> | string;
   json?: boolean;
-  files?: Array<string>;
+  files?: (string | File)[];
   timeout?: number;
   retryDelays?: Array<number>;
 };
@@ -33,7 +33,7 @@ function parseResponseBody<T>(response: Response): Promise<HttpResponse<T>> {
   });
 }
 
-function rejectOnHttpErrors(response: HttpResponse<any>) {
+function rejectOnHttpErrors<T>(response: HttpResponse<T>) {
   if (response.ok) {
     return response;
   }
@@ -45,7 +45,7 @@ function rejectOnHttpErrors(response: HttpResponse<any>) {
 
 export function stringifyBody(
   requestOptions: HttpRequestOptions
-): string | null | undefined {
+): string | undefined {
   const { body, json } = requestOptions;
 
   if (typeof body === 'string') {
@@ -59,13 +59,12 @@ export function stringifyBody(
   return;
 }
 
-function makeFormData(files, rawBody) {
+function makeFormData(files: (string | File)[], rawBody: unknown) {
   const body = new FormData();
 
   if (rawBody && typeof rawBody === 'object') {
-    const object: Record<string, string> = rawBody;
-    Object.keys(object).forEach((prop) => {
-      body.append(prop, object[prop]);
+    Object.keys(rawBody).forEach((prop) => {
+      body.append(prop, rawBody[prop]);
     });
   }
 
@@ -90,7 +89,7 @@ export default function fetchJSON<T>(
   requestOptions: HttpRequestOptions = defaultOptions
 ): Promise<HttpResponse<T>> {
   const { files, retryDelays = [1000, 3000], timeout = 15000 } = requestOptions;
-  let body;
+  let body: FormData | string | undefined;
 
   if (files && files.length > 0) {
     body = makeFormData(files, requestOptions.body);
@@ -105,7 +104,7 @@ export default function fetchJSON<T>(
       body,
       headers: new Headers({
         Accept: 'application/json',
-        ...(requestOptions.headers as Record<string, any>),
+        ...requestOptions.headers,
       }),
     });
 
@@ -118,7 +117,7 @@ export default function fetchJSON<T>(
       return Promise.race([
         timeoutPromise(timeout),
         fetch(request)
-          .then(parseResponseBody)
+          .then(parseResponseBody<T>)
           .then(rejectOnHttpErrors)
           .then(resolve),
       ]).catch((error: HttpError) => {

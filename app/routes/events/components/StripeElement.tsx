@@ -8,19 +8,23 @@ import {
   CardNumberElement,
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { Component, useState, useEffect, useCallback } from 'react';
-import Card from 'app/components/Card';
+import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { useState, useEffect, useCallback } from 'react';
+import { payment } from 'app/actions/EventActions';
 import config from 'app/config';
-import type { EventRegistrationPaymentStatus, Event } from 'app/models';
-import type { CurrentUser } from 'app/store/models/User';
+import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import stripeStyles from './Stripe.css';
+import type { EventRegistrationPaymentStatus } from 'app/models';
+import type {
+  AuthUserDetailedEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
+import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {
-  event: Event;
+  event: AuthUserDetailedEvent | UserDetailedEvent;
   currentUser: CurrentUser;
-  createPaymentIntent: () => Promise<any>;
   paymentStatus: EventRegistrationPaymentStatus;
   clientSecret?: string;
   paymentError?: string;
@@ -40,12 +44,7 @@ type PaymentRequestFormProps = FormProps & {
   setLoading: (arg0: boolean) => void;
   setCanPaymentRequest: (arg0: boolean) => void;
 };
-type FormState = {
-  error?: string | null;
-  success?: boolean;
-  loading: boolean;
-  paymentRequest: boolean;
-};
+
 // See https://stripe.com/docs/js/appendix/payment_response#payment_response_object-complete
 // for the statuses
 type CompleteStatus =
@@ -78,23 +77,18 @@ const CardForm = (props: CardFormProps) => {
   const [paymentStarted, setPaymentStarted] = useState(false);
   const stripe = useStripe();
   const elements = useElements();
-  const {
-    clientSecret,
-    createPaymentIntent,
-    setError,
-    setSuccess,
-    setLoading,
-    currentUser,
-  } = props;
+  const { clientSecret, setError, setSuccess, setLoading, currentUser } = props;
 
   const theme = useTheme();
   const fontColor = theme === 'dark' ? '#f2f2f2' : '#0d0d0d';
+
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
 
     if (stripe) {
-      clientSecret || createPaymentIntent();
+      clientSecret || dispatch(payment(props.event.id));
       setLoading(true);
       setPaymentStarted(true);
     }
@@ -124,12 +118,18 @@ const CardForm = (props: CardFormProps) => {
     },
     [stripe, elements, currentUser, setError, setSuccess, setLoading]
   );
+
   useEffect(() => {
     if (clientSecret && paymentStarted) {
       completePayment(clientSecret);
     }
   }, [clientSecret, paymentStarted, completePayment]);
-  return stripe && elements ? (
+
+  if (!stripe || !elements) {
+    return <LoadingIndicator loading />;
+  }
+
+  return (
     <form
       style={{
         width: '100%',
@@ -166,8 +166,6 @@ const CardForm = (props: CardFormProps) => {
         </Button>
       </fieldset>
     </form>
-  ) : (
-    <LoadingIndicator loading />
   );
 };
 
@@ -177,7 +175,9 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
   const [canMakePayment, setCanMakePayment] = useState(false);
   const [paymentStarted, setPaymentStarted] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
+
   const stripe = useStripe();
+
   const {
     event,
     paymentError,
@@ -188,6 +188,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     setLoading,
     setCanPaymentRequest,
   } = props;
+
   const completePayment = useCallback(
     async (clientSecret) => {
       if (!complete || !paymentMethod) {
@@ -220,13 +221,14 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     },
     [stripe, complete, paymentMethod, setError, setSuccess, setLoading]
   );
+
   const completePaymentManual = useCallback(
     async (status: CompleteStatus) => {
       if (!complete) {
         return;
       }
 
-      complete(status);
+      setComplete(status);
 
       if (status === 'success') {
         setSuccess();
@@ -234,6 +236,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     },
     [complete, setSuccess]
   );
+
   useEffect(() => {
     if (!paymentRequest && stripe && event) {
       const paymentReq = stripe.paymentRequest({
@@ -272,23 +275,27 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     createPaymentIntent,
     setCanPaymentRequest,
   ]);
+
   useEffect(() => {
     if (clientSecret && completePayment && !paymentStarted) {
       setPaymentStarted(true);
       completePayment(clientSecret);
     }
   }, [clientSecret, completePayment, paymentStarted, completePaymentManual]);
+
   useEffect(() => {
     return () => {
       completePaymentManual('fail');
     };
   }, [completePaymentManual]);
+
   useEffect(() => {
     if (paymentError && setError && completePaymentManual) {
       completePaymentManual('fail');
       setError(paymentError);
     }
   }, [paymentError, completePaymentManual, setError]);
+
   return (
     <div
       style={{
@@ -323,81 +330,66 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
 const stripePromise = loadStripe(config.stripeKey);
 
-class PaymentForm extends Component<FormProps, FormState> {
-  state = {
-    loading: false,
-    paymentRequest: false,
-    error: null,
-    success: false,
-  };
-  setSuccess = () =>
-    this.setState({
-      success: true,
-    });
-  setError = (error: string) =>
-    this.setState({
-      error,
-    });
-  setLoading = (loading: boolean) => {
-    this.setState({
-      loading,
-    });
-    loading &&
-      this.setState({
-        error: null,
-      });
-  };
-  setPaymentRequest = (paymentRequest: boolean) =>
-    this.setState({
-      paymentRequest,
-    });
+const PaymentForm = (props: FormProps) => {
+  const [loading, _setLoading] = useState(false);
+  const [paymentRequest, setPaymentRequest] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
 
-  render() {
-    const { success, error, loading } = this.state;
-    return success ? (
+  const setLoading = (loading: boolean) => {
+    _setLoading(loading);
+    if (loading) {
+      setError(null);
+    }
+  };
+
+  if (success) {
+    return (
       <Card severity="success">
         {`Din betaling på ${
-          this.props.event.price
-            ? (this.props.event.price / 100).toFixed(2).replace('.', ',')
+          props.event.price
+            ? (props.event.price / 100).toFixed(2).replace('.', ',')
             : ''
         } kr ble godkjent.`}
       </Card>
-    ) : (
-      <>
-        {loading && <LoadingIndicator loading />}
-        {error && <div className={stripeStyles.error}>{error}</div>}
-        <div
-          style={{
-            display: loading ? 'none' : 'block',
-          }}
-        >
-          <Elements stripe={stripePromise}>
-            <PaymentRequestForm
-              {...this.props}
-              setSuccess={() => this.setSuccess()}
-              setError={(error) => this.setError(error)}
-              setLoading={(loading) => this.setLoading(loading)}
-              setCanPaymentRequest={(paymentRequest) =>
-                this.setPaymentRequest(paymentRequest)
-              }
-            />
-            <CardForm
-              {...this.props}
-              fontSize="18px"
-              setSuccess={() => this.setSuccess()}
-              setError={(error) => this.setError(error)}
-              setLoading={(loading) => this.setLoading(loading)}
-              ledgend={
-                this.state.paymentRequest
-                  ? 'Eller skriv inn kortinformasjon'
-                  : 'Skriv inn kortinformasjon'
-              }
-            />
-          </Elements>
-        </div>
-      </>
     );
   }
-}
+
+  return (
+    <>
+      {loading && <LoadingIndicator loading />}
+      {error && <div className={stripeStyles.error}>{error}</div>}
+      <div
+        style={{
+          display: loading ? 'none' : 'block',
+        }}
+      >
+        <Elements stripe={stripePromise}>
+          <PaymentRequestForm
+            {...props}
+            setSuccess={() => setSuccess(true)}
+            setError={(error) => setError(error)}
+            setLoading={(loading) => setLoading(loading)}
+            setCanPaymentRequest={(paymentRequest) =>
+              setPaymentRequest(paymentRequest)
+            }
+          />
+          <CardForm
+            {...props}
+            fontSize="18px"
+            setSuccess={() => setSuccess(true)}
+            setError={(error) => setError(error)}
+            setLoading={(loading) => setLoading(loading)}
+            ledgend={
+              paymentRequest
+                ? 'Eller skriv inn kortinformasjon'
+                : 'Skriv inn kortinformasjon'
+            }
+          />
+        </Elements>
+      </div>
+    </>
+  );
+};
 
 export default PaymentForm;

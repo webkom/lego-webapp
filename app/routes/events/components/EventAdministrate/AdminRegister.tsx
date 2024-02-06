@@ -1,5 +1,6 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
+import { useParams } from 'react-router-dom';
 import { adminRegister, waitinglistPoolId } from 'app/actions/EventActions';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
@@ -7,9 +8,8 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectPoolsForEvent } from 'app/reducers/events';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { DetailedEvent } from 'app/store/models/Event';
-import type { AutocompleteUser } from 'app/store/models/User';
 import { createValidator, required } from 'app/utils/validation';
+import type { AutocompleteUser } from 'app/store/models/User';
 import type { FormApi } from 'final-form';
 
 type FormValues = {
@@ -22,16 +22,14 @@ type FormValues = {
   adminRegistrationReason: string;
 };
 
-type Props = {
-  event: DetailedEvent;
-};
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
-const AdminRegister = (props: Props) => {
-  const { event } = props;
+const AdminRegister = () => {
+  const { eventId } = useParams<{ eventId: string }>();
   const fetching = useAppSelector((state) => state.events.fetching);
   const pools = useAppSelector((state) =>
     selectPoolsForEvent(state, {
-      eventId: event.id,
+      eventId: eventId,
     })
   );
 
@@ -41,7 +39,7 @@ const AdminRegister = (props: Props) => {
       values.users.map((user) =>
         dispatch(
           adminRegister(
-            event.id,
+            eventId,
             user.id,
             values.pool?.value,
             values.feedback,
@@ -50,12 +48,17 @@ const AdminRegister = (props: Props) => {
         )
       )
     );
-    form.restart();
+    form.reset();
   };
 
   return (
     <LoadingIndicator loading={fetching}>
-      <LegoFinalForm onSubmit={onSubmit} validate={validate} subscription={{}}>
+      <TypedLegoForm
+        onSubmit={onSubmit}
+        validate={validate}
+        validateOnSubmitOnly
+        subscription={{}}
+      >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
             <Field
@@ -63,7 +66,6 @@ const AdminRegister = (props: Props) => {
               name="users"
               component={SelectInput.AutocompleteField}
               filter={['users.user']}
-              placeholder="Brukere"
               label="Brukere"
               isMulti={true}
             />
@@ -71,7 +73,6 @@ const AdminRegister = (props: Props) => {
               required
               name="pool"
               component={SelectInput.Field}
-              placeholder="Pool"
               label="Pool"
               options={pools
                 .map((pool) => ({
@@ -102,7 +103,7 @@ const AdminRegister = (props: Props) => {
             <SubmitButton>Adminregistrer</SubmitButton>
           </form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
     </LoadingIndicator>
   );
 };
@@ -113,7 +114,7 @@ const validate = createValidator({
   users: [
     (value: FormValues['users']) => [
       value && value.length > 0,
-      'Må velge brukere',
+      'Du må velge brukere',
     ],
   ],
 });

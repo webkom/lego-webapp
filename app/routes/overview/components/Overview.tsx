@@ -1,18 +1,21 @@
+import { Container, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 // import Banner from 'app/components/Banner';
-import Icon from 'app/components/Icon';
-import { Container, Flex } from 'app/components/Layout';
+import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
+import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
-import type { Event, Readme } from 'app/models';
-import type { WithDocumentType } from 'app/reducers/frontpage';
-import { isArticle, isEvent } from 'app/reducers/frontpage';
-import type { PollEntity } from 'app/reducers/polls';
-import type { PublicArticle } from 'app/store/models/Article';
-import type { FrontpageEvent } from 'app/store/models/Event';
+import { isArticle, isEvent, selectFrontpage } from 'app/reducers/frontpage';
+import { selectPinnedPolls } from 'app/reducers/polls';
+import { selectRandomQuote } from 'app/reducers/quotes';
+import { useUserContext } from 'app/routes/app/AppRoute';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import ArticleItem from './ArticleItem';
 import CompactEvents from './CompactEvents';
 import EventItem from './EventItem';
@@ -20,18 +23,13 @@ import LatestReadme from './LatestReadme';
 import NextEvent from './NextEvent';
 import styles from './Overview.css';
 import Pinned from './Pinned';
+import PublicFrontpage from './PublicFrontpage';
 import { itemUrl, renderMeta } from './utils';
+import type { Event } from 'app/models';
+import type { WithDocumentType } from 'app/reducers/frontpage';
+import type { PublicArticle } from 'app/store/models/Article';
 
-type Props = {
-  frontpage: WithDocumentType<PublicArticle | FrontpageEvent>[];
-  fetchingFrontpage: boolean;
-  readmes: Readme[];
-  poll: PollEntity | null | undefined;
-  votePoll: () => Promise<void>;
-  loggedIn: boolean;
-};
-
-const Overview = (props: Props) => {
+const Overview = () => {
   const [eventsToShow, setEventsToShow] = useState(9);
   const [articlesToShow, setArticlesToShow] = useState(2);
 
@@ -40,8 +38,24 @@ const Overview = (props: Props) => {
     setArticlesToShow(articlesToShow + 2);
   };
 
-  const { loggedIn, frontpage, readmes, poll, votePoll, fetchingFrontpage } =
-    props;
+  const frontpage = useAppSelector(selectFrontpage);
+  const fetchingFrontpage = useAppSelector((state) => state.frontpage.fetching);
+  const readmes = useAppSelector((state) => state.readme);
+  const shouldFetchQuote = isEmpty(useAppSelector(selectRandomQuote));
+  const { loggedIn } = useUserContext();
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchIndex',
+    () =>
+      Promise.all([
+        loggedIn && shouldFetchQuote && dispatch(fetchRandomQuote()),
+        dispatch(fetchReadmes(loggedIn ? 4 : 2)),
+        dispatch(fetchData()),
+      ]),
+    [loggedIn, shouldFetchQuote]
+  );
 
   const events = useMemo(() => frontpage.filter(isEvent), [frontpage]);
 
@@ -109,8 +123,8 @@ const Overview = (props: Props) => {
         </Flex>
         <Flex column className={styles.rightColumn}>
           <NextEventSection events={events} />
-          <PollItem poll={poll} votePoll={votePoll} />
-          <QuoteItem loggedIn={loggedIn} />
+          <PollItem />
+          <QuoteItem />
           {readMe}
           <Weekly weeklyArticle={weeklyArticle} />
           <Articles articles={articlesShown} />
@@ -119,9 +133,9 @@ const Overview = (props: Props) => {
       <section className={styles.mobileContainer}>
         <CompactEvents events={events} />
         <NextEvent events={events} />
-        <PollItem poll={poll} votePoll={votePoll} />
-        <QuoteItem loggedIn={loggedIn} />
         {pinnedComponent}
+        <PollItem />
+        <QuoteItem />
         {readMe}
         <Weekly weeklyArticle={weeklyArticle} />
         <Articles articles={articlesShown} />
@@ -219,34 +233,32 @@ const NextEventSection = ({ events }: { events: Event[] }) => (
   </Flex>
 );
 
-const PollItem = ({
-  poll,
-  votePoll,
-}: {
-  poll: PollEntity;
-  votePoll: (pollId: number) => Promise<void>;
-}) => (
-  <Flex column>
-    {poll && (
-      <>
-        <Link to="/polls">
-          <h3 className="u-ui-heading">Avstemning</h3>
-        </Link>
+const PollItem = () => {
+  const poll = useAppSelector(selectPinnedPolls)[0];
 
-        <Poll poll={poll} truncate={3} handleVote={votePoll} />
-      </>
-    )}
-  </Flex>
-);
+  return (
+    <Flex column>
+      {poll && (
+        <>
+          <Link to="/polls">
+            <h3 className="u-ui-heading">Avstemning</h3>
+          </Link>
 
-const QuoteItem = ({ loggedIn }: { loggedIn: boolean }) => (
+          <Poll poll={poll} truncate={3} />
+        </>
+      )}
+    </Flex>
+  );
+};
+
+const QuoteItem = () => (
   <Flex column>
     <Link to="/quotes">
       <h3 className="u-ui-heading">Overhørt</h3>
     </Link>
 
-    <RandomQuote loggedIn={loggedIn} />
+    <RandomQuote />
   </Flex>
 );
 
-export default Overview;
+export default replaceUnlessLoggedIn(PublicFrontpage)(Overview);

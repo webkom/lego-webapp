@@ -12,26 +12,11 @@
   border-radius: var(--border-radius-md);
 }
 
-.inputWithWarning {
-  border: 1.5px solid var(--color-orange-6);
-  border-radius: var(--border-radius-md);
-}
-
 .fieldError {
   min-height: 35px;
   padding: 5px 10px;
   margin-top: 3px;
   background: var(--danger-color);
-  color: var(--color-absolute-white);
-  font-size: var(--font-size-sm);
-  border-radius: var(--border-radius-md);
-}
-
-.fieldWarning {
-  min-height: 35px;
-  padding: 5px 10px;
-  margin-top: 3px;
-  background: var(--color-orange-6);
   color: var(--color-absolute-white);
   font-size: var(--font-size-sm);
   border-radius: var(--border-radius-md);

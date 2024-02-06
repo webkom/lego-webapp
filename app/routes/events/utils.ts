@@ -1,92 +1,117 @@
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
 import config from 'app/config';
+import { EventType } from 'app/store/models/Event';
 import type {
-  TransformEvent,
   Event,
-  EventType,
-  AddPenalty,
+  TransformEvent,
   PhotoConsent,
   PhotoConsentDomain,
   EventSemester,
   Dateish,
   EventStatusType,
 } from 'app/models';
+import type Penalty from 'app/store/models/Penalty';
 import type { DetailedUser } from 'app/store/models/User';
 
-// Current eventTypes
-export const EVENT_CONSTANTS = {
-  company_presentation: 'Bedriftspresentasjon',
-  lunch_presentation: 'Lunsjpresentasjon',
-  alternative_presentation: 'Alternativ bedpres',
-  course: 'Kurs',
-  breakfast_talk: 'Frokostforedrag',
-  party: 'Fest',
-  social: 'Sosialt',
-  event: 'Arrangement',
-  kid_event: 'KiD-arrangement',
-  other: 'Annet',
-} as const;
+export type ConfigProperties = {
+  displayName: string;
+  color: string;
+  textColor: string;
+};
+
+export const EventTypeConfig: Record<EventType, ConfigProperties> = {
+  [EventType.COMPANY_PRESENTATION]: {
+    displayName: 'Bedriftspresentasjon',
+    color: '#A1C34A',
+    textColor: '#000',
+  },
+  [EventType.COURSE]: {
+    displayName: 'Kurs',
+    color: '#52B0EC',
+    textColor: '#000',
+  },
+  [EventType.PARTY]: {
+    displayName: 'Fest',
+    color: '#FCD748',
+    textColor: '#000',
+  },
+  [EventType.SOCIAL]: {
+    displayName: 'Sosialt',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
+  },
+  [EventType.BREAKFAST_TALK]: {
+    displayName: 'Frokostforedrag',
+    color: '#86D1D0',
+    textColor: '#000',
+  },
+  [EventType.LUNCH_PRESENTATION]: {
+    displayName: 'Lunsjpresentasjon',
+    color: '#A1C34A',
+    textColor: '#000',
+  },
+  [EventType.EVENT]: {
+    displayName: 'Arrangement',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
+  },
+  [EventType.ALTERNATIVE_PRESENTATION]: {
+    displayName: 'Alternativ bedpres',
+    color: '#8A2BE2',
+    textColor: '#FFF',
+  },
+  [EventType.KiD_EVENT]: {
+    displayName: 'KiD-arrangement',
+    color: 'var(--color-event-black)',
+    textColor: 'var(--color-white)',
+  },
+  [EventType.OTHER]: {
+    displayName: 'Annet',
+    color: 'var(--color-event-black)',
+    textColor: 'var(--color-white)',
+  },
+};
 
 // Returns the string representation of an EventType
-export const eventTypeToString = (eventType: EventType): string => {
-  return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
-};
-// Colors for different event types
-const COLOR_CONSTANTS: Record<EventType, string> = {
-  company_presentation: '#A1C34A',
-  lunch_presentation: '#A1C34A',
-  alternative_presentation: '#8A2BE2',
-  course: '#52B0EC',
-  breakfast_talk: '#86D1D0',
-  party: '#FCD748',
-  social: 'var(--color-event-red)',
-  event: 'var(--color-event-red)',
-  kid_event: 'var(--color-event-black)',
-  other: 'var(--color-event-black)',
-} as const;
-// Returns the color code of an EventType
-export const colorForEvent = (eventType: EventType) => {
-  return COLOR_CONSTANTS[eventType] || COLOR_CONSTANTS['other'];
+export const displayNameForEventType = (eventType: EventType) => {
+  return (
+    EventTypeConfig[eventType]?.displayName ||
+    EventTypeConfig[EventType.OTHER].displayName
+  );
 };
 
-// Hard-coded text colors for different event types
-const TEXT_COLOR_CONSTANTS: Record<EventType, string> = {
-  company_presentation: '#000',
-  lunch_presentation: '#000',
-  alternative_presentation: '#FFF',
-  course: '#000',
-  breakfast_talk: '#000',
-  party: '#000',
-  social: '#FFF',
-  event: '#FFF',
-  kid_event: 'var(--color-white)',
-  other: 'var(--color-white)',
-} as const;
+// Returns the color code of an EventType
+export const colorForEventType = (eventType: EventType) => {
+  return (
+    EventTypeConfig[eventType]?.color || EventTypeConfig[EventType.OTHER].color
+  );
+};
+
 // Returns a color that is appropriate to be used for text put on top of a background with the color code of an EventType
-export const textColorForEvent = (eventType: EventType) => {
-  return TEXT_COLOR_CONSTANTS[eventType] || TEXT_COLOR_CONSTANTS['other'];
+export const textColorForEventType = (eventType: EventType) => {
+  return (
+    EventTypeConfig[eventType]?.textColor ||
+    EventTypeConfig[EventType.OTHER].textColor
+  );
 };
 
 type Option<T = string, K = string> = { label: T; value: K };
 
 export type EditingEvent = Event & {
-  eventType: Option<
-    (typeof EVENT_CONSTANTS)[keyof typeof EVENT_CONSTANTS],
-    EventType
-  >;
+  eventType: EventType;
   company: Option;
   responsibleGroup: Option;
   isGroupOnly: boolean;
   mazemapPoi: Option<string, number>;
   useMazemap: boolean;
   eventStatusType: Option<string, EventStatusType>;
-  addFee: boolean;
   registrationDeadline: Dateish;
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
   authors: Option[];
   responsibleUsers: DetailedUser[];
+  saveToImageGallery: boolean;
 };
 
 // Event fields that should be created or updated based on the API.
@@ -129,36 +154,17 @@ const poolCreateAndUpdateFields = [
 
 /* Calculate the event price
  * @param isPriced: If the event is priced
- * @param addFee: If the event uses Stipe and needs a fee
  */
-const calculatePrice = (data) => {
-  if (data.isPriced) {
-    if (data.addFee) {
-      return addStripeFee(data.priceMember) * 100;
-    }
-
-    return data.priceMember * 100;
-  }
-
-  return 0;
-};
+const calculatePrice = (data) => (data.isPriced ? data.priceMember * 100 : 0);
 
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
-const calculateLocation = (data) => {
-  if (data.eventStatusType && data.eventStatusType.value === 'TBA')
-    return 'TBA';
-  if (data.useMazemap) return data.mazemapPoi.label;
-  return data.location;
-};
+const calculateLocation = (data) =>
+  data.useMazemap ? data.mazemapPoi.label : data.location;
 
 const calculateMazemapPoi = (data) => {
-  if (
-    data.eventStatusType?.value === 'TBA' ||
-    !data.useMazemap ||
-    data.mazemapPoi.value === ''
-  ) {
+  if (!data.useMazemap || data.mazemapPoi.value === '') {
     return null;
   }
 
@@ -252,6 +258,7 @@ export const transformEvent = (data: TransformEvent) => ({
   feedbackDescription:
     (data.hasFeedbackQuestion && data.feedbackDescription) || '',
   feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired,
+  isForeignLanguage: data.isForeignLanguage,
 });
 export const paymentPending = 'pending';
 export const paymentSuccess = 'succeeded';
@@ -268,8 +275,6 @@ const paymentSuccessMappings = {
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
 
-export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);
-
 export const registrationCloseTime = (event: Event) =>
   moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 
@@ -283,9 +288,9 @@ export const unregistrationIsClosed = (event: Event) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
 
-export const sumPenalties = (penalties: Array<AddPenalty>) =>
+export const sumPenalties = (penalties: Penalty[]) =>
   sumBy(penalties, 'weight');
-export const penaltyHours = (penalties: Array<AddPenalty>) => {
+export const penaltyHours = (penalties: Penalty[]) => {
   switch (sumPenalties(penalties)) {
     case 0:
       return 0;
@@ -364,3 +369,14 @@ export const toReadableSemester = (
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;
 };
+
+export const isTBA = (value) =>
+  value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
+
+export const containsAllergier = (value) =>
+  value && value.toLowerCase().indexOf('allergi') !== -1
+    ? `Matallergier/preferanser kan hentes fra adminsidene til arrangementet`
+    : undefined;
+
+export const tooLow = (value) =>
+  value && value <= 3 ? `Summen må være større enn 3 kr` : undefined;

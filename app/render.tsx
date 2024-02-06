@@ -1,41 +1,24 @@
 import { loadableReady } from '@loadable/component';
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import routes from 'app/routes';
-import type { Store } from 'app/store/createStore';
 import Root from './Root';
+import type { Store } from 'app/store/createStore';
 
 const renderApp = ({
   store,
-  history,
   isSSR,
 }: {
   store: Store;
-  history: any;
-  isSSR: boolean;
+  isSSR: boolean | undefined;
 }) => {
-  const rootElement: HTMLElement = document.getElementById('root');
+  const rootElement: HTMLElement = document.getElementById('root')!;
+
   loadableReady(() => {
+    const root = <Root store={store} />;
+
     if (isSSR) {
-      hydrateRoot(
-        rootElement,
-        <Root
-          {...{
-            store,
-            history,
-            routes,
-          }}
-        />
-      );
+      hydrateRoot(rootElement, root);
     } else {
-      createRoot(rootElement).render(
-        <Root
-          {...{
-            store,
-            history,
-            routes,
-          }}
-        />
-      );
+      createRoot(rootElement).render(root);
     }
   });
 };

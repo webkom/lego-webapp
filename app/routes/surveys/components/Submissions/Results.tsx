@@ -1,28 +1,32 @@
 import { produce } from 'immer';
-import Select from 'react-select';
+import { editSurvey } from 'app/actions/SurveyActions';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
-import { selectTheme, selectStyles } from 'app/components/Form/SelectInput';
+import SelectInput from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
-import Tag, { type TagColors } from 'app/components/Tags/Tag';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
+import AveragePill from 'app/routes/surveys/components/Submissions/AveragePill';
+import { useAppDispatch } from 'app/store/hooks';
 import {
-  QuestionTypes,
-  QuestionTypeValue,
-  QuestionTypeOption,
-} from '../../utils';
+  SurveyQuestionDisplayType,
+  SurveyQuestionType,
+} from 'app/store/models/SurveyQuestion';
+import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
 import styles from '../surveys.css';
+import type { DistributionDataPoint } from 'app/components/Chart/utils';
+import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { ID } from 'app/store/models';
+import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 
+export type GraphData = {
+  [questionId: ID]: DistributionDataPoint[];
+};
 type Props = {
-  survey: SurveyEntity;
-  graphData: Record<string, any>;
+  survey: SelectedSurvey;
+  graphData: GraphData;
   numberOfSubmissions: number;
-  generateTextAnswers: (arg0: QuestionEntity) => any;
-  editSurvey?: (arg0: Record<string, any>) => Promise<any>;
-  option: string;
-  value: string;
+  generateTextAnswers: (question: SurveyQuestion) => any;
 };
 type Info = {
   icon: string;
@@ -30,7 +34,7 @@ type Info = {
   meta: string;
 };
 type EventDataProps = {
-  info: Array<Info>;
+  info: Info[];
 };
 
 const EventData = ({ info }: EventDataProps) => {
@@ -47,14 +51,31 @@ const EventData = ({ info }: EventDataProps) => {
   ));
 };
 
+const graphOptions = [
+  {
+    value: SurveyQuestionDisplayType.PieChart,
+    label: 'Kakediagram',
+  },
+  {
+    value: SurveyQuestionDisplayType.BarChart,
+    label: 'Stolpediagram',
+  },
+];
+
+const graphTypeIcon: Record<SurveyQuestionDisplayType, string> = {
+  bar_chart: 'bar-chart',
+  pie_chart: 'pie-chart',
+};
+
 const Results = ({
   graphData,
   generateTextAnswers,
   survey,
   numberOfSubmissions,
-  editSurvey,
 }: Props) => {
-  const info = [
+  const dispatch = useAppDispatch();
+
+  const info: Info[] = [
     {
       icon: 'person',
       data: survey.event.registrationCount,
@@ -67,108 +88,50 @@ const Results = ({
     },
     {
       icon: 'list',
-      data: survey.event.waitingRegistrationCount,
+      data: survey.event.waitingRegistrationCount ?? 0,
       meta: 'På venteliste',
     },
     {
-      icon: 'chatboxes',
+      icon: 'chatbox-ellipses',
       data: numberOfSubmissions,
       meta: 'Har svart',
     },
   ];
-  const graphOptions = [
-    {
-      value: 'pie_chart',
-      label: 'Kakediagram',
-    },
-    {
-      value: 'bar_chart',
-      label: 'Stolpediagram',
-    },
-  ];
 
-  const switchGraph = (id, index, selectedType) => {
-    const questionToUpdate = survey.questions.find(
-      (question) => question.id === id
-    );
+  const switchGraph = survey.actionGrant.includes('edit')
+    ? (
+        id: ID,
+        selectedType: { value: SurveyQuestionDisplayType; label: string }
+      ) => {
+        const questionToUpdate = survey.questions.find(
+          (question) => question.id === id
+        );
 
-    if (
-      !questionToUpdate ||
-      questionToUpdate.displayType === selectedType.value
-    ) {
-      return;
-    }
+        if (
+          !questionToUpdate ||
+          questionToUpdate.displayType === selectedType.value
+        ) {
+          return;
+        }
 
-    const newQuestion = produce(questionToUpdate, (draft) => {
-      draft.displayType = selectedType.value;
-    });
-    const qIndex = survey.questions.indexOf(questionToUpdate);
-    const newQuestions = produce(survey.questions, (draft) => {
-      draft[qIndex] = newQuestion;
-    });
-    const newSurvey = { ...survey, questions: newQuestions };
-    editSurvey &&
-      editSurvey({ ...newSurvey, surveyId: survey.id, event: survey.event.id });
-  };
+        const newQuestion = produce(questionToUpdate, (draft) => {
+          draft.displayType = selectedType.value;
+        });
+        const qIndex = survey.questions.indexOf(questionToUpdate);
+        const newQuestions = produce(survey.questions, (draft) => {
+          draft[qIndex] = newQuestion;
+        });
+        const newSurvey = { ...survey, questions: newQuestions };
 
-  const getAverage = (data) => {
-    const [sum, numberOfAnswers] = data.reduce(
-      (accumulator, optionData) => {
-        const optionNumber = Number(optionData.option.match(/^\d+/)[0]);
-        return [
-          accumulator[0] + optionData.selections * optionNumber,
-          accumulator[1] + optionData.selections,
-        ];
-      },
-      [0, 0]
-    );
-    return Number((sum / numberOfAnswers).toFixed(2));
-  };
-
-  // Returns the lowest and highest number that an option starts with
-  const getMinMaxOption = (options) => {
-    return options.reduce(
-      (result, option) => {
-        const optionNumber = Number(option.optionText.match(/^\d+/)[0]);
-        return [
-          Math.min(result[0], optionNumber),
-          Math.max(result[1], optionNumber),
-        ];
-      },
-      [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
-    );
-  };
-
-  // Linear transform used to map the average from the interval of the alternatives to the interval of number of colors used for the pill
-  const mapValueToNewInterval = (value, start, end, newStart, newEnd) => {
-    return ((value - start) * (newEnd - newStart)) / (end - start) + newStart;
-  };
-
-  const averageTagColors: TagColors[] = ['red', 'orange', 'yellow', 'green'];
-
-  const averagePill = (options, data) => {
-    const average = getAverage(data);
-    const [optionMin, optionMax] = getMinMaxOption(options);
-    const mappedAverage = mapValueToNewInterval(
-      average,
-      optionMin,
-      optionMax,
-      0,
-      averageTagColors.length - 1
-    );
-
-    return (
-      <Tag
-        color={averageTagColors[Math.round(mappedAverage)]}
-        tag={Number.isNaN(average) ? '?' : String(average)}
-      />
-    );
-  };
-
-  const graphTypeToIcon = {
-    bar_chart: 'bar-chart',
-    pie_chart: 'pie-chart',
-  };
+        dispatch(
+          editSurvey({
+            ...newSurvey,
+            surveyId: survey.id,
+            event: survey.event.id,
+          })
+        );
+      }
+    : undefined;
 
   return (
     <div>
@@ -179,10 +142,10 @@ const Results = ({
         </div>
       </div>
       <ul className={styles.summary}>
-        {survey.questions.map((question, index) => {
-          const colorsToRemove = [];
+        {survey.questions.map((question) => {
+          const colorsToRemove: number[] = [];
           const pieData = graphData[question.id].filter((dataPoint, i) => {
-            if (dataPoint.selections === 0) {
+            if (dataPoint.count === 0) {
               colorsToRemove.push(i);
               return false;
             }
@@ -202,7 +165,7 @@ const Results = ({
           return (
             <li key={question.id}>
               <h3>{question.questionText}</h3>
-              {question.questionType === QuestionTypes('text') ? (
+              {question.questionType === SurveyQuestionType.TextField ? (
                 <ul className={styles.textAnswers}>
                   {generateTextAnswers(question)}
                 </ul>
@@ -218,13 +181,11 @@ const Results = ({
                         <DistributionPieChart
                           distributionData={pieData}
                           chartColors={chartColors}
-                          dataKey="selections"
                         />
                       ) : (
                         <DistributionBarChart
                           distributionData={pieData}
                           chartColors={chartColors}
-                          dataKey="selections"
                         />
                       )}
                       {questionIsNumeric && (
@@ -234,23 +195,18 @@ const Results = ({
                           }}
                         >
                           Gjennomsnittet er{' '}
-                          {averagePill(
-                            question.options,
-                            graphData[question.id]
-                          )}
+                          <AveragePill
+                            options={question.options}
+                            data={graphData[question.id]}
+                          />
                         </span>
                       )}
                     </div>
-                    <ChartLabel
-                      distributionData={graphData[question.id].map((data) => ({
-                        name: data.option,
-                        count: data.selections,
-                      }))}
-                    />
+                    <ChartLabel distributionData={graphData[question.id]} />
                   </div>
-                  {editSurvey && (
+                  {switchGraph && (
                     <div className={styles.selectGraphContainer}>
-                      <Select
+                      <SelectInput
                         className={styles.selectGraph}
                         value={{
                           value: question.displayType,
@@ -260,14 +216,14 @@ const Results = ({
                         name="displayType"
                         options={graphOptions}
                         onChange={(selectedType) =>
-                          switchGraph(question.id, index, selectedType)
+                          switchGraph(question.id, selectedType)
                         }
                         components={{
                           Option: (props: any) => {
                             const value = props.data.value;
                             return (
                               <QuestionTypeOption
-                                iconName={graphTypeToIcon[value]}
+                                iconName={graphTypeIcon[value]}
                                 {...props}
                               />
                             );
@@ -276,21 +232,14 @@ const Results = ({
                             const value = props.data.value;
                             return (
                               <QuestionTypeValue
-                                iconName={graphTypeToIcon[value]}
+                                iconName={graphTypeIcon[value]}
                                 {...props}
                               />
                             );
                           },
                         }}
                         isClearable={false}
-                        backspaceRemoves={false}
                         isSearchable={false}
-                        onBlur={() => null}
-                        style={{
-                          paddingTop: '7px',
-                        }}
-                        theme={selectTheme}
-                        styles={selectStyles}
                       />
                     </div>
                   )}

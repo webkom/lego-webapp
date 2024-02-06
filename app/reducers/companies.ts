@@ -1,21 +1,22 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
-import type { CompanySemesterContactedStatus, Semester } from 'app/models';
-import { mutateComments } from 'app/reducers/comments';
+import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { selectJoblistings } from 'app/reducers/joblistings';
-import type { UserEntity } from 'app/reducers/users';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Company } from '../actions/ActionTypes';
 import { selectCompanySemesters } from './companySemesters';
 import { selectEvents } from './events';
+import type { Semester } from 'app/models';
+import type { UserEntity } from 'app/reducers/users';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
+import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export type BaseSemesterStatusEntity = {
   id?: number;
   companyId?: number;
   semester?: number;
-  contactedStatus: Array<CompanySemesterContactedStatus>;
+  contactedStatus: CompanySemesterContactStatus[];
   contract?: string;
   contractName?: string;
   statistics?: string;
@@ -190,7 +191,9 @@ export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
   (companies, companyId) => {
-    const company = companies.find((company) => company.id === companyId);
+    const company = companies.find(
+      (company) => company.id === Number(companyId)
+    );
     return company || {};
   }
 );
@@ -222,15 +225,17 @@ export const selectCompanyContactById = createSelector(
   (company, companyContactId) => {
     if (!company || !company.companyContacts) return {};
     return company.companyContacts.find(
-      (contact) => contact.id === companyContactId
+      (contact) => contact.id === Number(companyContactId)
     );
   }
 );
 export const selectCommentsForCompany = createSelector(
   selectCompanyById,
-  (state) => state.comments.byId,
-  (company, commentsById) => {
-    if (!company || !commentsById) return [];
-    return (company.comments || []).map((commentId) => commentsById[commentId]);
+  selectCommentEntities,
+  (company, commentEntities) => {
+    if (!company || !commentEntities) return [];
+    return (company.comments || []).map(
+      (commentId) => commentEntities[commentId]
+    );
   }
 );

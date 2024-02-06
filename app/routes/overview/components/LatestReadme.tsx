@@ -1,13 +1,10 @@
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useEffect, useState } from 'react';
-import { Collapse } from 'react-collapse';
-import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
+import { useEffect, useRef, useState } from 'react';
 import { Image } from 'app/components/Image';
-import { Flex } from 'app/components/Layout';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import type { Readme } from 'app/models';
 import styles from './LatestReadme.css';
+import type { Readme } from 'app/models';
 import type { CSSProperties } from 'react';
 
 type Props = {
@@ -23,6 +20,9 @@ const LatestReadme = ({
   collapsible = true,
   style,
 }: Props) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const collapsedHeight = 85;
+
   const [expanded, setExpanded] = useState(expandedInitially);
 
   useEffect(() => {
@@ -30,7 +30,15 @@ const LatestReadme = ({
   }, [expandedInitially]);
 
   return (
-    <Card className={styles.latestReadme} style={style}>
+    <Card
+      className={styles.latestReadme}
+      style={{
+        ...style,
+        height: expanded
+          ? ref.current?.clientHeight + collapsedHeight
+          : collapsedHeight,
+      }}
+    >
       {collapsible ? (
         <div
           className={cx(styles.heading, styles.pointer)}
@@ -49,7 +57,7 @@ const LatestReadme = ({
         <div className={styles.heading}>{readmeIfy('readme')}</div>
       )}
 
-      <Collapse isOpened={expanded}>
+      <div ref={ref}>
         <Flex
           wrap
           justifyContent="space-around"
@@ -63,7 +71,7 @@ const LatestReadme = ({
             </a>
           ))}
         </Flex>
-      </Collapse>
+      </div>
     </Card>
   );
 };

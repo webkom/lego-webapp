@@ -1,28 +1,31 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
-import { Component } from 'react';
-import Icon from 'app/components/Icon';
-import { Flex } from 'app/components/Layout';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import {
+  ConfirmModal,
+  Icon,
+  Flex,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
+import { useState } from 'react';
+import { deleteSemesterStatus } from 'app/actions/CompanyActions';
 import FileUpload from 'app/components/Upload/FileUpload';
-import type { CompanySemesterContactedStatus } from 'app/models';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
+import { useAppDispatch } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
 import {
-  selectColorCode,
-  semesterCodeToName,
+  getStatusColor,
   selectMostProminentStatus,
+  semesterCodeToName,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 const FILE_NAME_LENGTH = 30;
 type Props = {
   semesterStatus: SemesterStatusEntity;
   companyId: number;
-  deleteSemesterStatus: (arg0: number) => Promise<any>;
   editFunction: (
     semesterStatus: SemesterStatusEntity,
-    statusString: CompanySemesterContactedStatus
+    statusString: CompanySemesterContactStatus
   ) => Promise<any>;
   addFileToSemester: (
     arg0: string,
@@ -35,108 +38,95 @@ type Props = {
     arg1: string
   ) => Promise<any>;
 };
-type State = {
-  editing: boolean;
-};
-export default class SemesterStatusDetail extends Component<Props, State> {
-  state = {
-    editing: false,
-  };
-  deleteSemesterStatus = () =>
-    // $FlowFixMe
-    this.props.deleteSemesterStatus(this.props.semesterStatus.id);
-  semesterToHumanReadable = () => {
-    const { year, semester } = this.props.semesterStatus;
-    // $FlowFixMe
+
+const SemesterStatusDetail = (props: Props) => {
+  const [editing, setEditing] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  const semesterToHumanReadable = () => {
+    const { year, semester } = props.semesterStatus;
     const semesterName = semesterCodeToName(semester);
     return `${year} ${semesterName}`;
   };
-  addFile = (fileName: string, fileToken: string, type: string) => {
-    this.setState({
-      editing: false,
-    });
-    return this.props.addFileToSemester(
+
+  const addFile = (fileName: string, fileToken: string, type: string) => {
+    setEditing(false);
+    return props.addFileToSemester(
       fileName,
       fileToken,
       type,
-      this.props.semesterStatus
+      props.semesterStatus
     );
   };
-  removeFile = (type: string) =>
-    this.props.removeFileFromSemester(this.props.semesterStatus, type);
 
-  render() {
-    const { semesterStatus, editFunction } = this.props;
-    if (!semesterStatus) return <LoadingIndicator loading />;
-    const humanReadableSemester = this.semesterToHumanReadable();
-    return (
-      <tr key={semesterStatus.id}>
-        <td>{humanReadableSemester}</td>
-        <td
-          className={
-            styles[
-              selectColorCode(
-                selectMostProminentStatus(semesterStatus.contactedStatus)
-              )
-            ]
+  const removeFile = (type: string) =>
+    props.removeFileFromSemester(props.semesterStatus, type);
+
+  const { semesterStatus, editFunction } = props;
+
+  if (!semesterStatus) return <LoadingIndicator loading />;
+
+  const humanReadableSemester = semesterToHumanReadable();
+  return (
+    <tr key={semesterStatus.id}>
+      <td>{humanReadableSemester}</td>
+      <td
+        style={{
+          padding: '5px',
+          lineHeight: '18px',
+          backgroundColor: getStatusColor(
+            selectMostProminentStatus(semesterStatus.contactedStatus)
+          ),
+        }}
+      >
+        <SemesterStatusContent
+          semesterStatus={semesterStatus}
+          editFunction={(statusCode) =>
+            editFunction(semesterStatus, statusCode)
           }
-          style={{
-            padding: '5px',
-            lineHeight: '18px',
-          }}
-        >
-          <SemesterStatusContent
+        />
+      </td>
+
+      {['contract', 'statistics', 'evaluation'].map((type) => (
+        <td key={type}>
+          <RenderFile
             semesterStatus={semesterStatus}
-            editFunction={(statusCode) =>
-              editFunction(semesterStatus, statusCode)
-            }
+            type={type}
+            addFile={addFile}
+            removeFile={removeFile}
+            editing={editing}
           />
         </td>
+      ))}
+      <td>
+        <Flex>
+          <Icon
+            onClick={() => setEditing(!editing)}
+            name="pencil"
+            edit
+            size={20}
+          />
+          <ConfirmModal
+            title="Slett semesterstatus"
+            message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
+            onConfirm={() =>
+              dispatch(deleteSemesterStatus(props.companyId, semesterStatus.id))
+            }
+            closeOnConfirm
+          >
+            {({ openConfirmModal }) => (
+              <Icon onClick={openConfirmModal} name="trash" danger size={20} />
+            )}
+          </ConfirmModal>
+        </Flex>
+      </td>
+    </tr>
+  );
+};
 
-        {['contract', 'statistics', 'evaluation'].map((type) => (
-          <td key={type}>
-            <RenderFile
-              semesterStatus={semesterStatus}
-              type={type}
-              addFile={this.addFile}
-              removeFile={this.removeFile}
-              editing={this.state.editing}
-            />
-          </td>
-        ))}
-        <td>
-          <Flex>
-            <Icon
-              onClick={() =>
-                this.setState((state) => ({
-                  editing: !state.editing,
-                }))
-              }
-              name="pencil"
-              edit
-              size={20}
-            />
-            <ConfirmModal
-              title="Slett semesterstatus"
-              message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
-              onConfirm={this.deleteSemesterStatus}
-              closeOnConfirm
-            >
-              {({ openConfirmModal }) => (
-                <Icon
-                  onClick={openConfirmModal}
-                  name="trash"
-                  danger
-                  size={20}
-                />
-              )}
-            </ConfirmModal>
-          </Flex>
-        </td>
-      </tr>
-    );
-  }
-}
+export default SemesterStatusDetail;
+
 type RenderFileProps = {
   semesterStatus: SemesterStatusEntity;
   type: string;

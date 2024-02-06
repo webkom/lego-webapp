@@ -1,18 +1,15 @@
+import { Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import Card from 'app/components/Card';
 import {
   TextInput,
   TextArea,
   CheckBox,
   SelectInput,
 } from 'app/components/Form';
-import Icon from 'app/components/Icon';
-import Flex from 'app/components/Layout/Flex';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import {
-  mappings,
-  QuestionTypes,
+  questionTypeOptions,
   QuestionTypeOption,
   QuestionTypeValue,
 } from '../../utils';
@@ -68,7 +65,7 @@ const Question = ({
             }}
           />
         </div>
-        {questionData.questionType?.value === QuestionTypes('text') ? (
+        {questionData.questionType?.value === SurveyQuestionType.TextField ? (
           <TextArea
             className={styles.freeText}
             placeholder="Fritekst - sånn her vil den se ut :smile:"
@@ -91,7 +88,7 @@ const Question = ({
               placeholder="Velg type"
               component={SelectInput.Field}
               components={{
-                Option: (props: any) => {
+                Option: (props) => {
                   const value = props.data.value;
                   return (
                     <QuestionTypeOption
@@ -100,7 +97,7 @@ const Question = ({
                     />
                   );
                 },
-                SingleValue: (props: any) => {
+                SingleValue: (props) => {
                   const value = props.data.value;
                   return (
                     <QuestionTypeValue
@@ -110,7 +107,7 @@ const Question = ({
                   );
                 },
               }}
-              options={mappings}
+              options={questionTypeOptions}
               className={styles.questionType}
               clearable={false}
               backspaceRemoves={false}

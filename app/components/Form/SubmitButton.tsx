@@ -6,16 +6,35 @@ type Props = {
   children: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   className?: string;
+  allowPristine?: boolean;
+  danger?: boolean;
+  disabled?: boolean;
+  dark?: boolean;
 };
 
-export const SubmitButton = ({ children, onClick, className }: Props) =>
-  spySubmittable((submittable) => (
-    <Button
-      submit
-      disabled={!submittable}
-      onClick={onClick}
-      className={className}
-    >
-      {children}
-    </Button>
-  ));
+export const SubmitButton = ({
+  children,
+  onClick,
+  className,
+  allowPristine,
+  danger = false,
+  disabled = false,
+  dark = false,
+}: Props) =>
+  spySubmittable(
+    (submittable) => (
+      <Button
+        submit
+        disabled={!submittable || disabled}
+        onClick={onClick}
+        className={className}
+        danger={danger}
+        dark={dark}
+      >
+        {children}
+      </Button>
+    ),
+    { allowPristine }
+  );
+
+export default SubmitButton;

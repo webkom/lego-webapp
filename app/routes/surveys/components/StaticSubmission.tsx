@@ -1,54 +1,23 @@
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
-import type {
-  SubmissionEntity,
-  AnswerEntity,
-} from 'app/reducers/surveySubmissions';
-import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
-import { QuestionTypes } from '../utils';
+import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './surveys.css';
+import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { SurveyAnswer } from 'app/store/models/SurveyAnswer';
+import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
+import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 type Props = {
-  survey: SurveyEntity;
-  submission?: SubmissionEntity;
+  survey: SelectedSurvey;
+  submission?: SurveySubmission;
 };
 
 const StaticSubmission = ({ survey, submission }: Props) => {
-  const textAnswer = (
-    answer: AnswerEntity | null | undefined,
-    submission: SubmissionEntity | null | undefined,
-    question: QuestionEntity
-  ) => {
-    if (answer) {
-      return (
-        answer.answerText || <i className="secondaryFontColor">Tomt svar</i>
-      );
-    }
-
-    if (
-      submission &&
-      !submission.answers.map((answer) => answer.question).includes(question.id)
-    ) {
-      return <i className="secondaryFontColor">Tomt svar</i>;
-    }
-
-    return (
-      <TextArea
-        value=""
-        placeholder="Fritekst..."
-        className={styles.freeText}
-        disabled={true}
-      />
-    );
-  };
-
   return (
     <ul className={styles.staticSubmission}>
       {survey.questions.map((question) => {
-        const answer =
-          submission &&
-          submission.answers.find(
-            (answer) => answer.question.id === question.id
-          );
+        const answer = submission?.answers.find(
+          (answer) => answer.question.id === question.id
+        );
         return (
           <li key={question.id}>
             <h3>
@@ -58,8 +27,12 @@ const StaticSubmission = ({ survey, submission }: Props) => {
               )}
             </h3>
 
-            {question.questionType === QuestionTypes('text') ? (
-              textAnswer(answer, submission, question)
+            {question.questionType === SurveyQuestionType.TextField ? (
+              <TextAnswer
+                question={question}
+                answer={answer}
+                submission={submission}
+              />
             ) : (
               <ul className={styles.detailOptions}>
                 {question.options.map((option) => {
@@ -70,17 +43,18 @@ const StaticSubmission = ({ survey, submission }: Props) => {
                     ) !== 'undefined';
                   return (
                     <li key={option.id}>
-                      {question.questionType === QuestionTypes('single') ? (
+                      {question.questionType ===
+                      SurveyQuestionType.SingleChoice ? (
                         <RadioButton
-                          inputValue={selected}
-                          value={true}
+                          id={String(option.id)}
+                          checked={selected}
                           label={option.optionText}
                           className={styles.option}
                           disabled
                         />
                       ) : (
                         <CheckBox
-                          value={selected}
+                          checked={selected}
                           label={option.optionText}
                           className={styles.option}
                           disabled
@@ -95,6 +69,38 @@ const StaticSubmission = ({ survey, submission }: Props) => {
         );
       })}
     </ul>
+  );
+};
+
+const TextAnswer = ({
+  answer,
+  submission,
+  question,
+}: {
+  answer?: SurveyAnswer;
+  submission?: SurveySubmission;
+  question: SurveyQuestion;
+}) => {
+  if (answer) {
+    return answer.answerText || <i className="secondaryFontColor">Tomt svar</i>;
+  }
+
+  if (
+    submission &&
+    !submission.answers
+      .map((answer) => answer.question.id)
+      .includes(question.id)
+  ) {
+    return <i className="secondaryFontColor">Tomt svar</i>;
+  }
+
+  return (
+    <TextArea
+      value=""
+      placeholder="Fritekst..."
+      className={styles.freeText}
+      disabled={true}
+    />
   );
 };
 

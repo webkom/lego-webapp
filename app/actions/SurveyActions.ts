@@ -1,66 +1,57 @@
 import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
-import type { ID } from 'app/store/models';
-import type { CreateSurvey } from 'app/store/models/Survey';
-import type { Thunk } from 'app/types';
 import { Survey } from './ActionTypes';
+import type { ID } from 'app/store/models';
+import type {
+  DetailedSurvey,
+  FormSubmitSurvey,
+  PublicResultsSurvey,
+  PublicSurvey,
+} from 'app/store/models/Survey';
 
-export function fetchSurvey(surveyId: number): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Survey.FETCH,
-        endpoint: `/surveys/${surveyId}/`,
-        schema: surveySchema,
-        meta: {
-          errorMessage: 'Henting av spørreundersøkelse feilet',
-        },
-        propagateError: true,
-      })
-    );
+export function fetchSurvey(surveyId: ID) {
+  return callAPI<DetailedSurvey>({
+    types: Survey.FETCH,
+    endpoint: `/surveys/${surveyId}/`,
+    schema: surveySchema,
+    meta: {
+      errorMessage: 'Henting av spørreundersøkelse feilet',
+    },
+    propagateError: true,
+  });
 }
-export function fetchWithToken(surveyId: number, token: string): Thunk<any> {
-  return (dispatch) =>
-    dispatch(
-      callAPI({
-        types: Survey.FETCH,
-        endpoint: `/survey-results/${surveyId}/`,
-        schema: surveySchema,
-        requiresAuthentication: false,
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-        meta: {
-          errorMessage: 'Henting av spørreundersøkelse feilet',
-        },
-        propagateError: true,
-      })
-    );
+export function fetchWithToken(surveyId: ID, token: string) {
+  return callAPI<PublicResultsSurvey>({
+    types: Survey.FETCH,
+    endpoint: `/survey-results/${surveyId}/`,
+    schema: surveySchema,
+    requiresAuthentication: false,
+    headers: {
+      Authorization: `Token ${token}`,
+    },
+    meta: {
+      errorMessage: 'Henting av spørreundersøkelse feilet',
+    },
+    propagateError: true,
+  });
 }
-export function fetchAll({
-  next = false,
-}: {
-  next?: boolean;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().surveys.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: Survey.FETCH,
-        endpoint: '/surveys/',
-        schema: [surveySchema],
-        query: cursor,
-        meta: {
-          errorMessage: 'Henting av spørreundersøkelser feilet',
-        },
-        propagateError: true,
-      })
-    );
-  };
+export function fetchAll({ next = false }: { next?: boolean } = {}) {
+  return callAPI<PublicSurvey[]>({
+    types: Survey.FETCH,
+    endpoint: '/surveys/',
+    schema: [surveySchema],
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av spørreundersøkelser feilet',
+    },
+    propagateError: true,
+  });
 }
-export function addSurvey(data: CreateSurvey): Thunk<any> {
-  return callAPI({
+export function addSurvey(data: FormSubmitSurvey) {
+  return callAPI<DetailedSurvey>({
     types: Survey.ADD,
     endpoint: '/surveys/',
     method: 'POST',
@@ -75,8 +66,8 @@ export function addSurvey(data: CreateSurvey): Thunk<any> {
 export function editSurvey({
   surveyId,
   ...data
-}: Partial<CreateSurvey> & { surveyId: ID }): Thunk<any> {
-  return callAPI({
+}: Partial<FormSubmitSurvey> & { surveyId: ID }) {
+  return callAPI<DetailedSurvey>({
     types: Survey.EDIT,
     endpoint: `/surveys/${surveyId}/`,
     method: 'PATCH',
@@ -93,19 +84,22 @@ export function editSurvey({
     },
   });
 }
-export function fetchTemplates(): Thunk<any> {
-  return callAPI({
+export function fetchTemplates({ next = false }: { next?: boolean } = {}) {
+  return callAPI<PublicSurvey[]>({
     types: Survey.FETCH,
     endpoint: `/survey-templates/`,
     schema: [surveySchema],
+    pagination: {
+      fetchNext: next,
+    },
     meta: {
       errorMessage: 'Henting av spørreundersøkelse maler feilet',
     },
     propagateError: true,
   });
 }
-export function fetchTemplate(template: string): Thunk<any> {
-  return callAPI({
+export function fetchTemplate(template: string) {
+  return callAPI<DetailedSurvey>({
     types: Survey.FETCH,
     endpoint: `/survey-templates/${template}/`,
     schema: surveySchema,
@@ -115,7 +109,7 @@ export function fetchTemplate(template: string): Thunk<any> {
     propagateError: true,
   });
 }
-export function shareSurvey(surveyId: number): Thunk<any> {
+export function shareSurvey(surveyId: ID) {
   return callAPI({
     types: Survey.SHARE,
     endpoint: `/surveys/${surveyId}/share/`,
@@ -127,7 +121,7 @@ export function shareSurvey(surveyId: number): Thunk<any> {
     propagateError: true,
   });
 }
-export function hideSurvey(surveyId: number): Thunk<any> {
+export function hideSurvey(surveyId: ID) {
   return callAPI({
     types: Survey.HIDE,
     endpoint: `/surveys/${surveyId}/hide/`,

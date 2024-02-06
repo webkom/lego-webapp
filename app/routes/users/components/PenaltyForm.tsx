@@ -1,138 +1,123 @@
-import { Button } from '@webkom/lego-bricks';
-import cx from 'classnames';
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { Field } from 'redux-form';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { addPenalty } from 'app/actions/UserActions';
 import {
-  legoForm,
   Form,
   TextArea,
   TextInput,
   SelectInput,
-  withSubmissionError,
+  LegoFinalForm,
 } from 'app/components/Form';
-import type { AddPenalty, ID } from 'app/models';
-import type { FormEventHandler } from 'react';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { createValidator, isInteger, required } from 'app/utils/validation';
+import styles from './Penalties.css';
+import type { searchMapping } from 'app/reducers/search';
+import type { ID } from 'app/store/models';
+import type { FormApi } from 'final-form';
 
-type Props = {
-  user: ID;
-  addPenalty: (arg0: AddPenalty) => Promise<void>;
-  reason?: string;
-  weight?: number;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => FormEventHandler;
-  actionGrant: boolean;
-  hidden?: boolean;
-  button?: boolean;
-  className?: string;
-  reset: () => void;
-};
-type State = {
-  hidden: boolean;
-  sent: boolean;
+type FormValues = {
+  reason: string;
+  weight: string | number;
+  sourceEvent: (typeof searchMapping)['events.event'];
 };
 
-class PenaltyInLine extends Component<Props, State> {
-  state = {
-    hidden: true,
-    sent: false,
-  };
-  onSubmit = (penalty, user) =>
-    this.props
-      .addPenalty({
-        ...penalty,
-        sourceEvent: penalty.sourceEvent && penalty.sourceEvent.value,
-        user,
-      })
-      .then(() => {
-        this.setState(() => ({
-          sent: true,
-        }));
-        this.props.reset();
-      });
-  handleHide = () => {
-    this.setState((prevState) => ({
-      hidden: !prevState.hidden,
-    }));
-  };
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
-  render() {
-    const { actionGrant, handleSubmit, user, button, className } = this.props;
-    const showButton = button && this.state.hidden && !this.state.sent;
-    const showLabel = !button || !this.state.hidden || this.state.sent;
-    const showForm = !this.state.hidden && !this.state.sent;
-    return (
-      <div>
-        {actionGrant && (
-          <div>
-            {showButton && (
-              <Button onClick={this.handleHide}>Ny kunngjøring</Button>
-            )}
-            {showLabel && (
-              <div>
-                {!this.state.sent ? (
-                  <Button onClick={this.handleHide} className={cx(className)}>
-                    Lag ny prikk
-                  </Button>
-                ) : (
-                  <i>Prikken er registrert</i>
-                )}
-              </div>
-            )}
-
-            {showForm && (
-              <Form
-                onSubmit={handleSubmit(
-                  withSubmissionError((values) => this.onSubmit(values, user))
-                )}
-              >
-                <Field
-                  name="reason"
-                  component={TextArea.Field}
-                  placeholder="Skriv din begrunnelse for prikk..."
-                />
-                <Field
-                  name="weight"
-                  component={TextInput.Field}
-                  placeholder="Hvor tungt vektlegges prikken?"
-                />
-                <Field
-                  name="sourceEvent"
-                  placeholder="Arrangement"
-                  filter={['events.event']}
-                  component={SelectInput.AutocompleteField}
-                />
-                <Button submit>Lag prikk</Button>
-              </Form>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state) => ({
-  actionGrant: state.allowed.penalties,
+const validate = createValidator({
+  reason: [required('Du må skrive en begrunnelse')],
+  weight: [
+    required('Du må sette en vekt'),
+    isInteger('Vekten må være et heltall'),
+  ],
 });
 
-const mapDispatchToProps = {
-  addPenalty,
+type Props = {
+  userId: ID;
 };
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  legoForm({
-    form: 'penaltyInline',
 
-    validate(values) {
-      const errors = {};
+const PenaltyForm = ({ userId }: Props) => {
+  const [hidden, setHidden] = useState(true);
+  const [sent, setSent] = useState(false);
 
-      if (!values.message) {
-        errors.message = 'Du må skrive en melding';
-      }
+  const dispatch = useAppDispatch();
 
-      return errors;
-    },
-  })
-)(PenaltyInLine);
+  const onSubmit = (values: FormValues, form: FormApi<FormValues>) => {
+    dispatch(
+      addPenalty({
+        ...values,
+        user: userId,
+        sourceEvent: values.sourceEvent && values.sourceEvent.value,
+      })
+    ).then(() => {
+      setHidden(true);
+      setSent(true);
+      setTimeout(() => {
+        setSent(false);
+      }, 3000);
+      form.reset();
+    });
+  };
+
+  const handleHide = () => {
+    setHidden(!hidden);
+  };
+
+  const actionGrant = useAppSelector((state) => state.allowed.penalties);
+
+  if (!actionGrant) {
+    return;
+  }
+
+  const showForm = !hidden && !sent;
+
+  return (
+    <Flex column gap="1rem">
+      <div>
+        {!sent ? (
+          <Button onClick={handleHide}>
+            {!showForm ? 'Gi ny prikk' : 'Avbryt'}
+          </Button>
+        ) : (
+          <Flex
+            alignItems="center"
+            gap="0.5rem"
+            className={styles.successMessage}
+          >
+            <Icon name="checkmark-outline" className={styles.success} />
+            <span>Prikken er registrert!</span>
+          </Flex>
+        )}
+      </div>
+
+      {showForm && (
+        <TypedLegoForm onSubmit={onSubmit} validate={validate}>
+          {({ handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              <Field
+                name="reason"
+                component={TextArea.Field}
+                placeholder="Skriv begrunnelse for prikken"
+              />
+              <Field
+                name="weight"
+                component={TextInput.Field}
+                placeholder="Hvor tungt vektlegges prikken?"
+              />
+              <Field
+                name="sourceEvent"
+                placeholder="For hvilket arrangement?"
+                filter={['events.event']}
+                component={SelectInput.AutocompleteField}
+              />
+              <SubmitButton>Gi prikk</SubmitButton>
+            </Form>
+          )}
+        </TypedLegoForm>
+      )}
+    </Flex>
+  );
+};
+
+export default PenaltyForm;

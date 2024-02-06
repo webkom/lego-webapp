@@ -1,10 +1,9 @@
 import { feedActivitySchema } from 'app/reducers';
 import { feedIdByUserId } from 'app/reducers/feeds';
-import type { Thunk } from 'app/types';
 import { Feed } from './ActionTypes';
 import callAPI from './callAPI';
 
-export function fetchUserFeed(userId: string): Thunk<any> {
+export function fetchUserFeed(userId: string) {
   return callAPI({
     types: Feed.FETCH,
     endpoint: `/feed-user/${userId}/`,
@@ -14,7 +13,7 @@ export function fetchUserFeed(userId: string): Thunk<any> {
     },
   });
 }
-export function fetchPersonalFeed(): Thunk<any> {
+export function fetchPersonalFeed() {
   return callAPI({
     types: Feed.FETCH,
     endpoint: '/feed-personal/',
@@ -24,7 +23,7 @@ export function fetchPersonalFeed(): Thunk<any> {
     },
   });
 }
-export function fetchNotificationFeed(): Thunk<any> {
+export function fetchNotificationFeed() {
   return callAPI({
     types: Feed.FETCH,
     endpoint: '/feed-notifications/',

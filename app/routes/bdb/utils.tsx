@@ -1,63 +1,87 @@
-import { Button } from '@webkom/lego-bricks';
-import { sortBy } from 'lodash';
-import Icon from 'app/components/Icon';
-import { ConfirmModal } from 'app/components/Modal/ConfirmModal';
+import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
+import { useNavigate } from 'react-router-dom';
+import { deleteCompany } from 'app/actions/CompanyActions';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import type { Semester, CompanySemesterContactedStatus } from 'app/models';
+import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
+import { useAppDispatch } from 'app/store/hooks';
+import { NonEventContactStatus } from 'app/store/models/Company';
+import { EventType } from 'app/store/models/Event';
+import type { ConfigProperties } from '../events/utils';
+import type { Semester } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { ID } from 'app/store/models';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ReactNode } from 'react';
 
-export const statusStrings = {
-  company_presentation: 'Bedpres',
-  course: 'Kurs',
-  breakfast_talk: 'Frokostforedrag',
-  lunch_presentation: 'Lunsjpresentasjon',
-  interested: 'Interessert',
-  bedex: 'Bedex',
-  not_interested: 'Ikke interessert',
-  contacted: 'Kontaktet',
-  not_contacted: 'Ikke kontaktet',
+export const NonEventContactStatusConfig: Record<
+  NonEventContactStatus,
+  ConfigProperties
+> = {
+  [NonEventContactStatus.BEDEX]: {
+    displayName: 'Bedex',
+    color: colorForEventType(EventType.ALTERNATIVE_PRESENTATION),
+    textColor: '#000',
+  },
+  [NonEventContactStatus.INTERESTED]: {
+    displayName: 'Interessert',
+    color: 'var(--success-color)',
+    textColor: '#000',
+  },
+  [NonEventContactStatus.NOT_INTERESTED]: {
+    displayName: 'Ikke interessert',
+    color: 'var(--danger-color)',
+    textColor: '#ff0000',
+  },
+  [NonEventContactStatus.CONTACTED]: {
+    displayName: 'Kontaktet',
+    color: 'var(--color-yellow-5)',
+    textColor: '#000',
+  },
+  [NonEventContactStatus.NOT_CONTACTED]: {
+    displayName: 'Ikke kontaktet',
+    color: 'var(--additive-background)',
+    textColor: '#000',
+  },
 };
-export const getStatusString = (
-  status: CompanySemesterContactedStatus = 'not_contacted'
-) => statusStrings[status];
-export const selectColorCode = (
-  status: CompanySemesterContactedStatus = 'not_contacted'
-) => {
-  const statusToClass = {
-    bedex: 'bedex',
-    company_presentation: 'companyPresentation',
-    course: 'course',
-    breakfast_talk: 'breakfastTalk',
-    lunch_presentation: 'lunchPresentation',
-    interested: 'interested',
-    not_interested: 'notInterested',
-    contacted: 'contacted',
-    not_contacted: 'notContacted',
-  };
-  return statusToClass[status];
-};
-const priority = {
-  bedex: 0,
-  company_presentation: 1,
-  course: 2,
-  lunch_presentation: 3,
-  breakfast_talk: 4,
-  interested: 5,
-  not_interested: 6,
-  contacted: 7,
-  not_contacted: 8,
-};
+
+export const contactStatuses: CompanySemesterContactStatus[] = [
+  EventType.BREAKFAST_TALK,
+  EventType.COMPANY_PRESENTATION,
+  EventType.COURSE,
+  EventType.LUNCH_PRESENTATION,
+  ...(Object.keys(NonEventContactStatusConfig) as NonEventContactStatus[]),
+];
+
+export const getStatusDisplayName = (
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED
+) =>
+  EventTypeConfig[status]?.displayName ||
+  NonEventContactStatusConfig[status]?.displayName;
+
+export const getStatusColor = (
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED
+) =>
+  EventTypeConfig[status]?.color || NonEventContactStatusConfig[status]?.color;
+
 export const sortStatusesByProminence = (
-  statuses: Array<CompanySemesterContactedStatus>
-): CompanySemesterContactedStatus[] =>
-  sortBy(statuses, (status) => priority[status]);
-export const selectMostProminentStatus = (
-  statuses: Array<CompanySemesterContactedStatus> = []
-) => {
-  return sortStatusesByProminence(statuses)[0];
+  statuses: CompanySemesterContactStatus[]
+): CompanySemesterContactStatus[] => {
+  // Create a copy of the array before sorting
+  return [...statuses].sort((a, b) => {
+    return contactStatuses.indexOf(a) - contactStatuses.indexOf(b);
+  });
 };
+
+export const selectMostProminentStatus = (
+  statuses: CompanySemesterContactStatus[] = []
+) => {
+  return (
+    contactStatuses.find((status) => statuses.includes(status)) ||
+    NonEventContactStatus.NOT_CONTACTED
+  );
+};
+
 export const semesterNameOf = (index: number) => {
   const indexToSemesterName = {
     '0': 'spring',
@@ -114,6 +138,7 @@ export const indexToSemester = (
     }
   );
 };
+
 export const httpCheck = (link: string) => {
   const httpLink =
     link.startsWith('http://') || link.startsWith('https://')
@@ -121,75 +146,89 @@ export const httpCheck = (link: string) => {
       : `http://${link}`;
   return link === '' ? link : httpLink;
 };
-export const getContactedStatuses = (
-  contactedStatuses: Array<CompanySemesterContactedStatus>,
-  statusString: CompanySemesterContactedStatus
-) => {
-  const contacted: Array<CompanySemesterContactedStatus> =
-    contactedStatuses.slice();
-  const statusIsAlreadySelected = contacted.indexOf(statusString) !== -1;
 
-  if (statusIsAlreadySelected) {
-    contacted.splice(contacted.indexOf(statusString), 1);
+export const getContactStatuses = (
+  contactStatuses: CompanySemesterContactStatus[],
+  statusString: CompanySemesterContactStatus
+) => {
+  const statuses = new Set(contactStatuses);
+
+  if (statuses.has(statusString)) {
+    statuses.delete(statusString);
   } else {
-    contacted.push(statusString);
+    statuses.add(statusString);
   }
 
   // Remove 'not contacted' if anything else is selected
-  if (contacted.length > 1 && contacted.indexOf('not_contacted') !== -1) {
-    contacted.splice(contacted.indexOf('not_contacted'), 1);
+  if (statuses.size > 1 && statuses.has(NonEventContactStatus.NOT_CONTACTED)) {
+    statuses.delete(NonEventContactStatus.NOT_CONTACTED);
   }
 
   // Remove 'contacted', 'not_interested and 'interested'
-  // as a statuses if any the other statuses are selected
-  ['contacted', 'not_interested', 'interested'].forEach((status) => {
-    if (
-      contacted.length > 1 &&
-      contacted.indexOf(status) !== -1 &&
-      status !== statusString
-    ) {
-      contacted.splice(contacted.indexOf(status), 1);
-    }
-  });
-  return contacted;
+  // as statuses if any the other statuses are selected
+  if (
+    statuses.size > 1 &&
+    statusString !== NonEventContactStatus.NOT_CONTACTED
+  ) {
+    [
+      NonEventContactStatus.CONTACTED,
+      NonEventContactStatus.NOT_INTERESTED,
+      NonEventContactStatus.INTERESTED,
+    ].forEach((status) => {
+      if (status !== statusString) {
+        statuses.delete(status);
+      }
+    });
+  }
+
+  return Array.from(statuses);
 };
+
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/companyInterest/">Interesseskjema</NavigationLink>
+    <NavigationLink to="/companyInterest">Interesseskjema</NavigationLink>
     <NavigationLink to="/bdb">BDB</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
+
 export const DetailNavigation = ({
   title,
   companyId,
-  deleteFunction,
 }: {
   title: ReactNode;
-  companyId: number;
-  deleteFunction: (arg0: number) => Promise<any>;
-}) => (
-  <NavigationTab
-    title={title}
-    back={{
-      label: 'Tilbake til liste',
-      path: '/bdb',
-    }}
-  >
-    <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-    <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
-    <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
-    <ConfirmModal
-      title="Slett bedrift"
-      message="Er du sikker på at du vil slette denne bedriften?"
-      onConfirm={() => deleteFunction(companyId)}
+  companyId: ID;
+}) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  return (
+    <NavigationTab
+      title={title}
+      back={{
+        label: 'Tilbake til liste',
+        path: '/bdb',
+      }}
     >
-      {({ openConfirmModal }) => (
-        <Button onClick={openConfirmModal} danger>
-          <Icon name="trash" size={19} />
-          Slett bedrift
-        </Button>
-      )}
-    </ConfirmModal>
-  </NavigationTab>
-);
+      <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
+      <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
+      <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
+      <ConfirmModal
+        title="Slett bedrift"
+        message="Er du sikker på at du vil slette denne bedriften?"
+        onConfirm={() =>
+          dispatch(deleteCompany(companyId)).then(() => {
+            navigate('/bdb');
+          })
+        }
+      >
+        {({ openConfirmModal }) => (
+          <Button onClick={openConfirmModal} danger>
+            <Icon name="trash" size={19} />
+            Slett bedrift
+          </Button>
+        )}
+      </ConfirmModal>
+    </NavigationTab>
+  );
+};
