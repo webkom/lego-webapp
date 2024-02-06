@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchLendableObject } from 'app/actions/LendableObjectActions';
+import DisplayContent from 'app/components/DisplayContent';
 
 type Params = {
   lendableObjectId: string;
@@ -56,7 +57,7 @@ const LendableObjectDetail = () => {
             </NavigationLink>
           </NavigationTab>
 
-          <p className="secondaryFontColor">{lendableObject.description}</p>
+          <DisplayContent content={lendableObject.description}/>
 
           <FullCalendar
             plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
