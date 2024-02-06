@@ -341,6 +341,7 @@ const validate = createValidator({
   companyType: [required()],
   officeInTrondheim: [required()],
   events: [required()],
+  semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
   companyPresentationComment: [requiredIfEventType('company_presentation')],
   lunchPresentationComment: [requiredIfEventType('lunsh_presentation')],
@@ -553,17 +554,20 @@ const CompanyInterestPage = (props: Props) => {
               required
             />
             <Flex wrap justifyContent="space-between">
-              <Flex column className={styles.interestBox}>
-                <label htmlFor="semesters" className={styles.heading}>
-                  {FORM_LABELS.semester[language]}
-                </label>
-                <FieldArray
-                  label="semesters"
-                  name="semesters"
-                  language={language}
-                  component={SemesterBox}
-                />
-              </Flex>
+              <MultiSelectGroup name="semesters">
+                <Flex column className={styles.interestBox}>
+                  <label htmlFor="semesters" className={styles.heading}>
+                    {FORM_LABELS.semester[language]}
+                  </label>
+                  <FieldArray
+                    label="semesters"
+                    name="semesters"
+                    language={language}
+                    required
+                    component={SemesterBox}
+                  />
+                </Flex>
+              </MultiSelectGroup>
               <MultiSelectGroup name="events">
                 <Flex column className={styles.interestBox}>
                   <label htmlFor="events" className={styles.heading}>
