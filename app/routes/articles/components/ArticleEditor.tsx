@@ -229,9 +229,9 @@ const ArticleEditor = () => {
               id="article-title"
             />
             <Field
-              placeholder="Skriv artikkelen din her ..."
+              placeholder="Skriv tråden din her"
               name="content"
-              label="Innhold"
+              label="Beskrivelse"
               component={EditorField.Field}
             />
 

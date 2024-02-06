@@ -132,3 +132,9 @@ export const followersCompanySchema = new schema.Entity(
 export const followersUserSchema = new schema.Entity(followersKeyGen('user'), {
   follower: userSchema,
 });
+export const threadSchema = new schema.Entity('threads', {
+  comments: [commentSchema],
+});
+export const forumSchema = new schema.Entity('forums', {
+  threads: [threadSchema],
+});
