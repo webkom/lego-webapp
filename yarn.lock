@@ -2782,13 +2782,13 @@
   dependencies:
     "@storybook/global" "^5.0.0"
 
-"@storybook/addon-interactions@^7.6.3":
-  version "7.6.3"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-interactions/-/addon-interactions-7.6.3.tgz#0e062aa81aaee1ebce9b943ad29c7f0cf56816a9"
-  integrity sha512-Gm2UJvQC8xs9KIbVZQegTLT3VBsEZIRsXy3htNqWjSdoJZK5M4/YJ3jB247CA/Jc+Mkj7d5SlJe+bCGEzjKTbw==
+"@storybook/addon-interactions@^7.6.13":
+  version "7.6.13"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-interactions/-/addon-interactions-7.6.13.tgz#dc932888bc81a0ab7682574d81392a8962b33d6c"
+  integrity sha512-zEYU33ibUyvy/CtD7yrMV5hpk2kwO3/mGguFMF2wEfpSb9rVVMc9Evd8vt9tJ7353uE5CSagqB2Nro+w7fpgwA==
   dependencies:
     "@storybook/global" "^5.0.0"
-    "@storybook/types" "7.6.3"
+    "@storybook/types" "7.6.13"
     jest-mock "^27.0.6"
     polished "^4.2.2"
     ts-dedent "^2.2.0"
@@ -2952,13 +2952,13 @@
     telejson "^7.2.0"
     tiny-invariant "^1.3.1"
 
-"@storybook/channels@7.6.3":
-  version "7.6.3"
-  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-7.6.3.tgz#b3e0a8d92dfd553ba582fdb5dd0c55272790d3f9"
-  integrity sha512-o9J0TBbFon16tUlU5V6kJgzAlsloJcS1cTHWqh3VWczohbRm+X1PLNUihJ7Q8kBWXAuuJkgBu7RQH7Ib46WyYg==
+"@storybook/channels@7.6.13":
+  version "7.6.13"
+  resolved "https://registry.yarnpkg.com/@storybook/channels/-/channels-7.6.13.tgz#4d60407ecab0cfb99184fc230fec237d1df019c2"
+  integrity sha512-AiplFJXPjgHA62xqZFq7SwCS+o8bFrYLPM9I8yNY+8jhAi9N3Yig+h2P0jOXxLKicwrCXa5ZJ7PZK05M1r6YqA==
   dependencies:
-    "@storybook/client-logger" "7.6.3"
-    "@storybook/core-events" "7.6.3"
+    "@storybook/client-logger" "7.6.13"
+    "@storybook/core-events" "7.6.13"
     "@storybook/global" "^5.0.0"
     qs "^6.10.0"
     telejson "^7.2.0"
@@ -3030,10 +3030,10 @@
   dependencies:
     "@storybook/global" "^5.0.0"
 
-"@storybook/client-logger@7.6.3":
-  version "7.6.3"
-  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-7.6.3.tgz#221d6617e6874025b94602bc7ba6bf09d154bf5f"
-  integrity sha512-BpsCnefrBFdxD6ukMjAblm1D6zB4U5HR1I85VWw6LOqZrfzA6l/1uBxItz0XG96HTjngbvAabWf5k7ZFCx5UCg==
+"@storybook/client-logger@7.6.13":
+  version "7.6.13"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-7.6.13.tgz#bcba58e9a7ad706ca7309d50854a09ec04687f34"
+  integrity sha512-uo51MsUG1Fbi1IA+me9tewF1mFiaYuyR0IMeBmaU3Z3CtjEUdOekmvRQ9ckoFn+BbKtxSipTodiR4HmIZDta3g==
   dependencies:
     "@storybook/global" "^5.0.0"
 
@@ -3177,10 +3177,10 @@
   dependencies:
     ts-dedent "^2.0.0"
 
-"@storybook/core-events@7.6.3":
-  version "7.6.3"
-  resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-7.6.3.tgz#55ea88f5355bd995daf9ed0287293536b3eb7091"
-  integrity sha512-Vu3JX1mjtR8AX84lyqWsi2s2lhD997jKRWVznI3wx+UpTk8t7TTMLFk2rGYJRjaornhrqwvLYpnmtxRSxW9BOQ==
+"@storybook/core-events@7.6.13":
+  version "7.6.13"
+  resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-7.6.13.tgz#772834ebf72f1fda339d7152566f051ac38394b9"
+  integrity sha512-hsL6JT273b1RcJBGHpNNLJ1ilzFMT4UCJwwtOpNNQVPBJt0Hn22vxC69/hpqSINrhHRLj3ak8CTtA0ynVjngaQ==
   dependencies:
     ts-dedent "^2.0.0"
 
@@ -3570,12 +3570,12 @@
     "@types/express" "^4.7.0"
     file-system-cache "2.3.0"
 
-"@storybook/types@7.6.3":
-  version "7.6.3"
-  resolved "https://registry.yarnpkg.com/@storybook/types/-/types-7.6.3.tgz#cd37997cfcd349d3eb4d2c9da9eb7f334d2fb937"
-  integrity sha512-vj9Jzg5eR52l8O9512QywbQpNdo67Z6BQWR8QoZRcG+/Bhzt08YI8IZMPQLFMKzcmWDPK0blQ4GfyKDYplMjPA==
+"@storybook/types@7.6.13":
+  version "7.6.13"
+  resolved "https://registry.yarnpkg.com/@storybook/types/-/types-7.6.13.tgz#4d957ac6ddb2213b90525b28b8548749899c2f18"
+  integrity sha512-N8HfqhL5uaI69BZx+xLkKi1YIgDp34XeL3uhxii4NfThcY1KJA643Gqk3oLKefiBqBpIRGKN0nA41Fhdvhr7Hw==
   dependencies:
-    "@storybook/channels" "7.6.3"
+    "@storybook/channels" "7.6.13"
     "@types/babel__core" "^7.0.0"
     "@types/express" "^4.7.0"
     file-system-cache "2.3.0"
@@ -4059,9 +4059,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@>=16", "@types/react@>=16.9.11", "@types/react@^16", "@types/react@^18.2.37", "@types/react@^18.2.6":
-  version "18.2.51"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.51.tgz#01ede6dfc712796257a3443bf8d613149e5c322a"
-  integrity sha512-XeoMaU4CzyjdRr3c4IQQtiH7Rpo18V07rYZUucEZQwOUEtGgTXv7e6igQiQ+xnV6MbMe1qjEmKdgMNnfppnXfg==
+  version "18.2.55"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.55.tgz#38141821b7084404b5013742bc4ae08e44da7a67"
+  integrity sha512-Y2Tz5P4yz23brwm2d7jNon39qoAtMMmalOQv6+fEFt1mT+FcM3D841wDpoUvFXhaYenuROCy3FZYqdTjM7qVyA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
