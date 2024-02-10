@@ -86,7 +86,7 @@ const GalleryDetail = () => {
 
   const toggleUpload = (response?: File | DropFile[]) => {
     if (response) {
-      uploadAndCreateGalleryPicture(gallery.id, response);
+      dispatch(uploadAndCreateGalleryPicture(gallery.id, response));
     }
 
     setUpload(!upload);
