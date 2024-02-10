@@ -326,11 +326,11 @@ const PageDetail = () => {
     [pageSlug]
   );
 
-  const { editUrl, actionGrant = [], isComplete } = selectedPageInfo;
+  const actionGrant = selectedPageInfo?.actionGrant || [];
 
   return (
     <Content className={styles.cont}>
-      <Helmet title={selectedPageInfo.title} />
+      <Helmet title={selectedPageInfo?.title} />
       <div className={styles.main}>
         <button
           className={styles.sidebarOpenBtn}
@@ -347,15 +347,17 @@ const PageDetail = () => {
 
           <div className={styles.mainTxt}>
             <NavigationTab className={styles.navTab}>
-              {actionGrant.includes('edit') && editUrl && (
-                <NavigationLink to={editUrl}>Rediger</NavigationLink>
+              {actionGrant.includes('edit') && selectedPageInfo?.editUrl && (
+                <NavigationLink to={selectedPageInfo?.editUrl}>
+                  Rediger
+                </NavigationLink>
               )}
               {actionGrant.includes('create') && (
                 <NavigationLink to="/pages/new">Lag ny</NavigationLink>
               )}
             </NavigationTab>
 
-            {isComplete ? (
+            {selectedPageInfo?.isComplete ? (
               <MainPageRenderer
                 page={selectedPage}
                 pageInfo={selectedPageInfo}
