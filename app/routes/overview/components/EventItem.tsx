@@ -1,47 +1,53 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import { colorForEventType } from 'app/routes/events/utils';
+import { useAppSelector } from 'app/store/hooks';
 import { eventStatus } from 'app/utils/eventStatus';
 import styles from './EventItem.css';
-import type { Event } from 'app/models';
+import type { ListEvent } from 'app/store/models/Event';
 
 type Props = {
-  item: Event;
+  item?: ListEvent;
   url: string;
   meta: JSX.Element | null;
-  loggedIn: boolean;
   isFrontPage: boolean;
 };
 
-const EventItem = ({ item, url, meta, loggedIn, isFrontPage }: Props) => {
-  const info = eventStatus(item, loggedIn);
+const EventItem = ({ item, url, meta, isFrontPage }: Props) => {
+  const { loggedIn } = useUserContext();
+  const info = item && eventStatus(item, loggedIn);
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.events.fetching
+  );
+
   return (
-    <Card hideOverflow className={styles.body}>
+    <Card skeleton={fetching && !item} hideOverflow className={styles.body}>
       <Link to={url} className={styles.link}>
         <Flex className={styles.wrapper}>
           {isFrontPage ? (
             <Flex column className={styles.leftFrontpage}>
-              {item.cover && (
+              {item?.cover && (
                 <Image
                   className={styles.imageFrontpage}
                   width={270}
                   height={80}
-                  src={item.cover}
-                  alt={`${item.title} cover image`}
-                  placeholder={item.coverPlaceholder}
+                  src={item?.cover || ''}
+                  alt={`${item?.title} cover image`}
+                  placeholder={item?.coverPlaceholder}
                 />
               )}
               <span className={styles.info}>{info}</span>
             </Flex>
           ) : (
             <Flex column className={styles.left}>
-              {item.cover && (
+              {item?.cover && (
                 <Image
                   className={styles.image}
                   src={item.cover}
-                  placeholder={item.coverPlaceholder}
-                  alt={`${item.title} cover image`}
+                  placeholder={item?.coverPlaceholder}
+                  alt={`${item?.title} cover image`}
                   width={390}
                   height={80}
                 />
@@ -53,11 +59,11 @@ const EventItem = ({ item, url, meta, loggedIn, isFrontPage }: Props) => {
           <div
             className={styles.right}
             style={{
-              borderBottom: `5px solid ${colorForEventType(item.eventType)}`,
+              borderBottom: `5px solid ${colorForEventType(item?.eventType)}`,
             }}
           >
             <>
-              <h2 className={styles.itemTitle}>{item.title}</h2>
+              <h2 className={styles.itemTitle}>{item?.title}</h2>
               {meta}
             </>
           </div>

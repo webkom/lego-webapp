@@ -14,12 +14,12 @@ export type WithDocumentType<T> = T & {
 };
 
 export const isEvent = <T extends Event>(
-  item: WithDocumentType<T | unknown>
-): item is WithDocumentType<T> => item.documentType === 'event';
+  item?: WithDocumentType<T | unknown>
+): item is WithDocumentType<T> => item?.documentType === 'event';
 
 export const isArticle = <T extends UnknownArticle>(
-  item: WithDocumentType<T | unknown>
-): item is WithDocumentType<T> => item.documentType === 'article';
+  item?: WithDocumentType<T | unknown>
+): item is WithDocumentType<T> => item?.documentType === 'article';
 
 const frontpageSlice = createSlice({
   name: 'frontpage',

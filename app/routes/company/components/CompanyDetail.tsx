@@ -1,5 +1,6 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -42,18 +43,18 @@ const queryString = (companyId: ID) =>
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
-  const { companyId, loading } = useParams<{
-    companyId: string;
-    loading: string;
-  }>();
+  const { companyId } = useParams<{ companyId: string }>();
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
     })(state)
   );
+  const fetchingEvents = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
     selectCompanyById(state, { companyId })
   );
+  const fetchingCompany = useAppSelector((state) => state.companies.fetching);
+  const showSkeleton = fetchingCompany && isEmpty(company);
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, { companyId })
   );
@@ -82,11 +83,8 @@ const CompanyDetail = () => {
     [companyId]
   );
 
-  if (!company) {
-    return <LoadingIndicator loading={Boolean(loading)} />;
-  }
-
   const fetchMoreEvents = () =>
+    companyId &&
     dispatch(
       fetchEventsForCompany({
         endpoint,
@@ -131,24 +129,32 @@ const CompanyDetail = () => {
     <Content
       banner={company?.logo}
       bannerPlaceholder={company?.logoPlaceholder}
+      skeleton={showSkeleton}
     >
-      <Helmet title={company.name} />
+      <Helmet title={company?.name || 'Bedrift'} />
       <NavigationTab
         title={company.name}
         back={{
           label: 'Bedriftsoversikt',
           path: '/companies',
         }}
+        skeleton={showSkeleton}
       />
 
       <ContentSection>
         <ContentMain>
-          <CollapsibleDisplayContent content={company.description} />
+          <CollapsibleDisplayContent
+            content={company.description}
+            skeleton={showSkeleton}
+          />
+
           <h3 className={styles.sectionHeader}>Kommende arrangementer</h3>
           <EventListCompact
             events={upcomingEvents}
             noEventsMessage="Ingen kommende arrangementer"
             eventStyle="extra-compact"
+            loading={showSkeleton}
+            extraCompactSkeletonLimit={1}
           />
 
           {oldEvents.length > 0 && (
@@ -165,6 +171,7 @@ const CompanyDetail = () => {
                 events={oldEvents}
                 noEventsMessage="Ingen tidligere arrangementer"
                 eventStyle="extra-compact"
+                loading={fetchingEvents}
               />
             </>
           )}
@@ -190,26 +197,34 @@ const CompanyDetail = () => {
             </span>
           )}
         </ContentMain>
-        {companyInfo.some((info) => info.text) && (
-          <ContentSidebar>
-            {companyInfo.map(
-              (info) =>
-                info.text && (
-                  <TextWithIcon
-                    key={info.text}
-                    iconName={info.icon}
-                    content={
-                      info.link ? (
-                        <a href={info.text}>{company.name}</a>
-                      ) : (
-                        info.text
-                      )
-                    }
-                  />
-                )
-            )}
-          </ContentSidebar>
-        )}
+
+        <ContentSidebar>
+          {showSkeleton
+            ? companyInfo.map((info, index) => (
+                <TextWithIcon
+                  key={index}
+                  iconName={info.icon}
+                  content={<Skeleton className={styles.companyInfo} />}
+                />
+              ))
+            : companyInfo.some((info) => info.text) &&
+              companyInfo.map(
+                (info) =>
+                  info.text && (
+                    <TextWithIcon
+                      key={info.text}
+                      iconName={info.icon}
+                      content={
+                        info.link ? (
+                          <a href={info.text}>{company.name}</a>
+                        ) : (
+                          info.text
+                        )
+                      }
+                    />
+                  )
+              )}
+        </ContentSidebar>
       </ContentSection>
     </Content>
   );

@@ -2,7 +2,6 @@
 
 .heading {
   display: flex;
-  border-bottom: 1px solid var(--border-gray);
   justify-content: space-between;
   align-items: flex-end;
 }

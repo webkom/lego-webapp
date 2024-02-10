@@ -7,6 +7,7 @@ import { selectRandomQuote } from 'app/reducers/quotes';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './RandomQuote.css';
+import type { ID } from 'app/store/models';
 import type Quote from 'app/store/models/Quote';
 
 type Props = {
@@ -15,11 +16,12 @@ type Props = {
 };
 
 const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
-  const seenQuotes = useRef([]);
+  const seenQuotes = useRef<ID[]>([]);
 
   const [animation, setAnimation] = useState(false);
 
-  const randomQuote = useAppSelector(selectRandomQuote);
+  const randomQuote = useAppSelector(selectRandomQuote) as Quote;
+  const fetching = useAppSelector((state) => state.quotes.fetching);
 
   useEffect(() => {
     const quoteId = randomQuote.id;
@@ -40,7 +42,10 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
   };
 
   return (
-    <Card>
+    <Card
+      skeleton={fetching && (!randomQuote || !dummyQuote)}
+      className={styles.randomQuote}
+    >
       <Flex justifyContent="space-between" alignItems="flex-start">
         <Flex column className={styles.content}>
           <div className={styles.quoteText}>

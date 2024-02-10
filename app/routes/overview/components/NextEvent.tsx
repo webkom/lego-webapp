@@ -1,16 +1,17 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import { colorForEventType } from 'app/routes/events/utils';
+import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
 import styles from './NextEvent.css';
-import type { Event } from 'app/models';
+import type { FrontpageEvent } from 'app/store/models/Event';
 
 type Props = {
-  event: Event;
+  event: FrontpageEvent;
 };
 type State = {
   time: string;
@@ -62,18 +63,20 @@ class EventItem extends Component<Props, State> {
             <h4>{truncateString(selected.title, 43)}</h4>
           </Link>
 
-          <Flex alignItems="center" className={styles.info}>
+          <Flex alignItems="center" gap="0.5rem" className={styles.info}>
             <Icon name="alarm-outline" size={20} />
-            <span>
-              Påmelding {/*Change based on time*/}
-              {moment().isBefore(selected.activationTime) ? 'åpner' : 'åpnet'}
-            </span>
-            <span className={styles.time}>
-              {/*Add for if the moment has passed*/}
-              {moment().isAfter(selected.activationTime) && 'for '}
-              {/*Minutter is too long of string*/}
-              {this.state.time.replace('minutter', 'min')}
-            </span>
+            <div>
+              <span>
+                Påmelding {/*Change based on time*/}
+                {moment().isBefore(selected.activationTime) ? 'åpner' : 'åpnet'}
+              </span>
+              <span className={styles.time}>
+                {/*Add for if the moment has passed*/}
+                {moment().isAfter(selected.activationTime) && 'for '}
+                {/*Minutter is too long of string*/}
+                {this.state.time.replace('minutter', 'min')}
+              </span>
+            </div>
           </Flex>
         </Flex>
       </Tooltip>
@@ -90,7 +93,7 @@ const Filler = () => (
         marginRight: '5px',
       }}
     />
-    <span>Ingen påmeldinger de neste 3 dagene </span>
+    <span>Ingen påmeldinger de neste 3 dagene</span>
   </Flex>
 );
 
@@ -107,20 +110,26 @@ const inRange = (event) => {
   );
 };
 
-const NextEvent = (props: { events: Array<Event> }) => {
-  // This will prevent the filler from rendering in the
-  // split second where events have not loaded
-  if (props.events.length === 0) return null;
+const NEXT_EVENTS_LIMIT = 2;
+
+const NextEvent = ({ events }: { events: FrontpageEvent[] }) => {
   // Sorted events based on activationfilter take out the
   // ones that are out of range
-  const orderedEvents = orderBy<Event>(
-    props.events.filter(hasActivation).filter(inRange),
+  const orderedEvents = orderBy<FrontpageEvent>(
+    events.filter(hasActivation).filter(inRange),
     ['activationTime']
-  ).splice(0, 2);
+  ).splice(0, NEXT_EVENTS_LIMIT);
+
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.events.fetching
+  );
+
   return (
     <div className={styles.wrapper}>
-      {orderedEvents.length > 0 ? (
-        orderedEvents.map((e) => <EventItem key={e.id} event={e} />)
+      {fetching && !events.length ? (
+        <Skeleton array={NEXT_EVENTS_LIMIT} className={styles.eventItem} />
+      ) : orderedEvents.length > 0 ? (
+        orderedEvents.map((event) => <EventItem key={event.id} event={event} />)
       ) : (
         <Filler />
       )}

@@ -36,6 +36,10 @@
   align-items: center;
 }
 
+.eventItem {
+  height: 26px;
+}
+
 .compactEvents a {
   color: var(--lego-font-color);
 }

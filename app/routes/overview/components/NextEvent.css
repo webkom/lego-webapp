@@ -4,6 +4,7 @@
   padding-left: 20px;
   border-left: 4px solid transparent;
   margin-bottom: 15px;
+  height: 60px;
 }
 
 .title {
@@ -16,13 +17,10 @@
   margin: -3px 10px;
 }
 
-.info span {
-  margin: 0 10px;
-}
-
 .time {
   color: var(--lego-link-color);
   font-weight: 500;
+  margin-left: 5.5px;
 }
 
 .alarm {
