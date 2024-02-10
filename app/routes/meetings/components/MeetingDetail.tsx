@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { setInvitationStatus } from 'app/actions/MeetingActions';
-import AddToCalender from 'app/components/AddToCalender/AddToCalender';
+import AddToCalendar from 'app/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -193,9 +193,6 @@ const MeetingDetails = () => {
             {attendanceButtons(statusMe, meeting.startTime)}
             <InfoList items={infoItems} />
             <li>
-              <AddToCalender icalToken={icalToken} meeting={meeting} />
-            </li>
-            <li>
               <AttendanceModal
                 isMeeting
                 key="modal"
@@ -213,6 +210,9 @@ const MeetingDetails = () => {
             {meeting.mazemapPoi && (
               <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
             )}
+            <li>
+              <AddToCalendar icalToken={icalToken} meeting={meeting} />
+            </li>
           </ul>
 
           <Flex column gap={7}>
