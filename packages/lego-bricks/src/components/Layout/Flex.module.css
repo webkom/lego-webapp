@@ -22,7 +22,7 @@
 
 .wrap > .flex {
   @media (--mobile-device) {
-    flex-basis: 15em !important;
+    flex-basis: 15em;
   }
 }
 
@@ -32,7 +32,7 @@
 
 .wrapReverse > .flex {
   @media (--mobile-device) {
-    flex-basis: 15em !important;
+    flex-basis: 15em;
   }
 }
 
