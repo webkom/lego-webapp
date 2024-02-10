@@ -24,9 +24,7 @@ const EventListCompact = ({
       case 'default':
         return (
           <Flex column>
-            {[...Array(3)].map((i) => (
-              <Skeleton key={i} className={styles.eventItem} />
-            ))}
+            <Skeleton array={3} className={styles.eventItem} />
           </Flex>
         );
       case 'compact':
@@ -34,9 +32,10 @@ const EventListCompact = ({
       case 'extra-compact':
         return (
           <Flex column>
-            {[...Array(extraCompactSkeletonLimit || 8)].map((i) => (
-              <Skeleton key={i} className={styles.eventItem} />
-            ))}
+            <Skeleton
+              array={extraCompactSkeletonLimit || 8}
+              className={styles.eventItem}
+            />
           </Flex>
         );
     }

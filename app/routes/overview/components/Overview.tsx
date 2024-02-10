@@ -167,8 +167,8 @@ const Events = ({ events }: { events: WithDocumentType<Event>[] }) => {
 
       <Flex column gap={20}>
         {fetching && !events.length
-          ? [...Array(EVENTS_TO_SHOW)].map((i) => (
-              <EventItem key={i} url="" meta={<></>} isFrontPage={true} />
+          ? Array.from({ length: EVENTS_TO_SHOW }).map((_, index) => (
+              <EventItem key={index} url="" meta={<></>} isFrontPage={true} />
             ))
           : events.map((event) => (
               <EventItem
@@ -230,8 +230,8 @@ const Articles = ({
 
       <Flex column gap={20}>
         {(fetching && !articles.length) || !articles.length
-          ? [...Array(ARTICLES_TO_SHOW)].map((i) => (
-              <ArticleItem key={i} url="" meta={<></>} />
+          ? Array.from({ length: ARTICLES_TO_SHOW }).map((_, index) => (
+              <ArticleItem key={index} url="" meta={<></>} />
             ))
           : articles.map((article) => (
               <ArticleItem

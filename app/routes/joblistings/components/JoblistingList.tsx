@@ -19,13 +19,13 @@ const JoblistingsList = ({ joblistings }: JobListingsListProps) => {
         <h4 className={styles.headingDeadline}>Søknadsfrist:</h4>
       </Flex>
 
-      {fetching && !joblistings.length
-        ? [...Array(5)].map((i) => (
-            <Skeleton key={i} className={sharedStyles.joblistingItem} />
-          ))
-        : joblistings.map((joblisting) => (
-            <JoblistingItem key={joblisting.id} joblisting={joblisting} />
-          ))}
+      {fetching && !joblistings.length ? (
+        <Skeleton array={5} className={sharedStyles.joblistingItem} />
+      ) : (
+        joblistings.map((joblisting) => (
+          <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+        ))
+      )}
     </Flex>
   );
 };

@@ -80,9 +80,9 @@ const CompactEvents = ({ events, style }: Props) => {
     (state) => state.frontpage.fetching || state.events.fetching
   );
 
-  const skeleton = [...Array(EVENT_COLUMN_LIMIT)].map((i) => (
-    <Skeleton key={i} className={styles.eventItem} />
-  ));
+  const skeleton = (
+    <Skeleton array={EVENT_COLUMN_LIMIT} className={styles.eventItem} />
+  );
 
   return (
     <Flex column style={style}>

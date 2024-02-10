@@ -127,9 +127,7 @@ const NextEvent = ({ events }: { events: FrontpageEvent[] }) => {
   return (
     <div className={styles.wrapper}>
       {fetching && !events.length ? (
-        [...Array(NEXT_EVENTS_LIMIT)].map((i) => (
-          <Skeleton key={i} className={styles.eventItem} />
-        ))
+        <Skeleton array={NEXT_EVENTS_LIMIT} className={styles.eventItem} />
       ) : orderedEvents.length > 0 ? (
         orderedEvents.map((event) => <EventItem key={event.id} event={event} />)
       ) : (
