@@ -171,17 +171,15 @@ const GroupMembersList = ({
   ].filter(Boolean);
 
   return (
-    <>
-      <Table
-        onChange={setQuery}
-        columns={columns}
-        hasMore={hasMore}
-        loading={fetching}
-        data={memberships}
-        filters={query}
-        className={styles.list}
-      />
-    </>
+    <Table
+      onChange={setQuery}
+      columns={columns}
+      hasMore={hasMore}
+      loading={fetching}
+      data={memberships}
+      filters={query}
+      className={styles.list}
+    />
   );
 };
 

@@ -1,5 +1,4 @@
 import loadable from '@loadable/component';
-import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Route, Routes, useParams } from 'react-router-dom';
 import { fetchAdministrate } from 'app/actions/EventActions';
@@ -33,14 +32,6 @@ const EventAdministrateIndex = () => {
 
   const base = `/events/${eventId}/administrate`;
 
-  if (!event) {
-    return (
-      <Content>
-        <LoadingIndicator loading={fetching} />
-      </Content>
-    );
-  }
-
   return (
     <Content>
       <NavigationTab
@@ -49,6 +40,7 @@ const EventAdministrateIndex = () => {
           label: 'Tilbake',
           path: '/events/' + event.slug,
         }}
+        skeleton={fetching}
       >
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
         {event && canSeeAllergies(currentUser, event) && (

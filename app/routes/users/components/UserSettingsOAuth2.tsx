@@ -196,8 +196,8 @@ const UserSettingsOAuth2 = () => {
             <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
           </Button>
         )}
-        {applications.length === 0 ? (
-          <span>Du har ingen applikasjoner</span>
+        {applications.length === 0 && !fetchingApplications ? (
+          <span className="secondaryFontColor">Du har ingen applikasjoner</span>
         ) : (
           <Table
             columns={applicationColumns}
@@ -209,8 +209,10 @@ const UserSettingsOAuth2 = () => {
       </Flex>
 
       <h3>Aksepterte applikasjoner</h3>
-      {grants.length === 0 ? (
-        <span>Du har ikke logget på en app enda.</span>
+      {grants.length === 0 && !fetchingGrants ? (
+        <span className="secondaryFontColor">
+          Du har ikke logget på en app enda
+        </span>
       ) : (
         <Table
           columns={acceptedApplicationcolumns}

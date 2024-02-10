@@ -1,4 +1,3 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
@@ -176,12 +175,14 @@ const Table: React.FC<TableProps> = ({
     }
   };
 
+  const visibleColumns = columns.filter(isVisible);
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <table>
         <thead>
           <tr>
-            {columns.filter(isVisible).map((column, index) => (
+            {visibleColumns.map((column, index) => (
               <HeadCell
                 key={column.dataIndex + column.title}
                 column={column}
@@ -217,13 +218,16 @@ const Table: React.FC<TableProps> = ({
               ))}
             </tr>
           ))}
-          {loading && (
-            <tr>
-              <td className={styles.loader} colSpan={columns.length}>
-                <LoadingIndicator loading={loading} />
-              </td>
-            </tr>
-          )}
+          {loading &&
+            Array.from({ length: 10 }).map((_, index) => (
+              <tr key={index}>
+                {Array.from({ length: visibleColumns.length }).map(
+                  (_, index) => (
+                    <td key={index} className={styles.loader} />
+                  )
+                )}
+              </tr>
+            ))}
         </InfiniteScroll>
       </table>
     </div>
