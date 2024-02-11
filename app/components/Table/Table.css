@@ -16,8 +16,30 @@
   cursor: pointer;
 }
 
+.loader {
+  height: 40.797px;
+}
+
 .wrapper tr:nth-child(even) {
   background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
+
+  & .loader {
+    animation: skeleton-loading 1s linear infinite alternate;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--color-gray-1);
+  }
+
+  50% {
+    background-color: var(--color-gray-2);
+  }
+
+  100% {
+    background-color: var(--color-gray-3);
+  }
 }
 
 .checkbox {
@@ -32,10 +54,6 @@
 
 .checkbox a {
   font-size: var(--font-size-md);
-}
-
-.loader {
-  border-bottom: none;
 }
 
 .overlay {

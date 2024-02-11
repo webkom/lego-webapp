@@ -50,7 +50,7 @@ const Abacard = () => {
     <div>
       <Validator handleSelect={handleSelect} validateAbakusGroup={false} />
       <div className={styles.counter}>
-        {registerCount}/{event.registrationCount} har møtt opp
+        {registerCount}/{event.registrationCount || '?'} har møtt opp
       </div>
     </div>
   );

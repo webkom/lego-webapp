@@ -1,9 +1,4 @@
-import {
-  Button,
-  ConfirmModal,
-  Flex,
-  LoadingIndicator,
-} from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { formatPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
@@ -56,10 +51,6 @@ const Attendees = () => {
     (unreg) =>
       unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual'
   ).length;
-
-  if (loading || !event) {
-    return <LoadingIndicator loading={loading} />;
-  }
 
   // Not showing the presence column until 1 day before start or if someone has been given set to presence
   const showPresence =
@@ -129,14 +120,14 @@ const Attendees = () => {
       </Flex>
       <Flex column>
         <div>
-          <strong>Påmeldte:</strong>
+          <strong>Påmeldte</strong>
           <div className={styles.attendeeStatistics}>
-            {`${registerCount}/${event.registrationCount} ${
+            {`${registerCount}/${event.registrationCount || '?'} ${
               eventHasEnded ? 'møtte opp' : 'har møtt opp'
             }`}
           </div>
           <div className={styles.attendeeStatistics}>
-            {`${adminRegisterCount}/${event.registrationCount} ${
+            {`${adminRegisterCount}/${event.registrationCount || '?'} ${
               eventHasEnded ? 'ble' : 'er'
             } adminpåmeldt`}
           </div>
@@ -155,7 +146,7 @@ const Attendees = () => {
               : ''}
           </div>
         </div>
-        {registered.length === 0 ? (
+        {registered.length === 0 && !loading ? (
           <span className="secondaryFontColor">Ingen påmeldte</span>
         ) : (
           <RegisteredTable
@@ -172,9 +163,9 @@ const Attendees = () => {
             marginTop: '10px',
           }}
         >
-          Avmeldte:
+          Avmeldte
         </strong>
-        {unregistered.length === 0 ? (
+        {unregistered.length === 0 && !loading ? (
           <span className="secondaryFontColor">Ingen avmeldte</span>
         ) : (
           <UnregisteredTable

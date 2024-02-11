@@ -1,5 +1,6 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { isEmpty } from 'lodash';
 import { Link, useParams } from 'react-router-dom';
 import { fetchAllergies } from 'app/actions/EventActions';
 import Table from 'app/components/Table';
@@ -16,7 +17,7 @@ export const canSeeAllergies = (
   currentUser?: CurrentUser,
   event?: AdministrateEvent
 ) => {
-  if (!currentUser || !event) {
+  if (!currentUser || !event || isEmpty(event)) {
     return false;
   }
   return (
