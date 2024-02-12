@@ -656,7 +656,7 @@ const CompanyInterestPage = () => {
               label={FORM_LABELS.comment[language]}
               required
             />
-            <Flex wrap justifyContent="space-between">
+            <Flex wrap justifyContent="space-between" gap="1rem">
               <Flex column className={styles.interestBox}>
                 <label htmlFor="semesters" className={styles.heading}>
                   {FORM_LABELS.semester[language]}
@@ -750,7 +750,7 @@ const CompanyInterestPage = () => {
                   showComment && (
                     <div className={styles.topline}>
                       <Flex alignItems="center" gap={1}>
-                        <h4>{eventTypeEntity.translated}</h4>
+                        <h3>{eventTypeEntity.translated}</h3>
                         <p className={styles.label}>*</p>
                       </Flex>
 
