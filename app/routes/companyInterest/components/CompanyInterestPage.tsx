@@ -81,7 +81,7 @@ const SemesterBox = ({
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Field
-        key={`semester${index}`}
+        key={`semesters[${index}]`}
         name={`semesters[${index}].checked`}
         label={semesterToText({ ...fields.value[index], language })}
         type="checkbox"
@@ -237,7 +237,7 @@ type CompanyInterestFormEntity = {
   contactPerson: string;
   mail: string;
   phone: string;
-  semesters: Array<CompanySemesterEntity>;
+  semesters: Array<CompanySemesterEntity & { checked: boolean }>;
   events: Array<{
     name: string;
     checked: boolean;
@@ -389,7 +389,12 @@ const CompanyInterestPage = () => {
           }))
           .filter((semester) => semester.activeInterestForm || semester.checked)
           .sort(sortSemesterChronologically)
-      : semesters.sort(sortSemesterChronologically),
+      : semesters
+          .map((semester) => ({
+            ...semester,
+            checked: false,
+          }))
+          .sort(sortSemesterChronologically),
   };
 
   if (edit && !companyInterest) {
@@ -659,14 +664,12 @@ const CompanyInterestPage = () => {
             <Flex wrap justifyContent="space-between" gap="1rem">
               <Flex column className={styles.interestBox}>
                 <label htmlFor="semesters" className={styles.heading}>
-                  {FORM_LABELS.semester[language]}
+                  {FORM_LABELS.semesters[language]}
                 </label>
                 <MultiSelectGroup name="semesters">
                   <FieldArray
-                    label="semesters"
                     name="semesters"
                     language={language}
-                    required
                     component={SemesterBox}
                   />
                 </MultiSelectGroup>

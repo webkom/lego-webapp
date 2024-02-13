@@ -205,7 +205,7 @@ export const FORM_LABELS = {
     norwegian: 'Telefonnummer',
     english: 'Phone number',
   },
-  semester: {
+  semesters: {
     norwegian: 'Semester',
     english: 'Semester',
   },
