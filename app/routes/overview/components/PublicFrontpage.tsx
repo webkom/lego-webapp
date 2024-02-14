@@ -35,11 +35,7 @@ const PublicFrontpage = () => {
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect(
-    'fetchIndex',
-    () => Promise.all([dispatch(fetchData())]),
-    []
-  );
+  usePreparedEffect('fetchIndex', () => dispatch(fetchData()), []);
 
   const pinned = frontpage[0];
 

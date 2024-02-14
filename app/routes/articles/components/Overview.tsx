@@ -92,11 +92,11 @@ const Overview = () => {
   usePreparedEffect(
     'fetchArticlesOverview',
     () =>
-      Promise.resolve([
+      Promise.all([
         dispatch(fetchPopular()),
         dispatch(fetchAll({ next: false, query })),
       ]),
-    []
+    [query]
   );
 
   const headlineEvents = articles.slice(0, HEADLINE_EVENTS);

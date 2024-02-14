@@ -134,11 +134,11 @@ const InterestGroupDetail = () => {
     'fetchInterestGroupDetail',
     () =>
       groupId &&
-      Promise.resolve([
+      Promise.all([
         dispatch(fetchGroup(groupId)),
         loggedIn && dispatch(fetchAllMemberships(groupId)),
       ]),
-    [loggedIn]
+    [groupId, loggedIn]
   );
 
   return (
