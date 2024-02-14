@@ -81,7 +81,7 @@ const SemesterBox = ({
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Field
-        key={`semester${index}`}
+        key={`semesters[${index}]`}
         name={`semesters[${index}].checked`}
         label={semesterToText({ ...fields.value[index], language })}
         type="checkbox"
@@ -237,7 +237,7 @@ type CompanyInterestFormEntity = {
   contactPerson: string;
   mail: string;
   phone: string;
-  semesters: Array<CompanySemesterEntity>;
+  semesters: Array<CompanySemesterEntity & { checked: boolean }>;
   events: Array<{
     name: string;
     checked: boolean;
@@ -287,6 +287,7 @@ const validate = createValidator({
   companyType: [required()],
   officeInTrondheim: [required()],
   events: [required()],
+  semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
   companyPresentationComment: [requiredIfEventType('company_presentation')],
   lunchPresentationComment: [requiredIfEventType('lunsh_presentation')],
@@ -388,7 +389,12 @@ const CompanyInterestPage = () => {
           }))
           .filter((semester) => semester.activeInterestForm || semester.checked)
           .sort(sortSemesterChronologically)
-      : semesters.sort(sortSemesterChronologically),
+      : semesters
+          .map((semester) => ({
+            ...semester,
+            checked: false,
+          }))
+          .sort(sortSemesterChronologically),
   };
 
   if (edit && !companyInterest) {
@@ -655,17 +661,18 @@ const CompanyInterestPage = () => {
               label={FORM_LABELS.comment[language]}
               required
             />
-            <Flex wrap justifyContent="space-between">
+            <Flex wrap justifyContent="space-between" gap="1rem">
               <Flex column className={styles.interestBox}>
                 <label htmlFor="semesters" className={styles.heading}>
-                  {FORM_LABELS.semester[language]}
+                  {FORM_LABELS.semesters[language]}
                 </label>
-                <FieldArray
-                  label="semesters"
-                  name="semesters"
-                  language={language}
-                  component={SemesterBox}
-                />
+                <MultiSelectGroup name="semesters">
+                  <FieldArray
+                    name="semesters"
+                    language={language}
+                    component={SemesterBox}
+                  />
+                </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
                 <label htmlFor="events" className={styles.heading}>
@@ -746,7 +753,7 @@ const CompanyInterestPage = () => {
                   showComment && (
                     <div className={styles.topline}>
                       <Flex alignItems="center" gap={1}>
-                        <h4>{eventTypeEntity.translated}</h4>
+                        <h3>{eventTypeEntity.translated}</h3>
                         <p className={styles.label}>*</p>
                       </Flex>
 

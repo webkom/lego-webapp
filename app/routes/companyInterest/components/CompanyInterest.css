@@ -6,6 +6,7 @@
 
 .interestBox {
   width: 32%;
+  min-width: 300px;
 }
 
 .checkboxWrapper {
@@ -50,8 +51,7 @@
 
 .heading {
   font-weight: 500;
-  text-transform: uppercase;
-  border-bottom: 1px solid var(--border-gray);
+  font-size: var(--font-size-lg);
   margin-top: 0.7rem;
 }
 
