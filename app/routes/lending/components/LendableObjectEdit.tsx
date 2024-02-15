@@ -65,7 +65,7 @@ const LendableObjectEdit = () => {
         editLendableObject({
           id: lendableObjectId,
           ...values,
-          responsibleGroups: values.responsibleGroups.map((group) => group.id),
+          responsibleGroups: values.responsibleGroups.map((group) => group.id || group.value),
           responsibleRoles: values.responsibleRoles.map((role) => role.value),
         })
       ).then(() => navigate(`/lending/${lendableObjectId}`));

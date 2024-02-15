@@ -28,6 +28,7 @@ export const selectLendableObjectById = createSelector(
     if (!lendableObject) {
       return {
         responsibleGroups: [],
+        responsibleRoles: [],
       }
     }
     return {

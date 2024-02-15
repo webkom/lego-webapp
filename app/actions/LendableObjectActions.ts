@@ -65,7 +65,7 @@ export function editLendableObject({
   return callAPI({
     types: LendableObject.EDIT,
     endpoint: `/lendableobject/${id}/`,
-    method: 'PUT',
+    method: 'PATCH',
     body: data,
     meta: {
       errorMessage: 'Endring av utlånsobjekt feilet',
