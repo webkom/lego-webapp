@@ -99,6 +99,10 @@ const LendableObjectEdit = () => {
           label: roleOptions.find((r) => r.value === role)?.label || role,
           value: role,
         })),
+        responsibleGroups: (lendableObject?.responsibleGroups || []).filter(Boolean).map((groups) => ({
+          label: groups.name,
+          value: groups.id,
+        })),
       }
     : {};
 

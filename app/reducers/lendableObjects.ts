@@ -20,7 +20,21 @@ export const selectLendableObjects = createSelector(
 );
 export const selectLendableObjectById = createSelector(
   (state: RootState) => state.lendableObjects.byId,
+  (state) => state.groups.byId,
   (_: RootState, props) => props.lendableObjectId,
-  (lendableObjectsById, lendableObjectId) =>
-    lendableObjectsById[lendableObjectId]
+  (lendableObjectsById, groupsById, lendableObjectId) => {
+    const lendableObject = lendableObjectsById[lendableObjectId];
+
+    if (!lendableObject) {
+      return {
+        responsibleGroups: [],
+      }
+    }
+    return {
+      ...lendableObject,
+      responsibleGroups: lendableObject.responsibleGroups.map(
+        (groupId) => groupsById[groupId]
+      ),
+    }
+  }
 );
