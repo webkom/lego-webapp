@@ -19,7 +19,7 @@
 
 .contentContainer {
   composes: container;
-  background: var(--color-white);
+  background: var(--lego-card-color);
   padding: 40px;
   box-shadow: var(--shadow-sm);
   border-radius: var(--border-radius-lg);
@@ -27,10 +27,6 @@
   @media (--small-viewport) {
     padding: 40px 10px;
   }
-}
-
-html[data-theme='dark'] .contentContainer {
-  background: var(--lego-card-color);
 }
 
 .page {

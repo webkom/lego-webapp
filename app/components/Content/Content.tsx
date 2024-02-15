@@ -90,7 +90,7 @@ function Content({
 
       <div
         className={cx(styles.content, className, {
-          [styles.contentWithBanner]: banner,
+          [styles.contentWithBanner]: banner || skeleton,
         })}
       >
         {children}
