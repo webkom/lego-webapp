@@ -10,7 +10,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-// import Banner from 'app/components/Banner';
+import Banner from 'app/components/Banner';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectFrontpage, type WithDocumentType } from 'app/reducers/frontpage';
@@ -45,12 +45,12 @@ const PublicFrontpage = () => {
 
   return (
     <Container>
-      {/* <Banner
-        header="Abakusrevyen har opptak!"
-        subHeader="Søk her"
-        link="https://opptak.abakus.no"
+      <Banner
+        header="Billetter til Abakusrevyen ute nå!"
+        subHeader="Kjøp billetter her"
+        link="https://abakusrevyen.no/"
         color="red"
-      /> */}
+      />
       <Container className={styles.container}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
