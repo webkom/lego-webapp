@@ -1,4 +1,6 @@
-import { Field, FormSpy } from 'react-final-form';
+import { LoadingIndicator , ConfirmModal } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   createLendableObject,
@@ -16,15 +18,11 @@ import {
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
+import { selectGroups } from 'app/reducers/groups';
+import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
 import { spySubmittable } from 'app/utils/formSpyUtils';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import { selectLendableObjectById } from 'app/reducers/lendableObjects';
-import { ConfirmModal, Icon, LoadingIndicator } from '@webkom/lego-bricks';
-import { fetchGroup, removeMember } from 'app/actions/GroupActions';
-import { selectGroups } from 'app/reducers/groups';
-import SubmitButton from 'app/components/Form/SubmitButton';
 
 type Params = {
   lendableObjectId: string | undefined;

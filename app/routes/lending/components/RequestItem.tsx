@@ -1,13 +1,8 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
+import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './RequestItem.css';
-
-export enum LendingRequestStatus {
-  PENDING,
-  APPROVED,
-  DENIED,
-}
 
 const ApprovedFlag = () => {
   return (
@@ -37,22 +32,26 @@ const DeniedFlag = () => {
 };
 
 type RequestItemProps = {
-  key: number;
+  // key: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   request: any;
   isAdmin?: boolean;
 };
 
-export const RequestItem = ({ key, request, isAdmin }: RequestItemProps) => {
+export const RequestItem = ({ request, isAdmin }: RequestItemProps) => {
   return (
-    <Link to={`/lending/request/${request.id}${isAdmin && "/admin"}`} className={styles.requestItem} key={key}>
+    <Link
+      to={`/lending/request/${request.id}${isAdmin && '/admin'}`}
+      className={styles.requestItem}
+    >
       <Flex column>
         <h2 className={styles.requestTitle}>{request.lendableObject.title}</h2>
         <Flex gap={10}>
-            <p>{request.user}</p>
-            <p>
-                {request.startTime.format('DD.MM.YYYY HH:mm')} -{' '}
-                {request.endTime.format('DD.MM.YYYY HH:mm')}
-            </p>
+          <p>{request.user.fullName}</p>
+          <p>
+            {request.startTime.format('DD.MM.YYYY HH:mm')} -{' '}
+            {request.endTime.format('DD.MM.YYYY HH:mm')}
+          </p>
         </Flex>
       </Flex>
 

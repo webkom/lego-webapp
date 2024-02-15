@@ -3,21 +3,21 @@ import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
+import { fetchLendableObject } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
+import DisplayContent from 'app/components/DisplayContent';
 import { Button, TextArea, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import { fetchLendableObject } from 'app/actions/LendableObjectActions';
-import DisplayContent from 'app/components/DisplayContent';
 
 type Params = {
   lendableObjectId: string;
@@ -57,7 +57,7 @@ const LendableObjectDetail = () => {
             </NavigationLink>
           </NavigationTab>
 
-          <DisplayContent content={lendableObject.description}/>
+          <DisplayContent content={lendableObject.description} />
 
           <FullCalendar
             plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}

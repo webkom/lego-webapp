@@ -101,6 +101,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'lending',
+    requireLogin: true,
     title: 'Utlån',
     icon: 'cart-outline',
     url: '/lending',

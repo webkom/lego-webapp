@@ -12,7 +12,8 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjects } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './LendableObjectsList.css';
-import RequestItem, { LendingRequestStatus } from './RequestItem';
+import RequestItem from './RequestItem';
+import { exampleRequests } from './fixtures';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 
 const LendableObject = ({
@@ -53,64 +54,6 @@ export const LendableObjectsList = () => {
   );
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
-  const myRequests = [
-    {
-      id: 1,
-      user: 'Test Testesen',
-      startTime: moment().subtract({ hours: 2 }),
-      endTime: moment(),
-      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-      status: LendingRequestStatus.PENDING,
-      lendableObject: {
-        id: 1,
-        title: 'Grill',
-        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-      },
-    },
-    {
-      id: 2,
-      user: 'Test Testesen',
-      startTime: moment().subtract({ days: 2 }),
-      endTime: moment().subtract({ days: 1 }),
-      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-      approved: false,
-      status: LendingRequestStatus.DENIED,
-      lendableObject: {
-        id: 2,
-        title: 'Grill',
-        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-      },
-    },
-    {
-      id: 3,
-      user: 'Test Testesen',
-      startTime: moment().add({ hours: 2 }),
-      endTime: moment().add({ hours: 4 }),
-      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-      approved: false,
-      status: LendingRequestStatus.APPROVED,
-      lendableObject: {
-        id: 2,
-        title: 'Grill',
-        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-      },
-    },
-    {
-      id: 4,
-      user: 'Test Testesen',
-      startTime: moment().add({ hours: 2 }),
-      endTime: moment().add({ hours: 4 }),
-      message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-      approved: false,
-      status: LendingRequestStatus.DENIED,
-      lendableObject: {
-        id: 2,
-        title: 'Grill',
-        image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-      },
-    },
-  ];
-
   return (
     <Content>
       <Helmet title="Utlån" />
@@ -120,10 +63,10 @@ export const LendableObjectsList = () => {
 
       <h2>Mine forespørsler</h2>
       <div className={styles.myRequestsList}>
-        {myRequests.length === 0 ? (
+        {exampleRequests.length === 0 ? (
           <p className="secondaryFontColor">Her var det tomt!</p>
         ) : (
-          myRequests
+          exampleRequests
             .sort((a, b) => b.endTime.diff(a.endTime))
             .filter(
               (req) =>
@@ -135,12 +78,11 @@ export const LendableObjectsList = () => {
         )}
       </div>
 
-      {myRequests.length !== 0 && (
+      {exampleRequests.length !== 0 && (
         <Button onClick={() => setShowOldRequests((prev) => !prev)}>
           {showOldRequests
             ? 'Skjul gamle forespørsler'
-            : 'Hent gamle forsepørsler'
-          }
+            : 'Hent gamle forsepørsler'}
         </Button>
       )}
 

@@ -5,20 +5,24 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import moment from 'moment';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
-import { Content, ContentMain, ContentSection, ContentSidebar } from 'app/components/Content';
+import {
+  Content,
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
+} from 'app/components/Content';
 import InfoList from 'app/components/InfoList';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
-import { LendingRequestStatus } from './RequestItem';
+import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import type { DetailedLendableObject } from 'app/store/models/LendableObject';
 // import { CommentView } from 'app/components/Comments';
 
 type Params = {
   requestId: string;
-}
+};
 
 const LendingRequestAdmin = () => {
-
   const { requestId } = useParams<Params>();
 
   const lendableObject: DetailedLendableObject = {
@@ -30,12 +34,11 @@ const LendingRequestAdmin = () => {
       'https://www.tntpyro.no/wp-content/uploads/2021/08/141_1283224098.jpg',
   };
 
-
   const request = {
     id: 1,
     user: {
-      username: "PeterTesterIProd",
-      fullName: "Peter TesterIProd"
+      username: 'PeterTesterIProd',
+      fullName: 'Peter TesterIProd',
     },
     startTime: moment().subtract({ hours: 2 }),
     endTime: moment(),
@@ -46,7 +49,7 @@ const LendingRequestAdmin = () => {
       title: 'Grill',
       image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
     },
-  }
+  };
 
   const otherLoans = [
     {
@@ -107,18 +110,22 @@ const LendingRequestAdmin = () => {
     },
     {
       key: 'Bruker',
-      value: <Link to={`/users/${request.user.username}`}>{request.user.fullName}</Link>,
-    }
+      value: (
+        <Link to={`/users/${request.user.username}`}>
+          {request.user.fullName}
+        </Link>
+      ),
+    },
   ];
 
   return (
     <Content>
       <Helmet title={`Forespørsel om utlån av ${lendableObject.title}`} />
-      <NavigationTab 
+      <NavigationTab
         title={`Forespørsel om utlån av ${lendableObject.title}`}
         back={{
           label: 'Tilbake',
-          path: '/lending/admin'
+          path: '/lending/admin',
         }}
       >
         <NavigationLink to={`/lending/request/${requestId}/admin`}>
@@ -137,30 +144,33 @@ const LendingRequestAdmin = () => {
           <InfoList items={infoItems} />
         </ContentSidebar>
       </ContentSection>
-      
+
       <ContentSection>
         <ContentMain>
-        <FullCalendar
-          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
-          initialView="timeGridWeek"
-          slotDuration={'01:00:00'}
-          nowIndicator
-          expandRows
-          slotLabelInterval={'02:00:00'}
-          slotLabelFormat={{
-            timeStyle: 'short',
-          }}
-          allDaySlot={false}
-          locale="nb"
-          firstDay={1}
-          headerToolbar={{
-            left: 'prev,today,next',
-            center: 'title',
-            right: 'timeGridWeek,dayGridMonth',
-          }}
-          events={[requestEvent, ...otherLoanEvents, ...otherLoanRequestEvents]}
-        />          
-
+          <FullCalendar
+            plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+            initialView="timeGridWeek"
+            slotDuration={'01:00:00'}
+            nowIndicator
+            expandRows
+            slotLabelInterval={'02:00:00'}
+            slotLabelFormat={{
+              timeStyle: 'short',
+            }}
+            allDaySlot={false}
+            locale="nb"
+            firstDay={1}
+            headerToolbar={{
+              left: 'prev,today,next',
+              center: 'title',
+              right: 'timeGridWeek,dayGridMonth',
+            }}
+            events={[
+              requestEvent,
+              ...otherLoanEvents,
+              ...otherLoanRequestEvents,
+            ]}
+          />
         </ContentMain>
       </ContentSection>
 
@@ -172,7 +182,6 @@ const LendingRequestAdmin = () => {
           />
         </ContentMain>
       </ContentSection> */}
-
     </Content>
   );
 };
