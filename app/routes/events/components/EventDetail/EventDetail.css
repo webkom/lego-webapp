@@ -55,13 +55,11 @@
 }
 
 .mapButton {
-  max-width: 120px;
-  max-height: 30px;
-  gap: 5px;
+  gap: 4px;
   font-size: var(--font-size-sm);
 }
 
 .mazemapImg {
-  width: 25px;
-  margin-left: -8px;
+  width: 30px;
+  margin-left: -4px;
 }

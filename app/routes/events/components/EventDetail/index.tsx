@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
-import mazemapLogo from 'app/assets/mazemap.png';
+import mazemapLogo from 'app/assets/mazemap.svg';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   Content,
@@ -20,7 +20,6 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import { Image } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import PropertyHelmet from 'app/components/PropertyHelmet';
@@ -484,9 +483,9 @@ const EventDetail = () => {
                 className={styles.mapButton}
                 onClick={() => setMapIsOpen(!mapIsOpen)}
               >
-                <Image
+                <img
                   className={styles.mazemapImg}
-                  alt="mazemapLogo"
+                  alt="MazeMap-logo"
                   src={mazemapLogo}
                 />
                 {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
