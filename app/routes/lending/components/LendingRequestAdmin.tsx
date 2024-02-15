@@ -1,3 +1,7 @@
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import FullCalendar from '@fullcalendar/react';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import moment from 'moment';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
@@ -7,12 +11,13 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
 import { LendingRequestStatus } from './RequestItem';
 import type { DetailedLendableObject } from 'app/store/models/LendableObject';
+// import { CommentView } from 'app/components/Comments';
 
 type Params = {
   requestId: string;
 }
 
-const LendingRequest = () => {
+const LendingRequestAdmin = () => {
 
   const { requestId } = useParams<Params>();
 
@@ -113,7 +118,7 @@ const LendingRequest = () => {
         title={`Forespørsel om utlån av ${lendableObject.title}`}
         back={{
           label: 'Tilbake',
-          path: '/lending'
+          path: '/lending/admin'
         }}
       >
         <NavigationLink to={`/lending/request/${requestId}/admin`}>
@@ -132,6 +137,32 @@ const LendingRequest = () => {
           <InfoList items={infoItems} />
         </ContentSidebar>
       </ContentSection>
+      
+      <ContentSection>
+        <ContentMain>
+        <FullCalendar
+          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+          initialView="timeGridWeek"
+          slotDuration={'01:00:00'}
+          nowIndicator
+          expandRows
+          slotLabelInterval={'02:00:00'}
+          slotLabelFormat={{
+            timeStyle: 'short',
+          }}
+          allDaySlot={false}
+          locale="nb"
+          firstDay={1}
+          headerToolbar={{
+            left: 'prev,today,next',
+            center: 'title',
+            right: 'timeGridWeek,dayGridMonth',
+          }}
+          events={[requestEvent, ...otherLoanEvents, ...otherLoanRequestEvents]}
+        />          
+
+        </ContentMain>
+      </ContentSection>
 
       {/* <ContentSection>
         <ContentMain>
@@ -146,4 +177,4 @@ const LendingRequest = () => {
   );
 };
 
-export default LendingRequest;
+export default LendingRequestAdmin;

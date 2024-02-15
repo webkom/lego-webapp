@@ -5,6 +5,8 @@ import LendableObjectsList from 'app/routes/lending/components/LendableObjectsLi
 import PageNotFound from 'app/routes/pageNotFound';
 import LendableObjectAdminDetail from './components/LendableObjectAdminDetail';
 import LendingAdmin from './components/LendingAdmin';
+import LendingRequest from './components/LendingRequest';
+import LendingRequestAdmin from './components/LendingRequestAdmin';
 
 const LendingRoute = () => (
   <Routes>
@@ -12,8 +14,13 @@ const LendingRoute = () => (
     <Route path="create" element={<LendableObjectEdit />} />
     <Route path=":lendableObjectId" element={<LendableObjectDetail />} />
     <Route path=":lendableObjectId/edit" element={<LendableObjectEdit />} />
+    <Route
+      path=":lendableObjectId/admin"
+      element={<LendableObjectAdminDetail />}
+    />
+    <Route path="request/:requestId" element={<LendingRequest />} />
+    <Route path="request/:requestId/admin" element={<LendingRequestAdmin />} />
     <Route path="admin/*" element={<LendingAdmin />} />
-    <Route path="admin/:lendableObjectId" element={<LendableObjectAdminDetail />} />
     <Route path="*" element={<PageNotFound />} />
   </Routes>
 );

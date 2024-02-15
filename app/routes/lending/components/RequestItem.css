@@ -1,14 +1,27 @@
-@import url('~app/styles/variables.css');
-
-.request {
+/* same as joblistings and interestgroup, maybe own component for hoverable link container? */
+.requestItem {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  cursor: pointer;
+  gap: 10px;
+  color: var(--lego-font-color);
+  border-radius: var(--border-radius-lg);
+  padding: 15px 20px;
+  margin: 3px 0 12px;
+  transition: background-color var(--easing-fast);
+
+  &:hover {
+    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  }
+}
+
+.requestTitle {
+  margin: 0 0 10px;
+  color: var(--lego-font-color);
 }
 
 .statusPill {
-  margin: 0 auto;
+  margin: 0;
   display: flex;
   text-transform: uppercase;
   padding: 0.375rem 0.5rem;

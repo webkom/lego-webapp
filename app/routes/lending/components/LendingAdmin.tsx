@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import styles from './LendingAdmin.css';
-import { LendingRequest, status } from './LendingRequest';
+import { RequestItem, LendingRequestStatus } from './RequestItem';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 
 const LendableObjectsAdmin = () => {
@@ -17,7 +17,7 @@ const LendableObjectsAdmin = () => {
       startTime: moment().subtract({ hours: 2 }),
       endTime: moment(),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-      status: status.PENDING,
+      status: LendingRequestStatus.PENDING,
       lendableObject: {
         id: 1,
         title: 'Grill',
@@ -31,7 +31,7 @@ const LendableObjectsAdmin = () => {
       endTime: moment(),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
       approved: false,
-      status: status.PENDING,
+      status: LendingRequestStatus.PENDING,
       lendableObject: {
         id: 2,
         title: 'Grill',
@@ -45,7 +45,7 @@ const LendableObjectsAdmin = () => {
       endTime: moment(),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
       approved: false,
-      status: status.APPROVED,
+      status: LendingRequestStatus.APPROVED,
       lendableObject: {
         id: 2,
         title: 'Grill',
@@ -59,7 +59,7 @@ const LendableObjectsAdmin = () => {
       endTime: moment(),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
       approved: false,
-      status: status.DENIED,
+      status: LendingRequestStatus.DENIED,
       lendableObject: {
         id: 2,
         title: 'Grill',
@@ -96,7 +96,7 @@ const LendableObjectsAdmin = () => {
     },
   ];
 
-  const [showFetchMore, setShowFetchMore] = useState(true);
+  const [showOldRequests, setShowOldRequests] = useState(false);
 
   return (
     <Content>
@@ -111,21 +111,26 @@ const LendableObjectsAdmin = () => {
       <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
       <Flex column gap={10} margin="0 0 30px">
         {lendingRequests
-          .filter((request) => request.status === status.PENDING)
+          .filter((request) => request.status === LendingRequestStatus.PENDING)
           .map((request) => (
-            <LendingRequest key={request.id} request={request} isAdmin />
+            <RequestItem key={request.id} request={request} isAdmin />
           ))}
       </Flex>
-
-      <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
-      <Flex column gap={10} margin="0 0 30px">
-        {lendingRequests
-          .filter((request) => request.status !== status.PENDING)
-          .map((request) => (
-            <LendingRequest key={request.id} request={request} isAdmin />
-          ))}
-        {showFetchMore && <Button onClick={() => {}}>Last inn mer</Button>}
-      </Flex>
+      
+      {showOldRequests ? (
+        <>
+          <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
+          <Flex column gap={10} margin="0 0 30px">
+            {lendingRequests
+              .filter((request) => request.status !== LendingRequestStatus.PENDING)
+              .map((request) => (
+                <RequestItem key={request.id} request={request} isAdmin />
+              ))}
+          </Flex>
+          <Button onClick={() => setShowOldRequests(false)}>Skjul tidligere forespørsler</Button>
+        </>
+      ) : <Button onClick={() => setShowOldRequests(true)}>Vis tidligere forespørsler</Button>}
+      
 
       <h2 className={styles.heading}>Utlånsobjekter</h2>
       <Flex column gap={10}>
@@ -134,23 +139,24 @@ const LendableObjectsAdmin = () => {
             <Icon name="add-outline" size={30} />
           </Card>
         </Link>
-        {lendableObjects.map((lendableObject) => (
-          <Card
-            key={lendableObject.id}
-            shadow
-            className={styles.lendableObject}
-          >
-            <h3>
-              {lendableObject.id} - {lendableObject.title}
-            </h3>
-            <Link to={`/lending/${lendableObject.id}/edit`}>
-              <Button>
-                <Icon name="create-outline" size={19} />
-                Rediger
-              </Button>
+        <div className={styles.lendableObjectsContainer}>
+          {lendableObjects.map((lendableObject) => (
+            <Link 
+              to={`/lending/${lendableObject.id}/admin`}
+              key={lendableObject.id}
+            >
+              <Card
+                isHoverable
+                hideOverflow
+                className={styles.lendableObjectCard}
+              >
+                <h3>
+                  {lendableObject.id} - {lendableObject.title}
+                </h3>
+              </Card>
             </Link>
-          </Card>
-        ))}
+          ))}
+        </div>
       </Flex>
     </Content>
   );

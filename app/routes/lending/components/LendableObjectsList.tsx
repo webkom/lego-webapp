@@ -12,7 +12,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjects } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './LendableObjectsList.css';
-import { LendingRequest, status } from './LendingRequest';
+import RequestItem, { LendingRequestStatus } from './RequestItem';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 
 const LendableObject = ({
@@ -38,7 +38,7 @@ const LendableObject = ({
 
 export const LendableObjectsList = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [showFetchMore, setShowFetchMore] = useState(false);
+  const [showOldRequests, setShowOldRequests] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -60,7 +60,7 @@ export const LendableObjectsList = () => {
       startTime: moment().subtract({ hours: 2 }),
       endTime: moment(),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-      status: status.PENDING,
+      status: LendingRequestStatus.PENDING,
       lendableObject: {
         id: 1,
         title: 'Grill',
@@ -74,7 +74,7 @@ export const LendableObjectsList = () => {
       endTime: moment().subtract({ days: 1 }),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
       approved: false,
-      status: status.DENIED,
+      status: LendingRequestStatus.DENIED,
       lendableObject: {
         id: 2,
         title: 'Grill',
@@ -88,7 +88,7 @@ export const LendableObjectsList = () => {
       endTime: moment().add({ hours: 4 }),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
       approved: false,
-      status: status.APPROVED,
+      status: LendingRequestStatus.APPROVED,
       lendableObject: {
         id: 2,
         title: 'Grill',
@@ -96,13 +96,13 @@ export const LendableObjectsList = () => {
       },
     },
     {
-      id: 3,
+      id: 4,
       user: 'Test Testesen',
       startTime: moment().add({ hours: 2 }),
       endTime: moment().add({ hours: 4 }),
       message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
       approved: false,
-      status: status.DENIED,
+      status: LendingRequestStatus.DENIED,
       lendableObject: {
         id: 2,
         title: 'Grill',
@@ -124,24 +124,25 @@ export const LendableObjectsList = () => {
           <p className="secondaryFontColor">Her var det tomt!</p>
         ) : (
           myRequests
-            .filter((request) =>
-              request.endTime.isAfter(moment().startOf('day'))
+            .sort((a, b) => b.endTime.diff(a.endTime))
+            .filter(
+              (req) =>
+                showOldRequests || req.endTime.isAfter(moment().startOf('day'))
             )
-            // sorting?
             .map((request) => (
-              <LendingRequest key={request.id} request={request} />
+              <RequestItem key={request.id} request={request} />
             ))
         )}
       </div>
 
-      {myRequests.length !== 0 &&
-        (showFetchMore ? (
-          <Button>Hent fler</Button>
-        ) : (
-          <Button onClick={() => setShowFetchMore(true)}>
-            Hent gamle forespørsler
-          </Button>
-        ))}
+      {myRequests.length !== 0 && (
+        <Button onClick={() => setShowOldRequests((prev) => !prev)}>
+          {showOldRequests
+            ? 'Skjul gamle forespørsler'
+            : 'Hent gamle forsepørsler'
+          }
+        </Button>
+      )}
 
       <h2 style={{ marginTop: '30px' }}>Utlånsobjekter</h2>
       <TextInput
