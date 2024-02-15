@@ -2,6 +2,7 @@ import { Field, FormSpy } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   createLendableObject,
+  deleteLendableObject,
   editLendableObject,
   fetchLendableObject,
 } from 'app/actions/LendableObjectActions';
@@ -20,9 +21,10 @@ import { roleOptions } from 'app/utils/constants';
 import { spySubmittable } from 'app/utils/formSpyUtils';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
-import { LoadingIndicator } from '@webkom/lego-bricks';
-import { fetchGroup } from 'app/actions/GroupActions';
+import { ConfirmModal, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { fetchGroup, removeMember } from 'app/actions/GroupActions';
 import { selectGroups } from 'app/reducers/groups';
+import SubmitButton from 'app/components/Form/SubmitButton';
 
 type Params = {
   lendableObjectId: string | undefined;
@@ -65,11 +67,18 @@ const LendableObjectEdit = () => {
         editLendableObject({
           id: lendableObjectId,
           ...values,
-          responsibleGroups: values.responsibleGroups.map((group) => group.id || group.value),
+          responsibleGroups: values.responsibleGroups.map(
+            (group) => group.id || group.value
+          ),
           responsibleRoles: values.responsibleRoles.map((role) => role.value),
         })
       ).then(() => navigate(`/lending/${lendableObjectId}`));
     }
+  };
+
+  const onDelete = () => {
+    dispatch(deleteLendableObject(Number(lendableObjectId)));
+    navigate('/lending');
   };
 
   if (!isNew && !lendableObject) {
@@ -99,10 +108,12 @@ const LendableObjectEdit = () => {
           label: roleOptions.find((r) => r.value === role)?.label || role,
           value: role,
         })),
-        responsibleGroups: (lendableObject?.responsibleGroups || []).filter(Boolean).map((groups) => ({
-          label: groups.name,
-          value: groups.id,
-        })),
+        responsibleGroups: (lendableObject?.responsibleGroups || [])
+          .filter(Boolean)
+          .map((groups) => ({
+            label: groups.name,
+            value: groups.id,
+          })),
       }
     : {};
 
@@ -149,11 +160,26 @@ const LendableObjectEdit = () => {
               component={TextInput.Field}
             />
             <SubmissionError />
-            {spySubmittable((submittable) => (
-              <Button disabled={!submittable} submit>
-                {isNew ? 'Opprett utlåndsobjekt' : 'Lagre endringer'}
-              </Button>
-            ))}
+            <div>
+              {spySubmittable((submittable) => (
+                <Button disabled={!submittable} submit>
+                  {isNew ? 'Opprett utlåndsobjekt' : 'Lagre endringer'}
+                </Button>
+              ))}
+              {!isNew && (
+                <ConfirmModal
+                  title="Bekreft sletting"
+                  message={`Er du sikker på at du vil slette ${lendableObject.name}"?`}
+                  onConfirm={onDelete}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button danger disabled={false} onClick={openConfirmModal}>
+                      Slett utlånsobjekt
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+            </div>
           </Form>
         )}
       </LegoFinalForm>
