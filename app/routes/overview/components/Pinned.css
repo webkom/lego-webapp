@@ -1,6 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .pinned {
+  grid-area: pinned;
   width: 100%;
 }
 

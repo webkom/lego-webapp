@@ -1,46 +1,68 @@
 @import url('~app/styles/variables.css');
 
-.leftColumn {
-  flex: 13;
-  margin-right: 10px;
-  padding: 0 20px;
+.wrapper {
+  display: grid;
+  grid-template:
+    'compact-events registrations'
+    'pinned poll'
+    'events quote'
+    'events readme'
+    'events weekly'
+    'events articles'
+    'events .'
+    / 2fr 1fr;
+  padding: 0 var(--lego-default-padding);
+  gap: 2rem;
+
+  @media (--mobile-device) {
+    grid-template:
+      'compact-events'
+      'registrations'
+      'pinned'
+      'poll'
+      'quote'
+      'readme'
+      'weekly'
+      'articles'
+      'events';
+    padding: 0 1rem;
+  }
+
+  h3 {
+    margin-top: 0;
+  }
 }
 
-.rightColumn {
-  flex: 7;
+.compactEvents {
+  grid-area: compact-events;
+}
+
+.registrations {
+  grid-area: registrations;
+}
+
+.poll {
+  grid-area: poll;
+}
+
+.quote {
+  grid-area: quote;
 }
 
 .readMe {
-  padding: 28px 0 0;
+  grid-area: readme;
 }
 
-.dot {
-  margin: 0 6px;
+.weekly {
+  grid-area: weekly;
 }
 
-.type {
-  margin-right: 6px;
-}
-
-.tagline {
-  margin: 0;
-  display: inline-flex;
-  gap: 7px;
-}
-
-.otherItems {
-  display: flex;
-  padding: 0 10px;
-
-  @media (--mobile-device) {
-    flex-direction: column;
-  }
+.articles {
+  grid-area: articles;
 }
 
 .events {
-  @media (--mobile-device) {
-    margin-right: 0;
-  }
+  grid-area: events;
 }
 
 .showMore {
@@ -49,18 +71,9 @@
   margin: 20px 0;
 }
 
-.desktopContainer {
-  display: flex;
-
-  @media (--mobile-device) {
-    display: none;
-  }
-}
-
-.mobileContainer {
-  display: none;
-
-  @media (--mobile-device) {
-    display: grid;
-  }
+.tagline {
+  margin: 0;
+  margin-left: 0.5rem;
+  display: inline-flex;
+  gap: 7px;
 }

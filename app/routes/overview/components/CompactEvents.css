@@ -6,14 +6,11 @@
   white-space: nowrap;
   width: 100%;
   text-align: left;
+  gap: 2rem;
 
   @media (--small-viewport) {
     flex-direction: column;
   }
-}
-
-.compactLeft {
-  padding-right: 20px;
 }
 
 @media (--mobile-device) {
@@ -25,10 +22,6 @@
 .compactLeft,
 .compactRight {
   flex: 1;
-
-  @media (--mobile-device) {
-    padding: 0 10px 10px;
-  }
 }
 
 .compactEvents li {

@@ -27,9 +27,11 @@ const Banner = (props: Props) => {
 
   const LinkComponent = ({ children }: { children: ReactNode }) => {
     return internal ? (
-      <Link to={link}>{children}</Link>
+      <Link to={link} className={styles.link}>
+        {children}
+      </Link>
     ) : (
-      <a href={link} target="_blank" rel="noreferrer">
+      <a href={link} target="_blank" rel="noreferrer" className={styles.link}>
         {children}
       </a>
     );
