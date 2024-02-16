@@ -45,7 +45,7 @@ const UserSettingsNotifications = () => {
   usePreparedEffect(
     'fetchUserSettingsNotifications',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchNotificationAlternatives()),
         dispatch(fetchNotificationSettings()),
       ]),

@@ -50,7 +50,11 @@ const AddSemester = () => {
 
   usePreparedEffect(
     'fetchAddSemester',
-    () => Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
+    () =>
+      Promise.allSettled([
+        dispatch(fetchSemesters()),
+        dispatch(fetchAllAdmin()),
+      ]),
     [companyId]
   );
 

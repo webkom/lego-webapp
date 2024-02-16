@@ -52,7 +52,7 @@ const Overview = () => {
   usePreparedEffect(
     'fetchIndex',
     () =>
-      Promise.all([
+      Promise.allSettled([
         loggedIn && shouldFetchQuote && dispatch(fetchRandomQuote()),
         dispatch(fetchReadmes(loggedIn ? 4 : 2)),
         dispatch(fetchData()),

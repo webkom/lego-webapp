@@ -188,7 +188,7 @@ const GalleryPictureModal = () => {
     'fetchGalleryPicture',
     () =>
       galleryId &&
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchGallery(galleryId)),
         pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
       ]),

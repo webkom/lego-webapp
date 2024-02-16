@@ -79,7 +79,7 @@ const BdbDetail = () => {
     'fetchBdbDetail',
     () =>
       companyId &&
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
         dispatch(
           fetchEventsForCompany({

@@ -120,7 +120,8 @@ const CompanyInterestList = () => {
 
   usePreparedEffect(
     'fetchCompanyInterestList',
-    () => Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]),
+    () =>
+      Promise.allSettled([dispatch(fetchAll()), dispatch(fetchSemesters())]),
     []
   );
 

@@ -76,7 +76,7 @@ const QuotePage = () => {
   usePreparedEffect(
     'fetchQuotePage',
     () =>
-      Promise.all([
+      Promise.allSettled([
         quoteId ? dispatch(fetchQuote(quoteId)) : dispatch(fetchAll({ query })),
         dispatch(fetchEmojis()),
       ]),

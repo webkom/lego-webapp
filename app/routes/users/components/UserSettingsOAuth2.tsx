@@ -25,7 +25,7 @@ const UserSettingsOAuth2 = () => {
   usePreparedEffect(
     'fetchUserSettingsOAuth2',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchOAuth2Applications()),
         dispatch(fetchOAuth2Grants()),
       ]),

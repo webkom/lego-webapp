@@ -142,7 +142,7 @@ const GalleryEditor = () => {
     () =>
       !isNew &&
       galleryId &&
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetch(Number(galleryId))),
         dispatch(fetchGallery(galleryId)),
       ]),

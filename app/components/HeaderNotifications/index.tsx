@@ -92,7 +92,7 @@ const NotificationsDropdown = () => {
   usePreparedEffect(
     'fetchNotificationDropdownData',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchNotificationFeed()),
         dispatch(fetchNotificationData()),
       ]),

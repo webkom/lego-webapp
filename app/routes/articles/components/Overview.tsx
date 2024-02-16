@@ -92,7 +92,7 @@ const Overview = () => {
   usePreparedEffect(
     'fetchArticlesOverview',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchPopular()),
         dispatch(fetchAll({ next: false, query })),
       ]),

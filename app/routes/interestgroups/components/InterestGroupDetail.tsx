@@ -134,7 +134,7 @@ const InterestGroupDetail = () => {
     'fetchInterestGroupDetail',
     () =>
       groupId &&
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchGroup(groupId)),
         loggedIn && dispatch(fetchAllMemberships(groupId)),
       ]),

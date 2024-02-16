@@ -76,7 +76,7 @@ const GalleryDetail = () => {
     'fetchGalleryDetail',
     () =>
       galleryId &&
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetch(galleryId)).catch(),
         dispatch(fetchGallery(galleryId)).catch(() =>
           dispatch(fetchGalleryMetadata(galleryId))
