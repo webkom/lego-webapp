@@ -14,7 +14,7 @@ const Statistics = () => {
   usePreparedEffect(
     'fetchStatisticsGroups',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchAllWithType(GroupType.Committee)),
         dispatch(fetchAllWithType(GroupType.Revue)),
       ]),

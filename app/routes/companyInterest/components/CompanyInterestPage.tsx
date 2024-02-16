@@ -323,7 +323,7 @@ const CompanyInterestPage = () => {
   usePreparedEffect(
     'fetchCompanyInterestPage',
     () => {
-      Promise.all([
+      Promise.allSettled([
         edit && dispatch(fetchSemesters()),
         edit &&
           companyInterestId &&

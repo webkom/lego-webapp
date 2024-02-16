@@ -78,7 +78,7 @@ const PageEditor = () => {
 
   usePreparedEffect(
     'fetchPageEdit',
-    () => !isNew && dispatch(fetchPage(pageSlug)),
+    () => !isNew && pageSlug && dispatch(fetchPage(pageSlug)),
     [isNew, pageSlug]
   );
 

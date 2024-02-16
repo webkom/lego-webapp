@@ -175,7 +175,7 @@ const EventEditor = () => {
   usePreparedEffect(
     'fetchEventEdit',
     () =>
-      Promise.all([
+      Promise.allSettled([
         eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
         dispatch(fetchImageGallery()),
       ]),

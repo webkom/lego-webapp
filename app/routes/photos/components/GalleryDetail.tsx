@@ -75,7 +75,8 @@ const GalleryDetail = () => {
   usePreparedEffect(
     'fetchGalleryDetail',
     () =>
-      Promise.all([
+      galleryId &&
+      Promise.allSettled([
         dispatch(fetch(galleryId)).catch(),
         dispatch(fetchGallery(galleryId)).catch(() =>
           dispatch(fetchGalleryMetadata(galleryId))

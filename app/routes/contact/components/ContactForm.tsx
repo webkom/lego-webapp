@@ -53,7 +53,7 @@ const ContactForm = () => {
   usePreparedEffect(
     'fetchGroups',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchAllWithType(GroupType.Committee)),
         // The revue board group does not exist in the local dev environment.
         // It should be added to the fixtures, so that the propagateError flag can be removed.

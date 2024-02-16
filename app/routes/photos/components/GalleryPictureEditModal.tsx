@@ -55,9 +55,10 @@ const GalleryPictureEditModal = () => {
   usePreparedEffect(
     'fetchGalleryAndGalleryPicture',
     () =>
-      Promise.all([
+      galleryId &&
+      Promise.allSettled([
         dispatch(fetchGallery(galleryId)),
-        dispatch(fetchGalleryPicture(galleryId, pictureId)),
+        pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
       ]),
     [galleryId, pictureId]
   );

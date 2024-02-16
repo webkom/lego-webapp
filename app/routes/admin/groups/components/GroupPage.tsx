@@ -63,7 +63,7 @@ const GroupPage = () => {
   usePreparedEffect(
     'fetchAllGroups',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchAll()),
         groupId && dispatch(fetchGroup(groupId)),
       ]),

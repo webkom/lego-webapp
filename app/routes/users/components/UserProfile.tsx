@@ -208,7 +208,7 @@ const UserProfile = () => {
   usePreparedEffect(
     'fetchUserProfile',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchAllWithType(GroupType.Grade)),
         isCurrentUser && dispatch(fetchPrevious()),
         isCurrentUser && dispatch(fetchUpcoming()),

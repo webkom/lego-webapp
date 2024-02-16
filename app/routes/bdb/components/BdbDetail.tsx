@@ -78,15 +78,15 @@ const BdbDetail = () => {
   usePreparedEffect(
     'fetchBdbDetail',
     () =>
-      Promise.all([
+      companyId &&
+      Promise.allSettled([
         dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
-        companyId &&
-          dispatch(
-            fetchEventsForCompany({
-              endpoint: `/events/${queryString(companyId)}`,
-              queryString: queryString(companyId),
-            })
-          ),
+        dispatch(
+          fetchEventsForCompany({
+            endpoint: `/events/${queryString(companyId)}`,
+            queryString: queryString(companyId),
+          })
+        ),
       ]),
     [companyId]
   );

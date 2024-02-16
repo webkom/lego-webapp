@@ -50,12 +50,12 @@ const EmailUsers = () => {
   usePreparedEffect(
     'fetchEmailUsers',
     () =>
-      Promise.resolve([
+      Promise.allSettled([
         dispatch(fetchAllWithType(GroupType.Committee)),
         dispatch(fetchAllWithType(GroupType.Grade)),
         dispatch(fetch({ query })),
       ]),
-    []
+    [query]
   );
 
   const columns = [

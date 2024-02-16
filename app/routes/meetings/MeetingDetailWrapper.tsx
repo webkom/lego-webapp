@@ -38,7 +38,9 @@ const MeetingDetailWrapper = () => {
         dispatch(answerMeetingInvitation(action, token));
       }
 
-      return loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve();
+      return loggedIn && meetingId
+        ? dispatch(fetchMeeting(meetingId))
+        : Promise.resolve();
     },
     [meetingId, loggedIn, token, action]
   );

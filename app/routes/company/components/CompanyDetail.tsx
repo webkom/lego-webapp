@@ -70,7 +70,7 @@ const CompanyDetail = () => {
     'fetchDetailedCompany',
     () =>
       companyId &&
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetch(companyId)),
         dispatch(
           fetchEventsForCompany({
