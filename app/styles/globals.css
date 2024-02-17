@@ -91,8 +91,6 @@ thead {
 th,
 td {
   padding: 10px;
-  width: 140px;
-  display: table-cell;
 }
 
 th:first-child {
