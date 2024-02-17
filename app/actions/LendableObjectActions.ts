@@ -1,11 +1,11 @@
 import callAPI from 'app/actions/callAPI';
-import { lendableObjectSchema } from 'app/reducers';
+import { lendableObjectSchema, lendingRequestSchema } from 'app/reducers';
 import type {
   EntityType,
   NormalizedEntityPayload,
 } from 'app/store/models/entities';
 import type { Thunk } from 'app/types';
-import { LendableObject } from './ActionTypes';
+import { LendableObject, LendingRequest } from './ActionTypes';
 
 export function fetchAllLendableObjects(): Thunk<
   Promise<NormalizedEntityPayload<EntityType.LendableObjects>>
@@ -70,5 +70,19 @@ export function editLendableObject({
     meta: {
       errorMessage: 'Endring av utlånsobjekt feilet',
     },
+  });
+}
+
+export function fetchAllLendingRequests(): Thunk<
+  Promise<NormalizedEntityPayload<EntityType.LendingRequests>>
+> {
+  return callAPI({
+    types: LendingRequest.FETCH,
+    endpoint: '/lendinginstance/',
+    schema: [lendingRequestSchema],
+    meta: {
+      errorMessage: 'Henting av utlånsforespørsler failet',
+    },
+    propagateError: true,
   });
 }

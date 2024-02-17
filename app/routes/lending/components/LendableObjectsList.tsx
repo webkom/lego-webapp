@@ -1,15 +1,16 @@
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
-import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
+import { fetchAllLendableObjects, fetchAllLendingRequests } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjects } from 'app/reducers/lendableObjects';
+import { selectLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './LendableObjectsList.css';
 import RequestItem from './RequestItem';
@@ -54,29 +55,45 @@ export const LendableObjectsList = () => {
   );
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
+  usePreparedEffect(
+    'fetchRequests',
+    () => dispatch(fetchAllLendingRequests()),
+    []
+  )
+
+  const lendingRequests = useAppSelector((state) =>
+    selectLendingRequests(state)
+  );
+
+  const fetchingRequests = useAppSelector((state) => state.lendingRequests.fetching);
+
   return (
     <Content>
       <Helmet title="Utlån" />
       <NavigationTab title="Utlån">
-        <NavigationLink to={`/lending/admin`}>Admin</NavigationLink>
+        <NavigationLink to="/lending/admin">Admin</NavigationLink>
       </NavigationTab>
 
       <h2>Mine forespørsler</h2>
       <div className={styles.myRequestsList}>
-        {exampleRequests.length === 0 ? (
-          <p className="secondaryFontColor">Her var det tomt!</p>
-        ) : (
-          exampleRequests
-            .sort((a, b) => b.endTime.diff(a.endTime))
-            .filter(
-              (req) =>
-                showOldRequests || req.endTime.isAfter(moment().startOf('day'))
-            )
-            .map((request) => (
-              <RequestItem key={request.id} request={request} />
-            ))
-        )}
+        <LoadingIndicator loading={fetchingRequests}>
+          {lendingRequests.length === 0 ? (
+            <p className="secondaryFontColor">Her var det tomt!</p>
+          ) : (
+            lendingRequests
+              // TODO: does not work atm.. 
+              // .sort((a, b) => b.endDate.diff(a.endDate))
+              // .filter(
+              //   (req) =>
+              //     showOldRequests || req.endDate.isAfter(moment().startOf('day'))
+              // )
+              .map((request) => (
+                <RequestItem key={request.id} request={request} />
+              ))
+          )}
+        </LoadingIndicator>
       </div>
+
 
       {exampleRequests.length !== 0 && (
         <Button onClick={() => setShowOldRequests((prev) => !prev)}>

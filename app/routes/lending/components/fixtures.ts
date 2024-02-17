@@ -81,8 +81,8 @@ export const exampleRequests: LendingRequest[] = [
       profilePicture: '',
       photoConsents: []
     },
-    startTime: moment().subtract({ hours: 2 }),
-    endTime: moment(),
+    startDate: moment().subtract({ hours: 2 }),
+    endDate: moment(),
     message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
     status: LendingRequestStatus.PENDING,
     lendableObject: {
@@ -108,8 +108,8 @@ export const exampleRequests: LendingRequest[] = [
       profilePicture: '',
       photoConsents: []
     },
-    startTime: moment().subtract({ days: 2 }),
-    endTime: moment().subtract({ days: 1 }),
+    startDate: moment().subtract({ days: 2 }),
+    endDate: moment().subtract({ days: 1 }),
     message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
     status: LendingRequestStatus.DENIED,
     lendableObject: {
@@ -135,8 +135,8 @@ export const exampleRequests: LendingRequest[] = [
       profilePicture: '',
       photoConsents: []
     },
-    startTime: moment().add({ hours: 2 }),
-    endTime: moment().add({ hours: 4 }),
+    startDate: moment().add({ hours: 2 }),
+    endDate: moment().add({ hours: 4 }),
     message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
     status: LendingRequestStatus.APPROVED,
     lendableObject: {
@@ -162,8 +162,8 @@ export const exampleRequests: LendingRequest[] = [
       profilePicture: '',
       photoConsents: []
     },
-    startTime: moment().add({ hours: 2 }),
-    endTime: moment().add({ hours: 4 }),
+    startDate: moment().add({ hours: 2 }),
+    endDate: moment().add({ hours: 4 }),
     message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
     status: LendingRequestStatus.DENIED,
     lendableObject: {
@@ -194,8 +194,8 @@ export const request = {
     username: 'PeterTesterIProd',
     fullName: 'Peter TesterIProd',
   },
-  startTime: moment().subtract({ hours: 2 }),
-  endTime: moment(),
+  startDate: moment().subtract({ hours: 2 }),
+  endDate: moment(),
   message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
   status: LendingRequestStatus.PENDING,
   lendableObject: {
@@ -208,21 +208,21 @@ export const request = {
 export const otherLoans = [
   {
     id: 2,
-    startTime: moment().subtract({ days: 1, hours: 2 }),
-    endTime: moment().subtract({ hours: 8 }),
+    startDate: moment().subtract({ days: 1, hours: 2 }),
+    endDate: moment().subtract({ hours: 8 }),
   },
   {
     id: 3,
-    startTime: moment().subtract({ hours: 6 }),
-    endTime: moment().subtract({ hours: 2 }),
+    startDate: moment().subtract({ hours: 6 }),
+    endDate: moment().subtract({ hours: 2 }),
   },
 ];
 
 export const requestEvent = {
   id: String(request.id),
   title: request.user.fullName,
-  start: request.startTime.toISOString(),
-  end: request.endTime.toISOString(),
+  start: request.startDate.toISOString(),
+  end: request.endDate.toISOString(),
   backgroundColor: '#e11617',
   borderColor: '#e11617',
 };
@@ -230,8 +230,8 @@ export const requestEvent = {
 export const otherLoanEvents = otherLoans.map((loan) => ({
   id: String(loan.id),
   title: 'Test',
-  start: loan.startTime.toISOString(),
-  end: loan.endTime.toISOString(),
+  start: loan.startDate.toISOString(),
+  end: loan.endDate.toISOString(),
   backgroundColor: '#999999',
   borderColor: '#999999',
 }));
@@ -239,16 +239,16 @@ export const otherLoanEvents = otherLoans.map((loan) => ({
 export const otherLoanRequests = [
   {
     id: 5,
-    startTime: moment().subtract({ hours: 2 }),
-    endTime: moment().add({ hours: 2 }),
+    startDate: moment().subtract({ hours: 2 }),
+    endDate: moment().add({ hours: 2 }),
   },
 ];
 
 export const otherLoanRequestEvents = otherLoanRequests.map((loan) => ({
   id: String(loan.id),
   title: 'Test',
-  start: loan.startTime.toISOString(),
-  end: loan.endTime.toISOString(),
+  start: loan.startDate.toISOString(),
+  end: loan.endDate.toISOString(),
   backgroundColor: '#f57676',
   borderColor: '#f57676',
 }));

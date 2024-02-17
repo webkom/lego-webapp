@@ -11,8 +11,8 @@ export enum LendingRequestStatus {
 export type LendingRequest = {
   id: number;
   user: User;
-  startTime: moment.Moment;
-  endTime: moment.Moment;
+  startDate: moment.Moment;
+  endDate: moment.Moment;
   message: string;
   status: LendingRequestStatus;
   lendableObject: ListLendableObject;

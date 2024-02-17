@@ -328,3 +328,10 @@ export const LendableObject = {
   EDIT: generateStatuses('LendableObject.EDIT') as AAT,
   DELETE: generateStatuses('LendableObject.DELETE') as AAT,
 };
+
+export const LendingRequest = {
+  FETCH: generateStatuses('LendingRequest.FETCH') as AAT,
+  CREATE: generateStatuses('LendingRequest.CREATE') as AAT,
+  EDIT: generateStatuses('LendingRequest.EDIT') as AAT,
+  DELETE: generateStatuses('LendingRequest.DELETE') as AAT,
+};

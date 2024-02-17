@@ -43,14 +43,15 @@ export const RequestItem = ({ request, isAdmin }: RequestItemProps) => {
     <Link
       to={`/lending/request/${request.id}${isAdmin && '/admin'}`}
       className={styles.requestItem}
+      key={request.id}
     >
       <Flex column>
-        <h2 className={styles.requestTitle}>{request.lendableObject.title}</h2>
+        <h2 className={styles.requestTitle}>{request.lendableObject.toString()}</h2>
         <Flex gap={10}>
           <p>{request.user.fullName}</p>
           <p>
-            {request.startTime.format('DD.MM.YYYY HH:mm')} -{' '}
-            {request.endTime.format('DD.MM.YYYY HH:mm')}
+            {/* {request.startDate.format('DD.MM.YYYY HH:mm')} -{' '}
+            {request.endDate.format('DD.MM.YYYY HH:mm')} */}
           </p>
         </Flex>
       </Flex>

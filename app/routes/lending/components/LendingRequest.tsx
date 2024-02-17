@@ -25,7 +25,7 @@ const LendingRequest = () => {
     },
     {
       key: 'Tidspenn',
-      value: <FromToTime from={request.startTime} to={request.endTime} />,
+      value: <FromToTime from={request.startDate} to={request.endDate} />,
     },
     {
       key: 'Bruker',

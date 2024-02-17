@@ -33,6 +33,7 @@ import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { UnknownTag } from 'app/store/models/Tag';
 import type { UnknownUser } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
+import { LendingRequest } from './LendingRequest';
 
 export enum EntityType {
   Announcements = 'announcements',
@@ -52,6 +53,7 @@ export enum EntityType {
   Groups = 'groups',
   Joblistings = 'joblistings',
   LendableObjects = 'lendableObjects',
+  LendingRequests = 'lendingRequests',
   MeetingInvitations = 'meetingInvitations',
   Meetings = 'meetings',
   Memberships = 'memberships',
@@ -93,6 +95,7 @@ export default interface Entities {
   [EntityType.Groups]: Record<ID, UnknownGroup>;
   [EntityType.Joblistings]: Record<ID, UnknownJoblisting>;
   [EntityType.LendableObjects]: Record<ID, UnknownLendableObject>;
+  [EntityType.LendingRequests]: Record<ID, LendingRequest>;
   [EntityType.MeetingInvitations]: Record<ID, MeetingInvitation>;
   [EntityType.Meetings]: Record<ID, UnknownMeeting>;
   [EntityType.Memberships]: Record<ID, Membership>;

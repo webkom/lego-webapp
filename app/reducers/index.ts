@@ -135,3 +135,6 @@ export const followersUserSchema = new schema.Entity(followersKeyGen('user'), {
 export const lendableObjectSchema = new schema.Entity('lendableObjects', {
   responsibleGroups: [groupSchema],
 });
+export const lendingRequestSchema = new schema.Entity('lendingRequests', {
+  responsibleGroups: [groupSchema],
+})
