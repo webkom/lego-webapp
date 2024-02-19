@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { setInvitationStatus } from 'app/actions/MeetingActions';
+import AddToCalendar from 'app/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -49,6 +50,7 @@ const UserLink = ({ user }: { user: PublicUser }) =>
 const MeetingDetails = () => {
   const { meetingId } = useParams<{ meetingId: string }>();
   const { currentUser } = useUserContext();
+  const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
     selectMeetingById(state, {
       meetingId,
@@ -208,6 +210,9 @@ const MeetingDetails = () => {
             {meeting.mazemapPoi && (
               <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
             )}
+            <li>
+              <AddToCalendar icalToken={icalToken} meeting={meeting} />
+            </li>
           </ul>
 
           <Flex column gap={7}>
