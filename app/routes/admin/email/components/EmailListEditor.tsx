@@ -118,7 +118,7 @@ const EmailListEditor = () => {
           />
           <Field
             required
-            disabled={emailListId}
+            disabled={!isNew && emailListId}
             placeholder="abakus"
             suffix="@abakus.no"
             name="email"
