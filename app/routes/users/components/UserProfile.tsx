@@ -521,7 +521,7 @@ const UserProfile = () => {
               <h3>Endre klasse</h3>
               <Card className={styles.infoCard}>
                 <GroupChange
-                  grades={groups}
+                  grades={groups.sort((a, b) => a.id > b.id)}
                   abakusGroups={abakusGroups}
                   username={user.username}
                 />
