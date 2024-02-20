@@ -65,7 +65,6 @@ interface Event {
   survey?: ID;
   useConsent: boolean;
   youtubeUrl: string;
-  useContactTracing: boolean;
   mazemapPoi?: number;
   pinned: boolean;
   responsibleUsers: DetailedUser[];
@@ -168,7 +167,6 @@ export type DetailedEvent = Pick<
   | 'survey'
   | 'useConsent'
   | 'youtubeUrl'
-  | 'useContactTracing'
   | 'mazemapPoi'
   | 'activationTime'
   | 'responsibleUsers'
@@ -207,7 +205,6 @@ export type AdministrateEvent = Pick<
   | 'unregistered'
   | 'waitingRegistrations'
   | 'useConsent'
-  | 'useContactTracing'
   | 'createdBy'
   | 'responsibleGroup'
   | 'feedbackRequired'

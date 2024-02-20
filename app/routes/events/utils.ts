@@ -137,7 +137,6 @@ const eventCreateAndUpdateFields = [
   'pinned',
   'heedPenalties',
   'useConsent',
-  'useContactTracing',
   'separateDeadlines',
   'responsibleUsers',
 ];

@@ -174,7 +174,6 @@ type EventBase = {
   unregistrationDeadlineHours: number;
   pinned: boolean;
   youtubeUrl: string;
-  useContactTracing: boolean;
   legacyRegistrationCount: number;
 };
 
