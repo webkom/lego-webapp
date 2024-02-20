@@ -30,6 +30,8 @@ const ThreadDetail = () => {
     selectCommentsByIds(state, thread ? thread.comments : [])
   );
 
+  const actionGrant = useAppSelector((state) => state.threads.actionGrant);
+
   return (
     thread && (
       <Content>
@@ -40,11 +42,12 @@ const ThreadDetail = () => {
               path: `/forum/${thread.forum}`,
             }}
           >
-            {thread.createdBy?.id === currentUser.id && (
-              <NavigationLink to={`/forum/threads/${threadId}/edit`}>
-                Rediger
-              </NavigationLink>
-            )}
+            {thread.createdBy?.id === currentUser.id ||
+              (actionGrant.includes('edit') && (
+                <NavigationLink to={`/forum/threads/${threadId}/edit`}>
+                  Rediger
+                </NavigationLink>
+              ))}
           </NavigationTab>
           <h1>{thread.title}</h1>
           <DisplayContent content={thread.content} />

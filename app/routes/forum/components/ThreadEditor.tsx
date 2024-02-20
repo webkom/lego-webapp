@@ -44,6 +44,7 @@ const ThreadEditor = () => {
   const thread: DetailedThread = useAppSelector((state) =>
     isNew ? undefined : selectThreadsById(state, { threadId })
   );
+  const actionGrant = useAppSelector((state) => state.threads.actionGrant);
 
   const dispatch = useAppDispatch();
 

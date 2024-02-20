@@ -18,14 +18,15 @@ export interface PublicThread {
   id: ID;
   title: string;
   content: string;
-  createdAt: Dateish; // Assuming created_at is serialized as ISO date string
-  forum: ID; // Forum ID
+  createdAt: Dateish; 
+  forum: ID; 
 }
 
 export interface DetailedThread extends PublicThread {
-  comments?: Comment[]; // Optional based on serialization context
-  createdBy?: PublicUser; // Optional based on serialization context
+  comments?: Comment[]; 
+  createdBy?: PublicUser;
   contentTarget: ContentTarget;
+  sticky: number;
 }
 
 export interface CreateForum {
@@ -41,11 +42,11 @@ export interface PublicForum {
   id: number;
   title: string;
   description: string;
-  createdAt: Dateish; // Assuming created_at is serialized as ISO date string
+  createdAt: Dateish; 
 }
 
 export interface DetailedForum extends PublicForum {
-  threads?: PublicThread[]; // Optional based on serialization context
-  created_by?: PublicUser; // Optional based on serialization context
+  threads?: PublicThread[];
+  created_by?: PublicUser; 
   contentTarget: string;
 }
