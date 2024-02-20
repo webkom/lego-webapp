@@ -322,15 +322,14 @@ const CompanyInterestPage = () => {
 
   usePreparedEffect(
     'fetchCompanyInterestPage',
-    () => {
+    () =>
       Promise.allSettled([
         edit && dispatch(fetchSemesters()),
         edit &&
           companyInterestId &&
           dispatch(fetchCompanyInterest(companyInterestId)),
-        dispatch(fetchSemestersForInterestform()),
-      ]);
-    },
+        !edit && dispatch(fetchSemestersForInterestform()),
+      ]),
     [companyInterestId, edit]
   );
 
