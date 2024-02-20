@@ -12,4 +12,10 @@
 
 .mazemapEmbed {
   --lego-font-color: var(--color-absolute-black);
+
+  background-color: rgb(
+    248,
+    244,
+    236
+  ); /* The color of a blank area in mazemap  */
 }
