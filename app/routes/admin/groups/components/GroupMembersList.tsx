@@ -1,7 +1,11 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { removeMember, addMember, fetchMembershipsPagination } from 'app/actions/GroupActions';
+import {
+  removeMember,
+  addMember,
+  fetchMembershipsPagination,
+} from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
@@ -16,7 +20,7 @@ import type Membership from 'app/store/models/Membership';
 import type { ReactNode } from 'react';
 
 type Props = {
-  groupId,
+  groupId;
   fetching: boolean;
   hasMore: boolean;
   memberships: Membership[];
