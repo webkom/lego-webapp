@@ -554,18 +554,6 @@ const EventDetail = () => {
                   hasSimpleWaitingList={hasSimpleWaitingList}
                 />
               )}
-              {event.useContactTracing && !currentRegistration && (
-                <div>
-                  <i className="fa fa-exclamation-circle" /> Ved å melde deg på
-                  dette arrangementet samtykker du til at kontaktinformasjonen
-                  din (navn, telefonnummer og e-post) kan deles med FHI og NTNU
-                  (og eventuelt andre aktører nevnt i beskrivelsen av
-                  arrangementet) for smittesporing. Kontaktinformasjonen vil
-                  være tilgjengelig for brukeren som laget arrangementet i 14
-                  dager etter at arrangementet har funnet sted, og vil kun
-                  brukes til smittesporing.
-                </div>
-              )}
               {'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
               !event.isAdmitted ? (

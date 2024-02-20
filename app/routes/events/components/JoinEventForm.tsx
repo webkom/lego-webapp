@@ -385,20 +385,6 @@ const JoinEventForm = ({
               </Card>
             )}
             {!disabledForUser &&
-              event.useContactTracing &&
-              !currentUser.phoneNumber && (
-                <Card severity="danger">
-                  <Card.Header>NB!</Card.Header>
-                  <p>
-                    Du må legge til telefonnummer for å melde deg på dette
-                    arrangementet.
-                  </p>
-                  <Link to={`/users/me/settings/profile`}>
-                    Gå til innstillinger
-                  </Link>
-                </Card>
-              )}
-            {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
                 <Card severity="danger">
@@ -411,151 +397,141 @@ const JoinEventForm = ({
                   <Link to="/users/me/">Gå til min profil</Link>
                 </Card>
               )}
-            {formOpen &&
-              hasRegisteredConsentIfRequired &&
-              (event.useContactTracing ? currentUser.phoneNumber : true) && (
-                <Flex column>
-                  <LegoFinalForm
-                    onSubmit={onSubmit}
-                    validate={validate}
-                    initialValues={initialValues}
-                  >
-                    {({
-                      form,
-                      handleSubmit,
-                      submitting,
-                      pristine,
-                      invalid,
-                    }) => {
-                      if (event.feedbackRequired) {
-                        form.blur('feedbackRequired');
-                      }
+            {formOpen && hasRegisteredConsentIfRequired && (
+              <Flex column>
+                <LegoFinalForm
+                  onSubmit={onSubmit}
+                  validate={validate}
+                  initialValues={initialValues}
+                >
+                  {({ form, handleSubmit, submitting, pristine, invalid }) => {
+                    if (event.feedbackRequired) {
+                      form.blur('feedbackRequired');
+                    }
 
-                      const isInvalid = registrationOpensIn !== null || invalid;
-                      const isPristine = event.feedbackRequired && pristine;
-                      const disabledButton = !registration
-                        ? isInvalid || isPristine || submitting
-                        : false;
-                      const showCaptcha =
-                        !submitting &&
-                        !registrationPending &&
-                        !registration &&
-                        captchaOpen &&
-                        event.useCaptcha;
+                    const isInvalid = registrationOpensIn !== null || invalid;
+                    const isPristine = event.feedbackRequired && pristine;
+                    const disabledButton = !registration
+                      ? isInvalid || isPristine || submitting
+                      : false;
+                    const showCaptcha =
+                      !submitting &&
+                      !registrationPending &&
+                      !registration &&
+                      captchaOpen &&
+                      event.useCaptcha;
 
-                      return (
-                        <Form onSubmit={handleSubmit}>
-                          {showCaptcha && (
-                            <Field
-                              name="captchaResponse"
-                              fieldStyle={{
-                                width: 304,
-                              }}
-                              component={Captcha.Field}
-                            />
-                          )}
+                    return (
+                      <Form onSubmit={handleSubmit}>
+                        {showCaptcha && (
+                          <Field
+                            name="captchaResponse"
+                            fieldStyle={{
+                              width: 304,
+                            }}
+                            component={Captcha.Field}
+                          />
+                        )}
 
-                          {event.activationTime && registrationOpensIn && (
-                            <Flex alignItems="center">
-                              <Button disabled={disabledButton}>
-                                {`Åpner om ${registrationOpensIn}`}
-                              </Button>
-                            </Flex>
-                          )}
-
-                          {buttonOpen &&
-                            !submitting &&
-                            !registrationPending && (
-                              <>
-                                <Flex
-                                  alignItems="center"
-                                  justifyContent="space-between"
-                                >
-                                  <SubmitButton
-                                    disabled={disabledButton}
-                                    onSubmit={handleSubmit}
-                                    type={registrationType}
-                                    title={title || joinTitle}
-                                    showPenaltyNotice={showPenaltyNotice}
-                                  />
-                                </Flex>
-
-                                <SubmissionError />
-
-                                {!registration && event.activeCapacity && (
-                                  <SpotsLeft
-                                    activeCapacity={event.activeCapacity}
-                                    spotsLeft={event.spotsLeft}
-                                  />
-                                )}
-                              </>
-                            )}
-
-                          {submitting ||
-                            (registrationPending &&
-                              !registrationPendingDelayed && (
-                                <LoadingIndicator
-                                  loading
-                                  loadingStyle={{
-                                    margin: '5px auto',
-                                  }}
-                                />
-                              ))}
-
-                          {registrationPendingDelayed && (
-                            <RegistrationPending
-                              reg_status={pendingRegistration?.status}
-                            />
-                          )}
-
-                          <Flex
-                            alignItems="center"
-                            gap={10}
-                            className={styles.feedback}
-                          >
-                            <Field
-                              id={feedbackName}
-                              placeholder="Melding til arrangør"
-                              name={feedbackName}
-                              component={TextInput.Field}
-                              label={feedbackLabel}
-                              className={styles.feedbackText}
-                              parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
-                              rows={1}
-                            />
-                            {registration &&
-                              spyValues((values) => (
-                                <Button
-                                  type="button"
-                                  onClick={() => {
-                                    dispatch(
-                                      updateFeedback(
-                                        event.id,
-                                        registration.id,
-                                        values[feedbackName]
-                                      )
-                                    );
-                                  }}
-                                  disabled={pristine}
-                                >
-                                  Oppdater
-                                </Button>
-                              ))}
+                        {event.activationTime && registrationOpensIn && (
+                          <Flex alignItems="center">
+                            <Button disabled={disabledButton}>
+                              {`Åpner om ${registrationOpensIn}`}
+                            </Button>
                           </Flex>
-                        </Form>
-                      );
-                    }}
-                  </LegoFinalForm>
+                        )}
 
-                  {registration && showStripeDelayed && (
-                    <PaymentForm
-                      event={event}
-                      currentUser={currentUser}
-                      registration={registration}
-                    />
-                  )}
-                </Flex>
-              )}
+                        {buttonOpen && !submitting && !registrationPending && (
+                          <>
+                            <Flex
+                              alignItems="center"
+                              justifyContent="space-between"
+                            >
+                              <SubmitButton
+                                disabled={disabledButton}
+                                onSubmit={handleSubmit}
+                                type={registrationType}
+                                title={title || joinTitle}
+                                showPenaltyNotice={showPenaltyNotice}
+                              />
+                            </Flex>
+
+                            <SubmissionError />
+
+                            {!registration && event.activeCapacity && (
+                              <SpotsLeft
+                                activeCapacity={event.activeCapacity}
+                                spotsLeft={event.spotsLeft}
+                              />
+                            )}
+                          </>
+                        )}
+
+                        {submitting ||
+                          (registrationPending &&
+                            !registrationPendingDelayed && (
+                              <LoadingIndicator
+                                loading
+                                loadingStyle={{
+                                  margin: '5px auto',
+                                }}
+                              />
+                            ))}
+
+                        {registrationPendingDelayed && (
+                          <RegistrationPending
+                            reg_status={pendingRegistration?.status}
+                          />
+                        )}
+
+                        <Flex
+                          alignItems="center"
+                          gap={10}
+                          className={styles.feedback}
+                        >
+                          <Field
+                            id={feedbackName}
+                            placeholder="Melding til arrangør"
+                            name={feedbackName}
+                            component={TextInput.Field}
+                            label={feedbackLabel}
+                            className={styles.feedbackText}
+                            parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
+                            rows={1}
+                          />
+                          {registration &&
+                            spyValues((values) => (
+                              <Button
+                                type="button"
+                                onClick={() => {
+                                  dispatch(
+                                    updateFeedback(
+                                      event.id,
+                                      registration.id,
+                                      values[feedbackName]
+                                    )
+                                  );
+                                }}
+                                disabled={pristine}
+                              >
+                                Oppdater
+                              </Button>
+                            ))}
+                        </Flex>
+                      </Form>
+                    );
+                  }}
+                </LegoFinalForm>
+
+                {registration && showStripeDelayed && (
+                  <PaymentForm
+                    event={event}
+                    currentUser={currentUser}
+                    registration={registration}
+                  />
+                )}
+              </Flex>
+            )}
           </>
         )}
       </Flex>

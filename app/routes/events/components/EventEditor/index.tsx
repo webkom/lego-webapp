@@ -793,21 +793,6 @@ const EventEditor = () => {
                   values.eventStatusType?.value
                 ) && (
                   <Field
-                    label="Informasjon kan deles til smittesporing"
-                    description="Navn, telefonnummer og e-post kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen."
-                    name="useContactTracing"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                    disabled={moment().isAfter(values.activationTime)}
-                  />
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
                     label="Påmeldingsspørsmål"
                     description="Still et spørsmål ved påmelding"
                     name="hasFeedbackQuestion"
