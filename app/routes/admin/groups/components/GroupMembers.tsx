@@ -69,6 +69,7 @@ const GroupMembers = () => {
       <LoadingIndicator loading={!memberships && fetching}>
         <h3>Brukere</h3>
         <GroupMembersList
+          groupId={groupId}
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
           groupsById={groupsById}
