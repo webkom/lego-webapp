@@ -328,7 +328,7 @@ const CompanyInterestPage = () => {
         edit &&
           companyInterestId &&
           dispatch(fetchCompanyInterest(companyInterestId)),
-        !edit && dispatch(fetchSemestersForInterestform()),
+        dispatch(fetchSemestersForInterestform()),
       ]);
     },
     [companyInterestId, edit]
