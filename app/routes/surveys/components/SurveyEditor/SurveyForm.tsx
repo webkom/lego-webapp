@@ -62,10 +62,11 @@ const SurveyForm = ({
     return onSubmit({
       ...surveyData,
       event: surveyData.event.value,
-      questions: surveyData.questions.map((question) => ({
+      questions: surveyData.questions.map((question, i) => ({
         ...question,
         questionType: question.questionType.value,
         options: question.options.slice(0, -1),
+        relativeIndex: i,
       })),
     });
   };
