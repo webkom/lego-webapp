@@ -31,16 +31,18 @@ const ArticleItem = ({ item, url, meta }: Props) => {
           alt="Article cover"
         />
         <div className={styles.infoWrapper}>
-          <h2 className={styles.articleTitle}>
-            {truncateString(item?.title, TITLE_MAX_LENGTH)}
-          </h2>
-          <span className={styles.articleMeta}>
-            Publisert - {meta.props.children?.length && meta.props.children[0]}
+          <div className={styles.metaWrapper}>
+            <h2 className={styles.articleTitle}>
+              {truncateString(item?.title, TITLE_MAX_LENGTH)}
+            </h2>
+            <span className={styles.articleMeta}>
+              Publisert {meta.props.children?.length && meta.props.children[0]}
+            </span>
+          </div>
+          <span className={styles.articleDescription}>
+            {truncateString(item?.description, DESC_MAX_LENGTH)}
           </span>
         </div>
-        <span className={styles.articleDescription}>
-          {truncateString(item?.description, DESC_MAX_LENGTH)}
-        </span>
       </Link>
     </Card>
   );

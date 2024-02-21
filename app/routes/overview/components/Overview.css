@@ -4,10 +4,10 @@
   display: grid;
   grid-template:
     'compact-events registrations'
-    'pinned poll'
+    'pinned weekly'
+    'events poll'
     'events quote'
     'events readme'
-    'events weekly'
     'events articles'
     'events .'
     / 2fr 1fr;
