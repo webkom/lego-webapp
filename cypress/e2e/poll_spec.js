@@ -117,10 +117,11 @@ describe('Polls', () => {
     cy.visit('/');
     cy.contains('Avstemning');
     cy.contains(poll_form.title);
+    cy.get(c('Poll__arrowIcon')).first().click();
     cy.contains('0 stemmer');
     cy.contains(poll_form.choice_1).click();
     cy.contains('1 stemme');
-    cy.contains('a', poll_form.title).click();
+    cy.contains('div', poll_form.title).click();
     cy.url().should('include', '/polls');
   });
 

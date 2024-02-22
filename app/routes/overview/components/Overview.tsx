@@ -250,7 +250,7 @@ const PollItem = () => {
           <h3 className="u-ui-heading">Avstemning</h3>
         </Link>
 
-        <Poll poll={poll} truncate={3} />
+        <Poll poll={poll} />
       </Flex>
     )
   );
