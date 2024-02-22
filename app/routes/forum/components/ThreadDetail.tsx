@@ -1,7 +1,7 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
 import { Link, useParams } from 'react-router-dom';
-import { fetchThread } from 'app/actions/ForumActions';
+import { fetchThreadByForum } from 'app/actions/ForumActions';
 import { CommentView } from 'app/components/Comments';
 import { Content, ContentMain } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
@@ -13,12 +13,14 @@ import type Comment from 'app/store/models/Comment';
 import type { DetailedThread } from 'app/store/models/Forum';
 
 const ThreadDetail = () => {
+  const { forumId } = useParams<{ forumId: string }>();
   const { threadId } = useParams<{ threadId: string }>();
   const dispatch = useAppDispatch();
   const { currentUser } = useUserContext();
   usePreparedEffect(
-    'fetchDetailForum',
-    () => threadId && dispatch(fetchThread(threadId)),
+    'fetchDetailThread',
+    () =>
+      threadId && forumId && dispatch(fetchThreadByForum(forumId, threadId)),
     [threadId]
   );
 
@@ -39,15 +41,15 @@ const ThreadDetail = () => {
           <NavigationTab
             back={{
               label: 'Tilbake til liste',
-              path: `/forum/${thread.forum}`,
+              path: `/forum/${thread.forum}/threads`,
             }}
           >
-            {thread.createdBy?.id === currentUser.id ||
-              (actionGrant.includes('edit') && (
-                <NavigationLink to={`/forum/threads/${threadId}/edit`}>
-                  Rediger
-                </NavigationLink>
-              ))}
+            {(thread.createdBy?.id === currentUser.id ||
+              actionGrant.includes('edit')) && (
+              <NavigationLink to={`/forum/${forumId}/threads/${threadId}/edit`}>
+                Rediger
+              </NavigationLink>
+            )}
           </NavigationTab>
           <h1>{thread.title}</h1>
           <DisplayContent content={thread.content} />

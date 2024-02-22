@@ -12,7 +12,7 @@ import {
   createThread,
   deleteThread,
   editThread,
-  fetchThread,
+  fetchThreadByForum,
 } from 'app/actions/ForumActions';
 import { Content } from 'app/components/Content';
 import {
@@ -36,7 +36,7 @@ const ThreadEditor = () => {
   const { forumId } = useParams<{ forumId: string }>();
   usePreparedEffect(
     'fetchThreadForEditor',
-    () => threadId && dispatch(fetchThread(threadId)),
+    () => threadId && dispatch(fetchThreadByForum(forumId, threadId)),
     [threadId]
   );
 
@@ -44,7 +44,6 @@ const ThreadEditor = () => {
   const thread: DetailedThread = useAppSelector((state) =>
     isNew ? undefined : selectThreadsById(state, { threadId })
   );
-  const actionGrant = useAppSelector((state) => state.threads.actionGrant);
 
   const dispatch = useAppDispatch();
 
@@ -68,14 +67,16 @@ const ThreadEditor = () => {
 
     const action = isNew ? createThread(body) : editThread(body);
     dispatch(action).then((res) => {
-      navigate(`/forum/threads/${isNew ? res.payload.result : thread.id}`);
+      navigate(
+        `/forum/${forumId}/threads/${isNew ? res.payload.result : thread.id}`
+      );
     });
   };
 
   const handleDeleteThread = async () => {
     if (thread) {
       dispatch(deleteThread(threadId)).then(() => {
-        navigate(`/forum/${thread.forum}`);
+        navigate(`/forum/${thread.forum}/threads`);
       });
     }
   };
@@ -105,7 +106,9 @@ const ThreadEditor = () => {
                 flat
                 onClick={() =>
                   navigate(
-                    isNew ? `/forum/${forumId}` : `/forum/threads/${thread.id}`
+                    isNew
+                      ? `/forum/${forumId}/threads`
+                      : `/forum/${forumId}/threads/${thread.id}`
                   )
                 }
               >

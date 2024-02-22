@@ -2,18 +2,21 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './ForumList.css';
+import type { ID } from 'app/store/models';
 import type { PublicThread } from 'app/store/models/Forum';
 
 const ThreadListEntry = ({
   thread,
   className,
+  forumId,
 }: {
   thread: PublicThread;
   className: string;
+  forumId: ID;
 }) => {
   return (
     <Flex column className={cx(styles.threadEntry, className)}>
-      <Link to={`/forum/threads/${thread.id}`}>
+      <Link to={`/forum/${forumId}/threads/${thread.id}`}>
         <h2>{thread.title}</h2>
         <div>
           <p className="secondaryFontColor">

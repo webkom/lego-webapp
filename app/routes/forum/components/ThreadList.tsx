@@ -1,6 +1,6 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { fetchThread } from 'app/actions/ForumActions';
+import { fetchThreadsByForum } from 'app/actions/ForumActions';
 import { Content, ContentMain } from 'app/components/Content';
 import { selectThreadsByForumId } from 'app/reducers/threads';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -8,22 +8,13 @@ import ThreadListEntry from './ThreadListEntry';
 import type { ID } from 'app/store/models';
 import type { PublicThread } from 'app/store/models/Forum';
 
-const ThreadList = ({
-  forumId,
-  threadIds,
-}: {
-  forumId: ID;
-  threadIds: ID[];
-}) => {
+const ThreadList = ({ forumId }: { forumId: ID }) => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchAllThreadsByForum',
-    () =>
-      threadIds?.forEach((threadId) => {
-        dispatch(fetchThread(threadId));
-      }),
-    []
+    () => forumId && dispatch(fetchThreadsByForum(forumId)),
+    [forumId]
   );
 
   const threads = useAppSelector(selectThreadsByForumId(parseInt(forumId)));
@@ -37,7 +28,12 @@ const ThreadList = ({
           <h1>Tråder 🧶</h1>
           <Flex column>
             {threads?.map((t: PublicThread) => (
-              <ThreadListEntry thread={t} className={''} key={t.id} />
+              <ThreadListEntry
+                thread={t}
+                className={''}
+                key={t.id}
+                forumId={forumId}
+              />
             ))}
           </Flex>
         </ContentMain>

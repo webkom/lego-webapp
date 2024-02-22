@@ -7,7 +7,7 @@ import type { PublicForum } from 'app/store/models/Forum';
 const ForumListEntry = ({ subForum }: { subForum: PublicForum }) => {
   return (
     <Flex column className={cx(styles.listEntry)}>
-      <Link to={`/forum/${subForum.id}`}>
+      <Link to={`/forum/${subForum.id}/threads`}>
         <h2>{subForum.title}</h2>
         <div>
           <p className="secondaryFontColor">

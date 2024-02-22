@@ -60,7 +60,7 @@ const ForumEditor = () => {
 
     const action = isNew ? createForum(body) : editForum(body);
     dispatch(action).then((res) => {
-      navigate(`/forum/${isNew ? res.payload.result : forumId}`);
+      navigate(`/forum/${isNew ? res.payload.result : forumId}/threads`);
     });
   };
 
@@ -96,7 +96,9 @@ const ForumEditor = () => {
             <Flex wrap>
               <Button
                 flat
-                onClick={() => navigate(`/forum/${isNew ? '' : forumId}`)}
+                onClick={() =>
+                  navigate(`/forum/${isNew ? '' : forumId}/threads`)
+                }
               >
                 Avbryt
               </Button>

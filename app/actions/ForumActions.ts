@@ -90,6 +90,19 @@ export function fetchThreads() {
   });
 }
 
+export function fetchThreadsByForum(forumId: ID) {
+  return callAPI<PublicThread[]>({
+    types: Thread.FETCH_ALL,
+    endpoint: `/forums/${forumId}/threads/`,
+    schema: [threadSchema],
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av tråder feilet',
+    },
+    propagateError: true,
+  });
+}
+
 export function fetchThread(threadId: ID) {
   return callAPI<DetailedThread>({
     types: Thread.FETCH,
@@ -97,6 +110,19 @@ export function fetchThread(threadId: ID) {
     schema: threadSchema,
     meta: {
       errorMessage: 'Henting av tråd feilet',
+    },
+    propagateError: true,
+  });
+}
+
+export function fetchThreadByForum(forumId: ID, threadId: ID) {
+  return callAPI<PublicThread[]>({
+    types: Thread.FETCH,
+    endpoint: `/forums/${forumId}/threads/${threadId}`,
+    schema: threadSchema,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av tråder feilet',
     },
     propagateError: true,
   });

@@ -18,15 +18,14 @@ export interface PublicThread {
   id: ID;
   title: string;
   content: string;
-  createdAt: Dateish; 
-  forum: ID; 
+  createdAt: Dateish;
+  forum: ID;
 }
 
 export interface DetailedThread extends PublicThread {
-  comments?: Comment[]; 
+  comments?: Comment[];
   createdBy?: PublicUser;
   contentTarget: ContentTarget;
-  sticky: number;
 }
 
 export interface CreateForum {
@@ -42,11 +41,11 @@ export interface PublicForum {
   id: number;
   title: string;
   description: string;
-  createdAt: Dateish; 
+  createdAt: Dateish;
 }
 
 export interface DetailedForum extends PublicForum {
   threads?: PublicThread[];
-  created_by?: PublicUser; 
+  created_by?: PublicUser;
   contentTarget: string;
 }

@@ -11,12 +11,12 @@ const ForumList = loadable(() => import('./components/ForumList'));
 const ForumRoute = () => (
   <Routes>
     <Route index element={<ForumList />} />
-    <Route path=":forumId" element={<ForumDetail />} />
-    <Route path="threads/:threadId" element={<ThreadDetail />} />
+    <Route path=":forumId/threads" element={<ForumDetail />} />
     <Route path="new" element={<ForumEditor />} />
     <Route path=":forumId/edit" element={<ForumEditor />} />
     <Route path=":forumId/new" element={<ThreadEditor />} />
-    <Route path="threads/:threadId/edit" element={<ThreadEditor />} />
+    <Route path=":forumId/threads/:threadId" element={<ThreadDetail />} />
+    <Route path=":forumId/threads/:threadId/edit" element={<ThreadEditor />} />
     <Route path="*" element={<PageNotFound />} />
   </Routes>
 );

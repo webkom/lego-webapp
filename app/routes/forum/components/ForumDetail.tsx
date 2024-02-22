@@ -52,7 +52,7 @@ const ForumDetail = () => {
 
           <h1>{forum.title}</h1>
           <p className="secondaryFontColor">{forum.description}</p>
-          <ThreadList forumId={forumId} threadIds={forum.threads} />
+          <ThreadList forumId={forumId} />
         </ContentMain>
       </Content>
     )
