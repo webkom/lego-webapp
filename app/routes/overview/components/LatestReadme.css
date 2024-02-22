@@ -3,8 +3,6 @@
 .latestReadme {
   flex: 1;
   position: relative;
-  overflow: hidden;
-  transition: height var(--easing-medium);
 }
 
 .heading {
@@ -17,26 +15,41 @@
   cursor: pointer;
 }
 
-.thumb {
-  width: 150px;
-  transition: transform var(--easing-fast);
-  display: block;
-  object-fit: contain;
-
-  @media (--mobile-device) {
-    width: 48%;
-    height: auto;
-  }
-
-  &:hover {
-    transform: scale(1.05);
-  }
-}
-
 .expand {
   transition: transform var(--easing-medium);
 }
 
 .rotate {
   transform: rotate(90deg);
+}
+
+.thumbnailWrapper {
+  overflow-y: hidden;
+  transition: height var(--easing-medium);
+}
+
+.thumbnailContainer {
+  padding-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, min-content);
+  gap: 0.25rem;
+  overflow: hidden;
+
+  @media (--mobile-device) {
+    gap: 1rem;
+  }
+
+  @media (--small-viewport) {
+    gap: 0.25rem;
+  }
+}
+
+.thumb {
+  flex-basis: 48%;
+  transition: transform var(--easing-fast);
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }

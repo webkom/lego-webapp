@@ -16,6 +16,7 @@ type Props = {
 
   /* Container component*/
   component?: ElementType;
+  componentRef?: React.RefObject<HTMLElement>;
 
   /** Wrap elements */
   wrap?: boolean;
@@ -44,6 +45,7 @@ const Flex = ({
   className,
   column = false,
   component: Component = 'div',
+  componentRef,
   wrap = false,
   wrapReverse = false,
   justifyContent = 'flex-start',
@@ -72,6 +74,7 @@ const Flex = ({
       gap,
       ...style,
     }}
+    ref={componentRef}
     {...htmlAttributes}
   >
     {children}

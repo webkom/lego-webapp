@@ -1,7 +1,7 @@
 import { Button, Card, Container, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
-import { fetchData } from 'app/actions/FrontpageActions';
+import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
@@ -35,7 +35,12 @@ const PublicFrontpage = () => {
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchIndex', () => dispatch(fetchData()), []);
+  usePreparedEffect(
+    'fetchIndex',
+    () =>
+      Promise.allSettled([dispatch(fetchReadmes(2)), dispatch(fetchData())]),
+    []
+  );
 
   const pinned = frontpage[0];
 
@@ -70,6 +75,7 @@ const PublicFrontpage = () => {
           expandedInitially
           collapsible={false}
           style={{ gridArea: 'readme' }}
+          displayCount={2}
         />
       </Container>
       <UsefulLinks />
