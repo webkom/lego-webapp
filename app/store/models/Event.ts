@@ -216,6 +216,7 @@ export type FrontpageEvent = Pick<
   Event,
   | 'id'
   | 'title'
+  | 'slug'
   | 'description'
   | 'cover'
   | 'coverPlaceholder'

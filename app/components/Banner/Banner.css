@@ -1,8 +1,17 @@
 @import url('~app/styles/variables.css');
 
+.link {
+  display: block;
+  margin: 0 var(--lego-default-padding);
+
+  @media (--mobile-device) {
+    margin: 0 1rem;
+  }
+}
+
 .header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--lego-default-padding);
   animation-name: wiggle;
   animation-duration: 4s;
   animation-iteration-count: infinite;

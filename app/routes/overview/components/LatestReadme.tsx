@@ -12,6 +12,7 @@ type Props = {
   collapsible?: boolean;
   readmes: Array<Readme>;
   style?: CSSProperties;
+  displayCount?: number;
 };
 
 const LatestReadme = ({
@@ -19,9 +20,9 @@ const LatestReadme = ({
   expandedInitially = true,
   collapsible = true,
   style,
+  displayCount = 4,
 }: Props) => {
   const ref = useRef<HTMLDivElement>(null);
-  const collapsedHeight = 85;
 
   const [expanded, setExpanded] = useState(expandedInitially);
 
@@ -30,15 +31,7 @@ const LatestReadme = ({
   }, [expandedInitially]);
 
   return (
-    <Card
-      className={styles.latestReadme}
-      style={{
-        ...style,
-        height: expanded
-          ? ref.current?.clientHeight + collapsedHeight
-          : collapsedHeight,
-      }}
-    >
+    <Card className={styles.latestReadme} style={style}>
       {collapsible ? (
         <div
           className={cx(styles.heading, styles.pointer)}
@@ -57,20 +50,19 @@ const LatestReadme = ({
         <div className={styles.heading}>{readmeIfy('readme')}</div>
       )}
 
-      <div ref={ref}>
-        <Flex
-          wrap
-          justifyContent="space-around"
-          style={{
-            paddingTop: 15,
-          }}
-        >
-          {readmes.slice(0, 4).map(({ image, pdf, title }) => (
+      <div
+        className={styles.thumbnailWrapper}
+        style={{
+          height: expanded ? ref.current?.clientHeight ?? 0 : 0,
+        }}
+      >
+        <div className={styles.thumbnailContainer} ref={ref}>
+          {readmes.slice(0, displayCount).map(({ image, pdf, title }) => (
             <a key={title} href={pdf} className={styles.thumb}>
               <Image src={image} alt={`Cover of ${title}`} />
             </a>
           ))}
-        </Flex>
+        </div>
       </div>
     </Card>
   );

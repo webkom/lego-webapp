@@ -13,12 +13,13 @@ import type { CSSProperties } from 'react';
 
 type Props = {
   events: FrontpageEvent[];
+  className?: string;
   style?: CSSProperties;
 };
 
 const EVENT_COLUMN_LIMIT = 5;
 
-const CompactEvents = ({ events, style }: Props) => {
+const CompactEvents = ({ events, className, style }: Props) => {
   const mapEvents = (eventTypes) => {
     return events
       .filter(
@@ -85,7 +86,7 @@ const CompactEvents = ({ events, style }: Props) => {
   );
 
   return (
-    <Flex column style={style}>
+    <Flex column className={className} style={style}>
       <Flex wrap className={styles.compactEvents}>
         <Flex column className={styles.compactLeft}>
           <Link

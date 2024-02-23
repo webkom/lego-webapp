@@ -114,35 +114,16 @@ const Overview = () => {
         link="https://abakusrevyen.no/"
         color="red"
       />
-      <Flex className={styles.desktopContainer}>
-        <Flex column className={styles.leftColumn}>
-          <CompactEvents events={events} />
-          <Pinned
-            item={pinned}
-            url={itemUrl(pinned)}
-            meta={renderMeta(pinned)}
-          />
-          <Events events={eventsShown} />
-        </Flex>
-        <Flex column className={styles.rightColumn}>
-          <NextEventSection events={events} />
-          <PollItem />
-          <QuoteItem />
-          {readMe}
-          <Weekly weeklyArticle={weeklyArticle} />
-          <Articles articles={articlesShown} />
-        </Flex>
-      </Flex>
-      <section className={styles.mobileContainer}>
-        <CompactEvents events={events} />
-        <NextEvent events={events} />
+      <section className={styles.wrapper}>
+        <CompactEvents events={events} className={styles.compactEvents} />
+        <NextEventSection events={events} />
+        <Events events={eventsShown} />
         <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
         <PollItem />
         <QuoteItem />
         {readMe}
         <Weekly weeklyArticle={weeklyArticle} />
         <Articles articles={articlesShown} />
-        <Events events={eventsShown} />
       </section>
 
       {frontpage.length > 8 && (
@@ -194,7 +175,7 @@ const Weekly = ({
   );
 
   return (
-    <Flex column>
+    <Flex column className={styles.weekly}>
       <Link to="/articles?tag=weekly">
         <h3 className="u-ui-heading">Weekly</h3>
       </Link>
@@ -223,7 +204,7 @@ const Articles = ({
   );
 
   return (
-    <Flex column>
+    <Flex column className={styles.articles}>
       <Link to="/articles">
         <h3 className="u-ui-heading">Artikler</h3>
       </Link>
@@ -247,7 +228,7 @@ const Articles = ({
 };
 
 const NextEventSection = ({ events }: { events: Event[] }) => (
-  <Flex column>
+  <Flex column className={styles.registrations}>
     <Link to="/events">
       <h3 className="u-ui-heading">Påmeldinger</h3>
     </Link>
@@ -264,7 +245,7 @@ const PollItem = () => {
 
   return (
     (fetching || poll) && (
-      <Flex column>
+      <Flex column className={styles.poll}>
         <Link to="/polls">
           <h3 className="u-ui-heading">Avstemning</h3>
         </Link>
@@ -276,7 +257,7 @@ const PollItem = () => {
 };
 
 const QuoteItem = () => (
-  <Flex column>
+  <Flex column className={styles.quote}>
     <Link to="/quotes">
       <h3 className="u-ui-heading">Overhørt</h3>
     </Link>
