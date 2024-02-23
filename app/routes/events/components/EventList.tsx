@@ -221,25 +221,25 @@ const EventList = () => {
           <CheckBox
             id="companyPresentation"
             label="Bedpres"
-            value={showCompanyPresentation}
+            checked={showCompanyPresentation}
             onChange={toggleEventType('company_presentation')}
           />
           <CheckBox
             id="course"
             label="Kurs"
-            value={showCourse}
+            checked={showCourse}
             onChange={toggleEventType('course')}
           />
           <CheckBox
             id="social"
             label="Sosialt"
-            value={showSocial}
+            checked={showSocial}
             onChange={toggleEventType('social')}
           />
           <CheckBox
             id="other"
             label="Annet"
-            value={showOther}
+            checked={showOther}
             onChange={toggleEventType('other')}
           />
         </div>

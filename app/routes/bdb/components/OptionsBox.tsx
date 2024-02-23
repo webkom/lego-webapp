@@ -65,7 +65,7 @@ export default class OptionsBox extends Component<Props, State> {
           <div className={styles.section}>
             <CheckBox
               id="isActive"
-              value={this.state.active}
+              checked={this.state.active}
               name="active"
               label="Er aktiv"
               onChange={() => this.toggleSection('active')}
@@ -95,7 +95,7 @@ export default class OptionsBox extends Component<Props, State> {
 
             <CheckBox
               id="hasStudentContact"
-              value={this.state.studentContact}
+              checked={this.state.studentContact}
               name="studentContact"
               label="Har studentkontakt ..."
               onChange={() => this.toggleSection('studentContact')}
