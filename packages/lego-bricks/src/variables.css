@@ -148,6 +148,8 @@
     0 2px 4px -1px rgba(104, 112, 118, 4%);
   --shadow-md: 0 12px 20px 6px rgba(104, 112, 118, 8%);
   --shadow-lg: 0 12px 34px 6px rgba(104, 112, 118, 18%);
+
+  --shadow-bottom-md: 0 12px 8px -8px rgba(104, 112, 118, 8%);
 }
 
 [data-theme='dark'] {

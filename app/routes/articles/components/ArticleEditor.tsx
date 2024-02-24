@@ -180,7 +180,7 @@ const ArticleEditor = () => {
               name="pinned"
               type="checkbox"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              parse={(v) => !!v}
             />
             <Field
               placeholder="Title"

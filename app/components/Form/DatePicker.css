@@ -11,6 +11,7 @@
   width: auto;
   max-width: 335px;
   padding: 0 15px 8px;
+  z-index: 20;
 }
 
 .inputField {

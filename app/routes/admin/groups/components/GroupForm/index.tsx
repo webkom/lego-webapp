@@ -107,7 +107,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
               name="showBadge"
               type="checkbox"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              parse={(v) => !!v}
             />
           </Tooltip>
           <Tooltip content="Er dette en aktiv gruppe?">
@@ -116,7 +116,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
               name="active"
               type="checkbox"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              parse={(v) => !!v}
             />
           </Tooltip>
           <Field
