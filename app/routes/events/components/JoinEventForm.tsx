@@ -496,6 +496,12 @@ const JoinEventForm = ({
                             component={TextInput.Field}
                             label={feedbackLabel}
                             className={styles.feedbackText}
+                            onKeyDown={(e) => {
+                              // Prevent user from registering / unregistering by pressing enter
+                              if (e.key === 'Enter') {
+                                e.preventDefault();
+                              }
+                            }}
                             parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
                             rows={1}
                           />
