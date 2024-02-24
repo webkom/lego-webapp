@@ -13,7 +13,7 @@ const ForumList = () => {
 
   usePreparedEffect('fetchAllForums', () => dispatch(fetchForums()), []);
 
-  const forums = useAppSelector((state) => selectForums(state));
+  const forums: PublicForum[] = useAppSelector((state) => selectForums(state));
   const actionGrant = useAppSelector((state) => state.forums.actionGrant);
 
   return (
@@ -25,7 +25,7 @@ const ForumList = () => {
         )}
         <Flex column>
           {forums?.map((f: PublicForum) => (
-            <ForumListEntry subForum={f} key={f.id} />
+            <ForumListEntry forum={f} key={f.id} />
           ))}
         </Flex>
       </ContentMain>

@@ -1,6 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useParams } from 'react-router-dom';
-import { fetchForum, fetchForums } from 'app/actions/ForumActions';
+import { fetchForum } from 'app/actions/ForumActions';
 import { Content, ContentMain } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectForumsById } from 'app/reducers/forums';
@@ -12,13 +12,6 @@ const ForumDetail = () => {
   const { forumId } = useParams<{ forumId: string }>();
   const dispatch = useAppDispatch();
 
-  //This is needed due to action_grant not being sent on detail action for some reason. Should be fixed.
-  usePreparedEffect(
-    'fetchAllForums',
-    () => forumId && dispatch(fetchForums()),
-    [forumId]
-  );
-
   usePreparedEffect(
     'fetchDetailForum',
     () => forumId && dispatch(fetchForum(forumId)),
@@ -28,10 +21,11 @@ const ForumDetail = () => {
   const forum: DetailedForum = useAppSelector((state) =>
     selectForumsById(state, { forumId })
   );
-  const actionGrant = useAppSelector((state) => state.forums.actionGrant);
+  const detailActionGrant = forum?.actionGrant;
 
   return (
-    forum && (
+    forum &&
+    detailActionGrant && (
       <Content>
         <ContentMain>
           <NavigationTab
@@ -40,7 +34,7 @@ const ForumDetail = () => {
               path: '/forum',
             }}
           >
-            {actionGrant.includes('edit') && (
+            {detailActionGrant.includes('edit') && (
               <NavigationLink to={`/forum/${forumId}/edit`}>
                 Rediger
               </NavigationLink>

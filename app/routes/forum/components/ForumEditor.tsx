@@ -97,7 +97,7 @@ const ForumEditor = () => {
               <Button
                 flat
                 onClick={() =>
-                  navigate(`/forum/${isNew ? '' : forumId}/threads`)
+                  navigate(`/forum/${isNew ? '' : forumId + '/threads'}`)
                 }
               >
                 Avbryt

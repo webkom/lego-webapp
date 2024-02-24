@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 import styles from './ForumList.css';
 import type { PublicForum } from 'app/store/models/Forum';
 
-const ForumListEntry = ({ subForum }: { subForum: PublicForum }) => {
+const ForumListEntry = ({ forum }: { forum: PublicForum }) => {
   return (
     <Flex column className={cx(styles.listEntry)}>
-      <Link to={`/forum/${subForum.id}/threads`}>
-        <h2>{subForum.title}</h2>
+      <Link to={`/forum/${forum.id}/threads`}>
+        <h2>{forum.title}</h2>
         <div>
           <p className="secondaryFontColor">
-            {subForum.description.substring(0, 100)}
-            {subForum.description.length > 100 ? '...' : ''}
+            {forum.description.substring(0, 100)}
+            {forum.description.length > 100 ? '...' : ''}
           </p>
         </div>
       </Link>

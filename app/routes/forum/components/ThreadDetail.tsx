@@ -32,10 +32,11 @@ const ThreadDetail = () => {
     selectCommentsByIds(state, thread ? thread.comments : [])
   );
 
-  const actionGrant = useAppSelector((state) => state.threads.actionGrant);
+  const detailActionGrant = thread?.actionGrant;
 
   return (
-    thread && (
+    thread &&
+    detailActionGrant && (
       <Content>
         <ContentMain>
           <NavigationTab
@@ -45,7 +46,7 @@ const ThreadDetail = () => {
             }}
           >
             {(thread.createdBy?.id === currentUser.id ||
-              actionGrant.includes('edit')) && (
+              detailActionGrant.includes('edit')) && (
               <NavigationLink to={`/forum/${forumId}/threads/${threadId}/edit`}>
                 Rediger
               </NavigationLink>

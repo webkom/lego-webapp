@@ -95,7 +95,7 @@ const ThreadEditor = () => {
               id="thread-title"
             />
             <Field
-              placeholder="Skriv artikkelen din her ..."
+              placeholder="Skriv innholdet i tråden din her..."
               name="content"
               label="Innhold"
               component={EditorField.Field}
@@ -117,7 +117,7 @@ const ThreadEditor = () => {
               <SubmitButton>
                 {isNew ? 'Opprett' : 'Lagre endringer'}
               </SubmitButton>
-              {!isNew && (
+              {!isNew && thread.actionGrant.includes('delete') && (
                 <ConfirmModal
                   title="Slett tråd"
                   message="Er du sikker på at du vil slette tråden?"

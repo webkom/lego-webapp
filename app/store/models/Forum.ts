@@ -1,7 +1,7 @@
 import type { Comment } from './Comment';
 import type { PublicUser } from './User';
 import type { ContentTarget } from '../utils/contentTarget';
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { ID } from 'app/store/models';
 
 export interface CreateThread {
@@ -26,6 +26,7 @@ export interface DetailedThread extends PublicThread {
   comments?: Comment[];
   createdBy?: PublicUser;
   contentTarget: ContentTarget;
+  actionGrant: ActionGrant;
 }
 
 export interface CreateForum {
@@ -42,10 +43,12 @@ export interface PublicForum {
   title: string;
   description: string;
   createdAt: Dateish;
+  actionGrant: ActionGrant;
 }
 
 export interface DetailedForum extends PublicForum {
   threads?: PublicThread[];
   created_by?: PublicUser;
   contentTarget: string;
+  actionGrant: ActionGrant;
 }
