@@ -57,6 +57,9 @@ const store = configureStore([])({
   theme: {
     theme: 'light',
   },
+  events: {
+    fetching: false,
+  },
   penalties: {
     items: [],
   },

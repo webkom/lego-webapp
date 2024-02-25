@@ -71,12 +71,7 @@ const SubmitButton = ({
 }) => {
   if (type === 'register') {
     return (
-      <Button
-        submit
-        onClick={onSubmit}
-        className={styles.registrationBtn}
-        disabled={disabled}
-      >
+      <Button submit onClick={onSubmit} disabled={disabled}>
         {title}
       </Button>
     );
@@ -94,20 +89,10 @@ const SubmitButton = ({
       title="Avregistrer"
       message={message}
       onConfirm={onSubmit}
-      // onConfirm={() => {
-      //   if (onSubmit) {
-      //     onSubmit();
-      //   }
-      // }}
       closeOnConfirm
     >
       {({ openConfirmModal }) => (
-        <Button
-          danger
-          onClick={openConfirmModal}
-          className={styles.registrationBtn}
-          disabled={disabled}
-        >
+        <Button danger onClick={openConfirmModal} disabled={disabled}>
           <Icon name="person-remove" size={19} />
           {title}
         </Button>
@@ -193,9 +178,7 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
 
   if (spotsLeft <= 0 && activeCapacity > 0) {
     return (
-      <div>
-        Det er ingen plasser igjen, og du vil bli registrert til venteliste
-      </div>
+      <div>Det er ingen plasser igjen, og du vil bli satt på venteliste</div>
     );
   }
 
@@ -230,6 +213,8 @@ const JoinEventForm = ({
   registrationOpensIn,
 }: Props) => {
   const { currentUser } = useUserContext();
+
+  const fetching = useAppSelector((state) => state.events.fetching);
 
   const penalties = useAppSelector((state) =>
     selectPenaltyByUserId(state, {
@@ -267,7 +252,8 @@ const JoinEventForm = ({
   const registrationType = !registration ? 'register' : 'unregister';
   const feedbackName = getFeedbackName(event);
   const feedbackLabel = getFeedbackLabel(event);
-  const disabledForUser = !formOpen && !event.activationTime && !registration;
+  const disabledForUser =
+    !fetching && !formOpen && !event.activationTime && !registration;
   const showPenaltyNotice = Boolean(
     event.heedPenalties &&
       moment().isAfter(event.unregistrationDeadline) &&
@@ -354,7 +340,8 @@ const JoinEventForm = ({
   return (
     <>
       <h3 className={styles.subHeader}>Påmelding</h3>
-      <Flex column>
+
+      <Flex column gap="1rem">
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
           registrationMessage(event)
         ) : (
@@ -365,9 +352,11 @@ const JoinEventForm = ({
                 <Time time={event.activationTime} format="nowToTimeInWords" />
               </div>
             )}
+
             {disabledForUser && (
-              <div>Du kan ikke melde deg på dette arrangementet.</div>
+              <div>Du kan ikke melde deg på dette arrangementet</div>
             )}
+
             {sumPenalties > 0 && event.heedPenalties && (
               <Card severity="warning">
                 <Card.Header>NB!</Card.Header>
@@ -384,6 +373,7 @@ const JoinEventForm = ({
                 </Link>
               </Card>
             )}
+
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
@@ -398,7 +388,7 @@ const JoinEventForm = ({
                 </Card>
               )}
             {formOpen && hasRegisteredConsentIfRequired && (
-              <Flex column>
+              <Flex column gap="1rem">
                 <LegoFinalForm
                   onSubmit={onSubmit}
                   validate={validate}
@@ -422,48 +412,43 @@ const JoinEventForm = ({
                       event.useCaptcha;
 
                     return (
-                      <Form onSubmit={handleSubmit}>
+                      <Form className={styles.form}>
                         {showCaptcha && (
                           <Field
                             name="captchaResponse"
                             fieldStyle={{
-                              width: 304,
+                              width: '100%',
                             }}
                             component={Captcha.Field}
+                            withoutMargin
                           />
                         )}
 
                         {event.activationTime && registrationOpensIn && (
-                          <Flex alignItems="center">
-                            <Button disabled={disabledButton}>
-                              {`Åpner om ${registrationOpensIn}`}
-                            </Button>
-                          </Flex>
+                          <Button disabled={disabledButton}>
+                            {`Åpner om ${registrationOpensIn}`}
+                          </Button>
                         )}
 
                         {buttonOpen && !submitting && !registrationPending && (
                           <>
-                            <Flex
-                              alignItems="center"
-                              justifyContent="space-between"
-                            >
-                              <SubmitButton
-                                disabled={disabledButton}
-                                onSubmit={handleSubmit}
-                                type={registrationType}
-                                title={title || joinTitle}
-                                showPenaltyNotice={showPenaltyNotice}
-                              />
-                            </Flex>
+                            <SubmitButton
+                              disabled={disabledButton}
+                              onSubmit={handleSubmit}
+                              type={registrationType}
+                              title={title || joinTitle}
+                              showPenaltyNotice={showPenaltyNotice}
+                            />
 
                             <SubmissionError />
 
-                            {!registration && event.activeCapacity && (
-                              <SpotsLeft
-                                activeCapacity={event.activeCapacity}
-                                spotsLeft={event.spotsLeft}
-                              />
-                            )}
+                            {!registration &&
+                              typeof event.activeCapacity === 'number' && (
+                                <SpotsLeft
+                                  activeCapacity={event.activeCapacity}
+                                  spotsLeft={event.spotsLeft}
+                                />
+                              )}
                           </>
                         )}
 
@@ -484,46 +469,60 @@ const JoinEventForm = ({
                           />
                         )}
 
-                        <Flex
-                          alignItems="center"
-                          gap={10}
-                          className={styles.feedback}
-                        >
-                          <Field
-                            id={feedbackName}
-                            placeholder="Melding til arrangør"
-                            name={feedbackName}
-                            component={TextInput.Field}
-                            label={feedbackLabel}
-                            className={styles.feedbackText}
-                            onKeyDown={(e) => {
-                              // Prevent user from registering / unregistering by pressing enter
-                              if (e.key === 'Enter') {
-                                e.preventDefault();
-                              }
-                            }}
-                            parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
-                            rows={1}
-                          />
-                          {registration &&
-                            spyValues((values) => (
-                              <Button
-                                type="button"
-                                onClick={() => {
-                                  dispatch(
-                                    updateFeedback(
-                                      event.id,
-                                      registration.id,
-                                      values[feedbackName]
-                                    )
-                                  );
+                        <div>
+                          <label
+                            htmlFor={feedbackName}
+                            className={styles.feedbackLabel}
+                          >
+                            {feedbackLabel}
+                          </label>
+                          <Flex alignItems="center" gap="1rem">
+                            {spyValues((values) => (
+                              <Field
+                                id={feedbackName}
+                                placeholder="Melding til arrangør"
+                                name={feedbackName}
+                                component={TextInput.Field}
+                                className={styles.feedbackText}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' && registration) {
+                                    // Prevent user from unregistering by pressing enter
+                                    e.preventDefault();
+
+                                    if (!pristine) {
+                                      dispatch(
+                                        updateFeedback(
+                                          event.id,
+                                          registration.id,
+                                          values[feedbackName]
+                                        )
+                                      );
+                                    }
+                                  }
                                 }}
-                                disabled={pristine}
-                              >
-                                Oppdater
-                              </Button>
+                                withoutMargin
+                                parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
+                              />
                             ))}
-                        </Flex>
+                            {registration &&
+                              spyValues((values) => (
+                                <Button
+                                  onClick={() => {
+                                    dispatch(
+                                      updateFeedback(
+                                        event.id,
+                                        registration.id,
+                                        values[feedbackName]
+                                      )
+                                    );
+                                  }}
+                                  disabled={pristine}
+                                >
+                                  Oppdater
+                                </Button>
+                              ))}
+                          </Flex>
+                        </div>
                       </Form>
                     );
                   }}

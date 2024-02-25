@@ -2,16 +2,11 @@
 
 .star {
   color: var(--color-orange-6);
-  margin-right: 10px;
 }
 
-.descriptionHeader {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.meta h3 {
-  margin: 5px 0;
+.header {
+  min-width: 300px;
+  height: 2rem;
 }
 
 .title {
@@ -20,6 +15,10 @@
 
 .tagRow {
   margin-top: 16px;
+}
+
+.sidebarInfo {
+  min-height: 1.5rem;
 }
 
 .paymentInfo {
@@ -45,13 +44,6 @@
   &:last-of-type td {
     border-bottom: none;
   }
-}
-
-.infoIconLocation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
 }
 
 .mapButton {

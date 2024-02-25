@@ -3,8 +3,11 @@
 .field {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
   width: 100%;
+}
+
+.field:not(.withoutMargin) {
+  margin-bottom: 1rem;
 }
 
 .inputWithError {

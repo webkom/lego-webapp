@@ -1,24 +1,17 @@
-.base {
-  word-break: break-word;
+.skeletonBody1 {
+  margin-top: 2rem;
+  width: 80%;
+  height: 70px;
+}
 
-  div[data-type='todo'] > input {
-    cursor: pointer;
-    float: left;
-    position: relative;
-    top: 4px;
-    left: -4px;
-  }
+.skeletonBody2 {
+  margin-top: 2rem;
+  width: 60%;
+  height: 55px;
+}
 
-  ul {
-    margin-left: 15px;
-  }
-
-  ol {
-    margin-left: 15px;
-  }
-
-  figure {
-    text-align: center;
-    font-size: var(--font-size-sm);
-  }
+.skeletonBody3 {
+  margin-top: 1rem;
+  width: 90%;
+  height: 120px;
 }
