@@ -1,4 +1,5 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import moment from 'moment';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteComment } from 'app/actions/CommentActions';
@@ -60,7 +61,16 @@ const Comment = ({
                     />
                   )}
                 </Flex>
-                <Time className={styles.timestamp} time={createdAt} wordsAgo />
+                <Tooltip
+                  content={moment(createdAt).format('lll')}
+                  placement="right"
+                >
+                  <Time
+                    className={styles.timestamp}
+                    time={createdAt}
+                    wordsAgo
+                  />
+                </Tooltip>
               </Flex>
             </Flex>
 

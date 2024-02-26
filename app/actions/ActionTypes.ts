@@ -408,3 +408,19 @@ export const Reaction = {
   ADD: generateStatuses('Reaction.ADD') as AAT,
   DELETE: generateStatuses('Reaction.DELETE') as AAT,
 };
+
+export const Forum = {
+  FETCH_ALL: generateStatuses('Forum.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('Forum.CREATE') as AAT,
+  FETCH: generateStatuses('Forum. FETCH') as AAT,
+  DELETE: generateStatuses('Forum.DELETE') as AAT,
+  UPDATE: generateStatuses('Forum.UPDATE') as AAT,
+};
+
+export const Thread = {
+  FETCH_ALL: generateStatuses('Thread.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('Thread.CREATE') as AAT,
+  FETCH: generateStatuses('Thread. FETCH') as AAT,
+  DELETE: generateStatuses('Thread.DELETE') as AAT,
+  UPDATE: generateStatuses('Thread.UPDATE') as AAT,
+};

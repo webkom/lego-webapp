@@ -28,6 +28,7 @@ const SurveysRoute = loadable(() => import('./surveys'));
 const TagsRoute = loadable(() => import('./tags'));
 const TimelineRoute = loadable(() => import('./timeline'));
 const UsersRoute = loadable(() => import('./users'));
+const ForumRoute = loadable(() => import('./forum'));
 const UserValidatorRoute = loadable(() => import('./userValidator'));
 
 const RouterConfig = () => (
@@ -46,6 +47,7 @@ const RouterConfig = () => (
       <Route path="contact" element={<ContactRoute />} />
       <Route path="kontakt" element={<ContactRoute />} />
       <Route path="events/*" element={<EventsRoute />} />
+      <Route path="forum/*" element={<ForumRoute />} />
       <Route path="interest-groups/*" element={<InterestGroupsRoute />} />
       <Route path="interestgroups/*" element={<InterestGroupsRoute />} />
       <Route path="joblistings/*" element={<JoblistingsRoute />} />

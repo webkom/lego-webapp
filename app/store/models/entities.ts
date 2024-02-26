@@ -66,6 +66,7 @@ export enum EntityType {
   SurveySubmissions = 'surveySubmissions',
   Surveys = 'surveys',
   Tags = 'tags',
+  Thread = 'threads',
   Users = 'users',
   FollowersCompany = 'followersCompany',
   FollowersUser = 'followersUser',

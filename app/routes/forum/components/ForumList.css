@@ -1,0 +1,33 @@
+@import url('~app/styles/variables.css');
+
+.listEntry {
+  border-left: 8px solid var(--color-red-4);
+  justify-content: space-between;
+  transition: background-color var(--easing-fast);
+  padding: 1em 1.25em;
+  margin: 1em 0;
+
+  h2 {
+    color: var(--lego-font-color);
+  }
+
+  &:hover {
+    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  }
+}
+
+.threadEntry {
+  border-left: 0.5rem solid var(--lego-font-color);
+  justify-content: space-between;
+  transition: background-color var(--easing-fast);
+  padding: 1em 1.25em;
+  margin: 1em 0;
+
+  h2 {
+    color: var(--lego-font-color);
+  }
+
+  &:hover {
+    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  }
+}

@@ -18,6 +18,7 @@ import {
   followersEvent,
   followersUser,
 } from 'app/reducers/followers';
+import forums from 'app/reducers/forums';
 import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
 import galleryPictures from 'app/reducers/galleryPictures';
@@ -45,6 +46,7 @@ import surveySubmissions from 'app/reducers/surveySubmissions';
 import surveys from 'app/reducers/surveys';
 import tags from 'app/reducers/tags';
 import theme from 'app/reducers/theme';
+import threads from 'app/reducers/threads';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
 
@@ -64,11 +66,15 @@ const createRootReducer = () => {
     events,
     feedActivities,
     feeds,
+    followersCompany,
+    followersEvent,
+    followersUser,
+    forums,
     frontpage,
-    imageGalleryEntries,
     galleries,
     galleryPictures,
     groups,
+    imageGalleryEntries,
     joblistings,
     meetingInvitations,
     meetings,
@@ -92,11 +98,9 @@ const createRootReducer = () => {
     surveys,
     tags,
     theme,
+    threads,
     toasts,
     users,
-    followersCompany,
-    followersUser,
-    followersEvent,
   });
 };
 

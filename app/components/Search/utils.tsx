@@ -35,6 +35,12 @@ const LINKS: Array<Link> = [
     url: '/articles',
   },
   {
+    key: 'forum',
+    title: 'Forum',
+    icon: 'chatbubbles-outline',
+    url: '/forum',
+  },
+  {
     key: 'events',
     title: 'Arrangementer',
     icon: 'calendar-outline',
