@@ -126,7 +126,7 @@ const Overview = () => {
         <Articles articles={articlesShown} />
       </section>
 
-      {frontpage.length > 8 && (
+      {frontpage.length > 8 && events.length > eventsToShow && (
         <div className={styles.showMore}>
           <Icon onClick={showMore} name="chevron-down-outline" size={30} />
         </div>
