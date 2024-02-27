@@ -156,13 +156,6 @@ const StudentConfirmation = () => {
       <Button success onClick={() => performStudentAuth()}>
         Verifiser med FEIDE
       </Button>
-      {currentUser.isStudent !== null && (
-        <p className={styles.infoText}>
-          Du har allerede verifisert din status. Dersom du har byttet studie og
-          ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og vi vil
-          oppdatere statusen din dersom du er registrert riktig på StudentWeb.
-        </p>
-      )}
 
       <Modal
         show={showMemberModal}
