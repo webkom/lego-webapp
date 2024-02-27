@@ -1,7 +1,8 @@
 import { Card, Flex } from '@webkom/lego-bricks';
-import { Field } from 'react-final-form';
+import { useEffect, useState } from 'react';
+import { Field, FormSpy } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
-import { TextInput } from 'app/components/Form';
+import { SelectInput, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
@@ -36,6 +37,8 @@ const CommentForm = ({
 
   const { currentUser, loggedIn } = useUserContext();
 
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
+
   if (!loggedIn) {
     return <div>Vennligst logg inn for å kommentere</div>;
   }
@@ -60,6 +63,17 @@ const CommentForm = ({
         {({ handleSubmit }) => {
           return (
             <form onSubmit={handleSubmit}>
+              <FormSpy subscription={{ values: true }}>
+                {({ values }) => {
+                  const shouldShowAutocomplete =
+                    values.text && values.text.endsWith('@');
+                  if (showAutocomplete !== shouldShowAutocomplete) {
+                    setShowAutocomplete(shouldShowAutocomplete);
+                  }
+                  return null;
+                }}
+              </FormSpy>
+
               <Flex alignItems="center" gap="1rem">
                 <ProfilePicture size={40} user={currentUser} />
 
@@ -72,6 +86,32 @@ const CommentForm = ({
                     removeBorder
                     maxLength={140}
                   />
+                  {showAutocomplete && (
+                    <LegoFinalForm onSubmit={({ mentions }, form) => {}}>
+                      {({ handleSubmit }) => {
+                        return (
+                          <form onSubmit={handleSubmit}>
+                            <Flex
+                              column={false}
+                              alignItems="center"
+                              gap={'1rem'}
+                            >
+                              <Field
+                                placeholder="Velg bruker"
+                                name="mentions"
+                                label="Tagg bruker"
+                                component={SelectInput.AutocompleteField}
+                                filter={['users.user']}
+                              />
+                              <SubmitButton className={styles.submitButton}>
+                                Ok
+                              </SubmitButton>
+                            </Flex>
+                          </form>
+                        );
+                      }}
+                    </LegoFinalForm>
+                  )}
                 </div>
 
                 <SubmitButton className={styles.submitButton}>
