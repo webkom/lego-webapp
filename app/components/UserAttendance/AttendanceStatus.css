@@ -3,6 +3,7 @@
   flex-flow: row wrap;
   justify-content: flex-start;
   width: 100%;
+  min-height: 72px;
   text-align: center;
   border-radius: var(--border-radius-md);
   margin: 10px 0;

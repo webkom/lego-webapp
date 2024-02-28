@@ -188,7 +188,8 @@ export type EventRegistrationPaymentStatus =
   | 'manual'
   | 'succeeded'
   | 'failed'
-  | 'card_declined';
+  | 'card_declined'
+  | 'expired_card';
 export type EventRegistrationStatus =
   | 'PENDING_REGISTER'
   | 'SUCCESS_REGISTER'

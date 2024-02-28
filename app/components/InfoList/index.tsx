@@ -1,3 +1,6 @@
+import { Flex } from '@webkom/lego-bricks';
+import { isNotNullish } from 'app/utils';
+import styles from './styles.css';
 import type { ReactNode } from 'react';
 
 type Item = {
@@ -15,21 +18,23 @@ type Props = {
  * Location <strong>Oslo</strong>
  * Time <strong>Yesterday</strong>
  */
-function InfoList({ items, className }: Props) {
+const InfoList = ({ items, className }: Props) => {
   return (
-    <table className={className}>
-      <tbody>
-        {items.filter(Boolean).map(({ key, keyNode, value }) => (
-          <tr key={key}>
-            <td>{keyNode ?? <span>{key}</span>}</td>
-            <td>
-              <strong>{value}</strong>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Flex column gap="0.5rem" className={className}>
+      {items.filter(isNotNullish).map(({ key, keyNode, value }) => (
+        <Flex
+          alignItems="center"
+          justifyContent="space-between"
+          gap="1rem"
+          key={key}
+        >
+          {keyNode ?? <span>{key}</span>}
+
+          <span className={styles.value}>{value}</span>
+        </Flex>
+      ))}
+    </Flex>
   );
-}
+};
 
 export default InfoList;

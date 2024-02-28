@@ -1,11 +1,6 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Icon,
-  LoadingIndicator,
-} from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -77,11 +72,7 @@ const Line = () => <div className={styles.line} />;
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   const icon = isInterested ? 'star' : 'star-outline';
   return (
-    <div
-      style={{
-        display: 'inline-block',
-      }}
-    >
+    <div>
       <Tooltip
         content={
           <span
@@ -150,8 +141,10 @@ const EventDetail = () => {
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, { eventIdOrSlug })
-  ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
+  ) as AuthUserDetailedEvent | UserDetailedEvent;
   const eventId = event?.id;
+  const fetching = useAppSelector((state) => state.events.fetching);
+  const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
   const hasFullAccess = Boolean(event?.waitingRegistrations);
 
@@ -243,14 +236,6 @@ const EventDetail = () => {
     [eventIdOrSlug, loggedIn]
   );
 
-  if (!eventId || !event.text) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
-  }
-
   const color = colorForEventType(event.eventType);
 
   const onRegisterClick = event.following
@@ -307,7 +292,7 @@ const EventDetail = () => {
                   .
                 </>
               }
-              iconRight={true}
+              iconRight
               size={16}
             />
           ),
@@ -336,7 +321,7 @@ const EventDetail = () => {
                   eller av arrangementet
                 </>
               }
-              iconRight={true}
+              iconRight
               size={16}
             />
           ),
@@ -362,7 +347,7 @@ const EventDetail = () => {
     event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
 
   const eventCreator = [
-    // Responsible Group
+    // Responsible group
     event.responsibleGroup && {
       key: 'Arrangør',
       value: (
@@ -380,8 +365,7 @@ const EventDetail = () => {
         </span>
       ),
     },
-
-    // Responsible Users or Created By or Anonymous
+    // Responsible users, author or anonymous
     ...(event.responsibleUsers && event.responsibleUsers.length > 0
       ? [
           {
@@ -428,6 +412,7 @@ const EventDetail = () => {
         event.coverPlaceholder || event.company?.logoPlaceholder
       }
       youtubeUrl={event.youtubeUrl}
+      skeleton={showSkeleton}
     >
       <PropertyHelmet propertyGenerator={propertyGenerator} options={{ event }}>
         <title>{event.title}</title>
@@ -440,105 +425,122 @@ const EventDetail = () => {
         className={styles.title}
         event={event}
       >
-        {loggedIn && <InterestedButton isInterested={!!event.following} />}
-        {event.title}
+        <Flex alignItems="center" gap="1rem" className={styles.header}>
+          {loggedIn && <InterestedButton isInterested={!!event.following} />}
+          {showSkeleton ? <Skeleton /> : event.title}
+        </Flex>
       </ContentHeader>
 
       <ContentSection>
         <ContentMain>
-          <DisplayContent content={event.text} />
+          <DisplayContent content={event.text} skeleton={showSkeleton} />
           <Flex className={styles.tagRow}>
-            {event.tags.map((tag, i) => (
+            {event.tags?.map((tag, i) => (
               <Tag key={i} tag={tag} />
             ))}
           </Flex>
         </ContentMain>
+
         <ContentSidebar>
-          {event.company && (
-            <TextWithIcon
-              iconName="briefcase-outline"
-              content={
-                <Link to={`/companies/${event.company.id}`}>
-                  {event.company.name}
-                </Link>
-              }
-            />
-          )}
-          <TextWithIcon
-            iconName="time-outline"
-            content={<FromToTime from={event.startTime} to={event.endTime} />}
-          />
-          {event.isForeignLanguage !== null && event.isForeignLanguage && (
-            <TextWithIcon iconName="language-outline" content={'English'} />
-          )}
-
-          <div className={styles.infoIconLocation}>
-            <TextWithIcon
-              iconName="location-outline"
-              content={event.location}
-            />
-
-            {event.mazemapPoi && (
-              <Button
-                className={styles.mapButton}
-                onClick={() => setMapIsOpen(!mapIsOpen)}
-              >
-                <img
-                  className={styles.mazemapImg}
-                  alt="MazeMap-logo"
-                  src={mazemapLogo}
+          {showSkeleton ? (
+            <Flex column gap="0.5rem">
+              <Skeleton array={3} className={styles.sidebarInfo} />
+            </Flex>
+          ) : (
+            <Flex column gap="0.5rem">
+              {event.company && (
+                <TextWithIcon
+                  iconName="briefcase-outline"
+                  content={
+                    <Link to={`/companies/${event.company.id}`}>
+                      {event.company.name}
+                    </Link>
+                  }
+                  className={styles.sidebarInfo}
                 />
-                {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-              </Button>
-            )}
-          </div>
+              )}
 
-          {event.isPriced && (
-            <TextWithIcon
-              iconName="cash-outline"
-              content={event.priceMember / 100 + ',-'}
-            />
+              <TextWithIcon
+                iconName="time-outline"
+                content={
+                  <FromToTime from={event.startTime} to={event.endTime} />
+                }
+                className={styles.sidebarInfo}
+              />
+
+              {event.isForeignLanguage !== null && event.isForeignLanguage && (
+                <TextWithIcon
+                  iconName="language-outline"
+                  content="English"
+                  className={styles.sidebarInfo}
+                />
+              )}
+
+              <TextWithIcon
+                iconName="location-outline"
+                content={event.location}
+                className={styles.sidebarInfo}
+              />
+
+              {event.mazemapPoi && (
+                <Button
+                  className={styles.mapButton}
+                  onClick={() => setMapIsOpen(!mapIsOpen)}
+                >
+                  <img
+                    className={styles.mazemapImg}
+                    alt="MazeMap-logo"
+                    src={mazemapLogo}
+                  />
+                  {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+                </Button>
+              )}
+
+              {event.isPriced && (
+                <TextWithIcon
+                  iconName="cash-outline"
+                  content={event.priceMember / 100 + ',-'}
+                  className={styles.sidebarInfo}
+                />
+              )}
+            </Flex>
           )}
+
           {event.mazemapPoi && (
             <>{mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}</>
           )}
+
           {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
             <Flex column>
               <h3>Påmeldte</h3>
-              {registrations ? (
-                <>
-                  <UserGrid
-                    minRows={minUserGridRows}
-                    maxRows={MAX_USER_GRID_ROWS}
-                    users={registrations.slice(0, 14).map((reg) => reg.user)}
-                  />
-                  <AttendanceModal key="modal" pools={pools} title="Påmeldte">
-                    {({ toggleModal }) => (
-                      <>
-                        <RegisteredSummary
-                          toggleModal={toggleModal}
-                          registrations={registrations}
-                          currentRegistration={currentRegistration}
-                        />
-                        <AttendanceStatus
-                          toggleModal={toggleModal}
-                          pools={pools}
-                          legacyRegistrationCount={
-                            event.legacyRegistrationCount
-                          }
-                        />
-                      </>
-                    )}
-                  </AttendanceModal>
-                </>
-              ) : (
-                <AttendanceStatus
-                  pools={pools}
-                  legacyRegistrationCount={event.legacyRegistrationCount}
-                />
-              )}
+
+              <UserGrid
+                minRows={minUserGridRows}
+                maxRows={MAX_USER_GRID_ROWS}
+                users={registrations?.slice(0, 14).map((reg) => reg.user)}
+                skeleton={showSkeleton}
+              />
+              <AttendanceModal key="modal" pools={pools} title="Påmeldte">
+                {({ toggleModal }) => (
+                  <>
+                    <RegisteredSummary
+                      toggleModal={toggleModal}
+                      registrations={registrations}
+                      currentRegistration={currentRegistration}
+                      skeleton={showSkeleton}
+                    />
+                    <AttendanceStatus
+                      toggleModal={toggleModal}
+                      pools={pools}
+                      legacyRegistrationCount={event.legacyRegistrationCount}
+                      skeleton={showSkeleton}
+                    />
+                  </>
+                )}
+              </AttendanceModal>
+
               {loggedIn && (
                 <RegistrationMeta
                   useConsent={event.useConsent}
@@ -552,8 +554,10 @@ const EventDetail = () => {
                   isPriced={event.isPriced}
                   registrationIndex={currentRegistrationIndex}
                   hasSimpleWaitingList={hasSimpleWaitingList}
+                  skeleton={showSkeleton}
                 />
               )}
+
               {'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
               !event.isAdmitted ? (
@@ -574,27 +578,52 @@ const EventDetail = () => {
                   </ul>
                 </Card>
               ) : (
-                <div>
+                !showSkeleton && (
                   <JoinEventForm
                     event={event}
                     registration={currentRegistration}
-                    currentUser={currentUser}
                     pendingRegistration={pendingRegistration}
                   />
-                </div>
+                )
               )}
             </Flex>
           )}
-          {deadlines.some((d) => d !== null) && (
+
+          {showSkeleton ? (
             <>
               <Line />
-              <InfoList className={styles.infoList} items={deadlines} />
+              <Flex column gap="0.5rem">
+                <Skeleton array={2} className={styles.sidebarInfo} />
+              </Flex>
             </>
+          ) : (
+            deadlines.some((d) => d !== null) && (
+              <>
+                <Line />
+                <InfoList className={styles.infoList} items={deadlines} />
+              </>
+            )
           )}
-          <Line />
-          <InfoList items={eventCreator} className={styles.infoList} />
 
           <Line />
+
+          {showSkeleton ? (
+            <Flex column gap="0.5rem">
+              <Flex gap="1rem" className={styles.sidebarInfo}>
+                Arrangør
+                <Skeleton className={styles.sidebarInfo} />
+              </Flex>
+              <Flex gap="1rem" className={styles.sidebarInfo}>
+                Forfatter
+                <Skeleton className={styles.sidebarInfo} />
+              </Flex>
+            </Flex>
+          ) : (
+            <InfoList items={eventCreator} className={styles.infoList} />
+          )}
+
+          <Line />
+
           {loggedIn && (
             <TextWithIcon
               iconName="create-outline"
@@ -613,14 +642,15 @@ const EventDetail = () => {
               </Link>
             }
           />
+
           {(actionGrant.includes('edit') || actionGrant.includes('delete')) && (
             <Line />
           )}
-          <Flex column>
-            <Admin actionGrant={actionGrant} event={event} />
-          </Flex>
+
+          <Admin actionGrant={actionGrant} event={event} />
         </ContentSidebar>
       </ContentSection>
+
       {event.contentTarget && (
         <CommentView
           style={{

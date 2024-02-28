@@ -53,6 +53,7 @@ export type FormProps = {
   labelClassName?: string;
   showErrors?: boolean;
   onChange?: (value: string | ChangeEvent) => void;
+  withoutMargin?: boolean;
 };
 
 type Options = {
@@ -89,6 +90,7 @@ export function createField<
       onChange,
       showErrors = true,
       className = null,
+      withoutMargin = false,
       ...props
     } = field;
     const { error, submitError, touched } = meta;
@@ -147,7 +149,14 @@ export function createField<
     );
 
     return (
-      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
+      <div
+        className={cx(
+          styles.field,
+          withoutMargin && styles.withoutMargin,
+          fieldClassName
+        )}
+        style={fieldStyle}
+      >
         {noLabel ? content : <label>{content}</label>}
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />

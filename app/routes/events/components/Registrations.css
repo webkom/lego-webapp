@@ -1,9 +1,13 @@
 @import url('~app/styles/variables.css');
 
 .summary {
-  flex-wrap: wrap;
   white-space: pre;
   color: var(--secondary-font-color);
+  margin-top: 10px;
+
+  > * {
+    min-height: 1.5rem;
+  }
 }
 
 .registrationList {

@@ -103,7 +103,7 @@ const CompactEvents = ({ events, className, style }: Props) => {
             <h3 className="u-ui-heading">Bedpres og kurs</h3>
           </Link>
           <Flex column gap="5px">
-            {fetching && !events.length ? skeleton : leftEvents}
+            {fetching && !presentations.length ? skeleton : leftEvents}
           </Flex>
         </Flex>
         <Flex column className={styles.compactRight}>
@@ -121,7 +121,7 @@ const CompactEvents = ({ events, className, style }: Props) => {
             <h3 className="u-ui-heading">Arrangementer</h3>
           </Link>
           <Flex column gap="5px">
-            {fetching && !events.length ? skeleton : rightEvents}
+            {fetching && !other.length ? skeleton : rightEvents}
           </Flex>
         </Flex>
       </Flex>

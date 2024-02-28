@@ -112,16 +112,16 @@ describe('Create meeting', () => {
     cy.contains('h1', 'Test meeting').should('be.visible');
     cy.contains('time', '10:00').should('be.visible');
     cy.contains(c('legoEditor_disabled'), 'Meeting plan').should('be.visible');
-    cy.contains('tr', 'Når')
+    cy.contains('div', 'Når')
       .should('contain.text', '10:00 - 13:37')
       .should('be.visible');
-    cy.contains('tr', 'Sted')
+    cy.contains('div', 'Sted')
       .should('contain.text', 'Test location')
       .should('be.visible');
-    cy.contains('tr', 'Forfatter')
+    cy.contains('div', 'Forfatter')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
-    cy.contains('tr', 'Referent')
+    cy.contains('div', 'Referent')
       .should('contain.text', 'bedkom bedkom')
       .should('be.visible');
 
@@ -229,16 +229,16 @@ describe('Create meeting', () => {
     cy.contains(c('legoEditor_disabled'), 'Meeting report').should(
       'be.visible'
     );
-    cy.contains('tr', 'Når')
+    cy.contains('div', 'Når')
       .should('contain.text', '17:15 - 20:00')
       .should('be.visible');
-    cy.contains('tr', 'Sted')
+    cy.contains('div', 'Sted')
       .should('contain.text', 'Abakus, Realfagbygget')
       .should('be.visible');
-    cy.contains('tr', 'Forfatter')
+    cy.contains('div', 'Forfatter')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
-    cy.contains('tr', 'Referent')
+    cy.contains('div', 'Referent')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
 

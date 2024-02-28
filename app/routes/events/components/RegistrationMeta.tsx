@@ -1,4 +1,5 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Skeleton } from '@webkom/lego-bricks';
+import TextWithIcon from 'app/components/TextWithIcon';
 import { PhotoConsentDomain } from 'app/models';
 import {
   paymentPending,
@@ -10,6 +11,8 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
+import styles from './EventDetail/EventDetail.css';
+import type { TextWithIconProps } from 'app/components/TextWithIcon';
 import type {
   EventRegistrationPresence,
   EventRegistrationPaymentStatus,
@@ -28,19 +31,11 @@ type Props = {
   hasEnded: boolean;
   photoConsents?: Array<PhotoConsent>;
   eventSemester: EventSemester;
+  skeleton?: boolean;
 };
 
-const ConsentInfo = ({
-  className,
-  consentDescription,
-}: {
-  className: string;
-  consentDescription: string;
-}) => (
-  <div>
-    <i className={className} />
-    {' ' + consentDescription}
-  </div>
+const TextWithIconWrapper = (props: TextWithIconProps) => (
+  <TextWithIcon size={20} gap={2} className={styles.sidebarInfo} {...props} />
 );
 
 const ConsentStatus = ({
@@ -76,38 +71,36 @@ const ConsentStatus = ({
 
     if (isConsentingWeb && isConsentingSoMe) {
       return (
-        <ConsentInfo
-          className={'fa fa-camera'}
-          consentDescription={`Du samtykker til bilder på abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
+        <TextWithIconWrapper
+          iconName="camera-outline"
+          content={`Du samtykker til bilder på abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
         />
       );
     }
 
     if (!isConsentingWeb && !isConsentingSoMe) {
       return (
-        <ConsentInfo
-          className={'fa fa-times-circle'}
-          consentDescription={`Du samtykker ikke til bilder for semesteret ${readableEventSemester}`}
+        <TextWithIconWrapper
+          iconName="close-circle-outline"
+          content={`Du samtykker ikke til bilder for semesteret ${readableEventSemester}`}
         />
       );
     }
 
     if (isConsentingWeb && !isConsentingSoMe) {
       return (
-        <ConsentInfo
-          className={'fa fa-desktop'}
-          consentDescription={`Du samtykker kun til bilder på
-          Abakus.no for semesteret ${readableEventSemester}`}
+        <TextWithIconWrapper
+          iconName="desktop-outline"
+          content={`Du samtykker kun til bilder på abakus.no for semesteret ${readableEventSemester}`}
         />
       );
     }
 
     if (!isConsentingWeb && isConsentingSoMe) {
       return (
-        <ConsentInfo
-          className={'fa fa-share-square'}
-          consentDescription={`Du samtykker kun til bilder på
-          sosiale medier for semesteret ${readableEventSemester}`}
+        <TextWithIconWrapper
+          iconName="share-social-outline"
+          content={`Du samtykker kun til bilder på sosiale medier for semesteret ${readableEventSemester}`}
         />
       );
     }
@@ -115,39 +108,35 @@ const ConsentStatus = ({
 
   if (LEGACY_photoConsent === 'PHOTO_CONSENT') {
     return (
-      <ConsentInfo
-        className={'fa fa-check-circle'}
-        consentDescription={'Du samtykker til bilder fra dette arrangementet'}
+      <TextWithIconWrapper
+        iconName="checkmark-circle-outline"
+        content="Du samtykker til bilder fra dette arrangementet"
       />
     );
   }
 
   if (LEGACY_photoConsent === 'PHOTO_NOT_CONSENT') {
     return (
-      <ConsentInfo
-        className={'fa fa-times-circle'}
-        consentDescription={
-          'Du samtykker ikke til bilder fra dette arrangementet'
-        }
+      <TextWithIconWrapper
+        iconName="close-circle-outline"
+        content="Du samtykker ikke til bilder fra dette arrangementet"
       />
     );
   }
 
   if (LEGACY_photoConsent === 'UNKNOWN' && hasEnded) {
     return (
-      <ConsentInfo
-        className={'fa fa-exclamation-circle'}
-        consentDescription={
-          'Du tok ikke stilling til bildesamtykke på dette arrangementet'
-        }
+      <TextWithIconWrapper
+        iconName="alert-circle-outline"
+        content="Du tok ikke stilling til bildesamtykke på dette arrangementet"
       />
     );
   }
 
   return (
-    <ConsentInfo
-      className={'fa fa-exclamation-circle'}
-      consentDescription={'Dette arrangement krever bildesamtykke'}
+    <TextWithIconWrapper
+      iconName="alert-circle-outline"
+      content="Dette arrangement krever bildesamtykke"
     />
   );
 };
@@ -162,25 +151,27 @@ const PresenceStatus = ({
   switch (presence) {
     case 'NOT_PRESENT':
       return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Du møtte ikke opp på
-          arrangementet
-        </div>
+        <TextWithIconWrapper
+          iconName="alert-circle-outline"
+          content="Du møtte ikke opp"
+        />
       );
 
     case 'PRESENT':
       return (
-        <div>
-          <i className="fa fa-check-circle" /> Du møtte opp på arrangementet
-        </div>
+        <TextWithIconWrapper
+          iconName="checkmark-circle-outline"
+          content="Du møtte opp"
+        />
       );
 
     case 'UNKNOWN':
       if (!hasEnded) return null;
       return (
-        <div>
-          <i className="fa fa-check-circle" /> Oppmøte ble ikke sjekket
-        </div>
+        <TextWithIconWrapper
+          iconName="help-circle-outline"
+          content="Oppmøte ble ikke sjekket"
+        />
       );
 
     default:
@@ -200,40 +191,43 @@ const PaymentStatus = ({
   switch (paymentStatus) {
     case paymentPending:
       return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Betaling pågår
-        </div>
+        <TextWithIconWrapper
+          iconName="alert-circle-outline"
+          content="Betaling pågår"
+        />
       );
 
     case paymentManual:
     case paymentSuccess:
       return (
-        <div>
-          <i className="fa fa-check-circle" /> Du har betalt
-        </div>
+        <TextWithIconWrapper
+          iconName="checkmark-circle-outline"
+          content="Du har betalt"
+        />
       );
 
     case paymentCardDeclined:
       return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Du har ikke betalt. Kortet
-          du prøvde å betale med ble ikke godtatt.
-        </div>
+        <TextWithIconWrapper
+          iconName="alert-circle-outline"
+          content="Du har ikke betalt. Kortet du prøvde å betale med ble ikke godtatt"
+        />
       );
 
     case paymentCardExpired:
       return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Du har ikke betalt. Kortet
-          du prøvde å betale med har gått ut på dato.
-        </div>
+        <TextWithIconWrapper
+          iconName="alert-circle-outline"
+          content="Du har ikke betalt. Kortet du prøvde å betale med har gått ut på dato"
+        />
       );
 
     default:
       return (
-        <div>
-          <i className="fa fa-exclamation-circle" /> Du har ikke betalt
-        </div>
+        <TextWithIconWrapper
+          iconName="alert-circle-outline"
+          content="Du har ikke betalt"
+        />
       );
   }
 };
@@ -248,50 +242,70 @@ const RegistrationMeta = ({
   hasSimpleWaitingList,
   photoConsents,
   eventSemester,
-}: Props) => (
-  <Flex column gap={5}>
-    {!registration && hasOpened && (
-      <div>
-        <i className="fa fa-times-circle" /> Du {hasEnded ? 'var' : 'er'} ikke
-        påmeldt
-      </div>
-    )}
-    {registration && (
-      <>
-        {registration.pool ? (
-          <>
-            {!hasEnded && (
-              <div>
-                <i className="fa fa-check-circle" /> Du er påmeldt
-              </div>
-            )}
-          </>
-        ) : hasSimpleWaitingList ? (
-          <div>
-            <i className="fa fa-pause-circle" /> Din plass i ventelisten:{' '}
-            <strong>{registrationIndex + 1}</strong>
-          </div>
-        ) : (
-          <div>
-            <i className="fa fa-pause-circle" /> Du {hasEnded ? 'stod' : 'står'}{' '}
-            på venteliste
-          </div>
-        )}
-        <PresenceStatus presence={registration.presence} hasEnded={hasEnded} />
-        <PaymentStatus
-          isPriced={isPriced}
-          paymentStatus={registration.paymentStatus}
+  skeleton,
+}: Props) => {
+  if (skeleton) {
+    return (
+      <Flex column gap="0.5rem">
+        <Skeleton array={2} className={styles.sidebarInfo} />
+      </Flex>
+    );
+  }
+
+  return (
+    <Flex column gap="0.5rem">
+      {!registration && hasOpened && (
+        <TextWithIconWrapper
+          iconName="close-circle-outline"
+          content={`Du ${hasEnded ? 'var' : 'er'} ikke påmeldt`}
         />
-      </>
-    )}
-    <ConsentStatus
-      useConsent={useConsent}
-      hasEnded={hasEnded}
-      LEGACY_photoConsent={registration?.LEGACYPhotoConsent}
-      photoConsents={photoConsents}
-      eventSemester={eventSemester}
-    />
-  </Flex>
-);
+      )}
+      {registration && (
+        <>
+          {registration.pool ? (
+            <>
+              {!hasEnded && (
+                <TextWithIconWrapper
+                  iconName="checkmark-circle-outline"
+                  content="Du er påmeldt"
+                />
+              )}
+            </>
+          ) : hasSimpleWaitingList ? (
+            <TextWithIconWrapper
+              iconName="pause-circle-outline"
+              content={
+                <>
+                  Din plass i ventelisten er{' '}
+                  <strong>{registrationIndex + 1}</strong>
+                </>
+              }
+            />
+          ) : (
+            <TextWithIconWrapper
+              iconName="pause-circle-outline"
+              content={`Du ${hasEnded ? 'stod' : 'står'} på venteliste`}
+            />
+          )}
+          <PresenceStatus
+            presence={registration.presence}
+            hasEnded={hasEnded}
+          />
+          <PaymentStatus
+            isPriced={isPriced}
+            paymentStatus={registration.paymentStatus}
+          />
+        </>
+      )}
+      <ConsentStatus
+        useConsent={useConsent}
+        hasEnded={hasEnded}
+        LEGACY_photoConsent={registration?.LEGACYPhotoConsent}
+        photoConsents={photoConsents}
+        eventSemester={eventSemester}
+      />
+    </Flex>
+  );
+};
 
 export default RegistrationMeta;
