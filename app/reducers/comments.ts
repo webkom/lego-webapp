@@ -53,7 +53,7 @@ export function mutateComments<T, S = EntityReducerState<T>>(
 export const addCommentCases = (
   forTargetType: EntityType,
   addCase: ActionReducerMapBuilder<
-    EntityState<{ comments?: EntityId[] }>
+    EntityState<{ comments?: EntityId[] }, EntityId>
   >['addCase']
 ) => {
   addCase(Comment.ADD.SUCCESS, (state, action: AnyAction) => {
