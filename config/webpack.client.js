@@ -143,6 +143,7 @@ module.exports = (env, argv) => {
       fallback: {
         util: require.resolve('util/'),
         buffer: require.resolve('buffer/'),
+        'process/browser': require.resolve('process/browser'),
       },
     },
     optimization: {
