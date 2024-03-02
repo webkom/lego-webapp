@@ -29,7 +29,7 @@ export default createEntityReducer({
               type: feedId.split('-')[0],
               activities: union(
                 (state.byId[feedId] ? state.byId[feedId].activities : []) || [],
-                arrayOf(action.payload.result)
+                arrayOf(action.payload.result),
               ),
             },
           },
@@ -47,12 +47,12 @@ export const feedIdByUserId = (userId: string) => `user-${userId}`;
 export const selectFeeds = createSelector(
   (state) => state.feeds.byId,
   (state) => state.feeds.items,
-  (feedsById, feedIds) => feedIds.map((id) => feedsById[id])
+  (feedsById, feedIds) => feedIds.map((id) => feedsById[id]),
 );
 export const selectFeedById = createSelector(
   (state) => state.feeds.byId,
   (state, props) => props.feedId,
-  (feedsById, feedId) => feedsById[feedId]
+  (feedsById, feedId) => feedsById[feedId],
 );
 export const selectFeedActivitesByFeedId = createSelector(
   selectFeedById,
@@ -63,5 +63,5 @@ export const selectFeedActivitesByFeedId = createSelector(
     }
 
     return feed.activities.map((id) => activiesById[id]);
-  }
+  },
 );

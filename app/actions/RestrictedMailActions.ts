@@ -47,7 +47,7 @@ export function fetch({
           errorMessage: 'Henting av begrensete e-poster feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

@@ -27,19 +27,19 @@ export const selectThreadsByForumId = (forumId: ID) =>
       });
 
       return filteredThreadIds.map((id) => threadsById[id]);
-    }
+    },
   );
 
 export const selectThreads = createSelector(
   (state) => state.threads.byId,
   (state) => state.threads.items,
-  (threadsById, threadsIds) => threadsById.map((id) => threadsIds[id])
+  (threadsById, threadsIds) => threadsById.map((id) => threadsIds[id]),
 );
 
 export const selectThreadsById = createSelector(
   (state) => state.threads.byId,
   (state, props) => props.threadId,
-  (threadsById, threadId) => threadsById[threadId]
+  (threadsById, threadId) => threadsById[threadId],
 );
 
 export const selectCommentsByIds = createSelector(
@@ -52,5 +52,5 @@ export const selectCommentsByIds = createSelector(
       }
       return acc;
     }, []);
-  }
+  },
 );

@@ -19,5 +19,5 @@ const emojisSlice = createSlice({
 
 export default emojisSlice.reducer;
 export const { selectAll: selectEmojis } = legoAdapter.getSelectors<RootState>(
-  (state) => state.emojis
+  (state) => state.emojis,
 );

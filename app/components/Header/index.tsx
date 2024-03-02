@@ -101,9 +101,9 @@ const UpcomingMeetingButton = () => {
       dispatch(
         fetchMeetings({
           endpoint,
-        })
+        }),
       ),
-    [endpoint]
+    [endpoint],
   );
 
   if (!upcomingMeetingId) return;

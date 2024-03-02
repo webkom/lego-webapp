@@ -23,7 +23,7 @@ export function fetchAll({
         meta: {
           errorMessage: 'Henting av avstemninger feilet',
         },
-      })
+      }),
     );
   };
 }

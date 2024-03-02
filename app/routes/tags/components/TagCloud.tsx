@@ -45,7 +45,7 @@ const TagCloud = () => {
       }
     },
 
-    [hasMore, fetching]
+    [hasMore, fetching],
   );
 
   const data: CloudTag[] = tags.map((tag: Tag) => {

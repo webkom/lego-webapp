@@ -49,7 +49,7 @@ const UserSettingsNotifications = () => {
         dispatch(fetchNotificationAlternatives()),
         dispatch(fetchNotificationSettings()),
       ]),
-    []
+    [],
   );
 
   const alternatives = useAppSelector(selectNotificationSettingsAlternatives);
@@ -100,7 +100,7 @@ const UserSettingsNotifications = () => {
                 checked={currentUser.emailListsEnabled}
                 onChange={(event) => {
                   dispatch(
-                    updateUser({ ...currentUser, emailListsEnabled: event })
+                    updateUser({ ...currentUser, emailListsEnabled: event }),
                   );
                 }}
               />
@@ -119,9 +119,11 @@ const UserSettingsNotifications = () => {
                 updateNotificationSetting(
                   notificationType,
                   alternatives.channels.filter((channel) =>
-                    changeChannel === channel ? value : channnelSetting(channel)
-                  )
-                )
+                    changeChannel === channel
+                      ? value
+                      : channnelSetting(channel),
+                  ),
+                ),
               );
             };
 

@@ -50,7 +50,7 @@ export default createEntityReducer({
         if (statePool.registrations) {
           statePool.registrations = without(
             statePool.registrations,
-            payload.id
+            payload.id,
           );
         }
 

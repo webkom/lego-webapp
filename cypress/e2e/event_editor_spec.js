@@ -59,7 +59,7 @@ describe('Editor', () => {
     // Upload file
     cy.upload_file(
       '._legoEditor_imageUploader_dropZone',
-      'images/screenshot.png'
+      'images/screenshot.png',
     );
 
     // Wait for image to appear

@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { FormSpyRenderProps } from 'react-final-form';
 
 export const spyValues = <FormValues,>(
-  render: (values: FormValues) => ReactNode
+  render: (values: FormValues) => ReactNode,
 ) => (
   <FormSpy
     subscription={{
@@ -30,7 +30,7 @@ type SpySubmittableOptions = {
 };
 export const spySubmittable = (
   render: (submittable: boolean) => ReactNode,
-  { allowPristine = false }: SpySubmittableOptions = {}
+  { allowPristine = false }: SpySubmittableOptions = {},
 ) => (
   <FormSpy
     subscription={{

@@ -53,7 +53,7 @@ const ConsentManager = ({
           closeOnConfirm={true}
           title={`Trekke bildesamtykke på ${presentableDomain}`}
           message={`Er du sikker på at du vil trekke bildesamtykket ditt for ${toReadableSemester(
-            consent
+            consent,
           )} på ${presentableDomain}? Dersom du ønsker å fjerne noen spesifikke bilder, kan du i stedet sende en e-post til pr@abakus.no med informasjon om hvilke bilder du vil fjerne.`}
           onConfirm={() => updateConsent({ ...consent, isConsenting: false })}
         >
@@ -95,7 +95,7 @@ const PhotoConsents = ({
   const semesterOptions = photoConsents
     .slice(0)
     .filter(
-      (photoConsent) => photoConsent.domain === PhotoConsentDomain.WEBSITE
+      (photoConsent) => photoConsent.domain === PhotoConsentDomain.WEBSITE,
     )
     .sort((a, b) => {
       if (a.year === b.year) {
@@ -112,7 +112,7 @@ const PhotoConsents = ({
       },
     }));
   const [selectedSemesterOption, setSelectedSemesterOption] = useState(
-    semesterOptions[0]
+    semesterOptions[0],
   );
 
   const dispatch = useAppDispatch();
@@ -142,7 +142,7 @@ const PhotoConsents = ({
           PhotoConsentDomain.SOCIAL_MEDIA,
           selectedSemesterOption.value.year,
           selectedSemesterOption.value.semester,
-          photoConsents
+          photoConsents,
         )}
         updateConsent={updateConsent}
         isCurrentUser={isCurrentUser}
@@ -152,7 +152,7 @@ const PhotoConsents = ({
           PhotoConsentDomain.WEBSITE,
           selectedSemesterOption.value.year,
           selectedSemesterOption.value.semester,
-          photoConsents
+          photoConsents,
         )}
         updateConsent={updateConsent}
         isCurrentUser={isCurrentUser}

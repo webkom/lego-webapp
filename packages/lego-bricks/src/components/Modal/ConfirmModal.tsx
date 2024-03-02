@@ -85,7 +85,7 @@ const ConfirmModal = ({
 
   const wrapAction = <T,>(
     action: () => T | Promise<T>,
-    closeWhenDone: boolean
+    closeWhenDone: boolean,
   ) => {
     return async () => {
       setErrorMessage(undefined);
@@ -103,7 +103,7 @@ const ConfirmModal = ({
         setWorking(false);
         setErrorMessage(
           (error as { meta?: { errorMessage: string } })?.meta?.errorMessage ||
-            'Det skjedde en feil...'
+            'Det skjedde en feil...',
         );
         throw error;
       }

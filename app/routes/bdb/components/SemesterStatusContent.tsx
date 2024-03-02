@@ -17,7 +17,7 @@ import type { CSSProperties } from 'react';
 type Props = {
   semesterStatus: { contactedStatus: CompanySemesterContactStatus[] };
   editFunction: (
-    arg0: CompanySemesterContactStatus
+    arg0: CompanySemesterContactStatus,
   ) => Promise<any> | null | undefined | void;
   style?: CSSProperties;
 };

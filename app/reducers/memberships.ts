@@ -25,7 +25,7 @@ export const selectMembershipsForGroup = createSelector(
     membershipsById,
     membershipsItems,
     groupsById,
-    users
+    users,
   ) => {
     if (!pagination && descendants) {
       throw new Error('using descendants without pagination is not supported');
@@ -40,12 +40,12 @@ export const selectMembershipsForGroup = createSelector(
       .map((m) => membershipsById[m])
       .filter(Boolean)
       .filter((m) =>
-        descendants ? true : Number(m.abakusGroup) === Number(groupId)
+        descendants ? true : Number(m.abakusGroup) === Number(groupId),
       )
       .map((m) => {
         const userId = m.user;
         const user = users[userId];
         return { ...m, user };
       });
-  }
+  },
 );

@@ -17,7 +17,7 @@ const validate = createValidator({
     required(),
     matchesRegex(
       /^\/([a-zA-Z]+\/)+$/,
-      'Rettigheter kan bare inneholde skråstrek og bokstaver, og må begynne og ende med en skråstrek.'
+      'Rettigheter kan bare inneholde skråstrek og bokstaver, og må begynne og ende med en skråstrek.',
     ),
   ],
 });

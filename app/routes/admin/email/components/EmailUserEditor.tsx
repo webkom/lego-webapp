@@ -33,7 +33,7 @@ const EmailUserEditor = () => {
   const { emailUserId } = useParams<{ emailUserId: string }>();
   const isNew = emailUserId === undefined;
   const emailUser = useAppSelector((state) =>
-    selectEmailUserById(state, emailUserId!)
+    selectEmailUserById(state, emailUserId!),
   );
 
   const dispatch = useAppDispatch();
@@ -41,7 +41,7 @@ const EmailUserEditor = () => {
   usePreparedEffect(
     'fetchEmailUser',
     () => !isNew && emailUserId && dispatch(fetchEmailUser(emailUserId)),
-    [emailUserId]
+    [emailUserId],
   );
 
   const initialValues = isNew
@@ -67,7 +67,7 @@ const EmailUserEditor = () => {
     };
     Object.keys(illegalChars).forEach(
       (char) =>
-        (email = email.replace(new RegExp(char, 'g'), illegalChars[char]))
+        (email = email.replace(new RegExp(char, 'g'), illegalChars[char])),
     );
     // Remove any other non-a-z characters
     email = email.replace(/[^a-z0-9.-]/gi, '');
@@ -86,7 +86,7 @@ const EmailUserEditor = () => {
     dispatch(isNew ? createEmailUser(payload) : editEmailUser(payload)).then(
       (res) => {
         navigate(`/admin/email/users/${res.payload.result}`);
-      }
+      },
     );
   };
 

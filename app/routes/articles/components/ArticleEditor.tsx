@@ -49,7 +49,7 @@ type ValidationError<T> = Partial<{
 const validate = (data) => {
   const errors: ValidationError<EditingEvent> = {};
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
-    data.youtubeUrl
+    data.youtubeUrl,
   );
 
   if (!isValidYoutubeUrl) {
@@ -67,10 +67,10 @@ const ArticleEditor = () => {
   const { articleId } = useParams<{ articleId: string }>();
   const isNew = articleId === undefined;
   const article = useAppSelector((state) =>
-    selectArticleById(state, articleId)
+    selectArticleById(state, articleId),
   );
   let authors = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: article?.authors })
+    selectUsersByIds(state, { userIds: article?.authors }),
   );
   if (authors.length === 0) {
     authors = [currentUser];
@@ -81,7 +81,7 @@ const ArticleEditor = () => {
   usePreparedEffect(
     'fetchArticleForEditor',
     () => articleId && dispatch(fetchArticle(articleId)),
-    [articleId]
+    [articleId],
   );
 
   const navigate = useNavigate();
@@ -131,7 +131,7 @@ const ArticleEditor = () => {
 
     dispatch(isNew ? createArticle(body) : editArticle(body)).then((res) => {
       navigate(
-        isNew ? `/articles/${res.payload.result}/` : `/articles/${articleId}`
+        isNew ? `/articles/${res.payload.result}/` : `/articles/${articleId}`,
       );
     });
   };

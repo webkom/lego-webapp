@@ -6,7 +6,7 @@ export const applySelectedTheme = (theme) => {
   if (__CLIENT__) {
     document.documentElement.setAttribute(
       'data-theme',
-      theme === 'auto' ? getOSTheme() : theme
+      theme === 'auto' ? getOSTheme() : theme,
     );
     global.dispatchEvent(new Event('themeChange'));
   }

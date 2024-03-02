@@ -121,11 +121,11 @@ const NextEvent = ({ events }: { events: FrontpageEvent[] }) => {
   // ones that are out of range
   const orderedEvents = orderBy<FrontpageEvent>(
     events.filter(hasActivation).filter(inRange),
-    ['activationTime']
+    ['activationTime'],
   ).splice(0, NEXT_EVENTS_LIMIT);
 
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.events.fetching
+    (state) => state.frontpage.fetching || state.events.fetching,
   );
 
   return (

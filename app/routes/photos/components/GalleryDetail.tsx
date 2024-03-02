@@ -59,13 +59,13 @@ const GalleryDetail = () => {
 
   const { galleryId } = useParams<{ galleryId: string }>();
   const gallery = useAppSelector((state) =>
-    selectGalleryById(state, { galleryId })
+    selectGalleryById(state, { galleryId }),
   );
   const pictures = useAppSelector((state) =>
-    SelectGalleryPicturesByGalleryId(state, { galleryId })
+    SelectGalleryPicturesByGalleryId(state, { galleryId }),
   );
   const fetching = useAppSelector(
-    (state) => state.galleries.fetching || state.galleryPictures.fetching
+    (state) => state.galleries.fetching || state.galleryPictures.fetching,
   );
   const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
   const { loggedIn } = useUserContext();
@@ -79,10 +79,10 @@ const GalleryDetail = () => {
       Promise.allSettled([
         dispatch(fetch(galleryId)).catch(),
         dispatch(fetchGallery(galleryId)).catch(() =>
-          dispatch(fetchGalleryMetadata(galleryId))
+          dispatch(fetchGalleryMetadata(galleryId)),
         ),
       ]),
-    []
+    [],
   );
 
   const toggleUpload = (response?: File | DropFile[]) => {
@@ -119,7 +119,7 @@ const GalleryDetail = () => {
       fetch(gallery.id, {
         next: true,
         filters: {},
-      })
+      }),
     ).then(() => {
       const urls = pictures.slice(index).map((picture) => picture.rawFile);
       return downloadFiles(urls).then((blobs) => {
@@ -136,7 +136,7 @@ const GalleryDetail = () => {
 
   const downloadFiles = (urls: string[]) =>
     Promise.all(
-      urls.map(async (url) => await fetch(url).then((res) => res.blob()))
+      urls.map(async (url) => await fetch(url).then((res) => res.blob())),
     );
 
   const zipFiles = (zipTitle: string, fileNames: string[], blobs: Blob[]) => {

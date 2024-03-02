@@ -48,7 +48,7 @@ export const selectArticlesWithAuthorDetails: Selector<
   [
     {
       pagination?: Pagination;
-    }
+    },
   ]
 > = (state, props) =>
   selectArticles(state, props).map((article) => ({
@@ -65,20 +65,22 @@ export const selectArticlesByTag = createSelector(
   (_: RootState, props: { tag: string }) => props.tag,
   (articles, tag) =>
     articles.filter((article) =>
-      tag ? article.tags.indexOf(tag) !== -1 : true
-    )
+      tag ? article.tags.indexOf(tag) !== -1 : true,
+    ),
 );
 
 export const selectArticleBySlug = createSelector(
   (state: RootState) => state.articles.entities,
   (_: RootState, slug: string) => slug,
   (articlesById, articleSlug) =>
-    Object.values(articlesById).find((article) => article?.slug === articleSlug)
+    Object.values(articlesById).find(
+      (article) => article?.slug === articleSlug,
+    ),
 );
 
 export const selectArticleByIdOrSlug = (
   state: RootState,
-  articleIdOrSlug: string | number
+  articleIdOrSlug: string | number,
 ) => {
   return isNaN(Number(articleIdOrSlug))
     ? selectArticleBySlug(state, String(articleIdOrSlug))
@@ -91,7 +93,7 @@ export const selectCommentsForArticle = createSelector(
   (article, commentEntities) => {
     if (!article) return [];
     return (('comments' in article && article.comments) || []).map(
-      (commentId) => commentEntities[commentId]
+      (commentId) => commentEntities[commentId],
     );
-  }
+  },
 );

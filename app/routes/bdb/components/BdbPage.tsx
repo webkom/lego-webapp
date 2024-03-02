@@ -52,7 +52,7 @@ const BdbPage = () => {
   usePreparedEffect(
     'fetchBdb',
     () => dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin())),
-    []
+    [],
   );
 
   const navigateThroughTime = (options: Record<string, any>) => {
@@ -74,14 +74,14 @@ const BdbPage = () => {
     companyId: ID,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
-    contactedStatus: CompanySemesterContactStatus[]
+    contactedStatus: CompanySemesterContactStatus[],
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const companySemester = indexToSemester(
       tableIndex,
       startYear,
       startSem,
-      companySemesters
+      companySemesters,
     );
     const newStatus = {
       companyId,
@@ -120,7 +120,7 @@ const BdbPage = () => {
 
   const companySearch = (companies: CompanyEntity[]): CompanyEntity[] =>
     companies.filter((company: CompanyEntity) =>
-      company.name.toLowerCase().includes(searchQuery.toLowerCase())
+      company.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
   const filterCompanies = (companies: CompanyEntity[]): CompanyEntity[] => {

@@ -25,7 +25,7 @@ export default class ActivityRenderer extends Component<Props, State> {
 
   renderHeader(
     activity: Activity,
-    aggregatedActivity: AggregatedActivity
+    aggregatedActivity: AggregatedActivity,
   ): ReactNode {
     const actor = lookupContext(aggregatedActivity, activity.actor);
     if (actor.contentType !== 'users.user') return null;

@@ -48,7 +48,7 @@ const createWebSocketMiddleware = (): Middleware<
           dispatch(
             addToast({
               message,
-            })
+            }),
           );
         }
       };

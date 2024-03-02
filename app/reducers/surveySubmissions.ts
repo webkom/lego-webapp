@@ -26,7 +26,7 @@ const mutateSurveySubmissions = produce(
       default:
         break;
     }
-  }
+  },
 );
 export default createEntityReducer({
   key: 'surveySubmissions',
@@ -44,27 +44,27 @@ export const selectSurveySubmissions = createSelector(
   (surveyId, surveySubmissionIds, surveySubmissionsById) =>
     surveySubmissionIds
       .map((surveySubmissionId) => surveySubmissionsById[surveySubmissionId])
-      .filter((surveySubmission) => surveySubmission.survey === surveyId)
+      .filter((surveySubmission) => surveySubmission.survey === surveyId),
 );
 export const selectSurveySubmissionForUser = createSelector(
   (state: RootState, props: { surveyId: ID }) =>
     selectSurveySubmissions(state, props),
   (_: RootState, props: { currentUserId: ID }) => props.currentUserId,
   (submissions, userId) =>
-    submissions.find((surveySubmission) => surveySubmission.user === userId)
+    submissions.find((surveySubmission) => surveySubmission.user === userId),
 );
 
 export const useFetchedSurveySubmissions = (
   prepareId: string,
-  surveyId: ID
+  surveyId: ID,
 ): SurveySubmissionType[] => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedSurveySubmissions-${prepareId}`,
     () => dispatch(fetchSubmissions(surveyId)),
-    [surveyId]
+    [surveyId],
   );
   return useAppSelector((state: RootState) =>
-    selectSurveySubmissions(state, { surveyId: Number(surveyId) })
+    selectSurveySubmissions(state, { surveyId: Number(surveyId) }),
   );
 };

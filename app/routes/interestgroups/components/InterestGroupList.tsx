@@ -14,7 +14,7 @@ import styles from './InterestGroup.css';
 const InterestGroupList = () => {
   const actionGrant = useAppSelector((state) => state.groups.actionGrant);
   const interestGroups = useAppSelector((state) =>
-    selectGroupsWithType(state, { groupType: GroupType.Interest })
+    selectGroupsWithType(state, { groupType: GroupType.Interest }),
   );
 
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const InterestGroupList = () => {
   usePreparedEffect(
     'fetchAllInterestGroups',
     () => dispatch(fetchAllWithType(GroupType.Interest)),
-    []
+    [],
   );
 
   const canCreate = actionGrant.includes('create');

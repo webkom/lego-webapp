@@ -18,7 +18,7 @@ export const questionTypeOptions = Object.values(SurveyQuestionType).map(
   (questionType) => ({
     value: questionType,
     label: questionTypeString[questionType],
-  })
+  }),
 );
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
@@ -83,8 +83,8 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
       backgroundColor: props.isSelected
         ? 'var(--color-gray-2)'
         : props.isFocused
-        ? 'var(--additive-background)'
-        : 'var(--lego-card-color)',
+          ? 'var(--additive-background)'
+          : 'var(--lego-card-color)',
     }}
     className={styles.dropdownOption}
     onMouseDown={(event) => {

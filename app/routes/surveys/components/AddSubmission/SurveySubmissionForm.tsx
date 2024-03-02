@@ -156,7 +156,7 @@ const createSubmissionValidator =
     const answeredQuestionIds = values.answers
       .filter(
         (answer) =>
-          answer.selectedOptions.length > 0 || answer.answerText !== ''
+          answer.selectedOptions.length > 0 || answer.answerText !== '',
       )
       .map((answer) => answer.question);
     survey.questions.forEach((question, index) => {

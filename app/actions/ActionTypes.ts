@@ -31,7 +31,7 @@ export const Event = {
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION') as AAT,
   SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT') as AAT,
   SOCKET_INITIATE_PAYMENT: generateStatuses(
-    'Event.SOCKET_INITIATE_PAYMENT'
+    'Event.SOCKET_INITIATE_PAYMENT',
   ) as AAT,
   SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
   FOLLOW: generateStatuses('Event.FOLLOW') as AAT,
@@ -130,13 +130,13 @@ export const Announcements = {
 export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH') as AAT,
   SET_INVITATION_STATUS: generateStatuses(
-    'Meeting.SET_INVITATION_STATUS'
+    'Meeting.SET_INVITATION_STATUS',
   ) as AAT,
   CREATE: generateStatuses('Meeting.CREATE') as AAT,
   EDIT: generateStatuses('Meeting.EDIT') as AAT,
   DELETE: generateStatuses('Meeting.DELETE') as AAT,
   ANSWER_INVITATION_TOKEN: generateStatuses(
-    'Meeting.ANSWER_INVITATION_TOKEN'
+    'Meeting.ANSWER_INVITATION_TOKEN',
   ) as AAT,
   RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN',
 };
@@ -188,7 +188,7 @@ export const Comment = {
 export const Company = {
   FETCH: generateStatuses('Company.FETCH') as AAT,
   FETCH_COMPANY_CONTACT: generateStatuses(
-    'Company.FETCH_COMPANY_CONTACT'
+    'Company.FETCH_COMPANY_CONTACT',
   ) as AAT,
   ADD: generateStatuses('Company.ADD') as AAT,
   EDIT: generateStatuses('Company.EDIT') as AAT,
@@ -196,12 +196,12 @@ export const Company = {
   ADD_SEMESTER_STATUS: generateStatuses('Company.ADD_SEMESTER_STATUS') as AAT,
   EDIT_SEMESTER_STATUS: generateStatuses('Company.EDIT_SEMESTER_STATUS') as AAT,
   DELETE_SEMESTER_STATUS: generateStatuses(
-    'Company.DELETE_SEMESTER_STATUS'
+    'Company.DELETE_SEMESTER_STATUS',
   ) as AAT,
   ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT') as AAT,
   EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT') as AAT,
   DELETE_COMPANY_CONTACT: generateStatuses(
-    'Company.DELETE_COMPANY_CONTACT'
+    'Company.DELETE_COMPANY_CONTACT',
   ) as AAT,
   FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS') as AAT,
   ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER') as AAT,
@@ -254,16 +254,16 @@ export const User = {
   DELETE: generateStatuses('User.DELETE') as AAT,
   SOCKET: generateStatuses('User.SOCKET') as AAT,
   SEND_REGISTRATION_TOKEN: generateStatuses(
-    'User.SEND_REGISTRATION_TOKEN'
+    'User.SEND_REGISTRATION_TOKEN',
   ) as AAT,
   VALIDATE_REGISTRATION_TOKEN: generateStatuses(
-    'User.VALIDATE_REGISTRATION_TOKEN'
+    'User.VALIDATE_REGISTRATION_TOKEN',
   ) as AAT,
   CREATE_USER: generateStatuses('User.CREATE_USER') as AAT,
   INIT_STUDENT_AUTH: generateStatuses('User.INIT_STUDENT_AUTH') as AAT,
   COMPLETE_STUDENT_AUTH: generateStatuses('User.COMPLETE_STUDENT_AUTH') as AAT,
   SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
-    'User.SEND_FORGOT_PASSWORD_REQUEST'
+    'User.SEND_FORGOT_PASSWORD_REQUEST',
   ) as AAT,
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD') as AAT,
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN') as AAT,
@@ -358,7 +358,7 @@ export const OAuth2 = {
  */
 export const NotificationSettings = {
   FETCH_ALTERNATIVES: generateStatuses(
-    'NotificationSettings.FETCH_ALTERNATIVES'
+    'NotificationSettings.FETCH_ALTERNATIVES',
   ) as AAT,
   FETCH: generateStatuses('NotificationSettings.FETCH') as AAT,
   UPDATE: generateStatuses('NotificationSettings.UPDATE') as AAT,

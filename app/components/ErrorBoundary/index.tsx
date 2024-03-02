@@ -69,7 +69,7 @@ class ErrorBoundary extends Component<Props, State> {
         },
         () => {
           this.props.openReportDialog && this.openDialog();
-        }
+        },
       );
     });
   }
@@ -79,7 +79,7 @@ class ErrorBoundary extends Component<Props, State> {
 
     if (!this.state.error) {
       return Children.map(children, (child) =>
-        cloneElement(child, { ...rest })
+        cloneElement(child, { ...rest }),
       );
     }
 

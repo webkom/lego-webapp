@@ -17,7 +17,7 @@ const SubmissionPublicResultsPage = () => {
   const survey = useFetchedSurvey(
     'submissionPublicResults',
     surveyId,
-    query.token
+    query.token,
   );
   const results = survey?.results;
 
@@ -44,7 +44,7 @@ const SubmissionPublicResultsPage = () => {
     }
     Object.keys(results[questionId]).forEach((optionId) => {
       const optionText = question.options.find(
-        (o) => o.id === Number(optionId)
+        (o) => o.id === Number(optionId),
       )?.optionText;
 
       if (optionText) {

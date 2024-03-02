@@ -65,7 +65,7 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
               <span>
                 {truncateString(
                   result.content.replace(/(<([^>]+)>)/gi, ''),
-                  250
+                  250,
                 )}
               </span>
             </div>

@@ -236,7 +236,7 @@ const loadData = async (
   pageSlug: string | undefined,
   sectionName: string | undefined,
   loggedIn: boolean,
-  dispatch
+  dispatch,
 ) => {
   const { fetchItemActions } = getSection(sectionName);
 
@@ -244,7 +244,7 @@ const loadData = async (
   let actionsToDispatch = fetchItemActions;
   if (!loggedIn) {
     actionsToDispatch = fetchItemActions.filter(
-      (action) => !action.toString().includes('fetchAllMemberships')
+      (action) => !action.toString().includes('fetchAllMemberships'),
     );
   }
 
@@ -259,11 +259,11 @@ const loadData = async (
     ...new Set(
       Object.keys(sections)
         .map((key) => sections[key].fetchAll)
-        .filter(Boolean)
+        .filter(Boolean),
     ),
   ];
   return Promise.all(
-    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions)
+    uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions),
   );
 };
 
@@ -307,13 +307,13 @@ const PageDetail = () => {
   const pageHierarchy = useAppSelector((state) =>
     selectPageHierarchy(state, {
       sections,
-    })
+    }),
   );
   const { pageSelector, PageRenderer } = getSection(section);
   const { selectedPage, selectedPageInfo } = useAppSelector((state) =>
     pageSelector(state, {
       pageSlug,
-    })
+    }),
   );
 
   const { loggedIn } = useUserContext();
@@ -323,7 +323,7 @@ const PageDetail = () => {
   usePreparedEffect(
     'fetchPageDetail',
     () => loadData(pageSlug, section, loggedIn, dispatch),
-    [pageSlug]
+    [pageSlug],
   );
 
   const actionGrant = selectedPageInfo?.actionGrant || [];

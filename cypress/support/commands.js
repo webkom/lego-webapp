@@ -12,15 +12,15 @@ Cypress.Commands.add(
       })
       .its('body')
       .then((body) => body.token);
-  }
+  },
 );
 
 Cypress.Commands.add('setAuthToken', (token) =>
-  cy.setCookie('lego.auth', token)
+  cy.setCookie('lego.auth', token),
 );
 
 Cypress.Commands.add('login', (username = 'webkom', password = 'Webkom123') =>
-  cy.getAuthToken(username, password).then(cy.setAuthToken)
+  cy.getAuthToken(username, password).then(cy.setAuthToken),
 );
 
 const cachedTokens = {};
@@ -39,7 +39,7 @@ Cypress.Commands.add(
       cachedTokens[username] = token;
       return cy.setAuthToken(token);
     });
-  }
+  },
 );
 
 Cypress.Commands.add(
@@ -53,7 +53,7 @@ Cypress.Commands.add(
       const event = { dataTransfer: { files: [testFile], types: ['Files'] } };
       return cy.get(selector).first().trigger('drop', event);
     });
-  }
+  },
 );
 
 Cypress.Commands.add('resetDb', () => {
@@ -65,7 +65,7 @@ Cypress.Commands.add('resetDb', () => {
 });
 
 Cypress.Commands.overwrite('type', (originalFn, subject, string, options) =>
-  originalFn(subject, string, Object.assign({}, options, { delay: 1 }))
+  originalFn(subject, string, Object.assign({}, options, { delay: 1 })),
 );
 
 // Commands for interacting with iframes
@@ -87,7 +87,7 @@ Cypress.Commands.add(
       .its('0.contentDocument.body')
       .should('not.be.empty')
       .then(cy.wrap);
-  }
+  },
 );
 
 Cypress.Commands.add('apiRequest', (options, username = 'webkom') => {

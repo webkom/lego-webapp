@@ -20,5 +20,7 @@
 }
 
 .finalImage {
-  transition: filter var(--easing-slow), opacity var(--easing-slow);
+  transition:
+    filter var(--easing-slow),
+    opacity var(--easing-slow);
 }

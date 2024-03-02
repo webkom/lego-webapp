@@ -11,7 +11,7 @@ import type { Element } from 'react';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => Element<any>
+  htmlTag: (arg0: TagInfo) => Element<any>,
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actors = aggregatedActivity.actorIds.map((actorId) => {
