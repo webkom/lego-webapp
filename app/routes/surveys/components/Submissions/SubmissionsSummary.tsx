@@ -1,5 +1,6 @@
-import { Button } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
+import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import styles from '../surveys.css';
@@ -27,43 +28,53 @@ const SubmissionsSummary = ({ submissions, survey }: Props) => {
           (answer) => answer.question.id === question.id,
         ) as AdminSurveyAnswer;
         return (
-          answer && (
-            <li
+          answer &&
+          answer.answerText && (
+            <Flex
               key={answer.id}
-              className={styles.adminAnswer}
-              style={{
-                backgroundColor: answer.hideFromPublic
-                  ? 'var(--additive-background)'
-                  : undefined,
-                padding: answer.hideFromPublic ? '5px' : undefined,
-              }}
+              justifyContent="space-between"
+              alignItems="center"
+              gap="0.5rem"
             >
-              <span>{answer.answerText}</span>
-              {answer.hideFromPublic ? (
-                <Button
-                  flat
+              <span
+                className={styles.answerText}
+                style={{
+                  backgroundColor: answer.hideFromPublic
+                    ? 'rgba(255, 0, 0, var(--low-alpha)'
+                    : undefined,
+                }}
+              >
+                {answer.answerText}
+              </span>
+              <Tooltip
+                content={
+                  answer.hideFromPublic ? 'Vis kommentar' : 'Skjul kommentar'
+                }
+              >
+                <Icon
                   onClick={() =>
-                    dispatch(showAnswer(survey.id, submission.id, answer.id))
+                    dispatch(
+                      answer.hideFromPublic
+                        ? showAnswer(survey.id, submission.id, answer.id)
+                        : hideAnswer(survey.id, submission.id, answer.id),
+                    )
                   }
-                >
-                  vis
-                </Button>
-              ) : (
-                <Button
-                  flat
-                  onClick={() =>
-                    dispatch(hideAnswer(survey.id, submission.id, answer.id))
+                  name={
+                    answer.hideFromPublic ? 'eye-outline' : 'eye-off-outline'
                   }
-                >
-                  skjul
-                </Button>
-              )}
-            </li>
+                />
+              </Tooltip>
+            </Flex>
           )
         );
       })
       .filter(isNotNullish);
-    return texts.length === 0 ? <i>Ingen svar.</i> : texts;
+
+    return texts.length === 0 ? (
+      <span className="secondaryFontColor">Ingen svar</span>
+    ) : (
+      texts
+    );
   };
 
   const generateQuestionData = (question: SurveyQuestion) => {

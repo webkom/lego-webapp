@@ -43,8 +43,8 @@
 .overlay:hover,
 .overlaySelected {
   background: linear-gradient(
-    rgba(255, 0, 0, calc(var(--color-red-hover-alpha) + 35%)),
-    rgba(255, 0, 0, var(--color-red-hover-alpha))
+    rgba(255, 0, 0, calc(var(--low-alpha) + 35%)),
+    rgba(255, 0, 0, var(--low-alpha))
   );
 }
 

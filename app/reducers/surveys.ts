@@ -55,7 +55,7 @@ export const selectSurveys = createSelector(
 
 export const selectSurveyById = createSelector(
   (state: RootState) => selectSurveys(state),
-  (_: RootState, surveyId: ID) => surveyId,
+  (_: RootState, surveyId?: ID) => surveyId,
   (surveys, surveyId) => {
     return surveys.find((survey) => survey.id === Number(surveyId));
   },
@@ -114,25 +114,27 @@ export const useFetchedTemplate = (
 
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId: ID,
-  token: string,
+  surveyId?: ID,
+  token?: string,
 ): SelectedPublicResultsSurvey | undefined;
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId: ID,
+  surveyId?: ID,
 ): SelectedSurvey | undefined;
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId: ID,
+  surveyId?: ID,
   token?: string,
 ) {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedSurvey-${prepareId}`,
     () =>
-      token
-        ? dispatch(fetchWithToken(surveyId, token))
-        : dispatch(fetchSurvey(surveyId)),
+      surveyId
+        ? token
+          ? dispatch(fetchWithToken(surveyId, token))
+          : dispatch(fetchSurvey(surveyId))
+        : Promise.resolve(),
     [surveyId],
   );
   return useAppSelector((state: RootState) =>

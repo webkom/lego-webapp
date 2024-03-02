@@ -69,7 +69,7 @@ export const selectTheme: ThemeConfig = (theme) => ({
     neutral80: 'var(--lego-font-color)', // Font color and hover arrow color
     // neutral90: // Unknown
     danger: 'var(--danger-color)', // Color of delete button in multi select items
-    dangerLight: 'rgba(255, 0, 0, var(--color-red-hover-alpha))', // Background color of delete button in multi select items
+    dangerLight: 'rgba(255, 0, 0, var(--low-alpha))', // Background color of delete button in multi select items
   },
 });
 

@@ -14,7 +14,7 @@ const SubmissionPage = ({ submissions, survey }: Props) => {
     <ul>
       {submissions.map((submission, i) => (
         <li key={submission.id}>
-          <h3>Svar {i}</h3>
+          <h3>Svar {i + 1}</h3>
 
           <ul className={cx(styles.answers, styles.detailQuestions)}>
             {survey.questions && (

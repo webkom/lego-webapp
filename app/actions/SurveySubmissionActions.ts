@@ -58,7 +58,7 @@ export function deleteSubmission(surveyId: ID, submissionId: ID) {
       surveyId: Number(surveyId),
       id: Number(submissionId),
       errorMessage: 'Sletting av svar feilet',
-      successMessage: 'Svar slettet.',
+      successMessage: 'Svar slettet',
     },
   });
 }
@@ -73,7 +73,7 @@ export function hideAnswer(surveyId: ID, submissionId: ID, answerId: ID) {
       submissionId: Number(submissionId),
       answerId: Number(answerId),
       errorMessage: 'Skjuling av kommentar feilet',
-      successMessage: 'Kommentar skjult.',
+      successMessage: 'Kommentar skjult',
     },
   });
 }
@@ -88,7 +88,7 @@ export function showAnswer(surveyId: ID, submissionId: ID, answerId: ID) {
       submissionId: Number(submissionId),
       answerId: Number(answerId),
       errorMessage: 'Avslutning av skjuling feilet',
-      successMessage: 'Skjuling av kommentar avsluttet.',
+      successMessage: 'Skjuling av kommentar avsluttet',
     },
   });
 }
