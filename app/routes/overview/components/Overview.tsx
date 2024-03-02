@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
-import Banner from 'app/components/Banner';
+//import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { isArticle, isEvent, selectFrontpage } from 'app/reducers/frontpage';
@@ -108,12 +108,12 @@ const Overview = () => {
   return (
     <Container>
       <Helmet title="Hjem" />
-      <Banner
+      {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"
         link="https://abakusrevyen.no/"
         color="red"
-      />
+      /> */}
       <section className={styles.wrapper}>
         <CompactEvents events={events} className={styles.compactEvents} />
         <NextEventSection events={events} />
