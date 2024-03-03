@@ -49,7 +49,8 @@ export const renderMeta = (
       wrap
       alignItems="center"
       justifyContent="center"
-      className="secondaryFontColor"
+      gap="0.5rem"
+      className={styles.meta}
     >
       <Time time={itemTime} format={format} />
 
