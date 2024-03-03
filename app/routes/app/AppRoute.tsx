@@ -10,7 +10,6 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
-import SpecialDay from 'app/components/SpecialDay';
 import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
@@ -91,28 +90,26 @@ const App = ({ children }: PropsWithChildren) => {
         />
       </Helmet>
 
-      <SpecialDay>
-        {config.environment !== 'production' && (
-          <div
-            style={{
-              backgroundColor: 'var(--danger-color)',
-              color: 'white',
-              fontWeight: 'bold',
-              padding: '10px',
-            }}
-          >
-            This is a development version of lego-webapp.
-          </div>
-        )}
+      {config.environment !== 'production' && (
+        <div
+          style={{
+            backgroundColor: 'var(--danger-color)',
+            color: 'white',
+            fontWeight: 'bold',
+            padding: '0.5rem',
+          }}
+        >
+          This is a development version of lego-webapp.
+        </div>
+      )}
 
-        <Header />
+      <Header />
 
-        <AppChildren>{children}</AppChildren>
+      <AppChildren>{children}</AppChildren>
 
-        <PhotoUploadStatus />
+      <PhotoUploadStatus />
 
-        <Footer />
-      </SpecialDay>
+      <Footer />
     </div>
   );
 };
