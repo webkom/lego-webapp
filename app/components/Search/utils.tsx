@@ -1,4 +1,6 @@
+import { Flex } from '@webkom/lego-bricks';
 import ReadmeLogo from 'app/components/ReadmeLogo';
+import { Tag } from 'app/components/Tags';
 import TextWithIcon from '../TextWithIcon';
 import styles from './Search.css';
 import type { Allowed } from 'app/reducers/allowed';
@@ -36,7 +38,12 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'forum',
-    title: 'Forum',
+    title: (
+      <Flex alignItems="center" gap="0.5rem">
+        Forum
+        <Tag tag="Beta" color="purple" />
+      </Flex>
+    ),
     icon: 'chatbubbles-outline',
     url: '/forum',
   },
