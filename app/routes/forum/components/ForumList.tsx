@@ -3,6 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchForums } from 'app/actions/ForumActions';
 import { Content, ContentMain } from 'app/components/Content';
 import { NavigationLink } from 'app/components/NavigationTab';
+import { Tag } from 'app/components/Tags';
 import { selectForums } from 'app/reducers/forums';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import ForumListEntry from './ForumListEntry';
@@ -19,7 +20,10 @@ const ForumList = () => {
   return (
     <Content>
       <ContentMain>
-        <h1>Forum</h1>
+        <Flex alignItems="center" gap="0.5rem">
+          <h1>Forum</h1>
+          <Tag tag="Beta" color="purple" />
+        </Flex>
         {actionGrant.includes('create') && (
           <NavigationLink to="/forum/new">Nytt forum</NavigationLink>
         )}
