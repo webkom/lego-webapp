@@ -43,7 +43,7 @@ const Comment = ({
       <div className={styles.comment}>
         {author ? (
           <Flex alignItems="center" justifyContent="space-between">
-            <Flex alignItems="center" gap="1rem">
+            <Flex alignItems="center" gap="var(--spacing-md)">
               <Link to={`/users/${author.username}`}>
                 <ProfilePicture size={40} user={author} />
               </Link>
@@ -91,7 +91,7 @@ const Comment = ({
           </Flex>
         ) : (
           <Flex justifyContent="space-between">
-            <Flex alignItems="center" gap="1rem">
+            <Flex alignItems="center" gap="var(--spacing-md)">
               <div className={styles.anonymousProfilePicture} />
 
               <Flex column className={styles.username}>

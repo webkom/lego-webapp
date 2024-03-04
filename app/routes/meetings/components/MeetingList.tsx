@@ -41,7 +41,7 @@ function MeetingListItem({
     >
       <div>
         <Link to={`/meetings/${meeting.id}`}>
-          <Flex alignItems="center" gap="1rem">
+          <Flex alignItems="center" gap="var(--spacing-md)">
             <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
             {userId === meeting.createdBy && (
               <Tag

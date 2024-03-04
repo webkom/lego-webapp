@@ -4,7 +4,7 @@
   align-items: flex-end;
   border-bottom-width: 2px;
   border-bottom-style: solid;
-  margin-bottom: 1em;
+  margin-bottom: var(--spacing-md);
   flex-wrap: wrap;
 }
 

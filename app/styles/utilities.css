@@ -87,18 +87,18 @@
     font-size: var(--font-size-lg);
     font-weight: 500;
     line-height: 1.2;
-    margin-top: 2rem;
+    margin-top: var(--spacing-xl);
     margin-bottom: 0.8rem;
 
     @media (--mobile-device) {
       margin-top: 0;
       padding: 0;
       margin-bottom: 10px;
-      margin-left: 0.5rem;
+      margin-left: var(--spacing-sm);
     }
 
     @media (--small-viewport) {
-      margin-top: 2rem;
+      margin-top: var(--spacing-xl);
     }
   }
 

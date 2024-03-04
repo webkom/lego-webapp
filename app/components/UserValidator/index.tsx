@@ -177,7 +177,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
           alignItems="center"
           column
           justifyContent="center"
-          padding={'2rem 0'}
+          padding={'var(--spacing-xl) 0'}
         >
           <h3>{successMessage}</h3>
           <Icon name="checkmark" success size={160} />

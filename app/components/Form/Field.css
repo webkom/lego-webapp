@@ -7,7 +7,7 @@
 }
 
 .field:not(.withoutMargin) {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .inputWithError {

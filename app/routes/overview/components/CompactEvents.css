@@ -6,7 +6,7 @@
   white-space: nowrap;
   width: 100%;
   text-align: left;
-  gap: 2rem;
+  gap: var(--spacing-xl);
 
   @media (--small-viewport) {
     flex-direction: column;

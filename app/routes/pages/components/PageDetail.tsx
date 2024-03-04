@@ -284,7 +284,7 @@ export type PageRenderer = ComponentType<PageRendererProps>;
 
 const PageSkeleton = () => {
   return (
-    <Flex column gap="2rem">
+    <Flex column gap="var(--spacing-xl)">
       <Skeleton className={styles.banner} />
       <Skeleton className={cx(styles.header, styles.skeletonHeader)} />
       <div>

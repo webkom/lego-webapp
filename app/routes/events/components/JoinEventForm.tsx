@@ -341,7 +341,7 @@ const JoinEventForm = ({
     <>
       <h3 className={styles.subHeader}>Påmelding</h3>
 
-      <Flex column gap="1rem">
+      <Flex column gap="var(--spacing-md)">
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
           registrationMessage(event)
         ) : (
@@ -388,7 +388,7 @@ const JoinEventForm = ({
                 </Card>
               )}
             {formOpen && hasRegisteredConsentIfRequired && (
-              <Flex column gap="1rem">
+              <Flex column gap="var(--spacing-md)">
                 <LegoFinalForm
                   onSubmit={onSubmit}
                   validate={validate}
@@ -476,7 +476,7 @@ const JoinEventForm = ({
                           >
                             {feedbackLabel}
                           </label>
-                          <Flex alignItems="center" gap="1rem">
+                          <Flex alignItems="center" gap="var(--spacing-md)">
                             {spyValues((values) => (
                               <Field
                                 id={feedbackName}

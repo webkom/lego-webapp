@@ -1,11 +1,11 @@
 import cx from 'classnames';
 import styles from './TextWithTitle.css';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 type Props = {
   title: string;
   text: ReactNode;
-  extraStyle?: Record<string, any>;
+  extraStyle?: CSSProperties;
   extraClassName?: string;
 };
 
@@ -18,7 +18,7 @@ const TextWithBoldTitle = ({
   return (
     <div className={cx(styles.container, extraClassName)} style={extraStyle}>
       <h2 className={styles.boldTitle}>{title}</h2>
-      <p className={styles.text}>{text}</p>
+      <p>{text}</p>
     </div>
   );
 };
@@ -26,10 +26,8 @@ const TextWithBoldTitle = ({
 const TextWithTitle = ({ title, text, extraStyle, extraClassName }: Props) => {
   return (
     <div className={cx(styles.container, extraClassName)} style={extraStyle}>
-      <h3 className={styles.title}>{title}</h3>
-      <pre className={styles.textContainer}>
-        <span className={styles.smallerText}>{text}</span>
-      </pre>
+      <h3>{title}</h3>
+      <p className={styles.text}>{text}</p>
     </div>
   );
 };

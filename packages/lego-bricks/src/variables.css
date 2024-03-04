@@ -111,6 +111,16 @@
 
   --color-red-hover-alpha: 5%;
 
+  /*
+   * All spaces are set to an increment of 8, following the design principles
+   * described here: https://uxplanet.org/spacing-guide-for-designers-5bd140afe52a
+   */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
   --font-size-xs: 0.7rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;

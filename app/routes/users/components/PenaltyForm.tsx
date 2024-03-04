@@ -73,7 +73,7 @@ const PenaltyForm = ({ userId }: Props) => {
   const showForm = !hidden && !sent;
 
   return (
-    <Flex column gap="1rem">
+    <Flex column gap="var(--spacing-md)">
       <div>
         {!sent ? (
           <Button onClick={handleHide}>
@@ -82,7 +82,7 @@ const PenaltyForm = ({ userId }: Props) => {
         ) : (
           <Flex
             alignItems="center"
-            gap="0.5rem"
+            gap="var(--spacing-sm)"
             className={styles.successMessage}
           >
             <Icon name="checkmark-outline" className={styles.success} />

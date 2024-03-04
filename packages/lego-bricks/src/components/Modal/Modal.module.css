@@ -58,6 +58,6 @@ html[data-theme='dark'] .backdrop {
 
 .closeButton {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
 }

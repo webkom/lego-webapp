@@ -110,7 +110,7 @@ export default class InterestGroupMemberList extends Component<Props, State> {
       <>
         <div onClick={this.toggleModal}>{this.props.children}</div>
         <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
-          <Flex column gap="1rem" className={shared.modal}>
+          <Flex column gap="var(--spacing-md)" className={shared.modal}>
             <h2>Medlemmer</h2>
             <TextInput
               type="text"

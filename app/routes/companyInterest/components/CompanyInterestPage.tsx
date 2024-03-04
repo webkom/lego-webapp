@@ -659,7 +659,7 @@ const CompanyInterestPage = () => {
               label={FORM_LABELS.comment[language]}
               required
             />
-            <Flex wrap justifyContent="space-between" gap="1rem">
+            <Flex wrap justifyContent="space-between" gap="var(--spacing-md)">
               <Flex column className={styles.interestBox}>
                 <label htmlFor="semesters" className={styles.heading}>
                   {FORM_LABELS.semesters[language]}

@@ -425,7 +425,11 @@ const EventDetail = () => {
         className={styles.title}
         event={event}
       >
-        <Flex alignItems="center" gap="1rem" className={styles.header}>
+        <Flex
+          alignItems="center"
+          gap="var(--spacing-md)"
+          className={styles.header}
+        >
           {loggedIn && <InterestedButton isInterested={!!event.following} />}
           {showSkeleton ? <Skeleton /> : event.title}
         </Flex>
@@ -443,11 +447,11 @@ const EventDetail = () => {
 
         <ContentSidebar>
           {showSkeleton ? (
-            <Flex column gap="0.5rem">
+            <Flex column gap="var(--spacing-sm)">
               <Skeleton array={3} className={styles.sidebarInfo} />
             </Flex>
           ) : (
-            <Flex column gap="0.5rem">
+            <Flex column gap="var(--spacing-sm)">
               {event.company && (
                 <TextWithIcon
                   iconName="briefcase-outline"
@@ -592,7 +596,7 @@ const EventDetail = () => {
           {showSkeleton ? (
             <>
               <Line />
-              <Flex column gap="0.5rem">
+              <Flex column gap="var(--spacing-sm)">
                 <Skeleton array={2} className={styles.sidebarInfo} />
               </Flex>
             </>
@@ -608,12 +612,12 @@ const EventDetail = () => {
           <Line />
 
           {showSkeleton ? (
-            <Flex column gap="0.5rem">
-              <Flex gap="1rem" className={styles.sidebarInfo}>
+            <Flex column gap="var(--spacing-sm)">
+              <Flex gap="var(--spacing-md)" className={styles.sidebarInfo}>
                 Arrangør
                 <Skeleton className={styles.sidebarInfo} />
               </Flex>
-              <Flex gap="1rem" className={styles.sidebarInfo}>
+              <Flex gap="var(--spacing-md)" className={styles.sidebarInfo}>
                 Forfatter
                 <Skeleton className={styles.sidebarInfo} />
               </Flex>

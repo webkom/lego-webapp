@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .picture {
   background-color: var(--color-white);
 }
@@ -17,8 +13,7 @@
 .companyList {
   display: grid;
   grid-template-columns: repeat(auto-fill, 240px);
-  gap: 20px 15px;
-  margin-bottom: 40px;
+  gap: var(--spacing-lg) var(--spacing-md);
   justify-content: space-around;
 }
 
@@ -51,8 +46,7 @@
   background-color: var(--additive-background);
   color: var(--secondary-font-color);
   font-weight: 600;
-  padding: 3px 50px;
-  padding-top: 15px;
+  padding: var(--spacing-sm) 0;
 }
 
 .interestingCount {
@@ -64,13 +58,6 @@
   display: flex;
   justify-content: space-around;
   flex-direction: column;
-}
-
-.title {
-  font-weight: 700;
-  font-size: 200%;
-  margin-left: 0.5em;
-  background-color: 0;
 }
 
 .companyLogo {
@@ -93,14 +80,9 @@
   width: 100%;
 }
 
-.iconInfo {
-  margin-left: 10px;
-  margin-bottom: 10px;
-  margin-right: 30px;
-}
-
 .iconInfoPlacement {
-  margin: 38px 0;
+  margin: var(--spacing-lg) 0;
+  gap: var(--spacing-xl);
 }
 
 .infoText {
@@ -110,25 +92,15 @@
 
 .readMore {
   display: none;
-  font-size: var(--font-size-md);
   color: var(--lego-red-color);
-  margin-top: 17px;
 }
 
 @media (--small-viewport) {
-  .root {
-    padding: 27px;
-  }
-
   .iconInfoPlacement {
-    flex-direction: column;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 29px;
+    gap: var(--spacing-md);
   }
 
   .readMore {
     display: contents;
-    margin-top: 20px;
   }
 }

@@ -9,13 +9,12 @@
   width: 100%;
   max-width: 55rem;
   display: block;
-  margin: 1rem auto;
+  margin: var(--spacing-md) auto;
   object-fit: scale-down;
 }
 
 .statisticsContainer {
-  margin-bottom: 2.5em;
-  margin-top: 1em;
+  margin: var(--spacing-xl) 0;
 }
 
 .emailContainer {
@@ -50,14 +49,15 @@ div > .locationContainerItem {
 
 .contactTitle {
   text-align: center;
-  margin: 3rem auto 0;
+  margin: var(--spacing-xl) auto 0;
 }
 
 .contactUsLink {
   color: var(--lego-link-color);
   margin-left: auto;
-  margin-right: 1.5em;
+  margin-right: var(--spacing-lg);
   font-size: var(--font-size-lg);
+  font-weight: 500;
   position: absolute;
   right: 0;
   top: 0;
@@ -68,74 +68,43 @@ div > .locationContainerItem {
 }
 
 .emailIcon {
-  margin-right: 1rem;
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
+  margin-right: var(--spacing-md);
 }
 
 .soMeIcon {
-  margin-right: 1rem;
+  margin-right: var(--spacing-md);
 }
 
 .houseIcon {
-  margin-right: 1rem;
-  margin-top: -5px;
+  margin-top: var(--spacing-sm);
+  margin-right: var(--spacing-md);
 }
 
 .organizationIcon {
-  margin-right: 1rem;
-}
-
-.emails {
-  margin-top: 25px;
-}
-
-.organization {
-  margin-top: 10px;
+  margin-right: var(--spacing-md);
 }
 
 .socialMediaContainer {
-  margin-bottom: 30px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .socialMediaType {
   display: flex;
   flex-direction: column;
-  flex-basis: calc(33.3333% - 12px);
-  margin: 6px;
+  gap: var(--spacing-md);
+  margin: 0 auto;
   align-items: center;
-
-  @media (--medium-viewport) {
-    flex-direction: row;
-    flex-basis: 50%;
-    margin: auto;
-    padding: 0.8rem;
-  }
-
-  @media (--small-viewport) {
-    flex-basis: 100%;
-  }
 }
 
 .socialMediaTypeLinks {
   display: flex;
   flex-direction: column;
-  margin: 4px;
   align-items: center;
-  line-height: 25px;
-
-  @media (--mobile-device) {
-    margin-left: 10px;
-    align-items: flex-start;
-  }
 }
 
 .socialMediaLink {
-  margin-top: 5px;
-  line-height: 18px;
-}
-
-.snapchatIcon {
-  margin-left: -3.75px;
+  margin-top: var(--spacing-sm);
 }
 
 @media (--mobile-device) {
@@ -145,15 +114,11 @@ div > .locationContainerItem {
 
   .whoWhatWhyContainer {
     flex-wrap: wrap;
-    margin-bottom: 25px;
+    margin-bottom: var(--spacing-xl);
   }
 
   .locationContainer {
     flex-wrap: wrap;
-  }
-
-  .emails {
-    margin-top: 0;
   }
 
   .emailIcon,
@@ -162,20 +127,13 @@ div > .locationContainerItem {
     display: none;
   }
 
-  .emailContainer {
-    margin-left: 8px;
-    margin-top: 0;
-  }
-
   .contactUsLink {
-    margin-bottom: 2px;
-    top: 0.5em;
-    font-size: var(--font-size-lg);
+    top: var(--spacing-sm);
   }
 
   .pageContainer {
     padding: 0;
-    padding-top: 2em;
+    padding-top: var(--spacing-xl);
   }
 
   .statisticsContainer {

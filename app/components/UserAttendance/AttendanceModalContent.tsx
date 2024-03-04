@@ -81,7 +81,7 @@ const AttendanceModalContent = ({
   );
 
   return (
-    <Flex column gap="1rem" className={styles.modal}>
+    <Flex column gap="var(--spacing-md)" className={styles.modal}>
       <h2>{title}</h2>
       <TextInput
         type="text"

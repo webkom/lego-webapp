@@ -60,7 +60,7 @@ const CommentForm = ({
         {({ handleSubmit }) => {
           return (
             <form onSubmit={handleSubmit}>
-              <Flex alignItems="center" gap="1rem">
+              <Flex alignItems="center" gap="var(--spacing-md)">
                 <ProfilePicture size={40} user={currentUser} />
 
                 <div className={styles.field}>
@@ -71,6 +71,7 @@ const CommentForm = ({
                     component={TextInput.Field}
                     removeBorder
                     maxLength={140}
+                    withoutMargin
                   />
                 </div>
 

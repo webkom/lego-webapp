@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .commentTree {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .nested {

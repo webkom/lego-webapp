@@ -69,7 +69,7 @@
 
 .actionsContainer {
   height: 66px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .infoOverlay {

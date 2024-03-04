@@ -20,7 +20,7 @@ const ForumList = () => {
   return (
     <Content>
       <ContentMain>
-        <Flex alignItems="center" gap="0.5rem">
+        <Flex alignItems="center" gap="var(--spacing-sm)">
           <h1>Forum</h1>
           <Tag tag="Beta" color="purple" />
         </Flex>

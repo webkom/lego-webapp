@@ -246,14 +246,14 @@ const RegistrationMeta = ({
 }: Props) => {
   if (skeleton) {
     return (
-      <Flex column gap="0.5rem">
+      <Flex column gap="var(--spacing-sm)">
         <Skeleton array={2} className={styles.sidebarInfo} />
       </Flex>
     );
   }
 
   return (
-    <Flex column gap="0.5rem">
+    <Flex column gap="var(--spacing-sm)">
       {!registration && hasOpened && (
         <TextWithIconWrapper
           iconName="close-circle-outline"

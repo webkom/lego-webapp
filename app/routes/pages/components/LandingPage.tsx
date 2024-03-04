@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
 import { Image } from 'app/components/Image';
+import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';
@@ -14,7 +15,9 @@ import TextWithBoldTitle, {
 } from './subcomponents/TextWithTitle';
 import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
 
-const LandingPage: PageRenderer = ({ loggedIn }) => {
+const LandingPage: PageRenderer = () => {
+  const { loggedIn } = useUserContext();
+
   return (
     <div className={styles.pageContainer}>
       <a href="#contact" className={styles.contactUsLink}>
@@ -68,10 +71,10 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
 
       <Flex className={styles.emailContainer}>
         <Icon name="mail" size={40} className={styles.emailIcon} />
-        <div className={styles.emails}>
-          <h3 className={styles.title}>E-post</h3>
+        <div>
+          <h3>E-post</h3>
           {loggedIn && (
-            <div>
+            <p>
               Har du noe du vil spørre om eller fortelle oss? Ta kontakt med oss
               på vårt <Link to="/contact">kontaktskjema</Link> eller på
               e-postene under! På kontaktskjemaet har du mulighet til å sende
@@ -85,14 +88,14 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
                 varslingsportal
               </a>{' '}
               som kan brukes til anonym varsling.
-            </div>
+            </p>
           )}
           <EmailItem
             recipient="Hovedstyret"
             email="abakus@abakus.no"
             logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png"
           />
-          <h3 className={styles.title}>E-postadresser til komiteene</h3>
+          <h3>E-postadresser til komiteene</h3>
           <Flex wrap>
             {committeeEmails.map((email, index) => (
               <EmailItem
@@ -108,13 +111,13 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
 
       <Flex className={styles.socialMediaContainer}>
         <Icon name="people" size={40} className={styles.emailIcon} />
-        <div className={styles.emails}>
-          <h3 className={styles.title}>Sosiale medier</h3>
-          <div>
+        <div>
+          <h3>Sosiale medier</h3>
+          <p>
             Har du lyst til å følge med på hva de forskjellige delene av abakus
             driver med? Følg oss på sosiale medier!
-          </div>
-          <Flex wrap>
+          </p>
+          <Flex wrap gap="var(--spacing-md)">
             <div className={styles.socialMediaType}>
               <Icon name="logo-facebook" size={40} />
               <div className={styles.socialMediaTypeLinks}>
@@ -152,11 +155,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
               </div>
             </div>
             <div className={styles.socialMediaType}>
-              <Icon
-                name="logo-snapchat"
-                size={40}
-                className={styles.snapchatIcon}
-              />
+              <Icon name="logo-snapchat" size={40} />
               <div className={styles.socialMediaTypeLinks}>
                 {socialMedia.snapchat.map((page, index) => (
                   <Button flat key={index} className={styles.socialMediaLink}>
@@ -202,7 +201,7 @@ const LandingPage: PageRenderer = ({ loggedIn }) => {
       <Flex alignItems="center">
         <Icon name="briefcase" size={40} className={styles.organizationIcon} />
         <div className={styles.organization}>
-          <h3 className={styles.title}>Organisasjonsnummer</h3>
+          <h3>Organisasjonsnummer</h3>
           <span>{info.organizationNo}</span>
         </div>
       </Flex>

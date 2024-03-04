@@ -12,7 +12,7 @@
     'events .'
     / 2fr 1fr;
   padding: 0 var(--lego-default-padding);
-  gap: 2rem;
+  gap: var(--spacing-xl);
 
   @media (--mobile-device) {
     grid-template:
@@ -25,7 +25,7 @@
       'weekly'
       'articles'
       'events';
-    padding: 0 1rem;
+    padding: 0 var(--spacing-md);
   }
 
   h3 {
@@ -78,7 +78,7 @@
 
 .tagline {
   margin: 0;
-  margin-left: 0.5rem;
+  margin-left: var(--spacing-sm);
   display: inline-flex;
   gap: 7px;
 }

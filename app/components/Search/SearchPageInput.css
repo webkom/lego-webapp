@@ -21,7 +21,7 @@
   flex: 1;
   outline: none;
   border: 0;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-md);
   font-size: var(--font-size-lg);
   color: var(--lego-font-color);
   background: transparent;
