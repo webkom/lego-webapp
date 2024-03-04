@@ -69,6 +69,7 @@ const PollDetail = () => {
           poll={poll}
           allowedToViewHiddenResults={actionGrant.includes('edit')}
           details
+          alwaysOpen
         />
       ) : (
         <PollEditor poll={poll} editing toggleEdit={toggleEdit} />
