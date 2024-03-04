@@ -29,7 +29,6 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
@@ -228,7 +227,7 @@ const LanguageFlag = ({ language }: { language: string }) => {
       break;
   }
 
-  return <Image src={flag} className={styles.flag} alt="country_flag" />;
+  return <img src={flag} className={styles.flag} alt="Country flag" />;
 };
 
 type CompanyInterestFormEntity = {

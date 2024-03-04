@@ -81,12 +81,7 @@ const AttendanceModalContent = ({
   );
 
   return (
-    <Flex
-      column
-      justifyContent="space-between"
-      gap={15}
-      className={styles.modal}
-    >
+    <Flex column gap="1rem" className={styles.modal}>
       <h2>{title}</h2>
       <TextInput
         type="text"
