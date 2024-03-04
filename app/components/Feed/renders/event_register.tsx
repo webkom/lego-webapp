@@ -22,8 +22,8 @@ export function activityHeader(
     return null;
   }
 
-  const actorsRender = actors.map((actor) =>
-    htmlTag(contextRender[actor.contentType](actor))
+  const actorsRender = actors.map(
+    (actor) => actor && htmlTag(contextRender[actor.contentType](actor))
   );
   return (
     <b>

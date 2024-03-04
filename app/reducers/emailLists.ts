@@ -1,7 +1,9 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { EmailList } from '../actions/ActionTypes';
+import type { RootState } from 'app/store/createRootReducer';
 
 export type EmailListEntity = {
   id: number;
@@ -18,32 +20,28 @@ export type EmailListEntity = {
   actionGrant: Record<string, any>;
   comments: Array<number>;
 };
-const mutate = mutateComments('emailLists');
-export default createEntityReducer({
-  key: 'emailLists',
-  types: {
-    fetch: EmailList.FETCH,
-    mutate: EmailList.CREATE,
-  },
-  mutate,
-});
-export const selectEmailLists = createSelector(
-  (state) => state.emailLists.byId,
-  (state) => state.emailLists.items,
-  (_, { pagination }) => pagination,
-  (emailListsById, emailListIds, pagination) =>
-    (pagination ? pagination.items : emailListIds)
-      .map((id) => emailListsById[id])
-      .filter(Boolean)
-);
-export const selectEmailListById = createSelector(
-  (state) => state.emailLists.byId,
-  (state) => state.users.byId,
-  (state) => state.groups.byId,
-  (state, props) => props.emailListId,
-  (emailListsById, usersById, groupsById, emailListId) => {
-    const emailList = emailListsById[emailListId];
 
+const legoAdapter = createLegoAdapter(EntityType.EmailLists);
+
+const emailListSlice = createSlice({
+  name: EntityType.EmailLists,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [EmailList.FETCH],
+  }),
+});
+
+export default emailListSlice.reducer;
+const { selectAllPaginated: selectEmailLists, selectById } =
+  legoAdapter.getSelectors<RootState>((state) => state.emailLists);
+export { selectEmailLists };
+
+export const selectEmailListById = createSelector(
+  selectById,
+  (state: RootState) => state.users.byId,
+  (state: RootState) => state.groups.byId,
+  (emailList, usersById, groupsById) => {
     if (!emailList) {
       return {};
     }

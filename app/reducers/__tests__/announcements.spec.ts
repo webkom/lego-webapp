@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { Announcements } from 'app/actions/ActionTypes';
 import announcements from '../announcements';
+import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 
 describe('reducers', () => {
   describe('announcements', () => {
@@ -9,13 +10,14 @@ describe('reducers', () => {
     it('Announcements.SEND.SUCCESS', () => {
       const prevState = {
         actionGrant: [],
-        pagination: {},
-        items: [99],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [99],
+        entities: {
           99: {
             id: 99,
             sent: null,
-          },
+          } as UnknownAnnouncement,
         },
       };
       const action = {
@@ -26,9 +28,10 @@ describe('reducers', () => {
       };
       expect(announcements(prevState, action)).toEqual({
         actionGrant: [],
-        pagination: {},
-        items: [99],
-        byId: {
+        paginationNext: {},
+        fetching: false,
+        ids: [99],
+        entities: {
           99: {
             id: 99,
             sent: new Date().toISOString(),
