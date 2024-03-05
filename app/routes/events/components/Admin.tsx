@@ -131,14 +131,7 @@ const Admin = ({ actionGrant, event }: Props) => {
             </Link>
           )}
 
-          <Link
-            to={{
-              pathname: `/events/create`,
-              state: {
-                id: event.id,
-              },
-            }}
-          >
+          <Link to="/events/create" state={{ id: event.id }}>
             <Button>
               <Icon name="copy-outline" size={19} />
               Lag kopi av arrangement
