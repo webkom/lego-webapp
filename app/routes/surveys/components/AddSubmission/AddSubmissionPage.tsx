@@ -87,7 +87,9 @@ const AddSubmissionPage = () => {
   return (
     <Content banner={survey.event.cover}>
       <Helmet title={`Besvarer: ${survey.title}`} />
-      <ContentHeader>{survey.title}</ContentHeader>
+      <ContentHeader>
+        <h2>{survey.title}</h2>
+      </ContentHeader>
 
       <div className={styles.surveyTime}>
         Spørreundersøkelse for arrangementet{' '}

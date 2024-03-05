@@ -33,7 +33,7 @@ function ContentHeader({
       className={cx(styles.header, className)}
       {...props}
     >
-      <h2>{children}</h2>
+      {children}
       {event && (
         <strong
           style={{
