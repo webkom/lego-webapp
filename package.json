@@ -142,7 +142,7 @@
     "@types/react": "^18.2.63",
     "@types/react-dom": "^18.2.19",
     "@types/react-infinite-scroller": "^1.2.5",
-    "@types/react-tagcloud": "^1.1.11",
+    "@types/react-tagcloud": "^2.3.2",
     "@types/redux-logger": "^3.0.13",
     "@types/redux-sentry-middleware": "^0.2.8",
     "@types/webpack": "^5.28.5",
