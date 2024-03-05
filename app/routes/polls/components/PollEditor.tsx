@@ -5,6 +5,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
+import { Content } from 'app/components/Content';
 import {
   TextInput,
   SelectInput,
@@ -73,7 +74,11 @@ const validate = createValidator({
   title: [required('Du må gi avstemningen en tittel')],
 });
 
-const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
+const PollEditor = ({
+  poll,
+  editing = false,
+  toggleEdit = () => {},
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -131,16 +136,6 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
 
   return (
     <>
-      <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
-      {!editing && (
-        <NavigationTab
-          title="Ny avstemning"
-          back={{
-            label: 'Tilbake',
-            path: '/polls',
-          }}
-        />
-      )}
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -225,3 +220,20 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
 };
 
 export default PollEditor;
+
+export const PollCreator = () => {
+  const title = 'Ny avstemning';
+  return (
+    <Content>
+      <Helmet title={title} />
+      <NavigationTab
+        title={title}
+        back={{
+          label: 'Tilbake',
+          path: '/polls',
+        }}
+      />
+      <PollEditor />
+    </Content>
+  );
+};
