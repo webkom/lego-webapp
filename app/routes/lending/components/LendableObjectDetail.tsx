@@ -12,11 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { fetchLendableObject } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import {
-  Button,
-  TextArea,
-  TextInput,
-} from 'app/components/Form';
+import { Button, TextArea, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
@@ -35,13 +31,19 @@ const LendableObjectDetail = () => {
   const navigate = useNavigate();
 
   const onSubmit = (values) => {
+    values = {
+      ...values,
+      startDate: moment(values.startDate).toISOString(),
+      endDate: moment(values.endDate).toISOString(),
+    };
+
     dispatch(
       createLendingRequest({
         ...values,
         pending: false,
         lendableObject: lendableObjectId,
       })
-    ).then(() => navigate("/lending"));
+    ).then(() => navigate('/lending'));
   };
 
   const dispatch = useAppDispatch();
@@ -59,9 +61,9 @@ const LendableObjectDetail = () => {
   );
 
   const initialValues = {
-    startTime: moment(start).format('YYYY-MM-DDThh:mm'),
-    endTime: moment(end).format('YYYY-MM-DDThh:mm'),
-  }
+    startDate: moment(start).toISOString(),
+    endDate: moment(end).toISOString(),
+  };
 
   return (
     <LoadingIndicator loading={!lendableObject}>
@@ -117,13 +119,13 @@ const LendableObjectDetail = () => {
                   <form onSubmit={handleSubmit}>
                     <Field
                       label="Start for utlån"
-                      name="startTime"
+                      name="startDate"
                       component={TextInput.Field}
                       disabled
                     />
                     <Field
                       label="Slutt for utlån"
-                      name="endTime"
+                      name="endDate"
                       component={TextInput.Field}
                       disabled
                     />
