@@ -8,16 +8,20 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchLendableObject } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import { Button, TextArea, TextInput } from 'app/components/Form';
+import {
+  Button,
+  TextArea,
+  TextInput,
+} from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { createValidator, required } from 'app/utils/validation';
+import { createLendingRequest } from 'app/actions/LendingRequestActions';
 
 type Params = {
   lendableObjectId: string;
@@ -28,8 +32,17 @@ const LendableObjectDetail = () => {
   const [showLendingForm, setShowLendingForm] = useState(false);
   const [start, setstart] = useState('');
   const [end, setend] = useState('');
+  const navigate = useNavigate();
 
-  const onSubmit = () => {};
+  const onSubmit = (values) => {
+    dispatch(
+      createLendingRequest({
+        ...values,
+        pending: false,
+        lendableObject: lendableObjectId,
+      })
+    ).then(() => navigate("/lending"));
+  };
 
   const dispatch = useAppDispatch();
 
@@ -44,6 +57,11 @@ const LendableObjectDetail = () => {
       lendableObjectId,
     })
   );
+
+  const initialValues = {
+    startTime: moment(start).format('YYYY-MM-DDThh:mm'),
+    endTime: moment(end).format('YYYY-MM-DDThh:mm'),
+  }
 
   return (
     <LoadingIndicator loading={!lendableObject}>
@@ -91,7 +109,7 @@ const LendableObjectDetail = () => {
           >
             <LegoFinalForm
               onSubmit={onSubmit}
-              validate={validate}
+              initialValues={initialValues}
               subscription={{}}
             >
               {({ handleSubmit }) => {
@@ -100,14 +118,12 @@ const LendableObjectDetail = () => {
                     <Field
                       label="Start for utlån"
                       name="startTime"
-                      defaultValue={moment(start).format('DD-MM-YYYY hh:mm:ss')}
                       component={TextInput.Field}
                       disabled
                     />
                     <Field
                       label="Slutt for utlån"
                       name="endTime"
-                      defaultValue={moment(end).format('DD-MM-YYYY hh:mm:ss')}
                       component={TextInput.Field}
                       disabled
                     />
@@ -128,9 +144,5 @@ const LendableObjectDetail = () => {
     </LoadingIndicator>
   );
 };
-
-const validate = createValidator({
-  responsiblePersonName: [required('Du må oppgi en avsvarsperson')],
-});
 
 export default LendableObjectDetail;

@@ -56,8 +56,8 @@ const LendableObjectEdit = () => {
       dispatch(
         createLendableObject({
           ...values,
-          responsibleGroups: values.responsibleGroups.map((group) => group.id),
-          responsibleRoles: values.responsibleRoles.map((role) => role.value),
+          responsibleGroups: values.responsibleGroups?.map((group) => group.id),
+          responsibleRoles: values.responsibleRoles?.map((role) => role.value),
         })
       ).then(() => navigate('/lending'));
     } else {

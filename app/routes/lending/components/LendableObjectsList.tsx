@@ -1,10 +1,9 @@
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
-import { fetchAllLendableObjects, fetchAllLendingRequests } from 'app/actions/LendableObjectActions';
+import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';
@@ -16,6 +15,7 @@ import styles from './LendableObjectsList.css';
 import RequestItem from './RequestItem';
 import { exampleRequests } from './fixtures';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
+import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
 
 const LendableObject = ({
   lendableObject,
