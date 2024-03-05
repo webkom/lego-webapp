@@ -4235,10 +4235,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-tagcloud@^1.1.11":
-  version "1.1.11"
-  resolved "https://registry.yarnpkg.com/@types/react-tagcloud/-/react-tagcloud-1.1.11.tgz#8cd360042705777af7b238a7a60656598bb9b3a2"
-  integrity sha512-RGcXV9nV5NYGLBNP/tBt8W5MvcMwS1ewUuJzbhbrltpCz82NVuWhD1Su281pla79g1my5jHkiS8e/2m3OVEbAw==
+"@types/react-tagcloud@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/react-tagcloud/-/react-tagcloud-2.3.2.tgz#e6e69939455a8cdd126f08a5325d545202132495"
+  integrity sha512-b7yrbJR2rc6GPIH0FJl1kxbLM3mXCmWzh299QhoGewuRMJ/HRJ8Fmy215yxOFGsUyjd7+KyFUb0cOZ9M8kQBbw==
   dependencies:
     "@types/react" "*"
 
