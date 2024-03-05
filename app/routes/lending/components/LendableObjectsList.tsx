@@ -81,7 +81,7 @@ export const LendableObjectsList = () => {
             <p className="secondaryFontColor">Her var det tomt!</p>
           ) : (
             lendingRequests
-              // TODO: does not work atm.. 
+              // TODO: does not work atm..
               // .sort((a, b) => b.endDate.diff(a.endDate))
               // .filter(
               //   (req) =>

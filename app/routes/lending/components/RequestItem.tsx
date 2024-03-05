@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './RequestItem.css';
+import moment from 'moment-timezone';
 
 const ApprovedFlag = () => {
   return (
@@ -46,12 +47,12 @@ export const RequestItem = ({ request, isAdmin }: RequestItemProps) => {
       key={request.id}
     >
       <Flex column>
-        <h2 className={styles.requestTitle}>{request.lendableObject.toString()}</h2>
+        <h2 className={styles.requestTitle}>{request.lendableObject.title}</h2>
         <Flex gap={10}>
-          <p>{request.user?.fullName}</p>
+          <p>{request.author?.fullName}</p>
           <p>
-            {/* {request.startDate.format('DD.MM.YYYY HH:mm')} -{' '}
-            {request.endDate.format('DD.MM.YYYY HH:mm')} */}
+            {moment(request.startDate).format('DD.MM.YYYY')} -{' '}
+            {moment(request.endDate).format('DD.MM.YYYY')}
           </p>
         </Flex>
       </Flex>

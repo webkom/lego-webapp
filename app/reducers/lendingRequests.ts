@@ -16,6 +16,15 @@ export default createEntityReducer({
   export const selectLendingRequests = createSelector(
     (state: RootState) => state.lendingRequests.byId,
     (state: RootState) => state.lendingRequests.items,
-    (lendingRequestsById, lendingRequestsIds) =>
-      lendingRequestsIds.map((id) => lendingRequestsById[id])
+    (state: RootState) => state.lendableObjects.byId,
+    (lendingRequestsById, lendingRequestsIds, lendableObjectsById) =>
+      lendingRequestsIds.map((id) => {
+        const lendingRequest = lendingRequestsById[id];
+        const lendableObject = lendableObjectsById[lendingRequest.lendableObject];
+
+        return {
+          ...lendingRequest,
+          lendableObject,
+        };
+      })
   );
