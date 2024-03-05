@@ -61,6 +61,18 @@ const AuthenticatedFrontpage = () => {
     [loggedIn, shouldFetchQuote],
   );
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(function () {
+      setArticlesToShow(ARTICLES_TO_SHOW);
+    }, 200);
+
+    setTimeout(function () {
+      setEventsToShow(EVENTS_TO_SHOW);
+    }, 200);
+  };
+
   const readMe = (
     <Flex className={styles.readMe}>
       <LatestReadme expandedInitially={false} />
@@ -88,7 +100,7 @@ const AuthenticatedFrontpage = () => {
         <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
       </section>
 
-      <ShowMoreButton eventsToShow={eventsToShow} showMore={showMore} />
+      <ShowMoreButton eventsToShow={eventsToShow} showMore={showMore} scrollToTop = {scrollToTop} />
     </Container>
   );
 };
@@ -269,17 +281,25 @@ const QuoteItem = () => (
 const ShowMoreButton = ({
   eventsToShow,
   showMore,
+  scrollToTop,
 }: {
   eventsToShow: number;
   showMore: () => void;
+  scrollToTop: () => void;
 }) => {
   const events = useAppSelector(selectEvents);
 
-  return events.length > eventsToShow ? (
+  return (
     <div className={styles.showMore}>
-      <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+      {events.length > eventsToShow && (
+          <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+      )}
+
+      {events.length < eventsToShow && (
+          <Icon onClick={scrollToTop} name="chevron-up-outline" size={30} />
+      )}
     </div>
-  ) : null;
+  );
 };
 
 export default guardLogin(AuthenticatedFrontpage);
