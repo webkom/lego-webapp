@@ -177,7 +177,7 @@
     "lolex": "^6.0.0",
     "mini-css-extract-plugin": "^2.8.1",
     "null-loader": "^4.0.1",
-    "postcss-import": "^15.1.0",
+    "postcss-import": "^16.0.1",
     "postcss-loader": "^7.3.4",
     "postcss-nested": "^6.0.1",
     "postcss-preset-env": "^9.3.0",
