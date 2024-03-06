@@ -63,14 +63,12 @@ const AuthenticatedFrontpage = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    setTimeout(function () {
+    
+    setTimeout( () => {
       setArticlesToShow(ARTICLES_TO_SHOW);
-    }, 200);
-
-    setTimeout(function () {
       setEventsToShow(EVENTS_TO_SHOW);
     }, 200);
+
   };
 
   const readMe = (
