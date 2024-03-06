@@ -63,12 +63,11 @@ const AuthenticatedFrontpage = () => {
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    setTimeout( () => {
+    //Need timeout because without page scrolls to botton of events not to top of page
+    setTimeout(() => {
       setArticlesToShow(ARTICLES_TO_SHOW);
       setEventsToShow(EVENTS_TO_SHOW);
     }, 200);
-
   };
 
   const readMe = (
@@ -98,7 +97,11 @@ const AuthenticatedFrontpage = () => {
         <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
       </section>
 
-      <ShowMoreButton eventsToShow={eventsToShow} showMore={showMore} scrollToTop = {scrollToTop} />
+      <ShowMoreButton
+        eventsToShow={eventsToShow}
+        showMore={showMore}
+        scrollToTop={scrollToTop}
+      />
     </Container>
   );
 };
@@ -290,11 +293,11 @@ const ShowMoreButton = ({
   return (
     <div className={styles.showMore}>
       {events.length > eventsToShow && (
-          <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+        <Icon onClick={showMore} name="chevron-down-outline" size={30} />
       )}
 
       {events.length < eventsToShow && (
-          <Icon onClick={scrollToTop} name="chevron-up-outline" size={30} />
+        <Icon onClick={scrollToTop} name="chevron-up-outline" size={30} />
       )}
     </div>
   );
