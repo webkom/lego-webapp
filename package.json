@@ -74,7 +74,7 @@
     "lodash-es": "^4.17.21",
     "mazemap": "file:mazemap",
     "minireset.css": "^0.0.7",
-    "moment-timezone": "^0.5.43",
+    "moment-timezone": "^0.5.45",
     "morgan": "^1.9.1",
     "normalizr": "^3.6.2",
     "path-browserify": "^1.0.1",
