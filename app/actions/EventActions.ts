@@ -6,7 +6,6 @@ import {
 } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
-import type { EventRegistrationPresence } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type {
@@ -14,6 +13,7 @@ import type {
   ListEvent,
   UnknownEvent,
 } from 'app/store/models/Event';
+import type { Presence } from 'app/store/models/Registration';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
@@ -310,7 +310,7 @@ export function markUsernamePresent(eventId: ID, username: string) {
 export function updatePresence(
   eventId: ID,
   registrationId: ID,
-  presence: EventRegistrationPresence,
+  presence: Presence,
 ) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
