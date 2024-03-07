@@ -72,7 +72,7 @@ export function fetchAll({
       fetchNext: next,
     },
     meta: {
-      errorMessage: 'Henting av artikler feilet',
+      errorMessage: 'Henting av artikler feilet totalt',
     },
     propagateError: true,
   });

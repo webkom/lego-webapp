@@ -1,5 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
+import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
@@ -65,11 +66,14 @@ export const OverviewItem = ({
 
 const Overview = () => {
   const location = useLocation();
-  const query = {
-    tag: qs.parse(location.search, {
-      ignoreQueryPrefix: true,
-    }).tag,
-  };
+  const query = useMemo(
+    () => ({
+      tag: qs.parse(location.search, {
+        ignoreQueryPrefix: true,
+      }).tag,
+    }),
+    [location]
+  );
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: `/articles/`,
