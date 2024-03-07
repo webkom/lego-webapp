@@ -190,7 +190,7 @@ const UserSettingsOAuth2 = () => {
       </ul>
 
       <h3>Applikasjoner</h3>
-      <Flex column gap="1rem">
+      <Flex column gap="var(--spacing-md)">
         {actionGrant.includes('create') && (
           <Button>
             <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>

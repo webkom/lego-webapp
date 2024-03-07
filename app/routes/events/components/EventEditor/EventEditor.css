@@ -89,7 +89,7 @@
 
 .emptyGallery {
   width: 50%;
-  margin: 1rem 0;
+  margin: var(--spacing-md) 0;
   color: var(--secondary-font-color);
   text-align: center;
 }

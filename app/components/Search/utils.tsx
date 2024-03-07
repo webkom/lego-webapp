@@ -2,7 +2,6 @@ import { Flex } from '@webkom/lego-bricks';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Tag } from 'app/components/Tags';
 import TextWithIcon from '../TextWithIcon';
-import styles from './Search.css';
 import type { Allowed } from 'app/reducers/allowed';
 import type { ReactNode } from 'react';
 
@@ -39,7 +38,7 @@ const LINKS: Array<Link> = [
   {
     key: 'forum',
     title: (
-      <Flex alignItems="center" gap="0.5rem">
+      <Flex alignItems="center" gap="var(--spacing-sm)">
         Forum
         <Tag tag="Beta" color="purple" />
       </Flex>
@@ -216,15 +215,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     })
     .map(({ url, title, icon }) => [
       url,
-      icon ? (
-        <TextWithIcon
-          content={title}
-          iconName={icon}
-          className={styles.quickLinkContent}
-        />
-      ) : (
-        title
-      ),
+      icon ? <TextWithIcon content={title} iconName={icon} /> : title,
     ]) as NavigationLink[];
 }
 

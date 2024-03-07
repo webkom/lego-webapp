@@ -376,10 +376,14 @@ const EventEditor = () => {
                   wrap
                   alignItems="center"
                   justifyContent="space-around"
-                  gap="1rem"
+                  gap="var(--spacing-md)"
                 >
                   {imageGallery?.map((e) => (
-                    <Flex key={e.key} alignItems="center" gap="1rem">
+                    <Flex
+                      key={e.key}
+                      alignItems="center"
+                      gap="var(--spacing-md)"
+                    >
                       <Image
                         src={e.cover}
                         placeholder={e.coverPlaceholder}

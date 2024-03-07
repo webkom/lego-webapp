@@ -63,7 +63,11 @@ class EventItem extends Component<Props, State> {
             <h4>{truncateString(selected.title, 43)}</h4>
           </Link>
 
-          <Flex alignItems="center" gap="0.5rem" className={styles.info}>
+          <Flex
+            alignItems="center"
+            gap="var(--spacing-sm)"
+            className={styles.info}
+          >
             <Icon name="alarm-outline" size={20} />
             <div>
               <span>

@@ -13,20 +13,26 @@ const JoblistingsList = ({ joblistings }: JobListingsListProps) => {
   const fetching = useAppSelector((state) => state.joblistings.fetching);
 
   return (
-    <Flex column className={styles.joblistingList}>
-      <Flex className={styles.heading}>
-        <h2 className={styles.headingText}>Jobbannonser</h2>
-        <h4 className={styles.headingDeadline}>Søknadsfrist:</h4>
+    <div className={styles.joblistingList}>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        className={styles.heading}
+      >
+        <h2>Jobbannonser</h2>
+        <h4 className={styles.headingDeadline}>Søknadsfrist</h4>
       </Flex>
 
-      {fetching && !joblistings.length ? (
-        <Skeleton array={5} className={sharedStyles.joblistingItem} />
-      ) : (
-        joblistings.map((joblisting) => (
-          <JoblistingItem key={joblisting.id} joblisting={joblisting} />
-        ))
-      )}
-    </Flex>
+      <Flex column gap="var(--spacing-sm)">
+        {fetching && !joblistings.length ? (
+          <Skeleton array={5} className={sharedStyles.joblistingItem} />
+        ) : (
+          joblistings.map((joblisting) => (
+            <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+          ))
+        )}
+      </Flex>
+    </div>
   );
 };
 

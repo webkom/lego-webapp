@@ -116,7 +116,7 @@
 }
 
 .subHeading {
-  margin-bottom: 0.5em;
+  margin-bottom: var(--spacing-sm);
 }
 
 .tooltip {

@@ -20,6 +20,7 @@ import {
 } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
+import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
 import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
 import {
@@ -34,7 +35,7 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
 import type { ID } from 'app/store/models';
 
-const queryString = (companyId: ID) =>
+const queryString = (companyId?: ID) =>
   createQueryString({
     company: companyId,
     ordering: '-start_time',
@@ -60,6 +61,9 @@ const CompanyDetail = () => {
   );
   const joblistings = useAppSelector((state) =>
     selectJoblistingsForCompany(state, { companyId })
+  );
+  const fetchingJoblistings = useAppSelector(
+    (state) => state.joblistings.fetching
   );
   const pagination = useAppSelector((state) => state.events.pagination);
   const endpoint = getEndpoint(pagination, queryString(companyId));
@@ -148,7 +152,7 @@ const CompanyDetail = () => {
             skeleton={showSkeleton}
           />
 
-          <h3 className={styles.sectionHeader}>Kommende arrangementer</h3>
+          <h3>Kommende arrangementer</h3>
           <EventListCompact
             events={upcomingEvents}
             noEventsMessage="Ingen kommende arrangementer"
@@ -156,17 +160,20 @@ const CompanyDetail = () => {
             loading={showSkeleton}
             extraCompactSkeletonLimit={1}
           />
-
           {oldEvents.length > 0 && (
-            <Button onClick={() => setViewOldEvents(!viewOldEvents)}>
+            <Button
+              onClick={() => setViewOldEvents(!viewOldEvents)}
+              className={styles.toggleEventsView}
+            >
               {viewOldEvents
                 ? 'Skjul tidligere arrangementer'
                 : 'Vis tidligere arrangementer'}
             </Button>
           )}
+
           {viewOldEvents && (
             <>
-              <h3 className={styles.sectionHeader}>Tidligere arrangementer</h3>
+              <h3>Tidligere arrangementer</h3>
               <EventListCompact
                 events={oldEvents}
                 noEventsMessage="Ingen tidligere arrangementer"
@@ -178,19 +185,22 @@ const CompanyDetail = () => {
           {viewOldEvents && showFetchMoreEvents && (
             <Flex justifyContent="center">
               <Icon
-                name="chevron-down-circle-outline"
-                size={40}
+                name="chevron-down-outline"
+                size={30}
                 onClick={fetchMoreEvents}
-                style={{ cursor: 'pointer' }}
               />
             </Flex>
           )}
 
-          <h3 className={styles.sectionHeader}>Jobbannonser</h3>
-          {joblistings.length > 0 ? (
-            joblistings.map((joblisting) => (
-              <JoblistingItem key={joblisting.id} joblisting={joblisting} />
-            ))
+          <h3>Jobbannonser</h3>
+          {fetchingJoblistings && !joblistings.length ? (
+            <Skeleton className={sharedStyles.joblistingItem} />
+          ) : joblistings.length > 0 ? (
+            <Flex column gap="var(--spacing-sm)">
+              {joblistings.map((joblisting) => (
+                <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+              ))}
+            </Flex>
           ) : (
             <span className="secondaryFontColor">
               Ingen tilgjengelige jobbannonser
@@ -214,6 +224,7 @@ const CompanyDetail = () => {
                     <TextWithIcon
                       key={info.text}
                       iconName={info.icon}
+                      className={styles.companyInfo}
                       content={
                         info.link ? (
                           <a href={info.text}>{company.name}</a>

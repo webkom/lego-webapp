@@ -5,7 +5,7 @@
   margin: 0 var(--lego-default-padding);
 
   @media (--mobile-device) {
-    margin: 0 1rem;
+    margin: 0 var(--spacing-md);
   }
 }
 

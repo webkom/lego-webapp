@@ -3,10 +3,7 @@
 .joblistingItem {
   display: flex;
   align-items: center;
-  margin-top: 3px;
-  margin-bottom: 12px;
-  padding: 15px;
-  line-height: 1.3;
+  padding: var(--spacing-md);
   min-width: 280px;
   min-height: 140px;
   height: fit-content;
@@ -28,7 +25,7 @@
   max-height: 80px;
   min-width: 120px;
   object-fit: contain;
-  margin-right: 20px;
+  margin-right: var(--spacing-md);
   background: white;
 }
 
@@ -45,8 +42,8 @@
 .joblistingItemTitle {
   font-weight: 600;
   font-size: var(--font-size-lg);
-  margin-right: 5px;
-  margin-bottom: 10px;
+  margin-right: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
 }
 
 .deadLine {

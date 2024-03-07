@@ -49,7 +49,7 @@ export const renderMeta = (
       wrap
       alignItems="center"
       justifyContent="center"
-      gap="0.5rem"
+      gap="var(--spacing-sm)"
       className={styles.meta}
     >
       <Time time={itemTime} format={format} />

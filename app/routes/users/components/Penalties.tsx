@@ -24,12 +24,12 @@ const Penalties = ({ userId }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex column gap="1rem">
+    <Flex column gap="var(--spacing-md)">
       {penalties.length ? (
         <>
           {penalties.map((penalty) => (
             <>
-              <Flex key={penalty.id} column gap="0.5rem">
+              <Flex key={penalty.id} column gap="var(--spacing-sm)">
                 <Flex column className={styles.info}>
                   <span className={styles.weight}>
                     {penalty.weight} {penalty.weight > 1 ? 'prikker' : 'prikk'}
@@ -84,7 +84,7 @@ const Penalties = ({ userId }: Props) => {
         </>
       ) : (
         <>
-          <Flex alignItems="center" gap="1rem">
+          <Flex alignItems="center" gap="var(--spacing-md)">
             <Icon
               name="thumbs-up-outline"
               size={40}

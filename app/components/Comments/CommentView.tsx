@@ -38,7 +38,7 @@ const CommentView = (props: Props) => {
     <div style={style}>
       <Title displayTitle={displayTitle} />
       <Flex
-        gap="1rem"
+        gap="var(--spacing-md)"
         style={{
           flexDirection: newOnTop ? 'column-reverse' : 'column',
         }}

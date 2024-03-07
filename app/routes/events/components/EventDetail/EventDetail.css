@@ -6,7 +6,7 @@
 
 .header {
   min-width: 300px;
-  height: 2rem;
+  height: var(--spacing-xl);
 }
 
 .title {
@@ -18,7 +18,7 @@
 }
 
 .sidebarInfo {
-  min-height: 1.5rem;
+  min-height: var(--spacing-lg);
 }
 
 .paymentInfo {

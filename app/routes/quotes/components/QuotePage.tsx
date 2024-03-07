@@ -1,6 +1,5 @@
 import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import cx from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
@@ -84,7 +83,7 @@ const QuotePage = () => {
   );
 
   return (
-    <div className={cx(styles.root, styles.quoteContainer)}>
+    <div className={styles.root}>
       <Helmet title="Overhørt" />
       {navigation('Overhørt', actionGrant)}
 

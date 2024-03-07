@@ -33,15 +33,15 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, min-content);
-  gap: 0.25rem;
+  gap: var(--spacing-xs);
   overflow: hidden;
 
   @media (--mobile-device) {
-    gap: 1rem;
+    gap: var(--spacing-md);
   }
 
   @media (--small-viewport) {
-    gap: 0.25rem;
+    gap: var(--spacing-xs);
   }
 }
 

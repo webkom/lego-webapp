@@ -107,12 +107,12 @@ const GalleryPictureEditModal = () => {
           <Flex justifyContent="space-between">
             <Image
               className={styles.galleryThumbnail}
-              alt="some alt"
+              alt="Albumcover"
               src={gallery.cover.thumbnail}
             />
 
             <Flex column justifyContent="space-around">
-              <h5 className={styles.header}>
+              <h5>
                 <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
               </h5>
               <GalleryDetailsRow small gallery={gallery} />

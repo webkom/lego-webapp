@@ -23,15 +23,13 @@ const JoblistingsRightNav = () => {
         onClick={() => setDisplayOptions(!displayOptions)}
         className={styles.optionsTitle}
       >
-        <h2>
-          Valg
-          <i
-            className={cx(
-              'fa fa-caret-down',
-              !displayOptions && styles.rotateCaret
-            )}
-          />
-        </h2>
+        <h2>Valg</h2>
+        <i
+          className={cx(
+            'fa fa-caret-down',
+            !displayOptions && styles.rotateCaret
+          )}
+        />
       </button>
 
       <div
@@ -46,7 +44,7 @@ const JoblistingsRightNav = () => {
           </Link>
         )}
 
-        <h3 className={styles.rightHeader}>Sorter etter</h3>
+        <h4 className={styles.rightHeader}>Sorter etter</h4>
         <RadioButton
           name="sort"
           id="deadline"
@@ -75,7 +73,7 @@ const JoblistingsRightNav = () => {
           }}
         />
 
-        <h3 className={styles.rightHeader}>Klassetrinn</h3>
+        <h4 className={styles.rightHeader}>Klassetrinn</h4>
         {yearValues.map((year) => (
           <FilterCheckbox
             key={year.value}
@@ -85,7 +83,8 @@ const JoblistingsRightNav = () => {
             onChange={setQueryValue('grades')}
           />
         ))}
-        <h3 className={styles.rightHeader}>Jobbtype</h3>
+
+        <h4 className={styles.rightHeader}>Jobbtype</h4>
         {allJobTypes.map((element) => {
           return (
             <FilterCheckbox
@@ -97,7 +96,8 @@ const JoblistingsRightNav = () => {
             />
           );
         })}
-        <h3 className={styles.rightHeader}>Sted</h3>
+
+        <h4 className={styles.rightHeader}>Sted</h4>
         {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
           <FilterCheckbox
             key={element}

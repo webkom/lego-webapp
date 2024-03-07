@@ -1,9 +1,8 @@
 @import url('~app/styles/variables.css');
 
 .inputContainer {
-  height: 120px;
-  border-bottom: 1px solid var(--border-gray);
-  padding: 0 20px;
+  height: 7rem;
+  padding: 0 var(--spacing-md);
 }
 
 .inputContainer input {
@@ -11,7 +10,7 @@
   flex: 1;
   outline: none;
   border: 0;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-md);
   font-size: var(--font-size-lg);
   color: var(--lego-font-color);
   background: transparent;
@@ -49,10 +48,9 @@
 .resultsContainer {
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
-  padding: 2rem 2rem 4rem;
+  padding: var(--spacing-xl) 3rem 3rem;
   background-color: var(--lego-card-color);
   border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
 }
@@ -60,7 +58,7 @@
 .sidePanel {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--spacing-lg);
   flex-grow: 1;
 }
 
@@ -73,6 +71,7 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   list-style-type: none;
+  gap: var(--spacing-xs);
 }
 
 .quickLinkWrapper {
@@ -80,19 +79,16 @@
 }
 
 .quickLink {
-  padding: 4px 15px;
+  padding: var(--spacing-sm) var(--spacing-md);
   box-sizing: border-box;
   font-size: var(--font-size-lg);
   border-radius: var(--border-radius-md);
   transition: background-color var(--linear-fast);
+  color: var(--lego-font-color);
 }
 
 .quickLink:hover {
   background-color: var(--additive-background);
-}
-
-.quickLinkContent {
-  gap: 0.4rem;
 }
 
 .results {
@@ -109,7 +105,7 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--border-gray);
-  padding: 0.5rem;
+  padding: var(--spacing-sm);
   height: 4rem;
 }
 
@@ -146,7 +142,7 @@
 
 .searchingText,
 .quickLinksHeader {
-  margin: 0.5rem 0;
+  margin: var(--spacing-sm) 0;
 }
 
 .searchingText {

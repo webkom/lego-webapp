@@ -30,7 +30,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         <Flex
           wrap
           alignItems="center"
-          gap={6}
+          gap="var(--spacing-sm)"
           className={styles.joblistingItemTitle}
         >
           {moment(joblisting.createdAt).isAfter(
@@ -59,9 +59,6 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
       </div>
       <Time
         time={joblisting.deadline}
-        style={{
-          width: '135px',
-        }}
         format="ll HH:mm"
         className={styles.deadLine}
       />

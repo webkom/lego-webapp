@@ -96,7 +96,7 @@ const App = ({ children }: PropsWithChildren) => {
             backgroundColor: 'var(--danger-color)',
             color: 'white',
             fontWeight: 'bold',
-            padding: '0.5rem',
+            padding: 'var(--spacing-sm)',
           }}
         >
           This is a development version of lego-webapp.

@@ -1,4 +1,4 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
@@ -106,10 +106,6 @@ const JoblistingsPage = () => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect('fetchJoblistingPage', () => dispatch(fetchAll()), []);
-
-  if (!joblistings) {
-    return <LoadingIndicator loading />;
-  }
 
   return (
     <div className={styles.root}>

@@ -1,17 +1,17 @@
 .skeletonBody1 {
-  margin-top: 2rem;
+  margin-top: var(--spacing-xl);
   width: 80%;
   height: 70px;
 }
 
 .skeletonBody2 {
-  margin-top: 2rem;
+  margin-top: var(--spacing-xl);
   width: 60%;
   height: 55px;
 }
 
 .skeletonBody3 {
-  margin-top: 1rem;
+  margin-top: var(--spacing-md);
   width: 90%;
   height: 120px;
 }

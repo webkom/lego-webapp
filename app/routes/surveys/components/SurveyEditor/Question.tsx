@@ -176,7 +176,7 @@ const renderOptions = ({
   fields: any;
   questionType: string;
 }): ReactNode => (
-  <Flex column gap="1rem" className={styles.options}>
+  <Flex column gap="var(--spacing-md)" className={styles.options}>
     {fields.map((option, relativeIndex) => {
       const isLast = fields.length - 1 === relativeIndex;
 

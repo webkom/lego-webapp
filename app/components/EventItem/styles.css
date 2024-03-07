@@ -1,8 +1,8 @@
 .eventItem {
   min-height: 50px;
-  padding-left: 20px;
+  padding-left: var(--spacing-md);
   border-left: 4px solid transparent;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
   display: flex;
   justify-content: space-between;
 }

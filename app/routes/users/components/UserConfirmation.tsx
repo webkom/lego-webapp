@@ -99,7 +99,7 @@ const UserConfirmationForm = () => {
               at du er student.
             </span>
           </Card>
-          <Flex gap="1rem">
+          <Flex gap="var(--spacing-md)">
             <Link to="/users/me/settings/student-confirmation/">
               <Button success>Verifiser studentstatus</Button>
             </Link>
