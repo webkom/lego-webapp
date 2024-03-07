@@ -63,10 +63,7 @@ export const selectArticlesWithAuthorDetails: Selector<
 export const selectArticlesByTag = createSelector(
   selectArticles,
   (_: RootState, props: { tag: string }) => props.tag,
-  (articles, tag) =>
-    articles.filter((article) =>
-      tag ? article.tags.indexOf(tag) !== -1 : true,
-    ),
+  (articles, tag) => articles.filter((article) => article.tags.includes(tag)),
 );
 
 export const selectArticleBySlug = createSelector(

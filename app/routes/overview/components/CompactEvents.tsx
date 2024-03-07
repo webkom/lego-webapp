@@ -3,30 +3,33 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { selectEvents } from 'app/reducers/events';
 import { eventListDefaultQuery } from 'app/routes/events/components/EventList';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
+import { EventType } from 'app/store/models/Event';
 import { stringifyQuery } from 'app/utils/useQuery';
 import styles from './CompactEvents.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
 import type { CSSProperties } from 'react';
 
 type Props = {
-  events: FrontpageEvent[];
   className?: string;
   style?: CSSProperties;
 };
 
 const EVENT_COLUMN_LIMIT = 5;
 
-const CompactEvents = ({ events, className, style }: Props) => {
-  const mapEvents = (eventTypes) => {
-    return events
-      .filter(
-        (event) =>
-          moment(event.endTime).isAfter() &&
-          eventTypes.includes(event.eventType),
-      )
+const CompactEvents = ({ className, style }: Props) => {
+  const events = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
+
+  const eventsToShow = events
+    .filter((event) => moment(event.endTime).isAfter())
+    .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)));
+
+  const mapEvents = (eventTypes: EventType[]) => {
+    return eventsToShow
+      .filter((event) => eventTypes.includes(event.eventType))
       .slice(0, EVENT_COLUMN_LIMIT)
       .map((event, key) => (
         <li key={key} className={styles.eventItem}>
@@ -65,16 +68,21 @@ const CompactEvents = ({ events, className, style }: Props) => {
   };
 
   const presentations = mapEvents([
-    'company_presentation',
-    'lunch_presentation',
-    'alternative_presentation',
-    'course',
-    'breakfast_talk',
-    'kid_event',
+    EventType.COMPANY_PRESENTATION,
+    EventType.LUNCH_PRESENTATION,
+    EventType.ALTERNATIVE_PRESENTATION,
+    EventType.COURSE,
+    EventType.BREAKFAST_TALK,
+    EventType.KiD_EVENT,
   ]);
   const leftEvents =
     presentations.length > 0 ? presentations : ['Ingen presentasjoner'];
-  const other = mapEvents(['other', 'event', 'social', 'party']);
+  const other = mapEvents([
+    EventType.OTHER,
+    EventType.EVENT,
+    EventType.SOCIAL,
+    EventType.PARTY,
+  ]);
   const rightEvents = other.length > 0 ? other : ['Ingen arrangementer'];
 
   const fetching = useAppSelector(

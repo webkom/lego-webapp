@@ -13,27 +13,17 @@ import AuthSection from 'app/components/AuthSection/AuthSection';
 //import Banner from 'app/components/Banner';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import { selectFrontpage, type WithDocumentType } from 'app/reducers/frontpage';
+import { selectPinned } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/overview/components/LatestReadme';
 import Pinned from 'app/routes/overview/components/Pinned';
 import { itemUrl, renderMeta } from 'app/routes/overview/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.css';
-import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
-import type { PublicEvent } from 'app/store/models/Event';
-
-const isEvent = (
-  item:
-    | WithDocumentType<ArticleWithAuthorDetails>
-    | WithDocumentType<PublicEvent>,
-): item is WithDocumentType<PublicEvent> => item.documentType === 'event';
 
 const PublicFrontpage = () => {
-  const frontpage = useAppSelector(selectFrontpage);
-  const readmes = useAppSelector((state) => state.readme);
-
   const dispatch = useAppDispatch();
+  const pinned = useAppSelector(selectPinned);
 
   usePreparedEffect(
     'fetchIndex',
@@ -41,8 +31,6 @@ const PublicFrontpage = () => {
       Promise.allSettled([dispatch(fetchReadmes(2)), dispatch(fetchData())]),
     [],
   );
-
-  const pinned = frontpage[0];
 
   return (
     <Container>
@@ -57,10 +45,7 @@ const PublicFrontpage = () => {
         <Card className={styles.login} style={{ gridArea: 'login' }}>
           <AuthSection />
         </Card>
-        <CompactEvents
-          style={{ gridArea: 'events' }}
-          events={frontpage.filter(isEvent)}
-        />
+        <CompactEvents style={{ gridArea: 'events' }} />
         <Card style={{ gridArea: 'hsp' }}>
           <HspInfo />
         </Card>
@@ -71,7 +56,6 @@ const PublicFrontpage = () => {
           meta={renderMeta(pinned)}
         />
         <LatestReadme
-          readmes={readmes}
           expandedInitially
           collapsible={false}
           style={{ gridArea: 'readme' }}

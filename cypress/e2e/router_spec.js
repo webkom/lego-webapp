@@ -168,7 +168,7 @@ describe('Navigate throughout app', () => {
     // Go back
     cy.get(t('closeButton')).click();
     cy.url().should('contain', '/');
-    cy.contains('Festet oppslag');
+    cy.contains('Arrangementer');
     cy.contains('Påmeldinger');
   });
 

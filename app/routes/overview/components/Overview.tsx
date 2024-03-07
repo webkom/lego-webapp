@@ -9,7 +9,13 @@ import { fetchRandomQuote } from 'app/actions/QuoteActions';
 //import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
-import { isArticle, isEvent, selectFrontpage } from 'app/reducers/frontpage';
+import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
+import { selectEvents } from 'app/reducers/events';
+import {
+  addArticleType,
+  addEventType,
+  selectPinned,
+} from 'app/reducers/frontpage';
 import { selectPinnedPolls } from 'app/reducers/polls';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import { useUserContext } from 'app/routes/app/AppRoute';
@@ -17,16 +23,15 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import ArticleItem from './ArticleItem';
 import CompactEvents from './CompactEvents';
-import EventItem from './EventItem';
+import FrontpageEventItem from './FrontpageEventItem';
 import LatestReadme from './LatestReadme';
 import NextEvent from './NextEvent';
 import styles from './Overview.css';
 import Pinned from './Pinned';
 import PublicFrontpage from './PublicFrontpage';
 import { itemUrl, renderMeta } from './utils';
-import type { Event } from 'app/models';
-import type { WithDocumentType } from 'app/reducers/frontpage';
-import type { PublicArticle } from 'app/store/models/Article';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { FrontpageEvent } from 'app/store/models/Event';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -40,9 +45,7 @@ const Overview = () => {
     setArticlesToShow(articlesToShow + 2);
   };
 
-  const frontpage = useAppSelector(selectFrontpage);
-  const fetchingFrontpage = useAppSelector((state) => state.frontpage.fetching);
-  const readmes = useAppSelector((state) => state.readme);
+  const pinned = useAppSelector(selectPinned);
   const shouldFetchQuote = useAppSelector(selectRandomQuote) === undefined;
   const { loggedIn } = useUserContext();
 
@@ -59,48 +62,9 @@ const Overview = () => {
     [loggedIn, shouldFetchQuote],
   );
 
-  const events = useMemo(() => frontpage.filter(isEvent), [frontpage]);
-
-  const pinned = frontpage[0];
-
-  const eventsShown = useMemo(
-    () =>
-      events
-        .filter(
-          (item) =>
-            item.id !== pinned.id &&
-            isEvent(item) &&
-            moment(item.startTime).isAfter(moment()),
-        )
-        .slice(0, eventsToShow),
-    [events, eventsToShow, pinned],
-  );
-
-  const articles = useMemo(
-    () => frontpage.filter(isArticle) as WithDocumentType<PublicArticle>[],
-    [frontpage],
-  );
-
-  const weeklyArticle = useMemo(
-    () => articles.filter((article) => article.tags.includes('weekly'))[0],
-    [articles],
-  );
-
-  const articlesShown = useMemo(
-    () =>
-      articles
-        .filter((article) => !article.tags.includes('weekly'))
-        .filter((article) => article.id !== pinned.id)
-        .slice(0, articlesToShow),
-    [articles, articlesToShow, pinned],
-  );
-
   const readMe = (
     <Flex className={styles.readMe}>
-      <LatestReadme
-        readmes={readmes}
-        expandedInitially={frontpage.length === 0 && !fetchingFrontpage}
-      />
+      <LatestReadme expandedInitially={false} />
     </Flex>
   );
 
@@ -114,29 +78,43 @@ const Overview = () => {
         color="red"
       /> */}
       <section className={styles.wrapper}>
-        <CompactEvents events={events} className={styles.compactEvents} />
-        <NextEventSection events={events} />
-        <Events events={eventsShown} />
+        <CompactEvents className={styles.compactEvents} />
+        <NextEventSection />
+        <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
         <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
         <PollItem />
         <QuoteItem />
         {readMe}
-        <Weekly weeklyArticle={weeklyArticle} />
-        <Articles articles={articlesShown} />
+        <Weekly />
+        <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
       </section>
 
-      {frontpage.length > 8 && events.length > eventsToShow && (
-        <div className={styles.showMore}>
-          <Icon onClick={showMore} name="chevron-down-outline" size={30} />
-        </div>
-      )}
+      <ShowMoreButton eventsToShow={eventsToShow} showMore={showMore} />
     </Container>
   );
 };
 
-const Events = ({ events }: { events: WithDocumentType<Event>[] }) => {
+const Events = ({
+  pinnedId,
+  numberToShow,
+}: {
+  pinnedId: EntityId;
+  numberToShow: number;
+}) => {
+  const allEvents = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,
+  );
+
+  const shownEvents = useMemo(
+    () =>
+      allEvents
+        .filter((item) => item.id !== pinnedId)
+        .filter((item) => moment(item.startTime).isAfter(moment()))
+        .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
+        .slice(0, numberToShow)
+        .map(addEventType),
+    [allEvents, pinnedId, numberToShow],
   );
 
   return (
@@ -146,17 +124,16 @@ const Events = ({ events }: { events: WithDocumentType<Event>[] }) => {
       </Link>
 
       <Flex column gap={20}>
-        {fetching && !events.length
+        {fetching && !shownEvents.length
           ? Array.from({ length: EVENTS_TO_SHOW }).map((_, index) => (
-              <EventItem key={index} url="" meta={<></>} isFrontPage={true} />
+              <FrontpageEventItem key={index} url="" meta={<></>} />
             ))
-          : events.map((event) => (
-              <EventItem
+          : shownEvents.map((event) => (
+              <FrontpageEventItem
                 key={event.id}
                 item={event}
                 url={itemUrl(event)}
                 meta={renderMeta(event)}
-                isFrontPage={true}
               />
             ))}
       </Flex>
@@ -164,13 +141,24 @@ const Events = ({ events }: { events: WithDocumentType<Event>[] }) => {
   );
 };
 
-const Weekly = ({
-  weeklyArticle,
-}: {
-  weeklyArticle: WithDocumentType<PublicArticle>;
-}) => {
+const Weekly = () => {
+  const weeklyArticles = useAppSelector((state) =>
+    selectArticlesByTag(state, { tag: 'weekly' }),
+  );
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.articles.fetching,
+  );
+
+  const newestWeekly = useMemo(
+    () =>
+      weeklyArticles.length
+        ? addArticleType(
+            weeklyArticles.sort((a, b) =>
+              moment(b.createdAt).diff(moment(a.createdAt)),
+            )[0],
+          )
+        : undefined,
+    [weeklyArticles],
   );
 
   return (
@@ -179,14 +167,14 @@ const Weekly = ({
         <h3 className="u-ui-heading">Weekly</h3>
       </Link>
 
-      {(fetching && !weeklyArticle) || !weeklyArticle ? (
+      {(fetching && !newestWeekly) || !newestWeekly ? (
         <ArticleItem url="" meta={<></>} />
       ) : (
         <ArticleItem
-          key={weeklyArticle.id}
-          item={weeklyArticle}
-          url={itemUrl(weeklyArticle)}
-          meta={renderMeta(weeklyArticle)}
+          key={newestWeekly.id}
+          item={newestWeekly}
+          url={itemUrl(newestWeekly)}
+          meta={renderMeta(newestWeekly)}
         />
       )}
     </Flex>
@@ -194,12 +182,26 @@ const Weekly = ({
 };
 
 const Articles = ({
-  articles,
+  pinnedId,
+  numberToShow,
 }: {
-  articles: WithDocumentType<PublicArticle>[];
+  pinnedId: EntityId;
+  numberToShow: number;
 }) => {
+  const allArticles = useAppSelector(selectArticles);
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.articles.fetching,
+  );
+
+  const shownArticles = useMemo(
+    () =>
+      allArticles
+        .filter((article) => !article.tags.includes('weekly'))
+        .filter((article) => article.id !== pinnedId)
+        .sort((a, b) => moment(b.createdAt).diff(moment(a.createdAt)))
+        .slice(0, numberToShow)
+        .map(addArticleType),
+    [allArticles, pinnedId, numberToShow],
   );
 
   return (
@@ -209,11 +211,11 @@ const Articles = ({
       </Link>
 
       <Flex column gap={20}>
-        {(fetching && !articles.length) || !articles.length
+        {fetching && !shownArticles.length
           ? Array.from({ length: ARTICLES_TO_SHOW }).map((_, index) => (
               <ArticleItem key={index} url="" meta={<></>} />
             ))
-          : articles.map((article) => (
+          : shownArticles.map((article) => (
               <ArticleItem
                 key={article.id}
                 item={article}
@@ -226,13 +228,13 @@ const Articles = ({
   );
 };
 
-const NextEventSection = ({ events }: { events: Event[] }) => (
+const NextEventSection = () => (
   <Flex column className={styles.registrations}>
     <Link to="/events">
       <h3 className="u-ui-heading">Påmeldinger</h3>
     </Link>
 
-    <NextEvent events={events} />
+    <NextEvent />
   </Flex>
 );
 
@@ -264,5 +266,21 @@ const QuoteItem = () => (
     <RandomQuote />
   </Flex>
 );
+
+const ShowMoreButton = ({
+  eventsToShow,
+  showMore,
+}: {
+  eventsToShow: number;
+  showMore: () => void;
+}) => {
+  const events = useAppSelector(selectEvents);
+
+  return events.length > eventsToShow ? (
+    <div className={styles.showMore}>
+      <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+    </div>
+  ) : null;
+};
 
 export default replaceUnlessLoggedIn(PublicFrontpage)(Overview);

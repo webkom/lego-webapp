@@ -4,13 +4,11 @@ import { Image } from 'app/components/Image';
 import { isEvent } from 'app/reducers/frontpage';
 import { useAppSelector } from 'app/store/hooks';
 import styles from './Pinned.css';
-import type { WithDocumentType } from 'app/reducers/frontpage';
-import type { PublicArticle } from 'app/store/models/Article';
-import type { FrontpageEvent } from 'app/store/models/Event';
+import type { ArticleWithType, EventWithType } from 'app/reducers/frontpage';
 import type { CSSProperties, ReactElement } from 'react';
 
 type Props = {
-  item?: WithDocumentType<FrontpageEvent | PublicArticle>;
+  item?: ArticleWithType | EventWithType;
   url: string;
   meta: ReactElement<'span'> | null;
   style?: CSSProperties;
@@ -20,18 +18,20 @@ const Pinned = ({ item, url, meta, style }: Props) => {
   const fetching = useAppSelector(
     (state) =>
       state.frontpage.fetching ||
-      (isEvent(item) ? state.events.fetching : state.articles.fetching),
+      (item && isEvent(item) ? state.events.fetching : state.articles.fetching),
   );
 
   return (
     <Flex column style={style} className={styles.pinned}>
-      <h3 className="u-ui-heading">Festet oppslag</h3>
+      <h3 className="u-ui-heading">
+        {fetching || item?.pinned ? 'Festet oppslag' : 'Oppslag'}
+      </h3>
 
       <Card skeleton={fetching && !item} hideOverflow className={styles.body}>
         <Link to={url} className={styles.innerLinks}>
           <Image
             className={styles.image}
-            src={item?.cover}
+            src={item?.cover || ''}
             placeholder={item?.coverPlaceholder}
             height={500}
             width={1667}

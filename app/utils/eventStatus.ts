@@ -1,9 +1,10 @@
 import moment from 'moment-timezone';
 import type { Event } from 'app/models';
+import type { FrontpageEvent } from 'app/store/models/Event';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity
-const eventStatus = (event: Event, loggedIn = false): string => {
+const eventStatus = (event: FrontpageEvent, loggedIn = false): string => {
   const {
     registrationCount,
     totalCapacity,
