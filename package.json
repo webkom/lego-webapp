@@ -103,7 +103,7 @@
     "react-tagcloud": "^2.3.3",
     "react-textarea-autosize": "^8.5.3",
     "react-treeview": "^0.4.6",
-    "react-turnstile": "^1.1.2",
+    "react-turnstile": "^1.1.3",
     "react-youtube": "^10.1.0",
     "recharts": "^2.12.2",
     "redux": "^5.0.1",
