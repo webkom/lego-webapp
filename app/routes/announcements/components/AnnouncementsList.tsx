@@ -1,7 +1,7 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/AnnouncementsActions';
-import { Content, ContentMain } from 'app/components/Content';
+import { Content } from 'app/components/Content';
 import { selectAnnouncements } from 'app/reducers/announcements';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AnnouncementItem from './AnnouncementItem';
@@ -20,26 +20,32 @@ const AnnouncementsList = () => {
   );
 
   return (
-    <LoadingIndicator loading={fetching}>
-      <Content>
-        <AnnouncementsCreate actionGrant={actionGrant} />
+    <Content>
+      <LoadingIndicator loading={fetching}>
+        {actionGrant.includes('create') && <AnnouncementsCreate />}
 
         {actionGrant.includes('list') && actionGrant.includes('delete') && (
-          <ContentMain>
-            <h1>Dine kunngjøringer</h1>
-            <Flex column className={styles.list}>
-              {announcements.map((a, i) => (
-                <AnnouncementItem
-                  key={i}
-                  announcement={a}
-                  actionGrant={actionGrant}
-                />
-              ))}
-            </Flex>
-          </ContentMain>
+          <>
+            <h2>Dine kunngjøringer</h2>
+            {announcements.length === 0 ? (
+              <span className="secondaryFontColor">
+                Du har ingen tidligere kunngjøringer
+              </span>
+            ) : (
+              <Flex column className={styles.list}>
+                {announcements.map((a, i) => (
+                  <AnnouncementItem
+                    key={i}
+                    announcement={a}
+                    actionGrant={actionGrant}
+                  />
+                ))}
+              </Flex>
+            )}
+          </>
         )}
-      </Content>
-    </LoadingIndicator>
+      </LoadingIndicator>
+    </Content>
   );
 };
 

@@ -6,6 +6,7 @@ import {
   sendAnnouncement,
 } from 'app/actions/AnnouncementsActions';
 import Time from 'app/components/Time';
+import { statusesText } from 'app/reducers/meetingInvitations';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './AnnouncementsList.css';
 import type { ActionGrant } from 'app/models';
@@ -44,9 +45,16 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
           </Flex>
         )}
         <Flex column>
-          <span className={styles.recHeader}>Mottakere:</span>
-          <Flex wrap>
-            {announcement.events.length > 0 && 'Arrangementer: '}
+          <b className={styles.recHeader}>Mottakere</b>
+          <Flex alignItems="center" gap="var(--spacing-sm)" wrap>
+            {announcement.events.length > 0 && (
+              <span>
+                Arrangementer
+                {announcement.excludeWaitingList
+                  ? ' (ekskludert venteliste): '
+                  : ': '}
+              </span>
+            )}
             {announcement.events.map((event, i) => (
               <Link
                 key={i}
@@ -57,8 +65,15 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               </Link>
             ))}
           </Flex>
-          <Flex wrap>
-            {announcement.meetings.length > 0 && 'Møter: '}
+          <Flex alignItems="center" gap="var(--spacing-sm)" wrap>
+            {announcement.meetings.length > 0 && (
+              <span>
+                Møter
+                {announcement.meetingInvitationStatus
+                  ? `(${statusesText[announcement.meetingInvitationStatus]}) :`
+                  : ': '}
+              </span>
+            )}
             {announcement.meetings.map((meeting, i) => (
               <Link
                 key={i}
@@ -69,7 +84,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               </Link>
             ))}
           </Flex>
-          <Flex wrap>
+          <Flex alignItems="center" wrap>
             {announcement.groups.length > 0 && 'Grupper: '}
             {announcement.groups.map((group, i) => (
               <Link
@@ -81,7 +96,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               </Link>
             ))}
           </Flex>
-          <Flex wrap>
+          <Flex alignItems="center" wrap>
             {announcement.users.length > 0 && 'Brukere: '}
             {announcement.users.map((user, i) => (
               <Link

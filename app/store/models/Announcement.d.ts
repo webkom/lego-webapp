@@ -13,7 +13,9 @@ interface CompleteAnnouncement {
   users: PublicUser[];
   groups: PublicGroup[];
   events: ListEvent[];
+  excludeWaitingList: boolean;
   meetings: DetailedMeeting[];
+  meetingInvitationStatus: MeetingInvitationStatus;
 }
 
 export type ListAnnouncement = Pick<
@@ -25,7 +27,9 @@ export type ListAnnouncement = Pick<
   | 'users'
   | 'groups'
   | 'events'
+  | 'excludeWaitingList'
   | 'meetings'
+  | 'meetingInvitationStatus'
 >;
 
 export type DetailedAnnouncement = Pick<
@@ -37,7 +41,9 @@ export type DetailedAnnouncement = Pick<
   | 'users'
   | 'groups'
   | 'events'
+  | 'excludeWaitingList'
   | 'meetings'
+  | 'meetingInvitationStatus'
 >;
 
 export type UnknownAnnouncement = ListAnnouncement | DetailedAnnouncement;

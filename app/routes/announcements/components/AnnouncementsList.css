@@ -11,10 +11,6 @@
   margin-bottom: 20px;
 }
 
-.msgField {
-  min-height: 70px;
-}
-
 .formHeaders {
   font-size: var(--font-size-lg);
 }
@@ -24,7 +20,10 @@
 }
 
 .rowRec {
+  gap: var(--spacing-md);
+
   @media (--mobile-device) {
+    gap: var(--spacing-sm);
     flex-direction: column;
   }
 }

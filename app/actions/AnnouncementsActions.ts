@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { announcementsSchema } from 'app/reducers';
 import { Announcements } from './ActionTypes';
-import type { AppDispatch } from 'app/store/createStore';
+import type { FormValues as CreateAnnouncementFormValues } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type { ID } from 'app/store/models';
 import type {
   DetailedAnnouncement,
@@ -20,40 +20,18 @@ export function fetchAll() {
   });
 }
 
-export function createAnnouncement({
-  message,
-  users,
-  groups,
-  events,
-  meetings,
-  fromGroup,
-  send,
-}: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<DetailedAnnouncement>({
-        types: Announcements.CREATE,
-        endpoint: '/announcements/',
-        method: 'POST',
-        body: {
-          message,
-          users,
-          groups,
-          events,
-          meetings,
-          fromGroup,
-        },
-        schema: announcementsSchema,
-        meta: {
-          errorMessage: 'Opprettelse av kunngjøringer feilet',
-          successMessage: 'Kunngjøring opprettet',
-        },
-      }),
-    ).then((action) => {
-      if (send) {
-        dispatch(sendAnnouncement(action.payload.result));
-      }
-    });
+export function createAnnouncement(body: CreateAnnouncementFormValues) {
+  return callAPI<DetailedAnnouncement>({
+    types: Announcements.CREATE,
+    endpoint: '/announcements/',
+    method: 'POST',
+    body,
+    schema: announcementsSchema,
+    meta: {
+      errorMessage: 'Opprettelse av kunngjøringer feilet',
+      successMessage: 'Kunngjøring opprettet',
+    },
+  });
 }
 
 export function sendAnnouncement(announcementId: ID) {
