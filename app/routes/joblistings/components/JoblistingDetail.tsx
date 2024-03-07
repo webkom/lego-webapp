@@ -101,7 +101,9 @@ const JoblistingDetail = () => {
           href={`${config?.webUrl}/joblistings/${joblisting.id}`}
         />
       </PropertyHelmet>
-      <ContentHeader>{joblisting.title}</ContentHeader>
+      <ContentHeader>
+        <h2>{joblisting.title}</h2>
+      </ContentHeader>
       <ContentSection>
         <ContentMain>
           <DisplayContent content={joblisting.description} />

@@ -6,7 +6,8 @@
 
 .header {
   min-width: 300px;
-  height: var(--spacing-xl);
+  min-height: var(--spacing-xl);
+  margin: var(--spacing-sm) 0;
 }
 
 .title {

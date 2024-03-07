@@ -72,23 +72,9 @@ const Line = () => <div className={styles.line} />;
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   const icon = isInterested ? 'star' : 'star-outline';
   return (
-    <div>
-      <Tooltip
-        content={
-          <span
-            style={{
-              fontSize: 'var(--font-size-md)',
-              fontWeight: '400',
-              padding: '0',
-            }}
-          >
-            Følg arrangementet, og få e-post når påmelding nærmer seg!
-          </span>
-        }
-      >
-        <Icon name={icon} className={styles.star} />
-      </Tooltip>
-    </div>
+    <Tooltip content="Følg arrangementet, og få e-post når påmelding nærmer seg!">
+      <Icon name={icon} className={styles.star} />
+    </Tooltip>
   );
 };
 
@@ -346,23 +332,32 @@ const EventDetail = () => {
   const groupLink =
     event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
 
+  const responsibleGroupName = groupLink ? (
+    <Link to={groupLink}>{event.responsibleGroup?.name}</Link>
+  ) : (
+    event.responsibleGroup?.name
+  );
+
   const eventCreator = [
     // Responsible group
     event.responsibleGroup && {
       key: 'Arrangør',
-      value: (
-        <span>
-          {groupLink ? (
-            <Link to={groupLink}>{event.responsibleGroup.name}</Link>
-          ) : (
-            event.responsibleGroup.name
-          )}{' '}
-          {event.responsibleGroup.contactEmail && (
-            <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-              {event.responsibleGroup.contactEmail}
-            </a>
-          )}
-        </span>
+      value: event.responsibleGroup.contactEmail ? (
+        <Tooltip
+          content={
+            <span>
+              {event.responsibleGroup.contactEmail && (
+                <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
+                  {event.responsibleGroup.contactEmail}
+                </a>
+              )}
+            </span>
+          }
+        >
+          {responsibleGroupName}
+        </Tooltip>
+      ) : (
+        responsibleGroupName
       ),
     },
     // Responsible users, author or anonymous
@@ -425,13 +420,13 @@ const EventDetail = () => {
         className={styles.title}
         event={event}
       >
-        <Flex
-          alignItems="center"
-          gap="var(--spacing-md)"
-          className={styles.header}
-        >
+        <Flex alignItems="center" gap="var(--spacing-md)">
           {loggedIn && <InterestedButton isInterested={!!event.following} />}
-          {showSkeleton ? <Skeleton /> : event.title}
+          {showSkeleton ? (
+            <Skeleton className={styles.header} />
+          ) : (
+            <h2 className={styles.header}>{event.title}</h2>
+          )}
         </Flex>
       </ContentHeader>
 
@@ -524,7 +519,7 @@ const EventDetail = () => {
                 minRows={minUserGridRows}
                 maxRows={MAX_USER_GRID_ROWS}
                 users={registrations?.slice(0, 14).map((reg) => reg.user)}
-                skeleton={showSkeleton}
+                skeleton={fetching && !registrations}
               />
               <AttendanceModal key="modal" pools={pools} title="Påmeldte">
                 {({ toggleModal }) => (
@@ -533,13 +528,13 @@ const EventDetail = () => {
                       toggleModal={toggleModal}
                       registrations={registrations}
                       currentRegistration={currentRegistration}
-                      skeleton={showSkeleton}
+                      skeleton={fetching && !registrations}
                     />
                     <AttendanceStatus
                       toggleModal={toggleModal}
                       pools={pools}
                       legacyRegistrationCount={event.legacyRegistrationCount}
-                      skeleton={showSkeleton}
+                      skeleton={fetching && !registrations}
                     />
                   </>
                 )}

@@ -7,12 +7,13 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
+import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
 import {
   uploadFile as _uploadFile,
@@ -152,8 +153,14 @@ const validate = createValidator({
 });
 
 const EventEditor = () => {
-  const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
-  const isEditPage = eventIdOrSlug !== undefined;
+  const params = useParams<{
+    eventIdOrSlug: string;
+  }>();
+  const isEditPage = params.eventIdOrSlug !== undefined;
+  const { state } = useLocation();
+  // Fallback to a potential event id, e.g. given from the admin "copy event" button
+  const eventIdOrSlug = params.eventIdOrSlug ?? state?.id;
+
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, { eventIdOrSlug })
   );
@@ -193,10 +200,10 @@ const EventEditor = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (event?.slug && event?.slug !== eventIdOrSlug) {
+    if (isEditPage && event?.slug && event?.slug !== eventIdOrSlug) {
       navigate(`/events/${event.slug}/edit`, { replace: true });
     }
-  }, [event?.slug, navigate, eventIdOrSlug]);
+  }, [event.slug, navigate, eventIdOrSlug, isEditPage]);
 
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [useImageGallery, setUseImageGallery] = useState(false);
@@ -231,7 +238,7 @@ const EventEditor = () => {
     });
   };
 
-  const initialValues = isEditPage
+  const initialValues = !isEmpty(event)
     ? {
         ...event,
         mergeTime: event.mergeTime
