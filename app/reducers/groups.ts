@@ -3,7 +3,9 @@ import { createSelector } from 'reselect';
 import { GroupType } from 'app/models';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Group, Membership } from '../actions/ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ID } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
 
 export const resolveGroupLink = (group: { type: string; id: ID }) => {
   switch (group.type) {
@@ -69,6 +71,11 @@ export const selectGroup = createSelector(
 export const selectGroups = createSelector(
   (state) => state.groups.byId,
   (state) => state.groups.items,
+  (groupsById, groupIds) => groupIds.map((id) => groupsById[id]),
+);
+export const selectGroupsByIds = createSelector(
+  (state) => state.groups.byId,
+  (_, groupIds: EntityId[]) => groupIds,
   (groupsById, groupIds) => groupIds.map((id) => groupsById[id]),
 );
 export const selectGroupsWithType = createSelector(
