@@ -18,18 +18,16 @@ type QueryFilters = Record<string, string | undefined>;
 export type IsShown = Record<string, boolean>;
 export type ShowColumn = Record<string, number>;
 
-export type TableData = object & { id: ID };
-
 type CheckFilter = {
   label: string;
   value: any;
 };
 
-export type ColumnProps = {
+export type ColumnProps<T = unknown> = {
   dataIndex: string;
   filterIndex?: string;
   title?: string;
-  sorter?: boolean | ((arg0: any, arg1: any) => number);
+  sorter?: boolean | ((arg0: T, arg1: T) => number);
   filter?: Array<CheckFilter>;
   filterOptions?: {
     multiSelect?: boolean;
@@ -41,10 +39,10 @@ export type ColumnProps = {
    * is in english, and the search should be in norwegian
    *
    */
-  filterMapping?: (arg0: any) => any;
+  filterMapping?: (arg0: T) => any;
   search?: boolean;
   width?: number;
-  render?: (arg0: any, arg1: Record<string, any>) => ReactNode;
+  render?: (data: any, object: T) => ReactNode;
   // Should column be rendered. Will render when not set
   visible?: boolean;
   centered?: boolean;
@@ -53,10 +51,10 @@ export type ColumnProps = {
   columnChoices?: ColumnProps[];
 };
 
-type TableProps = {
+type TableProps<T extends { id: ID }> = {
   rowKey?: string;
-  columns: ColumnProps[];
-  data: TableData[];
+  columns: ColumnProps<T>[];
+  data: T[];
   hasMore: boolean;
   loading: boolean;
   onChange?: (queryFilters: QueryFilters, querySort: Sort) => void;
@@ -87,7 +85,7 @@ const queryFiltersToFilters: (queryFilters?: QueryFilters) => Filters = (
   return filters;
 };
 
-const Table: React.FC<TableProps> = ({
+const Table = <T extends { id: ID }>({
   columns,
   data,
   rowKey = 'id',
@@ -97,7 +95,7 @@ const Table: React.FC<TableProps> = ({
   onChange,
   onLoad,
   ...props
-}) => {
+}: TableProps<T>) => {
   const [sort, setSort] = useState<Sort>({});
   const [filters, setFilters] = useState<Filters>(
     queryFiltersToFilters(props.filters),
@@ -139,7 +137,7 @@ const Table: React.FC<TableProps> = ({
     return sortedData;
   }, [sort, data]);
 
-  const filter: (item: TableData) => boolean = (item) => {
+  const filter: (item: T) => boolean = (item) => {
     if (isEmpty(filters)) {
       return true;
     }

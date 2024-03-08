@@ -6,16 +6,21 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { GroupType } from 'app/models';
-import { selectEmailUsers } from 'app/reducers/emailUsers';
+import {
+  selectEmailUsers,
+  selectTransformedEmailUsers,
+} from 'app/reducers/emailUsers';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
+import type { ColumnProps } from 'app/components/Table';
+import type EmailUser from 'app/store/models/EmailUser';
 
 const emailUsersDefaultQuery = {
-  enabled: undefined as undefined | 'true' | 'false',
-  userGrade: undefined as undefined | string,
-  userCommittee: undefined as undefined | string,
+  enabled: '' as '' | 'true' | 'false',
+  userGrade: '',
+  userCommittee: '',
   email: '',
   userFullname: '',
 };
@@ -31,7 +36,7 @@ const EmailUsers = () => {
     })(state),
   );
   const emailUsers = useAppSelector((state) =>
-    selectEmailUsers(state, { pagination }),
+    selectTransformedEmailUsers(state, { pagination }),
   );
   const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const committees = useAppSelector((state) =>
@@ -58,7 +63,7 @@ const EmailUsers = () => {
     [query],
   );
 
-  const columns = [
+  const columns: ColumnProps<(typeof emailUsers)[number]>[] = [
     {
       title: 'Navn',
       dataIndex: 'user.fullName',
