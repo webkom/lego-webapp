@@ -13,7 +13,7 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 const InterestGroupEdit = () => {
   const { groupId } = useParams<{ groupId: string }>();
   const interestGroup = useAppSelector((state) =>
-    selectGroup(state, { groupId })
+    selectGroup(state, { groupId }),
   );
   const editing = groupId !== undefined;
 
@@ -22,7 +22,7 @@ const InterestGroupEdit = () => {
   usePreparedEffect(
     'fetchInterestGroupEdit',
     () => groupId && dispatch(fetchGroup(groupId)),
-    [groupId]
+    [groupId],
   );
 
   if (editing && (!interestGroup || !interestGroup.text)) {

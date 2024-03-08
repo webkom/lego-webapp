@@ -37,7 +37,7 @@ function handleError(
   error: HttpError | unknown,
   propagateError: boolean,
   loggedIn: boolean,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ) {
   if (error instanceof HttpError && error.response) {
     const statusCode = error.response.status;
@@ -67,9 +67,8 @@ type MultipleApiResponse<E> = {
 type SingleApiResponse<E> = E & {
   actionGrant?: ActionGrant;
 };
-type ApiResponse<T> = T extends Array<infer E>
-  ? MultipleApiResponse<E>
-  : SingleApiResponse<T>;
+type ApiResponse<T> =
+  T extends Array<infer E> ? MultipleApiResponse<E> : SingleApiResponse<T>;
 
 type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   queryString: string;
@@ -110,21 +109,24 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
 
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
 >(
-  props: Required<CallAPIOptions<Meta>, 'schema'>
+  props: Required<CallAPIOptions<Meta>, 'schema'>,
 ): Thunk<
   Promise<ResolvedPromiseAction<NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 >;
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
 >(
-  props: Omit<CallAPIOptions<Meta>, 'schema'>
+  props: Omit<CallAPIOptions<Meta>, 'schema'>,
 ): Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
 >({
   types,
   method = 'GET',
@@ -167,7 +169,7 @@ export default function callAPI<
         | HttpResponse<ApiResponse<T>>
         | {
             jsonData: ApiResponse<T>;
-          }
+          },
     ): NormalizedApiPayload<T> | T {
       const jsonData = response.jsonData;
 
@@ -246,7 +248,7 @@ export default function callAPI<
 
     const promise: Promise<HttpResponse<unknown>> = fetchJSON(
       urlFor(`${endpoint}${qs}`),
-      requestOptions
+      requestOptions,
     );
 
     const action: PromiseAction<
@@ -270,7 +272,7 @@ export default function callAPI<
       },
       promise: promise
         .then((response) =>
-          normalizeJsonResponse(response as HttpResponse<ApiResponse<T>>)
+          normalizeJsonResponse(response as HttpResponse<ApiResponse<T>>),
         )
         .catch((error) => {
           throw handleError(error, propagateError, loggedIn, dispatch);

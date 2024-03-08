@@ -23,11 +23,11 @@ const EmailLists = () => {
       endpoint: '/email-lists/',
       entity: 'emailLists',
       query,
-    })(state)
+    })(state),
   );
 
   const emailLists = useAppSelector((state) =>
-    selectEmailLists(state, { pagination })
+    selectEmailLists(state, { pagination }),
   );
   const fetching = useAppSelector((state) => state.emailLists.fetching);
 
@@ -39,9 +39,9 @@ const EmailLists = () => {
       dispatch(
         fetch({
           query,
-        })
+        }),
       ),
-    [query]
+    [query],
   );
 
   const columns = [
@@ -112,7 +112,7 @@ const EmailLists = () => {
             fetch({
               next: true,
               query: query,
-            })
+            }),
           );
         }}
         filters={query}

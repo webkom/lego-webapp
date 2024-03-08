@@ -93,7 +93,7 @@ const DatePicker = ({
           <tbody>
             {Array.from(
               { length: Math.ceil(calendarDays.length / 7) },
-              (_, i) => i
+              (_, i) => i,
             ).map((_, i) => (
               <tr key={i}>
                 {calendarDays.slice(i * 7, i * 7 + 7).map((dateProps, j) => (
@@ -104,7 +104,7 @@ const DatePicker = ({
                         dateProps.prevOrNextMonth && styles.prevOrNextMonth,
                         dateProps.day.isSame(parsedValue, 'day') &&
                           styles.selectedDate,
-                        dateProps.day.isSame(moment(), 'day') && styles.today
+                        dateProps.day.isSame(moment(), 'day') && styles.today,
                       )}
                       onClick={() => changeDay(dateProps.day)}
                     >

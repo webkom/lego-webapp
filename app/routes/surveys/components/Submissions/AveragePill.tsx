@@ -16,7 +16,7 @@ const AveragePill = ({ options, data }: Props) => {
     optionMin,
     optionMax,
     0,
-    averageTagColors.length - 1
+    averageTagColors.length - 1,
   );
 
   return (
@@ -41,7 +41,7 @@ const getAverage = (data: GraphData[ID]) => {
         accumulator[1] + optionData.count,
       ];
     },
-    [0, 0]
+    [0, 0],
   );
   return Number((sum / numberOfAnswers).toFixed(2));
 };
@@ -58,7 +58,7 @@ const getMinMaxOption = (options: SurveyQuestionOption[]) => {
         Math.max(result[1], optionNumber),
       ];
     },
-    [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
+    [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
   );
 };
 
@@ -70,7 +70,7 @@ const mapValueToNewInterval = (
   start: number,
   end: number,
   newStart: number,
-  newEnd: number
+  newEnd: number,
 ) => {
   return ((value - start) * (newEnd - newStart)) / (end - start) + newStart;
 };

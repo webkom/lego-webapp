@@ -103,17 +103,17 @@ const MeetingEditor = () => {
   const { meetingId } = useParams<{ meetingId?: string }>();
   const isEditPage = meetingId !== undefined;
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, { meetingId })
+    selectMeetingById(state, { meetingId }),
   );
   const meetingInvitations = useAppSelector((state) =>
     selectMeetingInvitationsForMeeting(state, {
       meetingId,
-    })
+    }),
   );
   const reportAuthor = useAppSelector((state) =>
     selectUserById(state, {
       userId: meeting?.reportAuthor,
-    })
+    }),
   );
 
   const { currentUser } = useUserContext();
@@ -128,7 +128,7 @@ const MeetingEditor = () => {
   usePreparedEffect(
     'fetchMeetingEdit',
     () => meetingId && dispatch(fetchMeeting(meetingId)),
-    []
+    [],
   );
 
   const fetchAndSetGroupMembers = async (groupId: number) => {
@@ -142,7 +142,7 @@ const MeetingEditor = () => {
             label: member.fullName,
             id: member.id,
             groupId: groupId,
-          })
+          }),
         );
         setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
       })
@@ -192,12 +192,12 @@ const MeetingEditor = () => {
               id,
               users,
               groups,
-            })
+            }),
           ).then(() => navigate(`/meetings/${id}`));
         }
 
         navigate(`/meetings/${id}`);
-      }
+      },
     );
 
   const onDeleteMeeting = () =>
@@ -285,7 +285,7 @@ const MeetingEditor = () => {
                               .clone()
                               .add(2, 'hours')
                               .set('minute', 0)
-                              .toISOString()
+                              .toISOString(),
                           );
                         }
                       }}
@@ -365,17 +365,19 @@ const MeetingEditor = () => {
 
                 const removedGroupIds = fetchedGroupIds.filter(
                   (fetchedGroupId) =>
-                    !invitingGroups.some((group) => group.id === fetchedGroupId)
+                    !invitingGroups.some(
+                      (group) => group.id === fetchedGroupId,
+                    ),
                 );
                 if (removedGroupIds.length > 0) {
                   setInvitedGroupMembers((prevMembers) =>
                     prevMembers.filter(
-                      (member) => !removedGroupIds.includes(member.groupId)
-                    )
+                      (member) => !removedGroupIds.includes(member.groupId),
+                    ),
                   );
 
                   setFetchedGroupIds((prevIds) =>
-                    prevIds.filter((id) => !removedGroupIds.includes(id))
+                    prevIds.filter((id) => !removedGroupIds.includes(id)),
                   );
                 }
 
@@ -384,7 +386,7 @@ const MeetingEditor = () => {
                   invitedUsersSearchable,
                   invitedGroupMembers,
                   invitingUsers,
-                  'value'
+                  'value',
                 );
 
                 return (

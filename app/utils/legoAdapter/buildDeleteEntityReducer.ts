@@ -9,14 +9,14 @@ import type { DeleteMeta } from 'app/utils/legoAdapter/asyncApiActions';
  */
 const buildDeleteEntityReducer = (
   builder: ActionReducerMapBuilder<EntityState<unknown>>,
-  deleteActions: AsyncActionType[]
+  deleteActions: AsyncActionType[],
 ) => {
   builder.addMatcher(
     isAsyncApiActionSuccess.matching<DeleteMeta>(deleteActions),
     (state, action) => {
       state.ids = state.ids.filter((id) => id !== action.meta.id);
       delete state.entities[action.meta.id];
-    }
+    },
   );
 };
 

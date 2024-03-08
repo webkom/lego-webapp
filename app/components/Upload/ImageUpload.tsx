@@ -72,7 +72,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
     (files: Array<DropFile>) => {
       files[0] && !multiple ? onDrop(files.slice(-1)) : onDrop(files);
     },
-    [multiple, onDrop]
+    [multiple, onDrop],
   );
   const {
     getRootProps,
@@ -91,9 +91,9 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
       cx(
         isFocused && styles.focused,
         isDragAccept && styles.dragAccept,
-        isDragReject && styles.dragReject
+        isDragReject && styles.dragReject,
       ),
-    [isFocused, isDragAccept, isDragReject]
+    [isFocused, isDragAccept, isDragReject],
   );
 
   const word = multiple ? 'bildene' : 'bildet';

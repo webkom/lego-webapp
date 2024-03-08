@@ -55,14 +55,14 @@ const validate = createValidator({
     required('Du må velge sluttår'),
     timeIsAfter(
       'toYear',
-      'Sluttidspunkt kan ikke være lavere enn starttidspunkt'
+      'Sluttidspunkt kan ikke være lavere enn starttidspunkt',
     ),
   ],
   visibleTo: [
     required('Du må velge dato for når jobbannonsen skal slutte å være synlig'),
     timeIsAfter(
       'visibleFrom',
-      'Sluttidspunkt kan ikke være lavere enn starttidspunkt'
+      'Sluttidspunkt kan ikke være lavere enn starttidspunkt',
     ),
   ],
 });
@@ -78,7 +78,7 @@ const JoblistingEditor = () => {
   const joblisting = useAppSelector((state) =>
     selectJoblistingById(state, {
       joblistingId,
-    })
+    }),
   );
 
   const navigate = useNavigate();
@@ -87,7 +87,7 @@ const JoblistingEditor = () => {
   usePreparedEffect(
     'fetchJoblisting',
     () => joblistingId && dispatch(fetchJoblisting(joblistingId)),
-    [joblistingId]
+    [joblistingId],
   );
 
   const onSubmit = async (newJoblisting) => {
@@ -128,7 +128,7 @@ const JoblistingEditor = () => {
       return dispatch(
         fetchCompanyContacts({
           companyId: company.id,
-        })
+        }),
       ).then((action) => {
         const responsibleOptions = action.payload.map((contact) => ({
           label: contact.name,
@@ -137,7 +137,7 @@ const JoblistingEditor = () => {
         setResponsibleOptions(responsibleOptions);
       });
     },
-    [dispatch]
+    [dispatch],
   );
 
   usePreparedEffect(
@@ -147,7 +147,7 @@ const JoblistingEditor = () => {
         return fetchContacts(joblisting?.company);
       }
     },
-    [isNew, joblisting?.company]
+    [isNew, joblisting?.company],
   );
 
   const initialValues = {
@@ -166,13 +166,13 @@ const JoblistingEditor = () => {
     deadline:
       joblisting?.deadline || time({ days: 30, hours: 23, minutes: 59 }),
     fromYear: yearValues.find(
-      ({ value }) => value === joblisting?.fromYear || value === 1
+      ({ value }) => value === joblisting?.fromYear || value === 1,
     ),
     toYear: yearValues.find(
-      ({ value }) => value === joblisting?.toYear || value === 5
+      ({ value }) => value === joblisting?.toYear || value === 5,
     ),
     jobType: jobTypes.find(
-      ({ value }) => value === joblisting?.jobType || value === 'summer_job'
+      ({ value }) => value === joblisting?.jobType || value === 'summer_job',
     ),
     responsible: joblisting?.responsible
       ? {

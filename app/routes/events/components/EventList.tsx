@@ -35,7 +35,7 @@ type GroupedEvents = {
 
 const groupEvents = (
   events: ListEvent,
-  field?: EventTime = EventTime.start
+  field?: EventTime = EventTime.start,
 ): GroupedEvents => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
@@ -118,7 +118,7 @@ const EventList = () => {
 
   const regDateFilter =
     filterRegDateOptions.find(
-      (option) => option.value === query.registrations
+      (option) => option.value === query.registrations,
     ) || filterRegDateOptions[0];
 
   const { field, filterRegDateFunc } = regDateFilter;
@@ -127,7 +127,7 @@ const EventList = () => {
   const showSocial = query.eventTypes.includes('social');
   const showOther = query.eventTypes.includes('other');
   const showCompanyPresentation = query.eventTypes.includes(
-    'company_presentation'
+    'company_presentation',
   );
 
   const { currentUser, loggedIn } = useUserContext();
@@ -135,7 +135,7 @@ const EventList = () => {
 
   const queryString = createQueryString(query);
   const showFetchMore = useAppSelector((state) =>
-    selectPagination('events', { queryString })(state)
+    selectPagination('events', { queryString })(state),
   );
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
@@ -153,7 +153,7 @@ const EventList = () => {
         pagination,
         dispatch,
       }),
-    []
+    [],
   );
 
   const fetchMore = () =>
@@ -198,9 +198,9 @@ const EventList = () => {
   const groupedEvents = groupEvents(
     orderBy(
       events.filter(filterRegDateFunc).filter(filterEventTypesFunc),
-      field
+      field,
     ),
-    field
+    field,
   );
 
   const toggleEventType =
@@ -208,7 +208,7 @@ const EventList = () => {
       setQueryValue('eventTypes')(
         query.eventTypes.includes(type)
           ? query.eventTypes.filter((t) => t !== type)
-          : [...query.eventTypes, type]
+          : [...query.eventTypes, type],
       );
     };
 

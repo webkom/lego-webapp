@@ -25,5 +25,5 @@ export const selectImageGalleryEntries = createSelector(
   (state) => state.imageGalleryEntries.byId,
   (state) => state.imageGalleryEntries.items,
   (imageGalleryEntriesById, imageGalleryEntriesIds) =>
-    imageGalleryEntriesIds.map((id) => imageGalleryEntriesById[id])
+    imageGalleryEntriesIds.map((id) => imageGalleryEntriesById[id]),
 );

@@ -69,7 +69,7 @@ function renderJoinEventForm(props = {}) {
   return mount(
     <Provider store={store}>
       <JoinEventForm {...defaultProps} {...props} />
-    </Provider>
+    </Provider>,
   );
 }
 
@@ -96,7 +96,7 @@ describe('<JoinEventForm />', () => {
         captchaOpen: false,
         formOpen: false,
         registrationOpensIn: null,
-      })
+      }),
     );
   });
   it('should enable form when 10 minute is left', () => {
@@ -118,7 +118,7 @@ describe('<JoinEventForm />', () => {
         captchaOpen: false,
         formOpen: true,
         registrationOpensIn: '10:01',
-      })
+      }),
     );
   });
   it('should enable everything but the join button when 1 minute is left', () => {
@@ -135,7 +135,7 @@ describe('<JoinEventForm />', () => {
         captchaOpen: true,
         formOpen: true,
         registrationOpensIn: '01:01',
-      })
+      }),
     );
   });
   /*
@@ -183,7 +183,7 @@ describe('<JoinEventForm />', () => {
         captchaOpen: true,
         formOpen: true,
         registrationOpensIn: null,
-      })
+      }),
     );
   });
 });

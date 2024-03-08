@@ -32,7 +32,7 @@ export const selectPolls = createSelector(
   (state) => state.polls.items,
   (pollsById, pollsIds) => {
     return pollsIds.map((id) => pollsById[id]);
-  }
+  },
 );
 export const selectPollById = createSelector(
   selectPolls,
@@ -40,8 +40,8 @@ export const selectPollById = createSelector(
   (polls, pollsId) => {
     if (!polls || !pollsId) return {};
     return polls.find((polls) => Number(polls.id) === Number(pollsId));
-  }
+  },
 );
 export const selectPinnedPolls = createSelector(selectPolls, (polls) =>
-  polls.filter((polls) => polls.pinned)
+  polls.filter((polls) => polls.pinned),
 );

@@ -36,7 +36,7 @@ const renderEvent = (event: Event) => {
           <div
             className={cx(
               styles.eventPill,
-              isPreviousEvent && styles.previousEvent
+              isPreviousEvent && styles.previousEvent,
             )}
             style={{ backgroundColor: pillColor }}
           >
@@ -108,7 +108,7 @@ const CalendarCell = (props: Props) => {
       <strong
         className={cx(
           styles.dayNumber,
-          day.isSame(moment(), 'day') && styles.currentDay
+          day.isSame(moment(), 'day') && styles.currentDay,
         )}
       >
         {day.date()}
@@ -132,9 +132,9 @@ const selectEvents = createSelector(
           (moment(event.startTime).isSameOrBefore(day, 'day') &&
             moment(event.endTime).isSameOrAfter(day, 'day') &&
             moment.duration(
-              moment(event.endTime).diff(moment(event.startTime))
-            ) > moment.duration(1, 'days'))
-      )
+              moment(event.endTime).diff(moment(event.startTime)),
+            ) > moment.duration(1, 'days')),
+      ),
 );
 
 const mapStateToProps = (state, ownProps) => {

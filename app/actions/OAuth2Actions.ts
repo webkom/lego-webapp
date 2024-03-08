@@ -26,7 +26,7 @@ export function fetchOAuth2Application(applicationId: number): Thunk<any> {
   });
 }
 export function updateOAuth2Application(
-  application: Record<string, any>
+  application: Record<string, any>,
 ): Thunk<any> {
   return callAPI({
     types: OAuth2.UPDATE_APPLICATION,
@@ -41,7 +41,7 @@ export function updateOAuth2Application(
   });
 }
 export function createOAuth2Application(
-  application: Record<string, any>
+  application: Record<string, any>,
 ): Thunk<any> {
   return callAPI({
     types: OAuth2.CREATE_APPLICATION,

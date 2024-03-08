@@ -48,7 +48,7 @@ export function createAnnouncement({
           errorMessage: 'Opprettelse av kunngjøringer feilet',
           successMessage: 'Kunngjøring opprettet',
         },
-      })
+      }),
     ).then((action) => {
       if (send) {
         dispatch(sendAnnouncement(action.payload.result));

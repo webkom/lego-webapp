@@ -50,7 +50,7 @@ const authSlice = createSlice({
       User.VALIDATE_REGISTRATION_TOKEN.SUCCESS,
       (state, action: AnyAction) => {
         state.registrationToken = action.meta.token;
-      }
+      },
     );
 
     builder.addMatcher(isLoginTokenAction, (state, action) => {
@@ -75,5 +75,5 @@ export function selectIsLoggedIn(state: RootState) {
 export const selectCurrentUser = createSelector(
   (state: RootState) => state.users.byId,
   (state: RootState) => state.auth.id,
-  (usersById, userId) => (userId ? usersById[userId] : {})
+  (usersById, userId) => (userId ? usersById[userId] : {}),
 );

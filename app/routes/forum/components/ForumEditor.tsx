@@ -32,12 +32,12 @@ const ForumEditor = () => {
   usePreparedEffect(
     'fetchForumForEditor',
     () => forumId && dispatch(fetchForum(forumId)),
-    [forumId]
+    [forumId],
   );
 
   const isNew = !forumId;
   const forum: DetailedForum = useAppSelector((state) =>
-    isNew ? undefined : selectForumsById(state, { forumId })
+    isNew ? undefined : selectForumsById(state, { forumId }),
   );
 
   const dispatch = useAppDispatch();

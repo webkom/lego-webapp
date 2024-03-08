@@ -25,17 +25,17 @@ type Props = {
   companyId: number;
   editFunction: (
     semesterStatus: SemesterStatusEntity,
-    statusString: CompanySemesterContactStatus
+    statusString: CompanySemesterContactStatus,
   ) => Promise<any>;
   addFileToSemester: (
     arg0: string,
     arg1: string,
     arg2: string,
-    arg3: Record<string, any>
+    arg3: Record<string, any>,
   ) => Promise<any>;
   removeFileFromSemester: (
     arg0: SemesterStatusEntity,
-    arg1: string
+    arg1: string,
   ) => Promise<any>;
 };
 
@@ -56,7 +56,7 @@ const SemesterStatusDetail = (props: Props) => {
       fileName,
       fileToken,
       type,
-      props.semesterStatus
+      props.semesterStatus,
     );
   };
 
@@ -76,7 +76,7 @@ const SemesterStatusDetail = (props: Props) => {
           padding: '5px',
           lineHeight: '18px',
           backgroundColor: getStatusColor(
-            selectMostProminentStatus(semesterStatus.contactedStatus)
+            selectMostProminentStatus(semesterStatus.contactedStatus),
           ),
         }}
       >
@@ -150,7 +150,7 @@ const RenderFile = (props: RenderFileProps) => {
 
   const fileName = fileNameToShow(
     semesterStatus[type + 'Name'],
-    semesterStatus[type]
+    semesterStatus[type],
   );
   const displayDeleteButton = editing && semesterStatus[type];
   const displayUploadButton = editing && !semesterStatus[type];

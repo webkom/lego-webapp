@@ -19,7 +19,7 @@ const EMPTY_IMAGE =
 
 const ImageComponent = (props: Props) => {
   const [progressiveSrc, setProgressiveSrc] = useState<string>(
-    props.placeholder || EMPTY_IMAGE
+    props.placeholder || EMPTY_IMAGE,
   );
   const [imageLoaded, setImageLoaded] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
@@ -77,7 +77,7 @@ const ImageComponent = (props: Props) => {
     styles.image,
     !skipTransition && styles.finalImage,
     className,
-    !imageLoaded && !imageError && isProgressive && styles.blur
+    !imageLoaded && !imageError && isProgressive && styles.blur,
   );
 
   if (!themedSource)

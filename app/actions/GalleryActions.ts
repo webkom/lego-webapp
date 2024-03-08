@@ -25,7 +25,7 @@ export function fetch({
           errorMessage: 'Henting av bilder feilet',
         },
         propagateError: false,
-      })
+      }),
     );
   };
 }

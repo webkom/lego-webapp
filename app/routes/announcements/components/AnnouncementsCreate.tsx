@@ -60,7 +60,7 @@ const validate = createValidator({
   users: [
     atLeastOneFieldRequired(
       ['users', 'groups', 'events', 'meetings'],
-      'Du må velge minst én mottaker'
+      'Du må velge minst én mottaker',
     ),
   ],
 });
@@ -109,7 +109,7 @@ const AnnouncementsCreate = ({ actionGrant }: Props) => {
         events: values.events.map((event) => event.value),
         fromGroup: values.fromGroup && values.fromGroup.value,
         send: values.send,
-      })
+      }),
     ).then(() => {
       form.reset();
     });

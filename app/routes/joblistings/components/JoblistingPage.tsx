@@ -26,7 +26,7 @@ function filterJoblistings(
   joblistings: ListJoblisting[],
   grades: string[],
   jobTypes: string[],
-  workplaces: string[]
+  workplaces: string[],
 ) {
   return joblistings.filter((joblisting) => {
     const gradeBoolean =
@@ -34,7 +34,7 @@ function filterJoblistings(
       grades.some(
         (grade) =>
           joblisting.fromYear <= Number(grade) &&
-          joblisting.toYear >= Number(grade)
+          joblisting.toYear >= Number(grade),
       );
     const jobTypesBoolean =
       !jobTypes.length || jobTypes.includes(joblisting.jobType);
@@ -44,7 +44,7 @@ function filterJoblistings(
         (workplace) =>
           workplaces.includes(workplace.town) ||
           (workplaces.includes('Annet') &&
-            !MAJOR_CITIES.includes(workplace.town))
+            !MAJOR_CITIES.includes(workplace.town)),
       );
     return gradeBoolean && jobTypesBoolean && workplacesBoolean;
   });
@@ -84,20 +84,20 @@ const sortJoblistings = (joblistings, sortType) => {
 
 const JoblistingsPage = () => {
   const unsortedJoblistings = useAppSelector((state) =>
-    selectJoblistings(state)
+    selectJoblistings(state),
   );
 
   const location = useLocation();
   const { order, grades, jobTypes, workplaces } = parseQueryString(
     location.search,
-    defaultJoblistingsQuery
+    defaultJoblistingsQuery,
   );
 
   const filteredJoblistings = filterJoblistings(
     unsortedJoblistings,
     grades,
     jobTypes,
-    workplaces
+    workplaces,
   );
   const joblistings = useMemo(() => {
     return sortJoblistings(filteredJoblistings, order);

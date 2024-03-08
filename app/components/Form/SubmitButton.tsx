@@ -34,7 +34,7 @@ export const SubmitButton = ({
         {children}
       </Button>
     ),
-    { allowPristine }
+    { allowPristine },
   );
 
 export default SubmitButton;

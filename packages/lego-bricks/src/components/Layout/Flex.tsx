@@ -65,7 +65,7 @@ const Flex = ({
       column ? styles.column : styles.row,
       styles[`justifyContent__${justifyContent}`],
       styles[`alignItems__${alignItems}`],
-      className
+      className,
     )}
     style={{
       padding,

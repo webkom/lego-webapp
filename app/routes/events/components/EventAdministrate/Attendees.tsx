@@ -15,34 +15,34 @@ import type { AdministrateEvent } from 'app/store/models/Event';
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId })
+    selectEventById(state, { eventId }),
   ) as AdministrateEvent;
   const pools = useAppSelector((state) =>
     event?.isMerged
       ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId })
+      : selectPoolsWithRegistrationsForEvent(state, { eventId }),
   );
   const loading = useAppSelector((state) => state.events.fetching);
   const { registered, unregistered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId,
-    })
+    }),
   );
 
   const registerCount = registered.filter(
-    (reg) => reg.presence === 'PRESENT' && reg.pool
+    (reg) => reg.presence === 'PRESENT' && reg.pool,
   ).length;
   const adminRegisterCount = registered.filter(
-    (reg) => reg.adminRegistrationReason !== '' && reg.pool
+    (reg) => reg.adminRegistrationReason !== '' && reg.pool,
   ).length;
   const registeredPaidCount = registered.filter(
     (reg) =>
       (reg.paymentStatus === 'succeeded' || reg.paymentStatus === 'manual') &&
-      reg.pool
+      reg.pool,
   ).length;
   const unRegisteredPaidCount = unregistered.filter(
     (unreg) =>
-      unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual'
+      unreg.paymentStatus === 'succeeded' || unreg.paymentStatus === 'manual',
   ).length;
 
   // Not showing the presence column until 1 day before start or if someone has been given set to presence

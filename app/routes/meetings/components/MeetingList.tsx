@@ -106,12 +106,12 @@ const MeetingList = () => {
   const showFetchMore = useAppSelector((state) =>
     selectPagination('meetings', {
       queryString: fetchMoreString,
-    })(state)
+    })(state),
   );
   const showFetchOlder = useAppSelector((state) =>
     selectPagination('meetings', {
       queryString: fetchOlderString,
-    })(state)
+    })(state),
   );
   const meetingSections = useAppSelector(selectGroupedMeetings);
   const loading = useAppSelector((state) => state.meetings.fetching);
@@ -154,10 +154,10 @@ const MeetingList = () => {
         fetchAll({
           endpoint,
           queryString,
-        })
+        }),
       );
     },
-    [pagination, dispatch]
+    [pagination, dispatch],
   );
 
   const fetchMore = () =>
@@ -173,7 +173,7 @@ const MeetingList = () => {
         ordering: '-start_time',
         loadNextPage: true,
       }),
-    [fetchData]
+    [fetchData],
   );
 
   usePreparedEffect(
@@ -182,7 +182,7 @@ const MeetingList = () => {
       fetchData({
         dateAfter: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
       }),
-    []
+    [],
   );
 
   useEffect(() => {

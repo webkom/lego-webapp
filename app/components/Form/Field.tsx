@@ -75,7 +75,7 @@ export type FieldType = FieldRenderProps<
  */
 export function createField<
   P extends InputHTMLAttributes<HTMLInputElement>,
-  ExtraProps extends object
+  ExtraProps extends object,
 >(Component: ComponentType<P & ExtraProps>, options?: Options) {
   const Field = (field: FieldType & ExtraProps) => {
     const {
@@ -153,7 +153,7 @@ export function createField<
         className={cx(
           styles.field,
           withoutMargin && styles.withoutMargin,
-          fieldClassName
+          fieldClassName,
         )}
         style={fieldStyle}
       >

@@ -57,7 +57,7 @@ const Overview = () => {
         dispatch(fetchReadmes(loggedIn ? 4 : 2)),
         dispatch(fetchData()),
       ]),
-    [loggedIn, shouldFetchQuote]
+    [loggedIn, shouldFetchQuote],
   );
 
   const events = useMemo(() => frontpage.filter(isEvent), [frontpage]);
@@ -71,20 +71,20 @@ const Overview = () => {
           (item) =>
             item.id !== pinned.id &&
             isEvent(item) &&
-            moment(item.startTime).isAfter(moment())
+            moment(item.startTime).isAfter(moment()),
         )
         .slice(0, eventsToShow),
-    [events, eventsToShow, pinned]
+    [events, eventsToShow, pinned],
   );
 
   const articles = useMemo(
     () => frontpage.filter(isArticle) as WithDocumentType<PublicArticle>[],
-    [frontpage]
+    [frontpage],
   );
 
   const weeklyArticle = useMemo(
     () => articles.filter((article) => article.tags.includes('weekly'))[0],
-    [articles]
+    [articles],
   );
 
   const articlesShown = useMemo(
@@ -93,7 +93,7 @@ const Overview = () => {
         .filter((article) => !article.tags.includes('weekly'))
         .filter((article) => article.id !== pinned.id)
         .slice(0, articlesToShow),
-    [articles, articlesToShow, pinned]
+    [articles, articlesToShow, pinned],
   );
 
   const readMe = (
@@ -137,7 +137,7 @@ const Overview = () => {
 
 const Events = ({ events }: { events: WithDocumentType<Event>[] }) => {
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.events.fetching
+    (state) => state.frontpage.fetching || state.events.fetching,
   );
 
   return (
@@ -171,7 +171,7 @@ const Weekly = ({
   weeklyArticle: WithDocumentType<PublicArticle>;
 }) => {
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.articles.fetching
+    (state) => state.frontpage.fetching || state.articles.fetching,
   );
 
   return (
@@ -200,7 +200,7 @@ const Articles = ({
   articles: WithDocumentType<PublicArticle>[];
 }) => {
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.articles.fetching
+    (state) => state.frontpage.fetching || state.articles.fetching,
   );
 
   return (
@@ -240,7 +240,7 @@ const NextEventSection = ({ events }: { events: Event[] }) => (
 const PollItem = () => {
   const poll = useAppSelector(selectPinnedPolls)[0];
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.polls.fetching
+    (state) => state.frontpage.fetching || state.polls.fetching,
   );
 
   return (

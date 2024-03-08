@@ -26,7 +26,7 @@ const SurveyListPage = ({ templates }: Props) => {
   const surveys = useAppSelector((state) =>
     templates
       ? selectSurveyTemplates(state)
-      : selectSurveys(state).filter((survey) => !survey.templateType)
+      : selectSurveys(state).filter((survey) => !survey.templateType),
   );
 
   const fetching = useAppSelector((state) => state.surveys.fetching);
@@ -35,7 +35,7 @@ const SurveyListPage = ({ templates }: Props) => {
       endpoint: templates ? '/survey-templates/' : '/surveys/',
       entity: EntityType.Surveys,
       query: {},
-    })
+    }),
   );
 
   return (
@@ -50,7 +50,7 @@ const SurveyListPage = ({ templates }: Props) => {
           dispatch(
             fetchAll({
               next: true,
-            })
+            }),
           );
         }}
       >

@@ -4,7 +4,7 @@ import type { ComponentType } from 'react';
 
 const replaceUnlessLoggedIn =
   <RP extends object>(
-    ReplacementComponent: ComponentType<RP> = LoginRequiredPage
+    ReplacementComponent: ComponentType<RP> = LoginRequiredPage,
   ) =>
   <P extends object>(Component: ComponentType<P>) => {
     const LoginGuard = (props: P & RP) => {

@@ -46,7 +46,7 @@ const QuotePage = () => {
       endpoint: `/quotes/`,
       query: query,
       entity: 'quotes',
-    })(state)
+    })(state),
   );
   const showFetchMore = !isSingle && pagination.hasMore;
 
@@ -67,7 +67,7 @@ const QuotePage = () => {
   }
 
   const ordering = orderingOptions.find(
-    (option) => option.value === query.ordering
+    (option) => option.value === query.ordering,
   );
 
   const dispatch = useAppDispatch();
@@ -79,7 +79,7 @@ const QuotePage = () => {
         quoteId ? dispatch(fetchQuote(quoteId)) : dispatch(fetchAll({ query })),
         dispatch(fetchEmojis()),
       ]),
-    [quoteId, query]
+    [quoteId, query],
   );
 
   return (
@@ -112,7 +112,7 @@ const QuotePage = () => {
                 fetchAll({
                   query,
                   next: true,
-                })
+                }),
               )
             }
           >

@@ -71,7 +71,7 @@ export const Button = ({
       success && styles.success,
       flat && styles.flat,
       ghost && styles.ghost,
-      className
+      className,
     )}
     type={submit ? 'submit' : 'button'}
     {...rest}

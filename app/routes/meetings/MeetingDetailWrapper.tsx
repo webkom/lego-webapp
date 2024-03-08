@@ -42,7 +42,7 @@ const MeetingDetailWrapper = () => {
         ? dispatch(fetchMeeting(meetingId))
         : Promise.resolve();
     },
-    [meetingId, loggedIn, token, action]
+    [meetingId, loggedIn, token, action],
   );
 
   if (!loggedIn && meetingsToken.meeting) {

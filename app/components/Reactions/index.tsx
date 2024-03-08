@@ -43,7 +43,7 @@ const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
       setFetchedEmojis(true);
       e.stopPropagation();
     },
-    [dispatch, fetchedEmojis, reactionPickerOpen]
+    [dispatch, fetchedEmojis, reactionPickerOpen],
   );
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
             justifyContent="center"
             className={cx(
               reactionStyles.reaction,
-              styles.addReactionEmojiContainer
+              styles.addReactionEmojiContainer,
             )}
             onClick={toggleReactionPicker}
             onMouseEnter={() => setAddEmojiHovered(true)}

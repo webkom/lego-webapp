@@ -44,32 +44,32 @@ export const selectCompanyInterestList = createSelector(
   (state, props, selectedEventOption) => selectedEventOption,
   (companyInterestById, companyInterestIds, semesterId, eventValue) => {
     const companyInterests = companyInterestIds.map(
-      (id) => companyInterestById[id]
+      (id) => companyInterestById[id],
     );
     if (semesterId === 0 && eventValue === '') {
       return companyInterests;
     }
     if (semesterId === 0 && eventValue !== '') {
       return companyInterests.filter((companyInterest) =>
-        companyInterest.events.includes(eventValue)
+        companyInterest.events.includes(eventValue),
       );
     }
     if (semesterId !== 0 && eventValue === '') {
       return companyInterests.filter((companyInterest) =>
-        companyInterest.semesters.includes(semesterId)
+        companyInterest.semesters.includes(semesterId),
       );
     }
 
     return companyInterests.filter(
       (companyInterest) =>
         companyInterest.semesters.includes(semesterId) &&
-        companyInterest.events.includes(eventValue)
+        companyInterest.events.includes(eventValue),
     );
-  }
+  },
 );
 export const selectCompanyInterestById = createSelector(
   (state) => state.companyInterest.byId,
   (state, props) => props.companyInterestId,
   (companyInterestById, companyInterestId) =>
-    companyInterestById[companyInterestId]
+    companyInterestById[companyInterestId],
 );

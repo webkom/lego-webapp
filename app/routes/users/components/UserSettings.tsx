@@ -72,7 +72,7 @@ const UserSettings = () => {
   const user = useAppSelector((state) =>
     selectUserByUsername(state, {
       username,
-    })
+    }),
   );
 
   const dispatch = useAppDispatch();
@@ -80,7 +80,7 @@ const UserSettings = () => {
   usePreparedEffect(
     'fetchUserSettings',
     () => dispatch(fetchUser(username)),
-    []
+    [],
   );
 
   const navigate = useNavigate();

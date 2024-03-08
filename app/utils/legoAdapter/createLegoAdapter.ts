@@ -41,7 +41,7 @@ interface LegoAdapter<Entity, Id extends EntityId>
   buildReducers(options?: {
     extraCases?: (addCase: ReducerBuilder<Entity, Id>['addCase']) => void;
     extraMatchers?: (
-      addMatcher: ReducerBuilder<Entity, Id>['addMatcher']
+      addMatcher: ReducerBuilder<Entity, Id>['addMatcher'],
     ) => void;
     defaultCaseReducer?: Parameters<
       ReducerBuilder<Entity, Id>['addDefaultCase']
@@ -51,7 +51,7 @@ interface LegoAdapter<Entity, Id extends EntityId>
   }): (builder: ReducerBuilder<Entity, Id>) => void;
   getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;
   getSelectors<V>(
-    selectState: (state: V) => EntityState<Entity, Id>
+    selectState: (state: V) => EntityState<Entity, Id>,
   ): LegoEntitySelectors<Entity, V, Id>;
 }
 
@@ -65,29 +65,29 @@ type LegoAdapterOptions<T, Id extends EntityId> = EntityAdapterOptions<T, Id>;
 function createLegoAdapter<
   Type extends EntityType,
   Id extends EntityId,
-  Entity extends Entities[Type][Id] = Entities[Type][Id]
+  Entity extends Entities[Type][Id] = Entities[Type][Id],
 >(
   entityType: Type,
-  options: WithRequiredProp<LegoAdapterOptions<Entity, Id>, 'selectId'>
+  options: WithRequiredProp<LegoAdapterOptions<Entity, Id>, 'selectId'>,
 ): LegoAdapter<Entity, Id>;
 
 function createLegoAdapter<
   Type extends EntityType,
   Entity extends Entities[Type][EntityId] & {
     id: EntityId;
-  } = Entities[Type][EntityId]
+  } = Entities[Type][EntityId],
 >(
   entityType: Type,
-  options?: Omit<LegoAdapterOptions<Entity, Entity['id']>, 'selectId'>
+  options?: Omit<LegoAdapterOptions<Entity, Entity['id']>, 'selectId'>,
 ): LegoAdapter<Entity, Entity['id']>;
 
 function createLegoAdapter<
   Type extends EntityType,
   Id extends EntityId,
-  Entity extends Entities[Type][Id] = Entities[Type][Id]
+  Entity extends Entities[Type][Id] = Entities[Type][Id],
 >(
   entityType: Type,
-  options: LegoAdapterOptions<Entity, EntityId> = {}
+  options: LegoAdapterOptions<Entity, EntityId> = {},
 ): LegoAdapter<Entity, Id> {
   const entityAdapter = createEntityAdapter<Entity>(options);
 
@@ -139,7 +139,7 @@ function createLegoAdapter<
           (entities, allIds, pagination) => {
             const ids = pagination ? pagination.ids || [] : allIds;
             return ids.map((id) => entities[id]).filter(isNotNullish);
-          }
+          },
         ),
       };
     },

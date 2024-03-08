@@ -262,7 +262,7 @@ type CompanyInterestFormEntity = {
 const requiredIfEventType = (eventType: string) =>
   requiredIf((allValues) => {
     const event = allValues.events.filter(
-      (event) => event.name === eventType
+      (event) => event.name === eventType,
     )[0];
     return event && event.checked;
   });
@@ -301,7 +301,7 @@ const CompanyInterestPage = () => {
   const { companyInterestId } = useParams();
   const edit = companyInterestId !== undefined;
   const companyInterest = useAppSelector((state) =>
-    selectCompanyInterestById(state, { companyInterestId })
+    selectCompanyInterestById(state, { companyInterestId }),
   );
   const semesters = useAppSelector((state) => {
     if (edit) {
@@ -329,7 +329,7 @@ const CompanyInterestPage = () => {
           dispatch(fetchCompanyInterest(companyInterestId)),
         !edit && dispatch(fetchSemestersForInterestform()),
       ]),
-    [companyInterestId, edit]
+    [companyInterestId, edit],
   );
 
   const allEvents = Object.keys(EVENTS);
@@ -341,7 +341,7 @@ const CompanyInterestPage = () => {
   const participantRange =
     allParticipantRanges.filter(
       (p) =>
-        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart,
     ) || null;
 
   const initialValues: CompanyInterestFormEntity = {
@@ -450,10 +450,10 @@ const CompanyInterestPage = () => {
     dispatch(
       edit
         ? updateCompanyInterest(companyInterestId, newData)
-        : createCompanyInterest(newData, isEnglish)
+        : createCompanyInterest(newData, isEnglish),
     ).then(() => {
       navigate(
-        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
+        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter',
       );
     });
   };
@@ -744,7 +744,7 @@ const CompanyInterestPage = () => {
             {eventTypeEntities.map((eventTypeEntity) => {
               return spyValues((values: CompanyInterestFormEntity) => {
                 const showComment = values.events?.some(
-                  (e) => e.name === eventTypeEntity.name && e.checked === true
+                  (e) => e.name === eventTypeEntity.name && e.checked === true,
                 );
 
                 return (

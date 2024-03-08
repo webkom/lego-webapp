@@ -26,7 +26,7 @@ import type { PublicEvent } from 'app/store/models/Event';
 const isEvent = (
   item:
     | WithDocumentType<ArticleWithAuthorDetails>
-    | WithDocumentType<PublicEvent>
+    | WithDocumentType<PublicEvent>,
 ): item is WithDocumentType<PublicEvent> => item.documentType === 'event';
 
 const PublicFrontpage = () => {
@@ -39,7 +39,7 @@ const PublicFrontpage = () => {
     'fetchIndex',
     () =>
       Promise.allSettled([dispatch(fetchReadmes(2)), dispatch(fetchData())]),
-    []
+    [],
   );
 
   const pinned = frontpage[0];

@@ -21,15 +21,15 @@ const ThreadDetail = () => {
     'fetchDetailThread',
     () =>
       threadId && forumId && dispatch(fetchThreadByForum(forumId, threadId)),
-    [threadId]
+    [threadId],
   );
 
   const thread: DetailedThread = useAppSelector((state) =>
-    selectThreadsById(state, { threadId })
+    selectThreadsById(state, { threadId }),
   );
 
   const comments: Comment[] = useAppSelector((state) =>
-    selectCommentsByIds(state, thread ? thread.comments : [])
+    selectCommentsByIds(state, thread ? thread.comments : []),
   );
 
   const detailActionGrant = thread?.actionGrant;

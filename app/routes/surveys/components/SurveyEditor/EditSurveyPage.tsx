@@ -25,7 +25,7 @@ const EditSurveyPage = () => {
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
     dispatch(editSurvey({ surveyId, ...surveyData })).then(() =>
-      navigate('..', { relative: 'path' })
+      navigate('..', { relative: 'path' }),
     );
 
   if (!survey) {

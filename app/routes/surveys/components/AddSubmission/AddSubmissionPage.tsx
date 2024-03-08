@@ -28,11 +28,11 @@ const AddSubmissionPage = () => {
     selectSurveySubmissionForUser(state, {
       surveyId: Number(surveyId),
       currentUserId: currentUser.id,
-    })
+    }),
   );
 
   const fetchingSubmission = useAppSelector(
-    (state) => state.surveySubmissions.fetching
+    (state) => state.surveySubmissions.fetching,
   );
 
   usePreparedEffect(
@@ -40,7 +40,7 @@ const AddSubmissionPage = () => {
     () =>
       currentUser.id &&
       dispatch(fetchUserSubmission(Number(surveyId), Number(currentUser.id))),
-    [surveyId, currentUser.id]
+    [surveyId, currentUser.id],
   );
 
   if (!survey || !currentUser.id || fetchingSubmission) {

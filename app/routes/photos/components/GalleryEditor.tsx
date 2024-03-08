@@ -108,15 +108,15 @@ const GalleryEditor = () => {
   const gallery = useAppSelector((state) =>
     selectGalleryById(state, {
       galleryId,
-    })
+    }),
   );
   const pictures = useAppSelector((state) =>
     SelectGalleryPicturesByGalleryId(state, {
       galleryId,
-    })
+    }),
   );
   const fetching = useAppSelector(
-    (state) => state.galleries.fetching || state.galleryPictures.fetching
+    (state) => state.galleries.fetching || state.galleryPictures.fetching,
   );
   const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
 
@@ -146,7 +146,7 @@ const GalleryEditor = () => {
         dispatch(fetch(Number(galleryId))),
         dispatch(fetchGallery(galleryId)),
       ]),
-    []
+    [],
   );
 
   const navigate = useNavigate();
@@ -166,7 +166,7 @@ const GalleryEditor = () => {
     };
 
     dispatch(
-      isNew ? createGallery(body) : updateGallery(gallery.id, body)
+      isNew ? createGallery(body) : updateGallery(gallery.id, body),
     ).then(({ payload }) => {
       navigate(`/photos/${payload.result}`);
     });
@@ -205,7 +205,7 @@ const GalleryEditor = () => {
           id: photo,
           gallery: gallery.id,
           active,
-        })
+        }),
       );
     });
     setSelected([]);
