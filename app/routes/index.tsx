@@ -17,7 +17,7 @@ const EventsRoute = loadable(() => import('./events'));
 const InterestGroupsRoute = loadable(() => import('./interestgroups'));
 const JoblistingsRoute = loadable(() => import('./joblistings'));
 const MeetingsRoute = loadable(() => import('./meetings'));
-const Overview = loadable(() => import('./overview'));
+const Frontpage = loadable(() => import('./frontpage'));
 const PageNotFound = loadable(() => import('./pageNotFound'));
 const PagesRoute = loadable(() => import('./pages'));
 const PhotosRoute = loadable(() => import('./photos'));
@@ -34,7 +34,7 @@ const UserValidatorRoute = loadable(() => import('./userValidator'));
 const RouterConfig = () => (
   <AppRoute>
     <Routes>
-      <Route index element={<Overview />} />
+      <Route index element={<Frontpage />} />
       <Route path="admin/*" element={<AdminRoute />} />
       <Route path="announcements/*" element={<AnnouncementsRoute />} />
       <Route path="articles/*" element={<ArticlesRoute />} />

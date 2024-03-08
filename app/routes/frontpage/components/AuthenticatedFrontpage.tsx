@@ -20,15 +20,14 @@ import { selectPinnedPolls } from 'app/reducers/polls';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import ArticleItem from './ArticleItem';
+import styles from './AuthenticatedFrontpage.css';
 import CompactEvents from './CompactEvents';
 import FrontpageEventItem from './FrontpageEventItem';
 import LatestReadme from './LatestReadme';
 import NextEvent from './NextEvent';
-import styles from './Overview.css';
 import Pinned from './Pinned';
-import PublicFrontpage from './PublicFrontpage';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from 'app/store/models/Event';
@@ -36,7 +35,7 @@ import type { FrontpageEvent } from 'app/store/models/Event';
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
 
-const Overview = () => {
+const AuthenticatedFrontpage = () => {
   const [eventsToShow, setEventsToShow] = useState(EVENTS_TO_SHOW);
   const [articlesToShow, setArticlesToShow] = useState(ARTICLES_TO_SHOW);
 
@@ -283,4 +282,4 @@ const ShowMoreButton = ({
   ) : null;
 };
 
-export default replaceUnlessLoggedIn(PublicFrontpage)(Overview);
+export default guardLogin(AuthenticatedFrontpage);
