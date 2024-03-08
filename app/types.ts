@@ -25,26 +25,6 @@ export type AsyncActionType = {
   FAILURE: `${string}.FAILURE`;
 };
 export type AsyncActionTypeArray = [string, string, string];
-export type EntityID = number;
-export type ArticleEntity = {
-  id: EntityID;
-  title: string;
-  authors: Array<ID>;
-  content: string;
-  tags: Array<string>;
-  cover: string;
-  description: string;
-  pinned: boolean;
-};
-export type GalleryEntity = {
-  title: string;
-  description?: string;
-  id: number;
-  location?: string;
-  takenAt?: Date;
-  photographers?: EntityID[];
-  event?: EntityID;
-};
 export type EncodedToken = string;
 export type DecodedToken = JwtPayload & {
   user_id: number;
@@ -81,10 +61,3 @@ export type Thunk<ReturnType> = ThunkAction<
   },
   AnyAction
 >;
-
-export type ReduxFormProps = {
-  pristine: boolean;
-  submitting: boolean;
-  invalid: boolean;
-  handleSubmit: (arg0: (...args: Array<any>) => any) => void;
-};

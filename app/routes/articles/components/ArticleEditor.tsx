@@ -41,6 +41,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { validYoutubeUrl } from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
+import type { AdminDetailedArticle } from 'app/store/models/Article';
 
 type ValidationError<T> = Partial<{
   [key in keyof T]: string | Record<string, string>[];
@@ -62,13 +63,15 @@ const validate = (data) => {
   return errors;
 };
 
+type ArticleEditorParams = { articleId: string };
 const ArticleEditor = () => {
   const { currentUser } = useUserContext();
-  const { articleId } = useParams<{ articleId: string }>();
+  const { articleId } = useParams<ArticleEditorParams>() as ArticleEditorParams;
   const isNew = articleId === undefined;
   const article = useAppSelector((state) =>
     selectArticleById(state, articleId),
-  );
+  ) as AdminDetailedArticle | undefined;
+  const fetching = useAppSelector((state) => state.articles.fetching);
   let authors = useAppSelector((state) =>
     selectUsersByIds(state, { userIds: article?.authors }),
   );
@@ -103,17 +106,12 @@ const ArticleEditor = () => {
     })),
   };
 
-  if (!isNew && (!article || !article.content)) {
+  if (!isNew && (!article || !article.content || fetching)) {
     return <LoadingIndicator loading />;
   }
 
   const onSubmit = (data) => {
     const body = {
-      ...(isNew
-        ? {}
-        : {
-            id: articleId,
-          }),
       ...(data.cover
         ? {
             cover: data.cover,
@@ -129,7 +127,9 @@ const ArticleEditor = () => {
       pinned: data.pinned,
     };
 
-    dispatch(isNew ? createArticle(body) : editArticle(body)).then((res) => {
+    dispatch(
+      isNew ? createArticle(body) : editArticle({ id: articleId, ...body }),
+    ).then((res) => {
       navigate(
         isNew ? `/articles/${res.payload.result}/` : `/articles/${articleId}`,
       );

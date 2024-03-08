@@ -4,7 +4,6 @@ import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';
 import type { ID } from 'app/store/models';
 import type { DetailedArticle } from 'app/store/models/Article';
-import type { ArticleEntity } from 'app/types';
 
 export function fetchArticle(articleId: ID) {
   return callAPI<DetailedArticle>({
@@ -18,7 +17,7 @@ export function fetchArticle(articleId: ID) {
   });
 }
 
-export function createArticle(data: ArticleEntity) {
+export function createArticle(data) {
   return callAPI<DetailedArticle>({
     types: Article.CREATE,
     endpoint: '/articles/',
@@ -43,7 +42,7 @@ export function deleteArticle(id: ID) {
   });
 }
 
-export function editArticle({ id, ...data }: ArticleEntity) {
+export function editArticle({ id, ...data }) {
   return callAPI<DetailedArticle>({
     types: Article.EDIT,
     endpoint: `/articles/${id}/`,
