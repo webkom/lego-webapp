@@ -3,25 +3,25 @@ import cx from 'classnames';
 import { useEffect, useRef, useState } from 'react';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import { useAppSelector } from 'app/store/hooks';
 import styles from './LatestReadme.css';
-import type { Readme } from 'app/models';
 import type { CSSProperties } from 'react';
 
 type Props = {
   expandedInitially?: boolean;
   collapsible?: boolean;
-  readmes: Array<Readme>;
   style?: CSSProperties;
   displayCount?: number;
 };
 
 const LatestReadme = ({
-  readmes,
   expandedInitially = true,
   collapsible = true,
   style,
   displayCount = 4,
 }: Props) => {
+  const readmes = useAppSelector((state) => state.readme);
+
   const ref = useRef<HTMLDivElement>(null);
 
   const [expanded, setExpanded] = useState(expandedInitially);

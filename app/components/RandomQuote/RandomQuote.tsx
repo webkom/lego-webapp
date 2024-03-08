@@ -20,18 +20,18 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
 
   const [animation, setAnimation] = useState(false);
 
-  const randomQuote = useAppSelector(selectRandomQuote) as Quote;
+  const randomQuote = useAppSelector(selectRandomQuote);
   const fetching = useAppSelector((state) => state.quotes.fetching);
 
   useEffect(() => {
-    const quoteId = randomQuote.id;
+    const quoteId = randomQuote?.id;
 
     if (!quoteId) return;
 
     if (!seenQuotes.current.includes(quoteId)) {
       seenQuotes.current = [...seenQuotes.current, quoteId];
     }
-  }, [randomQuote.id]);
+  }, [randomQuote?.id]);
 
   const dispatch = useAppDispatch();
 
@@ -41,19 +41,14 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
     setTimeout(() => setAnimation(false), 1000);
   };
 
+  const quoteToShow = dummyQuote || randomQuote;
+
   return (
-    <Card
-      skeleton={fetching && (!randomQuote || !dummyQuote)}
-      className={styles.randomQuote}
-    >
+    <Card skeleton={fetching && !quoteToShow} className={styles.randomQuote}>
       <Flex justifyContent="space-between" alignItems="flex-start">
         <Flex column className={styles.content}>
-          <div className={styles.quoteText}>
-            {dummyQuote ? dummyQuote.text : randomQuote.text}
-          </div>
-          <div className={styles.quoteSource}>
-            - {dummyQuote ? dummyQuote.source : randomQuote.source}
-          </div>
+          <div className={styles.quoteText}>{quoteToShow?.text}</div>
+          <div className={styles.quoteSource}>- {quoteToShow?.source}</div>
         </Flex>
 
         <Flex column justifyContent="space-between" gap={5}>
@@ -66,7 +61,7 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
         </Flex>
       </Flex>
 
-      {useReactions && (
+      {useReactions && randomQuote && (
         <div className={styles.quoteReactions}>
           <LegoReactions parentEntity={randomQuote} />
         </div>

@@ -1,7 +1,7 @@
 import { Reaction } from 'app/actions/ActionTypes';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
 import getEntityType from 'app/utils/getEntityType';
-import type { AnyAction } from '@reduxjs/toolkit';
+import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { ID } from 'app/store/models';
@@ -126,7 +126,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
 export const addReactionCases = (
   forTargetType: EntityType,
   addCase: ActionReducerMapBuilder<
-    EntityState<{ reactionsGrouped?: ReactionsGrouped[] }>
+    EntityState<{ reactionsGrouped?: ReactionsGrouped[] }, EntityId>
   >['addCase'],
 ) => {
   addCase(Reaction.ADD.SUCCESS, (state, action: AnyAction) => {

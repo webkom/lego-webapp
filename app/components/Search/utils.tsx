@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Tag } from 'app/components/Tags';
 import TextWithIcon from '../TextWithIcon';
-import type { Allowed } from 'app/reducers/allowed';
+import type { AllowedPages } from 'app/actions/MetaActions';
 import type { ReactNode } from 'react';
 
 type Link = {
@@ -195,7 +195,7 @@ const sortFn = (a, b) => {
 const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
 const SORTED_ADMIN = LINKS.filter((link) => link.admin).sort(sortFn);
 type Options = {
-  allowed: Allowed;
+  allowed: AllowedPages;
   loggedIn: boolean;
 };
 
@@ -216,7 +216,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     .map(({ url, title, icon }) => [
       url,
       icon ? <TextWithIcon content={title} iconName={icon} /> : title,
-    ]) as NavigationLink[];
+    ]) satisfies NavigationLink[];
 }
 
 export type NavigationLink = [string, ReactNode]; // [url, label(as a react-node)]

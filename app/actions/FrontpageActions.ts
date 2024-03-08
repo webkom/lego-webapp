@@ -1,10 +1,10 @@
 import callAPI from 'app/actions/callAPI';
 import { frontpageSchema } from 'app/reducers';
 import { Frontpage, Readme } from './ActionTypes';
-import type { Thunk } from 'app/types';
+import type { AppDispatch } from 'app/store/createStore';
 
 const gql = String.raw;
-export function fetchData(): Thunk<any> {
+export function fetchData() {
   return callAPI({
     types: Frontpage.FETCH,
     endpoint: '/frontpage/',
@@ -34,7 +34,7 @@ const readmeUtgaver = gql`
   ${readmeFragment}
 `;
 export function fetchReadmes(first: number) {
-  return async (dispatch) => {
+  return async (dispatch: AppDispatch) => {
     try {
       dispatch({
         type: Readme.FETCH.BEGIN,

@@ -16,7 +16,7 @@ describe('The Home Page and Login', () => {
     cy.contains('h3', 'Arrangementer');
     cy.contains('li', 'Sikkerhet og Sårbarhet');
 
-    cy.contains('h3', 'Festet oppslag');
+    cy.contains('h3', 'Oppslag');
     cy.contains('span', 'readme');
     cy.contains('h3', 'Nyttige lenker');
   });
@@ -53,7 +53,7 @@ describe('The Home Page and Login', () => {
 
     cy.contains('h3', 'Påmeldinger');
 
-    cy.contains('h3', 'Festet oppslag');
+    cy.contains('h3', 'Oppslag');
     cy.contains('a', 'Artikkel uten AUTH');
 
     cy.contains('span', 'readme');

@@ -3,23 +3,13 @@ import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Frontpage } from 'app/actions/ActionTypes';
+import { EntityType } from 'app/store/models/entities';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
-import { selectArticlesWithAuthorDetails } from './articles';
+import { selectArticles } from './articles';
 import { selectEvents } from './events';
-import type { Event } from 'app/models';
-import type { UnknownArticle } from 'app/store/models/Article';
 
-export type WithDocumentType<T> = T & {
-  documentType: 'event' | 'article';
-};
-
-export const isEvent = <T extends Event>(
-  item?: WithDocumentType<T | unknown>,
-): item is WithDocumentType<T> => item?.documentType === 'event';
-
-export const isArticle = <T extends UnknownArticle>(
-  item?: WithDocumentType<T | unknown>,
-): item is WithDocumentType<T> => item?.documentType === 'article';
+import type { PublicArticle } from 'app/store/models/Article';
+import type { FrontpageEvent } from 'app/store/models/Event';
 
 const frontpageSlice = createSlice({
   name: 'frontpage',
@@ -33,32 +23,53 @@ const frontpageSlice = createSlice({
 });
 export default frontpageSlice.reducer;
 
-export const selectFrontpage = createSelector(
-  selectArticlesWithAuthorDetails,
+// Selector for currently pinned object
+export type ArticleWithType = PublicArticle & {
+  entityType: EntityType.Articles;
+};
+export type EventWithType = FrontpageEvent & {
+  entityType: EntityType.Events;
+};
+
+export const addArticleType = (article: PublicArticle): ArticleWithType => ({
+  ...article,
+  entityType: EntityType.Articles,
+});
+export const addEventType = (article: FrontpageEvent): EventWithType => ({
+  ...article,
+  entityType: EntityType.Events,
+});
+
+export const isEvent = (
+  object: ArticleWithType | EventWithType,
+): object is EventWithType => object.entityType === EntityType.Events;
+export const isArticle = (
+  object: ArticleWithType | EventWithType,
+): object is ArticleWithType => object.entityType === EntityType.Articles;
+
+export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
+  object.entityType === EntityType.Events
+    ? moment(object.startTime)
+    : moment(object.createdAt);
+
+export const selectPinned = createSelector(
+  selectArticles,
   selectEvents,
-  (articles, events) => {
-    const articlesWithType = articles.map((article) => ({
-      ...article,
-      documentType: 'article' as const,
-    }));
-    const eventsWithType = events.map((event) => ({
-      ...event,
-      documentType: 'event' as const,
-    }));
-    const now = moment();
-    return sortBy(
-      [...articlesWithType, ...eventsWithType],
+  (articles: PublicArticle[], e) => {
+    const events = e as unknown as FrontpageEvent[]; // TODO: Remove once events are typed properly
+
+    const pinnedObjects = sortBy(
+      [...articles.map(addArticleType), ...events.map(addEventType)],
       [
-        // Always sort pinned items first:
-        (item) => !item.pinned,
-        (item) => {
-          // For events, we care about when the event starts, whereas for articles
-          // we look at when it was written:
-          const timeField = isEvent(item) ? item.startTime : item.createdAt;
-          return Math.abs(now.diff(timeField));
-        },
-        (item) => item.id,
+        (object) => (object.pinned ? 0 : 1), // Sort pinned objects first
+        (object) => Math.abs(moment().diff(frontpageObjectDate(object))), // Sort by most recently published/starting soonest
+        (object) => object.id,
       ],
     );
+
+    return pinnedObjects[0] satisfies
+      | ArticleWithType
+      | EventWithType
+      | undefined;
   },
 );

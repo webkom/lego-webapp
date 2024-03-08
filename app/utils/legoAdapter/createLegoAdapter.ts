@@ -38,17 +38,19 @@ interface LegoAdapter<Entity, Id extends EntityId>
   extends EntityAdapter<Entity, Id> {
   getInitialState(): LegoEntityState<Entity, Id>;
   getInitialState<S extends object>(state: S): LegoEntityState<Entity, Id> & S;
-  buildReducers(options?: {
-    extraCases?: (addCase: ReducerBuilder<Entity, Id>['addCase']) => void;
+  buildReducers<ExtraState extends object = Record<string, never>>(options?: {
+    extraCases?: (
+      addCase: ReducerBuilder<Entity, Id, ExtraState>['addCase'],
+    ) => void;
     extraMatchers?: (
-      addMatcher: ReducerBuilder<Entity, Id>['addMatcher'],
+      addMatcher: ReducerBuilder<Entity, Id, ExtraState>['addMatcher'],
     ) => void;
     defaultCaseReducer?: Parameters<
-      ReducerBuilder<Entity, Id>['addDefaultCase']
+      ReducerBuilder<Entity, Id, ExtraState>['addDefaultCase']
     >[0];
     fetchActions?: AsyncActionType[];
     deleteActions?: AsyncActionType[];
-  }): (builder: ReducerBuilder<Entity, Id>) => void;
+  }): (builder: ReducerBuilder<Entity, Id, ExtraState>) => void;
   getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;
   getSelectors<V>(
     selectState: (state: V) => EntityState<Entity, Id>,
@@ -56,9 +58,11 @@ interface LegoAdapter<Entity, Id extends EntityId>
 }
 
 // Helpers
-type ReducerBuilder<Entity, Id extends EntityId> = ActionReducerMapBuilder<
-  NoInfer<LegoEntityState<Entity, Id>>
->;
+type ReducerBuilder<
+  Entity,
+  Id extends EntityId,
+  ExtraState extends object,
+> = ActionReducerMapBuilder<NoInfer<LegoEntityState<Entity, Id>> & ExtraState>;
 type LegoAdapterOptions<T, Id extends EntityId> = EntityAdapterOptions<T, Id>;
 
 // function type overrides mirror the createEntityAdapter function

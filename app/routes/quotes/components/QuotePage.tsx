@@ -104,8 +104,8 @@ const QuotePage = () => {
 
       {errorMessage || <QuoteList actionGrant={actionGrant} quotes={quotes} />}
 
-      {showFetchMore && (
-        <LoadingIndicator loading={fetching}>
+      <LoadingIndicator loading={fetching}>
+        {showFetchMore && (
           <Button
             onClick={() =>
               dispatch(
@@ -118,8 +118,8 @@ const QuotePage = () => {
           >
             Last inn flere
           </Button>
-        </LoadingIndicator>
-      )}
+        )}
+      </LoadingIndicator>
     </div>
   );
 };

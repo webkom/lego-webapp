@@ -1,12 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { Quote } from '../../actions/ActionTypes';
+import { Quote } from 'app/actions/ActionTypes';
 import quotes from '../quotes';
+import type QuoteType from 'app/store/models/Quote';
 
 describe('reducers', () => {
   describe('quotes', () => {
-    const baseState = {
+    const baseState: ReturnType<typeof quotes> = {
+      randomQuote: undefined,
       actionGrant: [],
-      pagination: {},
+      fetching: false,
       paginationNext: {
         '?approved=true': {
           hasMore: true,
@@ -18,7 +20,7 @@ describe('reducers', () => {
             cursor: 'next-cur',
             approved: 'true',
           },
-          items: [4],
+          ids: [4],
         },
         '?approved=false': {
           hasMore: true,
@@ -30,22 +32,22 @@ describe('reducers', () => {
             cursor: 'next-cur',
             approved: 'false',
           },
-          items: [3],
+          ids: [3],
         },
       },
-      items: [3, 4],
-      byId: {
+      ids: [3, 4],
+      entities: {
         3: {
           id: 3,
           approved: false,
-        },
+        } as QuoteType,
         4: {
           id: 4,
           approved: true,
-        },
+        } as QuoteType,
       },
     };
-    it('Quote.APPROVE.SUCCESS', () => {
+    it('Updates .approved on Quote.APPROVE.SUCCESS', () => {
       const prevState = baseState;
       const action = {
         type: Quote.APPROVE.SUCCESS,
@@ -54,8 +56,7 @@ describe('reducers', () => {
         },
       };
       expect(quotes(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...baseState,
         paginationNext: {
           '?approved=true': {
             hasMore: true,
@@ -67,7 +68,7 @@ describe('reducers', () => {
               cursor: 'next-cur',
               approved: 'true',
             },
-            items: [4],
+            ids: [4],
           },
           '?approved=false': {
             hasMore: true,
@@ -79,11 +80,10 @@ describe('reducers', () => {
               cursor: 'next-cur',
               approved: 'false',
             },
-            items: [],
+            ids: [],
           },
         },
-        items: [3, 4],
-        byId: {
+        entities: {
           3: {
             id: 3,
             approved: true,
@@ -95,7 +95,7 @@ describe('reducers', () => {
         },
       });
     });
-    it('Quote.UNAPPROVE.SUCCESS', () => {
+    it('Updates .approved on Quote.UNAPPROVE.SUCCESS', () => {
       const prevState = baseState;
       const action = {
         type: Quote.UNAPPROVE.SUCCESS,
@@ -104,8 +104,7 @@ describe('reducers', () => {
         },
       };
       expect(quotes(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
+        ...baseState,
         paginationNext: {
           '?approved=true': {
             hasMore: true,
@@ -117,7 +116,7 @@ describe('reducers', () => {
               cursor: 'next-cur',
               approved: 'true',
             },
-            items: [],
+            ids: [],
           },
           '?approved=false': {
             hasMore: true,
@@ -129,11 +128,10 @@ describe('reducers', () => {
               cursor: 'next-cur',
               approved: 'false',
             },
-            items: [3],
+            ids: [3],
           },
         },
-        items: [3, 4],
-        byId: {
+        entities: {
           3: {
             id: 3,
             approved: false,

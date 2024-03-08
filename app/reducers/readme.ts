@@ -1,13 +1,17 @@
-import { produce } from 'immer';
+import { createSlice } from '@reduxjs/toolkit';
 import { Readme } from 'app/actions/ActionTypes';
+import type { AnyAction } from '@reduxjs/toolkit';
+import type { Readme as ReadmeType } from 'app/models';
 
-const mutateReadme = produce<any>((newState: any, action: any): void => {
-  switch (action.type) {
-    case Readme.FETCH.SUCCESS:
+const readmeSlice = createSlice({
+  name: 'readme',
+  initialState: [] as ReadmeType[],
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(Readme.FETCH.SUCCESS, (_, action: AnyAction) => {
       return action.payload;
+    });
+  },
+});
 
-    default:
-      break;
-  }
-}, []);
-export default mutateReadme;
+export default readmeSlice.reducer;
