@@ -7,7 +7,7 @@ import { selectEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
-import styles from './NextEvent.css';
+import styles from './UpcomingRegistrations.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
 
 type Props = {
@@ -116,7 +116,7 @@ const inRange = (event: FrontpageEvent) => {
 
 const NEXT_EVENTS_LIMIT = 2;
 
-const NextEvent = () => {
+const UpcomingRegistrations = () => {
   const events = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
 
   // Sorted events based on activationTime, take out the
@@ -144,4 +144,4 @@ const NextEvent = () => {
   );
 };
 
-export default NextEvent;
+export default UpcomingRegistrations;
