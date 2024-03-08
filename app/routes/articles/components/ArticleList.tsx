@@ -16,12 +16,12 @@ import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Overview.css';
+import styles from '../articles.css';
 import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
 
 const HEADLINE_EVENTS = 2;
 
-export const OverviewItem = ({
+export const ArticleListItem = ({
   article,
 }: {
   article: ArticleWithAuthorDetails;
@@ -64,7 +64,7 @@ export const OverviewItem = ({
   </div>
 );
 
-const Overview = () => {
+const ArticleList = () => {
   const location = useLocation();
   const query = useMemo(
     () => ({
@@ -150,12 +150,12 @@ const Overview = () => {
           <div className={styles.overview}>
             <div className={styles.headline}>
               {headlineEvents.map((article) => (
-                <OverviewItem key={article.id} article={article} />
+                <ArticleListItem key={article.id} article={article} />
               ))}
             </div>
             <div className={styles.normal}>
               {normalEvents.map((article) => (
-                <OverviewItem key={article.id} article={article} />
+                <ArticleListItem key={article.id} article={article} />
               ))}
             </div>
           </div>
@@ -165,4 +165,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default ArticleList;
