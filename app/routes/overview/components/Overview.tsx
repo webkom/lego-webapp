@@ -1,6 +1,5 @@
 import { Container, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -44,7 +43,7 @@ const Overview = () => {
   const frontpage = useAppSelector(selectFrontpage);
   const fetchingFrontpage = useAppSelector((state) => state.frontpage.fetching);
   const readmes = useAppSelector((state) => state.readme);
-  const shouldFetchQuote = isEmpty(useAppSelector(selectRandomQuote));
+  const shouldFetchQuote = useAppSelector(selectRandomQuote) === undefined;
   const { loggedIn } = useUserContext();
 
   const dispatch = useAppDispatch();
