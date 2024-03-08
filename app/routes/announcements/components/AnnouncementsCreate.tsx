@@ -74,31 +74,33 @@ const validate = createValidator({
 });
 
 const AnnouncementsCreate = () => {
-  const location = useLocation<AnnouncementCreateLocationState>();
+  const location = useLocation();
+  const state = location.state as AnnouncementCreateLocationState;
+
   const dispatch = useAppDispatch();
 
   const initialValues: FormValues = {
-    groups: location.state?.group
+    groups: state?.group
       ? selectAutocomplete([
           {
             contentType: AutocompleteContentType.Group,
-            ...location.state?.group,
+            ...state.group,
           },
         ])
       : [],
-    events: location.state?.event
+    events: state?.event
       ? selectAutocomplete([
           {
             contentType: AutocompleteContentType.Event,
-            ...location.state?.event,
+            ...state.event,
           },
         ])
       : [],
-    meetings: location.state?.meeting
+    meetings: state?.meeting
       ? selectAutocomplete([
           {
             contentType: AutocompleteContentType.Meeting,
-            ...location.state?.meeting,
+            ...state.meeting,
           },
         ])
       : [],

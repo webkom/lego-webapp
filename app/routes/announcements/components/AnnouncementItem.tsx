@@ -70,7 +70,9 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               <span>
                 Møter
                 {announcement.meetingInvitationStatus
-                  ? `(${statusesText[announcement.meetingInvitationStatus]}) :`
+                  ? ` (${statusesText[
+                      announcement.meetingInvitationStatus
+                    ].toLowerCase()}) :`
                   : ': '}
               </span>
             )}
