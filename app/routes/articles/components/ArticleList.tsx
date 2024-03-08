@@ -1,8 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
-import qs from 'qs';
-import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';
@@ -16,6 +14,7 @@ import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import useQuery from 'app/utils/useQuery';
 import styles from '../articles.css';
 import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
 
@@ -64,16 +63,12 @@ export const ArticleListItem = ({
   </div>
 );
 
+const articleListDefaultQuery = {
+  tag: '',
+};
+
 const ArticleList = () => {
-  const location = useLocation();
-  const query = useMemo(
-    () => ({
-      tag: qs.parse(location.search, {
-        ignoreQueryPrefix: true,
-      }).tag,
-    }),
-    [location],
-  );
+  const { query } = useQuery(articleListDefaultQuery);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: `/articles/`,
