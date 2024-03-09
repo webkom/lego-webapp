@@ -2,7 +2,7 @@ import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
-import { selectGroup } from 'app/reducers/groups';
+import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AddGroupPermission from './AddGroupPermission';
 import type { DetailedGroup } from 'app/store/models/Group';
@@ -123,7 +123,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
 
 const GroupPermissions = () => {
   const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroup(state, { groupId }));
+  const group = useAppSelector((state) => selectGroupById(state, groupId!));
 
   return (
     <div>

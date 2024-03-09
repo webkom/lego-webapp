@@ -2,6 +2,7 @@ import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useParams } from 'react-router-dom';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';
+import { selectGroupEntities } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -37,7 +38,7 @@ const GroupMembers = () => {
     }),
   );
 
-  const groupsById = useAppSelector((state) => state.groups.byId);
+  const groupEntities = useAppSelector(selectGroupEntities);
   const fetching = useAppSelector((state) => state.memberships.fetching);
   const hasMore = pagination.hasMore;
 
@@ -61,7 +62,7 @@ const GroupMembers = () => {
     <>
       <>
         Antall medlemmer (inkl. undergrupper):{' '}
-        {groupsById[groupId?.toString()]?.numberOfUsers}
+        {groupEntities[groupId?.toString()]?.numberOfUsers}
       </>
 
       {showDescendants || <AddGroupMember groupId={groupId} />}
@@ -72,7 +73,7 @@ const GroupMembers = () => {
           groupId={groupId}
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
-          groupsById={groupsById}
+          groupsById={groupEntities}
           fetching={fetching}
           memberships={memberships}
         />

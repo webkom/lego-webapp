@@ -3,6 +3,7 @@ import { union, find } from 'lodash';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
 import { eventSchema, registrationSchema } from 'app/reducers';
+import { selectGroupEntities } from 'app/reducers/groups';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import mergeObjects from 'app/utils/mergeObjects';
 import { User, Event } from '../actions/ActionTypes';
@@ -99,7 +100,7 @@ export const selectUserWithGroups = createSelector(
       : selectUserById(state, {
           userId,
         }),
-  (state) => state.groups.byId,
+  selectGroupEntities,
   (user, groupsById) => {
     if (!user) return;
     return {

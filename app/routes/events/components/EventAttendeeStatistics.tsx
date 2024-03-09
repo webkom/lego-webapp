@@ -15,7 +15,7 @@ import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import { GroupType, type Dateish } from 'app/models';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
 import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
@@ -228,15 +228,11 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
     }),
   );
   const committees = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Committee,
-    }),
+    selectGroupsByType(state, GroupType.Committee),
   );
   const committeeGroupIDs = committees.map((group) => group.id);
   const revueGroups = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Revue,
-    }),
+    selectGroupsByType(state, GroupType.Revue),
   );
   const revueGroupIDs = revueGroups.map((group) => group.id);
 

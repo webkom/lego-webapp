@@ -5,7 +5,7 @@ import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { selectGroup, selectGroups } from 'app/reducers/groups';
+import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GroupForm from './GroupForm';
 import GroupMembers from './GroupMembers';
@@ -53,8 +53,8 @@ const GroupPageNavigation = ({
 
 const GroupPage = () => {
   const { groupId } = useParams<{ groupId?: string }>();
-  const group = useAppSelector((state) => selectGroup(state, { groupId }));
-  const groups = useAppSelector(selectGroups);
+  const group = useAppSelector((state) => selectGroupById(state, groupId!));
+  const groups = useAppSelector(selectAllGroups);
 
   const location = useLocation();
 

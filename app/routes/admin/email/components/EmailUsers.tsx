@@ -6,16 +6,12 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { GroupType } from 'app/models';
-import {
-  selectEmailUsers,
-  selectTransformedEmailUsers,
-} from 'app/reducers/emailUsers';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectTransformedEmailUsers } from 'app/reducers/emailUsers';
+import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import type { ColumnProps } from 'app/components/Table';
-import type EmailUser from 'app/store/models/EmailUser';
 
 const emailUsersDefaultQuery = {
   enabled: '' as '' | 'true' | 'false',
@@ -40,14 +36,10 @@ const EmailUsers = () => {
   );
   const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const committees = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Committee,
-    }),
+    selectGroupsByType(state, GroupType.Committee),
   );
   const grades = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Grade,
-    }),
+    selectGroupsByType(state, GroupType.Grade),
   );
 
   const dispatch = useAppDispatch();

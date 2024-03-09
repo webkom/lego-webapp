@@ -13,7 +13,7 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
-import { selectGroup } from 'app/reducers/groups';
+import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
@@ -44,7 +44,7 @@ type Props = {
 
 const GroupForm = ({ isInterestGroup }: Props) => {
   const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroup(state, { groupId }));
+  const group = useAppSelector((state) => selectGroupById(state, groupId!));
   const isNew = !group;
 
   const dispatch = useAppDispatch();

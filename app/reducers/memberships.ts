@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import { selectGroupEntities } from 'app/reducers/groups';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Membership, Group } from '../actions/ActionTypes';
 
@@ -16,7 +17,7 @@ export const selectMembershipsForGroup = createSelector(
   (_, { pagination = undefined }) => pagination,
   (state) => state.memberships.byId,
   (state) => state.memberships.items,
-  (state) => state.groups.byId,
+  selectGroupEntities,
   (state) => state.users.byId,
   (
     descendants,
