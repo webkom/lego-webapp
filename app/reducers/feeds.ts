@@ -1,5 +1,6 @@
 import { union } from 'lodash';
 import { createSelector } from 'reselect';
+import { selectFeedActivityEntities } from 'app/reducers/feedActivities';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Feed } from '../actions/ActionTypes';
 
@@ -56,12 +57,12 @@ export const selectFeedById = createSelector(
 );
 export const selectFeedActivitesByFeedId = createSelector(
   selectFeedById,
-  (state) => state.feedActivities.byId,
-  (feed, activiesById) => {
+  selectFeedActivityEntities,
+  (feed, feedActivityEntities) => {
     if (!feed) {
       return [];
     }
 
-    return feed.activities.map((id) => activiesById[id]);
+    return feed.activities.map((id) => feedActivityEntities[id]);
   },
 );
