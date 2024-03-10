@@ -1,19 +1,21 @@
 import { describe, it, expect } from 'vitest';
-import { Event } from '../../actions/ActionTypes';
+import { Event } from 'app/actions/ActionTypes';
 import pools from '../pools';
+import type { AuthPool } from 'app/store/models/Pool';
 
 describe('reducers', () => {
   describe('pool', () => {
-    const baseState = {
+    const baseState: ReturnType<typeof pools> = {
       actionGrant: [],
-      pagination: {},
-      items: [3],
-      byId: {
+      paginationNext: {},
+      fetching: false,
+      ids: [3],
+      entities: {
         3: {
           id: 3,
           registrations: [],
           registrationCount: 0,
-        },
+        } as unknown as AuthPool,
       },
     };
     it('Event.SOCKET_EVENT_UPDATED', () => {
@@ -37,10 +39,9 @@ describe('reducers', () => {
         },
       };
       expect(pools(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4],
-        byId: {
+        ...baseState,
+        ids: [3, 4],
+        entities: {
           3: {
             id: 3,
             registrations: [],
@@ -64,10 +65,9 @@ describe('reducers', () => {
         },
       };
       expect(pools(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        ...baseState,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             registrations: [9],
@@ -78,15 +78,14 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        ...baseState,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             registrations: [9, 10],
             registrationCount: 2,
-          },
+          } as unknown as AuthPool,
         },
       };
       const action = {
@@ -99,10 +98,9 @@ describe('reducers', () => {
         },
       };
       expect(pools(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        ...baseState,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             registrations: [9],

@@ -11,6 +11,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
+import { selectPoolEntities } from './pools';
 import {
   selectRegistrationEntities,
   selectRegistrationIds,
@@ -280,10 +281,10 @@ export const selectEventByIdOrSlug = createSelector(
 
 export const selectPoolsForEvent = createSelector(
   selectEventById,
-  (state) => state.pools.byId,
-  (event, poolsById) => {
+  selectPoolEntities,
+  (event, poolEntities) => {
     if (!event) return [];
-    return (event.pools || []).map((poolId) => poolsById[poolId]);
+    return (event.pools || []).map((poolId) => poolEntities[poolId]);
   },
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
