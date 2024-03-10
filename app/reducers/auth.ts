@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { selectUserEntities } from 'app/reducers/users';
 import { User } from '../actions/ActionTypes';
-import type { AnyAction, PayloadAction } from '@reduxjs/toolkit';
+import type { AnyAction, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 
 type AuthState = {
@@ -64,7 +65,9 @@ const authSlice = createSlice({
 export default authSlice.reducer;
 
 type LoginTokenAction = PayloadAction<{ token: string }>;
-const isLoginTokenAction = (action: AnyAction): action is LoginTokenAction =>
+const isLoginTokenAction = (
+  action: UnknownAction,
+): action is LoginTokenAction =>
   action.type === User.LOGIN.SUCCESS ||
   action.type === User.CREATE_USER.SUCCESS ||
   action.type === User.REFRESH_TOKEN.SUCCESS;
@@ -73,7 +76,7 @@ export function selectIsLoggedIn(state: RootState) {
   return state.auth.token !== null;
 }
 export const selectCurrentUser = createSelector(
-  (state: RootState) => state.users.byId,
+  selectUserEntities,
   (state: RootState) => state.auth.id,
-  (usersById, userId) => (userId ? usersById[userId] : {}),
+  (userEntities, userId) => (userId ? userEntities[userId] : {}),
 );

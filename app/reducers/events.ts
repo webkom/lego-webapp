@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
 import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
+import { selectUserEntities } from 'app/reducers/users';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
@@ -16,6 +17,8 @@ import {
   selectRegistrationEntities,
   selectRegistrationIds,
 } from './registrations';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 import type { DetailedEvent } from 'app/store/models/Event';
 
 type State = any;
@@ -290,14 +293,14 @@ export const selectPoolsForEvent = createSelector(
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
   selectRegistrationEntities,
-  (state) => state.users.byId,
-  (pools, registrationEntities, usersById) =>
+  selectUserEntities,
+  (pools, registrationEntities, userEntities) =>
     pools.map((pool) => ({
       ...pool,
       registrations: orderBy(
         (pool.registrations || []).map((regId) => {
           const registration = registrationEntities[regId];
-          return { ...registration, user: usersById[registration.user] };
+          return { ...registration, user: userEntities[registration.user] };
         }),
         'sharedMemberships',
         'desc',
@@ -335,8 +338,8 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
   selectRegistrationEntities,
-  (state) => state.users.byId,
-  (pools, registrationEntities, usersById) => {
+  selectUserEntities,
+  (pools, registrationEntities, userEntities) => {
     if (pools.length === 0) return [];
     return [
       {
@@ -350,7 +353,10 @@ export const selectMergedPoolWithRegistrations = createSelector(
             const registrations = total.registrations.concat(
               pool.registrations?.map((regId) => {
                 const registration = registrationEntities[regId];
-                return { ...registration, user: usersById[registration.user] };
+                return {
+                  ...registration,
+                  user: userEntities[registration.user],
+                };
               }),
             );
             return {
@@ -378,8 +384,8 @@ export const selectMergedPoolWithRegistrations = createSelector(
 export const selectAllRegistrationsForEvent = createSelector(
   selectRegistrationEntities,
   selectRegistrationIds,
-  (state) => state.users.byId,
-  (state, props) => props.eventId,
+  selectUserEntities,
+  (_: RootState, props: { eventId: EntityId }) => props.eventId,
   (registrationEntities, registrationIds, usersById, eventId) =>
     registrationIds
       .map((regId) => registrationEntities[regId])
@@ -409,12 +415,12 @@ export const selectAllRegistrationsForEvent = createSelector(
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
   selectRegistrationEntities,
-  (state) => state.users.byId,
-  (event, registrationEntities, usersById) => {
+  selectUserEntities,
+  (event, registrationEntities, userEntities) => {
     if (!event) return [];
     return (event.waitingRegistrations || []).map((regId) => {
       const registration = registrationEntities[regId];
-      return { ...registration, user: usersById[registration.user] };
+      return { ...registration, user: userEntities[registration.user] };
     });
   },
 );

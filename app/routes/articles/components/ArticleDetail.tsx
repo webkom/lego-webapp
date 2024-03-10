@@ -89,7 +89,7 @@ const ArticleDetail = () => {
     selectCommentsByIds(state, article?.comments ?? []),
   );
   const authors = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: article?.authors ?? [] }),
+    selectUsersByIds(state, article?.authors ?? []),
   );
 
   const navigate = useNavigate();

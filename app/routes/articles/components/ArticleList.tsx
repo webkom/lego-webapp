@@ -23,7 +23,7 @@ const HEADLINE_EVENTS = 2;
 
 export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
   const authors = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: article.authors }),
+    selectUsersByIds(state, article.authors),
   );
 
   return (

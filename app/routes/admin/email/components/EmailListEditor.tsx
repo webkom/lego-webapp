@@ -61,7 +61,7 @@ const EmailListEditor = () => {
     selectEmailListById(state, emailListId!),
   ) as DetailedEmailList | undefined;
   const users = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: emailList?.users || [] }),
+    selectUsersByIds(state, emailList?.users || []),
   );
   const groups = useAppSelector((state) =>
     selectGroupsByIds(state, emailList?.groups || []),

@@ -39,7 +39,7 @@ const EmailUserEditor = () => {
     selectEmailUserById(state, emailUserId!),
   );
   const user = useAppSelector((state) =>
-    selectUserById(state, { userId: emailUser?.user }),
+    selectUserById(state, emailUser?.user),
   );
 
   const dispatch = useAppDispatch();

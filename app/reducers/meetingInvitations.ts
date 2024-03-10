@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
+import { selectUserEntities } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
@@ -66,9 +67,9 @@ export const selectMeetingInvitationsForMeeting: Selector<
   MeetingInvitationWithUser[]
 > = createSelector(
   selectMeetingById,
-  (state) => state.meetingInvitations.byId,
-  (state) => state.users.byId,
-  (meeting, meetingInvitationsById, users) => {
+  (state: RootState) => state.meetingInvitations.byId,
+  selectUserEntities,
+  (meeting, meetingInvitationsById, userEntities) => {
     const meetingInvitations = meeting?.invitations;
     if (!meetingInvitations) return [];
     return meetingInvitations
@@ -78,7 +79,7 @@ export const selectMeetingInvitationsForMeeting: Selector<
       }))
       .map((invitation) => {
         const userId = invitation.user;
-        const user = users[userId];
+        const user = userEntities[userId];
         return { ...invitation, user };
       });
   },

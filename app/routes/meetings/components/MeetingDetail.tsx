@@ -62,14 +62,10 @@ const MeetingDetails = () => {
     }),
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.reportAuthor,
-    }),
+    selectUserById(state, meeting?.reportAuthor),
   );
   const createdBy = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.createdBy,
-    }),
+    selectUserById(state, meeting?.createdBy),
   );
   const meetingInvitations = useAppSelector((state) =>
     selectMeetingInvitationsForMeeting(state, {

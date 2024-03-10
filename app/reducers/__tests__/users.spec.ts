@@ -1,14 +1,15 @@
 import { describe, it, expect } from 'vitest';
-import { Event } from '../../actions/ActionTypes';
+import { Event } from 'app/actions/ActionTypes';
 import users from '../users';
 
 describe('reducers', () => {
   describe('users', () => {
-    const baseState = {
+    const baseState: ReturnType<typeof users> = {
       actionGrant: [],
-      pagination: {},
-      items: [3],
-      byId: {
+      paginationNext: {},
+      fetching: false,
+      ids: [3],
+      entities: {
         3: {
           id: 3,
         },
@@ -44,10 +45,9 @@ describe('reducers', () => {
         },
       };
       expect(users(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 49, 50],
-        byId: {
+        ...baseState,
+        ids: [3, 49, 50],
+        entities: {
           3: {
             id: 3,
           },
@@ -73,10 +73,9 @@ describe('reducers', () => {
         },
       };
       expect(users(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 49],
-        byId: {
+        ...baseState,
+        ids: [3, 49],
+        entities: {
           3: {
             id: 3,
           },

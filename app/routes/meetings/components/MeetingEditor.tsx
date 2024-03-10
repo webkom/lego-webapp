@@ -111,9 +111,7 @@ const MeetingEditor = () => {
     }),
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.reportAuthor,
-    }),
+    selectUserById(state, meeting?.reportAuthor),
   );
 
   const { currentUser } = useUserContext();

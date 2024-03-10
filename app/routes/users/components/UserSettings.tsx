@@ -72,13 +72,9 @@ const validate = createValidator({
 const UserSettings = () => {
   const params = useParams<{ username: string }>();
   const { currentUser } = useUserContext();
-  const isCurrentUser = useIsCurrentUser(params.username);
-  const username = isCurrentUser ? currentUser.username : params.username;
-  const user = useAppSelector((state) =>
-    selectUserByUsername(state, {
-      username,
-    }),
-  );
+  const isCurrentUser = useIsCurrentUser(params.username!);
+  const username = isCurrentUser ? currentUser.username : params.username!;
+  const user = useAppSelector((state) => selectUserByUsername(state, username));
 
   const dispatch = useAppDispatch();
 
