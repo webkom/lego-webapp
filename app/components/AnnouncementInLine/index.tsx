@@ -12,28 +12,29 @@ type Props = {
   group?: UnknownGroup;
 };
 
-const TypedLink = Link<AnnouncementCreateLocationState>;
-
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {
   const actionGrant = useAppSelector((state) => state.allowed.announcements);
+
+  if (!actionGrant) {
+    return null;
+  }
+
   return (
-    actionGrant && (
-      <TypedLink
-        to={{
-          pathname: '/announcements',
-          state: {
-            event,
-            meeting,
-            group,
-          },
-        }}
-      >
-        <Button>
-          <Icon name="send-outline" size={18} />
-          Send kunngjøring
-        </Button>
-      </TypedLink>
-    )
+    <Link
+      to="/announcements"
+      state={
+        {
+          event,
+          meeting,
+          group,
+        } as AnnouncementCreateLocationState
+      }
+    >
+      <Button>
+        <Icon name="send-outline" size={18} />
+        Send kunngjøring
+      </Button>
+    </Link>
   );
 };
 
