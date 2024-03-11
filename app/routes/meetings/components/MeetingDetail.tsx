@@ -22,7 +22,7 @@ import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import {
-  selectMeetingInvitation,
+  selectMeetingInvitationByMeetingIdAndUserId,
   selectMeetingInvitationsForMeeting,
   statusesText,
 } from 'app/reducers/meetingInvitations';
@@ -73,10 +73,11 @@ const MeetingDetails = () => {
     }),
   );
   const currentUserInvitation = useAppSelector((state) =>
-    selectMeetingInvitation(state, {
-      userId: currentUser.username,
-      meetingId,
-    }),
+    selectMeetingInvitationByMeetingIdAndUserId(
+      state,
+      meetingId!,
+      currentUser.id,
+    ),
   );
 
   const dispatch = useAppDispatch();

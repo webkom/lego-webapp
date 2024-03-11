@@ -1,4 +1,5 @@
 import { schema } from 'normalizr';
+import type { EntityId } from '@reduxjs/toolkit';
 
 export const restrictedMailSchema = new schema.Entity('restrictedMails');
 export const groupSchema = new schema.Entity('groups');
@@ -76,9 +77,9 @@ export const membershipSchema = new schema.Entity('memberships', {
 });
 
 export const createMeetingInvitationId = (
-  meetingId: number,
-  username: string,
-) => `${meetingId}-${username}`;
+  meetingId: EntityId,
+  userId: EntityId,
+) => `${meetingId}-${userId}`;
 export const meetingInvitationSchema = new schema.Entity(
   'meetingInvitations',
   {
@@ -86,7 +87,7 @@ export const meetingInvitationSchema = new schema.Entity(
   },
   {
     idAttribute: (invite) =>
-      createMeetingInvitationId(invite.meeting, invite.user.username),
+      createMeetingInvitationId(invite.meeting, invite.user.id),
   },
 );
 export const meetingSchema = new schema.Entity('meetings', {
