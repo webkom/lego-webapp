@@ -75,7 +75,7 @@ const renderBottom = (photo: Record<string, any>, gallery: GalleryEntity) => (
 );
 
 const renderEmpty = (gallery: GalleryEntity) => (
-  <EmptyState icon="photos-outline">
+  <EmptyState className={styles.emptyState} icon="images-outline">
     <h1>Ingen bilder å redigere</h1>
     <h4>
       Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
@@ -98,6 +98,7 @@ const TypedLegoForm = LegoFinalForm<FormValues>;
 const validate = createValidator({
   title: [required('Du må gi albumet en tittel')],
   location: [required('Du må velge en lokasjon for albumet')],
+  photographers: [required('Du må velge minst én fotograf')],
 });
 
 const GalleryEditor = () => {
@@ -255,8 +256,8 @@ const GalleryEditor = () => {
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Field
-              placeholder="Title"
-              label="Title"
+              label="Tittel"
+              placeholder="Det kuleste albumet ever"
               name="title"
               component={TextInput.Field}
               id="gallery-title"
@@ -277,6 +278,7 @@ const GalleryEditor = () => {
               label="Sted"
               component={TextInput.Field}
               id="gallery-location"
+              required
             />
             <Field
               label="Fotografer"
@@ -286,6 +288,7 @@ const GalleryEditor = () => {
               placeholder="Skriv inn navn på fotografer"
               component={SelectInput.AutocompleteField}
               isMulti
+              required
             />
             <Field
               name="event"
@@ -362,9 +365,11 @@ const GalleryEditor = () => {
             hasMore={hasMore}
             fetching={fetching}
             fetchNext={() =>
-              fetch(gallery.id, {
-                next: true,
-              })
+              dispatch(
+                fetch(gallery.id, {
+                  next: true,
+                }),
+              )
             }
             renderOverlay={(photo) => photoOverlay(photo, selected)}
             renderBottom={(photo) => renderBottom(photo, gallery)}

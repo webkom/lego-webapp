@@ -26,6 +26,7 @@ import { useUserContext } from 'app/routes/app/AppRoute';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GalleryDetailsRow from './GalleryDetailsRow';
+import styles from './Overview.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 
@@ -206,14 +207,16 @@ const GalleryDetail = () => {
           hasMore={hasMore}
           fetching={fetching}
           fetchNext={() =>
-            fetch(gallery.id, {
-              next: true,
-            })
+            dispatch(
+              fetch(gallery.id, {
+                next: true,
+              }),
+            )
           }
           onClick={handleClick}
           srcKey="file"
           renderEmpty={() => (
-            <EmptyState icon="photos-outline">
+            <EmptyState className={styles.emptyState} icon="images-outline">
               <h1>Ingen bilder</h1>
               <h4>
                 Trykk{' '}
