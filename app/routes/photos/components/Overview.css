@@ -10,7 +10,6 @@
 
 .galleryInfo {
   line-height: 1.3;
-  margin-bottom: 10px;
 }
 
 .galleryTitle {
@@ -34,7 +33,7 @@
 }
 
 .overlay {
-  padding: 0.1rem 0.4rem;
+  padding: var(--spacing-xs);
   width: 100%;
   position: absolute;
   top: 0;
@@ -49,12 +48,12 @@
   );
 }
 
-.icon {
+.overlay .icon {
   font-size: 32px;
   position: absolute;
 }
 
-.iconSelected {
+.overlay .iconSelected {
   color: var(--success-color);
 }
 
@@ -74,7 +73,7 @@
 
 .infoOverlay {
   font-size: var(--font-size-sm);
-  margin-bottom: 12px;
+  padding: 0 var(--spacing-xs);
 }
 
 .buttonRow {
@@ -88,4 +87,10 @@
   & h1 {
     margin-bottom: 0;
   }
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

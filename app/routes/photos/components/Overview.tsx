@@ -48,11 +48,11 @@ const Overview = () => {
             <h4 className={styles.galleryTitle}>{photo.title}</h4>
             <span
               className={styles.galleryDescription}
-            >{`${photo.pictureCount} - bilder`}</span>
+            >{`${photo.pictureCount} bilder`}</span>
           </div>
         )}
         renderEmpty={() => (
-          <EmptyState icon="photos-outline">
+          <EmptyState className={styles.emptyState} icon="images-outline">
             <h1>Ingen synlige albumer</h1>
             {actionGrant && actionGrant.includes('create') && (
               <h4>

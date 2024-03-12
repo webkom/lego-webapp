@@ -7,8 +7,17 @@ type Props = {
   hasMore: boolean;
   fetchNext: () => void;
   fetching: boolean;
+  className?: string;
+  loaderClassName?: string;
 };
-const Paginator = ({ children, hasMore, fetchNext, fetching }: Props) => {
+const Paginator = ({
+  children,
+  hasMore,
+  fetchNext,
+  fetching,
+  className,
+  loaderClassName,
+}: Props) => {
   const loadMore = () => {
     if (fetchNext && !fetching) {
       fetchNext();
@@ -20,7 +29,14 @@ const Paginator = ({ children, hasMore, fetchNext, fetching }: Props) => {
       hasMore={hasMore}
       loadMore={loadMore}
       threshold={50}
-      loader={<LoadingIndicator loading={fetching} />}
+      loader={
+        <LoadingIndicator
+          key="loading-indicator"
+          loading={fetching}
+          className={loaderClassName}
+        />
+      }
+      className={className}
     >
       {children}
     </InfiniteScroll>
