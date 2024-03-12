@@ -11526,10 +11526,10 @@ raw-body@2.5.2:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-canvas-confetti@^2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/react-canvas-confetti/-/react-canvas-confetti-2.0.5.tgz#79e656bbd42965f21e545580d8fe726e27d9f639"
-  integrity sha512-fL5WMHdNeLFqCMkgm0k4FzjPviEIv702zLl8GOaBonbBN0YG7YUsMyTV4OTEh+ukJBIs9082vh/L8s7yPeU+FA==
+react-canvas-confetti@^2.0.7:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/react-canvas-confetti/-/react-canvas-confetti-2.0.7.tgz#0499e7815b50f6a7731fd01729e07c30faa300f3"
+  integrity sha512-DIj44O35TPAwJkUSIZqWdVsgAMHtVf8h7YNmnr3jF3bn5mG+d7Rh9gEcRmdJfYgRzh6K+MAGujwUoIqQyLnMJw==
   dependencies:
     "@types/canvas-confetti" "^1.6.4"
     canvas-confetti "^1.9.2"
