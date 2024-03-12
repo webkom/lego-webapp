@@ -26,8 +26,8 @@ import styles from './AuthenticatedFrontpage.css';
 import CompactEvents from './CompactEvents';
 import FrontpageEventItem from './FrontpageEventItem';
 import LatestReadme from './LatestReadme';
-import NextEvent from './NextEvent';
 import Pinned from './Pinned';
+import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from 'app/store/models/Event';
@@ -78,7 +78,7 @@ const AuthenticatedFrontpage = () => {
       /> */}
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
-        <NextEventSection />
+        <UpcomingRegistrationsSection />
         <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
         <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
         <PollItem />
@@ -227,13 +227,13 @@ const Articles = ({
   );
 };
 
-const NextEventSection = () => (
+const UpcomingRegistrationsSection = () => (
   <Flex column className={styles.registrations}>
     <Link to="/events">
       <h3 className="u-ui-heading">Påmeldinger</h3>
     </Link>
 
-    <NextEvent />
+    <UpcomingRegistrations />
   </Flex>
 );
 

@@ -1,8 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
-import qs from 'qs';
-import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';
@@ -16,12 +14,13 @@ import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Overview.css';
+import useQuery from 'app/utils/useQuery';
+import styles from '../articles.css';
 import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
 
 const HEADLINE_EVENTS = 2;
 
-export const OverviewItem = ({
+export const ArticleListItem = ({
   article,
 }: {
   article: ArticleWithAuthorDetails;
@@ -64,16 +63,12 @@ export const OverviewItem = ({
   </div>
 );
 
-const Overview = () => {
-  const location = useLocation();
-  const query = useMemo(
-    () => ({
-      tag: qs.parse(location.search, {
-        ignoreQueryPrefix: true,
-      }).tag,
-    }),
-    [location],
-  );
+const articleListDefaultQuery = {
+  tag: '',
+};
+
+const ArticleList = () => {
+  const { query } = useQuery(articleListDefaultQuery);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: `/articles/`,
@@ -150,12 +145,12 @@ const Overview = () => {
           <div className={styles.overview}>
             <div className={styles.headline}>
               {headlineEvents.map((article) => (
-                <OverviewItem key={article.id} article={article} />
+                <ArticleListItem key={article.id} article={article} />
               ))}
             </div>
             <div className={styles.normal}>
               {normalEvents.map((article) => (
-                <OverviewItem key={article.id} article={article} />
+                <ArticleListItem key={article.id} article={article} />
               ))}
             </div>
           </div>
@@ -165,4 +160,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default ArticleList;

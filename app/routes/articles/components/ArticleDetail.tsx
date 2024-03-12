@@ -19,7 +19,7 @@ import {
 } from 'app/reducers/articles';
 import { selectUsersByIds } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
-import sharedStyles from 'app/routes/articles/components/Overview.css';
+import sharedStyles from 'app/routes/articles/articles.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './ArticleDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
