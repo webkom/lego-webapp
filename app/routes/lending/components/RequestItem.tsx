@@ -40,14 +40,18 @@ type RequestItemProps = {
 };
 
 export const RequestItem = ({ request, isAdmin }: RequestItemProps) => {
+  let url = `/lending/request/${request.id}`;
+  if (isAdmin) {
+    url += '/admin';
+  }
   return (
     <Link
-      to={`/lending/request/${request.id}${isAdmin && '/admin'}`}
+      to={url}
       className={styles.requestItem}
       key={request.id}
     >
       <Flex column>
-        <h2 className={styles.requestTitle}>{request.lendableObject.title}</h2>
+        <h2 className={styles.requestTitle}>{request.lendableObject?.title}</h2>
         <Flex gap={10}>
           <p>{request.author?.fullName}</p>
           <p>

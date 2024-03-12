@@ -18,8 +18,8 @@ const LendingRoute = () => (
       path=":lendableObjectId/admin"
       element={<LendableObjectAdminDetail />}
     />
-    <Route path="request/:requestId" element={<LendingRequest />} />
-    <Route path="request/:requestId/admin" element={<LendingRequestAdmin />} />
+    <Route path="request/:lendingRequestId" element={<LendingRequest />} />
+    <Route path="request/:lendingRequestId/admin" element={<LendingRequestAdmin />} />
     <Route path="admin/*" element={<LendingAdmin />} />
     <Route path="*" element={<PageNotFound />} />
   </Routes>

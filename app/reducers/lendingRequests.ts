@@ -28,3 +28,17 @@ export default createEntityReducer({
         };
       })
   );
+
+  export const selectLendingRequestById = createSelector(
+    (state: RootState) => state.lendingRequests.byId,
+    (_: RootState, props) => props.lendingRequestId,
+    (lendingRequestsById, lendingRequestId) => {
+      const lendingRequest = lendingRequestsById[lendingRequestId];
+      if (!lendingRequest) {
+        return {
+          lendableObject: {},
+        };
+      }
+      return lendingRequest;
+    }
+  );

@@ -9,14 +9,30 @@ import {
 import InfoList from 'app/components/InfoList';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
-import { lendableObject, request } from './fixtures';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { fetchLendingRequest } from 'app/actions/LendingRequestActions';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { selectLendingRequestById } from 'app/reducers/lendingRequests';
 
 type Params = {
-  requestId: string;
+  lendingRequestId: string;
 };
 
 const LendingRequest = () => {
-  const { requestId } = useParams<Params>();
+  const { lendingRequestId } = useParams<Params>();
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchRequest',
+    () => dispatch(fetchLendingRequest(lendingRequestId)),
+    []
+  )
+
+  const request = useAppSelector((state) =>
+    selectLendingRequestById(state, {
+      lendingRequestId,
+    })
+  );
 
   const infoItems = [
     {
@@ -30,8 +46,8 @@ const LendingRequest = () => {
     {
       key: 'Bruker',
       value: (
-        <Link to={`/users/${request.user.username}`}>
-          {request.user.fullName}
+        <Link to={`/users/${request.user?.username}`}>
+          {request.user?.fullName}
         </Link>
       ),
     },
@@ -39,15 +55,15 @@ const LendingRequest = () => {
 
   return (
     <Content>
-      <Helmet title={`Forespørsel om utlån av ${lendableObject.title}`} />
+      <Helmet title={`Forespørsel om utlån av ${request.lendableObject.title}`} />
       <NavigationTab
-        title={`Forespørsel om utlån av ${lendableObject.title}`}
+        title={`Forespørsel om utlån av ${request.lendableObject.title}`}
         back={{
           label: 'Tilbake',
           path: '/lending',
         }}
       >
-        <NavigationLink to={`/lending/request/${requestId}/admin`}>
+        <NavigationLink to={`/lending/request/${lendingRequestId}/admin`}>
           Admin
         </NavigationLink>
       </NavigationTab>

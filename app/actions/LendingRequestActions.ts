@@ -18,6 +18,20 @@ export function fetchAllLendingRequests(): Thunk<
   });
 }
 
+export function fetchLendingRequest(id: number): Thunk<
+  Promise<NormalizedEntityPayload<EntityType.LendingRequest>>
+> {
+  return callAPI({
+    types: LendingRequest.FETCH,
+    endpoint: `/lendinginstance/${id}/`,
+    schema: lendingRequestSchema,
+    meta: {
+      errorMessage: 'Henting av utlånsforespørsel feilet',
+    },
+  });
+
+}
+
 export function createLendingRequest(data: any): Thunk<any> {
   return callAPI({
     types: LendingRequest.CREATE,
