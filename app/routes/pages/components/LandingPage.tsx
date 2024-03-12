@@ -4,7 +4,9 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
+import p3 from 'app/assets/sommerfest/3.png';
 import { Image } from 'app/components/Image';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
@@ -68,7 +70,6 @@ const LandingPage: PageRenderer = () => {
       <h2 className={styles.contactTitle} id="contact">
         Kontakt oss
       </h2>
-
       <Flex className={styles.emailContainer}>
         <Icon name="mail" size={40} className={styles.emailIcon} />
         <div>
@@ -108,7 +109,6 @@ const LandingPage: PageRenderer = () => {
           </Flex>
         </div>
       </Flex>
-
       <Flex className={styles.socialMediaContainer}>
         <Icon name="people" size={40} className={styles.emailIcon} />
         <div>
@@ -167,7 +167,7 @@ const LandingPage: PageRenderer = () => {
           </Flex>
         </div>
       </Flex>
-
+      <Sommerfest src={p3} className={styles.sommerfest} />
       <Flex className={styles.locationContainer}>
         <div className={styles.houseIcon}>
           <Icon name="home" size={40} />

@@ -79,3 +79,10 @@
     cursor: pointer;
   }
 }
+
+.sommerfest {
+  width: 40px;
+  position: absolute;
+  left: 355px;
+  top: 80px;
+}

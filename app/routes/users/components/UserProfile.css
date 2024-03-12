@@ -94,3 +94,10 @@
 .githubIcon {
   margin-right: var(--spacing-sm);
 }
+
+.sommerfest {
+  width: 60px;
+  position: absolute;
+  left: 400px;
+  top: 250px;
+}

@@ -1,0 +1,8 @@
+.sommerfest {
+  width: 40px;
+  position: absolute;
+  transform: rotate(20deg);
+  z-index: 10;
+  bottom: 70px;
+  right: 50vw;
+}

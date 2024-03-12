@@ -153,3 +153,10 @@ html[data-theme='light'] .bannerLightMode {
 html[data-theme='dark'] .bannerDarkMode {
   display: block;
 }
+
+.sommerfest {
+  width: 45px;
+  position: absolute;
+  left: 294px;
+  bottom: 710px;
+}

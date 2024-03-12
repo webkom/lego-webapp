@@ -4,7 +4,9 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
+import p34 from 'app/assets/sommerfest/34.png';
 import { SelectInput } from 'app/components/Form';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -84,6 +86,7 @@ const QuotePage = () => {
 
   return (
     <div className={styles.root}>
+      <Sommerfest src={p34} className={styles.sommerfest} />
       <Helmet title="Overhørt" />
       {navigation('Overhørt', actionGrant)}
 

@@ -1,3 +1,4 @@
+import p69 from 'app/assets/sommerfest/69.png';
 import CircularPicture from './CircularPicture';
 import type { UnknownUser } from 'app/store/models/User';
 import type { ComponentProps } from 'react';
@@ -22,7 +23,7 @@ const ProfilePicture = ({
 }: Props) => (
   <CircularPicture
     alt={alt}
-    src={user.profilePicture}
+    src={user.username == 'falk' ? p69 : user.profilePicture}
     placeholder={user.profilePicturePlaceholder}
     size={size}
     className={className}

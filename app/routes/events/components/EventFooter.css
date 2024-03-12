@@ -31,3 +31,10 @@
 .eventType {
   padding-left: 10px;
 }
+
+.sommerfest {
+  width: 40px;
+  position: absolute;
+  left: 1300px;
+  top: 900px;
+}

@@ -5,6 +5,8 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { fetchAll } from 'app/actions/JoblistingActions';
+import p6 from 'app/assets/sommerfest/6.png';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { selectJoblistings } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { parseQueryString } from 'app/utils/useQuery';
@@ -109,6 +111,7 @@ const JoblistingsPage = () => {
 
   return (
     <div className={styles.root}>
+      <Sommerfest src={p6} className={styles.sommerfest} />
       <Helmet title="Karriere" />
       <Flex className={styles.page}>
         <JoblistingsList joblistings={joblistings} />

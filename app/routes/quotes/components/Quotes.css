@@ -210,3 +210,10 @@
     margin-left: 0;
   }
 }
+
+.sommerfest {
+  width: 60px;
+  position: absolute;
+  left: 400px;
+  top: 880px;
+}

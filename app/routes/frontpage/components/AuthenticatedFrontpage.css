@@ -82,3 +82,10 @@
   display: inline-flex;
   gap: 7px;
 }
+
+.sommerfest {
+  width: 40px;
+  position: absolute;
+  left: 10px;
+  bottom: 70px;
+}

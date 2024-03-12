@@ -7,8 +7,10 @@ import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 //import Banner from 'app/components/Banner';
+import p2 from 'app/assets/sommerfest/2.png';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
 import { selectEvents } from 'app/reducers/events';
 import {
@@ -174,22 +176,25 @@ const Weekly = () => {
   );
 
   return (
-    <Flex column className={styles.weekly}>
-      <Link to="/articles?tag=weekly">
-        <h3 className="u-ui-heading">Weekly</h3>
-      </Link>
+    <>
+      <Sommerfest src={p2} className={styles.sommerfest} />
+      <Flex column className={styles.weekly}>
+        <Link to="/articles?tag=weekly">
+          <h3 className="u-ui-heading">Weekly</h3>
+        </Link>
 
-      {(fetching && !newestWeekly) || !newestWeekly ? (
-        <ArticleItem url="" meta={<></>} />
-      ) : (
-        <ArticleItem
-          key={newestWeekly.id}
-          item={newestWeekly}
-          url={itemUrl(newestWeekly)}
-          meta={renderMeta(newestWeekly)}
-        />
-      )}
-    </Flex>
+        {(fetching && !newestWeekly) || !newestWeekly ? (
+          <ArticleItem url="" meta={<></>} />
+        ) : (
+          <ArticleItem
+            key={newestWeekly.id}
+            item={newestWeekly}
+            url={itemUrl(newestWeekly)}
+            meta={renderMeta(newestWeekly)}
+          />
+        )}
+      </Flex>
+    </>
   );
 };
 

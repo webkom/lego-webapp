@@ -12,3 +12,10 @@
     flex-direction: column-reverse;
   }
 }
+
+.sommerfest {
+  width: 40px;
+  position: absolute;
+  left: -10px;
+  bottom: 80px;
+}

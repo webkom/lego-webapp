@@ -8,6 +8,7 @@ import {
   joinGroup,
   leaveGroup,
 } from 'app/actions/GroupActions';
+import p9 from 'app/assets/sommerfest/9.png';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import {
   Content,
@@ -18,6 +19,7 @@ import {
 import DisplayContent from 'app/components/DisplayContent';
 import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import UserGrid from 'app/components/UserGrid';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { selectGroup } from 'app/reducers/groups';
@@ -67,15 +69,20 @@ const ButtonRow = ({ group }: ButtonRowProps) => {
     : () => dispatch(joinGroup(group.id, currentUser));
 
   return (
-    <Flex>
-      <Button
-        success={membership === undefined}
-        danger={membership !== undefined}
-        onClick={onClick}
-      >
-        {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
-      </Button>
-    </Flex>
+    <>
+      {group.name == 'AbaSjakk' && (
+        <Sommerfest src={p9} className={styles.sommerfest} />
+      )}
+      <Flex>
+        <Button
+          success={membership === undefined}
+          danger={membership !== undefined}
+          onClick={onClick}
+        >
+          {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
+        </Button>
+      </Flex>
+    </>
   );
 };
 
