@@ -22,7 +22,7 @@ from CSS Modules:
 Variables are stored in `variables.css` and should be used in other CSS files:
 
 ```css
-@import 'app/styles/variables.css';
+@import '~app/styles/variables.css';
 
 .myClassName {
   background: var(--background-color);
