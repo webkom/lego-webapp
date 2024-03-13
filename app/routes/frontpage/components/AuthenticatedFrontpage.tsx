@@ -1,12 +1,12 @@
 import { Container, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
-//import Banner from 'app/components/Banner';
+import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
@@ -47,8 +47,24 @@ const AuthenticatedFrontpage = () => {
   const pinned = useAppSelector(selectPinned);
   const shouldFetchQuote = useAppSelector(selectRandomQuote) === undefined;
   const { loggedIn } = useUserContext();
-
+  
   const dispatch = useAppDispatch();
+  const [timeLeft, setTimeLeft] = useState(99999999999999);
+  const [timeString, setTimeString] = useState('');
+
+  const findTime = () => {
+    const now = new Date();
+    const start = new Date('2024-03-20T12:00:00');
+    const diff = start.getTime() - now.getTime();
+
+    if (timeLeft - diff > 3000) {
+      setTimeLeft(diff);
+      setTimeString(Math.floor(diff/(1000*60*60*24)) + " dager "+ Math.floor(diff%(1000*60*60*24)/(1000*60*60)) + " timer " + Math.floor(diff%(1000*60*60)/(1000*60)) + " minutter " + Math.floor(diff%(1000*60)/(1000)) + " sekunder") 
+    }
+  };
+  findTime();
+
+  const timeinterval = useRef(setInterval(findTime, 1000));
 
   usePreparedEffect(
     'fetchIndex',
@@ -79,12 +95,11 @@ const AuthenticatedFrontpage = () => {
   return (
     <Container>
       <Helmet title="Hjem" />
-      {/* <Banner
-        header="Billetter til Abakusrevyen ute nå!"
-        subHeader="Kjøp billetter her"
-        link="https://abakusrevyen.no/"
+      <Banner
+        header={ timeString}
+        link="https://abakus.no/articles/507"
         color="red"
-      /> */}
+      />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
