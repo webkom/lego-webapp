@@ -27,6 +27,7 @@ import {
   isValidAllergy,
   isValidGithubUsername,
   isValidLinkedinId,
+  isNotAbakusEmail,
 } from 'app/utils/validation';
 import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import ChangePassword from './ChangePassword';
@@ -62,7 +63,7 @@ const validate = createValidator({
   firstName: [required()],
   lastName: [required()],
   gender: [required()],
-  email: [required(), isEmail()],
+  email: [required(), isEmail(), isNotAbakusEmail()],
   allergies: [isValidAllergy()],
   githubUsername: [isValidGithubUsername()],
   linkedinId: [isValidLinkedinId()],

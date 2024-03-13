@@ -83,7 +83,7 @@ describe('Profile settings', () => {
   it('can change profile', () => {
     cy.visit('/users/me/settings/profile');
 
-    cy.contains('Lagre').should('be.disabled');
+    cy.contains('Lagre endringer').should('be.disabled');
 
     cy.get('input[name=firstName]').clear().type(updatedUser.firstName);
     cy.get('input[name=lastName]').clear().type(updatedUser.lastName);
@@ -93,7 +93,7 @@ describe('Profile settings', () => {
     cy.get('input[name=allergies]').clear().type(updatedUser.allergies);
     cy.get('input[name=email]').clear().type(updatedUser.email);
 
-    cy.contains('Lagre').should('not.be.disabled').click();
+    cy.contains('Lagre endringer').should('not.be.disabled').click();
 
     cy.url().should('include', '/users/me');
     cy.get(c('infoCard'))
@@ -150,11 +150,8 @@ describe('Profile settings', () => {
 
   it('does not allow user to set @abakus.no email', () => {
     cy.visit('/users/me/settings/profile');
-
-    const submitButton = () => cy.contains('Lagre');
-
     field('email').clear().type('webkom@abakus.no').blur();
-    submitButton().click();
-    fieldError('email').should('contain', 'abakus.no');
+    cy.contains('Lagre endringer').click();
+    fieldError('email').should('contain', 'Kan ikke være Abakus-e-post');
   });
 });
