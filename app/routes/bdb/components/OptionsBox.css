@@ -1,21 +1,9 @@
-.optionsHeader {
-  margin-bottom: 10px;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
 .optionsBox {
   width: 350px;
   min-height: 50px;
-  margin: 25px 0;
+  margin: var(--spacing-md) 0;
   display: flex;
   flex-direction: column;
-}
-
-input {
-  margin-right: 5px;
 }
 
 .section {
@@ -23,7 +11,7 @@ input {
 }
 
 .options {
-  margin: 0 0 10px 20px;
+  margin-left: var(--spacing-md);
 }
 
 .options > label {

@@ -174,7 +174,7 @@ const BdbDetail = () => {
       : '';
   };
 
-  if (fetching || !company.semesterStatuses) {
+  if ((fetching && !company) || !company.semesterStatuses) {
     return <LoadingIndicator loading={fetching} />;
   }
 
@@ -266,8 +266,9 @@ const BdbDetail = () => {
           </td>
         </tr>
       ));
+
   const title = (
-    <Flex alignItems="center" gap={5}>
+    <Flex alignItems="center" gap="var(--spacing-xs)">
       {company.name}
       {!company.active && (
         <span
@@ -282,6 +283,7 @@ const BdbDetail = () => {
       <Icon to={`/bdb/${company.id}/edit`} name="pencil" edit size={20} />
     </Flex>
   );
+
   return (
     <Content>
       {company.logo && (
@@ -294,227 +296,221 @@ const BdbDetail = () => {
           }}
         />
       )}
+
       <DetailNavigation title={title} companyId={company.id} />
-      <div
-        className={cx(
-          styles.description,
-          !company.description && 'secondaryFontColor',
-        )}
-      >
-        {company.description || 'Ingen beskrivelse tilgjengelig'}
-      </div>
-      <div className={styles.infoBubbles}>
-        <InfoBubble
-          icon="briefcase"
-          data={company.companyType}
-          meta="Type bedrift"
-          style={{
-            order: 0,
-          }}
-        />
-        <InfoBubble
-          icon="mail"
-          data={company.paymentMail}
-          meta="Fakturamail"
-          style={{
-            order: 1,
-          }}
-        />
-        <InfoBubble
-          icon="call"
-          data={company.phone}
-          meta="Telefon"
-          style={{
-            order: 2,
-          }}
-        />
-        <InfoBubble
-          icon="at"
-          data={company.website}
-          meta="Nettside"
-          style={{
-            order: 3,
-          }}
-          link={company.website}
-        />
-        <InfoBubble
-          icon="home"
-          data={company.address}
-          meta="Adresse"
-          style={{
-            order: 4,
-          }}
-        />
-        <InfoBubble
-          icon="person"
-          data={`${
-            (company.studentContact && company.studentContact.fullName) || '-'
-          }`}
-          meta="Studentkontakt"
-          link={studentContactLink(company.studentContact)}
-          style={{
-            order: 5,
-          }}
-        />
-      </div>
 
-      <h3>
-        Bedriftskontakter{' '}
-        <span className={styles.newestFirst}>(Nyest øverst)</span>
-      </h3>
-      {companyContacts && companyContacts.length > 0 ? (
-        <div
-          className={styles.companyList}
-          style={{
-            marginBottom: '10px',
-          }}
-        >
-          <table className={styles.contactTable}>
-            <thead>
-              <tr>
-                <th>Navn</th>
-                <th>Rolle</th>
-                <th>E-post</th>
-                <th>Telefonnummer</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>{companyContacts}</tbody>
-          </table>
-        </div>
-      ) : (
-        <span
-          className="secondaryFontColor"
-          style={{
-            display: 'block',
-          }}
-        >
-          Ingen bedriftskontakter registrert
-        </span>
-      )}
-      <Link
-        to={`/bdb/${company.id}/company-contacts/add`}
-        style={{
-          marginTop: '10px',
-        }}
-      >
-        <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
-      </Link>
-
-      <div
-        style={{
-          clear: 'both',
-          marginBottom: '30px',
-        }}
-      />
-
-      <h3>Semesterstatuser</h3>
-      {semesters.length > 0 ? (
-        <div
-          className={styles.companyList}
-          style={{
-            marginBottom: '10px',
-          }}
-        >
-          <Card severity="info">
-            <Card.Header>Tips</Card.Header>
-            Du kan endre semestere ved å trykke på dem i listen!
-          </Card>
-          <table className={styles.detailTable}>
-            <thead>
-              <tr>
-                <th>Semester</th>
-                <th>Status</th>
-                <th>Kontrakt</th>
-                <th>Statistikk</th>
-                <th>Evaluering</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>{semesters}</tbody>
-          </table>
-        </div>
-      ) : (
-        <span
-          className="secondaryFontColor"
-          style={{
-            display: 'block',
-          }}
-        >
-          Ingen sememsterstatuser
-        </span>
-      )}
-      <div>
-        <Link to={`/bdb/${company.id}/semesters/add`}>
-          <i className="fa fa-plus-circle" /> Legg til nytt semester
-        </Link>
-      </div>
-
-      <div className={styles.files}>
-        <h3>Filer</h3>
-        <ul>
-          {!company.files || company.files.length === 0 ? (
-            <span className="secondaryFontColor">Ingen filer</span>
-          ) : (
-            company.files.map((file) => (
-              <li key={file.id}>
-                <a href={file.file}>{truncateString(file.file, 100)}</a>
-              </li>
-            ))
+      <Flex column gap="var(--spacing-md)">
+        <p
+          className={cx(
+            styles.description,
+            !company.description && 'secondaryFontColor',
           )}
-        </ul>
-      </div>
+        >
+          {company.description || 'Ingen beskrivelse tilgjengelig'}
+        </p>
 
-      <div className={styles.adminNote}>
-        <h3>Notat i listen</h3>
-        {company.adminComment || (
-          <span className="secondaryFontColor">Ingen notater</span>
-        )}
-      </div>
+        <div className={styles.infoBubbles}>
+          <InfoBubble
+            icon="briefcase"
+            data={company.companyType}
+            meta="Type bedrift"
+            style={{
+              order: 0,
+            }}
+          />
+          <InfoBubble
+            icon="mail"
+            data={company.paymentMail}
+            meta="Fakturamail"
+            style={{
+              order: 1,
+            }}
+          />
+          <InfoBubble
+            icon="call"
+            data={company.phone}
+            meta="Telefon"
+            style={{
+              order: 2,
+            }}
+          />
+          <InfoBubble
+            icon="at"
+            data={company.website}
+            meta="Nettside"
+            style={{
+              order: 3,
+            }}
+            link={company.website}
+          />
+          <InfoBubble
+            icon="home"
+            data={company.address}
+            meta="Adresse"
+            style={{
+              order: 4,
+            }}
+          />
+          <InfoBubble
+            icon="person"
+            data={`${
+              (company.studentContact && company.studentContact.fullName) || '-'
+            }`}
+            meta="Studentkontakt"
+            link={studentContactLink(company.studentContact)}
+            style={{
+              order: 5,
+            }}
+          />
+        </div>
 
-      <h3>Bedriftens arrangementer</h3>
-      {events.length > 0 ? (
-        <div className={styles.companyList}>
-          <table className={styles.eventsTable}>
-            <thead>
-              <tr>
-                <th>Tittel</th>
-                <th>Arrangementstype</th>
-                <th>Når</th>
-                <th>Hvor</th>
-                <th>Hva</th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>{events}</tbody>
-          </table>
-          {eventsToDisplay === 3 ? (
-            <Button
+        <div>
+          <h3>
+            Bedriftskontakter{' '}
+            <span className={styles.newestFirst}>(Nyest øverst)</span>
+          </h3>
+          {companyContacts && companyContacts.length > 0 ? (
+            <div className={styles.companyList}>
+              <table className={styles.contactTable}>
+                <thead>
+                  <tr>
+                    <th>Navn</th>
+                    <th>Rolle</th>
+                    <th>E-post</th>
+                    <th>Telefonnummer</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>{companyContacts}</tbody>
+              </table>
+            </div>
+          ) : (
+            <span
+              className="secondaryFontColor"
               style={{
-                width: '100%',
-                marginTop: '20px',
+                display: 'block',
               }}
-              onClick={() => setEventsToDisplay(100)}
             >
-              Vis alle arrangementer
-            </Button>
+              Ingen bedriftskontakter registrert
+            </span>
+          )}
+          <Link
+            to={`/bdb/${company.id}/company-contacts/add`}
+            style={{
+              marginTop: '10px',
+            }}
+          >
+            <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
+          </Link>
+        </div>
+
+        <div>
+          <h3>Semesterstatuser</h3>
+          {semesters.length > 0 ? (
+            <div
+              className={styles.companyList}
+              style={{
+                marginBottom: '10px',
+              }}
+            >
+              <Card severity="info">
+                <Card.Header>Tips</Card.Header>
+                Du kan endre semestere ved å trykke på dem i listen!
+              </Card>
+              <table className={styles.detailTable}>
+                <thead>
+                  <tr>
+                    <th>Semester</th>
+                    <th>Status</th>
+                    <th>Kontrakt</th>
+                    <th>Statistikk</th>
+                    <th>Evaluering</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>{semesters}</tbody>
+              </table>
+            </div>
           ) : (
-            showFetchMoreEvents && (
-              <Button onClick={fetchMoreEvents}>Hent flere</Button>
-            )
+            <span
+              className="secondaryFontColor"
+              style={{
+                display: 'block',
+              }}
+            >
+              Ingen sememsterstatuser
+            </span>
+          )}
+          <Link to={`/bdb/${company.id}/semesters/add`}>
+            <i className="fa fa-plus-circle" /> Legg til nytt semester
+          </Link>
+        </div>
+
+        <div>
+          <h3>Filer</h3>
+          <ul>
+            {!company.files || company.files.length === 0 ? (
+              <span className="secondaryFontColor">Ingen filer</span>
+            ) : (
+              company.files.map((file) => (
+                <li key={file.id}>
+                  <a href={file.file}>{truncateString(file.file, 100)}</a>
+                </li>
+              ))
+            )}
+          </ul>
+        </div>
+
+        <div className={styles.adminNote}>
+          <h3>Notat i listen</h3>
+          {company.adminComment || (
+            <span className="secondaryFontColor">Ingen notater</span>
           )}
         </div>
-      ) : (
-        <span className="secondaryFontColor">Ingen arrangementer</span>
-      )}
 
-      {company.contentTarget && (
-        <CommentView
-          contentTarget={company.contentTarget}
-          comments={comments}
-          newOnTop
-        />
-      )}
+        <div>
+          <h3>Bedriftens arrangementer</h3>
+          {events.length > 0 ? (
+            <div className={styles.companyList}>
+              <table className={styles.eventsTable}>
+                <thead>
+                  <tr>
+                    <th>Tittel</th>
+                    <th>Arrangementstype</th>
+                    <th>Når</th>
+                    <th>Hvor</th>
+                    <th>Hva</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody>{events}</tbody>
+              </table>
+              {eventsToDisplay === 3 ? (
+                <Button
+                  className={styles.showAllButton}
+                  onClick={() => setEventsToDisplay(100)}
+                >
+                  Vis alle arrangementer
+                </Button>
+              ) : (
+                showFetchMoreEvents && (
+                  <Button onClick={fetchMoreEvents}>Hent flere</Button>
+                )
+              )}
+            </div>
+          ) : (
+            <span className="secondaryFontColor">Ingen arrangementer</span>
+          )}
+        </div>
+
+        {company.contentTarget && (
+          <CommentView
+            contentTarget={company.contentTarget}
+            comments={comments}
+            newOnTop
+          />
+        )}
+      </Flex>
     </Content>
   );
 };
