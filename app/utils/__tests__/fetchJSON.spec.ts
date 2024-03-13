@@ -40,7 +40,7 @@ describe('fetchJSON', () => {
         () => {},
         (error) => {
           expect(error.response.statusText).toBe('Unauthorized');
-        },
+        }
       ));
   });
 });

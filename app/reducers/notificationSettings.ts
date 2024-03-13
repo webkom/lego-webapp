@@ -36,7 +36,7 @@ const notificationSettings: Reducer<State> = produce((newState, action) => {
 export default notificationSettings;
 export const transform = (settings: any) => keyBy(settings, 'notificationType');
 export const selectNotificationSettingsAlternatives = (
-  state: Record<string, any>,
+  state: Record<string, any>
 ) => ({
   channels: state.notificationSettings.channels,
   notificationTypes: state.notificationSettings.notificationTypes,

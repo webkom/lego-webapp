@@ -59,13 +59,13 @@ const ConsentStatus = ({
       WEBSITE,
       eventSemester.year,
       eventSemester.semester,
-      photoConsents,
+      photoConsents
     )?.isConsenting;
     const isConsentingSoMe = getConsent(
       SOCIAL_MEDIA,
       eventSemester.year,
       eventSemester.semester,
-      photoConsents,
+      photoConsents
     )?.isConsenting;
     const readableEventSemester = toReadableSemester(eventSemester);
 

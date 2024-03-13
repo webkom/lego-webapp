@@ -36,7 +36,7 @@ const EditorField = ({ className, name, ...props }: Props) => {
       uploadFile({
         file,
         isPublic: true,
-      }),
+      })
     );
     return {
       fileKey: response.meta.fileKey,

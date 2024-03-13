@@ -42,7 +42,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
       currentUser,
       loggedIn,
     }),
-    [currentUser, loggedIn],
+    [currentUser, loggedIn]
   );
 
   const statusCode = useAppSelector((state) => state.router.statusCode);
@@ -118,5 +118,5 @@ export default withPreparedDispatch(
   'login',
   (_, dispatch) => dispatch(loginAutomaticallyIfPossible()),
   () => [],
-  { runSync: true, serverOnly: true },
+  { runSync: true, serverOnly: true }
 )(App);

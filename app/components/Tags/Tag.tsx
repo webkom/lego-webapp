@@ -47,7 +47,7 @@ const Tag = ({
           styles.tag,
           styles[color],
           className,
-          active && styles.active,
+          active && styles.active
         )}
         to={link}
       >

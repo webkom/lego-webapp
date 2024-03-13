@@ -251,7 +251,7 @@ describe('reducers', () => {
     const articlesAdapter = createLegoAdapter(EntityType.Articles);
     const createInitialState = (
       article1HasReacted: boolean,
-      article1ReactionCount: number,
+      article1ReactionCount: number
     ) => ({
       ...articlesAdapter.getInitialState(),
       ids: [2, 3],
@@ -415,7 +415,7 @@ describe('reducers', () => {
     it('should not add reaction to wrong contentTarget', () => {
       const initialState = createInitialState(false, 1);
       expect(reducer(initialState, add('events.event-2'))).toEqual(
-        initialState,
+        initialState
       );
     });
   });

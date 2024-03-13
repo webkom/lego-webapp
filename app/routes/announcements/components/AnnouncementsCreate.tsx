@@ -68,7 +68,7 @@ const validate = createValidator({
   users: [
     atLeastOneFieldRequired(
       ['users', 'groups', 'events', 'meetings'],
-      'Du må velge minst én mottaker',
+      'Du må velge minst én mottaker'
     ),
   ],
 });
@@ -120,7 +120,7 @@ const AnnouncementsCreate = () => {
         meetingInvitationStatus: values.meetingInvitationStatus?.value,
         events: values.events?.map((event) => event.value),
         fromGroup: values.fromGroup?.value,
-      }),
+      })
     ).then((result) => {
       if (values.send) {
         dispatch(sendAnnouncement(result.payload.result));
@@ -200,7 +200,7 @@ const AnnouncementsCreate = () => {
                     (status) => ({
                       label: statusesText[status],
                       value: status,
-                    }),
+                    })
                   )}
                 />
               </Flex>

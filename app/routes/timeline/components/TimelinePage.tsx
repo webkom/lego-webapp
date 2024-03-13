@@ -19,13 +19,13 @@ const TimelinePage = () => {
   const feed = useAppSelector((state) =>
     selectFeedById(state, {
       feedId: 'personal',
-    }),
+    })
   );
 
   const feedItems = useAppSelector((state) =>
     selectFeedActivitesByFeedId(state, {
       feedId: 'personal',
-    }),
+    })
   );
 
   return (

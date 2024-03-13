@@ -17,7 +17,7 @@ const Penalties = ({ userId }: Props) => {
   const penalties = useAppSelector((state) =>
     selectPenaltyByUserId(state, {
       userId,
-    }),
+    })
   ) as Penalty[];
   const canDeletePenalties = useAppSelector((state) => state.allowed.penalties);
 

@@ -48,8 +48,8 @@ function CollapsibleDisplayContent({
         height: !useCollapse
           ? null
           : isOpened
-            ? ref.current?.clientHeight + 50
-            : collapsedHeight + 'px' ?? collapsedHeight,
+          ? ref.current?.clientHeight + 50
+          : collapsedHeight + 'px' ?? collapsedHeight,
       }}
     >
       {skeleton ? (

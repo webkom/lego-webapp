@@ -20,38 +20,38 @@ describe('addFetchingReducer', () => {
 
   it('should set fetching=true on BEGIN action', () => {
     expect(
-      reducer({ fetching: false }, { ...baseAction, type: FETCH.BEGIN }),
+      reducer({ fetching: false }, { ...baseAction, type: FETCH.BEGIN })
     ).toEqual({
       fetching: true,
     });
   });
   it('should set fetching=false on FAILURE action', () => {
     expect(
-      reducer({ fetching: true }, { ...baseAction, type: FETCH.FAILURE }),
+      reducer({ fetching: true }, { ...baseAction, type: FETCH.FAILURE })
     ).toEqual({
       fetching: false,
     });
   });
   it('should set fetching=false on SUCCESS action', () => {
     expect(
-      reducer({ fetching: true }, { ...baseAction, type: FETCH.SUCCESS }),
+      reducer({ fetching: true }, { ...baseAction, type: FETCH.SUCCESS })
     ).toEqual({
       fetching: false,
     });
   });
   it("should ignore actions that don't match", () => {
     expect(
-      reducer({ fetching: false }, { ...baseAction, type: NOT_FETCH.BEGIN }),
+      reducer({ fetching: false }, { ...baseAction, type: NOT_FETCH.BEGIN })
     ).toEqual({
       fetching: false,
     });
     expect(
-      reducer({ fetching: true }, { ...baseAction, type: NOT_FETCH.FAILURE }),
+      reducer({ fetching: true }, { ...baseAction, type: NOT_FETCH.FAILURE })
     ).toEqual({
       fetching: true,
     });
     expect(
-      reducer({ fetching: true }, { ...baseAction, type: NOT_FETCH.SUCCESS }),
+      reducer({ fetching: true }, { ...baseAction, type: NOT_FETCH.SUCCESS })
     ).toEqual({
       fetching: true,
     });

@@ -20,7 +20,7 @@ const MultiSelectGroup = ({ name, label, children }: Props) => {
             name,
             fieldClassName: styles.radioField,
             labelClassName: styles.radioLabel,
-          }),
+          })
         )}
       </div>
       <FormSpy

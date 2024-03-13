@@ -21,24 +21,24 @@ describe('async action type guards', () => {
   describe('isAsyncApiActionSuccess', () => {
     it('should return true on SUCCESS actions', () => {
       expect(
-        isAsyncApiActionSuccess({ ...baseAction, type: FETCH.SUCCESS }),
+        isAsyncApiActionSuccess({ ...baseAction, type: FETCH.SUCCESS })
       ).toBe(true);
       expect(
-        isAsyncApiActionSuccess({ ...baseAction, type: UPDATE.SUCCESS }),
+        isAsyncApiActionSuccess({ ...baseAction, type: UPDATE.SUCCESS })
       ).toBe(true);
     });
     it('should return false on other actions', () => {
       expect(
-        isAsyncApiActionSuccess({ ...baseAction, type: FETCH.BEGIN }),
+        isAsyncApiActionSuccess({ ...baseAction, type: FETCH.BEGIN })
       ).toBe(false);
       expect(
-        isAsyncApiActionSuccess({ ...baseAction, type: FETCH.FAILURE }),
+        isAsyncApiActionSuccess({ ...baseAction, type: FETCH.FAILURE })
       ).toBe(false);
       expect(
-        isAsyncApiActionSuccess({ ...baseAction, type: UPDATE.BEGIN }),
+        isAsyncApiActionSuccess({ ...baseAction, type: UPDATE.BEGIN })
       ).toBe(false);
       expect(
-        isAsyncApiActionSuccess({ ...baseAction, type: UPDATE.FAILURE }),
+        isAsyncApiActionSuccess({ ...baseAction, type: UPDATE.FAILURE })
       ).toBe(false);
     });
 
@@ -48,13 +48,13 @@ describe('async action type guards', () => {
           isAsyncApiActionSuccess.matching([FETCH])({
             ...baseAction,
             type: FETCH.SUCCESS,
-          }),
+          })
         ).toBe(true);
         expect(
           isAsyncApiActionSuccess.matching([FETCH])({
             ...baseAction,
             type: UPDATE.SUCCESS,
-          }),
+          })
         ).toBe(false);
       });
       it('should return false if not SUCCESS even if matching actionTypes', () => {
@@ -62,13 +62,13 @@ describe('async action type guards', () => {
           isAsyncApiActionSuccess.matching([FETCH])({
             ...baseAction,
             type: FETCH.BEGIN,
-          }),
+          })
         ).toBe(false);
         expect(
           isAsyncApiActionSuccess.matching([FETCH])({
             ...baseAction,
             type: FETCH.FAILURE,
-          }),
+          })
         ).toBe(false);
       });
     });
@@ -83,7 +83,7 @@ describe('async action type guards', () => {
                 [EntityType.Articles]: {},
               },
             },
-          }),
+          })
         ).toBe(true);
         expect(
           isAsyncApiActionSuccess.containingEntity(EntityType.Events)({
@@ -94,7 +94,7 @@ describe('async action type guards', () => {
                 [EntityType.Events]: {},
               },
             },
-          }),
+          })
         ).toBe(true);
       });
       it('should return false when entity is not in payload', () => {
@@ -107,7 +107,7 @@ describe('async action type guards', () => {
                 [EntityType.Emojis]: {},
               },
             },
-          }),
+          })
         ).toBe(false);
         expect(
           isAsyncApiActionSuccess.containingEntity(EntityType.Events)({
@@ -118,7 +118,7 @@ describe('async action type guards', () => {
                 [EntityType.Announcements]: {},
               },
             },
-          }),
+          })
         ).toBe(false);
       });
     });
@@ -126,24 +126,24 @@ describe('async action type guards', () => {
   describe('isAsyncApiActionFailure', () => {
     it('should return true on FAILURE actions', () => {
       expect(
-        isAsyncApiActionFailure({ ...baseAction, type: FETCH.FAILURE }),
+        isAsyncApiActionFailure({ ...baseAction, type: FETCH.FAILURE })
       ).toBe(true);
       expect(
-        isAsyncApiActionFailure({ ...baseAction, type: UPDATE.FAILURE }),
+        isAsyncApiActionFailure({ ...baseAction, type: UPDATE.FAILURE })
       ).toBe(true);
     });
     it('should return false on other actions', () => {
       expect(
-        isAsyncApiActionFailure({ ...baseAction, type: FETCH.BEGIN }),
+        isAsyncApiActionFailure({ ...baseAction, type: FETCH.BEGIN })
       ).toBe(false);
       expect(
-        isAsyncApiActionFailure({ ...baseAction, type: FETCH.SUCCESS }),
+        isAsyncApiActionFailure({ ...baseAction, type: FETCH.SUCCESS })
       ).toBe(false);
       expect(
-        isAsyncApiActionFailure({ ...baseAction, type: UPDATE.BEGIN }),
+        isAsyncApiActionFailure({ ...baseAction, type: UPDATE.BEGIN })
       ).toBe(false);
       expect(
-        isAsyncApiActionFailure({ ...baseAction, type: UPDATE.SUCCESS }),
+        isAsyncApiActionFailure({ ...baseAction, type: UPDATE.SUCCESS })
       ).toBe(false);
     });
 
@@ -153,13 +153,13 @@ describe('async action type guards', () => {
           isAsyncApiActionFailure.matching([FETCH])({
             ...baseAction,
             type: FETCH.FAILURE,
-          }),
+          })
         ).toBe(true);
         expect(
           isAsyncApiActionFailure.matching([FETCH])({
             ...baseAction,
             type: UPDATE.FAILURE,
-          }),
+          })
         ).toBe(false);
       });
       it('should return false if not SUCCESS even if matching actionTypes', () => {
@@ -167,13 +167,13 @@ describe('async action type guards', () => {
           isAsyncApiActionFailure.matching([FETCH])({
             ...baseAction,
             type: FETCH.BEGIN,
-          }),
+          })
         ).toBe(false);
         expect(
           isAsyncApiActionFailure.matching([FETCH])({
             ...baseAction,
             type: FETCH.SUCCESS,
-          }),
+          })
         ).toBe(false);
       });
     });
@@ -181,24 +181,24 @@ describe('async action type guards', () => {
   describe('isAsyncApiActionBegin', () => {
     it('should return true on FAILURE actions', () => {
       expect(isAsyncApiActionBegin({ ...baseAction, type: FETCH.BEGIN })).toBe(
-        true,
+        true
       );
       expect(isAsyncApiActionBegin({ ...baseAction, type: UPDATE.BEGIN })).toBe(
-        true,
+        true
       );
     });
     it('should return false on other actions', () => {
       expect(
-        isAsyncApiActionBegin({ ...baseAction, type: FETCH.FAILURE }),
+        isAsyncApiActionBegin({ ...baseAction, type: FETCH.FAILURE })
       ).toBe(false);
       expect(
-        isAsyncApiActionBegin({ ...baseAction, type: FETCH.SUCCESS }),
+        isAsyncApiActionBegin({ ...baseAction, type: FETCH.SUCCESS })
       ).toBe(false);
       expect(
-        isAsyncApiActionBegin({ ...baseAction, type: UPDATE.FAILURE }),
+        isAsyncApiActionBegin({ ...baseAction, type: UPDATE.FAILURE })
       ).toBe(false);
       expect(
-        isAsyncApiActionBegin({ ...baseAction, type: UPDATE.SUCCESS }),
+        isAsyncApiActionBegin({ ...baseAction, type: UPDATE.SUCCESS })
       ).toBe(false);
     });
 
@@ -208,13 +208,13 @@ describe('async action type guards', () => {
           isAsyncApiActionBegin.matching([FETCH])({
             ...baseAction,
             type: FETCH.BEGIN,
-          }),
+          })
         ).toBe(true);
         expect(
           isAsyncApiActionBegin.matching([FETCH])({
             ...baseAction,
             type: UPDATE.BEGIN,
-          }),
+          })
         ).toBe(false);
       });
       it('should return false if not SUCCESS even if matching actionTypes', () => {
@@ -222,13 +222,13 @@ describe('async action type guards', () => {
           isAsyncApiActionBegin.matching([FETCH])({
             ...baseAction,
             type: FETCH.FAILURE,
-          }),
+          })
         ).toBe(false);
         expect(
           isAsyncApiActionBegin.matching([FETCH])({
             ...baseAction,
             type: FETCH.SUCCESS,
-          }),
+          })
         ).toBe(false);
       });
     });

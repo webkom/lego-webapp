@@ -40,7 +40,7 @@ const PasswordStrengthMeter = ({ password, user }: Props) => {
         tips.push(zxcvbnValue.feedback?.warning);
         tips = tips.map((tip) => passwordFeedbackMessages[tip]).filter(Boolean);
         const crackTimeSec = Number(
-          zxcvbnValue.crack_times_seconds?.offline_slow_hashing_1e4_per_second,
+          zxcvbnValue.crack_times_seconds?.offline_slow_hashing_1e4_per_second
         );
         const crackTimeDuration = moment
           .duration(crackTimeSec, 'seconds')

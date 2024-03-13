@@ -65,7 +65,7 @@ export function login(username: string, password: string) {
         meta: {
           errorMessage: 'Kunne ikke logge inn',
         },
-      }),
+      })
     ).then((action) => {
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
@@ -98,7 +98,7 @@ export function updateUser(
     updateProfilePicture?: boolean;
   } = {
     updateProfilePicture: false,
-  },
+  }
 ) {
   const {
     username,
@@ -201,7 +201,7 @@ export function removePicture(username: string) {
 export function updatePhotoConsent(
   photoConsent: PhotoConsent,
   username: string,
-  userId: number,
+  userId: number
 ) {
   const { year, semester, domain, isConsenting } = photoConsent;
   return callAPI({
@@ -233,7 +233,7 @@ export function updatePicture({
     return dispatch(
       uploadFile({
         file: picture,
-      }),
+      })
     ).then((action) =>
       dispatch(
         updateUser(
@@ -244,9 +244,9 @@ export function updatePicture({
           {
             noRedirect: true,
             updateProfilePicture: true,
-          },
-        ),
-      ),
+          }
+        )
+      )
     );
   };
 }
@@ -257,7 +257,7 @@ const defaultOptions = {
 
 export function fetchUser(
   username = 'me',
-  { propagateError } = defaultOptions,
+  { propagateError } = defaultOptions
 ) {
   return callAPI<CurrentUser>({
     types: User.FETCH,
@@ -366,7 +366,7 @@ export function validateRegistrationToken(token: string) {
           errorMessage: 'Validering av registrerings-token feilet',
           token,
         },
-      }),
+      })
     );
 }
 
@@ -429,7 +429,7 @@ export type ConfirmStudentAuthResponse =
   | ConfirmStudentAuthErrorResponse;
 export function confirmStudentAuth(
   code: string | qs.ParsedQs | string[] | qs.ParsedQs[],
-  state: string | qs.ParsedQs | string[] | qs.ParsedQs[],
+  state: string | qs.ParsedQs | string[] | qs.ParsedQs[]
 ) {
   return callAPI<ConfirmStudentAuthResponse>({
     types: User.COMPLETE_STUDENT_AUTH,
@@ -517,6 +517,6 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
     },
     {
       noRedirect: true,
-    },
+    }
   );
 }

@@ -19,7 +19,7 @@ describe('components', () => {
           }}
         >
           <LoginForm login={login} className="LoginForm" />
-        </Provider>,
+        </Provider>
       );
       const form = wrapper.find('form');
       expect(form.hasClass('LoginForm')).toBe(true);

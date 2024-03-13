@@ -18,7 +18,7 @@ type Props = {
 
 const searchEmojis = (
   emojis: EmojiWithReactionData[],
-  searchString: string,
+  searchString: string
 ) => {
   const matchingEmojis = [];
   let currentEmojis = emojis;
@@ -102,7 +102,7 @@ const searchEmojis = (
   currentEmojis = currentEmojis.filter((emoji) => {
     if (
       emoji.keywords.find(
-        (keyword) => keyword.toLowerCase() === searchString,
+        (keyword) => keyword.toLowerCase() === searchString
       ) !== undefined
     ) {
       matchingEmojis.push(emoji);
@@ -174,7 +174,7 @@ const ReactionPicker = ({ emojis, contentTarget }: Props) => {
 
   const onSearch = useCallback(
     (searchString) => setSearchString(searchString.trim().toLowerCase()),
-    [],
+    []
   );
 
   const isLoading = useAppSelector((state) => state.emojis.fetching);

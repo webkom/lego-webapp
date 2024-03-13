@@ -25,10 +25,10 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   const survey = useFetchedSurvey('surveySubmissions', surveyId);
   const submissions = useFetchedSurveySubmissions(
     'surveySubmissions',
-    surveyId,
+    surveyId
   );
   const fetching = useAppSelector(
-    (state) => state.surveys.fetching || state.surveySubmissions.fetching,
+    (state) => state.surveys.fetching || state.surveySubmissions.fetching
   );
   const authToken = useAppSelector((state) => state.auth.token);
 

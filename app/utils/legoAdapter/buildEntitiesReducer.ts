@@ -8,11 +8,11 @@ import type { EntityType } from 'app/store/models/entities';
 
 const buildEntitiesReducer = <
   T extends EntityType,
-  Entity extends Entities[T][ID] = Entities[T][ID],
+  Entity extends Entities[T][ID] = Entities[T][ID]
 >(
   builder: ActionReducerMapBuilder<EntityState<Entity>>,
   adapter: EntityAdapter<Entity>,
-  entityType: T,
+  entityType: T
 ) => {
   builder.addMatcher(
     isAsyncApiActionSuccess.containingEntity(entityType),
@@ -23,7 +23,7 @@ const buildEntitiesReducer = <
         Entity
       >;
       adapter.upsertMany(state, payloadEntities);
-    },
+    }
   );
 };
 

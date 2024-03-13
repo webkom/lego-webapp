@@ -11,7 +11,7 @@ export default defineConfig({
       app: path.resolve(__dirname, './app/'),
       '@webkom/lego-bricks': path.resolve(
         __dirname,
-        './packages/lego-bricks/src/index.ts',
+        './packages/lego-bricks/src/index.ts'
       ),
     },
   },

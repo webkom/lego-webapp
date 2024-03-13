@@ -16,13 +16,13 @@ type PollOptionRatio = PollType['options'][0] & {
 
 // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
 export const perfectRatios = (
-  options: ReadonlyArray<PollOptionRatio>,
+  options: ReadonlyArray<PollOptionRatio>
 ): PollOptionRatio[] => {
   const off =
     100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
   return sortBy<PollOptionRatio>(
     options,
-    (o: PollOptionRatio) => Math.floor(o.ratio) - o.ratio,
+    (o: PollOptionRatio) => Math.floor(o.ratio) - o.ratio
   )
     .map((option: PollOptionRatio, index: number) => {
       return {
@@ -62,7 +62,7 @@ const Poll = ({
   };
 
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.polls.fetching,
+    (state) => state.frontpage.fetching || state.polls.fetching
   );
 
   if (fetching && !poll) {

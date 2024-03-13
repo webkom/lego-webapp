@@ -127,7 +127,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
                 className={cx(
                   (filters[filterIndex] ?? []).length || isShown[filterIndex]
                     ? styles.iconActive
-                    : styles.icon,
+                    : styles.icon
                 )}
               />
             }
@@ -160,7 +160,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
                   (filters[filterIndex] ?? []).length > 0 ||
                     isShown[filterIndex]
                     ? styles.iconActive
-                    : styles.icon,
+                    : styles.icon
                 )}
               />
             }
@@ -188,7 +188,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
                     onClick={() => toggleFilter(filterIndex, value)}
                   />
                 </div>
-              ),
+              )
             )}
             <Button
               flat
@@ -216,7 +216,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
                 className={cx(
                   filters[filterIndex] !== undefined || isShown[filterIndex]
                     ? styles.iconActive
-                    : styles.icon,
+                    : styles.icon
                 )}
               />
             }

@@ -1,12 +1,12 @@
 import { Container, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
-//import Banner from 'app/components/Banner';
+import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
@@ -49,6 +49,31 @@ const AuthenticatedFrontpage = () => {
   const { loggedIn } = useUserContext();
 
   const dispatch = useAppDispatch();
+  const [timeLeft, setTimeLeft] = useState(99999999999999);
+  const [timeString, setTimeString] = useState('');
+
+  const findTime = () => {
+    const now = new Date();
+    const start = new Date('2024-03-20T12:00:00');
+    const diff = start.getTime() - now.getTime();
+
+    if (timeLeft - diff > 3000) {
+      setTimeLeft(diff);
+      setTimeString(
+        Math.floor(diff / (1000 * 60 * 60 * 24)) +
+          ' dager ' +
+          Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) +
+          ' timer ' +
+          Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)) +
+          ' minutter ' +
+          Math.floor((diff % (1000 * 60)) / 1000) +
+          ' sekunder'
+      );
+    }
+  };
+  findTime();
+
+  useRef(setInterval(findTime, 1000));
 
   usePreparedEffect(
     'fetchIndex',
@@ -58,7 +83,7 @@ const AuthenticatedFrontpage = () => {
         dispatch(fetchReadmes(loggedIn ? 4 : 2)),
         dispatch(fetchData()),
       ]),
-    [loggedIn, shouldFetchQuote],
+    [loggedIn, shouldFetchQuote]
   );
 
   const scrollToTop = () => {
@@ -79,12 +104,11 @@ const AuthenticatedFrontpage = () => {
   return (
     <Container>
       <Helmet title="Hjem" />
-      {/* <Banner
-        header="Billetter til Abakusrevyen ute nå!"
-        subHeader="Kjøp billetter her"
-        link="https://abakusrevyen.no/"
+      <Banner
+        header={timeString}
+        link="https://abakus.no/articles/507"
         color="red"
-      /> */}
+      />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
@@ -115,7 +139,7 @@ const Events = ({
 }) => {
   const allEvents = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.events.fetching,
+    (state) => state.frontpage.fetching || state.events.fetching
   );
 
   const shownEvents = useMemo(
@@ -126,7 +150,7 @@ const Events = ({
         .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
         .slice(0, numberToShow)
         .map(addEventType),
-    [allEvents, pinnedId, numberToShow],
+    [allEvents, pinnedId, numberToShow]
   );
 
   return (
@@ -155,10 +179,10 @@ const Events = ({
 
 const Weekly = () => {
   const weeklyArticles = useAppSelector((state) =>
-    selectArticlesByTag(state, { tag: 'weekly' }),
+    selectArticlesByTag(state, { tag: 'weekly' })
   );
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.articles.fetching,
+    (state) => state.frontpage.fetching || state.articles.fetching
   );
 
   const newestWeekly = useMemo(
@@ -166,11 +190,11 @@ const Weekly = () => {
       weeklyArticles.length
         ? addArticleType(
             weeklyArticles.sort((a, b) =>
-              moment(b.createdAt).diff(moment(a.createdAt)),
-            )[0],
+              moment(b.createdAt).diff(moment(a.createdAt))
+            )[0]
           )
         : undefined,
-    [weeklyArticles],
+    [weeklyArticles]
   );
 
   return (
@@ -202,7 +226,7 @@ const Articles = ({
 }) => {
   const allArticles = useAppSelector(selectArticles);
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.articles.fetching,
+    (state) => state.frontpage.fetching || state.articles.fetching
   );
 
   const shownArticles = useMemo(
@@ -213,7 +237,7 @@ const Articles = ({
         .sort((a, b) => moment(b.createdAt).diff(moment(a.createdAt)))
         .slice(0, numberToShow)
         .map(addArticleType),
-    [allArticles, pinnedId, numberToShow],
+    [allArticles, pinnedId, numberToShow]
   );
 
   return (
@@ -253,7 +277,7 @@ const UpcomingRegistrationsSection = () => (
 const PollItem = () => {
   const poll = useAppSelector(selectPinnedPolls)[0];
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.polls.fetching,
+    (state) => state.frontpage.fetching || state.polls.fetching
   );
 
   return (

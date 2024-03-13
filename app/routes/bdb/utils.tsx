@@ -54,18 +54,18 @@ export const contactStatuses: CompanySemesterContactStatus[] = [
 ];
 
 export const getStatusDisplayName = (
-  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED
 ) =>
   EventTypeConfig[status]?.displayName ||
   NonEventContactStatusConfig[status]?.displayName;
 
 export const getStatusColor = (
-  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED
 ) =>
   EventTypeConfig[status]?.color || NonEventContactStatusConfig[status]?.color;
 
 export const sortStatusesByProminence = (
-  statuses: CompanySemesterContactStatus[],
+  statuses: CompanySemesterContactStatus[]
 ): CompanySemesterContactStatus[] => {
   // Create a copy of the array before sorting
   return [...statuses].sort((a, b) => {
@@ -74,7 +74,7 @@ export const sortStatusesByProminence = (
 };
 
 export const selectMostProminentStatus = (
-  statuses: CompanySemesterContactStatus[] = [],
+  statuses: CompanySemesterContactStatus[] = []
 ) => {
   return (
     contactStatuses.find((status) => statuses.includes(status)) ||
@@ -98,7 +98,7 @@ export const semesterCodeToName = (code: Semester) => {
 };
 export const sortByYearThenSemester = (
   a: CompanySemesterEntity,
-  b: CompanySemesterEntity,
+  b: CompanySemesterEntity
 ): number => {
   const semesterCodeToPriority = {
     spring: 0,
@@ -112,7 +112,7 @@ export const indexToSemester = (
   index: number,
   startYear: number,
   startSem: number,
-  companySemesters?: Array<CompanySemesterEntity>,
+  companySemesters?: Array<CompanySemesterEntity>
 ) => {
   const semester = semesterNameOf(((index % 2) + startSem) % 2);
   let year = 0;
@@ -131,8 +131,7 @@ export const indexToSemester = (
     (companySemesters &&
       companySemesters.find(
         (companySemester) =>
-          companySemester.year === year &&
-          companySemester.semester === semester,
+          companySemester.year === year && companySemester.semester === semester
       )) || {
       year,
       semester,
@@ -150,7 +149,7 @@ export const httpCheck = (link: string) => {
 
 export const getContactStatuses = (
   contactStatuses: CompanySemesterContactStatus[],
-  statusString: CompanySemesterContactStatus,
+  statusString: CompanySemesterContactStatus
 ) => {
   const statuses = new Set(contactStatuses);
 

@@ -24,7 +24,7 @@ const SubmissionsSummary = ({ submissions, survey }: Props) => {
     const texts: ReactNode[] = submissions
       .map((submission) => {
         const answer = submission.answers.find(
-          (answer) => answer.question.id === question.id,
+          (answer) => answer.question.id === question.id
         ) as AdminSurveyAnswer;
         return (
           answer && (
@@ -72,11 +72,11 @@ const SubmissionsSummary = ({ submissions, survey }: Props) => {
       const selectedCount = submissions
         .map((submission) =>
           submission.answers.find(
-            (answer) => answer.question.id === question.id,
-          ),
+            (answer) => answer.question.id === question.id
+          )
         )
         .filter((answer) =>
-          (answer?.selectedOptions || []).find((o) => o === option.id),
+          (answer?.selectedOptions || []).find((o) => o === option.id)
         ).length;
       questionData.push({
         name: option.optionText,

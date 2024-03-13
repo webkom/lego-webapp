@@ -15,11 +15,11 @@ const ForumDetail = () => {
   usePreparedEffect(
     'fetchDetailForum',
     () => forumId && dispatch(fetchForum(forumId)),
-    [forumId],
+    [forumId]
   );
 
   const forum: DetailedForum = useAppSelector((state) =>
-    selectForumsById(state, { forumId }),
+    selectForumsById(state, { forumId })
   );
   const detailActionGrant = forum?.actionGrant;
 

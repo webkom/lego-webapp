@@ -22,7 +22,7 @@ const getGoogleCalendarLink = (meeting) => {
   const params = new URLSearchParams({
     action: 'TEMPLATE',
     dates: `${formatTimeForGoogle(meeting.startTime)}/${formatTimeForGoogle(
-      meeting.endTime,
+      meeting.endTime
     )}`,
     text: meeting.title,
     details: meeting.description,

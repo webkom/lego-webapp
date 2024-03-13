@@ -99,7 +99,7 @@ const validate = createValidator({
   mazemapPoi: [
     requiredIf(
       (allValues) => allValues.useMazemap,
-      'Sted eller MazeMap-rom er påkrevd',
+      'Sted eller MazeMap-rom er påkrevd'
     ),
   ],
   cover: [required('Cover er påkrevd')],
@@ -111,14 +111,14 @@ const validate = createValidator({
       () => [
         minSize(0, 'Prisen må være større enn 0'),
         maxSize(10000, 'Prisen kan ikke være større enn 10000'),
-      ],
+      ]
     ),
   ],
   paymentDueDate: [
     timeIsAtLeastDurationAfter(
       'unregistrationDeadline',
       moment.duration(1, 'day'),
-      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
+      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen'
     ),
   ],
   isClarified: [
@@ -126,13 +126,13 @@ const validate = createValidator({
       (allValues) =>
         // Only require if we are creating a new event
         allValues.id === undefined,
-      'Arrangementet må være avklart',
+      'Arrangementet må være avklart'
     ),
   ],
   feedbackDescription: [
     requiredIf(
       (allValues) => allValues.hasFeedbackQuestion,
-      'Spørsmål er påkrevd',
+      'Spørsmål er påkrevd'
     ),
   ],
   registrationDeadlineHours: [isInteger('Kun hele timer')],
@@ -145,9 +145,9 @@ const validate = createValidator({
       (allValues) => allValues.pools.length > 1,
       () => [
         mergeTimeAfterAllPoolsActivation(
-          'Sammenslåingstidspunkt satt før aktiveringspunkt i en av poolene',
+          'Sammenslåingstidspunkt satt før aktiveringspunkt i en av poolene'
         ),
-      ],
+      ]
     ),
   ],
 });
@@ -162,12 +162,12 @@ const EventEditor = () => {
   const eventIdOrSlug = params.eventIdOrSlug ?? state?.id;
 
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
+    selectEventByIdOrSlug(state, { eventIdOrSlug })
   );
   const eventId = event?.id;
   const actionGrant = event?.actionGrant || [];
   const pools = useAppSelector((state) =>
-    selectPoolsWithRegistrationsForEvent(state, { eventId }),
+    selectPoolsWithRegistrationsForEvent(state, { eventId })
   );
   const imageGalleryEntries = useAppSelector(selectImageGalleryEntries);
   const imageGallery = imageGalleryEntries?.map((image) => ({
@@ -186,7 +186,7 @@ const EventEditor = () => {
         eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
         dispatch(fetchImageGallery()),
       ]),
-    [eventIdOrSlug],
+    [eventIdOrSlug]
   );
 
   const uploadFile = ({
@@ -225,7 +225,7 @@ const EventEditor = () => {
     dispatch(
       isEditPage
         ? editEvent(transformEvent(values))
-        : createEvent(transformEvent(values)),
+        : createEvent(transformEvent(values))
     ).then((res) => {
       const key: string = values.cover.split(':')[0];
       const token: string = values.cover.split(':')[1];
@@ -233,7 +233,7 @@ const EventEditor = () => {
         dispatch(setSaveForUse(key, token, true));
       }
       navigate(
-        isEditPage ? `/events/${event?.slug}` : `/events/${res.payload.result}`,
+        isEditPage ? `/events/${event?.slug}` : `/events/${res.payload.result}`
       );
     });
   };
@@ -475,7 +475,7 @@ const EventEditor = () => {
               placeholder="Tittel"
               style={{
                 borderBottom: `3px solid ${colorForEventType(
-                  values.eventType?.value,
+                  values.eventType?.value
                 )}`,
               }}
               component={TextInput.Field}
@@ -513,7 +513,7 @@ const EventEditor = () => {
                     ([key, config]) => ({
                       label: config.displayName,
                       value: key,
-                    }),
+                    })
                   )}
                   placeholder="Arrangementstype"
                 />
@@ -628,7 +628,7 @@ const EventEditor = () => {
                   // Adding an initial pool if the event status type allows for it and there are no current pools
                   if (
                     ['NORMAL', 'INFINITE'].includes(
-                      values.eventStatusType?.value,
+                      values.eventStatusType?.value
                     )
                   ) {
                     if (values.pools.length === 0) {
@@ -664,7 +664,7 @@ const EventEditor = () => {
                 })}
 
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Betalt arrangement"
@@ -707,7 +707,7 @@ const EventEditor = () => {
                   </div>
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Bruk prikker"
@@ -720,7 +720,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) &&
                   values.heedPenalties && (
                     <div className={styles.subSection}>
@@ -736,7 +736,7 @@ const EventEditor = () => {
                     </div>
                   )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Separat avregistreringsfrist"
@@ -750,7 +750,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) &&
                   values.separateDeadlines && (
                     <div className={styles.subSection}>
@@ -767,7 +767,7 @@ const EventEditor = () => {
                     </div>
                   )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <>
                     <Field
@@ -787,7 +787,7 @@ const EventEditor = () => {
                   </>
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Samtykke til bilder"
@@ -801,7 +801,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <Field
                     label="Påmeldingsspørsmål"
@@ -815,7 +815,7 @@ const EventEditor = () => {
                   />
                 )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) &&
                   values.hasFeedbackQuestion && (
                     <div className={styles.subSection}>
@@ -839,7 +839,7 @@ const EventEditor = () => {
                     </div>
                   )}
                 {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value,
+                  values.eventStatusType?.value
                 ) && (
                   <Flex column>
                     <h3>Pools</h3>

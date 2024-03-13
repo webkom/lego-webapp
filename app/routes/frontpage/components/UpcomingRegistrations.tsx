@@ -112,7 +112,7 @@ const UpcomingRegistrations = () => {
     .splice(0, UPCOMING_REGISTRATIONS_LIMIT);
 
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.events.fetching,
+    (state) => state.frontpage.fetching || state.events.fetching
   );
 
   return (

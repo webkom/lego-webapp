@@ -46,8 +46,8 @@ const UploadStatusCard = ({
           {uploadStatus.successCount > 1
             ? uploadStatus.successCount
             : hasFailedUploads
-              ? 'Ingen'
-              : 'Ett'}{' '}
+            ? 'Ingen'
+            : 'Ett'}{' '}
           {hasFailedUploads ? `av ${uploadStatus.imageCount}` : ''}{' '}
           {uploadStatus.successCount === 1 ? 'bilde' : 'bilder'} ble lastet opp
         </Card.Header>
@@ -70,11 +70,11 @@ const UploadStatusCard = ({
               {uploadStatus.failedImages.map(
                 (
                   name,
-                  index, // Since we never remove elements from the list, we can use
+                  index // Since we never remove elements from the list, we can use
                 ) => (
                   // the index as the key,
                   <Flex key={index}>{name}</Flex>
-                ),
+                )
               )}
             </Flex>
           }
@@ -123,6 +123,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const ConnectedUploadStatusCard = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(UploadStatusCard);
 export default ConnectedUploadStatusCard;

@@ -16,7 +16,7 @@ type StateWithReactions<T, S> = S & {
 };
 
 export function mutateReactions<T, S = EntityReducerState<T>>(
-  forTargetType: string,
+  forTargetType: string
 ) {
   return (state: StateWithReactions<T, S>, action: AnyAction) => {
     switch (action.type) {
@@ -63,7 +63,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
                         reactionId: reactionId,
                         unicodeString,
                       }
-                    : [],
+                    : []
                 ),
               reactions: (state.byId[targetId].reactions || []).concat({
                 author: user,
@@ -109,7 +109,7 @@ export function mutateReactions<T, S = EntityReducerState<T>>(
               reactions: (state.byId[targetId].reactions || []).filter(
                 (reaction) => {
                   return reaction.reactionId !== reactionId;
-                },
+                }
               ),
             },
           },
@@ -127,11 +127,11 @@ export const addReactionCases = (
   forTargetType: EntityType,
   addCase: ActionReducerMapBuilder<
     EntityState<{ reactionsGrouped?: ReactionsGrouped[] }, EntityId>
-  >['addCase'],
+  >['addCase']
 ) => {
   addCase(Reaction.ADD.SUCCESS, (state, action: AnyAction) => {
     const { targetType, targetId } = parseContentTarget(
-      action.meta.contentTarget,
+      action.meta.contentTarget
     );
     if (targetType !== forTargetType) {
       return;
@@ -171,7 +171,7 @@ export const addReactionCases = (
   });
   addCase(Reaction.DELETE.SUCCESS, (state, action: AnyAction) => {
     const { targetType, targetId } = parseContentTarget(
-      action.meta.contentTarget,
+      action.meta.contentTarget
     );
     if (targetType !== forTargetType) {
       return;
@@ -191,7 +191,7 @@ export const addReactionCases = (
       }
     }
     entity.reactionsGrouped = entity.reactionsGrouped.filter(
-      (reaction) => reaction.count !== 0,
+      (reaction) => reaction.count !== 0
     );
   });
 };

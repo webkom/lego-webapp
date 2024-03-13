@@ -14,11 +14,11 @@ export default createEntityReducer({
 export const selectForums = createSelector(
   (state) => state.forums.byId,
   (state) => state.forums.items,
-  (forumsById, forumsIds) => forumsIds.map((id) => forumsById[id]),
+  (forumsById, forumsIds) => forumsIds.map((id) => forumsById[id])
 );
 
 export const selectForumsById = createSelector(
   (state) => state.forums.byId,
   (state, props) => props.forumId,
-  (forumsByid, forumId) => forumsByid[forumId],
+  (forumsByid, forumId) => forumsByid[forumId]
 );

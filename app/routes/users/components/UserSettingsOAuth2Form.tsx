@@ -34,7 +34,7 @@ const UserSettingsOAuth2Form = () => {
   const application = useAppSelector((state) =>
     selectOAuth2ApplicationById(state, {
       applicationId,
-    }),
+    })
   );
 
   const dispatch = useAppDispatch();
@@ -43,14 +43,14 @@ const UserSettingsOAuth2Form = () => {
     'fetchUserSettingsOAuth2Edit',
     () =>
       applicationId && dispatch(fetchOAuth2Application(Number(applicationId))),
-    [],
+    []
   );
 
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
     dispatch(
-      isNew ? createOAuth2Application(data) : updateOAuth2Application(data),
+      isNew ? createOAuth2Application(data) : updateOAuth2Application(data)
     ).then(() => {
       navigate('/users/me/settings/oauth2');
     });

@@ -9,7 +9,7 @@ import type { ParsedQs } from 'qs';
  */
 export const parseQueryString = <Values extends ParsedQs>(
   queryString: string,
-  defaultValues: Values,
+  defaultValues: Values
 ): Values => {
   const parsedQs = qs.parse(queryString, { ignoreQueryPrefix: true });
 
@@ -30,7 +30,7 @@ export const parseQueryString = <Values extends ParsedQs>(
  */
 export const stringifyQuery = <Values extends ParsedQs>(
   query: Partial<Values>,
-  defaultValues: Values,
+  defaultValues: Values
 ): string => {
   const filteredQuery: ParsedQs = {};
   for (const key in query) {
@@ -53,7 +53,7 @@ const useQuery = <Values extends ParsedQs>(defaultValues: Values) => {
   const navigate = useNavigate();
   const query = useMemo(
     () => parseQueryString(location.search, defaultValues),
-    [location.search, defaultValues],
+    [location.search, defaultValues]
   );
 
   const setQuery = (query: Partial<Values>) => {
@@ -61,7 +61,7 @@ const useQuery = <Values extends ParsedQs>(defaultValues: Values) => {
       {
         search: stringifyQuery(query, defaultValues),
       },
-      { replace: true },
+      { replace: true }
     );
   };
 

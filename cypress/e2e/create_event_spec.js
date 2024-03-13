@@ -116,7 +116,7 @@ describe('Create event', () => {
     // Upload file
     cy.upload_file(
       '._legoEditor_imageUploader_dropZone',
-      'images/screenshot.png',
+      'images/screenshot.png'
     );
 
     // This is needed so that the crop module is activated because of how we mock upload files in these tests

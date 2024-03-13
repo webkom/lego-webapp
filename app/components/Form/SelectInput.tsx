@@ -19,7 +19,7 @@ type Props<Option, IsMulti extends boolean = false> = {
     event: FocusEvent<HTMLInputElement>,
     newValue?: string,
     previousValue?: string,
-    name?: string,
+    name?: string
   ) => void;
   onChange?: (event: ChangeEvent | string) => void;
   onSearch: (search: string) => void;

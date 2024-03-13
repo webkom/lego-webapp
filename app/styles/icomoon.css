@@ -3,8 +3,7 @@
 @font-face {
   font-family: 'icomoon';
   src: url('../../app/assets/fonts/icomoon.eot');
-  src:
-    url('../../app/assets/fonts/icomoon.eot') format('embedded-opentype'),
+  src: url('../../app/assets/fonts/icomoon.eot') format('embedded-opentype'),
     url('../../app/assets/fonts/icomoon.ttf') format('truetype'),
     url('../../app/assets/fonts/icomoon.woff') format('woff'),
     url('../../app/assets/fonts/icomoon.svg') format('svg');

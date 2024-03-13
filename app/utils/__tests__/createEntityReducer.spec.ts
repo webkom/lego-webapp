@@ -73,7 +73,7 @@ describe('createEntityReducer', () => {
     expect(
       reducer(undefined, {
         type: SMASH,
-      }),
+      })
     ).toEqual({
       actionGrant: [],
       byId: {},
@@ -106,7 +106,7 @@ describe('createEntityReducer', () => {
           },
           result: [0, 1],
         },
-      }),
+      })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
@@ -146,7 +146,7 @@ describe('createEntityReducer', () => {
         meta: {
           schemaKey: 'events',
         },
-      }),
+      })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
@@ -186,7 +186,7 @@ describe('createEntityReducer', () => {
         meta: {
           schemaKey: 'events',
         },
-      }),
+      })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
@@ -226,7 +226,7 @@ describe('createEntityReducer', () => {
         meta: {
           schemaKey: 'events',
         },
-      }),
+      })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
@@ -257,7 +257,7 @@ describe('createEntityReducer', () => {
         meta: {
           schemaKey: 'events',
         },
-      }),
+      })
     ).toEqual({
       actionGrant: ['list', 'create'],
       byId: {},
@@ -306,7 +306,7 @@ describe('createEntityReducer', () => {
     expect(
       reducer(undefined, {
         type: FETCH.BEGIN,
-      }),
+      })
     ).toEqual({
       fetching: true,
       customFlag: false,
@@ -327,21 +327,21 @@ describe('fetching()', () => {
     expect(
       reducer(state, {
         type: FETCH.BEGIN,
-      }),
+      })
     ).toEqual({
       fetching: true,
     });
     expect(
       reducer(state, {
         type: FETCH.SUCCESS,
-      }),
+      })
     ).toEqual({
       fetching: false,
     });
     expect(
       reducer(state, {
         type: FETCH.FAILURE,
-      }),
+      })
     ).toEqual({
       fetching: false,
     });
@@ -355,8 +355,8 @@ describe('fetching()', () => {
         },
         {
           type: FETCH.BEGIN,
-        },
-      ),
+        }
+      )
     ).toEqual({
       fetching: true,
     });
@@ -367,8 +367,8 @@ describe('fetching()', () => {
         },
         {
           type: FETCH_OTHER.SUCCESS,
-        },
-      ),
+        }
+      )
     ).toEqual({
       fetching: false,
     });
@@ -379,8 +379,8 @@ describe('fetching()', () => {
         },
         {
           type: DELETE.SUCCESS,
-        },
-      ),
+        }
+      )
     ).toEqual({
       fetching: false,
     });
@@ -500,14 +500,14 @@ describe('createAndUpdateEntities()', () => {
         type: 'FETCH_SINGLE',
         payload: normalize(
           { ...events[0], title: 'First Event Updated', extra: 'Foo' },
-          eventSchema,
+          eventSchema
         ),
       },
       {
         type: 'FETCH_ALL',
         payload: normalize(
           events.map((event) => ({ ...event, comments: [] })),
-          [eventSchema],
+          [eventSchema]
         ),
       },
       {
@@ -824,7 +824,7 @@ describe('paginationReducer()', () => {
           previous:
             'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor',
         },
-      }),
+      })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
@@ -915,8 +915,8 @@ describe('paginationReducer()', () => {
             previous:
               'https://lego-staging.abakus.no/api/v1/events/?bar=true&cursor=previous-cursor-2',
           },
-        },
-      ),
+        }
+      )
     ).toEqual({
       actionGrant: ['list'],
       byId: {
@@ -962,7 +962,7 @@ describe('paginationReducer()', () => {
           paginationKey: '/events/?bar=true',
         },
         payload: [],
-      }),
+      })
     ).toEqual({
       actionGrant: [],
       byId: {},
@@ -1022,8 +1022,8 @@ describe('paginationReducer()', () => {
             paginationKey: '/events/?bar=true',
           },
           payload: [],
-        },
-      ),
+        }
+      )
     ).toEqual({
       actionGrant: [],
       byId: {
@@ -1088,8 +1088,8 @@ describe('paginationReducer()', () => {
             id: 1,
           },
           payload: [],
-        },
-      ),
+        }
+      )
     ).toEqual({
       actionGrant: [],
       byId: {
@@ -1169,8 +1169,8 @@ describe('paginationReducer()', () => {
             },
             result: [2],
           },
-        },
-      ),
+        }
+      )
     ).toEqual({
       actionGrant: [],
       byId: {

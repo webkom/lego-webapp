@@ -11,7 +11,7 @@ const entityTypeMappings = {
 };
 export type EntityServerName = keyof typeof entityTypeMappings;
 export default function getEntityType(
-  serverName: EntityServerName,
+  serverName: EntityServerName
 ): EntityType {
   return entityTypeMappings[serverName];
 }

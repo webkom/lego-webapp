@@ -25,7 +25,7 @@ const AddGroupMember = ({ groupId }: Props) => {
         groupId,
         userId: values.user.id,
         role: values.role.value,
-      }),
+      })
     ).then(() => {
       form.reset();
     });

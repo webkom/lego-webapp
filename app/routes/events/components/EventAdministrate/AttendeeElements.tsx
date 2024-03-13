@@ -148,7 +148,7 @@ export const Unregister = ({ fetching, registration }: UnregisterProps) => {
                 eventId,
                 registrationId: registration.id,
                 admin: true,
-              }),
+              })
             );
           }}
           closeOnConfirm

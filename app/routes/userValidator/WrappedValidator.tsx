@@ -20,10 +20,10 @@ const WrappedValidator = () => {
     navigate(`/validator?${qs.stringify({ ...search, q: '' })}`);
 
   const handleSelect = async (
-    result: UserSearchResult,
+    result: UserSearchResult
   ): Promise<SearchUser> => {
     const fetchRes = await dispatch(
-      fetchUser(result.username, { propagateError: false }),
+      fetchUser(result.username, { propagateError: false })
     );
 
     return Object.values(fetchRes.payload?.entities?.users)[0] as SearchUser;

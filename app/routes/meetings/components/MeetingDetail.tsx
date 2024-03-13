@@ -54,33 +54,33 @@ const MeetingDetails = () => {
   const meeting = useAppSelector((state) =>
     selectMeetingById(state, {
       meetingId,
-    }),
+    })
   );
   const comments = useAppSelector((state) =>
     selectCommentsForMeeting(state, {
       meetingId,
-    }),
+    })
   );
   const reportAuthor = useAppSelector((state) =>
     selectUserById(state, {
       userId: meeting?.reportAuthor,
-    }),
+    })
   );
   const createdBy = useAppSelector((state) =>
     selectUserById(state, {
       userId: meeting?.createdBy,
-    }),
+    })
   );
   const meetingInvitations = useAppSelector((state) =>
     selectMeetingInvitationsForMeeting(state, {
       meetingId,
-    }),
+    })
   );
   const currentUserInvitation = useAppSelector((state) =>
     selectMeetingInvitation(state, {
       userId: currentUser.username,
       meetingId,
-    }),
+    })
   );
 
   const dispatch = useAppDispatch();
@@ -100,14 +100,14 @@ const MeetingDetails = () => {
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
-        (invite) => invite.status === invitationStatus,
+        (invite) => invite.status === invitationStatus
       ),
     }));
   };
 
   const attendanceButtons = (
     statusMe: string | null | undefined,
-    startTime: Dateish,
+    startTime: Dateish
   ) =>
     statusMe &&
     moment(startTime) > moment() && (

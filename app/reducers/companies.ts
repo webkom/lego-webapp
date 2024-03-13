@@ -81,14 +81,14 @@ function mutateCompanies(state: State, action) {
         newState.byId[action.meta.companyId].semesterStatuses =
           newState.byId[action.meta.companyId].semesterStatuses || [];
         newState.byId[action.meta.companyId].semesterStatuses.push(
-          action.payload,
+          action.payload
         );
         break;
 
       case Company.EDIT_SEMESTER_STATUS.SUCCESS: {
         const { companyId, semesterStatusId } = action.meta;
         const index = newState.byId[companyId].semesterStatuses.findIndex(
-          (s) => s.id === semesterStatusId,
+          (s) => s.id === semesterStatusId
         );
         newState.byId[companyId].semesterStatuses[index] = action.payload;
         break;
@@ -99,7 +99,7 @@ function mutateCompanies(state: State, action) {
         newState.byId[companyId].semesterStatuses = newState.byId[
           companyId
         ].semesterStatuses.filter(
-          (status) => status.id !== action.meta.semesterStatusId,
+          (status) => status.id !== action.meta.semesterStatusId
         );
         break;
       }
@@ -113,7 +113,7 @@ function mutateCompanies(state: State, action) {
       case Company.EDIT_COMPANY_CONTACT.SUCCESS: {
         const companyId = action.meta.companyId;
         const index = newState.byId[companyId].companyContacts.findIndex(
-          (cc) => cc.id === action.payload.id,
+          (cc) => cc.id === action.payload.id
         );
         newState.byId[companyId].companyContacts[index] = action.payload;
         break;
@@ -124,7 +124,7 @@ function mutateCompanies(state: State, action) {
         newState.byId[companyId].companyContacts = newState.byId[
           companyId
         ].companyContacts.filter(
-          (contact) => contact.id !== action.meta.companyContactId,
+          (contact) => contact.id !== action.meta.companyContactId
         );
         break;
       }
@@ -167,17 +167,17 @@ export const selectCompanies = createSelector(
         };
       })
       .sort((a, b) => (a.name < b.name ? -1 : 1));
-  },
+  }
 );
 export const selectActiveCompanies = createSelector(
   selectCompanies,
-  (companies) => companies.filter((company) => company.active),
+  (companies) => companies.filter((company) => company.active)
 );
 
 const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
   (semesterStatuses || []).map((semester) => {
     const companySemester = companySemesters.find(
-      (companySemester) => companySemester.id === semester.semester,
+      (companySemester) => companySemester.id === semester.semester
     );
     return produce(semester, (draft) => {
       if (companySemester) {
@@ -192,10 +192,10 @@ export const selectCompanyById = createSelector(
   (state, props) => props.companyId,
   (companies, companyId) => {
     const company = companies.find(
-      (company) => company.id === Number(companyId),
+      (company) => company.id === Number(companyId)
     );
     return company || {};
-  },
+  }
 );
 export const selectEventsForCompany = createSelector(
   (state, props) => selectEvents(state, props),
@@ -203,10 +203,9 @@ export const selectEventsForCompany = createSelector(
   (events, companyId) => {
     if (!companyId || !events) return [];
     return events.filter(
-      (event) =>
-        event.company && Number(event.company.id) === Number(companyId),
+      (event) => event.company && Number(event.company.id) === Number(companyId)
     );
-  },
+  }
 );
 export const selectJoblistingsForCompany = createSelector(
   (state, props) => props.companyId,
@@ -216,9 +215,9 @@ export const selectJoblistingsForCompany = createSelector(
     return joblistings.filter(
       (joblisting) =>
         joblisting.company &&
-        Number(joblisting.company.id) === Number(companyId),
+        Number(joblisting.company.id) === Number(companyId)
     );
-  },
+  }
 );
 export const selectCompanyContactById = createSelector(
   (state, props) => selectCompanyById(state, props),
@@ -226,9 +225,9 @@ export const selectCompanyContactById = createSelector(
   (company, companyContactId) => {
     if (!company || !company.companyContacts) return {};
     return company.companyContacts.find(
-      (contact) => contact.id === Number(companyContactId),
+      (contact) => contact.id === Number(companyContactId)
     );
-  },
+  }
 );
 export const selectCommentsForCompany = createSelector(
   selectCompanyById,
@@ -236,7 +235,7 @@ export const selectCommentsForCompany = createSelector(
   (company, commentEntities) => {
     if (!company || !commentEntities) return [];
     return (company.comments || []).map(
-      (commentId) => commentEntities[commentId],
+      (commentId) => commentEntities[commentId]
     );
-  },
+  }
 );

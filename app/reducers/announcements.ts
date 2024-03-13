@@ -28,5 +28,5 @@ const announcementsSlice = createSlice({
 
 export default announcementsSlice.reducer;
 export const { selectAll: selectAnnouncements } = legoAdapter.getSelectors(
-  (state: RootState) => state.announcements,
+  (state: RootState) => state.announcements
 );

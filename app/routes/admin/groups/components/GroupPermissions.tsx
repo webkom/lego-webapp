@@ -33,15 +33,15 @@ const PermissionList = ({ group }: PermissionListProps) => {
               ))}
             </ul>
           </>
-        ),
+        )
     )
     .filter(Boolean);
 
   const allPermissionsList = sortBy(
     group.permissions.concat(
-      group.parentPermissions.flatMap(({ permissions }) => permissions),
+      group.parentPermissions.flatMap(({ permissions }) => permissions)
     ),
-    (permission: string) => permission.split('/').length,
+    (permission: string) => permission.split('/').length
   )
     .reduce((acc: Array<string>, perm: string) => {
       // Reduce perms to only show broadest set of permissions
@@ -57,7 +57,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
             concatedString,
           ];
         },
-        [false, '/'],
+        [false, '/']
       );
       if (broaderPermFound) return acc;
       return [...acc, perm];
@@ -81,9 +81,9 @@ const PermissionList = ({ group }: PermissionListProps) => {
                       editGroup({
                         ...group,
                         permissions: group.permissions.filter(
-                          (perm) => perm !== permission,
+                          (perm) => perm !== permission
                         ),
-                      }),
+                      })
                     ).then(() => {
                       if (group.type === 'interesse') {
                         navigate(`/interest-groups/${group.id}`);

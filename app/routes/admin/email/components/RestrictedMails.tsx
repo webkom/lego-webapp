@@ -91,7 +91,7 @@ const RestrictedMails = () => {
           dispatch(
             fetch({
               next: true,
-            }),
+            })
           )
         }
         hasMore={hasMore || false}

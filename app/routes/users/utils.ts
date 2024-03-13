@@ -14,7 +14,7 @@ export const validPassword =
 
     const zxcvbn = (await import('zxcvbn')).default;
     const userValues = [data.username, data.firstName, data.lastName].filter(
-      Boolean,
+      Boolean
     );
     const evalPass = zxcvbn(value, userValues);
     return [evalPass.score >= 3, message] as const;

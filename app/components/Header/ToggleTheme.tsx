@@ -31,7 +31,7 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
       applySelectedTheme(newTheme);
       loggedIn && username && dispatch(updateUserTheme(username, newTheme));
     },
-    [loggedIn, username, dispatch],
+    [loggedIn, username, dispatch]
   );
 
   const Component = isButton ? 'button' : 'div';
@@ -46,7 +46,7 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
         name={icon}
         className={cx(
           styles.toggleIcon,
-          icon === 'moon' ? styles.moon : styles.sun,
+          icon === 'moon' ? styles.moon : styles.sun
         )}
       />
     </Component>

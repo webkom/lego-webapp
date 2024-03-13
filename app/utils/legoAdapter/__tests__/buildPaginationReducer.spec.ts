@@ -45,7 +45,7 @@ describe('buildPaginationReducer', () => {
       reducer(initialState, {
         type: FETCH.BEGIN,
         meta: { endpoint: '/fetch', paginationKey: '/fetch/', query: {} },
-      }),
+      })
     ).toEqual(stateWithInitialPagination);
     expect(
       reducer(initialState, {
@@ -55,7 +55,7 @@ describe('buildPaginationReducer', () => {
           paginationKey: '/fetch/',
           query: { title: 'ab' },
         },
-      }),
+      })
     ).toEqual({
       ...initialState,
       paginationNext: {
@@ -105,7 +105,7 @@ describe('buildPaginationReducer', () => {
           },
         },
       },
-      { ...fetchSuccess, payload: { result: [] } },
+      { ...fetchSuccess, payload: { result: [] } }
     );
     expect(newState.paginationNext['/fetch/'].next).toEqual(undefined);
     expect(newState.paginationNext['/fetch/'].hasMore).toEqual(false);

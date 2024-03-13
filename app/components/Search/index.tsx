@@ -25,7 +25,7 @@ const Search = () => {
 
   const debouncedAutoComplete = useMemo(
     () => debounce((query) => dispatch(autocomplete(query)), 300),
-    [dispatch],
+    [dispatch]
   );
   const onCloseSearch = () => dispatch(toggleSearch());
 

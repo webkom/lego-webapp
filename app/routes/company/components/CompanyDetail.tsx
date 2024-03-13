@@ -48,22 +48,22 @@ const CompanyDetail = () => {
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
-    })(state),
+    })(state)
   );
   const fetchingEvents = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, { companyId })
   );
   const fetchingCompany = useAppSelector((state) => state.companies.fetching);
   const showSkeleton = fetchingCompany && isEmpty(company);
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, { companyId }),
+    selectEventsForCompany(state, { companyId })
   );
   const joblistings = useAppSelector((state) =>
-    selectJoblistingsForCompany(state, { companyId }),
+    selectJoblistingsForCompany(state, { companyId })
   );
   const fetchingJoblistings = useAppSelector(
-    (state) => state.joblistings.fetching,
+    (state) => state.joblistings.fetching
   );
   const pagination = useAppSelector((state) => state.events.pagination);
   const endpoint = getEndpoint(pagination, queryString(companyId));
@@ -80,11 +80,11 @@ const CompanyDetail = () => {
           fetchEventsForCompany({
             endpoint: `/events/${queryString(companyId)}`,
             queryString: queryString(companyId),
-          }),
+          })
         ),
         dispatch(fetchJoblistingsForCompany(companyId)),
       ]),
-    [companyId],
+    [companyId]
   );
 
   const fetchMoreEvents = () =>
@@ -93,17 +93,17 @@ const CompanyDetail = () => {
       fetchEventsForCompany({
         endpoint,
         queryString: queryString(companyId),
-      }),
+      })
     );
 
   const sortedEvents = companyEvents.sort(
-    (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix(),
+    (a, b) => moment(b.startTime).unix() - moment(a.startTime).unix()
   );
   const upcomingEvents = sortedEvents.filter((event) =>
-    moment().isBefore(moment(event.startTime)),
+    moment().isBefore(moment(event.startTime))
   );
   const oldEvents = sortedEvents.filter((event) =>
-    moment().isAfter(moment(event.startTime)),
+    moment().isAfter(moment(event.startTime))
   );
 
   const companyInfo = [
@@ -233,7 +233,7 @@ const CompanyDetail = () => {
                         )
                       }
                     />
-                  ),
+                  )
               )}
         </ContentSidebar>
       </ContentSection>

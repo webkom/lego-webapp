@@ -3,13 +3,13 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { AsyncActionType, AsyncActionTypeArray, Action } from 'app/types';
 
 function isPromiseAction(
-  action: Action | PromiseAction<unknown>,
+  action: Action | PromiseAction<unknown>
 ): action is PromiseAction<unknown> {
   return 'promise' in action;
 }
 
 function extractTypes(
-  types: AsyncActionType | AsyncActionTypeArray,
+  types: AsyncActionType | AsyncActionTypeArray
 ): AsyncActionTypeArray {
   if (Array.isArray(types)) {
     return types;
@@ -62,7 +62,7 @@ export default function promiseMiddleware(): Middleware<
               payload,
               success: true,
               meta,
-            }),
+            })
           ),
         (error: unknown) =>
           reject(
@@ -71,8 +71,8 @@ export default function promiseMiddleware(): Middleware<
               payload: error,
               error: true,
               meta,
-            }),
-          ),
+            })
+          )
       );
     });
   };

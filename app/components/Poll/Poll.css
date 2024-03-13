@@ -156,9 +156,7 @@
   padding: 6.25rem 0 var(--spacing-sm);
   top: -4.75rem;
   margin-bottom: -5.25rem;
-  transition:
-    padding-top var(--linear-slow),
-    margin-bottom var(--linear-slow),
+  transition: padding-top var(--linear-slow), margin-bottom var(--linear-slow),
     top var(--linear-slow);
   z-index: 1;
 }

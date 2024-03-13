@@ -30,7 +30,7 @@ describe('buildEntitiesReducer', () => {
             },
           },
         },
-      }),
+      })
     ).toEqual({
       ids: [1],
       entities: {
@@ -70,7 +70,7 @@ describe('buildEntitiesReducer', () => {
             },
           },
         },
-      }),
+      })
     ).toEqual({
       ids: [1],
       entities: {
@@ -94,7 +94,7 @@ describe('buildEntitiesReducer', () => {
             },
           },
         },
-      }),
+      })
     ).toEqual(initialState);
   });
 });

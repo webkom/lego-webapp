@@ -31,7 +31,7 @@ const NavigationLink = (props: Props) => {
     if (props.additionalActivePaths) {
       return props.additionalActivePaths.some(
         (additionalPath) =>
-          additionalPath.replace(regex, '') === normalizedCurrentPath,
+          additionalPath.replace(regex, '') === normalizedCurrentPath
       );
     }
 

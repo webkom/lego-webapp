@@ -19,7 +19,7 @@ type Props = {
     arg0: number,
     arg1: number,
     arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactStatus>,
+    arg3: Array<CompanySemesterContactStatus>
   ) => Promise<any> | null | undefined;
 };
 export default class CompanyList extends Component<Props> {

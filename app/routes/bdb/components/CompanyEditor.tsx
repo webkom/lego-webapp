@@ -50,7 +50,7 @@ const CompanyEditor = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const isNew = companyId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, { companyId })
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
 
@@ -59,7 +59,7 @@ const CompanyEditor = () => {
   usePreparedEffect(
     'fetchEditCompany',
     () => companyId && dispatch(fetchAdmin(companyId)),
-    [companyId],
+    [companyId]
   );
 
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ const CompanyEditor = () => {
       dispatch(
         addToast({
           message: isNew ? 'Bedrift lagt til' : 'Bedrift oppdatert',
-        }),
+        })
       );
       navigate(`/bdb/${isNew ? res.payload.result : companyId}`);
     });

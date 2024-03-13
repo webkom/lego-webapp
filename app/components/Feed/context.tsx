@@ -5,14 +5,14 @@ import type { ReactNode } from 'react';
 
 export function lookupContext(
   aggregatedActivity: AggregatedActivity,
-  key: string,
+  key: string
 ): Record<string, any> {
   return aggregatedActivity.context[key];
 }
 export const linkAndText = (
   link: string,
   text: string,
-  linkableContent = true,
+  linkableContent = true
 ): {
   link: string;
   text: string;
@@ -24,7 +24,7 @@ export const linkAndText = (
 });
 
 const renderUser = (
-  context: Record<string, any>,
+  context: Record<string, any>
 ): {
   link: string;
   text: string;
@@ -32,11 +32,11 @@ const renderUser = (
 } =>
   linkAndText(
     `/users/${context.username}/`,
-    `${context.firstName} ${context.lastName}`,
+    `${context.firstName} ${context.lastName}`
   );
 
 const renderEvent = (
-  context: Record<string, any>,
+  context: Record<string, any>
 ): {
   link: string;
   text: string;
@@ -44,7 +44,7 @@ const renderEvent = (
 } => linkAndText(`/events/${context.id}/`, context.title);
 
 const renderMeetingInvitation = (
-  context: Record<string, any>,
+  context: Record<string, any>
 ): {
   link: string;
   text: string;
@@ -52,7 +52,7 @@ const renderMeetingInvitation = (
 } => linkAndText(`/meetings/${context.meeting.id}/`, context.meeting.title);
 
 const renderArticle = (
-  context: Record<string, any>,
+  context: Record<string, any>
 ): {
   link: string;
   text: string;
@@ -60,7 +60,7 @@ const renderArticle = (
 } => linkAndText(`/articles/${context.id}/`, context.title);
 
 const renderAnnouncement = (
-  context: Record<string, any>,
+  context: Record<string, any>
 ): {
   link: string;
   text: string;
@@ -68,7 +68,7 @@ const renderAnnouncement = (
 } => linkAndText('', context.message, false);
 
 const renderGalleryPicture = (
-  context: Record<string, any>,
+  context: Record<string, any>
 ): {
   link: string;
   text: string;
@@ -76,7 +76,7 @@ const renderGalleryPicture = (
 } =>
   linkAndText(
     `/photos/${context.gallery.id}/picture/${context.id}`,
-    `${context.gallery.title}-#${context.id}`,
+    `${context.gallery.title}-#${context.id}`
   );
 
 export const contextRender = {

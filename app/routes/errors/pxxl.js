@@ -48,7 +48,7 @@ ParseState.prototype.from = function (index) {
 ParseState.prototype.substring = function (start, end) {
   return this.input.substring(
     start + this.index,
-    (end || this.length) + this.index,
+    (end || this.length) + this.index
   );
 };
 
@@ -221,7 +221,7 @@ function left_factor(ast) {
       return [v, action];
     },
     ast[0],
-    ast[1],
+    ast[1]
   );
 }
 
@@ -519,7 +519,7 @@ function chain(p, s, f) {
     sequence(p, repeat0(action(sequence(s, p), f))),
     function (ast) {
       return [ast[0]].concat(ast[1]);
-    },
+    }
   );
 }
 
@@ -536,7 +536,7 @@ function chainl(p, s) {
         return action[0](v, action[1]);
       },
       ast[0],
-      ast[1],
+      ast[1]
     );
   });
 }
@@ -842,7 +842,7 @@ Pxxl.Glyph.prototype = {
     LESS_THAN,
     GREATER_THAN,
     QUESTION_MARK,
-    SLASH,
+    SLASH
   );
 
   var Digit = range('0', '9');
@@ -867,8 +867,8 @@ Pxxl.Glyph.prototype = {
     sequence(
       DOUBLE_QUOTE,
       flatten(repeat1(butnot(Char, DOUBLE_QUOTE))),
-      DOUBLE_QUOTE,
-    ),
+      DOUBLE_QUOTE
+    )
   );
 
   var HexDigit = choice(range('a', 'f'), range('A', 'F'), Digit);
@@ -886,12 +886,12 @@ Pxxl.Glyph.prototype = {
   var PropName = flatten(repeat1(choice(Alpha, UNDERSCORE)));
   var Prop1 = action(
     sequence(PropName, repeat1(pick(1, sequence(Spaces, Integer)))),
-    MakeProp1,
+    MakeProp1
   );
   var Prop2 = action(sequence(PropName, Spaces, QUOTED_STRING), MakeProp2);
   var Prop3 = action(
     sequence(PropName, Spaces, flatten(repeat1(NoSpaceChar))),
-    MakeProp2,
+    MakeProp2
   );
   var ENDPROPERTIES = token('ENDPROPERTIES');
   var Prop = trace(choice(Prop1, Prop2, Prop3, ENDPROPERTIES), 'prop');
@@ -902,19 +902,19 @@ Pxxl.Glyph.prototype = {
   var BitmapStart = sequence(BITMAP, EOL);
   var Bitmap = trace(
     pick(1, sequence(BitmapStart, repeat0(BitmapRow))),
-    'bitmap',
+    'bitmap'
   );
 
   var STARTCHAR = token('STARTCHAR');
   var ENDCHAR = token('ENDCHAR');
   var GlyphStart = trace(
     pick(2, sequence(STARTCHAR, Space, Text, EOL)),
-    'glyphstart',
+    'glyphstart'
   );
   var GlyphEnd = sequence(ENDCHAR, EOL);
   var Glyph = trace(
     action(sequence(GlyphStart, repeat0(PropRow), Bitmap, GlyphEnd), MakeGlyph),
-    'glyph',
+    'glyph'
   );
 
   //var Glyph = action(_Glyph, function(ast) { console.log(ast)} );
@@ -924,7 +924,7 @@ Pxxl.Glyph.prototype = {
   var Version = flatten(sequence(Natural, PERIOD, Natural));
   var FontStart = trace(
     pick(2, sequence(STARTFONT, Spaces, Version, EOL)),
-    'fontstart',
+    'fontstart'
   );
   var FontEnd = trace(sequence(ENDFONT, optional(EOL)), 'fontend'); // EOL optional for now
   var COMMENT = token('COMMENT');
@@ -938,9 +938,9 @@ Pxxl.Glyph.prototype = {
       repeat0(CommentRow),
       repeat0(butnot(PropRow, GlyphStart)),
       repeat0(Glyph),
-      FontEnd,
+      FontEnd
     ),
-    MakeFont,
+    MakeFont
   ); // empty container is allowed
 
   // input: sequence( FontStart, repeat0(CommentRow), repeat0(butnot(PropRow, GlyphStart)), repeat0(Glyph), FontEnd)

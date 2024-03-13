@@ -44,7 +44,7 @@ function rejectOnHttpErrors<T>(response: HttpResponse<T>) {
 }
 
 export function stringifyBody(
-  requestOptions: HttpRequestOptions,
+  requestOptions: HttpRequestOptions
 ): string | undefined {
   const { body, json } = requestOptions;
 
@@ -86,7 +86,7 @@ const defaultOptions = {
 };
 export default function fetchJSON<T>(
   path: string,
-  requestOptions: HttpRequestOptions = defaultOptions,
+  requestOptions: HttpRequestOptions = defaultOptions
 ): Promise<HttpResponse<T>> {
   const { files, retryDelays = [1000, 3000], timeout = 15000 } = requestOptions;
   let body: FormData | string | undefined;

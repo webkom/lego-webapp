@@ -53,7 +53,7 @@ export const selectMeetingInvitation = createSelector(
   (state, props) => props.meetingId,
   (state, props) => props.userId,
   (meetingInvitationsById, meetingId, userId) =>
-    meetingInvitationsById[getMeetingInvitationId(meetingId, userId)],
+    meetingInvitationsById[getMeetingInvitationId(meetingId, userId)]
 );
 
 export type MeetingInvitationWithUser = Omit<MeetingInvitation, 'user'> & {
@@ -81,5 +81,5 @@ export const selectMeetingInvitationsForMeeting: Selector<
         const user = users[userId];
         return { ...invitation, user };
       });
-  },
+  }
 );

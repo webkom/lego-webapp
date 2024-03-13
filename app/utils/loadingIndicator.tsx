@@ -9,7 +9,7 @@ import type { ComponentType } from 'react';
 
 export default function loadingIndicator<WrappedProps>(
   loadingProps: Array<string>,
-  options?: LoadingIndicatorProps,
+  options?: LoadingIndicatorProps
 ) {
   return (Component: ComponentType<WrappedProps>) => {
     const Composed = (props: LoadingIndicatorProps & WrappedProps) => (

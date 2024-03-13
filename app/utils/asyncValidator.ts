@@ -1,7 +1,7 @@
 import type { ValidatorResult } from 'app/utils/validation';
 
 type AsyncValidator<T = any, C = any> = (
-  message?: string,
+  message?: string
 ) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
 
 type FieldValidators = {
@@ -9,7 +9,7 @@ type FieldValidators = {
 };
 
 const isValidatorMessage = (
-  val: Readonly<[true] | [boolean, string]>,
+  val: Readonly<[true] | [boolean, string]>
 ): val is Readonly<[boolean, string]> => {
   return val.length > 1;
 };
@@ -17,10 +17,10 @@ const isValidatorMessage = (
 const getValidationErrors = async <T, S>(
   validators: ReturnType<AsyncValidator>[],
   fieldData: T,
-  formData: S,
+  formData: S
 ) => {
   const validationResults = await Promise.all(
-    validators.map((validator) => validator(fieldData, formData)),
+    validators.map((validator) => validator(fieldData, formData))
   );
   return validationResults
     .filter(isValidatorMessage)
@@ -30,7 +30,7 @@ const getValidationErrors = async <T, S>(
 
 const getFieldErrorArray = async <T>(
   fieldValidators: FieldValidators<T>,
-  formData: T,
+  formData: T
 ): Promise<[string, string[]][]> => {
   return (
     await Promise.all(
@@ -40,10 +40,10 @@ const getFieldErrorArray = async <T>(
           await getValidationErrors(
             fieldValidators[field],
             formData[field],
-            formData,
+            formData
           ),
-        ],
-      ),
+        ]
+      )
     )
   ).filter(([, fieldErrors]) => fieldErrors.length);
 };
@@ -53,7 +53,7 @@ const getFieldErrorArray = async <T>(
  * use createValidator (with async=true) instead
  */
 export const createAsyncValidator = <T>(
-  fieldValidators: FieldValidators<T>,
+  fieldValidators: FieldValidators<T>
 ) => {
   return async (formData: T) => {
     const fieldErrorArray = await getFieldErrorArray(fieldValidators, formData);
@@ -64,7 +64,7 @@ export const createAsyncValidator = <T>(
           errors[field] = fieldErrors;
           return errors;
         },
-        {},
+        {}
       );
     }
   };

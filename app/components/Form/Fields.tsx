@@ -7,10 +7,10 @@ type Props<Name extends string = string> = {
   subscription?: FormSubscription;
   fieldsState?: Record<Name, FieldRenderProps<unknown>>;
   children?: (
-    fieldsState: Record<Name, FieldRenderProps<unknown>>,
+    fieldsState: Record<Name, FieldRenderProps<unknown>>
   ) => ReactNode;
   originalRender?: (
-    fieldsState: Record<Name, FieldRenderProps<unknown>>,
+    fieldsState: Record<Name, FieldRenderProps<unknown>>
   ) => ReactNode;
   component: ComponentType<Record<Name, FieldRenderProps<unknown>>>;
 };

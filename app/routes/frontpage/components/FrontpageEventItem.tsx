@@ -18,7 +18,7 @@ const FrontpageEventItem = ({ item, url, meta }: Props) => {
   const { loggedIn } = useUserContext();
   const info = item && eventStatus(item, loggedIn);
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.events.fetching,
+    (state) => state.frontpage.fetching || state.events.fetching
   );
 
   return (

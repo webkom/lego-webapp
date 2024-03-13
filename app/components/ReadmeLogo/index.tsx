@@ -20,7 +20,7 @@ export const readmeIfy = (text: string | null | undefined) =>
         .reduce(
           (prev, current, i) =>
             i ? prev.concat(<ReadmeLogo key={current} />, current) : [current],
-          [],
+          []
         )}
     </span>
   );

@@ -88,7 +88,7 @@ function mutateGalleryPicture(state: any, action: any) {
           .map((key) => [key, state.byId[key]])
           .filter(([, v]) => {
             return v.gallery !== action.meta.id;
-          }),
+          })
       );
       const newItems = Object.keys(newById).map((id) => parseInt(id));
       return {
@@ -107,7 +107,7 @@ function mutateGalleryPicture(state: any, action: any) {
 
 const mutate = joinReducers(
   mutateComments('galleryPictures'),
-  mutateGalleryPicture,
+  mutateGalleryPicture
 );
 export default createEntityReducer({
   key: 'galleryPictures',
@@ -125,13 +125,13 @@ export const SelectGalleryPicturesByGalleryId = createSelector(
     galleryPictureIds
       .map((id) => galleryPicturesById[id])
       .filter(
-        (galleryPicture) => galleryPicture.gallery === parseInt(galleryId),
-      ),
+        (galleryPicture) => galleryPicture.gallery === parseInt(galleryId)
+      )
 );
 export const selectGalleryPictureById = createSelector(
   (state) => state.galleryPictures.byId,
   (state, props) => props.pictureId,
-  (picturesById, pictureId) => picturesById[pictureId],
+  (picturesById, pictureId) => picturesById[pictureId]
 );
 export const selectCommentsForGalleryPicture = createSelector(
   selectGalleryPictureById,
@@ -139,7 +139,7 @@ export const selectCommentsForGalleryPicture = createSelector(
   (picture, commentEntities) => {
     if (!picture) return [];
     return (picture.comments || []).map(
-      (commentId) => commentEntities[commentId],
+      (commentId) => commentEntities[commentId]
     );
-  },
+  }
 );

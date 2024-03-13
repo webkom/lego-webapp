@@ -62,13 +62,13 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
 
           if (viewStartTime) {
             filteredData = filteredData.filter((item) =>
-              moment(item.date).isSameOrAfter(moment(viewStartTime)),
+              moment(item.date).isSameOrAfter(moment(viewStartTime))
             );
           }
 
           if (viewEndTime) {
             filteredData = filteredData.filter((item) =>
-              moment(item.date).isSameOrBefore(moment(viewEndTime)),
+              moment(item.date).isSameOrBefore(moment(viewEndTime))
             );
           }
 
@@ -77,7 +77,7 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
         });
       }
     },
-    [eventId],
+    [eventId]
   );
 
   return (

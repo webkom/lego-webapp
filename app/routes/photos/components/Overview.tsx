@@ -39,7 +39,7 @@ const Overview = () => {
           dispatch(
             fetch({
               next: true,
-            }),
+            })
           )
         }
         onClick={(gallery) => navigate(`/photos/${gallery.id}#list`)}

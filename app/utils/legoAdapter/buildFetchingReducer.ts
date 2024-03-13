@@ -12,7 +12,7 @@ type StateWithFetching = {
 
 const buildFetchingReducer = (
   builder: ActionReducerMapBuilder<StateWithFetching>,
-  actionTypes: AsyncActionType[],
+  actionTypes: AsyncActionType[]
 ) => {
   builder.addMatcher(isAsyncApiActionBegin.matching(actionTypes), (state) => {
     state.fetching = true;

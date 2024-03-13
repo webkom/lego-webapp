@@ -28,21 +28,21 @@ const EmailUsers = () => {
       endpoint: '/email-users/',
       entity: 'emailUsers',
       query,
-    })(state),
+    })(state)
   );
   const emailUsers = useAppSelector((state) =>
-    selectEmailUsers(state, { pagination }),
+    selectEmailUsers(state, { pagination })
   );
   const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const committees = useAppSelector((state) =>
     selectGroupsWithType(state, {
       groupType: GroupType.Committee,
-    }),
+    })
   );
   const grades = useAppSelector((state) =>
     selectGroupsWithType(state, {
       groupType: GroupType.Grade,
-    }),
+    })
   );
 
   const dispatch = useAppDispatch();
@@ -55,7 +55,7 @@ const EmailUsers = () => {
         dispatch(fetchAllWithType(GroupType.Grade)),
         dispatch(fetch({ query })),
       ]),
-    [query],
+    [query]
   );
 
   const columns = [
@@ -193,7 +193,7 @@ const EmailUsers = () => {
             fetch({
               next: true,
               query: query,
-            }),
+            })
           );
         }}
         filters={query}

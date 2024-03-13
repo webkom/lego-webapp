@@ -67,7 +67,7 @@ const GroupPage = () => {
         dispatch(fetchAll()),
         groupId && dispatch(fetchGroup(groupId)),
       ]),
-    [groupId],
+    [groupId]
   );
 
   return (

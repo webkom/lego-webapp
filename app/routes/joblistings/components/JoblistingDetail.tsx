@@ -59,7 +59,7 @@ const propertyGenerator: PropertyGenerator<{
 const JoblistingDetail = () => {
   const { joblistingIdOrSlug } = useParams();
   const joblisting = useAppSelector((state) =>
-    selectJoblistingByIdOrSlug(state, { joblistingIdOrSlug }),
+    selectJoblistingByIdOrSlug(state, { joblistingIdOrSlug })
   ) as DetailedJoblisting;
   const fetching = useAppSelector((state) => state.joblistings.fetching);
   const actionGrant = joblisting?.actionGrant || [];
@@ -69,7 +69,7 @@ const JoblistingDetail = () => {
   usePreparedEffect(
     'fetchJoblisting',
     () => joblistingIdOrSlug && dispatch(fetchJoblisting(joblistingIdOrSlug)),
-    [joblistingIdOrSlug],
+    [joblistingIdOrSlug]
   );
 
   const navigate = useNavigate();

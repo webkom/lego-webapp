@@ -77,7 +77,7 @@ const Admin = ({ actionGrant, event }: Props) => {
   const canDelete = actionGrant.includes('delete');
   const showRegisterButton =
     Math.abs(
-      moment.duration(moment(event.startTime).diff(moment.now())).get('days'),
+      moment.duration(moment(event.startTime).diff(moment.now())).get('days')
     ) < 1;
 
   return (

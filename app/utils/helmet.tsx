@@ -19,11 +19,11 @@ type Property = {
 
 type PropertyGenerator<T> = (
   props: T,
-  config?: Record<string, string | number | boolean>,
+  config?: Record<string, string | number | boolean>
 ) => Array<Property> | null | undefined;
 
 export default function helmet<T>(
-  propertyGenerator: PropertyGenerator<T> | null | undefined,
+  propertyGenerator: PropertyGenerator<T> | null | undefined
 ) {
   return (Component: ComponentType<T>) => (props: T) => {
     const properties: Array<Property> | null | undefined =
@@ -40,8 +40,8 @@ export default function helmet<T>(
                   key: index,
                   ...props,
                 },
-                children,
-              ),
+                children
+              )
             )}
           </Helmet>
         )}

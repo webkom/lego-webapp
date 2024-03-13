@@ -51,7 +51,7 @@ const CommentForm = ({
               contentTarget,
               text,
               parent,
-            }),
+            })
           ).then(() => {
             form.reset();
           });

@@ -116,7 +116,7 @@ const CardForm = (props: CardFormProps) => {
 
       setLoading(false);
     },
-    [stripe, elements, currentUser, setError, setSuccess, setLoading],
+    [stripe, elements, currentUser, setError, setSuccess, setLoading]
   );
 
   useEffect(() => {
@@ -199,7 +199,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
         clientSecret,
         {
           payment_method: paymentMethod.id,
-        },
+        }
       );
 
       if (confirmError) {
@@ -219,7 +219,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
       setLoading(false);
     },
-    [stripe, complete, paymentMethod, setError, setSuccess, setLoading],
+    [stripe, complete, paymentMethod, setError, setSuccess, setLoading]
   );
 
   const completePaymentManual = useCallback(
@@ -234,7 +234,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
         setSuccess();
       }
     },
-    [complete, setSuccess],
+    [complete, setSuccess]
   );
 
   useEffect(() => {
@@ -308,7 +308,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
             if (paymentMethod) {
               e.preventDefault();
               setError(
-                'Det skjedde en feil under prosesseringen av betalingen. Vennligst refresh siden for å prøve igjen.',
+                'Det skjedde en feil under prosesseringen av betalingen. Vennligst refresh siden for å prøve igjen.'
               );
             }
           }}

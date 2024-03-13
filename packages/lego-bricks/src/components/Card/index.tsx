@@ -79,7 +79,7 @@ export const Card = ({
         styles.card,
         shadow && styles.shadow,
         isHoverable && styles.isHoverable,
-        severity && styles[severity],
+        severity && styles[severity]
       )}
       style={{
         overflow: hideOverflow || skeleton ? 'hidden' : 'initial',

@@ -27,7 +27,7 @@ const EventAdministrateIndex = () => {
   usePreparedEffect(
     'fetchAdministrate',
     () => eventId && dispatch(fetchAdministrate(eventId)),
-    [eventId],
+    [eventId]
   );
 
   const base = `/events/${eventId}/administrate`;

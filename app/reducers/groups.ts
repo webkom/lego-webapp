@@ -64,15 +64,15 @@ export default createEntityReducer({
 export const selectGroup = createSelector(
   (state) => state && state.groups && state.groups.byId,
   (state, props) => props.groupId,
-  (groupsById, id) => groupsById && groupsById[id],
+  (groupsById, id) => groupsById && groupsById[id]
 );
 export const selectGroups = createSelector(
   (state) => state.groups.byId,
   (state) => state.groups.items,
-  (groupsById, groupIds) => groupIds.map((id) => groupsById[id]),
+  (groupsById, groupIds) => groupIds.map((id) => groupsById[id])
 );
 export const selectGroupsWithType = createSelector(
   (state) => selectGroups(state),
   (state, props) => props.groupType,
-  (groups, groupType) => groups.filter((g) => g.type === groupType),
+  (groups, groupType) => groups.filter((g) => g.type === groupType)
 );

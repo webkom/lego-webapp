@@ -12,7 +12,7 @@ import type { AnyAction } from 'redux';
 export type EntityReducerTypes = AsyncActionType | Array<AsyncActionType>;
 type EntityReducerOptions<
   State extends EntityReducerState,
-  Key extends string,
+  Key extends string
 > = {
   key: Key;
   types: {
@@ -62,7 +62,7 @@ export type EntityReducerState<T = any> = {
 };
 
 const toArray = (
-  value: EntityReducerTypes | null | undefined,
+  value: EntityReducerTypes | null | undefined
 ): AsyncActionType[] => {
   if (!value) {
     return [];
@@ -78,7 +78,7 @@ type FetchingState = {
 };
 
 export function fetching<State extends FetchingState>(
-  fetchTypes: EntityReducerTypes | null | undefined,
+  fetchTypes: EntityReducerTypes | null | undefined
 ): StrictReducer<State> {
   return (state = { fetching: false } as State, action) => {
     for (const fetchType of toArray(fetchTypes)) {
@@ -100,7 +100,7 @@ export function fetching<State extends FetchingState>(
 }
 export function createAndUpdateEntities(
   fetchTypes: EntityReducerTypes | null | undefined,
-  key: string,
+  key: string
 ): Reducer {
   return (state = defaultState, action) => {
     if (!action.payload) return state;
@@ -128,7 +128,7 @@ export function createAndUpdateEntities(
       isEmpty(result) &&
       !isEmpty(actionGrant) &&
       !toArray(fetchTypes).some(
-        (fetchType) => action.type === fetchType.SUCCESS,
+        (fetchType) => action.type === fetchType.SUCCESS
       )
     ) {
       return state;
@@ -159,7 +159,7 @@ export function createAndUpdateEntities(
           ...state.paginationNext[action.meta.paginationKey],
           items: union(
             state.paginationNext[action.meta.paginationKey].items,
-            resultIds,
+            resultIds
           ),
         },
       };
@@ -183,12 +183,12 @@ export function createAndUpdateEntities(
  * Make sure to set `meta.id` in the action.
  */
 export function deleteEntities(
-  deleteTypes: EntityReducerTypes | null | undefined,
+  deleteTypes: EntityReducerTypes | null | undefined
 ): Reducer {
   return (state = defaultState, action) => {
     if (
       !toArray(deleteTypes).some(
-        (deleteType) => action.type === deleteType.SUCCESS,
+        (deleteType) => action.type === deleteType.SUCCESS
       )
     ) {
       return state;
@@ -204,12 +204,12 @@ export function deleteEntities(
             state.paginationNext[key].items,
             ...(isNumber(resultId)
               ? [Number(resultId), resultId.toString()]
-              : [resultId]),
+              : [resultId])
           ),
         };
         return newPaginationNext;
       },
-      {},
+      {}
     );
     return {
       ...state,
@@ -219,13 +219,13 @@ export function deleteEntities(
         state.items,
         ...(isNumber(resultId)
           ? [Number(resultId), resultId.toString()]
-          : [resultId]),
+          : [resultId])
       ),
     };
   };
 }
 export function optimisticDelete(
-  deleteTypes: EntityReducerTypes | null | undefined,
+  deleteTypes: EntityReducerTypes | null | undefined
 ): Reducer {
   return (state, action) => {
     if (!deleteTypes || !action.meta || !action.meta.enableOptimistic) {
@@ -234,7 +234,7 @@ export function optimisticDelete(
 
     if (
       toArray(deleteTypes).some(
-        (deleteType) => action.type === deleteType.BEGIN,
+        (deleteType) => action.type === deleteType.BEGIN
       )
     ) {
       return {
@@ -245,7 +245,7 @@ export function optimisticDelete(
 
     if (
       toArray(deleteTypes).some(
-        (deleteType) => action.type === deleteType.FAILURE,
+        (deleteType) => action.type === deleteType.FAILURE
       )
     ) {
       return { ...state, items: state.items.concat(action.meta.id) };
@@ -255,12 +255,12 @@ export function optimisticDelete(
   };
 }
 export function optimistic(
-  mutateTypes: EntityReducerTypes | null | undefined,
+  mutateTypes: EntityReducerTypes | null | undefined
 ): Reducer {
   return (state, action) => {
     if (
       !toArray(mutateTypes).some((mutateType) =>
-        [mutateType.FAILURE, mutateType.SUCCESS].includes(action.type),
+        [mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
       )
     ) {
       return state;
@@ -275,7 +275,7 @@ export function optimistic(
 }
 // TODO Make this the only spot handling pagination
 export function paginationReducer(
-  fetchTypes: EntityReducerTypes | null | undefined,
+  fetchTypes: EntityReducerTypes | null | undefined
 ): Reducer {
   return (state, action) => {
     const paginationKey = get(action, ['meta', 'paginationKey']);
@@ -284,7 +284,7 @@ export function paginationReducer(
 
     if (
       toArray(fetchTypes).some(
-        (fetchType) => action.type === fetchType.BEGIN,
+        (fetchType) => action.type === fetchType.BEGIN
       ) &&
       paginationKey &&
       cursor === ''
@@ -308,7 +308,7 @@ export function paginationReducer(
 
     if (
       !toArray(fetchTypes).some(
-        (fetchType) => action.type === fetchType.SUCCESS,
+        (fetchType) => action.type === fetchType.SUCCESS
       )
     ) {
       return state;
@@ -356,7 +356,7 @@ export function paginationReducer(
 
 export default function createEntityReducer<
   Entity = EntityReducerState,
-  Key extends string = string,
+  Key extends string = string
 >({
   key,
   types,
@@ -382,7 +382,7 @@ export default function createEntityReducer<
     deleteEntities(deleteTypes),
     optimistic(mutateTypes),
     optimisticDelete(deleteTypes),
-    mutate,
+    mutate
   );
   return (state = finalInitialState, action) => reduce(state, action);
 }

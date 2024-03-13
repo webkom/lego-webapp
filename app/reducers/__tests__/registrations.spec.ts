@@ -229,7 +229,7 @@ describe('reducers', () => {
       expect(newState.byId[3].fetching).toBe(false);
       // unregistrationDate should be approximately now
       expect(
-        Math.abs(moment(newState.byId[3].unregistrationDate) - moment()),
+        Math.abs(moment(newState.byId[3].unregistrationDate) - moment())
       ).toBeLessThan(1000);
     });
   });

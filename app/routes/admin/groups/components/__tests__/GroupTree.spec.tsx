@@ -25,29 +25,29 @@ const groups = [
 describe('<GroupTree />', () => {
   it('should render the child nodes as links', () => {
     const wrapper = shallow(
-      <GroupTree groups={groups} pathname="/admin/groups/1/settings" />,
+      <GroupTree groups={groups} pathname="/admin/groups/1/settings" />
     );
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/admin/groups/2/settings">Dog</Link>,
-      ),
+        <Link to="/admin/groups/2/settings">Dog</Link>
+      )
     ).toBe(true);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/admin/groups/3/settings">Bird</Link>,
-      ),
+        <Link to="/admin/groups/3/settings">Bird</Link>
+      )
     ).toBe(true);
   });
   it('should render the root nodes correctly', () => {
     const children = shallow(
-      <GroupTree groups={groups} pathname="/admin/groups/1/settings" />,
+      <GroupTree groups={groups} pathname="/admin/groups/1/settings" />
     ).children();
     expect(children.at(1).is(TreeView)).toBe(true);
   });
   it('should work with only root groups', () => {
     const rootGroups = groups.slice(0, 1);
     const wrapper = shallow(
-      <GroupTree groups={rootGroups} pathname="/admin/groups/1/settings" />,
+      <GroupTree groups={rootGroups} pathname="/admin/groups/1/settings" />
     );
     const links = wrapper.find(Link);
     expect(wrapper.find(TreeView)).toHaveLength(0);
@@ -58,17 +58,17 @@ describe('<GroupTree />', () => {
       <GroupTree
         groups={groups}
         pathname="/admin/groups/1/members?descendants=false"
-      />,
+      />
     );
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/admin/groups/2/members?descendants=false">Dog</Link>,
-      ),
+        <Link to="/admin/groups/2/members?descendants=false">Dog</Link>
+      )
     ).toBe(true);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/admin/groups/3/members?descendants=false">Bird</Link>,
-      ),
+        <Link to="/admin/groups/3/members?descendants=false">Bird</Link>
+      )
     ).toBe(true);
   });
 });

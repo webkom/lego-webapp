@@ -37,7 +37,7 @@ export const selectOAuth2Applications = createSelector(
   (state) => state.oauth2Applications.byId,
   (state) => state.oauth2Applications.items,
   (oauth2ApplicationsById, oauth2ApplicationIds) =>
-    oauth2ApplicationIds.map((id) => oauth2ApplicationsById[id]),
+    oauth2ApplicationIds.map((id) => oauth2ApplicationsById[id])
 );
 export const selectOAuth2ApplicationById = createSelector(
   (state) => state.oauth2Applications.byId,
@@ -45,11 +45,11 @@ export const selectOAuth2ApplicationById = createSelector(
   (applicationsById, applicationId) => {
     const application = applicationsById[applicationId];
     return application || {};
-  },
+  }
 );
 export const selectOAuth2Grants = createSelector(
   (state) => state.oauth2Grants.byId,
   (state) => state.oauth2Grants.items,
   (oauth2GrantsById, oauth2GrantIds) =>
-    oauth2GrantIds.map((id) => oauth2GrantsById[id]),
+    oauth2GrantIds.map((id) => oauth2GrantsById[id])
 );

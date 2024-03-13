@@ -39,12 +39,12 @@ export const selectCompanySemesters = createSelector(
     return !semesterIds || !semestersById
       ? []
       : semesterIds.map((id) => semestersById[id]);
-  },
+  }
 );
 export const selectCompanySemestersForInterestForm = createSelector(
   selectCompanySemesters,
   (companySemesters) =>
     companySemesters
       .filter((semester) => semester.activeInterestForm)
-      .sort(sortSemesterChronologically),
+      .sort(sortSemesterChronologically)
 );

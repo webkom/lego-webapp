@@ -108,12 +108,12 @@ const GroupBadge = ({
   memberships: (UserMembership & { abakusGroup: Group })[];
 }) => {
   const activeMemberships = memberships.find(
-    (membership) => membership.isActive,
+    (membership) => membership.isActive
   );
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
   const sortedMemberships = orderBy(memberships, (membership) =>
-    moment(membership.startDate || membership.createdAt),
+    moment(membership.startDate || membership.createdAt)
   );
   const firstMembership = sortedMemberships[0];
   const lastMembership = sortedMemberships[sortedMemberships.length - 1];
@@ -178,7 +178,7 @@ const UserProfile = () => {
   const user = useAppSelector((state) =>
     selectUserWithGroups(state, {
       username,
-    }),
+    })
   );
 
   const actionGrant = user?.actionGrant || [];
@@ -187,11 +187,11 @@ const UserProfile = () => {
 
   const upcomingEvents = useAppSelector(selectUpcomingEvents);
   const fetchingUpcoming = useAppSelector(
-    (state) => state.events.fetchingUpcoming,
+    (state) => state.events.fetchingUpcoming
   );
   const previousEvents = useAppSelector(selectPreviousEvents);
   const fetchingPrevious = useAppSelector(
-    (state) => state.events.fetchingPrevious,
+    (state) => state.events.fetchingPrevious
   );
 
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
@@ -200,7 +200,7 @@ const UserProfile = () => {
   const groups = useAppSelector((state) =>
     selectGroupsWithType(state, {
       groupType: 'klasse',
-    }),
+    })
   );
 
   const dispatch = useAppDispatch();
@@ -215,7 +215,7 @@ const UserProfile = () => {
         dispatch(fetchUser(username)),
       ]),
 
-    [params.username, isCurrentUser],
+    [params.username, isCurrentUser]
   );
 
   if (!user) {
@@ -228,7 +228,7 @@ const UserProfile = () => {
 
   const renderFields = () => {
     const fields = Object.keys(fieldTranslations).filter(
-      (field) => user[field],
+      (field) => user[field]
     );
     const tags = fields.map((field) => (
       <li key={field}>
@@ -271,12 +271,12 @@ const UserProfile = () => {
 
   const allAbakusGroupsWithPerms = uniqBy(
     permissionsPerGroup.concat(
-      permissionsPerGroup.flatMap(({ parentPermissions }) => parentPermissions),
+      permissionsPerGroup.flatMap(({ parentPermissions }) => parentPermissions)
     ),
-    (a) => a.abakusGroup.id,
+    (a) => a.abakusGroup.id
   );
   const allAbakusGroups = allAbakusGroupsWithPerms.map(
-    ({ abakusGroup }) => abakusGroup,
+    ({ abakusGroup }) => abakusGroup
   );
   const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
     memberships.filter(Boolean).map((membership) => ({
@@ -284,39 +284,37 @@ const UserProfile = () => {
       abakusGroup: abakusGroups.find((g) => g.id === membership.abakusGroup),
     })),
     (membership) =>
-      membership.abakusGroup.logo
-        ? 'membershipsAsBadges'
-        : 'membershipsAsPills',
+      membership.abakusGroup.logo ? 'membershipsAsBadges' : 'membershipsAsPills'
   );
   const { pastMembershipsAsBadges = [] } = groupBy(
     pastMemberships.filter(Boolean),
     (m) =>
-      m.abakusGroup.logo ? 'pastMembershipsAsBadges' : 'pastMembershipsAsPills',
+      m.abakusGroup.logo ? 'pastMembershipsAsBadges' : 'pastMembershipsAsPills'
   );
   const filteredPastMembershipsAsBadges = pastMembershipsAsBadges.filter(
     (membership) => {
       const membershipDuration = moment.duration(
-        moment(membership.endDate).diff(membership.startDate),
+        moment(membership.endDate).diff(membership.startDate)
       );
       return (
         membership.abakusGroup.type !== 'interesse' ||
         membershipDuration.asWeeks() > 2
       );
-    },
+    }
   );
 
   const groupedMemberships = orderBy(
     groupBy(
       filteredPastMembershipsAsBadges.concat(
-        membershipsAsBadges as User['pastMemberships'],
+        membershipsAsBadges as User['pastMemberships']
       ),
-      'abakusGroup.id',
+      'abakusGroup.id'
     ),
     [
       (memberships) => !memberships.some((membership) => membership.isActive),
       (memberships) => memberships[0].abakusGroup.type === 'interesse',
       (memberships) => memberships[0].abakusGroup.type !== 'styre',
-    ],
+    ]
   );
   const tree: PermissionTree = {};
 
@@ -410,13 +408,13 @@ const UserProfile = () => {
     .map((abakusGroup) => ({
       abakusGroup,
       emailLists: abakusEmailLists.filter((emailList) =>
-        emailList.groups.includes(abakusGroup.id),
+        emailList.groups.includes(abakusGroup.id)
       ),
     }))
     .filter(({ emailLists }) => emailLists.length);
 
   const emailListsOnUser = abakusEmailLists.filter((emailList) =>
-    emailList.users.includes(user.id),
+    emailList.users.includes(user.id)
   );
   const hasFrame = FRAMEID.includes(user.id as number);
 
@@ -647,7 +645,7 @@ const UserProfile = () => {
                           ))}
                         </ul>
                       </div>
-                    ),
+                    )
                 )}
                 <h4>Sum alle</h4>
                 <ul>
@@ -655,11 +653,11 @@ const UserProfile = () => {
                     permissionsPerGroup
                       .concat(
                         permissionsPerGroup.flatMap(
-                          ({ parentPermissions }) => parentPermissions,
-                        ),
+                          ({ parentPermissions }) => parentPermissions
+                        )
                       )
                       .flatMap(({ permissions }) => permissions),
-                    (permission: string) => permission.split('/').length,
+                    (permission: string) => permission.split('/').length
                   )
                     .reduce((acc: Array<string>, perm: string) => {
                       // Reduce perms to only show broadest set of permissions
@@ -676,7 +674,7 @@ const UserProfile = () => {
                             concatedString,
                           ];
                         },
-                        [false, '/'],
+                        [false, '/']
                       );
                       if (broaderPermFound) return acc;
                       return [...acc, perm];
@@ -741,7 +739,7 @@ const UserProfile = () => {
                     previousEvents
                       .filter((e) => e.userReg.pool !== null)
                       .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
-                    'startTime',
+                    'startTime'
                   ).reverse()
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"

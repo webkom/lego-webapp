@@ -41,10 +41,10 @@ export const addEventType = (article: FrontpageEvent): EventWithType => ({
 });
 
 export const isEvent = (
-  object: ArticleWithType | EventWithType,
+  object: ArticleWithType | EventWithType
 ): object is EventWithType => object.entityType === EntityType.Events;
 export const isArticle = (
-  object: ArticleWithType | EventWithType,
+  object: ArticleWithType | EventWithType
 ): object is ArticleWithType => object.entityType === EntityType.Articles;
 
 export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
@@ -64,12 +64,12 @@ export const selectPinned = createSelector(
         (object) => (object.pinned ? 0 : 1), // Sort pinned objects first
         (object) => Math.abs(moment().diff(frontpageObjectDate(object))), // Sort by most recently published/starting soonest
         (object) => object.id,
-      ],
+      ]
     );
 
     return pinnedObjects[0] satisfies
       | ArticleWithType
       | EventWithType
       | undefined;
-  },
+  }
 );

@@ -19,12 +19,12 @@ describe('asyncValidator', () => {
     await expect(
       asyncValidate({
         field1: 'success',
-      }),
+      })
     ).resolves.toBeUndefined();
     await expect(
       asyncValidate({
         field1: 'failure',
-      }),
+      })
     ).rejects.toStrictEqual({
       field1: ['value was not success'],
     });
@@ -58,13 +58,13 @@ describe('asyncValidator', () => {
       asyncValidate({
         field1: 'success',
         field2: 'success',
-      }),
+      })
     ).resolves.toBeUndefined();
     await expect(
       asyncValidate({
         field1: 'failure',
         field2: 'failure',
-      }),
+      })
     ).rejects.toStrictEqual({
       field1: ['value was not success'],
     });
@@ -72,7 +72,7 @@ describe('asyncValidator', () => {
       asyncValidate({
         field1: 'failure',
         field2: 'other',
-      }),
+      })
     ).rejects.toStrictEqual({
       field1: ['value was not success'],
       field2: ['value was not equal to field1'],

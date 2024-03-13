@@ -21,7 +21,7 @@ const SearchPageWrapper = () => {
   usePreparedEffect(
     'fetchSearchResults',
     () => query && dispatch(search(query)),
-    [query],
+    [query]
   );
 
   const navigate = useNavigate();

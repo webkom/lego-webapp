@@ -25,7 +25,7 @@ const defaultAddSurveyQuery = {
 const AddSurveyPage = () => {
   const dispatch = useAppDispatch();
   const fetching = useAppSelector(
-    (state) => state.surveys.fetching || state.events.fetching,
+    (state) => state.surveys.fetching || state.events.fetching
   );
   const { query, setQueryValue } = useQuery(defaultAddSurveyQuery);
   const setTemplateType = setQueryValue('templateType');
@@ -37,21 +37,21 @@ const AddSurveyPage = () => {
     () => {
       if (event) {
         return dispatch(fetchEvent(event)).then(({ payload }) =>
-          setTemplateType(payload.entities.events[payload.result]!.eventType),
+          setTemplateType(payload.entities.events[payload.result]!.eventType)
         );
       }
     },
-    [event],
+    [event]
   );
 
   const fullEvent = useAppSelector((state) =>
-    selectEventById(state, { eventId: event }),
+    selectEventById(state, { eventId: event })
   ) as AdministrateEvent | Record<string, never>;
 
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
     dispatch(addSurvey(surveyData)).then((res) =>
-      navigate(`/surveys/${res.payload.result}`),
+      navigate(`/surveys/${res.payload.result}`)
     );
 
   const fetchingTemplate = !isEmpty(fullEvent) && !template; // If we have an event but no corresponding template yet, it must still be fetching

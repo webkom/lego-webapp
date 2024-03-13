@@ -24,7 +24,7 @@ export function fetchNotificationSettings(): Thunk<any> {
 }
 export function updateNotificationSetting(
   notificationType: string,
-  channels: Array<string>,
+  channels: Array<string>
 ): Thunk<any> {
   return callAPI({
     types: NotificationSettings.UPDATE,

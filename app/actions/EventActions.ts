@@ -97,7 +97,7 @@ export const fetchData = ({
 export const getEndpoint = (
   pagination: any,
   queryString: string,
-  loadNextPage?: boolean,
+  loadNextPage?: boolean
 ) => {
   let endpoint = `/events/${queryString}`;
   const paginationObject = pagination[queryString];
@@ -247,7 +247,7 @@ export function adminRegister(
   userId: ID,
   poolId: ID | undefined,
   feedback: string,
-  adminRegistrationReason: string,
+  adminRegistrationReason: string
 ) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
@@ -280,7 +280,7 @@ export function payment(eventId: ID) {
 export function updateFeedback(
   eventId: ID,
   registrationId: ID,
-  feedback: string,
+  feedback: string
 ) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -310,7 +310,7 @@ export function markUsernamePresent(eventId: ID, username: string) {
 export function updatePresence(
   eventId: ID,
   registrationId: ID,
-  presence: EventRegistrationPresence,
+  presence: EventRegistrationPresence
 ) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -329,7 +329,7 @@ export function updatePresence(
 export function updatePayment(
   eventId: ID,
   registrationId: ID,
-  paymentStatus: string,
+  paymentStatus: string
 ): Thunk<Promise<Action | null | undefined>> {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,

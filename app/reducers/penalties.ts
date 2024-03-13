@@ -26,12 +26,12 @@ export default createEntityReducer({
 export const selectPenalties = createSelector(
   (state) => state.penalties.byId,
   (state) => state.penalties.items,
-  (penaltiesById, penaltyIds) => penaltyIds.map((id) => penaltiesById[id]),
+  (penaltiesById, penaltyIds) => penaltyIds.map((id) => penaltiesById[id])
 );
 
 export const selectPenaltyByUserId = createSelector(
   selectPenalties,
   (state, props) => props.userId,
   (penaltiesById, userId) =>
-    penaltiesById.filter((penalty) => penalty.user === userId),
+    penaltiesById.filter((penalty) => penalty.user === userId)
 );

@@ -55,7 +55,7 @@ const Reaction = ({
     setOptimisticCount((count) => count - 1);
     setOptimisticHasReacted(false);
     setOptimisticUsers((users) =>
-      users?.filter((user) => user.id !== currentUser.id),
+      users?.filter((user) => user.id !== currentUser.id)
     );
   };
 
@@ -79,7 +79,7 @@ const Reaction = ({
             user: currentUser,
             contentTarget,
             unicodeString,
-          }),
+          })
         ).catch(() => {
           optimisticRemove();
         });

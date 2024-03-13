@@ -29,7 +29,7 @@ const PublicFrontpage = () => {
     'fetchIndex',
     () =>
       Promise.allSettled([dispatch(fetchReadmes(2)), dispatch(fetchData())]),
-    [],
+    []
   );
 
   return (

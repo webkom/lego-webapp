@@ -63,7 +63,7 @@ const UserConfirmationForm = () => {
         return dispatch(validateRegistrationToken(token));
       }
     },
-    [],
+    []
   );
 
   const dispatch = useAppDispatch();
@@ -226,7 +226,7 @@ const validate = createValidator(
     allergies: [isValidAllergy()],
   },
   undefined,
-  true,
+  true
 );
 
 export default UserConfirmationForm;

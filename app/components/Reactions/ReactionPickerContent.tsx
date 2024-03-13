@@ -43,7 +43,7 @@ const ReactionPickerContent = ({
                         deleteReaction({
                           reactionId: emoji.reactionId,
                           contentTarget,
-                        }),
+                        })
                       )
                     : dispatch(
                         addReaction({
@@ -51,13 +51,13 @@ const ReactionPickerContent = ({
                           user: currentUser,
                           contentTarget,
                           unicodeString: emoji.unicodeString,
-                        }),
+                        })
                       )
                 }
               >
                 <Emoji size="22px" unicodeString={emoji.unicodeString} />
               </div>
-            ),
+            )
           )}
         </div>
       )}

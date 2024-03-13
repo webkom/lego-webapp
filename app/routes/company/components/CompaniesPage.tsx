@@ -93,7 +93,7 @@ const CompaniesPage = () => {
       query: {},
       entity: 'companies',
       endpoint: '/companies/',
-    })(state),
+    })(state)
   );
   const hasMore = pagination.hasMore;
 
@@ -102,7 +102,7 @@ const CompaniesPage = () => {
   usePreparedEffect(
     'fetchAllCompanies',
     () => dispatch(fetchAll({ fetchMore: false })),
-    [],
+    []
   );
 
   return (

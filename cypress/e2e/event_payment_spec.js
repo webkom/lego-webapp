@@ -106,7 +106,7 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
 
       cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+        'stripeHook'
       );
       cy.wait('@stripeHook');
       confirm3DSecureDialog();
@@ -140,7 +140,7 @@ describe('Event registration & payment', () => {
         // The first one may take some time (due to calls to stripe API)
         .contains(
           /(sikkerhetskode er ikke korrekt)|(security code is incorrect)/,
-          { timeout: 8000 },
+          { timeout: 8000 }
         )
         .should('be.visible');
       clearCardDetails();
@@ -150,7 +150,7 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
       stripeError()
         .contains(
-          /(Kortets utløpsår er passert)|(Your card's expiration year is in the past)/,
+          /(Kortets utløpsår er passert)|(Your card's expiration year is in the past)/
         )
         .should('be.visible');
       clearCardDetails();
@@ -183,7 +183,7 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
 
       cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
-        'stripe3ds',
+        'stripe3ds'
       );
       cy.wait('@stripe3ds');
       confirm3DSecure2Dialog();
@@ -203,13 +203,13 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
 
       cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+        'stripeHook'
       );
       cy.wait('@stripeHook');
       confirm3DSecureDialog(false);
       stripeError()
         .contains(
-          /(Vi kan ikke verifisere betalingsmåten din)|(We are unable to authenticate your payment method)/,
+          /(Vi kan ikke verifisere betalingsmåten din)|(We are unable to authenticate your payment method)/
         )
         .should('be.visible');
 
@@ -218,7 +218,7 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
 
       cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+        'stripeHook'
       );
       cy.wait('@stripeHook');
       confirm3DSecureDialog();
@@ -241,7 +241,7 @@ describe('Event registration & payment', () => {
         {
           statusCode: 200,
           body: 'success',
-        },
+        }
       ).as('confirm');
 
       fillCardDetails('3782 8224 6310 005', '0230', '123');

@@ -38,12 +38,12 @@ const ContactForm = () => {
   const committees = useAppSelector((state) =>
     selectGroupsWithType(state, {
       groupType: GroupType.Committee,
-    }),
+    })
   );
   const revueBoard = useAppSelector((state) =>
     selectGroup(state, {
       groupId: REVUE_BOARD_GROUP_ID,
-    }),
+    })
   );
   const groups = [...committees, revueBoard].filter(isNotNullish);
   const fetching = useAppSelector((state) => state.groups.fetching);
@@ -59,7 +59,7 @@ const ContactForm = () => {
         // It should be added to the fixtures, so that the propagateError flag can be removed.
         dispatch(fetchGroup(REVUE_BOARD_GROUP_ID, { propagateError: false })),
       ]),
-    [],
+    []
   );
 
   if (isEmpty(groups) || fetching) {
@@ -71,22 +71,22 @@ const ContactForm = () => {
       sendContactMessage({
         ...data,
         recipient_group: data.recipient_group.value,
-      }),
+      })
     )
       .then(() => {
         form.reset();
         dispatch(
           addToast({
             message: 'Melding er sendt',
-          }),
+          })
         );
       })
       .catch(() =>
         dispatch(
           addToast({
             message: 'Kunne ikke sende melding',
-          }),
-        ),
+          })
+        )
       );
   };
 

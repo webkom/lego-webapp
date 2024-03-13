@@ -44,7 +44,7 @@ function drawNetwork(context, nodes, graph) {
 export default function drawFancyNodes(
   context: CanvasRenderingContext2D,
   theme: 'dark' | 'light',
-  { width, height }: { width: number; height: number },
+  { width, height }: { width: number; height: number }
 ) {
   context.clearRect(0, 0, width, height);
   context.fillStyle = getFancyNodeColor(theme);

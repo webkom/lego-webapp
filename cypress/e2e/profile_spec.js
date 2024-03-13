@@ -46,7 +46,7 @@ describe('Profile settings', () => {
       .then(() => {
         cy.url().should(
           'include',
-          `/users/${initialUser.username}/settings/profile`,
+          `/users/${initialUser.username}/settings/profile`
         );
       });
   });

@@ -19,7 +19,7 @@ export default createEntityReducer({
         newState.byId = mergeObjects(newState.byId, registrations);
         newState.items = union(
           newState.items,
-          Object.keys(registrations).map(Number),
+          Object.keys(registrations).map(Number)
         );
         break;
       }

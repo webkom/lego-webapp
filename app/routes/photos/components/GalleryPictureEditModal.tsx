@@ -42,12 +42,12 @@ const GalleryPictureEditModal = () => {
   const picture = useAppSelector((state) =>
     selectGalleryPictureById(state, {
       pictureId,
-    }),
+    })
   );
   const gallery = useAppSelector((state) =>
     selectGalleryById(state, {
       galleryId,
-    }),
+    })
   );
 
   const dispatch = useAppDispatch();
@@ -60,7 +60,7 @@ const GalleryPictureEditModal = () => {
         dispatch(fetchGallery(galleryId)),
         pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
       ]),
-    [galleryId, pictureId],
+    [galleryId, pictureId]
   );
 
   const navigate = useNavigate();

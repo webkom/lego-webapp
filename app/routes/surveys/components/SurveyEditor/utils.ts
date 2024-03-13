@@ -27,7 +27,7 @@ type QuestionsValidationErrors = {
   }[];
 };
 export const hasOptions = (
-  data: Partial<FormSurvey>,
+  data: Partial<FormSurvey>
 ): QuestionsValidationErrors => {
   const message: QuestionsValidationErrors = {
     questions: [],

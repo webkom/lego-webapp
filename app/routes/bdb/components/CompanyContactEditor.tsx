@@ -40,13 +40,13 @@ const CompanyContactEditor = () => {
   }>();
   const isNew = companyContactId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, { companyId })
   );
   const companyContact = useAppSelector((state) =>
     selectCompanyContactById(state, {
       companyId,
       companyContactId: Number(companyContactId),
-    }),
+    })
   );
 
   const dispatch = useAppDispatch();
@@ -54,7 +54,7 @@ const CompanyContactEditor = () => {
   usePreparedEffect(
     'fetchEditCompanyContact',
     () => companyId && dispatch(fetchAdmin(companyId)),
-    [companyId, companyContactId],
+    [companyId, companyContactId]
   );
 
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const CompanyContactEditor = () => {
     dispatch(isNew ? addCompanyContact(body) : editCompanyContact(body)).then(
       () => {
         navigate(`/bdb/${companyId}`);
-      },
+      }
     );
   };
 

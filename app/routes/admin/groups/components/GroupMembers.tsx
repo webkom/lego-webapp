@@ -26,7 +26,7 @@ const GroupMembers = () => {
       endpoint: `/groups/${groupId}/memberships/`,
       entity: 'memberships',
       query,
-    })(state),
+    })(state)
   );
 
   const memberships = useAppSelector((state) =>
@@ -34,7 +34,7 @@ const GroupMembers = () => {
       groupId,
       descendants: showDescendants,
       pagination,
-    }),
+    })
   );
 
   const groupsById = useAppSelector((state) => state.groups.byId);
@@ -52,9 +52,9 @@ const GroupMembers = () => {
           groupId,
           next: true,
           query,
-        }),
+        })
       ),
-    [groupId, query],
+    [groupId, query]
   );
 
   return (

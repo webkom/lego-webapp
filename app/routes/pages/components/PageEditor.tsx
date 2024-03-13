@@ -57,7 +57,7 @@ const PageEditor = () => {
   const page = useAppSelector((state) =>
     selectPageBySlug(state, {
       pageSlug,
-    }),
+    })
   );
 
   const isNew = page === undefined;
@@ -79,7 +79,7 @@ const PageEditor = () => {
   usePreparedEffect(
     'fetchPageEdit',
     () => !isNew && pageSlug && dispatch(fetchPage(pageSlug)),
-    [isNew, pageSlug],
+    [isNew, pageSlug]
   );
 
   const setPicture = (image) => {
@@ -87,7 +87,7 @@ const PageEditor = () => {
       uploadFile({
         file: image,
         isPublic: true,
-      }),
+      })
     ).then((action) => {
       const file = action.meta.fileToken;
       setImages({ ...images, [file]: window.URL.createObjectURL(image) });
@@ -119,7 +119,7 @@ const PageEditor = () => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
         navigate(`/pages/${pageCategory}/${slug}`);
-      },
+      }
     );
   };
 

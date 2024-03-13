@@ -23,7 +23,7 @@ export function fetchMeeting(meetingId: string) {
 export const getEndpoint = (
   pagination: any,
   queryString: string,
-  loadNextPage?: boolean,
+  loadNextPage?: boolean
 ): string => {
   let endpoint = `/meetings/${queryString}`;
   const paginationObject = pagination[queryString];
@@ -62,7 +62,7 @@ export function fetchAll({
 export function setInvitationStatus(
   meetingId: ID,
   status: MeetingInvitationStatus,
-  user: CurrentUser,
+  user: CurrentUser
 ) {
   return callAPI<{ status: MeetingInvitationStatus }>({
     types: Meeting.SET_INVITATION_STATUS,
@@ -134,12 +134,12 @@ export function inviteUsersAndGroups({
   users: [
     {
       id: ID;
-    },
+    }
   ];
   groups: [
     {
       value: ID;
-    },
+    }
   ];
 }) {
   return callAPI<{ users: ID[]; groups: ID[] }>({
@@ -209,7 +209,7 @@ export function resetMeetingsToken() {
 
 const calculateMazemapPoi = (
   useMazemap: boolean,
-  mazemapPoi?: { value: number; label: string },
+  mazemapPoi?: { value: number; label: string }
 ) => {
   if (!useMazemap || !mazemapPoi?.value) {
     return null;
@@ -221,5 +221,5 @@ const calculateMazemapPoi = (
 const calculateLocation = (
   useMazemap: boolean,
   mazemapPoi?: { value: number; label: string },
-  location?: string,
+  location?: string
 ) => (useMazemap ? mazemapPoi?.label : location);

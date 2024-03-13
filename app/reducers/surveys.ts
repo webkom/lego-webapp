@@ -46,11 +46,11 @@ export const selectSurveys = createSelector(
         ({
           ...surveysById[surveyId],
           event: events.find(
-            (event) => event.id === surveysById[surveyId].event,
+            (event) => event.id === surveysById[surveyId].event
           ),
-        }) as unknown as SelectedSurvey,
+        } as unknown as SelectedSurvey)
     );
-  },
+  }
 );
 
 export const selectSurveyById = createSelector(
@@ -58,11 +58,11 @@ export const selectSurveyById = createSelector(
   (_: RootState, surveyId: ID) => surveyId,
   (surveys, surveyId) => {
     return surveys.find((survey) => survey.id === Number(surveyId));
-  },
+  }
 );
 export const selectSurveyTemplates = createSelector(
   (state: RootState) => selectSurveys(state),
-  (surveys) => surveys.filter((survey) => survey.templateType),
+  (surveys) => surveys.filter((survey) => survey.templateType)
 );
 
 type SurveyTemplateProps = {
@@ -83,7 +83,7 @@ export const selectSurveyTemplate = createSelector(
   (_: RootState, props: SurveyTemplateProps) => props.templateType,
   (surveys, templateType) => {
     const template = surveys.find(
-      (survey) => survey.templateType === templateType,
+      (survey) => survey.templateType === templateType
     );
     if (!template) return undefined;
     const questions = (template.questions || []).map((question) => ({
@@ -94,37 +94,37 @@ export const selectSurveyTemplate = createSelector(
       ...omit(template, ['id', 'event', 'activeFrom']),
       questions,
     } as SurveyTemplate;
-  },
+  }
 );
 
 export const useFetchedTemplate = (
   prepareId: string,
-  templateType?: EventType,
+  templateType?: EventType
 ): SurveyTemplate | undefined => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedTemplate-${prepareId}`,
     () => templateType && dispatch(fetchTemplate(templateType)),
-    [templateType],
+    [templateType]
   );
   return useAppSelector((state: RootState) =>
-    templateType ? selectSurveyTemplate(state, { templateType }) : undefined,
+    templateType ? selectSurveyTemplate(state, { templateType }) : undefined
   );
 };
 
 export function useFetchedSurvey(
   prepareId: string,
   surveyId: ID,
-  token: string,
+  token: string
 ): SelectedPublicResultsSurvey | undefined;
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId: ID,
+  surveyId: ID
 ): SelectedSurvey | undefined;
 export function useFetchedSurvey(
   prepareId: string,
   surveyId: ID,
-  token?: string,
+  token?: string
 ) {
   const dispatch = useAppDispatch();
   usePreparedEffect(
@@ -133,9 +133,9 @@ export function useFetchedSurvey(
       token
         ? dispatch(fetchWithToken(surveyId, token))
         : dispatch(fetchSurvey(surveyId)),
-    [surveyId],
+    [surveyId]
   );
   return useAppSelector((state: RootState) =>
-    selectSurveyById(state, surveyId),
+    selectSurveyById(state, surveyId)
   ) as SelectedSurvey | SelectedPublicResultsSurvey | undefined;
 }

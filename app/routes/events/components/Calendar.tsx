@@ -56,7 +56,7 @@ const Calendar = () => {
         });
       }
     },
-    [month, year],
+    [month, year]
   );
 
   return (

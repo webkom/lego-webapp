@@ -277,7 +277,7 @@ export function fetchSemesters(
   queries: Record<
     string,
     (string | null | undefined) | (number | null | undefined)
-  > = {},
+  > = {}
 ) {
   return callAPI<DetailedSemesterStatus[]>({
     types: Company.FETCH_SEMESTERS,

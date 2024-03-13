@@ -9,7 +9,7 @@ import type { Element } from 'react';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => Element<any>,
+  htmlTag: (arg0: TagInfo) => Element<any>
 ) {
   const events = aggregatedActivity.activities.reduce((acc, activity) => {
     const context = lookupContext(aggregatedActivity, activity.actor);
@@ -24,7 +24,7 @@ export function activityHeader(
     <b>
       {'Du har rykket opp fra ventelisten på '}
       {formatHeader(
-        events.map((event) => htmlTag(contextRender[event.contentType](event))),
+        events.map((event) => htmlTag(contextRender[event.contentType](event)))
       )}
     </b>
   );

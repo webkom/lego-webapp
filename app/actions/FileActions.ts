@@ -75,9 +75,9 @@ export function uploadFile({
             },
             requiresAuthentication: false,
             meta,
-          }),
+          })
         );
-      },
+      }
     );
 }
 export function fetchImageGallery({

@@ -55,20 +55,20 @@ const queryString = (companyId) =>
 const BdbDetail = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, { companyId })
   );
   const comments = useAppSelector((state) =>
-    selectCommentsForCompany(state, { companyId }),
+    selectCommentsForCompany(state, { companyId })
   );
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, { companyId }),
+    selectEventsForCompany(state, { companyId })
   );
   const companySemesters = useAppSelector(selectCompanySemesters);
   const fetching = useAppSelector((state) => state.companies.fetching);
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
-    })(state),
+    })(state)
   );
   const pagination = useAppSelector((state) => state.events.pagination);
   const endpoint = getEndpoint(pagination, queryString(companyId));
@@ -85,10 +85,10 @@ const BdbDetail = () => {
           fetchEventsForCompany({
             endpoint: `/events/${queryString(companyId)}`,
             queryString: queryString(companyId),
-          }),
+          })
         ),
       ]),
-    [companyId],
+    [companyId]
   );
 
   const navigate = useNavigate();
@@ -100,25 +100,25 @@ const BdbDetail = () => {
       fetchEventsForCompany({
         endpoint,
         queryString: queryString(companyId),
-      }),
+      })
     );
   };
 
   const semesterStatusOnChange = (
     semesterStatus: SemesterStatusEntity,
-    status: CompanySemesterContactStatus,
+    status: CompanySemesterContactStatus
   ) => {
     const newStatus = {
       ...semesterStatus,
       contactedStatus: getContactStatuses(
         semesterStatus.contactedStatus,
-        status,
+        status
       ),
     };
     const companySemester = companySemesters.find(
       (companySemester) =>
         companySemester.year === newStatus.year &&
-        companySemester.semester === newStatus.semester,
+        companySemester.semester === newStatus.semester
     );
 
     if (!companySemester) {
@@ -140,7 +140,7 @@ const BdbDetail = () => {
     fileName: string,
     fileToken: string,
     type: string,
-    semesterStatus: Record<string, any>,
+    semesterStatus: Record<string, any>
   ) => {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
@@ -155,7 +155,7 @@ const BdbDetail = () => {
 
   const removeFileFromSemester = (
     semesterStatus: SemesterStatusEntity,
-    type: string,
+    type: string
   ) => {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
@@ -205,7 +205,7 @@ const BdbDetail = () => {
             <Flex>
               <Icon
                 to={`/bdb/${String(company.id)}/company-contacts/${String(
-                  contact.id,
+                  contact.id
                 )}`}
                 name="pencil"
                 edit
@@ -298,7 +298,7 @@ const BdbDetail = () => {
       <div
         className={cx(
           styles.description,
-          !company.description && 'secondaryFontColor',
+          !company.description && 'secondaryFontColor'
         )}
       >
         {company.description || 'Ingen beskrivelse tilgjengelig'}

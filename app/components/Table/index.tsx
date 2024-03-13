@@ -71,18 +71,18 @@ const filtersToQueryFilters: (filters: Filters) => QueryFilters = (filters) => {
   const queryFilters: QueryFilters = {};
   Object.entries(filters).forEach(
     ([key, filter]) =>
-      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined),
+      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined)
   );
   return queryFilters;
 };
 
 const queryFiltersToFilters: (queryFilters?: QueryFilters) => Filters = (
-  queryFilters,
+  queryFilters
 ) => {
   if (!queryFilters) return {};
   const filters: Filters = {};
   Object.entries(queryFilters).forEach(
-    ([key, queryFilter]) => (filters[key] = queryFilter?.split(',')),
+    ([key, queryFilter]) => (filters[key] = queryFilter?.split(','))
   );
   return filters;
 };
@@ -100,7 +100,7 @@ const Table: React.FC<TableProps> = ({
 }) => {
   const [sort, setSort] = useState<Sort>({});
   const [filters, setFilters] = useState<Filters>(
-    queryFiltersToFilters(props.filters),
+    queryFiltersToFilters(props.filters)
   );
   const [isShown, setIsShown] = useState<IsShown>({});
   const [showColumn, setShowColumn] = useState<ShowColumn>({});
@@ -133,7 +133,7 @@ const Table: React.FC<TableProps> = ({
         return -1;
       };
     const sortedData = [...data].sort((a, b) =>
-      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0,
+      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0
     );
     if (direction === 'desc') sortedData.reverse();
     return sortedData;
@@ -150,7 +150,7 @@ const Table: React.FC<TableProps> = ({
         filterMapping = (val) => val,
         dataIndex = key,
       } = columns.find(
-        (column) => column.filterIndex ?? column.dataIndex === key,
+        (column) => column.filterIndex ?? column.dataIndex === key
       ) || {};
       if (!inlineFiltering) return true;
 
@@ -163,7 +163,7 @@ const Table: React.FC<TableProps> = ({
       }
 
       return filters[key]?.some((arrayFilter) =>
-        filterMapping(get(item, dataIndex)).toLowerCase().includes(arrayFilter),
+        filterMapping(get(item, dataIndex)).toLowerCase().includes(arrayFilter)
       );
     }).length;
     return match > 0;
@@ -224,7 +224,7 @@ const Table: React.FC<TableProps> = ({
                 {Array.from({ length: visibleColumns.length }).map(
                   (_, index) => (
                     <td key={index} className={styles.loader} />
-                  ),
+                  )
                 )}
               </tr>
             ))}

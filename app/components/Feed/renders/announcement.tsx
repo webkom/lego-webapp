@@ -9,7 +9,7 @@ import type { ReactElement } from 'react';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => ReactElement,
+  htmlTag: (arg0: TagInfo) => ReactElement
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);

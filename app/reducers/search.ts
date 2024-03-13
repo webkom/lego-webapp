@@ -119,7 +119,7 @@ export const searchMapping: SearchMapping = {
       'Infoside - ' +
       get(
         categoryOptions.find((val) => val.value === page.category),
-        'label',
+        'label'
       ),
     color: '#E8953A',
     link: (page) => `/pages/${page.category}/${page.slug}`,
@@ -254,10 +254,10 @@ export const selectAutocomplete = (autocomplete: Array<RawSearchResult>) =>
 
 export const selectAutocompleteRedux = createSelector(
   (state: RootState) => state.search.autocomplete,
-  (autocomplete) => autocomplete.map(transformResult).filter(Boolean),
+  (autocomplete) => autocomplete.map(transformResult).filter(Boolean)
 );
 
 export const selectResult = createSelector(
   (state: RootState) => state.search.results,
-  (results) => results.map(transformResult).filter(Boolean),
+  (results) => results.map(transformResult).filter(Boolean)
 );

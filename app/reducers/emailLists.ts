@@ -51,5 +51,5 @@ export const selectEmailListById = createSelector(
       groups: emailList.groups.map((groupId) => groupsById[groupId]),
       users: emailList.users.map((userId) => usersById[userId]),
     };
-  },
+  }
 );

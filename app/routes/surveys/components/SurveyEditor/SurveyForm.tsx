@@ -38,7 +38,7 @@ const validate = createValidator(
     title: [required()],
     event: [required()],
   },
-  hasOptions,
+  hasOptions
 );
 
 type Props = {
@@ -151,7 +151,7 @@ const SurveyForm = ({
                   component={DatePicker.Field}
                 />
               </Flex>
-            ),
+            )
           )}
           <FieldArray
             name="questions"
@@ -209,7 +209,7 @@ type QuestionsProps = FieldArrayRenderProps<FormSurveyQuestion, HTMLElement>;
 const updateRelativeIndexes = (
   oldIndex: number,
   newIndex: number,
-  fields: QuestionsProps['fields'],
+  fields: QuestionsProps['fields']
 ) => {
   fields.move(oldIndex, newIndex);
 };

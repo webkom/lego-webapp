@@ -34,7 +34,7 @@ export function addReaction({
           contentTarget,
           unicodeString,
         },
-      }),
+      })
     ).catch(
       (action: RejectedPromiseAction<HttpError, Record<string, unknown>>) => {
         const status = action.payload.response?.status;
@@ -48,7 +48,7 @@ export function addReaction({
 
         action.meta.errorMessage = errorMessage;
         dispatch(action);
-      },
+      }
     );
   };
 }

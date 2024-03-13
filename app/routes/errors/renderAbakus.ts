@@ -13,7 +13,7 @@ function animateAbakus(
     sideWidth = 10,
     width = 640,
     PIXELS,
-  } = {},
+  } = {}
 ) {
   const height = 6 * (2 * radius + padding + lineSpacing) + 2 * offsetY;
   canvas.width = width;
@@ -34,7 +34,7 @@ function animateAbakus(
         0,
         offsetY + i * (2 * radius + padding + lineSpacing),
         width,
-        2,
+        2
       );
     }
 
@@ -53,7 +53,7 @@ function animateAbakus(
         offsetY + y,
         radius,
         0,
-        Math.PI * 2,
+        Math.PI * 2
       );
       context.closePath();
       context.fill();

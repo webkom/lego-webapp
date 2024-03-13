@@ -26,7 +26,7 @@ const UserResetPasswordForm = () => {
       resetPassword({
         token,
         ...props,
-      }),
+      })
     ).then(() => {
       navigate('/');
     });
@@ -76,7 +76,7 @@ const validate = createValidator(
     ],
   },
   undefined,
-  true,
+  true
 );
 
 export default UserResetPasswordForm;

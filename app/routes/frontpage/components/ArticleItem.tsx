@@ -17,7 +17,7 @@ const DESC_MAX_LENGTH = 100;
 
 const ArticleItem = ({ item, url, meta }: Props) => {
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.articles.fetching,
+    (state) => state.frontpage.fetching || state.articles.fetching
   );
 
   return (

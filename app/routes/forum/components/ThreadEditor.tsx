@@ -37,12 +37,12 @@ const ThreadEditor = () => {
   usePreparedEffect(
     'fetchThreadForEditor',
     () => threadId && dispatch(fetchThreadByForum(forumId, threadId)),
-    [threadId],
+    [threadId]
   );
 
   const isNew = !threadId;
   const thread: DetailedThread = useAppSelector((state) =>
-    isNew ? undefined : selectThreadsById(state, { threadId }),
+    isNew ? undefined : selectThreadsById(state, { threadId })
   );
 
   const dispatch = useAppDispatch();
@@ -68,7 +68,7 @@ const ThreadEditor = () => {
     const action = isNew ? createThread(body) : editThread(body);
     dispatch(action).then((res) => {
       navigate(
-        `/forum/${forumId}/threads/${isNew ? res.payload.result : thread.id}`,
+        `/forum/${forumId}/threads/${isNew ? res.payload.result : thread.id}`
       );
     });
   };
@@ -108,7 +108,7 @@ const ThreadEditor = () => {
                   navigate(
                     isNew
                       ? `/forum/${forumId}/threads`
-                      : `/forum/${forumId}/threads/${thread.id}`,
+                      : `/forum/${forumId}/threads/${thread.id}`
                   )
                 }
               >

@@ -15,7 +15,7 @@ describe('components', () => {
           startYear={2016}
           navigateThroughTime={() => null}
           changedStatuses={[]}
-        />,
+        />
       );
       const foundCompanies = wrapper.find('tbody').children();
       expect(foundCompanies).toHaveLength(companies.length);

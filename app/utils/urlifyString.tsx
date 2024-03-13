@@ -63,7 +63,7 @@ const urlifyString = (data: string): Urlified =>
       }
 
       return accumulator.slice(0, prevIndex).concat(`${prev}${text}`);
-    }, []),
+    }, [])
   );
 
 export default urlifyString;

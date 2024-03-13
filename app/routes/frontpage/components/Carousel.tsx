@@ -37,7 +37,7 @@ class Carousel extends Component<Props, State> {
                 this.setState({
                   selectedIndex: index,
                 }),
-            }),
+            })
           )}
         </div>
         <div className={styles.right}>

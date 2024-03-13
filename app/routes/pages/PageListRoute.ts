@@ -14,7 +14,7 @@ const mapDispatchToProps = {
 };
 export default compose(
   withPreparedDispatch('fetchPageList', (props, dispatch) =>
-    dispatch(fetchAll()),
+    dispatch(fetchAll())
   ),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, mapDispatchToProps)
 )(PageList);

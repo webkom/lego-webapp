@@ -10,7 +10,7 @@ import type { Element } from 'react';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => Element<any>,
+  htmlTag: (arg0: TagInfo) => Element<any>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
@@ -25,8 +25,8 @@ export function activityHeader(
 
   const toRender = joinValues(
     meetings.map((meeting) =>
-      htmlTag(contextRender[meeting.contentType](meeting)),
-    ),
+      htmlTag(contextRender[meeting.contentType](meeting))
+    )
   );
   return (
     <b>

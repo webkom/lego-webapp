@@ -31,7 +31,7 @@ const NotificationElement = ({
         <div
           className={cx(
             styles.notification,
-            !notification.read && styles.unRead,
+            !notification.read && styles.unRead
           )}
         >
           <div className={styles.innerNotification}>
@@ -57,10 +57,10 @@ const HeaderNotificationsContent = () => {
   const notifications = useAppSelector((state) =>
     selectFeedActivitesByFeedId(state, {
       feedId: 'notifications',
-    }),
+    })
   );
   const fetchingNotifications = useAppSelector(
-    (state) => state.feedActivities.fetching,
+    (state) => state.feedActivities.fetching
   );
 
   if (fetchingNotifications && notifications.length === 0) {
@@ -96,7 +96,7 @@ const NotificationsDropdown = () => {
         dispatch(fetchNotificationFeed()),
         dispatch(fetchNotificationData()),
       ]),
-    [],
+    []
   );
 
   const { unreadCount } = notificationsData;

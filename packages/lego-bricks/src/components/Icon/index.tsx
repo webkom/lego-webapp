@@ -44,7 +44,7 @@ export const Icon = ({
     danger && styles.danger,
     success && styles.success,
     edit && styles.edit,
-    disabled && styles.disabled,
+    disabled && styles.disabled
   );
 
   return (

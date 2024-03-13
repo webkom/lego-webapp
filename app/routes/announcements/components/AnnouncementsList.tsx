@@ -16,7 +16,7 @@ const AnnouncementsList = () => {
   const announcements = useAppSelector((state) => selectAnnouncements(state));
   const fetching = useAppSelector((state) => state.announcements.fetching);
   const actionGrant = useAppSelector(
-    (state) => state.announcements.actionGrant,
+    (state) => state.announcements.actionGrant
   );
 
   return (

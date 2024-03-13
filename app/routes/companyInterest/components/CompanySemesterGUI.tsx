@@ -70,7 +70,7 @@ const AddSemesterForm = () => {
 
   const onSubmit = (
     { year, semester }: FormValues,
-    form: FormApi<FormValues>,
+    form: FormApi<FormValues>
   ) => {
     const existingCompanySemester = semesters.find((companySemester) => {
       return (
@@ -82,7 +82,7 @@ const AddSemesterForm = () => {
     dispatch(
       existingCompanySemester
         ? editSemester({ ...existingCompanySemester, activeInterestForm: true })
-        : addSemester({ year: Number(year), semester }), // Default is activeInterestForm: true
+        : addSemester({ year: Number(year), semester }) // Default is activeInterestForm: true
     ).then(() => {
       form.reset();
     });
@@ -138,7 +138,7 @@ const AddSemesterForm = () => {
 
 const ActiveSemesters = () => {
   const activeSemesters = useAppSelector((state) =>
-    selectCompanySemestersForInterestForm(state),
+    selectCompanySemestersForInterestForm(state)
   );
 
   const dispatch = useAppDispatch();

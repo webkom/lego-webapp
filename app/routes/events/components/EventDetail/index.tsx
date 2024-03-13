@@ -126,7 +126,7 @@ const EventDetail = () => {
 
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
+    selectEventByIdOrSlug(state, { eventIdOrSlug })
   ) as AuthUserDetailedEvent | UserDetailedEvent;
   const eventId = event?.id;
   const fetching = useAppSelector((state) => state.events.fetching);
@@ -136,30 +136,30 @@ const EventDetail = () => {
 
   const { currentUser, loggedIn } = useUserContext();
   const user = useAppSelector((state) =>
-    selectUserWithGroups(state, { username: currentUser.username }),
+    selectUserWithGroups(state, { username: currentUser.username })
   );
   const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, { userId: user?.id }),
+    selectPenaltyByUserId(state, { userId: user?.id })
   );
 
   const comments = useAppSelector((state) =>
-    selectCommentsForEvent(state, { eventId }),
+    selectCommentsForEvent(state, { eventId })
   );
   const poolsWithRegistrations = useAppSelector((state) =>
     event?.isMerged
       ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId }),
+      : selectPoolsWithRegistrationsForEvent(state, { eventId })
   );
   const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId }),
+    (state) => selectRegistrationsFromPools(state, { eventId })
   );
   const waitingRegistrations = useAppSelector((state) =>
-    selectWaitingRegistrationsForEvent(state, { eventId }),
+    selectWaitingRegistrationsForEvent(state, { eventId })
   );
   const normalPools = useAppSelector((state) =>
     event?.isMerged
       ? selectMergedPool(state, { eventId })
-      : selectPoolsForEvent(state, { eventId }),
+      : selectPoolsForEvent(state, { eventId })
   );
 
   let pools =
@@ -185,8 +185,8 @@ const EventDetail = () => {
 
   const currentPool = pools.find((pool) =>
     pool.registrations?.some(
-      (registration) => registration.user?.id === currentUser.id,
-    ),
+      (registration) => registration.user?.id === currentUser.id
+    )
   );
 
   let currentRegistration;
@@ -194,7 +194,7 @@ const EventDetail = () => {
 
   if (currentPool) {
     currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user?.id === currentUser.id,
+      (registration) => registration.user?.id === currentUser.id
     );
     currentRegistration = currentPool.registrations[currentRegistrationIndex];
   }
@@ -204,7 +204,7 @@ const EventDetail = () => {
     selectRegistrationForEventByUserId(state, {
       eventId,
       userId: currentUser.id,
-    }),
+    })
   );
 
   const navigate = useNavigate();
@@ -219,7 +219,7 @@ const EventDetail = () => {
   usePreparedEffect(
     'fetchEventDetail',
     () => eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
-    [eventIdOrSlug, loggedIn],
+    [eventIdOrSlug, loggedIn]
   );
 
   const color = colorForEventType(event.eventType);
@@ -243,7 +243,7 @@ const EventDetail = () => {
 
   // The UserGrid is expanded when there's less than 5 minutes till activation
   const minUserGridRows = currentMoment.isAfter(
-    moment(activationTimeMoment).subtract(5, 'minutes'),
+    moment(activationTimeMoment).subtract(5, 'minutes')
   )
     ? MIN_USER_GRID_ROWS
     : 0;
@@ -382,22 +382,22 @@ const EventDetail = () => {
           },
         ]
       : event.createdBy
-        ? [
-            {
-              key: 'Forfatter',
-              value: (
-                <Link to={`/users/${event.createdBy.username}`}>
-                  {event.createdBy.fullName}
-                </Link>
-              ),
-            },
-          ]
-        : [
-            {
-              key: 'Forfatter',
-              value: 'Anonym',
-            },
-          ]),
+      ? [
+          {
+            key: 'Forfatter',
+            value: (
+              <Link to={`/users/${event.createdBy.username}`}>
+                {event.createdBy.fullName}
+              </Link>
+            ),
+          },
+        ]
+      : [
+          {
+            key: 'Forfatter',
+            value: 'Anonym',
+          },
+        ]),
   ].filter(Boolean); // This will remove any undefined items from the array
 
   return (
@@ -434,7 +434,9 @@ const EventDetail = () => {
         <ContentMain>
           <DisplayContent content={event.text} skeleton={showSkeleton} />
           <Flex className={styles.tagRow}>
-            {event.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
+            {event.tags?.map((tag, i) => (
+              <Tag key={i} tag={tag} />
+            ))}
           </Flex>
         </ContentMain>
 
@@ -542,7 +544,7 @@ const EventDetail = () => {
                 <RegistrationMeta
                   useConsent={event.useConsent}
                   hasOpened={moment(event.activationTime).isBefore(
-                    currentMoment,
+                    currentMoment
                   )}
                   photoConsents={event.photoConsents}
                   eventSemester={getEventSemesterFromStartTime(event.startTime)}

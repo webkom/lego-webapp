@@ -139,26 +139,26 @@ const GalleryPictureModal = () => {
   const pictures = useAppSelector((state) =>
     SelectGalleryPicturesByGalleryId(state, {
       galleryId,
-    }),
+    })
   );
   const picture = useAppSelector((state) =>
     selectGalleryPictureById(state, {
       pictureId,
-    }),
+    })
   );
   const comments = useAppSelector((state) =>
     selectCommentsForGalleryPicture(state, {
       pictureId,
-    }),
+    })
   );
   const fetching = useAppSelector(
-    (state) => state.galleries.fetching || state.galleryPictures.fetching,
+    (state) => state.galleries.fetching || state.galleryPictures.fetching
   );
   const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
   const gallery = useAppSelector((state) =>
     selectGalleryById(state, {
       galleryId,
-    }),
+    })
   );
   const actionGrant = gallery?.actionGrant || [];
 
@@ -192,7 +192,7 @@ const GalleryPictureModal = () => {
         dispatch(fetchGallery(galleryId)),
         pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
       ]),
-    [],
+    []
   );
 
   const navigate = useNavigate();
@@ -223,7 +223,7 @@ const GalleryPictureModal = () => {
 
   const siblingGalleryPicture = (next: boolean) => {
     return dispatch(
-      fetchSiblingGallerPicture(gallery.id, pictureId, next),
+      fetchSiblingGallerPicture(gallery.id, pictureId, next)
     ).then((result) => {
       setHasNext(!!result.payload.next);
       setHasPrevious(!!result.payload.previous);
@@ -239,7 +239,7 @@ const GalleryPictureModal = () => {
     500,
     {
       trailing: false,
-    },
+    }
   );
 
   const nextGalleryPicture = throttle(() => siblingGalleryPicture(true), 500, {
