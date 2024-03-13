@@ -2,7 +2,7 @@ import { mergeWith } from 'lodash';
 
 function overrideArrays(
   oldValue,
-  newValue
+  newValue,
 ): Record<string, any> | null | undefined {
   if (Array.isArray(oldValue)) {
     return newValue;
@@ -14,7 +14,7 @@ function overrideArrays(
 
 export default function mergeObjects(
   old: Record<string, any>,
-  updated: Record<string, any>
+  updated: Record<string, any>,
 ): Record<string, any> {
   return mergeWith({}, old, updated, overrideArrays);
 }

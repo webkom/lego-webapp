@@ -14,7 +14,7 @@ const ThreadList = ({ forumId }: { forumId: ID }) => {
   usePreparedEffect(
     'fetchAllThreadsByForum',
     () => forumId && dispatch(fetchThreadsByForum(forumId)),
-    [forumId]
+    [forumId],
   );
 
   const threads = useAppSelector(selectThreadsByForumId(parseInt(forumId)));

@@ -22,7 +22,7 @@ const GroupMember = ({ user, role, leader, co_leader, groupName }: Props) => {
         className={cx(
           styles.member,
           leader && styles.leader,
-          co_leader && styles.coLeader
+          co_leader && styles.coLeader,
         )}
       >
         <Image

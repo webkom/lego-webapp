@@ -5,8 +5,8 @@ type AsyncOrSyncRouteConfig =
         location: string,
         cb: (
           arg0: Record<string, any> | null,
-          arg1: Record<string, any> | null | undefined
-        ) => void
+          arg1: Record<string, any> | null | undefined,
+        ) => void,
       ) => void;
     }
   | {
@@ -31,11 +31,11 @@ type AsyncOrSyncRouteConfig =
  */
 
 export default function resolveAsyncRoute(
-  componentFn: ComponentFn
+  componentFn: ComponentFn,
 ): AsyncOrSyncRouteConfig {
   if (typeof componentFn !== 'function') {
     throw new TypeError(
-      'The first argument of resolveAsyncRoute() must be a function returning an import()-promise'
+      'The first argument of resolveAsyncRoute() must be a function returning an import()-promise',
     );
   }
 
@@ -44,8 +44,8 @@ export default function resolveAsyncRoute(
       location,
       callback: (
         error: Record<string, any> | null,
-        component?: Record<string, any>
-      ) => void
+        component?: Record<string, any>,
+      ) => void,
     ) {
       let component = componentFn();
 

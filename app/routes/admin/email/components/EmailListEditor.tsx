@@ -23,7 +23,7 @@ import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
 const validate = createValidator({
   email: [
     required(
-      'Skriv inn en gyldig e-postadresse. Legg merke til at @abakus.no ikke skal med.'
+      'Skriv inn en gyldig e-postadresse. Legg merke til at @abakus.no ikke skal med.',
     ),
   ],
   name: [required()],
@@ -40,7 +40,7 @@ const EmailListEditor = () => {
   const { emailListId } = useParams<{ emailListId: string }>();
   const isNew = emailListId === 'new';
   const emailList = useAppSelector((state) =>
-    selectEmailListById(state, emailListId!)
+    selectEmailListById(state, emailListId!),
   );
 
   const dispatch = useAppDispatch();
@@ -48,7 +48,7 @@ const EmailListEditor = () => {
   usePreparedEffect(
     'fetchEmailList',
     () => !isNew && emailListId && dispatch(fetchEmailList(emailListId)),
-    [emailListId]
+    [emailListId],
   );
 
   const navigate = useNavigate();
@@ -63,14 +63,14 @@ const EmailListEditor = () => {
       groups: (values.groups || []).map((group) => group.value),
       users: (values.users || []).map((user) => user.value),
       additionalEmails: (values.additionalEmails || []).map(
-        (email) => email.value
+        (email) => email.value,
       ),
     };
 
     dispatch(isNew ? createEmailList(payload) : editEmailList(payload)).then(
       (res) => {
         navigate(`/admin/email/lists/${res.payload.result}`);
-      }
+      },
     );
   };
 
@@ -86,7 +86,7 @@ const EmailListEditor = () => {
           (groupRoles: RoleType) => ({
             label: ROLES[groupRoles],
             value: groupRoles,
-          })
+          }),
         ),
         users: (emailList?.users || []).filter(Boolean).map((user) => ({
           label: user.fullName,
@@ -96,7 +96,7 @@ const EmailListEditor = () => {
           (additionalEmail) => ({
             label: additionalEmail,
             value: additionalEmail,
-          })
+          }),
         ),
         requireInternalAddress: emailList?.requireInternalAddress || false,
       };

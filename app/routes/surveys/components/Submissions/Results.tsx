@@ -101,10 +101,10 @@ const Results = ({
   const switchGraph = survey.actionGrant.includes('edit')
     ? (
         id: ID,
-        selectedType: { value: SurveyQuestionDisplayType; label: string }
+        selectedType: { value: SurveyQuestionDisplayType; label: string },
       ) => {
         const questionToUpdate = survey.questions.find(
-          (question) => question.id === id
+          (question) => question.id === id,
         );
 
         if (
@@ -128,7 +128,7 @@ const Results = ({
             ...newSurvey,
             surveyId: survey.id,
             event: survey.event.id,
-          })
+          }),
         );
       }
     : undefined;
@@ -153,14 +153,14 @@ const Results = ({
             return true;
           });
           const chartColors = CHART_COLORS.filter(
-            (_, i) => !colorsToRemove.includes(i)
+            (_, i) => !colorsToRemove.includes(i),
           );
           const graphType = graphOptions.find(
-            (a) => a.value === question.displayType
+            (a) => a.value === question.displayType,
           );
           const questionIsNumeric = question.options.reduce(
             (result, option) => result && /^\d+/.test(option.optionText),
-            true
+            true,
           );
           return (
             <li key={question.id}>

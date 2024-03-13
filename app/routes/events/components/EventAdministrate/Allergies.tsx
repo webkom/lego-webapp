@@ -15,7 +15,7 @@ import type { CurrentUser } from 'app/store/models/User';
 
 export const canSeeAllergies = (
   currentUser?: CurrentUser,
-  event?: AdministrateEvent
+  event?: AdministrateEvent,
 ) => {
   if (!currentUser || !event || isEmpty(event)) {
     return false;
@@ -29,12 +29,12 @@ export const canSeeAllergies = (
 const Allergies = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId })
+    selectEventById(state, { eventId }),
   ) as AdministrateEvent;
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId,
-    })
+    }),
   );
   const registeredAllergies = registered.filter((registration) => {
     return registration?.user.allergies;
@@ -47,7 +47,7 @@ const Allergies = () => {
   usePreparedEffect(
     'fetchAllergies',
     () => eventId && dispatch(fetchAllergies(eventId)),
-    [eventId]
+    [eventId],
   );
 
   if (!event?.id) {
@@ -61,7 +61,7 @@ const Allergies = () => {
   const data = registeredAllergies
     .filter(
       (registration) =>
-        getRegistrationInfo(registration).status !== 'Venteliste'
+        getRegistrationInfo(registration).status !== 'Venteliste',
     )
     .map((registration) => registration.user.allergies)
     .join('\n');
@@ -69,7 +69,7 @@ const Allergies = () => {
   const allergiesTXT = URL.createObjectURL(
     new Blob([data], {
       type: 'text/plain',
-    })
+    }),
   );
 
   const initialColumns = [

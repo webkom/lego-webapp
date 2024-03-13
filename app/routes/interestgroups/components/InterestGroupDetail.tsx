@@ -57,7 +57,7 @@ const ButtonRow = ({ group }: ButtonRowProps) => {
   const currentUser = useAppSelector((state) => selectCurrentUser(state));
 
   const [membership] = group.memberships.filter(
-    (m) => m.user.id === currentUser.id
+    (m) => m.user.id === currentUser.id,
   );
 
   const dispatch = useAppDispatch();
@@ -116,10 +116,10 @@ const Contact = ({ group }: { group: Group }) => {
 const InterestGroupDetail = () => {
   const { groupId } = useParams();
   const selectedGroup = useAppSelector((state) =>
-    selectGroup(state, { groupId })
+    selectGroup(state, { groupId }),
   );
   const memberships = useAppSelector((state) =>
-    selectMembershipsForGroup(state, { groupId })
+    selectMembershipsForGroup(state, { groupId }),
   );
 
   const group = { ...selectedGroup, memberships };
@@ -138,7 +138,7 @@ const InterestGroupDetail = () => {
         dispatch(fetchGroup(groupId)),
         loggedIn && dispatch(fetchAllMemberships(groupId)),
       ]),
-    [groupId, loggedIn]
+    [groupId, loggedIn],
   );
 
   return (

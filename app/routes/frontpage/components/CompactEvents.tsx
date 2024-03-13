@@ -86,7 +86,7 @@ const CompactEvents = ({ className, style }: Props) => {
   const rightEvents = other.length > 0 ? other : ['Ingen arrangementer'];
 
   const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.events.fetching
+    (state) => state.frontpage.fetching || state.events.fetching,
   );
 
   const skeleton = (
@@ -104,7 +104,7 @@ const CompactEvents = ({ className, style }: Props) => {
                 {
                   eventTypes: ['company_presentation', 'course'],
                 },
-                eventListDefaultQuery
+                eventListDefaultQuery,
               ),
             }}
           >
@@ -122,7 +122,7 @@ const CompactEvents = ({ className, style }: Props) => {
                 {
                   eventTypes: ['social', 'other'],
                 },
-                eventListDefaultQuery
+                eventListDefaultQuery,
               ),
             }}
           >

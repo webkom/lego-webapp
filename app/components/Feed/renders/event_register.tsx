@@ -10,7 +10,7 @@ import type { ReactElement } from 'react';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => ReactElement
+  htmlTag: (arg0: TagInfo) => ReactElement,
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actors = aggregatedActivity.actorIds.map((actorId) => {
@@ -23,7 +23,7 @@ export function activityHeader(
   }
 
   const actorsRender = actors.map(
-    (actor) => actor && htmlTag(contextRender[actor.contentType](actor))
+    (actor) => actor && htmlTag(contextRender[actor.contentType](actor)),
   );
   return (
     <b>

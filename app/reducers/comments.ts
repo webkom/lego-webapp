@@ -24,7 +24,7 @@ type StateWithComments<T, S> = S & {
  * Used by the individual entity reducers
  */
 export function mutateComments<T, S = EntityReducerState<T>>(
-  forTargetType: string
+  forTargetType: string,
 ) {
   return produce((newState: StateWithComments<T, S>, action: AnyAction) => {
     switch (action.type) {
@@ -54,11 +54,11 @@ export const addCommentCases = (
   forTargetType: EntityType,
   addCase: ActionReducerMapBuilder<
     EntityState<{ comments?: EntityId[] }, EntityId>
-  >['addCase']
+  >['addCase'],
 ) => {
   addCase(Comment.ADD.SUCCESS, (state, action: AnyAction) => {
     const { targetType, targetId } = parseContentTarget(
-      action.meta.contentTarget
+      action.meta.contentTarget,
     );
 
     if (targetType === forTargetType) {

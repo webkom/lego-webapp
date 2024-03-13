@@ -32,7 +32,7 @@ const allowed = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       Meta.FETCH.SUCCESS,
-      (_, action: FetchMetaSuccessAction) => action.payload.isAllowed
+      (_, action: FetchMetaSuccessAction) => action.payload.isAllowed,
     );
   },
 });

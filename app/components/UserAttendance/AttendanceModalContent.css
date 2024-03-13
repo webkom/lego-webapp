@@ -16,7 +16,8 @@
   background:
   /*
   Shadow cover TOP
-  */ linear-gradient(
+  */
+    linear-gradient(
         var(--color-white) 30%,
         rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%)
       )
@@ -49,7 +50,11 @@
       center bottom;
   /* stylelint-enable indentation */
   background-repeat: no-repeat;
-  background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+  background-size:
+    100% 40px,
+    100% 40px,
+    100% 14px,
+    100% 14px;
   background-attachment: local, local, scroll, scroll;
 }
 

@@ -110,7 +110,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
         dispatch(addToast({ message: result }));
       }
     },
-    [showScanner, dispatch]
+    [showScanner, dispatch],
   );
 
   /**
@@ -147,10 +147,10 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
               displayResult(`Brukeren finnes ikke!\nBrukernavn: ${username}`);
             } else {
               displayResult(
-                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
+                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`,
               );
             }
-          }
+          },
         )
         .then(() => {
           if (input?.current) {
@@ -158,7 +158,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
           }
         });
     },
-    [clearSearch, displayResult, handleSelect, validateAbakusGroup]
+    [clearSearch, displayResult, handleSelect, validateAbakusGroup],
   );
 
   const handleScannerResult = (scannerResult: string) => {

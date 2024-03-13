@@ -40,14 +40,14 @@ const createInitialPagination = (query: Query) => ({
 
 const buildPaginationReducer = (
   builder: ActionReducerMapBuilder<StateWithPagination>,
-  actionTypes: AsyncActionType[]
+  actionTypes: AsyncActionType[],
 ) => {
   builder.addMatcher(
     isAsyncApiActionBegin.matching<FetchMeta>(actionTypes),
     (state, action) => {
       state.paginationNext[action.meta.paginationKey ?? ''] ??=
         createInitialPagination(action.meta.query ?? {});
-    }
+    },
   );
   builder.addMatcher(
     isAsyncApiActionSuccess.matching<FetchMeta, FetchPayload>(actionTypes),
@@ -75,7 +75,7 @@ const buildPaginationReducer = (
         paginationNext.hasMoreBackwards = false;
         paginationNext.previous = undefined;
       }
-    }
+    },
   );
 };
 

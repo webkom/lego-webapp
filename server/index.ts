@@ -26,7 +26,7 @@ const server = config.https
         cert: fs.readFileSync(config.httpsCertFile, 'utf8'),
         key: fs.readFileSync(config.httpsCertKeyFile, 'utf8'),
       },
-      app
+      app,
     )
   : http.createServer(app);
 
@@ -44,6 +44,6 @@ server.listen({ port: app.get('port'), host: app.get('host') }, () => {
       port: app.get('port'),
       host: app.get('host'),
     },
-    'app_started'
+    'app_started',
   );
 });

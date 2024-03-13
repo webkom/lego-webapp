@@ -26,7 +26,7 @@ const PollDetail = () => {
   usePreparedEffect(
     'fetchPoll',
     () => pollsId && dispatch(fetchPoll(pollsId)),
-    []
+    [],
   );
 
   const poll = useAppSelector((state) => selectPollById(state, pollsId));

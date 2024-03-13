@@ -219,7 +219,7 @@ const JoinEventForm = ({
   const penalties = useAppSelector((state) =>
     selectPenaltyByUserId(state, {
       userId: currentUser?.id,
-    })
+    }),
   ) as Penalty[];
   const sumPenalties = sumBy(penalties, 'weight');
 
@@ -233,7 +233,7 @@ const JoinEventForm = ({
           unregister({
             eventId: event.id,
             registrationId: registration.id,
-          })
+          }),
         )
       );
     }
@@ -244,7 +244,7 @@ const JoinEventForm = ({
         captchaResponse: values.captchaResponse,
         feedback: values[feedbackName],
         userId: currentUser.id,
-      })
+      }),
     );
   };
 
@@ -258,7 +258,7 @@ const JoinEventForm = ({
     event.heedPenalties &&
       moment().isAfter(event.unregistrationDeadline) &&
       registration &&
-      registration.pool
+      registration.pool,
   );
   const registrationPending =
     pendingRegistration?.status === 'PENDING_REGISTER' ||
@@ -274,7 +274,7 @@ const JoinEventForm = ({
     useState(false);
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
   const hasRegisteredConsentForSemester = allConsentsAnswered(
-    event.photoConsents
+    event.photoConsents,
   );
   const hasRegisteredConsentIfRequired = event.useConsent
     ? hasRegisteredConsentForSemester
@@ -282,7 +282,7 @@ const JoinEventForm = ({
   useEffect(() => {
     const timer = setTimeout(
       () => setRegistrationPendingDelayed(registrationPending),
-      registrationPendingDelayed && !registrationPending ? 0 : 1000
+      registrationPendingDelayed && !registrationPending ? 0 : 1000,
     );
     return () => clearTimeout(timer);
   }, [registrationPending, registrationPendingDelayed]);
@@ -325,7 +325,7 @@ const JoinEventForm = ({
     [feedbackName]: [
       requiredIf(
         () => !registration && event.feedbackRequired,
-        'Svar er påkrevd for dette arrangementet'
+        'Svar er påkrevd for dette arrangementet',
       ),
     ],
     captchaResponse: [
@@ -494,8 +494,8 @@ const JoinEventForm = ({
                                         updateFeedback(
                                           event.id,
                                           registration.id,
-                                          values[feedbackName]
-                                        )
+                                          values[feedbackName],
+                                        ),
                                       );
                                     }
                                   }
@@ -512,8 +512,8 @@ const JoinEventForm = ({
                                       updateFeedback(
                                         event.id,
                                         registration.id,
-                                        values[feedbackName]
-                                      )
+                                        values[feedbackName],
+                                      ),
                                     );
                                   }}
                                   disabled={pristine}

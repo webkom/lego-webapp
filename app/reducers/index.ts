@@ -44,7 +44,7 @@ export const imageGallerySchema = new schema.Entity(
   {},
   {
     idAttribute: 'key',
-  }
+  },
 );
 
 export const galleryPictureSchema = new schema.Entity('galleryPictures', {
@@ -58,7 +58,7 @@ export const pageSchema = new schema.Entity(
   {},
   {
     idAttribute: 'slug',
-  }
+  },
 );
 export const companySemesterSchema = new schema.Entity('companySemesters');
 export const companyInterestSchema = new schema.Entity('companyInterest', {
@@ -84,7 +84,7 @@ export const meetingInvitationSchema = new schema.Entity(
   {
     idAttribute: (invite) =>
       getMeetingInvitationId(invite.meeting, invite.user.username),
-  }
+  },
 );
 export const meetingSchema = new schema.Entity('meetings', {
   invitations: [meetingInvitationSchema],
@@ -102,7 +102,7 @@ export const emojiSchema = new schema.Entity(
   {},
   {
     idAttribute: 'shortCode',
-  }
+  },
 );
 export const surveySchema = new schema.Entity('surveys', {
   event: eventSchema,
@@ -115,19 +115,19 @@ export const tagSchema = new schema.Entity(
   {},
   {
     idAttribute: 'tag',
-  }
+  },
 );
 export const followersEventSchema = new schema.Entity(
   followersKeyGen('event'),
   {
     follower: userSchema,
-  }
+  },
 );
 export const followersCompanySchema = new schema.Entity(
   followersKeyGen('company'),
   {
     follower: userSchema,
-  }
+  },
 );
 export const followersUserSchema = new schema.Entity(followersKeyGen('user'), {
   follower: userSchema,

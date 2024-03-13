@@ -9,7 +9,7 @@ const BdbRoute = loadable(() => import('./bdb'));
 const BrandRoute = loadable(() => import('./brand'));
 const CompaniesRoute = loadable(() => import('./company'));
 const CompanyInterestPage = loadable(
-  () => import('./companyInterest/components/CompanyInterestPage')
+  () => import('./companyInterest/components/CompanyInterestPage'),
 );
 const CompanyInterestRoute = loadable(() => import('./companyInterest'));
 const ContactRoute = loadable(() => import('./contact'));

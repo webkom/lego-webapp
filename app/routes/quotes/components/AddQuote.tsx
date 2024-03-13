@@ -52,7 +52,7 @@ const AddQuote = () => {
       addQuotes({
         text: quote.text,
         source: removeUnnecessaryDash(quote.source),
-      })
+      }),
     ).then(() => {
       navigate('/quotes');
       dispatch(
@@ -60,7 +60,7 @@ const AddQuote = () => {
           message:
             'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
           dismissAfter: 10000,
-        })
+        }),
       );
     });
 

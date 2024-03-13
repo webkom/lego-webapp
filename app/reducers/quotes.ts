@@ -42,7 +42,7 @@ const quotesSlice = createSlice({
             paginationEntry.query.approved === 'true'
           ) {
             paginationEntry.ids = paginationEntry.ids.filter(
-              (item) => item !== action.meta.quoteId
+              (item) => item !== action.meta.quoteId,
             );
           }
         });
@@ -61,7 +61,7 @@ const quotesSlice = createSlice({
             paginationEntry.query.approved === 'false'
           ) {
             paginationEntry.ids = paginationEntry.ids.filter(
-              (item) => item !== action.meta.quoteId
+              (item) => item !== action.meta.quoteId,
             );
           }
         });
@@ -87,5 +87,5 @@ export const selectRandomQuote = createSelector(
   (quotes, randomQuoteId) => {
     if (!quotes || !randomQuoteId) return undefined;
     return quotes[randomQuoteId];
-  }
+  },
 );

@@ -40,7 +40,7 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
     onClick={() => togglePool(index)}
     className={cx(
       styles.navButton,
-      activePoolIndex === index && styles.activeItem
+      activePoolIndex === index && styles.activeItem,
     )}
   >
     {name}
@@ -77,7 +77,7 @@ const AttendanceModalContent = ({
           .toLowerCase()
           .includes(filter.toLowerCase());
       }),
-    [filter, amendedPools, selectedPool]
+    [filter, amendedPools, selectedPool],
   );
 
   return (
@@ -100,7 +100,7 @@ const AttendanceModalContent = ({
                 !isMeeting &&
                   !registration.pool &&
                   amendedPools[selectedPool].name === 'Alle' &&
-                  styles.opacity
+                  styles.opacity,
               )}
             >
               <ProfilePicture size={30} user={registration.user} />

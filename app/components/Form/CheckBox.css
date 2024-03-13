@@ -76,7 +76,8 @@
 .checkbox.path svg {
   stroke-dasharray: var(--a, 86.12);
   stroke-dashoffset: var(--o, 86.12);
-  transition: stroke-dasharray var(--linear-slow),
+  transition:
+    stroke-dasharray var(--linear-slow),
     stroke-dashoffset var(--linear-slow);
 }
 

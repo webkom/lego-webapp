@@ -29,16 +29,16 @@ const UserSettingsOAuth2 = () => {
         dispatch(fetchOAuth2Applications()),
         dispatch(fetchOAuth2Grants()),
       ]),
-    []
+    [],
   );
 
   const applications = useAppSelector(selectOAuth2Applications);
   const grants = useAppSelector(selectOAuth2Grants);
   const actionGrant = useAppSelector(
-    (state) => state.oauth2Applications.actionGrant
+    (state) => state.oauth2Applications.actionGrant,
   );
   const fetchingApplications = useAppSelector(
-    (state) => state.oauth2Applications.fetching
+    (state) => state.oauth2Applications.fetching,
   );
   const fetchingGrants = useAppSelector((state) => state.oauth2Grants.fetching);
 

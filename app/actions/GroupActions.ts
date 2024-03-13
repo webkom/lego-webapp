@@ -121,7 +121,7 @@ export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
           groupId: groupId,
           username: user.username,
         },
-      })
+      }),
     ).then(() => {
       return dispatch(fetchMemberships({ groupId }));
     });
@@ -141,7 +141,7 @@ export function leaveGroup(membership: MembershipType, groupId: ID) {
           errorMessage: 'Utmelding fra gruppe feilet',
           successMessage: 'Utmelding fra gruppe fullført',
         },
-      })
+      }),
     ).then(() => {
       return dispatch(fetchMemberships({ groupId }));
     });
@@ -155,10 +155,10 @@ export function fetchAllMemberships(groupId: ID, descendants = false) {
         descendants,
         groupId,
         next: true,
-      })
+      }),
     ).then(
       (res) =>
-        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants))
+        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants)),
     );
   };
 }

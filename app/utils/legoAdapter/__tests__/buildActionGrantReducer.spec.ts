@@ -23,7 +23,7 @@ describe('buildActionGrantReducer', () => {
           endpoint: '/endpoint',
           schemaKey: EntityType.Articles,
         },
-      })
+      }),
     ).toEqual({
       ...initialState,
       actionGrant: ['expected'],
@@ -40,7 +40,7 @@ describe('buildActionGrantReducer', () => {
           endpoint: '/endpoint',
           schemaKey: EntityType.Comments,
         },
-      })
+      }),
     ).toEqual(initialState);
   });
 });

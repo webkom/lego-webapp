@@ -18,7 +18,7 @@ type SelectOption = {
 const mapRoomAndBuildingToSelectOption = (
   poiName: string,
   buildingName: string,
-  value: number
+  value: number,
 ): SelectOption => {
   return {
     label: stripHtmlTags(poiName + ', ' + buildingName),
@@ -58,7 +58,7 @@ export const useMazemapAutocomplete = () => {
           withtype: false,
           withcampus: false,
           resultsFormat: 'geojson',
-        })
+        }),
       );
     });
   }, []);
@@ -79,9 +79,9 @@ export const useMazemapAutocomplete = () => {
               mapRoomAndBuildingToSelectOption(
                 result.properties.dispPoiNames[0],
                 result.properties.dispBldNames[0],
-                result.properties.poiId
-              )
-            )
+                result.properties.poiId,
+              ),
+            ),
           );
         })
         .catch(() => {})

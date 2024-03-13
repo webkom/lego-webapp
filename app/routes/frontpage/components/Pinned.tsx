@@ -18,7 +18,7 @@ const Pinned = ({ item, url, meta, style }: Props) => {
   const fetching = useAppSelector(
     (state) =>
       state.frontpage.fetching ||
-      (item && isEvent(item) ? state.events.fetching : state.articles.fetching)
+      (item && isEvent(item) ? state.events.fetching : state.articles.fetching),
   );
 
   return (

@@ -4,7 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 const EventDetail = loadable(() => import('./components/EventDetail'));
 const EventEditor = loadable(() => import('./components/EventEditor'));
 const EventAdministrateRoute = loadable(
-  () => import('./components/EventAdministrate')
+  () => import('./components/EventAdministrate'),
 );
 const PageNotFound = loadable(() => import('../pageNotFound'));
 const Calendar = loadable(() => import('./components/Calendar'));

@@ -33,11 +33,11 @@ export default createEntityReducer({
 export const selectPageBySlug = createSelector(
   (state) => state.pages.byId,
   (state, props) => props.pageSlug,
-  (pagesBySlug, pageSlug) => pagesBySlug[pageSlug]
+  (pagesBySlug, pageSlug) => pagesBySlug[pageSlug],
 );
 export const selectPages = createSelector(
   (state) => state.pages.byId,
-  (pagesBySlug) => Object.keys(pagesBySlug).map((slug) => pagesBySlug[slug])
+  (pagesBySlug) => Object.keys(pagesBySlug).map((slug) => pagesBySlug[slug]),
 );
 export const selectPagesForHierarchy = (category: string) =>
   createSelector(
@@ -61,10 +61,10 @@ export const selectPagesForHierarchy = (category: string) =>
               url: `/pages/${page.category}/${page.slug}`,
               title: page.title,
             })),
-          'title'
-        )
+          'title',
+        ),
       ),
-    })
+    }),
   );
 
 const createGroupSelector = (type: string, section: string) =>
@@ -81,14 +81,14 @@ const createGroupSelector = (type: string, section: string) =>
           url: `/pages/${section}/${page.id}`,
           title: page.name,
         })),
-        'title'
+        'title',
       ),
-    })
+    }),
   );
 
 export const selectCommitteeForHierarchy = createGroupSelector(
   'komite',
-  'komiteer'
+  'komiteer',
 );
 export const selectRevueForHierarchy = createGroupSelector('revy', 'revy');
 export const selectBoardsForHierarchy = createGroupSelector('styre', 'styrer');
@@ -99,8 +99,8 @@ export const selectPageHierarchy = createSelector(
     Object.keys(sections).map((sectionKey) =>
       sections[sectionKey].hierarchySectionSelector(state, {
         title: sections[sectionKey].title,
-      })
-    )
+      }),
+    ),
 );
 export const selectFlatpageForPages = createSelector(
   selectPageBySlug,
@@ -115,7 +115,7 @@ export const selectFlatpageForPages = createSelector(
         selectedPage ? selectedPage.category : 'info'
       }/${pageSlug}/edit`,
     },
-  })
+  }),
 );
 const separateRoles = [
   'retiree',
@@ -134,12 +134,12 @@ const groupMemberships = (memberships, groupId) => {
   const membershipsUniqUsers = uniqBy(
     sortBy(
       memberships,
-      (membership) => Number(membership.abakusGroup) !== Number(groupId)
+      (membership) => Number(membership.abakusGroup) !== Number(groupId),
     ),
-    (membership) => membership.user.id
+    (membership) => membership.user.id,
   );
   return groupBy(sortBy(membershipsUniqUsers, 'user.fullName'), ({ role }) =>
-    separateRoles.includes(role) ? role : defaultRole
+    separateRoles.includes(role) ? role : defaultRole,
   );
 };
 
@@ -150,7 +150,7 @@ export const selectCommitteeForPages = createSelector(
     }),
   (
     state,
-    props // $FlowFixMe pls
+    props, // $FlowFixMe pls
   ) =>
     selectMembershipsForGroup(state, {
       descendants: true,
@@ -176,7 +176,7 @@ export const selectCommitteeForPages = createSelector(
       selectedPage: group && { ...group, membershipsByRole },
       selectedPageInfo,
     };
-  }
+  },
 );
 export const selectNotFoundpageForPages = createSelector(
   (state, props) => props.pageSlug,
@@ -186,7 +186,7 @@ export const selectNotFoundpageForPages = createSelector(
       isComplete: true,
     },
     selectedPage: {},
-  })
+  }),
 );
 export const selectInfoPageForPages = createSelector(() => ({
   selectedPageInfo: {

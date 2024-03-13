@@ -74,13 +74,13 @@ const ArticleList = () => {
       endpoint: `/articles/`,
       query,
       entity: 'articles',
-    })(state)
+    })(state),
   );
   const hasMore = pagination.hasMore;
   const articles = useAppSelector((state) =>
     selectArticlesWithAuthorDetails(state, {
       pagination,
-    })
+    }),
   );
   const fetching = useAppSelector((state) => state.articles.fetching);
   const actionGrant = useAppSelector((state) => state.articles.actionGrant);
@@ -95,7 +95,7 @@ const ArticleList = () => {
         dispatch(fetchPopular()),
         dispatch(fetchAll({ next: false, query })),
       ]),
-    [query]
+    [query],
   );
 
   const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
@@ -138,7 +138,7 @@ const ArticleList = () => {
               fetchAll({
                 query,
                 next: true,
-              })
+              }),
             );
           }}
         >

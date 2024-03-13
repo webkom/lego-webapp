@@ -14,7 +14,7 @@ export function fetchEmojis(): Thunk<any> {
           errorMessage: 'Henting av emojis feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }
