@@ -1,4 +1,10 @@
-import { c, field, fieldError } from '../support/utils.js';
+import {
+  c,
+  field,
+  fieldError,
+  selectField,
+  selectFromSelectField,
+} from '../support/utils.js';
 
 describe('Profile settings', () => {
   beforeEach(() => {
@@ -11,7 +17,7 @@ describe('Profile settings', () => {
     username: 'webkom',
     firstName: 'webkom',
     lastName: 'webkom',
-    gender: 'male',
+    gender: 'Mann',
     allergies: '',
     email: 'webkom@aba.wtf',
   };
@@ -20,7 +26,7 @@ describe('Profile settings', () => {
     username: 'webkom',
     firstName: 'web',
     lastName: 'komite',
-    gender: 'female',
+    gender: 'Kvinne',
     allergies: 'gluten',
     email: 'webkom@web.kom',
   };
@@ -63,9 +69,9 @@ describe('Profile settings', () => {
     cy.get('input[name=lastName]')
       .should('have.value', initialUser.lastName)
       .and('not.be.disabled');
-    cy.get('input[name=gender]:checked')
-      .should('have.value', initialUser.gender)
-      .and('not.be.disabled');
+
+    selectField('gender').should('contain', initialUser.gender);
+
     cy.get('input[name=allergies]')
       .should('have.value', initialUser.allergies)
       .and('not.be.disabled');
@@ -81,7 +87,9 @@ describe('Profile settings', () => {
 
     cy.get('input[name=firstName]').clear().type(updatedUser.firstName);
     cy.get('input[name=lastName]').clear().type(updatedUser.lastName);
-    cy.get('input[name=gender]').check(updatedUser.gender);
+
+    selectFromSelectField('gender', updatedUser.gender, updatedUser.gender);
+
     cy.get('input[name=allergies]').clear().type(updatedUser.allergies);
     cy.get('input[name=email]').clear().type(updatedUser.email);
 
@@ -105,9 +113,9 @@ describe('Profile settings', () => {
     cy.get('input[name=lastName]')
       .should('have.value', updatedUser.lastName)
       .and('not.be.disabled');
-    cy.get('input[name=gender]:checked')
-      .should('have.value', updatedUser.gender)
-      .and('not.be.disabled');
+
+    selectField('gender').should('contain', updatedUser.gender);
+
     cy.get('input[name=allergies]')
       .should('have.value', updatedUser.allergies)
       .and('not.be.disabled');

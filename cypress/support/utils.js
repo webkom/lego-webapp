@@ -23,6 +23,7 @@ export const selectField = (name) =>
     .parent()
     .parent()
     .parent();
+
 export const selectFieldDropdown = (name) =>
   selectField(name).find(`[id=react-select-${name}-listbox]`);
 

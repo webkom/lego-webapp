@@ -103,7 +103,7 @@ const Allergies = () => {
       },
     },
     {
-      title: 'Matallergier / Preferanser',
+      title: 'Matallergier / preferanser',
       dataIndex: 'user.allergies',
       centered: false,
       render: (allergies) => <span>{allergies}</span>,

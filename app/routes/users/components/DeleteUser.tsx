@@ -31,21 +31,18 @@ const DeleteUser = () => {
 
   return (
     <>
-      {!show && (
+      {!show ? (
         <Button danger onClick={() => setShow(true)}>
           Gå videre til sletting av bruker
         </Button>
-      )}
-      {show && (
+      ) : (
         <>
           <Button onClick={() => setShow(false)}>Avbryt</Button>
-          <h3>Skriv inn passordet ditt:</h3>
-
           <TypedLegoForm onSubmit={onSubmit} validate={validate}>
             {({ handleSubmit }) => (
               <Form onSubmit={handleSubmit}>
                 <Field
-                  label="Nåværende passord"
+                  label="Skriv inn ditt nåværende passord"
                   name="password"
                   type="password"
                   autocomplete="current-password"
