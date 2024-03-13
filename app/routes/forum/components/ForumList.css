@@ -12,7 +12,7 @@
   }
 
   &:hover {
-    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+    background-color: rgba(255, 0, 0, var(--low-alpha));
   }
 }
 
@@ -28,6 +28,6 @@
   }
 
   &:hover {
-    background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+    background-color: rgba(255, 0, 0, var(--low-alpha));
   }
 }

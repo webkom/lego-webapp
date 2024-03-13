@@ -1,4 +1,4 @@
-import { BarChart, Bar, CartesianGrid, Cell, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis } from 'recharts';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 
@@ -16,19 +16,15 @@ const DistributionBarChart = ({
       height={350}
       data={distributionData}
       margin={{
-        top: 50,
+        top: 20,
         right: 30,
-        left: 20,
-        bottom: 10,
       }}
     >
       <XAxis dataKey=" " />
       <YAxis />
-      <CartesianGrid strokeDasharray="3 3" />
       <Bar
         dataKey={'count'}
         label={{ position: 'top' }}
-        background={{ fill: 'var(--additive-background)' }}
         isAnimationActive={false}
       >
         {distributionData.map((entry, index) => (

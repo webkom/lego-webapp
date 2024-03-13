@@ -1,6 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
-import { Link, useParams } from 'react-router-dom';
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import { NavigationLink } from 'app/components/NavigationTab';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
@@ -16,12 +17,13 @@ type ChildrenProps = {
   survey: SelectedSurvey;
   submissions: SurveySubmission[];
 };
+
 type Props = {
   children: (props: ChildrenProps) => ReactNode;
 };
+
 const SubmissionsPage = ({ children: Children }: Props) => {
   const { surveyId } = useParams<{ surveyId: string }>();
-  const isSummary = window.location.pathname.includes('summary');
   const survey = useFetchedSurvey('surveySubmissions', surveyId);
   const submissions = useFetchedSurveySubmissions(
     'surveySubmissions',
@@ -42,21 +44,14 @@ const SubmissionsPage = ({ children: Children }: Props) => {
 
       <ContentSection>
         <ContentMain>
-          <div className={styles.submissionNav}>
-            <Link
-              to={`/surveys/${survey.id}/submissions/summary`}
-              className={isSummary ? styles.activeRoute : styles.inactiveRoute}
-            >
+          <Flex gap="0.5rem" className={styles.submissionNav}>
+            <NavigationLink to={`/surveys/${survey.id}/submissions/summary`}>
               Oppsummering
-            </Link>
-            {' | '}
-            <Link
-              to={`/surveys/${survey.id}/submissions/individual`}
-              className={!isSummary ? styles.activeRoute : styles.inactiveRoute}
-            >
+            </NavigationLink>
+            <NavigationLink to={`/surveys/${survey.id}/submissions/individual`}>
               Individuell
-            </Link>
-          </div>
+            </NavigationLink>
+          </Flex>
 
           <Children survey={survey} submissions={submissions} />
         </ContentMain>

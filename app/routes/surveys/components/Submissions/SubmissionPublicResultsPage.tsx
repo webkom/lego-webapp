@@ -31,7 +31,7 @@ const SubmissionPublicResultsPage = () => {
       return [];
     }
     if (result.answers.length === 0) {
-      return <i>Ingen svar.</i>;
+      return <span className="secondaryFontColor">Ingen svar</span>;
     }
     return result.answers.map((answer, i) => <li key={i}>{answer}</li>);
   };

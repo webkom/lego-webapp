@@ -38,7 +38,14 @@
   --rgb-max: 255;
   --rgb-min: 0;
 
-  --additive-background: rgba(0, 0, 0, 5%);
+  --low-alpha: 5%;
+
+  --additive-background: rgba(
+    var(--rgb-min),
+    var(--rgb-min),
+    var(--rgb-min),
+    var(--low-alpha)
+  );
 
   --color-gray-1: #f2f2f2;
   --color-gray-2: #e7e7e7;
@@ -110,8 +117,6 @@
   --color-yellow-8: #a47e1b;
   --color-yellow-9: #926c15;
 
-  --color-red-hover-alpha: 5%;
-
   /*
    * All spaces are set to an increment of 8, following the design principles
    * described here: https://uxplanet.org/spacing-guide-for-designers-5bd140afe52a
@@ -168,7 +173,7 @@
   --rgb-max: 0;
   --rgb-min: 255;
 
-  --additive-background: rgba(255, 255, 255, 10%);
+  --low-alpha: 10%;
 
   --color-gray-1: #0d0d0d;
   --color-gray-2: #373737;
@@ -239,6 +244,4 @@
   --color-yellow-7: #fad643;
   --color-yellow-8: #ffe169;
   --color-yellow-9: #fff9cc;
-
-  --color-red-hover-alpha: 10%;
 }

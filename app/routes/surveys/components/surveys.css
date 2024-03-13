@@ -211,19 +211,11 @@
 }
 
 .submissionNav {
-  margin: 0 0 10px;
+  margin-bottom: 1rem;
 }
 
 .formOption {
   width: 18px;
-}
-
-.activeRoute {
-  font-weight: 700;
-}
-
-.inactiveRoute {
-  font-weight: 300;
 }
 
 .submissionOptions > div {
@@ -235,14 +227,6 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 50px;
-}
-
-.textAnswers {
-  margin-bottom: 15px;
-}
-
-.summary > li {
-  margin-bottom: 15px;
 }
 
 .infoBubbles {
@@ -267,7 +251,7 @@
 }
 
 .eventSummary {
-  margin: 15px 0;
+  margin: 1rem 0;
 }
 
 .questionResults {
@@ -282,39 +266,23 @@
   }
 }
 
-.textAnswers li {
-  line-height: 19px;
-  margin-bottom: 10px;
-}
-
-.adminAnswer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.adminAnswer a {
-  margin-left: 15px;
+.answerText {
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+  border-radius: var(--border-radius-md);
+  line-height: 1.3;
 }
 
 .detailQuestions > li {
   margin-top: 30px;
 }
 
-.selectGraphContainer {
+.selectGraph {
   width: 200px;
-  max-width: 200px;
-  align-content: center;
-  margin: 50px 0 0 -200px;
 
   @media (--mobile-device) {
-    margin: 33px 0 0 80px;
+    margin: 0 auto;
   }
-}
-
-.selectGraph {
-  align-content: center;
 }
 
 .graphContainer {
@@ -325,5 +293,11 @@
   @media (--mobile-device) {
     flex-direction: column;
     padding-bottom: 15px;
+  }
+}
+
+.average {
+  @media (--mobile-device) {
+    justify-content: center;
   }
 }
