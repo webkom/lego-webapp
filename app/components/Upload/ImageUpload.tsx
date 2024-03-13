@@ -119,7 +119,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
           className={styles.placeholderContainer}
         >
           <Icon
-            size={60}
+            size={50}
             name={multiple ? 'images-outline' : 'image-outline'}
           />
           {isDragActive ? (
@@ -239,12 +239,7 @@ export default class ImageUpload extends Component<Props, State> {
     const { cropOpen, file, files } = this.state;
     const preview = file && file.preview;
     const accept: Accept = {
-      'image/jpeg': ['*'],
-      'image/png': ['*'],
-      'image/gif': ['*'],
-      'image/tif': ['*'],
-      'image/bmp': ['*'],
-      'image/avif': ['*'],
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.tif', '.bmp', '.avif'],
     };
     return (
       <>

@@ -310,7 +310,7 @@ const GalleryEditor = () => {
               name="publicMetadata"
               type="checkbox"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              parse={(v) => !!v}
             />
             <Fields
               names={[

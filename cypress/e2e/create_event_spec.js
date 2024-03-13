@@ -181,8 +181,7 @@ describe('Create event', () => {
     // Select company
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
-    selectField('company')
-      .find('[id=react-select-company-listbox]')
+    selectFieldDropdown('company')
       .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
@@ -276,8 +275,7 @@ describe('Create event', () => {
     field('pools[0].capacity').type('20').blur();
     selectField('pools[0]\\.permissionGroups').click();
     cy.focused().type('Webkom', { force: true });
-    selectField('pools[0]\\.permissionGroups')
-      .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
+    selectFieldDropdown('pools\\[0\\]\\.permissionGroups')
       .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Webkom');
     cy.focused().type('{enter}', { force: true });
@@ -288,15 +286,13 @@ describe('Create event', () => {
     field('pools[1].capacity').type('30').blur();
     selectField('pools[1]\\.permissionGroups').click();
     cy.focused().type('Bedkom', { force: true });
-    selectField('pools[1]\\.permissionGroups')
-      .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
+    selectFieldDropdown('pools\\[1\\]\\.permissionGroups')
       .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Bedkom');
     cy.focused().type('{enter}', { force: true });
     selectField('pools[1]\\.permissionGroups').click();
     cy.focused().type('Abakus', { force: true });
-    selectField('pools[1]\\.permissionGroups')
-      .find(`[id=react-select-pools\\[1\\]\\.permissionGroups-listbox]`)
+    selectFieldDropdown('pools\\[1\\]\\.permissionGroups')
       .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });
@@ -389,8 +385,7 @@ describe('Create event', () => {
     field('pools[0].name').clear().type('Mange').blur();
     selectField('pools[0].\\permissionGroups').click();
     cy.focused().type('Abaku', { force: true });
-    selectField('pools[0]\\.permissionGroups')
-      .find(`[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]`)
+    selectFieldDropdown('pools\\[0\\]\\.permissionGroups')
       .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'Abakus');
     cy.focused().type('{enter}', { force: true });

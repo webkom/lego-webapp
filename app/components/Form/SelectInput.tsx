@@ -48,6 +48,7 @@ export const selectStyles: StylesConfig = {
     color: isSelected ? 'var(--color-gray-1)' : undefined,
     fontSize: '14px',
   }),
+  menuPortal: (base) => ({ ...base, zIndex: 20 }),
 };
 export const selectTheme: ThemeConfig = (theme) => ({
   ...theme,
@@ -140,6 +141,7 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
           onSearch?.(value);
           return value;
         }}
+        menuPortalTarget={document.body}
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
         blurInputOnSelect={false}
