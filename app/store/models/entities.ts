@@ -10,7 +10,7 @@ import type EmailUser from 'app/store/models/EmailUser';
 import type Emoji from 'app/store/models/Emoji';
 import type { UnknownEvent } from 'app/store/models/Event';
 import type Feed from 'app/store/models/Feed';
-import type FeedActivity from 'app/store/models/FeedActivity';
+import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
 import type { PublicThread } from 'app/store/models/Forum';
 import type { UnknownGallery } from 'app/store/models/Gallery';
 import type { UnknownGalleryPicture } from 'app/store/models/GalleryPicture';
@@ -86,7 +86,7 @@ export default interface Entities {
   [EntityType.EmailUsers]: Record<ID, EmailUser>;
   [EntityType.Emojis]: Record<ID, Emoji>;
   [EntityType.Events]: Record<ID, UnknownEvent>;
-  [EntityType.FeedActivities]: Record<ID, FeedActivity>;
+  [EntityType.FeedActivities]: Record<ID, AggregatedFeedActivity>;
   [EntityType.Feeds]: Record<ID, Feed>;
   [EntityType.Galleries]: Record<ID, UnknownGallery>;
   [EntityType.GalleryPictures]: Record<ID, UnknownGalleryPicture>;
