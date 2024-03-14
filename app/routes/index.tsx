@@ -1,10 +1,10 @@
 import loadable from '@loadable/component';
 import { createBrowserRouter } from 'react-router-dom';
 import AdminRoute from "./admin";
+import AnnouncementsRoute from './announcements';
 import { AppRoute } from './app';
+import ArticlesRoute from './articles';
 
-const AnnouncementsRoute = loadable(() => import('./announcements'));
-const ArticlesRoute = loadable(() => import('./articles'));
 const BdbRoute = loadable(() => import('./bdb'));
 const BrandRoute = loadable(() => import('./brand'));
 const CompaniesRoute = loadable(() => import('./company'));
@@ -32,7 +32,7 @@ const ForumRoute = loadable(() => import('./forum'));
 const UserValidatorRoute = loadable(() => import('./userValidator'));
 
 let RouterConfig;
-if (typeof window !== 'undefined') {
+if (!window.__IS_SSR__) {
   RouterConfig = createBrowserRouter([
     {
       path: "*",
@@ -40,8 +40,8 @@ if (typeof window !== 'undefined') {
       children: [
         { index: true, Component: Frontpage },
         { path: "admin/*", children: AdminRoute },
-        { path: "announcements/*", Component: AnnouncementsRoute },
-        { path: "articles/*", Component: ArticlesRoute },
+        { path: "announcements/*", children: AnnouncementsRoute },
+        { path: "articles/*", children: ArticlesRoute },
         { path: "bdb/*", Component: BdbRoute },
         { path: "brand/*", Component: BrandRoute },
         { path: "companies/*", Component: CompaniesRoute },
