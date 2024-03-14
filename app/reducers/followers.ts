@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { Event } from 'app/actions/ActionTypes';
+import { createFollowersSliceKey } from 'app/reducers/index';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectCurrentUser } from './auth';
 import type { EntityReducerTypes } from 'app/utils/createEntityReducer';
@@ -13,7 +14,7 @@ export const selectFollowersCurrentUser = createSelector(
   (follow) => follow,
 );
 export const selectFollowers = createSelector(
-  (state, { type }) => state[followersKeyGen(type)],
+  (state, { type }) => state[createFollowersSliceKey(type)],
   (state, { target }) => target,
   (state, { follower }) => follower,
   (followers, target, follower) =>
@@ -25,8 +26,6 @@ export const selectFollowers = createSelector(
       )
     ],
 );
-export const followersKeyGen = (key: string) =>
-  'followers' + key.charAt(0).toUpperCase() + key.substr(1).toLowerCase();
 
 const followersSchemaGenerator = (
   title,
@@ -37,7 +36,7 @@ const followersSchemaGenerator = (
   } = {},
 ) =>
   createEntityReducer({
-    key: followersKeyGen(title),
+    key: createFollowersSliceKey(title),
     types,
   });
 

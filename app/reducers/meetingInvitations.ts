@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
+import { createMeetingInvitationId } from 'app/reducers/index';
 import { selectUserEntities } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Meeting } from '../actions/ActionTypes';
@@ -22,9 +23,6 @@ export const statusesText: {
   NOT_ATTENDING: 'Deltar ikke',
 };
 
-export const getMeetingInvitationId = (meetingId: number, username: string) =>
-  `${meetingId}-${username}`;
-
 export type MeetingInvitationEntity = {
   user: User;
   status: MeetingInvitationStatus;
@@ -38,7 +36,10 @@ export default createEntityReducer({
     switch (action.type) {
       case Meeting.SET_INVITATION_STATUS.SUCCESS: {
         const { meetingId, status, user } = action.meta;
-        const invitationId = getMeetingInvitationId(meetingId, user.username);
+        const invitationId = createMeetingInvitationId(
+          meetingId,
+          user.username,
+        );
         newState.byId[invitationId].status = status;
         break;
       }
@@ -54,7 +55,7 @@ export const selectMeetingInvitation = createSelector(
   (state, props) => props.meetingId,
   (state, props) => props.userId,
   (meetingInvitationsById, meetingId, userId) =>
-    meetingInvitationsById[getMeetingInvitationId(meetingId, userId)],
+    meetingInvitationsById[createMeetingInvitationId(meetingId, userId)],
 );
 
 export type MeetingInvitationWithUser = Omit<MeetingInvitation, 'user'> & {
