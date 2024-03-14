@@ -1,8 +1,8 @@
 import loadable from '@loadable/component';
-import { Route, Routes } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
+import AdminRoute from "./admin";
 import { AppRoute } from './app';
 
-const AdminRoute = loadable(() => import('./admin'));
 const AnnouncementsRoute = loadable(() => import('./announcements'));
 const ArticlesRoute = loadable(() => import('./articles'));
 const BdbRoute = loadable(() => import('./bdb'));
@@ -31,40 +31,45 @@ const UsersRoute = loadable(() => import('./users'));
 const ForumRoute = loadable(() => import('./forum'));
 const UserValidatorRoute = loadable(() => import('./userValidator'));
 
-const RouterConfig = () => (
-  <AppRoute>
-    <Routes>
-      <Route index element={<Frontpage />} />
-      <Route path="admin/*" element={<AdminRoute />} />
-      <Route path="announcements/*" element={<AnnouncementsRoute />} />
-      <Route path="articles/*" element={<ArticlesRoute />} />
-      <Route path="bdb/*" element={<BdbRoute />} />
-      <Route path="brand/*" element={<BrandRoute />} />
-      <Route path="companies/*" element={<CompaniesRoute />} />
-      <Route path="register-interest" element={<CompanyInterestPage />} />
-      <Route path="interesse" element={<CompanyInterestPage />} />
-      <Route path="companyInterest/*" element={<CompanyInterestRoute />} />
-      <Route path="contact" element={<ContactRoute />} />
-      <Route path="kontakt" element={<ContactRoute />} />
-      <Route path="events/*" element={<EventsRoute />} />
-      <Route path="forum/*" element={<ForumRoute />} />
-      <Route path="interest-groups/*" element={<InterestGroupsRoute />} />
-      <Route path="interestgroups/*" element={<InterestGroupsRoute />} />
-      <Route path="joblistings/*" element={<JoblistingsRoute />} />
-      <Route path="meetings/*" element={<MeetingsRoute />} />
-      <Route path="pages/*" element={<PagesRoute />} />
-      <Route path="photos/*" element={<PhotosRoute />} />
-      <Route path="polls/*" element={<PollsRoute />} />
-      <Route path="quotes/*" element={<QuotesRoute />} />
-      <Route path="search" element={<SearchRoute />} />
-      <Route path="surveys/*" element={<SurveysRoute />} />
-      <Route path="tags/*" element={<TagsRoute />} />
-      <Route path="timeline" element={<TimelineRoute />} />
-      <Route path="users/*" element={<UsersRoute />} />
-      <Route path="validator" element={<UserValidatorRoute />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
-  </AppRoute>
-);
+let RouterConfig;
+if (typeof window !== 'undefined') {
+  RouterConfig = createBrowserRouter([
+    {
+      path: "*",
+      Component: AppRoute,
+      children: [
+        { index: true, Component: Frontpage },
+        { path: "admin/*", children: AdminRoute },
+        { path: "announcements/*", Component: AnnouncementsRoute },
+        { path: "articles/*", Component: ArticlesRoute },
+        { path: "bdb/*", Component: BdbRoute },
+        { path: "brand/*", Component: BrandRoute },
+        { path: "companies/*", Component: CompaniesRoute },
+        { path: "register-interest", Component: CompanyInterestPage },
+        { path: "interesse", Component: CompanyInterestPage },
+        { path: "companyInterest/*", Component: CompanyInterestRoute },
+        { path: "contact", Component: ContactRoute },
+        { path: "kontakt", Component: ContactRoute },
+        { path: "events/*", Component: EventsRoute },
+        { path: "forum/*", Component: ForumRoute },
+        { path: "interest-groups/*", Component: InterestGroupsRoute },
+        { path: "interestgroups/*", Component: InterestGroupsRoute },
+        { path: "joblistings/*", Component: JoblistingsRoute },
+        { path: "meetings/*", Component: MeetingsRoute },
+        { path: "pages/*", Component: PagesRoute },
+        { path: "photos/*", Component: PhotosRoute },
+        { path: "polls/*", Component: PollsRoute },
+        { path: "quotes/*", Component: QuotesRoute },
+        { path: "search", Component: SearchRoute },
+        { path: "surveys/*", Component: SurveysRoute },
+        { path: "tags/*", Component: TagsRoute },
+        { path: "timeline", Component: TimelineRoute },
+        { path: "users/*", Component: UsersRoute },
+        { path: "validator", Component: UserValidatorRoute },
+        { path: "*", Component: PageNotFound }
+      ]
+    }
+  ]);
+}
 
 export default RouterConfig;

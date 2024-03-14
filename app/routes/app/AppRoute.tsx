@@ -2,7 +2,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { createContext, useContext, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { fetchMeta } from 'app/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import coverPhoto from 'app/assets/cover.png';
@@ -68,7 +68,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
   );
 };
 
-const App = ({ children }: PropsWithChildren) => {
+const App = () => {
   const dispatch = useAppDispatch();
   const searchOpen = useAppSelector((state) => state.search.open);
 
@@ -105,7 +105,9 @@ const App = ({ children }: PropsWithChildren) => {
 
       <Header />
 
-      <AppChildren>{children}</AppChildren>
+      <AppChildren>
+        <Outlet />
+      </AppChildren>
 
       <PhotoUploadStatus />
 
