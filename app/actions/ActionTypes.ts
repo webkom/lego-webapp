@@ -381,7 +381,6 @@ export const Readme = {
 };
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH') as AAT,
-  POPULAR: generateStatuses('Tag.POPULAR') as AAT,
 };
 export const Podcast = {
   FETCH: generateStatuses('Podcast.FETCH') as AAT,

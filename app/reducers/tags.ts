@@ -1,35 +1,38 @@
-import { produce } from 'immer';
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { Tag } from 'app/actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import type { RootState } from 'app/store/createRootReducer';
 
-type State = any;
-export default createEntityReducer({
-  key: 'tags',
-  types: {
-    fetch: Tag.FETCH,
-  },
-  mutate: produce((newState: State, action: any): void => {
-    switch (action.type) {
-      case Tag.POPULAR.SUCCESS: {
-        newState.popular = action.payload;
-        break;
-      }
+const legoAdapter = createLegoAdapter(EntityType.Tags, {
+  selectId: (tag) => tag.tag,
+});
 
-      default:
-        break;
-    }
+const tagsSlice = createSlice({
+  name: EntityType.Tags,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Tag.FETCH],
   }),
 });
-export const selectTags = createSelector(
-  (state) => state.tags.byId,
-  (state) => state.tags.items,
-  (tagsById, tagsId) => tagsId.map((tag) => tagsById[tag]),
+
+export default tagsSlice.reducer;
+
+export const {
+  selectAll: selectAllTags,
+  selectAllPaginated: selectPaginatedTags,
+  selectById: selectTagById,
+} = legoAdapter.getSelectors((state: RootState) => state.tags);
+
+export const selectPopularTags = createSelector(
+  (state: RootState) => state,
+  selectPaginationNext({
+    endpoint: '/tags/popular/',
+    query: {},
+    entity: EntityType.Tags,
+  }),
+  (state, pagination) => selectPaginatedTags(state, pagination),
 );
-export const selectTagById = createSelector(
-  (state) => state.tags.byId,
-  (state, props) => props.tagId,
-  (tagsById, tagId) => tagsById[tagId] || {},
-);
-export const selectPopularTags = (state: Record<string, any>) =>
-  state.tags.popular || [];

@@ -8,6 +8,7 @@ import { Content } from 'app/components/Content';
 import { selectTagById } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './TagDetail.css';
+import type { DetailedTag } from 'app/store/models/Tag';
 
 const translate = (key: string) => {
   const trans = {
@@ -31,9 +32,14 @@ const link = (key: string, tag: string) => {
   return links[key] || <h4>{translate(key)}</h4>;
 };
 
+type TagDetailParams = {
+  tagId: string;
+};
 const TagDetail = () => {
-  const { tagId } = useParams();
-  const tag = useAppSelector((state) => selectTagById(state, { tagId }));
+  const { tagId } = useParams<TagDetailParams>() as TagDetailParams;
+  const tag = useAppSelector((state) =>
+    selectTagById(state, tagId),
+  ) as DetailedTag;
 
   const dispatch = useAppDispatch();
 
