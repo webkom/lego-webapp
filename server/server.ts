@@ -12,6 +12,7 @@ import baseConfig from 'config/env';
 import config from './env';
 import healthCheck from './health';
 import render from './render';
+// import createFetchRequest from './request';
 
 moment.locale('nb-NO');
 const app = express();
@@ -89,4 +90,7 @@ app.use((err, req, res, next) => {
   res.statusCode = 500;
   res.end('Internal Error');
 });
+// app.get("*", (req, res) => {
+//   const fetchRequest = createFetchRequest(req, res);
+// });
 export default app;

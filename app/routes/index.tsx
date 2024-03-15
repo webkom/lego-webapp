@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import { createBrowserRouter } from 'react-router-dom';
+import { type RouteObject, createBrowserRouter } from 'react-router-dom';
 import AdminRoute from "./admin";
 import AnnouncementsRoute from './announcements';
 import { AppRoute } from './app';
@@ -31,45 +31,47 @@ const UsersRoute = loadable(() => import('./users'));
 const ForumRoute = loadable(() => import('./forum'));
 const UserValidatorRoute = loadable(() => import('./userValidator'));
 
-let RouterConfig;
-if (!window.__IS_SSR__) {
-  RouterConfig = createBrowserRouter([
-    {
-      path: "*",
-      Component: AppRoute,
-      children: [
-        { index: true, Component: Frontpage },
-        { path: "admin/*", children: AdminRoute },
-        { path: "announcements/*", children: AnnouncementsRoute },
-        { path: "articles/*", children: ArticlesRoute },
-        { path: "bdb/*", Component: BdbRoute },
-        { path: "brand/*", Component: BrandRoute },
-        { path: "companies/*", Component: CompaniesRoute },
-        { path: "register-interest", Component: CompanyInterestPage },
-        { path: "interesse", Component: CompanyInterestPage },
-        { path: "companyInterest/*", Component: CompanyInterestRoute },
-        { path: "contact", Component: ContactRoute },
-        { path: "kontakt", Component: ContactRoute },
-        { path: "events/*", Component: EventsRoute },
-        { path: "forum/*", Component: ForumRoute },
-        { path: "interest-groups/*", Component: InterestGroupsRoute },
-        { path: "interestgroups/*", Component: InterestGroupsRoute },
-        { path: "joblistings/*", Component: JoblistingsRoute },
-        { path: "meetings/*", Component: MeetingsRoute },
-        { path: "pages/*", Component: PagesRoute },
-        { path: "photos/*", Component: PhotosRoute },
-        { path: "polls/*", Component: PollsRoute },
-        { path: "quotes/*", Component: QuotesRoute },
-        { path: "search", Component: SearchRoute },
-        { path: "surveys/*", Component: SurveysRoute },
-        { path: "tags/*", Component: TagsRoute },
-        { path: "timeline", Component: TimelineRoute },
-        { path: "users/*", Component: UsersRoute },
-        { path: "validator", Component: UserValidatorRoute },
-        { path: "*", Component: PageNotFound }
-      ]
-    }
-  ]);
+export const RouterConfig: RouteObject[] = [
+  {
+    path: "*",
+    Component: AppRoute,
+    children: [
+      { index: true, Component: Frontpage },
+      { path: "admin/*", children: AdminRoute },
+      { path: "announcements/*", children: AnnouncementsRoute },
+      { path: "articles/*", children: ArticlesRoute },
+      { path: "bdb/*", Component: BdbRoute },
+      { path: "brand/*", Component: BrandRoute },
+      { path: "companies/*", Component: CompaniesRoute },
+      { path: "register-interest", Component: CompanyInterestPage },
+      { path: "interesse", Component: CompanyInterestPage },
+      { path: "companyInterest/*", Component: CompanyInterestRoute },
+      { path: "contact", Component: ContactRoute },
+      { path: "kontakt", Component: ContactRoute },
+      { path: "events/*", Component: EventsRoute },
+      { path: "forum/*", Component: ForumRoute },
+      { path: "interest-groups/*", Component: InterestGroupsRoute },
+      { path: "interestgroups/*", Component: InterestGroupsRoute },
+      { path: "joblistings/*", Component: JoblistingsRoute },
+      { path: "meetings/*", Component: MeetingsRoute },
+      { path: "pages/*", Component: PagesRoute },
+      { path: "photos/*", Component: PhotosRoute },
+      { path: "polls/*", Component: PollsRoute },
+      { path: "quotes/*", Component: QuotesRoute },
+      { path: "search", Component: SearchRoute },
+      { path: "surveys/*", Component: SurveysRoute },
+      { path: "tags/*", Component: TagsRoute },
+      { path: "timeline", Component: TimelineRoute },
+      { path: "users/*", Component: UsersRoute },
+      { path: "validator", Component: UserValidatorRoute },
+      { path: "*", Component: PageNotFound }
+    ]
+  }
+]
+
+let ClientRouter;
+if (typeof window !== 'undefined') {
+  ClientRouter = createBrowserRouter(RouterConfig);
 }
 
-export default RouterConfig;
+export default ClientRouter;

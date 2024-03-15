@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { ThemeContextListener } from 'app/utils/themeUtils';
-import RouterConfig from './routes';
+import ClientRouter from './routes';
 import type { Store } from 'app/store/createStore';
 
 type Props = {
@@ -15,7 +15,7 @@ const Root = ({ store }: Props) => (
     <Provider store={store}>
       <ThemeContextListener />
       <ErrorBoundary openReportDialog>
-        <RouterProvider router={RouterConfig} />
+        <RouterProvider router={ClientRouter} />
       </ErrorBoundary>
     </Provider>
   </HelmetProvider>
