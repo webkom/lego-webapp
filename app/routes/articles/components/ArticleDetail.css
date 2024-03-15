@@ -4,25 +4,8 @@
   margin-top: 8px;
 }
 
-span.detail + span.detail {
-  margin-left: 10px;
-}
-
-span.detail + span.detail::before {
-  margin-right: 10px;
-  content: '•';
-}
-
 .headerClassName {
   margin-bottom: 0;
-}
-
-.articleHeader {
-  margin-bottom: 0;
-}
-
-.articleDetails {
-  margin-bottom: 15px;
 }
 
 .articleReactions {
