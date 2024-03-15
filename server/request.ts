@@ -1,3 +1,8 @@
+/**
+ * Convert an incoming request to a fetch request
+ * Why? The docs did it
+ * https://reactrouter.com/en/main/guides/ssr
+ */
 const createFetchRequest = (req, res) => {
   const origin = `${req.protocol}://${req.get('host')}`;
   // Note: This had to take originalUrl into account for presumably vite's proxying

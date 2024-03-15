@@ -4,9 +4,9 @@ import AdminRoute from './admin';
 import AnnouncementsRoute from './announcements';
 import { AppRoute } from './app';
 import ArticlesRoute from './articles';
+import BdbRoute from './bdb';
+import BrandRoute from './brand';
 
-const BdbRoute = loadable(() => import('./bdb'));
-const BrandRoute = loadable(() => import('./brand'));
 const CompaniesRoute = loadable(() => import('./company'));
 const CompanyInterestPage = loadable(
   () => import('./companyInterest/components/CompanyInterestPage'),
@@ -40,8 +40,8 @@ export const RouterConfig: RouteObject[] = [
       { path: 'admin/*', children: AdminRoute },
       { path: 'announcements/*', children: AnnouncementsRoute },
       { path: 'articles/*', children: ArticlesRoute },
-      { path: 'bdb/*', Component: BdbRoute },
-      { path: 'brand/*', Component: BrandRoute },
+      { path: 'bdb/*', children: BdbRoute },
+      { path: 'brand/*', children: BrandRoute },
       { path: 'companies/*', Component: CompaniesRoute },
       { path: 'register-interest', Component: CompanyInterestPage },
       { path: 'interesse', Component: CompanyInterestPage },
