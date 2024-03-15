@@ -1,4 +1,5 @@
 import type { EventType } from './store/models/Event';
+import type { Presence } from './store/models/Registration';
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
@@ -178,7 +179,7 @@ type EventBase = {
 };
 
 export type Permission = string;
-export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
+
 export type LEGACY_EventRegistrationPhotoConsent =
   | 'PHOTO_NOT_CONSENT'
   | 'PHOTO_CONSENT'
@@ -208,7 +209,7 @@ export type EventRegistration = {
   unregistrationDate: Dateish;
   status: EventRegistrationStatus;
   pool: number;
-  presence: EventRegistrationPresence;
+  presence: Presence;
   paymentStatus: EventRegistrationPaymentStatus;
   feedback: string;
   sharedMemberships?: number;

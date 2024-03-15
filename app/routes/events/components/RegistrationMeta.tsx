@@ -14,12 +14,12 @@ import {
 import styles from './EventDetail/EventDetail.css';
 import type { TextWithIconProps } from 'app/components/TextWithIcon';
 import type {
-  EventRegistrationPresence,
   EventRegistrationPaymentStatus,
   LEGACY_EventRegistrationPhotoConsent,
   PhotoConsent,
   EventSemester,
 } from 'app/models';
+import type { Presence } from 'app/store/models/Registration';
 
 type Props = {
   registration: Record<string, any>;
@@ -146,7 +146,7 @@ const PresenceStatus = ({
   hasEnded,
 }: {
   hasEnded: boolean;
-  presence: EventRegistrationPresence;
+  presence: Presence;
 }) => {
   switch (presence) {
     case 'NOT_PRESENT':
