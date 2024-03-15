@@ -3,14 +3,18 @@ import { prepare } from '@webkom/react-prepare';
 import { type ReactElement, type ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from 'react-router-dom/server';
+import {
+  createStaticHandler,
+  createStaticRouter,
+  StaticRouterProvider,
+} from 'react-router-dom/server';
 import createStore from 'app/store/createStore';
 import { RouterConfig } from '../app/routes';
 import pageRenderer from './pageRenderer';
 import createFetchRequest from './request';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Request, Response } from 'express';
-import type { StaticHandlerContext} from 'react-router-dom/server';
+import type { StaticHandlerContext } from 'react-router-dom/server';
 
 const serverSideTimeoutInMs = 4000;
 export const helmetContext = {}; // AntiPattern because of babel
@@ -81,7 +85,7 @@ const createServerSideRenderer = async (req: Request, res: Response) => {
 
   const { query, dataRoutes } = createStaticHandler(RouterConfig);
   const fetchRequest = createFetchRequest(req, res);
-  const context = await query(fetchRequest) as StaticHandlerContext;
+  const context = (await query(fetchRequest)) as StaticHandlerContext;
   const router = createStaticRouter(dataRoutes, context);
 
   const app = (

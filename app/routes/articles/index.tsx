@@ -8,10 +8,10 @@ const PageNotFound = loadable(() => import('../pageNotFound'));
 
 const ArticleRoute: RouteObject[] = [
   { index: true, Component: ArticleList },
-  { path: "new", Component: ArticleEditor },
-  { path: ":articleIdOrSlug", Component: ArticleDetail },
-  { path: ":articleId/edit", Component: ArticleEditor },
-  { path: "*", Component: PageNotFound }
-]
+  { path: 'new', Component: ArticleEditor },
+  { path: ':articleIdOrSlug', Component: ArticleDetail },
+  { path: ':articleId/edit', Component: ArticleEditor },
+  { path: '*', Component: PageNotFound },
+];
 
 export default ArticleRoute;

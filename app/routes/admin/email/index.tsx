@@ -10,7 +10,9 @@ const EmailListEditor = loadable(() => import('./components/EmailListEditor'));
 const EmailUsers = loadable(() => import('./components/EmailUsers'));
 const EmailUserEditor = loadable(() => import('./components/EmailUserEditor'));
 const RestrictedMails = loadable(() => import('./components/RestrictedMails'));
-const RestrictedMailEditor = loadable(() => import('./components/RestrictedMailEditor'));
+const RestrictedMailEditor = loadable(
+  () => import('./components/RestrictedMailEditor'),
+);
 const PageNotFound = loadable(() => import('../../pageNotFound'));
 
 const EmailRouteWrapper = () => (
@@ -27,27 +29,26 @@ const EmailRouteWrapper = () => (
     </NavigationTab>
 
     <Outlet />
-
   </Content>
-)
+);
 
 const EmailRoute: RouteObject[] = [
-  { 
+  {
     Component: EmailRouteWrapper,
     children: [
       { index: true, Component: EmailLists },
-      { path: "lists", Component: EmailLists },
-      { path: "lists/new", Component: EmailListEditor },
-      { path: "lists/:emailListId", Component: EmailListEditor},
-      { path: "users", Component: EmailUsers },
-      { path: "users/new", Component: EmailUserEditor },
-      { path: "users/:emailUserId", Component: EmailUserEditor },
-      { path: "restricted", Component: RestrictedMails },
-      { path: "restricted/new", Component: RestrictedMailEditor },
-      { path: "restricted/:restrictedMailId", Component: RestrictedMailEditor},
-    ]
+      { path: 'lists', Component: EmailLists },
+      { path: 'lists/new', Component: EmailListEditor },
+      { path: 'lists/:emailListId', Component: EmailListEditor },
+      { path: 'users', Component: EmailUsers },
+      { path: 'users/new', Component: EmailUserEditor },
+      { path: 'users/:emailUserId', Component: EmailUserEditor },
+      { path: 'restricted', Component: RestrictedMails },
+      { path: 'restricted/new', Component: RestrictedMailEditor },
+      { path: 'restricted/:restrictedMailId', Component: RestrictedMailEditor },
+    ],
   },
-  { path: "*", Component: PageNotFound }
-]
+  { path: '*', Component: PageNotFound },
+];
 
 export default EmailRoute;
