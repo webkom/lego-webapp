@@ -22,7 +22,7 @@ import {
   EditorField,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectThreadsById } from 'app/reducers/threads';
+import { selectThreadById } from 'app/reducers/threads';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type {
@@ -31,9 +31,13 @@ import type {
   UpdateThread,
 } from 'app/store/models/Forum';
 
+type ThreadEditorParams = {
+  forumId: string;
+  threadId?: string;
+};
 const ThreadEditor = () => {
-  const { threadId } = useParams<{ threadId: string }>();
-  const { forumId } = useParams<{ forumId: string }>();
+  const { threadId, forumId } =
+    useParams<ThreadEditorParams>() as ThreadEditorParams;
   usePreparedEffect(
     'fetchThreadForEditor',
     () => threadId && dispatch(fetchThreadByForum(forumId, threadId)),
@@ -41,8 +45,8 @@ const ThreadEditor = () => {
   );
 
   const isNew = !threadId;
-  const thread: DetailedThread = useAppSelector((state) =>
-    isNew ? undefined : selectThreadsById(state, { threadId }),
+  const thread = useAppSelector((state) =>
+    isNew ? undefined : (selectThreadById(state, threadId) as DetailedThread),
   );
 
   const dispatch = useAppDispatch();

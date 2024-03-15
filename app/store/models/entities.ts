@@ -11,7 +11,7 @@ import type Emoji from 'app/store/models/Emoji';
 import type { UnknownEvent } from 'app/store/models/Event';
 import type Feed from 'app/store/models/Feed';
 import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
-import type { PublicThread } from 'app/store/models/Forum';
+import type { UnknownThread } from 'app/store/models/Forum';
 import type { UnknownGallery } from 'app/store/models/Gallery';
 import type { UnknownGalleryPicture } from 'app/store/models/GalleryPicture';
 import type { UnknownGroup } from 'app/store/models/Group';
@@ -108,7 +108,7 @@ export default interface Entities {
   [EntityType.SurveySubmissions]: Record<ID, SurveySubmission>;
   [EntityType.Surveys]: Record<ID, Survey>;
   [EntityType.Tags]: Record<ID, UnknownTag>;
-  [EntityType.Thread]: Record<ID, PublicThread>;
+  [EntityType.Thread]: Record<ID, UnknownThread>;
   [EntityType.Users]: Record<ID, UnknownUser>;
   [EntityType.FollowersCompany]: Record<ID, unknown>; // AFAIK unused
   [EntityType.FollowersUser]: Record<ID, unknown>; // AFAIK unused
