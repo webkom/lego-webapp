@@ -7,7 +7,6 @@ import {
   editCompany,
   fetchAdmin,
 } from 'app/actions/CompanyActions';
-import { addToast } from 'app/actions/ToastActions';
 import { Content } from 'app/components/Content';
 import {
   TextEditor,
@@ -22,6 +21,7 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
 import { selectCompanyById } from 'app/reducers/companies';
+import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';

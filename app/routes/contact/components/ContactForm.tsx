@@ -5,7 +5,6 @@ import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
-import { addToast } from 'app/actions/ToastActions';
 import {
   Form,
   TextInput,
@@ -18,6 +17,7 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
 import { selectGroupById, selectGroupsByType } from 'app/reducers/groups';
+import { addToast } from 'app/reducers/toasts';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
