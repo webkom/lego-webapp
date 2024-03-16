@@ -9,25 +9,26 @@ import {
   markAllNotifications,
 } from 'app/actions/NotificationsFeedActions';
 import ErrorBoundary from 'app/components/ErrorBoundary';
-import { toSpan } from 'app/components/Feed/context';
+import { SpanTag } from 'app/components/Feed/Tag';
 import Time from 'app/components/Time';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
 import styles from './HeaderNotifications.css';
-import type FeedActivity from 'app/store/models/FeedActivity';
+import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
 
 const NotificationElement = ({
   notification,
 }: {
-  notification: FeedActivity;
+  notification: AggregatedFeedActivity;
 }) => {
-  const renders = activityRenderers[notification.verb];
+  const activityRenderer = activityRenderers[notification.verb];
 
-  if (renders) {
+  if (activityRenderer) {
+    const { Icon, Header } = activityRenderer;
     return (
-      <Link to={renders.getURL(notification)}>
+      <Link to={activityRenderer.getNotificationUrl(notification)}>
         <div
           className={cx(
             styles.notification,
@@ -35,9 +36,11 @@ const NotificationElement = ({
           )}
         >
           <div className={styles.innerNotification}>
-            <div className={styles.icon}>{renders.icon(notification)}</div>
+            <div className={styles.icon}>
+              <Icon />
+            </div>
             <div>
-              {renders.activityHeader(notification, toSpan)}
+              <Header aggregatedActivity={notification} tag={SpanTag} />
               <Time
                 time={notification.updatedAt}
                 wordsAgo

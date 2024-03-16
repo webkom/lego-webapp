@@ -1,4 +1,6 @@
-export default function joinValues(values) {
+import type { ReactNode } from 'react';
+
+export default function joinValues(values: ReactNode[]): ReactNode {
   if (values.length < 2) {
     return values[0] || '';
   }
