@@ -171,8 +171,7 @@ const UserProfile = () => {
 
   const params = useParams<{ username: string }>();
   const { currentUser } = useUserContext();
-  const isCurrentUser =
-    useIsCurrentUser(params.username) || params.username === 'me';
+  const isCurrentUser = useIsCurrentUser(params.username);
   const username =
     isCurrentUser && currentUser ? currentUser?.username : params.username;
   const user = useAppSelector((state) =>

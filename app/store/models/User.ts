@@ -15,13 +15,19 @@ export interface PhotoConsent {
   updatedAt: Dateish;
 }
 
+export const Gender = {
+  male: 'Mann',
+  female: 'Kvinne',
+  other: 'Annet',
+} as const;
+
 interface User {
   id: ID;
   username: string;
   firstName: string;
   lastName: string;
   fullName: string;
-  gender: 'male' | 'female' | 'other';
+  gender: keyof typeof Gender;
   email: string;
   emailAddress: string;
   emailListsEnabled: boolean;

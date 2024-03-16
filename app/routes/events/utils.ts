@@ -373,7 +373,7 @@ export const isTBA = (value) =>
 
 export const containsAllergier = (value) =>
   value && value.toLowerCase().indexOf('allergi') !== -1
-    ? `Matallergier/preferanser kan hentes fra adminsidene til arrangementet`
+    ? `Matallergier / preferanser kan hentes fra adminsidene til arrangementet`
     : undefined;
 
 export const tooLow = (value) =>
