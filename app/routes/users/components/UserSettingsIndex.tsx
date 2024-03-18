@@ -9,9 +9,13 @@ import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
 const UserSettings = loadable(() => import('./UserSettings'));
-const UserSettingsNotifications = loadable(() => import('./UserSettingsNotifications'));
+const UserSettingsNotifications = loadable(
+  () => import('./UserSettingsNotifications'),
+);
 const UserSettingsOAuth2 = loadable(() => import('./UserSettingsOAuth2'));
-const UserSettingsOAuth2Form = loadable(() => import('./UserSettingsOAuth2Form'));
+const UserSettingsOAuth2Form = loadable(
+  () => import('./UserSettingsOAuth2Form'),
+);
 const StudentConfirmation = loadable(() => import('./StudentConfirmation'));
 
 const UserSettingsIndex = () => {
@@ -71,7 +75,7 @@ const UserSettingsRoute: RouteObject[] = [
       { path: 'student-confirmation', Component: StudentConfirmation },
     ],
   },
-  { path: '*', children: PageNotFound }
+  { path: '*', children: PageNotFound },
 ];
 
 export default UserSettingsRoute;
