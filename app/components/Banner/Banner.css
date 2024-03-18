@@ -76,3 +76,7 @@
     transform: rotate(0deg);
   }
 }
+
+.subHeader {
+  color: var(--secondary-font-color);
+}

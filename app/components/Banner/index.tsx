@@ -41,7 +41,7 @@ const Banner = (props: Props) => {
     <LinkComponent>
       <Card className={cx(styles.header, color)}>
         <h1>{header}</h1>
-        {subHeader && <h4>{subHeader}</h4>}
+        {subHeader && <h4 className={styles.subHeader}>{subHeader}</h4>}
       </Card>
     </LinkComponent>
   );
