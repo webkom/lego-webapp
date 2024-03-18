@@ -89,6 +89,14 @@
 
 .metaList > ul > li.poolBox {
   flex-basis: 32%;
+
+  @media (--medium-viewport) {
+    flex-basis: 49%;
+  }
+
+  @media (--small-viewport) {
+    flex-basis: 100%;
+  }
 }
 
 .metaList > span {
@@ -163,4 +171,24 @@
   margin: var(--spacing-md) 0;
   color: var(--secondary-font-color);
   text-align: center;
+}
+
+.groupSuggestionWrapper {
+  margin-bottom: var(--spacing-sm);
+
+  > .groupSuggestion {
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+
+    &.selected {
+      background-color: var(--lego-font-color);
+      color: var(--inverted-font-color);
+    }
+
+    &.implicit {
+      cursor: not-allowed;
+      background-color: var(--color-gray-4);
+      color: var(--inverted-font-color);
+    }
+  }
 }
