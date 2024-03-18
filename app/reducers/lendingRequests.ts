@@ -42,3 +42,12 @@ export default createEntityReducer({
       return lendingRequest;
     }
   );
+
+  export const selectLendingRequestsByLendableObjectId = createSelector(
+    (state: RootState) => state.lendingRequests.byId,
+    (_: RootState, props) => props.lendableObjectId,
+    (lendingRequestsById, lendableObjectId) =>
+      Object.values(lendingRequestsById).filter(
+        (lendingRequest) => lendingRequest.lendableObject?.id === lendableObjectId
+      )
+  );

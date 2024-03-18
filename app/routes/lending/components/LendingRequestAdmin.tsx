@@ -14,105 +14,95 @@ import {
 import InfoList from 'app/components/InfoList';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
-import { LendingRequestStatus } from 'app/store/models/LendingRequest';
-import type { DetailedLendableObject } from 'app/store/models/LendableObject';
-// import { CommentView } from 'app/components/Comments';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { fetchLendingRequest, fetchLendingRequestsByLendableObjectId } from 'app/actions/LendingRequestActions';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { selectLendingRequestById, selectLendingRequestsByLendableObjectId } from 'app/reducers/lendingRequests';
 
 type Params = {
-  requestId: string;
+  lendingRequestId: string;
 };
 
 const LendingRequestAdmin = () => {
-  const { requestId } = useParams<Params>();
+  const { lendingRequestId } = useParams<Params>();
+  const dispatch = useAppDispatch();
 
-  const lendableObject: DetailedLendableObject = {
-    id: 1,
-    title: 'Soundbox',
-    description: 'En soundbox som kan brukes til å spille av lyder',
-    lendingCommentPrompt: 'Hvorfor ønsker du å låne soundboks',
-    image:
-      'https://www.tntpyro.no/wp-content/uploads/2021/08/141_1283224098.jpg',
-  };
+  usePreparedEffect(
+    'fetchRequest',
+    () => dispatch(fetchLendingRequest(lendingRequestId)),
+    []
+  );
 
-  const request = {
-    id: 1,
-    user: {
-      username: 'PeterTesterIProd',
-      fullName: 'Peter TesterIProd',
-    },
-    startTime: moment().subtract({ hours: 2 }),
-    endTime: moment(),
-    message: 'Jeg vil gjerne låne Soundboks til hyttetur:)',
-    status: LendingRequestStatus.PENDING,
-    lendableObject: {
-      id: 1,
-      title: 'Grill',
-      image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-    },
-  };
+  const request = useAppSelector((state) =>
+    selectLendingRequestById(state, {
+      lendingRequestId,
+    })
+  );
 
-  const otherLoans = [
-    {
-      id: 2,
-      startTime: moment().subtract({ days: 1, hours: 2 }),
-      endTime: moment().subtract({ hours: 8 }),
+  usePreparedEffect(
+    'fetchRequests',
+    () => {
+      if (request.lendableObject?.id) {
+        dispatch(fetchLendingRequestsByLendableObjectId(request.lendableObject.id));
+      }
     },
-    {
-      id: 3,
-      startTime: moment().subtract({ hours: 6 }),
-      endTime: moment().subtract({ hours: 2 }),
-    },
-  ];
+    [request.lendableObject.id]
+  );
+
+  const otherRequests = useAppSelector((state) =>
+    selectLendingRequestsByLendableObjectId(state, {
+      lendableObjectId: request.lendableObject.id,
+    })
+  );
+
+  const otherLoans = otherRequests.filter((loan) => !loan.pending);
+  const otherLoanRequests = otherRequests.filter((loan) => loan.pending);
+
+  console.log('request', otherRequests, otherLoans, otherLoanRequests)
 
   const requestEvent = {
     id: String(request.id),
-    title: request.user.fullName,
-    start: request.startTime.toISOString(),
-    end: request.endTime.toISOString(),
+    title: request.author?.fullName,
+    start: request.startDate,
+    end: request.endDate,
     backgroundColor: '#e11617',
     borderColor: '#e11617',
   };
 
   const otherLoanEvents = otherLoans.map((loan) => ({
     id: String(loan.id),
-    title: 'Test',
-    start: loan.startTime.toISOString(),
-    end: loan.endTime.toISOString(),
+    title: request.author?.fullName,
+    start: loan.startDate,
+    end: loan.endDate,
     backgroundColor: '#999999',
     borderColor: '#999999',
   }));
 
-  const otherLoanRequests = [
-    {
-      id: 5,
-      startTime: moment().subtract({ hours: 2 }),
-      endTime: moment().add({ hours: 2 }),
-    },
-  ];
-
   const otherLoanRequestEvents = otherLoanRequests.map((loan) => ({
     id: String(loan.id),
-    title: 'Test',
-    start: loan.startTime.toISOString(),
-    end: loan.endTime.toISOString(),
+    title: request.author?.fullName,
+    start: loan.startDate,
+    end: loan.endDate,
     backgroundColor: '#f57676',
     borderColor: '#f57676',
   }));
 
+  console.log('events', requestEvent, otherLoanEvents, otherLoanRequestEvents)
+
   const infoItems = [
     {
       key: 'Status',
-      value: request.status,
+      value: request.pending ? 'Venter på svar' : 'Godkjent',
     },
     {
       key: 'Tidspenn',
-      value: <FromToTime from={request.startTime} to={request.endTime} />,
+      value: <FromToTime from={request.startDate} to={request.endDate} />,
     },
     {
       key: 'Bruker',
       value: (
-        <Link to={`/users/${request.user.username}`}>
-          {request.user.fullName}
+        <Link to={`/users/${request.author?.username}`}>
+          {request.author?.fullName}
         </Link>
       ),
     },
@@ -120,15 +110,15 @@ const LendingRequestAdmin = () => {
 
   return (
     <Content>
-      <Helmet title={`Forespørsel om utlån av ${lendableObject.title}`} />
+      <Helmet title={`Forespørsel om utlån av ${request.lendableObject.title}`} />
       <NavigationTab
-        title={`Forespørsel om utlån av ${lendableObject.title}`}
+        title={`Forespørsel om utlån av ${request.lendableObject.title}`}
         back={{
           label: 'Tilbake',
           path: '/lending/admin',
         }}
       >
-        <NavigationLink to={`/lending/request/${requestId}/admin`}>
+        <NavigationLink to={`/lending/request/${lendingRequestId}/admin`}>
           Admin
         </NavigationLink>
       </NavigationTab>

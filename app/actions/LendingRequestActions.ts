@@ -29,6 +29,21 @@ export function fetchLendingRequest(id: number): Thunk<
       errorMessage: 'Henting av utlånsforespørsel feilet',
     },
   });
+}
+
+export function fetchLendingRequestsByLendableObjectId(
+  lendableObjectId: number
+): Thunk<
+  Promise<NormalizedEntityPayload<EntityType.LendingRequests>>
+> {
+  return callAPI({
+    types: LendingRequest.FETCH,
+    endpoint: `/lendableobject/${lendableObjectId}/lendinginstances/`,
+    schema: [lendingRequestSchema],
+    meta: {
+      errorMessage: 'Henting av utlånsforespørsler feilet',
+    },
+  });
 
 }
 

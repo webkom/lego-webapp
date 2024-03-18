@@ -37,7 +37,7 @@ const LendingRequest = () => {
   const infoItems = [
     {
       key: 'Status',
-      value: request.status,
+      value: request.pending ? 'Venter på svar' : 'Godkjent',
     },
     {
       key: 'Tidspenn',
@@ -47,7 +47,7 @@ const LendingRequest = () => {
       key: 'Bruker',
       value: (
         <Link to={`/users/${request.user?.username}`}>
-          {request.user?.fullName}
+          {request.author?.fullName}
         </Link>
       ),
     },
