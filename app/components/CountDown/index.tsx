@@ -17,7 +17,7 @@ const CountDown = () => {
         : start.getTime() - now.getTime();
 
       if (started) {
-        setTimeStringHeader(t => t + ' ER I GONG');
+        setTimeStringHeader((t) => t + ' ER I GONG');
       }
 
       const withUnit = (
