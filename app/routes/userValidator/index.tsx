@@ -1,12 +1,12 @@
-import { Route, Routes } from 'react-router-dom';
+import loadable from '@loadable/component';
 import PageNotFound from '../pageNotFound';
-import WrappedValidator from './WrappedValidator';
+import type { RouteObject } from 'react-router-dom';
 
-const ValidatorRoute = () => (
-  <Routes>
-    <Route index element={<WrappedValidator />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const WrappedValidator = loadable(() => import('./WrappedValidator'));
+
+const ValidatorRoute: RouteObject[] = [
+  { index: true, Component: WrappedValidator },
+  { path: '*', children: PageNotFound },
+];
 
 export default ValidatorRoute;

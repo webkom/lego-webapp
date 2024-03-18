@@ -1,16 +1,18 @@
-import { Route, Routes } from 'react-router-dom';
+import loadable from '@loadable/component';
 import PageNotFound from '../pageNotFound';
-import PollDetail from './components/PollDetail';
-import { PollCreator } from './components/PollEditor';
-import PollsList from './components/PollsList';
+import type { RouteObject } from 'react-router-dom';
 
-const PollsRoute = () => (
-  <Routes>
-    <Route index element={<PollsList />} />
-    <Route path="new" element={<PollCreator />} />
-    <Route path=":pollsId" element={<PollDetail />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const PollsList = loadable(() => import('./components/PollsList'));
+const PollCreator = loadable(() => import('./components/PollEditor'), {
+  resolveComponent: (components) => components.PollCreator,
+});
+const PollDetail = loadable(() => import('./components/PollDetail'));
+
+const PollsRoute: RouteObject[] = [
+  { index: true, Component: PollsList },
+  { path: 'new', Component: PollCreator },
+  { path: ':pollsId', Component: PollDetail },
+  { path: '*', children: PageNotFound },
+];
 
 export default PollsRoute;

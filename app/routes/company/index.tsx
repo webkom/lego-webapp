@@ -1,14 +1,14 @@
-import { Route, Routes } from 'react-router-dom';
+import loadable from '@loadable/component';
 import PageNotFound from '../pageNotFound';
-import CompaniesPage from './components/CompaniesPage';
-import CompanyDetail from './components/CompanyDetail';
+import type { RouteObject } from 'react-router-dom';
 
-const CompanyRoute = () => (
-  <Routes>
-    <Route index element={<CompaniesPage />} />
-    <Route path=":companyId" element={<CompanyDetail />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const CompaniesPage = loadable(() => import('./components/CompaniesPage'));
+const CompanyDetail = loadable(() => import('./components/CompanyDetail'));
+
+const CompanyRoute: RouteObject[] = [
+  { index: true, Component: CompaniesPage },
+  { path: ':companyId', Component: CompanyDetail },
+  { path: '*', children: PageNotFound },
+];
 
 export default CompanyRoute;

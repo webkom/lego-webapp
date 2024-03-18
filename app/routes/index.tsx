@@ -6,34 +6,33 @@ import { AppRoute } from './app';
 import ArticlesRoute from './articles';
 import BdbRoute from './bdb';
 import BrandRoute from './brand';
+import CompaniesRoute from './company';
+import CompanyInterestRoute from './companyInterest';
+import ContactRoute from './contact';
+import EventsRoute from './events';
+import ForumRoute from './forum';
+import InterestGroupsRoute from './interestgroups';
+import JoblistingsRoute from './joblistings';
+import MeetingsRoute from './meetings';
+import PageNotFound from './pageNotFound';
+import PagesRoute from './pages';
+import PhotosRoute from './photos';
+import PollsRoute from './polls';
+import QuotesRoute from './quotes';
+import SearchRoute from './search';
+import SurveysRoute from './surveys';
+import TagsRoute from './tags';
+import TimelineRoute from './timeline';
+import ValidatorRoute from './userValidator';
+import UsersRoute from './users';
 
-const CompaniesRoute = loadable(() => import('./company'));
 const CompanyInterestPage = loadable(
   () => import('./companyInterest/components/CompanyInterestPage'),
 );
-const CompanyInterestRoute = loadable(() => import('./companyInterest'));
-const ContactRoute = loadable(() => import('./contact'));
-const EventsRoute = loadable(() => import('./events'));
-const InterestGroupsRoute = loadable(() => import('./interestgroups'));
-const JoblistingsRoute = loadable(() => import('./joblistings'));
-const MeetingsRoute = loadable(() => import('./meetings'));
 const Frontpage = loadable(() => import('./frontpage'));
-const PageNotFound = loadable(() => import('./pageNotFound'));
-const PagesRoute = loadable(() => import('./pages'));
-const PhotosRoute = loadable(() => import('./photos'));
-const PollsRoute = loadable(() => import('./polls'));
-const QuotesRoute = loadable(() => import('./quotes'));
-const SearchRoute = loadable(() => import('./search'));
-const SurveysRoute = loadable(() => import('./surveys'));
-const TagsRoute = loadable(() => import('./tags'));
-const TimelineRoute = loadable(() => import('./timeline'));
-const UsersRoute = loadable(() => import('./users'));
-const ForumRoute = loadable(() => import('./forum'));
-const UserValidatorRoute = loadable(() => import('./userValidator'));
 
 export const RouterConfig: RouteObject[] = [
   {
-    path: '*',
     Component: AppRoute,
     children: [
       { index: true, Component: Frontpage },
@@ -42,29 +41,30 @@ export const RouterConfig: RouteObject[] = [
       { path: 'articles/*', children: ArticlesRoute },
       { path: 'bdb/*', children: BdbRoute },
       { path: 'brand/*', children: BrandRoute },
-      { path: 'companies/*', Component: CompaniesRoute },
+      { path: 'companies/*', children: CompaniesRoute },
       { path: 'register-interest', Component: CompanyInterestPage },
       { path: 'interesse', Component: CompanyInterestPage },
-      { path: 'companyInterest/*', Component: CompanyInterestRoute },
-      { path: 'contact', Component: ContactRoute },
-      { path: 'kontakt', Component: ContactRoute },
-      { path: 'events/*', Component: EventsRoute },
-      { path: 'forum/*', Component: ForumRoute },
-      { path: 'interest-groups/*', Component: InterestGroupsRoute },
-      { path: 'interestgroups/*', Component: InterestGroupsRoute },
-      { path: 'joblistings/*', Component: JoblistingsRoute },
-      { path: 'meetings/*', Component: MeetingsRoute },
-      { path: 'pages/*', Component: PagesRoute },
-      { path: 'photos/*', Component: PhotosRoute },
-      { path: 'polls/*', Component: PollsRoute },
-      { path: 'quotes/*', Component: QuotesRoute },
-      { path: 'search', Component: SearchRoute },
-      { path: 'surveys/*', Component: SurveysRoute },
-      { path: 'tags/*', Component: TagsRoute },
-      { path: 'timeline', Component: TimelineRoute },
-      { path: 'users/*', Component: UsersRoute },
-      { path: 'validator', Component: UserValidatorRoute },
-      { path: '*', Component: PageNotFound },
+      { path: 'companyInterest/*', children: CompanyInterestRoute },
+      { path: 'company-interest/*', children: CompanyInterestRoute },
+      { path: 'contact', children: ContactRoute },
+      { path: 'kontakt', children: ContactRoute },
+      { path: 'events/*', children: EventsRoute },
+      { path: 'forum/*', children: ForumRoute },
+      { path: 'interest-groups/*', children: InterestGroupsRoute },
+      { path: 'interestgroups/*', children: InterestGroupsRoute },
+      { path: 'joblistings/*', children: JoblistingsRoute },
+      { path: 'meetings/*', children: MeetingsRoute },
+      { path: 'pages/*', children: PagesRoute },
+      { path: 'photos/*', children: PhotosRoute },
+      { path: 'polls/*', children: PollsRoute },
+      { path: 'quotes/*', children: QuotesRoute },
+      { path: 'search', children: SearchRoute },
+      { path: 'surveys/*', children: SurveysRoute },
+      { path: 'tags/*', children: TagsRoute },
+      { path: 'timeline', children: TimelineRoute },
+      { path: 'validator', children: ValidatorRoute },
+      { path: 'users/*', children: UsersRoute },
+      { path: '*', children: PageNotFound },
     ],
   },
 ];

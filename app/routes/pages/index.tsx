@@ -1,16 +1,16 @@
-import { Route, Routes } from 'react-router-dom';
+import loadable from '@loadable/component';
 import PageNotFound from '../pageNotFound';
-import PageDetail from './components/PageDetail';
-import PageEditor from './components/PageEditor';
+import type { RouteObject } from 'react-router-dom';
 
-const PagesRoute = () => (
-  <Routes>
-    <Route path="new" element={<PageEditor />} />
-    <Route path=":section" element={<PageDetail />} />
-    <Route path=":section/:pageSlug" element={<PageDetail />} />
-    <Route path=":section/:pageSlug/edit" element={<PageEditor />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const PageEditor = loadable(() => import('./components/PageEditor'));
+const PageDetail = loadable(() => import('./components/PageDetail'));
+
+const PagesRoute: RouteObject[] = [
+  { path: 'new', Component: PageEditor },
+  { path: ':section', Component: PageDetail },
+  { path: ':section/:pageSlug', Component: PageDetail },
+  { path: ':section/:pageSlug/edit', Component: PageEditor },
+  { path: '*', children: PageNotFound },
+];
 
 export default PagesRoute;

@@ -1,24 +1,22 @@
 import loadable from '@loadable/component';
-import { Route, Routes } from 'react-router-dom';
 import PageNotFound from '../pageNotFound';
-import ForumDetail from './components/ForumDetail';
-import ForumEditor from './components/ForumEditor';
-import ThreadDetail from './components/ThreadDetail';
-import ThreadEditor from './components/ThreadEditor';
+import type { RouteObject } from 'react-router-dom';
 
+const ForumDetail = loadable(() => import('./components/ForumDetail'));
+const ForumEditor = loadable(() => import('./components/ForumEditor'));
+const ThreadDetail = loadable(() => import('./components/ThreadDetail'));
+const ThreadEditor = loadable(() => import('./components/ThreadEditor'));
 const ForumList = loadable(() => import('./components/ForumList'));
 
-const ForumRoute = () => (
-  <Routes>
-    <Route index element={<ForumList />} />
-    <Route path=":forumId/threads" element={<ForumDetail />} />
-    <Route path="new" element={<ForumEditor />} />
-    <Route path=":forumId/edit" element={<ForumEditor />} />
-    <Route path=":forumId/new" element={<ThreadEditor />} />
-    <Route path=":forumId/threads/:threadId" element={<ThreadDetail />} />
-    <Route path=":forumId/threads/:threadId/edit" element={<ThreadEditor />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const ForumRoute: RouteObject[] = [
+  { index: true, Component: ForumList },
+  { path: ':forumId/threads', Component: ForumDetail },
+  { path: 'new', Component: ForumEditor },
+  { path: ':forumId/edit', Component: ForumEditor },
+  { path: ':forumId/threads/:threadId', Component: ThreadDetail },
+  { path: ':forumId/new', Component: ThreadEditor },
+  { path: ':forumId/threads/:threadId/edit', Component: ThreadEditor },
+  { path: '*', children: PageNotFound },
+];
 
 export default ForumRoute;

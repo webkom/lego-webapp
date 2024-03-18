@@ -1,17 +1,23 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from 'app/routes/pageNotFound';
-import CompanyInterestList from './components/CompanyInterestList';
-import CompanyInterestPage from './components/CompanyInterestPage';
-import CompanySemesterGUI from './components/CompanySemesterGUI';
+import loadable from '@loadable/component';
+import PageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const CompanyInterestRoute = () => (
-  <Routes>
-    <Route index element={<CompanyInterestList />} />
-    <Route path="create" element={<CompanyInterestPage />} />
-    <Route path="semesters" element={<CompanySemesterGUI />} />
-    <Route path=":companyInterestId/edit" element={<CompanyInterestPage />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+const CompanyInterestList = loadable(
+  () => import('./components/CompanyInterestList'),
 );
+const CompanyInterestPage = loadable(
+  () => import('./components/CompanyInterestPage'),
+);
+const CompanySemesterGUI = loadable(
+  () => import('./components/CompanySemesterGUI'),
+);
+
+const CompanyInterestRoute: RouteObject[] = [
+  { index: true, Component: CompanyInterestList },
+  { path: 'create', Component: CompanyInterestPage },
+  { path: 'semesters', Component: CompanySemesterGUI },
+  { path: ':companyInterestId/edit', Component: CompanyInterestPage },
+  { path: '*', children: PageNotFound },
+];
 
 export default CompanyInterestRoute;

@@ -1,15 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
+import loadable from '@loadable/component';
 import PageNotFound from '../pageNotFound';
-import AddQuote from './components/AddQuote';
-import QuotePage from './components/QuotePage';
+import type { RouteObject } from 'react-router-dom';
 
-const QuotesRoute = () => (
-  <Routes>
-    <Route index element={<QuotePage />} />
-    <Route path="add" element={<AddQuote />} />
-    <Route path=":quoteId" element={<QuotePage />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const QuotePage = loadable(() => import('./components/QuotePage'));
+const AddQuote = loadable(() => import('./components/AddQuote'));
+
+const QuotesRoute: RouteObject[] = [
+  { index: true, Component: QuotePage },
+  { path: 'add', Component: AddQuote },
+  { path: ':quoteId', Component: QuotePage },
+  { path: '*', children: PageNotFound },
+];
 
 export default QuotesRoute;
