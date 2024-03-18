@@ -5,6 +5,7 @@ import {
   Flex,
   Icon,
   LoadingIndicator,
+  Skeleton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -18,10 +19,13 @@ import {
   fetchSemesters,
 } from 'app/actions/CompanyActions';
 import { getEndpoint } from 'app/actions/EventActions';
+import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
+import JoblistingItem from 'app/components/JoblistingItem';
+import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import {
@@ -29,6 +33,7 @@ import {
   selectCompanyById,
   selectCommentsForCompany,
   selectEventsForCompany,
+  selectJoblistingsForCompany,
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPagination } from 'app/reducers/selectors';
@@ -44,6 +49,7 @@ import {
 import SemesterStatusDetail from './SemesterStatusDetail';
 import styles from './bdb.css';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
+import type { ListJoblisting } from 'app/store/models/Joblisting';
 import type { PublicUser } from 'app/store/models/User';
 
 const queryString = (companyId) =>
@@ -57,9 +63,11 @@ const BdbDetail = () => {
   const company = useAppSelector((state) =>
     selectCompanyById(state, { companyId }),
   );
+
   const comments = useAppSelector((state) =>
     selectCommentsForCompany(state, { companyId }),
   );
+
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, { companyId }),
   );
@@ -72,6 +80,13 @@ const BdbDetail = () => {
   );
   const pagination = useAppSelector((state) => state.events.pagination);
   const endpoint = getEndpoint(pagination, queryString(companyId));
+
+  const joblistings = useAppSelector((state) =>
+    selectJoblistingsForCompany(state, { companyId }),
+  ) as ListJoblisting[];
+  const fetchingJoblistings = useAppSelector(
+    (state) => state.joblistings.fetching,
+  );
 
   const dispatch = useAppDispatch();
 
@@ -87,6 +102,7 @@ const BdbDetail = () => {
             queryString: queryString(companyId),
           }),
         ),
+        dispatch(fetchAllJoblistings({ company: companyId })),
       ]),
     [companyId],
   );
@@ -500,6 +516,23 @@ const BdbDetail = () => {
             </div>
           ) : (
             <span className="secondaryFontColor">Ingen arrangementer</span>
+          )}
+        </div>
+
+        <div>
+          <h3>Bedriftens jobbannonser</h3>
+          {fetchingJoblistings && !joblistings.length ? (
+            <Skeleton className={sharedStyles.joblistingItem} />
+          ) : joblistings.length > 0 ? (
+            <Flex column gap="var(--spacing-sm)">
+              {joblistings.map((joblisting) => (
+                <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+              ))}
+            </Flex>
+          ) : (
+            <span className="secondaryFontColor">
+              Ingen tidligere jobbannonser
+            </span>
           )}
         </div>
 

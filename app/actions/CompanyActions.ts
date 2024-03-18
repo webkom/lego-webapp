@@ -3,11 +3,10 @@ import {
   companySchema,
   companySemesterSchema,
   eventSchema,
-  joblistingsSchema,
 } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';
-import { Company, Event, Joblistings } from './ActionTypes';
+import { Company, Event } from './ActionTypes';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
 import type { ID } from 'app/store/models';
@@ -18,7 +17,6 @@ import type {
   DetailedSemesterStatus,
   ListCompany,
 } from 'app/store/models/Company';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
   return callAPI<ListCompany[]>({
@@ -89,17 +87,6 @@ export const fetchEventsForCompany = ({
     },
   });
 };
-
-export function fetchJoblistingsForCompany(companyId: ID) {
-  return callAPI<ListJoblisting[]>({
-    types: Joblistings.FETCH,
-    endpoint: `/joblistings/?company=${companyId}`,
-    schema: [joblistingsSchema],
-    meta: {
-      errorMessage: 'Henting av tilknyttede jobbannonser feilet',
-    },
-  });
-}
 
 export function addCompany(data: Record<string, any>) {
   return callAPI<DetailedCompany>({

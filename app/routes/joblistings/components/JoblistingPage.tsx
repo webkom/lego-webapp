@@ -105,7 +105,11 @@ const JoblistingsPage = () => {
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchJoblistingPage', () => dispatch(fetchAll()), []);
+  usePreparedEffect(
+    'fetchJoblistingPage',
+    () => dispatch(fetchAll({ timeFilter: true })),
+    [],
+  );
 
   return (
     <div className={styles.root}>

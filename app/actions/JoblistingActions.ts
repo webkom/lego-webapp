@@ -8,17 +8,19 @@ import type {
   ListJoblisting,
 } from 'app/store/models/Joblisting';
 
-export function fetchAll() {
-  return callAPI<ListJoblisting>({
+export function fetchAll(query?: { company?: ID; timeFilter?: boolean }) {
+  return callAPI<ListJoblisting[]>({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
+    query,
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Henting av jobbannonser failet',
+      errorMessage: 'Henting av jobbannonser feilet',
     },
     propagateError: true,
   });
 }
+
 export function fetchJoblisting(id: ID) {
   return callAPI<DetailedJoblisting>({
     types: Joblistings.FETCH,
@@ -30,6 +32,7 @@ export function fetchJoblisting(id: ID) {
     propagateError: true,
   });
 }
+
 export function deleteJoblisting(id: ID) {
   return callAPI({
     types: Joblistings.DELETE,
@@ -41,6 +44,7 @@ export function deleteJoblisting(id: ID) {
     },
   });
 }
+
 export function createJoblisting({
   company,
   responsible,
@@ -67,6 +71,7 @@ export function createJoblisting({
     },
   });
 }
+
 export function editJoblisting({
   id,
   company,
