@@ -23,53 +23,53 @@ export type ConfigProperties = {
 export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   [EventType.COMPANY_PRESENTATION]: {
     displayName: 'Bedriftspresentasjon',
-    color: '#A1C34A',
+    color: '#F79A24',
     textColor: '#000',
   },
   [EventType.COURSE]: {
     displayName: 'Kurs',
-    color: '#52B0EC',
+    color: '#F79A24',
     textColor: '#000',
   },
   [EventType.PARTY]: {
     displayName: 'Fest',
-    color: '#FCD748',
+    color: '#F79A24',
     textColor: '#000',
   },
   [EventType.SOCIAL]: {
     displayName: 'Sosialt',
     color: 'var(--color-event-red)',
-    textColor: '#FFF',
+    textColor: '#000',
   },
   [EventType.BREAKFAST_TALK]: {
     displayName: 'Frokostforedrag',
-    color: '#86D1D0',
+    color: '#F79A24',
     textColor: '#000',
   },
   [EventType.LUNCH_PRESENTATION]: {
     displayName: 'Lunsjpresentasjon',
-    color: '#A1C34A',
+    color: '#F79A24',
     textColor: '#000',
   },
   [EventType.EVENT]: {
     displayName: 'Arrangement',
     color: 'var(--color-event-red)',
-    textColor: '#FFF',
+    textColor: '#000',
   },
   [EventType.ALTERNATIVE_PRESENTATION]: {
     displayName: 'Alternativ bedpres',
-    color: '#8A2BE2',
-    textColor: '#FFF',
+    color: '#F79A24',
+    textColor: '#000',
   },
   [EventType.KiD_EVENT]: {
     displayName: 'KiD-arrangement',
-    color: 'var(--color-event-black)',
-    textColor: 'var(--color-white)',
+    color: '#F79A24',
+    textColor: '000',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',
-    color: 'var(--color-event-black)',
-    textColor: 'var(--color-white)',
+    color: '#F79A24',
+    textColor: '000',
   },
 };
 

@@ -1,4 +1,10 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Container,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
@@ -213,7 +219,7 @@ const EventList = () => {
     };
 
   return (
-    <div className={styles.root}>
+    <Container>
       <Helmet title="Arrangementer" />
       <Toolbar actionGrant={actionGrant} />
       <div className={styles.filter}>
@@ -296,7 +302,7 @@ const EventList = () => {
       )}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
-    </div>
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-@import url('~app/styles/variables.css');
+@im>ort url('~app/styles/variables.css');
 
 .footer {
   width: 100%;
@@ -19,7 +19,7 @@
   justify-content: space-between;
   padding: 0.9em;
   margin-bottom: -1px; /* In case of glitchy render */
-  background: url('app/assets/skyline.svg') bottom center no-repeat;
+  /* background: url('app/assets/skyline.svg') bottom center no-repeat; */
 
   @media (--small-viewport) {
     justify-content: center;

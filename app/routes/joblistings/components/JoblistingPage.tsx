@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Container, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
@@ -108,13 +108,13 @@ const JoblistingsPage = () => {
   usePreparedEffect('fetchJoblistingPage', () => dispatch(fetchAll()), []);
 
   return (
-    <div className={styles.root}>
+    <Container>
       <Helmet title="Karriere" />
       <Flex className={styles.page}>
         <JoblistingsList joblistings={joblistings} />
         <JoblistingsRightNav />
       </Flex>
-    </div>
+    </Container>
   );
 };
 
