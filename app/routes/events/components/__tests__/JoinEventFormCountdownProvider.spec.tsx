@@ -2,6 +2,7 @@ import { mount } from 'enzyme';
 import lolex from 'lolex';
 import moment from 'moment-timezone';
 import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import configureStore from 'redux-mock-store';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
 import JoinEventForm from '../JoinEventForm';
@@ -52,6 +53,8 @@ const defaultProps = {
   captchaOpen: false,
   buttonOpen: false,
   registrationOpensIn: null,
+  pendinRegistration: null,
+  registrationPending: null,
 };
 const store = configureStore([])({
   theme: {
@@ -67,9 +70,12 @@ const store = configureStore([])({
 
 function renderJoinEventForm(props = {}) {
   return mount(
-    <Provider store={store}>
-      <JoinEventForm {...defaultProps} {...props} />
-    </Provider>,
+    <MemoryRouter>
+      <Provider store={store}>
+        <JoinEventForm {...defaultProps} {...props} />
+      </Provider>
+      ,
+    </MemoryRouter>,
   );
 }
 
