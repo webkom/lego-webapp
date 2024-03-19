@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import styles from '../articles.css';
 import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
+import { addSummerParty } from 'app/actions/SummerPartyActions';
 
 const HEADLINE_EVENTS = 2;
 

@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
-import p3 from 'app/assets/sommerfest/3.png';
+import p3 from 'app/assets/sommerfest/4d3fdd824e1001ad.png';
 import { Image } from 'app/components/Image';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { useUserContext } from 'app/routes/app/AppRoute';

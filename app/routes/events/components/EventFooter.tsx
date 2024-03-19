@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import p96 from 'app/assets/sommerfest/96.png';
+import p96 from 'app/assets/sommerfest/8f30334f32984124.png';
 import Circle from 'app/components/Circle';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import config from 'app/config';

@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import p8 from 'app/assets/sommerfest/8.png';
+import p8 from 'app/assets/sommerfest/bdde7de12e636077.png';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';

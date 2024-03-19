@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import p4 from 'app/assets/sommerfest/4.png';
+import p4 from 'app/assets/sommerfest/5fbb51f2f03ed11f.png';
 import { Content } from 'app/components/Content';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import ContactForm from './ContactForm';

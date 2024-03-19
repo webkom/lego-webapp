@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 //import Banner from 'app/components/Banner';
-import p2 from 'app/assets/sommerfest/2.png';
+import p2 from 'app/assets/sommerfest/097e93e18fe0a537.png';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';

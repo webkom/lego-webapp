@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
-import p34 from 'app/assets/sommerfest/34.png';
+import p34 from 'app/assets/sommerfest/e44ef7fbeaa6d1b6.png';
 import { SelectInput } from 'app/components/Form';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';

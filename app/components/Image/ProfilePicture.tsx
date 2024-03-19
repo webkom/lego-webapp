@@ -1,4 +1,4 @@
-import p69 from 'app/assets/sommerfest/69.png';
+import p69 from 'app/assets/sommerfest/e41ad62e6fb7bf25.png';
 import CircularPicture from './CircularPicture';
 import type { UnknownUser } from 'app/store/models/User';
 import type { ComponentProps } from 'react';

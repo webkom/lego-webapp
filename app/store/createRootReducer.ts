@@ -49,10 +49,13 @@ import theme from 'app/reducers/theme';
 import threads from 'app/reducers/threads';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
+import { sum } from 'lodash';
+import summerParty from 'app/reducers/summerParty';
 
 const createRootReducer = () => {
   return combineReducers({
     router: routing,
+    easter: summerParty,
     allowed,
     announcements,
     articles,

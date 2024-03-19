@@ -8,7 +8,7 @@ import {
   joinGroup,
   leaveGroup,
 } from 'app/actions/GroupActions';
-import p9 from 'app/assets/sommerfest/9.png';
+import p9 from 'app/assets/sommerfest/268f2039ec7b018f.png';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import {
   Content,
