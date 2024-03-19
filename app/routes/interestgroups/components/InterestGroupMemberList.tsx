@@ -10,6 +10,8 @@ import styles from './InterestGroupMemberList.css';
 import type { User, GroupMembership } from 'app/models';
 import type { RoleType } from 'app/utils/constants';
 import type { ReactNode } from 'react';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
+import p51 from 'app/assets/sommerfest/bb8e3e8f1d177cae.png';
 
 const Name = ({ user, role }: { user: User; role: RoleType }) => {
   if (role === 'member') {
@@ -80,6 +82,7 @@ const SORT_ORDER = ['member', 'co_leader', 'leader'];
 type Props = {
   children: ReactNode;
   memberships: GroupMembership[];
+  showSummerParty?: boolean;
 };
 type State = {
   modalVisible: boolean;
@@ -128,6 +131,12 @@ export default class InterestGroupMemberList extends Component<Props, State> {
                 />
               ))}
             </ul>
+
+            {
+              this.props.showSummerParty && (
+                <Sommerfest src={p51} className={styles.sommerfest} />
+                )
+            }
           </Flex>
         </Modal>
       </>

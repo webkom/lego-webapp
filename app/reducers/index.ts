@@ -138,5 +138,3 @@ export const threadSchema = new schema.Entity('threads', {
 export const forumSchema = new schema.Entity('forums', {
   threads: [threadSchema],
 });
-
-export const summerPartySchema = new schema.Entity('easter');

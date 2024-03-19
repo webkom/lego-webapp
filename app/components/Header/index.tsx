@@ -28,6 +28,8 @@ import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
+import p50 from 'app/assets/sommerfest/5724eeeb1b497182.png';
 
 type AccountDropdownItemsProps = {
   onClose: () => void;
@@ -204,6 +206,7 @@ const Header = () => {
       <FancyNodesCanvas height={300} />
       <div className={styles.content}>
         <HeaderLogo />
+        <Sommerfest src={p50} className={styles.sommerfest} />
 
         <div className={styles.menu}>
           <Navbar />

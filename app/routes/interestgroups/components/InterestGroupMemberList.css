@@ -33,3 +33,8 @@
   filter: drop-shadow(0.0625em 0.125em 0.625em var(--color-silver-blur));
   color: var(--color-co-leader-silver);
 }
+
+.sommerfest {
+  height: 24px;
+  width: 24px;
+}
