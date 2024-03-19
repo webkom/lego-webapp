@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const CompanyInterestList = loadable(
@@ -12,12 +12,12 @@ const CompanySemesterGUI = loadable(
   () => import('./components/CompanySemesterGUI'),
 );
 
-const CompanyInterestRoute: RouteObject[] = [
+const companyInterestRoute: RouteObject[] = [
   { index: true, Component: CompanyInterestList },
   { path: 'create', Component: CompanyInterestPage },
   { path: 'semesters', Component: CompanySemesterGUI },
   { path: ':companyInterestId/edit', Component: CompanyInterestPage },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default CompanyInterestRoute;
+export default companyInterestRoute;

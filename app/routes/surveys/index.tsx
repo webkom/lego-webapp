@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
 import { type RouteObject, Outlet } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { SelectedSurvey } from 'app/reducers/surveys';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
@@ -30,12 +30,12 @@ const SubmissionPublicResultsPage = loadable(
   () => import('./components/Submissions/SubmissionPublicResultsPage'),
 );
 
-export type ContextType = {
+export type SurveysRouteContext = {
   submissions: SurveySubmission[];
   survey: SelectedSurvey;
 };
 
-const SurveysRoute: RouteObject[] = [
+const surveysRoute: RouteObject[] = [
   { index: true, Component: SurveyListPage },
   { path: 'templates', Component: () => <SurveyListPage templates /> },
   { path: 'add', Component: AddSurveyPage },
@@ -57,7 +57,7 @@ const SurveysRoute: RouteObject[] = [
     ],
   },
   { path: ':surveyId/results', Component: SubmissionPublicResultsPage },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default SurveysRoute;
+export default surveysRoute;

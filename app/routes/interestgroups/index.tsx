@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const InterestGroupList = loadable(
@@ -12,12 +12,12 @@ const InterestGroupDetail = loadable(
   () => import('./components/InterestGroupDetail'),
 );
 
-const InterestGroupsRoute: RouteObject[] = [
+const interestGroupsRoute: RouteObject[] = [
   { index: true, Component: InterestGroupList },
   { path: 'create', Component: InterestGroupEdit },
   { path: ':groupId', Component: InterestGroupDetail },
   { path: ':groupId/edit', Component: InterestGroupEdit },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default InterestGroupsRoute;
+export default interestGroupsRoute;

@@ -1,12 +1,12 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const SearchPageWrapper = loadable(() => import('./SearchPageWrapper'));
 
-const SearchRoute: RouteObject[] = [
+const searchRoute: RouteObject[] = [
   { index: true, Component: SearchPageWrapper },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default SearchRoute;
+export default searchRoute;

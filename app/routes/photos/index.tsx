@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const Overview = loadable(() => import('./components/Overview'));
@@ -12,7 +12,7 @@ const GalleryPictureEditModal = loadable(
   () => import('./components/GalleryPictureEditModal'),
 );
 
-const PhotosRoute: RouteObject[] = [
+const photosRoute: RouteObject[] = [
   { index: true, Component: Overview },
   { path: 'new', Component: GalleryEditor },
   { path: ':galleryId', Component: GalleryDetail },
@@ -22,7 +22,7 @@ const PhotosRoute: RouteObject[] = [
     path: ':galleryId/picture/:pictureId/edit',
     Component: GalleryPictureEditModal,
   },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default PhotosRoute;
+export default photosRoute;

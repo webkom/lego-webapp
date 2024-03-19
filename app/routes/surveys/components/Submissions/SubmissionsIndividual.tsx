@@ -2,10 +2,10 @@ import cx from 'classnames';
 import { useOutletContext } from 'react-router-dom';
 import StaticSubmission from '../StaticSubmission';
 import styles from '../surveys.css';
-import type { ContextType } from '../../index';
+import type { SurveysRouteContext } from 'app/routes/surveys';
 
 const SubmissionPage = () => {
-  const { submissions, survey } = useOutletContext<ContextType>();
+  const { submissions, survey } = useOutletContext<SurveysRouteContext>();
   return (
     <ul>
       {submissions.map((submission, i) => (

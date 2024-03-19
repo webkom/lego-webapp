@@ -7,14 +7,14 @@ import { isNotNullish } from 'app/utils';
 import styles from '../surveys.css';
 import Results from './Results';
 import type { GraphData } from './Results';
-import type { ContextType } from '../../index';
+import type { SurveysRouteContext } from 'app/routes/surveys';
 import type { ID } from 'app/store/models';
 import type { AdminSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
 
 const SubmissionsSummary = () => {
-  const { submissions, survey } = useOutletContext<ContextType>();
+  const { submissions, survey } = useOutletContext<SurveysRouteContext>();
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {

@@ -1,12 +1,12 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const BrandPage = loadable(() => import('./components/BrandPage'));
 
-const BrandRoute: RouteObject[] = [
+const brandRoute: RouteObject[] = [
   { index: true, Component: BrandPage },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default BrandRoute;
+export default brandRoute;

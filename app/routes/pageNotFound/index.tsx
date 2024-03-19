@@ -3,6 +3,6 @@ import type { RouteObject } from 'react-router-dom';
 
 const HTTPError = loadable(() => import('app/routes/errors/HTTPError'));
 
-const PageNotFound: RouteObject[] = [{ path: '*', Component: HTTPError }];
+const pageNotFound: RouteObject[] = [{ path: '*', Component: HTTPError }];
 
-export default PageNotFound;
+export default pageNotFound;

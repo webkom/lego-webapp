@@ -1,17 +1,24 @@
+import loadable from '@loadable/component';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Route, Routes, useLocation, useParams } from 'react-router-dom';
+import {
+  Outlet,
+  type RouteObject,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { selectGroup, selectGroups } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import GroupForm from './GroupForm';
-import GroupMembers from './GroupMembers';
 import styles from './GroupPage.css';
-import GroupPermissions from './GroupPermissions';
-import GroupTree from './GroupTree';
+
+const GroupForm = loadable(() => import('./GroupForm'));
+const GroupMembers = loadable(() => import('./GroupMembers'));
+const GroupPermissions = loadable(() => import('./GroupPermissions'));
+const GroupTree = loadable(() => import('./GroupTree'));
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
@@ -90,16 +97,24 @@ const GroupPage = () => {
             </header>
           )}
 
-          <Routes>
-            <Route path="settings" element={<GroupForm />} />
-            <Route path="members" element={<GroupMembers />} />
-            <Route path="permissions" element={<GroupPermissions />} />
-            <Route path="*" element={<SelectGroup />} />
-          </Routes>
+          <Outlet />
         </section>
       </div>
     </Content>
   );
 };
 
-export default GroupPage;
+const groupPageRoute: RouteObject[] = [
+  {
+    path: '*',
+    Component: GroupPage,
+    children: [
+      { path: 'settings', Component: GroupForm },
+      { path: 'members', Component: GroupMembers },
+      { path: 'permissions', Component: GroupPermissions },
+      { path: '*', Component: SelectGroup },
+    ],
+  },
+];
+
+export default groupPageRoute;

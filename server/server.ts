@@ -90,7 +90,5 @@ app.use((err, req, res, next) => {
   res.statusCode = 500;
   res.end('Internal Error');
 });
-// app.get("*", (req, res) => {
-//   const fetchRequest = createFetchRequest(req, res);
-// });
+
 export default app;

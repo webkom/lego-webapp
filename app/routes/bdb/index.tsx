@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const BdbPage = loadable(() => import('./components/BdbPage'));
@@ -10,7 +10,7 @@ const CompanyContactEditor = loadable(
   () => import('./components/CompanyContactEditor'),
 );
 
-const BdbRoute: RouteObject[] = [
+const bdbRoute: RouteObject[] = [
   { index: true, Component: BdbPage },
   { path: 'add', Component: CompanyEditor },
   { path: ':companyId', Component: BdbDetail },
@@ -21,7 +21,7 @@ const BdbRoute: RouteObject[] = [
     path: ':companyId/company-contacts/:companyContactId',
     Component: CompanyContactEditor,
   },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default BdbRoute;
+export default bdbRoute;

@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const JoblistingsPage = loadable(() => import('./components/JoblistingPage'));
@@ -10,11 +10,11 @@ const JoblistingDetail = loadable(
   () => import('./components/JoblistingDetail'),
 );
 
-const JoblistingsRoute: RouteObject[] = [
+const joblistingsRoute: RouteObject[] = [
   { index: true, Component: JoblistingsPage },
   { path: 'create', Component: JoblistingEditor },
   { path: ':joblistingIdOrSlug', Component: JoblistingDetail },
   { path: ':joblistingId/edit', Component: JoblistingEditor },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
-export default JoblistingsRoute;
+export default joblistingsRoute;

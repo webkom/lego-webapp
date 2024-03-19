@@ -1,14 +1,14 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const AnnouncementsList = loadable(
   () => import('./components/AnnouncementsList'),
 );
 
-const AnnouncementsRoute: RouteObject[] = [
+const announcementsRoute: RouteObject[] = [
   { index: true, Component: AnnouncementsList },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default AnnouncementsRoute;
+export default announcementsRoute;

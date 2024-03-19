@@ -4,7 +4,7 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import PageNotFound from '../../pageNotFound';
+import pageNotFound from '../../pageNotFound';
 
 const EmailLists = loadable(() => import('./components/EmailLists'));
 const EmailListEditor = loadable(() => import('./components/EmailListEditor'));
@@ -31,7 +31,7 @@ const EmailRouteWrapper = () => (
   </Content>
 );
 
-const EmailRoute: RouteObject[] = [
+const emailRoute: RouteObject[] = [
   {
     Component: EmailRouteWrapper,
     children: [
@@ -47,7 +47,7 @@ const EmailRoute: RouteObject[] = [
       { path: 'restricted/:restrictedMailId', Component: RestrictedMailEditor },
     ],
   },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default EmailRoute;
+export default emailRoute;

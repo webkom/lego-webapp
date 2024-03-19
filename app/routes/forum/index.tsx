@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const ForumDetail = loadable(() => import('./components/ForumDetail'));
@@ -8,7 +8,7 @@ const ThreadDetail = loadable(() => import('./components/ThreadDetail'));
 const ThreadEditor = loadable(() => import('./components/ThreadEditor'));
 const ForumList = loadable(() => import('./components/ForumList'));
 
-const ForumRoute: RouteObject[] = [
+const forumRoute: RouteObject[] = [
   { index: true, Component: ForumList },
   { path: ':forumId/threads', Component: ForumDetail },
   { path: 'new', Component: ForumEditor },
@@ -16,7 +16,7 @@ const ForumRoute: RouteObject[] = [
   { path: ':forumId/threads/:threadId', Component: ThreadDetail },
   { path: ':forumId/new', Component: ThreadEditor },
   { path: ':forumId/threads/:threadId/edit', Component: ThreadEditor },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default ForumRoute;
+export default forumRoute;

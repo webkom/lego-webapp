@@ -9,7 +9,7 @@ import {
   StaticRouterProvider,
 } from 'react-router-dom/server';
 import createStore from 'app/store/createStore';
-import { RouterConfig } from '../app/routes';
+import routerConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
 import createFetchRequest from './request';
 import type { RootState } from 'app/store/createRootReducer';
@@ -83,7 +83,7 @@ const createServerSideRenderer = async (req: Request, res: Response) => {
     providerData.storeState = newStoreState;
   });
 
-  const { query, dataRoutes } = createStaticHandler(RouterConfig);
+  const { query, dataRoutes } = createStaticHandler(routerConfig);
   const fetchRequest = createFetchRequest(req, res);
   const context = (await query(fetchRequest)) as StaticHandlerContext;
   const router = createStaticRouter(dataRoutes, context);

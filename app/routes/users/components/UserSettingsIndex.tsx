@@ -4,7 +4,7 @@ import { Outlet, type RouteObject, useParams } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useUserContext } from 'app/routes/app/AppRoute';
-import PageNotFound from 'app/routes/pageNotFound';
+import pageNotFound from 'app/routes/pageNotFound';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
@@ -58,7 +58,7 @@ const UserSettingsIndex = () => {
   );
 };
 
-const UserSettingsRoute: RouteObject[] = [
+const userSettingsRoute: RouteObject[] = [
   {
     Component: guardLogin(UserSettingsIndex),
     children: [
@@ -75,7 +75,7 @@ const UserSettingsRoute: RouteObject[] = [
       { path: 'student-confirmation', Component: StudentConfirmation },
     ],
   },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default UserSettingsRoute;
+export default userSettingsRoute;

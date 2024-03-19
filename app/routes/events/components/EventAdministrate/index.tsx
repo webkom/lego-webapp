@@ -7,7 +7,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectEventById } from 'app/reducers/events';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
-import PageNotFound from 'app/routes/pageNotFound';
+import pageNotFound from 'app/routes/pageNotFound';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
@@ -59,7 +59,7 @@ const EventAdministrateIndex = () => {
   );
 };
 
-const EventAdministrateRoute: RouteObject[] = [
+const eventAdministrateRoute: RouteObject[] = [
   {
     Component: guardLogin(EventAdministrateIndex),
     children: [
@@ -70,7 +70,7 @@ const EventAdministrateRoute: RouteObject[] = [
       { path: 'abacard', Component: Abacard },
     ],
   },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default EventAdministrateRoute;
+export default eventAdministrateRoute;

@@ -1,15 +1,13 @@
-import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
-import EmailRoute from './email';
+import pageNotFound from '../pageNotFound';
+import emailRoute from './email';
+import groupPageRoute from './groups/components/GroupPage';
 import type { RouteObject } from 'react-router-dom';
 
-const GroupPage = loadable(() => import('./groups/components/GroupPage'));
-
-const AdminRoute: RouteObject[] = [
-  { path: 'groups/:groupId/*', Component: GroupPage },
-  { path: 'groups', Component: GroupPage },
-  { path: 'email/*', children: EmailRoute },
-  { path: '*', children: PageNotFound },
+const adminRoute: RouteObject[] = [
+  { path: 'groups/:groupId/*', children: groupPageRoute },
+  { path: 'groups', children: groupPageRoute },
+  { path: 'email/*', children: emailRoute },
+  { path: '*', children: pageNotFound },
 ];
 
-export default AdminRoute;
+export default adminRoute;

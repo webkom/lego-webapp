@@ -1,12 +1,12 @@
 import loadable from '@loadable/component';
-import PageNotFound from '../pageNotFound';
+import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
 const Contact = loadable(() => import('./components/Contact'));
 
-const ContactRoute: RouteObject[] = [
+const contactRoute: RouteObject[] = [
   { index: true, Component: Contact },
-  { path: '*', children: PageNotFound },
+  { path: '*', children: pageNotFound },
 ];
 
-export default ContactRoute;
+export default contactRoute;
