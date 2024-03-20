@@ -12,15 +12,19 @@ import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
 import styles from './surveys.css';
 
+type SurveyDetailPageParams = {
+  surveyId: string;
+};
 const SurveyDetailPage = () => {
-  const { surveyId } = useParams<{ surveyId: string }>();
-  const survey = useFetchedSurvey('surveyDetail', surveyId);
+  const { surveyId } =
+    useParams<SurveyDetailPageParams>() as SurveyDetailPageParams;
+  const { survey, event } = useFetchedSurvey('surveyDetail', surveyId);
   const fetching = useAppSelector((state) => state.surveys.fetching);
   const actionGrant = survey?.actionGrant;
 
   const navigate = useNavigate();
 
-  if (fetching || !actionGrant) {
+  if (fetching || !event || !actionGrant) {
     return <LoadingIndicator loading />;
   }
 
@@ -29,7 +33,7 @@ const SurveyDetailPage = () => {
   }
 
   return (
-    <Content banner={survey.templateType ? undefined : survey.event.cover}>
+    <Content banner={survey.templateType ? undefined : event.cover}>
       <Helmet title={survey.title} />
       <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
@@ -48,9 +52,7 @@ const SurveyDetailPage = () => {
             <div>
               <div className={styles.surveyTime}>
                 Spørreundersøkelse for{' '}
-                <Link to={`/events/${survey.event.id}`}>
-                  {survey.event.title}
-                </Link>
+                <Link to={`/events/${event.id}`}>{event.title}</Link>
               </div>
 
               <div className={styles.surveyTime}>

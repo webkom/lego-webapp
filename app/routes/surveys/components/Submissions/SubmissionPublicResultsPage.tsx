@@ -9,11 +9,16 @@ import Results from './Results';
 import type { GraphData } from './Results';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
+import type { ReactNode } from 'react';
 
+type SubmissionsPublicResultsParams = {
+  surveyId: string;
+};
 const SubmissionPublicResultsPage = () => {
-  const { surveyId } = useParams<{ surveyId: string }>();
+  const { surveyId } =
+    useParams<SubmissionsPublicResultsParams>() as SubmissionsPublicResultsParams;
   const { query } = useQuery({ token: '' });
-  const survey = useFetchedSurvey(
+  const { survey, event } = useFetchedSurvey(
     'submissionPublicResults',
     surveyId,
     query.token,
@@ -24,7 +29,7 @@ const SubmissionPublicResultsPage = () => {
     return <LoadingIndicator loading />;
   }
 
-  const generateTextAnswers = (question: SurveyQuestion) => {
+  const generateTextAnswers = (question: SurveyQuestion): ReactNode => {
     const result = results[question.id];
     if (result.questionType !== SurveyQuestionType.TextField) {
       return [];
@@ -61,7 +66,7 @@ const SubmissionPublicResultsPage = () => {
     graphData[Number(questionId)] = generateQuestionData(questionId);
   });
   return (
-    <Content banner={survey.event.cover}>
+    <Content banner={event?.cover}>
       <TokenNavigation title={survey.title} surveyId={survey.id} />
 
       <ContentSection>
