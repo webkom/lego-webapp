@@ -14,7 +14,7 @@ import SelectInput from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -45,9 +45,7 @@ const CompanyInterestList = () => {
       ignoreQueryPrefix: true,
     }).semesters,
   );
-  const semesters = useAppSelector((state) =>
-    selectCompanySemestersForInterestForm(state),
-  );
+  const semesters = useAppSelector((state) => selectCompanySemesters(state));
   const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
     (semester) => semester.id === semesterId,
   );

@@ -155,7 +155,7 @@ const ConsentIcons = ({
       photoConsents,
     );
     return (
-      <Flex justifyContent="center" gap={5}>
+      <Flex alignItems="center" justifyContent="center">
         <TooltipIcon
           content={consentMessage(webConsent)}
           iconClass={iconClass(webConsent)}
@@ -254,7 +254,7 @@ export const RegisteredTable = ({
       },
     },
     {
-      title: 'Til stede',
+      title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
       render: (presence, registration) => {

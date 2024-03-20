@@ -56,12 +56,12 @@ export const selectSurveySubmissionForUser = createSelector(
 
 export const useFetchedSurveySubmissions = (
   prepareId: string,
-  surveyId: ID,
+  surveyId?: ID,
 ): SurveySubmissionType[] => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedSurveySubmissions-${prepareId}`,
-    () => dispatch(fetchSubmissions(surveyId)),
+    () => surveyId && dispatch(fetchSubmissions(surveyId)),
     [surveyId],
   );
   return useAppSelector((state: RootState) =>

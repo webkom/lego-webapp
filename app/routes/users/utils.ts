@@ -20,10 +20,13 @@ export const validPassword =
     return [evalPass.score >= 3, message] as const;
   };
 
-export const isCurrentUser = (username: string, currentUsername: string) =>
-  username === 'me' || username === currentUsername;
+export const isCurrentUser = (username?: string, currentUsername?: string) => {
+  if (!username) return false;
 
-export const useIsCurrentUser = (username: string) => {
+  return username === 'me' || username === currentUsername;
+};
+
+export const useIsCurrentUser = (username?: string) => {
   const { currentUser } = useUserContext();
   return isCurrentUser(username, currentUser.username);
 };

@@ -6,7 +6,8 @@ export interface SummerPartyState {
 }
 
 const initialState: SummerPartyState = {
-  clickMe: 'https://webkom-sommerfest.s3.eu-west-2.amazonaws.com/faa664a97413100a.png',
+  clickMe:
+    'https://webkom-sommerfest.s3.eu-west-2.amazonaws.com/faa664a97413100a.png',
 };
 
 const summerParty = produce((newState, action) => {

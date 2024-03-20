@@ -8,6 +8,7 @@ import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 //import Banner from 'app/components/Banner';
 import p2 from 'app/assets/sommerfest/097e93e18fe0a537.png';
+import CountDown from 'app/components/CountDown';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import Sommerfest from 'app/components/Sommerfest/Sommerfest';
@@ -81,6 +82,7 @@ const AuthenticatedFrontpage = () => {
   return (
     <Container>
       <Helmet title="Hjem" />
+      <CountDown />
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"

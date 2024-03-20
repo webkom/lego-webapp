@@ -1,100 +1,56 @@
-import { Link } from 'react-router-dom';
-import styles from './context.css';
-import type { AggregatedActivity, TagInfo } from './types';
-import type { ReactNode } from 'react';
+import type { TagProps } from 'app/components/Feed/ActivityRenderer';
+import type {
+  FeedAttrAnnouncement,
+  FeedAttrArticle,
+  FeedAttrEvent,
+  FeedAttrGalleryPicture,
+  FeedAttrMeetingInvitation,
+  FeedAttrUser,
+} from 'app/store/models/FeedAttrCache';
 
-export function lookupContext(
-  aggregatedActivity: AggregatedActivity,
-  key: string,
-): Record<string, any> {
-  return aggregatedActivity.context[key];
-}
-export const linkAndText = (
-  link: string,
-  text: string,
-  linkableContent = true,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} => ({
-  link,
-  text,
-  linkableContent,
+const getUserTag = (user: FeedAttrUser): TagProps => ({
+  link: `/users/${user.username}/`,
+  text: `${user.firstName} ${user.lastName}`,
+  linkableContent: true,
 });
 
-const renderUser = (
-  context: Record<string, any>,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} =>
-  linkAndText(
-    `/users/${context.username}/`,
-    `${context.firstName} ${context.lastName}`,
-  );
+const getEventTag = (context: FeedAttrEvent): TagProps => ({
+  link: `/events/${context.id}/`,
+  text: context.title,
+  linkableContent: true,
+});
 
-const renderEvent = (
-  context: Record<string, any>,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} => linkAndText(`/events/${context.id}/`, context.title);
+const getMeetingInvitationTag = (
+  context: FeedAttrMeetingInvitation,
+): TagProps => ({
+  link: `/meetings/${context.meeting.id}/`,
+  text: context.meeting.title,
+  linkableContent: true,
+});
 
-const renderMeetingInvitation = (
-  context: Record<string, any>,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} => linkAndText(`/meetings/${context.meeting.id}/`, context.meeting.title);
+const getArticleTag = (context: FeedAttrArticle): TagProps => ({
+  link: `/articles/${context.id}/`,
+  text: context.title,
+  linkableContent: true,
+});
 
-const renderArticle = (
-  context: Record<string, any>,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} => linkAndText(`/articles/${context.id}/`, context.title);
+const getAnnouncementTag = (context: FeedAttrAnnouncement): TagProps => ({
+  link: '',
+  text: context.message,
+  linkableContent: false,
+});
 
-const renderAnnouncement = (
-  context: Record<string, any>,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} => linkAndText('', context.message, false);
-
-const renderGalleryPicture = (
-  context: Record<string, any>,
-): {
-  link: string;
-  text: string;
-  linkableContent: boolean;
-} =>
-  linkAndText(
-    `/photos/${context.gallery.id}/picture/${context.id}`,
-    `${context.gallery.title}-#${context.id}`,
-  );
+const getGalleryPictureTag = (context: FeedAttrGalleryPicture): TagProps => ({
+  link: `/photos/${context.gallery.id}/picture/${context.id}`,
+  text: `${context.gallery.title}-#${context.id}`,
+  linkableContent: true,
+});
 
 export const contextRender = {
-  'users.user': renderUser,
-  'events.event': renderEvent,
-  'meetings.meetinginvitation': renderMeetingInvitation,
-  'articles.article': renderArticle,
-  'notifications.announcement': renderAnnouncement,
-  'gallery.gallerypicture': renderGalleryPicture,
+  'users.user': getUserTag,
+  'events.event': getEventTag,
+  'meetings.meetinginvitation': getMeetingInvitationTag,
+  'articles.article': getArticleTag,
+  'notifications.announcement': getAnnouncementTag,
+  'gallery.gallerypicture': getGalleryPictureTag,
 };
-export function toLink(linkAndText: TagInfo): ReactNode {
-  return linkAndText.linkableContent ? (
-    <Link to={linkAndText.link}>{linkAndText.text}</Link>
-  ) : (
-    toSpan(linkAndText)
-  );
-}
-export function toSpan(linkAndText: TagInfo): ReactNode {
-  const classname = linkAndText.linkableContent ? styles.highlight : '';
-  return <span className={classname}>{linkAndText.text}</span>;
-}

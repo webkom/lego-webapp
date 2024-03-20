@@ -9,24 +9,24 @@ const ChartLabel = ({
   distributionData: DistributionDataPoint[];
 }) => {
   return (
-    <div className={styles.wrapOnMobile}>
+    <Flex column gap="0.5rem" className={styles.chartLabel}>
       {distributionData.map((dataPoint, i) => (
-        <Flex key={i} alignItems="center">
-          <span
-            style={{
-              backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
-              width: '10px',
-              height: '10px',
-              marginRight: '10px',
-              marginTop: '-5px',
-              display: 'inline-block',
-              borderRadius: '1px',
-            }}
-          />
-          <span> {dataPoint.name}</span>
+        <Flex key={i} alignItems="center" gap="0.5rem">
+          <svg className={styles.circle} viewBox="0 0 32 32">
+            <circle
+              cx="16"
+              cy="16"
+              r="16"
+              fill={CHART_COLORS[i % CHART_COLORS.length]}
+              stroke="white"
+              strokeWidth="8"
+            />
+          </svg>
+
+          <span>{dataPoint.name}</span>
         </Flex>
       ))}
-    </div>
+    </Flex>
   );
 };
 

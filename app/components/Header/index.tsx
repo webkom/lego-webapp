@@ -13,7 +13,9 @@ import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
+import p50 from 'app/assets/sommerfest/5724eeeb1b497182.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -28,8 +30,6 @@ import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
-import Sommerfest from 'app/components/Sommerfest/Sommerfest';
-import p50 from 'app/assets/sommerfest/5724eeeb1b497182.png';
 
 type AccountDropdownItemsProps = {
   onClose: () => void;

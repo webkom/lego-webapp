@@ -626,7 +626,7 @@ const EventDetail = () => {
               iconName="create-outline"
               content={
                 <Link to={`/users/${currentUser.username}/settings/profile`}>
-                  Oppdater matallergier/preferanser
+                  Oppdater matallergier / preferanser
                 </Link>
               }
             />

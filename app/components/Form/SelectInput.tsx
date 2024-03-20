@@ -48,6 +48,7 @@ export const selectStyles: StylesConfig = {
     color: isSelected ? 'var(--color-gray-1)' : undefined,
     fontSize: '14px',
   }),
+  menuPortal: (base) => ({ ...base, zIndex: 20 }),
 };
 export const selectTheme: ThemeConfig = (theme) => ({
   ...theme,
@@ -69,7 +70,7 @@ export const selectTheme: ThemeConfig = (theme) => ({
     neutral80: 'var(--lego-font-color)', // Font color and hover arrow color
     // neutral90: // Unknown
     danger: 'var(--danger-color)', // Color of delete button in multi select items
-    dangerLight: 'rgba(255, 0, 0, var(--color-red-hover-alpha))', // Background color of delete button in multi select items
+    dangerLight: 'rgba(255, 0, 0, var(--low-alpha))', // Background color of delete button in multi select items
   },
 });
 
@@ -140,6 +141,7 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
           onSearch?.(value);
           return value;
         }}
+        menuPortalTarget={document.body}
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
         blurInputOnSelect={false}

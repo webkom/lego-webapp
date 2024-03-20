@@ -45,7 +45,10 @@ const Members = ({ group, members }: MembersProps) => (
       maxRows={2}
       minRows={2}
     />
-    <InterestGroupMemberList memberships={members} showSummerParty={group.id === 90}>
+    <InterestGroupMemberList
+      memberships={members}
+      showSummerParty={group.id === 90}
+    >
       <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
     </InterestGroupMemberList>
   </Flex>

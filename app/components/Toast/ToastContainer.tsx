@@ -44,11 +44,11 @@ function toastStyleFactory(index, style) {
       lineHeight: '20px',
       fontSize: '14px',
       boxShadow: 0,
-      zIndex: 2,
+      zIndex: 150,
     };
   }
 
-  return { ...style, bottom: `${2 + index * 4}rem`, zIndex: 2 };
+  return { ...style, bottom: `${2 + index * 4}rem`, zIndex: 150 };
 }
 
 function toastStyleFactoryInactive(index, style) {

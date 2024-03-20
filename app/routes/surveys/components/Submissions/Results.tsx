@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import { produce } from 'immer';
 import { editSurvey } from 'app/actions/SurveyActions';
 import DistributionBarChart from 'app/components/Chart/BarChart';
@@ -141,7 +142,8 @@ const Results = ({
           <EventData info={info} />
         </div>
       </div>
-      <ul className={styles.summary}>
+
+      <Flex column gap="1rem">
         {survey.questions.map((question) => {
           const colorsToRemove: number[] = [];
           const pieData = graphData[question.id].filter((dataPoint, i) => {
@@ -158,97 +160,94 @@ const Results = ({
           const graphType = graphOptions.find(
             (a) => a.value === question.displayType,
           );
-          const questionIsNumeric = question.options.reduce(
-            (result, option) => result && /^\d+/.test(option.optionText),
-            true,
-          );
+          const questionIsNumeric =
+            question.questionType !== SurveyQuestionType.TextField &&
+            question.options.reduce(
+              (result, option) => result && /^\d+/.test(option.optionText),
+              true,
+            );
+
           return (
-            <li key={question.id}>
+            <div key={question.id}>
               <h3>{question.questionText}</h3>
               {question.questionType === SurveyQuestionType.TextField ? (
-                <ul className={styles.textAnswers}>
+                <Flex column gap="0.25rem">
                   {generateTextAnswers(question)}
-                </ul>
+                </Flex>
               ) : (
                 <div className={styles.graphContainer}>
                   <div className={styles.questionResults}>
-                    <div
-                      style={{
-                        width: '375px',
-                      }}
-                    >
-                      {question.displayType !== 'bar_chart' ? (
-                        <DistributionPieChart
-                          distributionData={pieData}
-                          chartColors={chartColors}
-                        />
-                      ) : (
-                        <DistributionBarChart
-                          distributionData={pieData}
-                          chartColors={chartColors}
-                        />
-                      )}
-                      {questionIsNumeric && (
-                        <span
-                          style={{
-                            marginLeft: '15px',
-                          }}
-                        >
-                          Gjennomsnittet er{' '}
-                          <AveragePill
-                            options={question.options}
-                            data={graphData[question.id]}
-                          />
-                        </span>
-                      )}
-                    </div>
-                    <ChartLabel distributionData={graphData[question.id]} />
-                  </div>
-                  {switchGraph && (
-                    <div className={styles.selectGraphContainer}>
-                      <SelectInput
-                        className={styles.selectGraph}
-                        value={{
-                          value: question.displayType,
-                          label: graphType && graphType.label,
-                        }}
-                        placeholder="Graf"
-                        name="displayType"
-                        options={graphOptions}
-                        onChange={(selectedType) =>
-                          switchGraph(question.id, selectedType)
-                        }
-                        components={{
-                          Option: (props: any) => {
-                            const value = props.data.value;
-                            return (
-                              <QuestionTypeOption
-                                iconName={graphTypeIcon[value]}
-                                {...props}
-                              />
-                            );
-                          },
-                          SingleValue: (props: any) => {
-                            const value = props.data.value;
-                            return (
-                              <QuestionTypeValue
-                                iconName={graphTypeIcon[value]}
-                                {...props}
-                              />
-                            );
-                          },
-                        }}
-                        isClearable={false}
-                        isSearchable={false}
+                    {question.displayType !==
+                    SurveyQuestionDisplayType.BarChart ? (
+                      <DistributionPieChart
+                        distributionData={pieData}
+                        chartColors={chartColors}
                       />
-                    </div>
-                  )}
+                    ) : (
+                      <DistributionBarChart
+                        distributionData={pieData}
+                        chartColors={chartColors}
+                      />
+                    )}
+
+                    <Flex column gap="1.5rem">
+                      {switchGraph && (
+                        <SelectInput
+                          className={styles.selectGraph}
+                          value={{
+                            value: question.displayType,
+                            label: graphType && graphType.label,
+                          }}
+                          placeholder="Graf"
+                          name="displayType"
+                          options={graphOptions}
+                          onChange={(selectedType) =>
+                            switchGraph(question.id, selectedType)
+                          }
+                          components={{
+                            Option: (props: any) => {
+                              const value = props.data.value;
+                              return (
+                                <QuestionTypeOption
+                                  iconName={graphTypeIcon[value]}
+                                  {...props}
+                                />
+                              );
+                            },
+                            SingleValue: (props: any) => {
+                              const value = props.data.value;
+                              return (
+                                <QuestionTypeValue
+                                  iconName={graphTypeIcon[value]}
+                                  {...props}
+                                />
+                              );
+                            },
+                          }}
+                          isClearable={false}
+                          isSearchable={false}
+                        />
+                      )}
+
+                      <ChartLabel distributionData={graphData[question.id]} />
+                    </Flex>
+                  </div>
                 </div>
               )}
-            </li>
+
+              {questionIsNumeric && (
+                <Flex alignItems="center" gap="5px" className={styles.average}>
+                  Gjennomsnittet er
+                  <AveragePill
+                    options={question.options}
+                    data={graphData[question.id]}
+                  />
+                </Flex>
+              )}
+            </div>
           );
         })}
-      </ul>
+      </Flex>
     </div>
   );
 };

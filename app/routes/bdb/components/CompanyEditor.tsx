@@ -75,10 +75,10 @@ const CompanyEditor = () => {
   const nameField = (
     <Field
       placeholder="Bedriftens navn"
-      label=" "
       name="name"
       component={TextInput.Field}
       className={styles.editTitle}
+      withoutMargin
     />
   );
 
@@ -133,182 +133,158 @@ const CompanyEditor = () => {
 
   return (
     <Content>
-      <div className={styles.detail}>
-        <TypedLegoForm
-          onSubmit={onSubmit}
-          initialValues={initialValues}
-          validate={validate}
-          subscription={{}}
-        >
-          {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <Field
-                name="logo"
-                component={ImageUploadField}
-                aspectRatio={20 / 6}
-                img={company && company.logo}
+      <TypedLegoForm
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        validate={validate}
+        subscription={{}}
+      >
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              name="logo"
+              component={ImageUploadField}
+              aspectRatio={20 / 6}
+              img={company && company.logo}
+            />
+
+            {!isNew ? (
+              <DetailNavigation title={nameField} companyId={company.id} />
+            ) : (
+              <ListNavigation title={nameField} />
+            )}
+
+            <Field
+              placeholder="Beskrivelse av bedriften"
+              name="description"
+              component={TextEditor.Field}
+            />
+
+            <div className={styles.infoBubbles}>
+              <InfoBubble
+                icon="briefcase"
+                data={
+                  <Field
+                    placeholder="Type bedrift"
+                    label=" "
+                    name="companyType"
+                    component={TextInput.Field}
+                  />
+                }
+                meta="Type bedrift"
+                style={{
+                  order: 0,
+                }}
+              />
+              <InfoBubble
+                icon="mail"
+                data={
+                  <Field
+                    placeholder="Fakturamail"
+                    name="paymentMail"
+                    component={TextInput.Field}
+                  />
+                }
+                meta="Fakturamail"
+                style={{
+                  order: 1,
+                }}
+              />
+              <InfoBubble
+                icon="call"
+                data={
+                  <Field
+                    placeholder="Telefonnummer"
+                    name="phone"
+                    component={TextInput.Field}
+                  />
+                }
+                meta="Telefon"
+                style={{
+                  order: 2,
+                }}
+              />
+            </div>
+
+            <div className={styles.infoBubbles}>
+              <InfoBubble
+                icon="at"
+                data={
+                  <Field
+                    placeholder="Nettside"
+                    name="website"
+                    component={TextInput.Field}
+                  />
+                }
+                meta="Nettside"
+                style={{
+                  order: 0,
+                }}
               />
 
-              {!isNew ? (
-                <DetailNavigation title={nameField} companyId={company.id} />
-              ) : (
-                <ListNavigation title={nameField} />
-              )}
+              <InfoBubble
+                icon="home"
+                data={
+                  <Field
+                    placeholder="Adresse"
+                    name="address"
+                    component={TextInput.Field}
+                  />
+                }
+                meta="Adresse"
+                style={{
+                  order: 1,
+                }}
+              />
+              <InfoBubble
+                icon="person"
+                data={
+                  <Field
+                    placeholder="Studentkontakt"
+                    name="studentContact"
+                    component={SelectInput.AutocompleteField}
+                    filter={[AutocompleteContentType.User]}
+                  />
+                }
+                meta="Studentkontakt"
+                style={{
+                  order: 2,
+                }}
+              />
+            </div>
 
-              <div className={styles.description}>
+            <div>
+              <MultiSelectGroup name="active" label="Aktiv bedrift?">
                 <Field
-                  placeholder="Beskrivelse av bedriften"
-                  label=" "
-                  name="description"
-                  component={TextEditor.Field}
+                  name="Yes"
+                  label="Ja"
+                  value="true"
+                  type="radio"
+                  component={RadioButton.Field}
                 />
-              </div>
-
-              <div className={styles.infoBubbles}>
-                <InfoBubble
-                  icon="briefcase"
-                  data={
-                    <Field
-                      placeholder="Type bedrift"
-                      label=" "
-                      name="companyType"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                    />
-                  }
-                  meta="Type bedrift"
-                  style={{
-                    order: 0,
-                  }}
-                />
-                <InfoBubble
-                  icon="mail"
-                  data={
-                    <Field
-                      placeholder="Fakturamail"
-                      label=" "
-                      name="paymentMail"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                      required
-                    />
-                  }
-                  meta="Fakturamail"
-                  style={{
-                    order: 1,
-                  }}
-                />
-                <InfoBubble
-                  icon="call"
-                  data={
-                    <Field
-                      placeholder="Telefonnummer"
-                      label=" "
-                      name="phone"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                    />
-                  }
-                  meta="Telefon"
-                  style={{
-                    order: 2,
-                  }}
-                />
-              </div>
-
-              <div className={styles.infoBubbles}>
-                <InfoBubble
-                  icon="at"
-                  data={
-                    <Field
-                      placeholder="Nettside"
-                      label=" "
-                      name="website"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                    />
-                  }
-                  meta="Nettside"
-                  style={{
-                    order: 0,
-                  }}
-                />
-
-                <InfoBubble
-                  icon="home"
-                  data={
-                    <Field
-                      placeholder="Adresse"
-                      label=" "
-                      name="address"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                    />
-                  }
-                  meta="Adresse"
-                  style={{
-                    order: 1,
-                  }}
-                />
-                <InfoBubble
-                  icon="person"
-                  data={
-                    <Field
-                      placeholder="Studentkontakt"
-                      label=" "
-                      name="studentContact"
-                      component={SelectInput.AutocompleteField}
-                      className={styles.editBubble}
-                      filter={[AutocompleteContentType.User]}
-                    />
-                  }
-                  meta="Studentkontakt"
-                  style={{
-                    order: 2,
-                  }}
-                />
-              </div>
-
-              <div className={styles.info}>
-                <div
-                  style={{
-                    order: 0,
-                  }}
-                >
-                  <MultiSelectGroup name="active" label="Aktiv bedrift?">
-                    <Field
-                      name="Yes"
-                      label="Ja"
-                      value="true"
-                      type="radio"
-                      component={RadioButton.Field}
-                    />
-                    <Field
-                      name="No"
-                      label="Nei"
-                      value="false"
-                      type="radio"
-                      component={RadioButton.Field}
-                    />
-                  </MultiSelectGroup>
-                </div>
-              </div>
-
-              <div className={styles.adminNote}>
                 <Field
-                  placeholder="Bedriften ønsker kun kurs"
-                  label="Notat fra Bedkom"
-                  name="adminComment"
-                  component={TextEditor.Field}
+                  name="No"
+                  label="Nei"
+                  value="false"
+                  type="radio"
+                  component={RadioButton.Field}
                 />
-              </div>
+              </MultiSelectGroup>
+            </div>
 
-              <SubmissionError />
-              <SubmitButton>Lagre</SubmitButton>
-            </form>
-          )}
-        </TypedLegoForm>
-      </div>
+            <Field
+              placeholder="Bedriften ønsker kun kurs"
+              label="Notat fra Bedkom"
+              name="adminComment"
+              component={TextEditor.Field}
+              className={styles.adminNote}
+            />
+
+            <SubmissionError />
+            <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+          </form>
+        )}
+      </TypedLegoForm>
     </Content>
   );
 };

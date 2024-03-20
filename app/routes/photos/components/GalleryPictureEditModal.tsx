@@ -142,7 +142,7 @@ const GalleryPictureEditModal = () => {
                 type="checkbox"
                 component={CheckBox.Field}
                 id="gallery-picture-active"
-                normalize={(v) => !!v}
+                parse={(v) => !!v}
               />
               <Field
                 label="Tagg brukere"

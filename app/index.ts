@@ -57,7 +57,9 @@ import renderApp from './render';
 
 `);
 moment.locale('nb-NO');
-console.log("🐣 https://webkom-sommerfest.s3.eu-west-2.amazonaws.com/bb8e3e8f1d177cae.png");
+console.log(
+  '🐣 https://webkom-sommerfest.s3.eu-west-2.amazonaws.com/bb8e3e8f1d177cae.png',
+);
 
 global.log = function log(self = this) {
   console.log(self);

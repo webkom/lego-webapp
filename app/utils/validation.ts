@@ -101,6 +101,11 @@ export const matchesRegex = (regex, message) => (value) =>
 export const isEmail = (message = 'Ugyldig e-post') =>
   matchesRegex(EMAIL_REGEX, message);
 
+export const isNotAbakusEmail =
+  (message = 'Kan ikke være Abakus-e-post') =>
+  (value) =>
+    [!value || !value.endsWith('@abakus.no'), message] as const;
+
 export const validYoutubeUrl = (message = 'Ugyldig YouTube-URL') =>
   matchesRegex(YOUTUBE_URL_REGEX, message);
 

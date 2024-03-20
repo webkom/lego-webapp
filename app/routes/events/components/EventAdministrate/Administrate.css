@@ -62,27 +62,9 @@
   color: var(--color-green-7);
 }
 
-.greenIcon {
-  font-size: 1.4em;
-  color: var(--success-color);
-
-  &:hover {
-    color: var(--color-green-7);
-  }
-}
-
 .orangePill {
   background-color: var(--color-orange-2);
   color: var(--color-orange-7);
-}
-
-.questionIcon {
-  font-size: 1.4em;
-  color: var(--color-blue-6);
-
-  &:hover {
-    color: var(--color-blue-7);
-  }
 }
 
 .bluePill {
@@ -90,12 +72,35 @@
   color: var(--color-blue-6);
 }
 
-.redIcon {
-  font-size: 1.4em;
-  color: var(--danger-color);
+.greenIcon {
+  color: var(--success-color);
+
+  ion-icon {
+    color: var(--success-color);
+  }
+}
+
+.tooLateIcon {
+  width: 34px;
+  height: 34px;
+  padding: 0.375rem;
+  cursor: pointer;
+  border-radius: 50%;
 
   &:hover {
-    color: var(--color-red-7);
+    background-color: var(--additive-background);
+  }
+}
+
+.questionIcon ion-icon {
+  color: var(--color-blue-6);
+}
+
+.redIcon {
+  color: var(--danger-color);
+
+  ion-icon {
+    color: var(--danger-color);
   }
 }
 

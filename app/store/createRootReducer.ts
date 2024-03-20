@@ -42,6 +42,7 @@ import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
 import routing from 'app/reducers/routing';
 import search from 'app/reducers/search';
+import summerParty from 'app/reducers/summerParty';
 import surveySubmissions from 'app/reducers/surveySubmissions';
 import surveys from 'app/reducers/surveys';
 import tags from 'app/reducers/tags';
@@ -49,8 +50,6 @@ import theme from 'app/reducers/theme';
 import threads from 'app/reducers/threads';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
-import { sum } from 'lodash';
-import summerParty from 'app/reducers/summerParty';
 
 const createRootReducer = () => {
   return combineReducers({

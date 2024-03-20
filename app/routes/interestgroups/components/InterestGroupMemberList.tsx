@@ -2,16 +2,16 @@ import { Flex, Icon, Modal } from '@webkom/lego-bricks';
 import sortBy from 'lodash/sortBy';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
+import p51 from 'app/assets/sommerfest/bb8e3e8f1d177cae.png';
 import TextInput from 'app/components/Form/TextInput';
 import { ProfilePicture } from 'app/components/Image';
+import Sommerfest from 'app/components/Sommerfest/Sommerfest';
 import Tooltip from 'app/components/Tooltip';
 import shared from 'app/components/UserAttendance/AttendanceModalContent.css';
 import styles from './InterestGroupMemberList.css';
 import type { User, GroupMembership } from 'app/models';
 import type { RoleType } from 'app/utils/constants';
 import type { ReactNode } from 'react';
-import Sommerfest from 'app/components/Sommerfest/Sommerfest';
-import p51 from 'app/assets/sommerfest/bb8e3e8f1d177cae.png';
 
 const Name = ({ user, role }: { user: User; role: RoleType }) => {
   if (role === 'member') {
@@ -132,11 +132,9 @@ export default class InterestGroupMemberList extends Component<Props, State> {
               ))}
             </ul>
 
-            {
-              this.props.showSummerParty && (
-                <Sommerfest src={p51} className={styles.sommerfest} />
-                )
-            }
+            {this.props.showSummerParty && (
+              <Sommerfest src={p51} className={styles.sommerfest} />
+            )}
           </Flex>
         </Modal>
       </>

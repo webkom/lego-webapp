@@ -23,8 +23,9 @@ export const selectField = (name) =>
     .parent()
     .parent()
     .parent();
+
 export const selectFieldDropdown = (name) =>
-  selectField(name).find(`[id=react-select-${name}-listbox]`);
+  cy.get(`[id=react-select-${name}-listbox]`);
 
 export const selectFromSelectField = (name, option, search) => {
   selectField(name).click();

@@ -136,7 +136,6 @@ const ArticleDetail = () => {
       </PropertyHelmet>
       <NavigationTab
         headerClassName={styles.headerClassName}
-        className={styles.articleHeader}
         title={article.title}
       >
         {(article.actionGrant || []).includes('edit') && (
@@ -147,7 +146,7 @@ const ArticleDetail = () => {
       </NavigationTab>
 
       {
-        <div className={styles.articleDetails}>
+        <div>
           <span className="secondaryFontColor">
             Skrevet av{' '}
             {authors?.map((e, i) => {
@@ -155,7 +154,11 @@ const ArticleDetail = () => {
                 <span key={e.username}>
                   <Link
                     to={`/users/${e.username}`}
-                    className={sharedStyles.overviewAuthor}
+                    className={
+                      i === authors.length - 1
+                        ? sharedStyles.overviewAuthor
+                        : undefined
+                    }
                   >
                     {' '}
                     {e.fullName}

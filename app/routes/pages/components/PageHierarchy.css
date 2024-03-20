@@ -26,7 +26,7 @@
 }
 
 .dropdownBtn:hover {
-  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  background-color: rgba(255, 0, 0, var(--low-alpha));
 }
 
 .links {
@@ -36,7 +36,7 @@
 }
 
 .links:hover {
-  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  background-color: rgba(255, 0, 0, var(--low-alpha));
 }
 
 .nonSelected {

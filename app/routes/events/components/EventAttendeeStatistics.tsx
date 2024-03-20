@@ -17,6 +17,7 @@ import { GroupType, type Dateish } from 'app/models';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
+import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
 import styles from './EventAttendeeStatistics.css';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
@@ -54,12 +55,6 @@ const PieChartWithLabel = ({
       </Flex>
     </Card>
   );
-};
-
-const toLocalizedGender = (gender: string) => {
-  if (gender === 'male') return 'Mann';
-  if (gender === 'female') return 'Kvinne';
-  return 'Annet';
 };
 
 const addGenericDataPoint = (
@@ -183,7 +178,7 @@ const createAttendeeDataPoints = (
 
     addGenericDataPoint(
       attendeeStatistics.genderDistribution,
-      toLocalizedGender(registration.user.gender),
+      Gender[registration.user.gender],
     );
 
     addGroupDataPoint(
