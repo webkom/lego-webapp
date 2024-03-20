@@ -8,7 +8,7 @@ import {
 } from 'app/actions/OAuth2Actions';
 import { Form, LegoFinalForm, TextInput } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectOAuth2ApplicationById } from 'app/reducers/oauth2';
+import { selectOAuth2ApplicationById } from 'app/reducers/oauth2Applications';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
 
@@ -32,9 +32,9 @@ const UserSettingsOAuth2Form = () => {
   const { applicationId } = useParams<{ applicationId?: string }>();
   const isNew = applicationId === undefined;
   const application = useAppSelector((state) =>
-    selectOAuth2ApplicationById(state, {
-      applicationId,
-    }),
+    applicationId
+      ? selectOAuth2ApplicationById(state, applicationId)
+      : undefined,
   );
 
   const dispatch = useAppDispatch();

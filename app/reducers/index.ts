@@ -71,7 +71,7 @@ export const joblistingsSchema = new schema.Entity('joblistings');
 export const announcementsSchema = new schema.Entity('announcements');
 export const feedActivitySchema = new schema.Entity('feedActivities');
 export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
-export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
+export const oauth2GrantSchema = new schema.Entity('oauth2Grants');
 export const membershipSchema = new schema.Entity('memberships', {
   user: userSchema,
 });

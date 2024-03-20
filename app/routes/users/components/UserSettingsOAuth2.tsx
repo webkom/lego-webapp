@@ -12,10 +12,8 @@ import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
-import {
-  selectOAuth2Applications,
-  selectOAuth2Grants,
-} from 'app/reducers/oauth2';
+import { selectAllOAuth2Applications } from 'app/reducers/oauth2Applications';
+import { selectAllOAuth2Grants } from 'app/reducers/oauth2Grants';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './UserSettingsOAuth2.css';
 
@@ -32,8 +30,8 @@ const UserSettingsOAuth2 = () => {
     [],
   );
 
-  const applications = useAppSelector(selectOAuth2Applications);
-  const grants = useAppSelector(selectOAuth2Grants);
+  const applications = useAppSelector(selectAllOAuth2Applications);
+  const grants = useAppSelector(selectAllOAuth2Grants);
   const actionGrant = useAppSelector(
     (state) => state.oauth2Applications.actionGrant,
   );
