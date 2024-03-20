@@ -16,6 +16,7 @@ interface Group {
   logoPlaceholder: string | null;
   numberOfUsers: number;
   type: string;
+  text: string;
   showBadge: boolean;
   active: boolean;
 }
