@@ -6,19 +6,13 @@ import { isNotNullish } from 'app/utils';
 import styles from '../surveys.css';
 import Results from './Results';
 import type { GraphData } from './Results';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { SubmissionsPageChild } from 'app/routes/surveys/components/Submissions/SubmissionsPage';
 import type { ID } from 'app/store/models';
 import type { AdminSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
-import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { ReactNode } from 'react';
 
-type Props = {
-  submissions: SurveySubmission[];
-  survey: SelectedSurvey;
-};
-
-const SubmissionsSummary = ({ submissions, survey }: Props) => {
+const SubmissionsSummary: SubmissionsPageChild = ({ submissions, survey }) => {
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {
