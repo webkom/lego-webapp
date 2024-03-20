@@ -1,18 +1,17 @@
 import { describe, it, expect } from 'vitest';
-import { SurveySubmission } from '../../actions/ActionTypes';
+import { SurveySubmission } from 'app/actions/ActionTypes';
 import surveySubmissions from '../surveySubmissions';
 
 describe('reducers', () => {
   describe('surveySubmissions', () => {
-    const baseState = {
+    const baseState: ReturnType<typeof surveySubmissions> = {
       actionGrant: [],
-      pagination: {},
       paginationNext: {},
-      items: [],
-      byId: {},
+      fetching: false,
+      ids: [],
+      entities: {},
     };
     it('SurveySubmission.ADD.SUCCESS adds survey id to submission object', () => {
-      const prevState = baseState;
       const action = {
         type: SurveySubmission.ADD.SUCCESS,
         meta: {
@@ -30,12 +29,10 @@ describe('reducers', () => {
           },
         },
       };
-      expect(surveySubmissions(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [3],
-        byId: {
+      expect(surveySubmissions(baseState, action)).toEqual({
+        ...baseState,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             test: 'abc',
