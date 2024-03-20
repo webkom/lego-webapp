@@ -2,11 +2,11 @@ import { omit, isArray } from 'lodash';
 import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
-import { setStatusCode } from './RoutingActions';
 import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type {
