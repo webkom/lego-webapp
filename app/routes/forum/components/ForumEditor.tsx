@@ -17,7 +17,7 @@ import {
 import { Content } from 'app/components/Content';
 import { TextInput, Form, TextArea, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectForumsById } from 'app/reducers/forums';
+import { selectForumById } from 'app/reducers/forums';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type {
@@ -26,8 +26,11 @@ import type {
   UpdateForum,
 } from 'app/store/models/Forum';
 
+type ForumEditorParams = {
+  forumId?: string;
+};
 const ForumEditor = () => {
-  const { forumId } = useParams<{ forumId: string }>();
+  const { forumId } = useParams<ForumEditorParams>();
 
   usePreparedEffect(
     'fetchForumForEditor',
@@ -36,8 +39,8 @@ const ForumEditor = () => {
   );
 
   const isNew = !forumId;
-  const forum: DetailedForum = useAppSelector((state) =>
-    isNew ? undefined : selectForumsById(state, { forumId }),
+  const forum = useAppSelector((state) =>
+    isNew ? undefined : (selectForumById(state, forumId) as DetailedForum),
   );
 
   const dispatch = useAppDispatch();

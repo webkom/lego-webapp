@@ -1,24 +1,22 @@
-import { createSelector } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { Forum } from 'app/actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import type { RootState } from 'app/store/createRootReducer';
 
-export default createEntityReducer({
-  key: 'forums',
-  types: {
-    fetch: Forum.FETCH_ALL,
-    mutate: Forum.CREATE,
-    delete: Forum.DELETE,
-  },
+const legoAdapter = createLegoAdapter(EntityType.Forums);
+
+const forumsSlice = createSlice({
+  name: EntityType.Forums,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Forum.FETCH_ALL],
+    deleteActions: [Forum.DELETE],
+  }),
 });
 
-export const selectForums = createSelector(
-  (state) => state.forums.byId,
-  (state) => state.forums.items,
-  (forumsById, forumsIds) => forumsIds.map((id) => forumsById[id]),
-);
+export default forumsSlice.reducer;
 
-export const selectForumsById = createSelector(
-  (state) => state.forums.byId,
-  (state, props) => props.forumId,
-  (forumsByid, forumId) => forumsByid[forumId],
-);
+export const { selectAll: selectAllForums, selectById: selectForumById } =
+  legoAdapter.getSelectors((state: RootState) => state.forums);

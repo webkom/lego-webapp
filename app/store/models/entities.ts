@@ -11,7 +11,7 @@ import type Emoji from 'app/store/models/Emoji';
 import type { UnknownEvent } from 'app/store/models/Event';
 import type Feed from 'app/store/models/Feed';
 import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
-import type { UnknownThread } from 'app/store/models/Forum';
+import type { UnknownForum, UnknownThread } from 'app/store/models/Forum';
 import type { UnknownGallery } from 'app/store/models/Gallery';
 import type { UnknownGalleryPicture } from 'app/store/models/GalleryPicture';
 import type { UnknownGroup } from 'app/store/models/Group';
@@ -47,6 +47,7 @@ export enum EntityType {
   Events = 'events',
   FeedActivities = 'feedActivities',
   Feeds = 'feeds',
+  Forums = 'forums',
   Galleries = 'galleries',
   GalleryPictures = 'galleryPictures',
   Groups = 'groups',
@@ -88,6 +89,7 @@ export default interface Entities {
   [EntityType.Events]: Record<ID, UnknownEvent>;
   [EntityType.FeedActivities]: Record<ID, AggregatedFeedActivity>;
   [EntityType.Feeds]: Record<ID, Feed>;
+  [EntityType.Forums]: Record<ID, UnknownForum>;
   [EntityType.Galleries]: Record<ID, UnknownGallery>;
   [EntityType.GalleryPictures]: Record<ID, UnknownGalleryPicture>;
   [EntityType.Groups]: Record<ID, UnknownGroup>;

@@ -1,10 +1,10 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchForums } from 'app/actions/ForumActions';
 import { Content, ContentMain } from 'app/components/Content';
 import { NavigationLink } from 'app/components/NavigationTab';
 import { Tag } from 'app/components/Tags';
-import { selectForums } from 'app/reducers/forums';
+import { selectAllForums } from 'app/reducers/forums';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import ForumListEntry from './ForumListEntry';
 import type { PublicForum } from 'app/store/models/Forum';
@@ -14,7 +14,8 @@ const ForumList = () => {
 
   usePreparedEffect('fetchAllForums', () => dispatch(fetchForums()), []);
 
-  const forums: PublicForum[] = useAppSelector((state) => selectForums(state));
+  const forums: PublicForum[] = useAppSelector(selectAllForums);
+  const fetching = useAppSelector((state) => state.forums.fetching);
   const actionGrant = useAppSelector((state) => state.forums.actionGrant);
 
   return (
@@ -32,6 +33,7 @@ const ForumList = () => {
             <ForumListEntry forum={f} key={f.id} />
           ))}
         </Flex>
+        <LoadingIndicator loading={fetching} />
       </ContentMain>
     </Content>
   );
