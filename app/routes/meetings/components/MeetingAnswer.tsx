@@ -1,18 +1,9 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { useNavigate } from 'react-router-dom';
-import { resetMeetingsToken } from 'app/actions/MeetingActions';
+import { resetMeetingToken } from 'app/reducers/meetings';
 import { useAppDispatch } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import type { MeetingsTokenResponse } from 'app/reducers/meetingsToken';
-import type { ID } from 'app/store/models';
-import type { PublicUser } from 'app/store/models/User';
-
-type Props = {
-  response: MeetingsTokenResponse;
-  user: PublicUser;
-  status: MeetingInvitationStatus;
-  meeting: ID;
-};
+import type { MeetingTokenSuccessState } from 'app/reducers/meetings';
 
 const statusTexts: { [value in MeetingInvitationStatus]: string } = {
   [MeetingInvitationStatus.Attending]: 'skal nå delta',
@@ -20,7 +11,12 @@ const statusTexts: { [value in MeetingInvitationStatus]: string } = {
   [MeetingInvitationStatus.NoAnswer]: 'har nå ikke svart på om de skal delta',
 };
 
-const MeetingAnswer = ({ response, user, meeting, status }: Props) => {
+const MeetingAnswer = ({
+  response,
+  user,
+  meeting,
+  status,
+}: MeetingTokenSuccessState) => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -31,7 +27,7 @@ const MeetingAnswer = ({ response, user, meeting, status }: Props) => {
 
   const handleLink = () => {
     navigate(`/meetings/${meeting}`);
-    dispatch(resetMeetingsToken());
+    dispatch(resetMeetingToken());
   };
 
   if (response === 'SUCCESS') {

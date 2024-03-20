@@ -138,7 +138,6 @@ export const Meeting = {
   ANSWER_INVITATION_TOKEN: generateStatuses(
     'Meeting.ANSWER_INVITATION_TOKEN',
   ) as AAT,
-  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN',
 };
 
 /**

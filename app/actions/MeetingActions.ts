@@ -184,12 +184,6 @@ export function editMeeting({
   });
 }
 
-export function resetMeetingsToken() {
-  return {
-    type: Meeting.RESET_MEETINGS_TOKEN,
-  };
-}
-
 const calculateMazemapPoi = (
   useMazemap: boolean,
   mazemapPoi?: { value: number; label: string },
