@@ -56,6 +56,7 @@ import {
 } from 'app/utils/validation';
 import type { ID } from 'app/store/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const time = (hours: number, minutes?: number) =>
@@ -99,19 +100,26 @@ const validate = createValidator({
   ],
 });
 
+type MeetingEditorParams = {
+  meetingId?: string;
+};
 const MeetingEditor = () => {
-  const { meetingId } = useParams<{ meetingId?: string }>();
-  const isEditPage = meetingId !== undefined;
+  const { meetingId } = useParams<MeetingEditorParams>();
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, { meetingId }),
+    meetingId
+      ? (selectMeetingById(state, meetingId) as DetailedMeeting)
+      : undefined,
   );
+  const isEditPage = meeting !== undefined;
   const meetingInvitations = useAppSelector((state) =>
-    selectMeetingInvitationsForMeeting(state, {
-      meetingId,
-    }),
+    meetingId
+      ? selectMeetingInvitationsForMeeting(state, meetingId)
+      : undefined,
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, meeting?.reportAuthor),
+    meeting?.reportAuthor
+      ? selectUserById(state, meeting?.reportAuthor)
+      : undefined,
   );
 
   const { currentUser } = useUserContext();
@@ -198,8 +206,10 @@ const MeetingEditor = () => {
       },
     );
 
-  const onDeleteMeeting = () =>
-    dispatch(deleteMeeting(meeting?.id)).then(() => navigate('/meetings/'));
+  const onDeleteMeeting = isEditPage
+    ? () =>
+        dispatch(deleteMeeting(meeting.id)).then(() => navigate('/meetings/'))
+    : undefined;
 
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
@@ -218,7 +228,7 @@ const MeetingEditor = () => {
           label: meeting.location,
           value: meeting.mazemapPoi,
         },
-        useMazemap: meeting.mazemapPoi > 0,
+        useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
       }
     : {
         startTime: time(16, 15),

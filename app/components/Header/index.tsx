@@ -5,10 +5,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import {
-  fetchAll as fetchMeetings,
-  getEndpoint,
-} from 'app/actions/MeetingActions';
+import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
@@ -18,7 +15,6 @@ import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilStyles from 'app/styles/utilities.css';
-import createQueryString from 'app/utils/createQueryString';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
@@ -87,12 +83,6 @@ const UpcomingMeetingButton = () => {
   const upcomingMeetingId = useAppSelector(selectUpcomingMeetingId);
   const navigate = useNavigate();
 
-  const pagination = useAppSelector((state) => state.meetings.pagination);
-  const queryString = createQueryString({
-    date_after: moment().format('YYYY-MM-DD'),
-  });
-  const endpoint = getEndpoint(pagination, queryString);
-
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -100,10 +90,12 @@ const UpcomingMeetingButton = () => {
     () =>
       dispatch(
         fetchMeetings({
-          endpoint,
+          query: {
+            date_after: moment().format('YYYY-MM-DD'),
+          },
         }),
       ),
-    [endpoint],
+    [],
   );
 
   if (!upcomingMeetingId) return;
