@@ -16,7 +16,7 @@ import type { ColumnProps } from 'app/components/Table';
 const emailUsersDefaultQuery = {
   enabled: '' as '' | 'true' | 'false',
   userGrade: '',
-  userCommittee: '',
+  userGroups: '',
   email: '',
   userFullname: '',
 };
@@ -38,6 +38,12 @@ const EmailUsers = () => {
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),
   );
+  const boards = useAppSelector((state) =>
+    selectGroupsByType(state, GroupType.Board),
+  );
+  const ordained = useAppSelector((state) =>
+    selectGroupsByType(state, GroupType.Ordained),
+  );
   const grades = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Grade),
   );
@@ -48,8 +54,14 @@ const EmailUsers = () => {
     'fetchEmailUsers',
     () =>
       Promise.allSettled([
-        dispatch(fetchAllWithType(GroupType.Committee)),
-        dispatch(fetchAllWithType(GroupType.Grade)),
+        dispatch(
+          fetchAllWithType([
+            GroupType.Committee,
+            GroupType.Board,
+            GroupType.Ordained,
+            GroupType.Grade,
+          ]),
+        ),
         dispatch(fetch({ query })),
       ]),
     [query],
@@ -64,7 +76,7 @@ const EmailUsers = () => {
       inlineFiltering: false,
       render: (_, emailUser) => (
         <Link to={`/admin/email/users/${emailUser.id}`}>
-          {emailUser.user.fullName}
+          {emailUser.user?.fullName}
         </Link>
       ),
     },
@@ -81,31 +93,36 @@ const EmailUsers = () => {
       ),
     },
     {
-      title: 'Komite',
-      dataIndex: 'userCommittee',
+      title: 'Grupper',
+      dataIndex: 'userGroups',
       inlineFiltering: false,
       filterMessage: '- for å få brukere uten komite',
-      filter: committees
-        .map((committee) => ({
-          label: committee.name,
-          value: committee.name,
+      filter: [...committees, ...boards, ...ordained]
+        .map((abakusGroup) => ({
+          label: abakusGroup.name,
+          value: abakusGroup.name,
         }))
         .concat({
-          label: 'Ikke abakom',
+          label: 'Ingen gruppetilhørighet',
           value: '-',
         }),
       render: (_, emailUser) => {
-        const output = emailUser.user.abakusGroups
-          .filter((abakusGroup) => abakusGroup.type === GroupType.Committee)
-          .map((committee) => (
+        const output = emailUser.user?.abakusGroups
+          .filter(
+            (abakusGroup) =>
+              abakusGroup.type === GroupType.Committee ||
+              abakusGroup.type === GroupType.Board ||
+              abakusGroup.type === GroupType.Ordained,
+          )
+          .map((abakusGroup) => (
             <Link
-              key={committee.id}
-              to={`/admin/groups/${committee.id}/members`}
+              key={abakusGroup.id}
+              to={`/admin/groups/${abakusGroup.id}/members`}
             >
-              {committee.name}{' '}
+              {abakusGroup.name}{' '}
             </Link>
           ));
-        if (!output.length) return <i> Ikke Abakom </i>;
+        if (!output.length) return <i>Ingen gruppetilhørighet</i>;
         return output;
       },
     },
@@ -124,14 +141,14 @@ const EmailUsers = () => {
       inlineFiltering: false,
       filterMessage: '- for å få brukere uten klasse',
       render: (_, emailUser) => {
-        const output = emailUser.user.abakusGroups
+        const output = emailUser.user?.abakusGroups
           .filter((abakusGroup) => abakusGroup.type === GroupType.Grade)
           .map((grade) => (
             <Link key={grade.id} to={`/admin/groups/${grade.id}/members`}>
               {grade.name}{' '}
             </Link>
           ));
-        if (!output.length) return <i> Ikke student </i>;
+        if (!output?.length) return <i> Ikke student </i>;
         return output;
       },
     },

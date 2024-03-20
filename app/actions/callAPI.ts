@@ -15,6 +15,7 @@ import type {
 } from 'app/store/middleware/promiseMiddleware';
 import type { ID } from 'app/store/models';
 import type { AsyncActionType, Thunk, NormalizedApiPayload } from 'app/types';
+import type { Query } from 'app/utils/createQueryString';
 import type {
   HttpRequestOptions,
   HttpMethod,
@@ -93,7 +94,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   headers?: Record<string, string>;
   schema?: Schema;
   body?: Record<string, unknown> | string;
-  query?: Record<string, string | number | boolean | undefined>;
+  query?: Query;
   json?: boolean;
   meta?: Meta;
   files?: (string | File)[];

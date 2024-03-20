@@ -1,6 +1,7 @@
 import { get, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import type { RootState } from 'app/store/createRootReducer';
+import type { Query } from 'app/utils/createQueryString';
 import type { schema, Schema } from 'normalizr';
 
 export const selectPagination =
@@ -22,7 +23,7 @@ export const selectPaginationNext =
     entity,
   }: {
     endpoint: string;
-    query: Record<string, string | number | boolean | undefined>;
+    query: Query;
     schema?: Schema;
     entity?: string;
   }) =>

@@ -69,10 +69,11 @@ export function fetchAll() {
   });
 }
 
-export function fetchAllWithType(type: GroupType) {
+export function fetchAllWithType(type: GroupType | GroupType[]) {
   return callAPI({
     types: Group.FETCH,
-    endpoint: `/groups/?type=${type}`,
+    endpoint: `/groups/`,
+    query: { type },
     schema: [groupSchema],
     meta: {
       errorMessage: 'Henting av grupper feilet',
