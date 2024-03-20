@@ -18,7 +18,17 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectEmailListById } from 'app/reducers/emailLists';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { ROLES, type RoleType, roleOptions } from 'app/utils/constants';
-import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
+import {
+  createValidator,
+  required,
+  EMAIL_REGEX,
+  atLeastOneFieldRequired,
+} from 'app/utils/validation';
+
+const recipientRequired = atLeastOneFieldRequired(
+  ['users', 'groups', 'additionalEmails'],
+  'E-postlisten må ha minst en mottaker',
+);
 
 const validate = createValidator({
   email: [
@@ -28,12 +38,15 @@ const validate = createValidator({
   ],
   name: [required()],
   additionalEmails: [
+    recipientRequired,
     // Check if all emails entered are valid
     (value) => [
       !value || value.every((email) => EMAIL_REGEX.test(email.value)),
       'Ugyldig e-post',
     ],
   ],
+  users: [recipientRequired],
+  groups: [recipientRequired],
 });
 
 const EmailListEditor = () => {
