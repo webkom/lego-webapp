@@ -1,6 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { createContext, useContext, useMemo } from 'react';
+import { createContext, useContext, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { fetchMeta } from 'app/actions/MetaActions';
@@ -13,6 +13,7 @@ import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
+import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
@@ -45,8 +46,18 @@ const AppChildren = ({ children }: PropsWithChildren) => {
     [currentUser, loggedIn],
   );
 
+  const dispatch = useAppDispatch();
   const statusCode = useAppSelector((state) => state.router.statusCode);
   const location = useLocation();
+
+  // Clear status code when navigating
+  useEffect(() => {
+    if (statusCode != null) {
+      dispatch(setStatusCode(null));
+    }
+    // We don't want to run this effect when the status code changes (that would instantly clear it)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, location.pathname]);
 
   return (
     <div
