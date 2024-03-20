@@ -1,4 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
+import type { GroupType } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 
 interface Group {
@@ -15,7 +16,8 @@ interface Group {
   logo: string | null;
   logoPlaceholder: string | null;
   numberOfUsers: number;
-  type: string;
+  type: GroupType;
+  text: string;
   showBadge: boolean;
   active: boolean;
 }

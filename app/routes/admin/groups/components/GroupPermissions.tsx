@@ -5,6 +5,7 @@ import { editGroup } from 'app/actions/GroupActions';
 import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AddGroupPermission from './AddGroupPermission';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 import type { DetailedGroup } from 'app/store/models/Group';
 
 type PermissionListProps = {
@@ -49,7 +50,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
       // Therefore we will only show "/sudo/admin/events/"
       const splittedPerm = perm.split('/').filter(Boolean);
       const [broaderPermFound] = splittedPerm.reduce(
-        (accumulator: [boolean, string], permPart: string) => {
+        (accumulator, permPart) => {
           const [broaderPermFound, summedPerm] = accumulator;
           const concatedString = `${summedPerm}${permPart}/`;
           return [
@@ -122,7 +123,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
 };
 
 const GroupPermissions = () => {
-  const { groupId } = useParams<{ groupId: string }>();
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
   const group = useAppSelector((state) =>
     selectGroupById<DetailedGroup>(state, groupId),
   );

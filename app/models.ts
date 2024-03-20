@@ -123,6 +123,10 @@ export enum GroupType {
   Grade = 'klasse',
   Other = 'annen',
 }
+
+/**
+ * @deprecated Use a group model from app/store/Group.d.ts instead
+ */
 export type Group = {
   id: EntityId;
   actionGrant: ActionGrant;

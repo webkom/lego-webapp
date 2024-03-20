@@ -142,10 +142,7 @@ const groupMemberships = (memberships, groupId) => {
 
 export const selectCommitteeForPages = createSelector(
   (state, { pageSlug }) => selectGroupById(state, pageSlug),
-  (
-    state,
-    props, // $FlowFixMe pls
-  ) =>
+  (state, props) =>
     selectMembershipsForGroup(state, {
       descendants: true,
       groupId: Number(props.pageSlug),
