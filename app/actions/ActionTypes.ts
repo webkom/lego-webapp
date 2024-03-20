@@ -369,9 +369,6 @@ export const Meta = {
 export const Frontpage = {
   FETCH: generateStatuses('Frontpage.FETCH') as AAT,
 };
-export const Readme = {
-  FETCH: generateStatuses('Readme.FETCH') as AAT,
-};
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH') as AAT,
 };
