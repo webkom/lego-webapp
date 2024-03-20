@@ -9,12 +9,26 @@ import { addReactionCases } from './reactions';
 import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from 'app/store/models';
 import type { ListMeeting } from 'app/store/models/Meeting';
+import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import type { PublicUser } from 'app/store/models/User';
 import type { Moment } from 'moment-timezone';
+import type { AnyAction } from 'redux';
 
-export type MeetingSection = {
-  title: string;
-  meetings: ListMeeting[];
+export enum MeetingTokenResponse {
+  Failure = 'FAILURE',
+  Success = 'SUCCESS',
+}
+export type MeetingTokenSuccessState = {
+  response: MeetingTokenResponse.Success;
+  user: PublicUser;
+  meeting: ID;
+  status: MeetingInvitationStatus;
 };
+export type MeetingTokenState =
+  | {
+      response?: MeetingTokenResponse.Failure;
+    }
+  | MeetingTokenSuccessState;
 
 const legoAdapter = createLegoAdapter(EntityType.Meetings, {
   sortComparer: (a, b) => moment(a.startTime).diff(moment(b.startTime)),
@@ -22,19 +36,42 @@ const legoAdapter = createLegoAdapter(EntityType.Meetings, {
 
 const meetingsSlice = createSlice({
   name: EntityType.Meetings,
-  initialState: legoAdapter.getInitialState(),
-  reducers: {},
+  initialState: legoAdapter.getInitialState({
+    meetingToken: {} as MeetingTokenState,
+  }),
+  reducers: {
+    resetMeetingToken(state) {
+      state.meetingToken = {};
+    },
+  },
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Meeting.FETCH],
     deleteActions: [Meeting.DELETE],
     extraCases: (addCase) => {
       addCommentCases(EntityType.Meetings, addCase);
       addReactionCases(EntityType.Meetings, addCase);
+
+      addCase(Meeting.ANSWER_INVITATION_TOKEN.FAILURE, (state) => {
+        state.meetingToken = { response: MeetingTokenResponse.Failure };
+      });
+      addCase(
+        Meeting.ANSWER_INVITATION_TOKEN.SUCCESS,
+        (state, action: AnyAction) => {
+          const { meeting, user, status } = action.payload;
+          state.meetingToken = {
+            response: MeetingTokenResponse.Success,
+            user,
+            meeting,
+            status,
+          };
+        },
+      );
     },
   }),
 });
 
 export default meetingsSlice.reducer;
+export const { resetMeetingToken } = meetingsSlice.actions;
 
 export const {
   selectAll: selectAllMeetings,
@@ -42,6 +79,10 @@ export const {
   selectByField: selectMeetingsByField,
 } = legoAdapter.getSelectors((state: RootState) => state.meetings);
 
+export type MeetingSection = {
+  title: string;
+  meetings: ListMeeting[];
+};
 export const selectGroupedMeetings = createSelector(
   selectAllMeetings,
   (meetings) => {
