@@ -72,7 +72,7 @@ type ApiResponse<T> =
 
 type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   queryString: string;
-  query?: Record<string, string | number | boolean>;
+  query?: Record<string, string | number | boolean | undefined>;
   paginationKey?: string;
   cursor: string;
   optimisticId?: ID;
@@ -93,7 +93,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   headers?: Record<string, string>;
   schema?: Schema;
   body?: Record<string, unknown> | string;
-  query?: Record<string, string | number | boolean>;
+  query?: Record<string, string | number | boolean | undefined>;
   json?: boolean;
   meta?: Meta;
   files?: (string | File)[];

@@ -1,10 +1,10 @@
 import { LoadingIndicator, Button, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { fetchAll, getEndpoint } from 'app/actions/MeetingActions';
+import { fetchAll } from 'app/actions/MeetingActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import { Tag } from 'app/components/Tags';
@@ -13,10 +13,10 @@ import {
   selectGroupedMeetings,
   type MeetingSection,
 } from 'app/reducers/meetings';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import createQueryString from 'app/utils/createQueryString';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './MeetingList.css';
 import type { ID } from 'app/store/models';
@@ -94,93 +94,69 @@ const MeetingListView = ({
 const MeetingList = () => {
   const [initialFetchAttempted, setInitialFetchAttempted] = useState(false);
 
-  const dateAfter = moment().format('YYYY-MM-DD');
-  const dateBefore = moment().format('YYYY-MM-DD');
-  const fetchMoreString = createQueryString({
-    date_after: dateAfter,
-  });
-  const fetchOlderString = createQueryString({
-    date_before: dateBefore,
-    ordering: '-start_time',
-  });
-  const showFetchMore = useAppSelector((state) =>
-    selectPagination('meetings', {
-      queryString: fetchMoreString,
+  const fetchUpcomingQuery = useMemo(
+    () => ({
+      date_after: moment().format('YYYY-MM-DD'),
+    }),
+    [],
+  );
+  const fetchOlderQuery = useMemo(
+    () => ({
+      date_before: moment().format('YYYY-MM-DD'),
+      ordering: '-start_time',
+    }),
+    [],
+  );
+  const fetchMorePagination = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: '/meetings/',
+      query: fetchUpcomingQuery,
+      entity: EntityType.Meetings,
     })(state),
   );
-  const showFetchOlder = useAppSelector((state) =>
-    selectPagination('meetings', {
-      queryString: fetchOlderString,
+  const showFetchMore = fetchMorePagination.pagination.hasMore;
+  const fetchOlderPagination = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: '/meetings/',
+      query: fetchOlderQuery,
+      entity: EntityType.Meetings,
     })(state),
   );
+  const showFetchOlder = fetchOlderPagination.pagination.hasMore;
   const meetingSections = useAppSelector(selectGroupedMeetings);
   const loading = useAppSelector((state) => state.meetings.fetching);
-  const pagination = useAppSelector((state) => state.meetings.pagination);
 
   const { currentUser } = useUserContext();
 
   const dispatch = useAppDispatch();
 
-  const fetchData = useCallback(
-    ({
-      dateAfter,
-      dateBefore,
-      ordering,
-      loadNextPage,
-    }: {
-      dateAfter?: string;
-      dateBefore?: string;
-      ordering?: string;
-      loadNextPage?: boolean;
-    } = {}) => {
-      const query = {
-        date_after: dateAfter,
-        date_before: dateBefore,
-        ordering,
-      };
-
-      if (dateBefore && dateAfter) {
-        query.page_size = '60';
-      }
-
-      const queryString = createQueryString(query);
-      const endpoint = getEndpoint(pagination, queryString, loadNextPage);
-
-      if (!endpoint) {
-        return Promise.resolve();
-      }
-
-      return dispatch(
+  const fetchMore = useCallback(
+    () =>
+      dispatch(
         fetchAll({
-          endpoint,
-          queryString,
+          query: fetchUpcomingQuery,
+          next: true,
         }),
-      );
-    },
-    [pagination, dispatch],
+      ),
+    [dispatch, fetchUpcomingQuery],
   );
-
-  const fetchMore = () =>
-    fetchData({
-      dateAfter: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
-      loadNextPage: true,
-    });
 
   const fetchOlder = useCallback(
     () =>
-      fetchData({
-        dateBefore: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
-        ordering: '-start_time',
-        loadNextPage: true,
-      }),
-    [fetchData],
+      dispatch(
+        fetchAll({
+          query: fetchOlderQuery,
+          next: true,
+        }),
+      ),
+    [dispatch, fetchOlderQuery],
   );
 
   usePreparedEffect(
     'fetchMeetingList',
     () =>
-      fetchData({
-        dateAfter: moment().subtract(0, 'weeks').format('YYYY-MM-DD'),
+      fetchAll({
+        query: fetchUpcomingQuery,
       }),
     [],
   );
@@ -214,11 +190,10 @@ const MeetingList = () => {
           </Link>
         }
       />
-      {!meetingSections || loading ? (
-        <LoadingIndicator loading={loading} />
-      ) : (
+      {meetingSections && (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
+      <LoadingIndicator loading={loading} />
       {showFetchMore && <Button onClick={fetchMore}>Last inn flere</Button>}
       {showFetchOlder && (
         <Button flat onClick={fetchOlder}>
