@@ -19,11 +19,15 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
 
+type AddSubmissionPageParams = {
+  surveyId: string;
+};
 const AddSubmissionPage = () => {
   const dispatch = useAppDispatch();
-  const { surveyId } = useParams<{ surveyId: string }>();
+  const { surveyId } =
+    useParams<AddSubmissionPageParams>() as AddSubmissionPageParams;
   const currentUser = useCurrentUser();
-  const survey = useFetchedSurvey('addSubmission', surveyId);
+  const { survey, event } = useFetchedSurvey('addSubmission', surveyId);
   const submission = useAppSelector(
     (state) =>
       currentUser &&
@@ -45,7 +49,7 @@ const AddSubmissionPage = () => {
     [surveyId, currentUser?.id],
   );
 
-  if (!survey || !currentUser || fetchingSubmission) {
+  if (!survey || !event || !currentUser || fetchingSubmission) {
     return <LoadingIndicator loading />;
   }
 
@@ -87,7 +91,7 @@ const AddSubmissionPage = () => {
   };
 
   return (
-    <Content banner={survey.event.cover}>
+    <Content banner={event.cover}>
       <Helmet title={`Besvarer: ${survey.title}`} />
       <ContentHeader>
         <h2>{survey.title}</h2>
@@ -95,7 +99,7 @@ const AddSubmissionPage = () => {
 
       <div className={styles.surveyTime}>
         Spørreundersøkelse for arrangementet{' '}
-        <Link to={`/events/${survey.event.id}`}>{survey.event.title}</Link>
+        <Link to={`/events/${event.id}`}>{event.title}</Link>
       </div>
       <div className={styles.surveyTime}>
         Alle svar på spørreundersøkelser er anonyme.

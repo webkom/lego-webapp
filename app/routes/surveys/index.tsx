@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import { type RouteObject, Outlet } from 'react-router-dom';
 import pageNotFound from '../pageNotFound';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 const SurveyListPage = loadable(
@@ -32,7 +32,7 @@ const SubmissionPublicResultsPage = loadable(
 
 export type SurveysRouteContext = {
   submissions: SurveySubmission[];
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
 };
 
 const surveysRoute: RouteObject[] = [
@@ -47,7 +47,9 @@ const surveysRoute: RouteObject[] = [
     Component: () => (
       <SubmissionsPage>
         {({ submissions, survey }) => (
-          <Outlet context={{ submissions, survey }} />
+          <Outlet
+            context={{ submissions, survey } satisfies SurveysRouteContext}
+          />
         )}
       </SubmissionsPage>
     ),

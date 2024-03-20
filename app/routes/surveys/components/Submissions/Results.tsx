@@ -7,8 +7,9 @@ import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import SelectInput from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
+import { selectEventById } from 'app/reducers/events';
 import AveragePill from 'app/routes/surveys/components/Submissions/AveragePill';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import {
   SurveyQuestionDisplayType,
   SurveyQuestionType,
@@ -16,18 +17,20 @@ import {
 import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
 import styles from '../surveys.css';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import type { SelectedSurvey } from 'app/reducers/surveys';
 import type { ID } from 'app/store/models';
+import type { EventForSurvey } from 'app/store/models/Event';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
+import type { ReactNode } from 'react';
 
 export type GraphData = {
   [questionId: ID]: DistributionDataPoint[];
 };
 type Props = {
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
   graphData: GraphData;
   numberOfSubmissions: number;
-  generateTextAnswers: (question: SurveyQuestion) => any;
+  generateTextAnswers: (question: SurveyQuestion) => ReactNode;
 };
 type Info = {
   icon: string;
@@ -75,21 +78,24 @@ const Results = ({
   numberOfSubmissions,
 }: Props) => {
   const dispatch = useAppDispatch();
+  const event = useAppSelector((state) =>
+    selectEventById(state, { eventId: survey.event }),
+  ) as EventForSurvey;
 
   const info: Info[] = [
     {
       icon: 'person',
-      data: survey.event.registrationCount,
+      data: event.registrationCount,
       meta: 'Påmeldte',
     },
     {
       icon: 'checkmark',
-      data: survey.event.attendedCount,
+      data: event.attendedCount,
       meta: 'Møtte opp',
     },
     {
       icon: 'list',
-      data: survey.event.waitingRegistrationCount ?? 0,
+      data: event.waitingRegistrationCount ?? 0,
       meta: 'På venteliste',
     },
     {
@@ -128,7 +134,7 @@ const Results = ({
           editSurvey({
             ...newSurvey,
             surveyId: survey.id,
-            event: survey.event.id,
+            event: event.id,
           }),
         );
       }
@@ -205,7 +211,7 @@ const Results = ({
                             switchGraph(question.id, selectedType)
                           }
                           components={{
-                            Option: (props: any) => {
+                            Option: (props) => {
                               const value = props.data.value;
                               return (
                                 <QuestionTypeOption
@@ -214,7 +220,7 @@ const Results = ({
                                 />
                               );
                             },
-                            SingleValue: (props: any) => {
+                            SingleValue: (props) => {
                               const value = props.data.value;
                               return (
                                 <QuestionTypeValue

@@ -26,6 +26,7 @@ export type PublicSurvey = Pick<
   'id' | 'title' | 'event' | 'templateType'
 >;
 
+// Used on admin-pages
 export type DetailedSurvey = Pick<
   Survey,
   | 'id'
@@ -48,6 +49,7 @@ interface PublicTextQuestionResult {
   questionType: SurveyQuestionType.TextField;
   answers: string[];
 }
+// Used on the public (shared) results page
 export type PublicResultsSurvey = Omit<
   DetailedSurvey,
   'actionGrant' | 'token'
@@ -58,7 +60,7 @@ export type PublicResultsSurvey = Omit<
   submissionCount: number;
 };
 
-export type UnknownSurvey = PublicSurvey | DetailedSurvey;
+export type UnknownSurvey = PublicSurvey | PublicResultsSurvey | DetailedSurvey;
 
 export type FormSubmitSurvey = Overwrite<
   Optional<Survey, 'id'>,

@@ -9,22 +9,28 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { DetailNavigation, getCsvUrl } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
 import styles from '../surveys.css';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
-import type { ReactNode } from 'react';
+import type { ComponentType } from 'react';
 
-type ChildrenProps = {
-  survey: SelectedSurvey;
+type ChildProps = {
+  survey: DetailedSurvey;
   submissions: SurveySubmission[];
 };
+export type SubmissionsPageChild = ComponentType<ChildProps>;
 
 type Props = {
-  children: (props: ChildrenProps) => ReactNode;
+  children: SubmissionsPageChild;
+};
+
+type SubmissionsPageParams = {
+  surveyId: string;
 };
 
 const SubmissionsPage = ({ children: Children }: Props) => {
-  const { surveyId } = useParams<{ surveyId: string }>();
-  const survey = useFetchedSurvey('surveySubmissions', surveyId);
+  const { surveyId } =
+    useParams<SubmissionsPageParams>() as SubmissionsPageParams;
+  const { survey, event } = useFetchedSurvey('surveySubmissions', surveyId);
   const submissions = useFetchedSurveySubmissions(
     'surveySubmissions',
     surveyId,
@@ -39,7 +45,7 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   }
 
   return (
-    <Content banner={survey.event.cover}>
+    <Content banner={event?.cover}>
       <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
       <ContentSection>
