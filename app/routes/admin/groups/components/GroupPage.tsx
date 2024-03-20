@@ -12,6 +12,8 @@ import GroupMembers from './GroupMembers';
 import styles from './GroupPage.css';
 import GroupPermissions from './GroupPermissions';
 import GroupTree from './GroupTree';
+import type { DetailedGroup } from 'app/store/models/Group';
+import type { Optional } from 'utility-types';
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
@@ -51,9 +53,14 @@ const GroupPageNavigation = ({
   );
 };
 
+export type GroupPageParams = {
+  groupId: string;
+};
 const GroupPage = () => {
-  const { groupId } = useParams<{ groupId?: string }>();
-  const group = useAppSelector((state) => selectGroupById(state, groupId!));
+  const { groupId } = useParams<Optional<GroupPageParams>>(); // optional because of the /admin/groups route with no groupId
+  const group = useAppSelector((state) =>
+    groupId ? (selectGroupById(state, groupId) as DetailedGroup) : undefined,
+  );
   const groups = useAppSelector(selectAllGroups);
 
   const location = useLocation();

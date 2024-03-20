@@ -5,6 +5,7 @@ import { editGroup } from 'app/actions/GroupActions';
 import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AddGroupPermission from './AddGroupPermission';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 import type { DetailedGroup } from 'app/store/models/Group';
 
 type PermissionListProps = {
@@ -122,8 +123,10 @@ const PermissionList = ({ group }: PermissionListProps) => {
 };
 
 const GroupPermissions = () => {
-  const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroupById(state, groupId!));
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
+  const group = useAppSelector(
+    (state) => selectGroupById(state, groupId) as DetailedGroup,
+  );
 
   return (
     <div>

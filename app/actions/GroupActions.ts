@@ -1,7 +1,9 @@
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import { Group, Membership } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { GroupType } from 'app/models';
+import type { TransformedMembership } from 'app/reducers/memberships';
 import type { AppDispatch } from 'app/store/createStore';
 import type { ID } from 'app/store/models';
 import type MembershipType from 'app/store/models/Membership';
@@ -31,7 +33,10 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
   });
 }
 
-export function removeMember(membership: MembershipType) {
+export function removeMember(membership: {
+  id: EntityId;
+  abakusGroup: EntityId;
+}) {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
@@ -127,7 +132,7 @@ export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
     });
 }
 
-export function leaveGroup(membership: MembershipType, groupId: ID) {
+export function leaveGroup(membership: TransformedMembership, groupId: ID) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -193,7 +198,7 @@ export function fetchMembershipsPagination({
   groupId: ID;
   next: boolean;
   descendants: boolean;
-  query?: Record<string, string | number | boolean>;
+  query?: Record<string, string | number | boolean | undefined>;
   propagateError?: boolean;
 }) {
   return callAPI<MembershipType[]>({

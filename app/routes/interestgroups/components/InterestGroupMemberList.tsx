@@ -7,16 +7,17 @@ import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import shared from 'app/components/UserAttendance/AttendanceModalContent.css';
 import styles from './InterestGroupMemberList.css';
-import type { User, GroupMembership } from 'app/models';
+import type { TransformedMembership } from 'app/reducers/memberships';
+import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { ReactNode } from 'react';
 
-const Name = ({ user, role }: { user: User; role: RoleType }) => {
+const Name = ({ user, role }: { user: PublicUser; role: RoleType }) => {
   if (role === 'member') {
     return <span>{user.fullName}</span>;
   }
 
-  let roleStyle;
+  let roleStyle = '';
   switch (role) {
     case 'leader':
       roleStyle = styles.leader;
@@ -63,7 +64,7 @@ const RoleIcon = ({ role }: { role: RoleType }) => {
   );
 };
 
-const ListedUser = ({ user, role }: { user: User; role: RoleType }) => (
+const ListedUser = ({ user, role }: { user: PublicUser; role: RoleType }) => (
   <li>
     <Flex alignItems="center" gap={10} className={shared.row}>
       <ProfilePicture size={30} user={user} />
@@ -79,7 +80,7 @@ const ListedUser = ({ user, role }: { user: User; role: RoleType }) => (
 const SORT_ORDER = ['member', 'co_leader', 'leader'];
 type Props = {
   children: ReactNode;
-  memberships: GroupMembership[];
+  memberships: TransformedMembership[];
 };
 type State = {
   modalVisible: boolean;

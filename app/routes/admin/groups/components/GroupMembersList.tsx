@@ -15,15 +15,16 @@ import { useAppDispatch } from 'app/store/hooks';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
 import styles from './GroupMembersList.css';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { TransformedMembership } from 'app/reducers/memberships';
 import type { ID } from 'app/store/models';
-import type Membership from 'app/store/models/Membership';
 import type { ReactNode } from 'react';
 
 type Props = {
-  groupId;
+  groupId: EntityId;
   fetching: boolean;
   hasMore: boolean;
-  memberships: Membership[];
+  memberships: TransformedMembership[];
   groupsById: Record<
     string,
     {
@@ -52,7 +53,7 @@ const GroupMembersList = ({
 
   const GroupMembersListColumns = (
     _: unknown,
-    membership: Membership,
+    membership: TransformedMembership,
   ): ReactNode => {
     const { user } = membership;
     return (
@@ -68,7 +69,10 @@ const GroupMembersList = ({
     </Link>
   );
 
-  const RoleRender = (_: RoleType, membership: Membership): ReactNode => {
+  const RoleRender = (
+    _: RoleType,
+    membership: TransformedMembership,
+  ): ReactNode => {
     const { id, role } = membership;
 
     if (membershipsInEditMode[id]) {
@@ -101,7 +105,7 @@ const GroupMembersList = ({
     return role !== 'member' && <i>{ROLES[role] || role} </i>;
   };
 
-  const EditRender = (_: unknown, membership: Membership) => {
+  const EditRender = (_: unknown, membership: TransformedMembership) => {
     const { id, user, abakusGroup } = membership;
     const isCurrentUser = checkIfCurrentUser(
       user.username,
