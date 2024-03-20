@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 
 export const defaultGroupMembersQuery = {
   descendants: 'false' as 'false' | 'true',
@@ -18,7 +19,7 @@ export const defaultGroupMembersQuery = {
 };
 
 const GroupMembers = () => {
-  const { groupId } = useParams<{ groupId: string }>();
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
   const { query } = useQuery(defaultGroupMembersQuery);
   const showDescendants = query.descendants === 'true';
 
@@ -47,7 +48,6 @@ const GroupMembers = () => {
   usePreparedEffect(
     'fetchMemberships',
     () =>
-      groupId &&
       dispatch(
         fetchMembershipsPagination({
           groupId,
