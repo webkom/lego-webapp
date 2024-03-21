@@ -4,13 +4,13 @@ import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
-import { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
 import {
   selectAutocompleteRedux,
   type UserSearchResult,
 } from 'app/reducers/search';
+import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Validator.css';
 import type { SearchUser } from 'app/store/models/User';

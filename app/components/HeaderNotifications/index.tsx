@@ -11,7 +11,7 @@ import {
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { SpanTag } from 'app/components/Feed/Tag';
 import Time from 'app/components/Time';
-import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
+import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
@@ -58,9 +58,7 @@ const NotificationElement = ({
 
 const HeaderNotificationsContent = () => {
   const notifications = useAppSelector((state) =>
-    selectFeedActivitesByFeedId(state, {
-      feedId: 'notifications',
-    }),
+    selectFeedActivitiesByFeedId(state, 'notifications'),
   );
   const fetchingNotifications = useAppSelector(
     (state) => state.feedActivities.fetching,

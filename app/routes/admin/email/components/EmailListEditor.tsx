@@ -16,7 +16,11 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectEmailListById } from 'app/reducers/emailLists';
+import { selectGroupsByIds } from 'app/reducers/groups';
+import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import { isNotNullish } from 'app/utils';
 import { ROLES, type RoleType, roleOptions } from 'app/utils/constants';
 import {
   createValidator,
@@ -24,6 +28,7 @@ import {
   EMAIL_REGEX,
   atLeastOneFieldRequired,
 } from 'app/utils/validation';
+import type { DetailedEmailList } from 'app/store/models/EmailList';
 
 const recipientRequired = atLeastOneFieldRequired(
   ['users', 'groups', 'additionalEmails'],
@@ -54,6 +59,12 @@ const EmailListEditor = () => {
   const isNew = emailListId === 'new';
   const emailList = useAppSelector((state) =>
     selectEmailListById(state, emailListId!),
+  ) as DetailedEmailList | undefined;
+  const users = useAppSelector((state) =>
+    selectUsersByIds(state, emailList?.users || []),
+  );
+  const groups = useAppSelector((state) =>
+    selectGroupsByIds(state, emailList?.groups || []),
   );
 
   const dispatch = useAppDispatch();
@@ -91,7 +102,7 @@ const EmailListEditor = () => {
     ? {}
     : {
         ...emailList,
-        groups: (emailList?.groups || []).filter(Boolean).map((groups) => ({
+        groups: groups.filter(isNotNullish).map((groups) => ({
           label: groups.name,
           value: groups.id,
         })),
@@ -101,7 +112,7 @@ const EmailListEditor = () => {
             value: groupRoles,
           }),
         ),
-        users: (emailList?.users || []).filter(Boolean).map((user) => ({
+        users: users.filter(isNotNullish).map((user) => ({
           label: user.fullName,
           value: user.id,
         })),
@@ -143,7 +154,7 @@ const EmailListEditor = () => {
             name="users"
             isMulti
             placeholder="Inviter en ny bruker"
-            filter={['users.user']}
+            filter={[AutocompleteContentType.User]}
             component={SelectInput.AutocompleteField}
           />
           <Field
@@ -151,7 +162,7 @@ const EmailListEditor = () => {
             name="groups"
             isMulti
             placeholder="Inviter en ny bruker"
-            filter={['users.abakusgroup']}
+            filter={[AutocompleteContentType.Group]}
             component={SelectInput.AutocompleteField}
           />
           <Field

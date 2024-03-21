@@ -27,24 +27,19 @@ const emailUserSlice = createSlice({
 });
 
 export default emailUserSlice.reducer;
-const { selectAllPaginated, selectById } = legoAdapter.getSelectors<RootState>(
-  (state) => state.emailUsers,
-);
+export const {
+  selectAllPaginated: selectEmailUsers,
+  selectById: selectEmailUserById,
+} = legoAdapter.getSelectors<RootState>((state) => state.emailUsers);
 
-const transformEmailUser = (emailUser: EmailUser, state: RootState) => ({
+export const transformEmailUser = (emailUser: EmailUser, state: RootState) => ({
   ...emailUser,
   user: selectUserWithGroups(state, { userId: emailUser.id }),
 });
 
-export const selectEmailUsers = createSelector(
-  selectAllPaginated,
+export const selectTransformedEmailUsers = createSelector(
+  selectEmailUsers,
   (state: RootState) => state,
   (emailUsers, state) =>
     emailUsers.map((emailUser) => transformEmailUser(emailUser, state)),
-);
-
-export const selectEmailUserById = createSelector(
-  selectById,
-  (state: RootState) => state,
-  (emailUser, state) => emailUser && transformEmailUser(emailUser, state),
 );

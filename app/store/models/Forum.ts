@@ -1,4 +1,3 @@
-import type { Comment } from './Comment';
 import type { PublicUser } from './User';
 import type { ContentTarget } from '../utils/contentTarget';
 import type { ActionGrant, Dateish } from 'app/models';
@@ -23,11 +22,15 @@ export interface PublicThread {
 }
 
 export interface DetailedThread extends PublicThread {
-  comments?: Comment[];
+  comments?: ID[];
   createdBy?: PublicUser;
   contentTarget: ContentTarget;
   actionGrant: ActionGrant;
 }
+
+export type UnknownThread = (PublicThread | DetailedThread) & {
+  comments?: ID[];
+};
 
 export interface CreateForum {
   title: string;

@@ -232,10 +232,6 @@ export const Search = {
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
   MENTION: generateStatuses('Search.MENTION') as AAT,
 };
-export const Toasts = {
-  TOAST_ADDED: 'Toast.ADDED',
-  TOAST_REMOVED: 'Toast.REMOVED',
-};
 export const NotificationsFeed = {
   FETCH_DATA: generateStatuses('NotificationsFeed.FETCH_DATA') as AAT,
   MARK_ALL: generateStatuses('NotificationsFeed.MARK_ALL') as AAT,

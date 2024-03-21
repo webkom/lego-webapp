@@ -5,7 +5,6 @@ import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
-import { addToast } from 'app/actions/ToastActions';
 import {
   Form,
   TextInput,
@@ -17,7 +16,8 @@ import {
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
-import { selectGroup, selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupById, selectGroupsByType } from 'app/reducers/groups';
+import { addToast } from 'app/reducers/toasts';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
@@ -36,14 +36,10 @@ const ContactForm = () => {
   const { loggedIn } = useUserContext();
 
   const committees = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Committee,
-    }),
+    selectGroupsByType(state, GroupType.Committee),
   );
   const revueBoard = useAppSelector((state) =>
-    selectGroup(state, {
-      groupId: REVUE_BOARD_GROUP_ID,
-    }),
+    selectGroupById(state, REVUE_BOARD_GROUP_ID),
   );
   const groups = [...committees, revueBoard].filter(isNotNullish);
   const fetching = useAppSelector((state) => state.groups.fetching);

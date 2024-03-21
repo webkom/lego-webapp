@@ -1,145 +1,146 @@
-import { produce } from 'immer';
-import { union, omit } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit';
+import { omit, union } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
+import type { AnyAction } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 
-type State = any;
-export default createEntityReducer({
-  key: 'registrations',
-  types: {},
-  mutate: produce((newState: State, action: any): void => {
-    switch (action.type) {
-      case Event.SOCKET_EVENT_UPDATED: {
+const legoAdapter = createLegoAdapter(EntityType.Registrations);
+
+const registrationsSlice = createSlice({
+  name: EntityType.Registrations,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    extraCases: (addCase) => {
+      addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const registrations =
           normalize(action.payload, eventSchema).entities.registrations || {};
-        newState.byId = mergeObjects(newState.byId, registrations);
-        newState.items = union(
-          newState.items,
-          Object.keys(registrations).map(Number),
-        );
-        break;
-      }
-
-      case Event.REQUEST_REGISTER.SUCCESS:
-      case Event.ADMIN_REGISTER.SUCCESS:
-      case Event.SOCKET_REGISTRATION.SUCCESS:
-      case Event.SOCKET_PAYMENT.FAILURE: {
-        const registration = normalize(action.payload, registrationSchema)
-          .entities.registrations[action.payload.id];
-
-        if (!registration) {
-          return;
-        }
-
-        newState.byId[registration.id] = {
-          ...omit(newState.byId[registration.id], 'unregistrationDate'),
-          ...registration,
-        };
-
-        if (action.meta && action.meta.paymentError) {
-          mergeObjects(newState.byId[registration.id], {
-            paymentError: action.meta.paymentError,
-          });
-        }
-
-        newState.items = union(newState.items, [registration.id]);
-        break;
-      }
-
-      case Event.REQUEST_UNREGISTER.BEGIN:
-        newState.byId[action.meta.id].fetching = true;
-        break;
-
-      case Event.REQUEST_UNREGISTER.SUCCESS: {
+        legoAdapter.upsertMany(state, registrations);
+      });
+      addCase(Event.REQUEST_UNREGISTER.BEGIN, (state, action: AnyAction) => {
+        state.entities[action.meta.id].fetching = true;
+      });
+      addCase(Event.REQUEST_UNREGISTER.SUCCESS, (state, action: AnyAction) => {
         const registrations = normalize(action.payload, registrationSchema)
-          .entities.registrations;
-        newState.byId = mergeObjects(newState.byId, registrations);
-        newState.items = union(newState.items, [action.payload.id]);
-        break;
-      }
+          .entities.registrations!;
+        legoAdapter.upsertMany(state, registrations);
+      });
+      addCase(Event.REQUEST_UNREGISTER.FAILURE, (state, action: AnyAction) => {
+        state.entities[action.meta.id].fetching = false;
+      });
 
-      case Event.REQUEST_UNREGISTER.FAILURE:
-        newState.byId[action.meta.id].fetching = false;
-        break;
-
-      case Event.SOCKET_PAYMENT.SUCCESS: {
+      addCase(Event.SOCKET_PAYMENT.SUCCESS, (state, action: AnyAction) => {
         const registration = normalize(action.payload, registrationSchema)
-          .entities.registrations[action.payload.id];
+          .entities.registrations?.[action.payload.id];
 
         if (!registration) {
           return;
         }
 
-        newState.byId[registration.id] = {
-          ...omit(newState.byId[registration.byId], [
+        state.entities[registration.id] = {
+          ...omit(state.entities[registration.byId], [
             'unregistrationDate',
             'clientSecret',
           ]),
           ...registration,
         };
-        break;
-      }
-
-      case Event.PAYMENT_QUEUE.FAILURE: {
+      });
+      addCase(Event.PAYMENT_QUEUE.FAILURE, (state, action: AnyAction) => {
         const registration = normalize(action.payload, registrationSchema)
-          .entities.registrations[action.payload.id];
+          .entities.registrations?.[action.payload.id];
 
         if (!registration) {
           return;
         }
 
-        newState.byId[registration.id] = {
-          ...omit(newState.byId[registration.id], 'unregistrationDate'),
+        state.entities[registration.id] = {
+          ...omit(state.entities[registration.id], 'unregistrationDate'),
         };
-        break;
-      }
+      });
+      addCase(
+        Event.SOCKET_INITIATE_PAYMENT.SUCCESS,
+        (state, action: AnyAction) => {
+          const registration = normalize(action.payload, registrationSchema)
+            .entities.registrations?.[action.payload.id];
 
-      case Event.SOCKET_INITIATE_PAYMENT.SUCCESS: {
+          if (!registration) {
+            return;
+          }
+
+          const { clientSecret } = action.meta;
+          state.entities[registration.id] = {
+            ...omit(state.entities[registration.id], 'unregistrationDate'),
+            ...registration,
+            clientSecret,
+          };
+        },
+      );
+      addCase(Event.UPDATE_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
         const registration = normalize(action.payload, registrationSchema)
-          .entities.registrations[action.payload.id];
-
-        if (!registration) {
-          return;
-        }
-
-        const { clientSecret } = action.meta;
-        newState.byId[registration.id] = {
-          ...omit(newState.byId[registration.id], 'unregistrationDate'),
-          ...registration,
-          clientSecret,
-        };
-        break;
-      }
-
-      case Event.UPDATE_REGISTRATION.SUCCESS: {
-        const registration = normalize(action.payload, registrationSchema)
-          .entities.registrations[action.payload.id];
-        newState.byId[action.payload.id] = {
-          ...newState.byId[action.payload.id],
+          .entities.registrations?.[action.payload.id];
+        state.entities[action.payload.id] = {
+          ...state.entities[action.payload.id],
           ...registration,
         };
-        break;
-      }
+      });
+      addCase(
+        Event.SOCKET_UNREGISTRATION.SUCCESS,
+        (state, action: AnyAction) => {
+          const transformedPayload = {
+            ...action.payload,
+            fetching: false,
+            unregistrationDate: moment().toISOString(),
+          };
+          const registrations = normalize(
+            transformedPayload,
+            registrationSchema,
+          ).entities.registrations!;
+          legoAdapter.upsertMany(state, registrations);
+        },
+      );
+    },
+    extraMatchers: (addMatcher) => {
+      addMatcher(
+        (action) =>
+          action.type === Event.REQUEST_REGISTER.SUCCESS ||
+          action.type === Event.ADMIN_REGISTER.SUCCESS ||
+          action.type === Event.SOCKET_REGISTRATION.SUCCESS ||
+          action.type === Event.SOCKET_PAYMENT.FAILURE,
+        (state, action: AnyAction) => {
+          const registration = normalize(action.payload, registrationSchema)
+            .entities.registrations?.[action.payload.id];
 
-      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-        const transformedPayload = {
-          ...action.payload,
-          fetching: false,
-          unregistrationDate: moment(),
-        };
-        const registrations = normalize(transformedPayload, registrationSchema)
-          .entities.registrations;
-        newState.byId = mergeObjects(newState.byId, registrations);
-        newState.items = union(newState.items, [action.payload.id]);
-        break;
-      }
+          if (!registration) {
+            return;
+          }
 
-      default:
-        break;
-    }
+          state.entities[registration.id] = {
+            ...omit(state.entities[registration.id], 'unregistrationDate'),
+            ...registration,
+          };
+
+          if (action.meta && action.meta.paymentError) {
+            mergeObjects(state.entities[registration.id], {
+              paymentError: action.meta.paymentError,
+            });
+          }
+
+          state.ids = union(state.ids, [registration.id]);
+        },
+      );
+    },
   }),
 });
+
+export default registrationsSlice.reducer;
+
+export const {
+  selectEntities: selectRegistrationEntities,
+  selectIds: selectRegistrationIds,
+} = legoAdapter.getSelectors((state: RootState) => state.registrations);

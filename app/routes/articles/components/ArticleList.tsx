@@ -10,58 +10,61 @@ import Paginator from 'app/components/Paginator';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import { selectArticlesWithAuthorDetails } from 'app/reducers/articles';
+import { selectArticles } from 'app/reducers/articles';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectPopularTags } from 'app/reducers/tags';
+import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import styles from '../articles.css';
-import type { ArticleWithAuthorDetails } from 'app/reducers/articles';
+import type { PublicArticle } from 'app/store/models/Article';
 
 const HEADLINE_EVENTS = 2;
 
-export const ArticleListItem = ({
-  article,
-}: {
-  article: ArticleWithAuthorDetails;
-}) => (
-  <div className={styles.item}>
-    <Link to={`/articles/${article.slug}`} className={styles.imageLink}>
-      <Image
-        src={article.cover}
-        alt="Article cover"
-        placeholder={article.coverPlaceholder}
-      />
-    </Link>
-    <h2 className={styles.itemTitle}>
-      <Link to={`/articles/${article.slug}`}>{article.title}</Link>
-    </h2>
+export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
+  const authors = useAppSelector((state) =>
+    selectUsersByIds(state, article.authors),
+  );
 
-    <span className={styles.itemInfo}>
-      {article.authors.map((author) => (
-        <span key={author.username}>
-          <Link
-            to={`/users/${author.username}`}
-            className={styles.overviewAuthor}
-          >
-            {' '}
-            {author.fullName}
-          </Link>{' '}
-        </span>
-      ))}
+  return (
+    <div className={styles.item}>
+      <Link to={`/articles/${article.slug}`} className={styles.imageLink}>
+        <Image
+          src={article.cover}
+          alt="Article cover"
+          placeholder={article.coverPlaceholder}
+        />
+      </Link>
+      <h2 className={styles.itemTitle}>
+        <Link to={`/articles/${article.slug}`}>{article.title}</Link>
+      </h2>
 
-      <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
-
-      <Tags className={styles.tagline}>
-        {article.tags.map((tag) => (
-          <Tag tag={tag} key={tag} />
+      <span className={styles.itemInfo}>
+        {authors.map((author) => (
+          <span key={author.username}>
+            <Link
+              to={`/users/${author.username}`}
+              className={styles.overviewAuthor}
+            >
+              {' '}
+              {author.fullName}
+            </Link>{' '}
+          </span>
         ))}
-      </Tags>
-    </span>
 
-    <p className={styles.itemDescription}>{article.description}</p>
-  </div>
-);
+        <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
+
+        <Tags className={styles.tagline}>
+          {article.tags.map((tag) => (
+            <Tag tag={tag} key={tag} />
+          ))}
+        </Tags>
+      </span>
+
+      <p className={styles.itemDescription}>{article.description}</p>
+    </div>
+  );
+};
 
 const articleListDefaultQuery = {
   tag: '',
@@ -77,8 +80,8 @@ const ArticleList = () => {
     })(state),
   );
   const hasMore = pagination.hasMore;
-  const articles = useAppSelector((state) =>
-    selectArticlesWithAuthorDetails(state, {
+  const articles: PublicArticle[] = useAppSelector((state) =>
+    selectArticles(state, {
       pagination,
     }),
   );

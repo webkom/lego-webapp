@@ -157,7 +157,7 @@ const Events = ({
 
 const Weekly = () => {
   const weeklyArticles = useAppSelector((state) =>
-    selectArticlesByTag(state, { tag: 'weekly' }),
+    selectArticlesByTag(state, 'weekly'),
   );
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.articles.fetching,

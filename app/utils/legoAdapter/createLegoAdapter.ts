@@ -31,6 +31,12 @@ interface LegoEntityState<Entity, Id extends EntityId>
 interface LegoEntitySelectors<T, V, Id extends EntityId>
   extends EntitySelectors<T, V, Id> {
   selectAllPaginated: (state: V, options?: { pagination?: Pagination }) => T[];
+  selectByField: <K extends keyof T, Value = T[K]>(
+    field: K,
+    predicate?: (entityValue: T[K], filterValue: Value) => boolean,
+  ) => ((state: V, filterValue: Value) => T[]) & {
+    single: (state: V, filterValue: Value) => T | undefined;
+  };
 }
 
 // Type of the generated adapter-object
@@ -145,6 +151,23 @@ function createLegoAdapter<
             return ids.map((id) => entities[id]).filter(isNotNullish);
           },
         ),
+        selectByField: <K extends keyof Entity, Value = Entity[K]>(
+          field: K,
+          predicate: (entityValue: Entity[K], filterValue: Value) => boolean = (
+            entityValue,
+            filterValue,
+          ) => entityValue === filterValue,
+        ) => {
+          const selector = createSelector(
+            selectors.selectAll,
+            (_: V, value: Value) => value,
+            (entities, value) =>
+              entities.filter((entity) => predicate(entity[field], value)),
+          );
+          return Object.assign(selector, {
+            single: createSelector(selector, (entities) => entities[0]),
+          });
+        },
       };
     },
   };

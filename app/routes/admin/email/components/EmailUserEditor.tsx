@@ -1,5 +1,5 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { get } from 'lodash';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -17,7 +17,9 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectEmailUserById } from 'app/reducers/emailUsers';
+import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required } from 'app/utils/validation';
 
 type AutocompleteUserValue = {
@@ -32,8 +34,12 @@ const validate = createValidator({
 const EmailUserEditor = () => {
   const { emailUserId } = useParams<{ emailUserId: string }>();
   const isNew = emailUserId === undefined;
+  const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const emailUser = useAppSelector((state) =>
     selectEmailUserById(state, emailUserId!),
+  );
+  const user = useAppSelector((state) =>
+    selectUserById(state, emailUser?.user),
   );
 
   const dispatch = useAppDispatch();
@@ -49,10 +55,10 @@ const EmailUserEditor = () => {
     : {
         ...emailUser,
         user: {
-          label: get(emailUser, 'user.fullName', ''),
-          value: get(emailUser, 'user.id', ''),
+          label: user?.fullName || '',
+          value: user?.id || '',
         },
-        internalEmailEnable: get(emailUser, 'internalEmailEnabled', false),
+        internalEmailEnable: emailUser?.internalEmailEnabled ?? false,
       };
 
   const onUserChange = (data: AutocompleteUserValue, form) => {
@@ -90,6 +96,8 @@ const EmailUserEditor = () => {
     );
   };
 
+  if (fetching) return <LoadingIndicator loading={true} />;
+
   return (
     <LegoFinalForm
       onSubmit={handleSubmit}
@@ -103,7 +111,7 @@ const EmailUserEditor = () => {
             name="user"
             required
             disabled={emailUserId}
-            filter={['users.user']}
+            filter={[AutocompleteContentType.User]}
             component={SelectInput.AutocompleteField}
             onChange={(data: AutocompleteUserValue) => onUserChange(data, form)}
           />

@@ -1,70 +1,64 @@
 import { describe, it, expect } from 'vitest';
-import { Toasts } from 'app/actions/ActionTypes';
-import toasts from '../toasts';
+import toasts, { addToast, removeToast } from '../toasts';
 
 describe('reducers', () => {
   describe('toasts', () => {
     it('Toasts should populate default state correctly', () => {
       const prevState = undefined;
-      const randomAction = {};
+      const randomAction = {
+        type: 'random',
+      };
       expect(toasts(prevState, randomAction)).toEqual({
         items: [],
       });
     });
-    it('Toasts.TOAST_ADDED', () => {
-      const prevState = {
+    it('toasts/addToast', () => {
+      const prevState: ReturnType<typeof toasts> = {
         items: [
           {
             id: 1,
             message: 'yo',
+            dismissAfter: 5000,
             removed: true,
           },
         ],
       };
-      const action = {
-        type: Toasts.TOAST_ADDED,
-        payload: {
-          id: 2,
-          message: 'hi',
-          removed: false,
-        },
-      };
+      const action = addToast({ id: 2, message: 'hi' });
       expect(toasts(prevState, action)).toEqual({
         items: [
           {
             id: 1,
             message: 'yo',
+            dismissAfter: 5000,
             removed: true,
           },
           {
             id: 2,
             message: 'hi',
+            dismissAfter: 5000,
             removed: false,
           },
         ],
       });
     });
-    it('Toasts.TOAST_REMOVED', () => {
-      const prevState = {
+    it('toasts/removeToast', () => {
+      const prevState: ReturnType<typeof toasts> = {
         items: [
           {
             id: 1,
             message: 'yo',
+            dismissAfter: 5000,
             removed: false,
           },
         ],
       };
-      const action = {
-        type: Toasts.TOAST_REMOVED,
-        payload: {
-          id: 1,
-        },
-      };
+      const action = removeToast(1);
       expect(toasts(prevState, action)).toEqual({
         items: [
           {
             id: 1,
             message: 'yo',
+            dismissAfter: 5000,
             removed: true,
           },
         ],

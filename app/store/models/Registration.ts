@@ -89,10 +89,13 @@ export type DetailedRegistration = Pick<
   user: DetailedUser;
 };
 
-export type UnknownRegistration =
+export type UnknownRegistration = (
   | AnonymizedRegistration
   | PublicRegistration
   | ReadRegistration
   | SearchRegistration
   | PaymentRegistration
-  | DetailedRegistration;
+  | DetailedRegistration
+) & {
+  fetching?: boolean;
+};

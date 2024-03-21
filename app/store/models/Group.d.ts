@@ -1,7 +1,8 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 
 interface Group {
-  id: number;
+  id: EntityId;
   name: string;
   description: string;
   contactEmail: string;

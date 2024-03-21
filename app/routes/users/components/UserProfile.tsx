@@ -28,7 +28,7 @@ import {
   selectPreviousEvents,
   selectUpcomingEvents,
 } from 'app/reducers/events';
-import { resolveGroupLink, selectGroupsWithType } from 'app/reducers/groups';
+import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useIsCurrentUser } from 'app/routes/users/utils';
@@ -197,9 +197,7 @@ const UserProfile = () => {
   const canEditEmailLists = useAppSelector((state) => state.allowed.email);
 
   const groups = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: 'klasse',
-    }),
+    selectGroupsByType(state, GroupType.Grade),
   );
 
   const dispatch = useAppDispatch();

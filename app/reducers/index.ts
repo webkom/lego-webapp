@@ -1,6 +1,5 @@
 import { schema } from 'normalizr';
-import { followersKeyGen } from './followers';
-import { getMeetingInvitationId } from './meetingInvitations';
+import type { EntityId } from '@reduxjs/toolkit';
 
 export const restrictedMailSchema = new schema.Entity('restrictedMails');
 export const groupSchema = new schema.Entity('groups');
@@ -76,6 +75,11 @@ export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
 export const membershipSchema = new schema.Entity('memberships', {
   user: userSchema,
 });
+
+export const createMeetingInvitationId = (
+  meetingId: EntityId,
+  userId: EntityId,
+) => `${meetingId}-${userId}`;
 export const meetingInvitationSchema = new schema.Entity(
   'meetingInvitations',
   {
@@ -83,7 +87,7 @@ export const meetingInvitationSchema = new schema.Entity(
   },
   {
     idAttribute: (invite) =>
-      getMeetingInvitationId(invite.meeting, invite.user.username),
+      createMeetingInvitationId(invite.meeting, invite.user.id),
   },
 );
 export const meetingSchema = new schema.Entity('meetings', {
@@ -117,21 +121,28 @@ export const tagSchema = new schema.Entity(
     idAttribute: 'tag',
   },
 );
+
+export const createFollowersSliceKey = (key: string) =>
+  'followers' + key.charAt(0).toUpperCase() + key.substring(1).toLowerCase();
+
 export const followersEventSchema = new schema.Entity(
-  followersKeyGen('event'),
+  createFollowersSliceKey('event'),
   {
     follower: userSchema,
   },
 );
 export const followersCompanySchema = new schema.Entity(
-  followersKeyGen('company'),
+  createFollowersSliceKey('company'),
   {
     follower: userSchema,
   },
 );
-export const followersUserSchema = new schema.Entity(followersKeyGen('user'), {
-  follower: userSchema,
-});
+export const followersUserSchema = new schema.Entity(
+  createFollowersSliceKey('user'),
+  {
+    follower: userSchema,
+  },
+);
 export const threadSchema = new schema.Entity('threads', {
   comments: [commentSchema],
 });

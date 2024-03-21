@@ -2,20 +2,25 @@ import moment from 'moment';
 import { describe, it, expect } from 'vitest';
 import { Event } from 'app/actions/ActionTypes';
 import registrations from '../registrations';
+import type {
+  PublicRegistration,
+  UnknownRegistration,
+} from 'app/store/models/Registration';
 
 describe('reducers', () => {
   describe('registrations', () => {
-    const baseState = {
+    const baseState: ReturnType<typeof registrations> = {
       actionGrant: [],
-      pagination: {},
-      items: [3, 4],
-      byId: {
+      paginationNext: {},
+      fetching: false,
+      ids: [3, 4],
+      entities: {
         3: {
           id: 3,
-        },
+        } as PublicRegistration,
         4: {
           id: 4,
-        },
+        } as PublicRegistration,
       },
     };
     it('Event.SOCKET_EVENT_UPDATED', () => {
@@ -44,10 +49,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4, 31, 32, 33],
-        byId: {
+        ...baseState,
+        ids: [3, 4, 31, 32, 33],
+        entities: {
           3: {
             id: 3,
           },
@@ -75,10 +79,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4, 35],
-        byId: {
+        ...baseState,
+        ids: [3, 4, 35],
+        entities: {
           3: {
             id: 3,
           },
@@ -101,10 +104,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4],
-        byId: {
+        ...baseState,
+        ids: [3, 4],
+        entities: {
           3: {
             id: 3,
             test: 1,
@@ -117,14 +119,13 @@ describe('reducers', () => {
     });
     it('Registration change events removes existing unregistrationDate', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        ...baseState,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             unregistrationDate: 'xyz',
-          },
+          } as UnknownRegistration,
         },
       };
       const action = {
@@ -135,10 +136,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3],
-        byId: {
+        ...baseState,
+        ids: [3],
+        entities: {
           3: {
             id: 3,
             test: 1,
@@ -155,10 +155,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4],
-        byId: {
+        ...baseState,
+        ids: [3, 4],
+        entities: {
           3: {
             id: 3,
             fetching: true,
@@ -178,10 +177,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4],
-        byId: {
+        ...baseState,
+        ids: [3, 4],
+        entities: {
           3: {
             id: 3,
             fetching: false,
@@ -202,10 +200,9 @@ describe('reducers', () => {
         },
       };
       expect(registrations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [3, 4],
-        byId: {
+        ...baseState,
+        ids: [3, 4],
+        entities: {
           3: {
             id: 3,
             test: 1,
@@ -225,11 +222,11 @@ describe('reducers', () => {
         },
       };
       const newState = registrations(prevState, action);
-      expect(newState.items).toEqual([3, 4]);
-      expect(newState.byId[3].fetching).toBe(false);
+      expect(newState.ids).toEqual([3, 4]);
+      expect(newState.entities[3].fetching).toBe(false);
       // unregistrationDate should be approximately now
       expect(
-        Math.abs(moment(newState.byId[3].unregistrationDate) - moment()),
+        Math.abs(moment(newState.entities[3].unregistrationDate) - moment()),
       ).toBeLessThan(1000);
     });
   });

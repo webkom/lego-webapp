@@ -1,6 +1,6 @@
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { companyInterestSchema } from 'app/reducers';
+import { addToast } from 'app/reducers/toasts';
 import { CompanyInterestForm } from './ActionTypes';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { AppDispatch } from 'app/store/createStore';

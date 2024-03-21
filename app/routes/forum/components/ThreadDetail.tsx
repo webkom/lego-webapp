@@ -6,15 +6,21 @@ import { CommentView } from 'app/components/Comments';
 import { Content, ContentMain } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { selectCommentsByIds, selectThreadsById } from 'app/reducers/threads';
+import { selectCommentsByIds } from 'app/reducers/comments';
+import { selectThreadById } from 'app/reducers/threads';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type Comment from 'app/store/models/Comment';
 import type { DetailedThread } from 'app/store/models/Forum';
 
+type ThreadDetailParams = {
+  forumId: string;
+  threadId: string;
+};
+
 const ThreadDetail = () => {
-  const { forumId } = useParams<{ forumId: string }>();
-  const { threadId } = useParams<{ threadId: string }>();
+  const { forumId, threadId } =
+    useParams<ThreadDetailParams>() as ThreadDetailParams;
   const dispatch = useAppDispatch();
   const { currentUser } = useUserContext();
   usePreparedEffect(
@@ -24,12 +30,12 @@ const ThreadDetail = () => {
     [threadId],
   );
 
-  const thread: DetailedThread = useAppSelector((state) =>
-    selectThreadsById(state, { threadId }),
-  );
+  const thread = useAppSelector((state) =>
+    selectThreadById(state, threadId),
+  ) as DetailedThread;
 
   const comments: Comment[] = useAppSelector((state) =>
-    selectCommentsByIds(state, thread ? thread.comments : []),
+    selectCommentsByIds(state, thread?.comments || []),
   );
 
   const detailActionGrant = thread?.actionGrant;
