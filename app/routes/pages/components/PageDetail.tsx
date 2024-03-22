@@ -24,28 +24,54 @@ import {
   selectRevueForHierarchy,
   selectBoardsForHierarchy,
   selectPageHierarchy,
-  selectCommitteeForPages,
-  selectFlatpageForPages,
-  selectNotFoundpageForPages,
-  selectInfoPageForPages,
+  selectCommitteePage,
+  selectFlatpagePage,
+  selectOmAbakusPageInfo,
+  selectFlatpagePageInfo,
+  selectCommitteePageInfo,
+  selectNotFoundPageInfo,
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { isNotNullish } from 'app/utils';
 import LandingPage from './LandingPage';
 import styles from './PageDetail.css';
 import Sidebar from './Sidebar';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { PageEntity } from 'app/reducers/pages';
+import type { HierarchySectionEntity } from 'app/routes/pages/components/PageHierarchy';
+import type { RootState } from 'app/store/createRootReducer';
+import type { AppDispatch } from 'app/store/createStore';
+import type { PublicUser } from 'app/store/models/User';
 import type { Thunk } from 'app/types';
+import type { RoleType } from 'app/utils/constants';
 import type { ComponentType } from 'react';
 
-const FlatpageRenderer: PageRenderer = ({ page }) => (
+type PageRendererProps<T> = {
+  page: T;
+};
+export type PageRenderer<T> = ComponentType<PageRendererProps<T>>;
+
+export type Flatpage = {
+  content: string;
+};
+const FlatpageRenderer: PageRenderer<Flatpage> = ({ page }) => (
   <article className={styles.detail}>
     <DisplayContent content={page.content} />
   </article>
 );
 
-const GroupRenderer: PageRenderer = ({ page }) => {
+export type GroupPage = {
+  membershipsByRole: {
+    [key: string]: {
+      user: PublicUser;
+      role: RoleType;
+    }[];
+  };
+  text: string;
+  name: string;
+};
+const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const {
     leader: leaders = [],
@@ -94,149 +120,193 @@ const GroupRenderer: PageRenderer = ({ page }) => {
   );
 };
 
-type Entry = {
+export type PageInfo = {
+  editUrl?: string;
+  title: string;
+  banner: string;
+  bannerPlaceholder: string;
+  actionGrant?: ActionGrant;
+};
+export type PageInfoSelector = (
+  state: RootState,
+  pageSlug: string,
+) => PageInfo | undefined;
+export type PageSelector<T> = (
+  state: RootState,
+  pageSlug: string,
+) => T | undefined;
+
+export type HierarchySectionSelector = (
+  state: RootState,
+  title: string,
+) => HierarchySectionEntity;
+
+type Section<T = unknown> = {
   title: string;
   section: string;
-  pageSelector: any;
-  hierarchySectionSelector: any;
-  PageRenderer: PageRenderer;
-  fetchAll?: () => Thunk<any>;
-  fetchItemActions: Array<
-    ((arg0: number) => Thunk<any>) | ((arg0: string) => Thunk<any>)
-  >;
+  pageInfoSelector: PageInfoSelector;
+  pageSelector: PageSelector<T>;
+  PageRenderer: PageRenderer<T>;
+  hierarchySectionSelector: HierarchySectionSelector;
+  fetchAll?: () => Thunk<void>;
+  fetchItemActions: (
+    | ((id: string) => Thunk<void>)
+    | ((id: EntityId) => Thunk<void>)
+  )[];
 };
-const sections: Record<string, Entry> = {
+export type UnknownSection =
+  | Section<Flatpage>
+  | Section<GroupPage>
+  | Section<null>;
+
+const sections: Record<string, UnknownSection> = {
   generelt: {
     title: 'Generelt',
     section: 'generelt',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('generelt'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('generelt'),
     fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage],
   },
   organisasjon: {
     title: 'Organisasjon',
     section: 'organisasjon',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('organisasjon'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('organisasjon'),
     fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage],
   },
   styrer: {
     title: 'Styrer',
     section: 'styrer',
-    pageSelector: selectCommitteeForPages,
-    hierarchySectionSelector: selectBoardsForHierarchy,
+    pageInfoSelector: selectCommitteePageInfo,
+    pageSelector: selectCommitteePage,
     PageRenderer: GroupRenderer,
+    hierarchySectionSelector: selectBoardsForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Board),
     fetchItemActions: [
       fetchGroup,
-      (groupId: number) => fetchAllMemberships(groupId, true),
+      (groupId: EntityId) => fetchAllMemberships(groupId, true),
     ],
   },
   bedrifter: {
     title: 'Bedrifter',
     section: 'bedrifter',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
     fetchItemActions: [fetchPage],
   },
   arrangementer: {
     title: 'Arrangementer',
     section: 'arrangementer',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
     fetchItemActions: [fetchPage],
   },
   komiteer: {
     title: 'Komiteer',
     section: 'komiteer',
-    pageSelector: selectCommitteeForPages,
-    hierarchySectionSelector: selectCommitteeForHierarchy,
+    pageInfoSelector: selectCommitteePageInfo,
+    pageSelector: selectCommitteePage,
     PageRenderer: GroupRenderer,
+    hierarchySectionSelector: selectCommitteeForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Committee),
     fetchItemActions: [
       fetchGroup,
-      (groupId: number) => fetchAllMemberships(groupId, true),
+      (groupId: EntityId) => fetchAllMemberships(groupId, true),
     ],
   },
   revy: {
     title: 'Revy',
     section: 'revy',
-    pageSelector: selectCommitteeForPages,
-    hierarchySectionSelector: selectRevueForHierarchy,
+    pageInfoSelector: selectCommitteePageInfo,
+    pageSelector: selectCommitteePage,
     PageRenderer: GroupRenderer,
+    hierarchySectionSelector: selectRevueForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Revue),
     fetchItemActions: [
       fetchGroup,
-      (groupId: number) => fetchAllMemberships(groupId, true),
+      (groupId: EntityId) => fetchAllMemberships(groupId, true),
     ],
   },
   grupper: {
     title: 'Grupper',
     section: 'grupper',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('grupper'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('grupper'),
     fetchItemActions: [fetchPage],
   },
   utnevnelser: {
     title: 'Utnevnelser',
     section: 'utnevnelser',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('utnevnelser'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('utnevnelser'),
     fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage],
   },
   personvern: {
     title: 'Personvern',
     section: 'personvern',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('personvern'),
+    pageInfoSelector: selectFlatpagePageInfo,
+    pageSelector: selectFlatpagePage,
     PageRenderer: FlatpageRenderer,
+    hierarchySectionSelector: selectPagesForHierarchy('personvern'),
     fetchItemActions: [fetchPage],
   },
   'info-om-abakus': {
     title: 'Info om Abakus',
     section: 'info-om-abakus',
-    pageSelector: selectInfoPageForPages,
+    pageInfoSelector: selectOmAbakusPageInfo,
+    pageSelector: () => null,
+    PageRenderer: LandingPage,
     hierarchySectionSelector: () => ({
       title: 'hehe',
       items: [],
     }),
-    PageRenderer: LandingPage,
     fetchItemActions: [],
   },
 };
 
 export const categoryOptions = Object.keys(sections)
-  .map<Entry>((key) => sections[key])
-  .filter((entry: Entry) => entry.pageSelector === selectFlatpageForPages)
-  .map<{
-    value: string;
-    label: string;
-  }>((entry: Entry) => ({
+  .map((key) => sections[key])
+  .filter((entry) => entry.pageSelector === selectFlatpagePage)
+  .map((entry) => ({
     value: entry.section,
     label: entry.title,
   }));
 
-const getSection = (sectionName) =>
-  sections[sectionName] || {
-    pageSelector: selectNotFoundpageForPages,
-    PageRenderer: HTTPError,
+const getSection = (sectionName: string): UnknownSection =>
+  sections[sectionName] ||
+  ({
+    title: '',
+    section: '',
+    hierarchySectionSelector: () => ({
+      title: '',
+      items: [],
+    }),
+    pageInfoSelector: selectNotFoundPageInfo,
+    pageSelector: () => null,
+    PageRenderer: () => <HTTPError />,
     fetchItemActions: [],
-  };
+  } satisfies Section<null>);
 
 const loadData = async (
-  pageSlug: string | undefined,
-  sectionName: string | undefined,
+  pageSlug: string,
+  sectionName: string,
   loggedIn: boolean,
-  dispatch,
+  dispatch: AppDispatch,
 ) => {
   const { fetchItemActions } = getSection(sectionName);
 
@@ -248,39 +318,22 @@ const loadData = async (
     );
   }
 
-  const itemActions: (typeof dispatch)[] = [];
-
-  for (let i = 0; i < actionsToDispatch.length; i++) {
-    itemActions[i] = await dispatch(actionsToDispatch[i](pageSlug));
-  }
+  const itemActions = actionsToDispatch.map((action) =>
+    dispatch(action(pageSlug)),
+  );
 
   // Avoid dispatching duplicate actions
   const uniqueFetches = [
     ...new Set(
       Object.keys(sections)
         .map((key) => sections[key].fetchAll)
-        .filter(Boolean),
+        .filter(isNotNullish),
     ),
   ];
   return Promise.all(
     uniqueFetches.map((fetch) => dispatch(fetch())).concat(itemActions),
   );
 };
-
-export type PageInfo = {
-  editUrl?: string;
-  title: string;
-
-  /* The page is complete, and can be rendered */
-  isComplete: boolean;
-  actionGrant?: ActionGrant;
-};
-
-type PageRendererProps = {
-  page: PageEntity;
-  pageInfo: PageInfo;
-};
-export type PageRenderer = ComponentType<PageRendererProps>;
 
 const PageSkeleton = () => {
   return (
@@ -296,25 +349,25 @@ const PageSkeleton = () => {
   );
 };
 
+export type PageDetailParams = {
+  pageSlug?: string;
+  section: string;
+};
 const PageDetail = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { pageSlug, section } = useParams<{
-    pageSlug: string;
-    section: string;
-  }>();
+  const { pageSlug, section: sectionName } =
+    useParams<PageDetailParams>() as PageDetailParams;
 
   const pageHierarchy = useAppSelector((state) =>
-    selectPageHierarchy(state, {
-      sections,
-    }),
+    selectPageHierarchy(state, Object.values(sections)),
   );
-  const { pageSelector, PageRenderer } = getSection(section);
-  const { selectedPage, selectedPageInfo } = useAppSelector((state) =>
-    pageSelector(state, {
-      pageSlug,
-    }),
+  const { pageSelector, pageInfoSelector, PageRenderer } =
+    getSection(sectionName);
+  const pageInfo = useAppSelector((state) =>
+    pageInfoSelector(state, pageSlug || ''),
   );
+  const page = useAppSelector((state) => pageSelector(state, pageSlug || ''));
 
   const loggedIn = useIsLoggedIn();
 
@@ -322,15 +375,15 @@ const PageDetail = () => {
 
   usePreparedEffect(
     'fetchPageDetail',
-    () => loadData(pageSlug, section, loggedIn, dispatch),
+    () => loadData(pageSlug || '', sectionName, loggedIn, dispatch),
     [pageSlug],
   );
 
-  const actionGrant = selectedPageInfo?.actionGrant || [];
+  const actionGrant = pageInfo?.actionGrant || [];
 
   return (
     <Content className={styles.cont}>
-      <Helmet title={selectedPageInfo?.title} />
+      <Helmet title={pageInfo?.title} />
       <div className={styles.main}>
         <button
           className={styles.sidebarOpenBtn}
@@ -347,24 +400,25 @@ const PageDetail = () => {
 
           <div className={styles.mainTxt}>
             <NavigationTab className={styles.navTab}>
-              {actionGrant.includes('edit') && selectedPageInfo?.editUrl && (
-                <NavigationLink to={selectedPageInfo?.editUrl}>
-                  Rediger
-                </NavigationLink>
+              {actionGrant.includes('edit') && pageInfo?.editUrl && (
+                <NavigationLink to={pageInfo?.editUrl}>Rediger</NavigationLink>
               )}
               {actionGrant.includes('create') && (
                 <NavigationLink to="/pages/new">Lag ny</NavigationLink>
               )}
             </NavigationTab>
 
-            {selectedPageInfo?.isComplete ? (
-              <MainPageRenderer
-                page={selectedPage}
-                pageInfo={selectedPageInfo}
-                ChildPageRenderer={PageRenderer}
-              />
-            ) : (
+            {page === undefined || !pageInfo ? (
               <PageSkeleton />
+            ) : (
+              <MainPageRenderer
+                page={page}
+                pageInfo={pageInfo}
+                PageRenderer={
+                  // typescript is being stupid
+                  PageRenderer as PageRenderer<typeof page>
+                }
+              />
             )}
           </div>
         </Flex>
@@ -375,27 +429,27 @@ const PageDetail = () => {
 
 export default PageDetail;
 
-export const MainPageRenderer = ({
+type MainPageRendererProps<T> = {
+  page: T;
+  pageInfo: PageInfo;
+  PageRenderer: PageRenderer<T>;
+};
+export const MainPageRenderer = <T,>({
   page,
   pageInfo,
-  ChildPageRenderer,
-}: PageRendererProps & {
-  ChildPageRenderer: PageRenderer;
-}) => {
-  const pageBanner = page.logo || page.picture; // Splittet fra hverandre, var pageBanner = pic || logo
-
-  const pageBannerPlaceholder = page.logoPlaceholder || page.picturePlaceholder;
-  const { title } = pageInfo;
+  PageRenderer,
+}: MainPageRendererProps<T>) => {
+  const { title, banner, bannerPlaceholder } = pageInfo;
 
   return (
     <article>
       <div className={styles.headWrapper}>
-        {pageBanner && (
+        {banner && (
           <div className={styles.banner}>
             <Image
               alt={`${title} page banner`}
-              src={pageBanner}
-              placeholder={pageBannerPlaceholder}
+              src={banner}
+              placeholder={bannerPlaceholder}
             />
           </div>
         )}
@@ -403,7 +457,7 @@ export const MainPageRenderer = ({
           <h1 className={styles.header}>{readmeIfy(title)}</h1>
         )}
       </div>
-      <ChildPageRenderer page={page} pageInfo={pageInfo} />
+      <PageRenderer page={page} />
     </article>
   );
 };
