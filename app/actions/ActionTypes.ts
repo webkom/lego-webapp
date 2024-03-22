@@ -333,13 +333,6 @@ export const Feed = {
 /**
  *
  */
-export const Routing = {
-  SET_STATUS_CODE: 'Routing.SET_STATUS_CODE',
-};
-
-/**
- *
- */
 export const OAuth2 = {
   FETCH_APPLICATIONS: generateStatuses('OAuth2.FETCH_APPLICATIONS') as AAT,
   FETCH_APPLICATION: generateStatuses('OAuth2.FETCH_APPLICATION') as AAT,

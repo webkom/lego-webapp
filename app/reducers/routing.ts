@@ -1,23 +1,23 @@
-import { produce } from 'immer';
-import { Routing } from 'app/actions/ActionTypes';
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
-export interface RoutingState {
-  statusCode?: number | null;
-}
+type State = {
+  statusCode: number | null;
+};
 
-const initialState: RoutingState = {
+const initialState: State = {
   statusCode: null,
 };
 
-const routing = produce((newState, action) => {
-  switch (action.type) {
-    case Routing.SET_STATUS_CODE:
-      newState.statusCode = action.payload;
-      break;
+const routingSlice = createSlice({
+  name: 'routing',
+  initialState,
+  reducers: {
+    setStatusCode(state, action: PayloadAction<number | null>) {
+      state.statusCode = action.payload;
+    },
+  },
+});
 
-    default:
-      break;
-  }
-}, initialState);
-
-export default routing;
+export default routingSlice.reducer;
+export const { setStatusCode } = routingSlice.actions;
