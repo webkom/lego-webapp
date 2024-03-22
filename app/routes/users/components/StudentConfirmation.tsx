@@ -9,7 +9,7 @@ import {
   updateUser,
 } from 'app/actions/UserActions';
 import { Button } from 'app/components/Form';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './UserConfirmation.css';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
@@ -40,6 +40,7 @@ const NotEligibleInfo = () => (
 );
 
 const StudentConfirmation = () => {
+  const dispatch = useAppDispatch();
   const [authRes, setAuthRes] = useState<ConfirmStudentAuthResponse>();
   const [showMemberModal, setShowMemberModal] = useState(false);
 
@@ -47,20 +48,7 @@ const StudentConfirmation = () => {
   const navigate = useNavigate();
   const { code, state } = qs.parse(search, { ignoreQueryPrefix: true });
 
-  const { currentUser } = useUserContext();
-
-  const dispatch = useAppDispatch();
-
-  const performStudentAuth = async () => {
-    const auth_res = await dispatch(startStudentAuth());
-    const auth_uri = auth_res.payload.url;
-    window.location.href = auth_uri;
-  };
-
-  const setAbakusMember = async (member: boolean) => {
-    await dispatch(updateUser({ ...currentUser, isAbakusMember: member }));
-    setShowMemberModal(false);
-  };
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     const validateStudentAuth = () => {
@@ -82,6 +70,21 @@ const StudentConfirmation = () => {
   useEffect(() => {
     authRes?.status === 'success' && setShowMemberModal(true);
   }, [authRes]);
+
+  if (!currentUser) {
+    return null;
+  }
+
+  const performStudentAuth = async () => {
+    const auth_res = await dispatch(startStudentAuth());
+    const auth_uri = auth_res.payload.url;
+    window.location.href = auth_uri;
+  };
+
+  const setAbakusMember = async (member: boolean) => {
+    await dispatch(updateUser({ ...currentUser, isAbakusMember: member }));
+    setShowMemberModal(false);
+  };
 
   return (
     <>

@@ -60,6 +60,10 @@ const store = configureStore([])({
   theme: {
     theme: 'light',
   },
+  auth: {},
+  users: {
+    entities: {},
+  },
   events: {
     fetching: false,
   },
@@ -74,7 +78,6 @@ function renderJoinEventForm(props = {}) {
       <Provider store={store}>
         <JoinEventForm {...defaultProps} {...props} />
       </Provider>
-      ,
     </MemoryRouter>,
   );
 }

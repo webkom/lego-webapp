@@ -4,8 +4,8 @@ import { Route, Routes, useParams } from 'react-router-dom';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectEventById } from 'app/reducers/events';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -20,7 +20,7 @@ const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) => selectEventById(state, { eventId }));
   const fetching = useAppSelector((state) => state.events.fetching);
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
 

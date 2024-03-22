@@ -4,7 +4,7 @@ import { changePassword } from 'app/actions/UserActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
@@ -27,7 +27,7 @@ const ChangePasswordForm = () => {
       navigate('/users/me');
     });
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   return (
     <TypedLegoForm onSubmit={onSubmit} validate={validate}>

@@ -37,10 +37,10 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import config from 'app/config';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
@@ -122,7 +122,7 @@ const MeetingEditor = () => {
       : undefined,
   );
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   const [fetchedGroupIds, setFetchedGroupIds] = useState<ID[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<
@@ -172,7 +172,7 @@ const MeetingEditor = () => {
     );
   }
 
-  const currentUserSearchable = {
+  const currentUserSearchable = currentUser && {
     value: currentUser.username,
     label: currentUser.fullName,
     id: currentUser.id,

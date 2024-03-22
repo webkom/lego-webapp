@@ -1,6 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { createContext, useContext, useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { fetchMeta } from 'app/actions/MetaActions';
@@ -12,41 +12,14 @@ import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
-import { useIsLoggedIn, useCurrentUser } from 'app/reducers/auth';
 import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
-import type { CurrentUser } from 'app/store/models/User';
 import type { PropsWithChildren } from 'react';
 
-export const UserContext = createContext<{
-  currentUser: CurrentUser | Record<string, never>;
-  loggedIn: boolean;
-}>({
-  currentUser: {},
-  loggedIn: false,
-});
-
-// Extract the type of the user context
-export type UserContextType = ReturnType<typeof useUserContext>;
-
-export const useUserContext = () => useContext(UserContext);
-
 const AppChildren = ({ children }: PropsWithChildren) => {
-  const currentUser = useCurrentUser();
-  const loggedIn = useIsLoggedIn();
-
-  // TODO: Components should just select this from redux state
-  const userValue = useMemo(
-    () => ({
-      currentUser: currentUser || {},
-      loggedIn,
-    }),
-    [currentUser, loggedIn],
-  );
-
   const dispatch = useAppDispatch();
   const statusCode = useAppSelector((state) => state.router.statusCode);
   const location = useLocation();
@@ -68,13 +41,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
     >
       <ErrorBoundary resetOnChange={location}>
         <ToastContainer />
-        {statusCode ? (
-          <HTTPError statusCode={statusCode} />
-        ) : (
-          <UserContext.Provider value={userValue}>
-            {children}
-          </UserContext.Provider>
-        )}
+        {statusCode ? <HTTPError statusCode={statusCode} /> : <>{children}</>}
       </ErrorBoundary>
     </div>
   );
