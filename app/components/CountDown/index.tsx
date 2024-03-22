@@ -9,16 +9,18 @@ const CountDown = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
-      const start = new Date('2024-03-20T12:00:00');
       const slutt = new Date('2024-03-22T12:00:00');
-      const started = start.getTime() - now.getTime() < 0;
-      const diff = started
-        ? slutt.getTime() - now.getTime()
-        : start.getTime() - now.getTime();
+      const innsendingSlutt = new Date('2024-03-22T23:59:59');
 
-      if (started) {
-        setTimeStringHeader('Påskeeggjakta til Webkom ER I GONG');
-      }
+      const diff = slutt.getTime() - now.getTime();
+      const isOver = diff < 0;
+      const isInnsendingOver = innsendingSlutt.getTime() - now.getTime() < 0;
+
+      setTimeStringHeader(
+        isOver
+          ? 'Påskeeggjakta til Webkom er over'
+          : 'Påskeeggjakta til Webkom ER I GONG',
+      );
 
       const withUnit = (
         value: number,
@@ -43,10 +45,12 @@ const CountDown = () => {
       ];
 
       const timeLeft = units.slice(0, -1).join(', ') + ' og ' + units.slice(-1);
-      if (started) {
+      if (!isOver) {
         setTimeString(`Jakta sluttar om ${timeLeft}`);
+      } else if (!isInnsendingOver) {
+        setTimeString(`Send skjermbilda til webkom@abakus.no i løpet av dagen`);
       } else {
-        setTimeString(`byrjar om ${timeLeft}`);
+        setTimeString('');
       }
     }, 1000);
 
