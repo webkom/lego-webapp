@@ -1,6 +1,6 @@
 import { Flex, Icon, Modal } from '@webkom/lego-bricks';
 import sortBy from 'lodash/sortBy';
-import { Component } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import TextInput from 'app/components/Form/TextInput';
 import { ProfilePicture } from 'app/components/Image';
@@ -12,51 +12,33 @@ import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { ReactNode } from 'react';
 
-const Name = ({ user, role }: { user: PublicUser; role: RoleType }) => {
-  if (role === 'member') {
-    return <span>{user.fullName}</span>;
-  }
-
-  let roleStyle = '';
-  switch (role) {
-    case 'leader':
-      roleStyle = styles.leader;
-      break;
-
-    case 'co-leader':
-      roleStyle = styles.coleader;
-      break;
-
-    default:
-      break;
-  }
-  return <span className={roleStyle}>{user.fullName} </span>;
+const nameStyleByRole: Partial<Record<RoleType, string>> = {
+  leader: styles.leader,
+  ['co-leader']: styles.coleader,
 };
 
+type RoleIconInfo = {
+  iconStyle: string;
+  name: string;
+  tooltip: string;
+};
+const roleIconInfoByRole: Partial<Record<RoleType, RoleIconInfo>> = {
+  leader: {
+    iconStyle: styles.leadericon,
+    name: 'star',
+    tooltip: 'Leder',
+  },
+  ['co-leader']: {
+    iconStyle: styles.coleadericon,
+    name: 'star-outline',
+    tooltip: 'Nestleder',
+  },
+};
 const RoleIcon = ({ role }: { role: RoleType }) => {
-  if (role === 'member') {
-    return null;
-  }
+  const info = roleIconInfoByRole[role];
+  if (!info) return null;
 
-  let iconStyle;
-  let props;
-
-  switch (role) {
-    case 'leader':
-      iconStyle = styles.leadericon;
-      props = ['star', 'Leder'];
-      break;
-
-    case 'co-leader':
-      iconStyle = styles.coleadericon;
-      props = ['star-outline', 'Nestleder'];
-      break;
-
-    default:
-      return null;
-  }
-
-  const [name, tooltip] = props;
+  const { iconStyle, name, tooltip } = info;
   return (
     <Tooltip content={tooltip}>
       <Icon name={name} className={iconStyle} />
@@ -70,7 +52,7 @@ const ListedUser = ({ user, role }: { user: PublicUser; role: RoleType }) => (
       <ProfilePicture size={30} user={user} />
       <RoleIcon role={role} />
       <Link to={`/users/${user.username}`}>
-        <Name user={user} role={role} />
+        <span className={nameStyleByRole[role]}>{user.fullName}</span>
       </Link>
     </Flex>
   </li>
@@ -82,56 +64,45 @@ type Props = {
   children: ReactNode;
   memberships: TransformedMembership[];
 };
-type State = {
-  modalVisible: boolean;
-  filter: string;
+const InterestGroupMemberList = ({ memberships, children }: Props) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [filter, setFilter] = useState('');
+
+  const toggleModal = () => setModalVisible(!modalVisible);
+
+  const filteredMemberships = memberships.filter((membership) =>
+    membership.user.fullName.toLowerCase().includes(filter.toLowerCase()),
+  );
+  const sorted = sortBy(filteredMemberships, ({ role }) =>
+    SORT_ORDER.indexOf(role),
+  ).reverse();
+
+  return (
+    <>
+      <div onClick={toggleModal}>{children}</div>
+      <Modal show={modalVisible} onHide={toggleModal}>
+        <Flex column gap="var(--spacing-md)" className={shared.modal}>
+          <h2>Medlemmer</h2>
+          <TextInput
+            type="text"
+            prefix="search"
+            placeholder="Søk etter navn"
+            onChange={(e) => setFilter(e.target.value)}
+          />
+
+          <ul className={shared.list}>
+            {sorted.map((membership) => (
+              <ListedUser
+                key={membership.user.id}
+                user={membership.user}
+                role={membership.role}
+              />
+            ))}
+          </ul>
+        </Flex>
+      </Modal>
+    </>
+  );
 };
-export default class InterestGroupMemberList extends Component<Props, State> {
-  state = {
-    modalVisible: false,
-    filter: '',
-  };
-  toggleModal = () => {
-    this.setState((state) => ({
-      modalVisible: !state.modalVisible,
-    }));
-  };
 
-  render() {
-    const memberships = this.props.memberships.filter((membership) =>
-      membership.user.fullName
-        .toLowerCase()
-        .includes(this.state.filter.toLowerCase()),
-    );
-    const sorted = sortBy(memberships, ({ role }) =>
-      SORT_ORDER.indexOf(role),
-    ).reverse();
-
-    return (
-      <>
-        <div onClick={this.toggleModal}>{this.props.children}</div>
-        <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
-          <Flex column gap="var(--spacing-md)" className={shared.modal}>
-            <h2>Medlemmer</h2>
-            <TextInput
-              type="text"
-              prefix="search"
-              placeholder="Søk etter navn"
-              onChange={(e) => this.setState({ filter: e.target.value })}
-            />
-
-            <ul className={shared.list}>
-              {sorted.map((membership) => (
-                <ListedUser
-                  key={membership.user.id}
-                  user={membership.user}
-                  role={membership.role}
-                />
-              ))}
-            </ul>
-          </Flex>
-        </Modal>
-      </>
-    );
-  }
-}
+export default InterestGroupMemberList;
