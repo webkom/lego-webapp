@@ -4,6 +4,7 @@ import { selectUserEntities } from 'app/reducers/users';
 import { User } from '../actions/ActionTypes';
 import type { AnyAction, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
+import type { CurrentUser } from 'app/store/models/User';
 
 type AuthState = {
   id: number | null;
@@ -78,5 +79,11 @@ export function selectIsLoggedIn(state: RootState) {
 export const selectCurrentUser = createSelector(
   selectUserEntities,
   (state: RootState) => state.auth.id,
-  (userEntities, userId) => (userId ? userEntities[userId] : {}),
+  (userEntities, userId) => {
+    if (!userId) return undefined;
+    const user = userEntities[userId];
+    // ensure we have a user object serialized with "MeSerializer" (CurrentUser type)
+    if (!user || !('icalToken' in user)) return undefined;
+    return user satisfies CurrentUser;
+  },
 );

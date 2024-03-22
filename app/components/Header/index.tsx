@@ -136,13 +136,15 @@ const AccountDropdown = () => {
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
       triggerComponent={
-        <ProfilePicture
-          size={24}
-          user={currentUser}
-          style={{
-            verticalAlign: 'middle',
-          }}
-        />
+        currentUser && (
+          <ProfilePicture
+            size={24}
+            user={currentUser}
+            style={{
+              verticalAlign: 'middle',
+            }}
+          />
+        )
       }
     >
       <AccountDropdownItems onClose={() => setAccountOpen(false)} />
@@ -183,7 +185,8 @@ const Header = () => {
     if (
       __CLIENT__ &&
       loggedIn &&
-      (currentUser?.selectedTheme === 'auto'
+      currentUser &&
+      (currentUser.selectedTheme === 'auto'
         ? getTheme() !== getOSTheme()
         : getTheme() !== currentUser.selectedTheme)
     ) {

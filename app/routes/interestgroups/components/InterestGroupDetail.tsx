@@ -19,10 +19,9 @@ import DisplayContent from 'app/components/DisplayContent';
 import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
-import { selectCurrentUser } from 'app/reducers/auth';
+import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
@@ -54,13 +53,12 @@ type ButtonRowProps = {
 };
 
 const ButtonRow = ({ group }: ButtonRowProps) => {
-  const currentUser = useAppSelector((state) => selectCurrentUser(state));
+  const currentUser = useAppSelector(selectCurrentUser);
+  if (!currentUser) return null;
 
   const [membership] = group.memberships.filter(
     (m) => m.user.id === currentUser.id,
   );
-
-  const dispatch = useAppDispatch();
 
   const onClick = membership
     ? () => dispatch(leaveGroup(membership, group.id))
@@ -128,7 +126,7 @@ const InterestGroupDetail = () => {
 
   const dispatch = useAppDispatch();
 
-  const { loggedIn } = useUserContext();
+  const loggedIn = useAppSelector(selectIsLoggedIn);
 
   usePreparedEffect(
     'fetchInterestGroupDetail',
