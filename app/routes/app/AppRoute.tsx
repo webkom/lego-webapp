@@ -12,7 +12,7 @@ import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
-import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
+import { useIsLoggedIn, useCurrentUser } from 'app/reducers/auth';
 import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
@@ -35,8 +35,8 @@ export type UserContextType = ReturnType<typeof useUserContext>;
 export const useUserContext = () => useContext(UserContext);
 
 const AppChildren = ({ children }: PropsWithChildren) => {
-  const currentUser = useAppSelector(selectCurrentUser);
-  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const currentUser = useCurrentUser();
+  const loggedIn = useIsLoggedIn();
 
   // TODO: Components should just select this from redux state
   const userValue = useMemo(

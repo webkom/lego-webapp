@@ -11,7 +11,12 @@ import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
+import {
+  selectCurrentUser,
+  selectIsLoggedIn,
+  useCurrentUser,
+  useIsLoggedIn,
+} from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilStyles from 'app/styles/utilities.css';
@@ -31,7 +36,7 @@ type AccountDropdownItemsProps = {
 const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const username = useAppSelector(selectCurrentUser)?.username;
+  const username = useCurrentUser()?.username;
 
   return (
     <Dropdown.List>
@@ -127,8 +132,8 @@ const HeaderLogo = () => {
 };
 
 const AccountDropdown = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-  const currentUser = useAppSelector(selectCurrentUser);
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
   const [accountOpen, setAccountOpen] = useState(false);
 
   return loggedIn ? (
@@ -178,8 +183,8 @@ const SearchModal = () => {
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-  const currentUser = useAppSelector(selectCurrentUser);
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     if (

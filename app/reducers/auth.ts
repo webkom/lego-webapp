@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { selectUserEntities } from 'app/reducers/users';
+import { useAppSelector } from 'app/store/hooks';
 import { User } from '../actions/ActionTypes';
 import type { AnyAction, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
@@ -73,9 +74,7 @@ const isLoginTokenAction = (
   action.type === User.CREATE_USER.SUCCESS ||
   action.type === User.REFRESH_TOKEN.SUCCESS;
 
-export function selectIsLoggedIn(state: RootState) {
-  return state.auth.token !== null;
-}
+export const selectIsLoggedIn = (state: RootState) => state.auth.token !== null;
 export const selectCurrentUser = createSelector(
   selectUserEntities,
   (state: RootState) => state.auth.id,
@@ -87,3 +86,6 @@ export const selectCurrentUser = createSelector(
     return user satisfies CurrentUser;
   },
 );
+
+export const useIsLoggedIn = () => useAppSelector(selectIsLoggedIn);
+export const useCurrentUser = () => useAppSelector(selectCurrentUser);
