@@ -37,7 +37,9 @@ import { selectPageBySlug } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './PageEditor.css';
+import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import type { AuthDetailedPage } from 'app/store/models/Page';
 
 export type ApiRequestBody = {
   title: string;
@@ -53,11 +55,11 @@ type FormValues = Omit<ApiRequestBody, 'category'> & {
 const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const PageEditor = () => {
-  const { pageSlug } = useParams<{ pageSlug: string }>();
+  const { pageSlug } = useParams<PageDetailParams>() as PageDetailParams;
   const page = useAppSelector((state) =>
-    selectPageBySlug(state, {
-      pageSlug,
-    }),
+    pageSlug
+      ? (selectPageBySlug(state, pageSlug) as AuthDetailedPage)
+      : undefined,
   );
 
   const isNew = page === undefined;
