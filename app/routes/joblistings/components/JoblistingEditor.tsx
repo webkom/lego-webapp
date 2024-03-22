@@ -150,6 +150,16 @@ const JoblistingEditor = () => {
     [isNew, joblisting?.company],
   );
 
+  const matchingJobType = jobTypes.find(
+    ({ value }) => value === joblisting?.jobType,
+  );
+  const matchingFromYear = yearValues.find(
+    ({ value }) => value === joblisting?.fromYear,
+  );
+  const matchingToYear = yearValues.find(
+    ({ value }) => value === joblisting?.toYear,
+  );
+
   const initialValues = {
     ...joblisting,
     text: joblisting?.text || '<p></p>',
@@ -165,15 +175,10 @@ const JoblistingEditor = () => {
       joblisting?.visibleTo || time({ days: 31, hours: 23, minutes: 59 }),
     deadline:
       joblisting?.deadline || time({ days: 30, hours: 23, minutes: 59 }),
-    fromYear: yearValues.find(
-      ({ value }) => value === joblisting?.fromYear || value === 1,
-    ),
-    toYear: yearValues.find(
-      ({ value }) => value === joblisting?.toYear || value === 5,
-    ),
-    jobType: jobTypes.find(
-      ({ value }) => value === joblisting?.jobType || value === 'summer_job',
-    ),
+    fromYear: matchingFromYear || yearValues.find(({ value }) => value === 1),
+    toYear: matchingToYear || yearValues.find(({ value }) => value === 5),
+    jobType:
+      matchingJobType || jobTypes.find(({ value }) => value === 'summer_job'),
     responsible: joblisting?.responsible
       ? {
           label: joblisting.responsible.name,
