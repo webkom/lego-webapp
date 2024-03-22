@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
@@ -19,10 +19,9 @@ import DisplayContent from 'app/components/DisplayContent';
 import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
-import { selectCurrentUser } from 'app/reducers/auth';
+import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
@@ -53,11 +52,11 @@ type ButtonRowProps = {
   memberships: TransformedMembership[];
 };
 const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
-  const currentUser = useAppSelector((state) => selectCurrentUser(state));
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(selectCurrentUser);
+  if (!currentUser) return null;
 
   const [membership] = memberships.filter((m) => m.user.id === currentUser.id);
-
-  const dispatch = useAppDispatch();
 
   const onClick = membership
     ? () => dispatch(leaveGroup(membership, group.id))
@@ -114,21 +113,18 @@ type InterestGroupDetailParams = {
   groupId: string;
 };
 const InterestGroupDetail = () => {
+  const dispatch = useAppDispatch();
   const { groupId } =
     useParams<InterestGroupDetailParams>() as InterestGroupDetailParams;
   const group = useAppSelector(
-    (state) => selectGroupById(state, groupId) as PublicDetailedGroup,
+    (state) =>
+      selectGroupById(state, groupId) as PublicDetailedGroup | undefined,
   );
+  const fetching = useAppSelector((state) => state.groups.fetching);
   const memberships = useAppSelector((state) =>
     selectMembershipsForGroup(state, { groupId }),
   );
-
-  const canEdit = group.actionGrant?.includes('edit');
-  const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
-
-  const dispatch = useAppDispatch();
-
-  const { loggedIn } = useUserContext();
+  const loggedIn = useAppSelector(selectIsLoggedIn);
 
   usePreparedEffect(
     'fetchInterestGroupDetail',
@@ -140,6 +136,13 @@ const InterestGroupDetail = () => {
       ]),
     [groupId, loggedIn],
   );
+
+  if (!group || fetching) {
+    return <LoadingIndicator loading={true} />;
+  }
+
+  const canEdit = group.actionGrant?.includes('edit');
+  const logo = group.logo;
 
   return (
     <Content>
@@ -159,12 +162,14 @@ const InterestGroupDetail = () => {
         </ContentMain>
 
         <ContentSidebar>
-          <Image
-            alt={`${group.name} logo`}
-            className={styles.logo}
-            src={logo}
-            placeholder={group.logoPlaceholder}
-          />
+          {logo && (
+            <Image
+              alt={`${group.name} logo`}
+              className={styles.logo}
+              src={logo}
+              placeholder={group.logoPlaceholder || undefined}
+            />
+          )}
           {memberships.length > 0 && (
             <>
               <Members group={group} memberships={memberships} />

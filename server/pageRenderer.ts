@@ -87,7 +87,7 @@ export default function pageRenderer({
 }: PageRendererProps = {}): string {
   const isSSR = app === undefined ? 'false' : 'true';
   const selectedTheme: string =
-    (!isEmpty(state) && selectCurrentUser(state).selectedTheme) || 'auto';
+    (!isEmpty(state) && selectCurrentUser(state)?.selectedTheme) || 'auto';
   const { body, scripts, styles, links } = readyHtml(app);
   const { helmet } = helmetContext as FilledContext;
   return `

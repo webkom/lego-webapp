@@ -38,9 +38,10 @@ const AppChildren = ({ children }: PropsWithChildren) => {
   const currentUser = useAppSelector(selectCurrentUser);
   const loggedIn = useAppSelector(selectIsLoggedIn);
 
+  // TODO: Components should just select this from redux state
   const userValue = useMemo(
     () => ({
-      currentUser,
+      currentUser: currentUser || {},
       loggedIn,
     }),
     [currentUser, loggedIn],
