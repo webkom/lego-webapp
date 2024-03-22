@@ -1,4 +1,5 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
+import { Link } from 'react-router-dom';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { PhotoConsentDomain } from 'app/models';
 import {
@@ -267,7 +268,14 @@ const RegistrationMeta = ({
               {!hasEnded && (
                 <TextWithIconWrapper
                   iconName="checkmark-circle-outline"
-                  content="Du er påmeldt"
+                  content={
+                    <>
+                      Du er påmeldt og samtykker til{' '}
+                      <Link to="/pages/arrangementer/26-arrangementsregler">
+                        arrangementsreglene
+                      </Link>
+                    </>
+                  }
                 />
               )}
             </>
@@ -291,6 +299,19 @@ const RegistrationMeta = ({
             presence={registration.presence}
             hasEnded={hasEnded}
           />
+          {hasEnded && (
+            <TextWithIconWrapper
+              iconName="checkmark-circle-outline"
+              content={
+                <>
+                  Du samtykket til{' '}
+                  <Link to="/pages/arrangementer/26-arrangementsregler">
+                    arrangementsreglene
+                  </Link>
+                </>
+              }
+            />
+          )}
           <PaymentStatus
             isPriced={isPriced}
             paymentStatus={registration.paymentStatus}

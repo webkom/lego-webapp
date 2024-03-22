@@ -47,11 +47,6 @@ import type {
 import type Penalty from 'app/store/models/Penalty';
 import type { CurrentUser } from 'app/store/models/User';
 
-type SpotsLeftProps = {
-  activeCapacity: number;
-  spotsLeft: number;
-};
-
 /**
  *  Not using app/components/SubmitButton because that will "falsely"
  *  be disabled when the form is pristine, which it often is.
@@ -171,24 +166,6 @@ const PaymentForm = ({
     />
   </div>
 );
-
-const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
-  // If the pool has infinite capacity or spotsLeft isn't calculated don't show the message
-  if (!activeCapacity || spotsLeft === null) return null;
-
-  if (spotsLeft <= 0 && activeCapacity > 0) {
-    return (
-      <div>Det er ingen plasser igjen, og du vil bli satt på venteliste</div>
-    );
-  }
-
-  const word = spotsLeft > 1 ? 'plasser' : 'plass';
-  return (
-    <div>
-      Det er {spotsLeft} {word} igjen
-    </div>
-  );
-};
 
 export type Props = {
   title?: string;
@@ -442,13 +419,15 @@ const JoinEventForm = ({
 
                             <SubmissionError />
 
-                            {!registration &&
-                              typeof event.activeCapacity === 'number' && (
-                                <SpotsLeft
-                                  activeCapacity={event.activeCapacity}
-                                  spotsLeft={event.spotsLeft}
-                                />
-                              )}
+                            {!registration && (
+                              <div>
+                                Ved å melde deg på arrangementet samtykker du
+                                til{' '}
+                                <Link to="/pages/arrangementer/26-arrangementsregler">
+                                  arrangementsreglene
+                                </Link>
+                              </div>
+                            )}
                           </>
                         )}
 

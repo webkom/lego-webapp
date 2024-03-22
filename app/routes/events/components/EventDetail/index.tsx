@@ -631,14 +631,6 @@ const EventDetail = () => {
               }
             />
           )}
-          <TextWithIcon
-            iconName="document-outline"
-            content={
-              <Link to="/pages/arrangementer/26-arrangementsregler">
-                Arrangementsregler
-              </Link>
-            }
-          />
 
           {(actionGrant.includes('edit') || actionGrant.includes('delete')) && (
             <Line />
