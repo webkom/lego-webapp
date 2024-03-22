@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
@@ -119,12 +119,10 @@ const InterestGroupDetail = () => {
   const group = useAppSelector((state) =>
     selectGroupById<PublicDetailedGroup>(state, groupId),
   );
+  const fetching = useAppSelector((state) => state.groups.fetching);
   const memberships = useAppSelector((state) =>
     selectMembershipsForGroup(state, { groupId }),
   );
-
-  const canEdit = group?.actionGrant?.includes('edit');
-  const logo = group?.logo || 'https://i.imgur.com/Is9VKjb.jpg';
 
   const dispatch = useAppDispatch();
 
@@ -140,6 +138,13 @@ const InterestGroupDetail = () => {
       ]),
     [groupId, loggedIn],
   );
+
+  if (!group || fetching) {
+    return <LoadingIndicator loading={true} />;
+  }
+
+  const canEdit = group.actionGrant?.includes('edit');
+  const logo = group.logo;
 
   return (
     <Content>
@@ -159,12 +164,14 @@ const InterestGroupDetail = () => {
         </ContentMain>
 
         <ContentSidebar>
-          <Image
-            alt={`${group.name} logo`}
-            className={styles.logo}
-            src={logo}
-            placeholder={group.logoPlaceholder}
-          />
+          {logo && (
+            <Image
+              alt={`${group.name} logo`}
+              className={styles.logo}
+              src={logo}
+              placeholder={group.logoPlaceholder || undefined}
+            />
+          )}
           {memberships.length > 0 && (
             <>
               <Members group={group} memberships={memberships} />
