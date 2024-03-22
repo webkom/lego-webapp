@@ -14,8 +14,8 @@ const HTTPMapping = {
 };
 const fallbackStatus = 404;
 
-const getHTTPError = (statusCode) =>
-  HTTPMapping[statusCode] || HTTPMapping[fallbackStatus];
+const getHTTPError = (statusCode?: number) =>
+  HTTPMapping[statusCode || fallbackStatus] || HTTPMapping[fallbackStatus];
 
 type Props = {
   statusCode?: number;

@@ -15,7 +15,7 @@ import TextWithBoldTitle, {
 } from './subcomponents/TextWithTitle';
 import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
 
-const LandingPage: PageRenderer = () => {
+const LandingPage: PageRenderer<null> = () => {
   const loggedIn = useIsLoggedIn();
 
   return (
@@ -200,7 +200,7 @@ const LandingPage: PageRenderer = () => {
 
       <Flex alignItems="center">
         <Icon name="briefcase" size={40} className={styles.organizationIcon} />
-        <div className={styles.organization}>
+        <div>
           <h3>Organisasjonsnummer</h3>
           <span>{info.organizationNo}</span>
         </div>
