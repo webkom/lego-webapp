@@ -1,7 +1,7 @@
 import type { Dateish, PhotoConsentDomain, Semester } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
-import type EmailList from 'app/store/models/EmailList';
-import type Group from 'app/store/models/Group';
+import type { PublicEmailList } from 'app/store/models/EmailList';
+import type { PublicGroup } from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 import type PastMembership from 'app/store/models/PastMembership';
 import type { ID } from 'app/store/models/index';
@@ -38,7 +38,7 @@ interface User {
   allergies: string;
   isActive: boolean;
   isStudent: boolean;
-  abakusEmailLists: EmailList[];
+  abakusEmailLists: PublicEmailList[];
   penalties: ID[];
   icalToken: string;
   abakusGroups: ID[];
@@ -47,10 +47,10 @@ interface User {
   pastMemberships: PastMembership[];
   selectedTheme: string;
   permissionsPerGroup: {
-    abakusGroup: Pick<Group, 'id' | 'name'>;
+    abakusGroup: Pick<PublicGroup, 'id' | 'name'>;
     permissions: string[];
     parentPermissions: {
-      abakusGroup: Pick<Group, 'id' | 'name'>;
+      abakusGroup: Pick<PublicGroup, 'id' | 'name'>;
       permissions: string[];
     }[];
   }[];
@@ -198,8 +198,7 @@ export type UnknownUser =
   | PublicUserWithGroups
   | AdministrateUser
   | AdministrateExportUser
-  | AdministrateAllergiesUser
-  | SearchUser;
+  | AdministrateAllergiesUser;
 
 export type UpdateUser = Required<
   Partial<

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
 import { Image } from 'app/components/Image';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';
@@ -16,7 +16,7 @@ import TextWithBoldTitle, {
 import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
 
 const LandingPage: PageRenderer = () => {
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   return (
     <div className={styles.pageContainer}>

@@ -1,6 +1,6 @@
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './ReactionPickerContent.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
@@ -19,7 +19,7 @@ const ReactionPickerContent = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   return (
     <div className={styles.container}>

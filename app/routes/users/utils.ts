@@ -1,4 +1,4 @@
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 
 type Data = {
   username?: string;
@@ -27,6 +27,6 @@ export const isCurrentUser = (username?: string, currentUsername?: string) => {
 };
 
 export const useIsCurrentUser = (username?: string) => {
-  const { currentUser } = useUserContext();
-  return isCurrentUser(username, currentUser.username);
+  const currentUser = useCurrentUser();
+  return isCurrentUser(username, currentUser?.username);
 };

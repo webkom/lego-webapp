@@ -24,13 +24,13 @@ import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
+import { useCurrentUser } from 'app/reducers/auth';
 import {
   selectPreviousEvents,
   selectUpcomingEvents,
 } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
 import { selectUserWithGroups } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -170,10 +170,9 @@ const UserProfile = () => {
   const [showAbaId, setShowAbaId] = useState(false);
 
   const params = useParams<{ username: string }>();
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const isCurrentUser = useIsCurrentUser(params.username);
-  const username =
-    isCurrentUser && currentUser ? currentUser?.username : params.username;
+  const username = isCurrentUser ? currentUser?.username : params.username;
   const user = useAppSelector((state) =>
     selectUserWithGroups(state, {
       username,

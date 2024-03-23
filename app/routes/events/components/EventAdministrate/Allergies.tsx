@@ -4,8 +4,8 @@ import { isEmpty } from 'lodash';
 import { Link, useParams } from 'react-router-dom';
 import { fetchAllergies } from 'app/actions/EventActions';
 import Table from 'app/components/Table';
+import { useCurrentUser } from 'app/reducers/auth';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
@@ -40,7 +40,7 @@ const Allergies = () => {
     return registration?.user.allergies;
   });
   const fetching = useAppSelector((state) => state.events.fetching);
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
 

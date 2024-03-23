@@ -9,12 +9,12 @@ import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
+import { useCurrentUser } from 'app/reducers/auth';
 import {
   selectGroupedMeetings,
   type MeetingSection,
 } from 'app/reducers/meetings';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -126,7 +126,7 @@ const MeetingList = () => {
   const meetingSections = useAppSelector(selectGroupedMeetings);
   const loading = useAppSelector((state) => state.meetings.fetching);
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
 
@@ -190,7 +190,9 @@ const MeetingList = () => {
           </Link>
         }
       />
-      {meetingSections && (
+      {!meetingSections || !currentUser || loading ? (
+        <LoadingIndicator loading={loading} />
+      ) : (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
       <LoadingIndicator loading={loading} />

@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchEmojis } from 'app/actions/EmojiActions';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
@@ -29,7 +29,7 @@ const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
   const [fetchedEmojis, setFetchedEmojis] = useState(false);
   const nodeRef = useRef<HTMLDivElement>(null);
 
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
 

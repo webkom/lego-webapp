@@ -13,8 +13,8 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectUserByUsername } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import DeleteUser from 'app/routes/users/components/DeleteUser';
 import RemovePicture from 'app/routes/users/components/RemovePicture';
 import { useIsCurrentUser } from 'app/routes/users/utils';
@@ -71,10 +71,12 @@ const validate = createValidator({
 
 const UserSettings = () => {
   const params = useParams<{ username: string }>();
-  const { currentUser } = useUserContext();
-  const isCurrentUser = useIsCurrentUser(params.username!);
-  const username = isCurrentUser ? currentUser.username : params.username!;
-  const user = useAppSelector((state) => selectUserByUsername(state, username));
+  const currentUser = useCurrentUser();
+  const isCurrentUser = useIsCurrentUser(params.username);
+  const username = isCurrentUser ? currentUser?.username : params.username;
+  const user = useAppSelector(
+    (state) => username && selectUserByUsername(state, username),
+  );
 
   const dispatch = useAppDispatch();
 

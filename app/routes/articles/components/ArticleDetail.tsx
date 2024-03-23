@@ -14,9 +14,9 @@ import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import config from 'app/config';
 import { selectArticleByIdOrSlug } from 'app/reducers/articles';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectUsersByIds } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import sharedStyles from 'app/routes/articles/articles.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './ArticleDetail.css';
@@ -79,7 +79,7 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const ArticleDetail = () => {
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
   const { articleIdOrSlug } = useParams<{ articleIdOrSlug: string }>();
   const article = useAppSelector((state) =>
     selectArticleByIdOrSlug(state, articleIdOrSlug!),

@@ -16,9 +16,9 @@ import {
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById, selectGroupsByType } from 'app/reducers/groups';
 import { addToast } from 'app/reducers/toasts';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { createValidator, maxLength, required } from 'app/utils/validation';
@@ -33,7 +33,7 @@ const validate = createValidator({
 const REVUE_BOARD_GROUP_ID = 59;
 
 const ContactForm = () => {
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),

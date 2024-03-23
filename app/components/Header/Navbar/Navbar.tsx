@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
-import { selectIsLoggedIn } from 'app/reducers/auth';
-import { useAppSelector } from 'app/store/hooks';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import AboutDropdown from './AboutDropdown';
 import CareerDropdown from './CareerDropdown';
 import EventsDropdown from './EventsDropwdown';
@@ -17,7 +16,7 @@ type NavbarLink = {
 };
 
 const Navbar = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const loggedIn = useIsLoggedIn();
   const [visibleDropdown, setVisibleDropdown] = useState(false);
   const [hoverIndex, setHoverIndex] = useState(0);
 

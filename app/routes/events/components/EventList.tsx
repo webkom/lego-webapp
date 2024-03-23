@@ -8,9 +8,9 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectSortedEvents } from 'app/reducers/events';
 import { selectPagination } from 'app/reducers/selectors';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import useQuery from 'app/utils/useQuery';
@@ -130,8 +130,8 @@ const EventList = () => {
     'company_presentation',
   );
 
-  const { currentUser, loggedIn } = useUserContext();
-  const icalToken = currentUser?.icalToken;
+  const loggedIn = useIsLoggedIn();
+  const icalToken = useCurrentUser()?.icalToken;
 
   const queryString = createQueryString(query);
   const showFetchMore = useAppSelector((state) =>

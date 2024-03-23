@@ -35,8 +35,8 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import { selectArticleById } from 'app/reducers/articles';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectUsersByIds } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -66,7 +66,7 @@ const validate = (data) => {
 
 type ArticleEditorParams = { articleId: string };
 const ArticleEditor = () => {
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const { articleId } = useParams<ArticleEditorParams>() as ArticleEditorParams;
   const isNew = articleId === undefined;
   const article = useAppSelector((state) =>
@@ -76,7 +76,7 @@ const ArticleEditor = () => {
   let authors = useAppSelector((state) =>
     selectUsersByIds(state, article?.authors || []),
   );
-  if (authors.length === 0) {
+  if (authors.length === 0 && currentUser) {
     authors = [currentUser];
   }
 

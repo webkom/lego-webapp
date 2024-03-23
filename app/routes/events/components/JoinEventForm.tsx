@@ -22,8 +22,8 @@ import {
 } from 'app/components/Form';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
@@ -189,7 +189,8 @@ const JoinEventForm = ({
   captchaOpen,
   registrationOpensIn,
 }: Props) => {
-  const { currentUser } = useUserContext();
+  const dispatch = useAppDispatch();
+  const currentUser = useCurrentUser();
 
   const fetching = useAppSelector((state) => state.events.fetching);
 
@@ -199,31 +200,6 @@ const JoinEventForm = ({
     }),
   ) as Penalty[];
   const sumPenalties = sumBy(penalties, 'weight');
-
-  const dispatch = useAppDispatch();
-
-  const onSubmit = (values) => {
-    if (registrationType === 'unregister') {
-      return (
-        registration &&
-        dispatch(
-          unregister({
-            eventId: event.id,
-            registrationId: registration.id,
-          }),
-        )
-      );
-    }
-
-    return dispatch(
-      register({
-        eventId: event.id,
-        captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName],
-        userId: currentUser.id,
-      }),
-    );
-  };
 
   const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
   const registrationType = !registration ? 'register' : 'unregister';
@@ -268,6 +244,33 @@ const JoinEventForm = ({
     const timer = setTimeout(() => setShowStripeDelayed(showStripe), 2000);
     return () => clearTimeout(timer);
   }, [showStripe]);
+
+  if (!currentUser) {
+    return null;
+  }
+
+  const onSubmit = (values) => {
+    if (registrationType === 'unregister') {
+      return (
+        registration &&
+        dispatch(
+          unregister({
+            eventId: event.id,
+            registrationId: registration.id,
+          }),
+        )
+      );
+    }
+
+    return dispatch(
+      register({
+        eventId: event.id,
+        captchaResponse: values.captchaResponse,
+        feedback: values[feedbackName],
+        userId: currentUser.id,
+      }),
+    );
+  };
 
   if (registrationIsClosed(event)) {
     return (

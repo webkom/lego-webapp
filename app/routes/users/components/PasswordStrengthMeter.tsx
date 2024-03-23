@@ -12,7 +12,7 @@ import type { PasswordFieldUser } from './PasswordField';
 
 type Props = {
   password: string;
-  user: PasswordFieldUser;
+  user?: PasswordFieldUser;
 };
 const Zxcvbn = loadable.lib(() => import('zxcvbn'), {
   ssr: false,
@@ -32,9 +32,9 @@ const PasswordStrengthMeter = ({ password, user }: Props) => {
     >
       {({ default: zxcvbn }) => {
         const zxcvbnValue = zxcvbn(password, [
-          user.username,
-          user.firstName,
-          user.lastName,
+          user?.username,
+          user?.firstName,
+          user?.lastName,
         ]);
         let tips = zxcvbnValue.feedback?.suggestions ?? [];
         tips.push(zxcvbnValue.feedback?.warning);

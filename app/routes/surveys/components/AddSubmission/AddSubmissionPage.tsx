@@ -9,9 +9,9 @@ import {
 } from 'app/actions/SurveySubmissionActions';
 import { Content, ContentHeader } from 'app/components/Content';
 import Time from 'app/components/Time';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/AlreadyAnswered';
 import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
 import styles from 'app/routes/surveys/components/surveys.css';
@@ -22,13 +22,15 @@ import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
 const AddSubmissionPage = () => {
   const dispatch = useAppDispatch();
   const { surveyId } = useParams<{ surveyId: string }>();
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const survey = useFetchedSurvey('addSubmission', surveyId);
-  const submission = useAppSelector((state) =>
-    selectSurveySubmissionForUser(state, {
-      surveyId: Number(surveyId),
-      currentUserId: currentUser.id,
-    }),
+  const submission = useAppSelector(
+    (state) =>
+      currentUser &&
+      selectSurveySubmissionForUser(state, {
+        surveyId: Number(surveyId),
+        currentUserId: currentUser.id,
+      }),
   );
 
   const fetchingSubmission = useAppSelector(
@@ -38,12 +40,12 @@ const AddSubmissionPage = () => {
   usePreparedEffect(
     'fetchAddSubmissionSurveySubmission',
     () =>
-      currentUser.id &&
+      currentUser?.id &&
       dispatch(fetchUserSubmission(Number(surveyId), Number(currentUser.id))),
-    [surveyId, currentUser.id],
+    [surveyId, currentUser?.id],
   );
 
-  if (!survey || !currentUser.id || fetchingSubmission) {
+  if (!survey || !currentUser || fetchingSubmission) {
     return <LoadingIndicator loading />;
   }
 

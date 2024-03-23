@@ -17,6 +17,7 @@ import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { GroupType } from 'app/models';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import {
   selectPagesForHierarchy,
   selectCommitteeForHierarchy,
@@ -28,7 +29,6 @@ import {
   selectNotFoundpageForPages,
   selectInfoPageForPages,
 } from 'app/reducers/pages';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import LandingPage from './LandingPage';
@@ -316,7 +316,7 @@ const PageDetail = () => {
     }),
   );
 
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
 

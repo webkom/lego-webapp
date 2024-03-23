@@ -21,6 +21,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import {
   selectMeetingInvitationByMeetingIdAndUserId,
@@ -29,7 +30,6 @@ import {
 } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -52,7 +52,7 @@ type MeetingDetailParams = {
 
 const MeetingDetails = () => {
   const { meetingId } = useParams<MeetingDetailParams>() as MeetingDetailParams;
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
     selectMeetingById(state, meetingId),
@@ -71,18 +71,21 @@ const MeetingDetails = () => {
   const meetingInvitations = useAppSelector((state) =>
     selectMeetingInvitationsForMeeting(state, meetingId),
   );
-  const currentUserInvitation = useAppSelector((state) =>
-    selectMeetingInvitationByMeetingIdAndUserId(
-      state,
-      meetingId!,
-      currentUser.id,
-    ),
+  const currentUserInvitation = useAppSelector(
+    (state) =>
+      currentUser &&
+      selectMeetingInvitationByMeetingIdAndUserId(
+        state,
+        meetingId!,
+        currentUser.id,
+      ),
   );
 
   const dispatch = useAppDispatch();
 
   const setMeetingInvitationStatus = (newStatus: MeetingInvitationStatus) => {
-    dispatch(setInvitationStatus(meeting.id, newStatus, currentUser));
+    currentUser &&
+      dispatch(setInvitationStatus(meeting.id, newStatus, currentUser));
   };
 
   const acceptInvitation = () =>
@@ -206,9 +209,12 @@ const MeetingDetails = () => {
             {meeting.mazemapPoi && (
               <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
             )}
-            <li>
-              <AddToCalendar icalToken={icalToken} meeting={meeting} />
-            </li>
+
+            {icalToken && (
+              <li>
+                <AddToCalendar icalToken={icalToken} meeting={meeting} />
+              </li>
+            )}
           </ul>
 
           <Flex column gap={7}>

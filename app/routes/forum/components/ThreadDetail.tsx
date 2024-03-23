@@ -6,9 +6,9 @@ import { CommentView } from 'app/components/Comments';
 import { Content, ContentMain } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectThreadById } from 'app/reducers/threads';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type Comment from 'app/store/models/Comment';
 import type { DetailedThread } from 'app/store/models/Forum';
@@ -22,7 +22,7 @@ const ThreadDetail = () => {
   const { forumId, threadId } =
     useParams<ThreadDetailParams>() as ThreadDetailParams;
   const dispatch = useAppDispatch();
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   usePreparedEffect(
     'fetchDetailThread',
     () =>
@@ -51,7 +51,7 @@ const ThreadDetail = () => {
               path: `/forum/${thread.forum}/threads`,
             }}
           >
-            {(thread.createdBy?.id === currentUser.id ||
+            {((currentUser && thread.createdBy?.id === currentUser.id) ||
               detailActionGrant.includes('edit')) && (
               <NavigationLink to={`/forum/${forumId}/threads/${threadId}/edit`}>
                 Rediger

@@ -9,7 +9,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './Comment.css';
 import type CommentType from 'app/store/models/Comment';
@@ -36,7 +36,7 @@ const Comment = ({
 
   const dispatch = useAppDispatch();
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   return (
     <>

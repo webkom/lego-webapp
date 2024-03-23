@@ -9,8 +9,7 @@ import {
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
-import { useUserContext } from 'app/routes/app/AppRoute';
-import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
+import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch } from 'app/store/hooks';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
@@ -47,8 +46,6 @@ const GroupMembersList = ({
 
   const { query, setQuery } = useQuery(defaultGroupMembersQuery);
   const showDescendants = query.descendants === 'true';
-
-  const { currentUser } = useUserContext();
 
   const GroupMembersListColumns = (
     _: unknown,
@@ -103,10 +100,7 @@ const GroupMembersList = ({
 
   const EditRender = (_: unknown, membership: Membership) => {
     const { id, user, abakusGroup } = membership;
-    const isCurrentUser = checkIfCurrentUser(
-      user.username,
-      currentUser.username,
-    );
+    const isCurrentUser = useIsCurrentUser(user.username);
 
     return (
       <Flex justifyContent="center" alignItems="center" gap={5}>
