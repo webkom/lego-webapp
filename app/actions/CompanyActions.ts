@@ -183,8 +183,8 @@ export function deleteSemesterStatus(
   });
 }
 
-export function fetchCompanyContacts({ companyId }: { companyId: EntityId }) {
-  return callAPI<CompanyContact[]>({
+export function fetchCompanyContacts(companyId: EntityId) {
+  return callAPI<{ results: CompanyContact[] }>({
     types: Company.FETCH_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/`,
     method: 'GET',
