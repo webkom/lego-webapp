@@ -37,6 +37,7 @@ const usersSlice = createSlice({
     extraCases: (addCase) => {
       addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const users = normalize(action.payload, eventSchema).entities.users!;
+        if (!users) return;
         legoAdapter.upsertMany(state, users);
       });
     },
