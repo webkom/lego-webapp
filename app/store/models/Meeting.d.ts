@@ -5,7 +5,7 @@ import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface Meeting {
-  id: number;
+  id: ID;
   createdBy: ID;
   description: string;
   title: string;
@@ -66,7 +66,10 @@ export type AutocompleteMeeting = Pick<
   text: 'text';
 };
 
-export type UnknownMeeting = DetailedMeeting | ListMeeting | SearchMeeting;
+export type UnknownMeeting = (DetailedMeeting | ListMeeting) & {
+  comments?: ID[];
+  reactionsGrouped?: ReactionsGrouped[];
+};
 
 // Used when a meeting is a field in another model
 export type FieldMeeting = Pick<Meeting, 'id' | 'title'>;

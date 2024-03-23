@@ -21,15 +21,13 @@ import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import {
   selectMeetingInvitationByMeetingIdAndUserId,
   selectMeetingInvitationsForMeeting,
   statusesText,
 } from 'app/reducers/meetingInvitations';
-import {
-  selectCommentsForMeeting,
-  selectMeetingById,
-} from 'app/reducers/meetings';
+import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -38,6 +36,7 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 import type { Dateish } from 'app/models';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { PublicUser } from 'app/store/models/User';
 
 const UserLink = ({ user }: { user: PublicUser }) =>
@@ -47,30 +46,30 @@ const UserLink = ({ user }: { user: PublicUser }) =>
     <span>Ikke valgt</span>
   );
 
+type MeetingDetailParams = {
+  meetingId: string;
+};
+
 const MeetingDetails = () => {
-  const { meetingId } = useParams<{ meetingId: string }>();
+  const { meetingId } = useParams<MeetingDetailParams>() as MeetingDetailParams;
   const { currentUser } = useUserContext();
   const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, {
-      meetingId,
-    }),
-  );
+    selectMeetingById(state, meetingId),
+  ) as DetailedMeeting;
   const comments = useAppSelector((state) =>
-    selectCommentsForMeeting(state, {
-      meetingId,
-    }),
+    selectCommentsByIds(state, meeting.comments ?? []),
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, meeting?.reportAuthor),
+    meeting.reportAuthor
+      ? selectUserById(state, meeting.reportAuthor)
+      : undefined,
   );
   const createdBy = useAppSelector((state) =>
     selectUserById(state, meeting?.createdBy),
   );
   const meetingInvitations = useAppSelector((state) =>
-    selectMeetingInvitationsForMeeting(state, {
-      meetingId,
-    }),
+    selectMeetingInvitationsForMeeting(state, meetingId),
   );
   const currentUserInvitation = useAppSelector((state) =>
     selectMeetingInvitationByMeetingIdAndUserId(

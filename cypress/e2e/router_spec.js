@@ -131,7 +131,6 @@ describe('Navigate throughout app', () => {
       });
     cy.url().should('contain', '/meetings');
     cy.contains('Dine møter');
-    cy.contains('Hent gamle');
 
     // Go to create new
     cy.get(c('NavigationTab__details'))

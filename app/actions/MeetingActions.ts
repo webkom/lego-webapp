@@ -20,39 +20,22 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-export const getEndpoint = (
-  pagination: any,
-  queryString: string,
-  loadNextPage?: boolean,
-): string => {
-  let endpoint = `/meetings/${queryString}`;
-  const paginationObject = pagination[queryString];
-
-  if (
-    loadNextPage &&
-    paginationObject &&
-    paginationObject.queryString === queryString &&
-    paginationObject.nextPage
-  ) {
-    endpoint = paginationObject.nextPage;
-  }
-
-  return endpoint;
-};
-
 export function fetchAll({
-  endpoint,
-  queryString,
+  query,
+  next = false,
 }: {
-  endpoint: string;
-  queryString?: string;
-}) {
+  query?: Record<string, string | undefined>;
+  next?: boolean;
+} = {}) {
   return callAPI<ListMeeting[]>({
     types: Meeting.FETCH,
-    endpoint,
+    endpoint: '/meetings/',
     schema: [meetingSchema],
+    query,
+    pagination: {
+      fetchNext: next,
+    },
     meta: {
-      queryString,
       errorMessage: 'Henting av møter feilet',
     },
     propagateError: true,
@@ -199,12 +182,6 @@ export function editMeeting({
       errorMessage: 'Endring av møte feilet',
     },
   });
-}
-
-export function resetMeetingsToken() {
-  return {
-    type: Meeting.RESET_MEETINGS_TOKEN,
-  };
 }
 
 const calculateMazemapPoi = (

@@ -1,7 +1,7 @@
 import { get, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import type { RootState } from 'app/store/createRootReducer';
-import type { Schema } from 'normalizr';
+import type { schema, Schema } from 'normalizr';
 
 export const selectPagination =
   (
@@ -22,21 +22,17 @@ export const selectPaginationNext =
     entity,
   }: {
     endpoint: string;
-    query: Record<string, any>;
+    query: Record<string, string | number | boolean | undefined>;
     schema?: Schema;
     entity?: string;
   }) =>
   (state: RootState) => {
     const paginationKey = `${endpoint}${createQueryString(query)}`;
-    let schemaKey = entity;
-
-    if (!schemaKey) {
-      if (isArray(schema)) {
-        schemaKey = schema[0].key;
-      } else {
-        schemaKey = schema.key;
-      }
-    }
+    const schemaKey =
+      entity ||
+      (isArray(schema)
+        ? (schema[0] as schema.Entity).key
+        : (schema as schema.Entity).key);
 
     return {
       pagination: state[schemaKey].paginationNext[paginationKey] || {
