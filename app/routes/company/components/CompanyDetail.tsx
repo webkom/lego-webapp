@@ -5,12 +5,9 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import {
-  fetch,
-  fetchEventsForCompany,
-  fetchJoblistingsForCompany,
-} from 'app/actions/CompanyActions';
+import { fetch, fetchEventsForCompany } from 'app/actions/CompanyActions';
 import { getEndpoint } from 'app/actions/EventActions';
+import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   Content,
@@ -82,7 +79,7 @@ const CompanyDetail = () => {
             queryString: queryString(companyId),
           }),
         ),
-        dispatch(fetchJoblistingsForCompany(companyId)),
+        dispatch(fetchAllJoblistings({ company: companyId, timeFilter: true })),
       ]),
     [companyId],
   );
