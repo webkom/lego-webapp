@@ -74,6 +74,8 @@ const PenaltyForm = ({ userId }: Props) => {
 
   return (
     <Flex column gap="var(--spacing-md)">
+      <div className={styles.divider} />
+
       <div>
         {!sent ? (
           <Button onClick={handleHide}>
