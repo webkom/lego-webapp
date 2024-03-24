@@ -18,6 +18,10 @@ export type ValueLabel<T extends object, K extends keyof T> = Overwrite<
   }
 >;
 
+export const isAsyncActionType = (type: unknown): type is AsyncActionType =>
+  typeof type === 'object' && type
+    ? 'BEGIN' in type && 'SUCCESS' in type && 'FAILURE' in type
+    : false;
 export type AsyncActionType = {
   BEGIN: `${string}.BEGIN`;
   SUCCESS: `${string}.SUCCESS`;

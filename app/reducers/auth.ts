@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { validateRegistrationToken } from 'app/actions/UserActions';
 import { selectUserEntities } from 'app/reducers/users';
 import { useAppSelector } from 'app/store/hooks';
 import { User } from '../actions/ActionTypes';
@@ -49,12 +50,9 @@ const authSlice = createSlice({
         action.payload.entities.users[action.payload.result].username;
     });
     builder.addCase(User.LOGOUT, () => initialState);
-    builder.addCase(
-      User.VALIDATE_REGISTRATION_TOKEN.SUCCESS,
-      (state, action: AnyAction) => {
-        state.registrationToken = action.meta.token;
-      },
-    );
+    builder.addCase(validateRegistrationToken.fulfilled, (state, action) => {
+      state.registrationToken = action.meta.extra.token;
+    });
 
     builder.addMatcher(isLoginTokenAction, (state, action) => {
       state.loggingIn = false;

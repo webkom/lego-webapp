@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { Announcements } from 'app/actions/ActionTypes';
+import { sendAnnouncement } from 'app/actions/AnnouncementsActions';
 import announcements from '../announcements';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 
@@ -7,7 +7,7 @@ describe('reducers', () => {
   describe('announcements', () => {
     vi.useFakeTimers().setSystemTime(new Date());
 
-    it('Announcements.SEND.SUCCESS', () => {
+    it('sendAnnouncement.fulfilled', () => {
       const prevState = {
         actionGrant: [],
         paginationNext: {},
@@ -20,12 +20,7 @@ describe('reducers', () => {
           } as UnknownAnnouncement,
         },
       };
-      const action = {
-        type: Announcements.SEND.SUCCESS,
-        meta: {
-          announcementId: 99,
-        },
-      };
+      const action = sendAnnouncement.fulfilled(undefined, '', 99);
       expect(announcements(prevState, action)).toEqual({
         actionGrant: [],
         paginationNext: {},
