@@ -1,60 +1,69 @@
-import callAPI from 'app/actions/callAPI';
+import createApiThunk from 'app/actions/createApiThunk';
+import { createPayloadNormalizer } from 'app/actions/createApiThunk/normalizePayload';
 import { announcementsSchema } from 'app/reducers';
+import { EntityType } from 'app/store/models/entities';
 import { Announcements } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { FormValues as CreateAnnouncementFormValues } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,
 } from 'app/store/models/Announcement';
 
-export function fetchAll() {
-  return callAPI<ListAnnouncement[]>({
-    types: Announcements.FETCH_ALL,
+export const fetchAllAnnouncements = createApiThunk(
+  EntityType.Announcements,
+  'fetchAll',
+  {
     endpoint: '/announcements/',
-    schema: [announcementsSchema],
-    meta: {
-      errorMessage: 'Henting av kunngjøringer feilet',
-    },
+    errorMessage: 'Henting av kunngjøringer feilet',
     propagateError: true,
-  });
-}
+  },
+  createPayloadNormalizer<
+    { [EntityType.Announcements]: ListAnnouncement },
+    EntityId[]
+  >([announcementsSchema]),
+);
 
-export function createAnnouncement(body: CreateAnnouncementFormValues) {
-  return callAPI<DetailedAnnouncement>({
-    types: Announcements.CREATE,
+export const createAnnouncement = createApiThunk(
+  EntityType.Announcements,
+  'create',
+  {
     endpoint: '/announcements/',
     method: 'POST',
-    body,
-    schema: announcementsSchema,
-    meta: {
-      errorMessage: 'Opprettelse av kunngjøringer feilet',
-      successMessage: 'Kunngjøring opprettet',
-    },
-  });
-}
+    errorMessage: 'Opprettelse av kunngjøring feilet',
+    successMessage: 'Kunngjøring opprettet',
+  },
+  createPayloadNormalizer<
+    { [EntityType.Announcements]: DetailedAnnouncement },
+    EntityId[]
+  >([announcementsSchema]),
+);
 
-export function sendAnnouncement(announcementId: EntityId) {
-  return callAPI<{ status: string }>({
-    types: Announcements.SEND,
+export const sendAnnouncement = createApiThunk(
+  EntityType.Announcements,
+  'send',
+  (announcementId: EntityId) => ({
     endpoint: `/announcements/${announcementId}/send/`,
     method: 'POST',
-    meta: {
-      errorMessage: 'Sending av kunngjøringer feilet',
-      successMessage: 'Kunngjøring sendt',
-      announcementId,
+    errorMessage: 'Sending av kunngjøringer feilet',
+    successMessage: 'Kunngjøring sendt',
+    extraMeta: { announcementId },
+  }),
+  (payload) =>
+    payload as {
+      status: string;
     },
-  });
-}
+);
 
-export function deleteAnnouncement(id: EntityId) {
-  return callAPI({
-    types: Announcements.DELETE,
-    endpoint: `/announcements/${id}/`,
+export const deleteAnnouncement = createApiThunk(
+  EntityType.Announcements,
+  'delete',
+  (announcementId: EntityId) => ({
+    endpoint: `/announcements/${announcementId}/`,
     method: 'DELETE',
-    meta: {
-      id,
-      errorMessage: 'Sletting av kunngjøringer feilet',
-    },
-  });
-}
+    deleteId: announcementId,
+    errorMessage: 'Sletting av kunngjøring feilet',
+    successMessage: 'Kunngjøring slettet',
+    extraMeta: { announcementId },
+  }),
+  () => {},
+);

@@ -1,12 +1,11 @@
 import { omit, isArray } from 'lodash';
 import { normalize } from 'normalizr';
-import { logout } from 'app/actions/UserActions';
+import { handleError } from 'app/actions/createApiThunk/handleError';
+import { urlFor } from 'app/actions/createApiThunk/utils';
 import { selectIsLoggedIn } from 'app/reducers/auth';
-import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
-import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
-import { configWithSSR } from '../config';
+import fetchJSON from 'app/utils/fetchJSON';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
@@ -23,41 +22,6 @@ import type {
 import type { Schema } from 'normalizr';
 import type { ParsedQs } from 'qs';
 import type { Required } from 'utility-types';
-
-function urlFor(resource: string) {
-  if (resource.match(/^\/\//)) {
-    return configWithSSR.baseUrl + resource.replace(/^\//, '');
-  } else if (resource.match(/^http?:/) || resource.match(/^https:/)) {
-    return resource;
-  }
-
-  return configWithSSR.serverUrl + resource;
-}
-
-function handleError(
-  error: HttpError | unknown,
-  propagateError: boolean,
-  loggedIn: boolean,
-  dispatch: AppDispatch,
-) {
-  if (error instanceof HttpError && error.response) {
-    const statusCode = error.response.status;
-
-    if (statusCode === 401 && loggedIn) {
-      dispatch(logout());
-    }
-
-    if (propagateError) {
-      const serverRenderer = !__CLIENT__;
-
-      if ((serverRenderer && statusCode < 500) || !serverRenderer) {
-        dispatch(setStatusCode(statusCode));
-      }
-    }
-  }
-
-  return error;
-}
 
 type MultipleApiResponse<E> = {
   results: E[];

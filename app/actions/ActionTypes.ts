@@ -123,7 +123,6 @@ export const LendableObjects = {
 export const Announcements = {
   FETCH_ALL: generateStatuses('Announcements.FETCH_ALL') as AAT,
   CREATE: generateStatuses('Announcements.CREATE') as AAT,
-  SEND: generateStatuses('Announcements.SEND') as AAT,
   DELETE: generateStatuses('Announcements.DELETE') as AAT,
 };
 
