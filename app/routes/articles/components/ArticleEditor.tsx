@@ -40,39 +40,36 @@ import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { validYoutubeUrl } from 'app/utils/validation';
+import {
+  createValidator,
+  required,
+  validYoutubeUrl,
+} from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { AdminDetailedArticle } from 'app/store/models/Article';
 
-type ValidationError<T> = Partial<{
-  [key in keyof T]: string | Record<string, string>[];
-}>;
+const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
-const validate = (data) => {
-  const errors: ValidationError<EditingEvent> = {};
-  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
-    data.youtubeUrl,
-  );
-
-  if (!isValidYoutubeUrl) {
-    errors.youtubeUrl = errorMessage;
-  }
-
-  if (!data.authors || data.authors.length === 0) {
-    errors.authors = 'Forfatter er påkrevd';
-  }
-  return errors;
-};
+const validate = createValidator({
+  cover: [required('Cover er påkrevd')],
+  youtubeUrl: [validYoutubeUrl()],
+  title: [required('Tittel er påkrevd')],
+  description: [required('Beskrivelse er påkrevd')],
+  authors: [required('Forfatter er påkrevd')],
+});
 
 type ArticleEditorParams = { articleId: string };
+
 const ArticleEditor = () => {
   const currentUser = useCurrentUser();
   const { articleId } = useParams<ArticleEditorParams>() as ArticleEditorParams;
   const isNew = articleId === undefined;
+
   const article = useAppSelector((state) =>
     selectArticleById(state, articleId),
   ) as AdminDetailedArticle | undefined;
   const fetching = useAppSelector((state) => state.articles.fetching);
+
   let authors = useAppSelector((state) =>
     selectUsersByIds(state, article?.authors || []),
   );
@@ -154,7 +151,7 @@ const ArticleEditor = () => {
         }}
       />
 
-      <LegoFinalForm
+      <TypedLegoForm
         onSubmit={onSubmit}
         validate={validate}
         initialValues={initialValues}
@@ -167,15 +164,13 @@ const ArticleEditor = () => {
               aspectRatio={20 / 6}
               img={article && article.cover}
             />
-            <Flex>
-              <Field
-                name="youtubeUrl"
-                label="Erstatt cover-bildet med video fra YouTube"
-                description="Videoen erstatter ikke coveret i listen over artikler"
-                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-                component={TextInput.Field}
-              />
-            </Flex>
+            <Field
+              name="youtubeUrl"
+              label="Erstatt cover-bildet med video fra YouTube"
+              description="Videoen erstatter ikke coveret i listen over artikler"
+              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+              component={TextInput.Field}
+            />
             <Field
               label="Festet på forsiden"
               name="pinned"
@@ -189,6 +184,7 @@ const ArticleEditor = () => {
               label="Tittel"
               component={TextInput.Field}
               id="article-title"
+              required
             />
 
             <Field
@@ -228,7 +224,9 @@ const ArticleEditor = () => {
               label="Beskrivelse"
               component={TextArea.Field}
               id="article-title"
+              required
             />
+
             <Field
               placeholder="Skriv artikkelen din her ..."
               name="content"
@@ -263,7 +261,7 @@ const ArticleEditor = () => {
             </Flex>
           </Form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
     </Content>
   );
 };
