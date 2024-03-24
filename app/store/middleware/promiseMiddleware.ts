@@ -36,10 +36,7 @@ export interface RejectedPromiseAction<Payload = unknown, Meta = unknown> {
   meta: Meta;
 }
 
-export default function promiseMiddleware(): Middleware<
-  <T, M>(action: PromiseAction<T, M>) => Promise<ResolvedPromiseAction<T, M>>,
-  RootState
-> {
+export default function promiseMiddleware() {
   return () => (next) => (action) => {
     if (!isPromiseAction(action)) {
       return next(action);
