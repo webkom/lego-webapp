@@ -1,5 +1,11 @@
 // is often expanded with additional properties
-import type { EntityId, AnyAction } from '@reduxjs/toolkit';
+import { isNotNullish } from 'app/utils';
+import type {
+  EntityId,
+  AnyAction,
+  PayloadAction,
+  UnknownAction,
+} from '@reduxjs/toolkit';
 import type Entities from 'app/store/models/entities';
 import type {
   EntityType,
@@ -7,6 +13,7 @@ import type {
 } from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 
+// is often expanded with additional properties
 interface BaseMeta {
   queryString: string;
   cursor: string;
@@ -14,6 +21,7 @@ interface BaseMeta {
   enableOptimistic: boolean;
   endpoint: string;
   schemaKey: string;
+  entityType?: string;
 }
 export interface FetchMeta extends BaseMeta {
   paginationKey?: string;
@@ -57,13 +65,8 @@ export interface AsyncApiActionSuccess<
   type: `${string}.SUCCESS`;
 }
 
-export interface AsyncApiActionSuccessWithEntityType<T extends EntityType>
-  extends AsyncApiActionSuccess<FetchMeta, FetchPayload> {
-  payload: AsyncApiActionSuccess['payload'] & NormalizedEntityPayload<T>;
-}
-
 const isAsyncApiAction = (action: AnyAction): action is AsyncApiAction =>
-  action.meta && action.meta.endpoint;
+  action.meta && (action.meta.endpoint || action.meta.entityType);
 
 export const isAsyncApiActionBegin = (
   action: AnyAction,
@@ -88,7 +91,10 @@ isAsyncApiActionFailure.matching =
 export const isAsyncApiActionSuccess = (
   action: AnyAction,
 ): action is AsyncApiActionSuccess =>
-  isAsyncApiAction(action) && action.type.endsWith('.SUCCESS');
+  isAsyncApiAction(action) &&
+  (action.type.endsWith('.SUCCESS') ||
+    ('requestStatus' in action.meta &&
+      action.meta.requestStatus === 'fulfilled'));
 isAsyncApiActionSuccess.matching =
   <Meta extends BaseMeta = BaseMeta, Payload extends AnyPayload = null>(
     actionTypes: AsyncActionType[],
@@ -99,11 +105,31 @@ isAsyncApiActionSuccess.matching =
 isAsyncApiActionSuccess.withSchemaKey =
   <Meta extends BaseMeta = BaseMeta>(entityType: EntityType) =>
   (action: AnyAction): action is AsyncApiActionSuccess<Meta> =>
-    isAsyncApiActionSuccess(action) && action.meta.schemaKey === entityType;
-isAsyncApiActionSuccess.containingEntity =
-  <T extends EntityType>(entityType: T) =>
-  (action: AnyAction): action is AsyncApiActionSuccessWithEntityType<T> =>
     isAsyncApiActionSuccess(action) &&
-    !!action.payload &&
-    'entities' in action.payload &&
-    entityType in action.payload.entities;
+    (action.meta.schemaKey === entityType ||
+      action.meta.entityType === entityType);
+
+export const isPayloadAction = (
+  action: UnknownAction,
+): action is PayloadAction => action.payload !== undefined;
+
+export const isNormalizedEntitiesContainingType = <T extends EntityType>(
+  payload: unknown,
+  entityType: T,
+): payload is NormalizedEntityPayload<T> =>
+  !!payload &&
+  typeof payload === 'object' &&
+  'entities' in payload &&
+  !!payload.entities &&
+  typeof payload.entities === 'object' &&
+  'result' in payload &&
+  isNotNullish(payload.result) &&
+  entityType in payload.entities;
+
+export const isNormalizedEntitiesActionContainingType =
+  <T extends EntityType>(entityType: T) =>
+  (
+    action: UnknownAction,
+  ): action is PayloadAction<NormalizedEntityPayload<T>> =>
+    isPayloadAction(action) &&
+    isNormalizedEntitiesContainingType<T>(action.payload, entityType);

@@ -1,4 +1,5 @@
 import callAPI from 'app/actions/callAPI';
+import createApiThunk from 'app/actions/createApiThunk';
 import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
@@ -185,32 +186,29 @@ export function deleteEvent(eventId: EntityId) {
   });
 }
 
-export function register({
-  eventId,
-  captchaResponse,
-  feedback,
-  userId,
-}: {
+type RegisterArg = {
   eventId: EntityId;
   captchaResponse: string;
   feedback: string;
   userId: EntityId;
-}) {
-  return callAPI({
-    types: Event.REQUEST_REGISTER,
+};
+export const register = createApiThunk(
+  'event/register',
+  ({ eventId, userId, captchaResponse, feedback }: RegisterArg) => ({
     endpoint: `/events/${eventId}/registrations/`,
     method: 'POST',
     body: {
       captchaResponse,
       feedback,
     },
-    meta: {
+    extraMeta: {
       id: eventId,
       userId,
-      errorMessage: 'Registering til arrangement feilet',
     },
-  });
-}
+    errorMessage: 'Registering til arrangement feilet',
+  }),
+  (payload) => payload,
+);
 
 export function unregister({
   eventId,

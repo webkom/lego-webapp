@@ -1,4 +1,4 @@
-import { isAsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
+import { isNormalizedEntitiesActionContainingType } from 'app/utils/legoAdapter/asyncApiActions';
 import type { EntityAdapter, EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
@@ -15,9 +15,12 @@ const buildEntitiesReducer = <
   entityType: T,
 ) => {
   builder.addMatcher(
-    isAsyncApiActionSuccess.containingEntity(entityType),
+    isNormalizedEntitiesActionContainingType(entityType),
     (state, action) => {
-      adapter.upsertMany(state, action.payload.entities[entityType]);
+      adapter.upsertMany(
+        state,
+        Object.values(action.payload.entities[entityType]),
+      );
     },
   );
 };

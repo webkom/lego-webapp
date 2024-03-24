@@ -6,7 +6,12 @@ import buildDeleteEntityReducer from 'app/utils/legoAdapter/buildDeleteEntityRed
 import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
-import type { EntityAdapter, EntitySelectors } from '@reduxjs/toolkit';
+import type {
+  EntityAdapter,
+  EntitySelectors,
+  AsyncThunk,
+} from '@reduxjs/toolkit';
+import type { AsyncThunkConfig } from '@reduxjs/toolkit/src/createAsyncThunk';
 import type {
   EntityAdapterOptions,
   EntityId,
@@ -71,7 +76,9 @@ type LegoAdapter<Entity, Id extends EntityId> = Assign<
       defaultCaseReducer?: Parameters<
         ReducerBuilder<Entity, Id, ExtraState>['addDefaultCase']
       >[0];
-      fetchActions?: AsyncActionType[];
+      fetchActions?:
+        | AsyncActionType[]
+        | AsyncThunk<unknown, unknown, AsyncThunkConfig>[];
       deleteActions?: AsyncActionType[];
     }): (builder: ReducerBuilder<Entity, Id, ExtraState>) => void;
     getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;
@@ -145,7 +152,7 @@ function createLegoAdapter<
         buildFetchingReducer(builder, fetchActions);
         buildEntitiesReducer(builder, entityAdapter, entityType);
         buildActionGrantReducer(builder, entityType);
-        buildDeleteEntityReducer(builder, deleteActions);
+        buildDeleteEntityReducer(builder, entityType, deleteActions);
         buildPaginationReducer(builder, fetchActions);
 
         extraMatchers?.(builder.addMatcher);

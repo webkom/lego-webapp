@@ -114,7 +114,11 @@ export default interface Entities {
   [EntityType.Users]: Record<EntityId, UnknownUser>;
 }
 
-type InferEntityType<T> = {
+export type EntityTypeMap<Keys extends keyof Entities = never> = {
+  [K in Keys]: InferEntityType<K>;
+};
+
+export type InferEntityType<T> = {
   [K in keyof Entities]: T extends Entities[K][EntityId] ? K : never;
 }[keyof Entities];
 
@@ -123,6 +127,10 @@ export type NormalizedPayloadEntities<T> = Record<
   Record<EntityId, T | undefined>
 >;
 
-export interface NormalizedEntityPayload<EntityKeys extends keyof Entities> {
+export interface NormalizedEntityPayload<
+  EntityKeys extends keyof Entities,
+  Ids extends EntityId | EntityId[] = EntityId | EntityId[],
+> {
   entities: Pick<Entities, EntityKeys>;
+  result: Ids;
 }

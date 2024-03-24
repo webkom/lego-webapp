@@ -1,16 +1,15 @@
 import { parse } from 'qs';
+import { isAsyncActionType } from 'app/types';
 import {
   isAsyncApiActionBegin,
   isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
 } from 'app/utils/legoAdapter/asyncApiActions';
-import type { EntityId } from '@reduxjs/toolkit';
+import type { AsyncThunk, EntityId } from '@reduxjs/toolkit';
+import type { AsyncThunkConfig } from '@reduxjs/toolkit/src/createAsyncThunk';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { AsyncActionType } from 'app/types';
-import type {
-  FetchMeta,
-  FetchPayload,
-} from 'app/utils/legoAdapter/asyncApiActions';
+import type { FetchMeta } from 'app/utils/legoAdapter/asyncApiActions';
 import type { ParsedQs } from 'qs';
 
 export type Pagination<Id extends EntityId = EntityId> = {
@@ -41,10 +40,18 @@ export const createInitialPagination = <Id extends EntityId = EntityId>(
 
 const buildPaginationReducer = (
   builder: ActionReducerMapBuilder<StateWithPagination>,
-  actionTypes: AsyncActionType[],
+  actionTypes:
+    | AsyncActionType[]
+    | AsyncThunk<unknown, unknown, AsyncThunkConfig>[],
 ) => {
+  const legacyActionTypes = actionTypes.filter(isAsyncActionType);
+  const asyncThunks = actionTypes.filter(
+    (at) => !isAsyncActionType(at),
+  ) as AsyncThunk<unknown, unknown, AsyncThunkConfig>[];
   builder.addMatcher(
-    isAsyncApiActionBegin.matching<FetchMeta>(actionTypes),
+    (action) =>
+      isAsyncApiActionBegin.matching<FetchMeta>(legacyActionTypes)(action) ||
+      asyncThunks.some((at) => at.pending.match(action)),
     (state, action) => {
       const paginationKey = action.meta.paginationKey ?? '';
       state.paginationNext[paginationKey] ??= createInitialPagination(
@@ -64,7 +71,9 @@ const buildPaginationReducer = (
     },
   );
   builder.addMatcher(
-    isAsyncApiActionSuccess.matching<FetchMeta, FetchPayload>(actionTypes),
+    (action) =>
+      isAsyncApiActionSuccess.matching<FetchMeta>(legacyActionTypes)(action) ||
+      asyncThunks.some((at) => at.fulfilled.match(action)),
     (state, action) => {
       const paginationKey = action.meta.paginationKey ?? '';
       state.paginationNext[paginationKey] ??= createInitialPagination(
