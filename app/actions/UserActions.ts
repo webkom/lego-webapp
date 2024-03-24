@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
+import createApiThunk from 'app/actions/createApiThunk';
 import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';
 import { setStatusCode } from 'app/reducers/routing';
@@ -357,19 +358,18 @@ export function sendRegistrationEmail({ email, captchaResponse }: EmailArgs) {
     },
   });
 }
-export function validateRegistrationToken(token: string) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<unknown>({
-        types: User.VALIDATE_REGISTRATION_TOKEN,
-        endpoint: `/users-registration-request/?token=${token}`,
-        meta: {
-          errorMessage: 'Validering av registrerings-token feilet',
-          token,
-        },
-      }),
-    );
-}
+
+export const validateRegistrationToken = createApiThunk(
+  'user/validateRegistrationToken',
+  (token: string) => ({
+    endpoint: `/users-registration-request/?token=${token}`,
+    errorMessage: 'Validering av registrerings-token feilet',
+    extraMeta: {
+      token,
+    },
+  }),
+  (payload) => payload,
+);
 
 export function createUser(token: string, data: UserConfirmationFormValues) {
   return callAPI<{ user: CurrentUser; token: EncodedToken }>({

@@ -3,6 +3,7 @@ import { groupBy, orderBy, without } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
+import { register } from 'app/actions/EventActions';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
 import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
@@ -77,7 +78,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
       newState.pagination = {};
       break;
 
-    case Event.REQUEST_REGISTER.BEGIN:
+    case register.pending.type:
       newState.byId[action.meta.id].loading = true;
       break;
 
