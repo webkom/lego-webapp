@@ -21,7 +21,7 @@ type Props<Option, IsMulti extends boolean = false> = {
     previousValue?: string,
     name?: string,
   ) => void;
-  onChange?: (event: ChangeEvent | string) => void;
+  onChange?: (event: ChangeEvent | string | Option[]) => void;
   onSearch: (search: string) => void;
   isValidNewOption: (arg0: string) => boolean;
   value: any;
@@ -30,7 +30,15 @@ type Props<Option, IsMulti extends boolean = false> = {
   creatable?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
+  filter?: string[];
+  SuggestionComponent?: SuggestionComponent;
 };
+
+export type SuggestionComponent<Option = { label: string; value: number }> =
+  React.ComponentType<{
+    value: Option[];
+    onChange?: (event: ChangeEvent | string | Option[]) => void;
+  }>;
 
 export const selectStyles: StylesConfig = {
   control: (styles, { isDisabled }) => ({
@@ -90,6 +98,7 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
   placeholder,
   creatable,
   onSearch,
+  SuggestionComponent,
   ...props
 }: Props<Option, IsMulti>) => {
   if (props.tags) {
@@ -128,6 +137,9 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
 
   return (
     <div className={style.field}>
+      {SuggestionComponent && (
+        <SuggestionComponent value={value} onChange={props.onChange} />
+      )}
       <Select
         {...props}
         isDisabled={disabled}
