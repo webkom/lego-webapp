@@ -37,10 +37,10 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import config from 'app/config';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
@@ -56,6 +56,7 @@ import {
 } from 'app/utils/validation';
 import type { ID } from 'app/store/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const time = (hours: number, minutes?: number) =>
@@ -99,24 +100,29 @@ const validate = createValidator({
   ],
 });
 
+type MeetingEditorParams = {
+  meetingId?: string;
+};
 const MeetingEditor = () => {
-  const { meetingId } = useParams<{ meetingId?: string }>();
-  const isEditPage = meetingId !== undefined;
+  const { meetingId } = useParams<MeetingEditorParams>();
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, { meetingId }),
+    meetingId
+      ? (selectMeetingById(state, meetingId) as DetailedMeeting)
+      : undefined,
   );
+  const isEditPage = meeting !== undefined;
   const meetingInvitations = useAppSelector((state) =>
-    selectMeetingInvitationsForMeeting(state, {
-      meetingId,
-    }),
+    meetingId
+      ? selectMeetingInvitationsForMeeting(state, meetingId)
+      : undefined,
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.reportAuthor,
-    }),
+    meeting?.reportAuthor
+      ? selectUserById(state, meeting?.reportAuthor)
+      : undefined,
   );
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   const [fetchedGroupIds, setFetchedGroupIds] = useState<ID[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<
@@ -166,7 +172,7 @@ const MeetingEditor = () => {
     );
   }
 
-  const currentUserSearchable = {
+  const currentUserSearchable = currentUser && {
     value: currentUser.username,
     label: currentUser.fullName,
     id: currentUser.id,
@@ -200,8 +206,10 @@ const MeetingEditor = () => {
       },
     );
 
-  const onDeleteMeeting = () =>
-    dispatch(deleteMeeting(meeting?.id)).then(() => navigate('/meetings/'));
+  const onDeleteMeeting = isEditPage
+    ? () =>
+        dispatch(deleteMeeting(meeting.id)).then(() => navigate('/meetings/'))
+    : undefined;
 
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
@@ -220,7 +228,7 @@ const MeetingEditor = () => {
           label: meeting.location,
           value: meeting.mazemapPoi,
         },
-        useMazemap: meeting.mazemapPoi > 0,
+        useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
       }
     : {
         startTime: time(16, 15),

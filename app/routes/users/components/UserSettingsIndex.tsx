@@ -5,6 +5,7 @@ import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useUserContext } from 'app/routes/app/AppRoute';
 import pageNotFound from 'app/routes/pageNotFound';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
@@ -21,7 +22,7 @@ const StudentConfirmation = loadable(() => import('./StudentConfirmation'));
 const UserSettingsIndex = () => {
   const { username } = useParams<{ username: string }>();
   const isCurrentUser = useIsCurrentUser(username);
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const base = `/users/${username}/settings`;
 
   // At the moment changing settings for other users only works
@@ -45,7 +46,7 @@ const UserSettingsIndex = () => {
             </NavigationLink>
             <NavigationLink to={`${base}/oauth2`}>OAuth2</NavigationLink>
             <NavigationLink to={`${base}/student-confirmation`}>
-              {currentUser.isStudent
+              {currentUser?.isStudent
                 ? 'Studentstatus'
                 : 'Verifiser studentstatus'}
             </NavigationLink>

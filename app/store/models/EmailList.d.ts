@@ -1,4 +1,5 @@
 import type { ID } from 'app/store/models/index';
+import type { RoleType } from 'app/utils/constants';
 
 interface CompleteEmailList {
   id: ID;
@@ -6,7 +7,7 @@ interface CompleteEmailList {
   email: string;
   users: ID[];
   groups: ID[];
-  groupRoles: string[];
+  groupRoles: RoleType[];
   requireInternalAddress: boolean;
   additionalEmails?: string[];
 }
@@ -35,3 +36,6 @@ export type DetailedEmailList = Pick<
 >;
 
 export type UnknownEmailList = PublicEmailList | DetailedEmailList;
+
+export type EditEmailList = DetailedEmailList;
+export type CreateEmailList = Omit<EditEmailList, 'id'>;

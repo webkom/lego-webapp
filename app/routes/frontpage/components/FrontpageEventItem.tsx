@@ -1,7 +1,7 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { eventStatus } from 'app/utils/eventStatus';
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const FrontpageEventItem = ({ item, url, meta }: Props) => {
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
   const info = item && eventStatus(item, loggedIn);
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,

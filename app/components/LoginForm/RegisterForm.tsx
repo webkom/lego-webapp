@@ -1,3 +1,4 @@
+import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { sendRegistrationEmail } from 'app/actions/UserActions';
@@ -9,8 +10,22 @@ import {
   SubmissionError,
   LegoFinalForm,
 } from 'app/components/Form';
+import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
+import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import styles from './RegisterForm.css';
+
+const isStudMail = (email: string) =>
+  email.toLowerCase().endsWith('@stud.ntnu.no') ||
+  email.toLowerCase().endsWith('@ntnu.no');
+
+type FormValues = Partial<{
+  email: string;
+  captchaResponse: string;
+}>;
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const validate = createValidator({
   email: [required(), isEmail()],
@@ -45,7 +60,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <LegoFinalForm onSubmit={onSubmit} validate={validate}>
+    <TypedLegoForm onSubmit={onSubmit} validate={validate}>
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
           <Field
@@ -53,19 +68,56 @@ const RegisterForm = () => {
             component={TextInput.Field}
             placeholder="E-post"
           />
-          <Field
-            name="captchaResponse"
-            fieldStyle={{
-              width: 304,
-            }}
-            component={Captcha.Field}
-          />
+          <Field name="captchaResponse" component={Captcha.Field} />
 
           <SubmissionError />
-          <SubmitButton dark>Registrer deg</SubmitButton>
+
+          {spyValues<FormValues>((values) => {
+            if (values.email && isStudMail(values.email)) {
+              return (
+                <ConfirmModal
+                  title="Pass på!"
+                  message={
+                    <>
+                      <p>
+                        Det ser ut som du prøver å registrere deg med en
+                        student-e-post. Denne kommer du til å miste tilgang til
+                        når du går ut fra NTNU, og da vil du ikke lenger kunne
+                        lese e-post om oppdateringer som tilbakestilling av
+                        passord og{' '}
+                        <Tooltip
+                          content="For å respektere personvern og ikke lagre informasjon vi ikke trenger,
+                          sletter vi brukere som ikke har vært logget inn på ett år. I en liten perioden
+                          fram til dette skjer sender vi ut e-post for å advare deg i tilfelle du vil
+                          beholder brukeren din."
+                          className={styles.tooltip}
+                        >
+                          <Flex alignItems="center" gap="var(--spacing-xs)">
+                            automatisk sletting
+                            <Icon name="help-circle-outline" size={18} />
+                          </Flex>
+                        </Tooltip>{' '}
+                        av brukeren din.
+                      </p>
+                      <p>Er du sikker på at du vil fortsette?</p>
+                    </>
+                  }
+                  onConfirm={handleSubmit}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button onClick={openConfirmModal} dark>
+                      Registrer deg
+                    </Button>
+                  )}
+                </ConfirmModal>
+              );
+            }
+
+            return <SubmitButton dark>Registrer deg</SubmitButton>;
+          })}
         </Form>
       )}
-    </LegoFinalForm>
+    </TypedLegoForm>
   );
 };
 

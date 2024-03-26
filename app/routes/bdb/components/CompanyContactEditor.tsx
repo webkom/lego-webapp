@@ -17,7 +17,6 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { DetailNavigation } from '../utils';
-import styles from './bdb.css';
 
 export type FormValues = {
   name: string;
@@ -90,47 +89,45 @@ const CompanyContactEditor = () => {
         bedriftskontakt
       </h3>
 
-      <div className={styles.detail}>
-        <TypedLegoForm
-          onSubmit={onSubmit}
-          initialValues={initialValues}
-          validate={validate}
-        >
-          {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
-              <Field
-                placeholder="Arne Arnsten"
-                label="Navn"
-                name="name"
-                component={TextInput.Field}
-              />
+      <TypedLegoForm
+        onSubmit={onSubmit}
+        initialValues={initialValues}
+        validate={validate}
+      >
+        {({ handleSubmit }) => (
+          <form onSubmit={handleSubmit}>
+            <Field
+              placeholder="Arne Arnsten"
+              label="Navn"
+              name="name"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="Konsulent"
-                label="Rolle"
-                name="role"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="Konsulent"
+              label="Rolle"
+              name="role"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="arne@bedrift.no"
-                label="E-post"
-                name="mail"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="arne@bedrift.no"
+              label="E-post"
+              name="mail"
+              component={TextInput.Field}
+            />
 
-              <Field
-                label="Telefonnummer"
-                placeholder="12312312"
-                name="phone"
-                component={TextInput.Field}
-              />
+            <Field
+              label="Telefonnummer"
+              placeholder="12312312"
+              name="phone"
+              component={TextInput.Field}
+            />
 
-              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-            </form>
-          )}
-        </TypedLegoForm>
-      </div>
+            <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+          </form>
+        )}
+      </TypedLegoForm>
     </Content>
   );
 };

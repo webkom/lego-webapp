@@ -3,8 +3,8 @@ import cx from 'classnames';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
 import { updateUserTheme } from 'app/actions/UserActions';
-import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
+import { useAppDispatch } from 'app/store/hooks';
 import { applySelectedTheme, getTheme, useTheme } from 'app/utils/themeUtils';
 import styles from './toggleTheme.css';
 import type { ReactNode, MouseEvent } from 'react';
@@ -19,8 +19,8 @@ type Props = {
 
 const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-  const username = useAppSelector(selectCurrentUser)?.username;
+  const loggedIn = useIsLoggedIn();
+  const username = useCurrentUser()?.username;
   const icon = useIcon();
 
   const handleThemeChange = useCallback(

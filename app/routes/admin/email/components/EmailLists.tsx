@@ -12,7 +12,7 @@ import useQuery from 'app/utils/useQuery';
 const emailListsDefaultQuery = {
   name: '',
   email: '',
-  requireInternalAddress: undefined as undefined | 'true' | 'false',
+  requireInternalAddress: '' as '' | 'true' | 'false',
 };
 
 const EmailLists = () => {

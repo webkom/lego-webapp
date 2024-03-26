@@ -7,9 +7,11 @@ import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 //import Banner from 'app/components/Banner';
+import CountDown from 'app/components/CountDown';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectEvents } from 'app/reducers/events';
 import {
   addArticleType,
@@ -18,7 +20,6 @@ import {
 } from 'app/reducers/frontpage';
 import { selectPinnedPolls } from 'app/reducers/polls';
 import { selectRandomQuote } from 'app/reducers/quotes';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import ArticleItem from './ArticleItem';
@@ -46,7 +47,7 @@ const AuthenticatedFrontpage = () => {
 
   const pinned = useAppSelector(selectPinned);
   const shouldFetchQuote = useAppSelector(selectRandomQuote) === undefined;
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
 
@@ -79,6 +80,7 @@ const AuthenticatedFrontpage = () => {
   return (
     <Container>
       <Helmet title="Hjem" />
+      <CountDown />
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"
@@ -155,7 +157,7 @@ const Events = ({
 
 const Weekly = () => {
   const weeklyArticles = useAppSelector((state) =>
-    selectArticlesByTag(state, { tag: 'weekly' }),
+    selectArticlesByTag(state, 'weekly'),
   );
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.articles.fetching,

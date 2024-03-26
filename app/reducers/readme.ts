@@ -1,16 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Readme } from 'app/actions/ActionTypes';
-import type { AnyAction } from '@reduxjs/toolkit';
-import type { Readme as ReadmeType } from 'app/models';
+import { fetchReadmes } from 'app/actions/FrontpageActions';
+import type { Readme } from 'app/models';
 
 const readmeSlice = createSlice({
   name: 'readme',
-  initialState: [] as ReadmeType[],
+  initialState: [] as Readme[],
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(Readme.FETCH.SUCCESS, (_, action: AnyAction) => {
-      return action.payload;
-    });
+    builder.addCase(fetchReadmes.fulfilled, (_, action) => action.payload);
   },
 });
 

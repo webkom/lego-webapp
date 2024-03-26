@@ -6,6 +6,13 @@ import type {
 } from 'app/store/models/User';
 import type { ID } from 'app/store/models/index';
 
+export enum Presence {
+  PRESENT = 'PRESENT',
+  LATE = 'LATE',
+  NOT_PRESENT = 'NOT_PRESENT',
+  UNKNOWN = 'UNKNOWN',
+}
+
 interface Registration {
   id: ID;
   user: PublicUser;
@@ -14,7 +21,7 @@ interface Registration {
   updatedBy: ID;
   pool: ID;
   event: ID;
-  presence: string; //TODO: enum
+  presence: Presence;
   feedback: string;
   sharedMemberships: unknown;
   status: string; //TODO: enum
@@ -82,10 +89,13 @@ export type DetailedRegistration = Pick<
   user: DetailedUser;
 };
 
-export type UnknownRegistration =
+export type UnknownRegistration = (
   | AnonymizedRegistration
   | PublicRegistration
   | ReadRegistration
   | SearchRegistration
   | PaymentRegistration
-  | DetailedRegistration;
+  | DetailedRegistration
+) & {
+  fetching?: boolean;
+};

@@ -20,9 +20,9 @@ import PropertyHelmet, {
 } from 'app/components/PropertyHelmet';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import config from 'app/config';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GalleryDetailsRow from './GalleryDetailsRow';
@@ -69,7 +69,7 @@ const GalleryDetail = () => {
     (state) => state.galleries.fetching || state.galleryPictures.fetching,
   );
   const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
 

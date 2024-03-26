@@ -1,12 +1,14 @@
-import { produce } from 'immer';
-import { union, find } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
 import { eventSchema, registrationSchema } from 'app/reducers';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import mergeObjects from 'app/utils/mergeObjects';
+import { selectGroupEntities } from 'app/reducers/groups';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { User, Event } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
+import type { AnyAction, EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 import type { ID } from 'app/store/models';
 
 export type UserEntity = {
@@ -24,66 +26,55 @@ export type UserEntity = {
   isStudent?: boolean;
 };
 
-type State = any;
-export default createEntityReducer({
-  key: 'users',
-  types: {
-    fetch: User.FETCH,
-  },
-  mutate: produce((newState: State, action: any): void => {
-    switch (action.type) {
-      case Event.SOCKET_EVENT_UPDATED: {
-        const users =
-          normalize(action.payload, eventSchema).entities.users || {};
-        newState.byId = mergeObjects(newState.byId, users);
-        newState.items = union(
-          newState.items,
-          (Object.values(users) as any).map((u) => u.id),
-        );
-        break;
-      }
+const legoAdapter = createLegoAdapter(EntityType.Users);
 
-      case Event.SOCKET_REGISTRATION.SUCCESS:
-      case Event.ADMIN_REGISTER.SUCCESS: {
-        if (!action.payload.user) break;
-        const users = normalize(action.payload, registrationSchema).entities
-          .users;
-        newState.byId = mergeObjects(newState.byId, users);
-        newState.items = union(
-          newState.items,
-          (Object.values(users) as any).map((u) => u.id),
-        );
-        break;
-      }
-
-      default:
-        break;
-    }
+const usersSlice = createSlice({
+  name: EntityType.Users,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [User.FETCH],
+    extraCases: (addCase) => {
+      addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
+        const users = normalize(action.payload, eventSchema).entities.users!;
+        if (!users) return;
+        legoAdapter.upsertMany(state, users);
+      });
+    },
+    extraMatchers: (addMatcher) => {
+      addMatcher(
+        (action) =>
+          action.type === Event.SOCKET_REGISTRATION.SUCCESS ||
+          action.type === Event.ADMIN_REGISTER.SUCCESS,
+        (state, action: AnyAction) => {
+          if (!action.payload.user) return;
+          const users = normalize(action.payload, registrationSchema).entities
+            .users!;
+          legoAdapter.upsertMany(state, users);
+        },
+      );
+    },
   }),
 });
-export const selectUserById = createSelector(
-  (state) => state.users.byId,
-  (state, props) => props.userId,
-  (usersById, userId) => usersById[userId] || {},
-);
+
+export default usersSlice.reducer;
+
+export const {
+  selectById: selectUserById,
+  selectEntities: selectUserEntities,
+  selectByField: selectUsersByField,
+} = legoAdapter.getSelectors((state: RootState) => state.users);
+export const selectUserByUsername = selectUsersByField('username').single;
 
 export const selectUsersByIds = createSelector(
-  (state) => state.users.byId,
-  (state, props) => props.userIds, // Note that this is now an array
-  (usersById, userIds) => {
-    if (!userIds) return [];
-    return userIds.map((userId) => usersById[userId] || {});
-  },
+  selectUserEntities,
+  (_: RootState, userIds: EntityId[]) => userIds,
+  (userEntities, userIds) => userIds.map((userId) => userEntities[userId]),
 );
 
-export const selectUserByUsername = createSelector(
-  (state) => state.users.byId,
-  (state, props) => props.username,
-  (usersById, username) => find(usersById, ['username', username]),
-);
 export const selectUserWithGroups = createSelector(
   (
-    state,
+    state: RootState,
     {
       username,
       userId,
@@ -93,20 +84,17 @@ export const selectUserWithGroups = createSelector(
     },
   ) =>
     username
-      ? selectUserByUsername(state, {
-          username,
-        })
-      : selectUserById(state, {
-          userId,
-        }),
-  (state) => state.groups.byId,
-  (user, groupsById) => {
+      ? selectUserByUsername(state, username)
+      : selectUserById(state, userId!),
+  selectGroupEntities,
+  (user, groupEntities) => {
     if (!user) return;
     return {
       ...user,
-      abakusGroups: user.abakusGroups
-        ? user.abakusGroups.map((groupId) => groupsById[groupId])
-        : [],
+      abakusGroups:
+        'abakusGroups' in user
+          ? user.abakusGroups.map((groupId) => groupEntities[groupId])
+          : [],
     };
   },
 );

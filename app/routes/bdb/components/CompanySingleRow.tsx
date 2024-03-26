@@ -6,7 +6,6 @@ import {
 } from 'app/store/models/Company';
 import { indexToSemester } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.css';
 
 type Props = {
   company: Record<string, any>;
@@ -64,7 +63,7 @@ export default class CompanySingleRow extends Component<Props> {
               </Link>
             ))}
         </td>
-        <td className={styles.adminComment}>{company.adminComment}</td>
+        <td>{company.adminComment}</td>
       </tr>
     );
   }

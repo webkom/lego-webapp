@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Page } from '../actions/ActionTypes';
-import { selectGroupsWithType, selectGroup } from './groups';
+import { selectGroupsByType, selectGroupById } from './groups';
 import { selectPaginationNext } from './selectors';
 import type Membership from 'app/store/models/Membership';
 import type { RoleType } from 'app/utils/constants';
@@ -69,10 +69,7 @@ export const selectPagesForHierarchy = (category: string) =>
 
 const createGroupSelector = (type: string, section: string) =>
   createSelector(
-    (state) =>
-      selectGroupsWithType(state, {
-        groupType: type,
-      }),
+    (state) => selectGroupsByType(state, type),
     (state, props) => props.title,
     (groups, title) => ({
       title,
@@ -144,10 +141,7 @@ const groupMemberships = (memberships, groupId) => {
 };
 
 export const selectCommitteeForPages = createSelector(
-  (state, { pageSlug }) =>
-    selectGroup(state, {
-      groupId: pageSlug,
-    }),
+  (state, { pageSlug }) => selectGroupById(state, pageSlug),
   (
     state,
     props, // $FlowFixMe pls

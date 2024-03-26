@@ -1,28 +1,30 @@
-import { produce } from 'immer';
-import { union, without } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit';
+import { without } from 'lodash';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import mergeObjects from 'app/utils/mergeObjects';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Event } from '../actions/ActionTypes';
+import type { AnyAction } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
+import type { AuthPool } from 'app/store/models/Pool';
 
-type State = any;
-export default createEntityReducer({
-  key: 'pools',
-  types: {},
-  mutate: produce((newState: State, action: any): void => {
-    switch (action.type) {
-      case Event.SOCKET_EVENT_UPDATED: {
+const legoAdapter = createLegoAdapter(EntityType.Pools);
+
+const poolsSlice = createSlice({
+  name: EntityType.Pools,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    extraCases: (addCase) => {
+      addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const pools =
           normalize(action.payload, eventSchema).entities.pools || {};
-        newState.byId = mergeObjects(newState.byId, pools);
-        newState.items = union(newState.items, Object.keys(pools).map(Number));
-        break;
-      }
-
-      case Event.SOCKET_REGISTRATION.SUCCESS: {
+        legoAdapter.upsertMany(state, pools);
+      });
+      addCase(Event.SOCKET_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
         const poolId = action.payload.pool;
-        const statePool = newState.byId[poolId];
+        const statePool = state.entities[poolId] as AuthPool;
 
         if (!poolId || !statePool) {
           return;
@@ -33,33 +35,36 @@ export default createEntityReducer({
         }
 
         statePool.registrationCount++;
-        break;
-      }
+      });
+      addCase(
+        Event.SOCKET_UNREGISTRATION.SUCCESS,
+        (state, action: AnyAction) => {
+          const {
+            meta: { fromPool },
+            payload,
+          } = action;
+          const statePool = state.entities[fromPool] as AuthPool;
 
-      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-        const {
-          meta: { fromPool },
-          payload,
-        } = action;
-        const statePool = newState.byId[fromPool];
+          if (!fromPool || !statePool) {
+            return;
+          }
 
-        if (!fromPool || !statePool) {
-          return;
-        }
+          if (statePool.registrations) {
+            statePool.registrations = without(
+              statePool.registrations,
+              payload.id,
+            );
+          }
 
-        if (statePool.registrations) {
-          statePool.registrations = without(
-            statePool.registrations,
-            payload.id,
-          );
-        }
-
-        statePool.registrationCount--;
-        break;
-      }
-
-      default:
-        break;
-    }
+          statePool.registrationCount--;
+        },
+      );
+    },
   }),
 });
+
+export default poolsSlice.reducer;
+
+export const { selectEntities: selectPoolEntities } = legoAdapter.getSelectors(
+  (state: RootState) => state.pools,
+);

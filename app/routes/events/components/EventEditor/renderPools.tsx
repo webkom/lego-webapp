@@ -7,6 +7,7 @@ import {
   Button,
 } from 'app/components/Form';
 import styles from './EventEditor.css';
+import PoolSuggestion from './PoolSuggestions';
 import type { Dateish, EventStatusType } from 'app/models';
 
 type poolProps = {
@@ -14,11 +15,6 @@ type poolProps = {
   startTime: Dateish;
   eventStatusType: EventStatusType;
 };
-
-const highWarning = (value) =>
-  value && value >= 500
-    ? 'Åpent arrangement gir uendelig plasser 😁'
-    : undefined;
 
 const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul
@@ -60,7 +56,6 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             }}
             type="number"
             placeholder="20,30,50"
-            warn={highWarning}
             fieldClassName={styles.metaField}
             className={styles.formField}
             component={TextInput.Field}
@@ -86,6 +81,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           filter={['users.abakusgroup']}
           component={SelectInput.AutocompleteField}
           isMulti
+          SuggestionComponent={PoolSuggestion}
         />
         {['NORMAL'].includes(eventStatusType) && (
           <div className={styles.centeredButton}>

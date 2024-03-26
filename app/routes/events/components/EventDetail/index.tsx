@@ -26,6 +26,7 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
 import config from 'app/config';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import {
   selectCommentsForEvent,
   selectEventByIdOrSlug,
@@ -40,7 +41,6 @@ import {
 import { resolveGroupLink } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import {
   colorForEventType,
   penaltyHours,
@@ -134,9 +134,12 @@ const EventDetail = () => {
   const actionGrant = event?.actionGrant || [];
   const hasFullAccess = Boolean(event?.waitingRegistrations);
 
-  const { currentUser, loggedIn } = useUserContext();
-  const user = useAppSelector((state) =>
-    selectUserWithGroups(state, { username: currentUser.username }),
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
+  const user = useAppSelector(
+    (state) =>
+      currentUser &&
+      selectUserWithGroups(state, { username: currentUser.username }),
   );
   const penalties = useAppSelector((state) =>
     selectPenaltyByUserId(state, { userId: user?.id }),
@@ -185,7 +188,7 @@ const EventDetail = () => {
 
   const currentPool = pools.find((pool) =>
     pool.registrations?.some(
-      (registration) => registration.user?.id === currentUser.id,
+      (registration) => registration.user?.id === currentUser?.id,
     ),
   );
 
@@ -194,17 +197,19 @@ const EventDetail = () => {
 
   if (currentPool) {
     currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user?.id === currentUser.id,
+      (registration) => registration.user?.id === currentUser?.id,
     );
     currentRegistration = currentPool.registrations[currentRegistrationIndex];
   }
 
   const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
-  const pendingRegistration = useAppSelector((state) =>
-    selectRegistrationForEventByUserId(state, {
-      eventId,
-      userId: currentUser.id,
-    }),
+  const pendingRegistration = useAppSelector(
+    (state) =>
+      currentUser &&
+      selectRegistrationForEventByUserId(state, {
+        eventId,
+        userId: currentUser.id,
+      }),
   );
 
   const navigate = useNavigate();
@@ -625,20 +630,12 @@ const EventDetail = () => {
             <TextWithIcon
               iconName="create-outline"
               content={
-                <Link to={`/users/${currentUser.username}/settings/profile`}>
-                  Oppdater matallergier/preferanser
+                <Link to={`/users/${currentUser?.username}/settings/profile`}>
+                  Oppdater matallergier / preferanser
                 </Link>
               }
             />
           )}
-          <TextWithIcon
-            iconName="document-outline"
-            content={
-              <Link to="/pages/arrangementer/26-arrangementsregler">
-                Arrangementsregler
-              </Link>
-            }
-          />
 
           {(actionGrant.includes('edit') || actionGrant.includes('delete')) && (
             <Line />

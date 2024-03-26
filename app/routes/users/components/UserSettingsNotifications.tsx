@@ -7,11 +7,11 @@ import {
 } from 'app/actions/NotificationSettingsActions';
 import { updateUser } from 'app/actions/UserActions';
 import { CheckBox } from 'app/components/Form';
+import { useCurrentUser } from 'app/reducers/auth';
 import {
   selectNotificationSettings,
   selectNotificationSettingsAlternatives,
 } from 'app/reducers/notificationSettings';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './UserSettingsNotifications.css';
 
@@ -61,7 +61,11 @@ const UserSettingsNotifications = () => {
     channels: alternatives.channels,
   });
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <div>

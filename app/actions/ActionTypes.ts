@@ -138,7 +138,6 @@ export const Meeting = {
   ANSWER_INVITATION_TOKEN: generateStatuses(
     'Meeting.ANSWER_INVITATION_TOKEN',
   ) as AAT,
-  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN',
 };
 
 /**
@@ -231,10 +230,6 @@ export const Search = {
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
   MENTION: generateStatuses('Search.MENTION') as AAT,
-};
-export const Toasts = {
-  TOAST_ADDED: 'Toast.ADDED',
-  TOAST_REMOVED: 'Toast.REMOVED',
 };
 export const NotificationsFeed = {
   FETCH_DATA: generateStatuses('NotificationsFeed.FETCH_DATA') as AAT,
@@ -337,13 +332,6 @@ export const Feed = {
 /**
  *
  */
-export const Routing = {
-  SET_STATUS_CODE: 'Routing.SET_STATUS_CODE',
-};
-
-/**
- *
- */
 export const OAuth2 = {
   FETCH_APPLICATIONS: generateStatuses('OAuth2.FETCH_APPLICATIONS') as AAT,
   FETCH_APPLICATION: generateStatuses('OAuth2.FETCH_APPLICATION') as AAT,
@@ -379,9 +367,6 @@ export const Meta = {
 };
 export const Frontpage = {
   FETCH: generateStatuses('Frontpage.FETCH') as AAT,
-};
-export const Readme = {
-  FETCH: generateStatuses('Readme.FETCH') as AAT,
 };
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH') as AAT,

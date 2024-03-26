@@ -11,6 +11,10 @@ const store = configureStore([])({
   theme: {
     theme: 'light',
   },
+  auth: {},
+  users: {
+    entities: {},
+  },
 });
 
 describe('<CommentTree />', () => {

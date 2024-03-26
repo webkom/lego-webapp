@@ -35,9 +35,10 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import { selectArticleById } from 'app/reducers/articles';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectUsersByIds } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { validYoutubeUrl } from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
@@ -65,7 +66,7 @@ const validate = (data) => {
 
 type ArticleEditorParams = { articleId: string };
 const ArticleEditor = () => {
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const { articleId } = useParams<ArticleEditorParams>() as ArticleEditorParams;
   const isNew = articleId === undefined;
   const article = useAppSelector((state) =>
@@ -73,9 +74,9 @@ const ArticleEditor = () => {
   ) as AdminDetailedArticle | undefined;
   const fetching = useAppSelector((state) => state.articles.fetching);
   let authors = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: article?.authors }),
+    selectUsersByIds(state, article?.authors || []),
   );
-  if (authors.length === 0) {
+  if (authors.length === 0 && currentUser) {
     authors = [currentUser];
   }
 
@@ -98,7 +99,7 @@ const ArticleEditor = () => {
     }),
     content: article?.content || '',
     authors: authors
-      .filter(Boolean)
+      .filter(isNotNullish)
       .map((user) => ({ ...user, label: user.fullName, value: user.id })),
     tags: (article?.tags || []).map((tag) => ({
       label: tag,

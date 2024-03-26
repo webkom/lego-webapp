@@ -2,11 +2,11 @@ import { omit, isArray } from 'lodash';
 import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
-import { setStatusCode } from './RoutingActions';
 import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type {
@@ -72,7 +72,7 @@ type ApiResponse<T> =
 
 type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   queryString: string;
-  query?: Record<string, string | number | boolean>;
+  query?: Record<string, string | number | boolean | undefined>;
   paginationKey?: string;
   cursor: string;
   optimisticId?: ID;
@@ -93,7 +93,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   headers?: Record<string, string>;
   schema?: Schema;
   body?: Record<string, unknown> | string;
-  query?: Record<string, string | number | boolean>;
+  query?: Record<string, string | number | boolean | undefined>;
   json?: boolean;
   meta?: Meta;
   files?: (string | File)[];
@@ -178,7 +178,8 @@ export default function callAPI<
         return {} as T;
       }
 
-      const payload = 'results' in jsonData ? jsonData.results : jsonData;
+      const payload =
+        isArray(schema) && 'results' in jsonData ? jsonData.results : jsonData;
       const next = 'next' in jsonData && jsonData.next ? jsonData.next : null;
       const previous =
         'previous' in jsonData && jsonData.previous ? jsonData.previous : null;

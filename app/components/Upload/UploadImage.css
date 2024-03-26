@@ -10,6 +10,7 @@
 .dropArea {
   border-radius: inherit;
   aspect-ratio: inherit;
+  height: inherit;
   width: inherit;
   z-index: 0;
   position: absolute;
@@ -30,6 +31,7 @@
   overflow: hidden;
   border-radius: inherit;
   aspect-ratio: inherit;
+  height: inherit;
   width: inherit;
   position: absolute;
   background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);

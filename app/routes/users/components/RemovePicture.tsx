@@ -2,7 +2,6 @@ import { Button, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { removePicture } from 'app/actions/UserActions';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './RemovePicture.css';
 
 type Props = {
   username: string;
@@ -23,7 +22,7 @@ const RemovePicture = (props: Props) => {
   const toggleSelected = () => setSelected(!selected);
 
   return (
-    <div className={styles.buttons}>
+    <div>
       {selected ? (
         <Button onClick={toggleSelected}>Avbryt</Button>
       ) : (

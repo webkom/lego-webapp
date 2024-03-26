@@ -1,5 +1,5 @@
 import { LoginRequiredPage } from 'app/components/LoginForm';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import type { ComponentType } from 'react';
 
 const replaceUnlessLoggedIn =
@@ -8,7 +8,7 @@ const replaceUnlessLoggedIn =
   ) =>
   <P extends object>(Component: ComponentType<P>) => {
     const LoginGuard = (props: P & RP) => {
-      const { loggedIn } = useUserContext();
+      const loggedIn = useIsLoggedIn();
       if (loggedIn) {
         return <Component {...props} />;
       }

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { TextInput } from 'app/components/Form';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-import type { User } from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 
 export type PasswordFieldUser = Partial<
-  Pick<User, 'username' | 'firstName' | 'lastName'>
+  Pick<PublicUser, 'username' | 'firstName' | 'lastName'>
 >;
 
 type Props = {
-  user: PasswordFieldUser;
+  user?: PasswordFieldUser;
   name?: string;
   label?: string;
 };

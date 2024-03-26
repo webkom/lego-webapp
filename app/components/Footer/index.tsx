@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom';
 import netcompany from 'app/assets/netcompany_white.svg';
 import octocat from 'app/assets/octocat.png';
 import { Image } from 'app/components/Image';
-import { selectIsLoggedIn } from 'app/reducers/auth';
-import { useAppSelector } from 'app/store/hooks';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import utilityStyles from 'app/styles/utilities.css';
 import styles from './Footer.css';
 
 const Footer = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const loggedIn = useIsLoggedIn();
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>

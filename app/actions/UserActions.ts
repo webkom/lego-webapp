@@ -5,10 +5,10 @@ import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';
+import { setStatusCode } from 'app/reducers/routing';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
-import { setStatusCode } from './RoutingActions';
 import type { PhotoConsent } from 'app/models';
 import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
@@ -76,6 +76,7 @@ export function login(username: string, password: string) {
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),
         meta: {
+          endpoint: `/users/me/`,
           isCurrentUser: true,
         },
       });

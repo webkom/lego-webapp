@@ -2,6 +2,7 @@ import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import { selectJoblistings } from 'app/reducers/joblistings';
+import { selectUserEntities } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { Company } from '../actions/ActionTypes';
@@ -148,7 +149,7 @@ export default createEntityReducer({
 export const selectCompanies = createSelector(
   (state) => state.companies.items,
   (state) => state.companies.byId,
-  (state) => state.users.byId,
+  selectUserEntities,
   (state) => state,
   (companyIds, companiesById, usersById, state) => {
     if (companyIds.length === 0) return [];

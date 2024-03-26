@@ -6,7 +6,6 @@ import { selectThreadsByForumId } from 'app/reducers/threads';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import ThreadListEntry from './ThreadListEntry';
 import type { ID } from 'app/store/models';
-import type { PublicThread } from 'app/store/models/Forum';
 
 const ThreadList = ({ forumId }: { forumId: ID }) => {
   const dispatch = useAppDispatch();
@@ -17,7 +16,9 @@ const ThreadList = ({ forumId }: { forumId: ID }) => {
     [forumId],
   );
 
-  const threads = useAppSelector(selectThreadsByForumId(parseInt(forumId)));
+  const threads = useAppSelector((state) =>
+    selectThreadsByForumId(state, Number(forumId)),
+  );
 
   const fetching = useAppSelector((state) => state.threads.fetching);
 
@@ -27,7 +28,7 @@ const ThreadList = ({ forumId }: { forumId: ID }) => {
         <ContentMain>
           <h1>Tråder 🧶</h1>
           <Flex column>
-            {threads?.map((t: PublicThread) => (
+            {threads?.map((t) => (
               <ThreadListEntry
                 thread={t}
                 className={''}

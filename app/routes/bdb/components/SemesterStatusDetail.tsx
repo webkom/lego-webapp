@@ -141,7 +141,6 @@ const RenderFile = (props: RenderFileProps) => {
   const uploadButton = (type: string) => (
     <FileUpload
       onChange={(fileName, fileToken) => addFile(fileName, fileToken, type)}
-      className={styles.uploadButton}
     />
   );
 

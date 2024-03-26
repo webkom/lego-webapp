@@ -6,7 +6,7 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
@@ -34,7 +34,8 @@ const CommentForm = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const { currentUser, loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
 
   if (!loggedIn) {
     return <div>Vennligst logg inn for å kommentere</div>;
@@ -61,7 +62,7 @@ const CommentForm = ({
           return (
             <form onSubmit={handleSubmit}>
               <Flex alignItems="center" gap="var(--spacing-md)">
-                <ProfilePicture size={40} user={currentUser} />
+                {currentUser && <ProfilePicture size={40} user={currentUser} />}
 
                 <div className={styles.field}>
                   <Field

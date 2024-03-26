@@ -30,6 +30,7 @@ import {
   required,
   sameAs,
 } from 'app/utils/validation';
+import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import { validPassword } from '../utils';
 import Confetti from './Confetti';
 import PasswordField from './PasswordField';
@@ -193,12 +194,7 @@ const UserConfirmationForm = () => {
               />
             </MultiSelectGroup>
 
-            <Field
-              name="allergies"
-              placeholder="Allergier"
-              label="Matallergier/preferanser"
-              component={TextInput.Field}
-            />
+            <AllergiesOrPreferencesField />
 
             <Field
               label="Telefonnummer"

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './Reaction.css';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
@@ -34,8 +34,9 @@ const Reaction = ({
   const [optimisticHasReacted, setOptimisticHasReacted] = useState(hasReacted);
   const [optimisticUsers, setOptimisticUsers] = useState(users);
 
-  const { currentUser, loggedIn } = useUserContext();
-  const canReact = loggedIn;
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
+  const canReact = loggedIn && currentUser;
 
   const classNames = cx({
     [className || styles.reaction]: true,
@@ -55,7 +56,7 @@ const Reaction = ({
     setOptimisticCount((count) => count - 1);
     setOptimisticHasReacted(false);
     setOptimisticUsers((users) =>
-      users?.filter((user) => user.id !== currentUser.id),
+      users?.filter((user) => user.id !== currentUser?.id),
     );
   };
 
