@@ -119,6 +119,7 @@ export enum GroupType {
   Revue = 'revy',
   Interest = 'interesse',
   SubGroup = 'under',
+  Ordained = 'ordenen',
   Grade = 'klasse',
   Other = 'annen',
 }
