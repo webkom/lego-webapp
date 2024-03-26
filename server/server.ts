@@ -12,7 +12,6 @@ import baseConfig from 'config/env';
 import config from './env';
 import healthCheck from './health';
 import render from './render';
-// import createFetchRequest from './request';
 
 moment.locale('nb-NO');
 const app = express();

@@ -3,9 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { useUserContext } from 'app/routes/app/AppRoute';
-import pageNotFound from 'app/routes/pageNotFound';
 import { useCurrentUser } from 'app/reducers/auth';
+import pageNotFound from 'app/routes/pageNotFound';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
