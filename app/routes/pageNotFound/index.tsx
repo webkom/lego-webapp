@@ -1,10 +1,8 @@
-import { Route, Routes } from 'react-router-dom';
-import HTTPError from 'app/routes/errors/HTTPError';
+import loadable from '@loadable/component';
+import type { RouteObject } from 'react-router-dom';
 
-const PathNotFound = () => (
-  <Routes>
-    <Route path="*" element={<HTTPError />} />
-  </Routes>
-);
+const HTTPError = loadable(() => import('app/routes/errors/HTTPError'));
 
-export default PathNotFound;
+const pageNotFound: RouteObject[] = [{ path: '*', Component: HTTPError }];
+
+export default pageNotFound;

@@ -1,4 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import { useOutletContext } from 'react-router-dom';
 import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
@@ -6,19 +7,14 @@ import { isNotNullish } from 'app/utils';
 import styles from '../surveys.css';
 import Results from './Results';
 import type { GraphData } from './Results';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { SurveysRouteContext } from 'app/routes/surveys';
 import type { ID } from 'app/store/models';
 import type { AdminSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
-import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { ReactNode } from 'react';
 
-type Props = {
-  submissions: SurveySubmission[];
-  survey: SelectedSurvey;
-};
-
-const SubmissionsSummary = ({ submissions, survey }: Props) => {
+const SubmissionsSummary = () => {
+  const { submissions, survey } = useOutletContext<SurveysRouteContext>();
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {

@@ -1,27 +1,28 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import GalleryDetail from './components/GalleryDetail';
-import GalleryEditor from './components/GalleryEditor';
-import GalleryPictureEditModal from './components/GalleryPictureEditModal';
-import GalleryPictureModal from './components/GalleryPictureModal';
-import Overview from './components/Overview';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const PhotosRoute = () => (
-  <Routes>
-    <Route index element={<Overview />} />
-    <Route path="new" element={<GalleryEditor />} />
-    <Route path=":galleryId" element={<GalleryDetail />} />
-    <Route path=":galleryId/edit" element={<GalleryEditor />} />
-    <Route
-      path=":galleryId/picture/:pictureId"
-      element={<GalleryPictureModal />}
-    />
-    <Route
-      path=":galleryId/picture/:pictureId/edit"
-      element={<GalleryPictureEditModal />}
-    />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+const Overview = loadable(() => import('./components/Overview'));
+const GalleryEditor = loadable(() => import('./components/GalleryEditor'));
+const GalleryDetail = loadable(() => import('./components/GalleryDetail'));
+const GalleryPictureModal = loadable(
+  () => import('./components/GalleryPictureModal'),
+);
+const GalleryPictureEditModal = loadable(
+  () => import('./components/GalleryPictureEditModal'),
 );
 
-export default PhotosRoute;
+const photosRoute: RouteObject[] = [
+  { index: true, Component: Overview },
+  { path: 'new', Component: GalleryEditor },
+  { path: ':galleryId', Component: GalleryDetail },
+  { path: ':galleryId/edit', Component: GalleryEditor },
+  { path: ':galleryId/picture/:pictureId', Component: GalleryPictureModal },
+  {
+    path: ':galleryId/picture/:pictureId/edit',
+    Component: GalleryPictureEditModal,
+  },
+  { path: '*', children: pageNotFound },
+];
+
+export default photosRoute;

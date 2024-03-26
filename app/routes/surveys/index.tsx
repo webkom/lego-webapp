@@ -1,45 +1,63 @@
-import { Route, Routes } from 'react-router-dom';
-import AddSubmissionPage from 'app/routes/surveys/components/AddSubmission/AddSubmissionPage';
-import SubmissionPublicResultsPage from 'app/routes/surveys/components/Submissions/SubmissionPublicResultsPage';
-import SurveyDetailPage from 'app/routes/surveys/components/SurveyDetail';
-import AddSurveyPage from 'app/routes/surveys/components/SurveyEditor/AddSurveyPage';
-import EditSurveyPage from 'app/routes/surveys/components/SurveyEditor/EditSurveyPage';
-import PageNotFound from '../pageNotFound';
-import SubmissionsIndividual from './components/Submissions/SubmissionsIndividual';
-import SubmissionsPage from './components/Submissions/SubmissionsPage';
-import SubmissionsSummary from './components/Submissions/SubmissionsSummary';
-import SurveyListPage from './components/SurveyList/SurveyListPage';
+import loadable from '@loadable/component';
+import { type RouteObject, Outlet } from 'react-router-dom';
+import pageNotFound from '../pageNotFound';
+import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
-const SurveysRoute = () => (
-  <Routes>
-    <Route index element={<SurveyListPage />} />
-    <Route path="templates" element={<SurveyListPage templates />} />
-    <Route path="add" element={<AddSurveyPage />} />
-    <Route path=":surveyId/edit" element={<EditSurveyPage />} />
-    <Route path=":surveyId" element={<SurveyDetailPage />} />
-    <Route path=":surveyId/answer" element={<AddSubmissionPage />} />
-    <Route
-      path=":surveyId/submissions/*"
-      element={
-        <SubmissionsPage>
-          {(props) => (
-            <Routes>
-              <Route
-                path="summary"
-                element={<SubmissionsSummary {...props} />}
-              />
-              <Route
-                path="individual"
-                element={<SubmissionsIndividual {...props} />}
-              />
-            </Routes>
-          )}
-        </SubmissionsPage>
-      }
-    />
-    <Route path=":surveyId/results" element={<SubmissionPublicResultsPage />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+const SurveyListPage = loadable(
+  () => import('./components/SurveyList/SurveyListPage'),
+);
+const SurveyDetailPage = loadable(() => import('./components/SurveyDetail'));
+const AddSurveyPage = loadable(
+  () => import('./components/SurveyEditor/AddSurveyPage'),
+);
+const EditSurveyPage = loadable(
+  () => import('./components/SurveyEditor/EditSurveyPage'),
+);
+const AddSubmissionPage = loadable(
+  () => import('./components/AddSubmission/AddSubmissionPage'),
+);
+const SubmissionsPage = loadable(
+  () => import('./components/Submissions/SubmissionsPage'),
+);
+const SubmissionsSummary = loadable(
+  () => import('./components/Submissions/SubmissionsSummary'),
+);
+const SubmissionsIndividual = loadable(
+  () => import('./components/Submissions/SubmissionsIndividual'),
+);
+const SubmissionPublicResultsPage = loadable(
+  () => import('./components/Submissions/SubmissionPublicResultsPage'),
 );
 
-export default SurveysRoute;
+export type SurveysRouteContext = {
+  submissions: SurveySubmission[];
+  survey: SelectedSurvey;
+};
+
+const surveysRoute: RouteObject[] = [
+  { index: true, Component: SurveyListPage },
+  { path: 'templates', Component: () => <SurveyListPage templates /> },
+  { path: 'add', Component: AddSurveyPage },
+  { path: ':surveyId', Component: SurveyDetailPage },
+  { path: ':surveyId/edit', Component: EditSurveyPage },
+  { path: ':surveyId/answer', Component: AddSubmissionPage },
+  {
+    path: ':surveyId/submissions/*',
+    Component: () => (
+      <SubmissionsPage>
+        {({ submissions, survey }) => (
+          <Outlet context={{ submissions, survey }} />
+        )}
+      </SubmissionsPage>
+    ),
+    children: [
+      { path: 'summary', Component: SubmissionsSummary },
+      { path: 'individual', Component: SubmissionsIndividual },
+    ],
+  },
+  { path: ':surveyId/results', Component: SubmissionPublicResultsPage },
+  { path: '*', children: pageNotFound },
+];
+
+export default surveysRoute;

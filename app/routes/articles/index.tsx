@@ -1,17 +1,17 @@
-import { Route, Routes } from 'react-router-dom';
-import ArticleList from 'app/routes/articles/components/ArticleList';
-import PageNotFound from '../pageNotFound';
-import ArticleDetail from './components/ArticleDetail';
-import ArticleEditor from './components/ArticleEditor';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const ArticleRoute = () => (
-  <Routes>
-    <Route index element={<ArticleList />} />
-    <Route path="new" element={<ArticleEditor />} />
-    <Route path=":articleIdOrSlug" element={<ArticleDetail />} />
-    <Route path=":articleId/edit" element={<ArticleEditor />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const ArticleList = loadable(() => import('./components/ArticleList'));
+const ArticleEditor = loadable(() => import('./components/ArticleEditor'));
+const ArticleDetail = loadable(() => import('./components/ArticleDetail'));
 
-export default ArticleRoute;
+const articleRoute: RouteObject[] = [
+  { index: true, Component: ArticleList },
+  { path: 'new', Component: ArticleEditor },
+  { path: ':articleIdOrSlug', Component: ArticleDetail },
+  { path: ':articleId/edit', Component: ArticleEditor },
+  { path: '*', children: pageNotFound },
+];
+
+export default articleRoute;

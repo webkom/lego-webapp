@@ -1,14 +1,14 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import TagCloud from './components/TagCloud';
-import TagDetail from './components/TagDetail';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const TagsRoute = () => (
-  <Routes>
-    <Route index element={<TagCloud />} />
-    <Route path=":tagId" element={<TagDetail />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const TagCloud = loadable(() => import('./components/TagCloud'));
+const TagDetail = loadable(() => import('./components/TagDetail'));
 
-export default TagsRoute;
+const tagsRoute: RouteObject[] = [
+  { index: true, Component: TagCloud },
+  { path: ':tagId', Component: TagDetail },
+  { path: '*', children: pageNotFound },
+];
+
+export default tagsRoute;

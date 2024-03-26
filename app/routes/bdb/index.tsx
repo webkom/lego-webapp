@@ -1,28 +1,27 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import AddSemester from './components/AddSemester';
-import BdbDetail from './components/BdbDetail';
-import BdbPage from './components/BdbPage';
-import CompanyContactEditor from './components/CompanyContactEditor';
-import CompanyEditor from './components/CompanyEditor';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const BdbRoute = () => (
-  <Routes>
-    <Route index element={<BdbPage />} />
-    <Route path="add" element={<CompanyEditor />} />
-    <Route path=":companyId" element={<BdbDetail />} />
-    <Route path=":companyId/edit" element={<CompanyEditor />} />
-    <Route path=":companyId/semesters/add" element={<AddSemester />} />
-    <Route
-      path=":companyId/company-contacts/add"
-      element={<CompanyContactEditor />}
-    />
-    <Route
-      path=":companyId/company-contacts/:companyContactId"
-      element={<CompanyContactEditor />}
-    />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+const BdbPage = loadable(() => import('./components/BdbPage'));
+const CompanyEditor = loadable(() => import('./components/CompanyEditor'));
+const BdbDetail = loadable(() => import('./components/BdbDetail'));
+const AddSemester = loadable(() => import('./components/AddSemester'));
+const CompanyContactEditor = loadable(
+  () => import('./components/CompanyContactEditor'),
 );
 
-export default BdbRoute;
+const bdbRoute: RouteObject[] = [
+  { index: true, Component: BdbPage },
+  { path: 'add', Component: CompanyEditor },
+  { path: ':companyId', Component: BdbDetail },
+  { path: ':companyId/edit', Component: CompanyEditor },
+  { path: ':companyId/semesters/add', Component: AddSemester },
+  { path: ':companyId/company-contacts/add', Component: CompanyContactEditor },
+  {
+    path: ':companyId/company-contacts/:companyContactId',
+    Component: CompanyContactEditor,
+  },
+  { path: '*', children: pageNotFound },
+];
+
+export default bdbRoute;

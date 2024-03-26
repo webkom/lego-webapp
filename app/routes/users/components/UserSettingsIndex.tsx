@@ -1,15 +1,22 @@
+import loadable from '@loadable/component';
 import { Helmet } from 'react-helmet-async';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Outlet, type RouteObject, useParams } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useCurrentUser } from 'app/reducers/auth';
+import pageNotFound from 'app/routes/pageNotFound';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import StudentConfirmation from './StudentConfirmation';
-import UserSettings from './UserSettings';
-import UserSettingsNotifications from './UserSettingsNotifications';
-import UserSettingsOAuth2 from './UserSettingsOAuth2';
-import UserSettingsOAuth2Form from './UserSettingsOAuth2Form';
+
+const UserSettings = loadable(() => import('./UserSettings'));
+const UserSettingsNotifications = loadable(
+  () => import('./UserSettingsNotifications'),
+);
+const UserSettingsOAuth2 = loadable(() => import('./UserSettingsOAuth2'));
+const UserSettingsOAuth2Form = loadable(
+  () => import('./UserSettingsOAuth2Form'),
+);
+const StudentConfirmation = loadable(() => import('./StudentConfirmation'));
 
 const UserSettingsIndex = () => {
   const { username } = useParams<{ username: string }>();
@@ -46,26 +53,29 @@ const UserSettingsIndex = () => {
         )}
       </NavigationTab>
 
-      <Routes>
-        <Route path="profile" element={<UserSettings />} />
-        <Route path="notifications" element={<UserSettingsNotifications />} />
-        <Route
-          path="oauth2/*"
-          element={
-            <Routes>
-              <Route index element={<UserSettingsOAuth2 />} />
-              <Route path="new" element={<UserSettingsOAuth2Form />} />
-              <Route
-                path=":applicationId"
-                element={<UserSettingsOAuth2Form />}
-              />
-            </Routes>
-          }
-        />
-        <Route path="student-confirmation" element={<StudentConfirmation />} />
-      </Routes>
+      <Outlet />
     </Content>
   );
 };
 
-export default guardLogin(UserSettingsIndex);
+const userSettingsRoute: RouteObject[] = [
+  {
+    Component: guardLogin(UserSettingsIndex),
+    children: [
+      { path: 'profile', Component: UserSettings },
+      { path: 'notifications', Component: UserSettingsNotifications },
+      {
+        path: 'oauth2/*',
+        children: [
+          { index: true, Component: UserSettingsOAuth2 },
+          { path: 'new', Component: UserSettingsOAuth2Form },
+          { path: ':applicationId', Component: UserSettingsOAuth2Form },
+        ],
+      },
+      { path: 'student-confirmation', Component: StudentConfirmation },
+    ],
+  },
+  { path: '*', children: pageNotFound },
+];
+
+export default userSettingsRoute;

@@ -1,18 +1,22 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import UserConfirmationForm from './components/UserConfirmation';
-import UserProfile from './components/UserProfile';
-import UserResetPasswordForm from './components/UserResetPassword';
-import UserSettingsIndex from './components/UserSettingsIndex';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import userSettingsRoute from './components/UserSettingsIndex';
+import type { RouteObject } from 'react-router-dom';
 
-const UsersRoute = () => (
-  <Routes>
-    <Route path="registration" element={<UserConfirmationForm />} />
-    <Route path="reset-password" element={<UserResetPasswordForm />} />
-    <Route path=":username" element={<UserProfile />} />
-    <Route path=":username/settings/*" element={<UserSettingsIndex />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+const UserConfirmationForm = loadable(
+  () => import('./components/UserConfirmation'),
 );
+const UserResetPasswordForm = loadable(
+  () => import('./components/UserResetPassword'),
+);
+const UserProfile = loadable(() => import('./components/UserProfile'));
 
-export default UsersRoute;
+const usersRoute: RouteObject[] = [
+  { path: 'registration', Component: UserConfirmationForm },
+  { path: 'reset-password', Component: UserResetPasswordForm },
+  { path: ':username', Component: UserProfile },
+  { path: ':username/settings/*', children: userSettingsRoute },
+  { path: '*', children: pageNotFound },
+];
+
+export default usersRoute;

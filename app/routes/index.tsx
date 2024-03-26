@@ -1,70 +1,72 @@
 import loadable from '@loadable/component';
-import { Route, Routes } from 'react-router-dom';
+import { type RouteObject } from 'react-router-dom';
+import adminRoute from './admin';
+import announcementsRoute from './announcements';
 import { AppRoute } from './app';
+import articlesRoute from './articles';
+import bdbRoute from './bdb';
+import brandRoute from './brand';
+import companyRoute from './company';
+import companyInterestRoute from './companyInterest';
+import contactRoute from './contact';
+import eventsRoute from './events';
+import forumRoute from './forum';
+import interestGroupsRoute from './interestgroups';
+import joblistingsRoute from './joblistings';
+import meetingsRoute from './meetings';
+import pageNotFound from './pageNotFound';
+import pagesRoute from './pages';
+import photosRoute from './photos';
+import pollsRoute from './polls';
+import quotesRoute from './quotes';
+import searchRoute from './search';
+import surveysRoute from './surveys';
+import tagsRoute from './tags';
+import timelineRoute from './timeline';
+import validatorRoute from './userValidator';
+import usersRoute from './users';
 
-const AdminRoute = loadable(() => import('./admin'));
-const AnnouncementsRoute = loadable(() => import('./announcements'));
-const ArticlesRoute = loadable(() => import('./articles'));
-const BdbRoute = loadable(() => import('./bdb'));
-const BrandRoute = loadable(() => import('./brand'));
-const CompaniesRoute = loadable(() => import('./company'));
 const CompanyInterestPage = loadable(
   () => import('./companyInterest/components/CompanyInterestPage'),
 );
-const CompanyInterestRoute = loadable(() => import('./companyInterest'));
-const ContactRoute = loadable(() => import('./contact'));
-const EventsRoute = loadable(() => import('./events'));
-const InterestGroupsRoute = loadable(() => import('./interestgroups'));
-const JoblistingsRoute = loadable(() => import('./joblistings'));
-const MeetingsRoute = loadable(() => import('./meetings'));
 const Frontpage = loadable(() => import('./frontpage'));
-const PageNotFound = loadable(() => import('./pageNotFound'));
-const PagesRoute = loadable(() => import('./pages'));
-const PhotosRoute = loadable(() => import('./photos'));
-const PollsRoute = loadable(() => import('./polls'));
-const QuotesRoute = loadable(() => import('./quotes'));
-const SearchRoute = loadable(() => import('./search'));
-const SurveysRoute = loadable(() => import('./surveys'));
-const TagsRoute = loadable(() => import('./tags'));
-const TimelineRoute = loadable(() => import('./timeline'));
-const UsersRoute = loadable(() => import('./users'));
-const ForumRoute = loadable(() => import('./forum'));
-const UserValidatorRoute = loadable(() => import('./userValidator'));
 
-const RouterConfig = () => (
-  <AppRoute>
-    <Routes>
-      <Route index element={<Frontpage />} />
-      <Route path="admin/*" element={<AdminRoute />} />
-      <Route path="announcements/*" element={<AnnouncementsRoute />} />
-      <Route path="articles/*" element={<ArticlesRoute />} />
-      <Route path="bdb/*" element={<BdbRoute />} />
-      <Route path="brand/*" element={<BrandRoute />} />
-      <Route path="companies/*" element={<CompaniesRoute />} />
-      <Route path="register-interest" element={<CompanyInterestPage />} />
-      <Route path="interesse" element={<CompanyInterestPage />} />
-      <Route path="companyInterest/*" element={<CompanyInterestRoute />} />
-      <Route path="contact" element={<ContactRoute />} />
-      <Route path="kontakt" element={<ContactRoute />} />
-      <Route path="events/*" element={<EventsRoute />} />
-      <Route path="forum/*" element={<ForumRoute />} />
-      <Route path="interest-groups/*" element={<InterestGroupsRoute />} />
-      <Route path="interestgroups/*" element={<InterestGroupsRoute />} />
-      <Route path="joblistings/*" element={<JoblistingsRoute />} />
-      <Route path="meetings/*" element={<MeetingsRoute />} />
-      <Route path="pages/*" element={<PagesRoute />} />
-      <Route path="photos/*" element={<PhotosRoute />} />
-      <Route path="polls/*" element={<PollsRoute />} />
-      <Route path="quotes/*" element={<QuotesRoute />} />
-      <Route path="search" element={<SearchRoute />} />
-      <Route path="surveys/*" element={<SurveysRoute />} />
-      <Route path="tags/*" element={<TagsRoute />} />
-      <Route path="timeline" element={<TimelineRoute />} />
-      <Route path="users/*" element={<UsersRoute />} />
-      <Route path="validator" element={<UserValidatorRoute />} />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
-  </AppRoute>
-);
+export const routerConfig: RouteObject[] = [
+  {
+    Component: AppRoute,
+    children: [
+      { index: true, Component: Frontpage },
+      { path: 'admin/*', children: adminRoute },
+      { path: 'announcements/*', children: announcementsRoute },
+      { path: 'articles/*', children: articlesRoute },
+      { path: 'bdb/*', children: bdbRoute },
+      { path: 'brand/*', children: brandRoute },
+      { path: 'companies/*', children: companyRoute },
+      { path: 'register-interest', Component: CompanyInterestPage },
+      { path: 'interesse', Component: CompanyInterestPage },
+      { path: 'companyInterest/*', children: companyInterestRoute },
+      { path: 'company-interest/*', children: companyInterestRoute },
+      { path: 'contact', children: contactRoute },
+      { path: 'kontakt', children: contactRoute },
+      { path: 'events/*', children: eventsRoute },
+      { path: 'forum/*', children: forumRoute },
+      { path: 'interest-groups/*', children: interestGroupsRoute },
+      { path: 'interestgroups/*', children: interestGroupsRoute },
+      { path: 'joblistings/*', children: joblistingsRoute },
+      { path: 'meetings/*', children: meetingsRoute },
+      { path: 'pages/*', children: pagesRoute },
+      { path: 'photos/*', children: photosRoute },
+      { path: 'polls/*', children: pollsRoute },
+      { path: 'quotes/*', children: quotesRoute },
+      { path: 'search', children: searchRoute },
+      { path: 'surveys/*', children: surveysRoute },
+      { path: 'tags/*', children: tagsRoute },
+      { path: 'timeline', children: timelineRoute },
+      { path: 'validator', children: validatorRoute },
+      { path: 'users/*', children: usersRoute },
+      { path: '*', children: pageNotFound },
+    ],
+  },
+];
 
-export default RouterConfig;
+export default routerConfig;
