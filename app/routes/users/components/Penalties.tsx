@@ -27,7 +27,7 @@ const Penalties = ({ userId }: Props) => {
     <Flex column gap="var(--spacing-md)">
       {penalties.length ? (
         <>
-          {penalties.map((penalty) => (
+          {penalties.map((penalty, index) => (
             <>
               <Flex key={penalty.id} column gap="var(--spacing-sm)">
                 <Flex column className={styles.info}>
@@ -78,7 +78,9 @@ const Penalties = ({ userId }: Props) => {
                 )}
               </Flex>
 
-              <div className={styles.divider} />
+              {index !== penalties.length - 1 && (
+                <div className={styles.divider} />
+              )}
             </>
           ))}
         </>
@@ -95,8 +97,6 @@ const Penalties = ({ userId }: Props) => {
               <span>Du har ingen prikker!</span>
             </Flex>
           </Flex>
-
-          <div className={styles.divider} />
         </>
       )}
 
