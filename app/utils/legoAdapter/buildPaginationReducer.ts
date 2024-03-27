@@ -16,9 +16,9 @@ interface Query {
   [key: string]: string;
 }
 
-export type Pagination = {
+export type Pagination<Id extends EntityId = EntityId> = {
   query: ParsedQs;
-  ids: EntityId[];
+  ids: Id[];
   hasMore: boolean;
   hasMoreBackwards: boolean;
   next?: ParsedQs;

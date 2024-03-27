@@ -26,13 +26,13 @@ export type ListRestrictedMail = Pick<
 
 export type NormalRestrictedMail = Pick<
   CompleteRestrictedMail,
-  'users',
-  'groups',
-  'events',
-  'meetings',
-  'rawAddresses',
-  'weekly',
-  'hideSender'
+  | 'users'
+  | 'groups'
+  | 'events'
+  | 'meetings'
+  | 'rawAddresses'
+  | 'weekly'
+  | 'hideSender'
 > &
   ListRestrictedMail;
 

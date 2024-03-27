@@ -26,7 +26,10 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
 import type { Group, GroupMembership } from 'app/models';
-import type { DetailedGroup } from 'app/store/models/Group';
+import type {
+  DetailedGroup,
+  PublicDetailedGroup,
+} from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 
 type MembersProps = {
@@ -115,7 +118,7 @@ const Contact = ({ group }: { group: Group }) => {
 const InterestGroupDetail = () => {
   const { groupId } = useParams();
   const selectedGroup = useAppSelector((state) =>
-    selectGroupById(state, groupId!),
+    selectGroupById<PublicDetailedGroup>(state, groupId),
   );
   const memberships = useAppSelector((state) =>
     selectMembershipsForGroup(state, { groupId }),

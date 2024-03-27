@@ -14,7 +14,7 @@ const ForumList = () => {
 
   usePreparedEffect('fetchAllForums', () => dispatch(fetchForums()), []);
 
-  const forums: PublicForum[] = useAppSelector(selectAllForums);
+  const forums = useAppSelector(selectAllForums<PublicForum>);
   const fetching = useAppSelector((state) => state.forums.fetching);
   const actionGrant = useAppSelector((state) => state.forums.actionGrant);
 

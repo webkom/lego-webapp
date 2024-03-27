@@ -68,7 +68,7 @@ export const selectUserByUsername = selectUsersByField('username').single;
 
 export const selectUsersByIds = createSelector(
   selectUserEntities,
-  (_: RootState, userIds: EntityId[]) => userIds,
+  (_: RootState, userIds: EntityId[] = []) => userIds,
   (userEntities, userIds) => userIds.map((userId) => userEntities[userId]),
 );
 
@@ -85,7 +85,7 @@ export const selectUserWithGroups = createSelector(
   ) =>
     username
       ? selectUserByUsername(state, username)
-      : selectUserById(state, userId!),
+      : selectUserById(state, userId),
   selectGroupEntities,
   (user, groupEntities) => {
     if (!user) return;

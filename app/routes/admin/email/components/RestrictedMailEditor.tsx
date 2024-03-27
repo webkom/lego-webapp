@@ -68,7 +68,7 @@ const RestrictedMailEditor = () => {
   const { restrictedMailId } = useParams<{ restrictedMailId: string }>();
   const isNew = restrictedMailId === undefined;
   const restrictedMail = useAppSelector((state) =>
-    selectRestrictedMailById(state, restrictedMailId!),
+    selectRestrictedMailById(state, restrictedMailId),
   );
 
   const initialValues = isNew

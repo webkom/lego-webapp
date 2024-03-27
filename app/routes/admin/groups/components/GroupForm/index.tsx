@@ -18,6 +18,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './index.css';
+import type { DetailedGroup } from 'app/store/models/Group';
 
 type FormValues = {
   name: string;
@@ -44,8 +45,10 @@ type Props = {
 
 const GroupForm = ({ isInterestGroup }: Props) => {
   const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroupById(state, groupId!));
-  const isNew = !group;
+  const group = useAppSelector((state) =>
+    selectGroupById<DetailedGroup>(state, groupId),
+  );
+  const isNew = !groupId;
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -55,7 +58,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
       values.type = GroupType.Interest;
     }
     dispatch(isNew ? createGroup(values) : editGroup(values)).then(() => {
-      if (group.type === 'interesse') {
+      if (group?.type === 'interesse') {
         navigate(`/interest-groups/${group.id}`);
       }
     });
@@ -76,7 +79,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
       initialValues={
         isNew
           ? initialValues
-          : { ...group, text: group.text ? group.text : EDITOR_EMPTY } // editor does not render if text is empty string
+          : { ...group, text: group?.text ? group.text : EDITOR_EMPTY } // editor does not render if text is empty string
       }
     >
       {({ handleSubmit }) => (
