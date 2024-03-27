@@ -1,39 +1,42 @@
 import { schema } from 'normalizr';
+import { EntityType } from 'app/store/models/entities';
 import type { EntityId } from '@reduxjs/toolkit';
 
-export const restrictedMailSchema = new schema.Entity('restrictedMails');
-export const groupSchema = new schema.Entity('groups');
-export const penaltySchema = new schema.Entity('penalties', {});
-export const userSchema = new schema.Entity('users', {
+export const restrictedMailSchema = new schema.Entity(
+  EntityType.RestrictedMails,
+);
+export const groupSchema = new schema.Entity(EntityType.Groups);
+export const penaltySchema = new schema.Entity(EntityType.Penalties, {});
+export const userSchema = new schema.Entity(EntityType.Users, {
   abakusGroups: [groupSchema],
   penalties: [penaltySchema],
 });
-export const emailUserSchema = new schema.Entity('emailUsers', {
+export const emailUserSchema = new schema.Entity(EntityType.EmailUsers, {
   user: userSchema,
 });
-export const emailListSchema = new schema.Entity('emailLists', {
+export const emailListSchema = new schema.Entity(EntityType.EmailLists, {
   users: [userSchema],
   groups: [groupSchema],
 });
-export const registrationSchema = new schema.Entity('registrations', {
+export const registrationSchema = new schema.Entity(EntityType.Registrations, {
   user: userSchema,
 });
-export const poolSchema = new schema.Entity('pools', {
+export const poolSchema = new schema.Entity(EntityType.Pools, {
   registrations: [registrationSchema],
 });
-export const commentSchema = new schema.Entity('comments');
-export const eventSchema = new schema.Entity('events', {
+export const commentSchema = new schema.Entity(EntityType.Comments);
+export const eventSchema = new schema.Entity(EntityType.Events, {
   pools: [poolSchema],
   comments: [commentSchema],
   waitingRegistrations: [registrationSchema],
   pendingRegistration: registrationSchema,
 });
-export const eventAdministrateSchema = new schema.Entity('events', {
+export const eventAdministrateSchema = new schema.Entity(EntityType.Events, {
   pools: [poolSchema],
   unregistered: [registrationSchema],
   waitingRegistrations: [registrationSchema],
 });
-export const articleSchema = new schema.Entity('articles', {
+export const articleSchema = new schema.Entity(EntityType.Articles, {
   comments: [commentSchema],
   authors: [userSchema],
 });
@@ -46,33 +49,43 @@ export const imageGallerySchema = new schema.Entity(
   },
 );
 
-export const galleryPictureSchema = new schema.Entity('galleryPictures', {
-  comments: [commentSchema],
-});
-export const gallerySchema = new schema.Entity('galleries');
-export const quoteSchema = new schema.Entity('quotes');
-export const pollSchema = new schema.Entity('polls');
+export const galleryPictureSchema = new schema.Entity(
+  EntityType.GalleryPictures,
+  {
+    comments: [commentSchema],
+  },
+);
+export const gallerySchema = new schema.Entity(EntityType.Galleries);
+export const quoteSchema = new schema.Entity(EntityType.Quotes);
+export const pollSchema = new schema.Entity(EntityType.Polls);
 export const pageSchema = new schema.Entity(
-  'pages',
+  EntityType.Pages,
   {},
   {
     idAttribute: 'slug',
   },
 );
-export const companySemesterSchema = new schema.Entity('companySemesters');
-export const companyInterestSchema = new schema.Entity('companyInterest', {
-  semesters: [companySemesterSchema],
-});
-export const companySchema = new schema.Entity('companies', {
+export const companySemesterSchema = new schema.Entity(
+  EntityType.CompanySemesters,
+);
+export const companyInterestSchema = new schema.Entity(
+  EntityType.CompanyInterests,
+  {
+    semesters: [companySemesterSchema],
+  },
+);
+export const companySchema = new schema.Entity(EntityType.Companies, {
   studentContact: userSchema,
   comments: [commentSchema],
 });
-export const joblistingsSchema = new schema.Entity('joblistings');
-export const announcementsSchema = new schema.Entity('announcements');
-export const feedActivitySchema = new schema.Entity('feedActivities');
-export const oauth2ApplicationSchema = new schema.Entity('oauth2Applications');
-export const oauth2GrantSchema = new schema.Entity('oauth2Grants');
-export const membershipSchema = new schema.Entity('memberships', {
+export const joblistingsSchema = new schema.Entity(EntityType.Joblistings);
+export const announcementsSchema = new schema.Entity(EntityType.Announcements);
+export const feedActivitySchema = new schema.Entity(EntityType.FeedActivities);
+export const oauth2ApplicationSchema = new schema.Entity(
+  EntityType.OAuth2Applications,
+);
+export const oauth2GrantSchema = new schema.Entity(EntityType.OAuth2Grants);
+export const membershipSchema = new schema.Entity(EntityType.Memberships, {
   user: userSchema,
 });
 
@@ -81,7 +94,7 @@ export const createMeetingInvitationId = (
   userId: EntityId,
 ) => `${meetingId}-${userId}`;
 export const meetingInvitationSchema = new schema.Entity(
-  'meetingInvitations',
+  EntityType.MeetingInvitations,
   {
     user: userSchema,
   },
@@ -90,7 +103,7 @@ export const meetingInvitationSchema = new schema.Entity(
       createMeetingInvitationId(invite.meeting, invite.user.id),
   },
 );
-export const meetingSchema = new schema.Entity('meetings', {
+export const meetingSchema = new schema.Entity(EntityType.Meetings, {
   invitations: [meetingInvitationSchema],
   reportAuthor: userSchema,
   createdBy: userSchema,
@@ -102,20 +115,23 @@ export const frontpageSchema = new schema.Entity('frontpage', {
   poll: pollSchema,
 });
 export const emojiSchema = new schema.Entity(
-  'emojis',
+  EntityType.Emojis,
   {},
   {
     idAttribute: 'shortCode',
   },
 );
-export const surveySchema = new schema.Entity('surveys', {
+export const surveySchema = new schema.Entity(EntityType.Surveys, {
   event: eventSchema,
 });
-export const surveySubmissionSchema = new schema.Entity('surveySubmissions', {
-  user: userSchema,
-});
+export const surveySubmissionSchema = new schema.Entity(
+  EntityType.SurveySubmissions,
+  {
+    user: userSchema,
+  },
+);
 export const tagSchema = new schema.Entity(
-  'tags',
+  EntityType.Tags,
   {},
   {
     idAttribute: 'tag',
@@ -143,9 +159,9 @@ export const followersUserSchema = new schema.Entity(
     follower: userSchema,
   },
 );
-export const threadSchema = new schema.Entity('threads', {
+export const threadSchema = new schema.Entity(EntityType.Thread, {
   comments: [commentSchema],
 });
-export const forumSchema = new schema.Entity('forums', {
+export const forumSchema = new schema.Entity(EntityType.Forums, {
   threads: [threadSchema],
 });
