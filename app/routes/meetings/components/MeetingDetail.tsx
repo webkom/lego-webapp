@@ -56,17 +56,17 @@ const MeetingDetails = () => {
   const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
     selectMeetingById(state, meetingId),
-  ) as DetailedMeeting;
+  ) as DetailedMeeting | undefined;
   const comments = useAppSelector((state) =>
-    selectCommentsByIds(state, meeting.comments ?? []),
+    selectCommentsByIds(state, meeting?.comments ?? []),
   );
   const reportAuthor = useAppSelector((state) =>
-    meeting.reportAuthor
+    meeting?.reportAuthor
       ? selectUserById(state, meeting.reportAuthor)
       : undefined,
   );
   const createdBy = useAppSelector((state) =>
-    selectUserById(state, meeting?.createdBy),
+    meeting?.createdBy ? selectUserById(state, meeting?.createdBy) : undefined,
   );
   const meetingInvitations = useAppSelector((state) =>
     selectMeetingInvitationsForMeeting(state, meetingId),
@@ -85,7 +85,8 @@ const MeetingDetails = () => {
 
   const setMeetingInvitationStatus = (newStatus: MeetingInvitationStatus) => {
     currentUser &&
-      dispatch(setInvitationStatus(meeting.id, newStatus, currentUser));
+      meeting?.id &&
+      dispatch(setInvitationStatus(meeting?.id, newStatus, currentUser));
   };
 
   const acceptInvitation = () =>
@@ -138,7 +139,7 @@ const MeetingDetails = () => {
   const infoItems = [
     {
       key: 'Din status',
-      value: statusesText[statusMe] || 'Ukjent',
+      value: statusMe ? statusesText[statusMe] : 'Ukjent',
     },
     {
       key: 'Når',
