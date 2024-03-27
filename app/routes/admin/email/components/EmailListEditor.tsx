@@ -58,13 +58,13 @@ const EmailListEditor = () => {
   const { emailListId } = useParams<{ emailListId: string }>();
   const isNew = emailListId === 'new';
   const emailList = useAppSelector((state) =>
-    selectEmailListById(state, emailListId!),
-  ) as DetailedEmailList | undefined;
+    selectEmailListById<DetailedEmailList>(state, emailListId),
+  );
   const users = useAppSelector((state) =>
-    selectUsersByIds(state, emailList?.users || []),
+    selectUsersByIds(state, emailList?.users),
   );
   const groups = useAppSelector((state) =>
-    selectGroupsByIds(state, emailList?.groups || []),
+    selectGroupsByIds(state, emailList?.groups),
   );
 
   const dispatch = useAppDispatch();

@@ -19,6 +19,7 @@ import type { EntityType } from 'app/store/models/entities';
 import type Entities from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import type { Assign } from 'utility-types';
 
 // The base redux-state of the entity-slice
 interface LegoEntityState<Entity, Id extends EntityId>
@@ -28,40 +29,57 @@ interface LegoEntityState<Entity, Id extends EntityId>
   paginationNext: { [key: string]: Pagination };
 }
 
-interface LegoEntitySelectors<T, V, Id extends EntityId>
-  extends EntitySelectors<T, V, Id> {
-  selectAllPaginated: (state: V, options?: { pagination?: Pagination }) => T[];
-  selectByField: <K extends keyof T, Value = T[K]>(
-    field: K,
-    predicate?: (entityValue: T[K], filterValue: Value) => boolean,
-  ) => ((state: V, filterValue: Value) => T[]) & {
-    single: (state: V, filterValue: Value) => T | undefined;
-  };
-}
+type LegoEntitySelectors<T, V, Id extends EntityId> = Assign<
+  EntitySelectors<T, V, Id>,
+  {
+    selectAll: <Type extends T = T>(state: V) => Type[];
+    selectById: <Type extends T = T>(
+      state: V,
+      id: Id | undefined,
+    ) => Type | undefined; // Overwrite the selectById method to accept undefined id
+    selectAllPaginated: <Type extends T = T>(
+      state: V,
+      options?: { pagination?: Pagination<Id> },
+    ) => Type[];
+    selectByField: <K extends keyof T, Value = T[K]>(
+      field: K,
+      predicate?: (entityValue: T[K], filterValue: Value) => boolean,
+    ) => (<Type extends T = T>(state: V, filterValue: Value) => Type[]) & {
+      single: <Type extends T = T>(
+        state: V,
+        filterValue: Value,
+      ) => Type | undefined;
+    };
+  }
+>;
 
 // Type of the generated adapter-object
-interface LegoAdapter<Entity, Id extends EntityId>
-  extends EntityAdapter<Entity, Id> {
-  getInitialState(): LegoEntityState<Entity, Id>;
-  getInitialState<S extends object>(state: S): LegoEntityState<Entity, Id> & S;
-  buildReducers<ExtraState extends object = Record<string, never>>(options?: {
-    extraCases?: (
-      addCase: ReducerBuilder<Entity, Id, ExtraState>['addCase'],
-    ) => void;
-    extraMatchers?: (
-      addMatcher: ReducerBuilder<Entity, Id, ExtraState>['addMatcher'],
-    ) => void;
-    defaultCaseReducer?: Parameters<
-      ReducerBuilder<Entity, Id, ExtraState>['addDefaultCase']
-    >[0];
-    fetchActions?: AsyncActionType[];
-    deleteActions?: AsyncActionType[];
-  }): (builder: ReducerBuilder<Entity, Id, ExtraState>) => void;
-  getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;
-  getSelectors<V>(
-    selectState: (state: V) => EntityState<Entity, Id>,
-  ): LegoEntitySelectors<Entity, V, Id>;
-}
+type LegoAdapter<Entity, Id extends EntityId> = Assign<
+  EntityAdapter<Entity, Id>,
+  {
+    getInitialState(): LegoEntityState<Entity, Id>;
+    getInitialState<S extends object>(
+      state: S,
+    ): LegoEntityState<Entity, Id> & S;
+    buildReducers<ExtraState extends object = Record<string, never>>(options?: {
+      extraCases?: (
+        addCase: ReducerBuilder<Entity, Id, ExtraState>['addCase'],
+      ) => void;
+      extraMatchers?: (
+        addMatcher: ReducerBuilder<Entity, Id, ExtraState>['addMatcher'],
+      ) => void;
+      defaultCaseReducer?: Parameters<
+        ReducerBuilder<Entity, Id, ExtraState>['addDefaultCase']
+      >[0];
+      fetchActions?: AsyncActionType[];
+      deleteActions?: AsyncActionType[];
+    }): (builder: ReducerBuilder<Entity, Id, ExtraState>) => void;
+    getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;
+    getSelectors<V>(
+      selectState: (state: V) => EntityState<Entity, Id>,
+    ): LegoEntitySelectors<Entity, V, Id>;
+  }
+>;
 
 // Helpers
 type ReducerBuilder<
@@ -85,6 +103,7 @@ function createLegoAdapter<
   Type extends EntityType,
   Entity extends Entities[Type][EntityId] & {
     id: EntityId;
+    // @ts-expect-error - This won't work for entities without id, but they should provide a selectId function
   } = Entities[Type][EntityId],
 >(
   entityType: Type,
@@ -99,7 +118,8 @@ function createLegoAdapter<
   entityType: Type,
   options: LegoAdapterOptions<Entity, EntityId> = {},
 ): LegoAdapter<Entity, Id> {
-  const entityAdapter = createEntityAdapter<Entity>(options);
+  // @ts-expect-error - Any entity without id should provide a selectId function
+  const entityAdapter = createEntityAdapter<Entity, Id>(options);
 
   return {
     ...entityAdapter,
@@ -144,10 +164,10 @@ function createLegoAdapter<
         selectAllPaginated: createSelector(
           selectors.selectEntities,
           selectors.selectIds,
-          (_: V, { pagination }: { pagination?: Pagination } = {}) =>
+          (_: V, { pagination }: { pagination?: Pagination<Id> } = {}) =>
             pagination,
           (entities, allIds, pagination) => {
-            const ids = pagination ? pagination.ids || [] : allIds;
+            const ids: Id[] = pagination ? pagination.ids || [] : allIds;
             return ids.map((id) => entities[id]).filter(isNotNullish);
           },
         ),
@@ -168,7 +188,7 @@ function createLegoAdapter<
             single: createSelector(selector, (entities) => entities[0]),
           });
         },
-      };
+      } as LegoEntitySelectors<Entity, V, Id>; // Type assertion needed because we allow type-overrides in some selectors that are not type-safe
     },
   };
 }

@@ -70,9 +70,9 @@ export enum EntityType {
   Tags = 'tags',
   Thread = 'threads',
   Users = 'users',
-  FollowersCompany = 'followersCompany',
-  FollowersUser = 'followersUser',
-  FollowersEvent = 'followersEvent',
+  // FollowersCompany = 'followersCompany',
+  // FollowersUser = 'followersUser',
+  // FollowersEvent = 'followersEvent',
 }
 
 // Most fetch success redux actions are normalized such that payload.entities is a subset of this interface.
@@ -112,9 +112,9 @@ export default interface Entities {
   [EntityType.Tags]: Record<ID, UnknownTag>;
   [EntityType.Thread]: Record<ID, UnknownThread>;
   [EntityType.Users]: Record<ID, UnknownUser>;
-  [EntityType.FollowersCompany]: Record<ID, unknown>; // AFAIK unused
-  [EntityType.FollowersUser]: Record<ID, unknown>; // AFAIK unused
-  [EntityType.FollowersEvent]: Record<ID, unknown>; // AFAIK unused
+  // [EntityType.FollowersCompany]: Record<ID, unknown>; // AFAIK unused
+  // [EntityType.FollowersUser]: Record<ID, unknown>; // AFAIK unused
+  // [EntityType.FollowersEvent]: Record<ID, unknown>; // AFAIK unused
 }
 
 type InferEntityType<T> = {

@@ -123,7 +123,9 @@ const PermissionList = ({ group }: PermissionListProps) => {
 
 const GroupPermissions = () => {
   const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroupById(state, groupId!));
+  const group = useAppSelector((state) =>
+    selectGroupById<DetailedGroup>(state, groupId),
+  );
 
   return (
     <div>

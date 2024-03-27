@@ -10,7 +10,6 @@ import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectThreadById } from 'app/reducers/threads';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type Comment from 'app/store/models/Comment';
 import type { DetailedThread } from 'app/store/models/Forum';
 
 type ThreadDetailParams = {
@@ -31,11 +30,11 @@ const ThreadDetail = () => {
   );
 
   const thread = useAppSelector((state) =>
-    selectThreadById(state, threadId),
-  ) as DetailedThread;
+    selectThreadById<DetailedThread>(state, threadId),
+  );
 
-  const comments: Comment[] = useAppSelector((state) =>
-    selectCommentsByIds(state, thread?.comments || []),
+  const comments = useAppSelector((state) =>
+    selectCommentsByIds(state, thread?.comments),
   );
 
   const detailActionGrant = thread?.actionGrant;

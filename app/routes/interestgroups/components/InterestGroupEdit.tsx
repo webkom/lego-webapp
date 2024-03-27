@@ -9,11 +9,12 @@ import { selectGroupById } from 'app/reducers/groups';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import type { PublicDetailedGroup } from 'app/store/models/Group';
 
 const InterestGroupEdit = () => {
   const { groupId } = useParams<{ groupId: string }>();
   const interestGroup = useAppSelector((state) =>
-    selectGroupById(state, groupId!),
+    selectGroupById<PublicDetailedGroup>(state, groupId),
   );
   const editing = groupId !== undefined;
 
