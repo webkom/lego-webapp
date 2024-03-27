@@ -37,6 +37,7 @@ import {
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.css';
 import type { ID } from 'app/store/models';
+import type { ListCompany } from 'app/store/models/Company';
 
 type SelectInputObject = {
   label: string;
@@ -124,13 +125,13 @@ const JoblistingEditor = () => {
         });
 
   const fetchContacts = useCallback(
-    (company: SelectInputObject) => {
+    (company: SelectInputObject | ListCompany) => {
       return dispatch(
         fetchCompanyContacts({
-          companyId: company.id,
+          companyId: 'value' in company ? company.value : company.id,
         }),
-      ).then((action) => {
-        const responsibleOptions = action.payload.map((contact) => ({
+      ).then((res) => {
+        const responsibleOptions = res.payload.results.map((contact) => ({
           label: contact.name,
           value: contact.id,
         }));
@@ -212,7 +213,7 @@ const JoblistingEditor = () => {
         validate={validate}
         initialValues={initialValues}
       >
-        {({ handleSubmit, form }) => (
+        {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Field
               placeholder="Tittel"
@@ -228,16 +229,7 @@ const JoblistingEditor = () => {
               component={SelectInput.AutocompleteField}
               filter={['companies.company']}
               onChange={(event) => {
-                fetchContacts(event).then(() => {
-                  form.change('joblistingEditor', {
-                    label: 'Ingen',
-                    value: null,
-                  });
-                  form.change('responsible', {
-                    label: 'Ingen',
-                    value: null,
-                  });
-                });
+                fetchContacts(event);
               }}
               required
             />
@@ -272,6 +264,7 @@ const JoblistingEditor = () => {
               name="workplaces"
               component={SelectInput.Field}
               options={places}
+              required
               tags
             />
             <Field
