@@ -53,6 +53,7 @@ type ButtonRowProps = {
 };
 
 const ButtonRow = ({ group }: ButtonRowProps) => {
+  const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
   if (!currentUser) return null;
 
