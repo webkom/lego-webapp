@@ -21,6 +21,13 @@ const emailUsersDefaultQuery = {
   userFullname: '',
 };
 
+const relevantGroups = [
+  GroupType.Committee,
+  GroupType.Board,
+  GroupType.Ordained,
+  GroupType.SubGroup,
+];
+
 const EmailUsers = () => {
   const { query, setQuery } = useQuery(emailUsersDefaultQuery);
 
@@ -35,15 +42,11 @@ const EmailUsers = () => {
     selectTransformedEmailUsers(state, { pagination }),
   );
   const fetching = useAppSelector((state) => state.emailUsers.fetching);
-  const committees = useAppSelector((state) =>
-    selectGroupsByType(state, GroupType.Committee),
+
+  const groups = relevantGroups.flatMap((relevantGroup) =>
+    useAppSelector((state) => selectGroupsByType(state, relevantGroup)),
   );
-  const boards = useAppSelector((state) =>
-    selectGroupsByType(state, GroupType.Board),
-  );
-  const ordained = useAppSelector((state) =>
-    selectGroupsByType(state, GroupType.Ordained),
-  );
+
   const grades = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Grade),
   );
@@ -54,14 +57,7 @@ const EmailUsers = () => {
     'fetchEmailUsers',
     () =>
       Promise.allSettled([
-        dispatch(
-          fetchAllWithType([
-            GroupType.Committee,
-            GroupType.Board,
-            GroupType.Ordained,
-            GroupType.Grade,
-          ]),
-        ),
+        dispatch(fetchAllWithType([...relevantGroups, GroupType.Grade])),
         dispatch(fetch({ query })),
       ]),
     [query],
@@ -97,7 +93,7 @@ const EmailUsers = () => {
       dataIndex: 'userGroups',
       inlineFiltering: false,
       filterMessage: '- for å få brukere uten komite',
-      filter: [...committees, ...boards, ...ordained]
+      filter: groups
         .map((abakusGroup) => ({
           label: abakusGroup.name,
           value: abakusGroup.name,
@@ -108,11 +104,8 @@ const EmailUsers = () => {
         }),
       render: (_, emailUser) => {
         const output = emailUser.user?.abakusGroups
-          .filter(
-            (abakusGroup) =>
-              abakusGroup.type === GroupType.Committee ||
-              abakusGroup.type === GroupType.Board ||
-              abakusGroup.type === GroupType.Ordained,
+          .filter((abakusGroup) =>
+            relevantGroups.includes(abakusGroup.type as GroupType),
           )
           .map((abakusGroup) => (
             <Link
@@ -122,7 +115,7 @@ const EmailUsers = () => {
               {abakusGroup.name}{' '}
             </Link>
           ));
-        if (!output.length) return <i>Ingen gruppetilhørighet</i>;
+        if (!output?.length) return <i>Ingen gruppetilhørighet</i>;
         return output;
       },
     },
