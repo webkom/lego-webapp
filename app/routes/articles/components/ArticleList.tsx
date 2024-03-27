@@ -91,13 +91,10 @@ const ArticleList = () => {
 
   const dispatch = useAppDispatch();
 
+  usePreparedEffect('fetchPopularTags', () => dispatch(fetchPopular()), []);
   usePreparedEffect(
-    'fetchArticlesOverview',
-    () =>
-      Promise.allSettled([
-        dispatch(fetchPopular()),
-        dispatch(fetchAll({ next: false, query })),
-      ]),
+    'fetchArticleList',
+    () => dispatch(fetchAll({ next: false, query })),
     [query],
   );
 

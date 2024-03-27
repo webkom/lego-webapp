@@ -1,19 +1,15 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { TagCloud as Cloud } from 'react-tagcloud';
 import { fetchAll } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';
-import { selectTags } from 'app/reducers/tags';
+import { selectAllTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { Tag } from 'app/store/models/Tag';
+import type { RendererFunction, Tag as CloudTag } from 'react-tagcloud';
 
-type CloudTag = {
-  value: string;
-  count: number;
-};
-
-const tagRenderer = (tag: CloudTag, size: string, color: string) => (
+const tagRenderer: RendererFunction = (tag, size, color) => (
   <Link
     key={tag.value}
     to={`/tags/${tag.value}`}
@@ -29,31 +25,17 @@ const tagRenderer = (tag: CloudTag, size: string, color: string) => (
 );
 
 const TagCloud = () => {
-  const tags = useAppSelector((state) => selectTags(state));
+  const tags = useAppSelector(selectAllTags);
   const fetching = useAppSelector((state) => state.tags.fetching);
-  const hasMore = useAppSelector((state) => state.tags.hasMore);
 
   const dispatch = useAppDispatch();
 
   usePreparedEffect('fetchAllTags', () => dispatch(fetchAll()), []);
 
-  usePreparedEffect(
-    'fetchMoreTags',
-    () => {
-      if (hasMore && !fetching) {
-        return dispatch(fetchAll({ next: true }));
-      }
-    },
-
-    [hasMore, fetching],
-  );
-
-  const data: CloudTag[] = tags.map((tag: Tag) => {
-    return {
-      value: tag.tag,
-      count: tag.usages,
-    };
-  });
+  const data: CloudTag[] = tags.map((tag) => ({
+    value: tag.tag,
+    count: tag.usages,
+  }));
 
   const options = {
     hue: 'red',
@@ -71,6 +53,7 @@ const TagCloud = () => {
         shuffle={false}
         colorOptions={options}
       />
+      <LoadingIndicator loading={fetching} />
     </Content>
   );
 };

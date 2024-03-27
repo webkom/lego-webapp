@@ -42,7 +42,7 @@ export interface UpdateForum extends CreateForum {
 }
 
 export interface PublicForum {
-  id: number;
+  id: ID;
   title: string;
   description: string;
   createdAt: Dateish;
@@ -55,3 +55,5 @@ export interface DetailedForum extends PublicForum {
   contentTarget: string;
   actionGrant: ActionGrant;
 }
+
+export type UnknownForum = PublicForum | DetailedForum;
