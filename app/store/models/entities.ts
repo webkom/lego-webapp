@@ -1,4 +1,6 @@
+import { isNotNullish } from 'app/utils';
 import type OAuth2Grant from './OAuth2Grant';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
@@ -117,7 +119,11 @@ export default interface Entities {
   [EntityType.FollowersEvent]: Record<ID, unknown>; // AFAIK unused
 }
 
-type InferEntityType<T> = {
+export type EntityTypeMap<Keys extends keyof Entities = never> = {
+  [K in Keys]: InferEntityType<K>;
+};
+
+export type InferEntityType<T> = {
   [K in keyof Entities]: T extends Entities[K][ID] ? K : never;
 }[keyof Entities];
 
@@ -126,6 +132,10 @@ export type NormalizedPayloadEntities<T> = Record<
   Record<ID, T | undefined>
 >;
 
-export interface NormalizedEntityPayload<EntityKeys extends keyof Entities> {
+export interface NormalizedEntityPayload<
+  EntityKeys extends keyof Entities,
+  Ids extends EntityId | EntityId[] = EntityId | EntityId[],
+> {
   entities: Pick<Entities, EntityKeys>;
+  result: Ids;
 }

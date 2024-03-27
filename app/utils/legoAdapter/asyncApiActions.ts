@@ -1,5 +1,5 @@
-// is often expanded with additional properties
-import type { AnyAction } from '@reduxjs/toolkit';
+import { isNotNullish } from 'app/utils';
+import type { AnyAction, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 import type { ID } from 'app/store/models';
 import type Entities from 'app/store/models/entities';
 import type {
@@ -8,6 +8,7 @@ import type {
 } from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 
+// is often expanded with additional properties
 interface BaseMeta {
   queryString: string;
   cursor: string;
@@ -58,11 +59,6 @@ export interface AsyncApiActionSuccess<
   type: `${string}.SUCCESS`;
 }
 
-export interface AsyncApiActionSuccessWithEntityType<T extends EntityType>
-  extends AsyncApiActionSuccess<FetchMeta, FetchPayload> {
-  payload: AsyncApiActionSuccess['payload'] & NormalizedEntityPayload<T>;
-}
-
 const isAsyncApiAction = (action: AnyAction): action is AsyncApiAction =>
   action.meta && action.meta.endpoint;
 
@@ -101,10 +97,28 @@ isAsyncApiActionSuccess.withSchemaKey =
   <Meta extends BaseMeta = BaseMeta>(entityType: EntityType) =>
   (action: AnyAction): action is AsyncApiActionSuccess<Meta> =>
     isAsyncApiActionSuccess(action) && action.meta.schemaKey === entityType;
-isAsyncApiActionSuccess.containingEntity =
+
+export const isPayloadAction = (
+  action: UnknownAction,
+): action is PayloadAction => action.payload !== undefined;
+
+export const isNormalizedEntitiesContainingType = <T extends EntityType>(
+  payload: unknown,
+  entityType: T,
+): payload is NormalizedEntityPayload<T> =>
+  !!payload &&
+  typeof payload === 'object' &&
+  'entities' in payload &&
+  !!payload.entities &&
+  typeof payload.entities === 'object' &&
+  'result' in payload &&
+  isNotNullish(payload.result) &&
+  entityType in payload.entities;
+
+export const isNormalizedEntitiesActionContainingType =
   <T extends EntityType>(entityType: T) =>
-  (action: AnyAction): action is AsyncApiActionSuccessWithEntityType<T> =>
-    isAsyncApiActionSuccess(action) &&
-    !!action.payload &&
-    'entities' in action.payload &&
-    entityType in action.payload.entities;
+  (
+    action: UnknownAction,
+  ): action is PayloadAction<NormalizedEntityPayload<T>> =>
+    isPayloadAction(action) &&
+    isNormalizedEntitiesContainingType<T>(action.payload, entityType);

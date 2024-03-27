@@ -72,56 +72,6 @@ describe('async action type guards', () => {
         ).toBe(false);
       });
     });
-    describe('.containsEntity', () => {
-      it('should return true when entity is in payload', () => {
-        expect(
-          isAsyncApiActionSuccess.containingEntity(EntityType.Articles)({
-            ...baseAction,
-            type: FETCH.SUCCESS,
-            payload: {
-              entities: {
-                [EntityType.Articles]: {},
-              },
-            },
-          }),
-        ).toBe(true);
-        expect(
-          isAsyncApiActionSuccess.containingEntity(EntityType.Events)({
-            ...baseAction,
-            type: FETCH.SUCCESS,
-            payload: {
-              entities: {
-                [EntityType.Events]: {},
-              },
-            },
-          }),
-        ).toBe(true);
-      });
-      it('should return false when entity is not in payload', () => {
-        expect(
-          isAsyncApiActionSuccess.containingEntity(EntityType.Articles)({
-            ...baseAction,
-            type: FETCH.SUCCESS,
-            payload: {
-              entities: {
-                [EntityType.Emojis]: {},
-              },
-            },
-          }),
-        ).toBe(false);
-        expect(
-          isAsyncApiActionSuccess.containingEntity(EntityType.Events)({
-            ...baseAction,
-            type: FETCH.SUCCESS,
-            payload: {
-              entities: {
-                [EntityType.Announcements]: {},
-              },
-            },
-          }),
-        ).toBe(false);
-      });
-    });
   });
   describe('isAsyncApiActionFailure', () => {
     it('should return true on FAILURE actions', () => {

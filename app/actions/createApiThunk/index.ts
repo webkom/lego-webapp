@@ -14,7 +14,6 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
 import type { Query } from 'app/utils/createQueryString';
 import type { HttpRequestOptions } from 'app/utils/fetchJSON';
-import type { schema } from 'normalizr';
 import type { Primitive } from 'utility-types';
 
 export const IS_API_ACTION = Symbol('isApiAction');
@@ -33,7 +32,6 @@ type CreateApiThunkOptions<Meta> = {
   files?: (string | File)[];
   timeout?: number;
   query?: Query;
-  schema?: schema.Entity | schema.Entity[];
   requiresAuthentication?: boolean;
   propagateError?: boolean;
   errorMessage?: string;

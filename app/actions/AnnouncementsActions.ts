@@ -1,12 +1,29 @@
 import callAPI from 'app/actions/callAPI';
+import createApiThunk from 'app/actions/createApiThunk';
+import { createPayloadNormalizer } from 'app/actions/createApiThunk/normalizePayload';
 import { announcementsSchema } from 'app/reducers';
 import { Announcements } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as CreateAnnouncementFormValues } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type { ID } from 'app/store/models';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,
 } from 'app/store/models/Announcement';
+import type { EntityType } from 'app/store/models/entities';
+
+export const fetchAllAnnouncements = createApiThunk(
+  'announcements/fetchAll',
+  {
+    endpoint: '/announcements/',
+    errorMessage: 'Henting av kunngjøringer feilet',
+    propagateError: true,
+  },
+  createPayloadNormalizer<
+    { [EntityType.Announcements]: ListAnnouncement },
+    EntityId[]
+  >([announcementsSchema]),
+);
 
 export function fetchAll() {
   return callAPI<ListAnnouncement[]>({
