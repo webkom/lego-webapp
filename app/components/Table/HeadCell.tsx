@@ -1,5 +1,4 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
-import cx from 'classnames';
 import { useEffect, useRef } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import { TextInput, RadioButton, CheckBox } from 'app/components/Form';
@@ -106,6 +105,10 @@ const HeadCell: React.FC<HeadCellProps> = ({
         : 'sort-desc'
       : 'sort';
 
+  const iconIsActive =
+    (!!filters[filterIndex] && String(filters[filterIndex])) ||
+    isShown[filterIndex];
+
   return (
     <th key={`${dataIndex}-${index}`}>
       <Flex alignItems="center" justifyContent="center" gap={4.5}>
@@ -124,11 +127,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
               <Icon
                 name="search"
                 size={16}
-                className={cx(
-                  (filters[filterIndex] ?? []).length || isShown[filterIndex]
-                    ? styles.iconActive
-                    : styles.icon,
-                )}
+                className={iconIsActive ? styles.iconActive : styles.icon}
               />
             }
             contentClassName={styles.overlay}
@@ -156,12 +155,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
               <Icon
                 name="funnel"
                 size={16}
-                className={cx(
-                  (filters[filterIndex] ?? []).length > 0 ||
-                    isShown[filterIndex]
-                    ? styles.iconActive
-                    : styles.icon,
-                )}
+                className={iconIsActive ? styles.iconActive : styles.icon}
               />
             }
             contentClassName={styles.checkbox}
@@ -213,11 +207,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
               <Icon
                 name="options"
                 size={16}
-                className={cx(
-                  filters[filterIndex] !== undefined || isShown[filterIndex]
-                    ? styles.iconActive
-                    : styles.icon,
-                )}
+                className={iconIsActive ? styles.iconActive : styles.icon}
               />
             }
             contentClassName={styles.overlay}

@@ -41,7 +41,7 @@ type LegoEntitySelectors<T, V, Id extends EntityId> = Assign<
       state: V,
       options?: { pagination?: Pagination<Id> },
     ) => Type[];
-    selectByField: <K extends keyof T, Value = T[K]>(
+    selectByField: <K extends keyof T, Value = T[K] | T[K][]>(
       field: K,
       predicate?: (entityValue: T[K], filterValue: Value) => boolean,
     ) => (<Type extends T = T>(state: V, filterValue?: Value) => Type[]) & {
@@ -171,7 +171,10 @@ function createLegoAdapter<
             return ids.map((id) => entities[id]).filter(isNotNullish);
           },
         ),
-        selectByField: <K extends keyof Entity, Value = Entity[K]>(
+        selectByField: <
+          K extends keyof Entity,
+          Value = Entity[K] | Entity[K][],
+        >(
           field: K,
           predicate: (entityValue: Entity[K], filterValue: Value) => boolean = (
             entityValue,
@@ -182,7 +185,13 @@ function createLegoAdapter<
             selectors.selectAll,
             (_: V, value: Value) => value,
             (entities, value) =>
-              entities.filter((entity) => predicate(entity[field], value)),
+              entities.filter((entity) =>
+                Array.isArray(value)
+                  ? value.some((valueItem) =>
+                      predicate(entity[field], valueItem),
+                    )
+                  : predicate(entity[field], value),
+              ),
           );
           return Object.assign(selector, {
             single: createSelector(selector, (entities) => entities[0]),
