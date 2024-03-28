@@ -42,7 +42,7 @@ export const selectPaginationNext =
         query,
         next: { ...query, cursor: '' },
         previous: false,
-        items: [],
+        items: [], // TODO: Remove this when all usage of createEntityReducer is removed
         ids: [],
       },
       paginationKey,

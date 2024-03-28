@@ -18,6 +18,8 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './index.css';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
+import type { DetailedGroup } from 'app/store/models/Group';
 
 type FormValues = {
   name: string;
@@ -43,8 +45,10 @@ type Props = {
 };
 
 const GroupForm = ({ isInterestGroup }: Props) => {
-  const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroupById(state, groupId!));
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
+  const group = useAppSelector(
+    (state) => selectGroupById(state, groupId) as DetailedGroup | undefined,
+  );
   const isNew = !group;
 
   const dispatch = useAppDispatch();
@@ -55,7 +59,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
       values.type = GroupType.Interest;
     }
     dispatch(isNew ? createGroup(values) : editGroup(values)).then(() => {
-      if (group.type === 'interesse') {
+      if (group?.type === 'interesse') {
         navigate(`/interest-groups/${group.id}`);
       }
     });
