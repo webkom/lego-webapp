@@ -20,7 +20,6 @@ import type { ID } from 'app/store/models';
 import type { ReactNode } from 'react';
 
 type Props = {
-  groupId: EntityId;
   fetching: boolean;
   hasMore: boolean;
   memberships: TransformedMembership[];
@@ -31,14 +30,15 @@ type Props = {
       numberOfUsers?: number;
     }
   >;
+  fetchMemberships: (next: boolean) => Promise<void>;
 };
 
 const GroupMembersList = ({
-  groupId,
   memberships,
   hasMore,
   fetching,
   groupsById,
+  fetchMemberships,
 }: Props) => {
   // State for keeping track of which memberships are being edited
   const [membershipsInEditMode, setMembershipsInEditMode] = useState({});
@@ -80,20 +80,20 @@ const GroupMembersList = ({
             label: ROLES[role],
           }}
           options={roleOptions}
-          onChange={(value: { label: string; value: RoleType }) => {
+          onChange={async (value: { label: string; value: RoleType }) => {
             setMembershipsInEditMode((prev) => ({
               ...prev,
               [id]: false,
             }));
-            dispatch(removeMember(membership)).then(() => {
-              dispatch(
-                addMember({
-                  userId: membership.user.id,
-                  groupId: membership.abakusGroup,
-                  role: value.value,
-                }),
-              );
-            });
+            await dispatch(removeMember(membership));
+            await dispatch(
+              addMember({
+                userId: membership.user.id,
+                groupId: membership.abakusGroup,
+                role: value.value,
+              }),
+            );
+            await fetchMemberships(false);
           }}
         />
       );
@@ -176,15 +176,7 @@ const GroupMembersList = ({
 
   return (
     <Table
-      onLoad={() => {
-        dispatch(
-          fetchMembershipsPagination({
-            groupId,
-            next: true,
-            query,
-          }),
-        );
-      }}
+      onLoad={() => fetchMemberships(true)}
       onChange={setQuery}
       columns={columns}
       hasMore={hasMore}
