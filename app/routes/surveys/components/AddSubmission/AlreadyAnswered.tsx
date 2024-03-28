@@ -2,11 +2,11 @@ import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import StaticSubmission from '../StaticSubmission';
 import styles from '../surveys.css';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 type Props = {
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
   submission: SurveySubmission;
 };
 
