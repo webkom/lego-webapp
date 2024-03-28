@@ -37,9 +37,9 @@ type TagDetailParams = {
 };
 const TagDetail = () => {
   const { tagId } = useParams<TagDetailParams>() as TagDetailParams;
-  const tag = useAppSelector((state) => selectTagById(state, tagId)) as
-    | DetailedTag
-    | undefined;
+  const tag = useAppSelector((state) =>
+    selectTagById<DetailedTag>(state, tagId),
+  );
   const fetching = useAppSelector((state) => state.tags.fetching);
 
   const dispatch = useAppDispatch();

@@ -81,7 +81,7 @@ export const {
 
 export const selectGroupsByIds = createSelector(
   selectGroupEntities,
-  (_: RootState, groupIds: EntityId[]) => groupIds,
+  (_: RootState, groupIds: EntityId[] = []) => groupIds,
   (groupsById, groupIds) => groupIds.map((id) => groupsById[id]),
 );
 export const selectGroupsByType = selectGroupsByField('type');

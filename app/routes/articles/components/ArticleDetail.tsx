@@ -86,10 +86,10 @@ const ArticleDetail = () => {
   ) as DetailedArticle | undefined;
 
   const comments = useAppSelector((state) =>
-    selectCommentsByIds(state, article?.comments ?? []),
+    selectCommentsByIds(state, article?.comments),
   );
   const authors = useAppSelector((state) =>
-    selectUsersByIds(state, article?.authors ?? []),
+    selectUsersByIds(state, article?.authors),
   );
 
   const navigate = useNavigate();

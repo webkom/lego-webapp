@@ -35,4 +35,4 @@ export default restrictedMailSlice.reducer;
 export const {
   selectAll: selectRestrictedMails,
   selectById: selectRestrictedMailById,
-} = legoAdapter.getSelectors<RootState>((state) => state.restrictedMails);
+} = legoAdapter.getSelectors((state: RootState) => state.restrictedMails);

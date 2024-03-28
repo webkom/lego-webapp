@@ -66,12 +66,12 @@ const ArticleEditor = () => {
   const isNew = articleId === undefined;
 
   const article = useAppSelector((state) =>
-    selectArticleById(state, articleId),
-  ) as AdminDetailedArticle | undefined;
+    selectArticleById<AdminDetailedArticle>(state, articleId),
+  );
   const fetching = useAppSelector((state) => state.articles.fetching);
 
   let authors = useAppSelector((state) =>
-    selectUsersByIds(state, article?.authors || []),
+    selectUsersByIds(state, article?.authors),
   );
   if (authors.length === 0 && currentUser) {
     authors = [currentUser];

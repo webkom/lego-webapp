@@ -21,6 +21,7 @@ import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required } from 'app/utils/validation';
+import type { PublicUser } from 'app/store/models/User';
 
 type AutocompleteUserValue = {
   title: string;
@@ -36,10 +37,10 @@ const EmailUserEditor = () => {
   const isNew = emailUserId === undefined;
   const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const emailUser = useAppSelector((state) =>
-    selectEmailUserById(state, emailUserId!),
+    selectEmailUserById(state, emailUserId),
   );
   const user = useAppSelector((state) =>
-    selectUserById(state, emailUser?.user),
+    selectUserById<PublicUser>(state, emailUser?.user),
   );
 
   const dispatch = useAppDispatch();
