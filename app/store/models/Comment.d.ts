@@ -2,15 +2,18 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ReactionsGrouped } from './store/models/Reaction';
 
 export interface Comment {
   id: EntityId;
   text: string | null;
   author: PublicUser | null;
   contentTarget: ContentTarget;
+  contentSelf: ContentTarget;
   createdAt: Dateish;
   updatedAt: Dateish;
   parent: EntityId | null;
+  reactionsGrouped?: ReactionsGrouped;
 }
 
 export default Comment;

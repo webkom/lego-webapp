@@ -8,6 +8,7 @@ const entityTypeMappings = {
   'meetings.meeting': EntityType.Meetings,
   'gallery.gallerypicture': EntityType.GalleryPictures,
   'forums.thread': EntityType.Thread,
+  'comments.comment': EntityType.Comments,
 };
 export type EntityServerName = keyof typeof entityTypeMappings;
 export default function getEntityType(

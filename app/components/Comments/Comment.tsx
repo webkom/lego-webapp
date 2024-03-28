@@ -15,6 +15,7 @@ import styles from './Comment.css';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
+import LegoReactions from '../LegoReactions';
 
 type Props = {
   comment: CommentType;
@@ -109,6 +110,9 @@ const Comment = ({
           content={text ? text : '<p>Kommentar slettet</p>'}
         />
 
+        <LegoReactions
+          parentEntity={{ ...comment, contentTarget: comment.contentSelf }}
+        />
         {author && (
           <Button flat onPress={() => setReplyOpen(!replyOpen)}>
             {replyOpen ? (

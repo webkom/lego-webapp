@@ -9,6 +9,7 @@ import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AnyAction } from 'redux';
+import { addReactionCases } from './reactions';
 
 export const addCommentCases = (
   forTargetType: EntityType,
@@ -39,6 +40,8 @@ const commentSlice = createSlice({
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     extraCases: (addCase) => {
+      addReactionCases(EntityType.Comments, addCase);
+
       addCase(Comment.DELETE.SUCCESS, (state, action: AnyAction) => {
         const comment = state.entities[action.meta.id];
         if (comment) {
