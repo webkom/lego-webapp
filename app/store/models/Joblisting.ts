@@ -1,5 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { CompanyContact, ListCompany } from 'app/store/models/Company';
 
 enum JobType {
@@ -36,6 +36,7 @@ interface Joblisting {
   applicationUrl: string;
   youtubeUrl: string;
   createdAt: Dateish;
+  actionGrant?: ActionGrant;
 }
 
 export type ListJoblisting = Pick<
@@ -72,6 +73,7 @@ export type DetailedJoblisting = Pick<
   | 'applicationUrl'
   | 'youtubeUrl'
   | 'createdAt'
+  | 'actionGrant'
 >;
 
 export type UnknownJoblisting = ListJoblisting | DetailedJoblisting;

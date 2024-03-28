@@ -44,10 +44,10 @@ type LegoEntitySelectors<T, V, Id extends EntityId> = Assign<
     selectByField: <K extends keyof T, Value = T[K]>(
       field: K,
       predicate?: (entityValue: T[K], filterValue: Value) => boolean,
-    ) => (<Type extends T = T>(state: V, filterValue: Value) => Type[]) & {
+    ) => (<Type extends T = T>(state: V, filterValue?: Value) => Type[]) & {
       single: <Type extends T = T>(
         state: V,
-        filterValue: Value,
+        filterValue?: Value,
       ) => Type | undefined;
     };
   }

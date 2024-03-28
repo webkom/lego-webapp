@@ -76,9 +76,7 @@ const JoblistingEditor = () => {
   const isNew = joblistingId === undefined;
 
   const joblisting = useAppSelector((state) =>
-    selectJoblistingById(state, {
-      joblistingId,
-    }),
+    selectJoblistingById(state, joblistingId),
   );
 
   const navigate = useNavigate();

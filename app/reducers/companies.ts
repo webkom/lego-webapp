@@ -1,7 +1,7 @@
 import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
-import { selectJoblistings } from 'app/reducers/joblistings';
+import { selectAllJoblistings } from 'app/reducers/joblistings';
 import { selectUserEntities } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
@@ -211,7 +211,7 @@ export const selectEventsForCompany = createSelector(
 );
 export const selectJoblistingsForCompany = createSelector(
   (state, props) => props.companyId,
-  selectJoblistings,
+  selectAllJoblistings,
   (companyId, joblistings) => {
     if (!companyId || !joblistings) return [];
     return joblistings.filter(
