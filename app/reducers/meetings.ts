@@ -6,8 +6,8 @@ import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Meeting } from '../actions/ActionTypes';
 import { addReactionCases } from './reactions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { PublicUser } from 'app/store/models/User';
@@ -21,7 +21,7 @@ export enum MeetingTokenResponse {
 export type MeetingTokenSuccessState = {
   response: MeetingTokenResponse.Success;
   user: PublicUser;
-  meeting: ID;
+  meeting: EntityId;
   status: MeetingInvitationStatus;
 };
 export type MeetingTokenState =
@@ -197,5 +197,5 @@ export const selectUpcomingMeetings = (state: RootState) =>
 
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,
-  (upcomingMeetings) => upcomingMeetings[0]?.id as ID | undefined,
+  (upcomingMeetings) => upcomingMeetings[0]?.id as EntityId | undefined,
 );

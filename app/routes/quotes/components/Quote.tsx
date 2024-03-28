@@ -8,8 +8,8 @@ import Time from 'app/components/Time';
 import { selectEmojis } from 'app/reducers/emojis';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Quotes.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import type Emoji from 'app/store/models/Emoji';
 import type QuoteType from 'app/store/models/Quote';
 
@@ -32,7 +32,8 @@ const Quote = ({
   const [deleting, setDeleting] = useState(false);
   const dispatch = useAppDispatch();
 
-  let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: ID })[] = [];
+  let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: EntityId })[] =
+    [];
 
   if (!fetchingEmojis) {
     mappedEmojis = emojis.map((emoji) => {

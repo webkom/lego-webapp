@@ -1,12 +1,12 @@
-import type { ID } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { RoleType } from 'app/utils/constants';
 
 interface CompleteEmailList {
-  id: ID;
+  id: EntityId;
   name: string;
   email: string;
-  users: ID[];
-  groups: ID[];
+  users: EntityId[];
+  groups: EntityId[];
   groupRoles: RoleType[];
   requireInternalAddress: boolean;
   additionalEmails?: string[];

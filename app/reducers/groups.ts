@@ -5,10 +5,9 @@ import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Group, Membership } from '../actions/ActionTypes';
 import type { EntityId, AnyAction } from '@reduxjs/toolkit';
-import type { ID } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 
-export const resolveGroupLink = (group: { type: GroupType; id: ID }) => {
+export const resolveGroupLink = (group: { type: GroupType; id: EntityId }) => {
   switch (group.type) {
     case GroupType.Interest:
       return `/interest-groups/${group.id}`;

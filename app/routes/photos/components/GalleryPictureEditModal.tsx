@@ -24,12 +24,12 @@ import { selectGalleryPictureById } from 'app/reducers/galleryPictures';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type FormValues = {
   description: string;
   active: boolean;
-  taggees: { label: string; value: ID }[];
+  taggees: { label: string; value: EntityId }[];
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;

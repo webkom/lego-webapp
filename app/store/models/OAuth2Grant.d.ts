@@ -1,12 +1,12 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type { ID } from 'app/store/models/index';
 
 export default interface OAuth2Grant {
-  id: ID;
-  user: ID;
+  id: EntityId;
+  user: EntityId;
   token: string;
   application: {
-    id: ID;
+    id: EntityId;
     name: string;
     description: string;
   };

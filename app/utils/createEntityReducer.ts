@@ -4,7 +4,7 @@ import { parse } from 'qs';
 import { configWithSSR } from 'app/config';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Reducer, AsyncActionType } from 'app/types';
 import type { StrictReducer } from 'app/utils/joinReducers';
 import type { AnyAction } from 'redux';
@@ -41,7 +41,7 @@ type PaginationCursor = Record<string, string> & { cursor: string };
 
 type PaginationNext = {
   [query: string]: {
-    items: ID[];
+    items: EntityId[];
     hasMore: boolean;
     query: Record<string, string>;
     hasMoreBackwards: boolean;
@@ -55,8 +55,8 @@ export type EntityReducerState<T = any> = {
   actionGrant: string[];
   pagination: Pagination;
   paginationNext: PaginationNext;
-  byId: Record<ID, T>;
-  items: ID[];
+  byId: Record<EntityId, T>;
+  items: EntityId[];
   fetching: boolean;
   hasMore?: boolean;
 };

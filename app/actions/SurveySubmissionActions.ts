@@ -1,13 +1,13 @@
 import callAPI from 'app/actions/callAPI';
 import { surveySubmissionSchema } from 'app/reducers';
 import { SurveySubmission } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   FormSurveySubmission,
   SurveySubmission as SurveySubmissionType,
 } from 'app/store/models/SurveySubmission';
 
-export function fetchSubmissions(surveyId: ID) {
+export function fetchSubmissions(surveyId: EntityId) {
   return callAPI<SurveySubmissionType>({
     types: SurveySubmission.FETCH_ALL,
     endpoint: `/surveys/${surveyId}/submissions/`,
@@ -18,7 +18,7 @@ export function fetchSubmissions(surveyId: ID) {
     propagateError: true,
   });
 }
-export function fetchUserSubmission(surveyId: ID, user: ID) {
+export function fetchUserSubmission(surveyId: EntityId, user: EntityId) {
   return callAPI<SurveySubmissionType>({
     types: SurveySubmission.FETCH,
     endpoint: `/surveys/${surveyId}/submissions/?user=${user}`,
@@ -35,7 +35,7 @@ export function fetchUserSubmission(surveyId: ID, user: ID) {
 export function addSubmission({
   surveyId,
   ...data
-}: FormSurveySubmission & { surveyId: ID }) {
+}: FormSurveySubmission & { surveyId: EntityId }) {
   return callAPI<SurveySubmissionType>({
     types: SurveySubmission.ADD,
     endpoint: `/surveys/${surveyId}/submissions/`,
@@ -49,7 +49,7 @@ export function addSubmission({
     },
   });
 }
-export function deleteSubmission(surveyId: ID, submissionId: ID) {
+export function deleteSubmission(surveyId: EntityId, submissionId: EntityId) {
   return callAPI({
     types: SurveySubmission.DELETE,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/`,
@@ -62,7 +62,11 @@ export function deleteSubmission(surveyId: ID, submissionId: ID) {
     },
   });
 }
-export function hideAnswer(surveyId: ID, submissionId: ID, answerId: ID) {
+export function hideAnswer(
+  surveyId: EntityId,
+  submissionId: EntityId,
+  answerId: EntityId,
+) {
   return callAPI({
     types: SurveySubmission.HIDE_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/hide/?answer=${answerId}`,
@@ -77,7 +81,11 @@ export function hideAnswer(surveyId: ID, submissionId: ID, answerId: ID) {
     },
   });
 }
-export function showAnswer(surveyId: ID, submissionId: ID, answerId: ID) {
+export function showAnswer(
+  surveyId: EntityId,
+  submissionId: EntityId,
+  answerId: EntityId,
+) {
   return callAPI({
     types: SurveySubmission.SHOW_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/show/?answer=${answerId}`,

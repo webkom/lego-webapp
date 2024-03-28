@@ -1,13 +1,13 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { PublicEvent } from 'app/store/models/Event';
 import type { GalleryCoverPicture } from 'app/store/models/GalleryPicture';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { PublicUser } from 'app/store/models/User';
-import type { ID } from 'app/store/models/index';
 
 interface Gallery {
-  id: ID;
+  id: EntityId;
   title: string;
   description: string;
   cover: GalleryCoverPicture;
@@ -18,7 +18,7 @@ interface Gallery {
   event: PublicEvent;
   photographers: PublicUser[];
   publicMetadata: unknown;
-  pictures: ID[];
+  pictures: EntityId[];
 }
 
 export type ListGallery = Pick<

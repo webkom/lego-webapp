@@ -14,7 +14,7 @@ import { useAppDispatch } from 'app/store/hooks';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
 import styles from './GroupMembersList.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type Membership from 'app/store/models/Membership';
 import type { ReactNode } from 'react';
 
@@ -59,7 +59,7 @@ const GroupMembersList = ({
     );
   };
 
-  const GroupLinkRender = (abakusGroup: ID): ReactNode => (
+  const GroupLinkRender = (abakusGroup: EntityId): ReactNode => (
     <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
       {groupsById[abakusGroup] && groupsById[abakusGroup].name}
     </Link>

@@ -1,6 +1,5 @@
 // is often expanded with additional properties
-import type { AnyAction } from '@reduxjs/toolkit';
-import type { ID } from 'app/store/models';
+import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type Entities from 'app/store/models/entities';
 import type {
   EntityType,
@@ -23,14 +22,14 @@ export interface FetchMeta extends BaseMeta {
   };
 }
 export interface DeleteMeta extends BaseMeta {
-  id: ID;
+  id: EntityId;
 }
 
 type AnyPayload = FetchPayload | [] | null;
 export interface FetchPayload {
   actionGrant?: string[];
   entities: Partial<Entities>;
-  result?: ID[];
+  result?: EntityId[];
   next?: string;
   previous?: string;
 }

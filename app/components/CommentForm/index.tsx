@@ -10,14 +10,14 @@ import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   contentTarget: ContentTarget;
   submitText?: string;
   autoFocus?: boolean;
-  parent?: ID;
+  parent?: EntityId;
   placeholder?: string;
 };
 

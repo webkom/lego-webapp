@@ -7,12 +7,12 @@ import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { TextInput } from 'app/components/Form';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './Admin.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';
 
 type ButtonProps = {
-  eventId: ID;
+  eventId: EntityId;
   title: string;
 };
 

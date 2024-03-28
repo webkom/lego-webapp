@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
 import { Poll } from '../actions/ActionTypes';
 import createEntityReducer from '../utils/createEntityReducer';
-import type { Tags, ID } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { Tags } from 'app/models';
 
 export type OptionEntity = {
   id: number;
@@ -9,7 +10,7 @@ export type OptionEntity = {
   votes: number;
 };
 export type PollEntity = {
-  id: ID;
+  id: EntityId;
   title: string;
   description: string;
   resultsHidden: boolean;

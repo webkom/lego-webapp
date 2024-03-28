@@ -20,7 +20,7 @@ import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
-import type { ID } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type Poll from 'app/store/models/Poll';
 import type { ReactNode } from 'react';
 
@@ -98,7 +98,7 @@ const PollEditor = ({
       value: string;
     }>;
     options: Array<{
-      id: ID | null | undefined;
+      id: EntityId | null | undefined;
       name: string;
     }>;
     resultsHidden: boolean;

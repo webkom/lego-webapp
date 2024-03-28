@@ -2,13 +2,13 @@ import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { joblistingsSchema } from 'app/reducers';
 import { Joblistings } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   DetailedJoblisting,
   ListJoblisting,
 } from 'app/store/models/Joblisting';
 
-export function fetchAll(query?: { company?: ID; timeFilter?: boolean }) {
+export function fetchAll(query?: { company?: EntityId; timeFilter?: boolean }) {
   return callAPI<ListJoblisting[]>({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
@@ -21,7 +21,7 @@ export function fetchAll(query?: { company?: ID; timeFilter?: boolean }) {
   });
 }
 
-export function fetchJoblisting(id: ID) {
+export function fetchJoblisting(id: EntityId) {
   return callAPI<DetailedJoblisting>({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
@@ -33,7 +33,7 @@ export function fetchJoblisting(id: ID) {
   });
 }
 
-export function deleteJoblisting(id: ID) {
+export function deleteJoblisting(id: EntityId) {
   return callAPI({
     types: Joblistings.DELETE,
     endpoint: `/joblistings/${id}/`,

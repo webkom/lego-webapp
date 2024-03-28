@@ -9,7 +9,7 @@ import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AdministrateEvent } from 'app/store/models/Event';
 import type { CurrentUser } from 'app/store/models/User';
 
@@ -22,7 +22,7 @@ export const canSeeAllergies = (
   }
   return (
     currentUser.id === event.createdBy?.id ||
-    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as ID)
+    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as EntityId)
   );
 };
 

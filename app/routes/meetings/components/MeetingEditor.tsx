@@ -54,7 +54,7 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AutocompleteGroup } from 'app/store/models/Group';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
@@ -70,7 +70,7 @@ const time = (hours: number, minutes?: number) =>
     .toISOString();
 
 export type MeetingFormValues = {
-  id?: ID;
+  id?: EntityId;
   title?: string;
   report?: string;
   description?: string;
@@ -79,7 +79,7 @@ export type MeetingFormValues = {
   useMazemap: boolean;
   mazemapPoi?: { value: number; label: string };
   location?: string;
-  reportAuthor?: { value: ID; label: string; id: ID };
+  reportAuthor?: { value: EntityId; label: string; id: EntityId };
   users?: AutocompleteUser[];
   groups?: AutocompleteGroup[];
 };
@@ -124,9 +124,9 @@ const MeetingEditor = () => {
 
   const currentUser = useCurrentUser();
 
-  const [fetchedGroupIds, setFetchedGroupIds] = useState<ID[]>([]);
+  const [fetchedGroupIds, setFetchedGroupIds] = useState<EntityId[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<
-    { value: string; label: string; id: ID; groupId: ID }[]
+    { value: string; label: string; id: EntityId; groupId: EntityId }[]
   >([]);
 
   const dispatch = useAppDispatch();

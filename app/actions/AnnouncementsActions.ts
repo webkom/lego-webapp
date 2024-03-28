@@ -1,8 +1,8 @@
 import callAPI from 'app/actions/callAPI';
 import { announcementsSchema } from 'app/reducers';
 import { Announcements } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as CreateAnnouncementFormValues } from 'app/routes/announcements/components/AnnouncementsCreate';
-import type { ID } from 'app/store/models';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,
@@ -34,7 +34,7 @@ export function createAnnouncement(body: CreateAnnouncementFormValues) {
   });
 }
 
-export function sendAnnouncement(announcementId: ID) {
+export function sendAnnouncement(announcementId: EntityId) {
   return callAPI<{ status: string }>({
     types: Announcements.SEND,
     endpoint: `/announcements/${announcementId}/send/`,
@@ -47,7 +47,7 @@ export function sendAnnouncement(announcementId: ID) {
   });
 }
 
-export function deleteAnnouncement(id: ID) {
+export function deleteAnnouncement(id: EntityId) {
   return callAPI({
     types: Announcements.DELETE,
     endpoint: `/announcements/${id}/`,

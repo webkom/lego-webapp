@@ -8,7 +8,6 @@ import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 import type {
   MeetingInvitation,
   MeetingInvitationStatus,
@@ -66,7 +65,7 @@ export const selectMeetingInvitationByMeetingIdAndUserId = (
   );
 
 export type MeetingInvitationWithUser = Omit<MeetingInvitation, 'user'> & {
-  id: ID;
+  id: EntityId;
   user: PublicUser;
 };
 

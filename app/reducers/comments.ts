@@ -10,7 +10,6 @@ import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
-import type { ID } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Comment as CommentType } from 'app/store/models/Comment';
 import type { AnyAction } from 'redux';
@@ -18,7 +17,7 @@ import type { AnyAction } from 'redux';
 type WithComments<T> = T & { comments: CommentType[] };
 
 type StateWithComments<T, S> = S & {
-  byId: Record<ID, WithComments<T>>;
+  byId: Record<EntityId, WithComments<T>>;
 };
 
 /**

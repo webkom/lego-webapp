@@ -1,9 +1,9 @@
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/users/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export default interface Reaction {
-  reactionId: ID;
+  reactionId: EntityId;
   emoji: string;
   contentTarget: ContentTarget;
 }
@@ -15,6 +15,6 @@ export interface ReactionsGrouped {
   unicodeString: string;
   count: number;
   hasReacted: boolean;
-  reactionId?: ID;
+  reactionId?: EntityId;
   users?: PublicUser[];
 }

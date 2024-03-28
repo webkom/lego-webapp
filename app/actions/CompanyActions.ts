@@ -7,9 +7,9 @@ import {
 import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
-import type { ID } from 'app/store/models';
 import type {
   AdminListCompany,
   CompanyContact,
@@ -46,7 +46,7 @@ export function fetchAllAdmin() {
   });
 }
 
-export function fetch(companyId: ID) {
+export function fetch(companyId: EntityId) {
   return callAPI<DetailedCompany>({
     types: Company.FETCH,
     endpoint: `/companies/${companyId}/`,
@@ -58,7 +58,7 @@ export function fetch(companyId: ID) {
   });
 }
 
-export function fetchAdmin(companyId: ID) {
+export function fetchAdmin(companyId: EntityId) {
   return callAPI({
     types: Company.FETCH,
     endpoint: `/bdb/${companyId}/`,
@@ -114,7 +114,7 @@ export function editCompany({ companyId, ...data }: Record<string, any>) {
   });
 }
 
-export function deleteCompany(companyId: ID) {
+export function deleteCompany(companyId: EntityId) {
   return callAPI({
     types: Company.DELETE,
     endpoint: `/bdb/${companyId}/`,
@@ -144,8 +144,8 @@ export function editSemesterStatus({
   semesterStatusId,
   ...data
 }: {
-  companyId: ID;
-  semesterStatusId: ID;
+  companyId: EntityId;
+  semesterStatusId: EntityId;
   data: Record<string, any>;
 }) {
   return callAPI<DetailedSemesterStatus>({
@@ -161,7 +161,10 @@ export function editSemesterStatus({
   });
 }
 
-export function deleteSemesterStatus(companyId: ID, semesterStatusId: ID) {
+export function deleteSemesterStatus(
+  companyId: EntityId,
+  semesterStatusId: EntityId,
+) {
   return callAPI({
     types: Company.DELETE_SEMESTER_STATUS,
     endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
@@ -175,7 +178,7 @@ export function deleteSemesterStatus(companyId: ID, semesterStatusId: ID) {
   });
 }
 
-export function fetchCompanyContacts({ companyId }: { companyId: ID }) {
+export function fetchCompanyContacts({ companyId }: { companyId: EntityId }) {
   return callAPI<CompanyContact[]>({
     types: Company.FETCH_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/`,
@@ -187,8 +190,8 @@ export function fetchCompanyContacts({ companyId }: { companyId: ID }) {
 }
 
 type CompanyContactEditorSubmitBody = {
-  companyId: ID;
-  companyContactId: ID;
+  companyId: EntityId;
+  companyContactId: EntityId;
 } & CompanyContactEditorFormValues;
 
 export function addCompanyContact({
@@ -240,7 +243,10 @@ export function editCompanyContact({
   });
 }
 
-export function deleteCompanyContact(companyId: ID, companyContactId: ID) {
+export function deleteCompanyContact(
+  companyId: EntityId,
+  companyContactId: EntityId,
+) {
   return callAPI({
     types: Company.DELETE_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
@@ -300,7 +306,7 @@ export function editSemester({
   semester,
   activeInterestForm,
 }: {
-  id: ID;
+  id: EntityId;
   year: string;
   semester: string;
   activeInterestForm: boolean;

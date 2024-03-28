@@ -7,13 +7,13 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type {
   PromiseAction,
   ResolvedPromiseAction,
 } from 'app/store/middleware/promiseMiddleware';
-import type { ID } from 'app/store/models';
 import type { AsyncActionType, Thunk, NormalizedApiPayload } from 'app/types';
 import type { Query } from 'app/utils/createQueryString';
 import type {
@@ -76,7 +76,7 @@ type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   query?: Record<string, string | number | boolean | undefined>;
   paginationKey?: string;
   cursor: string;
-  optimisticId?: ID;
+  optimisticId?: EntityId;
   enableOptimistic: boolean;
   endpoint: string;
   body?: Record<string, unknown> | string;

@@ -8,7 +8,6 @@ import { TokenNavigation } from '../../utils';
 import Results from './Results';
 import type { GraphData } from './Results';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ID } from 'app/store/models';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 
 const SubmissionPublicResultsPage = () => {
@@ -37,7 +36,7 @@ const SubmissionPublicResultsPage = () => {
   };
 
   const generateQuestionData = (questionId: EntityId) => {
-    const questionData: GraphData[ID] = [];
+    const questionData: GraphData[EntityId] = [];
     const question = survey.questions.find((q) => q.id === Number(questionId));
     if (!question) {
       return questionData;

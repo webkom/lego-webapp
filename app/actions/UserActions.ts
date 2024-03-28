@@ -9,12 +9,12 @@ import { setStatusCode } from 'app/reducers/routing';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
 import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
-import type { ID } from 'app/store/models';
 import type { Penalty as PenaltyType } from 'app/store/models/Penalty';
 import type { CurrentUser, UpdateUser } from 'app/store/models/User';
 import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
@@ -168,7 +168,7 @@ export function changePassword({
     },
   });
 }
-export function changeGrade(groupId: ID, username: string) {
+export function changeGrade(groupId: EntityId, username: string) {
   return callAPI({
     types: User.UPDATE,
     endpoint: `/users/${username}/change_grade/`,
@@ -457,10 +457,10 @@ export function sendForgotPasswordEmail({ email }: { email: string }) {
 }
 
 export type AddPenaltyBody = {
-  user: ID;
+  user: EntityId;
   reason: string;
   weight: number;
-  sourceEvent: ID;
+  sourceEvent: EntityId;
 };
 export function addPenalty(body: AddPenaltyBody) {
   return callAPI<PenaltyType>({
@@ -475,7 +475,7 @@ export function addPenalty(body: AddPenaltyBody) {
   });
 }
 
-export function deletePenalty(id: ID) {
+export function deletePenalty(id: EntityId) {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,

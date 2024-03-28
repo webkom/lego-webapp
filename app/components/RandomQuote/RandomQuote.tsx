@@ -7,7 +7,7 @@ import { selectRandomQuote } from 'app/reducers/quotes';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './RandomQuote.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type Quote from 'app/store/models/Quote';
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
-  const seenQuotes = useRef<ID[]>([]);
+  const seenQuotes = useRef<EntityId[]>([]);
 
   const [animation, setAnimation] = useState(false);
 

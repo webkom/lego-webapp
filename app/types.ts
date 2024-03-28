@@ -1,7 +1,6 @@
 import type { ActionGrant } from './models';
-import type { ID } from './store/models';
 import type { NormalizedPayloadEntities } from './store/models/entities';
-import type { AnyAction, ThunkAction } from '@reduxjs/toolkit';
+import type { AnyAction, EntityId, ThunkAction } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { JwtPayload } from 'jwt-decode';
 import type { Overwrite } from 'utility-types';
@@ -47,7 +46,7 @@ export type NormalizedApiPayload<T = unknown> = {
   entities: NormalizedPayloadEntities<T extends Array<infer E> ? E : T>;
   next?: string;
   previous?: string;
-  result: T extends Array<unknown> ? ID[] : ID;
+  result: T extends Array<unknown> ? EntityId[] : EntityId;
 };
 
 export type GetState = () => RootState;

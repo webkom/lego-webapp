@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
 import styles from './AttendanceModalContent.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
 
 export type Registration = {
-  id: ID;
+  id: EntityId;
   user: PublicUser;
   pool?: Pool;
 };
@@ -116,7 +116,7 @@ const AttendanceModalContent = ({
         {amendedPools.map((pool, i) => (
           <Tab
             name={pool.name}
-            key={pool.name} // TODO: Once typed better it shouldn't be too hard to change this into an ID
+            key={pool.name} // TODO: Once typed better it shouldn't be too hard to change this into an id
             index={i}
             activePoolIndex={selectedPool}
             togglePool={togglePool}

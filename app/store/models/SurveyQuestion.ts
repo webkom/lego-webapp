@@ -1,4 +1,4 @@
-import type { ID } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ValueLabel } from 'app/types';
 import type { Optional, Overwrite } from 'utility-types';
 
@@ -13,7 +13,7 @@ export enum SurveyQuestionDisplayType {
 }
 
 export interface SurveyQuestion {
-  id: ID;
+  id: EntityId;
   displayType: SurveyQuestionDisplayType;
   questionType: SurveyQuestionType;
   questionText: string;
@@ -23,7 +23,7 @@ export interface SurveyQuestion {
 }
 
 export interface SurveyQuestionOption {
-  id: ID;
+  id: EntityId;
   optionText: string;
 }
 

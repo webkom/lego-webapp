@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
 import styles from './Table.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 
 export type Sort = {
@@ -51,7 +51,7 @@ export type ColumnProps<T = unknown> = {
   columnChoices?: ColumnProps[];
 };
 
-type TableProps<T extends { id: ID }> = {
+type TableProps<T extends { id: EntityId }> = {
   rowKey?: string;
   columns: ColumnProps<T>[];
   data: T[];
@@ -85,7 +85,7 @@ const queryFiltersToFilters: (queryFilters?: QueryFilters) => Filters = (
   return filters;
 };
 
-const Table = <T extends { id: ID }>({
+const Table = <T extends { id: EntityId }>({
   columns,
   data,
   rowKey = 'id',

@@ -36,11 +36,11 @@ import {
 } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type SelectInputObject = {
   label: string;
-  value: ID;
+  value: EntityId;
 };
 
 const validate = createValidator({

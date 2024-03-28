@@ -9,7 +9,6 @@ import { User, Event } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 
 export type UserEntity = {
   id: number;
@@ -80,7 +79,7 @@ export const selectUserWithGroups = createSelector(
       userId,
     }: {
       username?: string;
-      userId?: ID;
+      userId?: EntityId;
     },
   ) =>
     username

@@ -2,9 +2,9 @@ import callAPI from 'app/actions/callAPI';
 import { companyInterestSchema } from 'app/reducers';
 import { addToast } from 'app/reducers/toasts';
 import { CompanyInterestForm } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
 import type {
   DetailedCompanyInterest,
   ListCompanyInterest,
@@ -22,7 +22,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchCompanyInterest(companyInterestId: ID) {
+export function fetchCompanyInterest(companyInterestId: EntityId) {
   return callAPI<DetailedCompanyInterest>({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,
@@ -61,7 +61,7 @@ export function createCompanyInterest(
   };
 }
 
-export function deleteCompanyInterest(id: ID) {
+export function deleteCompanyInterest(id: EntityId) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -83,7 +83,10 @@ export function deleteCompanyInterest(id: ID) {
   };
 }
 
-export function updateCompanyInterest(id: ID, data: CompanyInterestEntity) {
+export function updateCompanyInterest(
+  id: EntityId,
+  data: CompanyInterestEntity,
+) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({

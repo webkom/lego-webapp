@@ -1,6 +1,6 @@
 import type { EventType } from './Event';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
-import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum NonEventContactStatus {
@@ -19,8 +19,8 @@ export type CompanySemesterContactStatus =
   | NonEventContactStatus;
 
 interface CompleteSemesterStatus {
-  id: ID;
-  semester: ID;
+  id: EntityId;
+  semester: EntityId;
   contactedStatus: CompanySemesterContactStatus[];
   contract?: string;
   statistics?: string;
@@ -51,7 +51,7 @@ export type DetailedSemesterStatus = Pick<
 export type AnySemesterStatus = SemesterStatus | DetailedSemesterStatus;
 
 export interface CompanyContact {
-  id: ID;
+  id: EntityId;
   name: string;
   role?: string;
   mail?: string;
@@ -60,12 +60,12 @@ export interface CompanyContact {
 }
 
 interface CompanyFile {
-  id: ID;
+  id: EntityId;
   file: string;
 }
 
 interface Company {
-  id: ID;
+  id: EntityId;
   name: string;
   active: boolean;
   description?: string;
@@ -79,10 +79,10 @@ interface Company {
   joblistingCount?: number;
   thumbnail?: string;
   semesterStatuses?: SemesterStatus[];
-  studentContact?: ID | null;
+  studentContact?: EntityId | null;
   adminComment?: string;
   paymentMail: string;
-  comments: ID[];
+  comments: EntityId[];
   contentTarget: ContentTarget;
   files: CompanyFile[];
   companyContacts: CompanyContact[];

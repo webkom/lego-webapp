@@ -3,14 +3,14 @@ import { Gallery, GalleryPicture } from 'app/actions/ActionTypes';
 import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
-import type { ID } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
 export type UploadStatus = {
   imageCount: number;
   successCount: number;
   failCount: number;
   failedImages: Array<string>;
-  lastUploadedImage?: ID;
+  lastUploadedImage?: EntityId;
   showStatus: boolean;
 };
 export const initialUploadStatus: UploadStatus = {

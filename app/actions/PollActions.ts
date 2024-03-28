@@ -1,9 +1,9 @@
 import { pollSchema } from '../reducers';
 import { Poll } from './ActionTypes';
 import callAPI from './callAPI';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Tags } from 'app/models';
 import type { OptionEntity } from 'app/reducers/polls';
-import type { ID } from 'app/store/models';
 import type { Poll as PollType } from 'app/store/models/Poll';
 import type { Thunk } from 'app/types';
 
@@ -28,7 +28,7 @@ export function fetchAll({
   };
 }
 
-export function fetchPoll(pollId: ID) {
+export function fetchPoll(pollId: EntityId) {
   return callAPI<PollType>({
     types: Poll.FETCH,
     endpoint: `/polls/${pollId}/`,
@@ -62,7 +62,7 @@ export function createPoll(data: {
 }
 
 export function editPoll(data: {
-  pollId: ID;
+  pollId: EntityId;
   description: string;
   pinned: boolean;
   tags: Tags;
@@ -86,7 +86,7 @@ export function editPoll(data: {
   });
 }
 
-export function deletePoll(id: ID) {
+export function deletePoll(id: EntityId) {
   return callAPI({
     types: Poll.DELETE,
     endpoint: `/polls/${id}/`,
@@ -98,7 +98,7 @@ export function deletePoll(id: ID) {
   });
 }
 
-export function votePoll(pollId: ID, optionId: ID) {
+export function votePoll(pollId: EntityId, optionId: EntityId) {
   return callAPI({
     types: Poll.UPDATE,
     endpoint: `/polls/${pollId}/vote/`,
