@@ -3,30 +3,24 @@ import { Poll } from './ActionTypes';
 import callAPI from './callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Tags } from 'app/models';
-import type { OptionEntity } from 'app/reducers/polls';
 import type { Poll as PollType } from 'app/store/models/Poll';
-import type { Thunk } from 'app/types';
 
-export function fetchAll({
+export const fetchAll = ({
   next = false,
 }: {
   next?: boolean;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().polls.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: Poll.FETCH_ALL,
-        endpoint: '/polls/',
-        schema: [pollSchema],
-        query: cursor,
-        meta: {
-          errorMessage: 'Henting av avstemninger feilet',
-        },
-      }),
-    );
-  };
-}
+} = {}) =>
+  callAPI({
+    types: Poll.FETCH_ALL,
+    endpoint: '/polls/',
+    schema: [pollSchema],
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av avstemninger feilet',
+    },
+  });
 
 export function fetchPoll(pollId: EntityId) {
   return callAPI<PollType>({
@@ -66,12 +60,10 @@ export function editPoll(data: {
   description: string;
   pinned: boolean;
   tags: Tags;
-  options: Array<
-    | OptionEntity
-    | {
-        name: string;
-      }
-  >;
+  options: {
+    id?: EntityId;
+    name: string;
+  }[];
 }) {
   return callAPI<PollType>({
     types: Poll.UPDATE,

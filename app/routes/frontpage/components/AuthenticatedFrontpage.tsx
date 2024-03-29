@@ -17,7 +17,7 @@ import {
   addEventType,
   selectPinned,
 } from 'app/reducers/frontpage';
-import { selectPinnedPolls } from 'app/reducers/polls';
+import { selectPinnedPoll } from 'app/reducers/polls';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -251,7 +251,7 @@ const UpcomingRegistrationsSection = () => (
 );
 
 const PollItem = () => {
-  const poll = useAppSelector(selectPinnedPolls)[0];
+  const poll = useAppSelector(selectPinnedPoll);
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.polls.fetching,
   );
