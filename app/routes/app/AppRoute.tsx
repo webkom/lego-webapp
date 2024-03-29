@@ -83,10 +83,12 @@ const App = () => {
       )}
 
       <Header />
-
-      <AppChildren>
-        <Outlet />
-      </AppChildren>
+      <div style={{position: "relative"}}>
+        <img style={{width: "50px", position: "fixed", left: "2rem", top: "30px"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbWJr7qAVgTm9ePt_nCTDNQlNMDJDW3em0td82iFmP2Zg5veyk6KeZRs1ZO2plGj77KQ&usqp=CAU"/>
+      </div>
+        <AppChildren>
+          <Outlet />
+        </AppChildren>
 
       <PhotoUploadStatus />
 
