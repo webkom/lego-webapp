@@ -97,6 +97,6 @@ export const { selectEntities: selectCommentEntities } =
 
 export const selectCommentsByIds = createSelector(
   selectCommentEntities,
-  (_: RootState, ids: EntityId[]) => ids,
+  (_: RootState, ids: EntityId[] = []) => ids,
   (entities, ids) => ids.map((id) => entities[id]),
 );

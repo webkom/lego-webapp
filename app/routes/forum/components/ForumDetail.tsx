@@ -23,8 +23,8 @@ const ForumDetail = () => {
   );
 
   const forum = useAppSelector((state) =>
-    selectForumById(state, forumId),
-  ) as DetailedForum;
+    selectForumById<DetailedForum>(state, forumId),
+  );
   const detailActionGrant = forum?.actionGrant;
 
   if (!forum || !detailActionGrant) {

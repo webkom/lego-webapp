@@ -32,9 +32,7 @@ const UserSettingsOAuth2Form = () => {
   const { applicationId } = useParams<{ applicationId?: string }>();
   const isNew = applicationId === undefined;
   const application = useAppSelector((state) =>
-    applicationId
-      ? selectOAuth2ApplicationById(state, applicationId)
-      : undefined,
+    selectOAuth2ApplicationById(state, applicationId),
   );
 
   const dispatch = useAppDispatch();

@@ -39,7 +39,7 @@ import type { Dateish } from 'app/models';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { PublicUser } from 'app/store/models/User';
 
-const UserLink = ({ user }: { user: PublicUser }) =>
+const UserLink = ({ user }: { user?: PublicUser }) =>
   user && !isEmpty(user) ? (
     <Link to={`/users/${user.username}`}>{user.fullName}</Link>
   ) : (
@@ -55,18 +55,16 @@ const MeetingDetails = () => {
   const currentUser = useCurrentUser();
   const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, meetingId),
-  ) as DetailedMeeting | undefined;
+    selectMeetingById<DetailedMeeting>(state, meetingId),
+  );
   const comments = useAppSelector((state) =>
-    selectCommentsByIds(state, meeting?.comments ?? []),
+    selectCommentsByIds(state, meeting?.comments),
   );
   const reportAuthor = useAppSelector((state) =>
-    meeting?.reportAuthor
-      ? selectUserById(state, meeting.reportAuthor)
-      : undefined,
+    selectUserById<PublicUser>(state, meeting?.reportAuthor),
   );
   const createdBy = useAppSelector((state) =>
-    meeting?.createdBy ? selectUserById(state, meeting?.createdBy) : undefined,
+    selectUserById<PublicUser>(state, meeting?.createdBy),
   );
   const meetingInvitations = useAppSelector((state) =>
     selectMeetingInvitationsForMeeting(state, meetingId),
@@ -76,7 +74,7 @@ const MeetingDetails = () => {
       currentUser &&
       selectMeetingInvitationByMeetingIdAndUserId(
         state,
-        meetingId!,
+        meetingId,
         currentUser.id,
       ),
   );

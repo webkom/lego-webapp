@@ -14,6 +14,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './GroupPage.css';
+import type { DetailedGroup, PublicGroup } from 'app/store/models/Group';
 
 const GroupForm = loadable(() => import('./GroupForm'));
 const GroupMembers = loadable(() => import('./GroupMembers'));
@@ -60,8 +61,10 @@ const GroupPageNavigation = ({
 
 const GroupPage = () => {
   const { groupId } = useParams<{ groupId?: string }>();
-  const group = useAppSelector((state) => selectGroupById(state, groupId!));
-  const groups = useAppSelector(selectAllGroups);
+  const group = useAppSelector((state) =>
+    selectGroupById<DetailedGroup>(state, groupId),
+  );
+  const groups = useAppSelector(selectAllGroups<PublicGroup>);
 
   const location = useLocation();
 

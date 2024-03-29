@@ -7,6 +7,7 @@ import { fetchAll } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';
 import { selectAllTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { ListTag } from 'app/store/models/Tag';
 import type { RendererFunction, Tag as CloudTag } from 'react-tagcloud';
 
 const tagRenderer: RendererFunction = (tag, size, color) => (
@@ -25,7 +26,7 @@ const tagRenderer: RendererFunction = (tag, size, color) => (
 );
 
 const TagCloud = () => {
-  const tags = useAppSelector(selectAllTags);
+  const tags = useAppSelector(selectAllTags<ListTag>);
   const fetching = useAppSelector((state) => state.tags.fetching);
 
   const dispatch = useAppDispatch();
