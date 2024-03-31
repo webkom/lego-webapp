@@ -18,6 +18,7 @@ import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
 import type { PropsWithChildren } from 'react';
+import { Flex, Icon } from '@webkom/lego-bricks';
 
 const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
@@ -84,11 +85,41 @@ const App = () => {
 
       <Header />
       <div style={{position: "relative"}}>
-        <img style={{width: "50px", position: "fixed", left: "2rem", top: "30px"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbWJr7qAVgTm9ePt_nCTDNQlNMDJDW3em0td82iFmP2Zg5veyk6KeZRs1ZO2plGj77KQ&usqp=CAU"/>
+        <div style={{height: "800px", zIndex: "10", pointerEvents: "none", paddingLeft: "2rem", paddingRight: "2rem", display: "flex", justifyContent: "space-between", position: "sticky", left: "0", top: "30px"}}>
+          <AdSidebar>
+            <Ad className={styles.adAbakuse}>
+              <div>
+                <h1>SINGLE ABAKUSER</h1>
+                <h2>I NÆRHETEN AV DEG</h2>
+              </div>
+              <img style={{height: "300px", width: "220px"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbWJr7qAVgTm9ePt_nCTDNQlNMDJDW3em0td82iFmP2Zg5veyk6KeZRs1ZO2plGj77KQ&usqp=CAU"/>
+            </Ad>
+            <Ad className={styles.adRapport}>
+              <h1>ER RAPPORTEN DIN FOR KORT?</h1>
+              <h2>Dette hjelpemiddelet øker lengden på rapporten din med 800 ord!</h2>
+              <img style={{height:"200px", width: "100%"}} src="https://images.unsplash.com/photo-1607077792448-17b60bcca65f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBpbGx8ZW58MHx8MHx8fDA%3D"/>
+              <AdButton title="PRØV DET UT"/>
+            </Ad>
+          </AdSidebar>
+          <AdSidebar>
+            <Ad className={styles.adKok}>
+              <h1>LAST NED GRATIS KOK</h1>
+              <AdButton title="LAST NED"/>
+            </Ad>
+            <Ad className={styles.adKok}>
+              <img style={{height: "800px"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbWJr7qAVgTm9ePt_nCTDNQlNMDJDW3em0td82iFmP2Zg5veyk6KeZRs1ZO2plGj77KQ&usqp=CAU"/>
+            </Ad>
+            <Ad className={styles.adKok}>
+
+            </Ad>
+          </AdSidebar>
+        </div>
+        <div style={{ marginTop: "-800px"}}>
+          <AppChildren>
+            <Outlet />
+          </AppChildren>
+        </div>
       </div>
-        <AppChildren>
-          <Outlet />
-        </AppChildren>
 
       <PhotoUploadStatus />
 
@@ -96,6 +127,36 @@ const App = () => {
     </div>
   );
 };
+
+const AdButton = ({title}) => {
+    return (
+      <button className={styles.adButton}>
+        {title}
+      </button>
+    )
+}
+
+const AdSidebar = ({children}: {children: React.ReactNode}) => {
+    return (
+        <Flex column gap="0.5rem">
+          {children}
+        </Flex>
+    );
+}
+
+const Ad = ({children, className}) => {
+    return (
+        <Flex column className={styles.ad}>
+          <Flex justifyContent='space-between' padding="0 0.3rem">
+            <p>Advertisement</p>
+            <Icon name="close-outline"/>
+          </Flex>
+          <Flex column className={className} padding="1rem 0">
+            {children}
+          </Flex>
+        </Flex>
+    );
+}
 
 export default withPreparedDispatch(
   'login',
