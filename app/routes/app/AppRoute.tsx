@@ -19,6 +19,12 @@ import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
 import type { PropsWithChildren } from 'react';
 import { Flex, Icon } from '@webkom/lego-bricks';
+import { Image } from 'app/components/Image';
+import hated_man from 'app/assets/idi_hater_ham.png';
+import piller from 'app/assets/piller.png';
+import abagail from 'app/assets/abagail.png';
+import { useCurrentUser } from 'app/reducers/auth';
+import { applySelectedTheme } from 'app/utils/themeUtils';
 
 const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
@@ -33,6 +39,13 @@ const AppChildren = ({ children }: PropsWithChildren) => {
     // We don't want to run this effect when the status code changes (that would instantly clear it)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, location.pathname]);
+
+  const currentUser = useCurrentUser();
+  useEffect(() => {
+    if (currentUser && currentUser.isStudent) {
+      applySelectedTheme("abahub");
+    }
+  }, [currentUser]);
 
   return (
     <div
@@ -50,6 +63,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const currentUser = useCurrentUser();
   const searchOpen = useAppSelector((state) => state.search.open);
 
   usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
@@ -85,36 +99,45 @@ const App = () => {
 
       <Header />
       <div style={{position: "relative"}}>
-        <div style={{height: "800px", zIndex: "10", pointerEvents: "none", paddingLeft: "2rem", paddingRight: "2rem", display: "flex", justifyContent: "space-between", position: "sticky", left: "0", top: "30px"}}>
+        <div style={{height: "920px", zIndex: "10", pointerEvents: "none", paddingLeft: "2rem", paddingRight: "2rem", display: "flex", justifyContent: "space-between", position: "sticky", left: "0", top: "30px"}}>
+          {currentUser?.isStudent &&
+           <>
           <AdSidebar>
             <Ad className={styles.adAbakuse}>
               <div>
                 <h1>SINGLE ABAKUSER</h1>
-                <h2>I NÆRHETEN AV DEG</h2>
+                <h2>I DITT OMRÅDE</h2>
               </div>
-              <img style={{height: "300px", width: "220px"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbWJr7qAVgTm9ePt_nCTDNQlNMDJDW3em0td82iFmP2Zg5veyk6KeZRs1ZO2plGj77KQ&usqp=CAU"/>
+              <Image src={abagail}/>
+              <div >
+              <h2>Abagail Kusner er...</h2>
+              <h1 className={styles.adAbakuseDesc}>600 meter unna</h1>
+               </div>
+              <h1><a href="https://bit.ly/3BlS71b">SNAKK MED HENNE NÅ</a></h1>
             </Ad>
-            <Ad className={styles.adRapport}>
-              <h1>ER RAPPORTEN DIN FOR KORT?</h1>
-              <h2>Dette hjelpemiddelet øker lengden på rapporten din med 800 ord!</h2>
-              <img style={{height:"200px", width: "100%"}} src="https://images.unsplash.com/photo-1607077792448-17b60bcca65f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fHBpbGx8ZW58MHx8MHx8fDA%3D"/>
-              <AdButton title="PRØV DET UT"/>
+            <Ad className={styles.adKok}>
+              <h1>LAST NED GRATIS KOK</h1>
+              <AdButton title="KLIKK HER"/>
             </Ad>
           </AdSidebar>
           <AdSidebar>
-            <Ad className={styles.adKok}>
-              <h1>LAST NED GRATIS KOK</h1>
-              <AdButton title="LAST NED"/>
+            <Ad className={styles.adRapport}>
+              <h1>ER RAPPORTEN DIN FOR KORT?</h1>
+              <h2>Dette hjelpemiddelet øker lengden på rapporten din med 690 ord!</h2>
+              <Image src={piller} alt=""/>
+              <AdButton title="PRØV DET UT"/>
             </Ad>
-            <Ad className={styles.adKok}>
-              <img style={{height: "800px"}} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbWJr7qAVgTm9ePt_nCTDNQlNMDJDW3em0td82iFmP2Zg5veyk6KeZRs1ZO2plGj77KQ&usqp=CAU"/>
-            </Ad>
-            <Ad className={styles.adKok}>
-
+            <Ad className={styles.adHater}>
+              <h1>NTNU-STABEN HATER HAM</h1>
+              <Image src={hated_man} alt=""/>
+              <h2>Han fant det hemmelige rommet ved hjelp av ETT ENKELT TRIKS</h2>
+              <h2>Les mer <a href="https://bit.ly/3BlS71b">her</a></h2>
             </Ad>
           </AdSidebar>
+          </>
+          }
         </div>
-        <div style={{ marginTop: "-800px"}}>
+        <div style={{ marginTop: "-920px"}}>
           <AppChildren>
             <Outlet />
           </AppChildren>
@@ -128,11 +151,13 @@ const App = () => {
   );
 };
 
-const AdButton = ({title}) => {
+const AdButton = ({title, color}: {title: string, color?: string}) => {
     return (
+        <a href="https://bit.ly/3BlS71b">
       <button className={styles.adButton}>
-        {title}
+          {title}
       </button>
+        </a>
     )
 }
 
@@ -149,7 +174,9 @@ const Ad = ({children, className}) => {
         <Flex column className={styles.ad}>
           <Flex justifyContent='space-between' padding="0 0.3rem">
             <p>Advertisement</p>
-            <Icon name="close-outline"/>
+            <a href="https://bit.ly/3BlS71b">
+              <Icon name="close-outline"/>
+            </a>
           </Flex>
           <Flex column className={className} padding="1rem 0">
             {children}

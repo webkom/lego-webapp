@@ -27,19 +27,19 @@ const Navbar = () => {
       visibility: 'logged-out-only',
     },
     {
-      title: 'Kinky arrangementer🤤',
+      title: 'Arrangementer',
       to: '/events',
       dropdown: <EventsDropdown />,
       visibility: 'always',
     },
     {
-      title: 'Castinger📷🦶🏻',
+      title: 'Karriere',
       to: '/joblistings',
       dropdown: <CareerDropdown />,
       visibility: 'logged-in-only',
     },
     {
-      title: 'Om AbaHub🤷🏼‍♂️',
+      title: 'Om Abakus',
       to: '/pages/info-om-abakus',
       dropdown: <AboutDropdown />,
       visibility: 'always',

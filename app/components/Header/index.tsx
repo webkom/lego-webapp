@@ -10,6 +10,7 @@ import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
+import logoAbaHub from 'app/assets/logo-abahub.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
@@ -120,6 +121,7 @@ const HeaderLogo = () => {
         <div className={styles.logo}>
           <Image src={logoLightMode} className={styles.logoLightMode} alt="" />
           <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
+          <Image src={logoAbaHub} className={styles.logoAbaHub} alt="" />
         </div>
       </LoadingIndicator>
     </Link>
@@ -203,9 +205,6 @@ const Header = () => {
         <div className={styles.menu}>
           <Navbar />
           <div className={styles.buttonGroup}>
-            <ToggleTheme
-              className={cx(loggedIn && utilStyles.hiddenOnMobile)}
-            />
 
             {loggedIn && <NotificationsDropdown />}
             {loggedIn && <UpcomingMeetingButton />}

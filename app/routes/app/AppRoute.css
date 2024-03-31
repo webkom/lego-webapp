@@ -1,3 +1,4 @@
+@import url('~app/styles/variables.css');
 .appRoute {
   display: flex;
   flex-direction: column;
@@ -13,6 +14,14 @@
   width: 220px;
   border: 1px solid gray;
   background-color: var(--lego-background-color);
+
+  @media (max-width: 1550px) {
+    display: none;
+  }
+}
+
+.ad a {
+  color: var(--lego-font-color);
 }
 
 .adAbakuse {
@@ -28,6 +37,15 @@
 .adAbakuse h2 {
   margin: 0;
   font-size: 1.2rem;
+}
+
+.adAbakuseDesc {
+  color: hotpink;
+  font-weight: bold;
+}
+
+.adAbakuse a {
+  text-decoration: underline;
 }
 
 .adKok {
@@ -74,4 +92,22 @@
 .adRapport h2 {
   font-size: 1rem;
   margin: 0;
+}
+
+.adHater {
+  text-align: center;
+}
+
+.adHater h1 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.adHater h2 {
+  font-size: 1.3rem;
+}
+
+.adHater a {
+  color: var(--lego-red-color);
+  text-decoration: underline;
 }
