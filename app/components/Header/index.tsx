@@ -205,7 +205,6 @@ const Header = () => {
         <div className={styles.menu}>
           <Navbar />
           <div className={styles.buttonGroup}>
-
             {loggedIn && <NotificationsDropdown />}
             {loggedIn && <UpcomingMeetingButton />}
 

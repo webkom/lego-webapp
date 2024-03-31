@@ -43,7 +43,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
   const currentUser = useCurrentUser();
   useEffect(() => {
     if (currentUser && currentUser.isStudent) {
-      applySelectedTheme("abahub");
+      applySelectedTheme('abahub');
     }
   }, [currentUser]);
 
@@ -98,46 +98,68 @@ const App = () => {
       )}
 
       <Header />
-      <div style={{position: "relative"}}>
-        <div style={{height: "920px", zIndex: "10", pointerEvents: "none", paddingLeft: "2rem", paddingRight: "2rem", display: "flex", justifyContent: "space-between", position: "sticky", left: "0", top: "30px"}}>
-          {currentUser?.isStudent &&
-           <>
-          <AdSidebar>
-            <Ad className={styles.adAbakuse}>
-              <div>
-                <h1>SINGLE ABAKUSER</h1>
-                <h2>I DITT OMRÅDE</h2>
-              </div>
-              <Image src={abagail}/>
-              <div >
-              <h2>Abagail Kusner er...</h2>
-              <h1 className={styles.adAbakuseDesc}>600 meter unna</h1>
-               </div>
-              <h1><a href="https://bit.ly/3BlS71b">SNAKK MED HENNE NÅ</a></h1>
-            </Ad>
-            <Ad className={styles.adKok}>
-              <h1>LAST NED GRATIS KOK</h1>
-              <AdButton title="KLIKK HER"/>
-            </Ad>
-          </AdSidebar>
-          <AdSidebar>
-            <Ad className={styles.adRapport}>
-              <h1>ER RAPPORTEN DIN FOR KORT?</h1>
-              <h2>Dette hjelpemiddelet øker lengden på rapporten din med 690 ord!</h2>
-              <Image src={piller} alt=""/>
-              <AdButton title="PRØV DET UT"/>
-            </Ad>
-            <Ad className={styles.adHater}>
-              <h1>NTNU-STABEN HATER HAM</h1>
-              <Image src={hated_man} alt=""/>
-              <h2>Han fant det hemmelige rommet ved hjelp av ETT ENKELT TRIKS</h2>
-              <h2>Les mer <a href="https://bit.ly/3BlS71b">her</a></h2>
-            </Ad>
-          </AdSidebar>
-          </>
-          }
+      <div style={{ position: 'relative' }}>
+        <div
+          style={{
+            height: '920px',
+            zIndex: '10',
+            pointerEvents: 'none',
+            paddingLeft: '2rem',
+            paddingRight: '2rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            position: 'sticky',
+            left: '0',
+            top: '30px',
+          }}
+        >
+          {currentUser?.isStudent && (
+            <>
+              <AdSidebar>
+                <Ad className={styles.adAbakuse}>
+                  <div>
+                    <h1>SINGLE ABAKUSER</h1>
+                    <h2>I DITT OMRÅDE</h2>
+                  </div>
+                  <Image src={abagail} />
+                  <div>
+                    <h2>Abagail Kusner er...</h2>
+                    <h1 className={styles.adAbakuseDesc}>600 meter unna</h1>
+                  </div>
+                  <h1>
+                    <a href="https://bit.ly/3BlS71b">SNAKK MED HENNE NÅ</a>
+                  </h1>
+                </Ad>
+                <Ad className={styles.adKok}>
+                  <h1>LAST NED GRATIS KOK</h1>
+                  <AdButton title="KLIKK HER" />
+                </Ad>
+              </AdSidebar>
+              <AdSidebar>
+                <Ad className={styles.adRapport}>
+                  <h1>ER RAPPORTEN DIN FOR KORT?</h1>
+                  <h2>
+                    Dette hjelpemiddelet øker lengden på rapporten din med 690
+                    ord!
+                  </h2>
+                  <Image src={piller} alt="" />
+                  <AdButton title="PRØV DET UT" />
+                </Ad>
+                <Ad className={styles.adHater}>
+                  <h1>NTNU-STABEN HATER HAM</h1>
+                  <Image src={hated_man} alt="" />
+                  <h2>
+                    Han fant det hemmelige rommet ved hjelp av ETT ENKELT TRIKS
+                  </h2>
+                  <h2>
+                    Les mer <a href="https://bit.ly/3BlS71b">her</a>
+                  </h2>
+                </Ad>
+              </AdSidebar>
+            </>
+          )}
         </div>
-        <div style={{ marginTop: "-920px"}}>
+        <div style={{ marginTop: '-920px' }}>
           <AppChildren>
             <Outlet />
           </AppChildren>
@@ -151,39 +173,37 @@ const App = () => {
   );
 };
 
-const AdButton = ({title, color}: {title: string, color?: string}) => {
-    return (
+const AdButton = ({ title, color }: { title: string; color?: string }) => {
+  return (
+    <a href="https://bit.ly/3BlS71b">
+      <button className={styles.adButton}>{title}</button>
+    </a>
+  );
+};
+
+const AdSidebar = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <Flex column gap="0.5rem">
+      {children}
+    </Flex>
+  );
+};
+
+const Ad = ({ children, className }) => {
+  return (
+    <Flex column className={styles.ad}>
+      <Flex justifyContent="space-between" padding="0 0.3rem">
+        <p>Advertisement</p>
         <a href="https://bit.ly/3BlS71b">
-      <button className={styles.adButton}>
-          {title}
-      </button>
+          <Icon name="close-outline" />
         </a>
-    )
-}
-
-const AdSidebar = ({children}: {children: React.ReactNode}) => {
-    return (
-        <Flex column gap="0.5rem">
-          {children}
-        </Flex>
-    );
-}
-
-const Ad = ({children, className}) => {
-    return (
-        <Flex column className={styles.ad}>
-          <Flex justifyContent='space-between' padding="0 0.3rem">
-            <p>Advertisement</p>
-            <a href="https://bit.ly/3BlS71b">
-              <Icon name="close-outline"/>
-            </a>
-          </Flex>
-          <Flex column className={className} padding="1rem 0">
-            {children}
-          </Flex>
-        </Flex>
-    );
-}
+      </Flex>
+      <Flex column className={className} padding="1rem 0">
+        {children}
+      </Flex>
+    </Flex>
+  );
+};
 
 export default withPreparedDispatch(
   'login',
