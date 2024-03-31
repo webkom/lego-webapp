@@ -1,3 +1,4 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useEffect } from 'react';
@@ -5,26 +6,25 @@ import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation } from 'react-router-dom';
 import { fetchMeta } from 'app/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
+import abagail from 'app/assets/abagail.png';
 import coverPhoto from 'app/assets/cover.png';
+import hated_man from 'app/assets/idi_hater_ham.png';
+import piller from 'app/assets/piller.png';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
+import { Image } from 'app/components/Image';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
+import { useCurrentUser } from 'app/reducers/auth';
 import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { applySelectedTheme } from 'app/utils/themeUtils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
 import type { PropsWithChildren } from 'react';
-import { Flex, Icon } from '@webkom/lego-bricks';
-import { Image } from 'app/components/Image';
-import hated_man from 'app/assets/idi_hater_ham.png';
-import piller from 'app/assets/piller.png';
-import abagail from 'app/assets/abagail.png';
-import { useCurrentUser } from 'app/reducers/auth';
-import { applySelectedTheme } from 'app/utils/themeUtils';
 
 const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
@@ -121,7 +121,7 @@ const App = () => {
                     <h1>SINGLE ABAKUSER</h1>
                     <h2>I DITT OMRÅDE</h2>
                   </div>
-                  <Image src={abagail} />
+                  <Image alt="abagail" src={abagail} />
                   <div>
                     <h2>Abagail Kusner er...</h2>
                     <h1 className={styles.adAbakuseDesc}>600 meter unna</h1>
@@ -173,7 +173,7 @@ const App = () => {
   );
 };
 
-const AdButton = ({ title, color }: { title: string; color?: string }) => {
+const AdButton = ({ title }) => {
   return (
     <a href="https://bit.ly/3BlS71b">
       <button className={styles.adButton}>{title}</button>

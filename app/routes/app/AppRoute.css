@@ -1,4 +1,5 @@
 @import url('~app/styles/variables.css');
+
 .appRoute {
   display: flex;
   flex-direction: column;
@@ -15,7 +16,7 @@
   border: 1px solid gray;
   background-color: var(--lego-background-color);
 
-  @media (max-width: 1550px) {
+  @media (width <= 1550px) {
     display: none;
   }
 }
@@ -61,7 +62,6 @@
   font-weight: bold;
   background-color: green;
   border-radius: 20px;
-
   font-size: 1.5rem;
   animation: zoom-in-zoom-out 1s ease infinite;
 }
@@ -70,9 +70,11 @@
   0% {
     transform: scale(1, 1);
   }
+
   50% {
     transform: scale(1.1, 1.1);
   }
+
   100% {
     transform: scale(1, 1);
   }
