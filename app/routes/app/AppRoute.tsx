@@ -42,7 +42,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
 
   const currentUser = useCurrentUser();
   useEffect(() => {
-    if (currentUser && currentUser.isStudent) {
+    if (currentUser && currentUser.isAbakusMember) {
       applySelectedTheme('abahub');
     }
   }, [currentUser]);
@@ -113,7 +113,7 @@ const App = () => {
             top: '30px',
           }}
         >
-          {currentUser?.isStudent && (
+          {currentUser?.isAbakusMember && (
             <>
               <AdSidebar>
                 <Ad className={styles.adAbakuse}>
