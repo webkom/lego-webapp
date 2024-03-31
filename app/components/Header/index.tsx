@@ -1,6 +1,5 @@
 import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import cx from 'classnames';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
@@ -8,13 +7,13 @@ import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
+import logoAbaHub from 'app/assets/logo-abahub.png';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
@@ -120,6 +119,7 @@ const HeaderLogo = () => {
         <div className={styles.logo}>
           <Image src={logoLightMode} className={styles.logoLightMode} alt="" />
           <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
+          <Image src={logoAbaHub} className={styles.logoAbaHub} alt="" />
         </div>
       </LoadingIndicator>
     </Link>
@@ -203,10 +203,6 @@ const Header = () => {
         <div className={styles.menu}>
           <Navbar />
           <div className={styles.buttonGroup}>
-            <ToggleTheme
-              className={cx(loggedIn && utilStyles.hiddenOnMobile)}
-            />
-
             {loggedIn && <NotificationsDropdown />}
             {loggedIn && <UpcomingMeetingButton />}
 

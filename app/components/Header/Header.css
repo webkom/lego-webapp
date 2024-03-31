@@ -123,11 +123,13 @@
 }
 
 .logoLightMode,
+.logoAbaHub,
 .logoDarkMode {
   display: none;
 }
 
 html[data-theme='light'] .logoLightMode,
+html[data-theme='abahub'] .logoAbaHub,
 html[data-theme='dark'] .logoDarkMode {
   display: block;
 }
