@@ -3,7 +3,7 @@
 .footer {
   width: 100%;
   background-color: var(--lego-red-color);
-  color: #000;
+  color: var(--color-absolute-white);
   margin-top: 3.1em;
   font-size: var(--font-size-sm);
 
@@ -19,6 +19,7 @@
   justify-content: space-between;
   padding: 0.9em;
   margin-bottom: -1px; /* In case of glitchy render */
+  background: url('app/assets/skyline.svg') bottom center no-repeat;
 
   @media (--small-viewport) {
     justify-content: center;
@@ -27,37 +28,38 @@
 
 /* stylelint-disable no-descending-specificity */
 .footerContent a {
-  color: #000;
+  color: var(--color-red-8);
   margin-bottom: var(--spacing-sm);
 
   &:hover {
+    color: var(--color-red-7);
     text-shadow: 0 0 0.003em var(--color-red-7);
   }
 }
 
 html[data-theme='dark'] .footerContent a {
-  color: #000;
+  color: var(--color-red-2);
 
   &:hover {
-    color: #000;
+    color: var(--color-red-3);
     text-shadow: 0 0 0.003em var(--color-red-3);
   }
 }
 
 .bottomContent a {
-  color: #000;
+  color: var(--color-red-9);
 
   &:hover {
-    color: #000;
+    color: var(--color-red-8);
     text-shadow: 0 0 0.003em var(--color-red-8);
   }
 }
 
 html[data-theme='dark'] .bottomContent a {
-  color: #000;
+  color: var(--color-red-1);
 
   &:hover {
-    color: #000;
+    color: var(--color-red-2);
     text-shadow: 0 0 0.003em var(--color-red-2);
   }
 }
@@ -70,6 +72,7 @@ html[data-theme='dark'] .bottomContent a {
 .subHeader {
   display: inline;
   text-transform: uppercase;
+  color: #5d0909;
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -133,7 +136,7 @@ html[data-theme='dark'] .bottomContent a {
 
 .bottom {
   width: 100%;
-  background-color: var();
+  background-color: var(--color-red-7);
 }
 
 html[data-theme='dark'] .bottom {
