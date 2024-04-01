@@ -422,6 +422,7 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
+            following: false,
           },
         },
       });
@@ -461,12 +462,7 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
+        ...prevState,
         byId: {
           1: {
             id: 1,
@@ -475,6 +471,7 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
+            following: false,
           },
         },
       });
@@ -529,6 +526,7 @@ describe('reducers', () => {
             registrationCount: 2,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
+            following: false,
           },
         },
       });
@@ -540,16 +538,9 @@ describe('reducers', () => {
       const action = {
         type: Event.FOLLOW.SUCCESS,
         payload: {
-          entities: {
-            followerEvents: {
-              3: {
-                target: 1,
-                follower: 2,
-                id: 3,
-              },
-            },
-          },
-          result: 3,
+          target: 1,
+          follower: 2,
+          id: 3,
         },
         meta: {
           body: {
@@ -615,13 +606,22 @@ describe('reducers', () => {
     it('Event.IS_USER_FOLLOWING.SUCCESS', () => {
       const prevState = baseState;
       const action = {
-        type: Event.IS_USER_FOLLOWING.SUCCESS,
-        payload: [
-          {
-            id: 4,
-            target: 1,
-          },
-        ],
+        type: Event.FETCH_FOLLOWERS.SUCCESS,
+        payload: {
+          results: [
+            {
+              id: 4,
+              follower: {
+                id: 3,
+              },
+              target: 1,
+            },
+          ],
+        },
+        meta: {
+          eventId: 1,
+          currentUserId: 3,
+        },
       };
       expect(events(prevState, action)).toEqual({
         actionGrant: [],
@@ -632,6 +632,7 @@ describe('reducers', () => {
         fetchingUpcoming: false,
         byId: {
           1: {
+            following: 4,
             id: 1,
             name: 'evt',
           },

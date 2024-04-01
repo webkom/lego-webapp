@@ -36,7 +36,7 @@ export const Event = {
   SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
   FOLLOW: generateStatuses('Event.FOLLOW') as AAT,
   UNFOLLOW: generateStatuses('Event.UNFOLLOW') as AAT,
-  IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING') as AAT,
+  FETCH_FOLLOWERS: generateStatuses('Event.FETCH_FOLLOWERS') as AAT,
 };
 
 /**

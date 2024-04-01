@@ -151,6 +151,8 @@ const mutateEvent = produce((newState: State, action: any): void => {
           );
       }
 
+      stateEvent.following = false;
+
       break;
     }
 
@@ -170,8 +172,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
 
     case Event.FOLLOW.SUCCESS:
       if (newState.byId[action.meta.body.target]) {
-        newState.byId[action.meta.body.target].following =
-          action.payload.result;
+        newState.byId[action.meta.body.target].following = action.payload.id;
       }
       break;
 
@@ -180,6 +181,13 @@ const mutateEvent = produce((newState: State, action: any): void => {
         newState.byId[action.meta.eventId].following = false;
       }
       break;
+
+    case Event.FETCH_FOLLOWERS.SUCCESS:
+      const event = newState.byId[action.meta.eventId];
+      const followObj = action.payload.results.find(
+        (follow) => follow.follower.id === action.meta.currentUserId,
+      );
+      event.following = followObj?.id;
 
     default:
       break;
