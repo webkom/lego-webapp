@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { commentSchema } from 'app/reducers';
 import { Comment } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -12,7 +12,7 @@ export function addComment({
 }: {
   text: string;
   contentTarget: ContentTarget;
-  parent?: ID;
+  parent?: EntityId;
 }) {
   return callAPI<CommentType>({
     types: Comment.ADD,
@@ -35,7 +35,10 @@ export function addComment({
   });
 }
 
-export function deleteComment(commentId: ID, contentTarget: ContentTarget) {
+export function deleteComment(
+  commentId: EntityId,
+  contentTarget: ContentTarget,
+) {
   return callAPI({
     types: Comment.DELETE,
     endpoint: `/comments/${commentId}/`,

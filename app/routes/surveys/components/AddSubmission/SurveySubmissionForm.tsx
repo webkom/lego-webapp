@@ -10,8 +10,8 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import styles from 'app/routes/surveys/components/surveys.css';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { SelectedSurvey } from 'app/reducers/surveys';
-import type { ID } from 'app/store/models';
 import type { FormSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
@@ -68,7 +68,7 @@ const AnswerField = ({ name, question }: AnswerFieldProps) => {
   const { meta, input } = useField<FormSurveyAnswer>(name);
   const error = meta.touched ? meta.error || meta.submitError : undefined;
 
-  const toggleOption = (optionId: ID, isSingle: boolean) => {
+  const toggleOption = (optionId: EntityId, isSingle: boolean) => {
     let selectedOptions = input.value.selectedOptions;
     if (isSingle) {
       selectedOptions = [optionId];

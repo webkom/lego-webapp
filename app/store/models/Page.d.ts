@@ -1,9 +1,9 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { ID } from 'app/store/models/index';
 
 interface Page {
-  pk: ID;
+  pk: EntityId;
   title: string;
   slug: string;
   content: string;
@@ -33,7 +33,7 @@ export type SearchPage = Pick<
   Page,
   'title' | 'slug' | 'content' | 'picture' | 'category'
 > & {
-  id: ID;
+  id: EntityId;
 };
 
 export type AutocompletePage = Pick<

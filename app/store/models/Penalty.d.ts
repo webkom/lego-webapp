@@ -1,11 +1,11 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { PublicEvent } from 'app/store/models/Event';
-import type { ID } from 'app/store/models/index';
 
 export interface Penalty {
-  id: ID;
+  id: EntityId;
   createdAt: Dateish;
-  user: ID;
+  user: EntityId;
   reason: string;
   weight: number;
   sourceEvent: PublicEvent;

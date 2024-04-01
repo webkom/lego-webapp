@@ -1,10 +1,10 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish, PhotoConsentDomain, Semester } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { PublicEmailList } from 'app/store/models/EmailList';
 import type { PublicGroup } from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 import type PastMembership from 'app/store/models/PastMembership';
-import type { ID } from 'app/store/models/index';
 import type { Required } from 'utility-types';
 
 export interface PhotoConsent {
@@ -22,7 +22,7 @@ export const Gender = {
 } as const;
 
 interface User {
-  id: ID;
+  id: EntityId;
   username: string;
   firstName: string;
   lastName: string;
@@ -39,9 +39,9 @@ interface User {
   isActive: boolean;
   isStudent: boolean;
   abakusEmailLists: PublicEmailList[];
-  penalties: ID[];
+  penalties: EntityId[];
   icalToken: string;
-  abakusGroups: ID[];
+  abakusGroups: EntityId[];
   isAbakusMember: boolean;
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];

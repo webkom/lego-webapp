@@ -15,11 +15,11 @@ import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
 import styles from './Administrate.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   EventRegistration,
   EventRegistrationPaymentStatus,
 } from 'app/models';
-import type { ID } from 'app/store/models';
 
 type TooltipIconProps = {
   onClick?: (arg0: React.SyntheticEvent<any>) => unknown;
@@ -31,14 +31,14 @@ type TooltipIconProps = {
 };
 type PresenceProps = {
   presence: Presence;
-  registrationId: ID;
+  registrationId: EntityId;
 };
 type UnregisterProps = {
   fetching: boolean;
   registration: EventRegistration;
 };
 type StripeStatusProps = {
-  registrationId: ID;
+  registrationId: EntityId;
   paymentStatus: EventRegistrationPaymentStatus;
 };
 

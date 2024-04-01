@@ -1,4 +1,4 @@
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   AdminSurveyAnswer,
   FormSurveyAnswer,
@@ -6,14 +6,14 @@ import type {
 } from 'app/store/models/SurveyAnswer';
 
 export interface SurveySubmission {
-  id: ID;
-  user: ID;
-  survey: ID;
+  id: EntityId;
+  user: EntityId;
+  survey: EntityId;
   answers: (SurveyAnswer | AdminSurveyAnswer)[];
 }
 
 export type FormSurveySubmission = {
-  id?: ID;
-  user: ID;
+  id?: EntityId;
+  user: EntityId;
   answers: FormSurveyAnswer[];
 };

@@ -10,8 +10,8 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Survey } from '../actions/ActionTypes';
 import { selectEvents } from './events';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 import type { EventForSurvey, EventType } from 'app/store/models/Event';
 import type {
   DetailedSurvey,
@@ -55,7 +55,7 @@ export const selectSurveys = createSelector(
 
 export const selectSurveyById = createSelector(
   (state: RootState) => selectSurveys(state),
-  (_: RootState, surveyId?: ID) => surveyId,
+  (_: RootState, surveyId?: EntityId) => surveyId,
   (surveys, surveyId) => {
     return surveys.find((survey) => survey.id === Number(surveyId));
   },
@@ -114,16 +114,16 @@ export const useFetchedTemplate = (
 
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId?: ID,
+  surveyId?: EntityId,
   token?: string,
 ): SelectedPublicResultsSurvey | undefined;
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId?: ID,
+  surveyId?: EntityId,
 ): SelectedSurvey | undefined;
 export function useFetchedSurvey(
   prepareId: string,
-  surveyId?: ID,
+  surveyId?: EntityId,
   token?: string,
 ) {
   const dispatch = useAppDispatch();

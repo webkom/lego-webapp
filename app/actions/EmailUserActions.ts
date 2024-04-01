@@ -1,11 +1,11 @@
 import callAPI from 'app/actions/callAPI';
 import { emailUserSchema } from 'app/reducers';
 import { EmailUser } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { EmailUserEntity } from 'app/reducers/emailUsers';
-import type { ID } from 'app/store/models';
 import type { Thunk } from 'app/types';
 
-export function fetchEmailUser(userId: ID) {
+export function fetchEmailUser(userId: EntityId) {
   return callAPI({
     types: EmailUser.FETCH,
     endpoint: `/email-users/${userId}/`,

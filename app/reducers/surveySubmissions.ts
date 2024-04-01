@@ -5,9 +5,8 @@ import { fetchSubmissions } from 'app/actions/SurveySubmissionActions';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { SurveySubmission } from '../actions/ActionTypes';
-import type { AnyAction } from '@reduxjs/toolkit';
+import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 import type { SurveySubmission as SurveySubmissionType } from 'app/store/models/SurveySubmission';
 import type { EntityReducerState } from 'app/utils/createEntityReducer';
 
@@ -38,7 +37,7 @@ export default createEntityReducer({
 });
 
 export const selectSurveySubmissions = createSelector(
-  (_: RootState, props: { surveyId: ID }) => props.surveyId,
+  (_: RootState, props: { surveyId: EntityId }) => props.surveyId,
   (state: RootState) => state.surveySubmissions.items,
   (state: RootState) => state.surveySubmissions.byId,
   (surveyId, surveySubmissionIds, surveySubmissionsById) =>
@@ -47,16 +46,16 @@ export const selectSurveySubmissions = createSelector(
       .filter((surveySubmission) => surveySubmission.survey === surveyId),
 );
 export const selectSurveySubmissionForUser = createSelector(
-  (state: RootState, props: { surveyId: ID }) =>
+  (state: RootState, props: { surveyId: EntityId }) =>
     selectSurveySubmissions(state, props),
-  (_: RootState, props: { currentUserId: ID }) => props.currentUserId,
+  (_: RootState, props: { currentUserId: EntityId }) => props.currentUserId,
   (submissions, userId) =>
     submissions.find((surveySubmission) => surveySubmission.user === userId),
 );
 
 export const useFetchedSurveySubmissions = (
   prepareId: string,
-  surveyId?: ID,
+  surveyId?: EntityId,
 ): SurveySubmissionType[] => {
   const dispatch = useAppDispatch();
   usePreparedEffect(

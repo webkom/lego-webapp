@@ -3,14 +3,14 @@ import callAPI from 'app/actions/callAPI';
 import { galleryPictureSchema } from 'app/reducers';
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { uploadFile } from './FileActions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { Thunk } from 'app/types';
 
 export function fetch(
-  galleryId: ID,
+  galleryId: EntityId,
   {
     next,
     filters,
@@ -37,8 +37,8 @@ export function fetch(
 }
 
 export function fetchSiblingGallerPicture(
-  galleryId: ID,
-  currentPictureId: ID,
+  galleryId: EntityId,
+  currentPictureId: EntityId,
   next: boolean,
 ) {
   const rawCursor = `p=${currentPictureId}&r=${next ? 0 : 1}`;
@@ -58,7 +58,7 @@ export function fetchSiblingGallerPicture(
   });
 }
 
-export function fetchGalleryPicture(galleryId: ID, pictureId: ID) {
+export function fetchGalleryPicture(galleryId: EntityId, pictureId: EntityId) {
   return callAPI({
     types: GalleryPicture.FETCH,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -87,7 +87,7 @@ export function updatePicture(
   });
 }
 
-export function deletePicture(galleryId: ID, pictureId: ID) {
+export function deletePicture(galleryId: EntityId, pictureId: EntityId) {
   return callAPI({
     types: GalleryPicture.DELETE,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
@@ -103,7 +103,7 @@ export function deletePicture(galleryId: ID, pictureId: ID) {
 }
 
 export function CreateGalleryPicture(galleryPicture: {
-  galleryId: ID;
+  galleryId: EntityId;
   file: string;
   active: boolean;
 }) {
@@ -164,7 +164,7 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
 }
 
 export function uploadAndCreateGalleryPicture(
-  galleryId: ID,
+  galleryId: EntityId,
   files: Array<Record<string, any>>,
 ) {
   return (dispatch: AppDispatch) => {
@@ -178,7 +178,7 @@ export function uploadAndCreateGalleryPicture(
   };
 }
 
-export function clear(galleryId: ID) {
+export function clear(galleryId: EntityId) {
   return (dispatch: AppDispatch) =>
     dispatch({
       type: GalleryPicture.CLEAR,

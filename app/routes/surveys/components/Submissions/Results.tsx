@@ -15,13 +15,13 @@ import {
 } from 'app/store/models/SurveyQuestion';
 import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
 import styles from '../surveys.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { SelectedSurvey } from 'app/reducers/surveys';
-import type { ID } from 'app/store/models';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 
 export type GraphData = {
-  [questionId: ID]: DistributionDataPoint[];
+  [questionId: EntityId]: DistributionDataPoint[];
 };
 type Props = {
   survey: SelectedSurvey;
@@ -101,7 +101,7 @@ const Results = ({
 
   const switchGraph = survey.actionGrant.includes('edit')
     ? (
-        id: ID,
+        id: EntityId,
         selectedType: { value: SurveyQuestionDisplayType; label: string },
       ) => {
         const questionToUpdate = survey.questions.find(

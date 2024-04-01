@@ -2,8 +2,8 @@ import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
 import { Meeting } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { MeetingFormValues } from 'app/routes/meetings/components/MeetingEditor';
-import type { ID } from 'app/store/models';
 import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { CurrentUser } from 'app/store/models/User';
@@ -43,7 +43,7 @@ export function fetchAll({
 }
 
 export function setInvitationStatus(
-  meetingId: ID,
+  meetingId: EntityId,
   status: MeetingInvitationStatus,
   user: CurrentUser,
 ) {
@@ -64,7 +64,7 @@ export function setInvitationStatus(
   });
 }
 
-export function deleteMeeting(id: ID) {
+export function deleteMeeting(id: EntityId) {
   return callAPI({
     types: Meeting.DELETE,
     endpoint: `/meetings/${id}/`,
@@ -113,19 +113,19 @@ export function inviteUsersAndGroups({
   users,
   groups,
 }: {
-  id: ID;
+  id: EntityId;
   users: [
     {
-      id: ID;
+      id: EntityId;
     },
   ];
   groups: [
     {
-      value: ID;
+      value: EntityId;
     },
   ];
 }) {
-  return callAPI<{ users: ID[]; groups: ID[] }>({
+  return callAPI<{ users: EntityId[]; groups: EntityId[] }>({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'POST',

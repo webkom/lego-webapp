@@ -1,7 +1,7 @@
 import { forumSchema, threadSchema } from 'app/reducers';
 import { Forum, Thread } from './ActionTypes';
 import callAPI from './callAPI';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateForum,
   CreateThread,
@@ -27,7 +27,7 @@ export function fetchForums() {
   });
 }
 
-export function fetchForum(forumId: ID) {
+export function fetchForum(forumId: EntityId) {
   return callAPI<DetailedForum>({
     types: Forum.FETCH,
     endpoint: `/forums/${forumId}/`,
@@ -65,7 +65,7 @@ export function editForum(forum: UpdateForum) {
   });
 }
 
-export function deleteForum(forumId: ID) {
+export function deleteForum(forumId: EntityId) {
   return callAPI({
     types: Forum.DELETE,
     endpoint: `/forums/${forumId}/`,
@@ -90,7 +90,7 @@ export function fetchThreads() {
   });
 }
 
-export function fetchThreadsByForum(forumId: ID) {
+export function fetchThreadsByForum(forumId: EntityId) {
   return callAPI<PublicThread[]>({
     types: Thread.FETCH_ALL,
     endpoint: `/forums/${forumId}/threads/`,
@@ -103,7 +103,7 @@ export function fetchThreadsByForum(forumId: ID) {
   });
 }
 
-export function fetchThread(threadId: ID) {
+export function fetchThread(threadId: EntityId) {
   return callAPI<DetailedThread>({
     types: Thread.FETCH,
     endpoint: `/threads/${threadId}/`,
@@ -115,7 +115,7 @@ export function fetchThread(threadId: ID) {
   });
 }
 
-export function fetchThreadByForum(forumId: ID, threadId: ID) {
+export function fetchThreadByForum(forumId: EntityId, threadId: EntityId) {
   return callAPI<PublicThread[]>({
     types: Thread.FETCH,
     endpoint: `/forums/${forumId}/threads/${threadId}`,
@@ -157,7 +157,7 @@ export function editThread(thread: UpdateThread) {
   });
 }
 
-export function deleteThread(threadId: ID) {
+export function deleteThread(threadId: EntityId) {
   return callAPI({
     types: Thread.DELETE,
     endpoint: `/threads/${threadId}/`,

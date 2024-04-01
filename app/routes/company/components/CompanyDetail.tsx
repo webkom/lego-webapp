@@ -30,9 +30,9 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
-const queryString = (companyId?: ID) =>
+const queryString = (companyId?: EntityId) =>
   createQueryString({
     company: companyId,
     ordering: '-start_time',

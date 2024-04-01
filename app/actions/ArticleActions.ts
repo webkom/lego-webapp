@@ -2,10 +2,10 @@ import { omit } from 'lodash';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedArticle } from 'app/store/models/Article';
 
-export function fetchArticle(articleId: ID) {
+export function fetchArticle(articleId: EntityId) {
   return callAPI<DetailedArticle>({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,
@@ -30,7 +30,7 @@ export function createArticle(data) {
   });
 }
 
-export function deleteArticle(id: ID) {
+export function deleteArticle(id: EntityId) {
   return callAPI({
     types: Article.DELETE,
     endpoint: `/articles/${id}/`,

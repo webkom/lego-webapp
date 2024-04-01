@@ -7,8 +7,8 @@ import { isNotNullish } from 'app/utils';
 import styles from '../surveys.css';
 import Results from './Results';
 import type { GraphData } from './Results';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { SurveysRouteContext } from 'app/routes/surveys';
-import type { ID } from 'app/store/models';
 import type { AdminSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
@@ -74,7 +74,7 @@ const SubmissionsSummary = () => {
   };
 
   const generateQuestionData = (question: SurveyQuestion) => {
-    const questionData: GraphData[ID] = [];
+    const questionData: GraphData[EntityId] = [];
     question.options.forEach((option) => {
       const selectedCount = submissions
         .map((submission) =>

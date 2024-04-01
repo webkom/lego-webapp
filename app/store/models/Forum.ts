@@ -1,35 +1,35 @@
 import type { PublicUser } from './User';
 import type { ContentTarget } from '../utils/contentTarget';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
-import type { ID } from 'app/store/models';
 
 export interface CreateThread {
   title: string;
   content: string;
-  forum: ID;
+  forum: EntityId;
 }
 
 export interface UpdateThread extends CreateThread {
-  id: ID;
+  id: EntityId;
 }
 
 export interface PublicThread {
-  id: ID;
+  id: EntityId;
   title: string;
   content: string;
   createdAt: Dateish;
-  forum: ID;
+  forum: EntityId;
 }
 
 export interface DetailedThread extends PublicThread {
-  comments?: ID[];
+  comments?: EntityId[];
   createdBy?: PublicUser;
   contentTarget: ContentTarget;
   actionGrant: ActionGrant;
 }
 
 export type UnknownThread = (PublicThread | DetailedThread) & {
-  comments?: ID[];
+  comments?: EntityId[];
 };
 
 export interface CreateForum {
@@ -38,11 +38,11 @@ export interface CreateForum {
 }
 
 export interface UpdateForum extends CreateForum {
-  id: ID;
+  id: EntityId;
 }
 
 export interface PublicForum {
-  id: ID;
+  id: EntityId;
   title: string;
   description: string;
   createdAt: Dateish;

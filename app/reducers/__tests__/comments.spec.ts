@@ -172,7 +172,7 @@ describe('addCommentCases', () => {
     },
   });
 
-  it('should add comment ID to the correct entity', () => {
+  it('should add comment id to the correct entity', () => {
     expect(reducer(undefined, action('articles.article-3'))).toEqual({
       articles: {
         ...articlesAdapter.getInitialState(),
@@ -193,7 +193,7 @@ describe('addCommentCases', () => {
       events: eventsAdapter.getInitialState(),
     });
   });
-  it('should not add comment ID with different contentTarget', () => {
+  it('should not add comment id with different contentTarget', () => {
     expect(reducer(undefined, action('events.event-3'))).toEqual({
       articles: initialArticlesState,
       events: eventsAdapter.getInitialState(),

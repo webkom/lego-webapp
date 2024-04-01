@@ -1,16 +1,16 @@
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import { Group, Membership } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { GroupType } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
 import type MembershipType from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 
 export type AddMemberArgs = {
-  groupId: ID;
-  userId: ID;
+  groupId: EntityId;
+  userId: EntityId;
   role: RoleType;
 };
 export function addMember({ groupId, userId, role }: AddMemberArgs) {
@@ -45,7 +45,7 @@ export function removeMember(membership: MembershipType) {
   });
 }
 
-export function fetchGroup(groupId: ID, { propagateError = true } = {}) {
+export function fetchGroup(groupId: EntityId, { propagateError = true } = {}) {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/${groupId}/`,
@@ -103,7 +103,11 @@ export function editGroup(group: Record<string, any>) {
   });
 }
 
-export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
+export function joinGroup(
+  groupId: EntityId,
+  user: CurrentUser,
+  role = 'member',
+) {
   return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
@@ -128,7 +132,7 @@ export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
     });
 }
 
-export function leaveGroup(membership: MembershipType, groupId: ID) {
+export function leaveGroup(membership: MembershipType, groupId: EntityId) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -149,7 +153,7 @@ export function leaveGroup(membership: MembershipType, groupId: ID) {
   };
 }
 
-export function fetchAllMemberships(groupId: ID, descendants = false) {
+export function fetchAllMemberships(groupId: EntityId, descendants = false) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       fetchMembershipsPagination({
@@ -170,7 +174,7 @@ export function fetchMemberships({
   query = {},
   propagateError = true,
 }: {
-  groupId: ID;
+  groupId: EntityId;
   descendants?: boolean;
   query?: Record<string, any>;
   propagateError?: boolean;
@@ -191,7 +195,7 @@ export function fetchMembershipsPagination({
   query = {},
   propagateError = true,
 }: {
-  groupId: ID;
+  groupId: EntityId;
   next: boolean;
   descendants: boolean;
   query?: Record<string, string | number | boolean>;

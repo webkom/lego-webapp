@@ -5,9 +5,9 @@ import { Content, ContentMain } from 'app/components/Content';
 import { selectThreadsByForumId } from 'app/reducers/threads';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import ThreadListEntry from './ThreadListEntry';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
-const ThreadList = ({ forumId }: { forumId: ID }) => {
+const ThreadList = ({ forumId }: { forumId: EntityId }) => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect(

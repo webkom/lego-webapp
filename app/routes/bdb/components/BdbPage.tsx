@@ -21,7 +21,7 @@ import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
@@ -71,7 +71,7 @@ const BdbPage = () => {
   };
 
   const editChangedStatuses = (
-    companyId: ID,
+    companyId: EntityId,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
     contactedStatus: CompanySemesterContactStatus[],

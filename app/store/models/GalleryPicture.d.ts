@@ -1,16 +1,16 @@
-import type { ID } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface GalleryPicture {
-  id: ID;
-  gallery: ID;
+  id: EntityId;
+  gallery: EntityId;
   description: string;
-  taggees: ID[];
+  taggees: EntityId[];
   active: boolean;
   file: string;
   thumbnail: string;
   rawFile: string;
-  comments: ID[];
+  comments: EntityId[];
   contentTarget: ContentTarget;
 }
 

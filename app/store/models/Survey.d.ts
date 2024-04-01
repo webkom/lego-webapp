@@ -1,5 +1,5 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
-import type { ID } from 'app/store/models';
 import type { EventType } from 'app/store/models/Event';
 import type {
   SurveyQuestion,
@@ -11,10 +11,10 @@ import type { ValueLabel } from 'app/types';
 import type { Optional, Overwrite } from 'utility-types';
 
 interface Survey {
-  id: ID;
+  id: EntityId;
   title: string;
   activeFrom: Dateish;
-  event: ID;
+  event: EntityId;
   templateType: EventType | null;
   questions: SurveyQuestion[];
   actionGrant: ActionGrant;
@@ -53,7 +53,7 @@ export type PublicResultsSurvey = Omit<
   'actionGrant' | 'token'
 > & {
   results: {
-    [key: ID]: PublicTextQuestionResult | PublicChoiceQuestionResult;
+    [key: EntityId]: PublicTextQuestionResult | PublicChoiceQuestionResult;
   };
   submissionCount: number;
 };

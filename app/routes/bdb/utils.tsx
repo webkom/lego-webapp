@@ -8,9 +8,9 @@ import { useAppDispatch } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type { ID } from 'app/store/models';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ReactNode } from 'react';
 
@@ -198,7 +198,7 @@ export const DetailNavigation = ({
   companyId,
 }: {
   title: ReactNode;
-  companyId: ID;
+  companyId: EntityId;
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

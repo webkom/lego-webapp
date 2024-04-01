@@ -19,7 +19,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './MeetingList.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
 
@@ -28,7 +28,7 @@ function MeetingListItem({
   userId,
 }: {
   meeting: ListMeeting;
-  userId: ID;
+  userId: EntityId;
 }) {
   const isDone = moment(meeting.endTime) < moment();
 

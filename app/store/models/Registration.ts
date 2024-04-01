@@ -1,10 +1,10 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type {
   DetailedUser,
   PhotoConsent,
   PublicUser,
 } from 'app/store/models/User';
-import type { ID } from 'app/store/models/index';
 
 export enum Presence {
   PRESENT = 'PRESENT',
@@ -14,13 +14,13 @@ export enum Presence {
 }
 
 interface Registration {
-  id: ID;
+  id: EntityId;
   user: PublicUser;
   detailedUser: DetailedUser;
-  createdBy: ID;
-  updatedBy: ID;
-  pool: ID;
-  event: ID;
+  createdBy: EntityId;
+  updatedBy: EntityId;
+  pool: EntityId;
+  event: EntityId;
   presence: Presence;
   feedback: string;
   sharedMemberships: unknown;

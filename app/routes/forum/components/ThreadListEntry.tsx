@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './ForumList.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicThread } from 'app/store/models/Forum';
 
 const ThreadListEntry = ({
@@ -12,7 +12,7 @@ const ThreadListEntry = ({
 }: {
   thread: PublicThread;
   className: string;
-  forumId: ID;
+  forumId: EntityId;
 }) => {
   return (
     <Flex column className={cx(styles.threadEntry, className)}>

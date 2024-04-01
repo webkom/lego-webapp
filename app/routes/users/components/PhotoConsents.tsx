@@ -7,8 +7,8 @@ import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './PhotoConsents.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
-import type { ID } from 'app/store/models';
 
 const ConsentManager = ({
   consent,
@@ -89,7 +89,7 @@ const PhotoConsents = ({
 }: {
   photoConsents: Array<PhotoConsent>;
   username: string;
-  userId: ID;
+  userId: EntityId;
   isCurrentUser: boolean;
 }) => {
   const semesterOptions = photoConsents

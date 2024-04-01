@@ -1,13 +1,13 @@
 import callAPI from 'app/actions/callAPI';
 import { emailListSchema } from 'app/reducers';
 import { EmailList } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateEmailList,
   EditEmailList,
 } from 'app/store/models/EmailList';
 
-export function fetchEmailList(emailListId: ID) {
+export function fetchEmailList(emailListId: EntityId) {
   return callAPI({
     types: EmailList.FETCH,
     endpoint: `/email-lists/${emailListId}/`,
