@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { fetchAll } from 'app/actions/JoblistingActions';
-import { selectJoblistings } from 'app/reducers/joblistings';
+import { selectAllJoblistings } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { parseQueryString } from 'app/utils/useQuery';
 import JoblistingsList from './JoblistingList';
@@ -83,9 +83,7 @@ const sortJoblistings = (joblistings, sortType) => {
 };
 
 const JoblistingsPage = () => {
-  const unsortedJoblistings = useAppSelector((state) =>
-    selectJoblistings(state),
-  );
+  const unsortedJoblistings = useAppSelector(selectAllJoblistings);
 
   const location = useLocation();
   const { order, grades, jobTypes, workplaces } = parseQueryString(
