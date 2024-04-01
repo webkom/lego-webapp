@@ -15,6 +15,7 @@ import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './GroupPage.css';
 import type { DetailedGroup, PublicGroup } from 'app/store/models/Group';
+import type { Optional } from 'utility-types';
 
 const GroupForm = loadable(() => import('./GroupForm'));
 const GroupMembers = loadable(() => import('./GroupMembers'));
@@ -59,8 +60,11 @@ const GroupPageNavigation = ({
   );
 };
 
+export type GroupPageParams = {
+  groupId: string;
+};
 const GroupPage = () => {
-  const { groupId } = useParams<{ groupId?: string }>();
+  const { groupId } = useParams<Optional<GroupPageParams>>(); // optional because of the /admin/groups route with no groupId
   const group = useAppSelector((state) =>
     selectGroupById<DetailedGroup>(state, groupId),
   );

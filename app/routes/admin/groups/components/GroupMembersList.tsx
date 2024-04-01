@@ -1,11 +1,7 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  removeMember,
-  addMember,
-  fetchMembershipsPagination,
-} from 'app/actions/GroupActions';
+import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
@@ -15,14 +11,13 @@ import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
 import styles from './GroupMembersList.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type Membership from 'app/store/models/Membership';
+import type { TransformedMembership } from 'app/reducers/memberships';
 import type { ReactNode } from 'react';
 
 type Props = {
-  groupId;
   fetching: boolean;
   hasMore: boolean;
-  memberships: Membership[];
+  memberships: TransformedMembership[];
   groupsById: Record<
     string,
     {
@@ -30,14 +25,15 @@ type Props = {
       numberOfUsers?: number;
     }
   >;
+  fetchMemberships: (next: boolean) => Promise<void>;
 };
 
 const GroupMembersList = ({
-  groupId,
   memberships,
   hasMore,
   fetching,
   groupsById,
+  fetchMemberships,
 }: Props) => {
   // State for keeping track of which memberships are being edited
   const [membershipsInEditMode, setMembershipsInEditMode] = useState({});
@@ -49,7 +45,7 @@ const GroupMembersList = ({
 
   const GroupMembersListColumns = (
     _: unknown,
-    membership: Membership,
+    membership: TransformedMembership,
   ): ReactNode => {
     const { user } = membership;
     return (
@@ -65,7 +61,10 @@ const GroupMembersList = ({
     </Link>
   );
 
-  const RoleRender = (_: RoleType, membership: Membership): ReactNode => {
+  const RoleRender = (
+    _: RoleType,
+    membership: TransformedMembership,
+  ): ReactNode => {
     const { id, role } = membership;
 
     if (membershipsInEditMode[id]) {
@@ -76,20 +75,20 @@ const GroupMembersList = ({
             label: ROLES[role],
           }}
           options={roleOptions}
-          onChange={(value: { label: string; value: RoleType }) => {
+          onChange={async (value: { label: string; value: RoleType }) => {
             setMembershipsInEditMode((prev) => ({
               ...prev,
               [id]: false,
             }));
-            dispatch(removeMember(membership)).then(() => {
-              dispatch(
-                addMember({
-                  userId: membership.user.id,
-                  groupId: membership.abakusGroup,
-                  role: value.value,
-                }),
-              );
-            });
+            await dispatch(removeMember(membership));
+            await dispatch(
+              addMember({
+                userId: membership.user.id,
+                groupId: membership.abakusGroup,
+                role: value.value,
+              }),
+            );
+            await fetchMemberships(false);
           }}
         />
       );
@@ -98,7 +97,7 @@ const GroupMembersList = ({
     return role !== 'member' && <i>{ROLES[role] || role} </i>;
   };
 
-  const EditRender = (_: unknown, membership: Membership) => {
+  const EditRender = (_: unknown, membership: TransformedMembership) => {
     const { id, user, abakusGroup } = membership;
     const isCurrentUser = useIsCurrentUser(user.username);
 
@@ -172,15 +171,7 @@ const GroupMembersList = ({
 
   return (
     <Table
-      onLoad={() => {
-        dispatch(
-          fetchMembershipsPagination({
-            groupId,
-            next: true,
-            query,
-          }),
-        );
-      }}
+      onLoad={() => fetchMemberships(true)}
       onChange={setQuery}
       columns={columns}
       hasMore={hasMore}

@@ -14,9 +14,10 @@ const validate = createValidator({
 
 type Props = {
   groupId: string;
+  onMemberAdded?: () => void;
 };
 
-const AddGroupMember = ({ groupId }: Props) => {
+const AddGroupMember = ({ groupId, onMemberAdded }: Props) => {
   const dispatch = useAppDispatch();
 
   const handleSubmit = (values, form) => {
@@ -28,6 +29,7 @@ const AddGroupMember = ({ groupId }: Props) => {
       }),
     ).then(() => {
       form.reset();
+      onMemberAdded?.();
     });
   };
 

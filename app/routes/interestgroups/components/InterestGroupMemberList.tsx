@@ -7,7 +7,7 @@ import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import shared from 'app/components/UserAttendance/AttendanceModalContent.css';
 import styles from './InterestGroupMemberList.css';
-import type { GroupMembership } from 'app/models';
+import type { TransformedMembership } from 'app/reducers/memberships';
 import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { ReactNode } from 'react';
@@ -62,7 +62,7 @@ const ListedUser = ({ user, role }: { user: PublicUser; role: RoleType }) => (
 const SORT_ORDER = ['member', 'co_leader', 'leader'];
 type Props = {
   children: ReactNode;
-  memberships: GroupMembership[];
+  memberships: TransformedMembership[];
 };
 const InterestGroupMemberList = ({ memberships, children }: Props) => {
   const [modalVisible, setModalVisible] = useState(false);

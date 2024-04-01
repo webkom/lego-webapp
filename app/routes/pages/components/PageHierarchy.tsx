@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './PageHierarchy.css';
+import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type { ReactNode } from 'react';
 
 export type HierarchyEntity = {
@@ -14,33 +15,32 @@ export type HierarchySectionEntity = {
   items: HierarchyEntity[];
 };
 type Props = {
-  pageHierarchy: Array<HierarchySectionEntity>;
+  pageHierarchy: HierarchySectionEntity[];
   handleCloseSidebar: () => void;
 };
 
-const PageHierarchy = ({ pageHierarchy, handleCloseSidebar }: Props) => {
-  return (
-    <div className={styles.sidebar}>
-      {pageHierarchy.map((section, key) => (
-        <HierarchySection
-          hierarchySection={section}
-          key={key}
-          handleCloseSidebar={handleCloseSidebar}
-        />
-      ))}
-    </div>
-  );
-};
+const PageHierarchy = ({ pageHierarchy, handleCloseSidebar }: Props) => (
+  <div className={styles.sidebar}>
+    {pageHierarchy.map((section, key) => (
+      <HierarchySection
+        hierarchySection={section}
+        key={key}
+        handleCloseSidebar={handleCloseSidebar}
+      />
+    ))}
+  </div>
+);
 
 export default PageHierarchy;
 
+type HierarchySectionProps = {
+  hierarchySection: HierarchySectionEntity;
+  handleCloseSidebar: () => void;
+};
 const HierarchySection = ({
   hierarchySection: { title, items },
   handleCloseSidebar,
-}: {
-  hierarchySection: HierarchySectionEntity;
-  handleCloseSidebar: () => void;
-}) => {
+}: HierarchySectionProps) => {
   const { pathname } = useLocation();
 
   return (
@@ -70,13 +70,8 @@ type AccordionProps = {
   title: string;
   children: ReactNode;
 };
-
-type PageParams = {
-  section: string;
-};
-
 const AccordionContainer = ({ title, children }: AccordionProps) => {
-  const { section } = useParams<PageParams>();
+  const { section } = useParams<PageDetailParams>() as PageDetailParams;
 
   const [isOpen, setIsOpen] = useState(false);
 

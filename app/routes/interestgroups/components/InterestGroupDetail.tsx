@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
@@ -25,44 +25,39 @@ import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
-import type { Group, GroupMembership } from 'app/models';
-import type {
-  DetailedGroup,
-  PublicDetailedGroup,
-} from 'app/store/models/Group';
-import type Membership from 'app/store/models/Membership';
+import type { TransformedMembership } from 'app/reducers/memberships';
+import type { PublicDetailedGroup } from 'app/store/models/Group';
 
 type MembersProps = {
-  members: Array<GroupMembership>;
-  group: Group;
+  memberships: TransformedMembership[];
+  group: PublicDetailedGroup;
 };
 
-const Members = ({ group, members }: MembersProps) => (
+const Members = ({ group, memberships }: MembersProps) => (
   <Flex column>
     <h4>{group.numberOfUsers} medlemmer</h4>
     <UserGrid
-      users={members && members.slice(0, 14).map((reg) => reg.user)}
+      users={memberships && memberships.slice(0, 14).map((reg) => reg.user)}
       maxRows={2}
       minRows={2}
     />
-    <InterestGroupMemberList memberships={members}>
+    <InterestGroupMemberList memberships={memberships}>
       <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
     </InterestGroupMemberList>
   </Flex>
 );
 
 type ButtonRowProps = {
-  group: DetailedGroup & { memberships: Membership[] };
+  group: PublicDetailedGroup;
+  memberships: TransformedMembership[];
 };
 
-const ButtonRow = ({ group }: ButtonRowProps) => {
+const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
   const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
   if (!currentUser) return null;
 
-  const [membership] = group.memberships.filter(
-    (m) => m.user.id === currentUser.id,
-  );
+  const [membership] = memberships.filter((m) => m.user.id === currentUser.id);
 
   const onClick = membership
     ? () => dispatch(leaveGroup(membership, group.id))
@@ -81,8 +76,8 @@ const ButtonRow = ({ group }: ButtonRowProps) => {
   );
 };
 
-const Contact = ({ group }: { group: Group }) => {
-  const leaders = group.memberships.filter((m) => m.role === 'leader');
+const Contact = ({ memberships }: { memberships: TransformedMembership[] }) => {
+  const leaders = memberships.filter((m) => m.role === 'leader');
 
   if (leaders.length === 0) {
     return (
@@ -115,18 +110,19 @@ const Contact = ({ group }: { group: Group }) => {
   );
 };
 
+type InterestGroupDetailParams = {
+  groupId: string;
+};
 const InterestGroupDetail = () => {
-  const { groupId } = useParams();
-  const selectedGroup = useAppSelector((state) =>
+  const { groupId } =
+    useParams<InterestGroupDetailParams>() as InterestGroupDetailParams;
+  const group = useAppSelector((state) =>
     selectGroupById<PublicDetailedGroup>(state, groupId),
   );
+  const fetching = useAppSelector((state) => state.groups.fetching);
   const memberships = useAppSelector((state) =>
     selectMembershipsForGroup(state, { groupId }),
   );
-
-  const group = { ...selectedGroup, memberships };
-  const canEdit = group.actionGrant?.includes('edit');
-  const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
 
   const dispatch = useAppDispatch();
 
@@ -143,6 +139,13 @@ const InterestGroupDetail = () => {
     [groupId, loggedIn],
   );
 
+  if (!group || fetching) {
+    return <LoadingIndicator loading={true} />;
+  }
+
+  const canEdit = group.actionGrant?.includes('edit');
+  const logo = group.logo;
+
   return (
     <Content>
       <Helmet title={group.name} />
@@ -157,20 +160,22 @@ const InterestGroupDetail = () => {
         <ContentMain>
           <p>{group.description}</p>
           <DisplayContent content={group.text} />
-          {loggedIn && <ButtonRow group={group} />}
+          {loggedIn && <ButtonRow group={group} memberships={memberships} />}
         </ContentMain>
 
         <ContentSidebar>
-          <Image
-            alt={`${group.name} logo`}
-            className={styles.logo}
-            src={logo}
-            placeholder={group.logoPlaceholder}
-          />
-          {group.memberships.length > 0 && (
+          {logo && (
+            <Image
+              alt={`${group.name} logo`}
+              className={styles.logo}
+              src={logo}
+              placeholder={group.logoPlaceholder || undefined}
+            />
+          )}
+          {memberships.length > 0 && (
             <>
-              <Members group={group} members={group.memberships} />
-              <Contact group={group} />
+              <Members group={group} memberships={memberships} />
+              <Contact memberships={memberships} />
             </>
           )}
 

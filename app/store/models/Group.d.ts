@@ -1,4 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
+import type { GroupType, ActionGrant } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 
 interface Group {
@@ -15,9 +16,11 @@ interface Group {
   logo: string | null;
   logoPlaceholder: string | null;
   numberOfUsers: number;
-  type: string;
+  type: GroupType;
+  text: string;
   showBadge: boolean;
   active: boolean;
+  actionGrant: ActionGrant;
 }
 
 export type DetailedGroup = Pick<
@@ -35,6 +38,7 @@ export type DetailedGroup = Pick<
   | 'numberOfUsers'
   | 'showBadge'
   | 'active'
+  | 'actionGrant'
 >;
 
 export type PublicGroup = Pick<
@@ -53,7 +57,8 @@ export type PublicGroup = Pick<
 
 export type PublicListGroup = Pick<Group, 'numberOfUsers'> & PublicGroup;
 
-export type PublicDetailedGroup = Pick<Group, 'text'> & PublicListGroup;
+export type PublicDetailedGroup = Pick<Group, 'text' | 'actionGrant'> &
+  PublicListGroup;
 
 export type SearchGroup = Pick<Group, 'id' | 'name' | 'type' | 'logo'>;
 
@@ -66,8 +71,7 @@ export type UnknownGroup =
   | PublicGroup
   | DetailedGroup
   | PublicListGroup
-  | PublicDetailedGroup
-  | SearchGroup;
+  | PublicDetailedGroup;
 
 // Used when a group is a field in another model
 export type FieldGroup = Pick<Group, 'id' | 'name' | 'contactEmail' | 'type'>;

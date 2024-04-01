@@ -1,5 +1,6 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';
 import { selectGroupEntities } from 'app/reducers/groups';
@@ -9,6 +10,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 
 export const defaultGroupMembersQuery = {
   descendants: 'false' as 'false' | 'true',
@@ -18,7 +20,7 @@ export const defaultGroupMembersQuery = {
 };
 
 const GroupMembers = () => {
-  const { groupId } = useParams<{ groupId: string }>();
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
   const { query } = useQuery(defaultGroupMembersQuery);
   const showDescendants = query.descendants === 'true';
 
@@ -44,19 +46,24 @@ const GroupMembers = () => {
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect(
-    'fetchMemberships',
-    () =>
-      groupId &&
-      dispatch(
+  const fetchMemberships = useCallback(
+    async (next: boolean) => {
+      await dispatch(
         fetchMembershipsPagination({
           groupId,
-          next: true,
+          next,
           query,
+          descendants: showDescendants,
         }),
-      ),
-    [groupId, query],
+      );
+    },
+    [dispatch, groupId, query, showDescendants],
   );
+
+  usePreparedEffect('fetchMemberships', () => fetchMemberships(false), [
+    groupId,
+    query,
+  ]);
 
   return (
     <>
@@ -65,17 +72,22 @@ const GroupMembers = () => {
         {groupEntities[groupId?.toString()]?.numberOfUsers}
       </>
 
-      {showDescendants || <AddGroupMember groupId={groupId} />}
+      {showDescendants || (
+        <AddGroupMember
+          groupId={groupId}
+          onMemberAdded={() => fetchMemberships(false)}
+        />
+      )}
 
       <LoadingIndicator loading={!memberships && fetching}>
         <h3>Brukere</h3>
         <GroupMembersList
-          groupId={groupId}
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
           groupsById={groupEntities}
           fetching={fetching}
           memberships={memberships}
+          fetchMemberships={fetchMemberships}
         />
       </LoadingIndicator>
     </>
