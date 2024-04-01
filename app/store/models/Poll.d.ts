@@ -22,6 +22,7 @@ export interface Poll {
   tags: string[];
   hasAnswered: boolean;
   pinned: boolean;
+  actionGrant?: string[];
 }
 
 export default Poll;
