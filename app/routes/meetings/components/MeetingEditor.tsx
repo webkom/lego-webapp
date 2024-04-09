@@ -105,7 +105,7 @@ type MeetingEditorParams = {
 };
 const MeetingEditor = () => {
   const { meetingId } = useParams<MeetingEditorParams>();
-  const [formKey, setFormKey] = useState(0);
+  const [formDirtyFlag, setFormDirtyFlag] = useState(0);
   const [reportValue, setReportValue] = useState('');
   const meeting = useAppSelector((state) =>
     meetingId
@@ -126,25 +126,26 @@ const MeetingEditor = () => {
 
   const updateReportValue = useCallback(
     (newReportValue) => {
-      const debouncedFunction = debounce(() => {
-        const storedReport = localStorage.getItem(`meeting-${meetingId}-temp`);
+      debounce(() => {
+        const storedReport = sessionStorage.getItem(
+          `meeting-${meetingId}-report`,
+        );
         if (!storedReport || storedReport.length < newReportValue.length) {
           setReportValue(newReportValue);
         }
       }, 4500);
-
-      debouncedFunction();
     },
     [meetingId],
   );
 
+  //We only want to override the sessionStorage meeting if we add something, or if it does not exist already
   useEffect(() => {
     if (meeting && meetingId) {
-      const storedReport = localStorage.getItem(
+      const storedReport = sessionStorage.getItem(
         `meeting-${meeting?.id}-report`,
       );
       if (!storedReport || storedReport.length < reportValue.length) {
-        localStorage.setItem(`meeting-${meeting?.id}-report`, reportValue);
+        sessionStorage.setItem(`meeting-${meeting?.id}-report`, reportValue);
       }
     }
   }, [reportValue, meeting, meetingId]);
@@ -267,10 +268,10 @@ const MeetingEditor = () => {
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
 
   const loadReportFromLocalStorage = (form) => {
-    const storedReport = localStorage.getItem(`meeting-${meeting.id}-report`);
+    const storedReport = sessionStorage.getItem(`meeting-${meeting.id}-report`);
     if (storedReport) {
       form.change('report', storedReport);
-      setFormKey(formKey + 1);
+      setFormDirtyFlag(formDirtyFlag + 1);
     }
   };
 
@@ -304,7 +305,7 @@ const MeetingEditor = () => {
                 name="report"
                 label="Referat"
                 component={EditorField.Field}
-                key={formKey}
+                key={formDirtyFlag}
               />
 
               <FormSpy
@@ -498,16 +499,11 @@ const MeetingEditor = () => {
                 )}
                 {isEditPage &&
                   canDelete &&
-                  localStorage.getItem(`meeting-${meeting.id}-report`) !==
+                  sessionStorage.getItem(`meeting-${meeting.id}-report`) !==
                     null && (
                     <ConfirmModal
-                      title="Hente inn referat fra localstorage?"
-                      message={`Fant ${
-                        localStorage.getItem(`meeting-${meeting.id}-report`) !==
-                        null
-                          ? 1
-                          : 0
-                      } lagret backup for dette møtet. Dette vil overskrive det nåværende referatet lokalt.`}
+                      title="Hente inn referat fra lokal lagring?"
+                      message={`Fant en lagret backup for dette møtet. Dette vil overskrive det nåværende referatet lokalt.`}
                       onConfirm={() => {
                         loadReportFromLocalStorage(form);
                       }}
@@ -515,8 +511,8 @@ const MeetingEditor = () => {
                     >
                       {({ openConfirmModal }) => (
                         <Button danger onClick={openConfirmModal}>
-                          <Icon name="cloud-download-outline"></Icon>
-                          Hent referat lokalt
+                          <Icon name="cloud-download-outline" />
+                          Hent lokalt referat
                         </Button>
                       )}
                     </ConfirmModal>
