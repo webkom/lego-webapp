@@ -124,9 +124,11 @@ const MeetingEditor = () => {
       : undefined,
   );
 
+  //For some reason calling the debounce function directly was wack.
+  //Also, we want to check if the new length is greater than the old one or if it doesn't exist already.
   const updateReportValue = useCallback(
     (newReportValue) => {
-      debounce(() => {
+      const debounceFunc = debounce(() => {
         const storedReport = sessionStorage.getItem(
           `meeting-${meetingId}-report`,
         );
@@ -134,11 +136,11 @@ const MeetingEditor = () => {
           setReportValue(newReportValue);
         }
       }, 4500);
+      debounceFunc();
     },
     [meetingId],
   );
 
-  //We only want to override the sessionStorage meeting if we add something, or if it does not exist already
   useEffect(() => {
     if (meeting && meetingId) {
       const storedReport = sessionStorage.getItem(
@@ -502,7 +504,7 @@ const MeetingEditor = () => {
                   sessionStorage.getItem(`meeting-${meeting.id}-report`) !==
                     null && (
                     <ConfirmModal
-                      title="Hente inn referat fra lokal lagring?"
+                      title="Hente inn referat fra sessionStorage?"
                       message={`Fant en lagret backup for dette møtet. Dette vil overskrive det nåværende referatet lokalt.`}
                       onConfirm={() => {
                         loadReportFromLocalStorage(form);
