@@ -524,12 +524,13 @@ const EventDetail = () => {
                 users={registrations?.slice(0, 14).map((reg) => reg.user)}
                 skeleton={fetching && !registrations}
               />
+
               <AttendanceModal key="modal" pools={pools} title="Påmeldte">
                 {({ toggleModal }) => (
                   <>
                     <RegisteredSummary
                       toggleModal={toggleModal}
-                      registrations={registrations}
+                      registrations={loggedIn && registrations}
                       currentRegistration={currentRegistration}
                       skeleton={fetching && !registrations}
                     />
