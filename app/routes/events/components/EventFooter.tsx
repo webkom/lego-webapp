@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Circle from 'app/components/Circle';
 import config from 'app/config';
 import { EventTypeConfig } from '../utils';
@@ -39,8 +38,8 @@ const EventFooter = ({ icalToken }: Props) => (
     {icalToken && (
       <p className={styles.section}>
         Her kan du importere arrangementer og møter til din favorittkalender!
-        For innstillinger se
-        <Link to="/users/me/settings"> her</Link>.
+        <br />
+        Trykk på en av lenkene under for å legge inn i din kalender.
       </p>
     )}
     <div className={styles.eventFooterSections}>
