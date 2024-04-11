@@ -9,7 +9,7 @@ export interface Comment {
   text: string | null;
   author: PublicUser | null;
   contentTarget: ContentTarget;
-  contentSelf: ContentTarget;
+  contentTargetSelf: ContentTarget;
   createdAt: Dateish;
   updatedAt: Dateish;
   parent: EntityId | null;

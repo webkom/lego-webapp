@@ -111,7 +111,10 @@ const Comment = ({
         />
 
         <LegoReactions
-          parentEntity={{ ...comment, contentTarget: comment.contentSelf }}
+          parentEntity={{
+            ...comment,
+            contentTarget: comment.contentTargetSelf,
+          }}
         />
         {author && (
           <Button flat onPress={() => setReplyOpen(!replyOpen)}>
