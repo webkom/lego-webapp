@@ -126,11 +126,7 @@ const SurveyForm = ({
           {spyValues((values: FormSurvey) =>
             // If this is a template
             values.templateType ? (
-              <h2
-                style={{
-                  color: 'var(--lego-color-red)',
-                }}
-              >
+              <h2>
                 Dette er malen for arrangementer av type:{' '}
                 {displayNameForEventType(values.templateType)}
               </h2>

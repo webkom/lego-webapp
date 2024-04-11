@@ -41,18 +41,22 @@
 }
 
 .searchResultItemIcon {
-  margin-right: 15px;
-  margin-left: 3px;
+  color: var(--lego-font-color);
 }
 
 .resultsContainer {
   display: flex;
   flex-wrap: wrap;
-  max-height: calc(100vh - 120px);
+  max-height: calc(100svh - 120px);
   overflow-y: auto;
   padding: var(--spacing-xl) 3rem 3rem;
   background-color: var(--lego-card-color);
   border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+
+  @media (--mobile-device) {
+    height: 100svh;
+    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
+  }
 }
 
 .sidePanel {
@@ -64,7 +68,7 @@
 
 .quickLinksHeader {
   color: var(--lego-font-color);
-  padding-left: 15px;
+  padding-left: var(--spacing-md);
 }
 
 .quickLinks {
@@ -107,6 +111,10 @@
   border-bottom: 1px solid var(--border-gray);
   padding: var(--spacing-sm);
   height: 4rem;
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
 }
 
 .resultTitle {
@@ -125,7 +133,7 @@
 
 .resultDetail > *:not(:last-child)::after {
   content: '\22C5';
-  padding: 0 5px;
+  padding: 0 var(--spacing-xs);
 }
 
 .truncateTitle {

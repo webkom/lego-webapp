@@ -33,7 +33,7 @@ const ResultIcon = ({ result }) => {
       if (result.icon) {
         return (
           <Image
-            alt={`${result.title}'s logo`}
+            alt={`${result.title} sin logo`}
             src={result.icon}
             style={{ width: '28px', display: 'block' }}
             className={styles.searchResultItemIcon}
@@ -58,7 +58,10 @@ export const SearchResultItem = ({
   onCloseSearch,
 }: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
-    <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
+    <Flex
+      gap="var(--spacing-sm)"
+      className={cx(isSelected && styles.isSelected, styles.resultItem)}
+    >
       <ResultIcon result={result} />
       <div className={styles.resultTitle}>
         <p className={styles.truncateTitle}>{result.title}</p>
@@ -69,7 +72,7 @@ export const SearchResultItem = ({
           {result.date && <Time time={result.date} wordsAgo />}
         </Flex>
       </div>
-    </li>
+    </Flex>
   </Link>
 );
 
