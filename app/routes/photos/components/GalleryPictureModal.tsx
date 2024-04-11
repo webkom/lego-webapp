@@ -321,7 +321,6 @@ const GalleryPictureModal = () => {
               toggle={toggleDropdown}
               closeOnContentClick
               className={styles.dropdown}
-              contentClassName={styles.dropdownContent}
               iconName="ellipsis-horizontal"
             >
               <Dropdown.List>

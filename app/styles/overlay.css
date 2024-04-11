@@ -6,7 +6,7 @@
   border-radius: var(--border-radius-lg);
   position: absolute;
   margin-top: 10px;
-  z-index: 70;
+  z-index: 110;
 
   @media (--small-viewport) {
     width: calc(100% - 10px);

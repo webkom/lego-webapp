@@ -30,10 +30,6 @@
   color: var(--color-black);
 }
 
-.dropdownContent {
-  z-index: 110;
-}
-
 .dropdownLink {
   color: var(--lego-font-color);
 }
