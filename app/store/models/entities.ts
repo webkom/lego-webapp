@@ -29,7 +29,7 @@ import type Quote from 'app/store/models/Quote';
 import type Reaction from 'app/store/models/Reaction';
 import type { UnknownRegistration } from 'app/store/models/Registration';
 import type { UnknownRestrictedMail } from 'app/store/models/RestrictedMail';
-import type { Survey } from 'app/store/models/Survey';
+import type { UnknownSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { UnknownTag } from 'app/store/models/Tag';
 import type { UnknownUser } from 'app/store/models/User';
@@ -105,7 +105,7 @@ export default interface Entities {
   [EntityType.Registrations]: Record<EntityId, UnknownRegistration>;
   [EntityType.RestrictedMails]: Record<EntityId, UnknownRestrictedMail>;
   [EntityType.SurveySubmissions]: Record<EntityId, SurveySubmission>;
-  [EntityType.Surveys]: Record<EntityId, Survey>;
+  [EntityType.Surveys]: Record<EntityId, UnknownSurvey>;
   [EntityType.Tags]: Record<EntityId, UnknownTag>;
   [EntityType.Thread]: Record<EntityId, UnknownThread>;
   [EntityType.Users]: Record<EntityId, UnknownUser>;

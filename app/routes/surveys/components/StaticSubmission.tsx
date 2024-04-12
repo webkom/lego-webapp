@@ -1,13 +1,13 @@
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './surveys.css';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 type Props = {
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
   submission?: SurveySubmission;
 };
 

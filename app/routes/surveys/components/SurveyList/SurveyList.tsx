@@ -1,9 +1,9 @@
 import { isEmpty } from 'lodash';
 import SurveyItem from './SurveyItem';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 
 type Props = {
-  surveys: SelectedSurvey[];
+  surveys: DetailedSurvey[];
   fetching: boolean;
 };
 
