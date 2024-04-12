@@ -23,15 +23,23 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   const username = useCurrentUser()?.username;
   const icon = useIcon();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedUpdateUserTheme = useCallback(
+    debounce((username, newTheme) => {
+      dispatch(updateUserTheme(username, newTheme));
+    }, 300),
+    [dispatch],
+  );
+
   const handleThemeChange = useCallback(
     (e: MouseEvent) => {
       e.preventDefault();
       const currentTheme = getTheme();
       const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
       applySelectedTheme(newTheme);
-      loggedIn && username && dispatch(updateUserTheme(username, newTheme));
+      loggedIn && username && debouncedUpdateUserTheme(username, newTheme);
     },
-    [loggedIn, username, dispatch],
+    [loggedIn, username, debouncedUpdateUserTheme],
   );
 
   const Component = isButton ? 'button' : 'div';
@@ -39,7 +47,7 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
     <Component
       name="Endre tema"
       className={className}
-      onClick={debounce(handleThemeChange, 200)}
+      onClick={handleThemeChange}
     >
       {children}
       <Icon
