@@ -44,7 +44,6 @@ import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type Penalty from 'app/store/models/Penalty';
 import type { CurrentUser } from 'app/store/models/User';
 
 /**
@@ -195,10 +194,8 @@ const JoinEventForm = ({
   const fetching = useAppSelector((state) => state.events.fetching);
 
   const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, {
-      userId: currentUser?.id,
-    }),
-  ) as Penalty[];
+    selectPenaltyByUserId(state, currentUser?.id),
+  );
   const sumPenalties = sumBy(penalties, 'weight');
 
   const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
