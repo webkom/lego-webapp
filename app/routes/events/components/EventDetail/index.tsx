@@ -142,7 +142,7 @@ const EventDetail = () => {
       selectUserWithGroups(state, { username: currentUser.username }),
   );
   const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, { userId: user?.id }),
+    selectPenaltyByUserId(state, user?.id),
   );
 
   const comments = useAppSelector((state) =>

@@ -482,7 +482,7 @@ export function deletePenalty(id: EntityId) {
     method: 'DELETE',
     schema: penaltySchema,
     meta: {
-      penaltyId: id,
+      id,
       errorMessage: 'Sletting av prikk feilet',
     },
     body: {},

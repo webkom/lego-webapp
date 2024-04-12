@@ -7,7 +7,6 @@ import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
-import type Penalty from 'app/store/models/Penalty';
 
 type Props = {
   userId: number;
@@ -15,10 +14,8 @@ type Props = {
 
 const Penalties = ({ userId }: Props) => {
   const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, {
-      userId,
-    }),
-  ) as Penalty[];
+    selectPenaltyByUserId(state, userId),
+  );
   const canDeletePenalties = useAppSelector((state) => state.allowed.penalties);
 
   const dispatch = useAppDispatch();

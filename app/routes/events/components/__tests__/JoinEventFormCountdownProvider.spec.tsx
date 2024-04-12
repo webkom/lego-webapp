@@ -68,7 +68,7 @@ const store = configureStore([])({
     fetching: false,
   },
   penalties: {
-    items: [],
+    ids: [],
   },
 });
 
