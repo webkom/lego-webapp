@@ -10,8 +10,8 @@ import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
 export const NonEventContactStatusConfig: Record<
@@ -97,22 +97,22 @@ export const semesterCodeToName = (code: Semester) => {
   return codeToName[code] || '-';
 };
 export const sortByYearThenSemester = (
-  a: CompanySemesterEntity,
-  b: CompanySemesterEntity,
+  a: CompanySemester,
+  b: CompanySemester,
 ): number => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1,
   };
   return a.year !== b.year
-    ? parseInt(b.year, 10) - parseInt(a.year, 10)
+    ? b.year - a.year
     : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
 export const indexToSemester = (
   index: number,
   startYear: number,
   startSem: number,
-  companySemesters?: Array<CompanySemesterEntity>,
+  companySemesters?: CompanySemester[],
 ) => {
   const semester = semesterNameOf(((index % 2) + startSem) % 2);
   let year = 0;

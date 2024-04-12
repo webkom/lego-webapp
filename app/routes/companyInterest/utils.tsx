@@ -9,12 +9,12 @@ import {
   OTHER_OFFERS,
   TARGET_GRADES,
 } from './components/Translations';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
 export const sortSemesterChronologically = (
-  a: CompanySemesterEntity,
-  b: CompanySemesterEntity,
+  a: CompanySemester,
+  b: CompanySemester,
 ) => {
   const semesterCodeToPriority = {
     spring: 0,

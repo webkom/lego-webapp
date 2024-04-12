@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { CompanyInterestForm } from '../actions/ActionTypes';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 export enum CompanyInterestCompanyType {
   SmallConsultant = 'company_types_small_consultant',
@@ -25,7 +25,7 @@ export type CompanyInterestEntity = {
   readme: boolean;
   collaboration: boolean;
   comment: boolean;
-  semesters: Array<CompanySemesterEntity>;
+  semesters: CompanySemester[];
   companyType: CompanyInterestCompanyType;
   officeInTrondheim: boolean;
 };

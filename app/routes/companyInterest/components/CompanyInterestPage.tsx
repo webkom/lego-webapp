@@ -33,8 +33,7 @@ import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import {
-  selectCompanySemesters,
-  type CompanySemesterEntity,
+  selectAllCompanySemesters,
   selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -69,6 +68,7 @@ import {
   COMPANY_TYPES,
   TOOLTIP,
 } from './Translations';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
 const SemesterBox = ({
@@ -242,7 +242,7 @@ type CompanyInterestFormEntity = {
   contactPerson: string;
   mail: string;
   phone: string;
-  semesters: Array<CompanySemesterEntity & { checked: boolean }>;
+  semesters: Array<CompanySemester & { checked: boolean }>;
   events: Array<{
     name: string;
     checked: boolean;
@@ -311,7 +311,7 @@ const CompanyInterestPage = () => {
   );
   const semesters = useAppSelector((state) => {
     if (edit) {
-      return selectCompanySemesters(state);
+      return selectAllCompanySemesters(state);
     }
     return selectCompanySemestersForInterestForm(state);
   });

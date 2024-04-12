@@ -8,7 +8,6 @@ import createQueryString from 'app/utils/createQueryString';
 import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
 import type {
   AdminListCompany,
@@ -17,6 +16,7 @@ import type {
   DetailedSemesterStatus,
   ListCompany,
 } from 'app/store/models/Company';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
   return callAPI<ListCompany[]>({
@@ -283,11 +283,12 @@ export function fetchSemesters(
   });
 }
 
-export function addSemester({ year, semester }: CompanySemesterEntity) {
+export function addSemester({ year, semester }: CompanySemester) {
   return callAPI<DetailedSemesterStatus>({
     types: Company.ADD_SEMESTER,
     endpoint: `/company-semesters/`,
     method: 'POST',
+    schema: companySemesterSchema,
     body: {
       year,
       semester,

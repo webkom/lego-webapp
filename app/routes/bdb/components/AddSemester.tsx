@@ -20,7 +20,7 @@ import {
   selectCompanyById,
   type SemesterStatusEntity,
 } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import {
   semesterCodeToName,
   getContactStatuses,
@@ -44,7 +44,7 @@ const AddSemester = () => {
   const company = useAppSelector((state) =>
     selectCompanyById(state, { companyId }),
   );
-  const companySemesters = useAppSelector(selectCompanySemesters);
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
 
   const dispatch = useAppDispatch();
 

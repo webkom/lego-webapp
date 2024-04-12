@@ -14,7 +14,7 @@ import {
 import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { selectCompanies, type CompanyEntity } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import sortCompanies from '../SortCompanies';
@@ -32,7 +32,7 @@ const BdbPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const companies = useAppSelector(selectCompanies);
-  const companySemesters = useAppSelector(selectCompanySemesters);
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
   const fetching = useAppSelector((state) => state.companies.fetching);
 
   const navigate = useNavigate();

@@ -17,7 +17,7 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import {
-  selectCompanySemesters,
+  selectAllCompanySemesters,
   selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -62,7 +62,7 @@ const CompanySemesterGUI = () => {
 };
 
 const AddSemesterForm = () => {
-  const semesters = useAppSelector((state) => selectCompanySemesters(state));
+  const semesters = useAppSelector(selectAllCompanySemesters);
 
   const dispatch = useAppDispatch();
 

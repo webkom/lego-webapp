@@ -14,13 +14,13 @@ import SelectInput from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { getCsvUrl, semesterToText, EVENT_TYPE_OPTIONS } from '../utils';
 import styles from './CompanyInterest.css';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 type SemesterOptionType = {
   id: number;
@@ -45,10 +45,8 @@ const CompanyInterestList = () => {
       ignoreQueryPrefix: true,
     }).semesters,
   );
-  const semesters = useAppSelector((state) => selectCompanySemesters(state));
-  const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
-    (semester) => semester.id === semesterId,
-  );
+  const semesters = useAppSelector(selectAllCompanySemesters);
+  const semesterObj = semesters.find((semester) => semester.id === semesterId);
   const eventValue = qs.parse(location.search, {
     ignoreQueryPrefix: true,
   }).event;
@@ -191,7 +189,7 @@ const CompanyInterestList = () => {
       semester: '',
       label: 'Vis alle semestre',
     },
-    ...semesters.map((semesterObj: CompanySemesterEntity) => {
+    ...semesters.map((semesterObj: CompanySemester) => {
       const { id, year, semester } = semesterObj;
       return {
         id,
