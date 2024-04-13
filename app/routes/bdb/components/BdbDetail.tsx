@@ -28,10 +28,10 @@ import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import {
   type SemesterStatusEntity,
   selectCompanyById,
-  selectCommentsForCompany,
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
@@ -61,15 +61,15 @@ const queryString = (companyId) =>
 const BdbDetail = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, companyId),
   );
 
   const comments = useAppSelector((state) =>
-    selectCommentsForCompany(state, { companyId }),
+    selectCommentsByIds(state, company?.comments),
   );
 
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, { companyId }),
+    selectEventsForCompany(state, companyId),
   );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const fetching = useAppSelector((state) => state.companies.fetching);

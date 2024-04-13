@@ -50,7 +50,7 @@ const CompanyEditor = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const isNew = companyId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, companyId),
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
 

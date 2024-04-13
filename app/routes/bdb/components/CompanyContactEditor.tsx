@@ -39,13 +39,10 @@ const CompanyContactEditor = () => {
   }>();
   const isNew = companyContactId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, companyId),
   );
   const companyContact = useAppSelector((state) =>
-    selectCompanyContactById(state, {
-      companyId,
-      companyContactId: Number(companyContactId),
-    }),
+    selectCompanyContactById(state, companyId, Number(companyContactId)),
   );
 
   const dispatch = useAppDispatch();
@@ -61,7 +58,7 @@ const CompanyContactEditor = () => {
   const onSubmit = (formContent: FormValues) => {
     const body = {
       ...formContent,
-      companyId: company.id,
+      companyId: company?.id,
       companyContactId: companyContact && companyContact.id,
     };
 
@@ -83,9 +80,9 @@ const CompanyContactEditor = () => {
 
   return (
     <Content>
-      <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
+      <DetailNavigation title="Bedriftskontakt" companyId={company?.id} />
       <h3>
-        <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
+        <Link to={`/bdb/${company?.id}`}>{company?.name}</Link> sin
         bedriftskontakt
       </h3>
 

@@ -42,7 +42,7 @@ const validate = createValidator({
 const AddSemester = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, companyId),
   );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
 

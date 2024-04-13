@@ -49,7 +49,7 @@ const CompanyDetail = () => {
   );
   const fetchingEvents = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById(state, companyId),
   );
   const fetchingCompany = useAppSelector((state) => state.companies.fetching);
   const showSkeleton = fetchingCompany && isEmpty(company);
