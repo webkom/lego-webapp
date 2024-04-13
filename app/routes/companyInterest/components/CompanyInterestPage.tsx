@@ -307,7 +307,7 @@ const CompanyInterestPage = () => {
   const { companyInterestId } = useParams();
   const edit = companyInterestId !== undefined;
   const companyInterest = useAppSelector((state) =>
-    selectCompanyInterestById(state, { companyInterestId }),
+    selectCompanyInterestById(state, companyInterestId),
   );
   const semesters = useAppSelector((state) => {
     if (edit) {

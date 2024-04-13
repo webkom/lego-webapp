@@ -19,8 +19,10 @@ const companySemestersSlice = createSlice({
 
 export default companySemestersSlice.reducer;
 
-export const { selectAll: selectAllCompanySemesters } =
-  legoAdapter.getSelectors((state: RootState) => state.companySemesters);
+export const {
+  selectAll: selectAllCompanySemesters,
+  selectById: selectCompanySemesterById,
+} = legoAdapter.getSelectors((state: RootState) => state.companySemesters);
 
 export const selectCompanySemestersForInterestForm = createSelector(
   selectAllCompanySemesters,

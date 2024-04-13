@@ -2,6 +2,7 @@ import qs from 'qs';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
+import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
 import {
   COLLABORATION_TYPES,
   EVENTS,
@@ -52,18 +53,34 @@ export const PARTICIPANT_RANGE_MAP = {
   fourth: [100, null],
 };
 
-export const EVENT_TYPE_OPTIONS = [
-  { value: '', label: 'Vis alle arrangementstyper' },
-  { value: 'company_presentation', label: 'Bedriftspresentasjon' },
-  { value: 'course', label: 'Kurs' },
-  { value: 'breakfast_talk', label: 'Frokostforedrag' },
-  { value: 'lunch_presentation', label: 'Lunsjpresentasjon' },
-  { value: 'bedex', label: 'BedEx' },
-  { value: 'digital_presentation', label: 'Digital presentasjon' },
-  { value: 'other', label: 'Alternativt arrangement' },
-  { value: 'sponsor', label: 'Sponser' },
-  { value: 'start_up', label: 'Start-up kveld' },
-  { value: 'company_to_company', label: 'Bedrift-til-bedrift' },
+export type CompanyInterestEventTypeOption = {
+  value: CompanyInterestEventType;
+  label: string;
+};
+export const EVENT_TYPE_OPTIONS: CompanyInterestEventTypeOption[] = [
+  { value: CompanyInterestEventType.All, label: 'Vis alle arrangementstyper' },
+  {
+    value: CompanyInterestEventType.CompanyPresentation,
+    label: 'Bedriftspresentasjon',
+  },
+  { value: CompanyInterestEventType.Course, label: 'Kurs' },
+  { value: CompanyInterestEventType.BreakfastTalk, label: 'Frokostforedrag' },
+  {
+    value: CompanyInterestEventType.LunchPresentation,
+    label: 'Lunsjpresentasjon',
+  },
+  { value: CompanyInterestEventType.Bedex, label: 'BedEx' },
+  {
+    value: CompanyInterestEventType.DigitalPresentation,
+    label: 'Digital presentasjon',
+  },
+  { value: CompanyInterestEventType.Other, label: 'Alternativt arrangement' },
+  { value: CompanyInterestEventType.Sponsor, label: 'Sponser' },
+  { value: CompanyInterestEventType.StartUp, label: 'Start-up kveld' },
+  {
+    value: CompanyInterestEventType.CompanyToCompany,
+    label: 'Bedrift-til-bedrift',
+  },
 ];
 
 export const eventToString = (event) =>
