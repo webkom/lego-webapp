@@ -34,6 +34,7 @@ import {
   conditionalValidation,
   createValidator,
   isInteger,
+  legoEditorRequired,
   maxSize,
   mergeTimeAfterAllPoolsActivation,
   minSize,
@@ -62,6 +63,7 @@ const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
   title: [required('Tittel er påkrevd')],
   description: [required('Kalenderbeskrivelse er påkrevd')],
+  text: [legoEditorRequired('Innhold er påkrevd')],
   eventType: [required('Arrangementstype er påkrevd')],
   location: [
     requiredIf((allValues) => !allValues.useMazemap, 'Sted er påkrevd'),

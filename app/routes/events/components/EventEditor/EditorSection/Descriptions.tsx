@@ -28,6 +28,7 @@ const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
         placeholder="Dette blir tidenes fest ..."
         className={styles.descriptionEditor}
         uploadFile={uploadFile}
+        required
       />
       <Flex className={styles.tagRow}>
         {(values.tags || []).map((tag, i) => (
