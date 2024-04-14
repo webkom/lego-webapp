@@ -1,4 +1,10 @@
-import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import {
+  Button,
+  Flex,
+  Icon,
+  LoadingIndicator,
+  Skeleton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
@@ -31,6 +37,8 @@ import createQueryString from 'app/utils/createQueryString';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { DetailedCompany } from 'app/store/models/Company';
+import type { ListEvent } from 'app/store/models/Event';
 
 const queryString = (companyId?: EntityId) =>
   createQueryString({
@@ -41,7 +49,9 @@ const queryString = (companyId?: EntityId) =>
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
-  const { companyId } = useParams<{ companyId: string }>();
+  const { companyId } = useParams<{ companyId: string }>() as {
+    companyId: string;
+  };
   const showFetchMoreEvents = useAppSelector((state) =>
     selectPagination('events', {
       queryString: queryString(companyId),
@@ -49,15 +59,15 @@ const CompanyDetail = () => {
   );
   const fetchingEvents = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
-    selectCompanyById(state, companyId),
+    selectCompanyById<DetailedCompany>(state, companyId),
   );
   const fetchingCompany = useAppSelector((state) => state.companies.fetching);
   const showSkeleton = fetchingCompany && isEmpty(company);
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, { companyId }),
-  );
+    selectEventsForCompany(state, companyId),
+  ) as ListEvent[];
   const joblistings = useAppSelector((state) =>
-    selectJoblistingsForCompany(state, { companyId }),
+    selectJoblistingsForCompany(state, companyId),
   );
   const fetchingJoblistings = useAppSelector(
     (state) => state.joblistings.fetching,
@@ -83,6 +93,8 @@ const CompanyDetail = () => {
       ]),
     [companyId],
   );
+
+  if (!company) return <LoadingIndicator loading />;
 
   const fetchMoreEvents = () =>
     companyId &&

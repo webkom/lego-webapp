@@ -1,3 +1,4 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -9,14 +10,13 @@ import {
 import { Content } from 'app/components/Content';
 import { LegoFinalForm, TextInput } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import {
-  selectCompanyById,
-  selectCompanyContactById,
-} from 'app/reducers/companies';
+import { selectCompanyById } from 'app/reducers/companies';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import SubmissionError from '../../../components/Form/SubmissionError';
 import { DetailNavigation } from '../utils';
+import type { AdminDetailCompany } from 'app/store/models/Company';
 
 export type FormValues = {
   name: string;
@@ -39,10 +39,10 @@ const CompanyContactEditor = () => {
   }>();
   const isNew = companyContactId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, companyId),
+    selectCompanyById<AdminDetailCompany>(state, companyId),
   );
-  const companyContact = useAppSelector((state) =>
-    selectCompanyContactById(state, companyId, Number(companyContactId)),
+  const companyContact = company?.companyContacts.find(
+    (contact) => contact.id === Number(companyContactId),
   );
 
   const dispatch = useAppDispatch();
@@ -50,23 +50,28 @@ const CompanyContactEditor = () => {
   usePreparedEffect(
     'fetchEditCompanyContact',
     () => companyId && dispatch(fetchAdmin(companyId)),
-    [companyId, companyContactId],
+    [companyId],
   );
 
   const navigate = useNavigate();
 
-  const onSubmit = (formContent: FormValues) => {
+  if (!company) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
+
+  const onSubmit = async (formContent: FormValues) => {
     const body = {
       ...formContent,
-      companyId: company?.id,
-      companyContactId: companyContact && companyContact.id,
+      companyId: company.id,
+      companyContactId,
     };
 
-    dispatch(isNew ? addCompanyContact(body) : editCompanyContact(body)).then(
-      () => {
-        navigate(`/bdb/${companyId}`);
-      },
-    );
+    await dispatch(isNew ? addCompanyContact(body) : editCompanyContact(body));
+    navigate(`/bdb/${companyId}`);
   };
 
   const initialValues = isNew
@@ -80,9 +85,9 @@ const CompanyContactEditor = () => {
 
   return (
     <Content>
-      <DetailNavigation title="Bedriftskontakt" companyId={company?.id} />
+      <DetailNavigation title="Bedriftskontakt" />
       <h3>
-        <Link to={`/bdb/${company?.id}`}>{company?.name}</Link> sin
+        <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
         bedriftskontakt
       </h3>
 
@@ -121,6 +126,7 @@ const CompanyContactEditor = () => {
               component={TextInput.Field}
             />
 
+            <SubmissionError />
             <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
           </form>
         )}

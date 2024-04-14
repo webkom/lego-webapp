@@ -1,6 +1,5 @@
-import { Card } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
@@ -12,27 +11,39 @@ import {
   fetchSemesters,
 } from 'app/actions/CompanyActions';
 import { Content } from 'app/components/Content';
-import { TextInput, RadioButton, MultiSelectGroup } from 'app/components/Form';
+import { MultiSelectGroup, RadioButton, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import {
-  selectCompanyById,
-  type SemesterStatusEntity,
-} from 'app/reducers/companies';
+import { selectCompanyById } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import {
-  semesterCodeToName,
+  DetailNavigation,
   getContactStatuses,
   getStatusColor,
   selectMostProminentStatus,
-  DetailNavigation,
+  semesterCodeToName,
 } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './AddSemester.css';
 import SemesterStatusContent from './SemesterStatusContent';
+import type {
+  AdminDetailCompany,
+  CompanySemesterContactStatus,
+} from 'app/store/models/Company';
+
+type FormValues = {
+  year: number;
+  semester: Semester;
+  semesterStatus: {
+    contactedStatus: CompanySemesterContactStatus[];
+  };
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const validate = createValidator({
   year: [required()],
@@ -40,9 +51,11 @@ const validate = createValidator({
 });
 
 const AddSemester = () => {
-  const { companyId } = useParams<{ companyId: string }>();
+  const { companyId } = useParams<{ companyId: string }>() as {
+    companyId: string;
+  };
   const company = useAppSelector((state) =>
-    selectCompanyById(state, companyId),
+    selectCompanyById<AdminDetailCompany>(state, companyId),
   );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
 
@@ -62,49 +75,41 @@ const AddSemester = () => {
 
   const [submit, setSubmit] = useState(false);
   const [foundSemesterStatus, setFoundSemesterStatus] = useState<{
-    semester: string;
+    semester: Semester;
     year: number;
-  } | null>(null);
+  }>();
 
-  const onSubmit = ({
-    year,
-    semester,
-    contract,
-    semesterStatus,
-  }: SemesterStatusEntity) => {
+  if (!company) {
+    return <LoadingIndicator loading />;
+  }
+
+  const onSubmit = ({ year, semester, semesterStatus }: FormValues) => {
+    setFoundSemesterStatus(undefined);
+
     const contactedStatus = semesterStatus.contactedStatus;
 
     if (!submit) return;
 
-    const foundSemesterStatus =
-      company &&
-      company.semesterStatuses.find((semesterStatus) => {
-        return (
-          semesterStatus.year === year && semesterStatus.semester === semester
-        );
-      });
-
-    if (foundSemesterStatus) {
-      setFoundSemesterStatus({ semester, year });
-      return;
-    } else {
-      setFoundSemesterStatus(null);
-    }
-
-    const globalSemester = companySemesters.find((companySemester) => {
-      return (
-        companySemester.year === Number(year) &&
-        companySemester.semester === semester
-      );
-    });
+    const globalSemester = companySemesters.find(
+      (companySemester) =>
+        companySemester.year === year && companySemester.semester === semester,
+    );
 
     if (globalSemester) {
+      const foundSemesterStatus = company.semesterStatuses?.find(
+        (semesterStatus) => semesterStatus.semester === globalSemester.id,
+      );
+
+      if (foundSemesterStatus) {
+        setFoundSemesterStatus({ semester, year });
+        return;
+      }
+
       return dispatch(
         addSemesterStatus({
           companyId,
           semester: globalSemester.id,
           contactedStatus,
-          contract,
         }),
       ).then(() => {
         navigate(`/bdb/${companyId}/`);
@@ -120,9 +125,8 @@ const AddSemester = () => {
       dispatch(
         addSemesterStatus({
           companyId,
-          semester: response.payload.id,
+          semester: response.payload.result,
           contactedStatus,
-          contract,
         }),
       ).then(() => {
         navigate(`/bdb/${companyId}/`);
@@ -130,24 +134,17 @@ const AddSemester = () => {
     });
   };
 
-  const initialValues = companyId
-    ? {
-        year: moment().year(),
-        semester: 0,
-        contactedStatus: 'not_contacted',
-        semesterStatus: {
-          contactedStatus: [],
-        },
-      }
-    : {
-        semesterStatus: {
-          contactedStatus: [],
-        },
-      };
+  const initialValues: FormValues = {
+    year: moment().year(),
+    semester: moment().month() > 6 ? Semester.Spring : Semester.Autumn,
+    semesterStatus: {
+      contactedStatus: [],
+    },
+  };
 
   return (
     <Content>
-      <DetailNavigation title="Legg til semester" companyId={companyId} />
+      <DetailNavigation title="Legg til semester" />
 
       <div>
         <Card severity="info">
@@ -158,7 +155,7 @@ const AddSemester = () => {
           </span>
         </Card>
 
-        <LegoFinalForm
+        <TypedLegoForm
           onSubmit={onSubmit}
           validate={validate}
           initialValues={initialValues}
@@ -208,7 +205,7 @@ const AddSemester = () => {
                     }}
                   >
                     <SemesterStatusContent
-                      semesterStatus={input.value}
+                      contactedStatus={input.value.contactedStatus}
                       editFunction={(status) => {
                         input.onChange({
                           contactedStatus: getContactStatuses(
@@ -226,9 +223,7 @@ const AddSemester = () => {
                 )}
               </Field>
 
-              <div className={styles.clear} />
-
-              {!isEmpty(foundSemesterStatus) && (
+              {foundSemesterStatus && (
                 <Card severity="danger">
                   <Card.Header>Feil</Card.Header>
                   <span>
@@ -245,7 +240,7 @@ const AddSemester = () => {
               </SubmitButton>
             </form>
           )}
-        </LegoFinalForm>
+        </TypedLegoForm>
       </div>
     </Content>
   );

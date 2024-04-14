@@ -15,6 +15,7 @@ import type {
   DetailedCompany,
   DetailedSemesterStatus,
   ListCompany,
+  SemesterStatus,
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
 
@@ -126,7 +127,12 @@ export function deleteCompany(companyId: EntityId) {
   });
 }
 
-export function addSemesterStatus({ companyId, ...data }: Record<string, any>) {
+export function addSemesterStatus({
+  companyId,
+  ...data
+}: {
+  companyId: EntityId;
+} & Omit<SemesterStatus, 'id'>) {
   return callAPI<DetailedSemesterStatus>({
     types: Company.ADD_SEMESTER_STATUS,
     endpoint: `/companies/${companyId}/semester-statuses/`,
@@ -146,8 +152,7 @@ export function editSemesterStatus({
 }: {
   companyId: EntityId;
   semesterStatusId: EntityId;
-  data: Record<string, any>;
-}) {
+} & Partial<SemesterStatus>) {
   return callAPI<DetailedSemesterStatus>({
     types: Company.EDIT_SEMESTER_STATUS,
     endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
@@ -191,7 +196,7 @@ export function fetchCompanyContacts({ companyId }: { companyId: EntityId }) {
 
 type CompanyContactEditorSubmitBody = {
   companyId: EntityId;
-  companyContactId: EntityId;
+  companyContactId?: EntityId;
 } & CompanyContactEditorFormValues;
 
 export function addCompanyContact({
@@ -283,7 +288,10 @@ export function fetchSemesters(
   });
 }
 
-export function addSemester({ year, semester }: CompanySemester) {
+export function addSemester({
+  year,
+  semester,
+}: Pick<CompanySemester, 'year' | 'semester'>) {
   return callAPI<DetailedSemesterStatus>({
     types: Company.ADD_SEMESTER,
     endpoint: `/company-semesters/`,

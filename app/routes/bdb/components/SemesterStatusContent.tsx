@@ -15,10 +15,8 @@ import {
 import type { CSSProperties } from 'react';
 
 type Props = {
-  semesterStatus: { contactedStatus: CompanySemesterContactStatus[] };
-  editFunction: (
-    arg0: CompanySemesterContactStatus,
-  ) => Promise<any> | null | undefined | void;
+  contactedStatus: CompanySemesterContactStatus[];
+  editFunction: (contactStatus: CompanySemesterContactStatus) => void;
   style?: CSSProperties;
 };
 
@@ -31,7 +29,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
   };
 
   render() {
-    const { semesterStatus, editFunction, style } = this.props;
+    const { contactedStatus, editFunction, style } = this.props;
 
     const statusesToRender = (
       <div
@@ -40,8 +38,8 @@ export default class SemesterStatusContent extends Component<Props, State> {
           ...style,
         }}
       >
-        {semesterStatus.contactedStatus.length > 0
-          ? sortStatusesByProminence(semesterStatus.contactedStatus)
+        {contactedStatus.length > 0
+          ? sortStatusesByProminence(contactedStatus)
               .slice()
               .map((status) => getStatusDisplayName(status))
               .join(', ')
@@ -68,8 +66,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
           {contactStatuses
             .filter((status) => status !== NonEventContactStatus.NOT_CONTACTED)
             .map((status, index) => {
-              const active =
-                semesterStatus.contactedStatus.indexOf(status) !== -1;
+              const active = contactedStatus.indexOf(status) !== -1;
 
               return (
                 <Dropdown.ListItem key={status}>

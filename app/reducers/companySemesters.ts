@@ -21,6 +21,7 @@ export default companySemestersSlice.reducer;
 
 export const {
   selectAll: selectAllCompanySemesters,
+  selectEntities: selectCompanySemesterEntities,
   selectById: selectCompanySemesterById,
 } = legoAdapter.getSelectors((state: RootState) => state.companySemesters);
 

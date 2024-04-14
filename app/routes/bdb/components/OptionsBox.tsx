@@ -2,10 +2,11 @@ import { Flex } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { CheckBox, RadioButton, SelectInput } from 'app/components/Form';
 import styles from './OptionsBox.css';
-import type { CompanyEntity } from 'app/reducers/companies';
+import type { TransformedAdminCompany } from 'app/reducers/companies';
+import type { AutocompleteUser } from 'app/store/models/User';
 
 type Props = {
-  companies: Array<CompanyEntity>;
+  companies: TransformedAdminCompany[];
   updateFilters: (arg0: string, arg1: unknown) => void;
   removeFilters: (arg0: string) => void;
   filters: Record<string, any>;
@@ -15,16 +16,16 @@ type State = {
   studentContact: boolean;
   values: {
     active: boolean;
-    studentContact: /*TODO: StudentContact */ any;
+    studentContact: AutocompleteUser | undefined;
   };
 };
 export default class OptionsBox extends Component<Props, State> {
-  state = {
+  state: State = {
     active: false,
     studentContact: false,
     values: {
       active: true,
-      studentContact: {},
+      studentContact: undefined,
     },
   };
   toggleSection = (section: string) => {
@@ -119,14 +120,14 @@ export default class OptionsBox extends Component<Props, State> {
                 placeholder="Studentkontakt"
                 name="studentContact"
                 filter={['users.user']}
-                onChange={(user) =>
+                onChange={(user: AutocompleteUser) => {
                   user
                     ? this.updateFilters('studentContact', {
                         id: Number(user.id),
                         fullName: user.label,
                       })
-                    : this.removeFilters('studentContact')
-                }
+                    : this.removeFilters('studentContact');
+                }}
                 onBlur={() => null}
               />
             </div>

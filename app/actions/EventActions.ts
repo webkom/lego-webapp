@@ -10,6 +10,22 @@ import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
 
+export function fetchEvents({ query, next = false }) {
+  return callAPI({
+    types: Event.FETCH,
+    endpoint: '/events/',
+    schema: [eventSchema],
+    query,
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av arrangementer feilet',
+    },
+    propagateError: true,
+  });
+}
+
 export function fetchEvent(eventId: EntityId) {
   return callAPI<DetailedEvent>({
     types: Event.FETCH,

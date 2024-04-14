@@ -1,22 +1,24 @@
 import { Component } from 'react';
+import { NonEventContactStatus } from 'app/store/models/Company';
 import {
   getStatusColor,
   getContactStatuses,
   selectMostProminentStatus,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
-import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 type Props = {
-  semesterStatus: BaseSemesterStatusEntity;
+  semesterStatus: TransformedSemesterStatus | undefined;
   editChangedStatuses: (
-    arg0: number,
-    arg1: number,
-    arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactStatus>,
-  ) => any;
-  companyId: number;
+    companyId: EntityId,
+    tableIndex: number,
+    semesterStatusId: EntityId | undefined,
+    contactedStatus: CompanySemesterContactStatus[],
+  ) => Promise<unknown>;
+  companyId: EntityId;
   semIndex: number;
 };
 type State = {
@@ -29,23 +31,26 @@ export default class SemesterStatus extends Component<Props, State> {
 
   render() {
     const { semesterStatus, companyId, semIndex } = this.props;
+    const contactedStatuses = semesterStatus?.contactedStatus ?? [
+      NonEventContactStatus.NOT_CONTACTED,
+    ];
     return (
       <td
         style={{
           padding: 0,
           backgroundColor: getStatusColor(
-            selectMostProminentStatus(semesterStatus.contactedStatus),
+            selectMostProminentStatus(contactedStatuses),
           ),
         }}
       >
         <SemesterStatusContent
-          semesterStatus={semesterStatus}
+          contactedStatus={contactedStatuses}
           editFunction={(status) =>
             this.props.editChangedStatuses(
               companyId,
               semIndex,
-              semesterStatus.id,
-              getContactStatuses(semesterStatus.contactedStatus, status),
+              semesterStatus?.id,
+              getContactStatuses(contactedStatuses, status),
             )
           }
         />

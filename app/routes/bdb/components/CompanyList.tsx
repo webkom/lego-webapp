@@ -2,30 +2,32 @@ import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { indexToSemester } from '../utils';
+import { indexToYearAndSemester } from '../utils';
 import CompanySingleRow from './CompanySingleRow';
 import styles from './bdb.css';
-import type { CompanyEntity } from 'app/reducers/companies';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
+import type { ParsedQs } from 'qs';
 
 type Props = {
-  companies: Array<CompanyEntity>;
+  companies: TransformedAdminCompany[];
   startYear: number;
   startSem: number;
-  query: Record<string, any>;
+  query: ParsedQs;
   fetching: boolean;
-  navigateThroughTime: (arg0: Record<string, any>) => void;
+  navigateThroughTime: (options: { direction: 'forward' | 'backward' }) => void;
   editChangedStatuses: (
-    arg0: number,
-    arg1: number,
-    arg2: number | null | undefined,
-    arg3: Array<CompanySemesterContactStatus>,
-  ) => Promise<any> | null | undefined;
+    companyId: EntityId,
+    tableIndex: number,
+    semesterStatusId: EntityId | undefined,
+    contactedStatus: CompanySemesterContactStatus[],
+  ) => Promise<unknown>;
 };
 export default class CompanyList extends Component<Props> {
   findTitle = (index: number) => {
     const { startYear, startSem } = this.props;
-    const result = indexToSemester(index, startYear, startSem);
+    const result = indexToYearAndSemester(index, startYear, startSem);
     const sem = result.semester === 'spring' ? 'Vår' : 'Høst';
     return `${sem} ${result.year}`;
   };

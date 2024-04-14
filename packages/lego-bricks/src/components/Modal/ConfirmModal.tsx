@@ -7,8 +7,8 @@ import { Modal } from './index';
 import type { ReactNode } from 'react';
 
 type ConfirmModalContentProps = {
-  onConfirm?: () => Promise<void> | void;
-  onCancel?: () => Promise<void> | void;
+  onConfirm?: () => Promise<unknown> | void;
+  onCancel?: () => Promise<unknown> | void;
   message: ReactNode;
   title: string;
   disabled?: boolean;
@@ -48,8 +48,8 @@ const ConfirmModalContent = ({
 );
 
 type ConfirmModalProps = {
-  onConfirm?: () => Promise<void> | void;
-  onCancel?: () => Promise<void> | void;
+  onConfirm?: () => Promise<unknown> | void;
+  onCancel?: () => Promise<unknown> | void;
 
   /* Close the modal after confirm promise is resolved
    * This should only be used if the component isn't automatically
