@@ -1,4 +1,3 @@
-import { Component } from 'react';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import {
   getStatusColor,
@@ -21,40 +20,37 @@ type Props = {
   companyId: EntityId;
   semIndex: number;
 };
-type State = {
-  displayDropdown: boolean;
+const SemesterStatus = ({
+  semesterStatus,
+  companyId,
+  semIndex,
+  editChangedStatuses,
+}: Props) => {
+  const contactedStatuses = semesterStatus?.contactedStatus ?? [
+    NonEventContactStatus.NOT_CONTACTED,
+  ];
+  return (
+    <td
+      style={{
+        padding: 0,
+        backgroundColor: getStatusColor(
+          selectMostProminentStatus(contactedStatuses),
+        ),
+      }}
+    >
+      <SemesterStatusContent
+        contactedStatus={contactedStatuses}
+        editFunction={(status) =>
+          editChangedStatuses(
+            companyId,
+            semIndex,
+            semesterStatus?.id,
+            getContactStatuses(contactedStatuses, status),
+          )
+        }
+      />
+    </td>
+  );
 };
-export default class SemesterStatus extends Component<Props, State> {
-  state = {
-    displayDropdown: false,
-  };
 
-  render() {
-    const { semesterStatus, companyId, semIndex } = this.props;
-    const contactedStatuses = semesterStatus?.contactedStatus ?? [
-      NonEventContactStatus.NOT_CONTACTED,
-    ];
-    return (
-      <td
-        style={{
-          padding: 0,
-          backgroundColor: getStatusColor(
-            selectMostProminentStatus(contactedStatuses),
-          ),
-        }}
-      >
-        <SemesterStatusContent
-          contactedStatus={contactedStatuses}
-          editFunction={(status) =>
-            this.props.editChangedStatuses(
-              companyId,
-              semIndex,
-              semesterStatus?.id,
-              getContactStatuses(contactedStatuses, status),
-            )
-          }
-        />
-      </td>
-    );
-  }
-}
+export default SemesterStatus;

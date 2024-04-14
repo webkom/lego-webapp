@@ -194,7 +194,6 @@ const BdbPage = () => {
         companies={companies}
         updateFilters={updateFilters}
         removeFilters={removeFilters}
-        filters={filters}
       />
 
       <Card severity="info">
