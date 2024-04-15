@@ -21,6 +21,7 @@
 
 .image {
   flex-grow: 1;
+  object-fit: cover;
 }
 
 .overlay {
