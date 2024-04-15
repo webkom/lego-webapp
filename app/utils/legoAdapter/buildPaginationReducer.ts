@@ -1,6 +1,7 @@
 import { parse } from 'qs';
 import {
   isAsyncApiActionBegin,
+  isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
 } from 'app/utils/legoAdapter/asyncApiActions';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -19,6 +20,7 @@ interface Query {
 export type Pagination<Id extends EntityId = EntityId> = {
   query: ParsedQs;
   ids: Id[];
+  fetching: boolean;
   hasMore: boolean;
   hasMoreBackwards: boolean;
   next?: ParsedQs;
@@ -34,6 +36,7 @@ type StateWithPagination = {
 const createInitialPagination = (query: Query) => ({
   query,
   ids: [],
+  fetching: false,
   hasMore: false,
   hasMoreBackwards: false,
 });
@@ -45,17 +48,32 @@ const buildPaginationReducer = (
   builder.addMatcher(
     isAsyncApiActionBegin.matching<FetchMeta>(actionTypes),
     (state, action) => {
-      state.paginationNext[action.meta.paginationKey ?? ''] ??=
-        createInitialPagination(action.meta.query ?? {});
+      const paginationKey = action.meta.paginationKey ?? '';
+      state.paginationNext[paginationKey] ??= createInitialPagination(
+        action.meta.query ?? {},
+      );
+      state.paginationNext[paginationKey].fetching = true;
+    },
+  );
+  builder.addMatcher(
+    isAsyncApiActionFailure.matching<FetchMeta>(actionTypes),
+    (state, action) => {
+      const paginationKey = action.meta.paginationKey ?? '';
+      state.paginationNext[paginationKey] ??= createInitialPagination(
+        action.meta.query ?? {},
+      );
+      state.paginationNext[paginationKey].fetching = false;
     },
   );
   builder.addMatcher(
     isAsyncApiActionSuccess.matching<FetchMeta, FetchPayload>(actionTypes),
     (state, action) => {
-      state.paginationNext[action.meta.paginationKey ?? ''] ??=
-        createInitialPagination(action.meta.query ?? {});
-      const paginationNext =
-        state.paginationNext[action.meta.paginationKey ?? ''];
+      const paginationKey = action.meta.paginationKey ?? '';
+      state.paginationNext[paginationKey] ??= createInitialPagination(
+        action.meta.query ?? {},
+      );
+      const paginationNext = state.paginationNext[paginationKey];
+      paginationNext.fetching = false;
 
       paginationNext.ids = [
         ...new Set(paginationNext.ids.concat(action.payload.result ?? [])),

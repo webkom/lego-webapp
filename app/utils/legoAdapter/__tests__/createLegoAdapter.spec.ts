@@ -171,6 +171,7 @@ describe('createLegoAdapter', () => {
           test: {
             query: {},
             ids: [42],
+            fetching: false,
             hasMore: true,
             hasMoreBackwards: false,
             next: {
