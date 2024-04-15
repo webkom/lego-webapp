@@ -24,6 +24,10 @@
   white-space: nowrap;
 }
 
+.timestampTooltip {
+  width: fit-content;
+}
+
 .text {
   margin: var(--spacing-md) 0;
 }
