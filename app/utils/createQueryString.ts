@@ -1,12 +1,6 @@
-/**
- *
- */
-export type Query = Record<
-  string,
-  string | number | boolean | undefined | null | string[]
->;
+import type { ParsedQs } from 'qs';
 
-export default function createQueryString(query: Query): string {
+export default function createQueryString(query: ParsedQs): string {
   const queryString = Object.keys(query)
     .filter((key) => typeof query[key] === 'number' || !!query[key])
     .map(

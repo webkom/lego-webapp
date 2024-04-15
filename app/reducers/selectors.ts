@@ -1,8 +1,9 @@
 import { get, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
+import { createInitialPagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { RootState } from 'app/store/createRootReducer';
-import type { Query } from 'app/utils/createQueryString';
 import type { schema, Schema } from 'normalizr';
+import type { ParsedQs } from 'qs';
 
 export const selectPagination =
   (
@@ -23,7 +24,7 @@ export const selectPaginationNext =
     entity,
   }: {
     endpoint: string;
-    query: Query;
+    query: ParsedQs;
     schema?: Schema;
     entity?: string;
   }) =>
@@ -37,13 +38,8 @@ export const selectPaginationNext =
 
     return {
       pagination: state[schemaKey].paginationNext[paginationKey] || {
+        ...createInitialPagination(query),
         hasMore: true,
-        hasMoreBackwards: false,
-        query,
-        next: { ...query, cursor: '' },
-        previous: false,
-        items: [], // TODO: Remove this when all usage of createEntityReducer is removed
-        ids: [],
       },
       paginationKey,
     };

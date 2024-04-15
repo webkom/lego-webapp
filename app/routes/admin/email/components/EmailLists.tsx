@@ -29,7 +29,6 @@ const EmailLists = () => {
   const emailLists = useAppSelector((state) =>
     selectEmailLists(state, { pagination }),
   );
-  const fetching = useAppSelector((state) => state.emailLists.fetching);
 
   const dispatch = useAppDispatch();
 
@@ -118,7 +117,7 @@ const EmailLists = () => {
         filters={query}
         onChange={setQuery}
         hasMore={pagination.hasMore}
-        loading={fetching}
+        loading={pagination.fetching}
         data={emailLists}
       />
     </div>

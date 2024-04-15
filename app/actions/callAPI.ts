@@ -15,13 +15,13 @@ import type {
   ResolvedPromiseAction,
 } from 'app/store/middleware/promiseMiddleware';
 import type { AsyncActionType, Thunk, NormalizedApiPayload } from 'app/types';
-import type { Query } from 'app/utils/createQueryString';
 import type {
   HttpRequestOptions,
   HttpMethod,
   HttpResponse,
 } from 'app/utils/fetchJSON';
 import type { Schema } from 'normalizr';
+import type { ParsedQs } from 'qs';
 import type { Required } from 'utility-types';
 
 function urlFor(resource: string) {
@@ -73,7 +73,7 @@ type ApiResponse<T> =
 
 type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   queryString: string;
-  query?: Record<string, string | number | boolean | undefined>;
+  query?: ParsedQs;
   paginationKey?: string;
   cursor: string;
   optimisticId?: EntityId;
@@ -94,7 +94,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   headers?: Record<string, string>;
   schema?: Schema;
   body?: Record<string, unknown> | string;
-  query?: Query;
+  query?: ParsedQs;
   json?: boolean;
   meta?: Meta;
   files?: (string | File)[];
@@ -213,7 +213,7 @@ export default function callAPI<
     const qsWithoutPagination = query
       ? createQueryString(omit(query, 'cursor'))
       : '';
-    let schemaKey = undefined;
+    let schemaKey: string | undefined = undefined;
 
     if (schema) {
       if (isArray(schema)) {
@@ -237,7 +237,7 @@ export default function callAPI<
       paginationForRequest &&
       paginationForRequest.pagination &&
       paginationForRequest.pagination.next
-        ? paginationForRequest.pagination.next.cursor
+        ? (paginationForRequest.pagination.next.cursor as string)
         : '';
 
     const qs =

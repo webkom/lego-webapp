@@ -15,10 +15,7 @@ import styles from './PollsList.css';
 const PollsList = () => {
   const polls = useAppSelector(selectAllPolls);
   const actionGrant = useAppSelector((state) => state.polls.actionGrant);
-  const fetching = useAppSelector((state) => state.polls.fetching);
-  const {
-    pagination: { hasMore },
-  } = useAppSelector(
+  const { pagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/polls/',
       query: {},
@@ -44,8 +41,8 @@ const PollsList = () => {
         }
       />
       <Paginator
-        hasMore={fetching || hasMore} // Paginator only shows loading indicator if hasMore is true
-        fetching={fetching}
+        hasMore={pagination.fetching || pagination.hasMore} // Paginator only shows loading indicator if hasMore is true
+        fetching={pagination.fetching}
         fetchNext={() => {
           dispatch(
             fetchAll({

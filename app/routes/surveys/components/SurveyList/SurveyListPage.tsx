@@ -30,7 +30,6 @@ const SurveyListPage = ({ templates }: Props) => {
       : selectAllSurveys(state).filter((survey) => !survey.templateType),
   ) as DetailedSurvey[];
 
-  const fetching = useAppSelector((state) => state.surveys.fetching);
   const { pagination } = useAppSelector(
     selectPaginationNext({
       endpoint: templates ? '/survey-templates/' : '/surveys/',
@@ -46,7 +45,7 @@ const SurveyListPage = ({ templates }: Props) => {
 
       <Paginator
         hasMore={pagination.hasMore}
-        fetching={fetching}
+        fetching={pagination.fetching}
         fetchNext={() => {
           dispatch(
             fetchAll({
@@ -55,7 +54,7 @@ const SurveyListPage = ({ templates }: Props) => {
           );
         }}
       >
-        <SurveyList surveys={surveys} fetching={fetching} />
+        <SurveyList surveys={surveys} fetching={pagination.fetching} />
       </Paginator>
     </Content>
   );

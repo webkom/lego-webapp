@@ -13,10 +13,6 @@ import type {
 } from 'app/utils/legoAdapter/asyncApiActions';
 import type { ParsedQs } from 'qs';
 
-interface Query {
-  [key: string]: string;
-}
-
 export type Pagination<Id extends EntityId = EntityId> = {
   query: ParsedQs;
   ids: Id[];
@@ -33,7 +29,9 @@ type StateWithPagination = {
   };
 };
 
-const createInitialPagination = (query: Query) => ({
+export const createInitialPagination = <Id extends EntityId = EntityId>(
+  query: ParsedQs,
+): Pagination<Id> => ({
   query,
   ids: [],
   fetching: false,

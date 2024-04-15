@@ -175,7 +175,7 @@ export const selectCommitteePage: PageSelector<GroupPage> = createSelector(
       groupId: Number(pageSlug),
       pagination: selectPaginationNext({
         query: {
-          descendants: true,
+          descendants: 'true',
         },
         entity: 'memberships',
         endpoint: `/groups/${pageSlug}/memberships/`,

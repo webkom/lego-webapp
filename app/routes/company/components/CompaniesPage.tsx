@@ -87,7 +87,6 @@ const CompaniesPage = () => {
   const top = useRef<HTMLHeadingElement>(null);
 
   const companies = useAppSelector((state) => selectActiveCompanies(state));
-  const fetching = useAppSelector((state) => state.companies.fetching);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       query: {},
@@ -95,7 +94,6 @@ const CompaniesPage = () => {
       endpoint: '/companies/',
     })(state),
   );
-  const hasMore = pagination.hasMore;
 
   const dispatch = useAppDispatch();
 
@@ -168,9 +166,11 @@ const CompaniesPage = () => {
 
       <InfiniteScroll
         element="div"
-        hasMore={hasMore}
+        hasMore={pagination.hasMore}
         loadMore={() =>
-          hasMore && !fetching && dispatch(fetchAll({ fetchMore: true }))
+          pagination.hasMore &&
+          !pagination.fetching &&
+          dispatch(fetchAll({ fetchMore: true }))
         }
         initialLoad={false}
         loader={<LoadingIndicator loading />}
