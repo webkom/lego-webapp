@@ -8,11 +8,7 @@ import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AppDispatch } from 'app/store/createStore';
-import type {
-  DetailedEvent,
-  ListEvent,
-  UnknownEvent,
-} from 'app/store/models/Event';
+import type { DetailedEvent, ListEvent } from 'app/store/models/Event';
 import type { Presence } from 'app/store/models/Registration';
 import type { Thunk, Action } from 'app/types';
 
@@ -157,7 +153,7 @@ export function fetchAllergies(eventId: EntityId) {
 }
 
 export function createEvent(event: Record<string, any>) {
-  return callAPI<UnknownEvent>({
+  return callAPI<DetailedEvent>({
     types: Event.CREATE,
     endpoint: '/events/',
     method: 'POST',
@@ -170,7 +166,7 @@ export function createEvent(event: Record<string, any>) {
 }
 
 export function editEvent(event: Record<string, any>) {
-  return callAPI({
+  return callAPI<DetailedEvent>({
     types: Event.EDIT,
     endpoint: `/events/${event.id}/`,
     method: 'PUT',
