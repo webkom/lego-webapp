@@ -11,8 +11,8 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { fetch, fetchEventsForCompany } from 'app/actions/CompanyActions';
-import { getEndpoint } from 'app/actions/EventActions';
+import { fetch } from 'app/actions/CompanyActions';
+import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
@@ -31,20 +31,13 @@ import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import createQueryString from 'app/utils/createQueryString';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedCompany } from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
-
-const queryString = (companyId?: EntityId) =>
-  createQueryString({
-    company: companyId,
-    ordering: '-start_time',
-  });
 
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
@@ -52,11 +45,20 @@ const CompanyDetail = () => {
   const { companyId } = useParams<{ companyId: string }>() as {
     companyId: string;
   };
-  const showFetchMoreEvents = useAppSelector((state) =>
-    selectPagination('events', {
-      queryString: queryString(companyId),
-    })(state),
+
+  const query = {
+    company: companyId,
+    ordering: '-start_time',
+  };
+
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/events/',
+      entity: EntityType.Events,
+      query,
+    }),
   );
+  const showFetchMoreEvents = pagination.hasMore;
   const fetchingEvents = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
     selectCompanyById<DetailedCompany>(state, companyId),
@@ -72,8 +74,6 @@ const CompanyDetail = () => {
   const fetchingJoblistings = useAppSelector(
     (state) => state.joblistings.fetching,
   );
-  const pagination = useAppSelector((state) => state.events.pagination);
-  const endpoint = getEndpoint(pagination, queryString(companyId));
 
   const dispatch = useAppDispatch();
 
@@ -84,9 +84,8 @@ const CompanyDetail = () => {
       Promise.allSettled([
         dispatch(fetch(companyId)),
         dispatch(
-          fetchEventsForCompany({
-            endpoint: `/events/${queryString(companyId)}`,
-            queryString: queryString(companyId),
+          fetchEvents({
+            query,
           }),
         ),
         dispatch(fetchAllJoblistings({ company: companyId, timeFilter: true })),
@@ -97,11 +96,10 @@ const CompanyDetail = () => {
   if (!company) return <LoadingIndicator loading />;
 
   const fetchMoreEvents = () =>
-    companyId &&
     dispatch(
-      fetchEventsForCompany({
-        endpoint,
-        queryString: queryString(companyId),
+      fetchEvents({
+        query,
+        next: true,
       }),
     );
 
