@@ -1,4 +1,11 @@
-import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { without, find } from 'lodash';
@@ -15,7 +22,7 @@ import {
   updateGalleryCover,
 } from 'app/actions/GalleryActions';
 import {
-  fetch,
+  fetchGalleryPictures,
   deletePicture,
   updatePicture,
 } from 'app/actions/GalleryPictureActions';
@@ -49,6 +56,7 @@ import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.css';
 import type { Dateish } from 'app/models';
 import type { searchMapping } from 'app/reducers/search';
+import type { DetailedGallery } from 'app/store/models/Gallery';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
 const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {
@@ -102,14 +110,14 @@ const validate = createValidator({
 });
 
 const GalleryEditor = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState<number[]>([]);
 
   const { galleryId } = useParams<{ galleryId: string }>();
   const isNew = galleryId === undefined;
   const gallery = useAppSelector((state) =>
-    selectGalleryById(state, {
-      galleryId,
-    }),
+    selectGalleryById<DetailedGallery>(state, galleryId),
   );
   const pictures = useAppSelector((state) =>
     SelectGalleryPicturesByGalleryId(state, {
@@ -120,6 +128,22 @@ const GalleryEditor = () => {
     (state) => state.galleries.fetching || state.galleryPictures.fetching,
   );
   const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+
+  usePreparedEffect(
+    'fetchGalleryEdit',
+    () =>
+      !isNew &&
+      galleryId &&
+      Promise.allSettled([
+        dispatch(fetchGalleryPictures(Number(galleryId))),
+        dispatch(fetchGallery(galleryId)),
+      ]),
+    [],
+  );
+
+  if (!gallery) {
+    return <LoadingIndicator loading />;
+  }
 
   const initialValues = isNew
     ? { ...objectPermissionsInitialValues }
@@ -135,22 +159,6 @@ const GalleryEditor = () => {
           value: gallery.event.id,
         },
       };
-
-  const dispatch = useAppDispatch();
-
-  usePreparedEffect(
-    'fetchGalleryEdit',
-    () =>
-      !isNew &&
-      galleryId &&
-      Promise.allSettled([
-        dispatch(fetch(Number(galleryId))),
-        dispatch(fetchGallery(galleryId)),
-      ]),
-    [],
-  );
-
-  const navigate = useNavigate();
 
   const onSubmit = (data: FormValues) => {
     const body = {
@@ -366,7 +374,7 @@ const GalleryEditor = () => {
             fetching={fetching}
             fetchNext={() =>
               dispatch(
-                fetch(gallery.id, {
+                fetchGalleryPictures(gallery.id, {
                   next: true,
                 }),
               )

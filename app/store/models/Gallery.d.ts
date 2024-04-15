@@ -1,5 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { PublicEvent } from 'app/store/models/Event';
 import type { GalleryCoverPicture } from 'app/store/models/GalleryPicture';
@@ -19,6 +19,7 @@ interface Gallery {
   photographers: PublicUser[];
   publicMetadata: unknown;
   pictures: EntityId[];
+  actionGrant: ActionGrant;
 }
 
 export type ListGallery = Pick<
@@ -47,6 +48,7 @@ export type DetailedGallery = Pick<
   | 'cover'
   | 'publicMetadata'
   | 'pictures'
+  | 'actionGrant'
 >;
 
 export type SearchGallery = Pick<

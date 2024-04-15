@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
-  fetch,
+  fetchGalleryPictures,
   clear,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
@@ -23,8 +23,10 @@ import config from 'app/config';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
@@ -55,20 +57,29 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const GalleryDetail = () => {
+  const navigate = useNavigate();
   const [upload, setUpload] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
   const { galleryId } = useParams<{ galleryId: string }>();
   const gallery = useAppSelector((state) =>
-    selectGalleryById(state, { galleryId }),
+    selectGalleryById<DetailedGallery>(state, galleryId),
   );
   const pictures = useAppSelector((state) =>
     SelectGalleryPicturesByGalleryId(state, { galleryId }),
   );
-  const fetching = useAppSelector(
-    (state) => state.galleries.fetching || state.galleryPictures.fetching,
+  const fetchingGalleries = useAppSelector((state) => state.galleries.fetching);
+  const fetchingGalleryPictures = useAppSelector(
+    (state) => state.galleryPictures.fetching,
   );
-  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: `/galleries/${galleryId}/pictures/`,
+      entity: EntityType.GalleryPictures,
+      query: {},
+    }),
+  );
+  const hasMore = pagination.hasMore;
   const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
@@ -78,13 +89,21 @@ const GalleryDetail = () => {
     () =>
       galleryId &&
       Promise.allSettled([
-        dispatch(fetch(galleryId)).catch(),
+        dispatch(fetchGalleryPictures(galleryId)).catch(),
         dispatch(fetchGallery(galleryId)).catch(() =>
           dispatch(fetchGalleryMetadata(galleryId)),
         ),
       ]),
     [],
   );
+
+  if (!gallery || fetchingGalleries) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
 
   const toggleUpload = (response?: File | DropFile[]) => {
     if (response) {
@@ -93,8 +112,6 @@ const GalleryDetail = () => {
 
     setUpload(!upload);
   };
-
-  const navigate = useNavigate();
 
   const handleClick = (picture) => {
     navigate(`/photos/${gallery.id}/picture/${picture.id}`);
@@ -115,41 +132,45 @@ const GalleryDetail = () => {
       .catch(finishDownload);
   };
 
-  const downloadNext = (index: number, blobsAccum: Blob[]) => {
-    return dispatch(
-      fetch(gallery.id, {
+  const downloadNext = async (index: number, blobsAccum: Blob[]) => {
+    await dispatch(
+      fetchGalleryPictures(gallery.id, {
         next: true,
-        filters: {},
+        query: {},
       }),
-    ).then(() => {
-      const urls = pictures.slice(index).map((picture) => picture.rawFile);
-      return downloadFiles(urls).then((blobs) => {
-        blobsAccum.push(...blobs);
+    );
+    const urls = pictures.slice(index).map((picture) => picture.rawFile);
+    return downloadFiles(urls).then((blobs) => {
+      blobsAccum.push(...blobs);
 
-        if (hasMore) {
-          return downloadNext(pictures.length, blobsAccum);
-        }
+      if (hasMore) {
+        return downloadNext(pictures.length, blobsAccum);
+      }
 
-        return blobsAccum;
-      });
+      return blobsAccum;
     });
   };
 
   const downloadFiles = (urls: string[]) =>
     Promise.all(
-      urls.map(async (url) => await fetch(url).then((res) => res.blob())),
+      urls.map(
+        async (url) => await dispatch(fetch(url)).then((res) => res.blob()),
+      ),
     );
 
-  const zipFiles = (zipTitle: string, fileNames: string[], blobs: Blob[]) => {
+  const zipFiles = async (
+    zipTitle: string,
+    fileNames: string[],
+    blobs: Blob[],
+  ) => {
     const zip = JsZip();
     blobs.forEach((blob, i) => {
       zip.file(fileNames[i], blob);
     });
-    return zip
-      .generateAsync({
-        type: 'blob',
-      })
-      .then((zipFile) => FileSaver.saveAs(zipFile, `${zipTitle}.zip`));
+    const zipFile = await zip.generateAsync({
+      type: 'blob',
+    });
+    return FileSaver.saveAs(zipFile, `${zipTitle}.zip`);
   };
 
   const actionGrant = gallery && gallery.actionGrant;
@@ -204,11 +225,11 @@ const GalleryDetail = () => {
 
         <Gallery
           photos={pictures}
-          hasMore={hasMore}
-          fetching={fetching}
+          hasMore={pagination.hasMore}
+          fetching={fetchingGalleryPictures}
           fetchNext={() =>
             dispatch(
-              fetch(gallery.id, {
+              fetchGalleryPictures(gallery.id, {
                 next: true,
               }),
             )
@@ -242,7 +263,7 @@ const GalleryDetail = () => {
     );
   }
 
-  if (fetching) {
+  if (fetchingGalleryPictures) {
     return (
       <Content>
         <LoadingIndicator loading />

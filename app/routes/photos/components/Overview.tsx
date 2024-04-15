@@ -2,24 +2,33 @@ import { Button } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import { fetch } from 'app/actions/GalleryActions';
+import { fetchGalleries } from 'app/actions/GalleryActions';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { selectGalleries } from 'app/reducers/galleries';
+import { selectAllGalleries } from 'app/reducers/galleries';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import styles from './Overview.css';
+import type { ListGallery } from 'app/store/models/Gallery';
 
 const Overview = () => {
-  const galleries = useAppSelector(selectGalleries);
+  const galleries = useAppSelector(selectAllGalleries<ListGallery>);
   const fetching = useAppSelector((state) => state.galleries.fetching);
-  const hasMore = useAppSelector((state) => state.galleries.hasMore);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/galleries/',
+      entity: EntityType.Galleries,
+      query: {},
+    }),
+  );
   const actionGrant = useAppSelector((state) => state.galleries.actionGrant);
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchGalleryList', () => dispatch(fetch()), []);
+  usePreparedEffect('fetchGalleryList', () => dispatch(fetchGalleries()), []);
 
   const navigate = useNavigate();
 
@@ -33,11 +42,11 @@ const Overview = () => {
       )}
 
       <Gallery
-        hasMore={hasMore}
+        hasMore={pagination.hasMore}
         fetching={fetching}
         fetchNext={() =>
           dispatch(
-            fetch({
+            fetchGalleries({
               next: true,
             }),
           )
