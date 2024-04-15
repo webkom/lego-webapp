@@ -75,7 +75,7 @@ const Overview = () => {
           </EmptyState>
         )}
         photos={galleries}
-        srcKey="cover.file"
+        getSrc={(gallery) => gallery.cover?.file ?? ''}
       />
     </Content>
   );

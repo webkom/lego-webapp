@@ -8,7 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { without, find } from 'lodash';
+import { without } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
@@ -47,19 +47,24 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import GalleryComponent from 'app/components/Gallery';
 import NavigationTab from 'app/components/NavigationTab';
-import { selectGalleryById, type GalleryEntity } from 'app/reducers/galleries';
-import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { selectGalleryById } from 'app/reducers/galleries';
+import { selectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
+import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
 import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { searchMapping } from 'app/reducers/search';
 import type { DetailedGallery } from 'app/store/models/Gallery';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 
-const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {
+const photoOverlay = (photo: GalleryListPicture, selected: EntityId[]) => {
   const isSelected = selected.includes(photo.id);
 
   return (
@@ -73,7 +78,7 @@ const photoOverlay = (photo: Record<string, any>, selected: Array<number>) => {
   );
 };
 
-const renderBottom = (photo: Record<string, any>, gallery: GalleryEntity) => (
+const renderBottom = (photo: GalleryListPicture, gallery: DetailedGallery) => (
   <Flex className={styles.infoOverlay} justifyContent="space-between">
     <span>{photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}</span>
     {photo.id && gallery.cover && photo.id === gallery.cover.id && (
@@ -82,7 +87,7 @@ const renderBottom = (photo: Record<string, any>, gallery: GalleryEntity) => (
   </Flex>
 );
 
-const renderEmpty = (gallery: GalleryEntity) => (
+const renderEmpty = (gallery: DetailedGallery) => (
   <EmptyState className={styles.emptyState} icon="images-outline">
     <h1>Ingen bilder å redigere</h1>
     <h4>
@@ -112,7 +117,7 @@ const validate = createValidator({
 const GalleryEditor = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<number[]>([]);
+  const [selected, setSelected] = useState<EntityId[]>([]);
 
   const { galleryId } = useParams<{ galleryId: string }>();
   const isNew = galleryId === undefined;
@@ -120,14 +125,18 @@ const GalleryEditor = () => {
     selectGalleryById<DetailedGallery>(state, galleryId),
   );
   const pictures = useAppSelector((state) =>
-    SelectGalleryPicturesByGalleryId(state, {
-      galleryId,
-    }),
+    selectGalleryPicturesByGalleryId(state, Number(galleryId)),
   );
   const fetching = useAppSelector(
     (state) => state.galleries.fetching || state.galleryPictures.fetching,
   );
-  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: `/galleries/${galleryId}/pictures/`,
+      entity: EntityType.GalleryPictures,
+      query: {},
+    }),
+  );
 
   usePreparedEffect(
     'fetchGalleryEdit',
@@ -135,17 +144,17 @@ const GalleryEditor = () => {
       !isNew &&
       galleryId &&
       Promise.allSettled([
-        dispatch(fetchGalleryPictures(Number(galleryId))),
+        dispatch(fetchGalleryPictures(galleryId)),
         dispatch(fetchGallery(galleryId)),
       ]),
     [],
   );
 
-  if (!gallery) {
+  if (!gallery && !isNew) {
     return <LoadingIndicator loading />;
   }
 
-  const initialValues = isNew
+  const initialValues = !gallery
     ? { ...objectPermissionsInitialValues }
     : {
         ...gallery,
@@ -164,24 +173,24 @@ const GalleryEditor = () => {
     const body = {
       ...normalizeObjectPermissions(data),
       // id: data.id,
-      publicMetadata: !!data.publicMetadata,
+      publicMetadata: data.publicMetadata,
       title: data.title,
       description: data.description,
       takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
       location: data.location,
-      event: data.event ? parseInt(data.event.value, 10) : undefined,
+      event: data.event ? Number(data.event.value) : undefined,
       photographers:
         data.photographers && data.photographers.map((p) => p.value),
     };
 
     dispatch(
-      isNew ? createGallery(body) : updateGallery(gallery.id, body),
+      !gallery ? createGallery(body) : updateGallery(gallery.id, body),
     ).then(({ payload }) => {
       navigate(`/photos/${payload.result}`);
     });
   };
 
-  const handleClick = (picture: Record<string, any>) => {
+  const handleClick = (picture: GalleryListPicture) => {
     if (selected.indexOf(picture.id) === -1) {
       setSelected(selected.concat([picture.id]));
     } else {
@@ -190,43 +199,48 @@ const GalleryEditor = () => {
   };
 
   const onDeleteGallery = () => {
-    dispatch(deleteGallery(gallery.id)).then(() => {
-      navigate('/photos');
-    });
+    gallery &&
+      dispatch(deleteGallery(gallery.id)).then(() => {
+        navigate('/photos');
+      });
   };
 
   const onUpdateGalleryCover = () => {
-    dispatch(updateGalleryCover(gallery.id, selected[0]));
+    gallery && dispatch(updateGalleryCover(gallery.id, selected[0]));
     setSelected([]);
   };
 
   const onDeletePictures = () => {
-    selected.forEach((photo) => {
-      dispatch(deletePicture(gallery.id, photo));
-    });
+    gallery &&
+      selected.forEach((photo) => {
+        dispatch(deletePicture(gallery.id, photo));
+      });
     setSelected([]);
   };
 
   const onTogglePicturesStatus = (active) => {
-    selected.forEach((photo) => {
-      dispatch(
-        updatePicture({
-          id: photo,
-          gallery: gallery.id,
-          active,
-        }),
-      );
-    });
+    gallery &&
+      selected.forEach((photo) => {
+        dispatch(
+          updatePicture({
+            id: photo,
+            gallery: gallery.id,
+            active,
+          }),
+        );
+      });
     setSelected([]);
   };
 
   const pictureStatus = () => {
-    const activePictures = selected
-      .map((id) => find(pictures, ['id', id]) || {})
-      .filter((picture) => picture.active);
-    const inactivePictures = selected
-      .map((id) => find(pictures, ['id', id]) || {})
-      .filter((picture) => !picture.active);
+    const selectedPictures = selected
+      .map((id) => pictures.find((picture) => picture.id === id))
+      .filter(isNotNullish);
+
+    const activePictures = selectedPictures.filter((picture) => picture.active);
+    const inactivePictures = selectedPictures.filter(
+      (picture) => !picture.active,
+    );
 
     if (activePictures.length === selected.length) {
       return 0;
@@ -243,7 +257,7 @@ const GalleryEditor = () => {
     setSelected([]);
   };
 
-  const title = !isNew ? `Redigerer: ${gallery.title}` : 'Nytt album';
+  const title = gallery ? `Redigerer: ${gallery.title}` : 'Nytt album';
 
   return (
     <Content>
@@ -331,7 +345,10 @@ const GalleryEditor = () => {
             />
 
             <Flex className={styles.buttonRow} justifyContent="flex-end">
-              <Button flat onClick={() => navigate(`/photos/${gallery.id}`)}>
+              <Button
+                flat
+                onClick={() => navigate(`/photos/${gallery?.id ?? ''}`)}
+              >
                 Avbryt
               </Button>
               <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
@@ -363,14 +380,14 @@ const GalleryEditor = () => {
         onDeletePictures={onDeletePictures}
       />
       <Flex>
-        {isNew ? (
+        {!gallery ? (
           <Card severity="info">
             For å legge inn bilder må du først lage albumet!
           </Card>
         ) : (
           <GalleryComponent
             photos={pictures}
-            hasMore={hasMore}
+            hasMore={pagination.hasMore}
             fetching={fetching}
             fetchNext={() =>
               dispatch(
@@ -383,7 +400,7 @@ const GalleryEditor = () => {
             renderBottom={(photo) => renderBottom(photo, gallery)}
             renderEmpty={() => renderEmpty(gallery)}
             onClick={handleClick}
-            srcKey="file"
+            getSrc={(photo) => photo.file}
           />
         )}
       </Flex>

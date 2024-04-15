@@ -1,13 +1,10 @@
 import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import FileSaver from 'file-saver';
-import JsZip from 'jszip';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
   fetchGalleryPictures,
-  clear,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
 import { Content } from 'app/components/Content';
@@ -22,15 +19,20 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import config from 'app/config';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGalleryById } from 'app/reducers/galleries';
-import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import {
+  clearGallery,
+  selectGalleryPicturesByGalleryId,
+} from 'app/reducers/galleryPictures';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import HTTPError from 'app/routes/errors/HTTPError';
+import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { DetailedGallery } from 'app/store/models/Gallery';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 
 const propertyGenerator: PropertyGenerator<{
   gallery: DetailedGallery;
@@ -51,7 +53,7 @@ const propertyGenerator: PropertyGenerator<{
     },
     {
       property: 'og:image',
-      content: gallery.cover.file,
+      content: gallery.cover?.file,
     },
   ];
 };
@@ -66,7 +68,7 @@ const GalleryDetail = () => {
     selectGalleryById<DetailedGallery>(state, galleryId),
   );
   const pictures = useAppSelector((state) =>
-    SelectGalleryPicturesByGalleryId(state, { galleryId }),
+    selectGalleryPicturesByGalleryId(state, Number(galleryId)),
   );
   const fetchingGalleries = useAppSelector((state) => state.galleries.fetching);
   const fetchingGalleryPictures = useAppSelector(
@@ -113,26 +115,30 @@ const GalleryDetail = () => {
     setUpload(!upload);
   };
 
-  const handleClick = (picture) => {
+  const handleClick = (picture: GalleryListPicture) => {
     navigate(`/photos/${gallery.id}/picture/${picture.id}`);
   };
 
   const downloadGallery = () => {
     setDownloading(true);
     // Force re-fetch to avoid expired image urls
-    clear(gallery.id);
+    dispatch(clearGallery(gallery.id));
 
     const finishDownload = () => setDownloading(false);
 
     downloadNext(0, [])
       .then((blobs) => {
-        const names = pictures.map((picture) => picture.file.split('/').pop());
+        console.log(blobs);
+        const names = pictures.map((picture) => picture.file.split('/').pop()!);
         zipFiles(gallery.title, names, blobs).finally(finishDownload);
       })
       .catch(finishDownload);
   };
 
-  const downloadNext = async (index: number, blobsAccum: Blob[]) => {
+  const downloadNext = async (
+    index: number,
+    blobsAccum: Blob[],
+  ): Promise<Blob[]> => {
     await dispatch(
       fetchGalleryPictures(gallery.id, {
         next: true,
@@ -140,37 +146,14 @@ const GalleryDetail = () => {
       }),
     );
     const urls = pictures.slice(index).map((picture) => picture.rawFile);
-    return downloadFiles(urls).then((blobs) => {
-      blobsAccum.push(...blobs);
+    const blobs = await downloadFiles(urls);
+    blobsAccum.push(...blobs);
 
-      if (hasMore) {
-        return downloadNext(pictures.length, blobsAccum);
-      }
+    if (hasMore) {
+      return downloadNext(pictures.length, blobsAccum);
+    }
 
-      return blobsAccum;
-    });
-  };
-
-  const downloadFiles = (urls: string[]) =>
-    Promise.all(
-      urls.map(
-        async (url) => await dispatch(fetch(url)).then((res) => res.blob()),
-      ),
-    );
-
-  const zipFiles = async (
-    zipTitle: string,
-    fileNames: string[],
-    blobs: Blob[],
-  ) => {
-    const zip = JsZip();
-    blobs.forEach((blob, i) => {
-      zip.file(fileNames[i], blob);
-    });
-    const zipFile = await zip.generateAsync({
-      type: 'blob',
-    });
-    return FileSaver.saveAs(zipFile, `${zipTitle}.zip`);
+    return blobsAccum;
   };
 
   const actionGrant = gallery && gallery.actionGrant;
@@ -235,7 +218,7 @@ const GalleryDetail = () => {
             )
           }
           onClick={handleClick}
-          srcKey="file"
+          getSrc={(photo) => photo.file}
           renderEmpty={() => (
             <EmptyState className={styles.emptyState} icon="images-outline">
               <h1>Ingen bilder</h1>

@@ -25,6 +25,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { DetailedGallery } from 'app/store/models/Gallery';
 
 type FormValues = {
   description: string;
@@ -40,14 +41,10 @@ const GalleryPictureEditModal = () => {
     galleryId: string;
   }>();
   const picture = useAppSelector((state) =>
-    selectGalleryPictureById(state, {
-      pictureId,
-    }),
+    selectGalleryPictureById(state, pictureId),
   );
   const gallery = useAppSelector((state) =>
-    selectGalleryById(state, {
-      galleryId,
-    }),
+    selectGalleryById<DetailedGallery>(state, galleryId),
   );
 
   const dispatch = useAppDispatch();
@@ -65,6 +62,14 @@ const GalleryPictureEditModal = () => {
 
   const navigate = useNavigate();
 
+  if (!gallery || !picture) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
+
   const onSubmit = (data) => {
     const body = {
       id: picture.id,
@@ -77,14 +82,6 @@ const GalleryPictureEditModal = () => {
       navigate(`/photos/${gallery.id}/picture/${picture.id}`);
     });
   };
-
-  if (!gallery || !picture) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
-  }
 
   const initialValues = {
     ...picture,
@@ -108,7 +105,7 @@ const GalleryPictureEditModal = () => {
             <Image
               className={styles.galleryThumbnail}
               alt="Albumcover"
-              src={gallery.cover.thumbnail}
+              src={gallery.cover?.thumbnail ?? ''}
             />
 
             <Flex column justifyContent="space-around">

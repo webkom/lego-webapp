@@ -10,7 +10,7 @@ interface Gallery {
   id: EntityId;
   title: string;
   description: string;
-  cover: GalleryCoverPicture;
+  cover?: GalleryCoverPicture;
   location: string;
   takenAt: Dateish;
   createdAt: Dateish;
@@ -66,9 +66,4 @@ export type GalleryMetadata = Pick<
   'id' | 'title' | 'description' | 'cover'
 >;
 
-export type UnknownGallery =
-  | ListGallery
-  | AdminListGallery
-  | DetailedGallery
-  | SearchGallery
-  | GalleryMetadata;
+export type UnknownGallery = ListGallery | AdminListGallery | DetailedGallery;

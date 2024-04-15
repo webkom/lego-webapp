@@ -7,7 +7,7 @@ import type { ReactNode } from 'react';
 
 type Props<T> = {
   photos: T[];
-  srcKey: keyof T;
+  getSrc: (photo: T) => string;
   hasMore: boolean;
   fetchNext: () => Promise<unknown>;
   fetching: boolean;
@@ -24,7 +24,7 @@ const Gallery = <T extends ListGallery | GalleryListPicture>({
   renderTop,
   renderBottom,
   renderEmpty,
-  srcKey,
+  getSrc,
   photos,
   hasMore,
   fetchNext,
@@ -48,7 +48,7 @@ const Gallery = <T extends ListGallery | GalleryListPicture>({
             {renderTop && renderTop(photo)}
             <Image
               className={styles.image}
-              src={photo[srcKey] as string}
+              src={getSrc(photo)}
               alt={'description' in photo ? photo.description : photo.title}
             />
             {renderOverlay && (

@@ -19,18 +19,21 @@ import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
 import config from 'app/config';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectGalleryById } from 'app/reducers/galleries';
 import {
-  SelectGalleryPicturesByGalleryId,
-  selectCommentsForGalleryPicture,
+  selectGalleryPicturesByGalleryId,
   selectGalleryPictureById,
 } from 'app/reducers/galleryPictures';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
+import type { PublicUser } from 'app/store/models/User';
 import type { ReactNode } from 'react';
 
 const propertyGenerator: PropertyGenerator<{
@@ -66,7 +69,7 @@ const OnKeyDownHandler = ({
   return null;
 };
 
-const Taggees = ({ taggees }: { taggees: Array<Record<string, any>> }) => {
+const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   if (taggees.length === 1) {
     return (
       <span>
@@ -137,28 +140,26 @@ const GalleryPictureModal = () => {
     pictureId: string;
   }>();
   const pictures = useAppSelector((state) =>
-    SelectGalleryPicturesByGalleryId(state, {
-      galleryId,
-    }),
+    selectGalleryPicturesByGalleryId(state, galleryId),
   );
   const picture = useAppSelector((state) =>
-    selectGalleryPictureById(state, {
-      pictureId,
-    }),
+    selectGalleryPictureById(state, pictureId),
   );
   const comments = useAppSelector((state) =>
-    selectCommentsForGalleryPicture(state, {
-      pictureId,
-    }),
+    selectCommentsByIds(state, picture?.comments),
   );
   const fetching = useAppSelector(
     (state) => state.galleries.fetching || state.galleryPictures.fetching,
   );
-  const hasMore = useAppSelector((state) => state.galleryPictures.hasMore);
-  const gallery = useAppSelector((state) =>
-    selectGalleryById(state, {
-      galleryId,
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: `/galleries/${galleryId}/pictures/`,
+      entity: EntityType.GalleryPictures,
+      query: {},
     }),
+  );
+  const gallery = useAppSelector((state) =>
+    selectGalleryById<DetailedGallery>(state, galleryId),
   );
   const actionGrant = gallery?.actionGrant || [];
 
@@ -171,7 +172,7 @@ const GalleryPictureModal = () => {
 
     if (
       Number(pictures[pictures.length - 1].id) === Number(pictureId) &&
-      !hasMore
+      !pagination.hasMore
     ) {
       isLastImage = true;
     }
@@ -196,6 +197,14 @@ const GalleryPictureModal = () => {
   );
 
   const navigate = useNavigate();
+
+  if (!gallery || !picture) {
+    return (
+      <Content>
+        <LoadingIndicator loading={fetching} />
+      </Content>
+    );
+  }
 
   const toggleDropdown = () => {
     setShowMore(!showMore);
@@ -275,14 +284,6 @@ const GalleryPictureModal = () => {
     dir === LEFT && nextGalleryPicture();
   };
 
-  if (!gallery || !picture) {
-    return (
-      <Content>
-        <LoadingIndicator loading={fetching} />
-      </Content>
-    );
-  }
-
   return (
     <Modal
       onHide={() => navigate(`/photos/${gallery.id}`)}
@@ -307,7 +308,7 @@ const GalleryPictureModal = () => {
               <Image
                 className={styles.galleryThumbnail}
                 alt="some alt"
-                src={gallery.cover.thumbnail}
+                src={gallery.cover?.thumbnail ?? ''}
               />
 
               <Flex column justifyContent="space-around">

@@ -5,10 +5,8 @@ import { GalleryPicture, Gallery } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import type { AppDispatch } from 'app/store/createStore';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
-import type { Thunk } from 'app/types';
 import type { Query } from 'app/utils/createQueryString';
 
 export const fetchGalleryPictures = (
@@ -69,9 +67,7 @@ export function fetchGalleryPicture(galleryId: EntityId, pictureId: EntityId) {
   });
 }
 
-export function updatePicture(
-  galleryPicture: GalleryPictureEntity,
-): Thunk<any> {
+export function updatePicture(galleryPicture: Partial<GalleryListPicture>) {
   return callAPI({
     types: GalleryPicture.EDIT,
     endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
@@ -175,14 +171,4 @@ export function uploadAndCreateGalleryPicture(
     });
     return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
   };
-}
-
-export function clear(galleryId: EntityId) {
-  return (dispatch: AppDispatch) =>
-    dispatch({
-      type: GalleryPicture.CLEAR,
-      meta: {
-        id: galleryId,
-      },
-    });
 }
