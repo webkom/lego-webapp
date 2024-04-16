@@ -64,6 +64,7 @@ const Comment = ({
                 <Tooltip
                   content={moment(createdAt).format('lll')}
                   placement="right"
+                  className={styles.timestampTooltip}
                 >
                   <Time
                     className={styles.timestamp}
