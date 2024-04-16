@@ -16,4 +16,4 @@ export type LendingRequest = {
   message: string;
   status: LendingRequestStatus;
   lendableObject: ListLendableObject;
-}
+};

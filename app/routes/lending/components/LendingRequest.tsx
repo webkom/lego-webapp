@@ -26,7 +26,7 @@ const LendingRequest = () => {
     'fetchRequest',
     () => dispatch(fetchLendingRequest(lendingRequestId)),
     []
-  )
+  );
 
   const request = useAppSelector((state) =>
     selectLendingRequestById(state, {
@@ -55,7 +55,9 @@ const LendingRequest = () => {
 
   return (
     <Content>
-      <Helmet title={`Forespørsel om utlån av ${request.lendableObject.title}`} />
+      <Helmet
+        title={`Forespørsel om utlån av ${request.lendableObject.title}`}
+      />
       <NavigationTab
         title={`Forespørsel om utlån av ${request.lendableObject.title}`}
         back={{

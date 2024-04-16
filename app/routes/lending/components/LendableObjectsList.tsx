@@ -16,6 +16,7 @@ import RequestItem from './RequestItem';
 import { exampleRequests } from './fixtures';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
+import abakus_icon from 'app/assets/icon-192x192.png';
 
 const LendableObject = ({
   lendableObject,
@@ -27,7 +28,7 @@ const LendableObject = ({
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
         <Image
           className={styles.lendableObjectImage}
-          src={lendableObject.image}
+          src={lendableObject.image || abakus_icon}
           alt={`${lendableObject.title}`}
         />
         <div className={styles.lendableObjectFooter}>
@@ -59,13 +60,15 @@ export const LendableObjectsList = () => {
     'fetchRequests',
     () => dispatch(fetchAllLendingRequests()),
     []
-  )
+  );
 
   const lendingRequests = useAppSelector((state) =>
     selectLendingRequests(state)
   );
 
-  const fetchingRequests = useAppSelector((state) => state.lendingRequests.fetching);
+  const fetchingRequests = useAppSelector(
+    (state) => state.lendingRequests.fetching
+  );
 
   return (
     <Content>
@@ -94,7 +97,6 @@ export const LendableObjectsList = () => {
         </LoadingIndicator>
       </div>
 
-
       {exampleRequests.length !== 0 && (
         <Button onClick={() => setShowOldRequests((prev) => !prev)}>
           {showOldRequests
@@ -112,8 +114,8 @@ export const LendableObjectsList = () => {
           setSearchParams(e.target.value && { search: e.target.value })
         }
       />
-      <div className={styles.lendableObjectsContainer}>
-        <LoadingIndicator loading={fetching}>
+      <LoadingIndicator loading={fetching}>
+        <div className={styles.lendableObjectsContainer}>
           {lendableObjects
             .filter((lendableObjects) =>
               searchParams.get('search')
@@ -128,8 +130,8 @@ export const LendableObjectsList = () => {
                 lendableObject={lendableObject}
               />
             ))}
-        </LoadingIndicator>
-      </div>
+        </div>
+      </LoadingIndicator>
     </Content>
   );
 };

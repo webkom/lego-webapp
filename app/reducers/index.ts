@@ -137,4 +137,4 @@ export const lendableObjectSchema = new schema.Entity('lendableObjects', {
 });
 export const lendingRequestSchema = new schema.Entity('lendingRequests', {
   responsibleGroups: [groupSchema],
-})
+});

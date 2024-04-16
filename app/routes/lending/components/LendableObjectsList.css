@@ -1,17 +1,26 @@
 @import url('~app/styles/variables.css');
 
 .myRequestsList {
-  margin-bottom: 30px;
+  margin-bottom: var(--lego-default-padding);
 }
 
 .searchBar {
-  margin-bottom: 2rem;
+  margin-bottom: var(--lego-default-padding);
 }
 
 .lendableObjectsContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
+  grid-auto-rows: 1fr;
+  gap: var(--lego-default-padding);
+
+  @media (--medium-viewport) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--small-viewport) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .lendableObjectCard {
@@ -19,11 +28,13 @@
   flex-direction: column;
   align-items: stretch;
   padding: 0;
+  height: 100%;
+  max-height: 20rem;
 }
 
 .lendableObjectImage {
-  height: 15rem;
   object-fit: cover;
+  height: 100%;
 }
 
 .lendableObjectFooter {
@@ -31,16 +42,4 @@
   justify-content: center;
   color: var(--lego-font-color);
   background-color: var(--additive-background);
-}
-
-@media (--medium-viewport) {
-  .lendableObjectsContainer {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (--small-viewport) {
-  .lendableObjectsContainer {
-    grid-template-columns: 1fr;
-  }
 }

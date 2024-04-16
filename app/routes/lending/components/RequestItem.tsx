@@ -45,11 +45,7 @@ export const RequestItem = ({ request, isAdmin }: RequestItemProps) => {
     url += '/admin';
   }
   return (
-    <Link
-      to={url}
-      className={styles.requestItem}
-      key={request.id}
-    >
+    <Link to={url} className={styles.requestItem} key={request.id}>
       <Flex column>
         <h2 className={styles.requestTitle}>{request.lendableObject?.title}</h2>
         <Flex gap={10}>

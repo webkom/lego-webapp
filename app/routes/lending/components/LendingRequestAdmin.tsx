@@ -15,9 +15,15 @@ import InfoList from 'app/components/InfoList';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { fetchLendingRequest, fetchLendingRequestsByLendableObjectId } from 'app/actions/LendingRequestActions';
+import {
+  fetchLendingRequest,
+  fetchLendingRequestsByLendableObjectId,
+} from 'app/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { selectLendingRequestById, selectLendingRequestsByLendableObjectId } from 'app/reducers/lendingRequests';
+import {
+  selectLendingRequestById,
+  selectLendingRequestsByLendableObjectId,
+} from 'app/reducers/lendingRequests';
 
 type Params = {
   lendingRequestId: string;
@@ -43,7 +49,9 @@ const LendingRequestAdmin = () => {
     'fetchRequests',
     () => {
       if (request.lendableObject?.id) {
-        dispatch(fetchLendingRequestsByLendableObjectId(request.lendableObject.id));
+        dispatch(
+          fetchLendingRequestsByLendableObjectId(request.lendableObject.id)
+        );
       }
     },
     [request.lendableObject.id]
@@ -58,7 +66,7 @@ const LendingRequestAdmin = () => {
   const otherLoans = otherRequests.filter((loan) => !loan.pending);
   const otherLoanRequests = otherRequests.filter((loan) => loan.pending);
 
-  console.log('request', otherRequests, otherLoans, otherLoanRequests)
+  console.log('request', otherRequests, otherLoans, otherLoanRequests);
 
   const requestEvent = {
     id: String(request.id),
@@ -87,7 +95,7 @@ const LendingRequestAdmin = () => {
     borderColor: '#f57676',
   }));
 
-  console.log('events', requestEvent, otherLoanEvents, otherLoanRequestEvents)
+  console.log('events', requestEvent, otherLoanEvents, otherLoanRequestEvents);
 
   const infoItems = [
     {
@@ -110,7 +118,9 @@ const LendingRequestAdmin = () => {
 
   return (
     <Content>
-      <Helmet title={`Forespørsel om utlån av ${request.lendableObject.title}`} />
+      <Helmet
+        title={`Forespørsel om utlån av ${request.lendableObject.title}`}
+      />
       <NavigationTab
         title={`Forespørsel om utlån av ${request.lendableObject.title}`}
         back={{

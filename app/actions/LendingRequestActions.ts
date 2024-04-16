@@ -1,5 +1,8 @@
 import type { Thunk } from 'app/types';
-import type { EntityType, NormalizedEntityPayload } from 'app/store/models/entities';
+import type {
+  EntityType,
+  NormalizedEntityPayload,
+} from 'app/store/models/entities';
 import callAPI from 'app/actions/callAPI';
 import { LendingRequest } from 'app/actions/ActionTypes';
 import { lendingRequestSchema } from 'app/reducers';
@@ -18,9 +21,9 @@ export function fetchAllLendingRequests(): Thunk<
   });
 }
 
-export function fetchLendingRequest(id: number): Thunk<
-  Promise<NormalizedEntityPayload<EntityType.LendingRequest>>
-> {
+export function fetchLendingRequest(
+  id: number
+): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequest>>> {
   return callAPI({
     types: LendingRequest.FETCH,
     endpoint: `/lendinginstance/${id}/`,
@@ -33,9 +36,7 @@ export function fetchLendingRequest(id: number): Thunk<
 
 export function fetchLendingRequestsByLendableObjectId(
   lendableObjectId: number
-): Thunk<
-  Promise<NormalizedEntityPayload<EntityType.LendingRequests>>
-> {
+): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequests>>> {
   return callAPI({
     types: LendingRequest.FETCH,
     endpoint: `/lendableobject/${lendableObjectId}/lendinginstances/`,
@@ -44,7 +45,6 @@ export function fetchLendingRequestsByLendableObjectId(
       errorMessage: 'Henting av utlånsforespørsler feilet',
     },
   });
-
 }
 
 export function createLendingRequest(data: any): Thunk<any> {

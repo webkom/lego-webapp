@@ -6,10 +6,15 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
-import { lendableObject, otherLoanEvents, otherLoanRequestEvents, request, requestEvent } from './fixtures';
+import {
+  lendableObject,
+  otherLoanEvents,
+  otherLoanRequestEvents,
+  request,
+  requestEvent,
+} from './fixtures';
 
 const LendableObjectAdminDetail = () => {
-
   return (
     <Content banner={lendableObject.image}>
       <Helmet title={`Godkjenn utlån av ${lendableObject.title}`} />

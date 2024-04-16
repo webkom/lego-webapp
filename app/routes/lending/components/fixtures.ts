@@ -3,7 +3,10 @@ import {
   LendingRequestStatus,
   type LendingRequest,
 } from 'app/store/models/LendingRequest';
-import type { DetailedLendableObject, ListLendableObject } from 'app/store/models/LendableObject';
+import type {
+  DetailedLendableObject,
+  ListLendableObject,
+} from 'app/store/models/LendableObject';
 
 /* 
 TODO: Remove when fixtures exist in backend
@@ -42,26 +45,25 @@ export const exampleDetailedLendableObjects: DetailedLendableObject[] = [
     id: 1,
     title: 'Grill',
     image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-    description: "En grill til å grille",
-    location: "A3",
+    description: 'En grill til å grille',
+    location: 'A3',
     hasContract: false,
-    maxLendingPeriod: moment.duration("1 day"),
+    maxLendingPeriod: moment.duration('1 day'),
     responsibleGroups: [],
-    responsibleRoles: []
-
+    responsibleRoles: [],
   },
   {
     id: 2,
     title: 'Soundboks',
     image: 'https://food.unl.edu/newsletters/images/grilled-kabobs.jpg',
-    description: "En soundboks til å soundbokse",
-    location: "A3",
+    description: 'En soundboks til å soundbokse',
+    location: 'A3',
     hasContract: false,
-    maxLendingPeriod: moment.duration("1 day"),
+    maxLendingPeriod: moment.duration('1 day'),
     responsibleGroups: [],
-    responsibleRoles: []
+    responsibleRoles: [],
   },
-]
+];
 
 export const exampleRequests: LendingRequest[] = [
   {
@@ -73,13 +75,13 @@ export const exampleRequests: LendingRequest[] = [
       fullName: 'Test Testesen',
       username: 'testes',
       grade: {
-        name: 'yuh'
+        name: 'yuh',
       },
       abakusGroups: [],
       gender: 'apache helicopter',
       allergies: '',
       profilePicture: '',
-      photoConsents: []
+      photoConsents: [],
     },
     startDate: moment().subtract({ hours: 2 }),
     endDate: moment(),
@@ -100,13 +102,13 @@ export const exampleRequests: LendingRequest[] = [
       fullName: 'Test Testesen',
       username: 'testes',
       grade: {
-        name: 'yuh'
+        name: 'yuh',
       },
       abakusGroups: [],
       gender: 'apache helicopter',
       allergies: '',
       profilePicture: '',
-      photoConsents: []
+      photoConsents: [],
     },
     startDate: moment().subtract({ days: 2 }),
     endDate: moment().subtract({ days: 1 }),
@@ -127,13 +129,13 @@ export const exampleRequests: LendingRequest[] = [
       fullName: 'Test Testesen',
       username: 'testes',
       grade: {
-        name: 'yuh'
+        name: 'yuh',
       },
       abakusGroups: [],
       gender: 'apache helicopter',
       allergies: '',
       profilePicture: '',
-      photoConsents: []
+      photoConsents: [],
     },
     startDate: moment().add({ hours: 2 }),
     endDate: moment().add({ hours: 4 }),
@@ -154,13 +156,13 @@ export const exampleRequests: LendingRequest[] = [
       fullName: 'Test Testesen',
       username: 'testes',
       grade: {
-        name: 'yuh'
+        name: 'yuh',
       },
       abakusGroups: [],
       gender: 'apache helicopter',
       allergies: '',
       profilePicture: '',
-      photoConsents: []
+      photoConsents: [],
     },
     startDate: moment().add({ hours: 2 }),
     endDate: moment().add({ hours: 4 }),
@@ -179,9 +181,8 @@ export const lendableObject: DetailedLendableObject = {
   title: 'Soundbox',
   description: 'En soundbox som kan brukes til å spille av lyder',
   // lendingCommentPrompt: 'Hvorfor ønsker du å låne soundboks',
-  image:
-    'https://www.tntpyro.no/wp-content/uploads/2021/08/141_1283224098.jpg',
-  location: "someplace",
+  image: 'https://www.tntpyro.no/wp-content/uploads/2021/08/141_1283224098.jpg',
+  location: 'someplace',
   hasContract: false,
   maxLendingPeriod: null,
   responsibleRoles: [],

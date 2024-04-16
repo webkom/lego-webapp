@@ -29,13 +29,13 @@ export const selectLendableObjectById = createSelector(
       return {
         responsibleGroups: [],
         responsibleRoles: [],
-      }
+      };
     }
     return {
       ...lendableObject,
       responsibleGroups: lendableObject.responsibleGroups.map(
         (groupId) => groupsById[groupId]
       ),
-    }
+    };
   }
 );
