@@ -115,3 +115,7 @@
     transform: scale(1);
   }
 }
+
+.fieldLabel {
+  width: fit-content;
+}

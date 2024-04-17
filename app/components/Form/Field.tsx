@@ -51,6 +51,7 @@ export type FormProps = {
   fieldStyle?: CSSProperties;
   fieldClassName?: string;
   labelClassName?: string;
+  labelContentClassName?: string;
   showErrors?: boolean;
   onChange?: (value: string | ChangeEvent) => void;
   withoutMargin?: boolean;
@@ -87,6 +88,7 @@ export function createField<
       description,
       fieldClassName,
       labelClassName,
+      labelContentClassName,
       onChange,
       showErrors = true,
       className = null,
@@ -107,7 +109,7 @@ export function createField<
               cursor: inlineLabel ? 'pointer' : 'default',
               fontSize: !inlineLabel ? 'var(--font-size-lg)' : 'inherit',
             }}
-            className={labelClassName}
+            className={labelContentClassName}
           >
             {label}
           </div>
@@ -157,7 +159,11 @@ export function createField<
         )}
         style={fieldStyle}
       >
-        {noLabel ? content : <label>{content}</label>}
+        {noLabel ? (
+          content
+        ) : (
+          <label className={labelClassName}>{content}</label>
+        )}
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}

@@ -19,7 +19,7 @@ const MultiSelectGroup = ({ name, label, children }: Props) => {
           cloneElement(child, {
             name,
             fieldClassName: styles.radioField,
-            labelClassName: styles.radioLabel,
+            labelContentClassName: styles.radioLabel,
           }),
         )}
       </div>

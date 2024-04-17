@@ -311,6 +311,7 @@ const MeetingEditor = () => {
                 name="useMazemap"
                 type="checkbox"
                 component={CheckBox.Field}
+                withoutMargin
               />
               {spyValues<MeetingFormValues>((values) => {
                 return values?.useMazemap ? (
