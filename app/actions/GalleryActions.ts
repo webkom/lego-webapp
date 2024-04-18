@@ -4,31 +4,28 @@ import { Gallery } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
 import type { DetailedGallery } from 'app/store/models/Gallery';
-import type { Thunk } from 'app/types';
+import type { Query } from 'app/utils/createQueryString';
 
-export function fetch({
-  next,
-  filters,
+export const fetchGalleries = ({
+  next = false,
+  query,
 }: {
   next?: boolean;
-  filters?: Record<string, string | number>;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().galleries.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: Gallery.FETCH,
-        endpoint: `/galleries/`,
-        query: { ...cursor, ...filters },
-        schema: [gallerySchema],
-        meta: {
-          errorMessage: 'Henting av bilder feilet',
-        },
-        propagateError: false,
-      }),
-    );
-  };
-}
+  query?: Query;
+} = {}) =>
+  callAPI({
+    types: Gallery.FETCH,
+    endpoint: `/galleries/`,
+    query,
+    pagination: {
+      fetchNext: next,
+    },
+    schema: [gallerySchema],
+    meta: {
+      errorMessage: 'Henting av bilder feilet',
+    },
+    propagateError: false,
+  });
 
 export function fetchGallery(galleryId: EntityId) {
   return callAPI<DetailedGallery>({

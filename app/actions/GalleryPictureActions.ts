@@ -4,37 +4,34 @@ import { galleryPictureSchema } from 'app/reducers';
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { AppDispatch } from 'app/store/createStore';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
-import type { Thunk } from 'app/types';
+import type { Query } from 'app/utils/createQueryString';
 
-export function fetch(
+export const fetchGalleryPictures = (
   galleryId: EntityId,
   {
-    next,
-    filters,
+    next = false,
+    query,
   }: {
     next?: boolean;
-    filters?: Record<string, string | number>;
+    query?: Query;
   } = {},
-): Thunk<any> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().galleryPictures.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: GalleryPicture.FETCH,
-        endpoint: `/galleries/${galleryId}/pictures/`,
-        query: { ...cursor, ...filters },
-        schema: [galleryPictureSchema],
-        meta: {
-          errorMessage: 'Henting av bilder feilet',
-        },
-        propagateError: true,
-      }),
-    );
-  };
-}
+) =>
+  callAPI({
+    types: GalleryPicture.FETCH,
+    endpoint: `/galleries/${galleryId}/pictures/`,
+    query,
+    schema: [galleryPictureSchema],
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av bilder feilet',
+    },
+    propagateError: true,
+  });
 
 export function fetchSiblingGallerPicture(
   galleryId: EntityId,
@@ -70,9 +67,7 @@ export function fetchGalleryPicture(galleryId: EntityId, pictureId: EntityId) {
   });
 }
 
-export function updatePicture(
-  galleryPicture: GalleryPictureEntity,
-): Thunk<any> {
+export function updatePicture(galleryPicture: Partial<GalleryListPicture>) {
   return callAPI({
     types: GalleryPicture.EDIT,
     endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
@@ -165,25 +160,21 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
 
 export function uploadAndCreateGalleryPicture(
   galleryId: EntityId,
-  files: Array<Record<string, any>>,
+  files: File | DropFile[],
 ) {
-  return (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch) => {
     dispatch({
       type: Gallery.UPLOAD.BEGIN,
       meta: {
         imageCount: files.length,
       },
     });
-    return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
-  };
-}
-
-export function clear(galleryId: EntityId) {
-  return (dispatch: AppDispatch) =>
-    dispatch({
-      type: GalleryPicture.CLEAR,
+    await uploadGalleryPicturesInTurn(files, galleryId, dispatch);
+    return dispatch({
+      type: Gallery.UPLOAD.SUCCESS,
       meta: {
-        id: galleryId,
+        imageCount: files.length,
       },
     });
+  };
 }

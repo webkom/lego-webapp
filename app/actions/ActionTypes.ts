@@ -85,7 +85,6 @@ export const Gallery = {
   EDIT: generateStatuses('Gallery.EDIT') as AAT,
   UPLOAD: generateStatuses('Gallery.UPLOAD') as AAT,
   DELETE: generateStatuses('Gallery.DELETE') as AAT,
-  HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS',
 };
 export const ImageGallery = {
   FETCH_ALL: generateStatuses('ImageGallery.FETCH_ALL') as AAT,
@@ -101,7 +100,6 @@ export const GalleryPicture = {
   EDIT: generateStatuses('GalleryPicture.EDIT') as AAT,
   DELETE: generateStatuses('GalleryPicture.DELETE') as AAT,
   UPLOAD: generateStatuses('GalleryPicture.UPLOAD') as AAT,
-  CLEAR: 'GalleryPicture.CLEAR',
 };
 
 /**
