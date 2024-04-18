@@ -34,7 +34,6 @@ const EmailUsers = () => {
   const emailUsers = useAppSelector((state) =>
     selectTransformedEmailUsers(state, { pagination }),
   );
-  const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),
   );
@@ -213,7 +212,7 @@ const EmailUsers = () => {
         filters={query}
         onChange={setQuery}
         hasMore={pagination.hasMore}
-        loading={fetching}
+        loading={pagination.fetching}
         data={emailUsers}
       />
     </div>

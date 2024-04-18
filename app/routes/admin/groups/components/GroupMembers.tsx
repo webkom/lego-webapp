@@ -41,7 +41,6 @@ const GroupMembers = () => {
   );
 
   const groupEntities = useAppSelector(selectGroupEntities);
-  const fetching = useAppSelector((state) => state.memberships.fetching);
   const hasMore = pagination.hasMore;
 
   const dispatch = useAppDispatch();
@@ -79,13 +78,13 @@ const GroupMembers = () => {
         />
       )}
 
-      <LoadingIndicator loading={!memberships && fetching}>
+      <LoadingIndicator loading={!memberships && pagination.fetching}>
         <h3>Brukere</h3>
         <GroupMembersList
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
           groupsById={groupEntities}
-          fetching={fetching}
+          fetching={pagination.fetching}
           memberships={memberships}
           fetchMemberships={fetchMemberships}
         />

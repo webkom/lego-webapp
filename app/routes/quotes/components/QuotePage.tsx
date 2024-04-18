@@ -52,7 +52,8 @@ const QuotePage = () => {
 
   const quotes = useAppSelector((state) => {
     if (quoteId) {
-      return [selectQuoteById(state, quoteId)];
+      const quote = selectQuoteById(state, quoteId);
+      return quote ? [quote] : [];
     }
     return selectQuotes(state, { pagination });
   });

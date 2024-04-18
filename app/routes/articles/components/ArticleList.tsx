@@ -79,13 +79,11 @@ const ArticleList = () => {
       entity: 'articles',
     })(state),
   );
-  const hasMore = pagination.hasMore;
   const articles: PublicArticle[] = useAppSelector((state) =>
     selectArticles(state, {
       pagination,
     }),
   );
-  const fetching = useAppSelector((state) => state.articles.fetching);
   const actionGrant = useAppSelector((state) => state.articles.actionGrant);
   const tags = useAppSelector((state) => selectPopularTags(state));
 
@@ -131,8 +129,8 @@ const ArticleList = () => {
       </Tags>
       <section className={styles.frontpage}>
         <Paginator
-          hasMore={hasMore}
-          fetching={fetching}
+          hasMore={pagination.hasMore}
+          fetching={pagination.fetching}
           fetchNext={() => {
             dispatch(
               fetchAll({

@@ -107,25 +107,21 @@ const MeetingList = () => {
     }),
     [],
   );
-  const fetchMorePagination = useAppSelector((state) =>
+  const { pagination: fetchMorePagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/meetings/',
       query: fetchUpcomingQuery,
       entity: EntityType.Meetings,
-    })(state),
+    }),
   );
-  const showFetchMore = fetchMorePagination.pagination.hasMore;
-  const fetchOlderPagination = useAppSelector((state) =>
+  const { pagination: fetchOlderPagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/meetings/',
       query: fetchOlderQuery,
       entity: EntityType.Meetings,
-    })(state),
+    }),
   );
-  const showFetchOlder = fetchOlderPagination.pagination.hasMore;
   const meetingSections = useAppSelector(selectGroupedMeetings);
-  const loading = useAppSelector((state) => state.meetings.fetching);
-
   const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
@@ -164,18 +160,18 @@ const MeetingList = () => {
   useEffect(() => {
     if (
       !initialFetchAttempted &&
-      showFetchOlder &&
+      fetchOlderPagination.hasMore &&
       meetingSections.length === 0 &&
-      !loading
+      !fetchOlderPagination.fetching
     ) {
       fetchOlder();
       setInitialFetchAttempted(true);
     }
   }, [
     initialFetchAttempted,
-    showFetchOlder,
+    fetchOlderPagination.hasMore,
+    fetchOlderPagination.fetching,
     meetingSections.length,
-    loading,
     fetchOlder,
   ]);
 
@@ -190,14 +186,16 @@ const MeetingList = () => {
           </Link>
         }
       />
-      {!meetingSections || !currentUser || loading ? (
-        <LoadingIndicator loading={loading} />
-      ) : (
+      {meetingSections && currentUser && (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
-      <LoadingIndicator loading={loading} />
-      {showFetchMore && <Button onClick={fetchMore}>Last inn flere</Button>}
-      {showFetchOlder && (
+      <LoadingIndicator
+        loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
+      />
+      {fetchMorePagination.hasMore && (
+        <Button onClick={fetchMore}>Last inn flere</Button>
+      )}
+      {fetchOlderPagination.hasMore && (
         <Button flat onClick={fetchOlder}>
           Hent gamle
         </Button>
