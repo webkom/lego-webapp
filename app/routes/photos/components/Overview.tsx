@@ -16,7 +16,6 @@ import type { ListGallery } from 'app/store/models/Gallery';
 
 const Overview = () => {
   const galleries = useAppSelector(selectAllGalleries<ListGallery>);
-  const fetching = useAppSelector((state) => state.galleries.fetching);
   const { pagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/galleries/',
@@ -42,8 +41,8 @@ const Overview = () => {
       )}
 
       <Gallery
-        hasMore={pagination.hasMore}
-        fetching={fetching}
+        hasMore={pagination.fetching || pagination.hasMore}
+        fetching={pagination.fetching}
         fetchNext={() =>
           dispatch(
             fetchGalleries({
