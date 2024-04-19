@@ -13,7 +13,6 @@ type AAT = AsyncActionType;
  *
  */
 export const Event = {
-  CLEAR: 'Event.CLEAR',
   FETCH: generateStatuses('Event.FETCH') as AAT,
   FETCH_PREVIOUS: generateStatuses('Event.FETCH_PREVIOUS') as AAT,
   FETCH_UPCOMING: generateStatuses('Event.FETCH_UPCOMING') as AAT,

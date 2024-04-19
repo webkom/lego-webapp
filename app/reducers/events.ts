@@ -1,16 +1,15 @@
-import { produce } from 'immer';
-import { groupBy, orderBy, without } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit';
+import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
-import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
+import { addCommentCases, selectCommentEntities } from 'app/reducers/comments';
 import { selectUserEntities } from 'app/reducers/users';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
-import mergeObjects from 'app/utils/mergeObjects';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Event } from '../actions/ActionTypes';
 import { selectPoolEntities } from './pools';
 import {
@@ -19,193 +18,154 @@ import {
 } from './registrations';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { DetailedEvent } from 'app/store/models/Event';
+import type { DetailedEvent, UserDetailedEvent } from 'app/store/models/Event';
+import type { AnyAction } from 'redux';
 
-type State = any;
-const mutateEvent = produce((newState: State, action: any): void => {
-  switch (action.type) {
-    case Event.FETCH_PREVIOUS.BEGIN:
-      newState.fetchingPrevious = true;
-      break;
+const legoAdapter = createLegoAdapter(EntityType.Events);
 
-    case Event.FETCH_PREVIOUS.FAILURE:
-      newState.fetchingPrevious = false;
-      break;
-
-    case Event.FETCH_PREVIOUS.SUCCESS:
-      for (const eventId in action.payload.entities.events) {
-        const event = action.payload.entities.events[eventId];
-        newState.byId[eventId] = produce(event, (e): void => {
-          e.isUsersUpcoming = false;
-        });
-      }
-      newState.fetchingPrevious = false;
-
-      break;
-
-    case Event.FETCH_UPCOMING.BEGIN:
-      newState.fetchingUpcoming = true;
-      break;
-
-    case Event.FETCH_UPCOMING.FAILURE:
-      newState.fetchingUpcoming = false;
-      break;
-
-    case Event.FETCH_UPCOMING.SUCCESS:
-      for (const eventId in action.payload.entities.events) {
-        const event = action.payload.entities.events[eventId];
-        newState.byId[eventId] = produce(event, (e): void => {
-          e.isUsersUpcoming = true;
-        });
-      }
-      newState.fetchingUpcoming = false;
-
-      break;
-
-    case Event.DELETE.SUCCESS:
-      newState.items = without(newState.items, action.meta.id);
-      break;
-
-    case Event.SOCKET_EVENT_UPDATED: {
-      const events = normalize(action.payload, eventSchema).entities.events;
-      newState.byId = mergeObjects(newState.byId, events);
-      break;
-    }
-
-    case Event.CLEAR:
-      newState.items = [];
-      newState.pagination = {};
-      break;
-
-    case Event.REQUEST_REGISTER.BEGIN:
-      newState.byId[action.meta.id].loading = true;
-      break;
-
-    case Event.SOCKET_REGISTRATION.SUCCESS: {
-      const eventId = action.meta.eventId;
-      const registration = action.payload;
-      const stateEvent = newState.byId[eventId];
-
-      if (!stateEvent) {
-        return;
-      }
-
-      let registrationCount = stateEvent.registrationCount;
-      let waitingRegistrations = stateEvent.waitingRegistrations;
-      let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
-
-      if (!registration.pool) {
-        waitingRegistrationCount = waitingRegistrationCount + 1;
-
-        if (waitingRegistrations) {
-          waitingRegistrations = [...waitingRegistrations, registration.id];
-        }
-      } else {
-        registrationCount++;
-      }
-
-      stateEvent.loading = false;
-      stateEvent.registrationCount = registrationCount;
-      stateEvent.waitingRegistrationCount = waitingRegistrationCount;
-
-      if (waitingRegistrations) {
-        stateEvent.waitingRegistrations = waitingRegistrations;
-      }
-
-      break;
-    }
-
-    case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const {
-        eventId,
-        activationTime: activationTimeFromMeta,
-        fromPool,
-        currentUser,
-      } = action.meta;
-      const stateEvent = newState.byId[eventId];
-      const registration = action.payload;
-
-      if (!stateEvent) {
-        return;
-      }
-
-      const isCurrentUser =
-        registration.user &&
-        checkIfCurrentUser(registration.user.id, currentUser.id);
-      stateEvent.loading = false;
-
-      if (isCurrentUser) {
-        stateEvent.activationTime = activationTimeFromMeta;
-      }
-
-      if (fromPool) {
-        stateEvent.registrationCount--;
-      } else {
-        stateEvent.waitingRegistrationCount--;
-      }
-
-      if (stateEvent.waitingRegistrations) {
-        stateEvent.waitingRegistrations =
-          stateEvent.waitingRegistrations.filter(
-            (id) => id !== action.payload.id,
-          );
-      }
-
-      stateEvent.following = false;
-
-      break;
-    }
-
-    case Event.SOCKET_REGISTRATION.FAILURE:
-      if (newState.byId[action.meta.eventId]) {
-        newState.byId[action.meta.eventId].loading = false;
-      }
-
-      break;
-
-    case Event.REQUEST_REGISTER.FAILURE:
-      if (newState.byId[action.meta.id]) {
-        newState.byId[action.meta.id].loading = false;
-      }
-
-      break;
-
-    case Event.FOLLOW.SUCCESS:
-      if (newState.byId[action.meta.body.target]) {
-        newState.byId[action.meta.body.target].following = action.payload.id;
-      }
-      break;
-
-    case Event.UNFOLLOW.SUCCESS:
-      if (newState.byId[action.meta.eventId]) {
-        newState.byId[action.meta.eventId].following = false;
-      }
-      break;
-
-    case Event.FETCH_FOLLOWERS.SUCCESS:
-      const event = newState.byId[action.meta.eventId];
-      const followObj = action.payload.results.find(
-        (follow) => follow.follower.id === action.meta.currentUserId,
-      );
-      event.following = followObj?.id;
-
-    default:
-      break;
-  }
-});
-const mutate = joinReducers(mutateComments('events'), mutateEvent);
-export default createEntityReducer<'events'>({
-  key: 'events',
-  types: {
-    fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
-    delete: Event.DELETE,
-  },
-  mutate,
-  initialState: {
+const eventsSlice = createSlice({
+  name: EntityType.Events,
+  initialState: legoAdapter.getInitialState({
     fetchingPrevious: false,
     fetchingUpcoming: false,
-  },
+  }),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
+    deleteActions: [Event.DELETE],
+    extraCases: (addCase) => {
+      addCommentCases(EntityType.Events, addCase);
+
+      addCase(Event.FETCH_PREVIOUS.SUCCESS, (state, action: AnyAction) => {
+        const events = action.payload.entities.events.map((event) => ({
+          ...event,
+          isUsersUpcoming: false,
+        }));
+        legoAdapter.upsertMany(state, events);
+      });
+      addCase(Event.FETCH_UPCOMING.SUCCESS, (state, action: AnyAction) => {
+        const events = action.payload.entities.events.map((event) => ({
+          ...event,
+          isUsersUpcoming: true,
+        }));
+        legoAdapter.upsertMany(state, events);
+      });
+      addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
+        const events = normalize(action.payload, eventSchema).entities
+          .events as DetailedEvent[];
+        legoAdapter.upsertMany(state, events);
+      });
+      addCase(Event.REQUEST_REGISTER.BEGIN, (state, action: AnyAction) => {
+        state.entities[action.meta.id].loading = true;
+      });
+      addCase(Event.SOCKET_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
+        const eventId = action.meta.eventId;
+        const registration = action.payload;
+        const stateEvent = state.entities[eventId] as DetailedEvent;
+
+        if (!stateEvent) {
+          return;
+        }
+
+        let registrationCount = stateEvent.registrationCount;
+        let waitingRegistrations = stateEvent.waitingRegistrations;
+        let waitingRegistrationCount = stateEvent.waitingRegistrationCount ?? 0;
+
+        if (!registration.pool) {
+          waitingRegistrationCount = waitingRegistrationCount + 1;
+
+          if (waitingRegistrations) {
+            waitingRegistrations = [...waitingRegistrations, registration.id];
+          }
+        } else {
+          registrationCount++;
+        }
+
+        stateEvent.loading = false;
+        stateEvent.registrationCount = registrationCount;
+        stateEvent.waitingRegistrationCount = waitingRegistrationCount;
+
+        if (waitingRegistrations) {
+          stateEvent.waitingRegistrations = waitingRegistrations;
+        }
+      });
+      addCase(
+        Event.SOCKET_UNREGISTRATION.SUCCESS,
+        (state, action: AnyAction) => {
+          const {
+            eventId,
+            activationTime: activationTimeFromMeta,
+            fromPool,
+            currentUser,
+          } = action.meta;
+          const stateEvent = state.entities[eventId] as DetailedEvent;
+          const registration = action.payload;
+
+          if (!stateEvent) {
+            return;
+          }
+
+          const isCurrentUser =
+            registration.user &&
+            checkIfCurrentUser(registration.user.id, currentUser.id);
+          stateEvent.loading = false;
+
+          if (isCurrentUser) {
+            stateEvent.activationTime = activationTimeFromMeta;
+          }
+
+          if (fromPool) {
+            stateEvent.registrationCount--;
+          } else {
+            stateEvent.waitingRegistrationCount--;
+          }
+
+          if (stateEvent.waitingRegistrations) {
+            stateEvent.waitingRegistrations =
+              stateEvent.waitingRegistrations.filter(
+                (id) => id !== action.payload.id,
+              );
+          }
+
+          stateEvent.following = false;
+        },
+      );
+      addCase(Event.SOCKET_REGISTRATION.FAILURE, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.eventId];
+        if (event) event.loading = false;
+      });
+      addCase(Event.REQUEST_REGISTER.FAILURE, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.id];
+        if (event) event.loading = false;
+      });
+      addCase(Event.FOLLOW.SUCCESS, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.body.target] as
+          | UserDetailedEvent
+          | undefined;
+        if (event) event.following = action.payload.id;
+      });
+      addCase(Event.UNFOLLOW.SUCCESS, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.eventId] as
+          | UserDetailedEvent
+          | undefined;
+        if (event) event.following = false;
+      });
+      addCase(Event.FETCH_FOLLOWERS.SUCCESS, (state, action: AnyAction) => {
+        const event = state.entities[action.meta.eventId] as UserDetailedEvent;
+        const followObj = action.payload.results.find(
+          (follow) => follow.follower.id === action.meta.currentUserId,
+        );
+        event.following = followObj?.id;
+      });
+    },
+  }),
 });
+
+export default eventsSlice.reducer;
+export const {
+  selectEntities: selectEventEntities,
+  selectIds: selectEventIds,
+} = legoAdapter.getSelectors((state: RootState) => state.events);
 
 function transformEvent(event: DetailedEvent) {
   return {
@@ -228,8 +188,8 @@ function transformRegistration(registration) {
 }
 
 export const selectEvents = createSelector(
-  (state) => state.events.byId,
-  (state) => state.events.items,
+  selectEventEntities,
+  selectEventIds,
   (eventsById, eventIds) =>
     eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
       ReturnType<typeof transformEvent>
@@ -248,8 +208,8 @@ export const selectSortedEvents = createSelector(selectEvents, (events) =>
 );
 
 export const selectEventById = createSelector(
-  (state) => state.events.byId,
-  (state, props) => props.eventId,
+  selectEventEntities,
+  (_: RootState, props: { eventId: EntityId }) => props.eventId,
   (eventsById, eventId) => {
     const event = eventsById[eventId];
 
@@ -262,8 +222,8 @@ export const selectEventById = createSelector(
 );
 
 export const selectEventBySlug = createSelector(
-  (state) => state.events.byId,
-  (state, props) => props.eventSlug,
+  selectEventEntities,
+  (_: RootState, props: { eventSlug: string }) => props.eventSlug,
   (eventsById, eventSlug) => {
     const event = Object.values(eventsById).find(
       (event) => event.slug === eventSlug,
