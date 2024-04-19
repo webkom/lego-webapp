@@ -128,7 +128,6 @@ const GalleryDetail = () => {
 
     downloadNext(0, [])
       .then((blobs) => {
-        console.log(blobs);
         const names = pictures.map((picture) => picture.file.split('/').pop()!);
         zipFiles(gallery.title, names, blobs).finally(finishDownload);
       })

@@ -1,19 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Gallery } from '../actions/ActionTypes';
 import type { RootState } from 'app/store/createRootReducer';
 
-export type GalleryEntity = {
-  id: number;
-  title: string;
-  description: string;
-  text?: string;
-  comments?: Array<number>;
-  cover?: Record<string, any>;
-};
-
-const legoAdapter = createLegoAdapter(EntityType.Galleries);
+const legoAdapter = createLegoAdapter(EntityType.Galleries, {
+  sortComparer: (a, b) => moment(b.takenAt).diff(a.takenAt),
+});
 const galleriesSlice = createSlice({
   name: EntityType.Galleries,
   initialState: legoAdapter.getInitialState(),
