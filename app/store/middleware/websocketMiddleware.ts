@@ -1,6 +1,6 @@
 import WebSocketClient from 'websocket.js';
 import { User, Event } from 'app/actions/ActionTypes';
-import { isUserFollowing } from 'app/actions/EventActions';
+import { fetchFollowers } from 'app/actions/EventActions';
 import config from 'app/config';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { addToast } from 'app/reducers/toasts';
@@ -34,7 +34,7 @@ const createWebSocketMiddleware = (): Middleware<
           type === Event.SOCKET_REGISTRATION.SUCCESS &&
           (payload.user && payload.user.id) === meta.currentUser.id
         ) {
-          dispatch(isUserFollowing(meta.eventId));
+          dispatch(fetchFollowers(meta.eventId, meta.currentUser.id));
         }
 
         dispatch({

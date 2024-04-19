@@ -1,9 +1,5 @@
 import callAPI from 'app/actions/callAPI';
-import {
-  eventSchema,
-  eventAdministrateSchema,
-  followersEventSchema,
-} from 'app/reducers';
+import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -345,7 +341,6 @@ export function follow(userId: EntityId, eventId: EntityId) {
     types: Event.FOLLOW,
     enableOptimistic: true,
     endpoint: `/followers-event/`,
-    schema: followersEventSchema,
     method: 'POST',
     body: {
       target: eventId,
@@ -371,14 +366,15 @@ export function unfollow(followId: EntityId, eventId: EntityId) {
   });
 }
 
-export function isUserFollowing(eventId: EntityId) {
-  return callAPI<boolean>({
-    types: Event.IS_USER_FOLLOWING,
+export function fetchFollowers(eventId: EntityId, currentUserId: EntityId) {
+  return callAPI({
+    types: Event.FETCH_FOLLOWERS,
     endpoint: `/followers-event/?target=${eventId}`,
-    schema: [followersEventSchema],
     method: 'GET',
     meta: {
-      errorMessage: 'Henting av interesse feilet',
+      eventId,
+      currentUserId,
+      errorMessage: 'Henting av stjernemarkering feilet',
     },
   });
 }

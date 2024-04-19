@@ -13,11 +13,6 @@ import emojis from 'app/reducers/emojis';
 import events from 'app/reducers/events';
 import feedActivities from 'app/reducers/feedActivities';
 import feeds from 'app/reducers/feeds';
-import {
-  followersCompany,
-  followersEvent,
-  followersUser,
-} from 'app/reducers/followers';
 import forums from 'app/reducers/forums';
 import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
@@ -66,9 +61,6 @@ const createRootReducer = () => {
     events,
     feedActivities,
     feeds,
-    followersCompany,
-    followersEvent,
-    followersUser,
     forums,
     frontpage,
     galleries,

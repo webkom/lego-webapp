@@ -147,18 +147,7 @@ export const followersEventSchema = new schema.Entity(
     follower: userSchema,
   },
 );
-export const followersCompanySchema = new schema.Entity(
-  createFollowersSliceKey('company'),
-  {
-    follower: userSchema,
-  },
-);
-export const followersUserSchema = new schema.Entity(
-  createFollowersSliceKey('user'),
-  {
-    follower: userSchema,
-  },
-);
+
 export const threadSchema = new schema.Entity(EntityType.Thread, {
   comments: [commentSchema],
 });
