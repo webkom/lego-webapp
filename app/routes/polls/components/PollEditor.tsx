@@ -40,11 +40,12 @@ const renderOptions = ({ fields }): ReactNode => (
             label={`Valg nr. ${i + 1}`}
             placeholder={`Valg ${i + 1}`}
             component={TextInput.Field}
-            validate={(value) =>
-              value && value.length > 0
-                ? undefined
-                : 'Alle alternativer må ha et navn'
-            }
+            validate={(value) => {
+              if (!value || value.length == 0) return 'Alle valg må ha et navn';
+              if (value.length > 30)
+                return 'Valget kan ikke være lengre enn 30 tegn';
+              return undefined;
+            }}
             required
           />
           <ConfirmModal
