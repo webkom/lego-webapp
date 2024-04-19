@@ -41,8 +41,7 @@ const renderOptions = ({ fields }): ReactNode => (
             placeholder={`Valg ${i + 1}`}
             component={TextInput.Field}
             validate={(value) => {
-              if (!value || value.length == 0)
-                return 'Alle valg må ha et navn';
+              if (!value || value.length == 0) return 'Alle valg må ha et navn';
               if (value.length > 30)
                 return 'Valget kan ikke være lengre enn 30 tegn';
               return undefined;
