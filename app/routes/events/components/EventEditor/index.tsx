@@ -21,7 +21,7 @@ import {
   selectEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
-import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
+import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
   transformEvent,
   transformEventStatusType,
@@ -138,7 +138,7 @@ const EventEditor = () => {
   const pools = useAppSelector((state) =>
     selectPoolsWithRegistrationsForEvent(state, { eventId }),
   );
-  const imageGalleryEntries = useAppSelector(selectImageGalleryEntries);
+  const imageGalleryEntries = useAppSelector(selectAllImageGalleryEntries);
   const imageGallery = imageGalleryEntries?.map((image) => ({
     key: image.key,
     cover: image.cover,
