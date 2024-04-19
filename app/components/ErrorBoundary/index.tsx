@@ -92,8 +92,23 @@ class ErrorBoundary extends Component<Props, State> {
         onClick={() => !openReportDialog && this.openDialog()}
         className={styles.container}
       >
-        <Card.Header>En feil har oppstått</Card.Header>
+        <Card.Header>
+          <p>En feil har oppstått</p>
+        </Card.Header>
         <p>Webkom har fått beskjed om feilen</p>
+        <br />
+        <p>
+          Hvis du har slitt med problemet en liten stund uten at det har blitt
+          fikset, send gjerne en påminnelse til{' '}
+          <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>
+        </p>
+        <p>
+          Tips: hvis du forklarer hva du gjorde før feilen oppstod og legger ved
+          referansen under (som tekst, ikke skjermbilde) er det mye lettere å
+          identifisere feilen din
+        </p>
+        <br />
+        <p>Referanse: {this.state.lastEventId}</p>
       </Card>
     );
   }
