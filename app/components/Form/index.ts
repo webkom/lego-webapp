@@ -12,7 +12,6 @@ export { default as CheckBox } from './CheckBox';
 export { default as SelectInput } from './SelectInput';
 export { default as PhoneNumberInput } from './PhoneNumberInput';
 export { default as Captcha } from './Captcha';
-export { default as FileUploadField } from './FileUploadField';
 export { default as ImageUploadField } from './ImageUploadField';
 export { createField } from './Field';
 export {

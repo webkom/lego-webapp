@@ -2,16 +2,11 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { createField } from './Field';
 import styles from './RadioButton.css';
-import type { FormProps } from './Field';
-import type { InputHTMLAttributes, KeyboardEvent } from 'react';
+import type { ComponentProps, InputHTMLAttributes, KeyboardEvent } from 'react';
 
 type Props = {
-  id: string;
-  type?: string;
   label?: string;
   className?: string;
-  checked?: boolean;
-  value?: string | number;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 function RadioButton({
@@ -59,7 +54,10 @@ function RadioButton({
 
 const RawField = createField(RadioButton, { inlineLabel: true });
 
-const StyledField = ({ fieldClassName, ...props }: FormProps) => (
+const StyledField = ({
+  fieldClassName,
+  ...props
+}: ComponentProps<typeof RawField> & { fieldClassName?: string }) => (
   <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...props} />
 );
 

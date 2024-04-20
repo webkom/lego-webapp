@@ -4,38 +4,32 @@ import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
 import style from './SelectInput.css';
-import type { ChangeEvent, FocusEvent } from 'react';
+import type { ChangeEvent, ComponentProps, ComponentType } from 'react';
 import type { StylesConfig, ThemeConfig } from 'react-select';
 
 type Props<Option, IsMulti extends boolean = false> = {
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   tags?: boolean;
-  fetching: boolean;
+  fetching?: boolean;
   className?: string;
   selectStyle?: StylesConfig<Option, IsMulti>;
-  onBlur: (
-    event: FocusEvent<HTMLInputElement>,
-    newValue?: string,
-    previousValue?: string,
-    name?: string,
-  ) => void;
   onChange?: (event: ChangeEvent | string | Option[]) => void;
-  onSearch: (search: string) => void;
-  isValidNewOption: (arg0: string) => boolean;
-  value: any;
+  onSearch?: (search: string) => void;
+  isValidNewOption?: (arg0: string) => boolean;
+  value?: Option | Option[] | null;
   disabled?: boolean;
   options?: Option[];
   creatable?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
   filter?: string[];
-  SuggestionComponent?: SuggestionComponent;
-};
+  SuggestionComponent?: SuggestionComponent<Option>;
+} & Pick<ComponentProps<Creatable>, 'onBlur'>;
 
 export type SuggestionComponent<Option = { label: string; value: number }> =
-  React.ComponentType<{
+  ComponentType<{
     value: Option[];
     onChange?: (event: ChangeEvent | string | Option[]) => void;
   }>;
@@ -85,12 +79,14 @@ export const selectTheme: ThemeConfig = (theme) => ({
 const NO_OPTIONS_MESSAGE = 'Ingen treff';
 const LOADING_MESSAGE = 'Laster inn ...';
 
-const SelectInput = <Option, IsMulti extends boolean = false>({
+const SelectInput = <
+  Option extends { label: string; value: number },
+  IsMulti extends boolean = false,
+>({
   name,
   label,
   fetching,
   selectStyle,
-  onBlur = () => {},
   isValidNewOption,
   value,
   options = [],
@@ -117,7 +113,6 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
           placeholder={!disabled && (placeholder || defaultPlaceholder)}
           instanceId={name}
           isMulti={props.isMulti}
-          onBlur={() => onBlur(value)}
           value={value}
           isValidNewOption={isValidNewOption}
           options={options}
@@ -145,7 +140,6 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
         isDisabled={disabled}
         placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
         instanceId={name}
-        onBlur={() => onBlur(value)}
         value={value}
         options={options}
         isLoading={fetching}

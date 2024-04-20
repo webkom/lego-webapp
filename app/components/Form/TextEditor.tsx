@@ -2,8 +2,9 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { createField } from './Field';
 import styles from './TextEditor.css';
+import type { TextareaHTMLAttributes } from 'react';
 
-type Props = {
+type Props = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   className: string;
   rich?: boolean;
 };
@@ -17,10 +18,7 @@ type Props = {
 function TextEditor({ className, ...props }: Props) {
   return (
     <Flex>
-      <textarea
-        className={cx(styles.input, className)}
-        {...(props as Record<string, any>)}
-      />
+      <textarea className={cx(styles.input, className)} {...props} />
     </Flex>
   );
 }

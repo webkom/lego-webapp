@@ -2,17 +2,17 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './CheckBox.css';
 import { createField } from './Field';
-import type { FormProps } from './Field';
-import type { InputHTMLAttributes, KeyboardEvent } from 'react';
+import type { ComponentProps, InputHTMLAttributes, KeyboardEvent } from 'react';
+import type { Overwrite } from 'utility-types';
 
-type Props = InputHTMLAttributes<HTMLInputElement> & {
-  id?: string;
-  type?: string;
+type Props = {
   label?: string;
-  checked?: boolean;
   inverted?: boolean;
   className?: string;
-};
+} & Overwrite<
+  InputHTMLAttributes<HTMLInputElement>,
+  { onChange?: (checked: boolean) => void }
+>;
 
 /*
 When using this component as a Field in form, you have to include
@@ -42,6 +42,7 @@ const CheckBox = ({
       <div className={cx(styles.checkbox, styles.bounce, className)}>
         <input
           {...props}
+          value={undefined}
           onChange={() => props.onChange?.(!checked)}
           id={id}
           checked={normalizedValue}
@@ -63,12 +64,8 @@ const CheckBox = ({
 
 const RawField = createField(CheckBox, { inlineLabel: true });
 
-const StyledField = ({ fieldClassName, ...props }: FormProps) => (
-  <RawField
-    fieldClassName={fieldClassName}
-    labelClassName={styles.fieldLabel}
-    {...props}
-  />
+const StyledField = (props: ComponentProps<typeof RawField>) => (
+  <RawField labelClassName={styles.fieldLabel} {...props} />
 );
 
 CheckBox.Field = StyledField;

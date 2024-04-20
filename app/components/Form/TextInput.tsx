@@ -3,11 +3,12 @@ import cx from 'classnames';
 import { useMemo, useRef } from 'react';
 import { createField } from './Field';
 import styles from './TextInput.css';
-import type { ReactNode, InputHTMLAttributes, RefObject } from 'react';
+import type { RefObject, InputHTMLAttributes } from 'react';
+import type { Overwrite } from 'utility-types';
 
 type Props = {
   type?: string;
-  prefix?: ReactNode;
+  prefix?: string;
   suffix?: string;
   className?: string;
   inputRef?: RefObject<HTMLInputElement>;
@@ -16,7 +17,12 @@ type Props = {
   placeholder?: string;
   removeBorder?: boolean;
   centered?: boolean;
-} & InputHTMLAttributes<HTMLInputElement>;
+} & Overwrite<
+  InputHTMLAttributes<HTMLInputElement>,
+  {
+    value?: string;
+  }
+>;
 
 const TextInput = ({
   type = 'text',
