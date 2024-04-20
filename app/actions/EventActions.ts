@@ -44,6 +44,7 @@ export function fetchPrevious() {
     meta: {
       errorMessage: 'Henting av tidligere arrangementer feilet',
     },
+    pagination: { fetchNext: false },
     propagateError: true,
   });
 }
@@ -56,6 +57,7 @@ export function fetchUpcoming() {
     meta: {
       errorMessage: 'Henting av kommende arrangementer feilet',
     },
+    pagination: { fetchNext: false },
     propagateError: true,
   });
 }

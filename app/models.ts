@@ -272,7 +272,6 @@ export type Event = EventBase & {
   unregistrationCloseTime?: Dateish | null | undefined;
   mazemapPoi: number;
   photoConsents?: Array<PhotoConsent>;
-  isUsersUpcoming?: boolean;
   documentType?: 'event';
   responsibleUsers: EntityId[];
   isForeignLanguage: boolean;

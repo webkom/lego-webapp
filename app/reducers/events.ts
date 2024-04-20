@@ -19,16 +19,14 @@ import {
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { DetailedEvent, UserDetailedEvent } from 'app/store/models/Event';
+import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { AnyAction } from 'redux';
 
 const legoAdapter = createLegoAdapter(EntityType.Events);
 
 const eventsSlice = createSlice({
   name: EntityType.Events,
-  initialState: legoAdapter.getInitialState({
-    fetchingPrevious: false,
-    fetchingUpcoming: false,
-  }),
+  initialState: legoAdapter.getInitialState(),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
@@ -36,20 +34,6 @@ const eventsSlice = createSlice({
     extraCases: (addCase) => {
       addCommentCases(EntityType.Events, addCase);
 
-      addCase(Event.FETCH_PREVIOUS.SUCCESS, (state, action: AnyAction) => {
-        const events = action.payload.entities.events.map((event) => ({
-          ...event,
-          isUsersUpcoming: false,
-        }));
-        legoAdapter.upsertMany(state, events);
-      });
-      addCase(Event.FETCH_UPCOMING.SUCCESS, (state, action: AnyAction) => {
-        const events = action.payload.entities.events.map((event) => ({
-          ...event,
-          isUsersUpcoming: true,
-        }));
-        legoAdapter.upsertMany(state, events);
-      });
       addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const events = normalize(action.payload, eventSchema).entities
           .events as DetailedEvent[];
@@ -195,11 +179,14 @@ export const selectEvents = createSelector(
       ReturnType<typeof transformEvent>
     >,
 );
-export const selectPreviousEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming === false),
-);
-export const selectUpcomingEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming),
+
+export const selectEventsByPagination = createSelector(
+  selectEventEntities,
+  (_: RootState, pagination: Pagination) => pagination,
+  (eventEntities, pagination) =>
+    pagination.ids.map((id) =>
+      transformEvent(eventEntities[id] as DetailedEvent),
+    ) as ReadonlyArray<ReturnType<typeof transformEvent>>,
 );
 export const selectSortedEvents = createSelector(selectEvents, (events) =>
   [...events].sort(
