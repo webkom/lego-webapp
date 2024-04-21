@@ -6,10 +6,10 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
-import type { DetailedGroup } from 'app/store/models/Group';
+import type { DetailedGroup, UnknownGroup } from 'app/store/models/Group';
 
 type Props = {
-  group: DetailedGroup;
+  group: UnknownGroup;
 };
 
 const validate = createValidator({
@@ -26,10 +26,12 @@ const AddGroupPermission = ({ group }: Props) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const { permissions = [] } = group as DetailedGroup; // Default to [] if the DetailedGroup object has not loaded yet
+
   const handleSubmit = (values, form) => {
     const updatedGroup = {
       ...group,
-      permissions: group.permissions.concat(values.permission),
+      permissions: permissions.concat(values.permission),
     };
     dispatch(editGroup(updatedGroup)).then(() => {
       form.reset();

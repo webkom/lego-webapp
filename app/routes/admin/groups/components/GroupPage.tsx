@@ -63,6 +63,7 @@ const GroupPageNavigation = ({
 export type GroupPageParams = {
   groupId: string;
 };
+
 const GroupPage = () => {
   const { groupId } = useParams<Optional<GroupPageParams>>(); // optional because of the /admin/groups route with no groupId
   const group = useAppSelector((state) =>
