@@ -308,6 +308,7 @@ export const Reaction = {
 };
 
 export const LendableObject = {
+  FETCH_ALL: generateStatuses('LendableObject.FETCH_ALL') as AAT,
   FETCH: generateStatuses('LendableObject.FETCH') as AAT,
   CREATE: generateStatuses('LendableObject.CREATE') as AAT,
   EDIT: generateStatuses('LendableObject.EDIT') as AAT,
@@ -315,6 +316,7 @@ export const LendableObject = {
 };
 
 export const LendingRequest = {
+  FETCH_ALL: generateStatuses('LendingRequest.FETCH_ALL') as AAT,
   FETCH: generateStatuses('LendingRequest.FETCH') as AAT,
   CREATE: generateStatuses('LendingRequest.CREATE') as AAT,
   EDIT: generateStatuses('LendingRequest.EDIT') as AAT,

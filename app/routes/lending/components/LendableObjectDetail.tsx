@@ -10,14 +10,15 @@ import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchLendableObject } from 'app/actions/LendableObjectActions';
+import { createLendingRequest } from 'app/actions/LendingRequestActions';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import { Button, TextArea, TextInput } from 'app/components/Form';
+import { TextArea, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
+import SubmitButton from 'app/components/Form/SubmitButton';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { createLendingRequest } from 'app/actions/LendingRequestActions';
 
 type Params = {
   lendableObjectId: string;
@@ -50,14 +51,12 @@ const LendableObjectDetail = () => {
 
   usePreparedEffect(
     'fetchLendableObject',
-    () => dispatch(fetchLendableObject(Number(lendableObjectId))),
-    []
+    () => lendableObjectId && dispatch(fetchLendableObject(lendableObjectId)),
+    [lendableObjectId]
   );
 
   const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, {
-      lendableObjectId,
-    })
+    selectLendableObjectById(state, lendableObjectId),
   );
 
   const initialValues = {
@@ -135,7 +134,7 @@ const LendableObjectDetail = () => {
                       placeholder={lendableObject.lendingCommentPrompt}
                       component={TextArea.Field}
                     />
-                    <Button type="submit">Send inn utlånsforespørsel</Button>
+                    <SubmitButton>Send inn forespørsel</SubmitButton>
                   </form>
                 );
               }}
