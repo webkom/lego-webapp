@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
-import { selectIsLoggedIn } from 'app/reducers/auth';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
@@ -13,7 +13,7 @@ import SearchResults from './SearchResults';
 import { getExternalLinks, getAdminLinks, getRegularLinks } from './utils';
 
 const Search = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
+  const loggedIn = useIsLoggedIn();
   const results = useAppSelector(selectAutocompleteRedux);
   const searching = useAppSelector((state) => state.search.searching);
   const allowed = useAppSelector((state) => state.allowed);
@@ -25,7 +25,7 @@ const Search = () => {
 
   const debouncedAutoComplete = useMemo(
     () => debounce((query) => dispatch(autocomplete(query)), 300),
-    [dispatch]
+    [dispatch],
   );
   const onCloseSearch = () => dispatch(toggleSearch());
 

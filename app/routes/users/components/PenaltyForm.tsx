@@ -13,8 +13,8 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, isInteger, required } from 'app/utils/validation';
 import styles from './Penalties.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { searchMapping } from 'app/reducers/search';
-import type { ID } from 'app/store/models';
 import type { FormApi } from 'final-form';
 
 type FormValues = {
@@ -34,7 +34,7 @@ const validate = createValidator({
 });
 
 type Props = {
-  userId: ID;
+  userId: EntityId;
 };
 
 const PenaltyForm = ({ userId }: Props) => {
@@ -49,7 +49,7 @@ const PenaltyForm = ({ userId }: Props) => {
         ...values,
         user: userId,
         sourceEvent: values.sourceEvent && values.sourceEvent.value,
-      })
+      }),
     ).then(() => {
       setHidden(true);
       setSent(true);
@@ -73,7 +73,9 @@ const PenaltyForm = ({ userId }: Props) => {
   const showForm = !hidden && !sent;
 
   return (
-    <Flex column gap="1rem">
+    <Flex column gap="var(--spacing-md)">
+      <div className={styles.divider} />
+
       <div>
         {!sent ? (
           <Button onClick={handleHide}>
@@ -82,7 +84,7 @@ const PenaltyForm = ({ userId }: Props) => {
         ) : (
           <Flex
             alignItems="center"
-            gap="0.5rem"
+            gap="var(--spacing-sm)"
             className={styles.successMessage}
           >
             <Icon name="checkmark-outline" className={styles.success} />

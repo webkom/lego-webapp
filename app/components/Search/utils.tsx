@@ -1,7 +1,8 @@
+import { Flex } from '@webkom/lego-bricks';
 import ReadmeLogo from 'app/components/ReadmeLogo';
+import { Tag } from 'app/components/Tags';
 import TextWithIcon from '../TextWithIcon';
-import styles from './Search.css';
-import type { Allowed } from 'app/reducers/allowed';
+import type { AllowedPages } from 'app/actions/MetaActions';
 import type { ReactNode } from 'react';
 
 type Link = {
@@ -33,6 +34,17 @@ const LINKS: Array<Link> = [
     title: 'Artikler',
     icon: 'book-outline',
     url: '/articles',
+  },
+  {
+    key: 'forum',
+    title: (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        Forum
+        <Tag tag="Beta" color="purple" />
+      </Flex>
+    ),
+    icon: 'chatbubbles-outline',
+    url: '/forum',
   },
   {
     key: 'events',
@@ -190,7 +202,7 @@ const sortFn = (a, b) => {
 const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
 const SORTED_ADMIN = LINKS.filter((link) => link.admin).sort(sortFn);
 type Options = {
-  allowed: Allowed;
+  allowed: AllowedPages;
   loggedIn: boolean;
 };
 
@@ -210,16 +222,8 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     })
     .map(({ url, title, icon }) => [
       url,
-      icon ? (
-        <TextWithIcon
-          content={title}
-          iconName={icon}
-          className={styles.quickLinkContent}
-        />
-      ) : (
-        title
-      ),
-    ]) as NavigationLink[];
+      icon ? <TextWithIcon content={title} iconName={icon} /> : title,
+    ]) satisfies NavigationLink[];
 }
 
 export type NavigationLink = [string, ReactNode]; // [url, label(as a react-node)]

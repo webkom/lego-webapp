@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button, Flex, Skeleton } from '@webkom/lego-bricks';
 import Tooltip from 'app/components/Tooltip';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import styles from './AttendanceStatus.css';
@@ -45,14 +45,20 @@ export type AttendanceStatusProps = {
   pools: AttendancePool[];
   toggleModal?: (index: number) => void;
   legacyRegistrationCount?: number;
+  skeleton?: boolean;
 };
 
 const AttendanceStatus = ({
   pools,
   toggleModal,
   legacyRegistrationCount,
+  skeleton,
 }: AttendanceStatusProps) => {
   const toggleKey = (key) => (pools.length > 1 ? key + 1 : key);
+
+  if (skeleton && !pools.length) {
+    return <Skeleton className={styles.attendanceBox} />;
+  }
 
   return (
     <div className={styles.attendanceBox}>

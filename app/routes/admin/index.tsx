@@ -1,15 +1,13 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import EmailRoute from './email';
-import GroupPage from './groups/components/GroupPage';
+import pageNotFound from '../pageNotFound';
+import emailRoute from './email';
+import groupPageRoute from './groups/components/GroupPage';
+import type { RouteObject } from 'react-router-dom';
 
-const AdminRoute = () => (
-  <Routes>
-    <Route path="groups/:groupId/*" element={<GroupPage />} />
-    <Route path="groups" element={<GroupPage />} />
-    <Route path="email/*" element={<EmailRoute />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const adminRoute: RouteObject[] = [
+  { path: 'groups/:groupId/*', children: groupPageRoute },
+  { path: 'groups', children: groupPageRoute },
+  { path: 'email/*', children: emailRoute },
+  { path: '*', children: pageNotFound },
+];
 
-export default AdminRoute;
+export default adminRoute;

@@ -1,55 +1,90 @@
+import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
-import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
+import { addCommentCases } from 'app/reducers/comments';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Meeting } from '../actions/ActionTypes';
-import { mutateReactions } from './reactions';
+import { addReactionCases } from './reactions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { ID } from 'app/store/models';
 import type { ListMeeting } from 'app/store/models/Meeting';
+import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import type { PublicUser } from 'app/store/models/User';
 import type { Moment } from 'moment-timezone';
+import type { AnyAction } from 'redux';
+
+export enum MeetingTokenResponse {
+  Failure = 'FAILURE',
+  Success = 'SUCCESS',
+}
+export type MeetingTokenSuccessState = {
+  response: MeetingTokenResponse.Success;
+  user: PublicUser;
+  meeting: EntityId;
+  status: MeetingInvitationStatus;
+};
+export type MeetingTokenState =
+  | {
+      response?: MeetingTokenResponse.Failure;
+    }
+  | MeetingTokenSuccessState;
+
+const legoAdapter = createLegoAdapter(EntityType.Meetings, {
+  sortComparer: (a, b) => moment(a.startTime).diff(moment(b.startTime)),
+});
+
+const meetingsSlice = createSlice({
+  name: EntityType.Meetings,
+  initialState: legoAdapter.getInitialState({
+    meetingToken: {} as MeetingTokenState,
+  }),
+  reducers: {
+    resetMeetingToken(state) {
+      state.meetingToken = {};
+    },
+  },
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Meeting.FETCH],
+    deleteActions: [Meeting.DELETE],
+    extraCases: (addCase) => {
+      addCommentCases(EntityType.Meetings, addCase);
+      addReactionCases(EntityType.Meetings, addCase);
+
+      addCase(Meeting.ANSWER_INVITATION_TOKEN.FAILURE, (state) => {
+        state.meetingToken = { response: MeetingTokenResponse.Failure };
+      });
+      addCase(
+        Meeting.ANSWER_INVITATION_TOKEN.SUCCESS,
+        (state, action: AnyAction) => {
+          const { meeting, user, status } = action.payload;
+          state.meetingToken = {
+            response: MeetingTokenResponse.Success,
+            user,
+            meeting,
+            status,
+          };
+        },
+      );
+    },
+  }),
+});
+
+export default meetingsSlice.reducer;
+export const { resetMeetingToken } = meetingsSlice.actions;
+
+export const {
+  selectAll: selectAllMeetings,
+  selectById: selectMeetingById,
+  selectByField: selectMeetingsByField,
+} = legoAdapter.getSelectors((state: RootState) => state.meetings);
 
 export type MeetingSection = {
   title: string;
   meetings: ListMeeting[];
 };
-
-const mutate = joinReducers(
-  mutateComments('meetings'),
-  mutateReactions('meetings')
-);
-
-export default createEntityReducer({
-  key: 'meetings',
-  types: {
-    fetch: Meeting.FETCH,
-    mutate: Meeting.CREATE,
-    delete: Meeting.DELETE,
-  },
-  mutate,
-});
-export const selectMeetings = createSelector(
-  (state) => state.meetings.byId,
-  (state) => state.meetings.items,
-  (meetingsById, meetingIds) => meetingIds.map((id) => meetingsById[id])
-);
-export const selectMeetingById = createSelector(
-  (state) => state.meetings.byId,
-  (state, props) => props.meetingId,
-  (meetingsById, meetingId) => meetingsById[meetingId]
-);
-export const selectCommentsForMeeting = createSelector(
-  selectMeetingById,
-  selectCommentEntities,
-  (meeting, commentEntities) => {
-    if (!meeting || !meeting.comments) return [];
-    return meeting.comments.map((commentId) => commentEntities[commentId]);
-  }
-);
-
 export const selectGroupedMeetings = createSelector(
-  selectMeetings,
+  selectAllMeetings,
   (meetings) => {
     const currentTime = moment();
     const currentYear = currentTime.year();
@@ -103,7 +138,7 @@ export const selectGroupedMeetings = createSelector(
     // Sorted descendingly to generate semesters in the correct order
     const sortedMeetings: ListMeeting[] = (meetings as ListMeeting[]).sort(
       (meeting1, meeting2) =>
-        Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime))
+        Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime)),
     );
 
     const olderMeetingGroupObj: {
@@ -138,11 +173,11 @@ export const selectGroupedMeetings = createSelector(
     // Reverse all the meeting groups that are in the future
     customMeetingGroups.forEach(
       (customMeetingGroup) =>
-        !customMeetingGroup.past && customMeetingGroup.meetings.reverse()
+        !customMeetingGroup.past && customMeetingGroup.meetings.reverse(),
     );
 
     const semesterMeetingGroups: MeetingSection[] = Object.entries(
-      olderMeetingGroupObj
+      olderMeetingGroupObj,
     ).map(([title, { meetings }]) => ({ title, meetings }));
 
     // Merge the custom meeting groups with the semester groups
@@ -150,22 +185,17 @@ export const selectGroupedMeetings = createSelector(
       .map<MeetingSection>(({ title, meetings }) => ({ title, meetings }))
       .concat(semesterMeetingGroups)
       .filter((meetingGroup) => meetingGroup.meetings.length !== 0);
-  }
+  },
 );
 
-export const selectUpcomingMeetings = createSelector(
-  (state: RootState) => state.meetings.byId,
-  (state: RootState) => state.meetings.items,
-  (meetingsById, meetingIds) =>
-    meetingIds
-      .map((id) => meetingsById[id])
-      .filter((meeting: any) => moment(meeting.endTime).isAfter(moment()))
-      .sort((meetingA: any, meetingB: any) =>
-        moment(meetingA.startTime).isAfter(moment(meetingB.startTime)) ? 1 : -1
-      ) as unknown as ListMeeting[]
-);
+export const selectUpcomingMeetings = (state: RootState) =>
+  selectMeetingsByField('endTime', (endTime, filterTime) =>
+    moment(endTime).isAfter(filterTime),
+  )(state, moment()).sort((a, b) =>
+    moment(a.startTime).diff(moment(b.startTime)),
+  );
 
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,
-  (upcomingMeetings) => upcomingMeetings[0]?.id as ID | undefined
+  (upcomingMeetings) => upcomingMeetings[0]?.id as EntityId | undefined,
 );

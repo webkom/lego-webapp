@@ -21,7 +21,7 @@ import sortCompanies from '../SortCompanies';
 import { indexToSemester, ListNavigation } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
@@ -52,7 +52,7 @@ const BdbPage = () => {
   usePreparedEffect(
     'fetchBdb',
     () => dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin())),
-    []
+    [],
   );
 
   const navigateThroughTime = (options: Record<string, any>) => {
@@ -71,17 +71,17 @@ const BdbPage = () => {
   };
 
   const editChangedStatuses = (
-    companyId: ID,
+    companyId: EntityId,
     tableIndex: number,
     semesterStatusId: number | null | undefined,
-    contactedStatus: CompanySemesterContactStatus[]
+    contactedStatus: CompanySemesterContactStatus[],
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const companySemester = indexToSemester(
       tableIndex,
       startYear,
       startSem,
-      companySemesters
+      companySemesters,
     );
     const newStatus = {
       companyId,
@@ -120,7 +120,7 @@ const BdbPage = () => {
 
   const companySearch = (companies: CompanyEntity[]): CompanyEntity[] =>
     companies.filter((company: CompanyEntity) =>
-      company.name.toLowerCase().includes(searchQuery.toLowerCase())
+      company.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
   const filterCompanies = (companies: CompanyEntity[]): CompanyEntity[] => {

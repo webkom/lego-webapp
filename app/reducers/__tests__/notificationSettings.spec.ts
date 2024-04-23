@@ -3,7 +3,7 @@ import { NotificationSettings } from 'app/actions/ActionTypes';
 import notificationSettings from '../notificationSettings';
 
 describe('reducers', () => {
-  const prevState = {
+  const prevState: ReturnType<typeof notificationSettings> = {
     channels: [],
     notificationTypes: [],
     settings: {},

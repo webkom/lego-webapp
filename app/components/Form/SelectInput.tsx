@@ -19,9 +19,9 @@ type Props<Option, IsMulti extends boolean = false> = {
     event: FocusEvent<HTMLInputElement>,
     newValue?: string,
     previousValue?: string,
-    name?: string
+    name?: string,
   ) => void;
-  onChange?: (event: ChangeEvent | string) => void;
+  onChange?: (event: ChangeEvent | string | Option[]) => void;
   onSearch: (search: string) => void;
   isValidNewOption: (arg0: string) => boolean;
   value: any;
@@ -30,7 +30,15 @@ type Props<Option, IsMulti extends boolean = false> = {
   creatable?: boolean;
   isMulti?: boolean;
   isClearable?: boolean;
+  filter?: string[];
+  SuggestionComponent?: SuggestionComponent;
 };
+
+export type SuggestionComponent<Option = { label: string; value: number }> =
+  React.ComponentType<{
+    value: Option[];
+    onChange?: (event: ChangeEvent | string | Option[]) => void;
+  }>;
 
 export const selectStyles: StylesConfig = {
   control: (styles, { isDisabled }) => ({
@@ -48,6 +56,7 @@ export const selectStyles: StylesConfig = {
     color: isSelected ? 'var(--color-gray-1)' : undefined,
     fontSize: '14px',
   }),
+  menuPortal: (base) => ({ ...base, zIndex: 20 }),
 };
 export const selectTheme: ThemeConfig = (theme) => ({
   ...theme,
@@ -69,7 +78,7 @@ export const selectTheme: ThemeConfig = (theme) => ({
     neutral80: 'var(--lego-font-color)', // Font color and hover arrow color
     // neutral90: // Unknown
     danger: 'var(--danger-color)', // Color of delete button in multi select items
-    dangerLight: 'rgba(255, 0, 0, var(--color-red-hover-alpha))', // Background color of delete button in multi select items
+    dangerLight: 'rgba(255, 0, 0, var(--low-alpha))', // Background color of delete button in multi select items
   },
 });
 
@@ -89,6 +98,7 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
   placeholder,
   creatable,
   onSearch,
+  SuggestionComponent,
   ...props
 }: Props<Option, IsMulti>) => {
   if (props.tags) {
@@ -127,6 +137,9 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
 
   return (
     <div className={style.field}>
+      {SuggestionComponent && (
+        <SuggestionComponent value={value} onChange={props.onChange} />
+      )}
       <Select
         {...props}
         isDisabled={disabled}
@@ -140,6 +153,7 @@ const SelectInput = <Option, IsMulti extends boolean = false>({
           onSearch?.(value);
           return value;
         }}
+        menuPortalTarget={document.body}
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
         blurInputOnSelect={false}

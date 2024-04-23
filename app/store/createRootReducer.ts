@@ -13,11 +13,7 @@ import emojis from 'app/reducers/emojis';
 import events from 'app/reducers/events';
 import feedActivities from 'app/reducers/feedActivities';
 import feeds from 'app/reducers/feeds';
-import {
-  followersCompany,
-  followersEvent,
-  followersUser,
-} from 'app/reducers/followers';
+import forums from 'app/reducers/forums';
 import frontpage from 'app/reducers/frontpage';
 import galleries from 'app/reducers/galleries';
 import galleryPictures from 'app/reducers/galleryPictures';
@@ -28,11 +24,11 @@ import lendableObjects from 'app/reducers/lendableObjects';
 import lendingRequests from 'app/reducers/lendingRequests';
 import meetingInvitations from 'app/reducers/meetingInvitations';
 import meetings from 'app/reducers/meetings';
-import meetingsToken from 'app/reducers/meetingsToken';
 import memberships from 'app/reducers/memberships';
 import notificationSettings from 'app/reducers/notificationSettings';
 import notificationsFeed from 'app/reducers/notificationsFeed';
-import { oauth2Applications, oauth2Grants } from 'app/reducers/oauth2';
+import oauth2Applications from 'app/reducers/oauth2Applications';
+import oauth2Grants from 'app/reducers/oauth2Grants';
 import pages from 'app/reducers/pages';
 import penalties from 'app/reducers/penalties';
 import polls from 'app/reducers/polls';
@@ -47,6 +43,7 @@ import surveySubmissions from 'app/reducers/surveySubmissions';
 import surveys from 'app/reducers/surveys';
 import tags from 'app/reducers/tags';
 import theme from 'app/reducers/theme';
+import threads from 'app/reducers/threads';
 import toasts from 'app/reducers/toasts';
 import users from 'app/reducers/users';
 
@@ -66,17 +63,17 @@ const createRootReducer = () => {
     events,
     feedActivities,
     feeds,
+    forums,
     frontpage,
-    imageGalleryEntries,
     galleries,
     galleryPictures,
     groups,
+    imageGalleryEntries,
     joblistings,
     lendableObjects,
     lendingRequests,
     meetingInvitations,
     meetings,
-    meetingsToken,
     memberships,
     notificationSettings,
     notificationsFeed,
@@ -96,11 +93,9 @@ const createRootReducer = () => {
     surveys,
     tags,
     theme,
+    threads,
     toasts,
     users,
-    followersCompany,
-    followersUser,
-    followersEvent,
   });
 };
 

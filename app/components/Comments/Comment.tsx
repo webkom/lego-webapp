@@ -1,4 +1,5 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import moment from 'moment';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteComment } from 'app/actions/CommentActions';
@@ -8,7 +9,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './Comment.css';
 import type CommentType from 'app/store/models/Comment';
@@ -35,14 +36,14 @@ const Comment = ({
 
   const dispatch = useAppDispatch();
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   return (
     <>
       <div className={styles.comment}>
         {author ? (
           <Flex alignItems="center" justifyContent="space-between">
-            <Flex alignItems="center" gap="1rem">
+            <Flex alignItems="center" gap="var(--spacing-md)">
               <Link to={`/users/${author.username}`}>
                 <ProfilePicture size={40} user={author} />
               </Link>
@@ -60,7 +61,17 @@ const Comment = ({
                     />
                   )}
                 </Flex>
-                <Time className={styles.timestamp} time={createdAt} wordsAgo />
+                <Tooltip
+                  content={moment(createdAt).format('lll')}
+                  placement="right"
+                  className={styles.timestampTooltip}
+                >
+                  <Time
+                    className={styles.timestamp}
+                    time={createdAt}
+                    wordsAgo
+                  />
+                </Tooltip>
               </Flex>
             </Flex>
 
@@ -81,7 +92,7 @@ const Comment = ({
           </Flex>
         ) : (
           <Flex justifyContent="space-between">
-            <Flex alignItems="center" gap="1rem">
+            <Flex alignItems="center" gap="var(--spacing-md)">
               <div className={styles.anonymousProfilePicture} />
 
               <Flex column className={styles.username}>

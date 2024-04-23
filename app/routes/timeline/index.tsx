@@ -1,12 +1,12 @@
-import { Route, Routes } from 'react-router-dom';
-import TimelinePage from 'app/routes/timeline/components/TimelinePage';
-import PageNotFound from '../pageNotFound';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const TimelineRoute = () => (
-  <Routes>
-    <Route index element={<TimelinePage />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const TimelinePage = loadable(() => import('./components/TimelinePage'));
 
-export default TimelineRoute;
+const timelineRoute: RouteObject[] = [
+  { index: true, Component: TimelinePage },
+  { path: '*', children: pageNotFound },
+];
+
+export default timelineRoute;

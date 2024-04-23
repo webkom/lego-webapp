@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Quote from './Quote';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import type QuoteType from 'app/store/models/Quote';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 const QuoteList = ({ quotes, actionGrant }: Props) => {
-  const [displayAdminId, setDisplayAdminId] = useState<ID>();
+  const [displayAdminId, setDisplayAdminId] = useState<EntityId>();
 
   return (
     <ul>
@@ -21,7 +21,7 @@ const QuoteList = ({ quotes, actionGrant }: Props) => {
           key={quote.id}
           toggleDisplayAdmin={() =>
             setDisplayAdminId(
-              quote.id === displayAdminId ? undefined : quote.id
+              quote.id === displayAdminId ? undefined : quote.id,
             )
           }
           displayAdmin={quote.id === displayAdminId}

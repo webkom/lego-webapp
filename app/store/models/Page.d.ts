@@ -1,15 +1,17 @@
+import type { EntityId } from '@reduxjs/toolkit';
+import type { ActionGrant } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { ID } from 'app/store/models/index';
 
 interface Page {
-  pk: ID;
+  pk: EntityId;
   title: string;
   slug: string;
   content: string;
   picture: string;
   picturePlaceholder: string;
   category: string;
+  actionGrant: ActionGrant;
 }
 
 export type ListPage = Pick<Page, 'pk' | 'title' | 'slug' | 'category'>;
@@ -23,6 +25,7 @@ export type DetailedPage = Pick<
   | 'picture'
   | 'picturePlaceholder'
   | 'category'
+  | 'actionGrant'
 >;
 
 export type AuthDetailedPage = DetailedPage & ObjectPermissionsMixin;
@@ -33,7 +36,7 @@ export type SearchPage = Pick<
   Page,
   'title' | 'slug' | 'content' | 'picture' | 'category'
 > & {
-  id: ID;
+  id: EntityId;
 };
 
 export type AutocompletePage = Pick<

@@ -6,34 +6,44 @@ import type { ReactElement } from 'react';
 
 type Props = {
   name: string;
-  label: string;
+  label?: string;
   children: ReactElement | ReactElement[];
 };
 
 const MultiSelectGroup = ({ name, label, children }: Props) => {
   return (
-    <div>
+    <>
       <label className={styles.groupLabel}>{label}</label>
       <div className={styles.group}>
         {Children.map(children, (child) =>
           cloneElement(child, {
             name,
             fieldClassName: styles.radioField,
-            labelClassName: styles.radioLabel,
-          })
+            labelContentClassName: styles.radioLabel,
+          }),
         )}
       </div>
       <FormSpy
         subscription={{ errors: true, submitErrors: true, touched: true }}
       >
         {(props) => {
-          const error = props.errors ? props.errors[name] : [];
+          let error = '';
+          if (Array.isArray(props.errors?.[name])) {
+            error = Object.values(props.errors[name][0]).join('');
+          } else if (
+            props.errors?.[name] &&
+            typeof props.errors[name] === 'string'
+          ) {
+            error = props.errors[name];
+          }
+
           const submitError = props.submitErrors
             ? props.submitErrors[name]
-            : [];
+            : '';
+
           if (props.touched?.[name]) {
             return (
-              <div>
+              <>
                 <RenderErrorMessage
                   key={error}
                   error={error}
@@ -44,14 +54,14 @@ const MultiSelectGroup = ({ name, label, children }: Props) => {
                   error={submitError}
                   fieldName={name}
                 />
-              </div>
+              </>
             );
           }
 
-          return <div></div>;
+          return <></>;
         }}
       </FormSpy>
-    </div>
+    </>
   );
 };
 

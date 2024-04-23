@@ -3,9 +3,9 @@
 .optionField {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: var(--spacing-md);
 }
 
 .actionButtons {
-  margin-top: 15px;
+  margin-top: var(--spacing-md);
 }

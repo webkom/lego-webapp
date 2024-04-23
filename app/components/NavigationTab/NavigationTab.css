@@ -5,26 +5,25 @@
   flex-flow: row wrap;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-md);
 }
 
 .header {
   display: inline;
-  font-weight: 600;
-  line-height: 34px;
-  margin: 0;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-right: 20px;
-  flex-shrink: 99999;
   word-break: break-word;
+}
+
+.skeletonHeader {
+  margin: var(--spacing-md) 0;
+  width: 210px;
+  height: 39px;
 }
 
 .navigator {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
 }
 
 .back {
@@ -35,7 +34,7 @@
 
 span.backLabel {
   font-weight: 600;
-  margin-left: 6px;
+  margin-left: var(--spacing-sm);
 }
 
 .backIcon {
@@ -47,6 +46,6 @@ span.backLabel {
 }
 
 .details {
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-md);
   color: var(--secondary-font-color);
 }

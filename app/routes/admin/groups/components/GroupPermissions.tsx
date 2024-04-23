@@ -1,25 +1,29 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
+import { Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
-import { selectGroup } from 'app/reducers/groups';
+import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AddGroupPermission from './AddGroupPermission';
-import type { DetailedGroup } from 'app/store/models/Group';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
+import type { DetailedGroup, UnknownGroup } from 'app/store/models/Group';
 
 type PermissionListProps = {
-  group: DetailedGroup;
+  group: UnknownGroup;
 };
 
 const PermissionList = ({ group }: PermissionListProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const parentPermissionsList = group.parentPermissions
+  const { permissions = [], parentPermissions = [] } = group as DetailedGroup; // Default to [] if the DetailedGroup object has not loaded yet
+
+  const parentPermissionsList = parentPermissions
     .map(
       ({ abakusGroup, permissions }) =>
         !!permissions.length && (
-          <>
+          <Fragment key={'group-permissions' + abakusGroup.id}>
             <h4>
               Rettigheter fra
               <Link to={`/admin/groups/${abakusGroup.id}/permissions/`}>
@@ -32,16 +36,16 @@ const PermissionList = ({ group }: PermissionListProps) => {
                 <li key={permission + abakusGroup.id}>{permission}</li>
               ))}
             </ul>
-          </>
-        )
+          </Fragment>
+        ),
     )
     .filter(Boolean);
 
   const allPermissionsList = sortBy(
-    group.permissions.concat(
-      group.parentPermissions.flatMap(({ permissions }) => permissions)
+    permissions.concat(
+      parentPermissions.flatMap(({ permissions }) => permissions),
     ),
-    (permission: string) => permission.split('/').length
+    (permission: string) => permission.split('/').length,
   )
     .reduce((acc: Array<string>, perm: string) => {
       // Reduce perms to only show broadest set of permissions
@@ -49,7 +53,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
       // Therefore we will only show "/sudo/admin/events/"
       const splittedPerm = perm.split('/').filter(Boolean);
       const [broaderPermFound] = splittedPerm.reduce(
-        (accumulator: [boolean, string], permPart: string) => {
+        (accumulator, permPart) => {
           const [broaderPermFound, summedPerm] = accumulator;
           const concatedString = `${summedPerm}${permPart}/`;
           return [
@@ -57,7 +61,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
             concatedString,
           ];
         },
-        [false, '/']
+        [false, '/'],
       );
       if (broaderPermFound) return acc;
       return [...acc, perm];
@@ -68,8 +72,8 @@ const PermissionList = ({ group }: PermissionListProps) => {
     <div>
       <h3>Nåværende rettigheter</h3>
       <ul>
-        {group.permissions.length ? (
-          group.permissions.map((permission) => (
+        {permissions.length ? (
+          permissions.map((permission) => (
             <li key={permission}>
               <Flex alignItems="center" gap={10}>
                 <ConfirmModal
@@ -80,10 +84,10 @@ const PermissionList = ({ group }: PermissionListProps) => {
                     dispatch(
                       editGroup({
                         ...group,
-                        permissions: group.permissions.filter(
-                          (perm) => perm !== permission
+                        permissions: permissions.filter(
+                          (perm) => perm !== permission,
                         ),
-                      })
+                      }),
                     ).then(() => {
                       if (group.type === 'interesse') {
                         navigate(`/interest-groups/${group.id}`);
@@ -122,8 +126,8 @@ const PermissionList = ({ group }: PermissionListProps) => {
 };
 
 const GroupPermissions = () => {
-  const { groupId } = useParams<{ groupId: string }>();
-  const group = useAppSelector((state) => selectGroup(state, { groupId }));
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
+  const group = useAppSelector((state) => selectGroupById(state, groupId));
 
   return (
     <div>

@@ -2,24 +2,32 @@ import { Button } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
-import { fetch } from 'app/actions/GalleryActions';
+import { fetchGalleries } from 'app/actions/GalleryActions';
 import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { selectGalleries } from 'app/reducers/galleries';
+import { selectAllGalleries } from 'app/reducers/galleries';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import styles from './Overview.css';
+import type { ListGallery } from 'app/store/models/Gallery';
 
 const Overview = () => {
-  const galleries = useAppSelector(selectGalleries);
-  const fetching = useAppSelector((state) => state.galleries.fetching);
-  const hasMore = useAppSelector((state) => state.galleries.hasMore);
+  const galleries = useAppSelector(selectAllGalleries<ListGallery>);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/galleries/',
+      entity: EntityType.Galleries,
+      query: {},
+    }),
+  );
   const actionGrant = useAppSelector((state) => state.galleries.actionGrant);
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchGalleryList', () => dispatch(fetch()), []);
+  usePreparedEffect('fetchGalleryList', () => dispatch(fetchGalleries()), []);
 
   const navigate = useNavigate();
 
@@ -33,13 +41,13 @@ const Overview = () => {
       )}
 
       <Gallery
-        hasMore={hasMore}
-        fetching={fetching}
+        hasMore={pagination.fetching || pagination.hasMore}
+        fetching={pagination.fetching}
         fetchNext={() =>
           dispatch(
-            fetch({
+            fetchGalleries({
               next: true,
-            })
+            }),
           )
         }
         onClick={(gallery) => navigate(`/photos/${gallery.id}#list`)}
@@ -48,11 +56,11 @@ const Overview = () => {
             <h4 className={styles.galleryTitle}>{photo.title}</h4>
             <span
               className={styles.galleryDescription}
-            >{`${photo.pictureCount} - bilder`}</span>
+            >{`${photo.pictureCount} bilder`}</span>
           </div>
         )}
         renderEmpty={() => (
-          <EmptyState icon="photos-outline">
+          <EmptyState className={styles.emptyState} icon="images-outline">
             <h1>Ingen synlige albumer</h1>
             {actionGrant && actionGrant.includes('create') && (
               <h4>
@@ -66,7 +74,7 @@ const Overview = () => {
           </EmptyState>
         )}
         photos={galleries}
-        srcKey="cover.file"
+        getSrc={(gallery) => gallery.cover?.file ?? ''}
       />
     </Content>
   );

@@ -82,10 +82,8 @@ export const displayNameForEventType = (eventType: EventType) => {
 };
 
 // Returns the color code of an EventType
-export const colorForEventType = (eventType: EventType) => {
-  return (
-    EventTypeConfig[eventType]?.color || EventTypeConfig[EventType.OTHER].color
-  );
+export const colorForEventType = (eventType: EventType = EventType.OTHER) => {
+  return EventTypeConfig[eventType]?.color;
 };
 
 // Returns a color that is appropriate to be used for text put on top of a background with the color code of an EventType
@@ -139,7 +137,6 @@ const eventCreateAndUpdateFields = [
   'pinned',
   'heedPenalties',
   'useConsent',
-  'useContactTracing',
   'separateDeadlines',
   'responsibleUsers',
 ];
@@ -187,7 +184,7 @@ const calculatePools = (data) => {
           ...pick(data.pools[0], poolCreateAndUpdateFields),
           activationDate: moment(data.pools[0].activationDate).toISOString(),
           permissionGroups: data.pools[0].permissionGroups.map(
-            (group) => group.value
+            (group) => group.value,
           ),
         },
       ];
@@ -337,7 +334,7 @@ export const transformEventStatusType = (eventStatusType: string) => {
 };
 
 export const getEventSemesterFromStartTime = (
-  startTime: Dateish
+  startTime: Dateish,
 ): EventSemester => {
   return {
     year: moment(startTime).year(),
@@ -349,22 +346,23 @@ export const getConsent = (
   domain: PhotoConsentDomain,
   year: number,
   semester: string,
-  photoConsents: Array<PhotoConsent>
+  photoConsents: Array<PhotoConsent>,
 ): PhotoConsent | null | undefined =>
   photoConsents.find(
-    (pc) => pc.domain === domain && pc.year === year && pc.semester === semester
+    (pc) =>
+      pc.domain === domain && pc.year === year && pc.semester === semester,
   );
 
 export const allConsentsAnswered = (
-  photoConsents: Array<PhotoConsent>
+  photoConsents: Array<PhotoConsent>,
 ): boolean =>
   photoConsents?.reduce(
     (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
-    photoConsents.length > 0
+    photoConsents.length > 0,
   );
 
 export const toReadableSemester = (
-  semesterObj: EventSemester | PhotoConsent
+  semesterObj: EventSemester | PhotoConsent,
 ): string => {
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;
@@ -375,7 +373,7 @@ export const isTBA = (value) =>
 
 export const containsAllergier = (value) =>
   value && value.toLowerCase().indexOf('allergi') !== -1
-    ? `Matallergier/preferanser kan hentes fra adminsidene til arrangementet`
+    ? `Matallergier / preferanser kan hentes fra adminsidene til arrangementet`
     : undefined;
 
 export const tooLow = (value) =>

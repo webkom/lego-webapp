@@ -1,12 +1,12 @@
 import Tag from 'app/components/Tags/Tag';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { TagColors } from 'app/components/Tags/Tag';
 import type { GraphData } from 'app/routes/surveys/components/Submissions/Results';
-import type { ID } from 'app/store/models';
 import type { SurveyQuestionOption } from 'app/store/models/SurveyQuestion';
 
 type Props = {
   options: SurveyQuestionOption[];
-  data: GraphData[ID];
+  data: GraphData[EntityId];
 };
 const AveragePill = ({ options, data }: Props) => {
   const average = getAverage(data);
@@ -16,7 +16,7 @@ const AveragePill = ({ options, data }: Props) => {
     optionMin,
     optionMax,
     0,
-    averageTagColors.length - 1
+    averageTagColors.length - 1,
   );
 
   return (
@@ -32,7 +32,7 @@ const getOptionNumber = (optionText: string) => {
   return Number(optionText.match(/^\d+/)?.[0]);
 };
 
-const getAverage = (data: GraphData[ID]) => {
+const getAverage = (data: GraphData[EntityId]) => {
   const [sum, numberOfAnswers] = data.reduce(
     (accumulator, optionData) => {
       const optionNumber = getOptionNumber(optionData.name);
@@ -41,7 +41,7 @@ const getAverage = (data: GraphData[ID]) => {
         accumulator[1] + optionData.count,
       ];
     },
-    [0, 0]
+    [0, 0],
   );
   return Number((sum / numberOfAnswers).toFixed(2));
 };
@@ -58,7 +58,7 @@ const getMinMaxOption = (options: SurveyQuestionOption[]) => {
         Math.max(result[1], optionNumber),
       ];
     },
-    [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY]
+    [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
   );
 };
 
@@ -70,7 +70,7 @@ const mapValueToNewInterval = (
   start: number,
   end: number,
   newStart: number,
-  newEnd: number
+  newEnd: number,
 ) => {
   return ((value - start) * (newEnd - newStart)) / (end - start) + newStart;
 };

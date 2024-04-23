@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
 import { Survey } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   DetailedSurvey,
   FormSubmitSurvey,
@@ -10,7 +10,7 @@ import type {
   PublicSurvey,
 } from 'app/store/models/Survey';
 
-export function fetchSurvey(surveyId: ID) {
+export function fetchSurvey(surveyId: EntityId) {
   return callAPI<DetailedSurvey>({
     types: Survey.FETCH,
     endpoint: `/surveys/${surveyId}/`,
@@ -21,7 +21,7 @@ export function fetchSurvey(surveyId: ID) {
     propagateError: true,
   });
 }
-export function fetchWithToken(surveyId: ID, token: string) {
+export function fetchWithToken(surveyId: EntityId, token: string) {
   return callAPI<PublicResultsSurvey>({
     types: Survey.FETCH,
     endpoint: `/survey-results/${surveyId}/`,
@@ -66,7 +66,7 @@ export function addSurvey(data: FormSubmitSurvey) {
 export function editSurvey({
   surveyId,
   ...data
-}: Partial<FormSubmitSurvey> & { surveyId: ID }) {
+}: Partial<FormSubmitSurvey> & { surveyId: EntityId }) {
   return callAPI<DetailedSurvey>({
     types: Survey.EDIT,
     endpoint: `/surveys/${surveyId}/`,
@@ -109,7 +109,7 @@ export function fetchTemplate(template: string) {
     propagateError: true,
   });
 }
-export function shareSurvey(surveyId: ID) {
+export function shareSurvey(surveyId: EntityId) {
   return callAPI({
     types: Survey.SHARE,
     endpoint: `/surveys/${surveyId}/share/`,
@@ -121,7 +121,7 @@ export function shareSurvey(surveyId: ID) {
     propagateError: true,
   });
 }
-export function hideSurvey(surveyId: ID) {
+export function hideSurvey(surveyId: EntityId) {
   return callAPI({
     types: Survey.HIDE,
     endpoint: `/surveys/${surveyId}/hide/`,

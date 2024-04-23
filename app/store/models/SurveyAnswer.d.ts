@@ -1,13 +1,13 @@
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { Overwrite } from 'utility-types';
 
 interface CompleteSurveyAnswer {
-  id: ID;
-  submission: ID;
+  id: EntityId;
+  submission: EntityId;
   question: SurveyQuestion;
   answerText: string;
-  selectedOptions: ID[];
+  selectedOptions: EntityId[];
   hideFromPublic: boolean;
 }
 
@@ -22,6 +22,6 @@ export type AdminSurveyAnswer = Pick<CompleteSurveyAnswer, 'hideFromPublic'> &
 export type FormSurveyAnswer = Overwrite<
   Pick<CompleteSurveyAnswer, 'question' | 'answerText' | 'selectedOptions'>,
   {
-    question: ID;
+    question: EntityId;
   }
 >;

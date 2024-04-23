@@ -9,9 +9,7 @@ import { selectRestrictedMails } from 'app/reducers/restrictedMails';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
 const RestrictedMails = () => {
-  const restrictedMails = useAppSelector((state) =>
-    selectRestrictedMails(state)
-  );
+  const restrictedMails = useAppSelector(selectRestrictedMails);
   const fetching = useAppSelector((state) => state.restrictedMails.fetching);
   const hasMore = useAppSelector((state) => state.restrictedMails.hasMore);
 
@@ -93,7 +91,7 @@ const RestrictedMails = () => {
           dispatch(
             fetch({
               next: true,
-            })
+            }),
           )
         }
         hasMore={hasMore || false}

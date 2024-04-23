@@ -105,7 +105,7 @@ describe('createLegoAdapter', () => {
         adapter.buildReducers({
           fetchActions: [FETCH],
           deleteActions: [DELETE],
-        })
+        }),
       );
 
       const stateWithArticle = {
@@ -123,14 +123,14 @@ describe('createLegoAdapter', () => {
       it('should set fetching=false on FETCH.SUCCESS', () => {
         const newState = reducer(
           { ...initialState, fetching: true },
-          fetchSuccess
+          fetchSuccess,
         );
         expect(newState.fetching).toBeFalsy();
       });
       it('should set fetching=false on FETCH.FAILURE', () => {
         const newState = reducer(
           { ...initialState, fetching: true },
-          fetchFailure
+          fetchFailure,
         );
         expect(newState.fetching).toBeFalsy();
       });
@@ -149,7 +149,7 @@ describe('createLegoAdapter', () => {
       it('should delete on DELETE.SUCCESS', () => {
         const newState = reducer(
           reducer(stateWithArticle, deleteBegin),
-          deleteSuccess
+          deleteSuccess,
         );
         expect(newState).toEqual({
           ...stateWithArticle,
@@ -160,7 +160,7 @@ describe('createLegoAdapter', () => {
       it('should not delete on DELETE.FAILURE', () => {
         const newState = reducer(
           reducer(stateWithArticle, deleteBegin),
-          deleteFailure
+          deleteFailure,
         );
         expect(newState).toEqual(stateWithArticle);
       });
@@ -171,6 +171,7 @@ describe('createLegoAdapter', () => {
           test: {
             query: {},
             ids: [42],
+            fetching: false,
             hasMore: true,
             hasMoreBackwards: false,
             next: {
@@ -196,7 +197,7 @@ describe('createLegoAdapter', () => {
                 state.actionGrant = ['expected'];
               });
             },
-          })
+          }),
         );
 
         expect(reducer(initialState, { type: 'testAction' })).toEqual({
@@ -216,10 +217,10 @@ describe('createLegoAdapter', () => {
                 ({ type }) => type.includes('test'),
                 (state) => {
                   state.actionGrant = ['expected'];
-                }
+                },
               );
             },
-          })
+          }),
         );
 
         expect(reducer(initialState, { type: 'testAction' })).toEqual({
@@ -237,7 +238,7 @@ describe('createLegoAdapter', () => {
             defaultCaseReducer: (state) => {
               state.actionGrant = ['expected'];
             },
-          })
+          }),
         );
 
         expect(reducer(initialState, { type: 'thisActionIsATest' })).toEqual({

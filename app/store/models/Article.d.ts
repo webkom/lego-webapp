@@ -1,3 +1,4 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type AllowedPermissionsMixin from 'app/store/models/AllowedPermissionsMixin';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
@@ -5,18 +6,17 @@ import type { PublicGroup } from 'app/store/models/Group';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { PublicUser } from 'app/store/models/User';
-import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface CompleteArticle {
-  id: ID;
+  id: EntityId;
   title: string;
   slug: string;
   cover: string;
   coverPlaceholder: string;
-  authors: Array<ID>;
+  authors: Array<EntityId>;
   description: string;
-  comments: ID[];
+  comments: EntityId[];
   contentTarget: ContentTarget;
   tags: string[];
   content: string;
@@ -82,7 +82,7 @@ export type UnknownArticle = (
   | AdminDetailedArticle
   | PublicArticle
 ) & {
-  comments?: ID[];
+  comments?: EntityId[];
   reactionsGrouped?: ReactionsGrouped[];
 };
 

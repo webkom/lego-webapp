@@ -1,15 +1,15 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface PollOption {
-  id: ID;
+  id: EntityId;
   name: string;
   votes: number;
 }
 
 export interface Poll {
-  id: ID;
+  id: EntityId;
   createdAt: Dateish;
   validUntil: Dateish;
   title: string;
@@ -22,6 +22,7 @@ export interface Poll {
   tags: string[];
   hasAnswered: boolean;
   pinned: boolean;
+  actionGrant?: string[];
 }
 
 export default Poll;

@@ -1,16 +1,16 @@
-import type { Dateish } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { PublicEvent } from 'app/store/models/Event';
 import type { GalleryCoverPicture } from 'app/store/models/GalleryPicture';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { PublicUser } from 'app/store/models/User';
-import type { ID } from 'app/store/models/index';
 
 interface Gallery {
-  id: ID;
+  id: EntityId;
   title: string;
   description: string;
-  cover: GalleryCoverPicture;
+  cover?: GalleryCoverPicture;
   location: string;
   takenAt: Dateish;
   createdAt: Dateish;
@@ -18,7 +18,8 @@ interface Gallery {
   event: PublicEvent;
   photographers: PublicUser[];
   publicMetadata: unknown;
-  pictures: ID[];
+  pictures: EntityId[];
+  actionGrant: ActionGrant;
 }
 
 export type ListGallery = Pick<
@@ -47,6 +48,7 @@ export type DetailedGallery = Pick<
   | 'cover'
   | 'publicMetadata'
   | 'pictures'
+  | 'actionGrant'
 >;
 
 export type SearchGallery = Pick<
@@ -64,9 +66,4 @@ export type GalleryMetadata = Pick<
   'id' | 'title' | 'description' | 'cover'
 >;
 
-export type UnknownGallery =
-  | ListGallery
-  | AdminListGallery
-  | DetailedGallery
-  | SearchGallery
-  | GalleryMetadata;
+export type UnknownGallery = ListGallery | AdminListGallery | DetailedGallery;

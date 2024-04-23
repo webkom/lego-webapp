@@ -8,7 +8,6 @@
 
 .visionTitle {
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 .sectionLeft {
@@ -20,11 +19,6 @@
 }
 
 @media (--mobile-device) {
-  .visionTitle {
-    text-align: center;
-    word-spacing: normal;
-  }
-
   .vision {
     flex-wrap: wrap;
   }

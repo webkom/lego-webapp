@@ -33,18 +33,18 @@ if (__DEV__) {
   const compiler = require('webpack')(
     webpackClient(undefined, {
       mode: 'development',
-    })
+    }),
   );
 
   app.use(
     require('webpack-dev-middleware')(compiler, {
       publicPath: webpackClient.publicPath,
-    })
+    }),
   );
   app.use(
     require('webpack-hot-middleware')(compiler, {
       log: (info) => console.info(`\x1b[2m\x1b[34m[HMR] \x1b[37m${info}`),
-    })
+    }),
   );
 }
 
@@ -58,7 +58,7 @@ if (fs.existsSync(styleguide)) {
 app.use(
   expressStaticGzip(webpackClient.outputPath, {
     index: false,
-  })
+  }),
 );
 app.use(
   morgan((tokens, req, res) => {
@@ -70,9 +70,9 @@ app.use(
         'content-length': tokens.res(req, res, 'content-length'),
         'response-time': tokens['response-time'](req, res),
       },
-      'request'
+      'request',
     );
-  })
+  }),
 );
 app.get('/_config', (_, res) => res.json(baseConfig));
 app.use(render);
@@ -89,4 +89,5 @@ app.use((err, req, res, next) => {
   res.statusCode = 500;
   res.end('Internal Error');
 });
+
 export default app;

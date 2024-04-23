@@ -1,57 +1,22 @@
-import { createSelector } from 'reselect';
-import { mutateComments } from 'app/reducers/comments';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { createSlice } from '@reduxjs/toolkit';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { EmailList } from '../actions/ActionTypes';
+import type { RootState } from 'app/store/createRootReducer';
 
-export type EmailListEntity = {
-  id: number;
-  title: string;
-  contentTarget: string;
-  description: string;
-  author: number;
-  cover: string;
-  createdAt: string;
-  content: string;
-  startTime: string;
-  text: string;
-  tags: Array<string>;
-  actionGrant: Record<string, any>;
-  comments: Array<number>;
-};
-const mutate = mutateComments('emailLists');
-export default createEntityReducer({
-  key: 'emailLists',
-  types: {
-    fetch: EmailList.FETCH,
-    mutate: EmailList.CREATE,
-  },
-  mutate,
+const legoAdapter = createLegoAdapter(EntityType.EmailLists);
+
+const emailListSlice = createSlice({
+  name: EntityType.EmailLists,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [EmailList.FETCH],
+  }),
 });
-export const selectEmailLists = createSelector(
-  (state) => state.emailLists.byId,
-  (state) => state.emailLists.items,
-  (_, { pagination }) => pagination,
-  (emailListsById, emailListIds, pagination) =>
-    (pagination ? pagination.items : emailListIds)
-      .map((id) => emailListsById[id])
-      .filter(Boolean)
-);
-export const selectEmailListById = createSelector(
-  (state) => state.emailLists.byId,
-  (state) => state.users.byId,
-  (state) => state.groups.byId,
-  (state, props) => props.emailListId,
-  (emailListsById, usersById, groupsById, emailListId) => {
-    const emailList = emailListsById[emailListId];
 
-    if (!emailList) {
-      return {};
-    }
-
-    return {
-      ...emailList,
-      groups: emailList.groups.map((groupId) => groupsById[groupId]),
-      users: emailList.users.map((userId) => usersById[userId]),
-    };
-  }
-);
+export default emailListSlice.reducer;
+export const {
+  selectAllPaginated: selectEmailLists,
+  selectById: selectEmailListById,
+} = legoAdapter.getSelectors<RootState>((state) => state.emailLists);

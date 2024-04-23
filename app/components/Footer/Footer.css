@@ -8,7 +8,7 @@
   font-size: var(--font-size-sm);
 
   @media (--lego-max-width) {
-    margin-top: 0.5em;
+    margin-top: var(--spacing-sm);
   }
 }
 
@@ -29,7 +29,7 @@
 /* stylelint-disable no-descending-specificity */
 .footerContent a {
   color: var(--color-red-8);
-  margin-bottom: 0.5em;
+  margin-bottom: var(--spacing-sm);
 
   &:hover {
     color: var(--color-red-7);
@@ -91,7 +91,7 @@ html[data-theme='dark'] .bottomContent a {
 
 .section p {
   line-height: 1.4em;
-  margin-bottom: 0.5em;
+  margin-bottom: var(--spacing-sm);
 }
 
 .rightSection {
@@ -149,8 +149,8 @@ html[data-theme='dark'] .bottom {
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-  padding: 1em;
-  gap: 0.5em;
+  padding: var(--spacing-md);
+  gap: var(--spacing-sm);
 
   @media (--small-viewport) {
     flex-direction: column;

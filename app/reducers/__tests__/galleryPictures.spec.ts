@@ -1,15 +1,23 @@
 import { describe, it, expect } from 'vitest';
 import { GalleryPicture, Gallery } from 'app/actions/ActionTypes';
-import galleryPictures from '../galleryPictures';
+import galleryPictures, { hideUploadStatus } from '../galleryPictures';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 
 describe('reducers', () => {
-  const baseState = {
+  const baseState: ReturnType<typeof galleryPictures> = {
     actionGrant: [],
-    pagination: {},
     paginationNext: {},
-    items: [1],
-    byId: {
-      1: {},
+    fetching: false,
+    ids: [1],
+    entities: {
+      1: {} as GalleryListPicture,
+    },
+    uploadStatus: {
+      imageCount: 0,
+      showStatus: false,
+      successCount: 0,
+      failedImages: [],
+      failCount: 0,
     },
   };
   describe('galleryPictures', () => {
@@ -22,13 +30,7 @@ describe('reducers', () => {
         },
       };
       expect(galleryPictures(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [1],
-        byId: {
-          1: {},
-        },
+        ...prevState,
         uploadStatus: {
           imageCount: 3,
           showStatus: true,
@@ -40,17 +42,9 @@ describe('reducers', () => {
     });
     it('Gallery.HIDE_UPLOAD_STATUS', () => {
       const prevState = baseState;
-      const action = {
-        type: Gallery.HIDE_UPLOAD_STATUS,
-      };
+      const action = hideUploadStatus();
       expect(galleryPictures(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [1],
-        byId: {
-          1: {},
-        },
+        ...prevState,
         uploadStatus: {
           imageCount: 0,
           showStatus: false,
@@ -65,24 +59,21 @@ describe('reducers', () => {
       const action = {
         type: GalleryPicture.DELETE.SUCCESS,
         meta: {
+          endpoint: '/galleries/1/pictures/1/',
           id: 1,
         },
       };
       expect(galleryPictures(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [],
-        byId: {},
+        ...prevState,
+        ids: [],
+        entities: {},
       });
     });
     it('GalleryPicture.CREATE.SUCCESS', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [],
-        byId: {},
+      const prevState: ReturnType<typeof galleryPictures> = {
+        ...baseState,
+        ids: [],
+        entities: {},
         uploadStatus: {
           imageCount: 3,
           showStatus: true,
@@ -100,11 +91,7 @@ describe('reducers', () => {
         },
       };
       expect(galleryPictures(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [],
-        byId: {},
+        ...prevState,
         uploadStatus: {
           imageCount: 3,
           showStatus: true,
@@ -118,21 +105,15 @@ describe('reducers', () => {
       });
     });
     it('GalleryPicture.UPLOAD.FAILURE', () => {
-      const prevState = {
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [],
-        byId: {},
+      const prevState: ReturnType<typeof galleryPictures> = {
+        ...baseState,
         uploadStatus: {
           imageCount: 3,
           showStatus: true,
           successCount: 1,
           failedImages: [],
           failCount: 0,
-          lastUploadedImage: {
-            id: 5,
-          },
+          lastUploadedImage: 5,
         },
       };
       const action = {
@@ -147,20 +128,14 @@ describe('reducers', () => {
         },
       };
       expect(galleryPictures(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        paginationNext: {},
-        items: [],
-        byId: {},
+        ...prevState,
         uploadStatus: {
           imageCount: 3,
           showStatus: true,
           successCount: 1,
           failedImages: ['troll.gif'],
           failCount: 1,
-          lastUploadedImage: {
-            id: 5,
-          },
+          lastUploadedImage: 5,
         },
       });
     });

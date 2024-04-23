@@ -1,17 +1,21 @@
 import { describe, it, expect } from 'vitest';
-import { Meeting } from '../../actions/ActionTypes';
+import { Meeting } from 'app/actions/ActionTypes';
+import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import meetingInvitations from '../meetingInvitations';
 
 describe('reducers', () => {
   describe('meetingInvitations', () => {
     it('Meeting.SET_INVITATION_STATUS.SUCCESS', () => {
-      const prevState = {
+      const prevState: ReturnType<typeof meetingInvitations> = {
         actionGrant: [],
-        pagination: {},
-        items: ['3-test'],
-        byId: {
-          '3-test': {
-            status: 'nope',
+        paginationNext: {},
+        fetching: false,
+        ids: ['3-42'],
+        entities: {
+          '3-42': {
+            meeting: 3,
+            user: 42,
+            status: MeetingInvitationStatus.NoAnswer,
           },
         },
       };
@@ -19,19 +23,21 @@ describe('reducers', () => {
         type: Meeting.SET_INVITATION_STATUS.SUCCESS,
         meta: {
           meetingId: 3,
-          status: 'ok',
+          status: MeetingInvitationStatus.Attending,
           user: {
+            id: 42,
             username: 'test',
           },
         },
       };
       expect(meetingInvitations(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: ['3-test'],
-        byId: {
-          '3-test': {
-            status: 'ok',
+        ...prevState,
+        ids: ['3-42'],
+        entities: {
+          '3-42': {
+            meeting: 3,
+            user: 42,
+            status: MeetingInvitationStatus.Attending,
           },
         },
       });

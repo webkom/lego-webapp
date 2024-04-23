@@ -5,7 +5,7 @@
 }
 
 .scannerButton {
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-md);
 }
 
 .qrIcon {

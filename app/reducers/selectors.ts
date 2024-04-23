@@ -1,7 +1,9 @@
 import { get, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
+import { createInitialPagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { RootState } from 'app/store/createRootReducer';
-import type { Schema } from 'normalizr';
+import type { schema, Schema } from 'normalizr';
+import type { ParsedQs } from 'qs';
 
 export const selectPagination =
   (
@@ -10,7 +12,7 @@ export const selectPagination =
       queryString,
     }: {
       queryString: string;
-    }
+    },
   ) =>
   (state: RootState) =>
     get(state, [entityName, 'pagination', queryString, 'nextPage']) !== null;
@@ -22,31 +24,22 @@ export const selectPaginationNext =
     entity,
   }: {
     endpoint: string;
-    query: Record<string, any>;
+    query: ParsedQs;
     schema?: Schema;
     entity?: string;
   }) =>
   (state: RootState) => {
     const paginationKey = `${endpoint}${createQueryString(query)}`;
-    let schemaKey = entity;
-
-    if (!schemaKey) {
-      if (isArray(schema)) {
-        schemaKey = schema[0].key;
-      } else {
-        schemaKey = schema.key;
-      }
-    }
+    const schemaKey =
+      entity ||
+      (isArray(schema)
+        ? (schema[0] as schema.Entity).key
+        : (schema as schema.Entity).key);
 
     return {
       pagination: state[schemaKey].paginationNext[paginationKey] || {
+        ...createInitialPagination(query),
         hasMore: true,
-        hasMoreBackwards: false,
-        query,
-        next: { ...query, cursor: '' },
-        previous: false,
-        items: [],
-        ids: [],
       },
       paginationKey,
     };

@@ -1,67 +1,60 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { union } from 'lodash';
 import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { selectFeedActivityEntities } from 'app/reducers/feedActivities';
+import { asArray } from 'app/reducers/utils';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Feed } from '../actions/ActionTypes';
+import type { AnyAction } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 
-function arrayOf(value) {
-  if (Array.isArray(value)) return value;
-  return [value];
-}
+const legoAdapter = createLegoAdapter(EntityType.Feeds);
 
-export default createEntityReducer({
-  key: 'feeds',
-  types: {},
-
-  mutate(state, action) {
-    switch (action.type) {
-      case Feed.FETCH.SUCCESS: {
+const feedsSlice = createSlice({
+  name: EntityType.Feeds,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Feed.FETCH],
+    extraCases(addCase) {
+      addCase(Feed.FETCH.SUCCESS, (state, action: AnyAction) => {
         const { feedId } = action.meta;
 
         if (!feedId) {
           return state;
         }
 
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [feedId]: {
-              type: feedId.split('-')[0],
-              activities: union(
-                (state.byId[feedId] ? state.byId[feedId].activities : []) || [],
-                arrayOf(action.payload.result)
-              ),
-            },
-          },
-          items: union(state.items, [feedId]),
-        };
-      }
-
-      default: {
-        return state;
-      }
-    }
-  },
+        legoAdapter.upsertOne(state, {
+          id: feedId,
+          type: feedId.split('-')[0],
+          activities: union(
+            (state.entities[feedId] ? state.entities[feedId].activities : []) ||
+              [],
+            asArray(action.payload.result),
+          ),
+        });
+      });
+    },
+  }),
 });
+
+export default feedsSlice.reducer;
+
 export const feedIdByUserId = (userId: string) => `user-${userId}`;
-export const selectFeeds = createSelector(
-  (state) => state.feeds.byId,
-  (state) => state.feeds.items,
-  (feedsById, feedIds) => feedIds.map((id) => feedsById[id])
+
+export const { selectById: selectFeedById } = legoAdapter.getSelectors(
+  (state: RootState) => state.feeds,
 );
-export const selectFeedById = createSelector(
-  (state) => state.feeds.byId,
-  (state, props) => props.feedId,
-  (feedsById, feedId) => feedsById[feedId]
-);
-export const selectFeedActivitesByFeedId = createSelector(
+
+export const selectFeedActivitiesByFeedId = createSelector(
   selectFeedById,
-  (state) => state.feedActivities.byId,
-  (feed, activiesById) => {
+  selectFeedActivityEntities,
+  (feed, feedActivityEntities) => {
     if (!feed) {
       return [];
     }
 
-    return feed.activities.map((id) => activiesById[id]);
-  }
+    return feed.activities.map((id) => feedActivityEntities[id]);
+  },
 );

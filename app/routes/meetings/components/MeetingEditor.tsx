@@ -37,10 +37,10 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import config from 'app/config';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import styles from 'app/routes/meetings/components/MeetingEditor.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
@@ -54,8 +54,9 @@ import {
   required,
   timeIsAfter,
 } from 'app/utils/validation';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AutocompleteGroup } from 'app/store/models/Group';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const time = (hours: number, minutes?: number) =>
@@ -69,7 +70,7 @@ const time = (hours: number, minutes?: number) =>
     .toISOString();
 
 export type MeetingFormValues = {
-  id?: ID;
+  id?: EntityId;
   title?: string;
   report?: string;
   description?: string;
@@ -78,7 +79,7 @@ export type MeetingFormValues = {
   useMazemap: boolean;
   mazemapPoi?: { value: number; label: string };
   location?: string;
-  reportAuthor?: { value: ID; label: string; id: ID };
+  reportAuthor?: { value: EntityId; label: string; id: EntityId };
   users?: AutocompleteUser[];
   groups?: AutocompleteGroup[];
 };
@@ -99,28 +100,33 @@ const validate = createValidator({
   ],
 });
 
+type MeetingEditorParams = {
+  meetingId?: string;
+};
 const MeetingEditor = () => {
-  const { meetingId } = useParams<{ meetingId?: string }>();
-  const isEditPage = meetingId !== undefined;
+  const { meetingId } = useParams<MeetingEditorParams>();
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, { meetingId })
+    meetingId
+      ? (selectMeetingById(state, meetingId) as DetailedMeeting)
+      : undefined,
   );
+  const isEditPage = meeting !== undefined;
   const meetingInvitations = useAppSelector((state) =>
-    selectMeetingInvitationsForMeeting(state, {
-      meetingId,
-    })
+    meetingId
+      ? selectMeetingInvitationsForMeeting(state, meetingId)
+      : undefined,
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.reportAuthor,
-    })
+    meeting?.reportAuthor
+      ? selectUserById(state, meeting?.reportAuthor)
+      : undefined,
   );
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
-  const [fetchedGroupIds, setFetchedGroupIds] = useState<ID[]>([]);
+  const [fetchedGroupIds, setFetchedGroupIds] = useState<EntityId[]>([]);
   const [invitedGroupMembers, setInvitedGroupMembers] = useState<
-    { value: string; label: string; id: ID; groupId: ID }[]
+    { value: string; label: string; id: EntityId; groupId: EntityId }[]
   >([]);
 
   const dispatch = useAppDispatch();
@@ -128,7 +134,7 @@ const MeetingEditor = () => {
   usePreparedEffect(
     'fetchMeetingEdit',
     () => meetingId && dispatch(fetchMeeting(meetingId)),
-    []
+    [],
   );
 
   const fetchAndSetGroupMembers = async (groupId: number) => {
@@ -142,7 +148,7 @@ const MeetingEditor = () => {
             label: member.fullName,
             id: member.id,
             groupId: groupId,
-          })
+          }),
         );
         setInvitedGroupMembers((prevMembers) => [...prevMembers, ...members]);
       })
@@ -166,7 +172,7 @@ const MeetingEditor = () => {
     );
   }
 
-  const currentUserSearchable = {
+  const currentUserSearchable = currentUser && {
     value: currentUser.username,
     label: currentUser.fullName,
     id: currentUser.id,
@@ -192,16 +198,18 @@ const MeetingEditor = () => {
               id,
               users,
               groups,
-            })
+            }),
           ).then(() => navigate(`/meetings/${id}`));
         }
 
         navigate(`/meetings/${id}`);
-      }
+      },
     );
 
-  const onDeleteMeeting = () =>
-    dispatch(deleteMeeting(meeting?.id)).then(() => navigate('/meetings/'));
+  const onDeleteMeeting = isEditPage
+    ? () =>
+        dispatch(deleteMeeting(meeting.id)).then(() => navigate('/meetings/'))
+    : undefined;
 
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
@@ -220,7 +228,7 @@ const MeetingEditor = () => {
           label: meeting.location,
           value: meeting.mazemapPoi,
         },
-        useMazemap: meeting.mazemapPoi > 0,
+        useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
       }
     : {
         startTime: time(16, 15),
@@ -285,7 +293,7 @@ const MeetingEditor = () => {
                               .clone()
                               .add(2, 'hours')
                               .set('minute', 0)
-                              .toISOString()
+                              .toISOString(),
                           );
                         }
                       }}
@@ -303,6 +311,7 @@ const MeetingEditor = () => {
                 name="useMazemap"
                 type="checkbox"
                 component={CheckBox.Field}
+                withoutMargin
               />
               {spyValues<MeetingFormValues>((values) => {
                 return values?.useMazemap ? (
@@ -365,17 +374,19 @@ const MeetingEditor = () => {
 
                 const removedGroupIds = fetchedGroupIds.filter(
                   (fetchedGroupId) =>
-                    !invitingGroups.some((group) => group.id === fetchedGroupId)
+                    !invitingGroups.some(
+                      (group) => group.id === fetchedGroupId,
+                    ),
                 );
                 if (removedGroupIds.length > 0) {
                   setInvitedGroupMembers((prevMembers) =>
                     prevMembers.filter(
-                      (member) => !removedGroupIds.includes(member.groupId)
-                    )
+                      (member) => !removedGroupIds.includes(member.groupId),
+                    ),
                   );
 
                   setFetchedGroupIds((prevIds) =>
-                    prevIds.filter((id) => !removedGroupIds.includes(id))
+                    prevIds.filter((id) => !removedGroupIds.includes(id)),
                   );
                 }
 
@@ -384,7 +395,7 @@ const MeetingEditor = () => {
                   invitedUsersSearchable,
                   invitedGroupMembers,
                   invitingUsers,
-                  'value'
+                  'value',
                 );
 
                 return (

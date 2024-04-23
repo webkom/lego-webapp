@@ -10,15 +10,15 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import styles from 'app/routes/surveys/components/surveys.css';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import type { SelectedSurvey } from 'app/reducers/surveys';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { FormSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
 
 type Props = {
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
   initialValues: FormSurveySubmission;
   onSubmit: (values: FormSurveySubmission) => Promise<unknown>;
 };
@@ -68,7 +68,7 @@ const AnswerField = ({ name, question }: AnswerFieldProps) => {
   const { meta, input } = useField<FormSurveyAnswer>(name);
   const error = meta.touched ? meta.error || meta.submitError : undefined;
 
-  const toggleOption = (optionId: ID, isSingle: boolean) => {
+  const toggleOption = (optionId: EntityId, isSingle: boolean) => {
     let selectedOptions = input.value.selectedOptions;
     if (isSingle) {
       selectedOptions = [optionId];
@@ -149,14 +149,14 @@ const AnswerField = ({ name, question }: AnswerFieldProps) => {
 };
 
 const createSubmissionValidator =
-  (survey: SelectedSurvey) => (values: FormSurveySubmission) => {
+  (survey: DetailedSurvey) => (values: FormSurveySubmission) => {
     const errors: { answers: string[][] } = {
       answers: [],
     };
     const answeredQuestionIds = values.answers
       .filter(
         (answer) =>
-          answer.selectedOptions.length > 0 || answer.answerText !== ''
+          answer.selectedOptions.length > 0 || answer.answerText !== '',
       )
       .map((answer) => answer.question);
     survey.questions.forEach((question, index) => {

@@ -1,5 +1,5 @@
+import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { get } from 'lodash';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -17,8 +17,11 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectEmailUserById } from 'app/reducers/emailUsers';
+import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required } from 'app/utils/validation';
+import type { PublicUser } from 'app/store/models/User';
 
 type AutocompleteUserValue = {
   title: string;
@@ -32,8 +35,12 @@ const validate = createValidator({
 const EmailUserEditor = () => {
   const { emailUserId } = useParams<{ emailUserId: string }>();
   const isNew = emailUserId === undefined;
+  const fetching = useAppSelector((state) => state.emailUsers.fetching);
   const emailUser = useAppSelector((state) =>
-    selectEmailUserById(state, { emailUserId })
+    selectEmailUserById(state, emailUserId),
+  );
+  const user = useAppSelector((state) =>
+    selectUserById<PublicUser>(state, emailUser?.user),
   );
 
   const dispatch = useAppDispatch();
@@ -41,7 +48,7 @@ const EmailUserEditor = () => {
   usePreparedEffect(
     'fetchEmailUser',
     () => !isNew && emailUserId && dispatch(fetchEmailUser(emailUserId)),
-    [emailUserId]
+    [emailUserId],
   );
 
   const initialValues = isNew
@@ -49,10 +56,10 @@ const EmailUserEditor = () => {
     : {
         ...emailUser,
         user: {
-          label: get(emailUser, 'user.fullName', ''),
-          value: get(emailUser, 'user.id', ''),
+          label: user?.fullName || '',
+          value: user?.id || '',
         },
-        internalEmailEnable: get(emailUser, 'internalEmailEnabled', false),
+        internalEmailEnable: emailUser?.internalEmailEnabled ?? false,
       };
 
   const onUserChange = (data: AutocompleteUserValue, form) => {
@@ -67,7 +74,7 @@ const EmailUserEditor = () => {
     };
     Object.keys(illegalChars).forEach(
       (char) =>
-        (email = email.replace(new RegExp(char, 'g'), illegalChars[char]))
+        (email = email.replace(new RegExp(char, 'g'), illegalChars[char])),
     );
     // Remove any other non-a-z characters
     email = email.replace(/[^a-z0-9.-]/gi, '');
@@ -86,9 +93,11 @@ const EmailUserEditor = () => {
     dispatch(isNew ? createEmailUser(payload) : editEmailUser(payload)).then(
       (res) => {
         navigate(`/admin/email/users/${res.payload.result}`);
-      }
+      },
     );
   };
+
+  if (fetching) return <LoadingIndicator loading={true} />;
 
   return (
     <LegoFinalForm
@@ -103,7 +112,7 @@ const EmailUserEditor = () => {
             name="user"
             required
             disabled={emailUserId}
-            filter={['users.user']}
+            filter={[AutocompleteContentType.User]}
             component={SelectInput.AutocompleteField}
             onChange={(data: AutocompleteUserValue) => onUserChange(data, form)}
           />

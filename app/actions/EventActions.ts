@@ -1,24 +1,16 @@
 import callAPI from 'app/actions/callAPI';
-import {
-  eventSchema,
-  eventAdministrateSchema,
-  followersEventSchema,
-} from 'app/reducers';
+import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
-import type { EventRegistrationPresence } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
-import type {
-  DetailedEvent,
-  ListEvent,
-  UnknownEvent,
-} from 'app/store/models/Event';
+import type { DetailedEvent, ListEvent } from 'app/store/models/Event';
+import type { Presence } from 'app/store/models/Registration';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
 
-export function fetchEvent(eventId: ID) {
+export function fetchEvent(eventId: EntityId) {
   return callAPI<DetailedEvent>({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/`,
@@ -97,7 +89,7 @@ export const fetchData = ({
 export const getEndpoint = (
   pagination: any,
   queryString: string,
-  loadNextPage?: boolean
+  loadNextPage?: boolean,
 ) => {
   let endpoint = `/events/${queryString}`;
   const paginationObject = pagination[queryString];
@@ -134,7 +126,7 @@ export const fetchList = ({
   });
 };
 
-export function fetchAdministrate(eventId: ID) {
+export function fetchAdministrate(eventId: EntityId) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/administrate/`,
@@ -145,7 +137,7 @@ export function fetchAdministrate(eventId: ID) {
   });
 }
 
-export function fetchAllergies(eventId: ID) {
+export function fetchAllergies(eventId: EntityId) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${eventId}/allergies/`,
@@ -157,7 +149,7 @@ export function fetchAllergies(eventId: ID) {
 }
 
 export function createEvent(event: Record<string, any>) {
-  return callAPI<UnknownEvent>({
+  return callAPI<DetailedEvent>({
     types: Event.CREATE,
     endpoint: '/events/',
     method: 'POST',
@@ -170,7 +162,7 @@ export function createEvent(event: Record<string, any>) {
 }
 
 export function editEvent(event: Record<string, any>) {
-  return callAPI({
+  return callAPI<DetailedEvent>({
     types: Event.EDIT,
     endpoint: `/events/${event.id}/`,
     method: 'PUT',
@@ -181,7 +173,7 @@ export function editEvent(event: Record<string, any>) {
   });
 }
 
-export function deleteEvent(eventId: ID) {
+export function deleteEvent(eventId: EntityId) {
   return callAPI({
     types: Event.DELETE,
     endpoint: `/events/${eventId}/`,
@@ -199,10 +191,10 @@ export function register({
   feedback,
   userId,
 }: {
-  eventId: ID;
+  eventId: EntityId;
   captchaResponse: string;
   feedback: string;
-  userId: ID;
+  userId: EntityId;
 }) {
   return callAPI({
     types: Event.REQUEST_REGISTER,
@@ -225,8 +217,8 @@ export function unregister({
   registrationId,
   admin = false,
 }: {
-  eventId: ID;
-  registrationId: ID;
+  eventId: EntityId;
+  registrationId: EntityId;
   admin?: boolean;
 }) {
   return callAPI({
@@ -243,11 +235,11 @@ export function unregister({
 }
 
 export function adminRegister(
-  eventId: ID,
-  userId: ID,
-  poolId: ID | undefined,
+  eventId: EntityId,
+  userId: EntityId,
+  poolId: EntityId | undefined,
   feedback: string,
-  adminRegistrationReason: string
+  adminRegistrationReason: string,
 ) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
@@ -266,7 +258,7 @@ export function adminRegister(
   });
 }
 
-export function payment(eventId: ID) {
+export function payment(eventId: EntityId) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
@@ -278,9 +270,9 @@ export function payment(eventId: ID) {
 }
 
 export function updateFeedback(
-  eventId: ID,
-  registrationId: ID,
-  feedback: string
+  eventId: EntityId,
+  registrationId: EntityId,
+  feedback: string,
 ) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -296,7 +288,7 @@ export function updateFeedback(
   });
 }
 
-export function markUsernamePresent(eventId: ID, username: string) {
+export function markUsernamePresent(eventId: EntityId, username: string) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
     endpoint: `/events/${eventId}/registration_search/`,
@@ -308,9 +300,9 @@ export function markUsernamePresent(eventId: ID, username: string) {
 }
 
 export function updatePresence(
-  eventId: ID,
-  registrationId: ID,
-  presence: EventRegistrationPresence
+  eventId: EntityId,
+  registrationId: EntityId,
+  presence: Presence,
 ) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -327,9 +319,9 @@ export function updatePresence(
 }
 
 export function updatePayment(
-  eventId: ID,
-  registrationId: ID,
-  paymentStatus: string
+  eventId: EntityId,
+  registrationId: EntityId,
+  paymentStatus: string,
 ): Thunk<Promise<Action | null | undefined>> {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,
@@ -344,12 +336,11 @@ export function updatePayment(
   });
 }
 
-export function follow(userId: ID, eventId: ID) {
+export function follow(userId: EntityId, eventId: EntityId) {
   return callAPI({
     types: Event.FOLLOW,
     enableOptimistic: true,
     endpoint: `/followers-event/`,
-    schema: followersEventSchema,
     method: 'POST',
     body: {
       target: eventId,
@@ -361,7 +352,7 @@ export function follow(userId: ID, eventId: ID) {
   });
 }
 
-export function unfollow(followId: ID, eventId: ID) {
+export function unfollow(followId: EntityId, eventId: EntityId) {
   return callAPI({
     types: Event.UNFOLLOW,
     endpoint: `/followers-event/${followId}/`,
@@ -375,19 +366,20 @@ export function unfollow(followId: ID, eventId: ID) {
   });
 }
 
-export function isUserFollowing(eventId: ID) {
-  return callAPI<boolean>({
-    types: Event.IS_USER_FOLLOWING,
+export function fetchFollowers(eventId: EntityId, currentUserId: EntityId) {
+  return callAPI({
+    types: Event.FETCH_FOLLOWERS,
     endpoint: `/followers-event/?target=${eventId}`,
-    schema: [followersEventSchema],
     method: 'GET',
     meta: {
-      errorMessage: 'Henting av interesse feilet',
+      eventId,
+      currentUserId,
+      errorMessage: 'Henting av stjernemarkering feilet',
     },
   });
 }
 
-export function fetchAnalytics(eventId: ID) {
+export function fetchAnalytics(eventId: EntityId) {
   return callAPI<
     {
       bounceRate: number | null;

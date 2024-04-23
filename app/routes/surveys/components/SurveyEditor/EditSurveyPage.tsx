@@ -13,19 +13,22 @@ import type { FormSubmitSurvey, FormSurvey } from 'app/store/models/Survey';
 const defaultEditSurveyQuery = {
   templateType: '' as EventType,
 };
-
+type EditSurveyPageParams = {
+  surveyId: string;
+};
 const EditSurveyPage = () => {
   const dispatch = useAppDispatch();
-  const { surveyId } = useParams<{ surveyId: string }>();
+  const { surveyId } =
+    useParams<EditSurveyPageParams>() as EditSurveyPageParams;
   const { query, setQueryValue } = useQuery(defaultEditSurveyQuery);
-  const survey = useFetchedSurvey('editSurvey', surveyId);
+  const { survey, event } = useFetchedSurvey('editSurvey', surveyId);
   const { templateType } = query;
   const template = useFetchedTemplate('addSurvey', templateType);
 
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
     dispatch(editSurvey({ surveyId, ...surveyData })).then(() =>
-      navigate('..', { relative: 'path' })
+      navigate('..', { relative: 'path' }),
     );
 
   if (!survey) {
@@ -34,7 +37,7 @@ const EditSurveyPage = () => {
 
   const initialValues: Partial<FormSurvey> = {
     ...survey,
-    event: { value: survey.event?.id ?? 0, label: survey.event?.title ?? '' },
+    event: { value: event?.id ?? 0, label: event?.title ?? '' },
     questions: (template ?? survey).questions.map((question) => ({
       ...question,
       questionType: {

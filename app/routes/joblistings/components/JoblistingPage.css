@@ -5,7 +5,7 @@
 }
 
 .page {
-  margin-top: 2rem;
+  margin-top: var(--spacing-xl);
   justify-content: space-around;
 
   @media (--small-viewport) {

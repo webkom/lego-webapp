@@ -22,8 +22,8 @@ import {
 } from 'app/components/Form';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
@@ -44,13 +44,7 @@ import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type Penalty from 'app/store/models/Penalty';
 import type { CurrentUser } from 'app/store/models/User';
-
-type SpotsLeftProps = {
-  activeCapacity: number;
-  spotsLeft: number;
-};
 
 /**
  *  Not using app/components/SubmitButton because that will "falsely"
@@ -71,12 +65,7 @@ const SubmitButton = ({
 }) => {
   if (type === 'register') {
     return (
-      <Button
-        submit
-        onClick={onSubmit}
-        className={styles.registrationBtn}
-        disabled={disabled}
-      >
+      <Button submit onClick={onSubmit} disabled={disabled}>
         {title}
       </Button>
     );
@@ -94,20 +83,10 @@ const SubmitButton = ({
       title="Avregistrer"
       message={message}
       onConfirm={onSubmit}
-      // onConfirm={() => {
-      //   if (onSubmit) {
-      //     onSubmit();
-      //   }
-      // }}
       closeOnConfirm
     >
       {({ openConfirmModal }) => (
-        <Button
-          danger
-          onClick={openConfirmModal}
-          className={styles.registrationBtn}
-          disabled={disabled}
-        >
+        <Button danger onClick={openConfirmModal} disabled={disabled}>
           <Icon name="person-remove" size={19} />
           {title}
         </Button>
@@ -187,26 +166,6 @@ const PaymentForm = ({
   </div>
 );
 
-const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
-  // If the pool has infinite capacity or spotsLeft isn't calculated don't show the message
-  if (!activeCapacity || spotsLeft === null) return null;
-
-  if (spotsLeft <= 0 && activeCapacity > 0) {
-    return (
-      <div>
-        Det er ingen plasser igjen, og du vil bli registrert til venteliste
-      </div>
-    );
-  }
-
-  const word = spotsLeft > 1 ? 'plasser' : 'plass';
-  return (
-    <div>
-      Det er {spotsLeft} {word} igjen
-    </div>
-  );
-};
-
 export type Props = {
   title?: string;
   event: UserDetailedEvent | AuthUserDetailedEvent;
@@ -229,50 +188,27 @@ const JoinEventForm = ({
   captchaOpen,
   registrationOpensIn,
 }: Props) => {
-  const { currentUser } = useUserContext();
+  const dispatch = useAppDispatch();
+  const currentUser = useCurrentUser();
+
+  const fetching = useAppSelector((state) => state.events.fetching);
 
   const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, {
-      userId: currentUser?.id,
-    })
-  ) as Penalty[];
+    selectPenaltyByUserId(state, currentUser?.id),
+  );
   const sumPenalties = sumBy(penalties, 'weight');
-
-  const dispatch = useAppDispatch();
-
-  const onSubmit = (values) => {
-    if (registrationType === 'unregister') {
-      return (
-        registration &&
-        dispatch(
-          unregister({
-            eventId: event.id,
-            registrationId: registration.id,
-          })
-        )
-      );
-    }
-
-    return dispatch(
-      register({
-        eventId: event.id,
-        captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName],
-        userId: currentUser.id,
-      })
-    );
-  };
 
   const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
   const registrationType = !registration ? 'register' : 'unregister';
   const feedbackName = getFeedbackName(event);
   const feedbackLabel = getFeedbackLabel(event);
-  const disabledForUser = !formOpen && !event.activationTime && !registration;
+  const disabledForUser =
+    !fetching && !formOpen && !event.activationTime && !registration;
   const showPenaltyNotice = Boolean(
     event.heedPenalties &&
       moment().isAfter(event.unregistrationDeadline) &&
       registration &&
-      registration.pool
+      registration.pool,
   );
   const registrationPending =
     pendingRegistration?.status === 'PENDING_REGISTER' ||
@@ -288,7 +224,7 @@ const JoinEventForm = ({
     useState(false);
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
   const hasRegisteredConsentForSemester = allConsentsAnswered(
-    event.photoConsents
+    event.photoConsents,
   );
   const hasRegisteredConsentIfRequired = event.useConsent
     ? hasRegisteredConsentForSemester
@@ -296,7 +232,7 @@ const JoinEventForm = ({
   useEffect(() => {
     const timer = setTimeout(
       () => setRegistrationPendingDelayed(registrationPending),
-      registrationPendingDelayed && !registrationPending ? 0 : 1000
+      registrationPendingDelayed && !registrationPending ? 0 : 1000,
     );
     return () => clearTimeout(timer);
   }, [registrationPending, registrationPendingDelayed]);
@@ -305,6 +241,33 @@ const JoinEventForm = ({
     const timer = setTimeout(() => setShowStripeDelayed(showStripe), 2000);
     return () => clearTimeout(timer);
   }, [showStripe]);
+
+  if (!currentUser) {
+    return null;
+  }
+
+  const onSubmit = (values) => {
+    if (registrationType === 'unregister') {
+      return (
+        registration &&
+        dispatch(
+          unregister({
+            eventId: event.id,
+            registrationId: registration.id,
+          }),
+        )
+      );
+    }
+
+    return dispatch(
+      register({
+        eventId: event.id,
+        captchaResponse: values.captchaResponse,
+        feedback: values[feedbackName],
+        userId: currentUser.id,
+      }),
+    );
+  };
 
   if (registrationIsClosed(event)) {
     return (
@@ -339,7 +302,7 @@ const JoinEventForm = ({
     [feedbackName]: [
       requiredIf(
         () => !registration && event.feedbackRequired,
-        'Svar er påkrevd for dette arrangementet'
+        'Svar er påkrevd for dette arrangementet',
       ),
     ],
     captchaResponse: [
@@ -354,7 +317,8 @@ const JoinEventForm = ({
   return (
     <>
       <h3 className={styles.subHeader}>Påmelding</h3>
-      <Flex column>
+
+      <Flex column gap="var(--spacing-md)">
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
           registrationMessage(event)
         ) : (
@@ -365,9 +329,11 @@ const JoinEventForm = ({
                 <Time time={event.activationTime} format="nowToTimeInWords" />
               </div>
             )}
+
             {disabledForUser && (
-              <div>Du kan ikke melde deg på dette arrangementet.</div>
+              <div>Du kan ikke melde deg på dette arrangementet</div>
             )}
+
             {sumPenalties > 0 && event.heedPenalties && (
               <Card severity="warning">
                 <Card.Header>NB!</Card.Header>
@@ -384,20 +350,7 @@ const JoinEventForm = ({
                 </Link>
               </Card>
             )}
-            {!disabledForUser &&
-              event.useContactTracing &&
-              !currentUser.phoneNumber && (
-                <Card severity="danger">
-                  <Card.Header>NB!</Card.Header>
-                  <p>
-                    Du må legge til telefonnummer for å melde deg på dette
-                    arrangementet.
-                  </p>
-                  <Link to={`/users/me/settings/profile`}>
-                    Gå til innstillinger
-                  </Link>
-                </Card>
-              )}
+
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
@@ -411,129 +364,135 @@ const JoinEventForm = ({
                   <Link to="/users/me/">Gå til min profil</Link>
                 </Card>
               )}
-            {formOpen &&
-              hasRegisteredConsentIfRequired &&
-              (event.useContactTracing ? currentUser.phoneNumber : true) && (
-                <Flex column>
-                  <LegoFinalForm
-                    onSubmit={onSubmit}
-                    validate={validate}
-                    initialValues={initialValues}
-                  >
-                    {({
-                      form,
-                      handleSubmit,
-                      submitting,
-                      pristine,
-                      invalid,
-                    }) => {
-                      if (event.feedbackRequired) {
-                        form.blur('feedbackRequired');
-                      }
+            {formOpen && hasRegisteredConsentIfRequired && (
+              <Flex column gap="var(--spacing-md)">
+                <LegoFinalForm
+                  onSubmit={onSubmit}
+                  validate={validate}
+                  initialValues={initialValues}
+                >
+                  {({ form, handleSubmit, submitting, pristine, invalid }) => {
+                    if (event.feedbackRequired) {
+                      form.blur('feedbackRequired');
+                    }
 
-                      const isInvalid = registrationOpensIn !== null || invalid;
-                      const isPristine = event.feedbackRequired && pristine;
-                      const disabledButton = !registration
-                        ? isInvalid || isPristine || submitting
-                        : false;
-                      const showCaptcha =
-                        !submitting &&
-                        !registrationPending &&
-                        !registration &&
-                        captchaOpen &&
-                        event.useCaptcha;
+                    const isInvalid = registrationOpensIn !== null || invalid;
+                    const isPristine = event.feedbackRequired && pristine;
+                    const disabledButton = !registration
+                      ? isInvalid || isPristine || submitting
+                      : false;
+                    const showCaptcha =
+                      !submitting &&
+                      !registrationPending &&
+                      !registration &&
+                      captchaOpen &&
+                      event.useCaptcha;
 
-                      return (
-                        <Form onSubmit={handleSubmit}>
-                          {showCaptcha && (
-                            <Field
-                              name="captchaResponse"
-                              fieldStyle={{
-                                width: 304,
-                              }}
-                              component={Captcha.Field}
+                    return (
+                      <Form className={styles.form}>
+                        {showCaptcha && (
+                          <Field
+                            name="captchaResponse"
+                            fieldStyle={{
+                              width: '100%',
+                            }}
+                            component={Captcha.Field}
+                            withoutMargin
+                          />
+                        )}
+
+                        {event.activationTime && registrationOpensIn && (
+                          <Button disabled={disabledButton}>
+                            {`Åpner om ${registrationOpensIn}`}
+                          </Button>
+                        )}
+
+                        {buttonOpen && !submitting && !registrationPending && (
+                          <>
+                            <SubmitButton
+                              disabled={disabledButton}
+                              onSubmit={handleSubmit}
+                              type={registrationType}
+                              title={title || joinTitle}
+                              showPenaltyNotice={showPenaltyNotice}
                             />
-                          )}
 
-                          {event.activationTime && registrationOpensIn && (
-                            <Flex alignItems="center">
-                              <Button disabled={disabledButton}>
-                                {`Åpner om ${registrationOpensIn}`}
-                              </Button>
-                            </Flex>
-                          )}
+                            <SubmissionError />
 
-                          {buttonOpen &&
-                            !submitting &&
-                            !registrationPending && (
-                              <>
-                                <Flex
-                                  alignItems="center"
-                                  justifyContent="space-between"
-                                >
-                                  <SubmitButton
-                                    disabled={disabledButton}
-                                    onSubmit={handleSubmit}
-                                    type={registrationType}
-                                    title={title || joinTitle}
-                                    showPenaltyNotice={showPenaltyNotice}
-                                  />
-                                </Flex>
-
-                                <SubmissionError />
-
-                                {!registration && event.activeCapacity && (
-                                  <SpotsLeft
-                                    activeCapacity={event.activeCapacity}
-                                    spotsLeft={event.spotsLeft}
-                                  />
-                                )}
-                              </>
+                            {!registration && (
+                              <div>
+                                Ved å melde deg på arrangementet samtykker du
+                                til{' '}
+                                <Link to="/pages/arrangementer/26-arrangementsregler">
+                                  arrangementsreglene
+                                </Link>
+                              </div>
                             )}
+                          </>
+                        )}
 
-                          {submitting ||
-                            (registrationPending &&
-                              !registrationPendingDelayed && (
-                                <LoadingIndicator
-                                  loading
-                                  loadingStyle={{
-                                    margin: '5px auto',
-                                  }}
-                                />
-                              ))}
+                        {submitting ||
+                          (registrationPending &&
+                            !registrationPendingDelayed && (
+                              <LoadingIndicator
+                                loading
+                                loadingStyle={{
+                                  margin: '5px auto',
+                                }}
+                              />
+                            ))}
 
-                          {registrationPendingDelayed && (
-                            <RegistrationPending
-                              reg_status={pendingRegistration?.status}
-                            />
-                          )}
+                        {registrationPendingDelayed && (
+                          <RegistrationPending
+                            reg_status={pendingRegistration?.status}
+                          />
+                        )}
 
-                          <Flex
-                            alignItems="center"
-                            gap={10}
-                            className={styles.feedback}
+                        <div>
+                          <label
+                            htmlFor={feedbackName}
+                            className={styles.feedbackLabel}
                           >
-                            <Field
-                              id={feedbackName}
-                              placeholder="Melding til arrangør"
-                              name={feedbackName}
-                              component={TextInput.Field}
-                              label={feedbackLabel}
-                              className={styles.feedbackText}
-                              parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
-                              rows={1}
-                            />
+                            {feedbackLabel}
+                          </label>
+                          <Flex alignItems="center" gap="var(--spacing-md)">
+                            {spyValues((values) => (
+                              <Field
+                                id={feedbackName}
+                                placeholder="Melding til arrangør"
+                                name={feedbackName}
+                                component={TextInput.Field}
+                                className={styles.feedbackText}
+                                onKeyDown={(e) => {
+                                  if (e.key === 'Enter' && registration) {
+                                    // Prevent user from unregistering by pressing enter
+                                    e.preventDefault();
+
+                                    if (!pristine) {
+                                      dispatch(
+                                        updateFeedback(
+                                          event.id,
+                                          registration.id,
+                                          values[feedbackName],
+                                        ),
+                                      );
+                                    }
+                                  }
+                                }}
+                                withoutMargin
+                                parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
+                              />
+                            ))}
                             {registration &&
                               spyValues((values) => (
                                 <Button
-                                  type="button"
                                   onClick={() => {
                                     dispatch(
                                       updateFeedback(
                                         event.id,
                                         registration.id,
-                                        values[feedbackName]
-                                      )
+                                        values[feedbackName],
+                                      ),
                                     );
                                   }}
                                   disabled={pristine}
@@ -542,20 +501,21 @@ const JoinEventForm = ({
                                 </Button>
                               ))}
                           </Flex>
-                        </Form>
-                      );
-                    }}
-                  </LegoFinalForm>
+                        </div>
+                      </Form>
+                    );
+                  }}
+                </LegoFinalForm>
 
-                  {registration && showStripeDelayed && (
-                    <PaymentForm
-                      event={event}
-                      currentUser={currentUser}
-                      registration={registration}
-                    />
-                  )}
-                </Flex>
-              )}
+                {registration && showStripeDelayed && (
+                  <PaymentForm
+                    event={event}
+                    currentUser={currentUser}
+                    registration={registration}
+                  />
+                )}
+              </Flex>
+            )}
           </>
         )}
       </Flex>

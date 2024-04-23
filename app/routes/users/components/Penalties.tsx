@@ -7,7 +7,6 @@ import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
-import type Penalty from 'app/store/models/Penalty';
 
 type Props = {
   userId: number;
@@ -15,21 +14,19 @@ type Props = {
 
 const Penalties = ({ userId }: Props) => {
   const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, {
-      userId,
-    })
-  ) as Penalty[];
+    selectPenaltyByUserId(state, userId),
+  );
   const canDeletePenalties = useAppSelector((state) => state.allowed.penalties);
 
   const dispatch = useAppDispatch();
 
   return (
-    <Flex column gap="1rem">
+    <Flex column gap="var(--spacing-md)">
       {penalties.length ? (
         <>
-          {penalties.map((penalty) => (
+          {penalties.map((penalty, index) => (
             <>
-              <Flex key={penalty.id} column gap="0.5rem">
+              <Flex key={penalty.id} column gap="var(--spacing-sm)">
                 <Flex column className={styles.info}>
                   <span className={styles.weight}>
                     {penalty.weight} {penalty.weight > 1 ? 'prikker' : 'prikk'}
@@ -78,13 +75,15 @@ const Penalties = ({ userId }: Props) => {
                 )}
               </Flex>
 
-              <div className={styles.divider} />
+              {index !== penalties.length - 1 && (
+                <div className={styles.divider} />
+              )}
             </>
           ))}
         </>
       ) : (
         <>
-          <Flex alignItems="center" gap="1rem">
+          <Flex alignItems="center" gap="var(--spacing-md)">
             <Icon
               name="thumbs-up-outline"
               size={40}
@@ -95,8 +94,6 @@ const Penalties = ({ userId }: Props) => {
               <span>Du har ingen prikker!</span>
             </Flex>
           </Flex>
-
-          <div className={styles.divider} />
         </>
       )}
 

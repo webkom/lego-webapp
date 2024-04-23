@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { changeGrade } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
 import { useAppDispatch } from 'app/store/hooks';
-import type { Group, ID } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { Group } from 'app/models';
 
 type Props = {
   grades: Array<Group>;
@@ -11,7 +12,7 @@ type Props = {
   username: string;
 };
 type Option = {
-  value: ID;
+  value: EntityId;
   label: string;
 };
 const noLongerStudent = {

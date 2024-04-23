@@ -12,3 +12,4 @@ export {
   ProgressBar,
 } from './components/LoadingIndicator';
 export { Modal, ConfirmModal } from './components/Modal';
+export { Skeleton } from './components/Skeleton';

@@ -2,7 +2,7 @@ import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import { selectEmojis } from 'app/reducers/emojis';
 import { useAppSelector } from 'app/store/hooks';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type Emoji from 'app/store/models/Emoji';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
@@ -18,7 +18,7 @@ type Props = {
 
 export type EmojiWithReactionData = Emoji & {
   hasReacted: boolean;
-  reactionId: ID;
+  reactionId: EntityId;
 };
 
 const LegoReactions = ({ parentEntity, showPeople }: Props) => {
@@ -33,7 +33,7 @@ const LegoReactions = ({ parentEntity, showPeople }: Props) => {
         parentEntity.reactionsGrouped &&
         parentEntity.reactionsGrouped.find(
           (reaction) =>
-            emoji.shortCode === reaction.emoji && reaction.hasReacted
+            emoji.shortCode === reaction.emoji && reaction.hasReacted,
         );
       return {
         ...emoji,

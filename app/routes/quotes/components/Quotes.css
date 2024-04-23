@@ -4,21 +4,6 @@
   composes: contentContainer from '~app/styles/utilities.css';
 }
 
-.quoteContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.quoteContainer h1 {
-  margin: 0 0 20px;
-}
-
-.reactions {
-  order: 3;
-  margin: 15px 0 0 20px;
-  width: 100%;
-}
-
 .sortQuote {
   order: 2;
   width: 200px;
@@ -168,11 +153,6 @@
 }
 
 @media (--small-viewport) {
-  .quoteContainer {
-    margin: 0;
-    flex-direction: column;
-  }
-
   .sortQuote {
     margin: 0;
   }

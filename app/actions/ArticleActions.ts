@@ -2,11 +2,10 @@ import { omit } from 'lodash';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedArticle } from 'app/store/models/Article';
-import type { ArticleEntity } from 'app/types';
 
-export function fetchArticle(articleId: ID) {
+export function fetchArticle(articleId: EntityId) {
   return callAPI<DetailedArticle>({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,
@@ -18,7 +17,7 @@ export function fetchArticle(articleId: ID) {
   });
 }
 
-export function createArticle(data: ArticleEntity) {
+export function createArticle(data) {
   return callAPI<DetailedArticle>({
     types: Article.CREATE,
     endpoint: '/articles/',
@@ -31,7 +30,7 @@ export function createArticle(data: ArticleEntity) {
   });
 }
 
-export function deleteArticle(id: ID) {
+export function deleteArticle(id: EntityId) {
   return callAPI({
     types: Article.DELETE,
     endpoint: `/articles/${id}/`,
@@ -43,7 +42,7 @@ export function deleteArticle(id: ID) {
   });
 }
 
-export function editArticle({ id, ...data }: ArticleEntity) {
+export function editArticle({ id, ...data }) {
   return callAPI<DetailedArticle>({
     types: Article.EDIT,
     endpoint: `/articles/${id}/`,
@@ -72,7 +71,7 @@ export function fetchAll({
       fetchNext: next,
     },
     meta: {
-      errorMessage: 'Henting av artikler feilet',
+      errorMessage: 'Henting av artikler feilet totalt',
     },
     propagateError: true,
   });

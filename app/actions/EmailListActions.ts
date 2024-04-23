@@ -1,10 +1,13 @@
 import callAPI from 'app/actions/callAPI';
 import { emailListSchema } from 'app/reducers';
 import { EmailList } from './ActionTypes';
-import type { EmailListEntity } from 'app/reducers/emailLists';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type {
+  CreateEmailList,
+  EditEmailList,
+} from 'app/store/models/EmailList';
 
-export function fetchEmailList(emailListId: ID) {
+export function fetchEmailList(emailListId: EntityId) {
   return callAPI({
     types: EmailList.FETCH,
     endpoint: `/email-lists/${emailListId}/`,
@@ -16,7 +19,7 @@ export function fetchEmailList(emailListId: ID) {
   });
 }
 
-export function createEmailList(emailList: EmailListEntity) {
+export function createEmailList(emailList: CreateEmailList) {
   return callAPI({
     types: EmailList.CREATE,
     endpoint: '/email-lists/',
@@ -29,7 +32,7 @@ export function createEmailList(emailList: EmailListEntity) {
   });
 }
 
-export function editEmailList(emailList: EmailListEntity) {
+export function editEmailList(emailList: EditEmailList) {
   return callAPI({
     types: EmailList.EDIT,
     endpoint: `/email-lists/${emailList.id}/`,

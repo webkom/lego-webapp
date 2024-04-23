@@ -48,7 +48,7 @@ const TICK_ACTIONS: Array<[number, Action]> = [
 const countdownReducer = (
   state: State,
   action: Action,
-  registrationOpensIn: string | null | undefined
+  registrationOpensIn: string | null | undefined,
 ): State => {
   switch (action) {
     case 'REGISTRATION_AVAILABLE':
@@ -130,13 +130,13 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
 
     dispatch(action: Action, registrationOpensIn: string | null | undefined) {
       this.setState((state) =>
-        countdownReducer(state, action, registrationOpensIn)
+        countdownReducer(state, action, registrationOpensIn),
       );
     }
 
     setupEventCountdown = (
       event: Event,
-      registration: EventRegistration | null | undefined
+      registration: EventRegistration | null | undefined,
     ) => {
       const { activationTime } = event;
       const poolActivationTime = moment(activationTime);
@@ -176,7 +176,7 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
       poll();
       this.countdownProbeTimer = setInterval(
         poll,
-        CHECK_COUNTDOWN_START_INTERVAL
+        CHECK_COUNTDOWN_START_INTERVAL,
       );
     };
 
@@ -193,7 +193,7 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
           TICK_ACTIONS.find(([time]) => timeUntilRegistrationOpens <= time) ||
           [];
         const registrationOpensIn = moment(
-          timeUntilRegistrationOpens + 1000
+          timeUntilRegistrationOpens + 1000,
         ).format('mm:ss');
 
         if (action) {
@@ -222,7 +222,7 @@ function getTimeDifference(first: Dateish, second: Dateish): number {
 
 export function getTimeUntil(
   time: Dateish,
-  currentTime: Dateish = moment()
+  currentTime: Dateish = moment(),
 ): Duration {
   return moment.duration(getTimeDifference(time, currentTime), 'milliseconds');
 }

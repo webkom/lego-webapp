@@ -12,7 +12,7 @@ import useQuery from 'app/utils/useQuery';
 const emailListsDefaultQuery = {
   name: '',
   email: '',
-  requireInternalAddress: undefined as undefined | 'true' | 'false',
+  requireInternalAddress: '' as '' | 'true' | 'false',
 };
 
 const EmailLists = () => {
@@ -23,13 +23,12 @@ const EmailLists = () => {
       endpoint: '/email-lists/',
       entity: 'emailLists',
       query,
-    })(state)
+    })(state),
   );
 
   const emailLists = useAppSelector((state) =>
-    selectEmailLists(state, { pagination })
+    selectEmailLists(state, { pagination }),
   );
-  const fetching = useAppSelector((state) => state.emailLists.fetching);
 
   const dispatch = useAppDispatch();
 
@@ -39,9 +38,9 @@ const EmailLists = () => {
       dispatch(
         fetch({
           query,
-        })
+        }),
       ),
-    [query]
+    [query],
   );
 
   const columns = [
@@ -112,13 +111,13 @@ const EmailLists = () => {
             fetch({
               next: true,
               query: query,
-            })
+            }),
           );
         }}
         filters={query}
         onChange={setQuery}
         hasMore={pagination.hasMore}
-        loading={fetching}
+        loading={pagination.fetching}
         data={emailLists}
       />
     </div>

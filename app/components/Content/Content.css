@@ -24,14 +24,17 @@
 }
 
 .cover {
-  composes: contentContainer from '~app/styles/utilities.css';
+  max-width: var(--lego-max-width);
   max-height: 400px;
-  padding: 0;
+  aspect-ratio: 3.3;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: var(--border-radius-lg);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   overflow: hidden;
   position: relative;
-  width: 100%;
+  background-color: var(--lego-card-color);
 
   & img {
     object-fit: cover;
@@ -43,10 +46,10 @@
 .content {
   composes: contentContainer from '~app/styles/utilities.css';
   width: 100%;
-  padding-top: 20px;
+  padding-top: var(--spacing-md);
 }
 
 .contentWithBanner {
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
+  border-top-right-radius: 0 !important;
+  border-top-left-radius: 0 !important;
 }

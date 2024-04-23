@@ -2,16 +2,12 @@
 
 .star {
   color: var(--color-orange-6);
-  margin-right: 10px;
 }
 
-.descriptionHeader {
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.meta h3 {
-  margin: 5px 0;
+.header {
+  min-width: 300px;
+  min-height: var(--spacing-xl);
+  margin: var(--spacing-sm) 0;
 }
 
 .title {
@@ -20,6 +16,10 @@
 
 .tagRow {
   margin-top: 16px;
+}
+
+.sidebarInfo {
+  min-height: var(--spacing-lg);
 }
 
 .paymentInfo {
@@ -47,21 +47,12 @@
   }
 }
 
-.infoIconLocation {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-}
-
 .mapButton {
-  max-width: 120px;
-  max-height: 30px;
-  gap: 5px;
+  gap: 4px;
   font-size: var(--font-size-sm);
 }
 
 .mazemapImg {
-  width: 25px;
-  margin-left: -8px;
+  width: 30px;
+  margin-left: -4px;
 }

@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import { Icon } from '../Icon';
 import Flex from '../Layout/Flex';
+import { Skeleton } from '../Skeleton';
 import styles from './Card.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
@@ -57,6 +58,7 @@ type Props = {
   shadow?: boolean;
   hideOverflow?: boolean;
   isHoverable?: boolean;
+  skeleton?: boolean;
   severity?: Severity;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -66,6 +68,7 @@ export const Card = ({
   shadow = true,
   hideOverflow = false,
   isHoverable = false,
+  skeleton = false,
   severity,
   ...htmlAttributes
 }: Props) => {
@@ -76,14 +79,19 @@ export const Card = ({
         styles.card,
         shadow && styles.shadow,
         isHoverable && styles.isHoverable,
-        severity && styles[severity]
+        severity && styles[severity],
       )}
       style={{
-        overflow: hideOverflow ? 'hidden' : 'initial',
+        overflow: hideOverflow || skeleton ? 'hidden' : 'initial',
+        padding: skeleton ? '0' : '',
       }}
       {...htmlAttributes}
     >
-      <CardContent severity={severity}>{children}</CardContent>
+      {skeleton ? (
+        <Skeleton />
+      ) : (
+        <CardContent severity={severity}>{children}</CardContent>
+      )}
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
@@ -26,13 +26,13 @@ const UserResetPasswordForm = () => {
       resetPassword({
         token,
         ...props,
-      })
+      }),
     ).then(() => {
       navigate('/');
     });
 
-  const { currentUser } = useUserContext();
-  const user = {
+  const currentUser = useCurrentUser();
+  const user = currentUser && {
     username: currentUser.username,
     firstName: currentUser.firstName,
     lastName: currentUser.lastName,
@@ -76,7 +76,7 @@ const validate = createValidator(
     ],
   },
   undefined,
-  true
+  true,
 );
 
 export default UserResetPasswordForm;

@@ -5,7 +5,7 @@ import type { FieldMeeting } from 'app/store/models/Meeting';
 import type { PublicUser } from 'app/store/models/User';
 
 interface CompleteRestrictedMail {
-  id: ID;
+  id: EntityId;
   fromAddress: string;
   hideSender: boolean;
   used: Dateish;
@@ -26,13 +26,13 @@ export type ListRestrictedMail = Pick<
 
 export type NormalRestrictedMail = Pick<
   CompleteRestrictedMail,
-  'users',
-  'groups',
-  'events',
-  'meetings',
-  'rawAddresses',
-  'weekly',
-  'hideSender'
+  | 'users'
+  | 'groups'
+  | 'events'
+  | 'meetings'
+  | 'rawAddresses'
+  | 'weekly'
+  | 'hideSender'
 > &
   ListRestrictedMail;
 

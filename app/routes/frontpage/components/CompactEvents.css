@@ -1,0 +1,52 @@
+@import url('~app/styles/variables.css');
+
+.compactEvents {
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  gap: var(--spacing-xl);
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+}
+
+@media (--mobile-device) {
+  .compactLeft h3 {
+    margin-top: 0;
+  }
+}
+
+.compactLeft,
+.compactRight {
+  flex: 1;
+}
+
+.compactEvents li {
+  display: flex;
+  align-items: center;
+}
+
+.eventItem {
+  height: 26px;
+}
+
+.compactEvents a {
+  color: var(--lego-font-color);
+}
+
+.compactEvents li > a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 0;
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+.compactEvents a:hover {
+  color: var(--lego-link-color);
+}

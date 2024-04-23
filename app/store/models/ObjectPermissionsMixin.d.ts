@@ -1,9 +1,9 @@
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
 interface ObjectPermissionsMixin {
-  canEditUsers: ID[];
-  canViewGroups: ID[];
-  canEditGroups: ID[];
+  canEditUsers: EntityId[];
+  canViewGroups: EntityId[];
+  canEditGroups: EntityId[];
   requireAuth: boolean;
 }
 

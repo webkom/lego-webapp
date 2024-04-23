@@ -1,11 +1,11 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import { fetchAll } from 'app/actions/JoblistingActions';
-import { selectJoblistings } from 'app/reducers/joblistings';
+import { selectAllJoblistings } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { parseQueryString } from 'app/utils/useQuery';
 import JoblistingsList from './JoblistingList';
@@ -26,7 +26,7 @@ function filterJoblistings(
   joblistings: ListJoblisting[],
   grades: string[],
   jobTypes: string[],
-  workplaces: string[]
+  workplaces: string[],
 ) {
   return joblistings.filter((joblisting) => {
     const gradeBoolean =
@@ -34,7 +34,7 @@ function filterJoblistings(
       grades.some(
         (grade) =>
           joblisting.fromYear <= Number(grade) &&
-          joblisting.toYear >= Number(grade)
+          joblisting.toYear >= Number(grade),
       );
     const jobTypesBoolean =
       !jobTypes.length || jobTypes.includes(joblisting.jobType);
@@ -44,7 +44,7 @@ function filterJoblistings(
         (workplace) =>
           workplaces.includes(workplace.town) ||
           (workplaces.includes('Annet') &&
-            !MAJOR_CITIES.includes(workplace.town))
+            !MAJOR_CITIES.includes(workplace.town)),
       );
     return gradeBoolean && jobTypesBoolean && workplacesBoolean;
   });
@@ -83,21 +83,19 @@ const sortJoblistings = (joblistings, sortType) => {
 };
 
 const JoblistingsPage = () => {
-  const unsortedJoblistings = useAppSelector((state) =>
-    selectJoblistings(state)
-  );
+  const unsortedJoblistings = useAppSelector(selectAllJoblistings);
 
   const location = useLocation();
   const { order, grades, jobTypes, workplaces } = parseQueryString(
     location.search,
-    defaultJoblistingsQuery
+    defaultJoblistingsQuery,
   );
 
   const filteredJoblistings = filterJoblistings(
     unsortedJoblistings,
     grades,
     jobTypes,
-    workplaces
+    workplaces,
   );
   const joblistings = useMemo(() => {
     return sortJoblistings(filteredJoblistings, order);
@@ -105,11 +103,11 @@ const JoblistingsPage = () => {
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchJoblistingPage', () => dispatch(fetchAll()), []);
-
-  if (!joblistings) {
-    return <LoadingIndicator loading />;
-  }
+  usePreparedEffect(
+    'fetchJoblistingPage',
+    () => dispatch(fetchAll({ timeFilter: true })),
+    [],
+  );
 
   return (
     <div className={styles.root}>

@@ -1,50 +1,53 @@
 import { Icon } from '@webkom/lego-bricks';
-import { lookupContext, contextRender } from '../context';
+import { isNotNullish } from 'app/utils';
+import { contextRender } from '../context';
 import { formatHeader } from './utils';
-import type { AggregatedActivity, TagInfo } from '../types';
-import type { Element } from 'react';
+import type ActivityRenderer from 'app/components/Feed/ActivityRenderer';
+import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
+import type { FeedAttrEvent } from 'app/store/models/FeedAttrCache';
 
 /**
  * Normal grouping by target and date
  */
-export function activityHeader(
-  aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => Element<any>
-) {
-  const events = aggregatedActivity.activities.reduce((acc, activity) => {
-    const context = lookupContext(aggregatedActivity, activity.actor);
-    return context ? acc.concat(context) : acc;
-  }, []);
+const AdminRegistrationRenderer: ActivityRenderer = {
+  Header: ({ aggregatedActivity, tag: Tag }) => {
+    const events = getEvents(aggregatedActivity);
 
-  if (events.length === 0) {
-    return null;
-  }
+    if (events.length === 0) {
+      return null;
+    }
 
-  return (
-    <b>
-      {'Du har blitt påmeldt på '}
-      {formatHeader(
-        events.map((event) => htmlTag(contextRender[event.contentType](event)))
-      )}
-      {' av en administrator'}
-    </b>
-  );
-}
-export function activityContent() {
-  return null;
-}
-export function icon() {
-  return <Icon name="calendar" />;
-}
-export function getURL(aggregatedActivity: AggregatedActivity) {
-  const events = aggregatedActivity.activities.reduce((acc, activity) => {
-    const context = lookupContext(aggregatedActivity, activity.actor);
-    return context ? acc.concat(context) : acc;
-  }, []);
+    return (
+      <b>
+        {'Du har blitt påmeldt på '}
+        {formatHeader(
+          events.map((event) => (
+            <Tag key={event.id} {...contextRender[event.contentType](event)} />
+          )),
+        )}
+        {' av en administrator'}
+      </b>
+    );
+  },
+  Content: () => null,
+  Icon: () => <Icon name="calendar" />,
+  getNotificationUrl: (aggregatedActivity) => {
+    const events = getEvents(aggregatedActivity);
 
-  if (!events || events.length !== 1) {
-    return '/events';
-  }
+    if (!events || events.length !== 1) {
+      return '/events';
+    }
 
-  return `/events/${events[0].id}`;
-}
+    return `/events/${events[0].id}`;
+  },
+};
+
+const getEvents = (aggregatedActivity: AggregatedFeedActivity) =>
+  aggregatedActivity.activities
+    .map(
+      (activity) =>
+        aggregatedActivity.context[activity.actor] as FeedAttrEvent | undefined,
+    )
+    .filter(isNotNullish);
+
+export default AdminRegistrationRenderer;

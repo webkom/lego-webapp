@@ -1,4 +1,4 @@
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 
 type Data = {
   username?: string;
@@ -14,16 +14,19 @@ export const validPassword =
 
     const zxcvbn = (await import('zxcvbn')).default;
     const userValues = [data.username, data.firstName, data.lastName].filter(
-      Boolean
+      Boolean,
     );
     const evalPass = zxcvbn(value, userValues);
     return [evalPass.score >= 3, message] as const;
   };
 
-export const isCurrentUser = (username: string, currentUsername: string) =>
-  username === 'me' || username === currentUsername;
+export const isCurrentUser = (username?: string, currentUsername?: string) => {
+  if (!username) return false;
 
-export const useIsCurrentUser = (username: string) => {
-  const { currentUser } = useUserContext();
-  return isCurrentUser(username, currentUser.username);
+  return username === 'me' || username === currentUsername;
+};
+
+export const useIsCurrentUser = (username?: string) => {
+  const currentUser = useCurrentUser();
+  return isCurrentUser(username, currentUser?.username);
 };

@@ -27,9 +27,8 @@ function CommentTree({
 }: Props) {
   const tree = comments.map((comment) => {
     const className = cx(
-      styles.commentTree,
       isChild && level < 3 && styles.nested,
-      isChild ? styles.child : styles.root
+      isChild ? styles.child : styles.root,
     );
 
     if (comment.children.length) {

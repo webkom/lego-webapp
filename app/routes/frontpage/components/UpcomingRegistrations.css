@@ -1,0 +1,48 @@
+@import url('~app/styles/variables.css');
+
+.eventItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  height: 60px;
+}
+
+.title {
+  color: var(--lego-font-color);
+  margin: 0;
+}
+
+.info {
+  color: var(--secondary-font-color);
+  margin: -3px 10px;
+}
+
+.time {
+  color: var(--lego-link-color);
+  font-weight: 500;
+  margin-left: 5.5px;
+}
+
+.alarm {
+  width: 15px;
+  height: 15px;
+}
+
+.filler {
+  justify-content: center;
+  align-items: center;
+  color: var(--secondary-font-color);
+  margin-top: 20px;
+}
+
+.wrapper {
+  min-height: 150px;
+
+  @media (--mobile-device) {
+    min-height: 0;
+  }
+
+  > div:last-of-type > .eventItem {
+    margin-bottom: 0;
+  }
+}

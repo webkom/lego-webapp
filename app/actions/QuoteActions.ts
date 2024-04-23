@@ -1,7 +1,7 @@
 import callAPI from 'app/actions/callAPI';
 import { quoteSchema } from 'app/reducers';
 import { Quote } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type QuoteType from 'app/store/models/Quote';
 
 export function fetchAll({
@@ -26,7 +26,7 @@ export function fetchAll({
   });
 }
 
-export function fetchQuote(quoteId: ID) {
+export function fetchQuote(quoteId: EntityId) {
   return callAPI<QuoteType>({
     types: Quote.FETCH,
     endpoint: `/quotes/${quoteId}/`,
@@ -40,7 +40,7 @@ export function fetchQuote(quoteId: ID) {
   });
 }
 
-export function fetchRandomQuote(seenQuotes: ID[] = []) {
+export function fetchRandomQuote(seenQuotes: EntityId[] = []) {
   const queryString = `?seen=[${String(seenQuotes)}]`;
   return callAPI<QuoteType>({
     types: Quote.FETCH_RANDOM,
@@ -54,7 +54,7 @@ export function fetchRandomQuote(seenQuotes: ID[] = []) {
   });
 }
 
-export function approve(quoteId: ID) {
+export function approve(quoteId: EntityId) {
   return callAPI({
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
@@ -66,7 +66,7 @@ export function approve(quoteId: ID) {
   });
 }
 
-export function unapprove(quoteId: ID) {
+export function unapprove(quoteId: EntityId) {
   return callAPI({
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
@@ -94,7 +94,7 @@ export function addQuotes({ text, source }: { text: string; source: string }) {
   });
 }
 
-export function deleteQuote(id: ID) {
+export function deleteQuote(id: EntityId) {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${id}/`,

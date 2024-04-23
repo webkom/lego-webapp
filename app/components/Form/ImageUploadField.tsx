@@ -24,7 +24,7 @@ const ImageUploadField = ({ className, style, ...props }: Props) => {
     dispatch(
       uploadFile({
         file,
-      })
+      }),
     ).then(({ meta }) => {
       props.onChange(meta.fileToken);
     });

@@ -7,9 +7,9 @@
 }
 
 .categoryTitle {
-  margin-top: 2rem;
+  margin-top: var(--spacing-xl);
 }
 
 .statusContainer {
-  margin: 0.5rem 0;
+  margin: var(--spacing-sm) 0;
 }

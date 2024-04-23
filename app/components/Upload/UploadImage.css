@@ -9,6 +9,7 @@
 
 .dropArea {
   border-radius: inherit;
+  aspect-ratio: inherit;
   height: inherit;
   width: inherit;
   z-index: 0;
@@ -29,6 +30,7 @@
 .placeholderContainer {
   overflow: hidden;
   border-radius: inherit;
+  aspect-ratio: inherit;
   height: inherit;
   width: inherit;
   position: absolute;
@@ -36,6 +38,10 @@
   font-weight: 500;
   padding: 10px 40px;
   text-align: center;
+
+  @media (--small-viewport) {
+    line-height: 1.3;
+  }
 }
 
 .inModalUpload .placeholderContainer {

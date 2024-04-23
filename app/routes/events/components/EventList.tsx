@@ -8,9 +8,9 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectSortedEvents } from 'app/reducers/events';
 import { selectPagination } from 'app/reducers/selectors';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createQueryString from 'app/utils/createQueryString';
 import useQuery from 'app/utils/useQuery';
@@ -35,7 +35,7 @@ type GroupedEvents = {
 
 const groupEvents = (
   events: ListEvent,
-  field?: EventTime = EventTime.start
+  field?: EventTime = EventTime.start,
 ): GroupedEvents => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
@@ -118,7 +118,7 @@ const EventList = () => {
 
   const regDateFilter =
     filterRegDateOptions.find(
-      (option) => option.value === query.registrations
+      (option) => option.value === query.registrations,
     ) || filterRegDateOptions[0];
 
   const { field, filterRegDateFunc } = regDateFilter;
@@ -127,15 +127,15 @@ const EventList = () => {
   const showSocial = query.eventTypes.includes('social');
   const showOther = query.eventTypes.includes('other');
   const showCompanyPresentation = query.eventTypes.includes(
-    'company_presentation'
+    'company_presentation',
   );
 
-  const { currentUser, loggedIn } = useUserContext();
-  const icalToken = currentUser?.icalToken;
+  const loggedIn = useIsLoggedIn();
+  const icalToken = useCurrentUser()?.icalToken;
 
   const queryString = createQueryString(query);
   const showFetchMore = useAppSelector((state) =>
-    selectPagination('events', { queryString })(state)
+    selectPagination('events', { queryString })(state),
   );
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
@@ -153,7 +153,7 @@ const EventList = () => {
         pagination,
         dispatch,
       }),
-    []
+    [],
   );
 
   const fetchMore = () =>
@@ -198,9 +198,9 @@ const EventList = () => {
   const groupedEvents = groupEvents(
     orderBy(
       events.filter(filterRegDateFunc).filter(filterEventTypesFunc),
-      field
+      field,
     ),
-    field
+    field,
   );
 
   const toggleEventType =
@@ -208,7 +208,7 @@ const EventList = () => {
       setQueryValue('eventTypes')(
         query.eventTypes.includes(type)
           ? query.eventTypes.filter((t) => t !== type)
-          : [...query.eventTypes, type]
+          : [...query.eventTypes, type],
       );
     };
 
@@ -221,25 +221,25 @@ const EventList = () => {
           <CheckBox
             id="companyPresentation"
             label="Bedpres"
-            value={showCompanyPresentation}
+            checked={showCompanyPresentation}
             onChange={toggleEventType('company_presentation')}
           />
           <CheckBox
             id="course"
             label="Kurs"
-            value={showCourse}
+            checked={showCourse}
             onChange={toggleEventType('course')}
           />
           <CheckBox
             id="social"
             label="Sosialt"
-            value={showSocial}
+            checked={showSocial}
             onChange={toggleEventType('social')}
           />
           <CheckBox
             id="other"
             label="Annet"
-            value={showOther}
+            checked={showOther}
             onChange={toggleEventType('other')}
           />
         </div>

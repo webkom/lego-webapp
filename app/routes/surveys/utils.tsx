@@ -5,8 +5,8 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './components/surveys.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import type { ReactNode } from 'react';
 
 export const questionTypeString: Record<SurveyQuestionType, string> = {
@@ -18,7 +18,7 @@ export const questionTypeOptions = Object.values(SurveyQuestionType).map(
   (questionType) => ({
     value: questionType,
     label: questionTypeString[questionType],
-  })
+  }),
 );
 export const ListNavigation = ({ title }: { title: ReactNode }) => (
   <NavigationTab title={title}>
@@ -32,7 +32,7 @@ export const DetailNavigation = ({
   surveyId,
 }: {
   title: string;
-  surveyId?: ID;
+  surveyId?: EntityId;
   actionGrant?: ActionGrant;
 }) => (
   <NavigationTab
@@ -63,7 +63,7 @@ export const TokenNavigation = ({
   actionGrant = [],
 }: {
   title: ReactNode;
-  surveyId: ID;
+  surveyId: EntityId;
   actionGrant?: ActionGrant;
 }) => (
   <NavigationTab title={title}>
@@ -75,7 +75,7 @@ export const TokenNavigation = ({
   </NavigationTab>
 );
 
-export const getCsvUrl = (surveyId: ID) =>
+export const getCsvUrl = (surveyId: EntityId) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
@@ -83,8 +83,8 @@ export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
       backgroundColor: props.isSelected
         ? 'var(--color-gray-2)'
         : props.isFocused
-        ? 'var(--additive-background)'
-        : 'var(--lego-card-color)',
+          ? 'var(--additive-background)'
+          : 'var(--lego-card-color)',
     }}
     className={styles.dropdownOption}
     onMouseDown={(event) => {

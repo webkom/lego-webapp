@@ -1,5 +1,9 @@
 @import url('~app/styles/variables.css');
 
+.randomQuote {
+  min-height: 155px;
+}
+
 .content {
   width: 70%;
   line-height: 1.3;

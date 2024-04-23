@@ -1,10 +1,11 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import callAPI from 'app/actions/callAPI';
 import { frontpageSchema } from 'app/reducers';
-import { Frontpage, Readme } from './ActionTypes';
-import type { Thunk } from 'app/types';
+import { Frontpage } from './ActionTypes';
+import type { Readme } from 'app/models';
 
 const gql = String.raw;
-export function fetchData(): Thunk<any> {
+export function fetchData() {
   return callAPI({
     types: Frontpage.FETCH,
     endpoint: '/frontpage/',
@@ -33,33 +34,25 @@ const readmeUtgaver = gql`
   }
   ${readmeFragment}
 `;
-export function fetchReadmes(first: number) {
-  return async (dispatch) => {
-    try {
-      dispatch({
-        type: Readme.FETCH.BEGIN,
-      });
-      const res = await fetch(readmeUrl, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
+
+export const fetchReadmes = createAsyncThunk(
+  'readme/fetch',
+  async (first: number) => {
+    const res = await fetch(readmeUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        operationName: null,
+        query: readmeUtgaver,
+        variables: {
+          first,
         },
-        body: JSON.stringify({
-          operationName: null,
-          query: readmeUtgaver,
-          variables: {
-            first,
-          },
-        }),
-      });
-      const output = await res.json();
-      dispatch({
-        type: Readme.FETCH.SUCCESS,
-        payload: output.data.readmeUtgaver,
-      });
-    } catch (e) {
-      //
-    }
-  };
-}
+      }),
+    });
+    const output = (await res.json()) as { data: { readmeUtgaver: Readme[] } };
+    return output.data.readmeUtgaver;
+  },
+);

@@ -1,8 +1,10 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import { ProfilePicture, Image } from 'app/components/Image';
 import { isUserResult } from 'app/reducers/search';
+import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPageResults.css';
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
@@ -21,12 +23,12 @@ type SearchResultProps = {
   isSelected: boolean;
 };
 
-function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
+const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
   return (
     <Flex
       wrap
       style={{
-        backgroundColor: isSelected && 'rgba(255, 0, 0, 0.15)',
+        backgroundColor: isSelected ? 'var(--additive-background)' : undefined,
         borderColor: result.color,
       }}
       className={styles.searchResult}
@@ -39,38 +41,25 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
           }}
           to={result.link}
         >
-          <h3 className={styles.searchResultTitle}>
-            <span>
-              {result.label}
-              {isUserResult(result) && <span>({result.username})</span>}
-            </span>
+          <Flex
+            alignItems="center"
+            gap="var(--spacing-sm)"
+            className={styles.searchResultTitle}
+          >
+            <h3>{result.label}</h3>
 
             {isUserResult(result) ? (
-              <ProfilePicture
-                className={styles.searchResultItemIcon}
-                size={24}
-                user={result}
-              />
+              <ProfilePicture size={24} user={result} />
             ) : (
-              <Icon
-                name={result.icon}
-                className={styles.searchResultItemIcon}
-              />
+              <Icon name={result.icon} />
             )}
-          </h3>
+          </Flex>
         </Link>
-        <div>
-          {result.content && (
-            <div>
-              <span>
-                {truncateString(
-                  result.content.replace(/(<([^>]+)>)/gi, ''),
-                  250
-                )}
-              </span>
-            </div>
-          )}
-        </div>
+        {result.content && (
+          <p>
+            {truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 140)}
+          </p>
+        )}
       </Flex>
 
       {result.picture && result.picture !== 'cover' && (
@@ -80,10 +69,17 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
       )}
     </Flex>
   );
-}
+};
 
-function SearchPageResults({ onSelect, results, selectedIndex, query }: Props) {
-  if (results.length === 0) {
+const SearchPageResults = ({
+  onSelect,
+  results,
+  selectedIndex,
+  query,
+}: Props) => {
+  const searching = useAppSelector((state) => state.search.searching);
+
+  if (results.length === 0 && !searching) {
     return (
       <EmptyState icon="glasses-outline">
         {query ? (
@@ -98,17 +94,24 @@ function SearchPageResults({ onSelect, results, selectedIndex, query }: Props) {
   }
 
   return (
-    <div>
-      {results.map((result, i) => (
-        <SearchResult
-          key={`${result.path}-${result.value}`}
-          onSelect={onSelect}
-          result={result}
-          isSelected={selectedIndex === i}
+    <Flex column gap="var(--spacing-md)">
+      {results.length === 0 ? (
+        <Skeleton
+          array={6}
+          className={cx(styles.searchResult, styles.skeleton)}
         />
-      ))}
-    </div>
+      ) : (
+        results.map((result, i) => (
+          <SearchResult
+            key={`${result.path}-${result.value}`}
+            onSelect={onSelect}
+            result={result}
+            isSelected={selectedIndex === i}
+          />
+        ))
+      )}
+    </Flex>
   );
-}
+};
 
 export default SearchPageResults;

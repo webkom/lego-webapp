@@ -73,19 +73,19 @@ describe('addFetchingReducer', () => {
       reducer(initialState, {
         ...baseAction,
         type: UNRELATED.BEGIN,
-      })
+      }),
     ).toEqual(initialState);
     expect(
       reducer(initialState, {
         ...baseAction,
         type: UNRELATED.FAILURE,
-      })
+      }),
     ).toEqual(initialState);
     expect(
       reducer(initialState, {
         ...baseAction,
         type: UNRELATED.SUCCESS,
-      })
+      }),
     ).toEqual(initialState);
   });
 });

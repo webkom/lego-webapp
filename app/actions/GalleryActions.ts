@@ -1,36 +1,33 @@
 import callAPI from 'app/actions/callAPI';
 import { gallerySchema } from 'app/reducers';
 import { Gallery } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
-import type { ID } from 'app/store/models';
 import type { DetailedGallery } from 'app/store/models/Gallery';
-import type { Thunk } from 'app/types';
+import type { Query } from 'app/utils/createQueryString';
 
-export function fetch({
-  next,
-  filters,
+export const fetchGalleries = ({
+  next = false,
+  query,
 }: {
   next?: boolean;
-  filters?: Record<string, string | number>;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    const cursor = next ? getState().galleries.pagination.next : {};
-    return dispatch(
-      callAPI({
-        types: Gallery.FETCH,
-        endpoint: `/galleries/`,
-        query: { ...cursor, ...filters },
-        schema: [gallerySchema],
-        meta: {
-          errorMessage: 'Henting av bilder feilet',
-        },
-        propagateError: false,
-      })
-    );
-  };
-}
+  query?: Query;
+} = {}) =>
+  callAPI({
+    types: Gallery.FETCH,
+    endpoint: `/galleries/`,
+    query,
+    pagination: {
+      fetchNext: next,
+    },
+    schema: [gallerySchema],
+    meta: {
+      errorMessage: 'Henting av bilder feilet',
+    },
+    propagateError: false,
+  });
 
-export function fetchGallery(galleryId: ID) {
+export function fetchGallery(galleryId: EntityId) {
   return callAPI<DetailedGallery>({
     types: Gallery.FETCH,
     endpoint: `/galleries/${galleryId}/`,
@@ -42,7 +39,7 @@ export function fetchGallery(galleryId: ID) {
   });
 }
 
-export function fetchGalleryMetadata(galleryId: ID) {
+export function fetchGalleryMetadata(galleryId: EntityId) {
   return callAPI({
     types: Gallery.FETCH,
     endpoint: `/galleries/${galleryId}/metadata/`,
@@ -65,7 +62,10 @@ export function createGallery(gallery: GalleryEditorFormValues) {
   });
 }
 
-export function updateGallery(galleryId: ID, gallery: GalleryEditorFormValues) {
+export function updateGallery(
+  galleryId: EntityId,
+  gallery: GalleryEditorFormValues,
+) {
   return callAPI<DetailedGallery>({
     types: Gallery.EDIT,
     endpoint: `/galleries/${galleryId}/`,
@@ -78,7 +78,7 @@ export function updateGallery(galleryId: ID, gallery: GalleryEditorFormValues) {
   });
 }
 
-export function updateGalleryCover(id: ID, cover: ID) {
+export function updateGalleryCover(id: EntityId, cover: EntityId) {
   return callAPI({
     types: Gallery.EDIT,
     endpoint: `/galleries/${id}/`,
@@ -93,7 +93,7 @@ export function updateGalleryCover(id: ID, cover: ID) {
   });
 }
 
-export function deleteGallery(id: ID) {
+export function deleteGallery(id: EntityId) {
   return callAPI({
     types: Gallery.DELETE,
     endpoint: `/galleries/${id}/`,

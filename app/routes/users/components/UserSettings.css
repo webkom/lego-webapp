@@ -1,8 +1,9 @@
-.pictureSection {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: baseline;
+.right {
+  flex: 1;
+}
+
+.bottom {
+  margin-top: var(--spacing-md);
 }
 
 .changePassword {

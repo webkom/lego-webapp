@@ -1,48 +1,51 @@
-import { uniqBy, sortBy, groupBy } from 'lodash';
+import { createSlice } from '@reduxjs/toolkit';
+import { groupBy, sortBy, uniqBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Page } from '../actions/ActionTypes';
-import { selectGroupsWithType, selectGroup } from './groups';
+import { selectGroupById, selectGroupsByType } from './groups';
 import { selectPaginationNext } from './selectors';
-import type Membership from 'app/store/models/Membership';
-import type { RoleType } from 'app/utils/constants';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { TransformedMembership } from 'app/reducers/memberships';
+import type {
+  Flatpage,
+  GroupPage,
+  HierarchySectionSelector,
+  PageInfoSelector,
+  PageSelector,
+  UnknownSection,
+} from 'app/routes/pages/components/PageDetail';
+import type { RootState } from 'app/store/createRootReducer';
+import type { PublicDetailedGroup } from 'app/store/models/Group';
+import type { AuthDetailedPage, DetailedPage } from 'app/store/models/Page';
 
-export type PageEntity = {
-  id: number;
-  title: string;
-  slug: string;
-  content: string;
-  comments: Array<number>;
-  picture: string;
-  picturePlaceholder: string;
-  logo?: string;
-  logoPlaceholder?: string;
-  membershipsByRole: Record<RoleType, Membership[]>;
-  text?: string;
-  name?: string;
-};
-export default createEntityReducer({
-  key: 'pages',
-  types: {
-    fetch: Page.FETCH,
-    mutate: Page.CREATE,
-    delete: Page.DELETE,
-  },
+const legoAdapter = createLegoAdapter(EntityType.Pages, {
+  selectId: (page) => page.slug,
 });
-export const selectPageBySlug = createSelector(
-  (state) => state.pages.byId,
-  (state, props) => props.pageSlug,
-  (pagesBySlug, pageSlug) => pagesBySlug[pageSlug]
-);
-export const selectPages = createSelector(
-  (state) => state.pages.byId,
-  (pagesBySlug) => Object.keys(pagesBySlug).map((slug) => pagesBySlug[slug])
-);
-export const selectPagesForHierarchy = (category: string) =>
+
+const pagesSlice = createSlice({
+  name: EntityType.Pages,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Page.FETCH],
+    deleteActions: [Page.DELETE],
+  }),
+});
+
+export default pagesSlice.reducer;
+
+export const { selectAll: selectAllPages, selectById: selectPageById } =
+  legoAdapter.getSelectors((state: RootState) => state.pages);
+
+export const selectPagesForHierarchy = (
+  category: string,
+): HierarchySectionSelector =>
   createSelector(
-    (state) => selectPages(state),
-    (state, props) => props.title,
+    selectAllPages,
+    (_: RootState, title: string) => title,
     (pages, title) => ({
       title,
       items: (category === 'generelt'
@@ -61,19 +64,19 @@ export const selectPagesForHierarchy = (category: string) =>
               url: `/pages/${page.category}/${page.slug}`,
               title: page.title,
             })),
-          'title'
-        )
+          'title',
+        ),
       ),
-    })
+    }),
   );
 
-const createGroupSelector = (type: string, section: string) =>
+const createGroupSelector = (
+  type: string,
+  section: string,
+): HierarchySectionSelector =>
   createSelector(
-    (state) =>
-      selectGroupsWithType(state, {
-        groupType: type,
-      }),
-    (state, props) => props.title,
+    (state: RootState) => selectGroupsByType(state, type),
+    (_: RootState, title: string) => title,
     (groups, title) => ({
       title,
       items: sortBy(
@@ -81,41 +84,46 @@ const createGroupSelector = (type: string, section: string) =>
           url: `/pages/${section}/${page.id}`,
           title: page.name,
         })),
-        'title'
+        'title',
       ),
-    })
+    }),
   );
 
 export const selectCommitteeForHierarchy = createGroupSelector(
   'komite',
-  'komiteer'
+  'komiteer',
 );
 export const selectRevueForHierarchy = createGroupSelector('revy', 'revy');
 export const selectBoardsForHierarchy = createGroupSelector('styre', 'styrer');
 export const selectPageHierarchy = createSelector(
-  (state, props) => props.sections,
-  (state) => state,
+  (_: RootState, sections: UnknownSection[]) => sections,
+  (state: RootState) => state,
   (sections, state) =>
-    Object.keys(sections).map((sectionKey) =>
-      sections[sectionKey].hierarchySectionSelector(state, {
-        title: sections[sectionKey].title,
-      })
-    )
+    sections.map(({ hierarchySectionSelector, title }) =>
+      hierarchySectionSelector(state, title),
+    ),
 );
-export const selectFlatpageForPages = createSelector(
-  selectPageBySlug,
-  (state, props) => props.pageSlug,
-  (selectedPage, pageSlug) => ({
-    selectedPage,
-    selectedPageInfo: {
-      isComplete: !!(selectedPage && selectedPage.actionGrant),
-      actionGrant: selectedPage && selectedPage.actionGrant,
-      title: selectedPage && selectedPage.title,
-      editUrl: `/pages/${
-        selectedPage ? selectedPage.category : 'info'
-      }/${pageSlug}/edit`,
-    },
-  })
+export const selectFlatpagePageInfo: PageInfoSelector = createSelector(
+  (state: RootState, pageSlug: string) =>
+    selectPageById(state, pageSlug) as
+      | DetailedPage
+      | AuthDetailedPage
+      | undefined,
+  (_: RootState, pageSlug: string) => pageSlug,
+  (page, pageSlug) =>
+    page
+      ? {
+          actionGrant: page.actionGrant,
+          title: page.title,
+          editUrl: `/pages/${page.category}/${pageSlug}/edit`,
+          banner: page.picture,
+          bannerPlaceholder: page.picturePlaceholder,
+        }
+      : undefined,
+);
+export const selectFlatpagePage: PageSelector<Flatpage> = createSelector(
+  selectPageById,
+  (page) => (page && 'content' in page ? { content: page.content } : undefined),
 );
 const separateRoles = [
   'retiree',
@@ -128,70 +136,71 @@ const separateRoles = [
 // Map all the other roles as if they were regular members
 const defaultRole = 'member';
 
-const groupMemberships = (memberships, groupId) => {
+const groupMemberships = (
+  memberships: TransformedMembership[],
+  groupId: EntityId,
+) => {
   // Sort membership so that the membership in the group is ordered before the descendants. When removing duplicates, the
   // descendant memberships will be removed if there are duplicates
   const membershipsUniqUsers = uniqBy(
     sortBy(
       memberships,
-      (membership) => Number(membership.abakusGroup) !== Number(groupId)
+      (membership) => Number(membership.abakusGroup) !== Number(groupId),
     ),
-    (membership) => membership.user.id
+    (membership) => membership.user.id,
   );
   return groupBy(sortBy(membershipsUniqUsers, 'user.fullName'), ({ role }) =>
-    separateRoles.includes(role) ? role : defaultRole
+    separateRoles.includes(role) ? role : defaultRole,
   );
 };
 
-export const selectCommitteeForPages = createSelector(
-  (state, { pageSlug }) =>
-    selectGroup(state, {
-      groupId: pageSlug,
-    }),
-  (
-    state,
-    props // $FlowFixMe pls
-  ) =>
+export const selectCommitteePageInfo: PageInfoSelector = createSelector(
+  (state: RootState, pageSlug: string) =>
+    selectGroupById(state, pageSlug) as PublicDetailedGroup,
+  (group) =>
+    group && {
+      actionGrant: group.actionGrant,
+      title: group.name,
+      editUrl: `/admin/groups/${group.id}/settings`,
+      banner: group.logo || '',
+      bannerPlaceholder: group.logoPlaceholder || '',
+    },
+);
+export const selectCommitteePage: PageSelector<GroupPage> = createSelector(
+  (state: RootState, pageSlug: string) =>
+    selectGroupById(state, pageSlug) as PublicDetailedGroup,
+  (state: RootState, pageSlug: string) =>
     selectMembershipsForGroup(state, {
       descendants: true,
-      groupId: Number(props.pageSlug),
+      groupId: Number(pageSlug),
       pagination: selectPaginationNext({
         query: {
-          descendants: true,
+          descendants: 'true',
         },
         entity: 'memberships',
-        endpoint: `/groups/${props.pageSlug}/memberships/`,
+        endpoint: `/groups/${pageSlug}/memberships/`,
       })(state).pagination,
     }),
-  (_, { pageSlug }) => pageSlug,
-  (group, memberships, groupId) => {
-    const selectedPageInfo = group && {
-      isComplete: !!(group && group.actionGrant),
-      actionGrant: group && group.actionGrant,
-      title: group && group.name,
-      editUrl: `/admin/groups/${group.id}/settings`,
-    };
-    const membershipsByRole = groupMemberships(memberships, groupId);
-    return {
-      selectedPage: group && { ...group, membershipsByRole },
-      selectedPageInfo,
-    };
-  }
+  (_: RootState, pageSlug: string) => pageSlug,
+  (group, memberships, groupId) =>
+    group
+      ? {
+          membershipsByRole: groupMemberships(memberships, groupId),
+          name: group.name,
+          text: group.text,
+        }
+      : undefined,
 );
-export const selectNotFoundpageForPages = createSelector(
-  (state, props) => props.pageSlug,
+export const selectNotFoundPageInfo: PageInfoSelector = createSelector(
+  (_: RootState, pageSlug: string) => pageSlug,
   (pageSlug) => ({
-    selectedPageInfo: {
-      title: pageSlug,
-      isComplete: true,
-    },
-    selectedPage: {},
-  })
+    title: pageSlug,
+    banner: '',
+    bannerPlaceholder: '',
+  }),
 );
-export const selectInfoPageForPages = createSelector(() => ({
-  selectedPageInfo: {
-    title: 'Info om Abakus',
-    isComplete: true,
-  },
-  selectedPage: {},
-}));
+export const selectOmAbakusPageInfo: PageInfoSelector = () => ({
+  title: 'Info om Abakus',
+  banner: '',
+  bannerPlaceholder: '',
+});

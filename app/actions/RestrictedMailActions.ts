@@ -1,11 +1,11 @@
 import callAPI from 'app/actions/callAPI';
 import { restrictedMailSchema } from 'app/reducers';
 import { RestrictedMail } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
-import type { ID } from 'app/store/models';
 import type { Thunk } from 'app/types';
 
-export function fetchRestrictedMail(restrictedMailId: ID) {
+export function fetchRestrictedMail(restrictedMailId: EntityId) {
   return callAPI({
     types: RestrictedMail.FETCH,
     endpoint: `/restricted-mail/${restrictedMailId}/`,
@@ -47,7 +47,7 @@ export function fetch({
           errorMessage: 'Henting av begrensete e-poster feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

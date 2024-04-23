@@ -5,7 +5,8 @@ import {
   fetchMeeting,
   answerMeetingInvitation,
 } from 'app/actions/MeetingActions';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsLoggedIn } from 'app/reducers/auth';
+import { MeetingTokenResponse } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import MeetingAnswer from './components/MeetingAnswer';
 import MeetingDetail from './components/MeetingDetail';
@@ -21,8 +22,8 @@ const MeetingDetailWrapper = () => {
   });
 
   const { meetingId } = useParams<Params>();
-  const meetingsToken = useAppSelector((state) => state.meetingsToken);
-  const { loggedIn } = useUserContext();
+  const meetingToken = useAppSelector((state) => state.meetings.meetingToken);
+  const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
 
@@ -38,13 +39,15 @@ const MeetingDetailWrapper = () => {
         dispatch(answerMeetingInvitation(action, token));
       }
 
-      return loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve();
+      return loggedIn && meetingId
+        ? dispatch(fetchMeeting(meetingId))
+        : Promise.resolve();
     },
-    [meetingId, loggedIn, token, action]
+    [meetingId, loggedIn, token, action],
   );
 
-  if (!loggedIn && meetingsToken.meeting) {
-    return <MeetingAnswer {...meetingsToken} />;
+  if (!loggedIn && meetingToken.response === MeetingTokenResponse.Success) {
+    return <MeetingAnswer {...meetingToken} />;
   }
 
   return <MeetingDetail />;

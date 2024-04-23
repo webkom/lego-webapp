@@ -1,23 +1,21 @@
 @import url('~app/styles/variables.css');
 
 .searchResult {
-  padding-left: 20px;
+  padding-left: var(--spacing-md);
   border-left: 4px solid transparent;
-  margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
 }
 
-.searchResultTitle {
-  display: flex;
-  align-items: center;
-  color: var(--lego-color-gray);
-  font-weight: 600;
-  margin: 0;
+.skeleton {
+  height: 80px;
+}
+
+.searchResultTitle * {
+  color: var(--lego-font-color);
 }
 
 .picture {
-  height: 100px;
   flex: 1;
   justify-content: center;
 }
@@ -35,15 +33,10 @@
   }
 }
 
-.searchResultItemIcon {
-  margin-left: 10px;
-  color: initial;
-}
-
 .textbox {
   flex: 4;
   min-width: 260px;
-  margin-right: 15px;
+  margin-right: var(--spacing-md);
 
   @media (--medium-viewport) {
     min-width: 400px;

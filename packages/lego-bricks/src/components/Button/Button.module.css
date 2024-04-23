@@ -33,13 +33,13 @@
   box-sizing: border-box;
   height: 2.3em;
   width: fit-content;
-  padding: 0 1rem;
+  padding: 0 var(--spacing-md);
   font-family: Inter, sans-serif;
   font-weight: 600;
   background-color: var(--button-background);
   color: var(--button-color);
   outline: none;
-  border-radius: 2rem;
+  border-radius: var(--spacing-xl);
   transition: var(--easing-fast);
   /* stylelint-disable value-list-comma-newline-after */
   transition-property: transform, color, background-color, border-color,

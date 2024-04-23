@@ -3,6 +3,7 @@
 
   /* 3.3 pixels are added to the minimum height of the outer grid */
   margin-bottom: 3.3px;
+  background-color: var(--additive-background);
 }
 
 .skeletonCell {
@@ -10,5 +11,4 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: var(--additive-background);
 }

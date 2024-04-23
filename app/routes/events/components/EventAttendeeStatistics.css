@@ -1,13 +1,13 @@
 @import url('~app/styles/variables.css');
 
 .sectionDividerTitle {
-  margin-top: 1em;
+  margin-top: var(--spacing-md);
   margin-bottom: 0;
 }
 
 .sectionDividerDescription {
   color: var(--secondary-font-color);
-  margin-bottom: 1em;
+  margin-bottom: var(--spacing-md);
 }
 
 .noRegistrationsText {
@@ -19,7 +19,7 @@
   overflow: hidden;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1em;
+  gap: var(--spacing-md);
   padding: 6px;
 
   @media (--mobile-device) {
@@ -28,13 +28,13 @@
 }
 
 .graphCard {
-  margin-top: 1em;
+  margin-top: var(--spacing-md);
 }
 
 .filterContainer {
-  margin: 1em 0;
+  margin: var(--spacing-md) 0;
 }
 
 .filterContainer > label {
-  margin-top: 1em;
+  margin-top: var(--spacing-md);
 }

@@ -30,7 +30,7 @@ const GalleryEditorActions = ({
             Avbryt
           </Button>
           {selectedCount <= 1 && (
-            <Button onClick={onUpdateGalleryCover}>Sett album cover</Button>
+            <Button onClick={onUpdateGalleryCover}>Bruk som albumcover</Button>
           )}
           {newPicutureStatus !== -1 && (
             <Button
@@ -38,7 +38,7 @@ const GalleryEditorActions = ({
               onClick={() => onTogglePicturesStatus(!!newPicutureStatus)}
             >
               {newPicutureStatus === 0 && 'Skjul'}
-              {newPicutureStatus === 1 && 'Synligjør'}
+              {newPicutureStatus === 1 && 'Synliggjør'}
             </Button>
           )}
           <Button danger onClick={onDeletePictures}>

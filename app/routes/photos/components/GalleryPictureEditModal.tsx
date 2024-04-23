@@ -24,12 +24,13 @@ import { selectGalleryPictureById } from 'app/reducers/galleryPictures';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { DetailedGallery } from 'app/store/models/Gallery';
 
 type FormValues = {
   description: string;
   active: boolean;
-  taggees: { label: string; value: ID }[];
+  taggees: { label: string; value: EntityId }[];
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -40,14 +41,10 @@ const GalleryPictureEditModal = () => {
     galleryId: string;
   }>();
   const picture = useAppSelector((state) =>
-    selectGalleryPictureById(state, {
-      pictureId,
-    })
+    selectGalleryPictureById(state, pictureId),
   );
   const gallery = useAppSelector((state) =>
-    selectGalleryById(state, {
-      galleryId,
-    })
+    selectGalleryById<DetailedGallery>(state, galleryId),
   );
 
   const dispatch = useAppDispatch();
@@ -55,14 +52,23 @@ const GalleryPictureEditModal = () => {
   usePreparedEffect(
     'fetchGalleryAndGalleryPicture',
     () =>
-      Promise.all([
+      galleryId &&
+      Promise.allSettled([
         dispatch(fetchGallery(galleryId)),
-        dispatch(fetchGalleryPicture(galleryId, pictureId)),
+        pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
       ]),
-    [galleryId, pictureId]
+    [galleryId, pictureId],
   );
 
   const navigate = useNavigate();
+
+  if (!gallery || !picture) {
+    return (
+      <Content>
+        <LoadingIndicator loading />
+      </Content>
+    );
+  }
 
   const onSubmit = (data) => {
     const body = {
@@ -76,14 +82,6 @@ const GalleryPictureEditModal = () => {
       navigate(`/photos/${gallery.id}/picture/${picture.id}`);
     });
   };
-
-  if (!gallery || !picture) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
-  }
 
   const initialValues = {
     ...picture,
@@ -106,12 +104,12 @@ const GalleryPictureEditModal = () => {
           <Flex justifyContent="space-between">
             <Image
               className={styles.galleryThumbnail}
-              alt="some alt"
-              src={gallery.cover.thumbnail}
+              alt="Albumcover"
+              src={gallery.cover?.thumbnail ?? ''}
             />
 
             <Flex column justifyContent="space-around">
-              <h5 className={styles.header}>
+              <h5>
                 <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
               </h5>
               <GalleryDetailsRow small gallery={gallery} />
@@ -141,7 +139,7 @@ const GalleryPictureEditModal = () => {
                 type="checkbox"
                 component={CheckBox.Field}
                 id="gallery-picture-active"
-                normalize={(v) => !!v}
+                parse={(v) => !!v}
               />
               <Field
                 label="Tagg brukere"

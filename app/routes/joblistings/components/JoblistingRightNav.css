@@ -29,18 +29,19 @@
 .optionsTitle {
   color: var(--lego-font-color);
   display: flex;
+  gap: var(--spacing-sm);
   border-top: 1px solid var(--border-gray);
   border-bottom: 1px solid var(--border-gray);
   width: 95%;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
+  padding: var(--spacing-sm);
   cursor: pointer;
 }
 
 /* Caret */
 .optionsTitle i {
-  margin-left: 5px;
+  font-size: var(--spacing-lg);
   transition: transform var(--easing-medium);
 }
 
@@ -54,7 +55,7 @@
 }
 
 .options {
-  margin-top: 20px;
+  margin-top: var(--spacing-md);
 
   @media (--small-viewport) {
     width: 100%;
@@ -62,9 +63,6 @@
 }
 
 .rightHeader {
-  font-size: var(--font-size-md);
-  border-bottom: 1px solid var(--border-gray);
-  margin-bottom: 2%;
-  margin-top: 8%;
-  padding-left: 0;
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
 }

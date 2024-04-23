@@ -1,15 +1,15 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { PublicGroup } from 'app/store/models/Group';
-import type { ID } from 'app/store/models/index';
 
 interface CompletePool {
-  id: ID;
+  id: EntityId;
   name: string;
   capacity: number;
   activationDate: Dateish;
   permissionGroups: PublicGroup[];
   registrationCount: number;
-  registrations: ID[];
+  registrations: EntityId[];
 }
 
 export type PublicPool = Pick<

@@ -4,10 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import { Content } from 'app/components/Content';
 import Feed from 'app/components/Feed';
-import {
-  selectFeedActivitesByFeedId,
-  selectFeedById,
-} from 'app/reducers/feeds';
+import { selectFeedById } from 'app/reducers/feeds';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 
@@ -16,24 +13,14 @@ const TimelinePage = () => {
 
   usePreparedEffect('fetchTimeline', () => dispatch(fetchPersonalFeed()), []);
 
-  const feed = useAppSelector((state) =>
-    selectFeedById(state, {
-      feedId: 'personal',
-    })
-  );
-
-  const feedItems = useAppSelector((state) =>
-    selectFeedActivitesByFeedId(state, {
-      feedId: 'personal',
-    })
-  );
+  const feed = useAppSelector((state) => selectFeedById(state, 'personal'));
 
   return (
     <Content>
       <Helmet title="Tidslinje" />
       <h1>Tidslinje</h1>
 
-      {feed ? <Feed items={feedItems} /> : <LoadingIndicator loading />}
+      {feed ? <Feed feedId={feed.id} /> : <LoadingIndicator loading />}
     </Content>
   );
 };

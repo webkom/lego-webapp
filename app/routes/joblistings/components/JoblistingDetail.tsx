@@ -18,6 +18,7 @@ import Time from 'app/components/Time';
 import config from 'app/config';
 import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { isTruthy } from 'app/utils';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';
 
@@ -59,8 +60,8 @@ const propertyGenerator: PropertyGenerator<{
 const JoblistingDetail = () => {
   const { joblistingIdOrSlug } = useParams();
   const joblisting = useAppSelector((state) =>
-    selectJoblistingByIdOrSlug(state, { joblistingIdOrSlug })
-  ) as DetailedJoblisting;
+    selectJoblistingByIdOrSlug<DetailedJoblisting>(state, joblistingIdOrSlug),
+  );
   const fetching = useAppSelector((state) => state.joblistings.fetching);
   const actionGrant = joblisting?.actionGrant || [];
 
@@ -69,7 +70,7 @@ const JoblistingDetail = () => {
   usePreparedEffect(
     'fetchJoblisting',
     () => joblistingIdOrSlug && dispatch(fetchJoblisting(joblistingIdOrSlug)),
-    [joblistingIdOrSlug]
+    [joblistingIdOrSlug],
   );
 
   const navigate = useNavigate();
@@ -101,7 +102,9 @@ const JoblistingDetail = () => {
           href={`${config?.webUrl}/joblistings/${joblisting.id}`}
         />
       </PropertyHelmet>
-      <ContentHeader>{joblisting.title}</ContentHeader>
+      <ContentHeader>
+        <h2>{joblisting.title}</h2>
+      </ContentHeader>
       <ContentSection>
         <ContentMain>
           <DisplayContent content={joblisting.description} />
@@ -147,7 +150,7 @@ const JoblistingDetail = () => {
                   </strong>
                 ),
               },
-            ].filter(Boolean)}
+            ].filter(isTruthy)}
           />
           {joblisting.applicationUrl && (
             <a

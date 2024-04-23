@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .groupPage {
-  margin-top: 1em;
+  margin-top: var(--spacing-md);
   display: flex;
 }
 

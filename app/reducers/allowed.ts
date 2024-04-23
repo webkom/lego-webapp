@@ -1,36 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Meta } from '../actions/ActionTypes';
-import type { AnyAction } from '@reduxjs/toolkit';
+import type {
+  AllowedPages,
+  FetchMetaSuccessAction,
+} from 'app/actions/MetaActions';
 
-const initialState = {
-  events: false,
-  articles: false,
-  joblistings: false,
-  companies: false,
-  meetings: false,
-  quotes: false,
-  galleries: false,
-  interestGroups: false,
-  bdb: false,
+const initialState: AllowedPages = {
   announcements: false,
-  penalties: false,
-  surveys: false,
-  groups: false,
+  articles: false,
+  bdb: false,
+  companies: false,
   email: false,
-  users: false,
+  events: false,
+  forums: false,
+  galleries: false,
+  groups: false,
+  interestGroups: false,
+  joblistings: false,
+  meetings: false,
+  penalties: false,
   polls: false,
+  quotes: false,
+  surveys: false,
+  users: false,
 };
-
-export type Allowed = typeof initialState;
 
 const allowed = createSlice({
   name: 'allowed',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(Meta.FETCH.SUCCESS, (state, action: AnyAction) => {
-      return action.payload.isAllowed;
-    });
+    builder.addCase(
+      Meta.FETCH.SUCCESS,
+      (_, action: FetchMetaSuccessAction) => action.payload.isAllowed,
+    );
   },
 });
 

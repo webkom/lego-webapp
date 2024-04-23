@@ -1,5 +1,5 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { addToast } from 'app/actions/ToastActions';
+import { configureStore, Tuple } from '@reduxjs/toolkit';
+import { addToast } from 'app/reducers/toasts';
 import createRootReducer from 'app/store/createRootReducer';
 import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
@@ -17,7 +17,7 @@ const createStore = (
   }: {
     Sentry?: any;
     getCookie: GetCookie;
-  }
+  },
 ) => {
   const store = configureStore({
     preloadedState: initialState,
@@ -35,19 +35,19 @@ const createStore = (
       })
         .prepend(promiseMiddleware())
         .concat(
-          [
+          new Tuple(
             createMessageMiddleware(
               (message) =>
                 addToast({
                   message,
                 }),
-              Sentry
+              Sentry,
             ),
             Sentry && createSentryMiddleware(Sentry),
             __CLIENT__ &&
               require('app/store/middleware/websocketMiddleware').default(),
             __CLIENT__ && __DEV__ && loggerMiddleware,
-          ].filter(isTruthy)
+          ).filter(isTruthy),
         ),
   });
 

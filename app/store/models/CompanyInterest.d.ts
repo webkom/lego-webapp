@@ -1,15 +1,15 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type Company from 'app/store/models/Company';
-import type { ID } from 'app/store/models/index';
 
 interface CompleteCompanyInterest {
-  id: ID;
+  id: EntityId;
   companyName: string;
   company: Company | null;
   contactPerson: string;
   mail: string;
   phone: string;
-  semesters: ID[];
+  semesters: EntityId[];
   createdAt: Dateish;
   officeInTrondheim: string;
   events: string[];

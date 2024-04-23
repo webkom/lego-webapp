@@ -4,7 +4,7 @@
   border-left: 3px solid var(--lego-red-color);
   display: flex;
   flex-direction: column;
-  margin: 10px 2rem;
+  margin: 10px var(--spacing-xl);
   position: relative;
 }
 

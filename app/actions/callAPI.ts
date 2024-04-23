@@ -2,18 +2,18 @@ import { omit, isArray } from 'lodash';
 import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
 import { configWithSSR } from '../config';
-import { setStatusCode } from './RoutingActions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
 import type {
   PromiseAction,
   ResolvedPromiseAction,
 } from 'app/store/middleware/promiseMiddleware';
-import type { ID } from 'app/store/models';
 import type { AsyncActionType, Thunk, NormalizedApiPayload } from 'app/types';
 import type {
   HttpRequestOptions,
@@ -21,6 +21,7 @@ import type {
   HttpResponse,
 } from 'app/utils/fetchJSON';
 import type { Schema } from 'normalizr';
+import type { ParsedQs } from 'qs';
 import type { Required } from 'utility-types';
 
 function urlFor(resource: string) {
@@ -37,7 +38,7 @@ function handleError(
   error: HttpError | unknown,
   propagateError: boolean,
   loggedIn: boolean,
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ) {
   if (error instanceof HttpError && error.response) {
     const statusCode = error.response.status;
@@ -67,16 +68,15 @@ type MultipleApiResponse<E> = {
 type SingleApiResponse<E> = E & {
   actionGrant?: ActionGrant;
 };
-type ApiResponse<T> = T extends Array<infer E>
-  ? MultipleApiResponse<E>
-  : SingleApiResponse<T>;
+type ApiResponse<T> =
+  T extends Array<infer E> ? MultipleApiResponse<E> : SingleApiResponse<T>;
 
 type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   queryString: string;
-  query?: Record<string, string | number | boolean>;
+  query?: ParsedQs;
   paginationKey?: string;
   cursor: string;
-  optimisticId?: ID;
+  optimisticId?: EntityId;
   enableOptimistic: boolean;
   endpoint: string;
   body?: Record<string, unknown> | string;
@@ -94,7 +94,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   headers?: Record<string, string>;
   schema?: Schema;
   body?: Record<string, unknown> | string;
-  query?: Record<string, string | number | boolean>;
+  query?: ParsedQs;
   json?: boolean;
   meta?: Meta;
   files?: (string | File)[];
@@ -110,21 +110,24 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
 
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
 >(
-  props: Required<CallAPIOptions<Meta>, 'schema'>
+  props: Required<CallAPIOptions<Meta>, 'schema'>,
 ): Thunk<
   Promise<ResolvedPromiseAction<NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 >;
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
 >(
-  props: Omit<CallAPIOptions<Meta>, 'schema'>
+  props: Omit<CallAPIOptions<Meta>, 'schema'>,
 ): Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
 export default function callAPI<
   T = unknown,
-  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta & Record<string, unknown>
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
 >({
   types,
   method = 'GET',
@@ -167,7 +170,7 @@ export default function callAPI<
         | HttpResponse<ApiResponse<T>>
         | {
             jsonData: ApiResponse<T>;
-          }
+          },
     ): NormalizedApiPayload<T> | T {
       const jsonData = response.jsonData;
 
@@ -176,7 +179,8 @@ export default function callAPI<
         return {} as T;
       }
 
-      const payload = 'results' in jsonData ? jsonData.results : jsonData;
+      const payload =
+        isArray(schema) && 'results' in jsonData ? jsonData.results : jsonData;
       const next = 'next' in jsonData && jsonData.next ? jsonData.next : null;
       const previous =
         'previous' in jsonData && jsonData.previous ? jsonData.previous : null;
@@ -209,7 +213,7 @@ export default function callAPI<
     const qsWithoutPagination = query
       ? createQueryString(omit(query, 'cursor'))
       : '';
-    let schemaKey = undefined;
+    let schemaKey: string | undefined = undefined;
 
     if (schema) {
       if (isArray(schema)) {
@@ -233,7 +237,7 @@ export default function callAPI<
       paginationForRequest &&
       paginationForRequest.pagination &&
       paginationForRequest.pagination.next
-        ? paginationForRequest.pagination.next.cursor
+        ? (paginationForRequest.pagination.next.cursor as string)
         : '';
 
     const qs =
@@ -246,7 +250,7 @@ export default function callAPI<
 
     const promise: Promise<HttpResponse<unknown>> = fetchJSON(
       urlFor(`${endpoint}${qs}`),
-      requestOptions
+      requestOptions,
     );
 
     const action: PromiseAction<
@@ -270,7 +274,7 @@ export default function callAPI<
       },
       promise: promise
         .then((response) =>
-          normalizeJsonResponse(response as HttpResponse<ApiResponse<T>>)
+          normalizeJsonResponse(response as HttpResponse<ApiResponse<T>>),
         )
         .catch((error) => {
           throw handleError(error, propagateError, loggedIn, dispatch);

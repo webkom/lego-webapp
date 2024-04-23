@@ -1,7 +1,7 @@
 import { Container, Flex } from '@webkom/lego-bricks';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { setStatusCode } from 'app/actions/RoutingActions';
+import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import renderAbakus from './renderAbakus';
 
@@ -14,8 +14,8 @@ const HTTPMapping = {
 };
 const fallbackStatus = 404;
 
-const getHTTPError = (statusCode) =>
-  HTTPMapping[statusCode] || HTTPMapping[fallbackStatus];
+const getHTTPError = (statusCode?: number) =>
+  HTTPMapping[statusCode || fallbackStatus];
 
 type Props = {
   statusCode?: number;

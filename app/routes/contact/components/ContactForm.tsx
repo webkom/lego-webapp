@@ -5,7 +5,6 @@ import { Field } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
-import { addToast } from 'app/actions/ToastActions';
 import {
   Form,
   TextInput,
@@ -17,8 +16,9 @@ import {
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
-import { selectGroup, selectGroupsWithType } from 'app/reducers/groups';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useIsLoggedIn } from 'app/reducers/auth';
+import { selectGroupById, selectGroupsByType } from 'app/reducers/groups';
+import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { createValidator, maxLength, required } from 'app/utils/validation';
@@ -33,17 +33,13 @@ const validate = createValidator({
 const REVUE_BOARD_GROUP_ID = 59;
 
 const ContactForm = () => {
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   const committees = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Committee,
-    })
+    selectGroupsByType(state, GroupType.Committee),
   );
   const revueBoard = useAppSelector((state) =>
-    selectGroup(state, {
-      groupId: REVUE_BOARD_GROUP_ID,
-    })
+    selectGroupById(state, REVUE_BOARD_GROUP_ID),
   );
   const groups = [...committees, revueBoard].filter(isNotNullish);
   const fetching = useAppSelector((state) => state.groups.fetching);
@@ -53,13 +49,13 @@ const ContactForm = () => {
   usePreparedEffect(
     'fetchGroups',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchAllWithType(GroupType.Committee)),
         // The revue board group does not exist in the local dev environment.
         // It should be added to the fixtures, so that the propagateError flag can be removed.
         dispatch(fetchGroup(REVUE_BOARD_GROUP_ID, { propagateError: false })),
       ]),
-    []
+    [],
   );
 
   if (isEmpty(groups) || fetching) {
@@ -71,22 +67,22 @@ const ContactForm = () => {
       sendContactMessage({
         ...data,
         recipient_group: data.recipient_group.value,
-      })
+      }),
     )
       .then(() => {
         form.reset();
         dispatch(
           addToast({
             message: 'Melding er sendt',
-          })
+          }),
         );
       })
       .catch(() =>
         dispatch(
           addToast({
             message: 'Kunne ikke sende melding',
-          })
-        )
+          }),
+        ),
       );
   };
 

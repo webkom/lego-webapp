@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { produce } from 'immer';
 import { describe, it, expect } from 'vitest';
 import { generateStatuses } from 'app/actions/ActionTypes';
 import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
@@ -11,6 +12,7 @@ describe('buildPaginationReducer', () => {
   const initialPaginationState: Pagination = {
     query: {},
     ids: [],
+    fetching: false,
     hasMore: false,
     hasMoreBackwards: false,
     next: undefined,
@@ -22,6 +24,12 @@ describe('buildPaginationReducer', () => {
       '/fetch/': initialPaginationState,
     },
   };
+  const stateWithFetchingPagination = produce(
+    stateWithInitialPagination,
+    (draft) => {
+      draft.paginationNext['/fetch/'].fetching = true;
+    },
+  );
 
   const reducer = createReducer(initialState, (builder) => {
     buildPaginationReducer(builder, [FETCH]);
@@ -45,8 +53,8 @@ describe('buildPaginationReducer', () => {
       reducer(initialState, {
         type: FETCH.BEGIN,
         meta: { endpoint: '/fetch', paginationKey: '/fetch/', query: {} },
-      })
-    ).toEqual(stateWithInitialPagination);
+      }),
+    ).toEqual(stateWithFetchingPagination);
     expect(
       reducer(initialState, {
         type: FETCH.BEGIN,
@@ -55,11 +63,15 @@ describe('buildPaginationReducer', () => {
           paginationKey: '/fetch/',
           query: { title: 'ab' },
         },
-      })
+      }),
     ).toEqual({
       ...initialState,
       paginationNext: {
-        '/fetch/': { ...initialPaginationState, query: { title: 'ab' } },
+        '/fetch/': {
+          ...initialPaginationState,
+          fetching: true,
+          query: { title: 'ab' },
+        },
       },
     });
   });
@@ -105,7 +117,7 @@ describe('buildPaginationReducer', () => {
           },
         },
       },
-      { ...fetchSuccess, payload: { result: [] } }
+      { ...fetchSuccess, payload: { result: [] } },
     );
     expect(newState.paginationNext['/fetch/'].next).toEqual(undefined);
     expect(newState.paginationNext['/fetch/'].hasMore).toEqual(false);
@@ -125,5 +137,24 @@ describe('buildPaginationReducer', () => {
       },
     });
     expect(newState).toEqual(stateWithInitialPagination);
+  });
+  it('should update fetching state on fetch begin', () => {
+    const newState = reducer(stateWithInitialPagination, {
+      type: FETCH.BEGIN,
+      meta: { endpoint: '/fetch', paginationKey: '/fetch/', query: {} },
+    });
+    expect(newState.paginationNext['/fetch/'].fetching).toEqual(true);
+  });
+  it('should update fetching state on fetch failure', () => {
+    stateWithInitialPagination.paginationNext['/fetch/'].fetching = true;
+    const newState = reducer(stateWithFetchingPagination, {
+      type: FETCH.FAILURE,
+      meta: { endpoint: '/fetch', paginationKey: '/fetch/', query: {} },
+    });
+    expect(newState.paginationNext['/fetch/'].fetching).toEqual(false);
+  });
+  it('should update fetching state on fetch success', () => {
+    const newState = reducer(stateWithFetchingPagination, fetchSuccess);
+    expect(newState.paginationNext['/fetch/'].fetching).toEqual(false);
   });
 });

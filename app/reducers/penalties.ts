@@ -1,37 +1,23 @@
-import { produce } from 'immer';
-import { without } from 'lodash';
-import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { createSlice } from '@reduxjs/toolkit';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Penalty } from '../actions/ActionTypes';
+import type { RootState } from 'app/store/createRootReducer';
 
-type State = any;
-const mutate = produce((newState: State, action: any): void => {
-  switch (action.type) {
-    case Penalty.DELETE.SUCCESS:
-      newState.items = without(newState.items, action.meta.penaltyId);
-      break;
-  }
+const legoAdapter = createLegoAdapter(EntityType.Penalties);
+
+const penaltiesSlice = createSlice({
+  name: EntityType.Penalties,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Penalty.FETCH],
+    deleteActions: [Penalty.DELETE],
+  }),
 });
 
-export default createEntityReducer({
-  key: 'penalties',
-  types: {
-    fetch: Penalty.FETCH,
-    mutate: Penalty.CREATE,
-    delete: Penalty.DELETE,
-  },
-  mutate,
-});
+export default penaltiesSlice.reducer;
+export const { selectByField: selectPenaltiesByField } =
+  legoAdapter.getSelectors((state: RootState) => state.penalties);
 
-export const selectPenalties = createSelector(
-  (state) => state.penalties.byId,
-  (state) => state.penalties.items,
-  (penaltiesById, penaltyIds) => penaltyIds.map((id) => penaltiesById[id])
-);
-
-export const selectPenaltyByUserId = createSelector(
-  selectPenalties,
-  (state, props) => props.userId,
-  (penaltiesById, userId) =>
-    penaltiesById.filter((penalty) => penalty.user === userId)
-);
+export const selectPenaltyByUserId = selectPenaltiesByField('user');

@@ -1,22 +1,14 @@
+@import url('~app/styles/variables.css');
+
 .container {
-  display: flex;
-  justify-content: center;
-}
+  width: 40%;
+  margin: 0 auto;
 
-.snap {
-  border: 1px var(--danger-color) dashed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  padding: 10px;
-
-  & img {
-    height: 100px;
-    width: 100px;
+  @media (--mobile-device) {
+    width: 60%;
   }
-}
 
-.message {
-  margin-left: 10px;
+  @media (--small-viewport) {
+    width: 80%;
+  }
 }

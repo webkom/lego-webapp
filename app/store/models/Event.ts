@@ -1,6 +1,6 @@
 import type { PublicGroup } from './Group';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type { ID } from 'app/store/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
@@ -21,7 +21,7 @@ export enum EventType {
 }
 
 interface Event {
-  id: ID;
+  id: EntityId;
   title: string;
   slug: string;
   description: string;
@@ -31,13 +31,13 @@ interface Event {
   eventType: EventType;
   eventStatusType: string;
   location: string;
-  comments: ID[];
+  comments: EntityId[];
   contentTarget: ContentTarget;
   startTime: Dateish;
   endTime: Dateish;
   mergeTime?: Dateish;
   thumbnail: string;
-  pools: ID[];
+  pools: EntityId[];
   totalCapacity: number;
   registrationCloseTime?: Dateish;
   registrationDeadlineHours?: number;
@@ -62,10 +62,9 @@ interface Event {
   createdBy?: PublicUser;
   registrationCount: number;
   legacyRegistrationCount: number;
-  survey?: ID;
+  survey?: EntityId;
   useConsent: boolean;
   youtubeUrl: string;
-  useContactTracing: boolean;
   mazemapPoi?: number;
   pinned: boolean;
   responsibleUsers: DetailedUser[];
@@ -78,12 +77,12 @@ interface Event {
   price: number;
   activationTime: Dateish;
   isAdmitted: boolean;
-  following: false | ID;
+  following: false | EntityId;
   spotsLeft: number;
-  pendingRegistration: ID;
-  photoConsents: ID[];
+  pendingRegistration: EntityId;
+  photoConsents: EntityId[];
 
-  unansweredSurveys: ID[];
+  unansweredSurveys: EntityId[];
 }
 
 export type PublicEvent = Pick<
@@ -168,7 +167,6 @@ export type DetailedEvent = Pick<
   | 'survey'
   | 'useConsent'
   | 'youtubeUrl'
-  | 'useContactTracing'
   | 'mazemapPoi'
   | 'activationTime'
   | 'responsibleUsers'
@@ -207,7 +205,6 @@ export type AdministrateEvent = Pick<
   | 'unregistered'
   | 'waitingRegistrations'
   | 'useConsent'
-  | 'useContactTracing'
   | 'createdBy'
   | 'responsibleGroup'
   | 'feedbackRequired'
@@ -219,6 +216,7 @@ export type FrontpageEvent = Pick<
   Event,
   | 'id'
   | 'title'
+  | 'slug'
   | 'description'
   | 'cover'
   | 'coverPlaceholder'
