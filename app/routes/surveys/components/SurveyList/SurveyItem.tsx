@@ -1,23 +1,26 @@
 import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
+import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
+import { useAppSelector } from 'app/store/hooks';
 import styles from '../surveys.css';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 
 type Props = {
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
 };
 
-const SurveyItem = (props: Props) => {
-  const { survey } = props;
+const SurveyItem = ({ survey }: Props) => {
+  const event = useAppSelector((state) =>
+    selectEventById(state, { eventId: survey.event }),
+  );
+
   return (
     <div
       className={styles.surveyItem}
       style={{
-        borderColor: colorForEventType(
-          survey.templateType || survey.event.eventType
-        ),
+        borderColor: colorForEventType(survey.templateType || event.eventType),
       }}
     >
       <div>
@@ -33,9 +36,7 @@ const SurveyItem = (props: Props) => {
           <div>
             <div className={styles.surveyTime}>
               For arrangement{' '}
-              <Link to={`/events/${survey.event.id}`}>
-                {survey.event.title}
-              </Link>
+              <Link to={`/events/${event.id}`}>{event.title}</Link>
             </div>
 
             <div className={styles.surveyTime}>
@@ -47,10 +48,7 @@ const SurveyItem = (props: Props) => {
 
       {!survey.templateType && (
         <div className={styles.companyLogo}>
-          <Image
-            src={survey.event.cover}
-            alt={`Cover image for: ${survey.event.title}`}
-          />
+          <Image src={event.cover} alt={`Cover image for: ${event.title}`} />
         </div>
       )}
     </div>

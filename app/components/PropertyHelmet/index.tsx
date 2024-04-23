@@ -6,7 +6,7 @@ type MetaProperty = MetaHTMLAttributes<HTMLMetaElement>;
 
 export type PropertyGenerator<T> = (
   props: T,
-  config?: Partial<Config>
+  config?: Partial<Config>,
 ) => MetaProperty[] | undefined;
 
 /**

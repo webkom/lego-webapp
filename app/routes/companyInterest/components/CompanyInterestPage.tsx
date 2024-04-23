@@ -29,7 +29,6 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
@@ -81,12 +80,12 @@ const SemesterBox = ({
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Field
-        key={`semester${index}`}
+        key={`semesters[${index}]`}
         name={`semesters[${index}].checked`}
         label={semesterToText({ ...fields.value[index], language })}
         type="checkbox"
         component={CheckBox.Field}
-        normalize={(v) => !!v}
+        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -107,7 +106,7 @@ const SurveyOffersBox = ({
         label={SURVEY_OFFERS[surveyOffersToString(item)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        normalize={(v) => !!v}
+        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -139,7 +138,7 @@ const EventBox = ({
               label={EVENTS[eventToString(key)][language]}
               type="checkbox"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              parse={(v) => !!v}
             />
           ))}
         </Flex>
@@ -163,7 +162,7 @@ const TargetGradeBox = ({
         label={TARGET_GRADES[targetGradeToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        normalize={(v) => !!v}
+        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -184,7 +183,7 @@ const OtherBox = ({
         label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
-        normalize={(v) => !!v}
+        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -205,7 +204,7 @@ const CollaborationBox = ({
         label={COLLABORATION_TYPES[collaborationToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        normalize={(v) => !!v}
+        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -228,7 +227,7 @@ const LanguageFlag = ({ language }: { language: string }) => {
       break;
   }
 
-  return <Image src={flag} className={styles.flag} alt="country_flag" />;
+  return <img src={flag} className={styles.flag} alt="Country flag" />;
 };
 
 type CompanyInterestFormEntity = {
@@ -237,7 +236,7 @@ type CompanyInterestFormEntity = {
   contactPerson: string;
   mail: string;
   phone: string;
-  semesters: Array<CompanySemesterEntity>;
+  semesters: Array<CompanySemesterEntity & { checked: boolean }>;
   events: Array<{
     name: string;
     checked: boolean;
@@ -263,7 +262,7 @@ type CompanyInterestFormEntity = {
 const requiredIfEventType = (eventType: string) =>
   requiredIf((allValues) => {
     const event = allValues.events.filter(
-      (event) => event.name === eventType
+      (event) => event.name === eventType,
     )[0];
     return event && event.checked;
   });
@@ -287,6 +286,7 @@ const validate = createValidator({
   companyType: [required()],
   officeInTrondheim: [required()],
   events: [required()],
+  semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
   companyPresentationComment: [requiredIfEventType('company_presentation')],
   lunchPresentationComment: [requiredIfEventType('lunsh_presentation')],
@@ -301,7 +301,7 @@ const CompanyInterestPage = () => {
   const { companyInterestId } = useParams();
   const edit = companyInterestId !== undefined;
   const companyInterest = useAppSelector((state) =>
-    selectCompanyInterestById(state, { companyInterestId })
+    selectCompanyInterestById(state, { companyInterestId }),
   );
   const semesters = useAppSelector((state) => {
     if (edit) {
@@ -321,16 +321,15 @@ const CompanyInterestPage = () => {
 
   usePreparedEffect(
     'fetchCompanyInterestPage',
-    () => {
-      Promise.all([
+    () =>
+      Promise.allSettled([
         edit && dispatch(fetchSemesters()),
         edit &&
           companyInterestId &&
           dispatch(fetchCompanyInterest(companyInterestId)),
         !edit && dispatch(fetchSemestersForInterestform()),
-      ]);
-    },
-    [companyInterestId, edit]
+      ]),
+    [companyInterestId, edit],
   );
 
   const allEvents = Object.keys(EVENTS);
@@ -342,7 +341,7 @@ const CompanyInterestPage = () => {
   const participantRange =
     allParticipantRanges.filter(
       (p) =>
-        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart
+        PARTICIPANT_RANGE_MAP[p][0] === companyInterest?.participantRangeStart,
     ) || null;
 
   const initialValues: CompanyInterestFormEntity = {
@@ -388,7 +387,12 @@ const CompanyInterestPage = () => {
           }))
           .filter((semester) => semester.activeInterestForm || semester.checked)
           .sort(sortSemesterChronologically)
-      : semesters.sort(sortSemesterChronologically),
+      : semesters
+          .map((semester) => ({
+            ...semester,
+            checked: false,
+          }))
+          .sort(sortSemesterChronologically),
   };
 
   if (edit && !companyInterest) {
@@ -446,10 +450,10 @@ const CompanyInterestPage = () => {
     dispatch(
       edit
         ? updateCompanyInterest(companyInterestId, newData)
-        : createCompanyInterest(newData, isEnglish)
+        : createCompanyInterest(newData, isEnglish),
     ).then(() => {
       navigate(
-        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter'
+        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter',
       );
     });
   };
@@ -655,17 +659,18 @@ const CompanyInterestPage = () => {
               label={FORM_LABELS.comment[language]}
               required
             />
-            <Flex wrap justifyContent="space-between">
+            <Flex wrap justifyContent="space-between" gap="var(--spacing-md)">
               <Flex column className={styles.interestBox}>
                 <label htmlFor="semesters" className={styles.heading}>
-                  {FORM_LABELS.semester[language]}
+                  {FORM_LABELS.semesters[language]}
                 </label>
-                <FieldArray
-                  label="semesters"
-                  name="semesters"
-                  language={language}
-                  component={SemesterBox}
-                />
+                <MultiSelectGroup name="semesters">
+                  <FieldArray
+                    name="semesters"
+                    language={language}
+                    component={SemesterBox}
+                  />
+                </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
                 <label htmlFor="events" className={styles.heading}>
@@ -739,14 +744,14 @@ const CompanyInterestPage = () => {
             {eventTypeEntities.map((eventTypeEntity) => {
               return spyValues((values: CompanyInterestFormEntity) => {
                 const showComment = values.events?.some(
-                  (e) => e.name === eventTypeEntity.name && e.checked === true
+                  (e) => e.name === eventTypeEntity.name && e.checked === true,
                 );
 
                 return (
                   showComment && (
                     <div className={styles.topline}>
                       <Flex alignItems="center" gap={1}>
-                        <h4>{eventTypeEntity.translated}</h4>
+                        <h3>{eventTypeEntity.translated}</h3>
                         <p className={styles.label}>*</p>
                       </Flex>
 

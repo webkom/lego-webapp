@@ -3,13 +3,14 @@ import Tooltip from '../Tooltip';
 import styles from './TextWithIcon.css';
 import type { ReactElement, ReactNode } from 'react';
 
-type Props = {
+export type TextWithIconProps = {
   iconName: string;
   className?: string;
   content: ReactNode;
   tooltipContentIcon?: ReactElement;
   iconRight?: boolean;
   size?: number;
+  gap?: number;
 };
 
 const TextWithIcon = ({
@@ -19,12 +20,15 @@ const TextWithIcon = ({
   tooltipContentIcon,
   iconRight = false,
   size,
-}: Props) => {
+  gap = 5,
+}: TextWithIconProps) => {
   return (
-    <Flex alignItems="center" gap={5} className={className}>
-      <div className={styles.textContainer}>
-        {iconRight ? <span>{content}</span> : <></>}
-      </div>
+    <Flex alignItems="center" gap={gap} className={className}>
+      {iconRight && (
+        <div className={styles.textContainer}>
+          <span>{content}</span>
+        </div>
+      )}
       {tooltipContentIcon ? (
         <Tooltip content={tooltipContentIcon}>
           <Icon

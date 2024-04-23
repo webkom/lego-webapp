@@ -79,7 +79,7 @@ describe('Create meeting', () => {
 
   it('should create basic meeting', () => {
     cy.intercept('POST', '/api/v1/meetings/1/bulk_invite/').as(
-      'inviteToMeeting'
+      'inviteToMeeting',
     );
 
     cy.visit('/meetings/create');
@@ -112,16 +112,16 @@ describe('Create meeting', () => {
     cy.contains('h1', 'Test meeting').should('be.visible');
     cy.contains('time', '10:00').should('be.visible');
     cy.contains(c('legoEditor_disabled'), 'Meeting plan').should('be.visible');
-    cy.contains('tr', 'Når')
+    cy.contains('div', 'Når')
       .should('contain.text', '10:00 - 13:37')
       .should('be.visible');
-    cy.contains('tr', 'Sted')
+    cy.contains('div', 'Sted')
       .should('contain.text', 'Test location')
       .should('be.visible');
-    cy.contains('tr', 'Forfatter')
+    cy.contains('div', 'Forfatter')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
-    cy.contains('tr', 'Referent')
+    cy.contains('div', 'Referent')
       .should('contain.text', 'bedkom bedkom')
       .should('be.visible');
 
@@ -169,7 +169,7 @@ describe('Create meeting', () => {
     });
 
     cy.intercept('POST', '/api/v1/meetings/1/bulk_invite/').as(
-      'inviteToMeeting'
+      'inviteToMeeting',
     );
 
     cy.visit('/meetings');
@@ -182,11 +182,11 @@ describe('Create meeting', () => {
     selectEditor().should('contain', meeting.report.replaceAll(/<.*?>/g, ''));
     field('startTime').should(
       'have.value',
-      moment(meeting.startTime).tz(config.timezone).format('lll')
+      moment(meeting.startTime).tz(config.timezone).format('lll'),
     );
     field('endTime').should(
       'have.value',
-      moment(meeting.endTime).tz(config.timezone).format('lll')
+      moment(meeting.endTime).tz(config.timezone).format('lll'),
     );
     field('description').should('have.value', meeting.description);
     field('location').should('have.value', meeting.location);
@@ -195,7 +195,7 @@ describe('Create meeting', () => {
     // verify invited users modal
     cy.get(c('AttendanceStatus__poolBox')).find('button').click();
     cy.contains(c('AttendanceModalContent__row'), 'webkom webkom').should(
-      'be.visible'
+      'be.visible',
     );
     cy.get(t('Modal__closeButton')).click();
 
@@ -227,18 +227,18 @@ describe('Create meeting', () => {
     cy.contains('time', '17:15').should('be.visible');
     cy.contains(c('legoEditor_disabled'), 'Meeting plan').should('be.visible');
     cy.contains(c('legoEditor_disabled'), 'Meeting report').should(
-      'be.visible'
+      'be.visible',
     );
-    cy.contains('tr', 'Når')
+    cy.contains('div', 'Når')
       .should('contain.text', '17:15 - 20:00')
       .should('be.visible');
-    cy.contains('tr', 'Sted')
+    cy.contains('div', 'Sted')
       .should('contain.text', 'Abakus, Realfagbygget')
       .should('be.visible');
-    cy.contains('tr', 'Forfatter')
+    cy.contains('div', 'Forfatter')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
-    cy.contains('tr', 'Referent')
+    cy.contains('div', 'Referent')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
 
@@ -277,7 +277,7 @@ describe('Create meeting', () => {
     selectFromSelectField(
       'users',
       'Quinton Armstrong (quintonarmstrong)',
-      'Quinton'
+      'Quinton',
     );
     verifyAuthors([
       'webkom webkom',

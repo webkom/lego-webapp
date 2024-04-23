@@ -1,19 +1,11 @@
 @import url('~app/styles/variables.css');
 
 .heading {
-  display: flex;
-  border-bottom: 1px solid var(--border-gray);
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.headingText {
-  font-size: 24px;
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-md);
 }
 
 .headingDeadline {
-  font-size: var(--font-size-md);
+  margin-right: var(--spacing-md);
 
   @media (--mobile-device) {
     display: none;
@@ -23,8 +15,7 @@
 .joblistingList {
   flex: 3;
 
-  @media (width <= 321px) {
-    margin-left: 10px;
-    margin-right: 10px;
+  @media (--mobile-device) {
+    margin: 0 var(--spacing-sm);
   }
 }

@@ -1,17 +1,23 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import InterestGroupDetail from './components/InterestGroupDetail';
-import InterestGroupEdit from './components/InterestGroupEdit';
-import InterestGroupList from './components/InterestGroupList';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const InterestGroupsRoute = () => (
-  <Routes>
-    <Route index element={<InterestGroupList />} />
-    <Route path="create" element={<InterestGroupEdit />} />
-    <Route path=":groupId" element={<InterestGroupDetail />} />
-    <Route path=":groupId/edit" element={<InterestGroupEdit />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
+const InterestGroupList = loadable(
+  () => import('./components/InterestGroupList'),
+);
+const InterestGroupEdit = loadable(
+  () => import('./components/InterestGroupEdit'),
+);
+const InterestGroupDetail = loadable(
+  () => import('./components/InterestGroupDetail'),
 );
 
-export default InterestGroupsRoute;
+const interestGroupsRoute: RouteObject[] = [
+  { index: true, Component: InterestGroupList },
+  { path: 'create', Component: InterestGroupEdit },
+  { path: ':groupId', Component: InterestGroupDetail },
+  { path: ':groupId/edit', Component: InterestGroupEdit },
+  { path: '*', children: pageNotFound },
+];
+
+export default interestGroupsRoute;

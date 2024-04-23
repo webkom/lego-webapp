@@ -28,12 +28,12 @@ export const Event = {
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION') as AAT,
   SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT') as AAT,
   SOCKET_INITIATE_PAYMENT: generateStatuses(
-    'Event.SOCKET_INITIATE_PAYMENT'
+    'Event.SOCKET_INITIATE_PAYMENT',
   ) as AAT,
   SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
   FOLLOW: generateStatuses('Event.FOLLOW') as AAT,
   UNFOLLOW: generateStatuses('Event.UNFOLLOW') as AAT,
-  IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING') as AAT,
+  FETCH_FOLLOWERS: generateStatuses('Event.FETCH_FOLLOWERS') as AAT,
 };
 
 export const Article = {
@@ -67,7 +67,6 @@ export const Gallery = {
   EDIT: generateStatuses('Gallery.EDIT') as AAT,
   UPLOAD: generateStatuses('Gallery.UPLOAD') as AAT,
   DELETE: generateStatuses('Gallery.DELETE') as AAT,
-  HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS',
 };
 export const ImageGallery = {
   FETCH_ALL: generateStatuses('ImageGallery.FETCH_ALL') as AAT,
@@ -80,7 +79,6 @@ export const GalleryPicture = {
   EDIT: generateStatuses('GalleryPicture.EDIT') as AAT,
   DELETE: generateStatuses('GalleryPicture.DELETE') as AAT,
   UPLOAD: generateStatuses('GalleryPicture.UPLOAD') as AAT,
-  CLEAR: 'GalleryPicture.CLEAR',
 };
 
 export const Joblistings = {
@@ -100,15 +98,14 @@ export const Announcements = {
 export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH') as AAT,
   SET_INVITATION_STATUS: generateStatuses(
-    'Meeting.SET_INVITATION_STATUS'
+    'Meeting.SET_INVITATION_STATUS',
   ) as AAT,
   CREATE: generateStatuses('Meeting.CREATE') as AAT,
   EDIT: generateStatuses('Meeting.EDIT') as AAT,
   DELETE: generateStatuses('Meeting.DELETE') as AAT,
   ANSWER_INVITATION_TOKEN: generateStatuses(
-    'Meeting.ANSWER_INVITATION_TOKEN'
+    'Meeting.ANSWER_INVITATION_TOKEN',
   ) as AAT,
-  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN',
 };
 
 export const Group = {
@@ -146,7 +143,7 @@ export const Comment = {
 export const Company = {
   FETCH: generateStatuses('Company.FETCH') as AAT,
   FETCH_COMPANY_CONTACT: generateStatuses(
-    'Company.FETCH_COMPANY_CONTACT'
+    'Company.FETCH_COMPANY_CONTACT',
   ) as AAT,
   ADD: generateStatuses('Company.ADD') as AAT,
   EDIT: generateStatuses('Company.EDIT') as AAT,
@@ -154,12 +151,12 @@ export const Company = {
   ADD_SEMESTER_STATUS: generateStatuses('Company.ADD_SEMESTER_STATUS') as AAT,
   EDIT_SEMESTER_STATUS: generateStatuses('Company.EDIT_SEMESTER_STATUS') as AAT,
   DELETE_SEMESTER_STATUS: generateStatuses(
-    'Company.DELETE_SEMESTER_STATUS'
+    'Company.DELETE_SEMESTER_STATUS',
   ) as AAT,
   ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT') as AAT,
   EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT') as AAT,
   DELETE_COMPANY_CONTACT: generateStatuses(
-    'Company.DELETE_COMPANY_CONTACT'
+    'Company.DELETE_COMPANY_CONTACT',
   ) as AAT,
   FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS') as AAT,
   ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER') as AAT,
@@ -184,10 +181,6 @@ export const Search = {
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
   MENTION: generateStatuses('Search.MENTION') as AAT,
 };
-export const Toasts = {
-  TOAST_ADDED: 'Toast.ADDED',
-  TOAST_REMOVED: 'Toast.REMOVED',
-};
 export const NotificationsFeed = {
   FETCH_DATA: generateStatuses('NotificationsFeed.FETCH_DATA') as AAT,
   MARK_ALL: generateStatuses('NotificationsFeed.MARK_ALL') as AAT,
@@ -203,16 +196,16 @@ export const User = {
   DELETE: generateStatuses('User.DELETE') as AAT,
   SOCKET: generateStatuses('User.SOCKET') as AAT,
   SEND_REGISTRATION_TOKEN: generateStatuses(
-    'User.SEND_REGISTRATION_TOKEN'
+    'User.SEND_REGISTRATION_TOKEN',
   ) as AAT,
   VALIDATE_REGISTRATION_TOKEN: generateStatuses(
-    'User.VALIDATE_REGISTRATION_TOKEN'
+    'User.VALIDATE_REGISTRATION_TOKEN',
   ) as AAT,
   CREATE_USER: generateStatuses('User.CREATE_USER') as AAT,
   INIT_STUDENT_AUTH: generateStatuses('User.INIT_STUDENT_AUTH') as AAT,
   COMPLETE_STUDENT_AUTH: generateStatuses('User.COMPLETE_STUDENT_AUTH') as AAT,
   SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
-    'User.SEND_FORGOT_PASSWORD_REQUEST'
+    'User.SEND_FORGOT_PASSWORD_REQUEST',
   ) as AAT,
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD') as AAT,
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN') as AAT,
@@ -265,10 +258,6 @@ export const Feed = {
   FETCH: generateStatuses('Feed.FETCH') as AAT,
 };
 
-export const Routing = {
-  SET_STATUS_CODE: 'Routing.SET_STATUS_CODE',
-};
-
 export const OAuth2 = {
   FETCH_APPLICATIONS: generateStatuses('OAuth2.FETCH_APPLICATIONS') as AAT,
   FETCH_APPLICATION: generateStatuses('OAuth2.FETCH_APPLICATION') as AAT,
@@ -280,7 +269,7 @@ export const OAuth2 = {
 
 export const NotificationSettings = {
   FETCH_ALTERNATIVES: generateStatuses(
-    'NotificationSettings.FETCH_ALTERNATIVES'
+    'NotificationSettings.FETCH_ALTERNATIVES',
   ) as AAT,
   FETCH: generateStatuses('NotificationSettings.FETCH') as AAT,
   UPDATE: generateStatuses('NotificationSettings.UPDATE') as AAT,
@@ -296,12 +285,8 @@ export const Meta = {
 export const Frontpage = {
   FETCH: generateStatuses('Frontpage.FETCH') as AAT,
 };
-export const Readme = {
-  FETCH: generateStatuses('Readme.FETCH') as AAT,
-};
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH') as AAT,
-  POPULAR: generateStatuses('Tag.POPULAR') as AAT,
 };
 export const Podcast = {
   FETCH: generateStatuses('Podcast.FETCH') as AAT,
@@ -334,4 +319,20 @@ export const LendingRequest = {
   CREATE: generateStatuses('LendingRequest.CREATE') as AAT,
   EDIT: generateStatuses('LendingRequest.EDIT') as AAT,
   DELETE: generateStatuses('LendingRequest.DELETE') as AAT,
+};
+
+export const Forum = {
+  FETCH_ALL: generateStatuses('Forum.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('Forum.CREATE') as AAT,
+  FETCH: generateStatuses('Forum. FETCH') as AAT,
+  DELETE: generateStatuses('Forum.DELETE') as AAT,
+  UPDATE: generateStatuses('Forum.UPDATE') as AAT,
+};
+
+export const Thread = {
+  FETCH_ALL: generateStatuses('Thread.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('Thread.CREATE') as AAT,
+  FETCH: generateStatuses('Thread. FETCH') as AAT,
+  DELETE: generateStatuses('Thread.DELETE') as AAT,
+  UPDATE: generateStatuses('Thread.UPDATE') as AAT,
 };

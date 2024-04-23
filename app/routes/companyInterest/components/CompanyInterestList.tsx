@@ -14,7 +14,7 @@ import SelectInput from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -43,13 +43,11 @@ const CompanyInterestList = () => {
   const semesterId = Number(
     qs.parse(location.search, {
       ignoreQueryPrefix: true,
-    }).semesters
+    }).semesters,
   );
-  const semesters = useAppSelector((state) =>
-    selectCompanySemestersForInterestForm(state)
-  );
+  const semesters = useAppSelector((state) => selectCompanySemesters(state));
   const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
-    (semester) => semester.id === semesterId
+    (semester) => semester.id === semesterId,
   );
   const eventValue = qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -68,7 +66,7 @@ const CompanyInterestList = () => {
             })
           : 'Vis alle semestre',
     }),
-    [semesterId, semesterObj]
+    [semesterId, semesterObj],
   );
   const selectedEventOption = {
     value: eventValue ? eventValue : '',
@@ -81,8 +79,8 @@ const CompanyInterestList = () => {
     selectCompanyInterestList(
       state,
       selectedSemesterOption.id,
-      selectedEventOption.value
-    )
+      selectedEventOption.value,
+    ),
   );
   const hasMore = useAppSelector((state) => state.companyInterest.hasMore);
   const fetching = useAppSelector((state) => state.companyInterest.fetching);
@@ -98,11 +96,11 @@ const CompanyInterestList = () => {
         filters: {
           semesters: id !== null ? id : null,
         },
-      })
+      }),
     ).then(() => {
       navigate(
         `/companyInterest?semesters=${clickedOption.id}&event=${selectedEventOption.value}`,
-        { replace: true }
+        { replace: true },
       );
     });
   };
@@ -110,7 +108,7 @@ const CompanyInterestList = () => {
   const handleEventChange = (clickedOption: EventOptionType): void => {
     navigate(
       `/companyInterest?semesters=${selectedSemesterOption.id}&event=${clickedOption.value}`,
-      { replace: true }
+      { replace: true },
     );
   };
 
@@ -120,8 +118,9 @@ const CompanyInterestList = () => {
 
   usePreparedEffect(
     'fetchCompanyInterestList',
-    () => Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]),
-    []
+    () =>
+      Promise.allSettled([dispatch(fetchAll()), dispatch(fetchSemesters())]),
+    [],
   );
 
   const exportInterestList = async (event?: string) => {
@@ -129,13 +128,13 @@ const CompanyInterestList = () => {
       getCsvUrl(
         selectedSemesterOption.year,
         selectedSemesterOption.semester,
-        event
+        event,
       ),
       {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
-      }
+      },
     ).then((response) => response.blob());
     return {
       url: URL.createObjectURL(blob),
@@ -208,8 +207,8 @@ const CompanyInterestList = () => {
         ? -1
         : 1
       : Number(o1.year) > Number(o2.year)
-      ? -1
-      : 1;
+        ? -1
+        : 1;
   });
 
   return (
@@ -286,14 +285,14 @@ const CompanyInterestList = () => {
             fetchCompanyInterests({
               next: true,
               filters,
-            })
+            }),
           );
         }}
         onChange={(filters) => {
           dispatch(
             fetchCompanyInterests({
               filters,
-            })
+            }),
           );
         }}
         hasMore={hasMore}

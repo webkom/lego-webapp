@@ -38,7 +38,7 @@ const validate = createValidator(
     title: [required()],
     event: [required()],
   },
-  hasOptions
+  hasOptions,
 );
 
 type Props = {
@@ -62,10 +62,11 @@ const SurveyForm = ({
     return onSubmit({
       ...surveyData,
       event: surveyData.event.value,
-      questions: surveyData.questions.map((question) => ({
+      questions: surveyData.questions.map((question, i) => ({
         ...question,
         questionType: question.questionType.value,
         options: question.options.slice(0, -1),
+        relativeIndex: i,
       })),
     });
   };
@@ -125,11 +126,7 @@ const SurveyForm = ({
           {spyValues((values: FormSurvey) =>
             // If this is a template
             values.templateType ? (
-              <h2
-                style={{
-                  color: 'var(--lego-color-red)',
-                }}
-              >
+              <h2>
                 Dette er malen for arrangementer av type:{' '}
                 {displayNameForEventType(values.templateType)}
               </h2>
@@ -150,7 +147,7 @@ const SurveyForm = ({
                   component={DatePicker.Field}
                 />
               </Flex>
-            )
+            ),
           )}
           <FieldArray
             name="questions"
@@ -208,7 +205,7 @@ type QuestionsProps = FieldArrayRenderProps<FormSurveyQuestion, HTMLElement>;
 const updateRelativeIndexes = (
   oldIndex: number,
   newIndex: number,
-  fields: QuestionsProps['fields']
+  fields: QuestionsProps['fields'],
 ) => {
   fields.move(oldIndex, newIndex);
 };

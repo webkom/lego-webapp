@@ -1,6 +1,5 @@
 // is often expanded with additional properties
-import type { AnyAction } from '@reduxjs/toolkit';
-import type { ID } from 'app/store/models';
+import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type Entities from 'app/store/models/entities';
 import type {
   EntityType,
@@ -23,14 +22,14 @@ export interface FetchMeta extends BaseMeta {
   };
 }
 export interface DeleteMeta extends BaseMeta {
-  id: ID;
+  id: EntityId;
 }
 
 type AnyPayload = FetchPayload | [] | null;
 export interface FetchPayload {
   actionGrant?: string[];
   entities: Partial<Entities>;
-  result?: ID[];
+  result?: EntityId[];
   next?: string;
   previous?: string;
 }
@@ -53,7 +52,7 @@ export interface AsyncApiActionFailure<Meta extends BaseMeta = BaseMeta>
 
 export interface AsyncApiActionSuccess<
   Meta extends BaseMeta = BaseMeta,
-  Payload extends AnyPayload = AnyPayload
+  Payload extends AnyPayload = AnyPayload,
 > extends AsyncApiAction<Meta, Payload> {
   type: `${string}.SUCCESS`;
 }
@@ -67,7 +66,7 @@ const isAsyncApiAction = (action: AnyAction): action is AsyncApiAction =>
   action.meta && action.meta.endpoint;
 
 export const isAsyncApiActionBegin = (
-  action: AnyAction
+  action: AnyAction,
 ): action is AsyncApiActionBegin =>
   isAsyncApiAction(action) && action.type.endsWith('.BEGIN');
 isAsyncApiActionBegin.matching =
@@ -77,7 +76,7 @@ isAsyncApiActionBegin.matching =
     actionTypes.map((t) => t.BEGIN).includes(action.type);
 
 export const isAsyncApiActionFailure = (
-  action: AnyAction
+  action: AnyAction,
 ): action is AsyncApiActionFailure =>
   isAsyncApiAction(action) && action.type.endsWith('.FAILURE');
 isAsyncApiActionFailure.matching =
@@ -87,12 +86,12 @@ isAsyncApiActionFailure.matching =
     actionTypes.map((t) => t.FAILURE).includes(action.type);
 
 export const isAsyncApiActionSuccess = (
-  action: AnyAction
+  action: AnyAction,
 ): action is AsyncApiActionSuccess =>
   isAsyncApiAction(action) && action.type.endsWith('.SUCCESS');
 isAsyncApiActionSuccess.matching =
   <Meta extends BaseMeta = BaseMeta, Payload extends AnyPayload = null>(
-    actionTypes: AsyncActionType[]
+    actionTypes: AsyncActionType[],
   ) =>
   (action: AnyAction): action is AsyncApiActionSuccess<Meta, Payload> =>
     isAsyncApiActionSuccess(action) &&

@@ -2,8 +2,8 @@ import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { meetingSchema } from 'app/reducers';
 import { Meeting } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { MeetingFormValues } from 'app/routes/meetings/components/MeetingEditor';
-import type { ID } from 'app/store/models';
 import type { DetailedMeeting, ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { CurrentUser } from 'app/store/models/User';
@@ -20,39 +20,22 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-export const getEndpoint = (
-  pagination: any,
-  queryString: string,
-  loadNextPage?: boolean
-): string => {
-  let endpoint = `/meetings/${queryString}`;
-  const paginationObject = pagination[queryString];
-
-  if (
-    loadNextPage &&
-    paginationObject &&
-    paginationObject.queryString === queryString &&
-    paginationObject.nextPage
-  ) {
-    endpoint = paginationObject.nextPage;
-  }
-
-  return endpoint;
-};
-
 export function fetchAll({
-  endpoint,
-  queryString,
+  query,
+  next = false,
 }: {
-  endpoint: string;
-  queryString?: string;
-}) {
+  query?: Record<string, string | undefined>;
+  next?: boolean;
+} = {}) {
   return callAPI<ListMeeting[]>({
     types: Meeting.FETCH,
-    endpoint,
+    endpoint: '/meetings/',
     schema: [meetingSchema],
+    query,
+    pagination: {
+      fetchNext: next,
+    },
     meta: {
-      queryString,
       errorMessage: 'Henting av møter feilet',
     },
     propagateError: true,
@@ -60,9 +43,9 @@ export function fetchAll({
 }
 
 export function setInvitationStatus(
-  meetingId: ID,
+  meetingId: EntityId,
   status: MeetingInvitationStatus,
-  user: CurrentUser
+  user: CurrentUser,
 ) {
   return callAPI<{ status: MeetingInvitationStatus }>({
     types: Meeting.SET_INVITATION_STATUS,
@@ -81,7 +64,7 @@ export function setInvitationStatus(
   });
 }
 
-export function deleteMeeting(id: ID) {
+export function deleteMeeting(id: EntityId) {
   return callAPI({
     types: Meeting.DELETE,
     endpoint: `/meetings/${id}/`,
@@ -130,19 +113,19 @@ export function inviteUsersAndGroups({
   users,
   groups,
 }: {
-  id: ID;
+  id: EntityId;
   users: [
     {
-      id: ID;
-    }
+      id: EntityId;
+    },
   ];
   groups: [
     {
-      value: ID;
-    }
+      value: EntityId;
+    },
   ];
 }) {
-  return callAPI<{ users: ID[]; groups: ID[] }>({
+  return callAPI<{ users: EntityId[]; groups: EntityId[] }>({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'POST',
@@ -201,15 +184,9 @@ export function editMeeting({
   });
 }
 
-export function resetMeetingsToken() {
-  return {
-    type: Meeting.RESET_MEETINGS_TOKEN,
-  };
-}
-
 const calculateMazemapPoi = (
   useMazemap: boolean,
-  mazemapPoi?: { value: number; label: string }
+  mazemapPoi?: { value: number; label: string },
 ) => {
   if (!useMazemap || !mazemapPoi?.value) {
     return null;
@@ -221,5 +198,5 @@ const calculateMazemapPoi = (
 const calculateLocation = (
   useMazemap: boolean,
   mazemapPoi?: { value: number; label: string },
-  location?: string
+  location?: string,
 ) => (useMazemap ? mazemapPoi?.label : location);

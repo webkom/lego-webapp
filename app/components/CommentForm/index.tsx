@@ -6,18 +6,18 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
 import styles from './CommentForm.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type Props = {
   contentTarget: ContentTarget;
   submitText?: string;
   autoFocus?: boolean;
-  parent?: ID;
+  parent?: EntityId;
   placeholder?: string;
 };
 
@@ -34,7 +34,8 @@ const CommentForm = ({
 }: Props) => {
   const dispatch = useAppDispatch();
 
-  const { currentUser, loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
 
   if (!loggedIn) {
     return <div>Vennligst logg inn for å kommentere</div>;
@@ -51,7 +52,7 @@ const CommentForm = ({
               contentTarget,
               text,
               parent,
-            })
+            }),
           ).then(() => {
             form.reset();
           });
@@ -60,8 +61,8 @@ const CommentForm = ({
         {({ handleSubmit }) => {
           return (
             <form onSubmit={handleSubmit}>
-              <Flex alignItems="center" gap="1rem">
-                <ProfilePicture size={40} user={currentUser} />
+              <Flex alignItems="center" gap="var(--spacing-md)">
+                {currentUser && <ProfilePicture size={40} user={currentUser} />}
 
                 <div className={styles.field}>
                   <Field
@@ -71,6 +72,7 @@ const CommentForm = ({
                     component={TextInput.Field}
                     removeBorder
                     maxLength={140}
+                    withoutMargin
                   />
                 </div>
 

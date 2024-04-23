@@ -5,11 +5,11 @@ import { EDITOR_EMPTY } from 'app/utils/constants';
 import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
-  message?: string
+  message?: string,
 ) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
 
 type AsyncValidator<T = any, C = any> = (
-  message?: string
+  message?: string,
 ) => (value: T, context?: C) => Promise<Readonly<[boolean, string] | [true]>>;
 
 export type ValidatorResult = ValidationErrors;
@@ -101,6 +101,11 @@ export const matchesRegex = (regex, message) => (value) =>
 export const isEmail = (message = 'Ugyldig e-post') =>
   matchesRegex(EMAIL_REGEX, message);
 
+export const isNotAbakusEmail =
+  (message = 'Kan ikke være Abakus-e-post') =>
+  (value) =>
+    [!value || !value.endsWith('@abakus.no'), message] as const;
+
 export const validYoutubeUrl = (message = 'Ugyldig YouTube-URL') =>
   matchesRegex(YOUTUBE_URL_REGEX, message);
 
@@ -157,7 +162,7 @@ export const mergeTimeAfterAllPoolsActivation =
 
 export const isValidAllergy: Validator<string | undefined> =
   (
-    message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser'
+    message = 'La feltet stå tomt hvis du ikke har noen allergier/preferanser',
   ) =>
   (value) => {
     if (!value) return [true] as const;
@@ -207,7 +212,7 @@ export function createValidator(
     [field: string]: (ReturnType<Validator> | ReturnType<AsyncValidator>)[];
   },
   rawValidator?: (input) => ValidatorResult,
-  async = false
+  async = false,
 ) {
   if (async) {
     return async function validate(input) {
@@ -223,7 +228,7 @@ export function createValidator(
               result = await result;
             }
             return result;
-          })
+          }),
         );
 
         fieldValidationResults[field] = validationResult;
@@ -257,7 +262,7 @@ export function createValidator(
         if (fieldErrors.length) errors[field] = fieldErrors;
         return errors;
       },
-      {}
+      {},
     );
     return merge(fieldValidatorErrors, rawValidatorErrors);
   };

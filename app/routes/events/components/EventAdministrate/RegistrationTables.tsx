@@ -128,7 +128,7 @@ const iconClass = (photoConsent) =>
     photoConsent?.isConsenting ? styles.greenIcon : styles.redIcon,
     photoConsent?.domain === PhotoConsentDomain.WEBSITE
       ? 'fa fa-desktop'
-      : 'fa fa-share-square'
+      : 'fa fa-share-square',
   );
 
 const ConsentIcons = ({
@@ -146,16 +146,16 @@ const ConsentIcons = ({
       WEBSITE,
       eventSemester.year,
       eventSemester.semester,
-      photoConsents
+      photoConsents,
     );
     const soMeConsent = getConsent(
       SOCIAL_MEDIA,
       eventSemester.year,
       eventSemester.semester,
-      photoConsents
+      photoConsents,
     );
     return (
-      <Flex justifyContent="center" gap={5}>
+      <Flex alignItems="center" justifyContent="center">
         <TooltipIcon
           content={consentMessage(webConsent)}
           iconClass={iconClass(webConsent)}
@@ -204,8 +204,8 @@ export const RegisteredTable = ({
 
   const hasNonEmptyFeedback = pools.some((pool) =>
     pool.registrations.some(
-      (registration) => registration.feedback?.trim() !== ''
-    )
+      (registration) => registration.feedback?.trim() !== '',
+    ),
   );
   const showFeedback =
     event.feedbackRequired ||
@@ -254,7 +254,7 @@ export const RegisteredTable = ({
       },
     },
     {
-      title: 'Til stede',
+      title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
       render: (presence, registration) => {

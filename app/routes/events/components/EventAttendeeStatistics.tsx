@@ -15,8 +15,9 @@ import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import { GroupType, type Dateish } from 'app/models';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
+import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
 import styles from './EventAttendeeStatistics.css';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
@@ -56,18 +57,12 @@ const PieChartWithLabel = ({
   );
 };
 
-const toLocalizedGender = (gender: string) => {
-  if (gender === 'male') return 'Mann';
-  if (gender === 'female') return 'Kvinne';
-  return 'Annet';
-};
-
 const addGenericDataPoint = (
   selectedDistribution: DistributionDataPoint[],
-  selectedDataPoint: string
+  selectedDataPoint: string,
 ) => {
   const dataPointEntry = selectedDistribution.find(
-    (entry) => entry.name === selectedDataPoint
+    (entry) => entry.name === selectedDataPoint,
   );
   if (dataPointEntry) {
     dataPointEntry.count++;
@@ -80,13 +75,13 @@ const addGroupDataPoint = (
   groupDistribution: DistributionDataPoint[],
   userGroups: number[],
   committeeGroupIDs: number[],
-  revueGroupIDs: number[]
+  revueGroupIDs: number[],
 ) => {
   const isAbakom = userGroups.some((userGroup) =>
-    committeeGroupIDs.includes(userGroup)
+    committeeGroupIDs.includes(userGroup),
   );
   const isRevue = userGroups.some((userGroup) =>
-    revueGroupIDs.includes(userGroup)
+    revueGroupIDs.includes(userGroup),
   );
 
   if (isAbakom) {
@@ -101,11 +96,11 @@ const addGroupDataPoint = (
 const addRegistrationDateDataPoint = (
   registrationTimeDistribution: RegistrationDateDataPoint[],
   registrationDate: Dateish,
-  isRegister: boolean
+  isRegister: boolean,
 ) => {
   const formattedDate = moment(registrationDate).format('DD/MM');
   const existingTimeEntry = registrationTimeDistribution.find(
-    (entry) => entry.name === formattedDate
+    (entry) => entry.name === formattedDate,
   );
   if (existingTimeEntry) {
     if (isRegister) {
@@ -127,12 +122,12 @@ const sortAttendeeStatistics = (attendeeStatistics: AttendeeStatistics) => {
   for (const attendeeStatisticsKey in attendeeStatistics) {
     if (attendeeStatisticsKey === 'registrationTimeDistribution') {
       attendeeStatistics[attendeeStatisticsKey].sort((a, b) =>
-        moment(a.fullDate).isBefore(moment(b.fullDate)) ? -1 : 1
+        moment(a.fullDate).isBefore(moment(b.fullDate)) ? -1 : 1,
       );
       continue;
     }
     attendeeStatistics[attendeeStatisticsKey].sort((a, b) =>
-      a.name.localeCompare(b.name)
+      a.name.localeCompare(b.name),
     );
   }
 };
@@ -141,7 +136,7 @@ const createAttendeeDataPoints = (
   registrations: DetailedRegistration[],
   unregistrations: DetailedRegistration[],
   committeeGroupIDs: number[],
-  revueGroupIDs: number[]
+  revueGroupIDs: number[],
 ) => {
   const attendeeStatistics: AttendeeStatistics = {
     genderDistribution: [],
@@ -156,7 +151,7 @@ const createAttendeeDataPoints = (
     addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
       registration.registrationDate,
-      true
+      true,
     );
 
     // Only admitted users from this point on
@@ -169,13 +164,13 @@ const createAttendeeDataPoints = (
       addGenericDataPoint(attendeeStatistics.dataTekDistribution, grade);
       addGenericDataPoint(
         attendeeStatistics.totalDistribution,
-        'Datateknologi'
+        'Datateknologi',
       );
     } else if (grade.includes('Kommunikasjonsteknologi')) {
       addGenericDataPoint(attendeeStatistics.komTekDistribution, grade);
       addGenericDataPoint(
         attendeeStatistics.totalDistribution,
-        'Cybersikkerhet og datakommunikasjon'
+        'Cybersikkerhet og datakommunikasjon',
       );
     } else {
       addGenericDataPoint(attendeeStatistics.totalDistribution, grade);
@@ -183,14 +178,14 @@ const createAttendeeDataPoints = (
 
     addGenericDataPoint(
       attendeeStatistics.genderDistribution,
-      toLocalizedGender(registration.user.gender)
+      Gender[registration.user.gender],
     );
 
     addGroupDataPoint(
       attendeeStatistics.groupDistribution,
       registration.user.abakusGroups,
       committeeGroupIDs,
-      revueGroupIDs
+      revueGroupIDs,
     );
   }
 
@@ -198,7 +193,7 @@ const createAttendeeDataPoints = (
     addRegistrationDateDataPoint(
       attendeeStatistics.registrationTimeDistribution,
       unregistration.unregistrationDate,
-      false
+      false,
     );
   }
 
@@ -230,18 +225,14 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
   const { registered, unregistered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId: eventId,
-    })
+    }),
   );
   const committees = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Committee,
-    })
+    selectGroupsByType(state, GroupType.Committee),
   );
   const committeeGroupIDs = committees.map((group) => group.id);
   const revueGroups = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Revue,
-    })
+    selectGroupsByType(state, GroupType.Revue),
   );
   const revueGroupIDs = revueGroups.map((group) => group.id);
 
@@ -256,7 +247,7 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
     registered,
     unregistered,
     committeeGroupIDs,
-    revueGroupIDs
+    revueGroupIDs,
   );
 
   return (

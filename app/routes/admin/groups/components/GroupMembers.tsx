@@ -1,13 +1,16 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';
+import { selectGroupEntities } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
+import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 
 export const defaultGroupMembersQuery = {
   descendants: 'false' as 'false' | 'true',
@@ -17,7 +20,7 @@ export const defaultGroupMembersQuery = {
 };
 
 const GroupMembers = () => {
-  const { groupId } = useParams<{ groupId: string }>();
+  const { groupId } = useParams<GroupPageParams>() as GroupPageParams;
   const { query } = useQuery(defaultGroupMembersQuery);
   const showDescendants = query.descendants === 'true';
 
@@ -26,7 +29,7 @@ const GroupMembers = () => {
       endpoint: `/groups/${groupId}/memberships/`,
       entity: 'memberships',
       query,
-    })(state)
+    })(state),
   );
 
   const memberships = useAppSelector((state) =>
@@ -34,46 +37,56 @@ const GroupMembers = () => {
       groupId,
       descendants: showDescendants,
       pagination,
-    })
+    }),
   );
 
-  const groupsById = useAppSelector((state) => state.groups.byId);
-  const fetching = useAppSelector((state) => state.memberships.fetching);
+  const groupEntities = useAppSelector(selectGroupEntities);
   const hasMore = pagination.hasMore;
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect(
-    'fetchMemberships',
-    () =>
-      groupId &&
-      dispatch(
+  const fetchMemberships = useCallback(
+    async (next: boolean) => {
+      await dispatch(
         fetchMembershipsPagination({
           groupId,
-          next: true,
+          next,
           query,
-        })
-      ),
-    [groupId, query]
+          descendants: showDescendants,
+        }),
+      );
+    },
+    [dispatch, groupId, query, showDescendants],
   );
+
+  usePreparedEffect('fetchMemberships', () => fetchMemberships(false), [
+    groupId,
+    query,
+  ]);
 
   return (
     <>
       <>
         Antall medlemmer (inkl. undergrupper):{' '}
-        {groupsById[groupId?.toString()]?.numberOfUsers}
+        {groupEntities[groupId?.toString()]?.numberOfUsers}
       </>
 
-      {showDescendants || <AddGroupMember groupId={groupId} />}
+      {showDescendants || (
+        <AddGroupMember
+          groupId={groupId}
+          onMemberAdded={() => fetchMemberships(false)}
+        />
+      )}
 
-      <LoadingIndicator loading={!memberships && fetching}>
+      <LoadingIndicator loading={!memberships && pagination.fetching}>
         <h3>Brukere</h3>
         <GroupMembersList
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
-          groupsById={groupsById}
-          fetching={fetching}
+          groupsById={groupEntities}
+          fetching={pagination.fetching}
           memberships={memberships}
+          fetchMemberships={fetchMemberships}
         />
       </LoadingIndicator>
     </>

@@ -13,16 +13,12 @@ const Statistics = () => {
 
   usePreparedEffect(
     'fetchStatisticsGroups',
-    () =>
-      Promise.all([
-        dispatch(fetchAllWithType(GroupType.Committee)),
-        dispatch(fetchAllWithType(GroupType.Revue)),
-      ]),
-    []
+    () => dispatch(fetchAllWithType([GroupType.Committee, GroupType.Revue])),
+    [],
   );
 
   const [viewStartTime, setViewStartTime] = useState<Dateish>(
-    '2021-01-01T00:00:00.000Z'
+    '2021-01-01T00:00:00.000Z',
   );
   const [viewEndTime, setViewEndTime] = useState<Dateish>(moment());
 

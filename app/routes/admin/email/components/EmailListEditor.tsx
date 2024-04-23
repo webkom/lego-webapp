@@ -16,31 +16,55 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectEmailListById } from 'app/reducers/emailLists';
+import { selectGroupsByIds } from 'app/reducers/groups';
+import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import { isNotNullish } from 'app/utils';
 import { ROLES, type RoleType, roleOptions } from 'app/utils/constants';
-import { createValidator, required, EMAIL_REGEX } from 'app/utils/validation';
+import {
+  createValidator,
+  required,
+  EMAIL_REGEX,
+  atLeastOneFieldRequired,
+} from 'app/utils/validation';
+import type { DetailedEmailList } from 'app/store/models/EmailList';
+
+const recipientRequired = atLeastOneFieldRequired(
+  ['users', 'groups', 'additionalEmails'],
+  'E-postlisten må ha minst en mottaker',
+);
 
 const validate = createValidator({
   email: [
     required(
-      'Skriv inn en gyldig e-postadresse. Legg merke til at @abakus.no ikke skal med.'
+      'Skriv inn en gyldig e-postadresse. Legg merke til at @abakus.no ikke skal med.',
     ),
   ],
   name: [required()],
   additionalEmails: [
+    recipientRequired,
     // Check if all emails entered are valid
     (value) => [
       !value || value.every((email) => EMAIL_REGEX.test(email.value)),
       'Ugyldig e-post',
     ],
   ],
+  users: [recipientRequired],
+  groups: [recipientRequired],
 });
 
 const EmailListEditor = () => {
   const { emailListId } = useParams<{ emailListId: string }>();
   const isNew = emailListId === 'new';
   const emailList = useAppSelector((state) =>
-    selectEmailListById(state, { emailListId })
+    selectEmailListById<DetailedEmailList>(state, emailListId),
+  );
+  const users = useAppSelector((state) =>
+    selectUsersByIds(state, emailList?.users),
+  );
+  const groups = useAppSelector((state) =>
+    selectGroupsByIds(state, emailList?.groups),
   );
 
   const dispatch = useAppDispatch();
@@ -48,7 +72,7 @@ const EmailListEditor = () => {
   usePreparedEffect(
     'fetchEmailList',
     () => !isNew && emailListId && dispatch(fetchEmailList(emailListId)),
-    [emailListId]
+    [emailListId],
   );
 
   const navigate = useNavigate();
@@ -63,14 +87,14 @@ const EmailListEditor = () => {
       groups: (values.groups || []).map((group) => group.value),
       users: (values.users || []).map((user) => user.value),
       additionalEmails: (values.additionalEmails || []).map(
-        (email) => email.value
+        (email) => email.value,
       ),
     };
 
     dispatch(isNew ? createEmailList(payload) : editEmailList(payload)).then(
       (res) => {
         navigate(`/admin/email/lists/${res.payload.result}`);
-      }
+      },
     );
   };
 
@@ -78,7 +102,7 @@ const EmailListEditor = () => {
     ? {}
     : {
         ...emailList,
-        groups: (emailList?.groups || []).filter(Boolean).map((groups) => ({
+        groups: groups.filter(isNotNullish).map((groups) => ({
           label: groups.name,
           value: groups.id,
         })),
@@ -86,9 +110,9 @@ const EmailListEditor = () => {
           (groupRoles: RoleType) => ({
             label: ROLES[groupRoles],
             value: groupRoles,
-          })
+          }),
         ),
-        users: (emailList?.users || []).filter(Boolean).map((user) => ({
+        users: users.filter(isNotNullish).map((user) => ({
           label: user.fullName,
           value: user.id,
         })),
@@ -96,7 +120,7 @@ const EmailListEditor = () => {
           (additionalEmail) => ({
             label: additionalEmail,
             value: additionalEmail,
-          })
+          }),
         ),
         requireInternalAddress: emailList?.requireInternalAddress || false,
       };
@@ -118,7 +142,7 @@ const EmailListEditor = () => {
           />
           <Field
             required
-            disabled={emailListId}
+            disabled={!isNew && emailListId}
             placeholder="abakus"
             suffix="@abakus.no"
             name="email"
@@ -130,7 +154,7 @@ const EmailListEditor = () => {
             name="users"
             isMulti
             placeholder="Inviter en ny bruker"
-            filter={['users.user']}
+            filter={[AutocompleteContentType.User]}
             component={SelectInput.AutocompleteField}
           />
           <Field
@@ -138,7 +162,7 @@ const EmailListEditor = () => {
             name="groups"
             isMulti
             placeholder="Inviter en ny bruker"
-            filter={['users.abakusgroup']}
+            filter={[AutocompleteContentType.Group]}
             component={SelectInput.AutocompleteField}
           />
           <Field
@@ -156,7 +180,7 @@ const EmailListEditor = () => {
             name="requireInternalAddress"
             type="checkbox"
             component={CheckBox.Field}
-            normalize={(v) => !!v}
+            parse={(v) => !!v}
           />
 
           <Field

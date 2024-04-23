@@ -1,8 +1,8 @@
-import type { ID } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
 
 export default interface EmailUser {
-  id: ID;
-  user: ID;
+  id: EntityId;
+  user: EntityId;
   internalEmail: string;
   internalEmailEnabled: boolean;
 }

@@ -1,26 +1,30 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Linkify from 'linkify-react';
 import { sortBy } from 'lodash';
-import { useEffect, useState } from 'react';
+import moment from 'moment-timezone';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { votePoll } from 'app/actions/PollActions';
 import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Poll.css';
-import type { PollEntity, OptionEntity } from 'app/reducers/polls';
+import type PollType from 'app/store/models/Poll';
+
+type PollOptionRatio = PollType['options'][0] & {
+  ratio: number;
+};
 
 // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
 export const perfectRatios = (
-  options: ReadonlyArray<OptionEntityRatio>
-): OptionEntityRatio[] => {
+  options: ReadonlyArray<PollOptionRatio>,
+): PollOptionRatio[] => {
   const off =
     100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
-  return sortBy<OptionEntityRatio>(
+  return sortBy<PollOptionRatio>(
     options,
-    (o: OptionEntityRatio) => Math.floor(o.ratio) - o.ratio
+    (o: PollOptionRatio) => Math.floor(o.ratio) - o.ratio,
   )
-    .map((option: OptionEntityRatio, index: number) => {
+    .map((option: PollOptionRatio, index: number) => {
       return {
         ...option,
         ratio: Math.floor(option.ratio) + (index < off ? 1 : 0),
@@ -29,7 +33,7 @@ export const perfectRatios = (
     .sort((a, b) => b.ratio - a.ratio);
 };
 
-const optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
+const optionsWithPerfectRatios = (options: PollType['options']) => {
   const totalVotes = options.reduce((a, option) => a + option.votes, 0);
   const ratios = options.map((option) => {
     return { ...option, ratio: (option.votes / totalVotes) * 100 };
@@ -38,209 +42,249 @@ const optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
 };
 
 type Props = {
-  poll: PollEntity;
+  poll?: PollType;
   allowedToViewHiddenResults?: boolean;
-  truncate?: number;
   details?: boolean;
-};
-
-type OptionEntityRatio = OptionEntity & {
-  ratio: number;
+  alwaysOpen?: boolean;
 };
 
 const Poll = ({
   poll,
   allowedToViewHiddenResults,
-  truncate,
   details,
+  alwaysOpen = false,
 }: Props) => {
-  const [truncateOptions, setTruncateOptions] = useState(false);
-  const [expanded, setExpanded] = useState(true);
+  const optionRef = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(alwaysOpen);
 
-  useEffect(() => {
-    const options = optionsWithPerfectRatios(poll.options);
-
-    if (truncate && options.length > truncate) {
-      setTruncateOptions(true);
-      setExpanded(false);
-    } else {
-      setTruncateOptions(false);
-      setExpanded(true);
-    }
-  }, [poll, truncate]);
-
-  const toggleTruncate = () => {
+  const toggleExpanded = () => {
     setExpanded(!expanded);
   };
 
-  const dispatch = useAppDispatch();
+  const fetching = useAppSelector(
+    (state) => state.frontpage.fetching || state.polls.fetching,
+  );
 
-  const { id, title, description, hasAnswered, totalVotes, resultsHidden } =
-    poll;
+  if (fetching && !poll) {
+    return <Skeleton className={styles.poll} />;
+  }
+
+  if (!poll) {
+    return null;
+  }
+
+  const {
+    id: pollId,
+    title,
+    description,
+    hasAnswered,
+    totalVotes,
+    resultsHidden,
+  } = poll;
+
   const options = optionsWithPerfectRatios(poll.options);
-  const orderedOptions = options;
-  const optionsToShow = expanded
-    ? orderedOptions
-    : orderedOptions.slice(0, truncate);
   const showResults = !resultsHidden || allowedToViewHiddenResults;
+  const expandedHeight = optionRef.current?.clientHeight ?? 0;
+
+  const now = moment();
+  const isValid = moment(poll.validUntil).isAfter(now);
+
+  const canAnswer = !hasAnswered && isValid;
 
   return (
-    <Card>
-      <Flex column gap="1rem">
-        <Flex
-          alignItems="center"
-          justifyContent="space-between"
-          className={styles.pollHeader}
-        >
-          <Link to={`/polls/${id}`}>
-            <Flex alignItems="center" gap={10}>
-              <Icon name="stats-chart" size={20} />
-              <span className={styles.pollHeader}>{title}</span>
-            </Flex>
-          </Link>
-          <Tooltip content="Avstemningen er anonym">
-            <Icon name="information-circle-outline" size={20} />
-          </Tooltip>
-        </Flex>
-        {details && (
-          <div>
-            <Linkify
-              tagName="p"
-              options={{
-                rel: 'noopener noreferrer',
-                attributes: {
-                  target: '_blank',
-                },
-              }}
-            >
-              {description}
-            </Linkify>
-          </div>
-        )}
-        {hasAnswered && !showResults && (
-          <Flex justifyContent="center" alignItems="center" gap={5}>
-            Du har svart
-            <Icon
-              name="checkmark-circle-outline"
-              size={20}
-              className={styles.success}
+    <Flex
+      alignItems="center"
+      className={cx(styles.poll, expanded ? styles.expanded : undefined)}
+      column
+    >
+      <Flex
+        alignItems="center"
+        className={styles.topBar}
+        column
+        justifyContent="center"
+      >
+        <Icon
+          name={hasAnswered ? 'stats-chart' : 'help'}
+          size={28}
+          className={styles.pollIcon}
+        />
+        <Link to={`/polls/${pollId}`} className={styles.titleLink}>
+          <Flex
+            alignItems="center"
+            className={styles.title}
+            justifyContent="center"
+          >
+            {!details && description.length !== 0 ? (
+              <Tooltip content="Trykk for mer info">{title}</Tooltip>
+            ) : (
+              <>{title}</>
+            )}
+          </Flex>
+        </Link>
+      </Flex>
+      <Flex
+        column
+        className={styles.contentWrapper}
+        style={{
+          height: alwaysOpen ? `auto` : expanded ? `${expandedHeight}px` : '0',
+        }}
+      >
+        <div ref={optionRef}>
+          {canAnswer && (
+            <VoteOpen details={details} poll={poll} options={options} />
+          )}
+          {!canAnswer && showResults && (
+            <VoteResults
+              details={details}
+              poll={poll}
+              options={options}
+              resultsHidden={resultsHidden}
             />
-          </Flex>
-        )}
-        {hasAnswered && showResults && (
-          <Flex column className={styles.optionWrapper}>
-            <table className={styles.pollTable}>
-              <tbody>
-                {optionsToShow.map(({ id, name, votes, ratio }) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.textColumn}>{name}</td>
-                      <td className={styles.graphColumn}>
-                        {votes === 0 ? (
-                          <span className="secondaryFontColor">
-                            Ingen stemmer
-                          </span>
-                        ) : (
-                          <div className={styles.fullGraph}>
-                            <div
-                              style={{
-                                width: `${ratio}%`,
-                              }}
-                            >
-                              <div className={styles.pollGraph}>
-                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
-                              </div>
-                            </div>
-                            {ratio < 18 && (
-                              <span
-                                style={{
-                                  padding: '5px',
-                                  marginLeft: '2px',
-                                }}
-                              >
-                                {`${ratio}%`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {resultsHidden && (
-              <p
-                className="secondaryFontColor"
-                style={{
-                  marginTop: 15,
-                }}
-              >
-                Resultatet er skjult for vanlige brukere
-              </p>
-            )}
-          </Flex>
-        )}
-        {!hasAnswered && (
-          <Flex column className={styles.optionWrapper}>
-            {!expanded && (
-              <Flex
-                alignItems="center"
-                className={styles.blurContainer}
-                onClick={toggleTruncate}
-              >
-                <p className={styles.blurOverlay}>
-                  Klikk her for å se alle alternativene
-                </p>
-              </Flex>
-            )}
-            {options &&
-              optionsToShow.map((option) => (
-                <Flex
-                  justifyContent="space-between"
-                  style={{ flexGrow: '1' }}
-                  className={cx(expanded ? '' : styles.blurEffect)}
-                  key={option.id}
-                >
-                  <Button
-                    dark
-                    onClick={() => dispatch(votePoll(poll.id, option.id))}
-                    className={styles.voteButton}
-                  >
-                    {option.name}
-                  </Button>
-                </Flex>
-              ))}
-          </Flex>
-        )}
-        <div>
-          <div className={styles.moreOptionsLink}>
-            {truncateOptions &&
-              (!hasAnswered ||
-                !resultsHidden ||
-                allowedToViewHiddenResults) && (
-                <Flex alignItems="center" justifyContent="center">
-                  <Icon
-                    onClick={toggleTruncate}
-                    name={expanded ? 'chevron-up' : 'chevron-down'}
-                    size={20}
-                  />
-                </Flex>
-              )}
-          </div>
-          <Flex justifyContent="space-between">
+          )}
+          {!canAnswer && !showResults && (
+            <VoteHidden details={details} poll={poll} />
+          )}
+
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={styles.registrationCount}
+            gap={8}
+          >
+            <Tooltip content="Avstemningen er anonym.">
+              <Icon name="information-circle-outline" size={17} />
+            </Tooltip>
             <span>
               <span className={styles.totalVotes}>{totalVotes}</span>{' '}
               {totalVotes === 1 ? 'stemme' : 'stemmer'}
             </span>
-            {hasAnswered && !showResults && (
-              <span className="secondaryFontColor">Resultatet er skjult</span>
-            )}
           </Flex>
         </div>
       </Flex>
-    </Card>
+      <Flex
+        alignItems="center"
+        justifyContent="center"
+        className={styles.bottomBar}
+        style={{ cursor: alwaysOpen ? '' : 'pointer' }}
+        onClick={alwaysOpen ? undefined : toggleExpanded}
+      >
+        {!alwaysOpen && (
+          <Icon
+            className={styles.arrowIcon}
+            size={26}
+            name={expanded ? 'chevron-up' : 'chevron-down'}
+          />
+        )}
+      </Flex>
+    </Flex>
   );
 };
 
 export default Poll;
+
+type VoteOpenProps = {
+  poll: PollType;
+  details?: boolean;
+  options: PollOptionRatio[];
+};
+
+const VoteOpen = ({ details, poll, options }: VoteOpenProps) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <Flex column alignItems="center" className={styles.optionWrapper}>
+      {details && <p className={styles.description}>{poll.description}</p>}
+      {options.map((option) => (
+        <Button
+          key={option.id}
+          className={styles.voteButton}
+          dark
+          onClick={() => dispatch(votePoll(poll.id, option.id))}
+        >
+          {option.name}
+        </Button>
+      ))}
+    </Flex>
+  );
+};
+
+type VoteResultsProps = {
+  poll: PollType;
+  details?: boolean;
+  options: PollOptionRatio[];
+  resultsHidden: boolean;
+};
+
+const VoteResults = ({
+  details,
+  poll,
+  options,
+  resultsHidden,
+}: VoteResultsProps) => (
+  <Flex column className={styles.optionWrapper}>
+    {details && <p className={styles.description}>{poll.description}</p>}
+    <table className={styles.pollTable}>
+      <tbody>
+        {options.map(({ id, name, votes, ratio }) => {
+          return (
+            <tr key={id}>
+              <td className={styles.textColumn}>{name}</td>
+              <td className={styles.graphColumn}>
+                {votes === 0 ? (
+                  <span className="secondaryFontColor">Ingen stemmer</span>
+                ) : (
+                  <div className={styles.fullGraph}>
+                    <div
+                      style={{
+                        width: `${ratio}%`,
+                      }}
+                    >
+                      <div className={styles.pollGraph}>
+                        {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                      </div>
+                    </div>
+                    {ratio < 18 && (
+                      <span
+                        style={{
+                          padding: '5px',
+                          marginLeft: '2px',
+                        }}
+                      >
+                        {`${ratio}%`}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+    {resultsHidden && (
+      <div className={styles.resultsHiddenInfo}>
+        Resultatet er skjult for vanlige brukere
+      </div>
+    )}
+  </Flex>
+);
+
+type VoteHiddenProps = {
+  poll: PollType;
+  details?: boolean;
+};
+
+const VoteHidden = ({ details, poll }: VoteHiddenProps) => (
+  <Flex column alignItems="center" className={styles.voteOptions}>
+    {details && <p className={styles.description}>{poll.description}</p>}
+    <Flex justifyContent="center" alignItems="center" gap={5}>
+      Du har svart
+      <Icon
+        name="checkmark-circle-outline"
+        size={20}
+        className={styles.success}
+      />
+    </Flex>
+    <div className={styles.resultsHiddenInfo}>Resultatet er skjult</div>
+  </Flex>
+);

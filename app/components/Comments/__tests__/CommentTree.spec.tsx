@@ -11,6 +11,10 @@ const store = configureStore([])({
   theme: {
     theme: 'light',
   },
+  auth: {},
+  users: {
+    entities: {},
+  },
 });
 
 describe('<CommentTree />', () => {
@@ -30,7 +34,7 @@ describe('<CommentTree />', () => {
           {/* @ts-ignore*/}
           <CommentTree comments={tree} />
         </Provider>
-      </MemoryRouter>
+      </MemoryRouter>,
     );
     const rootElements = wrapper.find('[data-ischild=false]');
     const rootElement = rootElements.at(1);

@@ -2,29 +2,11 @@
 
 .container {
   flex-basis: calc(100% / 3);
-  margin: 0 0.5rem;
+  margin: 0 var(--spacing-sm);
 }
 
-.boldTitle {
-  font-size: var(--font-size-lg);
-  color: var(--lego-font-color);
-  font-family: Inter, sans-serif;
-  font-weight: 600;
-}
-
-.title {
-  font-size: var(--font-size-lg);
-  line-height: 1.5rem;
-  margin-bottom: 0.2rem;
-}
-
-.smallerText {
-  line-height: 1.5rem;
-}
-
-.textContainer {
-  margin-bottom: 1.5rem;
-  white-space: normal;
+.text {
+  margin-bottom: var(--spacing-lg);
 }
 
 @media (--mobile-device) {

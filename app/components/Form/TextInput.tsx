@@ -47,7 +47,7 @@ const TextInput = ({
         !prefix && styles.spacing,
         removeBorder && styles.removeBorder,
         centered && styles.centered,
-        className
+        className,
       )}
     >
       {prefix && (

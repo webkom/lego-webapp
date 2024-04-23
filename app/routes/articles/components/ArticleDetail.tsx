@@ -13,13 +13,11 @@ import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import config from 'app/config';
-import {
-  selectArticleByIdOrSlug,
-  selectCommentsForArticle,
-} from 'app/reducers/articles';
+import { selectArticleByIdOrSlug } from 'app/reducers/articles';
+import { useIsLoggedIn } from 'app/reducers/auth';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectUsersByIds } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
-import sharedStyles from 'app/routes/articles/components/Overview.css';
+import sharedStyles from 'app/routes/articles/articles.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './ArticleDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
@@ -81,18 +79,17 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const ArticleDetail = () => {
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
   const { articleIdOrSlug } = useParams<{ articleIdOrSlug: string }>();
   const article = useAppSelector((state) =>
-    selectArticleByIdOrSlug(state, articleIdOrSlug)
+    selectArticleByIdOrSlug(state, articleIdOrSlug!),
   ) as DetailedArticle | undefined;
-  const articleId = article?.id;
 
   const comments = useAppSelector((state) =>
-    articleId ? selectCommentsForArticle(state, articleId) : []
+    selectCommentsByIds(state, article?.comments),
   );
   const authors = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: article?.authors ?? [] })
+    selectUsersByIds(state, article?.authors),
   );
 
   const navigate = useNavigate();
@@ -107,7 +104,7 @@ const ArticleDetail = () => {
   usePreparedEffect(
     'fetchDetailedArticle',
     () => articleIdOrSlug && dispatch(fetchArticle(articleIdOrSlug)),
-    [loggedIn, articleIdOrSlug]
+    [loggedIn, articleIdOrSlug],
   );
 
   if (!article) {
@@ -136,7 +133,6 @@ const ArticleDetail = () => {
       </PropertyHelmet>
       <NavigationTab
         headerClassName={styles.headerClassName}
-        className={styles.articleHeader}
         title={article.title}
       >
         {(article.actionGrant || []).includes('edit') && (
@@ -147,7 +143,7 @@ const ArticleDetail = () => {
       </NavigationTab>
 
       {
-        <div className={styles.articleDetails}>
+        <div>
           <span className="secondaryFontColor">
             Skrevet av{' '}
             {authors?.map((e, i) => {
@@ -155,7 +151,11 @@ const ArticleDetail = () => {
                 <span key={e.username}>
                   <Link
                     to={`/users/${e.username}`}
-                    className={sharedStyles.overviewAuthor}
+                    className={
+                      i === authors.length - 1
+                        ? sharedStyles.overviewAuthor
+                        : undefined
+                    }
                   >
                     {' '}
                     {e.fullName}

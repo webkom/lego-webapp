@@ -6,12 +6,12 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import cx from 'classnames';
 import { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
+import { Content } from 'app/components/Content';
 import { Image } from 'app/components/Image';
 import { selectActiveCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -35,11 +35,20 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
               />
             </div>
           </div>
-          <Flex justifyContent="space-between" className={styles.companyInfo}>
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            gap="3rem"
+            className={styles.companyInfo}
+          >
             <Flex
               column
               alignItems="center"
-              className={company.joblistingCount > 0 && styles.interestingCount}
+              className={
+                company.joblistingCount > 0
+                  ? styles.interestingCount
+                  : undefined
+              }
             >
               <Icon name="briefcase" size={20} />
               <span>{company.joblistingCount}</span>
@@ -47,7 +56,9 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
             <Flex
               column
               alignItems="center"
-              className={company.eventCount > 0 && styles.interestingCount}
+              className={
+                company.eventCount > 0 ? styles.interestingCount : undefined
+              }
             >
               <Icon name="calendar-clear" size={20} />
               <span>{company.eventCount}</span>
@@ -76,28 +87,27 @@ const CompaniesPage = () => {
   const top = useRef<HTMLHeadingElement>(null);
 
   const companies = useAppSelector((state) => selectActiveCompanies(state));
-  const fetching = useAppSelector((state) => state.companies.fetching);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       query: {},
       entity: 'companies',
       endpoint: '/companies/',
-    })(state)
+    })(state),
   );
-  const hasMore = pagination.hasMore;
 
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchAllCompanies',
     () => dispatch(fetchAll({ fetchMore: false })),
-    []
+    [],
   );
 
   return (
-    <div className={styles.root}>
+    <Content>
       <Helmet title="Bedrifter" />
       <h1 ref={top}>Bedrifter</h1>
+
       <div>
         <p className={styles.infoText}>
           Vil du jobbe som in-house utvikler i din drømmebedrift? Ser du for deg
@@ -110,7 +120,7 @@ const CompaniesPage = () => {
         {!expanded && (
           <Button
             flat
-            className={cx(styles.readMore, 'accordion')}
+            className={styles.readMore}
             onClick={() => setExpanded(true)}
           >
             Vis mer
@@ -132,7 +142,7 @@ const CompaniesPage = () => {
           </p>
           <Button
             flat
-            className={cx(styles.readMore, 'accordion')}
+            className={styles.readMore}
             onClick={() => {
               setExpanded(false);
               top.current?.scrollIntoView();
@@ -142,32 +152,32 @@ const CompaniesPage = () => {
           </Button>
         </div>
       </div>
-      <Flex
-        justifyContent="center"
-        gap={5}
-        className={styles.iconInfoPlacement}
-      >
-        <Flex>
-          <Icon name="briefcase" size={25} />
-          <span className={styles.iconInfo}> Aktive jobbannonser</span>
+
+      <Flex wrap justifyContent="center" className={styles.iconInfoPlacement}>
+        <Flex gap="var(--spacing-sm)">
+          <Icon name="briefcase" />
+          <span>Aktive jobbannonser</span>
         </Flex>
-        <Flex>
-          <Icon name="calendar-clear" size={25} />
-          <span className={styles.iconInfo}> Kommende arrangementer</span>
+        <Flex gap="var(--spacing-sm)">
+          <Icon name="calendar-clear" />
+          <span>Kommende arrangementer</span>
         </Flex>
       </Flex>
+
       <InfiniteScroll
         element="div"
-        hasMore={hasMore}
+        hasMore={pagination.hasMore}
         loadMore={() =>
-          hasMore && !fetching && dispatch(fetchAll({ fetchMore: true }))
+          pagination.hasMore &&
+          !pagination.fetching &&
+          dispatch(fetchAll({ fetchMore: true }))
         }
         initialLoad={false}
         loader={<LoadingIndicator loading />}
       >
         <CompanyList companies={companies} />
       </InfiniteScroll>
-    </div>
+    </Content>
   );
 };
 

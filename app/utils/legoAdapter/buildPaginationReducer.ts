@@ -1,6 +1,7 @@
 import { parse } from 'qs';
 import {
   isAsyncApiActionBegin,
+  isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
 } from 'app/utils/legoAdapter/asyncApiActions';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -12,13 +13,10 @@ import type {
 } from 'app/utils/legoAdapter/asyncApiActions';
 import type { ParsedQs } from 'qs';
 
-interface Query {
-  [key: string]: string;
-}
-
-export type Pagination = {
+export type Pagination<Id extends EntityId = EntityId> = {
   query: ParsedQs;
-  ids: EntityId[];
+  ids: Id[];
+  fetching: boolean;
   hasMore: boolean;
   hasMoreBackwards: boolean;
   next?: ParsedQs;
@@ -31,31 +29,49 @@ type StateWithPagination = {
   };
 };
 
-const createInitialPagination = (query: Query) => ({
+export const createInitialPagination = <Id extends EntityId = EntityId>(
+  query: ParsedQs,
+): Pagination<Id> => ({
   query,
   ids: [],
+  fetching: false,
   hasMore: false,
   hasMoreBackwards: false,
 });
 
 const buildPaginationReducer = (
   builder: ActionReducerMapBuilder<StateWithPagination>,
-  actionTypes: AsyncActionType[]
+  actionTypes: AsyncActionType[],
 ) => {
   builder.addMatcher(
     isAsyncApiActionBegin.matching<FetchMeta>(actionTypes),
     (state, action) => {
-      state.paginationNext[action.meta.paginationKey ?? ''] ??=
-        createInitialPagination(action.meta.query ?? {});
-    }
+      const paginationKey = action.meta.paginationKey ?? '';
+      state.paginationNext[paginationKey] ??= createInitialPagination(
+        action.meta.query ?? {},
+      );
+      state.paginationNext[paginationKey].fetching = true;
+    },
+  );
+  builder.addMatcher(
+    isAsyncApiActionFailure.matching<FetchMeta>(actionTypes),
+    (state, action) => {
+      const paginationKey = action.meta.paginationKey ?? '';
+      state.paginationNext[paginationKey] ??= createInitialPagination(
+        action.meta.query ?? {},
+      );
+      state.paginationNext[paginationKey].fetching = false;
+    },
   );
   builder.addMatcher(
     isAsyncApiActionSuccess.matching<FetchMeta, FetchPayload>(actionTypes),
     (state, action) => {
-      state.paginationNext[action.meta.paginationKey ?? ''] ??=
-        createInitialPagination(action.meta.query ?? {});
-      const paginationNext =
-        state.paginationNext[action.meta.paginationKey ?? ''];
+      const paginationKey = action.meta.paginationKey ?? '';
+      state.paginationNext[paginationKey] ??= createInitialPagination(
+        action.meta.query ?? {},
+      );
+      const paginationNext = state.paginationNext[paginationKey];
+      paginationNext.fetching = false;
 
       paginationNext.ids = [
         ...new Set(paginationNext.ids.concat(action.payload.result ?? [])),
@@ -75,7 +91,7 @@ const buildPaginationReducer = (
         paginationNext.hasMoreBackwards = false;
         paginationNext.previous = undefined;
       }
-    }
+    },
   );
 };
 

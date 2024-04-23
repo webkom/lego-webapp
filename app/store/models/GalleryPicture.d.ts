@@ -1,16 +1,17 @@
-import type { ID } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface GalleryPicture {
-  id: ID;
-  gallery: ID;
+  id: EntityId;
+  gallery: EntityId;
   description: string;
-  taggees: ID[];
+  taggees: PublicUser[];
   active: boolean;
   file: string;
   thumbnail: string;
   rawFile: string;
-  comments: ID[];
+  comments: EntityId[];
   contentTarget: ContentTarget;
 }
 
@@ -33,4 +34,4 @@ export type GalleryListPicture = Pick<
   | 'contentTarget'
 >;
 
-export type UnknownGalleryPicture = GalleryCoverPicture | GalleryListPicture;
+export type UnknownGalleryPicture = GalleryListPicture;

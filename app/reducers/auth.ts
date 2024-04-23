@@ -1,9 +1,13 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { selectUserEntities } from 'app/reducers/users';
+import { useAppSelector } from 'app/store/hooks';
 import { User } from '../actions/ActionTypes';
-import type { AnyAction } from '@reduxjs/toolkit';
+import type { AnyAction, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
+import type { CurrentUser } from 'app/store/models/User';
 
-type State = {
+type AuthState = {
   id: number | null;
   username: string | null;
   token: string | null;
@@ -13,7 +17,7 @@ type State = {
   studentConfirmed: boolean | null;
 };
 
-const initialState: State = {
+const initialState: AuthState = {
   username: null,
   id: null,
   token: null,
@@ -22,53 +26,66 @@ const initialState: State = {
   registrationToken: null,
   studentConfirmed: null,
 };
-export default function auth(
-  state: State = initialState,
-  action: AnyAction
-): State {
-  switch (action.type) {
-    case User.LOGIN.BEGIN:
-      return { ...state, loggingIn: true, loginFailed: false };
 
-    case User.LOGIN.FAILURE:
-      return { ...state, loggingIn: false, loginFailed: true };
-
-    case User.CREATE_USER.SUCCESS:
-    case User.LOGIN.SUCCESS:
-    case User.REFRESH_TOKEN.SUCCESS:
-      return {
-        ...state,
-        loggingIn: false,
-        token: action.payload.token,
-        registrationToken: null,
-      };
-
-    case User.FETCH.SUCCESS:
+const authSlice = createSlice({
+  name: 'auth',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(User.LOGIN.BEGIN, (state) => {
+      state.loggingIn = true;
+      state.loginFailed = false;
+    });
+    builder.addCase(User.LOGIN.FAILURE, (state) => {
+      state.loggingIn = false;
+      state.loginFailed = true;
+    });
+    builder.addCase(User.FETCH.SUCCESS, (state, action: AnyAction) => {
       if (!action.meta.isCurrentUser) {
-        return state;
+        return;
       }
+      state.id = action.payload.result;
+      state.username =
+        action.payload.entities.users[action.payload.result].username;
+    });
+    builder.addCase(User.LOGOUT, () => initialState);
+    builder.addCase(
+      User.VALIDATE_REGISTRATION_TOKEN.SUCCESS,
+      (state, action: AnyAction) => {
+        state.registrationToken = action.meta.token;
+      },
+    );
 
-      return {
-        ...state,
-        id: action.payload.result,
-        username: action.payload.entities.users[action.payload.result].username,
-      };
+    builder.addMatcher(isLoginTokenAction, (state, action) => {
+      state.loggingIn = false;
+      state.token = action.payload.token;
+      state.registrationToken = null;
+    });
+  },
+});
 
-    case User.LOGOUT:
-      return initialState;
+export default authSlice.reducer;
 
-    case User.VALIDATE_REGISTRATION_TOKEN.SUCCESS:
-      return { ...state, registrationToken: action.meta.token };
+type LoginTokenAction = PayloadAction<{ token: string }>;
+const isLoginTokenAction = (
+  action: UnknownAction,
+): action is LoginTokenAction =>
+  action.type === User.LOGIN.SUCCESS ||
+  action.type === User.CREATE_USER.SUCCESS ||
+  action.type === User.REFRESH_TOKEN.SUCCESS;
 
-    default:
-      return state;
-  }
-}
-export function selectIsLoggedIn(state: RootState) {
-  return state.auth.token !== null;
-}
+export const selectIsLoggedIn = (state: RootState) => state.auth.token !== null;
 export const selectCurrentUser = createSelector(
-  (state) => state.users.byId,
-  (state) => state.auth.id,
-  (usersById, userId) => usersById[userId] || {}
+  selectUserEntities,
+  (state: RootState) => state.auth.id,
+  (userEntities, userId) => {
+    if (!userId) return undefined;
+    const user = userEntities[userId];
+    // ensure we have a user object serialized with "MeSerializer" (CurrentUser type)
+    if (!user || !('icalToken' in user)) return undefined;
+    return user satisfies CurrentUser;
+  },
 );
+
+export const useIsLoggedIn = () => useAppSelector(selectIsLoggedIn);
+export const useCurrentUser = () => useAppSelector(selectCurrentUser);

@@ -5,15 +5,15 @@
 }
 
 .elementsFieldset {
-  margin: 1em 0;
-  padding: 1em;
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-md);
   border: 1px solid var(--border-gray);
   border-radius: var(--border-radius-lg);
 }
 
 .elementsLedgend {
   text-align: center;
-  padding: 0 1em;
+  padding: 0 var(--spacing-md);
 }
 
 .formSeparator {
@@ -38,7 +38,7 @@
   background: var(--danger-color);
   color: var(--color-absolute-white);
   padding: 5px 10px;
-  margin-bottom: 1em;
+  margin-bottom: var(--spacing-md);
   border-radius: var(--border-radius-sm);
 }
 

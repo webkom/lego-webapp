@@ -1,17 +1,17 @@
-import { Route, Routes } from 'react-router-dom';
-import PageNotFound from '../pageNotFound';
-import MeetingDetailWrapper from './MeetingDetailWrapper';
-import MeetingEditor from './components/MeetingEditor';
-import MeetingList from './components/MeetingList';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const MeetingRoute = () => (
-  <Routes>
-    <Route index element={<MeetingList />} />
-    <Route path="create" element={<MeetingEditor />} />
-    <Route path=":meetingId" element={<MeetingDetailWrapper />} />
-    <Route path=":meetingId/edit" element={<MeetingEditor />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const MeetingList = loadable(() => import('./components/MeetingList'));
+const MeetingEditor = loadable(() => import('./components/MeetingEditor'));
+const MeetingDetailWrapper = loadable(() => import('./MeetingDetailWrapper'));
 
-export default MeetingRoute;
+const meetingsRoute: RouteObject[] = [
+  { index: true, Component: MeetingList },
+  { path: 'create', Component: MeetingEditor },
+  { path: ':meetingId', Component: MeetingDetailWrapper },
+  { path: ':meetingId/edit', Component: MeetingEditor },
+  { path: '*', children: pageNotFound },
+];
+
+export default meetingsRoute;

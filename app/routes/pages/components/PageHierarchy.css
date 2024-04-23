@@ -4,15 +4,6 @@
   display: flex;
   flex-direction: column;
   margin: 0;
-
-  @media (--mobile-device) {
-    margin-left: 1.5em;
-  }
-}
-
-.pageList {
-  text-align: left;
-  line-height: 16px;
 }
 
 .pageList a {
@@ -26,44 +17,38 @@
   align-items: center;
   justify-content: space-between;
   font-size: var(--font-size-lg);
-  font-family: Inter, sans-serif;
   font-weight: 500;
   color: var(--lego-font-color);
-  margin-bottom: 0.8em;
+  margin-bottom: var(--spacing-sm);
   border-radius: var(--border-radius-md);
-  padding: 7px 8px;
+  padding: var(--spacing-sm);
   width: 100%;
 }
 
 .dropdownBtn:hover {
-  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
-}
-
-.back > i {
-  padding-right: 10px;
-  color: var(--lego-link-color);
+  background-color: rgba(255, 0, 0, var(--low-alpha));
 }
 
 .links {
-  margin-left: 0.5em;
+  margin-left: var(--spacing-sm);
   width: 93%;
   border-radius: var(--border-radius-md);
 }
 
 .links:hover {
-  background-color: rgba(255, 0, 0, var(--color-red-hover-alpha));
+  background-color: rgba(255, 0, 0, var(--low-alpha));
 }
 
 .nonSelected {
   font-weight: normal;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
   border-radius: var(--border-radius-md);
 }
 
 .selected {
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
   border-radius: var(--border-radius-md);
   color: var(--color-absolute-white);
   background-color: var(--color-red-3);
@@ -71,7 +56,7 @@
 
 .dropdownContainer {
   display: block;
-  margin-bottom: 1em;
+  margin-bottom: var(--spacing-md);
 }
 
 .dropdownIcon {

@@ -8,7 +8,7 @@ interface StateWithActionGrant {
 
 const buildActionGrantReducer = (
   builder: ActionReducerMapBuilder<StateWithActionGrant>,
-  entityType: EntityType
+  entityType: EntityType,
 ) => {
   builder.addMatcher(
     isAsyncApiActionSuccess.withSchemaKey(entityType),
@@ -20,7 +20,7 @@ const buildActionGrantReducer = (
       ) {
         state.actionGrant = action.payload.actionGrant;
       }
-    }
+    },
   );
 };
 

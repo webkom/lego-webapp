@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
 import Circle from 'app/components/Circle';
 import config from 'app/config';
 import { EventTypeConfig } from '../utils';
 import styles from './EventFooter.css';
+import type { IcalToken } from 'app/models';
 
-const icalTypes = [
+const icalTypes: { name: IcalType; title: string }[] = [
   {
     name: 'events',
     title: 'Alle arrangementer',
@@ -19,10 +19,12 @@ const icalTypes = [
   },
 ];
 
-const getIcalUrl = (icalToken, icalType) =>
+type IcalType = 'events' | 'registrations' | 'personal';
+
+export const getIcalUrl = (icalToken: IcalToken, icalType: IcalType) =>
   `${config.serverUrl}/calendar-ical/${icalType}/?token=${icalToken}`;
 
-const getIcalUrlGoogle = (icalToken, icalType) => {
+export const getIcalUrlGoogle = (icalToken: IcalToken, icalType: IcalType) => {
   const icalUrl = getIcalUrl(icalToken, icalType).replace(/^https/i, 'http');
   return `https://www.google.com/calendar/render?cid=${icalUrl}`;
 };
@@ -36,8 +38,8 @@ const EventFooter = ({ icalToken }: Props) => (
     {icalToken && (
       <p className={styles.section}>
         Her kan du importere arrangementer og møter til din favorittkalender!
-        For innstillinger se
-        <Link to="/users/me/settings"> her</Link>.
+        <br />
+        Trykk på en av lenkene under for å legge inn i din kalender.
       </p>
     )}
     <div className={styles.eventFooterSections}>

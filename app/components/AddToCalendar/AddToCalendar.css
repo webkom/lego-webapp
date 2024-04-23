@@ -1,0 +1,13 @@
+.calendarToggleButton {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.calendarImportCard {
+  margin-top: var(--spacing-sm);
+}
+
+.calendarLink {
+  display: block;
+  margin-bottom: var(--spacing-md);
+}

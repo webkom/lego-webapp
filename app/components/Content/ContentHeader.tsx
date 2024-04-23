@@ -15,15 +15,13 @@ type Props = {
   color?: string;
 } & HTMLAttributes<HTMLDivElement>;
 
-const DEFAULT_BORDER_COLOR = '#FCD748';
-
 /**
  * Provides a simple header with a fat bottom border in the given color.
  */
 function ContentHeader({
   children,
   className,
-  borderColor = DEFAULT_BORDER_COLOR,
+  borderColor,
   event,
   ...props
 }: Props) {
@@ -35,7 +33,7 @@ function ContentHeader({
       className={cx(styles.header, className)}
       {...props}
     >
-      <h2>{children}</h2>
+      {children}
       {event && (
         <strong
           style={{

@@ -1,8 +1,8 @@
 import callAPI from 'app/actions/callAPI';
 import { announcementsSchema } from 'app/reducers';
 import { Announcements } from './ActionTypes';
-import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { FormValues as CreateAnnouncementFormValues } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,
@@ -20,43 +20,21 @@ export function fetchAll() {
   });
 }
 
-export function createAnnouncement({
-  message,
-  users,
-  groups,
-  events,
-  meetings,
-  fromGroup,
-  send,
-}: Record<string, any>) {
-  return (dispatch: AppDispatch) =>
-    dispatch(
-      callAPI<DetailedAnnouncement>({
-        types: Announcements.CREATE,
-        endpoint: '/announcements/',
-        method: 'POST',
-        body: {
-          message,
-          users,
-          groups,
-          events,
-          meetings,
-          fromGroup,
-        },
-        schema: announcementsSchema,
-        meta: {
-          errorMessage: 'Opprettelse av kunngjøringer feilet',
-          successMessage: 'Kunngjøring opprettet',
-        },
-      })
-    ).then((action) => {
-      if (send) {
-        dispatch(sendAnnouncement(action.payload.result));
-      }
-    });
+export function createAnnouncement(body: CreateAnnouncementFormValues) {
+  return callAPI<DetailedAnnouncement>({
+    types: Announcements.CREATE,
+    endpoint: '/announcements/',
+    method: 'POST',
+    body,
+    schema: announcementsSchema,
+    meta: {
+      errorMessage: 'Opprettelse av kunngjøringer feilet',
+      successMessage: 'Kunngjøring opprettet',
+    },
+  });
 }
 
-export function sendAnnouncement(announcementId: ID) {
+export function sendAnnouncement(announcementId: EntityId) {
   return callAPI<{ status: string }>({
     types: Announcements.SEND,
     endpoint: `/announcements/${announcementId}/send/`,
@@ -69,7 +47,7 @@ export function sendAnnouncement(announcementId: ID) {
   });
 }
 
-export function deleteAnnouncement(id: ID) {
+export function deleteAnnouncement(id: EntityId) {
   return callAPI({
     types: Announcements.DELETE,
     endpoint: `/announcements/${id}/`,

@@ -1,4 +1,4 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
@@ -13,6 +13,7 @@ type Props = {
   bannerPlaceholder?: string;
   youtubeUrl?: string;
   className?: string;
+  skeleton?: boolean;
   children: ReactNode;
 };
 
@@ -37,11 +38,13 @@ function Content({
   bannerPlaceholder,
   youtubeUrl,
   children,
+  skeleton,
   className,
 }: Props) {
   const [isClicked, click] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const youtubeParams = youtubeUrl && getParamsFromUrl(youtubeUrl);
+
   return (
     <Flex column alignItems="center">
       {!isEmpty(youtubeParams) ? (
@@ -69,6 +72,8 @@ function Content({
             />
           </Flex>
         </div>
+      ) : skeleton ? (
+        <Skeleton className={cx(styles.cover, className)} />
       ) : (
         banner && (
           <div className={cx(styles.cover, className)}>
@@ -85,7 +90,7 @@ function Content({
 
       <div
         className={cx(styles.content, className, {
-          [styles.contentWithBanner]: banner,
+          [styles.contentWithBanner]: banner || skeleton,
         })}
       >
         {children}

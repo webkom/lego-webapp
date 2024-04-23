@@ -42,7 +42,7 @@ const validate = createValidator({
 const AddSemester = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId })
+    selectCompanyById(state, { companyId }),
   );
   const companySemesters = useAppSelector(selectCompanySemesters);
 
@@ -50,8 +50,12 @@ const AddSemester = () => {
 
   usePreparedEffect(
     'fetchAddSemester',
-    () => Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
-    [companyId]
+    () =>
+      Promise.allSettled([
+        dispatch(fetchSemesters()),
+        dispatch(fetchAllAdmin()),
+      ]),
+    [companyId],
   );
 
   const navigate = useNavigate();
@@ -101,7 +105,7 @@ const AddSemester = () => {
           semester: globalSemester.id,
           contactedStatus,
           contract,
-        })
+        }),
       ).then(() => {
         navigate(`/bdb/${companyId}/`);
       });
@@ -111,7 +115,7 @@ const AddSemester = () => {
       addSemester({
         year,
         semester,
-      })
+      }),
     ).then((response) => {
       dispatch(
         addSemesterStatus({
@@ -119,7 +123,7 @@ const AddSemester = () => {
           semester: response.payload.id,
           contactedStatus,
           contract,
-        })
+        }),
       ).then(() => {
         navigate(`/bdb/${companyId}/`);
       });
@@ -199,7 +203,7 @@ const AddSemester = () => {
                     className={styles.semesterStatus}
                     style={{
                       backgroundColor: getStatusColor(
-                        selectMostProminentStatus(input.value.contactedStatus)
+                        selectMostProminentStatus(input.value.contactedStatus),
                       ),
                     }}
                   >
@@ -209,7 +213,7 @@ const AddSemester = () => {
                         input.onChange({
                           contactedStatus: getContactStatuses(
                             input.value.contactedStatus,
-                            status
+                            status,
                           ),
                         });
                       }}

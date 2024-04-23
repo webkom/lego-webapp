@@ -6,11 +6,11 @@ import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
 import styles from './AttendanceModalContent.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
 
 export type Registration = {
-  id: ID;
+  id: EntityId;
   user: PublicUser;
   pool?: Pool;
 };
@@ -40,7 +40,7 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
     onClick={() => togglePool(index)}
     className={cx(
       styles.navButton,
-      activePoolIndex === index && styles.activeItem
+      activePoolIndex === index && styles.activeItem,
     )}
   >
     {name}
@@ -77,16 +77,11 @@ const AttendanceModalContent = ({
           .toLowerCase()
           .includes(filter.toLowerCase());
       }),
-    [filter, amendedPools, selectedPool]
+    [filter, amendedPools, selectedPool],
   );
 
   return (
-    <Flex
-      column
-      justifyContent="space-between"
-      gap={15}
-      className={styles.modal}
-    >
+    <Flex column gap="var(--spacing-md)" className={styles.modal}>
       <h2>{title}</h2>
       <TextInput
         type="text"
@@ -105,7 +100,7 @@ const AttendanceModalContent = ({
                 !isMeeting &&
                   !registration.pool &&
                   amendedPools[selectedPool].name === 'Alle' &&
-                  styles.opacity
+                  styles.opacity,
               )}
             >
               <ProfilePicture size={30} user={registration.user} />
@@ -121,7 +116,7 @@ const AttendanceModalContent = ({
         {amendedPools.map((pool, i) => (
           <Tab
             name={pool.name}
-            key={pool.name} // TODO: Once typed better it shouldn't be too hard to change this into an ID
+            key={pool.name} // TODO: Once typed better it shouldn't be too hard to change this into an id
             index={i}
             activePoolIndex={selectedPool}
             togglePool={togglePool}

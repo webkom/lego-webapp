@@ -1,7 +1,8 @@
-import type { ID, Semester } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { Semester } from 'app/store/models/index';
 
 export default interface CompanySemester {
-  id: ID;
+  id: EntityId;
   semester: Semester;
   year: number;
   activeInterestForm?: boolean;

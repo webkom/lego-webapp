@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .comment {
-  padding: 1rem;
+  padding: var(--spacing-md);
 
   :global {
     /* stylelint-disable-next-line selector-class-pattern */
@@ -24,8 +24,12 @@
   white-space: nowrap;
 }
 
+.timestampTooltip {
+  width: fit-content;
+}
+
 .text {
-  margin: 1rem 0;
+  margin: var(--spacing-md) 0;
 }
 
 .anonymousProfilePicture {

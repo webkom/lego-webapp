@@ -1,14 +1,20 @@
 import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
-import { createContext, type ReactElement, type ReactNode } from 'react';
+import { type ReactElement, type ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { StaticRouter } from 'react-router-dom/server';
+import {
+  createStaticHandler,
+  createStaticRouter,
+  StaticRouterProvider,
+} from 'react-router-dom/server';
 import createStore from 'app/store/createStore';
-import RouteConfig from '../app/routes';
+import routerConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
+import createFetchRequest from './request';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Request, Response } from 'express';
+import type { StaticHandlerContext } from 'react-router-dom/server';
 
 const serverSideTimeoutInMs = 4000;
 export const helmetContext = {}; // AntiPattern because of babel
@@ -31,28 +37,26 @@ const prepareWithTimeout = (app: ReactNode): Promise<string> =>
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {
       throw new TimeoutError(
-        'React prepare timeout when server side rendering.'
+        'React prepare timeout when server side rendering.',
       );
     }),
   ]);
 
-const createServerSideRenderer = (req: Request, res: Response) => {
+const createServerSideRenderer = async (req: Request, res: Response) => {
   const render = (
     app?: ReactElement,
     state: RootState | Record<string, never> = Object.freeze({}),
-    preparedStateCode?: string
+    preparedStateCode?: string,
   ) => {
     return res.send(
       pageRenderer({
         app,
         state,
         preparedStateCode,
-      })
+      }),
     );
   };
 
-  const StaticContext = createContext({});
-  const context = {};
   const log = req.app.get('log');
 
   const store = createStore(
@@ -60,7 +64,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     {
       Sentry,
       getCookie: (key) => req.cookies[key],
-    }
+    },
   );
 
   const providerData = {
@@ -79,14 +83,15 @@ const createServerSideRenderer = (req: Request, res: Response) => {
     providerData.storeState = newStoreState;
   });
 
+  const { query, dataRoutes } = createStaticHandler(routerConfig);
+  const fetchRequest = createFetchRequest(req, res);
+  const context = (await query(fetchRequest)) as StaticHandlerContext;
+  const router = createStaticRouter(dataRoutes, context);
+
   const app = (
     <HelmetProvider context={helmetContext}>
       <Provider store={store}>
-        <StaticRouter location={req.url}>
-          <StaticContext.Provider value={context}>
-            <RouteConfig />
-          </StaticContext.Provider>
-        </StaticRouter>
+        <StaticRouterProvider router={router} context={context} />
       </Provider>
     </HelmetProvider>
   );
@@ -125,7 +130,7 @@ const createServerSideRenderer = (req: Request, res: Response) => {
         }
 
         respond();
-      }
+      },
     )
     .catch((error) => {
       reportError(error);

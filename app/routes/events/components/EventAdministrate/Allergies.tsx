@@ -1,52 +1,53 @@
 import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { isEmpty } from 'lodash';
 import { Link, useParams } from 'react-router-dom';
 import { fetchAllergies } from 'app/actions/EventActions';
 import Table from 'app/components/Table';
+import { useCurrentUser } from 'app/reducers/auth';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AdministrateEvent } from 'app/store/models/Event';
 import type { CurrentUser } from 'app/store/models/User';
 
 export const canSeeAllergies = (
   currentUser?: CurrentUser,
-  event?: AdministrateEvent
+  event?: AdministrateEvent,
 ) => {
-  if (!currentUser || !event) {
+  if (!currentUser || !event || isEmpty(event)) {
     return false;
   }
   return (
     currentUser.id === event.createdBy?.id ||
-    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as ID)
+    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as EntityId)
   );
 };
 
 const Allergies = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId })
+    selectEventById(state, { eventId }),
   ) as AdministrateEvent;
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId,
-    })
+    }),
   );
   const registeredAllergies = registered.filter((registration) => {
     return registration?.user.allergies;
   });
   const fetching = useAppSelector((state) => state.events.fetching);
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchAllergies',
     () => eventId && dispatch(fetchAllergies(eventId)),
-    [eventId]
+    [eventId],
   );
 
   if (!event?.id) {
@@ -60,7 +61,7 @@ const Allergies = () => {
   const data = registeredAllergies
     .filter(
       (registration) =>
-        getRegistrationInfo(registration).status !== 'Venteliste'
+        getRegistrationInfo(registration).status !== 'Venteliste',
     )
     .map((registration) => registration.user.allergies)
     .join('\n');
@@ -68,7 +69,7 @@ const Allergies = () => {
   const allergiesTXT = URL.createObjectURL(
     new Blob([data], {
       type: 'text/plain',
-    })
+    }),
   );
 
   const initialColumns = [
@@ -102,7 +103,7 @@ const Allergies = () => {
       },
     },
     {
-      title: 'Matallergier / Preferanser',
+      title: 'Matallergier / preferanser',
       dataIndex: 'user.allergies',
       centered: false,
       render: (allergies) => <span>{allergies}</span>,

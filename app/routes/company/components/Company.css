@@ -1,8 +1,10 @@
 @import url('~app/styles/variables.css');
 
-.sectionHeader {
-  font-size: var(--font-size-lg);
-  margin-top: 20px;
-  border-bottom: 1px solid var(--border-gray);
-  margin-bottom: 20px;
+.companyInfo {
+  min-width: 180px;
+  min-height: 21px;
+}
+
+.toggleEventsView {
+  margin: var(--spacing-sm) 0;
 }

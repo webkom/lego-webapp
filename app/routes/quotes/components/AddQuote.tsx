@@ -3,12 +3,12 @@ import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { addQuotes } from 'app/actions/QuoteActions';
-import { addToast } from 'app/actions/ToastActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
+import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -52,7 +52,7 @@ const AddQuote = () => {
       addQuotes({
         text: quote.text,
         source: removeUnnecessaryDash(quote.source),
-      })
+      }),
     ).then(() => {
       navigate('/quotes');
       dispatch(
@@ -60,7 +60,7 @@ const AddQuote = () => {
           message:
             'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
           dismissAfter: 10000,
-        })
+        }),
       );
     });
 

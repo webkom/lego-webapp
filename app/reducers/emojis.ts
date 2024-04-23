@@ -1,25 +1,23 @@
-import { createSelector } from 'reselect';
+import { createSlice } from '@reduxjs/toolkit';
 import { Emoji } from 'app/actions/ActionTypes';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import type { RootState } from 'app/store/createRootReducer';
 
-export const selectEmojis = createSelector(
-  (state) => state.emojis.byId,
-  (state) => state.emojis.items,
-  (emojisById, emojiIds) => {
-    return emojiIds.map((id) => emojisById[id]);
-  }
-);
-export const selectEmojisById = createSelector(
-  selectEmojis,
-  (state, emojisId) => emojisId,
-  (emojis, emojisId) => {
-    if (!emojis || !emojisId) return {};
-    return emojis.find((emojis) => emojis.shortCode === emojisId);
-  }
-);
-export default createEntityReducer({
-  key: 'emojis',
-  types: {
-    fetch: [Emoji.FETCH, Emoji.FETCH_ALL],
-  },
+const legoAdapter = createLegoAdapter(EntityType.Emojis, {
+  selectId: (emoji) => emoji.shortCode,
 });
+
+const emojisSlice = createSlice({
+  name: EntityType.Emojis,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Emoji.FETCH, Emoji.FETCH_ALL],
+  }),
+});
+
+export default emojisSlice.reducer;
+export const { selectAll: selectEmojis } = legoAdapter.getSelectors<RootState>(
+  (state) => state.emojis,
+);

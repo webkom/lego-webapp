@@ -1,4 +1,4 @@
-import type { ID } from 'app/store/models/index';
+import type { EntityId } from '@reduxjs/toolkit';
 
 export enum MeetingInvitationStatus {
   NoAnswer = 'NO_ANSWER',
@@ -7,7 +7,7 @@ export enum MeetingInvitationStatus {
 }
 
 export interface MeetingInvitation {
-  user: ID;
+  user: EntityId;
   status: MeetingInvitationStatus;
-  meeting: ID;
+  meeting: EntityId;
 }

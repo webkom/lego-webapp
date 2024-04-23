@@ -9,9 +9,9 @@ import {
 } from 'app/actions/SurveySubmissionActions';
 import { Content, ContentHeader } from 'app/components/Content';
 import Time from 'app/components/Time';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/AlreadyAnswered';
 import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
 import styles from 'app/routes/surveys/components/surveys.css';
@@ -19,31 +19,37 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
 
+type AddSubmissionPageParams = {
+  surveyId: string;
+};
 const AddSubmissionPage = () => {
   const dispatch = useAppDispatch();
-  const { surveyId } = useParams<{ surveyId: string }>();
-  const { currentUser } = useUserContext();
-  const survey = useFetchedSurvey('addSubmission', surveyId);
-  const submission = useAppSelector((state) =>
-    selectSurveySubmissionForUser(state, {
-      surveyId: Number(surveyId),
-      currentUserId: currentUser.id,
-    })
+  const { surveyId } =
+    useParams<AddSubmissionPageParams>() as AddSubmissionPageParams;
+  const currentUser = useCurrentUser();
+  const { survey, event } = useFetchedSurvey('addSubmission', surveyId);
+  const submission = useAppSelector(
+    (state) =>
+      currentUser &&
+      selectSurveySubmissionForUser(state, {
+        surveyId: Number(surveyId),
+        currentUserId: currentUser.id,
+      }),
   );
 
   const fetchingSubmission = useAppSelector(
-    (state) => state.surveySubmissions.fetching
+    (state) => state.surveySubmissions.fetching,
   );
 
   usePreparedEffect(
     'fetchAddSubmissionSurveySubmission',
     () =>
-      currentUser.id &&
+      currentUser?.id &&
       dispatch(fetchUserSubmission(Number(surveyId), Number(currentUser.id))),
-    [surveyId, currentUser.id]
+    [surveyId, currentUser?.id],
   );
 
-  if (!survey || !currentUser.id || fetchingSubmission) {
+  if (!survey || !event || !currentUser || fetchingSubmission) {
     return <LoadingIndicator loading />;
   }
 
@@ -85,13 +91,15 @@ const AddSubmissionPage = () => {
   };
 
   return (
-    <Content banner={survey.event.cover}>
+    <Content banner={event.cover}>
       <Helmet title={`Besvarer: ${survey.title}`} />
-      <ContentHeader>{survey.title}</ContentHeader>
+      <ContentHeader>
+        <h2>{survey.title}</h2>
+      </ContentHeader>
 
       <div className={styles.surveyTime}>
         Spørreundersøkelse for arrangementet{' '}
-        <Link to={`/events/${survey.event.id}`}>{survey.event.title}</Link>
+        <Link to={`/events/${event.id}`}>{event.title}</Link>
       </div>
       <div className={styles.surveyTime}>
         Alle svar på spørreundersøkelser er anonyme.

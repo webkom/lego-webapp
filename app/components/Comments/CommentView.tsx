@@ -8,7 +8,7 @@ import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { CSSProperties } from 'react';
 
 type Props = {
-  comments: Array<Comment>;
+  comments: Comment[];
   formDisabled?: boolean;
   contentTarget: ContentTarget;
   displayTitle?: boolean;
@@ -37,12 +37,7 @@ const CommentView = (props: Props) => {
   return (
     <div style={style}>
       <Title displayTitle={displayTitle} />
-      <Flex
-        gap="1rem"
-        style={{
-          flexDirection: newOnTop ? 'column-reverse' : 'column',
-        }}
-      >
+      <Flex column gap="var(--spacing-sm)">
         {!formDisabled && <CommentForm {...commentFormProps} />}
 
         <LoadingIndicator loading={!comments}>

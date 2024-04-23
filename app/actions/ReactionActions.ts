@@ -1,8 +1,8 @@
 import callAPI from 'app/actions/callAPI';
 import { Reaction } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
-import type { ID } from 'app/store/models';
 import type { ReactionResponse } from 'app/store/models/Reaction';
 import type { CurrentUser } from 'app/store/models/User';
 import type { HttpError } from 'app/utils/fetchJSON';
@@ -34,7 +34,7 @@ export function addReaction({
           contentTarget,
           unicodeString,
         },
-      })
+      }),
     ).catch(
       (action: RejectedPromiseAction<HttpError, Record<string, unknown>>) => {
         const status = action.payload.response?.status;
@@ -48,7 +48,7 @@ export function addReaction({
 
         action.meta.errorMessage = errorMessage;
         dispatch(action);
-      }
+      },
     );
   };
 }
@@ -56,7 +56,7 @@ export function deleteReaction({
   reactionId,
   contentTarget,
 }: {
-  reactionId: ID;
+  reactionId: EntityId;
   contentTarget: string;
 }) {
   return callAPI<void>({

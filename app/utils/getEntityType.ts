@@ -7,10 +7,11 @@ const entityTypeMappings = {
   'companies.company': EntityType.Companies,
   'meetings.meeting': EntityType.Meetings,
   'gallery.gallerypicture': EntityType.GalleryPictures,
+  'forums.thread': EntityType.Thread,
 };
 export type EntityServerName = keyof typeof entityTypeMappings;
 export default function getEntityType(
-  serverName: EntityServerName
+  serverName: EntityServerName,
 ): EntityType {
   return entityTypeMappings[serverName];
 }

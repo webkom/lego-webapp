@@ -6,8 +6,8 @@ import { ContentSidebar } from 'app/components/Content';
 import { CheckBox } from 'app/components/Form';
 import config from 'app/config';
 import { useAppDispatch } from 'app/store/hooks';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 
 type GeneratedCSV = {
   url: string;
@@ -15,7 +15,7 @@ type GeneratedCSV = {
 };
 
 type Props = {
-  surveyId: ID;
+  surveyId: EntityId;
   actionGrant: ActionGrant;
   token: string | null;
   exportSurvey?: () => Promise<GeneratedCSV>;

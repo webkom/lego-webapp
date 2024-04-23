@@ -5,20 +5,16 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import {
-  fetchAll as fetchMeetings,
-  getEndpoint,
-} from 'app/actions/MeetingActions';
+import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-import { selectCurrentUser, selectIsLoggedIn } from 'app/reducers/auth';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilStyles from 'app/styles/utilities.css';
-import createQueryString from 'app/utils/createQueryString';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
@@ -35,7 +31,7 @@ type AccountDropdownItemsProps = {
 const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const username = useAppSelector(selectCurrentUser)?.username;
+  const username = useCurrentUser()?.username;
 
   return (
     <Dropdown.List>
@@ -87,12 +83,6 @@ const UpcomingMeetingButton = () => {
   const upcomingMeetingId = useAppSelector(selectUpcomingMeetingId);
   const navigate = useNavigate();
 
-  const pagination = useAppSelector((state) => state.meetings.pagination);
-  const queryString = createQueryString({
-    date_after: moment().format('YYYY-MM-DD'),
-  });
-  const endpoint = getEndpoint(pagination, queryString);
-
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -100,10 +90,12 @@ const UpcomingMeetingButton = () => {
     () =>
       dispatch(
         fetchMeetings({
-          endpoint,
-        })
+          query: {
+            date_after: moment().format('YYYY-MM-DD'),
+          },
+        }),
       ),
-    [endpoint]
+    [],
   );
 
   if (!upcomingMeetingId) return;
@@ -135,8 +127,8 @@ const HeaderLogo = () => {
 };
 
 const AccountDropdown = () => {
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-  const currentUser = useAppSelector(selectCurrentUser);
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
   const [accountOpen, setAccountOpen] = useState(false);
 
   return loggedIn ? (
@@ -144,13 +136,15 @@ const AccountDropdown = () => {
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
       triggerComponent={
-        <ProfilePicture
-          size={24}
-          user={currentUser}
-          style={{
-            verticalAlign: 'middle',
-          }}
-        />
+        currentUser && (
+          <ProfilePicture
+            size={24}
+            user={currentUser}
+            style={{
+              verticalAlign: 'middle',
+            }}
+          />
+        )
       }
     >
       <AccountDropdownItems onClose={() => setAccountOpen(false)} />
@@ -184,14 +178,15 @@ const SearchModal = () => {
 
 const Header = () => {
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(selectIsLoggedIn);
-  const currentUser = useAppSelector(selectCurrentUser);
+  const loggedIn = useIsLoggedIn();
+  const currentUser = useCurrentUser();
 
   useEffect(() => {
     if (
       __CLIENT__ &&
       loggedIn &&
-      (currentUser?.selectedTheme === 'auto'
+      currentUser &&
+      (currentUser.selectedTheme === 'auto'
         ? getTheme() !== getOSTheme()
         : getTheme() !== currentUser.selectedTheme)
     ) {

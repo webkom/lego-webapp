@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Textarea from 'react-textarea-autosize';
 import { createField } from './Field';
@@ -10,15 +11,17 @@ type Props = {
   readOnly?: boolean;
 } & ComponentProps<typeof Textarea>;
 
-function TextArea({ className, inputRef, readOnly, ...props }: Props) {
+const TextArea = ({ className, inputRef, readOnly, ...props }: Props) => {
   return (
-    <Textarea
-      ref={inputRef}
-      className={cx(styles.input, readOnly, className)}
-      {...props}
-    />
+    <Flex>
+      <Textarea
+        ref={inputRef}
+        className={cx(styles.input, readOnly, className)}
+        {...props}
+      />
+    </Flex>
   );
-}
+};
 
 TextArea.Field = createField(TextArea);
 export default TextArea;

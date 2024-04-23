@@ -42,9 +42,9 @@ export const roleOptions = (Object.keys(ROLES) as RoleType[])
   }));
 
 /*
- * Use the production group ID (11) if the ENVIRONMENT environment value is 'production' or 'staging'
+ * Use the production group id (11) if the ENVIRONMENT environment value is 'production' or 'staging'
  * (i.e. abakus.no, webapp-staging.abakus.no) or if it's run locally through yarn start:staging 'local_staging'.
- * Use the local backend group ID (12) if the webapp is running with yarn start.
+ * Use the local backend group id (12) if the webapp is running with yarn start.
  */
 export const WEBKOM_GROUP_ID: number =
   config.environment &&

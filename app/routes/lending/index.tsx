@@ -1,31 +1,25 @@
-import { Route, Routes } from 'react-router-dom';
-import LendableObjectDetail from 'app/routes/lending/components/LendableObjectDetail';
-import LendableObjectEdit from 'app/routes/lending/components/LendableObjectEdit';
-import LendableObjectsList from 'app/routes/lending/components/LendableObjectsList';
-import PageNotFound from 'app/routes/pageNotFound';
-import LendableObjectAdminDetail from './components/LendableObjectAdminDetail';
-import LendingAdmin from './components/LendingAdmin';
-import LendingRequest from './components/LendingRequest';
-import LendingRequestAdmin from './components/LendingRequestAdmin';
+import loadable from '@loadable/component';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router-dom';
 
-const LendingRoute = () => (
-  <Routes>
-    <Route index element={<LendableObjectsList />} />
-    <Route path="create" element={<LendableObjectEdit />} />
-    <Route path=":lendableObjectId" element={<LendableObjectDetail />} />
-    <Route path=":lendableObjectId/edit" element={<LendableObjectEdit />} />
-    <Route
-      path=":lendableObjectId/admin"
-      element={<LendableObjectAdminDetail />}
-    />
-    <Route path="request/:lendingRequestId" element={<LendingRequest />} />
-    <Route
-      path="request/:lendingRequestId/admin"
-      element={<LendingRequestAdmin />}
-    />
-    <Route path="admin/*" element={<LendingAdmin />} />
-    <Route path="*" element={<PageNotFound />} />
-  </Routes>
-);
+const LendableObjectsList = loadable(() => import('./components/LendableObjectsList'));
+const LendableObjectEdit = loadable(() => import('./components/LendableObjectEdit'));
+const LendableObjectDetail = loadable(() => import('./components/LendableObjectDetail'));
+const LendableObjectAdminDetail = loadable(() => import('./components/LendableObjectAdminDetail'));
+const LendingAdmin = loadable(() => import('./components/LendingAdmin'));
+const LendingRequest = loadable(() => import('./components/LendingRequest'));
+const LendingRequestAdmin = loadable(() => import('./components/LendingRequestAdmin'));
 
-export default LendingRoute;
+const lendingRoute: RouteObject[] = [
+  { index: true, Component: LendableObjectsList },
+  { path: 'create', Component: LendableObjectEdit },
+  { path: ':lendableObjectId', Component: LendableObjectDetail },
+  { path: ':lendableObjectId/edit', Component: LendableObjectEdit },
+  { path: 'admin/:lendableObjectId', Component: LendableObjectAdminDetail },
+  { path: 'admin', Component: LendingAdmin },
+  { path: 'request', Component: LendingRequest },
+  { path: 'request/admin', Component: LendingRequestAdmin },
+  { path: '*', children: pageNotFound },
+]
+
+export default lendingRoute;

@@ -1,10 +1,10 @@
-import { addToast } from 'app/actions/ToastActions';
 import callAPI from 'app/actions/callAPI';
 import { companyInterestSchema } from 'app/reducers';
+import { addToast } from 'app/reducers/toasts';
 import { CompanyInterestForm } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
 import type {
   DetailedCompanyInterest,
   ListCompanyInterest,
@@ -22,7 +22,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchCompanyInterest(companyInterestId: ID) {
+export function fetchCompanyInterest(companyInterestId: EntityId) {
   return callAPI<DetailedCompanyInterest>({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,
@@ -35,7 +35,7 @@ export function fetchCompanyInterest(companyInterestId: ID) {
 
 export function createCompanyInterest(
   data: CompanyInterestEntity,
-  isEnglish: boolean
+  isEnglish: boolean,
 ) {
   return (dispatch: AppDispatch) => {
     return dispatch(
@@ -48,20 +48,20 @@ export function createCompanyInterest(
         meta: {
           errorMessage: 'Opprette bedriftsinteresse feilet',
         },
-      })
+      }),
     ).then(() =>
       dispatch(
         addToast({
           message: isEnglish
             ? 'Submission successful!'
             : 'Bedriftsinteresse opprettet!',
-        })
-      )
+        }),
+      ),
     );
   };
 }
 
-export function deleteCompanyInterest(id: ID) {
+export function deleteCompanyInterest(id: EntityId) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -72,18 +72,21 @@ export function deleteCompanyInterest(id: ID) {
           id,
           errorMessage: 'Fjerning av bedriftsinteresse feilet!',
         },
-      })
+      }),
     ).then(() =>
       dispatch(
         addToast({
           message: 'Bedriftsinteresse fjernet!',
-        })
-      )
+        }),
+      ),
     );
   };
 }
 
-export function updateCompanyInterest(id: ID, data: CompanyInterestEntity) {
+export function updateCompanyInterest(
+  id: EntityId,
+  data: CompanyInterestEntity,
+) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -96,7 +99,7 @@ export function updateCompanyInterest(id: ID, data: CompanyInterestEntity) {
           errorMessage: 'Endring av bedriftsinteresse feilet!',
           successMessage: 'Bedriftsinteresse endret!',
         },
-      })
+      }),
     );
   };
 }
@@ -120,7 +123,7 @@ export function fetch({
           errorMessage: 'Henting av bedriftsinteresser feilet',
         },
         propagateError: true,
-      })
+      }),
     );
   };
 }

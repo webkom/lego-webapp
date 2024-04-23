@@ -41,7 +41,7 @@ const AuthSection = () => {
     <>
       <Flex
         wrap
-        gap="0.5rem"
+        gap="var(--spacing-sm)"
         component="h2"
         justifyContent="space-between"
         alignItems="center"
@@ -52,7 +52,7 @@ const AuthSection = () => {
       >
         {title}
         {authMode === AuthMode.LOGIN ? (
-          <Flex gap="0.5rem">
+          <Flex gap="var(--spacing-sm)">
             <button
               onClick={createModeSelector(AuthMode.FORGOT_PASSWORD)}
               className={styles.toggleButton}

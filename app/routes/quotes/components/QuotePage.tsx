@@ -1,6 +1,5 @@
 import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import cx from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
@@ -47,13 +46,14 @@ const QuotePage = () => {
       endpoint: `/quotes/`,
       query: query,
       entity: 'quotes',
-    })(state)
+    })(state),
   );
   const showFetchMore = !isSingle && pagination.hasMore;
 
   const quotes = useAppSelector((state) => {
     if (quoteId) {
-      return [selectQuoteById(state, quoteId)];
+      const quote = selectQuoteById(state, quoteId);
+      return quote ? [quote] : [];
     }
     return selectQuotes(state, { pagination });
   });
@@ -68,7 +68,7 @@ const QuotePage = () => {
   }
 
   const ordering = orderingOptions.find(
-    (option) => option.value === query.ordering
+    (option) => option.value === query.ordering,
   );
 
   const dispatch = useAppDispatch();
@@ -76,15 +76,15 @@ const QuotePage = () => {
   usePreparedEffect(
     'fetchQuotePage',
     () =>
-      Promise.resolve([
+      Promise.allSettled([
         quoteId ? dispatch(fetchQuote(quoteId)) : dispatch(fetchAll({ query })),
         dispatch(fetchEmojis()),
       ]),
-    [query]
+    [quoteId, query],
   );
 
   return (
-    <div className={cx(styles.root, styles.quoteContainer)}>
+    <div className={styles.root}>
       <Helmet title="Overhørt" />
       {navigation('Overhørt', actionGrant)}
 
@@ -105,22 +105,22 @@ const QuotePage = () => {
 
       {errorMessage || <QuoteList actionGrant={actionGrant} quotes={quotes} />}
 
-      {showFetchMore && (
-        <LoadingIndicator loading={fetching}>
+      <LoadingIndicator loading={fetching}>
+        {showFetchMore && (
           <Button
             onClick={() =>
               dispatch(
                 fetchAll({
                   query,
                   next: true,
-                })
+                }),
               )
             }
           >
             Last inn flere
           </Button>
-        </LoadingIndicator>
-      )}
+        )}
+      </LoadingIndicator>
     </div>
   );
 };

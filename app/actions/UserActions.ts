@@ -5,16 +5,16 @@ import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';
+import { setStatusCode } from 'app/reducers/routing';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
-import { setStatusCode } from './RoutingActions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
 import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
-import type { ID } from 'app/store/models';
 import type { Penalty as PenaltyType } from 'app/store/models/Penalty';
 import type { CurrentUser, UpdateUser } from 'app/store/models/User';
 import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
@@ -65,7 +65,7 @@ export function login(username: string, password: string) {
         meta: {
           errorMessage: 'Kunne ikke logge inn',
         },
-      })
+      }),
     ).then((action) => {
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
@@ -76,6 +76,7 @@ export function login(username: string, password: string) {
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),
         meta: {
+          endpoint: `/users/me/`,
           isCurrentUser: true,
         },
       });
@@ -98,7 +99,7 @@ export function updateUser(
     updateProfilePicture?: boolean;
   } = {
     updateProfilePicture: false,
-  }
+  },
 ) {
   const {
     username,
@@ -167,7 +168,7 @@ export function changePassword({
     },
   });
 }
-export function changeGrade(groupId: ID, username: string) {
+export function changeGrade(groupId: EntityId, username: string) {
   return callAPI({
     types: User.UPDATE,
     endpoint: `/users/${username}/change_grade/`,
@@ -201,7 +202,7 @@ export function removePicture(username: string) {
 export function updatePhotoConsent(
   photoConsent: PhotoConsent,
   username: string,
-  userId: number
+  userId: number,
 ) {
   const { year, semester, domain, isConsenting } = photoConsent;
   return callAPI({
@@ -233,7 +234,7 @@ export function updatePicture({
     return dispatch(
       uploadFile({
         file: picture,
-      })
+      }),
     ).then((action) =>
       dispatch(
         updateUser(
@@ -244,9 +245,9 @@ export function updatePicture({
           {
             noRedirect: true,
             updateProfilePicture: true,
-          }
-        )
-      )
+          },
+        ),
+      ),
     );
   };
 }
@@ -257,7 +258,7 @@ const defaultOptions = {
 
 export function fetchUser(
   username = 'me',
-  { propagateError } = defaultOptions
+  { propagateError } = defaultOptions,
 ) {
   return callAPI<CurrentUser>({
     types: User.FETCH,
@@ -366,7 +367,7 @@ export function validateRegistrationToken(token: string) {
           errorMessage: 'Validering av registrerings-token feilet',
           token,
         },
-      })
+      }),
     );
 }
 
@@ -429,7 +430,7 @@ export type ConfirmStudentAuthResponse =
   | ConfirmStudentAuthErrorResponse;
 export function confirmStudentAuth(
   code: string | qs.ParsedQs | string[] | qs.ParsedQs[],
-  state: string | qs.ParsedQs | string[] | qs.ParsedQs[]
+  state: string | qs.ParsedQs | string[] | qs.ParsedQs[],
 ) {
   return callAPI<ConfirmStudentAuthResponse>({
     types: User.COMPLETE_STUDENT_AUTH,
@@ -456,10 +457,10 @@ export function sendForgotPasswordEmail({ email }: { email: string }) {
 }
 
 export type AddPenaltyBody = {
-  user: ID;
+  user: EntityId;
   reason: string;
   weight: number;
-  sourceEvent: ID;
+  sourceEvent: EntityId;
 };
 export function addPenalty(body: AddPenaltyBody) {
   return callAPI<PenaltyType>({
@@ -474,14 +475,14 @@ export function addPenalty(body: AddPenaltyBody) {
   });
 }
 
-export function deletePenalty(id: ID) {
+export function deletePenalty(id: EntityId) {
   return callAPI({
     types: Penalty.DELETE,
     endpoint: `/penalties/${id}/`,
     method: 'DELETE',
     schema: penaltySchema,
     meta: {
-      penaltyId: id,
+      id,
       errorMessage: 'Sletting av prikk feilet',
     },
     body: {},
@@ -517,6 +518,6 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
     },
     {
       noRedirect: true,
-    }
+    },
   );
 }

@@ -1,49 +1,36 @@
-import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { createSlice } from '@reduxjs/toolkit';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Joblistings } from '../actions/ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
+import type { UnknownJoblisting } from 'app/store/models/Joblisting';
 
-export default createEntityReducer({
-  key: 'joblistings',
-  types: {
-    fetch: Joblistings.FETCH,
-    mutate: Joblistings.CREATE,
-    delete: Joblistings.DELETE,
-  },
+const legoAdapter = createLegoAdapter(EntityType.Joblistings);
+
+export const joblistingsSlice = createSlice({
+  name: EntityType.Joblistings,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Joblistings.FETCH],
+    deleteActions: [Joblistings.DELETE],
+  }),
 });
 
-export const selectJoblistings = createSelector(
-  (state) => state.joblistings.byId,
-  (state) => state.joblistings.items,
-  (joblistingsById, joblistingIds) =>
-    joblistingIds.map((id) => joblistingsById[id])
-);
+export default joblistingsSlice.reducer;
 
-export const selectJoblistingById = createSelector(
-  (state) => state.joblistings.byId,
-  (state, props) => props.joblistingId,
-  (joblistingsById, joblistingId) => joblistingsById[joblistingId]
-);
+export const {
+  selectAllPaginated: selectAllJoblistings,
+  selectById: selectJoblistingById,
+  selectByField: selectJoblistingsByField,
+} = legoAdapter.getSelectors((state: RootState) => state.joblistings);
 
-export const selectJoblistingBySlug = createSelector(
-  (state) => state.joblistings.byId,
-  (state, props) => props.joblistingSlug,
-  (joblistingsById, joblistingSlug) => {
-    const joblisting = Object.values(joblistingsById).find(
-      (joblisting) => joblisting.slug === joblistingSlug
-    );
-    return joblisting;
-  }
-);
+export const selectJoblistingBySlug = selectJoblistingsByField('slug').single;
 
-export const selectJoblistingByIdOrSlug = createSelector(
-  (state, props) => {
-    const { joblistingIdOrSlug } = props;
-    if (!isNaN(Number(joblistingIdOrSlug))) {
-      return selectJoblistingById(state, { joblistingId: joblistingIdOrSlug });
-    }
-    return selectJoblistingBySlug(state, {
-      joblistingSlug: joblistingIdOrSlug,
-    });
-  },
-  (joblisting) => joblisting
-);
+export const selectJoblistingByIdOrSlug = <T extends UnknownJoblisting>(
+  state: RootState,
+  idOrSlug?: EntityId | string,
+) =>
+  selectJoblistingById<T>(state, idOrSlug) ||
+  selectJoblistingBySlug<T>(state, String(idOrSlug));

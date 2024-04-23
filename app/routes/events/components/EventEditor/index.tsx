@@ -1,74 +1,40 @@
-import {
-  ConfirmModal,
-  Flex,
-  Icon,
-  LoadingIndicator,
-  Modal,
-} from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
+import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
-import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
 import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
 import {
   uploadFile as _uploadFile,
   fetchImageGallery,
   setSaveForUse,
 } from 'app/actions/FileActions';
-import {
-  Content,
-  ContentSection,
-  ContentMain,
-  ContentSidebar,
-} from 'app/components/Content';
-import {
-  Form,
-  EditorField,
-  SelectInput,
-  TextInput,
-  TextEditor,
-  CheckBox,
-  Button,
-  DatePicker,
-  ImageUploadField,
-  LegoFinalForm,
-} from 'app/components/Form';
+import { Content } from 'app/components/Content';
+import { Form, CheckBox, Button, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { Image } from 'app/components/Image';
-import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
-import Tag from 'app/components/Tags/Tag';
-import { FormatTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import {
   selectEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
-import { selectImageGalleryEntries } from 'app/reducers/imageGallery';
+import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
-  colorForEventType,
-  containsAllergier,
-  eventStatusTypes,
-  isTBA,
-  tooLow,
   transformEvent,
   transformEventStatusType,
-  EventTypeConfig,
   displayNameForEventType,
 } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
   conditionalValidation,
   createValidator,
   isInteger,
+  legoEditorRequired,
   maxSize,
   mergeTimeAfterAllPoolsActivation,
   minSize,
@@ -79,9 +45,15 @@ import {
   validYoutubeUrl,
 } from 'app/utils/validation';
 import Admin from '../Admin';
+import EditorSection, {
+  Header,
+  Details,
+  Registration,
+  Descriptions,
+} from './EditorSection';
 import styles from './EventEditor.css';
-import renderPools from './renderPools';
 import type { UploadArgs } from 'app/actions/FileActions';
+import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { DetailedUser } from 'app/store/models/User';
 
@@ -91,15 +63,13 @@ const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
   title: [required('Tittel er påkrevd')],
   description: [required('Kalenderbeskrivelse er påkrevd')],
+  text: [legoEditorRequired('Innhold er påkrevd')],
   eventType: [required('Arrangementstype er påkrevd')],
   location: [
     requiredIf((allValues) => !allValues.useMazemap, 'Sted er påkrevd'),
   ],
   mazemapPoi: [
-    requiredIf(
-      (allValues) => allValues.useMazemap,
-      'Sted eller MazeMap-rom er påkrevd'
-    ),
+    requiredIf((allValues) => allValues.useMazemap, 'Sted er påkrevd'),
   ],
   cover: [required('Cover er påkrevd')],
   eventStatusType: [required('Påmeldingstype er påkrevd')],
@@ -110,14 +80,14 @@ const validate = createValidator({
       () => [
         minSize(0, 'Prisen må være større enn 0'),
         maxSize(10000, 'Prisen kan ikke være større enn 10000'),
-      ]
+      ],
     ),
   ],
   paymentDueDate: [
     timeIsAtLeastDurationAfter(
       'unregistrationDeadline',
       moment.duration(1, 'day'),
-      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen'
+      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
     ),
   ],
   isClarified: [
@@ -125,13 +95,13 @@ const validate = createValidator({
       (allValues) =>
         // Only require if we are creating a new event
         allValues.id === undefined,
-      'Arrangementet må være avklart'
+      'Arrangementet må være avklart i arrangementskalenderen',
     ),
   ],
   feedbackDescription: [
     requiredIf(
       (allValues) => allValues.hasFeedbackQuestion,
-      'Spørsmål er påkrevd'
+      'Spørsmål er påkrevd',
     ),
   ],
   registrationDeadlineHours: [isInteger('Kun hele timer')],
@@ -144,25 +114,31 @@ const validate = createValidator({
       (allValues) => allValues.pools.length > 1,
       () => [
         mergeTimeAfterAllPoolsActivation(
-          'Sammenslåingstidspunkt satt før aktiveringspunkt i en av poolene'
+          'Sammenslåingstidspunkt satt før aktiveringspunkt i en av poolene',
         ),
-      ]
+      ],
     ),
   ],
 });
 
 const EventEditor = () => {
-  const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
-  const isEditPage = eventIdOrSlug !== undefined;
+  const params = useParams<{
+    eventIdOrSlug: string;
+  }>();
+  const isEditPage = params.eventIdOrSlug !== undefined;
+  const { state } = useLocation();
+  // Fallback to a potential event id, e.g. given from the admin "copy event" button
+  const eventIdOrSlug = params.eventIdOrSlug ?? state?.id;
+
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug })
+    selectEventByIdOrSlug(state, { eventIdOrSlug }),
   );
   const eventId = event?.id;
-  const actionGrant = event?.actionGrant || [];
+  const actionGrant: ActionGrant = event?.actionGrant || [];
   const pools = useAppSelector((state) =>
-    selectPoolsWithRegistrationsForEvent(state, { eventId })
+    selectPoolsWithRegistrationsForEvent(state, { eventId }),
   );
-  const imageGalleryEntries = useAppSelector(selectImageGalleryEntries);
+  const imageGalleryEntries = useAppSelector(selectAllImageGalleryEntries);
   const imageGallery = imageGalleryEntries?.map((image) => ({
     key: image.key,
     cover: image.cover,
@@ -175,11 +151,11 @@ const EventEditor = () => {
   usePreparedEffect(
     'fetchEventEdit',
     () =>
-      Promise.all([
+      Promise.allSettled([
         eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
         dispatch(fetchImageGallery()),
       ]),
-    [eventIdOrSlug]
+    [eventIdOrSlug],
   );
 
   const uploadFile = ({
@@ -193,10 +169,10 @@ const EventEditor = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (event?.slug && event?.slug !== eventIdOrSlug) {
+    if (isEditPage && event?.slug && event?.slug !== eventIdOrSlug) {
       navigate(`/events/${event.slug}/edit`, { replace: true });
     }
-  }, [event?.slug, navigate, eventIdOrSlug]);
+  }, [event.slug, navigate, eventIdOrSlug, isEditPage]);
 
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [useImageGallery, setUseImageGallery] = useState(false);
@@ -218,7 +194,7 @@ const EventEditor = () => {
     dispatch(
       isEditPage
         ? editEvent(transformEvent(values))
-        : createEvent(transformEvent(values))
+        : createEvent(transformEvent(values)),
     ).then((res) => {
       const key: string = values.cover.split(':')[0];
       const token: string = values.cover.split(':')[1];
@@ -226,12 +202,12 @@ const EventEditor = () => {
         dispatch(setSaveForUse(key, token, true));
       }
       navigate(
-        isEditPage ? `/events/${event?.slug}` : `/events/${res.payload.result}`
+        isEditPage ? `/events/${event?.slug}` : `/events/${res.payload.result}`,
       );
     });
   };
 
-  const initialValues = isEditPage
+  const initialValues = !isEmpty(event)
     ? {
         ...event,
         mergeTime: event.mergeTime
@@ -269,7 +245,7 @@ const EventEditor = () => {
           })),
         isForeignLanguage: event.isForeignLanguage,
         eventType: event.eventType && {
-          label: displayNameForEventType[event.eventType],
+          label: displayNameForEventType(event.eventType),
           value: event.eventType,
         },
         eventStatusType:
@@ -358,532 +334,39 @@ const EventEditor = () => {
       >
         {({ form, handleSubmit, values }) => (
           <Form onSubmit={handleSubmit}>
-            <Field
-              name="cover"
-              component={ImageUploadField}
-              aspectRatio={20 / 6}
-              img={useImageGallery ? imageGalleryUrl : event.cover}
-            />
-
-            <Modal
-              show={showImageGallery}
-              onHide={() => setShowImageGallery(false)}
-              contentClassName={styles.imageGallery}
+            <EditorSection
+              title="Tittel og cover"
+              initiallyExpanded={!isEditPage}
             >
-              <>
-                <h1>Bildegalleri</h1>
-                <Flex
-                  wrap
-                  alignItems="center"
-                  justifyContent="space-around"
-                  gap="1rem"
-                >
-                  {imageGallery?.map((e) => (
-                    <Flex key={e.key} alignItems="center" gap="1rem">
-                      <Image
-                        src={e.cover}
-                        placeholder={e.coverPlaceholder}
-                        alt={`${e.cover} bilde`}
-                        onClick={() => {
-                          form.change('cover', `${e.key}:${e.token}`);
-                          setShowImageGallery(false);
-                          setUseImageGallery(true);
-                          setImageGalleryUrl(e.cover);
-                        }}
-                        className={styles.imageGalleryEntry}
-                      />
-                      <ConfirmModal
-                        title="Fjern fra galleri"
-                        message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
-                        closeOnConfirm
-                        onConfirm={() => setSaveForUse(e.key, e.token, false)}
-                      >
-                        {({ openConfirmModal }) => (
-                          <Icon
-                            onClick={openConfirmModal}
-                            name="trash"
-                            danger
-                          />
-                        )}
-                      </ConfirmModal>
-                    </Flex>
-                  ))}
-                  {imageGallery.length === 0 && (
-                    <Flex
-                      column
-                      alignItems="center"
-                      gap={5}
-                      className={styles.emptyGallery}
-                    >
-                      <Icon name="folder-open-outline" size={50} />
-                      <b>Bildegalleriet er tomt ...</b>
-                      <span>Hvorfor ikke laste opp et bilde?</span>
-                    </Flex>
-                  )}
-                </Flex>
-              </>
-            </Modal>
+              <Header
+                form={form}
+                values={values}
+                useImageGallery={useImageGallery}
+                imageGalleryUrl={imageGalleryUrl}
+                event={event}
+                showImageGallery={showImageGallery}
+                setShowImageGallery={setShowImageGallery}
+                imageGallery={imageGallery}
+                setUseImageGallery={setUseImageGallery}
+                setImageGalleryUrl={setImageGalleryUrl}
+              />
+            </EditorSection>
 
-            <Flex alignItems="center" justifyContent="space-between">
-              <Button onClick={() => setShowImageGallery(true)}>
-                Velg bilde fra bildegalleriet
-              </Button>
-              <div>
-                <Field
-                  label="Lagre til bildegalleriet"
-                  description="Lagre bildet til bildegalleriet slik at det kan bli brukt til andre arrangementer"
-                  name="saveToImageGallery"
-                  type="checkbox"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-              </div>
-            </Flex>
+            <EditorSection title="Detaljer" initiallyExpanded={!isEditPage}>
+              <Details values={values} />
+            </EditorSection>
 
-            <Field
-              name="youtubeUrl"
-              label="Erstatt cover-bildet med video fra YouTube"
-              description="Videoen erstatter ikke coveret i listen over arrangementer"
-              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-              component={TextInput.Field}
-            />
-            <Field
-              label="Festet på forsiden"
-              name="pinned"
-              type="checkbox"
-              component={CheckBox.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-              normalize={(v) => !!v}
-            />
-            <Field
-              label="Tittel"
-              name="title"
-              placeholder="Tittel"
-              style={{
-                borderBottom: `3px solid ${colorForEventType(
-                  values.eventType?.value
-                )}`,
-              }}
-              component={TextInput.Field}
-            />
-            <Field
-              name="description"
-              label="Kalenderbeskrivelse"
-              placeholder="Kom på fest den ..."
-              component={TextEditor.Field}
-            />
+            <EditorSection title="Påmelding" initiallyExpanded={!isEditPage}>
+              <Registration
+                values={values}
+                isEditPage={isEditPage}
+                actionGrant={actionGrant}
+              />
+            </EditorSection>
 
-            <ContentSection>
-              <ContentMain>
-                <Field
-                  name="text"
-                  component={EditorField.Field}
-                  label="Hovedbeskrivelse"
-                  placeholder="Dette blir tidenes fest ..."
-                  className={styles.descriptionEditor}
-                  uploadFile={uploadFile}
-                />
-                <Flex className={styles.tagRow}>
-                  {(values.tags || []).map((tag, i) => (
-                    <Tag key={i} tag={tag} />
-                  ))}
-                </Flex>
-              </ContentMain>
-              <ContentSidebar>
-                <Field
-                  name="eventType"
-                  label="Type arrangement"
-                  fieldClassName={styles.metaField}
-                  component={SelectInput.Field}
-                  options={Object.entries(EventTypeConfig).map(
-                    ([key, config]) => ({
-                      label: config.displayName,
-                      value: key,
-                    })
-                  )}
-                  placeholder="Arrangementstype"
-                />
-                <Field
-                  name="company"
-                  label="Arrangerende bedrift"
-                  filter={['companies.company']}
-                  fieldClassName={styles.metaField}
-                  component={SelectInput.AutocompleteField}
-                  placeholder="Bedrift"
-                />
-                <Field
-                  name="responsibleGroup"
-                  label="Ansvarlig gruppe"
-                  filter={['users.abakusgroup']}
-                  fieldClassName={styles.metaField}
-                  component={SelectInput.AutocompleteField}
-                  placeholder="Ansvar for arrangement"
-                />
-                <Field
-                  name="responsibleUsers"
-                  label="Ansvarlige brukere"
-                  filter={['users.user']}
-                  fieldClassName={styles.metaField}
-                  component={SelectInput.AutocompleteField}
-                  isMulti
-                  placeholder="Velg ansvarlige brukere"
-                />
-                <Field
-                  label="Starter"
-                  name="startTime"
-                  component={DatePicker.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                />
-                <Field
-                  label="Slutter"
-                  name="endTime"
-                  component={DatePicker.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                />
-                <Field
-                  label="Bruk MazeMap"
-                  name="useMazemap"
-                  type="checkbox"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-                {!values.useMazemap ? (
-                  <Field
-                    label="Sted"
-                    name="location"
-                    placeholder="Den Gode Nabo, Downtown, ..."
-                    component={TextInput.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    warn={isTBA}
-                  />
-                ) : (
-                  <Flex alignItems="flex-end">
-                    <Field
-                      label="MazeMap-rom"
-                      name="mazemapPoi"
-                      component={SelectInput.MazemapAutocomplete}
-                      fieldClassName={styles.metaField}
-                      placeholder="R1, Abakus, Kjel4 ..."
-                    />
-                    {values.mazemapPoi?.value && (
-                      <MazemapLink
-                        mazemapPoi={values.mazemapPoi?.value}
-                        linkText="↗️"
-                      />
-                    )}
-                  </Flex>
-                )}
-                <Field
-                  label="Fremmedspråklig"
-                  description="Arrangementet er på et annet språk enn norsk (engelsk)"
-                  name="isForeignLanguage"
-                  type="checkbox"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-                <Field
-                  label="Kun for spesifikk gruppe"
-                  description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
-                  name="isGroupOnly"
-                  type="checkbox"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={(v) => !!v}
-                />
-                {values.isGroupOnly && (
-                  <div className={styles.subSection}>
-                    <Field
-                      name="canViewGroups"
-                      placeholder="Velg grupper"
-                      filter={['users.abakusgroup']}
-                      fieldClassName={styles.metaField}
-                      component={SelectInput.AutocompleteField}
-                      isMulti
-                    />
-                  </div>
-                )}
-                {spyValues((values: EditingEvent) => {
-                  // Adding an initial pool if the event status type allows for it and there are no current pools
-                  if (
-                    ['NORMAL', 'INFINITE'].includes(
-                      values.eventStatusType?.value
-                    )
-                  ) {
-                    if (values.pools.length === 0) {
-                      values.pools = [
-                        {
-                          name: 'Pool #1',
-                          registrations: [],
-                          activationDate: moment(values.startTime)
-                            .subtract(7, 'd')
-                            .hour(12)
-                            .minute(0)
-                            .toISOString(),
-                          permissionGroups: [],
-                        },
-                      ];
-                    }
-                  } else {
-                    // Removing all pools so that they are not validated on submit
-                    if (values.pools.length > 0) {
-                      values.pools = [];
-                    }
-                  }
-
-                  return (
-                    <Field
-                      label="Påmeldingstype"
-                      name="eventStatusType"
-                      component={SelectInput.Field}
-                      fieldClassName={styles.metaField}
-                      options={eventStatusTypes}
-                    />
-                  );
-                })}
-
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
-                    label="Betalt arrangement"
-                    name="isPriced"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                )}
-                {values.isPriced && (
-                  <div className={styles.subSection}>
-                    <Field
-                      label="Betaling via Abakus.no"
-                      description="Manuell betaling kan også godkjennes av oss i etterkant"
-                      name="useStripe"
-                      type="checkbox"
-                      component={CheckBox.Field}
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                      normalize={(v) => !!v}
-                    />
-                    <Field
-                      label="Pris"
-                      name="priceMember"
-                      type="number"
-                      component={TextInput.Field}
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                      warn={tooLow}
-                    />
-                    <Field
-                      label="Betalingsfrist"
-                      name="paymentDueDate"
-                      component={DatePicker.Field}
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                    />
-                  </div>
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
-                    label="Bruk prikker"
-                    name="heedPenalties"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) &&
-                  values.heedPenalties && (
-                    <div className={styles.subSection}>
-                      <Field
-                        key="unregistrationDeadline"
-                        label="Avregistreringsfrist"
-                        description="Frist for avmelding - fører til prikk etterpå"
-                        name="unregistrationDeadline"
-                        component={DatePicker.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                      />
-                    </div>
-                  )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
-                    label="Separat avregistreringsfrist"
-                    description="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)"
-                    name="separateDeadlines"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) &&
-                  values.separateDeadlines && (
-                    <div className={styles.subSection}>
-                      <Field
-                        key="unregistrationDeadlineHours"
-                        label="Avregistrering antall timer før"
-                        description="Frist for avmelding antall timer før arrangementet (negativ verdi betyr antall timer etter starten på arrangementet)"
-                        name="unregistrationDeadlineHours"
-                        type="number"
-                        component={TextInput.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                      />
-                    </div>
-                  )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <>
-                    <Field
-                      key="registrationDeadlineHours"
-                      label="Registrering antall timer før"
-                      description="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)"
-                      name="registrationDeadlineHours"
-                      type="number"
-                      component={TextInput.Field}
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                    />
-                    <p className={styles.registrationDeadlineHours}>
-                      Stenger{' '}
-                      <FormatTime time={moment(values.registrationDeadline)} />
-                    </p>
-                  </>
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
-                    label="Samtykke til bilder"
-                    description="Bruk samtykke til bilder"
-                    name="useConsent"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
-                    label="Informasjon kan deles til smittesporing"
-                    description="Navn, telefonnummer og e-post kan deles med folk utenfor Abakus til smittesporing. Dersom informasjonen skal kunne deles med andre enn FHI og NTNU, må dette spesifiseres i beskrivelsen."
-                    name="useContactTracing"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                    disabled={moment().isAfter(values.activationTime)}
-                  />
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Field
-                    label="Påmeldingsspørsmål"
-                    description="Still et spørsmål ved påmelding"
-                    name="hasFeedbackQuestion"
-                    type="checkbox"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={(v) => !!v}
-                  />
-                )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) &&
-                  values.hasFeedbackQuestion && (
-                    <div className={styles.subSection}>
-                      <Field
-                        name="feedbackDescription"
-                        placeholder="Burger eller sushi?"
-                        component={TextInput.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                        warn={containsAllergier}
-                      />
-                      <Field
-                        name="feedbackRequired"
-                        label="Obligatorisk"
-                        type="checkbox"
-                        component={CheckBox.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                        normalize={(v) => !!v}
-                      />
-                    </div>
-                  )}
-                {['NORMAL', 'INFINITE'].includes(
-                  values.eventStatusType?.value
-                ) && (
-                  <Flex column>
-                    <h3>Pools</h3>
-                    <AttendanceModal
-                      key="modal"
-                      pools={values.pools || []}
-                      title="Påmeldte"
-                    >
-                      {({ toggleModal }) => (
-                        <AttendanceStatus
-                          toggleModal={toggleModal}
-                          pools={values.pools}
-                        />
-                      )}
-                    </AttendanceModal>
-                    <div className={styles.metaList}>
-                      <FieldArray
-                        name="pools"
-                        component={renderPools}
-                        startTime={values.startTime}
-                        eventStatusType={values.eventStatusType?.value}
-                      />
-                    </div>
-                    {values.pools?.length > 1 && (
-                      <Field
-                        label="Sammenslåingstidspunkt"
-                        description="Tidspunkt for å slå sammen poolene"
-                        name="mergeTime"
-                        component={DatePicker.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                      />
-                    )}
-                    {isEditPage && (
-                      <Admin actionGrant={actionGrant} event={values} />
-                    )}
-                  </Flex>
-                )}
-              </ContentSidebar>
-            </ContentSection>
+            <EditorSection title="Beskrivelse" collapsible={false}>
+              <Descriptions uploadFile={uploadFile} values={values} />
+            </EditorSection>
 
             {!isEditPage && (
               <Field
@@ -921,7 +404,8 @@ const EventEditor = () => {
                 component={CheckBox.Field}
                 fieldClassName={styles.metaFieldInformation}
                 className={styles.formField}
-                normalize={(v) => !!v}
+                parse={(v) => !!v}
+                required
               />
             )}
 
@@ -935,6 +419,8 @@ const EventEditor = () => {
                 {isEditPage ? 'Lagre endringer' : 'Opprett'}
               </SubmitButton>
             </Flex>
+
+            {isEditPage && <Admin actionGrant={actionGrant} event={values} />}
           </Form>
         )}
       </TypedLegoForm>

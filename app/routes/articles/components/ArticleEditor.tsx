@@ -35,44 +35,45 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import { selectArticleById } from 'app/reducers/articles';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectUsersByIds } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { validYoutubeUrl } from 'app/utils/validation';
+import {
+  createValidator,
+  required,
+  validYoutubeUrl,
+} from 'app/utils/validation';
 import type { EditingEvent } from 'app/routes/events/utils';
+import type { AdminDetailedArticle } from 'app/store/models/Article';
 
-type ValidationError<T> = Partial<{
-  [key in keyof T]: string | Record<string, string>[];
-}>;
+const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
-const validate = (data) => {
-  const errors: ValidationError<EditingEvent> = {};
-  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
-    data.youtubeUrl
-  );
+const validate = createValidator({
+  cover: [required('Cover er påkrevd')],
+  youtubeUrl: [validYoutubeUrl()],
+  title: [required('Tittel er påkrevd')],
+  description: [required('Beskrivelse er påkrevd')],
+  authors: [required('Forfatter er påkrevd')],
+});
 
-  if (!isValidYoutubeUrl) {
-    errors.youtubeUrl = errorMessage;
-  }
-
-  if (!data.authors || data.authors.length === 0) {
-    errors.authors = 'Forfatter er påkrevd';
-  }
-  return errors;
-};
+type ArticleEditorParams = { articleId: string };
 
 const ArticleEditor = () => {
-  const { currentUser } = useUserContext();
-  const { articleId } = useParams<{ articleId: string }>();
+  const currentUser = useCurrentUser();
+  const { articleId } = useParams<ArticleEditorParams>() as ArticleEditorParams;
   const isNew = articleId === undefined;
+
   const article = useAppSelector((state) =>
-    selectArticleById(state, articleId)
+    selectArticleById<AdminDetailedArticle>(state, articleId),
   );
+  const fetching = useAppSelector((state) => state.articles.fetching);
+
   let authors = useAppSelector((state) =>
-    selectUsersByIds(state, { userIds: article?.authors })
+    selectUsersByIds(state, article?.authors),
   );
-  if (authors.length === 0) {
+  if (authors.length === 0 && currentUser) {
     authors = [currentUser];
   }
 
@@ -81,7 +82,7 @@ const ArticleEditor = () => {
   usePreparedEffect(
     'fetchArticleForEditor',
     () => articleId && dispatch(fetchArticle(articleId)),
-    [articleId]
+    [articleId],
   );
 
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ const ArticleEditor = () => {
     }),
     content: article?.content || '',
     authors: authors
-      .filter(Boolean)
+      .filter(isNotNullish)
       .map((user) => ({ ...user, label: user.fullName, value: user.id })),
     tags: (article?.tags || []).map((tag) => ({
       label: tag,
@@ -103,17 +104,12 @@ const ArticleEditor = () => {
     })),
   };
 
-  if (!isNew && (!article || !article.content)) {
+  if (!isNew && (!article || !article.content || fetching)) {
     return <LoadingIndicator loading />;
   }
 
   const onSubmit = (data) => {
     const body = {
-      ...(isNew
-        ? {}
-        : {
-            id: articleId,
-          }),
       ...(data.cover
         ? {
             cover: data.cover,
@@ -129,9 +125,11 @@ const ArticleEditor = () => {
       pinned: data.pinned,
     };
 
-    dispatch(isNew ? createArticle(body) : editArticle(body)).then((res) => {
+    dispatch(
+      isNew ? createArticle(body) : editArticle({ id: articleId, ...body }),
+    ).then((res) => {
       navigate(
-        isNew ? `/articles/${res.payload.result}/` : `/articles/${articleId}`
+        isNew ? `/articles/${res.payload.result}/` : `/articles/${articleId}`,
       );
     });
   };
@@ -153,7 +151,7 @@ const ArticleEditor = () => {
         }}
       />
 
-      <LegoFinalForm
+      <TypedLegoForm
         onSubmit={onSubmit}
         validate={validate}
         initialValues={initialValues}
@@ -166,21 +164,19 @@ const ArticleEditor = () => {
               aspectRatio={20 / 6}
               img={article && article.cover}
             />
-            <Flex>
-              <Field
-                name="youtubeUrl"
-                label="Erstatt cover-bildet med video fra YouTube"
-                description="Videoen erstatter ikke coveret i listen over artikler"
-                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-                component={TextInput.Field}
-              />
-            </Flex>
+            <Field
+              name="youtubeUrl"
+              label="Erstatt cover-bildet med video fra YouTube"
+              description="Videoen erstatter ikke coveret i listen over artikler"
+              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+              component={TextInput.Field}
+            />
             <Field
               label="Festet på forsiden"
               name="pinned"
               type="checkbox"
               component={CheckBox.Field}
-              normalize={(v) => !!v}
+              parse={(v) => !!v}
             />
             <Field
               placeholder="Title"
@@ -188,6 +184,7 @@ const ArticleEditor = () => {
               label="Tittel"
               component={TextInput.Field}
               id="article-title"
+              required
             />
 
             <Field
@@ -227,7 +224,9 @@ const ArticleEditor = () => {
               label="Beskrivelse"
               component={TextArea.Field}
               id="article-title"
+              required
             />
+
             <Field
               placeholder="Skriv artikkelen din her ..."
               name="content"
@@ -262,7 +261,7 @@ const ArticleEditor = () => {
             </Flex>
           </Form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
     </Content>
   );
 };

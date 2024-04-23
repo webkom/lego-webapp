@@ -1,21 +1,21 @@
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { ID } from 'app/store/models/index';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface Meeting {
-  id: number;
-  createdBy: ID;
+  id: EntityId;
+  createdBy: EntityId;
   description: string;
   title: string;
   location: string;
   startTime: Dateish;
   endTime: Dateish;
   report: string;
-  reportAuthor?: ID;
-  invitations: ID[];
-  comments: ID[];
+  reportAuthor?: EntityId;
+  invitations: EntityId[];
+  comments: EntityId[];
   contentTarget: ContentTarget;
   mazemapPoi?: number;
   reactionsGrouped?: ReactionsGrouped[];
@@ -66,7 +66,10 @@ export type AutocompleteMeeting = Pick<
   text: 'text';
 };
 
-export type UnknownMeeting = DetailedMeeting | ListMeeting | SearchMeeting;
+export type UnknownMeeting = (DetailedMeeting | ListMeeting) & {
+  comments?: EntityId[];
+  reactionsGrouped?: ReactionsGrouped[];
+};
 
 // Used when a meeting is a field in another model
 export type FieldMeeting = Pick<Meeting, 'id' | 'title'>;

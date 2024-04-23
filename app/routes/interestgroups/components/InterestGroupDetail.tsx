@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams, Link } from 'react-router-dom';
@@ -19,48 +19,45 @@ import DisplayContent from 'app/components/DisplayContent';
 import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
-import { selectCurrentUser } from 'app/reducers/auth';
-import { selectGroup } from 'app/reducers/groups';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
+import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
 import InterestGroupMemberList from './InterestGroupMemberList';
-import type { Group, GroupMembership } from 'app/models';
-import type { DetailedGroup } from 'app/store/models/Group';
-import type Membership from 'app/store/models/Membership';
+import type { TransformedMembership } from 'app/reducers/memberships';
+import type { PublicDetailedGroup } from 'app/store/models/Group';
 
 type MembersProps = {
-  members: Array<GroupMembership>;
-  group: Group;
+  memberships: TransformedMembership[];
+  group: PublicDetailedGroup;
 };
 
-const Members = ({ group, members }: MembersProps) => (
+const Members = ({ group, memberships }: MembersProps) => (
   <Flex column>
     <h4>{group.numberOfUsers} medlemmer</h4>
     <UserGrid
-      users={members && members.slice(0, 14).map((reg) => reg.user)}
+      users={memberships && memberships.slice(0, 14).map((reg) => reg.user)}
       maxRows={2}
       minRows={2}
     />
-    <InterestGroupMemberList memberships={members}>
+    <InterestGroupMemberList memberships={memberships}>
       <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
     </InterestGroupMemberList>
   </Flex>
 );
 
 type ButtonRowProps = {
-  group: DetailedGroup & { memberships: Membership[] };
+  group: PublicDetailedGroup;
+  memberships: TransformedMembership[];
 };
 
-const ButtonRow = ({ group }: ButtonRowProps) => {
-  const currentUser = useAppSelector((state) => selectCurrentUser(state));
-
-  const [membership] = group.memberships.filter(
-    (m) => m.user.id === currentUser.id
-  );
-
+const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
   const dispatch = useAppDispatch();
+  const currentUser = useCurrentUser();
+  if (!currentUser) return null;
+
+  const [membership] = memberships.filter((m) => m.user.id === currentUser.id);
 
   const onClick = membership
     ? () => dispatch(leaveGroup(membership, group.id))
@@ -79,8 +76,8 @@ const ButtonRow = ({ group }: ButtonRowProps) => {
   );
 };
 
-const Contact = ({ group }: { group: Group }) => {
-  const leaders = group.memberships.filter((m) => m.role === 'leader');
+const Contact = ({ memberships }: { memberships: TransformedMembership[] }) => {
+  const leaders = memberships.filter((m) => m.role === 'leader');
 
   if (leaders.length === 0) {
     return (
@@ -113,33 +110,41 @@ const Contact = ({ group }: { group: Group }) => {
   );
 };
 
+type InterestGroupDetailParams = {
+  groupId: string;
+};
 const InterestGroupDetail = () => {
-  const { groupId } = useParams();
-  const selectedGroup = useAppSelector((state) =>
-    selectGroup(state, { groupId })
+  const { groupId } =
+    useParams<InterestGroupDetailParams>() as InterestGroupDetailParams;
+  const group = useAppSelector((state) =>
+    selectGroupById<PublicDetailedGroup>(state, groupId),
   );
+  const fetching = useAppSelector((state) => state.groups.fetching);
   const memberships = useAppSelector((state) =>
-    selectMembershipsForGroup(state, { groupId })
+    selectMembershipsForGroup(state, { groupId }),
   );
-
-  const group = { ...selectedGroup, memberships };
-  const canEdit = group.actionGrant?.includes('edit');
-  const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
 
   const dispatch = useAppDispatch();
 
-  const { loggedIn } = useUserContext();
+  const loggedIn = useIsLoggedIn();
 
   usePreparedEffect(
     'fetchInterestGroupDetail',
     () =>
       groupId &&
-      Promise.resolve([
+      Promise.allSettled([
         dispatch(fetchGroup(groupId)),
         loggedIn && dispatch(fetchAllMemberships(groupId)),
       ]),
-    [loggedIn]
+    [groupId, loggedIn],
   );
+
+  if (!group || fetching) {
+    return <LoadingIndicator loading={true} />;
+  }
+
+  const canEdit = group.actionGrant?.includes('edit');
+  const logo = group.logo;
 
   return (
     <Content>
@@ -155,20 +160,22 @@ const InterestGroupDetail = () => {
         <ContentMain>
           <p>{group.description}</p>
           <DisplayContent content={group.text} />
-          {loggedIn && <ButtonRow group={group} />}
+          {loggedIn && <ButtonRow group={group} memberships={memberships} />}
         </ContentMain>
 
         <ContentSidebar>
-          <Image
-            alt={`${group.name} logo`}
-            className={styles.logo}
-            src={logo}
-            placeholder={group.logoPlaceholder}
-          />
-          {group.memberships.length > 0 && (
+          {logo && (
+            <Image
+              alt={`${group.name} logo`}
+              className={styles.logo}
+              src={logo}
+              placeholder={group.logoPlaceholder || undefined}
+            />
+          )}
+          {memberships.length > 0 && (
             <>
-              <Members group={group} members={group.memberships} />
-              <Contact group={group} />
+              <Members group={group} memberships={memberships} />
+              <Contact memberships={memberships} />
             </>
           )}
 

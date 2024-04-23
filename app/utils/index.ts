@@ -1,4 +1,4 @@
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type TreeNode<T> = T & {
   children: Tree<T>;
@@ -23,17 +23,17 @@ export type Tree<T> = Array<TreeNode<T>>;
  */
 export function generateTreeStructure<
   T extends {
-    id: ID;
-    parent?: ID;
-  }
+    id: EntityId;
+    parent?: EntityId | null;
+  },
 >(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:
-  const tree: { [id: ID]: TreeNode<T> } = nodes.reduce(
-    (acc: { [id: ID]: TreeNode<T> }, node: T) => ({
+  const tree: { [id: EntityId]: TreeNode<T> } = nodes.reduce(
+    (acc: { [id: EntityId]: TreeNode<T> }, node: T) => ({
       ...acc,
       [node.id]: { ...node, children: [] },
     }),
-    {}
+    {},
   );
 
   return nodes.reduce((roots: Tree<T>, { id }) => {

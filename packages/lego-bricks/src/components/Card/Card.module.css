@@ -1,6 +1,6 @@
 .card {
   background: var(--lego-card-color);
-  padding: 20px;
+  padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
 }
 
@@ -20,7 +20,7 @@
 }
 
 .danger {
-  margin: 20px 0;
+  margin: var(--spacing-md) 0;
   background-color: var(--color-red-1);
   border: 1.5px solid var(--danger-color);
   color: var(--danger-color);
@@ -50,7 +50,7 @@ html[data-theme='dark'] .danger a:hover {
 
 /* stylelint-disable no-descending-specificity */
 .info {
-  margin: 20px 0;
+  margin: var(--spacing-md) 0;
   background-color: var(--color-blue-1);
   border: 1.5px solid var(--color-blue-7);
   color: var(--color-blue-7);
@@ -70,7 +70,7 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .success {
-  margin: 20px 0;
+  margin: var(--spacing-md) 0;
   background-color: var(--color-green-2);
   border: 1.5px solid var(--color-green-7);
   color: var(--color-green-7);
@@ -90,7 +90,7 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .warning {
-  margin: 20px 0;
+  margin: var(--spacing-md) 0;
   background-color: var(--color-orange-1);
   border: 1.5px solid var(--color-orange-7);
   color: var(--color-orange-7);

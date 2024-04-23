@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Icon,
-  LoadingIndicator,
-} from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -12,15 +6,22 @@ import { fetchAll } from 'app/actions/PollActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
-import { selectPolls } from 'app/reducers/polls';
+import { selectAllPolls } from 'app/reducers/polls';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import styles from './PollsList.css';
 
 const PollsList = () => {
-  const polls = useAppSelector(selectPolls);
+  const polls = useAppSelector(selectAllPolls);
   const actionGrant = useAppSelector((state) => state.polls.actionGrant);
-  const fetching = useAppSelector((state) => state.polls.fetching);
-  const hasMore = useAppSelector((state) => state.polls.hasMore);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/polls/',
+      query: {},
+      entity: EntityType.Polls,
+    }),
+  );
 
   const dispatch = useAppDispatch();
 
@@ -40,23 +41,19 @@ const PollsList = () => {
         }
       />
       <Paginator
-        hasMore={!!hasMore}
-        fetching={fetching}
+        hasMore={pagination.fetching || pagination.hasMore} // Paginator only shows loading indicator if hasMore is true
+        fetching={pagination.fetching}
         fetchNext={() => {
           dispatch(
             fetchAll({
               next: true,
-            })
+            }),
           );
         }}
       >
         <section className={styles.pollsList}>
           {polls.map((poll) => (
-            <Link
-              key={poll.id}
-              to={`/polls/${poll.id}`}
-              className={styles.pollItem}
-            >
+            <Link key={poll.id} to={`/polls/${poll.id}`}>
               <Card isHoverable className={styles.pollListItem}>
                 <Flex>
                   <Icon name="stats-chart" size={35} className={styles.icon} />
@@ -94,7 +91,6 @@ const PollsList = () => {
           ))}
         </section>
       </Paginator>
-      <LoadingIndicator loading={fetching} />
     </Content>
   );
 };

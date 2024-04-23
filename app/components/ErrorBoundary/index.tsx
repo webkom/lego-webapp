@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/browser';
+import { Card } from '@webkom/lego-bricks';
 import { Children, cloneElement, Component } from 'react';
-import awSnap from 'app/assets/sentry-aw-snap.svg';
-import { Image } from 'app/components/Image';
 import styles from './ErrorBoundary.css';
 import type { ReactNode, ReactElement } from 'react';
 
@@ -69,7 +68,7 @@ class ErrorBoundary extends Component<Props, State> {
         },
         () => {
           this.props.openReportDialog && this.openDialog();
-        }
+        },
       );
     });
   }
@@ -79,7 +78,7 @@ class ErrorBoundary extends Component<Props, State> {
 
     if (!this.state.error) {
       return Children.map(children, (child) =>
-        cloneElement(child, { ...rest })
+        cloneElement(child, { ...rest }),
       );
     }
 
@@ -88,18 +87,29 @@ class ErrorBoundary extends Component<Props, State> {
     }
 
     return (
-      <div className={styles.container}>
-        <div
-          className={styles.snap}
-          onClick={() => !openReportDialog && this.openDialog()}
-        >
-          <Image src={awSnap} alt="snap" />
-          <div className={styles.message}>
-            <h3>En feil har oppstått</h3>
-            <p>Webkom har fått beskjed om feilen.</p>
-          </div>
-        </div>
-      </div>
+      <Card
+        severity="danger"
+        onClick={() => !openReportDialog && this.openDialog()}
+        className={styles.container}
+      >
+        <Card.Header>
+          <p>En feil har oppstått</p>
+        </Card.Header>
+        <p>Webkom har fått beskjed om feilen</p>
+        <br />
+        <p>
+          Hvis du har slitt med problemet en liten stund uten at det har blitt
+          fikset, send gjerne en påminnelse til{' '}
+          <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>
+        </p>
+        <p>
+          Tips: hvis du forklarer hva du gjorde før feilen oppstod og legger ved
+          referansen under (som tekst, ikke skjermbilde) er det mye lettere å
+          identifisere feilen din
+        </p>
+        <br />
+        <p>Referanse: {this.state.lastEventId}</p>
+      </Card>
     );
   }
 }

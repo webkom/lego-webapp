@@ -5,6 +5,7 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
+import { Content } from 'app/components/Content';
 import {
   TextInput,
   SelectInput,
@@ -19,7 +20,7 @@ import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
 import styles from './PollEditor.css';
-import type { ID } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type Poll from 'app/store/models/Poll';
 import type { ReactNode } from 'react';
 
@@ -39,11 +40,12 @@ const renderOptions = ({ fields }): ReactNode => (
             label={`Valg nr. ${i + 1}`}
             placeholder={`Valg ${i + 1}`}
             component={TextInput.Field}
-            validate={(value) =>
-              value && value.length > 0
-                ? undefined
-                : 'Alle alternativer må ha et navn'
-            }
+            validate={(value) => {
+              if (!value || value.length == 0) return 'Alle valg må ha et navn';
+              if (value.length > 30)
+                return 'Valget kan ikke være lengre enn 30 tegn';
+              return undefined;
+            }}
             required
           />
           <ConfirmModal
@@ -73,7 +75,11 @@ const validate = createValidator({
   title: [required('Du må gi avstemningen en tittel')],
 });
 
-const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
+const PollEditor = ({
+  poll,
+  editing = false,
+  toggleEdit = () => {},
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -93,7 +99,7 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
       value: string;
     }>;
     options: Array<{
-      id: ID | null | undefined;
+      id: EntityId | null | undefined;
       name: string;
     }>;
     resultsHidden: boolean;
@@ -131,16 +137,6 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
 
   return (
     <>
-      <Helmet title={editing ? `Redigerer avstemning` : 'Ny avstemning'} />
-      {!editing && (
-        <NavigationTab
-          title="Ny avstemning"
-          back={{
-            label: 'Tilbake',
-            path: '/polls',
-          }}
-        />
-      )}
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -225,3 +221,20 @@ const PollEditor = ({ poll, editing, toggleEdit = () => {} }: Props) => {
 };
 
 export default PollEditor;
+
+export const PollCreator = () => {
+  const title = 'Ny avstemning';
+  return (
+    <Content>
+      <Helmet title={title} />
+      <NavigationTab
+        title={title}
+        back={{
+          label: 'Tilbake',
+          path: '/polls',
+        }}
+      />
+      <PollEditor />
+    </Content>
+  );
+};

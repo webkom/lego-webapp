@@ -2,24 +2,26 @@ import moment from 'moment-timezone';
 import callAPI from 'app/actions/callAPI';
 import { joblistingsSchema } from 'app/reducers';
 import { Joblistings } from './ActionTypes';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   DetailedJoblisting,
   ListJoblisting,
 } from 'app/store/models/Joblisting';
 
-export function fetchAll() {
-  return callAPI<ListJoblisting>({
+export function fetchAll(query?: { company?: EntityId; timeFilter?: boolean }) {
+  return callAPI<ListJoblisting[]>({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
+    query,
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Henting av jobbannonser failet',
+      errorMessage: 'Henting av jobbannonser feilet',
     },
     propagateError: true,
   });
 }
-export function fetchJoblisting(id: ID) {
+
+export function fetchJoblisting(id: EntityId) {
   return callAPI<DetailedJoblisting>({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
@@ -30,7 +32,8 @@ export function fetchJoblisting(id: ID) {
     propagateError: true,
   });
 }
-export function deleteJoblisting(id: ID) {
+
+export function deleteJoblisting(id: EntityId) {
   return callAPI({
     types: Joblistings.DELETE,
     endpoint: `/joblistings/${id}/`,
@@ -41,6 +44,7 @@ export function deleteJoblisting(id: ID) {
     },
   });
 }
+
 export function createJoblisting({
   company,
   responsible,
@@ -67,6 +71,7 @@ export function createJoblisting({
     },
   });
 }
+
 export function editJoblisting({
   id,
   company,

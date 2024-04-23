@@ -1,13 +1,13 @@
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './surveys.css';
-import type { SelectedSurvey } from 'app/reducers/surveys';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 type Props = {
-  survey: SelectedSurvey;
+  survey: DetailedSurvey;
   submission?: SurveySubmission;
 };
 
@@ -16,7 +16,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
     <ul className={styles.staticSubmission}>
       {survey.questions.map((question) => {
         const answer = submission?.answers.find(
-          (answer) => answer.question.id === question.id
+          (answer) => answer.question.id === question.id,
         );
         return (
           <li key={question.id}>
@@ -39,7 +39,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
                   const selected =
                     answer &&
                     typeof (answer.selectedOptions || []).find(
-                      (o) => o === option.id
+                      (o) => o === option.id,
                     ) !== 'undefined';
                   return (
                     <li key={option.id}>

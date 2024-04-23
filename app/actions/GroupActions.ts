@@ -1,16 +1,17 @@
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import { Group, Membership } from './ActionTypes';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { GroupType } from 'app/models';
+import type { TransformedMembership } from 'app/reducers/memberships';
 import type { AppDispatch } from 'app/store/createStore';
-import type { ID } from 'app/store/models';
 import type MembershipType from 'app/store/models/Membership';
 import type { CurrentUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 
 export type AddMemberArgs = {
-  groupId: ID;
-  userId: ID;
+  groupId: EntityId;
+  userId: EntityId;
   role: RoleType;
 };
 export function addMember({ groupId, userId, role }: AddMemberArgs) {
@@ -31,7 +32,10 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
   });
 }
 
-export function removeMember(membership: MembershipType) {
+export function removeMember(membership: {
+  id: EntityId;
+  abakusGroup: EntityId;
+}) {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
@@ -45,7 +49,7 @@ export function removeMember(membership: MembershipType) {
   });
 }
 
-export function fetchGroup(groupId: ID, { propagateError = true } = {}) {
+export function fetchGroup(groupId: EntityId, { propagateError = true } = {}) {
   return callAPI({
     types: Group.FETCH,
     endpoint: `/groups/${groupId}/`,
@@ -69,10 +73,11 @@ export function fetchAll() {
   });
 }
 
-export function fetchAllWithType(type: GroupType) {
+export function fetchAllWithType(type: GroupType | GroupType[]) {
   return callAPI({
     types: Group.FETCH,
-    endpoint: `/groups/?type=${type}`,
+    endpoint: `/groups/`,
+    query: { type },
     schema: [groupSchema],
     meta: {
       errorMessage: 'Henting av grupper feilet',
@@ -102,7 +107,11 @@ export function editGroup(group: Record<string, any>) {
   });
 }
 
-export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
+export function joinGroup(
+  groupId: EntityId,
+  user: CurrentUser,
+  role = 'member',
+) {
   return (dispatch: AppDispatch) =>
     dispatch(
       callAPI({
@@ -121,13 +130,16 @@ export function joinGroup(groupId: ID, user: CurrentUser, role = 'member') {
           groupId: groupId,
           username: user.username,
         },
-      })
+      }),
     ).then(() => {
       return dispatch(fetchMemberships({ groupId }));
     });
 }
 
-export function leaveGroup(membership: MembershipType, groupId: ID) {
+export function leaveGroup(
+  membership: TransformedMembership,
+  groupId: EntityId,
+) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI({
@@ -141,24 +153,24 @@ export function leaveGroup(membership: MembershipType, groupId: ID) {
           errorMessage: 'Utmelding fra gruppe feilet',
           successMessage: 'Utmelding fra gruppe fullført',
         },
-      })
+      }),
     ).then(() => {
       return dispatch(fetchMemberships({ groupId }));
     });
   };
 }
 
-export function fetchAllMemberships(groupId: ID, descendants = false) {
+export function fetchAllMemberships(groupId: EntityId, descendants = false) {
   return (dispatch: AppDispatch) => {
     return dispatch(
       fetchMembershipsPagination({
         descendants,
         groupId,
         next: true,
-      })
+      }),
     ).then(
       (res) =>
-        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants))
+        res.payload.next && dispatch(fetchAllMemberships(groupId, descendants)),
     );
   };
 }
@@ -169,7 +181,7 @@ export function fetchMemberships({
   query = {},
   propagateError = true,
 }: {
-  groupId: ID;
+  groupId: EntityId;
   descendants?: boolean;
   query?: Record<string, any>;
   propagateError?: boolean;
@@ -190,10 +202,10 @@ export function fetchMembershipsPagination({
   query = {},
   propagateError = true,
 }: {
-  groupId: ID;
+  groupId: EntityId;
   next: boolean;
   descendants: boolean;
-  query?: Record<string, string | number | boolean>;
+  query?: Record<string, string | number | boolean | undefined>;
   propagateError?: boolean;
 }) {
   return callAPI<MembershipType[]>({

@@ -6,7 +6,7 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import { GroupType } from 'app/models';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.css';
@@ -14,7 +14,7 @@ import styles from './InterestGroup.css';
 const InterestGroupList = () => {
   const actionGrant = useAppSelector((state) => state.groups.actionGrant);
   const interestGroups = useAppSelector((state) =>
-    selectGroupsWithType(state, { groupType: GroupType.Interest })
+    selectGroupsByType(state, GroupType.Interest),
   );
 
   const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ const InterestGroupList = () => {
   usePreparedEffect(
     'fetchAllInterestGroups',
     () => dispatch(fetchAllWithType(GroupType.Interest)),
-    []
+    [],
   );
 
   const canCreate = actionGrant.includes('create');

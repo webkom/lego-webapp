@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { produce } from 'immer';
+import { createSelector } from 'reselect';
 import { Comment } from 'app/actions/ActionTypes';
 import { EntityType } from 'app/store/models/entities';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
@@ -9,7 +10,6 @@ import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
-import type { ID } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Comment as CommentType } from 'app/store/models/Comment';
 import type { AnyAction } from 'redux';
@@ -17,14 +17,14 @@ import type { AnyAction } from 'redux';
 type WithComments<T> = T & { comments: CommentType[] };
 
 type StateWithComments<T, S> = S & {
-  byId: Record<ID, WithComments<T>>;
+  byId: Record<EntityId, WithComments<T>>;
 };
 
 /**
  * Used by the individual entity reducers
  */
 export function mutateComments<T, S = EntityReducerState<T>>(
-  forTargetType: string
+  forTargetType: string,
 ) {
   return produce((newState: StateWithComments<T, S>, action: AnyAction) => {
     switch (action.type) {
@@ -53,12 +53,12 @@ export function mutateComments<T, S = EntityReducerState<T>>(
 export const addCommentCases = (
   forTargetType: EntityType,
   addCase: ActionReducerMapBuilder<
-    EntityState<{ comments?: EntityId[] }>
-  >['addCase']
+    EntityState<{ comments?: EntityId[] }, EntityId>
+  >['addCase'],
 ) => {
   addCase(Comment.ADD.SUCCESS, (state, action: AnyAction) => {
     const { targetType, targetId } = parseContentTarget(
-      action.meta.contentTarget
+      action.meta.contentTarget,
     );
 
     if (targetType === forTargetType) {
@@ -93,3 +93,9 @@ const commentSlice = createSlice({
 export default commentSlice.reducer;
 export const { selectEntities: selectCommentEntities } =
   legoAdapter.getSelectors((state: RootState) => state.comments);
+
+export const selectCommentsByIds = createSelector(
+  selectCommentEntities,
+  (_: RootState, ids: EntityId[] = []) => ids,
+  (entities, ids) => ids.map((id) => entities[id]),
+);

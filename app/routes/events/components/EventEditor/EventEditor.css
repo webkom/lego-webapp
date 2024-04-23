@@ -1,5 +1,36 @@
 @import url('../Event.css');
 
+.editorSectionToggle {
+  position: sticky;
+  top: 0;
+  background-color: var(--lego-card-color);
+  z-index: 5;
+  box-shadow: var(--shadow-bottom-md);
+  margin-bottom: var(--spacing-md);
+  cursor: default;
+}
+
+.toggleIcon {
+  transition: var(--easing-medium);
+}
+
+.toggleIcon.expanded {
+  transform: rotate(90deg);
+}
+
+.editorSectionToggle.collapsible {
+  cursor: pointer;
+}
+
+.editorSectionRow {
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  @media (--medium-viewport) {
+    gap: 0;
+  }
+}
+
 .descriptionEditor {
   background: inherit;
   color: var(--lego-font-color);
@@ -16,17 +47,29 @@
 }
 
 .metaField {
-  margin-bottom: 0;
+  margin-bottom: var(--spacing-md);
+}
+
+.editorSectionRow > .metaField,
+.editorSectionRow > .editorSectionColumn {
+  flex-basis: calc(50% - var(--spacing-sm));
+
+  @media (--medium-viewport) {
+    flex-basis: 100%;
+  }
 }
 
 .metaFieldInformation {
+  margin-bottom: var(--spacing-sm);
+}
+
+.metaField.mazemap {
   margin-bottom: 0;
-  font-size: small;
 }
 
 .metaField input {
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding-bottom: var(--spacing-xs);
+  padding-top: var(--spacing-xs);
 }
 
 .metaList {
@@ -34,8 +77,35 @@
   align-items: center;
 }
 
+.metaList > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2%;
+}
+
+.metaList > ul > li {
+  flex-basis: 100%;
+}
+
+.metaList > ul > li.poolBox {
+  flex-basis: 32%;
+
+  @media (--medium-viewport) {
+    flex-basis: 49%;
+  }
+
+  @media (--small-viewport) {
+    flex-basis: 100%;
+  }
+}
+
 .metaList > span {
   display: flex;
+}
+
+.label {
+  cursor: default;
+  font-size: var(--font-size-lg);
 }
 
 .poolHeader {
@@ -43,26 +113,35 @@
 }
 
 .tagRow {
-  margin-top: 16px;
+  margin-top: var(--spacing-md);
 }
 
 .poolBox {
   border: 1.5px solid var(--border-gray);
   border-radius: var(--border-radius-lg);
-  padding: 10px;
-  margin-top: 10px;
+  padding: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
 }
 
 .centeredButton {
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
+}
+
+.metaField:has(+ .subSection) {
+  margin-bottom: var(--spacing-sm);
 }
 
 .subSection {
-  margin-left: 10px;
-  border-left: 4px solid var(--lego-red-color);
-  padding: 0 0 10px 10px;
+  margin-left: var(--spacing-sm);
+  border-left: var(--spacing-xs) solid var(--lego-red-color);
+  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.subSection .metaField {
+  margin-bottom: var(--spacing-sm);
 }
 
 .imageGallery {
@@ -89,7 +168,27 @@
 
 .emptyGallery {
   width: 50%;
-  margin: 1rem 0;
+  margin: var(--spacing-md) 0;
   color: var(--secondary-font-color);
   text-align: center;
+}
+
+.groupSuggestionWrapper {
+  margin-bottom: var(--spacing-sm);
+
+  > .groupSuggestion {
+    cursor: pointer;
+    font-size: var(--font-size-xs);
+
+    &.selected {
+      background-color: var(--lego-font-color);
+      color: var(--inverted-font-color);
+    }
+
+    &.implicit {
+      cursor: not-allowed;
+      background-color: var(--color-gray-4);
+      color: var(--inverted-font-color);
+    }
+  }
 }

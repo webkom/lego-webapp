@@ -6,19 +6,27 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { GroupType } from 'app/models';
-import { selectEmailUsers } from 'app/reducers/emailUsers';
-import { selectGroupsWithType } from 'app/reducers/groups';
+import { selectTransformedEmailUsers } from 'app/reducers/emailUsers';
+import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
+import type { ColumnProps } from 'app/components/Table';
 
 const emailUsersDefaultQuery = {
-  enabled: undefined as undefined | 'true' | 'false',
-  userGrade: undefined as undefined | string,
-  userCommittee: undefined as undefined | string,
+  enabled: '' as '' | 'true' | 'false',
+  userGrade: '',
+  userGroups: '',
   email: '',
   userFullname: '',
 };
+
+const relevantGroupTypes = [
+  GroupType.Committee,
+  GroupType.Board,
+  GroupType.Ordained,
+  GroupType.SubGroup,
+];
 
 const EmailUsers = () => {
   const { query, setQuery } = useQuery(emailUsersDefaultQuery);
@@ -28,21 +36,18 @@ const EmailUsers = () => {
       endpoint: '/email-users/',
       entity: 'emailUsers',
       query,
-    })(state)
+    })(state),
   );
   const emailUsers = useAppSelector((state) =>
-    selectEmailUsers(state, { pagination })
+    selectTransformedEmailUsers(state, { pagination }),
   );
-  const fetching = useAppSelector((state) => state.emailUsers.fetching);
-  const committees = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Committee,
-    })
+
+  const relevantGroups = useAppSelector((state) =>
+    selectGroupsByType(state, relevantGroupTypes),
   );
+
   const grades = useAppSelector((state) =>
-    selectGroupsWithType(state, {
-      groupType: GroupType.Grade,
-    })
+    selectGroupsByType(state, GroupType.Grade),
   );
 
   const dispatch = useAppDispatch();
@@ -50,15 +55,14 @@ const EmailUsers = () => {
   usePreparedEffect(
     'fetchEmailUsers',
     () =>
-      Promise.resolve([
-        dispatch(fetchAllWithType(GroupType.Committee)),
-        dispatch(fetchAllWithType(GroupType.Grade)),
+      Promise.allSettled([
+        dispatch(fetchAllWithType([...relevantGroupTypes, GroupType.Grade])),
         dispatch(fetch({ query })),
       ]),
-    []
+    [query],
   );
 
-  const columns = [
+  const columns: ColumnProps<(typeof emailUsers)[number]>[] = [
     {
       title: 'Navn',
       dataIndex: 'user.fullName',
@@ -67,7 +71,7 @@ const EmailUsers = () => {
       inlineFiltering: false,
       render: (_, emailUser) => (
         <Link to={`/admin/email/users/${emailUser.id}`}>
-          {emailUser.user.fullName}
+          {emailUser.user?.fullName}
         </Link>
       ),
     },
@@ -84,31 +88,34 @@ const EmailUsers = () => {
       ),
     },
     {
-      title: 'Komite',
-      dataIndex: 'userCommittee',
+      title: 'Grupper',
+      dataIndex: 'userGroups',
       inlineFiltering: false,
-      filterMessage: '- for å få brukere uten komite',
-      filter: committees
-        .map((committee) => ({
-          label: committee.name,
-          value: committee.name,
+      filterMessage: '- for å få brukere uten gruppetilhørighet',
+      filter: relevantGroups
+        .sort((group1, group2) => group1.name.localeCompare(group2.name))
+        .map((abakusGroup) => ({
+          label: abakusGroup.name,
+          value: abakusGroup.name,
         }))
         .concat({
-          label: 'Ikke abakom',
+          label: 'Ingen gruppetilhørighet',
           value: '-',
         }),
       render: (_, emailUser) => {
-        const output = emailUser.user.abakusGroups
-          .filter((abakusGroup) => abakusGroup.type === GroupType.Committee)
-          .map((committee) => (
+        const output = emailUser.user?.abakusGroups
+          .filter((abakusGroup) =>
+            relevantGroupTypes.includes(abakusGroup.type),
+          )
+          .map((abakusGroup) => (
             <Link
-              key={committee.id}
-              to={`/admin/groups/${committee.id}/members`}
+              key={abakusGroup.id}
+              to={`/admin/groups/${abakusGroup.id}/members`}
             >
-              {committee.name}{' '}
+              {abakusGroup.name}{' '}
             </Link>
           ));
-        if (!output.length) return <i> Ikke Abakom </i>;
+        if (!output?.length) return <i>Ingen gruppetilhørighet</i>;
         return output;
       },
     },
@@ -127,14 +134,14 @@ const EmailUsers = () => {
       inlineFiltering: false,
       filterMessage: '- for å få brukere uten klasse',
       render: (_, emailUser) => {
-        const output = emailUser.user.abakusGroups
+        const output = emailUser.user?.abakusGroups
           .filter((abakusGroup) => abakusGroup.type === GroupType.Grade)
           .map((grade) => (
             <Link key={grade.id} to={`/admin/groups/${grade.id}/members`}>
               {grade.name}{' '}
             </Link>
           ));
-        if (!output.length) return <i> Ikke student </i>;
+        if (!output?.length) return <i> Ikke student </i>;
         return output;
       },
     },
@@ -193,13 +200,13 @@ const EmailUsers = () => {
             fetch({
               next: true,
               query: query,
-            })
+            }),
           );
         }}
         filters={query}
         onChange={setQuery}
         hasMore={pagination.hasMore}
-        loading={fetching}
+        loading={pagination.fetching}
         data={emailUsers}
       />
     </div>

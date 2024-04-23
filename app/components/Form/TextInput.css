@@ -77,3 +77,7 @@ span.suffix {
 .removeBorder {
   border: none;
 }
+
+.phoneNumberInput {
+  padding: var(--spacing-sm);
+}

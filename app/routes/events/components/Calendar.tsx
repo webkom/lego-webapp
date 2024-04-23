@@ -4,7 +4,7 @@ import moment, { type Moment } from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchData } from 'app/actions/EventActions';
-import { useUserContext } from 'app/routes/app/AppRoute';
+import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import styles from './Calendar.css';
@@ -34,7 +34,7 @@ const getDate = (month?: string, year?: string) => {
 const Calendar = () => {
   const pagination = useAppSelector((state) => state.events.pagination);
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
   const icalToken = currentUser?.icalToken;
 
   const { month, year } = useParams<{ month: string; year: string }>();
@@ -56,7 +56,7 @@ const Calendar = () => {
         });
       }
     },
-    [month, year]
+    [month, year],
   );
 
   return (
@@ -90,7 +90,7 @@ const Calendar = () => {
           />
         ))}
       </div>
-      <EventFooter icalToken={icalToken} />
+      {icalToken && <EventFooter icalToken={icalToken} />}
     </div>
   );
 };

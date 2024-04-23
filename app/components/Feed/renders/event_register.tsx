@@ -1,50 +1,36 @@
 import { Icon } from '@webkom/lego-bricks';
-import DisplayContent from 'app/components/DisplayContent';
-import { lookupContext, contextRender } from '../context';
-import { formatHeader } from './utils';
-import type { AggregatedActivity, TagInfo } from '../types';
-import type { ReactElement } from 'react';
+import { contextRender } from '../context';
+import { UserActors } from './utils';
+import type ActivityRenderer from 'app/components/Feed/ActivityRenderer';
 
 /**
  * Grouped by target and date, standard...
  */
-export function activityHeader(
-  aggregatedActivity: AggregatedActivity,
-  htmlTag: (arg0: TagInfo) => ReactElement
-) {
-  const latestActivity = aggregatedActivity.lastActivity;
-  const actors = aggregatedActivity.actorIds.map((actorId) => {
-    return lookupContext(aggregatedActivity, actorId);
-  });
-  const target = lookupContext(aggregatedActivity, latestActivity.target);
+const EventRegisterRenderer: ActivityRenderer = {
+  Header: ({ aggregatedActivity, tag: Tag }) => {
+    const target =
+      aggregatedActivity.context[aggregatedActivity.lastActivity.target];
 
-  if (!(actors.length !== 0 && target)) {
-    return null;
-  }
+    return (
+      <b>
+        <UserActors aggregatedActivity={aggregatedActivity} Tag={Tag} /> meldte
+        seg på arrangementet{' '}
+        <Tag {...contextRender[target.contentType](target)} />
+      </b>
+    );
+  },
+  Content: () => null,
+  Icon: () => <Icon name="chatbubble" />,
+  getNotificationUrl: (aggregatedActivity) => {
+    const latestActivity = aggregatedActivity.lastActivity;
+    const event = aggregatedActivity.context[latestActivity.target];
 
-  const actorsRender = actors.map((actor) =>
-    htmlTag(contextRender[actor.contentType](actor))
-  );
-  return (
-    <b>
-      {formatHeader(actorsRender)} meldte seg på arrangementet{' '}
-      {htmlTag(contextRender[target.contentType](target))}
-    </b>
-  );
-}
-export function activityContent() {
-  return <DisplayContent content="" />;
-}
-export function icon() {
-  return <Icon name="chatbubble" />;
-}
-export function getURL(aggregatedActivity: AggregatedActivity) {
-  const latestActivity = aggregatedActivity.lastActivity;
-  const event = lookupContext(aggregatedActivity, latestActivity.target);
+    if (!event) {
+      return '/events';
+    }
 
-  if (!event) {
-    return '/events';
-  }
+    return `/events/${event.id}`;
+  },
+};
 
-  return `/events/${event.id}`;
-}
+export default EventRegisterRenderer;

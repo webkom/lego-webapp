@@ -6,11 +6,19 @@ import { createSelector } from 'reselect';
 import config from 'app/config';
 import { eventSchema } from 'app/reducers';
 import { mutateComments, selectCommentEntities } from 'app/reducers/comments';
+import { selectUserEntities } from 'app/reducers/users';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { Event } from '../actions/ActionTypes';
+import { selectPoolEntities } from './pools';
+import {
+  selectRegistrationEntities,
+  selectRegistrationIds,
+} from './registrations';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 import type { DetailedEvent } from 'app/store/models/Event';
 
 type State = any;
@@ -139,9 +147,11 @@ const mutateEvent = produce((newState: State, action: any): void => {
       if (stateEvent.waitingRegistrations) {
         stateEvent.waitingRegistrations =
           stateEvent.waitingRegistrations.filter(
-            (id) => id !== action.payload.id
+            (id) => id !== action.payload.id,
           );
       }
+
+      stateEvent.following = false;
 
       break;
     }
@@ -162,8 +172,7 @@ const mutateEvent = produce((newState: State, action: any): void => {
 
     case Event.FOLLOW.SUCCESS:
       if (newState.byId[action.meta.body.target]) {
-        newState.byId[action.meta.body.target].following =
-          action.payload.result;
+        newState.byId[action.meta.body.target].following = action.payload.id;
       }
       break;
 
@@ -172,6 +181,13 @@ const mutateEvent = produce((newState: State, action: any): void => {
         newState.byId[action.meta.eventId].following = false;
       }
       break;
+
+    case Event.FETCH_FOLLOWERS.SUCCESS:
+      const event = newState.byId[action.meta.eventId];
+      const followObj = action.payload.results.find(
+        (follow) => follow.follower.id === action.meta.currentUserId,
+      );
+      event.following = followObj?.id;
 
     default:
       break;
@@ -217,18 +233,18 @@ export const selectEvents = createSelector(
   (eventsById, eventIds) =>
     eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
       ReturnType<typeof transformEvent>
-    >
+    >,
 );
 export const selectPreviousEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming === false)
+  events.filter((event) => event.isUsersUpcoming === false),
 );
 export const selectUpcomingEvents = createSelector(selectEvents, (events) =>
-  events.filter((event) => event.isUsersUpcoming)
+  events.filter((event) => event.isUsersUpcoming),
 );
 export const selectSortedEvents = createSelector(selectEvents, (events) =>
   [...events].sort(
-    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix()
-  )
+    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix(),
+  ),
 );
 
 export const selectEventById = createSelector(
@@ -242,7 +258,7 @@ export const selectEventById = createSelector(
     }
 
     return {};
-  }
+  },
 );
 
 export const selectEventBySlug = createSelector(
@@ -250,7 +266,7 @@ export const selectEventBySlug = createSelector(
   (state, props) => props.eventSlug,
   (eventsById, eventSlug) => {
     const event = Object.values(eventsById).find(
-      (event) => event.slug === eventSlug
+      (event) => event.slug === eventSlug,
     );
 
     if (event) {
@@ -258,7 +274,7 @@ export const selectEventBySlug = createSelector(
     }
 
     return {};
-  }
+  },
 );
 
 export const selectEventByIdOrSlug = createSelector(
@@ -271,33 +287,33 @@ export const selectEventByIdOrSlug = createSelector(
       eventSlug: eventIdOrSlug,
     });
   },
-  (event) => event
+  (event) => event,
 );
 
 export const selectPoolsForEvent = createSelector(
   selectEventById,
-  (state) => state.pools.byId,
-  (event, poolsById) => {
+  selectPoolEntities,
+  (event, poolEntities) => {
     if (!event) return [];
-    return (event.pools || []).map((poolId) => poolsById[poolId]);
-  }
+    return (event.pools || []).map((poolId) => poolEntities[poolId]);
+  },
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
-  (pools, registrationsById, usersById) =>
+  selectRegistrationEntities,
+  selectUserEntities,
+  (pools, registrationEntities, userEntities) =>
     pools.map((pool) => ({
       ...pool,
       registrations: orderBy(
         (pool.registrations || []).map((regId) => {
-          const registration = registrationsById[regId];
-          return { ...registration, user: usersById[registration.user] };
+          const registration = registrationEntities[regId];
+          return { ...registration, user: userEntities[registration.user] };
         }),
         'sharedMemberships',
-        'desc'
+        'desc',
       ),
-    }))
+    })),
 );
 export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
   if (pools.length === 0) return [];
@@ -308,7 +324,7 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
         (total, pool) => {
           const capacity = total.capacity + pool.capacity;
           const permissionGroups = total.permissionGroups.concat(
-            pool.permissionGroups
+            pool.permissionGroups,
           );
           const registrationCount =
             total.registrationCount + pool.registrationCount;
@@ -322,16 +338,16 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
           capacity: 0,
           permissionGroups: [],
           registrationCount: 0,
-        }
+        },
       ),
     },
   ];
 });
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
-  (pools, registrationsById, usersById) => {
+  selectRegistrationEntities,
+  selectUserEntities,
+  (pools, registrationEntities, userEntities) => {
     if (pools.length === 0) return [];
     return [
       {
@@ -340,13 +356,16 @@ export const selectMergedPoolWithRegistrations = createSelector(
           (total, pool) => {
             const capacity = total.capacity + pool.capacity;
             const permissionGroups = total.permissionGroups.concat(
-              pool.permissionGroups
+              pool.permissionGroups,
             );
             const registrations = total.registrations.concat(
               pool.registrations?.map((regId) => {
-                const registration = registrationsById[regId];
-                return { ...registration, user: usersById[registration.user] };
-              })
+                const registration = registrationEntities[regId];
+                return {
+                  ...registration,
+                  user: userEntities[registration.user],
+                };
+              }),
             );
             return {
               capacity,
@@ -354,7 +373,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
               registrations: orderBy(
                 registrations,
                 'sharedMemberships',
-                'desc'
+                'desc',
               ),
               registrationCount: registrations.length,
             };
@@ -364,20 +383,20 @@ export const selectMergedPoolWithRegistrations = createSelector(
             permissionGroups: [],
             registrations: [],
             registrationCount: 0,
-          }
+          },
         ),
       },
     ];
-  }
+  },
 );
 export const selectAllRegistrationsForEvent = createSelector(
-  (state) => state.registrations.byId,
-  (state) => state.registrations.items,
-  (state) => state.users.byId,
-  (state, props) => props.eventId,
-  (registrationsById, registrationItems, usersById, eventId) =>
-    registrationItems
-      .map((regId) => registrationsById[regId])
+  selectRegistrationEntities,
+  selectRegistrationIds,
+  selectUserEntities,
+  (_: RootState, props: { eventId: EntityId }) => props.eventId,
+  (registrationEntities, registrationIds, usersById, eventId) =>
+    registrationIds
+      .map((regId) => registrationEntities[regId])
       .filter((registration) => registration.event === Number(eventId))
       .map((registration) => {
         const user = registration.user.id
@@ -399,19 +418,19 @@ export const selectAllRegistrationsForEvent = createSelector(
           createdBy,
           updatedBy,
         });
-      })
+      }),
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
-  (state) => state.registrations.byId,
-  (state) => state.users.byId,
-  (event, registrationsById, usersById) => {
+  selectRegistrationEntities,
+  selectUserEntities,
+  (event, registrationEntities, userEntities) => {
     if (!event) return [];
     return (event.waitingRegistrations || []).map((regId) => {
-      const registration = registrationsById[regId];
-      return { ...registration, user: usersById[registration.user] };
+      const registration = registrationEntities[regId];
+      return { ...registration, user: userEntities[registration.user] };
     });
-  }
+  },
 );
 export const selectRegistrationForEventByUserId = createSelector(
   selectAllRegistrationsForEvent,
@@ -419,7 +438,7 @@ export const selectRegistrationForEventByUserId = createSelector(
   (registrations, userId) => {
     const userReg = registrations.filter((reg) => reg.user.id === userId);
     return userReg.length > 0 ? userReg[0] : null;
-  }
+  },
 );
 export const selectCommentsForEvent = createSelector(
   selectEventById,
@@ -427,9 +446,9 @@ export const selectCommentsForEvent = createSelector(
   (event, commentEntities) => {
     if (!event) return [];
     return (event.comments || []).map(
-      (commentId) => commentEntities[commentId]
+      (commentId) => commentEntities[commentId],
     );
-  }
+  },
 );
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
@@ -439,25 +458,25 @@ export const selectRegistrationsFromPools = createSelector(
     return orderBy(
       registrationPools.flatMap((pool) => pool.registrations || []),
       'sharedMemberships',
-      'desc'
+      'desc',
     );
-  }
+  },
 );
 export const getRegistrationGroups = createSelector(
   selectAllRegistrationsForEvent,
   (registrations) => {
     const grouped = groupBy(registrations, (obj) =>
-      obj.unregistrationDate.isValid() ? 'unregistered' : 'registered'
+      obj.unregistrationDate.isValid() ? 'unregistered' : 'registered',
     );
     const registered = (grouped['registered'] || []).sort((a, b) =>
-      a.registrationDate.diff(b.registrationDate)
+      a.registrationDate.diff(b.registrationDate),
     );
     const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
-      a.unregistrationDate.diff(b.unregistrationDate)
+      a.unregistrationDate.diff(b.unregistrationDate),
     );
     return {
       registered,
       unregistered,
     };
-  }
+  },
 );

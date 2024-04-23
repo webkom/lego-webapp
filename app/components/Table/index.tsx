@@ -1,4 +1,3 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
@@ -6,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
 import styles from './Table.css';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 
 export type Sort = {
@@ -19,18 +18,16 @@ type QueryFilters = Record<string, string | undefined>;
 export type IsShown = Record<string, boolean>;
 export type ShowColumn = Record<string, number>;
 
-export type TableData = object & { id: ID };
-
 type CheckFilter = {
   label: string;
   value: any;
 };
 
-export type ColumnProps = {
+export type ColumnProps<T = unknown> = {
   dataIndex: string;
   filterIndex?: string;
   title?: string;
-  sorter?: boolean | ((arg0: any, arg1: any) => number);
+  sorter?: boolean | ((arg0: T, arg1: T) => number);
   filter?: Array<CheckFilter>;
   filterOptions?: {
     multiSelect?: boolean;
@@ -42,10 +39,10 @@ export type ColumnProps = {
    * is in english, and the search should be in norwegian
    *
    */
-  filterMapping?: (arg0: any) => any;
+  filterMapping?: (arg0: T) => any;
   search?: boolean;
   width?: number;
-  render?: (arg0: any, arg1: Record<string, any>) => ReactNode;
+  render?: (data: any, object: T) => ReactNode;
   // Should column be rendered. Will render when not set
   visible?: boolean;
   centered?: boolean;
@@ -54,10 +51,10 @@ export type ColumnProps = {
   columnChoices?: ColumnProps[];
 };
 
-type TableProps = {
+type TableProps<T extends { id: EntityId }> = {
   rowKey?: string;
-  columns: ColumnProps[];
-  data: TableData[];
+  columns: ColumnProps<T>[];
+  data: T[];
   hasMore: boolean;
   loading: boolean;
   onChange?: (queryFilters: QueryFilters, querySort: Sort) => void;
@@ -72,23 +69,23 @@ const filtersToQueryFilters: (filters: Filters) => QueryFilters = (filters) => {
   const queryFilters: QueryFilters = {};
   Object.entries(filters).forEach(
     ([key, filter]) =>
-      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined)
+      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined),
   );
   return queryFilters;
 };
 
 const queryFiltersToFilters: (queryFilters?: QueryFilters) => Filters = (
-  queryFilters
+  queryFilters,
 ) => {
   if (!queryFilters) return {};
   const filters: Filters = {};
   Object.entries(queryFilters).forEach(
-    ([key, queryFilter]) => (filters[key] = queryFilter?.split(','))
+    ([key, queryFilter]) => (filters[key] = queryFilter?.split(',')),
   );
   return filters;
 };
 
-const Table: React.FC<TableProps> = ({
+const Table = <T extends { id: EntityId }>({
   columns,
   data,
   rowKey = 'id',
@@ -98,10 +95,10 @@ const Table: React.FC<TableProps> = ({
   onChange,
   onLoad,
   ...props
-}) => {
+}: TableProps<T>) => {
   const [sort, setSort] = useState<Sort>({});
   const [filters, setFilters] = useState<Filters>(
-    queryFiltersToFilters(props.filters)
+    queryFiltersToFilters(props.filters),
   );
   const [isShown, setIsShown] = useState<IsShown>({});
   const [showColumn, setShowColumn] = useState<ShowColumn>({});
@@ -134,13 +131,13 @@ const Table: React.FC<TableProps> = ({
         return -1;
       };
     const sortedData = [...data].sort((a, b) =>
-      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0
+      sorter !== undefined && typeof sorter !== 'boolean' ? sorter(a, b) : 0,
     );
     if (direction === 'desc') sortedData.reverse();
     return sortedData;
   }, [sort, data]);
 
-  const filter: (item: TableData) => boolean = (item) => {
+  const filter: (item: T) => boolean = (item) => {
     if (isEmpty(filters)) {
       return true;
     }
@@ -151,7 +148,7 @@ const Table: React.FC<TableProps> = ({
         filterMapping = (val) => val,
         dataIndex = key,
       } = columns.find(
-        (column) => column.filterIndex ?? column.dataIndex === key
+        (column) => column.filterIndex ?? column.dataIndex === key,
       ) || {};
       if (!inlineFiltering) return true;
 
@@ -164,7 +161,7 @@ const Table: React.FC<TableProps> = ({
       }
 
       return filters[key]?.some((arrayFilter) =>
-        filterMapping(get(item, dataIndex)).toLowerCase().includes(arrayFilter)
+        filterMapping(get(item, dataIndex)).toLowerCase().includes(arrayFilter),
       );
     }).length;
     return match > 0;
@@ -176,12 +173,14 @@ const Table: React.FC<TableProps> = ({
     }
   };
 
+  const visibleColumns = columns.filter(isVisible);
+
   return (
     <div className={cx(styles.wrapper, className)}>
       <table>
         <thead>
           <tr>
-            {columns.filter(isVisible).map((column, index) => (
+            {visibleColumns.map((column, index) => (
               <HeadCell
                 key={column.dataIndex + column.title}
                 column={column}
@@ -217,13 +216,16 @@ const Table: React.FC<TableProps> = ({
               ))}
             </tr>
           ))}
-          {loading && (
-            <tr>
-              <td className={styles.loader} colSpan={columns.length}>
-                <LoadingIndicator loading={loading} />
-              </td>
-            </tr>
-          )}
+          {loading &&
+            Array.from({ length: 10 }).map((_, index) => (
+              <tr key={index}>
+                {Array.from({ length: visibleColumns.length }).map(
+                  (_, index) => (
+                    <td key={index} className={styles.loader} />
+                  ),
+                )}
+              </tr>
+            ))}
         </InfiniteScroll>
       </table>
     </div>

@@ -12,10 +12,8 @@ import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
-import {
-  selectOAuth2Applications,
-  selectOAuth2Grants,
-} from 'app/reducers/oauth2';
+import { selectAllOAuth2Applications } from 'app/reducers/oauth2Applications';
+import { selectAllOAuth2Grants } from 'app/reducers/oauth2Grants';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './UserSettingsOAuth2.css';
 
@@ -25,20 +23,20 @@ const UserSettingsOAuth2 = () => {
   usePreparedEffect(
     'fetchUserSettingsOAuth2',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchOAuth2Applications()),
         dispatch(fetchOAuth2Grants()),
       ]),
-    []
+    [],
   );
 
-  const applications = useAppSelector(selectOAuth2Applications);
-  const grants = useAppSelector(selectOAuth2Grants);
+  const applications = useAppSelector(selectAllOAuth2Applications);
+  const grants = useAppSelector(selectAllOAuth2Grants);
   const actionGrant = useAppSelector(
-    (state) => state.oauth2Applications.actionGrant
+    (state) => state.oauth2Applications.actionGrant,
   );
   const fetchingApplications = useAppSelector(
-    (state) => state.oauth2Applications.fetching
+    (state) => state.oauth2Applications.fetching,
   );
   const fetchingGrants = useAppSelector((state) => state.oauth2Grants.fetching);
 
@@ -190,14 +188,14 @@ const UserSettingsOAuth2 = () => {
       </ul>
 
       <h3>Applikasjoner</h3>
-      <Flex column gap="1rem">
+      <Flex column gap="var(--spacing-md)">
         {actionGrant.includes('create') && (
           <Button>
             <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
           </Button>
         )}
-        {applications.length === 0 ? (
-          <span>Du har ingen applikasjoner</span>
+        {applications.length === 0 && !fetchingApplications ? (
+          <span className="secondaryFontColor">Du har ingen applikasjoner</span>
         ) : (
           <Table
             columns={applicationColumns}
@@ -209,8 +207,10 @@ const UserSettingsOAuth2 = () => {
       </Flex>
 
       <h3>Aksepterte applikasjoner</h3>
-      {grants.length === 0 ? (
-        <span>Du har ikke logget på en app enda.</span>
+      {grants.length === 0 && !fetchingGrants ? (
+        <span className="secondaryFontColor">
+          Du har ikke logget på en app enda
+        </span>
       ) : (
         <Table
           columns={acceptedApplicationcolumns}

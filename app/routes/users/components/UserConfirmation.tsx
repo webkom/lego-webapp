@@ -30,6 +30,7 @@ import {
   required,
   sameAs,
 } from 'app/utils/validation';
+import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import { validPassword } from '../utils';
 import Confetti from './Confetti';
 import PasswordField from './PasswordField';
@@ -63,7 +64,7 @@ const UserConfirmationForm = () => {
         return dispatch(validateRegistrationToken(token));
       }
     },
-    []
+    [],
   );
 
   const dispatch = useAppDispatch();
@@ -99,7 +100,7 @@ const UserConfirmationForm = () => {
               at du er student.
             </span>
           </Card>
-          <Flex gap="1rem">
+          <Flex gap="var(--spacing-md)">
             <Link to="/users/me/settings/student-confirmation/">
               <Button success>Verifiser studentstatus</Button>
             </Link>
@@ -193,12 +194,7 @@ const UserConfirmationForm = () => {
               />
             </MultiSelectGroup>
 
-            <Field
-              name="allergies"
-              placeholder="Allergier"
-              label="Matallergier/preferanser"
-              component={TextInput.Field}
-            />
+            <AllergiesOrPreferencesField />
 
             <Field
               label="Telefonnummer"
@@ -226,7 +222,7 @@ const validate = createValidator(
     allergies: [isValidAllergy()],
   },
   undefined,
-  true
+  true,
 );
 
 export default UserConfirmationForm;

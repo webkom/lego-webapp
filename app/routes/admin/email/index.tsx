@@ -1,17 +1,20 @@
+import loadable from '@loadable/component';
 import { Helmet } from 'react-helmet-async';
-import { Route, Routes } from 'react-router-dom';
+import { Outlet, type RouteObject } from 'react-router-dom';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import EmailListEditor from 'app/routes/admin/email/components/EmailListEditor';
-import EmailLists from 'app/routes/admin/email/components/EmailLists';
-import EmailUserEditor from 'app/routes/admin/email/components/EmailUserEditor';
-import EmailUsers from 'app/routes/admin/email/components/EmailUsers';
-import RestrictedMailEditor from 'app/routes/admin/email/components/RestrictedMailEditor';
-import RestrictedMails from 'app/routes/admin/email/components/RestrictedMails';
-import PageNotFound from 'app/routes/pageNotFound';
+import pageNotFound from '../../pageNotFound';
 
-const EmailRoute = () => (
+const EmailLists = loadable(() => import('./components/EmailLists'));
+const EmailListEditor = loadable(() => import('./components/EmailListEditor'));
+const EmailUsers = loadable(() => import('./components/EmailUsers'));
+const EmailUserEditor = loadable(() => import('./components/EmailUserEditor'));
+const RestrictedMails = loadable(() => import('./components/RestrictedMails'));
+const RestrictedMailEditor = loadable(
+  () => import('./components/RestrictedMailEditor'),
+);
+const EmailRouteWrapper = () => (
   <Content>
     <Helmet title="E-post" />
     <NavigationTab title="E-post">
@@ -24,22 +27,27 @@ const EmailRoute = () => (
       </NavigationLink>
     </NavigationTab>
 
-    <Routes>
-      <Route index element={<EmailLists />} />
-      <Route path="lists/new`" element={<EmailListEditor />} />
-      <Route path="lists/:emailListId" element={<EmailListEditor />} />
-      <Route path="users" element={<EmailUsers />} />
-      <Route path="users/new" element={<EmailUserEditor />} />
-      <Route path="users/:emailUserId" element={<EmailUserEditor />} />
-      <Route path="restricted" element={<RestrictedMails />} />
-      <Route path="restricted/new" element={<RestrictedMailEditor />} />
-      <Route
-        path="restricted/:restrictedMailId"
-        element={<RestrictedMailEditor />}
-      />
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+    <Outlet />
   </Content>
 );
 
-export default EmailRoute;
+const emailRoute: RouteObject[] = [
+  {
+    Component: EmailRouteWrapper,
+    children: [
+      { index: true, Component: EmailLists },
+      { path: 'lists', Component: EmailLists },
+      { path: 'lists/new', Component: EmailListEditor },
+      { path: 'lists/:emailListId', Component: EmailListEditor },
+      { path: 'users', Component: EmailUsers },
+      { path: 'users/new', Component: EmailUserEditor },
+      { path: 'users/:emailUserId', Component: EmailUserEditor },
+      { path: 'restricted', Component: RestrictedMails },
+      { path: 'restricted/new', Component: RestrictedMailEditor },
+      { path: 'restricted/:restrictedMailId', Component: RestrictedMailEditor },
+    ],
+  },
+  { path: '*', children: pageNotFound },
+];
+
+export default emailRoute;

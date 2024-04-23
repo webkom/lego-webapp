@@ -13,7 +13,7 @@ export function fetchNotificationData(): Thunk<any> {
       callAPI({
         types: NotificationsFeed.FETCH_DATA,
         endpoint: '/feed-notifications/notification_data/',
-      })
+      }),
     );
   };
 }

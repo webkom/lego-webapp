@@ -1,82 +1,89 @@
-import { Button } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
+import { useOutletContext } from 'react-router-dom';
 import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
+import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import styles from '../surveys.css';
 import Results from './Results';
 import type { GraphData } from './Results';
-import type { SelectedSurvey } from 'app/reducers/surveys';
-import type { ID } from 'app/store/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { SurveysRouteContext } from 'app/routes/surveys';
 import type { AdminSurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
-import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { ReactNode } from 'react';
 
-type Props = {
-  submissions: SurveySubmission[];
-  survey: SelectedSurvey;
-};
-
-const SubmissionsSummary = ({ submissions, survey }: Props) => {
+const SubmissionsSummary = () => {
+  const { submissions, survey } = useOutletContext<SurveysRouteContext>();
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {
     const texts: ReactNode[] = submissions
       .map((submission) => {
         const answer = submission.answers.find(
-          (answer) => answer.question.id === question.id
+          (answer) => answer.question.id === question.id,
         ) as AdminSurveyAnswer;
         return (
-          answer && (
-            <li
+          answer &&
+          answer.answerText && (
+            <Flex
               key={answer.id}
-              className={styles.adminAnswer}
-              style={{
-                backgroundColor: answer.hideFromPublic
-                  ? 'var(--additive-background)'
-                  : undefined,
-                padding: answer.hideFromPublic ? '5px' : undefined,
-              }}
+              justifyContent="space-between"
+              alignItems="center"
+              gap="0.5rem"
             >
-              <span>{answer.answerText}</span>
-              {answer.hideFromPublic ? (
-                <Button
-                  flat
+              <span
+                className={styles.answerText}
+                style={{
+                  backgroundColor: answer.hideFromPublic
+                    ? 'rgba(255, 0, 0, var(--low-alpha)'
+                    : undefined,
+                }}
+              >
+                {answer.answerText}
+              </span>
+              <Tooltip
+                content={
+                  answer.hideFromPublic ? 'Vis kommentar' : 'Skjul kommentar'
+                }
+              >
+                <Icon
                   onClick={() =>
-                    dispatch(showAnswer(survey.id, submission.id, answer.id))
+                    dispatch(
+                      answer.hideFromPublic
+                        ? showAnswer(survey.id, submission.id, answer.id)
+                        : hideAnswer(survey.id, submission.id, answer.id),
+                    )
                   }
-                >
-                  vis
-                </Button>
-              ) : (
-                <Button
-                  flat
-                  onClick={() =>
-                    dispatch(hideAnswer(survey.id, submission.id, answer.id))
+                  name={
+                    answer.hideFromPublic ? 'eye-outline' : 'eye-off-outline'
                   }
-                >
-                  skjul
-                </Button>
-              )}
-            </li>
+                />
+              </Tooltip>
+            </Flex>
           )
         );
       })
       .filter(isNotNullish);
-    return texts.length === 0 ? <i>Ingen svar.</i> : texts;
+
+    return texts.length === 0 ? (
+      <span className="secondaryFontColor">Ingen svar</span>
+    ) : (
+      texts
+    );
   };
 
   const generateQuestionData = (question: SurveyQuestion) => {
-    const questionData: GraphData[ID] = [];
+    const questionData: GraphData[EntityId] = [];
     question.options.forEach((option) => {
       const selectedCount = submissions
         .map((submission) =>
           submission.answers.find(
-            (answer) => answer.question.id === question.id
-          )
+            (answer) => answer.question.id === question.id,
+          ),
         )
         .filter((answer) =>
-          (answer?.selectedOptions || []).find((o) => o === option.id)
+          (answer?.selectedOptions || []).find((o) => o === option.id),
         ).length;
       questionData.push({
         name: option.optionText,

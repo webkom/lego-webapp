@@ -1,21 +1,20 @@
 import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import { connect } from 'react-redux';
-import { Gallery } from 'app/actions/ActionTypes';
 import { Image } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import {
   selectGalleryPictureById,
   initialUploadStatus,
+  hideUploadStatus,
 } from 'app/reducers/galleryPictures';
 import styles from './PhotoUploadStatus.css';
-import type {
-  UploadStatus,
-  GalleryPictureEntity,
-} from 'app/reducers/galleryPictures';
+import type { UploadStatus } from 'app/reducers/galleryPictures';
+import type { RootState } from 'app/store/createRootReducer';
+import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 
 type StateProps = {
   uploadStatus: UploadStatus;
-  lastImage: GalleryPictureEntity | null | undefined;
+  lastImage: GalleryListPicture | undefined;
 };
 type DispatchedProps = {
   hideUploadStatus: () => void;
@@ -46,8 +45,8 @@ const UploadStatusCard = ({
           {uploadStatus.successCount > 1
             ? uploadStatus.successCount
             : hasFailedUploads
-            ? 'Ingen'
-            : 'Ett'}{' '}
+              ? 'Ingen'
+              : 'Ett'}{' '}
           {hasFailedUploads ? `av ${uploadStatus.imageCount}` : ''}{' '}
           {uploadStatus.successCount === 1 ? 'bilde' : 'bilder'} ble lastet opp
         </Card.Header>
@@ -70,11 +69,11 @@ const UploadStatusCard = ({
               {uploadStatus.failedImages.map(
                 (
                   name,
-                  index // Since we never remove elements from the list, we can use
+                  index, // Since we never remove elements from the list, we can use
                 ) => (
                   // the index as the key,
                   <Flex key={index}>{name}</Flex>
-                )
+                ),
               )}
             </Flex>
           }
@@ -98,16 +97,16 @@ const UploadStatusCard = ({
   );
 };
 
-const mapStateToProps: (arg0: any) => StateProps = (state) => {
+const mapStateToProps = (state: RootState): StateProps => {
   const {
     uploadStatus = initialUploadStatus,
   }: {
     uploadStatus: UploadStatus;
   } = state.galleryPictures;
-  const lastImage: GalleryPictureEntity | null | undefined =
-    selectGalleryPictureById(state, {
-      pictureId: uploadStatus.lastUploadedImage,
-    });
+  const lastImage = selectGalleryPictureById(
+    state,
+    uploadStatus.lastUploadedImage,
+  );
   return {
     uploadStatus,
     lastImage,
@@ -115,14 +114,11 @@ const mapStateToProps: (arg0: any) => StateProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  hideUploadStatus: () =>
-    dispatch({
-      type: Gallery.HIDE_UPLOAD_STATUS,
-    }),
+  hideUploadStatus: () => dispatch(hideUploadStatus()),
 });
 
 const ConnectedUploadStatusCard = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UploadStatusCard);
 export default ConnectedUploadStatusCard;

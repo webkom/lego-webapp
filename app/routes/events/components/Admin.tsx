@@ -4,13 +4,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteEvent } from 'app/actions/EventActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
+import { TextInput } from 'app/components/Form';
 import { useAppDispatch } from 'app/store/hooks';
+import styles from './Admin.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { ID } from 'app/store/models';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';
 
 type ButtonProps = {
-  eventId: ID;
+  eventId: EntityId;
   title: string;
 };
 
@@ -21,51 +23,47 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  let deleteEventButton;
-
-  if (eventName === title) {
-    deleteEventButton = (
-      <ConfirmModal
-        title="Slett arrangement"
-        message="Er du sikker på at du vil slette dette arrangementet?"
-        onConfirm={() =>
-          dispatch(deleteEvent(eventId)).then(() => {
-            navigate('/events');
-          })
-        }
-      >
-        {({ openConfirmModal }) => (
-          <Button onClick={openConfirmModal} danger>
-            <Icon name="trash" size={19} />
-            Slett
-          </Button>
-        )}
-      </ConfirmModal>
-    );
-  }
-
   return (
-    <div>
-      {show === false && (
+    <>
+      {!show ? (
         <Button danger onClick={() => setShow(true)}>
           <Icon name="trash" size={19} />
           Slett arrangement
         </Button>
-      )}
-      {show && (
+      ) : (
         <>
-          <span>Skriv inn navnet på arrangementet du vil slette:</span>
-          <input
+          <label htmlFor="delete-event">
+            Skriv inn navnet på arrangementet du vil slette
+          </label>
+          <TextInput
+            id="delete-event"
             type="text"
-            id="slettArrangement"
+            prefix="warning"
             placeholder="Arrangementnavn"
             onChange={(e) => setEventName(e.target.value)}
-          />{' '}
-          <br />
-          {deleteEventButton}
+          />
+
+          {eventName === title && (
+            <ConfirmModal
+              title="Slett arrangement"
+              message="Er du helt sikker på at du vil slette dette arrangementet?"
+              onConfirm={() =>
+                dispatch(deleteEvent(eventId)).then(() => {
+                  navigate('/events');
+                })
+              }
+            >
+              {({ openConfirmModal }) => (
+                <Button onClick={openConfirmModal} danger>
+                  <Icon name="trash" size={19} />
+                  Slett
+                </Button>
+              )}
+            </ConfirmModal>
+          )}
         </>
       )}
-    </div>
+    </>
   );
 };
 
@@ -79,11 +77,11 @@ const Admin = ({ actionGrant, event }: Props) => {
   const canDelete = actionGrant.includes('delete');
   const showRegisterButton =
     Math.abs(
-      moment.duration(moment(event.startTime).diff(moment.now())).get('days')
+      moment.duration(moment(event.startTime).diff(moment.now())).get('days'),
     ) < 1;
 
   return (
-    <Flex column gap={7}>
+    <Flex column gap="0.5rem" className={styles.admin}>
       {(canEdit || canDelete) && (
         <>
           <h3>Admin</h3>
@@ -133,14 +131,7 @@ const Admin = ({ actionGrant, event }: Props) => {
             </Link>
           )}
 
-          <Link
-            to={{
-              pathname: `/events/create`,
-              state: {
-                id: event.id,
-              },
-            }}
-          >
+          <Link to="/events/create" state={{ id: event.id }}>
             <Button>
               <Icon name="copy-outline" size={19} />
               Lag kopi av arrangement

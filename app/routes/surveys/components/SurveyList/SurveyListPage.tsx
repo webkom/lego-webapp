@@ -7,12 +7,13 @@ import {
 import { Content } from 'app/components/Content';
 import Paginator from 'app/components/Paginator';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectSurveys, selectSurveyTemplates } from 'app/reducers/surveys';
+import { selectAllSurveys, selectSurveyTemplates } from 'app/reducers/surveys';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { ListNavigation } from '../../utils';
 import SurveyList from './SurveyList';
+import type { DetailedSurvey } from 'app/store/models/Survey';
 
 type Props = {
   templates?: boolean;
@@ -26,16 +27,15 @@ const SurveyListPage = ({ templates }: Props) => {
   const surveys = useAppSelector((state) =>
     templates
       ? selectSurveyTemplates(state)
-      : selectSurveys(state).filter((survey) => !survey.templateType)
-  );
+      : selectAllSurveys(state).filter((survey) => !survey.templateType),
+  ) as DetailedSurvey[];
 
-  const fetching = useAppSelector((state) => state.surveys.fetching);
   const { pagination } = useAppSelector(
     selectPaginationNext({
       endpoint: templates ? '/survey-templates/' : '/surveys/',
       entity: EntityType.Surveys,
       query: {},
-    })
+    }),
   );
 
   return (
@@ -45,16 +45,16 @@ const SurveyListPage = ({ templates }: Props) => {
 
       <Paginator
         hasMore={pagination.hasMore}
-        fetching={fetching}
+        fetching={pagination.fetching}
         fetchNext={() => {
           dispatch(
             fetchAll({
               next: true,
-            })
+            }),
           );
         }}
       >
-        <SurveyList surveys={surveys} fetching={fetching} />
+        <SurveyList surveys={surveys} fetching={pagination.fetching} />
       </Paginator>
     </Content>
   );

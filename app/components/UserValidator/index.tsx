@@ -4,13 +4,13 @@ import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
-import { addToast } from 'app/actions/ToastActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
 import {
   selectAutocompleteRedux,
   type UserSearchResult,
 } from 'app/reducers/search';
+import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Validator.css';
 import type { SearchUser } from 'app/store/models/User';
@@ -110,7 +110,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
         dispatch(addToast({ message: result }));
       }
     },
-    [showScanner, dispatch]
+    [showScanner, dispatch],
   );
 
   /**
@@ -147,10 +147,10 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
               displayResult(`Brukeren finnes ikke!\nBrukernavn: ${username}`);
             } else {
               displayResult(
-                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
+                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`,
               );
             }
-          }
+          },
         )
         .then(() => {
           if (input?.current) {
@@ -158,7 +158,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
           }
         });
     },
-    [clearSearch, displayResult, handleSelect, validateAbakusGroup]
+    [clearSearch, displayResult, handleSelect, validateAbakusGroup],
   );
 
   const handleScannerResult = (scannerResult: string) => {
@@ -177,7 +177,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
           alignItems="center"
           column
           justifyContent="center"
-          padding={'2rem 0'}
+          padding={'var(--spacing-xl) 0'}
         >
           <h3>{successMessage}</h3>
           <Icon name="checkmark" success size={160} />

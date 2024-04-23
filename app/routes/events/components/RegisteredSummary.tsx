@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Registrations.css';
@@ -42,8 +42,8 @@ const renderNameList = (registrations) => {
 };
 
 type RegistrationListProps = {
-  registrations: Array<EventRegistration>;
-  onClick: () => any;
+  registrations: EventRegistration[];
+  onClick: () => void;
 };
 
 const RegistrationList = ({
@@ -62,9 +62,10 @@ const RegistrationList = ({
 );
 
 type RegisteredSummaryProps = {
-  registrations: Array<EventRegistration>;
+  registrations?: EventRegistration[];
   currentRegistration?: EventRegistration | null | undefined;
   toggleModal?: (arg0: number) => void;
+  skeleton?: boolean;
 };
 
 const RegisteredSentence = ({
@@ -72,20 +73,28 @@ const RegisteredSentence = ({
   toggleModal,
   currentRegistration,
 }: RegisteredSummaryProps) => {
+  if (!registrations) {
+    return null;
+  }
+
+  let sentence;
+
   switch (registrations.length) {
     case 0:
-      return 'Ingen';
+      sentence = 'Ingen';
+      break;
 
     case 1:
-      return (
+      sentence = (
         <Registration
           currentRegistration={currentRegistration}
           registration={registrations[0]}
         />
       );
+      break;
 
     case 2:
-      return (
+      sentence = (
         <Flex>
           <Registration
             currentRegistration={currentRegistration}
@@ -95,10 +104,11 @@ const RegisteredSentence = ({
           <Registration registration={registrations[1]} />
         </Flex>
       );
+      break;
 
     default:
       // For more than 2 registrations we add a clickable `more` link:
-      return (
+      sentence = (
         <Flex>
           <Registration
             currentRegistration={currentRegistration}
@@ -114,12 +124,18 @@ const RegisteredSentence = ({
         </Flex>
       );
   }
+
+  return <>{sentence} er påmeldt</>;
 };
 
-const RegisteredSummary = (props: RegisteredSummaryProps) => {
+const RegisteredSummary = ({ skeleton, ...props }: RegisteredSummaryProps) => {
   return (
     <Flex className={styles.summary}>
-      <RegisteredSentence {...props} /> er påmeldt
+      {skeleton && !props.registrations ? (
+        <Skeleton width="80%" />
+      ) : (
+        <RegisteredSentence {...props} />
+      )}
     </Flex>
   );
 };

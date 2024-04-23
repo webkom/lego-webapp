@@ -51,8 +51,10 @@ export type FormProps = {
   fieldStyle?: CSSProperties;
   fieldClassName?: string;
   labelClassName?: string;
+  labelContentClassName?: string;
   showErrors?: boolean;
   onChange?: (value: string | ChangeEvent) => void;
+  withoutMargin?: boolean;
 };
 
 type Options = {
@@ -74,7 +76,7 @@ export type FieldType = FieldRenderProps<
  */
 export function createField<
   P extends InputHTMLAttributes<HTMLInputElement>,
-  ExtraProps extends object
+  ExtraProps extends object,
 >(Component: ComponentType<P & ExtraProps>, options?: Options) {
   const Field = (field: FieldType & ExtraProps) => {
     const {
@@ -86,9 +88,11 @@ export function createField<
       description,
       fieldClassName,
       labelClassName,
+      labelContentClassName,
       onChange,
       showErrors = true,
       className = null,
+      withoutMargin = false,
       ...props
     } = field;
     const { error, submitError, touched } = meta;
@@ -105,7 +109,7 @@ export function createField<
               cursor: inlineLabel ? 'pointer' : 'default',
               fontSize: !inlineLabel ? 'var(--font-size-lg)' : 'inherit',
             }}
-            className={labelClassName}
+            className={labelContentClassName}
           >
             {label}
           </div>
@@ -147,8 +151,19 @@ export function createField<
     );
 
     return (
-      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {noLabel ? content : <label>{content}</label>}
+      <div
+        className={cx(
+          styles.field,
+          withoutMargin && styles.withoutMargin,
+          fieldClassName,
+        )}
+        style={fieldStyle}
+      >
+        {noLabel ? (
+          content
+        ) : (
+          <label className={labelClassName}>{content}</label>
+        )}
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}

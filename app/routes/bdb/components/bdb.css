@@ -1,38 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root h3 {
-  margin: 5px 0 25px;
-}
-
-.fileForm {
-  margin-top: 15px;
-}
-
-.root select {
-  font-size: 100%;
-  font-family: proxima-nova, 'Helvetica Neue', Arial, sans-serif;
-  cursor: pointer;
-  transition: color var(--linear-medium);
-  text-indent: 1px;
-  text-overflow: '';
-  background-color: inherit;
-  border: none;
-  outline: none;
-
-  &:hover {
-    color: var(--secondary-font-color);
-  }
-
-  &:focus {
-    border: none;
-    outline: none;
-  }
-
-  &::-ms-expand {
-    display: none;
-  }
-}
-
 .companyList table {
   border-collapse: collapse;
 }
@@ -69,14 +36,9 @@
 }
 
 .yearNavigator {
-  margin-bottom: -5px;
   transition: color var(--easing-fast);
   color: var(--secondary-font-color);
-
-  &:hover {
-    cursor: pointer;
-    color: var(--lego-link-color);
-  }
+  cursor: pointer;
 
   &:focus {
     background: none;
@@ -87,31 +49,9 @@
   }
 }
 
-.adminComment {
-  padding: 5px 0;
-  line-height: 17px;
-}
-
 .title {
   float: left;
   width: 80%;
-}
-
-.files {
-  margin-top: 20px;
-}
-
-.info h3,
-.info i {
-  margin: 0 auto;
-}
-
-.editInfo > label {
-  display: flex;
-}
-
-.editInfo i {
-  width: 30px;
 }
 
 .deleteFile {
@@ -246,20 +186,8 @@
   padding: 5px;
 }
 
-.description {
-  margin: 0 0 35px;
-  line-height: 24px;
-  border-left: 4px solid var(--border-gray);
-  padding-left: 20px;
-  max-width: 90%;
-
-  @media (--small-viewport) {
-    max-width: 100%;
-  }
-}
-
-.description textarea {
-  min-height: 100px;
+.showAllButton {
+  margin-top: var(--spacing-sm);
 }
 
 .infoBubbles {
@@ -282,12 +210,7 @@
   }
 }
 
-.editBubbles {
-  line-height: 0 !important;
-}
-
 .adminNote {
-  margin: 30px 0;
   width: 400px;
 }
 
@@ -299,81 +222,12 @@
   text-align: right !important;
 }
 
-.checkBox {
-  display: block;
-  margin: 10px 0;
-}
-
 .clear {
   clear: both;
 }
 
-option {
-  border: none;
-  outline: none;
-}
-
-.detail h3 {
-  margin-bottom: 2px;
-}
-
-.info {
-  margin: 30px 0;
-  display: flex;
-  justify-content: space-between;
-}
-
-.info > div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
 .editTitle {
   width: 250px;
-  font-size: 30px;
-  margin: 0 0 10px;
-}
-
-.editBubble {
-  text-align: center;
-  margin-bottom: 0 !important;
-  font-size: 25px;
-}
-
-.semesterStatusForm {
-  width: 300px;
-  margin: 15px 0;
-  padding: 5px;
-
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.search h2 {
-  display: inline;
-  margin-right: 20px;
-  padding-top: 3px;
-}
-
-.search input {
-  width: 200px;
-  height: 45px;
-}
-
-.info .fa {
-  padding-left: 30px;
-}
-
-.info h3 {
-  margin-bottom: 15px;
-}
-
-.uploadButton {
-  height: 30px;
-  padding: 0 10px;
-  margin: 5px 0;
 }
 
 .contactedStatusForm {

@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { setInvitationStatus } from 'app/actions/MeetingActions';
+import AddToCalendar from 'app/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -20,71 +21,70 @@ import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { useCurrentUser } from 'app/reducers/auth';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import {
-  selectMeetingInvitation,
+  selectMeetingInvitationByMeetingIdAndUserId,
   selectMeetingInvitationsForMeeting,
   statusesText,
 } from 'app/reducers/meetingInvitations';
-import {
-  selectCommentsForMeeting,
-  selectMeetingById,
-} from 'app/reducers/meetings';
+import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import urlifyString from 'app/utils/urlifyString';
 import styles from './MeetingDetail.css';
 import type { Dateish } from 'app/models';
+import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { PublicUser } from 'app/store/models/User';
 
-const UserLink = ({ user }: { user: PublicUser }) =>
+const UserLink = ({ user }: { user?: PublicUser }) =>
   user && !isEmpty(user) ? (
     <Link to={`/users/${user.username}`}>{user.fullName}</Link>
   ) : (
     <span>Ikke valgt</span>
   );
 
+type MeetingDetailParams = {
+  meetingId: string;
+};
+
 const MeetingDetails = () => {
-  const { meetingId } = useParams<{ meetingId: string }>();
-  const { currentUser } = useUserContext();
+  const { meetingId } = useParams<MeetingDetailParams>() as MeetingDetailParams;
+  const currentUser = useCurrentUser();
+  const icalToken = currentUser?.icalToken;
   const meeting = useAppSelector((state) =>
-    selectMeetingById(state, {
-      meetingId,
-    })
+    selectMeetingById<DetailedMeeting>(state, meetingId),
   );
   const comments = useAppSelector((state) =>
-    selectCommentsForMeeting(state, {
-      meetingId,
-    })
+    selectCommentsByIds(state, meeting?.comments),
   );
   const reportAuthor = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.reportAuthor,
-    })
+    selectUserById<PublicUser>(state, meeting?.reportAuthor),
   );
   const createdBy = useAppSelector((state) =>
-    selectUserById(state, {
-      userId: meeting?.createdBy,
-    })
+    selectUserById<PublicUser>(state, meeting?.createdBy),
   );
   const meetingInvitations = useAppSelector((state) =>
-    selectMeetingInvitationsForMeeting(state, {
-      meetingId,
-    })
+    selectMeetingInvitationsForMeeting(state, meetingId),
   );
-  const currentUserInvitation = useAppSelector((state) =>
-    selectMeetingInvitation(state, {
-      userId: currentUser.username,
-      meetingId,
-    })
+  const currentUserInvitation = useAppSelector(
+    (state) =>
+      currentUser &&
+      selectMeetingInvitationByMeetingIdAndUserId(
+        state,
+        meetingId,
+        currentUser.id,
+      ),
   );
 
   const dispatch = useAppDispatch();
 
   const setMeetingInvitationStatus = (newStatus: MeetingInvitationStatus) => {
-    dispatch(setInvitationStatus(meeting.id, newStatus, currentUser));
+    currentUser &&
+      meeting?.id &&
+      dispatch(setInvitationStatus(meeting?.id, newStatus, currentUser));
   };
 
   const acceptInvitation = () =>
@@ -98,14 +98,14 @@ const MeetingDetails = () => {
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
-        (invite) => invite.status === invitationStatus
+        (invite) => invite.status === invitationStatus,
       ),
     }));
   };
 
   const attendanceButtons = (
     statusMe: string | null | undefined,
-    startTime: Dateish
+    startTime: Dateish,
   ) =>
     statusMe &&
     moment(startTime) > moment() && (
@@ -137,7 +137,7 @@ const MeetingDetails = () => {
   const infoItems = [
     {
       key: 'Din status',
-      value: statusesText[statusMe] || 'Ukjent',
+      value: statusMe ? statusesText[statusMe] : 'Ukjent',
     },
     {
       key: 'Når',
@@ -207,6 +207,12 @@ const MeetingDetails = () => {
             </li>
             {meeting.mazemapPoi && (
               <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+            )}
+
+            {icalToken && (
+              <li>
+                <AddToCalendar icalToken={icalToken} meeting={meeting} />
+              </li>
             )}
           </ul>
 

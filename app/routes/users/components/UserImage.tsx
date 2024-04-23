@@ -24,7 +24,7 @@ const UploadPage = ({ user }: Props) => {
             updatePicture({
               username: user.username,
               picture: file,
-            })
+            }),
           )
         }
         aspectRatio={1}

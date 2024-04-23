@@ -68,7 +68,7 @@ const RestrictedMailEditor = () => {
   const { restrictedMailId } = useParams<{ restrictedMailId: string }>();
   const isNew = restrictedMailId === undefined;
   const restrictedMail = useAppSelector((state) =>
-    selectRestrictedMailById(state, { restrictedMailId })
+    selectRestrictedMailById(state, restrictedMailId),
   );
 
   const initialValues = isNew
@@ -92,7 +92,7 @@ const RestrictedMailEditor = () => {
           (rawAddresses) => ({
             label: rawAddresses,
             value: rawAddresses,
-          })
+          }),
         ),
         users: (restrictedMail?.users || []).map((user) => ({
           label: user.fullName,
@@ -108,7 +108,7 @@ const RestrictedMailEditor = () => {
       !isNew &&
       restrictedMailId &&
       dispatch(fetchRestrictedMail(restrictedMailId)),
-    [restrictedMailId]
+    [restrictedMailId],
   );
 
   const navigate = useNavigate();
@@ -117,7 +117,7 @@ const RestrictedMailEditor = () => {
     const payload = {
       ...data,
       rawAddresses: (data.rawAddresses || []).map(
-        (rawAddresses) => rawAddresses.value
+        (rawAddresses) => rawAddresses.value,
       ),
       groups: (data.groups || []).map((group) => group.id),
       events: (data.events || []).map((event) => event.value),

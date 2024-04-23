@@ -1,6 +1,7 @@
+import cx from 'classnames';
 import PhoneInput from 'react-phone-number-input';
 import { createField } from './Field';
-import styles from './PhoneNumberInput.css';
+import styles from './TextInput.css';
 import 'react-phone-number-input/style.css';
 
 const PhoneNumberInput = ({ ...props }: any) => {
@@ -8,7 +9,7 @@ const PhoneNumberInput = ({ ...props }: any) => {
     <PhoneInput
       {...props}
       international
-      className={styles.input}
+      className={cx(styles.input, styles.textInput, styles.phoneNumberInput)}
       defaultCountry="NO"
     />
   );

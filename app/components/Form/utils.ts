@@ -36,7 +36,7 @@ export const handleSubmissionErrorFinalForm = (error: any) => {
  */
 export const withSubmissionErrorFinalForm = <Args extends unknown[], Return>(
   dispatch: AppDispatch,
-  onSubmit: (...args: Args) => Thunk<Promise<Return>>
+  onSubmit: (...args: Args) => Thunk<Promise<Return>>,
 ) => {
   return (...args: Args) =>
     dispatch(onSubmit(...args)).catch(handleSubmissionErrorFinalForm);

@@ -1,4 +1,6 @@
 import type { EventType } from './store/models/Event';
+import type { Presence } from './store/models/Registration';
+import type { EntityId } from '@reduxjs/toolkit';
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
@@ -6,7 +8,6 @@ import type { DetailedUser, PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
 // TODO: Id handling could be opaque
-export type ID = number;
 export type Dateish = Moment | Date | string;
 export type ActionGrant = (
   | 'create'
@@ -45,9 +46,9 @@ export type GroupMembership = {
 };
 
 export type UserMembership = {
-  id: ID;
+  id: EntityId;
   user: User;
-  abakusGroup: ID;
+  abakusGroup: EntityId;
   role: RoleType;
   isActive: boolean;
   emailListsEnabled: boolean;
@@ -74,17 +75,17 @@ export type PermissionPerGroup = {
 };
 
 export type EmailList = {
-  id: ID;
-  users: ID[];
+  id: EntityId;
+  users: EntityId[];
   name: string;
   email: string;
-  groups: ID[];
+  groups: EntityId[];
   groupRoles: string[];
   requireInternalEmailAddress: boolean[];
 };
 
 export type User = {
-  id: ID;
+  id: EntityId;
   firstName: string;
   lastName: string;
   fullName: string;
@@ -118,11 +119,16 @@ export enum GroupType {
   Revue = 'revy',
   Interest = 'interesse',
   SubGroup = 'under',
+  Ordained = 'ordenen',
   Grade = 'klasse',
   Other = 'annen',
 }
+
+/**
+ * @deprecated Use a group model from app/store/Group.d.ts instead
+ */
 export type Group = {
-  id: ID;
+  id: EntityId;
   actionGrant: ActionGrant;
   type: GroupType;
   name: string;
@@ -143,7 +149,7 @@ export type Cover = {
 };
 
 type EventBase = {
-  id: ID;
+  id: EntityId;
   title: string;
   slug: string;
   cover: Cover;
@@ -174,12 +180,11 @@ type EventBase = {
   unregistrationDeadlineHours: number;
   pinned: boolean;
   youtubeUrl: string;
-  useContactTracing: boolean;
   legacyRegistrationCount: number;
 };
 
 export type Permission = string;
-export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
+
 export type LEGACY_EventRegistrationPhotoConsent =
   | 'PHOTO_NOT_CONSENT'
   | 'PHOTO_CONSENT'
@@ -189,7 +194,8 @@ export type EventRegistrationPaymentStatus =
   | 'manual'
   | 'succeeded'
   | 'failed'
-  | 'card_declined';
+  | 'card_declined'
+  | 'expired_card';
 export type EventRegistrationStatus =
   | 'PENDING_REGISTER'
   | 'SUCCESS_REGISTER'
@@ -199,7 +205,7 @@ export type EventRegistrationStatus =
   | 'FAILURE_UNREGISTER';
 
 export type EventRegistration = {
-  id: ID;
+  id: EntityId;
   user: User;
   createdBy?: User;
   updatedBy?: User;
@@ -208,7 +214,7 @@ export type EventRegistration = {
   unregistrationDate: Dateish;
   status: EventRegistrationStatus;
   pool: number;
-  presence: EventRegistrationPresence;
+  presence: Presence;
   paymentStatus: EventRegistrationPaymentStatus;
   feedback: string;
   sharedMemberships?: number;
@@ -218,7 +224,7 @@ export type EventRegistration = {
 };
 
 type EventPoolBase = {
-  id: ID;
+  id: EntityId;
   name: string;
   capacity: number;
   activationDate: Dateish;
@@ -243,7 +249,7 @@ export type Event = EventBase & {
   actionGrant: ActionGrant;
   activationTime: Dateish | null | undefined;
   isAdmitted: boolean | null | undefined;
-  following: false | ID;
+  following: false | EntityId;
   activeCapacity: number;
   eventType: EventType;
   eventStatusType: EventStatusType;
@@ -256,10 +262,10 @@ export type Event = EventBase & {
   comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
-  survey: ID | null | undefined;
+  survey: EntityId | null | undefined;
   userReg: EventRegistration;
   useConsent: boolean;
-  unansweredSurveys: Array<ID>;
+  unansweredSurveys: Array<EntityId>;
   responsibleGroup: Group;
   price?: number;
   registrationCloseTime?: Dateish | null | undefined;
@@ -268,7 +274,7 @@ export type Event = EventBase & {
   photoConsents?: Array<PhotoConsent>;
   isUsersUpcoming?: boolean;
   documentType?: 'event';
-  responsibleUsers: ID[];
+  responsibleUsers: EntityId[];
   isForeignLanguage: boolean;
 };
 
@@ -294,34 +300,34 @@ export type Workplace = {
 };
 
 export type Joblisting = {
-  id: ID;
+  id: EntityId;
   fromYear: number;
   toYear: number;
   workplaces: Array<Workplace>;
 };
 
 export type Meeting = {
-  id: ID;
-  createdBy: ID;
+  id: EntityId;
+  createdBy: EntityId;
   title: string;
   location: string;
   startTime: Dateish;
   endTime: Dateish;
-  reportAuthor: ID | null;
+  reportAuthor: EntityId | null;
   mazemapPoi: number | null;
   description?: string;
   report?: string;
   invitations: string[];
-  comments?: ID[];
+  comments?: EntityId[];
   contentTarget?: string;
   actionGrant?: ActionGrant;
   reactionsGrouped?: ReactionsGrouped;
 };
 
 export type FollowerItem = {
-  id: ID;
+  id: EntityId;
   follower: PublicUser;
-  target: ID;
+  target: EntityId;
 };
 
 export type Readme = {

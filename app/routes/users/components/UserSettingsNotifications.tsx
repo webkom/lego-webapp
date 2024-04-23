@@ -7,11 +7,11 @@ import {
 } from 'app/actions/NotificationSettingsActions';
 import { updateUser } from 'app/actions/UserActions';
 import { CheckBox } from 'app/components/Form';
+import { useCurrentUser } from 'app/reducers/auth';
 import {
   selectNotificationSettings,
   selectNotificationSettingsAlternatives,
 } from 'app/reducers/notificationSettings';
-import { useUserContext } from 'app/routes/app/AppRoute';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './UserSettingsNotifications.css';
 
@@ -45,11 +45,11 @@ const UserSettingsNotifications = () => {
   usePreparedEffect(
     'fetchUserSettingsNotifications',
     () =>
-      Promise.all([
+      Promise.allSettled([
         dispatch(fetchNotificationAlternatives()),
         dispatch(fetchNotificationSettings()),
       ]),
-    []
+    [],
   );
 
   const alternatives = useAppSelector(selectNotificationSettingsAlternatives);
@@ -61,7 +61,11 @@ const UserSettingsNotifications = () => {
     channels: alternatives.channels,
   });
 
-  const { currentUser } = useUserContext();
+  const currentUser = useCurrentUser();
+
+  if (!currentUser) {
+    return null;
+  }
 
   return (
     <div>
@@ -100,7 +104,7 @@ const UserSettingsNotifications = () => {
                 checked={currentUser.emailListsEnabled}
                 onChange={(event) => {
                   dispatch(
-                    updateUser({ ...currentUser, emailListsEnabled: event })
+                    updateUser({ ...currentUser, emailListsEnabled: event }),
                   );
                 }}
               />
@@ -119,9 +123,11 @@ const UserSettingsNotifications = () => {
                 updateNotificationSetting(
                   notificationType,
                   alternatives.channels.filter((channel) =>
-                    changeChannel === channel ? value : channnelSetting(channel)
-                  )
-                )
+                    changeChannel === channel
+                      ? value
+                      : channnelSetting(channel),
+                  ),
+                ),
               );
             };
 

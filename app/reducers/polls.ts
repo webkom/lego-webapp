@@ -1,47 +1,32 @@
-import { createSelector } from 'reselect';
+import { createSlice } from '@reduxjs/toolkit';
+import moment from 'moment-timezone';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Poll } from '../actions/ActionTypes';
-import createEntityReducer from '../utils/createEntityReducer';
-import type { Tags, ID } from 'app/models';
 
-export type OptionEntity = {
-  id: number;
-  name: string;
-  votes: number;
-};
-export type PollEntity = {
-  id: ID;
-  title: string;
-  description: string;
-  resultsHidden: boolean;
-  pinned: boolean;
-  tags: Tags;
-  hasAnswered: boolean;
-  totalVotes: number;
-  options: Array<OptionEntity>;
-};
-export default createEntityReducer({
-  key: 'polls',
-  types: {
-    fetch: [Poll.FETCH, Poll.FETCH_ALL],
-    mutate: Poll.CREATE,
-    delete: Poll.DELETE,
-  },
+import type { RootState } from 'app/store/createRootReducer';
+
+const legoAdapter = createLegoAdapter(EntityType.Polls, {
+  sortComparer: (a, b) => moment(b.createdAt).diff(a.createdAt),
 });
-export const selectPolls = createSelector(
-  (state) => state.polls.byId,
-  (state) => state.polls.items,
-  (pollsById, pollsIds) => {
-    return pollsIds.map((id) => pollsById[id]);
-  }
-);
-export const selectPollById = createSelector(
-  selectPolls,
-  (state, pollsId) => pollsId,
-  (polls, pollsId) => {
-    if (!polls || !pollsId) return {};
-    return polls.find((polls) => Number(polls.id) === Number(pollsId));
-  }
-);
-export const selectPinnedPolls = createSelector(selectPolls, (polls) =>
-  polls.filter((polls) => polls.pinned)
-);
+
+const pollsSlice = createSlice({
+  name: EntityType.Polls,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [Poll.FETCH, Poll.FETCH_ALL],
+    deleteActions: [Poll.DELETE],
+  }),
+});
+
+export default pollsSlice.reducer;
+
+export const {
+  selectAll: selectAllPolls,
+  selectById: selectPollById,
+  selectByField: selectPollsByField,
+} = legoAdapter.getSelectors((state: RootState) => state.polls);
+
+export const selectPinnedPoll = (state: RootState) =>
+  selectPollsByField('pinned').single(state, true);
