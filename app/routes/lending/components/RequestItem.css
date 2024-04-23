@@ -42,7 +42,7 @@
 }
 
 .approved {
-  background-color: var(--color-green-2);
+  background-color: var(--success-color);
   color: var(--color-green-7);
 }
 

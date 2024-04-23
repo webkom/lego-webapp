@@ -12,13 +12,13 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: 2px solid var(--color-green-6);
-  color: var(--color-green-6);
+  border: 2px solid var(--success-color);
+  color: var(--success-color);
   transition: var(--easing-fast);
   padding: 15px;
 
   &:hover {
-    background-color: var(--color-green-6);
+    background-color: var(--success-color);
     color: var(--color-absolute-white);
   }
 }
