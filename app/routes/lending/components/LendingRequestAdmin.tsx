@@ -36,13 +36,13 @@ const LendingRequestAdmin = () => {
   usePreparedEffect(
     'fetchRequest',
     () => dispatch(fetchLendingRequest(lendingRequestId)),
-    []
+    [],
   );
 
   const request = useAppSelector((state) =>
     selectLendingRequestById(state, {
       lendingRequestId,
-    })
+    }),
   );
 
   usePreparedEffect(
@@ -50,17 +50,17 @@ const LendingRequestAdmin = () => {
     () => {
       if (request.lendableObject?.id) {
         dispatch(
-          fetchLendingRequestsByLendableObjectId(request.lendableObject.id)
+          fetchLendingRequestsByLendableObjectId(request.lendableObject.id),
         );
       }
     },
-    [request.lendableObject.id]
+    [request.lendableObject.id],
   );
 
   const otherRequests = useAppSelector((state) =>
     selectLendingRequestsByLendableObjectId(state, {
       lendableObjectId: request.lendableObject.id,
-    })
+    }),
   );
 
   const otherLoans = otherRequests.filter((loan) => !loan.pending);

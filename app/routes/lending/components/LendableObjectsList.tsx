@@ -15,7 +15,6 @@ import { selectLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './LendableObjectsList.css';
 import RequestItem from './RequestItem';
-import { exampleRequests } from './fixtures';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 
 const LendableObject = ({
@@ -48,26 +47,26 @@ export const LendableObjectsList = () => {
   usePreparedEffect(
     'fetchObjects',
     () => dispatch(fetchAllLendableObjects()),
-    []
+    [],
   );
 
   const lendableObjects = useAppSelector((state) =>
-    selectLendableObjects(state)
+    selectLendableObjects(state),
   );
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
   usePreparedEffect(
     'fetchRequests',
     () => dispatch(fetchAllLendingRequests()),
-    []
+    [],
   );
 
   const lendingRequests = useAppSelector((state) =>
-    selectLendingRequests(state)
+    selectLendingRequests(state),
   );
 
   const fetchingRequests = useAppSelector(
-    (state) => state.lendingRequests.fetching
+    (state) => state.lendingRequests.fetching,
   );
 
   return (
@@ -97,7 +96,7 @@ export const LendableObjectsList = () => {
         </LoadingIndicator>
       </div>
 
-      {exampleRequests.length !== 0 && (
+      {lendingRequests.length !== 0 && (
         <Button onClick={() => setShowOldRequests((prev) => !prev)}>
           {showOldRequests
             ? 'Skjul gamle forespørsler'
@@ -122,7 +121,7 @@ export const LendableObjectsList = () => {
                 ? lendableObjects.title
                     .toLowerCase()
                     .includes((searchParams.get('search') || '').toLowerCase())
-                : true
+                : true,
             )
             .map((lendableObject) => (
               <LendableObject

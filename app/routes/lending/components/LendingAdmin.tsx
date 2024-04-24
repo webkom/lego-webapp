@@ -1,16 +1,48 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
+import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
+import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
+import { selectLendableObjects } from 'app/reducers/lendableObjects';
+import { selectLendingRequests } from 'app/reducers/lendingRequests';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './LendingAdmin.css';
 import { RequestItem } from './RequestItem';
-import { exampleListLendableObjects, exampleRequests } from './fixtures';
 
 const LendableObjectsAdmin = () => {
   const [showOldRequests, setShowOldRequests] = useState(false);
+
+  const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchObjects',
+    () => dispatch(fetchAllLendableObjects()),
+    [],
+  );
+
+  const lendableObjects = useAppSelector((state) =>
+    selectLendableObjects(state),
+  );
+  const fetching = useAppSelector((state) => state.lendableObjects.fetching);
+
+  usePreparedEffect(
+    'fetchRequests',
+    () => dispatch(fetchAllLendingRequests()),
+    [],
+  );
+
+  const lendingRequests = useAppSelector((state) =>
+    selectLendingRequests(state),
+  );
+
+  const fetchingRequests = useAppSelector(
+    (state) => state.lendingRequests.fetching,
+  );
 
   return (
     <Content>
@@ -23,13 +55,16 @@ const LendableObjectsAdmin = () => {
         }}
       />
       <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
-      <Flex column gap={10} margin="0 0 30px">
-        {exampleRequests
-          .filter((request) => request.status === LendingRequestStatus.PENDING)
-          .map((request) => (
-            <RequestItem key={request.id} request={request} isAdmin />
-          ))}
-      </Flex>
+      <LoadingIndicator loading={fetchingRequests}>
+        <Flex column gap={10} margin="0 0 30px">
+          {lendingRequests
+            .filter((request) => request.status === LendingRequestStatus.PENDING)
+            .map((request) => (
+              <RequestItem key={request.id} request={request} isAdmin />
+            ))}
+        </Flex>
+      </LoadingIndicator>
+   
 
       {showOldRequests ? (
         <>
@@ -37,7 +72,7 @@ const LendableObjectsAdmin = () => {
           <Flex column gap={10} margin="0 0 30px">
             {exampleRequests
               .filter(
-                (request) => request.status !== LendingRequestStatus.PENDING
+                (request) => request.status !== LendingRequestStatus.PENDING,
               )
               .map((request) => (
                 <RequestItem key={request.id} request={request} isAdmin />

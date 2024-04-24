@@ -22,7 +22,7 @@ export function fetchAllLendingRequests(): Thunk<
 }
 
 export function fetchLendingRequest(
-  id: number
+  id: number,
 ): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequest>>> {
   return callAPI({
     types: LendingRequest.FETCH,
@@ -35,7 +35,7 @@ export function fetchLendingRequest(
 }
 
 export function fetchLendingRequestsByLendableObjectId(
-  lendableObjectId: number
+  lendableObjectId: number,
 ): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequests>>> {
   return callAPI({
     types: LendingRequest.FETCH,

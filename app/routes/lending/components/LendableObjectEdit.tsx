@@ -14,11 +14,12 @@ import {
   EditorField,
   Form,
   SelectInput,
+  SubmitButton,
   TextInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
-import { selectGroups } from 'app/reducers/groups';
+import { selectAllGroups } from 'app/reducers/groups';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
@@ -39,17 +40,17 @@ const LendableObjectEdit = () => {
     usePreparedEffect(
       'fetchLendableObject',
       () => dispatch(fetchLendableObject(Number(lendableObjectId))),
-      []
+      [],
     );
   }
 
   const lendableObject = useAppSelector((state) =>
     selectLendableObjectById(state, {
       lendableObjectId,
-    })
+    }),
   );
 
-  const groups = useAppSelector((state) => selectGroups(state));
+  const groups = useAppSelector((state) => selectAllGroups(state));
 
   const onSubmit = (values) => {
     if (isNew) {
@@ -58,7 +59,7 @@ const LendableObjectEdit = () => {
           ...values,
           responsibleGroups: values.responsibleGroups?.map((group) => group.id),
           responsibleRoles: values.responsibleRoles?.map((role) => role.value),
-        })
+        }),
       ).then(() => navigate('/lending'));
     } else {
       dispatch(
@@ -66,10 +67,10 @@ const LendableObjectEdit = () => {
           id: lendableObjectId,
           ...values,
           responsibleGroups: values.responsibleGroups.map(
-            (group) => group.id || group.value
+            (group) => group.id || group.value,
           ),
           responsibleRoles: values.responsibleRoles.map((role) => role.value),
-        })
+        }),
       ).then(() => navigate(`/lending/${lendableObjectId}`));
     }
   };
@@ -86,10 +87,6 @@ const LendableObjectEdit = () => {
       </Content>
     );
   }
-
-  /*for (let group of lendableObject.responsibleGroups) {
-    dispatch(fetchGroup(group));
-  }*/
 
   if (!isNew && !groups) {
     return (
@@ -160,9 +157,9 @@ const LendableObjectEdit = () => {
             <SubmissionError />
             <div>
               {spySubmittable((submittable) => (
-                <Button disabled={!submittable} submit>
+                <SubmitButton disabled={!submittable}>
                   {isNew ? 'Opprett utlåndsobjekt' : 'Lagre endringer'}
-                </Button>
+                </SubmitButton>
               ))}
               {!isNew && (
                 <ConfirmModal

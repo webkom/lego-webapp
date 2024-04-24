@@ -43,7 +43,7 @@ const LendableObjectDetail = () => {
         ...values,
         pending: false,
         lendableObject: lendableObjectId,
-      })
+      }),
     ).then(() => navigate('/lending'));
   };
 
