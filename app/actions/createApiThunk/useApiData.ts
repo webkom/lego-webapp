@@ -1,4 +1,5 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { schema } from 'normalizr';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
@@ -62,11 +63,14 @@ type ApiData<E> =
 
 export const useApiData = <
   Arg,
+  Entity extends EntityType,
   ExtraMeta extends object | Primitive,
+  Test extends EntityTypeMap,
   Payload extends NormalizedApiPayload<EntityTypeMap, EntityId | EntityId[]>,
 >(
   prepareId: string,
-  apiThunk: ReturnType<typeof createApiThunk<Arg, ExtraMeta, Payload>>,
+  test: Test,
+  apiThunk: ReturnType<typeof createApiThunk<Arg, Entity, ExtraMeta, Payload>>,
   thunkArg: NoInfer<Arg>,
 ): ApiData<Payload['entities']> => {
   const dispatch = useAppDispatch();
