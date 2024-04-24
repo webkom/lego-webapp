@@ -47,10 +47,13 @@ const Feed = ({ feedId }: Props): ReactNode => {
     >
       {feedActivities.length ? (
         feedActivities.map((item) => {
-          const renders = activityRenderers[item.verb];
-          return renders ? (
+          const activityRenderer = activityRenderers[item.verb];
+          return activityRenderer ? (
             <ErrorBoundary hidden key={item.id}>
-              <Activity aggregatedActivity={item} renders={renders} />
+              <Activity
+                aggregatedActivity={item}
+                activityRenderer={activityRenderer}
+              />
             </ErrorBoundary>
           ) : null;
         })
