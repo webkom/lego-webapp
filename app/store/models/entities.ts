@@ -1,5 +1,6 @@
 import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
@@ -27,7 +28,6 @@ import type Penalty from 'app/store/models/Penalty';
 import type Poll from 'app/store/models/Poll';
 import type { UnknownPool } from 'app/store/models/Pool';
 import type Quote from 'app/store/models/Quote';
-import type Reaction from 'app/store/models/Reaction';
 import type { UnknownRegistration } from 'app/store/models/Registration';
 import type { UnknownRestrictedMail } from 'app/store/models/RestrictedMail';
 import type { UnknownSurvey } from 'app/store/models/Survey';
@@ -64,7 +64,6 @@ export enum EntityType {
   Polls = 'polls',
   Pools = 'pools',
   Quotes = 'quotes',
-  Reactions = 'reactions',
   Registrations = 'registrations',
   RestrictedMails = 'restrictedMails',
   SurveySubmissions = 'surveySubmissions',
@@ -104,7 +103,6 @@ export default interface Entities {
   [EntityType.Polls]: Record<EntityId, Poll>;
   [EntityType.Pools]: Record<EntityId, UnknownPool>;
   [EntityType.Quotes]: Record<EntityId, Quote>;
-  [EntityType.Reactions]: Record<EntityId, Reaction>;
   [EntityType.Registrations]: Record<EntityId, UnknownRegistration>;
   [EntityType.RestrictedMails]: Record<EntityId, UnknownRestrictedMail>;
   [EntityType.SurveySubmissions]: Record<EntityId, SurveySubmission>;

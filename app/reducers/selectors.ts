@@ -2,6 +2,7 @@ import { get, isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import { createInitialPagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { RootState } from 'app/store/createRootReducer';
+import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { schema, Schema } from 'normalizr';
 import type { ParsedQs } from 'qs';
 
@@ -37,10 +38,10 @@ export const selectPaginationNext =
         : (schema as schema.Entity).key);
 
     return {
-      pagination: state[schemaKey].paginationNext[paginationKey] || {
+      pagination: (state[schemaKey].paginationNext[paginationKey] || {
         ...createInitialPagination(query),
         hasMore: true,
-      },
+      }) as Pagination,
       paginationKey,
     };
   };

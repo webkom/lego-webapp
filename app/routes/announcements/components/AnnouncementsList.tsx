@@ -1,6 +1,7 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchAllAnnouncements } from 'app/actions/AnnouncementsActions';
+import { useApiThunk } from 'app/actions/createApiThunk/useApiThunk';
 import { Content } from 'app/components/Content';
 import { selectAnnouncements } from 'app/reducers/announcements';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -10,15 +11,14 @@ import styles from './AnnouncementsList.css';
 
 const AnnouncementsList = () => {
   const dispatch = useAppDispatch();
-
-  usePreparedEffect(
-    'fetchAllAnnouncements',
-    () => dispatch(fetchAllAnnouncements()),
-    [],
+  const { fetch, fetching, entities } = useApiThunk(
+    fetchAllAnnouncements,
+    undefined,
   );
 
+  usePreparedEffect('fetchAllAnnouncements', () => dispatch(fetch), []);
+
   const announcements = useAppSelector((state) => selectAnnouncements(state));
-  const fetching = useAppSelector((state) => state.announcements.fetching);
   const actionGrant = useAppSelector(
     (state) => state.announcements.actionGrant,
   );
