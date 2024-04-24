@@ -80,7 +80,7 @@ type LegoAdapter<Entity, Id extends EntityId> = Assign<
       >[0];
       fetchActions?:
         | AsyncActionType[]
-        | AsyncThunk<unknown, unknown, AsyncThunkConfig>[];
+        | NoInfer<AsyncThunk<unknown, unknown, AsyncThunkConfig>>[];
       deleteActions?: AsyncActionType[];
     }): (builder: ReducerBuilder<Entity, Id, ExtraState>) => void;
     getSelectors(): LegoEntitySelectors<Entity, EntityState<Entity, Id>, Id>;

@@ -2,15 +2,11 @@ import createApiThunk from 'app/actions/createApiThunk';
 import { createPayloadNormalizer } from 'app/actions/createApiThunk/normalizePayload';
 import { announcementsSchema } from 'app/reducers';
 import { EntityType } from 'app/store/models/entities';
-import { Announcements } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
-import type {
-  DetailedAnnouncement,
-  ListAnnouncement,
-} from 'app/store/models/Announcement';
+import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 
 export const fetchAllAnnouncements = createApiThunk(
-  EntityType.Announcements,
+  EntityType.Announcements as const,
   'fetchAll',
   {
     endpoint: '/announcements/',
@@ -18,7 +14,7 @@ export const fetchAllAnnouncements = createApiThunk(
     propagateError: true,
   },
   createPayloadNormalizer<
-    { [EntityType.Announcements]: ListAnnouncement },
+    { [EntityType.Announcements]: DetailedAnnouncement },
     EntityId[]
   >([announcementsSchema]),
 );
@@ -26,16 +22,17 @@ export const fetchAllAnnouncements = createApiThunk(
 export const createAnnouncement = createApiThunk(
   EntityType.Announcements,
   'create',
-  {
+  (body: Record<string, unknown>) => ({
     endpoint: '/announcements/',
     method: 'POST',
+    body,
     errorMessage: 'Opprettelse av kunngjøring feilet',
     successMessage: 'Kunngjøring opprettet',
-  },
+  }),
   createPayloadNormalizer<
     { [EntityType.Announcements]: DetailedAnnouncement },
-    EntityId[]
-  >([announcementsSchema]),
+    EntityId
+  >(announcementsSchema),
 );
 
 export const sendAnnouncement = createApiThunk(
@@ -63,7 +60,6 @@ export const deleteAnnouncement = createApiThunk(
     deleteId: announcementId,
     errorMessage: 'Sletting av kunngjøring feilet',
     successMessage: 'Kunngjøring slettet',
-    extraMeta: { announcementId },
   }),
   () => {},
 );

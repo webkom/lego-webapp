@@ -1,11 +1,11 @@
 import { omit } from 'lodash';
-import { IS_API_ACTION } from 'app/actions/createApiThunk/index';
 import { configWithSSR } from 'app/config';
+import { EntityType } from 'app/store/models/entities';
 import createQueryString from 'app/utils/createQueryString';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { EntityType } from 'app/store/models/entities';
-import type { Query } from 'app/utils/createQueryString';
+import type { ApiThunkMeta } from 'app/actions/createApiThunk/index';
 import type { schema } from 'normalizr';
+import type { ParsedQs } from 'qs';
 import type { Primitive } from 'utility-types';
 
 /**
@@ -32,16 +32,18 @@ export const urlFor = (resource: string) => {
   return configWithSSR.serverUrl + resource;
 };
 
+export const isEntityType = (entityType: string): entityType is EntityType =>
+  (Object.values(EntityType) as string[]).includes(entityType);
+
 export const createApiThunkMeta = <ExtraMeta extends object | Primitive>(
   endpoint: string,
   entityType: EntityType | string,
-  query: Query | undefined,
+  query: ParsedQs | undefined,
   deleteId: EntityId | undefined,
   extraMeta: ExtraMeta,
-) => ({
-  [IS_API_ACTION]: true as const,
+): ApiThunkMeta<ExtraMeta> => ({
   paginationKey: getPaginationKey(endpoint, query),
-  entityType,
+  entityType: isEntityType(entityType) ? entityType : undefined,
   deleteId,
   extra: extraMeta,
 });
@@ -61,5 +63,5 @@ export const getSchemaKey = (
 /**
  * Get a pagination key for a given endpoint and query
  */
-export const getPaginationKey = (endpoint: string, query?: Query) =>
+export const getPaginationKey = (endpoint: string, query?: ParsedQs) =>
   `${endpoint}${createQueryString(omit(query, 'cursor'))}`;

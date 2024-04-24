@@ -25,7 +25,7 @@ const createStore = (
     reducer: createRootReducer(),
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        thunk: {
+        fetch: {
           extraArgument: {
             getCookie,
           },

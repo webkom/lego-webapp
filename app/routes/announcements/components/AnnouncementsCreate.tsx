@@ -122,12 +122,14 @@ const AnnouncementsCreate = () => {
         events: values.events?.map((event) => event.value),
         fromGroup: values.fromGroup?.value,
       }),
-    ).then((result) => {
-      if (values.send) {
-        dispatch(sendAnnouncement(result.payload.result));
-      }
-      form.reset();
-    });
+    )
+      .unwrap()
+      .then((payload) => {
+        if (values.send) {
+          dispatch(sendAnnouncement(payload.result));
+        }
+        form.reset();
+      });
   };
 
   return (
