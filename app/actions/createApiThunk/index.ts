@@ -28,7 +28,7 @@ export type ApiThunkActionCreator<
   Payload = unknown,
 > = ReturnType<typeof createApiThunk<Arg, Entity, ExtraMeta, Payload>>;
 
-type CreateApiThunkOptions<Meta> = {
+type CreateApiThunkOptions<Meta, Payload> = {
   endpoint: string;
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   headers?: Record<string, string>;
@@ -44,6 +44,7 @@ type CreateApiThunkOptions<Meta> = {
   successMessage?: string;
   extraMeta?: Meta;
   nextPage?: boolean;
+  onFulfilled?: (payload: NoInfer<Payload>, dispatch: AppDispatch) => void;
 };
 export type ApiThunkMeta<Extra> = {
   paginationKey?: string;
@@ -59,7 +60,7 @@ const createApiThunk = <
 >(
   entityType: Entity,
   actionName: string,
-  options: ValueOrCreator<CreateApiThunkOptions<ExtraMeta>, Arg>,
+  options: ValueOrCreator<CreateApiThunkOptions<ExtraMeta, Payload>, Arg>,
   payloadTransformer: (apiPayload: unknown, arg: Arg) => Payload,
 ) =>
   Object.assign(
@@ -94,6 +95,7 @@ const createApiThunk = <
           errorMessage,
           successMessage,
           extraMeta,
+          onFulfilled,
         } = getValue(options, arg);
 
         const requestOptions: HttpRequestOptions = {
@@ -124,8 +126,11 @@ const createApiThunk = <
           if (successMessage) {
             dispatch(addToast({ message: successMessage }));
           }
+
+          const payload = payloadTransformer(response.jsonData, arg);
+          onFulfilled?.(payload, dispatch);
           return fulfillWithValue(
-            payloadTransformer(response.jsonData, arg),
+            payload,
             createApiThunkMeta(
               endpoint,
               entityType,

@@ -4,7 +4,7 @@ import { selectUserEntities } from 'app/reducers/users';
 import { EntityType } from 'app/store/models/entities';
 import { isNotNullish } from 'app/utils';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
-import { Membership, Group } from '../actions/ActionTypes';
+import { Group } from '../actions/ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { PublicUser } from 'app/store/models/User';
@@ -18,7 +18,6 @@ const membershipsSlice = createSlice({
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Group.MEMBERSHIP_FETCH],
-    deleteActions: [Membership.LEAVE_GROUP, Membership.REMOVE],
   }),
 });
 

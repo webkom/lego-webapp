@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
+import { addMember, leaveGroup, removeMember } from 'app/actions/GroupActions';
 import { GroupType } from 'app/models';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
@@ -25,6 +26,15 @@ export const resolveGroupLink = (group: { type: GroupType; id: EntityId }) => {
 
 const legoAdapter = createLegoAdapter(EntityType.Groups);
 
+const changeNumberOfUsers =
+  <A>(by: number, groupIdSelector: (action: A) => EntityId) =>
+  (state: ReturnType<typeof legoAdapter.getInitialState>, action: A) => {
+    const group = state.entities[groupIdSelector(action)];
+    if ('numberOfUsers' in group && typeof group.numberOfUsers === 'number') {
+      group.numberOfUsers += by;
+    }
+  };
+
 const groupsSlice = createSlice({
   name: EntityType.Groups,
   initialState: legoAdapter.getInitialState(),
@@ -32,38 +42,17 @@ const groupsSlice = createSlice({
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Group.FETCH],
     extraCases: (addCase) => {
-      addCase(Membership.CREATE.SUCCESS, (state, action: AnyAction) => {
-        if (!state.entities[action.meta.groupId]) {
-          return;
-        }
-
-        const group = state.entities[action.meta.groupId];
-        if (
-          'numberOfUsers' in group &&
-          typeof group.numberOfUsers === 'number'
-        ) {
-          group.numberOfUsers += 1;
-        }
-      });
-    },
-    extraMatchers: (addMatcher) => {
-      addMatcher(
-        (action) =>
-          action.type === Membership.REMOVE.SUCCESS ||
-          action.type === Membership.LEAVE_GROUP.SUCCESS,
-        (state, action: AnyAction) => {
-          if (!state.entities[action.meta.groupId]) {
-            return;
-          }
-
-          const group = state.entities[action.meta.groupId];
-          if (
-            'numberOfUsers' in group &&
-            typeof group.numberOfUsers === 'number'
-          ) {
-            group.numberOfUsers -= 1;
-          }
-        },
+      addCase(
+        addMember.fulfilled,
+        changeNumberOfUsers(1, (a) => a.meta.extra.groupId),
+      );
+      addCase(
+        removeMember.fulfilled,
+        changeNumberOfUsers(-1, (a) => a.meta.extra.groupId),
+      );
+      addCase(
+        leaveGroup.fulfilled,
+        changeNumberOfUsers(-1, (a) => a.meta.extra.groupId),
       );
     },
   }),

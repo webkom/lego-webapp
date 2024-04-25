@@ -1,5 +1,3 @@
-import type { Middleware } from '@reduxjs/toolkit';
-import type { RootState } from 'app/store/createRootReducer';
 import type { AsyncActionType, AsyncActionTypeArray, Action } from 'app/types';
 
 function isPromiseAction(
