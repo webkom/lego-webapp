@@ -56,7 +56,7 @@ const validate = createValidator({
 
 const EmailListEditor = () => {
   const { emailListId } = useParams<{ emailListId: string }>();
-  const isNew = emailListId === 'new';
+  const isNew = emailListId === undefined;
   const emailList = useAppSelector((state) =>
     selectEmailListById<DetailedEmailList>(state, emailListId),
   );
