@@ -2,9 +2,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import moment from 'moment';
+import { LoadingIndicator } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
+import {
+  fetchLendingRequest,
+  fetchLendingRequestsByLendableObjectId,
+} from 'app/actions/LendingRequestActions';
 import {
   Content,
   ContentMain,
@@ -14,16 +19,11 @@ import {
 import InfoList from 'app/components/InfoList';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import {
-  fetchLendingRequest,
-  fetchLendingRequestsByLendableObjectId,
-} from 'app/actions/LendingRequestActions';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import {
   selectLendingRequestById,
   selectLendingRequestsByLendableObjectId,
 } from 'app/reducers/lendingRequests';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
 type Params = {
   lendingRequestId: string;
@@ -35,38 +35,40 @@ const LendingRequestAdmin = () => {
 
   usePreparedEffect(
     'fetchRequest',
-    () => dispatch(fetchLendingRequest(lendingRequestId)),
+    () => dispatch(fetchLendingRequest(Number(lendingRequestId))),
     [],
   );
 
   const request = useAppSelector((state) =>
-    selectLendingRequestById(state, {
-      lendingRequestId,
-    }),
+    selectLendingRequestById(state, Number(lendingRequestId)),
   );
+
+  const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
   usePreparedEffect(
     'fetchRequests',
     () => {
-      if (request.lendableObject?.id) {
+      if (request && request.lendableObject?.id) {
         dispatch(
-          fetchLendingRequestsByLendableObjectId(request.lendableObject.id),
+          fetchLendingRequestsByLendableObjectId(request.lendableObject.id as number),
         );
       }
     },
-    [request.lendableObject.id],
+    [request?.lendableObject.id],
   );
 
   const otherRequests = useAppSelector((state) =>
     selectLendingRequestsByLendableObjectId(state, {
-      lendableObjectId: request.lendableObject.id,
+      lendableObjectId: request?.lendableObject.id,
     }),
   );
 
   const otherLoans = otherRequests.filter((loan) => !loan.pending);
   const otherLoanRequests = otherRequests.filter((loan) => loan.pending);
 
-  console.log('request', otherRequests, otherLoans, otherLoanRequests);
+  if (!request) {
+    return <p>Ukjent forespørsel</p>;
+  }
 
   const requestEvent = {
     id: String(request.id),
@@ -88,14 +90,12 @@ const LendingRequestAdmin = () => {
 
   const otherLoanRequestEvents = otherLoanRequests.map((loan) => ({
     id: String(loan.id),
-    title: request.author?.fullName,
+    title: request?.author?.fullName,
     start: loan.startDate,
     end: loan.endDate,
     backgroundColor: '#f57676',
     borderColor: '#f57676',
   }));
-
-  console.log('events', requestEvent, otherLoanEvents, otherLoanRequestEvents);
 
   const infoItems = [
     {
@@ -118,6 +118,7 @@ const LendingRequestAdmin = () => {
 
   return (
     <Content>
+      <LoadingIndicator loading={fetching}>
       <Helmet
         title={`Forespørsel om utlån av ${request.lendableObject.title}`}
       />
@@ -165,11 +166,7 @@ const LendingRequestAdmin = () => {
               center: 'title',
               right: 'timeGridWeek,dayGridMonth',
             }}
-            events={[
-              requestEvent,
-              ...otherLoanEvents,
-              ...otherLoanRequestEvents,
-            ]}
+            events={[requestEvent, otherLoanEvents, otherLoanRequestEvents]}
           />
         </ContentMain>
       </ContentSection>
@@ -182,6 +179,7 @@ const LendingRequestAdmin = () => {
           />
         </ContentMain>
       </ContentSection> */}
+      </LoadingIndicator>
     </Content>
   );
 };

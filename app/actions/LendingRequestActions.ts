@@ -1,11 +1,11 @@
-import type { Thunk } from 'app/types';
+import { LendingRequest } from 'app/actions/ActionTypes';
+import callAPI from 'app/actions/callAPI';
+import { lendingRequestSchema } from 'app/reducers';
 import type {
   EntityType,
   NormalizedEntityPayload,
 } from 'app/store/models/entities';
-import callAPI from 'app/actions/callAPI';
-import { LendingRequest } from 'app/actions/ActionTypes';
-import { lendingRequestSchema } from 'app/reducers';
+import type { Thunk } from 'app/types';
 
 export function fetchAllLendingRequests(): Thunk<
   Promise<NormalizedEntityPayload<EntityType.LendingRequests>>

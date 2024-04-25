@@ -1,7 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
-import { fetchLendableObject } from 'app/actions/LendableObjectActions';
 import { fetchLendingRequest } from 'app/actions/LendingRequestActions';
 import {
   Content,
@@ -12,9 +11,7 @@ import {
 import InfoList from 'app/components/InfoList';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
-import {
-  selectLendingRequestById,
-} from 'app/reducers/lendingRequests';
+import { selectLendingRequestById } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
 type Params = {
@@ -27,7 +24,7 @@ const LendingRequest = () => {
 
   usePreparedEffect(
     'fetchRequest',
-    () => dispatch(fetchLendingRequest(lendingRequestId)),
+    () => dispatch(fetchLendingRequest(Number(lendingRequestId))),
     [],
   );
 

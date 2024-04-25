@@ -1,4 +1,10 @@
-import { Button, Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  Icon,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -28,7 +34,9 @@ const LendableObjectsAdmin = () => {
   const lendableObjects = useAppSelector((state) =>
     selectLendableObjects(state),
   );
-  const fetching = useAppSelector((state) => state.lendableObjects.fetching);
+  const fetchingObjects = useAppSelector(
+    (state) => state.lendableObjects.fetching,
+  );
 
   usePreparedEffect(
     'fetchRequests',
@@ -58,19 +66,20 @@ const LendableObjectsAdmin = () => {
       <LoadingIndicator loading={fetchingRequests}>
         <Flex column gap={10} margin="0 0 30px">
           {lendingRequests
-            .filter((request) => request.status === LendingRequestStatus.PENDING)
+            .filter(
+              (request) => request.status === LendingRequestStatus.PENDING,
+            )
             .map((request) => (
               <RequestItem key={request.id} request={request} isAdmin />
             ))}
         </Flex>
       </LoadingIndicator>
-   
 
       {showOldRequests ? (
         <>
           <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
           <Flex column gap={10} margin="0 0 30px">
-            {exampleRequests
+            {lendingRequests
               .filter(
                 (request) => request.status !== LendingRequestStatus.PENDING,
               )
@@ -89,31 +98,33 @@ const LendableObjectsAdmin = () => {
       )}
 
       <h2 className={styles.heading}>Utlånsobjekter</h2>
-      <Flex column gap={10}>
-        <Link to={`/lending/create`}>
-          <Card shadow isHoverable className={styles.newLendableObject}>
-            <Icon name="add-outline" size={30} />
-          </Card>
-        </Link>
-        <div className={styles.lendableObjectsContainer}>
-          {exampleListLendableObjects.map((lendableObject) => (
-            <Link
-              to={`/lending/${lendableObject.id}/admin`}
-              key={lendableObject.id}
-            >
-              <Card
-                isHoverable
-                hideOverflow
-                className={styles.lendableObjectCard}
+      <LoadingIndicator loading={fetchingObjects}>
+        <Flex column gap={10}>
+          <Link to={`/lending/create`}>
+            <Card shadow isHoverable className={styles.newLendableObject}>
+              <Icon name="add-outline" size={30} />
+            </Card>
+          </Link>
+          <div className={styles.lendableObjectsContainer}>
+            {lendableObjects.map((lendableObject) => (
+              <Link
+                to={`/lending/${lendableObject.id}/admin`}
+                key={lendableObject.id}
               >
-                <h3>
-                  {lendableObject.id} - {lendableObject.title}
-                </h3>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </Flex>
+                <Card
+                  isHoverable
+                  hideOverflow
+                  className={styles.lendableObjectCard}
+                >
+                  <h3>
+                    {lendableObject.id} - {lendableObject.title}
+                  </h3>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </Flex>
+      </LoadingIndicator>
     </Content>
   );
 };

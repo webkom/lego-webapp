@@ -1,9 +1,9 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './RequestItem.css';
-import moment from 'moment-timezone';
 
 const ApprovedFlag = () => {
   return (
@@ -33,8 +33,6 @@ const DeniedFlag = () => {
 };
 
 type RequestItemProps = {
-  // key: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   request: any;
   isAdmin?: boolean;
 };

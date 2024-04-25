@@ -13,18 +13,18 @@ import NavigationTab from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { selectLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { Params} from 'react-router-dom';
+import type { Params } from 'react-router-dom';
 
 const LendableObjectAdminDetail = () => {
   const { lendableObjectId } = useParams<Params>();
 
   const dispatch = useAppDispatch();
 
-    usePreparedEffect(
-      'fetchLendableObject',
-      () => dispatch(fetchLendableObject(Number(lendableObjectId))),
-      [],
-    );
+  usePreparedEffect(
+    'fetchLendableObject',
+    () => dispatch(fetchLendableObject(Number(lendableObjectId))),
+    [],
+  );
 
   const lendableObject = useAppSelector((state) =>
     selectLendableObjectById(state, {
@@ -78,7 +78,7 @@ const LendableObjectAdminDetail = () => {
             center: 'title',
             right: 'timeGridWeek,dayGridMonth',
           }}
-          events={[lendingRequests]} 
+          events={[lendingRequests]}
         />
       </Content>
     </LoadingIndicator>
@@ -86,4 +86,3 @@ const LendableObjectAdminDetail = () => {
 };
 
 export default LendableObjectAdminDetail;
-

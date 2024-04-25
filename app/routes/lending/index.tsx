@@ -25,10 +25,10 @@ const lendingRoute: RouteObject[] = [
   { path: 'create', Component: LendableObjectEdit },
   { path: ':lendableObjectId', Component: LendableObjectDetail },
   { path: ':lendableObjectId/edit', Component: LendableObjectEdit },
-  { path: 'admin/:lendableObjectId', Component: LendableObjectAdminDetail },
+  { path: ':lendableObjectId/admin', Component: LendableObjectAdminDetail },
   { path: 'admin', Component: LendingAdmin },
   { path: 'request/:lendingRequestId', Component: LendingRequest },
-  { path: 'request/admin', Component: LendingRequestAdmin },
+  { path: 'request/:lendingRequestId/admin', Component: LendingRequestAdmin },
   { path: '*', children: pageNotFound },
 ];
 
