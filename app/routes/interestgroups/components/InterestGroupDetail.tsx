@@ -5,6 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import {
   fetchAllMemberships,
   fetchGroup,
+  fetchMemberships,
   joinGroup,
   leaveGroup,
 } from 'app/actions/GroupActions';

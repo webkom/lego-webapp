@@ -1,5 +1,8 @@
 import callAPI from 'app/actions/callAPI';
+import createApiThunk from 'app/actions/createApiThunk';
+import { createPayloadNormalizer } from 'app/actions/createApiThunk/normalizePayload';
 import { groupSchema, membershipSchema } from 'app/reducers';
+import { EntityType } from 'app/store/models/entities';
 import { Group, Membership } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { GroupType } from 'app/models';
@@ -14,40 +17,44 @@ export type AddMemberArgs = {
   userId: EntityId;
   role: RoleType;
 };
-export function addMember({ groupId, userId, role }: AddMemberArgs) {
-  return callAPI({
-    types: Membership.CREATE,
+
+export const addMember = createApiThunk(
+  EntityType.Memberships,
+  'add',
+  ({ groupId, userId, role }: AddMemberArgs) => ({
     endpoint: `/groups/${groupId}/memberships/`,
     method: 'POST',
     body: {
       user: userId,
       role,
     },
-    schema: membershipSchema,
-    meta: {
+    errorMessage: 'Innmelding av bruker feilet',
+    successMessage: 'Brukeren ble innmeldt',
+    extraMeta: {
       groupId,
-      errorMessage: 'Innmelding av bruker feilet',
-      successMessage: 'Brukeren ble innmeldt',
     },
-  });
-}
+  }),
+  createPayloadNormalizer(membershipSchema),
+);
 
-export function removeMember(membership: {
+type RemoveMemberArgs = {
   id: EntityId;
   abakusGroup: EntityId;
-}) {
-  return callAPI({
-    types: Membership.REMOVE,
-    endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
+};
+export const removeMember = createApiThunk(
+  EntityType.Memberships,
+  'remove',
+  ({ abakusGroup, id }: RemoveMemberArgs) => ({
+    endpoint: `/groups/${abakusGroup}/memberships/${id}/`,
     method: 'DELETE',
-    schema: membershipSchema,
-    meta: {
-      id: membership.id,
-      groupId: membership.abakusGroup,
-      errorMessage: 'Utmelding av bruker feilet',
+    deleteId: id,
+    errorMessage: 'Utmelding av bruker feilet',
+    extraMeta: {
+      groupId: abakusGroup,
     },
-  });
-}
+  }),
+  (payload) => payload as EntityId,
+);
 
 export function fetchGroup(groupId: EntityId, { propagateError = true } = {}) {
   return callAPI({
@@ -136,29 +143,29 @@ export function joinGroup(
     });
 }
 
-export function leaveGroup(
-  membership: TransformedMembership,
-  groupId: EntityId,
-) {
-  return (dispatch: AppDispatch) => {
-    return dispatch(
-      callAPI({
-        types: Membership.LEAVE_GROUP,
-        endpoint: `/groups/${String(groupId)}/memberships/${membership.id}/`,
-        method: 'DELETE',
-        meta: {
-          id: membership.id,
-          username: membership.user.username,
-          groupId,
-          errorMessage: 'Utmelding fra gruppe feilet',
-          successMessage: 'Utmelding fra gruppe fullført',
-        },
-      }),
-    ).then(() => {
-      return dispatch(fetchMemberships({ groupId }));
-    });
+type LeaveGroupArgs = {
+  membership: {
+    id: EntityId;
+    user: { username: string };
   };
-}
+  groupId: EntityId;
+};
+export const leaveGroup = createApiThunk(
+  EntityType.Memberships,
+  'leaveGroup',
+  ({ membership, groupId }: LeaveGroupArgs) => ({
+    endpoint: `/groups/${groupId}/memberships/${membership.id}/`,
+    method: 'DELETE',
+    deleteId: membership.id,
+    errorMessage: 'Utmelding fra gruppe feilet',
+    successMessage: 'Utmelding fra gruppe fullført',
+    extraMeta: {
+      groupId,
+    },
+    onFulfilled: (_, dispatch) => dispatch(fetchMemberships({ groupId })),
+  }),
+  () => {},
+);
 
 export function fetchAllMemberships(groupId: EntityId, descendants = false) {
   return (dispatch: AppDispatch) => {
