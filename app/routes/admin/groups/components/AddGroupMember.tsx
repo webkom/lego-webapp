@@ -27,10 +27,12 @@ const AddGroupMember = ({ groupId, onMemberAdded }: Props) => {
         userId: values.user.id,
         role: values.role.value,
       }),
-    ).then(() => {
-      form.reset();
-      onMemberAdded?.();
-    });
+    )
+      .unwrap()
+      .then(() => {
+        form.reset();
+        onMemberAdded?.();
+      });
   };
 
   return (

@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 import {
   fetchAllMemberships,
   fetchGroup,
+  fetchMemberships,
   joinGroup,
   leaveGroup,
 } from 'app/actions/GroupActions';
