@@ -27,7 +27,8 @@ export function createEmailList(emailList: CreateEmailList) {
     schema: emailListSchema,
     body: emailList,
     meta: {
-      errorMessage: 'Opprettelse av e-postlisten feilet',
+      successMessage: 'Opprettelse av e-postliste fullført',
+      errorMessage: 'Opprettelse av e-postliste feilet',
     },
   });
 }
@@ -40,6 +41,7 @@ export function editEmailList(emailList: EditEmailList) {
     schema: emailListSchema,
     body: emailList,
     meta: {
+      successMessage: 'Endring av e-postliste fullført',
       errorMessage: 'Endring av e-postliste feilet',
     },
   });
