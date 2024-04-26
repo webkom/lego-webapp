@@ -67,6 +67,7 @@ import {
   OFFICE_IN_TRONDHEIM,
   COLLABORATION_TYPES,
   COMPANY_TYPES,
+  TOOLTIP,
 } from './Translations';
 import type { ReactNode } from 'react';
 
@@ -132,14 +133,25 @@ const EventBox = ({
       return (
         <Flex column className={styles.checkboxWrapper}>
           {filteredFields.map((key, index) => (
-            <Field
-              key={`events[${index}]`}
-              name={`events[${index}].checked`}
-              label={EVENTS[eventToString(key)][language]}
-              type="checkbox"
-              component={CheckBox.Field}
-              parse={(v) => !!v}
-            />
+            <Flex
+              className={styles.checkboxWrapperToolTip}
+              key={`events[${index}]` + `flexBox`}
+            >
+              <Field
+                key={`events[${index}]`}
+                name={`events[${index}].checked`}
+                label={EVENTS[eventToString(key)][language]}
+                type="checkbox"
+                component={CheckBox.Field}
+                parse={(v) => !!v}
+              />
+              <Tooltip
+                className={styles.tooltip}
+                content={<span>{TOOLTIP[eventToString(key)][language]}</span>}
+              >
+                <Icon name="information-circle-outline" />
+              </Tooltip>
+            </Flex>
           ))}
         </Flex>
       );

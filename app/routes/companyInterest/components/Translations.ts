@@ -39,6 +39,56 @@ export const EVENTS = {
   },
 };
 
+export const TOOLTIP = {
+  company_presentation: {
+    norwegian:
+      'Kom og fortell om hvem dere er og hva dere gjør i bedriften deres.',
+    english: 'Come and tell us who you are and what you do in your company.',
+  },
+  lunch_presentation: {
+    norwegian:
+      'I motsetning til bedriftspresentasjon legger denne opp til å starte ved lunsjtider og holder minglingen på Gløshaugen.',
+    english:
+      'In contrast to the company presentation, this is scheduled to start at lunchtime and will hold networking at Gløshaugen.',
+  },
+  course: {
+    norwegian:
+      'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. ',
+    english:
+      'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops.',
+  },
+  breakfast_talk: {
+    norwegian:
+      'Frokostforedragene foregår fra klokken 8 til 10/11, og holdes vanligvis på campus. Tildeling av frokostforedrag skjer uavhengig av andre tildelinger, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har blant annet vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
+    english:
+      'The breakfast talks take place from 8 am to 10/11 am, and are usually held on campus. Allocation of breakfast talks takes place independently of other allocations, so you can receive breakfast lectures in addition to another event. We would like you to suggest topics for the breakfast talks you wish to give. We are open to everything. Previous topics have included soft skills, exciting cases from work, technology development, motivational talks or sustainability.',
+  },
+  bedex: {
+    norwegian:
+      'BedEx er Abakus sin bedriftsekskursjon til Oslo, spesialtilrettelagt for studenter i 4. og 5. klasse. Gjennom et firedagers opphold i Oslo, får studentene muligheten til å besøke 6 fremstående bedrifter. Disse bedriftene ønsker studentene velkommen i sine lokaler, hvor de gjennom nøye planlagte aktiviteter og direkte dialog med ansatte, tilbyr dybdeinnsikt i både sine operasjoner og arbeidskultur. BedEx-teamet organiserer en gruppeflyvning fra Trondheim til Oslo på formiddagen tirsdag 10. september, samt hotellopphold frem til og med fredag 13. september. Returreisen står hver student fritt til å arrangere selv, noe som gir rom for de som ønsker å tilbringe ekstra tid med familie i området eller nyte en forlenget helg i Oslo.',
+    english:
+      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo.",
+  },
+  other: {
+    norwegian:
+      'Har dere ønsker om å arrangere noe mer enn en vanlig bedriftspresentasjon eller noe som ikke helt passer som et faglig arrangement?  ',
+    english:
+      "Do you have any wishes to arrange something more than a regular company presentation or something that doesn't quite fit as a professional event? ",
+  },
+  start_up: {
+    norwegian:
+      'Er dere en start-up som hadde vært spennende å høre om på en av våre start-up kvelder?',
+    english:
+      'Are you a start-up that would be exciting to hear about at one of our start-up evenings?',
+  },
+  company_to_company: {
+    norwegian:
+      'Bedrift-til-bedrift er et arrangement som arrangeres i samarbeid med to andre bedrifter. 3 grupper med studenter rullerer på å besøke bedriftene deres i ca. 40 minutter og ser hvordan dere har det i deres lokaler. Her kan dere presentere caser fra deres bedrift, ha escape room, konkurranser eller finne på noe annet gøy. Etter at alle gruppene har besøkt alle bedriftene, drar alle ut på felles mingling.',
+    english:
+      'Company-to-company is an event organized in collaboration with two other companies. 3 groups of students rotate to visit their companies for approximately 40 minutes and have a look around your workspace. Here you can present cases from your company, have escape rooms, competitions or come up with something else fun. After all the groups have visited all the businesses, everyone goes out for joint mingling.',
+  },
+};
+
 export const SURVEY_OFFERS = {
   company_survey_security: {
     norwegian: 'Sikkerhet',
