@@ -1,8 +1,9 @@
+import { RouterProvider as LegoBricksRouterProvider } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { fetchMeta } from 'app/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import coverPhoto from 'app/assets/cover.png';
@@ -49,6 +50,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const searchOpen = useAppSelector((state) => state.search.open);
 
   usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
@@ -56,42 +58,44 @@ const App = () => {
   });
 
   return (
-    <div
-      className={cx(styles.appRoute, {
-        [styles.searchOpen]: searchOpen,
-      })}
-    >
-      <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
-        <meta property="og:image" content={coverPhoto} />
-        <meta
-          property="og:description"
-          content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."
-        />
-      </Helmet>
+    <LegoBricksRouterProvider navigate={navigate}>
+      <div
+        className={cx(styles.appRoute, {
+          [styles.searchOpen]: searchOpen,
+        })}
+      >
+        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
+          <meta property="og:image" content={coverPhoto} />
+          <meta
+            property="og:description"
+            content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."
+          />
+        </Helmet>
 
-      {config.environment !== 'production' && (
-        <div
-          style={{
-            backgroundColor: 'var(--danger-color)',
-            color: 'white',
-            fontWeight: 'bold',
-            padding: 'var(--spacing-sm)',
-          }}
-        >
-          This is a development version of lego-webapp.
-        </div>
-      )}
+        {config.environment !== 'production' && (
+          <div
+            style={{
+              backgroundColor: 'var(--danger-color)',
+              color: 'white',
+              fontWeight: 'bold',
+              padding: 'var(--spacing-sm)',
+            }}
+          >
+            This is a development version of lego-webapp.
+          </div>
+        )}
 
-      <Header />
+        <Header />
 
-      <AppChildren>
-        <Outlet />
-      </AppChildren>
+        <AppChildren>
+          <Outlet />
+        </AppChildren>
 
-      <PhotoUploadStatus />
+        <PhotoUploadStatus />
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </LegoBricksRouterProvider>
   );
 };
 

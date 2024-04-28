@@ -39,6 +39,7 @@
   background-color: var(--button-background);
   color: var(--button-color);
   outline: none;
+  cursor: pointer;
   border-radius: var(--spacing-xl);
   transition: var(--easing-fast);
   /* stylelint-disable value-list-comma-newline-after */

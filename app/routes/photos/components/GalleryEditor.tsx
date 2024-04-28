@@ -4,6 +4,7 @@ import {
   ConfirmModal,
   Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -344,12 +345,9 @@ const GalleryEditor = () => {
             />
 
             <Flex className={styles.buttonRow} justifyContent="flex-end">
-              <Button
-                flat
-                onPress={() => navigate(`/photos/${gallery?.id ?? ''}`)}
-              >
+              <LinkButton flat href={`/photos/${gallery?.id ?? ''}`}>
                 Avbryt
-              </Button>
+              </LinkButton>
               <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
               {!isNew && (
                 <ConfirmModal

@@ -3,6 +3,7 @@ import {
   ConfirmModal,
   Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -234,12 +235,9 @@ const ArticleEditor = () => {
             />
 
             <Flex wrap>
-              <Button
-                flat
-                onPress={() => navigate(`/articles/${isNew ? '' : articleId}`)}
-              >
+              <LinkButton flat href={`/articles/${isNew ? '' : articleId}`}>
                 Avbryt
-              </Button>
+              </LinkButton>
               <SubmitButton>
                 {!isNew ? 'Lagre endringer' : 'Opprett'}
               </SubmitButton>

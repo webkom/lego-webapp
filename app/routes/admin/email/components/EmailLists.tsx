@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailListActions';
@@ -100,9 +100,7 @@ const EmailLists = () => {
         }}
       >
         <h3>Aktive e-postlister</h3>
-        <Link to="/admin/email/lists/new">
-          <Button>Ny e-postliste</Button>
-        </Link>
+        <LinkButton href="/admin/email/lists/new">Ny e-postliste</LinkButton>
       </Flex>
       <Table
         columns={columns}

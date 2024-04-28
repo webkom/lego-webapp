@@ -1,6 +1,5 @@
-import { Button, Card, Container, Flex } from '@webkom/lego-bricks';
+import { Button, Card, Container, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
@@ -80,9 +79,9 @@ const Welcome = () => (
       studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU,
       fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
     </p>
-    <Link to="/pages/info-om-abakus">
-      <Button dark>Les mer om oss</Button>
-    </Link>
+    <LinkButton dark href="/pages/info-om-abakus">
+      Les mer om oss
+    </LinkButton>
   </div>
 );
 

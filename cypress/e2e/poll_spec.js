@@ -26,7 +26,7 @@ describe('Polls', () => {
   it('can create poll', () => {
     cy.visit('/polls');
 
-    cy.contains('button', 'Lag ny').click();
+    cy.contains('a', 'Lag ny').click();
 
     cy.url().should('include', `/polls/new`);
 

@@ -1,10 +1,10 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { normalize } from 'normalizr';
 import qs from 'qs';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { User } from 'app/actions/ActionTypes';
 import {
   createUser,
@@ -16,7 +16,6 @@ import {
   TextInput,
   MultiSelectGroup,
   RadioButton,
-  Button,
   PhoneNumberInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
@@ -101,12 +100,10 @@ const UserConfirmationForm = () => {
             </span>
           </Card>
           <Flex gap="var(--spacing-md)">
-            <Link to="/users/me/settings/student-confirmation/">
-              <Button success>Verifiser studentstatus</Button>
-            </Link>
-            <Link to="/">
-              <Button>Eller gå til hovedsiden</Button>
-            </Link>
+            <LinkButton success href="/users/me/settings/student-confirmation/">
+              Verifiser studentstatus
+            </LinkButton>
+            <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
           </Flex>
         </Content>
       </>

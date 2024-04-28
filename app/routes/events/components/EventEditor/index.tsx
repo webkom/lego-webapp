@@ -1,4 +1,4 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { isEmpty } from 'lodash';
@@ -14,7 +14,7 @@ import {
   setSaveForUse,
 } from 'app/actions/FileActions';
 import { Content } from 'app/components/Content';
-import { Form, CheckBox, Button, LegoFinalForm } from 'app/components/Form';
+import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import NavigationTab from 'app/components/NavigationTab';
 import {
@@ -410,9 +410,9 @@ const EventEditor = () => {
 
             <Flex wrap>
               {isEditPage && (
-                <Button flat onPress={() => navigate(`/events/${event.slug}`)}>
+                <LinkButton flat href={`/events/${event.slug}`}>
                   Avbryt
-                </Button>
+                </LinkButton>
               )}
               <SubmitButton>
                 {isEditPage ? 'Lagre endringer' : 'Opprett'}

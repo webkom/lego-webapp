@@ -1,5 +1,5 @@
-import { Button, Icon } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Icon, LinkButton } from '@webkom/lego-bricks';
+import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from 'app/store/hooks';
 import type { AnnouncementCreateLocationState } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type { UnknownEvent } from 'app/store/models/Event';
@@ -13,6 +13,7 @@ type Props = {
 };
 
 const AnnouncementInLine = ({ event, meeting, group }: Props) => {
+  const navigate = useNavigate();
   const actionGrant = useAppSelector((state) => state.allowed.announcements);
 
   if (!actionGrant) {
@@ -20,21 +21,20 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
   }
 
   return (
-    <Link
-      to="/announcements"
-      state={
-        {
-          event,
-          meeting,
-          group,
-        } as AnnouncementCreateLocationState
-      }
+    <LinkButton
+      onPress={() => {
+        navigate('/announcements', {
+          state: {
+            event,
+            meeting,
+            group,
+          } as AnnouncementCreateLocationState,
+        });
+      }}
     >
-      <Button>
-        <Icon name="send-outline" size={18} />
-        Send kunngjøring
-      </Button>
-    </Link>
+      <Icon name="send-outline" size={18} />
+      Send kunngjøring
+    </LinkButton>
   );
 };
 

@@ -3,6 +3,7 @@ import {
   Card,
   Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
   Modal,
 } from '@webkom/lego-bricks';
@@ -497,9 +498,9 @@ const UserProfile = () => {
             <Card className={styles.infoCard}>
               {renderFields()}
               {showSettings && (
-                <Link to={`/users/${user.username}/settings/profile`}>
-                  <Button>Innstillinger</Button>
-                </Link>
+                <LinkButton href={`/users/${user.username}/settings/profile`}>
+                  Innstillinger
+                </LinkButton>
               )}
             </Card>
           </div>

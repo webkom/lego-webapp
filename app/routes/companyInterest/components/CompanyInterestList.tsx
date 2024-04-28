@@ -1,4 +1,10 @@
-import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -224,9 +230,9 @@ const CompanyInterestList = () => {
             isClearable={false}
           />
         </Flex>
-        <Link to="/companyInterest/semesters">
-          <Button>Endre aktive semestre</Button>
-        </Link>
+        <LinkButton href="/companyInterest/semesters">
+          Endre aktive semestre
+        </LinkButton>
         <Link to="/companyInterest/create">
           <Button>Opprett ny bedriftsinteresse</Button>
         </Link>

@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
@@ -65,9 +65,9 @@ const Overview = () => {
             {actionGrant && actionGrant.includes('create') && (
               <h4>
                 Trykk{' '}
-                <Button flat onPress={() => navigate('/photos/new')}>
+                <LinkButton flat href="/photos/new">
                   <b>her</b>
-                </Button>{' '}
+                </LinkButton>{' '}
                 for å lage et nytt album
               </h4>
             )}

@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, LinkButton } from '@webkom/lego-bricks';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
 import { Content } from 'app/components/Content';
@@ -79,15 +79,13 @@ const BrandPage = () => (
         </Flex>
         <div>
           <h2 className={styles.h2Padding}>Logoer i vektorformat</h2>
-          <a
+          <LinkButton
             href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
             download="proposed_file_name"
           >
-            <Button>
-              <Icon name="download-outline" size={19} />
-              Last ned
-            </Button>
-          </a>
+            <Icon name="download-outline" size={19} />
+            Last ned
+          </LinkButton>
           <h2 className={styles.h2Padding}>Abakusfarger</h2>
           <ul>
             <li>Hvit: CMYK(0,0,0,0)</li>

@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -153,13 +153,14 @@ const JoblistingDetail = () => {
             ].filter(isTruthy)}
           />
           {joblisting.applicationUrl && (
-            <a
+            <LinkButton
+              success
               href={joblisting.applicationUrl}
               target="_blank"
               rel="noreferrer"
             >
-              <Button success>Søk her</Button>
-            </a>
+              Søk her
+            </LinkButton>
           )}
           {(joblisting.responsible || joblisting.contactMail) && (
             <div
@@ -225,12 +226,10 @@ const JoblistingDetail = () => {
             >
               <h3>Admin</h3>
               {canEdit && (
-                <Link to={`/joblistings/${joblisting.id}/edit`}>
-                  <Button>
-                    <Icon name="create-outline" size={19} />
-                    Rediger
-                  </Button>
-                </Link>
+                <LinkButton href={`/joblistings/${joblisting.id}/edit`}>
+                  <Icon name="create-outline" size={19} />
+                  Rediger
+                </LinkButton>
               )}
             </Flex>
           )}

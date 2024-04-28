@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { Button as AriaButton } from 'react-aria-components';
+import { Button as AriaButton, Link as AriaLink } from 'react-aria-components';
 import { LoadingIndicator } from '../LoadingIndicator';
 import styles from './Button.module.css';
 import type { ComponentProps, ReactNode } from 'react';
@@ -13,24 +13,12 @@ import type { ComponentProps, ReactNode } from 'react';
  * ```
  */
 
-type Props = {
-  /** content inside */
-  children?: ReactNode;
-
-  /** Is the button disabled */
-  disabled?: boolean;
-
+type StyleProps = {
   /** className for styling */
   className?: string;
 
   /** 'small', 'normal' or 'large' */
   size?: 'small' | 'normal' | 'large';
-
-  /** Is the button a submit button? */
-  submit?: boolean;
-
-  /** is the button action pending? */
-  isPending?: boolean;
 
   /** Secondary button styling */
   secondary?: boolean;
@@ -49,40 +37,86 @@ type Props = {
 
   /** Ghost button styling */
   ghost?: boolean;
-} & Omit<ComponentProps<typeof AriaButton>, 'isDisabled'>;
+};
 
-export const Button = ({
-  children,
+const getButtonClassName = ({
   className,
   size = 'normal',
-  submit,
-  isPending = false,
   secondary = false,
   dark = false,
   danger = false,
   success = false,
   flat = false,
   ghost = false,
+}: StyleProps) =>
+  cx(
+    styles.button,
+    styles[size],
+    secondary && styles.secondary,
+    dark && styles.dark,
+    danger && styles.danger,
+    success && styles.success,
+    flat && styles.flat,
+    ghost && styles.ghost,
+    className,
+  );
+
+type ButtonProps = StyleProps &
+  Omit<ComponentProps<typeof AriaButton>, 'isDisabled' | 'type'> & {
+    /** content inside */
+    children?: ReactNode;
+
+    /** Is the button disabled? */
+    disabled?: boolean;
+
+    /** Is the button a submit button? */
+    submit?: boolean;
+
+    /** is the button action pending? */
+    isPending?: boolean;
+  };
+
+export const Button = ({
+  secondary,
+  children,
   disabled,
+  submit,
+  isPending = false,
   ...rest
-}: Props) => (
+}: ButtonProps) => (
   <AriaButton
-    className={cx(
-      styles.button,
-      styles[size],
-      (submit || secondary) && styles.secondary,
-      dark && styles.dark,
-      danger && styles.danger,
-      success && styles.success,
-      flat && styles.flat,
-      ghost && styles.ghost,
-      className,
-    )}
     type={submit ? 'submit' : 'button'}
     isDisabled={disabled}
     {...rest}
+    className={getButtonClassName({
+      secondary: submit || secondary,
+      ...rest,
+    })}
   >
     <LoadingIndicator small margin={0} loading={isPending} />
     {isPending ? <span>Laster ...</span> : children}
   </AriaButton>
 );
+
+type LinkButtonProps = StyleProps &
+  ComponentProps<typeof AriaLink> & {
+    /** content inside */
+    children?: ReactNode;
+
+    /** is the button disabled? */
+    disabled?: boolean;
+  };
+
+export const LinkButton = ({
+  children,
+  disabled,
+  ...rest
+}: LinkButtonProps) => {
+  const className = getButtonClassName(rest);
+
+  return (
+    <AriaLink isDisabled={disabled} {...rest} className={className}>
+      {children}
+    </AriaLink>
+  );
+};
