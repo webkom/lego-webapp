@@ -156,7 +156,7 @@
     "compression-webpack-plugin": "^11.1.0",
     "concurrently": "^8.2.2",
     "css-loader": "^6.10.0",
-    "css-minimizer-webpack-plugin": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^6.0.0",
     "cypress": "^13.6.6",
     "duplicate-package-checker-webpack-plugin": "^3.0.0",
     "enzyme": "^3.9.0",
