@@ -82,7 +82,7 @@ const AdminSideBar = ({
               </a>
             ) : (
               <Button
-                onClick={async () => setGeneratedCSV(await exportSurvey())}
+                onPress={async () => setGeneratedCSV(await exportSurvey())}
               >
                 <Icon name="download-outline" size={19} />
                 Eksporter til CSV
@@ -105,7 +105,7 @@ const AdminSideBar = ({
         )}
 
         {token && (
-          <Button onClick={handleCopyButtonClick} success={copied}>
+          <Button onPress={handleCopyButtonClick} success={copied}>
             <Icon name={copied ? 'checkmark' : 'copy-outline'} />
             {copied ? 'Kopiert!' : 'Kopier delbar link'}
           </Button>

@@ -183,7 +183,7 @@ const PageEditor = () => {
                     onConfirm={onDelete}
                   >
                     {({ openConfirmModal }) => (
-                      <Button onClick={openConfirmModal} danger>
+                      <Button onPress={openConfirmModal} danger>
                         <Icon name="trash" size={19} />
                         Slett
                       </Button>

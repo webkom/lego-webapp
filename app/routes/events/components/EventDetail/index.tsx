@@ -487,7 +487,7 @@ const EventDetail = () => {
               {event.mazemapPoi && (
                 <Button
                   className={styles.mapButton}
-                  onClick={() => setMapIsOpen(!mapIsOpen)}
+                  onPress={() => setMapIsOpen(!mapIsOpen)}
                 >
                   <img
                     className={styles.mazemapImg}

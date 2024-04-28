@@ -199,7 +199,7 @@ const VoteOpen = ({ details, poll, options }: VoteOpenProps) => {
           key={option.id}
           className={styles.voteButton}
           dark
-          onClick={() => dispatch(votePoll(poll.id, option.id))}
+          onPress={() => dispatch(votePoll(poll.id, option.id))}
         >
           {option.name}
         </Button>

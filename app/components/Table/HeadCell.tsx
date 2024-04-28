@@ -186,7 +186,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
             )}
             <Button
               flat
-              onClick={() => {
+              onPress={() => {
                 setFilters((prevFilters) => {
                   const updatedFilters = { ...prevFilters };
                   delete updatedFilters[filterIndex];

@@ -236,7 +236,7 @@ const ArticleEditor = () => {
             <Flex wrap>
               <Button
                 flat
-                onClick={() => navigate(`/articles/${isNew ? '' : articleId}`)}
+                onPress={() => navigate(`/articles/${isNew ? '' : articleId}`)}
               >
                 Avbryt
               </Button>
@@ -250,7 +250,7 @@ const ArticleEditor = () => {
                   onConfirm={handleDeleteArticle}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett artikkel
                     </Button>

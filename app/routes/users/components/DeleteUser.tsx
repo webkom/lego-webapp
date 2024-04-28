@@ -32,12 +32,12 @@ const DeleteUser = () => {
   return (
     <>
       {!show ? (
-        <Button danger onClick={() => setShow(true)}>
+        <Button danger onPress={() => setShow(true)}>
           Gå videre til sletting av bruker
         </Button>
       ) : (
         <>
-          <Button onClick={() => setShow(false)}>Avbryt</Button>
+          <Button onPress={() => setShow(false)}>Avbryt</Button>
           <TypedLegoForm onSubmit={onSubmit} validate={validate}>
             {({ handleSubmit }) => (
               <Form onSubmit={handleSubmit}>

@@ -110,7 +110,7 @@ const Comment = ({
         />
 
         {author && (
-          <Button flat onClick={() => setReplyOpen(!replyOpen)}>
+          <Button flat onPress={() => setReplyOpen(!replyOpen)}>
             {replyOpen ? (
               'Avbryt'
             ) : (

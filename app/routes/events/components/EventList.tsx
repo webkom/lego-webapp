@@ -295,7 +295,7 @@ const EventList = () => {
       )}
       {pagination.hasMore && field === 'startTime' && (
         <Button
-          onClick={fetchMore}
+          onPress={fetchMore}
           pending={!isEmpty(events) && pagination.fetching}
         >
           Last inn mer

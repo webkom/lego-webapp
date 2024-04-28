@@ -78,7 +78,7 @@ const PenaltyForm = ({ userId }: Props) => {
 
       <div>
         {!sent ? (
-          <Button onClick={handleHide}>
+          <Button onPress={handleHide}>
             {!showForm ? 'Gi ny prikk' : 'Avbryt'}
           </Button>
         ) : (

@@ -227,7 +227,7 @@ export const DetailNavigation = ({ title }: { title: ReactNode }) => {
         }
       >
         {({ openConfirmModal }) => (
-          <Button onClick={openConfirmModal} danger>
+          <Button onPress={openConfirmModal} danger>
             <Icon name="trash" size={19} />
             Slett bedrift
           </Button>

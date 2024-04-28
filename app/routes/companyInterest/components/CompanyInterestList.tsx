@@ -264,7 +264,7 @@ const CompanyInterestList = () => {
             content={'Vennligst velg semester'}
           >
             <Button
-              onClick={async () => setGeneratedCSV(await exportInterestList())}
+              onPress={async () => setGeneratedCSV(await exportInterestList())}
               disabled={!selectedSemesterFilterOption.year}
             >
               Eksporter til CSV

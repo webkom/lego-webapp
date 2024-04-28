@@ -65,7 +65,7 @@ const Overview = () => {
             {actionGrant && actionGrant.includes('create') && (
               <h4>
                 Trykk{' '}
-                <Button flat onClick={() => navigate('/photos/new')}>
+                <Button flat onPress={() => navigate('/photos/new')}>
                   <b>her</b>
                 </Button>{' '}
                 for å lage et nytt album

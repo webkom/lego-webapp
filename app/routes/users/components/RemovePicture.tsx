@@ -24,15 +24,15 @@ const RemovePicture = (props: Props) => {
   return (
     <div>
       {selected ? (
-        <Button onClick={toggleSelected}>Avbryt</Button>
+        <Button onPress={toggleSelected}>Avbryt</Button>
       ) : (
-        <Button danger onClick={toggleSelected}>
+        <Button danger onPress={toggleSelected}>
           <Icon name="trash" size={19} />
           Slett profilbildet
         </Button>
       )}
       {selected && (
-        <Button danger onClick={handleOnClick}>
+        <Button danger onPress={handleOnClick}>
           Bekreft
         </Button>
       )}

@@ -429,7 +429,7 @@ const MeetingEditor = () => {
               <Flex wrap>
                 <Button
                   flat
-                  onClick={() =>
+                  onPress={() =>
                     navigate(`/meetings/${isEditPage ? meeting.id : ''}`)
                   }
                 >
@@ -445,7 +445,7 @@ const MeetingEditor = () => {
                     onConfirm={onDeleteMeeting}
                   >
                     {({ openConfirmModal }) => (
-                      <Button onClick={openConfirmModal} danger>
+                      <Button onPress={openConfirmModal} danger>
                         <Icon name="trash" size={19} />
                         Slett møtet
                       </Button>

@@ -193,10 +193,10 @@ const MeetingList = () => {
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
       />
       {fetchMorePagination.hasMore && (
-        <Button onClick={fetchMore}>Last inn flere</Button>
+        <Button onPress={fetchMore}>Last inn flere</Button>
       )}
       {fetchOlderPagination.hasMore && (
-        <Button flat onClick={fetchOlder}>
+        <Button flat onPress={fetchOlder}>
           Hent gamle
         </Button>
       )}

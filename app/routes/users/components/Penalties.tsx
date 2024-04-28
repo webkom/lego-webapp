@@ -67,7 +67,7 @@ const Penalties = ({ userId }: Props) => {
                     closeOnConfirm
                   >
                     {({ openConfirmModal }) => (
-                      <Button danger onClick={openConfirmModal}>
+                      <Button danger onPress={openConfirmModal}>
                         Slett prikk
                       </Button>
                     )}

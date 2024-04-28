@@ -69,11 +69,7 @@ const AggregatedActivityItem = ({
       (aggregatedActivity.activityCount > activities.length && expanded) ? (
         <div className={styles.activityFooter}>
           {aggregatedActivity.activities.length > 3 && !expanded && (
-            <Button
-              size="small"
-              submit={false}
-              onClick={() => setExpanded(true)}
-            >
+            <Button size="small" onPress={() => setExpanded(true)}>
               Vis mer
             </Button>
           )}

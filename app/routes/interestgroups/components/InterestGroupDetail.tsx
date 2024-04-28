@@ -68,7 +68,7 @@ const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
       <Button
         success={membership === undefined}
         danger={membership !== undefined}
-        onClick={onClick}
+        onPress={onClick}
       >
         {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
       </Button>

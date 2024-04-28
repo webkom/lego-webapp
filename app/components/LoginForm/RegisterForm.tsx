@@ -105,7 +105,7 @@ const RegisterForm = () => {
                   onConfirm={handleSubmit}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} dark>
+                    <Button onPress={openConfirmModal} dark>
                       Registrer deg
                     </Button>
                   )}

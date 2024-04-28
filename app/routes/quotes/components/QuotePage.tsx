@@ -108,7 +108,7 @@ const QuotePage = () => {
       <LoadingIndicator loading={fetching}>
         {showFetchMore && (
           <Button
-            onClick={() =>
+            onPress={() =>
               dispatch(
                 fetchAll({
                   query,

@@ -1,10 +1,11 @@
 import { Button } from '@webkom/lego-bricks';
 import { spySubmittable } from 'app/utils/formSpyUtils';
-import type { MouseEventHandler, ReactNode } from 'react';
+import type { PressEvent } from '@webkom/lego-bricks';
+import type { ReactNode } from 'react';
 
 type Props = {
   children: ReactNode;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onPress?: (e: PressEvent) => void;
   className?: string;
   allowPristine?: boolean;
   danger?: boolean;
@@ -14,7 +15,7 @@ type Props = {
 
 export const SubmitButton = ({
   children,
-  onClick,
+  onPress,
   className,
   allowPristine,
   danger = false,
@@ -26,7 +27,7 @@ export const SubmitButton = ({
       <Button
         submit
         disabled={!submittable || disabled}
-        onClick={onClick}
+        onPress={onPress}
         className={className}
         danger={danger}
         dark={dark}

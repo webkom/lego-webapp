@@ -64,7 +64,7 @@ const renderOptions = ({ fields }): ReactNode => (
       ))}
     </ul>
 
-    <Button onClick={() => fields.push({})}>
+    <Button onPress={() => fields.push({})}>
       <Icon name="add" size={25} />
       Legg til alternativ
     </Button>
@@ -205,7 +205,7 @@ const PollEditor = ({
                   closeOnConfirm
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett avstemning
                     </Button>

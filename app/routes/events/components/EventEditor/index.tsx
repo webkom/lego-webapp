@@ -410,7 +410,7 @@ const EventEditor = () => {
 
             <Flex wrap>
               {isEditPage && (
-                <Button flat onClick={() => navigate(`/events/${event.slug}`)}>
+                <Button flat onPress={() => navigate(`/events/${event.slug}`)}>
                   Avbryt
                 </Button>
               )}

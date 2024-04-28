@@ -152,7 +152,7 @@ const GalleryPictureEditModal = () => {
               <Flex justifyContent="flex-end">
                 <Button
                   flat
-                  onClick={() => {
+                  onPress={() => {
                     navigate(`/photos/${gallery.id}/picture/${picture.id}`);
                   }}
                 >
@@ -161,7 +161,7 @@ const GalleryPictureEditModal = () => {
                 <SubmitButton>Lagre</SubmitButton>
                 <Button
                   danger
-                  onClick={() =>
+                  onPress={() =>
                     dispatch(deletePicture(gallery.id, picture.id)).then(() => {
                       navigate(`/photos/${gallery.id}`);
                     })

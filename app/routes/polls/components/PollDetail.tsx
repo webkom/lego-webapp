@@ -52,7 +52,7 @@ const PollDetail = () => {
         }}
       >
         {actionGrant.includes('edit') && (
-          <Button onClick={toggleEdit}>
+          <Button onPress={toggleEdit}>
             {editing ? (
               'Avbryt'
             ) : (

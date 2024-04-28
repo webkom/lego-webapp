@@ -346,7 +346,7 @@ const GalleryEditor = () => {
             <Flex className={styles.buttonRow} justifyContent="flex-end">
               <Button
                 flat
-                onClick={() => navigate(`/photos/${gallery?.id ?? ''}`)}
+                onPress={() => navigate(`/photos/${gallery?.id ?? ''}`)}
               >
                 Avbryt
               </Button>
@@ -358,7 +358,7 @@ const GalleryEditor = () => {
                   onConfirm={onDeleteGallery}
                 >
                   {({ openConfirmModal }) => (
-                    <Button danger onClick={openConfirmModal}>
+                    <Button danger onPress={openConfirmModal}>
                       <Icon name="trash" size={19} />
                       Slett album
                     </Button>

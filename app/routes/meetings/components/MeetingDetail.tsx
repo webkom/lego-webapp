@@ -112,14 +112,14 @@ const MeetingDetails = () => {
       <li className={styles.statusButtons}>
         <Button
           success
-          onClick={acceptInvitation}
+          onPress={acceptInvitation}
           disabled={statusMe === MeetingInvitationStatus.Attending}
         >
           Delta
         </Button>
         <Button
           dark
-          onClick={rejectInvitation}
+          onPress={rejectInvitation}
           disabled={statusMe === MeetingInvitationStatus.NotAttending}
         >
           Avslå

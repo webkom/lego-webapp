@@ -29,7 +29,7 @@ const AttendanceElement = ({
       <Button
         flat
         disabled={!registrations}
-        onClick={() => {
+        onPress={() => {
           if (registrations) {
             toggleModal(index);
           }

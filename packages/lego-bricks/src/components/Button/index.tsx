@@ -1,7 +1,8 @@
 import cx from 'classnames';
+import { Button as AriaButton } from 'react-aria-components';
 import { LoadingIndicator } from '../LoadingIndicator';
 import styles from './Button.module.css';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 
 /**
  * A basic Button component
@@ -16,6 +17,9 @@ type Props = {
   /** content inside */
   children?: ReactNode;
 
+  /** Is the button disabled */
+  disabled?: boolean;
+
   /** className for styling */
   className?: string;
 
@@ -26,7 +30,7 @@ type Props = {
   submit?: boolean;
 
   /** is the button action pending? */
-  pending?: boolean;
+  isPending?: boolean;
 
   /** Secondary button styling */
   secondary?: boolean;
@@ -45,23 +49,24 @@ type Props = {
 
   /** Ghost button styling */
   ghost?: boolean;
-};
+} & Omit<ComponentProps<typeof AriaButton>, 'isDisabled'>;
 
 export const Button = ({
   children,
   className,
   size = 'normal',
   submit,
-  pending = false,
+  isPending = false,
   secondary = false,
   dark = false,
   danger = false,
   success = false,
   flat = false,
   ghost = false,
+  disabled,
   ...rest
-}: Props & ButtonHTMLAttributes<HTMLButtonElement>) => (
-  <button
+}: Props) => (
+  <AriaButton
     className={cx(
       styles.button,
       styles[size],
@@ -74,9 +79,10 @@ export const Button = ({
       className,
     )}
     type={submit ? 'submit' : 'button'}
+    isDisabled={disabled}
     {...rest}
   >
-    <LoadingIndicator small margin={0} loading={pending} />
-    {pending ? <span>Laster ...</span> : children}
-  </button>
+    <LoadingIndicator small margin={0} loading={isPending} />
+    {isPending ? <span>Laster ...</span> : children}
+  </AriaButton>
 );

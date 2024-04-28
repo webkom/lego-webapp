@@ -132,7 +132,7 @@ const Header = ({
         justifyContent="space-between"
         margin={'0 0 var(--spacing-md) 0'}
       >
-        <Button onClick={() => setShowImageGallery(true)}>
+        <Button onPress={() => setShowImageGallery(true)}>
           Velg bilde fra bildegalleriet
         </Button>
         <div>

@@ -20,6 +20,13 @@ export const Primary: Story = {
   },
 };
 
+export const PrimaryDisabled: Story = {
+  args: {
+    children: 'Button',
+    disabled: true,
+  },
+};
+
 export const Secondary: Story = {
   args: {
     secondary: true,
@@ -64,7 +71,7 @@ export const Ghost: Story = {
 
 export const Pending: Story = {
   args: {
-    pending: true,
+    isPending: true,
     children: 'Pending...',
   },
 };

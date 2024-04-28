@@ -4,7 +4,7 @@
     "target": "ESNext",
     "jsx": "react-jsx",
     "module": "commonjs",
-    "lib": ["ES2019", "DOM"],
+    "lib": ["ES2022", "DOM"],
     "allowJs": false,
     "checkJs": false,
     "declaration": true,

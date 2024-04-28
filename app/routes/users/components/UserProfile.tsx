@@ -458,7 +458,7 @@ const UserProfile = () => {
                   ? cx(styles.abaIdButton, styles.frameMargin)
                   : styles.abaIdButton
               }
-              onClick={() => {
+              onPress={() => {
                 setShowAbaId(true);
               }}
             >

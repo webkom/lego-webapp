@@ -500,13 +500,13 @@ const BdbDetail = () => {
               {eventsToDisplay === 3 ? (
                 <Button
                   className={styles.showAllButton}
-                  onClick={() => setEventsToDisplay(100)}
+                  onPress={() => setEventsToDisplay(100)}
                 >
                   Vis alle arrangementer
                 </Button>
               ) : (
                 showFetchMoreEvents && (
-                  <Button onClick={fetchMoreEvents}>Hent flere</Button>
+                  <Button onPress={fetchMoreEvents}>Hent flere</Button>
                 )
               )}
             </div>

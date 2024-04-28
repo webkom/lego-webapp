@@ -182,7 +182,7 @@ const GalleryDetail = () => {
             <>
               <GalleryDetailsRow gallery={gallery} showDescription />
               <div>
-                <Button onClick={downloadGallery} pending={downloading}>
+                <Button onPress={downloadGallery} isPending={downloading}>
                   <Icon name="download-outline" size={19} />
                   Last ned album
                 </Button>
@@ -223,7 +223,7 @@ const GalleryDetail = () => {
               <h1>Ingen bilder</h1>
               <h4>
                 Trykk{' '}
-                <Button flat onClick={() => toggleUpload()}>
+                <Button flat onPress={() => toggleUpload()}>
                   <b>her</b>
                 </Button>{' '}
                 for å legge inn bilder

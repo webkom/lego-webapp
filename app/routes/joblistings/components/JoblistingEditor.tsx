@@ -336,7 +336,7 @@ const JoblistingEditor = () => {
             <SubmissionError />
             <Flex wrap>
               <Button
-                onClick={() =>
+                onPress={() =>
                   navigate(`/joblistings/${isNew ? '' : joblistingId}`)
                 }
               >
@@ -352,7 +352,7 @@ const JoblistingEditor = () => {
                   onConfirm={onDeleteJoblisting}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett jobbannonse
                     </Button>

@@ -156,7 +156,7 @@ const StudentConfirmation = () => {
         </Card>
       )}
 
-      <Button success onClick={() => performStudentAuth()}>
+      <Button success onPress={() => performStudentAuth()}>
         Verifiser med FEIDE
       </Button>
       {currentUser.isStudent !== null && (
@@ -202,10 +202,10 @@ const StudentConfirmation = () => {
         </div>
 
         <Flex>
-          <Button dark onClick={() => setAbakusMember(false)}>
+          <Button dark onPress={() => setAbakusMember(false)}>
             Jeg vil ikke bli medlem
           </Button>
-          <Button success onClick={() => setAbakusMember(true)}>
+          <Button success onPress={() => setAbakusMember(true)}>
             Jeg vil bli medlem
           </Button>
         </Flex>

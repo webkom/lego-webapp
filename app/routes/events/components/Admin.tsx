@@ -26,7 +26,7 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
   return (
     <>
       {!show ? (
-        <Button danger onClick={() => setShow(true)}>
+        <Button danger onPress={() => setShow(true)}>
           <Icon name="trash" size={19} />
           Slett arrangement
         </Button>
@@ -54,7 +54,7 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
               }
             >
               {({ openConfirmModal }) => (
-                <Button onClick={openConfirmModal} danger>
+                <Button onPress={openConfirmModal} danger>
                   <Icon name="trash" size={19} />
                   Slett
                 </Button>
