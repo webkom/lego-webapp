@@ -87,7 +87,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.isPriced && (
         <div className={styles.subSection}>
@@ -99,7 +98,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             component={CheckBox.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
-            parse={(v) => !!v}
           />
           <Flex className={styles.editorSectionRow}>
             <Field
@@ -129,7 +127,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.heedPenalties && (
         <div className={styles.subSection}>
@@ -169,7 +166,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             component={CheckBox.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
-            parse={(v) => !!v}
           />
           {values.separateDeadlines && (
             <div className={styles.subSection}>
@@ -195,7 +191,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       <Field
         label="Påmeldingsspørsmål"
@@ -205,7 +200,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.hasFeedbackQuestion && (
         <div className={styles.subSection}>
@@ -224,7 +218,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             component={CheckBox.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
-            parse={(v) => !!v}
           />
         </div>
       )}

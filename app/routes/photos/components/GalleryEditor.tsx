@@ -332,7 +332,6 @@ const GalleryEditor = () => {
               name="publicMetadata"
               type="checkbox"
               component={CheckBox.Field}
-              parse={(v) => !!v}
             />
             <Fields
               names={[

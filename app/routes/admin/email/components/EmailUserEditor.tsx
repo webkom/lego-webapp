@@ -130,7 +130,6 @@ const EmailUserEditor = () => {
             name="internalEmailEnabled"
             component={CheckBox.Field}
             type="checkbox"
-            parse={(value) => !!value}
           />
 
           <SubmissionError />

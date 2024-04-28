@@ -176,7 +176,6 @@ const ArticleEditor = () => {
               name="pinned"
               type="checkbox"
               component={CheckBox.Field}
-              parse={(v) => !!v}
             />
             <Field
               placeholder="Title"
