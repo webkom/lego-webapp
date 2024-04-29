@@ -10,8 +10,8 @@ import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import { selectLendableObjects } from 'app/reducers/lendableObjects';
-import { selectLendingRequests } from 'app/reducers/lendingRequests';
+import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
+import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './LendableObjectsList.css';
 import RequestItem from './RequestItem';
@@ -51,7 +51,7 @@ export const LendableObjectsList = () => {
   );
 
   const lendableObjects = useAppSelector((state) =>
-    selectLendableObjects(state),
+    selectAllLendableObjects(state),
   );
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
@@ -62,7 +62,7 @@ export const LendableObjectsList = () => {
   );
 
   const lendingRequests = useAppSelector((state) =>
-    selectLendingRequests(state),
+    selectAllLendingRequests(state),
   );
 
   const fetchingRequests = useAppSelector(

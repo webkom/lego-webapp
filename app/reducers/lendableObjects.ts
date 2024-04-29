@@ -19,6 +19,6 @@ const lendableObjectsSlice = createSlice({
 export default lendableObjectsSlice.reducer;
 export const {
   selectById: selectLendableObjectById,
-  selectAll: selectLendableObjects } = legoAdapter.getSelectors(
+  selectAll: selectAllLendableObjects } = legoAdapter.getSelectors(
   (state: RootState) => state.lendableObjects,
 );

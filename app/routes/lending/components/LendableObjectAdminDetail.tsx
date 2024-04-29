@@ -11,7 +11,7 @@ import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
-import { selectLendingRequests } from 'app/reducers/lendingRequests';
+import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type { Params } from 'react-router-dom';
 
@@ -39,7 +39,7 @@ const LendableObjectAdminDetail = () => {
   );
 
   const lendingRequests = useAppSelector((state) =>
-    selectLendingRequests(state),
+    selectAllLendingRequests(state),
   );
 
   const fetchingRequests = useAppSelector(

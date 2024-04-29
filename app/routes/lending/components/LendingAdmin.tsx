@@ -13,8 +13,8 @@ import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
-import { selectLendableObjects } from 'app/reducers/lendableObjects';
-import { selectLendingRequests } from 'app/reducers/lendingRequests';
+import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
+import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './LendingAdmin.css';
@@ -32,7 +32,7 @@ const LendableObjectsAdmin = () => {
   );
 
   const lendableObjects = useAppSelector((state) =>
-    selectLendableObjects(state),
+    selectAllLendableObjects(state),
   );
   const fetchingObjects = useAppSelector(
     (state) => state.lendableObjects.fetching,
@@ -45,7 +45,7 @@ const LendableObjectsAdmin = () => {
   );
 
   const lendingRequests = useAppSelector((state) =>
-    selectLendingRequests(state),
+    selectAllLendingRequests(state),
   );
 
   const fetchingRequests = useAppSelector(

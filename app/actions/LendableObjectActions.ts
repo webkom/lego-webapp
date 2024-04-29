@@ -2,16 +2,10 @@ import callAPI from 'app/actions/callAPI';
 import { lendableObjectSchema } from 'app/reducers';
 import { LendableObject } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
-import type {
-  EntityType,
-  NormalizedEntityPayload,
-} from 'app/store/models/entities';
-import type { Thunk } from 'app/types';
+import type { DetailedLendableObject, ListLendableObject } from 'app/store/models/LendableObject';
 
-export function fetchAllLendableObjects(): Thunk<
-  Promise<NormalizedEntityPayload<EntityType.LendableObjects>>
-> {
-  return callAPI({
+export function fetchAllLendableObjects() {
+  return callAPI<ListLendableObject[]>({
     types: LendableObject.FETCH,
     endpoint: '/lendableobject/',
     schema: [lendableObjectSchema],
@@ -22,8 +16,8 @@ export function fetchAllLendableObjects(): Thunk<
   });
 }
 
-export function fetchLendableObject(id: EntityId): Thunk<any> {
-  return callAPI({
+export function fetchLendableObject(id: EntityId) {
+  return callAPI<DetailedLendableObject>({
     types: LendableObject.FETCH,
     endpoint: `/lendableobject/${id}/`,
     schema: lendableObjectSchema,
@@ -34,7 +28,7 @@ export function fetchLendableObject(id: EntityId): Thunk<any> {
   });
 }
 
-export function deleteLendableObject(id: EntityId): Thunk<any> {
+export function deleteLendableObject(id: EntityId) {
   return callAPI({
     types: LendableObject.DELETE,
     endpoint: `/lendableobject/${id}/`,
@@ -46,7 +40,7 @@ export function deleteLendableObject(id: EntityId): Thunk<any> {
   });
 }
 
-export function createLendableObject(data: EntityId): Thunk<any> {
+export function createLendableObject(data: EntityId) {
   return callAPI({
     types: LendableObject.CREATE,
     endpoint: '/lendableobject/',
@@ -62,7 +56,7 @@ export function createLendableObject(data: EntityId): Thunk<any> {
 export function editLendableObject({
   id,
   ...data
-}: Record<string, any>): Thunk<any> {
+}: Record<string, any>) {
   return callAPI({
     types: LendableObject.EDIT,
     endpoint: `/lendableobject/${id}/`,

@@ -8,7 +8,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import {
   fetchLendingRequest,
-  fetchLendingRequestsByLendableObjectId,
+  fetchLendingRequestsForLendableObject,
 } from 'app/actions/LendingRequestActions';
 import {
   Content,
@@ -50,7 +50,7 @@ const LendingRequestAdmin = () => {
     () => {
       if (request && request.lendableObject?.id) {
         dispatch(
-          fetchLendingRequestsByLendableObjectId(request.lendableObject.id as number),
+          fetchLendingRequestsForLendableObject(request.lendableObject.id as number),
         );
       }
     },

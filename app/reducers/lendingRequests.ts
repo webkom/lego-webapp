@@ -21,7 +21,7 @@ export default lendingRequestsSlice.reducer;
 
 export const {
   selectById: selectLendingRequestById,
-  selectAll: selectLendingRequests,
+  selectAll: selectAllLendingRequests,
   selectByField: selectLendingRequestsByField,
 } = legoAdapter.getSelectors((state: RootState) => state.lendingRequests);
 

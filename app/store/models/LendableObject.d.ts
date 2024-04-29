@@ -10,7 +10,6 @@ interface LendableObject {
   location: string;
   hasContract: boolean;
   maxLendingPeriod: null | string | Duration;
-  //lendingCommentPrompt: string;
   responsibleRoles: RoleType[];
   responsibleGroups: EntityId[];
 }

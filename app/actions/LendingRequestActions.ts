@@ -34,7 +34,7 @@ export function fetchLendingRequest(
   });
 }
 
-export function fetchLendingRequestsByLendableObjectId(
+export function fetchLendingRequestsForLendableObject(
   lendableObjectId: number,
 ): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequests>>> {
   return callAPI({
@@ -47,7 +47,7 @@ export function fetchLendingRequestsByLendableObjectId(
   });
 }
 
-export function createLendingRequest(data: any): Thunk<any> {
+export function createLendingRequest(data: any) {
   return callAPI({
     types: LendingRequest.CREATE,
     endpoint: '/lendinginstance/',
