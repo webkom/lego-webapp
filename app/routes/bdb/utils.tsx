@@ -1,5 +1,5 @@
 import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { deleteCompany } from 'app/actions/CompanyActions';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
@@ -8,10 +8,10 @@ import { useAppDispatch } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
 export const NonEventContactStatusConfig: Record<
@@ -97,22 +97,22 @@ export const semesterCodeToName = (code: Semester) => {
   return codeToName[code] || '-';
 };
 export const sortByYearThenSemester = (
-  a: CompanySemesterEntity,
-  b: CompanySemesterEntity,
+  a: TransformedSemesterStatus,
+  b: TransformedSemesterStatus,
 ): number => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1,
   };
   return a.year !== b.year
-    ? parseInt(b.year, 10) - parseInt(a.year, 10)
+    ? b.year - a.year
     : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
-export const indexToSemester = (
+
+export const indexToYearAndSemester = (
   index: number,
   startYear: number,
   startSem: number,
-  companySemesters?: Array<CompanySemesterEntity>,
 ) => {
   const semester = semesterNameOf(((index % 2) + startSem) % 2);
   let year = 0;
@@ -127,16 +127,22 @@ export const indexToSemester = (
     year = startYear + 1;
   }
 
-  return (
-    (companySemesters &&
-      companySemesters.find(
-        (companySemester) =>
-          companySemester.year === year &&
-          companySemester.semester === semester,
-      )) || {
-      year,
-      semester,
-    }
+  return {
+    year,
+    semester,
+  };
+};
+export const indexToCompanySemester = (
+  index: number,
+  startYear: number,
+  startSem: number,
+  companySemesters: CompanySemester[],
+) => {
+  const { year, semester } = indexToYearAndSemester(index, startYear, startSem);
+
+  return companySemesters.find(
+    (companySemester) =>
+      companySemester.year === year && companySemester.semester === semester,
   );
 };
 
@@ -193,15 +199,12 @@ export const ListNavigation = ({ title }: { title: ReactNode }) => (
   </NavigationTab>
 );
 
-export const DetailNavigation = ({
-  title,
-  companyId,
-}: {
-  title: ReactNode;
-  companyId: EntityId;
-}) => {
+export const DetailNavigation = ({ title }: { title: ReactNode }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { companyId } = useParams<{ companyId: string }>() as {
+    companyId: string;
+  };
 
   return (
     <NavigationTab

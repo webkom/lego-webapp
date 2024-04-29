@@ -22,11 +22,13 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
 import { selectCompanyById } from 'app/reducers/companies';
 import { addToast } from 'app/reducers/toasts';
+import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
 import styles from './bdb.css';
+import type { AdminDetailCompany } from 'app/store/models/Company';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const validate = createValidator({
@@ -50,7 +52,12 @@ const CompanyEditor = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const isNew = companyId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById<AdminDetailCompany>(state, companyId),
+  );
+  const studentContact = useAppSelector((state) =>
+    company?.studentContact !== null
+      ? selectUserById(state, company?.studentContact)
+      : undefined,
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
 
@@ -102,13 +109,17 @@ const CompanyEditor = () => {
     });
   };
 
-  const initialValues = isNew
+  if (!isNew && (!company || !studentContact)) {
+    return <LoadingIndicator loading />;
+  }
+
+  const initialValues = !company
     ? {
         name: '',
         description: '',
         adminComment: '',
         website: '',
-        studentContact: '',
+        studentContact: undefined,
         active: 'true',
         phone: '',
         companyType: '',
@@ -120,9 +131,10 @@ const CompanyEditor = () => {
         description: company.description,
         adminComment: company.adminComment,
         website: company.website,
-        studentContact: company.studentContact && {
-          value: Number(company.studentContact.id),
-          label: company.studentContact.fullName,
+        studentContact: studentContact && {
+          id: studentContact.id,
+          value: studentContact.id,
+          label: studentContact.fullName,
         },
         active: company.active ? 'true' : 'false',
         phone: company.phone,
@@ -149,7 +161,7 @@ const CompanyEditor = () => {
             />
 
             {!isNew ? (
-              <DetailNavigation title={nameField} companyId={company.id} />
+              <DetailNavigation title={nameField} />
             ) : (
               <ListNavigation title={nameField} />
             )}

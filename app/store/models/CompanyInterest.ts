@@ -1,18 +1,32 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type Company from 'app/store/models/Company';
+import type { SearchCompany } from 'app/store/models/Company';
+
+export enum CompanyInterestEventType {
+  All = '',
+  CompanyPresentation = 'company_presentation',
+  Course = 'course',
+  BreakfastTalk = 'breakfast_talk',
+  LunchPresentation = 'lunch_presentation',
+  Bedex = 'bedex',
+  DigitalPresentation = 'digital_presentation',
+  Other = 'other',
+  Sponsor = 'sponsor',
+  StartUp = 'start_up',
+  CompanyToCompany = 'company_to_company',
+}
 
 interface CompleteCompanyInterest {
   id: EntityId;
   companyName: string;
-  company: Company | null;
+  company: SearchCompany | null;
   contactPerson: string;
   mail: string;
   phone: string;
   semesters: EntityId[];
   createdAt: Dateish;
   officeInTrondheim: string;
-  events: string[];
+  events: CompanyInterestEventType[];
   companyCourseThemes: string[];
   otherOffers: string[];
   collaborations: string[];
@@ -67,6 +81,7 @@ export type ListCompanyInterest = Pick<
   | 'mail'
   | 'phone'
   | 'semesters'
+  | 'events'
   | 'createdAt'
 >;
 

@@ -4,14 +4,14 @@ import { Gallery } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
 import type { DetailedGallery } from 'app/store/models/Gallery';
-import type { Query } from 'app/utils/createQueryString';
+import type { ParsedQs } from 'qs';
 
 export const fetchGalleries = ({
   next = false,
   query,
 }: {
   next?: boolean;
-  query?: Query;
+  query?: ParsedQs;
 } = {}) =>
   callAPI({
     types: Gallery.FETCH,

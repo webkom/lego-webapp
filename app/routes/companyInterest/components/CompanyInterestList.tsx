@@ -1,26 +1,32 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import qs from 'qs';
 import { useEffect, useMemo, useState } from 'react';
-import { useLocation, Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   deleteCompanyInterest,
-  fetch as fetchCompanyInterests,
   fetchAll,
 } from 'app/actions/CompanyInterestActions';
 import { Content } from 'app/components/Content';
 import SelectInput from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
-import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanyInterests } from 'app/reducers/companyInterest';
+import {
+  selectAllCompanySemesters,
+  selectCompanySemesterById,
+} from 'app/reducers/companySemesters';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { ListNavigation } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { getCsvUrl, semesterToText, EVENT_TYPE_OPTIONS } from '../utils';
+import useQuery from 'app/utils/useQuery';
+import { EVENT_TYPE_OPTIONS, getCsvUrl, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanyInterestEventTypeOption } from '../utils';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 type SemesterOptionType = {
   id: number;
@@ -29,9 +35,9 @@ type SemesterOptionType = {
   label: string;
 };
 
-type EventOptionType = {
-  value: string;
-  label: string;
+const defaultCompanyInterestsQuery = {
+  semesters: '',
+  event: CompanyInterestEventType.All,
 };
 
 const CompanyInterestList = () => {
@@ -39,95 +45,78 @@ const CompanyInterestList = () => {
     { url: string; filename: string } | undefined
   >(undefined);
 
-  const location = useLocation();
-  const semesterId = Number(
-    qs.parse(location.search, {
-      ignoreQueryPrefix: true,
-    }).semesters,
+  const { query, setQueryValue } = useQuery(defaultCompanyInterestsQuery);
+  const semesters = useAppSelector(selectAllCompanySemesters);
+  const filterSemester = useAppSelector((state) =>
+    selectCompanySemesterById(state, query.semesters),
   );
-  const semesters = useAppSelector((state) => selectCompanySemesters(state));
-  const semesterObj: CompanySemesterEntity | null | undefined = semesters.find(
-    (semester) => semester.id === semesterId,
-  );
-  const eventValue = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  }).event;
-  const selectedSemesterOption = useMemo(
+  const selectedSemesterFilterOption = useMemo(
     () => ({
-      id: semesterId ? semesterId : 0,
-      semester: semesterObj != null ? semesterObj.semester : '',
-      year: semesterObj != null ? semesterObj.year : '',
-      label:
-        semesterObj != null
-          ? semesterToText({
-              semester: semesterObj.semester,
-              year: semesterObj.year,
-              language: 'norwegian',
-            })
-          : 'Vis alle semestre',
+      id: Number(query.semesters),
+      semester: filterSemester?.semester ?? '',
+      year: filterSemester?.year ?? '',
+      label: filterSemester
+        ? semesterToText({
+            semester: filterSemester.semester,
+            year: filterSemester.year,
+            language: 'norwegian',
+          })
+        : 'Vis alle semestre',
     }),
-    [semesterId, semesterObj],
+    [query.semesters, filterSemester],
   );
-  const selectedEventOption = {
-    value: eventValue ? eventValue : '',
-    label: eventValue
-      ? EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === eventValue)
-          .label
-      : 'Vis alle arrangementstyper',
+  const selectedEventOption: CompanyInterestEventTypeOption = {
+    value: query.event,
+    label:
+      EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === query.event)
+        ?.label ?? 'Vis alle arrangementstyper',
   };
   const companyInterestList = useAppSelector((state) =>
-    selectCompanyInterestList(
-      state,
-      selectedSemesterOption.id,
-      selectedEventOption.value,
-    ),
+    selectCompanyInterests(state, {
+      semesterId: selectedSemesterFilterOption.id,
+      eventType: selectedEventOption.value,
+    }),
   );
-  const hasMore = useAppSelector((state) => state.companyInterest.hasMore);
+
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/company-interests/',
+      entity: EntityType.CompanyInterests,
+      query,
+    }),
+  );
+  const hasMore = pagination.hasMore;
   const fetching = useAppSelector((state) => state.companyInterest.fetching);
   const authToken = useAppSelector((state) => state.auth.token);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  const handleSemesterChange = (clickedOption: SemesterOptionType): void => {
-    const { id } = clickedOption;
-    dispatch(
-      fetchCompanyInterests({
-        filters: {
-          semesters: id !== null ? id : null,
-        },
-      }),
-    ).then(() => {
-      navigate(
-        `/companyInterest?semesters=${clickedOption.id}&event=${selectedEventOption.value}`,
-        { replace: true },
-      );
-    });
-  };
-
-  const handleEventChange = (clickedOption: EventOptionType): void => {
-    navigate(
-      `/companyInterest?semesters=${selectedSemesterOption.id}&event=${clickedOption.value}`,
-      { replace: true },
-    );
-  };
 
   useEffect(() => {
     setGeneratedCSV(undefined);
-  }, [selectedSemesterOption]);
+  }, [selectedSemesterFilterOption]);
 
   usePreparedEffect(
     'fetchCompanyInterestList',
     () =>
-      Promise.allSettled([dispatch(fetchAll()), dispatch(fetchSemesters())]),
+      dispatch(
+        fetchAll({
+          query,
+        }),
+      ),
+    [query],
+  );
+  usePreparedEffect(
+    'fetchCompanyInterestListSemesters',
+    () => dispatch(fetchSemesters()),
+
     [],
   );
 
   const exportInterestList = async (event?: string) => {
     const blob = await fetch(
       getCsvUrl(
-        selectedSemesterOption.year,
-        selectedSemesterOption.semester,
+        selectedSemesterFilterOption.year,
+        selectedSemesterFilterOption.semester,
         event,
       ),
       {
@@ -138,8 +127,8 @@ const CompanyInterestList = () => {
     ).then((response) => response.blob());
     return {
       url: URL.createObjectURL(blob),
-      filename: `company-interests-${selectedSemesterOption.year}-${
-        selectedSemesterOption.semester
+      filename: `company-interests-${selectedSemesterFilterOption.year}-${
+        selectedSemesterFilterOption.semester
       }${selectedEventOption.value ? `-${selectedEventOption.value}` : ''}.csv`,
     };
   };
@@ -191,7 +180,7 @@ const CompanyInterestList = () => {
       semester: '',
       label: 'Vis alle semestre',
     },
-    ...semesters.map((semesterObj: CompanySemesterEntity) => {
+    ...semesters.map((semesterObj: CompanySemester) => {
       const { id, year, semester } = semesterObj;
       return {
         id,
@@ -227,8 +216,10 @@ const CompanyInterestList = () => {
           </p>
           <SelectInput
             name="form-semester-selector"
-            value={selectedSemesterOption}
-            onChange={handleSemesterChange}
+            value={selectedSemesterFilterOption}
+            onChange={(clickedOption: SemesterOptionType) =>
+              setQueryValue('semesters')(String(clickedOption.id ?? ''))
+            }
             options={semesterOptions}
             isClearable={false}
           />
@@ -251,7 +242,9 @@ const CompanyInterestList = () => {
           <SelectInput
             name="form-event-selector"
             value={selectedEventOption}
-            onChange={handleEventChange}
+            onChange={(clickedOption: CompanyInterestEventTypeOption) =>
+              setQueryValue('event')(clickedOption.value)
+            }
             options={EVENT_TYPE_OPTIONS}
             isClearable={false}
           />
@@ -264,13 +257,15 @@ const CompanyInterestList = () => {
         ) : (
           <Tooltip
             style={
-              selectedSemesterOption.year ? { display: 'none' } : undefined
+              selectedSemesterFilterOption.year
+                ? { display: 'none' }
+                : undefined
             }
             content={'Vennligst velg semester'}
           >
             <Button
               onClick={async () => setGeneratedCSV(await exportInterestList())}
-              disabled={!selectedSemesterOption.year}
+              disabled={!selectedSemesterFilterOption.year}
             >
               Eksporter til CSV
             </Button>
@@ -280,18 +275,11 @@ const CompanyInterestList = () => {
 
       <Table
         columns={columns}
-        onLoad={(filters) => {
+        onLoad={() => {
           dispatch(
-            fetchCompanyInterests({
+            fetchAll({
               next: true,
-              filters,
-            }),
-          );
-        }}
-        onChange={(filters) => {
-          dispatch(
-            fetchCompanyInterests({
-              filters,
+              query,
             }),
           );
         }}

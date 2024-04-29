@@ -29,7 +29,7 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
           <div className={styles.companyLogoContainer}>
             <div className={styles.companyLogo}>
               <Image
-                src={company.logo}
+                src={company.logo ?? ''}
                 placeholder={company.logoPlaceholder}
                 alt={`${company.name} logo`}
               />
@@ -45,7 +45,7 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
               column
               alignItems="center"
               className={
-                company.joblistingCount > 0
+                company.joblistingCount && company.joblistingCount > 0
                   ? styles.interestingCount
                   : undefined
               }
@@ -57,7 +57,9 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
               column
               alignItems="center"
               className={
-                company.eventCount > 0 ? styles.interestingCount : undefined
+                company.eventCount && company.eventCount > 0
+                  ? styles.interestingCount
+                  : undefined
               }
             >
               <Icon name="calendar-clear" size={20} />
@@ -86,7 +88,7 @@ const CompaniesPage = () => {
   const [expanded, setExpanded] = useState(false);
   const top = useRef<HTMLHeadingElement>(null);
 
-  const companies = useAppSelector((state) => selectActiveCompanies(state));
+  const companies = useAppSelector(selectActiveCompanies<ListCompany>);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       query: {},
@@ -126,7 +128,7 @@ const CompaniesPage = () => {
             Vis mer
           </Button>
         )}
-        <div className={!expanded && utilities.hiddenOnMobile}>
+        <div className={!expanded ? utilities.hiddenOnMobile : undefined}>
           <p className={styles.infoText}>
             Trykk deg inn på en bedrift for å se hva slags type bedrift det er,
             les mer om hva de jobber med og se hvor de holder til. Bla deg

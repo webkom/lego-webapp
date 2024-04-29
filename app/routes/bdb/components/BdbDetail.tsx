@@ -9,16 +9,16 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   deleteCompanyContact,
   editSemesterStatus,
   fetchAdmin,
-  fetchEventsForCompany,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
-import { getEndpoint } from 'app/actions/EventActions';
+import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
@@ -28,18 +28,18 @@ import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import {
-  type SemesterStatusEntity,
-  selectCompanyById,
-  selectCommentsForCompany,
   selectEventsForCompany,
   selectJoblistingsForCompany,
+  selectTransformedAdminCompanyById,
 } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
+import { selectPaginationNext } from 'app/reducers/selectors';
+import { selectUserById } from 'app/reducers/users';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import createQueryString from 'app/utils/createQueryString';
+import { EntityType } from 'app/store/models/entities';
 import truncateString from 'app/utils/truncateString';
 import {
   sortByYearThenSemester,
@@ -48,42 +48,51 @@ import {
 } from '../utils';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import styles from './bdb.css';
-import type { CompanySemesterContactStatus } from 'app/store/models/Company';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
-import type { PublicUser } from 'app/store/models/User';
-
-const queryString = (companyId) =>
-  createQueryString({
-    company: companyId,
-    ordering: '-start_time',
-  });
+import type { TransformedSemesterStatus } from 'app/reducers/companies';
+import type {
+  CompanySemesterContactStatus,
+  SemesterStatus,
+} from 'app/store/models/Company';
+import type { ListEvent } from 'app/store/models/Event';
 
 const BdbDetail = () => {
-  const { companyId } = useParams<{ companyId: string }>();
+  const { companyId } = useParams<{ companyId: string }>() as {
+    companyId: string;
+  };
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectTransformedAdminCompanyById(state, companyId),
   );
 
+  const eventsQuery = {
+    company: companyId,
+    ordering: '-start_time',
+  };
+
   const comments = useAppSelector((state) =>
-    selectCommentsForCompany(state, { companyId }),
+    selectCommentsByIds(state, company?.comments),
   );
 
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, { companyId }),
+    selectEventsForCompany(state, companyId),
+  ) as ListEvent[];
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
+  const studentContact = useAppSelector((state) =>
+    company?.studentContact !== null
+      ? selectUserById(state, company?.studentContact)
+      : undefined,
   );
-  const companySemesters = useAppSelector(selectCompanySemesters);
-  const fetching = useAppSelector((state) => state.companies.fetching);
-  const showFetchMoreEvents = useAppSelector((state) =>
-    selectPagination('events', {
-      queryString: queryString(companyId),
-    })(state),
+  const { pagination: eventsPagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/events/',
+      entity: EntityType.Events,
+      query: eventsQuery,
+    }),
   );
-  const pagination = useAppSelector((state) => state.events.pagination);
-  const endpoint = getEndpoint(pagination, queryString(companyId));
+  const showFetchMoreEvents = eventsPagination.hasMore;
 
   const joblistings = useAppSelector((state) =>
-    selectJoblistingsForCompany(state, { companyId }),
-  ) as ListJoblisting[];
+    selectJoblistingsForCompany(state, companyId),
+  );
   const fetchingJoblistings = useAppSelector(
     (state) => state.joblistings.fetching,
   );
@@ -97,9 +106,8 @@ const BdbDetail = () => {
       Promise.allSettled([
         dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
         dispatch(
-          fetchEventsForCompany({
-            endpoint: `/events/${queryString(companyId)}`,
-            queryString: queryString(companyId),
+          fetchEvents({
+            query: eventsQuery,
           }),
         ),
         dispatch(fetchAllJoblistings({ company: companyId })),
@@ -111,17 +119,21 @@ const BdbDetail = () => {
 
   const [eventsToDisplay, setEventsToDisplay] = useState(3);
 
+  if (!company || !('semesterStatuses' in company)) {
+    return <LoadingIndicator loading />;
+  }
+
   const fetchMoreEvents = () => {
     dispatch(
-      fetchEventsForCompany({
-        endpoint,
-        queryString: queryString(companyId),
+      fetchEvents({
+        query: eventsQuery,
+        next: true,
       }),
     );
   };
 
-  const semesterStatusOnChange = (
-    semesterStatus: SemesterStatusEntity,
+  const semesterStatusOnChange = async (
+    semesterStatus: TransformedSemesterStatus,
     status: CompanySemesterContactStatus,
   ) => {
     const newStatus = {
@@ -147,16 +159,16 @@ const BdbDetail = () => {
       semester: companySemester.id,
       companyId: company.id,
     };
-    return dispatch(editSemesterStatus(sendableSemester)).then(() => {
-      navigate(`/bdb/${companyId}/`);
-    });
+
+    await dispatch(editSemesterStatus(sendableSemester));
+    navigate(`/bdb/${companyId}/`);
   };
 
-  const addFileToSemester = (
+  const addFileToSemester = async (
     fileName: string,
     fileToken: string,
     type: string,
-    semesterStatus: Record<string, any>,
+    semesterStatus: SemesterStatus,
   ) => {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
@@ -164,13 +176,12 @@ const BdbDetail = () => {
       contactedStatus: semesterStatus.contactedStatus,
       [type]: fileToken,
     };
-    return dispatch(editSemesterStatus(sendableSemester)).then(() => {
-      navigate(`/bdb/${companyId}/`);
-    });
+    await dispatch(editSemesterStatus(sendableSemester));
+    navigate(`/bdb/${companyId}/`);
   };
 
-  const removeFileFromSemester = (
-    semesterStatus: SemesterStatusEntity,
+  const removeFileFromSemester = async (
+    semesterStatus: SemesterStatus,
     type: string,
   ) => {
     const sendableSemester = {
@@ -179,22 +190,11 @@ const BdbDetail = () => {
       companyId: company.id,
       [type]: null,
     };
-    return dispatch(editSemesterStatus(sendableSemester)).then(() => {
-      navigate(`/bdb/${companyId}/`);
-    });
+    await dispatch(editSemesterStatus(sendableSemester));
+    navigate(`/bdb/${companyId}/`);
   };
 
-  const studentContactLink = (studentContact?: PublicUser): string => {
-    return studentContact
-      ? 'abakus.no/users/' + String(studentContact.username)
-      : '';
-  };
-
-  if ((fetching && !company) || !company.semesterStatuses) {
-    return <LoadingIndicator loading={fetching} />;
-  }
-
-  const semesters = company.semesterStatuses
+  const semesters = (company.semesterStatuses ?? [])
     .slice()
     .sort(sortByYearThenSemester)
     .map((semesterStatus) => (
@@ -253,7 +253,7 @@ const BdbDetail = () => {
   const events =
     companyEvents &&
     companyEvents
-      .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
+      .sort((a, b) => moment(b.startTime).diff(a.startTime))
       .slice(0, eventsToDisplay)
       .map((event) => (
         <tr key={event.id}>
@@ -305,6 +305,7 @@ const BdbDetail = () => {
       {company.logo && (
         <Image
           src={company.logo}
+          alt={`Logo for ${company.name}`}
           style={{
             height: 'inherit',
             border: '1px solid var(--border-gray)',
@@ -313,15 +314,10 @@ const BdbDetail = () => {
         />
       )}
 
-      <DetailNavigation title={title} companyId={company.id} />
+      <DetailNavigation title={title} />
 
       <Flex column gap="var(--spacing-md)">
-        <p
-          className={cx(
-            styles.description,
-            !company.description && 'secondaryFontColor',
-          )}
-        >
+        <p className={cx(!company.description && 'secondaryFontColor')}>
           {company.description || 'Ingen beskrivelse tilgjengelig'}
         </p>
 
@@ -369,11 +365,11 @@ const BdbDetail = () => {
           />
           <InfoBubble
             icon="person"
-            data={`${
-              (company.studentContact && company.studentContact.fullName) || '-'
-            }`}
+            data={(studentContact && studentContact.fullName) || '-'}
             meta="Studentkontakt"
-            link={studentContactLink(company.studentContact)}
+            link={
+              studentContact && `abakus.no/users/${studentContact.username}`
+            }
             style={{
               order: 5,
             }}

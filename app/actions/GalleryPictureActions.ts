@@ -7,7 +7,7 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { AppDispatch } from 'app/store/createStore';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
-import type { Query } from 'app/utils/createQueryString';
+import type { ParsedQs } from 'qs';
 
 export const fetchGalleryPictures = (
   galleryId: EntityId,
@@ -16,7 +16,7 @@ export const fetchGalleryPictures = (
     query,
   }: {
     next?: boolean;
-    query?: Query;
+    query?: ParsedQs;
   } = {},
 ) =>
   callAPI({
