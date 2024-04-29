@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { autocomplete } from 'app/actions/SearchActions';
 import { useAppDispatch } from 'app/store/hooks';
 import type { SearchResult } from 'app/reducers/search';
+import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ComponentType } from 'react';
 
 type InjectedProps = {
@@ -12,7 +13,7 @@ type InjectedProps = {
 };
 
 type Props = {
-  filter?: string[];
+  filter?: (AutocompleteContentType | string)[];
 };
 
 const useAutocomplete = ({
@@ -56,14 +57,14 @@ const useAutocomplete = ({
   return { options, fetching, onSearch: debouncedHandleSearch };
 };
 
-function withAutocomplete<P extends InjectedProps & Props>({
+function withAutocomplete<ExtraProps>({
   WrappedComponent,
   retainFailedQuery = false,
 }: {
-  WrappedComponent: ComponentType<P>;
+  WrappedComponent: ComponentType<Props & ExtraProps & Partial<InjectedProps>>;
   retainFailedQuery?: boolean;
 }) {
-  const Component = (props: Omit<P, keyof InjectedProps>) => {
+  const Component = (props: Props & ExtraProps) => {
     const { options, fetching, onSearch } = useAutocomplete({
       retainFailedQuery,
       filter: props.filter,
@@ -71,7 +72,7 @@ function withAutocomplete<P extends InjectedProps & Props>({
 
     return (
       <WrappedComponent
-        {...(props as P)}
+        {...props}
         options={options}
         fetching={fetching}
         onSearch={onSearch}

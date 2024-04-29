@@ -13,7 +13,7 @@ export type HttpRequestOptions = {
   headers: Record<string, string>;
   body?: Record<string, unknown> | string;
   json?: boolean;
-  files?: (string | File)[];
+  files?: (string | Blob | File)[];
   timeout?: number;
   retryDelays?: Array<number>;
 };
@@ -59,7 +59,7 @@ export function stringifyBody(
   return;
 }
 
-function makeFormData(files: (string | File)[], rawBody: unknown) {
+function makeFormData(files: (string | Blob | File)[], rawBody: unknown) {
   const body = new FormData();
 
   if (rawBody && typeof rawBody === 'object') {

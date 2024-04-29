@@ -5,15 +5,13 @@ import { useAppDispatch } from 'app/store/hooks';
 import { createField } from './Field';
 import styles from './ImageUploadField.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
+import type { ComponentProps, CSSProperties } from 'react';
 
 type Props = {
   className?: string;
-  style?: Record<string, any>;
-  name: string;
-  value?: string;
-  onChange: (arg0: string | null | undefined) => void;
-  edit: (arg0: string) => Promise<any>;
-};
+  style?: CSSProperties;
+  onChange: (fileToken: string) => void;
+} & Omit<ComponentProps<typeof ImageUpload>, 'onSubmit'>;
 
 const ImageUploadField = ({ className, style, ...props }: Props) => {
   const dispatch = useAppDispatch();
@@ -35,12 +33,7 @@ const ImageUploadField = ({ className, style, ...props }: Props) => {
       className={cx(styles.base, styles.coverImage, className && className)}
       style={style}
     >
-      <ImageUpload
-        className={styles.textField}
-        onSubmit={onSubmit}
-        showErrors={false}
-        {...props}
-      />
+      <ImageUpload onSubmit={onSubmit} {...props} />
     </div>
   );
 };

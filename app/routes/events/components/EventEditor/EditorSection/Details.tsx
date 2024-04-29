@@ -101,7 +101,6 @@ const Details: React.FC<Props> = ({ values }) => {
             component={CheckBox.Field}
             fieldClassName={cx(styles.metaField, styles.mazemap)}
             className={styles.formField}
-            parse={(v) => !!v}
           />
           {!values.useMazemap ? (
             <Field
@@ -141,7 +140,6 @@ const Details: React.FC<Props> = ({ values }) => {
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       <Field
         label="Kun for spesifikk gruppe"
@@ -151,7 +149,6 @@ const Details: React.FC<Props> = ({ values }) => {
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.isGroupOnly && (
         <div className={styles.subSection}>

@@ -180,7 +180,6 @@ const EmailListEditor = () => {
             name="requireInternalAddress"
             type="checkbox"
             component={CheckBox.Field}
-            parse={(v) => !!v}
           />
 
           <Field

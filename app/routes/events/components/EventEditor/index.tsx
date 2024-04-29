@@ -404,7 +404,6 @@ const EventEditor = () => {
                 component={CheckBox.Field}
                 fieldClassName={styles.metaFieldInformation}
                 className={styles.formField}
-                parse={(v) => !!v}
                 required
               />
             )}

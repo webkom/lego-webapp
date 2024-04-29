@@ -182,7 +182,6 @@ const ContactForm = () => {
             type="checkbox"
             readOnly={!loggedIn}
             disabled={!loggedIn}
-            parse={(v) => !!v}
           />
 
           <Field

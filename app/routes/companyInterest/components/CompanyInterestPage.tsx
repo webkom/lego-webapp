@@ -86,7 +86,6 @@ const SemesterBox = ({
         label={semesterToText({ ...fields.value[index], language })}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -107,7 +106,6 @@ const SurveyOffersBox = ({
         label={SURVEY_OFFERS[surveyOffersToString(item)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -143,7 +141,6 @@ const EventBox = ({
                 label={EVENTS[eventToString(key)][language]}
                 type="checkbox"
                 component={CheckBox.Field}
-                parse={(v) => !!v}
               />
               <Tooltip
                 className={styles.tooltip}
@@ -174,7 +171,6 @@ const TargetGradeBox = ({
         label={TARGET_GRADES[targetGradeToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -195,7 +191,6 @@ const OtherBox = ({
         label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -216,7 +211,6 @@ const CollaborationBox = ({
         label={COLLABORATION_TYPES[collaborationToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>

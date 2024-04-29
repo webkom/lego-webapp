@@ -40,7 +40,7 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
   });
 }
 export type UploadArgs = {
-  file: File;
+  file: Blob | File;
   fileName?: string;
   isPublic?: boolean;
   // Use big timeouts for big files. See app/utils/fetchJSON.js for more info
@@ -54,31 +54,31 @@ export function uploadFile({
   timeout,
 }: UploadArgs) {
   return (dispatch: AppDispatch) =>
-    dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(
-      (action) => {
-        const meta = {
-          fileKey: action.payload.file_key,
-          fileToken: action.payload.file_token,
-          errorMessage: 'Filopplasting feilet',
-        };
-        return dispatch(
-          callAPI<void, typeof meta>({
-            types: FileType.UPLOAD,
-            method: 'POST',
-            endpoint: action.payload.url,
-            body: action.payload.fields,
-            files: [file],
-            timeout,
-            json: false,
-            headers: {
-              Accept: 'application/json',
-            },
-            requiresAuthentication: false,
-            meta,
-          }),
-        );
-      },
-    );
+    dispatch(
+      fetchSignedPost(fileName || ('name' in file ? file.name : ''), isPublic),
+    ).then((action) => {
+      const meta = {
+        fileKey: action.payload.file_key,
+        fileToken: action.payload.file_token,
+        errorMessage: 'Filopplasting feilet',
+      };
+      return dispatch(
+        callAPI<void, typeof meta>({
+          types: FileType.UPLOAD,
+          method: 'POST',
+          endpoint: action.payload.url,
+          body: action.payload.fields,
+          files: [file],
+          timeout,
+          json: false,
+          headers: {
+            Accept: 'application/json',
+          },
+          requiresAuthentication: false,
+          meta,
+        }),
+      );
+    });
 }
 export function fetchImageGallery({
   query,
