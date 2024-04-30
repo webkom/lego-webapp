@@ -7,7 +7,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { debounce, unionBy } from 'lodash';
 import moment from 'moment-timezone';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -126,20 +126,20 @@ const MeetingEditor = () => {
 
   //For some reason calling the debounce function directly was wack.
   //Also, we want to check if the new length is greater than the old one or if it doesn't exist already.
-  const updateReportValue = useCallback(
-    (newReportValue) => {
-      const debounceFunc = debounce(() => {
-        const storedReport = sessionStorage.getItem(
-          `meeting-${meetingId}-report`,
-        );
-        if (!storedReport || storedReport.length < newReportValue.length) {
-          setReportValue(newReportValue);
-        }
-      }, 4500);
-      debounceFunc();
-    },
-    [meetingId],
-  );
+  const updateReportValue = useMemo(() => {
+    const debouncedUpdate = debounce((newReportValue) => {
+      const storedReport = sessionStorage.getItem(
+        `meeting-${meetingId}-report`,
+      );
+      if (!storedReport || storedReport.length < newReportValue.length) {
+        setReportValue(newReportValue);
+      }
+    }, 4500);
+
+    return (newReportValue) => {
+      debouncedUpdate(newReportValue);
+    };
+  }, [meetingId]);
 
   useEffect(() => {
     if (meeting && meetingId) {

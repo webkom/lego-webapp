@@ -67,6 +67,7 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
         <button
           onClick={() => {
             dispatch(logout());
+            sessionStorage.clear();
             navigate('/');
             onClose();
           }}
