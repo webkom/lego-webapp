@@ -40,8 +40,8 @@ export function deleteLendableObject(id: EntityId) {
   });
 }
 
-export function createLendableObject(data: EntityId) {
-  return callAPI<DetailedLendableObject>({
+export function createLendableObject(data) {
+  return callAPI({
     types: LendableObject.CREATE,
     endpoint: '/lendableobject/',
     method: 'POST',
@@ -56,8 +56,8 @@ export function createLendableObject(data: EntityId) {
 export function editLendableObject({
   id,
   ...data
-}: Record<string, any>) {
-  return callAPI<DetailedLendableObject>({
+}) {
+  return callAPI({
     types: LendableObject.EDIT,
     endpoint: `/lendableobject/${id}/`,
     method: 'PATCH',

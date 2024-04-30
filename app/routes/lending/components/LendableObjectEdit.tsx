@@ -9,6 +9,7 @@ import {
   fetchLendableObject,
 } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
+import { FlexRow } from 'app/components/FlexBox';
 import {
   Button,
   EditorField,
@@ -23,11 +24,13 @@ import { selectAllGroups } from 'app/reducers/groups';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
-import { FlexRow } from 'app/components/FlexBox';
+import type { EditingLendableObject } from 'app/store/models/LendableObject';
 
 type Params = {
   lendableObjectId: string | undefined;
 };
+
+const TypedLegoForm = LegoFinalForm<EditingLendableObject>;
 
 const LendableObjectEdit = () => {
   const { lendableObjectId } = useParams<Params>();
@@ -48,7 +51,7 @@ const LendableObjectEdit = () => {
 
   const groups = useAppSelector(selectAllGroups);
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: EditingLendableObject) => {
     if (isNew) {
       dispatch(
         createLendableObject({
@@ -60,8 +63,8 @@ const LendableObjectEdit = () => {
     } else {
       dispatch(
         editLendableObject({
-          id: lendableObjectId,
           ...values,
+          id: lendableObjectId,
           responsibleGroups: values.responsibleGroups.map(
             (group) => group.id || group.value,
           ),
@@ -113,7 +116,7 @@ const LendableObjectEdit = () => {
 
   return (
     <Content>
-      <LegoFinalForm
+      <TypedLegoForm
         initialValues={initialValues}
         onSubmit={onSubmit}
         subscription={{}}
@@ -174,7 +177,7 @@ const LendableObjectEdit = () => {
             </FlexRow>
           </Form>
         )}
-      </LegoFinalForm>
+      </TypedLegoForm>
     </Content>
   );
 };
