@@ -1,10 +1,8 @@
 @import url('~app/styles/variables.css');
 
 .heading {
-  font-size: var(--font-size-lg);
-  border-bottom: 1px solid var(--border-gray);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  padding-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-lg);
 }
 
 .newLendableObject {
@@ -15,7 +13,7 @@
   border: 2px solid var(--success-color);
   color: var(--success-color);
   transition: var(--easing-fast);
-  padding: 15px;
+  padding: var(--spacing-md);
 
   &:hover {
     background-color: var(--success-color);
@@ -26,7 +24,7 @@
 .lendableObjectsContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
+  grid-gap: var(--spacing-xl);
 }
 
 .lendableObject {
@@ -42,5 +40,4 @@
   background-color: var(--additive-background);
   flex-direction: column;
   align-items: stretch;
-  padding: 0;
 }

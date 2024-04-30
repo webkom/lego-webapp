@@ -35,7 +35,7 @@ const LendingRequestAdmin = () => {
 
   usePreparedEffect(
     'fetchRequest',
-    () => dispatch(fetchLendingRequest(Number(lendingRequestId))),
+    () => dispatch(fetchLendingRequest(lendingRequestId)),
     [],
   );
 
@@ -50,7 +50,7 @@ const LendingRequestAdmin = () => {
     () => {
       if (request && request.lendableObject?.id) {
         dispatch(
-          fetchLendingRequestsForLendableObject(request.lendableObject.id as number),
+          fetchLendingRequestsForLendableObject(request.lendableObject.id),
         );
       }
     },
@@ -67,7 +67,7 @@ const LendingRequestAdmin = () => {
   const otherLoanRequests = otherRequests.filter((loan) => loan.pending);
 
   if (!request) {
-    return <p>Ukjent forespørsel</p>;
+    return <p className="secondaryFontColor">Ukjent forespørsel</p>;
   }
 
   const requestEvent = {
@@ -103,7 +103,7 @@ const LendingRequestAdmin = () => {
       value: request.pending ? 'Venter på svar' : 'Godkjent',
     },
     {
-      key: 'Tidspenn',
+      key: 'Tidsspenn',
       value: <FromToTime from={request.startDate} to={request.endDate} />,
     },
     {
@@ -116,14 +116,15 @@ const LendingRequestAdmin = () => {
     },
   ];
 
+  const title = `Forespørsel om utlån av ${request.lendableObject.title}`;
   return (
     <Content>
       <LoadingIndicator loading={fetching}>
       <Helmet
-        title={`Forespørsel om utlån av ${request.lendableObject.title}`}
+        title={title}
       />
       <NavigationTab
-        title={`Forespørsel om utlån av ${request.lendableObject.title}`}
+        title={title}
         back={{
           label: 'Tilbake',
           path: '/lending/admin',

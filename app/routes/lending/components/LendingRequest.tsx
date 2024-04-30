@@ -42,7 +42,7 @@ const LendingRequest = () => {
       value: request?.pending ? 'Venter på svar' : 'Godkjent',
     },
     {
-      key: 'Tidspenn',
+      key: 'Tidsspenn',
       value: <FromToTime from={request?.startDate} to={request?.endDate} />,
     },
     {

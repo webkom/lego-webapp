@@ -1,4 +1,4 @@
-import { LoadingIndicator, ConfirmModal } from '@webkom/lego-bricks';
+import { LoadingIndicator, ConfirmModal, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -23,7 +23,7 @@ import { selectAllGroups } from 'app/reducers/groups';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
-import { spySubmittable } from 'app/utils/formSpyUtils';
+import { FlexRow } from 'app/components/FlexBox';
 
 type Params = {
   lendableObjectId: string | undefined;
@@ -36,21 +36,17 @@ const LendableObjectEdit = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  if (!isNew) {
-    usePreparedEffect(
-      'fetchLendableObject',
-      () => dispatch(fetchLendableObject(Number(lendableObjectId))),
-      [],
-    );
-  }
-
-  const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, {
-      lendableObjectId,
-    }),
+  usePreparedEffect(
+    'fetchLendableObject',
+    () => dispatch(fetchLendableObject(Number(lendableObjectId))),
+    [isNew],
   );
 
-  const groups = useAppSelector((state) => selectAllGroups(state));
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, lendableObjectId),
+  );
+
+  const groups = useAppSelector(selectAllGroups);
 
   const onSubmit = (values) => {
     if (isNew) {
@@ -75,8 +71,11 @@ const LendableObjectEdit = () => {
     }
   };
 
-  const onDelete = () => {
-    dispatch(deleteLendableObject(Number(lendableObjectId)));
+  const onDelete = async () => {
+    if (!lendableObjectId) {
+      return;
+    }
+    await dispatch(deleteLendableObject(lendableObjectId));
     navigate('/lending');
   };
 
@@ -155,12 +154,10 @@ const LendableObjectEdit = () => {
               component={TextInput.Field}
             />
             <SubmissionError />
-            <div>
-              {spySubmittable((submittable) => (
-                <SubmitButton disabled={!submittable}>
-                  {isNew ? 'Opprett utlåndsobjekt' : 'Lagre endringer'}
-                </SubmitButton>
-              ))}
+            <FlexRow>
+              <SubmitButton>
+                {isNew ? 'Opprett utlånsobjekt' : 'Lagre endringer'}
+              </SubmitButton>
               {!isNew && (
                 <ConfirmModal
                   title="Bekreft sletting"
@@ -174,7 +171,7 @@ const LendableObjectEdit = () => {
                   )}
                 </ConfirmModal>
               )}
-            </div>
+            </FlexRow>
           </Form>
         )}
       </LegoFinalForm>

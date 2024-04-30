@@ -45,14 +45,12 @@ export const LendableObjectsList = () => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
-    'fetchObjects',
+    'fetchAllLendableObjects',
     () => dispatch(fetchAllLendableObjects()),
     [],
   );
 
-  const lendableObjects = useAppSelector((state) =>
-    selectAllLendableObjects(state),
-  );
+  const lendableObjects = useAppSelector(selectAllLendableObjects);
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
   usePreparedEffect(
@@ -61,17 +59,11 @@ export const LendableObjectsList = () => {
     [],
   );
 
-  const lendingRequests = useAppSelector((state) =>
-    selectAllLendingRequests(state),
-  );
+  const lendingRequests = useAppSelector(selectAllLendingRequests);
 
   const fetchingRequests = useAppSelector(
     (state) => state.lendingRequests.fetching,
   );
-
-  useEffect(() => {
-    console.log(lendingRequests);
-  }, [lendingRequests]);
 
   return (
     <Content>
@@ -108,7 +100,7 @@ export const LendableObjectsList = () => {
         </Button>
       )}
 
-      <h2 style={{ marginTop: '30px' }}>Utlånsobjekter</h2>
+      <h2 className={styles.lendingObjectsTitle} >Utlånsobjekter</h2>
       <TextInput
         className={styles.searchBar}
         prefix="search"

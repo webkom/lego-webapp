@@ -1,18 +1,18 @@
 @import url('~app/styles/variables.css');
 
 .myRequestsList {
-  margin-bottom: var(--lego-default-padding);
+  margin-bottom: var(--spacing-xl);
 }
 
 .searchBar {
-  margin-bottom: var(--lego-default-padding);
+  margin-bottom: var(--spacing-xl);
 }
 
 .lendableObjectsContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 1fr;
-  gap: var(--lego-default-padding);
+  gap: var(--spacing-xl);
 
   @media (--medium-viewport) {
     grid-template-columns: repeat(2, 1fr);
@@ -41,5 +41,8 @@
   display: flex;
   justify-content: center;
   color: var(--lego-font-color);
-  background-color: var(--additive-background);
+}
+
+.lendingObjectsTitle {
+  margin-top: var(--spacing-xl);
 }

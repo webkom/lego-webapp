@@ -27,8 +27,8 @@ type Params = {
 const LendableObjectDetail = () => {
   const { lendableObjectId } = useParams<Params>();
   const [showLendingForm, setShowLendingForm] = useState(false);
-  const [start, setstart] = useState('');
-  const [end, setend] = useState('');
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
   const navigate = useNavigate();
 
   const onSubmit = (values) => {
@@ -117,13 +117,13 @@ const LendableObjectDetail = () => {
                 return (
                   <form onSubmit={handleSubmit}>
                     <Field
-                      label="Start for utlån"
+                      label="Starttidspunkt for utlån"
                       name="startDate"
                       component={TextInput.Field}
                       disabled
                     />
                     <Field
-                      label="Slutt for utlån"
+                      label="Sluttidspunkt for utlån"
                       name="endDate"
                       component={TextInput.Field}
                       disabled

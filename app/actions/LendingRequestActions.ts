@@ -1,21 +1,15 @@
 import { LendingRequest } from 'app/actions/ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { lendingRequestSchema } from 'app/reducers';
-import type {
-  EntityType,
-  NormalizedEntityPayload,
-} from 'app/store/models/entities';
-import type { Thunk } from 'app/types';
+import type { LendingRequest as LendingRequestModel } from 'app/store/models/LendingRequest.ts';
 
-export function fetchAllLendingRequests(): Thunk<
-  Promise<NormalizedEntityPayload<EntityType.LendingRequests>>
-> {
-  return callAPI({
+export function fetchAllLendingRequests() {
+  return callAPI<LendingRequestModel>({
     types: LendingRequest.FETCH,
     endpoint: '/lendinginstance/',
     schema: [lendingRequestSchema],
     meta: {
-      errorMessage: 'Henting av utlånsforespørsler failet',
+      errorMessage: 'Henting av utlånsforespørsler feilet',
     },
     propagateError: true,
   });
@@ -23,8 +17,8 @@ export function fetchAllLendingRequests(): Thunk<
 
 export function fetchLendingRequest(
   id: number,
-): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequest>>> {
-  return callAPI({
+) {
+  return callAPI<LendingRequestModel>({
     types: LendingRequest.FETCH,
     endpoint: `/lendinginstance/${id}/`,
     schema: lendingRequestSchema,
@@ -36,8 +30,8 @@ export function fetchLendingRequest(
 
 export function fetchLendingRequestsForLendableObject(
   lendableObjectId: number,
-): Thunk<Promise<NormalizedEntityPayload<EntityType.LendingRequests>>> {
-  return callAPI({
+) {
+  return callAPI<LendingRequestModel>({
     types: LendingRequest.FETCH,
     endpoint: `/lendableobject/${lendableObjectId}/lendinginstances/`,
     schema: [lendingRequestSchema],

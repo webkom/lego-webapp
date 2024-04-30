@@ -31,9 +31,7 @@ const LendableObjectsAdmin = () => {
     [],
   );
 
-  const lendableObjects = useAppSelector((state) =>
-    selectAllLendableObjects(state),
-  );
+  const lendableObjects = useAppSelector(selectAllLendableObjects);
   const fetchingObjects = useAppSelector(
     (state) => state.lendableObjects.fetching,
   );
@@ -52,11 +50,12 @@ const LendableObjectsAdmin = () => {
     (state) => state.lendingRequests.fetching,
   );
 
+  const title = "Utlånsforepørsler";
   return (
     <Content>
-      <Helmet title="Utlån" />
+      <Helmet title={title} />
       <NavigationTab
-        title="Utlånsforespørsler"
+        title={title}
         back={{
           label: 'Tilbake',
           path: '/lending',
@@ -64,7 +63,7 @@ const LendableObjectsAdmin = () => {
       />
       <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
       <LoadingIndicator loading={fetchingRequests}>
-        <Flex column gap={10} margin="0 0 30px">
+        <Flex column margin="0 0 var(--spacing-xl)">
           {lendingRequests
             .filter(
               (request) => request.status === LendingRequestStatus.PENDING,
@@ -78,7 +77,7 @@ const LendableObjectsAdmin = () => {
       {showOldRequests ? (
         <>
           <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
-          <Flex column gap={10} margin="0 0 30px">
+          <Flex column margin="0 0 var(--spacing-xl)">
             {lendingRequests
               .filter(
                 (request) => request.status !== LendingRequestStatus.PENDING,
@@ -99,8 +98,8 @@ const LendableObjectsAdmin = () => {
 
       <h2 className={styles.heading}>Utlånsobjekter</h2>
       <LoadingIndicator loading={fetchingObjects}>
-        <Flex column gap={10}>
-          <Link to={`/lending/create`}>
+        <Flex column gap="var(--spacing-sm)">
+          <Link to="/lending/create">
             <Card shadow isHoverable className={styles.newLendableObject}>
               <Icon name="add-outline" size={30} />
             </Card>

@@ -2,7 +2,7 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
-import { LendingRequestStatus } from 'app/store/models/LendingRequest';
+import { LendingRequest, LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './RequestItem.css';
 
 const ApprovedFlag = () => {
@@ -33,7 +33,7 @@ const DeniedFlag = () => {
 };
 
 type RequestItemProps = {
-  request: any;
+  request: LendingRequest;
   isAdmin?: boolean;
 };
 
@@ -46,7 +46,7 @@ export const RequestItem = ({ request, isAdmin }: RequestItemProps) => {
     <Link to={url} className={styles.requestItem} key={request.id}>
       <Flex column>
         <h2 className={styles.requestTitle}>{request.lendableObject?.title}</h2>
-        <Flex gap={10}>
+        <Flex gap="var(--spacing-sm)">
           <p>{request.author?.fullName}</p>
           <p>
             {moment(request.startDate).format('DD.MM.YYYY')} -{' '}

@@ -10,7 +10,7 @@ export enum LendingRequestStatus {
 
 export type LendingRequest = {
   id: number;
-  user: User;
+  author: User;
   startDate: moment.Moment;
   endDate: moment.Moment;
   message: string;

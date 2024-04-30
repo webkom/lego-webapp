@@ -10,7 +10,7 @@ export function fetchAllLendableObjects() {
     endpoint: '/lendableobject/',
     schema: [lendableObjectSchema],
     meta: {
-      errorMessage: 'Henting av utlånsobjekter failet',
+      errorMessage: 'Henting av utlånsobjekter feilet',
     },
     propagateError: true,
   });
@@ -41,7 +41,7 @@ export function deleteLendableObject(id: EntityId) {
 }
 
 export function createLendableObject(data: EntityId) {
-  return callAPI({
+  return callAPI<DetailedLendableObject>({
     types: LendableObject.CREATE,
     endpoint: '/lendableobject/',
     method: 'POST',
@@ -57,7 +57,7 @@ export function editLendableObject({
   id,
   ...data
 }: Record<string, any>) {
-  return callAPI({
+  return callAPI<DetailedLendableObject>({
     types: LendableObject.EDIT,
     endpoint: `/lendableobject/${id}/`,
     method: 'PATCH',

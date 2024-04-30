@@ -22,8 +22,8 @@ const LendableObjectAdminDetail = () => {
 
   usePreparedEffect(
     'fetchLendableObject',
-    () => dispatch(fetchLendableObject(Number(lendableObjectId))),
-    [],
+    () => lendableObjectId && dispatch(fetchLendableObject(lendableObjectId)),
+    [lendableObjectId],
   );
 
   const lendableObject = useAppSelector((state) =>
@@ -38,9 +38,7 @@ const LendableObjectAdminDetail = () => {
     [],
   );
 
-  const lendingRequests = useAppSelector((state) =>
-    selectAllLendingRequests(state),
-  );
+  const lendingRequests = useAppSelector(selectAllLendingRequests);
 
   const fetchingRequests = useAppSelector(
     (state) => state.lendingRequests.fetching,
@@ -54,11 +52,12 @@ const LendableObjectAdminDetail = () => {
     );
   }
 
+  const title = `Godkjenn utlån av ${lendableObject.title}`;
   return (
     <LoadingIndicator loading={fetchingRequests}>
       <Content banner={lendableObject.image}>
-        <Helmet title={`Godkjenn utlån av ${lendableObject.title}`} />
-        <NavigationTab title={`Godkjenn utlån av ${lendableObject.title}`} />
+        <Helmet title={title} />
+        <NavigationTab title={title} />
 
         <FullCalendar
           plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
