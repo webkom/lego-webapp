@@ -1,7 +1,8 @@
 import { LendingRequest } from 'app/actions/ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { lendingRequestSchema } from 'app/reducers';
-import type { LendingRequest as LendingRequestModel } from 'app/store/models/LendingRequest.ts';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { LendingRequest as LendingRequestModel } from 'app/store/models/LendingRequest';
 
 export function fetchAllLendingRequests() {
   return callAPI<LendingRequestModel>({
@@ -15,9 +16,7 @@ export function fetchAllLendingRequests() {
   });
 }
 
-export function fetchLendingRequest(
-  id: number,
-) {
+export function fetchLendingRequest(id: EntityId) {
   return callAPI<LendingRequestModel>({
     types: LendingRequest.FETCH,
     endpoint: `/lendinginstance/${id}/`,
@@ -29,7 +28,7 @@ export function fetchLendingRequest(
 }
 
 export function fetchLendingRequestsForLendableObject(
-  lendableObjectId: number,
+  lendableObjectId: EntityId,
 ) {
   return callAPI<LendingRequestModel>({
     types: LendingRequest.FETCH,
@@ -42,7 +41,7 @@ export function fetchLendingRequestsForLendableObject(
 }
 
 export function createLendingRequest(data: any) {
-  return callAPI({
+  return callAPI<LendingRequestModel>({
     types: LendingRequest.CREATE,
     endpoint: '/lendinginstance/',
     method: 'POST',

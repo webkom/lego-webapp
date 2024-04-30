@@ -14,22 +14,22 @@ import { FromToTime } from 'app/components/Time';
 import { selectLendingRequestById } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
-type Params = {
+type LendingRequestParams = {
   lendingRequestId: string;
 };
 
 const LendingRequest = () => {
-  const { lendingRequestId } = useParams<Params>();
+  const { lendingRequestId } = useParams<LendingRequestParams>();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchRequest',
-    () => dispatch(fetchLendingRequest(Number(lendingRequestId))),
+    () => lendingRequestId && dispatch(fetchLendingRequest(lendingRequestId)),
     [],
   );
 
   const request = useAppSelector((state) =>
-    selectLendingRequestById(state, lendingRequestId),
+    selectLendingRequestById(state, Number(lendingRequestId)),
   );
 
   const requestFetching = useAppSelector(
@@ -48,20 +48,21 @@ const LendingRequest = () => {
     {
       key: 'Bruker',
       value: (
-        <Link to={`/users/${request?.user?.username}`}>
+        <Link to={`/users/${request?.author?.username}`}>
           {request?.author?.fullName}
         </Link>
       ),
     },
   ];
 
+  const title = `Forespørsel om utlån av ${request?.lendableObject.title}`;
   return (
     <Content skeleton={requestFetching}>
       {request && (
         <>
-          <Helmet title={`Forespørsel om utlån av ${request.lendableObject.title}`} />
+          <Helmet title={title} />
           <NavigationTab
-            title={`Forespørsel om utlån av ${request.lendableObject.title}`}
+            title={title}
             back={{
               label: 'Tilbake',
               path: '/lending',
@@ -83,15 +84,6 @@ const LendingRequest = () => {
               <InfoList items={infoItems} />
             </ContentSidebar>
           </ContentSection>
-
-          {/* <ContentSection>
-        <ContentMain>
-          <CommentView
-            contentTarget={},
-            comments={}
-          />
-        </ContentMain>
-      </ContentSection> */}
         </>
       )}
     </Content>

@@ -1,4 +1,4 @@
-import { LoadingIndicator, ConfirmModal, Flex } from '@webkom/lego-bricks';
+import { ConfirmModal } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -82,102 +82,93 @@ const LendableObjectEdit = () => {
     navigate('/lending');
   };
 
-  if (!isNew && !lendableObject) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
-  }
-
-  if (!isNew && !groups) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
-  }
-
   const initialValues = !isNew
     ? {
         ...lendableObject,
-        responsibleRoles: lendableObject.responsibleRoles.map((role) => ({
+        responsibleRoles: lendableObject?.responsibleRoles.map((role) => ({
           label: roleOptions.find((r) => r.value === role)?.label || role,
           value: role,
         })),
         responsibleGroups: (lendableObject?.responsibleGroups || [])
           .filter(Boolean)
-          .map((groups) => ({
-            label: groups.name,
-            value: groups.id,
+          .map((group) => ({
+            label: groups.find((g) => g.id === group)?.name || group,
+            value: groups.find((g) => g.id === group),
           })),
       }
     : {};
 
+  const showSkeleton = !(isNew || (lendableObject && groups));
   return (
-    <Content>
-      <TypedLegoForm
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        subscription={{}}
-      >
-        {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
-            <Field
-              name="title"
-              label="Navn"
-              placeholder="Navn på utleieobjekt"
-              component={TextInput.Field}
-            />
-            <Field
-              name="description"
-              label="Beskrivelse"
-              component={EditorField.Field}
-            />
-            <Field
-              name="responsibleGroups"
-              filter={['users.abakusgroup']}
-              label="Ansvarlige grupper"
-              placeholder="Skriv inn gruppene som skal kunne administrere objektet"
-              component={SelectInput.AutocompleteField}
-              isMulti
-            />
-            <Field
-              label="Ansvarlige roller (hvis du lar denne stå tom inkluderer du alle i gruppen!)"
-              name="responsibleRoles"
-              isMulti
-              placeholder="Velg rolle"
-              options={roleOptions}
-              component={SelectInput.Field}
-            />
-            <Field
-              name="location"
-              label="Lokasjon"
-              placeholder="Hvor befinner objektet seg?"
-              component={TextInput.Field}
-            />
-            <SubmissionError />
-            <FlexRow>
-              <SubmitButton>
-                {isNew ? 'Opprett utlånsobjekt' : 'Lagre endringer'}
-              </SubmitButton>
-              {!isNew && (
-                <ConfirmModal
-                  title="Bekreft sletting"
-                  message={`Er du sikker på at du vil slette ${lendableObject.name}"?`}
-                  onConfirm={onDelete}
-                >
-                  {({ openConfirmModal }) => (
-                    <Button danger disabled={false} onClick={openConfirmModal}>
-                      Slett utlånsobjekt
-                    </Button>
-                  )}
-                </ConfirmModal>
-              )}
-            </FlexRow>
-          </Form>
-        )}
-      </TypedLegoForm>
+    <Content skeleton={showSkeleton}>
+      {!showSkeleton && (
+        <TypedLegoForm
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          subscription={{}}
+        >
+          {({ handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              <Field
+                name="title"
+                label="Navn"
+                placeholder="Navn på utleieobjekt"
+                component={TextInput.Field}
+              />
+              <Field
+                name="description"
+                label="Beskrivelse"
+                component={EditorField.Field}
+              />
+              <Field
+                name="responsibleGroups"
+                filter={['users.abakusgroup']}
+                label="Ansvarlige grupper"
+                placeholder="Skriv inn gruppene som skal kunne administrere objektet"
+                component={SelectInput.AutocompleteField}
+                isMulti
+              />
+              <Field
+                label="Ansvarlige roller (hvis du lar denne stå tom inkluderer du alle i gruppen!)"
+                name="responsibleRoles"
+                isMulti
+                placeholder="Velg rolle"
+                options={roleOptions}
+                component={SelectInput.Field}
+              />
+              <Field
+                name="location"
+                label="Lokasjon"
+                placeholder="Hvor befinner objektet seg?"
+                component={TextInput.Field}
+              />
+              <SubmissionError />
+              <FlexRow>
+                <SubmitButton>
+                  {isNew ? 'Opprett utlånsobjekt' : 'Lagre endringer'}
+                </SubmitButton>
+                {!isNew && (
+                  <ConfirmModal
+                    title="Bekreft sletting"
+                    message={`Er du sikker på at du vil slette ${lendableObject?.name}"?`}
+                    onConfirm={onDelete}
+                  >
+                    {({ openConfirmModal }) => (
+                      <Button
+                        danger
+                        disabled={false}
+                        onClick={openConfirmModal}
+                      >
+                        Slett utlånsobjekt
+                      </Button>
+                    )}
+                  </ConfirmModal>
+                )}
+              </FlexRow>
+            </Form>
+          )}
+        </TypedLegoForm>
+      )}
     </Content>
   );
 };

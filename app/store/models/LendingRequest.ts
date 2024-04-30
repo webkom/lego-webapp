@@ -15,5 +15,6 @@ export type LendingRequest = {
   endDate: moment.Moment;
   message: string;
   status: LendingRequestStatus;
+  pending: boolean;
   lendableObject: ListLendableObject;
 };

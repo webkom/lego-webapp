@@ -100,7 +100,7 @@ export const LendableObjectsList = () => {
         </Button>
       )}
 
-      <h2 className={styles.lendingObjectsTitle} >Utlånsobjekter</h2>
+      <h2 className={styles.lendingObjectsTitle}>Utlånsobjekter</h2>
       <TextInput
         className={styles.searchBar}
         prefix="search"

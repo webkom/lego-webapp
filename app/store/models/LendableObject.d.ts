@@ -1,6 +1,5 @@
-import { DetailedLendableObject } from 'app/store/models/LendableObject';
-import { EditingLendableObject } from './LendableObject.d';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { PublicGroup } from 'app/store/models/Group';
 import type { RoleType } from 'app/utils/constants';
 import type { Duration } from 'moment-timezone';
 
@@ -31,10 +30,9 @@ export type DetailedLendableObject = ListLendableObject &
 export type UnknownLendableObject = ListLendableObject | DetailedLendableObject;
 
 export type EditingLendableObject = Omit<
-  DetailedLendableObject, 
-  | 'responsibleRoles' 
-  | 'responsibleGroups'
-  > & {
-    responsibleRoles: { label: string, value: RoleType}[];
-    responsibleGroups: PublicGroup[];
-  }
+  DetailedLendableObject,
+  'responsibleRoles' | 'responsibleGroups'
+> & {
+  responsibleRoles: { label: string; value: RoleType }[];
+  responsibleGroups: PublicGroup[];
+};

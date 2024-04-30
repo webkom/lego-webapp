@@ -2,7 +2,10 @@ import callAPI from 'app/actions/callAPI';
 import { lendableObjectSchema } from 'app/reducers';
 import { LendableObject } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { DetailedLendableObject, ListLendableObject } from 'app/store/models/LendableObject';
+import type {
+  DetailedLendableObject,
+  ListLendableObject,
+} from 'app/store/models/LendableObject';
 
 export function fetchAllLendableObjects() {
   return callAPI<ListLendableObject[]>({
@@ -53,10 +56,7 @@ export function createLendableObject(data) {
   });
 }
 
-export function editLendableObject({
-  id,
-  ...data
-}) {
+export function editLendableObject({ id, ...data }) {
   return callAPI({
     types: LendableObject.EDIT,
     endpoint: `/lendableobject/${id}/`,

@@ -26,20 +26,17 @@ const LendableObjectsAdmin = () => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
-    'fetchObjects',
-    () => dispatch(fetchAllLendableObjects()),
+    'fetchAllLendingObjectsAndRequests',
+    () => {
+      dispatch(fetchAllLendingRequests());
+      dispatch(fetchAllLendableObjects());
+    },
     [],
   );
 
   const lendableObjects = useAppSelector(selectAllLendableObjects);
   const fetchingObjects = useAppSelector(
     (state) => state.lendableObjects.fetching,
-  );
-
-  usePreparedEffect(
-    'fetchRequests',
-    () => dispatch(fetchAllLendingRequests()),
-    [],
   );
 
   const lendingRequests = useAppSelector((state) =>
@@ -50,7 +47,7 @@ const LendableObjectsAdmin = () => {
     (state) => state.lendingRequests.fetching,
   );
 
-  const title = "Utlånsforepørsler";
+  const title = 'Utlånsforepørsler';
   return (
     <Content>
       <Helmet title={title} />
@@ -97,7 +94,7 @@ const LendableObjectsAdmin = () => {
       )}
 
       <h2 className={styles.heading}>Utlånsobjekter</h2>
-      <LoadingIndicator loading={fetchingObjects}>
+      <Content skeleton={fetchingObjects}>
         <Flex column gap="var(--spacing-sm)">
           <Link to="/lending/create">
             <Card shadow isHoverable className={styles.newLendableObject}>
@@ -123,7 +120,7 @@ const LendableObjectsAdmin = () => {
             ))}
           </div>
         </Flex>
-      </LoadingIndicator>
+      </Content>
     </Content>
   );
 };

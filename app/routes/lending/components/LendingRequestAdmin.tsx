@@ -63,8 +63,8 @@ const LendingRequestAdmin = () => {
     }),
   );
 
-  const otherLoans = otherRequests.filter((loan) => !loan.pending);
-  const otherLoanRequests = otherRequests.filter((loan) => loan.pending);
+  const otherApprovedRequests = otherRequests.filter((loan) => !loan.pending);
+  const otherPendingRequests = otherRequests.filter((loan) => loan.pending);
 
   if (!request) {
     return <p className="secondaryFontColor">Ukjent forespørsel</p>;
@@ -79,7 +79,7 @@ const LendingRequestAdmin = () => {
     borderColor: '#e11617',
   };
 
-  const otherLoanEvents = otherLoans.map((loan) => ({
+  const otherApprovedEvents = otherApprovedRequests.map((loan) => ({
     id: String(loan.id),
     title: request.author?.fullName,
     start: loan.startDate,
@@ -88,7 +88,7 @@ const LendingRequestAdmin = () => {
     borderColor: '#999999',
   }));
 
-  const otherLoanRequestEvents = otherLoanRequests.map((loan) => ({
+  const otherPendingEvents = otherPendingRequests.map((loan) => ({
     id: String(loan.id),
     title: request?.author?.fullName,
     start: loan.startDate,
@@ -120,66 +120,55 @@ const LendingRequestAdmin = () => {
   return (
     <Content>
       <LoadingIndicator loading={fetching}>
-      <Helmet
-        title={title}
-      />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: '/lending/admin',
-        }}
-      >
-        <NavigationLink to={`/lending/request/${lendingRequestId}/admin`}>
-          Admin
-        </NavigationLink>
-      </NavigationTab>
+        <Helmet title={title} />
+        <NavigationTab
+          title={title}
+          back={{
+            label: 'Tilbake',
+            path: '/lending/admin',
+          }}
+        >
+          <NavigationLink to={`/lending/request/${lendingRequestId}/admin`}>
+            Admin
+          </NavigationLink>
+        </NavigationTab>
 
-      <ContentSection>
-        <ContentMain>
-          <div>
-            <h3>Beskjed: </h3>
-            {request.message}
-          </div>
-        </ContentMain>
-        <ContentSidebar>
-          <InfoList items={infoItems} />
-        </ContentSidebar>
-      </ContentSection>
+        <ContentSection>
+          <ContentMain>
+            <div>
+              <h3>Beskjed: </h3>
+              {request.message}
+            </div>
+          </ContentMain>
+          <ContentSidebar>
+            <InfoList items={infoItems} />
+          </ContentSidebar>
+        </ContentSection>
 
-      <ContentSection>
-        <ContentMain>
-          <FullCalendar
-            plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
-            initialView="timeGridWeek"
-            slotDuration={'01:00:00'}
-            nowIndicator
-            expandRows
-            slotLabelInterval={'02:00:00'}
-            slotLabelFormat={{
-              timeStyle: 'short',
-            }}
-            allDaySlot={false}
-            locale="nb"
-            firstDay={1}
-            headerToolbar={{
-              left: 'prev,today,next',
-              center: 'title',
-              right: 'timeGridWeek,dayGridMonth',
-            }}
-            events={[requestEvent, otherLoanEvents, otherLoanRequestEvents]}
-          />
-        </ContentMain>
-      </ContentSection>
-
-      {/* <ContentSection>
-        <ContentMain>
-          <CommentView 
-            contentTarget={},
-            comments={}
-          />
-        </ContentMain>
-      </ContentSection> */}
+        <ContentSection>
+          <ContentMain>
+            <FullCalendar
+              plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+              initialView="timeGridWeek"
+              slotDuration={'01:00:00'}
+              nowIndicator
+              expandRows
+              slotLabelInterval={'02:00:00'}
+              slotLabelFormat={{
+                timeStyle: 'short',
+              }}
+              allDaySlot={false}
+              locale="nb"
+              firstDay={1}
+              headerToolbar={{
+                left: 'prev,today,next',
+                center: 'title',
+                right: 'timeGridWeek,dayGridMonth',
+              }}
+              events={[requestEvent, otherApprovedEvents, otherPendingEvents]}
+            />
+          </ContentMain>
+        </ContentSection>
       </LoadingIndicator>
     </Content>
   );

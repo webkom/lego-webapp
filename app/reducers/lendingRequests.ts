@@ -4,7 +4,6 @@ import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import type { RootState } from 'app/store/createRootReducer';
 
-
 const legoAdapter = createLegoAdapter(EntityType.LendingRequests);
 
 const lendingRequestsSlice = createSlice({
@@ -25,4 +24,5 @@ export const {
   selectByField: selectLendingRequestsByField,
 } = legoAdapter.getSelectors((state: RootState) => state.lendingRequests);
 
-export const selectLendingRequestsByLendableObjectId = selectLendingRequestsByField('lendableObjectId');
+export const selectLendingRequestsByLendableObjectId =
+  selectLendingRequestsByField('lendableObjectId');
