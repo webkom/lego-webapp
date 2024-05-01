@@ -50,7 +50,7 @@ const eventsSlice = createSlice({
 
         let registrationCount = stateEvent.registrationCount;
         let waitingRegistrations = stateEvent.waitingRegistrations;
-        let waitingRegistrationCount = stateEvent.waitingRegistrationCount ?? 0;
+        let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
 
         if (!registration.pool) {
           waitingRegistrationCount = waitingRegistrationCount + 1;

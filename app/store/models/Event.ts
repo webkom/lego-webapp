@@ -1,6 +1,6 @@
 import type { PublicGroup } from './Group';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
@@ -55,7 +55,8 @@ interface Event {
   useStripe: boolean;
   paymentDueDate?: Dateish;
   useCaptcha: boolean;
-  waitingRegistrationCount?: number;
+  waitingRegistrationCount: number;
+  waitingRegistrations: EntityId[];
   tags: string[];
   isMerged: boolean;
   heedPenalties: boolean;
@@ -69,9 +70,13 @@ interface Event {
   pinned: boolean;
   responsibleUsers: DetailedUser[];
   isForeignLanguage: boolean;
+  actionGrant: ActionGrant;
 
   // for survey
   attendedCount: number;
+
+  // Admin only
+  unregistered: EntityId[];
 
   // user specific
   price: number;
@@ -168,9 +173,18 @@ export type DetailedEvent = Pick<
   | 'useConsent'
   | 'youtubeUrl'
   | 'mazemapPoi'
-  | 'activationTime'
   | 'responsibleUsers'
   | 'isForeignLanguage'
+  | 'price'
+  | 'activationTime'
+  | 'isAdmitted'
+  | 'following'
+  | 'spotsLeft'
+  | 'pendingRegistration'
+  | 'photoConsents'
+  | 'waitingRegistrations'
+  | 'unansweredSurveys'
+  | 'actionGrant'
 > &
   ObjectPermissionsMixin;
 
@@ -201,6 +215,8 @@ export type AuthUserDetailedEvent = Pick<
 
 export type AdministrateEvent = Pick<
   Event,
+  | 'isPriced'
+  | 'isForeignLanguage'
   | 'pools'
   | 'unregistered'
   | 'waitingRegistrations'
@@ -209,7 +225,6 @@ export type AdministrateEvent = Pick<
   | 'responsibleGroup'
   | 'feedbackRequired'
 > &
-  DetailedEvent &
   ListEvent;
 
 export type FrontpageEvent = Pick<
