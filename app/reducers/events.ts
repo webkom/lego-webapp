@@ -39,9 +39,6 @@ const eventsSlice = createSlice({
           .events as DetailedEvent[];
         legoAdapter.upsertMany(state, events);
       });
-      addCase(Event.REQUEST_REGISTER.BEGIN, (state, action: AnyAction) => {
-        state.entities[action.meta.id].loading = true;
-      });
       addCase(Event.SOCKET_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
         const eventId = action.meta.eventId;
         const registration = action.payload;
@@ -65,7 +62,6 @@ const eventsSlice = createSlice({
           registrationCount++;
         }
 
-        stateEvent.loading = false;
         stateEvent.registrationCount = registrationCount;
         stateEvent.waitingRegistrationCount = waitingRegistrationCount;
 
@@ -92,7 +88,6 @@ const eventsSlice = createSlice({
           const isCurrentUser =
             registration.user &&
             checkIfCurrentUser(registration.user.id, currentUser.id);
-          stateEvent.loading = false;
 
           if (isCurrentUser) {
             stateEvent.activationTime = activationTimeFromMeta;
@@ -114,14 +109,6 @@ const eventsSlice = createSlice({
           stateEvent.following = false;
         },
       );
-      addCase(Event.SOCKET_REGISTRATION.FAILURE, (state, action: AnyAction) => {
-        const event = state.entities[action.meta.eventId];
-        if (event) event.loading = false;
-      });
-      addCase(Event.REQUEST_REGISTER.FAILURE, (state, action: AnyAction) => {
-        const event = state.entities[action.meta.id];
-        if (event) event.loading = false;
-      });
       addCase(Event.FOLLOW.SUCCESS, (state, action: AnyAction) => {
         const event = state.entities[action.meta.body.target] as
           | UserDetailedEvent

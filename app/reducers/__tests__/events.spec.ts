@@ -38,44 +38,6 @@ describe('reducers', () => {
     });
   });
   describe('event registrations', () => {
-    it('Event.REQUEST_REGISTER.BEGIN', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.REQUEST_REGISTER.BEGIN,
-        meta: {
-          id: 1,
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        ...prevState,
-        entities: {
-          1: {
-            id: 1,
-            title: 'evt',
-            loading: true,
-          },
-        },
-      });
-    });
-    it('Event.REQUEST_REGISTER.FAILURE', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.REQUEST_REGISTER.FAILURE,
-        meta: {
-          id: 1,
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        ...prevState,
-        entities: {
-          1: {
-            id: 1,
-            title: 'evt',
-            loading: false,
-          },
-        },
-      });
-    });
     it('Event.SOCKET_REGISTRATION.SUCCESS should not crash if event is not in state', () => {
       const prevState = baseState;
       const action = {
@@ -114,7 +76,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 0,
             waitingRegistrations: [31],
             waitingRegistrationCount: 1,
@@ -151,29 +112,9 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 1,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          },
-        },
-      });
-    });
-    it('Event.SOCKET_REGISTRATION.FAILURE', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.SOCKET_REGISTRATION.FAILURE,
-        meta: {
-          eventId: 1,
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        ...prevState,
-        entities: {
-          1: {
-            id: 1,
-            title: 'evt',
-            loading: false,
           },
         },
       });
@@ -195,7 +136,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
@@ -223,7 +163,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
@@ -239,7 +178,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
@@ -267,7 +205,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
@@ -283,7 +220,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 3,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
@@ -312,7 +248,6 @@ describe('reducers', () => {
           1: {
             id: 1,
             title: 'evt',
-            loading: false,
             registrationCount: 2,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
