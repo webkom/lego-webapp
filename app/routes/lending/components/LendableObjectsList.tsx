@@ -79,16 +79,9 @@ export const LendableObjectsList = () => {
           {lendingRequests.length === 0 ? (
             <p className="secondaryFontColor">Her var det tomt!</p>
           ) : (
-            lendingRequests
-              // TODO: does not work atm..
-              // .sort((a, b) => b.endDate.diff(a.endDate))
-              // .filter(
-              //   (req) =>
-              //     showOldRequests || req.endDate.isAfter(moment().startOf('day'))
-              // )
-              .map((request) => (
-                <RequestItem key={request.id} request={request} />
-              ))
+            lendingRequests.map((request) => (
+              <RequestItem key={request.id} request={request} />
+            ))
           )}
         </LoadingIndicator>
       </div>

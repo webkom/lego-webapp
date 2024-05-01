@@ -24,6 +24,8 @@ import {
   selectLendingRequestsByLendableObjectId,
 } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { LendingRequestStatus, statusToString } from 'app/store/models/LendingRequest';
+import styles from './LendingRequestAdmin.css';
 
 type Params = {
   lendingRequestId: string;
@@ -63,8 +65,10 @@ const LendingRequestAdmin = () => {
     }),
   );
 
-  const otherApprovedRequests = otherRequests.filter((loan) => !loan.pending);
-  const otherPendingRequests = otherRequests.filter((loan) => loan.pending);
+  console.log(otherRequests)
+
+  const otherApprovedRequests = otherRequests.filter((loan) => loan.status === LendingRequestStatus.APPROVED);
+  const otherPendingRequests = otherRequests.filter((loan) => loan.status === LendingRequestStatus.PENDING);
 
   if (!request) {
     return <p className="secondaryFontColor">Ukjent forespørsel</p>;
@@ -100,10 +104,10 @@ const LendingRequestAdmin = () => {
   const infoItems = [
     {
       key: 'Status',
-      value: request.pending ? 'Venter på svar' : 'Godkjent',
+      value: statusToString(request.status),
     },
     {
-      key: 'Tidsspenn',
+      key: 'Lånetid',
       value: <FromToTime from={request.startDate} to={request.endDate} />,
     },
     {
@@ -136,7 +140,7 @@ const LendingRequestAdmin = () => {
         <ContentSection>
           <ContentMain>
             <div>
-              <h3>Beskjed: </h3>
+              <h3>Kommentar: </h3>
               {request.message}
             </div>
           </ContentMain>
@@ -145,7 +149,7 @@ const LendingRequestAdmin = () => {
           </ContentSidebar>
         </ContentSection>
 
-        <ContentSection>
+        <ContentSection className={styles.calendarContainer}>
           <ContentMain>
             <FullCalendar
               plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}

@@ -130,7 +130,7 @@ const LendableObjectDetail = () => {
                 />
                 <Field
                   label="Kommentar"
-                  name="comment"
+                  name="message"
                   component={TextArea.Field}
                 />
                 <SubmitButton>Send inn forespørsel</SubmitButton>

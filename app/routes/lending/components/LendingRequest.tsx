@@ -76,7 +76,7 @@ const LendingRequest = () => {
           <ContentSection>
             <ContentMain>
               <div>
-                <h3>Beskjed: </h3>
+                <h3>Kommentar: </h3>
                 {request.message}
               </div>
             </ContentMain>

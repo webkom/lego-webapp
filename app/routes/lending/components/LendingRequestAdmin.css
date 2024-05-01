@@ -1,0 +1,5 @@
+@import url('~app/styles/variables.css');
+
+.calendarContainer {
+  margin-top: var(--spacing-xl);
+}

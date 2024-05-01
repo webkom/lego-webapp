@@ -27,9 +27,7 @@ const LendableObjectAdminDetail = () => {
   );
 
   const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, {
-      lendableObjectId,
-    }),
+    selectLendableObjectById(state, lendableObjectId),
   );
 
   usePreparedEffect(

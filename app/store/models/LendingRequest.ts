@@ -3,9 +3,20 @@ import type { PublicUser } from 'app/store/models/User';
 import type moment from 'moment-timezone';
 
 export enum LendingRequestStatus {
-  PENDING = 'pending',
-  APPROVED = 'approved',
-  DENIED = 'denied',
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  DENIED = 'DENIED',
+}
+
+export function statusToString(status: LendingRequestStatus): string {
+  switch (status) {
+    case LendingRequestStatus.PENDING:
+      return 'Venter';
+    case LendingRequestStatus.APPROVED:
+      return 'Godkjent';
+    case LendingRequestStatus.DENIED:
+      return 'Avslått';
+  }
 }
 
 export type LendingRequest = {
@@ -15,6 +26,5 @@ export type LendingRequest = {
   endDate: moment.Moment;
   message: string;
   status: LendingRequestStatus;
-  pending: boolean;
   lendableObject: ListLendableObject;
 };

@@ -1,10 +1,4 @@
-import {
-  Button,
-  Card,
-  Flex,
-  Icon,
-  LoadingIndicator,
-} from '@webkom/lego-bricks';
+import { Button, Card, Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -58,49 +52,55 @@ const LendableObjectsAdmin = () => {
           path: '/lending',
         }}
       />
-      <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
-      <LoadingIndicator loading={fetchingRequests}>
-        <Flex column margin="0 0 var(--spacing-xl)">
-          {lendingRequests
-            .filter(
-              (request) => request.status === LendingRequestStatus.PENDING,
-            )
-            .map((request) => (
-              <RequestItem key={request.id} request={request} isAdmin />
-            ))}
-        </Flex>
-      </LoadingIndicator>
-
-      {showOldRequests ? (
-        <>
-          <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
-          <Flex column margin="0 0 var(--spacing-xl)">
+      <div className={styles.lendingRequestsContainer}>
+        <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
+        <LoadingIndicator loading={fetchingRequests}>
+          <Flex column>
             {lendingRequests
               .filter(
-                (request) => request.status !== LendingRequestStatus.PENDING,
+                (request) => request.status === LendingRequestStatus.PENDING,
               )
               .map((request) => (
                 <RequestItem key={request.id} request={request} isAdmin />
               ))}
           </Flex>
-          <Button onClick={() => setShowOldRequests(false)}>
-            Skjul tidligere forespørsler
-          </Button>
-        </>
-      ) : (
-        <Button onClick={() => setShowOldRequests(true)}>
-          Vis tidligere forespørsler
-        </Button>
-      )}
+        </LoadingIndicator>
 
-      <h2 className={styles.heading}>Utlånsobjekter</h2>
-      <Content skeleton={fetchingObjects}>
-        <Flex column gap="var(--spacing-sm)">
+        {showOldRequests ? (
+          <>
+            <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
+            <Flex column>
+              {lendingRequests
+                .filter(
+                  (request) => request.status !== LendingRequestStatus.PENDING,
+                )
+                .map((request) => (
+                  <RequestItem key={request.id} request={request} isAdmin />
+                ))}
+            </Flex>
+            <Button onClick={() => setShowOldRequests(false)}>
+              Skjul tidligere forespørsler
+            </Button>
+          </>
+        ) : (
+          <Button onClick={() => setShowOldRequests(true)}>
+            Vis tidligere forespørsler
+          </Button>
+        )}
+      </div>
+
+      <NavigationTab
+        title="Utlånsobjekter"
+        className={styles.heading}
+        details={
           <Link to="/lending/create">
-            <Card shadow isHoverable className={styles.newLendableObject}>
-              <Icon name="add-outline" size={30} />
-            </Card>
+            <Button>Nytt utlånsobject</Button>
           </Link>
+        }
+      />
+
+      <LoadingIndicator loading={fetchingObjects}>
+        <Flex column gap="var(--spacing-sm)">
           <div className={styles.lendableObjectsContainer}>
             {lendableObjects.map((lendableObject) => (
               <Link
@@ -112,15 +112,13 @@ const LendableObjectsAdmin = () => {
                   hideOverflow
                   className={styles.lendableObjectCard}
                 >
-                  <h3>
-                    {lendableObject.id} - {lendableObject.title}
-                  </h3>
+                  <h3>{lendableObject.title}</h3>
                 </Card>
               </Link>
             ))}
           </div>
         </Flex>
-      </Content>
+      </LoadingIndicator>
     </Content>
   );
 };
