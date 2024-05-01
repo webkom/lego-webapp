@@ -112,13 +112,6 @@ const LINKS: Array<Link> = [
     url: '/polls',
   },
   {
-    key: 'lending',
-    requireLogin: true,
-    title: 'Utlån',
-    icon: 'cart-outline',
-    url: '/lending',
-  },
-  {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',

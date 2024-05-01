@@ -1,5 +1,5 @@
 import type { ListLendableObject } from './LendableObject';
-import type { User } from 'app/models';
+import type { PublicUser } from 'app/store/models/User';
 import type moment from 'moment-timezone';
 
 export enum LendingRequestStatus {
@@ -10,7 +10,7 @@ export enum LendingRequestStatus {
 
 export type LendingRequest = {
   id: number;
-  author: User;
+  author: PublicUser;
   startDate: moment.Moment;
   endDate: moment.Moment;
   message: string;

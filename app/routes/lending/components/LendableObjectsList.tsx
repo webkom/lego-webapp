@@ -1,6 +1,6 @@
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useSearchParams } from 'react-router-dom';
 import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
@@ -54,7 +54,7 @@ export const LendableObjectsList = () => {
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
 
   usePreparedEffect(
-    'fetchRequests',
+    'fetchAllLendingRequests',
     () => dispatch(fetchAllLendingRequests()),
     [],
   );
@@ -65,10 +65,11 @@ export const LendableObjectsList = () => {
     (state) => state.lendingRequests.fetching,
   );
 
+  const title = 'Utlån';
   return (
     <Content>
-      <Helmet title="Utlån" />
-      <NavigationTab title="Utlån">
+      <Helmet title={title} />
+      <NavigationTab title={title}>
         <NavigationLink to="/lending/admin">Admin</NavigationLink>
       </NavigationTab>
 

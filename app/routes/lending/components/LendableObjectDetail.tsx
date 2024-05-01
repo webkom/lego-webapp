@@ -68,11 +68,12 @@ const LendableObjectDetail = () => {
     endDate: moment(end).toISOString(),
   };
 
+  const title = `Utlån av ${lendableObject?.title}`;
   return (
     <Content banner={lendableObject?.image} skeleton={fetchingObjects}>
-      <Helmet title={`Utlån av ${lendableObject?.title}`} />
+      <Helmet title={title} />
 
-      <NavigationTab title={`Utlån av ${lendableObject?.title}`}>
+      <NavigationTab title={title}>
         <NavigationLink to={`/lending/${lendableObject?.id}/edit`}>
           Rediger
         </NavigationLink>

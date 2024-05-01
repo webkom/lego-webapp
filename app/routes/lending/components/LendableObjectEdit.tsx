@@ -1,4 +1,4 @@
-import { ConfirmModal } from '@webkom/lego-bricks';
+import { ConfirmModal, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,7 +9,6 @@ import {
   fetchLendableObject,
 } from 'app/actions/LendableObjectActions';
 import { Content } from 'app/components/Content';
-import { FlexRow } from 'app/components/FlexBox';
 import {
   Button,
   EditorField,
@@ -41,8 +40,8 @@ const LendableObjectEdit = () => {
 
   usePreparedEffect(
     'fetchLendableObject',
-    () => dispatch(fetchLendableObject(Number(lendableObjectId))),
-    [isNew],
+    () => lendableObjectId && dispatch(fetchLendableObject(lendableObjectId)),
+    [lendableObjectId],
   );
 
   const lendableObject = useAppSelector((state) =>
@@ -101,74 +100,68 @@ const LendableObjectEdit = () => {
   const showSkeleton = !(isNew || (lendableObject && groups));
   return (
     <Content skeleton={showSkeleton}>
-      {!showSkeleton && (
-        <TypedLegoForm
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          subscription={{}}
-        >
-          {({ handleSubmit }) => (
-            <Form onSubmit={handleSubmit}>
-              <Field
-                name="title"
-                label="Navn"
-                placeholder="Navn på utleieobjekt"
-                component={TextInput.Field}
-              />
-              <Field
-                name="description"
-                label="Beskrivelse"
-                component={EditorField.Field}
-              />
-              <Field
-                name="responsibleGroups"
-                filter={['users.abakusgroup']}
-                label="Ansvarlige grupper"
-                placeholder="Skriv inn gruppene som skal kunne administrere objektet"
-                component={SelectInput.AutocompleteField}
-                isMulti
-              />
-              <Field
-                label="Ansvarlige roller (hvis du lar denne stå tom inkluderer du alle i gruppen!)"
-                name="responsibleRoles"
-                isMulti
-                placeholder="Velg rolle"
-                options={roleOptions}
-                component={SelectInput.Field}
-              />
-              <Field
-                name="location"
-                label="Lokasjon"
-                placeholder="Hvor befinner objektet seg?"
-                component={TextInput.Field}
-              />
-              <SubmissionError />
-              <FlexRow>
-                <SubmitButton>
-                  {isNew ? 'Opprett utlånsobjekt' : 'Lagre endringer'}
-                </SubmitButton>
-                {!isNew && (
-                  <ConfirmModal
-                    title="Bekreft sletting"
-                    message={`Er du sikker på at du vil slette ${lendableObject?.name}"?`}
-                    onConfirm={onDelete}
-                  >
-                    {({ openConfirmModal }) => (
-                      <Button
-                        danger
-                        disabled={false}
-                        onClick={openConfirmModal}
-                      >
-                        Slett utlånsobjekt
-                      </Button>
-                    )}
-                  </ConfirmModal>
-                )}
-              </FlexRow>
-            </Form>
-          )}
-        </TypedLegoForm>
-      )}
+      <TypedLegoForm
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        subscription={{}}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              name="title"
+              label="Navn"
+              placeholder="Navn på utleieobjekt"
+              component={TextInput.Field}
+            />
+            <Field
+              name="description"
+              label="Beskrivelse"
+              component={EditorField.Field}
+            />
+            <Field
+              name="responsibleGroups"
+              filter={['users.abakusgroup']}
+              label="Ansvarlige grupper"
+              placeholder="Skriv inn gruppene som skal kunne administrere objektet"
+              component={SelectInput.AutocompleteField}
+              isMulti
+            />
+            <Field
+              label="Ansvarlige roller (hvis du lar denne stå tom inkluderer du alle i gruppen!)"
+              name="responsibleRoles"
+              isMulti
+              placeholder="Velg rolle"
+              options={roleOptions}
+              component={SelectInput.Field}
+            />
+            <Field
+              name="location"
+              label="Lokasjon"
+              placeholder="Hvor befinner objektet seg?"
+              component={TextInput.Field}
+            />
+            <SubmissionError />
+            <Flex>
+              <SubmitButton>
+                {isNew ? 'Opprett utlånsobjekt' : 'Lagre endringer'}
+              </SubmitButton>
+              {!isNew && (
+                <ConfirmModal
+                  title="Bekreft sletting"
+                  message={`Er du sikker på at du vil slette ${lendableObject?.name}"?`}
+                  onConfirm={onDelete}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button danger onClick={openConfirmModal}>
+                      Slett utlånsobjekt
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+            </Flex>
+          </Form>
+        )}
+      </TypedLegoForm>
     </Content>
   );
 };

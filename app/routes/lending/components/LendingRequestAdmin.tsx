@@ -75,8 +75,8 @@ const LendingRequestAdmin = () => {
     title: request.author?.fullName,
     start: request.startDate,
     end: request.endDate,
-    backgroundColor: '#e11617',
-    borderColor: '#e11617',
+    backgroundColor: 'var(--lego-red-color)',
+    borderColor: 'var(--lego-red-color)',
   };
 
   const otherApprovedEvents = otherApprovedRequests.map((loan) => ({
@@ -84,8 +84,8 @@ const LendingRequestAdmin = () => {
     title: request.author?.fullName,
     start: loan.startDate,
     end: loan.endDate,
-    backgroundColor: '#999999',
-    borderColor: '#999999',
+    backgroundColor: 'var(--color-gray-5)',
+    borderColor: 'var(--color-gray-5)',
   }));
 
   const otherPendingEvents = otherPendingRequests.map((loan) => ({
@@ -93,8 +93,8 @@ const LendingRequestAdmin = () => {
     title: request?.author?.fullName,
     start: loan.startDate,
     end: loan.endDate,
-    backgroundColor: '#f57676',
-    borderColor: '#f57676',
+    backgroundColor: 'var(--color-red-2)',
+    borderColor: 'var(--color-red-2)',
   }));
 
   const infoItems = [

@@ -5,7 +5,7 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { LendingRequest as LendingRequestModel } from 'app/store/models/LendingRequest';
 
 export function fetchAllLendingRequests() {
-  return callAPI<LendingRequestModel>({
+  return callAPI<LendingRequestModel[]>({
     types: LendingRequest.FETCH,
     endpoint: '/lendinginstance/',
     schema: [lendingRequestSchema],
@@ -30,7 +30,7 @@ export function fetchLendingRequest(id: EntityId) {
 export function fetchLendingRequestsForLendableObject(
   lendableObjectId: EntityId,
 ) {
-  return callAPI<LendingRequestModel>({
+  return callAPI<LendingRequestModel[]>({
     types: LendingRequest.FETCH,
     endpoint: `/lendableobject/${lendableObjectId}/lendinginstances/`,
     schema: [lendingRequestSchema],

@@ -2,11 +2,9 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
-import {
-  LendingRequest,
-  LendingRequestStatus,
-} from 'app/store/models/LendingRequest';
+import { LendingRequestStatus } from 'app/store/models/LendingRequest';
 import styles from './RequestItem.css';
+import type { LendingRequest } from 'app/store/models/LendingRequest';
 
 const ApprovedFlag = () => {
   return (
