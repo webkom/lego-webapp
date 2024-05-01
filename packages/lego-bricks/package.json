@@ -70,6 +70,6 @@
     "typescript": "^5.4.5",
     "vite": "^4.5.3",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^1.5.2"
+    "vitest": "^1.5.3"
   }
 }
