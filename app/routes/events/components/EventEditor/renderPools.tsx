@@ -8,21 +8,29 @@ import {
 } from 'app/components/Form';
 import styles from './EventEditor.css';
 import PoolSuggestion from './PoolSuggestions';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish, EventStatusType } from 'app/models';
+import type { FieldArrayRenderProps } from 'react-final-form-arrays';
 
-type poolProps = {
-  fields: Record<string, any>;
-  startTime: Dateish;
-  eventStatusType: EventStatusType;
+type FieldPool = {
+  name: string;
+  registrations: EntityId[];
+  activationDate: Dateish;
+  permissionGroups: EntityId[];
 };
 
-const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
+type Props = {
+  startTime: Dateish;
+  eventStatusType: EventStatusType;
+} & FieldArrayRenderProps<FieldPool, HTMLElement>;
+
+const RenderPools = ({ fields, startTime, eventStatusType }: Props) => (
   <ul
     style={{
       flex: 1,
     }}
   >
-    {fields.map((pool, index) => (
+    {fields.map((_, index) => (
       <li key={index} className={styles.poolBox}>
         <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
         <Field
@@ -104,7 +112,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           <Button
             onClick={() =>
               fields.push({
-                name: `Pool #${fields.length + 1}`,
+                name: `Pool #${(fields.length ?? 0) + 1}`,
                 registrations: [],
                 activationDate: moment(startTime)
                   .subtract(7, 'd')
@@ -123,4 +131,4 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   </ul>
 );
 
-export default renderPools;
+export default RenderPools;

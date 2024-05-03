@@ -25,7 +25,7 @@ import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
-import { selectEventsByPagination } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserWithGroups } from 'app/reducers/users';
@@ -38,6 +38,7 @@ import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
 import type { User, Group, Dateish, UserMembership } from 'app/models';
+import type { ListEvent } from 'app/store/models/Event';
 
 const fieldTranslations = {
   username: 'Brukernavn',
@@ -190,7 +191,9 @@ const UserProfile = () => {
     }),
   );
   const upcomingEvents = useAppSelector((state) =>
-    selectEventsByPagination(state, upcomingEventsPagination),
+    selectAllEvents<ListEvent>(state, {
+      pagination: upcomingEventsPagination,
+    }),
   );
 
   const { pagination: previousEventsPagination } = useAppSelector(
@@ -201,7 +204,7 @@ const UserProfile = () => {
     }),
   );
   const previousEvents = useAppSelector((state) =>
-    selectEventsByPagination(state, previousEventsPagination),
+    selectAllEvents<ListEvent>(state, { pagination: previousEventsPagination }),
   );
 
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);

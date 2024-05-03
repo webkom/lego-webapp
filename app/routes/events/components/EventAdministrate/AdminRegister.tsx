@@ -9,6 +9,7 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectPoolsForEvent } from 'app/reducers/events';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
+import type { AuthPool } from 'app/store/models/Pool';
 import type { AutocompleteUser } from 'app/store/models/User';
 import type { FormApi } from 'final-form';
 
@@ -28,9 +29,7 @@ const AdminRegister = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const fetching = useAppSelector((state) => state.events.fetching);
   const pools = useAppSelector((state) =>
-    selectPoolsForEvent(state, {
-      eventId: eventId,
-    }),
+    selectPoolsForEvent<AuthPool>(state, eventId),
   );
 
   const dispatch = useAppDispatch();

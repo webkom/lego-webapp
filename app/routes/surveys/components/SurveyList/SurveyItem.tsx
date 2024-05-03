@@ -5,6 +5,7 @@ import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import styles from '../surveys.css';
+import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
 
 const SurveyItem = ({ survey }: Props) => {
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId: survey.event }),
+    selectEventById<EventForSurvey>(state, survey.event),
   );
 
   return (

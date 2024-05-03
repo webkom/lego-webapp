@@ -10,6 +10,7 @@ import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/
 import pageNotFound from 'app/routes/pageNotFound';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
 const Statistics = loadable(() => import('./Statistics'));
 const Attendees = loadable(() => import('./Attendees'));
@@ -19,7 +20,9 @@ const Abacard = loadable(() => import('./Abacard'));
 
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const event = useAppSelector((state) =>
+    selectEventById<AdministrateEvent>(state, eventId),
+  );
   const fetching = useAppSelector((state) => state.events.fetching);
   const currentUser = useCurrentUser();
 

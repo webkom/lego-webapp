@@ -49,7 +49,9 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
     pageviews: { title: string; value: number };
     visitDuration: { title: string; value: number };
   }>(initialMetricValue);
-  const [data, setData] = useState<{ date: string; visitors: number }[]>([]);
+  const [data, setData] = useState<{ date: string; visitors: number | null }[]>(
+    [],
+  );
 
   const dispatch = useAppDispatch();
 

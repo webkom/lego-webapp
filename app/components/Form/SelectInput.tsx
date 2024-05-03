@@ -4,42 +4,48 @@ import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
 import style from './SelectInput.css';
-import type { ChangeEvent, ComponentProps, ComponentType } from 'react';
-import type { StylesConfig, ThemeConfig } from 'react-select';
+import type { ComponentProps, ComponentType } from 'react';
+import type { StylesConfig, ThemeConfig, OnChangeValue } from 'react-select';
+
+type SelectInputValue<Option, IsMulti> = IsMulti extends true
+  ? Option[]
+  : Option | null;
 
 type Props<Option, IsMulti extends boolean = false> = {
   name: string;
   label?: string;
   placeholder?: string;
-  tags?: boolean;
+  tags?: IsMulti;
   fetching?: boolean;
   className?: string;
   selectStyle?: StylesConfig<Option, IsMulti>;
-  onChange?: (event: ChangeEvent | string | Option[]) => void;
+  onChange?: (value: OnChangeValue<Option, IsMulti>) => void;
   onSearch?: (search: string) => void;
   isValidNewOption?: (arg0: string) => boolean;
-  value?: Option | Option[] | null;
+  value: SelectInputValue<Option, IsMulti>;
   disabled?: boolean;
   options?: Option[];
   creatable?: boolean;
-  isMulti?: boolean;
+  isMulti?: IsMulti;
   isClearable?: boolean;
   filter?: string[];
-  SuggestionComponent?: SuggestionComponent<Option>;
+  SuggestionComponent?: SuggestionComponent<Option, NoInfer<IsMulti>>;
 } & Pick<ComponentProps<Creatable>, 'onBlur'>;
 
-export type SuggestionComponent<Option = { label: string; value: number }> =
-  ComponentType<{
-    value: Option[];
-    onChange?: (event: ChangeEvent | string | Option[]) => void;
-  }>;
+export type SuggestionComponent<
+  Option = { label: string; value: number },
+  IsMulti extends boolean = true,
+> = ComponentType<{
+  value: SelectInputValue<Option, IsMulti>;
+  onChange?: (value: OnChangeValue<Option, IsMulti>) => void;
+}>;
 
 export const selectStyles: StylesConfig = {
   control: (styles, { isDisabled }) => ({
     ...styles,
     cursor: 'pointer',
     opacity: isDisabled ? '0.5' : 1,
-    backgroundColor: isDisabled && undefined,
+    backgroundColor: isDisabled ? undefined : styles.backgroundColor,
     border: '1.5px solid var(--border-gray)',
     borderRadius: 'var(--border-radius-md)',
     fontSize: '14px',
@@ -80,7 +86,7 @@ const NO_OPTIONS_MESSAGE = 'Ingen treff';
 const LOADING_MESSAGE = 'Laster inn ...';
 
 const SelectInput = <
-  Option extends { label: string; value: number },
+  Option extends { label: string; value: unknown },
   IsMulti extends boolean = false,
 >({
   name,
@@ -97,9 +103,10 @@ const SelectInput = <
   SuggestionComponent,
   ...props
 }: Props<Option, IsMulti>) => {
+  // TODO: Remove tags prop and just use creatable=true and isMulti=true
   if (props.tags) {
     creatable = true;
-    props.isMulti = true;
+    props.isMulti = props.tags;
   }
 
   const defaultPlaceholder = label ? `Velg ${label.toLowerCase()}` : 'Velg ...';
@@ -117,7 +124,9 @@ const SelectInput = <
           isValidNewOption={isValidNewOption}
           options={options}
           isLoading={fetching}
-          styles={selectStyle ?? selectStyles}
+          styles={
+            selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)
+          }
           theme={selectTheme}
           onInputChange={(value) => {
             onSearch?.(value);
@@ -148,7 +157,7 @@ const SelectInput = <
           return value;
         }}
         menuPortalTarget={document.body}
-        styles={selectStyle ?? selectStyles}
+        styles={selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)}
         theme={selectTheme}
         blurInputOnSelect={false}
         loadingMessage={() => LOADING_MESSAGE}

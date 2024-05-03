@@ -17,13 +17,16 @@ import type { TextWithIconProps } from 'app/components/TextWithIcon';
 import type {
   EventRegistrationPaymentStatus,
   LEGACY_EventRegistrationPhotoConsent,
-  PhotoConsent,
   EventSemester,
 } from 'app/models';
-import type { Presence } from 'app/store/models/Registration';
+import type {
+  PaymentRegistration,
+  Presence,
+} from 'app/store/models/Registration';
+import type { PhotoConsent } from 'app/store/models/User';
 
 type Props = {
-  registration: Record<string, any>;
+  registration: PaymentRegistration;
   isPriced: boolean;
   registrationIndex: number;
   hasSimpleWaitingList: boolean;
@@ -184,7 +187,7 @@ const PaymentStatus = ({
   paymentStatus,
   isPriced,
 }: {
-  paymentStatus: EventRegistrationPaymentStatus;
+  paymentStatus: EventRegistrationPaymentStatus | null;
   isPriced: boolean;
 }) => {
   if (!isPriced) return null;

@@ -1,5 +1,9 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type {
+  Dateish,
+  EventRegistrationPaymentStatus,
+  LEGACY_EventRegistrationPhotoConsent,
+} from 'app/models';
 import type {
   DetailedUser,
   PhotoConsent,
@@ -29,10 +33,10 @@ interface Registration {
   unregistrationDate: Dateish;
   adminRegistrationReason: string;
   paymentIntentId: string | null;
-  paymentStatus: string | null; //TODO: enum
+  paymentStatus: EventRegistrationPaymentStatus | null;
   paymentAmount: number;
   paymentAmountRefunded: number;
-  LEGACYPhotoConsent: string; //TODO: enum
+  LEGACYPhotoConsent: LEGACY_EventRegistrationPhotoConsent;
   photoConsents: PhotoConsent[];
 }
 

@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
-import { selectEvents } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
@@ -101,7 +101,7 @@ const inRange = (event: FrontpageEvent) => {
 const UPCOMING_REGISTRATIONS_LIMIT = 2;
 
 const UpcomingRegistrations = () => {
-  const events = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
+  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
 
   // Sorted events based on activationTime, take out the
   // ones that are out of range

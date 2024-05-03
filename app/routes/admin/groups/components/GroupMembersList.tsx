@@ -75,7 +75,7 @@ const GroupMembersList = ({
             label: ROLES[role],
           }}
           options={roleOptions}
-          onChange={async (value: { label: string; value: RoleType }) => {
+          onChange={async (value) => {
             setMembershipsInEditMode((prev) => ({
               ...prev,
               [id]: false,

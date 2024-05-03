@@ -8,10 +8,13 @@ import Validator from 'app/components/UserValidator';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Abacard.css';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
 const Abacard = () => {
   const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const event = useAppSelector((state) =>
+    selectEventById<AdministrateEvent>(state, eventId),
+  );
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId,

@@ -22,15 +22,6 @@ export type PublicPool = Pick<
   | 'registrationCount'
 >;
 
-export type AuthPool = Pick<
-  CompletePool,
-  | 'id'
-  | 'name'
-  | 'capacity'
-  | 'activationDate'
-  | 'permissionGroups'
-  | 'registrationCount'
-  | 'registrations'
->;
+export type AuthPool = PublicPool & Pick<CompletePool, 'registrations'>;
 
 export type UnknownPool = PublicPool | AuthPool;

@@ -29,8 +29,8 @@ export const canSeeAllergies = (
 const Allergies = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId }),
-  ) as AdministrateEvent;
+    selectEventById<AdministrateEvent>(state, eventId),
+  );
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId,

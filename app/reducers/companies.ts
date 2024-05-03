@@ -7,7 +7,7 @@ import { isNotNullish } from 'app/utils';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Company } from '../actions/ActionTypes';
 import { selectCompanySemesterEntities } from './companySemesters';
-import { selectEvents } from './events';
+import { selectAllEvents } from './events';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
@@ -180,7 +180,7 @@ export const transformSemesterStatuses = (
   });
 
 export const selectEventsForCompany = createSelector(
-  selectEvents,
+  selectAllEvents,
   (_: RootState, companyId: EntityId) => companyId,
   (events, companyId) => {
     if (!companyId || !events) return [];

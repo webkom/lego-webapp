@@ -27,8 +27,8 @@ import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import UserGrid from 'app/components/UserGrid';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import {
-  selectCommentsForEvent,
   selectEventByIdOrSlug,
   selectMergedPool,
   selectMergedPoolWithRegistrations,
@@ -126,8 +126,11 @@ const EventDetail = () => {
 
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
-  ) as AuthUserDetailedEvent | UserDetailedEvent;
+    selectEventByIdOrSlug<AuthUserDetailedEvent | UserDetailedEvent>(
+      state,
+      eventIdOrSlug,
+    ),
+  );
   const eventId = event?.id;
   const fetching = useAppSelector((state) => state.events.fetching);
   const showSkeleton = fetching && isEmpty(event);
@@ -146,23 +149,23 @@ const EventDetail = () => {
   );
 
   const comments = useAppSelector((state) =>
-    selectCommentsForEvent(state, { eventId }),
+    selectCommentsByIds(state, event?.comments),
   );
   const poolsWithRegistrations = useAppSelector((state) =>
     event?.isMerged
-      ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId }),
+      ? selectMergedPoolWithRegistrations(state, eventId)
+      : selectPoolsWithRegistrationsForEvent(state, eventId),
   );
   const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId }),
+    (state) => selectRegistrationsFromPools(state, eventId),
   );
   const waitingRegistrations = useAppSelector((state) =>
-    selectWaitingRegistrationsForEvent(state, { eventId }),
+    selectWaitingRegistrationsForEvent(state, eventId),
   );
   const normalPools = useAppSelector((state) =>
     event?.isMerged
-      ? selectMergedPool(state, { eventId })
-      : selectPoolsForEvent(state, { eventId }),
+      ? selectMergedPool(state, eventId)
+      : selectPoolsForEvent(state, eventId),
   );
 
   let pools =

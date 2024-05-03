@@ -11,7 +11,7 @@ import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
 import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectEvents } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import {
   addArticleType,
   addEventType,
@@ -113,7 +113,7 @@ const Events = ({
   pinnedId: EntityId;
   numberToShow: number;
 }) => {
-  const allEvents = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
+  const allEvents = useAppSelector(selectAllEvents<FrontpageEvent>);
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,
   );
@@ -288,7 +288,7 @@ const ShowMoreButton = ({
   showMore: () => void;
   scrollToTop: () => void;
 }) => {
-  const events = useAppSelector(selectEvents);
+  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
 
   return (
     <div className={styles.showMore}>

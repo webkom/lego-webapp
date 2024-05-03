@@ -208,7 +208,7 @@ export function payment(eventId: EntityId) {
 export function updateFeedback(
   eventId: EntityId,
   registrationId: EntityId,
-  feedback: string,
+  feedback?: string,
 ) {
   return callAPI({
     types: Event.UPDATE_REGISTRATION,

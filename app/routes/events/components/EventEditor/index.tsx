@@ -55,6 +55,7 @@ import styles from './EventEditor.css';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';
+import type { DetailedEvent } from 'app/store/models/Event';
 import type { DetailedUser } from 'app/store/models/User';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
@@ -131,12 +132,12 @@ const EventEditor = () => {
   const eventIdOrSlug = params.eventIdOrSlug ?? state?.id;
 
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
+    selectEventByIdOrSlug<DetailedEvent>(state, eventIdOrSlug),
   );
   const eventId = event?.id;
   const actionGrant: ActionGrant = event?.actionGrant || [];
   const pools = useAppSelector((state) =>
-    selectPoolsWithRegistrationsForEvent(state, { eventId }),
+    selectPoolsWithRegistrationsForEvent(state, eventId),
   );
   const imageGalleryEntries = useAppSelector(selectAllImageGalleryEntries);
   const imageGallery = imageGalleryEntries?.map((image) => ({
@@ -172,7 +173,7 @@ const EventEditor = () => {
     if (isEditPage && event?.slug && event?.slug !== eventIdOrSlug) {
       navigate(`/events/${event.slug}/edit`, { replace: true });
     }
-  }, [event.slug, navigate, eventIdOrSlug, isEditPage]);
+  }, [event?.slug, navigate, eventIdOrSlug, isEditPage]);
 
   const [showImageGallery, setShowImageGallery] = useState(false);
   const [useImageGallery, setUseImageGallery] = useState(false);

@@ -30,7 +30,7 @@ export const getIcalUrlGoogle = (icalToken: IcalToken, icalType: IcalType) => {
 };
 
 type Props = {
-  icalToken: string;
+  icalToken?: string;
 };
 
 const EventFooter = ({ icalToken }: Props) => (

@@ -21,6 +21,7 @@ import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
 import styles from './EventAttendeeStatistics.css';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
+import type { AdministrateEvent } from 'app/store/models/Event';
 import type { DetailedRegistration } from 'app/store/models/Registration';
 
 interface RegistrationDateDataPoint {
@@ -220,8 +221,10 @@ type Props = {
 };
 
 const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
-  const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const { eventId } = useParams<{ eventId: string }>() as { eventId: string };
+  const event = useAppSelector((state) =>
+    selectEventById<AdministrateEvent>(state, eventId),
+  );
   const { registered, unregistered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId: eventId,
@@ -230,11 +233,11 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),
   );
-  const committeeGroupIDs = committees.map((group) => group.id);
+  const committeeGroupIDs = committees.map((group) => Number(group.id));
   const revueGroups = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Revue),
   );
-  const revueGroupIDs = revueGroups.map((group) => group.id);
+  const revueGroupIDs = revueGroups.map((group) => Number(group.id));
 
   const {
     genderDistribution,

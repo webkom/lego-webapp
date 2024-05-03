@@ -5,14 +5,13 @@ import { EventType } from 'app/store/models/Event';
 import type {
   Event,
   TransformEvent,
-  PhotoConsent,
-  PhotoConsentDomain,
   EventSemester,
   Dateish,
   EventStatusType,
+  PhotoConsentDomain,
 } from 'app/models';
 import type Penalty from 'app/store/models/Penalty';
-import type { DetailedUser } from 'app/store/models/User';
+import type { DetailedUser, PhotoConsent } from 'app/store/models/User';
 
 export type ConfigProperties = {
   displayName: string;
@@ -272,16 +271,28 @@ const paymentSuccessMappings = {
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
 
-export const registrationCloseTime = (event: Event) =>
+export const registrationCloseTime = (event: {
+  startTime: Dateish;
+  registrationDeadlineHours: number;
+}) =>
   moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 
-export const registrationIsClosed = (event: Event) => {
+export const registrationIsClosed = (event: {
+  startTime: Dateish;
+  registrationDeadlineHours: number;
+}) => {
   return moment().isAfter(registrationCloseTime(event));
 };
 
-export const unregistrationCloseTime = (event: Event) =>
+export const unregistrationCloseTime = (event: {
+  startTime: Dateish;
+  unregistrationDeadlineHours: number;
+}) =>
   moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
-export const unregistrationIsClosed = (event: Event) => {
+export const unregistrationIsClosed = (event: {
+  startTime: Dateish;
+  unregistrationDeadlineHours: number;
+}) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
 

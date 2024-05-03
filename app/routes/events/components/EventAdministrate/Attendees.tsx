@@ -15,12 +15,12 @@ import type { AdministrateEvent } from 'app/store/models/Event';
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId }),
-  ) as AdministrateEvent;
+    selectEventById<AdministrateEvent>(state, eventId),
+  );
   const pools = useAppSelector((state) =>
     event?.isMerged
-      ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId }),
+      ? selectMergedPoolWithRegistrations(state, eventId)
+      : selectPoolsWithRegistrationsForEvent(state, eventId),
   );
   const loading = useAppSelector((state) => state.events.fetching);
   const { registered, unregistered } = useAppSelector((state) =>

@@ -22,6 +22,7 @@ import {
 } from 'app/components/Form';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -166,6 +167,14 @@ const PaymentForm = ({
   </div>
 );
 
+type FormValues = {
+  feedbackRequired?: string;
+  feedback?: string;
+  captchaResponse: string;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
 export type Props = {
   title?: string;
   event: UserDetailedEvent | AuthUserDetailedEvent;
@@ -217,8 +226,8 @@ const JoinEventForm = ({
     event.useStripe &&
     event.isPriced &&
     event.price > 0 &&
-    registration &&
-    registration.pool &&
+    !!registration &&
+    !!registration.pool &&
     ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
@@ -246,16 +255,16 @@ const JoinEventForm = ({
     return null;
   }
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: FormValues) => {
     if (registrationType === 'unregister') {
-      return (
-        registration &&
-        dispatch(
-          unregister({
-            eventId: event.id,
-            registrationId: registration.id,
-          }),
-        )
+      if (!registration) {
+        return;
+      }
+      return dispatch(
+        unregister({
+          eventId: event.id,
+          registrationId: registration.id,
+        }),
       );
     }
 
@@ -263,7 +272,7 @@ const JoinEventForm = ({
       register({
         eventId: event.id,
         captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName],
+        feedback: values[feedbackName] ?? '',
         userId: currentUser.id,
       }),
     );
@@ -366,7 +375,7 @@ const JoinEventForm = ({
               )}
             {formOpen && hasRegisteredConsentIfRequired && (
               <Flex column gap="var(--spacing-md)">
-                <LegoFinalForm
+                <TypedLegoForm
                   onSubmit={onSubmit}
                   validate={validate}
                   initialValues={initialValues}
@@ -386,6 +395,7 @@ const JoinEventForm = ({
                       !registrationPending &&
                       !registration &&
                       captchaOpen &&
+                      config.environment !== 'ci' &&
                       event.useCaptcha;
 
                     return (
@@ -456,7 +466,7 @@ const JoinEventForm = ({
                             {feedbackLabel}
                           </label>
                           <Flex alignItems="center" gap="var(--spacing-md)">
-                            {spyValues((values) => (
+                            {spyValues((values: FormValues) => (
                               <Field
                                 id={feedbackName}
                                 placeholder="Melding til arrangør"
@@ -484,7 +494,7 @@ const JoinEventForm = ({
                               />
                             ))}
                             {registration &&
-                              spyValues((values) => (
+                              spyValues((values: FormValues) => (
                                 <Button
                                   onClick={() => {
                                     dispatch(
@@ -505,7 +515,7 @@ const JoinEventForm = ({
                       </Form>
                     );
                   }}
-                </LegoFinalForm>
+                </TypedLegoForm>
 
                 {registration && showStripeDelayed && (
                   <PaymentForm

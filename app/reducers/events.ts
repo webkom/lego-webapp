@@ -3,9 +3,8 @@ import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import config from 'app/config';
 import { eventSchema } from 'app/reducers';
-import { addCommentCases, selectCommentEntities } from 'app/reducers/comments';
+import { addCommentCases } from 'app/reducers/comments';
 import { selectUserEntities } from 'app/reducers/users';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import { EntityType } from 'app/store/models/entities';
@@ -17,9 +16,14 @@ import {
   selectRegistrationIds,
 } from './registrations';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { TypeableEntitySelector } from 'app/reducers/utils';
 import type { RootState } from 'app/store/createRootReducer';
-import type { DetailedEvent, UserDetailedEvent } from 'app/store/models/Event';
-import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import type {
+  DetailedEvent,
+  UnknownEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
+import type { UnknownPool } from 'app/store/models/Pool';
 import type { AnyAction } from 'redux';
 
 const legoAdapter = createLegoAdapter(EntityType.Events);
@@ -134,21 +138,12 @@ const eventsSlice = createSlice({
 
 export default eventsSlice.reducer;
 export const {
+  selectById: selectEventById,
+  selectAllPaginated: selectAllEvents,
+  selectByField: selectEventsByField,
   selectEntities: selectEventEntities,
   selectIds: selectEventIds,
 } = legoAdapter.getSelectors((state: RootState) => state.events);
-
-function transformEvent(event: DetailedEvent) {
-  return {
-    ...event,
-    startTime: event.startTime && moment(event.startTime).toISOString(),
-    endTime: event.endTime && moment(event.endTime).toISOString(),
-    activationTime:
-      event.activationTime && moment(event.activationTime).toISOString(),
-    mergeTime: event.mergeTime && moment(event.mergeTime).toISOString(),
-    useCaptcha: config.environment === 'ci' ? false : event.useCaptcha,
-  };
-}
 
 function transformRegistration(registration) {
   return {
@@ -158,80 +153,22 @@ function transformRegistration(registration) {
   };
 }
 
-export const selectEvents = createSelector(
-  selectEventEntities,
-  selectEventIds,
-  (eventsById, eventIds) =>
-    eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
-      ReturnType<typeof transformEvent>
-    >,
-);
-
-export const selectEventsByPagination = createSelector(
-  selectEventEntities,
-  (_: RootState, pagination: Pagination) => pagination,
-  (eventEntities, pagination) =>
-    pagination.ids.map((id) =>
-      transformEvent(eventEntities[id] as DetailedEvent),
-    ) as ReadonlyArray<ReturnType<typeof transformEvent>>,
-);
-export const selectSortedEvents = createSelector(selectEvents, (events) =>
-  [...events].sort(
-    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix(),
-  ),
-);
-
-export const selectEventById = createSelector(
-  selectEventEntities,
-  (_: RootState, props: { eventId: EntityId }) => props.eventId,
-  (eventsById, eventId) => {
-    const event = eventsById[eventId];
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  },
-);
-
-export const selectEventBySlug = createSelector(
-  selectEventEntities,
-  (_: RootState, props: { eventSlug: string }) => props.eventSlug,
-  (eventsById, eventSlug) => {
-    const event = Object.values(eventsById).find(
-      (event) => event.slug === eventSlug,
-    );
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  },
-);
-
+export const selectEventBySlug = selectEventsByField('slug').single;
 export const selectEventByIdOrSlug = createSelector(
-  (state, props) => {
-    const { eventIdOrSlug } = props;
-    if (!isNaN(Number(eventIdOrSlug))) {
-      return selectEventById(state, { eventId: eventIdOrSlug });
-    }
-    return selectEventBySlug(state, {
-      eventSlug: eventIdOrSlug,
-    });
-  },
-  (event) => event,
-);
+  selectEventById,
+  selectEventBySlug,
+  (eventById, eventBySlug) => eventById || eventBySlug,
+) as TypeableEntitySelector<UnknownEvent, [string | undefined]>;
 
 export const selectPoolsForEvent = createSelector(
   selectEventById,
   selectPoolEntities,
   (event, poolEntities) => {
-    if (!event) return [];
-    return (event.pools || []).map((poolId) => poolEntities[poolId]);
+    if (!event || !('pools' in event)) return [];
+    return event.pools.map((poolId) => poolEntities[poolId]);
   },
-);
+) as TypeableEntitySelector<UnknownPool[], [EntityId | undefined]>;
+
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
   selectRegistrationEntities,
@@ -372,16 +309,6 @@ export const selectRegistrationForEventByUserId = createSelector(
   (registrations, userId) => {
     const userReg = registrations.filter((reg) => reg.user.id === userId);
     return userReg.length > 0 ? userReg[0] : null;
-  },
-);
-export const selectCommentsForEvent = createSelector(
-  selectEventById,
-  selectCommentEntities,
-  (event, commentEntities) => {
-    if (!event) return [];
-    return (event.comments || []).map(
-      (commentId) => commentEntities[commentId],
-    );
   },
 );
 export const selectRegistrationsFromPools = createSelector(

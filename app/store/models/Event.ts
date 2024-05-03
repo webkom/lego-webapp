@@ -4,7 +4,11 @@ import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { DetailedUser, PublicUser } from 'app/store/models/User';
+import type {
+  DetailedUser,
+  PhotoConsent,
+  PublicUser,
+} from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum EventType {
@@ -40,10 +44,10 @@ interface Event {
   pools: EntityId[];
   totalCapacity: number;
   registrationCloseTime?: Dateish;
-  registrationDeadlineHours?: number;
+  registrationDeadlineHours: number;
   unregistrationCloseTime?: Dateish;
   unregistrationDeadline?: Dateish;
-  unregistrationDeadlineHours?: number;
+  unregistrationDeadlineHours: number;
   company?: ListCompany;
   responsibleGroup?: PublicGroup;
   activeCapacity?: number;
@@ -85,7 +89,7 @@ interface Event {
   following: false | EntityId;
   spotsLeft: number;
   pendingRegistration: EntityId;
-  photoConsents: EntityId[];
+  photoConsents: PhotoConsent[];
 
   unansweredSurveys: EntityId[];
 }

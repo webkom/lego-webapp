@@ -18,14 +18,14 @@ import {
 } from 'app/routes/events/utils';
 import { spyValues } from 'app/utils/formSpyUtils';
 import styles from '../EventEditor.css';
-import renderPools from '../renderPools';
+import RenderPools from '../renderPools';
 import type { EditingEvent } from 'app/routes/events/utils';
 
 type Props = {
   values: EditingEvent;
 };
 
-const Registrations: React.FC<Props> = ({ values }) => {
+const Registrations = ({ values }: Props) => {
   const initialPool = {
     name: 'Pool #1',
     registrations: [],
@@ -235,7 +235,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <div className={styles.metaList}>
           <FieldArray
             name="pools"
-            component={renderPools}
+            component={RenderPools}
             startTime={values.startTime}
             eventStatusType={values.eventStatusType?.value}
           />
