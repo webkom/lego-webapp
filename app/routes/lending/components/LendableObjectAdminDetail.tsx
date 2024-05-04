@@ -13,10 +13,9 @@ import NavigationTab from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { Params } from 'react-router-dom';
 
 const LendableObjectAdminDetail = () => {
-  const { lendableObjectId } = useParams<Params>();
+  const { lendableObjectId } = useParams();
 
   const dispatch = useAppDispatch();
 

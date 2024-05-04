@@ -27,12 +27,8 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { LendingRequestStatus, statusToString } from 'app/store/models/LendingRequest';
 import styles from './LendingRequestAdmin.css';
 
-type Params = {
-  lendingRequestId: string;
-};
-
 const LendingRequestAdmin = () => {
-  const { lendingRequestId } = useParams<Params>();
+  const { lendingRequestId } = useParams();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
