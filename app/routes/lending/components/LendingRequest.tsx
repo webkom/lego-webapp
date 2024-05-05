@@ -14,8 +14,12 @@ import { FromToTime } from 'app/components/Time';
 import { selectLendingRequestById } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
+type LendingRequestParams = {
+  lendingRequestId: string;
+};
+
 const LendingRequest = () => {
-  const { lendingRequestId } = useParams();
+  const { lendingRequestId } = useParams<LendingRequestParams>();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(

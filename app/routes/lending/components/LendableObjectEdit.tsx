@@ -25,10 +25,14 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
 import type { EditingLendableObject } from 'app/store/models/LendableObject';
 
+type Params = {
+  lendableObjectId: string | undefined;
+};
+
 const TypedLegoForm = LegoFinalForm<EditingLendableObject>;
 
 const LendableObjectEdit = () => {
-  const { lendableObjectId } = useParams();
+  const { lendableObjectId } = useParams<Params>();
   const isNew = lendableObjectId === undefined;
 
   const dispatch = useAppDispatch();
