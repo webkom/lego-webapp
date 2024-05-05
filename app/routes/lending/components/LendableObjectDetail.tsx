@@ -20,12 +20,8 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
-type Params = {
-  lendableObjectId: string;
-};
-
 const LendableObjectDetail = () => {
-  const { lendableObjectId } = useParams<Params>();
+  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
   const [showLendingForm, setShowLendingForm] = useState(false);
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');

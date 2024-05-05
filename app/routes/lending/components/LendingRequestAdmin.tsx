@@ -24,15 +24,14 @@ import {
   selectLendingRequestsByLendableObjectId,
 } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { LendingRequestStatus, statusToString } from 'app/store/models/LendingRequest';
+import {
+  LendingRequestStatus,
+  statusToString,
+} from 'app/store/models/LendingRequest';
 import styles from './LendingRequestAdmin.css';
 
-type Params = {
-  lendingRequestId: string;
-};
-
 const LendingRequestAdmin = () => {
-  const { lendingRequestId } = useParams<Params>();
+  const { lendingRequestId } = useParams<{ lendingRequestId: string }>();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -65,10 +64,14 @@ const LendingRequestAdmin = () => {
     }),
   );
 
-  console.log(otherRequests)
+  console.log(otherRequests);
 
-  const otherApprovedRequests = otherRequests.filter((loan) => loan.status === LendingRequestStatus.APPROVED);
-  const otherPendingRequests = otherRequests.filter((loan) => loan.status === LendingRequestStatus.PENDING);
+  const otherApprovedRequests = otherRequests.filter(
+    (loan) => loan.status === LendingRequestStatus.APPROVED,
+  );
+  const otherPendingRequests = otherRequests.filter(
+    (loan) => loan.status === LendingRequestStatus.PENDING,
+  );
 
   if (!request) {
     return <p className="secondaryFontColor">Ukjent forespørsel</p>;
