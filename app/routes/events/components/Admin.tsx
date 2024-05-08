@@ -79,7 +79,6 @@ type Props = {
 };
 
 const Admin = ({ actionGrant, event }: Props) => {
-  const navigate = useNavigate();
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
   const showRegisterButton =
@@ -131,11 +130,7 @@ const Admin = ({ actionGrant, event }: Props) => {
             </LinkButton>
           )}
 
-          <LinkButton
-            onPress={() =>
-              navigate('/events/create', { state: { id: event.id } })
-            }
-          >
+          <LinkButton href="/events/create" state={{ id: event.id }}>
             <Icon name="copy-outline" size={19} />
             Lag kopi av arrangement
           </LinkButton>
