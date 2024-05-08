@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
 import type { ComponentProps, MouseEventHandler } from 'react';
@@ -57,7 +57,7 @@ export const Icon = ({
       {...props}
     >
       {to ? (
-        <Link to={to} className={classNames}>
+        <Link href={to} className={classNames}>
           <ion-icon name={name}></ion-icon>
         </Link>
       ) : onClick ? (
