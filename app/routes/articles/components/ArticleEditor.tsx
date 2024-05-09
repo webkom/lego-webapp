@@ -234,7 +234,7 @@ const ArticleEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               <LinkButton flat href={`/articles/${isNew ? '' : articleId}`}>
                 Avbryt
               </LinkButton>

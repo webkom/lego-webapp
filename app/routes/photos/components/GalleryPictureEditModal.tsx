@@ -149,7 +149,7 @@ const GalleryPictureEditModal = () => {
                 component={SelectInput.AutocompleteField}
                 isMulti
               />
-              <Flex justifyContent="flex-end">
+              <Flex wrap gap="var(--spacing-md)">
                 <Button
                   flat
                   onPress={() => {

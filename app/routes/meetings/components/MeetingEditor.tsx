@@ -426,7 +426,7 @@ const MeetingEditor = () => {
               )}
 
               <SubmissionError />
-              <Flex wrap>
+              <Flex wrap gap="var(--spacing-md)">
                 <Button
                   flat
                   onPress={() =>

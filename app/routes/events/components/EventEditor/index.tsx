@@ -408,7 +408,7 @@ const EventEditor = () => {
               />
             )}
 
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               {isEditPage && (
                 <LinkButton flat href={`/events/${event.slug}`}>
                   Avbryt

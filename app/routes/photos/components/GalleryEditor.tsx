@@ -344,7 +344,7 @@ const GalleryEditor = () => {
               component={ObjectPermissions}
             />
 
-            <Flex className={styles.buttonRow} justifyContent="flex-end">
+            <Flex className={styles.buttonRow} wrap gap="var(--spacing-md)">
               <LinkButton flat href={`/photos/${gallery?.id ?? ''}`}>
                 Avbryt
               </LinkButton>

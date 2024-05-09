@@ -105,7 +105,7 @@ const ThreadEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               <Button
                 flat
                 onPress={() =>

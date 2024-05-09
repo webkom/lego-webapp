@@ -64,10 +64,6 @@
     opacity: 0.5;
   }
 
-  + .button {
-    margin-left: 16px;
-  }
-
   > a {
     color: var(--color-gray-8);
   }

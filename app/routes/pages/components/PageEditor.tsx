@@ -174,25 +174,6 @@ const PageEditor = () => {
                 placeholder="Velg kategori"
                 options={categoryOptions}
               />
-
-              <Flex margin="0 0 0 10px">
-                {!isNew && (
-                  <ConfirmModal
-                    title="Slett side"
-                    message="Er du sikker på at du vil slette denne infosiden?"
-                    onConfirm={onDelete}
-                  >
-                    {({ openConfirmModal }) => (
-                      <Button onPress={openConfirmModal} danger>
-                        <Icon name="trash" size={19} />
-                        Slett
-                      </Button>
-                    )}
-                  </ConfirmModal>
-                )}
-
-                <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-              </Flex>
             </Flex>
 
             <Fields
@@ -211,6 +192,25 @@ const PageEditor = () => {
               component={EditorField.Field}
               uploadFile={uploadFile}
             />
+
+            <Flex wrap gap="var(--spacing-md)">
+              {!isNew && (
+                <ConfirmModal
+                  title="Slett side"
+                  message="Er du sikker på at du vil slette denne infosiden?"
+                  onConfirm={onDelete}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button onPress={openConfirmModal} danger>
+                      <Icon name="trash" size={19} />
+                      Slett
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+
+              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+            </Flex>
           </Form>
         )}
       </TypedLegoForm>

@@ -96,7 +96,7 @@ const ForumEditor = () => {
               id="forum-description"
             />
             {/* Action buttons */}
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               <Button
                 flat
                 onPress={() =>

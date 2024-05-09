@@ -189,7 +189,7 @@ const PollEditor = ({
             />
 
             <SubmissionError />
-            <Flex className={styles.actionButtons}>
+            <Flex className={styles.actionButtons} wrap gap="var(--spacing-md)">
               <SubmitButton>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </SubmitButton>

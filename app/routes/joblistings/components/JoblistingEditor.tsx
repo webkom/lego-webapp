@@ -340,7 +340,7 @@ const JoblistingEditor = () => {
               required
             />
             <SubmissionError />
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               <LinkButton href={`/joblistings/${isNew ? '' : joblistingId}`}>
                 Avbryt
               </LinkButton>

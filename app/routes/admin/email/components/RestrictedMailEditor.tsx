@@ -218,6 +218,7 @@ const RestrictedMailEditor = () => {
           />
 
           <SubmissionError />
+
           {isNew && <SubmitButton>Lag flaskepost</SubmitButton>}
           {!isNew && restrictedMailId && restrictedMail && (
             <LinkButton

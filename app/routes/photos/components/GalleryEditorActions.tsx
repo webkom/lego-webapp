@@ -25,7 +25,7 @@ const GalleryEditorActions = ({
         <span>
           <b>{selectedCount}</b> valgt
         </span>
-        <Flex justifyContent="flex-end" wrap>
+        <Flex wrap gap="var(--spacing-md)">
           <Button flat onPress={onDeselect}>
             Avbryt
           </Button>
