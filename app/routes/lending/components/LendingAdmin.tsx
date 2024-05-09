@@ -21,10 +21,11 @@ const LendableObjectsAdmin = () => {
 
   usePreparedEffect(
     'fetchAllLendingObjectsAndRequests',
-    () => {
-      dispatch(fetchAllLendingRequests());
-      dispatch(fetchAllLendableObjects());
-    },
+    () =>
+      Promise.allSettled([
+        dispatch(fetchAllLendingRequests()),
+        dispatch(fetchAllLendableObjects()),
+      ]),
     [],
   );
 

@@ -21,7 +21,7 @@ const LendingRequest = () => {
   usePreparedEffect(
     'fetchRequest',
     () => lendingRequestId && dispatch(fetchLendingRequest(lendingRequestId)),
-    [],
+    [lendingRequestId],
   );
 
   const request = useAppSelector((state) =>
