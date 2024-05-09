@@ -154,3 +154,12 @@ export const threadSchema = new schema.Entity(EntityType.Thread, {
 export const forumSchema = new schema.Entity(EntityType.Forums, {
   threads: [threadSchema],
 });
+export const lendableObjectSchema = new schema.Entity(
+  EntityType.LendableObjects,
+  {
+    responsibleGroups: [groupSchema],
+  },
+);
+export const lendingRequestSchema = new schema.Entity(
+  EntityType.LendingRequests,
+);
