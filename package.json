@@ -193,7 +193,7 @@
     "typescript": "^5.4.5",
     "typescript-plugin-css-modules": "^5.1.0",
     "utility-types": "^3.11.0",
-    "vitest": "^1.5.3",
+    "vitest": "^1.6.0",
     "webpack": "5.90.3",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-cli": "^5.1.4",
