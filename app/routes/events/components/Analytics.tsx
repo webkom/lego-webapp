@@ -58,7 +58,7 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
     () => {
       if (eventId) {
         return dispatch(fetchAnalytics(eventId)).then((response) => {
-          let filteredData = response.payload;
+          let filteredData = response.payload.results;
 
           if (viewStartTime) {
             filteredData = filteredData.filter((item) =>
