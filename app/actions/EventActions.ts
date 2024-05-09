@@ -396,15 +396,15 @@ export function fetchFollowers(eventId: EntityId, currentUserId: EntityId) {
 }
 
 export function fetchAnalytics(eventId: EntityId) {
-  return callAPI<
-    {
+  return callAPI<{
+    results: {
       bounceRate: number | null;
       date: string;
       pageviews: number | null;
       visitDuration: number | null;
       visitors: number | null;
-    }[]
-  >({
+    }[];
+  }>({
     types: Event.FETCH_ANALYTICS,
     endpoint: `/events/${String(eventId)}/statistics/`,
     method: 'GET',
