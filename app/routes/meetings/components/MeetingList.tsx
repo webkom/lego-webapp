@@ -1,4 +1,9 @@
-import { LoadingIndicator, Button, Flex } from '@webkom/lego-bricks';
+import {
+  LoadingIndicator,
+  Button,
+  Flex,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -180,11 +185,7 @@ const MeetingList = () => {
       <Helmet title="Dine møter" />
       <NavigationTab
         title="Dine møter"
-        details={
-          <Link to="/meetings/create">
-            <Button>Nytt møte</Button>
-          </Link>
-        }
+        details={<LinkButton href="/meetings/create">Nytt møte</LinkButton>}
       />
       {meetingSections && currentUser && (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
@@ -193,10 +194,10 @@ const MeetingList = () => {
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
       />
       {fetchMorePagination.hasMore && (
-        <Button onClick={fetchMore}>Last inn flere</Button>
+        <Button onPress={fetchMore}>Last inn flere</Button>
       )}
       {fetchOlderPagination.hasMore && (
-        <Button flat onClick={fetchOlder}>
+        <Button flat onPress={fetchOlder}>
           Hent gamle
         </Button>
       )}

@@ -96,11 +96,7 @@ describe('Profile settings', () => {
     cy.contains('Lagre endringer').should('not.be.disabled').click();
 
     cy.url().should('include', '/users/me');
-    cy.get(c('infoCard'))
-      .first()
-      .find('button')
-      .should('contain', 'Innstillinger')
-      .click();
+    cy.get(c('infoCard')).first().find('a').contains('Innstillinger').click();
 
     // Check that settings were changed properly
     cy.visit('/users/me/settings/profile');

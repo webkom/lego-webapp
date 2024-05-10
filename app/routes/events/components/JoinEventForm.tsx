@@ -65,7 +65,7 @@ const SubmitButton = ({
 }) => {
   if (type === 'register') {
     return (
-      <Button submit onClick={onSubmit} disabled={disabled}>
+      <Button submit onPress={onSubmit} disabled={disabled}>
         {title}
       </Button>
     );
@@ -86,7 +86,7 @@ const SubmitButton = ({
       closeOnConfirm
     >
       {({ openConfirmModal }) => (
-        <Button danger onClick={openConfirmModal} disabled={disabled}>
+        <Button danger onPress={openConfirmModal} disabled={disabled}>
           <Icon name="person-remove" size={19} />
           {title}
         </Button>
@@ -486,7 +486,7 @@ const JoinEventForm = ({
                             {registration &&
                               spyValues((values) => (
                                 <Button
-                                  onClick={() => {
+                                  onPress={() => {
                                     dispatch(
                                       updateFeedback(
                                         event.id,

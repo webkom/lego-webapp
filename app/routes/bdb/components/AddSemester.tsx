@@ -235,7 +235,7 @@ const AddSemester = () => {
                 </Card>
               )}
               <SubmissionError />
-              <SubmitButton onClick={() => setSubmit(true)}>
+              <SubmitButton onPress={() => setSubmit(true)}>
                 Legg til
               </SubmitButton>
             </form>

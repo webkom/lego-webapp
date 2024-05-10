@@ -169,7 +169,7 @@ const CompanyDetail = () => {
           />
           {oldEvents.length > 0 && (
             <Button
-              onClick={() => setViewOldEvents(!viewOldEvents)}
+              onPress={() => setViewOldEvents(!viewOldEvents)}
               className={styles.toggleEventsView}
             >
               {viewOldEvents

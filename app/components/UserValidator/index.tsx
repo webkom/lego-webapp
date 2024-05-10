@@ -222,7 +222,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
       </Modal>
       <Button
         className={styles.scannerButton}
-        onClick={() => setShowScanner(true)}
+        onPress={() => setShowScanner(true)}
       >
         <Icon className={styles.qrIcon} name="scan-outline" size={18} />
         Åpne scanner

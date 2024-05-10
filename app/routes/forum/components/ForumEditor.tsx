@@ -96,10 +96,10 @@ const ForumEditor = () => {
               id="forum-description"
             />
             {/* Action buttons */}
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               <Button
                 flat
-                onClick={() =>
+                onPress={() =>
                   navigate(`/forum/${isNew ? '' : forumId + '/threads'}`)
                 }
               >
@@ -115,7 +115,7 @@ const ForumEditor = () => {
                   onConfirm={handleDeleteForum}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett forum
                     </Button>

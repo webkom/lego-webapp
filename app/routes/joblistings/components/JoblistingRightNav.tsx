@@ -1,7 +1,6 @@
-import { Button } from '@webkom/lego-bricks';
+import { LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
@@ -39,9 +38,7 @@ const JoblistingsRightNav = () => {
         }}
       >
         {actionGrant.includes('create') && (
-          <Link to="/joblistings/create">
-            <Button>Ny jobbannonse</Button>
-          </Link>
+          <LinkButton href="/joblistings/create">Ny jobbannonse</LinkButton>
         )}
 
         <h4 className={styles.rightHeader}>Sorter etter</h4>

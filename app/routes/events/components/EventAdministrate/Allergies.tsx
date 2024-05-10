@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Link, useParams } from 'react-router-dom';
@@ -137,14 +137,12 @@ const Allergies = () => {
       </Flex>
       <br></br>
       <Flex justifyContent="space-between">
-        <a
+        <LinkButton
           href={allergiesTXT}
           download={'allergier_' + event.title.replaceAll(' ', '_') + '.txt'}
         >
-          <Button>
-            <Icon name="download-outline" /> Last ned allergier som tekstfil
-          </Button>
-        </a>
+          <Icon name="download-outline" /> Last ned allergier som tekstfil
+        </LinkButton>
       </Flex>
     </>
   );

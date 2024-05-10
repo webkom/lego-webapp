@@ -48,7 +48,7 @@ const MeetingAnswer = ({
           {user.firstName} {statusText} på møtet!
         </p>
         <p>
-          <Button dark onClick={handleLink}>
+          <Button dark onPress={handleLink}>
             Logg inn og sjekk møtet
           </Button>
         </p>
@@ -64,7 +64,7 @@ const MeetingAnswer = ({
     >
       <h1>Det har skjedd en feil :(</h1>
       <p>Prøv å logg inn for å svare på invitasjonen</p>
-      <Button onClick={handleLink}>Logg inn</Button>
+      <Button onPress={handleLink}>Logg inn</Button>
     </div>
   );
 };

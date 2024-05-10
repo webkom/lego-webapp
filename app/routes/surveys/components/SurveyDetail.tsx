@@ -1,4 +1,4 @@
-import { Button, LoadingIndicator } from '@webkom/lego-bricks';
+import { LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
@@ -59,15 +59,14 @@ const SurveyDetailPage = () => {
                 Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
               </div>
 
-              <Link to={`/surveys/${survey.id}/answer`}>
-                <Button
-                  style={{
-                    marginTop: '30px',
-                  }}
-                >
-                  Svar på undersøkelsen
-                </Button>
-              </Link>
+              <LinkButton
+                href={`/surveys/${survey.id}/answer`}
+                style={{
+                  marginTop: '30px',
+                }}
+              >
+                Svar på undersøkelsen
+              </LinkButton>
             </div>
           )}
           <StaticSubmission survey={survey} />

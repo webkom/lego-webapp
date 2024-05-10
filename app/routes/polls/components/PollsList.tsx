@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -34,9 +34,7 @@ const PollsList = () => {
         title="Avstemninger"
         details={
           actionGrant.includes('create') && (
-            <Link to="/polls/new">
-              <Button>Lag ny</Button>
-            </Link>
+            <LinkButton href="/polls/new">Lag ny</LinkButton>
           )
         }
       />

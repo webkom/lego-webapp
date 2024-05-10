@@ -1,4 +1,10 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Flex,
+  Icon,
+  LinkButton,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -112,14 +118,14 @@ const MeetingDetails = () => {
       <li className={styles.statusButtons}>
         <Button
           success
-          onClick={acceptInvitation}
+          onPress={acceptInvitation}
           disabled={statusMe === MeetingInvitationStatus.Attending}
         >
           Delta
         </Button>
         <Button
           dark
-          onClick={rejectInvitation}
+          onPress={rejectInvitation}
           disabled={statusMe === MeetingInvitationStatus.NotAttending}
         >
           Avslå
@@ -221,12 +227,10 @@ const MeetingDetails = () => {
 
             <AnnouncementInLine meeting={meeting} />
             {canEdit && (
-              <Link to={`/meetings/${meeting.id}/edit`}>
-                <Button>
-                  <Icon name="create-outline" size={19} />
-                  Rediger
-                </Button>
-              </Link>
+              <LinkButton href={`/meetings/${meeting.id}/edit`}>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </LinkButton>
             )}
           </Flex>
         </ContentSidebar>

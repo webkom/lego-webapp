@@ -118,7 +118,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
             <Button
               danger
               disabled={deleting}
-              onClick={async () => {
+              onPress={async () => {
                 setDeleting(true);
                 await dispatch(deleteAnnouncement(announcement.id));
                 setDeleting(false);
@@ -131,7 +131,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
             <Button
               secondary
               disabled={sending}
-              onClick={async () => {
+              onPress={async () => {
                 setSending(true);
                 await dispatch(sendAnnouncement(announcement.id));
                 setSending(false);

@@ -1,6 +1,5 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Button, Icon, LinkButton } from '@webkom/lego-bricks';
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { hideSurvey, shareSurvey } from 'app/actions/SurveyActions';
 import { ContentSidebar } from 'app/components/Content';
 import { CheckBox } from 'app/components/Form';
@@ -57,32 +56,30 @@ const AdminSideBar = ({
       <ContentSidebar>
         <h3>Admin</h3>
 
-        <Link to="/surveys/add">
-          <Button>
-            <Icon name="add" size={19} />
-            Ny undersøkelse
-          </Button>
-        </Link>
+        <LinkButton href="/surveys/add">
+          <Icon name="add" size={19} />
+          Ny undersøkelse
+        </LinkButton>
 
-        <Link to={`/surveys/${surveyId}/edit`}>
-          <Button>
-            <Icon name="create-outline" size={19} />
-            Rediger
-          </Button>
-        </Link>
+        <LinkButton href={`/surveys/${surveyId}/edit`}>
+          <Icon name="create-outline" size={19} />
+          Rediger
+        </LinkButton>
 
         {actionGrant && actionGrant.includes('csv') && exportSurvey && (
           <div>
             {generatedCSV ? (
-              <a href={generatedCSV.url} download={generatedCSV.filename}>
-                <Button success>
-                  <Icon name="download-outline" size={19} />
-                  Last ned CSV
-                </Button>
-              </a>
+              <LinkButton
+                success
+                href={generatedCSV.url}
+                download={generatedCSV.filename}
+              >
+                <Icon name="download-outline" size={19} />
+                Last ned CSV
+              </LinkButton>
             ) : (
               <Button
-                onClick={async () => setGeneratedCSV(await exportSurvey())}
+                onPress={async () => setGeneratedCSV(await exportSurvey())}
               >
                 <Icon name="download-outline" size={19} />
                 Eksporter til CSV
@@ -105,7 +102,7 @@ const AdminSideBar = ({
         )}
 
         {token && (
-          <Button onClick={handleCopyButtonClick} success={copied}>
+          <Button onPress={handleCopyButtonClick} success={copied}>
             <Icon name={copied ? 'checkmark' : 'copy-outline'} />
             {copied ? 'Kopiert!' : 'Kopier delbar link'}
           </Button>

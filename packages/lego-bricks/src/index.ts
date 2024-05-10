@@ -2,7 +2,10 @@ import './Global.d.ts';
 import './Modules.d.ts';
 import './global.css';
 
-export { Button } from './components/Button';
+export type { PressEvent } from 'react-aria-components';
+export { RouterProvider } from 'react-aria-components';
+
+export { Button, LinkButton } from './components/Button';
 export { Container, Flex } from './components/Layout';
 export { Card } from './components/Card';
 export { Icon } from './components/Icon';

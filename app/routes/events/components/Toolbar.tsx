@@ -1,6 +1,6 @@
-import { Button } from '@webkom/lego-bricks';
+import { LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './Toolbar.css';
 import type { ActionGrant } from 'app/models';
@@ -34,9 +34,9 @@ const Toolbar = ({ actionGrant }: Props) => (
 
     <div className={styles.create}>
       {actionGrant?.includes('create') && (
-        <Link to="/events/create">
-          <Button flat>Lag nytt</Button>
-        </Link>
+        <LinkButton flat href="/events/create">
+          Lag nytt
+        </LinkButton>
       )}
     </div>
   </div>

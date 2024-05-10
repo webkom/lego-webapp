@@ -1,7 +1,13 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Flex,
+  Icon,
+  LinkButton,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   fetchAllMemberships,
   fetchGroup,
@@ -68,7 +74,7 @@ const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
       <Button
         success={membership === undefined}
         danger={membership !== undefined}
-        onClick={onClick}
+        onPress={onClick}
       >
         {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
       </Button>
@@ -182,12 +188,10 @@ const InterestGroupDetail = () => {
           {canEdit && (
             <>
               <h3>Admin</h3>
-              <Link to={`/interest-groups/${group.id}/edit`}>
-                <Button>
-                  <Icon name="create-outline" size={19} />
-                  Rediger
-                </Button>
-              </Link>
+              <LinkButton href={`/interest-groups/${group.id}/edit`}>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </LinkButton>
             </>
           )}
 

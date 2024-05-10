@@ -123,7 +123,7 @@ const CompaniesPage = () => {
           <Button
             flat
             className={styles.readMore}
-            onClick={() => setExpanded(true)}
+            onPress={() => setExpanded(true)}
           >
             Vis mer
           </Button>
@@ -145,7 +145,7 @@ const CompaniesPage = () => {
           <Button
             flat
             className={styles.readMore}
-            onClick={() => {
+            onPress={() => {
               setExpanded(false);
               top.current?.scrollIntoView();
             }}

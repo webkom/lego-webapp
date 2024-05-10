@@ -217,17 +217,15 @@ const AnnouncementsCreate = () => {
             {spyValues<FormValues>((values) => (
               <Flex wrap>
                 <SubmitButton
-                  onClick={(e) => {
+                  onPress={() => {
                     values.send = false;
-                    handleSubmit(e);
                   }}
                 >
                   Opprett
                 </SubmitButton>
                 <SubmitButton
-                  onClick={(e) => {
+                  onPress={() => {
                     values.send = true;
-                    handleSubmit(e);
                   }}
                 >
                   Opprett og send

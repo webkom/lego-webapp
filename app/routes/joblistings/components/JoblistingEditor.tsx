@@ -1,4 +1,10 @@
-import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback, useState } from 'react';
 import { Field } from 'react-final-form';
@@ -334,14 +340,10 @@ const JoblistingEditor = () => {
               required
             />
             <SubmissionError />
-            <Flex wrap>
-              <Button
-                onClick={() =>
-                  navigate(`/joblistings/${isNew ? '' : joblistingId}`)
-                }
-              >
+            <Flex wrap gap="var(--spacing-md)">
+              <LinkButton href={`/joblistings/${isNew ? '' : joblistingId}`}>
                 Avbryt
-              </Button>
+              </LinkButton>
               <SubmitButton>
                 {isNew ? 'Opprett' : 'Lagre endringer'}
               </SubmitButton>
@@ -352,7 +354,7 @@ const JoblistingEditor = () => {
                   onConfirm={onDeleteJoblisting}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett jobbannonse
                     </Button>

@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -81,9 +81,9 @@ const RestrictedMails = () => {
         }}
       >
         <h3>Dine begrensede e-poster</h3>
-        <Link to={'/admin/email/restricted/new'}>
-          <Button>Ny begrenset e-post</Button>
-        </Link>
+        <LinkButton href={'/admin/email/restricted/new'}>
+          Ny begrenset e-post
+        </LinkButton>
       </Flex>
       <Table
         columns={columns}

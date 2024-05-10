@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -51,9 +51,9 @@ const InterestGroupList = () => {
           du all praktisk informasjon knyttet til våre interessegrupper.
         </p>
         {canCreate && (
-          <Link to="/interest-groups/create">
-            <Button>Lag ny interessegruppe</Button>
-          </Link>
+          <LinkButton href="/interest-groups/create">
+            Lag ny interessegruppe
+          </LinkButton>
         )}
       </Flex>
 

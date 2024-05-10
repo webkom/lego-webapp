@@ -3,6 +3,7 @@ import {
   ConfirmModal,
   Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -233,13 +234,10 @@ const ArticleEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap>
-              <Button
-                flat
-                onClick={() => navigate(`/articles/${isNew ? '' : articleId}`)}
-              >
+            <Flex wrap gap="var(--spacing-md)">
+              <LinkButton flat href={`/articles/${isNew ? '' : articleId}`}>
                 Avbryt
-              </Button>
+              </LinkButton>
               <SubmitButton>
                 {!isNew ? 'Lagre endringer' : 'Opprett'}
               </SubmitButton>
@@ -250,7 +248,7 @@ const ArticleEditor = () => {
                   onConfirm={handleDeleteArticle}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett artikkel
                     </Button>

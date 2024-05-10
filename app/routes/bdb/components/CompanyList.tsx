@@ -130,7 +130,7 @@ const CompanyList = ({
             <Button
               flat
               className={styles.yearNavigator}
-              onClick={() =>
+              onPress={() =>
                 navigateThroughTime({
                   direction: 'backward',
                 })
@@ -149,7 +149,7 @@ const CompanyList = ({
             <Button
               flat
               className={cx(styles.rightArrow, styles.yearNavigator)}
-              onClick={() =>
+              onPress={() =>
                 navigateThroughTime({
                   direction: 'forward',
                 })

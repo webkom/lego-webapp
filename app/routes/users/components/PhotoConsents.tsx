@@ -59,7 +59,7 @@ const ConsentManager = ({
         >
           {({ openConfirmModal }) => (
             <Button
-              onClick={openConfirmModal}
+              onPress={openConfirmModal}
               dark
               disabled={!isCurrentUser || consent.isConsenting === false}
               className={styles.consentBtn}
@@ -71,7 +71,7 @@ const ConsentManager = ({
         <Button
           success
           disabled={!isCurrentUser || consent.isConsenting === true}
-          onClick={() => updateConsent({ ...consent, isConsenting: true })}
+          onPress={() => updateConsent({ ...consent, isConsenting: true })}
           className={styles.consentBtn}
         >
           Behold samtykke

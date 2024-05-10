@@ -60,7 +60,7 @@ const GroupChange = (props: Props) => {
         isClearable={false}
       />
       {selectedOption && (
-        <Button secondary onClick={handleOnClick}>
+        <Button secondary onPress={handleOnClick}>
           Lagre endring
         </Button>
       )}

@@ -105,10 +105,10 @@ const ThreadEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap>
+            <Flex wrap gap="var(--spacing-md)">
               <Button
                 flat
-                onClick={() =>
+                onPress={() =>
                   navigate(
                     isNew
                       ? `/forum/${forumId}/threads`
@@ -128,7 +128,7 @@ const ThreadEditor = () => {
                   onConfirm={handleDeleteThread}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett tråd
                     </Button>

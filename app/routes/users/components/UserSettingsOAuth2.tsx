@@ -1,4 +1,10 @@
-import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Card,
+  ConfirmModal,
+  Flex,
+  Icon,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import keys from 'lodash/keys';
 import { useState } from 'react';
@@ -190,9 +196,9 @@ const UserSettingsOAuth2 = () => {
       <h3>Applikasjoner</h3>
       <Flex column gap="var(--spacing-md)">
         {actionGrant.includes('create') && (
-          <Button>
-            <Link to="/users/me/settings/oauth2/new">Ny applikasjon</Link>
-          </Button>
+          <LinkButton href="/users/me/settings/oauth2/new">
+            Ny applikasjon
+          </LinkButton>
         )}
         {applications.length === 0 && !fetchingApplications ? (
           <span className="secondaryFontColor">Du har ingen applikasjoner</span>
