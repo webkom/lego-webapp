@@ -7,9 +7,11 @@ import Pill from 'app/components/Pill';
 import Popover from 'app/components/Popover';
 import TextWithIcon from 'app/components/TextWithIcon';
 import Time, { FromToTime } from 'app/components/Time';
+import { selectEventEntities, selectEventIds } from 'app/reducers/events';
 import { colorForEventType, textColorForEventType } from '../utils';
 import styles from './Calendar.css';
-import type { Event } from 'app/models';
+import type { Dateish, Event } from 'app/models';
+import type { RootState } from 'app/store/createRootReducer';
 import type { Moment } from 'moment-timezone';
 
 const renderEvent = (event: Event) => {
@@ -120,9 +122,9 @@ const CalendarCell = (props: Props) => {
 
 // Select events that occur on the a specific day. Events that last over multiple days will be selected for every day it takes place. However, some events, like parties, might last over midnight, and it looks kind of weird for that event to be selected for two different days. Therefore, we add the criteria that an event has to last for more 24 hours in order for it to get selected for multiple days.
 const selectEvents = createSelector(
-  (state) => state.events.items,
-  (state) => state.events.byId,
-  (state, props) => props.day,
+  selectEventIds,
+  selectEventEntities,
+  (_: RootState, props: { day: Dateish }) => props.day,
   (eventIds, eventsById, day) =>
     eventIds
       .map((id) => eventsById[id])

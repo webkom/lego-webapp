@@ -1,7 +1,3 @@
-// Hack because we have circular dependencies
-// (companies -> events -> index -> frontpage -> events)
-// This import resolves dependencies properly..
-import 'app/reducers';
 import { describe, it, expect } from 'vitest';
 import { Company } from 'app/actions/ActionTypes';
 import companies from '../companies';

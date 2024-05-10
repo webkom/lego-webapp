@@ -253,7 +253,7 @@ export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
   text: 'text';
 };
 
-export type UnknownEvent =
+export type UnknownEvent = (
   | PublicEvent
   | ListEvent
   | DetailedEvent
@@ -262,4 +262,6 @@ export type UnknownEvent =
   | AuthUserDetailedEvent
   | AdministrateEvent
   | FrontpageEvent
-  | SearchEvent;
+) & {
+  comments?: EntityId[];
+};

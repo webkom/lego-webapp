@@ -25,14 +25,13 @@ import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
-import {
-  selectPreviousEvents,
-  selectUpcomingEvents,
-} from 'app/reducers/events';
+import { selectEventsByPagination } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GroupChange from './GroupChange';
 import Penalties from './Penalties';
@@ -183,13 +182,26 @@ const UserProfile = () => {
   const showSettings =
     (isCurrentUser || actionGrant.includes('edit')) && user?.username;
 
-  const upcomingEvents = useAppSelector(selectUpcomingEvents);
-  const fetchingUpcoming = useAppSelector(
-    (state) => state.events.fetchingUpcoming,
+  const { pagination: upcomingEventsPagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/upcoming/',
+      query: {},
+    }),
   );
-  const previousEvents = useAppSelector(selectPreviousEvents);
-  const fetchingPrevious = useAppSelector(
-    (state) => state.events.fetchingPrevious,
+  const upcomingEvents = useAppSelector((state) =>
+    selectEventsByPagination(state, upcomingEventsPagination),
+  );
+
+  const { pagination: previousEventsPagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/previous/',
+      query: {},
+    }),
+  );
+  const previousEvents = useAppSelector((state) =>
+    selectEventsByPagination(state, previousEventsPagination),
   );
 
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
@@ -719,11 +731,11 @@ const UserProfile = () => {
                 events={orderBy(upcomingEvents, 'startTime')}
                 noEventsMessage="Du har ingen kommende arrangementer"
                 eventStyle="compact"
-                loading={fetchingUpcoming}
+                loading={upcomingEventsPagination.fetching}
               />
               <h3>
                 Dine tidligere arrangementer (
-                {!fetchingPrevious
+                {!previousEventsPagination.fetching
                   ? previousEvents === undefined
                     ? 0
                     : previousEvents.length
@@ -742,7 +754,7 @@ const UserProfile = () => {
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
-                loading={fetchingPrevious}
+                loading={previousEventsPagination.fetching}
               />
             </div>
           )}

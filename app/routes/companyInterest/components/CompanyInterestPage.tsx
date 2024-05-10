@@ -68,6 +68,7 @@ import {
   COMPANY_TYPES,
   TOOLTIP,
 } from './Translations';
+import type { DetailedCompanyInterest } from 'app/store/models/CompanyInterest';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
@@ -307,7 +308,10 @@ const CompanyInterestPage = () => {
   const { companyInterestId } = useParams();
   const edit = companyInterestId !== undefined;
   const companyInterest = useAppSelector((state) =>
-    selectCompanyInterestById(state, companyInterestId),
+    selectCompanyInterestById<DetailedCompanyInterest>(
+      state,
+      companyInterestId,
+    ),
   );
   const semesters = useAppSelector((state) => {
     if (edit) {
