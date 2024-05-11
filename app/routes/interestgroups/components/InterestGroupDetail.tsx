@@ -1,5 +1,6 @@
 import {
   Button,
+  DialogTrigger,
   Flex,
   Icon,
   LinkButton,
@@ -30,7 +31,7 @@ import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
-import InterestGroupMemberList from './InterestGroupMemberList';
+import InterestGroupMemberModal from './InterestGroupMemberModal';
 import type { TransformedMembership } from 'app/reducers/memberships';
 import type { PublicDetailedGroup } from 'app/store/models/Group';
 
@@ -47,9 +48,10 @@ const Members = ({ group, memberships }: MembersProps) => (
       maxRows={2}
       minRows={2}
     />
-    <InterestGroupMemberList memberships={memberships}>
+    <DialogTrigger>
       <Button flat>Vis alle medlemmer</Button>
-    </InterestGroupMemberList>
+      <InterestGroupMemberModal memberships={memberships} />
+    </DialogTrigger>
   </Flex>
 );
 
