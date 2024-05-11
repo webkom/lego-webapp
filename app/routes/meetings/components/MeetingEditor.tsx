@@ -35,7 +35,7 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import NavigationTab from 'app/components/NavigationTab';
-import { AttendanceStatus } from 'app/components/UserAttendance';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
@@ -412,7 +412,8 @@ const MeetingEditor = () => {
                 <>
                   <h3>Allerede inviterte</h3>
                   <div>
-                    <AttendanceStatus.Modal
+                    <Attendance
+                      isMeeting
                       pools={[
                         {
                           name: 'Inviterte brukere',

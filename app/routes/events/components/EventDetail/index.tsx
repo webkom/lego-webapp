@@ -22,9 +22,7 @@ import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import UserGrid from 'app/components/UserGrid';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import {
@@ -50,7 +48,6 @@ import {
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import RegisteredSummary from '../RegisteredSummary';
 import RegistrationMeta from '../RegistrationMeta';
 import styles from './EventDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
@@ -518,31 +515,15 @@ const EventDetail = () => {
             <Flex column>
               <h3>Påmeldte</h3>
 
-              <UserGrid
-                minRows={minUserGridRows}
-                maxRows={MAX_USER_GRID_ROWS}
-                users={registrations?.slice(0, 14).map((reg) => reg.user)}
+              <Attendance
+                pools={pools}
+                registrations={registrations}
+                currentRegistration={currentRegistration}
+                minUserGridRows={minUserGridRows}
+                maxUserGridRows={MAX_USER_GRID_ROWS}
+                legacyRegistrationCount={event.legacyRegistrationCount}
                 skeleton={fetching && !registrations}
               />
-
-              <AttendanceModal key="modal" pools={pools} title="Påmeldte">
-                {({ toggleModal }) => (
-                  <>
-                    <RegisteredSummary
-                      toggleModal={toggleModal}
-                      registrations={loggedIn && registrations}
-                      currentRegistration={currentRegistration}
-                      skeleton={fetching && !registrations}
-                    />
-                    <AttendanceStatus
-                      toggleModal={toggleModal}
-                      pools={pools}
-                      legacyRegistrationCount={event.legacyRegistrationCount}
-                      skeleton={fetching && !registrations}
-                    />
-                  </>
-                )}
-              </AttendanceModal>
 
               {loggedIn && (
                 <RegistrationMeta

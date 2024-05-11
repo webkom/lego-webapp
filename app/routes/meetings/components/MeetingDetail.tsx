@@ -25,8 +25,7 @@ import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import NavigationTab from 'app/components/NavigationTab';
 import Time, { FromToTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import {
@@ -196,21 +195,7 @@ const MeetingDetails = () => {
           <ul>
             {attendanceButtons(statusMe, meeting.startTime)}
             <InfoList items={infoItems} />
-            <li>
-              <AttendanceModal
-                isMeeting
-                key="modal"
-                pools={sortInvitations()}
-                title="Påmeldte"
-              >
-                {({ toggleModal }) => (
-                  <AttendanceStatus
-                    toggleModal={toggleModal}
-                    pools={sortInvitations()}
-                  />
-                )}
-              </AttendanceModal>
-            </li>
+            <Attendance isMeeting pools={sortInvitations()} />
             {meeting.mazemapPoi && (
               <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
             )}

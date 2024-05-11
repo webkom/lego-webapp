@@ -9,8 +9,7 @@ import {
   DatePicker,
 } from 'app/components/Form';
 import { FormatTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import {
   containsAllergier,
   eventStatusTypes,
@@ -223,15 +222,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
       )}
       <Flex column>
         <h3>Pools</h3>
-        <AttendanceModal
-          key="modal"
-          pools={values.pools || []}
-          title="Påmeldte"
-        >
-          {({ toggleModal }) => (
-            <AttendanceStatus toggleModal={toggleModal} pools={values.pools} />
-          )}
-        </AttendanceModal>
+        <Attendance pools={values.pools} />
         <div className={styles.metaList}>
           <FieldArray
             name="pools"
