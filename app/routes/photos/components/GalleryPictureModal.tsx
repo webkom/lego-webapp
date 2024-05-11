@@ -286,8 +286,9 @@ const GalleryPictureModal = () => {
 
   return (
     <Modal
-      onHide={() => navigate(`/photos/${gallery.id}`)}
-      show
+      onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
+      isDismissable={false} // Avoid closing the modal when pressing something from the dropdown
+      isOpen
       contentClassName={styles.content}
     >
       <PropertyHelmet

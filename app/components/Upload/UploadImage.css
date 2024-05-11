@@ -1,12 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.modal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
 .dropArea {
   border-radius: inherit;
   aspect-ratio: inherit;

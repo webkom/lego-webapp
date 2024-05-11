@@ -70,12 +70,3 @@
 .deleteButton {
   margin-bottom: 16px;
 }
-
-.showMemberList {
-  color: var(--lego-link-color);
-
-  &:hover {
-    text-decoration: underline;
-    cursor: pointer;
-  }
-}

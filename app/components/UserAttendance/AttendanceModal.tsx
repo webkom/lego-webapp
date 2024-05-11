@@ -13,7 +13,7 @@ export type AttendanceModalProps = {
 
 const AttendanceModal = ({
   pools,
-  title,
+  title = 'Status',
   isMeeting = false,
   children,
 }: AttendanceModalProps) => {
@@ -28,9 +28,12 @@ const AttendanceModal = ({
   return (
     <>
       {children({ toggleModal })}
-      <Modal show={modalVisible} onHide={() => toggleModal()}>
+      <Modal
+        isOpen={modalVisible}
+        onOpenChange={(isOpen) => !isOpen && toggleModal()}
+        title={title}
+      >
         <AttendanceModalContent
-          title={title}
           selectedPool={selectedTab}
           togglePool={(tabIndex) => setSelectedTab(tabIndex)}
           pools={pools}

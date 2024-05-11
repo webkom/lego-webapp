@@ -95,8 +95,8 @@ const GalleryPictureEditModal = () => {
 
   return (
     <Modal
-      onHide={() => navigate(`/photos/${gallery.id}`)}
-      show
+      onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
+      isOpen
       contentClassName={styles.content}
     >
       <Content className={styles.topContent}>

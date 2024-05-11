@@ -1,4 +1,4 @@
-@keyframes fade-in {
+@keyframes overlay-fade {
   from {
     opacity: 0;
   }
@@ -8,52 +8,72 @@
   }
 }
 
-.backdrop {
+.overlay {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--visual-viewport-height);
   background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 10%);
   backdrop-filter: blur(3px);
-  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 90;
-  animation: fade-in var(--easing-medium) forwards;
+
+  &[data-entering] {
+    animation: overlay-fade var(--easing-medium);
+  }
+
+  &[data-exiting] {
+    animation: overlay-fade var(--easing-medium) reverse;
+  }
 }
 
-html[data-theme='dark'] .backdrop {
-  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 10%);
+html[data-theme='dark'] .overlay {
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 30%);
 }
 
-@keyframes pop-in {
+@keyframes modal-zoom {
   from {
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
+    transform: scale(0.8);
   }
 
   to {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
+    transform: scale(1);
   }
 }
 
-.content {
+.modal {
   line-height: 1.3;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   width: 475px;
   max-width: 100%;
   max-height: calc(100vh - 100px);
-  padding: 35px;
+  padding: var(--spacing-xl);
   background: var(--color-white);
   outline: none;
   overflow-y: auto;
   z-index: 100;
   box-shadow: var(--shadow-sm);
   border-radius: var(--border-radius-lg);
-  animation: pop-in var(--easing-medium) forwards;
+
+  section:focus {
+    outline: none;
+  }
 
   @media (--tall-viewport) {
     max-height: calc(100vh - 300px);
   }
+
+  &[data-entering] {
+    animation: modal-zoom var(--bounce);
+  }
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: var(--spacing-md);
 }
 
 .closeButton {

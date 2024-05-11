@@ -170,8 +170,8 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
   return (
     <>
       <Modal
-        show={successMessage !== null}
-        onHide={() => setSuccessMessage(null)}
+        isOpen={successMessage !== null}
+        onOpenChange={(open) => !open && setSuccessMessage(null)}
       >
         <Flex
           alignItems="center"
@@ -185,10 +185,12 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
       </Modal>
       <Modal
         contentClassName={styles.scannerModal}
-        show={showScanner}
-        onHide={() => {
-          setShowScanner(false);
-          setScanResults([]);
+        isOpen={showScanner}
+        onOpenChange={(open) => {
+          if (!open) {
+            setShowScanner(false);
+            setScanResults([]);
+          }
         }}
       >
         <h1>Scan ABA-ID</h1>

@@ -251,8 +251,12 @@ export default class ImageUpload extends Component<Props, State> {
             accept={accept}
           />
         )}
-        <Modal show={cropOpen} onHide={this.closeModal}>
-          <Flex className={styles.modal}>
+        <Modal
+          isOpen={cropOpen}
+          onOpenChange={(open) => !open && this.closeModal()}
+          title="Last opp bilder"
+        >
+          <Flex column alignItems="center" gap="var(--spacing-md)">
             {inModal && !preview && (
               <div className={styles.inModalUpload}>
                 <UploadArea
@@ -286,7 +290,7 @@ export default class ImageUpload extends Component<Props, State> {
                 ))}
               </Flex>
             )}
-            <Flex wrap gap={35}>
+            <Flex wrap gap="var(--spacing-md)">
               <Button flat onPress={() => this.closeModal()}>
                 Avbryt
               </Button>

@@ -1,4 +1,4 @@
-import { Flex, Icon, Modal } from '@webkom/lego-bricks';
+import { DialogTrigger, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import sortBy from 'lodash/sortBy';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -65,10 +65,7 @@ type Props = {
   memberships: TransformedMembership[];
 };
 const InterestGroupMemberList = ({ memberships, children }: Props) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const [filter, setFilter] = useState('');
-
-  const toggleModal = () => setModalVisible(!modalVisible);
 
   const filteredMemberships = memberships.filter((membership) =>
     membership.user.fullName.toLowerCase().includes(filter.toLowerCase()),
@@ -78,11 +75,10 @@ const InterestGroupMemberList = ({ memberships, children }: Props) => {
   ).reverse();
 
   return (
-    <>
-      <div onClick={toggleModal}>{children}</div>
-      <Modal show={modalVisible} onHide={toggleModal}>
+    <DialogTrigger>
+      {children}
+      <Modal title="Medlemmer">
         <Flex column gap="var(--spacing-md)" className={shared.modal}>
-          <h2>Medlemmer</h2>
           <TextInput
             type="text"
             prefix="search"
@@ -101,7 +97,7 @@ const InterestGroupMemberList = ({ memberships, children }: Props) => {
           </ul>
         </Flex>
       </Modal>
-    </>
+    </DialogTrigger>
   );
 };
 

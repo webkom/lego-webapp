@@ -48,7 +48,7 @@ const Members = ({ group, memberships }: MembersProps) => (
       minRows={2}
     />
     <InterestGroupMemberList memberships={memberships}>
-      <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
+      <Button flat>Vis alle medlemmer</Button>
     </InterestGroupMemberList>
   </Flex>
 );

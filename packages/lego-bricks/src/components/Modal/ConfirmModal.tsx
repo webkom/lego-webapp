@@ -117,9 +117,9 @@ const ConfirmModal = ({
     <>
       {children({ openConfirmModal: () => setModalVisible(true) })}
       <Modal
-        closeOnBackdropClick={!working}
-        show={modalVisible}
-        onHide={() => setModalVisible(false)}
+        isDismissable={!working}
+        isOpen={modalVisible}
+        onOpenChange={setModalVisible}
       >
         <ConfirmModalContent
           onConfirm={modalOnConfirm}
