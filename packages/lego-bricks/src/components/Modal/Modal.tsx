@@ -40,9 +40,11 @@ const Modal = ({
         <Dialog role={dialogRole} data-test-id="Modal__content">
           {({ close }) => (
             <>
-              <Heading slot="title" className={styles.title}>
-                {title}
-              </Heading>
+              {title && (
+                <Heading slot="title" className={styles.title}>
+                  {title}
+                </Heading>
+              )}
               <Icon
                 name="close"
                 onClick={close}

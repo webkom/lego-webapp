@@ -99,7 +99,7 @@ const GalleryPictureEditModal = () => {
       isOpen
       contentClassName={styles.content}
     >
-      <Content className={styles.topContent}>
+      <Flex column gap="var(--spacing-md)">
         <Flex width="100%" justifyContent="space-between" alignItems="center">
           <Flex justifyContent="space-between">
             <Image
@@ -116,13 +116,15 @@ const GalleryPictureEditModal = () => {
             </Flex>
           </Flex>
         </Flex>
-      </Content>
 
-      <Flex className={styles.pictureContainer}>
-        <ProgressiveImage key={picture.id} src={picture.file} alt="some alt" />
-      </Flex>
+        <Flex className={styles.pictureContainer}>
+          <ProgressiveImage
+            key={picture.id}
+            src={picture.file}
+            alt="some alt"
+          />
+        </Flex>
 
-      <Content className={styles.bottomContent}>
         <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
           {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
@@ -173,7 +175,7 @@ const GalleryPictureEditModal = () => {
             </Form>
           )}
         </TypedLegoForm>
-      </Content>
+      </Flex>
     </Modal>
   );
 };
