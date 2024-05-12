@@ -8,6 +8,7 @@ tiny-lr.pid
 coverage
 dist
 dist-client
+storybook-static
 .env
 styleguide
 .css.tmp.md

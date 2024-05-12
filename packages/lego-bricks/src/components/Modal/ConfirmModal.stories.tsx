@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button } from '../Button';
 import { ConfirmModal } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
