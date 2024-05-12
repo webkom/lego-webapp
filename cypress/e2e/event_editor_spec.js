@@ -54,7 +54,10 @@ describe('Editor', () => {
     cy.get('._legoEditor_root button .fa-image').click();
     cy.get(c('_legoEditor_imageUploader')).should('be.visible');
 
-    cy.get(t('Modal__content')).contains('Last opp').should('be.disabled');
+    cy.get(t('Modal__content'))
+      .get('button')
+      .contains('Last opp')
+      .should('be.disabled');
 
     // Upload file
     cy.upload_file(
@@ -66,6 +69,7 @@ describe('Editor', () => {
     cy.get('.ReactCrop').should('be.visible');
 
     cy.get(t('Modal__content'))
+      .get('button')
       .contains('Last opp')
       .should('not.be.disabled')
       .click();

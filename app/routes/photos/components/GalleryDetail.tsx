@@ -28,6 +28,7 @@ import HTTPError from 'app/routes/errors/HTTPError';
 import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
+import useQuery from 'app/utils/useQuery';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
@@ -58,9 +59,14 @@ const propertyGenerator: PropertyGenerator<{
   ];
 };
 
+const galleryDetailDefaultQuery = {
+  upload: 'false',
+};
+
 const GalleryDetail = () => {
   const navigate = useNavigate();
-  const [upload, setUpload] = useState(false);
+  const { query, setQueryValue } = useQuery(galleryDetailDefaultQuery);
+  const upload = query.upload === 'true';
   const [downloading, setDownloading] = useState(false);
 
   const { galleryId } = useParams<{ galleryId: string }>();
@@ -111,8 +117,7 @@ const GalleryDetail = () => {
     if (response) {
       dispatch(uploadAndCreateGalleryPicture(gallery.id, response));
     }
-
-    setUpload(!upload);
+    setQueryValue('upload')(String(!upload));
   };
 
   const handleClick = (picture: GalleryListPicture) => {
@@ -193,7 +198,7 @@ const GalleryDetail = () => {
           {actionGrant?.includes('edit') && (
             <>
               <NavigationLink
-                to={`/photos/${gallery.id}?upload`}
+                to={`/photos/${gallery.id}/?upload=true`}
                 onClick={() => toggleUpload()}
               >
                 Last opp bilder

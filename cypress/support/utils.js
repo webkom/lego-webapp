@@ -146,6 +146,7 @@ export const uploadHeader = () => {
   );
   cy.get('.cropper-move').click();
   cy.get(t('Modal__content'))
+    .get('button')
     .contains('Last opp')
     .should('not.be.disabled')
     .click();
