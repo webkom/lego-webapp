@@ -19,6 +19,36 @@ type Props = {
   children: ReactNode | ((opts: { close: () => void }) => ReactNode);
 };
 
+/**
+ * A styled modal component
+ *
+ * ### Example Usage (controlled)
+ * ```tsx
+ * const [isOpen, setIsOpen] = useState(false);
+ * return (
+ *   <>
+ *     <Button onPress={() => setIsOpen(true)}>Open modal</Button>
+ *     <Modal
+ *       isOpen={isOpen}
+ *       onOpenChange={setIsOpen}
+ *       title="Modal title"
+ *     >
+ *       {modal content}
+ *     </Modal>
+ *   </>
+ * );
+ * ```
+ *
+ * ### Example Usage (uncontrolled)
+ * ```tsx
+ * <DialogTrigger>
+ *   <Button>Open modal</Button>
+ *   <Modal title="Modal title">
+ *     {modal content}
+ *   </Modal>
+ * </DialogTrigger>
+ * ```
+ */
 const Modal = ({
   isOpen,
   onOpenChange,

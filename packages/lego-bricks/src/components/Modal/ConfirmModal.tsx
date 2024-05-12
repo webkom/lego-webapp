@@ -71,6 +71,24 @@ type ConfirmModalProps = {
   danger?: boolean;
 };
 
+/**
+ * Confirmation modal, for use on buttons or other components that require a confirmation
+ * before performing an action.
+ *
+ * ### Example Usage
+ * ```tsx
+ * <ConfirmModal
+ *  title="Er du sikker?"
+ *  message="Ikke gjør noe du kommer til å angre på!"
+ *  onConfirm={() => deleteSomething()}
+ *  onCancel={() => console.log('Crisis averted!')}
+ * >
+ *   {({ openConfirmModal }) => (
+ *     <Button onPress={openConfirmModal}>Slett...</Button>
+ *   )}
+ * </ConfirmModal>
+ * ```
+ */
 const ConfirmModal = ({
   onConfirm = async () => {},
   onCancel = async () => {},
