@@ -35,14 +35,14 @@ const ConfirmModalContent = ({
       <h2 className={danger ? styles.dangerTitle : undefined}>{title}</h2>
     </Flex>
     <span>{message}</span>
-    <div>
+    <Flex wrap gap="var(--spacing-sm)">
       <Button flat disabled={disabled} onPress={onCancel}>
         {cancelText}
       </Button>
       <Button danger={danger} disabled={disabled} onPress={onConfirm}>
         {confirmText}
       </Button>
-    </div>
+    </Flex>
     {errorMessage && <p className={styles.errorMessage}>{errorMessage} </p>}
   </Flex>
 );
