@@ -1,7 +1,7 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
@@ -105,7 +105,7 @@ const ThreadEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap gap="var(--spacing-md)">
+            <ButtonGroup>
               <Button
                 flat
                 onPress={() =>
@@ -135,7 +135,7 @@ const ThreadEditor = () => {
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </LegoFinalForm>

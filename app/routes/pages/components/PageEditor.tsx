@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
   Flex,
   Icon,
@@ -193,7 +194,7 @@ const PageEditor = () => {
               uploadFile={uploadFile}
             />
 
-            <Flex wrap gap="var(--spacing-md)">
+            <ButtonGroup>
               {!isNew && (
                 <ConfirmModal
                   title="Slett side"
@@ -210,7 +211,7 @@ const PageEditor = () => {
               )}
 
               <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </TypedLegoForm>

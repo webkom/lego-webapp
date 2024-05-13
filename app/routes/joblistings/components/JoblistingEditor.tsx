@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
   Flex,
   Icon,
@@ -340,7 +341,7 @@ const JoblistingEditor = () => {
               required
             />
             <SubmissionError />
-            <Flex wrap gap="var(--spacing-md)">
+            <ButtonGroup>
               <LinkButton href={`/joblistings/${isNew ? '' : joblistingId}`}>
                 Avbryt
               </LinkButton>
@@ -361,7 +362,7 @@ const JoblistingEditor = () => {
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </LegoFinalForm>

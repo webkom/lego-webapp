@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   Card,
   ConfirmModal,
   Flex,
@@ -344,7 +345,7 @@ const GalleryEditor = () => {
               component={ObjectPermissions}
             />
 
-            <Flex className={styles.buttonRow} wrap gap="var(--spacing-md)">
+            <ButtonGroup className={styles.buttonRow}>
               <LinkButton flat href={`/photos/${gallery?.id ?? ''}`}>
                 Avbryt
               </LinkButton>
@@ -363,7 +364,7 @@ const GalleryEditor = () => {
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </TypedLegoForm>

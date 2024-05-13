@@ -1,4 +1,4 @@
-import { Button, Icon, LinkButton } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Icon, LinkButton } from '@webkom/lego-bricks';
 import { useCallback, useState } from 'react';
 import { hideSurvey, shareSurvey } from 'app/actions/SurveyActions';
 import { ContentSidebar } from 'app/components/Content';
@@ -56,19 +56,21 @@ const AdminSideBar = ({
       <ContentSidebar>
         <h3>Admin</h3>
 
-        <LinkButton href="/surveys/add">
-          <Icon name="add" size={19} />
-          Ny undersøkelse
-        </LinkButton>
+        <ButtonGroup vertical>
+          <LinkButton href="/surveys/add">
+            <Icon name="add" size={19} />
+            Ny undersøkelse
+          </LinkButton>
 
-        <LinkButton href={`/surveys/${surveyId}/edit`}>
-          <Icon name="create-outline" size={19} />
-          Rediger
-        </LinkButton>
+          <LinkButton href={`/surveys/${surveyId}/edit`}>
+            <Icon name="create-outline" size={19} />
+            Rediger
+          </LinkButton>
 
-        {actionGrant && actionGrant.includes('csv') && exportSurvey && (
-          <div>
-            {generatedCSV ? (
+          {actionGrant &&
+            actionGrant.includes('csv') &&
+            exportSurvey &&
+            (generatedCSV ? (
               <LinkButton
                 success
                 href={generatedCSV.url}
@@ -84,9 +86,8 @@ const AdminSideBar = ({
                 <Icon name="download-outline" size={19} />
                 Eksporter til CSV
               </Button>
-            )}
-          </div>
-        )}
+            ))}
+        </ButtonGroup>
 
         {actionGrant && actionGrant.includes('edit') && (
           <CheckBox

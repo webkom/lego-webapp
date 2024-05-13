@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -113,7 +113,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
         </Flex>
       </Flex>
       {!announcement.sent && (
-        <Flex className={styles.wrapperSendButton}>
+        <ButtonGroup className={styles.wrapperSendButton}>
           {actionGrant.includes('delete') && (
             <Button
               danger
@@ -140,7 +140,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               Send
             </Button>
           )}
-        </Flex>
+        </ButtonGroup>
       )}
     </Flex>
   );

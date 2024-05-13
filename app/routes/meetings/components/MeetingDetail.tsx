@@ -1,6 +1,6 @@
 import {
   Button,
-  Flex,
+  ButtonGroup,
   Icon,
   LinkButton,
   LoadingIndicator,
@@ -114,7 +114,7 @@ const MeetingDetails = () => {
   ) =>
     statusMe &&
     moment(startTime) > moment() && (
-      <li className={styles.statusButtons}>
+      <ButtonGroup className={styles.statusButtons}>
         <Button
           success
           onPress={acceptInvitation}
@@ -129,7 +129,7 @@ const MeetingDetails = () => {
         >
           Avslå
         </Button>
-      </li>
+      </ButtonGroup>
     );
 
   if (!meeting || !currentUser) {
@@ -207,9 +207,8 @@ const MeetingDetails = () => {
             )}
           </ul>
 
-          <Flex column gap={7}>
-            <h3>Admin</h3>
-
+          <h3>Admin</h3>
+          <ButtonGroup>
             <AnnouncementInLine meeting={meeting} />
             {canEdit && (
               <LinkButton href={`/meetings/${meeting.id}/edit`}>
@@ -217,7 +216,7 @@ const MeetingDetails = () => {
                 Rediger
               </LinkButton>
             )}
-          </Flex>
+          </ButtonGroup>
         </ContentSidebar>
       </ContentSection>
       <ContentSection>

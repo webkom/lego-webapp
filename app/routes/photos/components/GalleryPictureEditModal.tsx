@@ -1,4 +1,10 @@
-import { Button, Flex, LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  LoadingIndicator,
+  Modal,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -151,7 +157,7 @@ const GalleryPictureEditModal = () => {
                 component={SelectInput.AutocompleteField}
                 isMulti
               />
-              <Flex wrap gap="var(--spacing-md)">
+              <ButtonGroup>
                 <Button
                   flat
                   onPress={() => {
@@ -171,7 +177,7 @@ const GalleryPictureEditModal = () => {
                 >
                   Slett
                 </Button>
-              </Flex>
+              </ButtonGroup>
             </Form>
           )}
         </TypedLegoForm>

@@ -1,4 +1,4 @@
-import { Button, ConfirmModal, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, ConfirmModal, Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { updatePhotoConsent } from 'app/actions/UserActions';
@@ -48,7 +48,7 @@ const ConsentManager = ({
           ''
         )}
       </div>
-      <div className={styles.consentBtnContainer}>
+      <ButtonGroup>
         <ConfirmModal
           closeOnConfirm={true}
           title={`Trekke bildesamtykke på ${presentableDomain}`}
@@ -62,7 +62,6 @@ const ConsentManager = ({
               onPress={openConfirmModal}
               dark
               disabled={!isCurrentUser || consent.isConsenting === false}
-              className={styles.consentBtn}
             >
               Trekk samtykke
             </Button>
@@ -72,11 +71,10 @@ const ConsentManager = ({
           success
           disabled={!isCurrentUser || consent.isConsenting === true}
           onPress={() => updateConsent({ ...consent, isConsenting: true })}
-          className={styles.consentBtn}
         >
           Behold samtykke
         </Button>
-      </div>
+      </ButtonGroup>
     </>
   );
 };

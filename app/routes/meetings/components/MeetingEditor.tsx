@@ -1,4 +1,5 @@
 import {
+  ButtonGroup,
   ConfirmModal,
   Flex,
   Icon,
@@ -427,7 +428,7 @@ const MeetingEditor = () => {
               )}
 
               <SubmissionError />
-              <Flex wrap gap="var(--spacing-md)">
+              <ButtonGroup>
                 <Button
                   flat
                   onPress={() =>
@@ -453,7 +454,7 @@ const MeetingEditor = () => {
                     )}
                   </ConfirmModal>
                 )}
-              </Flex>
+              </ButtonGroup>
             </Form>
           );
         }}

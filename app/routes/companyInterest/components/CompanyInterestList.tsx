@@ -233,9 +233,9 @@ const CompanyInterestList = () => {
         <LinkButton href="/companyInterest/semesters">
           Endre aktive semestre
         </LinkButton>
-        <Link to="/companyInterest/create">
-          <Button>Opprett ny bedriftsinteresse</Button>
-        </Link>
+        <LinkButton href="/companyInterest/create">
+          Opprett ny bedriftsinteresse
+        </LinkButton>
       </Flex>
 
       <Flex
@@ -257,16 +257,17 @@ const CompanyInterestList = () => {
         </Flex>
 
         {generatedCSV ? (
-          <a href={generatedCSV.url} download={generatedCSV.filename}>
-            Last ned
-          </a>
+          <LinkButton
+            success
+            href={generatedCSV.url}
+            download={generatedCSV.filename}
+          >
+            <Icon name="download-outline" size={19} />
+            Last ned CSV
+          </LinkButton>
         ) : (
           <Tooltip
-            style={
-              selectedSemesterFilterOption.year
-                ? { display: 'none' }
-                : undefined
-            }
+            disabled={!!selectedSemesterFilterOption.year}
             content={'Vennligst velg semester'}
           >
             <Button

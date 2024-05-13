@@ -1,4 +1,4 @@
-import { Flex, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
+import { ButtonGroup, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { isEmpty } from 'lodash';
@@ -405,7 +405,7 @@ const EventEditor = () => {
               />
             )}
 
-            <Flex wrap gap="var(--spacing-md)">
+            <ButtonGroup>
               {isEditPage && (
                 <LinkButton flat href={`/events/${event.slug}`}>
                   Avbryt
@@ -414,7 +414,7 @@ const EventEditor = () => {
               <SubmitButton>
                 {isEditPage ? 'Lagre endringer' : 'Opprett'}
               </SubmitButton>
-            </Flex>
+            </ButtonGroup>
 
             {isEditPage && <Admin actionGrant={actionGrant} event={values} />}
           </Form>

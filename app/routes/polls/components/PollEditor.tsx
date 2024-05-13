@@ -1,4 +1,4 @@
-import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, ConfirmModal, Icon } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -189,7 +189,7 @@ const PollEditor = ({
             />
 
             <SubmissionError />
-            <Flex className={styles.actionButtons} wrap gap="var(--spacing-md)">
+            <ButtonGroup className={styles.actionButtons}>
               <SubmitButton>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </SubmitButton>
@@ -212,7 +212,7 @@ const PollEditor = ({
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </form>
         )}
       </LegoFinalForm>

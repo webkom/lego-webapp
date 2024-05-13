@@ -1,11 +1,3 @@
-.consentBtn {
-  height: 2.9rem;
-}
-
-.consentBtnContainer {
-  display: flex;
-}
-
 .categoryTitle {
   margin-top: var(--spacing-xl);
 }

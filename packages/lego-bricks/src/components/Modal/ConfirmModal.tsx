@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../Button';
+import { ButtonGroup } from '../Button/ButtonGroup';
 import { Icon } from '../Icon';
 import { Flex } from '../Layout';
 import styles from './ConfirmModal.module.css';
@@ -35,14 +36,14 @@ const ConfirmModalContent = ({
       <h2 className={danger ? styles.dangerTitle : undefined}>{title}</h2>
     </Flex>
     <span>{message}</span>
-    <Flex wrap gap="var(--spacing-sm)">
+    <ButtonGroup>
       <Button flat disabled={disabled} onPress={onCancel}>
         {cancelText}
       </Button>
       <Button danger={danger} disabled={disabled} onPress={onConfirm}>
         {confirmText}
       </Button>
-    </Flex>
+    </ButtonGroup>
     {errorMessage && <p className={styles.errorMessage}>{errorMessage} </p>}
   </Flex>
 );
