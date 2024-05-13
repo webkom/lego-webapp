@@ -5,9 +5,9 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { unionBy } from 'lodash';
+import { debounce, unionBy } from 'lodash';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -105,6 +105,8 @@ type MeetingEditorParams = {
 };
 const MeetingEditor = () => {
   const { meetingId } = useParams<MeetingEditorParams>();
+  const [formDirtyFlag, setFormDirtyFlag] = useState(0);
+  const [reportValue, setReportValue] = useState('');
   const meeting = useAppSelector((state) =>
     meetingId
       ? (selectMeetingById(state, meetingId) as DetailedMeeting)
@@ -121,6 +123,34 @@ const MeetingEditor = () => {
       ? selectUserById(state, meeting?.reportAuthor)
       : undefined,
   );
+
+  //For some reason calling the debounce function directly was wack.
+  //Also, we want to check if the new length is greater than the old one or if it doesn't exist already.
+  const updateReportValue = useMemo(() => {
+    const debouncedUpdate = debounce((newReportValue) => {
+      const storedReport = sessionStorage.getItem(
+        `meeting-${meetingId}-report`,
+      );
+      if (!storedReport || storedReport.length < newReportValue.length) {
+        setReportValue(newReportValue);
+      }
+    }, 4500);
+
+    return (newReportValue) => {
+      debouncedUpdate(newReportValue);
+    };
+  }, [meetingId]);
+
+  useEffect(() => {
+    if (meeting && meetingId) {
+      const storedReport = sessionStorage.getItem(
+        `meeting-${meeting?.id}-report`,
+      );
+      if (!storedReport || storedReport.length < reportValue.length) {
+        sessionStorage.setItem(`meeting-${meeting?.id}-report`, reportValue);
+      }
+    }
+  }, [reportValue, meeting, meetingId]);
 
   const currentUser = useCurrentUser();
 
@@ -239,6 +269,14 @@ const MeetingEditor = () => {
 
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
 
+  const loadReportFromLocalStorage = (form) => {
+    const storedReport = sessionStorage.getItem(`meeting-${meeting.id}-report`);
+    if (storedReport) {
+      form.change('report', storedReport);
+      setFormDirtyFlag(formDirtyFlag + 1);
+    }
+  };
+
   return (
     <Content>
       <Helmet title={title} />
@@ -269,7 +307,16 @@ const MeetingEditor = () => {
                 name="report"
                 label="Referat"
                 component={EditorField.Field}
+                key={formDirtyFlag}
               />
+
+              <FormSpy
+                subscription={{ values: true }}
+                onChange={({ values }) => {
+                  updateReportValue(values.report || '');
+                }}
+              />
+
               <Field
                 name="description"
                 label="Kort beskrivelse"
@@ -453,6 +500,26 @@ const MeetingEditor = () => {
                     )}
                   </ConfirmModal>
                 )}
+                {isEditPage &&
+                  canDelete &&
+                  sessionStorage.getItem(`meeting-${meeting.id}-report`) !==
+                    null && (
+                    <ConfirmModal
+                      title="Hente inn referat fra sessionStorage?"
+                      message={`Fant en lagret backup for dette møtet. Dette vil overskrive det nåværende referatet lokalt.`}
+                      onConfirm={() => {
+                        loadReportFromLocalStorage(form);
+                      }}
+                      closeOnConfirm
+                    >
+                      {({ openConfirmModal }) => (
+                        <Button danger onClick={openConfirmModal}>
+                          <Icon name="cloud-download-outline" />
+                          Hent lokalt referat
+                        </Button>
+                      )}
+                    </ConfirmModal>
+                  )}
               </Flex>
             </Form>
           );
