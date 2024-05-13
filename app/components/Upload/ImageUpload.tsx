@@ -1,6 +1,6 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useEffect, useState, useCallback, useMemo, Component } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
@@ -28,12 +28,6 @@ type Props = BaseProps &
     | { multiple: false; onSubmit: (file: File) => void }
   );
 
-type State = {
-  cropOpen: boolean;
-  file: DropFile | null | undefined;
-  files: Array<DropFile>;
-  img: string | null | undefined;
-};
 type FilePreviewProps = {
   file: DropFile;
   onRemove: () => void;
@@ -141,166 +135,145 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
   );
 };
 
-export default class ImageUpload extends Component<Props, State> {
-  crop: Cropper;
-  state = {
-    cropOpen: this.props.inModal || false,
-    file: null,
-    files: [],
-    img: this.props.img || null,
-  };
-  static defaultProps = {
-    crop: true,
-    inModal: false,
-    multiple: false,
-  };
-  onDrop = (files: Array<DropFile>) => {
-    if (this.props.crop && files[0]) {
-      const file: DropFile = files[0];
-      file.preview = URL.createObjectURL(files[0]);
-      this.setState({
-        file: file,
-        cropOpen: true,
-      });
+const ImageUpload = ({
+  crop = true,
+  inModal = false,
+  multiple = false,
+  aspectRatio,
+  ...props
+}: Props) => {
+  const cropper = useRef<Cropper>();
+  const [cropOpen, setCropOpen] = useState(inModal);
+  const [files, setFiles] = useState<DropFile[]>([]);
+  const file: DropFile | undefined = files[0];
+  const [img, setImg] = useState<string | undefined>(props.img);
+
+  useEffect(() => {
+    setImg(props.img);
+  }, [props.img]);
+
+  useEffect(() => {
+    return () => {
+      file && file.preview && URL.revokeObjectURL(file.preview);
+    };
+  }, [file]);
+
+  const onDrop = (droppedFiles: DropFile[]) => {
+    if (crop && droppedFiles[0]) {
+      const file = droppedFiles[0];
+      file.preview = URL.createObjectURL(file);
+      setFiles([file]);
+      setCropOpen(true);
     }
 
-    if (this.props.multiple && !this.props.crop) {
-      this.setState({
-        files: this.state.files.concat(files),
-      });
+    if (multiple && !crop) {
+      setFiles((files) => files.concat(droppedFiles));
     }
   };
-  onSubmit = () => {
-    if (this.props.crop && !this.props.multiple && this.state.file) {
-      const { name } = this.state.file;
-      if (this.crop) {
-        this.crop.getCroppedCanvas().toBlob((image) => {
+
+  const onSubmit = () => {
+    if (crop && !multiple && file) {
+      const { name } = file;
+      if (cropper.current) {
+        cropper.current.getCroppedCanvas().toBlob((image) => {
+          if (!image) return;
           const file = new File([image], name);
-          this.props.onSubmit(file);
-          this.setState(() => ({
-            img: window.URL.createObjectURL(image),
-          }));
-          this.closeModal();
+          props.onSubmit(file);
+          setImg(URL.createObjectURL(image));
+          closeModal();
         });
       }
     }
 
-    if (this.props.multiple && this.state.files.length) {
-      this.props.onSubmit(this.state.files);
+    if (multiple && files.length) {
+      props.onSubmit(files);
     }
 
-    this.closeModal();
+    closeModal();
   };
-  closeModal = () => {
-    if (this.state.cropOpen) {
-      this.setState({
-        cropOpen: false,
-      });
-    }
 
-    if (this.props.onClose) {
-      this.props.onClose();
+  const closeModal = () => {
+    if (cropOpen) {
+      setCropOpen(false);
     }
+    props.onClose?.();
   };
-  onNameChange = (index: number, name: string) => {
-    if (this.props.multiple) {
-      this.setState((state) => {
-        const files = state.files.slice();
-        files[index] = { ...files[index], name };
-        return {
-          files,
-        };
-      });
-    }
-  };
-  onRemove = (index: number) => {
-    if (this.props.multiple) {
-      const files = this.state.files.filter((_file, i) => index !== i);
-      this.setState({
-        files,
-      });
-    }
-  };
-  componentDidUpdate = (props: Props) => {
-    if (props.img !== this.props.img) {
-      this.setState({
-        img: this.props.img,
-      });
+
+  const onRemove = (index: number) => {
+    if (multiple) {
+      setFiles((files) => files.filter((_file, i) => index !== i));
     }
   };
 
-  componentWillUnmount() {
-    const { file } = this.state;
-    file && file.preview && URL.revokeObjectURL(file.preview);
-  }
-
-  render() {
-    const { inModal, aspectRatio, multiple, crop } = this.props;
-    const { cropOpen, file, files } = this.state;
-    const preview = file && file.preview;
-    const accept: Accept = {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.tif', '.bmp', '.avif'],
-    };
-    return (
-      <>
-        {!inModal && (
-          <UploadArea
-            onDrop={this.onDrop}
-            multiple={multiple}
-            image={this.state.img}
-            accept={accept}
-          />
-        )}
-        <Modal show={cropOpen} onHide={this.closeModal}>
-          <Flex className={styles.modal}>
-            {inModal && !preview && (
-              <div className={styles.inModalUpload}>
-                <UploadArea
-                  onDrop={this.onDrop}
-                  multiple={multiple}
-                  image={this.state.img}
-                  accept={accept}
-                />
-              </div>
-            )}
-            {preview && (
-              <Cropper
-                onInitialized={(cropper) => {
-                  this.crop = cropper;
-                }}
-                src={preview}
-                className={styles.cropper}
-                aspectRatio={aspectRatio}
-                guides={false}
-                autoCropArea={1}
+  const preview = file && file.preview;
+  const accept: Accept = {
+    'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.tif', '.bmp', '.avif'],
+  };
+  return (
+    <>
+      {!inModal && (
+        <UploadArea
+          onDrop={onDrop}
+          multiple={multiple}
+          image={img}
+          accept={accept}
+        />
+      )}
+      <Modal
+        isOpen={cropOpen}
+        onOpenChange={(open) => !open && closeModal()}
+        title={`Last opp bilde${multiple ? 'r' : ''}`}
+      >
+        <Flex column alignItems="center" gap="var(--spacing-md)">
+          {inModal && !preview && (
+            <div className={styles.inModalUpload}>
+              <UploadArea
+                onDrop={onDrop}
+                multiple={multiple}
+                image={img}
+                accept={accept}
               />
-            )}
-            {multiple && !crop && (
-              <Flex wrap column gap={7}>
-                {files.map((file, index) => (
-                  <FilePreview
-                    onRemove={() => this.onRemove(index)}
-                    file={file}
-                    key={file.name}
-                  />
-                ))}
-              </Flex>
-            )}
-            <Flex wrap gap={35}>
-              <Button flat onPress={() => this.closeModal()}>
-                Avbryt
-              </Button>
-              <Button
-                secondary
-                disabled={files.length === 0 && !preview}
-                onPress={this.onSubmit}
-              >
-                Last opp
-              </Button>
+            </div>
+          )}
+          {preview && (
+            <Cropper
+              onInitialized={(c) => {
+                cropper.current = c;
+              }}
+              src={preview}
+              className={styles.cropper}
+              aspectRatio={aspectRatio}
+              guides={false}
+              autoCropArea={1}
+            />
+          )}
+          {multiple && !crop && (
+            <Flex wrap column gap={7}>
+              {files.map((file, index) => (
+                <FilePreview
+                  onRemove={() => onRemove(index)}
+                  file={file}
+                  key={file.name}
+                />
+              ))}
             </Flex>
+          )}
+          <Flex wrap gap="var(--spacing-md)">
+            <Button flat onPress={() => closeModal()}>
+              Avbryt
+            </Button>
+            <Button
+              secondary
+              disabled={files.length === 0 && !preview}
+              onPress={onSubmit}
+            >
+              Last opp
+            </Button>
           </Flex>
-        </Modal>
-      </>
-    );
-  }
-}
+        </Flex>
+      </Modal>
+    </>
+  );
+};
+
+export default ImageUpload;

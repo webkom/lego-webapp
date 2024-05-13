@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  DialogTrigger,
   Flex,
   Icon,
   LinkButton,
@@ -11,7 +12,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
 import { Link, useParams } from 'react-router-dom';
@@ -167,8 +167,6 @@ type PermissionTreeNode = Group & {
 type PermissionTree = { [key: number]: PermissionTreeNode };
 
 const UserProfile = () => {
-  const [showAbaId, setShowAbaId] = useState(false);
-
   const params = useParams<{ username: string }>();
   const currentUser = useCurrentUser();
   const isCurrentUser = useIsCurrentUser(params.username);
@@ -433,17 +431,6 @@ const UserProfile = () => {
     <div className={styles.root}>
       <Helmet title={`${firstName} ${lastName}`} />
 
-      <Modal
-        contentClassName={styles.abaIdModal}
-        show={showAbaId}
-        onHide={() => {
-          setShowAbaId(false);
-        }}
-      >
-        <QRCode value={user.username ?? ''} />
-        <h2>{user.username}</h2>
-      </Modal>
-
       <Flex wrap className={styles.header}>
         <Flex column alignItems="center" className={styles.sidebar}>
           <Flex alignItems="center" justifyContent="center">
@@ -453,19 +440,23 @@ const UserProfile = () => {
             <ProfilePicture user={user} size={150} />
           </Flex>
           {isCurrentUser && (
-            <Button
-              className={
-                hasFrame
-                  ? cx(styles.abaIdButton, styles.frameMargin)
-                  : styles.abaIdButton
-              }
-              onPress={() => {
-                setShowAbaId(true);
-              }}
-            >
-              <Icon className={styles.qrIcon} name="qr-code" size={18} />
-              Vis ABA-ID
-            </Button>
+            <DialogTrigger>
+              <Button
+                className={cx(
+                  styles.abaIdButton,
+                  hasFrame && styles.frameMargin,
+                )}
+              >
+                <Icon className={styles.qrIcon} name="qr-code" size={18} />
+                Vis ABA-ID
+              </Button>
+              <Modal title="ABA-ID">
+                <Flex column alignItems="center">
+                  <QRCode value={user.username ?? ''} />
+                  <h2>{user.username}</h2>
+                </Flex>
+              </Modal>
+            </DialogTrigger>
           )}
         </Flex>
         <Flex column className={styles.rightContent}>

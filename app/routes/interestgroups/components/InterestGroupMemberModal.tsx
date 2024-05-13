@@ -10,7 +10,6 @@ import styles from './InterestGroupMemberList.css';
 import type { TransformedMembership } from 'app/reducers/memberships';
 import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
-import type { ReactNode } from 'react';
 
 const nameStyleByRole: Partial<Record<RoleType, string>> = {
   leader: styles.leader,
@@ -61,14 +60,10 @@ const ListedUser = ({ user, role }: { user: PublicUser; role: RoleType }) => (
 // Reversed sort order
 const SORT_ORDER = ['member', 'co_leader', 'leader'];
 type Props = {
-  children: ReactNode;
   memberships: TransformedMembership[];
 };
-const InterestGroupMemberList = ({ memberships, children }: Props) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const InterestGroupMemberModal = ({ memberships }: Props) => {
   const [filter, setFilter] = useState('');
-
-  const toggleModal = () => setModalVisible(!modalVisible);
 
   const filteredMemberships = memberships.filter((membership) =>
     membership.user.fullName.toLowerCase().includes(filter.toLowerCase()),
@@ -78,31 +73,27 @@ const InterestGroupMemberList = ({ memberships, children }: Props) => {
   ).reverse();
 
   return (
-    <>
-      <div onClick={toggleModal}>{children}</div>
-      <Modal show={modalVisible} onHide={toggleModal}>
-        <Flex column gap="var(--spacing-md)" className={shared.modal}>
-          <h2>Medlemmer</h2>
-          <TextInput
-            type="text"
-            prefix="search"
-            placeholder="Søk etter navn"
-            onChange={(e) => setFilter(e.target.value)}
-          />
+    <Modal title="Medlemmer">
+      <Flex column gap="var(--spacing-md)" className={shared.modal}>
+        <TextInput
+          type="text"
+          prefix="search"
+          placeholder="Søk etter navn"
+          onChange={(e) => setFilter(e.target.value)}
+        />
 
-          <ul className={shared.list}>
-            {sorted.map((membership) => (
-              <ListedUser
-                key={membership.user.id}
-                user={membership.user}
-                role={membership.role}
-              />
-            ))}
-          </ul>
-        </Flex>
-      </Modal>
-    </>
+        <ul className={shared.list}>
+          {sorted.map((membership) => (
+            <ListedUser
+              key={membership.user.id}
+              user={membership.user}
+              role={membership.role}
+            />
+          ))}
+        </ul>
+      </Flex>
+    </Modal>
   );
 };
 
-export default InterestGroupMemberList;
+export default InterestGroupMemberModal;

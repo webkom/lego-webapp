@@ -174,7 +174,6 @@ const EventEditor = () => {
     }
   }, [event.slug, navigate, eventIdOrSlug, isEditPage]);
 
-  const [showImageGallery, setShowImageGallery] = useState(false);
   const [useImageGallery, setUseImageGallery] = useState(false);
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
 
@@ -344,8 +343,6 @@ const EventEditor = () => {
                 useImageGallery={useImageGallery}
                 imageGalleryUrl={imageGalleryUrl}
                 event={event}
-                showImageGallery={showImageGallery}
-                setShowImageGallery={setShowImageGallery}
                 imageGallery={imageGallery}
                 setUseImageGallery={setUseImageGallery}
                 setImageGalleryUrl={setImageGalleryUrl}

@@ -1,9 +1,7 @@
 import { Button, Flex, Skeleton } from '@webkom/lego-bricks';
 import Tooltip from 'app/components/Tooltip';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import styles from './AttendanceStatus.css';
 import type { Pool } from './AttendanceModalContent';
-import type { AttendanceModalProps } from 'app/components/UserAttendance/AttendanceModal';
 
 type AttendancePool = Pool & {
   capacity?: number;
@@ -13,13 +11,13 @@ type AttendancePool = Pool & {
 type AttendanceElementProps = {
   pool: AttendancePool;
   index: number;
-  toggleModal: (tabIndex: number) => void;
+  openModalTab: (tabIndex: number) => void;
 };
 
 const AttendanceElement = ({
   pool: { name, registrations, registrationCount, capacity },
   index,
-  toggleModal,
+  openModalTab,
 }: AttendanceElementProps) => {
   const totalCount = registrations ? registrations.length : registrationCount;
 
@@ -31,7 +29,7 @@ const AttendanceElement = ({
         disabled={!registrations}
         onPress={() => {
           if (registrations) {
-            toggleModal(index);
+            openModalTab(index);
           }
         }}
       >
@@ -43,19 +41,17 @@ const AttendanceElement = ({
 
 export type AttendanceStatusProps = {
   pools: AttendancePool[];
-  toggleModal?: (index: number) => void;
+  openModalTab: (index: number) => void;
   legacyRegistrationCount?: number;
   skeleton?: boolean;
 };
 
 const AttendanceStatus = ({
   pools,
-  toggleModal,
+  openModalTab,
   legacyRegistrationCount,
   skeleton,
 }: AttendanceStatusProps) => {
-  const toggleKey = (key) => (pools.length > 1 ? key + 1 : key);
-
   if (skeleton && !pools.length) {
     return <Skeleton className={styles.attendanceBox} />;
   }
@@ -67,7 +63,7 @@ const AttendanceStatus = ({
           key={index}
           pool={pool}
           index={index}
-          toggleModal={(key) => toggleModal?.(toggleKey(key))}
+          openModalTab={openModalTab}
         />
       ))}
       {!!legacyRegistrationCount && (
@@ -81,25 +77,5 @@ const AttendanceStatus = ({
     </div>
   );
 };
-
-const AttendanceStatusModal = ({
-  pools,
-  legacyRegistrationCount,
-  title,
-  isMeeting,
-}: Omit<AttendanceStatusProps, 'toggleModal'> &
-  Omit<AttendanceModalProps, 'children'>) => (
-  <AttendanceModal pools={pools} title={title} isMeeting={isMeeting}>
-    {({ toggleModal }) => (
-      <AttendanceStatus
-        pools={pools}
-        toggleModal={toggleModal}
-        legacyRegistrationCount={legacyRegistrationCount}
-      />
-    )}
-  </AttendanceModal>
-);
-
-AttendanceStatus.Modal = AttendanceStatusModal;
 
 export default AttendanceStatus;

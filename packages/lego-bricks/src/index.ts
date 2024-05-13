@@ -3,7 +3,7 @@ import './Modules.d.ts';
 import './global.css';
 
 export type { PressEvent } from 'react-aria-components';
-export { RouterProvider } from 'react-aria-components';
+export { RouterProvider, DialogTrigger } from 'react-aria-components';
 
 export { Button, LinkButton } from './components/Button';
 export { Container, Flex } from './components/Layout';

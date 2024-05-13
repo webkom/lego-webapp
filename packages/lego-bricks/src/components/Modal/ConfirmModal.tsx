@@ -35,14 +35,14 @@ const ConfirmModalContent = ({
       <h2 className={danger ? styles.dangerTitle : undefined}>{title}</h2>
     </Flex>
     <span>{message}</span>
-    <div>
+    <Flex wrap gap="var(--spacing-sm)">
       <Button flat disabled={disabled} onPress={onCancel}>
         {cancelText}
       </Button>
       <Button danger={danger} disabled={disabled} onPress={onConfirm}>
         {confirmText}
       </Button>
-    </div>
+    </Flex>
     {errorMessage && <p className={styles.errorMessage}>{errorMessage} </p>}
   </Flex>
 );
@@ -71,6 +71,24 @@ type ConfirmModalProps = {
   danger?: boolean;
 };
 
+/**
+ * Confirmation modal, for use on buttons or other components that require a confirmation
+ * before performing an action.
+ *
+ * ### Example Usage
+ * ```tsx
+ * <ConfirmModal
+ *  title="Er du sikker?"
+ *  message="Ikke gjør noe du kommer til å angre på!"
+ *  onConfirm={() => deleteSomething()}
+ *  onCancel={() => console.log('Crisis averted!')}
+ * >
+ *   {({ openConfirmModal }) => (
+ *     <Button onPress={openConfirmModal}>Slett...</Button>
+ *   )}
+ * </ConfirmModal>
+ * ```
+ */
 const ConfirmModal = ({
   onConfirm = async () => {},
   onCancel = async () => {},
@@ -117,9 +135,9 @@ const ConfirmModal = ({
     <>
       {children({ openConfirmModal: () => setModalVisible(true) })}
       <Modal
-        closeOnBackdropClick={!working}
-        show={modalVisible}
-        onHide={() => setModalVisible(false)}
+        isDismissable={!working}
+        isOpen={modalVisible}
+        onOpenChange={setModalVisible}
       >
         <ConfirmModalContent
           onConfirm={modalOnConfirm}

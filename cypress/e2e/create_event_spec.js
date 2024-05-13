@@ -123,6 +123,7 @@ describe('Create event', () => {
     cy.get('.ReactCrop__drag-handle.ord-n').click({ force: true });
 
     cy.get(t('Modal__content'))
+      .get('button')
       .contains('Last opp')
       .should('not.be.disabled')
       .click();

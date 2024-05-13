@@ -1,7 +1,6 @@
 @import url('~app/styles/variables.css');
 
 .content {
-  padding: 0;
   width: var(--lego-max-width);
   max-height: calc(100vh - 100px);
 }

@@ -286,8 +286,9 @@ const GalleryPictureModal = () => {
 
   return (
     <Modal
-      onHide={() => navigate(`/photos/${gallery.id}`)}
-      show
+      onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
+      isDismissable={false} // Avoid closing the modal when pressing something from the dropdown
+      isOpen
       contentClassName={styles.content}
     >
       <PropertyHelmet
@@ -302,7 +303,7 @@ const GalleryPictureModal = () => {
 
       <Swipeable onSwiping={handleSwipe}>
         <OnKeyDownHandler handler={handleKeyDown} />
-        <Content>
+        <Flex column gap="var(--spacing-md)">
           <Flex width="100%" justifyContent="space-between" alignItems="center">
             <Flex justifyContent="space-between">
               <Image
@@ -377,17 +378,15 @@ const GalleryPictureModal = () => {
               </Dropdown.List>
             </Dropdown>
           </Flex>
-        </Content>
 
-        <Flex className={styles.pictureContainer}>
-          <ProgressiveImage
-            key={picture.id}
-            src={picture.file}
-            alt={picture.description}
-          />
-        </Flex>
+          <Flex className={styles.pictureContainer}>
+            <ProgressiveImage
+              key={picture.id}
+              src={picture.file}
+              alt={picture.description}
+            />
+          </Flex>
 
-        <Content>
           <Flex justifyContent="center" gap="2.5rem">
             {hasPrevious && (
               <Icon
@@ -421,7 +420,7 @@ const GalleryPictureModal = () => {
               comments={comments}
             />
           )}
-        </Content>
+        </Flex>
       </Swipeable>
     </Modal>
   );
