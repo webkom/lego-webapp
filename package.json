@@ -180,7 +180,7 @@
     "postcss-import": "^16.1.0",
     "postcss-loader": "^7.3.4",
     "postcss-nested": "^6.0.1",
-    "postcss-preset-env": "^9.5.9",
+    "postcss-preset-env": "^9.5.13",
     "prettier": "3.2.5",
     "process": "^0.11.10",
     "react-refresh": "^0.14.2",
