@@ -109,21 +109,6 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   }
 };
 
-const RenderGalleryPicture = ({
-  id,
-  handleDelete,
-  clickedDeletePicture,
-}: {
-  id: number;
-  handleDelete: (arg0: number) => void;
-  clickedDeletePicture: number;
-}) => (
-  <button onClick={() => handleDelete(id)}>
-    {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
-    <Icon name="trash-outline" />
-  </button>
-);
-
 const Swipeable = (props: {
   onSwiping: (arg0: { dir: string }) => void;
   children: ReactNode;
@@ -368,11 +353,12 @@ const GalleryPictureModal = () => {
                         e.stopPropagation();
                       }}
                     >
-                      <RenderGalleryPicture
-                        handleDelete={handleDelete}
-                        id={pictureId}
-                        clickedDeletePicture={clickedDeletePicture}
-                      />
+                      <button onClick={() => handleDelete(Number(pictureId))}>
+                        {clickedDeletePicture === Number(pictureId)
+                          ? 'Er du sikker?'
+                          : 'Slett'}
+                        <Icon name="trash-outline" />
+                      </button>
                     </Dropdown.ListItem>,
                   ]}
               </Dropdown.List>
@@ -415,7 +401,6 @@ const GalleryPictureModal = () => {
           )}
           {picture.contentTarget && (
             <CommentView
-              formEnabled
               contentTarget={picture.contentTarget}
               comments={comments}
             />

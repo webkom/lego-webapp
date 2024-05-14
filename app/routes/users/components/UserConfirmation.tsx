@@ -1,4 +1,4 @@
-import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
+import { ButtonGroup, Card, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { normalize } from 'normalizr';
 import qs from 'qs';
@@ -99,12 +99,12 @@ const UserConfirmationForm = () => {
               at du er student.
             </span>
           </Card>
-          <Flex gap="var(--spacing-md)">
+          <ButtonGroup>
             <LinkButton success href="/users/me/settings/student-confirmation/">
               Verifiser studentstatus
             </LinkButton>
             <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
-          </Flex>
+          </ButtonGroup>
         </Content>
       </>
     );

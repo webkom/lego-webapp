@@ -1,7 +1,7 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
@@ -95,8 +95,7 @@ const ForumEditor = () => {
               component={TextArea.Field}
               id="forum-description"
             />
-            {/* Action buttons */}
-            <Flex wrap gap="var(--spacing-md)">
+            <ButtonGroup>
               <Button
                 flat
                 onPress={() =>
@@ -122,7 +121,7 @@ const ForumEditor = () => {
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </LegoFinalForm>

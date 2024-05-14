@@ -1,7 +1,7 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LinkButton,
 } from '@webkom/lego-bricks';
@@ -12,7 +12,6 @@ import { deleteEvent } from 'app/actions/EventActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { TextInput } from 'app/components/Form';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './Admin.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';
@@ -87,11 +86,11 @@ const Admin = ({ actionGrant, event }: Props) => {
     ) < 1;
 
   return (
-    <Flex column gap="0.5rem" className={styles.admin}>
-      {(canEdit || canDelete) && (
-        <>
-          <h3>Admin</h3>
+    (canEdit || canDelete) && (
+      <>
+        <h3>Admin</h3>
 
+        <ButtonGroup vertical>
           {showRegisterButton && (
             <LinkButton
               success
@@ -136,9 +135,9 @@ const Admin = ({ actionGrant, event }: Props) => {
           </LinkButton>
 
           {canDelete && <DeleteButton eventId={event.id} title={event.title} />}
-        </>
-      )}
-    </Flex>
+        </ButtonGroup>
+      </>
+    )
   );
 };
 

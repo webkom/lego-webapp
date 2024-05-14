@@ -1,4 +1,4 @@
-import { Button, Card, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './GalleryEditorActions.css';
 
@@ -25,7 +25,7 @@ const GalleryEditorActions = ({
         <span>
           <b>{selectedCount}</b> valgt
         </span>
-        <Flex wrap gap="var(--spacing-md)">
+        <ButtonGroup>
           <Button flat onPress={onDeselect}>
             Avbryt
           </Button>
@@ -44,7 +44,7 @@ const GalleryEditorActions = ({
           <Button danger onPress={onDeletePictures}>
             Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
           </Button>
-        </Flex>
+        </ButtonGroup>
       </Card>
     </Flex>
   );

@@ -1,4 +1,10 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  Icon,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
@@ -120,49 +126,46 @@ const LandingPage: PageRenderer<null> = () => {
           <Flex wrap gap="var(--spacing-md)">
             <div className={styles.socialMediaType}>
               <Icon name="logo-facebook" size={40} />
-              <div className={styles.socialMediaTypeLinks}>
+              <ButtonGroup vertical centered>
                 {socialMedia.facebook.map((page, index) => (
-                  <a
+                  <LinkButton
+                    flat
                     key={index}
                     href={page.link}
                     className={styles.socialMediaLink}
                   >
                     {page.textInfo}
-                  </a>
+                  </LinkButton>
                 ))}
                 {loggedIn && (
-                  <a
+                  <LinkButton
+                    flat
                     href="https://www.facebook.com/groups/398146436914007/"
-                    className={styles.socialMediaLink}
                   >
                     Medlemsgruppe
-                  </a>
+                  </LinkButton>
                 )}
-              </div>
+              </ButtonGroup>
             </div>
             <div className={styles.socialMediaType}>
               <Icon name="logo-instagram" size={40} />
-              <div className={styles.socialMediaTypeLinks}>
+              <ButtonGroup vertical centered>
                 {socialMedia.instagram.map((page, index) => (
-                  <a
-                    key={index}
-                    href={page.link}
-                    className={styles.socialMediaLink}
-                  >
+                  <LinkButton flat key={index} href={page.link}>
                     {page.textInfo}
-                  </a>
+                  </LinkButton>
                 ))}
-              </div>
+              </ButtonGroup>
             </div>
             <div className={styles.socialMediaType}>
               <Icon name="logo-snapchat" size={40} />
-              <div className={styles.socialMediaTypeLinks}>
+              <ButtonGroup vertical centered>
                 {socialMedia.snapchat.map((page, index) => (
-                  <Button flat key={index} className={styles.socialMediaLink}>
+                  <Button flat key={index}>
                     {page.name}
                   </Button>
                 ))}
-              </div>
+              </ButtonGroup>
             </div>
           </Flex>
         </div>

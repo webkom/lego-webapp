@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   LinkButton,
+  ButtonGroup,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
@@ -193,14 +194,16 @@ const MeetingList = () => {
       <LoadingIndicator
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
       />
-      {fetchMorePagination.hasMore && (
-        <Button onPress={fetchMore}>Last inn flere</Button>
-      )}
-      {fetchOlderPagination.hasMore && (
-        <Button flat onPress={fetchOlder}>
-          Hent gamle
-        </Button>
-      )}
+      <ButtonGroup>
+        {fetchMorePagination.hasMore && (
+          <Button onPress={fetchMore}>Last inn flere</Button>
+        )}
+        {fetchOlderPagination.hasMore && (
+          <Button flat onPress={fetchOlder}>
+            Hent gamle
+          </Button>
+        )}
+      </ButtonGroup>
     </Content>
   );
 };

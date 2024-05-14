@@ -1,4 +1,4 @@
-import { Card, Flex, Modal } from '@webkom/lego-bricks';
+import { ButtonGroup, Card, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -201,14 +201,14 @@ const StudentConfirmation = () => {
           </p>
         </div>
 
-        <Flex>
+        <ButtonGroup>
           <Button dark onPress={() => setAbakusMember(false)}>
             Jeg vil ikke bli medlem
           </Button>
           <Button success onPress={() => setAbakusMember(true)}>
             Jeg vil bli medlem
           </Button>
-        </Flex>
+        </ButtonGroup>
       </Modal>
     </>
   );

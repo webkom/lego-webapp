@@ -1,7 +1,7 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LinkButton,
   LoadingIndicator,
@@ -234,7 +234,7 @@ const ArticleEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap gap="var(--spacing-md)">
+            <ButtonGroup>
               <LinkButton flat href={`/articles/${isNew ? '' : articleId}`}>
                 Avbryt
               </LinkButton>
@@ -255,7 +255,7 @@ const ArticleEditor = () => {
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </TypedLegoForm>

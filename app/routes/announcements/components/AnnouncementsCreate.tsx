@@ -1,4 +1,4 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
@@ -215,7 +215,7 @@ const AnnouncementsCreate = () => {
             />
 
             {spyValues<FormValues>((values) => (
-              <Flex wrap>
+              <ButtonGroup>
                 <SubmitButton
                   onPress={() => {
                     values.send = false;
@@ -230,7 +230,7 @@ const AnnouncementsCreate = () => {
                 >
                   Opprett og send
                 </SubmitButton>
-              </Flex>
+              </ButtonGroup>
             ))}
             <Card severity="info">
               Du kan velge å sende kunngjøringen med en gang, eller lagre den og

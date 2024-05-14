@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Cropper } from 'react-cropper';
@@ -258,7 +258,7 @@ const ImageUpload = ({
               ))}
             </Flex>
           )}
-          <Flex wrap gap="var(--spacing-md)">
+          <ButtonGroup>
             <Button flat onPress={() => closeModal()}>
               Avbryt
             </Button>
@@ -269,7 +269,7 @@ const ImageUpload = ({
             >
               Last opp
             </Button>
-          </Flex>
+          </ButtonGroup>
         </Flex>
       </Modal>
     </>

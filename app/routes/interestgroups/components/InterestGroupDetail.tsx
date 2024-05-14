@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   DialogTrigger,
   Flex,
   Icon,
@@ -72,7 +73,7 @@ const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
     : () => dispatch(joinGroup(group.id, currentUser));
 
   return (
-    <Flex>
+    <ButtonGroup>
       <Button
         success={membership === undefined}
         danger={membership !== undefined}
@@ -80,7 +81,7 @@ const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
       >
         {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
       </Button>
-    </Flex>
+    </ButtonGroup>
   );
 };
 

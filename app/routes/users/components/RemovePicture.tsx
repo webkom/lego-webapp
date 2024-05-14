@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { removePicture } from 'app/actions/UserActions';
 import { useAppDispatch } from 'app/store/hooks';
@@ -22,7 +22,7 @@ const RemovePicture = (props: Props) => {
   const toggleSelected = () => setSelected(!selected);
 
   return (
-    <Flex wrap gap="var(--spacing-md)">
+    <ButtonGroup>
       {selected ? (
         <Button onPress={toggleSelected}>Avbryt</Button>
       ) : (
@@ -36,7 +36,7 @@ const RemovePicture = (props: Props) => {
           Bekreft
         </Button>
       )}
-    </Flex>
+    </ButtonGroup>
   );
 };
 
