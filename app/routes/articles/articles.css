@@ -1,11 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .frontpage {
-  composes: container from '~app/styles/utilities.css';
   margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 .frontpage > div {

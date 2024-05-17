@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .sortQuote {
   order: 2;
   width: 200px;

@@ -1,3 +1,4 @@
+import { Page } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
@@ -9,11 +10,10 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
 import { addToast } from 'app/reducers/toasts';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppDispatch } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
-import { navigation } from '../utils';
 import styles from './Quotes.css';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -35,8 +35,6 @@ const validate = createValidator({
 const AddQuote = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const actionGrant = useAppSelector((state) => state.quotes.actionGrant);
 
   const removeUnnecessaryDash = (source: string) => {
     const dashIndex = source.indexOf('-');
@@ -65,9 +63,8 @@ const AddQuote = () => {
     });
 
   return (
-    <div className={styles.root}>
-      <Helmet title="Nytt sitat" />
-      {navigation('Legg til sitat', actionGrant)}
+    <Page title="Legg til sitat" back={{ href: '/quotes' }}>
+      <Helmet title="Legg til sitat" />
 
       <LegoFinalForm
         onSubmit={onSubmit}
@@ -125,7 +122,7 @@ const AddQuote = () => {
           </>
         )}
       </LegoFinalForm>
-    </div>
+    </Page>
   );
 };
 

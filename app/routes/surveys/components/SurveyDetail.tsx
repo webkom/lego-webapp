@@ -1,7 +1,12 @@
-import { LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  LinkButton,
+  LoadingIndicator,
+  Page,
+  PageCover,
+} from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import { ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { displayNameForEventType } from 'app/routes/events/utils';
@@ -33,9 +38,20 @@ const SurveyDetailPage = () => {
   }
 
   return (
-    <Content banner={survey.templateType ? undefined : event.cover}>
+    <Page
+      cover={
+        <PageCover
+          image={survey.templateType ? undefined : event.cover}
+          imagePlaceholder={
+            survey.templateType ? undefined : event.coverPlaceholder
+          }
+        />
+      }
+      title={survey.title}
+      back={{ href: '/surveys' }}
+    >
       <Helmet title={survey.title} />
-      <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
+      <DetailNavigation surveyId={Number(survey.id)} />
 
       <ContentSection>
         <ContentMain>
@@ -78,7 +94,7 @@ const SurveyDetailPage = () => {
           token={survey.token}
         />
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

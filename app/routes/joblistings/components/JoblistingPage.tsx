@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
@@ -9,7 +9,6 @@ import { selectAllJoblistings } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { parseQueryString } from 'app/utils/useQuery';
 import JoblistingsList from './JoblistingList';
-import styles from './JoblistingPage.css';
 import JoblistingsRightNav from './JoblistingRightNav';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 
@@ -102,6 +101,7 @@ const JoblistingsPage = () => {
   }, [filteredJoblistings, order]);
 
   const dispatch = useAppDispatch();
+  const actionGrant = useAppSelector((state) => state.joblistings.actionGrant);
 
   usePreparedEffect(
     'fetchJoblistingPage',
@@ -110,13 +110,23 @@ const JoblistingsPage = () => {
   );
 
   return (
-    <div className={styles.root}>
+    <Page
+      title="Jobbannonser"
+      sidebar={{
+        title: 'Filter',
+        side: 'right',
+        icon: 'filter',
+        content: <JoblistingsRightNav />,
+      }}
+      actionButtons={
+        actionGrant.includes('create') && (
+          <LinkButton href="/joblistings/create">Ny jobbannonse</LinkButton>
+        )
+      }
+    >
       <Helmet title="Karriere" />
-      <Flex className={styles.page}>
-        <JoblistingsList joblistings={joblistings} />
-        <JoblistingsRightNav />
-      </Flex>
-    </div>
+      <JoblistingsList joblistings={joblistings} />
+    </Page>
   );
 };
 

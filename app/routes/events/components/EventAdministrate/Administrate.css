@@ -1,7 +1,3 @@
-.root {
-  composes: container from '~app/styles/utilities.css';
-}
-
 .grid {
   display: grid;
   grid-gap: 5px;

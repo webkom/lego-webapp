@@ -1,8 +1,4 @@
-import { LinkButton } from '@webkom/lego-bricks';
-import cx from 'classnames';
-import { useState } from 'react';
 import { CheckBox, RadioButton } from 'app/components/Form/';
-import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import { jobTypes as allJobTypes, yearValues } from '../constants';
 import { defaultJoblistingsQuery } from './JoblistingPage';
@@ -12,99 +8,71 @@ const JoblistingsRightNav = () => {
   const { query, setQueryValue } = useQuery(defaultJoblistingsQuery);
   const { order, grades, jobTypes, workplaces } = query;
 
-  const [displayOptions, setDisplayOptions] = useState<boolean>(true);
-
-  const actionGrant = useAppSelector((state) => state.joblistings.actionGrant);
-
   return (
-    <div className={styles.joblistingRightNav}>
-      <button
-        onClick={() => setDisplayOptions(!displayOptions)}
-        className={styles.optionsTitle}
-      >
-        <h2>Valg</h2>
-        <i
-          className={cx(
-            'fa fa-caret-down',
-            !displayOptions && styles.rotateCaret,
-          )}
-        />
-      </button>
-
-      <div
-        className={styles.options}
-        style={{
-          display: displayOptions ? 'block' : 'none',
+    <div className={styles.options}>
+      <h4 className={styles.rightHeader}>Sorter etter</h4>
+      <RadioButton
+        name="sort"
+        id="deadline"
+        label="Frist"
+        checked={order === 'deadline'}
+        onChange={() => {
+          setQueryValue('order')('deadline');
         }}
-      >
-        {actionGrant.includes('create') && (
-          <LinkButton href="/joblistings/create">Ny jobbannonse</LinkButton>
-        )}
+      />
+      <RadioButton
+        name="sort"
+        id="company"
+        label="Bedrift"
+        checked={order === 'company'}
+        onChange={() => {
+          setQueryValue('order')('company');
+        }}
+      />
+      <RadioButton
+        name="sort"
+        id="createdAt"
+        label="Publisert"
+        checked={order === 'createdAt'}
+        onChange={() => {
+          setQueryValue('order')('createdAt');
+        }}
+      />
 
-        <h4 className={styles.rightHeader}>Sorter etter</h4>
-        <RadioButton
-          name="sort"
-          id="deadline"
-          label="Frist"
-          checked={order === 'deadline'}
-          onChange={() => {
-            setQueryValue('order')('deadline');
-          }}
+      <h4 className={styles.rightHeader}>Klassetrinn</h4>
+      {yearValues.map((year) => (
+        <FilterCheckbox
+          key={year.value}
+          value={String(year.value)}
+          label={year.label}
+          activeFilters={grades}
+          onChange={setQueryValue('grades')}
         />
-        <RadioButton
-          name="sort"
-          id="company"
-          label="Bedrift"
-          checked={order === 'company'}
-          onChange={() => {
-            setQueryValue('order')('company');
-          }}
-        />
-        <RadioButton
-          name="sort"
-          id="createdAt"
-          label="Publisert"
-          checked={order === 'createdAt'}
-          onChange={() => {
-            setQueryValue('order')('createdAt');
-          }}
-        />
+      ))}
 
-        <h4 className={styles.rightHeader}>Klassetrinn</h4>
-        {yearValues.map((year) => (
+      <h4 className={styles.rightHeader}>Jobbtype</h4>
+      {allJobTypes.map((element) => {
+        return (
           <FilterCheckbox
-            key={year.value}
-            value={String(year.value)}
-            label={year.label}
-            activeFilters={grades}
-            onChange={setQueryValue('grades')}
+            key={element.value}
+            value={element.value}
+            label={element.label}
+            activeFilters={jobTypes}
+            onChange={setQueryValue('jobTypes')}
           />
-        ))}
+        );
+      })}
 
-        <h4 className={styles.rightHeader}>Jobbtype</h4>
-        {allJobTypes.map((element) => {
-          return (
-            <FilterCheckbox
-              key={element.value}
-              value={element.value}
-              label={element.label}
-              activeFilters={jobTypes}
-              onChange={setQueryValue('jobTypes')}
-            />
-          );
-        })}
-
-        <h4 className={styles.rightHeader}>Sted</h4>
-        {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
-          <FilterCheckbox
-            key={element}
-            value={element}
-            label={element}
-            activeFilters={workplaces}
-            onChange={setQueryValue('workplaces')}
-          />
-        ))}
-      </div>
+      <h4 className={styles.rightHeader}>Sted</h4>
+      {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
+        <FilterCheckbox
+          key={element}
+          value={element}
+          label={element}
+          activeFilters={workplaces}
+          onChange={setQueryValue('workplaces')}
+        />
+      ))}
     </div>
   );
 };

@@ -1,10 +1,15 @@
-import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Flex,
+  Icon,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import {
-  Content,
   ContentSection,
   ContentMain,
   ContentSidebar,
@@ -17,6 +22,7 @@ import PropertyHelmet from 'app/components/PropertyHelmet';
 import Time from 'app/components/Time';
 import config from 'app/config';
 import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
+import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isTruthy } from 'app/utils';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
@@ -88,9 +94,13 @@ const JoblistingDetail = () => {
   const canDelete = actionGrant.includes('delete');
 
   return (
-    <Content
-      banner={joblisting.company.logo}
-      youtubeUrl={joblisting.youtubeUrl}
+    <Page
+      cover={
+        <YoutubeCover
+          image={joblisting.company.logo}
+          youtubeUrl={joblisting.youtubeUrl}
+        />
+      }
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
@@ -235,7 +245,7 @@ const JoblistingDetail = () => {
           )}
         </ContentSidebar>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

@@ -5,14 +5,15 @@ import {
   Icon,
   LoadingIndicator,
   Image,
+  Page,
+  LinkButton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import { selectActiveCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -86,7 +87,6 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
 
 const CompaniesPage = () => {
   const [expanded, setExpanded] = useState(false);
-  const top = useRef<HTMLHeadingElement>(null);
 
   const companies = useAppSelector(selectActiveCompanies<ListCompany>);
   const { pagination } = useAppSelector((state) =>
@@ -99,6 +99,8 @@ const CompaniesPage = () => {
 
   const dispatch = useAppDispatch();
 
+  const actionGrant = useAppSelector((state) => state.companies.actionGrant);
+
   usePreparedEffect(
     'fetchAllCompanies',
     () => dispatch(fetchAll({ fetchMore: false })),
@@ -106,9 +108,15 @@ const CompaniesPage = () => {
   );
 
   return (
-    <Content>
+    <Page
+      title="Bedrifter"
+      actionButtons={
+        (actionGrant.includes('create') || actionGrant.includes('edit')) && (
+          <LinkButton href="/bdb">Bedriftsdatabasen</LinkButton>
+        )
+      }
+    >
       <Helmet title="Bedrifter" />
-      <h1 ref={top}>Bedrifter</h1>
 
       <div>
         <p className={styles.infoText}>
@@ -145,10 +153,7 @@ const CompaniesPage = () => {
           <Button
             flat
             className={styles.readMore}
-            onPress={() => {
-              setExpanded(false);
-              top.current?.scrollIntoView();
-            }}
+            onPress={() => setExpanded(false)}
           >
             Vis mindre
           </Button>
@@ -179,7 +184,7 @@ const CompaniesPage = () => {
       >
         <CompanyList companies={companies} />
       </InfiniteScroll>
-    </Content>
+    </Page>
   );
 };
 

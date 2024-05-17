@@ -1,7 +1,6 @@
+import { Card, Page } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Content } from 'app/components/Content';
 import StaticSubmission from '../StaticSubmission';
-import styles from '../surveys.css';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
@@ -11,29 +10,15 @@ type Props = {
 };
 
 const AlreadyAnswered = ({ survey, submission }: Props) => (
-  <Content>
-    <div className={styles.centerContent}>
-      <h1
-        style={{
-          display: 'block',
-        }}
-      >
-        Du har svart på denne undersøkelsen. Takk!
-      </h1>
+  <Page title={survey.title}>
+    <Card severity="info">
+      <Card.Header>Du har svart på denne undersøkelsen. Takk! </Card.Header>
       <Link to="/">Tilbake til forsiden</Link>
-    </div>
+    </Card>
 
-    <div>
-      <h3
-        style={{
-          display: 'block',
-        }}
-      >
-        Du svarte følgende:{' '}
-      </h3>
-      <StaticSubmission survey={survey} submission={submission} />
-    </div>
-  </Content>
+    <h2>Du svarte følgende: </h2>
+    <StaticSubmission survey={survey} submission={submission} />
+  </Page>
 );
 
 export default AlreadyAnswered;

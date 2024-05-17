@@ -1,4 +1,10 @@
-import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Icon,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,11 +13,9 @@ import {
   fetchGalleryPictures,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
-import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import { LoginRequiredPage } from 'app/components/LoginForm';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
@@ -107,9 +111,9 @@ const GalleryDetail = () => {
 
   if (!gallery || fetchingGalleries) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 
@@ -165,7 +169,36 @@ const GalleryDetail = () => {
   // Some galleries are open to the public
   if (gallery && gallery.createdAt) {
     return (
-      <Content>
+      <Page
+        title={gallery.title}
+        back={{
+          href: '/photos',
+        }}
+        actionButtons={[
+          actionGrant?.includes('edit') && (
+            <LinkButton
+              key="upload"
+              href={`/photos/${gallery.id}/?upload=true`}
+              onPress={() => toggleUpload()}
+            >
+              Last opp bilder
+            </LinkButton>
+          ),
+          actionGrant?.includes('edit') && (
+            <LinkButton key="edit" href={`/photos/${gallery.id}/edit`}>
+              Rediger
+            </LinkButton>
+          ),
+          <Button
+            key="download"
+            onPress={downloadGallery}
+            isPending={downloading}
+          >
+            <Icon name="download-outline" size={19} />
+            Last ned album
+          </Button>,
+        ]}
+      >
         <PropertyHelmet
           propertyGenerator={propertyGenerator}
           options={{ gallery }}
@@ -177,38 +210,7 @@ const GalleryDetail = () => {
           />
         </PropertyHelmet>
 
-        <NavigationTab
-          title={gallery.title}
-          back={{
-            label: 'Tilbake',
-            path: '/photos',
-          }}
-          details={
-            <>
-              <GalleryDetailsRow gallery={gallery} showDescription />
-              <div>
-                <Button onPress={downloadGallery} isPending={downloading}>
-                  <Icon name="download-outline" size={19} />
-                  Last ned album
-                </Button>
-              </div>
-            </>
-          }
-        >
-          {actionGrant?.includes('edit') && (
-            <>
-              <NavigationLink
-                to={`/photos/${gallery.id}/?upload=true`}
-                onClick={() => toggleUpload()}
-              >
-                Last opp bilder
-              </NavigationLink>
-              <NavigationLink to={`/photos/${gallery.id}/edit`}>
-                Rediger
-              </NavigationLink>
-            </>
-          )}
-        </NavigationTab>
+        <GalleryDetailsRow gallery={gallery} showDescription />
 
         <Gallery
           photos={pictures}
@@ -246,15 +248,15 @@ const GalleryDetail = () => {
             onSubmit={toggleUpload}
           />
         )}
-      </Content>
+      </Page>
     );
   }
 
   if (fetchingGalleryPictures) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 

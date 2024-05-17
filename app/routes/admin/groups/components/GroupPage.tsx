@@ -1,4 +1,5 @@
 import loadable from '@loadable/component';
+import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -8,7 +9,6 @@ import {
   useParams,
 } from 'react-router-dom';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
-import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
@@ -54,7 +54,7 @@ const GroupPageNavigation = ({
   groupId: string | null | undefined;
 }) => {
   return (
-    <NavigationTab title="Grupper">
+    <NavigationTab>
       {groupId && <NavigationLinks groupId={groupId} />}
     </NavigationTab>
   );
@@ -86,17 +86,23 @@ const GroupPage = () => {
   );
 
   return (
-    <Content>
-      <Helmet title={group ? group.name : 'Grupper'} />
-      <GroupPageNavigation groupId={groupId} />
-      <div className={styles.groupPage}>
-        <section className={styles.sidebar}>
+    <Page
+      title={group ? group.name : 'Grupper'}
+      sidebar={{
+        title: 'Grupper',
+        side: 'left',
+        icon: 'menu',
+        content: (
           <GroupTree
             groups={groups}
             pathname={location.pathname + location.search}
           />
-        </section>
-
+        ),
+      }}
+    >
+      <Helmet title={group ? group.name : 'Grupper'} />
+      <GroupPageNavigation groupId={groupId} />
+      <div className={styles.groupPage}>
         <section className={styles.main}>
           {group && (
             <header>
@@ -108,7 +114,7 @@ const GroupPage = () => {
           <Outlet />
         </section>
       </div>
-    </Content>
+    </Page>
   );
 };
 

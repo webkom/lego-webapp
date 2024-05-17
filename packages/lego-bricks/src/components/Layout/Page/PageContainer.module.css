@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto 1fr;
+  grid-template-areas: 'left cover right' 'left main right';
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+  width: 100%;
+
+  padding-top: 20px;
+}
+
+.card {
+  background: var(--lego-card-color);
+  box-shadow: var(--shadow-sm);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  padding: 0;
+}
+
+.sidebar {
+  @media (max-width: 45em) {
+    display: none;
+  }
+}
+
+.main {
+  grid-area: main;
+  max-width: 100vw;
+}

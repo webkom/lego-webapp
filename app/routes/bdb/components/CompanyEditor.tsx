@@ -1,13 +1,19 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Icon,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   addCompany,
+  deleteCompany,
   editCompany,
   fetchAdmin,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import {
   TextEditor,
   TextInput,
@@ -26,7 +32,7 @@ import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
+import { httpCheck } from '../utils';
 import styles from './bdb.css';
 import type { AdminDetailCompany } from 'app/store/models/Company';
 import type { AutocompleteUser } from 'app/store/models/User';
@@ -71,23 +77,16 @@ const CompanyEditor = () => {
 
   const navigate = useNavigate();
 
+  const title = isNew ? 'Ny bedrift' : `Rediger bedrift: ${company?.name}`;
+  const backUrl = isNew ? '/bdb' : `/bdb/${companyId}`;
+
   if (!isNew && fetching) {
     return (
-      <Content>
+      <Page title={title} back={{ href: backUrl }}>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
-
-  const nameField = (
-    <Field
-      placeholder="Bedriftens navn"
-      name="name"
-      component={TextInput.Field}
-      className={styles.editTitle}
-      withoutMargin
-    />
-  );
 
   const onSubmit = (formContent: FormValues) => {
     const body = {
@@ -108,10 +107,6 @@ const CompanyEditor = () => {
       navigate(`/bdb/${isNew ? res.payload.result : companyId}`);
     });
   };
-
-  if (!isNew && (!company || !studentContact)) {
-    return <LoadingIndicator loading />;
-  }
 
   const initialValues = !company
     ? {
@@ -144,7 +139,31 @@ const CompanyEditor = () => {
       };
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{ href: backUrl }}
+      actionButtons={
+        !isNew && (
+          <ConfirmModal
+            key="delete"
+            title="Slett bedrift"
+            message="Er du sikker på at du vil slette denne bedriften?"
+            onConfirm={() =>
+              dispatch(deleteCompany(companyId)).then(() => {
+                navigate('/bdb');
+              })
+            }
+          >
+            {({ openConfirmModal }) => (
+              <Button onPress={openConfirmModal} danger>
+                <Icon name="trash" size={19} />
+                Slett bedrift
+              </Button>
+            )}
+          </ConfirmModal>
+        )
+      }
+    >
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -160,11 +179,13 @@ const CompanyEditor = () => {
               img={company && company.logo}
             />
 
-            {!isNew ? (
-              <DetailNavigation title={nameField} />
-            ) : (
-              <ListNavigation title={nameField} />
-            )}
+            <Field
+              placeholder="Bedriftens navn"
+              name="name"
+              component={TextInput.Field}
+              className={styles.editTitle}
+              withoutMargin
+            />
 
             <Field
               placeholder="Beskrivelse av bedriften"
@@ -297,7 +318,7 @@ const CompanyEditor = () => {
           </form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

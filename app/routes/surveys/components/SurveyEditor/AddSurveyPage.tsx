@@ -1,16 +1,14 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useNavigate } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';
 import { addSurvey } from 'app/actions/SurveyActions';
-import { Content } from 'app/components/Content';
 import { selectEventById } from 'app/reducers/events';
 import { useFetchedTemplate } from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
 import { initialQuestion } from 'app/routes/surveys/components/SurveyEditor/utils';
-import { DetailNavigation } from 'app/routes/surveys/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import type { Dateish } from 'app/models';
@@ -88,8 +86,10 @@ const AddSurveyPage = () => {
       };
 
   return (
-    <Content>
-      <DetailNavigation title="Ny spørreundersøkelse" />
+    <Page
+      title="Ny spørreundersøkelse"
+      back={{ label: 'Alle spørreundersøkelser', href: '/surveys' }}
+    >
       <SurveyForm
         isNew
         onSubmit={onSubmit}
@@ -97,7 +97,7 @@ const AddSurveyPage = () => {
         templateType={templateType}
         setTemplateType={setTemplateType}
       />
-    </Content>
+    </Page>
   );
 };
 

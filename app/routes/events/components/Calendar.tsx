@@ -1,4 +1,4 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment, { type Moment } from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -62,9 +62,16 @@ const Calendar = () => {
   );
 
   return (
-    <div className={styles.root}>
+    <Page
+      title="Arrangementer"
+      actionButtons={
+        actionGrant?.includes('create') && (
+          <LinkButton href="/events/create">Lag nytt</LinkButton>
+        )
+      }
+    >
       <Helmet title="Kalender" />
-      <Toolbar actionGrant={actionGrant} />
+      <Toolbar />
 
       <h2 className={styles.header}>
         <Icon
@@ -93,7 +100,7 @@ const Calendar = () => {
         ))}
       </div>
       {icalToken && <EventFooter icalToken={icalToken} />}
-    </div>
+    </Page>
   );
 };
 

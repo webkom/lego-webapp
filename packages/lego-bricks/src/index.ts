@@ -9,8 +9,14 @@ export { Accordion } from './components/Accordion';
 export { Provider } from './Provider';
 export { Button, LinkButton } from './components/Button';
 export { ButtonGroup } from './components/Button/ButtonGroup';
+export {
+  Page,
+  PageContainer,
+  PageCover,
+  Sidebar,
+  Flex,
+} from './components/Layout';
 export { Card } from './components/Card';
-export { PageContainer, Flex } from './components/Layout';
 export { Icon } from './components/Icon';
 export { Image } from './components/Image';
 export {

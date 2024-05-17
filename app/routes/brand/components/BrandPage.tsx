@@ -1,13 +1,10 @@
-import { Flex, Icon, LinkButton, Image } from '@webkom/lego-bricks';
+import { Flex, Icon, LinkButton, Image, Page } from '@webkom/lego-bricks';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import styles from './BrandPage.css';
 
 const BrandPage = () => (
-  <Content>
-    <NavigationTab title="Brand Guidelines" />
+  <Page title="Brand Guidelines">
     <section>
       <Flex className={styles.root}>
         <p>
@@ -108,7 +105,7 @@ const BrandPage = () => (
         </div>
       </Flex>
     </section>
-  </Content>
+  </Page>
 );
 
 export default BrandPage;

@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .heading {
   font-size: var(--font-size-lg);
   border-bottom: 1px solid var(--border-gray);
@@ -26,24 +22,6 @@
   border-top: 1px solid var(--border-gray);
 }
 
-.filter {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: -36px;
-  margin-right: -2px;
-  gap: var(--spacing-sm);
-
-  @media (--mobile-device) {
-    margin-bottom: 0;
-  }
-}
-
-.filter ion-icon {
-  flex-shrink: 0;
-}
-
 .select {
   width: 200px;
 }
@@ -51,12 +29,6 @@
 .checkbox {
   margin-right: 0;
   margin-left: 10px;
-}
-
-.filterButtons {
-  display: flex;
-  flex-flow: row wrap;
-  gap: 15px;
 }
 
 .filterButtons label {

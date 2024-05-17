@@ -15,7 +15,7 @@ const GalleryDetailsRow = ({
   showDescription = false,
   small = false,
 }: Props) => (
-  <Flex column>
+  <Flex column className={styles.detailRow}>
     <div className={small ? styles.smallDetails : undefined}>
       {gallery.event && (
         <span className={styles.detail}>

@@ -1,10 +1,9 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { useParams, useNavigate } from 'react-router-dom';
 import { editSurvey } from 'app/actions/SurveyActions';
-import { Content } from 'app/components/Content';
 import { useFetchedSurvey, useFetchedTemplate } from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
-import { DetailNavigation, questionTypeString } from 'app/routes/surveys/utils';
+import { questionTypeString } from 'app/routes/surveys/utils';
 import { useAppDispatch } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import type { EventType } from 'app/store/models/Event';
@@ -49,18 +48,17 @@ const EditSurveyPage = () => {
   };
 
   return (
-    <Content>
-      <DetailNavigation
-        title={`Redigerer: ${survey.title}`}
-        surveyId={surveyId}
-      />
+    <Page
+      title={`Redigerer: ${survey.title}`}
+      back={{ href: `/surveys/${surveyId}` }}
+    >
       <SurveyForm
         onSubmit={onSubmit}
         initialValues={initialValues}
         templateType={query.templateType}
         setTemplateType={setQueryValue('templateType')}
       />
-    </Content>
+    </Page>
   );
 };
 

@@ -4,6 +4,7 @@ import {
   Flex,
   LinkButton,
   ButtonGroup,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
@@ -11,8 +12,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/MeetingActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import { useCurrentUser } from 'app/reducers/auth';
@@ -182,12 +181,11 @@ const MeetingList = () => {
   ]);
 
   return (
-    <Content>
+    <Page
+      title="Dine møter"
+      actionButtons={<LinkButton href="/meetings/create">Nytt møte</LinkButton>}
+    >
       <Helmet title="Dine møter" />
-      <NavigationTab
-        title="Dine møter"
-        details={<LinkButton href="/meetings/create">Nytt møte</LinkButton>}
-      />
       {meetingSections && currentUser && (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
@@ -204,7 +202,7 @@ const MeetingList = () => {
           </Button>
         )}
       </ButtonGroup>
-    </Content>
+    </Page>
   );
 };
 
