@@ -1,19 +1,17 @@
 import { LinkButton } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof LinkButton> = {
+const meta = {
   title: 'Interaction/LinkButton',
   component: LinkButton,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+} satisfies Meta<typeof LinkButton>;
 
 export default meta;
-type Story = StoryObj<typeof LinkButton>;
+type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
     children: 'Link Button',
