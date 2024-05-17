@@ -1,8 +1,8 @@
-import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
-import { ProfilePicture, Image } from 'app/components/Image';
+import { ProfilePicture } from 'app/components/Image';
 import { isUserResult } from 'app/reducers/search';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';

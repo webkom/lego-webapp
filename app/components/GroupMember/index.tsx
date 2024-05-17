@@ -1,6 +1,6 @@
+import { Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMember.css';
 import type { PublicUser } from 'app/store/models/User';

@@ -1,4 +1,10 @@
-import { Flex, Icon, LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import {
+  Flex,
+  Icon,
+  LoadingIndicator,
+  Modal,
+  Image,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { useEffect, useState } from 'react';
@@ -13,7 +19,6 @@ import {
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
-import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import PropertyHelmet, {
   type PropertyGenerator,

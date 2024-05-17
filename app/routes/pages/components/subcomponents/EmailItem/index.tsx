@@ -1,4 +1,4 @@
-import { Image } from 'app/components/Image';
+import { Image } from '@webkom/lego-bricks';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import styles from './EmailItem.css';
 

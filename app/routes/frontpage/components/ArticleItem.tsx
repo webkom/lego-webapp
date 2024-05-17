@@ -1,6 +1,5 @@
-import { Card } from '@webkom/lego-bricks';
+import { Card, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
 import styles from './ArticleItem.css';

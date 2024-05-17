@@ -1,10 +1,10 @@
+import { Image } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
 import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
 import Tags from 'app/components/Tags';

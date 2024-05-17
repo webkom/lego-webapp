@@ -4,6 +4,7 @@ import {
   Flex,
   LoadingIndicator,
   Modal,
+  Image,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -23,7 +24,6 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { selectGalleryPictureById } from 'app/reducers/galleryPictures';

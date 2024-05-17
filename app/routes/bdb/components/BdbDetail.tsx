@@ -6,6 +6,7 @@ import {
   Icon,
   LoadingIndicator,
   Skeleton,
+  Image,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -22,7 +23,6 @@ import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CommentView from 'app/components/Comments/CommentView';
 import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';

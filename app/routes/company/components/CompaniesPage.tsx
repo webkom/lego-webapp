@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   LoadingIndicator,
+  Image,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState, useRef } from 'react';
@@ -12,7 +13,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
 import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
 import { selectActiveCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
