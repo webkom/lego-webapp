@@ -6,6 +6,7 @@ import {
   Icon,
   LinkButton,
   LoadingIndicator,
+  Image,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
@@ -24,7 +25,6 @@ import {
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';

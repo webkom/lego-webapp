@@ -4,6 +4,7 @@ import {
   PageContainer,
   Flex,
   LinkButton,
+  Image,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
@@ -17,7 +18,6 @@ import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
 // import Banner from 'app/components/Banner';
-import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectPinned } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/frontpage/components/LatestReadme';

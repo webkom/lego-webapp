@@ -7,6 +7,7 @@ import {
   LinkButton,
   LoadingIndicator,
   Modal,
+  Image,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -21,7 +22,7 @@ import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
 import { Content } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
-import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
+import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';

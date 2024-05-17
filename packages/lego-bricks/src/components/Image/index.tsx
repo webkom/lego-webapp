@@ -1,8 +1,8 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
-import { useTheme } from 'app/utils/themeUtils';
-import styles from './Image.css';
-import type { ImgHTMLAttributes, StyleHTMLAttributes } from 'react';
+import { useTheme } from '../../ThemeContext';
+import styles from './Image.module.css';
+import type { ImgHTMLAttributes, CSSProperties } from 'react';
 
 type Props = {
   src: string;
@@ -10,7 +10,7 @@ type Props = {
   className?: string;
   alt: string;
   darkModeSource?: string;
-  style?: StyleHTMLAttributes<HTMLImageElement>;
+  style?: CSSProperties;
   darkThemeSource?: string;
 } & ImgHTMLAttributes<HTMLImageElement>;
 
@@ -96,4 +96,4 @@ const ImageComponent = (props: Props) => {
   );
 };
 
-export default ImageComponent;
+export { ImageComponent as Image };

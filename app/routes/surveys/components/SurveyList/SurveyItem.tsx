@@ -1,5 +1,5 @@
+import { Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';

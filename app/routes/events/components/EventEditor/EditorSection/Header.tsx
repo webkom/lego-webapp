@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   Modal,
+  Image,
 } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
@@ -13,7 +14,6 @@ import {
   Button,
   ImageUploadField,
 } from 'app/components/Form';
-import { Image } from 'app/components/Image';
 import { colorForEventType } from 'app/routes/events/utils';
 import styles from '../EventEditor.css';
 import type { EditingEvent } from 'app/routes/events/utils';

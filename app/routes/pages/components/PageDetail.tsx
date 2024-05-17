@@ -1,4 +1,4 @@
-import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton, Image } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useState } from 'react';
@@ -13,7 +13,6 @@ import { fetchPage, fetchAll as fetchAllPages } from 'app/actions/PageActions';
 import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
-import { Image } from 'app/components/Image';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { GroupType } from 'app/models';

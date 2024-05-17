@@ -1,4 +1,4 @@
-import { RouterProvider as LegoBricksRouterProvider } from '@webkom/lego-bricks';
+import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useEffect } from 'react';
@@ -15,6 +15,7 @@ import ToastContainer from 'app/components/Toast/ToastContainer';
 import config from 'app/config';
 import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useTheme } from 'app/utils/themeUtils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.css';
@@ -51,6 +52,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
 const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
   const searchOpen = useAppSelector((state) => state.search.open);
 
   usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
@@ -58,7 +60,7 @@ const App = () => {
   });
 
   return (
-    <LegoBricksRouterProvider navigate={navigate}>
+    <LegoBricksProvider theme={theme} navigate={navigate}>
       <div
         className={cx(styles.appRoute, {
           [styles.searchOpen]: searchOpen,
@@ -95,7 +97,7 @@ const App = () => {
 
         <Footer />
       </div>
-    </LegoBricksRouterProvider>
+    </LegoBricksProvider>
   );
 };
 

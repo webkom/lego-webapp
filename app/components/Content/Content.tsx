@@ -1,9 +1,8 @@
-import { Flex, LoadingIndicator, Skeleton } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator, Skeleton, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import Youtube from 'react-youtube';
-import { Image } from 'app/components/Image';
 import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 import styles from './Content.css';
 import type { ReactNode } from 'react';

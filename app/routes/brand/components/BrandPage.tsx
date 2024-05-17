@@ -1,8 +1,7 @@
-import { Flex, Icon, LinkButton } from '@webkom/lego-bricks';
+import { Flex, Icon, LinkButton, Image } from '@webkom/lego-bricks';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
 import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
 import NavigationTab from 'app/components/NavigationTab';
 import styles from './BrandPage.css';
 
