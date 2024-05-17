@@ -7,8 +7,8 @@ type Props = {
   children: ReactNode;
 };
 
-function Container({ children, className }: Props) {
+function PageContainer({ children, className }: Props) {
   return <div className={cx(styles.content, className)}>{children}</div>;
 }
 
-export default Container;
+export default PageContainer;

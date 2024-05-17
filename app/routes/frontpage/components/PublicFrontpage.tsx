@@ -1,4 +1,10 @@
-import { Button, Card, Container, Flex, LinkButton } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  PageContainer,
+  Flex,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
@@ -33,7 +39,7 @@ const PublicFrontpage = () => {
   );
 
   return (
-    <Container>
+    <PageContainer>
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"
@@ -63,7 +69,7 @@ const PublicFrontpage = () => {
         />
         <UsefulLinks />
       </div>
-    </Container>
+    </PageContainer>
   );
 };
 

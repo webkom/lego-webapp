@@ -9,7 +9,7 @@ export { Accordion } from './components/Accordion';
 export { Button, LinkButton } from './components/Button';
 export { ButtonGroup } from './components/Button/ButtonGroup';
 export { Card } from './components/Card';
-export { Container, Flex } from './components/Layout';
+export { PageContainer, Flex } from './components/Layout';
 export { Icon } from './components/Icon';
 export {
   LoadingIndicator,
