@@ -3,34 +3,33 @@ import { ButtonGroup } from './ButtonGroup';
 import { Button } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof ButtonGroup> = {
+const meta = {
   title: 'Interaction/ButtonGroup',
   component: ButtonGroup,
-  subcomponents: {
-    Button,
-  },
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+} satisfies Meta<typeof ButtonGroup>;
 
 export default meta;
-type Story = StoryObj<typeof ButtonGroup>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button {...Primary.args} />
-      <Button {...Secondary.args} />
-    </ButtonGroup>
-  ),
+  args: {
+    children: [
+      <Button {...Primary.args} key="1" />,
+      <Button {...Secondary.args} key="2" />,
+    ],
+  },
 };
 
 export const Vertical: Story = {
   args: {
     vertical: true,
+    children: [
+      <Button {...Primary.args} key="1" />,
+      <Button {...Secondary.args} key="2" />,
+    ],
   },
   parameters: {
     docs: {
@@ -40,16 +39,18 @@ export const Vertical: Story = {
       },
     },
   },
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button {...Primary.args} />
-      <Button {...Secondary.args} />
-    </ButtonGroup>
-  ),
 };
 
 export const HorizontalWrapping: Story = {
-  args: {},
+  args: {
+    children: [
+      <Button {...Danger.args} key="1" />,
+      <Button {...Primary.args} key="2" />,
+      <Button {...PrimaryDisabled.args} key="3" />,
+      <Button {...Primary.args} key="4" />,
+      <Button {...Secondary.args} key="5" />,
+    ],
+  },
   parameters: {
     docs: {
       description: {
@@ -58,15 +59,6 @@ export const HorizontalWrapping: Story = {
       },
     },
   },
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button {...Danger.args} />
-      <Button {...Primary.args} />
-      <Button {...PrimaryDisabled.args} />
-      <Button {...Primary.args} />
-      <Button {...Secondary.args} />
-    </ButtonGroup>
-  ),
   decorators: [
     (Story) => (
       <div

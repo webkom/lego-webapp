@@ -2,19 +2,17 @@ import { Button } from '../Button';
 import { ConfirmModal } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof ConfirmModal> = {
+const meta = {
   title: 'Layout/ConfirmModal',
   component: ConfirmModal,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+} satisfies Meta<typeof ConfirmModal>;
 
 export default meta;
-type Story = StoryObj<typeof ConfirmModal>;
+type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Normal: Story = {
   args: {
     title: 'Er du sikker?',
