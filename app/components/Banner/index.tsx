@@ -14,31 +14,53 @@ export const COLORS = {
   buddyweek2022: styles.buddyweek2022,
 };
 type Color = $Keys<typeof COLORS>;
+type LinkComponentProps = {
+  internal: boolean;
+  link: string;
+  children: ReactNode;
+  className?: string;
+};
 type Props = {
   header: string;
   subHeader?: string;
   link: string;
   color?: Color;
   internal?: boolean; // true will use internal router: <Link />
+  className?: string;
 };
 
-const Banner = (props: Props) => {
-  const { header, subHeader, link, color, internal } = props;
+const LinkComponent = ({
+  internal,
+  link,
+  children,
+  className,
+}: LinkComponentProps) => {
+  return internal ? (
+    <Link to={link} className={cx(styles.link, className)}>
+      {children}
+    </Link>
+  ) : (
+    <a
+      href={link}
+      target="_blank"
+      rel="noreferrer"
+      className={cx(styles.link, className)}
+    >
+      {children}
+    </a>
+  );
+};
 
-  const LinkComponent = ({ children }: { children: ReactNode }) => {
-    return internal ? (
-      <Link to={link} className={styles.link}>
-        {children}
-      </Link>
-    ) : (
-      <a href={link} target="_blank" rel="noreferrer" className={styles.link}>
-        {children}
-      </a>
-    );
-  };
-
+const Banner = ({
+  header,
+  subHeader,
+  link,
+  color,
+  internal = false,
+  className,
+}: Props) => {
   return (
-    <LinkComponent>
+    <LinkComponent className={className} internal={internal} link={link}>
       <Card className={cx(styles.header, color)}>
         <h1>{header}</h1>
         {subHeader && <h4 className={styles.subHeader}>{subHeader}</h4>}

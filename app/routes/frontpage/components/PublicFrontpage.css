@@ -1,6 +1,6 @@
 @import url('~app/styles/variables.css');
 
-.container {
+.wrapper {
   display: grid;
   grid-gap: var(--spacing-xl);
   grid-template-columns: 1fr 1fr 1fr;
@@ -33,6 +33,7 @@
 }
 
 .links {
+  grid-area: links;
   padding: 0 var(--lego-default-padding) var(--lego-default-padding);
 }
 

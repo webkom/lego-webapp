@@ -10,7 +10,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-//import Banner from 'app/components/Banner';
+// import Banner from 'app/components/Banner';
 import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectPinned } from 'app/reducers/frontpage';
@@ -40,7 +40,7 @@ const PublicFrontpage = () => {
         link="https://abakusrevyen.no/"
         color="red"
       /> */}
-      <Container className={styles.container}>
+      <div className={styles.wrapper}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
           <AuthSection />
@@ -61,8 +61,8 @@ const PublicFrontpage = () => {
           style={{ gridArea: 'readme' }}
           displayCount={2}
         />
-      </Container>
-      <UsefulLinks />
+        <UsefulLinks />
+      </div>
     </Container>
   );
 };
