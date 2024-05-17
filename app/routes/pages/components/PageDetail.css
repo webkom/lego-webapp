@@ -4,10 +4,6 @@ div .cont {
   padding: 0;
 }
 
-.root {
-  composes: container from '~app/styles/utilities.css';
-}
-
 .title {
   font-size: 28px;
   margin: 0;
@@ -89,17 +85,6 @@ div .cont {
   object-fit: scale-down;
 }
 
-.banner {
-  padding-bottom: 2px;
-  aspect-ratio: 3.3;
-}
-
-.banner img {
-  max-height: 275px;
-  width: 100%;
-  object-fit: contain;
-}
-
 .heading {
   text-align: center;
   color: var(--lego-link-color);
@@ -147,10 +132,6 @@ div .cont {
 }
 
 @media (--mobile-device) {
-  .page {
-    margin-top: -65px;
-  }
-
   .mainTxt {
     padding: var(--spacing-md);
     padding-bottom: var(--spacing-md);

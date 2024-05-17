@@ -1,12 +1,11 @@
-import { Card } from '@webkom/lego-bricks';
+import { Card, Page } from '@webkom/lego-bricks';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-import { Content } from 'app/components/Content';
 
 const LoginRequiredPage = () => (
-  <Content>
+  <Page>
     <Card severity="danger">Denne siden krever innlogging</Card>
     <AuthSection />
-  </Content>
+  </Page>
 );
 
 export default LoginRequiredPage;

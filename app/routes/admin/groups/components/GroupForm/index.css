@@ -1,7 +1,3 @@
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .logo {
   width: 400px;
   height: 400px;

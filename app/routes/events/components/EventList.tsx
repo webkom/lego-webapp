@@ -1,4 +1,10 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Flex,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
@@ -217,58 +223,66 @@ const EventList = () => {
     };
 
   return (
-    <div className={styles.root}>
+    <Page
+      title="Arrangementer"
+      sidebar={{
+        title: 'Filter',
+        icon: 'filter',
+        side: 'right',
+        content: (
+          <Flex column gap={8}>
+            <h4>Arrangementtype</h4>
+            <Flex column>
+              <CheckBox
+                id="companyPresentation"
+                label="Bedpres"
+                checked={showCompanyPresentation}
+                onChange={toggleEventType('company_presentation')}
+              />
+              <CheckBox
+                id="course"
+                label="Kurs"
+                checked={showCourse}
+                onChange={toggleEventType('course')}
+              />
+              <CheckBox
+                id="social"
+                label="Sosialt"
+                checked={showSocial}
+                onChange={toggleEventType('social')}
+              />
+              <CheckBox
+                id="other"
+                label="Annet"
+                checked={showOther}
+                onChange={toggleEventType('other')}
+              />
+            </Flex>
+            <h4>Påmelding</h4>
+            <Flex alignItems="center">
+              <SelectInput
+                name="form-field-name"
+                value={regDateFilter}
+                onChange={(selectedOption) =>
+                  selectedOption &&
+                  setQueryValue('registrations')(selectedOption.value)
+                }
+                className={styles.select}
+                options={filterRegDateOptions}
+                isClearable={false}
+              />
+            </Flex>
+          </Flex>
+        ),
+      }}
+      actionButtons={
+        actionGrant?.includes('create') && (
+          <LinkButton href="/events/create">Lag nytt</LinkButton>
+        )
+      }
+    >
       <Helmet title="Arrangementer" />
-      <Toolbar actionGrant={actionGrant} />
-      <div className={styles.filter}>
-        <div className={styles.filterButtons}>
-          <CheckBox
-            id="companyPresentation"
-            label="Bedpres"
-            checked={showCompanyPresentation}
-            onChange={toggleEventType('company_presentation')}
-          />
-          <CheckBox
-            id="course"
-            label="Kurs"
-            checked={showCourse}
-            onChange={toggleEventType('course')}
-          />
-          <CheckBox
-            id="social"
-            label="Sosialt"
-            checked={showSocial}
-            onChange={toggleEventType('social')}
-          />
-          <CheckBox
-            id="other"
-            label="Annet"
-            checked={showOther}
-            onChange={toggleEventType('other')}
-          />
-        </div>
-        <Flex alignItems="center">
-          <Icon
-            name="funnel-outline"
-            size={25}
-            style={{
-              marginRight: '5px',
-              marginLeft: '10px',
-            }}
-          />
-          <SelectInput
-            name="form-field-name"
-            value={regDateFilter}
-            onChange={(selectedOption) =>
-              selectedOption &&
-              setQueryValue('registrations')(selectedOption.value)
-            }
-            className={styles.select}
-            options={filterRegDateOptions}
-            isClearable={false}
-          />
-        </Flex>
-      </div>
+      <Toolbar />
       <EventListGroup
         name="Denne uken"
         events={groupedEvents.currentWeek}
@@ -303,7 +317,7 @@ const EventList = () => {
       )}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
-    </div>
+    </Page>
   );
 };
 

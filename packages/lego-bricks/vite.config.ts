@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
+import postcssCustomMedia from 'postcss-custom-media';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -21,6 +22,11 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+  },
+  css: {
+    postcss: {
+      plugins: [postcssCustomMedia()],
+    },
   },
   plugins: [react()],
 });

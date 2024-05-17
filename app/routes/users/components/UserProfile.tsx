@@ -8,6 +8,7 @@ import {
   LoadingIndicator,
   Modal,
   Image,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -20,7 +21,6 @@ import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
-import { Content } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
@@ -228,9 +228,9 @@ const UserProfile = () => {
 
   if (!user) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 
@@ -429,7 +429,7 @@ const UserProfile = () => {
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
-    <div className={styles.root}>
+    <Page>
       <Helmet title={`${firstName} ${lastName}`} />
 
       <Flex wrap className={styles.header}>
@@ -753,7 +753,7 @@ const UserProfile = () => {
           )}
         </div>
       </Flex>
-    </div>
+    </Page>
   );
 };
 

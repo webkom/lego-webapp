@@ -1,4 +1,4 @@
-import { ButtonGroup, Card, LinkButton } from '@webkom/lego-bricks';
+import { ButtonGroup, Card, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { normalize } from 'normalizr';
 import qs from 'qs';
@@ -11,7 +11,6 @@ import {
   saveToken,
   validateRegistrationToken,
 } from 'app/actions/UserActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   MultiSelectGroup,
@@ -89,9 +88,7 @@ const UserConfirmationForm = () => {
       <>
         <Confetti />
 
-        <Content>
-          <h1>Du er nå registrert!</h1>
-
+        <Page title="Du er nå registrert!">
           <Card severity="warning">
             <Card.Header>Er du student?</Card.Header>
             <span>
@@ -105,24 +102,23 @@ const UserConfirmationForm = () => {
             </LinkButton>
             <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
           </ButtonGroup>
-        </Content>
+        </Page>
       </>
     );
   }
 
   if (!token) {
     return (
-      <Content>
+      <Page>
         <Card severity="danger">
           <Card.Header>Token ikke gyldig</Card.Header>
         </Card>
-      </Content>
+      </Page>
     );
   }
 
   return (
-    <Content>
-      <h1>Registrer bruker</h1>
+    <Page title="Registrer bruker">
       <TypedLegoForm onSubmit={onSubmit} validate={validate}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
@@ -204,7 +200,7 @@ const UserConfirmationForm = () => {
           </form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

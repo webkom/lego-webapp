@@ -1,4 +1,4 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -7,7 +7,6 @@ import {
   addSubmission,
   fetchUserSubmission,
 } from 'app/actions/SurveySubmissionActions';
-import { Content, ContentHeader } from 'app/components/Content';
 import Time from 'app/components/Time';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
@@ -55,10 +54,9 @@ const AddSubmissionPage = () => {
 
   if (survey.templateType) {
     return (
-      <Content className={styles.centerContent}>
+      <Page back={{ href: '/' }}>
         <h2>Denne undersøkelsen er en mal, og kan derfor ikke besvares.</h2>
-        <Link to="/">Tilbake til forsiden</Link>
-      </Content>
+      </Page>
     );
   }
 
@@ -71,13 +69,13 @@ const AddSubmissionPage = () => {
     !survey.actionGrant.includes('edit')
   ) {
     return (
-      <Content className={styles.centerContent}>
+      <Page>
         <h2>Denne undersøkelsen er ikke aktiv enda.</h2>
         <p>
           Den vil aktiveres{' '}
           <Time time={survey.activeFrom} format="HH:mm DD. MMM" />.
         </p>
-      </Content>
+      </Page>
     );
   }
 
@@ -91,11 +89,16 @@ const AddSubmissionPage = () => {
   };
 
   return (
-    <Content banner={event.cover}>
+    <Page
+      cover={
+        <PageCover
+          image={event.cover}
+          imagePlaceholder={event.coverPlaceholder}
+        />
+      }
+      title={survey.title}
+    >
       <Helmet title={`Besvarer: ${survey.title}`} />
-      <ContentHeader>
-        <h2>{survey.title}</h2>
-      </ContentHeader>
 
       <div className={styles.surveyTime}>
         Spørreundersøkelse for arrangementet{' '}
@@ -110,7 +113,7 @@ const AddSubmissionPage = () => {
         initialValues={initialValues}
         onSubmit={(values) => dispatch(addSubmission({ surveyId, ...values }))}
       />
-    </Content>
+    </Page>
   );
 };
 

@@ -1,7 +1,6 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/AnnouncementsActions';
-import { Content } from 'app/components/Content';
 import { selectAnnouncements } from 'app/reducers/announcements';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AnnouncementItem from './AnnouncementItem';
@@ -20,7 +19,7 @@ const AnnouncementsList = () => {
   );
 
   return (
-    <Content>
+    <Page title="Kunngjøringer">
       <LoadingIndicator loading={fetching}>
         {actionGrant.includes('create') && <AnnouncementsCreate />}
 
@@ -45,7 +44,7 @@ const AnnouncementsList = () => {
           </>
         )}
       </LoadingIndicator>
-    </Content>
+    </Page>
   );
 };
 

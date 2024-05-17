@@ -1,14 +1,12 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import CommentView from 'app/components/Comments/CommentView';
-import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import LegoReactions from 'app/components/LegoReactions';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
@@ -18,6 +16,7 @@ import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectUsersByIds } from 'app/reducers/users';
 import sharedStyles from 'app/routes/articles/articles.css';
+import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './ArticleDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
@@ -109,17 +108,27 @@ const ArticleDetail = () => {
 
   if (!article) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 
   return (
-    <Content
-      banner={article.cover}
-      bannerPlaceholder={article.coverPlaceholder}
-      youtubeUrl={article.youtubeUrl}
+    <Page
+      title={article.title}
+      cover={
+        <YoutubeCover
+          image={article.cover}
+          imagePlaceholder={article.coverPlaceholder}
+          youtubeUrl={article.youtubeUrl}
+        />
+      }
+      actionButtons={
+        article.actionGrant?.includes('edit') && (
+          <LinkButton href={`/articles/${article.id}/edit`}>Rediger</LinkButton>
+        )
+      }
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
@@ -131,45 +140,33 @@ const ArticleDetail = () => {
           href={`${config?.webUrl}/articles/${article.id}`}
         />
       </PropertyHelmet>
-      <NavigationTab
-        headerClassName={styles.headerClassName}
-        title={article.title}
-      >
-        {(article.actionGrant || []).includes('edit') && (
-          <NavigationLink to={`/articles/${article.id}/edit`}>
-            Rediger
-          </NavigationLink>
-        )}
-      </NavigationTab>
 
-      {
-        <div>
-          <span className="secondaryFontColor">
-            Skrevet av{' '}
-            {authors?.map((e, i) => {
-              return (
-                <span key={e.username}>
-                  <Link
-                    to={`/users/${e.username}`}
-                    className={
-                      i === authors.length - 1
-                        ? sharedStyles.overviewAuthor
-                        : undefined
-                    }
-                  >
-                    {' '}
-                    {e.fullName}
-                  </Link>
-                  {i === authors.length - 1 ? '' : ','}{' '}
-                </span>
-              );
-            })}
-          </span>
-          <span className="secondaryFontColor">
-            {moment(article.createdAt).format('lll')}
-          </span>
-        </div>
-      }
+      <div>
+        <span className="secondaryFontColor">
+          Skrevet av{' '}
+          {authors?.map((e, i) => {
+            return (
+              <span key={e.username}>
+                <Link
+                  to={`/users/${e.username}`}
+                  className={
+                    i === authors.length - 1
+                      ? sharedStyles.overviewAuthor
+                      : undefined
+                  }
+                >
+                  {' '}
+                  {e.fullName}
+                </Link>
+                {i === authors.length - 1 ? '' : ','}{' '}
+              </span>
+            );
+          })}
+        </span>
+        <span className="secondaryFontColor">
+          {moment(article.createdAt).format('lll')}
+        </span>
+      </div>
 
       <DisplayContent content={article.content} />
 
@@ -190,7 +187,7 @@ const ArticleDetail = () => {
           contentAuthors={article.authors}
         />
       )}
-    </Content>
+    </Page>
   );
 };
 

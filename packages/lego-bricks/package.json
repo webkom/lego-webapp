@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
-    "react-aria-components": "^1.1.1"
+    "react-aria-components": "^1.2.0"
   },
   "peerDependencies": {
     "react": "^18.2.0",
@@ -70,6 +70,7 @@
     "enzyme": "^3.9.0",
     "eslint": "^8.57.0",
     "eslint-plugin-storybook": "^0.8.0",
+    "postcss-custom-media": "^10.0.6",
     "storybook": "^8.1.1",
     "typescript": "^5.5.2",
     "vite": "^5.3.2",

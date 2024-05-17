@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
+import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
-import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useCurrentUser } from 'app/reducers/auth';
 import pageNotFound from 'app/routes/pageNotFound';
@@ -28,15 +28,15 @@ const UserSettingsIndex = () => {
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
   return (
-    <Content>
+    <Page
+      title="Innstillinger"
+      back={{
+        label: 'Profil',
+        href: `/users/${username}`,
+      }}
+    >
       <Helmet title="Innstillinger" />
-      <NavigationTab
-        title="Innstillinger"
-        back={{
-          label: 'Profil',
-          path: `/users/${username}`,
-        }}
-      >
+      <NavigationTab>
         {isCurrentUser && (
           <>
             <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
@@ -54,7 +54,7 @@ const UserSettingsIndex = () => {
       </NavigationTab>
 
       <Outlet />
-    </Content>
+    </Page>
   );
 };
 

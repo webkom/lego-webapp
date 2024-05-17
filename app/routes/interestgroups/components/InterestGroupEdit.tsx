@@ -1,10 +1,8 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchGroup } from 'app/actions/GroupActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import { selectGroupById } from 'app/reducers/groups';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -28,9 +26,9 @@ const InterestGroupEdit = () => {
 
   if (editing && (!interestGroup || !interestGroup.text)) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 
@@ -39,17 +37,15 @@ const InterestGroupEdit = () => {
     : 'Opprett gruppe';
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        href: `/interest-groups/${editing ? groupId : ''}`,
+      }}
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: `/interest-groups/${editing ? groupId : ''}`,
-        }}
-      />
       <GroupForm isInterestGroup />
-    </Content>
+    </Page>
   );
 };
 

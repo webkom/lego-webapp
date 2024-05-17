@@ -1,6 +1,6 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { useParams } from 'react-router-dom';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import { ContentSection, ContentMain } from 'app/components/Content';
 import { NavigationLink } from 'app/components/NavigationTab';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
@@ -45,8 +45,17 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   }
 
   return (
-    <Content banner={event?.cover}>
-      <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
+    <Page
+      cover={
+        <PageCover
+          image={event?.cover}
+          imagePlaceholder={event?.coverPlaceholder}
+        />
+      }
+      title={survey.title}
+      back={{ href: '/surveys' }}
+    >
+      <DetailNavigation surveyId={Number(survey.id)} />
 
       <ContentSection>
         <ContentMain>
@@ -79,7 +88,7 @@ const SubmissionsPage = ({ children: Children }: Props) => {
           }}
         />
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

@@ -1,8 +1,9 @@
 import loadable from '@loadable/component';
+import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
 import { fetchAdministrate } from 'app/actions/EventActions';
-import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectEventById } from 'app/reducers/events';
@@ -34,15 +35,15 @@ const EventAdministrateIndex = () => {
   const base = `/events/${eventId}/administrate`;
 
   return (
-    <Content>
-      <NavigationTab
-        title={event ? event.title : ''}
-        back={{
-          label: 'Tilbake',
-          path: '/events/' + event.slug,
-        }}
-        skeleton={fetching}
-      >
+    <Page
+      title={`Administrer: ${event.title}`}
+      back={{
+        label: 'Tilbake til arrangement',
+        href: '/events/' + event.slug,
+      }}
+    >
+      <Helmet title={`Administrer: ${event.title}`} />
+      <NavigationTab skeleton={fetching}>
         <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
         {event && canSeeAllergies(currentUser, event) && (
           <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
@@ -55,7 +56,7 @@ const EventAdministrateIndex = () => {
       </NavigationTab>
 
       <Outlet />
-    </Content>
+    </Page>
   );
 };
 

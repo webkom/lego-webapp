@@ -5,6 +5,7 @@ import {
   Flex,
   Icon,
   LinkButton,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback, useState } from 'react';
@@ -18,7 +19,6 @@ import {
   editJoblisting,
   fetchJoblisting,
 } from 'app/actions/JoblistingActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   EditorField,
@@ -29,7 +29,6 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import NavigationTab from 'app/components/NavigationTab';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { httpCheck } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -202,15 +201,13 @@ const JoblistingEditor = () => {
   const title = isNew ? 'Ny jobbannonse' : joblisting?.title;
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        href: !isNew ? `/joblistings/${joblisting?.slug}` : '/joblistings',
+      }}
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: !isNew ? `/joblistings/${joblisting?.slug}` : '/joblistings',
-        }}
-      />
 
       <LegoFinalForm
         onSubmit={onSubmit}
@@ -366,7 +363,7 @@ const JoblistingEditor = () => {
           </Form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

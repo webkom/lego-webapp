@@ -1,15 +1,9 @@
-import { LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { NavLink } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './Toolbar.css';
-import type { ActionGrant } from 'app/models';
 
-type Props = {
-  actionGrant: ActionGrant;
-};
-
-const Toolbar = ({ actionGrant }: Props) => (
+const Toolbar = () => (
   <div className={styles.root}>
     <Time format="ll" className={styles.timeNow} />
 
@@ -31,14 +25,6 @@ const Toolbar = ({ actionGrant }: Props) => (
     >
       Kalender
     </NavLink>
-
-    <div className={styles.create}>
-      {actionGrant?.includes('create') && (
-        <LinkButton flat href="/events/create">
-          Lag nytt
-        </LinkButton>
-      )}
-    </div>
   </div>
 );
 

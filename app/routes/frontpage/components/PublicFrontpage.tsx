@@ -1,10 +1,10 @@
 import {
   Button,
   Card,
-  PageContainer,
   Flex,
   LinkButton,
   Image,
+  PageContainer,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
@@ -39,7 +39,7 @@ const PublicFrontpage = () => {
   );
 
   return (
-    <PageContainer>
+    <PageContainer card={false}>
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"

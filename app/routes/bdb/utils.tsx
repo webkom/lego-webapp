@@ -1,10 +1,6 @@
-import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
-import { useNavigate, useParams } from 'react-router-dom';
-import { deleteCompany } from 'app/actions/CompanyActions';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
-import { useAppDispatch } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
@@ -12,7 +8,6 @@ import type { Semester } from 'app/models';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import type { ReactNode } from 'react';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
@@ -191,48 +186,9 @@ export const getContactStatuses = (
   return Array.from(statuses);
 };
 
-export const ListNavigation = ({ title }: { title: ReactNode }) => (
-  <NavigationTab title={title}>
+export const ListNavigation = () => (
+  <NavigationTab>
     <NavigationLink to="/companyInterest">Interesseskjema</NavigationLink>
     <NavigationLink to="/bdb">BDB</NavigationLink>
-    <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
-
-export const DetailNavigation = ({ title }: { title: ReactNode }) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { companyId } = useParams<{ companyId: string }>() as {
-    companyId: string;
-  };
-
-  return (
-    <NavigationTab
-      title={title}
-      back={{
-        label: 'Tilbake til liste',
-        path: '/bdb',
-      }}
-    >
-      <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-      <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
-      <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
-      <ConfirmModal
-        title="Slett bedrift"
-        message="Er du sikker på at du vil slette denne bedriften?"
-        onConfirm={() =>
-          dispatch(deleteCompany(companyId)).then(() => {
-            navigate('/bdb');
-          })
-        }
-      >
-        {({ openConfirmModal }) => (
-          <Button onPress={openConfirmModal} danger>
-            <Icon name="trash" size={19} />
-            Slett bedrift
-          </Button>
-        )}
-      </ConfirmModal>
-    </NavigationTab>
-  );
-};

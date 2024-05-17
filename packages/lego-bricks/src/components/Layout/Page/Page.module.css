@@ -1,0 +1,27 @@
+.content {
+  width: 100%;
+  padding: var(--spacing-xl);
+
+  @media (max-width: 45em) {
+    padding: 1rem;
+  }
+}
+
+.backButton {
+  margin: calc(-1 * var(--spacing-md)) 0 0 calc(-1 * var(--spacing-md));
+  color: var(--lego-red-color);
+}
+
+.title {
+  grid-area: title;
+  max-width: 100vw;
+  margin-bottom: var(--spacing-md);
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.spacer {
+  flex-grow: 1;
+}

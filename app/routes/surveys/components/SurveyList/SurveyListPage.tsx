@@ -1,10 +1,10 @@
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import {
   fetchAll as fetchSurveys,
   fetchTemplates,
 } from 'app/actions/SurveyActions';
-import { Content } from 'app/components/Content';
 import Paginator from 'app/components/Paginator';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectAllSurveys, selectSurveyTemplates } from 'app/reducers/surveys';
@@ -39,9 +39,14 @@ const SurveyListPage = ({ templates }: Props) => {
   );
 
   return (
-    <Content>
+    <Page
+      title="Spørreundersøkelser"
+      actionButtons={
+        <LinkButton href="/surveys/add">Ny undersøkelse</LinkButton>
+      }
+    >
       <Helmet title="Spørreundersøkelser" />
-      <ListNavigation title="Spørreundersøkelser" />
+      <ListNavigation />
 
       <Paginator
         hasMore={pagination.hasMore}
@@ -56,7 +61,7 @@ const SurveyListPage = ({ templates }: Props) => {
       >
         <SurveyList surveys={surveys} fetching={pagination.fetching} />
       </Paginator>
-    </Content>
+    </Page>
   );
 };
 

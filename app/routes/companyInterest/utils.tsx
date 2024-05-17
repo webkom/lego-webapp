@@ -1,6 +1,4 @@
 import qs from 'qs';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import config from 'app/config';
 import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
 import {
@@ -11,7 +9,6 @@ import {
   TARGET_GRADES,
 } from './components/Translations';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import type { ReactNode } from 'react';
 
 export const sortSemesterChronologically = (
   a: CompanySemester,
@@ -25,19 +22,6 @@ export const sortSemesterChronologically = (
     ? Number(a.year) - Number(b.year)
     : semesterCodeToPriority[a.semester] - semesterCodeToPriority[b.semester];
 };
-
-export const SemesterNavigation = ({ title }: { title: ReactNode }) => (
-  <NavigationTab
-    title={title}
-    back={{
-      label: 'Tilbake til skjema',
-      path: '/companyInterest/',
-    }}
-  >
-    <NavigationLink to="/bdb">BDB</NavigationLink>
-    <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
-  </NavigationTab>
-);
 
 export const PARTICIPANT_RANGE_TYPES = {
   first: '10-30',

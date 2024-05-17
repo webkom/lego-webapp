@@ -1,10 +1,9 @@
-import { Card, Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { map, toPairs } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { fetch } from 'app/actions/TagActions';
-import { Content } from 'app/components/Content';
 import { selectTagById } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './TagDetail.css';
@@ -53,9 +52,8 @@ const TagDetail = () => {
   }
 
   return (
-    <Content>
+    <Page title={tag.tag} back={{ href: '/tags' }}>
       <Helmet title={tag.tag} />
-      <h1>{tag.tag}</h1>
 
       <Flex wrap>
         {map(toPairs(tag.relatedCounts), (pair) => (
@@ -65,7 +63,7 @@ const TagDetail = () => {
           </Card>
         ))}
       </Flex>
-    </Content>
+    </Page>
   );
 };
 

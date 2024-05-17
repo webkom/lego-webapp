@@ -17,18 +17,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-.contentContainer {
-  composes: container;
-  background: var(--lego-card-color);
-  padding: 40px;
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-lg);
-
-  @media (--small-viewport) {
-    padding: 40px 10px;
-  }
-}
-
 .page {
   min-width: 75%;
 }

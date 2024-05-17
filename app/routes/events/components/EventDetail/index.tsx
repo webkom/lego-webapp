@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
@@ -8,7 +8,6 @@ import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
 import mazemapLogo from 'app/assets/mazemap.svg';
 import CommentView from 'app/components/Comments/CommentView';
 import {
-  Content,
   ContentHeader,
   ContentSection,
   ContentMain,
@@ -45,6 +44,7 @@ import {
   getEventSemesterFromStartTime,
   registrationCloseTime,
 } from 'app/routes/events/utils';
+import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
@@ -403,13 +403,17 @@ const EventDetail = () => {
   ].filter(Boolean); // This will remove any undefined items from the array
 
   return (
-    <Content
-      banner={event.cover || event.company?.logo}
-      bannerPlaceholder={
-        event.coverPlaceholder || event.company?.logoPlaceholder
+    <Page
+      cover={
+        <YoutubeCover
+          image={event.cover || event.company?.logo}
+          imagePlaceholder={
+            event.coverPlaceholder || event.company?.logoPlaceholder
+          }
+          youtubeUrl={event.youtubeUrl}
+          skeleton={showSkeleton}
+        />
       }
-      youtubeUrl={event.youtubeUrl}
-      skeleton={showSkeleton}
     >
       <PropertyHelmet propertyGenerator={propertyGenerator} options={{ event }}>
         <title>{event.title}</title>
@@ -637,7 +641,7 @@ const EventDetail = () => {
           contentAuthors={event.createdBy?.id}
         />
       )}
-    </Content>
+    </Page>
   );
 };
 

@@ -5,6 +5,7 @@ import {
   LoadingIndicator,
   Modal,
   Image,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -15,7 +16,6 @@ import {
   fetchGalleryPicture,
   updatePicture,
 } from 'app/actions/GalleryPictureActions';
-import { Content } from 'app/components/Content';
 import {
   Form,
   TextArea,
@@ -70,9 +70,9 @@ const GalleryPictureEditModal = () => {
 
   if (!gallery || !picture) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 

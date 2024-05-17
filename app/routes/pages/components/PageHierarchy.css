@@ -1,6 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .sidebar {
+  width: 15rem;
   display: flex;
   flex-direction: column;
   margin: 0;

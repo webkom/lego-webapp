@@ -4,6 +4,7 @@ import {
   LoadingIndicator,
   Modal,
   Image,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
@@ -17,7 +18,6 @@ import {
   fetchSiblingGallerPicture,
 } from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
-import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import PropertyHelmet, {
@@ -190,9 +190,9 @@ const GalleryPictureModal = () => {
 
   if (!gallery || !picture) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading={fetching} />
-      </Content>
+      </Page>
     );
   }
 

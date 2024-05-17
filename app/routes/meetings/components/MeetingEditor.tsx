@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
@@ -20,7 +21,6 @@ import {
   fetchMeeting,
   inviteUsersAndGroups,
 } from 'app/actions/MeetingActions';
-import { Content } from 'app/components/Content';
 import {
   Button,
   CheckBox,
@@ -35,7 +35,6 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import NavigationTab from 'app/components/NavigationTab';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
@@ -167,9 +166,9 @@ const MeetingEditor = () => {
 
   if (isEditPage && !meeting) {
     return (
-      <Content>
+      <Page>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
 
@@ -241,16 +240,14 @@ const MeetingEditor = () => {
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
+        href: `/meetings/${isEditPage ? meetingId : ''}`,
+      }}
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        className={styles.detailTitle}
-        back={{
-          label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
-          path: `/meetings/${isEditPage ? meetingId : ''}`,
-        }}
-      />
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -459,7 +456,7 @@ const MeetingEditor = () => {
           );
         }}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 
