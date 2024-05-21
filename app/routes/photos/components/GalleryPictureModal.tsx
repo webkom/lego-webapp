@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Icon,
-  LoadingIndicator,
-  Modal,
-  Image,
-  Page,
-} from '@webkom/lego-bricks';
+import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { useEffect, useState } from 'react';
@@ -189,11 +182,7 @@ const GalleryPictureModal = () => {
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return (
-      <Page>
-        <LoadingIndicator loading={fetching} />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const toggleDropdown = () => {

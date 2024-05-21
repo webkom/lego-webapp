@@ -1,4 +1,4 @@
-import { LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
@@ -80,6 +80,7 @@ const propertyGenerator: PropertyGenerator<{
 const ArticleDetail = () => {
   const loggedIn = useIsLoggedIn();
   const { articleIdOrSlug } = useParams<{ articleIdOrSlug: string }>();
+  const fetching = useAppSelector((state) => state.articles.fetching);
   const article = useAppSelector((state) =>
     selectArticleByIdOrSlug(state, articleIdOrSlug!),
   ) as DetailedArticle | undefined;
@@ -107,11 +108,7 @@ const ArticleDetail = () => {
   );
 
   if (!article) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage cover loading={fetching} />;
   }
 
   return (

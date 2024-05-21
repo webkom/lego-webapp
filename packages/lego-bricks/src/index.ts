@@ -24,6 +24,7 @@ export { Image } from './components/Image';
 export {
   LoadingIndicator,
   type LoadingIndicatorProps,
+  LoadingPage,
   ProgressBar,
 } from './components/LoadingIndicator';
 export { Modal, ConfirmModal } from './components/Modal';

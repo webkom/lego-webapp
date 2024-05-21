@@ -3,7 +3,7 @@ import {
   ConfirmModal,
   Flex,
   Icon,
-  LoadingIndicator,
+  LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -105,12 +105,12 @@ type MeetingEditorParams = {
 };
 const MeetingEditor = () => {
   const { meetingId } = useParams<MeetingEditorParams>();
+  const isEditPage = meetingId !== undefined;
   const meeting = useAppSelector((state) =>
     meetingId
       ? (selectMeetingById(state, meetingId) as DetailedMeeting)
       : undefined,
   );
-  const isEditPage = meeting !== undefined;
   const meetingInvitations = useAppSelector((state) =>
     meetingId
       ? selectMeetingInvitationsForMeeting(state, meetingId)
@@ -165,11 +165,7 @@ const MeetingEditor = () => {
   const navigate = useNavigate();
 
   if (isEditPage && !meeting) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading />; // TODO: proper loading behavior once separate fetching state is implemented
   }
 
   const currentUserSearchable = currentUser && {

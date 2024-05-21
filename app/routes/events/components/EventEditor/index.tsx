@@ -1,7 +1,7 @@
 import {
   ButtonGroup,
   LinkButton,
-  LoadingIndicator,
+  LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -133,6 +133,7 @@ const EventEditor = () => {
   // Fallback to a potential event id, e.g. given from the admin "copy event" button
   const eventIdOrSlug = params.eventIdOrSlug ?? state?.id;
 
+  const fetching = useAppSelector((state) => state.events.fetching);
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, { eventIdOrSlug }),
   );
@@ -181,11 +182,7 @@ const EventEditor = () => {
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
 
   if (isEditPage && (!event || !event.title)) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   if (isEditPage && !actionGrant.includes('edit')) {

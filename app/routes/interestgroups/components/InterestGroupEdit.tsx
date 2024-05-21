@@ -1,4 +1,4 @@
-import { LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -11,6 +11,7 @@ import type { PublicDetailedGroup } from 'app/store/models/Group';
 
 const InterestGroupEdit = () => {
   const { groupId } = useParams<{ groupId: string }>();
+  const fetching = useAppSelector((state) => state.groups.fetching);
   const interestGroup = useAppSelector((state) =>
     selectGroupById<PublicDetailedGroup>(state, groupId),
   );
@@ -25,11 +26,7 @@ const InterestGroupEdit = () => {
   );
 
   if (editing && (!interestGroup || !interestGroup.text)) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const title = editing

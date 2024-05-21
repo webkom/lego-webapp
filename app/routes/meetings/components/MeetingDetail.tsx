@@ -3,7 +3,7 @@ import {
   ButtonGroup,
   Icon,
   LinkButton,
-  LoadingIndicator,
+  LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
@@ -132,7 +132,7 @@ const MeetingDetails = () => {
     );
 
   if (!meeting || !currentUser) {
-    return <LoadingIndicator loading />;
+    return <LoadingPage loading />; // TODO: proper loading behavior once separate fetching state is implemented
   }
 
   const statusMe = currentUserInvitation?.status;

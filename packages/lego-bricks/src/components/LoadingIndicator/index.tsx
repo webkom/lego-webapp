@@ -1,4 +1,6 @@
 import cx from 'classnames';
+import { Card } from '../Card';
+import { Page, PageCover } from '../Layout';
 import styles from './LoadingIndicator.module.css';
 import type { ReactNode, CSSProperties } from 'react';
 
@@ -35,6 +37,24 @@ export const LoadingIndicator = ({
 
   return children ? <div>{children}</div> : null;
 };
+
+type LoadingPageProps = {
+  cover?: boolean;
+  loading: boolean;
+  children?: ReactNode;
+};
+export const LoadingPage = ({ cover, loading, children }: LoadingPageProps) => (
+  <Page skeleton={loading} cover={cover && <PageCover skeleton />}>
+    {loading ? (
+      children || <LoadingIndicator loading={loading} />
+    ) : (
+      <Card severity="danger">
+        <Card.Header>Noe gikk galt!</Card.Header>
+        Siden mangler innhold.
+      </Card>
+    )}
+  </Page>
+);
 
 export const ProgressBar = () => {
   return <div className={styles.progressLine} />;

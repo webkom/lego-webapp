@@ -2,10 +2,9 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  LoadingIndicator,
   Modal,
   Image,
-  Page,
+  LoadingPage,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -46,6 +45,9 @@ const GalleryPictureEditModal = () => {
     pictureId: string;
     galleryId: string;
   }>();
+  const fetching = useAppSelector(
+    (state) => state.galleries.fetching || state.galleryPictures.fetching,
+  );
   const picture = useAppSelector((state) =>
     selectGalleryPictureById(state, pictureId),
   );
@@ -69,11 +71,7 @@ const GalleryPictureEditModal = () => {
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const onSubmit = (data) => {

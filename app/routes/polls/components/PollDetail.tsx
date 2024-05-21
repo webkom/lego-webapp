@@ -1,4 +1,4 @@
-import { Button, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -32,11 +32,7 @@ const PollDetail = () => {
   const actionGrant = poll?.actionGrant ?? [];
 
   if (!poll) {
-    return (
-      <Page>
-        <LoadingIndicator loading={fetching} />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   return (
