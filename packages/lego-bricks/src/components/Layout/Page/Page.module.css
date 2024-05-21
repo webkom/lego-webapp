@@ -5,11 +5,11 @@
   @media (max-width: 45em) {
     padding: 1rem;
   }
-}
 
-.backButton {
-  margin: calc(-1 * var(--spacing-md)) 0 0 calc(-1 * var(--spacing-md));
-  color: var(--lego-red-color);
+  .backButton {
+    margin: calc(-1 * var(--spacing-md)) 0 0 calc(-1 * var(--spacing-md));
+    color: var(--lego-red-color);
+  }
 }
 
 .title {

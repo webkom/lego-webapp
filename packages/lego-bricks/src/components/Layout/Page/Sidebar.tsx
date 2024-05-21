@@ -39,7 +39,7 @@ export const SidebarTrigger = () => {
       <SideModal
         side={sidebarContext.side}
         trigger={
-          <Button className={styles.sidebarTrigger}>
+          <Button className={cx(styles.sidebarTrigger, styles.mobileOnly)}>
             <Icon name={sidebarContext.icon} size={22} />
           </Button>
         }
