@@ -10,7 +10,7 @@ import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import styles from './Calendar.css';
 import CalendarCell from './CalendarCell';
 import EventFooter from './EventFooter';
-import Toolbar from './Toolbar';
+import EventsTabs from './EventsTabs';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
@@ -69,9 +69,9 @@ const Calendar = () => {
           <LinkButton href="/events/create">Lag nytt</LinkButton>
         )
       }
+      tabs={<EventsTabs />}
     >
       <Helmet title="Kalender" />
-      <Toolbar />
 
       <h2 className={styles.header}>
         <Icon

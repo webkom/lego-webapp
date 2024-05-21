@@ -10,6 +10,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFile } from 'app/actions/FileActions';
 import {
@@ -139,8 +140,11 @@ const PageEditor = () => {
       }
     : {};
 
+  const title = isNew ? 'Ny side' : `Redigerer: ${page?.title}`;
+
   return (
-    <Page title={page?.title || 'Ny side'} back={{ href: backUrl }}>
+    <Page title={title} back={{ href: backUrl }}>
+      <Helmet title={title} />
       <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>

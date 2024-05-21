@@ -1,4 +1,3 @@
-import { TabContainer } from '@webkom/lego-bricks';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
@@ -186,9 +185,9 @@ export const getContactStatuses = (
   return Array.from(statuses);
 };
 
-export const ListNavigation = () => (
-  <TabContainer>
+export const BdbTabs = () => (
+  <>
     <NavigationTab href="/companyInterest">Interesseskjema</NavigationTab>
     <NavigationTab href="/bdb">BDB</NavigationTab>
-  </TabContainer>
+  </>
 );

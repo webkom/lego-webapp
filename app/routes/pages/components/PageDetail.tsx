@@ -83,7 +83,7 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   } = membershipsByRole;
 
   return (
-    <article className={styles.detail}>
+    <article>
       <DisplayContent content={text} />
       {Object.values(membershipsByRole).some((array) => array.length > 0) && (
         <>
@@ -419,23 +419,17 @@ const PageDetail = () => {
       skeleton={showSkeleton}
     >
       <Helmet title={pageInfo?.title} />
-      <div className={styles.main}>
-        <Flex className={styles.page}>
-          <div className={styles.mainTxt}>
-            {showSkeleton ? (
-              <PageSkeleton />
-            ) : (
-              <MainPageRenderer
-                page={page}
-                PageRenderer={
-                  // typescript is being stupid
-                  PageRenderer as PageRenderer<typeof page>
-                }
-              />
-            )}
-          </div>
-        </Flex>
-      </div>
+      {showSkeleton ? (
+        <PageSkeleton />
+      ) : (
+        <MainPageRenderer
+          page={page}
+          PageRenderer={
+            // typescript is being stupid
+            PageRenderer as PageRenderer<typeof page>
+          }
+        />
+      )}
     </Page>
   );
 };

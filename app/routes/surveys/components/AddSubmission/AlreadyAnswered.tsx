@@ -1,5 +1,4 @@
 import { Card, Page } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
 import StaticSubmission from '../StaticSubmission';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
@@ -10,10 +9,12 @@ type Props = {
 };
 
 const AlreadyAnswered = ({ survey, submission }: Props) => (
-  <Page title={survey.title}>
+  <Page
+    title={survey.title}
+    back={{ href: '/', label: 'Tilbake til forsiden' }}
+  >
     <Card severity="info">
       <Card.Header>Du har svart på denne undersøkelsen. Takk! </Card.Header>
-      <Link to="/">Tilbake til forsiden</Link>
     </Card>
 
     <h2>Du svarte følgende: </h2>

@@ -526,7 +526,7 @@ const CompanyInterestPage = () => {
   ];
 
   const title = edit
-    ? 'Rediger bedriftsinteresse'
+    ? 'Redigerer bedriftsinteresse'
     : FORM_LABELS.mainHeading[language];
 
   return (

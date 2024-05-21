@@ -19,12 +19,6 @@ div .cont {
   margin-top: -30px;
 }
 
-.detail {
-  flex: 1;
-  width: 100%;
-  padding: var(--spacing-md);
-}
-
 .headWrapper {
   display: flex;
   flex-flow: column wrap;
@@ -57,16 +51,6 @@ div .cont {
   margin-top: var(--spacing-md);
   width: 80%;
   height: 70px;
-}
-
-.main {
-  width: 100%;
-}
-
-.mainTxt {
-  margin-top: var(--spacing-md);
-  padding: var(--spacing-xl) var(--spacing-lg);
-  flex-grow: 1;
 }
 
 .action {

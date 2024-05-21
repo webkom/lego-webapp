@@ -5,12 +5,13 @@ import type { ReactNode } from 'react';
 
 type Props = {
   className?: string;
+  lineColor?: string;
   children?: ReactNode;
 };
 
-export const TabContainer = ({ className, children }: Props) => (
+export const TabContainer = ({ className, lineColor, children }: Props) => (
   <Flex wrap className={cx(styles.container, className)}>
     {children}
-    <div className={styles.spacer} />
+    <div className={styles.spacer} style={{ borderColor: lineColor }} />
   </Flex>
 );

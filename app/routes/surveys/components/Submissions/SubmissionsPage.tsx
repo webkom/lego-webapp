@@ -1,14 +1,12 @@
-import { Flex, LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { useParams } from 'react-router-dom';
 import { ContentSection, ContentMain } from 'app/components/Content';
-import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { DetailNavigation, getCsvUrl } from '../../utils';
+import { SurveyDetailTabs, getCsvUrl } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
-import styles from '../surveys.css';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { ComponentType } from 'react';
@@ -54,9 +52,8 @@ const SubmissionsPage = ({ children: Children }: Props) => {
       }
       title={survey.title}
       back={{ href: '/surveys' }}
+      tabs={<SurveyDetailTabs surveyId={survey.id} />}
     >
-      <DetailNavigation surveyId={Number(survey.id)} />
-
       <ContentSection>
         <ContentMain>
           <Children survey={survey} submissions={submissions} />

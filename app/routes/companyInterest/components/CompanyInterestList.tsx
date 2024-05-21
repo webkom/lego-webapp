@@ -23,7 +23,7 @@ import {
   selectCompanySemesterById,
 } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { ListNavigation } from 'app/routes/bdb/utils';
+import { BdbTabs } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
 import { EntityType } from 'app/store/models/entities';
@@ -213,9 +213,8 @@ const CompanyInterestList = () => {
           Ny bedriftsinteresse
         </LinkButton>
       }
+      tabs={<BdbTabs />}
     >
-      <ListNavigation />
-
       <Flex column gap="var(--spacing-md)">
         <p>
           Her finner du all praktisk informasjon knyttet til bedriftsinteresser

@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import { Page, TabContainer } from '@webkom/lego-bricks';
+import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
@@ -41,28 +41,29 @@ const EventAdministrateIndex = () => {
         label: 'Tilbake til arrangement',
         href: '/events/' + event.slug,
       }}
+      tabs={
+        <>
+          <NavigationTab href={`${base}/attendees`}>Påmeldinger</NavigationTab>
+          <Tooltip
+            disabled={canSeeAllergies(currentUser, event)}
+            content="Kun ansvarlig gruppe og personen som opprettet arrangementet kan se allergier"
+          >
+            <NavigationTab
+              href={`${base}/allergies`}
+              disabled={!canSeeAllergies(currentUser, event)}
+            >
+              Allergier
+            </NavigationTab>
+          </Tooltip>
+          <NavigationTab href={`${base}/statistics`}>Statistikk</NavigationTab>
+          <NavigationTab href={`${base}/admin-register`}>
+            Adminregistrering
+          </NavigationTab>
+          <NavigationTab href={`${base}/abacard`}>Abacard</NavigationTab>
+        </>
+      }
     >
       <Helmet title={`Administrer: ${event.title}`} />
-      <TabContainer>
-        <NavigationTab href={`${base}/attendees`}>Påmeldinger</NavigationTab>
-        <Tooltip
-          disabled={canSeeAllergies(currentUser, event)}
-          content="Kun ansvarlig gruppe og personen som opprettet arrangementet kan se allergier"
-        >
-          <NavigationTab
-            href={`${base}/allergies`}
-            disabled={!canSeeAllergies(currentUser, event)}
-          >
-            Allergier
-          </NavigationTab>
-        </Tooltip>
-        <NavigationTab href={`${base}/statistics`}>Statistikk</NavigationTab>
-        <NavigationTab href={`${base}/admin-register`}>
-          Adminregistrering
-        </NavigationTab>
-        <NavigationTab href={`${base}/abacard`}>Abacard</NavigationTab>
-      </TabContainer>
-
       <Outlet />
     </Page>
   );

@@ -87,7 +87,7 @@ const ThreadEditor = () => {
 
   return (
     <Page
-      title={isNew ? 'Ny tråd' : 'Rediger tråd'}
+      title={isNew ? 'Ny tråd' : `Redigerer: ${thread?.title}`}
       back={{
         href: thread
           ? `/forum/${forumId}/threads/${thread.id}`

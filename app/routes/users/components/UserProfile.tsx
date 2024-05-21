@@ -429,7 +429,17 @@ const UserProfile = () => {
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
-    <Page>
+    <Page
+      title={user.fullName}
+      actionButtons={
+        <Icon
+          name="settings"
+          size={22}
+          className={styles.settingsIcon}
+          to={`/users/${user.username}/settings/profile`}
+        />
+      }
+    >
       <Helmet title={`${firstName} ${lastName}`} />
 
       <Flex wrap className={styles.header}>
@@ -461,15 +471,6 @@ const UserProfile = () => {
           )}
         </Flex>
         <Flex column className={styles.rightContent}>
-          <Flex justifyContent="space-between" alignItems="center">
-            <h2>{user.fullName}</h2>
-            <Icon
-              name="settings"
-              size={22}
-              className={styles.settingsIcon}
-              to={`/users/${user.username}/settings/profile`}
-            />
-          </Flex>
           <Flex wrap>
             {membershipsAsPills.map((membership) => (
               <GroupPill key={membership.id} group={membership.abakusGroup} />

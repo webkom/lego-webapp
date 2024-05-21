@@ -1,5 +1,5 @@
 .container {
-  margin-bottom: var(--spacing-md);
+  margin: var(--spacing-sm) 0 var(--spacing-md);
 }
 
 .spacer {

@@ -35,7 +35,7 @@ const SearchPageWrapper = () => {
   }, 300);
 
   return (
-    <Page>
+    <Page title="Søk">
       <SearchPage
         results={results}
         handleSelect={handleSelect}

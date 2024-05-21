@@ -40,7 +40,7 @@ const HTTPError = ({ statusCode }: Props) => {
   }, [dispatch, statusCode, storedStatusCode]);
 
   return (
-    <PageContainer>
+    <PageContainer card={false}>
       <Flex
         column
         alignItems="center"
