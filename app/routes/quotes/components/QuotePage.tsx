@@ -91,7 +91,26 @@ const QuotePage = () => {
   return (
     <Page
       title={approved ? 'Overhørt' : 'Ikke-godkjente sitater'}
-      back={!approved ? { href: '/quotes' } : undefined}
+      back={!approved || isSingle ? { href: '/quotes' } : undefined}
+      sidebar={{
+        title: 'Filter',
+        side: 'right',
+        icon: 'filter',
+        content: !isSingle && (
+          <div className={styles.select}>
+            <div>Sorter etter:</div>
+            <SelectInput
+              name="sorting_selector"
+              value={ordering}
+              onChange={(option: Option) =>
+                option && setQueryValue('ordering')(option.value)
+              }
+              isClearable={false}
+              options={orderingOptions}
+            />
+          </div>
+        ),
+      }}
       actionButtons={
         approved && [
           actionGrant.includes('approve') && (
@@ -106,21 +125,6 @@ const QuotePage = () => {
       }
     >
       <Helmet title="Overhørt" />
-
-      {!isSingle && (
-        <div className={styles.select}>
-          <div>Sorter etter:</div>
-          <SelectInput
-            name="sorting_selector"
-            value={ordering}
-            onChange={(option: Option) =>
-              option && setQueryValue('ordering')(option.value)
-            }
-            isClearable={false}
-            options={orderingOptions}
-          />
-        </div>
-      )}
 
       {errorMessage || <QuoteList actionGrant={actionGrant} quotes={quotes} />}
 
