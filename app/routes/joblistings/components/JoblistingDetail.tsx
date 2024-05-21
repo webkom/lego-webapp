@@ -13,7 +13,6 @@ import {
   ContentSection,
   ContentMain,
   ContentSidebar,
-  ContentHeader,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
@@ -101,6 +100,7 @@ const JoblistingDetail = () => {
           youtubeUrl={joblisting.youtubeUrl}
         />
       }
+      title={joblisting.title}
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
@@ -112,9 +112,6 @@ const JoblistingDetail = () => {
           href={`${config?.webUrl}/joblistings/${joblisting.id}`}
         />
       </PropertyHelmet>
-      <ContentHeader>
-        <h2>{joblisting.title}</h2>
-      </ContentHeader>
       <ContentSection>
         <ContentMain>
           <DisplayContent content={joblisting.description} />

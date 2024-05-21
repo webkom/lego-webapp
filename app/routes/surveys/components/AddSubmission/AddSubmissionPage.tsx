@@ -1,4 +1,4 @@
-import { LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -54,8 +54,13 @@ const AddSubmissionPage = () => {
 
   if (survey.templateType) {
     return (
-      <Page back={{ href: '/' }}>
-        <h2>Denne undersøkelsen er en mal, og kan derfor ikke besvares.</h2>
+      <Page
+        title={survey.title}
+        back={{ href: '/', label: 'Tilbake til forsiden' }}
+      >
+        <Card severity="danger">
+          Denne undersøkelsen er en mal, og kan derfor ikke besvares.
+        </Card>
       </Page>
     );
   }
@@ -69,8 +74,11 @@ const AddSubmissionPage = () => {
     !survey.actionGrant.includes('edit')
   ) {
     return (
-      <Page>
-        <h2>Denne undersøkelsen er ikke aktiv enda.</h2>
+      <Page
+        title={survey.title}
+        back={{ href: '/', label: 'Tilbake til forsiden' }}
+      >
+        <Card severity="warning">Denne undersøkelsen er ikke aktiv enda.</Card>
         <p>
           Den vil aktiveres{' '}
           <Time time={survey.activeFrom} format="HH:mm DD. MMM" />.

@@ -1,4 +1,4 @@
-import { LinkButton, Page, TabContainer } from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -44,12 +44,14 @@ const SurveyListPage = ({ templates }: Props) => {
       actionButtons={
         <LinkButton href="/surveys/add">Ny undersøkelse</LinkButton>
       }
+      tabs={
+        <>
+          <NavigationTab href="/surveys">Undersøkelser</NavigationTab>
+          <NavigationTab href="/surveys/templates">Maler</NavigationTab>
+        </>
+      }
     >
       <Helmet title="Spørreundersøkelser" />
-      <TabContainer>
-        <NavigationTab href="/surveys">Undersøkelser</NavigationTab>
-        <NavigationTab href="/surveys/templates">Maler</NavigationTab>
-      </TabContainer>
 
       <Paginator
         hasMore={pagination.hasMore}

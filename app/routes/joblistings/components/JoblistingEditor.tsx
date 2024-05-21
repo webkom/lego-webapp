@@ -198,7 +198,7 @@ const JoblistingEditor = () => {
     })),
   };
 
-  const title = isNew ? 'Ny jobbannonse' : joblisting?.title;
+  const title = isNew ? 'Ny jobbannonse' : `Redigerer: ${joblisting?.title}`;
 
   return (
     <Page

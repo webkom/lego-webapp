@@ -12,7 +12,7 @@ import { useFetchedSurvey } from 'app/reducers/surveys';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { DetailNavigation } from '../utils';
+import { SurveyDetailTabs } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
 import styles from './surveys.css';
@@ -51,9 +51,9 @@ const SurveyDetailPage = () => {
       }
       title={survey.title}
       back={{ href: `/surveys/${isTemplate ? 'templates' : ''}` }}
+      tabs={!isTemplate && <SurveyDetailTabs surveyId={survey.id} />}
     >
       <Helmet title={survey.title} />
-      {!isTemplate && <DetailNavigation surveyId={Number(survey.id)} />}
 
       <ContentSection>
         <ContentMain>

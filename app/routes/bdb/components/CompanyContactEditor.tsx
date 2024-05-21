@@ -82,8 +82,8 @@ const CompanyContactEditor = () => {
       };
 
   const title = isNew
-    ? `Opprett bedriftskontakt for ${company.name}`
-    : `Rediger bedriftskontakt for ${company.name}`;
+    ? `Ny bedriftskontakt for ${company.name}`
+    : `Redigerer: Bedriftskontakt for ${company.name}`;
 
   return (
     <Page title={title} back={{ href: `/bdb/${company.id}` }}>

@@ -77,7 +77,7 @@ const ForumEditor = () => {
 
   return (
     <Page
-      title={isNew ? 'Nytt forum' : 'Rediger forum'}
+      title={isNew ? 'Nytt forum' : `Redigerer: ${forum?.title}`}
       back={{ href: forum ? `/forum/${forum.id}/threads` : '/forum' }}
     >
       <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>

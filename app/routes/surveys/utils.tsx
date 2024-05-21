@@ -1,4 +1,4 @@
-import { Icon, TabContainer } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import config from 'app/config';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
@@ -16,23 +16,18 @@ export const questionTypeOptions = Object.values(SurveyQuestionType).map(
     label: questionTypeString[questionType],
   }),
 );
-export const DetailNavigation = ({ surveyId }: { surveyId?: EntityId }) => (
-  <TabContainer>
-    {surveyId && (
-      <>
-        <NavigationTab href={`/surveys/${surveyId}`}>
-          Undersøkelsen
-        </NavigationTab>
-        <NavigationTab href={`/surveys/${surveyId}/submissions/summary`}>
-          Resultater
-        </NavigationTab>
-        <NavigationTab href={`/surveys/${surveyId}/submissions/individual`}>
-          Individuelle svar
-        </NavigationTab>
-      </>
-    )}
-  </TabContainer>
-);
+export const SurveyDetailTabs = ({ surveyId }: { surveyId?: EntityId }) =>
+  surveyId && (
+    <>
+      <NavigationTab href={`/surveys/${surveyId}`}>Undersøkelsen</NavigationTab>
+      <NavigationTab href={`/surveys/${surveyId}/submissions/summary`}>
+        Resultater
+      </NavigationTab>
+      <NavigationTab href={`/surveys/${surveyId}/submissions/individual`}>
+        Individuelle svar
+      </NavigationTab>
+    </>
+  );
 
 export const getCsvUrl = (surveyId: EntityId) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;

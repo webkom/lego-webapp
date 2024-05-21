@@ -20,7 +20,7 @@ import sortCompanies from '../SortCompanies';
 import {
   indexToCompanySemester,
   indexToYearAndSemester,
-  ListNavigation,
+  BdbTabs,
 } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
@@ -181,9 +181,9 @@ const BdbPage = () => {
     <Page
       title="Bedriftsdatabase"
       actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
+      tabs={<BdbTabs />}
     >
       <Helmet title="Bedriftsdatabase" />
-      <ListNavigation />
 
       <TextInput
         prefix="search"

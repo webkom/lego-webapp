@@ -142,7 +142,7 @@ const AddSemester = () => {
 
   return (
     <Page
-      title="Legg til semester"
+      title="Legg til semesterstatus"
       back={{
         href: `/bdb/${companyId}/`,
       }}

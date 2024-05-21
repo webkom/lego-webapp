@@ -22,7 +22,7 @@ import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
 import styles from './EventList.css';
-import Toolbar from './Toolbar';
+import EventsTabs from './EventsTabs';
 import type { ListEvent } from 'app/store/models/Event';
 
 type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
@@ -280,9 +280,9 @@ const EventList = () => {
           <LinkButton href="/events/create">Lag nytt</LinkButton>
         )
       }
+      tabs={<EventsTabs />}
     >
       <Helmet title="Arrangementer" />
-      <Toolbar />
       <EventListGroup
         name="Denne uken"
         events={groupedEvents.currentWeek}

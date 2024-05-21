@@ -1,7 +1,9 @@
+import cx from 'classnames';
 import { LinkButton } from '../../Button';
 import { ButtonGroup } from '../../Button/ButtonGroup';
 import { Icon } from '../../Icon';
 import { Skeleton } from '../../Skeleton';
+import { TabContainer } from '../../Tabs/TabContainer';
 import Flex from '../Flex';
 import { PageContainer, SidebarTrigger } from '../index';
 import styles from './Page.module.css';
@@ -9,25 +11,36 @@ import type { SidebarOptions } from './PageContainer';
 import type { ReactNode } from 'react';
 
 type Props = {
-  className?: string;
+  classNames?: {
+    container?: string;
+    content?: string;
+    description?: string;
+    tabContainer?: string;
+  };
   card?: boolean;
   cover?: ReactNode;
   title?: ReactNode;
+  description?: ReactNode;
   back?: { href: string; label?: string };
   sidebar?: SidebarOptions;
   actionButtons?: ReactNode;
+  tabs?: ReactNode;
+  dividerColor?: string;
   skeleton?: boolean;
   children: ReactNode;
 };
 
 const Page = ({
-  className,
+  classNames,
   card = true,
   cover,
   title,
+  description,
   back,
   sidebar,
   actionButtons,
+  tabs,
+  dividerColor,
   skeleton = false,
   children,
 }: Props) => (
@@ -35,9 +48,9 @@ const Page = ({
     card={card}
     cover={cover}
     sidebar={sidebar}
-    className={className}
+    className={classNames?.container}
   >
-    <Flex column className={styles.content}>
+    <Flex column className={cx(styles.content, classNames?.content)}>
       {back && (
         <LinkButton flat href={back.href} className={styles.backButton}>
           <Icon name="arrow-back" size={19} />
@@ -46,8 +59,7 @@ const Page = ({
       )}
       <Flex
         wrap
-        justifyContent="flex-end"
-        gap={8}
+        gap="var(--spacing-sm)"
         className={title ? styles.title : undefined}
       >
         {sidebar?.side === 'left' && <SidebarTrigger />}
@@ -56,12 +68,20 @@ const Page = ({
         ) : (
           title && <h1>{title}</h1>
         )}
-        <div className={styles.spacer} />
-        <ButtonGroup>
+        <ButtonGroup className={styles.buttonGroup}>
           {actionButtons}
           {sidebar?.side === 'right' && <SidebarTrigger />}
         </ButtonGroup>
       </Flex>
+      <div className={cx(styles.description, classNames?.description)}>
+        {description}
+      </div>
+      <TabContainer
+        lineColor={dividerColor}
+        className={classNames?.tabContainer}
+      >
+        {tabs}
+      </TabContainer>
       {children}
     </Flex>
   </PageContainer>

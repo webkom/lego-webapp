@@ -77,7 +77,7 @@ const CompanyEditor = () => {
 
   const navigate = useNavigate();
 
-  const title = isNew ? 'Ny bedrift' : `Rediger bedrift: ${company?.name}`;
+  const title = isNew ? 'Ny bedrift' : `Redigerer: ${company?.name}`;
   const backUrl = isNew ? '/bdb' : `/bdb/${companyId}`;
 
   if (!isNew && fetching) {

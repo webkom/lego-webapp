@@ -19,7 +19,7 @@ const AnnouncementsList = () => {
   );
 
   return (
-    <Page title="Kunngjøringer">
+    <Page title="Send kunngjøringer">
       <LoadingIndicator loading={fetching}>
         {actionGrant.includes('create') && <AnnouncementsCreate />}
 

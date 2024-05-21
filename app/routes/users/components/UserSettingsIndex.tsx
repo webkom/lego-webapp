@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import { Page, TabContainer } from '@webkom/lego-bricks';
+import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
@@ -34,10 +34,8 @@ const UserSettingsIndex = () => {
         label: 'Profil',
         href: `/users/${username}`,
       }}
-    >
-      <Helmet title="Innstillinger" />
-      <TabContainer>
-        {isCurrentUser && (
+      tabs={
+        isCurrentUser && (
           <>
             <NavigationTab href={`${base}/profile`}>
               Rediger profil
@@ -52,9 +50,10 @@ const UserSettingsIndex = () => {
                 : 'Verifiser studentstatus'}
             </NavigationTab>
           </>
-        )}
-      </TabContainer>
-
+        )
+      }
+    >
+      <Helmet title="Innstillinger" />
       <Outlet />
     </Page>
   );
