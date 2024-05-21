@@ -37,21 +37,23 @@ const SurveyDetailPage = () => {
     navigate(`/surveys/${surveyId}/answer`);
   }
 
+  const isTemplate = !!survey.templateType;
+
   return (
     <Page
       cover={
-        <PageCover
-          image={survey.templateType ? undefined : event.cover}
-          imagePlaceholder={
-            survey.templateType ? undefined : event.coverPlaceholder
-          }
-        />
+        !isTemplate && (
+          <PageCover
+            image={event.cover}
+            imagePlaceholder={event.coverPlaceholder}
+          />
+        )
       }
       title={survey.title}
-      back={{ href: '/surveys' }}
+      back={{ href: `/surveys/${isTemplate ? 'templates' : ''}` }}
     >
       <Helmet title={survey.title} />
-      <DetailNavigation surveyId={Number(survey.id)} />
+      {!isTemplate && <DetailNavigation surveyId={Number(survey.id)} />}
 
       <ContentSection>
         <ContentMain>

@@ -1,10 +1,11 @@
 import loadable from '@loadable/component';
-import { Page } from '@webkom/lego-bricks';
+import { Page, TabContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
 import { fetchAdministrate } from 'app/actions/EventActions';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
+import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectEventById } from 'app/reducers/events';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
@@ -21,7 +22,6 @@ const Abacard = loadable(() => import('./Abacard'));
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) => selectEventById(state, { eventId }));
-  const fetching = useAppSelector((state) => state.events.fetching);
   const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
@@ -43,17 +43,25 @@ const EventAdministrateIndex = () => {
       }}
     >
       <Helmet title={`Administrer: ${event.title}`} />
-      <NavigationTab skeleton={fetching}>
-        <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
-        {event && canSeeAllergies(currentUser, event) && (
-          <NavigationLink to={`${base}/allergies`}>Allergier</NavigationLink>
-        )}
-        <NavigationLink to={`${base}/statistics`}>Statistikk</NavigationLink>
-        <NavigationLink to={`${base}/admin-register`}>
+      <TabContainer>
+        <NavigationTab href={`${base}/attendees`}>Påmeldinger</NavigationTab>
+        <Tooltip
+          disabled={canSeeAllergies(currentUser, event)}
+          content="Kun ansvarlig gruppe og personen som opprettet arrangementet kan se allergier"
+        >
+          <NavigationTab
+            href={`${base}/allergies`}
+            disabled={!canSeeAllergies(currentUser, event)}
+          >
+            Allergier
+          </NavigationTab>
+        </Tooltip>
+        <NavigationTab href={`${base}/statistics`}>Statistikk</NavigationTab>
+        <NavigationTab href={`${base}/admin-register`}>
           Adminregistrering
-        </NavigationLink>
-        <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
-      </NavigationTab>
+        </NavigationTab>
+        <NavigationTab href={`${base}/abacard`}>Abacard</NavigationTab>
+      </TabContainer>
 
       <Outlet />
     </Page>

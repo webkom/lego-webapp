@@ -1,8 +1,8 @@
 import loadable from '@loadable/component';
-import { Page } from '@webkom/lego-bricks';
+import { Page, TabContainer } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject, useParams } from 'react-router-dom';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { useCurrentUser } from 'app/reducers/auth';
 import pageNotFound from 'app/routes/pageNotFound';
 import { useIsCurrentUser } from 'app/routes/users/utils';
@@ -36,22 +36,24 @@ const UserSettingsIndex = () => {
       }}
     >
       <Helmet title="Innstillinger" />
-      <NavigationTab>
+      <TabContainer>
         {isCurrentUser && (
           <>
-            <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
-            <NavigationLink to={`${base}/notifications`}>
+            <NavigationTab href={`${base}/profile`}>
+              Rediger profil
+            </NavigationTab>
+            <NavigationTab href={`${base}/notifications`}>
               Notifikasjoner
-            </NavigationLink>
-            <NavigationLink to={`${base}/oauth2`}>OAuth2</NavigationLink>
-            <NavigationLink to={`${base}/student-confirmation`}>
+            </NavigationTab>
+            <NavigationTab href={`${base}/oauth2`}>OAuth2</NavigationTab>
+            <NavigationTab href={`${base}/student-confirmation`}>
               {currentUser?.isStudent
                 ? 'Studentstatus'
                 : 'Verifiser studentstatus'}
-            </NavigationLink>
+            </NavigationTab>
           </>
         )}
-      </NavigationTab>
+      </TabContainer>
 
       <Outlet />
     </Page>

@@ -1,5 +1,5 @@
 import loadable from '@loadable/component';
-import { Page } from '@webkom/lego-bricks';
+import { Page, TabContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -9,8 +9,7 @@ import {
   useParams,
 } from 'react-router-dom';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './GroupPage.css';
@@ -26,14 +25,20 @@ const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
   return (
     <>
-      <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
-      <NavigationLink to={`${baseUrl}/members?descendants=false`}>
+      <NavigationTab href={`${baseUrl}/settings`}>Rediger</NavigationTab>
+      <NavigationTab
+        matchQuery={{ descendants: ['false', undefined] }}
+        href={`${baseUrl}/members?descendants=false`}
+      >
         Medlemmer
-      </NavigationLink>
-      <NavigationLink to={`${baseUrl}/members?descendants=true`}>
+      </NavigationTab>
+      <NavigationTab
+        matchQuery={{ descendants: 'true' }}
+        href={`${baseUrl}/members?descendants=true`}
+      >
         Implisitte medlemmer
-      </NavigationLink>
-      <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
+      </NavigationTab>
+      <NavigationTab href={`${baseUrl}/permissions`}>Rettigheter</NavigationTab>
     </>
   );
 };
@@ -54,9 +59,9 @@ const GroupPageNavigation = ({
   groupId: string | null | undefined;
 }) => {
   return (
-    <NavigationTab>
+    <TabContainer>
       {groupId && <NavigationLinks groupId={groupId} />}
-    </NavigationTab>
+    </TabContainer>
   );
 };
 
