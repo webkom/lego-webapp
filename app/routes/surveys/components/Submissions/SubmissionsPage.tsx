@@ -1,7 +1,7 @@
 import { Flex, LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { useParams } from 'react-router-dom';
 import { ContentSection, ContentMain } from 'app/components/Content';
-import { NavigationLink } from 'app/components/NavigationTab';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
@@ -59,15 +59,6 @@ const SubmissionsPage = ({ children: Children }: Props) => {
 
       <ContentSection>
         <ContentMain>
-          <Flex gap="0.5rem" className={styles.submissionNav}>
-            <NavigationLink to={`/surveys/${survey.id}/submissions/summary`}>
-              Oppsummering
-            </NavigationLink>
-            <NavigationLink to={`/surveys/${survey.id}/submissions/individual`}>
-              Individuell
-            </NavigationLink>
-          </Flex>
-
           <Children survey={survey} submissions={submissions} />
         </ContentMain>
 

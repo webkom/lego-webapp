@@ -1,6 +1,5 @@
-import { Icon } from '@webkom/lego-bricks';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { Icon, TabContainer } from '@webkom/lego-bricks';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import config from 'app/config';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './components/surveys.css';
@@ -17,30 +16,22 @@ export const questionTypeOptions = Object.values(SurveyQuestionType).map(
     label: questionTypeString[questionType],
   }),
 );
-export const ListNavigation = () => (
-  <NavigationTab>
-    <NavigationLink to="/surveys">Undersøkelser</NavigationLink>
-    <NavigationLink to="/surveys/templates">Maler</NavigationLink>
-  </NavigationTab>
-);
 export const DetailNavigation = ({ surveyId }: { surveyId?: EntityId }) => (
-  <NavigationTab>
+  <TabContainer>
     {surveyId && (
       <>
-        <NavigationLink to={`/surveys/${surveyId}`}>
+        <NavigationTab href={`/surveys/${surveyId}`}>
           Undersøkelsen
-        </NavigationLink>
-        <NavigationLink
-          to={`/surveys/${surveyId}/submissions/summary`}
-          additionalActivePaths={[
-            `/surveys/${surveyId}/submissions/individual`,
-          ]}
-        >
+        </NavigationTab>
+        <NavigationTab href={`/surveys/${surveyId}/submissions/summary`}>
           Resultater
-        </NavigationLink>
+        </NavigationTab>
+        <NavigationTab href={`/surveys/${surveyId}/submissions/individual`}>
+          Individuelle svar
+        </NavigationTab>
       </>
     )}
-  </NavigationTab>
+  </TabContainer>
 );
 
 export const getCsvUrl = (surveyId: EntityId) =>

@@ -1,17 +1,17 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page, TabContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import {
   fetchAll as fetchSurveys,
   fetchTemplates,
 } from 'app/actions/SurveyActions';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import Paginator from 'app/components/Paginator';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectAllSurveys, selectSurveyTemplates } from 'app/reducers/surveys';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { ListNavigation } from '../../utils';
 import SurveyList from './SurveyList';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 
@@ -46,7 +46,10 @@ const SurveyListPage = ({ templates }: Props) => {
       }
     >
       <Helmet title="Spørreundersøkelser" />
-      <ListNavigation />
+      <TabContainer>
+        <NavigationTab href="/surveys">Undersøkelser</NavigationTab>
+        <NavigationTab href="/surveys/templates">Maler</NavigationTab>
+      </TabContainer>
 
       <Paginator
         hasMore={pagination.hasMore}

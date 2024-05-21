@@ -1,5 +1,5 @@
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { TabContainer } from '@webkom/lego-bricks';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
@@ -187,8 +187,8 @@ export const getContactStatuses = (
 };
 
 export const ListNavigation = () => (
-  <NavigationTab>
-    <NavigationLink to="/companyInterest">Interesseskjema</NavigationLink>
-    <NavigationLink to="/bdb">BDB</NavigationLink>
-  </NavigationTab>
+  <TabContainer>
+    <NavigationTab href="/companyInterest">Interesseskjema</NavigationTab>
+    <NavigationTab href="/bdb">BDB</NavigationTab>
+  </TabContainer>
 );

@@ -1,9 +1,8 @@
 import loadable from '@loadable/component';
-import { Page } from '@webkom/lego-bricks';
+import { Page, TabContainer } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, type RouteObject } from 'react-router-dom';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import pageNotFound from '../../pageNotFound';
 
 const EmailLists = loadable(() => import('./components/EmailLists'));
@@ -17,15 +16,15 @@ const RestrictedMailEditor = loadable(
 const EmailRouteWrapper = () => (
   <Page title="E-post">
     <Helmet title="E-post" />
-    <NavigationTab>
-      <NavigationLink to="/admin/email">Lister</NavigationLink>
-      <NavigationLink to="/admin/email/users?enabled=true">
+    <TabContainer>
+      <NavigationTab href="/admin/email">Lister</NavigationTab>
+      <NavigationTab href="/admin/email/users?enabled=true">
         Brukere
-      </NavigationLink>
-      <NavigationLink to="/admin/email/restricted">
+      </NavigationTab>
+      <NavigationTab href="/admin/email/restricted">
         Begrenset e-post
-      </NavigationLink>
-    </NavigationTab>
+      </NavigationTab>
+    </TabContainer>
 
     <Outlet />
   </Page>

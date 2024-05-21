@@ -9,6 +9,8 @@ export { Accordion } from './components/Accordion';
 export { Provider } from './Provider';
 export { Button, LinkButton } from './components/Button';
 export { ButtonGroup } from './components/Button/ButtonGroup';
+export { TabContainer } from './components/Tabs/TabContainer';
+export { Tab } from './components/Tabs/Tab';
 export {
   Page,
   PageContainer,
