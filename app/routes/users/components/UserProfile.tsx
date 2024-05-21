@@ -5,10 +5,10 @@ import {
   Flex,
   Icon,
   LinkButton,
-  LoadingIndicator,
   Modal,
   Image,
   Page,
+  LoadingPage,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -172,6 +172,7 @@ const UserProfile = () => {
   const currentUser = useCurrentUser();
   const isCurrentUser = useIsCurrentUser(params.username);
   const username = isCurrentUser ? currentUser?.username : params.username;
+  const fetching = useAppSelector((state) => state.users.fetching);
   const user = useAppSelector((state) =>
     selectUserWithGroups(state, {
       username,
@@ -227,11 +228,7 @@ const UserProfile = () => {
   );
 
   if (!user) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const renderFields = () => {

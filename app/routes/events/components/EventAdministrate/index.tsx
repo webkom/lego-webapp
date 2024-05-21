@@ -22,6 +22,7 @@ const Abacard = loadable(() => import('./Abacard'));
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const fetching = useAppSelector((state) => state.events.fetching);
   const currentUser = useCurrentUser();
 
   const dispatch = useAppDispatch();
@@ -36,11 +37,13 @@ const EventAdministrateIndex = () => {
 
   return (
     <Page
-      title={`Administrer: ${event.title}`}
-      back={{
-        label: 'Tilbake til arrangement',
-        href: '/events/' + event.slug,
-      }}
+      title={`Administrerer: ${event.title}`}
+      back={
+        event?.slug && {
+          label: 'Tilbake til arrangement',
+          href: '/events/' + event.slug,
+        }
+      }
       tabs={
         <>
           <NavigationTab href={`${base}/attendees`}>Påmeldinger</NavigationTab>
@@ -62,6 +65,7 @@ const EventAdministrateIndex = () => {
           <NavigationTab href={`${base}/abacard`}>Abacard</NavigationTab>
         </>
       }
+      skeleton={fetching}
     >
       <Helmet title={`Administrer: ${event.title}`} />
       <Outlet />

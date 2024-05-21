@@ -2,7 +2,7 @@ import {
   Button,
   Icon,
   LinkButton,
-  LoadingIndicator,
+  LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -110,11 +110,7 @@ const GalleryDetail = () => {
   );
 
   if (!gallery || fetchingGalleries) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetchingGalleries} />;
   }
 
   const toggleUpload = (response?: File | DropFile[]) => {
@@ -253,11 +249,7 @@ const GalleryDetail = () => {
   }
 
   if (fetchingGalleryPictures) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetchingGalleryPictures} />;
   }
 
   if (!loggedIn) {

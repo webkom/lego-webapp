@@ -1,4 +1,4 @@
-import { LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -36,6 +36,7 @@ const CompanyContactEditor = () => {
     companyContactId: string;
   }>();
   const isNew = companyContactId === undefined;
+  const fetching = useAppSelector((state) => state.companies.fetching);
   const company = useAppSelector((state) =>
     selectCompanyById<AdminDetailCompany>(state, companyId),
   );
@@ -54,11 +55,7 @@ const CompanyContactEditor = () => {
   const navigate = useNavigate();
 
   if (!company) {
-    return (
-      <Page>
-        <LoadingIndicator loading />
-      </Page>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const onSubmit = async (formContent: FormValues) => {
