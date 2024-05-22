@@ -4,12 +4,12 @@ import { Comment } from 'app/actions/ActionTypes';
 import { EntityType } from 'app/store/models/entities';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import { addReactionCases } from './reactions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AnyAction } from 'redux';
-import { addReactionCases } from './reactions';
 
 export const addCommentCases = (
   forTargetType: EntityType,
