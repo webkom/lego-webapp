@@ -25,6 +25,8 @@ const LatestReadme = ({
   const ref = useRef<HTMLDivElement>(null);
 
   const [expanded, setExpanded] = useState(expandedInitially);
+  const [containerHeight, setContainerHeight] = useState(0);
+  const updateHeight = () => setContainerHeight(ref.current?.clientHeight ?? 0);
 
   useEffect(() => {
     setExpanded(expandedInitially);
@@ -35,7 +37,10 @@ const LatestReadme = ({
       {collapsible ? (
         <div
           className={cx(styles.heading, styles.pointer)}
-          onClick={() => setExpanded(!expanded)}
+          onClick={() => {
+            setExpanded(!expanded);
+            updateHeight();
+          }}
         >
           <Flex justifyContent="space-between" alignItems="center">
             {readmeIfy('readme')}
@@ -53,13 +58,17 @@ const LatestReadme = ({
       <div
         className={styles.thumbnailWrapper}
         style={{
-          height: expanded ? ref.current?.clientHeight ?? 0 : 0,
+          height: expanded ? containerHeight : 0,
         }}
       >
         <div className={styles.thumbnailContainer} ref={ref}>
           {readmes.slice(0, displayCount).map(({ image, pdf, title }) => (
             <a key={title} href={pdf} className={styles.thumb}>
-              <Image src={image} alt={`Cover of ${title}`} />
+              <Image
+                src={image}
+                alt={`Cover of ${title}`}
+                onLoad={() => updateHeight()}
+              />
             </a>
           ))}
         </div>

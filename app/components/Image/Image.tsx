@@ -32,12 +32,13 @@ const ImageComponent = (props: Props) => {
     alt = 'image',
     style,
     darkModeSource,
+    darkThemeSource,
     ...rest
   } = props;
 
   const theme = useTheme();
   const themedSource =
-    props.darkThemeSource && theme === 'dark' ? props.darkThemeSource : src;
+    darkThemeSource && theme === 'dark' ? darkThemeSource : src;
 
   const isProgressive = !!props.placeholder;
   useEffect(() => {
