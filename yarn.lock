@@ -5217,17 +5217,17 @@
     "@webassemblyjs/ast" "1.11.6"
     "@xtuc/long" "4.2.2"
 
-"@webkom/lego-editor@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.3.1.tgz#340aafa45dd331d4975dc3db202ff1c21c23456a"
-  integrity sha512-kdITKPGeyM5yil+JpcCMkzJQwFJL3tP3pq3r9ybFqppQEIF27JBTy1tt6Ffq2RKnN558PTt0BqHWSheFCYFS2w==
+"@webkom/lego-editor@^2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.3.2.tgz#3e5bc5fc26b932261ba74feff8d816a2ba65e952"
+  integrity sha512-E7FXxsqzekoarDiEX0F1buqAk4mkJo5K8gj5mP86BlJ6FlpTnH/cymqxuwFU1GdXpn+Exsvn8wdxb6NglBnBkg==
   dependencies:
     "@webkom/lego-bricks" "^1.2.1"
     classnames "^2.2.6"
     escape-html "^1.0.3"
     lodash "^4.17.15"
     react-dropzone "^14.2.2"
-    react-image-crop "^10.0.4"
+    react-image-crop "^11.0.5"
     react-modal "^3.11.2"
     slate "^0.94.0"
     slate-history "^0.93.0"
@@ -12253,10 +12253,10 @@ react-helmet-async@^2.0.5:
     react-fast-compare "^3.2.2"
     shallowequal "^1.1.0"
 
-react-image-crop@^10.0.4:
-  version "10.1.8"
-  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-10.1.8.tgz#6f7b33d069f6cfb887e66faee16a9fb2e6d31137"
-  integrity sha512-4rb8XtXNx7ZaOZarKKnckgz4xLMvds/YrU6mpJfGhGAsy2Mg4mIw1x+DCCGngVGq2soTBVVOxx2s/C6mTX9+pA==
+react-image-crop@^11.0.5:
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-11.0.5.tgz#c7abcf9cae28305d253d55d481158a594a937867"
+  integrity sha512-A/Y/kspOzki1zDL/bSgwWIY1X3CQ9F1QwpdnncWLBVAktnKfAZDIQnWmjXzuzEjZHDMsBlArytIcPBVi6DNklg==
 
 react-infinite-scroller@^1.2.6:
   version "1.2.6"
