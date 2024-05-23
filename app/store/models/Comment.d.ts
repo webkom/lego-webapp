@@ -1,5 +1,5 @@
-import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactionsGrouped } from './store/models/Reaction';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';

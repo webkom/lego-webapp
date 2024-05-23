@@ -15,6 +15,10 @@ const store = configureStore([])({
   users: {
     entities: {},
   },
+  emojis: {
+    ids: [],
+    entities: {},
+  },
 });
 
 describe('<CommentTree />', () => {
