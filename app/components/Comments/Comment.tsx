@@ -11,6 +11,7 @@ import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
+import LegoReactions from '../LegoReactions';
 import styles from './Comment.css';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
@@ -109,6 +110,12 @@ const Comment = ({
           content={text ? text : '<p>Kommentar slettet</p>'}
         />
 
+        <LegoReactions
+          parentEntity={{
+            ...comment,
+            contentTarget: comment.contentTargetSelf,
+          }}
+        />
         {author && (
           <Button flat onPress={() => setReplyOpen(!replyOpen)}>
             {replyOpen ? (
