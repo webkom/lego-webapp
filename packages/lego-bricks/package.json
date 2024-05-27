@@ -64,7 +64,7 @@
     "@storybook/react-vite": "^8.0.10",
     "@storybook/testing-library": "^0.2.2",
     "@types/enzyme": "^3.10.16",
-    "@types/react": "^18.2.63",
+    "@types/react": "^18.3.3",
     "@types/react-dom": "^18.2.21",
     "@vitejs/plugin-react": "^4.2.1",
     "enzyme": "^3.9.0",
