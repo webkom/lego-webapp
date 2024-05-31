@@ -1,6 +1,7 @@
 import {
   Button,
-  Flex,
+  FilterSection,
+  filterSidebar,
   LinkButton,
   LoadingIndicator,
   Page,
@@ -225,14 +226,10 @@ const EventList = () => {
   return (
     <Page
       title="Arrangementer"
-      sidebar={{
-        title: 'Filter',
-        icon: 'filter',
-        side: 'right',
-        content: (
-          <Flex column gap={8}>
-            <h4>Arrangementtype</h4>
-            <Flex column>
+      sidebar={filterSidebar({
+        children: (
+          <>
+            <FilterSection title="Arrangementstype">
               <CheckBox
                 id="companyPresentation"
                 label="Bedpres"
@@ -257,9 +254,8 @@ const EventList = () => {
                 checked={showOther}
                 onChange={toggleEventType('other')}
               />
-            </Flex>
-            <h4>Påmelding</h4>
-            <Flex alignItems="center">
+            </FilterSection>
+            <FilterSection title="Påmelding">
               <SelectInput
                 name="form-field-name"
                 value={regDateFilter}
@@ -271,10 +267,10 @@ const EventList = () => {
                 options={filterRegDateOptions}
                 isClearable={false}
               />
-            </Flex>
-          </Flex>
+            </FilterSection>
+          </>
         ),
-      }}
+      })}
       actionButtons={
         actionGrant?.includes('create') && (
           <LinkButton href="/events/create">Lag nytt</LinkButton>

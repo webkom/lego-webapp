@@ -1,5 +1,7 @@
 import {
   Button,
+  FilterSection,
+  filterSidebar,
   LinkButton,
   LoadingIndicator,
   Page,
@@ -16,7 +18,6 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import QuoteList from './QuoteList';
-import styles from './Quotes.css';
 
 type Option = {
   label: string;
@@ -92,25 +93,25 @@ const QuotePage = () => {
     <Page
       title={approved ? 'Overhørt' : 'Ikke-godkjente sitater'}
       back={!approved || isSingle ? { href: '/quotes' } : undefined}
-      sidebar={{
-        title: 'Filter',
-        side: 'right',
-        icon: 'filter',
-        content: !isSingle && (
-          <div className={styles.select}>
-            <div>Sorter etter:</div>
-            <SelectInput
-              name="sorting_selector"
-              value={ordering}
-              onChange={(option: Option) =>
-                option && setQueryValue('ordering')(option.value)
-              }
-              isClearable={false}
-              options={orderingOptions}
-            />
-          </div>
-        ),
-      }}
+      sidebar={
+        approved
+          ? filterSidebar({
+              children: (
+                <FilterSection title="Sorter etter">
+                  <SelectInput
+                    name="sorting_selector"
+                    value={ordering}
+                    onChange={(option: Option) =>
+                      option && setQueryValue('ordering')(option.value)
+                    }
+                    isClearable={false}
+                    options={orderingOptions}
+                  />
+                </FilterSection>
+              ),
+            })
+          : undefined
+      }
       actionButtons={
         approved && [
           actionGrant.includes('approve') && (

@@ -1,4 +1,4 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { filterSidebar, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
@@ -9,7 +9,7 @@ import { selectAllJoblistings } from 'app/reducers/joblistings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { parseQueryString } from 'app/utils/useQuery';
 import JoblistingsList from './JoblistingList';
-import JoblistingsRightNav from './JoblistingRightNav';
+import JoblistingFilters from './JoblistingRightNav';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 export const defaultJoblistingsQuery = {
@@ -112,12 +112,9 @@ const JoblistingsPage = () => {
   return (
     <Page
       title="Jobbannonser"
-      sidebar={{
-        title: 'Filter',
-        side: 'right',
-        icon: 'filter',
-        content: <JoblistingsRightNav />,
-      }}
+      sidebar={filterSidebar({
+        children: <JoblistingFilters />,
+      })}
       actionButtons={
         actionGrant.includes('create') && (
           <LinkButton href="/joblistings/create">Ny jobbannonse</LinkButton>

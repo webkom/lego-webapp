@@ -17,6 +17,8 @@ export {
   PageCover,
   Sidebar,
   Flex,
+  filterSidebar,
+  FilterSection,
 } from './components/Layout';
 export { Card } from './components/Card';
 export { Icon } from './components/Icon';

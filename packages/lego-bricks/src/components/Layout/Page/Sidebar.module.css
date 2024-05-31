@@ -3,7 +3,7 @@
   max-width: calc(var(--lego-max-width) / 4);
   min-width: 14rem;
   height: 100%;
-  padding: 1rem;
+  padding: var(--spacing-md) var(--spacing-lg);
   background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
 }
 

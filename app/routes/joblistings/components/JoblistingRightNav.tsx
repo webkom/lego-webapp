@@ -1,58 +1,57 @@
+import { FilterSection } from '@webkom/lego-bricks';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import useQuery from 'app/utils/useQuery';
 import { jobTypes as allJobTypes, yearValues } from '../constants';
 import { defaultJoblistingsQuery } from './JoblistingPage';
-import styles from './JoblistingRightNav.css';
 
-const JoblistingsRightNav = () => {
+const JoblistingFilters = () => {
   const { query, setQueryValue } = useQuery(defaultJoblistingsQuery);
   const { order, grades, jobTypes, workplaces } = query;
 
   return (
-    <div className={styles.options}>
-      <h4 className={styles.rightHeader}>Sorter etter</h4>
-      <RadioButton
-        name="sort"
-        id="deadline"
-        label="Frist"
-        checked={order === 'deadline'}
-        onChange={() => {
-          setQueryValue('order')('deadline');
-        }}
-      />
-      <RadioButton
-        name="sort"
-        id="company"
-        label="Bedrift"
-        checked={order === 'company'}
-        onChange={() => {
-          setQueryValue('order')('company');
-        }}
-      />
-      <RadioButton
-        name="sort"
-        id="createdAt"
-        label="Publisert"
-        checked={order === 'createdAt'}
-        onChange={() => {
-          setQueryValue('order')('createdAt');
-        }}
-      />
-
-      <h4 className={styles.rightHeader}>Klassetrinn</h4>
-      {yearValues.map((year) => (
-        <FilterCheckbox
-          key={year.value}
-          value={String(year.value)}
-          label={year.label}
-          activeFilters={grades}
-          onChange={setQueryValue('grades')}
+    <>
+      <FilterSection title="Sorter etter">
+        <RadioButton
+          name="sort"
+          id="deadline"
+          label="Frist"
+          checked={order === 'deadline'}
+          onChange={() => {
+            setQueryValue('order')('deadline');
+          }}
         />
-      ))}
-
-      <h4 className={styles.rightHeader}>Jobbtype</h4>
-      {allJobTypes.map((element) => {
-        return (
+        <RadioButton
+          name="sort"
+          id="company"
+          label="Bedrift"
+          checked={order === 'company'}
+          onChange={() => {
+            setQueryValue('order')('company');
+          }}
+        />
+        <RadioButton
+          name="sort"
+          id="createdAt"
+          label="Publisert"
+          checked={order === 'createdAt'}
+          onChange={() => {
+            setQueryValue('order')('createdAt');
+          }}
+        />
+      </FilterSection>
+      <FilterSection title="Klassetrinn">
+        {yearValues.map((year) => (
+          <FilterCheckbox
+            key={year.value}
+            value={String(year.value)}
+            label={year.label}
+            activeFilters={grades}
+            onChange={setQueryValue('grades')}
+          />
+        ))}
+      </FilterSection>
+      <FilterSection title="Jobbtype">
+        {allJobTypes.map((element) => (
           <FilterCheckbox
             key={element.value}
             value={element.value}
@@ -60,20 +59,20 @@ const JoblistingsRightNav = () => {
             activeFilters={jobTypes}
             onChange={setQueryValue('jobTypes')}
           />
-        );
-      })}
-
-      <h4 className={styles.rightHeader}>Sted</h4>
-      {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
-        <FilterCheckbox
-          key={element}
-          value={element}
-          label={element}
-          activeFilters={workplaces}
-          onChange={setQueryValue('workplaces')}
-        />
-      ))}
-    </div>
+        ))}
+      </FilterSection>
+      <FilterSection title="Sted">
+        {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
+          <FilterCheckbox
+            key={element}
+            value={element}
+            label={element}
+            activeFilters={workplaces}
+            onChange={setQueryValue('workplaces')}
+          />
+        ))}
+      </FilterSection>
+    </>
   );
 };
 
@@ -104,4 +103,4 @@ const FilterCheckbox = ({
   />
 );
 
-export default JoblistingsRightNav;
+export default JoblistingFilters;
