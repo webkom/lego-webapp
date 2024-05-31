@@ -1,15 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.sortQuote {
-  order: 2;
-  width: 200px;
-  margin-top: 40px;
-}
-
-.selectedQuoteSort {
-  font-weight: 600;
-}
-
 .addQuote {
   max-width: 550px;
   margin-bottom: 3rem;
@@ -19,21 +9,9 @@
   display: block;
 }
 
-.addQuoteContent {
-  height: 200px;
-}
-
-.addQuoteSource {
-  height: 75px;
-}
-
 .addQuote .fieldError {
   color: var(--danger-color);
   font-weight: bold;
-}
-
-.errorMessage {
-  color: var(--danger-color);
 }
 
 .clear {
