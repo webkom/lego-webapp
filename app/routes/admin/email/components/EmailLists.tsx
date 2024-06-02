@@ -96,7 +96,7 @@ const EmailLists = () => {
       <Flex
         justifyContent="space-between"
         style={{
-          marginBottom: '10px',
+          marginBottom: 'var(--spacing-sm)',
         }}
       >
         <h3>Aktive e-postlister</h3>

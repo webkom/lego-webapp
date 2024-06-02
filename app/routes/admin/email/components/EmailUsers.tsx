@@ -123,6 +123,7 @@ const EmailUsers = () => {
       title: 'Klasse',
       dataIndex: 'userGrade',
       filter: grades
+        .sort((grade1, grade2) => grade1.name.localeCompare(grade2.name))
         .map((grade) => ({
           label: grade.name,
           value: grade.name,
@@ -173,19 +174,18 @@ const EmailUsers = () => {
     <div>
       <p>
         Brukere som har behov for det kan få sin egen private @abakus.no
-        adresse. Denne skal være på formatet{' '}
-        <b>
-          fornavn.etternavn@abakus.no. Adressen kan ikke endres senere, så vær
-          sikker på at adressen som settes er riktig.
-        </b>{' '}
+        adresse.
+        <br />
         Alle brukere med en aktivert adresse vil motta sin e-post fra Abakus på
-        denne. Adressen kan deaktiveres når brukeren ikke lengre er aktiv i
+        denne.
+        <br />
+        Adressen skal deaktiveres når brukeren ikke lengre har et aktivt verv i
         Abakus, men adressen vil ikke bli tilgjengelig for andre brukere.
       </p>
       <Flex
         justifyContent="space-between"
         style={{
-          marginBottom: '10px',
+          marginBottom: 'var(--spacing-sm)',
         }}
       >
         <h3>Aktive/Inaktive e-postkontoer</h3>

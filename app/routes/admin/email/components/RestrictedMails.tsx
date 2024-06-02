@@ -77,7 +77,7 @@ const RestrictedMails = () => {
       <Flex
         justifyContent="space-between"
         style={{
-          marginBottom: '10px',
+          marginBottom: 'var(--spacing-sm)',
         }}
       >
         <h3>Dine begrensede e-poster</h3>
