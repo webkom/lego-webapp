@@ -25,6 +25,7 @@ import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { Presence } from 'app/store/models/Registration';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
 import {
@@ -218,7 +219,7 @@ const JoinEventForm = ({
     event.isPriced &&
     event.price > 0 &&
     registration &&
-    registration.pool &&
+    (registration.pool || registration.presence === Presence.PRESENT) &&
     ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
