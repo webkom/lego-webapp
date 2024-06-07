@@ -1,5 +1,6 @@
 import { Button, Card, Container, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import moment from 'moment-timezone';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
@@ -105,7 +106,7 @@ const HspInfo = () => (
 
 const usefulLinksConf = [
   {
-    title: 'Fadderperioden 2023',
+    title: `Fadderperioden ${moment().year()}`,
     image: buddyWeekGraphic,
     description:
       'Abakus arrangerer fadderperioden for alle nye studenter, og her kan du lese mer om den og finne annen nyttig informasjon til studiestart.',
@@ -155,7 +156,7 @@ const UsefulLinks = () => (
   <div className={styles.links}>
     <h3 className="u-ui-heading">Nyttige lenker</h3>
 
-    <Flex wrap justifyContent="center" gap={40}>
+    <Flex wrap justifyContent="center" gap={'var(--spacing-lg)'}>
       {usefulLinksConf.map((item) => (
         <a
           href={item.link}

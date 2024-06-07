@@ -8,6 +8,10 @@
 .body {
   padding: 0;
   min-height: 260px;
+
+  @media (--mobile-device) {
+    min-height: 180px;
+  }
 }
 
 .innerLinks {
