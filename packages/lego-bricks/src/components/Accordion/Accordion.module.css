@@ -1,0 +1,19 @@
+.rotateBase {
+  transition: transform var(--easing-medium);
+}
+
+.rotate90 {
+  transform: rotate(90deg);
+}
+
+.childrenWrapper {
+  overflow-y: hidden;
+}
+
+.childrenWrapper > div {
+  overflow: auto;
+}
+
+.animate {
+  transition: height var(--easing-medium);
+}
