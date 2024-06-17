@@ -5,10 +5,11 @@ import './global.css';
 export type { PressEvent } from 'react-aria-components';
 export { RouterProvider, DialogTrigger } from 'react-aria-components';
 
+export { Accordion } from './components/Accordion';
 export { Button, LinkButton } from './components/Button';
 export { ButtonGroup } from './components/Button/ButtonGroup';
-export { Container, Flex } from './components/Layout';
 export { Card } from './components/Card';
+export { Container, Flex } from './components/Layout';
 export { Icon } from './components/Icon';
 export {
   LoadingIndicator,

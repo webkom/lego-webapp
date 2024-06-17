@@ -1,8 +1,7 @@
-import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Accordion, Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
-import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { votePoll } from 'app/actions/PollActions';
 import Tooltip from 'app/components/Tooltip';
@@ -54,13 +53,6 @@ const Poll = ({
   details,
   alwaysOpen = false,
 }: Props) => {
-  const optionRef = useRef<HTMLDivElement>(null);
-  const [expanded, setExpanded] = useState(alwaysOpen);
-
-  const toggleExpanded = () => {
-    setExpanded(!expanded);
-  };
-
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.polls.fetching,
   );
@@ -84,7 +76,6 @@ const Poll = ({
 
   const options = optionsWithPerfectRatios(poll.options);
   const showResults = !resultsHidden || allowedToViewHiddenResults;
-  const expandedHeight = optionRef.current?.clientHeight ?? 0;
 
   const now = moment();
   const isValid = moment(poll.validUntil).isAfter(now);
@@ -92,11 +83,7 @@ const Poll = ({
   const canAnswer = !hasAnswered && isValid;
 
   return (
-    <Flex
-      alignItems="center"
-      className={cx(styles.poll, expanded ? styles.expanded : undefined)}
-      column
-    >
+    <Flex alignItems="center" className={styles.poll} column>
       <Flex
         alignItems="center"
         className={styles.topBar}
@@ -122,60 +109,59 @@ const Poll = ({
           </Flex>
         </Link>
       </Flex>
-      <Flex
-        column
-        className={styles.contentWrapper}
-        style={{
-          height: alwaysOpen ? `auto` : expanded ? `${expandedHeight}px` : '0',
-        }}
-      >
-        <div ref={optionRef}>
-          {canAnswer && (
-            <VoteOpen details={details} poll={poll} options={options} />
-          )}
-          {!canAnswer && showResults && (
-            <VoteResults
-              details={details}
-              poll={poll}
-              options={options}
-              resultsHidden={resultsHidden}
-            />
-          )}
-          {!canAnswer && !showResults && (
-            <VoteHidden details={details} poll={poll} />
-          )}
-
+      <Accordion
+        disabled={alwaysOpen}
+        defaultOpen={alwaysOpen}
+        triggerPosition="bottom"
+        wrapperClassName={styles.contentWrapper}
+        triggerComponent={({ onClick, disabled, open }) => (
           <Flex
             alignItems="center"
             justifyContent="center"
-            className={styles.registrationCount}
-            gap={8}
+            className={cx(styles.bottomBar, open && styles.expanded)}
+            style={{ cursor: !disabled ? 'pointer' : '' }}
+            onClick={!disabled ? onClick : undefined}
           >
-            <Tooltip content="Avstemningen er anonym.">
-              <Icon name="information-circle-outline" size={17} />
-            </Tooltip>
-            <span>
-              <span className={styles.totalVotes}>{totalVotes}</span>{' '}
-              {totalVotes === 1 ? 'stemme' : 'stemmer'}
-            </span>
+            {!alwaysOpen && (
+              <Icon
+                className={styles.arrowIcon}
+                size={26}
+                name={open ? 'chevron-up' : 'chevron-down'}
+              />
+            )}
           </Flex>
-        </div>
-      </Flex>
-      <Flex
-        alignItems="center"
-        justifyContent="center"
-        className={styles.bottomBar}
-        style={{ cursor: alwaysOpen ? '' : 'pointer' }}
-        onClick={alwaysOpen ? undefined : toggleExpanded}
+        )}
       >
-        {!alwaysOpen && (
-          <Icon
-            className={styles.arrowIcon}
-            size={26}
-            name={expanded ? 'chevron-up' : 'chevron-down'}
+        {canAnswer && (
+          <VoteOpen details={details} poll={poll} options={options} />
+        )}
+        {!canAnswer && showResults && (
+          <VoteResults
+            details={details}
+            poll={poll}
+            options={options}
+            resultsHidden={resultsHidden}
           />
         )}
-      </Flex>
+        {!canAnswer && !showResults && (
+          <VoteHidden details={details} poll={poll} />
+        )}
+
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          className={styles.registrationCount}
+          gap={8}
+        >
+          <Tooltip content="Avstemningen er anonym.">
+            <Icon name="information-circle-outline" size={17} />
+          </Tooltip>
+          <span>
+            <span className={styles.totalVotes}>{totalVotes}</span>{' '}
+            {totalVotes === 1 ? 'stemme' : 'stemmer'}
+          </span>
+        </Flex>
+      </Accordion>
     </Flex>
   );
 };
