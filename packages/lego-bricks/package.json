@@ -60,7 +60,7 @@
     "@storybook/addon-interactions": "^8.0.10",
     "@storybook/addon-links": "^8.0.10",
     "@storybook/blocks": "^8.0.10",
-    "@storybook/react": "^8.0.10",
+    "@storybook/react": "^8.1.10",
     "@storybook/react-vite": "^8.0.10",
     "@storybook/testing-library": "^0.2.2",
     "@types/enzyme": "^3.10.16",
