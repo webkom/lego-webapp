@@ -17,33 +17,6 @@
   box-shadow: var(--shadow-sm);
 }
 
-.page {
-  min-width: 75%;
-}
-
-.sidebar {
-  min-width: 25%;
-
-  /* TODO: Make this proper CSS for a general sidebar */
-  min-height: 300px;
-  padding: 20px 0 0 30px;
-  margin: 0 0 0 60px;
-  border-left: 1px solid #ccc;
-  align-self: flex-end;
-}
-
-.withShadow {
-  border: 1px solid var(--border-gray);
-  box-shadow: var(--shadow-sm);
-  border-radius: var(--border-radius-lg);
-}
-
-.truncateString {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .hiddenOnMobile {
   @media (--small-viewport) {
     display: none !important;

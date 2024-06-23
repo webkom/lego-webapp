@@ -112,30 +112,3 @@
 .normal .itemDescription {
   font-size: var(--font-size-md);
 }
-
-.sidebar {
-  display: flex;
-  flex-basis: 27%;
-  flex-shrink: 0;
-  flex-direction: column;
-}
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 40px;
-}
-
-.toolbarSection {
-  flex: 1;
-  display: flex;
-  align-items: center;
-
-  &:last-of-type {
-    justify-content: flex-end;
-  }
-
-  &:first-of-type {
-    justify-content: flex-start;
-  }
-}

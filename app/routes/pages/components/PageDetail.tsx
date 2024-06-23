@@ -58,7 +58,7 @@ export type Flatpage = {
   content: string;
 };
 const FlatpageRenderer: PageRenderer<Flatpage> = ({ page }) => (
-  <article className={styles.detail}>
+  <article>
     <DisplayContent content={page.content} />
   </article>
 );
