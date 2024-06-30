@@ -1,4 +1,5 @@
 import loadable from '@loadable/component';
+import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -8,12 +9,9 @@ import {
   useParams,
 } from 'react-router-dom';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './GroupPage.css';
 import type { DetailedGroup, PublicGroup } from 'app/store/models/Group';
 import type { Optional } from 'utility-types';
 
@@ -22,18 +20,24 @@ const GroupMembers = loadable(() => import('./GroupMembers'));
 const GroupPermissions = loadable(() => import('./GroupPermissions'));
 const GroupTree = loadable(() => import('./GroupTree'));
 
-const NavigationLinks = ({ groupId }: { groupId: string }) => {
+const NavigationTabs = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
   return (
     <>
-      <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
-      <NavigationLink to={`${baseUrl}/members?descendants=false`}>
+      <NavigationTab href={`${baseUrl}/settings`}>Rediger</NavigationTab>
+      <NavigationTab
+        matchQuery={{ descendants: ['false', undefined] }}
+        href={`${baseUrl}/members?descendants=false`}
+      >
         Medlemmer
-      </NavigationLink>
-      <NavigationLink to={`${baseUrl}/members?descendants=true`}>
+      </NavigationTab>
+      <NavigationTab
+        matchQuery={{ descendants: 'true' }}
+        href={`${baseUrl}/members?descendants=true`}
+      >
         Implisitte medlemmer
-      </NavigationLink>
-      <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
+      </NavigationTab>
+      <NavigationTab href={`${baseUrl}/permissions`}>Rettigheter</NavigationTab>
     </>
   );
 };
@@ -47,18 +51,6 @@ const SelectGroup = () => (
     ← Vennligst velg en gruppe fra menyen
   </h2>
 );
-
-const GroupPageNavigation = ({
-  groupId,
-}: {
-  groupId: string | null | undefined;
-}) => {
-  return (
-    <NavigationTab title="Grupper">
-      {groupId && <NavigationLinks groupId={groupId} />}
-    </NavigationTab>
-  );
-};
 
 export type GroupPageParams = {
   groupId: string;
@@ -86,29 +78,25 @@ const GroupPage = () => {
   );
 
   return (
-    <Content>
-      <Helmet title={group ? group.name : 'Grupper'} />
-      <GroupPageNavigation groupId={groupId} />
-      <div className={styles.groupPage}>
-        <section className={styles.sidebar}>
+    <Page
+      title={group ? group.name : 'Administer grupper'}
+      description={group?.description}
+      sidebar={{
+        title: 'Grupper',
+        side: 'left',
+        icon: 'menu',
+        content: (
           <GroupTree
             groups={groups}
             pathname={location.pathname + location.search}
           />
-        </section>
-
-        <section className={styles.main}>
-          {group && (
-            <header>
-              <h2>{group.name}</h2>
-              <span>{group.description || ''}</span>
-            </header>
-          )}
-
-          <Outlet />
-        </section>
-      </div>
-    </Content>
+        ),
+      }}
+      tabs={groupId && <NavigationTabs groupId={groupId} />}
+    >
+      <Helmet title={group ? group.name : 'Grupper'} />
+      <Outlet />
+    </Page>
   );
 };
 

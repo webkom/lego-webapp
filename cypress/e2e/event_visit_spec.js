@@ -1,4 +1,4 @@
-import { c } from '../support/utils.js';
+import { c, t } from '../support/utils.js';
 
 describe('View event', () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('View event', () => {
     cy.visit('/events/20');
 
     // Check that the event details are correct
-    cy.get(c('Content__cover') + ' img').should('be.visible');
+    cy.get(t('page-cover') + ' img').should('be.visible');
     cy.contains('Eksamenskurs i Java');
     cy.contains('Kurs');
     cy.contains('Du er påmeldt');

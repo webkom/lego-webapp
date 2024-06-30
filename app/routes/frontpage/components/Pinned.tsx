@@ -1,6 +1,5 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { Card, Flex, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
 import { isEvent } from 'app/reducers/frontpage';
 import { useAppSelector } from 'app/store/hooks';
 import styles from './Pinned.css';

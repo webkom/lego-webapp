@@ -4,6 +4,7 @@ import {
   ConfirmModal,
   Icon,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -14,7 +15,6 @@ import {
   editForum,
   fetchForum,
 } from 'app/actions/ForumActions';
-import { Content } from 'app/components/Content';
 import { TextInput, Form, TextArea, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectForumById } from 'app/reducers/forums';
@@ -76,11 +76,13 @@ const ForumEditor = () => {
   };
 
   return (
-    <Content>
+    <Page
+      title={isNew ? 'Nytt forum' : `Redigerer: ${forum?.title}`}
+      back={{ href: forum ? `/forum/${forum.id}/threads` : '/forum' }}
+    >
       <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <h1>{isNew ? 'Nytt forum' : 'Rediger forum'}</h1>
             <Field
               placeholder="Title"
               name="title"
@@ -125,7 +127,7 @@ const ForumEditor = () => {
           </Form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

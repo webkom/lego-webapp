@@ -1,13 +1,12 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   addCompanyContact,
   editCompanyContact,
   fetchAdmin,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import { LegoFinalForm, TextInput } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectCompanyById } from 'app/reducers/companies';
@@ -15,7 +14,6 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import SubmissionError from '../../../components/Form/SubmissionError';
-import { DetailNavigation } from '../utils';
 import type { AdminDetailCompany } from 'app/store/models/Company';
 
 export type FormValues = {
@@ -38,6 +36,7 @@ const CompanyContactEditor = () => {
     companyContactId: string;
   }>();
   const isNew = companyContactId === undefined;
+  const fetching = useAppSelector((state) => state.companies.fetching);
   const company = useAppSelector((state) =>
     selectCompanyById<AdminDetailCompany>(state, companyId),
   );
@@ -56,11 +55,7 @@ const CompanyContactEditor = () => {
   const navigate = useNavigate();
 
   if (!company) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const onSubmit = async (formContent: FormValues) => {
@@ -83,14 +78,12 @@ const CompanyContactEditor = () => {
         phone: companyContact.phone,
       };
 
-  return (
-    <Content>
-      <DetailNavigation title="Bedriftskontakt" />
-      <h3>
-        <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
-        bedriftskontakt
-      </h3>
+  const title = isNew
+    ? `Ny bedriftskontakt for ${company.name}`
+    : `Redigerer: Bedriftskontakt for ${company.name}`;
 
+  return (
+    <Page title={title} back={{ href: `/bdb/${company.id}` }}>
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -131,7 +124,7 @@ const CompanyContactEditor = () => {
           </form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

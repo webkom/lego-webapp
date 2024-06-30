@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   LinkButton,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useMemo, useState } from 'react';
@@ -13,7 +14,6 @@ import {
   deleteCompanyInterest,
   fetchAll,
 } from 'app/actions/CompanyInterestActions';
-import { Content } from 'app/components/Content';
 import SelectInput from 'app/components/Form/SelectInput';
 import Table from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
@@ -23,14 +23,13 @@ import {
   selectCompanySemesterById,
 } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { ListNavigation } from 'app/routes/bdb/utils';
+import { BdbTabs } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import { EVENT_TYPE_OPTIONS, getCsvUrl, semesterToText } from '../utils';
-import styles from './CompanyInterest.css';
 import type { CompanyInterestEventTypeOption } from '../utils';
 import type CompanySemester from 'app/store/models/CompanySemester';
 
@@ -207,94 +206,91 @@ const CompanyInterestList = () => {
   });
 
   return (
-    <Content>
-      <ListNavigation title="Bedriftsinteresser" />
-      <Flex
-        wrap
-        justifyContent="space-between"
-        alignItems="flex-end"
-        className={styles.section}
-      >
-        <Flex column>
-          <p>
-            Her finner du all praktisk informasjon knyttet til
-            bedriftsinteresser
-          </p>
-          <SelectInput
-            name="form-semester-selector"
-            value={selectedSemesterFilterOption}
-            onChange={(clickedOption: SemesterOptionType) =>
-              setQueryValue('semesters')(String(clickedOption.id ?? ''))
-            }
-            options={semesterOptions}
-            isClearable={false}
-          />
-        </Flex>
-        <LinkButton href="/companyInterest/semesters">
-          Endre aktive semestre
-        </LinkButton>
+    <Page
+      title="Bedriftsinteresser"
+      actionButtons={
         <LinkButton href="/companyInterest/create">
-          Opprett ny bedriftsinteresse
+          Ny bedriftsinteresse
         </LinkButton>
-      </Flex>
-
-      <Flex
-        wrap
-        justifyContent="space-between"
-        alignItems="flex-end"
-        className={styles.section}
-      >
-        <Flex column>
-          <SelectInput
-            name="form-event-selector"
-            value={selectedEventOption}
-            onChange={(clickedOption: CompanyInterestEventTypeOption) =>
-              setQueryValue('event')(clickedOption.value)
-            }
-            options={EVENT_TYPE_OPTIONS}
-            isClearable={false}
-          />
+      }
+      tabs={<BdbTabs />}
+    >
+      <Flex column gap="var(--spacing-md)">
+        <p>
+          Her finner du all praktisk informasjon knyttet til bedriftsinteresser
+        </p>
+        <Flex justifyContent="space-between" alignItems="flex-end">
+          <Flex column>
+            <SelectInput
+              name="form-semester-selector"
+              value={selectedSemesterFilterOption}
+              onChange={(clickedOption: SemesterOptionType) =>
+                setQueryValue('semesters')(String(clickedOption.id ?? ''))
+              }
+              options={semesterOptions}
+              isClearable={false}
+            />
+          </Flex>
+          <LinkButton href="/companyInterest/semesters">
+            Endre aktive semestre
+          </LinkButton>
         </Flex>
 
-        {generatedCSV ? (
-          <LinkButton
-            success
-            href={generatedCSV.url}
-            download={generatedCSV.filename}
-          >
-            <Icon name="download-outline" size={19} />
-            Last ned CSV
-          </LinkButton>
-        ) : (
-          <Tooltip
-            disabled={!!selectedSemesterFilterOption.year}
-            content={'Vennligst velg semester'}
-          >
-            <Button
-              onPress={async () => setGeneratedCSV(await exportInterestList())}
-              disabled={!selectedSemesterFilterOption.year}
-            >
-              Eksporter til CSV
-            </Button>
-          </Tooltip>
-        )}
-      </Flex>
+        <Flex wrap justifyContent="space-between" alignItems="flex-end">
+          <Flex column>
+            <SelectInput
+              name="form-event-selector"
+              value={selectedEventOption}
+              onChange={(clickedOption: CompanyInterestEventTypeOption) =>
+                setQueryValue('event')(clickedOption.value)
+              }
+              options={EVENT_TYPE_OPTIONS}
+              isClearable={false}
+            />
+          </Flex>
 
-      <Table
-        columns={columns}
-        onLoad={() => {
-          dispatch(
-            fetchAll({
-              next: true,
-              query,
-            }),
-          );
-        }}
-        hasMore={hasMore}
-        loading={fetching}
-        data={companyInterestList}
-      />
-    </Content>
+          {generatedCSV ? (
+            <LinkButton
+              success
+              href={generatedCSV.url}
+              download={generatedCSV.filename}
+            >
+              <Icon name="download-outline" size={19} />
+              Last ned CSV
+            </LinkButton>
+          ) : (
+            <Tooltip
+              disabled={!!selectedSemesterFilterOption.year}
+              content={'Vennligst velg semester'}
+            >
+              <Button
+                onPress={async () =>
+                  setGeneratedCSV(await exportInterestList())
+                }
+                disabled={!selectedSemesterFilterOption.year}
+              >
+                Eksporter til CSV
+              </Button>
+            </Tooltip>
+          )}
+        </Flex>
+
+        <Table
+          columns={columns}
+          onLoad={() => {
+            dispatch(
+              fetchAll({
+                next: true,
+                query,
+              }),
+            );
+          }}
+          hasMore={hasMore}
+          loading={fetching}
+          data={companyInterestList}
+        />
+      </Flex>
+    </Page>
   );
 };
 

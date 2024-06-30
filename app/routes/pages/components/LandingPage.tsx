@@ -4,13 +4,13 @@ import {
   Flex,
   Icon,
   LinkButton,
+  Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
-import { Image } from 'app/components/Image';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import styles from './LandingPage.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';

@@ -3,7 +3,8 @@ import {
   ConfirmModal,
   Flex,
   Icon,
-  LoadingIndicator,
+  LoadingPage,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
@@ -20,7 +21,6 @@ import {
   fetchMeeting,
   inviteUsersAndGroups,
 } from 'app/actions/MeetingActions';
-import { Content } from 'app/components/Content';
 import {
   Button,
   CheckBox,
@@ -35,7 +35,6 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
-import NavigationTab from 'app/components/NavigationTab';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
@@ -106,12 +105,12 @@ type MeetingEditorParams = {
 };
 const MeetingEditor = () => {
   const { meetingId } = useParams<MeetingEditorParams>();
+  const isEditPage = meetingId !== undefined;
   const meeting = useAppSelector((state) =>
     meetingId
       ? (selectMeetingById(state, meetingId) as DetailedMeeting)
       : undefined,
   );
-  const isEditPage = meeting !== undefined;
   const meetingInvitations = useAppSelector((state) =>
     meetingId
       ? selectMeetingInvitationsForMeeting(state, meetingId)
@@ -166,11 +165,7 @@ const MeetingEditor = () => {
   const navigate = useNavigate();
 
   if (isEditPage && !meeting) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading />; // TODO: proper loading behavior once separate fetching state is implemented
   }
 
   const currentUserSearchable = currentUser && {
@@ -241,16 +236,14 @@ const MeetingEditor = () => {
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
+        href: `/meetings/${isEditPage ? meetingId : ''}`,
+      }}
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        className={styles.detailTitle}
-        back={{
-          label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
-          path: `/meetings/${isEditPage ? meetingId : ''}`,
-        }}
-      />
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -459,7 +452,7 @@ const MeetingEditor = () => {
           );
         }}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

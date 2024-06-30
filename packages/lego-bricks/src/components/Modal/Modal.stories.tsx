@@ -2,17 +2,16 @@ import { Button, DialogTrigger } from 'react-aria-components';
 import { Modal } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Modal> = {
+const meta = {
   title: 'Layout/Modal',
   component: Modal,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+} satisfies Meta<typeof Modal>;
 
 export default meta;
-type Story = StoryObj<typeof Modal>;
+type Story = StoryObj<typeof meta>;
 
 export const ButtonTriggeredModal: Story = {
   decorators: [

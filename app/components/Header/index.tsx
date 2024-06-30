@@ -1,4 +1,4 @@
-import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import moment from 'moment-timezone';
@@ -18,7 +18,7 @@ import utilStyles from 'app/styles/utilities.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
-import { ProfilePicture, Image } from '../Image';
+import { ProfilePicture } from '../Image';
 import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';

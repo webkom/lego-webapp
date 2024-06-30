@@ -1,4 +1,9 @@
-import { ButtonGroup, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ButtonGroup,
+  LinkButton,
+  LoadingPage,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { isEmpty } from 'lodash';
@@ -13,10 +18,8 @@ import {
   fetchImageGallery,
   setSaveForUse,
 } from 'app/actions/FileActions';
-import { Content } from 'app/components/Content';
 import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import NavigationTab from 'app/components/NavigationTab';
 import {
   selectEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
@@ -130,6 +133,7 @@ const EventEditor = () => {
   // Fallback to a potential event id, e.g. given from the admin "copy event" button
   const eventIdOrSlug = params.eventIdOrSlug ?? state?.id;
 
+  const fetching = useAppSelector((state) => state.events.fetching);
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, { eventIdOrSlug }),
   );
@@ -178,11 +182,7 @@ const EventEditor = () => {
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
 
   if (isEditPage && (!event || !event.title)) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   if (isEditPage && !actionGrant.includes('edit')) {
@@ -313,15 +313,13 @@ const EventEditor = () => {
   const title = isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement';
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        href: isEditPage ? `/events/${event.slug}` : '/events',
+      }}
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: isEditPage ? `/events/${event.slug}` : '/events',
-        }}
-      />
 
       <TypedLegoForm
         onSubmit={onSubmit}
@@ -420,7 +418,7 @@ const EventEditor = () => {
           </Form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

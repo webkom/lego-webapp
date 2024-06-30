@@ -1,47 +1,16 @@
-import { LinkButton } from '@webkom/lego-bricks';
-import cx from 'classnames';
-import { useState } from 'react';
+import { FilterSection } from '@webkom/lego-bricks';
 import { CheckBox, RadioButton } from 'app/components/Form/';
-import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import { jobTypes as allJobTypes, yearValues } from '../constants';
 import { defaultJoblistingsQuery } from './JoblistingPage';
-import styles from './JoblistingRightNav.css';
 
-const JoblistingsRightNav = () => {
+const JoblistingFilters = () => {
   const { query, setQueryValue } = useQuery(defaultJoblistingsQuery);
   const { order, grades, jobTypes, workplaces } = query;
 
-  const [displayOptions, setDisplayOptions] = useState<boolean>(true);
-
-  const actionGrant = useAppSelector((state) => state.joblistings.actionGrant);
-
   return (
-    <div className={styles.joblistingRightNav}>
-      <button
-        onClick={() => setDisplayOptions(!displayOptions)}
-        className={styles.optionsTitle}
-      >
-        <h2>Valg</h2>
-        <i
-          className={cx(
-            'fa fa-caret-down',
-            !displayOptions && styles.rotateCaret,
-          )}
-        />
-      </button>
-
-      <div
-        className={styles.options}
-        style={{
-          display: displayOptions ? 'block' : 'none',
-        }}
-      >
-        {actionGrant.includes('create') && (
-          <LinkButton href="/joblistings/create">Ny jobbannonse</LinkButton>
-        )}
-
-        <h4 className={styles.rightHeader}>Sorter etter</h4>
+    <>
+      <FilterSection title="Sorter etter">
         <RadioButton
           name="sort"
           id="deadline"
@@ -69,8 +38,8 @@ const JoblistingsRightNav = () => {
             setQueryValue('order')('createdAt');
           }}
         />
-
-        <h4 className={styles.rightHeader}>Klassetrinn</h4>
+      </FilterSection>
+      <FilterSection title="Klassetrinn">
         {yearValues.map((year) => (
           <FilterCheckbox
             key={year.value}
@@ -80,21 +49,19 @@ const JoblistingsRightNav = () => {
             onChange={setQueryValue('grades')}
           />
         ))}
-
-        <h4 className={styles.rightHeader}>Jobbtype</h4>
-        {allJobTypes.map((element) => {
-          return (
-            <FilterCheckbox
-              key={element.value}
-              value={element.value}
-              label={element.label}
-              activeFilters={jobTypes}
-              onChange={setQueryValue('jobTypes')}
-            />
-          );
-        })}
-
-        <h4 className={styles.rightHeader}>Sted</h4>
+      </FilterSection>
+      <FilterSection title="Jobbtype">
+        {allJobTypes.map((element) => (
+          <FilterCheckbox
+            key={element.value}
+            value={element.value}
+            label={element.label}
+            activeFilters={jobTypes}
+            onChange={setQueryValue('jobTypes')}
+          />
+        ))}
+      </FilterSection>
+      <FilterSection title="Sted">
         {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) => (
           <FilterCheckbox
             key={element}
@@ -104,8 +71,8 @@ const JoblistingsRightNav = () => {
             onChange={setQueryValue('workplaces')}
           />
         ))}
-      </div>
-    </div>
+      </FilterSection>
+    </>
   );
 };
 
@@ -136,4 +103,4 @@ const FilterCheckbox = ({
   />
 );
 
-export default JoblistingsRightNav;
+export default JoblistingFilters;

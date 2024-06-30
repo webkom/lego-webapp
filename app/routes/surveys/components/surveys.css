@@ -222,13 +222,6 @@
   margin-bottom: 10px;
 }
 
-.centerContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 50px;
-}
-
 .infoBubbles {
   display: flex;
   text-align: center;

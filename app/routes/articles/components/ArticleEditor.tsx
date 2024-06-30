@@ -5,6 +5,7 @@ import {
   Icon,
   LinkButton,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -16,7 +17,6 @@ import {
   editArticle,
   fetchArticle,
 } from 'app/actions/ArticleActions';
-import { Content } from 'app/components/Content';
 import {
   EditorField,
   TextInput,
@@ -34,7 +34,6 @@ import {
   objectPermissionsToInitialValues,
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import NavigationTab from 'app/components/NavigationTab';
 import { selectArticleById } from 'app/reducers/articles';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectUsersByIds } from 'app/reducers/users';
@@ -141,16 +140,16 @@ const ArticleEditor = () => {
     });
   };
 
+  const title = isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title;
+
   return (
-    <Content>
-      <Helmet title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title} />
-      <NavigationTab
-        title={isNew ? 'Ny artikkel' : 'Redigerer: ' + article?.title}
-        back={{
-          label: 'Tilbake',
-          path: `/articles/${isNew ? '' : articleId}`,
-        }}
-      />
+    <Page
+      title={title}
+      back={{
+        href: `/articles/${isNew ? '' : articleId}`,
+      }}
+    >
+      <Helmet title={title} />
 
       <TypedLegoForm
         onSubmit={onSubmit}
@@ -259,7 +258,7 @@ const ArticleEditor = () => {
           </Form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

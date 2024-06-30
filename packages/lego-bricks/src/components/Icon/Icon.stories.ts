@@ -1,25 +1,25 @@
+import { fn } from '@storybook/test';
 import { Icon } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Icon> = {
+const meta = {
   title: 'Interaction/Icon',
   component: Icon,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+} satisfies Meta<typeof Icon>;
 
 export default meta;
-type Story = StoryObj<typeof Icon>;
+type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {},
 };
 
 export const Danger: Story = {
   args: {
+    onClick: fn(),
     danger: true,
     name: 'trash',
   },
@@ -27,6 +27,7 @@ export const Danger: Story = {
 
 export const Success: Story = {
   args: {
+    onClick: fn(),
     success: true,
     name: 'checkmark-circle-outline',
   },
@@ -34,6 +35,7 @@ export const Success: Story = {
 
 export const Edit: Story = {
   args: {
+    onClick: fn(),
     edit: true,
     name: 'pencil',
   },

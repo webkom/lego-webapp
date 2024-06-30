@@ -6,7 +6,7 @@ import type { ComponentProps, MouseEventHandler } from 'react';
 
 type Props = {
   /** Name of the icon can be found on the webpage */
-  name: string;
+  name?: string;
   className?: string;
   size?: number;
   to?: string;
@@ -15,7 +15,7 @@ type Props = {
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
   disabled?: boolean;
-} & ComponentProps<typeof Flex>;
+} & Omit<ComponentProps<typeof Flex>, 'onClick'>;
 
 /**
  * Render an Icon like this with the name of your icon:

@@ -1,13 +1,9 @@
 import { Icon } from '@webkom/lego-bricks';
-import { Helmet } from 'react-helmet-async';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import config from 'app/config';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './components/surveys.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ActionGrant } from 'app/models';
-import type { ReactNode } from 'react';
 
 export const questionTypeString: Record<SurveyQuestionType, string> = {
   single_choice: 'Enkeltvalg',
@@ -20,60 +16,18 @@ export const questionTypeOptions = Object.values(SurveyQuestionType).map(
     label: questionTypeString[questionType],
   }),
 );
-export const ListNavigation = ({ title }: { title: ReactNode }) => (
-  <NavigationTab title={title}>
-    <NavigationLink to="/surveys">Undersøkelser</NavigationLink>
-    <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
-    <NavigationLink to="/surveys/templates">Maler</NavigationLink>
-  </NavigationTab>
-);
-export const DetailNavigation = ({
-  title,
-  surveyId,
-}: {
-  title: string;
-  surveyId?: EntityId;
-  actionGrant?: ActionGrant;
-}) => (
-  <NavigationTab
-    title={title}
-    back={{ label: 'Tilbake til undersøkelser', path: '/surveys' }}
-  >
-    <Helmet title={title} />
-    {surveyId && (
-      <>
-        <NavigationLink to={`/surveys/${surveyId}`}>
-          Undersøkelsen
-        </NavigationLink>
-        <NavigationLink
-          to={`/surveys/${surveyId}/submissions/summary`}
-          additionalActivePaths={[
-            `/surveys/${surveyId}/submissions/individual`,
-          ]}
-        >
-          Resultater
-        </NavigationLink>
-      </>
-    )}
-  </NavigationTab>
-);
-export const TokenNavigation = ({
-  title,
-  surveyId,
-  actionGrant = [],
-}: {
-  title: ReactNode;
-  surveyId: EntityId;
-  actionGrant?: ActionGrant;
-}) => (
-  <NavigationTab title={title}>
-    {actionGrant.includes('edit') && (
-      <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
-        Adminversjon
-      </NavigationLink>
-    )}
-  </NavigationTab>
-);
+export const SurveyDetailTabs = ({ surveyId }: { surveyId?: EntityId }) =>
+  surveyId && (
+    <>
+      <NavigationTab href={`/surveys/${surveyId}`}>Undersøkelsen</NavigationTab>
+      <NavigationTab href={`/surveys/${surveyId}/submissions/summary`}>
+        Resultater
+      </NavigationTab>
+      <NavigationTab href={`/surveys/${surveyId}/submissions/individual`}>
+        Individuelle svar
+      </NavigationTab>
+    </>
+  );
 
 export const getCsvUrl = (surveyId: EntityId) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;

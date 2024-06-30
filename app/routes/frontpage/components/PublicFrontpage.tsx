@@ -1,4 +1,11 @@
-import { Button, Card, Container, Flex, LinkButton } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  LinkButton,
+  Image,
+  PageContainer,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
@@ -10,8 +17,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-//import Banner from 'app/components/Banner';
-import { Image } from 'app/components/Image';
+// import Banner from 'app/components/Banner';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectPinned } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/frontpage/components/LatestReadme';
@@ -33,14 +39,14 @@ const PublicFrontpage = () => {
   );
 
   return (
-    <Container>
+    <PageContainer card={false}>
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"
         link="https://abakusrevyen.no/"
         color="red"
       /> */}
-      <Container className={styles.container}>
+      <div className={styles.wrapper}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
           <AuthSection />
@@ -61,9 +67,9 @@ const PublicFrontpage = () => {
           style={{ gridArea: 'readme' }}
           displayCount={2}
         />
-      </Container>
-      <UsefulLinks />
-    </Container>
+        <UsefulLinks />
+      </div>
+    </PageContainer>
   );
 };
 

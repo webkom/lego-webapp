@@ -1,0 +1,8 @@
+.container {
+  margin: var(--spacing-sm) 0 var(--spacing-md);
+}
+
+.spacer {
+  flex-grow: 1;
+  border-bottom: 2px solid var(--border-gray);
+}

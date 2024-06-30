@@ -1,0 +1,17 @@
+.container {
+  grid-area: cover;
+  box-sizing: border-box;
+  max-width: var(--lego-max-width);
+  max-height: 330px;
+  aspect-ratio: 3.3;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-color: var(--lego-card-color);
+
+  & img {
+    object-fit: cover;
+    display: block;
+    background: var(--color-white);
+  }
+}

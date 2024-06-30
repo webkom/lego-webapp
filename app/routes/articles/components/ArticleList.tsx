@@ -1,11 +1,9 @@
+import { Image, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/ArticleActions';
 import { fetchPopular } from 'app/actions/TagActions';
-import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
@@ -100,13 +98,15 @@ const ArticleList = () => {
   const normalEvents = articles.slice(HEADLINE_EVENTS);
 
   return (
-    <Content>
+    <Page
+      title="Artikler"
+      actionButtons={
+        actionGrant.includes('create') && (
+          <LinkButton href="/articles/new">Ny artikkel</LinkButton>
+        )
+      }
+    >
       <Helmet title="Artikler" />
-      <NavigationTab title="Artikler">
-        {actionGrant.includes('create') && (
-          <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>
-        )}
-      </NavigationTab>
       <Tags>
         {tags.map((tag) => {
           const isSelected = query && query.tag === tag.tag;
@@ -154,7 +154,7 @@ const ArticleList = () => {
           </div>
         </Paginator>
       </section>
-    </Content>
+    </Page>
   );
 };
 

@@ -1,3 +1,7 @@
+.detailRow {
+  color: var(--secondary-font-color);
+}
+
 span.detail + span.detail {
   margin-left: 10px;
 }
@@ -8,6 +12,5 @@ span.detail + span.detail::before {
 }
 
 .smallDetails {
-  color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
 }

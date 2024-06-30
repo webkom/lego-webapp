@@ -6,6 +6,8 @@ import {
   Icon,
   LinkButton,
   LoadingIndicator,
+  Image,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
@@ -18,14 +20,11 @@ import {
 } from 'app/actions/GroupActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import {
-  Content,
   ContentSection,
   ContentMain,
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import { Image } from 'app/components/Image';
-import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById } from 'app/reducers/groups';
@@ -156,15 +155,8 @@ const InterestGroupDetail = () => {
   const logo = group.logo;
 
   return (
-    <Content>
+    <Page title={group.name} back={{ href: '/interest-groups' }}>
       <Helmet title={group.name} />
-      <NavigationTab
-        title={group.name}
-        back={{
-          label: 'Tilbake',
-          path: '/interest-groups',
-        }}
-      />
       <ContentSection>
         <ContentMain>
           <p>{group.description}</p>
@@ -201,7 +193,7 @@ const InterestGroupDetail = () => {
           <AnnouncementInLine group={group} />
         </ContentSidebar>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

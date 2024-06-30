@@ -14,15 +14,6 @@ const JoblistingsList = ({ joblistings }: JobListingsListProps) => {
 
   return (
     <div className={styles.joblistingList}>
-      <Flex
-        justifyContent="space-between"
-        alignItems="center"
-        className={styles.heading}
-      >
-        <h2>Jobbannonser</h2>
-        <h4 className={styles.headingDeadline}>Søknadsfrist</h4>
-      </Flex>
-
       <Flex column gap="var(--spacing-sm)">
         {fetching && !joblistings.length ? (
           <Skeleton array={5} className={sharedStyles.joblistingItem} />

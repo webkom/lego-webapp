@@ -132,7 +132,7 @@ const AnnouncementsCreate = () => {
   return (
     <>
       <Helmet title="Kunngjøringer" />
-      <h1>Ny kunngjøring</h1>
+      <h2>Ny kunngjøring</h2>
       <TypedLegoForm
         validate={validate}
         validateOnSubmitOnly

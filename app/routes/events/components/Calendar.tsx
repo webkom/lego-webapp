@@ -1,4 +1,4 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment, { type Moment } from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -10,7 +10,7 @@ import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import styles from './Calendar.css';
 import CalendarCell from './CalendarCell';
 import EventFooter from './EventFooter';
-import Toolbar from './Toolbar';
+import EventsTabs from './EventsTabs';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
@@ -62,9 +62,16 @@ const Calendar = () => {
   );
 
   return (
-    <div className={styles.root}>
+    <Page
+      title="Arrangementer"
+      actionButtons={
+        actionGrant?.includes('create') && (
+          <LinkButton href="/events/create">Lag nytt</LinkButton>
+        )
+      }
+      tabs={<EventsTabs />}
+    >
       <Helmet title="Kalender" />
-      <Toolbar actionGrant={actionGrant} />
 
       <h2 className={styles.header}>
         <Icon
@@ -93,7 +100,7 @@ const Calendar = () => {
         ))}
       </div>
       {icalToken && <EventFooter icalToken={icalToken} />}
-    </div>
+    </Page>
   );
 };
 

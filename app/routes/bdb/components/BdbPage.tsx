@@ -1,4 +1,4 @@
-import { Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
@@ -11,7 +11,6 @@ import {
   fetchSemesters,
   addSemester,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
@@ -21,7 +20,7 @@ import sortCompanies from '../SortCompanies';
 import {
   indexToCompanySemester,
   indexToYearAndSemester,
-  ListNavigation,
+  BdbTabs,
 } from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
@@ -179,9 +178,12 @@ const BdbPage = () => {
   };
 
   return (
-    <Content>
+    <Page
+      title="Bedriftsdatabase"
+      actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
+      tabs={<BdbTabs />}
+    >
       <Helmet title="Bedriftsdatabase" />
-      <ListNavigation title="Bedriftsdatabase" />
 
       <TextInput
         prefix="search"
@@ -210,7 +212,7 @@ const BdbPage = () => {
         editChangedStatuses={editChangedStatuses}
         fetching={fetching}
       />
-    </Content>
+    </Page>
   );
 };
 

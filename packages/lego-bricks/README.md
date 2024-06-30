@@ -22,21 +22,23 @@ Component library for LEGO-webapp and other related projects.
    );
    ```
 
-### Setup for navigation-components
+### Provider
 
-If you are using client-side routing, like f.ex. `react-router`, you need to wrap your application in a `RouterProvider` for navigation-components like `LinkButton` to work correctly.
-
-`RouterProvider` is re-exported by `lego-bricks`, so you don't need `react-aria-components` as a direct dependency.
-See the [react-spectrum](https://react-spectrum.adobe.com/react-aria/routing.html#routerprovider) docs for more info.
+For client-side routing (with f.ex. `react-router`) and certain dark-mode features to work, you need to wrap your application in a `Provider`.
 
 ```typescript jsx
-import { RouterProvider } from '@webkom/lego-webapp'
+import { Provider } from '@webkom/lego-webapp';
+import { useNavigate } from 'react-router-dom';
 
-const App = () => (
-  <RouterProvider>
-    {... your app}
-  </RouterProvider>
-)
+const App = () => {
+  const navigate = useNavigate();
+
+  return (
+    <Provider navigate={navigate} theme="light">
+      <YourApp />
+    </Provider>
+  )
+}
 ```
 
 ## Development

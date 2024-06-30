@@ -1,11 +1,7 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .header {
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   @media (--medium-viewport) {

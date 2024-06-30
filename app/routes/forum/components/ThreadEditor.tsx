@@ -4,6 +4,7 @@ import {
   ConfirmModal,
   Icon,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -14,7 +15,6 @@ import {
   editThread,
   fetchThreadByForum,
 } from 'app/actions/ForumActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   Form,
@@ -86,11 +86,17 @@ const ThreadEditor = () => {
   };
 
   return (
-    <Content>
+    <Page
+      title={isNew ? 'Ny tråd' : `Redigerer: ${thread?.title}`}
+      back={{
+        href: thread
+          ? `/forum/${forumId}/threads/${thread.id}`
+          : `/forum/${forumId}/threads`,
+      }}
+    >
       <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <h1>{isNew ? 'Ny tråd' : 'Rediger tråd'}</h1>
             <Field
               placeholder="Tittel"
               name="title"
@@ -139,7 +145,7 @@ const ThreadEditor = () => {
           </Form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

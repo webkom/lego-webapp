@@ -3,7 +3,7 @@
     "target": "esnext",
     "jsx": "react-jsx",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "baseUrl": "./",
     "paths": {
       "app/*": ["app/*"],

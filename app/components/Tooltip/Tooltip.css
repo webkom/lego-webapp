@@ -19,6 +19,8 @@
   border-radius: var(--border-radius-md);
   box-shadow: var(--shadow-md);
   z-index: 1;
+  font-size: var(--font-size-md);
+  font-weight: normal;
 
   /* A 1 pixel border in case of sub-pixels
   rendering in the browser or rounding errors

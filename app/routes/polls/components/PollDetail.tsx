@@ -1,11 +1,9 @@
-import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Button, Icon, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchPoll } from 'app/actions/PollActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import { selectPollById } from 'app/reducers/polls';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -34,24 +32,15 @@ const PollDetail = () => {
   const actionGrant = poll?.actionGrant ?? [];
 
   if (!poll) {
-    return (
-      <Content>
-        <LoadingIndicator loading={fetching} />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   return (
-    <Content>
-      <Helmet title={poll.title} />
-      <NavigationTab
-        title={poll.title}
-        back={{
-          label: 'Tilbake',
-          path: '/polls',
-        }}
-      >
-        {actionGrant.includes('edit') && (
+    <Page
+      title={poll.title}
+      back={{ href: '/polls' }}
+      actionButtons={
+        actionGrant.includes('edit') && (
           <Button onPress={toggleEdit}>
             {editing ? (
               'Avbryt'
@@ -62,8 +51,10 @@ const PollDetail = () => {
               </>
             )}
           </Button>
-        )}
-      </NavigationTab>
+        )
+      }
+    >
+      <Helmet title={poll.title} />
       {!editing ? (
         <Poll
           poll={poll}
@@ -74,7 +65,7 @@ const PollDetail = () => {
       ) : (
         <PollEditor poll={poll} editing toggleEdit={toggleEdit} />
       )}
-    </Content>
+    </Page>
   );
 };
 

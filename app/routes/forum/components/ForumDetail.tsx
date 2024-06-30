@@ -1,9 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useParams } from 'react-router-dom';
 import { fetchForum } from 'app/actions/ForumActions';
-import { Content, ContentMain } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectForumById } from 'app/reducers/forums';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import ThreadList from './ThreadList';
@@ -32,29 +30,25 @@ const ForumDetail = () => {
   }
 
   return (
-    <Content>
-      <ContentMain>
-        <NavigationTab
-          back={{
-            label: 'Tilbake til liste',
-            path: '/forum',
-          }}
-        >
-          {detailActionGrant.includes('edit') && (
-            <NavigationLink to={`/forum/${forumId}/edit`}>
-              Rediger
-            </NavigationLink>
-          )}
-          <NavigationLink to={`/forum/${forumId}/new`}>
-            Oprett tråd
-          </NavigationLink>
-        </NavigationTab>
-
-        <h1>{forum.title}</h1>
-        <p className="secondaryFontColor">{forum.description}</p>
-        <ThreadList forumId={forumId} />
-      </ContentMain>
-    </Content>
+    <Page
+      title={forum.title}
+      back={{
+        href: '/forum',
+      }}
+      actionButtons={[
+        detailActionGrant.includes('edit') && (
+          <LinkButton key="edit" href={`/forum/${forumId}/edit`}>
+            Rediger
+          </LinkButton>
+        ),
+        <LinkButton key="create" href={`/forum/${forumId}/new`}>
+          Oprett tråd
+        </LinkButton>,
+      ]}
+    >
+      <p className="secondaryFontColor">{forum.description}</p>
+      <ThreadList forumId={forumId} />
+    </Page>
   );
 };
 
