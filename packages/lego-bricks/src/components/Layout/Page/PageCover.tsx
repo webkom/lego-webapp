@@ -26,7 +26,12 @@ export const PageCover = ({
   skeleton,
   children,
 }: Props) => (
-  <Flex column alignItems="center" className={cx(styles.container, className)}>
+  <Flex
+    column
+    alignItems="center"
+    className={cx(styles.container, className)}
+    data-test-id="page-cover"
+  >
     {skeleton ? (
       <Skeleton />
     ) : (

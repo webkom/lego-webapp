@@ -25,11 +25,17 @@ export const Tab = ({ active, disabled, onPress, href, children }: Props) => {
       isDisabled={disabled}
       onPress={onPress}
       className={className}
+      data-test-id="tab"
     >
       {children}
     </Link>
   ) : (
-    <Button isDisabled={disabled} onPress={onPress} className={className}>
+    <Button
+      isDisabled={disabled}
+      onPress={onPress}
+      className={className}
+      data-test-id="tab"
+    >
       {children}
     </Button>
   );
