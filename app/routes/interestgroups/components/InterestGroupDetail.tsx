@@ -38,13 +38,15 @@ import type { PublicDetailedGroup } from 'app/store/models/Group';
 type MembersProps = {
   memberships: TransformedMembership[];
   group: PublicDetailedGroup;
+  fetching: boolean;
 };
 
-const Members = ({ group, memberships }: MembersProps) => (
+const Members = ({ group, memberships, fetching }: MembersProps) => (
   <Flex column>
     <h4>{group.numberOfUsers} medlemmer</h4>
     <UserGrid
       users={memberships && memberships.slice(0, 14).map((reg) => reg.user)}
+      skeleton={fetching}
       maxRows={2}
       minRows={2}
     />
@@ -175,7 +177,11 @@ const InterestGroupDetail = () => {
           )}
           {memberships.length > 0 && (
             <>
-              <Members group={group} memberships={memberships} />
+              <Members
+                group={group}
+                memberships={memberships}
+                fetching={fetching}
+              />
               <Contact memberships={memberships} />
             </>
           )}
