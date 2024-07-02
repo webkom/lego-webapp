@@ -34,6 +34,7 @@ const LatestReadme = ({
               {readmeIfy('readme')}
               {!disabled && (
                 <Icon
+                  onClick={onClick}
                   name="chevron-forward-outline"
                   className={rotateClassName}
                 />
