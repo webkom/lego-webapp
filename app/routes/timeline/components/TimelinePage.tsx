@@ -1,8 +1,7 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
-import { Content } from 'app/components/Content';
 import Feed from 'app/components/Feed';
 import { selectFeedById } from 'app/reducers/feeds';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -16,12 +15,10 @@ const TimelinePage = () => {
   const feed = useAppSelector((state) => selectFeedById(state, 'personal'));
 
   return (
-    <Content>
+    <Page title="Tidslinje">
       <Helmet title="Tidslinje" />
-      <h1>Tidslinje</h1>
-
       {feed ? <Feed feedId={feed.id} /> : <LoadingIndicator loading />}
-    </Content>
+    </Page>
   );
 };
 

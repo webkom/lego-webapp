@@ -1,4 +1,4 @@
-import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { Field, FormSpy } from 'react-final-form';
@@ -16,8 +16,6 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
-import { Content } from 'app/components/Content';
-import { FlexRow } from 'app/components/FlexBox';
 import {
   TextEditor,
   TextInput,
@@ -528,11 +526,20 @@ const CompanyInterestPage = () => {
   ];
 
   const title = edit
-    ? 'Rediger bedriftsinteresse'
+    ? 'Redigerer bedriftsinteresse'
     : FORM_LABELS.mainHeading[language];
 
   return (
-    <Content>
+    <Page
+      title={title}
+      actionButtons={
+        !edit && (
+          <Link to={isEnglish ? '/interesse' : '/register-interest'}>
+            <LanguageFlag language={language} />
+          </Link>
+        )
+      }
+    >
       <Helmet title={title} />
 
       <LegoFinalForm
@@ -546,15 +553,6 @@ const CompanyInterestPage = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <FlexRow alignItems="center" justifyContent="space-between">
-              <h1>{title}</h1>
-              {!edit && (
-                <Link to={isEnglish ? '/interesse' : '/register-interest'}>
-                  <LanguageFlag language={language} />
-                </Link>
-              )}
-            </FlexRow>
-
             {!edit && (
               <Card severity="info">
                 {FORM_LABELS.subHeading[language]}
@@ -794,7 +792,7 @@ const CompanyInterestPage = () => {
           </form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

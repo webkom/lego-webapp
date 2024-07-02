@@ -1,9 +1,9 @@
+import { Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import netcompany from 'app/assets/netcompany_white.svg';
 import octocat from 'app/assets/octocat.png';
-import { Image } from 'app/components/Image';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import utilityStyles from 'app/styles/utilities.css';
 import styles from './Footer.css';

@@ -3,7 +3,8 @@ import {
   ButtonGroup,
   Icon,
   LinkButton,
-  LoadingIndicator,
+  LoadingPage,
+  Page,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
@@ -14,7 +15,6 @@ import AddToCalendar from 'app/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
-  Content,
   ContentSection,
   ContentSidebar,
   ContentMain,
@@ -23,8 +23,7 @@ import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
 import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
-import NavigationTab from 'app/components/NavigationTab';
-import Time, { FromToTime } from 'app/components/Time';
+import { FromToTime } from 'app/components/Time';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
@@ -133,7 +132,7 @@ const MeetingDetails = () => {
     );
 
   if (!meeting || !currentUser) {
-    return <LoadingIndicator loading />;
+    return <LoadingPage loading />; // TODO: proper loading behavior once separate fetching state is implemented
   }
 
   const statusMe = currentUserInvitation?.status;
@@ -163,25 +162,14 @@ const MeetingDetails = () => {
   ];
 
   return (
-    <Content>
+    <Page
+      title={meeting.title}
+      back={{
+        label: 'Dine møter',
+        href: '/meetings',
+      }}
+    >
       <Helmet title={meeting.title} />
-      <NavigationTab
-        title={meeting.title}
-        className={styles.detailTitle}
-        details={
-          <Time
-            style={{
-              color: 'grey',
-            }}
-            time={meeting.startTime}
-            format="ll [-] HH:mm"
-          />
-        }
-        back={{
-          label: 'Dine møter',
-          path: '/meetings',
-        }}
-      ></NavigationTab>
 
       <ContentSection>
         <ContentMain>
@@ -235,7 +223,7 @@ const MeetingDetails = () => {
           )}
         </ContentMain>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

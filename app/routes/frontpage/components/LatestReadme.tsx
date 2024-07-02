@@ -1,6 +1,5 @@
-import { Accordion, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Accordion, Card, Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Image } from 'app/components/Image';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { useAppSelector } from 'app/store/hooks';
 import styles from './LatestReadme.css';

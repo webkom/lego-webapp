@@ -2,7 +2,10 @@ import {
   Button,
   Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
+  Page,
+  PageCover,
   Skeleton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
@@ -16,7 +19,6 @@ import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
-  Content,
   ContentMain,
   ContentSection,
   ContentSidebar,
@@ -24,7 +26,6 @@ import {
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
-import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
 import {
   selectCompanyById,
@@ -74,6 +75,7 @@ const CompanyDetail = () => {
   const fetchingJoblistings = useAppSelector(
     (state) => state.joblistings.fetching,
   );
+  const actionGrant = useAppSelector((state) => state.companies.actionGrant);
 
   const dispatch = useAppDispatch();
 
@@ -136,21 +138,28 @@ const CompanyDetail = () => {
     },
   ];
 
+  const title = company?.name || 'Bedrift';
+
   return (
-    <Content
-      banner={company?.logo}
-      bannerPlaceholder={company?.logoPlaceholder}
-      skeleton={showSkeleton}
+    <Page
+      cover={
+        <PageCover
+          image={company?.logo}
+          imagePlaceholder={company?.logoPlaceholder}
+          skeleton={showSkeleton}
+        />
+      }
+      title={title}
+      back={{
+        href: '/companies',
+      }}
+      actionButtons={
+        actionGrant.includes('edit') && (
+          <LinkButton href={`/bdb/${companyId}`}>Åpne i BDB</LinkButton>
+        )
+      }
     >
-      <Helmet title={company?.name || 'Bedrift'} />
-      <NavigationTab
-        title={company.name}
-        back={{
-          label: 'Bedriftsoversikt',
-          path: '/companies',
-        }}
-        skeleton={showSkeleton}
-      />
+      <Helmet title={title} />
 
       <ContentSection>
         <ContentMain>
@@ -244,7 +253,7 @@ const CompanyDetail = () => {
               )}
         </ContentSidebar>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

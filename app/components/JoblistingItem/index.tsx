@@ -1,7 +1,6 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Image } from '@webkom/lego-bricks';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { Image } from 'app/components/Image';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';

@@ -33,14 +33,14 @@ describe('Profile settings', () => {
 
   it('can navigate to profile from homepage (menubar)', () => {
     cy.visit('/');
-    cy.get(c('Header__menu')).find(c('Image__image')).click();
+    cy.get(c('Header__menu')).find("[alt*='profile picture']").click();
     cy.contains(c('Dropdown__content') + ' li', initialUser.username).click();
     cy.url().should('include', '/users/me');
   });
 
   it('can navigate to settings from menubar', () => {
     cy.visit('/');
-    cy.get(c('Header__menu')).find(c('Image__image')).click();
+    cy.get(c('Header__menu')).find("[alt*='profile picture']").click();
     cy.contains(c('Dropdown__content') + ' li', 'Innstillinger').click();
     cy.url().should('include', '/users/me/settings/profile');
   });

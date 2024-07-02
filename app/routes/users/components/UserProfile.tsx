@@ -5,8 +5,10 @@ import {
   Flex,
   Icon,
   LinkButton,
-  LoadingIndicator,
   Modal,
+  Image,
+  Page,
+  LoadingPage,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -19,9 +21,8 @@ import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
-import { Content } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
-import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
+import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
@@ -171,6 +172,7 @@ const UserProfile = () => {
   const currentUser = useCurrentUser();
   const isCurrentUser = useIsCurrentUser(params.username);
   const username = isCurrentUser ? currentUser?.username : params.username;
+  const fetching = useAppSelector((state) => state.users.fetching);
   const user = useAppSelector((state) =>
     selectUserWithGroups(state, {
       username,
@@ -226,11 +228,7 @@ const UserProfile = () => {
   );
 
   if (!user) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const renderFields = () => {
@@ -428,7 +426,17 @@ const UserProfile = () => {
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
-    <div className={styles.root}>
+    <Page
+      title={user.fullName}
+      actionButtons={
+        <Icon
+          name="settings"
+          size={22}
+          className={styles.settingsIcon}
+          to={`/users/${user.username}/settings/profile`}
+        />
+      }
+    >
       <Helmet title={`${firstName} ${lastName}`} />
 
       <Flex wrap className={styles.header}>
@@ -460,15 +468,6 @@ const UserProfile = () => {
           )}
         </Flex>
         <Flex column className={styles.rightContent}>
-          <Flex justifyContent="space-between" alignItems="center">
-            <h2>{user.fullName}</h2>
-            <Icon
-              name="settings"
-              size={22}
-              className={styles.settingsIcon}
-              to={`/users/${user.username}/settings/profile`}
-            />
-          </Flex>
           <Flex wrap>
             {membershipsAsPills.map((membership) => (
               <GroupPill key={membership.id} group={membership.abakusGroup} />
@@ -752,7 +751,7 @@ const UserProfile = () => {
           )}
         </div>
       </Flex>
-    </div>
+    </Page>
   );
 };
 

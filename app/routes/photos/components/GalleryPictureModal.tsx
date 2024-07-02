@@ -1,4 +1,4 @@
-import { Flex, Icon, LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { useEffect, useState } from 'react';
@@ -11,9 +11,7 @@ import {
   fetchSiblingGallerPicture,
 } from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
-import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
-import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import PropertyHelmet, {
   type PropertyGenerator,
@@ -184,11 +182,7 @@ const GalleryPictureModal = () => {
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return (
-      <Content>
-        <LoadingIndicator loading={fetching} />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const toggleDropdown = () => {

@@ -13,6 +13,9 @@ export const a = (path) => `a[href="${path}"]`;
 
 export const t = (testId) => `[data-test-id="${testId}"]`;
 
+export const selectTab = (tabName) =>
+  cy.get(t('tab')).contains(tabName).click();
+
 export const field = (name) => cy.get(`[name="${name}"]`);
 
 // Used for react-select elements that cannot be found with the normal field method

@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .gallery {
   width: 220px;
 }

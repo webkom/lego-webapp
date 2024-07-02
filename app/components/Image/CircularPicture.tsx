@@ -1,4 +1,4 @@
-import Image from './Image';
+import { Image } from '@webkom/lego-bricks';
 import type { ComponentProps } from 'react';
 
 type Props = {

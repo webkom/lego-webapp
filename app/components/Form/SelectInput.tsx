@@ -50,7 +50,7 @@ export const selectStyles: StylesConfig = {
     color: isSelected ? 'var(--color-gray-1)' : undefined,
     fontSize: '14px',
   }),
-  menuPortal: (base) => ({ ...base, zIndex: 20 }),
+  menuPortal: (base) => ({ ...base, zIndex: 100 }),
 };
 export const selectTheme: ThemeConfig = (theme) => ({
   ...theme,

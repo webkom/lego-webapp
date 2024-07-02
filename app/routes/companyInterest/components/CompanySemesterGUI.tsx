@@ -1,4 +1,4 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import {
@@ -6,7 +6,6 @@ import {
   editSemester,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import {
   Form,
   TextInput,
@@ -23,7 +22,7 @@ import {
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { createValidator, required } from 'app/utils/validation';
-import { semesterToText, SemesterNavigation } from '../utils';
+import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import type { FormApi } from 'final-form';
 
@@ -41,8 +40,7 @@ const validate = createValidator({
 
 const CompanySemesterGUI = () => {
   return (
-    <Content>
-      <SemesterNavigation title="Endre aktive semestre" />
+    <Page title="Endre aktive semestre" back={{ href: '/companyInterest/' }}>
       <Flex className={styles.guiWrapper}>
         <Flex
           column
@@ -57,7 +55,7 @@ const CompanySemesterGUI = () => {
           <ActiveSemesters />
         </Flex>
       </Flex>
-    </Content>
+    </Page>
   );
 };
 

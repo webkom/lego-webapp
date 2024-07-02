@@ -1,8 +1,7 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import ABAKUS_ICON from 'app/assets/icon-192x192.png';
-import { Image } from 'app/components/Image';
 import styles from './InterestGroup.css';
 import type { Group } from 'app/models';
 

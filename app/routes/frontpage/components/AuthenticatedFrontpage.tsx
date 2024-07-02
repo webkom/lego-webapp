@@ -1,4 +1,4 @@
-import { Container, Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
@@ -77,7 +77,7 @@ const AuthenticatedFrontpage = () => {
   );
 
   return (
-    <Container>
+    <PageContainer card={false}>
       <Helmet title="Hjem" />
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
@@ -102,7 +102,7 @@ const AuthenticatedFrontpage = () => {
         showMore={showMore}
         scrollToTop={scrollToTop}
       />
-    </Container>
+    </PageContainer>
   );
 };
 

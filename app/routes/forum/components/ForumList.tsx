@@ -1,8 +1,6 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { fetchForums } from 'app/actions/ForumActions';
-import { Content, ContentMain } from 'app/components/Content';
-import { NavigationLink } from 'app/components/NavigationTab';
 import { Tag } from 'app/components/Tags';
 import { selectAllForums } from 'app/reducers/forums';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -19,23 +17,26 @@ const ForumList = () => {
   const actionGrant = useAppSelector((state) => state.forums.actionGrant);
 
   return (
-    <Content>
-      <ContentMain>
+    <Page
+      title={
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          <h1>Forum</h1>
+          Forum
           <Tag tag="Beta" color="purple" />
         </Flex>
-        {actionGrant.includes('create') && (
-          <NavigationLink to="/forum/new">Nytt forum</NavigationLink>
-        )}
-        <Flex column>
-          {forums?.map((f: PublicForum) => (
-            <ForumListEntry forum={f} key={f.id} />
-          ))}
-        </Flex>
-        <LoadingIndicator loading={fetching} />
-      </ContentMain>
-    </Content>
+      }
+      actionButtons={
+        actionGrant.includes('create') && (
+          <LinkButton href="/forum/new">Nytt forum</LinkButton>
+        )
+      }
+    >
+      <Flex column>
+        {forums?.map((f: PublicForum) => (
+          <ForumListEntry forum={f} key={f.id} />
+        ))}
+      </Flex>
+      <LoadingIndicator loading={fetching} />
+    </Page>
   );
 };
 

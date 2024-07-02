@@ -6,11 +6,15 @@ import {
   Icon,
   LoadingIndicator,
   Skeleton,
+  Page,
+  LinkButton,
+  PageCover,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   deleteCompanyContact,
@@ -21,8 +25,6 @@ import {
 import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CommentView from 'app/components/Comments/CommentView';
-import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
@@ -41,11 +43,7 @@ import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import truncateString from 'app/utils/truncateString';
-import {
-  sortByYearThenSemester,
-  getContactStatuses,
-  DetailNavigation,
-} from '../utils';
+import { sortByYearThenSemester, getContactStatuses } from '../utils';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import styles from './bdb.css';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
@@ -283,38 +281,38 @@ const BdbDetail = () => {
         </tr>
       ));
 
-  const title = (
-    <Flex alignItems="center" gap="var(--spacing-xs)">
-      {company.name}
-      {!company.active && (
-        <span
-          style={{
-            color: 'var(--danger-color)',
-          }}
-        >
-          {' '}
-          (Inaktiv)
-        </span>
-      )}
-      <Icon to={`/bdb/${company.id}/edit`} name="pencil" edit size={20} />
-    </Flex>
-  );
+  const title = `BDB: ${company.name}`;
 
   return (
-    <Content>
-      {company.logo && (
-        <Image
-          src={company.logo}
-          alt={`Logo for ${company.name}`}
-          style={{
-            height: 'inherit',
-            border: '1px solid var(--border-gray)',
-            marginBottom: '15px',
-          }}
-        />
-      )}
-
-      <DetailNavigation title={title} />
+    <Page
+      cover={
+        company.logo && (
+          <PageCover image={company.logo} alt={`Logo for ${company.name}`} />
+        )
+      }
+      title={[
+        title,
+        !company.active && (
+          <span
+            style={{
+              color: 'var(--danger-color)',
+            }}
+          >
+            {' '}
+            (Inaktiv)
+          </span>
+        ),
+      ]}
+      back={{
+        href: '/bdb',
+      }}
+      actionButtons={
+        <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>
+          Rediger
+        </LinkButton>
+      }
+    >
+      <Helmet title={title} />
 
       <Flex column gap="var(--spacing-md)">
         <p className={cx(!company.description && 'secondaryFontColor')}>
@@ -540,7 +538,7 @@ const BdbDetail = () => {
           />
         )}
       </Flex>
-    </Content>
+    </Page>
   );
 };
 

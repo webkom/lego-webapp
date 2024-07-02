@@ -1,9 +1,9 @@
+import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { search } from 'app/actions/SearchActions';
-import { Content } from 'app/components/Content';
 import SearchPage from 'app/components/Search/SearchPage';
 import { selectResult } from 'app/reducers/search';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -35,13 +35,13 @@ const SearchPageWrapper = () => {
   }, 300);
 
   return (
-    <Content>
+    <Page title="Søk">
       <SearchPage
         results={results}
         handleSelect={handleSelect}
         onQueryChanged={onQueryChanged}
       />
-    </Content>
+    </Page>
   );
 };
 

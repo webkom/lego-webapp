@@ -1,6 +1,5 @@
-import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, Image } from '@webkom/lego-bricks';
 import { connect } from 'react-redux';
-import { Image } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import {
   selectGalleryPictureById,
