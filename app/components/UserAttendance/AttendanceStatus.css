@@ -6,7 +6,7 @@
   min-height: 72px;
   text-align: center;
   border-radius: var(--border-radius-md);
-  margin: 10px 0;
+  margin: var(--spacing-sm) 0;
   overflow: hidden;
 }
 
@@ -15,6 +15,6 @@
   min-width: 25%;
   flex-direction: column;
   align-items: center;
-  padding: 7px 0;
+  padding: var(--spacing-sm);
   background-color: var(--additive-background);
 }
