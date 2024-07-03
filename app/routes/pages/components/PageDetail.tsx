@@ -89,8 +89,8 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
         <>
           <h3 className={styles.heading}>Medlemmer</h3>
 
-          <div className={styles.membersSection}>
-            <div className={styles.leaderBoard}>
+          <Flex column justifyContent="center">
+            <Flex wrap justifyContent="center">
               {leaders.map(({ user }) => (
                 <GroupMember
                   user={user}
@@ -102,7 +102,7 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
               {co_leaders.map(({ user }) => (
                 <GroupMember user={user} key={user.id} co_leader />
               ))}
-            </div>
+            </Flex>
 
             <div className={styles.members}>
               {members.map(({ user, role }) => (
@@ -115,7 +115,7 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
                 <GroupMember user={user} key={user.id} />
               ))}
             </div>
-          </div>
+          </Flex>
         </>
       )}
     </article>

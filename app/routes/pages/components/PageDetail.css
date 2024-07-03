@@ -30,14 +30,7 @@
 
 .heading {
   text-align: center;
-  color: var(--lego-link-color);
-  margin: 50px 0 20px;
-}
-
-.leaderBoard {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  margin: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
 }
 
 .members {
@@ -49,21 +42,9 @@
   margin-right: -20px;
 }
 
-.membersSection {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
 @media (--mobile-device) {
   .header {
-    text-align: center;
     word-break: break-word;
     margin-top: 0;
-  }
-
-  .leaderBoard {
-    flex-direction: column;
-    align-self: center;
   }
 }

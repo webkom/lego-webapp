@@ -1,13 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.heading {
-  color: var(--color-gray-5);
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: var(--font-size-md);
-  border-bottom: 1px solid var(--border-gray);
-}
-
 .meetingItem {
   padding-left: 20px;
   border-left: 4px solid transparent;
