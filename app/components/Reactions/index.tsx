@@ -85,7 +85,7 @@ const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
               color={
                 addEmojiHovered || reactionPickerOpen
                   ? 'var(--color-orange-6)'
-                  : 'var(--color-gray-5)'
+                  : 'var(--placeholder-color)'
               }
             />
           </Flex>

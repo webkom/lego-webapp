@@ -11,6 +11,7 @@
   --lego-font-color: var(--color-gray-9);
   --inverted-font-color: var(--color-gray-1);
   --secondary-font-color: #606060;
+  --placeholder-color: var(--color-gray-5);
 
   --lego-red-color: var(--color-red-5);
   --lego-red-color-hover: var(--color-red-6);

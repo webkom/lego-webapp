@@ -18,7 +18,7 @@
 }
 
 .prefix {
-  color: var(--color-gray-5);
+  color: var(--placeholder-color);
 }
 
 .prefix,
@@ -40,7 +40,7 @@
   }
 
   &::placeholder {
-    color: var(--color-gray-5);
+    color: var(--placeholder-color);
   }
 
   &:focus::placeholder {
@@ -65,7 +65,7 @@ span.suffix {
   height: inherit;
   margin-left: auto;
   padding: 0 10px;
-  color: var(--color-gray-5);
+  color: var(--placeholder-color);
   text-align: center;
   background-color: var(--additive-background);
   position: relative;
