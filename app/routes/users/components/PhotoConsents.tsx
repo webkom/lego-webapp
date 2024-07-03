@@ -52,9 +52,15 @@ const ConsentManager = ({
         <ConfirmModal
           closeOnConfirm={true}
           title={`Trekke bildesamtykke på ${presentableDomain}`}
-          message={`Er du sikker på at du vil trekke bildesamtykket ditt for ${toReadableSemester(
-            consent,
-          )} på ${presentableDomain}? Dersom du ønsker å fjerne noen spesifikke bilder, kan du i stedet sende en e-post til pr@abakus.no med informasjon om hvilke bilder du vil fjerne.`}
+          message={
+            <>
+              Er du sikker på at du vil trekke bildesamtykket ditt for
+              {toReadableSemester(consent)} på {presentableDomain}? Dersom du
+              ønsker å fjerne noen spesifikke bilder, kan du i stedet sende en
+              e-post til <a href="mailto:pr@abakus.no">pr@abakus.no</a> med
+              informasjon om hvilke bilder du vil fjerne.
+            </>
+          }
           onConfirm={() => updateConsent({ ...consent, isConsenting: false })}
         >
           {({ openConfirmModal }) => (
