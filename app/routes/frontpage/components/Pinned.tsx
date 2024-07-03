@@ -34,7 +34,7 @@ const Pinned = ({ item, url, meta, style }: Props) => {
             placeholder={item?.coverPlaceholder}
             height={500}
             width={1667}
-            alt={`Cover of ${item?.title}`}
+            alt={`Forsidebildet til ${item?.title}`}
           />
         </Link>
         <div className={styles.pinnedHeading}>

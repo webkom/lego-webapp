@@ -26,7 +26,7 @@ const GroupMember = ({ user, role, leader, co_leader, groupName }: Props) => {
         )}
       >
         <Image
-          alt="profilePicture"
+          alt={`${user.fullName} sitt profilbilde`}
           src={user.profilePicture}
           placeholder={user.profilePicturePlaceholder}
         />

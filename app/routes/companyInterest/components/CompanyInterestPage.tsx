@@ -215,7 +215,7 @@ const CollaborationBox = ({
   </Flex>
 );
 
-const LanguageFlag = ({ language }: { language: string }) => {
+const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => {
   let flag;
 
   switch (language) {
@@ -232,7 +232,13 @@ const LanguageFlag = ({ language }: { language: string }) => {
       break;
   }
 
-  return <img src={flag} className={styles.flag} alt="Country flag" />;
+  return (
+    <img
+      src={flag}
+      className={styles.flag}
+      alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
+    />
+  );
 };
 
 type CompanyInterestFormEntity = {

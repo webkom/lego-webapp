@@ -287,7 +287,7 @@ const BdbDetail = () => {
     <Page
       cover={
         company.logo && (
-          <PageCover image={company.logo} alt={`Logo for ${company.name}`} />
+          <PageCover image={company.logo} alt={`${company.name} sin logo`} />
         )
       }
       title={[

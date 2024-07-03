@@ -158,7 +158,7 @@ const EventItem = ({
           <Flex className={styles.companyLogoExtraCompact}>
             {event.cover && (
               <Image
-                alt="Event cover image"
+                alt="Forsidebilde"
                 src={event.cover}
                 placeholder={event.coverPlaceholder}
               />
@@ -185,7 +185,7 @@ const EventItem = ({
                     <Image
                       src={event.cover}
                       placeholder={event.coverPlaceholder}
-                      alt={`Event cover image - ${event.title}`}
+                      alt={`Forsidebildet til ${event.title}`}
                     />
                   </Link>
                 )}
@@ -236,7 +236,7 @@ const EventItem = ({
           <Flex className={styles.companyLogo}>
             {event.cover && (
               <Image
-                alt="Event cover"
+                alt="Forsidebilde"
                 src={event.cover}
                 placeholder={event.coverPlaceholder}
               />

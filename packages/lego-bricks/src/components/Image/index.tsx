@@ -29,7 +29,7 @@ const ImageComponent = (props: Props) => {
   const {
     src,
     className,
-    alt = 'image',
+    alt,
     style,
     darkModeSource,
     darkThemeSource,

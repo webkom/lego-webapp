@@ -501,7 +501,7 @@ const EventDetail = () => {
                 >
                   <img
                     className={styles.mazemapImg}
-                    alt="MazeMap-logo"
+                    alt="MazeMap sin logo"
                     src={mazemapLogo}
                   />
                   {mapIsOpen ? 'Skjul kart' : 'Vis kart'}

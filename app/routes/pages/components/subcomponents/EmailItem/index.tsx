@@ -12,7 +12,11 @@ const EmailItem = ({ email, logo, recipient }: Props) => {
   return (
     <div className={styles.container}>
       {logo && (
-        <Image className={styles.logo} src={logo} alt={recipient + ' logo'} />
+        <Image
+          className={styles.logo}
+          src={logo}
+          alt={`${recipient} sin logo`}
+        />
       )}
       <div>
         <div className={styles.recipient}>{readmeIfy(recipient)}</div>

@@ -64,7 +64,11 @@ const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
 
       {result.picture && result.picture !== 'cover' && (
         <Flex className={styles.picture}>
-          <Image src={result.picture} alt="search" role="presentation" />
+          <Image
+            src={result.picture}
+            alt={`Bilde fra ${result.label}`}
+            role="presentation"
+          />
         </Flex>
       )}
     </Flex>

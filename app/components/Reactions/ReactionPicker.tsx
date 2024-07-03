@@ -188,7 +188,7 @@ const ReactionPicker = ({ emojis, contentTarget }: Props) => {
       />
       {isLoading ? (
         <div className={styles.emojiLoading}>
-          <Image src={emojiLoading} alt="Emoji loading indicator" />
+          <Image src={emojiLoading} alt="Lasteindikator" />
         </div>
       ) : (
         <ReactionPickerContent

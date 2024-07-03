@@ -130,7 +130,7 @@ const Footer = () => {
           <Image
             className={styles.cooperator}
             src={netcompany}
-            alt="netcompany"
+            alt="Netcompany sin logo"
           />
           <Link to="/pages/personvern/114-informasjonskapsler">
             Informasjonskapsler (cookies)
