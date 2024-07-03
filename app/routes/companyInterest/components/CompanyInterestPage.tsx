@@ -461,7 +461,7 @@ const CompanyInterestPage = () => {
         : createCompanyInterest(newData, isEnglish),
     ).then(() => {
       navigate(
-        allowedBdb ? '/companyInterest/' : '/pages/bedrifter/for-bedrifter',
+        allowedBdb ? '/company-interest' : '/pages/bedrifter/for-bedrifter',
       );
     });
   };
@@ -525,13 +525,14 @@ const CompanyInterestPage = () => {
     },
   ];
 
-  const title = edit
-    ? 'Redigerer bedriftsinteresse'
-    : FORM_LABELS.mainHeading[language];
+  const title = edit ? 'Bedriftsinteresse' : FORM_LABELS.mainHeading[language];
 
   return (
     <Page
       title={title}
+      back={{
+        href: '/company-interest',
+      }}
       actionButtons={
         !edit && (
           <Link to={isEnglish ? '/interesse' : '/register-interest'}>

@@ -143,7 +143,7 @@ const CompanyInterestList = () => {
       title: 'Bedriftsnavn',
       dataIndex: 'companyName',
       render: (companyName: string, companyInterest: Record<string, any>) => (
-        <Link to={`/companyInterest/${companyInterest.id}/edit`}>
+        <Link to={`/company-interest/${companyInterest.id}/edit`}>
           {companyInterest.company ? companyInterest.company.name : companyName}
         </Link>
       ),
@@ -209,7 +209,7 @@ const CompanyInterestList = () => {
     <Page
       title="Bedriftsinteresser"
       actionButtons={
-        <LinkButton href="/companyInterest/create">
+        <LinkButton href="/company-interest/create">
           Ny bedriftsinteresse
         </LinkButton>
       }
@@ -231,7 +231,7 @@ const CompanyInterestList = () => {
               isClearable={false}
             />
           </Flex>
-          <LinkButton href="/companyInterest/semesters">
+          <LinkButton href="/company-interest/semesters">
             Endre aktive semestre
           </LinkButton>
         </Flex>
