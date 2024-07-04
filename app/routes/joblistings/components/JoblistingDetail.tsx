@@ -1,14 +1,12 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import {
-  Content,
   ContentSection,
   ContentMain,
   ContentSidebar,
-  ContentHeader,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
@@ -17,6 +15,7 @@ import PropertyHelmet from 'app/components/PropertyHelmet';
 import Time from 'app/components/Time';
 import config from 'app/config';
 import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
+import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isTruthy } from 'app/utils';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
@@ -81,16 +80,21 @@ const JoblistingDetail = () => {
   }, [joblisting?.slug, navigate, joblistingIdOrSlug]);
 
   if (!joblisting) {
-    return <LoadingIndicator loading={fetching} />;
+    return <LoadingPage cover loading={fetching} />;
   }
 
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
 
   return (
-    <Content
-      banner={joblisting.company.logo}
-      youtubeUrl={joblisting.youtubeUrl}
+    <Page
+      cover={
+        <YoutubeCover
+          image={joblisting.company.logo}
+          youtubeUrl={joblisting.youtubeUrl}
+        />
+      }
+      title={joblisting.title}
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
@@ -102,9 +106,6 @@ const JoblistingDetail = () => {
           href={`${config?.webUrl}/joblistings/${joblisting.id}`}
         />
       </PropertyHelmet>
-      <ContentHeader>
-        <h2>{joblisting.title}</h2>
-      </ContentHeader>
       <ContentSection>
         <ContentMain>
           <DisplayContent content={joblisting.description} />
@@ -153,13 +154,14 @@ const JoblistingDetail = () => {
             ].filter(isTruthy)}
           />
           {joblisting.applicationUrl && (
-            <a
+            <LinkButton
+              success
               href={joblisting.applicationUrl}
               target="_blank"
               rel="noreferrer"
             >
-              <Button success>Søk her</Button>
-            </a>
+              Søk her
+            </LinkButton>
           )}
           {(joblisting.responsible || joblisting.contactMail) && (
             <div
@@ -225,18 +227,16 @@ const JoblistingDetail = () => {
             >
               <h3>Admin</h3>
               {canEdit && (
-                <Link to={`/joblistings/${joblisting.id}/edit`}>
-                  <Button>
-                    <Icon name="create-outline" size={19} />
-                    Rediger
-                  </Button>
-                </Link>
+                <LinkButton href={`/joblistings/${joblisting.id}/edit`}>
+                  <Icon name="create-outline" size={19} />
+                  Rediger
+                </LinkButton>
               )}
             </Flex>
           )}
         </ContentSidebar>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

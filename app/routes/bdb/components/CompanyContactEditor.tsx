@@ -1,22 +1,20 @@
+import { LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   addCompanyContact,
   editCompanyContact,
   fetchAdmin,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import { LegoFinalForm, TextInput } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import {
-  selectCompanyById,
-  selectCompanyContactById,
-} from 'app/reducers/companies';
+import { selectCompanyById } from 'app/reducers/companies';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import { DetailNavigation } from '../utils';
+import SubmissionError from '../../../components/Form/SubmissionError';
+import type { AdminDetailCompany } from 'app/store/models/Company';
 
 export type FormValues = {
   name: string;
@@ -38,14 +36,12 @@ const CompanyContactEditor = () => {
     companyContactId: string;
   }>();
   const isNew = companyContactId === undefined;
+  const fetching = useAppSelector((state) => state.companies.fetching);
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById<AdminDetailCompany>(state, companyId),
   );
-  const companyContact = useAppSelector((state) =>
-    selectCompanyContactById(state, {
-      companyId,
-      companyContactId: Number(companyContactId),
-    }),
+  const companyContact = company?.companyContacts.find(
+    (contact) => contact.id === Number(companyContactId),
   );
 
   const dispatch = useAppDispatch();
@@ -53,23 +49,24 @@ const CompanyContactEditor = () => {
   usePreparedEffect(
     'fetchEditCompanyContact',
     () => companyId && dispatch(fetchAdmin(companyId)),
-    [companyId, companyContactId],
+    [companyId],
   );
 
   const navigate = useNavigate();
 
-  const onSubmit = (formContent: FormValues) => {
+  if (!company) {
+    return <LoadingPage loading={fetching} />;
+  }
+
+  const onSubmit = async (formContent: FormValues) => {
     const body = {
       ...formContent,
       companyId: company.id,
-      companyContactId: companyContact && companyContact.id,
+      companyContactId,
     };
 
-    dispatch(isNew ? addCompanyContact(body) : editCompanyContact(body)).then(
-      () => {
-        navigate(`/bdb/${companyId}`);
-      },
-    );
+    await dispatch(isNew ? addCompanyContact(body) : editCompanyContact(body));
+    navigate(`/bdb/${companyId}`);
   };
 
   const initialValues = isNew
@@ -81,14 +78,12 @@ const CompanyContactEditor = () => {
         phone: companyContact.phone,
       };
 
-  return (
-    <Content>
-      <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
-      <h3>
-        <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
-        bedriftskontakt
-      </h3>
+  const title = isNew
+    ? `Ny bedriftskontakt for ${company.name}`
+    : `Redigerer: Bedriftskontakt for ${company.name}`;
 
+  return (
+    <Page title={title} back={{ href: `/bdb/${company.id}` }}>
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -124,11 +119,12 @@ const CompanyContactEditor = () => {
               component={TextInput.Field}
             />
 
+            <SubmissionError />
             <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
           </form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

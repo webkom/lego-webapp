@@ -1,12 +1,17 @@
-import { LoadingIndicator, Button, Flex } from '@webkom/lego-bricks';
+import {
+  LoadingIndicator,
+  Button,
+  Flex,
+  LinkButton,
+  ButtonGroup,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/MeetingActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import { useCurrentUser } from 'app/reducers/auth';
@@ -176,31 +181,28 @@ const MeetingList = () => {
   ]);
 
   return (
-    <Content>
+    <Page
+      title="Dine møter"
+      actionButtons={<LinkButton href="/meetings/create">Nytt møte</LinkButton>}
+    >
       <Helmet title="Dine møter" />
-      <NavigationTab
-        title="Dine møter"
-        details={
-          <Link to="/meetings/create">
-            <Button>Nytt møte</Button>
-          </Link>
-        }
-      />
       {meetingSections && currentUser && (
         <MeetingListView currentUser={currentUser} sections={meetingSections} />
       )}
       <LoadingIndicator
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
       />
-      {fetchMorePagination.hasMore && (
-        <Button onClick={fetchMore}>Last inn flere</Button>
-      )}
-      {fetchOlderPagination.hasMore && (
-        <Button flat onClick={fetchOlder}>
-          Hent gamle
-        </Button>
-      )}
-    </Content>
+      <ButtonGroup>
+        {fetchMorePagination.hasMore && (
+          <Button onPress={fetchMore}>Last inn flere</Button>
+        )}
+        {fetchOlderPagination.hasMore && (
+          <Button flat onPress={fetchOlder}>
+            Hent gamle
+          </Button>
+        )}
+      </ButtonGroup>
+    </Page>
   );
 };
 

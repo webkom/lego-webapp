@@ -1,10 +1,9 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { TagCloud as Cloud } from 'react-tagcloud';
 import { fetchAll } from 'app/actions/TagActions';
-import { Content } from 'app/components/Content';
 import { selectAllTags } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import type { ListTag } from 'app/store/models/Tag';
@@ -43,9 +42,8 @@ const TagCloud = () => {
   };
 
   return (
-    <Content>
+    <Page title="Tags">
       <Helmet title="Tags" />
-      <h1>Tags</h1>
       <Cloud
         renderer={tagRenderer}
         minSize={12}
@@ -55,7 +53,7 @@ const TagCloud = () => {
         colorOptions={options}
       />
       <LoadingIndicator loading={fetching} />
-    </Content>
+    </Page>
   );
 };
 

@@ -1,16 +1,24 @@
-import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import {
+  Button,
+  Flex,
+  Icon,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+  PageCover,
+  Skeleton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { fetch, fetchEventsForCompany } from 'app/actions/CompanyActions';
-import { getEndpoint } from 'app/actions/EventActions';
+import { fetch } from 'app/actions/CompanyActions';
+import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
-  Content,
   ContentMain,
   ContentSection,
   ContentSidebar,
@@ -18,52 +26,56 @@ import {
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
-import NavigationTab from 'app/components/NavigationTab';
 import TextWithIcon from 'app/components/TextWithIcon';
 import {
   selectCompanyById,
   selectEventsForCompany,
   selectJoblistingsForCompany,
 } from 'app/reducers/companies';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import createQueryString from 'app/utils/createQueryString';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
-import type { EntityId } from '@reduxjs/toolkit';
-
-const queryString = (companyId?: EntityId) =>
-  createQueryString({
-    company: companyId,
-    ordering: '-start_time',
-  });
+import type { DetailedCompany } from 'app/store/models/Company';
+import type { ListEvent } from 'app/store/models/Event';
 
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
 
-  const { companyId } = useParams<{ companyId: string }>();
-  const showFetchMoreEvents = useAppSelector((state) =>
-    selectPagination('events', {
-      queryString: queryString(companyId),
-    })(state),
+  const { companyId } = useParams<{ companyId: string }>() as {
+    companyId: string;
+  };
+
+  const query = {
+    company: companyId,
+    ordering: '-start_time',
+  };
+
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/events/',
+      entity: EntityType.Events,
+      query,
+    }),
   );
+  const showFetchMoreEvents = pagination.hasMore;
   const fetchingEvents = useAppSelector((state) => state.events.fetching);
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById<DetailedCompany>(state, companyId),
   );
   const fetchingCompany = useAppSelector((state) => state.companies.fetching);
   const showSkeleton = fetchingCompany && isEmpty(company);
   const companyEvents = useAppSelector((state) =>
-    selectEventsForCompany(state, { companyId }),
-  );
+    selectEventsForCompany(state, companyId),
+  ) as ListEvent[];
   const joblistings = useAppSelector((state) =>
-    selectJoblistingsForCompany(state, { companyId }),
+    selectJoblistingsForCompany(state, companyId),
   );
   const fetchingJoblistings = useAppSelector(
     (state) => state.joblistings.fetching,
   );
-  const pagination = useAppSelector((state) => state.events.pagination);
-  const endpoint = getEndpoint(pagination, queryString(companyId));
+  const actionGrant = useAppSelector((state) => state.companies.actionGrant);
 
   const dispatch = useAppDispatch();
 
@@ -74,9 +86,8 @@ const CompanyDetail = () => {
       Promise.allSettled([
         dispatch(fetch(companyId)),
         dispatch(
-          fetchEventsForCompany({
-            endpoint: `/events/${queryString(companyId)}`,
-            queryString: queryString(companyId),
+          fetchEvents({
+            query,
           }),
         ),
         dispatch(fetchAllJoblistings({ company: companyId, timeFilter: true })),
@@ -84,12 +95,13 @@ const CompanyDetail = () => {
     [companyId],
   );
 
+  if (!company) return <LoadingIndicator loading />;
+
   const fetchMoreEvents = () =>
-    companyId &&
     dispatch(
-      fetchEventsForCompany({
-        endpoint,
-        queryString: queryString(companyId),
+      fetchEvents({
+        query,
+        next: true,
       }),
     );
 
@@ -126,21 +138,28 @@ const CompanyDetail = () => {
     },
   ];
 
+  const title = company?.name || 'Bedrift';
+
   return (
-    <Content
-      banner={company?.logo}
-      bannerPlaceholder={company?.logoPlaceholder}
-      skeleton={showSkeleton}
+    <Page
+      cover={
+        <PageCover
+          image={company?.logo}
+          imagePlaceholder={company?.logoPlaceholder}
+          skeleton={showSkeleton}
+        />
+      }
+      title={title}
+      back={{
+        href: '/companies',
+      }}
+      actionButtons={
+        actionGrant.includes('edit') && (
+          <LinkButton href={`/bdb/${companyId}`}>Åpne i BDB</LinkButton>
+        )
+      }
     >
-      <Helmet title={company?.name || 'Bedrift'} />
-      <NavigationTab
-        title={company.name}
-        back={{
-          label: 'Bedriftsoversikt',
-          path: '/companies',
-        }}
-        skeleton={showSkeleton}
-      />
+      <Helmet title={title} />
 
       <ContentSection>
         <ContentMain>
@@ -159,7 +178,7 @@ const CompanyDetail = () => {
           />
           {oldEvents.length > 0 && (
             <Button
-              onClick={() => setViewOldEvents(!viewOldEvents)}
+              onPress={() => setViewOldEvents(!viewOldEvents)}
               className={styles.toggleEventsView}
             >
               {viewOldEvents
@@ -234,7 +253,7 @@ const CompanyDetail = () => {
               )}
         </ContentSidebar>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

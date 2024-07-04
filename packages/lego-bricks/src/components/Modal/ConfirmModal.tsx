@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../Button';
+import { ButtonGroup } from '../Button/ButtonGroup';
 import { Icon } from '../Icon';
 import { Flex } from '../Layout';
 import styles from './ConfirmModal.module.css';
@@ -7,8 +8,8 @@ import { Modal } from './index';
 import type { ReactNode } from 'react';
 
 type ConfirmModalContentProps = {
-  onConfirm?: () => Promise<void> | void;
-  onCancel?: () => Promise<void> | void;
+  onConfirm?: () => Promise<unknown> | void;
+  onCancel?: () => Promise<unknown> | void;
   message: ReactNode;
   title: string;
   disabled?: boolean;
@@ -35,21 +36,21 @@ const ConfirmModalContent = ({
       <h2 className={danger ? styles.dangerTitle : undefined}>{title}</h2>
     </Flex>
     <span>{message}</span>
-    <div>
-      <Button flat disabled={disabled} onClick={onCancel}>
+    <ButtonGroup>
+      <Button flat disabled={disabled} onPress={onCancel}>
         {cancelText}
       </Button>
-      <Button danger={danger} disabled={disabled} onClick={onConfirm}>
+      <Button danger={danger} disabled={disabled} onPress={onConfirm}>
         {confirmText}
       </Button>
-    </div>
+    </ButtonGroup>
     {errorMessage && <p className={styles.errorMessage}>{errorMessage} </p>}
   </Flex>
 );
 
 type ConfirmModalProps = {
-  onConfirm?: () => Promise<void> | void;
-  onCancel?: () => Promise<void> | void;
+  onConfirm?: () => Promise<unknown> | void;
+  onCancel?: () => Promise<unknown> | void;
 
   /* Close the modal after confirm promise is resolved
    * This should only be used if the component isn't automatically
@@ -71,6 +72,24 @@ type ConfirmModalProps = {
   danger?: boolean;
 };
 
+/**
+ * Confirmation modal, for use on buttons or other components that require a confirmation
+ * before performing an action.
+ *
+ * ### Example Usage
+ * ```tsx
+ * <ConfirmModal
+ *  title="Er du sikker?"
+ *  message="Ikke gjør noe du kommer til å angre på!"
+ *  onConfirm={() => deleteSomething()}
+ *  onCancel={() => console.log('Crisis averted!')}
+ * >
+ *   {({ openConfirmModal }) => (
+ *     <Button onPress={openConfirmModal}>Slett...</Button>
+ *   )}
+ * </ConfirmModal>
+ * ```
+ */
 const ConfirmModal = ({
   onConfirm = async () => {},
   onCancel = async () => {},
@@ -117,9 +136,9 @@ const ConfirmModal = ({
     <>
       {children({ openConfirmModal: () => setModalVisible(true) })}
       <Modal
-        closeOnBackdropClick={!working}
-        show={modalVisible}
-        onHide={() => setModalVisible(false)}
+        isDismissable={!working}
+        isOpen={modalVisible}
+        onOpenChange={setModalVisible}
       >
         <ConfirmModalContent
           onConfirm={modalOnConfirm}

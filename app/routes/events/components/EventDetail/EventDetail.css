@@ -1,17 +1,24 @@
+@import url('~app/styles/variables.css');
 @import url('../Event.css');
 
 .star {
-  color: var(--color-orange-6);
+  ion-icon {
+    color: var(--color-orange-6);
+  }
 }
 
-.header {
-  min-width: 300px;
-  min-height: var(--spacing-xl);
-  margin: var(--spacing-sm) 0;
-}
+.eventType {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 
-.title {
-  cursor: pointer;
+  strong {
+    margin-bottom: calc(-1 * var(--spacing-sm));
+  }
+
+  @media (--small-viewport) {
+    display: none;
+  }
 }
 
 .tagRow {

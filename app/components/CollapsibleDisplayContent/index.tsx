@@ -6,7 +6,7 @@ import { type CSSProperties, useRef, useState } from 'react';
 import styles from './CollapsibleDisplayContent.css';
 
 type Props = {
-  content: string;
+  content?: string;
   id?: string;
   className?: string;
   style?: CSSProperties;

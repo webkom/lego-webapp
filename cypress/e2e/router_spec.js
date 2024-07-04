@@ -1,4 +1,4 @@
-import { c, a, t } from '../support/utils.js';
+import { c, a, t, selectTab } from '../support/utils.js';
 
 describe('Navigate throughout app', () => {
   beforeEach(() => {
@@ -8,7 +8,7 @@ describe('Navigate throughout app', () => {
 
   // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
-    cy.get(c('buttonGroup')).within(() => {
+    cy.get(`${c('Header__menu')} ${c('buttonGroup')}`).within(() => {
       cy.get(c('searchIcon')).click();
     });
     cy.get(c('Search__quickLinks-'))
@@ -36,7 +36,6 @@ describe('Navigate throughout app', () => {
     });
     cy.url().should('contain', '/joblistings');
     cy.contains('Jobbannonser');
-    cy.contains('Søknadsfrist');
   });
 
   it('should be able to navigate to about-page', () => {
@@ -90,29 +89,17 @@ describe('Navigate throughout app', () => {
     cy.contains('Brukernavn');
 
     // Go to notifications
-    cy.get(c('NavigationTab__container'))
-      .first()
-      .within(() => {
-        cy.contains('Notifikasjoner').click();
-      });
+    selectTab('Notifikasjoner');
     cy.url().should('contain', '/users/me/settings/notifications');
     cy.contains('E-poster som sendes direkte til deg');
 
     // Go to OAuth2
-    cy.get(c('NavigationTab__container'))
-      .first()
-      .within(() => {
-        cy.contains('OAuth2').click();
-      });
+    selectTab('OAuth2');
     cy.url().should('contain', '/users/me/settings/oauth2');
     cy.contains('Denne nettsiden benytter seg av et API');
 
     // Go to student confirmation
-    cy.get(c('NavigationTab__container'))
-      .first()
-      .within(() => {
-        cy.contains('Verifiser studentstatus').click();
-      });
+    selectTab('Verifiser studentstatus');
     cy.url().should('contain', '/users/me/settings/student-confirmation');
     cy.contains('Verifiser studentstatus');
   });
@@ -133,21 +120,13 @@ describe('Navigate throughout app', () => {
     cy.contains('Dine møter');
 
     // Go to create new
-    cy.get(c('NavigationTab__details'))
-      .first()
-      .within(() => {
-        cy.contains('a', 'Nytt møte').click();
-      });
+    cy.contains('Nytt møte').click();
     cy.url().should('contain', '/meetings/create');
     cy.contains('Nytt møte');
     cy.contains('Tittel');
 
     // Go back to meetings
-    cy.get(c('NavigationTab'))
-      .first()
-      .within(() => {
-        cy.contains('Dine møter').click();
-      });
+    cy.contains('Dine møter').click();
     cy.url().should('contain', '/meetings');
     cy.contains('Dine møter');
   });
@@ -200,7 +179,7 @@ describe('Navigate throughout app', () => {
 
     // Joblistings
     openMenuAndSelect('Jobbannonser', '/joblistings');
-    cy.contains('Søknadsfrist');
+    cy.contains('Jobbannonser');
 
     // Contacs
     openMenuAndSelect('Kontakt Abakus', '/contact');

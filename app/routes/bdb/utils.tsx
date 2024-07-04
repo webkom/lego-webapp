@@ -1,18 +1,12 @@
-import { Button, ConfirmModal, Icon } from '@webkom/lego-bricks';
-import { useNavigate } from 'react-router-dom';
-import { deleteCompany } from 'app/actions/CompanyActions';
-import NavigationTab from 'app/components/NavigationTab';
-import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
-import { useAppDispatch } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
-import type { ReactNode } from 'react';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
@@ -97,22 +91,22 @@ export const semesterCodeToName = (code: Semester) => {
   return codeToName[code] || '-';
 };
 export const sortByYearThenSemester = (
-  a: CompanySemesterEntity,
-  b: CompanySemesterEntity,
+  a: TransformedSemesterStatus,
+  b: TransformedSemesterStatus,
 ): number => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1,
   };
   return a.year !== b.year
-    ? parseInt(b.year, 10) - parseInt(a.year, 10)
+    ? b.year - a.year
     : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
-export const indexToSemester = (
+
+export const indexToYearAndSemester = (
   index: number,
   startYear: number,
   startSem: number,
-  companySemesters?: Array<CompanySemesterEntity>,
 ) => {
   const semester = semesterNameOf(((index % 2) + startSem) % 2);
   let year = 0;
@@ -127,16 +121,22 @@ export const indexToSemester = (
     year = startYear + 1;
   }
 
-  return (
-    (companySemesters &&
-      companySemesters.find(
-        (companySemester) =>
-          companySemester.year === year &&
-          companySemester.semester === semester,
-      )) || {
-      year,
-      semester,
-    }
+  return {
+    year,
+    semester,
+  };
+};
+export const indexToCompanySemester = (
+  index: number,
+  startYear: number,
+  startSem: number,
+  companySemesters: CompanySemester[],
+) => {
+  const { year, semester } = indexToYearAndSemester(index, startYear, startSem);
+
+  return companySemesters.find(
+    (companySemester) =>
+      companySemester.year === year && companySemester.semester === semester,
   );
 };
 
@@ -185,51 +185,9 @@ export const getContactStatuses = (
   return Array.from(statuses);
 };
 
-export const ListNavigation = ({ title }: { title: ReactNode }) => (
-  <NavigationTab title={title}>
-    <NavigationLink to="/companyInterest">Interesseskjema</NavigationLink>
-    <NavigationLink to="/bdb">BDB</NavigationLink>
-    <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
-  </NavigationTab>
+export const BdbTabs = () => (
+  <>
+    <NavigationTab href="/companyInterest">Interesseskjema</NavigationTab>
+    <NavigationTab href="/bdb">BDB</NavigationTab>
+  </>
 );
-
-export const DetailNavigation = ({
-  title,
-  companyId,
-}: {
-  title: ReactNode;
-  companyId: EntityId;
-}) => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-
-  return (
-    <NavigationTab
-      title={title}
-      back={{
-        label: 'Tilbake til liste',
-        path: '/bdb',
-      }}
-    >
-      <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-      <NavigationLink to={`/bdb/${companyId}/edit`}>Rediger</NavigationLink>
-      <NavigationLink to={'/bdb/add'}>Ny bedrift</NavigationLink>
-      <ConfirmModal
-        title="Slett bedrift"
-        message="Er du sikker på at du vil slette denne bedriften?"
-        onConfirm={() =>
-          dispatch(deleteCompany(companyId)).then(() => {
-            navigate('/bdb');
-          })
-        }
-      >
-        {({ openConfirmModal }) => (
-          <Button onClick={openConfirmModal} danger>
-            <Icon name="trash" size={19} />
-            Slett bedrift
-          </Button>
-        )}
-      </ConfirmModal>
-    </NavigationTab>
-  );
-};

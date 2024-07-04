@@ -1,14 +1,12 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { useParams } from 'react-router-dom';
-import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import { NavigationLink } from 'app/components/NavigationTab';
+import { ContentSection, ContentMain } from 'app/components/Content';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { DetailNavigation, getCsvUrl } from '../../utils';
+import { SurveyDetailTabs, getCsvUrl } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
-import styles from '../surveys.css';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { ComponentType } from 'react';
@@ -45,20 +43,19 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   }
 
   return (
-    <Content banner={event?.cover}>
-      <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
-
+    <Page
+      cover={
+        <PageCover
+          image={event?.cover}
+          imagePlaceholder={event?.coverPlaceholder}
+        />
+      }
+      title={survey.title}
+      back={{ href: '/surveys' }}
+      tabs={<SurveyDetailTabs surveyId={survey.id} />}
+    >
       <ContentSection>
         <ContentMain>
-          <Flex gap="0.5rem" className={styles.submissionNav}>
-            <NavigationLink to={`/surveys/${survey.id}/submissions/summary`}>
-              Oppsummering
-            </NavigationLink>
-            <NavigationLink to={`/surveys/${survey.id}/submissions/individual`}>
-              Individuell
-            </NavigationLink>
-          </Flex>
-
           <Children survey={survey} submissions={submissions} />
         </ContentMain>
 
@@ -79,7 +76,7 @@ const SubmissionsPage = ({ children: Children }: Props) => {
           }}
         />
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

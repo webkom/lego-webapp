@@ -1,4 +1,11 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  Icon,
+  LinkButton,
+  LoadingPage,
+  Page,
+} from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -8,7 +15,6 @@ import AddToCalendar from 'app/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
 import {
-  Content,
   ContentSection,
   ContentSidebar,
   ContentMain,
@@ -17,10 +23,8 @@ import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
 import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
-import NavigationTab from 'app/components/NavigationTab';
-import Time, { FromToTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import { FromToTime } from 'app/components/Time';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import {
@@ -109,26 +113,26 @@ const MeetingDetails = () => {
   ) =>
     statusMe &&
     moment(startTime) > moment() && (
-      <li className={styles.statusButtons}>
+      <ButtonGroup className={styles.statusButtons}>
         <Button
           success
-          onClick={acceptInvitation}
+          onPress={acceptInvitation}
           disabled={statusMe === MeetingInvitationStatus.Attending}
         >
           Delta
         </Button>
         <Button
           dark
-          onClick={rejectInvitation}
+          onPress={rejectInvitation}
           disabled={statusMe === MeetingInvitationStatus.NotAttending}
         >
           Avslå
         </Button>
-      </li>
+      </ButtonGroup>
     );
 
   if (!meeting || !currentUser) {
-    return <LoadingIndicator loading />;
+    return <LoadingPage loading />; // TODO: proper loading behavior once separate fetching state is implemented
   }
 
   const statusMe = currentUserInvitation?.status;
@@ -158,25 +162,14 @@ const MeetingDetails = () => {
   ];
 
   return (
-    <Content>
+    <Page
+      title={meeting.title}
+      back={{
+        label: 'Dine møter',
+        href: '/meetings',
+      }}
+    >
       <Helmet title={meeting.title} />
-      <NavigationTab
-        title={meeting.title}
-        className={styles.detailTitle}
-        details={
-          <Time
-            style={{
-              color: 'grey',
-            }}
-            time={meeting.startTime}
-            format="ll [-] HH:mm"
-          />
-        }
-        back={{
-          label: 'Dine møter',
-          path: '/meetings',
-        }}
-      ></NavigationTab>
 
       <ContentSection>
         <ContentMain>
@@ -190,21 +183,7 @@ const MeetingDetails = () => {
           <ul>
             {attendanceButtons(statusMe, meeting.startTime)}
             <InfoList items={infoItems} />
-            <li>
-              <AttendanceModal
-                isMeeting
-                key="modal"
-                pools={sortInvitations()}
-                title="Påmeldte"
-              >
-                {({ toggleModal }) => (
-                  <AttendanceStatus
-                    toggleModal={toggleModal}
-                    pools={sortInvitations()}
-                  />
-                )}
-              </AttendanceModal>
-            </li>
+            <Attendance isMeeting pools={sortInvitations()} />
             {meeting.mazemapPoi && (
               <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
             )}
@@ -216,19 +195,16 @@ const MeetingDetails = () => {
             )}
           </ul>
 
-          <Flex column gap={7}>
-            <h3>Admin</h3>
-
+          <h3>Admin</h3>
+          <ButtonGroup>
             <AnnouncementInLine meeting={meeting} />
             {canEdit && (
-              <Link to={`/meetings/${meeting.id}/edit`}>
-                <Button>
-                  <Icon name="create-outline" size={19} />
-                  Rediger
-                </Button>
-              </Link>
+              <LinkButton href={`/meetings/${meeting.id}/edit`}>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </LinkButton>
             )}
-          </Flex>
+          </ButtonGroup>
         </ContentSidebar>
       </ContentSection>
       <ContentSection>
@@ -247,7 +223,7 @@ const MeetingDetails = () => {
           )}
         </ContentMain>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

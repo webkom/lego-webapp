@@ -1,10 +1,8 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import { GroupType } from 'app/models';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -25,7 +23,6 @@ const InterestGroupList = () => {
     [],
   );
 
-  const canCreate = actionGrant.includes('create');
   // Sorts interest groups in alphabetical order. Sorting using localeCompare will fail to sort ÆØÅ correctly.
   // Use spread operator to do sorting not in-place
   const activeGroups = [...interestGroups]
@@ -36,9 +33,17 @@ const InterestGroupList = () => {
     .sort((obj1, obj2) => obj1.name.localeCompare(obj2.name));
 
   return (
-    <Content>
+    <Page
+      title="Interessegrupper"
+      actionButtons={
+        actionGrant.includes('create') && (
+          <LinkButton href="/interest-groups/create">
+            Lag ny interessegruppe
+          </LinkButton>
+        )
+      }
+    >
       <Helmet title="Interessegrupper" />
-      <NavigationTab title="Interessegrupper" />
       <Flex
         wrap
         gap={10}
@@ -50,11 +55,6 @@ const InterestGroupList = () => {
           <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner
           du all praktisk informasjon knyttet til våre interessegrupper.
         </p>
-        {canCreate && (
-          <Link to="/interest-groups/create">
-            <Button>Lag ny interessegruppe</Button>
-          </Link>
-        )}
       </Flex>
 
       {activeGroups.map((group) => (
@@ -75,7 +75,7 @@ const InterestGroupList = () => {
       {notActiveGroups.map((group) => (
         <InterestGroupComponent group={group} key={group.id} active={false} />
       ))}
-    </Content>
+    </Page>
   );
 };
 

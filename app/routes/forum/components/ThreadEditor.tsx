@@ -1,9 +1,10 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -14,7 +15,6 @@ import {
   editThread,
   fetchThreadByForum,
 } from 'app/actions/ForumActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   Form,
@@ -86,11 +86,17 @@ const ThreadEditor = () => {
   };
 
   return (
-    <Content>
+    <Page
+      title={isNew ? 'Ny tråd' : `Redigerer: ${thread?.title}`}
+      back={{
+        href: thread
+          ? `/forum/${forumId}/threads/${thread.id}`
+          : `/forum/${forumId}/threads`,
+      }}
+    >
       <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <h1>{isNew ? 'Ny tråd' : 'Rediger tråd'}</h1>
             <Field
               placeholder="Tittel"
               name="title"
@@ -105,10 +111,10 @@ const ThreadEditor = () => {
               component={EditorField.Field}
             />
 
-            <Flex wrap>
+            <ButtonGroup>
               <Button
                 flat
-                onClick={() =>
+                onPress={() =>
                   navigate(
                     isNew
                       ? `/forum/${forumId}/threads`
@@ -128,18 +134,18 @@ const ThreadEditor = () => {
                   onConfirm={handleDeleteThread}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett tråd
                     </Button>
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

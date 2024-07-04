@@ -1,8 +1,10 @@
 import {
   selectMostProminentStatus,
-  indexToSemester,
   contactStatuses,
+  indexToYearAndSemester,
 } from './utils';
+import type { TransformedAdminCompany } from 'app/reducers/companies';
+import type { ParsedQs } from 'qs';
 
 const sortByAttribute = (attribute) => (ascending) => (a, b) => {
   if ((!a[attribute] && !b[attribute]) || a[attribute] === b[attribute]) {
@@ -31,20 +33,22 @@ const sortByAttribute = (attribute) => (ascending) => (a, b) => {
 };
 
 const sortByContactStatus =
-  (index, startYear, startSem) => (ascending) => (a, b) => {
+  (index: number, startYear: number, startSem: number) =>
+  (ascending: boolean) =>
+  (a: TransformedAdminCompany, b: TransformedAdminCompany) => {
     // Index is either 0, 1 or 2: it's displayed left, middle or right in the table
     // startYear and startSem is the year and semester of the leftmost status
-    const companySemester = indexToSemester(index, startYear, startSem);
-    const semesterA = a.semesterStatuses.find(
-      (obj) =>
-        obj.year === companySemester.year &&
-        obj.semester === companySemester.semester,
+    const { year, semester } = indexToYearAndSemester(
+      index,
+      startYear,
+      startSem,
+    );
+    const semesterA = a.semesterStatuses?.find(
+      (obj) => obj.year === year && obj.semester === semester,
     );
     const statusA = selectMostProminentStatus(semesterA?.contactedStatus);
-    const semesterB = b.semesterStatuses.find(
-      (obj) =>
-        obj.year === companySemester.year &&
-        obj.semester === companySemester.semester,
+    const semesterB = b.semesterStatuses?.find(
+      (obj) => obj.year === year && obj.semester === semester,
     );
     const statusB = selectMostProminentStatus(semesterB?.contactedStatus);
 
@@ -58,7 +62,12 @@ const sortByContactStatus =
     );
   };
 
-const sortCompanies = (companies, query, startYear, startSem) => {
+const sortCompanies = (
+  companies: TransformedAdminCompany[],
+  query: ParsedQs,
+  startYear: number,
+  startSem: number,
+) => {
   const sortType = query.sortBy;
   const ascending = query.ascending === 'true';
   const sortTypeToFunction = {

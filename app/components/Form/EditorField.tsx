@@ -6,12 +6,11 @@ import { uploadFile } from 'app/actions/FileActions';
 import { useAppDispatch } from 'app/store/hooks';
 import { createField } from './Field';
 import styles from './TextInput.css';
+import type { FieldInputProps } from 'react-final-form';
 
-type Props = {
+type Props = FieldInputProps<string> & {
   type?: string;
   className?: string;
-  input: any;
-  meta: any;
   name: string;
   initialized: boolean;
 };
@@ -31,7 +30,7 @@ const EditorField = ({ className, name, ...props }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const imageUpload = async (file: File) => {
+  const imageUpload = async (file: Blob) => {
     const response = await dispatch(
       uploadFile({
         file,

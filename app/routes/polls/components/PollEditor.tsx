@@ -1,11 +1,16 @@
-import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  ConfirmModal,
+  Icon,
+  Page,
+} from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   SelectInput,
@@ -15,7 +20,6 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import NavigationTab from 'app/components/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
@@ -64,7 +68,7 @@ const renderOptions = ({ fields }): ReactNode => (
       ))}
     </ul>
 
-    <Button onClick={() => fields.push({})}>
+    <Button onPress={() => fields.push({})}>
       <Icon name="add" size={25} />
       Legg til alternativ
     </Button>
@@ -189,7 +193,7 @@ const PollEditor = ({
             />
 
             <SubmissionError />
-            <Flex className={styles.actionButtons}>
+            <ButtonGroup className={styles.actionButtons}>
               <SubmitButton>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </SubmitButton>
@@ -205,14 +209,14 @@ const PollEditor = ({
                   closeOnConfirm
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett avstemning
                     </Button>
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </form>
         )}
       </LegoFinalForm>
@@ -225,16 +229,9 @@ export default PollEditor;
 export const PollCreator = () => {
   const title = 'Ny avstemning';
   return (
-    <Content>
+    <Page title={title} back={{ href: '/polls' }}>
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: '/polls',
-        }}
-      />
       <PollEditor />
-    </Content>
+    </Page>
   );
 };

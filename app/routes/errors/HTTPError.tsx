@@ -1,4 +1,4 @@
-import { Container, Flex } from '@webkom/lego-bricks';
+import { Flex, PageContainer } from '@webkom/lego-bricks';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { setStatusCode } from 'app/reducers/routing';
@@ -40,7 +40,7 @@ const HTTPError = ({ statusCode }: Props) => {
   }, [dispatch, statusCode, storedStatusCode]);
 
   return (
-    <Container>
+    <PageContainer card={false}>
       <Flex
         column
         alignItems="center"
@@ -66,7 +66,7 @@ const HTTPError = ({ statusCode }: Props) => {
           {getHTTPError(statusCode)}
         </h1>
       </Flex>
-    </Container>
+    </PageContainer>
   );
 };
 

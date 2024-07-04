@@ -15,19 +15,6 @@
   cursor: pointer;
 }
 
-.expand {
-  transition: transform var(--easing-medium);
-}
-
-.rotate {
-  transform: rotate(90deg);
-}
-
-.thumbnailWrapper {
-  overflow-y: hidden;
-  transition: height var(--easing-medium);
-}
-
 .thumbnailContainer {
   padding-top: 15px;
   display: grid;

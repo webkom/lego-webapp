@@ -1,4 +1,4 @@
-import { Flex, Icon, LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { useEffect, useState } from 'react';
@@ -11,9 +11,7 @@ import {
   fetchSiblingGallerPicture,
 } from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
-import { Content } from 'app/components/Content';
 import Dropdown from 'app/components/Dropdown';
-import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import PropertyHelmet, {
   type PropertyGenerator,
@@ -109,21 +107,6 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   }
 };
 
-const RenderGalleryPicture = ({
-  id,
-  handleDelete,
-  clickedDeletePicture,
-}: {
-  id: number;
-  handleDelete: (arg0: number) => void;
-  clickedDeletePicture: number;
-}) => (
-  <button onClick={() => handleDelete(id)}>
-    {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
-    <Icon name="trash-outline" />
-  </button>
-);
-
 const Swipeable = (props: {
   onSwiping: (arg0: { dir: string }) => void;
   children: ReactNode;
@@ -199,11 +182,7 @@ const GalleryPictureModal = () => {
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return (
-      <Content>
-        <LoadingIndicator loading={fetching} />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const toggleDropdown = () => {
@@ -286,8 +265,9 @@ const GalleryPictureModal = () => {
 
   return (
     <Modal
-      onHide={() => navigate(`/photos/${gallery.id}`)}
-      show
+      onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
+      isDismissable={false} // Avoid closing the modal when pressing something from the dropdown
+      isOpen
       contentClassName={styles.content}
     >
       <PropertyHelmet
@@ -302,7 +282,7 @@ const GalleryPictureModal = () => {
 
       <Swipeable onSwiping={handleSwipe}>
         <OnKeyDownHandler handler={handleKeyDown} />
-        <Content>
+        <Flex column gap="var(--spacing-md)">
           <Flex width="100%" justifyContent="space-between" alignItems="center">
             <Flex justifyContent="space-between">
               <Image
@@ -367,27 +347,26 @@ const GalleryPictureModal = () => {
                         e.stopPropagation();
                       }}
                     >
-                      <RenderGalleryPicture
-                        handleDelete={handleDelete}
-                        id={pictureId}
-                        clickedDeletePicture={clickedDeletePicture}
-                      />
+                      <button onClick={() => handleDelete(Number(pictureId))}>
+                        {clickedDeletePicture === Number(pictureId)
+                          ? 'Er du sikker?'
+                          : 'Slett'}
+                        <Icon name="trash-outline" />
+                      </button>
                     </Dropdown.ListItem>,
                   ]}
               </Dropdown.List>
             </Dropdown>
           </Flex>
-        </Content>
 
-        <Flex className={styles.pictureContainer}>
-          <ProgressiveImage
-            key={picture.id}
-            src={picture.file}
-            alt={picture.description}
-          />
-        </Flex>
+          <Flex className={styles.pictureContainer}>
+            <ProgressiveImage
+              key={picture.id}
+              src={picture.file}
+              alt={picture.description}
+            />
+          </Flex>
 
-        <Content>
           <Flex justifyContent="center" gap="2.5rem">
             {hasPrevious && (
               <Icon
@@ -416,12 +395,11 @@ const GalleryPictureModal = () => {
           )}
           {picture.contentTarget && (
             <CommentView
-              formEnabled
               contentTarget={picture.contentTarget}
               comments={comments}
             />
           )}
-        </Content>
+        </Flex>
       </Swipeable>
     </Modal>
   );

@@ -1,4 +1,4 @@
-import { Card, LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
@@ -11,17 +11,21 @@ import {
   fetchSemesters,
   addSemester,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
-import { selectCompanies, type CompanyEntity } from 'app/reducers/companies';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectTransformedAdminCompanies } from 'app/reducers/companies';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import sortCompanies from '../SortCompanies';
-import { indexToSemester, ListNavigation } from '../utils';
+import {
+  indexToCompanySemester,
+  indexToYearAndSemester,
+  BdbTabs,
+} from '../utils';
 import CompanyList from './CompanyList';
 import OptionsBox from './OptionsBox';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type { ChangeEvent, KeyboardEvent } from 'react';
 
@@ -31,8 +35,8 @@ const BdbPage = () => {
   const [filters, setFilters] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
 
-  const companies = useAppSelector(selectCompanies);
-  const companySemesters = useAppSelector(selectCompanySemesters);
+  const companies = useAppSelector(selectTransformedAdminCompanies);
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
   const fetching = useAppSelector((state) => state.companies.fetching);
 
   const navigate = useNavigate();
@@ -55,11 +59,12 @@ const BdbPage = () => {
     [],
   );
 
-  const navigateThroughTime = (options: Record<string, any>) => {
+  const navigateThroughTime = (options: {
+    direction: 'forward' | 'backward';
+  }) => {
     // Change which three semesters are displayed (move ahead or back in time)
     const newSem = (startSem + 1) % 2;
-    let newYear = 0;
-
+    let newYear: number;
     if (options.direction === 'forward') {
       newYear = startSem === 0 ? startYear : startYear + 1;
     } else {
@@ -70,42 +75,44 @@ const BdbPage = () => {
     setStartSem(newSem);
   };
 
-  const editChangedStatuses = (
+  const editChangedStatuses = async (
     companyId: EntityId,
     tableIndex: number,
-    semesterStatusId: number | null | undefined,
+    semesterStatusId: EntityId | undefined,
     contactedStatus: CompanySemesterContactStatus[],
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
-    const companySemester = indexToSemester(
+    const companySemester = indexToCompanySemester(
       tableIndex,
       startYear,
       startSem,
       companySemesters,
     );
-    const newStatus = {
-      companyId,
-      contactedStatus,
-      semesterStatusId,
-      semester: companySemester?.id,
-    };
 
-    if (typeof companySemester.id === 'undefined') {
-      return dispatch(addSemester(companySemester)).then((response) => {
-        const updatedStatus = { ...newStatus, semester: response.payload.id };
-        return typeof updatedStatus.semesterStatusId === 'undefined'
-          ? dispatch(addSemesterStatus(updatedStatus)).then(() => {
-              navigate('/bdb');
-            })
-          : dispatch(editSemesterStatus(updatedStatus));
-      });
+    let companySemesterId: EntityId;
+
+    if (!companySemester) {
+      const newCompanySemester = indexToYearAndSemester(
+        tableIndex,
+        startYear,
+        startSem,
+      );
+      const response = await dispatch(addSemester(newCompanySemester));
+      companySemesterId = response.payload.result;
+    } else {
+      companySemesterId = companySemester.id;
     }
 
-    return typeof newStatus.semesterStatusId === 'undefined'
-      ? dispatch(addSemesterStatus(newStatus)).then(() => {
+    const semesterStatus = {
+      companyId,
+      contactedStatus,
+      semester: companySemesterId,
+    };
+    return semesterStatusId
+      ? dispatch(editSemesterStatus({ ...semesterStatus, semesterStatusId }))
+      : dispatch(addSemesterStatus(semesterStatus)).then(() => {
           navigate('/bdb');
-        })
-      : dispatch(editSemesterStatus(newStatus));
+        });
   };
 
   const updateFilters = (name: string, value: unknown) => {
@@ -118,12 +125,12 @@ const BdbPage = () => {
     setFilters((prev) => ({ ...prev, [name]: undefined }));
   };
 
-  const companySearch = (companies: CompanyEntity[]): CompanyEntity[] =>
-    companies.filter((company: CompanyEntity) =>
+  const companySearch = (companies: TransformedAdminCompany[]) =>
+    companies.filter((company) =>
       company.name.toLowerCase().includes(searchQuery.toLowerCase()),
     );
 
-  const filterCompanies = (companies: CompanyEntity[]): CompanyEntity[] => {
+  const filterCompanies = (companies: TransformedAdminCompany[]) => {
     if (searchQuery !== '') {
       companies = companySearch(companies);
     }
@@ -171,9 +178,12 @@ const BdbPage = () => {
   };
 
   return (
-    <Content>
+    <Page
+      title="Bedriftsdatabase"
+      actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
+      tabs={<BdbTabs />}
+    >
       <Helmet title="Bedriftsdatabase" />
-      <ListNavigation title="Bedriftsdatabase" />
 
       <TextInput
         prefix="search"
@@ -186,7 +196,6 @@ const BdbPage = () => {
         companies={companies}
         updateFilters={updateFilters}
         removeFilters={removeFilters}
-        filters={filters}
       />
 
       <Card severity="info">
@@ -203,7 +212,7 @@ const BdbPage = () => {
         editChangedStatuses={editChangedStatuses}
         fetching={fetching}
       />
-    </Content>
+    </Page>
   );
 };
 

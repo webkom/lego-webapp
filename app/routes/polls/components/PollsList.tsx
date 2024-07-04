@@ -1,10 +1,8 @@
-import { Button, Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/PollActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import Paginator from 'app/components/Paginator';
 import { selectAllPolls } from 'app/reducers/polls';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -28,18 +26,15 @@ const PollsList = () => {
   usePreparedEffect('fetchPolls', () => dispatch(fetchAll()), []);
 
   return (
-    <Content>
+    <Page
+      title="Avstemninger"
+      actionButtons={
+        actionGrant.includes('create') && (
+          <LinkButton href="/polls/new">Lag ny</LinkButton>
+        )
+      }
+    >
       <Helmet title="Avstemninger" />
-      <NavigationTab
-        title="Avstemninger"
-        details={
-          actionGrant.includes('create') && (
-            <Link to="/polls/new">
-              <Button>Lag ny</Button>
-            </Link>
-          )
-        }
-      />
       <Paginator
         hasMore={pagination.fetching || pagination.hasMore} // Paginator only shows loading indicator if hasMore is true
         fetching={pagination.fetching}
@@ -91,7 +86,7 @@ const PollsList = () => {
           ))}
         </section>
       </Paginator>
-    </Content>
+    </Page>
   );
 };
 

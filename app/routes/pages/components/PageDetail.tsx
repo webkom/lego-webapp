@@ -1,7 +1,12 @@
-import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import {
+  Flex,
+  Skeleton,
+  Page,
+  PageCover,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import {
@@ -10,11 +15,8 @@ import {
   fetchGroup,
 } from 'app/actions/GroupActions';
 import { fetchPage, fetchAll as fetchAllPages } from 'app/actions/PageActions';
-import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
-import { Image } from 'app/components/Image';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { GroupType } from 'app/models';
 import { useIsLoggedIn } from 'app/reducers/auth';
@@ -32,11 +34,11 @@ import {
   selectNotFoundPageInfo,
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
+import PageHierarchy from 'app/routes/pages/components/PageHierarchy';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import LandingPage from './LandingPage';
 import styles from './PageDetail.css';
-import Sidebar from './Sidebar';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { HierarchySectionEntity } from 'app/routes/pages/components/PageHierarchy';
@@ -56,7 +58,7 @@ export type Flatpage = {
   content: string;
 };
 const FlatpageRenderer: PageRenderer<Flatpage> = ({ page }) => (
-  <article className={styles.detail}>
+  <article>
     <DisplayContent content={page.content} />
   </article>
 );
@@ -81,7 +83,7 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   } = membershipsByRole;
 
   return (
-    <article className={styles.detail}>
+    <article>
       <DisplayContent content={text} />
       {Object.values(membershipsByRole).some((array) => array.length > 0) && (
         <>
@@ -338,7 +340,6 @@ const loadData = async (
 const PageSkeleton = () => {
   return (
     <Flex column gap="var(--spacing-xl)">
-      <Skeleton className={styles.banner} />
       <Skeleton className={cx(styles.header, styles.skeletonHeader)} />
       <div>
         <Skeleton className={styles.skeletonBody1} />
@@ -354,8 +355,6 @@ export type PageDetailParams = {
   section: string;
 };
 const PageDetail = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   const { pageSlug, section: sectionName } =
     useParams<PageDetailParams>() as PageDetailParams;
 
@@ -381,49 +380,57 @@ const PageDetail = () => {
 
   const actionGrant = pageInfo?.actionGrant || [];
 
+  const showSkeleton = page === undefined;
+
   return (
-    <Content className={styles.cont}>
-      <Helmet title={pageInfo?.title} />
-      <div className={styles.main}>
-        <button
-          className={styles.sidebarOpenBtn}
-          onClick={() => setIsOpen(true)}
-        >
-          <Icon name="arrow-forward" size={30} />
-        </button>
-        <Flex className={styles.page}>
-          <Sidebar
+    <Page
+      title={readmeIfy(pageInfo?.title)}
+      cover={
+        showSkeleton ? (
+          <PageCover skeleton />
+        ) : (
+          pageInfo?.banner && (
+            <PageCover
+              image={pageInfo.banner}
+              imagePlaceholder={pageInfo.bannerPlaceholder}
+            />
+          )
+        )
+      }
+      sidebar={{
+        title: 'Om Abakus',
+        side: 'left',
+        icon: 'menu',
+        content: (
+          <PageHierarchy
             pageHierarchy={pageHierarchy}
-            isOpen={isOpen}
-            handleClose={() => setIsOpen(false)}
+            handleCloseSidebar={() => {}}
           />
-
-          <div className={styles.mainTxt}>
-            <NavigationTab className={styles.navTab}>
-              {actionGrant.includes('edit') && pageInfo?.editUrl && (
-                <NavigationLink to={pageInfo?.editUrl}>Rediger</NavigationLink>
-              )}
-              {actionGrant.includes('create') && (
-                <NavigationLink to="/pages/new">Lag ny</NavigationLink>
-              )}
-            </NavigationTab>
-
-            {page === undefined || !pageInfo ? (
-              <PageSkeleton />
-            ) : (
-              <MainPageRenderer
-                page={page}
-                pageInfo={pageInfo}
-                PageRenderer={
-                  // typescript is being stupid
-                  PageRenderer as PageRenderer<typeof page>
-                }
-              />
-            )}
-          </div>
-        </Flex>
-      </div>
-    </Content>
+        ),
+      }}
+      actionButtons={[
+        actionGrant.includes('edit') && pageInfo?.editUrl && (
+          <LinkButton href={pageInfo?.editUrl}>Rediger</LinkButton>
+        ),
+        actionGrant.includes('create') && (
+          <LinkButton href="/pages/new">Lag ny</LinkButton>
+        ),
+      ]}
+      skeleton={showSkeleton}
+    >
+      <Helmet title={pageInfo?.title} />
+      {showSkeleton ? (
+        <PageSkeleton />
+      ) : (
+        <MainPageRenderer
+          page={page}
+          PageRenderer={
+            // typescript is being stupid
+            PageRenderer as PageRenderer<typeof page>
+          }
+        />
+      )}
+    </Page>
   );
 };
 
@@ -431,32 +438,14 @@ export default PageDetail;
 
 type MainPageRendererProps<T> = {
   page: T;
-  pageInfo: PageInfo;
   PageRenderer: PageRenderer<T>;
 };
 export const MainPageRenderer = <T,>({
   page,
-  pageInfo,
   PageRenderer,
 }: MainPageRendererProps<T>) => {
-  const { title, banner, bannerPlaceholder } = pageInfo;
-
   return (
     <article>
-      <div className={styles.headWrapper}>
-        {banner && (
-          <div className={styles.banner}>
-            <Image
-              alt={`${title} page banner`}
-              src={banner}
-              placeholder={bannerPlaceholder}
-            />
-          </div>
-        )}
-        {title !== 'Info om Abakus' && (
-          <h1 className={styles.header}>{readmeIfy(title)}</h1>
-        )}
-      </div>
       <PageRenderer page={page} />
     </article>
   );

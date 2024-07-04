@@ -1,13 +1,19 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Icon,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   addCompany,
+  deleteCompany,
   editCompany,
   fetchAdmin,
 } from 'app/actions/CompanyActions';
-import { Content } from 'app/components/Content';
 import {
   TextEditor,
   TextInput,
@@ -22,11 +28,13 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import InfoBubble from 'app/components/InfoBubble';
 import { selectCompanyById } from 'app/reducers/companies';
 import { addToast } from 'app/reducers/toasts';
+import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import { httpCheck, DetailNavigation, ListNavigation } from '../utils';
+import { httpCheck } from '../utils';
 import styles from './bdb.css';
+import type { AdminDetailCompany } from 'app/store/models/Company';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const validate = createValidator({
@@ -50,7 +58,12 @@ const CompanyEditor = () => {
   const { companyId } = useParams<{ companyId: string }>();
   const isNew = companyId === undefined;
   const company = useAppSelector((state) =>
-    selectCompanyById(state, { companyId }),
+    selectCompanyById<AdminDetailCompany>(state, companyId),
+  );
+  const studentContact = useAppSelector((state) =>
+    company?.studentContact !== null
+      ? selectUserById(state, company?.studentContact)
+      : undefined,
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
 
@@ -64,23 +77,16 @@ const CompanyEditor = () => {
 
   const navigate = useNavigate();
 
+  const title = isNew ? 'Ny bedrift' : `Redigerer: ${company?.name}`;
+  const backUrl = isNew ? '/bdb' : `/bdb/${companyId}`;
+
   if (!isNew && fetching) {
     return (
-      <Content>
+      <Page title={title} back={{ href: backUrl }}>
         <LoadingIndicator loading />
-      </Content>
+      </Page>
     );
   }
-
-  const nameField = (
-    <Field
-      placeholder="Bedriftens navn"
-      name="name"
-      component={TextInput.Field}
-      className={styles.editTitle}
-      withoutMargin
-    />
-  );
 
   const onSubmit = (formContent: FormValues) => {
     const body = {
@@ -102,13 +108,13 @@ const CompanyEditor = () => {
     });
   };
 
-  const initialValues = isNew
+  const initialValues = !company
     ? {
         name: '',
         description: '',
         adminComment: '',
         website: '',
-        studentContact: '',
+        studentContact: undefined,
         active: 'true',
         phone: '',
         companyType: '',
@@ -120,9 +126,10 @@ const CompanyEditor = () => {
         description: company.description,
         adminComment: company.adminComment,
         website: company.website,
-        studentContact: company.studentContact && {
-          value: Number(company.studentContact.id),
-          label: company.studentContact.fullName,
+        studentContact: studentContact && {
+          id: studentContact.id,
+          value: studentContact.id,
+          label: studentContact.fullName,
         },
         active: company.active ? 'true' : 'false',
         phone: company.phone,
@@ -132,7 +139,31 @@ const CompanyEditor = () => {
       };
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{ href: backUrl }}
+      actionButtons={
+        !isNew && (
+          <ConfirmModal
+            key="delete"
+            title="Slett bedrift"
+            message="Er du sikker på at du vil slette denne bedriften?"
+            onConfirm={() =>
+              dispatch(deleteCompany(companyId)).then(() => {
+                navigate('/bdb');
+              })
+            }
+          >
+            {({ openConfirmModal }) => (
+              <Button onPress={openConfirmModal} danger>
+                <Icon name="trash" size={19} />
+                Slett bedrift
+              </Button>
+            )}
+          </ConfirmModal>
+        )
+      }
+    >
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -148,11 +179,13 @@ const CompanyEditor = () => {
               img={company && company.logo}
             />
 
-            {!isNew ? (
-              <DetailNavigation title={nameField} companyId={company.id} />
-            ) : (
-              <ListNavigation title={nameField} />
-            )}
+            <Field
+              placeholder="Bedriftens navn"
+              name="name"
+              component={TextInput.Field}
+              className={styles.editTitle}
+              withoutMargin
+            />
 
             <Field
               placeholder="Beskrivelse av bedriften"
@@ -285,7 +318,7 @@ const CompanyEditor = () => {
           </form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

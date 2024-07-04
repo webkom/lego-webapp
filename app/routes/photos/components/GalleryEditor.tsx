@@ -1,10 +1,13 @@
 import {
   Button,
+  ButtonGroup,
   Card,
   ConfirmModal,
   Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
@@ -26,7 +29,6 @@ import {
   deletePicture,
   updatePicture,
 } from 'app/actions/GalleryPictureActions';
-import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {
   TextInput,
@@ -46,7 +48,6 @@ import {
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import GalleryComponent from 'app/components/Gallery';
-import NavigationTab from 'app/components/NavigationTab';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { selectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -260,15 +261,13 @@ const GalleryEditor = () => {
   const title = gallery ? `Redigerer: ${gallery.title}` : 'Nytt album';
 
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        href: `/photos/${gallery?.id ?? ''}`,
+      }}
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: '/photos',
-        }}
-      />
 
       <TypedLegoForm
         onSubmit={onSubmit}
@@ -332,7 +331,6 @@ const GalleryEditor = () => {
               name="publicMetadata"
               type="checkbox"
               component={CheckBox.Field}
-              parse={(v) => !!v}
             />
             <Fields
               names={[
@@ -344,13 +342,10 @@ const GalleryEditor = () => {
               component={ObjectPermissions}
             />
 
-            <Flex className={styles.buttonRow} justifyContent="flex-end">
-              <Button
-                flat
-                onClick={() => navigate(`/photos/${gallery?.id ?? ''}`)}
-              >
+            <ButtonGroup className={styles.buttonRow}>
+              <LinkButton flat href={`/photos/${gallery?.id ?? ''}`}>
                 Avbryt
-              </Button>
+              </LinkButton>
               <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
               {!isNew && (
                 <ConfirmModal
@@ -359,14 +354,14 @@ const GalleryEditor = () => {
                   onConfirm={onDeleteGallery}
                 >
                   {({ openConfirmModal }) => (
-                    <Button danger onClick={openConfirmModal}>
+                    <Button danger onPress={openConfirmModal}>
                       <Icon name="trash" size={19} />
                       Slett album
                     </Button>
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </TypedLegoForm>
@@ -404,7 +399,7 @@ const GalleryEditor = () => {
           />
         )}
       </Flex>
-    </Content>
+    </Page>
   );
 };
 

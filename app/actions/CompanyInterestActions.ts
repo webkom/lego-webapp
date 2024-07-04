@@ -9,18 +9,28 @@ import type {
   DetailedCompanyInterest,
   ListCompanyInterest,
 } from 'app/store/models/CompanyInterest';
-import type { GetState } from 'app/types';
+import type { ParsedQs } from 'qs';
 
-export function fetchAll() {
-  return callAPI<ListCompanyInterest[]>({
+export const fetchAll = ({
+  next = false,
+  query,
+}: {
+  next?: boolean;
+  query?: ParsedQs;
+} = {}) =>
+  callAPI<ListCompanyInterest[]>({
     types: CompanyInterestForm.FETCH_ALL,
     endpoint: '/company-interests/',
+    query,
+    pagination: {
+      fetchNext: next,
+    },
     schema: [companyInterestSchema],
     meta: {
       errorMessage: 'Henting av bedriftsinteresser feilet',
     },
+    propagateError: true,
   });
-}
 
 export function fetchCompanyInterest(companyInterestId: EntityId) {
   return callAPI<DetailedCompanyInterest>({
@@ -99,30 +109,6 @@ export function updateCompanyInterest(
           errorMessage: 'Endring av bedriftsinteresse feilet!',
           successMessage: 'Bedriftsinteresse endret!',
         },
-      }),
-    );
-  };
-}
-
-export function fetch({
-  next,
-  filters,
-}: {
-  next?: boolean;
-  filters?: Record<string, string | number>;
-} = {}) {
-  return (dispatch: AppDispatch, getState: GetState) => {
-    const cursor = next ? getState().companyInterest.pagination.next : {};
-    return dispatch(
-      callAPI<ListCompanyInterest[]>({
-        types: CompanyInterestForm.FETCH_ALL,
-        endpoint: '/company-interests/',
-        query: { ...cursor, ...filters },
-        schema: [companyInterestSchema],
-        meta: {
-          errorMessage: 'Henting av bedriftsinteresser feilet',
-        },
-        propagateError: true,
       }),
     );
   };

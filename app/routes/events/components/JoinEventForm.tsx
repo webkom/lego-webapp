@@ -25,6 +25,7 @@ import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { Presence } from 'app/store/models/Registration';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
 import {
@@ -65,7 +66,7 @@ const SubmitButton = ({
 }) => {
   if (type === 'register') {
     return (
-      <Button submit onClick={onSubmit} disabled={disabled}>
+      <Button submit onPress={onSubmit} disabled={disabled}>
         {title}
       </Button>
     );
@@ -86,7 +87,7 @@ const SubmitButton = ({
       closeOnConfirm
     >
       {({ openConfirmModal }) => (
-        <Button danger onClick={openConfirmModal} disabled={disabled}>
+        <Button danger onPress={openConfirmModal} disabled={disabled}>
           <Icon name="person-remove" size={19} />
           {title}
         </Button>
@@ -218,7 +219,7 @@ const JoinEventForm = ({
     event.isPriced &&
     event.price > 0 &&
     registration &&
-    registration.pool &&
+    (registration.pool || registration.presence === Presence.PRESENT) &&
     ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
@@ -486,7 +487,7 @@ const JoinEventForm = ({
                             {registration &&
                               spyValues((values) => (
                                 <Button
-                                  onClick={() => {
+                                  onPress={() => {
                                     dispatch(
                                       updateFeedback(
                                         event.id,

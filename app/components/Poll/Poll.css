@@ -48,8 +48,6 @@
 
 .contentWrapper {
   width: 100%;
-  transition: height var(--linear-slow);
-  overflow-y: hidden;
 }
 
 .optionWrapper {
@@ -163,7 +161,7 @@
   z-index: 1;
 }
 
-.poll.expanded .bottomBar {
+.bottomBar.expanded {
   top: 0;
   padding-top: var(--spacing-sm);
   margin-bottom: 0;

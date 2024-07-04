@@ -1,10 +1,14 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  LinkButton,
+  LoadingIndicator,
+  Page,
+  PageCover,
+} from '@webkom/lego-bricks';
 import { useParams } from 'react-router-dom';
-import { Content, ContentMain, ContentSection } from 'app/components/Content';
 import { useFetchedSurvey } from 'app/reducers/surveys';
+import { useAppSelector } from 'app/store/hooks';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import useQuery from 'app/utils/useQuery';
-import { TokenNavigation } from '../../utils';
 import Results from './Results';
 import type { GraphData } from './Results';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -24,6 +28,7 @@ const SubmissionPublicResultsPage = () => {
     query.token,
   );
   const results = survey?.results;
+  const actionGrant = useAppSelector((state) => state.surveys.actionGrant);
 
   if (!survey || !results) {
     return <LoadingIndicator loading />;
@@ -66,20 +71,29 @@ const SubmissionPublicResultsPage = () => {
     graphData[Number(questionId)] = generateQuestionData(questionId);
   });
   return (
-    <Content banner={event?.cover}>
-      <TokenNavigation title={survey.title} surveyId={survey.id} />
-
-      <ContentSection>
-        <ContentMain>
-          <Results
-            survey={{ ...survey, token: null, actionGrant: [] }}
-            graphData={graphData}
-            numberOfSubmissions={survey.submissionCount}
-            generateTextAnswers={generateTextAnswers}
-          />
-        </ContentMain>
-      </ContentSection>
-    </Content>
+    <Page
+      cover={
+        <PageCover
+          image={event?.cover}
+          imagePlaceholder={event?.coverPlaceholder}
+        />
+      }
+      title={survey.title}
+      actionButtons={
+        actionGrant.includes('edit') && (
+          <LinkButton href={`/surveys/${surveyId}/submissions/summary`}>
+            Adminversjon
+          </LinkButton>
+        )
+      }
+    >
+      <Results
+        survey={{ ...survey, token: null, actionGrant: [] }}
+        graphData={graphData}
+        numberOfSubmissions={survey.submissionCount}
+        generateTextAnswers={generateTextAnswers}
+      />
+    </Page>
   );
 };
 

@@ -1,6 +1,13 @@
-import { Button, Card, Container, Flex } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  LinkButton,
+  Image,
+  PageContainer,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Link } from 'react-router-dom';
+import moment from 'moment-timezone';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
@@ -10,8 +17,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-//import Banner from 'app/components/Banner';
-import { Image } from 'app/components/Image';
+// import Banner from 'app/components/Banner';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectPinned } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/frontpage/components/LatestReadme';
@@ -33,14 +39,14 @@ const PublicFrontpage = () => {
   );
 
   return (
-    <Container>
+    <PageContainer card={false}>
       {/* <Banner
         header="Billetter til Abakusrevyen ute nå!"
         subHeader="Kjøp billetter her"
         link="https://abakusrevyen.no/"
         color="red"
       /> */}
-      <Container className={styles.container}>
+      <div className={styles.wrapper}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
           <AuthSection />
@@ -61,9 +67,9 @@ const PublicFrontpage = () => {
           style={{ gridArea: 'readme' }}
           displayCount={2}
         />
-      </Container>
-      <UsefulLinks />
-    </Container>
+        <UsefulLinks />
+      </div>
+    </PageContainer>
   );
 };
 
@@ -80,9 +86,9 @@ const Welcome = () => (
       studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU,
       fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
     </p>
-    <Link to="/pages/info-om-abakus">
-      <Button dark>Les mer om oss</Button>
-    </Link>
+    <LinkButton dark href="/pages/info-om-abakus">
+      Les mer om oss
+    </LinkButton>
   </div>
 );
 
@@ -106,7 +112,7 @@ const HspInfo = () => (
 
 const usefulLinksConf = [
   {
-    title: 'Fadderperioden 2023',
+    title: `Fadderperioden ${moment().year()}`,
     image: buddyWeekGraphic,
     description:
       'Abakus arrangerer fadderperioden for alle nye studenter, og her kan du lese mer om den og finne annen nyttig informasjon til studiestart.',
@@ -156,7 +162,7 @@ const UsefulLinks = () => (
   <div className={styles.links}>
     <h3 className="u-ui-heading">Nyttige lenker</h3>
 
-    <Flex wrap justifyContent="center" gap={40}>
+    <Flex wrap justifyContent="center" gap={'var(--spacing-lg)'}>
       {usefulLinksConf.map((item) => (
         <a
           href={item.link}

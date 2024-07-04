@@ -1,22 +1,20 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { ButtonGroup, Card, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { normalize } from 'normalizr';
 import qs from 'qs';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { User } from 'app/actions/ActionTypes';
 import {
   createUser,
   saveToken,
   validateRegistrationToken,
 } from 'app/actions/UserActions';
-import { Content } from 'app/components/Content';
 import {
   TextInput,
   MultiSelectGroup,
   RadioButton,
-  Button,
   PhoneNumberInput,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
@@ -90,9 +88,7 @@ const UserConfirmationForm = () => {
       <>
         <Confetti />
 
-        <Content>
-          <h1>Du er nå registrert!</h1>
-
+        <Page title="Du er nå registrert!">
           <Card severity="warning">
             <Card.Header>Er du student?</Card.Header>
             <span>
@@ -100,32 +96,29 @@ const UserConfirmationForm = () => {
               at du er student.
             </span>
           </Card>
-          <Flex gap="var(--spacing-md)">
-            <Link to="/users/me/settings/student-confirmation/">
-              <Button success>Verifiser studentstatus</Button>
-            </Link>
-            <Link to="/">
-              <Button>Eller gå til hovedsiden</Button>
-            </Link>
-          </Flex>
-        </Content>
+          <ButtonGroup>
+            <LinkButton success href="/users/me/settings/student-confirmation/">
+              Verifiser studentstatus
+            </LinkButton>
+            <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
+          </ButtonGroup>
+        </Page>
       </>
     );
   }
 
   if (!token) {
     return (
-      <Content>
+      <Page>
         <Card severity="danger">
           <Card.Header>Token ikke gyldig</Card.Header>
         </Card>
-      </Content>
+      </Page>
     );
   }
 
   return (
-    <Content>
-      <h1>Registrer bruker</h1>
+    <Page title="Registrer bruker">
       <TypedLegoForm onSubmit={onSubmit} validate={validate}>
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
@@ -207,7 +200,7 @@ const UserConfirmationForm = () => {
           </form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

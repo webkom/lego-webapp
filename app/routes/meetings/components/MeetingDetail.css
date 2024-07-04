@@ -1,13 +1,4 @@
-.detailTitle {
-  margin-bottom: 0;
-
-  & h1 {
-    margin-bottom: 0;
-  }
-}
-
 .statusButtons {
-  display: flex;
   margin-bottom: 10px;
 }
 

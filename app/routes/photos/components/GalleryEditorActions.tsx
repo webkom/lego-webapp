@@ -1,4 +1,4 @@
-import { Button, Card, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './GalleryEditorActions.css';
 
@@ -25,26 +25,26 @@ const GalleryEditorActions = ({
         <span>
           <b>{selectedCount}</b> valgt
         </span>
-        <Flex justifyContent="flex-end" wrap>
-          <Button flat onClick={onDeselect}>
+        <ButtonGroup>
+          <Button flat onPress={onDeselect}>
             Avbryt
           </Button>
           {selectedCount <= 1 && (
-            <Button onClick={onUpdateGalleryCover}>Bruk som albumcover</Button>
+            <Button onPress={onUpdateGalleryCover}>Bruk som albumcover</Button>
           )}
           {newPicutureStatus !== -1 && (
             <Button
               danger={newPicutureStatus === 0}
-              onClick={() => onTogglePicturesStatus(!!newPicutureStatus)}
+              onPress={() => onTogglePicturesStatus(!!newPicutureStatus)}
             >
               {newPicutureStatus === 0 && 'Skjul'}
               {newPicutureStatus === 1 && 'Synliggjør'}
             </Button>
           )}
-          <Button danger onClick={onDeletePictures}>
+          <Button danger onPress={onDeletePictures}>
             Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
           </Button>
-        </Flex>
+        </ButtonGroup>
       </Card>
     </Flex>
   );

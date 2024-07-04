@@ -1,9 +1,8 @@
-import { Card } from '@webkom/lego-bricks';
+import { Card, Page } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { Field } from 'react-final-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from 'app/actions/UserActions';
-import { Content } from 'app/components/Content';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
@@ -39,8 +38,7 @@ const UserResetPasswordForm = () => {
   };
 
   return (
-    <Content>
-      <h1>Tilbakestill passord</h1>
+    <Page title="Tilbakestill passord">
       {token ? (
         <LegoFinalForm onSubmit={onSubmit} validate={validate}>
           {({ handleSubmit }) => (
@@ -63,7 +61,7 @@ const UserResetPasswordForm = () => {
           <Card.Header>Ingen token ...</Card.Header>
         </Card>
       )}
-    </Content>
+    </Page>
   );
 };
 

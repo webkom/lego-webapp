@@ -1,4 +1,11 @@
-import { Button, Flex, LoadingIndicator, Modal } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  Flex,
+  Modal,
+  Image,
+  LoadingPage,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +15,6 @@ import {
   fetchGalleryPicture,
   updatePicture,
 } from 'app/actions/GalleryPictureActions';
-import { Content } from 'app/components/Content';
 import {
   Form,
   TextArea,
@@ -17,7 +23,6 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { Image } from 'app/components/Image';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { selectGalleryPictureById } from 'app/reducers/galleryPictures';
@@ -40,6 +45,9 @@ const GalleryPictureEditModal = () => {
     pictureId: string;
     galleryId: string;
   }>();
+  const fetching = useAppSelector(
+    (state) => state.galleries.fetching || state.galleryPictures.fetching,
+  );
   const picture = useAppSelector((state) =>
     selectGalleryPictureById(state, pictureId),
   );
@@ -63,11 +71,7 @@ const GalleryPictureEditModal = () => {
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const onSubmit = (data) => {
@@ -95,11 +99,11 @@ const GalleryPictureEditModal = () => {
 
   return (
     <Modal
-      onHide={() => navigate(`/photos/${gallery.id}`)}
-      show
+      onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
+      isOpen
       contentClassName={styles.content}
     >
-      <Content className={styles.topContent}>
+      <Flex column gap="var(--spacing-md)">
         <Flex width="100%" justifyContent="space-between" alignItems="center">
           <Flex justifyContent="space-between">
             <Image
@@ -116,13 +120,15 @@ const GalleryPictureEditModal = () => {
             </Flex>
           </Flex>
         </Flex>
-      </Content>
 
-      <Flex className={styles.pictureContainer}>
-        <ProgressiveImage key={picture.id} src={picture.file} alt="some alt" />
-      </Flex>
+        <Flex className={styles.pictureContainer}>
+          <ProgressiveImage
+            key={picture.id}
+            src={picture.file}
+            alt="some alt"
+          />
+        </Flex>
 
-      <Content className={styles.bottomContent}>
         <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
           {({ handleSubmit }) => (
             <Form onSubmit={handleSubmit}>
@@ -139,7 +145,6 @@ const GalleryPictureEditModal = () => {
                 type="checkbox"
                 component={CheckBox.Field}
                 id="gallery-picture-active"
-                parse={(v) => !!v}
               />
               <Field
                 label="Tagg brukere"
@@ -150,10 +155,10 @@ const GalleryPictureEditModal = () => {
                 component={SelectInput.AutocompleteField}
                 isMulti
               />
-              <Flex justifyContent="flex-end">
+              <ButtonGroup>
                 <Button
                   flat
-                  onClick={() => {
+                  onPress={() => {
                     navigate(`/photos/${gallery.id}/picture/${picture.id}`);
                   }}
                 >
@@ -162,7 +167,7 @@ const GalleryPictureEditModal = () => {
                 <SubmitButton>Lagre</SubmitButton>
                 <Button
                   danger
-                  onClick={() =>
+                  onPress={() =>
                     dispatch(deletePicture(gallery.id, picture.id)).then(() => {
                       navigate(`/photos/${gallery.id}`);
                     })
@@ -170,11 +175,11 @@ const GalleryPictureEditModal = () => {
                 >
                   Slett
                 </Button>
-              </Flex>
+              </ButtonGroup>
             </Form>
           )}
         </TypedLegoForm>
-      </Content>
+      </Flex>
     </Modal>
   );
 };

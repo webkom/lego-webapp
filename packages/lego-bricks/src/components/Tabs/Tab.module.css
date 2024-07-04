@@ -1,0 +1,15 @@
+.tab {
+  display: inline-block;
+  color: var(--lego-font-color);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.tab.active {
+  border-bottom: 2px solid var(--color-black);
+}
+
+.tab.disabled {
+  color: var(--border-gray);
+  pointer-events: none;
+}

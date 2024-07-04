@@ -9,8 +9,7 @@ import {
   DatePicker,
 } from 'app/components/Form';
 import { FormatTime } from 'app/components/Time';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import {
   containsAllergier,
   eventStatusTypes,
@@ -87,7 +86,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.isPriced && (
         <div className={styles.subSection}>
@@ -99,7 +97,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             component={CheckBox.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
-            parse={(v) => !!v}
           />
           <Flex className={styles.editorSectionRow}>
             <Field
@@ -129,7 +126,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.heedPenalties && (
         <div className={styles.subSection}>
@@ -169,7 +165,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             component={CheckBox.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
-            parse={(v) => !!v}
           />
           {values.separateDeadlines && (
             <div className={styles.subSection}>
@@ -195,7 +190,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       <Field
         label="Påmeldingsspørsmål"
@@ -205,7 +199,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         component={CheckBox.Field}
         fieldClassName={styles.metaField}
         className={styles.formField}
-        parse={(v) => !!v}
       />
       {values.hasFeedbackQuestion && (
         <div className={styles.subSection}>
@@ -224,21 +217,12 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             component={CheckBox.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
-            parse={(v) => !!v}
           />
         </div>
       )}
       <Flex column>
         <h3>Pools</h3>
-        <AttendanceModal
-          key="modal"
-          pools={values.pools || []}
-          title="Påmeldte"
-        >
-          {({ toggleModal }) => (
-            <AttendanceStatus toggleModal={toggleModal} pools={values.pools} />
-          )}
-        </AttendanceModal>
+        <Attendance pools={values.pools} />
         <div className={styles.metaList}>
           <FieldArray
             name="pools"

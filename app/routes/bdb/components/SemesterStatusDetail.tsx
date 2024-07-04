@@ -16,27 +16,28 @@ import {
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
 import styles from './bdb.css';
-import type { SemesterStatusEntity } from 'app/reducers/companies';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 const FILE_NAME_LENGTH = 30;
 type Props = {
-  semesterStatus: SemesterStatusEntity;
-  companyId: number;
+  semesterStatus: TransformedSemesterStatus;
+  companyId: EntityId;
   editFunction: (
-    semesterStatus: SemesterStatusEntity,
+    semesterStatus: TransformedSemesterStatus,
     statusString: CompanySemesterContactStatus,
-  ) => Promise<any>;
+  ) => Promise<unknown>;
   addFileToSemester: (
-    arg0: string,
-    arg1: string,
-    arg2: string,
-    arg3: Record<string, any>,
-  ) => Promise<any>;
+    fileName: string,
+    fileToken: string,
+    type: string,
+    semesterStatus: TransformedSemesterStatus,
+  ) => Promise<unknown>;
   removeFileFromSemester: (
-    arg0: SemesterStatusEntity,
-    arg1: string,
-  ) => Promise<any>;
+    semesterStatus: TransformedSemesterStatus,
+    type: string,
+  ) => Promise<unknown>;
 };
 
 const SemesterStatusDetail = (props: Props) => {
@@ -81,7 +82,7 @@ const SemesterStatusDetail = (props: Props) => {
         }}
       >
         <SemesterStatusContent
-          semesterStatus={semesterStatus}
+          contactedStatus={semesterStatus.contactedStatus}
           editFunction={(statusCode) =>
             editFunction(semesterStatus, statusCode)
           }
@@ -128,10 +129,10 @@ const SemesterStatusDetail = (props: Props) => {
 export default SemesterStatusDetail;
 
 type RenderFileProps = {
-  semesterStatus: SemesterStatusEntity;
+  semesterStatus: TransformedSemesterStatus;
   type: string;
-  removeFile: (arg0: string) => Promise<any>;
-  addFile: (arg0: string, arg1: string, arg2: string) => Promise<any>;
+  removeFile: (type: string) => Promise<unknown>;
+  addFile: (name: string, token: string, type: string) => Promise<unknown>;
   editing: boolean;
 };
 

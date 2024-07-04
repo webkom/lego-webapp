@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: container from '~app/styles/utilities.css';
-}
-
 .interestBox {
   width: 32%;
   min-width: 300px;
@@ -12,6 +8,11 @@
 .checkboxWrapper {
   margin-top: 5px;
   margin-bottom: -5px;
+}
+
+.checkboxWrapperToolTip {
+  margin-right: 20px;
+  margin-left: 20px;
 }
 
 .guiWrapper {
@@ -59,15 +60,6 @@
   margin: 15px 0;
   padding: 10px 0;
   border-top: 1px solid var(--border-gray);
-}
-
-.section {
-  margin: 30px auto;
-
-  @media (--small-viewport) {
-    flex-flow: column wrap;
-    align-items: center;
-  }
 }
 
 .companyInterestList {
@@ -122,6 +114,7 @@
 .tooltip {
   text-transform: initial;
   font-weight: initial;
+  margin-left: 15px;
 }
 
 .label {

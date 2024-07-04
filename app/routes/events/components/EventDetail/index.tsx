@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
@@ -8,8 +8,6 @@ import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
 import mazemapLogo from 'app/assets/mazemap.svg';
 import CommentView from 'app/components/Comments/CommentView';
 import {
-  Content,
-  ContentHeader,
   ContentSection,
   ContentMain,
   ContentSidebar,
@@ -22,9 +20,7 @@ import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
-import UserGrid from 'app/components/UserGrid';
+import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import {
@@ -46,11 +42,12 @@ import {
   penaltyHours,
   getEventSemesterFromStartTime,
   registrationCloseTime,
+  displayNameForEventType,
 } from 'app/routes/events/utils';
+import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import RegisteredSummary from '../RegisteredSummary';
 import RegistrationMeta from '../RegistrationMeta';
 import styles from './EventDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
@@ -62,6 +59,7 @@ import type { ReadRegistration } from 'app/store/models/Registration';
 
 type InterestedButtonProps = {
   isInterested: boolean;
+  onClick: () => void;
 };
 
 const MIN_USER_GRID_ROWS = 2;
@@ -69,11 +67,11 @@ const MAX_USER_GRID_ROWS = 2;
 
 const Line = () => <div className={styles.line} />;
 
-const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
+const InterestedButton = ({ isInterested, onClick }: InterestedButtonProps) => {
   const icon = isInterested ? 'star' : 'star-outline';
   return (
     <Tooltip content="Følg arrangementet, og få e-post når påmelding nærmer seg!">
-      <Icon name={icon} className={styles.star} />
+      <Icon name={icon} onClick={onClick} className={styles.star} />
     </Tooltip>
   );
 };
@@ -406,34 +404,46 @@ const EventDetail = () => {
   ].filter(Boolean); // This will remove any undefined items from the array
 
   return (
-    <Content
-      banner={event.cover || event.company?.logo}
-      bannerPlaceholder={
-        event.coverPlaceholder || event.company?.logoPlaceholder
+    <Page
+      cover={
+        <YoutubeCover
+          image={event.cover || event.company?.logo}
+          imagePlaceholder={
+            event.coverPlaceholder || event.company?.logoPlaceholder
+          }
+          youtubeUrl={event.youtubeUrl}
+          skeleton={showSkeleton}
+        />
       }
-      youtubeUrl={event.youtubeUrl}
+      title={
+        <Flex alignItems="center" gap="var(--spacing-sm)">
+          {loggedIn && (
+            <InterestedButton
+              onClick={onRegisterClick}
+              isInterested={!!event.following}
+            />
+          )}
+          {event.title}
+        </Flex>
+      }
+      actionButtons={
+        <div className={styles.eventType}>
+          <strong
+            style={{
+              color,
+            }}
+          >
+            {displayNameForEventType(event.eventType)}
+          </strong>
+        </div>
+      }
       skeleton={showSkeleton}
+      dividerColor={color}
     >
       <PropertyHelmet propertyGenerator={propertyGenerator} options={{ event }}>
         <title>{event.title}</title>
         <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
       </PropertyHelmet>
-
-      <ContentHeader
-        borderColor={color}
-        onClick={loggedIn ? onRegisterClick : undefined}
-        className={styles.title}
-        event={event}
-      >
-        <Flex alignItems="center" gap="var(--spacing-md)">
-          {loggedIn && <InterestedButton isInterested={!!event.following} />}
-          {showSkeleton ? (
-            <Skeleton className={styles.header} />
-          ) : (
-            <h2 className={styles.header}>{event.title}</h2>
-          )}
-        </Flex>
-      </ContentHeader>
 
       <ContentSection>
         <ContentMain>
@@ -487,7 +497,7 @@ const EventDetail = () => {
               {event.mazemapPoi && (
                 <Button
                   className={styles.mapButton}
-                  onClick={() => setMapIsOpen(!mapIsOpen)}
+                  onPress={() => setMapIsOpen(!mapIsOpen)}
                 >
                   <img
                     className={styles.mazemapImg}
@@ -518,31 +528,15 @@ const EventDetail = () => {
             <Flex column>
               <h3>Påmeldte</h3>
 
-              <UserGrid
-                minRows={minUserGridRows}
-                maxRows={MAX_USER_GRID_ROWS}
-                users={registrations?.slice(0, 14).map((reg) => reg.user)}
+              <Attendance
+                pools={pools}
+                registrations={registrations}
+                currentRegistration={currentRegistration}
+                minUserGridRows={minUserGridRows}
+                maxUserGridRows={MAX_USER_GRID_ROWS}
+                legacyRegistrationCount={event.legacyRegistrationCount}
                 skeleton={fetching && !registrations}
               />
-
-              <AttendanceModal key="modal" pools={pools} title="Påmeldte">
-                {({ toggleModal }) => (
-                  <>
-                    <RegisteredSummary
-                      toggleModal={toggleModal}
-                      registrations={loggedIn && registrations}
-                      currentRegistration={currentRegistration}
-                      skeleton={fetching && !registrations}
-                    />
-                    <AttendanceStatus
-                      toggleModal={toggleModal}
-                      pools={pools}
-                      legacyRegistrationCount={event.legacyRegistrationCount}
-                      skeleton={fetching && !registrations}
-                    />
-                  </>
-                )}
-              </AttendanceModal>
 
               {loggedIn && (
                 <RegistrationMeta
@@ -656,7 +650,7 @@ const EventDetail = () => {
           contentAuthors={event.createdBy?.id}
         />
       )}
-    </Content>
+    </Page>
   );
 };
 

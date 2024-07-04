@@ -2,11 +2,17 @@ import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Registrations.css';
-import type { EventRegistration } from 'app/models';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { PublicUser } from 'app/store/models/User';
+
+export type SummaryRegistration = {
+  id: EntityId;
+  user: PublicUser;
+};
 
 type RegistrationProps = {
-  registration: EventRegistration;
-  currentRegistration?: EventRegistration | null | undefined;
+  registration: SummaryRegistration;
+  currentRegistration?: SummaryRegistration | null | undefined;
 };
 
 const Registration = ({
@@ -42,7 +48,7 @@ const renderNameList = (registrations) => {
 };
 
 type RegistrationListProps = {
-  registrations: EventRegistration[];
+  registrations: SummaryRegistration[];
   onClick: () => void;
 };
 
@@ -62,15 +68,15 @@ const RegistrationList = ({
 );
 
 type RegisteredSummaryProps = {
-  registrations?: EventRegistration[];
-  currentRegistration?: EventRegistration | null | undefined;
-  toggleModal?: (arg0: number) => void;
+  registrations?: SummaryRegistration[];
+  currentRegistration?: SummaryRegistration | null | undefined;
+  openModalTab?: (tabIndex: number) => void;
   skeleton?: boolean;
 };
 
 const RegisteredSentence = ({
   registrations,
-  toggleModal,
+  openModalTab,
   currentRegistration,
 }: RegisteredSummaryProps) => {
   if (!registrations) {
@@ -119,7 +125,7 @@ const RegisteredSentence = ({
           {' og '}
           <RegistrationList
             registrations={registrations.slice(2)}
-            onClick={() => toggleModal && toggleModal(0)}
+            onClick={() => openModalTab && openModalTab(0)}
           />
         </Flex>
       );

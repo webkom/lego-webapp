@@ -109,7 +109,7 @@ const SurveyForm = ({
               onConfirm={async () => setTemplatePickerOpen(true)}
             >
               {({ openConfirmModal }) => (
-                <Button onClick={openConfirmModal}>
+                <Button onPress={openConfirmModal}>
                   {templateType ? 'Bytt mal' : 'Bruk mal'}
                 </Button>
               )}

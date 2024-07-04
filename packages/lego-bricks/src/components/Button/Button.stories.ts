@@ -1,22 +1,31 @@
+import { fn } from '@storybook/test';
 import { Button } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Button> = {
+const meta = {
   title: 'Interaction/Button',
   component: Button,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+  args: {
+    onPress: fn(),
+  },
+} satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
   args: {
     children: 'Button',
+  },
+};
+
+export const PrimaryDisabled: Story = {
+  args: {
+    children: 'Button',
+    disabled: true,
   },
 };
 
@@ -51,7 +60,7 @@ export const Success: Story = {
 export const Flat: Story = {
   args: {
     flat: true,
-    children: 'Link',
+    children: 'Flat',
   },
 };
 
@@ -64,7 +73,7 @@ export const Ghost: Story = {
 
 export const Pending: Story = {
   args: {
-    pending: true,
+    isPending: true,
     children: 'Pending...',
   },
 };

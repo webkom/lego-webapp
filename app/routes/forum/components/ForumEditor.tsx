@@ -1,9 +1,10 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
@@ -14,7 +15,6 @@ import {
   editForum,
   fetchForum,
 } from 'app/actions/ForumActions';
-import { Content } from 'app/components/Content';
 import { TextInput, Form, TextArea, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectForumById } from 'app/reducers/forums';
@@ -76,11 +76,13 @@ const ForumEditor = () => {
   };
 
   return (
-    <Content>
+    <Page
+      title={isNew ? 'Nytt forum' : `Redigerer: ${forum?.title}`}
+      back={{ href: forum ? `/forum/${forum.id}/threads` : '/forum' }}
+    >
       <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <h1>{isNew ? 'Nytt forum' : 'Rediger forum'}</h1>
             <Field
               placeholder="Title"
               name="title"
@@ -95,11 +97,10 @@ const ForumEditor = () => {
               component={TextArea.Field}
               id="forum-description"
             />
-            {/* Action buttons */}
-            <Flex wrap>
+            <ButtonGroup>
               <Button
                 flat
-                onClick={() =>
+                onPress={() =>
                   navigate(`/forum/${isNew ? '' : forumId + '/threads'}`)
                 }
               >
@@ -115,18 +116,18 @@ const ForumEditor = () => {
                   onConfirm={handleDeleteForum}
                 >
                   {({ openConfirmModal }) => (
-                    <Button onClick={openConfirmModal} danger>
+                    <Button onPress={openConfirmModal} danger>
                       <Icon name="trash" size={19} />
                       Slett forum
                     </Button>
                   )}
                 </ConfirmModal>
               )}
-            </Flex>
+            </ButtonGroup>
           </Form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

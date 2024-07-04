@@ -22,7 +22,6 @@ export type Pool = {
 
 type Props = {
   pools: Pool[];
-  title: string;
   togglePool: (index: number) => void;
   selectedPool: number;
   isMeeting?: boolean;
@@ -60,7 +59,6 @@ const generateAmendedPools = (pools: Pool[]) => {
 };
 
 const AttendanceModalContent = ({
-  title = 'Status',
   pools,
   togglePool,
   selectedPool,
@@ -82,7 +80,6 @@ const AttendanceModalContent = ({
 
   return (
     <Flex column gap="var(--spacing-md)" className={styles.modal}>
-      <h2>{title}</h2>
       <TextInput
         type="text"
         prefix="search"

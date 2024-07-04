@@ -1,14 +1,10 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, LinkButton, Image, Page } from '@webkom/lego-bricks';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
-import { Content } from 'app/components/Content';
-import { Image } from 'app/components/Image';
-import NavigationTab from 'app/components/NavigationTab';
 import styles from './BrandPage.css';
 
 const BrandPage = () => (
-  <Content>
-    <NavigationTab title="Brand Guidelines" />
+  <Page title="Brand Guidelines">
     <section>
       <Flex className={styles.root}>
         <p>
@@ -26,7 +22,7 @@ const BrandPage = () => (
           identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
           dem på en forvirrende måte.
         </p>
-        <Flex row>
+        <Flex>
           <Flex column className={styles.colLeft}>
             <h2>Logo</h2>
             <p>
@@ -48,7 +44,7 @@ const BrandPage = () => (
           </Flex>
         </Flex>
 
-        <Flex row>
+        <Flex>
           <Flex column className={styles.colLeft}>
             <b>Vi ber om at du er omtenksom og ikke:</b>
             <ul>
@@ -79,15 +75,13 @@ const BrandPage = () => (
         </Flex>
         <div>
           <h2 className={styles.h2Padding}>Logoer i vektorformat</h2>
-          <a
+          <LinkButton
             href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
             download="proposed_file_name"
           >
-            <Button>
-              <Icon name="download-outline" size={19} />
-              Last ned
-            </Button>
-          </a>
+            <Icon name="download-outline" size={19} />
+            Last ned
+          </LinkButton>
           <h2 className={styles.h2Padding}>Abakusfarger</h2>
           <ul>
             <li>Hvit: CMYK(0,0,0,0)</li>
@@ -101,19 +95,17 @@ const BrandPage = () => (
           <p>
             Denne malen skal brukes for presentasjoner som holdes i Abakus-regi
           </p>
-          <a
+          <LinkButton
             href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
             download="proposed_file_name"
           >
-            <Button>
-              <Icon name="download-outline" size={19} />
-              Last ned
-            </Button>
-          </a>
+            <Icon name="download-outline" size={19} />
+            Last ned
+          </LinkButton>
         </div>
       </Flex>
     </section>
-  </Content>
+  </Page>
 );
 
 export default BrandPage;

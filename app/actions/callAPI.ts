@@ -97,7 +97,7 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   query?: ParsedQs;
   json?: boolean;
   meta?: Meta;
-  files?: (string | File)[];
+  files?: (string | Blob | File)[];
   force?: boolean;
   propagateError?: boolean;
   enableOptimistic?: boolean;

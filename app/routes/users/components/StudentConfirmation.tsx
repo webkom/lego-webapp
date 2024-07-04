@@ -1,4 +1,4 @@
-import { Card, Flex, Modal } from '@webkom/lego-bricks';
+import { ButtonGroup, Card, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -156,7 +156,7 @@ const StudentConfirmation = () => {
         </Card>
       )}
 
-      <Button success onClick={() => performStudentAuth()}>
+      <Button success onPress={() => performStudentAuth()}>
         Verifiser med FEIDE
       </Button>
       {currentUser.isStudent !== null && (
@@ -201,14 +201,14 @@ const StudentConfirmation = () => {
           </p>
         </div>
 
-        <Flex>
-          <Button dark onClick={() => setAbakusMember(false)}>
+        <ButtonGroup>
+          <Button dark onPress={() => setAbakusMember(false)}>
             Jeg vil ikke bli medlem
           </Button>
-          <Button success onClick={() => setAbakusMember(true)}>
+          <Button success onPress={() => setAbakusMember(true)}>
             Jeg vil bli medlem
           </Button>
-        </Flex>
+        </ButtonGroup>
       </Modal>
     </>
   );

@@ -1,22 +1,29 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  FilterSection,
+  filterSidebar,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { fetchData } from 'app/actions/EventActions';
+import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectSortedEvents } from 'app/reducers/events';
-import { selectPagination } from 'app/reducers/selectors';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import createQueryString from 'app/utils/createQueryString';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
 import styles from './EventList.css';
-import Toolbar from './Toolbar';
+import EventsTabs from './EventsTabs';
 import type { ListEvent } from 'app/store/models/Event';
 
 type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
@@ -133,37 +140,41 @@ const EventList = () => {
   const loggedIn = useIsLoggedIn();
   const icalToken = useCurrentUser()?.icalToken;
 
-  const queryString = createQueryString(query);
-  const showFetchMore = useAppSelector((state) =>
-    selectPagination('events', { queryString })(state),
+  const fetchQuery = {
+    date_after: moment().format('YYYY-MM-DD'),
+  };
+
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/',
+      query: fetchQuery,
+    }),
   );
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
-  const fetching = useAppSelector((state) => state.events.fetching);
   const events = useAppSelector(selectSortedEvents);
-  const pagination = useAppSelector((state) => state.events.pagination);
 
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchEventList',
     () =>
-      fetchData({
-        dateAfter: moment().format('YYYY-MM-DD'),
-        pagination,
-        dispatch,
-      }),
+      dispatch(
+        fetchEvents({
+          query: fetchQuery,
+        }),
+      ),
     [],
   );
 
   const fetchMore = () =>
-    fetchData({
-      dateAfter: moment().format('YYYY-MM-DD'),
-      refresh: false,
-      loadNextPage: true,
-      pagination,
-      dispatch,
-    });
+    dispatch(
+      fetchEvents({
+        query: fetchQuery,
+        next: true,
+      }),
+    );
 
   const filterEventTypesFunc = (event: ListEvent) => {
     if (!showCompanyPresentation && !showCourse && !showSocial && !showOther)
@@ -213,58 +224,61 @@ const EventList = () => {
     };
 
   return (
-    <div className={styles.root}>
+    <Page
+      title="Arrangementer"
+      sidebar={filterSidebar({
+        children: (
+          <>
+            <FilterSection title="Arrangementstype">
+              <CheckBox
+                id="companyPresentation"
+                label="Bedpres"
+                checked={showCompanyPresentation}
+                onChange={toggleEventType('company_presentation')}
+              />
+              <CheckBox
+                id="course"
+                label="Kurs"
+                checked={showCourse}
+                onChange={toggleEventType('course')}
+              />
+              <CheckBox
+                id="social"
+                label="Sosialt"
+                checked={showSocial}
+                onChange={toggleEventType('social')}
+              />
+              <CheckBox
+                id="other"
+                label="Annet"
+                checked={showOther}
+                onChange={toggleEventType('other')}
+              />
+            </FilterSection>
+            <FilterSection title="Påmelding">
+              <SelectInput
+                name="form-field-name"
+                value={regDateFilter}
+                onChange={(selectedOption) =>
+                  selectedOption &&
+                  setQueryValue('registrations')(selectedOption.value)
+                }
+                className={styles.select}
+                options={filterRegDateOptions}
+                isClearable={false}
+              />
+            </FilterSection>
+          </>
+        ),
+      })}
+      actionButtons={
+        actionGrant?.includes('create') && (
+          <LinkButton href="/events/create">Lag nytt</LinkButton>
+        )
+      }
+      tabs={<EventsTabs />}
+    >
       <Helmet title="Arrangementer" />
-      <Toolbar actionGrant={actionGrant} />
-      <div className={styles.filter}>
-        <div className={styles.filterButtons}>
-          <CheckBox
-            id="companyPresentation"
-            label="Bedpres"
-            checked={showCompanyPresentation}
-            onChange={toggleEventType('company_presentation')}
-          />
-          <CheckBox
-            id="course"
-            label="Kurs"
-            checked={showCourse}
-            onChange={toggleEventType('course')}
-          />
-          <CheckBox
-            id="social"
-            label="Sosialt"
-            checked={showSocial}
-            onChange={toggleEventType('social')}
-          />
-          <CheckBox
-            id="other"
-            label="Annet"
-            checked={showOther}
-            onChange={toggleEventType('other')}
-          />
-        </div>
-        <Flex alignItems="center">
-          <Icon
-            name="funnel-outline"
-            size={25}
-            style={{
-              marginRight: '5px',
-              marginLeft: '10px',
-            }}
-          />
-          <SelectInput
-            name="form-field-name"
-            value={regDateFilter}
-            onChange={(selectedOption) =>
-              selectedOption &&
-              setQueryValue('registrations')(selectedOption.value)
-            }
-            className={styles.select}
-            options={filterRegDateOptions}
-            isClearable={false}
-          />
-        </Flex>
-      </div>
       <EventListGroup
         name="Denne uken"
         events={groupedEvents.currentWeek}
@@ -283,20 +297,23 @@ const EventList = () => {
         field={field}
         loggedIn={loggedIn}
       />
-      {isEmpty(events) && fetching && <LoadingIndicator loading />}
-      {isEmpty(events) && !fetching && (
+      {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
+      {isEmpty(events) && !pagination.fetching && (
         <EmptyState icon="book-outline" size={40}>
           <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
         </EmptyState>
       )}
-      {showFetchMore && field === 'startTime' && (
-        <Button onClick={fetchMore} pending={!isEmpty(events) && fetching}>
+      {pagination.hasMore && field === 'startTime' && (
+        <Button
+          onPress={fetchMore}
+          isPending={!isEmpty(events) && pagination.fetching}
+        >
           Last inn mer
         </Button>
       )}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
-    </div>
+    </Page>
   );
 };
 

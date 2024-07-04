@@ -1,4 +1,11 @@
-import { Button, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  FilterSection,
+  filterSidebar,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -10,9 +17,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
-import { navigation } from '../utils';
 import QuoteList from './QuoteList';
-import styles from './Quotes.css';
 
 type Option = {
   label: string;
@@ -40,6 +45,7 @@ const QuotePage = () => {
   const isSingle = !!quoteId;
 
   const { query, setQueryValue } = useQuery(defaultQuotesQuery);
+  const approved = query.approved === 'true';
 
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
@@ -62,7 +68,7 @@ const QuotePage = () => {
 
   let errorMessage: string | undefined = undefined;
   if (quotes.length === 0 && !fetching) {
-    errorMessage = query.approved
+    errorMessage = approved
       ? 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.'
       : 'Ingen sitater venter på godkjenning.';
   }
@@ -84,31 +90,49 @@ const QuotePage = () => {
   );
 
   return (
-    <div className={styles.root}>
+    <Page
+      title={approved ? 'Overhørt' : 'Ikke-godkjente sitater'}
+      back={!approved || isSingle ? { href: '/quotes' } : undefined}
+      sidebar={
+        approved
+          ? filterSidebar({
+              children: (
+                <FilterSection title="Sorter etter">
+                  <SelectInput
+                    name="sorting_selector"
+                    value={ordering}
+                    onChange={(option: Option) =>
+                      option && setQueryValue('ordering')(option.value)
+                    }
+                    isClearable={false}
+                    options={orderingOptions}
+                  />
+                </FilterSection>
+              ),
+            })
+          : undefined
+      }
+      actionButtons={
+        approved && [
+          actionGrant.includes('approve') && (
+            <LinkButton key="approve" href="/quotes?approved=false">
+              Godkjenn sitater
+            </LinkButton>
+          ),
+          <LinkButton key="add" href="/quotes/add">
+            Legg til sitat
+          </LinkButton>,
+        ]
+      }
+    >
       <Helmet title="Overhørt" />
-      {navigation('Overhørt', actionGrant)}
-
-      {!isSingle && (
-        <div className={styles.select}>
-          <div>Sorter etter:</div>
-          <SelectInput
-            name="sorting_selector"
-            value={ordering}
-            onChange={(option: Option) =>
-              option && setQueryValue('ordering')(option.value)
-            }
-            isClearable={false}
-            options={orderingOptions}
-          />
-        </div>
-      )}
 
       {errorMessage || <QuoteList actionGrant={actionGrant} quotes={quotes} />}
 
       <LoadingIndicator loading={fetching}>
         {showFetchMore && (
           <Button
-            onClick={() =>
+            onPress={() =>
               dispatch(
                 fetchAll({
                   query,
@@ -121,7 +145,7 @@ const QuotePage = () => {
           </Button>
         )}
       </LoadingIndicator>
-    </div>
+    </Page>
   );
 };
 

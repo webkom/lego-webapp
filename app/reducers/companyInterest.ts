@@ -1,7 +1,12 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import createEntityReducer from 'app/utils/createEntityReducer';
+import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
+import { EntityType } from 'app/store/models/entities';
+import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { CompanyInterestForm } from '../actions/ActionTypes';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { RootState } from 'app/store/createRootReducer';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 export enum CompanyInterestCompanyType {
   SmallConsultant = 'company_types_small_consultant',
@@ -25,51 +30,48 @@ export type CompanyInterestEntity = {
   readme: boolean;
   collaboration: boolean;
   comment: boolean;
-  semesters: Array<CompanySemesterEntity>;
+  semesters: CompanySemester[];
   companyType: CompanyInterestCompanyType;
   officeInTrondheim: boolean;
 };
-export default createEntityReducer({
-  key: 'companyInterest',
-  types: {
-    fetch: CompanyInterestForm.FETCH_ALL,
-    mutate: CompanyInterestForm.CREATE,
-    delete: CompanyInterestForm.DELETE,
-  },
+
+const legoAdapter = createLegoAdapter(EntityType.CompanyInterests);
+
+const companyInterestSlice = createSlice({
+  name: EntityType.CompanyInterests,
+  initialState: legoAdapter.getInitialState(),
+  reducers: {},
+  extraReducers: legoAdapter.buildReducers({
+    fetchActions: [CompanyInterestForm.FETCH_ALL],
+  }),
 });
-export const selectCompanyInterestList = createSelector(
-  (state) => state.companyInterest.byId,
-  (state) => state.companyInterest.items,
-  (state, props) => props,
-  (state, props, selectedEventOption) => selectedEventOption,
-  (companyInterestById, companyInterestIds, semesterId, eventValue) => {
-    const companyInterests = companyInterestIds.map(
-      (id) => companyInterestById[id],
-    );
-    if (semesterId === 0 && eventValue === '') {
-      return companyInterests;
-    }
-    if (semesterId === 0 && eventValue !== '') {
-      return companyInterests.filter((companyInterest) =>
-        companyInterest.events.includes(eventValue),
+
+export default companyInterestSlice.reducer;
+
+export const {
+  selectAll: selectAllCompanyInterests,
+  selectById: selectCompanyInterestById,
+} = legoAdapter.getSelectors((state: RootState) => state.companyInterest);
+
+type CompanyInterestFilters = {
+  semesterId: EntityId;
+  eventType: CompanyInterestEventType;
+};
+export const selectCompanyInterests = createSelector(
+  selectAllCompanyInterests,
+  (_: RootState, filters: CompanyInterestFilters) => filters,
+  (companyInterests, { semesterId, eventType }) => {
+    if (eventType !== CompanyInterestEventType.All) {
+      companyInterests = companyInterests.filter((companyInterest) =>
+        companyInterest.events.includes(eventType),
       );
     }
-    if (semesterId !== 0 && eventValue === '') {
-      return companyInterests.filter((companyInterest) =>
+    if (semesterId !== 0) {
+      companyInterests = companyInterests.filter((companyInterest) =>
         companyInterest.semesters.includes(semesterId),
       );
     }
 
-    return companyInterests.filter(
-      (companyInterest) =>
-        companyInterest.semesters.includes(semesterId) &&
-        companyInterest.events.includes(eventValue),
-    );
+    return companyInterests;
   },
-);
-export const selectCompanyInterestById = createSelector(
-  (state) => state.companyInterest.byId,
-  (state, props) => props.companyInterestId,
-  (companyInterestById, companyInterestId) =>
-    companyInterestById[companyInterestId],
 );

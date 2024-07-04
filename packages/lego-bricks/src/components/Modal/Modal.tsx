@@ -1,85 +1,92 @@
 import cx from 'classnames';
-import { Modal as ReactModal } from 'react-overlays';
+import {
+  Dialog,
+  Heading,
+  Modal as AriaModal,
+  ModalOverlay,
+} from 'react-aria-components';
 import { Icon } from '../Icon';
 import styles from './Modal.module.css';
-import type { KeyboardEvent, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
-  show: boolean;
-  children: ReactNode;
-  onHide: () => void;
-  backdrop?: boolean;
-  closeOnBackdropClick?: boolean;
-  keyboard?: boolean;
+  isOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+  isDismissable?: boolean;
   contentClassName?: string;
-  backdropClassName?: string;
+  dialogRole?: 'dialog' | 'alertdialog';
+  title?: ReactNode;
+  children: ReactNode | ((opts: { close: () => void }) => ReactNode);
 };
 
 /**
- * A wrapper around react-overlays' modal that comes with a default style, a close
- * button and support for a `closeOnBackdropClick` prop that lets you disable closing
- * on the modal when clicking on the backdrop. Particularly useful for modal
- * forms where you don't want it to close when users accidentally click outside.
+ * A styled modal component
+ *
+ * ### Example Usage (controlled)
+ * ```tsx
+ * const [isOpen, setIsOpen] = useState(false);
+ * return (
+ *   <>
+ *     <Button onPress={() => setIsOpen(true)}>Open modal</Button>
+ *     <Modal
+ *       isOpen={isOpen}
+ *       onOpenChange={setIsOpen}
+ *       title="Modal title"
+ *     >
+ *       {modal content}
+ *     </Modal>
+ *   </>
+ * );
+ * ```
+ *
+ * ### Example Usage (uncontrolled)
+ * ```tsx
+ * <DialogTrigger>
+ *   <Button>Open modal</Button>
+ *   <Modal title="Modal title">
+ *     {modal content}
+ *   </Modal>
+ * </DialogTrigger>
+ * ```
  */
 const Modal = ({
-  show,
-  children,
-  onHide,
-  backdrop = true,
-  closeOnBackdropClick = true,
-  keyboard = true,
+  isOpen,
+  onOpenChange,
+  isDismissable = true,
   contentClassName,
-  backdropClassName,
+  dialogRole,
+  title,
+  children,
 }: Props) => {
-  const handleBackdropClick = () => {
-    if (closeOnBackdropClick) {
-      onHide();
-    }
-  };
-
-  const handleBackdropKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (
-      closeOnBackdropClick &&
-      (event.key === 'Enter' || event.key === 'Escape' || event.key === ' ')
-    ) {
-      event.preventDefault();
-      onHide();
-    }
-  };
-
   return (
-    <ReactModal
-      className={cx(styles.content, contentClassName, {
-        [styles.show]: show,
-      })}
-      show={show}
-      backdrop={backdrop}
-      onHide={onHide}
-      keyboard={keyboard}
-      renderBackdrop={(props) => (
-        <div
-          {...props}
-          className={cx(backdropClassName || styles.backdrop, {
-            [styles.show]: show,
-          })}
-          onClick={handleBackdropClick}
-          onKeyDown={handleBackdropKeyDown}
-          tabIndex={closeOnBackdropClick ? 0 : undefined} // Make it focusable if clickable
-          role={closeOnBackdropClick ? 'button' : undefined}
-        />
-      )}
-      data-test-id="Modal__content"
+    <ModalOverlay
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      isDismissable={isDismissable}
+      isKeyboardDismissDisabled={!isDismissable}
+      className={styles.overlay}
     >
-      <>
-        <Icon
-          name="close"
-          onClick={onHide}
-          className={styles.closeButton}
-          data-test-id="Modal__closeButton"
-        />
-        {children}
-      </>
-    </ReactModal>
+      <AriaModal className={cx(styles.modal, contentClassName)}>
+        <Dialog role={dialogRole} data-test-id="Modal__content">
+          {({ close }) => (
+            <>
+              {title && (
+                <Heading slot="title" className={styles.title}>
+                  {title}
+                </Heading>
+              )}
+              <Icon
+                name="close"
+                onClick={close}
+                className={styles.closeButton}
+                data-test-id="Modal__closeButton"
+              />
+              {typeof children === 'function' ? children({ close }) : children}
+            </>
+          )}
+        </Dialog>
+      </AriaModal>
+    </ModalOverlay>
   );
 };
 

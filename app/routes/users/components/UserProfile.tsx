@@ -1,16 +1,19 @@
 import {
   Button,
   Card,
+  DialogTrigger,
   Flex,
   Icon,
-  LoadingIndicator,
+  LinkButton,
   Modal,
+  Image,
+  Page,
+  LoadingPage,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
-import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
 import { Link, useParams } from 'react-router-dom';
@@ -18,21 +21,19 @@ import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
-import { Content } from 'app/components/Content';
 import EventListCompact from 'app/components/EventListCompact';
-import { ProfilePicture, CircularPicture, Image } from 'app/components/Image';
+import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
-import {
-  selectPreviousEvents,
-  selectUpcomingEvents,
-} from 'app/reducers/events';
+import { selectEventsByPagination } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GroupChange from './GroupChange';
 import Penalties from './Penalties';
@@ -167,12 +168,11 @@ type PermissionTreeNode = Group & {
 type PermissionTree = { [key: number]: PermissionTreeNode };
 
 const UserProfile = () => {
-  const [showAbaId, setShowAbaId] = useState(false);
-
   const params = useParams<{ username: string }>();
   const currentUser = useCurrentUser();
   const isCurrentUser = useIsCurrentUser(params.username);
   const username = isCurrentUser ? currentUser?.username : params.username;
+  const fetching = useAppSelector((state) => state.users.fetching);
   const user = useAppSelector((state) =>
     selectUserWithGroups(state, {
       username,
@@ -183,13 +183,26 @@ const UserProfile = () => {
   const showSettings =
     (isCurrentUser || actionGrant.includes('edit')) && user?.username;
 
-  const upcomingEvents = useAppSelector(selectUpcomingEvents);
-  const fetchingUpcoming = useAppSelector(
-    (state) => state.events.fetchingUpcoming,
+  const { pagination: upcomingEventsPagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/upcoming/',
+      query: {},
+    }),
   );
-  const previousEvents = useAppSelector(selectPreviousEvents);
-  const fetchingPrevious = useAppSelector(
-    (state) => state.events.fetchingPrevious,
+  const upcomingEvents = useAppSelector((state) =>
+    selectEventsByPagination(state, upcomingEventsPagination),
+  );
+
+  const { pagination: previousEventsPagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/previous/',
+      query: {},
+    }),
+  );
+  const previousEvents = useAppSelector((state) =>
+    selectEventsByPagination(state, previousEventsPagination),
   );
 
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
@@ -215,11 +228,7 @@ const UserProfile = () => {
   );
 
   if (!user) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetching} />;
   }
 
   const renderFields = () => {
@@ -417,19 +426,18 @@ const UserProfile = () => {
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
-    <div className={styles.root}>
+    <Page
+      title={user.fullName}
+      actionButtons={
+        <Icon
+          name="settings"
+          size={22}
+          className={styles.settingsIcon}
+          to={`/users/${user.username}/settings/profile`}
+        />
+      }
+    >
       <Helmet title={`${firstName} ${lastName}`} />
-
-      <Modal
-        contentClassName={styles.abaIdModal}
-        show={showAbaId}
-        onHide={() => {
-          setShowAbaId(false);
-        }}
-      >
-        <QRCode value={user.username ?? ''} />
-        <h2>{user.username}</h2>
-      </Modal>
 
       <Flex wrap className={styles.header}>
         <Flex column alignItems="center" className={styles.sidebar}>
@@ -440,31 +448,26 @@ const UserProfile = () => {
             <ProfilePicture user={user} size={150} />
           </Flex>
           {isCurrentUser && (
-            <Button
-              className={
-                hasFrame
-                  ? cx(styles.abaIdButton, styles.frameMargin)
-                  : styles.abaIdButton
-              }
-              onClick={() => {
-                setShowAbaId(true);
-              }}
-            >
-              <Icon className={styles.qrIcon} name="qr-code" size={18} />
-              Vis ABA-ID
-            </Button>
+            <DialogTrigger>
+              <Button
+                className={cx(
+                  styles.abaIdButton,
+                  hasFrame && styles.frameMargin,
+                )}
+              >
+                <Icon className={styles.qrIcon} name="qr-code" size={18} />
+                Vis ABA-ID
+              </Button>
+              <Modal title="ABA-ID">
+                <Flex column alignItems="center">
+                  <QRCode value={user.username ?? ''} />
+                  <h2>{user.username}</h2>
+                </Flex>
+              </Modal>
+            </DialogTrigger>
           )}
         </Flex>
         <Flex column className={styles.rightContent}>
-          <Flex justifyContent="space-between" alignItems="center">
-            <h2>{user.fullName}</h2>
-            <Icon
-              name="settings"
-              size={22}
-              className={styles.settingsIcon}
-              to={`/users/${user.username}/settings/profile`}
-            />
-          </Flex>
           <Flex wrap>
             {membershipsAsPills.map((membership) => (
               <GroupPill key={membership.id} group={membership.abakusGroup} />
@@ -485,9 +488,9 @@ const UserProfile = () => {
             <Card className={styles.infoCard}>
               {renderFields()}
               {showSettings && (
-                <Link to={`/users/${user.username}/settings/profile`}>
-                  <Button>Innstillinger</Button>
-                </Link>
+                <LinkButton href={`/users/${user.username}/settings/profile`}>
+                  Innstillinger
+                </LinkButton>
               )}
             </Card>
           </div>
@@ -719,11 +722,11 @@ const UserProfile = () => {
                 events={orderBy(upcomingEvents, 'startTime')}
                 noEventsMessage="Du har ingen kommende arrangementer"
                 eventStyle="compact"
-                loading={fetchingUpcoming}
+                loading={upcomingEventsPagination.fetching}
               />
               <h3>
                 Dine tidligere arrangementer (
-                {!fetchingPrevious
+                {!previousEventsPagination.fetching
                   ? previousEvents === undefined
                     ? 0
                     : previousEvents.length
@@ -742,13 +745,13 @@ const UserProfile = () => {
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
-                loading={fetchingPrevious}
+                loading={previousEventsPagination.fetching}
               />
             </div>
           )}
         </div>
       </Flex>
-    </div>
+    </Page>
   );
 };
 

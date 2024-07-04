@@ -1,7 +1,17 @@
-import { Button, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  DialogTrigger,
+  Flex,
+  Icon,
+  LinkButton,
+  LoadingIndicator,
+  Image,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   fetchAllMemberships,
   fetchGroup,
@@ -10,40 +20,40 @@ import {
 } from 'app/actions/GroupActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import {
-  Content,
   ContentSection,
   ContentMain,
   ContentSidebar,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
-import { Image } from 'app/components/Image';
-import NavigationTab from 'app/components/NavigationTab';
 import UserGrid from 'app/components/UserGrid';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './InterestGroup.css';
-import InterestGroupMemberList from './InterestGroupMemberList';
+import InterestGroupMemberModal from './InterestGroupMemberModal';
 import type { TransformedMembership } from 'app/reducers/memberships';
 import type { PublicDetailedGroup } from 'app/store/models/Group';
 
 type MembersProps = {
   memberships: TransformedMembership[];
   group: PublicDetailedGroup;
+  fetching: boolean;
 };
 
-const Members = ({ group, memberships }: MembersProps) => (
+const Members = ({ group, memberships, fetching }: MembersProps) => (
   <Flex column>
     <h4>{group.numberOfUsers} medlemmer</h4>
     <UserGrid
       users={memberships && memberships.slice(0, 14).map((reg) => reg.user)}
+      skeleton={fetching}
       maxRows={2}
       minRows={2}
     />
-    <InterestGroupMemberList memberships={memberships}>
-      <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
-    </InterestGroupMemberList>
+    <DialogTrigger>
+      <Button flat>Vis alle medlemmer</Button>
+      <InterestGroupMemberModal memberships={memberships} />
+    </DialogTrigger>
   </Flex>
 );
 
@@ -64,15 +74,15 @@ const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
     : () => dispatch(joinGroup(group.id, currentUser));
 
   return (
-    <Flex>
+    <ButtonGroup>
       <Button
         success={membership === undefined}
         danger={membership !== undefined}
-        onClick={onClick}
+        onPress={onClick}
       >
         {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
       </Button>
-    </Flex>
+    </ButtonGroup>
   );
 };
 
@@ -147,15 +157,8 @@ const InterestGroupDetail = () => {
   const logo = group.logo;
 
   return (
-    <Content>
+    <Page title={group.name} back={{ href: '/interest-groups' }}>
       <Helmet title={group.name} />
-      <NavigationTab
-        title={group.name}
-        back={{
-          label: 'Tilbake',
-          path: '/interest-groups',
-        }}
-      />
       <ContentSection>
         <ContentMain>
           <p>{group.description}</p>
@@ -174,7 +177,11 @@ const InterestGroupDetail = () => {
           )}
           {memberships.length > 0 && (
             <>
-              <Members group={group} memberships={memberships} />
+              <Members
+                group={group}
+                memberships={memberships}
+                fetching={fetching}
+              />
               <Contact memberships={memberships} />
             </>
           )}
@@ -182,19 +189,17 @@ const InterestGroupDetail = () => {
           {canEdit && (
             <>
               <h3>Admin</h3>
-              <Link to={`/interest-groups/${group.id}/edit`}>
-                <Button>
-                  <Icon name="create-outline" size={19} />
-                  Rediger
-                </Button>
-              </Link>
+              <LinkButton href={`/interest-groups/${group.id}/edit`}>
+                <Icon name="create-outline" size={19} />
+                Rediger
+              </LinkButton>
             </>
           )}
 
           <AnnouncementInLine group={group} />
         </ContentSidebar>
       </ContentSection>
-    </Content>
+    </Page>
   );
 };
 

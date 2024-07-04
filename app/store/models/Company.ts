@@ -161,9 +161,10 @@ export type AdminDetailCompany = Pick<
   | 'companyContacts'
 >;
 
-export type UnknownCompany =
+export type UnknownCompany = (
   | ListCompany
   | AdminListCompany
   | DetailedCompany
   | SearchCompany
-  | AdminDetailCompany;
+  | AdminDetailCompany
+) & { comments?: EntityId[] };

@@ -1,4 +1,4 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -154,7 +154,6 @@ const RestrictedMailEditor = () => {
             label={hiddenSenderLabel}
             type="checkbox"
             component={CheckBox.Field}
-            parse={(v) => !!v}
           />
           <Field
             disabled={!isNew}
@@ -162,7 +161,6 @@ const RestrictedMailEditor = () => {
             label={restrictedMailLabel}
             type="checkbox"
             component={CheckBox.Field}
-            parse={(v) => !!v}
           />
 
           <Field
@@ -220,17 +218,16 @@ const RestrictedMailEditor = () => {
           />
 
           <SubmissionError />
+
           {isNew && <SubmitButton>Lag flaskepost</SubmitButton>}
           {!isNew && restrictedMailId && restrictedMail && (
-            <a
+            <LinkButton
               href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
               download
             >
-              <Button>
-                <Icon name="download-outline" size={19} />
-                Last ned e-post token
-              </Button>
-            </a>
+              <Icon name="download-outline" size={19} />
+              Last ned e-post token
+            </LinkButton>
           )}
         </Form>
       )}

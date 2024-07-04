@@ -1,19 +1,17 @@
 import { Card } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof Card> = {
-  title: 'Interaction/Card',
+const meta = {
+  title: 'Layout/Card',
   component: Card,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-};
+} satisfies Meta<typeof Card>;
 
 export default meta;
-type Story = StoryObj<typeof Card>;
+type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Default: Story = {
   args: {
     children: 'Default card',

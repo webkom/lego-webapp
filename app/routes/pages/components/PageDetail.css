@@ -1,40 +1,5 @@
 @import url('~app/styles/variables.css');
 
-div .cont {
-  padding: 0;
-}
-
-.root {
-  composes: container from '~app/styles/utilities.css';
-}
-
-.title {
-  font-size: 28px;
-  margin: 0;
-}
-
-.page {
-  margin: 0;
-  width: 100%;
-}
-
-.navTab {
-  position: relative;
-  margin-top: -30px;
-}
-
-.detail {
-  flex: 1;
-  width: 100%;
-  padding: var(--spacing-md);
-}
-
-.headWrapper {
-  display: flex;
-  flex-flow: column wrap;
-  margin-top: -15px;
-}
-
 .header {
   text-align: center;
   margin: 0 auto;
@@ -61,43 +26,6 @@ div .cont {
   margin-top: var(--spacing-md);
   width: 80%;
   height: 70px;
-}
-
-.main {
-  width: 100%;
-}
-
-.mainTxt {
-  margin-top: var(--spacing-md);
-  padding: var(--spacing-xl) var(--spacing-lg);
-  flex-grow: 1;
-}
-
-.action {
-  margin-left: 20px;
-}
-
-.coverImage {
-  width: 100%;
-  height: 300px;
-  object-fit: scale-down;
-}
-
-.coverImage img {
-  height: 300px;
-  width: 100%;
-  object-fit: scale-down;
-}
-
-.banner {
-  padding-bottom: 2px;
-  aspect-ratio: 3.3;
-}
-
-.banner img {
-  max-height: 275px;
-  width: 100%;
-  object-fit: contain;
 }
 
 .heading {
@@ -127,47 +55,11 @@ div .cont {
   flex-direction: column;
 }
 
-.sidebarOpenBtn {
-  background-color: var(--color-red-6);
-  width: 40px;
-  height: 65px;
-  position: sticky;
-  top: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 100% 100% 0/0 50% 50% 0;
-  border-left: 0;
-  color: var(--lego-font-color);
-  z-index: 10;
-
-  @media (--mobile-device) {
-    display: flex;
-  }
-}
-
 @media (--mobile-device) {
-  .page {
-    margin-top: -65px;
-  }
-
-  .mainTxt {
-    padding: var(--spacing-md);
-    padding-bottom: var(--spacing-md);
-  }
-
   .header {
     text-align: center;
     word-break: break-word;
     margin-top: 0;
-  }
-
-  .banner img {
-    height: 150px;
-  }
-
-  .navTab {
-    display: flex;
   }
 
   .leaderBoard {

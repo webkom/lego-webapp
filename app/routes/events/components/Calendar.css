@@ -4,10 +4,6 @@
   --calendar-border: 1px solid var(--border-gray);
 }
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
 .header {
   display: flex;
   justify-content: space-between;

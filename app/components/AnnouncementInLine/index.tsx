@@ -1,5 +1,4 @@
-import { Button, Icon } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Icon, LinkButton } from '@webkom/lego-bricks';
 import { useAppSelector } from 'app/store/hooks';
 import type { AnnouncementCreateLocationState } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type { UnknownEvent } from 'app/store/models/Event';
@@ -20,8 +19,8 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
   }
 
   return (
-    <Link
-      to="/announcements"
+    <LinkButton
+      href="/announcements"
       state={
         {
           event,
@@ -30,11 +29,9 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
         } as AnnouncementCreateLocationState
       }
     >
-      <Button>
-        <Icon name="send-outline" size={18} />
-        Send kunngjøring
-      </Button>
-    </Link>
+      <Icon name="send-outline" size={18} />
+      Send kunngjøring
+    </LinkButton>
   );
 };
 

@@ -150,7 +150,6 @@ const Question = ({
             label="Obligatorisk"
             type="checkbox"
             component={CheckBox.Field}
-            parse={(v) => !!v}
           />
 
           <ConfirmModal

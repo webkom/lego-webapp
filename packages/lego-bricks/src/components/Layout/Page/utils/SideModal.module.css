@@ -1,0 +1,61 @@
+.overlayLeft {
+  justify-content: flex-start;
+}
+
+.overlayRight {
+  justify-content: flex-end;
+}
+
+.modal {
+  height: 100%;
+  background-color: var(--lego-card-color);
+  overflow-y: auto;
+
+  section {
+    height: 100%;
+
+    :focus {
+      outline: none;
+    }
+  }
+}
+
+@keyframes modal-enter-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.modalLeft {
+  &[data-entering] {
+    animation: modal-enter-left var(--easing-medium);
+  }
+
+  &[data-exiting] {
+    animation: modal-enter-left var(--easing-medium) reverse;
+  }
+}
+
+@keyframes modal-enter-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.modalRight {
+  &[data-entering] {
+    animation: modal-enter-right var(--easing-medium);
+  }
+
+  &[data-exiting] {
+    animation: modal-enter-right var(--easing-medium) reverse;
+  }
+}

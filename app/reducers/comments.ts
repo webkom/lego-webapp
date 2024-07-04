@@ -1,54 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { produce } from 'immer';
 import { createSelector } from 'reselect';
 import { Comment } from 'app/actions/ActionTypes';
 import { EntityType } from 'app/store/models/entities';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
-import { type EntityReducerState } from 'app/utils/createEntityReducer';
-import getEntityType from 'app/utils/getEntityType';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
+import { addReactionCases } from './reactions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
 import type { RootState } from 'app/store/createRootReducer';
-import type { Comment as CommentType } from 'app/store/models/Comment';
 import type { AnyAction } from 'redux';
-
-type WithComments<T> = T & { comments: CommentType[] };
-
-type StateWithComments<T, S> = S & {
-  byId: Record<EntityId, WithComments<T>>;
-};
-
-/**
- * Used by the individual entity reducers
- */
-export function mutateComments<T, S = EntityReducerState<T>>(
-  forTargetType: string,
-) {
-  return produce((newState: StateWithComments<T, S>, action: AnyAction) => {
-    switch (action.type) {
-      case Comment.ADD.SUCCESS: {
-        const [serverTargetType, targetId] =
-          action.meta.contentTarget.split('-');
-        const targetType = getEntityType(serverTargetType);
-
-        if (targetType === forTargetType) {
-          const target = newState.byId[targetId];
-          if (target) {
-            target.comments ||= [];
-            target.comments.push(action.payload.result);
-          }
-        }
-
-        break;
-      }
-
-      default:
-        break;
-    }
-  });
-}
 
 export const addCommentCases = (
   forTargetType: EntityType,
@@ -79,6 +40,8 @@ const commentSlice = createSlice({
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     extraCases: (addCase) => {
+      addReactionCases(EntityType.Comments, addCase);
+
       addCase(Comment.DELETE.SUCCESS, (state, action: AnyAction) => {
         const comment = state.entities[action.meta.id];
         if (comment) {

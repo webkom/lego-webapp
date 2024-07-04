@@ -1,19 +1,7 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  composes: contentContainer from '~app/styles/utilities.css';
-}
-
-.abaIdModal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-}
-
 .header {
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 
   @media (--medium-viewport) {

@@ -1,12 +1,12 @@
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
 import type { ComponentProps, MouseEventHandler } from 'react';
 
 type Props = {
   /** Name of the icon can be found on the webpage */
-  name: string;
+  name?: string;
   className?: string;
   size?: number;
   to?: string;
@@ -15,7 +15,7 @@ type Props = {
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
   disabled?: boolean;
-} & ComponentProps<typeof Flex>;
+} & Omit<ComponentProps<typeof Flex>, 'onClick'>;
 
 /**
  * Render an Icon like this with the name of your icon:
@@ -57,7 +57,7 @@ export const Icon = ({
       {...props}
     >
       {to ? (
-        <Link to={to} className={classNames}>
+        <Link href={to} className={classNames}>
           <ion-icon name={name}></ion-icon>
         </Link>
       ) : onClick ? (

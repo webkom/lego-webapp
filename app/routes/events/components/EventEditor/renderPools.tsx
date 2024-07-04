@@ -90,7 +90,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
                 fields.value[index].registrations?.length > 0 ||
                 fields.length === 1
               }
-              onClick={() => fields.remove(index)}
+              onPress={() => fields.remove(index)}
             >
               Fjern pool
             </Button>
@@ -102,7 +102,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
       <li>
         <div className={styles.centeredButton}>
           <Button
-            onClick={() =>
+            onPress={() =>
               fields.push({
                 name: `Pool #${fields.length + 1}`,
                 registrations: [],

@@ -1,9 +1,9 @@
+import { Page } from '@webkom/lego-bricks';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
 import { fetchUser } from 'app/actions/UserActions';
-import { Content } from 'app/components/Content';
 import Validator from 'app/components/UserValidator';
 import { useAppDispatch } from 'app/store/hooks';
 import type { UserSearchResult } from 'app/reducers/search';
@@ -42,14 +42,14 @@ const WrappedValidator = () => {
   }, 300);
 
   return (
-    <Content>
+    <Page title="Verifiser Abakus-medlemmer">
       <Validator
         clearSearch={clearSearch}
         handleSelect={handleSelect}
         onQueryChanged={onQueryChanged}
         validateAbakusGroup
       />
-    </Content>
+    </Page>
   );
 };
 

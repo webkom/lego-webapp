@@ -52,7 +52,7 @@ describe('Create joblisting', () => {
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
     //TODO: check new url
-    cy.contains('h2', 'Sommerjobb hos BEKK');
+    cy.contains('h1', 'Sommerjobb hos BEKK');
   });
 });
 

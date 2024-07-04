@@ -1,146 +1,21 @@
-// Hack because we have circular dependencies
-// (companies -> events -> index -> frontpage -> events)
-// This import resolves dependencies properly..
-import 'app/reducers';
 import { describe, it, expect } from 'vitest';
 import { Event } from 'app/actions/ActionTypes';
 import events from '../events';
+import type { UnknownEvent } from 'app/store/models/Event';
 
 describe('reducers', () => {
-  const baseState = {
+  const baseState: ReturnType<typeof events> = {
     actionGrant: [],
-    pagination: {},
-    items: [1],
+    paginationNext: {},
     fetching: false,
-    fetchingPrevious: false,
-    fetchingUpcoming: false,
-    byId: {
+    ids: [1],
+    entities: {
       1: {
         id: 1,
-        name: 'evt',
-      },
+        title: 'evt',
+      } as UnknownEvent,
     },
   };
-  describe('previous and upcoming events', () => {
-    it('Event.FETCH_PREVIOUS.BEGIN', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.FETCH_PREVIOUS.BEGIN,
-        meta: {},
-        payload: {},
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: true,
-        fetchingPrevious: true,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-          },
-        },
-      });
-    });
-    it('Event.FETCH_PREVIOUS.SUCCESS', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.FETCH_PREVIOUS.SUCCESS,
-        meta: {},
-        payload: {
-          entities: {
-            events: {
-              2: {
-                id: 2,
-                name: 'test',
-              },
-            },
-          },
-          result: [2],
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1, 2],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-          },
-          2: {
-            id: 2,
-            name: 'test',
-            isUsersUpcoming: false,
-          },
-        },
-      });
-    });
-    it('Event.FETCH_UPCOMING.BEGIN', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.FETCH_UPCOMING.BEGIN,
-        meta: {},
-        payload: {},
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: true,
-        fetchingPrevious: false,
-        fetchingUpcoming: true,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-          },
-        },
-      });
-    });
-    it('Event.FETCH_UPCOMING.SUCCESS', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.FETCH_UPCOMING.SUCCESS,
-        meta: {},
-        payload: {
-          entities: {
-            events: {
-              2: {
-                id: 2,
-                name: 'test',
-              },
-            },
-          },
-          result: [2],
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1, 2],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-          },
-          2: {
-            id: 2,
-            name: 'test',
-            isUsersUpcoming: true,
-          },
-        },
-      });
-    });
-  });
   describe('event reducer', () => {
     it('Event.SOCKET_EVENT_UPDATED', () => {
       const prevState = baseState;
@@ -148,94 +23,21 @@ describe('reducers', () => {
         type: Event.SOCKET_EVENT_UPDATED,
         payload: {
           id: 1,
-          name: 'updated',
+          title: 'updated',
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
-            name: 'updated',
-          },
-        },
-      });
-    });
-    it('Event.CLEAR', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.CLEAR,
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
+            title: 'updated',
           },
         },
       });
     });
   });
   describe('event registrations', () => {
-    it('Event.REQUEST_REGISTER.BEGIN', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.REQUEST_REGISTER.BEGIN,
-        meta: {
-          id: 1,
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-            loading: true,
-          },
-        },
-      });
-    });
-    it('Event.REQUEST_REGISTER.FAILURE', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.REQUEST_REGISTER.FAILURE,
-        meta: {
-          id: 1,
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-            loading: false,
-          },
-        },
-      });
-    });
     it('Event.SOCKET_REGISTRATION.SUCCESS should not crash if event is not in state', () => {
       const prevState = baseState;
       const action = {
@@ -248,20 +50,15 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS should add registration to waitingRegistrations if it has no pool', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...baseState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          },
+          } as UnknownEvent,
         },
       };
       const action = {
@@ -274,17 +71,11 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrations: [31],
             waitingRegistrationCount: 1,
@@ -294,20 +85,15 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_REGISTRATION.SUCCESS should add registration to registrationCount if it has a pool', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...baseState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          },
+          } as UnknownEvent,
         },
       };
       const action = {
@@ -321,44 +107,14 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 1,
             waitingRegistrations: [],
             waitingRegistrationCount: 0,
-          },
-        },
-      });
-    });
-    it('Event.SOCKET_REGISTRATION.FAILURE', () => {
-      const prevState = baseState;
-      const action = {
-        type: Event.SOCKET_REGISTRATION.FAILURE,
-        meta: {
-          eventId: 1,
-        },
-      };
-      expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
-          1: {
-            id: 1,
-            name: 'evt',
-            loading: false,
           },
         },
       });
@@ -375,21 +131,15 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is not me and no pool is provided', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...baseState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
-          },
+          } as unknown as UnknownEvent,
         },
       };
       const action = {
@@ -408,17 +158,11 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
@@ -429,21 +173,15 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is me and no pool is provided', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...baseState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
-          },
+          } as unknown as UnknownEvent,
         },
       };
       const action = {
@@ -463,11 +201,10 @@ describe('reducers', () => {
       };
       expect(events(prevState, action)).toEqual({
         ...prevState,
-        byId: {
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 0,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
@@ -478,21 +215,15 @@ describe('reducers', () => {
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS should update correctly if user is me and pool is provided', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...baseState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 3,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
-          },
+          } as unknown as UnknownEvent,
         },
       };
       const action = {
@@ -512,17 +243,11 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
-            name: 'evt',
-            loading: false,
+            title: 'evt',
             registrationCount: 2,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
@@ -550,35 +275,25 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
             following: 3,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });
     });
     it('Event.UNFOLLOW.SUCCESS', () => {
       const prevState = {
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...baseState,
+        entities: {
           1: {
             id: 1,
             following: 3,
-            name: 'evt',
-          },
+            title: 'evt',
+          } as UnknownEvent,
         },
       };
       const action = {
@@ -588,17 +303,12 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             id: 1,
             following: false,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });
@@ -624,17 +334,12 @@ describe('reducers', () => {
         },
       };
       expect(events(prevState, action)).toEqual({
-        actionGrant: [],
-        pagination: {},
-        items: [1],
-        fetching: false,
-        fetchingPrevious: false,
-        fetchingUpcoming: false,
-        byId: {
+        ...prevState,
+        entities: {
           1: {
             following: 4,
             id: 1,
-            name: 'evt',
+            title: 'evt',
           },
         },
       });

@@ -9,6 +9,7 @@ export const applySelectedTheme = (theme) => {
       theme === 'auto' ? getOSTheme() : theme,
     );
     global.dispatchEvent(new Event('themeChange'));
+    localStorage.setItem('theme', theme);
   }
 };
 
@@ -23,9 +24,16 @@ export const ThemeContextListener = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Configure listener to synchronize state
     const handleThemeChange = () => dispatch(setTheme(getTheme()));
     handleThemeChange();
     window.addEventListener('themeChange', handleThemeChange);
+
+    // Optimistically upadte theme from localStorage
+    const cachedTheme =
+      localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
+    applySelectedTheme(cachedTheme);
+
     return () => window.removeEventListener('themeChange', handleThemeChange);
   }, [dispatch]);
 

@@ -1,4 +1,4 @@
-import { Card, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { Field, FormSpy } from 'react-final-form';
@@ -16,8 +16,6 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
-import { Content } from 'app/components/Content';
-import { FlexRow } from 'app/components/FlexBox';
 import {
   TextEditor,
   TextInput,
@@ -33,8 +31,7 @@ import { readmeIfy } from 'app/components/ReadmeLogo';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import {
-  selectCompanySemesters,
-  type CompanySemesterEntity,
+  selectAllCompanySemesters,
   selectCompanySemestersForInterestForm,
 } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -67,7 +64,10 @@ import {
   OFFICE_IN_TRONDHEIM,
   COLLABORATION_TYPES,
   COMPANY_TYPES,
+  TOOLTIP,
 } from './Translations';
+import type { DetailedCompanyInterest } from 'app/store/models/CompanyInterest';
+import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
 const SemesterBox = ({
@@ -85,7 +85,6 @@ const SemesterBox = ({
         label={semesterToText({ ...fields.value[index], language })}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -106,7 +105,6 @@ const SurveyOffersBox = ({
         label={SURVEY_OFFERS[surveyOffersToString(item)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -132,14 +130,24 @@ const EventBox = ({
       return (
         <Flex column className={styles.checkboxWrapper}>
           {filteredFields.map((key, index) => (
-            <Field
-              key={`events[${index}]`}
-              name={`events[${index}].checked`}
-              label={EVENTS[eventToString(key)][language]}
-              type="checkbox"
-              component={CheckBox.Field}
-              parse={(v) => !!v}
-            />
+            <Flex
+              className={styles.checkboxWrapperToolTip}
+              key={`events[${index}]` + `flexBox`}
+            >
+              <Field
+                key={`events[${index}]`}
+                name={`events[${index}].checked`}
+                label={EVENTS[eventToString(key)][language]}
+                type="checkbox"
+                component={CheckBox.Field}
+              />
+              <Tooltip
+                className={styles.tooltip}
+                content={<span>{TOOLTIP[eventToString(key)][language]}</span>}
+              >
+                <Icon name="information-circle-outline" />
+              </Tooltip>
+            </Flex>
           ))}
         </Flex>
       );
@@ -162,7 +170,6 @@ const TargetGradeBox = ({
         label={TARGET_GRADES[targetGradeToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -183,7 +190,6 @@ const OtherBox = ({
         label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -204,7 +210,6 @@ const CollaborationBox = ({
         label={COLLABORATION_TYPES[collaborationToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
-        parse={(v) => !!v}
       />
     ))}
   </Flex>
@@ -236,7 +241,7 @@ type CompanyInterestFormEntity = {
   contactPerson: string;
   mail: string;
   phone: string;
-  semesters: Array<CompanySemesterEntity & { checked: boolean }>;
+  semesters: Array<CompanySemester & { checked: boolean }>;
   events: Array<{
     name: string;
     checked: boolean;
@@ -301,11 +306,14 @@ const CompanyInterestPage = () => {
   const { companyInterestId } = useParams();
   const edit = companyInterestId !== undefined;
   const companyInterest = useAppSelector((state) =>
-    selectCompanyInterestById(state, { companyInterestId }),
+    selectCompanyInterestById<DetailedCompanyInterest>(
+      state,
+      companyInterestId,
+    ),
   );
   const semesters = useAppSelector((state) => {
     if (edit) {
-      return selectCompanySemesters(state);
+      return selectAllCompanySemesters(state);
     }
     return selectCompanySemestersForInterestForm(state);
   });
@@ -518,11 +526,20 @@ const CompanyInterestPage = () => {
   ];
 
   const title = edit
-    ? 'Rediger bedriftsinteresse'
+    ? 'Redigerer bedriftsinteresse'
     : FORM_LABELS.mainHeading[language];
 
   return (
-    <Content>
+    <Page
+      title={title}
+      actionButtons={
+        !edit && (
+          <Link to={isEnglish ? '/interesse' : '/register-interest'}>
+            <LanguageFlag language={language} />
+          </Link>
+        )
+      }
+    >
       <Helmet title={title} />
 
       <LegoFinalForm
@@ -536,15 +553,6 @@ const CompanyInterestPage = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <FlexRow alignItems="center" justifyContent="space-between">
-              <h1>{title}</h1>
-              {!edit && (
-                <Link to={isEnglish ? '/interesse' : '/register-interest'}>
-                  <LanguageFlag language={language} />
-                </Link>
-              )}
-            </FlexRow>
-
             {!edit && (
               <Card severity="info">
                 {FORM_LABELS.subHeading[language]}
@@ -784,7 +792,7 @@ const CompanyInterestPage = () => {
           </form>
         )}
       </LegoFinalForm>
-    </Content>
+    </Page>
   );
 };
 

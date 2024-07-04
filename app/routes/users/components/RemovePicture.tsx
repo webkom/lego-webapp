@@ -1,4 +1,4 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { removePicture } from 'app/actions/UserActions';
 import { useAppDispatch } from 'app/store/hooks';
@@ -22,21 +22,21 @@ const RemovePicture = (props: Props) => {
   const toggleSelected = () => setSelected(!selected);
 
   return (
-    <div>
+    <ButtonGroup>
       {selected ? (
-        <Button onClick={toggleSelected}>Avbryt</Button>
+        <Button onPress={toggleSelected}>Avbryt</Button>
       ) : (
-        <Button danger onClick={toggleSelected}>
+        <Button danger onPress={toggleSelected}>
           <Icon name="trash" size={19} />
           Slett profilbildet
         </Button>
       )}
       {selected && (
-        <Button danger onClick={handleOnClick}>
+        <Button danger onPress={handleOnClick}>
           Bekreft
         </Button>
       )}
-    </div>
+    </ButtonGroup>
   );
 };
 

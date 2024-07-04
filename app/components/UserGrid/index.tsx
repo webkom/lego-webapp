@@ -12,7 +12,7 @@ const UserGrid = ({
   maxRows = 2,
   minRows = 0,
   padding = 3,
-  skeleton,
+  skeleton = false,
 }: {
   users?: PublicUser[];
   size?: number /* profile picture size */;

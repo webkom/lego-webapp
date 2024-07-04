@@ -1,12 +1,10 @@
-import { Button } from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { fetchGalleries } from 'app/actions/GalleryActions';
-import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectAllGalleries } from 'app/reducers/galleries';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -32,13 +30,15 @@ const Overview = () => {
   const navigate = useNavigate();
 
   return (
-    <Content>
+    <Page
+      title="Album"
+      actionButtons={
+        actionGrant?.includes('create') && (
+          <LinkButton href="/photos/new">Nytt album</LinkButton>
+        )
+      }
+    >
       <Helmet title="Album" />
-      {actionGrant && actionGrant.includes('create') && (
-        <NavigationTab title="Album">
-          <NavigationLink to="/photos/new">Nytt album</NavigationLink>
-        </NavigationTab>
-      )}
 
       <Gallery
         hasMore={pagination.fetching || pagination.hasMore}
@@ -65,9 +65,9 @@ const Overview = () => {
             {actionGrant && actionGrant.includes('create') && (
               <h4>
                 Trykk{' '}
-                <Button flat onClick={() => navigate('/photos/new')}>
+                <LinkButton flat href="/photos/new">
                   <b>her</b>
-                </Button>{' '}
+                </LinkButton>{' '}
                 for å lage et nytt album
               </h4>
             )}
@@ -76,7 +76,7 @@ const Overview = () => {
         photos={galleries}
         getSrc={(gallery) => gallery.cover?.file ?? ''}
       />
-    </Content>
+    </Page>
   );
 };
 

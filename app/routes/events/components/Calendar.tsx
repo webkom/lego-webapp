@@ -1,16 +1,16 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment, { type Moment } from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { fetchData } from 'app/actions/EventActions';
+import { fetchEvents } from 'app/actions/EventActions';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import styles from './Calendar.css';
 import CalendarCell from './CalendarCell';
 import EventFooter from './EventFooter';
-import Toolbar from './Toolbar';
+import EventsTabs from './EventsTabs';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
@@ -32,13 +32,12 @@ const getDate = (month?: string, year?: string) => {
 };
 
 const Calendar = () => {
-  const pagination = useAppSelector((state) => state.events.pagination);
+  const { month, year } = useParams<{ month: string; year: string }>();
+  const date = getDate(month, year);
+
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
   const currentUser = useCurrentUser();
   const icalToken = currentUser?.icalToken;
-
-  const { month, year } = useParams<{ month: string; year: string }>();
-  const date = getDate(month, year);
 
   const dispatch = useAppDispatch();
 
@@ -48,21 +47,31 @@ const Calendar = () => {
       if (date.isValid()) {
         const dateAfter = date.clone().startOf('month').startOf('week');
         const dateBefore = date.clone().endOf('month').endOf('week');
-        return fetchData({
-          dateAfter: dateAfter.format('YYYY-MM-DD'),
-          dateBefore: dateBefore.format('YYYY-MM-DD'),
-          pagination,
-          dispatch,
-        });
+        const query = {
+          date_after: dateAfter.format('YYYY-MM-DD'),
+          date_before: dateBefore.format('YYYY-MM-DD'),
+        };
+        return dispatch(
+          fetchEvents({
+            query,
+          }),
+        );
       }
     },
     [month, year],
   );
 
   return (
-    <div className={styles.root}>
+    <Page
+      title="Arrangementer"
+      actionButtons={
+        actionGrant?.includes('create') && (
+          <LinkButton href="/events/create">Lag nytt</LinkButton>
+        )
+      }
+      tabs={<EventsTabs />}
+    >
       <Helmet title="Kalender" />
-      <Toolbar actionGrant={actionGrant} />
 
       <h2 className={styles.header}>
         <Icon
@@ -91,7 +100,7 @@ const Calendar = () => {
         ))}
       </div>
       {icalToken && <EventFooter icalToken={icalToken} />}
-    </div>
+    </Page>
   );
 };
 

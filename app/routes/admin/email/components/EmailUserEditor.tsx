@@ -1,4 +1,4 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -52,14 +52,16 @@ const EmailUserEditor = () => {
   );
 
   const initialValues = isNew
-    ? {}
+    ? {
+        internalEmailEnabled: true,
+      }
     : {
         ...emailUser,
         user: {
           label: user?.fullName || '',
           value: user?.id || '',
         },
-        internalEmailEnable: emailUser?.internalEmailEnabled ?? false,
+        internalEmailEnabled: emailUser?.internalEmailEnabled ?? false,
       };
 
   const onUserChange = (data: AutocompleteUserValue, form) => {
@@ -107,6 +109,18 @@ const EmailUserEditor = () => {
     >
       {({ handleSubmit, form }) => (
         <Form onSubmit={(values) => handleSubmit(values)}>
+          {isNew && (
+            <Card severity="warning">
+              <span>
+                Personlige e-postadresser skal være på formatet{' '}
+                <b>fornavn.etternavn@abakus.no</b>.
+              </span>
+              <span>
+                <b>Adressen kan ikke endres senere</b>, så vær sikker på at
+                adressen som settes er riktig.
+              </span>
+            </Card>
+          )}
           <Field
             label="Bruker"
             name="user"
@@ -130,7 +144,6 @@ const EmailUserEditor = () => {
             name="internalEmailEnabled"
             component={CheckBox.Field}
             type="checkbox"
-            parse={(value) => !!value}
           />
 
           <SubmissionError />

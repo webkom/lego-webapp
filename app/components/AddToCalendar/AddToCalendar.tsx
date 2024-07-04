@@ -40,7 +40,7 @@ const AddToCalendarToggle = ({ icalToken, meeting }: Props) => {
     <div>
       <Button
         className={styles.calendarToggleButton}
-        onClick={() => setCalendarIsOpen(!calendarIsOpen)}
+        onPress={() => setCalendarIsOpen(!calendarIsOpen)}
       >
         <Icon name="calendar-outline" size={19} />
         {!calendarIsOpen ? 'Vis kalenderimport' : 'Skjul kalenderimport'}

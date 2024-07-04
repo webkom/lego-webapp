@@ -97,16 +97,6 @@ div > .locationContainerItem {
   align-items: center;
 }
 
-.socialMediaTypeLinks {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.socialMediaLink {
-  margin-top: var(--spacing-sm);
-}
-
 @media (--mobile-device) {
   .abakusInNumbers {
     display: block;

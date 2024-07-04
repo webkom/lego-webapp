@@ -1,4 +1,10 @@
-import { Button, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Icon,
+  LinkButton,
+  LoadingPage,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -7,11 +13,9 @@ import {
   fetchGalleryPictures,
   uploadAndCreateGalleryPicture,
 } from 'app/actions/GalleryPictureActions';
-import { Content } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import { LoginRequiredPage } from 'app/components/LoginForm';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
@@ -28,6 +32,7 @@ import HTTPError from 'app/routes/errors/HTTPError';
 import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
+import useQuery from 'app/utils/useQuery';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
@@ -58,9 +63,14 @@ const propertyGenerator: PropertyGenerator<{
   ];
 };
 
+const galleryDetailDefaultQuery = {
+  upload: 'false',
+};
+
 const GalleryDetail = () => {
   const navigate = useNavigate();
-  const [upload, setUpload] = useState(false);
+  const { query, setQueryValue } = useQuery(galleryDetailDefaultQuery);
+  const upload = query.upload === 'true';
   const [downloading, setDownloading] = useState(false);
 
   const { galleryId } = useParams<{ galleryId: string }>();
@@ -100,19 +110,14 @@ const GalleryDetail = () => {
   );
 
   if (!gallery || fetchingGalleries) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetchingGalleries} />;
   }
 
   const toggleUpload = (response?: File | DropFile[]) => {
     if (response) {
       dispatch(uploadAndCreateGalleryPicture(gallery.id, response));
     }
-
-    setUpload(!upload);
+    setQueryValue('upload')(String(!upload));
   };
 
   const handleClick = (picture: GalleryListPicture) => {
@@ -160,7 +165,36 @@ const GalleryDetail = () => {
   // Some galleries are open to the public
   if (gallery && gallery.createdAt) {
     return (
-      <Content>
+      <Page
+        title={gallery.title}
+        back={{
+          href: '/photos',
+        }}
+        actionButtons={[
+          actionGrant?.includes('edit') && (
+            <LinkButton
+              key="upload"
+              href={`/photos/${gallery.id}/?upload=true`}
+              onPress={() => toggleUpload()}
+            >
+              Last opp bilder
+            </LinkButton>
+          ),
+          actionGrant?.includes('edit') && (
+            <LinkButton key="edit" href={`/photos/${gallery.id}/edit`}>
+              Rediger
+            </LinkButton>
+          ),
+          <Button
+            key="download"
+            onPress={downloadGallery}
+            isPending={downloading}
+          >
+            <Icon name="download-outline" size={19} />
+            Last ned album
+          </Button>,
+        ]}
+      >
         <PropertyHelmet
           propertyGenerator={propertyGenerator}
           options={{ gallery }}
@@ -172,38 +206,7 @@ const GalleryDetail = () => {
           />
         </PropertyHelmet>
 
-        <NavigationTab
-          title={gallery.title}
-          back={{
-            label: 'Tilbake',
-            path: '/photos',
-          }}
-          details={
-            <>
-              <GalleryDetailsRow gallery={gallery} showDescription />
-              <div>
-                <Button onClick={downloadGallery} pending={downloading}>
-                  <Icon name="download-outline" size={19} />
-                  Last ned album
-                </Button>
-              </div>
-            </>
-          }
-        >
-          {actionGrant?.includes('edit') && (
-            <>
-              <NavigationLink
-                to={`/photos/${gallery.id}?upload`}
-                onClick={() => toggleUpload()}
-              >
-                Last opp bilder
-              </NavigationLink>
-              <NavigationLink to={`/photos/${gallery.id}/edit`}>
-                Rediger
-              </NavigationLink>
-            </>
-          )}
-        </NavigationTab>
+        <GalleryDetailsRow gallery={gallery} showDescription />
 
         <Gallery
           photos={pictures}
@@ -223,7 +226,7 @@ const GalleryDetail = () => {
               <h1>Ingen bilder</h1>
               <h4>
                 Trykk{' '}
-                <Button flat onClick={() => toggleUpload()}>
+                <Button flat onPress={() => toggleUpload()}>
                   <b>her</b>
                 </Button>{' '}
                 for å legge inn bilder
@@ -241,16 +244,12 @@ const GalleryDetail = () => {
             onSubmit={toggleUpload}
           />
         )}
-      </Content>
+      </Page>
     );
   }
 
   if (fetchingGalleryPictures) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetchingGalleryPictures} />;
   }
 
   if (!loggedIn) {

@@ -1,13 +1,16 @@
 import {
   Button,
+  ButtonGroup,
   ConfirmModal,
   Flex,
   Icon,
   LoadingIndicator,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
+import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import { uploadFile } from 'app/actions/FileActions';
 import {
@@ -16,7 +19,6 @@ import {
   fetchPage,
   updatePage,
 } from 'app/actions/PageActions';
-import { Content } from 'app/components/Content';
 import {
   EditorField,
   TextInput,
@@ -31,7 +33,6 @@ import {
   objectPermissionsToInitialValues,
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import NavigationTab from 'app/components/NavigationTab';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { selectPageById } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
@@ -139,16 +140,11 @@ const PageEditor = () => {
       }
     : {};
 
-  return (
-    <Content>
-      <NavigationTab
-        title={page?.title || 'Ny side'}
-        back={{
-          label: 'Tilbake',
-          path: backUrl,
-        }}
-      />
+  const title = isNew ? 'Ny side' : `Redigerer: ${page?.title}`;
 
+  return (
+    <Page title={title} back={{ href: backUrl }}>
+      <Helmet title={title} />
       <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
@@ -174,25 +170,6 @@ const PageEditor = () => {
                 placeholder="Velg kategori"
                 options={categoryOptions}
               />
-
-              <Flex margin="0 0 0 10px">
-                {!isNew && (
-                  <ConfirmModal
-                    title="Slett side"
-                    message="Er du sikker på at du vil slette denne infosiden?"
-                    onConfirm={onDelete}
-                  >
-                    {({ openConfirmModal }) => (
-                      <Button onClick={openConfirmModal} danger>
-                        <Icon name="trash" size={19} />
-                        Slett
-                      </Button>
-                    )}
-                  </ConfirmModal>
-                )}
-
-                <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-              </Flex>
             </Flex>
 
             <Fields
@@ -211,10 +188,29 @@ const PageEditor = () => {
               component={EditorField.Field}
               uploadFile={uploadFile}
             />
+
+            <ButtonGroup>
+              {!isNew && (
+                <ConfirmModal
+                  title="Slett side"
+                  message="Er du sikker på at du vil slette denne infosiden?"
+                  onConfirm={onDelete}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button onPress={openConfirmModal} danger>
+                      <Icon name="trash" size={19} />
+                      Slett
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+
+              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+            </ButtonGroup>
           </Form>
         )}
       </TypedLegoForm>
-    </Content>
+    </Page>
   );
 };
 

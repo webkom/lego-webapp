@@ -1,4 +1,11 @@
-import { ConfirmModal, Flex, Icon, Modal } from '@webkom/lego-bricks';
+import {
+  ConfirmModal,
+  DialogTrigger,
+  Flex,
+  Icon,
+  Modal,
+  Image,
+} from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
 import {
@@ -7,7 +14,6 @@ import {
   Button,
   ImageUploadField,
 } from 'app/components/Form';
-import { Image } from 'app/components/Image';
 import { colorForEventType } from 'app/routes/events/utils';
 import styles from '../EventEditor.css';
 import type { EditingEvent } from 'app/routes/events/utils';
@@ -19,8 +25,6 @@ type Props = {
   useImageGallery: boolean;
   imageGalleryUrl: string;
   event: any;
-  showImageGallery: boolean;
-  setShowImageGallery: React.Dispatch<React.SetStateAction<boolean>>;
   imageGallery: any;
   setUseImageGallery: React.Dispatch<React.SetStateAction<boolean>>;
   setImageGalleryUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -32,8 +36,6 @@ const Header = ({
   useImageGallery,
   imageGalleryUrl,
   event,
-  showImageGallery,
-  setShowImageGallery,
   imageGallery,
   setUseImageGallery,
   setImageGalleryUrl,
@@ -70,61 +72,6 @@ const Header = ({
         required
       />
 
-      <Modal
-        show={showImageGallery}
-        onHide={() => setShowImageGallery(false)}
-        contentClassName={styles.imageGallery}
-      >
-        <>
-          <h1>Bildegalleri</h1>
-          <Flex
-            wrap
-            alignItems="center"
-            justifyContent="space-around"
-            gap="var(--spacing-md)"
-          >
-            {imageGallery?.map((e) => (
-              <Flex key={e.key} alignItems="center" gap="var(--spacing-md)">
-                <Image
-                  src={e.cover}
-                  placeholder={e.coverPlaceholder}
-                  alt={`${e.cover} bilde`}
-                  onClick={() => {
-                    form.change('cover', `${e.key}:${e.token}`);
-                    setShowImageGallery(false);
-                    setUseImageGallery(true);
-                    setImageGalleryUrl(e.cover);
-                  }}
-                  className={styles.imageGalleryEntry}
-                />
-                <ConfirmModal
-                  title="Fjern fra galleri"
-                  message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
-                  closeOnConfirm
-                  onConfirm={() => setSaveForUse(e.key, e.token, false)}
-                >
-                  {({ openConfirmModal }) => (
-                    <Icon onClick={openConfirmModal} name="trash" danger />
-                  )}
-                </ConfirmModal>
-              </Flex>
-            ))}
-            {imageGallery.length === 0 && (
-              <Flex
-                column
-                alignItems="center"
-                gap={'var(--spacing-xs)'}
-                className={styles.emptyGallery}
-              >
-                <Icon name="folder-open-outline" size={50} />
-                <b>Bildegalleriet er tomt ...</b>
-                <span>Hvorfor ikke laste opp et bilde?</span>
-              </Flex>
-            )}
-          </Flex>
-        </>
-      </Modal>
-
       <Flex
         wrap
         gap="var(--spacing-sm)"
@@ -132,9 +79,68 @@ const Header = ({
         justifyContent="space-between"
         margin={'0 0 var(--spacing-md) 0'}
       >
-        <Button onClick={() => setShowImageGallery(true)}>
-          Velg bilde fra bildegalleriet
-        </Button>
+        <DialogTrigger>
+          <Button>Velg bilde fra bildegalleriet</Button>
+          <Modal contentClassName={styles.imageGallery} title="Bildegalleri">
+            {({ close }) => (
+              <>
+                <Flex
+                  wrap
+                  alignItems="center"
+                  justifyContent="space-around"
+                  gap="var(--spacing-md)"
+                >
+                  {imageGallery?.map((e) => (
+                    <Flex
+                      key={e.key}
+                      alignItems="center"
+                      gap="var(--spacing-md)"
+                    >
+                      <Image
+                        src={e.cover}
+                        placeholder={e.coverPlaceholder}
+                        alt={`${e.cover} bilde`}
+                        onClick={() => {
+                          form.change('cover', `${e.key}:${e.token}`);
+                          close();
+                          setUseImageGallery(true);
+                          setImageGalleryUrl(e.cover);
+                        }}
+                        className={styles.imageGalleryEntry}
+                      />
+                      <ConfirmModal
+                        title="Fjern fra galleri"
+                        message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
+                        closeOnConfirm
+                        onConfirm={() => setSaveForUse(e.key, e.token, false)}
+                      >
+                        {({ openConfirmModal }) => (
+                          <Icon
+                            onClick={openConfirmModal}
+                            name="trash"
+                            danger
+                          />
+                        )}
+                      </ConfirmModal>
+                    </Flex>
+                  ))}
+                  {imageGallery.length === 0 && (
+                    <Flex
+                      column
+                      alignItems="center"
+                      gap={'var(--spacing-xs)'}
+                      className={styles.emptyGallery}
+                    >
+                      <Icon name="folder-open-outline" size={50} />
+                      <b>Bildegalleriet er tomt ...</b>
+                      <span>Hvorfor ikke laste opp et bilde?</span>
+                    </Flex>
+                  )}
+                </Flex>
+              </>
+            )}
+          </Modal>
+        </DialogTrigger>
         <div>
           <Field
             label="Lagre til bildegalleriet"

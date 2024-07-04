@@ -1,14 +1,28 @@
 import callAPI from 'app/actions/callAPI';
 import { eventSchema, eventAdministrateSchema } from 'app/reducers';
-import createQueryString from 'app/utils/createQueryString';
 import { Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { AppDispatch } from 'app/store/createStore';
-import type { DetailedEvent, ListEvent } from 'app/store/models/Event';
+import type { DetailedEvent } from 'app/store/models/Event';
 import type { Presence } from 'app/store/models/Registration';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
+
+export function fetchEvents({ query, next = false }) {
+  return callAPI({
+    types: Event.FETCH,
+    endpoint: '/events/',
+    schema: [eventSchema],
+    query,
+    pagination: {
+      fetchNext: next,
+    },
+    meta: {
+      errorMessage: 'Henting av arrangementer feilet',
+    },
+    propagateError: true,
+  });
+}
 
 export function fetchEvent(eventId: EntityId) {
   return callAPI<DetailedEvent>({
@@ -30,6 +44,7 @@ export function fetchPrevious() {
     meta: {
       errorMessage: 'Henting av tidligere arrangementer feilet',
     },
+    pagination: { fetchNext: false },
     propagateError: true,
   });
 }
@@ -42,89 +57,10 @@ export function fetchUpcoming() {
     meta: {
       errorMessage: 'Henting av kommende arrangementer feilet',
     },
+    pagination: { fetchNext: false },
     propagateError: true,
   });
 }
-
-export const fetchData = ({
-  dateAfter,
-  dateBefore,
-  refresh,
-  loadNextPage,
-  pagination,
-  dispatch,
-}: {
-  dateAfter?: string;
-  dateBefore?: string;
-  refresh?: boolean;
-  loadNextPage?: boolean;
-  pagination: any;
-  dispatch: AppDispatch;
-}) => {
-  const query = {
-    date_after: dateAfter,
-    date_before: dateBefore,
-  };
-
-  if (dateBefore && dateAfter) {
-    query.page_size = 60;
-  }
-
-  const queryString = createQueryString(query);
-  const endpoint = getEndpoint(pagination, queryString, loadNextPage);
-
-  if (!endpoint) {
-    return Promise.resolve();
-  }
-
-  if (refresh && !loadNextPage) {
-    dispatch({
-      type: Event.CLEAR,
-    });
-  }
-
-  return dispatch(fetchList({ endpoint, queryString }));
-};
-
-export const getEndpoint = (
-  pagination: any,
-  queryString: string,
-  loadNextPage?: boolean,
-) => {
-  let endpoint = `/events/${queryString}`;
-  const paginationObject = pagination[queryString];
-
-  if (
-    loadNextPage &&
-    paginationObject &&
-    paginationObject.queryString === queryString &&
-    paginationObject.nextPage
-  ) {
-    endpoint = paginationObject.nextPage;
-  }
-
-  return endpoint;
-};
-
-export const fetchList = ({
-  endpoint,
-  queryString,
-}: {
-  endpoint: string;
-  queryString: string;
-}) => {
-  return callAPI<ListEvent[]>({
-    types: Event.FETCH,
-    endpoint: endpoint,
-    schema: [eventSchema],
-    meta: {
-      errorMessage: 'Fetching events failed',
-      queryString,
-      endpoint,
-    },
-    propagateError: true,
-  });
-};
 
 export function fetchAdministrate(eventId: EntityId) {
   return callAPI({
@@ -380,15 +316,15 @@ export function fetchFollowers(eventId: EntityId, currentUserId: EntityId) {
 }
 
 export function fetchAnalytics(eventId: EntityId) {
-  return callAPI<
-    {
+  return callAPI<{
+    results: {
       bounceRate: number | null;
       date: string;
       pageviews: number | null;
       visitDuration: number | null;
       visitors: number | null;
-    }[]
-  >({
+    }[];
+  }>({
     types: Event.FETCH_ANALYTICS,
     endpoint: `/events/${String(eventId)}/statistics/`,
     method: 'GET',

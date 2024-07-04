@@ -48,8 +48,8 @@ class FileUpload extends Component<Props, State> {
     return (
       <div>
         <Button
-          pending={this.state.pending}
-          onClick={this.handleClick}
+          isPending={this.state.pending}
+          onPress={this.handleClick}
           className={this.props.className}
         >
           Last opp fil

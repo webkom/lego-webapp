@@ -2,13 +2,8 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
-import type {
-  ChangeEvent,
-  ComponentType,
-  CSSProperties,
-  InputHTMLAttributes,
-} from 'react';
-import type { FieldRenderProps } from 'react-final-form';
+import type { ComponentType } from 'react';
+import type { FieldInputProps, FieldRenderProps } from 'react-final-form';
 
 const FieldError = ({
   error,
@@ -43,20 +38,6 @@ export const RenderErrorMessage = ({
   return <FieldError error={error} fieldName={fieldName} />;
 };
 
-export type FormProps = {
-  className?: string;
-  required?: boolean;
-  label?: string;
-  description?: string;
-  fieldStyle?: CSSProperties;
-  fieldClassName?: string;
-  labelClassName?: string;
-  labelContentClassName?: string;
-  showErrors?: boolean;
-  onChange?: (value: string | ChangeEvent) => void;
-  withoutMargin?: boolean;
-};
-
 type Options = {
   // Removes the html <label> around the component
   noLabel?: boolean;
@@ -64,21 +45,15 @@ type Options = {
   inlineLabel?: boolean;
 };
 
-export type FieldType = FieldRenderProps<
-  FormProps,
-  HTMLInputElement,
-  FormProps
->;
-
 /**
  * Wraps the Field component
  * https://final-form.org/docs/react-final-form/api/Field
  */
-export function createField<
-  P extends InputHTMLAttributes<HTMLInputElement>,
-  ExtraProps extends object,
->(Component: ComponentType<P & ExtraProps>, options?: Options) {
-  const Field = (field: FieldType & ExtraProps) => {
+export function createField<T, ExtraProps extends object>(
+  Component: ComponentType<FieldInputProps<T> & ExtraProps>,
+  options?: Options,
+) {
+  const Field = (fieldProps: FieldRenderProps<T> & ExtraProps) => {
     const {
       input,
       meta,
@@ -94,7 +69,7 @@ export function createField<
       className = null,
       withoutMargin = false,
       ...props
-    } = field;
+    } = fieldProps;
     const { error, submitError, touched } = meta;
     const anyError = error || submitError;
     const hasError = showErrors && touched && anyError && anyError.length > 0;
@@ -127,7 +102,7 @@ export function createField<
 
     const component = (
       <Component
-        {...(input as P)}
+        {...(input as FieldInputProps<T>)}
         {...(props as ExtraProps)}
         label={!noLabel && !inlineLabel && label}
         onChange={(value) => {
