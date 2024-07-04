@@ -5,6 +5,7 @@ import {
   PageCover,
 } from '@webkom/lego-bricks';
 import { useParams } from 'react-router-dom';
+import EmptyState from 'app/components/EmptyState';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
@@ -40,7 +41,7 @@ const SubmissionPublicResultsPage = () => {
       return [];
     }
     if (result.answers.length === 0) {
-      return <span className="secondaryFontColor">Ingen svar</span>;
+      return <EmptyState>Ingen svar</EmptyState>;
     }
     return result.answers.map((answer, i) => <li key={i}>{answer}</li>);
   };

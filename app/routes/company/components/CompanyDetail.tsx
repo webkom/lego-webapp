@@ -23,6 +23,7 @@ import {
   ContentSection,
   ContentSidebar,
 } from 'app/components/Content';
+import EmptyState from 'app/components/EmptyState';
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
@@ -218,9 +219,7 @@ const CompanyDetail = () => {
               ))}
             </Flex>
           ) : (
-            <span className="secondaryFontColor">
-              Ingen tilgjengelige jobbannonser
-            </span>
+            <EmptyState>Ingen tilgjengelige jobbannonser</EmptyState>
           )}
         </ContentMain>
 

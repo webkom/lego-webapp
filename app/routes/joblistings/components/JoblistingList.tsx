@@ -1,4 +1,5 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
+import EmptyState from 'app/components/EmptyState';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
 import { useAppSelector } from 'app/store/hooks';
@@ -11,6 +12,14 @@ type JobListingsListProps = {
 
 const JoblistingsList = ({ joblistings }: JobListingsListProps) => {
   const fetching = useAppSelector((state) => state.joblistings.fetching);
+
+  if (joblistings.length === 0 && !fetching) {
+    return (
+      <EmptyState icon="folder-open-outline">
+        Ingen jobbannonser ligger ute
+      </EmptyState>
+    );
+  }
 
   return (
     <div className={styles.joblistingList}>

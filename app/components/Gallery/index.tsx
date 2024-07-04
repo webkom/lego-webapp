@@ -57,9 +57,9 @@ const Gallery = <T extends ListGallery | GalleryListPicture>({
             {renderBottom && renderBottom(photo)}
           </div>
         ))}
-        {/* {!photos.length && !fetching && renderEmpty && ( */}
-        <div className={styles.noPhotosWrapper}>{renderEmpty()}</div>
-        {/* )} */}
+        {!photos.length && !fetching && renderEmpty && (
+          <div className={styles.noPhotosWrapper}>{renderEmpty()}</div>
+        )}
       </Paginator>
     </div>
   );

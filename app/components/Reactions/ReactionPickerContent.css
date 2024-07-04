@@ -36,6 +36,5 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  gap: 5px;
-  color: var(--secondary-font-color);
+  gap: var(--spacing-xs);
 }

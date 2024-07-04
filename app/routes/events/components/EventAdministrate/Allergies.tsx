@@ -3,6 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Link, useParams } from 'react-router-dom';
 import { fetchAllergies } from 'app/actions/EventActions';
+import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import { useCurrentUser } from 'app/reducers/auth';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
@@ -125,7 +126,7 @@ const Allergies = () => {
     <>
       <Flex column>
         {registeredAllergies.length === 0 && !fetching ? (
-          <p className="secondaryFontColor">Ingen påmeldte med allergier</p>
+          <EmptyState>Ingen påmeldte med allergier</EmptyState>
         ) : (
           <Table
             hasMore={false}

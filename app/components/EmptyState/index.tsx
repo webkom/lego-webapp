@@ -1,4 +1,4 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './EmptyState.css';
 import type { ReactNode } from 'react';

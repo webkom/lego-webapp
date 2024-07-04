@@ -29,10 +29,7 @@
 }
 
 .filler {
-  justify-content: center;
-  align-items: center;
-  color: var(--secondary-font-color);
-  margin-top: 20px;
+  margin-top: var(--spacing-xl);
 }
 
 .wrapper {

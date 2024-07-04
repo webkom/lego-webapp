@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useParams } from 'react-router-dom';
+import EmptyState from 'app/components/EmptyState';
 import {
   getRegistrationGroups,
   selectEventById,
@@ -90,7 +91,7 @@ const Attendees = () => {
           </div>
         </div>
         {registered.length === 0 && !loading ? (
-          <span className="secondaryFontColor">Ingen påmeldte</span>
+          <EmptyState>Ingen påmeldte</EmptyState>
         ) : (
           <RegisteredTable
             event={event}
@@ -109,7 +110,7 @@ const Attendees = () => {
           Avmeldte
         </strong>
         {unregistered.length === 0 && !loading ? (
-          <span className="secondaryFontColor">Ingen avmeldte</span>
+          <EmptyState>Ingen avmeldte</EmptyState>
         ) : (
           <UnregisteredTable
             unregistered={unregistered}

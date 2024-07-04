@@ -3,6 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailUserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
+import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { GroupType } from 'app/models';
@@ -115,7 +116,8 @@ const EmailUsers = () => {
               {abakusGroup.name}{' '}
             </Link>
           ));
-        if (!output?.length) return <i>Ingen gruppetilhørighet</i>;
+        if (!output?.length)
+          return <EmptyState>Ingen gruppetilhørighet</EmptyState>;
         return output;
       },
     },

@@ -5,6 +5,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
+import EmptyState from '../EmptyState';
 import styles from './AttendanceModalContent.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
@@ -88,25 +89,32 @@ const AttendanceModalContent = ({
       />
 
       <ul className={styles.list}>
-        {registrations?.map((registration) => (
-          <li key={registration.id}>
-            <Flex
-              alignItems="center"
-              className={cx(
-                styles.row,
-                !isMeeting &&
-                  !registration.pool &&
-                  amendedPools[selectedPool].name === 'Alle' &&
-                  styles.opacity,
-              )}
-            >
-              <ProfilePicture size={30} user={registration.user} />
-              <Link to={`/users/${registration.user.username}`}>
-                {registration.user.fullName}
-              </Link>
-            </Flex>
-          </li>
-        ))}
+        {registrations.length > 0 ? (
+          registrations?.map((registration) => (
+            <li key={registration.id}>
+              <Flex
+                alignItems="center"
+                className={cx(
+                  styles.row,
+                  !isMeeting &&
+                    !registration.pool &&
+                    amendedPools[selectedPool].name === 'Alle' &&
+                    styles.opacity,
+                )}
+              >
+                <ProfilePicture size={30} user={registration.user} />
+                <Link to={`/users/${registration.user.username}`}>
+                  {registration.user.fullName}
+                </Link>
+              </Flex>
+            </li>
+          ))
+        ) : (
+          <EmptyState icon="paper-plane-outline" className={styles.emptyState}>
+            <b>Ingen påmeldte ...</b>
+            <span>Meld deg på da vel!</span>
+          </EmptyState>
+        )}
       </ul>
 
       <Flex justifyContent="space-between" className={styles.nav}>
