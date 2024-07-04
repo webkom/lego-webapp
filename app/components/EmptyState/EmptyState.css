@@ -1,7 +1,12 @@
 .container {
   width: 100%;
+  color: var(--secondary-font-color);
 }
 
 .centered {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  gap: var(--spacing-sm);
 }
