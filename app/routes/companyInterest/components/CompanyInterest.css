@@ -15,11 +15,6 @@
   margin-left: 20px;
 }
 
-.guiWrapper {
-  margin-right: 30px;
-  flex-wrap: wrap;
-}
-
 .guiBoxes {
   justify-content: flex-end;
   margin: 10px 0;

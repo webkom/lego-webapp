@@ -187,7 +187,7 @@ export const getContactStatuses = (
 
 export const BdbTabs = () => (
   <>
-    <NavigationTab href="/companyInterest">Interesseskjema</NavigationTab>
+    <NavigationTab href="/company-interest">Interesseskjema</NavigationTab>
     <NavigationTab href="/bdb">BDB</NavigationTab>
   </>
 );
