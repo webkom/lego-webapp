@@ -16,7 +16,7 @@ const ProfilePicture = ({
   user,
   size = 100,
   className,
-  alt = `${user.username}'s profile picture`,
+  alt = `${user.username} sitt profilbilde`,
   style,
   ...props
 }: Props) => (

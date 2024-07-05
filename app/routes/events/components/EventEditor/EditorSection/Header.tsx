@@ -99,7 +99,7 @@ const Header = ({
                       <Image
                         src={e.cover}
                         placeholder={e.coverPlaceholder}
-                        alt={`${e.cover} bilde`}
+                        alt={`Forsidebildet til ${e.cover}`}
                         onClick={() => {
                           form.change('cover', `${e.key}:${e.token}`);
                           close();

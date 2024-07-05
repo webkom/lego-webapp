@@ -27,7 +27,7 @@ const ArticleItem = ({ item, url, meta }: Props) => {
           src={item?.cover || ''}
           placeholder={item?.coverPlaceholder}
           height="110"
-          alt="Article cover"
+          alt="Forsidebilde til artikkel"
         />
         <div className={styles.infoWrapper}>
           <div className={styles.metaWrapper}>

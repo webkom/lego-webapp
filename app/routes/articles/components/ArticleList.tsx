@@ -29,7 +29,7 @@ export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
       <Link to={`/articles/${article.slug}`} className={styles.imageLink}>
         <Image
           src={article.cover}
-          alt="Article cover"
+          alt="Forsidebilde"
           placeholder={article.coverPlaceholder}
         />
       </Link>

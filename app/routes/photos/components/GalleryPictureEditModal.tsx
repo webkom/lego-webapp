@@ -108,7 +108,7 @@ const GalleryPictureEditModal = () => {
           <Flex justifyContent="space-between">
             <Image
               className={styles.galleryThumbnail}
-              alt="Albumcover"
+              alt="Forsidebilde til album"
               src={gallery.cover?.thumbnail ?? ''}
             />
 
@@ -125,7 +125,7 @@ const GalleryPictureEditModal = () => {
           <ProgressiveImage
             key={picture.id}
             src={picture.file}
-            alt="some alt"
+            alt={picture.description}
           />
         </Flex>
 

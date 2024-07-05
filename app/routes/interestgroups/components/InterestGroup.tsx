@@ -34,7 +34,7 @@ const InterestGroupComponent = ({ group, active }: Props) => {
           currentTarget.src = ABAKUS_ICON;
           currentTarget.onerror = null;
         }}
-        alt={active ? `${group.name} logo` : 'logo'}
+        alt={`${group.name} sin logo`}
       />
     </Link>
   );

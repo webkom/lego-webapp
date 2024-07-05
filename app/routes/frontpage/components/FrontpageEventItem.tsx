@@ -31,7 +31,7 @@ const FrontpageEventItem = ({ item, url, meta }: Props) => {
                 width={270}
                 height={80}
                 src={item?.cover || ''}
-                alt={`${item?.title} cover image`}
+                alt={`Forsidebildet til ${item?.title}`}
                 placeholder={item?.coverPlaceholder}
               />
             )}

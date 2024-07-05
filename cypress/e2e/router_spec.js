@@ -51,7 +51,7 @@ describe('Navigate throughout app', () => {
   it('should be able to navigate to users profile', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to profile
@@ -76,7 +76,7 @@ describe('Navigate throughout app', () => {
   it('should be able to navigate to users settings', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to users settings
@@ -107,7 +107,7 @@ describe('Navigate throughout app', () => {
   it('should be able to navigate to users meetings', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to meetings
@@ -209,7 +209,7 @@ describe('Navigate throughout app', () => {
   it('should be able to log out', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Logg out

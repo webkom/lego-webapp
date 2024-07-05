@@ -40,7 +40,11 @@ const BrandPage = () => (
             </p>
           </Flex>
           <Flex column className={styles.colRight}>
-            <Image src={logosDos} alt="Allowed examples" width={200} />
+            <Image
+              src={logosDos}
+              alt="Eksempler på tillatte versjoner av logo"
+              width={200}
+            />
           </Flex>
         </Flex>
 
@@ -70,7 +74,11 @@ const BrandPage = () => (
             </ul>
           </Flex>
           <Flex column className={styles.colRight}>
-            <Image src={logosDonts} alt="Not allowed examples" width={200} />
+            <Image
+              src={logosDonts}
+              alt="Eksempler på ikke tillatte versjoner av logo"
+              width={200}
+            />
           </Flex>
         </Flex>
         <div>

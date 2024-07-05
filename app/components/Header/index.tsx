@@ -118,8 +118,16 @@ const HeaderLogo = () => {
     <Link to="/">
       <LoadingIndicator loading={loading}>
         <div className={styles.logo}>
-          <Image src={logoLightMode} className={styles.logoLightMode} alt="" />
-          <Image src={logoDarkMode} className={styles.logoDarkMode} alt="" />
+          <Image
+            src={logoLightMode}
+            className={styles.logoLightMode}
+            alt="Abakus sin logo"
+          />
+          <Image
+            src={logoDarkMode}
+            className={styles.logoDarkMode}
+            alt="Abakus sin logo"
+          />
         </div>
       </LoadingIndicator>
     </Link>
