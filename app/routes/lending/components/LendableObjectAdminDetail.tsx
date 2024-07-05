@@ -2,14 +2,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchLendableObject } from 'app/actions/LendableObjectActions';
 import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -42,20 +40,21 @@ const LendableObjectAdminDetail = () => {
   );
 
   if (!lendableObject) {
-    return (
-      <Content>
-        <LoadingIndicator loading />
-      </Content>
-    );
+    return <LoadingPage loading={fetchingRequests} />;
   }
 
-  const title = `Godkjenn utlån av ${lendableObject.title}`;
+  const title = `Admin: Godkjenn utlån av ${lendableObject.title}`;
   return (
-    <LoadingIndicator loading={fetchingRequests}>
-      <Content banner={lendableObject.image}>
-        <Helmet title={title} />
-        <NavigationTab title={title} />
-
+    <Page
+      title={title}
+      cover={lendableObject.image}
+      back={{
+        href: '/lending/admin',
+      }}
+      skeleton={!lendableObject}
+    >
+      <Helmet title={title} />
+      <LoadingIndicator loading={fetchingRequests}>
         <FullCalendar
           plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
           initialView="timeGridWeek"
@@ -76,8 +75,8 @@ const LendableObjectAdminDetail = () => {
           }}
           events={[lendingRequests]}
         />
-      </Content>
-    </LoadingIndicator>
+      </LoadingIndicator>
+    </Page>
   );
 };
 

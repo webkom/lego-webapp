@@ -2,7 +2,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Modal } from '@webkom/lego-bricks';
+import { LinkButton, Modal, Page, PageCover } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -11,12 +11,10 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchLendableObject } from 'app/actions/LendableObjectActions';
 import { createLendingRequest } from 'app/actions/LendingRequestActions';
-import { Content } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import { TextArea, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmitButton from 'app/components/Form/SubmitButton';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
@@ -66,16 +64,22 @@ const LendableObjectDetail = () => {
 
   const title = `Utlån av ${lendableObject?.title}`;
   return (
-    <Content banner={lendableObject?.image} skeleton={fetchingObjects}>
+    <Page
+      title={title}
+      back={{ href: '/lending' }}
+      cover={<PageCover image={lendableObject?.image} />}
+      actionButtons={
+        <LinkButton href={`/lending/${lendableObject?.id}/edit`}>
+          Rediger
+        </LinkButton>
+      }
+      skeleton={fetchingObjects}
+    >
       <Helmet title={title} />
 
-      <NavigationTab title={title}>
-        <NavigationLink to={`/lending/${lendableObject?.id}/edit`}>
-          Rediger
-        </NavigationLink>
-      </NavigationTab>
-
-      <DisplayContent content={lendableObject?.description} />
+      {lendableObject && 'description' in lendableObject && (
+        <DisplayContent content={lendableObject.description} />
+      )}
 
       <FullCalendar
         plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
@@ -103,7 +107,7 @@ const LendableObjectDetail = () => {
         }}
       />
 
-      <Modal show={showLendingForm} onHide={() => setShowLendingForm(false)}>
+      <Modal isOpen={showLendingForm} onOpenChange={setShowLendingForm}>
         <LegoFinalForm
           onSubmit={onSubmit}
           initialValues={initialValues}
@@ -135,7 +139,7 @@ const LendableObjectDetail = () => {
           }}
         </LegoFinalForm>
       </Modal>
-    </Content>
+    </Page>
   );
 };
 

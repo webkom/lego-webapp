@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.heading {
-  margin-top: var(--spacing-xl);
-}
-
 .newLendableObject {
   display: flex;
   align-items: center;

@@ -162,4 +162,7 @@ export const lendableObjectSchema = new schema.Entity(
 );
 export const lendingRequestSchema = new schema.Entity(
   EntityType.LendingRequests,
+  {
+    lendableObject: lendableObjectSchema,
+  },
 );

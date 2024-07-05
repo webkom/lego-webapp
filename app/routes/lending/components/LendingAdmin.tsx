@@ -1,12 +1,17 @@
-import { Button, Card, Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  Flex,
+  LinkButton,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
-import { Content } from 'app/components/Content';
-import NavigationTab from 'app/components/NavigationTab';
 import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
 import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -42,19 +47,22 @@ const LendableObjectsAdmin = () => {
     (state) => state.lendingRequests.fetching,
   );
 
-  const title = 'Utlånsforepørsler';
+  const title = 'Admin: Utlånssystem';
   return (
-    <Content>
+    <Page
+      title={title}
+      back={{
+        href: '/lending',
+      }}
+      actionButtons={
+        <LinkButton href="/lending/create">Nytt utlånsobjekt</LinkButton>
+      }
+    >
       <Helmet title={title} />
-      <NavigationTab
-        title={title}
-        back={{
-          label: 'Tilbake',
-          path: '/lending',
-        }}
-      />
+
+      <h2>Utlånsforepørsler</h2>
       <div className={styles.lendingRequestsContainer}>
-        <h2 className={styles.heading}>Ventende utlånsforespørsler</h2>
+        <h3>Ventende utlånsforespørsler</h3>
         <LoadingIndicator loading={fetchingRequests}>
           <Flex column>
             {lendingRequests
@@ -69,7 +77,7 @@ const LendableObjectsAdmin = () => {
 
         {showOldRequests ? (
           <>
-            <h2 className={styles.heading}>Tidligere utlånsforespørsler</h2>
+            <h3>Tidligere utlånsforespørsler</h3>
             <Flex column>
               {lendingRequests
                 .filter(
@@ -79,26 +87,18 @@ const LendableObjectsAdmin = () => {
                   <RequestItem key={request.id} request={request} isAdmin />
                 ))}
             </Flex>
-            <Button onClick={() => setShowOldRequests(false)}>
+            <Button onPress={() => setShowOldRequests(false)}>
               Skjul tidligere forespørsler
             </Button>
           </>
         ) : (
-          <Button onClick={() => setShowOldRequests(true)}>
+          <Button onPress={() => setShowOldRequests(true)}>
             Vis tidligere forespørsler
           </Button>
         )}
       </div>
 
-      <NavigationTab
-        title="Utlånsobjekter"
-        className={styles.heading}
-        details={
-          <Link to="/lending/create">
-            <Button>Nytt utlånsobject</Button>
-          </Link>
-        }
-      />
+      <h2>Utlånsobjekter</h2>
 
       <LoadingIndicator loading={fetchingObjects}>
         <Flex column gap="var(--spacing-sm)">
@@ -120,7 +120,7 @@ const LendableObjectsAdmin = () => {
           </div>
         </Flex>
       </LoadingIndicator>
-    </Content>
+    </Page>
   );
 };
 

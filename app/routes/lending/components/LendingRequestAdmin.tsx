@@ -2,8 +2,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { LoadingIndicator } from '@webkom/lego-bricks';
+import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -11,14 +12,13 @@ import {
   fetchLendingRequestsForLendableObject,
 } from 'app/actions/LendingRequestActions';
 import {
-  Content,
   ContentMain,
   ContentSection,
   ContentSidebar,
 } from 'app/components/Content';
 import InfoList from 'app/components/InfoList';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
+import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import {
   selectLendingRequestById,
   selectLendingRequestsByLendableObjectId,
@@ -40,8 +40,11 @@ const LendingRequestAdmin = () => {
     [lendingRequestId],
   );
 
-  const request = useAppSelector((state) =>
+  const lendingRequest = useAppSelector((state) =>
     selectLendingRequestById(state, Number(lendingRequestId)),
+  );
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, lendingRequest?.lendableObject),
   );
 
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
@@ -49,19 +52,20 @@ const LendingRequestAdmin = () => {
   usePreparedEffect(
     'fetchLendingRequests',
     () => {
-      if (request && request.lendableObject?.id) {
+      if (lendingRequest && lendingRequest.lendableObject) {
         dispatch(
-          fetchLendingRequestsForLendableObject(request.lendableObject.id),
+          fetchLendingRequestsForLendableObject(lendingRequest.lendableObject),
         );
       }
     },
-    [request?.lendableObject.id],
+    [lendingRequest?.lendableObject],
   );
 
   const otherRequests = useAppSelector((state) =>
-    selectLendingRequestsByLendableObjectId(state, {
-      lendableObjectId: request?.lendableObject.id,
-    }),
+    selectLendingRequestsByLendableObjectId(
+      state,
+      lendingRequest?.lendableObject,
+    ),
   );
 
   const otherApprovedRequests = otherRequests.filter(
@@ -71,22 +75,22 @@ const LendingRequestAdmin = () => {
     (loan) => loan.status === LendingRequestStatus.PENDING,
   );
 
-  if (!request) {
+  if (!lendingRequest) {
     return <p className="secondaryFontColor">Ukjent forespørsel</p>;
   }
 
   const requestEvent = {
-    id: String(request.id),
-    title: request.author?.fullName,
-    start: request.startDate,
-    end: request.endDate,
+    id: String(lendingRequest.id),
+    title: lendingRequest.author?.fullName,
+    start: moment(lendingRequest.startDate).toDate(),
+    end: moment(lendingRequest.endDate).toDate(),
     backgroundColor: 'var(--lego-red-color)',
     borderColor: 'var(--lego-red-color)',
   };
 
   const otherApprovedEvents = otherApprovedRequests.map((loan) => ({
     id: String(loan.id),
-    title: request.author?.fullName,
+    title: lendingRequest.author?.fullName,
     start: loan.startDate,
     end: loan.endDate,
     backgroundColor: 'var(--color-gray-5)',
@@ -95,7 +99,7 @@ const LendingRequestAdmin = () => {
 
   const otherPendingEvents = otherPendingRequests.map((loan) => ({
     id: String(loan.id),
-    title: request?.author?.fullName,
+    title: lendingRequest?.author?.fullName,
     start: loan.startDate,
     end: loan.endDate,
     backgroundColor: 'var(--color-red-2)',
@@ -105,44 +109,38 @@ const LendingRequestAdmin = () => {
   const infoItems = [
     {
       key: 'Status',
-      value: statusToString(request.status),
+      value: statusToString(lendingRequest.status),
     },
     {
       key: 'Lånetid',
-      value: <FromToTime from={request.startDate} to={request.endDate} />,
+      value: (
+        <FromToTime
+          from={lendingRequest.startDate}
+          to={lendingRequest.endDate}
+        />
+      ),
     },
     {
       key: 'Bruker',
       value: (
-        <Link to={`/users/${request.author?.username}`}>
-          {request.author?.fullName}
+        <Link to={`/users/${lendingRequest.author?.username}`}>
+          {lendingRequest.author?.fullName}
         </Link>
       ),
     },
   ];
 
-  const title = `Forespørsel om utlån av ${request.lendableObject.title}`;
+  const title = `Admin: Forespørsel om utlån av ${lendableObject?.title}`;
   return (
-    <Content>
+    <Page title={title} back={{ href: '/lending/admin' }}>
       <LoadingIndicator loading={fetching}>
         <Helmet title={title} />
-        <NavigationTab
-          title={title}
-          back={{
-            label: 'Tilbake',
-            path: '/lending/admin',
-          }}
-        >
-          <NavigationLink to={`/lending/request/${lendingRequestId}/admin`}>
-            Admin
-          </NavigationLink>
-        </NavigationTab>
 
         <ContentSection>
           <ContentMain>
             <div>
               <h3>Kommentar: </h3>
-              {request.message}
+              {lendingRequest.message}
             </div>
           </ContentMain>
           <ContentSidebar>
@@ -175,7 +173,7 @@ const LendingRequestAdmin = () => {
           </ContentMain>
         </ContentSection>
       </LoadingIndicator>
-    </Content>
+    </Page>
   );
 };
 

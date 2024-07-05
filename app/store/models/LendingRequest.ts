@@ -1,6 +1,6 @@
-import type { ListLendableObject } from './LendableObject';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type { PublicUser } from 'app/store/models/User';
-import type moment from 'moment-timezone';
 
 export enum LendingRequestStatus {
   PENDING = 'PENDING',
@@ -11,7 +11,7 @@ export enum LendingRequestStatus {
 export function statusToString(status: LendingRequestStatus): string {
   switch (status) {
     case LendingRequestStatus.PENDING:
-      return 'Venter';
+      return 'Venter på svar';
     case LendingRequestStatus.APPROVED:
       return 'Godkjent';
     case LendingRequestStatus.DENIED:
@@ -22,9 +22,9 @@ export function statusToString(status: LendingRequestStatus): string {
 export type LendingRequest = {
   id: number;
   author: PublicUser;
-  startDate: moment.Moment;
-  endDate: moment.Moment;
+  startDate: Dateish;
+  endDate: Dateish;
   message: string;
   status: LendingRequestStatus;
-  lendableObject: ListLendableObject;
+  lendableObject: EntityId;
 };

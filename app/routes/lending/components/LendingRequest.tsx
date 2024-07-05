@@ -1,18 +1,19 @@
+import { LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { fetchLendingRequest } from 'app/actions/LendingRequestActions';
 import {
-  Content,
   ContentMain,
   ContentSection,
   ContentSidebar,
 } from 'app/components/Content';
 import InfoList from 'app/components/InfoList';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { FromToTime } from 'app/components/Time';
+import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { selectLendingRequestById } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { statusToString } from 'app/store/models/LendingRequest';
 
 const LendingRequest = () => {
   const { lendingRequestId } = useParams<{ lendingRequestId: string }>();
@@ -24,56 +25,66 @@ const LendingRequest = () => {
     [lendingRequestId],
   );
 
-  const request = useAppSelector((state) =>
+  const lendingRequest = useAppSelector((state) =>
     selectLendingRequestById(state, Number(lendingRequestId)),
+  );
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, lendingRequest?.lendableObject),
   );
 
   const requestFetching = useAppSelector(
     (state) => state.lendingRequests.fetching,
   );
 
+  if (!lendingRequest || !lendableObject) {
+    return <LoadingPage loading={requestFetching} />;
+  }
+
   const infoItems = [
     {
       key: 'Status',
-      value: request?.pending ? 'Venter på svar' : 'Godkjent',
+      value: statusToString(lendingRequest.status),
     },
     {
       key: 'Tidsspenn',
-      value: <FromToTime from={request?.startDate} to={request?.endDate} />,
+      value: (
+        <FromToTime
+          from={lendingRequest.startDate}
+          to={lendingRequest.endDate}
+        />
+      ),
     },
     {
       key: 'Bruker',
       value: (
-        <Link to={`/users/${request?.author?.username}`}>
-          {request?.author?.fullName}
+        <Link to={`/users/${lendingRequest.author.username}`}>
+          {lendingRequest.author.fullName}
         </Link>
       ),
     },
   ];
 
-  const title = `Forespørsel om utlån av ${request?.lendableObject.title}`;
+  const title = `Forespørsel om utlån av ${lendableObject.title}`;
   return (
-    <Content skeleton={requestFetching}>
-      {request && (
+    <Page
+      title={title}
+      back={{ href: '/lending' }}
+      actionButtons={
+        <LinkButton href={`/lending/request/${lendingRequestId}/admin`}>
+          Admin
+        </LinkButton>
+      }
+      skeleton={requestFetching}
+    >
+      {lendingRequest && (
         <>
           <Helmet title={title} />
-          <NavigationTab
-            title={title}
-            back={{
-              label: 'Tilbake',
-              path: '/lending',
-            }}
-          >
-            <NavigationLink to={`/lending/request/${lendingRequestId}/admin`}>
-              Admin
-            </NavigationLink>
-          </NavigationTab>
 
           <ContentSection>
             <ContentMain>
               <div>
                 <h3>Kommentar: </h3>
-                {request.message}
+                {lendingRequest.message}
               </div>
             </ContentMain>
             <ContentSidebar>
@@ -82,7 +93,7 @@ const LendingRequest = () => {
           </ContentSection>
         </>
       )}
-    </Content>
+    </Page>
   );
 };
 

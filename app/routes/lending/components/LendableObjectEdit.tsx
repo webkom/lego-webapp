@@ -1,4 +1,9 @@
-import { ConfirmModal, Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  ButtonGroup,
+  ConfirmModal,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,7 +13,6 @@ import {
   editLendableObject,
   fetchLendableObject,
 } from 'app/actions/LendableObjectActions';
-import { Content } from 'app/components/Content';
 import {
   Button,
   EditorField,
@@ -23,7 +27,10 @@ import { selectAllGroups } from 'app/reducers/groups';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
-import type { EditingLendableObject } from 'app/store/models/LendableObject';
+import type {
+  DetailedLendableObject,
+  EditingLendableObject,
+} from 'app/store/models/LendableObject';
 
 const TypedLegoForm = LegoFinalForm<EditingLendableObject>;
 
@@ -41,7 +48,7 @@ const LendableObjectEdit = () => {
   );
 
   const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, lendableObjectId),
+    selectLendableObjectById<DetailedLendableObject>(state, lendableObjectId),
   );
 
   const groups = useAppSelector(selectAllGroups);
@@ -94,8 +101,11 @@ const LendableObjectEdit = () => {
     : {};
 
   const showLoading = !(isNew || (lendableObject && groups));
+  const title = isNew
+    ? 'Opprett utlånsobjekt'
+    : `Redigerer ${lendableObject?.title}`;
   return (
-    <Content>
+    <Page title={title} back={{ href: `/lending/${lendableObject?.id}` }}>
       <LoadingIndicator loading={showLoading}>
         <TypedLegoForm
           initialValues={initialValues}
@@ -138,29 +148,29 @@ const LendableObjectEdit = () => {
                 component={TextInput.Field}
               />
               <SubmissionError />
-              <Flex>
+              <ButtonGroup>
                 <SubmitButton>
                   {isNew ? 'Opprett utlånsobjekt' : 'Lagre endringer'}
                 </SubmitButton>
                 {!isNew && (
                   <ConfirmModal
                     title="Bekreft sletting"
-                    message={`Er du sikker på at du vil slette ${lendableObject?.name}"?`}
+                    message={`Er du sikker på at du vil slette ${lendableObject?.title}?`}
                     onConfirm={onDelete}
                   >
                     {({ openConfirmModal }) => (
-                      <Button danger onClick={openConfirmModal}>
+                      <Button danger onPress={openConfirmModal}>
                         Slett utlånsobjekt
                       </Button>
                     )}
                   </ConfirmModal>
                 )}
-              </Flex>
+              </ButtonGroup>
             </Form>
           )}
         </TypedLegoForm>
       </LoadingIndicator>
-    </Content>
+    </Page>
   );
 };
 

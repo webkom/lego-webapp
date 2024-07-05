@@ -25,4 +25,4 @@ export const {
 } = legoAdapter.getSelectors((state: RootState) => state.lendingRequests);
 
 export const selectLendingRequestsByLendableObjectId =
-  selectLendingRequestsByField('lendableObjectId');
+  selectLendingRequestsByField('lendableObject');

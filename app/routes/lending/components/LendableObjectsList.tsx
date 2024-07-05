@@ -1,4 +1,11 @@
-import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
+import {
+  Button,
+  Card,
+  LoadingIndicator,
+  Image,
+  Page,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -6,10 +13,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import { fetchAllLendingRequests } from 'app/actions/LendingRequestActions';
 import abakus_icon from 'app/assets/icon-192x192.png';
-import { Content } from 'app/components/Content';
 import TextInput from 'app/components/Form/TextInput';
-import { Image } from 'app/components/Image';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
 import { selectAllLendingRequests } from 'app/reducers/lendingRequests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -67,11 +71,11 @@ export const LendableObjectsList = () => {
 
   const title = 'Utlån';
   return (
-    <Content>
+    <Page
+      title={title}
+      actionButtons={<LinkButton href="/lending/admin">Admin</LinkButton>}
+    >
       <Helmet title={title} />
-      <NavigationTab title={title}>
-        <NavigationLink to="/lending/admin">Admin</NavigationLink>
-      </NavigationTab>
 
       <h2>Mine forespørsler</h2>
       <div className={styles.myRequestsList}>
@@ -87,7 +91,7 @@ export const LendableObjectsList = () => {
       </div>
 
       {lendingRequests.length !== 0 && (
-        <Button onClick={() => setShowOldRequests((prev) => !prev)}>
+        <Button onPress={() => setShowOldRequests((prev) => !prev)}>
           {showOldRequests
             ? 'Skjul gamle forespørsler'
             : 'Hent gamle forsepørsler'}
@@ -121,7 +125,7 @@ export const LendableObjectsList = () => {
             ))}
         </div>
       </LoadingIndicator>
-    </Content>
+    </Page>
   );
 };
 
