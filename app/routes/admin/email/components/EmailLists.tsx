@@ -90,7 +90,7 @@ const EmailLists = () => {
         eller grupper. Lister kan ikke slettes, men mottakere kan endres. Delen
         av adressen som kommer før @abakus.no er unik og kan ikke brukes andre
         steder på abakus.no. Lister er åpne og alle kan sende e-post til disse.
-        Ønsker brukere å sende e-post fra en @abakus.no adresse må de få
+        Ønsker brukere å sende e-post fra en @abakus.no-adresse må de få
         opprettet en personlig adresse under Brukere.
       </p>
       <Flex

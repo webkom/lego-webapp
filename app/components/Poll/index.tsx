@@ -4,6 +4,7 @@ import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { votePoll } from 'app/actions/PollActions';
+import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Poll.css';
@@ -217,7 +218,7 @@ const VoteResults = ({
               <td className={styles.textColumn}>{name}</td>
               <td className={styles.graphColumn}>
                 {votes === 0 ? (
-                  <span className="secondaryFontColor">Ingen stemmer</span>
+                  <EmptyState>Ingen stemmer</EmptyState>
                 ) : (
                   <div className={styles.fullGraph}>
                     <div

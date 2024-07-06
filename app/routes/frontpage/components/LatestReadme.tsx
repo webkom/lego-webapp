@@ -46,7 +46,7 @@ const LatestReadme = ({
         <div className={styles.thumbnailContainer}>
           {readmes.slice(0, displayCount).map(({ image, pdf, title }) => (
             <a key={title} href={pdf} className={styles.thumb}>
-              <Image src={image} alt={`Cover of ${title}`} />
+              <Image src={image} alt={`Forsidebildet til ${title}`} />
             </a>
           ))}
         </div>

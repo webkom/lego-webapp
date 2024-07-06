@@ -2,12 +2,22 @@
   background: var(--lego-card-color);
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
+  line-height: 1.3;
+}
+
+.withIcon {
+  gap: var(--spacing-md);
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
 }
 
 .header {
   font-weight: 600;
   font-size: var(--font-size-lg);
-  line-height: 1.3;
+  margin-bottom: var(--spacing-sm);
 }
 
 .shadow {

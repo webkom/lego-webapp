@@ -287,7 +287,7 @@ const GalleryPictureModal = () => {
             <Flex justifyContent="space-between">
               <Image
                 className={styles.galleryThumbnail}
-                alt="some alt"
+                alt="Forsidebilde til album"
                 src={gallery.cover?.thumbnail ?? ''}
               />
 

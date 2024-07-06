@@ -24,6 +24,8 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
+  if (!result.link) return;
+
   return (
     <Flex
       wrap
@@ -64,7 +66,11 @@ const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
 
       {result.picture && result.picture !== 'cover' && (
         <Flex className={styles.picture}>
-          <Image src={result.picture} alt="search" role="presentation" />
+          <Image
+            src={result.picture}
+            alt={`Bilde fra ${result.label}`}
+            role="presentation"
+          />
         </Flex>
       )}
     </Flex>
@@ -81,7 +87,7 @@ const SearchPageResults = ({
 
   if (results.length === 0 && !searching) {
     return (
-      <EmptyState icon="glasses-outline">
+      <EmptyState icon={query ? 'folder-open-outline' : 'folder-outline'}>
         {query ? (
           <span>
             Fant ingen treff på søket <em>{query}</em>

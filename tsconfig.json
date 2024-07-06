@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "jsx": "react-jsx",
-    "module": "commonjs",
+    "module": "preserve",
     "moduleResolution": "bundler",
     "baseUrl": "./",
     "paths": {

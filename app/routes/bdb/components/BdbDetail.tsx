@@ -25,6 +25,7 @@ import {
 import { fetchEvents } from 'app/actions/EventActions';
 import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CommentView from 'app/components/Comments/CommentView';
+import EmptyState from 'app/components/EmptyState';
 import InfoBubble from 'app/components/InfoBubble';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
@@ -287,7 +288,7 @@ const BdbDetail = () => {
     <Page
       cover={
         company.logo && (
-          <PageCover image={company.logo} alt={`Logo for ${company.name}`} />
+          <PageCover image={company.logo} alt={`${company.name} sin logo`} />
         )
       }
       title={[
@@ -395,14 +396,7 @@ const BdbDetail = () => {
               </table>
             </div>
           ) : (
-            <span
-              className="secondaryFontColor"
-              style={{
-                display: 'block',
-              }}
-            >
-              Ingen bedriftskontakter registrert
-            </span>
+            <EmptyState>Ingen bedriftskontakter registrert</EmptyState>
           )}
           <Link
             to={`/bdb/${company.id}/company-contacts/add`}
@@ -442,14 +436,7 @@ const BdbDetail = () => {
               </table>
             </div>
           ) : (
-            <span
-              className="secondaryFontColor"
-              style={{
-                display: 'block',
-              }}
-            >
-              Ingen sememsterstatuser
-            </span>
+            <EmptyState>Ingen sememsterstatuser</EmptyState>
           )}
           <Link to={`/bdb/${company.id}/semesters/add`}>
             <i className="fa fa-plus-circle" /> Legg til nytt semester
@@ -460,7 +447,7 @@ const BdbDetail = () => {
           <h3>Filer</h3>
           <ul>
             {!company.files || company.files.length === 0 ? (
-              <span className="secondaryFontColor">Ingen filer</span>
+              <EmptyState>Ingen filer</EmptyState>
             ) : (
               company.files.map((file) => (
                 <li key={file.id}>
@@ -473,9 +460,7 @@ const BdbDetail = () => {
 
         <div className={styles.adminNote}>
           <h3>Notat i listen</h3>
-          {company.adminComment || (
-            <span className="secondaryFontColor">Ingen notater</span>
-          )}
+          {company.adminComment || <EmptyState>Ingen notater</EmptyState>}
         </div>
 
         <div>
@@ -509,7 +494,7 @@ const BdbDetail = () => {
               )}
             </div>
           ) : (
-            <span className="secondaryFontColor">Ingen arrangementer</span>
+            <EmptyState>Ingen arrangementer</EmptyState>
           )}
         </div>
 
@@ -524,9 +509,7 @@ const BdbDetail = () => {
               ))}
             </Flex>
           ) : (
-            <span className="secondaryFontColor">
-              Ingen tidligere jobbannonser
-            </span>
+            <EmptyState>Ingen tidligere jobbannonser</EmptyState>
           )}
         </div>
 

@@ -18,12 +18,12 @@
 }
 
 .prefix {
-  color: var(--color-gray-5);
+  color: var(--placeholder-color);
 }
 
 .prefix,
 .spacing:not(.centered) input {
-  padding-left: 10px;
+  padding-left: var(--spacing-sm);
 }
 
 /* stylelint-disable no-descending-specificity */
@@ -40,7 +40,7 @@
   }
 
   &::placeholder {
-    color: var(--color-gray-5);
+    color: var(--placeholder-color);
   }
 
   &:focus::placeholder {
@@ -64,8 +64,8 @@ span.suffix {
   width: fit-content;
   height: inherit;
   margin-left: auto;
-  padding: 0 10px;
-  color: var(--color-gray-5);
+  padding: 0 var(--spacing-sm);
+  color: var(--placeholder-color);
   text-align: center;
   background-color: var(--additive-background);
   position: relative;
@@ -80,4 +80,8 @@ span.suffix {
 
 .phoneNumberInput {
   padding: var(--spacing-sm);
+}
+
+.togglePasswordVisibility {
+  padding-right: var(--spacing-sm);
 }

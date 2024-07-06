@@ -21,7 +21,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         className={styles.companyLogo}
         src={joblisting.company.logo}
         placeholder={joblisting.company.logoPlaceholder}
-        alt={`${joblisting.company.name} logo`}
+        alt={`${joblisting.company.name} sin logo`}
       />
     )}
     <div className={styles.listItem}>

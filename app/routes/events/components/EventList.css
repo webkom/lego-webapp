@@ -1,24 +1,11 @@
 @import url('~app/styles/variables.css');
 
-.heading {
-  font-size: var(--font-size-lg);
-  border-bottom: 1px solid var(--border-gray);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
-.noEvents {
-  color: var(--secondary-font-color);
-  font-weight: 400;
-  font-size: var(--font-size-lg);
-}
-
 .eventGroup {
-  margin-bottom: 40px;
+  margin-bottom: var(--spacing-lg);
 }
 
 .bottomBorder {
-  margin-top: 40px;
+  margin-top: var(--spacing-lg);
   border-top: 1px solid var(--border-gray);
 }
 

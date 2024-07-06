@@ -48,7 +48,7 @@ const SurveyItem = ({ survey }: Props) => {
 
       {!survey.templateType && (
         <div className={styles.companyLogo}>
-          <Image src={event.cover} alt={`Cover image for: ${event.title}`} />
+          <Image src={event.cover} alt={`Forsidebildet til ${event.title}`} />
         </div>
       )}
     </div>

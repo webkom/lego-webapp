@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
+import EmptyState from 'app/components/EmptyState';
 import { GroupType, type Dateish } from 'app/models';
 import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
@@ -178,7 +179,7 @@ const createAttendeeDataPoints = (
 
     addGenericDataPoint(
       attendeeStatistics.genderDistribution,
-      Gender[registration.user.gender],
+      registration.user.gender ? Gender[registration.user.gender] : 'Ukjent',
     );
 
     addGroupDataPoint(
@@ -278,7 +279,9 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
       </p>
 
       {registered.length === 0 ? (
-        <p className={styles.noRegistrationsText}>Ingen er påmeldt enda</p>
+        <EmptyState icon="paper-plane-outline">
+          Ingen er påmeldt enda
+        </EmptyState>
       ) : (
         <div className={styles.chartContainer}>
           <PieChartWithLabel

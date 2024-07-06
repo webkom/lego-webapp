@@ -8,6 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
+import EmptyState from 'app/components/EmptyState';
 import {
   TextInput,
   CheckBox,
@@ -99,7 +100,7 @@ const Header = ({
                       <Image
                         src={e.cover}
                         placeholder={e.coverPlaceholder}
-                        alt={`${e.cover} bilde`}
+                        alt={`Forsidebildet til ${e.cover}`}
                         onClick={() => {
                           form.change('cover', `${e.key}:${e.token}`);
                           close();
@@ -125,16 +126,12 @@ const Header = ({
                     </Flex>
                   ))}
                   {imageGallery.length === 0 && (
-                    <Flex
-                      column
-                      alignItems="center"
-                      gap={'var(--spacing-xs)'}
-                      className={styles.emptyGallery}
-                    >
-                      <Icon name="folder-open-outline" size={50} />
-                      <b>Bildegalleriet er tomt ...</b>
-                      <span>Hvorfor ikke laste opp et bilde?</span>
-                    </Flex>
+                    <EmptyState icon="folder-open-outline">
+                      <Flex column alignItems="center">
+                        <b>Bildegalleriet er tomt ...</b>
+                        <span>Hvorfor ikke laste opp et bilde?</span>
+                      </Flex>
+                    </EmptyState>
                   )}
                 </Flex>
               </>

@@ -6,7 +6,7 @@
   top: -10px;
   right: -7px;
   background-color: var(--lego-red-color);
-  color: var(--color-white);
+  color: var(--color-absolute-white);
   border: 1.5px solid var(--lego-background-color);
   border-radius: 50%;
   width: 22px;

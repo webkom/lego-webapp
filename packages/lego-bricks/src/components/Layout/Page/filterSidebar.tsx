@@ -33,6 +33,8 @@ type SectionProps = {
 export const FilterSection = ({ title, children }: SectionProps) => (
   <Flex column gap="var(--spacing-sm)">
     <h4>{title}</h4>
-    <Flex column>{children}</Flex>
+    <Flex column gap="var(--spacing-sm)">
+      {children}
+    </Flex>
   </Flex>
 );

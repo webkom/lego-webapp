@@ -89,11 +89,13 @@ const renderBottom = (photo: GalleryListPicture, gallery: DetailedGallery) => (
 );
 
 const renderEmpty = (gallery: DetailedGallery) => (
-  <EmptyState className={styles.emptyState} icon="images-outline">
-    <h1>Ingen bilder å redigere</h1>
-    <h4>
-      Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
-    </h4>
+  <EmptyState icon="images-outline">
+    <Flex column alignItems="center">
+      Her er det ingen bilder å redigere ...
+      <span>
+        Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
+      </span>
+    </Flex>
   </EmptyState>
 );
 

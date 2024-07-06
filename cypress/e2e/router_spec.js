@@ -9,7 +9,7 @@ describe('Navigate throughout app', () => {
   // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
     cy.get(`${c('Header__menu')} ${c('buttonGroup')}`).within(() => {
-      cy.get(c('searchIcon')).click();
+      cy.get(t('search-menu-icon')).click();
     });
     cy.get(c('Search__quickLinks-'))
       .first()
@@ -51,7 +51,7 @@ describe('Navigate throughout app', () => {
   it('should be able to navigate to users profile', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to profile
@@ -76,7 +76,7 @@ describe('Navigate throughout app', () => {
   it('should be able to navigate to users settings', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to users settings
@@ -107,7 +107,7 @@ describe('Navigate throughout app', () => {
   it('should be able to navigate to users meetings', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to meetings
@@ -136,7 +136,7 @@ describe('Navigate throughout app', () => {
 
     // Go to the extended menu
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(c('searchIcon')).click();
+      cy.get(t('search-menu-icon')).click();
     });
     cy.url().should('contain', '/');
     cy.contains('Sider');
@@ -209,7 +209,7 @@ describe('Navigate throughout app', () => {
   it('should be able to log out', () => {
     cy.visit('/');
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(`img[alt="webkom's profile picture"]`).click();
+      cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Logg out

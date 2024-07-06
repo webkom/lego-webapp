@@ -44,7 +44,7 @@ export const PageCover = ({
             height: '100%',
             objectFit: 'contain',
           }}
-          alt={alt ?? 'Content cover photo'}
+          alt={alt ?? 'Forsidebilde til innhold'}
         />
       ))
     )}

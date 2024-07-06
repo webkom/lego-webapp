@@ -3,6 +3,7 @@ import { sortBy } from 'lodash';
 import { Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
+import EmptyState from 'app/components/EmptyState';
 import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AddGroupPermission from './AddGroupPermission';
@@ -105,7 +106,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
           ))
         ) : (
           <li>
-            <i> Ingen nåværenede rettigheter </i>
+            <EmptyState>Ingen nåværenede rettigheter</EmptyState>
           </li>
         )}
       </ul>
@@ -113,13 +114,13 @@ const PermissionList = ({ group }: PermissionListProps) => {
       {parentPermissionsList.length ? (
         parentPermissionsList
       ) : (
-        <i> Ingen nåværenede rettigheter </i>
+        <EmptyState>Ingen nåværenede rettighete</EmptyState>
       )}
       <h3>Sum alle rettigheter</h3>
       {allPermissionsList.length ? (
         <ul>{allPermissionsList}</ul>
       ) : (
-        <i> Ingen nåværenede rettigheter </i>
+        <EmptyState>Ingen nåværenede rettigheter</EmptyState>
       )}
     </div>
   );

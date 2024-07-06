@@ -29,7 +29,7 @@ function RadioButton({
   };
 
   return (
-    <Flex wrap alignItems="center" gap={7}>
+    <Flex wrap alignItems="center" gap="var(--spacing-sm)">
       <div className={cx(styles.radioButton, styles.bounce, className)}>
         <input
           {...props}

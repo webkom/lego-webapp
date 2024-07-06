@@ -443,7 +443,7 @@ const UserProfile = () => {
         <Flex column alignItems="center" className={styles.sidebar}>
           <Flex alignItems="center" justifyContent="center">
             {hasFrame && (
-              <Image alt="Golden frame" className={styles.frame} src={frame} />
+              <Image alt="Gullramme" className={styles.frame} src={frame} />
             )}
             <ProfilePicture user={user} size={150} />
           </Flex>

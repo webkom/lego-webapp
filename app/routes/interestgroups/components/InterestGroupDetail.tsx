@@ -169,7 +169,7 @@ const InterestGroupDetail = () => {
         <ContentSidebar>
           {logo && (
             <Image
-              alt={`${group.name} logo`}
+              alt={`${group.name} sin logo`}
               className={styles.logo}
               src={logo}
               placeholder={group.logoPlaceholder || undefined}

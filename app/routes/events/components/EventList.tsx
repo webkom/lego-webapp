@@ -75,7 +75,7 @@ const EventListGroup = ({
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
-      <h2 className={styles.heading}>{name}</h2>
+      <h3>{name}</h3>
       {events.map((event) => (
         <EventItem
           key={event.id}
@@ -299,8 +299,8 @@ const EventList = () => {
       />
       {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
       {isEmpty(events) && !pagination.fetching && (
-        <EmptyState icon="book-outline" size={40}>
-          <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
+        <EmptyState icon="book-outline">
+          Ingen kommende arrangementer
         </EmptyState>
       )}
       {pagination.hasMore && field === 'startTime' && (

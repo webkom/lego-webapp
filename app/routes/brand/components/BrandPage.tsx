@@ -11,7 +11,7 @@ const BrandPage = () => (
           Hei, vi i PR har laget noen retningslinjer for å hjelpe deg å bruke
           vårt brand og design. For å bruke logoen og designet på en måte som
           ikke er dekket av disse retningslinjene kontakt oss på{' '}
-          <a className={styles.inlineLink} href="mailto:abakus@abakus.no">
+          <a className={styles.inlineLink} href="mailto:pr@abakus.no">
             pr@abakus.no
           </a>
           og legg ved en mockup av hvordan du har tenkt til å bruke det.
@@ -40,7 +40,11 @@ const BrandPage = () => (
             </p>
           </Flex>
           <Flex column className={styles.colRight}>
-            <Image src={logosDos} alt="Allowed examples" width={200} />
+            <Image
+              src={logosDos}
+              alt="Eksempler på tillatte versjoner av logo"
+              width={200}
+            />
           </Flex>
         </Flex>
 
@@ -70,7 +74,11 @@ const BrandPage = () => (
             </ul>
           </Flex>
           <Flex column className={styles.colRight}>
-            <Image src={logosDonts} alt="Not allowed examples" width={200} />
+            <Image
+              src={logosDonts}
+              alt="Eksempler på ikke tillatte versjoner av logo"
+              width={200}
+            />
           </Flex>
         </Flex>
         <div>

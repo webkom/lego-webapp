@@ -99,7 +99,7 @@ const HspInfo = () => (
         <Image
           className={styles.hspImage}
           src={netcompany}
-          alt="NETCOMPANY"
+          alt="Netcompany sin logo"
           darkThemeSource={netcompanyLight}
         />
       </a>

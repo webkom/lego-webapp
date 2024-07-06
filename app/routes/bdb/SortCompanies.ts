@@ -7,29 +7,45 @@ import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type { ParsedQs } from 'qs';
 
 const sortByAttribute = (attribute) => (ascending) => (a, b) => {
-  if ((!a[attribute] && !b[attribute]) || a[attribute] === b[attribute]) {
+  const aAttribute = a?.[attribute];
+  const bAttribute = b?.[attribute];
+
+  // Check if both attributes are null, undefined or equal (notice we only use "==", instead of the strict equality)
+  if ((aAttribute == null && bAttribute == null) || aAttribute === bAttribute) {
     return ascending
       ? a.name.localeCompare(b.name)
       : b.name.localeCompare(a.name);
   }
 
-  if (!a[attribute]) {
+  // Handle cases where one of the attributes is null or undefined
+  if (aAttribute == null) {
     return ascending ? 1 : -1;
   }
-
-  if (!b[attribute]) {
+  if (bAttribute == null) {
     return ascending ? -1 : 1;
   }
 
-  if (a[attribute].fullName) {
+  // If the attribute has a `fullName` property
+  if (
+    typeof aAttribute === 'object' &&
+    aAttribute.fullName &&
+    typeof bAttribute === 'object' &&
+    bAttribute.fullName
+  ) {
     return ascending
-      ? a[attribute].fullName.localeCompare(b[attribute].fullName)
-      : b[attribute].fullName.localeCompare(a[attribute].fullName);
+      ? aAttribute.fullName.localeCompare(bAttribute.fullName)
+      : bAttribute.fullName.localeCompare(aAttribute.fullName);
   }
 
-  return ascending
-    ? a[attribute].localeCompare(b[attribute])
-    : b[attribute].localeCompare(a[attribute]);
+  // If the attribute is a string
+  if (typeof aAttribute === 'string' && typeof bAttribute === 'string') {
+    return ascending
+      ? aAttribute.localeCompare(bAttribute)
+      : bAttribute.localeCompare(aAttribute);
+  }
+
+  // Fallback for unexpected types
+  return 0;
 };
 
 const sortByContactStatus =

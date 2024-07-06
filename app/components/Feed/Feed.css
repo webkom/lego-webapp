@@ -1,8 +1,0 @@
-@import url('~app/styles/variables.css');
-
-.emptyState {
-  color: var(--secondary-font-color);
-  font-size: var(--font-size-lg);
-  font-style: italic;
-  font-weight: lighter;
-}

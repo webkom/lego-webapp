@@ -11,6 +11,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
+import EmptyState from 'app/components/EmptyState';
 import { SelectInput } from 'app/components/Form';
 import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -70,7 +71,7 @@ const QuotePage = () => {
   if (quotes.length === 0 && !fetching) {
     errorMessage = approved
       ? 'Fant ingen sitater. Hvis du har sendt inn et sitat venter det trolig på godkjenning.'
-      : 'Ingen sitater venter på godkjenning.';
+      : 'Ingen sitater venter på godkjenning';
   }
 
   const ordering = orderingOptions.find(
@@ -127,7 +128,11 @@ const QuotePage = () => {
     >
       <Helmet title="Overhørt" />
 
-      {errorMessage || <QuoteList actionGrant={actionGrant} quotes={quotes} />}
+      {errorMessage ? (
+        <EmptyState icon="folder-open-outline">{errorMessage}</EmptyState>
+      ) : (
+        <QuoteList actionGrant={actionGrant} quotes={quotes} />
+      )}
 
       <LoadingIndicator loading={fetching}>
         {showFetchMore && (

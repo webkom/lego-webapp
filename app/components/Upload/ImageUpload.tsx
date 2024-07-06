@@ -60,7 +60,11 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
       justifyContent="space-between"
       className={styles.previewRow}
     >
-      <img alt="preview" className={styles.previewImage} src={previewUrl} />
+      <img
+        alt="Forhåndsvisning av bilde"
+        className={styles.previewImage}
+        src={previewUrl}
+      />
       <div className={styles.fileName}>{file.name}</div>
       <Icon onClick={onRemove} name="trash" danger />
     </Flex>
@@ -133,7 +137,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
           )}
         </Flex>
         {image && (
-          <Image alt="presentation" className={styles.image} src={image} />
+          <Image alt="Opplastet bilde" className={styles.image} src={image} />
         )}
         <input {...getInputProps()} />
       </div>

@@ -158,7 +158,7 @@ const EventItem = ({
           <Flex className={styles.companyLogoExtraCompact}>
             {event.cover && (
               <Image
-                alt="Event cover image"
+                alt="Forsidebilde"
                 src={event.cover}
                 placeholder={event.coverPlaceholder}
               />
@@ -172,11 +172,9 @@ const EventItem = ({
           style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
-          <Flex width="100%">
-            <Link to={`/events/${event.slug}`}>
-              <h3 className={styles.eventItemTitle}>{event.title}</h3>
-            </Link>
-          </Flex>
+          <Link to={`/events/${event.slug}`}>
+            <h3 className={styles.eventItemTitle}>{event.title}</h3>
+          </Link>
           <Flex width="100%" justifyContent="space-between">
             <Flex width="72%">
               <Flex className={styles.companyLogoCompact}>
@@ -185,7 +183,7 @@ const EventItem = ({
                     <Image
                       src={event.cover}
                       placeholder={event.coverPlaceholder}
-                      alt={`Event cover image - ${event.title}`}
+                      alt={`Forsidebildet til ${event.title}`}
                     />
                   </Link>
                 )}
@@ -236,7 +234,7 @@ const EventItem = ({
           <Flex className={styles.companyLogo}>
             {event.cover && (
               <Image
-                alt="Event cover"
+                alt="Forsidebilde"
                 src={event.cover}
                 placeholder={event.coverPlaceholder}
               />

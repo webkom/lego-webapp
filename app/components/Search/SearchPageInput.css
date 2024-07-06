@@ -28,12 +28,12 @@
   overflow: hidden;
 
   &::placeholder {
-    color: var(--color-gray-6);
+    color: var(--placeholder-color);
   }
 }
 
 .searchIcon {
-  color: var(--color-gray-6);
+  color: var(--placeholder-color);
   display: flex;
   align-items: center;
 }

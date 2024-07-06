@@ -43,6 +43,9 @@ import {
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.css';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { searchMapping } from 'app/reducers/search';
+import type { ListCompany } from 'app/store/models/Company';
+import type { DetailedJoblisting } from 'app/store/models/Joblisting';
 
 type SelectInputObject = {
   label: string;
@@ -82,7 +85,7 @@ const JoblistingEditor = () => {
   const isNew = joblistingId === undefined;
 
   const joblisting = useAppSelector((state) =>
-    selectJoblistingById(state, joblistingId),
+    selectJoblistingById<DetailedJoblisting>(state, joblistingId),
   );
 
   const navigate = useNavigate();
@@ -128,18 +131,18 @@ const JoblistingEditor = () => {
         });
 
   const fetchContacts = useCallback(
-    (company: SelectInputObject) => {
-      return dispatch(
-        fetchCompanyContacts({
-          companyId: company.id,
-        }),
-      ).then((action) => {
-        const responsibleOptions = action.payload.map((contact) => ({
-          label: contact.name,
-          value: contact.id,
-        }));
-        setResponsibleOptions(responsibleOptions);
-      });
+    (company: (typeof searchMapping)['companies.company'] | ListCompany) => {
+      const companyId = 'value' in company ? company.value : company.id;
+
+      return dispatch(fetchCompanyContacts(companyId as EntityId)).then(
+        (res) => {
+          const responsibleOptions = res.payload.results.map((contact) => ({
+            label: contact.name,
+            value: contact.id,
+          }));
+          setResponsibleOptions(responsibleOptions);
+        },
+      );
     },
     [dispatch],
   );
@@ -147,7 +150,11 @@ const JoblistingEditor = () => {
   usePreparedEffect(
     'fetchContacts',
     () => {
-      if (!isNew && joblisting?.company) {
+      if (
+        !isNew &&
+        joblisting?.company &&
+        typeof joblisting.company === 'object'
+      ) {
         return fetchContacts(joblisting?.company);
       }
     },
@@ -231,10 +238,6 @@ const JoblistingEditor = () => {
               filter={['companies.company']}
               onChange={(event) => {
                 fetchContacts(event).then(() => {
-                  form.change('joblistingEditor', {
-                    label: 'Ingen',
-                    value: null,
-                  });
                   form.change('responsible', {
                     label: 'Ingen',
                     value: null,
@@ -274,6 +277,7 @@ const JoblistingEditor = () => {
               name="workplaces"
               component={SelectInput.Field}
               options={places}
+              required
               tags
             />
             <Field

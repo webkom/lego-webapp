@@ -5,6 +5,7 @@
   margin-bottom: var(--spacing-md);
   display: flex;
   justify-content: space-between;
+  line-height: 1.3;
 }
 
 .eventItemCompact {
@@ -22,6 +23,7 @@
   color: var(--lego-font-color);
   margin: 0;
   word-break: break-word;
+  margin-bottom: var(--spacing-sm);
 }
 
 .eventTime {

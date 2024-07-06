@@ -1,3 +1,4 @@
+import EmptyState from 'app/components/EmptyState';
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import styles from './surveys.css';
@@ -82,7 +83,13 @@ const TextAnswer = ({
   question: SurveyQuestion;
 }) => {
   if (answer) {
-    return answer.answerText || <i className="secondaryFontColor">Tomt svar</i>;
+    return (
+      answer.answerText || (
+        <EmptyState>
+          <i>Tomt svar</i>
+        </EmptyState>
+      )
+    );
   }
 
   if (
@@ -91,7 +98,11 @@ const TextAnswer = ({
       .map((answer) => answer.question.id)
       .includes(question.id)
   ) {
-    return <i className="secondaryFontColor">Tomt svar</i>;
+    return (
+      <EmptyState>
+        <i>Tomt svar</i>
+      </EmptyState>
+    );
   }
 
   return (

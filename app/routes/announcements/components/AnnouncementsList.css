@@ -1,10 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.item {
-  padding: 10px 0;
-  justify-content: space-between;
-}
-
 .form {
   width: 100%;
   padding: 10px;
@@ -15,15 +10,11 @@
   font-size: var(--font-size-lg);
 }
 
-.recField {
-  margin-right: 4px;
-}
-
 .rowRec {
   gap: var(--spacing-md);
 
   @media (--mobile-device) {
-    gap: var(--spacing-sm);
+    gap: 0;
     flex-direction: column;
   }
 }
@@ -32,18 +23,29 @@
   flex-direction: column-reverse;
 }
 
+.item {
+  max-width: calc(var(--lego-max-width) / 2);
+  padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  justify-content: space-between;
+  line-height: 1.3;
+
+  @media (--mobile-device) {
+    max-width: 100%;
+  }
+}
+
+.item:nth-child(even) {
+  background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
+  border-radius: var(--border-radius-md);
+}
+
 .date {
   font-weight: bold;
   text-decoration: underline;
-  margin-top: 5px;
-}
-
-.recHeader {
-  margin-top: 8px;
 }
 
 .wrapperSendButton {
-  justify-content: space-around;
   align-items: center;
 }
 

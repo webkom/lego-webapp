@@ -69,12 +69,18 @@
 .row > img {
   width: 50px;
   height: 50px;
-  margin: 0 10px;
+  margin: 0 var(--spacing-md);
+}
+
+.emptyState {
+  height: 100%;
+  justify-content: center;
 }
 
 .nav {
-  margin: 5px auto;
-  height: 40px;
+  margin: var(--spacing-sm) auto;
+  min-height: 40px;
+  height: fit-content;
   border: 1px solid var(--border-gray);
   border-radius: var(--border-radius-md);
   font-size: var(--font-size-sm);
@@ -84,7 +90,7 @@
   height: 100%;
   border-radius: inherit;
   text-align: center;
-  padding: 5px 15px;
+  padding: var(--spacing-sm) var(--spacing-md);
   font-weight: 500;
 }
 

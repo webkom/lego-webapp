@@ -43,7 +43,7 @@ const Attendance = ({
 
   return (
     <>
-      {!isMeeting && registrations && (
+      {!isMeeting && (
         <UserGrid
           minRows={minUserGridRows}
           maxRows={maxUserGridRows}
@@ -51,7 +51,7 @@ const Attendance = ({
           skeleton={skeleton}
         />
       )}
-      {!isMeeting && registrations && (
+      {!isMeeting && (
         <RegisteredSummary
           registrations={loggedIn ? registrations : undefined}
           currentRegistration={currentRegistration}

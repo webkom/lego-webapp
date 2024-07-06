@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import EmptyState from 'app/components/EmptyState';
 import SurveyItem from './SurveyItem';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 
@@ -10,9 +11,9 @@ type Props = {
 const SurveyList = ({ surveys, fetching }: Props) => {
   if (isEmpty(surveys) && !fetching) {
     return (
-      <span className="secondaryFontColor">
+      <EmptyState icon="folder-open-outline">
         Ingen spørreundersøkelser funnet
-      </span>
+      </EmptyState>
     );
   }
 

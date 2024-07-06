@@ -40,14 +40,9 @@ const validate = createValidator({
 
 const CompanySemesterGUI = () => {
   return (
-    <Page title="Endre aktive semestre" back={{ href: '/companyInterest/' }}>
-      <Flex className={styles.guiWrapper}>
-        <Flex
-          column
-          style={{
-            marginRight: '50px',
-          }}
-        >
+    <Page title="Endre aktive semestre" back={{ href: '/company-interest' }}>
+      <Flex wrap gap="var(--spacing-xl)">
+        <Flex column>
           <AddSemesterForm />
         </Flex>
         <Flex column>
