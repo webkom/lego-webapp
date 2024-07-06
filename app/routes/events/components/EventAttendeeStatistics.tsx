@@ -178,7 +178,7 @@ const createAttendeeDataPoints = (
 
     addGenericDataPoint(
       attendeeStatistics.genderDistribution,
-      Gender[registration.user.gender],
+      registration.user.gender ? Gender[registration.user.gender] : 'Ukjent',
     );
 
     addGroupDataPoint(
