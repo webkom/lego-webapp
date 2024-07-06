@@ -26,14 +26,15 @@ const NotEligibleInfo = () => (
         datakommunikasjon som studie i StudentWeb og verifisere på nytt.
       </li>
       <li>
-        Sende en mail til <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>{' '}
-        med dokumentasjon på at du går eller tar fag som tilhører et av studiene
-        over.
+        Sende en e-post til{' '}
+        <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med dokumentasjon
+        på at du går eller tar fag som tilhører et av studiene over.
       </li>
       <li>
-        Sende en mail til <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>{' '}
-        med søknad om hvorfor du ønsker å bli medlem av Abakus. Det trenger ikke
-        være en stor søknad :)
+        Sende en e-post til{' '}
+        <a href="mailto:abakus@abakus.no">abakus@abakus.no</a> med søknad om
+        hvorfor du ønsker å bli medlem av Abakus. Det trenger ikke være en stor
+        søknad :)
       </li>
     </ol>
   </div>
