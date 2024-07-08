@@ -14,6 +14,7 @@ import {
   fetchOAuth2Applications,
   fetchOAuth2Grants,
 } from 'app/actions/OAuth2Actions';
+import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
@@ -201,7 +202,7 @@ const UserSettingsOAuth2 = () => {
           </LinkButton>
         )}
         {applications.length === 0 && !fetchingApplications ? (
-          <span className="secondaryFontColor">Du har ingen applikasjoner</span>
+          <EmptyState>Du har ingen applikasjoner</EmptyState>
         ) : (
           <Table
             columns={applicationColumns}
@@ -214,9 +215,7 @@ const UserSettingsOAuth2 = () => {
 
       <h3>Aksepterte applikasjoner</h3>
       {grants.length === 0 && !fetchingGrants ? (
-        <span className="secondaryFontColor">
-          Du har ikke logget på en app enda
-        </span>
+        <EmptyState>Du har ikke logget på en app enda</EmptyState>
       ) : (
         <Table
           columns={acceptedApplicationcolumns}

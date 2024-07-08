@@ -2,6 +2,7 @@ import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
 import { selectEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
@@ -72,19 +73,6 @@ const UpcomingRegistration = ({ event }: Props) => {
   );
 };
 
-const NoUpcomingRegistrations = () => (
-  <Flex column className={styles.filler}>
-    <Icon
-      name="eye-off-outline"
-      size={40}
-      style={{
-        marginRight: '5px',
-      }}
-    />
-    <span>Ingen påmeldinger de neste 3 dagene</span>
-  </Flex>
-);
-
 // Filter for activation
 const hasActivation = (event: FrontpageEvent) => event.activationTime !== null;
 
@@ -127,7 +115,9 @@ const UpcomingRegistrations = () => {
           <UpcomingRegistration key={event.id} event={event} />
         ))
       ) : (
-        <NoUpcomingRegistrations />
+        <EmptyState icon="leaf-outline" className={styles.filler}>
+          Ingen påmeldinger de neste 3 dagene
+        </EmptyState>
       )}
     </div>
   );

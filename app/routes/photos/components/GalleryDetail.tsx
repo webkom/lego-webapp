@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   Icon,
   LinkButton,
   LoadingPage,
@@ -222,15 +223,20 @@ const GalleryDetail = () => {
           onClick={handleClick}
           getSrc={(photo) => photo.file}
           renderEmpty={() => (
-            <EmptyState className={styles.emptyState} icon="images-outline">
-              <h1>Ingen bilder</h1>
-              <h4>
-                Trykk{' '}
-                <Button flat onPress={() => toggleUpload()}>
-                  <b>her</b>
-                </Button>{' '}
-                for å legge inn bilder
-              </h4>
+            <EmptyState icon="images-outline">
+              <Flex column alignItems="center">
+                Albumet er tomt ...
+                <span>
+                  Trykk{' '}
+                  <b
+                    className={styles.toggleButton}
+                    onClick={() => toggleUpload()}
+                  >
+                    her
+                  </b>{' '}
+                  for å legge inn bilder
+                </span>
+              </Flex>
             </EmptyState>
           )}
         />

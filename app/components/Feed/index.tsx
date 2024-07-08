@@ -3,7 +3,6 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
 import { useAppSelector } from 'app/store/hooks';
 import { FeedActivityVerb } from 'app/store/models/FeedActivity';
-import styles from './Feed.css';
 import Activity from './activity';
 import AdminRegistrationRenderer from './renders/adminRegistration';
 import AnnouncementRenderer from './renders/announcement';
@@ -58,8 +57,8 @@ const Feed = ({ feedId }: Props): ReactNode => {
           ) : null;
         })
       ) : (
-        <EmptyState>
-          <h2 className={styles.emptyState}>Ingen aktiviteter i feeden</h2>
+        <EmptyState icon="sad-outline">
+          Ingen aktiviteter i feeden ...
         </EmptyState>
       )}
     </div>

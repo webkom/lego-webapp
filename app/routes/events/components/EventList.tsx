@@ -299,8 +299,8 @@ const EventList = () => {
       />
       {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
       {isEmpty(events) && !pagination.fetching && (
-        <EmptyState icon="book-outline" size={40}>
-          <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
+        <EmptyState icon="book-outline">
+          Ingen kommende arrangementer
         </EmptyState>
       )}
       {pagination.hasMore && field === 'startTime' && (

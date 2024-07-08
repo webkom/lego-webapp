@@ -1,7 +1,7 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchGalleries } from 'app/actions/GalleryActions';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
@@ -60,17 +60,15 @@ const Overview = () => {
           </div>
         )}
         renderEmpty={() => (
-          <EmptyState className={styles.emptyState} icon="images-outline">
-            <h1>Ingen synlige albumer</h1>
-            {actionGrant && actionGrant.includes('create') && (
-              <h4>
-                Trykk{' '}
-                <LinkButton flat href="/photos/new">
-                  <b>her</b>
-                </LinkButton>{' '}
-                for å lage et nytt album
-              </h4>
-            )}
+          <EmptyState icon="images-outline">
+            <Flex column alignItems="center">
+              Fant ingen synlige album ...
+              {actionGrant && actionGrant.includes('create') && (
+                <span>
+                  Trykk <Link to="/photos/new">her</Link> for å lage et nytt et
+                </span>
+              )}
+            </Flex>
           </EmptyState>
         )}
         photos={galleries}

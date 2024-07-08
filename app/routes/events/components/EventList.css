@@ -1,11 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.noEvents {
-  color: var(--secondary-font-color);
-  font-weight: 400;
-  font-size: var(--font-size-lg);
-}
-
 .eventGroup {
   margin-bottom: var(--spacing-lg);
 }

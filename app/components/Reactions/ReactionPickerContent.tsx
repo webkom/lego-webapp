@@ -1,5 +1,6 @@
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
+import EmptyState from 'app/components/EmptyState';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './ReactionPickerContent.css';
@@ -24,12 +25,12 @@ const ReactionPickerContent = ({
   return (
     <div className={styles.container}>
       {searchResults !== null && searchResults.length === 0 ? (
-        <div className={styles.noEmojisFound}>
+        <EmptyState className={styles.noEmojisFound}>
           Fant ingen emojis{' '}
           <span role="img" aria-label="Emoji">
             😭
           </span>
-        </div>
+        </EmptyState>
       ) : (
         <div className={styles.content}>
           {(searchResults !== null ? searchResults : emojis).map(

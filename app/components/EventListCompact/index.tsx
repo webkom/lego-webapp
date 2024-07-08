@@ -42,9 +42,7 @@ const EventListCompact = ({
   }
 
   if (!events.length) {
-    return (
-      <EmptyState className="secondaryFontColor">{noEventsMessage}</EmptyState>
-    );
+    return <EmptyState>{noEventsMessage}</EmptyState>;
   }
 
   return (

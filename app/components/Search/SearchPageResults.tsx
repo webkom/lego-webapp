@@ -24,6 +24,8 @@ type SearchResultProps = {
 };
 
 const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
+  if (!result.link) return;
+
   return (
     <Flex
       wrap
@@ -85,7 +87,7 @@ const SearchPageResults = ({
 
   if (results.length === 0 && !searching) {
     return (
-      <EmptyState icon="glasses-outline">
+      <EmptyState icon={query ? 'folder-open-outline' : 'folder-outline'}>
         {query ? (
           <span>
             Fant ingen treff på søket <em>{query}</em>

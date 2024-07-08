@@ -1,6 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { useOutletContext } from 'react-router-dom';
 import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
+import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
@@ -66,11 +67,7 @@ const SubmissionsSummary = () => {
       })
       .filter(isNotNullish);
 
-    return texts.length === 0 ? (
-      <span className="secondaryFontColor">Ingen svar</span>
-    ) : (
-      texts
-    );
+    return texts.length === 0 ? <EmptyState>Ingen svar</EmptyState> : texts;
   };
 
   const generateQuestionData = (question: SurveyQuestion) => {

@@ -72,6 +72,11 @@
   margin: 0 var(--spacing-md);
 }
 
+.emptyState {
+  height: 100%;
+  justify-content: center;
+}
+
 .nav {
   margin: var(--spacing-sm) auto;
   min-height: 40px;

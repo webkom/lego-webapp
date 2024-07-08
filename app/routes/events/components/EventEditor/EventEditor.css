@@ -166,13 +166,6 @@
   }
 }
 
-.emptyGallery {
-  width: 50%;
-  margin: var(--spacing-md) 0;
-  color: var(--secondary-font-color);
-  text-align: center;
-}
-
 .groupSuggestionWrapper {
   margin-bottom: var(--spacing-sm);
 

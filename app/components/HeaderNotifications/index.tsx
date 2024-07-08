@@ -8,6 +8,7 @@ import {
   fetchNotificationData,
   markAllNotifications,
 } from 'app/actions/NotificationsFeedActions';
+import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { SpanTag } from 'app/components/Feed/Tag';
 import Time from 'app/components/Time';
@@ -69,7 +70,7 @@ const HeaderNotificationsContent = () => {
   }
 
   if (!fetchingNotifications && notifications.length === 0) {
-    return <span className="secondaryFontColor">Ingen varslinger å vise</span>;
+    return <EmptyState>Ingen varslinger å vise</EmptyState>;
   }
 
   return (

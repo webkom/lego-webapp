@@ -10,11 +10,6 @@
   margin-bottom: var(--spacing-md);
 }
 
-.noRegistrationsText {
-  text-align: center;
-  color: var(--secondary-font-color);
-}
-
 .chartContainer {
   overflow: hidden;
   display: grid;
