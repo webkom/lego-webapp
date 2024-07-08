@@ -66,7 +66,7 @@ export const selectTheme: ThemeConfig = (theme) => ({
     neutral20: 'var(--border-gray)', // Border color
     neutral30: 'var(--border-gray)', // Hover border color
     neutral40: 'var(--secondary-font-color)', //  Text color in dropdown ("No options" and "Loading...")
-    neutral50: 'var(--color-gray-5)', // Placholder color,
+    neutral50: 'var(--placeholder-color)', // Placholder color,
     neutral60: 'var(--color-gray-4)', // Focused arrow color
     // neutral70: // Unknown
     neutral80: 'var(--lego-font-color)', // Font color and hover arrow color
