@@ -39,7 +39,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@loadable/component": "^5.16.3",
+    "@loadable/component": "^5.16.4",
     "@reduxjs/toolkit": "^2.2.4",
     "@sentry/browser": "^7.105.0",
     "@sentry/integrations": "^7.105.0",
