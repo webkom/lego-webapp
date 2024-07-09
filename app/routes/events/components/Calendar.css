@@ -56,15 +56,15 @@
 
 .dayNumber {
   position: absolute;
-  top: 2px;
-  right: 5px;
+  top: var(--spacing-xs);
+  right: var(--spacing-sm);
   font-size: var(--font-size-sm);
+  line-height: var(--spacing-lg);
 }
 
 .currentDay {
-  font-size: var(--font-size-sm);
-  width: 25px;
-  height: 25px;
+  width: var(--spacing-lg);
+  height: var(--spacing-lg);
   border-radius: 50%;
   color: var(--color-absolute-white);
   text-align: center;
@@ -72,10 +72,8 @@
 }
 
 .popoverEventTitle {
-  font-size: 22px;
   display: inline-block;
   line-height: 1.3;
-  padding-bottom: 10px;
 }
 
 .popoverEventTitleText {

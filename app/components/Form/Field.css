@@ -25,12 +25,12 @@
   border-radius: var(--border-radius-md);
 }
 
-.label {
-  font-size: var(--font-size-lg);
+.labelContent {
+  line-height: 1.8;
 }
 
 .description {
-  margin-left: 7px;
+  margin-left: var(--spacing-sm);
 }
 
 .required {

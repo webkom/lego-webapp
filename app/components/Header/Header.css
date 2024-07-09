@@ -16,7 +16,8 @@
 }
 
 .themeChange {
-  padding: 10px 15px;
+  padding: var(--spacing-sm) var(--spacing-md);
+  line-height: 1.3;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -110,7 +111,7 @@
 
 .dropdown {
   width: 355px;
-  padding: 15px;
+  padding: var(--spacing-md);
 
   @media (--small-viewport) {
     width: 100%;

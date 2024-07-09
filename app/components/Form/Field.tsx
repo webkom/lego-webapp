@@ -84,7 +84,7 @@ export function createField<T, ExtraProps extends object>(
               cursor: inlineLabel ? 'pointer' : 'default',
               fontSize: !inlineLabel ? 'var(--font-size-lg)' : 'inherit',
             }}
-            className={labelContentClassName}
+            className={cx(labelContentClassName, styles.labelContent)}
           >
             {label}
           </div>
@@ -114,7 +114,7 @@ export function createField<T, ExtraProps extends object>(
     );
 
     const content = inlineLabel ? (
-      <Flex gap={7}>
+      <Flex gap="var(--spacing-sm)">
         {component}
         {labelComponent}
       </Flex>

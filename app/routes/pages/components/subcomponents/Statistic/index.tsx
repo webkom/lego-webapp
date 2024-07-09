@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import styles from './Statistic.css';
 
 type Props = {
@@ -8,11 +9,17 @@ type Props = {
 
 const Statistic = ({ statistic, label, topLabel }: Props) => {
   return (
-    <div className={styles.container}>
+    <Flex
+      column
+      justifyContent="center"
+      alignItems="center"
+      gap="var(--spacing-sm)"
+      className={styles.container}
+    >
       {topLabel && <div className={styles.topLabel}>{topLabel}</div>}
       <div className={styles.statistic}>{statistic}</div>
       <div className={styles.label}>{label}</div>
-    </div>
+    </Flex>
   );
 };
 
