@@ -130,7 +130,7 @@
     "@babel/preset-typescript": "^7.24.6",
     "@cfaester/enzyme-adapter-react-18": "^0.8.0",
     "@loadable/babel-plugin": "^5.16.1",
-    "@loadable/server": "^5.16.1",
+    "@loadable/server": "^5.16.5",
     "@loadable/webpack-plugin": "^5.15.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@types/enzyme": "^3.10.16",
