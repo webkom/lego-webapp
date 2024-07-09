@@ -39,11 +39,6 @@
   height: 1px;
 }
 
-.simulateLink {
-  color: var(--lego-link-color);
-  cursor: pointer;
-}
-
 .infoList tr {
   & td {
     width: unset;

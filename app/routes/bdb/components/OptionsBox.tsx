@@ -99,8 +99,6 @@ const OptionsBox = ({ updateFilters, removeFilters }: Props) => {
               name="studentContact"
               filter={[AutocompleteContentType.User]}
               onChange={(user: AutocompleteUser) => {
-                console.log(studentContactValue);
-                console.log(user);
                 if (user) {
                   updateFilters('studentContact', user.id);
                   setStudentContactValue(user);

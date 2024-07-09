@@ -221,7 +221,7 @@ const Header = () => {
             <AccountDropdown />
 
             <button onClick={() => dispatch(toggleSearch())}>
-              <Icon name="menu" className={styles.searchIcon} />
+              <Icon name="menu" data-test-id="search-menu-icon" />
             </button>
           </div>
         </div>

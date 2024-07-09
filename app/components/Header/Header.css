@@ -64,15 +64,6 @@
   outline: none;
 }
 
-.searchIcon {
-  color: var(--lego-link-color);
-
-  &:hover,
-  &.activeItem {
-    color: var(--lego-red-color-hover);
-  }
-}
-
 .hideOnMobile {
   @media (--mobile-device) {
     display: none;
@@ -101,11 +92,6 @@
 .menu {
   display: flex;
   flex-direction: row;
-}
-
-.toggleButton {
-  color: var(--lego-link-color);
-  font-size: var(--font-size-sm);
 }
 
 .dropdown {
