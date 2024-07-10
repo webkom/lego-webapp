@@ -2,11 +2,11 @@ import cx from 'classnames';
 import { Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
-import type { ComponentProps, MouseEventHandler } from 'react';
+import type { ComponentProps, MouseEventHandler, ReactNode } from 'react';
 
 type Props = {
-  /** Name of the icon can be found on the webpage */
-  name?: string;
+  name?: string /** name from ionicons: https://ionic.io/ionicons */;
+  iconNode?: ReactNode /** iconNode from lucide: https://lucide.dev/icons/ */;
   className?: string;
   size?: number;
   to?: string;
@@ -17,17 +17,9 @@ type Props = {
   disabled?: boolean;
 } & Omit<ComponentProps<typeof Flex>, 'onClick'>;
 
-/**
- * Render an Icon like this with the name of your icon:
- *
- * <Icon name="add" />
- *
- * Names can be found here:
- * https://ionic.io/ionicons
- *
- */
 export const Icon = ({
   name = 'star',
+  iconNode,
   className,
   style = {},
   size = 24,
@@ -49,14 +41,16 @@ export const Icon = ({
 
   return (
     <Flex
-      className={cx(className)}
+      className={className}
       style={{
         fontSize: `${size.toString()}px`,
         ...style,
       }}
       {...props}
     >
-      {to ? (
+      {iconNode ? (
+        <>{iconNode}</>
+      ) : to ? (
         <Link href={to} className={classNames}>
           <ion-icon name={name}></ion-icon>
         </Link>
