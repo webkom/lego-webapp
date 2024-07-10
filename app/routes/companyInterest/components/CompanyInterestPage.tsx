@@ -77,7 +77,7 @@ const SemesterBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column className={styles.checkboxWrapper}>
+  <Flex column>
     {fields.map((item, index) => (
       <Field
         key={`semesters[${index}]`}
@@ -97,7 +97,7 @@ const SurveyOffersBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column className={styles.checkboxWrapper}>
+  <Flex column>
     {fields.map((item, index) => (
       <Field
         key={`companyCourseThemes[${index}]`}
@@ -128,26 +128,16 @@ const EventBox = ({
         });
       }
       return (
-        <Flex column className={styles.checkboxWrapper}>
+        <Flex column>
           {filteredFields.map((key, index) => (
-            <Flex
-              className={styles.checkboxWrapperToolTip}
-              key={`events[${index}]` + `flexBox`}
-            >
-              <Field
-                key={`events[${index}]`}
-                name={`events[${index}].checked`}
-                label={EVENTS[eventToString(key)][language]}
-                type="checkbox"
-                component={CheckBox.Field}
-              />
-              <Tooltip
-                className={styles.tooltip}
-                content={<span>{TOOLTIP[eventToString(key)][language]}</span>}
-              >
-                <Icon name="information-circle-outline" />
-              </Tooltip>
-            </Flex>
+            <Field
+              key={`events[${index}]`}
+              name={`events[${index}].checked`}
+              label={EVENTS[eventToString(key)][language]}
+              type="checkbox"
+              component={CheckBox.Field}
+              description={TOOLTIP[eventToString(key)][language]}
+            />
           ))}
         </Flex>
       );
@@ -162,7 +152,7 @@ const TargetGradeBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column className={styles.checkboxWrapper}>
+  <Flex column>
     {fields.map((key, index) => (
       <Field
         key={`targetGrades[${index}]`}
@@ -182,7 +172,7 @@ const OtherBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column className={styles.checkboxWrapper}>
+  <Flex column>
     {fields.map((key, index) => (
       <Field
         key={`otherOffers[${index}]`}
@@ -202,7 +192,7 @@ const CollaborationBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column className={styles.checkboxWrapper}>
+  <Flex column>
     {fields.map((key, index) => (
       <Field
         key={`collaborations[${index}]`}
@@ -215,31 +205,13 @@ const CollaborationBox = ({
   </Flex>
 );
 
-const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => {
-  let flag;
-
-  switch (language) {
-    case 'english':
-      flag = norwegian;
-      break;
-
-    case 'norwegian':
-      flag = english;
-      break;
-
-    default:
-      flag = english;
-      break;
-  }
-
-  return (
-    <img
-      src={flag}
-      className={styles.flag}
-      alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
-    />
-  );
-};
+const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => (
+  <img
+    src={language === 'english' ? norwegian : english}
+    className={styles.flag}
+    alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
+  />
+);
 
 type CompanyInterestFormEntity = {
   companyName: string;
@@ -563,7 +535,7 @@ const CompanyInterestPage = () => {
             {!edit && (
               <Card severity="info">
                 {FORM_LABELS.subHeading[language]}
-                <a href={'mailto:bedriftskontakt@abakus.no'}>
+                <a href="mailto:bedriftskontakt@abakus.no">
                   bedriftskontakt@abakus.no
                 </a>
               </Card>
@@ -640,7 +612,7 @@ const CompanyInterestPage = () => {
               </Flex>
               <Flex column className={styles.interestBox}>
                 <label htmlFor="companyCourseThemes" className={styles.heading}>
-                  <Flex alignItems="center" gap="5px">
+                  <Flex alignItems="center" gap="var(--spacing-xs)">
                     {FORM_LABELS.companyCourseThemes[language]}
                     <Tooltip
                       className={styles.tooltip}
@@ -652,7 +624,7 @@ const CompanyInterestPage = () => {
                         </span>
                       }
                     >
-                      <Icon name="information-circle-outline" />
+                      <Icon name="information-circle-outline" size={20} />
                     </Tooltip>
                   </Flex>
                 </label>

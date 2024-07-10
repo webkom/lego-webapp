@@ -5,16 +5,6 @@
   min-width: 300px;
 }
 
-.checkboxWrapper {
-  margin-top: 5px;
-  margin-bottom: -5px;
-}
-
-.checkboxWrapperToolTip {
-  margin-right: 20px;
-  margin-left: 20px;
-}
-
 .guiBoxes {
   justify-content: flex-end;
   margin: 10px 0;
