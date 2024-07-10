@@ -11,10 +11,9 @@
 }
 
 .registrationList {
-  color: var(--lego-link-color);
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;
-    cursor: pointer;
   }
 }

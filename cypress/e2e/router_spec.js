@@ -9,7 +9,7 @@ describe('Navigate throughout app', () => {
   // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
     cy.get(`${c('Header__menu')} ${c('buttonGroup')}`).within(() => {
-      cy.get(c('searchIcon')).click();
+      cy.get(t('search-menu-icon')).click();
     });
     cy.get(c('Search__quickLinks-'))
       .first()
@@ -136,7 +136,7 @@ describe('Navigate throughout app', () => {
 
     // Go to the extended menu
     cy.get(c('buttonGroup')).within(() => {
-      cy.get(c('searchIcon')).click();
+      cy.get(t('search-menu-icon')).click();
     });
     cy.url().should('contain', '/');
     cy.contains('Sider');

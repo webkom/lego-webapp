@@ -6,9 +6,24 @@
     padding: 1rem;
   }
 
-  .backButton {
-    margin: calc(-1 * var(--spacing-md)) 0 0 calc(-1 * var(--spacing-md));
-    color: var(--lego-red-color);
+  .back {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  span.backLabel {
+    font-weight: 500;
+    margin-left: var(--spacing-xs);
+  }
+
+  .backIcon {
+    transition: transform var(--easing-medium);
+  }
+
+  .back:hover > .backIcon {
+    transform: translateX(calc(-1 * var(--spacing-xs)));
   }
 }
 
