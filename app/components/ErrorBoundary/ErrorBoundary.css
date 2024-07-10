@@ -3,6 +3,10 @@
 .container {
   width: 40%;
   margin: 0 auto;
+  line-height: 1.3;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
 
   @media (--mobile-device) {
     width: 60%;
