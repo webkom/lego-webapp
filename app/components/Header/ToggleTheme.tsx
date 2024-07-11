@@ -27,7 +27,7 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   const debouncedUpdateUserTheme = useCallback(
     debounce((username, newTheme) => {
       dispatch(updateUserTheme(username, newTheme));
-    }, 300),
+    }, 2000),
     [dispatch],
   );
 
