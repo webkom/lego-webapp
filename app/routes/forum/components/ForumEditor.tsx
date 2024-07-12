@@ -84,7 +84,7 @@ const ForumEditor = () => {
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Field
-              placeholder="Title"
+              placeholder="Tips til utveksling, hvordan velge veileder eller er indøk virkelig homo?"
               name="title"
               label="Tittel"
               component={TextInput.Field}

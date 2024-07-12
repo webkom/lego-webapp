@@ -79,8 +79,9 @@ const App = () => {
             style={{
               backgroundColor: 'var(--danger-color)',
               color: 'white',
-              fontWeight: 'bold',
+              fontWeight: '500',
               padding: 'var(--spacing-sm)',
+              lineHeight: '1.3',
             }}
           >
             This is a development version of lego-webapp.

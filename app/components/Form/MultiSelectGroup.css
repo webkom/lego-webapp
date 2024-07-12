@@ -7,10 +7,6 @@
   font-size: var(--font-size-lg);
 }
 
-.radioField {
-  margin-bottom: 10px;
-}
-
 .radioLabel {
   display: flex;
   flex-direction: row;
