@@ -1,6 +1,7 @@
 import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
+import { FilePenLine, Star } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -68,10 +69,15 @@ const MAX_USER_GRID_ROWS = 2;
 const Line = () => <div className={styles.line} />;
 
 const InterestedButton = ({ isInterested, onClick }: InterestedButtonProps) => {
-  const icon = isInterested ? 'star' : 'star-outline';
   return (
     <Tooltip content="Følg arrangementet, og få e-post når påmelding nærmer seg!">
-      <Icon name={icon} onClick={onClick} className={styles.star} />
+      <Icon
+        iconNode={
+          <Star fill={isInterested ? 'var(--color-orange-6)' : 'transparent'} />
+        }
+        onClick={onClick}
+        className={styles.star}
+      />
     </Tooltip>
   );
 };
@@ -623,7 +629,8 @@ const EventDetail = () => {
 
           {loggedIn && (
             <TextWithIcon
-              iconName="create-outline"
+              iconNode={<FilePenLine />}
+              size={20}
               content={
                 <Link to={`/users/${currentUser?.username}/settings/profile`}>
                   Oppdater matallergier / preferanser

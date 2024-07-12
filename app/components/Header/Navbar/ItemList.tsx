@@ -12,7 +12,7 @@ const ItemList = ({ items }: Props) => {
       {items.map((item) => (
         <Item
           key={item.title}
-          iconName={item.iconName}
+          icon={item.icon}
           title={item.title}
           to={item.to}
         />

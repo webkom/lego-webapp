@@ -4,7 +4,8 @@ import styles from './TextWithIcon.css';
 import type { ReactElement, ReactNode } from 'react';
 
 export type TextWithIconProps = {
-  iconName: string;
+  iconName?: string;
+  iconNode?: ReactNode;
   className?: string;
   content: ReactNode;
   tooltipContentIcon?: ReactElement;
@@ -15,6 +16,7 @@ export type TextWithIconProps = {
 
 const TextWithIcon = ({
   iconName,
+  iconNode,
   className,
   content,
   tooltipContentIcon,
@@ -22,6 +24,15 @@ const TextWithIcon = ({
   size,
   gap = 5,
 }: TextWithIconProps) => {
+  const icon = (
+    <Icon
+      name={iconName}
+      iconNode={iconNode}
+      className={styles.infoIcon}
+      size={size ? size : undefined}
+    />
+  );
+
   return (
     <Flex alignItems="center" gap={gap} className={className}>
       {iconRight && (
@@ -30,19 +41,9 @@ const TextWithIcon = ({
         </div>
       )}
       {tooltipContentIcon ? (
-        <Tooltip content={tooltipContentIcon}>
-          <Icon
-            name={iconName}
-            className={styles.infoIcon}
-            size={size ? size : undefined}
-          />
-        </Tooltip>
+        <Tooltip content={tooltipContentIcon}>{icon}</Tooltip>
       ) : (
-        <Icon
-          name={iconName}
-          className={styles.infoIcon}
-          size={size ? size : undefined}
-        />
+        <>{icon}</>
       )}
       <div>{iconRight ? <></> : <>{content}</>}</div>
     </Flex>

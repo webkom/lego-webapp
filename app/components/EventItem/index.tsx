@@ -1,4 +1,13 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
+import {
+  AlarmClock,
+  Calendar,
+  CalendarClock,
+  Clock,
+  CircleAlert,
+  CircleCheckBig,
+  Timer,
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
@@ -14,7 +23,7 @@ export type EventStyle = 'default' | 'extra-compact' | 'compact';
 
 type statusIconProps = {
   status: string;
-  icon: string;
+  icon: ReactNode;
   color: string;
   tooltip: string;
 };
@@ -28,21 +37,21 @@ const eventStatusObject = (event: ListEvent): statusIconProps => {
       if (isAdmitted) {
         return {
           status: 'Admitted',
-          icon: 'checkmark-circle-outline',
+          icon: <CircleCheckBig />,
           color: 'var(--success-color)',
           tooltip: 'Du er påmeldt',
         } as statusIconProps;
       }
       return {
         status: 'Waitlist',
-        icon: 'timer-outline',
+        icon: <Timer />,
         color: 'var(--color-orange-6)',
         tooltip: 'Du er på ventelisten',
       } as statusIconProps;
     default:
       return {
         status: 'Error',
-        icon: 'help-outline',
+        icon: <CircleAlert />,
         color: 'var(--danger-color)',
         tooltip: 'Det har oppstått en feil',
       } as statusIconProps;
@@ -51,18 +60,7 @@ const eventStatusObject = (event: ListEvent): statusIconProps => {
 
 const Attendance = ({ event }) => {
   const attendance = eventAttendanceAbsolute(event);
-  return (
-    !!attendance && (
-      <Pill
-        style={{
-          marginLeft: '5px',
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {attendance}
-      </Pill>
-    )
-  );
+  return !!attendance && <Pill>{attendance}</Pill>;
 };
 
 type TimeStampProps = {
@@ -72,16 +70,12 @@ type TimeStampProps = {
 const TimeStamp = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
-      <Flex alignItems="center" gap={10}>
-        <Tooltip content={'Arrangementsdato'}>
-          <Icon name="calendar-number-outline" size={20} />
-        </Tooltip>
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        <Icon iconNode={<Calendar />} size={18} />
         <Time time={event.startTime} format="ll" />
       </Flex>
-      <Flex alignItems="center" gap={10}>
-        <Tooltip content={'Starttidspunkt'}>
-          <Icon name="time-outline" size={20} />
-        </Tooltip>
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        <Icon iconNode={<Clock />} size={18} />
         <Time time={event.startTime} format="HH:mm" />
       </Flex>
     </div>
@@ -91,17 +85,16 @@ const TimeStamp = ({ event }: TimeStampProps) => {
 const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
   return (
     <div className={styles.eventTime}>
-      <Flex alignItems="center" gap={10}>
-        <Tooltip content={'Arrangementstart'}>
-          <Icon name="calendar-number-outline" size={20} />
-        </Tooltip>
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        <Icon iconNode={<CalendarClock />} size={18} />
         <Time time={event.startTime} format="ll HH:mm" />
       </Flex>
 
       {!!event.activationTime && (
-        <Flex alignItems="center" gap={10}>
-          <Tooltip content={'Påmelding åpner'}>
+        <Flex alignItems="center" gap="var(--spacing-sm)">
+          <Tooltip content="Påmelding åpner">
             <Icon name="alarm-outline" size={20} />
+            <Icon iconNode={<AlarmClock />} size={18} />
           </Tooltip>
           <Time time={event.activationTime} format="ll HH:mm" />
         </Flex>
@@ -113,15 +106,13 @@ const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
 const RegistrationIcon = ({ event }: TimeStampProps) => {
   const iconStyle = eventStatusObject(event);
   return (
-    <Flex justifyContent="center" alignItems="center">
-      <Tooltip content={iconStyle.tooltip}>
-        <Icon
-          name={iconStyle.icon}
-          size={23}
-          style={{ color: iconStyle.color }}
-        />
-      </Tooltip>
-    </Flex>
+    <Tooltip content={iconStyle.tooltip}>
+      <Icon
+        iconNode={iconStyle.icon}
+        size={18}
+        style={{ color: iconStyle.color }}
+      />
+    </Tooltip>
   );
 };
 
@@ -175,7 +166,7 @@ const EventItem = ({
           <Link to={`/events/${event.slug}`}>
             <h3 className={styles.eventItemTitle}>{event.title}</h3>
           </Link>
-          <Flex width="100%" justifyContent="space-between">
+          <Flex justifyContent="space-between">
             <Flex width="72%">
               <Flex className={styles.companyLogoCompact}>
                 {event.cover && (
@@ -189,8 +180,8 @@ const EventItem = ({
                 )}
               </Flex>
             </Flex>
-            <Flex justifyContent="flex-start" column={true} width="25%">
-              <Flex width="100%" justifyContent="flex-start">
+            <Flex justifyContent="flex-start" column width="25%">
+              <Flex wrap alignItems="center" gap="var(--spacing-sm)">
                 <RegistrationIcon event={event} />
                 <Attendance event={event} />
               </Flex>
@@ -199,7 +190,7 @@ const EventItem = ({
             </Flex>
           </Flex>
           {showTags && (
-            <Flex wrap width="100%" justifyContent="flex-start">
+            <Flex wrap>
               {event.tags.map((tag, index) => (
                 <Tag key={index} tag={tag} />
               ))}

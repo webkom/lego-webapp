@@ -1,3 +1,4 @@
+import { BriefcaseBusiness, Newspaper } from 'lucide-react';
 import ItemList from './ItemList';
 import type { ItemProps } from './Item';
 
@@ -5,10 +6,10 @@ const CareerDropdown = () => {
   const items: ItemProps[] = [
     {
       title: 'Jobbannonser',
-      iconName: 'newspaper-outline',
+      icon: <Newspaper />,
       to: '/joblistings',
     },
-    { title: 'Bedrifter', iconName: 'briefcase-outline', to: '/companies' },
+    { title: 'Bedrifter', icon: <BriefcaseBusiness />, to: '/companies' },
   ];
 
   return <ItemList items={items} />;

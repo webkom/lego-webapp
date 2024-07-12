@@ -1,6 +1,7 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce } from 'lodash';
+import { MoonStar, Sun } from 'lucide-react';
 import { useCallback } from 'react';
 import { updateUserTheme } from 'app/actions/UserActions';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
@@ -9,7 +10,7 @@ import { applySelectedTheme, getTheme, useTheme } from 'app/utils/themeUtils';
 import styles from './toggleTheme.css';
 import type { ReactNode, MouseEvent } from 'react';
 
-const useIcon = () => (useTheme() === 'dark' ? 'sunny' : 'moon');
+const useIcon = () => (useTheme() === 'dark' ? <Sun /> : <MoonStar />);
 
 type Props = {
   className?: string;
@@ -51,10 +52,10 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
     >
       {children}
       <Icon
-        name={icon}
+        iconNode={icon}
         className={cx(
           styles.toggleIcon,
-          icon === 'moon' ? styles.moon : styles.sun,
+          useTheme() === 'light' ? styles.moon : styles.sun,
         )}
       />
     </Component>

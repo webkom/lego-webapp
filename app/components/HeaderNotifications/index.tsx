@@ -1,6 +1,7 @@
 import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { Bell, BellRing } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
@@ -116,7 +117,7 @@ const NotificationsDropdown = () => {
       closeOnContentClick
       triggerComponent={
         <Icon.Badge
-          name="notifications"
+          iconNode={unreadCount > 0 ? <BellRing /> : <Bell />}
           badgeCount={notificationsOpen ? 0 : unreadCount}
         />
       }

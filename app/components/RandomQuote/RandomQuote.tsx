@@ -1,5 +1,6 @@
 import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Plus, RefreshCcw } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import LegoReactions from 'app/components/LegoReactions';
@@ -51,13 +52,14 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
           <div className={styles.quoteSource}>- {quoteToShow?.source}</div>
         </Flex>
 
-        <Flex column justifyContent="space-between" gap={5}>
+        <Flex column alignItems="center" gap="var(--spacing-sm)">
           <Icon
-            name="refresh"
+            iconNode={<RefreshCcw />}
+            size={21}
             onClick={onClick}
             className={cx(animation && styles.rotateIcon)}
           />
-          <Icon to="/quotes/add" name="add" />
+          <Icon to="/quotes/add" iconNode={<Plus />} />
         </Flex>
       </Flex>
 

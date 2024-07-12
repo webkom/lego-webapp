@@ -1,14 +1,21 @@
 import cx from 'classnames';
+import { cloneElement } from 'react';
 import { Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
-import type { ComponentProps, MouseEventHandler, ReactNode } from 'react';
+import type {
+  ComponentProps,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
 type Props = {
   name?: string /** name from ionicons: https://ionic.io/ionicons */;
   iconNode?: ReactNode /** iconNode from lucide: https://lucide.dev/icons/ */;
   className?: string;
   size?: number;
+  strokeWidth?: number;
   to?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   danger?: boolean; // name: trash
@@ -23,6 +30,7 @@ export const Icon = ({
   className,
   style = {},
   size = 24,
+  strokeWidth = 1.75,
   to,
   onClick,
   danger = false,
@@ -39,6 +47,10 @@ export const Icon = ({
     disabled && styles.disabled,
   );
 
+  const iconElement = iconNode ? (
+    <>{cloneElement(iconNode as ReactElement, { size, strokeWidth })}</>
+  ) : null;
+
   return (
     <Flex
       className={className}
@@ -48,20 +60,18 @@ export const Icon = ({
       }}
       {...props}
     >
-      {iconNode ? (
-        <>{iconNode}</>
-      ) : to ? (
+      {to ? (
         <Link href={to} className={classNames}>
-          <ion-icon name={name}></ion-icon>
+          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
         </Link>
       ) : onClick ? (
         <button type="button" onClick={onClick} className={classNames}>
-          <ion-icon name={name}></ion-icon>
+          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
         </button>
+      ) : iconElement ? (
+        iconElement
       ) : (
-        <>
-          <ion-icon name={name}></ion-icon>
-        </>
+        <ion-icon name={name}></ion-icon>
       )}
     </Flex>
   );

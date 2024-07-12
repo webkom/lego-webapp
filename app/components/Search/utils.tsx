@@ -1,4 +1,32 @@
 import { Flex } from '@webkom/lego-bricks';
+import { sample } from 'lodash';
+import {
+  BadgeInfo,
+  BarChart3,
+  BookImage,
+  BookOpenText,
+  BriefcaseBusiness,
+  CalendarRange,
+  CircleUser,
+  Database,
+  ExternalLink,
+  FilePieChart,
+  Group,
+  MailSearch,
+  MailWarning,
+  MessageCircleHeart,
+  MessageCircleWarning,
+  MessageCircleQuestion,
+  MessagesSquare,
+  Newspaper,
+  Phone,
+  ReceiptText,
+  ScrollText,
+  Send,
+  Tags,
+  Telescope,
+  Users,
+} from 'lucide-react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Tag } from 'app/components/Tags';
 import TextWithIcon from '../TextWithIcon';
@@ -11,7 +39,7 @@ type Link = {
   url: string;
   admin?: boolean;
   requireLogin?: boolean;
-  icon?: string;
+  icon?: ReactNode;
 };
 
 const LINKS: Array<Link> = [
@@ -19,20 +47,20 @@ const LINKS: Array<Link> = [
     key: 'profile',
     requireLogin: true,
     title: 'Profil',
-    icon: 'person-circle-outline',
+    icon: <CircleUser />,
     url: '/users/me',
   },
   {
     key: 'contact',
     requireLogin: true,
     title: 'Kontakt Abakus',
-    icon: 'call-outline',
+    icon: <Phone />,
     url: '/contact',
   },
   {
     key: 'articles',
     title: 'Artikler',
-    icon: 'book-outline',
+    icon: <BookOpenText />,
     url: '/articles',
   },
   {
@@ -43,19 +71,19 @@ const LINKS: Array<Link> = [
         <Tag tag="Beta" color="purple" />
       </Flex>
     ),
-    icon: 'chatbubbles-outline',
+    icon: <MessagesSquare />,
     url: '/forum',
   },
   {
     key: 'events',
     title: 'Arrangementer',
-    icon: 'calendar-outline',
+    icon: <CalendarRange />,
     url: '/events',
   },
   {
     key: 'aboutUs',
     title: 'Om Abakus',
-    icon: 'information-circle-outline',
+    icon: <BadgeInfo />,
     url: '/pages/info-om-abakus',
   },
   {
@@ -66,84 +94,88 @@ const LINKS: Array<Link> = [
   {
     key: 'interest-groups',
     title: 'Interessegrupper',
-    icon: 'telescope-outline',
+    icon: <Telescope />,
     url: '/interest-groups',
   },
   {
     key: 'galleries',
     title: 'Album',
-    icon: 'image-outline',
+    icon: <BookImage />,
     url: '/photos',
   },
   {
     key: 'meetings',
     title: 'Møter',
-    icon: 'people-outline',
+    icon: <Users />,
     url: '/meetings',
   },
   {
     key: 'quotes',
     title: 'Overhørt',
-    icon: 'chatbubble-ellipses-outline',
+    icon: sample([
+      <MessageCircleWarning key="1" />,
+      <MessageCircleHeart key="2" />,
+      <MessageCircleQuestion key="3" />,
+    ]),
     url: '/quotes/',
   },
   {
     key: 'companies',
     title: 'Bedrifter',
-    icon: 'briefcase-outline',
+    icon: <BriefcaseBusiness />,
     url: '/companies',
   },
   {
     key: 'jobListings',
     title: 'Jobbannonser',
-    icon: 'newspaper-outline',
+    icon: <Newspaper />,
     url: '/joblistings',
   },
   {
     key: 'tags',
     title: 'Tags',
-    icon: 'pricetags-outline',
+    icon: <Tags />,
     url: '/tags',
   },
   {
     key: 'polls',
     title: 'Avstemninger',
-    icon: 'stats-chart-outline',
+    icon: <BarChart3 />,
     url: '/polls',
   },
   {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',
-    icon: 'megaphone-outline',
+    icon: <Send />,
     url: '/announcements',
   },
   {
     admin: true,
     key: 'bdb',
     title: 'Bedriftsdatabase',
-    icon: 'file-tray-stacked-outline',
+    icon: <Database />,
     url: '/bdb',
   },
   {
     admin: true,
     key: 'groups',
     title: 'Grupper',
-    icon: 'people-circle-outline',
+    icon: <Group />,
     url: '/admin/groups',
   },
   {
     admin: true,
     key: 'email',
     title: 'E-post',
-    icon: 'mail-outline',
+    icon: <MailSearch />,
     url: '/admin/email',
   },
   {
     admin: true,
     key: 'surveys',
     title: 'Spørreundersøkelser',
-    icon: 'create-outline',
+    icon: <FilePieChart />,
     url: '/surveys',
   },
 ];
@@ -153,28 +185,28 @@ const EXTERNAL_LINKS: Link[] = [
     key: 'warning-portal',
     requireLogin: true,
     title: 'Varslingsportal',
-    icon: 'warning-outline',
+    icon: <MailWarning />,
     url: 'https://portal.mittvarsel.no/skjema/abakus/t3fMsqnZcCaeFX2u.9824?lang=no',
   },
   {
     key: 'bill',
     requireLogin: true,
     title: 'Kvitteringsskildring',
-    icon: 'receipt-outline',
+    icon: <ReceiptText />,
     url: 'https://kvittering.abakus.no',
   },
   {
     key: 'wiki',
     requireLogin: true,
     title: 'Wiki',
-    icon: 'document-text-outline',
+    icon: <ScrollText />,
     url: 'https://wiki.abakus.no',
   },
   {
     key: 'ababart',
     requireLogin: true,
     title: 'Se flere',
-    icon: 'link-outline',
+    icon: <ExternalLink />,
     url: 'https://aba.wtf',
   },
 ];
@@ -215,7 +247,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     })
     .map(({ url, title, icon }) => [
       url,
-      icon ? <TextWithIcon content={title} iconName={icon} /> : title,
+      icon ? <TextWithIcon content={title} iconNode={icon} /> : title,
     ]) satisfies NavigationLink[];
 }
 

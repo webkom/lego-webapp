@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { readmeIfy } from 'app/components/ReadmeLogo';
@@ -89,7 +90,7 @@ const AccordionContainer = ({ title, children }: AccordionProps) => {
       <button className={styles.dropdownBtn} onClick={() => setIsOpen(!isOpen)}>
         {title}
         <Icon
-          name="chevron-down-outline"
+          iconNode={<ChevronDown />}
           className={styles.dropdownIcon}
           style={
             isOpen

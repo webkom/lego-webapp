@@ -1,5 +1,6 @@
 import { Accordion, Card, Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { ChevronRight } from 'lucide-react';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { useAppSelector } from 'app/store/hooks';
 import styles from './LatestReadme.css';
@@ -35,7 +36,7 @@ const LatestReadme = ({
               {!disabled && (
                 <Icon
                   onClick={onClick}
-                  name="chevron-forward-outline"
+                  iconNode={<ChevronRight />}
                   className={rotateClassName}
                 />
               )}
