@@ -24,7 +24,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
 
   return (
     <Flex className={styles.item}>
-      <Flex column>
+      <Flex column gap="var(--spacing-sm)">
         <Flex className={styles.date}>
           {announcement.sent ? (
             <Time time={announcement.sent} format="ll HH:mm" />
@@ -45,7 +45,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
           </Flex>
         )}
         <Flex column>
-          <b className={styles.recHeader}>Mottakere</b>
+          <b>Mottakere</b>
           <Flex alignItems="center" gap="var(--spacing-sm)" wrap>
             {announcement.events.length > 0 && (
               <span>
