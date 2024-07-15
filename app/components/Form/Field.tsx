@@ -81,7 +81,7 @@ export function createField<T, ExtraProps extends object>(
         {label && (
           <div
             style={{
-              cursor: inlineLabel ? 'pointer' : 'default',
+              cursor: inlineLabel && !props.disabled ? 'pointer' : 'default',
               fontSize: !inlineLabel ? 'var(--font-size-lg)' : 'inherit',
             }}
             className={cx(labelContentClassName, styles.labelContent)}

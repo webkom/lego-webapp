@@ -2,6 +2,7 @@
   background: var(--lego-card-color);
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
+  line-height: 1.3;
 }
 
 .withIcon {

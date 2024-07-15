@@ -1,5 +1,6 @@
-import { Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { Flex, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Helmet } from 'react-helmet-async';
 import { fetchAll } from 'app/actions/AnnouncementsActions';
 import EmptyState from 'app/components/EmptyState';
 import { selectAnnouncements } from 'app/reducers/announcements';
@@ -19,18 +20,25 @@ const AnnouncementsList = () => {
     (state) => state.announcements.actionGrant,
   );
 
+  if (fetching) {
+    return <LoadingPage loading />;
+  }
+
+  const title = 'Kunngjøringer';
+
   return (
-    <Page title="Send kunngjøringer">
-      <LoadingIndicator loading={fetching}>
+    <Page title={title}>
+      <Helmet title={title} />
+      <Flex column gap="var(--spacing-md)">
         {actionGrant.includes('create') && <AnnouncementsCreate />}
 
         {actionGrant.includes('list') && actionGrant.includes('delete') && (
-          <>
+          <div>
             <h2>Dine kunngjøringer</h2>
             {announcements.length === 0 ? (
               <EmptyState>Du har ingen tidligere kunngjøringer</EmptyState>
             ) : (
-              <Flex column className={styles.list}>
+              <Flex column gap="var(--spacing-sm)" className={styles.list}>
                 {announcements.map((a, i) => (
                   <AnnouncementItem
                     key={i}
@@ -40,9 +48,9 @@ const AnnouncementsList = () => {
                 ))}
               </Flex>
             )}
-          </>
+          </div>
         )}
-      </LoadingIndicator>
+      </Flex>
     </Page>
   );
 };

@@ -1,6 +1,6 @@
 import { ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
+import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
-import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import {
   createAnnouncement,
@@ -13,6 +13,7 @@ import {
   TextArea,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import Tooltip from 'app/components/Tooltip';
 import { statusesText } from 'app/reducers/meetingInvitations';
 import { selectAutocomplete } from 'app/reducers/search';
 import { useAppDispatch } from 'app/store/hooks';
@@ -130,8 +131,7 @@ const AnnouncementsCreate = () => {
   };
 
   return (
-    <>
-      <Helmet title="Kunngjøringer" />
+    <div>
       <h2>Ny kunngjøring</h2>
       <TypedLegoForm
         validate={validate}
@@ -147,14 +147,13 @@ const AnnouncementsCreate = () => {
               name="message"
               component={TextArea.Field}
               placeholder="Skriv din melding her ..."
-              label="Kunngjøring"
+              label="Melding"
               required
             />
             <span className={styles.formHeaders}>Mottakere</span>
-            <Flex column gap="var(--spacing-sm)">
+            <Flex column>
               <Flex className={styles.rowRec}>
                 <Field
-                  className={styles.recField}
                   name="users"
                   placeholder="Brukere"
                   filter={['users.user']}
@@ -171,20 +170,32 @@ const AnnouncementsCreate = () => {
               </Flex>
               <Flex alignItems="center" className={styles.rowRec}>
                 <Field
-                  className={styles.recField}
                   name="events"
                   placeholder="Arrangementer"
                   filter={['events.event']}
                   isMulti
                   component={SelectInput.AutocompleteField}
                 />
-                <Field
-                  name="excludeWaitingList"
-                  label="Ekskluder venteliste"
-                  component={CheckBox.Field}
-                />
+                {spyValues<FormValues>((values) => {
+                  const disabled = isEmpty(values.events);
+                  return (
+                    <Flex width="100%">
+                      <Tooltip
+                        content="Velg minst ett arrangement"
+                        disabled={!disabled}
+                      >
+                        <Field
+                          name="excludeWaitingList"
+                          label="Ekskluder venteliste"
+                          component={CheckBox.Field}
+                          disabled={disabled}
+                        />
+                      </Tooltip>
+                    </Flex>
+                  );
+                })}
               </Flex>
-              <Flex className={styles.rowRec}>
+              <Flex className={styles.rowRec} justifyContent="center">
                 <Field
                   name="meetings"
                   placeholder="Møter"
@@ -194,7 +205,7 @@ const AnnouncementsCreate = () => {
                 />
                 <Field
                   name="meetingInvitationStatus"
-                  placeholder="Filtrer på deltagelsesstatus"
+                  placeholder="Filtrer på deltagelsesstatus til møtet"
                   component={SelectInput.Field}
                   options={Object.values(MeetingInvitationStatus).map(
                     (status) => ({
@@ -207,12 +218,17 @@ const AnnouncementsCreate = () => {
             </Flex>
             <Field
               name="fromGroup"
-              placeholder="Fra gruppe"
+              placeholder="Velg gruppe"
               filter={['users.abakusgroup']}
               component={SelectInput.AutocompleteField}
-              label="Send på vegne av"
+              label="Send på vegne av gruppe"
               isClearable
             />
+
+            <Card severity="info">
+              Du kan velge å opprette og sende kunngjøringen med en gang, eller
+              kun opprette og heller sende den senere fra listen nedenfor.
+            </Card>
 
             {spyValues<FormValues>((values) => (
               <ButtonGroup>
@@ -232,14 +248,10 @@ const AnnouncementsCreate = () => {
                 </SubmitButton>
               </ButtonGroup>
             ))}
-            <Card severity="info">
-              Du kan velge å sende kunngjøringen med en gang, eller lagre den og
-              sende den senere fra listen nedenfor.
-            </Card>
           </form>
         )}
       </TypedLegoForm>
-    </>
+    </div>
   );
 };
 
