@@ -1,6 +1,6 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { createField } from './Field';
 import styles from './TextInput.css';
 import type { RefObject, InputHTMLAttributes } from 'react';
@@ -42,6 +42,12 @@ const TextInput = ({
   // Force use of inputRef from props if set, as newInputRef does not update the inputRef and parent components thus loose access
   const ref = useMemo(() => inputRef ?? newInputRef, [inputRef, newInputRef]);
 
+  const [showPassword, setShowPassword] = useState(false);
+  const isPasswordField = type === 'password';
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
     <Flex
       alignItems="center"
@@ -66,12 +72,20 @@ const TextInput = ({
       )}
       <input
         ref={ref}
-        type={type}
+        type={isPasswordField && showPassword ? 'text' : type}
         placeholder={placeholder}
         disabled={disabled}
         readOnly={!!readOnly}
         {...props}
       />
+      {isPasswordField && (
+        <Icon
+          onClick={togglePasswordVisibility}
+          name={showPassword ? 'eye-off' : 'eye'}
+          size={16}
+          className={styles.togglePasswordVisibility}
+        />
+      )}
       {suffix && <span className={styles.suffix}>{suffix}</span>}
     </Flex>
   );
