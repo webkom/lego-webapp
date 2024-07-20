@@ -43,7 +43,7 @@
   "dependencies": {
     "classnames": "^2.5.1",
     "lucide-react": "^0.408.0",
-    "react-aria-components": "^1.2.0"
+    "react-aria-components": "^1.2.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",
