@@ -13,6 +13,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
+import { Settings } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
@@ -430,7 +431,7 @@ const UserProfile = () => {
       title={user.fullName}
       actionButtons={
         <Icon
-          name="settings"
+          iconNode={<Settings />}
           size={22}
           className={styles.settingsIcon}
           to={`/users/${user.username}/settings/profile`}

@@ -1,10 +1,8 @@
 @import url('~app/styles/variables.css');
 @import url('../Event.css');
 
-.star {
-  ion-icon {
-    color: var(--color-orange-6);
-  }
+.star svg {
+  color: var(--color-orange-6);
 }
 
 .eventType {

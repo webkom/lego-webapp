@@ -6,7 +6,7 @@
 }
 
 .heading {
-  font-size: 27px;
+  font-size: var(--font-size-xl);
   width: 100%;
   padding: 0;
 }

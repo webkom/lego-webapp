@@ -1,14 +1,21 @@
 import cx from 'classnames';
+import { cloneElement } from 'react';
 import { Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
-import type { ComponentProps, MouseEventHandler } from 'react';
+import type {
+  ComponentProps,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
 type Props = {
-  /** Name of the icon can be found on the webpage */
-  name?: string;
+  name?: string /** name from ionicons: https://ionic.io/ionicons */;
+  iconNode?: ReactNode /** iconNode from lucide: https://lucide.dev/icons/ */;
   className?: string;
   size?: number;
+  strokeWidth?: number;
   to?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
   danger?: boolean; // name: trash
@@ -17,20 +24,13 @@ type Props = {
   disabled?: boolean;
 } & Omit<ComponentProps<typeof Flex>, 'onClick'>;
 
-/**
- * Render an Icon like this with the name of your icon:
- *
- * <Icon name="add" />
- *
- * Names can be found here:
- * https://ionic.io/ionicons
- *
- */
 export const Icon = ({
   name = 'star',
+  iconNode,
   className,
   style = {},
   size = 24,
+  strokeWidth = 1.75,
   to,
   onClick,
   danger = false,
@@ -47,9 +47,13 @@ export const Icon = ({
     disabled && styles.disabled,
   );
 
+  const iconElement = iconNode ? (
+    <>{cloneElement(iconNode as ReactElement, { size, strokeWidth })}</>
+  ) : null;
+
   return (
     <Flex
-      className={cx(className)}
+      className={className}
       style={{
         fontSize: `${size.toString()}px`,
         ...style,
@@ -58,16 +62,16 @@ export const Icon = ({
     >
       {to ? (
         <Link href={to} className={classNames}>
-          <ion-icon name={name}></ion-icon>
+          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
         </Link>
       ) : onClick ? (
         <button type="button" onClick={onClick} className={classNames}>
-          <ion-icon name={name}></ion-icon>
+          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
         </button>
+      ) : iconElement ? (
+        iconElement
       ) : (
-        <>
-          <ion-icon name={name}></ion-icon>
-        </>
+        <ion-icon name={name}></ion-icon>
       )}
     </Flex>
   );

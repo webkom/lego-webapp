@@ -1,6 +1,7 @@
 import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { Menu, CircleUser, LogOut, Settings, Users } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Modal } from 'react-overlays';
@@ -38,20 +39,20 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
       <Dropdown.ListItem>
         <NavLink to="/users/me" onClick={onClose}>
           <strong>{username}</strong>
-          <Icon name="person-circle-outline" size={24} />
+          <Icon iconNode={<CircleUser />} />
         </NavLink>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
         <Link to="/users/me/settings/profile" onClick={onClose}>
           Innstillinger
-          <Icon name="settings-outline" size={24} />
+          <Icon iconNode={<Settings />} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
         <Link to="/meetings/" onClick={onClose}>
           Møteinnkallinger
-          <Icon name="people-outline" size={24} />
+          <Icon iconNode={<Users />} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
@@ -72,7 +73,7 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
           }}
         >
           Logg ut
-          <Icon name="log-out-outline" size={24} />
+          <Icon iconNode={<LogOut />} />
         </button>
       </Dropdown.ListItem>
     </Dropdown.List>
@@ -162,7 +163,7 @@ const AccountDropdown = () => {
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
       contentClassName={styles.dropdown}
-      triggerComponent={<Icon name="person-circle-outline" />}
+      triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
       <AuthSection />
     </Dropdown>
@@ -221,7 +222,7 @@ const Header = () => {
             <AccountDropdown />
 
             <button onClick={() => dispatch(toggleSearch())}>
-              <Icon name="menu" data-test-id="search-menu-icon" />
+              <Icon iconNode={<Menu />} data-test-id="search-menu-icon" />
             </button>
           </div>
         </div>

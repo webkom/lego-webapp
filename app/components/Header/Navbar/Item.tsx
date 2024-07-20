@@ -2,19 +2,20 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import TextWithIcon from 'app/components/TextWithIcon';
 import styles from './Item.css';
+import type { ReactNode } from 'react';
 
 export type ItemProps = {
   title: string;
-  iconName?: string;
+  icon?: ReactNode;
   to: string;
   description?: string;
 };
 
-const Item = ({ iconName, title, to, description }: ItemProps) => {
+const Item = ({ icon, title, to, description }: ItemProps) => {
   return (
     <Link to={to} className={styles.item}>
-      {iconName ? (
-        <TextWithIcon iconName={iconName} content={title} />
+      {icon ? (
+        <TextWithIcon iconNode={icon} content={title} />
       ) : (
         <Flex alignItems="center">
           {title}{' '}

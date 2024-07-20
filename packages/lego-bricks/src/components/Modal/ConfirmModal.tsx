@@ -1,3 +1,4 @@
+import { TriangleAlert } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '../Button';
 import { ButtonGroup } from '../Button/ButtonGroup';
@@ -30,9 +31,9 @@ const ConfirmModalContent = ({
   confirmText = 'Ja',
   danger = true,
 }: ConfirmModalContentProps) => (
-  <Flex column gap={15}>
-    <Flex wrap alignItems="center" gap={10}>
-      <Icon name="warning" className={styles.warningIcon} />
+  <Flex column gap="var(--spacing-md)">
+    <Flex wrap alignItems="center" gap="var(--spacing-sm)">
+      <Icon iconNode={<TriangleAlert />} className={styles.warningIcon} />
       <h2 className={danger ? styles.dangerTitle : undefined}>{title}</h2>
     </Flex>
     <span>{message}</span>
