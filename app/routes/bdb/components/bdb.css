@@ -4,10 +4,6 @@
   border-collapse: collapse;
 }
 
-.rightSection a {
-  display: block;
-}
-
 .companyList th {
   padding: 5px 0;
   border-top: 1px solid var(--border-gray);
@@ -35,20 +31,6 @@
   }
 }
 
-.yearNavigator {
-  transition: color var(--easing-fast);
-  color: var(--secondary-font-color);
-  cursor: pointer;
-
-  &:focus {
-    background: none;
-  }
-
-  &::selection {
-    background: none;
-  }
-}
-
 .title {
   float: left;
   width: 80%;
@@ -70,21 +52,6 @@
   & span {
     max-width: 200px;
   }
-}
-
-.showAscending .upArrow,
-.showDescending .downArrow {
-  display: block !important;
-  float: right;
-  width: 10%;
-  padding-right: 20px;
-  color: var(--lego-font-color);
-}
-
-.hidden,
-.showAscending .downArrow,
-.showDescending .upArrow {
-  display: none !important;
 }
 
 /* Semesters in detailroute */
@@ -214,24 +181,8 @@
   width: 400px;
 }
 
-.invisRow {
-  background-color: var(--color-white);
-}
-
-.rightArrow {
-  text-align: right !important;
-}
-
-.clear {
-  clear: both;
-}
-
 .editTitle {
   width: 250px;
-}
-
-.contactedStatusForm {
-  width: 240px;
 }
 
 .surveyContainer {
@@ -242,4 +193,8 @@
 .newestFirst {
   color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
+}
+
+.navigateThroughTime svg {
+  color: var(--color-gray-7);
 }

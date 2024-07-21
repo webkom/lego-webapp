@@ -8,6 +8,7 @@ import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Company } from '../actions/ActionTypes';
 import { selectCompanySemesterEntities } from './companySemesters';
 import { selectEvents } from './events';
+import { selectUserEntities } from './users';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
@@ -19,6 +20,7 @@ import type {
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownEvent } from 'app/store/models/Event';
+import type { UnknownUser } from 'app/store/models/User';
 import type { AnyAction } from 'redux';
 import type { Overwrite } from 'utility-types';
 
@@ -117,6 +119,7 @@ export type TransformedAdminCompany<
 > = Overwrite<
   T,
   {
+    studentContact?: UnknownUser | EntityId | null;
     semesterStatuses: TransformedSemesterStatus[];
   }
 >;
@@ -125,8 +128,13 @@ export type TransformedAdminDetailCompany =
 const transformCompany = (
   companySemesterEntities: Record<EntityId, CompanySemester>,
   company: AdminDetailCompany | AdminListCompany,
+  userEntities?: Record<EntityId, UnknownUser>,
 ): TransformedAdminCompany => ({
   ...company,
+  studentContact:
+    userEntities &&
+    company.studentContact &&
+    userEntities[company.studentContact],
   semesterStatuses: transformSemesterStatuses(
     companySemesterEntities,
     company.semesterStatuses ?? [],
@@ -136,11 +144,12 @@ const transformCompany = (
 export const selectTransformedAdminCompanies = createSelector(
   selectAllCompanies,
   selectCompanySemesterEntities,
-  (companies, companySemesterEntities) => {
+  selectUserEntities,
+  (companies, companySemesterEntities, userEntities) => {
     return companies
       .map((company) =>
         'semesterStatuses' in company
-          ? transformCompany(companySemesterEntities, company)
+          ? transformCompany(companySemesterEntities, company, userEntities)
           : undefined,
       )
       .filter(isNotNullish)

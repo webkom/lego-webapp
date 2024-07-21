@@ -1,9 +1,11 @@
+import { Flex } from '@webkom/lego-bricks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import {
   getStatusColor,
   getContactStatuses,
   selectMostProminentStatus,
 } from '../utils';
+import styles from './SemesterStatus.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
@@ -30,9 +32,10 @@ const SemesterStatus = ({
     NonEventContactStatus.NOT_CONTACTED,
   ];
   return (
-    <td
+    <Flex
+      alignItems="center"
+      className={styles.semesterStatus}
       style={{
-        padding: 0,
         backgroundColor: getStatusColor(
           selectMostProminentStatus(contactedStatuses),
         ),
@@ -49,7 +52,7 @@ const SemesterStatus = ({
           )
         }
       />
-    </td>
+    </Flex>
   );
 };
 

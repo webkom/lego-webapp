@@ -419,7 +419,7 @@ const BdbDetail = () => {
             >
               <Card severity="info">
                 <Card.Header>Tips</Card.Header>
-                Du kan endre semestere ved å trykke på dem i listen!
+                Du kan endre semesterstatuser ved å trykke på dem i listen!
               </Card>
               <table className={styles.detailTable}>
                 <thead>
