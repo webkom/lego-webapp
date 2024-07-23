@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 type Props = {
-  size?: number;
+  size?: number | string;
   color?: string;
   style?: CSSProperties;
 };
@@ -15,7 +15,7 @@ function Circle({ size = 10, color = 'var(--color-gray-4)', style }: Props) {
       style={{
         width: size,
         height: size,
-        borderRadius: size / 2,
+        borderRadius: '50%',
         backgroundColor: color,
         display: 'inline-block',
         ...style,
