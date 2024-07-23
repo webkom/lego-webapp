@@ -18,6 +18,10 @@
   animation-delay: 5s;
 }
 
+.subHeader {
+  color: var(--secondary-font-color);
+}
+
 .header > h1 {
   margin: 0;
 }
@@ -46,9 +50,8 @@
   color: var(--color-white);
 }
 
-.buddyweek2022 {
-  background-color: #dd6e4b;
-  color: white;
+.buddyweek2024 {
+  border: 5px dashed var(--lego-red-color);
 }
 
 @keyframes wiggle {
@@ -75,8 +78,4 @@
   100% {
     transform: rotate(0deg);
   }
-}
-
-.subHeader {
-  color: var(--secondary-font-color);
 }

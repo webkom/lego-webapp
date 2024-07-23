@@ -44,7 +44,7 @@ const PublicFrontpage = () => {
         header="Velkommen til fadderperioden 2024!"
         subHeader="Trykk her for mer informasjon til nye studenter"
         link="https://ny.abakus.no"
-        color="red"
+        color="buddyweek2024"
       />
       <div className={styles.wrapper}>
         <Welcome />

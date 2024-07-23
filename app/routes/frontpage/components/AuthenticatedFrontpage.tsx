@@ -83,7 +83,7 @@ const AuthenticatedFrontpage = () => {
         header="Velkommen til fadderperioden 2024!"
         subHeader="Trykk her for mer informasjon til nye studenter"
         link="https://ny.abakus.no"
-        color="red"
+        color="buddyweek2024"
       />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />

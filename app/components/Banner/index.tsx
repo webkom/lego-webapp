@@ -11,7 +11,7 @@ export const COLORS = {
   gray: styles.gray,
   lightBlue: styles.lightBlue,
   itdageneBlue: styles.itdageneBlue,
-  buddyweek2022: styles.buddyweek2022,
+  buddyweek2024: styles.buddyweek2024,
 };
 type Color = $Keys<typeof COLORS>;
 type LinkComponentProps = {
@@ -61,7 +61,7 @@ const Banner = ({
 }: Props) => {
   return (
     <LinkComponent className={className} internal={internal} link={link}>
-      <Card className={cx(styles.header, color)}>
+      <Card className={cx(styles.header, color && COLORS[color])}>
         <h1>{header}</h1>
         {subHeader && <h4 className={styles.subHeader}>{subHeader}</h4>}
       </Card>
