@@ -1,4 +1,3 @@
-import PromisePool from 'es6-promise-pool';
 import callAPI from 'app/actions/callAPI';
 import { galleryPictureSchema } from 'app/reducers';
 import { GalleryPicture, Gallery } from './ActionTypes';
@@ -147,15 +146,21 @@ function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
       });
     });
 
-  const promiseProducer = function* () {
-    for (const file of files) {
-      yield uploadPictureWithErrorhandler(file);
+  const uploadInBatches = async (fileBatch) => {
+    const uploadPromises = fileBatch.map((file) =>
+      uploadPictureWithErrorhandler(file),
+    );
+    return Promise.all(uploadPromises);
+  };
+
+  const uploadSequentially = async () => {
+    for (let i = 0; i < files.length; i += MAX_UPLOADS) {
+      const fileBatch = files.slice(i, i + MAX_UPLOADS);
+      await uploadInBatches(fileBatch);
     }
   };
 
-  const _data = promiseProducer();
-
-  return new PromisePool(() => _data.next().value, MAX_UPLOADS).start();
+  return uploadSequentially();
 }
 
 export function uploadAndCreateGalleryPicture(
