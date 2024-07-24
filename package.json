@@ -57,7 +57,6 @@
     "cookie-parser": "^1.4.6",
     "core-js": "^3.37.1",
     "crypto-browserify": "^3.12.0",
-    "es6-promise-pool": "^2.5.0",
     "file-saver": "^2.0.5",
     "final-form": "^4.20.10",
     "final-form-arrays": "^3.1.0",
