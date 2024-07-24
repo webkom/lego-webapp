@@ -17,7 +17,7 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
 import AuthSection from 'app/components/AuthSection/AuthSection';
-// import Banner from 'app/components/Banner';
+import Banner from 'app/components/Banner';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectPinned } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/frontpage/components/LatestReadme';
@@ -40,12 +40,12 @@ const PublicFrontpage = () => {
 
   return (
     <PageContainer card={false}>
-      {/* <Banner
-        header="Billetter til Abakusrevyen ute nå!"
-        subHeader="Kjøp billetter her"
-        link="https://abakusrevyen.no/"
-        color="red"
-      /> */}
+      <Banner
+        header="Velkommen til fadderperioden 2024!"
+        subHeader="Trykk her for mer informasjon til nye studenter"
+        link="https://ny.abakus.no"
+        color="buddyweek2024"
+      />
       <div className={styles.wrapper}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>

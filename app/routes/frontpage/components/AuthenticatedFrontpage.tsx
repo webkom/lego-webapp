@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
-//import Banner from 'app/components/Banner';
+import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
@@ -79,12 +79,12 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      {/* <Banner
-        header="Billetter til Abakusrevyen ute nå!"
-        subHeader="Kjøp billetter her"
-        link="https://abakusrevyen.no/"
-        color="red"
-      /> */}
+      <Banner
+        header="Velkommen til fadderperioden 2024!"
+        subHeader="Trykk her for mer informasjon til nye studenter"
+        link="https://ny.abakus.no"
+        color="buddyweek2024"
+      />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
