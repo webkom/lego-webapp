@@ -1,6 +1,5 @@
 import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { RootState } from 'app/store/createRootReducer';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
