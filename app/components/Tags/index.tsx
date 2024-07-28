@@ -1,4 +1,4 @@
-import styles from './Tag.css';
+import { Flex } from '@webkom/lego-bricks';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -10,7 +10,11 @@ type Props = {
  * A basic tag component for displaying tags
  */
 const Tags = ({ children, className }: Props) => {
-  return <div className={className ? className : styles.tags}>{children}</div>;
+  return (
+    <Flex wrap gap="var(--spacing-sm)" className={className}>
+      {children}
+    </Flex>
+  );
 };
 
 export default Tags;

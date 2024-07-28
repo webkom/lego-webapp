@@ -52,11 +52,13 @@ export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
 
         <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
 
-        <Tags className={styles.tagline}>
-          {article.tags.map((tag) => (
-            <Tag tag={tag} key={tag} />
-          ))}
-        </Tags>
+        {article.tags?.length > 0 && (
+          <Tags className={styles.tagline}>
+            {article.tags.map((tag) => (
+              <Tag tag={tag} key={tag} />
+            ))}
+          </Tags>
+        )}
       </span>
 
       <p className={styles.itemDescription}>{article.description}</p>

@@ -9,10 +9,9 @@
 }
 
 .tagline {
-  margin: 10px 0 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: inline-flex;
+  margin: 0;
+  margin-left: var(--spacing-sm);
 }
 
 .overviewAuthor::after {
