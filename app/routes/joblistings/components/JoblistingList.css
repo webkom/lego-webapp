@@ -1,21 +1,12 @@
 @import url('~app/styles/variables.css');
 
-.heading {
-  margin-bottom: var(--spacing-md);
-}
-
-.headingDeadline {
-  margin-right: var(--spacing-md);
-
-  @media (--mobile-device) {
-    display: none;
-  }
-}
-
-.joblistingList {
-  flex: 3;
+.emptyState {
+  max-width: 280px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: var(--spacing-xl);
 
   @media (--mobile-device) {
-    margin: 0 var(--spacing-sm);
+    margin-top: var(--spacing-md);
   }
 }
