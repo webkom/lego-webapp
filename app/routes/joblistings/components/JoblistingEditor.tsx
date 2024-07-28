@@ -336,7 +336,7 @@ const JoblistingEditor = () => {
               name="text"
               className={styles.textField}
               placeholder="Søknadstekst"
-              label="Søknadstekst:"
+              label="Søknadstekst"
               component={EditorField.Field}
               initialized
               required

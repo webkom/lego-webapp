@@ -17,7 +17,7 @@ function ContentSidebar({ children, className }: Props) {
   return (
     <Flex
       column
-      gap="var(--spacing-sm)"
+      gap="var(--spacing-md)"
       className={cx(styles.sidebar, className)}
     >
       {children}

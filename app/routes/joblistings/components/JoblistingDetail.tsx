@@ -56,6 +56,8 @@ const propertyGenerator: PropertyGenerator<{
   ];
 };
 
+const NotGiven = () => <span className="secondaryFontColor">Ikke oppgitt</span>;
+
 const JoblistingDetail = () => {
   const { joblistingIdOrSlug } = useParams();
   const joblisting = useAppSelector((state) =>
@@ -112,47 +114,50 @@ const JoblistingDetail = () => {
           <DisplayContent content={joblisting.text} />
         </ContentMain>
         <ContentSidebar>
-          <h3>Generell info</h3>
-          <InfoList
-            items={[
-              {
-                key: 'Type',
-                value: jobType(joblisting.jobType),
-              },
-              {
-                key: 'Bedrift',
-                value: (
-                  <Link to={`/companies/${joblisting.company.id}`}>
-                    {joblisting.company.name}
-                  </Link>
-                ),
-              },
-              {
-                key: 'Klassetrinn',
-                value: <Year joblisting={joblisting} />,
-              },
-              joblisting.workplaces.length && {
-                key: 'Sted',
-                value: <Workplaces places={joblisting.workplaces} />,
-              },
-              {
-                key: 'Søknadsfrist',
-                value: (
-                  <strong>
-                    <Time time={joblisting.deadline} format="ll HH:mm" />
-                  </strong>
-                ),
-              },
-              {
-                key: 'Publisert',
-                value: (
-                  <strong>
-                    <Time time={joblisting.createdAt} format="ll HH:mm" />
-                  </strong>
-                ),
-              },
-            ].filter(isTruthy)}
-          />
+          <div>
+            <h3>Generell info</h3>
+            <InfoList
+              items={[
+                {
+                  key: 'Type',
+                  value: jobType(joblisting.jobType),
+                },
+                {
+                  key: 'Bedrift',
+                  value: (
+                    <Link to={`/companies/${joblisting.company.id}`}>
+                      {joblisting.company.name}
+                    </Link>
+                  ),
+                },
+                {
+                  key: 'Klassetrinn',
+                  value: <Year joblisting={joblisting} />,
+                },
+                joblisting.workplaces.length && {
+                  key: 'Sted',
+                  value: <Workplaces places={joblisting.workplaces} />,
+                },
+                {
+                  key: 'Søknadsfrist',
+                  value: (
+                    <strong>
+                      <Time time={joblisting.deadline} format="ll HH:mm" />
+                    </strong>
+                  ),
+                },
+                {
+                  key: 'Publisert',
+                  value: (
+                    <strong>
+                      <Time time={joblisting.createdAt} format="ll HH:mm" />
+                    </strong>
+                  ),
+                },
+              ].filter(isTruthy)}
+            />
+          </div>
+
           {joblisting.applicationUrl && (
             <LinkButton
               success
@@ -163,15 +168,12 @@ const JoblistingDetail = () => {
               Søk her
             </LinkButton>
           )}
+
           {(joblisting.responsible || joblisting.contactMail) && (
-            <div
-              style={{
-                marginTop: '10px',
-              }}
-            >
+            <div>
               <h3>Kontaktinfo</h3>
-              {joblisting.contactMail && (
-                <div>
+              <Flex column gap="var(--spacing-sm)">
+                {joblisting.contactMail && (
                   <InfoList
                     items={[
                       {
@@ -180,51 +182,46 @@ const JoblistingDetail = () => {
                       },
                     ]}
                   />
-                  {joblisting.responsible && (
-                    <div
-                      style={{
-                        marginTop: '10px',
-                      }}
-                    >
-                      <strong>Kontaktperson</strong>
-                    </div>
-                  )}
-                </div>
-              )}
-              {joblisting.responsible && (
-                <div
-                  style={{
-                    marginTop: '0px',
-                  }}
-                >
-                  <InfoList
-                    items={[
-                      {
-                        key: 'Navn',
-                        value: joblisting.responsible.name || 'Ikke oppgitt.',
-                      },
-                      {
-                        key: 'E-post',
-                        value: joblisting.responsible.mail || 'Ikke oppgitt.',
-                      },
-                      {
-                        key: 'Telefon',
-                        value: joblisting.responsible.phone || 'Ikke oppgitt.',
-                      },
-                    ]}
-                  />
-                </div>
-              )}
+                )}
+                {joblisting.responsible && (
+                  <div>
+                    <h4>Kontaktperson</h4>
+                    <InfoList
+                      items={[
+                        {
+                          key: 'Navn',
+                          value: joblisting.responsible.name || <NotGiven />,
+                        },
+                        {
+                          key: 'E-post',
+                          value: joblisting.responsible.mail ? (
+                            <a href={`mailto:${joblisting.responsible.mail}`}>
+                              {joblisting.responsible.mail}
+                            </a>
+                          ) : (
+                            <NotGiven />
+                          ),
+                        },
+                        {
+                          key: 'Telefon',
+                          value: joblisting.responsible.phone ? (
+                            <a href={`tel:${joblisting.responsible.phone}`}>
+                              {joblisting.responsible.phone}
+                            </a>
+                          ) : (
+                            <NotGiven />
+                          ),
+                        },
+                      ]}
+                    />
+                  </div>
+                )}
+              </Flex>
             </div>
           )}
 
           {(canEdit || canDelete) && (
-            <Flex
-              column
-              style={{
-                marginTop: '10px',
-              }}
-            >
+            <div>
               <h3>Admin</h3>
               {canEdit && (
                 <LinkButton href={`/joblistings/${joblisting.id}/edit`}>
@@ -232,7 +229,7 @@ const JoblistingDetail = () => {
                   Rediger
                 </LinkButton>
               )}
-            </Flex>
+            </div>
           )}
         </ContentSidebar>
       </ContentSection>
