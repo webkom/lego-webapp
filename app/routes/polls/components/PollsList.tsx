@@ -1,5 +1,6 @@
 import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { CircleCheck, CircleX } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/PollActions';
@@ -50,20 +51,17 @@ const PollsList = () => {
           {polls.map((poll) => (
             <Link key={poll.id} to={`/polls/${poll.id}`}>
               <Card isHoverable className={styles.pollListItem}>
-                <Flex>
-                  <Icon name="stats-chart" size={35} className={styles.icon} />
-                  <h3 className={styles.heading}>{poll.title}</h3>
-                </Flex>
+                <Card.Header>{poll.title}</Card.Header>
 
-                <Flex wrap justifyContent="space-between">
-                  <span>{`Antall stemmer: ${poll.totalVotes}`}</span>
-                  <Flex alignItems="center" gap={5}>
+                <Flex wrap justifyContent="space-between" alignItems="center">
+                  <span>{`${poll.totalVotes} ${poll.totalVotes === 1 ? 'stemme' : 'stemmer'}`}</span>
+                  <Flex alignItems="center" gap="var(--spacing-sm)">
                     {poll.hasAnswered ? (
                       <>
                         Svart
                         <Icon
-                          name="checkmark-circle-outline"
-                          size={20}
+                          iconNode={<CircleCheck />}
+                          size={21}
                           className={styles.success}
                         />
                       </>
@@ -71,11 +69,9 @@ const PollsList = () => {
                       <>
                         Ikke svart
                         <Icon
-                          name="close-circle-outline"
-                          size={20}
-                          style={{
-                            color: 'var(--danger-color)',
-                          }}
+                          iconNode={<CircleX />}
+                          size={21}
+                          className={styles.danger}
                         />
                       </>
                     )}
