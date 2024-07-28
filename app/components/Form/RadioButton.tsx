@@ -44,7 +44,10 @@ function RadioButton({
         </svg>
       </div>
       {label && (
-        <label htmlFor={id} className={styles.label}>
+        <label
+          htmlFor={id}
+          className={cx(styles.label, props.disabled && styles.disabled)}
+        >
           {label}
         </label>
       )}
