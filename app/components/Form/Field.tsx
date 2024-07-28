@@ -89,6 +89,7 @@ export function createField<T, ExtraProps extends object>(
             {label}
           </div>
         )}
+        {required && <span className={styles.required}>*</span>}
         {description && (
           <Flex className={styles.description}>
             <Tooltip content={description}>
@@ -96,7 +97,6 @@ export function createField<T, ExtraProps extends object>(
             </Tooltip>
           </Flex>
         )}
-        {required && <span className={styles.required}>*</span>}
       </Flex>
     );
 
