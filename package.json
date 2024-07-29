@@ -147,7 +147,7 @@
     "@types/redux-logger": "^3.0.13",
     "@types/redux-sentry-middleware": "^0.2.8",
     "@types/webpack": "^5.28.5",
-    "@types/webpack-env": "^1.18.4",
+    "@types/webpack-env": "^1.18.5",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react": "^4.2.0",
