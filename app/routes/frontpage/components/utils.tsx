@@ -48,7 +48,7 @@ export const renderMeta = (item?: ArticleWithType | EventWithType) => {
       </span>
 
       {item.tags?.length > 0 && (
-        <Tags className={styles.tagline}>
+        <Tags>
           {item.tags.slice(0, 3).map((tag) => (
             <Tag tag={tag} key={tag} />
           ))}

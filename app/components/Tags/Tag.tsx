@@ -55,7 +55,7 @@ const Tag = ({
       </Link>
     ) : (
       <Flex
-        gap={5}
+        gap="var(--spacing-xs)"
         alignItems="center"
         className={cx(styles.tag, styles[color], className)}
       >
