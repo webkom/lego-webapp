@@ -2,6 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import { sample } from 'lodash';
 import {
   BadgeInfo,
+  Banana,
   BarChart3,
   BookImage,
   BookOpenText,
@@ -11,6 +12,7 @@ import {
   Database,
   ExternalLink,
   FilePieChart,
+  Gamepad,
   Group,
   MailSearch,
   MailWarning,
@@ -18,13 +20,13 @@ import {
   MessageCircleWarning,
   MessageCircleQuestion,
   MessagesSquare,
+  MountainSnow,
   Newspaper,
   Phone,
   ReceiptText,
   ScrollText,
   Send,
   Tags,
-  Telescope,
   Users,
 } from 'lucide-react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
@@ -94,7 +96,11 @@ const LINKS: Array<Link> = [
   {
     key: 'interest-groups',
     title: 'Interessegrupper',
-    icon: <Telescope />,
+    icon: sample([
+      <Banana key="1" />,
+      <Gamepad key="2" />,
+      <MountainSnow key="3" />,
+    ]),
     url: '/interest-groups',
   },
   {

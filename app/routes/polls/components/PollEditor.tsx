@@ -6,6 +6,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
+import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -60,7 +61,7 @@ const renderOptions = ({ fields }): ReactNode => (
           >
             {({ openConfirmModal }) => (
               <Tooltip className="deleteOption" content="Fjern">
-                <Icon onClick={openConfirmModal} name="trash" danger />
+                <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
               </Tooltip>
             )}
           </ConfirmModal>
@@ -210,7 +211,7 @@ const PollEditor = ({
                 >
                   {({ openConfirmModal }) => (
                     <Button onPress={openConfirmModal} danger>
-                      <Icon name="trash" size={19} />
+                      <Icon iconNode={<Trash2 />} size={19} />
                       Slett avstemning
                     </Button>
                   )}

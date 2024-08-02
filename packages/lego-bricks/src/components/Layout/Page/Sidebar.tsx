@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { X } from 'lucide-react';
 import { createContext, useContext } from 'react';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
@@ -16,7 +17,9 @@ type Props = {
 
 export const Sidebar = ({ title, close, className, children }: Props) => (
   <Flex className={cx(styles.sidebar, className)} column>
-    {close && <Icon name="close" className={styles.close} onClick={close} />}
+    {close && (
+      <Icon iconNode={<X />} className={styles.close} onClick={close} />
+    )}
     {title && <h2 className={styles.title}>{title}</h2>}
     {children}
   </Flex>

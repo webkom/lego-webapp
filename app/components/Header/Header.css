@@ -95,20 +95,6 @@
   flex-direction: row;
 }
 
-.dropdown {
-  width: 355px;
-  padding: var(--spacing-md);
-
-  @media (--small-viewport) {
-    width: 100%;
-
-    &::before,
-    &::after {
-      display: none;
-    }
-  }
-}
-
 .logoLightMode,
 .logoDarkMode {
   display: none;

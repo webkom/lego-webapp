@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { CircleAlert, CircleCheck, Info, TriangleAlert } from 'lucide-react';
 import { Icon } from '../Icon';
 import Flex from '../Layout/Flex';
 import { Skeleton } from '../Skeleton';
@@ -26,20 +27,18 @@ const CardContent = ({ children, severity }: CardContentProps) => {
 
   switch (severity) {
     case 'danger':
-      icon = <Icon name="alert-circle-outline" className={styles.dangerIcon} />;
+      icon = <Icon iconNode={<CircleAlert />} className={styles.dangerIcon} />;
       break;
     case 'info':
-      icon = (
-        <Icon name="information-circle-outline" className={styles.infoIcon} />
-      );
+      icon = <Icon iconNode={<Info />} className={styles.infoIcon} />;
       break;
     case 'success':
-      icon = (
-        <Icon name="checkmark-circle-outline" className={styles.successIcon} />
-      );
+      icon = <Icon iconNode={<CircleCheck />} className={styles.successIcon} />;
       break;
     case 'warning':
-      icon = <Icon name="warning-outline" className={styles.warningIcon} />;
+      icon = (
+        <Icon iconNode={<TriangleAlert />} className={styles.warningIcon} />
+      );
       break;
   }
 

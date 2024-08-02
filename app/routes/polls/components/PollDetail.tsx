@@ -1,5 +1,6 @@
 import { Button, Icon, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
@@ -46,7 +47,7 @@ const PollDetail = () => {
               'Avbryt'
             ) : (
               <>
-                <Icon name="create-outline" size={19} />
+                <Icon iconNode={<Pencil />} size={19} />
                 Rediger
               </>
             )}

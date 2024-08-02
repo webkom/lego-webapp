@@ -1,4 +1,5 @@
 import { Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
@@ -159,7 +160,7 @@ const Question = ({
             closeOnConfirm
           >
             {({ openConfirmModal }) => (
-              <Icon onClick={openConfirmModal} name="trash" danger />
+              <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
             )}
           </ConfirmModal>
         </Flex>

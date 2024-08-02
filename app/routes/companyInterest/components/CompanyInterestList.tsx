@@ -7,6 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchSemesters } from 'app/actions/CompanyActions';
@@ -165,12 +166,14 @@ const CompanyInterestList = () => {
         <Flex justifyContent="center">
           <ConfirmModal
             title="Bekreft fjerning av interesse"
-            message={'Er du sikker på at du vil fjerne?'}
+            message="Er du sikker på at du vil fjerne?"
             closeOnConfirm
-            onConfirm={() => dispatch(deleteCompanyInterest(id))}
+            onConfirm={() => {
+              dispatch(deleteCompanyInterest(id));
+            }}
           >
             {({ openConfirmModal }) => (
-              <Icon onClick={openConfirmModal} name="trash" danger />
+              <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
             )}
           </ConfirmModal>
         </Flex>

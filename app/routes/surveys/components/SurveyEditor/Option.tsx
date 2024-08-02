@@ -1,4 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import { X } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
@@ -13,7 +14,7 @@ type Props = {
 };
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>
-  remove ? <Icon name="close" onClick={remove} /> : null;
+  remove ? <Icon iconNode={<X />} onClick={remove} /> : null;
 
 const Option = (props: Props) => {
   return props.questionType === SurveyQuestionType.SingleChoice ? (

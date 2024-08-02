@@ -7,6 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
+import { Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
@@ -200,7 +201,7 @@ const MeetingDetails = () => {
             <AnnouncementInLine meeting={meeting} />
             {canEdit && (
               <LinkButton href={`/meetings/${meeting.id}/edit`}>
-                <Icon name="create-outline" size={19} />
+                <Icon iconNode={<Pencil />} size={19} />
                 Rediger
               </LinkButton>
             )}

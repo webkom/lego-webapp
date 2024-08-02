@@ -8,6 +8,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -248,7 +249,7 @@ const ArticleEditor = () => {
                 >
                   {({ openConfirmModal }) => (
                     <Button onPress={openConfirmModal} danger>
-                      <Icon name="trash" size={19} />
+                      <Icon iconNode={<Trash2 />} size={19} />
                       Slett artikkel
                     </Button>
                   )}

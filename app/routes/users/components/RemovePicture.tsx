@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, Icon } from '@webkom/lego-bricks';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { removePicture } from 'app/actions/UserActions';
 import { useAppDispatch } from 'app/store/hooks';
@@ -27,7 +28,7 @@ const RemovePicture = (props: Props) => {
         <Button onPress={toggleSelected}>Avbryt</Button>
       ) : (
         <Button danger onPress={toggleSelected}>
-          <Icon name="trash" size={19} />
+          <Icon iconNode={<Trash2 />} size={19} />
           Slett profilbildet
         </Button>
       )}

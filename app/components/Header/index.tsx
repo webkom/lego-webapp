@@ -108,7 +108,7 @@ const UpcomingMeetingButton = () => {
         navigate(`/meetings/${upcomingMeetingId}`);
       }}
     >
-      <Icon name="people" />
+      <Icon iconNode={<Users />} />
     </button>
   );
 };
@@ -145,14 +145,10 @@ const AccountDropdown = () => {
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
       triggerComponent={
-        currentUser && (
-          <ProfilePicture
-            size={24}
-            user={currentUser}
-            style={{
-              verticalAlign: 'middle',
-            }}
-          />
+        currentUser ? (
+          <ProfilePicture size={24} user={currentUser} />
+        ) : (
+          <Icon iconNode={<CircleUser />} />
         )
       }
     >
@@ -162,7 +158,6 @@ const AccountDropdown = () => {
     <Dropdown
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
-      contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
       <AuthSection />

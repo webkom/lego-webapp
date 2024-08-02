@@ -10,6 +10,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Pencil } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import {
@@ -190,7 +191,7 @@ const InterestGroupDetail = () => {
             <>
               <h3>Admin</h3>
               <LinkButton href={`/interest-groups/${group.id}/edit`}>
-                <Icon name="create-outline" size={19} />
+                <Icon iconNode={<Pencil />} size={19} />
                 Rediger
               </LinkButton>
             </>

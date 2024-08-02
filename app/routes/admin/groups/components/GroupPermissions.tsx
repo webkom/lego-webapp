@@ -1,5 +1,6 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
+import { Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
@@ -97,7 +98,11 @@ const PermissionList = ({ group }: PermissionListProps) => {
                   }
                 >
                   {({ openConfirmModal }) => (
-                    <Icon onClick={openConfirmModal} name="trash" danger />
+                    <Icon
+                      onClick={openConfirmModal}
+                      iconNode={<Trash2 />}
+                      danger
+                    />
                   )}
                 </ConfirmModal>
                 {permission}

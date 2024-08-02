@@ -1,4 +1,5 @@
 import { Icon, LinkButton } from '@webkom/lego-bricks';
+import { Send } from 'lucide-react';
 import { useAppSelector } from 'app/store/hooks';
 import type { AnnouncementCreateLocationState } from 'app/routes/announcements/components/AnnouncementsCreate';
 import type { UnknownEvent } from 'app/store/models/Event';
@@ -29,7 +30,7 @@ const AnnouncementInLine = ({ event, meeting, group }: Props) => {
         } as AnnouncementCreateLocationState
       }
     >
-      <Icon name="send-outline" size={18} />
+      <Icon iconNode={<Send />} size={18} />
       Send kunngjøring
     </LinkButton>
   );

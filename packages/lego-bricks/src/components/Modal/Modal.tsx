@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { X } from 'lucide-react';
 import {
   Dialog,
   Heading,
@@ -76,7 +77,7 @@ const Modal = ({
                 </Heading>
               )}
               <Icon
-                name="close"
+                iconNode={<X />}
                 onClick={close}
                 className={styles.closeButton}
                 data-test-id="Modal__closeButton"

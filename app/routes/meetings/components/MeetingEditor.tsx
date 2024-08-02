@@ -8,6 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
+import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
@@ -441,7 +442,7 @@ const MeetingEditor = () => {
                   >
                     {({ openConfirmModal }) => (
                       <Button onPress={openConfirmModal} danger>
-                        <Icon name="trash" size={19} />
+                        <Icon iconNode={<Trash2 />} size={19} />
                         Slett møtet
                       </Button>
                     )}

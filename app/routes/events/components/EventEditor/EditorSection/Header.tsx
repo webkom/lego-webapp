@@ -6,6 +6,7 @@ import {
   Modal,
   Image,
 } from '@webkom/lego-bricks';
+import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
 import EmptyState from 'app/components/EmptyState';
@@ -111,14 +112,16 @@ const Header = ({
                       />
                       <ConfirmModal
                         title="Fjern fra galleri"
-                        message={`Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen.`}
+                        message="Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen."
                         closeOnConfirm
-                        onConfirm={() => setSaveForUse(e.key, e.token, false)}
+                        onConfirm={() => {
+                          setSaveForUse(e.key, e.token, false);
+                        }}
                       >
                         {({ openConfirmModal }) => (
                           <Icon
                             onClick={openConfirmModal}
-                            name="trash"
+                            iconNode={<Trash2 />}
                             danger
                           />
                         )}

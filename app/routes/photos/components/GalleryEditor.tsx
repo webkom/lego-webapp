@@ -12,6 +12,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { without } from 'lodash';
+import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
@@ -357,7 +358,7 @@ const GalleryEditor = () => {
                 >
                   {({ openConfirmModal }) => (
                     <Button danger onPress={openConfirmModal}>
-                      <Icon name="trash" size={19} />
+                      <Icon iconNode={<Trash2 />} size={19} />
                       Slett album
                     </Button>
                   )}

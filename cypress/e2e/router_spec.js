@@ -26,7 +26,7 @@ describe('Navigate throughout app', () => {
     });
     cy.url().should('contain', '/events');
     cy.contains('Denne uken');
-    cy.contains('Liste');
+    cy.contains('Oversikt');
   });
 
   it('should be able to navigate to joblistings', () => {
@@ -155,7 +155,7 @@ describe('Navigate throughout app', () => {
 
     // Events
     openMenuAndSelect('Arrangementer', '/events');
-    cy.contains('Liste');
+    cy.contains('Oversikt');
 
     // Articles
     openMenuAndSelect('Artikler', '/articles');

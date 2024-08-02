@@ -1,4 +1,5 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { removeMember, addMember } from 'app/actions/GroupActions';
@@ -124,7 +125,12 @@ const GroupMembersList = ({
           onConfirm={() => dispatch(removeMember(membership))}
         >
           {({ openConfirmModal }) => (
-            <Icon onClick={openConfirmModal} name="trash" size={20} danger />
+            <Icon
+              onClick={openConfirmModal}
+              iconNode={<Trash2 />}
+              size={20}
+              danger
+            />
           )}
         </ConfirmModal>
       </Flex>

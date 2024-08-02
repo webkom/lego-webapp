@@ -62,12 +62,12 @@ describe('View event', () => {
       .within(() => {
         cy.contains('This event will be awesome');
         cy.contains('button', 'Svar').should('exist').and('not.be.disabled');
-        cy.get('ion-icon[name=trash]')
+        cy.get(t('delete-comment-button'))
           .should('exist')
           .and('not.be.disabled')
           .click();
         cy.contains('Kommentar slettet');
-        cy.contains('button', 'svar').should('not.exist');
+        cy.contains('button', 'Svar').should('not.exist');
       });
 
     cy.get(c('CommentForm')).find('input').last().click();
