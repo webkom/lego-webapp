@@ -140,12 +140,6 @@ steps:
       event: [push]
       branch:
         exclude: [build]
-    depends_on:
-      - postgres
-      - minio
-      - thumbor
-      - redis
-      - api
     volumes:
       - name: yarn_cache
         path: /tmp/cache
@@ -153,7 +147,8 @@ steps:
       CYPRESS_INSTALL_BINARY: 0
     commands:
       - apk --no-cache add curl
-      - yarn --frozen-lockfile --cache-folder /tmp/cache
+      - export CACHE_KEY=$(sha1sum yarn.lock | awk '{ print $1 }')
+      - yarn --frozen-lockfile --cache-folder /tmp/cache/$CACHE_KEY
 
   - name: build_packages
     image: node:18-alpine
@@ -329,7 +324,7 @@ steps:
       build_args_from_env:
         - SENTRY_AUTH_TOKEN
 
-  - name: Deploy
+  - name: deploy
     image: abakus/ansible-deploy
     settings:
       playbook: /infrastructure/lego/playbooks/deploy.yml
@@ -362,4 +357,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 4edd037ec61390966e80949fd80f036651109310c03b4a9e3ea2708bb68b3549
+hmac: 605e4e9d24d301f83c264f8a8bca651a987ee5930341d00870da065e4e2f6f5d
