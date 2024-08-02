@@ -1,3 +1,4 @@
+import type { LendingRequest } from './LendingRequest';
 import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
@@ -18,6 +19,7 @@ import type { UnknownGalleryPicture } from 'app/store/models/GalleryPicture';
 import type { UnknownGroup } from 'app/store/models/Group';
 import type { ImageGalleryEntry } from 'app/store/models/ImageGalleryEntry';
 import type { UnknownJoblisting } from 'app/store/models/Joblisting';
+import type { UnknownLendableObject } from 'app/store/models/LendableObject';
 import type { UnknownMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitation } from 'app/store/models/MeetingInvitation';
 import type Membership from 'app/store/models/Membership';
@@ -54,6 +56,8 @@ export enum EntityType {
   Groups = 'groups',
   ImageGalleryEntries = 'imageGalleryEntries',
   Joblistings = 'joblistings',
+  LendableObjects = 'lendableObjects',
+  LendingRequests = 'lendingRequests',
   MeetingInvitations = 'meetingInvitations',
   Meetings = 'meetings',
   Memberships = 'memberships',
@@ -94,6 +98,8 @@ export default interface Entities {
   [EntityType.Groups]: Record<EntityId, UnknownGroup>;
   [EntityType.Joblistings]: Record<EntityId, UnknownJoblisting>;
   [EntityType.ImageGalleryEntries]: Record<EntityId, ImageGalleryEntry>;
+  [EntityType.LendableObjects]: Record<EntityId, UnknownLendableObject>;
+  [EntityType.LendingRequests]: Record<EntityId, LendingRequest>;
   [EntityType.MeetingInvitations]: Record<EntityId, MeetingInvitation>;
   [EntityType.Meetings]: Record<EntityId, UnknownMeeting>;
   [EntityType.Memberships]: Record<EntityId, Membership>;

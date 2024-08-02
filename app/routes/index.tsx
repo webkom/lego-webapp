@@ -13,6 +13,7 @@ import eventsRoute from './events';
 import forumRoute from './forum';
 import interestGroupsRoute from './interestgroups';
 import joblistingsRoute from './joblistings';
+import lendingRoute from './lending';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
 import pagesRoute from './pages';
@@ -53,6 +54,7 @@ export const routerConfig: RouteObject[] = [
       { path: 'interest-groups/*', children: interestGroupsRoute },
       { path: 'interestgroups/*', children: interestGroupsRoute },
       { path: 'joblistings/*', children: joblistingsRoute },
+      { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
       { path: 'pages/*', children: pagesRoute },
       { path: 'photos/*', children: photosRoute },
