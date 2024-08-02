@@ -122,7 +122,10 @@ const JoblistingsPage = () => {
       }
     >
       <Helmet title="Karriere" />
-      <JoblistingsList joblistings={joblistings} />
+      <JoblistingsList
+        joblistings={joblistings}
+        totalCount={unsortedJoblistings.length}
+      />
     </Page>
   );
 };
