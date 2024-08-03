@@ -7,6 +7,7 @@ import {
   Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Trash2 } from 'lucide-react';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
@@ -66,7 +67,7 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
         src={previewUrl}
       />
       <div className={styles.fileName}>{file.name}</div>
-      <Icon onClick={onRemove} name="trash" danger />
+      <Icon onClick={onRemove} iconNode={<Trash2 />} danger />
     </Flex>
   );
 };

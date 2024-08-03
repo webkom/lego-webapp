@@ -1,4 +1,5 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Reply, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -81,11 +82,12 @@ const Comment = ({
                 <Tooltip content="Slett kommentar">
                   <Icon
                     danger
-                    name="trash"
+                    iconNode={<Trash2 />}
                     size={20}
                     onClick={() =>
                       dispatch(deleteComment(comment.id, contentTarget))
                     }
+                    data-test-id="delete-comment-button"
                   />
                 </Tooltip>
               </Flex>
@@ -116,13 +118,14 @@ const Comment = ({
             contentTarget: comment.contentTargetSelf,
           }}
         />
+
         {author && (
           <Button flat onPress={() => setReplyOpen(!replyOpen)}>
             {replyOpen ? (
               'Avbryt'
             ) : (
               <>
-                <Icon name="return-up-back" size={20} />
+                <Icon iconNode={<Reply />} size={20} />
                 Svar
               </>
             )}

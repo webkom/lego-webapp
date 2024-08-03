@@ -1,4 +1,5 @@
 import { Button, ButtonGroup, Icon, LinkButton } from '@webkom/lego-bricks';
+import { Pencil } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { hideSurvey, shareSurvey } from 'app/actions/SurveyActions';
 import { ContentSidebar } from 'app/components/Content';
@@ -63,7 +64,7 @@ const AdminSideBar = ({
           </LinkButton>
 
           <LinkButton href={`/surveys/${surveyId}/edit`}>
-            <Icon name="create-outline" size={19} />
+            <Icon iconNode={<Pencil />} size={19} />
             Rediger
           </LinkButton>
 

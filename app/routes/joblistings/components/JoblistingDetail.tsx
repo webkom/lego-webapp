@@ -1,5 +1,6 @@
 import { Flex, Icon, LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
@@ -225,7 +226,7 @@ const JoblistingDetail = () => {
               <h3>Admin</h3>
               {canEdit && (
                 <LinkButton href={`/joblistings/${joblisting.id}/edit`}>
-                  <Icon name="create-outline" size={19} />
+                  <Icon iconNode={<Pencil />} size={19} />
                   Rediger
                 </LinkButton>
               )}

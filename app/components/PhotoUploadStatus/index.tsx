@@ -1,4 +1,5 @@
 import { Card, Flex, Icon, Image } from '@webkom/lego-bricks';
+import { X } from 'lucide-react';
 import { connect } from 'react-redux';
 import Tooltip from 'app/components/Tooltip';
 import {
@@ -37,7 +38,11 @@ const UploadStatusCard = ({
       severity={!uploadDone ? 'info' : hasFailedUploads ? 'danger' : 'success'}
       className={styles.photoUploadStatus}
     >
-      <Icon className={styles.close} onClick={hideUploadStatus} name="close" />
+      <Icon
+        className={styles.close}
+        onClick={hideUploadStatus}
+        iconNode={<X />}
+      />
 
       {uploadDone ? (
         <Card.Header className={styles.header}>

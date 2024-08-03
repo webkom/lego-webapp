@@ -4,6 +4,7 @@ import {
   Flex,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { deleteSemesterStatus } from 'app/actions/CompanyActions';
 import FileUpload from 'app/components/Upload/FileUpload';
@@ -117,7 +118,12 @@ const SemesterStatusDetail = (props: Props) => {
             closeOnConfirm
           >
             {({ openConfirmModal }) => (
-              <Icon onClick={openConfirmModal} name="trash" danger size={20} />
+              <Icon
+                onClick={openConfirmModal}
+                iconNode={<Trash2 />}
+                danger
+                size={20}
+              />
             )}
           </ConfirmModal>
         </Flex>
@@ -166,7 +172,7 @@ const RenderFile = (props: RenderFileProps) => {
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
-            <Icon onClick={openConfirmModal} name="trash" danger />
+            <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
           )}
         </ConfirmModal>
       </span>

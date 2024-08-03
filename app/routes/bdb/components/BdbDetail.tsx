@@ -12,6 +12,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -237,7 +238,7 @@ const BdbDetail = () => {
                 {({ openConfirmModal }) => (
                   <Icon
                     onClick={openConfirmModal}
-                    name="trash"
+                    iconNode={<Trash2 />}
                     danger
                     size={20}
                   />

@@ -1,4 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import { Search, X } from 'lucide-react';
 import styles from './Search.css';
 import type { Dispatch, KeyboardEventHandler, SetStateAction } from 'react';
 
@@ -33,7 +34,7 @@ const SearchBar = ({
       alignItems="center"
     >
       <div className={styles.searchIcon}>
-        <Icon name="search" size={30} />
+        <Icon iconNode={<Search />} size={30} />
       </div>
       {searchFields.map((k) => (
         <input
@@ -42,7 +43,6 @@ const SearchBar = ({
           className={k.className}
           onChange={(e) => onQueryChanged(e.target.value)}
           value={query}
-          type="search"
           size={1}
           placeholder="Hva leter du etter?"
           ref={(input) => input && k.autoFocus && input.focus()}
@@ -51,7 +51,7 @@ const SearchBar = ({
 
       <Icon
         onClick={onCloseSearch}
-        name={'close'}
+        iconNode={<X />}
         size={30}
         data-test-id="closeButton"
       />

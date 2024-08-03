@@ -7,6 +7,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import keys from 'lodash/keys';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -141,7 +142,7 @@ const UserSettingsOAuth2 = () => {
               <Flex justifyContent="center">
                 <Icon
                   onClick={openConfirmModal}
-                  name="trash"
+                  iconNode={<Trash2 />}
                   size={19}
                   danger
                 />

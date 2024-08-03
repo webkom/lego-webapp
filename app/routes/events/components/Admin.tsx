@@ -5,6 +5,7 @@ import {
   Icon,
   LinkButton,
 } from '@webkom/lego-bricks';
+import { Pencil, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +33,7 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
     <>
       {!show ? (
         <Button danger onPress={() => setShow(true)}>
-          <Icon name="trash" size={19} />
+          <Icon iconNode={<Trash2 />} size={19} />
           Slett arrangement
         </Button>
       ) : (
@@ -60,7 +61,7 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
             >
               {({ openConfirmModal }) => (
                 <Button onPress={openConfirmModal} danger>
-                  <Icon name="trash" size={19} />
+                  <Icon iconNode={<Trash2 />} size={19} />
                   Slett
                 </Button>
               )}
@@ -110,7 +111,7 @@ const Admin = ({ actionGrant, event }: Props) => {
 
           {canEdit && (
             <LinkButton href={`/events/${event.slug}/edit`}>
-              <Icon name="create-outline" size={19} />
+              <Icon iconNode={<Pencil />} size={19} />
               Rediger
             </LinkButton>
           )}

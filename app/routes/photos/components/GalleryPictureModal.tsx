@@ -1,6 +1,7 @@
 import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
+import { Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
@@ -325,7 +326,7 @@ const GalleryPictureModal = () => {
                         className={styles.dropdownLink}
                       >
                         Rediger
-                        <Icon name="create-outline" size={24} />
+                        <Icon iconNode={<Pencil />} size={24} />
                       </Link>
                     </Dropdown.ListItem>,
                     <Dropdown.ListItem key="cover">
