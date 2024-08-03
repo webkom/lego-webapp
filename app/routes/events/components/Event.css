@@ -16,10 +16,6 @@
   resize: vertical;
 }
 
-.subHeader {
-  margin-top: 18px;
-}
-
 .tagRow {
   margin-top: var(--spacing-md);
 }

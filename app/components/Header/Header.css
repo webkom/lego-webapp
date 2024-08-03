@@ -79,11 +79,7 @@
   align-items: center;
   flex-direction: row;
   height: var(--lego-header-height);
-  padding-left: 20px;
-
-  @media (--mobile-device) {
-    padding: 0 10px;
-  }
+  padding: 0 var(--spacing-md);
 }
 
 .logo {
@@ -93,6 +89,15 @@
 .menu {
   display: flex;
   flex-direction: row;
+}
+
+.dropdown {
+  width: 355px;
+  padding: var(--spacing-md);
+
+  @media (--small-viewport) {
+    width: 95%;
+  }
 }
 
 .logoLightMode,

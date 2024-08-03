@@ -9,9 +9,9 @@ const ChartLabel = ({
   distributionData: DistributionDataPoint[];
 }) => {
   return (
-    <Flex column gap="0.5rem" className={styles.chartLabel}>
+    <Flex column gap="var(--spacing-sm)" className={styles.chartLabel}>
       {distributionData.map((dataPoint, i) => (
-        <Flex key={i} alignItems="center" gap="0.5rem">
+        <Flex key={i} alignItems="center" gap="var(--spacing-sm)">
           <svg className={styles.circle} viewBox="0 0 32 32">
             <circle
               cx="16"

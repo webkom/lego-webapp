@@ -368,7 +368,16 @@ const GalleryPictureModal = () => {
             />
           </Flex>
 
-          <Flex justifyContent="center" gap="2.5rem">
+          {(picture.description || picture.taggees.length > 0) && (
+            <span className={styles.pictureDescription}>
+              {picture.description}
+              {picture.taggees.length > 0 && (
+                <Taggees taggees={picture.taggees} />
+              )}
+            </span>
+          )}
+
+          <Flex justifyContent="center" gap="var(--spacing-lg)">
             {hasPrevious && (
               <Icon
                 onClick={previousGalleryPicture}
@@ -384,16 +393,6 @@ const GalleryPictureModal = () => {
               />
             )}
           </Flex>
-          {(picture.description || picture.taggees.length > 0) && (
-            <Flex className={styles.pictureDescription}>
-              <p>
-                {picture.description}
-                {picture.taggees.length > 0 && (
-                  <Taggees taggees={picture.taggees} />
-                )}
-              </p>
-            </Flex>
-          )}
           {picture.contentTarget && (
             <CommentView
               contentTarget={picture.contentTarget}

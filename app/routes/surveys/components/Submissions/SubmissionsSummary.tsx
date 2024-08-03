@@ -31,7 +31,7 @@ const SubmissionsSummary = () => {
               key={answer.id}
               justifyContent="space-between"
               alignItems="center"
-              gap="0.5rem"
+              gap="var(--spacing-sm)"
             >
               <span
                 className={styles.answerText}

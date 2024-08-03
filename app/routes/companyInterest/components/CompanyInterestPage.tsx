@@ -737,9 +737,9 @@ const CompanyInterestPage = () => {
                 return (
                   showComment && (
                     <div className={styles.topline}>
-                      <Flex alignItems="center" gap={1}>
+                      <Flex alignItems="center" gap={2}>
                         <h3>{eventTypeEntity.translated}</h3>
-                        <p className={styles.label}>*</p>
+                        <span className={styles.label}>*</span>
                       </Flex>
 
                       <p>{eventTypeEntity.description}</p>

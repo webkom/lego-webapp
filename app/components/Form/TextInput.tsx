@@ -51,7 +51,7 @@ const TextInput = ({
   return (
     <Flex
       alignItems="center"
-      gap={10}
+      gap="var(--spacing-sm)"
       className={cx(
         styles.input,
         styles.textInput,

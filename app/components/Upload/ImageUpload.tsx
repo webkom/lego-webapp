@@ -120,7 +120,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
           column
           alignItems="center"
           justifyContent="center"
-          gap={5}
+          gap="var(--spacing-xs)"
           className={styles.placeholderContainer}
         >
           <Icon
@@ -259,7 +259,7 @@ const ImageUpload = ({
             />
           )}
           {multiple && !crop && (
-            <Flex wrap column gap={7}>
+            <Flex wrap column gap="var(--spacing-sm)">
               {files.map((file, index) => (
                 <FilePreview
                   onRemove={() => onRemove(index)}

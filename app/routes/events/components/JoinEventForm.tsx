@@ -316,8 +316,8 @@ const JoinEventForm = ({
     : {};
 
   return (
-    <>
-      <h3 className={styles.subHeader}>Påmelding</h3>
+    <div>
+      <h3>Påmelding</h3>
 
       <Flex column gap="var(--spacing-md)">
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
@@ -365,6 +365,7 @@ const JoinEventForm = ({
                   <Link to="/users/me/">Gå til min profil</Link>
                 </Card>
               )}
+
             {formOpen && hasRegisteredConsentIfRequired && (
               <Flex column gap="var(--spacing-md)">
                 <LegoFinalForm
@@ -520,7 +521,7 @@ const JoinEventForm = ({
           </>
         )}
       </Flex>
-    </>
+    </div>
   );
 };
 
