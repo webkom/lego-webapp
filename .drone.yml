@@ -147,6 +147,9 @@ steps:
       CYPRESS_INSTALL_BINARY: 0
     commands:
       - apk --no-cache add curl
+      # Cleaup cache every 14 days
+      - find /tmp/cache -type d -mtime +14 -exec rm -rf {} +
+      # Create and use a cache key based on the lock file
       - export CACHE_KEY=$(sha1sum yarn.lock | awk '{ print $1 }')
       - yarn --frozen-lockfile --cache-folder /tmp/cache/$CACHE_KEY
 
@@ -357,4 +360,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 605e4e9d24d301f83c264f8a8bca651a987ee5930341d00870da065e4e2f6f5d
+hmac: 736d5638e418b0f50395dcd90c1b3550d43d7babd97adb0ca2679d2c4aecdd53
