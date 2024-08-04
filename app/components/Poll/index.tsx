@@ -151,8 +151,8 @@ const Poll = ({
         <Flex
           alignItems="center"
           justifyContent="center"
+          gap="var(--spacing-sm)"
           className={styles.registrationCount}
-          gap={8}
         >
           <Tooltip content="Avstemningen er anonym.">
             <Icon name="information-circle-outline" size={17} />

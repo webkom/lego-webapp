@@ -135,7 +135,7 @@ const Events = ({
         <h3 className="u-ui-heading">Arrangementer</h3>
       </Link>
 
-      <Flex column gap={20}>
+      <Flex column gap="var(--spacing-md)">
         {fetching && !shownEvents.length
           ? Array.from({ length: EVENTS_TO_SHOW }).map((_, index) => (
               <FrontpageEventItem key={index} url="" meta={<></>} />
@@ -222,7 +222,7 @@ const Articles = ({
         <h3 className="u-ui-heading">Artikler</h3>
       </Link>
 
-      <Flex column gap={20}>
+      <Flex column gap="var(--spacing-md)">
         {fetching && !shownArticles.length
           ? Array.from({ length: ARTICLES_TO_SHOW }).map((_, index) => (
               <ArticleItem key={index} url="" meta={<></>} />

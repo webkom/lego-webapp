@@ -3,7 +3,7 @@
   width: 100%;
   max-width: 100%;
   min-height: 70px;
-  padding: 5px 10px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   outline: none;
 
   &::placeholder {

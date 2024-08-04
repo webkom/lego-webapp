@@ -100,7 +100,7 @@ const Reaction = ({
     <>
       <Tooltip content={tooltipContent}>
         <Flex
-          gap={4}
+          gap="var(--spacing-xs)"
           justifyContent="center"
           alignItems="center"
           className={classNames}

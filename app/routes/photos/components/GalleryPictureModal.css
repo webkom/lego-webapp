@@ -12,21 +12,18 @@
 }
 
 .pictureDescription {
-  margin: 25px 0;
-  width: 100%;
+  text-align: center;
 }
 
 .galleryThumbnail {
   width: 60px;
-  margin-right: 10px;
   height: 60px;
   border-radius: 50%;
+  margin-right: var(--spacing-sm);
 }
 
 .dropdown {
-  margin-top: 20px;
-  padding: 0 1px;
-  color: var(--color-black);
+  margin: var(--spacing-md) var(--spacing-md) 0 0;
 }
 
 .dropdownLink {

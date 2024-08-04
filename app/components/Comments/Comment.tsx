@@ -51,7 +51,7 @@ const Comment = ({
               </Link>
 
               <Flex column className={styles.username}>
-                <Flex alignItems="center" gap={10}>
+                <Flex alignItems="center" gap="var(--spacing-sm)">
                   <Link to={`/users/${author.username}`}>
                     {author.fullName}
                   </Link>

@@ -1,4 +1,4 @@
-import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
@@ -44,18 +44,10 @@ const InterestGroupList = () => {
       }
     >
       <Helmet title="Interessegrupper" />
-      <Flex
-        wrap
-        gap={10}
-        margin={'0 0 30px'}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <p style={{ margin: 0 }}>
-          <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner
-          du all praktisk informasjon knyttet til våre interessegrupper.
-        </p>
-      </Flex>
+      <p>
+        <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner du
+        all praktisk informasjon knyttet til våre interessegrupper.
+      </p>
 
       {activeGroups.map((group) => (
         <InterestGroupComponent group={group} key={group.id} active={true} />

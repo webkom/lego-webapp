@@ -77,7 +77,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
         {permissions.length ? (
           permissions.map((permission) => (
             <li key={permission}>
-              <Flex alignItems="center" gap={10}>
+              <Flex alignItems="center" gap="var(--spacing-sm)">
                 <ConfirmModal
                   title="Bekreft fjerning av rettighet"
                   message={`Er du sikker på at du vil fjerne tilgangen ${permission}?`}

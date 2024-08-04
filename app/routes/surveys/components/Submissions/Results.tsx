@@ -149,7 +149,7 @@ const Results = ({
         </div>
       </div>
 
-      <Flex column gap="1rem">
+      <Flex column gap="var(--spacing-md)">
         {survey.questions.map((question) => {
           const colorsToRemove: number[] = [];
           const pieData = graphData[question.id].filter((dataPoint, i) => {
@@ -177,7 +177,7 @@ const Results = ({
             <div key={question.id}>
               <h3>{question.questionText}</h3>
               {question.questionType === SurveyQuestionType.TextField ? (
-                <Flex column gap="0.25rem">
+                <Flex column gap="var(--spacing-xs)">
                   {generateTextAnswers(question)}
                 </Flex>
               ) : (

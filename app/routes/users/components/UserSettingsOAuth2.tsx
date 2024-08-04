@@ -88,7 +88,7 @@ const UserSettingsOAuth2 = () => {
       render: (id, application) => {
         const copied = copiedClientId === application.clientId;
         return (
-          <Flex wrap gap={10}>
+          <Flex wrap alignItems="center" gap="var(--spacing-sm)">
             {application.clientId}
             <Tooltip content={copied ? 'Kopiert!' : 'Kopier client ID'}>
               <Icon

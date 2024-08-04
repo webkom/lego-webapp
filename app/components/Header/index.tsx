@@ -158,6 +158,7 @@ const AccountDropdown = () => {
     <Dropdown
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
+      contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
       <AuthSection />

@@ -162,7 +162,7 @@ const UsefulLinks = () => (
   <div className={styles.links}>
     <h3 className="u-ui-heading">Nyttige lenker</h3>
 
-    <Flex wrap justifyContent="center" gap={'var(--spacing-lg)'}>
+    <Flex wrap justifyContent="space-evenly" gap="var(--spacing-lg)">
       {usefulLinksConf.map((item) => (
         <a
           href={item.link}

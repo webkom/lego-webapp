@@ -51,7 +51,7 @@ const GroupChange = (props: Props) => {
   }));
 
   return (
-    <Flex column gap={10}>
+    <Flex column gap="var(--spacing-sm)">
       <SelectInput
         name="form-field-name"
         value={selectedOption || initalOption}

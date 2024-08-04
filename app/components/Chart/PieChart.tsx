@@ -71,7 +71,11 @@ const DistributionPieChart = ({
         content={({ active, payload }) => {
           if (active && payload?.length) {
             return (
-              <Flex alignItems="center" gap="0.5rem" className={styles.tooltip}>
+              <Flex
+                alignItems="center"
+                gap="var(--spacing-sm)"
+                className={styles.tooltip}
+              >
                 <svg className={styles.circle} viewBox="0 0 32 32">
                   <circle
                     cx="16"

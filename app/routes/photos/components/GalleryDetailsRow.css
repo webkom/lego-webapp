@@ -3,11 +3,11 @@
 }
 
 span.detail + span.detail {
-  margin-left: 10px;
+  margin-left: var(--spacing-sm);
 }
 
 span.detail + span.detail::before {
-  margin-right: 10px;
+  margin-right: var(--spacing-sm);
   content: '•';
 }
 

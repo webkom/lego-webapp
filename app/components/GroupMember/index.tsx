@@ -1,6 +1,7 @@
-import { Image } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
+import { ProfilePicture } from 'app/components/Image';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMember.css';
 import type { PublicUser } from 'app/store/models/User';
@@ -18,29 +19,30 @@ const GroupMember = ({ user, role, leader, co_leader, groupName }: Props) => {
 
   return (
     <Link to={`/users/${user.username}`}>
-      <div
+      <Flex
+        column
+        gap="var(--spacing-xs)"
+        alignItems="center"
         className={cx(
           styles.member,
           leader && styles.leader,
           co_leader && styles.coLeader,
         )}
       >
-        <Image
-          alt={`${user.fullName} sitt profilbilde`}
-          src={user.profilePicture}
-          placeholder={user.profilePicturePlaceholder}
-        />
+        <ProfilePicture user={user} size={90} />
         {leader && (
-          <div className={styles.title}>
+          <span className={styles.title}>
             {isReadme ? 'Redaktør' : ROLES['leader']}
-          </div>
+          </span>
         )}
-        {co_leader && <div className={styles.title}>{ROLES['co-leader']}</div>}
+        {co_leader && (
+          <span className={styles.title}>{ROLES['co-leader']}</span>
+        )}
         {role && role !== 'member' && (
           <div className={styles.title}>{ROLES[role]}</div>
         )}
-        <div className={styles.name}>{user.fullName}</div>
-      </div>
+        <span className={styles.name}>{user.fullName}</span>
+      </Flex>
     </Link>
   );
 };
