@@ -48,7 +48,13 @@ export const Icon = ({
   );
 
   const iconElement = iconNode ? (
-    <>{cloneElement(iconNode as ReactElement, { size, strokeWidth })}</>
+    <>
+      {cloneElement(iconNode as ReactElement, {
+        size,
+        strokeWidth,
+        absoluteStrokeWidth: true,
+      })}
+    </>
   ) : null;
 
   return (

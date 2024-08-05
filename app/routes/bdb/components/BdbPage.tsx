@@ -1,9 +1,10 @@
-import { Card, LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import qs from 'qs';
-import { useEffect, useState } from 'react';
+import { MoveLeft, MoveRight } from 'lucide-react';
+import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   fetchAllAdmin,
   addSemesterStatus,
@@ -11,45 +12,47 @@ import {
   fetchSemesters,
   addSemester,
 } from 'app/actions/CompanyActions';
-import TextInput from 'app/components/Form/TextInput';
+import Table from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import sortCompanies from '../SortCompanies';
+import useQuery from 'app/utils/useQuery';
 import {
   indexToCompanySemester,
   indexToYearAndSemester,
   BdbTabs,
+  selectMostProminentStatus,
+  contactStatuses,
 } from '../utils';
-import CompanyList from './CompanyList';
-import OptionsBox from './OptionsBox';
+import SemesterStatus from './SemesterStatus';
+import styles from './bdb.css';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { ColumnProps } from 'app/components/Table';
 import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
-import type { ChangeEvent, KeyboardEvent } from 'react';
+import type { UnknownUser } from 'app/store/models/User';
+
+const companiesDefaultQuery = {
+  active: '' as '' | 'true' | 'false',
+  name: '',
+  studentContact: '',
+};
+
+const NUMBER_OF_SEMESTERS = 3;
 
 const BdbPage = () => {
-  const [startYear, setStartYear] = useState(2016);
-  const [startSem, setStartSem] = useState(0);
-  const [filters, setFilters] = useState({});
-  const [searchQuery, setSearchQuery] = useState('');
+  const { query, setQuery } = useQuery(companiesDefaultQuery);
+
+  const [startYear, setStartYear] = useState(moment().year());
+  const [startSemester, setStartSemester] = useState(
+    moment().month() > 6 ? 1 : 0,
+  );
 
   const companies = useAppSelector(selectTransformedAdminCompanies);
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const fetching = useAppSelector((state) => state.companies.fetching);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const query = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
-
-  useEffect(() => {
-    const date = new Date();
-    setStartYear(date.getFullYear());
-    setStartSem(date.getMonth() > 6 ? 1 : 0);
-  }, []);
 
   const dispatch = useAppDispatch();
 
@@ -62,18 +65,19 @@ const BdbPage = () => {
   const navigateThroughTime = (options: {
     direction: 'forward' | 'backward';
   }) => {
-    // Change which three semesters are displayed (move ahead or back in time)
-    const newSem = (startSem + 1) % 2;
     let newYear: number;
     if (options.direction === 'forward') {
-      newYear = startSem === 0 ? startYear : startYear + 1;
+      newYear = startSemester === 0 ? startYear : startYear + 1;
     } else {
-      newYear = startSem === 1 ? startYear : startYear - 1;
+      newYear = startSemester === 1 ? startYear : startYear - 1;
     }
-
     setStartYear(newYear);
-    setStartSem(newSem);
+
+    const newSemester = (startSemester + 1) % (NUMBER_OF_SEMESTERS - 1);
+    setStartSemester(newSemester);
   };
+
+  const navigate = useNavigate();
 
   const editChangedStatuses = async (
     companyId: EntityId,
@@ -85,7 +89,7 @@ const BdbPage = () => {
     const companySemester = indexToCompanySemester(
       tableIndex,
       startYear,
-      startSem,
+      startSemester,
       companySemesters,
     );
 
@@ -95,7 +99,7 @@ const BdbPage = () => {
       const newCompanySemester = indexToYearAndSemester(
         tableIndex,
         startYear,
-        startSem,
+        startSemester,
       );
       const response = await dispatch(addSemester(newCompanySemester));
       companySemesterId = response.payload.result;
@@ -115,102 +119,148 @@ const BdbPage = () => {
         });
   };
 
-  const updateFilters = (name: string, value: unknown) => {
-    // For OptionsBox
-    setFilters((prev) => ({ ...prev, [name]: value }));
-  };
+  const semesterTitle = (index: number) => {
+    const result = indexToYearAndSemester(index, startYear, startSemester);
+    const semester = result.semester === Semester.Spring ? 'Vår' : 'Høst';
 
-  const removeFilters = (name: string) => {
-    // For OptionsBox
-    setFilters((prev) => ({ ...prev, [name]: undefined }));
-  };
-
-  const companySearch = (companies: TransformedAdminCompany[]) =>
-    companies.filter((company) =>
-      company.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    return (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        {index === 0 && (
+          <Icon
+            onClick={() => navigateThroughTime({ direction: 'backward' })}
+            iconNode={<MoveLeft />}
+            className={styles.navigateThroughTime}
+          />
+        )}
+        <span>
+          {semester} {result.year}
+        </span>
+        {index === NUMBER_OF_SEMESTERS - 1 && (
+          <Icon
+            onClick={() => navigateThroughTime({ direction: 'forward' })}
+            iconNode={<MoveRight />}
+            className={styles.navigateThroughTime}
+          />
+        )}
+      </Flex>
     );
+  };
 
-  const filterCompanies = (companies: TransformedAdminCompany[]) => {
-    if (searchQuery !== '') {
-      companies = companySearch(companies);
-    }
+  const semesterElement = (index: number, company: TransformedAdminCompany) => {
+    const result = indexToYearAndSemester(index, startYear, startSemester);
+    return (company.semesterStatuses || []).find(
+      (status) =>
+        status.year === result.year && status.semester === result.semester,
+    );
+  };
 
-    return companies.filter((company) => {
-      // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
-      for (const key of Object.keys(filters)) {
-        const filterShouldApply = filters[key] !== undefined;
-        if (
-          filterShouldApply &&
-          (company[key] === undefined || company[key] === null)
-        )
-          return false;
-        const shouldFilterById =
-          filterShouldApply && company[key].id && filters[key].id;
-        const regularFilter =
-          !shouldFilterById && company[key] !== filters[key];
-        const idFilter =
-          shouldFilterById && company[key].id !== filters[key].id;
+  const columns: ColumnProps<(typeof companies)[number]>[] = [
+    {
+      title: 'Bedrift',
+      dataIndex: 'name',
+      search: true,
+      inlineFiltering: true,
+      centered: false,
+      render: (_, company) => (
+        <Link to={`/bdb/${company.id}`}>{company.name}</Link>
+      ),
+    },
+    ...Array.from({ length: NUMBER_OF_SEMESTERS }, (_, index) => ({
+      title: semesterTitle(index),
+      dataIndex: `semester-${index}`,
+      sorter: (a, b) => {
+        const { year, semester } = indexToYearAndSemester(
+          index,
+          startYear,
+          startSemester,
+        );
+        const semesterA = a.semesterStatuses?.find(
+          (obj) => obj.year === year && obj.semester === semester,
+        );
+        const statusA = selectMostProminentStatus(semesterA?.contactedStatus);
+        const semesterB = b.semesterStatuses?.find(
+          (obj) => obj.year === year && obj.semester === semester,
+        );
+        const statusB = selectMostProminentStatus(semesterB?.contactedStatus);
 
-        if (filterShouldApply && (regularFilter || idFilter)) {
-          return false;
+        if (statusA === statusB) {
+          return a.name.localeCompare(b.name);
         }
-      }
 
-      return true;
-    });
-  };
+        return (
+          contactStatuses.indexOf(statusA) - contactStatuses.indexOf(statusB)
+        );
+      },
+      padding: 0,
+      render: (_, company) => (
+        <SemesterStatus
+          semIndex={index}
+          semesterStatus={semesterElement(index, company)}
+          editChangedStatuses={editChangedStatuses}
+          companyId={company.id}
+        />
+      ),
+    })),
+    {
+      title: 'Studentkontakt',
+      dataIndex: 'studentContact',
+      search: true,
+      inlineFiltering: true,
+      filterMapping: (studentContact: UnknownUser) => {
+        if (studentContact && typeof studentContact === 'object') {
+          return studentContact.fullName;
+        }
+      },
+      render: (_, { studentContact }) => {
+        if (studentContact && typeof studentContact === 'object') {
+          return (
+            <Link to={`/users/${studentContact.username}`}>
+              {studentContact.fullName}
+            </Link>
+          );
+        }
+      },
+    },
+    {
+      title: 'Notat',
+      dataIndex: 'comment',
+      centered: false,
+      maxWidth: 200,
+      render: (_, company) => company.adminComment,
+      sorter: (a, b) =>
+        a.adminComment?.localeCompare(b.adminComment || '') || 0,
 
-  const updateSearchQuery = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
+      // Using the last column for this filtering, even though it's unrelated
+      filterIndex: 'active',
+      filter: [
+        { value: 'true', label: 'Aktiv' },
+        { value: 'false', label: 'Inaktiv' },
+      ],
+    },
+  ];
 
-  if (!companies) {
-    return <LoadingIndicator loading={fetching} />;
-  }
-
-  const sortedCompanies = sortCompanies(companies, query, startYear, startSem);
-  const filteredCompanies = filterCompanies(sortedCompanies);
-
-  const searchKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && filteredCompanies.length === 1) {
-      navigate(`/bdb/${filteredCompanies[0].id}`);
-    }
-  };
+  const title = 'Bedriftsdatabase';
 
   return (
     <Page
-      title="Bedriftsdatabase"
+      title={title}
       actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
       tabs={<BdbTabs />}
     >
-      <Helmet title="Bedriftsdatabase" />
-
-      <TextInput
-        prefix="search"
-        placeholder="Søk etter bedrifter"
-        onChange={updateSearchQuery}
-        onKeyPress={searchKeyPress}
-      />
-
-      <OptionsBox
-        companies={companies}
-        updateFilters={updateFilters}
-        removeFilters={removeFilters}
-      />
+      <Helmet title={title} />
 
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
-        Du kan endre semestere ved å trykke på dem i listen!
+        Du kan endre semesterstatuser ved å trykke på dem i listen!
       </Card>
 
-      <CompanyList
-        companies={filteredCompanies}
-        startYear={startYear}
-        startSem={startSem}
-        query={query}
-        navigateThroughTime={navigateThroughTime}
-        editChangedStatuses={editChangedStatuses}
-        fetching={fetching}
+      <Table
+        columns={columns}
+        data={companies}
+        filters={query}
+        onChange={setQuery}
+        loading={fetching}
+        hasMore={false}
       />
     </Page>
   );

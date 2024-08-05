@@ -1,4 +1,5 @@
 import { get } from 'lodash';
+import styles from './Table.css';
 import type { ColumnProps, ShowColumn, TableData } from '.';
 
 type CellProps = {
@@ -28,13 +29,13 @@ const BodyCell: React.FC<CellProps> = ({ column, data, index, showColumn }) => {
   return (
     <td
       key={`${dataIndex}-${index}-${data.id}`}
-      style={
-        centered
-          ? {
-              textAlign: 'center',
-            }
-          : {}
-      }
+      style={{
+        maxWidth: column.maxWidth,
+        wordWrap: column.maxWidth ? 'break-word' : 'inherit',
+        padding: column.padding,
+        textAlign: centered ? 'center' : 'inherit',
+      }}
+      className={styles.td}
     >
       {render(cellData, data)}
     </td>
