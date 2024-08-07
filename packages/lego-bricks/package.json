@@ -74,7 +74,7 @@
     "postcss-custom-media": "^10.0.8",
     "storybook": "^8.2.7",
     "typescript": "^5.5.4",
-    "vite": "^5.3.2",
+    "vite": "^5.3.5",
     "vitest": "^1.6.0"
   }
 }
