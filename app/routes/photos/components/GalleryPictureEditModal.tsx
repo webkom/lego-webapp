@@ -2,11 +2,13 @@ import {
   Button,
   ButtonGroup,
   Flex,
-  Modal,
+  Icon,
   Image,
+  Modal,
   LoadingPage,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { fetchGallery } from 'app/actions/GalleryActions';
@@ -101,6 +103,7 @@ const GalleryPictureEditModal = () => {
     <Modal
       onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
       isOpen
+      isDismissable={false}
       contentClassName={styles.content}
     >
       <Flex column gap="var(--spacing-md)">
@@ -137,19 +140,16 @@ const GalleryPictureEditModal = () => {
                 placeholder="Beskrivelse"
                 name="description"
                 component={TextArea.Field}
-                id="gallery-picture-description"
               />
               <Field
                 label="Synlig for alle brukere"
                 name="active"
                 type="checkbox"
                 component={CheckBox.Field}
-                id="gallery-picture-active"
               />
               <Field
                 label="Tagg brukere"
                 name="taggees"
-                id="gallery-picture-taggees"
                 filter={['users.user']}
                 placeholder="Skriv inn navn på brukere i bildet"
                 component={SelectInput.AutocompleteField}
@@ -173,7 +173,8 @@ const GalleryPictureEditModal = () => {
                     })
                   }
                 >
-                  Slett
+                  <Icon iconNode={<Trash2 />} size={19} />
+                  Slett bildet
                 </Button>
               </ButtonGroup>
             </Form>
