@@ -4226,33 +4226,23 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/blocks@^8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-8.1.1.tgz#f272428927739d4a82428345cf2cc9563690f04a"
-  integrity sha512-D+jUlkA2dxYPSY97+yM5sbLXPABKlsZAhmDy6gw05UoSpfBu1MnKd18Qj4fTbyqLYIJGH9z/whGd3tTcuZn8KQ==
+"@storybook/blocks@^8.2.7":
+  version "8.2.7"
+  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-8.2.7.tgz#6398ae5b9e24ef4849dbd1e937214cb20973ee50"
+  integrity sha512-lZB4EzmY4ftgubkf7hmkALEhmfMhRkDRD5QjrgTZLRpdVXPzFUyljgLlTBhv34YTN+ZLYK618/4uSVJBpgoKeQ==
   dependencies:
-    "@storybook/channels" "8.1.1"
-    "@storybook/client-logger" "8.1.1"
-    "@storybook/components" "8.1.1"
-    "@storybook/core-events" "8.1.1"
-    "@storybook/csf" "^0.1.7"
-    "@storybook/docs-tools" "8.1.1"
+    "@storybook/csf" "0.1.11"
     "@storybook/global" "^5.0.0"
     "@storybook/icons" "^1.2.5"
-    "@storybook/manager-api" "8.1.1"
-    "@storybook/preview-api" "8.1.1"
-    "@storybook/theming" "8.1.1"
-    "@storybook/types" "8.1.1"
     "@types/lodash" "^4.14.167"
     color-convert "^2.0.1"
     dequal "^2.0.2"
     lodash "^4.17.21"
-    markdown-to-jsx "7.3.2"
+    markdown-to-jsx "^7.4.5"
     memoizerific "^1.11.3"
     polished "^4.2.2"
     react-colorful "^5.1.2"
     telejson "^7.2.0"
-    tocbot "^4.20.1"
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
@@ -4333,22 +4323,6 @@
     prettier "^3.1.1"
     recast "^0.23.5"
     tiny-invariant "^1.3.1"
-
-"@storybook/components@8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-8.1.1.tgz#92c71bd097766b9034289b3a628ab5c85e363b5d"
-  integrity sha512-0JxYXMb9nlTBAJJXRdn3IjlgXx07gylnTOqa7t3UgOiVDEVPs+1x9LtHU408igcZ5gtcrZepg46O9gz0sdgSfQ==
-  dependencies:
-    "@radix-ui/react-dialog" "^1.0.5"
-    "@radix-ui/react-slot" "^1.0.2"
-    "@storybook/client-logger" "8.1.1"
-    "@storybook/csf" "^0.1.7"
-    "@storybook/global" "^5.0.0"
-    "@storybook/icons" "^1.2.5"
-    "@storybook/theming" "8.1.1"
-    "@storybook/types" "8.1.1"
-    memoizerific "^1.11.3"
-    util-deprecate "^1.0.2"
 
 "@storybook/components@8.1.11":
   version "8.1.11"
@@ -4585,27 +4559,6 @@
     "@vitest/utils" "^1.3.1"
     util "^0.12.4"
 
-"@storybook/manager-api@8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-8.1.1.tgz#cc2d9d6f9ee2057d7dc7d2118393a519f615bf49"
-  integrity sha512-IDPFxFFArO3l7P8vPjBxDBc6V255FJLx9W+eCOMdJJRZcovxrCkYOB0wRd+fw/IDtGt1zgPBfA6WD/JQAa1hlw==
-  dependencies:
-    "@storybook/channels" "8.1.1"
-    "@storybook/client-logger" "8.1.1"
-    "@storybook/core-events" "8.1.1"
-    "@storybook/csf" "^0.1.7"
-    "@storybook/global" "^5.0.0"
-    "@storybook/icons" "^1.2.5"
-    "@storybook/router" "8.1.1"
-    "@storybook/theming" "8.1.1"
-    "@storybook/types" "8.1.1"
-    dequal "^2.0.2"
-    lodash "^4.17.21"
-    memoizerific "^1.11.3"
-    store2 "^2.14.2"
-    telejson "^7.2.0"
-    ts-dedent "^2.0.0"
-
 "@storybook/manager-api@8.1.11":
   version "8.1.11"
   resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-8.1.11.tgz#f1a00215512a75026733d7e4eb8212b35d2cfd86"
@@ -4778,15 +4731,6 @@
     type-fest "~2.19"
     util-deprecate "^1.0.2"
 
-"@storybook/router@8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@storybook/router/-/router-8.1.1.tgz#4518553ff94c5e6ec2bffde8f17a3bdd6c36feae"
-  integrity sha512-9/9ZONtBZI7VxkFpwVYIq6d42yBLci7wkXOVJO5gugi+iVDM02eYQvrbKTTVnY0fCXXwwwVbpTyoHk25bqbRNg==
-  dependencies:
-    "@storybook/client-logger" "8.1.1"
-    memoizerific "^1.11.3"
-    qs "^6.10.0"
-
 "@storybook/router@8.1.11":
   version "8.1.11"
   resolved "https://registry.yarnpkg.com/@storybook/router/-/router-8.1.11.tgz#7e4d04d854f4935586fe298611f572e6a3ccb551"
@@ -4811,16 +4755,6 @@
     "@vitest/expect" "1.6.0"
     "@vitest/spy" "1.6.0"
     util "^0.12.4"
-
-"@storybook/theming@8.1.1":
-  version "8.1.1"
-  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-8.1.1.tgz#7deda73d70927c6af148ae4e8c9d8088108afeff"
-  integrity sha512-opjTCpvNDlDyTWnU58YLoFFhNrY88mxWRkHEE0Qt0hhRnS8EkU/+aam/1gTr204peDWZ+Ap3BBHFq28nQ5kfDQ==
-  dependencies:
-    "@emotion/use-insertion-effect-with-fallbacks" "^1.0.1"
-    "@storybook/client-logger" "8.1.1"
-    "@storybook/global" "^5.0.0"
-    memoizerific "^1.11.3"
 
 "@storybook/theming@8.1.11":
   version "8.1.11"
@@ -10829,6 +10763,11 @@ markdown-to-jsx@7.3.2:
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.3.2.tgz#f286b4d112dad3028acc1e77dfe1f653b347e131"
   integrity sha512-B+28F5ucp83aQm+OxNrPkS8z0tMKaeHiy0lHJs3LqCyDQFtWuenaIrkaVTgAm1pf1AU85LXltva86hlaT17i8Q==
+
+markdown-to-jsx@^7.4.5:
+  version "7.4.7"
+  resolved "https://registry.yarnpkg.com/markdown-to-jsx/-/markdown-to-jsx-7.4.7.tgz#740ee7ec933865ef5cc683a0992797685a75e2ee"
+  integrity sha512-0+ls1IQZdU6cwM1yu0ZjjiVWYtkbExSyUIFU2ZeDIFuZM1W42Mh4OlJ4nb4apX4H8smxDHRdFaoIVJGwfv5hkg==
 
 mathml-tag-names@^2.1.3:
   version "2.1.3"
