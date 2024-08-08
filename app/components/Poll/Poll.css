@@ -8,7 +8,8 @@
   min-height: 120px;
   margin: 0 auto;
   overflow-y: hidden;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-lg);
+  line-height: 1.3;
 }
 
 .topBar {
@@ -21,10 +22,9 @@
   width: 100%;
   text-align: center;
   background-color: var(--lego-red-color);
-  color: var(--color-white);
-  line-height: 1.3;
-  padding: var(--spacing-sm) 0 var(--spacing-md);
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 20%);
+  color: var(--color-absolute-white);
+  padding: var(--spacing-sm) 0 var(--spacing-lg);
+  overflow: hidden;
 }
 
 .titleLink {
@@ -36,15 +36,14 @@
   border-radius: var(--border-radius-lg);
   color: var(--lego-font-color);
   background-color: var(--lego-card-color);
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 20%);
+  box-shadow: var(--shadow-md);
   z-index: 3;
 }
 
 .title {
-  padding: var(--spacing-sm);
+  padding: var(--spacing-md);
   font-weight: 500;
   text-align: center;
-  line-height: 1.5;
 }
 
 .contentWrapper {
@@ -73,7 +72,7 @@
 .voteButton + .voteButton {
   font-weight: 500;
   width: 90%;
-  padding: 5px;
+  padding: var(--sapcing-xs);
   margin: 2px;
   border-radius: var(--border-radius-md);
 }
@@ -87,39 +86,32 @@
 
 .pollTable td {
   border: 0;
-  padding: 5px;
+  padding: var(--spacing-xs);
 }
 
 .pollTable .textColumn {
-  border-right: 1px solid var(--border-gray);
+  border-right: 1.5px solid var(--border-gray);
   text-align: right;
-  padding-right: 13px;
-  line-height: 16px;
+  padding-right: var(--spacing-md);
 }
 
 .pollTable .graphColumn {
   width: auto;
   min-width: 200px;
-  padding-left: 13px;
+  padding-left: var(--spacing-md);
 }
 
 .pollGraph {
   animation: graph var(--easing-fast);
   background-color: var(--lego-red-color);
-  padding: 5px;
-  border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  padding: var(--spacing-xs);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--color-absolute-white);
   height: 30px;
 }
 
 .fullGraph {
   background-color: var(--additive-background);
-  width: 100%;
-  display: flex;
-}
-
-.pollGraph span {
-  vertical-align: middle;
 }
 
 @keyframes graph {
@@ -132,8 +124,8 @@
   }
 }
 
-.resultsHiddenInfo {
-  color: var(--secondary-font-color);
+.ratioOutsideBar {
+  margin: var(--spacing-xs);
 }
 
 .totalVotes {
@@ -152,7 +144,7 @@
   position: relative;
   background-color: var(--lego-red-color);
   width: 100%;
-  padding: 6.25rem 0 var(--spacing-sm);
+  padding: 6.25rem 0 var(--spacing-md);
   top: -4.75rem;
   margin-bottom: -5.25rem;
   transition:
@@ -164,11 +156,10 @@
 
 .bottomBar.expanded {
   top: 0;
-  padding-top: var(--spacing-sm);
+  padding-top: var(--spacing-md);
   margin-bottom: 0;
 }
 
 .arrowIcon {
-  color: var(--color-white);
-  text-shadow: 0 2px 2px rgba(0, 0, 0, 20%);
+  color: var(--color-absolute-white);
 }
