@@ -4004,10 +4004,10 @@
     polished "^4.2.2"
     ts-dedent "^2.2.0"
 
-"@storybook/addon-links@^8.2.7":
-  version "8.2.7"
-  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-8.2.7.tgz#6c3714894c044bae826d16c128a5a6286af03e31"
-  integrity sha512-BJdR+vdj7S6Rtx8XqBNQzLsRGH/FYHJ6B6BPWGp0awVx0jNWJnxepINQov8i+GAddUVQGCNG+r4LI3QSD3tNAA==
+"@storybook/addon-links@^8.2.8":
+  version "8.2.8"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-8.2.8.tgz#6a74e55d32e58d0396bdb92b6243007d94fe7673"
+  integrity sha512-2igEaSdKAFjKjioT6LGdBxZulpbVCzmlmV//sTu3sQiVnnxRjjGFt77sEeLMajrsSvg9DB1RMbDsvJ4FJTzXfQ==
   dependencies:
     "@storybook/csf" "0.1.11"
     "@storybook/global" "^5.0.0"
