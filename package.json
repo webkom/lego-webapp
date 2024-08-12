@@ -196,7 +196,7 @@
     "utility-types": "^3.11.0",
     "vitest": "^1.6.0",
     "webpack": "5.93.0",
-    "webpack-bundle-analyzer": "^4.10.1",
+    "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-middleware": "^7.3.0",
     "webpack-filter-warnings-plugin": "^1.2.1",
