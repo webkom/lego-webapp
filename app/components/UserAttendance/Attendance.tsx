@@ -44,20 +44,20 @@ const Attendance = ({
   return (
     <>
       {!isMeeting && (
-        <UserGrid
-          minRows={minUserGridRows}
-          maxRows={maxUserGridRows}
-          users={registrations?.slice(0, 14).map((reg) => reg.user)}
-          skeleton={skeleton}
-        />
-      )}
-      {!isMeeting && (
-        <RegisteredSummary
-          registrations={loggedIn ? registrations : undefined}
-          currentRegistration={currentRegistration}
-          skeleton={skeleton}
-          openModalTab={openModalTab}
-        />
+        <>
+          <UserGrid
+            minRows={minUserGridRows}
+            maxRows={maxUserGridRows}
+            users={registrations?.slice(0, 14).map((reg) => reg.user)}
+            skeleton={skeleton}
+          />
+          <RegisteredSummary
+            registrations={loggedIn ? registrations : undefined}
+            currentRegistration={currentRegistration}
+            skeleton={skeleton}
+            openModalTab={openModalTab}
+          />
+        </>
       )}
       <AttendanceStatus
         pools={pools}

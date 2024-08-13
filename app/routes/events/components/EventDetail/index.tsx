@@ -531,35 +531,39 @@ const EventDetail = () => {
           {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
-            <Flex column>
-              <h3>Påmeldte</h3>
+            <>
+              <Flex column>
+                <h3>Påmeldte</h3>
 
-              <Attendance
-                pools={pools}
-                registrations={registrations}
-                currentRegistration={currentRegistration}
-                minUserGridRows={minUserGridRows}
-                maxUserGridRows={MAX_USER_GRID_ROWS}
-                legacyRegistrationCount={event.legacyRegistrationCount}
-                skeleton={fetching && !registrations}
-              />
-
-              {loggedIn && (
-                <RegistrationMeta
-                  useConsent={event.useConsent}
-                  hasOpened={moment(event.activationTime).isBefore(
-                    currentMoment,
-                  )}
-                  photoConsents={event.photoConsents}
-                  eventSemester={getEventSemesterFromStartTime(event.startTime)}
-                  hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                  registration={currentRegistration}
-                  isPriced={event.isPriced}
-                  registrationIndex={currentRegistrationIndex}
-                  hasSimpleWaitingList={hasSimpleWaitingList}
-                  skeleton={showSkeleton}
+                <Attendance
+                  pools={pools}
+                  registrations={registrations}
+                  currentRegistration={currentRegistration}
+                  minUserGridRows={minUserGridRows}
+                  maxUserGridRows={MAX_USER_GRID_ROWS}
+                  legacyRegistrationCount={event.legacyRegistrationCount}
+                  skeleton={fetching && !registrations}
                 />
-              )}
+
+                {loggedIn && (
+                  <RegistrationMeta
+                    useConsent={event.useConsent}
+                    hasOpened={moment(event.activationTime).isBefore(
+                      currentMoment,
+                    )}
+                    photoConsents={event.photoConsents}
+                    eventSemester={getEventSemesterFromStartTime(
+                      event.startTime,
+                    )}
+                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
+                    registration={currentRegistration}
+                    isPriced={event.isPriced}
+                    registrationIndex={currentRegistrationIndex}
+                    hasSimpleWaitingList={hasSimpleWaitingList}
+                    skeleton={showSkeleton}
+                  />
+                )}
+              </Flex>
 
               {'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
@@ -589,7 +593,7 @@ const EventDetail = () => {
                   />
                 )
               )}
-            </Flex>
+            </>
           )}
 
           {showSkeleton ? (
