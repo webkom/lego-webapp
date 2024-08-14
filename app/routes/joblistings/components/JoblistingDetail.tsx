@@ -57,6 +57,13 @@ const propertyGenerator: PropertyGenerator<{
   ];
 };
 
+const MailWrapper = ({ mail }: { mail: string }) => (
+  <a href={`mailto:${mail}`}>
+    {mail.split('@')[0]}
+    <wbr />@{mail.split('@')[1]}
+  </a>
+);
+
 const NotGiven = () => <span className="secondaryFontColor">Ikke oppgitt</span>;
 
 const JoblistingDetail = () => {
@@ -88,6 +95,10 @@ const JoblistingDetail = () => {
 
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
+
+  const showContactMail =
+    joblisting.contactMail &&
+    joblisting.contactMail !== joblisting.responsible?.mail;
 
   return (
     <Page
@@ -174,19 +185,19 @@ const JoblistingDetail = () => {
             <div>
               <h3>Kontaktinfo</h3>
               <Flex column gap="var(--spacing-sm)">
-                {joblisting.contactMail && (
+                {showContactMail && (
                   <InfoList
                     items={[
                       {
                         key: 'E-post',
-                        value: joblisting.contactMail,
+                        value: <MailWrapper mail={joblisting.contactMail} />,
                       },
                     ]}
                   />
                 )}
                 {joblisting.responsible && (
                   <div>
-                    <h4>Kontaktperson</h4>
+                    {showContactMail && <h4>Kontaktperson</h4>}
                     <InfoList
                       items={[
                         {
@@ -196,9 +207,7 @@ const JoblistingDetail = () => {
                         {
                           key: 'E-post',
                           value: joblisting.responsible.mail ? (
-                            <a href={`mailto:${joblisting.responsible.mail}`}>
-                              {joblisting.responsible.mail}
-                            </a>
+                            <MailWrapper mail={joblisting.responsible.mail} />
                           ) : (
                             <NotGiven />
                           ),
