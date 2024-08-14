@@ -57,6 +57,13 @@ const propertyGenerator: PropertyGenerator<{
   ];
 };
 
+const MailWrapper = ({ mail }: { mail: string }) => (
+  <a href={`mailto:${mail}`}>
+    {mail.split('@')[0]}
+    <wbr />@{mail.split('@')[1]}
+  </a>
+);
+
 const NotGiven = () => <span className="secondaryFontColor">Ikke oppgitt</span>;
 
 const JoblistingDetail = () => {
@@ -183,7 +190,7 @@ const JoblistingDetail = () => {
                     items={[
                       {
                         key: 'E-post',
-                        value: joblisting.contactMail,
+                        value: <MailWrapper mail={joblisting.contactMail} />,
                       },
                     ]}
                   />
@@ -200,9 +207,7 @@ const JoblistingDetail = () => {
                         {
                           key: 'E-post',
                           value: joblisting.responsible.mail ? (
-                            <a href={`mailto:${joblisting.responsible.mail}`}>
-                              {joblisting.responsible.mail}
-                            </a>
+                            <MailWrapper mail={joblisting.responsible.mail} />
                           ) : (
                             <NotGiven />
                           ),
