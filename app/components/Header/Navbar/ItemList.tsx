@@ -8,7 +8,7 @@ type Props = {
 
 const ItemList = ({ items }: Props) => {
   return (
-    <Flex column={true}>
+    <Flex column>
       {items.map((item) => (
         <Item
           key={item.title}

@@ -89,6 +89,10 @@ const JoblistingDetail = () => {
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
 
+  const showContactMail =
+    joblisting.contactMail &&
+    joblisting.contactMail !== joblisting.responsible?.mail;
+
   return (
     <Page
       cover={
@@ -174,7 +178,7 @@ const JoblistingDetail = () => {
             <div>
               <h3>Kontaktinfo</h3>
               <Flex column gap="var(--spacing-sm)">
-                {joblisting.contactMail && (
+                {showContactMail && (
                   <InfoList
                     items={[
                       {
@@ -186,7 +190,7 @@ const JoblistingDetail = () => {
                 )}
                 {joblisting.responsible && (
                   <div>
-                    <h4>Kontaktperson</h4>
+                    {showContactMail && <h4>Kontaktperson</h4>}
                     <InfoList
                       items={[
                         {
