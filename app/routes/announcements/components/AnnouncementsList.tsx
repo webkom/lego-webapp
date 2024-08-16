@@ -12,10 +12,7 @@ import styles from './AnnouncementsList.module.css';
 
 const AnnouncementsList = () => {
   const dispatch = useAppDispatch();
-  const { fetch, fetching, entities } = useApiThunk(
-    fetchAllAnnouncements,
-    undefined,
-  );
+  const { entities } = useApiThunk(fetchAllAnnouncements, undefined);
 
   usePreparedEffect('fetchAllAnnouncements', () => dispatch(fetch), []);
 

@@ -5,15 +5,12 @@ import type { NormalizedApiPayload } from 'app/actions/createApiThunk/normalizeP
 import type { EntityType, EntityTypeMap } from 'app/store/models/entities';
 import type { Primitive } from 'utility-types';
 
-type Callable<T> = T extends (...args: unknown[]) => unknown
-  ? (...args: Parameters<T>) => ReturnType<T>
-  : never;
-
 export const useApiThunk = <
   Arg,
   Entity extends EntityType,
-  Ids extends EntityId | EntityId[],
-  Payload extends NormalizedApiPayload<EntityTypeMap, Ids>,
+  TypeMap extends EntityTypeMap<Entity>,
+  Ids extends EntityId[],
+  Payload extends NormalizedApiPayload<TypeMap, Ids>,
 >(
   apiThunk: ReturnType<
     typeof createApiThunk<Arg, Entity, object | Primitive, Payload>
@@ -29,13 +26,20 @@ export const useApiThunk = <
   const entities = useAppSelector(
     (state) =>
       ids.map(
-        (id) => state[entityType as EntityType].entities[id],
-      ) as unknown as Ids[],
+        (id) => state[entityType satisfies EntityType].entities[id],
+      ) as TypeMap[Entity][],
+  );
+  const actionGrant = useAppSelector(
+    (state) => state[entityType satisfies EntityType].actionGrant,
   );
 
   return {
-    fetch: apiThunk(arg),
     entities,
-    ...pagination,
+    fetching: pagination.fetching,
+    next: pagination.next,
+    previous: pagination.previous,
+    actionGrant,
+  } as {
+    entities: TypeMap[Entity][];
   };
 };

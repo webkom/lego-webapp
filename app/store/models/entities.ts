@@ -115,7 +115,7 @@ export default interface Entities {
 }
 
 export type EntityTypeMap<Keys extends keyof Entities = never> = {
-  [K in Keys]: InferEntityType<K>;
+  [K in Keys]: Entities[K][EntityId];
 };
 
 export type InferEntityType<T> = {

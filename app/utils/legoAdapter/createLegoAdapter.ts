@@ -16,6 +16,7 @@ import type {
   Comparer,
   IdSelector,
 } from '@reduxjs/toolkit';
+import type { EntityAdapterOptions } from '@reduxjs/toolkit/dist/entities/models';
 import type { AsyncThunkConfig } from '@reduxjs/toolkit/src/createAsyncThunk';
 import type { ActionGrant } from 'app/models';
 import type { EntityType } from 'app/store/models/entities';
@@ -28,11 +29,12 @@ export type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
 
 // The base redux-state of the entity-slice
-interface LegoEntityState<Entity, Id extends EntityId>
-  extends EntityState<Entity, Id> {
+interface LegoEntityState<Entity, Id extends EntityId> {
   actionGrant: ActionGrant;
   fetching: boolean;
   paginationNext: { [key: string]: Pagination };
+  ids: Id[];
+  entities: Record<Id, Entity>;
 }
 
 type LegoEntitySelectors<T, V, Id extends EntityId> = Assign<
