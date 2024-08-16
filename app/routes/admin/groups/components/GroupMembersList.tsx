@@ -5,13 +5,16 @@ import { Link } from 'react-router-dom';
 import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
+import { selectGroupEntities } from 'app/reducers/groups';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
 import { useIsCurrentUser } from 'app/routes/users/utils';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { isNotNullish } from 'app/utils';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
 import styles from './GroupMembersList.css';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { ColumnProps } from 'app/components/Table';
 import type { TransformedMembership } from 'app/reducers/memberships';
 import type { ReactNode } from 'react';
 
@@ -19,13 +22,6 @@ type Props = {
   fetching: boolean;
   hasMore: boolean;
   memberships: TransformedMembership[];
-  groupsById: Record<
-    string,
-    {
-      name: string;
-      numberOfUsers?: number;
-    }
-  >;
   fetchMemberships: (next: boolean) => Promise<void>;
 };
 
@@ -33,9 +29,10 @@ const GroupMembersList = ({
   memberships,
   hasMore,
   fetching,
-  groupsById,
   fetchMemberships,
 }: Props) => {
+  const groupEntities = useAppSelector(selectGroupEntities);
+
   // State for keeping track of which memberships are being edited
   const [membershipsInEditMode, setMembershipsInEditMode] = useState({});
 
@@ -58,7 +55,7 @@ const GroupMembersList = ({
 
   const GroupLinkRender = (abakusGroup: EntityId): ReactNode => (
     <Link to={`/admin/groups/${abakusGroup}/members?descendants=false`}>
-      {groupsById[abakusGroup] && groupsById[abakusGroup].name}
+      {groupEntities[abakusGroup] && groupEntities[abakusGroup].name}
     </Link>
   );
 
@@ -121,7 +118,7 @@ const GroupMembersList = ({
         )}
         <ConfirmModal
           title="Bekreft utmelding"
-          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupsById[abakusGroup]?.name}"?`}
+          message={`Er du sikker på at du vil melde ut "${user.fullName}" fra gruppen "${groupEntities[abakusGroup]?.name}"?`}
           onConfirm={() => dispatch(removeMember(membership))}
         >
           {({ openConfirmModal }) => (
@@ -137,7 +134,7 @@ const GroupMembersList = ({
     );
   };
 
-  const columns = [
+  const columns: ColumnProps<TransformedMembership>[] = [
     {
       title: 'Navn (brukernavn)',
       dataIndex: 'user.fullName',
@@ -171,9 +168,10 @@ const GroupMembersList = ({
       render: RoleRender,
     },
     {
+      dataIndex: '',
       render: EditRender,
     },
-  ].filter(Boolean);
+  ].filter(isNotNullish);
 
   return (
     <Table

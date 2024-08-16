@@ -3,14 +3,16 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';
-import { selectGroupEntities } from 'app/reducers/groups';
+import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
 import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
+import type { DetailedGroup } from 'app/store/models/Group';
 
 export const defaultGroupMembersQuery = {
   descendants: 'false' as 'false' | 'true',
@@ -27,7 +29,7 @@ const GroupMembers = () => {
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: `/groups/${groupId}/memberships/`,
-      entity: 'memberships',
+      entity: EntityType.Memberships,
       query,
     })(state),
   );
@@ -40,7 +42,9 @@ const GroupMembers = () => {
     }),
   );
 
-  const groupEntities = useAppSelector(selectGroupEntities);
+  const group = useAppSelector((state) =>
+    selectGroupById<DetailedGroup>(state, groupId),
+  );
   const hasMore = pagination.hasMore;
 
   const dispatch = useAppDispatch();
@@ -66,10 +70,7 @@ const GroupMembers = () => {
 
   return (
     <>
-      <>
-        Antall medlemmer (inkl. undergrupper):{' '}
-        {groupEntities[groupId?.toString()]?.numberOfUsers}
-      </>
+      <>Antall medlemmer (inkl. undergrupper): {group?.numberOfUsers}</>
 
       {showDescendants || (
         <AddGroupMember
@@ -83,7 +84,6 @@ const GroupMembers = () => {
         <GroupMembersList
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
-          groupsById={groupEntities}
           fetching={pagination.fetching}
           memberships={memberships}
           fetchMemberships={fetchMemberships}
