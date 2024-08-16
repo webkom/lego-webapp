@@ -150,7 +150,7 @@ const Table = <T extends { id: EntityId }>({
         filterIndex,
       } = columns.find(
         (column) => column.filterIndex === key || column.dataIndex === key,
-      ) || {};
+      ) || { inlineFiltering: false };
 
       if (!inlineFiltering) return true;
 
