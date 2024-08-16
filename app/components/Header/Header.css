@@ -93,6 +93,7 @@
 
 .dropdown {
   width: 355px;
+  z-index: 10;
   padding: var(--spacing-md);
 
   @media (--small-viewport) {
