@@ -1,5 +1,9 @@
 @import url('~app/styles/variables.css');
 
+.field {
+  width: 100%;
+}
+
 .field:not(.withoutMargin) {
   margin-bottom: var(--spacing-md);
 }
