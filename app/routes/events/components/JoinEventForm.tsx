@@ -8,6 +8,7 @@ import {
   ProgressBar,
 } from '@webkom/lego-bricks';
 import { sumBy } from 'lodash';
+import { Info, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Field } from 'react-final-form';
@@ -88,7 +89,7 @@ const SubmitButton = ({
     >
       {({ openConfirmModal }) => (
         <Button danger onPress={openConfirmModal} disabled={disabled}>
-          <Icon name="person-remove" size={19} />
+          <Icon iconNode={<UserMinus />} size={19} />
           {title}
         </Button>
       )}
@@ -131,7 +132,7 @@ const RegistrationPending = ({
           </span>
         }
       >
-        <Icon name="information-circle-outline" size={20} />
+        <Icon iconNode={<Info />} size={20} />
       </Tooltip>
     </p>
     <ProgressBar />

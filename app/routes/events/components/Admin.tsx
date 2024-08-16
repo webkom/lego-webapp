@@ -5,7 +5,14 @@ import {
   Icon,
   LinkButton,
 } from '@webkom/lego-bricks';
-import { Pencil, Trash2 } from 'lucide-react';
+import {
+  Copy,
+  UserCog,
+  FilePieChart,
+  Pencil,
+  Trash2,
+  Contact,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -88,7 +95,7 @@ const Admin = ({ actionGrant, event }: Props) => {
 
   return (
     (canEdit || canDelete) && (
-      <>
+      <div>
         <h3>Admin</h3>
 
         <ButtonGroup vertical>
@@ -97,15 +104,15 @@ const Admin = ({ actionGrant, event }: Props) => {
               success
               href={`/events/${event.id}/administrate/abacard`}
             >
-              <Icon name="id-card" size={19} />
+              <Icon iconNode={<Contact />} size={19} />
               Registrer oppmøte
             </LinkButton>
           )}
 
           {canEdit && (
             <LinkButton href={`/events/${event.id}/administrate/attendees`}>
-              <Icon name="people-outline" size={19} />
-              Se påmeldinger
+              <Icon iconNode={<UserCog />} size={19} />
+              Administrer
             </LinkButton>
           )}
 
@@ -120,24 +127,24 @@ const Admin = ({ actionGrant, event }: Props) => {
 
           {event.survey ? (
             <LinkButton href={`/surveys/${event.survey}`}>
-              <Icon name="clipboard-outline" size={19} />
+              <Icon iconNode={<FilePieChart />} size={19} />
               Gå til spørreundersøkelse
             </LinkButton>
           ) : (
             <LinkButton href={`/surveys/add/?event=${event.id}`}>
-              <Icon name="clipboard-outline" size={19} />
+              <Icon iconNode={<FilePieChart />} size={19} />
               Lag spørreundersøkelse
             </LinkButton>
           )}
 
           <LinkButton href="/events/create" state={{ id: event.id }}>
-            <Icon name="copy-outline" size={19} />
+            <Icon iconNode={<Copy />} size={19} />
             Lag kopi av arrangement
           </LinkButton>
 
           {canDelete && <DeleteButton eventId={event.id} title={event.title} />}
         </ButtonGroup>
-      </>
+      </div>
     )
   );
 };

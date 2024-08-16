@@ -1,6 +1,7 @@
 import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
+import { Info } from 'lucide-react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -624,7 +625,7 @@ const CompanyInterestPage = () => {
                         </span>
                       }
                     >
-                      <Icon name="information-circle-outline" size={20} />
+                      <Icon iconNode={<Info />} size={20} />
                     </Tooltip>
                   </Flex>
                 </label>

@@ -7,7 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Trash2 } from 'lucide-react';
+import { FileDown, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchSemesters } from 'app/actions/CompanyActions';
@@ -258,7 +258,7 @@ const CompanyInterestList = () => {
               href={generatedCSV.url}
               download={generatedCSV.filename}
             >
-              <Icon name="download-outline" size={19} />
+              <Icon iconNode={<FileDown />} size={19} />
               Last ned CSV
             </LinkButton>
           ) : (

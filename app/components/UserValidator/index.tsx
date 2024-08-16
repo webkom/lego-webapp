@@ -1,5 +1,6 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get, debounce } from 'lodash';
+import { ScanQrCode } from 'lucide-react';
 import { useCallback, useRef, useState, type ComponentProps } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -226,7 +227,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
         className={styles.scannerButton}
         onPress={() => setShowScanner(true)}
       >
-        <Icon className={styles.qrIcon} name="scan-outline" size={18} />
+        <Icon iconNode={<ScanQrCode />} size={19} />
         Åpne scanner
       </Button>
       <SearchPage<UserSearchResult>

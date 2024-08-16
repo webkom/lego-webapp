@@ -1,5 +1,5 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
-import { Leaf } from 'lucide-react';
+import { AlarmClock, Leaf } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -60,7 +60,7 @@ const UpcomingRegistration = ({ event }: Props) => {
           gap="var(--spacing-sm)"
           className={styles.info}
         >
-          <Icon name="alarm-outline" size={20} />
+          <Icon iconNode={<AlarmClock />} size={20} />
           <div>
             <span>
               Påmelding

@@ -7,7 +7,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import keys from 'lodash/keys';
-import { Trash2 } from 'lucide-react';
+import { Copy, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -92,7 +92,11 @@ const UserSettingsOAuth2 = () => {
             {application.clientId}
             <Tooltip content={copied ? 'Kopiert!' : 'Kopier client ID'}>
               <Icon
-                name={copied ? 'copy' : 'copy-outline'}
+                iconNode={
+                  <Copy
+                    fill={copied ? 'var(--success-color)' : 'transparent'}
+                  />
+                }
                 size={20}
                 success={copied}
                 className={styles.copyIcon}

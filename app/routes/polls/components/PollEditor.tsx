@@ -6,7 +6,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
-import { Trash2 } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -70,7 +70,7 @@ const renderOptions = ({ fields }): ReactNode => (
     </ul>
 
     <Button onPress={() => fields.push({})}>
-      <Icon name="add" size={25} />
+      <Icon iconNode={<Plus />} size={25} />
       Legg til alternativ
     </Button>
   </>
