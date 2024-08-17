@@ -1,5 +1,5 @@
 import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
-import { FilterX } from 'lucide-react';
+import { FilterX, FolderOpen } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import JoblistingItem from 'app/components/JoblistingItem';
@@ -24,17 +24,24 @@ const JoblistingsList = ({ joblistings, totalCount }: JobListingsListProps) => {
 
   if (joblistings.length === 0 && !fetching) {
     return (
-      <EmptyState icon="folder-open-outline" className={styles.emptyState}>
-        <b>Her var det tomt ...</b>
-        Ingen jobbannonser {totalCount > 0 && 'som matcher ditt filter'} ligger
-        {totalCount === 0 && ' for øyeblikket'} ute
-        {totalCount > 0 && (
-          <Button flat onPress={clearQueryParams}>
-            <Icon iconNode={<FilterX />} size={22} />
-            Tøm filter
-          </Button>
-        )}
-      </EmptyState>
+      <EmptyState
+        iconNode={<FolderOpen />}
+        header="Her var det tomt ..."
+        body={
+          <>
+            Ingen jobbannonser {totalCount > 0 && 'som matcher ditt filter'}{' '}
+            ligger
+            {totalCount === 0 && ' for øyeblikket'} ute
+            {totalCount > 0 && (
+              <Button flat onPress={clearQueryParams}>
+                <Icon iconNode={<FilterX />} size={22} />
+                Tøm filter
+              </Button>
+            )}
+          </>
+        }
+        className={styles.emptyState}
+      />
     );
   }
 

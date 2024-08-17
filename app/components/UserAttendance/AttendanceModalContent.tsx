@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash';
+import { Send } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
@@ -110,10 +111,12 @@ const AttendanceModalContent = ({
             </li>
           ))
         ) : (
-          <EmptyState icon="paper-plane-outline" className={styles.emptyState}>
-            <b>Ingen påmeldte ...</b>
-            <span>Meld deg på da vel!</span>
-          </EmptyState>
+          <EmptyState
+            iconNode={<Send />}
+            header="Ingen påmeldte ..."
+            body="Meld deg på da vel!"
+            className={styles.emptyState}
+          />
         )}
       </ul>
 

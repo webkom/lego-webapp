@@ -61,10 +61,10 @@ const Attendees = () => {
   const eventHasEnded = moment().isAfter(moment(event.endTime));
 
   return (
-    <div>
-      <Flex column>
+    <>
+      <Flex alignItems="center" justifyContent="space-between">
+        <h3>Påmeldte</h3>
         <div>
-          <strong>Påmeldte</strong>
           <div className={styles.attendeeStatistics}>
             {`${registerCount}/${event.registrationCount || '?'} ${
               eventHasEnded ? 'møtte opp' : 'har møtt opp'
@@ -90,36 +90,32 @@ const Attendees = () => {
               : ''}
           </div>
         </div>
-        {registered.length === 0 && !loading ? (
-          <EmptyState>Ingen påmeldte</EmptyState>
-        ) : (
-          <RegisteredTable
-            event={event}
-            registered={registered}
-            loading={loading}
-            showPresence={showPresence}
-            showUnregister={showUnregister}
-            pools={pools}
-          />
-        )}
-        <strong
-          style={{
-            marginTop: '10px',
-          }}
-        >
-          Avmeldte
-        </strong>
-        {unregistered.length === 0 && !loading ? (
-          <EmptyState>Ingen avmeldte</EmptyState>
-        ) : (
-          <UnregisteredTable
-            unregistered={unregistered}
-            loading={loading}
-            event={event}
-          />
-        )}
       </Flex>
-    </div>
+
+      {registered.length === 0 && !loading ? (
+        <EmptyState body="Ingen påmeldte" />
+      ) : (
+        <RegisteredTable
+          event={event}
+          registered={registered}
+          loading={loading}
+          showPresence={showPresence}
+          showUnregister={showUnregister}
+          pools={pools}
+        />
+      )}
+
+      <h3>Avmeldte</h3>
+      {unregistered.length === 0 && !loading ? (
+        <EmptyState body="Ingen avmeldte" />
+      ) : (
+        <UnregisteredTable
+          unregistered={unregistered}
+          loading={loading}
+          event={event}
+        />
+      )}
+    </>
   );
 };
 

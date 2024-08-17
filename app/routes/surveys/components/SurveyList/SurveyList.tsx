@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import { FolderOpen } from 'lucide-react';
 import EmptyState from 'app/components/EmptyState';
 import SurveyItem from './SurveyItem';
 import type { DetailedSurvey } from 'app/store/models/Survey';
@@ -11,9 +12,10 @@ type Props = {
 const SurveyList = ({ surveys, fetching }: Props) => {
   if (isEmpty(surveys) && !fetching) {
     return (
-      <EmptyState icon="folder-open-outline">
-        Ingen spørreundersøkelser funnet
-      </EmptyState>
+      <EmptyState
+        iconNode={<FolderOpen />}
+        body="Ingen spørreundersøkelser funnet"
+      />
     );
   }
 

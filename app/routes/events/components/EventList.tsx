@@ -8,6 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
+import { FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { fetchEvents } from 'app/actions/EventActions';
@@ -299,9 +300,10 @@ const EventList = () => {
       />
       {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
       {isEmpty(events) && !pagination.fetching && (
-        <EmptyState icon="book-outline">
-          Ingen kommende arrangementer
-        </EmptyState>
+        <EmptyState
+          iconNode={<FolderOpen />}
+          body="Ingen kommende arrangementer"
+        />
       )}
       {pagination.hasMore && field === 'startTime' && (
         <Button
@@ -312,7 +314,7 @@ const EventList = () => {
         </Button>
       )}
       <div className={styles.bottomBorder} />
-      <EventFooter icalToken={icalToken} />
+      {icalToken && <EventFooter icalToken={icalToken} />}
     </Page>
   );
 };

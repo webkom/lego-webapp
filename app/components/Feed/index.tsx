@@ -1,3 +1,4 @@
+import { Frown } from 'lucide-react';
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
@@ -57,9 +58,10 @@ const Feed = ({ feedId }: Props): ReactNode => {
           ) : null;
         })
       ) : (
-        <EmptyState icon="sad-outline">
-          Ingen aktiviteter i feeden ...
-        </EmptyState>
+        <EmptyState
+          iconNode={<Frown />}
+          body="Ingen aktiviteter i feeden ..."
+        />
       )}
     </div>
   );

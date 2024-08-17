@@ -203,7 +203,7 @@ const UserSettingsOAuth2 = () => {
           </LinkButton>
         )}
         {applications.length === 0 && !fetchingApplications ? (
-          <EmptyState>Du har ingen applikasjoner</EmptyState>
+          <EmptyState body="Du har ingen applikasjoner" />
         ) : (
           <Table
             columns={applicationColumns}
@@ -216,7 +216,7 @@ const UserSettingsOAuth2 = () => {
 
       <h3>Aksepterte applikasjoner</h3>
       {grants.length === 0 && !fetchingGrants ? (
-        <EmptyState>Du har ikke logget på en app enda</EmptyState>
+        <EmptyState body="Du har ikke logget på en app enda" />
       ) : (
         <Table
           columns={acceptedApplicationcolumns}

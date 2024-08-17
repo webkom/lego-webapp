@@ -1,4 +1,5 @@
 import { Card, Flex } from '@webkom/lego-bricks';
+import { Send } from 'lucide-react';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import {
@@ -279,9 +280,7 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
       </p>
 
       {registered.length === 0 ? (
-        <EmptyState icon="paper-plane-outline">
-          Ingen er påmeldt enda
-        </EmptyState>
+        <EmptyState iconNode={<Send />} body="Ingen er påmeldt enda" />
       ) : (
         <div className={styles.chartContainer}>
           <PieChartWithLabel

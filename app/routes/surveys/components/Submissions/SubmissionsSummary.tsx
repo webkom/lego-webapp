@@ -67,7 +67,7 @@ const SubmissionsSummary = () => {
       })
       .filter(isNotNullish);
 
-    return texts.length === 0 ? <EmptyState>Ingen svar</EmptyState> : texts;
+    return texts.length === 0 ? <EmptyState body="Ingen svar" /> : texts;
   };
 
   const generateQuestionData = (question: SurveyQuestion) => {

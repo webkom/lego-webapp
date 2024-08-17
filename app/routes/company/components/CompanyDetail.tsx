@@ -219,7 +219,7 @@ const CompanyDetail = () => {
               ))}
             </Flex>
           ) : (
-            <EmptyState>Ingen tilgjengelige jobbannonser</EmptyState>
+            <EmptyState body="Ingen tilgjengelige jobbannonser" />
           )}
         </ContentMain>
 

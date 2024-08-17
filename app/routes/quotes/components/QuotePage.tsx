@@ -7,6 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
 import { fetchEmojis } from 'app/actions/EmojiActions';
@@ -129,7 +130,7 @@ const QuotePage = () => {
       <Helmet title="Overhørt" />
 
       {errorMessage ? (
-        <EmptyState icon="folder-open-outline">{errorMessage}</EmptyState>
+        <EmptyState iconNode={<FolderOpen />} body={errorMessage} />
       ) : (
         <QuoteList actionGrant={actionGrant} quotes={quotes} />
       )}

@@ -1,4 +1,5 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Leaf } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -115,9 +116,11 @@ const UpcomingRegistrations = () => {
           <UpcomingRegistration key={event.id} event={event} />
         ))
       ) : (
-        <EmptyState icon="leaf-outline" className={styles.filler}>
-          Ingen påmeldinger de neste 3 dagene
-        </EmptyState>
+        <EmptyState
+          iconNode={<Leaf />}
+          body="Ingen påmeldinger de neste 3 dagene"
+          className={styles.filler}
+        />
       )}
     </div>
   );

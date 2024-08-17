@@ -126,7 +126,7 @@ const Allergies = () => {
     <>
       <Flex column>
         {registeredAllergies.length === 0 && !fetching ? (
-          <EmptyState>Ingen påmeldte med allergier</EmptyState>
+          <EmptyState body="Ingen påmeldte med allergier" />
         ) : (
           <Table
             hasMore={false}

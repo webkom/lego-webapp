@@ -12,7 +12,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { without } from 'lodash';
-import { Trash2 } from 'lucide-react';
+import { Images, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
@@ -90,14 +90,15 @@ const renderBottom = (photo: GalleryListPicture, gallery: DetailedGallery) => (
 );
 
 const renderEmpty = (gallery: DetailedGallery) => (
-  <EmptyState icon="images-outline">
-    <Flex column alignItems="center">
-      Her er det ingen bilder å redigere ...
+  <EmptyState
+    iconNode={<Images />}
+    header="Her er det ingen bilder å redigere ..."
+    body={
       <span>
         Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
       </span>
-    </Flex>
-  </EmptyState>
+    }
+  />
 );
 
 export type FormValues = {
