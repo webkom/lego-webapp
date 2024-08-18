@@ -1,13 +1,25 @@
+import {
+  createColumnHelper,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailListActions';
-import Table from 'app/components/Table';
+import { LegoTable } from 'app/components/LegoTable';
+import {
+  columnFiltersToSearchParams,
+  searchParamsToColumnFilters,
+} from 'app/components/LegoTable/utils';
 import Tag from 'app/components/Tags/Tag';
 import { selectEmailLists } from 'app/reducers/emailLists';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
+import type { DetailedEmailList } from 'app/store/models/EmailList';
 
 const emailListsDefaultQuery = {
   name: '',
@@ -15,19 +27,21 @@ const emailListsDefaultQuery = {
   requireInternalAddress: '' as '' | 'true' | 'false',
 };
 
+const columnHelper = createColumnHelper<DetailedEmailList>();
+
 const EmailLists = () => {
   const { query, setQuery } = useQuery(emailListsDefaultQuery);
 
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/email-lists/',
-      entity: 'emailLists',
+      entity: EntityType.EmailLists,
       query,
     })(state),
   );
 
   const emailLists = useAppSelector((state) =>
-    selectEmailLists(state, { pagination }),
+    selectEmailLists<DetailedEmailList>(state, { pagination }),
   );
 
   const dispatch = useAppDispatch();
@@ -43,45 +57,65 @@ const EmailLists = () => {
     [query],
   );
 
-  const columns = [
-    {
-      title: 'Navn',
-      dataIndex: 'name',
-      search: true,
-      inlineFiltering: false,
-      render: (name: string, emailList) => (
-        <Link to={`/admin/email/lists/${emailList.id}`}>{name}</Link>
-      ),
-    },
-    {
-      title: 'E-post',
-      dataIndex: 'email',
-      search: true,
-      inlineFiltering: false,
-      render: (email: string) => <span>{`${email}@abakus.no`}</span>,
-    },
-    {
-      title: 'Kun for brukere med @abakus e-post',
-      dataIndex: 'requireInternalAddress',
-      filter: [
-        {
-          value: 'true',
-          label: 'Kun for @abakus.no',
-        },
-        {
-          value: 'false',
-          label: 'Alle typer adresser',
-        },
-      ],
-      inlineFiltering: false,
-      render: (internalOnly) =>
-        internalOnly ? (
-          <Tag tag="Kun for @abakus.no" color="cyan" />
-        ) : (
-          <Tag tag="Alle typer adresser" color="yellow" />
+  const columns = useMemo(
+    () => [
+      columnHelper.accessor('name', {
+        header: () => <span>Navn</span>,
+        cell: ({ getValue, row }) => (
+          <Link to={`/admin/email/lists/${row.original.id}`}>{getValue()}</Link>
         ),
+        meta: {
+          filter: { variant: 'search' },
+        },
+      }),
+      columnHelper.accessor('email', {
+        header: () => <span>E-post</span>,
+        cell: ({ getValue }) => <span>{`${getValue()}@abakus.no`}</span>,
+        meta: {
+          filter: { variant: 'search' },
+        },
+      }),
+      columnHelper.accessor('requireInternalAddress', {
+        header: () => <span>Kun for brukere med @abakus e-post</span>,
+        cell: ({ getValue }) =>
+          getValue() ? (
+            <Tag tag="Kun for @abakus.no" color="cyan" />
+          ) : (
+            <Tag tag="Alle typer adresser" color="yellow" />
+          ),
+        meta: {
+          filter: {
+            variant: 'select',
+            options: [
+              {
+                value: 'true',
+                label: 'Kun for @abakus.no',
+              },
+              {
+                value: 'false',
+                label: 'Alle typer adresser',
+              },
+            ],
+          },
+        },
+      }),
+    ],
+    [],
+  );
+
+  const columnFilters = searchParamsToColumnFilters(query);
+
+  const table = useReactTable({
+    columns,
+    data: emailLists,
+    getCoreRowModel: getCoreRowModel(),
+    state: {
+      columnFilters,
     },
-  ];
+    onColumnFiltersChange: (updaterOrValue) =>
+      setQuery(columnFiltersToSearchParams(updaterOrValue, columnFilters)),
+    enableSorting: false,
+  });
 
   return (
     <div>
@@ -102,21 +136,13 @@ const EmailLists = () => {
         <h3>Aktive e-postlister</h3>
         <LinkButton href="/admin/email/lists/new">Ny e-postliste</LinkButton>
       </Flex>
-      <Table
-        columns={columns}
-        onLoad={() => {
-          dispatch(
-            fetch({
-              next: true,
-              query: query,
-            }),
-          );
-        }}
-        filters={query}
-        onChange={setQuery}
-        hasMore={pagination.hasMore}
+      <LegoTable
+        table={table}
         loading={pagination.fetching}
-        data={emailLists}
+        hasMore={pagination.hasMore}
+        onLoad={() => {
+          dispatch(fetch({ next: true, query }));
+        }}
       />
     </div>
   );
