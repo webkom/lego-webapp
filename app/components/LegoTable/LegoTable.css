@@ -1,0 +1,74 @@
+@import url('~app/styles/variables.css');
+
+.wrapper {
+    overflow-x: scroll;
+}
+
+.wrapper table {
+    width: 100%;
+}
+
+.wrapper td {
+    height: 1px;
+}
+
+@-moz-document url-prefix() {
+    .wrapper td {
+        height: 100%;
+    }
+}
+
+.wrapper .loader {
+    height: 44px;
+}
+
+.wrapper tr:nth-child(even) {
+    background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
+
+    & .loader {
+        animation: skeleton-loading 1s linear infinite alternate;
+    }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%);
+    }
+    50% {
+        background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
+    }
+    100% {
+        background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 5%);
+    }
+}
+
+.header {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+}
+
+.sortFilterButton {
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    aspect-ratio: 1;
+
+    &[data-focus-visible] {
+        box-shadow: 0 0 0 1.5px var(--lego-font-color);
+    }
+
+    &[data-hovered] {
+        background-color: var(--color-gray-3);
+    }
+
+    &[data-pressed] {
+        background-color: var(--color-gray-4);
+    }
+}
+
+.filterOverlay {
+    min-width: 200px;
+    padding: var(--spacing-sm);
+}
