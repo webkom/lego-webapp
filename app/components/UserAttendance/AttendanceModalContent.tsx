@@ -113,8 +113,8 @@ const AttendanceModalContent = ({
         ) : (
           <EmptyState
             iconNode={<Send />}
-            header="Ingen påmeldte ..."
-            body="Meld deg på da vel!"
+            header={!isMeeting ? 'Ingen påmeldte ...' : undefined}
+            body={!isMeeting ? 'Meld deg på da vel!' : 'Ingen brukere her ...'}
             className={styles.emptyState}
           />
         )}
