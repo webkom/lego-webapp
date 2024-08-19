@@ -12,7 +12,7 @@ export const TableHeader = <TData, TValue>({
   header,
 }: Props<TData, TValue>) => {
   return (
-    <th>
+    <th colSpan={header.colSpan} style={{ width: header.getSize() }}>
       <div className={styles.header}>
         {header.isPlaceholder
           ? null
