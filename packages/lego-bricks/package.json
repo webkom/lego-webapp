@@ -19,6 +19,7 @@
   ],
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/lego-bricks.js",
       "require": "./dist/lego-bricks.umd.cjs"
     },
