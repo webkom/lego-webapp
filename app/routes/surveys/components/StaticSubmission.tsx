@@ -83,13 +83,7 @@ const TextAnswer = ({
   question: SurveyQuestion;
 }) => {
   if (answer) {
-    return (
-      answer.answerText || (
-        <EmptyState>
-          <i>Tomt svar</i>
-        </EmptyState>
-      )
-    );
+    return answer.answerText || <EmptyState body={<i>Tomt svar</i>} />;
   }
 
   if (
@@ -98,11 +92,7 @@ const TextAnswer = ({
       .map((answer) => answer.question.id)
       .includes(question.id)
   ) {
-    return (
-      <EmptyState>
-        <i>Tomt svar</i>
-      </EmptyState>
-    );
+    return <EmptyState body={<i>Tomt svar</i>} />;
   }
 
   return (

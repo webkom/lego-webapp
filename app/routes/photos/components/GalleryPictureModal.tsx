@@ -72,7 +72,6 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   if (taggees.length === 1) {
     return (
       <span>
-        <br />
         <span>med </span>
         <Link key={taggees[0].id} to={`/users/${taggees[0].username}`}>
           {taggees[0].fullName}
@@ -82,7 +81,6 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   } else {
     return (
       <span>
-        <br />
         <span>med </span>
         {taggees.map((taggee, index) => (
           <span key={taggee.id}>

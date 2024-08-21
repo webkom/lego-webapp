@@ -1,5 +1,6 @@
 import { Flex, Icon, Skeleton, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { FolderOpen, FolderSearch } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import { ProfilePicture } from 'app/components/Image';
@@ -87,15 +88,18 @@ const SearchPageResults = ({
 
   if (results.length === 0 && !searching) {
     return (
-      <EmptyState icon={query ? 'folder-open-outline' : 'folder-outline'}>
-        {query ? (
-          <span>
-            Fant ingen treff på søket <em>{query}</em>
-          </span>
-        ) : (
-          <span>Søk i vei!</span>
-        )}
-      </EmptyState>
+      <EmptyState
+        iconNode={query ? <FolderOpen /> : <FolderSearch />}
+        body={
+          query ? (
+            <span>
+              Fant ingen treff på søket <em>{query}</em>
+            </span>
+          ) : (
+            <span>Søk i vei!</span>
+          )
+        }
+      />
     );
   }
 

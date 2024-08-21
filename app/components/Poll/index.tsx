@@ -221,7 +221,7 @@ const VoteResults = ({
               <td className={styles.textColumn}>{name}</td>
               <td className={styles.graphColumn}>
                 {votes === 0 ? (
-                  <EmptyState>Ingen stemmer</EmptyState>
+                  <EmptyState body="Ingen stemmer" />
                 ) : (
                   <Flex alignItems="center" className={styles.fullGraph}>
                     <div

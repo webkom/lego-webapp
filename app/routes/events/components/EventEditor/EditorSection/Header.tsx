@@ -6,7 +6,7 @@ import {
   Modal,
   Image,
 } from '@webkom/lego-bricks';
-import { Trash2 } from 'lucide-react';
+import { FolderOpen, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
 import EmptyState from 'app/components/EmptyState';
@@ -129,12 +129,11 @@ const Header = ({
                     </Flex>
                   ))}
                   {imageGallery.length === 0 && (
-                    <EmptyState icon="folder-open-outline">
-                      <Flex column alignItems="center">
-                        <b>Bildegalleriet er tomt ...</b>
-                        <span>Hvorfor ikke laste opp et bilde?</span>
-                      </Flex>
-                    </EmptyState>
+                    <EmptyState
+                      iconNode={<FolderOpen />}
+                      header="Bildegalleriet er tomt ..."
+                      body="Hvorfor ikke laste opp et bilde?"
+                    />
                   )}
                 </Flex>
               </>

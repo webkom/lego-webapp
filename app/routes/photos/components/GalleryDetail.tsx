@@ -1,12 +1,12 @@
 import {
   Button,
-  Flex,
   Icon,
   LinkButton,
   LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Images } from 'lucide-react';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
@@ -223,9 +223,10 @@ const GalleryDetail = () => {
           onClick={handleClick}
           getSrc={(photo) => photo.file}
           renderEmpty={() => (
-            <EmptyState icon="images-outline">
-              <Flex column alignItems="center">
-                Albumet er tomt ...
+            <EmptyState
+              iconNode={<Images />}
+              header="Albumet er tomt ..."
+              body={
                 <span>
                   Trykk{' '}
                   <b
@@ -236,8 +237,8 @@ const GalleryDetail = () => {
                   </b>{' '}
                   for å legge inn bilder
                 </span>
-              </Flex>
-            </EmptyState>
+              }
+            />
           )}
         />
 
