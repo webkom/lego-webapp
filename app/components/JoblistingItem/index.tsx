@@ -1,7 +1,12 @@
 import { Flex, Image } from '@webkom/lego-bricks';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
+import {
+  jobType,
+  Year,
+  Workplaces,
+  jobTypeColor,
+} from 'app/components/JoblistingItem/Items';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import styles from './JoblistingItem.css';
@@ -29,7 +34,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         <Flex
           wrap
           alignItems="center"
-          gap="var(--spacing-sm)"
+          gap="var(--spacing-xs)"
           className={styles.joblistingItemTitle}
         >
           {moment(joblisting.createdAt).isAfter(
@@ -42,7 +47,10 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           {joblisting.jobType && (
             <>
               <span> • </span>
-              {jobType(joblisting.jobType)}
+              <Tag
+                tag={jobType(joblisting.jobType)}
+                color={jobTypeColor(joblisting.jobType)}
+              />
             </>
           )}
         </div>
