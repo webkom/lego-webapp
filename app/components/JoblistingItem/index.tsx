@@ -66,7 +66,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
       </div>
       <Time
         time={joblisting.deadline}
-        format="ll HH:mm"
+        format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
         className={styles.deadLine}
       />
     </div>
