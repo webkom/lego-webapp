@@ -1,5 +1,6 @@
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Info, HandCoins, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllWithType } from 'app/actions/GroupActions';
@@ -8,6 +9,26 @@ import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.css';
+
+const NavigationItem = (props: {
+  iconNode: React.ElementType;
+  to: string;
+  children: React.ElementType;
+}) => {
+  return (
+    <Flex
+      component={Link}
+      to={props.to}
+      alignItems="center"
+      gap="var(--spacing-md)"
+      padding="var(--spacing-md)"
+      className={styles.navigationItem}
+    >
+      <Icon iconNode={props.iconNode} />
+      {props.children}
+    </Flex>
+  );
+};
 
 const InterestGroupList = () => {
   const actionGrant = useAppSelector((state) => state.groups.actionGrant);
@@ -44,10 +65,30 @@ const InterestGroupList = () => {
       }
     >
       <Helmet title="Interessegrupper" />
-      <p>
-        <Link to="/pages/generelt/39-praktisk-informasjon">Her</Link> finner du
-        all praktisk informasjon knyttet til våre interessegrupper.
-      </p>
+
+      <Flex gap="var(--spacing-xl)" wrap className={styles.navigationWrapper}>
+        <NavigationItem to="/interestgroups/info" iconNode={<Info />}>
+          Praktisk informasjon
+          <br /> om interessegrupper
+        </NavigationItem>
+        <NavigationItem
+          to="/interestgroups/money-application"
+          iconNode={<HandCoins />}
+        >
+          Send inn en
+          <br />
+          pengesøknad
+        </NavigationItem>
+        <NavigationItem
+          to="/interestgroups/create-application"
+          iconNode={<Plus />}
+        >
+          Søk om å opprette en <br />
+          interessegruppe
+        </NavigationItem>
+      </Flex>
+
+      <h2>Aktive interessegrupper</h2>
 
       {activeGroups.map((group) => (
         <InterestGroupComponent group={group} key={group.id} active={true} />
