@@ -65,7 +65,7 @@ const Comment = ({
                 </Flex>
                 <Tooltip
                   content={moment(createdAt).format('lll')}
-                  placement="right"
+                  positions="right"
                   className={styles.timestampTooltip}
                 >
                   <Time
