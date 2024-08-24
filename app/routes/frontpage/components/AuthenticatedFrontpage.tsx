@@ -80,10 +80,9 @@ const AuthenticatedFrontpage = () => {
     <PageContainer card={false}>
       <Helmet title="Hjem" />
       <Banner
-        header="Velkommen til fadderperioden 2024!"
-        subHeader="Trykk her for mer informasjon til nye studenter"
-        link="https://ny.abakus.no"
-        color="buddyweek2024"
+        header="Abakus har opptak!"
+        subHeader="Trykk her for å søke på komité og revy"
+        link="https://opptak.abakus.no"
       />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
