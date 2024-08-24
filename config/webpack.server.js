@@ -91,6 +91,7 @@ module.exports = (env, argv) => {
                     modules: {
                       localIdentName:
                         '[name]__[local]--[contenthash:base64:10]',
+                      namedExport: false,
                     },
                   },
                 },

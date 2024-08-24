@@ -188,10 +188,25 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          include: /node_modules|packages/,
+          include: /node_modules/,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
             'css-loader',
+          ],
+        },
+        {
+          test: /\.css$/,
+          include: /packages/,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  namedExport: false,
+                },
+              },
+            },
           ],
         },
         {
@@ -205,6 +220,7 @@ module.exports = (env, argv) => {
                 importLoaders: 1,
                 modules: {
                   localIdentName: '[name]__[local]--[contenthash:base64:10]',
+                  namedExport: false,
                 },
               },
             },
