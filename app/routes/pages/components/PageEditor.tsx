@@ -62,7 +62,7 @@ const PageEditor = () => {
     selectPageById<AuthDetailedPage>(state, pageSlug),
   );
 
-  const isNew = page === undefined;
+  const isNew = pageSlug === undefined;
 
   const [form, setForm] = useState<{
     picture?: string;
