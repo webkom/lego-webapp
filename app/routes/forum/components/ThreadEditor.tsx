@@ -49,6 +49,7 @@ const ThreadEditor = () => {
   const thread = useAppSelector((state) =>
     isNew ? undefined : (selectThreadById(state, threadId) as DetailedThread),
   );
+  const fetching = useAppSelector((state) => state.threads.fetching);
 
   const dispatch = useAppDispatch();
 
@@ -89,6 +90,7 @@ const ThreadEditor = () => {
   return (
     <Page
       title={isNew ? 'Ny tråd' : `Redigerer: ${thread?.title}`}
+      skeleton={fetching}
       back={{
         href: thread
           ? `/forum/${forumId}/threads/${thread.id}`

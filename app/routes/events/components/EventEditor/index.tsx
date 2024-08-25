@@ -315,6 +315,7 @@ const EventEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{
         href: isEditPage ? `/events/${event.slug}` : '/events',
       }}

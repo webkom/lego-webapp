@@ -122,6 +122,7 @@ const MeetingEditor = () => {
       ? selectUserById(state, meeting?.reportAuthor)
       : undefined,
   );
+  const fetching = useAppSelector((state) => state.meetings.fetching);
 
   const currentUser = useCurrentUser();
 
@@ -239,6 +240,7 @@ const MeetingEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{
         label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
         href: `/meetings/${isEditPage ? meetingId : ''}`,

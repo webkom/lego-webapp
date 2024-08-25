@@ -63,7 +63,9 @@ const Page = ({
         className={title ? styles.title : undefined}
       >
         {sidebar?.side === 'left' && <SidebarTrigger />}
-        {skeleton && !title ? (
+        {skeleton &&
+        (!title ||
+          (typeof title === 'string' && title.includes('undefined'))) ? (
           <Skeleton height={39} width="50%" />
         ) : (
           title && <h1>{title}</h1>
