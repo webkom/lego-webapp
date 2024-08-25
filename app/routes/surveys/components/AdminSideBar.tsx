@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Icon, LinkButton } from '@webkom/lego-bricks';
-import { Pencil } from 'lucide-react';
+import { Check, Copy, FileDown, FileUp, Pencil, Plus } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { hideSurvey, shareSurvey } from 'app/actions/SurveyActions';
 import { ContentSidebar } from 'app/components/Content';
@@ -59,7 +59,7 @@ const AdminSideBar = ({
 
         <ButtonGroup vertical>
           <LinkButton href="/surveys/add">
-            <Icon name="add" size={19} />
+            <Icon iconNode={<Plus />} size={19} />
             Ny undersøkelse
           </LinkButton>
 
@@ -77,14 +77,14 @@ const AdminSideBar = ({
                 href={generatedCSV.url}
                 download={generatedCSV.filename}
               >
-                <Icon name="download-outline" size={19} />
+                <Icon iconNode={<FileDown />} size={19} />
                 Last ned CSV
               </LinkButton>
             ) : (
               <Button
                 onPress={async () => setGeneratedCSV(await exportSurvey())}
               >
-                <Icon name="download-outline" size={19} />
+                <Icon iconNode={<FileUp />} size={19} />
                 Eksporter til CSV
               </Button>
             ))}
@@ -105,7 +105,7 @@ const AdminSideBar = ({
 
         {token && (
           <Button onPress={handleCopyButtonClick} success={copied}>
-            <Icon name={copied ? 'checkmark' : 'copy-outline'} />
+            <Icon iconNode={copied ? <Check /> : <Copy />} size={19} />
             {copied ? 'Kopiert!' : 'Kopier delbar link'}
           </Button>
         )}

@@ -1,6 +1,7 @@
 import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
+import { FileDown } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { fetchAllergies } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
@@ -30,7 +31,7 @@ export const canSeeAllergies = (
 const Allergies = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId }),
+    eventId ? selectEventById(state, { eventId }) : undefined,
   ) as AdministrateEvent;
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
@@ -124,7 +125,15 @@ const Allergies = () => {
 
   return (
     <>
-      <Flex column>
+      <Flex column gap="var(--spacing-md)">
+        <LinkButton
+          href={allergiesTXT}
+          download={'allergier_' + event.title.replaceAll(' ', '_') + '.txt'}
+        >
+          <Icon iconNode={<FileDown />} size={19} />
+          Last ned allergier som tekstfil
+        </LinkButton>
+
         {registeredAllergies.length === 0 && !fetching ? (
           <EmptyState body="Ingen påmeldte med allergier" />
         ) : (
@@ -135,15 +144,6 @@ const Allergies = () => {
             data={registeredAllergies}
           />
         )}
-      </Flex>
-      <br></br>
-      <Flex justifyContent="space-between">
-        <LinkButton
-          href={allergiesTXT}
-          download={'allergier_' + event.title.replaceAll(' ', '_') + '.txt'}
-        >
-          <Icon name="download-outline" /> Last ned allergier som tekstfil
-        </LinkButton>
       </Flex>
     </>
   );

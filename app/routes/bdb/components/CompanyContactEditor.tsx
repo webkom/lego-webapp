@@ -83,7 +83,11 @@ const CompanyContactEditor = () => {
     : `Redigerer: Bedriftskontakt for ${company.name}`;
 
   return (
-    <Page title={title} back={{ href: `/bdb/${company.id}` }}>
+    <Page
+      title={title}
+      skeleton={fetching}
+      back={{ href: `/bdb/${company.id}` }}
+    >
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}

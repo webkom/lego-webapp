@@ -267,6 +267,7 @@ const GalleryEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{
         href: `/photos/${gallery?.id ?? ''}`,
       }}

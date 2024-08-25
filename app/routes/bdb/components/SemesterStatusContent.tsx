@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Circle from 'app/components/Circle';
 import Dropdown from 'app/components/Dropdown';
@@ -69,7 +70,7 @@ const SemesterStatusContent = ({
                 >
                   {getStatusDisplayName(status)}
                   {active ? (
-                    <Icon name="checkmark" />
+                    <Icon iconNode={<Check />} />
                   ) : (
                     <Circle color={getStatusColor(status)} size={20} />
                   )}

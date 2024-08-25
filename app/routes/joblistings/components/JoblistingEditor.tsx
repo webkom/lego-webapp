@@ -87,6 +87,7 @@ const JoblistingEditor = () => {
   const joblisting = useAppSelector((state) =>
     selectJoblistingById<DetailedJoblisting>(state, joblistingId),
   );
+  const fetching = useAppSelector((state) => state.joblistings.fetching);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -210,6 +211,7 @@ const JoblistingEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{
         href: !isNew ? `/joblistings/${joblisting?.slug}` : '/joblistings',
       }}

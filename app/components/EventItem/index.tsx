@@ -93,7 +93,6 @@ const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
       {!!event.activationTime && (
         <Flex alignItems="center" gap="var(--spacing-sm)">
           <Tooltip content="Påmelding åpner">
-            <Icon name="alarm-outline" size={20} />
             <Icon iconNode={<AlarmClock />} size={18} />
           </Tooltip>
           <Time time={event.activationTime} format="ll HH:mm" />

@@ -13,7 +13,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
-import { Settings } from 'lucide-react';
+import { Settings, QrCode } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
@@ -456,7 +456,7 @@ const UserProfile = () => {
                   hasFrame && styles.frameMargin,
                 )}
               >
-                <Icon className={styles.qrIcon} name="qr-code" size={18} />
+                <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
               <Modal title="ABA-ID">

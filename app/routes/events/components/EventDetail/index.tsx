@@ -1,7 +1,16 @@
 import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import { FilePenLine, Star } from 'lucide-react';
+import {
+  BriefcaseBusiness,
+  CircleHelp,
+  Clock,
+  Coins,
+  FilePenLine,
+  Languages,
+  MapPin,
+  Star,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -276,7 +285,7 @@ const EventDetail = () => {
           key: 'Frist for prikk',
           keyNode: (
             <TextWithIcon
-              iconName="help-circle-outline"
+              iconNode={<CircleHelp />}
               content="Frist for prikk"
               tooltipContentIcon={
                 <>
@@ -288,7 +297,7 @@ const EventDetail = () => {
                 </>
               }
               iconRight
-              size={16}
+              size={14}
             />
           ),
           value: (
@@ -304,7 +313,7 @@ const EventDetail = () => {
           key: 'Frist for av/påmelding',
           keyNode: (
             <TextWithIcon
-              iconName="help-circle-outline"
+              iconNode={<CircleHelp />}
               content={
                 currentMoment.isBefore(registrationCloseTimeMoment)
                   ? 'Påmelding stenger'
@@ -317,7 +326,7 @@ const EventDetail = () => {
                 </>
               }
               iconRight
-              size={16}
+              size={14}
             />
           ),
           value: (
@@ -468,7 +477,8 @@ const EventDetail = () => {
             <Flex column gap="var(--spacing-sm)">
               {event.company && (
                 <TextWithIcon
-                  iconName="briefcase-outline"
+                  iconNode={<BriefcaseBusiness />}
+                  size={20}
                   content={
                     <Link to={`/companies/${event.company.id}`}>
                       {event.company.name}
@@ -479,7 +489,8 @@ const EventDetail = () => {
               )}
 
               <TextWithIcon
-                iconName="time-outline"
+                iconNode={<Clock />}
+                size={20}
                 content={
                   <FromToTime from={event.startTime} to={event.endTime} />
                 }
@@ -488,14 +499,16 @@ const EventDetail = () => {
 
               {event.isForeignLanguage !== null && event.isForeignLanguage && (
                 <TextWithIcon
-                  iconName="language-outline"
+                  iconNode={<Languages />}
+                  size={20}
                   content="English"
                   className={styles.sidebarInfo}
                 />
               )}
 
               <TextWithIcon
-                iconName="location-outline"
+                iconNode={<MapPin />}
+                size={20}
                 content={event.location}
                 className={styles.sidebarInfo}
               />
@@ -516,7 +529,8 @@ const EventDetail = () => {
 
               {event.isPriced && (
                 <TextWithIcon
-                  iconName="cash-outline"
+                  iconNode={<Coins />}
+                  size={20}
                   content={event.priceMember / 100 + ',-'}
                   className={styles.sidebarInfo}
                 />
