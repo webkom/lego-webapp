@@ -175,7 +175,7 @@
     "express-static-gzip": "^2.1.7",
     "identity-obj-proxy": "3.0.0",
     "lolex": "^6.0.0",
-    "mini-css-extract-plugin": "^2.9.0",
+    "mini-css-extract-plugin": "^2.9.1",
     "null-loader": "^4.0.1",
     "postcss-import": "^16.1.0",
     "postcss-loader": "^8.1.1",
