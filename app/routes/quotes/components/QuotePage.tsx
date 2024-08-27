@@ -17,6 +17,7 @@ import { SelectInput } from 'app/components/Form';
 import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import QuoteList from './QuoteList';
@@ -53,7 +54,7 @@ const QuotePage = () => {
     selectPaginationNext({
       endpoint: `/quotes/`,
       query: query,
-      entity: 'quotes',
+      entity: EntityType.Quotes,
     })(state),
   );
   const showFetchMore = !isSingle && pagination.hasMore;

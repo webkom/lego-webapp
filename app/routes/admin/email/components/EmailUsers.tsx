@@ -11,6 +11,7 @@ import { selectTransformedEmailUsers } from 'app/reducers/emailUsers';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import type { ColumnProps } from 'app/components/Table';
 
@@ -35,7 +36,7 @@ const EmailUsers = () => {
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/email-users/',
-      entity: 'emailUsers',
+      entity: EntityType.EmailUsers,
       query,
     })(state),
   );
