@@ -21,10 +21,8 @@ export interface DropFile extends File {
 type BaseProps = {
   crop?: boolean;
   inModal?: boolean;
-  multiple?: boolean;
   img?: string;
   aspectRatio?: number;
-  onSubmit: (arg0: File | Array<DropFile>) => void;
   onDrop?: () => void;
   onClose?: () => void;
 };
@@ -32,7 +30,7 @@ type BaseProps = {
 type Props = BaseProps &
   (
     | { multiple: true; onSubmit: (files: Array<DropFile>) => void }
-    | { multiple: false; onSubmit: (file: File) => void }
+    | { multiple?: false; onSubmit: (file: File) => void }
   );
 
 type FilePreviewProps = {
@@ -149,7 +147,6 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
 const ImageUpload = ({
   crop = true,
   inModal = false,
-  multiple = false,
   aspectRatio,
   ...props
 }: Props) => {
@@ -177,13 +174,13 @@ const ImageUpload = ({
       setCropOpen(true);
     }
 
-    if (multiple && !crop) {
+    if (props.multiple && !crop) {
       setFiles((files) => files.concat(droppedFiles));
     }
   };
 
   const onSubmit = () => {
-    if (crop && !multiple && file) {
+    if (crop && !props.multiple && file) {
       const { name } = file;
       if (cropper.current) {
         cropper.current.getCroppedCanvas().toBlob((image) => {
@@ -196,7 +193,7 @@ const ImageUpload = ({
       }
     }
 
-    if (multiple && files.length) {
+    if (props.multiple && files.length) {
       props.onSubmit(files);
     }
 
@@ -211,7 +208,7 @@ const ImageUpload = ({
   };
 
   const onRemove = (index: number) => {
-    if (multiple) {
+    if (props.multiple) {
       setFiles((files) => files.filter((_file, i) => index !== i));
     }
   };
@@ -225,7 +222,7 @@ const ImageUpload = ({
       {!inModal && (
         <UploadArea
           onDrop={onDrop}
-          multiple={multiple}
+          multiple={props.multiple}
           image={img}
           accept={accept}
         />
@@ -233,14 +230,14 @@ const ImageUpload = ({
       <Modal
         isOpen={cropOpen}
         onOpenChange={(open) => !open && closeModal()}
-        title={`Last opp bilde${multiple ? 'r' : ''}`}
+        title={`Last opp bilde${props.multiple ? 'r' : ''}`}
       >
         <Flex column alignItems="center" gap="var(--spacing-md)">
           {inModal && !preview && (
             <div className={styles.inModalUpload}>
               <UploadArea
                 onDrop={onDrop}
-                multiple={multiple}
+                multiple={props.multiple}
                 image={img}
                 accept={accept}
               />
@@ -258,7 +255,7 @@ const ImageUpload = ({
               autoCropArea={1}
             />
           )}
-          {multiple && !crop && (
+          {props.multiple && !crop && (
             <Flex wrap column gap="var(--spacing-sm)">
               {files.map((file, index) => (
                 <FilePreview

@@ -27,7 +27,7 @@ interface User {
   firstName: string;
   lastName: string;
   fullName: string;
-  gender?: keyof typeof Gender;
+  gender: keyof typeof Gender;
   email: string;
   emailAddress: string;
   emailListsEnabled: boolean;

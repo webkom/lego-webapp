@@ -1,10 +1,10 @@
 import { updatePicture } from 'app/actions/UserActions';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { useAppDispatch } from 'app/store/hooks';
-import type { User } from 'app/models';
+import type { PublicUser } from 'app/store/models/User';
 
 type Props = {
-  user: User;
+  user: Pick<PublicUser, 'username' | 'profilePicture'>;
 };
 
 const UploadPage = ({ user }: Props) => {
