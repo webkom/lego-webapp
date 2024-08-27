@@ -115,7 +115,7 @@ const UserSettings = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Flex gap="var(--spacing-xl)">
+            <Flex gap="var(--spacing-xl)" className={styles.mobileColumn}>
               <Flex
                 column
                 justifyContent="center"
