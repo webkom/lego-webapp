@@ -17,6 +17,7 @@ import { fetchAll } from 'app/actions/CompanyActions';
 import { selectActiveCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import utilities from 'app/styles/utilities.css';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './CompaniesPage.css';
@@ -92,7 +93,7 @@ const CompaniesPage = () => {
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       query: {},
-      entity: 'companies',
+      entity: EntityType.Companies,
       endpoint: '/companies/',
     })(state),
   );
