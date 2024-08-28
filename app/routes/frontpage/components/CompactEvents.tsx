@@ -73,7 +73,7 @@ const CompactEvents = ({ className, style }: Props) => {
     EventType.ALTERNATIVE_PRESENTATION,
     EventType.COURSE,
     EventType.BREAKFAST_TALK,
-    EventType.KiD_EVENT,
+    EventType.NEXUS_EVENT,
   ]);
   const leftEvents =
     presentations.length > 0 ? presentations : ['Ingen presentasjoner'];
