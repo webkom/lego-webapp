@@ -29,9 +29,13 @@ import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectEventsByPagination } from 'app/reducers/events';
-import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
+import {
+  resolveGroupLink,
+  selectGroupEntities,
+  selectGroupsByType,
+} from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectUserWithGroups } from 'app/reducers/users';
+import { selectUserByUsername } from 'app/reducers/users';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -40,7 +44,13 @@ import GroupChange from './GroupChange';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
-import type { User, Group, Dateish, UserMembership } from 'app/models';
+import type { Dateish } from 'app/models';
+import type { PublicGroup } from 'app/store/models/Group';
+import type Membership from 'app/store/models/Membership';
+import type { PastMembership } from 'app/store/models/Membership';
+import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { ExclusifyUnion } from 'app/types';
+import type { Optional } from 'utility-types';
 
 const fieldTranslations = {
   username: 'Brukernavn',
@@ -78,7 +88,70 @@ const fieldRenders = {
   githubUsername: githubFieldRender,
 };
 
-const GroupPill = ({ group }: { group: Group }) =>
+const GroupMemberships = ({
+  memberships,
+  pastMemberships,
+}: {
+  memberships: Membership[];
+  pastMemberships: PastMembership[];
+}) => {
+  const groupEntities = useAppSelector(selectGroupEntities);
+
+  const { membershipsAsBadges = [], membershipsAsPills } = groupBy(
+    memberships.map((membership) => ({
+      ...membership,
+      abakusGroup: groupEntities[membership.abakusGroup] as PublicGroup,
+    })),
+    (membership) =>
+      membership.abakusGroup.logo
+        ? 'membershipsAsBadges'
+        : 'membershipsAsPills',
+  );
+
+  const { pastMembershipsAsBadges = [] } = groupBy(pastMemberships, (m) =>
+    m.abakusGroup.logo ? 'pastMembershipsAsBadges' : 'pastMembershipsAsPills',
+  );
+  const filteredPastMembershipsAsBadges = pastMembershipsAsBadges.filter(
+    (membership) => {
+      const membershipDuration = moment.duration(
+        moment(membership.endDate).diff(membership.startDate),
+      );
+      return (
+        membership.abakusGroup.type !== 'interesse' ||
+        membershipDuration.asWeeks() > 2
+      );
+    },
+  );
+
+  const groupedMemberships = orderBy(
+    groupBy(
+      [...filteredPastMembershipsAsBadges, ...membershipsAsBadges],
+      (membership) => membership.abakusGroup.id,
+    ),
+    [
+      (memberships) => !memberships.some((membership) => membership.isActive),
+      (memberships) => memberships[0].abakusGroup.type === 'interesse',
+      (memberships) => memberships[0].abakusGroup.type !== 'styre',
+    ],
+  );
+
+  return (
+    <Flex column className={styles.rightContent}>
+      <Flex wrap>
+        {membershipsAsPills.map((membership) => (
+          <GroupPill key={membership.id} group={membership.abakusGroup} />
+        ))}
+      </Flex>
+      <Flex wrap>
+        {groupedMemberships.map((memberships) => (
+          <GroupBadge memberships={memberships} key={memberships[0].id} />
+        ))}
+      </Flex>
+    </Flex>
+  );
+};
+
+const GroupPill = ({ group }: { group: PublicGroup }) =>
   group.showBadge ? (
     <Pill
       key={group.id}
@@ -90,24 +163,16 @@ const GroupPill = ({ group }: { group: Group }) =>
     </Pill>
   ) : null;
 
-const BadgeTooltip = ({
-  group,
-  start,
-  end,
-}: {
-  group: Group;
-  start: Dateish;
-  end: Dateish | null | undefined;
-}) => {
+const badgeTooltip = (groupName: string, start: Dateish, end?: Dateish) => {
   const startYear = moment(start).year();
   const endYear = end ? moment(end).year() : 'd.d.';
-  return <>{`${group.name} (${startYear} - ${endYear})`}</>;
+  return `${groupName} (${startYear} - ${endYear})`;
 };
 
 const GroupBadge = ({
   memberships,
 }: {
-  memberships: (UserMembership & { abakusGroup: Group })[];
+  memberships: Optional<PastMembership, 'startDate' | 'endDate'>[];
 }) => {
   const activeMemberships = memberships.find(
     (membership) => membership.isActive,
@@ -123,17 +188,15 @@ const GroupBadge = ({
   const groupElement = (
     <Tooltip
       key={id}
-      content={
-        <BadgeTooltip
-          group={abakusGroup}
-          start={firstMembership.startDate || firstMembership.createdAt}
-          end={lastMembership.endDate}
-        />
-      }
+      content={badgeTooltip(
+        abakusGroup.name,
+        firstMembership.startDate || firstMembership.createdAt,
+        lastMembership.endDate,
+      )}
     >
       <CircularPicture
         alt={name}
-        src={logo}
+        src={logo!}
         size={50}
         style={{
           margin: '10px 5px',
@@ -160,8 +223,8 @@ const GroupBadge = ({
   );
 };
 
-type PermissionTreeNode = Group & {
-  children?: Group[];
+type PermissionTreeNode = PublicGroup & {
+  children?: PublicGroup[];
   parent?: number;
   isMember?: boolean;
 };
@@ -175,14 +238,15 @@ const UserProfile = () => {
   const username = isCurrentUser ? currentUser?.username : params.username;
   const fetching = useAppSelector((state) => state.users.fetching);
   const user = useAppSelector((state) =>
-    selectUserWithGroups(state, {
+    selectUserByUsername<ExclusifyUnion<CurrentUser | DetailedUser>>(
+      state,
       username,
-    }),
+    ),
   );
 
   const actionGrant = user?.actionGrant || [];
   const showSettings =
-    (isCurrentUser || actionGrant.includes('edit')) && user?.username;
+    (isCurrentUser || actionGrant.includes('edit')) && !!user?.username;
 
   const { pagination: upcomingEventsPagination } = useAppSelector(
     selectPaginationNext({
@@ -276,53 +340,16 @@ const UserProfile = () => {
   } = user || {};
 
   const allAbakusGroupsWithPerms = uniqBy(
-    permissionsPerGroup.concat(
-      permissionsPerGroup.flatMap(({ parentPermissions }) => parentPermissions),
-    ),
+    [
+      ...permissionsPerGroup,
+      ...permissionsPerGroup.flatMap(
+        ({ parentPermissions }) => parentPermissions,
+      ),
+    ],
     (a) => a.abakusGroup.id,
   );
   const allAbakusGroups = allAbakusGroupsWithPerms.map(
     ({ abakusGroup }) => abakusGroup,
-  );
-  const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
-    memberships.filter(Boolean).map((membership) => ({
-      ...membership,
-      abakusGroup: abakusGroups.find((g) => g.id === membership.abakusGroup),
-    })),
-    (membership) =>
-      membership.abakusGroup.logo
-        ? 'membershipsAsBadges'
-        : 'membershipsAsPills',
-  );
-  const { pastMembershipsAsBadges = [] } = groupBy(
-    pastMemberships.filter(Boolean),
-    (m) =>
-      m.abakusGroup.logo ? 'pastMembershipsAsBadges' : 'pastMembershipsAsPills',
-  );
-  const filteredPastMembershipsAsBadges = pastMembershipsAsBadges.filter(
-    (membership) => {
-      const membershipDuration = moment.duration(
-        moment(membership.endDate).diff(membership.startDate),
-      );
-      return (
-        membership.abakusGroup.type !== 'interesse' ||
-        membershipDuration.asWeeks() > 2
-      );
-    },
-  );
-
-  const groupedMemberships = orderBy(
-    groupBy(
-      filteredPastMembershipsAsBadges.concat(
-        membershipsAsBadges as User['pastMemberships'],
-      ),
-      'abakusGroup.id',
-    ),
-    [
-      (memberships) => !memberships.some((membership) => membership.isActive),
-      (memberships) => memberships[0].abakusGroup.type === 'interesse',
-      (memberships) => memberships[0].abakusGroup.type !== 'styre',
-    ],
   );
   const tree: PermissionTree = {};
 
@@ -468,18 +495,10 @@ const UserProfile = () => {
             </DialogTrigger>
           )}
         </Flex>
-        <Flex column className={styles.rightContent}>
-          <Flex wrap>
-            {membershipsAsPills.map((membership) => (
-              <GroupPill key={membership.id} group={membership.abakusGroup} />
-            ))}
-          </Flex>
-          <Flex wrap>
-            {groupedMemberships.map((memberships) => (
-              <GroupBadge memberships={memberships} key={memberships[0].id} />
-            ))}
-          </Flex>
-        </Flex>
+        <GroupMemberships
+          memberships={memberships}
+          pastMemberships={pastMemberships}
+        />
       </Flex>
 
       <Flex wrap className={styles.content}>
