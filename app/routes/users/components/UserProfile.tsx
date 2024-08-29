@@ -137,7 +137,7 @@ const GroupMemberships = ({
 
   return (
     <Flex column className={styles.rightContent}>
-      <Flex wrap>
+      <Flex wrap justifyContent="center">
         {membershipsAsPills.map((membership) => (
           <GroupPill key={membership.id} group={membership.abakusGroup} />
         ))}
