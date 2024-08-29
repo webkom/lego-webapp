@@ -16,6 +16,10 @@
   padding-top: var(--spacing-md);
 }
 
+.abaIdButton {
+  margin-top: var(--spacing-sm);
+}
+
 .frameMargin {
   margin-top: var(--spacing-xl);
 }
@@ -23,6 +27,7 @@
 .sidebar {
   min-width: 320px;
   position: relative;
+  margin-bottom: var(--spacing-md);
 }
 
 .frame {
@@ -42,6 +47,10 @@
   @media (--medium-viewport) {
     padding-left: 0;
     align-items: center;
+
+    div {
+      justify-content: center;
+    }
   }
 }
 
