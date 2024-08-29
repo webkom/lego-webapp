@@ -8,6 +8,18 @@ import type { Overwrite } from 'utility-types';
 export type { Reducer } from '@reduxjs/toolkit';
 
 /**
+ * Utility type for creating a union of objects, where all properties of the intersection are accessible with type undefined.
+ */
+export type ExclusifyUnion<
+  T,
+  K extends PropertyKey = T extends unknown ? keyof T : never,
+> = T extends unknown
+  ? T & { [P in Exclude<K, keyof T>]?: undefined } extends infer O
+    ? { [P in keyof O]: O[P] }
+    : never
+  : never;
+
+/**
  * Utility type for forms. Converts a value of type T to the form:
  * { value: T, label: number | string }
  */
