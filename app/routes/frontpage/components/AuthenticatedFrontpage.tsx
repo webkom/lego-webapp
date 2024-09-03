@@ -79,11 +79,11 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      <Banner
+      {/*<Banner
         header="Abakus har opptak!"
         subHeader="Trykk her for å søke på komité og revy"
         link="https://opptak.abakus.no"
-      />
+      />*/}
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
