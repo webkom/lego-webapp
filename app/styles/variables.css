@@ -5,6 +5,8 @@
 @custom-media --tall-viewport (min-height: 900px);
 
 :root {
+  color-scheme: light;
+
   --lego-background-color: #f8f9fa;
   --lego-card-color: #fff;
 
@@ -164,6 +166,8 @@
 }
 
 [data-theme='dark'] {
+  color-scheme: dark;
+
   --lego-background-color: #0d0d0d;
   --lego-card-color: #222;
 
