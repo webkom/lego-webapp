@@ -45,10 +45,13 @@ export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 
 export const button = (buttonText) => cy.contains('button', buttonText);
 
-export const selectEditor = (name) =>
+export const selectEditor = (name, options = {}) =>
   name
-    ? cy.get(`[name="${name}"] div[data-slate-editor="true"]`).click().click()
-    : cy.get('div[data-slate-editor="true"]').click().click();
+    ? cy
+        .get(`[name="${name}"] div[data-slate-editor="true"]`, options)
+        .click()
+        .click()
+    : cy.get('div[data-slate-editor="true"]', options).click().click();
 
 const selectDatePickerHours = () =>
   cy.get(c('TimePicker__timePickerInput')).first().find('input');

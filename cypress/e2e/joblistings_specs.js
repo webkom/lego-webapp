@@ -37,8 +37,17 @@ describe('Create joblisting', () => {
 
     // TODO sometimes there is an issue in the joblisting editor where you have to click
     // the top editor twice. Not a breaking bug.
-    selectEditor('description').type('A joblisting description');
-    selectEditor('text').type('Joblisting text');
+    const description = 'A joblisting description';
+    const text = 'Joblisting text';
+    selectEditor('description').type(description);
+    selectEditor('text').type(text);
+
+    // Wait for editor debounce
+    selectEditor('description', { timeout: 2000 }).should(
+      'contain',
+      description,
+    );
+    selectEditor('text', { timeout: 2000 }).should('contain', text);
 
     cy.contains('button', 'Opprett').should('not.be.disabled');
 
@@ -47,8 +56,6 @@ describe('Create joblisting', () => {
     //.first()
     //.clear();
     //cy.contains('button', 'Lagre endringer').should('be.disabled');
-
-    cy.wait(100); // wait for editor debounce
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
     //TODO: check new url
