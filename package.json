@@ -41,7 +41,7 @@
   "dependencies": {
     "@loadable/component": "^5.16.4",
     "@reduxjs/toolkit": "^2.2.4",
-    "@sentry/browser": "^7.105.0",
+    "@sentry/browser": "^8.28.0",
     "@sentry/integrations": "^7.114.0",
     "@sentry/node": "^7.101.1",
     "@stripe/react-stripe-js": "^1.14.2",
