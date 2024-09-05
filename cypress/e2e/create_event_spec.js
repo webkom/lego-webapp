@@ -28,8 +28,9 @@ describe('Create event', () => {
 
     cy.contains('button', 'Opprett').should('be.disabled');
     // click editor to initialize form and enable Opprett button
-    selectEditor().type('test');
-    cy.wait(1000);
+    const editorText = 'test';
+    selectEditor().type(editorText);
+    selectEditor(undefined, { timeout: 2000 }).should('contain', editorText); // wait for lego-editor debounce
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
