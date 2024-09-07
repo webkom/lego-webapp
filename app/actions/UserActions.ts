@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
 import config from 'app/config';
-import { userSchema, penaltySchema } from 'app/reducers';
+import { userSchema, penaltySchema, postUserSchema } from 'app/reducers';
 import { setStatusCode } from 'app/reducers/routing';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
@@ -272,6 +272,22 @@ export function fetchUser(
   });
 }
 
+export function postUser(
+  { propagateError } = defaultOptions,
+  token: string,
+) {
+  return callAPI<CurrentUser>({
+    types: User.FETCH,
+    endpoint: `/users/?${token}/`,
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Henting av bruker feilet',
+    },
+    propagateError,
+  });
+}
+
+
 export function refreshToken(token: EncodedToken) {
   return callAPI<{ token: EncodedToken }>({
     types: User.REFRESH_TOKEN,
@@ -377,6 +393,7 @@ export function createUser(token: string, data: UserConfirmationFormValues) {
     endpoint: `/users/?token=${token}`,
     method: 'POST',
     body: data,
+    schema: postUserSchema,
     meta: {
       errorMessage: 'Opprettelse av bruker feilet',
     },

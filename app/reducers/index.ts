@@ -11,6 +11,9 @@ export const userSchema = new schema.Entity(EntityType.Users, {
   abakusGroups: [groupSchema],
   penalties: [penaltySchema],
 });
+export const postUserSchema = new schema.Object({
+  user: userSchema,
+})
 export const emailUserSchema = new schema.Entity(EntityType.EmailUsers, {
   user: userSchema,
 });

@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import { User } from 'app/actions/ActionTypes';
 import {
   createUser,
+  fetchUser,
   saveToken,
   validateRegistrationToken,
 } from 'app/actions/UserActions';
@@ -71,16 +72,10 @@ const UserConfirmationForm = () => {
     token &&
     dispatch(createUser(token, data)).then((action) => {
       if (!action || !action.payload) return;
-      const { user, token } = action.payload;
+      const token = action.payload.result.token;
+      console.log(token);
       setSubmitSucceeded(true);
       saveToken(token);
-      return dispatch({
-        type: User.FETCH.SUCCESS,
-        payload: normalize(user, userSchema),
-        meta: {
-          isCurrentUser: true,
-        },
-      });
     });
 
   if (submitSucceeded) {
