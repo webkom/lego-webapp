@@ -1,0 +1,16 @@
+.headerContainer {
+  margin-bottom: 0.25rem;
+}
+
+.sortIcon {
+  flex-direction: column;
+}
+
+.iconWrapper {
+  margin-left: 0.25rem;
+}
+
+.sortList {
+  margin-left: 0.5rem;
+  min-width: 10rem;
+}
