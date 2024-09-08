@@ -36,8 +36,8 @@ import {
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
 import GroupChange from 'app/routes/users/components/GroupChange';
-import Penalties from 'app/routes/users/components/Penalties';
 import PhotoConsents from 'app/routes/users/components/PhotoConsents';
+import Penalties from 'app/routes/users/components/UserProfile/Penalties';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
