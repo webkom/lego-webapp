@@ -4,7 +4,6 @@ import {
   DialogTrigger,
   Flex,
   Icon,
-  LinkButton,
   Modal,
   Image,
   Page,
@@ -36,13 +35,14 @@ import {
 } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
+import GroupChange from 'app/routes/users/components/GroupChange';
+import Penalties from 'app/routes/users/components/Penalties';
+import PhotoConsents from 'app/routes/users/components/PhotoConsents';
+import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import GroupChange from './GroupChange';
-import Penalties from './Penalties';
-import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
 import type { Dateish } from 'app/models';
 import type { ListEventWithUserRegistration } from 'app/store/models/Event';
@@ -52,42 +52,6 @@ import type { PastMembership } from 'app/store/models/Membership';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import type { ExclusifyUnion } from 'app/types';
 import type { Optional } from 'utility-types';
-
-const fieldTranslations = {
-  username: 'Brukernavn',
-  email: 'E-post',
-  internalEmailAddress: 'Abakus e-post',
-  githubUsername: 'GitHub',
-};
-
-const defaultFieldRender = (field, value) => (
-  <span>
-    <strong>{field}:</strong> {value}
-  </span>
-);
-
-const emailFieldRender = (field, value) => (
-  <span>
-    <strong>{field}:</strong>
-    <a href={`mailto:${value}`}> {value}</a>
-  </span>
-);
-
-const githubFieldRender = (field: string, value: string) => (
-  <span>
-    <Flex alignItems="center">
-      <Icon name={'logo-github'} className={styles.githubIcon} />
-      <a href={`https://github.com/${value}`}> {value}</a>
-    </Flex>
-  </span>
-);
-
-const fieldRenders = {
-  username: defaultFieldRender,
-  email: emailFieldRender,
-  internalEmailAddress: emailFieldRender,
-  githubUsername: githubFieldRender,
-};
 
 const GroupMemberships = ({
   memberships,
@@ -306,35 +270,6 @@ const UserProfile = () => {
     return <LoadingPage loading={fetching} />;
   }
 
-  const renderFields = () => {
-    const fields = Object.keys(fieldTranslations).filter(
-      (field) => user[field],
-    );
-    const tags = fields.map((field) => (
-      <li key={field}>
-        {fieldRenders[field](fieldTranslations[field], user[field])}
-      </li>
-    ));
-    //Need to access both the linkedinId and the fullname here
-    return (
-      <ul>
-        {tags}
-        {user.linkedinId && (
-          <li key="linkedinId">
-            <span>
-              <Flex alignItems="center">
-                <Icon name={'logo-linkedin'} className={styles.githubIcon} />
-                <a href={`https://www.linkedin.com/in/${user.linkedinId}`}>
-                  {' '}
-                  {user.fullName}
-                </a>
-              </Flex>
-            </span>
-          </li>
-        )}
-      </ul>
-    );
-  };
   //If you wonder what this is, ask somebody
   const FRAMEID = [6050, 5962, 7276, 7434, 7747, 8493];
 
@@ -518,30 +453,23 @@ const UserProfile = () => {
 
       <Flex wrap className={styles.content}>
         <div className={styles.info}>
-          <div>
-            <h3>Brukerinfo</h3>
-            <Card className={styles.infoCard}>
-              {renderFields()}
-              {showSettings && (
-                <LinkButton href={`/users/${user.username}/settings/profile`}>
-                  Innstillinger
-                </LinkButton>
-              )}
-            </Card>
-          </div>
+          <h3>Brukerinfo</h3>
+          <Card className={styles.infoCard}>
+            <UserInfo user={user} showSettings={showSettings} />
+          </Card>
 
           {showSettings && (
-            <div>
+            <>
               <h3>Prikker</h3>
               <Card className={styles.infoCard}>
                 <Penalties userId={user.id} />
               </Card>
-            </div>
+            </>
           )}
           {showSettings && photoConsents?.length > 0 && (
-            <div>
+            <>
               <h3>Bildesamtykke</h3>
-              <Card>
+              <Card className={styles.infoCard}>
                 <PhotoConsents
                   photoConsents={photoConsents}
                   username={user.username}
@@ -549,11 +477,11 @@ const UserProfile = () => {
                   isCurrentUser={isCurrentUser}
                 />
               </Card>
-            </div>
+            </>
           )}
 
           {canChangeGrade && (
-            <div>
+            <>
               <h3>Endre klasse</h3>
               <Card className={styles.infoCard}>
                 <GroupChange
@@ -562,11 +490,11 @@ const UserProfile = () => {
                   username={user.username}
                 />
               </Card>
-            </div>
+            </>
           )}
 
           {!!permissionsPerGroup.length && (
-            <div>
+            <>
               <h3> Grupper </h3>
               <Card className={styles.infoCard}>
                 {genTree(sum)}
@@ -579,7 +507,7 @@ const UserProfile = () => {
                   </i>
                 </div>
               </Card>
-            </div>
+            </>
           )}
 
           {/* canChangeGrade is a good heuristic if we should show permissions.
