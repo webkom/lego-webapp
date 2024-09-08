@@ -13,7 +13,7 @@ export enum EventType {
   COMPANY_PRESENTATION = 'company_presentation',
   COURSE = 'course',
   EVENT = 'event',
-  KiD_EVENT = 'kid_event',
+  NEXUS_EVENT = 'nexus_event',
   LUNCH_PRESENTATION = 'lunch_presentation',
   OTHER = 'other',
   PARTY = 'party',

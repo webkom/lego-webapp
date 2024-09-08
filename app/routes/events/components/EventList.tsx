@@ -199,7 +199,7 @@ const EventList = () => {
         return showSocial;
 
       case 'other':
-      case 'kid_event':
+      case 'nexus_event':
         return showOther;
 
       default:
