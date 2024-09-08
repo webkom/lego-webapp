@@ -1,5 +1,4 @@
-// CSS Selector to match classnames by their prefix
-const c = (classname) => `[class^=${classname}]`;
+import { c } from '../support/utils';
 
 describe('The Home Page and Login', () => {
   it('successfully loads landing page', () => {
