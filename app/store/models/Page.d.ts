@@ -34,7 +34,7 @@ export type UnknownPage = ListPage | DetailedPage | AuthDetailedPage;
 
 export type SearchPage = Pick<
   Page,
-  'title' | 'slug' | 'content' | 'picture' | 'category'
+  'title' | 'content' | 'slug' | 'picture' | 'category'
 > & {
   id: EntityId;
 };

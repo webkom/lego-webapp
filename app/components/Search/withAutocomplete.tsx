@@ -21,7 +21,7 @@ const useAutocomplete = ({
   filter,
 }: {
   retainFailedQuery?: boolean;
-  filter?: string[];
+  filter?: AutocompleteContentType[];
 }) => {
   const [options, setOptions] = useState<SearchResult[]>([]);
   const [fetching, setFetching] = useState(false);
@@ -33,7 +33,7 @@ const useAutocomplete = ({
 
     try {
       // Set the result to the response result
-      let result: SearchResult[] = await dispatch(autocomplete(query, filter));
+      let result = await dispatch(autocomplete(query, filter));
 
       // Retain a query with no match
       if (retainFailedQuery && result.length === 0) {

@@ -14,13 +14,13 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, isInteger, required } from 'app/utils/validation';
 import styles from './Penalties.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { searchMapping } from 'app/reducers/search';
+import type { SearchEvent } from 'app/store/models/Event';
 import type { FormApi } from 'final-form';
 
 type FormValues = {
   reason: string;
   weight: string | number;
-  sourceEvent: (typeof searchMapping)['events.event'];
+  sourceEvent?: SearchEvent;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -46,9 +46,10 @@ const PenaltyForm = ({ userId }: Props) => {
   const onSubmit = (values: FormValues, form: FormApi<FormValues>) => {
     dispatch(
       addPenalty({
-        ...values,
+        reason: values.reason,
+        weight: Number(values.weight),
         user: userId,
-        sourceEvent: values.sourceEvent && values.sourceEvent.value,
+        sourceEvent: values.sourceEvent?.value,
       }),
     ).then(() => {
       setHidden(true);

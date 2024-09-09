@@ -460,7 +460,7 @@ export type AddPenaltyBody = {
   user: EntityId;
   reason: string;
   weight: number;
-  sourceEvent: EntityId;
+  sourceEvent?: EntityId;
 };
 export function addPenalty(body: AddPenaltyBody) {
   return callAPI<PenaltyType>({
