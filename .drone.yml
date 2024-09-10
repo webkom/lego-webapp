@@ -102,7 +102,7 @@ steps:
       CHANNELS_REDIS_URL: 'redis://redis/2'
       STRIPE_API_KEY: '123'
       STRIPE_WEBHOOK_SECRET: '123'
-      CAPTCHA_KEY: '123'
+      CAPTCHA_KEY: '1x0000000000000000000000000000000AA'
       PLAUSIBLE_KEY: 'lego-dev'
       LDAP_SERVER: 'localhost'
       LDAP_USER: '123'
@@ -290,7 +290,7 @@ steps:
     commands:
       - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn cypress run --record
+      - CYPRESS_ENABLE_STRIPE=true yarn cypress run --record
 
   - name: docker
     image: plugins/docker
@@ -362,4 +362,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 4edd037ec61390966e80949fd80f036651109310c03b4a9e3ea2708bb68b3549
+hmac: 1432d414ebe443c7f769310b030b4a5d20d5cb2dbd1a49e9bfeeaa5e368c6cff
+
+...

@@ -10,6 +10,8 @@ import {
   clearCardDetails,
   uploadHeader,
   NO_OPTIONS_MESSAGE,
+  selectFieldDropdown,
+  setDatePickerDate,
 } from '../support/utils.js';
 
 describe('Event registration & payment', () => {
@@ -17,6 +19,11 @@ describe('Event registration & payment', () => {
     beforeEach(() => {
       cy.resetDb();
       cy.cachedLogin();
+      // Stub stripe anti-fraud requests as they are annoying af
+      cy.intercept('POST', 'https://r.stripe.com/b', {
+        statusCode: 201,
+        body: {},
+      });
     });
 
     Cypress.on('uncaught:exception', () => {
@@ -36,6 +43,15 @@ describe('Event registration & payment', () => {
       selectField('eventType').click();
       cy.focused().type('Arran{enter}', { force: true });
 
+      // Always select one day into the future to avoid test issues with "Påmelding åpner/stenger" variants changing
+      const dateObject = new Date();
+      const todayDay = dateObject.getDate();
+      dateObject.setDate(dateObject.getDate() + 1);
+      const tomorrowDay = dateObject.getDate();
+
+      setDatePickerDate('startTime', tomorrowDay, tomorrowDay < todayDay);
+      setDatePickerDate('endTime', tomorrowDay, tomorrowDay < todayDay);
+
       // Select regitrationType
       selectField('eventStatusType').click();
       cy.focused().type('Vanlig{enter}', { force: true });
@@ -48,17 +64,15 @@ describe('Event registration & payment', () => {
       // Set event to priced
       cy.contains('Betalt arrangement').click();
       // You need to touch the field before the errors pop up
-      cy.contains('Pris (medlem)').should('be.visible').click();
+      cy.contains('Pris').should('be.visible').click();
 
       // FIXME: You need to click outside the payment "sub-form" to show
       // field errors.
       cy.contains('Samtykke til bilder').click().click();
       fieldError('priceMember').should('be.visible');
-      cy.contains('Summen må være større').should('be.visible');
+      cy.contains('Prisen må være større').should('be.visible');
 
-      cy.contains('systemgebyr').should('exist').click();
-
-      cy.contains('Pris (medlem)').click();
+      cy.contains('Pris').click();
       // TODO Make form clear if value is invalid (0 or non-numeneric)
       cy.focused().type('{moveToEnd}{backspace}200');
 
@@ -67,11 +81,18 @@ describe('Event registration & payment', () => {
       field('pools[0].capacity').type('20').blur();
       selectField('pools[0].permissionGroups').click();
       cy.focused().type('Webkom', { force: true });
-      selectField('pools[0].permissionGroups')
-        .find('[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]')
+      selectFieldDropdown('pools\\[0\\]\\.permissionGroups')
         .should('not.contain', NO_OPTIONS_MESSAGE)
         .and('contain', 'Webkom');
       cy.focused().type('{enter}', { force: true });
+
+      setDatePickerDate(
+        'pools[0].activationDate',
+        tomorrowDay,
+        tomorrowDay < todayDay,
+      );
+
+      cy.contains('Arrangementet er avklart i arrangementskalenderen').click();
 
       cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -84,12 +105,12 @@ describe('Event registration & payment', () => {
       cy.contains('WebkomPool').should('be.visible');
       cy.contains('R4').should('be.visible');
       cy.contains('Påmelding åpner').should('be.visible');
-      cy.contains('Dette er et betalt arrangement').should('be.visible');
-      cy.contains('205,-').should('be.visible');
+      cy.contains('Betalingsfrist').should('be.visible');
+      cy.contains('200,-').should('be.visible');
     });
 
     it('Should be possible to register to a paid event and pay', () => {
-      cy.visit('localhost:3000/events/54');
+      cy.visit('/events/54');
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
@@ -119,7 +140,7 @@ describe('Event registration & payment', () => {
     });
 
     it('Should give appropriate errors when attempting to pay', () => {
-      cy.visit('localhost:3000/events/54');
+      cy.visit('/events/54');
 
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
@@ -166,7 +187,7 @@ describe('Event registration & payment', () => {
     });
 
     it('Should be possible to pay with a 3D secure 2 card', () => {
-      cy.visit('localhost:3000/events/54');
+      cy.visit('/events/54');
 
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
@@ -191,7 +212,7 @@ describe('Event registration & payment', () => {
     });
 
     it('Should be possible to cancel a confirmation and pay with another card', () => {
-      cy.visit('localhost:3000/events/54');
+      cy.visit('/events/54');
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
@@ -227,7 +248,7 @@ describe('Event registration & payment', () => {
     });
 
     it('Should be possible to pay with interruptions in the middle', () => {
-      cy.visit('localhost:3000/events/54');
+      cy.visit('/events/54');
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')

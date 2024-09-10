@@ -37,7 +37,10 @@ export const required =
 export const requiredIf =
   (conditionalFn, message = `Feltet må fylles ut`) =>
   (value, allValues) => {
-    return [conditionalFn(allValues) ? !!value : true, message] as const;
+    return [
+      conditionalFn(allValues) ? !!value || value === 0 : true,
+      message,
+    ] as const;
   };
 
 export const conditionalValidation = (conditionalFn, validationFnGenerator) => {
@@ -78,12 +81,12 @@ export const maxLength =
 export const maxSize =
   (size, message = `Må være mindre enn ${size}`) =>
   (value) =>
-    [!value || value < size, message] as const;
+    [(!value && value !== 0) || value < size, message] as const;
 
 export const minSize =
   (size, message = `Må være mer enn ${size}`) =>
   (value) =>
-    [!value || value > size, message] as const;
+    [(!value && value !== 0) || value > size, message] as const;
 
 export const isInteger =
   (message = 'Verdi må være heltall') =>
