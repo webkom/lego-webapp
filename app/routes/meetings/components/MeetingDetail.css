@@ -1,3 +1,16 @@
+.changelogTrigger {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.changelogTime {
+  display: flex;
+}
+
+.changelogDropdown {
+  z-index: 80;
+}
+
 .statusButtons {
   margin-bottom: 10px;
 }

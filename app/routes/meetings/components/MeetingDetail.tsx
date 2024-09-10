@@ -1,14 +1,18 @@
 import {
   Button,
   ButtonGroup,
+  Flex,
   Icon,
   LinkButton,
   LoadingPage,
+  Modal,
   Page,
 } from '@webkom/lego-bricks';
+import { diffLines } from 'diff';
 import { isEmpty } from 'lodash';
-import { Pencil } from 'lucide-react';
+import { ListRestart, Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { setInvitationStatus } from 'app/actions/MeetingActions';
@@ -21,10 +25,13 @@ import {
   ContentMain,
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
+import Dropdown from 'app/components/Dropdown';
+import { ProfilePicture } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
-import { FromToTime } from 'app/components/Time';
+import Time, { FromToTime } from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
@@ -108,6 +115,23 @@ const MeetingDetails = () => {
     }));
   };
 
+  const [changelogOpen, setChangelogOpen] = useState(false);
+  const [diff, setDiff] = useState<
+    { count: number; added: boolean; removed: boolean; value: string }[]
+  >([]);
+
+  const handleChangelogClick = (index: number) => {
+    if (!meeting) return;
+
+    const currentReport = meeting.reportChangelogs[index].report;
+    const previousReport =
+      index < meeting.reportChangelogs.length - 1
+        ? meeting.reportChangelogs[index + 1].report
+        : '';
+    const diff = diffLines(previousReport, currentReport);
+    setDiff(diff);
+  };
+
   const attendanceButtons = (
     statusMe: string | null | undefined,
     startTime: Dateish,
@@ -177,7 +201,76 @@ const MeetingDetails = () => {
           {meeting.description && (
             <div>{urlifyString(meeting.description)}</div>
           )}
-          <h2>Referat</h2>
+          <Flex alignItems="center" gap="var(--spacing-sm)">
+            <h2>Referat</h2>
+            {meeting.reportChangelogs?.length > 1 && (
+              <Dropdown
+                show={changelogOpen}
+                toggle={() => setChangelogOpen(!changelogOpen)}
+                contentClassName={styles.changelogDropdown}
+                triggerComponent={
+                  <Icon
+                    iconNode={<ListRestart />}
+                    size={18}
+                    className="secondaryFontColor"
+                  />
+                }
+              >
+                <Dropdown.List>
+                  {meeting.reportChangelogs.map((reportChangelog, index) => (
+                    <>
+                      <Dropdown.ListItem>
+                        <button onClick={() => handleChangelogClick(index)}>
+                          <Flex alignItems="center" gap="var(--spacing-sm)">
+                            <ProfilePicture
+                              user={reportChangelog.createdBy}
+                              size={24}
+                            />
+                            <span>
+                              <strong>
+                                {reportChangelog.createdBy.username}
+                              </strong>{' '}
+                              {index === meeting.reportChangelogs.length - 1
+                                ? 'opprettet'
+                                : 'redigerte'}{' '}
+                              for{' '}
+                              <Time
+                                time={reportChangelog.createdAt}
+                                wordsAgo
+                                className={styles.changelogTime}
+                              />
+                            </span>
+                          </Flex>
+                        </button>
+                      </Dropdown.ListItem>
+                      {index !== meeting.reportChangelogs.length - 1 && (
+                        <Dropdown.Divider />
+                      )}
+                    </>
+                  ))}
+                </Dropdown.List>
+                {!isEmpty(diff) && (
+                  <Modal
+                    title="Endringer"
+                    isOpen
+                    onOpenChange={() => setDiff([])}
+                  >
+                    <DisplayContent
+                      content={diff
+                        .map((part) =>
+                          part.added
+                            ? `<ins>${part.value}</ins>`
+                            : part.removed
+                              ? `<del>${part.value}</del>`
+                              : part.value,
+                        )
+                        .join('')}
+                    />
+                  </Modal>
+                )}
+              </Dropdown>
+            )}
+          </Flex>
           <DisplayContent content={meeting.report} />
         </ContentMain>
         <ContentSidebar>

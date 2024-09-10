@@ -2,7 +2,14 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
+
+interface ReportChangelog {
+  report: string;
+  createdAt: Dateish;
+  createdBy: PublicUser;
+}
 
 interface Meeting {
   id: EntityId;
@@ -13,6 +20,7 @@ interface Meeting {
   startTime: Dateish;
   endTime: Dateish;
   report: string;
+  reportChangelogs: ReportChangelog[];
   reportAuthor?: EntityId;
   invitations: EntityId[];
   comments: EntityId[];
@@ -32,6 +40,7 @@ export type DetailedMeeting = Pick<
   | 'startTime'
   | 'endTime'
   | 'report'
+  | 'reportChangelogs'
   | 'reportAuthor'
   | 'invitations'
   | 'comments'
