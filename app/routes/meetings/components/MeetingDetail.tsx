@@ -234,11 +234,21 @@ const MeetingDetails = () => {
                                 ? 'opprettet'
                                 : 'redigerte'}{' '}
                               for{' '}
-                              <Time
-                                time={reportChangelog.createdAt}
-                                wordsAgo
-                                className={styles.changelogTime}
-                              />
+                              <Tooltip
+                                content={moment(
+                                  reportChangelog.createdAt,
+                                ).format('lll')}
+                                positions="right"
+                                containerClassName={
+                                  styles.reportChangelogTooltip
+                                }
+                              >
+                                <Time
+                                  time={reportChangelog.createdAt}
+                                  wordsAgo
+                                  className={styles.changelogTime}
+                                />
+                              </Tooltip>
                             </span>
                           </Flex>
                         </button>

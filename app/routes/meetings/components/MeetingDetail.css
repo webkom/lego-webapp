@@ -20,3 +20,7 @@
   flex-direction: row;
   margin: var(--spacing-sm) 0;
 }
+
+.reportChangelogTooltip {
+  z-index: 95;
+}
