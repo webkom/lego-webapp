@@ -1,15 +1,10 @@
-import {
-  FilterSection,
-  Flex,
-  Icon,
-  LoadingIndicator,
-} from '@webkom/lego-bricks';
-import { ListFilter } from 'lucide-react';
+import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { ArrowDownUpIcon } from 'lucide-react';
 import moment from 'moment';
-import { useEffect, useState, type CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import CommentForm from 'app/components/CommentForm';
+import Dropdown from 'app/components/Dropdown';
 import { generateTreeStructure } from 'app/utils';
-import { SelectInput } from '../Form';
 import CommentTree from './CommentTree';
 import styles from './CommentView.css';
 import type Comment from 'app/store/models/Comment';
@@ -36,25 +31,14 @@ const orderingOptions: Array<Option> = [
     value: 'createdAtInv',
   },
   {
-    label: 'Likes',
+    label: 'Reaksjoner',
     value: 'reactionsGrouped',
-  },
-  {
-    label: 'Kontroversielle',
-    value: 'reactionsControversial',
   },
 ];
 
 type Option = {
   label: string;
   value: string;
-};
-
-const getReactionScore = (comment: Comment, emojiString: string): number => {
-  const count =
-    comment.reactionsGrouped.find((reaction) => reaction.emoji === emojiString)
-      ?.count || 0;
-  return count;
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>
@@ -68,35 +52,30 @@ const CommentView = (props: Props) => {
     style,
     displayTitle = true,
     contentAuthors,
+    newOnTop,
   } = props;
   const commentFormProps = {
     contentTarget,
   };
-  const [ordering, setOrdering] = useState<Option>(orderingOptions[0]);
-  const [sortedComments, setSortedComments] = useState<Comment[]>(comments);
+  const [ordering, setOrdering] = useState<Option>(
+    newOnTop ? orderingOptions[0] : orderingOptions[1],
+  );
   const [displaySorting, setDisplaySorting] = useState(false);
+
+  const sortedComments = comments.sort((a: Comment, b: Comment) => {
+    if (ordering.value === 'createdAt') {
+      return moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf();
+    } else if (ordering.value === 'createdAtInv') {
+      return moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf();
+    } else if (ordering.value === 'reactionsGrouped') {
+      return (
+        b.reactionsGrouped.reduce((acc, reaction) => acc + reaction.count, 0) -
+        a.reactionsGrouped.reduce((acc, reaction) => acc + reaction.count, 0)
+      );
+    }
+    return 0;
+  });
   const tree = generateTreeStructure(sortedComments);
-
-  useEffect(() => {
-    const sorted = [...comments].sort((a: Comment, b: Comment) => {
-      if (ordering.value === 'createdAt') {
-        return moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf();
-      } else if (ordering.value === 'createdAtInv') {
-        return moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf();
-      } else if (ordering.value === 'reactionsGrouped') {
-        const scoreA =
-          getReactionScore(a, ':+1:') - getReactionScore(a, ':-1:');
-        const scoreB =
-          getReactionScore(b, ':+1:') - getReactionScore(b, ':-1:');
-        return scoreB - scoreA;
-      } else if (ordering.value === 'reactionsControversial') {
-        return getReactionScore(b, ':-1:') - getReactionScore(a, ':-1:');
-      }
-      return 0;
-    });
-
-    setSortedComments(sorted);
-  }, [ordering, comments]);
 
   return (
     <div style={style}>
@@ -107,39 +86,43 @@ const CommentView = (props: Props) => {
         className={styles.headerContainer}
       >
         <Title displayTitle={displayTitle} />
-        <Flex flex-row alignItems="center" className={styles.iconWrapper}>
-          <Icon
-            name="arrow-down-wide-narrow"
-            size={20}
-            onClick={() => {
-              setDisplaySorting(!displaySorting);
-            }}
-            className={styles.sortIcon}
-            iconNode={<ListFilter />}
-          />
-          {displaySorting && (
-            <div className={styles.sortList}>
-              <FilterSection title="">
-                <SelectInput
-                  name="sorting_selector"
-                  value={ordering}
-                  onChange={(selectedOption: Option) => {
-                    setOrdering(selectedOption);
-                  }}
-                  isClearable={false}
-                  options={orderingOptions}
-                />
-              </FilterSection>
-            </div>
-          )}
-        </Flex>
+
+        <Dropdown
+          show={displaySorting}
+          toggle={() => setDisplaySorting(!displaySorting)}
+          triggerComponent={
+            <Icon
+              size={20}
+              className={styles.sortIcon}
+              iconNode={<ArrowDownUpIcon />}
+            />
+          }
+        >
+          <Dropdown.List>
+            {orderingOptions.map((o: Option, index: number) => (
+              <>
+                {index !== 0 && <Dropdown.Divider />}
+                <Dropdown.ListItem key={o.value}>
+                  <button
+                    onClick={() => {
+                      setOrdering(o);
+                      setDisplaySorting(!displaySorting);
+                    }}
+                  >
+                    {o.label}
+                  </button>
+                </Dropdown.ListItem>
+              </>
+            ))}
+          </Dropdown.List>
+        </Dropdown>
       </Flex>
 
       <Flex column gap="var(--spacing-sm)">
         {!formDisabled && <CommentForm {...commentFormProps} />}
 
-        <LoadingIndicator loading={!sortedComments}>
-          {sortedComments && (
+        <LoadingIndicator loading={!comments}>
+          {comments && (
             <CommentTree
               comments={tree}
               commentFormProps={commentFormProps}

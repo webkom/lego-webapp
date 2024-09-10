@@ -1,16 +1,9 @@
 .headerContainer {
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--spacing-sm);
 }
 
-.sortIcon {
-  flex-direction: column;
-}
-
-.iconWrapper {
-  margin-left: 0.25rem;
-}
-
-.sortList {
-  margin-left: 0.5rem;
-  min-width: 10rem;
+.dropdownElement {
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  width: var(--spacing-ss);
 }
