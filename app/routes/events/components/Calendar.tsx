@@ -50,6 +50,7 @@ const Calendar = () => {
         const query = {
           date_after: dateAfter.format('YYYY-MM-DD'),
           date_before: dateBefore.format('YYYY-MM-DD'),
+          page_size: 1000,
         };
         return dispatch(
           fetchEvents({
