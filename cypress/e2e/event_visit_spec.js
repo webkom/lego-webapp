@@ -74,7 +74,7 @@ describe('View event', () => {
     cy.focused().type('This is the top comment');
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
-    cy.get(c('Comment__comment')).last().contains('This is the top comment');
+    cy.get(c('Comment__comment')).first().contains('This is the top comment');
     cy.contains('button', 'Svar').click();
 
     cy.get(c('CommentForm'))
