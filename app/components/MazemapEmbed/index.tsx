@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
 import styles from './MazemapEmbed.css';
@@ -176,7 +177,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   }
 
   return (
-    <>
+    <Flex column gap="var(--spacing-xs)">
       <div
         style={{
           height: props.height || 400,
@@ -195,6 +196,6 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
         )}
       </div>
       <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
-    </>
+    </Flex>
   );
 };

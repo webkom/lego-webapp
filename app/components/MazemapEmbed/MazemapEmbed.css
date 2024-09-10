@@ -2,7 +2,7 @@
   z-index: 5;
   font-size: var(--font-size-lg);
   text-align: center;
-  color: #111;
+  color: var(--color-absolute-black);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -11,8 +11,8 @@
 }
 
 .mazemapEmbed {
-  --lego-font-color: var(--color-absolute-black);
-
+  border-radius: var(--border-radius-md);
+  color: var(--color-absolute-black);
   background-color: rgb(
     248,
     244,
