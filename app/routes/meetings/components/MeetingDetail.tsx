@@ -196,16 +196,18 @@ const MeetingDetails = () => {
             )}
           </ul>
 
-          <h3>Admin</h3>
-          <ButtonGroup>
-            <AnnouncementInLine meeting={meeting} />
-            {canEdit && (
-              <LinkButton href={`/meetings/${meeting.id}/edit`}>
-                <Icon iconNode={<Pencil />} size={19} />
-                Rediger
-              </LinkButton>
-            )}
-          </ButtonGroup>
+          <div>
+            <h3>Admin</h3>
+            <ButtonGroup>
+              <AnnouncementInLine meeting={meeting} />
+              {canEdit && (
+                <LinkButton href={`/meetings/${meeting.id}/edit`}>
+                  <Icon iconNode={<Pencil />} size={19} />
+                  Rediger
+                </LinkButton>
+              )}
+            </ButtonGroup>
+          </div>
         </ContentSidebar>
       </ContentSection>
       <ContentSection>

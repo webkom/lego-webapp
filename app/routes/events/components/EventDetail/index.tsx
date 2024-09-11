@@ -506,27 +506,6 @@ const EventDetail = () => {
                 />
               )}
 
-              <TextWithIcon
-                iconNode={<MapPin />}
-                size={20}
-                content={event.location}
-                className={styles.sidebarInfo}
-              />
-
-              {event.mazemapPoi && (
-                <Button
-                  className={styles.mapButton}
-                  onPress={() => setMapIsOpen(!mapIsOpen)}
-                >
-                  <img
-                    className={styles.mazemapImg}
-                    alt="MazeMap sin logo"
-                    src={mazemapLogo}
-                  />
-                  {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                </Button>
-              )}
-
               {event.isPriced && (
                 <TextWithIcon
                   iconNode={<Coins />}
@@ -535,11 +514,31 @@ const EventDetail = () => {
                   className={styles.sidebarInfo}
                 />
               )}
-            </Flex>
-          )}
 
-          {event.mazemapPoi && (
-            <>{mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}</>
+              <TextWithIcon
+                iconNode={<MapPin />}
+                size={20}
+                content={event.location}
+                className={styles.sidebarInfo}
+              />
+
+              {event.mazemapPoi && (
+                <Flex column gap="var(--spacing-xs)">
+                  <Button
+                    className={styles.mapButton}
+                    onPress={() => setMapIsOpen(!mapIsOpen)}
+                  >
+                    <img
+                      className={styles.mazemapImg}
+                      alt="MazeMap sin logo"
+                      src={mazemapLogo}
+                    />
+                    {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
+                  </Button>
+                  {mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}
+                </Flex>
+              )}
+            </Flex>
           )}
 
           {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
@@ -584,9 +583,9 @@ const EventDetail = () => {
               !event.isAdmitted ? (
                 <Card severity="danger">
                   <p>
-                    Du kan ikke melde deg på dette arrangementet fordi du har
-                    ubesvarte spørreundersøkelser. Gå til lenkene under for å
-                    svare:
+                    Du kan ikke melde deg {currentRegistration ? 'av' : 'på'}{' '}
+                    dette arrangementet fordi du har ubesvarte
+                    spørreundersøkelser. Gå til lenkene under for å svare:
                   </p>
                   <ul>
                     {event.unansweredSurveys.map((surveyId, i) => (
