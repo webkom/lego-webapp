@@ -1,4 +1,4 @@
-import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
+import { Button, Card, Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import {
@@ -9,12 +9,11 @@ import {
   FilePenLine,
   Languages,
   MapPin,
-  Star,
 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
+import { fetchEvent } from 'app/actions/EventActions';
 import mazemapLogo from 'app/assets/mazemap.svg';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -47,6 +46,7 @@ import {
 import { resolveGroupLink } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
+import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
 import {
   colorForEventType,
   penaltyHours,
@@ -67,29 +67,10 @@ import type {
 } from 'app/store/models/Event';
 import type { ReadRegistration } from 'app/store/models/Registration';
 
-type InterestedButtonProps = {
-  isInterested: boolean;
-  onClick: () => void;
-};
-
 const MIN_USER_GRID_ROWS = 2;
 const MAX_USER_GRID_ROWS = 2;
 
 const Line = () => <div className={styles.line} />;
-
-const InterestedButton = ({ isInterested, onClick }: InterestedButtonProps) => {
-  return (
-    <Tooltip content="Følg arrangementet, og få e-post når påmelding nærmer seg!">
-      <Icon
-        iconNode={
-          <Star fill={isInterested ? 'var(--color-orange-6)' : 'transparent'} />
-        }
-        onClick={onClick}
-        className={styles.star}
-      />
-    </Tooltip>
-  );
-};
 
 const propertyGenerator: PropertyGenerator<{
   event: AuthUserDetailedEvent | UserDetailedEvent;
@@ -241,10 +222,6 @@ const EventDetail = () => {
   );
 
   const color = colorForEventType(event.eventType);
-
-  const onRegisterClick = event.following
-    ? () => dispatch(unfollow(event.following as number, event.id))
-    : () => dispatch(follow(currentUser.id, event.id));
 
   const currentMoment = moment();
 
@@ -432,12 +409,7 @@ const EventDetail = () => {
       }
       title={
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          {loggedIn && (
-            <InterestedButton
-              onClick={onRegisterClick}
-              isInterested={!!event.following}
-            />
-          )}
+          {loggedIn && <InterestedButton event={event} />}
           {event.title}
         </Flex>
       }
