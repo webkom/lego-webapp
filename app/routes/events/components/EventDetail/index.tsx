@@ -1,20 +1,11 @@
-import { Button, Card, Flex, Page, Skeleton } from '@webkom/lego-bricks';
+import { Card, Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import {
-  BriefcaseBusiness,
-  CircleHelp,
-  Clock,
-  Coins,
-  FilePenLine,
-  Languages,
-  MapPin,
-} from 'lucide-react';
+import { CircleHelp, FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';
-import mazemapLogo from 'app/assets/mazemap.svg';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   ContentSection,
@@ -23,11 +14,10 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
-import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { FormatTime, FromToTime } from 'app/components/Time';
+import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
@@ -47,6 +37,7 @@ import { resolveGroupLink } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
+import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
 import {
   colorForEventType,
   penaltyHours,
@@ -116,8 +107,6 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const EventDetail = () => {
-  const [mapIsOpen, setMapIsOpen] = useState(false);
-
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, { eventIdOrSlug }),
@@ -441,77 +430,7 @@ const EventDetail = () => {
         </ContentMain>
 
         <ContentSidebar>
-          {showSkeleton ? (
-            <Flex column gap="var(--spacing-sm)">
-              <Skeleton array={3} className={styles.sidebarInfo} />
-            </Flex>
-          ) : (
-            <Flex column gap="var(--spacing-sm)">
-              {event.company && (
-                <TextWithIcon
-                  iconNode={<BriefcaseBusiness />}
-                  size={20}
-                  content={
-                    <Link to={`/companies/${event.company.id}`}>
-                      {event.company.name}
-                    </Link>
-                  }
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              <TextWithIcon
-                iconNode={<Clock />}
-                size={20}
-                content={
-                  <FromToTime from={event.startTime} to={event.endTime} />
-                }
-                className={styles.sidebarInfo}
-              />
-
-              {event.isForeignLanguage !== null && event.isForeignLanguage && (
-                <TextWithIcon
-                  iconNode={<Languages />}
-                  size={20}
-                  content="English"
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              {event.isPriced && (
-                <TextWithIcon
-                  iconNode={<Coins />}
-                  size={20}
-                  content={event.priceMember / 100 + ',-'}
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              <TextWithIcon
-                iconNode={<MapPin />}
-                size={20}
-                content={event.location}
-                className={styles.sidebarInfo}
-              />
-
-              {event.mazemapPoi && (
-                <Flex column gap="var(--spacing-xs)">
-                  <Button
-                    className={styles.mapButton}
-                    onPress={() => setMapIsOpen(!mapIsOpen)}
-                  >
-                    <img
-                      className={styles.mazemapImg}
-                      alt="MazeMap sin logo"
-                      src={mazemapLogo}
-                    />
-                    {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                  </Button>
-                  {mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}
-                </Flex>
-              )}
-            </Flex>
-          )}
+          <SidebarInfo showSkeleton={showSkeleton} event={event} />
 
           {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
