@@ -8,10 +8,10 @@ import {
   Modal,
   Page,
 } from '@webkom/lego-bricks';
-import { diffLines } from 'diff';
 import { isEmpty } from 'lodash';
 import { ListRestart, Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
+import diff from 'node-htmldiff';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
@@ -116,9 +116,7 @@ const MeetingDetails = () => {
   };
 
   const [changelogOpen, setChangelogOpen] = useState(false);
-  const [diff, setDiff] = useState<
-    { count: number; added: boolean; removed: boolean; value: string }[]
-  >([]);
+  const [_diff, setDiff] = useState('');
 
   const handleChangelogClick = (index: number) => {
     if (!meeting) return;
@@ -128,8 +126,8 @@ const MeetingDetails = () => {
       index < meeting.reportChangelogs.length - 1
         ? meeting.reportChangelogs[index + 1].report
         : '';
-    const diff = diffLines(previousReport, currentReport);
-    setDiff(diff);
+
+    setDiff(diff(previousReport, currentReport));
   };
 
   const attendanceButtons = (
@@ -218,64 +216,50 @@ const MeetingDetails = () => {
               >
                 <Dropdown.List>
                   {meeting.reportChangelogs.map((reportChangelog, index) => (
-                    <>
-                      <Dropdown.ListItem>
-                        <button onClick={() => handleChangelogClick(index)}>
-                          <Flex alignItems="center" gap="var(--spacing-sm)">
-                            <ProfilePicture
-                              user={reportChangelog.createdBy}
-                              size={24}
-                            />
-                            <span>
-                              <strong>
-                                {reportChangelog.createdBy.username}
-                              </strong>{' '}
-                              {index === meeting.reportChangelogs.length - 1
-                                ? 'opprettet'
-                                : 'redigerte'}{' '}
-                              for{' '}
-                              <Tooltip
-                                content={moment(
-                                  reportChangelog.createdAt,
-                                ).format('lll')}
-                                positions="right"
-                                containerClassName={
-                                  styles.reportChangelogTooltip
-                                }
-                              >
-                                <Time
-                                  time={reportChangelog.createdAt}
-                                  wordsAgo
-                                  className={styles.changelogTime}
-                                />
-                              </Tooltip>
-                            </span>
-                          </Flex>
-                        </button>
-                      </Dropdown.ListItem>
+                    <Dropdown.ListItem key={index}>
+                      <button onClick={() => handleChangelogClick(index)}>
+                        <Flex alignItems="center" gap="var(--spacing-sm)">
+                          <ProfilePicture
+                            user={reportChangelog.createdBy}
+                            size={24}
+                          />
+                          <span>
+                            <strong>
+                              {reportChangelog.createdBy.username}
+                            </strong>{' '}
+                            {index === meeting.reportChangelogs.length - 1
+                              ? 'opprettet'
+                              : 'redigerte'}{' '}
+                            for{' '}
+                            <Tooltip
+                              content={moment(reportChangelog.createdAt).format(
+                                'lll',
+                              )}
+                              positions="right"
+                              containerClassName={styles.changelogTooltip}
+                            >
+                              <Time
+                                time={reportChangelog.createdAt}
+                                wordsAgo
+                                className={styles.changelogTime}
+                              />
+                            </Tooltip>
+                          </span>
+                        </Flex>
+                      </button>
                       {index !== meeting.reportChangelogs.length - 1 && (
                         <Dropdown.Divider />
                       )}
-                    </>
+                    </Dropdown.ListItem>
                   ))}
                 </Dropdown.List>
-                {!isEmpty(diff) && (
+                {!isEmpty(_diff) && (
                   <Modal
                     title="Endringer"
                     isOpen
-                    onOpenChange={() => setDiff([])}
+                    onOpenChange={() => setDiff('')}
                   >
-                    <DisplayContent
-                      content={diff
-                        .map((part) =>
-                          part.added
-                            ? `<ins>${part.value}</ins>`
-                            : part.removed
-                              ? `<del>${part.value}</del>`
-                              : part.value,
-                        )
-                        .join('')}
-                    />
+                    <DisplayContent content={_diff} />
                   </Modal>
                 )}
               </Dropdown>
