@@ -5,11 +5,11 @@
   background: var(--lego-card-color);
   border-radius: var(--border-radius-lg);
   position: absolute;
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
   z-index: 110;
 
   @media (--small-viewport) {
-    width: calc(100% - 10px);
+    width: calc(100% - var(--spacing-sm));
   }
 }
 
@@ -54,7 +54,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: var(--spacing-sm) var(--spacing-md);
   transition: background var(--easing-fast);
 
   &:hover {

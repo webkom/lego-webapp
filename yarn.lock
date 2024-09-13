@@ -4974,10 +4974,10 @@
     "@webassemblyjs/ast" "1.12.1"
     "@xtuc/long" "4.2.2"
 
-"@webkom/lego-editor@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.4.0.tgz#27ca2b464c3887d3b4e6769793361ef34981c2af"
-  integrity sha512-tC5BU3+LkkIB2Acj0zUr1Y6uBcYa7jHqYorkAp+1Z4SvF3lj0QMJgaMWt6IaYQF9164vA3C9RLj9+bK8+xowYA==
+"@webkom/lego-editor@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-2.5.0.tgz#84d3b64d252a0b40ccd29e74a8d57669ae5d0415"
+  integrity sha512-MbyZDRAVAqucqDvsVPot7BHmotNLR7rGmlVPt1ZrpgU/uEYczTQ9jvdMIfmm5w4ShxIv0lDRqYsfmZqL7J+6RQ==
   dependencies:
     "@webkom/lego-bricks" "^1.2.1"
     classnames "^2.2.6"
@@ -10289,6 +10289,11 @@ node-fetch@^2.6.1:
   integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
   dependencies:
     whatwg-url "^5.0.0"
+
+node-htmldiff@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/node-htmldiff/-/node-htmldiff-0.9.4.tgz#d8fec52fbe736780afff28d2c8476ec106520887"
+  integrity sha512-Nvnv0bcehOFsH/TD+bi4ls3iWTRQiytqII5+I1iBUypO+GFMYLcyBJfS2U3DMRSIYzfZHysaYLYoCXx6Q148Hg==
 
 node-releases@^2.0.14:
   version "2.0.14"
