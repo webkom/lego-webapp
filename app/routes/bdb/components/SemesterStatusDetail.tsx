@@ -137,19 +137,20 @@ export default SemesterStatusDetail;
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;
   type: string;
-  removeFile: (type: string) => Promise<unknown>;
-  addFile: (name: string, token: string, type: string) => Promise<unknown>;
-  editing: boolean;
+  removeFile: (
+    type: string,
+    semesterStatus: TransformedSemesterStatus,
+  ) => Promise<unknown>;
+  addFile: (
+    name: string,
+    token: string,
+    type: string,
+    semesterStatus: TransformedSemesterStatus,
+  ) => Promise<unknown>;
 };
 
-const RenderFile = (props: RenderFileProps) => {
-  const { semesterStatus, type, removeFile, addFile, editing } = props;
-
-  const uploadButton = (type: string) => (
-    <FileUpload
-      onChange={(fileName, fileToken) => addFile(fileName, fileToken, type)}
-    />
-  );
+export const RenderFile = (props: RenderFileProps) => {
+  const { semesterStatus, type, removeFile, addFile } = props;
 
   const fileNameToShow = (name: string, url?: string) =>
     name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
@@ -158,17 +159,15 @@ const RenderFile = (props: RenderFileProps) => {
     semesterStatus[type + 'Name'],
     semesterStatus[type],
   );
-  const displayDeleteButton = editing && semesterStatus[type];
-  const displayUploadButton = editing && !semesterStatus[type];
 
-  if (displayDeleteButton) {
+  if (semesterStatus[type]) {
     return (
       <span className={styles.deleteFile}>
         <span>{fileName}</span>
         <ConfirmModal
           title="Slett fil"
           message="Er du sikker på at du vil slette denne filen?"
-          onConfirm={() => removeFile(type)}
+          onConfirm={() => removeFile(type, semesterStatus)}
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
@@ -177,9 +176,12 @@ const RenderFile = (props: RenderFileProps) => {
         </ConfirmModal>
       </span>
     );
-  } else if (displayUploadButton) {
-    return uploadButton(type);
   }
-
-  return fileName;
+  return (
+    <FileUpload
+      onChange={(fileName, fileToken) =>
+        addFile(fileName, fileToken, type, semesterStatus)
+      }
+    />
+  );
 };

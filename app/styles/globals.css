@@ -98,7 +98,6 @@ thead {
 th,
 td {
   padding: var(--spacing-sm);
-  width: 140px;
   display: table-cell;
 }
 
