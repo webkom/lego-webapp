@@ -110,6 +110,12 @@ th:last-child {
   border-radius: 0 2em 2em 0;
 }
 
+input {
+  @media (--mobile-device) {
+    font-size: var(--font-size-md);
+  }
+}
+
 label {
   display: block;
 }
