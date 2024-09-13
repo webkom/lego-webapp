@@ -236,13 +236,12 @@ const MeetingDetails = () => {
                                 'lll',
                               )}
                               positions="right"
-                              containerClassName={styles.changelogTooltip}
+                              className={styles.changelogTooltip}
+                              containerClassName={
+                                styles.changelogTooltipContainer
+                              }
                             >
-                              <Time
-                                time={reportChangelog.createdAt}
-                                wordsAgo
-                                className={styles.changelogTime}
-                              />
+                              <Time time={reportChangelog.createdAt} wordsAgo />
                             </Tooltip>
                           </span>
                         </Flex>
