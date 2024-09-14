@@ -95,7 +95,7 @@ const AdminRegister = () => {
             />
             <Field
               placeholder="Tilbakemelding"
-              label="Melding til arrangør"
+              label="Kommentar"
               name="feedback"
               component={TextEditor.Field}
             />

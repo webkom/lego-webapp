@@ -462,7 +462,7 @@ const JoinEventForm = ({
                             {spyValues((values) => (
                               <Field
                                 id={feedbackName}
-                                placeholder="Melding til arrangør"
+                                placeholder="Kommentar"
                                 name={feedbackName}
                                 component={TextInput.Field}
                                 className={styles.feedbackText}
@@ -531,7 +531,7 @@ function getFeedbackName(event: UserDetailedEvent) {
 }
 
 function getFeedbackLabel(event: UserDetailedEvent) {
-  return event.feedbackDescription || 'Melding til arrangør';
+  return event.feedbackDescription || 'Kommentar';
 }
 
 export default withCountdown(JoinEventForm);
