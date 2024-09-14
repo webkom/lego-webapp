@@ -21,10 +21,10 @@ import {
   SubmissionError,
   LegoFinalForm,
 } from 'app/components/Form';
-import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -39,7 +39,6 @@ import {
   toReadableSemester,
 } from '../utils';
 import styles from './Event.css';
-import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
 import type { EventRegistration, EventRegistrationStatus } from 'app/models';
 import type {
@@ -171,13 +170,9 @@ const PaymentForm = ({
 export type Props = {
   title?: string;
   event: UserDetailedEvent | AuthUserDetailedEvent;
-  registration: EventRegistration | null | undefined;
-  pendingRegistration: EventRegistration | null | undefined;
-  registrationPending: boolean;
-  formOpen: boolean;
-  captchaOpen: boolean;
-  buttonOpen: boolean;
-  registrationOpensIn: string | null | undefined;
+  registration?: EventRegistration;
+  pendingRegistration?: EventRegistration;
+  registrationPending?: boolean;
 };
 
 const JoinEventForm = ({
@@ -185,11 +180,10 @@ const JoinEventForm = ({
   event,
   registration,
   pendingRegistration,
-  buttonOpen,
-  formOpen,
-  captchaOpen,
-  registrationOpensIn,
 }: Props) => {
+  const { buttonOpen, formOpen, captchaOpen, registrationOpensIn } =
+    useRegistrationCountdown(event, registration);
+
   const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
 
@@ -327,8 +321,10 @@ const JoinEventForm = ({
           <>
             {!formOpen && event.activationTime && (
               <div>
-                {moment(event.activationTime) < moment() ? 'Åpnet ' : 'Åpner '}
-                <Time time={event.activationTime} format="nowToTimeInWords" />
+                Åpner om{' '}
+                <time dateTime={moment(event.activationTime).format()}>
+                  {registrationOpensIn?.humanize()}
+                </time>
               </div>
             )}
 
@@ -406,7 +402,7 @@ const JoinEventForm = ({
 
                         {event.activationTime && registrationOpensIn && (
                           <Button disabled={disabledButton}>
-                            {`Åpner om ${registrationOpensIn}`}
+                            {`Åpner om ${moment(registrationOpensIn.asMilliseconds()).format('mm:ss')}`}
                           </Button>
                         )}
 
@@ -534,4 +530,4 @@ function getFeedbackLabel(event: UserDetailedEvent) {
   return event.feedbackDescription || 'Kommentar';
 }
 
-export default withCountdown(JoinEventForm);
+export default JoinEventForm;
