@@ -79,7 +79,7 @@ interface Event {
   isAdmitted: boolean;
   following: false | EntityId;
   spotsLeft: number;
-  pendingRegistration: EntityId;
+  pendingRegistration?: EntityId;
   photoConsents: EntityId[];
 
   unansweredSurveys: EntityId[];
