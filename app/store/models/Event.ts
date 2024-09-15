@@ -4,7 +4,11 @@ import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { DetailedUser, PublicUser } from 'app/store/models/User';
+import type {
+  DetailedUser,
+  PhotoConsent,
+  PublicUser,
+} from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum EventType {
@@ -55,6 +59,7 @@ interface Event {
   useStripe: boolean;
   paymentDueDate?: Dateish;
   useCaptcha: boolean;
+  waitingRegistrations?: EntityId[];
   waitingRegistrationCount?: number;
   tags: string[];
   isMerged: boolean;
@@ -69,6 +74,7 @@ interface Event {
   pinned: boolean;
   responsibleUsers: DetailedUser[];
   isForeignLanguage: boolean;
+  unregistered: EntityId[];
 
   // for survey
   attendedCount: number;
@@ -80,7 +86,7 @@ interface Event {
   following: false | EntityId;
   spotsLeft: number;
   pendingRegistration?: EntityId;
-  photoConsents: EntityId[];
+  photoConsents: PhotoConsent[];
 
   unansweredSurveys: EntityId[];
 }
@@ -181,6 +187,7 @@ export type EventForSurvey = Pick<
   ListEvent;
 
 // User specific event serializer that appends data based on request.user
+// Used when an authenticated user who CANNOT register is viewing an event
 export type UserDetailedEvent = Pick<
   Event,
   | 'price'
@@ -193,12 +200,14 @@ export type UserDetailedEvent = Pick<
 > &
   DetailedEvent;
 
+// Used when an authenticated user who CAN register is viewing an event
 export type AuthUserDetailedEvent = Pick<
   Event,
   'waitingRegistrations' | 'unansweredSurveys'
 > &
   UserDetailedEvent;
 
+// Used in /administrate endpoint
 export type AdministrateEvent = Pick<
   Event,
   | 'pools'

@@ -1,4 +1,4 @@
-import { Card, Flex, Page, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { CircleHelp, FilePenLine } from 'lucide-react';
@@ -19,7 +19,6 @@ import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import {
@@ -30,18 +29,18 @@ import {
   selectPoolsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationForEventByUserId,
-  selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
+import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
 import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
 import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
+import { UnansweredSurveys } from 'app/routes/events/components/EventDetail/UnansweredSurveys';
 import {
   colorForEventType,
   penaltyHours,
-  getEventSemesterFromStartTime,
   registrationCloseTime,
   displayNameForEventType,
 } from 'app/routes/events/utils';
@@ -49,17 +48,12 @@ import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import RegistrationMeta from '../RegistrationMeta';
 import styles from './EventDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type { ReadRegistration } from 'app/store/models/Registration';
-
-const MIN_USER_GRID_ROWS = 2;
-const MAX_USER_GRID_ROWS = 2;
 
 const Line = () => <div className={styles.line} />;
 
@@ -115,7 +109,7 @@ const EventDetail = () => {
   const fetching = useAppSelector((state) => state.events.fetching);
   const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
-  const hasFullAccess = Boolean(event?.waitingRegistrations);
+  const hasFullAccess = Boolean('waitingRegistrations' in event);
 
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
@@ -135,9 +129,6 @@ const EventDetail = () => {
     event?.isMerged
       ? selectMergedPoolWithRegistrations(state, { eventId })
       : selectPoolsWithRegistrationsForEvent(state, { eventId }),
-  );
-  const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId }),
   );
   const waitingRegistrations = useAppSelector((state) =>
     selectWaitingRegistrationsForEvent(state, { eventId }),
@@ -175,17 +166,10 @@ const EventDetail = () => {
     ),
   );
 
-  let currentRegistration;
-  let currentRegistrationIndex;
+  const currentRegistration = currentPool?.registrations.find(
+    (registration) => registration.user?.id === currentUser?.id,
+  );
 
-  if (currentPool) {
-    currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user?.id === currentUser?.id,
-    );
-    currentRegistration = currentPool.registrations[currentRegistrationIndex];
-  }
-
-  const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
   const pendingRegistration = useAppSelector(
     (state) =>
       currentUser &&
@@ -224,13 +208,6 @@ const EventDetail = () => {
     : activationTimeMoment;
 
   const registrationCloseTimeMoment = registrationCloseTime(event);
-
-  // The UserGrid is expanded when there's less than 5 minutes till activation
-  const minUserGridRows = currentMoment.isAfter(
-    moment(activationTimeMoment).subtract(5, 'minutes'),
-  )
-    ? MIN_USER_GRID_ROWS
-    : 0;
 
   const deadlines = [
     event.activationTime && currentMoment.isBefore(activationTimeMoment)
@@ -436,58 +413,21 @@ const EventDetail = () => {
             <JoinEventForm event={event} />
           ) : (
             <>
-              <Flex column>
-                <h3>Påmeldte</h3>
-
-                <Attendance
-                  pools={pools}
-                  registrations={registrations}
-                  currentRegistration={currentRegistration}
-                  minUserGridRows={minUserGridRows}
-                  maxUserGridRows={MAX_USER_GRID_ROWS}
-                  legacyRegistrationCount={event.legacyRegistrationCount}
-                  skeleton={fetching && !registrations}
-                />
-
-                {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment,
-                    )}
-                    photoConsents={event.photoConsents}
-                    eventSemester={getEventSemesterFromStartTime(
-                      event.startTime,
-                    )}
-                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                    skeleton={showSkeleton}
-                  />
-                )}
-              </Flex>
+              <AttendeeSection
+                showSkeleton={showSkeleton}
+                event={event}
+                currentRegistration={currentRegistration}
+                pools={pools}
+                currentPool={currentPool}
+              />
 
               {'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
               !event.isAdmitted ? (
-                <Card severity="danger">
-                  <p>
-                    Du kan ikke melde deg {currentRegistration ? 'av' : 'på'}{' '}
-                    dette arrangementet fordi du har ubesvarte
-                    spørreundersøkelser. Gå til lenkene under for å svare:
-                  </p>
-                  <ul>
-                    {event.unansweredSurveys.map((surveyId, i) => (
-                      <li key={surveyId}>
-                        <Link to={`/surveys/${surveyId}`}>
-                          Undersøkelse {i + 1}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <UnansweredSurveys
+                  event={event}
+                  currentRegistration={currentRegistration}
+                />
               ) : (
                 !showSkeleton && (
                   <JoinEventForm
