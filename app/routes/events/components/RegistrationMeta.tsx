@@ -20,10 +20,13 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
-import type { Presence } from 'app/store/models/Registration';
+import type {
+  PaymentRegistration,
+  Presence,
+} from 'app/store/models/Registration';
 
 type Props = {
-  registration: Record<string, any>;
+  registration?: PaymentRegistration;
   isPriced: boolean;
   registrationIndex: number;
   hasSimpleWaitingList: boolean;
@@ -47,7 +50,7 @@ const ConsentStatus = ({
   eventSemester,
 }: {
   useConsent: boolean;
-  LEGACY_photoConsent: LEGACY_EventRegistrationPhotoConsent;
+  LEGACY_photoConsent?: LEGACY_EventRegistrationPhotoConsent;
   hasEnded: boolean;
   photoConsents?: Array<PhotoConsent>;
   eventSemester: EventSemester;
@@ -184,7 +187,7 @@ const PaymentStatus = ({
   paymentStatus,
   isPriced,
 }: {
-  paymentStatus: EventRegistrationPaymentStatus;
+  paymentStatus?: EventRegistrationPaymentStatus | null;
   isPriced: boolean;
 }) => {
   if (!isPriced) return null;
