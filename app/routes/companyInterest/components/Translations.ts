@@ -175,10 +175,10 @@ export const COLLABORATION_TYPES = {
     norwegian: 'Samarbeid med TIHLDE linjeforening',
     english: 'Event in collaboration with TIHLDE',
   },
-  // collaboration_revue: {
-  //   norwegian: 'Samarbeid med Revyen',
-  //   english: 'Collaboration with the revue',
-  // },
+  collaboration_revue: {
+    norwegian: 'Samarbeid med Revyen',
+    english: 'Collaboration with the revue',
+  },
   // collaboration_anniversary: {
   //   english: "Collaboration with Abakus' anniversary committee*",
   //   norwegian: 'Samarbeid med Abakus sitt Jubileum*',

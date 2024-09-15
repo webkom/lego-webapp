@@ -81,12 +81,13 @@ const AttendanceModalContent = ({
   );
 
   return (
-    <Flex column gap="var(--spacing-md)" className={styles.modal}>
+    <Flex column gap="var(--spacing-md)" className={styles.modalContent}>
       <TextInput
         type="text"
         prefix="search"
         placeholder="Søk etter navn"
         onChange={(e) => setFilter(e.target.value)}
+        className={styles.searchInput}
       />
 
       <ul className={styles.list}>

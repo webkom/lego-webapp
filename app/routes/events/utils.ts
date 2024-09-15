@@ -61,10 +61,10 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#8A2BE2',
     textColor: '#FFF',
   },
-  [EventType.KiD_EVENT]: {
-    displayName: 'KiD-arrangement',
-    color: 'var(--color-event-black)',
-    textColor: 'var(--color-white)',
+  [EventType.NEXUS_EVENT]: {
+    displayName: 'NEXUS-arrangement',
+    color: '#00509E',
+    textColor: 'var(--color-absolute-white)',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',
