@@ -181,35 +181,6 @@ export const selectTransformedEventById = createSelector(
   },
 );
 
-export const selectTransformedEventBySlug = createSelector(
-  selectEventEntities,
-  (_: RootState, props: { eventSlug: string }) => props.eventSlug,
-  (eventsById, eventSlug) => {
-    const event = Object.values(eventsById).find(
-      (event) => event.slug === eventSlug,
-    );
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  },
-);
-
-export const selectTransformedEventByIdOrSlug = createSelector(
-  (state, props) => {
-    const { eventIdOrSlug } = props;
-    if (!isNaN(Number(eventIdOrSlug))) {
-      return selectTransformedEventById(state, { eventId: eventIdOrSlug });
-    }
-    return selectTransformedEventBySlug(state, {
-      eventSlug: eventIdOrSlug,
-    });
-  },
-  (event) => event,
-);
-
 export const selectPoolsForEvent = createSelector(
   selectTransformedEventById,
   selectPoolEntities,
