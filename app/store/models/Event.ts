@@ -4,6 +4,7 @@ import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import type { ReadRegistration } from 'app/store/models/Registration';
 import type {
   DetailedUser,
   PhotoConsent,
@@ -24,7 +25,14 @@ export enum EventType {
   SOCIAL = 'social',
 }
 
-interface Event {
+export enum EventStatusType {
+  NORMAL = 'NORMAL',
+  OPEN = 'OPEN',
+  TBA = 'TBA',
+  INFINITE = 'INFINITE',
+}
+
+export interface CompleteEvent {
   id: EntityId;
   title: string;
   slug: string;
@@ -33,7 +41,7 @@ interface Event {
   coverPlaceholder: string;
   text: string;
   eventType: EventType;
-  eventStatusType: string;
+  eventStatusType: EventStatusType;
   location: string;
   comments: EntityId[];
   contentTarget: ContentTarget;
@@ -92,7 +100,7 @@ interface Event {
 }
 
 export type PublicEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'slug'
   | 'title'
@@ -105,7 +113,7 @@ export type PublicEvent = Pick<
 
 // This corresponds to EventReadSerializer in the backend
 export type ListEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'slug'
@@ -129,8 +137,13 @@ export type ListEvent = Pick<
 > &
   ObjectPermissionsMixin;
 
+// Used for /upcoming and /previous endpoints
+export type ListEventWithUserRegistration = ListEvent & {
+  userReg?: ReadRegistration;
+};
+
 export type DetailedEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'slug'
@@ -181,7 +194,7 @@ export type DetailedEvent = Pick<
   ObjectPermissionsMixin;
 
 export type EventForSurvey = Pick<
-  Event,
+  CompleteEvent,
   'registrationCount' | 'waitingRegistrationCount' | 'attendedCount'
 > &
   ListEvent;
@@ -189,7 +202,7 @@ export type EventForSurvey = Pick<
 // User specific event serializer that appends data based on request.user
 // Used when an authenticated user who CANNOT register is viewing an event
 export type UserDetailedEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'price'
   | 'activationTime'
   | 'isAdmitted'
@@ -202,14 +215,14 @@ export type UserDetailedEvent = Pick<
 
 // Used when an authenticated user who CAN register is viewing an event
 export type AuthUserDetailedEvent = Pick<
-  Event,
+  CompleteEvent,
   'waitingRegistrations' | 'unansweredSurveys'
 > &
   UserDetailedEvent;
 
 // Used in /administrate endpoint
 export type AdministrateEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'pools'
   | 'unregistered'
   | 'waitingRegistrations'
@@ -222,7 +235,7 @@ export type AdministrateEvent = Pick<
   ListEvent;
 
 export type FrontpageEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'slug'
@@ -246,7 +259,7 @@ export type FrontpageEvent = Pick<
 >;
 
 export type SearchEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'description'
@@ -257,7 +270,10 @@ export type SearchEvent = Pick<
   | 'endTime'
 >;
 
-export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
+export type AutocompleteEvent = Pick<
+  CompleteEvent,
+  'title' | 'startTime' | 'id'
+> & {
   contentType: AutocompleteContentType.Event;
   text: 'text';
 };
@@ -265,6 +281,7 @@ export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
 export type UnknownEvent = (
   | PublicEvent
   | ListEvent
+  | ListEventWithUserRegistration
   | DetailedEvent
   | EventForSurvey
   | UserDetailedEvent

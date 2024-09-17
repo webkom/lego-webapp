@@ -39,7 +39,6 @@ import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.css';
 import type { DetailedCompany } from 'app/store/models/Company';
-import type { ListEvent } from 'app/store/models/Event';
 
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);
@@ -69,7 +68,7 @@ const CompanyDetail = () => {
   const showSkeleton = fetchingCompany && isEmpty(company);
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
-  ) as ListEvent[];
+  );
   const joblistings = useAppSelector((state) =>
     selectJoblistingsForCompany(state, companyId),
   );
