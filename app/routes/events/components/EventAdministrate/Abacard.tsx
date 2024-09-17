@@ -5,13 +5,18 @@ import { useLocation, useParams } from 'react-router-dom';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import { autocomplete } from 'app/actions/SearchActions';
 import Validator from 'app/components/UserValidator';
-import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import {
+  getRegistrationGroups,
+  selectTransformedEventById,
+} from 'app/reducers/events';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Abacard.css';
 
 const Abacard = () => {
   const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const event = useAppSelector((state) =>
+    selectTransformedEventById(state, { eventId }),
+  );
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId,

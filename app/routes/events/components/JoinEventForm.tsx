@@ -22,6 +22,7 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
+import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
@@ -385,6 +386,7 @@ const JoinEventForm = ({
                       !registrationPending &&
                       !registration &&
                       captchaOpen &&
+                      config.environment !== 'ci' &&
                       event.useCaptcha;
 
                     return (

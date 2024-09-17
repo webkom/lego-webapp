@@ -16,7 +16,10 @@ import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import EmptyState from 'app/components/EmptyState';
 import { GroupType, type Dateish } from 'app/models';
-import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import {
+  getRegistrationGroups,
+  selectTransformedEventById,
+} from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
 import { Gender } from 'app/store/models/User';
@@ -223,7 +226,9 @@ type Props = {
 
 const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
   const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const event = useAppSelector((state) =>
+    selectTransformedEventById(state, { eventId }),
+  );
   const { registered, unregistered } = useAppSelector((state) =>
     getRegistrationGroups(state, {
       eventId: eventId,

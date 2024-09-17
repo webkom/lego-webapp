@@ -7,7 +7,10 @@ import { fetchAllergies } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import { useCurrentUser } from 'app/reducers/auth';
-import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import {
+  getRegistrationGroups,
+  selectTransformedEventById,
+} from 'app/reducers/events';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
@@ -31,7 +34,7 @@ export const canSeeAllergies = (
 const Allergies = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    eventId ? selectEventById(state, { eventId }) : undefined,
+    eventId ? selectTransformedEventById(state, { eventId }) : undefined,
   ) as AdministrateEvent;
   const { registered } = useAppSelector((state) =>
     getRegistrationGroups(state, {

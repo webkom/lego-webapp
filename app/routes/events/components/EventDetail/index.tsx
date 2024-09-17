@@ -1,8 +1,7 @@
 import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import { CircleHelp, FilePenLine } from 'lucide-react';
-import moment from 'moment-timezone';
+import { FilePenLine } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';
@@ -17,31 +16,28 @@ import InfoList from 'app/components/InfoList';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { FormatTime } from 'app/components/Time';
-import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
+import { selectCommentsByIds } from 'app/reducers/comments';
 import {
-  selectCommentsForEvent,
-  selectEventByIdOrSlug,
   selectMergedPool,
   selectMergedPoolWithRegistrations,
   selectPoolsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationForEventByUserId,
   selectWaitingRegistrationsForEvent,
+  selectEventByIdOrSlug,
 } from 'app/reducers/events';
-import { resolveGroupLink } from 'app/reducers/groups';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import { selectUserWithGroups } from 'app/reducers/users';
 import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
 import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
 import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
 import { UnansweredSurveys } from 'app/routes/events/components/EventDetail/UnansweredSurveys';
 import {
+  useDeadlineInfoList,
+  useEventCreatorInfoList,
+} from 'app/routes/events/components/EventDetail/infoLists';
+import {
   colorForEventType,
-  penaltyHours,
-  registrationCloseTime,
   displayNameForEventType,
 } from 'app/routes/events/utils';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
@@ -103,27 +99,19 @@ const propertyGenerator: PropertyGenerator<{
 const EventDetail = () => {
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
-  ) as AuthUserDetailedEvent | UserDetailedEvent;
+    selectEventByIdOrSlug(state, eventIdOrSlug),
+  ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
   const eventId = event?.id;
   const fetching = useAppSelector((state) => state.events.fetching);
   const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
-  const hasFullAccess = Boolean('waitingRegistrations' in event);
+  const hasFullAccess = Boolean(event && 'waitingRegistrations' in event);
 
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
-  const user = useAppSelector(
-    (state) =>
-      currentUser &&
-      selectUserWithGroups(state, { username: currentUser.username }),
-  );
-  const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, user?.id),
-  );
 
   const comments = useAppSelector((state) =>
-    selectCommentsForEvent(state, { eventId }),
+    selectCommentsByIds(state, event?.comments),
   );
   const poolsWithRegistrations = useAppSelector((state) =>
     event?.isMerged
@@ -194,222 +182,69 @@ const EventDetail = () => {
     [eventIdOrSlug, loggedIn],
   );
 
-  const color = colorForEventType(event.eventType);
+  const color = colorForEventType(event?.eventType);
 
-  const currentMoment = moment();
-
-  const activationTimeMoment = moment(event.activationTime);
-
-  // Get the actual activation time.
-  // The time from LEGO is with penalties applied.
-  // This "unapplies" the penalties again
-  const eventRegistrationTime = event.heedPenalties
-    ? activationTimeMoment.subtract(penaltyHours(penalties), 'hours')
-    : activationTimeMoment;
-
-  const registrationCloseTimeMoment = registrationCloseTime(event);
-
-  const deadlines = [
-    event.activationTime && currentMoment.isBefore(activationTimeMoment)
-      ? {
-          key: 'Påmelding åpner',
-          value: (
-            <FormatTime
-              format="dd DD. MMM HH:mm"
-              time={eventRegistrationTime}
-            />
-          ),
-        }
-      : null,
-    event.heedPenalties &&
-    event.unregistrationDeadline &&
-    !['OPEN', 'TBA'].includes(event.eventStatusType)
-      ? {
-          key: 'Frist for prikk',
-          keyNode: (
-            <TextWithIcon
-              iconNode={<CircleHelp />}
-              content="Frist for prikk"
-              tooltipContentIcon={
-                <>
-                  Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
-                  <Link to="/pages/arrangementer/26-arrangementsregler">
-                    arrangementsreglene
-                  </Link>
-                  .
-                </>
-              }
-              iconRight
-              size={14}
-            />
-          ),
-          value: (
-            <FormatTime
-              format="dd DD. MMM HH:mm"
-              time={event.unregistrationDeadline}
-            />
-          ),
-        }
-      : null,
-    activationTimeMoment.isBefore(currentMoment)
-      ? {
-          key: 'Frist for av/påmelding',
-          keyNode: (
-            <TextWithIcon
-              iconNode={<CircleHelp />}
-              content={
-                currentMoment.isBefore(registrationCloseTimeMoment)
-                  ? 'Påmelding stenger'
-                  : 'Påmelding stengte'
-              }
-              tooltipContentIcon={
-                <>
-                  Etter påmeldingen stenger er det hverken mulig å melde seg på
-                  eller av arrangementet
-                </>
-              }
-              iconRight
-              size={14}
-            />
-          ),
-          value: (
-            <FormatTime
-              format="dd DD. MMM HH:mm"
-              time={registrationCloseTimeMoment}
-            />
-          ),
-        }
-      : null,
-    event.paymentDueDate
-      ? {
-          key: 'Betalingsfrist',
-          value: (
-            <FormatTime format="dd DD. MMM HH:mm" time={event.paymentDueDate} />
-          ),
-        }
-      : null,
-  ];
-
-  const groupLink =
-    event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
-
-  const responsibleGroupName = groupLink ? (
-    <Link to={groupLink}>{event.responsibleGroup?.name}</Link>
-  ) : (
-    event.responsibleGroup?.name
-  );
-
-  const eventCreator = [
-    // Responsible group
-    event.responsibleGroup && {
-      key: 'Arrangør',
-      value: event.responsibleGroup.contactEmail ? (
-        <Tooltip
-          content={
-            <span>
-              {event.responsibleGroup.contactEmail && (
-                <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-                  {event.responsibleGroup.contactEmail}
-                </a>
-              )}
-            </span>
-          }
-        >
-          {responsibleGroupName}
-        </Tooltip>
-      ) : (
-        responsibleGroupName
-      ),
-    },
-    // Responsible users, author or anonymous
-    ...(event.responsibleUsers && event.responsibleUsers.length > 0
-      ? [
-          {
-            key:
-              event.responsibleUsers.length > 1
-                ? 'Kontaktpersoner'
-                : 'Kontaktperson',
-            value: (
-              <ul>
-                {event.responsibleUsers.map((user) => (
-                  <li key={user.id}>
-                    <Link to={`/users/${user.username}`} key={user.username}>
-                      {user.fullName}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ),
-          },
-        ]
-      : event.createdBy
-        ? [
-            {
-              key: 'Forfatter',
-              value: (
-                <Link to={`/users/${event.createdBy.username}`}>
-                  {event.createdBy.fullName}
-                </Link>
-              ),
-            },
-          ]
-        : [
-            {
-              key: 'Forfatter',
-              value: 'Anonym',
-            },
-          ]),
-  ].filter(Boolean); // This will remove any undefined items from the array
+  const deadlinesInfoList = useDeadlineInfoList(event);
+  const eventCreatorInfoList = useEventCreatorInfoList(event);
 
   return (
     <Page
       cover={
         <YoutubeCover
-          image={event.cover || event.company?.logo}
+          image={event?.cover || event?.company?.logo}
           imagePlaceholder={
-            event.coverPlaceholder || event.company?.logoPlaceholder
+            event?.coverPlaceholder || event?.company?.logoPlaceholder
           }
-          youtubeUrl={event.youtubeUrl}
+          youtubeUrl={event?.youtubeUrl}
           skeleton={showSkeleton}
         />
       }
       title={
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          {loggedIn && <InterestedButton event={event} />}
-          {event.title}
-        </Flex>
+        event && (
+          <Flex alignItems="center" gap="var(--spacing-sm)">
+            {loggedIn && <InterestedButton event={event} />}
+            {event.title}
+          </Flex>
+        )
       }
       actionButtons={
-        <div className={styles.eventType}>
-          <strong
-            style={{
-              color,
-            }}
-          >
-            {displayNameForEventType(event.eventType)}
-          </strong>
-        </div>
+        event && (
+          <div className={styles.eventType}>
+            <strong
+              style={{
+                color,
+              }}
+            >
+              {displayNameForEventType(event.eventType)}
+            </strong>
+          </div>
+        )
       }
       skeleton={showSkeleton}
       dividerColor={color}
     >
-      <PropertyHelmet propertyGenerator={propertyGenerator} options={{ event }}>
-        <title>{event.title}</title>
-        <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
-      </PropertyHelmet>
+      {event && (
+        <PropertyHelmet
+          propertyGenerator={propertyGenerator}
+          options={{ event }}
+        >
+          <title>{event.title}</title>
+          <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
+        </PropertyHelmet>
+      )}
 
       <ContentSection>
         <ContentMain>
-          <DisplayContent content={event.text} skeleton={showSkeleton} />
+          <DisplayContent content={event?.text || ''} skeleton={showSkeleton} />
           <Flex className={styles.tagRow}>
-            {event.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
+            {event?.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
           </Flex>
         </ContentMain>
 
         <ContentSidebar>
           <SidebarInfo showSkeleton={showSkeleton} event={event} />
 
-          {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+          {event && ['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
             <>
@@ -421,7 +256,8 @@ const EventDetail = () => {
                 currentPool={currentPool}
               />
 
-              {'unansweredSurveys' in event &&
+              {event &&
+              'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
               !event.isAdmitted ? (
                 <UnansweredSurveys
@@ -429,7 +265,8 @@ const EventDetail = () => {
                   currentRegistration={currentRegistration}
                 />
               ) : (
-                !showSkeleton && (
+                !showSkeleton &&
+                event && (
                   <JoinEventForm
                     event={event}
                     registration={currentRegistration}
@@ -448,10 +285,13 @@ const EventDetail = () => {
               </Flex>
             </>
           ) : (
-            deadlines.some((d) => d !== null) && (
+            !!deadlinesInfoList.length && (
               <>
                 <Line />
-                <InfoList className={styles.infoList} items={deadlines} />
+                <InfoList
+                  className={styles.infoList}
+                  items={deadlinesInfoList}
+                />
               </>
             )
           )}
@@ -470,7 +310,10 @@ const EventDetail = () => {
               </Flex>
             </Flex>
           ) : (
-            <InfoList items={eventCreator} className={styles.infoList} />
+            <InfoList
+              items={eventCreatorInfoList}
+              className={styles.infoList}
+            />
           )}
 
           <Line />
@@ -491,11 +334,11 @@ const EventDetail = () => {
             <Line />
           )}
 
-          <Admin actionGrant={actionGrant} event={event} />
+          {event && <Admin actionGrant={actionGrant} event={event} />}
         </ContentSidebar>
       </ContentSection>
 
-      {event.contentTarget && (
+      {event?.contentTarget && (
         <CommentView
           style={{
             marginTop: 20,

@@ -236,6 +236,12 @@ const PaymentStatus = ({
   }
 };
 
+export const RegistrationMetaSkeleton = () => (
+  <Flex column gap="var(--spacing-sm)">
+    <Skeleton array={2} className={styles.sidebarInfo} />
+  </Flex>
+);
+
 const RegistrationMeta = ({
   registration,
   hasOpened,
@@ -249,11 +255,7 @@ const RegistrationMeta = ({
   skeleton,
 }: Props) => {
   if (skeleton) {
-    return (
-      <Flex column gap="var(--spacing-sm)">
-        <Skeleton array={2} className={styles.sidebarInfo} />
-      </Flex>
-    );
+    return <RegistrationMetaSkeleton />;
   }
 
   return (

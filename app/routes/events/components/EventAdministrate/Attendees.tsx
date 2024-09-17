@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import {
   getRegistrationGroups,
-  selectEventById,
+  selectTransformedEventById,
   selectMergedPoolWithRegistrations,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
@@ -16,7 +16,7 @@ import type { AdministrateEvent } from 'app/store/models/Event';
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId }),
+    selectTransformedEventById(state, { eventId }),
   ) as AdministrateEvent;
   const pools = useAppSelector((state) =>
     event?.isMerged
