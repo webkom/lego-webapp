@@ -11,7 +11,7 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
-import type { DetailedEvent } from 'app/store/models/Event';
+import type { CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
 import type { DetailedUser } from 'app/store/models/User';
 
@@ -274,11 +274,11 @@ export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
 
 export const registrationCloseTime = (
-  event: Pick<DetailedEvent, 'startTime' | 'registrationDeadlineHours'>,
+  event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
 ) => moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 
 export const registrationIsClosed = (
-  event: Pick<DetailedEvent, 'startTime' | 'registrationDeadlineHours'>,
+  event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
 ) => {
   return moment().isAfter(registrationCloseTime(event));
 };

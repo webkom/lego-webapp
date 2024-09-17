@@ -134,9 +134,18 @@ const eventsSlice = createSlice({
 export default eventsSlice.reducer;
 export const {
   selectAllPaginated: selectAllEvents,
+  selectById: selectEventById,
   selectEntities: selectEventEntities,
   selectIds: selectEventIds,
+  selectByField: selectEventsByField,
 } = legoAdapter.getSelectors((state: RootState) => state.events);
+
+const selectEventBySlug = selectEventsByField('slug').single;
+export const selectEventByIdOrSlug = createSelector(
+  selectEventBySlug,
+  selectEventById,
+  (eventBySlug, eventById) => eventBySlug || eventById,
+);
 
 function transformEvent(event: DetailedEvent) {
   return {
@@ -158,7 +167,7 @@ function transformRegistration(registration) {
   };
 }
 
-export const selectEventById = createSelector(
+export const selectTransformedEventById = createSelector(
   selectEventEntities,
   (_: RootState, props: { eventId: EntityId }) => props.eventId,
   (eventsById, eventId) => {
@@ -172,7 +181,7 @@ export const selectEventById = createSelector(
   },
 );
 
-export const selectEventBySlug = createSelector(
+export const selectTransformedEventBySlug = createSelector(
   selectEventEntities,
   (_: RootState, props: { eventSlug: string }) => props.eventSlug,
   (eventsById, eventSlug) => {
@@ -188,13 +197,13 @@ export const selectEventBySlug = createSelector(
   },
 );
 
-export const selectEventByIdOrSlug = createSelector(
+export const selectTransformedEventByIdOrSlug = createSelector(
   (state, props) => {
     const { eventIdOrSlug } = props;
     if (!isNaN(Number(eventIdOrSlug))) {
-      return selectEventById(state, { eventId: eventIdOrSlug });
+      return selectTransformedEventById(state, { eventId: eventIdOrSlug });
     }
-    return selectEventBySlug(state, {
+    return selectTransformedEventBySlug(state, {
       eventSlug: eventIdOrSlug,
     });
   },
@@ -202,7 +211,7 @@ export const selectEventByIdOrSlug = createSelector(
 );
 
 export const selectPoolsForEvent = createSelector(
-  selectEventById,
+  selectTransformedEventById,
   selectPoolEntities,
   (event, poolEntities) => {
     if (!event) return [];
@@ -332,7 +341,7 @@ export const selectAllRegistrationsForEvent = createSelector(
       }),
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
-  selectEventById,
+  selectTransformedEventById,
   selectRegistrationEntities,
   selectUserEntities,
   (event, registrationEntities, userEntities) => {
