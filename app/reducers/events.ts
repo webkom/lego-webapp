@@ -19,7 +19,6 @@ import {
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { DetailedEvent, UserDetailedEvent } from 'app/store/models/Event';
-import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { AnyAction } from 'redux';
 
 const legoAdapter = createLegoAdapter(EntityType.Events);
@@ -134,6 +133,7 @@ const eventsSlice = createSlice({
 
 export default eventsSlice.reducer;
 export const {
+  selectAllPaginated: selectAllEvents,
   selectEntities: selectEventEntities,
   selectIds: selectEventIds,
 } = legoAdapter.getSelectors((state: RootState) => state.events);
@@ -157,29 +157,6 @@ function transformRegistration(registration) {
     unregistrationDate: moment(registration.unregistrationDate),
   };
 }
-
-export const selectEvents = createSelector(
-  selectEventEntities,
-  selectEventIds,
-  (eventsById, eventIds) =>
-    eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
-      ReturnType<typeof transformEvent>
-    >,
-);
-
-export const selectEventsByPagination = createSelector(
-  selectEventEntities,
-  (_: RootState, pagination: Pagination) => pagination,
-  (eventEntities, pagination) =>
-    pagination.ids.map((id) =>
-      transformEvent(eventEntities[id] as DetailedEvent),
-    ) as ReadonlyArray<ReturnType<typeof transformEvent>>,
-);
-export const selectSortedEvents = createSelector(selectEvents, (events) =>
-  [...events].sort(
-    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix(),
-  ),
-);
 
 export const selectEventById = createSelector(
   selectEventEntities,

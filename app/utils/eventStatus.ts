@@ -1,6 +1,5 @@
 import moment from 'moment-timezone';
-import type { Event } from 'app/models';
-import type { FrontpageEvent } from 'app/store/models/Event';
+import type { CompleteEvent, FrontpageEvent } from 'app/store/models/Event';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity
@@ -51,21 +50,12 @@ const eventStatus = (event: FrontpageEvent, loggedIn = false): string => {
   }
 };
 
-const eventAttendance = (event: Event): string | boolean => {
-  const { registrationCount, totalCapacity, activationTime, isAdmitted } =
-    event;
-
-  if (!isAdmitted && activationTime === null) {
-    return false;
-  }
-
-  const isFuture = moment().isBefore(activationTime);
-  return isFuture && !isAdmitted
-    ? `${totalCapacity} plasser`
-    : `${registrationCount} / ${totalCapacity}`;
-};
-
-const eventAttendanceAbsolute = (event: Event): string => {
+const eventAttendanceAbsolute = (
+  event: Pick<
+    CompleteEvent,
+    'registrationCount' | 'totalCapacity' | 'activationTime' | 'eventStatusType'
+  >,
+): string => {
   const { registrationCount, totalCapacity, activationTime, eventStatusType } =
     event;
   switch (eventStatusType) {
@@ -82,4 +72,4 @@ const eventAttendanceAbsolute = (event: Event): string => {
   }
 };
 
-export { eventStatus, eventAttendance, eventAttendanceAbsolute };
+export { eventStatus, eventAttendanceAbsolute };

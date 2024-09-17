@@ -7,7 +7,7 @@ import { isNotNullish } from 'app/utils';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Company } from '../actions/ActionTypes';
 import { selectCompanySemesterEntities } from './companySemesters';
-import { selectEvents } from './events';
+import { selectAllEvents } from './events';
 import { selectUserEntities } from './users';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
@@ -19,7 +19,7 @@ import type {
   UnknownCompany,
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import type { UnknownEvent } from 'app/store/models/Event';
+import type { ListEvent } from 'app/store/models/Event';
 import type { UnknownUser } from 'app/store/models/User';
 import type { AnyAction } from 'redux';
 import type { Overwrite } from 'utility-types';
@@ -189,14 +189,14 @@ export const transformSemesterStatuses = (
   });
 
 export const selectEventsForCompany = createSelector(
-  selectEvents,
+  selectAllEvents<ListEvent>,
   (_: RootState, companyId: EntityId) => companyId,
   (events, companyId) => {
     if (!companyId || !events) return [];
     return events.filter(
       (event) =>
         event.company && Number(event.company.id) === Number(companyId),
-    ) as UnknownEvent[];
+    );
   },
 );
 export const selectJoblistingsForCompany = createSelector(

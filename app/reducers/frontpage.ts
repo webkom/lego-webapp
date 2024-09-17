@@ -6,7 +6,7 @@ import { Frontpage } from 'app/actions/ActionTypes';
 import { EntityType } from 'app/store/models/entities';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import { selectArticles } from './articles';
-import { selectEvents } from './events';
+import { selectAllEvents } from './events';
 
 import type { PublicArticle } from 'app/store/models/Article';
 import type { FrontpageEvent } from 'app/store/models/Event';
@@ -53,11 +53,9 @@ export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
     : moment(object.createdAt);
 
 export const selectPinned = createSelector(
-  selectArticles,
-  selectEvents,
-  (articles: PublicArticle[], e) => {
-    const events = e as unknown as FrontpageEvent[]; // TODO: Remove once events are typed properly
-
+  selectArticles<PublicArticle>,
+  selectAllEvents<FrontpageEvent>,
+  (articles, events) => {
     const pinnedObjects = sortBy(
       [...articles.map(addArticleType), ...events.map(addEventType)],
       [
