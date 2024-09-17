@@ -21,8 +21,8 @@ import {
 import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import {
-  selectTransformedEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
+  selectEventByIdOrSlug,
 } from 'app/reducers/events';
 import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
@@ -135,7 +135,7 @@ const EventEditor = () => {
 
   const fetching = useAppSelector((state) => state.events.fetching);
   const event = useAppSelector((state) =>
-    selectTransformedEventByIdOrSlug(state, { eventIdOrSlug }),
+    selectEventByIdOrSlug(state, eventIdOrSlug),
   );
   const eventId = event?.id;
   const actionGrant: ActionGrant = event?.actionGrant || [];
@@ -190,10 +190,9 @@ const EventEditor = () => {
   }
 
   const onSubmit = (values: EditingEvent) => {
-    dispatch(
-      isEditPage
-        ? editEvent(transformEvent(values))
-        : createEvent(transformEvent(values)),
+    (isEditPage
+      ? dispatch(editEvent(transformEvent(values)))
+      : dispatch(createEvent(transformEvent(values)))
     ).then((res) => {
       const key: string = values.cover.split(':')[0];
       const token: string = values.cover.split(':')[1];
