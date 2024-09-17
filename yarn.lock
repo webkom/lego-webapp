@@ -3731,14 +3731,14 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/blocks@^8.2.9":
-  version "8.2.9"
-  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-8.2.9.tgz#3c9018619704cee23c9e69ff263e3c0aaa9a7ccc"
-  integrity sha512-5276q/s/UL8arwftuBXovUNHqYo/HPQFMGXEmjVVAMXUyFjzEAfKj3+xU897J6AuL+7XVZG32WnqA+X6LJMrcQ==
+"@storybook/blocks@^8.3.1":
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-8.3.1.tgz#08c1480a11b09807bbdf4933479ca70deb371a6e"
+  integrity sha512-/wNLRVWR/edzHQAFvSW68VxHYmBcfXpL/XdO46I5Z1X/tXUd0rtgGZmliQ2jZ242FqxcT8guqqFGehbeYUns5w==
   dependencies:
-    "@storybook/csf" "0.1.11"
+    "@storybook/csf" "^0.1.11"
     "@storybook/global" "^5.0.0"
-    "@storybook/icons" "^1.2.5"
+    "@storybook/icons" "^1.2.10"
     "@types/lodash" "^4.14.167"
     color-convert "^2.0.1"
     dequal "^2.0.2"
@@ -3866,10 +3866,10 @@
   resolved "https://registry.yarnpkg.com/@storybook/global/-/global-5.0.0.tgz#b793d34b94f572c1d7d9e0f44fac4e0dbc9572ed"
   integrity sha512-FcOqPAXACP0I3oJ/ws6/rrPT9WGhu915Cg8D02a9YxLo0DE9zI+a9A5gRGvmQ09fiWPukqI8ZAEoQEdWUKMQdQ==
 
-"@storybook/icons@^1.2.5":
-  version "1.2.9"
-  resolved "https://registry.yarnpkg.com/@storybook/icons/-/icons-1.2.9.tgz#bb4a51a79e186b62e2dd0e04928b8617ac573838"
-  integrity sha512-cOmylsz25SYXaJL/gvTk/dl3pyk7yBFRfeXTsHvTA3dfhoU/LWSq0NKL9nM7WBasJyn6XPSGnLS4RtKXLw5EUg==
+"@storybook/icons@^1.2.10", "@storybook/icons@^1.2.5":
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/@storybook/icons/-/icons-1.2.10.tgz#d3d44912a3a88f3f04f77ce2c23a7e47e796f766"
+  integrity sha512-310apKdDcjbbX2VSLWPwhEwAgjxTzVagrwucVZIdGPErwiAppX8KvBuWZgPo+rQLVrtH8S+pw1dbUwjcE6d7og==
 
 "@storybook/instrumenter@8.1.11":
   version "8.1.11"
@@ -4479,9 +4479,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@>=16.9.11", "@types/react@^16", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^18.2.6", "@types/react@^18.3.3":
-  version "18.3.5"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.5.tgz#5f524c2ad2089c0ff372bbdabc77ca2c4dbadf8f"
-  integrity sha512-WeqMfGJLGuLCqHGYRGHxnKrXcTitc6L/nBUWfWPcTarG3t9PsquqUMuVeXZeca+mglY4Vo5GZjCi0A3Or2lnxA==
+  version "18.3.7"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.7.tgz#6decbfbb01f8d82d56ff5403394121940faa6569"
+  integrity sha512-KUnDCJF5+AiZd8owLIeVHqmW9yM4sqmDVf2JRJiBMFkGvkoZ4/WyV2lL4zVsoinmRS/W3FeEdZLEWFRofnT2FQ==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
