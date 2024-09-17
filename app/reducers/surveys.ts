@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Survey } from '../actions/ActionTypes';
-import { selectEventById } from './events';
+import { selectTransformedEventById } from './events';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { EventForSurvey, EventType } from 'app/store/models/Event';
@@ -122,7 +122,7 @@ export function useFetchedSurvey(
     selectSurveyById(state, surveyId),
   ) as UnknownSurvey | undefined;
   const event = useAppSelector((state: RootState) =>
-    selectEventById(state, { eventId: survey?.event }),
+    selectTransformedEventById(state, { eventId: survey?.event }),
   ) as EventForSurvey | undefined;
 
   return {

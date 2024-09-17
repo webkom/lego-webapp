@@ -1,7 +1,7 @@
 import { Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
-import { selectEventById } from 'app/reducers/events';
+import { selectTransformedEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import styles from '../surveys.css';
@@ -13,7 +13,7 @@ type Props = {
 
 const SurveyItem = ({ survey }: Props) => {
   const event = useAppSelector((state) =>
-    selectEventById(state, { eventId: survey.event }),
+    selectTransformedEventById(state, { eventId: survey.event }),
   );
 
   return (

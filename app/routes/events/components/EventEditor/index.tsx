@@ -21,7 +21,7 @@ import {
 import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import {
-  selectEventByIdOrSlug,
+  selectTransformedEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
 import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
@@ -135,7 +135,7 @@ const EventEditor = () => {
 
   const fetching = useAppSelector((state) => state.events.fetching);
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
+    selectTransformedEventByIdOrSlug(state, { eventIdOrSlug }),
   );
   const eventId = event?.id;
   const actionGrant: ActionGrant = event?.actionGrant || [];
