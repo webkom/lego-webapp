@@ -5,7 +5,7 @@ import moment from 'moment-timezone';
 import { useNavigate } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';
 import { addSurvey } from 'app/actions/SurveyActions';
-import { selectTransformedEventById } from 'app/reducers/events';
+import { selectEventById } from 'app/reducers/events';
 import { useFetchedTemplate } from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
 import { initialQuestion } from 'app/routes/surveys/components/SurveyEditor/utils';
@@ -43,8 +43,8 @@ const AddSurveyPage = () => {
   );
 
   const fullEvent = useAppSelector((state) =>
-    selectTransformedEventById(state, { eventId: event }),
-  ) as AdministrateEvent | Record<string, never>;
+    selectEventById<AdministrateEvent>(state, event),
+  );
 
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>

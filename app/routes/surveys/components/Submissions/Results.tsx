@@ -7,7 +7,7 @@ import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import SelectInput from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
-import { selectTransformedEventById } from 'app/reducers/events';
+import { selectEventById } from 'app/reducers/events';
 import AveragePill from 'app/routes/surveys/components/Submissions/AveragePill';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import {
@@ -78,9 +78,9 @@ const Results = ({
   numberOfSubmissions,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const event = useAppSelector((state) =>
-    selectTransformedEventById(state, { eventId: survey.event }),
-  ) as EventForSurvey;
+  const event = useAppSelector(
+    (state) => selectEventById<EventForSurvey>(state, survey.event)!,
+  );
 
   const info: Info[] = [
     {

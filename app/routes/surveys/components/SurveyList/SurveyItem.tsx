@@ -1,10 +1,11 @@
 import { Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
-import { selectTransformedEventById } from 'app/reducers/events';
+import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import styles from '../surveys.css';
+import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 
 type Props = {
@@ -13,14 +14,14 @@ type Props = {
 
 const SurveyItem = ({ survey }: Props) => {
   const event = useAppSelector((state) =>
-    selectTransformedEventById(state, { eventId: survey.event }),
+    selectEventById<EventForSurvey>(state, survey.event),
   );
 
   return (
     <div
       className={styles.surveyItem}
       style={{
-        borderColor: colorForEventType(survey.templateType || event.eventType),
+        borderColor: colorForEventType(survey.templateType || event?.eventType),
       }}
     >
       <div>
@@ -36,7 +37,7 @@ const SurveyItem = ({ survey }: Props) => {
           <div>
             <div className={styles.surveyTime}>
               For arrangement{' '}
-              <Link to={`/events/${event.id}`}>{event.title}</Link>
+              <Link to={`/events/${event?.id}`}>{event?.title}</Link>
             </div>
 
             <div className={styles.surveyTime}>
@@ -48,7 +49,7 @@ const SurveyItem = ({ survey }: Props) => {
 
       {!survey.templateType && (
         <div className={styles.companyLogo}>
-          <Image src={event.cover} alt={`Forsidebildet til ${event.title}`} />
+          <Image src={event?.cover} alt={`Forsidebildet til ${event?.title}`} />
         </div>
       )}
     </div>
