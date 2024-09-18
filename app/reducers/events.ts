@@ -56,21 +56,27 @@ const eventsSlice = createSlice({
       addCase(Event.SOCKET_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
         const eventId = action.meta.eventId;
         const registration = action.payload;
-        const stateEvent = state.entities[eventId] as DetailedEvent;
+        const stateEvent = state.entities[eventId] as
+          | DetailedEvent
+          | UserDetailedEvent
+          | AuthUserDetailedEvent;
 
         if (!stateEvent) {
           return;
         }
 
         let registrationCount = stateEvent.registrationCount;
-        let waitingRegistrations = stateEvent.waitingRegistrations;
+        const hasRegistrationAccess = 'waitingRegistrations' in stateEvent;
         let waitingRegistrationCount = stateEvent.waitingRegistrationCount ?? 0;
 
         if (!registration.pool) {
           waitingRegistrationCount = waitingRegistrationCount + 1;
 
-          if (waitingRegistrations) {
-            waitingRegistrations = [...waitingRegistrations, registration.id];
+          if (hasRegistrationAccess) {
+            stateEvent.waitingRegistrations = [
+              ...(stateEvent.waitingRegistrations ?? []),
+              registration.id,
+            ];
           }
         } else {
           registrationCount++;
@@ -78,10 +84,6 @@ const eventsSlice = createSlice({
 
         stateEvent.registrationCount = registrationCount;
         stateEvent.waitingRegistrationCount = waitingRegistrationCount;
-
-        if (waitingRegistrations) {
-          stateEvent.waitingRegistrations = waitingRegistrations;
-        }
       });
       addCase(
         Event.SOCKET_UNREGISTRATION.SUCCESS,
@@ -92,7 +94,10 @@ const eventsSlice = createSlice({
             fromPool,
             currentUser,
           } = action.meta;
-          const stateEvent = state.entities[eventId] as DetailedEvent;
+          const stateEvent = state.entities[eventId] as
+            | DetailedEvent
+            | UserDetailedEvent
+            | AuthUserDetailedEvent;
           const registration = action.payload;
 
           if (!stateEvent) {
@@ -109,18 +114,23 @@ const eventsSlice = createSlice({
 
           if (fromPool) {
             stateEvent.registrationCount--;
-          } else {
+          } else if (stateEvent.waitingRegistrationCount !== undefined) {
             stateEvent.waitingRegistrationCount--;
           }
 
-          if (stateEvent.waitingRegistrations) {
+          if (
+            'waitingRegistrations' in stateEvent &&
+            stateEvent.waitingRegistrations
+          ) {
             stateEvent.waitingRegistrations =
               stateEvent.waitingRegistrations.filter(
                 (id) => id !== action.payload.id,
               );
           }
 
-          stateEvent.following = false;
+          if ('following' in stateEvent) {
+            stateEvent.following = false;
+          }
         },
       );
       addCase(Event.FOLLOW.SUCCESS, (state, action: AnyAction) => {
