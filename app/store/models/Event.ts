@@ -1,6 +1,6 @@
 import type { PublicGroup } from './Group';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
@@ -97,6 +97,8 @@ export interface CompleteEvent {
   photoConsents: PhotoConsent[];
 
   unansweredSurveys: EntityId[];
+
+  actionGrant: ActionGrant;
 }
 
 export type PublicEvent = Pick<
@@ -109,6 +111,7 @@ export type PublicEvent = Pick<
   | 'eventStatusType'
   | 'location'
   | 'thumbnail'
+  | 'actionGrant'
 >;
 
 // This corresponds to EventReadSerializer in the backend
@@ -134,6 +137,7 @@ export type ListEvent = Pick<
   | 'isAdmitted'
   | 'survey'
   | 'responsibleUsers'
+  | 'actionGrant'
 > &
   ObjectPermissionsMixin;
 
@@ -190,6 +194,7 @@ export type DetailedEvent = Pick<
   | 'activationTime'
   | 'responsibleUsers'
   | 'isForeignLanguage'
+  | 'actionGrant'
 > &
   ObjectPermissionsMixin;
 

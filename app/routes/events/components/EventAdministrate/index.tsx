@@ -7,7 +7,7 @@ import { fetchAdministrate } from 'app/actions/EventActions';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
-import { selectTransformedEventById } from 'app/reducers/events';
+import { selectEventById } from 'app/reducers/events';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
 import pageNotFound from 'app/routes/pageNotFound';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -23,8 +23,8 @@ const Abacard = loadable(() => import('./Abacard'));
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    eventId ? selectTransformedEventById(state, { eventId }) : undefined,
-  ) as AdministrateEvent | undefined;
+    eventId ? selectEventById<AdministrateEvent>(state, eventId) : undefined,
+  );
   const fetching = useAppSelector((state) => state.events.fetching);
   const currentUser = useCurrentUser();
 
@@ -43,12 +43,10 @@ const EventAdministrateIndex = () => {
   return (
     <Page
       title={title}
-      back={
-        event?.slug && {
-          label: 'Tilbake til arrangement',
-          href: '/events/' + event.slug,
-        }
-      }
+      back={{
+        label: 'Tilbake til arrangement',
+        href: '/events/' + (event?.slug ?? eventId),
+      }}
       tabs={
         <>
           <NavigationTab href={`${base}/attendees`}>Påmeldinger</NavigationTab>

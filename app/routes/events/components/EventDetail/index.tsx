@@ -19,15 +19,7 @@ import TextWithIcon from 'app/components/TextWithIcon';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
-import {
-  selectMergedPool,
-  selectMergedPoolWithRegistrations,
-  selectPoolsForEvent,
-  selectPoolsWithRegistrationsForEvent,
-  selectRegistrationForEventByUserId,
-  selectWaitingRegistrationsForEvent,
-  selectEventByIdOrSlug,
-} from 'app/reducers/events';
+import { selectEventByIdOrSlug } from 'app/reducers/events';
 import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
 import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
 import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
@@ -36,6 +28,7 @@ import {
   useDeadlineInfoList,
   useEventCreatorInfoList,
 } from 'app/routes/events/components/EventDetail/infoLists';
+import { usePools } from 'app/routes/events/components/EventDetail/usePools';
 import {
   colorForEventType,
   displayNameForEventType,
@@ -46,6 +39,7 @@ import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import styles from './EventDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
+import type { PoolWithRegistrations } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
@@ -101,11 +95,9 @@ const EventDetail = () => {
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, eventIdOrSlug),
   ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
-  const eventId = event?.id;
   const fetching = useAppSelector((state) => state.events.fetching);
   const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
-  const hasFullAccess = Boolean(event && 'waitingRegistrations' in event);
 
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
@@ -113,58 +105,22 @@ const EventDetail = () => {
   const comments = useAppSelector((state) =>
     selectCommentsByIds(state, event?.comments),
   );
-  const poolsWithRegistrations = useAppSelector((state) =>
-    event?.isMerged
-      ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId }),
-  );
-  const waitingRegistrations = useAppSelector((state) =>
-    selectWaitingRegistrationsForEvent(state, { eventId }),
-  );
-  const normalPools = useAppSelector((state) =>
-    event?.isMerged
-      ? selectMergedPool(state, { eventId })
-      : selectPoolsForEvent(state, { eventId }),
-  );
 
-  let pools =
-    event?.waitingRegistrationCount && event.waitingRegistrationCount > 0
-      ? normalPools.concat({
-          name: 'Venteliste',
-          registrationCount: event.waitingRegistrationCount,
-          permissionGroups: [],
-        })
-      : normalPools;
-
-  if (hasFullAccess) {
-    pools =
-      waitingRegistrations && waitingRegistrations.length > 0
-        ? poolsWithRegistrations.concat({
-            name: 'Venteliste',
-            registrations: waitingRegistrations,
-            registrationCount: waitingRegistrations.length,
-            permissionGroups: [],
-          })
-        : poolsWithRegistrations;
-  }
-
-  const currentPool = pools.find((pool) =>
-    pool.registrations?.some(
-      (registration) => registration.user?.id === currentUser?.id,
-    ),
+  const hasRegistrationAccess = Boolean(
+    event && 'waitingRegistrations' in event,
   );
+  const pools = usePools(hasRegistrationAccess, event);
+
+  const currentPool = pools.find(
+    (pool) =>
+      'registrations' in pool &&
+      pool.registrations?.some(
+        (registration) => registration.user?.id === currentUser?.id,
+      ),
+  ) as PoolWithRegistrations | undefined;
 
   const currentRegistration = currentPool?.registrations.find(
     (registration) => registration.user?.id === currentUser?.id,
-  );
-
-  const pendingRegistration = useAppSelector(
-    (state) =>
-      currentUser &&
-      selectRegistrationForEventByUserId(state, {
-        eventId,
-        userId: currentUser.id,
-      }),
   );
 
   const navigate = useNavigate();
@@ -248,13 +204,15 @@ const EventDetail = () => {
             <JoinEventForm event={event} />
           ) : (
             <>
-              <AttendeeSection
-                showSkeleton={showSkeleton}
-                event={event}
-                currentRegistration={currentRegistration}
-                pools={pools}
-                currentPool={currentPool}
-              />
+              {hasRegistrationAccess && (
+                <AttendeeSection
+                  showSkeleton={showSkeleton}
+                  event={event}
+                  currentRegistration={currentRegistration}
+                  pools={pools as PoolWithRegistrations[]}
+                  currentPool={currentPool}
+                />
+              )}
 
               {event &&
               'unansweredSurveys' in event &&
@@ -270,7 +228,6 @@ const EventDetail = () => {
                   <JoinEventForm
                     event={event}
                     registration={currentRegistration}
-                    pendingRegistration={pendingRegistration}
                   />
                 )
               )}

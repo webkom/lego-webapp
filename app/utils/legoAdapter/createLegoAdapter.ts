@@ -6,20 +6,23 @@ import buildDeleteEntityReducer from 'app/utils/legoAdapter/buildDeleteEntityRed
 import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
 import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
 import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
-import type { EntityAdapter, EntitySelectors } from '@reduxjs/toolkit';
 import type {
-  EntityAdapterOptions,
+  EntityAdapter,
+  EntitySelectors,
   EntityId,
   EntityState,
-} from '@reduxjs/toolkit/src/entities/models';
-import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
-import type { NoInfer, WithRequiredProp } from '@reduxjs/toolkit/src/tsHelpers';
+  ActionReducerMapBuilder,
+} from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { EntityType } from 'app/store/models/entities';
 import type Entities from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import type { EntityAdapterOptions } from 'node_modules/@reduxjs/toolkit/dist/entities/models';
 import type { Assign } from 'utility-types';
+
+export type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
 
 // The base redux-state of the entity-slice
 interface LegoEntityState<Entity, Id extends EntityId>
@@ -33,6 +36,7 @@ type LegoEntitySelectors<T, V, Id extends EntityId> = Assign<
   EntitySelectors<T, V, Id>,
   {
     selectAll: <Type extends T = T>(state: V) => Type[];
+    selectEntities: <Type extends T = T>(state: V) => Record<Id, Type>;
     selectById: <Type extends T = T>(
       state: V,
       id: Id | undefined,
@@ -61,7 +65,7 @@ type LegoAdapter<Entity, Id extends EntityId> = Assign<
     getInitialState<S extends object>(
       state: S,
     ): LegoEntityState<Entity, Id> & S;
-    buildReducers<ExtraState extends object = Record<string, never>>(options?: {
+    buildReducers<ExtraState extends object>(options?: {
       extraCases?: (
         addCase: ReducerBuilder<Entity, Id, ExtraState>['addCase'],
       ) => void;

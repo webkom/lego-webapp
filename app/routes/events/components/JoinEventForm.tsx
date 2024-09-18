@@ -24,6 +24,7 @@ import {
 import Tooltip from 'app/components/Tooltip';
 import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
+import { selectRegistrationForEventByUserId } from 'app/reducers/events';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -41,11 +42,16 @@ import {
 } from '../utils';
 import styles from './Event.css';
 import PaymentRequestForm from './StripeElement';
-import type { EventRegistration, EventRegistrationStatus } from 'app/models';
+import type { EventRegistrationStatus } from 'app/models';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
+import type {
+  ReadRegistration,
+  PaymentRegistration,
+} from 'app/store/models/Registration';
 import type { CurrentUser } from 'app/store/models/User';
 
 /**
@@ -146,7 +152,7 @@ const PaymentForm = ({
 }: {
   event: AuthUserDetailedEvent | UserDetailedEvent;
   currentUser: CurrentUser;
-  registration: EventRegistration;
+  registration: PoolRegistrationWithUser<PaymentRegistration>;
 }) => (
   <div
     style={{
@@ -168,25 +174,35 @@ const PaymentForm = ({
   </div>
 );
 
+type FormValues = {
+  feedbackRequired: string;
+  feedback?: string;
+  captchaResponse: string;
+};
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
 export type Props = {
   title?: string;
   event: UserDetailedEvent | AuthUserDetailedEvent;
-  registration?: EventRegistration;
-  pendingRegistration?: EventRegistration;
+  registration?:
+    | PoolRegistrationWithUser<PaymentRegistration>
+    | PoolRegistrationWithUser<ReadRegistration>;
   registrationPending?: boolean;
 };
 
-const JoinEventForm = ({
-  title,
-  event,
-  registration,
-  pendingRegistration,
-}: Props) => {
+const JoinEventForm = ({ title, event, registration }: Props) => {
   const { buttonOpen, formOpen, captchaOpen, registrationOpensIn } =
     useRegistrationCountdown(event, registration);
 
   const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
+
+  const pendingRegistration = useAppSelector((state) =>
+    selectRegistrationForEventByUserId(state, {
+      eventId: event.id,
+      userId: currentUser?.id,
+    }),
+  );
 
   const fetching = useAppSelector((state) => state.events.fetching);
 
@@ -210,13 +226,14 @@ const JoinEventForm = ({
   const registrationPending =
     pendingRegistration?.status === 'PENDING_REGISTER' ||
     pendingRegistration?.status === 'PENDING_UNREGISTER';
-  const showStripe =
+  const showStripe: boolean =
     event.useStripe &&
     event.isPriced &&
     event.price > 0 &&
-    registration &&
-    (registration.pool || registration.presence === Presence.PRESENT) &&
-    ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
+    !!registration &&
+    !!(registration.pool || registration.presence === Presence.PRESENT) &&
+    'paymentStatus' in registration &&
+    ![paymentManual, paymentSuccess].includes(registration.paymentStatus ?? '');
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
@@ -243,7 +260,7 @@ const JoinEventForm = ({
     return null;
   }
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: FormValues) => {
     if (registrationType === 'unregister') {
       return (
         registration &&
@@ -260,7 +277,7 @@ const JoinEventForm = ({
       register({
         eventId: event.id,
         captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName],
+        feedback: values[feedbackName] ?? '',
         userId: currentUser.id,
       }),
     );
@@ -273,7 +290,9 @@ const JoinEventForm = ({
           <PaymentForm
             event={event}
             currentUser={currentUser}
-            registration={registration}
+            registration={
+              registration as PoolRegistrationWithUser<PaymentRegistration>
+            }
           />
         )}
       </>
@@ -366,7 +385,7 @@ const JoinEventForm = ({
 
             {formOpen && hasRegisteredConsentIfRequired && (
               <Flex column gap="var(--spacing-md)">
-                <LegoFinalForm
+                <TypedLegoForm
                   onSubmit={onSubmit}
                   validate={validate}
                   initialValues={initialValues}
@@ -457,7 +476,7 @@ const JoinEventForm = ({
                             {feedbackLabel}
                           </label>
                           <Flex alignItems="center" gap="var(--spacing-md)">
-                            {spyValues((values) => (
+                            {spyValues((values: FormValues) => (
                               <Field
                                 id={feedbackName}
                                 placeholder="Kommentar"
@@ -474,7 +493,7 @@ const JoinEventForm = ({
                                         updateFeedback(
                                           event.id,
                                           registration.id,
-                                          values[feedbackName],
+                                          values[feedbackName] ?? '',
                                         ),
                                       );
                                     }
@@ -485,14 +504,14 @@ const JoinEventForm = ({
                               />
                             ))}
                             {registration &&
-                              spyValues((values) => (
+                              spyValues((values: FormValues) => (
                                 <Button
                                   onPress={() => {
                                     dispatch(
                                       updateFeedback(
                                         event.id,
                                         registration.id,
-                                        values[feedbackName],
+                                        values[feedbackName] ?? '',
                                       ),
                                     );
                                   }}
@@ -506,13 +525,15 @@ const JoinEventForm = ({
                       </Form>
                     );
                   }}
-                </LegoFinalForm>
+                </TypedLegoForm>
 
                 {registration && showStripeDelayed && (
                   <PaymentForm
                     event={event}
                     currentUser={currentUser}
-                    registration={registration}
+                    registration={
+                      registration as PoolRegistrationWithUser<PaymentRegistration>
+                    }
                   />
                 )}
               </Flex>
