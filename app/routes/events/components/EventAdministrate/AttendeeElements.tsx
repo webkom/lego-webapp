@@ -16,13 +16,12 @@ import { useAppDispatch } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
 import styles from './Administrate.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type {
-  EventRegistration,
-  EventRegistrationPaymentStatus,
-} from 'app/models';
+import type { EventRegistrationPaymentStatus } from 'app/models';
+import type { SelectedAdminRegistration } from 'app/reducers/events';
+import type { MouseEventHandler } from 'react';
 
 type TooltipIconProps = {
-  onClick?: (arg0: React.SyntheticEvent<any>) => unknown;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
   content: string;
   transparent?: boolean;
   iconName?: string;
@@ -35,11 +34,11 @@ type PresenceProps = {
 };
 type UnregisterProps = {
   fetching: boolean;
-  registration: EventRegistration;
+  registration: SelectedAdminRegistration;
 };
 type StripeStatusProps = {
   registrationId: EntityId;
-  paymentStatus: EventRegistrationPaymentStatus;
+  paymentStatus: EventRegistrationPaymentStatus | null;
 };
 
 export const TooltipIcon = ({
@@ -53,7 +52,7 @@ export const TooltipIcon = ({
   const classNames = cx(iconClass, transparent && styles.transparent);
 
   return (
-    <Tooltip content={content} className={styles.presenceIcon}>
+    <Tooltip content={content}>
       {iconName ? (
         <Icon
           name={iconName}
@@ -153,7 +152,7 @@ export const StripeStatus = ({
     <Flex alignItems="center" justifyContent="center">
       <TooltipIcon
         content="Betalt via Stripe"
-        iconClass={cx('fa fa-cc-stripe', styles.greenIcon, styles.stripeIcon)}
+        iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
         transparent={paymentStatus !== 'succeeded'}
         disabled
       />
@@ -168,7 +167,7 @@ export const StripeStatus = ({
       />
       <TooltipIcon
         content="Ikke betalt"
-        transparent={['manual', 'succeeded'].includes(paymentStatus)}
+        transparent={['manual', 'succeeded'].includes(paymentStatus ?? '')}
         iconName="close-outline"
         iconClass={styles.redIcon}
         onClick={() =>

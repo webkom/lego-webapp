@@ -2,10 +2,8 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type AllowedPermissionsMixin from 'app/store/models/AllowedPermissionsMixin';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
-import type { PublicGroup } from 'app/store/models/Group';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 interface CompleteArticle {
@@ -24,9 +22,6 @@ interface CompleteArticle {
   pinned: boolean;
   reactionsGrouped?: ReactionsGrouped[];
   youtubeUrl: string;
-  canEditUsers: PublicUser[];
-  canViewGroups: PublicGroup[];
-  canEditGroups: PublicGroup[];
 }
 
 export type DetailedArticle = Pick<

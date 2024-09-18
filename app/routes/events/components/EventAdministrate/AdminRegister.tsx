@@ -25,13 +25,9 @@ type FormValues = {
 const TypedLegoForm = LegoFinalForm<FormValues>;
 
 const AdminRegister = () => {
-  const { eventId } = useParams<{ eventId: string }>();
+  const { eventId } = useParams<{ eventId: string }>() as { eventId: string };
   const fetching = useAppSelector((state) => state.events.fetching);
-  const pools = useAppSelector((state) =>
-    selectPoolsForEvent(state, {
-      eventId: eventId,
-    }),
-  );
+  const pools = useAppSelector((state) => selectPoolsForEvent(state, eventId));
 
   const dispatch = useAppDispatch();
   const onSubmit = async (values: FormValues, form: FormApi<FormValues>) => {

@@ -22,7 +22,7 @@ import { TextInput } from 'app/components/Form';
 import { useAppDispatch } from 'app/store/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { UserDetailedEvent } from 'app/store/models/Event';
+import type { CompleteEvent } from 'app/store/models/Event';
 
 type ButtonProps = {
   eventId: EntityId;
@@ -81,7 +81,7 @@ const DeleteButton = ({ eventId, title }: ButtonProps) => {
 };
 
 type Props = {
-  event: UserDetailedEvent;
+  event: Pick<CompleteEvent, 'id' | 'slug' | 'title' | 'startTime' | 'survey'>;
   actionGrant: ActionGrant;
 };
 

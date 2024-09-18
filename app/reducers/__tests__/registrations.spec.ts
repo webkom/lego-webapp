@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { Event } from 'app/actions/ActionTypes';
 import registrations from '../registrations';
 import type {
+  DetailedRegistration,
   PublicRegistration,
   UnknownRegistration,
 } from 'app/store/models/Registration';
@@ -160,7 +161,7 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            fetching: true,
+            unregistering: true,
           },
           4: {
             id: 4,
@@ -182,7 +183,7 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            fetching: false,
+            unregistering: false,
           },
           4: {
             id: 4,
@@ -214,7 +215,13 @@ describe('reducers', () => {
       });
     });
     it('Event.SOCKET_UNREGISTRATION.SUCCESS', () => {
-      const prevState = baseState;
+      const prevState = {
+        ...baseState,
+        entities: {
+          ...baseState.entities,
+          3: { id: 3, fetching: true } as UnknownRegistration,
+        },
+      };
       const action = {
         type: Event.SOCKET_UNREGISTRATION.SUCCESS,
         payload: {
@@ -223,10 +230,11 @@ describe('reducers', () => {
       };
       const newState = registrations(prevState, action);
       expect(newState.ids).toEqual([3, 4]);
-      expect(newState.entities[3].fetching).toBe(false);
+      const newRegistration = newState.entities[3] as DetailedRegistration;
+      expect(newRegistration.fetching).toBe(false);
       // unregistrationDate should be approximately now
       expect(
-        Math.abs(moment(newState.entities[3].unregistrationDate) - moment()),
+        Math.abs(moment(newRegistration.unregistrationDate).diff(moment())),
       ).toBeLessThan(1000);
     });
   });

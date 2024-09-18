@@ -1,7 +1,8 @@
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { registrationIsClosed } from '../utils';
-import type { Dateish, EventRegistration } from 'app/models';
+import type { Dateish } from 'app/models';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { DetailedEvent } from 'app/store/models/Event';
 import type { Duration } from 'moment-timezone';
 
@@ -60,7 +61,7 @@ const getPollingFrequency = (activationTime: Dateish) => {
 
 const getCountdownState = (
   event: DetailedEvent,
-  registration?: EventRegistration,
+  registration?: PoolRegistrationWithUser,
 ) => {
   if ((!registration && !event.activationTime) || registrationIsClosed(event)) {
     return CountdownState.RegistrationNotAvailable;
@@ -85,7 +86,7 @@ const getCountdownState = (
 
 export const useRegistrationCountdown = (
   event: DetailedEvent,
-  registration?: EventRegistration,
+  registration?: PoolRegistrationWithUser,
 ) => {
   const [countdownState, setCountdownCountdownState] = useState<CountdownState>(
     getCountdownState(event, registration),
