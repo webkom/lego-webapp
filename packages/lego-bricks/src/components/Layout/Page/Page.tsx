@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-aria-components';
 import { ButtonGroup } from '../../Button/ButtonGroup';
 import { Icon } from '../../Icon';
 import { Skeleton } from '../../Skeleton';
@@ -52,10 +52,10 @@ const Page = ({
   >
     <Flex column className={cx(styles.content, classNames?.content)}>
       {back && (
-        <NavLink to={back.href} className={styles.back}>
+        <Link href={back.href} className={styles.back}>
           <Icon name="arrow-back" size={18} className={styles.backIcon} />
           <span className={styles.backLabel}>{back.label ?? 'Tilbake'}</span>
-        </NavLink>
+        </Link>
       )}
       <Flex
         wrap
