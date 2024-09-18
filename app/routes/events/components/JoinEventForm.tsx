@@ -48,10 +48,6 @@ import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type {
-  ReadRegistration,
-  PaymentRegistration,
-} from 'app/store/models/Registration';
 import type { CurrentUser } from 'app/store/models/User';
 
 /**
@@ -152,7 +148,7 @@ const PaymentForm = ({
 }: {
   event: AuthUserDetailedEvent | UserDetailedEvent;
   currentUser: CurrentUser;
-  registration: PoolRegistrationWithUser<PaymentRegistration>;
+  registration: PoolRegistrationWithUser;
 }) => (
   <div
     style={{
@@ -168,7 +164,7 @@ const PaymentForm = ({
       paymentError={registration.paymentError}
       event={event}
       currentUser={currentUser}
-      paymentStatus={registration.paymentStatus}
+      paymentStatus={registration.paymentStatus ?? null}
       clientSecret={registration.clientSecret}
     />
   </div>
@@ -184,9 +180,7 @@ const TypedLegoForm = LegoFinalForm<FormValues>;
 export type Props = {
   title?: string;
   event: UserDetailedEvent | AuthUserDetailedEvent;
-  registration?:
-    | PoolRegistrationWithUser<PaymentRegistration>
-    | PoolRegistrationWithUser<ReadRegistration>;
+  registration?: PoolRegistrationWithUser;
   registrationPending?: boolean;
 };
 
@@ -290,9 +284,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
           <PaymentForm
             event={event}
             currentUser={currentUser}
-            registration={
-              registration as PoolRegistrationWithUser<PaymentRegistration>
-            }
+            registration={registration}
           />
         )}
       </>
@@ -531,9 +523,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
                   <PaymentForm
                     event={event}
                     currentUser={currentUser}
-                    registration={
-                      registration as PoolRegistrationWithUser<PaymentRegistration>
-                    }
+                    registration={registration}
                   />
                 )}
               </Flex>

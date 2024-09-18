@@ -21,16 +21,10 @@ import type {
   EventSemester,
 } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
-import type {
-  PaymentRegistration,
-  Presence,
-  ReadRegistration,
-} from 'app/store/models/Registration';
+import type { Presence } from 'app/store/models/Registration';
 
 type Props = {
-  registration?:
-    | PoolRegistrationWithUser<PaymentRegistration>
-    | PoolRegistrationWithUser<ReadRegistration>;
+  registration?: PoolRegistrationWithUser;
   isPriced: boolean;
   registrationIndex: number;
   hasSimpleWaitingList: boolean;
