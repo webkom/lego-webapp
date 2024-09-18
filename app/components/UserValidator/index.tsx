@@ -1,7 +1,7 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get, debounce } from 'lodash';
 import { ScanQrCode } from 'lucide-react';
-import { useCallback, useRef, useState, type ComponentProps } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
@@ -28,10 +28,7 @@ type ScanResult = {
   count: number;
 };
 
-type Props = Omit<
-  ComponentProps<typeof SearchPage<UserSearchResult>>,
-  'handleSelect'
-> & {
+type Props = {
   handleSelect: (arg0: UserWithUsername) => Promise<SearchUser | Res>;
   validateAbakusGroup: boolean;
 };

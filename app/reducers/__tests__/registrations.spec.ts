@@ -160,7 +160,7 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            fetching: true,
+            unregistering: true,
           },
           4: {
             id: 4,
@@ -182,7 +182,7 @@ describe('reducers', () => {
         entities: {
           3: {
             id: 3,
-            fetching: false,
+            unregistering: false,
           },
           4: {
             id: 4,

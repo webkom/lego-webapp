@@ -16,17 +16,16 @@ import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import EmptyState from 'app/components/EmptyState';
 import { GroupType, type Dateish } from 'app/models';
-import {
-  getRegistrationGroups,
-  selectTransformedEventById,
-} from 'app/reducers/events';
+import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
 import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
 import styles from './EventAttendeeStatistics.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import type { DetailedRegistration } from 'app/store/models/Registration';
+import type { SelectedAdminRegistration } from 'app/reducers/events';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
 interface RegistrationDateDataPoint {
   name: string;
@@ -78,9 +77,9 @@ const addGenericDataPoint = (
 
 const addGroupDataPoint = (
   groupDistribution: DistributionDataPoint[],
-  userGroups: number[],
-  committeeGroupIDs: number[],
-  revueGroupIDs: number[],
+  userGroups: EntityId[],
+  committeeGroupIDs: EntityId[],
+  revueGroupIDs: EntityId[],
 ) => {
   const isAbakom = userGroups.some((userGroup) =>
     committeeGroupIDs.includes(userGroup),
@@ -138,10 +137,10 @@ const sortAttendeeStatistics = (attendeeStatistics: AttendeeStatistics) => {
 };
 
 const createAttendeeDataPoints = (
-  registrations: DetailedRegistration[],
-  unregistrations: DetailedRegistration[],
-  committeeGroupIDs: number[],
-  revueGroupIDs: number[],
+  registrations: SelectedAdminRegistration[],
+  unregistrations: SelectedAdminRegistration[],
+  committeeGroupIDs: EntityId[],
+  revueGroupIDs: EntityId[],
 ) => {
   const attendeeStatistics: AttendeeStatistics = {
     genderDistribution: [],
@@ -207,7 +206,7 @@ const createAttendeeDataPoints = (
   return attendeeStatistics;
 };
 
-const isEventFromPreviousSemester = (eventStartTime: Dateish): boolean => {
+const isEventFromPreviousSemester = (eventStartTime?: Dateish): boolean => {
   const eventDate = moment(eventStartTime);
   const now = moment();
 
@@ -227,10 +226,10 @@ type Props = {
 const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    selectTransformedEventById(state, { eventId }),
+    selectEventById<AdministrateEvent>(state, eventId),
   );
   const { registered, unregistered } = useAppSelector((state) =>
-    getRegistrationGroups(state, {
+    selectRegistrationGroups(state, {
       eventId: eventId,
     }),
   );
@@ -280,7 +279,7 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
       <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
       <p className={styles.sectionDividerDescription}>
         Statistikk av brukerne som{' '}
-        {moment().isAfter(moment(event.endTime)) ? 'var' : 'er'} påmeldt
+        {moment().isAfter(moment(event?.endTime)) ? 'var' : 'er'} påmeldt
         arrangementet
       </p>
 

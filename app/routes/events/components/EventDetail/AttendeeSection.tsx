@@ -8,11 +8,11 @@ import RegistrationMeta, {
 } from 'app/routes/events/components/RegistrationMeta';
 import { getEventSemesterFromStartTime } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
-import type { UserDetailedEvent } from 'app/store/models/Event';
 import type {
-  PaymentRegistration,
-  ReadRegistration,
-} from 'app/store/models/Registration';
+  PoolWithRegistrations,
+  PoolRegistrationWithUser,
+} from 'app/reducers/events';
+import type { UserDetailedEvent } from 'app/store/models/Event';
 
 const MIN_USER_GRID_ROWS = 2;
 const MAX_USER_GRID_ROWS = 2;
@@ -20,9 +20,9 @@ const MAX_USER_GRID_ROWS = 2;
 interface Props {
   showSkeleton: boolean;
   event?: UserDetailedEvent;
-  currentRegistration?: PaymentRegistration;
-  pools: any;
-  currentPool: any;
+  currentRegistration?: PoolRegistrationWithUser;
+  pools: PoolWithRegistrations[];
+  currentPool?: PoolWithRegistrations;
 }
 
 export const AttendeeSection = ({
@@ -34,14 +34,15 @@ export const AttendeeSection = ({
 }: Props) => {
   const loggedIn = useIsLoggedIn();
   const fetching = useAppSelector((state) => state.events.fetching);
-  const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId: event?.id }),
+  const registrations = useAppSelector((state) =>
+    selectRegistrationsFromPools(state, event?.id),
   );
 
   const currentMoment = moment();
   const hasSimpleWaitingList =
     pools.filter((p) => p.name != 'Venteliste').length <= 1;
   const waitingListIndex =
+    currentRegistration &&
     currentPool?.registrations.indexOf(currentRegistration);
 
   // The UserGrid is expanded when there's less than 5 minutes till activation
@@ -77,7 +78,7 @@ export const AttendeeSection = ({
             hasEnded={moment(event.endTime).isBefore(currentMoment)}
             registration={currentRegistration}
             isPriced={event.isPriced}
-            registrationIndex={waitingListIndex}
+            registrationIndex={waitingListIndex ?? 0}
             hasSimpleWaitingList={hasSimpleWaitingList}
             skeleton={showSkeleton}
           />

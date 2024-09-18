@@ -142,6 +142,14 @@ export type PublicUserWithGroups = Pick<
 
 export type AdministrateUser = Pick<User, 'abakusGroups'> & PublicUser;
 
+// Used in event administrate view
+export type AdministrateUserWithGrade = (
+  | AdministrateUser
+  | AdministrateAllergiesUser
+) & {
+  grade: PublicGroup;
+};
+
 export type AdministrateExportUser = Pick<User, 'email' | 'phoneNumber'> &
   AdministrateUser;
 

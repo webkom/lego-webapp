@@ -4,14 +4,13 @@ import AttendanceStatus from 'app/components/UserAttendance/AttendanceStatus';
 import UserGrid from 'app/components/UserGrid';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import RegisteredSummary from 'app/routes/events/components/RegisteredSummary';
-import type { Pool } from 'app/components/UserAttendance/AttendanceModalContent';
+import type { AttendanceModalPool } from 'app/components/UserAttendance/AttendanceModalContent';
 import type { SummaryRegistration } from 'app/routes/events/components/RegisteredSummary';
-import type { PaymentRegistration } from 'app/store/models/Registration';
 
 type Props = {
-  pools: Pool[];
+  pools: AttendanceModalPool[];
   registrations?: SummaryRegistration[];
-  currentRegistration?: PaymentRegistration;
+  currentRegistration?: SummaryRegistration;
   minUserGridRows?: number;
   maxUserGridRows?: number;
   isMeeting?: boolean;

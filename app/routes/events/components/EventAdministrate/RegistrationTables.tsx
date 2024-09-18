@@ -10,6 +10,7 @@ import {
   allConsentsAnswered,
   getConsent,
 } from 'app/routes/events/utils';
+import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import styles from './Administrate.css';
 import {
@@ -18,21 +19,21 @@ import {
   PresenceIcons,
   Unregister,
 } from './AttendeeElements';
+import type { ColumnProps } from 'app/components/Table';
+import type { PhotoConsent, EventSemester } from 'app/models';
 import type {
-  EventRegistration,
-  EventAdministrate,
-  EventPool,
-  PhotoConsent,
-  EventSemester,
-} from 'app/models';
+  PoolWithRegistrations,
+  SelectedAdminRegistration,
+} from 'app/reducers/events';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
 type Props = {
-  registered: Array<EventRegistration>;
+  registered: SelectedAdminRegistration[];
   loading: boolean;
   showPresence: boolean;
   showUnregister: boolean;
-  event: EventAdministrate;
-  pools: Array<EventPool>;
+  event: AdministrateEvent;
+  pools: PoolWithRegistrations[];
 };
 
 const GradeRenderer = (group: { name: string }) =>
@@ -188,11 +189,13 @@ export const RegisteredTable = ({
   event,
   pools,
 }: Props) => {
+  type Registration = (typeof registered)[number];
+
   const gradeColumn = {
     title: 'Klassetrinn',
     dataIndex: 'user.grade',
     render: GradeRenderer,
-    sorter: (a, b) => {
+    sorter: (a: Registration, b: Registration) => {
       if (a.user.grade && b.user.grade) {
         if (a.user.grade.name === b.user.grade.name) return 0;
         if (a.user.grade.name > b.user.grade.name) return 1;
@@ -200,7 +203,7 @@ export const RegisteredTable = ({
       if (!a.user.grade && b.user.grade) return 1;
       else return -1;
     },
-  };
+  } satisfies ColumnProps<Registration>;
 
   const hasNonEmptyFeedback = pools.some((pool) =>
     pool.registrations.some(
@@ -212,14 +215,14 @@ export const RegisteredTable = ({
     (event.feedbackDescription && event.feedbackDescription !== '') ||
     hasNonEmptyFeedback;
 
-  const columns = [
+  const columns: ColumnProps<Registration>[] = [
     {
       title: '#',
       dataIndex: 'nr',
-      render: (_, registration) => (
+      render: (_, registration: Registration) => (
         <span>{registered.indexOf(registration) + 1}.</span>
       ),
-      sorter: (a, b) => {
+      sorter: (a: Registration, b: Registration) => {
         if (registered.indexOf(a) > registered.indexOf(b)) return 1;
         else return -1;
       },
@@ -229,15 +232,15 @@ export const RegisteredTable = ({
       dataIndex: 'user',
       search: true,
       centered: false,
-      render: (user) => (
+      render: (user: Registration['user']) => (
         <Link to={`/users/${user.username}`}>{user.fullName}</Link>
       ),
-      filterMapping: (user) => user.fullName,
+      filterMapping: (user: Registration['user']) => user.fullName,
     },
     {
       title: 'Status',
       dataIndex: 'pool',
-      render: (pool, registration) => {
+      render: (_, registration: Registration) => {
         const registrationInfo = getRegistrationInfo(registration);
         return (
           <RegistrationPill
@@ -247,7 +250,7 @@ export const RegisteredTable = ({
           />
         );
       },
-      sorter: (a, b) => {
+      sorter: (a: Registration, b: Registration) => {
         if (a.pool && !b.pool) return -1;
         if (!a.pool && b.pool) return 1;
         return 0;
@@ -257,7 +260,10 @@ export const RegisteredTable = ({
       title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
-      render: (presence, registration) => {
+      render: (
+        presence: Registration['presence'],
+        registration: Registration,
+      ) => {
         return (
           <PresenceIcons registrationId={registration.id} presence={presence} />
         );
@@ -266,7 +272,7 @@ export const RegisteredTable = ({
     {
       title: 'Dato',
       dataIndex: 'registrationDate',
-      render: (date) => (
+      render: (date: Registration['registrationDate']) => (
         <Tooltip content={<Time time={date} format="DD.MM.YYYY HH:mm:ss" />}>
           <Time time={date} format="DD.MM.YYYY" />
         </Tooltip>
@@ -275,8 +281,8 @@ export const RegisteredTable = ({
     {
       title: 'Samtykke',
       dataIndex: 'photoConsents',
-      visible: !!event.useConsent,
-      render: (_, registration) => {
+      visible: event.useConsent,
+      render: (_, registration: Registration) => {
         const eventSemester = getEventSemesterFromStartTime(event.startTime);
         const photoConsents = registration.photoConsents;
         const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
@@ -304,7 +310,7 @@ export const RegisteredTable = ({
             {
               title: 'Pool',
               dataIndex: 'pool',
-              render: (pool) => {
+              render: (pool: Registration['pool']) => {
                 const poolName = getPoolName(pools, pool);
                 return <span>{poolName}</span>;
               },
@@ -315,34 +321,43 @@ export const RegisteredTable = ({
     {
       title: 'Betaling',
       dataIndex: 'paymentStatus',
-      visible: !!event.isPriced,
-      render: (paymentStatus, registration) => (
+      visible: event.isPriced,
+      render: (
+        paymentStatus: Registration['paymentStatus'],
+        registration: Registration,
+      ) => (
         <StripeStatus
           registrationId={registration.id}
           paymentStatus={paymentStatus}
         />
       ),
-      sorter: (a, b) => {
+      sorter: (a: Registration, b: Registration) => {
         const paymentStatusA = a.paymentStatus ?? 'failed';
         const paymentStatusB = b.paymentStatus ?? 'failed';
         return paymentStatusA > paymentStatusB ? 1 : -1;
       },
     },
-    showFeedback && {
-      title: 'Tilbakemelding',
-      dataIndex: 'feedback',
-      centered: false,
-      render: (feedback) => <span>{feedback || ''}</span>,
-      sorter: (a, b) => a.feedback.localeCompare(b.feedback),
-    },
+    showFeedback
+      ? {
+          title: 'Tilbakemelding',
+          dataIndex: 'feedback',
+          centered: false,
+          render: (feedback: Registration['feedback']) => (
+            <span>{feedback || ''}</span>
+          ),
+          sorter: (a: Registration, b: Registration) =>
+            a.feedback.localeCompare(b.feedback),
+        }
+      : undefined,
     {
-      dataIndex: 'unregister',
+      dataIndex: 'unregistering',
       visible: showUnregister,
-      render: (fetching, registration) => (
-        <Unregister fetching={fetching} registration={registration} />
-      ),
+      render: (
+        fetching: Registration['unregistering'],
+        registration: Registration,
+      ) => <Unregister fetching={!!fetching} registration={registration} />,
     },
-  ].filter(Boolean);
+  ].filter(isNotNullish);
 
   return (
     <Table
@@ -356,20 +371,22 @@ export const RegisteredTable = ({
 
 type UnregisteredTableProps = {
   loading: boolean;
-  unregistered: EventRegistration[];
-  event: EventAdministrate;
+  unregistered: SelectedAdminRegistration[];
+  event: AdministrateEvent;
 };
 export const UnregisteredTable = ({
   loading,
   unregistered,
   event,
 }: UnregisteredTableProps) => {
+  type Registration = (typeof unregistered)[number];
+
   const columns = [
     {
       title: 'Bruker',
       dataIndex: 'user',
       filterMessage: 'Filtrer på navn',
-      render: (user) => (
+      render: (user: Registration['user']) => (
         <Tooltip content={user.fullName}>
           <Link to={`/users/${user.username}`}>{user.username}</Link>
         </Tooltip>
@@ -378,7 +395,7 @@ export const UnregisteredTable = ({
     {
       title: 'Påmeldt',
       dataIndex: 'registrationDate',
-      render: (registrationDate) => (
+      render: (registrationDate: Registration['registrationDate']) => (
         <Tooltip
           content={
             <Time time={registrationDate} format="DD.MM.YYYY HH:mm:ss" />
@@ -391,7 +408,7 @@ export const UnregisteredTable = ({
     {
       title: 'Avmeldt',
       dataIndex: 'unregistrationDate',
-      render: (unregistrationDate) => (
+      render: (unregistrationDate: Registration['unregistrationDate']) => (
         <Tooltip
           content={
             <Time time={unregistrationDate} format="DD.MM.YYYY HH:mm:ss" />
@@ -404,8 +421,11 @@ export const UnregisteredTable = ({
     {
       title: 'Betaling',
       dataIndex: 'paymentStatus',
-      visible: !!event.isPriced,
-      render: (paymentStatus, registration) => (
+      visible: event.isPriced,
+      render: (
+        paymentStatus: Registration['paymentStatus'],
+        registration: Registration,
+      ) => (
         <StripeStatus
           registrationId={registration.id}
           paymentStatus={paymentStatus}

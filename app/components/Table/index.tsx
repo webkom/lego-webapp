@@ -44,7 +44,7 @@ export type ColumnProps<T = unknown> = {
   inlineFiltering?: boolean;
   filterMessage?: string;
   render?: (data: any, object: T) => ReactNode;
-  columnChoices?: ColumnProps[];
+  columnChoices?: ColumnProps<T>[];
   visible?: boolean;
   centered?: boolean;
   padding?: number /** Affects only body columns */;

@@ -20,13 +20,17 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type {
   PaymentRegistration,
   Presence,
+  ReadRegistration,
 } from 'app/store/models/Registration';
 
 type Props = {
-  registration?: PaymentRegistration;
+  registration?:
+    | PoolRegistrationWithUser<PaymentRegistration>
+    | PoolRegistrationWithUser<ReadRegistration>;
   isPriced: boolean;
   registrationIndex: number;
   hasSimpleWaitingList: boolean;
@@ -319,7 +323,11 @@ const RegistrationMeta = ({
           )}
           <PaymentStatus
             isPriced={isPriced}
-            paymentStatus={registration.paymentStatus}
+            paymentStatus={
+              'paymentStatus' in registration
+                ? registration.paymentStatus
+                : undefined
+            }
           />
         </>
       )}
