@@ -3,7 +3,6 @@ import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import config from 'app/config';
 import { eventSchema } from 'app/reducers';
 import { addCommentCases } from 'app/reducers/comments';
 import { selectUserEntities } from 'app/reducers/users';
@@ -161,32 +160,6 @@ export const selectEventByIdOrSlug = createSelector(
   selectEventBySlug,
   selectEventById,
   (eventBySlug, eventById) => eventBySlug || eventById,
-);
-
-export function transformEvent(event: DetailedEvent) {
-  return {
-    ...event,
-    startTime: event.startTime && moment(event.startTime).toISOString(),
-    endTime: event.endTime && moment(event.endTime).toISOString(),
-    activationTime:
-      event.activationTime && moment(event.activationTime).toISOString(),
-    mergeTime: event.mergeTime && moment(event.mergeTime).toISOString(),
-    useCaptcha: config.environment === 'ci' ? false : event.useCaptcha,
-  };
-}
-
-export const selectTransformedEventById = createSelector(
-  selectEventEntities,
-  (_: RootState, props: { eventId: EntityId }) => props.eventId,
-  (eventsById, eventId) => {
-    const event = eventsById[eventId];
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  },
 );
 
 export type PoolRegistrationWithUser = Overwrite<
