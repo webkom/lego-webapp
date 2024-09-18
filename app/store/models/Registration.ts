@@ -29,11 +29,13 @@ interface Registration {
   unregistrationDate: Dateish;
   adminRegistrationReason: string;
   paymentIntentId: string | null;
-  paymentStatus: EventRegistrationPaymentStatus | null;
   paymentAmount: number;
   paymentAmountRefunded: number;
   LEGACYPhotoConsent: LEGACY_EventRegistrationPhotoConsent;
   photoConsents: PhotoConsent[];
+
+  // Only available if event is paid
+  paymentStatus?: EventRegistrationPaymentStatus | null;
 
   // Added in manual reducers
   fetching?: boolean;
@@ -54,7 +56,7 @@ export type PublicRegistration = Pick<
   'id' | 'user' | 'pool' | 'status' | 'fetching' | 'unregistering'
 >;
 
-// Used in normal event views unless event has payment
+// Used in normal event views (RegistrationReadSerializer and RegistrationPaymentReadSerializer in backend)
 export type ReadRegistration = Pick<
   Registration,
   | 'feedback'
@@ -65,15 +67,11 @@ export type ReadRegistration = Pick<
   | 'event'
   | 'fetching'
   | 'unregistering'
+  | 'paymentStatus'
+  | 'paymentError'
+  | 'clientSecret'
 > &
   PublicRegistration;
-
-// Used in normal event views for events with payment
-export type PaymentRegistration = Pick<
-  Registration,
-  'paymentStatus' | 'paymentError' | 'clientSecret'
-> &
-  ReadRegistration;
 
 // Used in AbaCard
 export type SearchRegistration = Pick<
@@ -111,5 +109,4 @@ export type UnknownRegistration =
   | AnonymizedRegistration
   | PublicRegistration
   | ReadRegistration
-  | PaymentRegistration
   | DetailedRegistration;

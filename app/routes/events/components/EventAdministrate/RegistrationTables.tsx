@@ -328,7 +328,7 @@ export const RegisteredTable = ({
       ) => (
         <StripeStatus
           registrationId={registration.id}
-          paymentStatus={paymentStatus}
+          paymentStatus={paymentStatus ?? null}
         />
       ),
       sorter: (a: Registration, b: Registration) => {
@@ -428,7 +428,7 @@ export const UnregisteredTable = ({
       ) => (
         <StripeStatus
           registrationId={registration.id}
-          paymentStatus={paymentStatus}
+          paymentStatus={paymentStatus ?? null}
         />
       ),
     },

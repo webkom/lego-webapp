@@ -27,7 +27,6 @@ import type { PublicGroup } from 'app/store/models/Group';
 import type { AuthPool, PublicPool } from 'app/store/models/Pool';
 import type {
   DetailedRegistration,
-  PaymentRegistration,
   ReadRegistration,
 } from 'app/store/models/Registration';
 import type {
@@ -190,11 +189,10 @@ export const selectTransformedEventById = createSelector(
   },
 );
 
-export type PoolRegistrationWithUser<
-  Base extends PaymentRegistration | ReadRegistration =
-    | PaymentRegistration
-    | ReadRegistration,
-> = Overwrite<Base, { user: PublicUser }>;
+export type PoolRegistrationWithUser = Overwrite<
+  ReadRegistration,
+  { user: PublicUser }
+>;
 export type PoolWithRegistrations = Overwrite<
   Optional<AuthPool, 'activationDate'>,
   { registrations: PoolRegistrationWithUser[] }
@@ -209,7 +207,7 @@ export const selectPoolsForEvent = createSelector(
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
-  selectRegistrationEntities<PaymentRegistration | ReadRegistration>,
+  selectRegistrationEntities<ReadRegistration>,
   selectUserEntities<PublicUser>,
   (pools, registrationEntities, userEntities) =>
     (pools as AuthPool[]).map((pool) => ({
@@ -261,7 +259,7 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
 });
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
-  selectRegistrationEntities<PaymentRegistration | ReadRegistration>,
+  selectRegistrationEntities<ReadRegistration>,
   selectUserEntities<PublicUser>,
   (pools, registrationEntities, userEntities) => {
     if (pools.length === 0) return [];
@@ -301,10 +299,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
           {
             capacity: 0,
             permissionGroups: [] as PublicGroup[],
-            registrations: [] as Overwrite<
-              PaymentRegistration | ReadRegistration,
-              { user: PublicUser }
-            >[],
+            registrations: [] as PoolRegistrationWithUser[],
             registrationCount: 0,
           },
         ),
