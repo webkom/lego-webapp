@@ -6,3 +6,7 @@
 .textContainer {
   width: max-content;
 }
+
+.overflowWrap {
+  overflow-wrap: anywhere;
+}

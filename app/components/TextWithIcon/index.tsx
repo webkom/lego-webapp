@@ -45,7 +45,9 @@ const TextWithIcon = ({
       ) : (
         <>{icon}</>
       )}
-      <div>{iconRight ? <></> : <>{content}</>}</div>
+      <div className={styles.overflowWrap}>
+        {iconRight ? <></> : <>{content}</>}
+      </div>
     </Flex>
   );
 };

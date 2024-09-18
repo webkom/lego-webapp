@@ -171,7 +171,12 @@ export const RenderFile = (props: RenderFileProps) => {
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
-            <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
+            <Icon
+              onClick={openConfirmModal}
+              iconNode={<Trash2 />}
+              size={20}
+              danger
+            />
           )}
         </ConfirmModal>
       </span>

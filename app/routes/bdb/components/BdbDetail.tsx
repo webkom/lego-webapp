@@ -14,6 +14,8 @@ import { Trash2 } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
+  addSemester,
+  addSemesterStatus,
   deleteCompanyContact,
   deleteSemesterStatus,
   editSemesterStatus,
@@ -44,8 +46,13 @@ import {
 } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserById } from 'app/reducers/users';
+import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
 import { RenderFile } from 'app/routes/bdb/components/SemesterStatusDetail';
-import { semesterToHumanReadable } from 'app/routes/bdb/utils';
+import {
+  indexToCompanySemester,
+  indexToYearAndSemester,
+  semesterToHumanReadable,
+} from 'app/routes/bdb/utils';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -53,8 +60,13 @@ import styles from './bdb.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
-import type { CompanyContact, SemesterStatus } from 'app/store/models/Company';
+import type {
+  CompanyContact,
+  CompanySemesterContactStatus,
+} from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
+import moment from 'moment-timezone';
+import CompanySemester from 'app/store/models/CompanySemester';
 
 const BdbDetail = () => {
   const { companyId } = useParams<{ companyId: string }>() as {
@@ -123,52 +135,64 @@ const BdbDetail = () => {
     return <LoadingIndicator loading />;
   }
 
-  /*const fetchMoreEvents = () => {
+  const fetchMoreEvents = () => {
     dispatch(
       fetchEvents({
         query: eventsQuery,
         next: true,
       }),
     );
-  };*/
+  };
 
-  /*const semesterStatusOnChange = async (
-    semesterStatus: TransformedSemesterStatus,
-    status: CompanySemesterContactStatus,
+  const editChangedStatuses = async (
+    companyId: EntityId,
+    tableIndex: number,
+    semesterStatusId: EntityId | undefined,
+    contactedStatus: CompanySemesterContactStatus[],
   ) => {
-    const newStatus = {
-      ...semesterStatus,
-      contactedStatus: getContactStatuses(
-        semesterStatus.contactedStatus,
-        status,
-      ),
-    };
-    const companySemester = companySemesters.find(
-      (companySemester) =>
-        companySemester.year === newStatus.year &&
-        companySemester.semester === newStatus.semester,
+    const startYear = moment().year();
+    const startSemester = moment().month() > 6 ? 1 : 0;
+
+    const companySemester = indexToCompanySemester(
+      tableIndex,
+      startYear,
+      startSemester,
+      company.semesterStatuses as CompanySemester[],
     );
 
+    console.log('companySemester: ', companySemester);
+
+    let companySemesterId: EntityId;
+
     if (!companySemester) {
-      throw new Error('Could not find company semester');
+      const newCompanySemester = indexToYearAndSemester(
+        tableIndex,
+        startYear,
+        startSemester,
+      );
+      const response = await dispatch(addSemester(newCompanySemester));
+      companySemesterId = response.payload.result;
+    } else {
+      companySemesterId = companySemester.id;
     }
 
-    const sendableSemester = {
-      contactedStatus: newStatus.contactedStatus,
-      semesterStatusId: newStatus.id,
-      semester: companySemester.id,
-      companyId: company.id,
+    const semesterStatus = {
+      companyId,
+      contactedStatus,
+      semester: companySemesterId,
     };
-
-    await dispatch(editSemesterStatus(sendableSemester));
-    navigate(`/bdb/${companyId}/`);
-  };*/
+    return semesterStatusId
+      ? dispatch(editSemesterStatus({ ...semesterStatus, semesterStatusId }))
+      : dispatch(addSemesterStatus(semesterStatus)).then(() => {
+          navigate('/bdb');
+        });
+  };
 
   const addFileToSemester = async (
     fileName: string,
     fileToken: string,
     type: string,
-    semesterStatus: SemesterStatus,
+    semesterStatus,
   ) => {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
@@ -180,10 +204,7 @@ const BdbDetail = () => {
     navigate(`/bdb/${companyId}/`);
   };
 
-  const removeFileFromSemester = async (
-    type: string,
-    semesterStatus: SemesterStatus,
-  ) => {
+  const removeFileFromSemester = async (type: string, semesterStatus) => {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
       contactedStatus: semesterStatus.contactedStatus,
@@ -337,10 +358,22 @@ const BdbDetail = () => {
     {
       title: 'Status',
       dataIndex: 'contactedStatus',
+      render: (_, semesterStatus: TransformedSemesterStatus) => (
+        <SemesterStatus
+          semesterStatus={semesterStatus}
+          companyId={company.id}
+          editChangedStatuses={editChangedStatuses}
+          semIndex={0}
+        />
+      ),
     },
-    ...['contract', 'statistics', 'evaluation'].map((type) => {
+    ...[
+      ['Kontrakt', 'contract'],
+      ['Statistikk', 'statistics'],
+      ['Evaluering', 'evaluation'],
+    ].map(([title, type]) => {
       return {
-        title: type,
+        title: title,
         dataIndex: type,
         render: (_, semesterStatus: TransformedSemesterStatus) => (
           <RenderFile
@@ -401,13 +434,18 @@ const BdbDetail = () => {
       <Helmet title={title} />
 
       <ContentSection>
-        <ContentMain>
+        <ContentMain className={styles.mainContent}>
           <CollapsibleDisplayContent
             content={company.description}
             skeleton={showSkeleton}
           ></CollapsibleDisplayContent>
 
-          <h3>Bedriftskontakter </h3>
+          <Flex justifyContent="space-between">
+            <h3>Bedriftskontakter </h3>
+            <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
+              Legg til bedriftskontakt
+            </LinkButton>
+          </Flex>
           {company.companyContacts?.length > 0 ? (
             <Table
               columns={contactsColumns}
@@ -418,14 +456,6 @@ const BdbDetail = () => {
           ) : (
             <EmptyState body="Ingen bedriftskontakter registrert" />
           )}
-          <Link
-            to={`/bdb/${company.id}/company-contacts/add`}
-            style={{
-              marginTop: '10px',
-            }}
-          >
-            <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
-          </Link>
 
           <h3>Semesterstatuser</h3>
           {company.semesterStatuses?.length > 0 ? (
