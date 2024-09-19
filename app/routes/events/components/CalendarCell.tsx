@@ -15,7 +15,7 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { ListEvent } from 'app/store/models/Event';
 import type { Moment } from 'moment-timezone';
 
-const renderEvent = (event: ListEvent) => {
+const CalendarCellEvent = ({ event }: { event: ListEvent }) => {
   const {
     slug,
     eventType,
@@ -115,7 +115,9 @@ const CalendarCell = ({ day, prevOrNextMonth }: Props) => {
       >
         {day.date()}
       </strong>
-      {events.map(renderEvent)}
+      {events.map((event) => (
+        <CalendarCellEvent event={event} key={event.id} />
+      ))}
     </div>
   );
 };
