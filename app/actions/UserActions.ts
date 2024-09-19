@@ -10,13 +10,16 @@ import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { PhotoConsent } from 'app/models';
 import type { FormValues as ChangePasswordFormValues } from 'app/routes/users/components/ChangePassword';
 import type { FormValues as UserConfirmationFormValues } from 'app/routes/users/components/UserConfirmation';
 import type { AppDispatch } from 'app/store/createStore';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
 import type { Penalty as PenaltyType } from 'app/store/models/Penalty';
-import type { CurrentUser, UpdateUser } from 'app/store/models/User';
+import type {
+  CurrentUser,
+  PhotoConsent,
+  UpdateUser,
+} from 'app/store/models/User';
 import type { Thunk, Token, EncodedToken, GetCookie } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';

@@ -1,13 +1,18 @@
 import type { EventType } from './store/models/Event';
-import type { Presence } from './store/models/Registration';
+import type {
+  EventRegistrationPaymentStatus,
+  EventRegistrationStatus,
+  LEGACY_EventRegistrationPhotoConsent,
+  Presence,
+} from './store/models/Registration';
 import type { EntityId } from '@reduxjs/toolkit';
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { DetailedUser, PublicUser } from 'app/store/models/User';
+import type { DetailedUser, PhotoConsent } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
-// TODO: Id handling could be opaque
+
 export type Dateish = Moment | Date | string;
 export type ActionGrant = (
   | 'create'
@@ -30,10 +35,6 @@ export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
 export type Grade = {
   name: string;
 };
-export enum PhotoConsentDomain {
-  WEBSITE = 'WEBSITE',
-  SOCIAL_MEDIA = 'SOCIAL_MEDIA',
-}
 export type Semester = 'spring' | 'autumn';
 export type EventSemester = {
   year: number;
@@ -61,13 +62,6 @@ type UserPastMembership = UserMembership & {
   abakusGroup: Group;
 };
 
-export type PhotoConsent = {
-  year: number;
-  semester: Semester;
-  domain: PhotoConsentDomain;
-  isConsenting: boolean | null | undefined;
-  updatedAt: Dateish | null | undefined;
-};
 export type PermissionPerGroup = {
   abakusGroup: Group;
   permissions: string[];
@@ -178,27 +172,6 @@ type EventBase = {
   legacyRegistrationCount: number;
 };
 
-export type Permission = string;
-
-export type LEGACY_EventRegistrationPhotoConsent =
-  | 'PHOTO_NOT_CONSENT'
-  | 'PHOTO_CONSENT'
-  | 'UNKNOWN';
-export type EventRegistrationPaymentStatus =
-  | 'pending'
-  | 'manual'
-  | 'succeeded'
-  | 'failed'
-  | 'card_declined'
-  | 'expired_card';
-export type EventRegistrationStatus =
-  | 'PENDING_REGISTER'
-  | 'SUCCESS_REGISTER'
-  | 'FAILURE_REGISTER'
-  | 'PENDING_UNREGISTER'
-  | 'SUCCESS_UNREGISTER'
-  | 'FAILURE_UNREGISTER';
-
 export type EventRegistration = {
   id: EntityId;
   user: User;
@@ -230,15 +203,6 @@ export type EventPool = EventPoolBase & {
   registrationCount: number;
   permissionGroups: Array<Record<string, any>>;
 };
-
-type ImageGalleryEntry = {
-  key: string;
-  cover: string;
-  token: string;
-  coverPlaceholder: string;
-};
-
-export type ImageGallery = ImageGalleryEntry[];
 
 export type Event = EventBase & {
   actionGrant: ActionGrant;
@@ -318,21 +282,10 @@ export type Meeting = {
   reactionsGrouped?: ReactionsGrouped;
 };
 
-export type FollowerItem = {
-  id: EntityId;
-  follower: PublicUser;
-  target: EntityId;
-};
-
 export type Readme = {
   title: string;
   image: string;
   pdf: string;
   year: number;
   utgave: number;
-};
-
-export type EventAdministrate = Omit<Event, 'createdBy' | 'comments'> & {
-  createdBy: number;
-  comments: number[];
 };

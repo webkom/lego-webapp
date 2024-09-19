@@ -3,12 +3,12 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { updatePhotoConsent } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
-import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
 import { useAppDispatch } from 'app/store/hooks';
+import { PhotoConsentDomain } from 'app/store/models/User';
 import styles from './PhotoConsents.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { PhotoConsent } from 'app/models';
+import type { PhotoConsent } from 'app/store/models/User';
 
 const ConsentManager = ({
   consent,

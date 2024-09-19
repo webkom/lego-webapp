@@ -5,15 +5,17 @@ import { EventType } from 'app/store/models/Event';
 import type {
   Event,
   TransformEvent,
-  PhotoConsent,
-  PhotoConsentDomain,
   EventSemester,
   Dateish,
   EventStatusType,
 } from 'app/models';
 import type { CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
-import type { DetailedUser } from 'app/store/models/User';
+import type {
+  DetailedUser,
+  PhotoConsent,
+  PhotoConsentDomain,
+} from 'app/store/models/User';
 
 export type ConfigProperties = {
   displayName: string;
@@ -258,20 +260,6 @@ export const transformEvent = (data: TransformEvent) => ({
   feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired,
   isForeignLanguage: data.isForeignLanguage,
 });
-export const paymentPending = 'pending';
-export const paymentSuccess = 'succeeded';
-export const paymentFailure = 'failed';
-export const paymentManual = 'manual';
-export const paymentCardDeclined = 'card_declined';
-export const paymentCardExpired = 'expired_card';
-const paymentSuccessMappings = {
-  [paymentManual]: true,
-  [paymentSuccess]: true,
-  [paymentPending]: false,
-  [paymentFailure]: false,
-};
-export const hasPaid = (paymentStatus: string) =>
-  paymentSuccessMappings[paymentStatus];
 
 export const registrationCloseTime = (
   event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
@@ -281,12 +269,6 @@ export const registrationIsClosed = (
   event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
 ) => {
   return moment().isAfter(registrationCloseTime(event));
-};
-
-export const unregistrationCloseTime = (event: Event) =>
-  moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
-export const unregistrationIsClosed = (event: Event) => {
-  return moment().isAfter(unregistrationCloseTime(event));
 };
 
 export const sumPenalties = (penalties: Penalty[]) =>
@@ -350,16 +332,14 @@ export const getConsent = (
   domain: PhotoConsentDomain,
   year: number,
   semester: string,
-  photoConsents: Array<PhotoConsent>,
+  photoConsents: PhotoConsent[],
 ): PhotoConsent | null | undefined =>
   photoConsents.find(
     (pc) =>
       pc.domain === domain && pc.year === year && pc.semester === semester,
   );
 
-export const allConsentsAnswered = (
-  photoConsents: Array<PhotoConsent>,
-): boolean =>
+export const allConsentsAnswered = (photoConsents: PhotoConsent[]): boolean =>
   photoConsents?.reduce(
     (all_bool, pc) => all_bool && typeof pc.isConsenting === 'boolean',
     photoConsents.length > 0,
@@ -371,9 +351,6 @@ export const toReadableSemester = (
   const semester = semesterObj.semester === 'spring' ? 'våren' : 'høsten';
   return `${semester} ${semesterObj.year}`;
 };
-
-export const isTBA = (value) =>
-  value && value === 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
 export const containsAllergier = (value) =>
   value && value.toLowerCase().indexOf('allergi') !== -1

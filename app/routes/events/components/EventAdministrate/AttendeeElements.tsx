@@ -16,8 +16,8 @@ import { useAppDispatch } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
 import styles from './Administrate.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { EventRegistrationPaymentStatus } from 'app/models';
 import type { SelectedAdminRegistration } from 'app/reducers/events';
+import type { EventRegistrationPaymentStatus } from 'app/store/models/Registration';
 import type { MouseEventHandler } from 'react';
 
 type TooltipIconProps = {

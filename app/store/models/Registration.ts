@@ -1,10 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type {
-  Dateish,
-  EventRegistrationPaymentStatus,
-  EventRegistrationStatus,
-  LEGACY_EventRegistrationPhotoConsent,
-} from 'app/models';
+import type { Dateish } from 'app/models';
 import type { PhotoConsent } from 'app/store/models/User';
 
 export enum Presence {
@@ -13,6 +8,28 @@ export enum Presence {
   NOT_PRESENT = 'NOT_PRESENT',
   UNKNOWN = 'UNKNOWN',
 }
+
+export type LEGACY_EventRegistrationPhotoConsent =
+  | 'PHOTO_NOT_CONSENT'
+  | 'PHOTO_CONSENT'
+  | 'UNKNOWN';
+
+export enum EventRegistrationPaymentStatus {
+  PENDING = 'pending',
+  MANUAL = 'manual',
+  SUCCEEDED = 'succeeded',
+  FAILED = 'failed',
+  CARD_DECLINED = 'card_declined',
+  EXPIRED_CARD = 'expired_card',
+}
+
+export type EventRegistrationStatus =
+  | 'PENDING_REGISTER'
+  | 'SUCCESS_REGISTER'
+  | 'FAILURE_REGISTER'
+  | 'PENDING_UNREGISTER'
+  | 'SUCCESS_UNREGISTER'
+  | 'FAILURE_UNREGISTER';
 
 interface Registration {
   id: EntityId;

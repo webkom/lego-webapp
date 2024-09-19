@@ -15,11 +15,11 @@ import config from 'app/config';
 import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import stripeStyles from './Stripe.css';
-import type { EventRegistrationPaymentStatus } from 'app/models';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
+import type { EventRegistrationPaymentStatus } from 'app/store/models/Registration';
 import type { CurrentUser } from 'app/store/models/User';
 
 type Props = {

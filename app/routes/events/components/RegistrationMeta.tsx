@@ -1,27 +1,18 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { PhotoConsentDomain } from 'app/models';
-import {
-  paymentPending,
-  paymentCardDeclined,
-  paymentSuccess,
-  paymentManual,
-  paymentCardExpired,
-  getConsent,
-  allConsentsAnswered,
-  toReadableSemester,
-} from '../utils';
+import { EventRegistrationPaymentStatus } from 'app/store/models/Registration';
+import { PhotoConsentDomain } from 'app/store/models/User';
+import { getConsent, allConsentsAnswered, toReadableSemester } from '../utils';
 import styles from './EventDetail/EventDetail.css';
 import type { TextWithIconProps } from 'app/components/TextWithIcon';
-import type {
-  EventRegistrationPaymentStatus,
-  LEGACY_EventRegistrationPhotoConsent,
-  PhotoConsent,
-  EventSemester,
-} from 'app/models';
+import type { EventSemester } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
-import type { Presence } from 'app/store/models/Registration';
+import type {
+  LEGACY_EventRegistrationPhotoConsent,
+  Presence,
+} from 'app/store/models/Registration';
+import type { PhotoConsent } from 'app/store/models/User';
 
 type Props = {
   registration?: PoolRegistrationWithUser;
@@ -191,7 +182,7 @@ const PaymentStatus = ({
   if (!isPriced) return null;
 
   switch (paymentStatus) {
-    case paymentPending:
+    case EventRegistrationPaymentStatus.PENDING:
       return (
         <TextWithIconWrapper
           iconName="alert-circle-outline"
@@ -199,8 +190,8 @@ const PaymentStatus = ({
         />
       );
 
-    case paymentManual:
-    case paymentSuccess:
+    case EventRegistrationPaymentStatus.MANUAL:
+    case EventRegistrationPaymentStatus.SUCCEEDED:
       return (
         <TextWithIconWrapper
           iconName="checkmark-circle-outline"
@@ -208,7 +199,7 @@ const PaymentStatus = ({
         />
       );
 
-    case paymentCardDeclined:
+    case EventRegistrationPaymentStatus.CARD_DECLINED:
       return (
         <TextWithIconWrapper
           iconName="alert-circle-outline"
@@ -216,7 +207,7 @@ const PaymentStatus = ({
         />
       );
 
-    case paymentCardExpired:
+    case EventRegistrationPaymentStatus.EXPIRED_CARD:
       return (
         <TextWithIconWrapper
           iconName="alert-circle-outline"

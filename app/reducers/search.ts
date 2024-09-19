@@ -5,10 +5,11 @@ import { createSelector } from 'reselect';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { Search } from '../actions/ActionTypes';
-import type { User, Event, Group, Meeting, Dateish } from 'app/models';
+import type { User, Group, Meeting, Dateish } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { SearchArticle } from 'app/store/models/Article';
 import type { SearchCompany } from 'app/store/models/Company';
+import type { SearchEvent } from 'app/store/models/Event';
 
 type SearchResultBase = {
   type?: string;
@@ -49,7 +50,7 @@ export const isGroupResult = (value: SearchResult): boolean =>
 interface SearchMapping {
   'users.user': SearchResultMapping<User, UserSearchResult>;
   'articles.article': SearchResultMapping<SearchArticle>;
-  'events.event': SearchResultMapping<Event>;
+  'events.event': SearchResultMapping<SearchEvent>;
   'flatpages.page': SearchResultMapping<Record<string, string>>;
   'gallery.gallery': SearchResultMapping<any>;
   'companies.company': SearchResultMapping<SearchCompany>;

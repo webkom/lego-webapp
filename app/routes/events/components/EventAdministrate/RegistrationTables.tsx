@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { PhotoConsentDomain } from 'app/models';
 import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   getConsent,
 } from 'app/routes/events/utils';
+import { PhotoConsentDomain } from 'app/store/models/User';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import styles from './Administrate.css';
@@ -20,12 +20,13 @@ import {
   Unregister,
 } from './AttendeeElements';
 import type { ColumnProps } from 'app/components/Table';
-import type { PhotoConsent, EventSemester } from 'app/models';
+import type { EventSemester } from 'app/models';
 import type {
   PoolWithRegistrations,
   SelectedAdminRegistration,
 } from 'app/reducers/events';
 import type { AdministrateEvent } from 'app/store/models/Event';
+import type { PhotoConsent } from 'app/store/models/User';
 
 type Props = {
   registered: SelectedAdminRegistration[];

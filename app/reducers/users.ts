@@ -6,9 +6,9 @@ import { selectGroupEntities } from 'app/reducers/groups';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { User, Event } from '../actions/ActionTypes';
-import type { PhotoConsent } from '../models';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
+import type { PhotoConsent } from 'app/store/models/User';
 
 export type UserEntity = {
   id: number;

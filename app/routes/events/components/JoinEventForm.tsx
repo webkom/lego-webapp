@@ -28,12 +28,13 @@ import { selectRegistrationForEventByUserId } from 'app/reducers/events';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Presence } from 'app/store/models/Registration';
+import {
+  EventRegistrationPaymentStatus,
+  Presence,
+} from 'app/store/models/Registration';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
 import {
-  paymentSuccess,
-  paymentManual,
   penaltyHours,
   registrationIsClosed,
   getEventSemesterFromStartTime,
@@ -42,12 +43,12 @@ import {
 } from '../utils';
 import styles from './Event.css';
 import PaymentRequestForm from './StripeElement';
-import type { EventRegistrationStatus } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
+import type { EventRegistrationStatus } from 'app/store/models/Registration';
 import type { CurrentUser } from 'app/store/models/User';
 
 /**
@@ -227,7 +228,13 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
     !!registration &&
     !!(registration.pool || registration.presence === Presence.PRESENT) &&
     'paymentStatus' in registration &&
-    ![paymentManual, paymentSuccess].includes(registration.paymentStatus ?? '');
+    !(
+      registration.paymentStatus &&
+      [
+        EventRegistrationPaymentStatus.MANUAL,
+        EventRegistrationPaymentStatus.SUCCEEDED,
+      ].includes(registration.paymentStatus)
+    );
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
