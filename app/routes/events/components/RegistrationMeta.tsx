@@ -23,11 +23,17 @@ import type {
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { Presence } from 'app/store/models/Registration';
 
+type WaitingListPosition =
+  | number
+  | {
+      poolName: string;
+      position: number;
+    }[];
+
 type Props = {
   registration?: PoolRegistrationWithUser;
   isPriced: boolean;
-  registrationIndex: number;
-  hasSimpleWaitingList: boolean;
+  waitingListPosition?: WaitingListPosition;
   useConsent: boolean;
   hasOpened: boolean;
   hasEnded: boolean;
@@ -246,8 +252,7 @@ const RegistrationMeta = ({
   hasEnded,
   useConsent,
   isPriced,
-  registrationIndex,
-  hasSimpleWaitingList,
+  waitingListPosition,
   photoConsents,
   eventSemester,
   skeleton,
@@ -282,14 +287,30 @@ const RegistrationMeta = ({
                 />
               )}
             </>
-          ) : hasSimpleWaitingList ? (
+          ) : waitingListPosition ? (
             <TextWithIconWrapper
               iconName="pause-circle-outline"
               content={
-                <>
-                  Din plass i ventelisten er{' '}
-                  <strong>{registrationIndex + 1}</strong>
-                </>
+                typeof waitingListPosition === 'number' ? (
+                  <>
+                    Din plass i ventelisten er{' '}
+                    <strong>{waitingListPosition}</strong>
+                  </>
+                ) : (
+                  <>
+                    Din plass i ventelisten{' '}
+                    {waitingListPosition.map(
+                      ({ poolName, position }, index) => (
+                        <>
+                          for {poolName} er <strong>{position}</strong>
+                          {index < waitingListPosition.length - 2
+                            ? ', '
+                            : index < waitingListPosition.length - 1 && ' og '}
+                        </>
+                      ),
+                    )}
+                  </>
+                )
               }
             />
           ) : (

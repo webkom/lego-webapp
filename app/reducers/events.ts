@@ -32,6 +32,7 @@ import type {
   AdministrateUser,
   AdministrateUserWithGrade,
   PublicUser,
+  PublicUserWithAbakusGroups,
 } from 'app/store/models/User';
 import type { AnyAction } from 'redux';
 import type { Optional, Overwrite } from 'utility-types';
@@ -174,7 +175,7 @@ export const selectEventByIdOrSlug = createSelector(
 
 export type PoolRegistrationWithUser = Overwrite<
   ReadRegistration,
-  { user: PublicUser }
+  { user: PublicUserWithAbakusGroups }
 >;
 export type PoolWithRegistrations = Overwrite<
   Optional<AuthPool, 'activationDate'>,
@@ -243,7 +244,7 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
   selectRegistrationEntities<ReadRegistration>,
-  selectUserEntities<PublicUser>,
+  selectUserEntities<PublicUserWithAbakusGroups>,
   (pools, registrationEntities, userEntities) => {
     if (pools.length === 0) return [];
     return [

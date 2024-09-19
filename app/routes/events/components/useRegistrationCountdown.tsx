@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { registrationIsClosed } from '../utils';
 import type { Dateish } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
@@ -98,16 +98,24 @@ export const useRegistrationCountdown = (
     getTimeUntil(event.activationTime),
   );
 
+  const updateState = useCallback(() => {
+    setCountdownCountdownState(getCountdownState(event, registration));
+    setPollingFrequency(getPollingFrequency(event.activationTime));
+    setRegistrationOpensIn(getTimeUntil(event.activationTime));
+  }, [event, registration]);
+
+  useEffect(() => {
+    updateState();
+  }, [updateState]);
+
   useEffect(() => {
     if (pollingFrequency === PollingFrequency.NONE) return;
     const interval = setInterval(() => {
-      setCountdownCountdownState(getCountdownState(event, registration));
-      setPollingFrequency(getPollingFrequency(event.activationTime));
-      setRegistrationOpensIn(getTimeUntil(event.activationTime));
+      updateState();
     }, pollingFrequency);
 
     return () => clearInterval(interval);
-  }, [event, pollingFrequency, registration]);
+  }, [pollingFrequency, updateState]);
 
   return {
     ...CountdownStateMap[countdownState],
