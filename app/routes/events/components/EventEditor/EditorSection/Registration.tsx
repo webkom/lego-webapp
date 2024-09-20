@@ -18,14 +18,14 @@ import {
 } from 'app/routes/events/utils';
 import { spyValues } from 'app/utils/formSpyUtils';
 import styles from '../EventEditor.css';
-import renderPools from '../renderPools';
-import type { EditingEvent } from 'app/routes/events/utils';
+import PoolsField from '../PoolsField';
+import type { EventEditorFormValues } from 'app/routes/events/components/EventEditor';
 
 type Props = {
-  values: EditingEvent;
+  values: EventEditorFormValues;
 };
 
-const Registrations: React.FC<Props> = ({ values }) => {
+const Registrations = ({ values }: Props) => {
   const initialPool = {
     name: 'Pool #1',
     registrations: [],
@@ -35,13 +35,17 @@ const Registrations: React.FC<Props> = ({ values }) => {
       .minute(0)
       .toISOString(),
     permissionGroups: [],
-  };
+  } satisfies EventEditorFormValues['pools'][number];
 
   return (
     <>
-      {spyValues((values: EditingEvent) => {
+      {spyValues<Partial<EventEditorFormValues>>((values) => {
         // Adding an initial pool if the event status type allows for it and there are no current pools
-        if (['NORMAL', 'INFINITE'].includes(values.eventStatusType?.value)) {
+        values.pools ??= [];
+        if (
+          values.eventStatusType &&
+          ['NORMAL', 'INFINITE'].includes(values.eventStatusType?.value)
+        ) {
           if (values.pools.length === 0) {
             values.pools = [initialPool];
           }
@@ -227,9 +231,13 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <div className={styles.metaList}>
           <FieldArray
             name="pools"
-            component={renderPools}
-            startTime={values.startTime}
-            eventStatusType={values.eventStatusType?.value}
+            render={(props) => (
+              <PoolsField
+                {...props}
+                startTime={values.startTime}
+                eventStatusType={values.eventStatusType?.value}
+              />
+            )}
           />
         </div>
         {values.pools?.length > 1 && (

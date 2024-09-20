@@ -8,26 +8,31 @@ import {
 } from 'app/components/Form';
 import styles from './EventEditor.css';
 import PoolSuggestion from './PoolSuggestions';
-import type { Dateish, EventStatusType } from 'app/models';
+import type { Dateish } from 'app/models';
+import type { EventEditorFormValues } from 'app/routes/events/components/EventEditor/index';
+import type { EventStatusType } from 'app/store/models/Event';
+import type { FieldArrayRenderProps } from 'react-final-form-arrays';
 
-type poolProps = {
-  fields: Record<string, any>;
+type Props = FieldArrayRenderProps<
+  EventEditorFormValues['pools'][number],
+  HTMLElement
+> & {
   startTime: Dateish;
   eventStatusType: EventStatusType;
 };
 
-const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
+const PoolsField = ({ fields, startTime, eventStatusType }: Props) => (
   <ul
     style={{
       flex: 1,
     }}
   >
-    {fields.map((pool, index) => (
-      <li key={index} className={styles.poolBox}>
+    {fields.map((fieldName, index) => (
+      <li key={fieldName} className={styles.poolBox}>
         <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
         <Field
           label="Navn"
-          name={`pools[${index}].name`}
+          name={`${fieldName}.name`}
           validate={(value) => {
             if (!value || value === '') {
               return 'Navn er påkrevd';
@@ -41,7 +46,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
         {['NORMAL'].includes(eventStatusType) && (
           <Field
             label="Kapasitet"
-            name={`pools[${index}].capacity`}
+            name={`${fieldName}.capacity`}
             validate={(value) => {
               if (!value || isNaN(parseInt(value, 10))) {
                 return 'Kapasitet er påkrevd og må være et tall';
@@ -63,14 +68,14 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
         )}
         <Field
           label="Aktiveringstidspunkt"
-          name={`pools[${index}].activationDate`}
+          name={`${fieldName}.activationDate`}
           fieldClassName={styles.metaField}
           className={styles.formField}
           component={DatePicker.Field}
         />
         <Field
           label="Grupper med rettighet"
-          name={`pools[${index}].permissionGroups`}
+          name={`${fieldName}.permissionGroups`}
           validate={(value) => {
             if (!value || value.length === 0) {
               return 'Rettighetsgruppe er påkrevd';
@@ -104,7 +109,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           <Button
             onPress={() =>
               fields.push({
-                name: `Pool #${fields.length + 1}`,
+                name: `Pool #${(fields.length ?? 0) + 1}`,
                 registrations: [],
                 activationDate: moment(startTime)
                   .subtract(7, 'd')
@@ -123,4 +128,4 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   </ul>
 );
 
-export default renderPools;
+export default PoolsField;

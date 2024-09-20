@@ -12,13 +12,13 @@ import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import Tooltip from 'app/components/Tooltip';
 import { EventTypeConfig } from 'app/routes/events/utils';
 import styles from '../EventEditor.css';
-import type { EditingEvent } from 'app/routes/events/utils';
+import type { EventEditorFormValues } from 'app/routes/events/components/EventEditor';
 
 type Props = {
-  values: EditingEvent;
+  values: EventEditorFormValues;
 };
 
-const Details: React.FC<Props> = ({ values }) => {
+const Details = ({ values }: Props) => {
   return (
     <>
       <Flex className={styles.editorSectionRow}>

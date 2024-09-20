@@ -7,29 +7,29 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
 import {
-  uploadFile as _uploadFile,
   fetchImageGallery,
   setSaveForUse,
+  uploadFile as _uploadFile,
 } from 'app/actions/FileActions';
-import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
+import { CheckBox, Form, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import {
-  selectPoolsWithRegistrationsForEvent,
   selectEventByIdOrSlug,
+  selectPoolsWithRegistrationsForEvent,
 } from 'app/reducers/events';
-import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
+import { transformEvent } from 'app/routes/events/components/EventEditor/utils';
 import {
-  transformEvent,
-  transformEventStatusType,
   displayNameForEventType,
+  transformEventStatusType,
 } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EventStatusType } from 'app/store/models/Event';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
@@ -48,19 +48,93 @@ import {
 } from 'app/utils/validation';
 import Admin from '../Admin';
 import EditorSection, {
-  Header,
-  Details,
-  Registration,
   Descriptions,
+  Details,
+  Header,
+  Registration,
 } from './EditorSection';
 import styles from './EventEditor.css';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
-import type { EditingEvent } from 'app/routes/events/utils';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
+import type { AdministrateEvent, EventType } from 'app/store/models/Event';
 import type { DetailedUser } from 'app/store/models/User';
 
-const TypedLegoForm = LegoFinalForm<EditingEvent>;
+export type EventEditorFormValues = {
+  id?: EntityId;
+  slug?: string;
+  title: string;
+  startTime: string;
+  endTime: string;
+  description: string;
+  text: string;
+  eventType: {
+    label: string;
+    value: EventType;
+  };
+  eventStatusType: {
+    label: string;
+    value: EventStatusType;
+  };
+  company?: {
+    label: string;
+    value: EntityId;
+  };
+  responsibleGroup?: {
+    label: string;
+    value: EntityId;
+  };
+  location: string;
+  isPriced: boolean;
+  useStripe: boolean;
+  priceMember: number;
+  paymentDueDate?: string;
+  mergeTime: string;
+  useCaptcha: boolean;
+  youtubeUrl: string;
+  heedPenalties: boolean;
+  isGroupOnly: boolean;
+  canViewGroups: {
+    label: string;
+    value: EntityId;
+    id: EntityId;
+  }[];
+  useConsent: boolean;
+  feedbackDescription: string;
+  pools: {
+    id?: EntityId;
+    name: string;
+    registrations: PoolRegistrationWithUser[];
+    capacity?: number;
+    permissionGroups: {
+      label: string;
+      value: EntityId;
+    }[];
+    activationDate: string;
+  }[];
+  useMazemap: boolean;
+  mazemapPoi?: {
+    label: string;
+    value: number;
+  };
+  separateDeadlines: boolean;
+  registrationDeadlineHours: number;
+  unregistrationDeadline?: string;
+  unregistrationDeadlineHours: number;
+  responsibleUsers: {
+    label: string;
+    value: EntityId;
+  }[];
+  isForeignLanguage: boolean;
+  cover: string;
+  saveToImageGallery?: boolean;
+  hasFeedbackQuestion: boolean;
+  feedbackRequired: boolean;
+  isClarified: boolean;
+};
+
+const TypedLegoForm = LegoFinalForm<EventEditorFormValues>;
 
 const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
@@ -94,12 +168,7 @@ const validate = createValidator({
     ),
   ],
   isClarified: [
-    requiredIf(
-      (allValues) =>
-        // Only require if we are creating a new event
-        allValues.id === undefined,
-      'Arrangementet må være avklart i arrangementskalenderen',
-    ),
+    required('Arrangementet må være avklart i arrangementskalenderen'),
   ],
   feedbackDescription: [
     requiredIf(
@@ -144,13 +213,6 @@ const EventEditor = () => {
   const pools = useAppSelector((state) =>
     selectPoolsWithRegistrationsForEvent(state, eventId),
   );
-  const imageGalleryEntries = useAppSelector(selectAllImageGalleryEntries);
-  const imageGallery = imageGalleryEntries?.map((image) => ({
-    key: image.key,
-    cover: image.cover,
-    token: image.token,
-    coverPlaceholder: image.coverPlaceholder,
-  }));
 
   const dispatch = useAppDispatch();
 
@@ -180,9 +242,6 @@ const EventEditor = () => {
     }
   }, [event?.slug, navigate, eventIdOrSlug, isEditPage]);
 
-  const [useImageGallery, setUseImageGallery] = useState(false);
-  const [imageGalleryUrl, setImageGalleryUrl] = useState('');
-
   if (isEditPage && (!event || !event.title)) {
     return <LoadingPage loading={fetching} />;
   }
@@ -191,7 +250,7 @@ const EventEditor = () => {
     return null;
   }
 
-  const onSubmit = (values: EditingEvent) => {
+  const onSubmit = (values: EventEditorFormValues) => {
     (isEditPage
       ? dispatch(editEvent(transformEvent(values)))
       : dispatch(createEvent(transformEvent(values)))
@@ -209,14 +268,18 @@ const EventEditor = () => {
     });
   };
 
-  const initialValues = event
+  const initialValues: Partial<EventEditorFormValues> = event
     ? {
         ...event,
+        startTime: moment(event.startTime).toISOString(),
+        endTime: moment(event.endTime).toISOString(),
         mergeTime: event.mergeTime
-          ? event.mergeTime
+          ? moment(event.mergeTime).toISOString()
           : time({
               hours: 12,
             }),
+        paymentDueDate:
+          event.paymentDueDate && moment(event.paymentDueDate).toISOString(),
         priceMember: event.priceMember / 100,
         pools: pools.map((pool) => ({
           ...pool,
@@ -224,6 +287,7 @@ const EventEditor = () => {
             label: group.name,
             value: group.id,
           })),
+          activationDate: moment(pool.activationDate).toISOString(),
         })),
         canViewGroups: (event.canViewGroups || []).map((group) => ({
           label: group.name,
@@ -256,14 +320,20 @@ const EventEditor = () => {
         location: event.location,
         useMazemap:
           (event.mazemapPoi && event.mazemapPoi > 0) || !event.location,
-        mazemapPoi: event.mazemapPoi && {
-          label: event.location,
-          //if mazemapPoi has a value, location will be its display name
-          value: event.mazemapPoi,
-        },
+        mazemapPoi: event.mazemapPoi
+          ? {
+              label: event.location,
+              //if mazemapPoi has a value, location will be its display name
+              value: event.mazemapPoi,
+            }
+          : undefined,
         separateDeadlines:
           event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
+        unregistrationDeadline:
+          event.unregistrationDeadline &&
+          moment(event.unregistrationDeadline).toISOString(),
         hasFeedbackQuestion: !!event.feedbackDescription,
+        isClarified: true,
       }
     : {
         title: '',
@@ -277,13 +347,9 @@ const EventEditor = () => {
         }),
         description: '',
         text: '',
-        eventType: '',
-        eventStatusType: {
-          value: 'TBA',
-          label: 'Ikke bestemt (TBA)',
-        },
-        company: null,
-        responsibleGroup: null,
+        eventStatusType: transformEventStatusType(EventStatusType.TBA),
+        company: undefined,
+        responsibleGroup: undefined,
         location: 'TBA',
         isPriced: false,
         useStripe: true,
@@ -302,6 +368,7 @@ const EventEditor = () => {
         canViewGroups: [],
         useConsent: false,
         feedbackDescription: '',
+        feedbackRequired: false,
         pools: [],
         useMazemap: false,
         separateDeadlines: false,
@@ -312,6 +379,7 @@ const EventEditor = () => {
         unregistrationDeadlineHours: 2,
         responsibleUsers: [],
         isForeignLanguage: false,
+        isClarified: false,
       };
 
   const title = isEditPage ? `Redigerer: ${event.title}` : 'Nytt arrangement';
@@ -334,22 +402,13 @@ const EventEditor = () => {
           ...arrayMutators,
         }}
       >
-        {({ form, handleSubmit, values }) => (
+        {({ handleSubmit, values }) => (
           <Form onSubmit={handleSubmit}>
             <EditorSection
               title="Tittel og cover"
               initiallyExpanded={!isEditPage}
             >
-              <Header
-                form={form}
-                values={values}
-                useImageGallery={useImageGallery}
-                imageGalleryUrl={imageGalleryUrl}
-                event={event}
-                imageGallery={imageGallery}
-                setUseImageGallery={setUseImageGallery}
-                setImageGalleryUrl={setImageGalleryUrl}
-              />
+              <Header values={values} />
             </EditorSection>
 
             <EditorSection title="Detaljer" initiallyExpanded={!isEditPage}>
@@ -361,7 +420,7 @@ const EventEditor = () => {
             </EditorSection>
 
             <EditorSection title="Beskrivelse" collapsible={false}>
-              <Descriptions uploadFile={uploadFile} values={values} />
+              <Descriptions uploadFile={uploadFile} />
             </EditorSection>
 
             {!isEditPage && (
@@ -415,7 +474,12 @@ const EventEditor = () => {
               </SubmitButton>
             </ButtonGroup>
 
-            {isEditPage && <Admin actionGrant={actionGrant} event={values} />}
+            {isEditPage && (
+              <Admin
+                actionGrant={actionGrant}
+                event={{ ...values, id: values.id!, slug: values.slug! }}
+              />
+            )}
           </Form>
         )}
       </TypedLegoForm>

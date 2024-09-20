@@ -52,10 +52,10 @@ export interface CompleteEvent {
   pools: EntityId[];
   totalCapacity: number;
   registrationCloseTime?: Dateish;
-  registrationDeadlineHours?: number;
+  registrationDeadlineHours: number;
   unregistrationCloseTime?: Dateish;
   unregistrationDeadline?: Dateish;
-  unregistrationDeadlineHours?: number;
+  unregistrationDeadlineHours: number;
   company?: ListCompany;
   responsibleGroup?: PublicGroup;
   activeCapacity?: number;

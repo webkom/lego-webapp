@@ -1,4 +1,5 @@
 import { FormSpy } from 'react-final-form';
+import type { FormApi } from 'final-form';
 import type { ReactNode } from 'react';
 import type { FormSpyRenderProps } from 'react-final-form';
 
@@ -11,6 +12,14 @@ export const spyValues = <FormValues,>(
     }}
   >
     {({ values }: FormSpyRenderProps<FormValues>) => render(values)}
+  </FormSpy>
+);
+
+export const spyForm = <FormValues,>(
+  render: (form: FormApi<FormValues>) => ReactNode,
+) => (
+  <FormSpy>
+    {({ form }: FormSpyRenderProps<FormValues>) => render(form)}
   </FormSpy>
 );
 

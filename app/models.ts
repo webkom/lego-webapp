@@ -9,7 +9,7 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type Comment from 'app/store/models/Comment';
 import type { ListCompany } from 'app/store/models/Company';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { DetailedUser, PhotoConsent } from 'app/store/models/User';
+import type { PhotoConsent } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
 
@@ -27,10 +27,6 @@ export enum EventTime {
   activate = 'activationTime',
   start = 'startTime',
 }
-type SelectInput = {
-  label: string;
-  value: string;
-};
 export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
 export type Grade = {
   name: string;
@@ -233,23 +229,6 @@ export type Event = EventBase & {
   photoConsents?: Array<PhotoConsent>;
   documentType?: 'event';
   responsibleUsers: EntityId[];
-  isForeignLanguage: boolean;
-};
-
-type EventTransformPool = EventPoolBase & {
-  permissionGroups: Array<SelectInput>;
-};
-
-export type TransformEvent = EventBase & {
-  pools: Array<EventTransformPool>;
-  company: SelectInput;
-  responsibleGroup: SelectInput;
-  eventStatusType: SelectInput;
-  eventType: SelectInput;
-  mazemapPoi: Record<string, any>;
-  useMazemap: boolean;
-  hasFeedbackQuestion: boolean;
-  responsibleUsers: DetailedUser[];
   isForeignLanguage: boolean;
 };
 

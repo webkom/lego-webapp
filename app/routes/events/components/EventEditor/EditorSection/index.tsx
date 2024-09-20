@@ -2,20 +2,21 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
 import styles from '../EventEditor.css';
-import type { PropsWithChildren } from 'react';
+import type { ReactNode } from 'react';
 
 type Props = {
   title: string;
   collapsible?: boolean;
   initiallyExpanded?: boolean;
+  children: ReactNode;
 };
 
-const EditorSection: React.FC<PropsWithChildren<Props>> = ({
+const EditorSection = ({
   children,
   title,
   collapsible = true,
   initiallyExpanded = false,
-}) => {
+}: Props) => {
   const [expanded, setExpanded] = useState(!collapsible || initiallyExpanded);
 
   return (
@@ -37,9 +38,7 @@ const EditorSection: React.FC<PropsWithChildren<Props>> = ({
         )}
         <h3>{title}</h3>
       </Flex>
-      {expanded && (
-        <div className={styles.editorSectionContent}>{children}</div>
-      )}
+      {expanded && <div>{children}</div>}
     </>
   );
 };

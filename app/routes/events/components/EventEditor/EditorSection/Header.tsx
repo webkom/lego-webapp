@@ -7,6 +7,7 @@ import {
   Image,
 } from '@webkom/lego-bricks';
 import { FolderOpen, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
 import EmptyState from 'app/components/EmptyState';
@@ -16,32 +17,29 @@ import {
   Button,
   ImageUploadField,
 } from 'app/components/Form';
+import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
 import { colorForEventType } from 'app/routes/events/utils';
+import { useAppSelector } from 'app/store/hooks';
+import { spyForm } from 'app/utils/formSpyUtils';
 import styles from '../EventEditor.css';
-import type { EditingEvent } from 'app/routes/events/utils';
-import type { FormApi } from 'final-form';
+import type { EventEditorFormValues } from 'app/routes/events/components/EventEditor';
 
 type Props = {
-  form: FormApi<EditingEvent, Partial<EditingEvent>>;
-  values: EditingEvent;
-  useImageGallery: boolean;
-  imageGalleryUrl: string;
-  event: any;
-  imageGallery: any;
-  setUseImageGallery: React.Dispatch<React.SetStateAction<boolean>>;
-  setImageGalleryUrl: React.Dispatch<React.SetStateAction<string>>;
+  values: EventEditorFormValues;
 };
 
-const Header = ({
-  form,
-  values,
-  useImageGallery,
-  imageGalleryUrl,
-  event,
-  imageGallery,
-  setUseImageGallery,
-  setImageGalleryUrl,
-}: Props) => {
+const Header = ({ values }: Props) => {
+  const [useImageGallery, setUseImageGallery] = useState(false);
+  const [imageGalleryUrl, setImageGalleryUrl] = useState('');
+
+  const imageGalleryEntries = useAppSelector(selectAllImageGalleryEntries);
+  const imageGallery = imageGalleryEntries?.map((image) => ({
+    key: image.key,
+    cover: image.cover,
+    token: image.token,
+    coverPlaceholder: image.coverPlaceholder,
+  }));
+
   return (
     <>
       <Field
@@ -70,7 +68,7 @@ const Header = ({
         name="cover"
         component={ImageUploadField}
         aspectRatio={20 / 6}
-        img={useImageGallery ? imageGalleryUrl : event?.cover}
+        img={useImageGallery ? imageGalleryUrl : values.cover}
         required
       />
 
@@ -92,49 +90,53 @@ const Header = ({
                   justifyContent="space-around"
                   gap="var(--spacing-md)"
                 >
-                  {imageGallery?.map((e) => (
-                    <Flex
-                      key={e.key}
-                      alignItems="center"
-                      gap="var(--spacing-md)"
-                    >
-                      <Image
-                        src={e.cover}
-                        placeholder={e.coverPlaceholder}
-                        alt={`Forsidebildet til ${e.cover}`}
-                        onClick={() => {
-                          form.change('cover', `${e.key}:${e.token}`);
-                          close();
-                          setUseImageGallery(true);
-                          setImageGalleryUrl(e.cover);
-                        }}
-                        className={styles.imageGalleryEntry}
-                      />
-                      <ConfirmModal
-                        title="Fjern fra galleri"
-                        message="Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen."
-                        closeOnConfirm
-                        onConfirm={() => {
-                          setSaveForUse(e.key, e.token, false);
-                        }}
-                      >
-                        {({ openConfirmModal }) => (
-                          <Icon
-                            onClick={openConfirmModal}
-                            iconNode={<Trash2 />}
-                            danger
+                  {spyForm<EventEditorFormValues>((form) => (
+                    <>
+                      {imageGallery?.map((e) => (
+                        <Flex
+                          key={e.key}
+                          alignItems="center"
+                          gap="var(--spacing-md)"
+                        >
+                          <Image
+                            src={e.cover}
+                            placeholder={e.coverPlaceholder}
+                            alt={`Forsidebildet til ${e.cover}`}
+                            onClick={() => {
+                              form.change('cover', `${e.key}:${e.token}`);
+                              close();
+                              setUseImageGallery(true);
+                              setImageGalleryUrl(e.cover);
+                            }}
+                            className={styles.imageGalleryEntry}
                           />
-                        )}
-                      </ConfirmModal>
-                    </Flex>
+                          <ConfirmModal
+                            title="Fjern fra galleri"
+                            message="Er du sikker på at du vil fjerne bildet fra bildegalleriet? Bildet blir ikke slettet fra databasen."
+                            closeOnConfirm
+                            onConfirm={() => {
+                              setSaveForUse(e.key, e.token, false);
+                            }}
+                          >
+                            {({ openConfirmModal }) => (
+                              <Icon
+                                onClick={openConfirmModal}
+                                iconNode={<Trash2 />}
+                                danger
+                              />
+                            )}
+                          </ConfirmModal>
+                        </Flex>
+                      ))}
+                      {imageGallery.length === 0 && (
+                        <EmptyState
+                          iconNode={<FolderOpen />}
+                          header="Bildegalleriet er tomt ..."
+                          body="Hvorfor ikke laste opp et bilde?"
+                        />
+                      )}
+                    </>
                   ))}
-                  {imageGallery.length === 0 && (
-                    <EmptyState
-                      iconNode={<FolderOpen />}
-                      header="Bildegalleriet er tomt ..."
-                      body="Hvorfor ikke laste opp et bilde?"
-                    />
-                  )}
                 </Flex>
               </>
             )}
