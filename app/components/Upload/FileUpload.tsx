@@ -1,9 +1,9 @@
 import { Button, Icon } from '@webkom/lego-bricks';
+import { UploadIcon } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { uploadFile } from 'app/actions/FileActions';
 import styles from './FileUpload.css';
-import { UploadIcon } from 'lucide-react';
 
 type FileUploadProps = {
   uploadFile: (arg0: { file: File }) => Promise<{
