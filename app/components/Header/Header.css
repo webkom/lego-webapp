@@ -50,6 +50,7 @@
 
 .buttonGroup button,
 .buttonGroup img {
+  background-color: transparent;
   border: 0;
   color: var(--lego-font-color);
   cursor: pointer;
