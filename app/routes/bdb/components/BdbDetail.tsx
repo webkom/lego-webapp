@@ -11,11 +11,10 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Trash2 } from 'lucide-react';
+import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
-  addSemester,
-  addSemesterStatus,
   deleteCompanyContact,
   deleteSemesterStatus,
   editSemesterStatus,
@@ -38,24 +37,25 @@ import Table from 'app/components/Table';
 import TextWithIcon from 'app/components/TextWithIcon';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import FileUpload from 'app/components/Upload/FileUpload';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import {
   selectEventsForCompany,
   selectJoblistingsForCompany,
   selectTransformedAdminCompanyById,
 } from 'app/reducers/companies';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserById } from 'app/reducers/users';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
-import { RenderFile } from 'app/routes/bdb/components/SemesterStatusDetail';
 import {
   indexToCompanySemester,
-  indexToYearAndSemester,
   semesterToHumanReadable,
 } from 'app/routes/bdb/utils';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
+import truncateString from 'app/utils/truncateString';
 import styles from './bdb.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
@@ -65,8 +65,63 @@ import type {
   CompanySemesterContactStatus,
 } from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
-import moment from 'moment-timezone';
-import CompanySemester from 'app/store/models/CompanySemester';
+
+type RenderFileProps = {
+  semesterStatus: TransformedSemesterStatus;
+  type: string;
+  removeFile: (
+    type: string,
+    semesterStatus: TransformedSemesterStatus,
+  ) => Promise<unknown>;
+  addFile: (
+    name: string,
+    token: string,
+    type: string,
+    semesterStatus: TransformedSemesterStatus,
+  ) => Promise<unknown>;
+};
+
+export const RenderFile = (props: RenderFileProps) => {
+  const { semesterStatus, type, removeFile, addFile } = props;
+
+  const fileNameToShow = (name: string, url?: string) =>
+    name ? <a href={url}>{truncateString(name, 30)}</a> : '-';
+
+  const fileName = fileNameToShow(
+    semesterStatus[type + 'Name'],
+    semesterStatus[type],
+  );
+
+  if (semesterStatus[type]) {
+    return (
+      <span className={styles.deleteFile}>
+        <span>{fileName}</span>
+        <ConfirmModal
+          title="Slett fil"
+          message="Er du sikker på at du vil slette denne filen?"
+          onConfirm={() => removeFile(type, semesterStatus)}
+          closeOnConfirm
+        >
+          {({ openConfirmModal }) => (
+            <Icon
+              onClick={openConfirmModal}
+              iconNode={<Trash2 />}
+              size={20}
+              danger
+            />
+          )}
+        </ConfirmModal>
+      </span>
+    );
+  }
+  return (
+    <FileUpload
+      onChange={(fileName, fileToken) =>
+        addFile(fileName, fileToken, type, semesterStatus)
+      }
+    />
+  );
+};
 
 const BdbDetail = () => {
   const { companyId } = useParams<{ companyId: string }>() as {
@@ -90,7 +145,7 @@ const BdbDetail = () => {
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
   ) as ListEvent[];
-  //const companySemesters = useAppSelector(selectAllCompanySemesters);
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
   const studentContact = useAppSelector((state) =>
     company?.studentContact !== null
       ? selectUserById(state, company?.studentContact as EntityId | undefined)
@@ -135,21 +190,15 @@ const BdbDetail = () => {
     return <LoadingIndicator loading />;
   }
 
-  const fetchMoreEvents = () => {
-    dispatch(
-      fetchEvents({
-        query: eventsQuery,
-        next: true,
-      }),
-    );
-  };
-
   const editChangedStatuses = async (
     companyId: EntityId,
     tableIndex: number,
     semesterStatusId: EntityId | undefined,
     contactedStatus: CompanySemesterContactStatus[],
   ) => {
+    if (!semesterStatusId) {
+      throw new Error('SemesterStatusId is undefined');
+    }
     const startYear = moment().year();
     const startSemester = moment().month() > 6 ? 1 : 0;
 
@@ -157,39 +206,21 @@ const BdbDetail = () => {
       tableIndex,
       startYear,
       startSemester,
-      company.semesterStatuses as CompanySemester[],
+      companySemesters,
     );
 
-    console.log('companySemester: ', companySemester);
-
-    let companySemesterId: EntityId;
-
-    if (!companySemester) {
-      const newCompanySemester = indexToYearAndSemester(
-        tableIndex,
-        startYear,
-        startSemester,
-      );
-      const response = await dispatch(addSemester(newCompanySemester));
-      companySemesterId = response.payload.result;
-    } else {
-      companySemesterId = companySemester.id;
-    }
-
+    const id = companySemester?.id;
     const semesterStatus = {
       companyId,
       contactedStatus,
-      semester: companySemesterId,
+      semester: id,
     };
-    return semesterStatusId
-      ? dispatch(editSemesterStatus({ ...semesterStatus, semesterStatusId }))
-      : dispatch(addSemesterStatus(semesterStatus)).then(() => {
-          navigate('/bdb');
-        });
+    return dispatch(
+      editSemesterStatus({ ...semesterStatus, semesterStatusId }),
+    );
   };
 
   const addFileToSemester = async (
-    fileName: string,
     fileToken: string,
     type: string,
     semesterStatus,
