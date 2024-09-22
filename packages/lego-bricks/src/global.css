@@ -1,1 +1,6 @@
 @import '../../../app/styles/variables.css';
+
+button {
+    background-color: transparent;
+    border: none;
+}
