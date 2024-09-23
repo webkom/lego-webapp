@@ -415,7 +415,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
 
                         {event.activationTime && registrationOpensIn && (
                           <Button disabled={disabledButton}>
-                            {`Åpner om ${moment(registrationOpensIn.asMilliseconds()).format('mm:ss')}`}
+                            {`Åpner om ${moment(registrationOpensIn.add(1, 'second').asMilliseconds()).format('mm:ss')}`}
                           </Button>
                         )}
 
