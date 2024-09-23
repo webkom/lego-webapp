@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .wrapper {
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .wrapper table {
