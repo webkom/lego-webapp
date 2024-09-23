@@ -7923,12 +7923,12 @@ exenv@^1.2.0:
   resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
   integrity sha512-Z+ktTxTwv9ILfgKCk32OX3n/doe+OcLTRtqK9pcL+JsP3J1/VW8Uvl4ZjLlKqeW4rzK4oesDOGMEMRIZqtP4Iw==
 
-express-static-gzip@^2.1.7:
-  version "2.1.7"
-  resolved "https://registry.yarnpkg.com/express-static-gzip/-/express-static-gzip-2.1.7.tgz#5904824a07950ba741ec3a23a21839dd04c63506"
-  integrity sha512-QOCZUC+lhPPCjIJKpQGu1Oa61Axg9Mq09Qvit8Of7kzpMuwDeMSqjjQteQS3OVw/GkENBoSBheuQDWPlngImvw==
+express-static-gzip@^2.1.8:
+  version "2.1.8"
+  resolved "https://registry.yarnpkg.com/express-static-gzip/-/express-static-gzip-2.1.8.tgz#f37f0fe9e8113e56cfac63a98c0197ee6bd6458f"
+  integrity sha512-g8tiJuI9Y9Ffy59ehVXvqb0hhP83JwZiLxzanobPaMbkB5qBWA8nuVgd+rcd5qzH3GkgogTALlc0BaADYwnMbQ==
   dependencies:
-    serve-static "^1.14.1"
+    serve-static "^1.16.2"
 
 express@^4.19.2, express@^4.21.0:
   version "4.21.0"
@@ -12612,7 +12612,7 @@ serialize-javascript@^6.0.1, serialize-javascript@^6.0.2:
   dependencies:
     randombytes "^2.1.0"
 
-serve-static@1.16.2, serve-static@^1.14.1:
+serve-static@1.16.2, serve-static@^1.16.2:
   version "1.16.2"
   resolved "https://registry.yarnpkg.com/serve-static/-/serve-static-1.16.2.tgz#b6a5343da47f6bdd2673848bf45754941e803296"
   integrity sha512-VqpjJZKadQB/PEbEwvFdO43Ax5dFBZ2UECszz8bQ7pi7wt//PWe1P6MN7eCnjsatYtBT6EuiClbjSWP2WrIoTw==
