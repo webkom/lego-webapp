@@ -1,21 +1,11 @@
-import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import {
-  BriefcaseBusiness,
-  CircleHelp,
-  Clock,
-  Coins,
-  FilePenLine,
-  Languages,
-  MapPin,
-  Star,
-} from 'lucide-react';
+import { CircleHelp, FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
-import mazemapLogo from 'app/assets/mazemap.svg';
+import { fetchEvent } from 'app/actions/EventActions';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   ContentSection,
@@ -24,13 +14,11 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
-import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { FormatTime, FromToTime } from 'app/components/Time';
+import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import {
@@ -41,16 +29,18 @@ import {
   selectPoolsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationForEventByUserId,
-  selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from 'app/reducers/events';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { selectUserWithGroups } from 'app/reducers/users';
+import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
+import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
+import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
+import { UnansweredSurveys } from 'app/routes/events/components/EventDetail/UnansweredSurveys';
 import {
   colorForEventType,
   penaltyHours,
-  getEventSemesterFromStartTime,
   registrationCloseTime,
   displayNameForEventType,
 } from 'app/routes/events/utils';
@@ -58,38 +48,14 @@ import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import RegistrationMeta from '../RegistrationMeta';
 import styles from './EventDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type { ReadRegistration } from 'app/store/models/Registration';
-
-type InterestedButtonProps = {
-  isInterested: boolean;
-  onClick: () => void;
-};
-
-const MIN_USER_GRID_ROWS = 2;
-const MAX_USER_GRID_ROWS = 2;
 
 const Line = () => <div className={styles.line} />;
-
-const InterestedButton = ({ isInterested, onClick }: InterestedButtonProps) => {
-  return (
-    <Tooltip content="Følg arrangementet, og få e-post når påmelding nærmer seg!">
-      <Icon
-        iconNode={
-          <Star fill={isInterested ? 'var(--color-orange-6)' : 'transparent'} />
-        }
-        onClick={onClick}
-        className={styles.star}
-      />
-    </Tooltip>
-  );
-};
 
 const propertyGenerator: PropertyGenerator<{
   event: AuthUserDetailedEvent | UserDetailedEvent;
@@ -135,8 +101,6 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const EventDetail = () => {
-  const [mapIsOpen, setMapIsOpen] = useState(false);
-
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
     selectEventByIdOrSlug(state, { eventIdOrSlug }),
@@ -145,7 +109,7 @@ const EventDetail = () => {
   const fetching = useAppSelector((state) => state.events.fetching);
   const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
-  const hasFullAccess = Boolean(event?.waitingRegistrations);
+  const hasFullAccess = Boolean('waitingRegistrations' in event);
 
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
@@ -165,9 +129,6 @@ const EventDetail = () => {
     event?.isMerged
       ? selectMergedPoolWithRegistrations(state, { eventId })
       : selectPoolsWithRegistrationsForEvent(state, { eventId }),
-  );
-  const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId }),
   );
   const waitingRegistrations = useAppSelector((state) =>
     selectWaitingRegistrationsForEvent(state, { eventId }),
@@ -205,17 +166,10 @@ const EventDetail = () => {
     ),
   );
 
-  let currentRegistration;
-  let currentRegistrationIndex;
+  const currentRegistration = currentPool?.registrations.find(
+    (registration) => registration.user?.id === currentUser?.id,
+  );
 
-  if (currentPool) {
-    currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user?.id === currentUser?.id,
-    );
-    currentRegistration = currentPool.registrations[currentRegistrationIndex];
-  }
-
-  const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
   const pendingRegistration = useAppSelector(
     (state) =>
       currentUser &&
@@ -242,10 +196,6 @@ const EventDetail = () => {
 
   const color = colorForEventType(event.eventType);
 
-  const onRegisterClick = event.following
-    ? () => dispatch(unfollow(event.following as number, event.id))
-    : () => dispatch(follow(currentUser.id, event.id));
-
   const currentMoment = moment();
 
   const activationTimeMoment = moment(event.activationTime);
@@ -258,13 +208,6 @@ const EventDetail = () => {
     : activationTimeMoment;
 
   const registrationCloseTimeMoment = registrationCloseTime(event);
-
-  // The UserGrid is expanded when there's less than 5 minutes till activation
-  const minUserGridRows = currentMoment.isAfter(
-    moment(activationTimeMoment).subtract(5, 'minutes'),
-  )
-    ? MIN_USER_GRID_ROWS
-    : 0;
 
   const deadlines = [
     event.activationTime && currentMoment.isBefore(activationTimeMoment)
@@ -432,12 +375,7 @@ const EventDetail = () => {
       }
       title={
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          {loggedIn && (
-            <InterestedButton
-              onClick={onRegisterClick}
-              isInterested={!!event.following}
-            />
-          )}
+          {loggedIn && <InterestedButton event={event} />}
           {event.title}
         </Flex>
       }
@@ -469,134 +407,27 @@ const EventDetail = () => {
         </ContentMain>
 
         <ContentSidebar>
-          {showSkeleton ? (
-            <Flex column gap="var(--spacing-sm)">
-              <Skeleton array={3} className={styles.sidebarInfo} />
-            </Flex>
-          ) : (
-            <Flex column gap="var(--spacing-sm)">
-              {event.company && (
-                <TextWithIcon
-                  iconNode={<BriefcaseBusiness />}
-                  size={20}
-                  content={
-                    <Link to={`/companies/${event.company.id}`}>
-                      {event.company.name}
-                    </Link>
-                  }
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              <TextWithIcon
-                iconNode={<Clock />}
-                size={20}
-                content={
-                  <FromToTime from={event.startTime} to={event.endTime} />
-                }
-                className={styles.sidebarInfo}
-              />
-
-              {event.isForeignLanguage !== null && event.isForeignLanguage && (
-                <TextWithIcon
-                  iconNode={<Languages />}
-                  size={20}
-                  content="English"
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              {event.isPriced && (
-                <TextWithIcon
-                  iconNode={<Coins />}
-                  size={20}
-                  content={event.priceMember / 100 + ',-'}
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              <TextWithIcon
-                iconNode={<MapPin />}
-                size={20}
-                content={event.location}
-                className={styles.sidebarInfo}
-              />
-
-              {event.mazemapPoi && (
-                <Flex column gap="var(--spacing-xs)">
-                  <Button
-                    className={styles.mapButton}
-                    onPress={() => setMapIsOpen(!mapIsOpen)}
-                  >
-                    <img
-                      className={styles.mazemapImg}
-                      alt="MazeMap sin logo"
-                      src={mazemapLogo}
-                    />
-                    {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                  </Button>
-                  {mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}
-                </Flex>
-              )}
-            </Flex>
-          )}
+          <SidebarInfo showSkeleton={showSkeleton} event={event} />
 
           {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
             <>
-              <Flex column>
-                <h3>Påmeldte</h3>
-
-                <Attendance
-                  pools={pools}
-                  registrations={registrations}
-                  currentRegistration={currentRegistration}
-                  minUserGridRows={minUserGridRows}
-                  maxUserGridRows={MAX_USER_GRID_ROWS}
-                  legacyRegistrationCount={event.legacyRegistrationCount}
-                  skeleton={fetching && !registrations}
-                />
-
-                {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment,
-                    )}
-                    photoConsents={event.photoConsents}
-                    eventSemester={getEventSemesterFromStartTime(
-                      event.startTime,
-                    )}
-                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                    skeleton={showSkeleton}
-                  />
-                )}
-              </Flex>
+              <AttendeeSection
+                showSkeleton={showSkeleton}
+                event={event}
+                currentRegistration={currentRegistration}
+                pools={pools}
+                currentPool={currentPool}
+              />
 
               {'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
               !event.isAdmitted ? (
-                <Card severity="danger">
-                  <p>
-                    Du kan ikke melde deg {currentRegistration ? 'av' : 'på'}{' '}
-                    dette arrangementet fordi du har ubesvarte
-                    spørreundersøkelser. Gå til lenkene under for å svare:
-                  </p>
-                  <ul>
-                    {event.unansweredSurveys.map((surveyId, i) => (
-                      <li key={surveyId}>
-                        <Link to={`/surveys/${surveyId}`}>
-                          Undersøkelse {i + 1}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <UnansweredSurveys
+                  event={event}
+                  currentRegistration={currentRegistration}
+                />
               ) : (
                 !showSkeleton && (
                   <JoinEventForm
