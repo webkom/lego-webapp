@@ -71,7 +71,7 @@
     "linkify-react": "^3.0.4",
     "linkifyjs": "^3.0.5",
     "lodash-es": "^4.17.21",
-    "lucide-react": "^0.436.0",
+    "lucide-react": "^0.445.0",
     "mazemap": "file:mazemap",
     "minireset.css": "^0.0.7",
     "moment-timezone": "^0.5.45",
