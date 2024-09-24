@@ -9,7 +9,7 @@ import {
 } from 'app/actions/SurveySubmissionActions';
 import Time from 'app/components/Time';
 import { useCurrentUser } from 'app/reducers/auth';
-import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
+import { selectOwnSurveySubmission } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/AlreadyAnswered';
 import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
@@ -27,13 +27,10 @@ const AddSubmissionPage = () => {
     useParams<AddSubmissionPageParams>() as AddSubmissionPageParams;
   const currentUser = useCurrentUser();
   const { survey, event } = useFetchedSurvey('addSubmission', surveyId);
-  const submission = useAppSelector(
-    (state) =>
-      currentUser &&
-      selectSurveySubmissionForUser(state, {
-        surveyId: Number(surveyId),
-        currentUserId: currentUser.id,
-      }),
+  const submission = useAppSelector((state) =>
+    selectOwnSurveySubmission(state, {
+      surveyId: Number(surveyId),
+    }),
   );
 
   const fetchingSubmission = useAppSelector(
