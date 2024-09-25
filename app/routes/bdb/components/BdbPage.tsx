@@ -222,15 +222,12 @@ const BdbPage = () => {
       },
     },
     {
-      title: 'Notat',
-      dataIndex: 'comment',
+      // Using an empty column for filtering
+      title: '',
+      dataIndex: 'Filter',
       centered: false,
-      maxWidth: 200,
-      render: (_, company) => company.adminComment,
-      sorter: (a, b) =>
-        a.adminComment?.localeCompare(b.adminComment || '') || 0,
-
-      // Using the last column for this filtering, even though it's unrelated
+      maxWidth: 50,
+      render: () => '',
       filterIndex: 'active',
       filter: [
         { value: 'true', label: 'Aktiv' },
