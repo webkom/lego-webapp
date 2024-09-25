@@ -471,7 +471,7 @@ const BdbDetail = () => {
             skeleton={showSkeleton}
           ></CollapsibleDisplayContent>
 
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" alignItems="center">
             <h3>Bedriftskontakter </h3>
             <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
               Legg til bedriftskontakt
