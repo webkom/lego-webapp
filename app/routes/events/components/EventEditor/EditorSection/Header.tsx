@@ -5,6 +5,7 @@ import {
   Icon,
   Modal,
   Image,
+  Card,
 } from '@webkom/lego-bricks';
 import { FolderOpen, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
@@ -64,6 +65,14 @@ const Header = ({
         fieldClassName={styles.metaField}
         className={styles.formField}
       />
+
+      {values.pinned && (
+        <Card style={{ marginTop: 0 }} severity="warning">
+          <span>
+            OBS! Du må ha godkjenning fra ledelsen for å feste til forsiden.
+          </span>
+        </Card>
+      )}
 
       <Field
         label="Cover"
