@@ -1,8 +1,10 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
+import { useMemo } from 'react';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectRegistrationsFromPools } from 'app/reducers/events';
+import { getWaitingListPosition } from 'app/routes/events/components/EventDetail/getWaitingListPosition';
 import RegistrationMeta, {
   RegistrationMetaSkeleton,
 } from 'app/routes/events/components/RegistrationMeta';
@@ -39,11 +41,10 @@ export const AttendeeSection = ({
   );
 
   const currentMoment = moment();
-  const hasSimpleWaitingList =
-    pools.filter((p) => p.name != 'Venteliste').length <= 1;
-  const waitingListIndex =
-    currentRegistration &&
-    currentPool?.registrations.indexOf(currentRegistration);
+  const waitingListPosition = useMemo(
+    () => getWaitingListPosition(currentRegistration, currentPool, pools),
+    [currentRegistration, currentPool, pools],
+  );
 
   // The UserGrid is expanded when there's less than 5 minutes till activation
   const minUserGridRows =
@@ -78,8 +79,7 @@ export const AttendeeSection = ({
             hasEnded={moment(event.endTime).isBefore(currentMoment)}
             registration={currentRegistration}
             isPriced={event.isPriced}
-            registrationIndex={waitingListIndex ?? 0}
-            hasSimpleWaitingList={hasSimpleWaitingList}
+            waitingListPosition={waitingListPosition}
             skeleton={showSkeleton}
           />
         ))}

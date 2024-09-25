@@ -44,6 +44,7 @@ export function usePools(
             registrations: waitingRegistrations,
             registrationCount: waitingRegistrations.length,
             permissionGroups: [],
+            isWaitingList: true,
           },
         ]
       : pools;
@@ -55,6 +56,7 @@ export function usePools(
             name: 'Venteliste',
             registrationCount: event.waitingRegistrationCount,
             permissionGroups: [],
+            isWaitingList: true,
           },
         ]
       : pools;
