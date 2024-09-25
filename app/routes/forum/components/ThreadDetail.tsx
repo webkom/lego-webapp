@@ -73,7 +73,6 @@ const ThreadDetail = () => {
             contentTarget={thread.contentTarget}
             comments={comments}
             contentAuthors={thread.createdBy}
-            newOnTop
           />
         )}
       </Page>
