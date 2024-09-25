@@ -139,6 +139,7 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
+            following: 14,
           } as unknown as UnknownEvent,
         },
       };
@@ -181,6 +182,7 @@ describe('reducers', () => {
             registrationCount: 0,
             waitingRegistrationCount: 1,
             waitingRegistrations: [99],
+            following: 14,
           } as unknown as UnknownEvent,
         },
       };
@@ -223,6 +225,7 @@ describe('reducers', () => {
             registrationCount: 3,
             waitingRegistrationCount: 0,
             waitingRegistrations: [],
+            following: 14,
           } as unknown as UnknownEvent,
         },
       };

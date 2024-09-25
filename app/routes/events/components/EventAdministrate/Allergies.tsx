@@ -7,40 +7,49 @@ import { fetchAllergies } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import { useCurrentUser } from 'app/reducers/auth';
-import { getRegistrationGroups, selectEventById } from 'app/reducers/events';
+import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { AdministrateEvent } from 'app/store/models/Event';
-import type { CurrentUser } from 'app/store/models/User';
+import type {
+  AdministrateAllergiesUser,
+  AdministrateUserWithGrade,
+  CurrentUser,
+} from 'app/store/models/User';
 
 export const canSeeAllergies = (
   currentUser?: CurrentUser,
   event?: AdministrateEvent,
-) => {
+): boolean => {
   if (!currentUser || !event || isEmpty(event)) {
     return false;
   }
+  const responsibleGroup = event.responsibleGroup?.id;
   return (
     currentUser.id === event.createdBy?.id ||
-    currentUser.abakusGroups?.includes(event.responsibleGroup?.id as EntityId)
+    (!!responsibleGroup && currentUser.abakusGroups?.includes(responsibleGroup))
   );
 };
 
 const Allergies = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = useAppSelector((state) =>
-    eventId ? selectEventById(state, { eventId }) : undefined,
-  ) as AdministrateEvent;
+    eventId ? selectEventById<AdministrateEvent>(state, eventId) : undefined,
+  );
   const { registered } = useAppSelector((state) =>
-    getRegistrationGroups(state, {
+    selectRegistrationGroups(state, {
       eventId,
     }),
   );
-  const registeredAllergies = registered.filter((registration) => {
-    return registration?.user.allergies;
-  });
+
+  type RegistrationWithAllergies = (typeof registered)[number] & {
+    user: AdministrateUserWithGrade & AdministrateAllergiesUser;
+  };
+  const registeredAllergies = registered.filter(
+    (registration) =>
+      'allergies' in registration.user && registration.user.allergies,
+  ) as RegistrationWithAllergies[];
   const fetching = useAppSelector((state) => state.events.fetching);
   const currentUser = useCurrentUser();
 
@@ -65,7 +74,10 @@ const Allergies = () => {
       (registration) =>
         getRegistrationInfo(registration).status !== 'Venteliste',
     )
-    .map((registration) => registration.user.allergies)
+    .map(
+      (registration) =>
+        'allergies' in registration.user && registration.user.allergies,
+    )
     .join('\n');
 
   const allergiesTXT = URL.createObjectURL(
@@ -80,15 +92,15 @@ const Allergies = () => {
       dataIndex: 'user',
       search: true,
       centered: false,
-      render: (user) => (
+      render: (user: RegistrationWithAllergies['user']) => (
         <Link to={`/users/${user.username}`}>{user.fullName}</Link>
       ),
-      filterMapping: (user) => user.fullName,
+      filterMapping: (user: RegistrationWithAllergies['user']) => user.fullName,
     },
     {
       title: 'Status',
       dataIndex: 'pool',
-      render: (pool, registration) => {
+      render: (_, registration: RegistrationWithAllergies) => {
         const registrationInfo = getRegistrationInfo(registration);
         return (
           <RegistrationPill
@@ -98,7 +110,7 @@ const Allergies = () => {
           />
         );
       },
-      sorter: (a, b) => {
+      sorter: (a: RegistrationWithAllergies, b: RegistrationWithAllergies) => {
         if (a.pool && !b.pool) return -1;
         if (!a.pool && b.pool) return 1;
         return 0;
@@ -108,8 +120,11 @@ const Allergies = () => {
       title: 'Matallergier / preferanser',
       dataIndex: 'user.allergies',
       centered: false,
-      render: (allergies) => <span>{allergies}</span>,
-      sorter: (a, b) => a.user.allergies.localeCompare(b.user.allergies),
+      render: (allergies: RegistrationWithAllergies['user']['allergies']) => (
+        <span>{allergies}</span>
+      ),
+      sorter: (a: RegistrationWithAllergies, b: RegistrationWithAllergies) =>
+        a.user.allergies.localeCompare(b.user.allergies),
     },
   ];
 
@@ -118,8 +133,11 @@ const Allergies = () => {
         title: 'Tilbakemelding',
         dataIndex: 'feedback',
         centered: false,
-        render: (feedback) => <span>{feedback || '-'}</span>,
-        sorter: (a, b) => a.feedback.localeCompare(b.feedback),
+        render: (feedback: RegistrationWithAllergies['feedback']) => (
+          <span>{feedback || '-'}</span>
+        ),
+        sorter: (a: RegistrationWithAllergies, b: RegistrationWithAllergies) =>
+          a.feedback.localeCompare(b.feedback),
       })
     : initialColumns;
 

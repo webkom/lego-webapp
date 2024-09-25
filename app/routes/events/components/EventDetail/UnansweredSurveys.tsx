@@ -1,11 +1,11 @@
 import { Card } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';
-import type { ReadRegistration } from 'app/store/models/Registration';
 
 interface Props {
   event: AuthUserDetailedEvent;
-  currentRegistration: ReadRegistration | null;
+  currentRegistration?: PoolRegistrationWithUser;
 }
 
 export const UnansweredSurveys = ({ event, currentRegistration }: Props) => {

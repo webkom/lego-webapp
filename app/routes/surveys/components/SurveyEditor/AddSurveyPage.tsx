@@ -43,8 +43,8 @@ const AddSurveyPage = () => {
   );
 
   const fullEvent = useAppSelector((state) =>
-    selectEventById(state, { eventId: event }),
-  ) as AdministrateEvent | Record<string, never>;
+    selectEventById<AdministrateEvent>(state, event),
+  );
 
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>

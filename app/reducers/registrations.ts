@@ -14,7 +14,9 @@ const legoAdapter = createLegoAdapter(EntityType.Registrations);
 
 const registrationsSlice = createSlice({
   name: EntityType.Registrations,
-  initialState: legoAdapter.getInitialState(),
+  initialState: legoAdapter.getInitialState({
+    test: 1,
+  }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     extraCases: (addCase) => {
@@ -24,15 +26,16 @@ const registrationsSlice = createSlice({
         legoAdapter.upsertMany(state, registrations);
       });
       addCase(Event.REQUEST_UNREGISTER.BEGIN, (state, action: AnyAction) => {
-        state.entities[action.meta.id].fetching = true;
+        state.entities[action.meta.id].unregistering = true;
       });
       addCase(Event.REQUEST_UNREGISTER.SUCCESS, (state, action: AnyAction) => {
         const registrations = normalize(action.payload, registrationSchema)
           .entities.registrations!;
         legoAdapter.upsertMany(state, registrations);
+        state.entities[action.meta.id].unregistering = false;
       });
       addCase(Event.REQUEST_UNREGISTER.FAILURE, (state, action: AnyAction) => {
-        state.entities[action.meta.id].fetching = false;
+        state.entities[action.meta.id].unregistering = false;
       });
 
       addCase(Event.SOCKET_PAYMENT.SUCCESS, (state, action: AnyAction) => {
@@ -141,6 +144,7 @@ const registrationsSlice = createSlice({
 export default registrationsSlice.reducer;
 
 export const {
+  selectAll: selectAllRegistrations,
   selectEntities: selectRegistrationEntities,
   selectIds: selectRegistrationIds,
 } = legoAdapter.getSelectors((state: RootState) => state.registrations);

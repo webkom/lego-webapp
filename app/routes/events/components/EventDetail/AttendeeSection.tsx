@@ -3,24 +3,26 @@ import moment from 'moment-timezone';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectRegistrationsFromPools } from 'app/reducers/events';
-import RegistrationMeta from 'app/routes/events/components/RegistrationMeta';
+import RegistrationMeta, {
+  RegistrationMetaSkeleton,
+} from 'app/routes/events/components/RegistrationMeta';
 import { getEventSemesterFromStartTime } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
-import type { UserDetailedEvent } from 'app/store/models/Event';
 import type {
-  PaymentRegistration,
-  ReadRegistration,
-} from 'app/store/models/Registration';
+  PoolWithRegistrations,
+  PoolRegistrationWithUser,
+} from 'app/reducers/events';
+import type { UserDetailedEvent } from 'app/store/models/Event';
 
 const MIN_USER_GRID_ROWS = 2;
 const MAX_USER_GRID_ROWS = 2;
 
 interface Props {
   showSkeleton: boolean;
-  event: UserDetailedEvent;
-  currentRegistration?: PaymentRegistration;
-  pools: any;
-  currentPool: any;
+  event?: UserDetailedEvent;
+  currentRegistration?: PoolRegistrationWithUser;
+  pools: PoolWithRegistrations[];
+  currentPool?: PoolWithRegistrations;
 }
 
 export const AttendeeSection = ({
@@ -32,22 +34,23 @@ export const AttendeeSection = ({
 }: Props) => {
   const loggedIn = useIsLoggedIn();
   const fetching = useAppSelector((state) => state.events.fetching);
-  const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId: event.id }),
+  const registrations = useAppSelector((state) =>
+    selectRegistrationsFromPools(state, event?.id),
   );
 
   const currentMoment = moment();
   const hasSimpleWaitingList =
     pools.filter((p) => p.name != 'Venteliste').length <= 1;
   const waitingListIndex =
+    currentRegistration &&
     currentPool?.registrations.indexOf(currentRegistration);
 
   // The UserGrid is expanded when there's less than 5 minutes till activation
-  const minUserGridRows = currentMoment.isAfter(
-    moment(event.activationTime).subtract(5, 'minutes'),
-  )
-    ? MIN_USER_GRID_ROWS
-    : 0;
+  const minUserGridRows =
+    event &&
+    currentMoment.isAfter(moment(event.activationTime).subtract(5, 'minutes'))
+      ? MIN_USER_GRID_ROWS
+      : 0;
 
   return (
     <Flex column>
@@ -59,24 +62,27 @@ export const AttendeeSection = ({
         currentRegistration={currentRegistration}
         minUserGridRows={minUserGridRows}
         maxUserGridRows={MAX_USER_GRID_ROWS}
-        legacyRegistrationCount={event.legacyRegistrationCount}
+        legacyRegistrationCount={event?.legacyRegistrationCount}
         skeleton={fetching && !registrations}
       />
 
-      {loggedIn && (
-        <RegistrationMeta
-          useConsent={event.useConsent}
-          hasOpened={moment(event.activationTime).isBefore(currentMoment)}
-          photoConsents={event.photoConsents}
-          eventSemester={getEventSemesterFromStartTime(event.startTime)}
-          hasEnded={moment(event.endTime).isBefore(currentMoment)}
-          registration={currentRegistration}
-          isPriced={event.isPriced}
-          registrationIndex={waitingListIndex}
-          hasSimpleWaitingList={hasSimpleWaitingList}
-          skeleton={showSkeleton}
-        />
-      )}
+      {loggedIn &&
+        (showSkeleton || !event ? (
+          <RegistrationMetaSkeleton />
+        ) : (
+          <RegistrationMeta
+            useConsent={event.useConsent}
+            hasOpened={moment(event.activationTime).isBefore(currentMoment)}
+            photoConsents={event.photoConsents}
+            eventSemester={getEventSemesterFromStartTime(event.startTime)}
+            hasEnded={moment(event.endTime).isBefore(currentMoment)}
+            registration={currentRegistration}
+            isPriced={event.isPriced}
+            registrationIndex={waitingListIndex ?? 0}
+            hasSimpleWaitingList={hasSimpleWaitingList}
+            skeleton={showSkeleton}
+          />
+        ))}
     </Flex>
   );
 };

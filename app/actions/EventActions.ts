@@ -3,7 +3,7 @@ import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import { Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedEvent } from 'app/store/models/Event';
-import type { Presence } from 'app/store/models/Registration';
+import type { Presence, ReadRegistration } from 'app/store/models/Registration';
 import type { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
@@ -225,7 +225,7 @@ export function updateFeedback(
 }
 
 export function markUsernamePresent(eventId: EntityId, username: string) {
-  return callAPI({
+  return callAPI<ReadRegistration>({
     types: Event.UPDATE_REGISTRATION,
     endpoint: `/events/${eventId}/registration_search/`,
     method: 'POST',

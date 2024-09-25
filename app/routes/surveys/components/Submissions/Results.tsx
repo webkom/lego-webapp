@@ -78,9 +78,9 @@ const Results = ({
   numberOfSubmissions,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const event = useAppSelector((state) =>
-    selectEventById(state, { eventId: survey.event }),
-  ) as EventForSurvey;
+  const event = useAppSelector(
+    (state) => selectEventById<EventForSurvey>(state, survey.event)!,
+  );
 
   const info: Info[] = [
     {

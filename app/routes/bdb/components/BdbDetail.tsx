@@ -53,7 +53,6 @@ import type {
   CompanySemesterContactStatus,
   SemesterStatus,
 } from 'app/store/models/Company';
-import type { ListEvent } from 'app/store/models/Event';
 
 const BdbDetail = () => {
   const { companyId } = useParams<{ companyId: string }>() as {
@@ -74,7 +73,7 @@ const BdbDetail = () => {
 
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
-  ) as ListEvent[];
+  );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const studentContact = useAppSelector((state) =>
     company?.studentContact !== null

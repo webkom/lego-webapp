@@ -3,9 +3,8 @@ import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import config from 'app/config';
 import { eventSchema } from 'app/reducers';
-import { addCommentCases, selectCommentEntities } from 'app/reducers/comments';
+import { addCommentCases } from 'app/reducers/comments';
 import { selectUserEntities } from 'app/reducers/users';
 import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
 import { EntityType } from 'app/store/models/entities';
@@ -13,14 +12,29 @@ import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Event } from '../actions/ActionTypes';
 import { selectPoolEntities } from './pools';
 import {
+  selectAllRegistrations,
   selectRegistrationEntities,
-  selectRegistrationIds,
 } from './registrations';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { DetailedEvent, UserDetailedEvent } from 'app/store/models/Event';
-import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import type {
+  AuthUserDetailedEvent,
+  DetailedEvent,
+  UserDetailedEvent,
+} from 'app/store/models/Event';
+import type { PublicGroup } from 'app/store/models/Group';
+import type { AuthPool, PublicPool } from 'app/store/models/Pool';
+import type {
+  DetailedRegistration,
+  ReadRegistration,
+} from 'app/store/models/Registration';
+import type {
+  AdministrateUser,
+  AdministrateUserWithGrade,
+  PublicUser,
+} from 'app/store/models/User';
 import type { AnyAction } from 'redux';
+import type { Optional, Overwrite } from 'utility-types';
 
 const legoAdapter = createLegoAdapter(EntityType.Events);
 
@@ -42,21 +56,27 @@ const eventsSlice = createSlice({
       addCase(Event.SOCKET_REGISTRATION.SUCCESS, (state, action: AnyAction) => {
         const eventId = action.meta.eventId;
         const registration = action.payload;
-        const stateEvent = state.entities[eventId] as DetailedEvent;
+        const stateEvent = state.entities[eventId] as
+          | DetailedEvent
+          | UserDetailedEvent
+          | AuthUserDetailedEvent;
 
         if (!stateEvent) {
           return;
         }
 
         let registrationCount = stateEvent.registrationCount;
-        let waitingRegistrations = stateEvent.waitingRegistrations;
+        const hasRegistrationAccess = 'waitingRegistrations' in stateEvent;
         let waitingRegistrationCount = stateEvent.waitingRegistrationCount ?? 0;
 
         if (!registration.pool) {
           waitingRegistrationCount = waitingRegistrationCount + 1;
 
-          if (waitingRegistrations) {
-            waitingRegistrations = [...waitingRegistrations, registration.id];
+          if (hasRegistrationAccess) {
+            stateEvent.waitingRegistrations = [
+              ...(stateEvent.waitingRegistrations ?? []),
+              registration.id,
+            ];
           }
         } else {
           registrationCount++;
@@ -64,10 +84,6 @@ const eventsSlice = createSlice({
 
         stateEvent.registrationCount = registrationCount;
         stateEvent.waitingRegistrationCount = waitingRegistrationCount;
-
-        if (waitingRegistrations) {
-          stateEvent.waitingRegistrations = waitingRegistrations;
-        }
       });
       addCase(
         Event.SOCKET_UNREGISTRATION.SUCCESS,
@@ -78,7 +94,10 @@ const eventsSlice = createSlice({
             fromPool,
             currentUser,
           } = action.meta;
-          const stateEvent = state.entities[eventId] as DetailedEvent;
+          const stateEvent = state.entities[eventId] as
+            | DetailedEvent
+            | UserDetailedEvent
+            | AuthUserDetailedEvent;
           const registration = action.payload;
 
           if (!stateEvent) {
@@ -95,18 +114,23 @@ const eventsSlice = createSlice({
 
           if (fromPool) {
             stateEvent.registrationCount--;
-          } else {
+          } else if (stateEvent.waitingRegistrationCount !== undefined) {
             stateEvent.waitingRegistrationCount--;
           }
 
-          if (stateEvent.waitingRegistrations) {
+          if (
+            'waitingRegistrations' in stateEvent &&
+            stateEvent.waitingRegistrations
+          ) {
             stateEvent.waitingRegistrations =
               stateEvent.waitingRegistrations.filter(
                 (id) => id !== action.payload.id,
               );
           }
 
-          stateEvent.following = false;
+          if ('following' in stateEvent) {
+            stateEvent.following = false;
+          }
         },
       );
       addCase(Event.FOLLOW.SUCCESS, (state, action: AnyAction) => {
@@ -134,98 +158,30 @@ const eventsSlice = createSlice({
 
 export default eventsSlice.reducer;
 export const {
+  selectAllPaginated: selectAllEvents,
+  selectById: selectEventById,
   selectEntities: selectEventEntities,
   selectIds: selectEventIds,
+  selectByField: selectEventsByField,
 } = legoAdapter.getSelectors((state: RootState) => state.events);
 
-function transformEvent(event: DetailedEvent) {
-  return {
-    ...event,
-    startTime: event.startTime && moment(event.startTime).toISOString(),
-    endTime: event.endTime && moment(event.endTime).toISOString(),
-    activationTime:
-      event.activationTime && moment(event.activationTime).toISOString(),
-    mergeTime: event.mergeTime && moment(event.mergeTime).toISOString(),
-    useCaptcha: config.environment === 'ci' ? false : event.useCaptcha,
-  };
-}
-
-function transformRegistration(registration) {
-  return {
-    ...registration,
-    registrationDate: moment(registration.registrationDate),
-    unregistrationDate: moment(registration.unregistrationDate),
-  };
-}
-
-export const selectEvents = createSelector(
-  selectEventEntities,
-  selectEventIds,
-  (eventsById, eventIds) =>
-    eventIds.map((id) => transformEvent(eventsById[id])) as ReadonlyArray<
-      ReturnType<typeof transformEvent>
-    >,
-);
-
-export const selectEventsByPagination = createSelector(
-  selectEventEntities,
-  (_: RootState, pagination: Pagination) => pagination,
-  (eventEntities, pagination) =>
-    pagination.ids.map((id) =>
-      transformEvent(eventEntities[id] as DetailedEvent),
-    ) as ReadonlyArray<ReturnType<typeof transformEvent>>,
-);
-export const selectSortedEvents = createSelector(selectEvents, (events) =>
-  [...events].sort(
-    (a, b) => moment(a.startTime).unix() - moment(b.startTime).unix(),
-  ),
-);
-
-export const selectEventById = createSelector(
-  selectEventEntities,
-  (_: RootState, props: { eventId: EntityId }) => props.eventId,
-  (eventsById, eventId) => {
-    const event = eventsById[eventId];
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  },
-);
-
-export const selectEventBySlug = createSelector(
-  selectEventEntities,
-  (_: RootState, props: { eventSlug: string }) => props.eventSlug,
-  (eventsById, eventSlug) => {
-    const event = Object.values(eventsById).find(
-      (event) => event.slug === eventSlug,
-    );
-
-    if (event) {
-      return transformEvent(event);
-    }
-
-    return {};
-  },
-);
-
+const selectEventBySlug = selectEventsByField('slug').single;
 export const selectEventByIdOrSlug = createSelector(
-  (state, props) => {
-    const { eventIdOrSlug } = props;
-    if (!isNaN(Number(eventIdOrSlug))) {
-      return selectEventById(state, { eventId: eventIdOrSlug });
-    }
-    return selectEventBySlug(state, {
-      eventSlug: eventIdOrSlug,
-    });
-  },
-  (event) => event,
+  selectEventBySlug,
+  selectEventById,
+  (eventBySlug, eventById) => eventBySlug || eventById,
 );
 
+export type PoolRegistrationWithUser = Overwrite<
+  ReadRegistration,
+  { user: PublicUser }
+>;
+export type PoolWithRegistrations = Overwrite<
+  Optional<AuthPool, 'activationDate'>,
+  { registrations: PoolRegistrationWithUser[] }
+>;
 export const selectPoolsForEvent = createSelector(
-  selectEventById,
+  selectEventById<DetailedEvent>,
   selectPoolEntities,
   (event, poolEntities) => {
     if (!event) return [];
@@ -234,25 +190,32 @@ export const selectPoolsForEvent = createSelector(
 );
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
-  selectRegistrationEntities,
-  selectUserEntities,
+  selectRegistrationEntities<ReadRegistration>,
+  selectUserEntities<PublicUser>,
   (pools, registrationEntities, userEntities) =>
-    pools.map((pool) => ({
+    (pools as AuthPool[]).map((pool) => ({
       ...pool,
-      registrations: orderBy(
-        (pool.registrations || []).map((regId) => {
-          const registration = registrationEntities[regId];
-          return { ...registration, user: userEntities[registration.user] };
-        }),
-        'sharedMemberships',
-        'desc',
-      ),
-    })),
+      registrations:
+        'registrations' in pool
+          ? orderBy(
+              pool.registrations.map((regId) => {
+                const registration = registrationEntities[regId];
+                return {
+                  ...registration,
+                  user: userEntities[registration.user],
+                };
+              }),
+              'sharedMemberships',
+              'desc',
+            )
+          : [],
+    })) as PoolWithRegistrations[],
 );
 export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
   if (pools.length === 0) return [];
   return [
     {
+      id: 'merged',
       name: 'Deltakere',
       ...pools.reduce(
         (total, pool) => {
@@ -270,21 +233,22 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
         },
         {
           capacity: 0,
-          permissionGroups: [],
+          permissionGroups: [] as PublicGroup[],
           registrationCount: 0,
         },
       ),
-    },
+    } satisfies Optional<PublicPool, 'activationDate'>,
   ];
 });
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
-  selectRegistrationEntities,
-  selectUserEntities,
+  selectRegistrationEntities<ReadRegistration>,
+  selectUserEntities<PublicUser>,
   (pools, registrationEntities, userEntities) => {
     if (pools.length === 0) return [];
     return [
       {
+        id: 'merged',
         name: 'Deltakere',
         ...pools.reduce(
           (total, pool) => {
@@ -292,15 +256,18 @@ export const selectMergedPoolWithRegistrations = createSelector(
             const permissionGroups = total.permissionGroups.concat(
               pool.permissionGroups,
             );
-            const registrations = total.registrations.concat(
-              pool.registrations?.map((regId) => {
-                const registration = registrationEntities[regId];
-                return {
-                  ...registration,
-                  user: userEntities[registration.user],
-                };
-              }),
-            );
+            const registrations =
+              'registrations' in pool
+                ? total.registrations.concat(
+                    pool.registrations?.map((regId) => {
+                      const registration = registrationEntities[regId];
+                      return {
+                        ...registration,
+                        user: userEntities[registration.user],
+                      };
+                    }),
+                  )
+                : [];
             return {
               capacity,
               permissionGroups,
@@ -314,52 +281,56 @@ export const selectMergedPoolWithRegistrations = createSelector(
           },
           {
             capacity: 0,
-            permissionGroups: [],
-            registrations: [],
+            permissionGroups: [] as PublicGroup[],
+            registrations: [] as PoolRegistrationWithUser[],
             registrationCount: 0,
           },
         ),
       },
-    ];
+    ] satisfies PoolWithRegistrations[];
   },
 );
+
+export type SelectedAdminRegistration = Overwrite<
+  DetailedRegistration,
+  {
+    user: AdministrateUserWithGrade;
+    createdBy: AdministrateUser | null;
+    updatedBy: AdministrateUser | null;
+  }
+>;
+// Typed for admin-view
 export const selectAllRegistrationsForEvent = createSelector(
-  selectRegistrationEntities,
-  selectRegistrationIds,
-  selectUserEntities,
-  (_: RootState, props: { eventId: EntityId }) => props.eventId,
-  (registrationEntities, registrationIds, usersById, eventId) =>
-    registrationIds
-      .map((regId) => registrationEntities[regId])
+  selectAllRegistrations<DetailedRegistration>,
+  selectUserEntities<AdministrateUserWithGrade>, //
+  (_: RootState, props: { eventId?: EntityId }) => props.eventId,
+  (registrations, usersById, eventId) =>
+    registrations
       .filter((registration) => registration.event === Number(eventId))
       .map((registration) => {
-        const user = registration.user.id
-          ? registration.user
-          : usersById[registration.user];
+        const user = usersById[registration.user];
         const createdBy =
-          registration.createdBy !== null &&
           usersById[registration.createdBy] !== undefined
             ? usersById[registration.createdBy]
             : null;
         const updatedBy =
-          registration.updatedBy !== null &&
-          usersById[registration.createdBy] !== undefined
+          usersById[registration.updatedBy] !== undefined
             ? usersById[registration.updatedBy]
             : null;
-        return transformRegistration({
+        return {
           ...registration,
           user,
           createdBy,
           updatedBy,
-        });
+        } satisfies SelectedAdminRegistration;
       }),
 );
 export const selectWaitingRegistrationsForEvent = createSelector(
-  selectEventById,
-  selectRegistrationEntities,
-  selectUserEntities,
+  selectEventById<AuthUserDetailedEvent | DetailedEvent>,
+  selectRegistrationEntities<ReadRegistration>,
+  selectUserEntities<PublicUser>,
   (event, registrationEntities, userEntities) => {
-    if (!event) return [];
+    if (!event || !('waitingRegistrations' in event)) return [];
     return (event.waitingRegistrations || []).map((regId) => {
       const registration = registrationEntities[regId];
       return { ...registration, user: userEntities[registration.user] };
@@ -367,28 +338,21 @@ export const selectWaitingRegistrationsForEvent = createSelector(
   },
 );
 export const selectRegistrationForEventByUserId = createSelector(
-  selectAllRegistrationsForEvent,
-  (state, props) => props.userId,
-  (registrations, userId) => {
-    const userReg = registrations.filter((reg) => reg.user.id === userId);
-    return userReg.length > 0 ? userReg[0] : null;
-  },
-);
-export const selectCommentsForEvent = createSelector(
-  selectEventById,
-  selectCommentEntities,
-  (event, commentEntities) => {
-    if (!event) return [];
-    return (event.comments || []).map(
-      (commentId) => commentEntities[commentId],
-    );
+  selectAllRegistrations<ReadRegistration>,
+  (_: RootState, props: { eventId?: EntityId; userId?: EntityId }) => props,
+  (registrations, { eventId, userId }) => {
+    return eventId && userId
+      ? registrations.find(
+          (reg) => reg.user === userId && reg.event === eventId,
+        )
+      : undefined;
   },
 );
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
   (pools) => {
     const registrationPools = pools.filter((pool) => pool.registrations);
-    if (registrationPools.length === 0) return;
+    if (registrationPools.length === 0) return [];
     return orderBy(
       registrationPools.flatMap((pool) => pool.registrations || []),
       'sharedMemberships',
@@ -396,17 +360,17 @@ export const selectRegistrationsFromPools = createSelector(
     );
   },
 );
-export const getRegistrationGroups = createSelector(
+export const selectRegistrationGroups = createSelector(
   selectAllRegistrationsForEvent,
   (registrations) => {
     const grouped = groupBy(registrations, (obj) =>
-      obj.unregistrationDate.isValid() ? 'unregistered' : 'registered',
+      moment(obj.unregistrationDate).isValid() ? 'unregistered' : 'registered',
     );
     const registered = (grouped['registered'] || []).sort((a, b) =>
-      a.registrationDate.diff(b.registrationDate),
+      moment(a.registrationDate).diff(b.registrationDate),
     );
     const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
-      a.unregistrationDate.diff(b.unregistrationDate),
+      moment(a.unregistrationDate).diff(b.unregistrationDate),
     );
     return {
       registered,

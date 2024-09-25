@@ -20,13 +20,11 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
-import type {
-  PaymentRegistration,
-  Presence,
-} from 'app/store/models/Registration';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
+import type { Presence } from 'app/store/models/Registration';
 
 type Props = {
-  registration?: PaymentRegistration;
+  registration?: PoolRegistrationWithUser;
   isPriced: boolean;
   registrationIndex: number;
   hasSimpleWaitingList: boolean;
@@ -236,6 +234,12 @@ const PaymentStatus = ({
   }
 };
 
+export const RegistrationMetaSkeleton = () => (
+  <Flex column gap="var(--spacing-sm)">
+    <Skeleton array={2} className={styles.sidebarInfo} />
+  </Flex>
+);
+
 const RegistrationMeta = ({
   registration,
   hasOpened,
@@ -249,11 +253,7 @@ const RegistrationMeta = ({
   skeleton,
 }: Props) => {
   if (skeleton) {
-    return (
-      <Flex column gap="var(--spacing-sm)">
-        <Skeleton array={2} className={styles.sidebarInfo} />
-      </Flex>
-    );
+    return <RegistrationMetaSkeleton />;
   }
 
   return (
@@ -317,7 +317,11 @@ const RegistrationMeta = ({
           )}
           <PaymentStatus
             isPriced={isPriced}
-            paymentStatus={registration.paymentStatus}
+            paymentStatus={
+              'paymentStatus' in registration
+                ? registration.paymentStatus
+                : undefined
+            }
           />
         </>
       )}
