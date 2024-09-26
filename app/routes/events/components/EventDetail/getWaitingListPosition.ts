@@ -34,7 +34,7 @@ export const getWaitingListPosition = (
   }
   return applicablePools.map((pool) => {
     const applicableWaitingListRegistrations = waitingList.registrations.filter(
-      (r) => isPermittedInPool(r.user, pool),
+      (registration) => isPermittedInPool(registration.user, pool),
     );
     return {
       poolName: pool.name,
