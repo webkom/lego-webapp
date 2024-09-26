@@ -67,10 +67,9 @@ const Header = ({
       />
 
       {values.pinned && (
-        <Card style={{ marginTop: 0 }} severity="warning">
-          <span>
-            OBS! Du må ha godkjenning fra ledelsen for å feste til forsiden.
-          </span>
+        <Card severity="warning">
+          <Card.Header>Obs!</Card.Header>
+          <p>Du må ha godkjenning fra ledelsen for å feste til forsiden.</p>
         </Card>
       )}
 
