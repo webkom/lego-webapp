@@ -12,8 +12,6 @@
 
 .eventItem:hover {
   background-color: var(--additive-background);
-  /* border-top-right-radius: var(--border-radius-sm);
-  border-bottom-right-radius: var(--border-radius-sm); */
   border-radius: var(--border-radius-sm);
 }
 
