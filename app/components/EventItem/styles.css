@@ -1,5 +1,6 @@
 .eventItem {
   min-height: 50px;
+  padding: var(--spacing-xs);
   padding-left: var(--spacing-md);
   border-left: 4px solid transparent;
   margin-bottom: var(--spacing-md);
@@ -9,10 +10,11 @@
   transition: var(--easing-fast);
 }
 
-.eventItemHover {
+.eventItem:hover {
   background-color: var(--additive-background);
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  /* border-top-right-radius: var(--border-radius-sm);
+  border-bottom-right-radius: var(--border-radius-sm); */
+  border-radius: var(--border-radius-sm);
 }
 
 .eventItemCompact {
@@ -55,12 +57,12 @@
   max-height: 80px;
   object-fit: contain;
   background: white;
-  margin: 5px 10px 5px 0;
+  margin: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 0;
   transition: var(--easing-fast);
 }
 
-.companyLogoHover img {
-  border-radius: 10px;
+.eventItem:hover .companyLogo img {
+  border-radius: var(--border-radius-sm);
 }
 
 .companyLogoCompact img {

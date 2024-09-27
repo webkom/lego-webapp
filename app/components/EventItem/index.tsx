@@ -1,5 +1,4 @@
-import { Button, Flex, Icon, Image, LinkButton } from '@webkom/lego-bricks';
-import cx from 'classnames';
+import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import {
   AlarmClock,
   Calendar,
@@ -19,7 +18,6 @@ import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
 import type { ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
-import { useState } from 'react';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';
 
@@ -129,7 +127,6 @@ const EventItem = ({
   showTags = true,
   eventStyle,
 }: EventItemProps): ReactNode => {
-  const [hover, setHover] = useState(false);
   switch (eventStyle) {
     case 'extra-compact':
       return (
@@ -206,12 +203,10 @@ const EventItem = ({
       return (
         <Link
           to={`/events/${event.slug}`}
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
-          className={cx(styles.eventItem, hover && styles.eventItemHover)}
+          className={styles.eventItem}
         >
           <div>
             <h3 className={styles.eventItemTitle}>{event.title}</h3>
@@ -226,9 +221,7 @@ const EventItem = ({
             )}
           </div>
 
-          <Flex
-            className={cx(styles.companyLogo, hover && styles.companyLogoHover)}
-          >
+          <Flex className={styles.companyLogo}>
             {event.cover && (
               <Image
                 alt="Forsidebilde"
