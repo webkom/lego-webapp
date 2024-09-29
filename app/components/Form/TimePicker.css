@@ -14,6 +14,7 @@
 .arrowUp,
 .arrowDown {
   transition: transform var(--easing-medium);
+  padding: 0 var(--spacing-sm);
 }
 
 .arrowUp:hover {

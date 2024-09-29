@@ -1,4 +1,4 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Button, Icon } from '@webkom/lego-bricks';
 import { useMemo } from 'react';
 import { Keyboard } from 'app/utils/constants';
 import parseDateValue from 'app/utils/parseDateValue';
@@ -32,13 +32,13 @@ const TimePickerInput = ({
 
   return (
     <div className={styles.timePickerInput}>
-      <button type="button" onClick={onNext} className={styles.arrowUp}>
+      <Button flat onPress={onNext} className={styles.arrowUp}>
         <Icon justifyContent="center" name="chevron-up-outline" />
-      </button>
+      </Button>
       <TextInput onKeyDown={handleKeyDown} centered {...props} />
-      <button type="button" onClick={onPrev} className={styles.arrowDown}>
+      <Button flat onPress={onPrev} className={styles.arrowDown}>
         <Icon justifyContent="center" name="chevron-down-outline" />
-      </button>
+      </Button>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { approve, deleteQuote, unapprove } from 'app/actions/QuoteActions';
@@ -94,37 +95,38 @@ const Quote = ({
                 >
                   <Dropdown.List>
                     <Dropdown.ListItem>
-                      <button
-                        onClick={() =>
+                      <Button
+                        flat
+                        onPress={() =>
                           quote.approved
                             ? dispatch(unapprove(quote.id))
                             : dispatch(approve(quote.id))
                         }
                       >
                         {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
-                      </button>
+                      </Button>
                     </Dropdown.ListItem>
 
                     {!deleting ? (
-                      <Dropdown.ListItem danger>
-                        <button
-                          onClick={(e) => {
-                            if (e) {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }
-
+                      <Dropdown.ListItem>
+                        <Button
+                          flat
+                          danger
+                          onPress={() => {
                             setDeleting(!deleting);
                           }}
                         >
                           Slett
-                        </button>
+                        </Button>
                       </Dropdown.ListItem>
                     ) : (
                       <Dropdown.ListItem>
-                        <button onClick={() => dispatch(deleteQuote(quote.id))}>
+                        <Button
+                          flat
+                          onPress={() => dispatch(deleteQuote(quote.id))}
+                        >
                           Er du sikker?
-                        </button>
+                        </Button>
                       </Dropdown.ListItem>
                     )}
                   </Dropdown.List>

@@ -217,7 +217,7 @@ const MeetingDetails = () => {
                 <Dropdown.List>
                   {meeting.reportChangelogs.map((reportChangelog, index) => (
                     <Dropdown.ListItem key={index}>
-                      <button onClick={() => handleChangelogClick(index)}>
+                      <Button flat onPress={() => handleChangelogClick(index)}>
                         <Flex alignItems="center" gap="var(--spacing-sm)">
                           <ProfilePicture
                             user={reportChangelog.createdBy}
@@ -245,7 +245,7 @@ const MeetingDetails = () => {
                             </Tooltip>
                           </span>
                         </Flex>
-                      </button>
+                      </Button>
                       {index !== meeting.reportChangelogs.length - 1 && (
                         <Dropdown.Divider />
                       )}

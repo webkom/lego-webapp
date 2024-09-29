@@ -37,7 +37,7 @@ const Dropdown = ({
     <ComponentClass
       onClick={show && !iconName ? undefined : toggle} // avoid double toggle because of rootClose
       ref={triggerRef}
-      className={className}
+      className={cx(className, styles.dropdown)}
       style={style}
     >
       {triggerComponent ||

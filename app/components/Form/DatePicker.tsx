@@ -1,4 +1,4 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -98,7 +98,8 @@ const DatePicker = ({
               <tr key={i}>
                 {calendarDays.slice(i * 7, i * 7 + 7).map((dateProps, j) => (
                   <td key={j}>
-                    <button
+                    <Button
+                      flat
                       className={cx(
                         styles.calendarItem,
                         dateProps.prevOrNextMonth && styles.prevOrNextMonth,
@@ -106,10 +107,10 @@ const DatePicker = ({
                           styles.selectedDate,
                         dateProps.day.isSame(moment(), 'day') && styles.today,
                       )}
-                      onClick={() => changeDay(dateProps.day)}
+                      onPress={() => changeDay(dateProps.day)}
                     >
                       {dateProps.day.date()}
-                    </button>
+                    </Button>
                   </td>
                 ))}
               </tr>

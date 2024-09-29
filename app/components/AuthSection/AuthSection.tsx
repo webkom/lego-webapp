@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Button, Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import {
   ForgotPasswordForm,
@@ -6,7 +6,7 @@ import {
   RegisterForm,
 } from 'app/components/LoginForm';
 import styles from './AuthSection.css';
-import type { MouseEvent, ComponentType } from 'react';
+import type { ComponentType } from 'react';
 
 enum AuthMode {
   LOGIN,
@@ -32,9 +32,8 @@ const AuthSection = () => {
   const title = titles[authMode];
   const Form = forms[authMode];
 
-  const createModeSelector = (mode: AuthMode) => (e: MouseEvent) => {
+  const createModeSelector = (mode: AuthMode) => () => {
     setAuthMode(mode);
-    e.stopPropagation();
   };
 
   return (
@@ -53,27 +52,30 @@ const AuthSection = () => {
         {title}
         {authMode === AuthMode.LOGIN ? (
           <Flex gap="var(--spacing-sm)">
-            <button
-              onClick={createModeSelector(AuthMode.FORGOT_PASSWORD)}
+            <Button
+              flat
+              onPress={createModeSelector(AuthMode.FORGOT_PASSWORD)}
               className={styles.toggleButton}
             >
               Glemt passord
-            </button>
+            </Button>
             <span className={styles.dot}>&bull;</span>
-            <button
-              onClick={createModeSelector(AuthMode.REGISTER)}
+            <Button
+              flat
+              onPress={createModeSelector(AuthMode.REGISTER)}
               className={styles.toggleButton}
             >
               Jeg er ny
-            </button>
+            </Button>
           </Flex>
         ) : (
-          <button
-            onClick={createModeSelector(AuthMode.LOGIN)}
+          <Button
+            flat
+            onPress={createModeSelector(AuthMode.LOGIN)}
             className={styles.toggleButton}
           >
             Tilbake
-          </button>
+          </Button>
         )}
       </Flex>
       <Form />
