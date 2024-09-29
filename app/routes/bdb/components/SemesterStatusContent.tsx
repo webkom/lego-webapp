@@ -1,4 +1,4 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Circle from 'app/components/Circle';
@@ -62,9 +62,8 @@ const SemesterStatusContent = ({
 
             return (
               <Dropdown.ListItem key={status}>
-                <Button
-                  flat
-                  onPress={() => editFunction(status)}
+                <button
+                  onClick={() => editFunction(status)}
                   style={{
                     backgroundColor: active ? getStatusColor(status) : '',
                   }}
@@ -75,7 +74,7 @@ const SemesterStatusContent = ({
                   ) : (
                     <Circle color={getStatusColor(status)} size={20} />
                   )}
-                </Button>
+                </button>
                 {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
               </Dropdown.ListItem>
             );

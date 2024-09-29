@@ -3,22 +3,29 @@
 
 .content {
   width: 250px;
-  padding: var(--spacing-sm);
 }
 
 .divider {
   height: 1px;
   width: 100%;
   background-color: var(--border-gray);
-  margin: var(--spacing-xs) 0;
+}
+
+.danger {
+  & button {
+    color: var(--danger-color);
+  }
+
+  &:hover {
+    transition: background var(--easing-fast);
+    background-color: var(--danger-color);
+
+    & button {
+      color: var(--inverted-font-color);
+    }
+  }
 }
 
 html[data-theme='dark'] .danger:hover button {
   color: var(--lego-font-color);
-}
-
-.dropdown {
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
 }

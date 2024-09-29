@@ -16,7 +16,6 @@
 }
 
 .themeChange {
-  border-radius: var(--spacing-xl);
   padding: var(--spacing-sm) var(--spacing-md);
   line-height: 1.3;
   display: flex;

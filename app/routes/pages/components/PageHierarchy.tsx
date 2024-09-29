@@ -1,4 +1,4 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
@@ -87,7 +87,7 @@ const AccordionContainer = ({ title, children }: AccordionProps) => {
 
   return (
     <div>
-      <Button className={styles.dropdownBtn} onPress={() => setIsOpen(!isOpen)}>
+      <button className={styles.dropdownBtn} onClick={() => setIsOpen(!isOpen)}>
         {title}
         <Icon
           iconNode={<ChevronDown />}
@@ -98,7 +98,7 @@ const AccordionContainer = ({ title, children }: AccordionProps) => {
               : { transform: 'rotate(-90deg)' }
           }
         />
-      </Button>
+      </button>
       {isOpen && <div className={styles.dropdownContainer}>{children}</div>}
     </div>
   );

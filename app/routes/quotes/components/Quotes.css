@@ -106,12 +106,6 @@
   flex-direction: row;
 }
 
-.dropDown {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-}
-
 .quoteDate {
   color: var(--secondary-font-color);
   font-size: var(--font-size-sm);

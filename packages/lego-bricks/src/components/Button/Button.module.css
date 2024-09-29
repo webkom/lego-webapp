@@ -103,12 +103,8 @@
 }
 
 .danger {
-  border: 1.5px solid var(--border-gray);
-}
-
-.danger,
-.danger.flat {
   background: none;
+  border: 1.5px solid var(--border-gray);
   color: var(--danger-color);
 
   &[data-focus-visible] {
@@ -132,11 +128,6 @@
     color: var(--danger-color);
     background: none;
   }
-}
-
-.danger.flat {
-  background: none;
-  border: none;
 }
 
 .success {

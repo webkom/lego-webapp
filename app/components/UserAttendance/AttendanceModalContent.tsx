@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash';
 import { Send } from 'lucide-react';
@@ -37,16 +37,15 @@ type TabProps = {
 };
 
 const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
-  <Button
-    flat
-    onPress={() => togglePool(index)}
+  <button
+    onClick={() => togglePool(index)}
     className={cx(
       styles.navButton,
       activePoolIndex === index && styles.activeItem,
     )}
   >
     {name}
-  </Button>
+  </button>
 );
 
 const generateAmendedPools = (pools: Pool[]) => {

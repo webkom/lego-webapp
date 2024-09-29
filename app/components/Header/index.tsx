@@ -1,10 +1,4 @@
-import {
-  Icon,
-  LoadingIndicator,
-  Image,
-  Button,
-  LinkButton,
-} from '@webkom/lego-bricks';
+import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Menu, CircleUser, LogOut, Settings, Users } from 'lucide-react';
@@ -43,23 +37,23 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <LinkButton flat href="/users/me" onPress={onClose}>
+        <NavLink to="/users/me" onClick={onClose}>
           <strong>{username}</strong>
           <Icon iconNode={<CircleUser />} />
-        </LinkButton>
+        </NavLink>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <LinkButton flat href="/users/me/settings/profile" onPress={onClose}>
+        <Link to="/users/me/settings/profile" onClick={onClose}>
           Innstillinger
           <Icon iconNode={<Settings />} />
-        </LinkButton>
+        </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <LinkButton flat href="/meetings/" onPress={onClose}>
+        <Link to="/meetings/" onClick={onClose}>
           Møteinnkallinger
           <Icon iconNode={<Users />} />
-        </LinkButton>
+        </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
@@ -70,11 +64,9 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
 
       <Dropdown.Divider />
 
-      <Dropdown.ListItem>
-        <Button
-          flat
-          danger
-          onPress={() => {
+      <Dropdown.ListItem danger>
+        <button
+          onClick={() => {
             dispatch(logout());
             navigate('/');
             onClose();
@@ -82,7 +74,7 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
         >
           Logg ut
           <Icon iconNode={<LogOut />} />
-        </Button>
+        </button>
       </Dropdown.ListItem>
     </Dropdown.List>
   );

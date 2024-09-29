@@ -1,12 +1,4 @@
-import {
-  Flex,
-  Icon,
-  Modal,
-  Image,
-  LoadingPage,
-  Button,
-  LinkButton,
-} from '@webkom/lego-bricks';
+import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
@@ -313,59 +305,53 @@ const GalleryPictureModal = () => {
             >
               <Dropdown.List>
                 <Dropdown.ListItem>
-                  <LinkButton
-                    flat
+                  <a
                     href={picture.rawFile}
                     download
-                    onPress={toggleDropdown}
+                    onClick={toggleDropdown}
                     className={styles.dropdownLink}
                   >
                     Last ned
                     <Icon iconNode={<Download />} size={24} />
-                  </LinkButton>
+                  </a>
                 </Dropdown.ListItem>
                 {actionGrant &&
                   actionGrant.includes('edit') && [
                     <Dropdown.ListItem key="edit">
-                      <LinkButton
-                        href="#"
-                        flat
-                        onPress={onUpdate}
+                      <Link
+                        to="#"
+                        onClick={onUpdate}
                         className={styles.dropdownLink}
                       >
                         Rediger
                         <Icon iconNode={<Pencil />} size={24} />
-                      </LinkButton>
+                      </Link>
                     </Dropdown.ListItem>,
                     <Dropdown.ListItem key="cover">
-                      <LinkButton
-                        onPress={onUpdateGalleryCover}
-                        href="#"
-                        flat
+                      <Link
+                        onClick={onUpdateGalleryCover}
+                        to="#"
                         className={styles.dropdownLink}
                       >
                         Sett som album cover
                         <Icon name="image-outline" size={24} />
-                      </LinkButton>
+                      </Link>
                     </Dropdown.ListItem>,
                     <Dropdown.Divider key="divider" />,
                     <Dropdown.ListItem
                       key="delete"
+                      danger
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
                       }}
                     >
-                      <Button
-                        danger
-                        flat
-                        onPress={() => handleDelete(Number(pictureId))}
-                      >
+                      <button onClick={() => handleDelete(Number(pictureId))}>
                         {clickedDeletePicture === Number(pictureId)
                           ? 'Er du sikker?'
                           : 'Slett'}
                         <Icon name="trash-outline" />
-                      </Button>
+                      </button>
                     </Dropdown.ListItem>,
                   ]}
               </Dropdown.List>
