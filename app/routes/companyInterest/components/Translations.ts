@@ -21,10 +21,10 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  bedex: {
-    norwegian: 'Bedriftsekskursjon (BedEx)',
-    english: 'Company excursion (BedEx)',
-  },
+  // bedex: {
+  //   norwegian: 'Bedriftsekskursjon (BedEx)',
+  //   english: 'Company excursion (BedEx)',
+  // },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -103,8 +103,8 @@ export const SURVEY_OFFERS = {
     english: 'Big data',
   },
   company_survey_front_back_end: {
-    norwegian: 'Front- og back-end',
-    english: 'Front- and back-end',
+    norwegian: 'Front- og backend',
+    english: 'Front- and backend',
   },
   company_survey_iot: {
     norwegian: 'Internet of Things',

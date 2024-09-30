@@ -474,13 +474,13 @@ const CompanyInterestPage = () => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    {
-      name: 'bedex',
-      translated: EVENTS.bedex[language],
-      description: interestText.bedexDescription[language],
-      commentName: 'bedexComment',
-      commentPlaceholder: interestText.bedexComment[language],
-    },
+    // {
+    //   name: 'bedex',
+    //   translated: EVENTS.bedex[language],
+    //   description: interestText.bedexDescription[language],
+    //   commentName: 'bedexComment',
+    //   commentPlaceholder: interestText.bedexComment[language],
+    // },
     {
       name: 'other',
       translated: EVENTS.other[language],
