@@ -9,7 +9,7 @@ const isPermittedInPool = (
   pool: PoolWithRegistrations,
 ) => {
   return pool.permissionGroups.some((permissionGroup) =>
-    user.allAbakusGroupIds.some(
+    user.allAbakusGroupIds?.some(
       (userGroup) => userGroup === permissionGroup.id,
     ),
   );
@@ -21,6 +21,8 @@ export const getWaitingListPosition = (
   pools?: PoolWithRegistrations[],
 ) => {
   if (!currentRegistration || !waitingList || !pools) return undefined;
+  if (!waitingList.registrations.includes(currentRegistration))
+    return undefined;
 
   const nonWaitingListPools = pools.filter((pool) => !pool.isWaitingList);
 
