@@ -9,7 +9,7 @@ import { selectAllPolls } from 'app/reducers/polls';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
-import styles from './PollsList.css';
+import styles from './PollsList.module.css';
 
 const PollsList = () => {
   const polls = useAppSelector(selectAllPolls);

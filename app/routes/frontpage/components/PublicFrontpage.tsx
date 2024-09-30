@@ -25,7 +25,7 @@ import Pinned from 'app/routes/frontpage/components/Pinned';
 import { itemUrl, renderMeta } from 'app/routes/frontpage/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import CompactEvents from './CompactEvents';
-import styles from './PublicFrontpage.css';
+import styles from './PublicFrontpage.module.css';
 
 const PublicFrontpage = () => {
   const dispatch = useAppDispatch();

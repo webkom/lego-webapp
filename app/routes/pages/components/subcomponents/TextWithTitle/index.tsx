@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import styles from './TextWithTitle.css';
+import styles from './TextWithTitle.module.css';
 import type { CSSProperties, ReactNode } from 'react';
 
 type Props = {

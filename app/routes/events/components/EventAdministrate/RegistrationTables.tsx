@@ -12,7 +12,7 @@ import {
 } from 'app/routes/events/utils';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
-import styles from './Administrate.css';
+import styles from './Administrate.module.css';
 import {
   StripeStatus,
   TooltipIcon,

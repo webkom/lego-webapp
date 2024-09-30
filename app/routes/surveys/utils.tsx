@@ -2,7 +2,7 @@ import { Icon } from '@webkom/lego-bricks';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import config from 'app/config';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import styles from './components/surveys.css';
+import styles from './components/surveys.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 
 export const questionTypeString: Record<SurveyQuestionType, string> = {

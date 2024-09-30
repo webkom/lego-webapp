@@ -7,7 +7,7 @@ import { fetchEvents } from 'app/actions/EventActions';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
-import styles from './Calendar.css';
+import styles from './Calendar.module.css';
 import CalendarCell from './CalendarCell';
 import EventFooter from './EventFooter';
 import EventsTabs from './EventsTabs';

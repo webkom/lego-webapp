@@ -4,7 +4,7 @@ import Time from 'app/components/Time';
 import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 

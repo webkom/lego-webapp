@@ -11,7 +11,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { without } from 'lodash';
+import { without } from 'lodash-es';
 import { Images, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -58,7 +58,7 @@ import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
 import GalleryEditorActions from './GalleryEditorActions';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { searchMapping } from 'app/reducers/search';

@@ -5,7 +5,7 @@ import { deletePenalty } from 'app/actions/UserActions';
 import { FormatTime } from 'app/components/Time';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Penalties.css';
+import styles from './Penalties.module.css';
 import PenaltyForm from './PenaltyForm';
 
 type Props = {

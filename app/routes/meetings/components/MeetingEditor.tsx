@@ -7,7 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { unionBy } from 'lodash';
+import { unionBy } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -42,7 +42,7 @@ import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import styles from 'app/routes/meetings/components/MeetingEditor.css';
+import styles from 'app/routes/meetings/components/MeetingEditor.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';

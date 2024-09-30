@@ -7,7 +7,7 @@ import {
   LoadingIndicator,
   ProgressBar,
 } from '@webkom/lego-bricks';
-import { sumBy } from 'lodash';
+import { sumBy } from 'lodash-es';
 import { Info, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
@@ -40,7 +40,7 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
-import styles from './Event.css';
+import styles from './Event.module.css';
 import PaymentRequestForm from './StripeElement';
 import type { EventRegistrationStatus } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';

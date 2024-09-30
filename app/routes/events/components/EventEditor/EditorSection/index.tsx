@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import type { PropsWithChildren } from 'react';
 
 type Props = {

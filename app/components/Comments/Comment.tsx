@@ -13,7 +13,7 @@ import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import LegoReactions from '../LegoReactions';
-import styles from './Comment.css';
+import styles from './Comment.module.css';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { ContentTarget } from 'app/store/utils/contentTarget';

@@ -14,7 +14,7 @@ import {
 } from 'recharts';
 import { fetchAnalytics } from 'app/actions/EventActions';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './Analytics.css';
+import styles from './Analytics.module.css';
 import type { Dateish } from 'app/models';
 
 const initialMetricValue = {

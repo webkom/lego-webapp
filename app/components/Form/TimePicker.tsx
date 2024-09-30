@@ -4,7 +4,7 @@ import { Keyboard } from 'app/utils/constants';
 import parseDateValue from 'app/utils/parseDateValue';
 import { createField } from './Field';
 import TextInput from './TextInput';
-import styles from './TimePicker.css';
+import styles from './TimePicker.module.css';
 import type { ComponentProps, KeyboardEvent, SyntheticEvent } from 'react';
 
 type TimePickerInputProps = ComponentProps<typeof TextInput> & {

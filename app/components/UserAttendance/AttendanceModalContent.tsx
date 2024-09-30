@@ -1,13 +1,13 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { flatMap } from 'lodash';
+import { flatMap } from 'lodash-es';
 import { Send } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
 import EmptyState from '../EmptyState';
-import styles from './AttendanceModalContent.css';
+import styles from './AttendanceModalContent.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
 

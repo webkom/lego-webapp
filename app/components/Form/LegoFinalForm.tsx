@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import createFocusOnErrorDecorator from 'final-form-focus';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty, isEqual } from 'lodash-es';
 import { Form } from 'react-final-form';
 import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import type { FormProps } from 'react-final-form';
@@ -61,7 +61,7 @@ const LegoFinalForm = <FormValues,>({
           })
           .catch((error) => {
             Sentry.captureException(error);
-            if (__DEV__) console.error(error);
+            if (import.meta.env.DEV) console.error(error);
 
             if (!enableSubmissionError) {
               throw error;

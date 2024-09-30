@@ -9,7 +9,7 @@ import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { EventType } from 'app/store/models/Event';
 import { stringifyQuery } from 'app/utils/useQuery';
-import styles from './CompactEvents.css';
+import styles from './CompactEvents.module.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
 import type { CSSProperties } from 'react';
 

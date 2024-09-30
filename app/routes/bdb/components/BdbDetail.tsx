@@ -29,7 +29,7 @@ import CommentView from 'app/components/Comments/CommentView';
 import EmptyState from 'app/components/EmptyState';
 import InfoBubble from 'app/components/InfoBubble';
 import JoblistingItem from 'app/components/JoblistingItem';
-import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
+import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { selectCommentsByIds } from 'app/reducers/comments';
@@ -47,7 +47,7 @@ import { EntityType } from 'app/store/models/entities';
 import truncateString from 'app/utils/truncateString';
 import { sortByYearThenSemester, getContactStatuses } from '../utils';
 import SemesterStatusDetail from './SemesterStatusDetail';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type {
   CompanySemesterContactStatus,

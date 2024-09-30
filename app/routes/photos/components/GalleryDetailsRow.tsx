@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
-import styles from './GalleryDetailsRow.css';
+import styles from './GalleryDetailsRow.module.css';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 
 type Props = {

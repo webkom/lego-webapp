@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import { ProfilePicture } from '../Image';
-import styles from './Search.css';
+import styles from './Search.module.css';
 import type { SearchResult } from 'app/reducers/search';
 
 type SearchResultItemProps = {

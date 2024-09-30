@@ -8,7 +8,7 @@ import { GroupType } from 'app/models';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 
 const NavigationItem = (props: {
   iconNode: React.ElementType;

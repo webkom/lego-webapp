@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './LatestReadme.css';
+import styles from './LatestReadme.module.css';
 import type { CSSProperties } from 'react';
 
 type Props = {

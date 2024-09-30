@@ -2,7 +2,7 @@ import { Flex, Icon, LinkButton, Image, Page } from '@webkom/lego-bricks';
 import { Download } from 'lucide-react';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
-import styles from './BrandPage.css';
+import styles from './BrandPage.module.css';
 
 const BrandPage = () => (
   <Page title="Brand Guidelines">

@@ -29,7 +29,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './GalleryPictureModal.css';
+import styles from './GalleryPictureModal.module.css';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { PublicUser } from 'app/store/models/User';

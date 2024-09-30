@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { useRef, useState } from 'react';
 import { Overlay } from 'react-overlays';
-import styles from './Popover.css';
+import styles from './Popover.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {

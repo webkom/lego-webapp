@@ -1,4 +1,4 @@
-import { omit, isArray } from 'lodash';
+import { omit, isArray } from 'lodash-es';
 import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
@@ -48,9 +48,9 @@ function handleError(
     }
 
     if (propagateError) {
-      const serverRenderer = !__CLIENT__;
+      const ssr = import.meta.env.SSR;
 
-      if ((serverRenderer && statusCode < 500) || !serverRenderer) {
+      if ((ssr && statusCode < 500) || !ssr) {
         dispatch(setStatusCode(statusCode));
       }
     }

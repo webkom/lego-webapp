@@ -5,7 +5,7 @@ import { fetchPage } from 'app/actions/PageActions';
 import DisplayContent from 'app/components/DisplayContent/index';
 import { selectFlatpagePage, selectFlatpagePageInfo } from 'app/reducers/pages';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks/index';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 
 const pageSlug = '39-praktisk-informasjon';
 const pageTitle = 'Praktisk informasjon om interessegrupper';

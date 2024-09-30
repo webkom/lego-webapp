@@ -16,7 +16,7 @@ import {
   semesterCodeToName,
 } from '../utils';
 import SemesterStatusContent from './SemesterStatusContent';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';

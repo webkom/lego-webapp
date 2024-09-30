@@ -8,7 +8,7 @@ import {
 import Time from 'app/components/Time';
 import { statusesText } from 'app/reducers/meetingInvitations';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 import type { ActionGrant } from 'app/models';
 import type { DetailedAnnouncement } from 'app/store/models/Announcement';
 

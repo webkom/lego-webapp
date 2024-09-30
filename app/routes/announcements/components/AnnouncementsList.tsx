@@ -7,7 +7,7 @@ import { selectAnnouncements } from 'app/reducers/announcements';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 
 const AnnouncementsList = () => {
   const dispatch = useAppDispatch();

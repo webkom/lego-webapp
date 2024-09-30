@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PhoneInput from 'react-phone-number-input';
 import { createField } from './Field';
-import styles from './TextInput.css';
+import styles from './TextInput.module.css';
 import 'react-phone-number-input/style.css';
 import type { ComponentProps } from 'react';
 

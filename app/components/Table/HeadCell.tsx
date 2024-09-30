@@ -10,7 +10,7 @@ import {
 import { useEffect, useRef } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import { TextInput, RadioButton, CheckBox } from 'app/components/Form';
-import styles from './Table.css';
+import styles from './Table.module.css';
 import type { ColumnProps, Filters, IsShown, ShowColumn, Sort } from '.';
 
 type HeadCellProps = {

@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { Card } from '@webkom/lego-bricks';
 import { Children, cloneElement, Component } from 'react';
-import styles from './ErrorBoundary.css';
+import styles from './ErrorBoundary.module.css';
 import type { ReactNode, ReactElement } from 'react';
 
 type Props = {
@@ -51,7 +51,7 @@ class ErrorBoundary extends Component<Props, State> {
       error,
     });
 
-    if (__DEV__) {
+    if (import.meta.env.DEV) {
       /* eslint no-console: 0 */
       console.error(error);
 

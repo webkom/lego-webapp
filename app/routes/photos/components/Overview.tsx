@@ -10,7 +10,7 @@ import { selectAllGalleries } from 'app/reducers/galleries';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 import type { ListGallery } from 'app/store/models/Gallery';
 
 const Overview = () => {

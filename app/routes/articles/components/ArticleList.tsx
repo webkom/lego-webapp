@@ -14,7 +14,7 @@ import { selectPopularTags } from 'app/reducers/tags';
 import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import styles from '../articles.css';
+import styles from '../articles.module.css';
 import type { PublicArticle } from 'app/store/models/Article';
 
 const HEADLINE_EVENTS = 2;

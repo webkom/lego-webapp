@@ -16,7 +16,7 @@ import Tooltip from 'app/components/Tooltip';
 import { colorForEventType } from 'app/routes/events/utils';
 import { EventStatusType } from 'app/store/models/Event';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
-import styles from './styles.css';
+import styles from './styles.module.css';
 import type { CompleteEvent, ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
 

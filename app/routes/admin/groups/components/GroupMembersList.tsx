@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
-import styles from './GroupMembersList.css';
+import styles from './GroupMembersList.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedMembership } from 'app/reducers/memberships';

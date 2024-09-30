@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { createField } from './Field';
-import styles from './TextEditor.css';
+import styles from './TextEditor.module.css';
 import type { TextareaHTMLAttributes } from 'react';
 
 type Props = TextareaHTMLAttributes<HTMLTextAreaElement> & {

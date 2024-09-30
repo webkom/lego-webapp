@@ -5,7 +5,7 @@ import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import Results from './Results';
 import type { GraphData } from './Results';
 import type { EntityId } from '@reduxjs/toolkit';

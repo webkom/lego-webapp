@@ -23,7 +23,7 @@ import config from 'app/config';
 import { selectAllOAuth2Applications } from 'app/reducers/oauth2Applications';
 import { selectAllOAuth2Grants } from 'app/reducers/oauth2Grants';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './UserSettingsOAuth2.css';
+import styles from './UserSettingsOAuth2.module.css';
 
 const UserSettingsOAuth2 = () => {
   const dispatch = useAppDispatch();

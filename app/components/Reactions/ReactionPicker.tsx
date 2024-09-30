@@ -3,7 +3,7 @@ import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './ReactionPicker.css';
+import styles from './ReactionPicker.module.css';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';

@@ -39,7 +39,7 @@ module.exports = (env, argv) => {
         maxChunks: 1,
       }),
       new webpack.DefinePlugin({
-        __CLIENT__: false,
+        !import.meta.env.SSR: false,
         __DEV__: JSON.stringify(!isProduction),
       }),
       new FilterWarningsPlugin({

@@ -13,7 +13,7 @@ import {
   selectNotificationSettingsAlternatives,
 } from 'app/reducers/notificationSettings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './UserSettingsNotifications.css';
+import styles from './UserSettingsNotifications.module.css';
 
 const notificationTypeTraslations = {
   weekly_mail: 'Ukesmail',

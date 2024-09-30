@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { useOutletContext } from 'react-router-dom';
 import StaticSubmission from '../StaticSubmission';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import type { SurveysRouteContext } from 'app/routes/surveys';
 
 const SubmissionPage = () => {

@@ -1,5 +1,5 @@
 import { ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { Field } from 'react-final-form';
 import { useLocation } from 'react-router-dom';
 import {
@@ -25,7 +25,7 @@ import {
   createValidator,
   required,
 } from 'app/utils/validation';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 import type {
   AutocompleteEvent,
   SearchEvent,

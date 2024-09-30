@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './CheckBox.css';
+import styles from './CheckBox.module.css';
 import { createField } from './Field';
 import type { ComponentProps, InputHTMLAttributes, KeyboardEvent } from 'react';
 import type { Overwrite } from 'utility-types';

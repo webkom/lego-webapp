@@ -1,5 +1,5 @@
 import { TextInput } from 'app/components/Form';
-import styles from './ReactionPickerFooter.css';
+import styles from './ReactionPickerFooter.module.css';
 
 type Props = {
   onSearch: (searchString: string) => void;

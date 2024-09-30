@@ -24,7 +24,7 @@ import {
   hasOptions,
   initialQuestion,
 } from 'app/routes/surveys/components/SurveyEditor/utils';
-import styles from 'app/routes/surveys/components/surveys.css';
+import styles from 'app/routes/surveys/components/surveys.module.css';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import type { EventType } from 'app/store/models/Event';

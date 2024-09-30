@@ -1,7 +1,7 @@
 import Circle from 'app/components/Circle';
 import config from 'app/config';
 import { EventTypeConfig } from '../utils';
-import styles from './EventFooter.css';
+import styles from './EventFooter.module.css';
 import type { IcalToken } from 'app/models';
 
 const icalTypes: { name: IcalType; title: string }[] = [

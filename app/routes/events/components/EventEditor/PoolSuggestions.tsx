@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
 import Pill from 'app/components/Pill';
-import styles from './EventEditor.css';
+import styles from './EventEditor.module.css';
 import type { SuggestionComponent } from 'app/components/Form/SelectInput';
 
 type GroupSuggestion = {

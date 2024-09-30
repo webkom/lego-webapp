@@ -2,7 +2,7 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import { createField } from './Field';
-import styles from './TextInput.css';
+import styles from './TextInput.module.css';
 import type { RefObject, InputHTMLAttributes } from 'react';
 import type { Overwrite } from 'utility-types';
 

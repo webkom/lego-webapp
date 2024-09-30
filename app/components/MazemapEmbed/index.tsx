@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
-import styles from './MazemapEmbed.css';
+import styles from './MazemapEmbed.module.css';
 import MazemapLink from './MazemapLink';
 
 type MazeMap = {
@@ -22,7 +22,7 @@ type Props = {
  * largely based on https://api.mazemap.com/js/v2.0.63/docs/#ex-data-poi
  */
 export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
-  const isMac = __CLIENT__ && navigator.platform.indexOf('Mac') === 0;
+  const isMac = !import.meta.env.SSR && navigator.platform.indexOf('Mac') === 0;
 
   const [hasMounted, setHasMounted] = useState<boolean>(false);
   useEffect(() => setHasMounted(true), []);

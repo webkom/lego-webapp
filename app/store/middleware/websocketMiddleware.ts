@@ -14,7 +14,7 @@ const createWebSocketMiddleware = (): Middleware<
   RootState,
   AppDispatch
 > => {
-  let socket = null;
+  let socket: WebSocketClient | null = null;
   return ({ getState, dispatch }) => {
     const makeSocket = (jwt) => {
       if (socket || !jwt) return;

@@ -5,7 +5,7 @@ import {
   getContactStatuses,
   selectMostProminentStatus,
 } from '../utils';
-import styles from './SemesterStatus.css';
+import styles from './SemesterStatus.module.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';

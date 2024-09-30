@@ -4,7 +4,7 @@ import Turnstile from 'react-turnstile';
 import config from 'app/config';
 import { useTheme } from 'app/utils/themeUtils';
 import usePrevious from 'app/utils/usePrevious';
-import styles from './Captcha.css';
+import styles from './Captcha.module.css';
 import { createField } from './Field';
 
 type Props = {

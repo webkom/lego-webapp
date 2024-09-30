@@ -3,7 +3,7 @@ import Emoji from 'app/components/Emoji';
 import EmptyState from 'app/components/EmptyState';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './ReactionPickerContent.css';
+import styles from './ReactionPickerContent.module.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 

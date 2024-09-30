@@ -1,5 +1,5 @@
 import Item from './Item';
-import styles from './ItemGrid.css';
+import styles from './ItemGrid.module.css';
 import type { ItemProps } from './Item';
 
 type Props = {

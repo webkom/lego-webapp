@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { FolderOpen } from 'lucide-react';
 import EmptyState from 'app/components/EmptyState';
 import SurveyItem from './SurveyItem';

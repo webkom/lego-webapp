@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import styles from 'app/components/Feed/context.css';
+import styles from 'app/components/Feed/context.module.css';
 import type { TagComponent } from 'app/components/Feed/ActivityRenderer';
 
 export const LinkTag: TagComponent = (props) => {

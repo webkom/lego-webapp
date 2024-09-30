@@ -1,6 +1,6 @@
 import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { FilePenLine } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -37,7 +37,7 @@ import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import styles from './EventDetail.css';
+import styles from './EventDetail.module.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { PoolWithRegistrations } from 'app/reducers/events';
 import type {

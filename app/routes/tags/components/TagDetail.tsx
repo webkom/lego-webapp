@@ -1,12 +1,12 @@
 import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { map, toPairs } from 'lodash';
+import { map, toPairs } from 'lodash-es';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { fetch } from 'app/actions/TagActions';
 import { selectTagById } from 'app/reducers/tags';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './TagDetail.css';
+import styles from './TagDetail.module.css';
 import type { DetailedTag } from 'app/store/models/Tag';
 
 const translate = (key: string) => {

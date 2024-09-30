@@ -12,7 +12,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
+import { sortBy, uniqBy, groupBy, orderBy } from 'lodash-es';
 import { Settings, QrCode } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -39,7 +39,7 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GroupChange from './GroupChange';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
-import styles from './UserProfile.css';
+import styles from './UserProfile.module.css';
 import type { User, Group, Dateish, UserMembership } from 'app/models';
 import type { ListEventWithUserRegistration } from 'app/store/models/Event';
 

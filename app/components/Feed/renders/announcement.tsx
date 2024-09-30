@@ -1,6 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import { contextRender } from '../context';
-import styles from '../context.css';
+import styles from '../context.module.css';
 import type ActivityRenderer from 'app/components/Feed/ActivityRenderer';
 
 /**

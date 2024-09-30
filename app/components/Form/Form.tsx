@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import styles from './Form.css';
+import styles from './Form.module.css';
 import type { ReactNode, FormHTMLAttributes } from 'react';
 
 interface Props {

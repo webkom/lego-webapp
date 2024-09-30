@@ -7,7 +7,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { isUserResult } from 'app/reducers/search';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
-import styles from './SearchPageResults.css';
+import styles from './SearchPageResults.module.css';
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import type { KeyboardEventHandler } from 'react';
 

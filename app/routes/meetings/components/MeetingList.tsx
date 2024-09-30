@@ -23,7 +23,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import styles from './MeetingList.css';
+import styles from './MeetingList.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';

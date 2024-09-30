@@ -1,7 +1,7 @@
 import { Children, cloneElement } from 'react';
 import { FormSpy } from 'react-final-form';
 import { RenderErrorMessage } from './Field';
-import styles from './MultiSelectGroup.css';
+import styles from './MultiSelectGroup.module.css';
 import type { ReactElement } from 'react';
 
 type Props = {

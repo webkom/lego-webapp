@@ -14,7 +14,7 @@ import {
   QuestionTypeOption,
   QuestionTypeValue,
 } from '../../utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import Option from './Option';
 import type { ReactNode } from 'react';
 

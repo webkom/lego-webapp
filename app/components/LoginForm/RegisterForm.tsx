@@ -14,7 +14,7 @@ import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import styles from './RegisterForm.css';
+import styles from './RegisterForm.module.css';
 
 const isStudMail = (email: string) =>
   email.toLowerCase().endsWith('@stud.ntnu.no') ||

@@ -27,7 +27,7 @@ import {
   contactStatuses,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedAdminCompany } from 'app/reducers/companies';

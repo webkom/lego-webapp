@@ -55,7 +55,7 @@ import {
   sortSemesterChronologically,
   PARTICIPANT_RANGE_TYPES,
 } from '../utils';
-import styles from './CompanyInterest.css';
+import styles from './CompanyInterest.module.css';
 import {
   EVENTS,
   OTHER_OFFERS,

@@ -5,7 +5,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { uploadFile } from 'app/actions/FileActions';
 import { useAppDispatch } from 'app/store/hooks';
 import { createField } from './Field';
-import styles from './TextInput.css';
+import styles from './TextInput.module.css';
 import type { FieldInputProps } from 'react-final-form';
 
 type Props = FieldInputProps<string> & {
@@ -24,7 +24,7 @@ class NoSSRError {
 }
 
 const EditorField = ({ className, name, ...props }: Props) => {
-  if (!__CLIENT__) {
+  if (import.meta.env.SSR) {
     throw new NoSSRError('Cannot SSR editor');
   }
 

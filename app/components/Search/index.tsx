@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
@@ -7,7 +7,7 @@ import { selectAutocompleteRedux } from 'app/reducers/search';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
 import QuickLinks from './QuickLinks';
-import styles from './Search.css';
+import styles from './Search.module.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
 import { getExternalLinks, getAdminLinks, getRegularLinks } from './utils';

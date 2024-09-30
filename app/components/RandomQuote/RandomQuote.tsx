@@ -7,7 +7,7 @@ import LegoReactions from 'app/components/LegoReactions';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import styles from './RandomQuote.css';
+import styles from './RandomQuote.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type Quote from 'app/store/models/Quote';
 

@@ -2,7 +2,7 @@ import { Skeleton } from '@webkom/lego-bricks';
 import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
-import styles from './DisplayContent.css';
+import styles from './DisplayContent.module.css';
 import type { CSSProperties } from 'react';
 
 type Props = {
@@ -27,7 +27,7 @@ function DisplayContent({
 }: Props) {
   let domParser = null;
 
-  if (!__CLIENT__) {
+  if (import.meta.env.SSR) {
     const JSDOM = require('jsdom').JSDOM;
 
     domParser = (val) => new JSDOM(val).window.document;

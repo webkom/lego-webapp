@@ -1,6 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './ReactionPickerCategory.css';
+import styles from './ReactionPickerCategory.module.css';
 
 type Props = {
   isActive: boolean;

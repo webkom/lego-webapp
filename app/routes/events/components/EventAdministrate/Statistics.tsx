@@ -5,7 +5,7 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import DatePicker from 'app/components/Form/DatePicker';
 import { GroupType, type Dateish } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
-import styles from 'app/routes/events/components/EventAttendeeStatistics.css';
+import styles from 'app/routes/events/components/EventAttendeeStatistics.module.css';
 import { useAppDispatch } from 'app/store/hooks';
 
 const Statistics = () => {

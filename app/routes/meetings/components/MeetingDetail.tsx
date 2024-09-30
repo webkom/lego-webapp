@@ -8,7 +8,7 @@ import {
   Modal,
   Page,
 } from '@webkom/lego-bricks';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { ListRestart, Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
 import diff from 'node-htmldiff';
@@ -46,7 +46,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import urlifyString from 'app/utils/urlifyString';
-import styles from './MeetingDetail.css';
+import styles from './MeetingDetail.module.css';
 import type { Dateish } from 'app/models';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { PublicUser } from 'app/store/models/User';

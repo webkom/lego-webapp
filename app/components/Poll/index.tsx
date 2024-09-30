@@ -1,6 +1,6 @@
 import { Accordion, Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import {
   ChartNoAxesColumn,
   ChevronDown,
@@ -14,7 +14,7 @@ import { votePoll } from 'app/actions/PollActions';
 import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Poll.css';
+import styles from './Poll.module.css';
 
 import type PollType from 'app/store/models/Poll';
 

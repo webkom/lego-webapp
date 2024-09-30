@@ -6,7 +6,7 @@ import SelectInput from 'app/components/Form/SelectInput';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './PhotoConsents.css';
+import styles from './PhotoConsents.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
 

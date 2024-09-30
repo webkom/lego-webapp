@@ -1,5 +1,5 @@
-import { get } from 'lodash';
-import styles from './Table.css';
+import { get } from 'lodash-es';
+import styles from './Table.module.css';
 import type { ColumnProps, ShowColumn, TableData } from '.';
 
 type CellProps = {

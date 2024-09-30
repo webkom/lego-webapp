@@ -3,7 +3,7 @@ import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import styles from './PageHierarchy.css';
+import styles from './PageHierarchy.module.css';
 import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type { ReactNode } from 'react';
 

@@ -17,7 +17,7 @@ import {
   tooLow,
 } from 'app/routes/events/utils';
 import { spyValues } from 'app/utils/formSpyUtils';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import renderPools from '../renderPools';
 import type { EditingEvent } from 'app/routes/events/utils';
 

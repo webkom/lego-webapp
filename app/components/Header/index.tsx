@@ -15,14 +15,14 @@ import AuthSection from 'app/components/AuthSection/AuthSection';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import utilStyles from 'app/styles/utilities.css';
+import utilStyles from 'app/styles/utilities.module.css';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
 import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';
-import styles from './Header.css';
+import styles from './Header.module.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
 
@@ -188,7 +188,7 @@ const Header = () => {
 
   useEffect(() => {
     if (
-      __CLIENT__ &&
+      !import.meta.env.SSR &&
       loggedIn &&
       currentUser &&
       (currentUser.selectedTheme === 'auto'

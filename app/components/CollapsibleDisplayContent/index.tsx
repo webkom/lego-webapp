@@ -3,7 +3,7 @@ import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 import { type CSSProperties, useRef, useState } from 'react';
-import styles from './CollapsibleDisplayContent.css';
+import styles from './CollapsibleDisplayContent.module.css';
 
 type Props = {
   content?: string;
@@ -29,7 +29,7 @@ function CollapsibleDisplayContent({
 }: Props) {
   let domParser = null;
 
-  if (!__CLIENT__) {
+  if (import.meta.env.SSR) {
     const JSDOM = require('jsdom').JSDOM;
 
     domParser = (val) => new JSDOM(val).window.document;

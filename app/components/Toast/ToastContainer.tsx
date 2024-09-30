@@ -20,7 +20,7 @@ const ToastContainer = () => {
 };
 
 function toastStyleFactory(index, style) {
-  if (__CLIENT__ && window.matchMedia('(max-width: 35em)').matches) {
+  if (!import.meta.env.SSR && window.matchMedia('(max-width: 35em)').matches) {
     return {
       ...style,
       bottom: `${index * 48}px`,

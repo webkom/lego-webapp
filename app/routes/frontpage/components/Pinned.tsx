@@ -2,7 +2,7 @@ import { Card, Flex, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { isEvent } from 'app/reducers/frontpage';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './Pinned.css';
+import styles from './Pinned.module.css';
 import type { ArticleWithType, EventWithType } from 'app/reducers/frontpage';
 import type { CSSProperties, ReactElement } from 'react';
 

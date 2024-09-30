@@ -6,7 +6,7 @@ import {
   SelectInput,
   Button,
 } from 'app/components/Form';
-import styles from './EventEditor.css';
+import styles from './EventEditor.module.css';
 import PoolSuggestion from './PoolSuggestions';
 import type { Dateish, EventStatusType } from 'app/models';
 

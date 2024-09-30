@@ -2,7 +2,7 @@ import { Button } from '@webkom/lego-bricks';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { uploadFile } from 'app/actions/FileActions';
-import styles from './FileUpload.css';
+import styles from './FileUpload.module.css';
 
 type State = {
   pending: boolean;

@@ -14,7 +14,7 @@ import { payment } from 'app/actions/EventActions';
 import config from 'app/config';
 import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
-import stripeStyles from './Stripe.css';
+import stripeStyles from './Stripe.module.css';
 import type { EventRegistrationPaymentStatus } from 'app/models';
 import type {
   AuthUserDetailedEvent,
