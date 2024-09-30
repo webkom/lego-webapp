@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import createSentryMiddleware from 'redux-sentry-middleware';
 import { selectCurrentUser } from 'app/reducers/auth';
 import type { RootState } from 'app/store/createRootReducer';

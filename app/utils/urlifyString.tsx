@@ -1,4 +1,4 @@
-import { compact } from 'lodash';
+import { compact } from 'lodash-es';
 import * as React from 'react';
 import { isEmail, isURL } from 'validator';
 

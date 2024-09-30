@@ -1,5 +1,5 @@
 @import url('~app/styles/variables.css');
-@import url('~app/styles/overlay.css');
+@import url('~app/styles/overlay.module.css');
 
 .content {
   width: 250px;

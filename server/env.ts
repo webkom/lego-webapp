@@ -1,11 +1,12 @@
 const config = {
-  host: process.env.HOST,
-  port: process.env.PORT,
-  https: process.env.HTTPS || false,
-  httpsCertKeyFile: process.env.HTTPS_CERT_KEY_FILE || './localhost-key.pem',
-  httpsCertFile: process.env.HTTPS_CERT_FILE || './localhost.pem',
-  sentryDSN: process.env.SERVER_SENTRY_DSN,
-  release: process.env.RELEASE,
-  environment: process.env.ENVIRONMENT,
+  host: import.meta.env.HOST,
+  port: import.meta.env.PORT,
+  https: import.meta.env.HTTPS || false,
+  httpsCertKeyFile:
+    import.meta.env.HTTPS_CERT_KEY_FILE || './localhost-key.pem',
+  httpsCertFile: import.meta.env.HTTPS_CERT_FILE || './localhost.pem',
+  sentryDSN: import.meta.env.SERVER_SENTRY_DSN,
+  release: import.meta.env.RELEASE,
+  environment: import.meta.env.ENVIRONMENT,
 };
 export default config;

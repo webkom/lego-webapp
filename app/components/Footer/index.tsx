@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import netcompany from 'app/assets/netcompany_white.svg';
 import octocat from 'app/assets/octocat.png';
 import { useIsLoggedIn } from 'app/reducers/auth';
-import utilityStyles from 'app/styles/utilities.css';
+import utilityStyles from 'app/styles/utilities.module.css';
 import Circle from '../Circle';
 import styles from './Footer.module.css';
 

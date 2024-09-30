@@ -1,7 +1,7 @@
 @import url('~app/styles/variables.css');
 
 .modal {
-  composes: container from '~app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.module.css';
   max-width: 900px;
   position: fixed;
   top: 0;
@@ -73,7 +73,7 @@
 }
 
 .content {
-  composes: container from '~app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.module.css';
   position: relative;
   display: flex;
   justify-content: space-between;

@@ -1,4 +1,4 @@
-import { mergeWith } from 'lodash';
+import { mergeWith } from 'lodash-es';
 
 function overrideArrays(
   oldValue,

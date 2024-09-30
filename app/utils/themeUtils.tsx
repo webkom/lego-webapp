@@ -3,18 +3,19 @@ import { setTheme } from 'app/reducers/theme';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 
 export const applySelectedTheme = (theme) => {
-  if (__CLIENT__) {
+  if (!import.meta.env.SSR) {
     document.documentElement.setAttribute(
       'data-theme',
       theme === 'auto' ? getOSTheme() : theme,
     );
-    global.dispatchEvent(new Event('themeChange'));
+    window.dispatchEvent(new Event('themeChange'));
     localStorage.setItem('theme', theme);
   }
 };
 
 export const getTheme = (): 'dark' | 'light' =>
-  __CLIENT__ && document.documentElement.getAttribute('data-theme') === 'dark'
+  !import.meta.env.SSR &&
+  document.documentElement.getAttribute('data-theme') === 'dark'
     ? 'dark'
     : 'light';
 

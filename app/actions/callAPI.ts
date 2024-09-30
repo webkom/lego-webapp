@@ -1,4 +1,4 @@
-import { omit, isArray } from 'lodash';
+import { omit, isArray } from 'lodash-es';
 import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';
@@ -6,7 +6,7 @@ import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
-import { configWithSSR } from '../config';
+import config from '../config';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { AppDispatch } from 'app/store/createStore';
@@ -26,12 +26,12 @@ import type { Required } from 'utility-types';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
-    return configWithSSR.baseUrl + resource.replace(/^\//, '');
+    return config.baseUrl + resource.replace(/^\//, '');
   } else if (resource.match(/^http?:/) || resource.match(/^https:/)) {
     return resource;
   }
 
-  return configWithSSR.serverUrl + resource;
+  return config.serverUrl + resource;
 }
 
 function handleError(
@@ -48,9 +48,9 @@ function handleError(
     }
 
     if (propagateError) {
-      const serverRenderer = !__CLIENT__;
+      const ssr = import.meta.env.SSR;
 
-      if ((serverRenderer && statusCode < 500) || !serverRenderer) {
+      if ((ssr && statusCode < 500) || !ssr) {
         dispatch(setStatusCode(statusCode));
       }
     }

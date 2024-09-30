@@ -125,7 +125,7 @@ export default function fetchJSON<T>(
           (error.response && error.response.status < 500) ||
           !retryDelays ||
           requestsAttempted > retryDelays.length ||
-          !__CLIENT__
+          import.meta.env.SSR
         ) {
           return reject(error);
         }
