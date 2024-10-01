@@ -4,7 +4,10 @@ import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
 import type { Semester } from 'app/models';
-import type { TransformedAdminCompany, TransformedSemesterStatus } from 'app/reducers/companies';
+import type {
+  TransformedAdminCompany,
+  TransformedSemesterStatus,
+} from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
 
@@ -112,9 +115,12 @@ export const sortByYearThenSemester = (
 export const getSemesterStatus = (
   company: TransformedAdminCompany,
   companySemester: CompanySemester,
-) => (
-  company.semesterStatuses.find(semesterStatus => semesterStatus.year == companySemester.year && semesterStatus.semester == companySemester.semester)
-);
+) =>
+  company.semesterStatuses.find(
+    (semesterStatus) =>
+      semesterStatus.year == companySemester.year &&
+      semesterStatus.semester == companySemester.semester,
+  );
 
 export const httpCheck = (link: string) => {
   const httpLink =

@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import styles from './Calendar.css';
 import CalendarCell from './CalendarCell';
-      import EventFooter from './EventFooter';
+import EventFooter from './EventFooter';
 import EventsTabs from './EventsTabs';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];

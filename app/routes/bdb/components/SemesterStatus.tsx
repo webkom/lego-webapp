@@ -12,9 +12,7 @@ import type {
   TransformedAdminCompany,
   TransformedSemesterStatus,
 } from 'app/reducers/companies';
-import type {
-  CompanySemesterContactStatus,
-} from 'app/store/models/Company';
+import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 type Props = {
   editChangedStatuses: (

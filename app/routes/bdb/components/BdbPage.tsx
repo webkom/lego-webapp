@@ -18,10 +18,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
-import {
-  BdbTabs,
-  getSemesterStatus,
-} from '../utils';
+import { BdbTabs, getSemesterStatus } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import styles from './bdb.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -50,55 +47,73 @@ const BdbPage = () => {
   const fetching = useAppSelector((state) => state.companies.fetching);
 
   const currentCompanySemester = useMemo(() => {
-      let semesterId: string | EntityId | undefined = query.semester;
+    let semesterId: string | EntityId | undefined = query.semester;
 
-      if (!semesterId) {
-        let closestSemesterId: EntityId | undefined = undefined;
-        let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
-        for (let i = 0; i < companySemesters.length; i++) {
-          const companySemester = companySemesters[i];
+    if (!semesterId) {
+      let closestSemesterId: EntityId | undefined = undefined;
+      let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+      for (let i = 0; i < companySemesters.length; i++) {
+        const companySemester = companySemesters[i];
 
-          const semesterMonth = companySemester.semester === "spring" ? '01' : '08';
-          const semesterDateDiff = moment().diff(moment(`${companySemester.year}${semesterMonth}`, "YYYYMM"))
+        const semesterMonth =
+          companySemester.semester === 'spring' ? '01' : '08';
+        const semesterDateDiff = moment().diff(
+          moment(`${companySemester.year}${semesterMonth}`, 'YYYYMM'),
+        );
 
-          if (closestSemesterId === undefined || semesterDateDiff < closestSemesterDateDiff) {
-            closestSemesterId = companySemester.id;
-            closestSemesterDateDiff = semesterDateDiff;
-          }
+        if (
+          closestSemesterId === undefined ||
+          semesterDateDiff < closestSemesterDateDiff
+        ) {
+          closestSemesterId = companySemester.id;
+          closestSemesterDateDiff = semesterDateDiff;
         }
-
-        semesterId = closestSemesterId;
       }
 
-      return companySemesters.find((companySemester) => companySemester.id == semesterId);
-    }, [companySemesters, query]);
+      semesterId = closestSemesterId;
+    }
+
+    return companySemesters.find(
+      (companySemester) => companySemester.id == semesterId,
+    );
+  }, [companySemesters, query]);
 
   const dispatch = useAppDispatch();
   usePreparedEffect(
     'fetchBdb',
-    () => dispatch(fetchSemesters()).then((action) => {
-      let semesterId: EntityId | undefined = query.semester;
+    () =>
+      dispatch(fetchSemesters()).then((action) => {
+        let semesterId: EntityId | undefined = query.semester;
 
-      const companySemesters = action.payload.entities.companySemesters as Record<string, CompanySemester>;
+        const companySemesters = action.payload.entities
+          .companySemesters as Record<string, CompanySemester>;
 
-      if (!semesterId) {
-        let closestSemesterId: string | undefined = undefined;
-        let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
-        for (const [companySemesterId, companySemester] of Object.entries(companySemesters)) {
-          const semesterMonth = companySemester.semester === "spring" ? '01' : '08';
-          const semesterDateDiff = moment().diff(moment(`${companySemester.year}${semesterMonth}`, "YYYYMM"))
+        if (!semesterId) {
+          let closestSemesterId: string | undefined = undefined;
+          let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+          for (const [companySemesterId, companySemester] of Object.entries(
+            companySemesters,
+          )) {
+            const semesterMonth =
+              companySemester.semester === 'spring' ? '01' : '08';
+            const semesterDateDiff = moment().diff(
+              moment(`${companySemester.year}${semesterMonth}`, 'YYYYMM'),
+            );
 
-          if (closestSemesterId === undefined || semesterDateDiff < closestSemesterDateDiff) {
-            closestSemesterId = companySemesterId;
-            closestSemesterDateDiff = semesterDateDiff;
+            if (
+              closestSemesterId === undefined ||
+              semesterDateDiff < closestSemesterDateDiff
+            ) {
+              closestSemesterId = companySemesterId;
+              closestSemesterDateDiff = semesterDateDiff;
+            }
           }
+
+          semesterId = closestSemesterId;
         }
 
-        semesterId = closestSemesterId;
-      }
-
-      return dispatch(fetchAllAdmin(semesterId));
-    }),
+        return dispatch(fetchAllAdmin(semesterId));
+      }),
     [],
   );
 
@@ -106,7 +121,6 @@ const BdbPage = () => {
     company: TransformedAdminCompany<AdminListCompany | AdminDetailCompany>,
     contactedStatus: CompanySemesterContactStatus[],
   ) => {
-
     if (!currentCompanySemester) {
       return;
     }
@@ -117,7 +131,10 @@ const BdbPage = () => {
       semester: currentCompanySemester.id,
     };
 
-    const semesterStatusId = getSemesterStatus(company, currentCompanySemester)?.id;
+    const semesterStatusId = getSemesterStatus(
+      company,
+      currentCompanySemester,
+    )?.id;
 
     return semesterStatusId
       ? dispatch(editSemesterStatus({ ...semesterStatus, semesterStatusId }))
@@ -141,7 +158,10 @@ const BdbPage = () => {
       padding: 0,
       render: (_, company) => (
         <SemesterStatus
-          semesterStatus={currentCompanySemester && getSemesterStatus(company, currentCompanySemester)}
+          semesterStatus={
+            currentCompanySemester &&
+            getSemesterStatus(company, currentCompanySemester)
+          }
           editChangedStatuses={editChangedStatuses}
           company={company}
         />
