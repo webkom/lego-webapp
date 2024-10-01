@@ -116,43 +116,6 @@ export const getSemesterStatus = (
   company.semesterStatuses.find(semesterStatus => semesterStatus.year == companySemester.year && semesterStatus.semester == companySemester.semester)
 );
 
-export const indexToYearAndSemester = (
-  index: number,
-  startYear: number,
-  startSem: number,
-) => {
-  const semester = semesterNameOf(((index % 2) + startSem) % 2);
-  let year = 0;
-
-  if (startSem === 0) {
-    year = index < 2 ? startYear : startYear + 1;
-  } else if (index === 0) {
-    year = startYear;
-  } else if (index === 3) {
-    year = startYear + 2;
-  } else {
-    year = startYear + 1;
-  }
-
-  return {
-    year,
-    semester,
-  };
-};
-export const indexToCompanySemester = (
-  index: number,
-  startYear: number,
-  startSem: number,
-  companySemesters: CompanySemester[],
-) => {
-  const { year, semester } = indexToYearAndSemester(index, startYear, startSem);
-
-  return companySemesters.find(
-    (companySemester) =>
-      companySemester.year === year && companySemester.semester === semester,
-  );
-};
-
 export const httpCheck = (link: string) => {
   const httpLink =
     link.startsWith('http://') || link.startsWith('https://')

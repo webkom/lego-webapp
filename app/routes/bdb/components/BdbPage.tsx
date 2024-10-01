@@ -10,7 +10,6 @@ import {
   addSemesterStatus,
   editSemesterStatus,
   fetchSemesters,
-  addSemester,
 } from 'app/actions/CompanyActions';
 import Table from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
@@ -20,11 +19,7 @@ import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import {
-  indexToCompanySemester,
-  indexToYearAndSemester,
   BdbTabs,
-  selectMostProminentStatus,
-  contactStatuses,
   getSemesterStatus,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
@@ -54,22 +49,68 @@ const BdbPage = () => {
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const fetching = useAppSelector((state) => state.companies.fetching);
 
+  const currentCompanySemester = useMemo(() => {
+      let semesterId: string | EntityId | undefined = query.semester;
+
+      if (!semesterId) {
+        let closestSemesterId: EntityId | undefined = undefined;
+        let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+        for (let i = 0; i < companySemesters.length; i++) {
+          const companySemester = companySemesters[i];
+
+          const semesterMonth = companySemester.semester === "spring" ? '01' : '08';
+          const semesterDateDiff = moment().diff(moment(`${companySemester.year}${semesterMonth}`, "YYYYMM"))
+
+          if (closestSemesterId === undefined || semesterDateDiff < closestSemesterDateDiff) {
+            closestSemesterId = companySemester.id;
+            closestSemesterDateDiff = semesterDateDiff;
+          }
+        }
+
+        semesterId = closestSemesterId;
+      }
+
+      return companySemesters.find((companySemester) => companySemester.id == semesterId);
+    }, [companySemesters, query]);
+
   const dispatch = useAppDispatch();
-
-  const currentCompanySemester = useMemo(() => companySemesters.find((companySemester) => companySemester.id == query.semester), [companySemesters, query]);
-
   usePreparedEffect(
     'fetchBdb',
-    () => dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin(query.semester))),
+    () => dispatch(fetchSemesters()).then((action) => {
+      let semesterId: EntityId | undefined = query.semester;
+
+      const companySemesters = action.payload.entities.companySemesters as Record<string, CompanySemester>;
+
+      if (!semesterId) {
+        let closestSemesterId: string | undefined = undefined;
+        let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+        for (const [companySemesterId, companySemester] of Object.entries(companySemesters)) {
+          const semesterMonth = companySemester.semester === "spring" ? '01' : '08';
+          const semesterDateDiff = moment().diff(moment(`${companySemester.year}${semesterMonth}`, "YYYYMM"))
+
+          if (closestSemesterId === undefined || semesterDateDiff < closestSemesterDateDiff) {
+            closestSemesterId = companySemesterId;
+            closestSemesterDateDiff = semesterDateDiff;
+          }
+        }
+
+        semesterId = closestSemesterId;
+      }
+
+      return dispatch(fetchAllAdmin(semesterId));
+    }),
     [],
   );
-
-  const navigate = useNavigate();
 
   const editChangedStatuses = async (
     company: TransformedAdminCompany<AdminListCompany | AdminDetailCompany>,
     contactedStatus: CompanySemesterContactStatus[],
   ) => {
+
+    if (!currentCompanySemester) {
+      return;
+    }
+
     const semesterStatus = {
       companyId: company.id,
       contactedStatus,
@@ -80,9 +121,7 @@ const BdbPage = () => {
 
     return semesterStatusId
       ? dispatch(editSemesterStatus({ ...semesterStatus, semesterStatusId }))
-      : dispatch(addSemesterStatus(semesterStatus)).then(() => {
-          navigate('/bdb');
-        });
+      : dispatch(addSemesterStatus(semesterStatus));
   };
 
   const columns: ColumnProps<(typeof companies)[number]>[] = [
@@ -102,7 +141,7 @@ const BdbPage = () => {
       padding: 0,
       render: (_, company) => (
         <SemesterStatus
-          semesterStatus={company.semesterStatuses.find(semesterStatus => semesterStatus.year === currentCompanySemester?.year && semesterStatus.semester == currentCompanySemester?.semester)}
+          semesterStatus={currentCompanySemester && getSemesterStatus(company, currentCompanySemester)}
           editChangedStatuses={editChangedStatuses}
           company={company}
         />
