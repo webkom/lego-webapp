@@ -35,10 +35,10 @@ export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
   });
 };
 
-export function fetchAllAdmin() {
+export function fetchAllAdmin(semesterId: EntityId) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
-    endpoint: '/bdb/',
+    endpoint: `/bdb/${semesterId}/companies`,
     schema: [companySchema],
     meta: {
       errorMessage: 'Henting av bedrifter feilet',
