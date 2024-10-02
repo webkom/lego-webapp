@@ -5,6 +5,7 @@
   border-left: 4px solid transparent;
   margin-bottom: 15px;
   height: 60px;
+
   &:hover {
     background-color: var(--additive-background);
     border-radius: var(--border-radius-sm);

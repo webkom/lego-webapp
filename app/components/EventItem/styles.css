@@ -59,10 +59,6 @@
   transition: var(--easing-fast);
 }
 
-.eventItem:hover .companyLogo img {
-  /* border-radius: var(--border-radius-sm); */
-}
-
 .companyLogoCompact img {
   min-width: 120px;
   max-height: 100%;
@@ -75,4 +71,8 @@
   height: 30px;
   object-fit: contain;
   background: white;
+}
+
+.eventItem:hover .companyLogo img {
+  border-radius: var(--border-radius-sm);
 }
