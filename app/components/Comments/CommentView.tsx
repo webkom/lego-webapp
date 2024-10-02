@@ -52,7 +52,7 @@ const CommentView = (props: Props) => {
     style,
     displayTitle = true,
     contentAuthors,
-    newOnTop,
+    newOnTop = false,
   } = props;
   const commentFormProps = {
     contentTarget,
@@ -80,9 +80,8 @@ const CommentView = (props: Props) => {
   return (
     <div style={style}>
       <Flex
-        flex-row
-        justifyContent="flex-start"
         alignItems="center"
+        gap="var(--spacing-sm)"
         className={styles.headerContainer}
       >
         <Title displayTitle={displayTitle} />
@@ -93,23 +92,26 @@ const CommentView = (props: Props) => {
           triggerComponent={
             <Icon
               size={20}
-              className={styles.sortIcon}
+              className="secondaryFontColor"
               iconNode={<ArrowDownUpIcon />}
             />
           }
         >
           <Dropdown.List>
-            {orderingOptions.map((o: Option, index: number) => (
+            {orderingOptions.map((option: Option, index: number) => (
               <>
                 {index !== 0 && <Dropdown.Divider />}
-                <Dropdown.ListItem key={o.value}>
+                <Dropdown.ListItem
+                  key={option.value}
+                  active={option === ordering}
+                >
                   <button
                     onClick={() => {
-                      setOrdering(o);
+                      setOrdering(option);
                       setDisplaySorting(!displaySorting);
                     }}
                   >
-                    {o.label}
+                    {option.label}
                   </button>
                 </Dropdown.ListItem>
               </>

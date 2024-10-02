@@ -29,3 +29,7 @@
 html[data-theme='dark'] .danger:hover button {
   color: var(--lego-font-color);
 }
+
+.active {
+  background-color: var(--additive-background);
+}
