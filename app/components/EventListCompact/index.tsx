@@ -3,7 +3,6 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem, { type EventStyle } from 'app/components/EventItem';
 import styles from 'app/components/EventItem/styles.css';
 import type { ListEvent } from 'app/store/models/Event';
-import { Link } from 'react-router-dom';
 
 type Props = {
   events: ListEvent[];

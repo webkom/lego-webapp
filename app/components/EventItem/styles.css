@@ -60,7 +60,7 @@
 }
 
 .eventItem:hover .companyLogo img {
-  border-radius: var(--border-radius-sm);
+  /* border-radius: var(--border-radius-sm); */
 }
 
 .companyLogoCompact img {
