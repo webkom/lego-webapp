@@ -40,8 +40,8 @@ const renderNameList = (registrations) => {
       {registrationsList.map((reg) => (
         <Flex key={reg.id}>{reg.user.fullName}</Flex>
       ))}
-      {registrations.length > 11 && (
-        <Flex>{`og ${registrations.length - 11} ${registrations.length - 11 === 1 ? 'annen' : 'andre'}`}</Flex>
+      {registrations.length > 14 && (
+        <Flex>{`og ${registrations.length - 14} ${registrations.length - 14 === 1 ? 'annen' : 'andre'}`}</Flex>
       )}
     </Flex>
   );
