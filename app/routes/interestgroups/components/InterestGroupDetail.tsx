@@ -134,6 +134,9 @@ const InterestGroupDetail = () => {
   const memberships = useAppSelector((state) =>
     selectMembershipsForGroup(state, { groupId }),
   );
+  const announcementActionGrant = useAppSelector(
+    (state) => state.allowed.announcements,
+  );
 
   const dispatch = useAppDispatch();
 
@@ -187,17 +190,20 @@ const InterestGroupDetail = () => {
             </>
           )}
 
-          {canEdit && (
-            <>
+          {(canEdit || announcementActionGrant) && (
+            <div>
               <h3>Admin</h3>
-              <LinkButton href={`/interest-groups/${group.id}/edit`}>
-                <Icon iconNode={<Pencil />} size={19} />
-                Rediger
-              </LinkButton>
-            </>
+              <ButtonGroup>
+                {canEdit && (
+                  <LinkButton href={`/interest-groups/${group.id}/edit`}>
+                    <Icon iconNode={<Pencil />} size={19} />
+                    Rediger
+                  </LinkButton>
+                )}
+                <AnnouncementInLine group={group} />
+              </ButtonGroup>
+            </div>
           )}
-
-          <AnnouncementInLine group={group} />
         </ContentSidebar>
       </ContentSection>
     </Page>

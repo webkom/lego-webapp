@@ -1,5 +1,6 @@
 import { Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Download } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
@@ -225,7 +226,7 @@ const RestrictedMailEditor = () => {
               href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
               download
             >
-              <Icon name="download-outline" size={19} />
+              <Icon iconNode={<Download />} size={19} />
               Last ned e-post token
             </LinkButton>
           )}

@@ -1,9 +1,9 @@
 import { Modal } from '@webkom/lego-bricks';
 import AttendanceModalContent from './AttendanceModalContent';
-import type { Pool } from './AttendanceModalContent';
+import type { AttendanceModalPool } from './AttendanceModalContent';
 
 export type AttendanceModalProps = {
-  pools: Pool[];
+  pools: AttendanceModalPool[];
   title: string;
   isMeeting?: boolean;
   isOpen: boolean;

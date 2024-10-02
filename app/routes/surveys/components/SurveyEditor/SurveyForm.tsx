@@ -1,5 +1,6 @@
 import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
+import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -227,7 +228,7 @@ const Questions = ({ fields }: QuestionsProps) => (
     </ul>
 
     <Icon
-      name="add"
+      iconNode={<Plus />}
       size={30}
       onClick={() => {
         fields.push(initialQuestion);

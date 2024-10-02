@@ -12,6 +12,7 @@ import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/
 import pageNotFound from 'app/routes/pageNotFound';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import type { AdministrateEvent } from 'app/store/models/Event';
 
 const Statistics = loadable(() => import('./Statistics'));
 const Attendees = loadable(() => import('./Attendees'));
@@ -21,7 +22,9 @@ const Abacard = loadable(() => import('./Abacard'));
 
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();
-  const event = useAppSelector((state) => selectEventById(state, { eventId }));
+  const event = useAppSelector((state) =>
+    eventId ? selectEventById<AdministrateEvent>(state, eventId) : undefined,
+  );
   const fetching = useAppSelector((state) => state.events.fetching);
   const currentUser = useCurrentUser();
 
@@ -35,15 +38,15 @@ const EventAdministrateIndex = () => {
 
   const base = `/events/${eventId}/administrate`;
 
+  const title = event?.title ? `Administrerer: ${event.title}` : 'Administrer';
+
   return (
     <Page
-      title={`Administrerer: ${event.title}`}
-      back={
-        event?.slug && {
-          label: 'Tilbake til arrangement',
-          href: '/events/' + event.slug,
-        }
-      }
+      title={title}
+      back={{
+        label: 'Tilbake til arrangement',
+        href: '/events/' + (event?.slug ?? eventId),
+      }}
       tabs={
         <>
           <NavigationTab href={`${base}/attendees`}>Påmeldinger</NavigationTab>
@@ -67,7 +70,7 @@ const EventAdministrateIndex = () => {
       }
       skeleton={fetching}
     >
-      <Helmet title={`Administrer: ${event.title}`} />
+      <Helmet title={title} />
       <Outlet />
     </Page>
   );

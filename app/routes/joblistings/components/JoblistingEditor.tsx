@@ -2,7 +2,6 @@ import {
   Button,
   ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
   LinkButton,
   Page,
@@ -88,6 +87,7 @@ const JoblistingEditor = () => {
   const joblisting = useAppSelector((state) =>
     selectJoblistingById<DetailedJoblisting>(state, joblistingId),
   );
+  const fetching = useAppSelector((state) => state.joblistings.fetching);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -211,6 +211,7 @@ const JoblistingEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{
         href: !isNew ? `/joblistings/${joblisting?.slug}` : '/joblistings',
       }}
@@ -302,12 +303,14 @@ const JoblistingEditor = () => {
               label="Søknadslenke"
               name="applicationUrl"
               component={TextInput.Field}
+              parse={(value) => value}
             />
             <Field
               name="contactMail"
               placeholder="E-post"
-              label="Søknadsmail eller kontaktmail"
+              label="Søknads- eller kontakt-e-post"
               component={TextInput.Field}
+              parse={(value) => value}
             />
             <Field
               name="responsible"
@@ -315,15 +318,15 @@ const JoblistingEditor = () => {
               label="Kontaktperson"
               options={responsibleOptions}
               component={SelectInput.Field}
+              isClearable
             />
-            <Flex>
-              <Field
-                name="youtubeUrl"
-                label="YouTube-video som cover"
-                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-                component={TextInput.Field}
-              />
-            </Flex>
+            <Field
+              name="youtubeUrl"
+              label="YouTube-video som cover"
+              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+              component={TextInput.Field}
+              parse={(value) => value}
+            />
             <Field
               name="description"
               className={styles.descriptionField}

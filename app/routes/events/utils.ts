@@ -11,6 +11,7 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
+import type { CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
 import type { DetailedUser } from 'app/store/models/User';
 
@@ -61,10 +62,10 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#8A2BE2',
     textColor: '#FFF',
   },
-  [EventType.KiD_EVENT]: {
-    displayName: 'KiD-arrangement',
-    color: 'var(--color-event-black)',
-    textColor: 'var(--color-white)',
+  [EventType.NEXUS_EVENT]: {
+    displayName: 'NEXUS-arrangement',
+    color: '#00509E',
+    textColor: 'var(--color-absolute-white)',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',
@@ -272,10 +273,13 @@ const paymentSuccessMappings = {
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
 
-export const registrationCloseTime = (event: Event) =>
-  moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
+export const registrationCloseTime = (
+  event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
+) => moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 
-export const registrationIsClosed = (event: Event) => {
+export const registrationIsClosed = (
+  event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
+) => {
   return moment().isAfter(registrationCloseTime(event));
 };
 

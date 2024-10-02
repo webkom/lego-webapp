@@ -25,7 +25,7 @@ import type { CurrentUser } from 'app/store/models/User';
 type Props = {
   event: AuthUserDetailedEvent | UserDetailedEvent;
   currentUser: CurrentUser;
-  paymentStatus: EventRegistrationPaymentStatus;
+  paymentStatus: EventRegistrationPaymentStatus | null;
   clientSecret?: string;
   paymentError?: string;
 };

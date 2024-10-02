@@ -1,44 +1,25 @@
 .member img {
-  width: 90px;
-  display: block;
-  border-radius: 50%;
   border: 4px solid var(--border-gray);
-  margin: auto;
 }
 
 .member.leader img {
   border-color: var(--color-orange-6);
 }
 
-.member.coLeader img {
-  border: 4px solid var(--border-gray);
-}
-
 .member {
-  margin: 15px 10px;
   flex: 1;
-  min-width: 120px;
-  line-height: 20px;
   flex-grow: 0;
+  min-width: 120px;
   max-width: 100px;
-}
-
-.testing.leader {
-  max-width: 140px;
+  margin: var(--spacing-md) var(--spacing-sm);
+  line-height: 1.3;
 }
 
 .title {
   font-size: var(--font-size-xs);
   color: var(--secondary-font-color);
-  font-style: normal;
-  margin: 5px -3px 0;
-  display: flex;
-  justify-content: center;
 }
 
 .name {
-  margin-top: 5px;
-  display: flex;
-  justify-content: center;
   text-align: center;
 }

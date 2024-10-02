@@ -3,14 +3,14 @@
   width: calc(100% / 7);
   text-align: center;
   font-size: var(--font-size-md);
-  padding: 5px;
+  padding: var(--spacing-xs);
   transition: background var(--easing-blazingly-fast);
 }
 
 .dropdown {
   width: auto;
   max-width: 335px;
-  padding: 0 15px 8px;
+  padding: 0 var(--spacing-md) var(--spacing-sm);
   z-index: 20;
 }
 
@@ -20,7 +20,7 @@
 
 .header {
   font-size: var(--font-size-lg);
-  padding: 10px;
+  padding: var(--spacing-sm);
   text-transform: capitalize;
 }
 
@@ -31,7 +31,7 @@
   color: var(--lego-font-color);
   text-align: center;
   font-size: var(--font-size-md);
-  padding: 6px;
+  padding: var(--spacing-xs);
   transition: background var(--easing-blazingly-fast);
 
   &:hover:not(.today, .selectedDate) {

@@ -13,9 +13,13 @@ const FieldError = ({
   fieldName?: string;
 }) =>
   error ? (
-    <div className={styles.fieldError} data-error-field-name={fieldName}>
+    <Flex
+      alignItems="center"
+      className={styles.fieldError}
+      data-error-field-name={fieldName}
+    >
       {typeof error === 'object' ? JSON.stringify(error) : error}
-    </div>
+    </Flex>
   ) : null;
 
 export const RenderErrorMessage = ({
@@ -126,7 +130,8 @@ export function createField<T, ExtraProps extends object>(
     );
 
     return (
-      <div
+      <Flex
+        column
         className={cx(
           styles.field,
           withoutMargin && styles.withoutMargin,
@@ -142,7 +147,7 @@ export function createField<T, ExtraProps extends object>(
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}
-      </div>
+      </Flex>
     );
   };
 

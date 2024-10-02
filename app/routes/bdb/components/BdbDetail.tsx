@@ -53,7 +53,6 @@ import type {
   CompanySemesterContactStatus,
   SemesterStatus,
 } from 'app/store/models/Company';
-import type { ListEvent } from 'app/store/models/Event';
 
 const BdbDetail = () => {
   const { companyId } = useParams<{ companyId: string }>() as {
@@ -74,7 +73,7 @@ const BdbDetail = () => {
 
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
-  ) as ListEvent[];
+  );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const studentContact = useAppSelector((state) =>
     company?.studentContact !== null
@@ -397,7 +396,7 @@ const BdbDetail = () => {
               </table>
             </div>
           ) : (
-            <EmptyState>Ingen bedriftskontakter registrert</EmptyState>
+            <EmptyState body="Ingen bedriftskontakter registrert" />
           )}
           <Link
             to={`/bdb/${company.id}/company-contacts/add`}
@@ -420,7 +419,7 @@ const BdbDetail = () => {
             >
               <Card severity="info">
                 <Card.Header>Tips</Card.Header>
-                Du kan endre semestere ved å trykke på dem i listen!
+                Du kan endre semesterstatuser ved å trykke på dem i listen!
               </Card>
               <table className={styles.detailTable}>
                 <thead>
@@ -437,7 +436,7 @@ const BdbDetail = () => {
               </table>
             </div>
           ) : (
-            <EmptyState>Ingen sememsterstatuser</EmptyState>
+            <EmptyState body="Ingen sememsterstatuser" />
           )}
           <Link to={`/bdb/${company.id}/semesters/add`}>
             <i className="fa fa-plus-circle" /> Legg til nytt semester
@@ -448,7 +447,7 @@ const BdbDetail = () => {
           <h3>Filer</h3>
           <ul>
             {!company.files || company.files.length === 0 ? (
-              <EmptyState>Ingen filer</EmptyState>
+              <EmptyState body="Ingen filer" />
             ) : (
               company.files.map((file) => (
                 <li key={file.id}>
@@ -461,7 +460,7 @@ const BdbDetail = () => {
 
         <div className={styles.adminNote}>
           <h3>Notat i listen</h3>
-          {company.adminComment || <EmptyState>Ingen notater</EmptyState>}
+          {company.adminComment || <EmptyState body="Ingen notater" />}
         </div>
 
         <div>
@@ -495,7 +494,7 @@ const BdbDetail = () => {
               )}
             </div>
           ) : (
-            <EmptyState>Ingen arrangementer</EmptyState>
+            <EmptyState body="Ingen arrangementer" />
           )}
         </div>
 
@@ -510,7 +509,7 @@ const BdbDetail = () => {
               ))}
             </Flex>
           ) : (
-            <EmptyState>Ingen tidligere jobbannonser</EmptyState>
+            <EmptyState body="Ingen tidligere jobbannonser" />
           )}
         </div>
 

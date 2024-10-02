@@ -14,6 +14,12 @@ html {
   font-size: var(--font-size-md);
 }
 
+button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
 body {
   line-height: 1.3;
   font-family: Inter, sans-serif;
@@ -98,7 +104,6 @@ thead {
 th,
 td {
   padding: var(--spacing-sm);
-  width: 140px;
   display: table-cell;
 }
 
@@ -108,6 +113,12 @@ th:first-child {
 
 th:last-child {
   border-radius: 0 2em 2em 0;
+}
+
+input {
+  @media (--mobile-device) {
+    font-size: var(--font-size-md);
+  }
 }
 
 label {

@@ -3,7 +3,7 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { selectEvents } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import { eventListDefaultQuery } from 'app/routes/events/components/EventList';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
@@ -21,7 +21,7 @@ type Props = {
 const EVENT_COLUMN_LIMIT = 5;
 
 const CompactEvents = ({ className, style }: Props) => {
-  const events = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
+  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
 
   const eventsToShow = events
     .filter((event) => moment(event.endTime).isAfter())
@@ -73,7 +73,7 @@ const CompactEvents = ({ className, style }: Props) => {
     EventType.ALTERNATIVE_PRESENTATION,
     EventType.COURSE,
     EventType.BREAKFAST_TALK,
-    EventType.KiD_EVENT,
+    EventType.NEXUS_EVENT,
   ]);
   const leftEvents =
     presentations.length > 0 ? presentations : ['Ingen presentasjoner'];

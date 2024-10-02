@@ -1,5 +1,6 @@
-import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Images } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchGalleries } from 'app/actions/GalleryActions';
@@ -60,16 +61,17 @@ const Overview = () => {
           </div>
         )}
         renderEmpty={() => (
-          <EmptyState icon="images-outline">
-            <Flex column alignItems="center">
-              Fant ingen synlige album ...
-              {actionGrant && actionGrant.includes('create') && (
+          <EmptyState
+            iconNode={<Images />}
+            header="Fant ingen synlige album ..."
+            body={
+              actionGrant?.includes('create') && (
                 <span>
                   Trykk <Link to="/photos/new">her</Link> for å lage et nytt et
                 </span>
-              )}
-            </Flex>
-          </EmptyState>
+              )
+            }
+          />
         )}
         photos={galleries}
         getSrc={(gallery) => gallery.cover?.file ?? ''}

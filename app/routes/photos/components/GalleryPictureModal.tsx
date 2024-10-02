@@ -1,7 +1,7 @@
 import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
-import { Pencil } from 'lucide-react';
+import { Download, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
@@ -72,7 +72,6 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   if (taggees.length === 1) {
     return (
       <span>
-        <br />
         <span>med </span>
         <Link key={taggees[0].id} to={`/users/${taggees[0].username}`}>
           {taggees[0].fullName}
@@ -82,7 +81,6 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
   } else {
     return (
       <span>
-        <br />
         <span>med </span>
         {taggees.map((taggee, index) => (
           <span key={taggee.id}>
@@ -314,7 +312,7 @@ const GalleryPictureModal = () => {
                     className={styles.dropdownLink}
                   >
                     Last ned
-                    <Icon name="download-outline" size={24} />
+                    <Icon iconNode={<Download />} size={24} />
                   </a>
                 </Dropdown.ListItem>
                 {actionGrant &&
@@ -368,7 +366,16 @@ const GalleryPictureModal = () => {
             />
           </Flex>
 
-          <Flex justifyContent="center" gap="2.5rem">
+          {(picture.description || picture.taggees.length > 0) && (
+            <span className={styles.pictureDescription}>
+              {picture.description}
+              {picture.taggees.length > 0 && (
+                <Taggees taggees={picture.taggees} />
+              )}
+            </span>
+          )}
+
+          <Flex justifyContent="center" gap="var(--spacing-lg)">
             {hasPrevious && (
               <Icon
                 onClick={previousGalleryPicture}
@@ -384,16 +391,6 @@ const GalleryPictureModal = () => {
               />
             )}
           </Flex>
-          {(picture.description || picture.taggees.length > 0) && (
-            <Flex className={styles.pictureDescription}>
-              <p>
-                {picture.description}
-                {picture.taggees.length > 0 && (
-                  <Taggees taggees={picture.taggees} />
-                )}
-              </p>
-            </Flex>
-          )}
           {picture.contentTarget && (
             <CommentView
               contentTarget={picture.contentTarget}

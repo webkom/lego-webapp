@@ -1,10 +1,15 @@
 import type { PublicGroup } from './Group';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { DetailedUser, PublicUser } from 'app/store/models/User';
+import type { ReadRegistration } from 'app/store/models/Registration';
+import type {
+  DetailedUser,
+  PhotoConsent,
+  PublicUser,
+} from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum EventType {
@@ -13,14 +18,21 @@ export enum EventType {
   COMPANY_PRESENTATION = 'company_presentation',
   COURSE = 'course',
   EVENT = 'event',
-  KiD_EVENT = 'kid_event',
+  NEXUS_EVENT = 'nexus_event',
   LUNCH_PRESENTATION = 'lunch_presentation',
   OTHER = 'other',
   PARTY = 'party',
   SOCIAL = 'social',
 }
 
-interface Event {
+export enum EventStatusType {
+  NORMAL = 'NORMAL',
+  OPEN = 'OPEN',
+  TBA = 'TBA',
+  INFINITE = 'INFINITE',
+}
+
+export interface CompleteEvent {
   id: EntityId;
   title: string;
   slug: string;
@@ -29,7 +41,7 @@ interface Event {
   coverPlaceholder: string;
   text: string;
   eventType: EventType;
-  eventStatusType: string;
+  eventStatusType: EventStatusType;
   location: string;
   comments: EntityId[];
   contentTarget: ContentTarget;
@@ -55,6 +67,7 @@ interface Event {
   useStripe: boolean;
   paymentDueDate?: Dateish;
   useCaptcha: boolean;
+  waitingRegistrations?: EntityId[];
   waitingRegistrationCount?: number;
   tags: string[];
   isMerged: boolean;
@@ -69,6 +82,7 @@ interface Event {
   pinned: boolean;
   responsibleUsers: DetailedUser[];
   isForeignLanguage: boolean;
+  unregistered: EntityId[];
 
   // for survey
   attendedCount: number;
@@ -79,14 +93,16 @@ interface Event {
   isAdmitted: boolean;
   following: false | EntityId;
   spotsLeft: number;
-  pendingRegistration: EntityId;
-  photoConsents: EntityId[];
+  pendingRegistration?: EntityId;
+  photoConsents: PhotoConsent[];
 
   unansweredSurveys: EntityId[];
+
+  actionGrant: ActionGrant;
 }
 
 export type PublicEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'slug'
   | 'title'
@@ -95,11 +111,12 @@ export type PublicEvent = Pick<
   | 'eventStatusType'
   | 'location'
   | 'thumbnail'
+  | 'actionGrant'
 >;
 
 // This corresponds to EventReadSerializer in the backend
 export type ListEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'slug'
@@ -120,11 +137,17 @@ export type ListEvent = Pick<
   | 'isAdmitted'
   | 'survey'
   | 'responsibleUsers'
+  | 'actionGrant'
 > &
   ObjectPermissionsMixin;
 
+// Used for /upcoming and /previous endpoints
+export type ListEventWithUserRegistration = ListEvent & {
+  userReg?: ReadRegistration;
+};
+
 export type DetailedEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'slug'
@@ -171,18 +194,20 @@ export type DetailedEvent = Pick<
   | 'activationTime'
   | 'responsibleUsers'
   | 'isForeignLanguage'
+  | 'actionGrant'
 > &
   ObjectPermissionsMixin;
 
 export type EventForSurvey = Pick<
-  Event,
+  CompleteEvent,
   'registrationCount' | 'waitingRegistrationCount' | 'attendedCount'
 > &
   ListEvent;
 
 // User specific event serializer that appends data based on request.user
+// Used when an authenticated user who CANNOT register is viewing an event
 export type UserDetailedEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'price'
   | 'activationTime'
   | 'isAdmitted'
@@ -193,14 +218,16 @@ export type UserDetailedEvent = Pick<
 > &
   DetailedEvent;
 
+// Used when an authenticated user who CAN register is viewing an event
 export type AuthUserDetailedEvent = Pick<
-  Event,
+  CompleteEvent,
   'waitingRegistrations' | 'unansweredSurveys'
 > &
   UserDetailedEvent;
 
+// Used in /administrate endpoint
 export type AdministrateEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'pools'
   | 'unregistered'
   | 'waitingRegistrations'
@@ -213,7 +240,7 @@ export type AdministrateEvent = Pick<
   ListEvent;
 
 export type FrontpageEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'slug'
@@ -237,7 +264,7 @@ export type FrontpageEvent = Pick<
 >;
 
 export type SearchEvent = Pick<
-  Event,
+  CompleteEvent,
   | 'id'
   | 'title'
   | 'description'
@@ -248,7 +275,10 @@ export type SearchEvent = Pick<
   | 'endTime'
 >;
 
-export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
+export type AutocompleteEvent = Pick<
+  CompleteEvent,
+  'title' | 'startTime' | 'id'
+> & {
   contentType: AutocompleteContentType.Event;
   text: 'text';
 };
@@ -256,6 +286,7 @@ export type AutocompleteEvent = Pick<Event, 'title' | 'startTime' | 'id'> & {
 export type UnknownEvent = (
   | PublicEvent
   | ListEvent
+  | ListEventWithUserRegistration
   | DetailedEvent
   | EventForSurvey
   | UserDetailedEvent

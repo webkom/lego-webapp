@@ -8,6 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
+import { FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { fetchEvents } from 'app/actions/EventActions';
@@ -15,8 +16,8 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { selectSortedEvents } from 'app/reducers/events';
+import { useCurrentUser } from 'app/reducers/auth';
+import { selectAllEvents } from 'app/reducers/events';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -41,14 +42,16 @@ type GroupedEvents = {
 };
 
 const groupEvents = (
-  events: ListEvent,
-  field?: EventTime = EventTime.start,
+  events: ListEvent[],
+  field: EventTime = EventTime.start,
 ): GroupedEvents => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
-    currentWeek: (event) => moment(event[field]).isSame(moment(), 'week'),
-    nextWeek: (event) => moment(event[field]).isSame(nextWeek, 'week'),
-    later: (event) => moment(event[field]).isAfter(nextWeek),
+    currentWeek: (event: ListEvent) =>
+      moment(event[field]).isSame(moment(), 'week'),
+    nextWeek: (event: ListEvent) =>
+      moment(event[field]).isSame(nextWeek, 'week'),
+    later: (event: ListEvent) => moment(event[field]).isAfter(nextWeek),
   };
   return events.reduce((result, event) => {
     for (const groupName in groups) {
@@ -64,33 +67,23 @@ const groupEvents = (
 
 const EventListGroup = ({
   name,
-  field = EventTime.start,
   events = [],
-  loggedIn = false,
 }: {
   name: string;
-  field?: EventTime;
   events?: ListEvent[];
-  loggedIn: boolean;
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h3>{name}</h3>
       {events.map((event) => (
-        <EventItem
-          key={event.id}
-          event={event}
-          field={field}
-          showTags={false}
-          loggedIn={loggedIn}
-        />
+        <EventItem key={event.id} event={event} showTags={false} />
       ))}
     </div>
   );
 };
 
 type Option = {
-  filterRegDateFunc: (arg0: ListEvent) => boolean;
+  filterRegDateFunc: (event: ListEvent) => boolean;
   label: string;
   value: FilterRegistrationsType;
   field: EventTime;
@@ -137,7 +130,6 @@ const EventList = () => {
     'company_presentation',
   );
 
-  const loggedIn = useIsLoggedIn();
   const icalToken = useCurrentUser()?.icalToken;
 
   const fetchQuery = {
@@ -153,7 +145,9 @@ const EventList = () => {
   );
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
-  const events = useAppSelector(selectSortedEvents);
+  const events = useAppSelector((state) =>
+    selectAllEvents<ListEvent>(state, { pagination }),
+  );
 
   const dispatch = useAppDispatch();
 
@@ -198,7 +192,7 @@ const EventList = () => {
         return showSocial;
 
       case 'other':
-      case 'kid_event':
+      case 'nexus_event':
         return showOther;
 
       default:
@@ -279,29 +273,15 @@ const EventList = () => {
       tabs={<EventsTabs />}
     >
       <Helmet title="Arrangementer" />
-      <EventListGroup
-        name="Denne uken"
-        events={groupedEvents.currentWeek}
-        field={field}
-        loggedIn={loggedIn}
-      />
-      <EventListGroup
-        name="Neste uke"
-        events={groupedEvents.nextWeek}
-        field={field}
-        loggedIn={loggedIn}
-      />
-      <EventListGroup
-        name="Senere"
-        events={groupedEvents.later}
-        field={field}
-        loggedIn={loggedIn}
-      />
+      <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
+      <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
+      <EventListGroup name="Senere" events={groupedEvents.later} />
       {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
       {isEmpty(events) && !pagination.fetching && (
-        <EmptyState icon="book-outline">
-          Ingen kommende arrangementer
-        </EmptyState>
+        <EmptyState
+          iconNode={<FolderOpen />}
+          body="Ingen kommende arrangementer"
+        />
       )}
       {pagination.hasMore && field === 'startTime' && (
         <Button
@@ -312,7 +292,7 @@ const EventList = () => {
         </Button>
       )}
       <div className={styles.bottomBorder} />
-      <EventFooter icalToken={icalToken} />
+      {icalToken && <EventFooter icalToken={icalToken} />}
     </Page>
   );
 };

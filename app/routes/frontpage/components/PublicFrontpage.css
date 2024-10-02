@@ -6,12 +6,11 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-auto-rows: auto;
   grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links links';
-  padding: 0 var(--lego-default-padding);
+  padding: 0 var(--spacing-md);
 
   @media (--mobile-device) {
     grid-template-columns: 1fr;
     grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links';
-    padding: 0 var(--spacing-md);
   }
 
   h1 {
@@ -34,7 +33,6 @@
 
 .links {
   grid-area: links;
-  padding: 0 var(--lego-default-padding) var(--lego-default-padding);
 }
 
 .hsp {

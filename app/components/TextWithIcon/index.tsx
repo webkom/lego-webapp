@@ -11,7 +11,7 @@ export type TextWithIconProps = {
   tooltipContentIcon?: ReactElement;
   iconRight?: boolean;
   size?: number;
-  gap?: number;
+  gap?: number | string;
 };
 
 const TextWithIcon = ({
@@ -22,7 +22,7 @@ const TextWithIcon = ({
   tooltipContentIcon,
   iconRight = false,
   size,
-  gap = 5,
+  gap = 'var(--spacing-sm)',
 }: TextWithIconProps) => {
   const icon = (
     <Icon

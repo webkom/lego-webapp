@@ -69,7 +69,7 @@ const RegistrationList = ({
 
 type RegisteredSummaryProps = {
   registrations?: SummaryRegistration[];
-  currentRegistration?: SummaryRegistration | null | undefined;
+  currentRegistration?: SummaryRegistration;
   openModalTab?: (tabIndex: number) => void;
   skeleton?: boolean;
 };

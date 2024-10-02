@@ -4,7 +4,7 @@ import { editSurvey } from 'app/actions/SurveyActions';
 import { useFetchedSurvey, useFetchedTemplate } from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
 import { questionTypeString } from 'app/routes/surveys/utils';
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import type { EventType } from 'app/store/models/Event';
 import type { FormSubmitSurvey, FormSurvey } from 'app/store/models/Survey';
@@ -23,6 +23,7 @@ const EditSurveyPage = () => {
   const { survey, event } = useFetchedSurvey('editSurvey', surveyId);
   const { templateType } = query;
   const template = useFetchedTemplate('addSurvey', templateType);
+  const fetching = useAppSelector((state) => state.surveys.fetching);
 
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
@@ -50,6 +51,7 @@ const EditSurveyPage = () => {
   return (
     <Page
       title={`Redigerer: ${survey.title}`}
+      skeleton={fetching}
       back={{ href: `/surveys/${surveyId}` }}
     >
       <SurveyForm

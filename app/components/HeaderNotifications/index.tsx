@@ -71,7 +71,7 @@ const HeaderNotificationsContent = () => {
   }
 
   if (!fetchingNotifications && notifications.length === 0) {
-    return <EmptyState>Ingen varslinger å vise</EmptyState>;
+    return <EmptyState body="Ingen varslinger å vise" />;
   }
 
   return (

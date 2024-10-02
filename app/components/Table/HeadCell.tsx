@@ -1,4 +1,12 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import {
+  ChevronDown,
+  ChevronUp,
+  ChevronsUpDown,
+  ListFilter,
+  Search,
+  SlidersHorizontal,
+} from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import { TextInput, RadioButton, CheckBox } from 'app/components/Form';
@@ -98,24 +106,30 @@ const HeadCell: React.FC<HeadCellProps> = ({
       searchInputRef.current?.focus({ preventScroll: true });
   }, [search, isShown, filterIndex]);
 
-  const sortIconName =
-    sort.dataIndex === dataIndex
-      ? sort.direction === 'asc'
-        ? 'sort-asc'
-        : 'sort-desc'
-      : 'sort';
+  const sortIconNode =
+    sort.dataIndex === dataIndex ? (
+      sort.direction === 'asc' ? (
+        <ChevronDown />
+      ) : (
+        <ChevronUp />
+      )
+    ) : (
+      <ChevronsUpDown />
+    );
 
   const iconIsActive =
     (!!filters[filterIndex] && String(filters[filterIndex])) ||
     isShown[filterIndex];
 
   return (
-    <th key={`${dataIndex}-${index}`}>
-      <Flex alignItems="center" justifyContent="center" gap={4.5}>
+    <th key={`${dataIndex}-${index}`} style={{ maxWidth: column.maxWidth }}>
+      <Flex alignItems="center" justifyContent="center" gap="var(--spacing-sm)">
         {sorter && (
-          <i
+          <Icon
+            iconNode={sortIconNode}
+            size={16}
             onClick={() => onSortInput(dataIndex, sorter)}
-            className={`fa fa-${sortIconName}`}
+            className={styles.icon}
           />
         )}
         {title}
@@ -125,7 +139,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
             toggle={() => toggleIsShown(filterIndex)}
             triggerComponent={
               <Icon
-                name="search"
+                iconNode={<Search />}
                 size={16}
                 className={iconIsActive ? styles.iconActive : styles.icon}
               />
@@ -153,7 +167,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
             toggle={() => toggleIsShown(filterIndex)}
             triggerComponent={
               <Icon
-                name="funnel"
+                iconNode={<ListFilter />}
                 size={16}
                 className={iconIsActive ? styles.iconActive : styles.icon}
               />
@@ -205,7 +219,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
             toggle={() => toggleIsShown(filterIndex)}
             triggerComponent={
               <Icon
-                name="options"
+                iconNode={<SlidersHorizontal />}
                 size={16}
                 className={iconIsActive ? styles.iconActive : styles.icon}
               />

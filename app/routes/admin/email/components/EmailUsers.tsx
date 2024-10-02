@@ -117,7 +117,7 @@ const EmailUsers = () => {
             </Link>
           ));
         if (!output?.length)
-          return <EmptyState>Ingen gruppetilhørighet</EmptyState>;
+          return <EmptyState body="Ingen gruppetilhørighet" />;
         return output;
       },
     },

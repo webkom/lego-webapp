@@ -41,7 +41,7 @@ const SubmissionPublicResultsPage = () => {
       return [];
     }
     if (result.answers.length === 0) {
-      return <EmptyState>Ingen svar</EmptyState>;
+      return <EmptyState body="Ingen svar" />;
     }
     return result.answers.map((answer, i) => <li key={i}>{answer}</li>);
   };

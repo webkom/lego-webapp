@@ -1,5 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
-import { Component } from 'react';
+import { Check } from 'lucide-react';
+import { useState } from 'react';
 import Circle from 'app/components/Circle';
 import Dropdown from 'app/components/Dropdown';
 import {
@@ -20,75 +21,67 @@ type Props = {
   style?: CSSProperties;
 };
 
-type State = {
-  displayDropdown: boolean;
+const SemesterStatusContent = ({
+  contactedStatus,
+  editFunction,
+  style,
+}: Props) => {
+  const [displayDropdown, setDisplayDropdown] = useState(false);
+
+  const statusesToRender = (
+    <div
+      style={{
+        ...style,
+      }}
+    >
+      {contactedStatus.length > 0
+        ? sortStatusesByProminence(contactedStatus)
+            .slice()
+            .map((status) => getStatusDisplayName(status))
+            .join(', ')
+        : getStatusDisplayName()}
+    </div>
+  );
+
+  return (
+    <Dropdown
+      show={displayDropdown}
+      toggle={() => setDisplayDropdown((prev) => !prev)}
+      closeOnContentClick
+      style={{
+        width: '100%',
+        textAlign: 'left',
+      }}
+      triggerComponent={statusesToRender}
+    >
+      <Dropdown.List>
+        {contactStatuses
+          .filter((status) => status !== NonEventContactStatus.NOT_CONTACTED)
+          .map((status, index) => {
+            const active = contactedStatus.indexOf(status) !== -1;
+
+            return (
+              <Dropdown.ListItem key={status}>
+                <button
+                  onClick={() => editFunction(status)}
+                  style={{
+                    backgroundColor: active ? getStatusColor(status) : '',
+                  }}
+                >
+                  {getStatusDisplayName(status)}
+                  {active ? (
+                    <Icon iconNode={<Check />} />
+                  ) : (
+                    <Circle color={getStatusColor(status)} size={20} />
+                  )}
+                </button>
+                {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
+              </Dropdown.ListItem>
+            );
+          })}
+      </Dropdown.List>
+    </Dropdown>
+  );
 };
-export default class SemesterStatusContent extends Component<Props, State> {
-  state = {
-    displayDropdown: false,
-  };
 
-  render() {
-    const { contactedStatus, editFunction, style } = this.props;
-
-    const statusesToRender = (
-      <div
-        style={{
-          width: '100%',
-          ...style,
-        }}
-      >
-        {contactedStatus.length > 0
-          ? sortStatusesByProminence(contactedStatus)
-              .slice()
-              .map((status) => getStatusDisplayName(status))
-              .join(', ')
-          : getStatusDisplayName()}
-      </div>
-    );
-
-    return (
-      <Dropdown
-        show={this.state.displayDropdown}
-        toggle={() =>
-          this.setState((state) => ({
-            displayDropdown: !state.displayDropdown,
-          }))
-        }
-        closeOnContentClick
-        style={{
-          width: '100%',
-          textAlign: 'left',
-        }}
-        triggerComponent={statusesToRender}
-      >
-        <Dropdown.List>
-          {contactStatuses
-            .filter((status) => status !== NonEventContactStatus.NOT_CONTACTED)
-            .map((status, index) => {
-              const active = contactedStatus.indexOf(status) !== -1;
-
-              return (
-                <Dropdown.ListItem key={status}>
-                  <button
-                    onClick={() => editFunction(status)}
-                    style={{
-                      backgroundColor: active ? getStatusColor(status) : '',
-                    }}
-                  >
-                    {getStatusDisplayName(status)}
-                    {active ? (
-                      <Icon name="checkmark" />
-                    ) : (
-                      <Circle color={getStatusColor(status)} size={20} />
-                    )}
-                  </button>
-                  {index !== contactStatuses.length - 2 && <Dropdown.Divider />}
-                </Dropdown.ListItem>
-              );
-            })}
-        </Dropdown.List>
-      </Dropdown>
-    );
-  }
-}
+export default SemesterStatusContent;

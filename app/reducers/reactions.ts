@@ -1,8 +1,11 @@
 import { Reaction } from 'app/actions/ActionTypes';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
-import type { AnyAction, EntityId } from '@reduxjs/toolkit';
-import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
-import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
+import type {
+  AnyAction,
+  EntityId,
+  EntityState,
+  ActionReducerMapBuilder,
+} from '@reduxjs/toolkit';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { EntityType } from 'app/store/models/entities';
 

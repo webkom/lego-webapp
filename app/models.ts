@@ -143,16 +143,11 @@ export type Group = {
   contactEmail: string;
 };
 
-export type Cover = {
-  url: string;
-  fileKey: string;
-};
-
 type EventBase = {
   id: EntityId;
   title: string;
   slug: string;
-  cover: Cover;
+  cover: string;
   coverPlaceholder: string;
   description: string;
   createdAt: Dateish | null | undefined;
@@ -262,7 +257,7 @@ export type Event = EventBase & {
   comments: Comment[];
   contentTarget: string;
   pools: Array<EventPool>;
-  survey: EntityId | null | undefined;
+  survey: EntityId | undefined;
   userReg: EventRegistration;
   useConsent: boolean;
   unansweredSurveys: Array<EntityId>;

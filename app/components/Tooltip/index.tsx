@@ -1,14 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
-import { usePopper } from 'react-popper';
+import { useState } from 'react';
+import { Popover, ArrowContainer } from 'react-tiny-popover';
 import styles from './Tooltip.css';
-import type { ReactNode, CSSProperties } from 'react';
+import type { ReactNode, CSSProperties, ComponentProps } from 'react';
 
 type Props = {
   children: ReactNode;
   content: ReactNode;
   className?: string;
+  containerClassName?: string;
   onClick?: () => void;
-  placement?: 'top' | 'bottom' | 'left' | 'right';
+  positions?: ComponentProps<typeof Popover>['positions'];
   style?: CSSProperties;
   disabled?: boolean;
 };
@@ -17,78 +18,41 @@ const Tooltip = ({
   children,
   content,
   className,
+  containerClassName,
   onClick,
-  placement,
+  positions,
   style,
   disabled,
 }: Props) => {
   const [hovered, setHovered] = useState(false);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
-  const arrowRef = useRef<HTMLDivElement>(null);
-
-  const {
-    styles: popperStyles,
-    attributes,
-    update,
-  } = usePopper(triggerRef.current, tooltipRef.current, {
-    placement: placement || 'top',
-    modifiers: [
-      {
-        name: 'flip',
-        options: {
-          fallbackPlacements: ['top', 'bottom', 'left', 'right'],
-        },
-      },
-      {
-        name: 'arrow',
-        options: {
-          element: arrowRef.current,
-        },
-      },
-      {
-        name: 'offset',
-        options: {
-          offset: [0, 10],
-        },
-      },
-    ],
-  });
-
-  useEffect(() => {
-    if (hovered && !disabled && update !== null) {
-      update();
-    }
-  }, [hovered, disabled, update]);
-
-  const tooltipClass = hovered ? styles.baseTooltipHover : styles.tooltip;
 
   return (
     <div
       className={className}
       style={style}
       onClick={onClick}
-      ref={triggerRef}
       onMouseEnter={() => setHovered(!disabled && true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {children}
-      <div
-        ref={tooltipRef}
-        style={popperStyles.popper}
-        {...attributes.popper}
-        className={tooltipClass}
+      <Popover
+        isOpen={hovered}
+        positions={positions}
+        containerClassName={containerClassName}
+        content={({ position, childRect, popoverRect }) => (
+          <ArrowContainer
+            position={position}
+            childRect={childRect}
+            popoverRect={popoverRect}
+            arrowSize={7}
+            arrowColor="var(--tooltip-background)"
+            arrowClassName={styles.arrow}
+          >
+            <div className={styles.tooltip}>{content}</div>
+          </ArrowContainer>
+        )}
       >
-        <div className={styles.content}>{content}</div>
-        <div
-          ref={arrowRef}
-          style={{
-            ...popperStyles.arrow,
-          }}
-          {...attributes.arrow}
-          className={styles.arrow}
-        />
-      </div>
+        <div>{children}</div>
+      </Popover>
     </div>
   );
 };

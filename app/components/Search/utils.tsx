@@ -1,24 +1,25 @@
 import { Flex } from '@webkom/lego-bricks';
 import { sample } from 'lodash';
 import {
-  BadgeInfo,
   Banana,
-  BarChart3,
   BookImage,
   BookOpenText,
   BriefcaseBusiness,
   CalendarRange,
   CircleUser,
+  ChartNoAxesColumn,
   Database,
   ExternalLink,
   FilePieChart,
   Gamepad,
   Group,
+  Info,
   MailSearch,
   MailWarning,
   MessageCircleHeart,
   MessageCircleWarning,
   MessageCircleQuestion,
+  MessageCircleX,
   MessagesSquare,
   MountainSnow,
   Newspaper,
@@ -85,7 +86,7 @@ const LINKS: Array<Link> = [
   {
     key: 'aboutUs',
     title: 'Om Abakus',
-    icon: <BadgeInfo />,
+    icon: <Info />,
     url: '/pages/info-om-abakus',
   },
   {
@@ -122,6 +123,7 @@ const LINKS: Array<Link> = [
       <MessageCircleWarning key="1" />,
       <MessageCircleHeart key="2" />,
       <MessageCircleQuestion key="3" />,
+      <MessageCircleX key="4" />,
     ]),
     url: '/quotes/',
   },
@@ -146,7 +148,7 @@ const LINKS: Array<Link> = [
   {
     key: 'polls',
     title: 'Avstemninger',
-    icon: <BarChart3 />,
+    icon: <ChartNoAxesColumn />,
     url: '/polls',
   },
   {

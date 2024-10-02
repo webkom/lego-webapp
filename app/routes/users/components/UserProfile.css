@@ -19,12 +19,6 @@
   margin-top: var(--spacing-sm);
 }
 
-.qrIcon {
-  display: flex;
-  align-items: center;
-  margin-right: 0.2rem;
-}
-
 .frameMargin {
   margin-top: var(--spacing-xl);
 }

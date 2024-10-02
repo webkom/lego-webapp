@@ -8,6 +8,7 @@ import {
   ProgressBar,
 } from '@webkom/lego-bricks';
 import { sumBy } from 'lodash';
+import { Info, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Field } from 'react-final-form';
@@ -20,10 +21,12 @@ import {
   SubmissionError,
   LegoFinalForm,
 } from 'app/components/Form';
-import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
+import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
+import { selectRegistrationForEventByUserId } from 'app/reducers/events';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -38,9 +41,9 @@ import {
   toReadableSemester,
 } from '../utils';
 import styles from './Event.css';
-import withCountdown from './JoinEventFormCountdownProvider';
 import PaymentRequestForm from './StripeElement';
-import type { EventRegistration, EventRegistrationStatus } from 'app/models';
+import type { EventRegistrationStatus } from 'app/models';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
@@ -88,7 +91,7 @@ const SubmitButton = ({
     >
       {({ openConfirmModal }) => (
         <Button danger onPress={openConfirmModal} disabled={disabled}>
-          <Icon name="person-remove" size={19} />
+          <Icon iconNode={<UserMinus />} size={19} />
           {title}
         </Button>
       )}
@@ -131,7 +134,7 @@ const RegistrationPending = ({
           </span>
         }
       >
-        <Icon name="information-circle-outline" size={20} />
+        <Icon iconNode={<Info />} size={20} />
       </Tooltip>
     </p>
     <ProgressBar />
@@ -145,7 +148,7 @@ const PaymentForm = ({
 }: {
   event: AuthUserDetailedEvent | UserDetailedEvent;
   currentUser: CurrentUser;
-  registration: EventRegistration;
+  registration: PoolRegistrationWithUser;
 }) => (
   <div
     style={{
@@ -161,36 +164,39 @@ const PaymentForm = ({
       paymentError={registration.paymentError}
       event={event}
       currentUser={currentUser}
-      paymentStatus={registration.paymentStatus}
+      paymentStatus={registration.paymentStatus ?? null}
       clientSecret={registration.clientSecret}
     />
   </div>
 );
 
+type FormValues = {
+  feedbackRequired: string;
+  feedback?: string;
+  captchaResponse: string;
+};
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
 export type Props = {
   title?: string;
   event: UserDetailedEvent | AuthUserDetailedEvent;
-  registration: EventRegistration | null | undefined;
-  pendingRegistration: EventRegistration | null | undefined;
-  registrationPending: boolean;
-  formOpen: boolean;
-  captchaOpen: boolean;
-  buttonOpen: boolean;
-  registrationOpensIn: string | null | undefined;
+  registration?: PoolRegistrationWithUser;
+  registrationPending?: boolean;
 };
 
-const JoinEventForm = ({
-  title,
-  event,
-  registration,
-  pendingRegistration,
-  buttonOpen,
-  formOpen,
-  captchaOpen,
-  registrationOpensIn,
-}: Props) => {
+const JoinEventForm = ({ title, event, registration }: Props) => {
+  const { buttonOpen, formOpen, captchaOpen, registrationOpensIn } =
+    useRegistrationCountdown(event, registration);
+
   const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
+
+  const pendingRegistration = useAppSelector((state) =>
+    selectRegistrationForEventByUserId(state, {
+      eventId: event.id,
+      userId: currentUser?.id,
+    }),
+  );
 
   const fetching = useAppSelector((state) => state.events.fetching);
 
@@ -214,13 +220,14 @@ const JoinEventForm = ({
   const registrationPending =
     pendingRegistration?.status === 'PENDING_REGISTER' ||
     pendingRegistration?.status === 'PENDING_UNREGISTER';
-  const showStripe =
+  const showStripe: boolean =
     event.useStripe &&
     event.isPriced &&
     event.price > 0 &&
-    registration &&
-    (registration.pool || registration.presence === Presence.PRESENT) &&
-    ![paymentManual, paymentSuccess].includes(registration.paymentStatus);
+    !!registration &&
+    !!(registration.pool || registration.presence === Presence.PRESENT) &&
+    'paymentStatus' in registration &&
+    ![paymentManual, paymentSuccess].includes(registration.paymentStatus ?? '');
   const [registrationPendingDelayed, setRegistrationPendingDelayed] =
     useState(false);
   const eventSemester = getEventSemesterFromStartTime(event.startTime);
@@ -247,7 +254,7 @@ const JoinEventForm = ({
     return null;
   }
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: FormValues) => {
     if (registrationType === 'unregister') {
       return (
         registration &&
@@ -264,7 +271,7 @@ const JoinEventForm = ({
       register({
         eventId: event.id,
         captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName],
+        feedback: values[feedbackName] ?? '',
         userId: currentUser.id,
       }),
     );
@@ -316,8 +323,8 @@ const JoinEventForm = ({
     : {};
 
   return (
-    <>
-      <h3 className={styles.subHeader}>Påmelding</h3>
+    <div>
+      <h3>Påmelding</h3>
 
       <Flex column gap="var(--spacing-md)">
         {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
@@ -326,8 +333,10 @@ const JoinEventForm = ({
           <>
             {!formOpen && event.activationTime && (
               <div>
-                {moment(event.activationTime) < moment() ? 'Åpnet ' : 'Åpner '}
-                <Time time={event.activationTime} format="nowToTimeInWords" />
+                Åpner om{' '}
+                <time dateTime={moment(event.activationTime).format()}>
+                  {registrationOpensIn?.humanize()}
+                </time>
               </div>
             )}
 
@@ -365,9 +374,10 @@ const JoinEventForm = ({
                   <Link to="/users/me/">Gå til min profil</Link>
                 </Card>
               )}
+
             {formOpen && hasRegisteredConsentIfRequired && (
               <Flex column gap="var(--spacing-md)">
-                <LegoFinalForm
+                <TypedLegoForm
                   onSubmit={onSubmit}
                   validate={validate}
                   initialValues={initialValues}
@@ -387,6 +397,7 @@ const JoinEventForm = ({
                       !registrationPending &&
                       !registration &&
                       captchaOpen &&
+                      config.environment !== 'ci' &&
                       event.useCaptcha;
 
                     return (
@@ -402,11 +413,13 @@ const JoinEventForm = ({
                           />
                         )}
 
-                        {event.activationTime && registrationOpensIn && (
-                          <Button disabled={disabledButton}>
-                            {`Åpner om ${registrationOpensIn}`}
-                          </Button>
-                        )}
+                        {event.activationTime &&
+                          registrationOpensIn &&
+                          !registration && (
+                            <Button disabled={disabledButton}>
+                              {`Åpner om ${moment(registrationOpensIn.add(1, 'second').asMilliseconds()).format('mm:ss')}`}
+                            </Button>
+                          )}
 
                         {buttonOpen && !submitting && !registrationPending && (
                           <>
@@ -457,10 +470,10 @@ const JoinEventForm = ({
                             {feedbackLabel}
                           </label>
                           <Flex alignItems="center" gap="var(--spacing-md)">
-                            {spyValues((values) => (
+                            {spyValues((values: FormValues) => (
                               <Field
                                 id={feedbackName}
-                                placeholder="Melding til arrangør"
+                                placeholder="Kommentar"
                                 name={feedbackName}
                                 component={TextInput.Field}
                                 className={styles.feedbackText}
@@ -474,7 +487,7 @@ const JoinEventForm = ({
                                         updateFeedback(
                                           event.id,
                                           registration.id,
-                                          values[feedbackName],
+                                          values[feedbackName] ?? '',
                                         ),
                                       );
                                     }
@@ -485,14 +498,14 @@ const JoinEventForm = ({
                               />
                             ))}
                             {registration &&
-                              spyValues((values) => (
+                              spyValues((values: FormValues) => (
                                 <Button
                                   onPress={() => {
                                     dispatch(
                                       updateFeedback(
                                         event.id,
                                         registration.id,
-                                        values[feedbackName],
+                                        values[feedbackName] ?? '',
                                       ),
                                     );
                                   }}
@@ -506,7 +519,7 @@ const JoinEventForm = ({
                       </Form>
                     );
                   }}
-                </LegoFinalForm>
+                </TypedLegoForm>
 
                 {registration && showStripeDelayed && (
                   <PaymentForm
@@ -520,7 +533,7 @@ const JoinEventForm = ({
           </>
         )}
       </Flex>
-    </>
+    </div>
   );
 };
 
@@ -529,7 +542,7 @@ function getFeedbackName(event: UserDetailedEvent) {
 }
 
 function getFeedbackLabel(event: UserDetailedEvent) {
-  return event.feedbackDescription || 'Melding til arrangør';
+  return event.feedbackDescription || 'Kommentar';
 }
 
-export default withCountdown(JoinEventForm);
+export default JoinEventForm;

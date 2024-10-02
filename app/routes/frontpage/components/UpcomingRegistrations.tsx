@@ -1,10 +1,11 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { AlarmClock, Leaf } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
-import { selectEvents } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
@@ -57,7 +58,7 @@ const UpcomingRegistration = ({ event }: Props) => {
             gap="var(--spacing-sm)"
             className={styles.info}
           >
-            <Icon name="alarm-outline" size={20} />
+            <Icon iconNode={<AlarmClock />} size={20} />
             <div>
               <span>
                 Påmelding
@@ -88,7 +89,7 @@ const inRange = (event: FrontpageEvent) => {
 const UPCOMING_REGISTRATIONS_LIMIT = 2;
 
 const UpcomingRegistrations = () => {
-  const events = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
+  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
 
   // Sorted events based on activationTime, take out the
   // ones that are out of range
@@ -114,9 +115,11 @@ const UpcomingRegistrations = () => {
           <UpcomingRegistration key={event.id} event={event} />
         ))
       ) : (
-        <EmptyState icon="leaf-outline" className={styles.filler}>
-          Ingen påmeldinger de neste 3 dagene
-        </EmptyState>
+        <EmptyState
+          iconNode={<Leaf />}
+          body="Ingen påmeldinger de neste 3 dagene"
+          className={styles.filler}
+        />
       )}
     </div>
   );

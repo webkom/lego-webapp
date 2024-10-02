@@ -6,12 +6,11 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
-import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
 import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectEvents } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import {
   addArticleType,
   addEventType,
@@ -79,12 +78,11 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      <Banner
-        header="Velkommen til fadderperioden 2024!"
-        subHeader="Trykk her for mer informasjon til nye studenter"
-        link="https://ny.abakus.no"
-        color="buddyweek2024"
-      />
+      {/*<Banner
+        header="Abakus har opptak!"
+        subHeader="Trykk her for å søke på komité og revy"
+        link="https://opptak.abakus.no"
+      />*/}
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
@@ -113,7 +111,7 @@ const Events = ({
   pinnedId: EntityId;
   numberToShow: number;
 }) => {
-  const allEvents = useAppSelector(selectEvents) as unknown as FrontpageEvent[];
+  const allEvents = useAppSelector(selectAllEvents<FrontpageEvent>);
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,
   );
@@ -135,7 +133,7 @@ const Events = ({
         <h3 className="u-ui-heading">Arrangementer</h3>
       </Link>
 
-      <Flex column gap={20}>
+      <Flex column gap="var(--spacing-md)">
         {fetching && !shownEvents.length
           ? Array.from({ length: EVENTS_TO_SHOW }).map((_, index) => (
               <FrontpageEventItem key={index} url="" meta={<></>} />
@@ -222,7 +220,7 @@ const Articles = ({
         <h3 className="u-ui-heading">Artikler</h3>
       </Link>
 
-      <Flex column gap={20}>
+      <Flex column gap="var(--spacing-md)">
         {fetching && !shownArticles.length
           ? Array.from({ length: ARTICLES_TO_SHOW }).map((_, index) => (
               <ArticleItem key={index} url="" meta={<></>} />
@@ -288,7 +286,7 @@ const ShowMoreButton = ({
   showMore: () => void;
   scrollToTop: () => void;
 }) => {
-  const events = useAppSelector(selectEvents);
+  const events = useAppSelector(selectAllEvents<FrontpageEvent>);
 
   return (
     <div className={styles.showMore}>

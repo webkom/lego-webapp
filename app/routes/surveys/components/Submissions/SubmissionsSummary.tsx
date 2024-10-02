@@ -31,7 +31,7 @@ const SubmissionsSummary = () => {
               key={answer.id}
               justifyContent="space-between"
               alignItems="center"
-              gap="0.5rem"
+              gap="var(--spacing-sm)"
             >
               <span
                 className={styles.answerText}
@@ -67,7 +67,7 @@ const SubmissionsSummary = () => {
       })
       .filter(isNotNullish);
 
-    return texts.length === 0 ? <EmptyState>Ingen svar</EmptyState> : texts;
+    return texts.length === 0 ? <EmptyState body="Ingen svar" /> : texts;
   };
 
   const generateQuestionData = (question: SurveyQuestion) => {

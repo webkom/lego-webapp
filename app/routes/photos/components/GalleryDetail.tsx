@@ -1,12 +1,12 @@
 import {
   Button,
-  Flex,
   Icon,
   LinkButton,
   LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
@@ -178,11 +178,13 @@ const GalleryDetail = () => {
               href={`/photos/${gallery.id}/?upload=true`}
               onPress={() => toggleUpload()}
             >
+              <Icon iconNode={<ImagePlus />} size={19} />
               Last opp bilder
             </LinkButton>
           ),
           actionGrant?.includes('edit') && (
             <LinkButton key="edit" href={`/photos/${gallery.id}/edit`}>
+              <Icon iconNode={<Pencil />} size={19} />
               Rediger
             </LinkButton>
           ),
@@ -191,7 +193,7 @@ const GalleryDetail = () => {
             onPress={downloadGallery}
             isPending={downloading}
           >
-            <Icon name="download-outline" size={19} />
+            <Icon iconNode={<ImageDown />} size={19} />
             Last ned album
           </Button>,
         ]}
@@ -223,9 +225,10 @@ const GalleryDetail = () => {
           onClick={handleClick}
           getSrc={(photo) => photo.file}
           renderEmpty={() => (
-            <EmptyState icon="images-outline">
-              <Flex column alignItems="center">
-                Albumet er tomt ...
+            <EmptyState
+              iconNode={<Images />}
+              header="Albumet er tomt ..."
+              body={
                 <span>
                   Trykk{' '}
                   <b
@@ -236,8 +239,8 @@ const GalleryDetail = () => {
                   </b>{' '}
                   for å legge inn bilder
                 </span>
-              </Flex>
-            </EmptyState>
+              }
+            />
           )}
         />
 

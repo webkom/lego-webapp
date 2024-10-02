@@ -1,6 +1,7 @@
 const path = require('path');
 const pullAll = require('lodash/pullAll');
 const webpack = require('webpack');
+const publicPath = require('./webpack.client');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require(path.join(root, 'package.json'));
@@ -20,6 +21,7 @@ module.exports = () => ({
     filename: '[name].dll.js',
     path: outputPath,
     library: '[name]',
+    publicPath,
   },
   plugins: [
     new webpack.DllPlugin({

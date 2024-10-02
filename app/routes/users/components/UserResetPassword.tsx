@@ -1,26 +1,32 @@
 import { Card, Page } from '@webkom/lego-bricks';
-import qs from 'qs';
 import { Field } from 'react-final-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { resetPassword } from 'app/actions/UserActions';
 import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
+import useQuery from 'app/utils/useQuery';
 import { createValidator, required, sameAs } from 'app/utils/validation';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 
+type FormValues = {
+  password: string;
+  retypeNewPassword: string;
+};
+
+const TypedLegoForm = LegoFinalForm<FormValues>;
+
 const UserResetPasswordForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { search } = useLocation();
-  const { token } = qs.parse(search, {
-    ignoreQueryPrefix: true,
-  });
+  const {
+    query: { token },
+  } = useQuery({ token: '' });
 
-  const onSubmit = (props) =>
+  const onSubmit = (props: FormValues) =>
     dispatch(
       resetPassword({
         token,
@@ -40,7 +46,7 @@ const UserResetPasswordForm = () => {
   return (
     <Page title="Tilbakestill passord">
       {token ? (
-        <LegoFinalForm onSubmit={onSubmit} validate={validate}>
+        <TypedLegoForm onSubmit={onSubmit} validate={validate}>
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit}>
               <PasswordField label="Nytt passord" user={user} />
@@ -55,7 +61,7 @@ const UserResetPasswordForm = () => {
               <SubmitButton danger>Tilbakestill passord</SubmitButton>
             </form>
           )}
-        </LegoFinalForm>
+        </TypedLegoForm>
       ) : (
         <Card severity="danger">
           <Card.Header>Ingen token ...</Card.Header>

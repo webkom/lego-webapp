@@ -32,6 +32,11 @@
   }
 }
 
+.navigation button {
+  background-color: transparent;
+  border: none;
+}
+
 .navbarDropdown {
   width: auto;
   padding: var(--spacing-sm) var(--spacing-md);

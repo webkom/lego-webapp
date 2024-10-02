@@ -1,5 +1,20 @@
 @import url('~app/styles/variables.css');
 
+.navigationWrapper {
+  margin-bottom: var(--spacing-md);
+}
+
+.navigationItem {
+  flex-grow: 1;
+  color: var(--absolute-white);
+  border-radius: var(--border-radius-lg);
+  transition: background-color var(--easing-fast);
+}
+
+.navigationItem:hover {
+  background-color: var(--additive-background);
+}
+
 .logo {
   max-height: 500px;
   max-width: 500px;
@@ -69,4 +84,22 @@
 
 .deleteButton {
   margin-bottom: 16px;
+}
+
+.interestGroupText {
+  max-width: 40rem;
+}
+
+.interestGroupText h2 {
+  margin-top: var(--spacing-lg);
+}
+
+.interestGroupText ul {
+  margin-left: var(--spacing-lg);
+  list-style-type: disc;
+  margin-bottom: var(--spacing-md);
+}
+
+.interestGroupText ul li {
+  margin-bottom: var(--spacing-xs);
 }
