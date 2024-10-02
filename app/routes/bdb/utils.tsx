@@ -10,6 +10,8 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
+import { EntityId } from '@reduxjs/toolkit';
+import moment from 'moment';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
@@ -129,6 +131,31 @@ export const httpCheck = (link: string) => {
       : `http://${link}`;
   return link === '' ? link : httpLink;
 };
+
+export const getClosestCompanySemester = (companySemesters: CompanySemester[]) => {
+  let closestSemesterId: EntityId | undefined = undefined;
+  let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+
+  const currentTerm = moment().month() < 6 ? 0 : 1;
+  const currentYear = moment().year() + currentTerm * 0.5;
+
+  for (let i = 0; i < companySemesters.length; i++) {
+    const companySemester = companySemesters[i];
+
+    const year = companySemester.year + (companySemester.semester === 'autumn' ? 0.5 : 0);
+    const semesterDateDiff = Math.abs(currentYear - year);
+
+    if (
+      closestSemesterId === undefined ||
+      semesterDateDiff < closestSemesterDateDiff
+    ) {
+      closestSemesterId = companySemester.id;
+      closestSemesterDateDiff = semesterDateDiff;
+    }
+  }
+
+  return closestSemesterId;
+}
 
 export const getContactStatuses = (
   contactStatuses: CompanySemesterContactStatus[],

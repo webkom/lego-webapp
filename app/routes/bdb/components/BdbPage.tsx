@@ -11,18 +11,15 @@ import {
   editSemesterStatus,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
-import Table from 'app/components/Table';
+import Table, { ColumnProps } from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
-import { BdbTabs, getSemesterStatus } from '../utils';
+import { BdbTabs, getClosestCompanySemester, getSemesterStatus } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.css';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { ColumnProps } from 'app/components/Table';
 import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type {
   AdminDetailCompany,
@@ -30,7 +27,6 @@ import type {
   CompanySemesterContactStatus,
 } from 'app/store/models/Company';
 import type { UnknownUser } from 'app/store/models/User';
-import CompanySemester from 'app/store/models/CompanySemester';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
@@ -47,31 +43,7 @@ const BdbPage = () => {
   const fetching = useAppSelector((state) => state.companies.fetching);
 
   const currentCompanySemester = useMemo(() => {
-    let semesterId: string | EntityId | undefined = query.semester;
-
-    if (!semesterId) {
-      let closestSemesterId: EntityId | undefined = undefined;
-      let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
-      for (let i = 0; i < companySemesters.length; i++) {
-        const companySemester = companySemesters[i];
-
-        const semesterMonth =
-          companySemester.semester === 'spring' ? '01' : '08';
-        const semesterDateDiff = moment().diff(
-          moment(`${companySemester.year}${semesterMonth}`, 'YYYYMM'),
-        );
-
-        if (
-          closestSemesterId === undefined ||
-          semesterDateDiff < closestSemesterDateDiff
-        ) {
-          closestSemesterId = companySemester.id;
-          closestSemesterDateDiff = semesterDateDiff;
-        }
-      }
-
-      semesterId = closestSemesterId;
-    }
+    const semesterId = query.semester ?? getClosestCompanySemester(companySemesters);
 
     return companySemesters.find(
       (companySemester) => companySemester.id == semesterId,
@@ -83,36 +55,11 @@ const BdbPage = () => {
     'fetchBdb',
     () =>
       dispatch(fetchSemesters()).then((action) => {
-        let semesterId: EntityId | undefined = query.semester;
+        const companySemesters = action.payload.entities.companySemesters;
 
-        const companySemesters = action.payload.entities
-          .companySemesters as Record<string, CompanySemester>;
+        const semesterId = query.semester ?? getClosestCompanySemester(Object.values(companySemesters).filter(companySemester => companySemester !== undefined));
 
-        if (!semesterId) {
-          let closestSemesterId: string | undefined = undefined;
-          let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
-          for (const [companySemesterId, companySemester] of Object.entries(
-            companySemesters,
-          )) {
-            const semesterMonth =
-              companySemester.semester === 'spring' ? '01' : '08';
-            const semesterDateDiff = moment().diff(
-              moment(`${companySemester.year}${semesterMonth}`, 'YYYYMM'),
-            );
-
-            if (
-              closestSemesterId === undefined ||
-              semesterDateDiff < closestSemesterDateDiff
-            ) {
-              closestSemesterId = companySemesterId;
-              closestSemesterDateDiff = semesterDateDiff;
-            }
-          }
-
-          semesterId = closestSemesterId;
-        }
-
-        return dispatch(fetchAllAdmin(semesterId));
+        return dispatch(fetchAllAdmin(semesterId!));
       }),
     [],
   );

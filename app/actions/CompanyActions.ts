@@ -274,10 +274,10 @@ export function fetchSemestersForInterestform() {
 export function fetchSemesters(
   queries: Record<
     string,
-    (string | null | undefined) | (number | null | undefined)
+    string
   > = {},
 ) {
-  return callAPI<DetailedSemesterStatus[]>({
+  return callAPI<CompanySemester[]>({
     types: Company.FETCH_SEMESTERS,
     endpoint: `/company-semesters/${createQueryString(queries)}`,
     schema: [companySemesterSchema],

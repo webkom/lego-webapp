@@ -7,7 +7,6 @@ import {
 } from '../utils';
 import styles from './SemesterStatus.css';
 import SemesterStatusContent from './SemesterStatusContent';
-import type { EntityId } from '@reduxjs/toolkit';
 import type {
   TransformedAdminCompany,
   TransformedSemesterStatus,
