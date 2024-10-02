@@ -132,7 +132,9 @@ export const httpCheck = (link: string) => {
   return link === '' ? link : httpLink;
 };
 
-export const getClosestCompanySemester = (companySemesters: CompanySemester[]) => {
+export const getClosestCompanySemester = (
+  companySemesters: CompanySemester[],
+) => {
   let closestSemesterId: EntityId | undefined = undefined;
   let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
 
@@ -142,7 +144,8 @@ export const getClosestCompanySemester = (companySemesters: CompanySemester[]) =
   for (let i = 0; i < companySemesters.length; i++) {
     const companySemester = companySemesters[i];
 
-    const year = companySemester.year + (companySemester.semester === 'autumn' ? 0.5 : 0);
+    const year =
+      companySemester.year + (companySemester.semester === 'autumn' ? 0.5 : 0);
     const semesterDateDiff = Math.abs(currentYear - year);
 
     if (
@@ -155,7 +158,7 @@ export const getClosestCompanySemester = (companySemesters: CompanySemester[]) =
   }
 
   return closestSemesterId;
-}
+};
 
 export const getContactStatuses = (
   contactStatuses: CompanySemesterContactStatus[],

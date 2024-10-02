@@ -271,12 +271,7 @@ export function fetchSemestersForInterestform() {
   });
 }
 
-export function fetchSemesters(
-  queries: Record<
-    string,
-    string
-  > = {},
-) {
+export function fetchSemesters(queries: Record<string, string> = {}) {
   return callAPI<CompanySemester[]>({
     types: Company.FETCH_SEMESTERS,
     endpoint: `/company-semesters/${createQueryString(queries)}`,

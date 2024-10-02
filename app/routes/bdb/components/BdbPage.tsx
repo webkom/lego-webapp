@@ -18,7 +18,11 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
-import { BdbTabs, getClosestCompanySemester, getSemesterStatus } from '../utils';
+import {
+  BdbTabs,
+  getClosestCompanySemester,
+  getSemesterStatus,
+} from '../utils';
 import SemesterStatus from './SemesterStatus';
 import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type {
@@ -43,7 +47,8 @@ const BdbPage = () => {
   const fetching = useAppSelector((state) => state.companies.fetching);
 
   const currentCompanySemester = useMemo(() => {
-    const semesterId = query.semester ?? getClosestCompanySemester(companySemesters);
+    const semesterId =
+      query.semester ?? getClosestCompanySemester(companySemesters);
 
     return companySemesters.find(
       (companySemester) => companySemester.id == semesterId,
@@ -57,7 +62,13 @@ const BdbPage = () => {
       dispatch(fetchSemesters()).then((action) => {
         const companySemesters = action.payload.entities.companySemesters;
 
-        const semesterId = query.semester ?? getClosestCompanySemester(Object.values(companySemesters).filter(companySemester => companySemester !== undefined));
+        const semesterId =
+          query.semester ??
+          getClosestCompanySemester(
+            Object.values(companySemesters).filter(
+              (companySemester) => companySemester !== undefined,
+            ),
+          );
 
         return dispatch(fetchAllAdmin(semesterId!));
       }),
