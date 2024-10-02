@@ -4,7 +4,7 @@
   border-left: 3px solid var(--lego-red-color);
   display: flex;
   flex-direction: column;
-  margin: 10px var(--spacing-xl);
+  margin: var(--spacing-sm) var(--spacing-xl);
   position: relative;
 }
 
@@ -18,6 +18,10 @@
   left: -6px;
 }
 
+.dot:not(.dotBottom) {
+  top: -1px;
+}
+
 .dotBottom {
   height: 9px;
   width: 9px;
@@ -25,7 +29,7 @@
   border-radius: 50%;
   display: inline-block;
   position: absolute;
-  bottom: 0;
+  bottom: -1px;
 }
 
 @media (--mobile-device) {

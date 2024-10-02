@@ -7,9 +7,3 @@
 .scannerButton {
   margin-bottom: var(--spacing-md);
 }
-
-.qrIcon {
-  display: flex;
-  align-items: center;
-  margin-right: 0.2rem;
-}

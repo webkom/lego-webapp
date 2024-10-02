@@ -4,7 +4,7 @@
 }
 
 .choices {
-  margin: 15px 0;
+  margin: var(--spacing-md) 0;
 }
 
 .semesterStatus {

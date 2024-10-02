@@ -42,7 +42,7 @@ const EventListCompact = ({
   }
 
   if (!events.length) {
-    return <EmptyState>{noEventsMessage}</EmptyState>;
+    return <EmptyState body={noEventsMessage} />;
   }
 
   return (

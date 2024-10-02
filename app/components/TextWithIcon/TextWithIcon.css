@@ -1,6 +1,6 @@
 .infoIcon {
   justify-content: center;
-  padding-right: 0.2em;
+  margin-right: var(--spacing-xs);
 }
 
 .textContainer {

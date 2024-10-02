@@ -129,7 +129,7 @@ describe('Polls', () => {
     cy.visit('/polls');
     cy.get(c('PollsList__pollListItem')).should('have.length', 2);
 
-    cy.get(c('PollsList__heading')).first().click();
+    cy.get(c('PollsList__pollListItem')).first().click();
 
     cy.contains('button', 'Rediger').click();
     cy.contains('button', 'Slett avstemning').click();

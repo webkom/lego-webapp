@@ -1,4 +1,5 @@
 import { Flex, Icon, LinkButton, Image, Page } from '@webkom/lego-bricks';
+import { Download } from 'lucide-react';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
 import styles from './BrandPage.css';
@@ -87,7 +88,7 @@ const BrandPage = () => (
             href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
             download="proposed_file_name"
           >
-            <Icon name="download-outline" size={19} />
+            <Icon iconNode={<Download />} size={19} />
             Last ned
           </LinkButton>
           <h2 className={styles.h2Padding}>Abakusfarger</h2>
@@ -107,7 +108,7 @@ const BrandPage = () => (
             href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
             download="proposed_file_name"
           >
-            <Icon name="download-outline" size={19} />
+            <Icon iconNode={<Download />} size={19} />
             Last ned
           </LinkButton>
         </div>

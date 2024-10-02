@@ -5,5 +5,5 @@
 }
 
 .articleReactions {
-  margin-bottom: 20px;
+  margin: var(--spacing-md) 0;
 }

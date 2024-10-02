@@ -26,7 +26,7 @@ type CheckFilter = {
 export type ColumnProps<T = unknown> = {
   dataIndex: string;
   filterIndex?: string;
-  title?: string;
+  title?: string | ReactNode;
   sorter?: boolean | ((arg0: T, arg1: T) => number);
   filter?: Array<CheckFilter>;
   filterOptions?: {
@@ -39,16 +39,16 @@ export type ColumnProps<T = unknown> = {
    * is in english, and the search should be in norwegian
    *
    */
-  filterMapping?: (arg0: T) => any;
+  filterMapping?: (arg0: any) => any;
   search?: boolean;
-  width?: number;
-  render?: (data: any, object: T) => ReactNode;
-  // Should column be rendered. Will render when not set
-  visible?: boolean;
-  centered?: boolean;
   inlineFiltering?: boolean;
   filterMessage?: string;
-  columnChoices?: ColumnProps[];
+  render?: (data: any, object: T) => ReactNode;
+  columnChoices?: ColumnProps<T>[];
+  visible?: boolean;
+  centered?: boolean;
+  padding?: number /** Affects only body columns */;
+  maxWidth?: number;
 };
 
 type TableProps<T extends { id: EntityId }> = {
@@ -142,29 +142,34 @@ const Table = <T extends { id: EntityId }>({
       return true;
     }
 
-    const match = Object.keys(filters).filter((key) => {
+    return Object.keys(filters).every((key) => {
       const {
         inlineFiltering = true,
         filterMapping = (val) => val,
-        dataIndex = key,
+        dataIndex,
+        filterIndex,
       } = columns.find(
-        (column) => column.filterIndex ?? column.dataIndex === key,
-      ) || {};
+        (column) => column.filterIndex === key || column.dataIndex === key,
+      ) || { inlineFiltering: false };
+
       if (!inlineFiltering) return true;
 
       if (filters[key] === undefined) {
         return true;
       }
 
+      const index = filterIndex || dataIndex || key;
+
       if (typeof filters[key] === 'boolean') {
-        return filters[key] === get(item, key);
+        return filters[key] === get(item, index);
       }
 
       return filters[key]?.some((arrayFilter) =>
-        filterMapping(get(item, dataIndex)).toLowerCase().includes(arrayFilter),
+        String(filterMapping(get(item, index) ?? ''))
+          .toLowerCase()
+          .includes(arrayFilter),
       );
-    }).length;
-    return match > 0;
+    });
   };
 
   const loadMore = () => {
@@ -205,7 +210,7 @@ const Table = <T extends { id: EntityId }>({
         >
           {sortedData.filter(filter).map((data) => (
             <tr key={data[rowKey]}>
-              {columns.filter(isVisible).map((column, index) => (
+              {visibleColumns.map((column, index) => (
                 <BodyCell
                   key={column.title + column.dataIndex}
                   column={column}

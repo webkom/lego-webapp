@@ -142,6 +142,7 @@ const CompanyEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{ href: backUrl }}
       actionButtons={
         !isNew && (

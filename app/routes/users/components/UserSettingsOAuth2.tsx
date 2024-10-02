@@ -7,7 +7,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import keys from 'lodash/keys';
-import { Trash2 } from 'lucide-react';
+import { Copy, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
@@ -88,11 +88,15 @@ const UserSettingsOAuth2 = () => {
       render: (id, application) => {
         const copied = copiedClientId === application.clientId;
         return (
-          <Flex wrap gap={10}>
+          <Flex wrap alignItems="center" gap="var(--spacing-sm)">
             {application.clientId}
             <Tooltip content={copied ? 'Kopiert!' : 'Kopier client ID'}>
               <Icon
-                name={copied ? 'copy' : 'copy-outline'}
+                iconNode={
+                  <Copy
+                    fill={copied ? 'var(--success-color)' : 'transparent'}
+                  />
+                }
                 size={20}
                 success={copied}
                 className={styles.copyIcon}
@@ -203,7 +207,7 @@ const UserSettingsOAuth2 = () => {
           </LinkButton>
         )}
         {applications.length === 0 && !fetchingApplications ? (
-          <EmptyState>Du har ingen applikasjoner</EmptyState>
+          <EmptyState body="Du har ingen applikasjoner" />
         ) : (
           <Table
             columns={applicationColumns}
@@ -216,7 +220,7 @@ const UserSettingsOAuth2 = () => {
 
       <h3>Aksepterte applikasjoner</h3>
       {grants.length === 0 && !fetchingGrants ? (
-        <EmptyState>Du har ikke logget på en app enda</EmptyState>
+        <EmptyState body="Du har ikke logget på en app enda" />
       ) : (
         <Table
           columns={acceptedApplicationcolumns}

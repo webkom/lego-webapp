@@ -1,11 +1,12 @@
 import {
+  c,
   field,
   fieldError,
   selectField,
   selectFieldDropdown,
   selectEditor,
   NO_OPTIONS_MESSAGE,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Create joblisting', () => {
   beforeEach(() => {
@@ -35,20 +36,29 @@ describe('Create joblisting', () => {
     selectFieldDropdown('workplaces').and('contain', 'Oslo');
     cy.focused().type('{enter}', { force: true });
 
+    cy.contains('button', 'Opprett').click();
+    cy.get(c('fieldError')).should('exist');
+
     // TODO sometimes there is an issue in the joblisting editor where you have to click
     // the top editor twice. Not a breaking bug.
-    selectEditor('description').type('A joblisting description');
-    selectEditor('text').type('Joblisting text');
+    const description = 'A joblisting description';
+    const text = 'Joblisting text';
+    selectEditor('description').type(description);
+    selectEditor('text').type(text);
 
-    cy.contains('button', 'Opprett').should('not.be.disabled');
+    selectEditor('description', { timeout: 2000 }).should(
+      'contain',
+      description,
+    );
+    selectEditor('text', { timeout: 2000 }).should('contain', text);
+
+    cy.get(c('fieldError')).should('not.exist');
 
     //TODO: når du fyller ut og så fjerner teksten igjen så skal det ikke funke.
     //cy.get('div[data-slate-editor="true"]')
     //.first()
     //.clear();
     //cy.contains('button', 'Lagre endringer').should('be.disabled');
-
-    cy.wait(100); // wait for editor debounce
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
     //TODO: check new url

@@ -43,6 +43,7 @@ const ForumEditor = () => {
   const forum = useAppSelector((state) =>
     isNew ? undefined : (selectForumById(state, forumId) as DetailedForum),
   );
+  const fetching = useAppSelector((state) => state.forums.fetching);
 
   const dispatch = useAppDispatch();
 
@@ -79,6 +80,7 @@ const ForumEditor = () => {
   return (
     <Page
       title={isNew ? 'Nytt forum' : `Redigerer: ${forum?.title}`}
+      skeleton={fetching}
       back={{ href: forum ? `/forum/${forum.id}/threads` : '/forum' }}
     >
       <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>

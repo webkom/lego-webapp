@@ -2,13 +2,6 @@
 
 .comment {
   padding: var(--spacing-md);
-
-  :global {
-    /* stylelint-disable-next-line selector-class-pattern */
-    .md-RichEditor-editor .public-DraftEditor-content {
-      min-height: 0;
-    }
-  }
 }
 
 .username a {
@@ -30,6 +23,10 @@
 
 .text {
   margin: var(--spacing-sm) 0;
+  max-width: 90%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .anonymousProfilePicture {

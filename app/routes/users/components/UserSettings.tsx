@@ -33,12 +33,7 @@ import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.css';
-
-export type PasswordPayload = {
-  newPassword: string;
-  password: string;
-  retype_new_password: string;
-};
+import type { CurrentUser } from 'app/store/models/User';
 
 type GenderKey = keyof typeof Gender;
 
@@ -49,11 +44,11 @@ type FormValues = {
   gender: { label: (typeof Gender)[GenderKey]; value: GenderKey };
   allergies: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   selectedTheme: string;
   isAbakusMember: boolean;
-  githubUsername: string;
-  linkedinId: string;
+  githubUsername?: string;
+  linkedinId?: string;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -74,8 +69,8 @@ const UserSettings = () => {
   const currentUser = useCurrentUser();
   const isCurrentUser = useIsCurrentUser(params.username);
   const username = isCurrentUser ? currentUser?.username : params.username;
-  const user = useAppSelector(
-    (state) => username && selectUserByUsername(state, username),
+  const user = useAppSelector((state) =>
+    selectUserByUsername<CurrentUser>(state, username),
   );
 
   const dispatch = useAppDispatch();
@@ -108,7 +103,6 @@ const UserSettings = () => {
   const initialValues: FormValues = {
     ...user,
     gender: { label: Gender[user.gender], value: user.gender },
-    isAbakusMember: user?.isAbakusMember.toString(),
   };
 
   return (
@@ -121,7 +115,7 @@ const UserSettings = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Flex gap="var(--spacing-xl)">
+            <Flex gap="var(--spacing-xl)" className={styles.mobileColumn}>
               <Flex
                 column
                 justifyContent="center"

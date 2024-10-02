@@ -3,66 +3,35 @@
 }
 
 .tooltip {
-  opacity: 0;
-  visibility: hidden;
-}
-
-.baseTooltipHover {
-  opacity: 1;
-  visibility: visible;
-  transition: var(--easing-medium);
-  transition-property: opacity, visibility;
-  position: absolute;
+  animation: fade-in 0.2s;
   max-width: 300px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   background: var(--tooltip-background);
   color: var(--inverted-font-color);
   border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-md);
   z-index: 1;
   font-size: var(--font-size-md);
   font-weight: normal;
 
-  /* A 1 pixel border in case of sub-pixels
-  rendering in the browser or rounding errors
-  when positioning the arrow */
-  border: 1px solid var(--tooltip-background);
+  /* A small "border" added to the box-shadow 
+  in case of sub-pixels rendering in the browser
+  or rounding errors when positioning the arrow
+  causing a small space between content and arrow */
+  box-shadow:
+    var(--shadow-md),
+    0 0 0 0.5px var(--tooltip-background);
 }
 
-.content {
-  display: block;
-  padding: 7px 11px;
-  line-height: 1.3;
-  white-space: wrap;
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .arrow {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  position: absolute;
-}
-
-/* stylelint-disable shorthand-property-no-redundant-values */
-[data-popper-placement^='top'] > .arrow {
-  bottom: -7px;
-  border-width: 7px 7px 0 7px;
-  border-color: var(--tooltip-background) transparent transparent transparent;
-}
-
-[data-popper-placement^='bottom'] > .arrow {
-  top: -7px;
-  border-width: 0 7px 7px 7px;
-  border-color: transparent transparent var(--tooltip-background) transparent;
-}
-
-[data-popper-placement^='left'] > .arrow {
-  right: -7px;
-  border-width: 7px 0 7px 7px;
-  border-color: transparent transparent transparent var(--tooltip-background);
-}
-
-[data-popper-placement^='right'] > .arrow {
-  left: -7px;
-  border-width: 7px 7px 7px 0;
-  border-color: transparent var(--tooltip-background) transparent transparent;
+  animation: fade-in 0.2s;
 }

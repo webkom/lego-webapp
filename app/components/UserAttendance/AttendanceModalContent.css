@@ -1,16 +1,34 @@
-.modal {
-  height: calc(100vh - 100px - 70px);
+@import url('~app/styles/variables.css');
+
+.modalContent {
+  /* 
+   * Kinda hacky solution, but with the current flexibility of modal sizing it's the only way I could think of for now
+   * 
+   * 100vh - 100px          = height of the modal from @lego-bricks/src/components/Modal/Modal.module.css
+   * 2 * var(--spacing-xl)  = the padding of the modal
+   * 2rem                   = the height of the title
+   * var(--spacing-md)      = the margin-bottom of the title
+  */
+  --attendance-modal-content-height: calc(
+    (100vh - 100px) - (2 * var(--spacing-xl)) - (2rem) - var(--spacing-md)
+  );
+
+  height: var(--attendance-modal-content-height);
 
   @media (--tall-viewport) {
-    max-height: calc(100vh - 300px - 70px);
+    height: calc(var(--attendance-modal-content-height) - 100px);
   }
+}
+
+.searchInput {
+  flex-shrink: 0;
 }
 
 .list {
   position: relative;
   width: 100%;
   min-height: 100px;
-  height: 80%;
+  flex-grow: 1;
   overflow-y: auto;
   /* stylelint-disable indentation */
   background:
@@ -78,6 +96,7 @@
 }
 
 .nav {
+  flex-shrink: 0;
   margin: var(--spacing-sm) auto;
   min-height: 40px;
   height: fit-content;

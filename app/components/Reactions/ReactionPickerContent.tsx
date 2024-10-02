@@ -25,12 +25,10 @@ const ReactionPickerContent = ({
   return (
     <div className={styles.container}>
       {searchResults !== null && searchResults.length === 0 ? (
-        <EmptyState className={styles.noEmojisFound}>
-          Fant ingen emojis{' '}
-          <span role="img" aria-label="Emoji">
-            😭
-          </span>
-        </EmptyState>
+        <EmptyState
+          body="Fant ingen emojis 😭"
+          className={styles.noEmojisFound}
+        />
       ) : (
         <div className={styles.content}>
           {(searchResults !== null ? searchResults : emojis).map(

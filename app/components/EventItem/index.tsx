@@ -3,9 +3,9 @@ import {
   AlarmClock,
   Calendar,
   CalendarClock,
-  Clock,
   CircleAlert,
   CircleCheckBig,
+  Clock,
   Timer,
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -14,51 +14,54 @@ import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { colorForEventType } from 'app/routes/events/utils';
+import { EventStatusType } from 'app/store/models/Event';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
 import styles from './styles.css';
-import type { ListEvent } from 'app/store/models/Event';
+import type { CompleteEvent, ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';
 
-type statusIconProps = {
-  status: string;
+type RegistrationIconOptions = {
   icon: ReactNode;
   color: string;
   tooltip: string;
 };
 
-const eventStatusObject = (event: ListEvent): statusIconProps => {
+const getRegistrationIconOptions = (
+  event: Pick<CompleteEvent, 'eventStatusType' | 'isAdmitted'>,
+): RegistrationIconOptions => {
   const { isAdmitted, eventStatusType } = event;
 
   switch (eventStatusType) {
-    case 'NORMAL':
-    case 'INFINITE':
+    case EventStatusType.NORMAL:
+    case EventStatusType.INFINITE:
       if (isAdmitted) {
         return {
-          status: 'Admitted',
           icon: <CircleCheckBig />,
           color: 'var(--success-color)',
           tooltip: 'Du er påmeldt',
-        } as statusIconProps;
+        } satisfies RegistrationIconOptions;
       }
       return {
-        status: 'Waitlist',
         icon: <Timer />,
         color: 'var(--color-orange-6)',
         tooltip: 'Du er på ventelisten',
-      } as statusIconProps;
+      } satisfies RegistrationIconOptions;
     default:
       return {
-        status: 'Error',
         icon: <CircleAlert />,
         color: 'var(--danger-color)',
         tooltip: 'Det har oppstått en feil',
-      } as statusIconProps;
+      } satisfies RegistrationIconOptions;
   }
 };
 
-const Attendance = ({ event }) => {
+const Attendance = ({
+  event,
+}: {
+  event: Parameters<typeof eventAttendanceAbsolute>[0];
+}) => {
   const attendance = eventAttendanceAbsolute(event);
   return !!attendance && <Pill>{attendance}</Pill>;
 };
@@ -93,7 +96,6 @@ const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
       {!!event.activationTime && (
         <Flex alignItems="center" gap="var(--spacing-sm)">
           <Tooltip content="Påmelding åpner">
-            <Icon name="alarm-outline" size={20} />
             <Icon iconNode={<AlarmClock />} size={18} />
           </Tooltip>
           <Time time={event.activationTime} format="ll HH:mm" />
@@ -104,13 +106,13 @@ const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
 };
 
 const RegistrationIcon = ({ event }: TimeStampProps) => {
-  const iconStyle = eventStatusObject(event);
+  const registrationIconOptions = getRegistrationIconOptions(event);
   return (
-    <Tooltip content={iconStyle.tooltip}>
+    <Tooltip content={registrationIconOptions.tooltip}>
       <Icon
-        iconNode={iconStyle.icon}
+        iconNode={registrationIconOptions.icon}
         size={18}
-        style={{ color: iconStyle.color }}
+        style={{ color: registrationIconOptions.color }}
       />
     </Tooltip>
   );

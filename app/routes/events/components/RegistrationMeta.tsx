@@ -20,13 +20,20 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { Presence } from 'app/store/models/Registration';
 
+type WaitingListPosition =
+  | number
+  | {
+      poolName: string;
+      position: number;
+    }[];
+
 type Props = {
-  registration: Record<string, any>;
+  registration?: PoolRegistrationWithUser;
   isPriced: boolean;
-  registrationIndex: number;
-  hasSimpleWaitingList: boolean;
+  waitingListPosition?: WaitingListPosition;
   useConsent: boolean;
   hasOpened: boolean;
   hasEnded: boolean;
@@ -47,7 +54,7 @@ const ConsentStatus = ({
   eventSemester,
 }: {
   useConsent: boolean;
-  LEGACY_photoConsent: LEGACY_EventRegistrationPhotoConsent;
+  LEGACY_photoConsent?: LEGACY_EventRegistrationPhotoConsent;
   hasEnded: boolean;
   photoConsents?: Array<PhotoConsent>;
   eventSemester: EventSemester;
@@ -184,7 +191,7 @@ const PaymentStatus = ({
   paymentStatus,
   isPriced,
 }: {
-  paymentStatus: EventRegistrationPaymentStatus;
+  paymentStatus?: EventRegistrationPaymentStatus | null;
   isPriced: boolean;
 }) => {
   if (!isPriced) return null;
@@ -233,24 +240,25 @@ const PaymentStatus = ({
   }
 };
 
+export const RegistrationMetaSkeleton = () => (
+  <Flex column gap="var(--spacing-sm)">
+    <Skeleton array={2} className={styles.sidebarInfo} />
+  </Flex>
+);
+
 const RegistrationMeta = ({
   registration,
   hasOpened,
   hasEnded,
   useConsent,
   isPriced,
-  registrationIndex,
-  hasSimpleWaitingList,
+  waitingListPosition,
   photoConsents,
   eventSemester,
   skeleton,
 }: Props) => {
   if (skeleton) {
-    return (
-      <Flex column gap="var(--spacing-sm)">
-        <Skeleton array={2} className={styles.sidebarInfo} />
-      </Flex>
-    );
+    return <RegistrationMetaSkeleton />;
   }
 
   return (
@@ -279,20 +287,39 @@ const RegistrationMeta = ({
                 />
               )}
             </>
-          ) : hasSimpleWaitingList ? (
-            <TextWithIconWrapper
-              iconName="pause-circle-outline"
-              content={
-                <>
-                  Din plass i ventelisten er{' '}
-                  <strong>{registrationIndex + 1}</strong>
-                </>
-              }
-            />
           ) : (
             <TextWithIconWrapper
               iconName="pause-circle-outline"
-              content={`Du ${hasEnded ? 'stod' : 'står'} på venteliste`}
+              content={
+                waitingListPosition === undefined ? (
+                  <>Du {hasEnded ? 'stod' : 'står'} på venteliste</>
+                ) : typeof waitingListPosition === 'number' ? (
+                  <>
+                    Din plass i ventelisten er{' '}
+                    <strong>{waitingListPosition}</strong>
+                  </>
+                ) : waitingListPosition.length === 1 ? (
+                  <>
+                    Din plass i ventelisten for{' '}
+                    {waitingListPosition[0].poolName} er{' '}
+                    <strong>{waitingListPosition[0].position}</strong>
+                  </>
+                ) : (
+                  <>
+                    Dine plasser i ventelistene er{' '}
+                    {waitingListPosition.map(
+                      ({ poolName, position }, index) => (
+                        <>
+                          <strong>{position}</strong> for {poolName}
+                          {index < waitingListPosition.length - 2
+                            ? ', '
+                            : index < waitingListPosition.length - 1 && ' og '}
+                        </>
+                      ),
+                    )}
+                  </>
+                )
+              }
             />
           )}
           <PresenceStatus
@@ -314,7 +341,11 @@ const RegistrationMeta = ({
           )}
           <PaymentStatus
             isPriced={isPriced}
-            paymentStatus={registration.paymentStatus}
+            paymentStatus={
+              'paymentStatus' in registration
+                ? registration.paymentStatus
+                : undefined
+            }
           />
         </>
       )}

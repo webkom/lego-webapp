@@ -36,7 +36,7 @@ const AnnouncementsList = () => {
           <div>
             <h2>Dine kunngjøringer</h2>
             {announcements.length === 0 ? (
-              <EmptyState>Du har ingen tidligere kunngjøringer</EmptyState>
+              <EmptyState body="Du har ingen tidligere kunngjøringer" />
             ) : (
               <Flex column gap="var(--spacing-sm)" className={styles.list}>
                 {announcements.map((a, i) => (

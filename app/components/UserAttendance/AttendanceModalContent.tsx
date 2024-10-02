@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash';
+import { Send } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
@@ -10,19 +11,19 @@ import styles from './AttendanceModalContent.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
 
-export type Registration = {
+export type AttendanceModalRegistration = {
   id: EntityId;
   user: PublicUser;
-  pool?: Pool;
+  pool?: EntityId;
 };
 
-export type Pool = {
+export type AttendanceModalPool = {
   name: string;
-  registrations: Registration[];
+  registrations: AttendanceModalRegistration[];
 };
 
 type Props = {
-  pools: Pool[];
+  pools: AttendanceModalPool[];
   togglePool: (index: number) => void;
   selectedPool: number;
   isMeeting?: boolean;
@@ -47,7 +48,7 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: TabProps) => (
   </button>
 );
 
-const generateAmendedPools = (pools: Pool[]) => {
+const generateAmendedPools = (pools: AttendanceModalPool[]) => {
   if (pools.length === 1) return pools;
 
   const registrations = flatMap(pools, (pool) => pool.registrations);
@@ -80,12 +81,13 @@ const AttendanceModalContent = ({
   );
 
   return (
-    <Flex column gap="var(--spacing-md)" className={styles.modal}>
+    <Flex column gap="var(--spacing-md)" className={styles.modalContent}>
       <TextInput
         type="text"
         prefix="search"
         placeholder="Søk etter navn"
         onChange={(e) => setFilter(e.target.value)}
+        className={styles.searchInput}
       />
 
       <ul className={styles.list}>
@@ -110,10 +112,12 @@ const AttendanceModalContent = ({
             </li>
           ))
         ) : (
-          <EmptyState icon="paper-plane-outline" className={styles.emptyState}>
-            <b>Ingen påmeldte ...</b>
-            <span>Meld deg på da vel!</span>
-          </EmptyState>
+          <EmptyState
+            iconNode={<Send />}
+            header={!isMeeting ? 'Ingen påmeldte ...' : undefined}
+            body={!isMeeting ? 'Meld deg på da vel!' : 'Ingen brukere her ...'}
+            className={styles.emptyState}
+          />
         )}
       </ul>
 

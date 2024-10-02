@@ -32,7 +32,7 @@
 }
 
 .line {
-  margin: 18px 0;
+  margin: var(--spacing-sm) 0;
   background-color: var(--border-gray);
   height: 1px;
 }

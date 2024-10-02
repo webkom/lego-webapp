@@ -17,7 +17,6 @@ import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './index.css';
 import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 import type { DetailedGroup } from 'app/store/models/Group';
 
@@ -133,7 +132,6 @@ const GroupForm = ({ isInterestGroup }: Props) => {
             label="Gruppelogo"
             aspectRatio={1}
             img={group && group.logo}
-            className={styles.logo}
             required={isInterestGroup}
           />
 

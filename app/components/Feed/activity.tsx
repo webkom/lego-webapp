@@ -1,6 +1,5 @@
-import { Button, Card } from '@webkom/lego-bricks';
+import { Card } from '@webkom/lego-bricks';
 import Linkify from 'linkify-react';
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { LinkTag } from 'app/components/Feed/Tag';
 import { ProfilePicture } from 'app/components/Image';
@@ -19,17 +18,13 @@ const AggregatedActivityItem = ({
   aggregatedActivity,
   activityRenderer,
 }: AggregatedActivityItemProps) => {
-  const [expanded, setExpanded] = useState(false);
   const { Header, Content } = activityRenderer;
-  const activities = expanded
-    ? aggregatedActivity.activities
-    : aggregatedActivity.activities.slice(0, 3);
 
   return (
     <Card
       style={{
         padding: '0',
-        margin: '10px 0 20px 0',
+        margin: 'var(--spacing-sm) 0 var(--spacing-md) 0',
       }}
     >
       <div className={styles.header}>
@@ -51,7 +46,7 @@ const AggregatedActivityItem = ({
           <Header aggregatedActivity={aggregatedActivity} tag={LinkTag} />
         </Linkify>
       </div>
-      {activities.map((activity, i) => (
+      {aggregatedActivity.activities.map((activity, i) => (
         <div key={i}>
           <ActivityHeader
             aggregatedActivity={aggregatedActivity}
@@ -65,21 +60,6 @@ const AggregatedActivityItem = ({
           </div>
         </div>
       ))}
-      {(aggregatedActivity.activityCount > 3 && !expanded) ||
-      (aggregatedActivity.activityCount > activities.length && expanded) ? (
-        <div className={styles.activityFooter}>
-          {aggregatedActivity.activities.length > 3 && !expanded && (
-            <Button size="small" onPress={() => setExpanded(true)}>
-              Vis mer
-            </Button>
-          )}
-          {aggregatedActivity.activityCount > activities.length &&
-            expanded &&
-            `og ${
-              aggregatedActivity.activityCount - activities.length
-            } skjulte aktiviteter...`}
-        </div>
-      ) : null}
     </Card>
   );
 };

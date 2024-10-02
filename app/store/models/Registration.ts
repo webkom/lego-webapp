@@ -1,10 +1,11 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
 import type {
-  DetailedUser,
-  PhotoConsent,
-  PublicUser,
-} from 'app/store/models/User';
+  Dateish,
+  EventRegistrationPaymentStatus,
+  EventRegistrationStatus,
+  LEGACY_EventRegistrationPhotoConsent,
+} from 'app/models';
+import type { PhotoConsent } from 'app/store/models/User';
 
 export enum Presence {
   PRESENT = 'PRESENT',
@@ -15,8 +16,7 @@ export enum Presence {
 
 interface Registration {
   id: EntityId;
-  user: PublicUser;
-  detailedUser: DetailedUser;
+  user: EntityId;
   createdBy: EntityId;
   updatedBy: EntityId;
   pool: EntityId;
@@ -24,28 +24,39 @@ interface Registration {
   presence: Presence;
   feedback: string;
   sharedMemberships: unknown;
-  status: string; //TODO: enum
+  status: EventRegistrationStatus;
   registrationDate: Dateish;
   unregistrationDate: Dateish;
   adminRegistrationReason: string;
   paymentIntentId: string | null;
-  paymentStatus: string | null; //TODO: enum
   paymentAmount: number;
   paymentAmountRefunded: number;
-  LEGACYPhotoConsent: string; //TODO: enum
+  LEGACYPhotoConsent: LEGACY_EventRegistrationPhotoConsent;
   photoConsents: PhotoConsent[];
+
+  // Only available if event is paid
+  paymentStatus?: EventRegistrationPaymentStatus | null;
+
+  // Added in manual reducers
+  fetching?: boolean;
+  unregistering?: boolean;
+  paymentError?: string;
+  clientSecret?: string;
 }
 
+// Only used in websockets
 export type AnonymizedRegistration = Pick<
   Registration,
-  'id' | 'pool' | 'status'
+  'id' | 'pool' | 'status' | 'fetching' | 'unregistering'
 >;
 
+// Only used in websockets
 export type PublicRegistration = Pick<
   Registration,
-  'id' | 'user' | 'pool' | 'status'
+  'id' | 'user' | 'pool' | 'status' | 'fetching' | 'unregistering'
 >;
 
+// Used in normal event views (RegistrationReadSerializer and RegistrationPaymentReadSerializer in backend)
 export type ReadRegistration = Pick<
   Registration,
   | 'feedback'
@@ -54,21 +65,26 @@ export type ReadRegistration = Pick<
   | 'LEGACYPhotoConsent'
   | 'status'
   | 'event'
+  | 'fetching'
+  | 'unregistering'
+  | 'paymentStatus'
+  | 'paymentError'
+  | 'clientSecret'
 > &
   PublicRegistration;
 
+// Used in AbaCard
 export type SearchRegistration = Pick<
   Registration,
   'presence' | 'LEGACYPhotoConsent'
 > &
   PublicRegistration;
 
-export type PaymentRegistration = Pick<Registration, 'paymentStatus'> &
-  ReadRegistration;
-
+// Admin views
 export type DetailedRegistration = Pick<
   Registration,
   | 'id'
+  | 'user'
   | 'createdBy'
   | 'updatedBy'
   | 'pool'
@@ -85,17 +101,12 @@ export type DetailedRegistration = Pick<
   | 'paymentAmountRefunded'
   | 'LEGACYPhotoConsent'
   | 'photoConsents'
-> & {
-  user: DetailedUser;
-};
+  | 'fetching'
+  | 'unregistering'
+>;
 
-export type UnknownRegistration = (
+export type UnknownRegistration =
   | AnonymizedRegistration
   | PublicRegistration
   | ReadRegistration
-  | SearchRegistration
-  | PaymentRegistration
-  | DetailedRegistration
-) & {
-  fetching?: boolean;
-};
+  | DetailedRegistration;

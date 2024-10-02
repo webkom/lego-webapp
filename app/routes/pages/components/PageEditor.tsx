@@ -61,8 +61,9 @@ const PageEditor = () => {
   const page = useAppSelector((state) =>
     selectPageById<AuthDetailedPage>(state, pageSlug),
   );
+  const fetching = useAppSelector((state) => state.pages.fetching);
 
-  const isNew = page === undefined;
+  const isNew = pageSlug === undefined;
 
   const [form, setForm] = useState<{
     picture?: string;
@@ -144,7 +145,7 @@ const PageEditor = () => {
   const title = isNew ? 'Ny side' : `Redigerer: ${page?.title}`;
 
   return (
-    <Page title={title} back={{ href: backUrl }}>
+    <Page title={title} skeleton={fetching} back={{ href: backUrl }}>
       <Helmet title={title} />
       <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (

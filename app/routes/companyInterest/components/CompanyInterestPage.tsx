@@ -1,6 +1,7 @@
 import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
+import { Info } from 'lucide-react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -473,13 +474,13 @@ const CompanyInterestPage = () => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    {
-      name: 'bedex',
-      translated: EVENTS.bedex[language],
-      description: interestText.bedexDescription[language],
-      commentName: 'bedexComment',
-      commentPlaceholder: interestText.bedexComment[language],
-    },
+    // {
+    //   name: 'bedex',
+    //   translated: EVENTS.bedex[language],
+    //   description: interestText.bedexDescription[language],
+    //   commentName: 'bedexComment',
+    //   commentPlaceholder: interestText.bedexComment[language],
+    // },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -624,7 +625,7 @@ const CompanyInterestPage = () => {
                         </span>
                       }
                     >
-                      <Icon name="information-circle-outline" size={20} />
+                      <Icon iconNode={<Info />} size={20} />
                     </Tooltip>
                   </Flex>
                 </label>
@@ -737,9 +738,9 @@ const CompanyInterestPage = () => {
                 return (
                   showComment && (
                     <div className={styles.topline}>
-                      <Flex alignItems="center" gap={1}>
+                      <Flex alignItems="center" gap={2}>
                         <h3>{eventTypeEntity.translated}</h3>
-                        <p className={styles.label}>*</p>
+                        <span className={styles.label}>*</span>
                       </Flex>
 
                       <p>{eventTypeEntity.description}</p>

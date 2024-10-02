@@ -11,7 +11,7 @@
     'events articles'
     'events .'
     / 2fr 1fr;
-  padding: 0 var(--lego-default-padding);
+  padding: 0 var(--spacing-md);
   gap: var(--spacing-xl);
 
   @media (--mobile-device) {
@@ -25,7 +25,6 @@
       'weekly'
       'articles'
       'events';
-    padding: 0 var(--spacing-md);
   }
 
   h3 {

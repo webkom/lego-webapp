@@ -146,6 +146,7 @@ const ArticleEditor = () => {
   return (
     <Page
       title={title}
+      skeleton={fetching}
       back={{
         href: `/articles/${isNew ? '' : articleId}`,
       }}

@@ -1,6 +1,13 @@
 import { Accordion, Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { sortBy } from 'lodash';
+import {
+  ChartNoAxesColumn,
+  ChevronDown,
+  ChevronUp,
+  CircleCheck,
+  Info,
+} from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import { votePoll } from 'app/actions/PollActions';
@@ -8,6 +15,7 @@ import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Poll.css';
+
 import type PollType from 'app/store/models/Poll';
 
 type PollOptionRatio = PollType['options'][0] & {
@@ -86,16 +94,12 @@ const Poll = ({
   return (
     <Flex alignItems="center" className={styles.poll} column>
       <Flex
-        alignItems="center"
-        className={styles.topBar}
         column
+        alignItems="center"
         justifyContent="center"
+        className={styles.topBar}
       >
-        <Icon
-          name={hasAnswered ? 'stats-chart' : 'help'}
-          size={28}
-          className={styles.pollIcon}
-        />
+        <Icon iconNode={<ChartNoAxesColumn />} className={styles.pollIcon} />
         <Link to={`/polls/${pollId}`} className={styles.titleLink}>
           <Flex
             alignItems="center"
@@ -126,8 +130,7 @@ const Poll = ({
             {!alwaysOpen && (
               <Icon
                 className={styles.arrowIcon}
-                size={26}
-                name={open ? 'chevron-up' : 'chevron-down'}
+                iconNode={open ? <ChevronUp /> : <ChevronDown />}
               />
             )}
           </Flex>
@@ -151,16 +154,16 @@ const Poll = ({
         <Flex
           alignItems="center"
           justifyContent="center"
+          gap="var(--spacing-sm)"
           className={styles.registrationCount}
-          gap={8}
         >
-          <Tooltip content="Avstemningen er anonym.">
-            <Icon name="information-circle-outline" size={17} />
-          </Tooltip>
           <span>
             <span className={styles.totalVotes}>{totalVotes}</span>{' '}
             {totalVotes === 1 ? 'stemme' : 'stemmer'}
           </span>
+          <Tooltip content="Avstemningen er anonym">
+            <Icon iconNode={<Info />} size={17} />
+          </Tooltip>
         </Flex>
       </Accordion>
     </Flex>
@@ -218,29 +221,24 @@ const VoteResults = ({
               <td className={styles.textColumn}>{name}</td>
               <td className={styles.graphColumn}>
                 {votes === 0 ? (
-                  <EmptyState>Ingen stemmer</EmptyState>
+                  <EmptyState body="Ingen stemmer" />
                 ) : (
-                  <div className={styles.fullGraph}>
+                  <Flex alignItems="center" className={styles.fullGraph}>
                     <div
                       style={{
                         width: `${ratio}%`,
                       }}
                     >
-                      <div className={styles.pollGraph}>
+                      <Flex alignItems="center" className={styles.pollGraph}>
                         {ratio >= 18 && <span>{`${ratio}%`}</span>}
-                      </div>
+                      </Flex>
                     </div>
                     {ratio < 18 && (
-                      <span
-                        style={{
-                          padding: '5px',
-                          marginLeft: '2px',
-                        }}
-                      >
+                      <span className={styles.ratioOutsideBar}>
                         {`${ratio}%`}
                       </span>
                     )}
-                  </div>
+                  </Flex>
                 )}
               </td>
             </tr>
@@ -249,7 +247,7 @@ const VoteResults = ({
       </tbody>
     </table>
     {resultsHidden && (
-      <div className={styles.resultsHiddenInfo}>
+      <div className="secondaryFontColor">
         Resultatet er skjult for vanlige brukere
       </div>
     )}
@@ -264,14 +262,10 @@ type VoteHiddenProps = {
 const VoteHidden = ({ details, poll }: VoteHiddenProps) => (
   <Flex column alignItems="center" className={styles.voteOptions}>
     {details && <p className={styles.description}>{poll.description}</p>}
-    <Flex justifyContent="center" alignItems="center" gap={5}>
+    <Flex justifyContent="center" alignItems="center" gap="var(--spacing-sm)">
       Du har svart
-      <Icon
-        name="checkmark-circle-outline"
-        size={20}
-        className={styles.success}
-      />
+      <Icon iconNode={<CircleCheck />} size={20} className={styles.success} />
     </Flex>
-    <div className={styles.resultsHiddenInfo}>Resultatet er skjult</div>
+    <div className="secondaryFontColor">Resultatet er skjult</div>
   </Flex>
 );

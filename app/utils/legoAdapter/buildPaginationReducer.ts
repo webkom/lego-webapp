@@ -4,8 +4,7 @@ import {
   isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
 } from 'app/utils/legoAdapter/asyncApiActions';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
+import type { EntityId, ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import type { AsyncActionType } from 'app/types';
 import type {
   FetchMeta,
