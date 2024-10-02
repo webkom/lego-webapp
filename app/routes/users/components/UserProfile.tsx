@@ -28,7 +28,7 @@ import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
-import { selectEventsByPagination } from 'app/reducers/events';
+import { selectAllEvents } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserWithGroups } from 'app/reducers/users';
@@ -41,6 +41,7 @@ import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
 import type { User, Group, Dateish, UserMembership } from 'app/models';
+import type { ListEventWithUserRegistration } from 'app/store/models/Event';
 
 const fieldTranslations = {
   username: 'Brukernavn',
@@ -192,7 +193,9 @@ const UserProfile = () => {
     }),
   );
   const upcomingEvents = useAppSelector((state) =>
-    selectEventsByPagination(state, upcomingEventsPagination),
+    selectAllEvents<ListEventWithUserRegistration>(state, {
+      pagination: upcomingEventsPagination,
+    }),
   );
 
   const { pagination: previousEventsPagination } = useAppSelector(
@@ -203,8 +206,15 @@ const UserProfile = () => {
     }),
   );
   const previousEvents = useAppSelector((state) =>
-    selectEventsByPagination(state, previousEventsPagination),
-  );
+    selectAllEvents<ListEventWithUserRegistration>(state, {
+      pagination: previousEventsPagination,
+    }),
+  ).filter((e) => e.userReg);
+
+  const sortedPreviousEvents = previousEvents
+    ?.filter((e) => !!e.userReg?.pool)
+    .filter((e) => e.userReg?.presence !== 'NOT_PRESENT')
+    .sort((a, b) => (moment(a.startTime).isBefore(b.startTime) ? 1 : -1));
 
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
   const canEditEmailLists = useAppSelector((state) => state.allowed.email);
@@ -735,15 +745,7 @@ const UserProfile = () => {
                 )
               </h3>
               <EventListCompact
-                events={
-                  previousEvents &&
-                  orderBy(
-                    previousEvents
-                      .filter((e) => e.userReg.pool !== null)
-                      .filter((e) => e.userReg.presence !== 'NOT_PRESENT'),
-                    'startTime',
-                  ).reverse()
-                }
+                events={sortedPreviousEvents}
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
                 loading={previousEventsPagination.fetching}

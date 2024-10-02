@@ -7,6 +7,7 @@ type Props = {
   children: ReactNode;
   content: ReactNode;
   className?: string;
+  containerClassName?: string;
   onClick?: () => void;
   positions?: ComponentProps<typeof Popover>['positions'];
   style?: CSSProperties;
@@ -17,6 +18,7 @@ const Tooltip = ({
   children,
   content,
   className,
+  containerClassName,
   onClick,
   positions,
   style,
@@ -35,6 +37,7 @@ const Tooltip = ({
       <Popover
         isOpen={hovered}
         positions={positions}
+        containerClassName={containerClassName}
         content={({ position, childRect, popoverRect }) => (
           <ArrowContainer
             position={position}

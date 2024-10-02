@@ -1,21 +1,10 @@
-import { Button, Card, Flex, Icon, Page, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import {
-  BriefcaseBusiness,
-  CircleHelp,
-  Clock,
-  Coins,
-  FilePenLine,
-  Languages,
-  MapPin,
-  Star,
-} from 'lucide-react';
-import moment from 'moment-timezone';
-import { useEffect, useState } from 'react';
+import { FilePenLine } from 'lucide-react';
+import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { fetchEvent, follow, unfollow } from 'app/actions/EventActions';
-import mazemapLogo from 'app/assets/mazemap.svg';
+import { fetchEvent } from 'app/actions/EventActions';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   ContentSection,
@@ -24,72 +13,39 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import InfoList from 'app/components/InfoList';
-import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { FormatTime, FromToTime } from 'app/components/Time';
-import Tooltip from 'app/components/Tooltip';
-import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
+import { selectCommentsByIds } from 'app/reducers/comments';
+import { selectEventByIdOrSlug } from 'app/reducers/events';
+import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
+import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
+import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
+import { UnansweredSurveys } from 'app/routes/events/components/EventDetail/UnansweredSurveys';
 import {
-  selectCommentsForEvent,
-  selectEventByIdOrSlug,
-  selectMergedPool,
-  selectMergedPoolWithRegistrations,
-  selectPoolsForEvent,
-  selectPoolsWithRegistrationsForEvent,
-  selectRegistrationForEventByUserId,
-  selectRegistrationsFromPools,
-  selectWaitingRegistrationsForEvent,
-} from 'app/reducers/events';
-import { resolveGroupLink } from 'app/reducers/groups';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import { selectUserWithGroups } from 'app/reducers/users';
+  useDeadlineInfoList,
+  useEventCreatorInfoList,
+} from 'app/routes/events/components/EventDetail/infoLists';
+import { usePools } from 'app/routes/events/components/EventDetail/usePools';
 import {
   colorForEventType,
-  penaltyHours,
-  getEventSemesterFromStartTime,
-  registrationCloseTime,
   displayNameForEventType,
 } from 'app/routes/events/utils';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import RegistrationMeta from '../RegistrationMeta';
 import styles from './EventDetail.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
+import type { PoolWithRegistrations } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
 } from 'app/store/models/Event';
-import type { ReadRegistration } from 'app/store/models/Registration';
-
-type InterestedButtonProps = {
-  isInterested: boolean;
-  onClick: () => void;
-};
-
-const MIN_USER_GRID_ROWS = 2;
-const MAX_USER_GRID_ROWS = 2;
 
 const Line = () => <div className={styles.line} />;
-
-const InterestedButton = ({ isInterested, onClick }: InterestedButtonProps) => {
-  return (
-    <Tooltip content="Følg arrangementet, og få e-post når påmelding nærmer seg!">
-      <Icon
-        iconNode={
-          <Star fill={isInterested ? 'var(--color-orange-6)' : 'transparent'} />
-        }
-        onClick={onClick}
-        className={styles.star}
-      />
-    </Tooltip>
-  );
-};
 
 const propertyGenerator: PropertyGenerator<{
   event: AuthUserDetailedEvent | UserDetailedEvent;
@@ -135,94 +91,36 @@ const propertyGenerator: PropertyGenerator<{
 };
 
 const EventDetail = () => {
-  const [mapIsOpen, setMapIsOpen] = useState(false);
-
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
-  ) as AuthUserDetailedEvent | UserDetailedEvent;
-  const eventId = event?.id;
+    selectEventByIdOrSlug(state, eventIdOrSlug),
+  ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
   const fetching = useAppSelector((state) => state.events.fetching);
   const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
-  const hasFullAccess = Boolean(event?.waitingRegistrations);
 
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
-  const user = useAppSelector(
-    (state) =>
-      currentUser &&
-      selectUserWithGroups(state, { username: currentUser.username }),
-  );
-  const penalties = useAppSelector((state) =>
-    selectPenaltyByUserId(state, user?.id),
-  );
 
   const comments = useAppSelector((state) =>
-    selectCommentsForEvent(state, { eventId }),
-  );
-  const poolsWithRegistrations = useAppSelector((state) =>
-    event?.isMerged
-      ? selectMergedPoolWithRegistrations(state, { eventId })
-      : selectPoolsWithRegistrationsForEvent(state, { eventId }),
-  );
-  const registrations: ReadRegistration[] | undefined = useAppSelector(
-    (state) => selectRegistrationsFromPools(state, { eventId }),
-  );
-  const waitingRegistrations = useAppSelector((state) =>
-    selectWaitingRegistrationsForEvent(state, { eventId }),
-  );
-  const normalPools = useAppSelector((state) =>
-    event?.isMerged
-      ? selectMergedPool(state, { eventId })
-      : selectPoolsForEvent(state, { eventId }),
+    selectCommentsByIds(state, event?.comments),
   );
 
-  let pools =
-    event?.waitingRegistrationCount && event.waitingRegistrationCount > 0
-      ? normalPools.concat({
-          name: 'Venteliste',
-          registrationCount: event.waitingRegistrationCount,
-          permissionGroups: [],
-        })
-      : normalPools;
-
-  if (hasFullAccess) {
-    pools =
-      waitingRegistrations && waitingRegistrations.length > 0
-        ? poolsWithRegistrations.concat({
-            name: 'Venteliste',
-            registrations: waitingRegistrations,
-            registrationCount: waitingRegistrations.length,
-            permissionGroups: [],
-          })
-        : poolsWithRegistrations;
-  }
-
-  const currentPool = pools.find((pool) =>
-    pool.registrations?.some(
-      (registration) => registration.user?.id === currentUser?.id,
-    ),
+  const hasRegistrationAccess = Boolean(
+    event && 'waitingRegistrations' in event,
   );
+  const pools = usePools(hasRegistrationAccess, event);
 
-  let currentRegistration;
-  let currentRegistrationIndex;
+  const currentPool = pools.find(
+    (pool) =>
+      'registrations' in pool &&
+      pool.registrations?.some(
+        (registration) => registration.user?.id === currentUser?.id,
+      ),
+  ) as PoolWithRegistrations | undefined;
 
-  if (currentPool) {
-    currentRegistrationIndex = currentPool.registrations.findIndex(
-      (registration) => registration.user?.id === currentUser?.id,
-    );
-    currentRegistration = currentPool.registrations[currentRegistrationIndex];
-  }
-
-  const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
-  const pendingRegistration = useAppSelector(
-    (state) =>
-      currentUser &&
-      selectRegistrationForEventByUserId(state, {
-        eventId,
-        userId: currentUser.id,
-      }),
+  const currentRegistration = currentPool?.registrations.find(
+    (registration) => registration.user?.id === currentUser?.id,
   );
 
   const navigate = useNavigate();
@@ -240,370 +138,96 @@ const EventDetail = () => {
     [eventIdOrSlug, loggedIn],
   );
 
-  const color = colorForEventType(event.eventType);
+  const color = colorForEventType(event?.eventType);
 
-  const onRegisterClick = event.following
-    ? () => dispatch(unfollow(event.following as number, event.id))
-    : () => dispatch(follow(currentUser.id, event.id));
-
-  const currentMoment = moment();
-
-  const activationTimeMoment = moment(event.activationTime);
-
-  // Get the actual activation time.
-  // The time from LEGO is with penalties applied.
-  // This "unapplies" the penalties again
-  const eventRegistrationTime = event.heedPenalties
-    ? activationTimeMoment.subtract(penaltyHours(penalties), 'hours')
-    : activationTimeMoment;
-
-  const registrationCloseTimeMoment = registrationCloseTime(event);
-
-  // The UserGrid is expanded when there's less than 5 minutes till activation
-  const minUserGridRows = currentMoment.isAfter(
-    moment(activationTimeMoment).subtract(5, 'minutes'),
-  )
-    ? MIN_USER_GRID_ROWS
-    : 0;
-
-  const deadlines = [
-    event.activationTime && currentMoment.isBefore(activationTimeMoment)
-      ? {
-          key: 'Påmelding åpner',
-          value: (
-            <FormatTime
-              format="dd DD. MMM HH:mm"
-              time={eventRegistrationTime}
-            />
-          ),
-        }
-      : null,
-    event.heedPenalties &&
-    event.unregistrationDeadline &&
-    !['OPEN', 'TBA'].includes(event.eventStatusType)
-      ? {
-          key: 'Frist for prikk',
-          keyNode: (
-            <TextWithIcon
-              iconNode={<CircleHelp />}
-              content="Frist for prikk"
-              tooltipContentIcon={
-                <>
-                  Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
-                  <Link to="/pages/arrangementer/26-arrangementsregler">
-                    arrangementsreglene
-                  </Link>
-                  .
-                </>
-              }
-              iconRight
-              size={14}
-            />
-          ),
-          value: (
-            <FormatTime
-              format="dd DD. MMM HH:mm"
-              time={event.unregistrationDeadline}
-            />
-          ),
-        }
-      : null,
-    activationTimeMoment.isBefore(currentMoment)
-      ? {
-          key: 'Frist for av/påmelding',
-          keyNode: (
-            <TextWithIcon
-              iconNode={<CircleHelp />}
-              content={
-                currentMoment.isBefore(registrationCloseTimeMoment)
-                  ? 'Påmelding stenger'
-                  : 'Påmelding stengte'
-              }
-              tooltipContentIcon={
-                <>
-                  Etter påmeldingen stenger er det hverken mulig å melde seg på
-                  eller av arrangementet
-                </>
-              }
-              iconRight
-              size={14}
-            />
-          ),
-          value: (
-            <FormatTime
-              format="dd DD. MMM HH:mm"
-              time={registrationCloseTimeMoment}
-            />
-          ),
-        }
-      : null,
-    event.paymentDueDate
-      ? {
-          key: 'Betalingsfrist',
-          value: (
-            <FormatTime format="dd DD. MMM HH:mm" time={event.paymentDueDate} />
-          ),
-        }
-      : null,
-  ];
-
-  const groupLink =
-    event.responsibleGroup && resolveGroupLink(event.responsibleGroup);
-
-  const responsibleGroupName = groupLink ? (
-    <Link to={groupLink}>{event.responsibleGroup?.name}</Link>
-  ) : (
-    event.responsibleGroup?.name
-  );
-
-  const eventCreator = [
-    // Responsible group
-    event.responsibleGroup && {
-      key: 'Arrangør',
-      value: event.responsibleGroup.contactEmail ? (
-        <Tooltip
-          content={
-            <span>
-              {event.responsibleGroup.contactEmail && (
-                <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
-                  {event.responsibleGroup.contactEmail}
-                </a>
-              )}
-            </span>
-          }
-        >
-          {responsibleGroupName}
-        </Tooltip>
-      ) : (
-        responsibleGroupName
-      ),
-    },
-    // Responsible users, author or anonymous
-    ...(event.responsibleUsers && event.responsibleUsers.length > 0
-      ? [
-          {
-            key:
-              event.responsibleUsers.length > 1
-                ? 'Kontaktpersoner'
-                : 'Kontaktperson',
-            value: (
-              <ul>
-                {event.responsibleUsers.map((user) => (
-                  <li key={user.id}>
-                    <Link to={`/users/${user.username}`} key={user.username}>
-                      {user.fullName}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ),
-          },
-        ]
-      : event.createdBy
-        ? [
-            {
-              key: 'Forfatter',
-              value: (
-                <Link to={`/users/${event.createdBy.username}`}>
-                  {event.createdBy.fullName}
-                </Link>
-              ),
-            },
-          ]
-        : [
-            {
-              key: 'Forfatter',
-              value: 'Anonym',
-            },
-          ]),
-  ].filter(Boolean); // This will remove any undefined items from the array
+  const deadlinesInfoList = useDeadlineInfoList(event);
+  const eventCreatorInfoList = useEventCreatorInfoList(event);
 
   return (
     <Page
       cover={
         <YoutubeCover
-          image={event.cover || event.company?.logo}
+          image={event?.cover || event?.company?.logo}
           imagePlaceholder={
-            event.coverPlaceholder || event.company?.logoPlaceholder
+            event?.coverPlaceholder || event?.company?.logoPlaceholder
           }
-          youtubeUrl={event.youtubeUrl}
+          youtubeUrl={event?.youtubeUrl}
           skeleton={showSkeleton}
         />
       }
       title={
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          {loggedIn && (
-            <InterestedButton
-              onClick={onRegisterClick}
-              isInterested={!!event.following}
-            />
-          )}
-          {event.title}
-        </Flex>
+        event && (
+          <Flex alignItems="center" gap="var(--spacing-sm)">
+            {loggedIn && <InterestedButton event={event} />}
+            {event.title}
+          </Flex>
+        )
       }
       actionButtons={
-        <div className={styles.eventType}>
-          <strong
-            style={{
-              color,
-            }}
-          >
-            {displayNameForEventType(event.eventType)}
-          </strong>
-        </div>
+        event && (
+          <div className={styles.eventType}>
+            <strong
+              style={{
+                color,
+              }}
+            >
+              {displayNameForEventType(event.eventType)}
+            </strong>
+          </div>
+        )
       }
       skeleton={showSkeleton}
       dividerColor={color}
     >
-      <PropertyHelmet propertyGenerator={propertyGenerator} options={{ event }}>
-        <title>{event.title}</title>
-        <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
-      </PropertyHelmet>
+      {event && (
+        <PropertyHelmet
+          propertyGenerator={propertyGenerator}
+          options={{ event }}
+        >
+          <title>{event.title}</title>
+          <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
+        </PropertyHelmet>
+      )}
 
       <ContentSection>
         <ContentMain>
-          <DisplayContent content={event.text} skeleton={showSkeleton} />
+          <DisplayContent content={event?.text || ''} skeleton={showSkeleton} />
           <Flex className={styles.tagRow}>
-            {event.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
+            {event?.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
           </Flex>
         </ContentMain>
 
         <ContentSidebar>
-          {showSkeleton ? (
-            <Flex column gap="var(--spacing-sm)">
-              <Skeleton array={3} className={styles.sidebarInfo} />
-            </Flex>
-          ) : (
-            <Flex column gap="var(--spacing-sm)">
-              {event.company && (
-                <TextWithIcon
-                  iconNode={<BriefcaseBusiness />}
-                  size={20}
-                  content={
-                    <Link to={`/companies/${event.company.id}`}>
-                      {event.company.name}
-                    </Link>
-                  }
-                  className={styles.sidebarInfo}
-                />
-              )}
+          <SidebarInfo showSkeleton={showSkeleton} event={event} />
 
-              <TextWithIcon
-                iconNode={<Clock />}
-                size={20}
-                content={
-                  <FromToTime from={event.startTime} to={event.endTime} />
-                }
-                className={styles.sidebarInfo}
-              />
-
-              {event.isForeignLanguage !== null && event.isForeignLanguage && (
-                <TextWithIcon
-                  iconNode={<Languages />}
-                  size={20}
-                  content="English"
-                  className={styles.sidebarInfo}
-                />
-              )}
-
-              <TextWithIcon
-                iconNode={<MapPin />}
-                size={20}
-                content={event.location}
-                className={styles.sidebarInfo}
-              />
-
-              {event.mazemapPoi && (
-                <Button
-                  className={styles.mapButton}
-                  onPress={() => setMapIsOpen(!mapIsOpen)}
-                >
-                  <img
-                    className={styles.mazemapImg}
-                    alt="MazeMap sin logo"
-                    src={mazemapLogo}
-                  />
-                  {mapIsOpen ? 'Skjul kart' : 'Vis kart'}
-                </Button>
-              )}
-
-              {event.isPriced && (
-                <TextWithIcon
-                  iconNode={<Coins />}
-                  size={20}
-                  content={event.priceMember / 100 + ',-'}
-                  className={styles.sidebarInfo}
-                />
-              )}
-            </Flex>
-          )}
-
-          {event.mazemapPoi && (
-            <>{mapIsOpen && <MazemapEmbed mazemapPoi={event.mazemapPoi} />}</>
-          )}
-
-          {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+          {event && ['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
             <>
-              <Flex column>
-                <h3>Påmeldte</h3>
-
-                <Attendance
-                  pools={pools}
-                  registrations={registrations}
+              {hasRegistrationAccess && (
+                <AttendeeSection
+                  showSkeleton={showSkeleton}
+                  event={event}
                   currentRegistration={currentRegistration}
-                  minUserGridRows={minUserGridRows}
-                  maxUserGridRows={MAX_USER_GRID_ROWS}
-                  legacyRegistrationCount={event.legacyRegistrationCount}
-                  skeleton={fetching && !registrations}
+                  pools={pools as PoolWithRegistrations[]}
+                  currentPool={currentPool}
                 />
+              )}
 
-                {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasOpened={moment(event.activationTime).isBefore(
-                      currentMoment,
-                    )}
-                    photoConsents={event.photoConsents}
-                    eventSemester={getEventSemesterFromStartTime(
-                      event.startTime,
-                    )}
-                    hasEnded={moment(event.endTime).isBefore(currentMoment)}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                    skeleton={showSkeleton}
-                  />
-                )}
-              </Flex>
-
-              {'unansweredSurveys' in event &&
+              {event &&
+              'unansweredSurveys' in event &&
               event.unansweredSurveys?.length > 0 &&
               !event.isAdmitted ? (
-                <Card severity="danger">
-                  <p>
-                    Du kan ikke melde deg på dette arrangementet fordi du har
-                    ubesvarte spørreundersøkelser. Gå til lenkene under for å
-                    svare:
-                  </p>
-                  <ul>
-                    {event.unansweredSurveys.map((surveyId, i) => (
-                      <li key={surveyId}>
-                        <Link to={`/surveys/${surveyId}`}>
-                          Undersøkelse {i + 1}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <UnansweredSurveys
+                  event={event}
+                  currentRegistration={currentRegistration}
+                />
               ) : (
-                !showSkeleton && (
+                !showSkeleton &&
+                event && (
                   <JoinEventForm
                     event={event}
                     registration={currentRegistration}
-                    pendingRegistration={pendingRegistration}
                   />
                 )
               )}
@@ -618,10 +242,13 @@ const EventDetail = () => {
               </Flex>
             </>
           ) : (
-            deadlines.some((d) => d !== null) && (
+            !!deadlinesInfoList.length && (
               <>
                 <Line />
-                <InfoList className={styles.infoList} items={deadlines} />
+                <InfoList
+                  className={styles.infoList}
+                  items={deadlinesInfoList}
+                />
               </>
             )
           )}
@@ -640,7 +267,10 @@ const EventDetail = () => {
               </Flex>
             </Flex>
           ) : (
-            <InfoList items={eventCreator} className={styles.infoList} />
+            <InfoList
+              items={eventCreatorInfoList}
+              className={styles.infoList}
+            />
           )}
 
           <Line />
@@ -661,11 +291,11 @@ const EventDetail = () => {
             <Line />
           )}
 
-          <Admin actionGrant={actionGrant} event={event} />
+          {event && <Admin actionGrant={actionGrant} event={event} />}
         </ContentSidebar>
       </ContentSection>
 
-      {event.contentTarget && (
+      {event?.contentTarget && (
         <CommentView
           style={{
             marginTop: 20,

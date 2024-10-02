@@ -16,6 +16,8 @@
 }
 
 .clickable {
+  background-color: transparent;
+  border: none;
   display: flex;
   width: fit-content;
   height: fit-content;

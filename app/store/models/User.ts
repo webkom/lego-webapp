@@ -42,6 +42,7 @@ interface User {
   penalties: EntityId[];
   icalToken: string;
   abakusGroups: EntityId[];
+  allAbakusGroupIds: EntityId[];
   isAbakusMember: boolean;
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
@@ -131,16 +132,27 @@ export type PublicUser = Pick<
   | 'linkedinId'
 >;
 
-export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &
+export type PublicUserWithAbakusGroups = Pick<
+  User,
+  'abakusGroups' | 'allAbakusGroupIds'
+> &
   PublicUser;
 
 export type PublicUserWithGroups = Pick<
   User,
-  'abakusGroups' | 'pastMemberships' | 'memberships'
+  'pastMemberships' | 'memberships'
 > &
-  PublicUser;
+  PublicUserWithAbakusGroups;
 
 export type AdministrateUser = Pick<User, 'abakusGroups'> & PublicUser;
+
+// Used in event administrate view
+export type AdministrateUserWithGrade = (
+  | AdministrateUser
+  | AdministrateAllergiesUser
+) & {
+  grade: PublicGroup;
+};
 
 export type AdministrateExportUser = Pick<User, 'email' | 'phoneNumber'> &
   AdministrateUser;

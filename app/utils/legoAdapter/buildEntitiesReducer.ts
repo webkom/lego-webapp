@@ -1,7 +1,10 @@
 import { isAsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
-import type { EntityAdapter, EntityId } from '@reduxjs/toolkit';
-import type { EntityState } from '@reduxjs/toolkit/src/entities/models';
-import type { ActionReducerMapBuilder } from '@reduxjs/toolkit/src/mapBuilders';
+import type {
+  EntityAdapter,
+  EntityId,
+  EntityState,
+  ActionReducerMapBuilder,
+} from '@reduxjs/toolkit';
 import type Entities from 'app/store/models/entities';
 import type { EntityType } from 'app/store/models/entities';
 

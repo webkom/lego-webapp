@@ -6,7 +6,6 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
-import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
@@ -21,8 +20,8 @@ import {
 import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import {
-  selectEventByIdOrSlug,
   selectPoolsWithRegistrationsForEvent,
+  selectEventByIdOrSlug,
 } from 'app/reducers/events';
 import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
@@ -58,6 +57,7 @@ import styles from './EventEditor.css';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';
+import type { AdministrateEvent } from 'app/store/models/Event';
 import type { DetailedUser } from 'app/store/models/User';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
@@ -127,7 +127,9 @@ const validate = createValidator({
 const EventEditor = () => {
   const params = useParams<{
     eventIdOrSlug: string;
-  }>();
+  }>() as {
+    eventIdOrSlug: string;
+  };
   const isEditPage = params.eventIdOrSlug !== undefined;
   const { state } = useLocation();
   // Fallback to a potential event id, e.g. given from the admin "copy event" button
@@ -135,12 +137,12 @@ const EventEditor = () => {
 
   const fetching = useAppSelector((state) => state.events.fetching);
   const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, { eventIdOrSlug }),
-  );
+    selectEventByIdOrSlug(state, eventIdOrSlug),
+  ) as AdministrateEvent;
   const eventId = event?.id;
   const actionGrant: ActionGrant = event?.actionGrant || [];
   const pools = useAppSelector((state) =>
-    selectPoolsWithRegistrationsForEvent(state, { eventId }),
+    selectPoolsWithRegistrationsForEvent(state, eventId),
   );
   const imageGalleryEntries = useAppSelector(selectAllImageGalleryEntries);
   const imageGallery = imageGalleryEntries?.map((image) => ({
@@ -176,7 +178,7 @@ const EventEditor = () => {
     if (isEditPage && event?.slug && event?.slug !== eventIdOrSlug) {
       navigate(`/events/${event.slug}/edit`, { replace: true });
     }
-  }, [event.slug, navigate, eventIdOrSlug, isEditPage]);
+  }, [event?.slug, navigate, eventIdOrSlug, isEditPage]);
 
   const [useImageGallery, setUseImageGallery] = useState(false);
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
@@ -190,10 +192,9 @@ const EventEditor = () => {
   }
 
   const onSubmit = (values: EditingEvent) => {
-    dispatch(
-      isEditPage
-        ? editEvent(transformEvent(values))
-        : createEvent(transformEvent(values)),
+    (isEditPage
+      ? dispatch(editEvent(transformEvent(values)))
+      : dispatch(createEvent(transformEvent(values)))
     ).then((res) => {
       const key: string = values.cover.split(':')[0];
       const token: string = values.cover.split(':')[1];
@@ -201,12 +202,14 @@ const EventEditor = () => {
         dispatch(setSaveForUse(key, token, true));
       }
       navigate(
-        isEditPage ? `/events/${event?.slug}` : `/events/${res.payload.result}`,
+        isEditPage
+          ? `/events/${eventIdOrSlug}`
+          : `/events/${res.payload.result}`,
       );
     });
   };
 
-  const initialValues = !isEmpty(event)
+  const initialValues = event
     ? {
         ...event,
         mergeTime: event.mergeTime
@@ -251,10 +254,11 @@ const EventEditor = () => {
           event.eventStatusType &&
           transformEventStatusType(event.eventStatusType),
         location: event.location,
-        useMazemap: event.mazemapPoi > 0 || !event.location,
+        useMazemap:
+          (event.mazemapPoi && event.mazemapPoi > 0) || !event.location,
         mazemapPoi: event.mazemapPoi && {
           label: event.location,
-          //if mazemapPoi has a value, location will be its displayname
+          //if mazemapPoi has a value, location will be its display name
           value: event.mazemapPoi,
         },
         separateDeadlines:
@@ -317,7 +321,7 @@ const EventEditor = () => {
       title={title}
       skeleton={fetching}
       back={{
-        href: isEditPage ? `/events/${event.slug}` : '/events',
+        href: isEditPage ? `/events/${event?.slug}` : '/events',
       }}
     >
       <Helmet title={title} />
@@ -353,11 +357,7 @@ const EventEditor = () => {
             </EditorSection>
 
             <EditorSection title="Påmelding" initiallyExpanded={!isEditPage}>
-              <Registration
-                values={values}
-                isEditPage={isEditPage}
-                actionGrant={actionGrant}
-              />
+              <Registration values={values} />
             </EditorSection>
 
             <EditorSection title="Beskrivelse" collapsible={false}>
@@ -406,7 +406,7 @@ const EventEditor = () => {
 
             <ButtonGroup>
               {isEditPage && (
-                <LinkButton flat href={`/events/${event.slug}`}>
+                <LinkButton flat href={`/events/${eventIdOrSlug}`}>
                   Avbryt
                 </LinkButton>
               )}

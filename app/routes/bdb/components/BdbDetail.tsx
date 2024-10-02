@@ -64,7 +64,6 @@ import type {
   CompanyContact,
   CompanySemesterContactStatus,
 } from 'app/store/models/Company';
-import type { ListEvent } from 'app/store/models/Event';
 
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;
@@ -144,7 +143,7 @@ const BdbDetail = () => {
 
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
-  ) as ListEvent[];
+  );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const studentContact = useAppSelector((state) =>
     company?.studentContact !== null

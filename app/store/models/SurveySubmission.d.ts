@@ -7,7 +7,7 @@ import type {
 
 export interface SurveySubmission {
   id: EntityId;
-  user: EntityId;
+  isOwner: boolean;
   survey: EntityId;
   answers: (SurveyAnswer | AdminSurveyAnswer)[];
 }

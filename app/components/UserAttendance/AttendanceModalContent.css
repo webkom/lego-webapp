@@ -96,6 +96,7 @@
 }
 
 .nav {
+  flex-shrink: 0;
   margin: var(--spacing-sm) auto;
   min-height: 40px;
   height: fit-content;

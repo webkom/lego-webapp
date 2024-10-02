@@ -1,6 +1,5 @@
 :root {
   --tooltip-background: var(--lego-font-color);
-  --shadow-md: 0 12px 20px 6px rgba(104, 112, 118, 8%);
 }
 
 .tooltip {

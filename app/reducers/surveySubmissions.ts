@@ -36,12 +36,11 @@ const { selectByField: selectSurveySubmissionsByField } =
 export const selectSurveySubmissionsBySurveyId =
   selectSurveySubmissionsByField('survey');
 
-export const selectSurveySubmissionForUser = createSelector(
+export const selectOwnSurveySubmission = createSelector(
   (state: RootState, props: { surveyId: EntityId }) =>
     selectSurveySubmissionsBySurveyId(state, props.surveyId),
-  (_: RootState, props: { currentUserId: EntityId }) => props.currentUserId,
-  (submissions, userId) =>
-    submissions.find((surveySubmission) => surveySubmission.user === userId),
+  (submissions) =>
+    submissions.find((surveySubmission) => surveySubmission.isOwner),
 );
 
 export const useFetchedSurveySubmissions = (

@@ -13,6 +13,7 @@ import Attendance from 'app/components/UserAttendance/Attendance';
 import {
   containsAllergier,
   eventStatusTypes,
+  registrationCloseTime,
   tooLow,
 } from 'app/routes/events/utils';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -153,7 +154,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             className={styles.formField}
           />
           <p className={styles.registrationDeadlineHours}>
-            Stenger <FormatTime time={moment(values.registrationDeadline)} />
+            Stenger <FormatTime time={registrationCloseTime(values)} />
           </p>
         </Flex>
         <Flex column className={styles.editorSectionColumn}>
