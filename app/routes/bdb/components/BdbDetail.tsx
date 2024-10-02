@@ -64,6 +64,7 @@ import type {
   CompanyContact,
   CompanySemesterContactStatus,
 } from 'app/store/models/Company';
+import type { ListEvent } from 'app/store/models/Event';
 
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;
@@ -83,18 +84,18 @@ type RenderFileProps = {
 export const RenderFile = (props: RenderFileProps) => {
   const { semesterStatus, type, removeFile, addFile } = props;
 
-  const fileNameToShow = (name: string, url?: string) =>
-    name ? <a href={url}>{truncateString(name, 30)}</a> : '-';
-
-  const fileName = fileNameToShow(
-    semesterStatus[type + 'Name'],
-    semesterStatus[type],
-  );
+  const name = semesterStatus[type + 'Name'];
 
   if (semesterStatus[type]) {
     return (
       <span className={styles.deleteFile}>
-        <span>{fileName}</span>
+        <span>
+          {name ? (
+            <a href={semesterStatus[type]}>{truncateString(name, 30)}</a>
+          ) : (
+            <span className="secondaryFontColor">-</span>
+          )}
+        </span>
         <ConfirmModal
           title="Slett fil"
           message="Er du sikker på at du vil slette denne filen?"
@@ -468,10 +469,10 @@ const BdbDetail = () => {
           <CollapsibleDisplayContent
             content={company.description}
             skeleton={showSkeleton}
-          ></CollapsibleDisplayContent>
+          />
 
           <Flex justifyContent="space-between" alignItems="center">
-            <h3>Bedriftskontakter </h3>
+            <h3>Bedriftskontakter</h3>
             <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
               Legg til bedriftskontakt
             </LinkButton>

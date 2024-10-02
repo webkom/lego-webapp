@@ -1,4 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import Tooltip from '../Tooltip';
 import styles from './TextWithIcon.css';
 import type { ReactElement, ReactNode } from 'react';
@@ -34,7 +35,11 @@ const TextWithIcon = ({
   );
 
   return (
-    <Flex alignItems="center" gap={gap} className={className}>
+    <Flex
+      alignItems="center"
+      gap={gap}
+      className={cx(styles.overflowWrap, className)}
+    >
       {iconRight && (
         <div className={styles.textContainer}>
           <span>{content}</span>
@@ -45,9 +50,7 @@ const TextWithIcon = ({
       ) : (
         <>{icon}</>
       )}
-      <div className={styles.overflowWrap}>
-        {iconRight ? <></> : <>{content}</>}
-      </div>
+      {iconRight ? <></> : <>{content}</>}
     </Flex>
   );
 };

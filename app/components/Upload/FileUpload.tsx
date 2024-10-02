@@ -1,9 +1,8 @@
-import { Button, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import { UploadIcon } from 'lucide-react';
 import { useState, useRef } from 'react';
-import { connect } from 'react-redux';
-import { uploadFile } from 'app/actions/FileActions';
 import styles from './FileUpload.css';
+import { useAppDispatch } from 'app/store/hooks';
 
 type FileUploadProps = {
   uploadFile: (arg0: { file: File }) => Promise<{
@@ -13,7 +12,7 @@ type FileUploadProps = {
   className?: string;
 };
 
-const FileUpload = ({ uploadFile, onChange, className }: FileUploadProps) => {
+const FileUpload = ({ uploadFile, onChange }: FileUploadProps) => {
   const [pending, setPending] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -21,36 +20,42 @@ const FileUpload = ({ uploadFile, onChange, className }: FileUploadProps) => {
     inputRef.current && inputRef.current.click();
   };
 
+  const dispatch = useAppDispatch();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setPending(true);
-      uploadFile({ file })
-        .then(({ meta }) => {
-          setPending(false);
-          onChange(meta.fileKey, meta.fileToken);
-        })
-        .catch((error) => {
-          setPending(false);
-          throw error;
-        });
+      dispatch(
+        uploadFile({ file })
+          .then(({ meta }) => {
+            setPending(false);
+            onChange(meta.fileKey, meta.fileToken);
+          })
+          .catch((error) => {
+            setPending(false);
+            throw error;
+          }),
+      );
     }
   };
 
   return (
-    <div>
-      <Button isPending={pending} onPress={handleClick} className={className}>
-        <Icon name="upload" iconNode={<UploadIcon size={24} />} />
-      </Button>
+    <Flex justifyContent="center">
+      <Icon
+        disabled={pending}
+        name="upload"
+        iconNode={<UploadIcon size={20} />}
+        onClick={handleClick}
+      />
       <input
-        ref={inputRef}
         className={styles.input}
         onChange={handleChange}
         type="file"
         accept="application/pdf"
       />
-    </div>
+    </Flex>
   );
 };
 
-export default connect(null, { uploadFile })(FileUpload);
+export default FileUpload;
