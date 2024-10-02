@@ -165,9 +165,7 @@ const EventItem = ({
           style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
-          {/* <Link to={`/events/${event.slug}`}> */}
           <h3 className={styles.eventItemTitle}>{event.title}</h3>
-          {/* </Link> */}
           <Flex justifyContent="space-between">
             <Flex width="72%">
               <Flex className={styles.companyLogoCompact}>
