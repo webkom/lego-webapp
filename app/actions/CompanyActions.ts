@@ -38,7 +38,7 @@ export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
 export function fetchAllAdmin(semesterId: EntityId) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
-    endpoint: `/bdb/${semesterId}/companies`,
+    endpoint: `/bdb/?semester_id=${semesterId}`,
     schema: [companySchema],
     meta: {
       errorMessage: 'Henting av bedrifter feilet',

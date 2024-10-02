@@ -36,7 +36,7 @@ const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
   name: '',
   studentContact: '',
-  semester: undefined,
+  semesterId: undefined,
 };
 
 const BdbPage = () => {
@@ -48,7 +48,7 @@ const BdbPage = () => {
 
   const currentCompanySemester = useMemo(() => {
     const semesterId =
-      query.semester ?? getClosestCompanySemester(companySemesters);
+      query.semesterId ?? getClosestCompanySemester(companySemesters);
 
     return companySemesters.find(
       (companySemester) => companySemester.id == semesterId,
@@ -63,7 +63,7 @@ const BdbPage = () => {
         const companySemesters = action.payload.entities.companySemesters;
 
         const semesterId =
-          query.semester ??
+          query.semesterId ??
           getClosestCompanySemester(
             Object.values(companySemesters).filter(
               (companySemester) => companySemester !== undefined,
