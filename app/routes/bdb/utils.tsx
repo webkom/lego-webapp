@@ -1,3 +1,5 @@
+import moment from 'moment';
+import type { EntityId } from '@reduxjs/toolkit';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
@@ -10,8 +12,6 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import { EntityId } from '@reduxjs/toolkit';
-import moment from 'moment';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,

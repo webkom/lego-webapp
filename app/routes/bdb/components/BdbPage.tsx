@@ -1,17 +1,15 @@
-import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { MoveLeft, MoveRight } from 'lucide-react';
-import moment from 'moment-timezone';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   fetchAllAdmin,
   addSemesterStatus,
   editSemesterStatus,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
-import Table, { ColumnProps } from 'app/components/Table';
+import Table from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -24,6 +22,7 @@ import {
   getSemesterStatus,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
+import type { ColumnProps } from 'app/components/Table';
 import type { TransformedAdminCompany } from 'app/reducers/companies';
 import type {
   AdminDetailCompany,
@@ -133,15 +132,6 @@ const BdbPage = () => {
       filterMapping: (studentContact: UnknownUser) => {
         if (studentContact && typeof studentContact === 'object') {
           return studentContact.fullName;
-        }
-      },
-      render: (_, { studentContact }) => {
-        if (studentContact && typeof studentContact === 'object') {
-          return (
-            <Link to={`/users/${studentContact.username}`}>
-              {studentContact.fullName}
-            </Link>
-          );
         }
       },
     },
