@@ -46,7 +46,7 @@
     "@sentry/node": "^7.101.1",
     "@stripe/react-stripe-js": "^1.14.2",
     "@stripe/stripe-js": "^1.46.0",
-    "@webkom/lego-editor": "^2.5.0",
+    "@webkom/lego-editor": "^2.6.1",
     "@webkom/react-meter-bar": "^2.0.0",
     "@webkom/react-prepare": "^1.0.1",
     "animate.css": "^4.1.1",
