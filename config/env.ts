@@ -5,11 +5,13 @@
 // See the file `app/config.js` for more info.
 import type Config from './Config';
 
+const defaultIP = '127.0.0.1';
+
 const config = {
-  serverUrl: process.env.API_URL || 'http://127.0.0.1:8000/api/v1',
-  wsServerUrl: process.env.WS_URL || 'ws://127.0.0.1:8000',
-  baseUrl: process.env.BASE_URL || 'http://127.0.0.1:8000',
-  webUrl: process.env.WEB_URL || 'http://127.0.0.1:3000',
+  serverUrl: process.env.API_URL || `http://${defaultIP}:8000/api/v1`,
+  wsServerUrl: process.env.WS_URL || `ws://${defaultIP}:8000`,
+  baseUrl: process.env.BASE_URL || `http://${defaultIP}:8000`,
+  webUrl: process.env.WEB_URL || `http://${defaultIP}:3000`,
   captchaKey: process.env.CAPTCHA_KEY || '1x00000000000000000000AA',
   // Requires captchaKey to be the default value (test key)
   skipCaptcha: process.env.SKIP_CAPTCHA || false,
