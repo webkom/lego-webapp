@@ -72,7 +72,7 @@ type TimeStampProps = {
 
 const TimeStamp = ({ event }: TimeStampProps) => {
   return (
-    <div className={styles.eventTime}>
+    <Flex column gap="var(--spacing-sm)" className={styles.eventTime}>
       <Flex alignItems="center" gap="var(--spacing-sm)">
         <Icon iconNode={<Calendar />} size={18} />
         <Time time={event.startTime} format="ll" />
@@ -81,29 +81,27 @@ const TimeStamp = ({ event }: TimeStampProps) => {
         <Icon iconNode={<Clock />} size={18} />
         <Time time={event.startTime} format="HH:mm" />
       </Flex>
-    </div>
+    </Flex>
   );
 };
 
-const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
-  return (
-    <div className={styles.eventTime}>
+const TimeStartAndRegistration = ({ event }: TimeStampProps) => (
+  <>
+    <Flex alignItems="center" gap="var(--spacing-sm)">
+      <Icon iconNode={<CalendarClock />} size={18} />
+      <Time time={event.startTime} format="ll HH:mm" />
+    </Flex>
+
+    {!!event.activationTime && (
       <Flex alignItems="center" gap="var(--spacing-sm)">
-        <Icon iconNode={<CalendarClock />} size={18} />
-        <Time time={event.startTime} format="ll HH:mm" />
+        <Tooltip content="Påmelding åpner">
+          <Icon iconNode={<AlarmClock />} size={18} />
+        </Tooltip>
+        <Time time={event.activationTime} format="ll HH:mm" />
       </Flex>
-
-      {!!event.activationTime && (
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          <Tooltip content="Påmelding åpner">
-            <Icon iconNode={<AlarmClock />} size={18} />
-          </Tooltip>
-          <Time time={event.activationTime} format="ll HH:mm" />
-        </Flex>
-      )}
-    </div>
-  );
-};
+    )}
+  </>
+);
 
 const RegistrationIcon = ({ event }: TimeStampProps) => {
   const registrationIconOptions = getRegistrationIconOptions(event);
@@ -168,26 +166,23 @@ const EventItem = ({
           className={styles.eventItemCompact}
         >
           <h3 className={styles.eventItemTitle}>{event.title}</h3>
-          <Flex justifyContent="space-between">
-            <Flex width="72%">
-              <Flex className={styles.companyLogoCompact}>
-                {event.cover && (
-                  <Link to={`/events/${event.slug}`}>
-                    <Image
-                      src={event.cover}
-                      placeholder={event.coverPlaceholder}
-                      alt={`Forsidebildet til ${event.title}`}
-                    />
-                  </Link>
-                )}
-              </Flex>
+          <Flex justifyContent="space-between" gap="var(--spacing-sm)">
+            <Flex width="72%" className={styles.companyLogoCompact}>
+              {event.cover && (
+                <Link to={`/events/${event.slug}`}>
+                  <Image
+                    src={event.cover}
+                    placeholder={event.coverPlaceholder}
+                    alt={`Forsidebildet til ${event.title}`}
+                  />
+                </Link>
+              )}
             </Flex>
-            <Flex justifyContent="flex-start" column width="25%">
+            <Flex column width="25%" gap="var(--spacing-sm)">
               <Flex wrap alignItems="center" gap="var(--spacing-sm)">
                 <RegistrationIcon event={event} />
                 <Attendance event={event} />
               </Flex>
-
               <TimeStamp event={event} />
             </Flex>
           </Flex>
@@ -210,9 +205,11 @@ const EventItem = ({
           }}
           className={styles.eventItem}
         >
-          <div>
-            <h3 className={styles.eventItemTitle}>{event.title}</h3>
-            {event.totalCapacity > 0 && <Attendance event={event} />}
+          <Flex column gap="var(--spacing-xs)" className="secondaryFontColor">
+            <div>
+              <h3 className={styles.eventItemTitle}>{event.title}</h3>
+              {event.totalCapacity > 0 && <Attendance event={event} />}
+            </div>
             <TimeStartAndRegistration event={event} />
             {showTags && (
               <Flex wrap>
@@ -221,7 +218,7 @@ const EventItem = ({
                 ))}
               </Flex>
             )}
-          </div>
+          </Flex>
 
           <Flex className={styles.companyLogo}>
             {event.cover && (

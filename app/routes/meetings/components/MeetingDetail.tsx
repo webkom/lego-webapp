@@ -267,20 +267,18 @@ const MeetingDetails = () => {
           <DisplayContent content={meeting.report} />
         </ContentMain>
         <ContentSidebar>
-          <ul>
-            {attendanceButtons(statusMe, meeting.startTime)}
-            <InfoList items={infoItems} />
-            <Attendance isMeeting pools={sortInvitations()} />
-            {meeting.mazemapPoi && (
-              <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
-            )}
+          {attendanceButtons(statusMe, meeting.startTime)}
+          <InfoList items={infoItems} />
 
-            {icalToken && (
-              <li>
-                <AddToCalendar icalToken={icalToken} meeting={meeting} />
-              </li>
-            )}
-          </ul>
+          <Attendance isMeeting pools={sortInvitations()} />
+
+          {meeting.mazemapPoi && (
+            <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+          )}
+
+          {icalToken && (
+            <AddToCalendar icalToken={icalToken} meeting={meeting} />
+          )}
 
           <div>
             <h3>Admin</h3>

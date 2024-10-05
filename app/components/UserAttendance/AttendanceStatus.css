@@ -4,9 +4,7 @@
   justify-content: flex-start;
   width: 100%;
   min-height: 72px;
-  text-align: center;
   border-radius: var(--border-radius-md);
-  margin: var(--spacing-sm) 0;
   overflow: hidden;
 }
 

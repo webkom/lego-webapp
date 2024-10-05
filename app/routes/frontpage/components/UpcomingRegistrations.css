@@ -3,13 +3,14 @@
 .eventItem {
   padding-left: 20px;
   border-left: 4px solid transparent;
-  margin-bottom: 15px;
+  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
   height: 60px;
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+  transition: border-color var(--easing-fast);
 
   &:hover {
     background-color: var(--additive-background);
-    border-top-right-radius: var(--border-radius-md);
-    border-bottom-right-radius: var(--border-radius-md);
   }
 }
 
@@ -18,20 +19,9 @@
   margin: 0;
 }
 
-.info {
-  color: var(--secondary-font-color);
-  margin: -3px 10px;
-}
-
 .time {
-  color: var(--lego-link-color);
-  font-weight: 500;
-  margin-left: 5.5px;
-}
-
-.alarm {
-  width: 15px;
-  height: 15px;
+  font-weight: 600;
+  margin-left: var(--spacing-xs);
 }
 
 .filler {

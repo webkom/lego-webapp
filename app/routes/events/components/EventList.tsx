@@ -2,6 +2,7 @@ import {
   Button,
   FilterSection,
   filterSidebar,
+  Flex,
   LinkButton,
   LoadingIndicator,
   Page,
@@ -75,9 +76,11 @@ const EventListGroup = ({
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h3>{name}</h3>
-      {events.map((event) => (
-        <EventItem key={event.id} event={event} showTags={false} />
-      ))}
+      <Flex column gap="var(--spacing-md)">
+        {events.map((event) => (
+          <EventItem key={event.id} event={event} showTags={false} />
+        ))}
+      </Flex>
     </div>
   );
 };

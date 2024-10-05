@@ -2,7 +2,7 @@
 
 .addQuote {
   max-width: 550px;
-  margin-bottom: 3rem;
+  margin-bottom: var(--spacing-lg);
 }
 
 .addQuote label {
@@ -22,8 +22,8 @@
 
 .quoteBottom {
   width: 100%;
-  margin-top: 20px;
-  padding-bottom: 5px;
+  margin-top: var(--spacing-md);
+  padding-bottom: var(--spacing-xs);
   margin-left: 130px;
   display: flex;
   flex-wrap: wrap;
@@ -31,18 +31,18 @@
   order: 3;
 
   @media (--small-viewport) {
-    padding: 0 0 30px;
-    margin: 30px 0 0;
+    padding: 0 0 var(--spacing-lg);
+    margin: var(--spacing-lg) 0 0;
   }
 }
 
 .singleQuote {
-  padding: 1px 20px 0 0;
+  padding-right: var(--spacing-md);
   background-repeat: no-repeat;
   width: 100%;
   display: flex;
   flex-flow: row wrap;
-  margin-bottom: 50px;
+  margin-bottom: var(--spacing-lg);
 
   &:last-child .quoteBottom {
     border-bottom: none;
@@ -150,7 +150,7 @@
   }
 
   .quoteDate {
-    margin-top: 10px;
+    margin-top: var(--spacing-sm);
   }
 
   .theQuote {

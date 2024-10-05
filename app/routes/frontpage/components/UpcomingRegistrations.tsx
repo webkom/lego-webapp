@@ -4,7 +4,6 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
-import Tooltip from 'app/components/Tooltip';
 import { selectAllEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
@@ -40,36 +39,32 @@ const UpcomingRegistration = ({ event }: Props) => {
     return () => clearInterval(interval);
   }, [event]);
 
-  const activeString = moment(event.activationTime).format('LLLL');
-
   return (
-    <Tooltip content={`Påmelding: ${activeString}`}>
-      <Link to={`/events/${event.slug}`}>
+    <Link to={`/events/${event.slug}`}>
+      <Flex
+        column
+        style={{
+          borderColor: colorForEventType(event.eventType),
+        }}
+        className={styles.eventItem}
+      >
+        <h4 className={styles.title}>{truncateString(event.title, 43)}</h4>
         <Flex
-          column
-          style={{
-            borderColor: colorForEventType(event.eventType),
-          }}
-          className={styles.eventItem}
+          alignItems="center"
+          gap="var(--spacing-xs)"
+          className="secondaryFontColor"
         >
-          <h4 className={styles.title}>{truncateString(event.title, 43)}</h4>
-          <Flex
-            alignItems="center"
-            gap="var(--spacing-sm)"
-            className={styles.info}
-          >
-            <Icon iconNode={<AlarmClock />} size={20} />
-            <div>
-              <span>
-                Påmelding
-                {moment().isBefore(event.activationTime) ? ' åpner' : ' åpnet'}
-              </span>
-              <span className={styles.time}>{timeString}</span>
-            </div>
-          </Flex>
+          <Icon iconNode={<AlarmClock />} size={18} />
+          <div>
+            <span>
+              Påmelding
+              {moment().isBefore(event.activationTime) ? ' åpner' : ' åpnet'}
+            </span>
+            <span className={styles.time}>{timeString}</span>
+          </div>
         </Flex>
-      </Link>
-    </Tooltip>
+      </Flex>
+    </Link>
   );
 };
 
@@ -104,7 +99,7 @@ const UpcomingRegistrations = () => {
   );
 
   return (
-    <div className={styles.wrapper}>
+    <Flex column gap="var(--spacing-sm)" className={styles.wrapper}>
       {fetching && !events.length ? (
         <Skeleton
           array={UPCOMING_REGISTRATIONS_LIMIT}
@@ -121,7 +116,7 @@ const UpcomingRegistrations = () => {
           className={styles.filler}
         />
       )}
-    </div>
+    </Flex>
   );
 };
 
