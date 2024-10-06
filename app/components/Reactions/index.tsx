@@ -1,12 +1,12 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { SmilePlus } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { fetchEmojis } from 'app/actions/EmojiActions';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
-import AddReactionEmoji from './assets/AddReactionEmoji';
 import styles from './index.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
@@ -81,11 +81,16 @@ const Reactions = ({ children, className, emojis, contentTarget }: Props) => {
             onMouseEnter={() => setAddEmojiHovered(true)}
             onMouseLeave={() => setAddEmojiHovered(false)}
           >
-            <AddReactionEmoji
-              color={
-                addEmojiHovered || reactionPickerOpen
-                  ? 'var(--color-orange-6)'
-                  : 'var(--placeholder-color)'
+            <Icon
+              size={18}
+              iconNode={
+                <SmilePlus
+                  color={
+                    addEmojiHovered || reactionPickerOpen
+                      ? 'var(--color-orange-6)'
+                      : 'var(--placeholder-color)'
+                  }
+                />
               }
             />
           </Flex>
