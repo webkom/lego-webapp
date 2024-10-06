@@ -132,7 +132,8 @@ const EventItem = ({
   switch (eventStyle) {
     case 'extra-compact':
       return (
-        <div
+        <Link
+          to={`/events/${event.slug}`}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
@@ -157,17 +158,16 @@ const EventItem = ({
               />
             )}
           </Flex>
-        </div>
+        </Link>
       );
     case 'compact':
       return (
-        <div
+        <Link
+          to={`/events/${event.slug}`}
           style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
-          <Link to={`/events/${event.slug}`}>
-            <h3 className={styles.eventItemTitle}>{event.title}</h3>
-          </Link>
+          <h3 className={styles.eventItemTitle}>{event.title}</h3>
           <Flex justifyContent="space-between">
             <Flex width="72%">
               <Flex className={styles.companyLogoCompact}>
@@ -198,22 +198,21 @@ const EventItem = ({
               ))}
             </Flex>
           )}
-        </div>
+        </Link>
       );
     case 'default':
     default:
       return (
-        <div
+        <Link
+          to={`/events/${event.slug}`}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
           className={styles.eventItem}
         >
           <div>
-            <Link to={`/events/${event.slug}`}>
-              <h3 className={styles.eventItemTitle}>{event.title}</h3>
-              {event.totalCapacity > 0 && <Attendance event={event} />}
-            </Link>
+            <h3 className={styles.eventItemTitle}>{event.title}</h3>
+            {event.totalCapacity > 0 && <Attendance event={event} />}
             <TimeStartAndRegistration event={event} />
             {showTags && (
               <Flex wrap>
@@ -233,7 +232,7 @@ const EventItem = ({
               />
             )}
           </Flex>
-        </div>
+        </Link>
       );
   }
 };

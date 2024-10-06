@@ -5,6 +5,12 @@
   border-left: 4px solid transparent;
   margin-bottom: 15px;
   height: 60px;
+
+  &:hover {
+    background-color: var(--additive-background);
+    border-top-right-radius: var(--border-radius-md);
+    border-bottom-right-radius: var(--border-radius-md);
+  }
 }
 
 .title {

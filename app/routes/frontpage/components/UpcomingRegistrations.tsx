@@ -44,32 +44,31 @@ const UpcomingRegistration = ({ event }: Props) => {
 
   return (
     <Tooltip content={`Påmelding: ${activeString}`}>
-      <Flex
-        column
-        style={{
-          borderColor: colorForEventType(event.eventType),
-        }}
-        className={styles.eventItem}
-      >
-        <Link to={`/events/${event.slug}`} className={styles.title}>
-          <h4>{truncateString(event.title, 43)}</h4>
-        </Link>
-
+      <Link to={`/events/${event.slug}`}>
         <Flex
-          alignItems="center"
-          gap="var(--spacing-sm)"
-          className={styles.info}
+          column
+          style={{
+            borderColor: colorForEventType(event.eventType),
+          }}
+          className={styles.eventItem}
         >
-          <Icon iconNode={<AlarmClock />} size={20} />
-          <div>
-            <span>
-              Påmelding
-              {moment().isBefore(event.activationTime) ? ' åpner' : ' åpnet'}
-            </span>
-            <span className={styles.time}>{timeString}</span>
-          </div>
+          <h4 className={styles.title}>{truncateString(event.title, 43)}</h4>
+          <Flex
+            alignItems="center"
+            gap="var(--spacing-sm)"
+            className={styles.info}
+          >
+            <Icon iconNode={<AlarmClock />} size={20} />
+            <div>
+              <span>
+                Påmelding
+                {moment().isBefore(event.activationTime) ? ' åpner' : ' åpnet'}
+              </span>
+              <span className={styles.time}>{timeString}</span>
+            </div>
+          </Flex>
         </Flex>
-      </Flex>
+      </Link>
     </Tooltip>
   );
 };

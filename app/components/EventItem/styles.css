@@ -1,11 +1,18 @@
 .eventItem {
   min-height: 50px;
+  padding: var(--spacing-xs);
   padding-left: var(--spacing-md);
   border-left: 4px solid transparent;
   margin-bottom: var(--spacing-md);
   display: flex;
   justify-content: space-between;
   line-height: 1.3;
+
+  &:hover {
+    background-color: var(--additive-background);
+    border-top-right-radius: var(--border-radius-lg);
+    border-bottom-right-radius: var(--border-radius-lg);
+  }
 }
 
 .eventItemCompact {
@@ -48,6 +55,8 @@
   max-height: 80px;
   object-fit: contain;
   background: white;
+  margin: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 0;
+  transition: var(--easing-fast);
 }
 
 .companyLogoCompact img {
@@ -62,4 +71,8 @@
   height: 30px;
   object-fit: contain;
   background: white;
+}
+
+.eventItem:hover .companyLogo img {
+  border-radius: var(--border-radius-sm);
 }
