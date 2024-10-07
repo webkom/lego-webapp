@@ -20,7 +20,10 @@ const buildEntitiesReducer = <
   builder.addMatcher(
     isAsyncApiActionSuccess.containingEntity(entityType),
     (state, action) => {
-      adapter.upsertMany(state, action.payload.entities[entityType]);
+      adapter.upsertMany(
+        state,
+        action.payload.entities[entityType] as Record<EntityId, Entity>,
+      );
     },
   );
 };
