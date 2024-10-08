@@ -23,7 +23,7 @@ const EventListCompact = ({
     switch (eventStyle) {
       case 'default':
         return (
-          <Flex column>
+          <Flex column gap="var(--spacing-sm)">
             <Skeleton array={3} className={styles.eventItem} />
           </Flex>
         );
@@ -31,7 +31,7 @@ const EventListCompact = ({
         return <Skeleton className={styles.eventItemCompact} />;
       case 'extra-compact':
         return (
-          <Flex column>
+          <Flex column gap="var(--spacing-sm)">
             <Skeleton
               array={extraCompactSkeletonLimit || 8}
               className={styles.eventItem}
@@ -46,7 +46,7 @@ const EventListCompact = ({
   }
 
   return (
-    <Flex column wrap>
+    <Flex column wrap gap="var(--spacing-md)">
       {events.map((event) => (
         <EventItem
           key={event.id}

@@ -3,7 +3,7 @@
 .summary {
   white-space: pre;
   color: var(--secondary-font-color);
-  margin-top: var(--spacing-sm);
+  margin: var(--spacing-sm) 0;
 
   > * {
     min-height: var(--spacing-lg);

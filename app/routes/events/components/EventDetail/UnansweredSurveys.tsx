@@ -1,5 +1,6 @@
 import { Card } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
+import styles from './EventDetail.css';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';
 
@@ -10,7 +11,7 @@ interface Props {
 
 export const UnansweredSurveys = ({ event, currentRegistration }: Props) => {
   return (
-    <Card severity="danger">
+    <Card severity="danger" className={styles.card}>
       <p>
         Du kan ikke melde deg {currentRegistration ? 'av' : 'på'} dette
         arrangementet fordi du har ubesvarte spørreundersøkelser. Gå til lenkene

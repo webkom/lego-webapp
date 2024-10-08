@@ -1,24 +1,10 @@
 @import url('~app/styles/variables.css');
 
 .eventGroup {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
 }
 
 .bottomBorder {
-  margin-top: var(--spacing-lg);
+  margin-top: var(--spacing-md);
   border-top: 1px solid var(--border-gray);
-}
-
-.select {
-  width: 200px;
-}
-
-.checkbox {
-  margin-right: 0;
-  margin-left: 10px;
-}
-
-.filterButtons label {
-  display: flex;
-  align-items: center;
 }

@@ -451,7 +451,12 @@ const UserProfile = () => {
       <Helmet title={`${firstName} ${lastName}`} />
 
       <Flex wrap className={styles.header}>
-        <Flex column alignItems="center" className={styles.sidebar}>
+        <Flex
+          column
+          alignItems="center"
+          gap="var(--spacing-sm)"
+          className={styles.sidebar}
+        >
           <Flex alignItems="center" justifyContent="center">
             {hasFrame && (
               <Image alt="Gullramme" className={styles.frame} src={frame} />
