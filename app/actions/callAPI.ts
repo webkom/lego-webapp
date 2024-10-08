@@ -6,6 +6,7 @@ import { setStatusCode } from 'app/reducers/routing';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 import fetchJSON, { HttpError } from 'app/utils/fetchJSON';
+import { entitiesReceived } from 'app/utils/legoAdapter/actions';
 import { configWithSSR } from '../config';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
@@ -273,9 +274,19 @@ export default function callAPI<
         schemaKey,
       },
       promise: promise
-        .then((response) =>
-          normalizeJsonResponse(response as HttpResponse<ApiResponse<T>>),
-        )
+        .then((response) => {
+          const normalizedResponse = normalizeJsonResponse(
+            response as HttpResponse<ApiResponse<T>>,
+          );
+          if (
+            normalizedResponse &&
+            typeof normalizedResponse === 'object' &&
+            'entities' in normalizedResponse
+          ) {
+            dispatch(entitiesReceived(normalizedResponse.entities));
+          }
+          return normalizedResponse;
+        })
         .catch((error) => {
           throw handleError(error, propagateError, loggedIn, dispatch);
         }),
