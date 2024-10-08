@@ -100,10 +100,3 @@ isAsyncApiActionSuccess.withSchemaKey =
   <Meta extends BaseMeta = BaseMeta>(entityType: EntityType) =>
   (action: AnyAction): action is AsyncApiActionSuccess<Meta> =>
     isAsyncApiActionSuccess(action) && action.meta.schemaKey === entityType;
-isAsyncApiActionSuccess.containingEntity =
-  <T extends EntityType>(entityType: T) =>
-  (action: AnyAction): action is AsyncApiActionSuccessWithEntityType<T> =>
-    isAsyncApiActionSuccess(action) &&
-    !!action.payload &&
-    'entities' in action.payload &&
-    entityType in action.payload.entities;

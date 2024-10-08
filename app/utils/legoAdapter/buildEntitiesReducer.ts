@@ -1,3 +1,4 @@
+import { entitiesReceived } from 'app/utils/legoAdapter/actions';
 import { isAsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
 import type {
   EntityAdapter,
@@ -17,15 +18,10 @@ const buildEntitiesReducer = <
   adapter: EntityAdapter<Entity, Id>,
   entityType: T,
 ) => {
-  builder.addMatcher(
-    isAsyncApiActionSuccess.containingEntity(entityType),
-    (state, action) => {
-      adapter.upsertMany(
-        state,
-        action.payload.entities[entityType] as Record<EntityId, Entity>,
-      );
-    },
-  );
+  builder.addMatcher(entitiesReceived.match, (state, { payload }) => {
+    if (payload[entityType])
+      adapter.upsertMany(state, payload[entityType] as Record<Id, Entity>);
+  });
 };
 
 export default buildEntitiesReducer;
