@@ -1,7 +1,6 @@
 @import url('~app/styles/variables.css');
 
 .eventItem {
-  padding-left: 20px;
   border-left: 4px solid transparent;
   padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
   height: 60px;

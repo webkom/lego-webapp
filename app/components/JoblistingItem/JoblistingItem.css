@@ -33,6 +33,7 @@
   display: flex;
   flex: 1;
   justify-content: space-between;
+  gap: var(--spacing-xs);
 
   @media (--mobile-device) {
     flex-direction: column;
@@ -46,7 +47,7 @@
   margin-bottom: var(--spacing-sm);
 }
 
-.deadLine {
+.deadline {
   display: flex;
   align-items: center;
   justify-content: flex-end;

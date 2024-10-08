@@ -1,4 +1,5 @@
-import { Flex, Image } from '@webkom/lego-bricks';
+import { Flex, Icon, Image } from '@webkom/lego-bricks';
+import { CalendarClock } from 'lucide-react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import {
@@ -30,7 +31,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
       />
     )}
     <div className={styles.listItem}>
-      <div>
+      <Flex column gap="var(--spacing-xs)">
         <Flex
           wrap
           alignItems="center"
@@ -42,33 +43,39 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           ) && <Tag tag="Ny" color="green" />}
           <span>{joblisting.title}</span>
         </Flex>
-        <div>
+        <Flex alignItems="center" gap="var(--spacing-xs)">
           {joblisting.company.name}
           {joblisting.jobType && (
             <>
-              <span> • </span>
+              <span>•</span>
               <Tag
                 tag={jobType(joblisting.jobType)}
                 color={jobTypeColor(joblisting.jobType)}
               />
             </>
           )}
-        </div>
-        <div>
+        </Flex>
+        <Flex alignItems="center" gap="var(--spacing-xs)">
           <Year joblisting={joblisting} />
           {joblisting.workplaces && (
             <>
-              <span> • </span>
+              <span>•</span>
               <Workplaces places={joblisting.workplaces} />
             </>
           )}
-        </div>
-      </div>
-      <Time
-        time={joblisting.deadline}
-        format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
-        className={styles.deadLine}
-      />
+        </Flex>
+      </Flex>
+      <Flex
+        alignItems="center"
+        gap="var(--spacing-sm)"
+        className={styles.deadline}
+      >
+        <Icon iconNode={<CalendarClock />} size={16} />
+        <Time
+          time={joblisting.deadline}
+          format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
+        />
+      </Flex>
     </div>
   </Link>
 );
