@@ -155,7 +155,7 @@
     "assets-webpack-plugin": "^7.1.1",
     "babel-loader": "^9.2.1",
     "compression-webpack-plugin": "^11.1.0",
-    "concurrently": "^8.2.2",
+    "concurrently": "^9.0.1",
     "css-loader": "^6.10.0",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "cypress": "^13.13.3",
