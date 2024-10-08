@@ -113,7 +113,6 @@ const CompanyEditor = () => {
     ? {
         name: '',
         description: '',
-        adminComment: '',
         website: '',
         studentContact: undefined,
         active: 'true',
@@ -125,7 +124,6 @@ const CompanyEditor = () => {
     : {
         name: company.name,
         description: company.description,
-        adminComment: company.adminComment,
         website: company.website,
         studentContact: studentContact && {
           id: studentContact.id,
@@ -306,15 +304,7 @@ const CompanyEditor = () => {
                 />
               </MultiSelectGroup>
             </div>
-
-            <Field
-              placeholder="Bedriften ønsker kun kurs"
-              label="Notat fra Bedkom"
-              name="adminComment"
-              component={TextEditor.Field}
-              className={styles.adminNote}
-            />
-
+            
             <SubmissionError />
             <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
           </form>

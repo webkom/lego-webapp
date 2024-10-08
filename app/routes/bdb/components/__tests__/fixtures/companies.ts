@@ -11,7 +11,6 @@ const companies = [
       },
     ],
     studentContact: 'Marius Kotlarz',
-    adminComment: 'Husk logo på alle sider',
   },
   {
     name: 'Facebook',

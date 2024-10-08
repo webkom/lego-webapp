@@ -458,11 +458,6 @@ const BdbDetail = () => {
           </ul>
         </div>
 
-        <div className={styles.adminNote}>
-          <h3>Notat i listen</h3>
-          {company.adminComment || <EmptyState body="Ingen notater" />}
-        </div>
-
         <div>
           <h3>Bedriftens arrangementer</h3>
           {events.length > 0 ? (
