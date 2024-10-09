@@ -1,8 +1,8 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { UploadIcon } from 'lucide-react';
 import { useState, useRef } from 'react';
-import styles from './FileUpload.css';
 import { useAppDispatch } from 'app/store/hooks';
+import styles from './FileUpload.css';
 
 type FileUploadProps = {
   uploadFile: (arg0: { file: File }) => Promise<{
