@@ -83,6 +83,12 @@ export const semesterNameOf = (index: number) => {
   };
   return indexToSemesterName[index] || 'spring';
 };
+export const semesterToHumanReadable = (
+  semester: TransformedSemesterStatus,
+) => {
+  const semesterName = semesterCodeToName(semester.semester);
+  return `${semester.year} ${semesterName}`;
+};
 export const semesterCodeToName = (code: Semester) => {
   const codeToName = {
     spring: 'Vår',

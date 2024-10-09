@@ -159,6 +159,7 @@ export type AdminDetailCompany = Pick<
   | 'logo'
   | 'files'
   | 'companyContacts'
+  | 'logoPlaceholder'
 >;
 
 export type UnknownCompany = (
