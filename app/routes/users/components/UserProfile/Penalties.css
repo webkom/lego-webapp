@@ -1,6 +1,6 @@
 .weight {
   color: var(--danger-color);
-  font-size: var(--font-size);
+  font-size: var(--font-size-lg);
   font-weight: 500;
 }
 
@@ -9,7 +9,7 @@
   transition: color var(--easing-fast);
 
   &:hover {
-    color: var(--color-gray-6);
+    color: var(--color-gray-7);
   }
 }
 

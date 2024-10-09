@@ -31,19 +31,19 @@ const Penalties = ({ userId }: Props) => {
                   <span className={styles.weight}>
                     {penalty.weight} {penalty.weight > 1 ? 'prikker' : 'prikk'}
                   </span>
-                  {penalty.sourceEvent && (
-                    <span className="secondaryFontColor">
-                      fra{' '}
-                      <Link
-                        to={`/events/${
-                          penalty.sourceEvent.slug || penalty.sourceEvent.id
-                        }`}
-                        className={styles.eventLink}
-                      >
-                        {penalty.sourceEvent.title}
-                      </Link>
-                    </span>
-                  )}
+                </Flex>
+                <Flex column className={styles.info}>
+                  <span>Fra</span>
+                  <span className="secondaryFontColor">
+                    <Link
+                      to={`/events/${
+                        penalty.sourceEvent.slug || penalty.sourceEvent.id
+                      }`}
+                      className={styles.eventLink}
+                    >
+                      {penalty.sourceEvent.title}
+                    </Link>
+                  </span>
                 </Flex>
                 <Flex column className={styles.info}>
                   <span>Begrunnelse</span>
