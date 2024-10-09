@@ -77,3 +77,16 @@
 .githubIcon {
   margin-right: var(--spacing-sm);
 }
+
+.membershipPill {
+  margin: var(--spacing-xs);
+}
+
+.membershipBadge {
+  margin: var(--spacing-sm);
+
+  &.inactive {
+    filter: grayscale(100%);
+    opacity: 0.7;
+  }
+}

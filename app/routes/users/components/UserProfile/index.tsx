@@ -4,16 +4,16 @@ import {
   DialogTrigger,
   Flex,
   Icon,
-  LinkButton,
   Modal,
   Image,
   Page,
   LoadingPage,
+  LinkButton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
-import { Settings, QrCode, SettingsIcon } from 'lucide-react';
+import { sortBy, uniqBy, orderBy } from 'lodash';
+import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
@@ -23,111 +23,31 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
 import EventListCompact from 'app/components/EventListCompact';
-import { ProfilePicture, CircularPicture } from 'app/components/Image';
-import Pill from 'app/components/Pill';
+import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
-import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
+import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectUserWithGroups } from 'app/reducers/users';
+import { selectUserByUsername } from 'app/reducers/users';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import GroupChange from './GroupChange';
+import { GroupMemberships } from './GroupMemberships';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
-import type { User, Group, Dateish, UserMembership } from 'app/models';
 import type { ListEventWithUserRegistration } from 'app/store/models/Event';
+import type { PublicGroup } from 'app/store/models/Group';
+import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { ExclusifyUnion } from 'app/types';
 
-const GroupPill = ({ group }: { group: Group }) =>
-  group.showBadge ? (
-    <Pill
-      key={group.id}
-      style={{
-        margin: '5px',
-      }}
-    >
-      {group.name}
-    </Pill>
-  ) : null;
-
-const BadgeTooltip = ({
-  group,
-  start,
-  end,
-}: {
-  group: Group;
-  start: Dateish;
-  end: Dateish | null | undefined;
-}) => {
-  const startYear = moment(start).year();
-  const endYear = end ? moment(end).year() : 'd.d.';
-  return <>{`${group.name} (${startYear} - ${endYear})`}</>;
-};
-
-const GroupBadge = ({
-  memberships,
-}: {
-  memberships: (UserMembership & { abakusGroup: Group })[];
-}) => {
-  const activeMemberships = memberships.find(
-    (membership) => membership.isActive,
-  );
-  const abakusGroup = memberships[0].abakusGroup;
-  if (!abakusGroup.showBadge) return null;
-  const sortedMemberships = orderBy(memberships, (membership) =>
-    moment(membership.startDate || membership.createdAt),
-  );
-  const firstMembership = sortedMemberships[0];
-  const lastMembership = sortedMemberships[sortedMemberships.length - 1];
-  const { id, name, logo } = abakusGroup;
-  const groupElement = (
-    <Tooltip
-      key={id}
-      content={
-        <BadgeTooltip
-          group={abakusGroup}
-          start={firstMembership.startDate || firstMembership.createdAt}
-          end={lastMembership.endDate}
-        />
-      }
-    >
-      <CircularPicture
-        alt={name}
-        src={logo}
-        size={50}
-        style={{
-          margin: '10px 5px',
-          ...(!activeMemberships
-            ? {
-                filter: 'grayscale(100%)',
-                opacity: '70%',
-              }
-            : {}),
-        }}
-      />
-    </Tooltip>
-  );
-  const link = resolveGroupLink(abakusGroup);
-
-  if (!link) {
-    return groupElement;
-  }
-
-  return (
-    <Link key={id} to={link}>
-      {groupElement}
-    </Link>
-  );
-};
-
-type PermissionTreeNode = Group & {
-  children?: Group[];
+type PermissionTreeNode = PublicGroup & {
+  children?: PublicGroup[];
   parent?: number;
   isMember?: boolean;
 };
@@ -141,14 +61,15 @@ const UserProfile = () => {
   const username = isCurrentUser ? currentUser?.username : params.username;
   const fetching = useAppSelector((state) => state.users.fetching);
   const user = useAppSelector((state) =>
-    selectUserWithGroups(state, {
+    selectUserByUsername<ExclusifyUnion<CurrentUser | DetailedUser>>(
+      state,
       username,
-    }),
+    ),
   );
 
   const actionGrant = user?.actionGrant || [];
   const showSettings =
-    (isCurrentUser || actionGrant.includes('edit')) && user?.username;
+    (isCurrentUser || actionGrant.includes('edit')) && !!user?.username;
 
   const { pagination: upcomingEventsPagination } = useAppSelector(
     selectPaginationNext({
@@ -219,56 +140,19 @@ const UserProfile = () => {
     abakusEmailLists = [],
     permissionsPerGroup = [],
     photoConsents,
-  } = user || {};
+  } = user;
 
   const allAbakusGroupsWithPerms = uniqBy(
-    permissionsPerGroup.concat(
-      permissionsPerGroup.flatMap(({ parentPermissions }) => parentPermissions),
-    ),
+    [
+      ...permissionsPerGroup,
+      ...permissionsPerGroup.flatMap(
+        ({ parentPermissions }) => parentPermissions,
+      ),
+    ],
     (a) => a.abakusGroup.id,
   );
   const allAbakusGroups = allAbakusGroupsWithPerms.map(
     ({ abakusGroup }) => abakusGroup,
-  );
-  const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
-    memberships.filter(Boolean).map((membership) => ({
-      ...membership,
-      abakusGroup: abakusGroups.find((g) => g.id === membership.abakusGroup),
-    })),
-    (membership) =>
-      membership.abakusGroup.logo
-        ? 'membershipsAsBadges'
-        : 'membershipsAsPills',
-  );
-  const { pastMembershipsAsBadges = [] } = groupBy(
-    pastMemberships.filter(Boolean),
-    (m) =>
-      m.abakusGroup.logo ? 'pastMembershipsAsBadges' : 'pastMembershipsAsPills',
-  );
-  const filteredPastMembershipsAsBadges = pastMembershipsAsBadges.filter(
-    (membership) => {
-      const membershipDuration = moment.duration(
-        moment(membership.endDate).diff(membership.startDate),
-      );
-      return (
-        membership.abakusGroup.type !== 'interesse' ||
-        membershipDuration.asWeeks() > 2
-      );
-    },
-  );
-
-  const groupedMemberships = orderBy(
-    groupBy(
-      filteredPastMembershipsAsBadges.concat(
-        membershipsAsBadges as User['pastMemberships'],
-      ),
-      'abakusGroup.id',
-    ),
-    [
-      (memberships) => !memberships.some((membership) => membership.isActive),
-      (memberships) => memberships[0].abakusGroup.type === 'interesse',
-      (memberships) => memberships[0].abakusGroup.type !== 'styre',
-    ],
   );
   const tree: PermissionTree = {};
 
@@ -376,12 +260,14 @@ const UserProfile = () => {
     <Page
       title={user.fullName}
       actionButtons={
-        <Icon
-          iconNode={<Settings />}
-          size={22}
-          className={styles.settingsIcon}
-          to={`/users/${user.username}/settings/profile`}
-        />
+        showSettings && (
+          <Icon
+            iconNode={<SettingsIcon />}
+            size={22}
+            className={styles.settingsIcon}
+            to={`/users/${user.username}/settings/profile`}
+          />
+        )
       }
     >
       <Helmet title={`${firstName} ${lastName}`} />
@@ -420,18 +306,10 @@ const UserProfile = () => {
             </LinkButton>
           )}
         </Flex>
-        <Flex column className={styles.rightContent}>
-          <Flex wrap>
-            {membershipsAsPills.map((membership) => (
-              <GroupPill key={membership.id} group={membership.abakusGroup} />
-            ))}
-          </Flex>
-          <Flex wrap>
-            {groupedMemberships.map((memberships) => (
-              <GroupBadge memberships={memberships} key={memberships[0].id} />
-            ))}
-          </Flex>
-        </Flex>
+        <GroupMemberships
+          memberships={memberships}
+          pastMemberships={pastMemberships}
+        />
       </Flex>
 
       <Flex wrap className={styles.content}>
@@ -446,7 +324,7 @@ const UserProfile = () => {
               </Card>
             </div>
           )}
-          {showSettings && photoConsents?.length > 0 && (
+          {showSettings && photoConsents && photoConsents.length > 0 && (
             <div>
               <h3>Bildesamtykke</h3>
               <Card>
