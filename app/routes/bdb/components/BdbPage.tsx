@@ -13,7 +13,6 @@ import Table from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import {

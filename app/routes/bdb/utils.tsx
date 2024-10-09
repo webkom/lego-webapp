@@ -141,9 +141,7 @@ export const getClosestCompanySemester = (
   const currentTerm = moment().month() < 6 ? 0 : 1;
   const currentYear = moment().year() + currentTerm * 0.5;
 
-  for (let i = 0; i < companySemesters.length; i++) {
-    const companySemester = companySemesters[i];
-
+  for (const companySemester of companySemesters) {
     const year =
       companySemester.year + (companySemester.semester === 'autumn' ? 0.5 : 0);
     const semesterDateDiff = Math.abs(currentYear - year);
