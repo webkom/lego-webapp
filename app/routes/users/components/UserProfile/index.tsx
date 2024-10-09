@@ -13,7 +13,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { sortBy, uniqBy, groupBy, orderBy } from 'lodash';
-import { Settings, QrCode } from 'lucide-react';
+import { Settings, QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
@@ -32,6 +32,7 @@ import { selectAllEvents } from 'app/reducers/events';
 import { resolveGroupLink, selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserWithGroups } from 'app/reducers/users';
+import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -42,42 +43,6 @@ import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
 import type { User, Group, Dateish, UserMembership } from 'app/models';
 import type { ListEventWithUserRegistration } from 'app/store/models/Event';
-
-const fieldTranslations = {
-  username: 'Brukernavn',
-  email: 'E-post',
-  internalEmailAddress: 'Abakus e-post',
-  githubUsername: 'GitHub',
-};
-
-const defaultFieldRender = (field, value) => (
-  <span>
-    <strong>{field}:</strong> {value}
-  </span>
-);
-
-const emailFieldRender = (field, value) => (
-  <span>
-    <strong>{field}:</strong>
-    <a href={`mailto:${value}`}> {value}</a>
-  </span>
-);
-
-const githubFieldRender = (field: string, value: string) => (
-  <span>
-    <Flex alignItems="center">
-      <Icon name={'logo-github'} className={styles.githubIcon} />
-      <a href={`https://github.com/${value}`}> {value}</a>
-    </Flex>
-  </span>
-);
-
-const fieldRenders = {
-  username: defaultFieldRender,
-  email: emailFieldRender,
-  internalEmailAddress: emailFieldRender,
-  githubUsername: githubFieldRender,
-};
 
 const GroupPill = ({ group }: { group: Group }) =>
   group.showBadge ? (
@@ -242,35 +207,6 @@ const UserProfile = () => {
     return <LoadingPage loading={fetching} />;
   }
 
-  const renderFields = () => {
-    const fields = Object.keys(fieldTranslations).filter(
-      (field) => user[field],
-    );
-    const tags = fields.map((field) => (
-      <li key={field}>
-        {fieldRenders[field](fieldTranslations[field], user[field])}
-      </li>
-    ));
-    //Need to access both the linkedinId and the fullname here
-    return (
-      <ul>
-        {tags}
-        {user.linkedinId && (
-          <li key="linkedinId">
-            <span>
-              <Flex alignItems="center">
-                <Icon name={'logo-linkedin'} className={styles.githubIcon} />
-                <a href={`https://www.linkedin.com/in/${user.linkedinId}`}>
-                  {' '}
-                  {user.fullName}
-                </a>
-              </Flex>
-            </span>
-          </li>
-        )}
-      </ul>
-    );
-  };
   //If you wonder what this is, ask somebody
   const FRAMEID = [6050, 5962, 7276, 7434, 7747, 8493];
 
@@ -465,12 +401,7 @@ const UserProfile = () => {
           </Flex>
           {isCurrentUser && (
             <DialogTrigger>
-              <Button
-                className={cx(
-                  styles.abaIdButton,
-                  hasFrame && styles.frameMargin,
-                )}
-              >
+              <Button className={cx(hasFrame && styles.frameMargin)}>
                 <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
@@ -481,6 +412,12 @@ const UserProfile = () => {
                 </Flex>
               </Modal>
             </DialogTrigger>
+          )}
+          {showSettings && (
+            <LinkButton href={`/users/${user.username}/settings/profile`}>
+              <Icon iconNode={<SettingsIcon />} size={19} />
+              Innstillinger
+            </LinkButton>
           )}
         </Flex>
         <Flex column className={styles.rightContent}>
@@ -499,17 +436,7 @@ const UserProfile = () => {
 
       <Flex wrap className={styles.content}>
         <div className={styles.info}>
-          <div>
-            <h3>Brukerinfo</h3>
-            <Card className={styles.infoCard}>
-              {renderFields()}
-              {showSettings && (
-                <LinkButton href={`/users/${user.username}/settings/profile`}>
-                  Innstillinger
-                </LinkButton>
-              )}
-            </Card>
-          </div>
+          <UserInfo user={user} />
 
           {showSettings && (
             <div>

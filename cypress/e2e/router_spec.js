@@ -65,11 +65,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Prikker');
 
     // Go to settings from profile
-    cy.get(c('UserProfile__infoCard'))
-      .first()
-      .within(() => {
-        cy.contains('Innstillinger').click();
-      });
+    cy.contains('Innstillinger').click();
     cy.contains('Brukernavn');
   });
 
