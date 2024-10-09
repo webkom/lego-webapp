@@ -10,10 +10,10 @@ describe('The Home Page and Login', () => {
     cy.contains('a', 'Om Abakus');
 
     cy.contains('h3', 'Bedpres og kurs');
-    cy.contains('li', 'DIPS');
+    cy.contains(c('CompactEvents__eventItem'), 'DIPS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains('li', 'Sikkerhet og Sårbarhet');
+    cy.contains(c('CompactEvents__eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Oppslag');
     cy.contains('span', 'readme');
@@ -45,10 +45,10 @@ describe('The Home Page and Login', () => {
     cy.visit('/');
 
     cy.contains('h3', 'Bedpres og kurs');
-    cy.contains('li', 'Deloitte AS');
+    cy.contains(c('CompactEvents__eventItem'), 'Deloitte AS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains('li', 'Sikkerhet og Sårbarhet');
+    cy.contains(c('CompactEvents__eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Påmeldinger');
 

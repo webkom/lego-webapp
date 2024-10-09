@@ -1,6 +1,8 @@
-import { Flex, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Pin } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
+import Circle from 'app/components/Circle';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { selectAllEvents } from 'app/reducers/events';
@@ -8,6 +10,7 @@ import { eventListDefaultQuery } from 'app/routes/events/components/EventList';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { EventType } from 'app/store/models/Event';
+import truncateString from 'app/utils/truncateString';
 import { stringifyQuery } from 'app/utils/useQuery';
 import styles from './CompactEvents.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
@@ -32,38 +35,37 @@ const CompactEvents = ({ className, style }: Props) => {
       .filter((event) => eventTypes.includes(event.eventType))
       .slice(0, EVENT_COLUMN_LIMIT)
       .map((event, key) => (
-        <li key={key} className={styles.eventItem}>
-          <span
-            style={{
-              color: colorForEventType(event.eventType),
-              fontSize: '15px',
-              lineHeight: '0',
-              marginRight: '10px',
-            }}
+        <Link
+          key={key}
+          to={`/events/${event.slug}`}
+          className={styles.eventItem}
+        >
+          <Flex
+            alignItems="center"
+            justifyContent="space-between"
+            gap="var(--spacing-md)"
           >
-            <i className="fa fa-circle" />
-          </span>
-          <Link to={`/events/${event.slug}`}>{event.title}</Link>
-          {event.pinned && (
-            <Tooltip content="Dette arrangementet er festet til forsiden">
-              <i
-                className="fa fa-thumb-tack"
-                style={{
-                  transform: 'rotate(-20deg)',
-                  marginRight: '4px',
-                  color: 'var(--lego-red-color)',
-                }}
+            <Flex alignItems="center" gap="var(--spacing-sm)">
+              <Circle
+                size="var(--font-size-xs)"
+                color={colorForEventType(event.eventType)}
               />
-            </Tooltip>
-          )}
-          <Time
-            format="dd D.MM"
-            time={event.startTime}
-            style={{
-              flex: '0 1 0',
-            }}
-          />
-        </li>
+              <span>{truncateString(event.title, 27)}</span>
+            </Flex>
+            <Flex alignItems="center" gap="var(--spacing-xs)">
+              {event.pinned && (
+                <Tooltip content="Dette arrangementet er festet til forsiden">
+                  <Icon
+                    iconNode={<Pin />}
+                    size={16}
+                    className={styles.pinned}
+                  />
+                </Tooltip>
+              )}
+              <Time format="dd D. MMM" time={event.startTime} />
+            </Flex>
+          </Flex>
+        </Link>
       ));
   };
 
@@ -95,7 +97,7 @@ const CompactEvents = ({ className, style }: Props) => {
 
   return (
     <Flex column className={className} style={style}>
-      <Flex wrap className={styles.compactEvents}>
+      <Flex className={styles.compactEvents}>
         <Flex column className={styles.compactLeft}>
           <Link
             to={{
@@ -110,7 +112,7 @@ const CompactEvents = ({ className, style }: Props) => {
           >
             <h3 className="u-ui-heading">Bedpres og kurs</h3>
           </Link>
-          <Flex column gap="5px">
+          <Flex column gap="var(--spacing-xs)">
             {fetching && !presentations.length ? skeleton : leftEvents}
           </Flex>
         </Flex>
@@ -128,7 +130,7 @@ const CompactEvents = ({ className, style }: Props) => {
           >
             <h3 className="u-ui-heading">Arrangementer</h3>
           </Link>
-          <Flex column gap="5px">
+          <Flex column gap="var(--spacing-xs)">
             {fetching && !other.length ? skeleton : rightEvents}
           </Flex>
         </Flex>
