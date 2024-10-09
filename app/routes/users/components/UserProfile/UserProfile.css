@@ -54,7 +54,7 @@
 }
 
 .infoCard {
-  margin: var(--spacing-sm) 0;
+  margin-bottom: var(--spacing-lg);
 }
 
 .bottomMargin {

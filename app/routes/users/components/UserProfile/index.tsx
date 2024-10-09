@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   DialogTrigger,
   Flex,
   Icon,
@@ -31,6 +30,7 @@ import { selectAllEvents } from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
+import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -317,222 +317,200 @@ const UserProfile = () => {
           <UserInfo user={user} />
 
           {showSettings && (
-            <div>
-              <h3>Prikker</h3>
-              <Card className={styles.infoCard}>
-                <Penalties userId={user.id} />
-              </Card>
-            </div>
+            <ProfileSection title="Prikker">
+              <Penalties userId={user.id} />
+            </ProfileSection>
           )}
           {showSettings && photoConsents && photoConsents.length > 0 && (
-            <div>
-              <h3>Bildesamtykke</h3>
-              <Card>
-                <PhotoConsents
-                  photoConsents={photoConsents}
-                  username={user.username}
-                  userId={user.id}
-                  isCurrentUser={isCurrentUser}
-                />
-              </Card>
-            </div>
+            <ProfileSection title="Bildesamtykke">
+              <PhotoConsents
+                photoConsents={photoConsents}
+                username={user.username}
+                userId={user.id}
+                isCurrentUser={isCurrentUser}
+              />
+            </ProfileSection>
           )}
 
           {canChangeGrade && (
-            <div>
-              <h3>Endre klasse</h3>
-              <Card className={styles.infoCard}>
-                <GroupChange
-                  grades={groups.sort((a, b) => a.id > b.id)}
-                  abakusGroups={abakusGroups}
-                  username={user.username}
-                />
-              </Card>
-            </div>
+            <ProfileSection title="Endre klasse">
+              <GroupChange
+                grades={groups.sort((a, b) => a.id > b.id)}
+                abakusGroups={abakusGroups}
+                username={user.username}
+              />
+            </ProfileSection>
           )}
 
           {!!permissionsPerGroup.length && (
-            <div>
-              <h3> Grupper </h3>
-              <Card className={styles.infoCard}>
-                {genTree(sum)}
+            <ProfileSection title="Grupper">
+              {genTree(sum)}
 
-                <div>
-                  <br />
-                  <i className={styles.groupExplanation}>
-                    Du er medlem av gruppene markert med fet tekst, og indirekte
-                    medlem av gruppene i kursiv.
-                  </i>
-                </div>
-              </Card>
-            </div>
+              <div>
+                <br />
+                <i className={styles.groupExplanation}>
+                  Du er medlem av gruppene markert med fet tekst, og indirekte
+                  medlem av gruppene i kursiv.
+                </i>
+              </div>
+            </ProfileSection>
           )}
 
           {/* canChangeGrade is a good heuristic if we should show permissions.
                All users can see their own permission via the API,
                but only admins can show permissions for other users.*/}
           {emailListsMapping.length + emailListsOnUser.length > 0 && (
-            <div>
-              <h3>E-postlister</h3>
-              <Card className={styles.infoCard}>
-                {emailListsMapping.map(({ abakusGroup, emailLists }) => (
-                  <div key={abakusGroup.id}>
-                    <h4>E-postlister fra gruppen {abakusGroup.name}</h4>
-                    <ul>
-                      {emailLists.map((emailList) => (
-                        <li key={emailList.id}>
-                          <Tooltip content={emailList.name}>
-                            {emailList.email}@abakus.no{' '}
-                            {canEditEmailLists && (
-                              <Link to={`/admin/email/lists/${emailList.id}`}>
-                                <i
-                                  style={{
-                                    fontSize: 14,
-                                  }}
-                                >
-                                  endre
-                                </i>
-                              </Link>
-                            )}
-                          </Tooltip>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-                {emailListsOnUser.length > 0 && (
-                  <>
-                    <h4>Direkte koblet til deg som bruker</h4>
-                    <ul>
-                      {emailListsOnUser.map((emailList) => (
-                        <li key={emailList.id}>
-                          <Tooltip content={emailList.name}>
-                            {emailList.email}@abakus.no{' '}
-                            {canEditEmailLists && (
-                              <Link to={`/admin/email/lists/${emailList.id}`}>
-                                <i
-                                  style={{
-                                    fontSize: 14,
-                                  }}
-                                >
-                                  endre
-                                </i>
-                              </Link>
-                            )}
-                          </Tooltip>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                )}
-
-                <div>
-                  <br />
-                  <i
-                    style={{
-                      fontSize: 14,
-                    }}
-                  >
-                    Kontakt Webkom på{' '}
-                    <a href="mailto:webkom@abakus.no"> webkom@abakus.no </a>
-                    hvis du mener noen av disse ikke er riktige
-                  </i>
+            <ProfileSection title="E-postlister">
+              {emailListsMapping.map(({ abakusGroup, emailLists }) => (
+                <div key={abakusGroup.id}>
+                  <h4>E-postlister fra gruppen {abakusGroup.name}</h4>
+                  <ul>
+                    {emailLists.map((emailList) => (
+                      <li key={emailList.id}>
+                        <Tooltip content={emailList.name}>
+                          {emailList.email}@abakus.no{' '}
+                          {canEditEmailLists && (
+                            <Link to={`/admin/email/lists/${emailList.id}`}>
+                              <i
+                                style={{
+                                  fontSize: 14,
+                                }}
+                              >
+                                endre
+                              </i>
+                            </Link>
+                          )}
+                        </Tooltip>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </Card>
-            </div>
+              ))}
+              {emailListsOnUser.length > 0 && (
+                <>
+                  <h4>Direkte koblet til deg som bruker</h4>
+                  <ul>
+                    {emailListsOnUser.map((emailList) => (
+                      <li key={emailList.id}>
+                        <Tooltip content={emailList.name}>
+                          {emailList.email}@abakus.no{' '}
+                          {canEditEmailLists && (
+                            <Link to={`/admin/email/lists/${emailList.id}`}>
+                              <i
+                                style={{
+                                  fontSize: 14,
+                                }}
+                              >
+                                endre
+                              </i>
+                            </Link>
+                          )}
+                        </Tooltip>
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              <div>
+                <br />
+                <i
+                  style={{
+                    fontSize: 14,
+                  }}
+                >
+                  Kontakt Webkom på{' '}
+                  <a href="mailto:webkom@abakus.no"> webkom@abakus.no </a>
+                  hvis du mener noen av disse ikke er riktige
+                </i>
+              </div>
+            </ProfileSection>
           )}
 
           {canChangeGrade && (
-            <div>
-              <h3>Rettigheter</h3>
-              <Card className={styles.infoCard}>
-                {allAbakusGroupsWithPerms.map(
-                  ({ abakusGroup, permissions }) =>
-                    !!permissions.length && (
-                      <div key={abakusGroup.id}>
-                        <h4>
-                          Rettigheter fra gruppen
-                          <Link
-                            to={`/admin/groups/${abakusGroup.id}/permissions/`}
-                          >
-                            {' '}
-                            {abakusGroup.name}
-                          </Link>
-                        </h4>
-                        <ul>
-                          {permissions.map((permission) => (
-                            <li key={permission + abakusGroup.id}>
-                              {permission}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ),
-                )}
-                <h4>Sum alle</h4>
-                <ul>
-                  {sortBy(
-                    permissionsPerGroup
-                      .concat(
-                        permissionsPerGroup.flatMap(
-                          ({ parentPermissions }) => parentPermissions,
-                        ),
-                      )
-                      .flatMap(({ permissions }) => permissions),
-                    (permission: string) => permission.split('/').length,
-                  )
-                    .reduce((acc: Array<string>, perm: string) => {
-                      // Reduce perms to only show broadest set of permissions
-                      // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
-                      // Therefore we will only show "/sudo/admin/events/"
-                      const splittedPerm = perm.split('/').filter(Boolean);
-                      // YES, this has a bad runtime complexity, but since n is so small it doesn't matter in practice
-                      const [broaderPermFound] = splittedPerm.reduce(
-                        (accumulator: [boolean, string], permPart: string) => {
-                          const [broaderPermFound, summedPerm] = accumulator;
-                          const concatedString = `${summedPerm}${permPart}/`;
-                          return [
-                            broaderPermFound || acc.includes(concatedString),
-                            concatedString,
-                          ];
-                        },
-                        [false, '/'],
-                      );
-                      if (broaderPermFound) return acc;
-                      return [...acc, perm];
-                    }, [])
-                    .map((permission) => (
-                      <li key={permission}>{permission}</li>
-                    ))}
-                </ul>
-              </Card>
-            </div>
+            <ProfileSection title="Rettigheter">
+              {allAbakusGroupsWithPerms.map(
+                ({ abakusGroup, permissions }) =>
+                  !!permissions.length && (
+                    <div key={abakusGroup.id}>
+                      <h4>
+                        Rettigheter fra gruppen
+                        <Link
+                          to={`/admin/groups/${abakusGroup.id}/permissions/`}
+                        >
+                          {' '}
+                          {abakusGroup.name}
+                        </Link>
+                      </h4>
+                      <ul>
+                        {permissions.map((permission) => (
+                          <li key={permission + abakusGroup.id}>
+                            {permission}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ),
+              )}
+              <h4>Sum alle</h4>
+              <ul>
+                {sortBy(
+                  permissionsPerGroup
+                    .concat(
+                      permissionsPerGroup.flatMap(
+                        ({ parentPermissions }) => parentPermissions,
+                      ),
+                    )
+                    .flatMap(({ permissions }) => permissions),
+                  (permission: string) => permission.split('/').length,
+                )
+                  .reduce((acc: Array<string>, perm: string) => {
+                    // Reduce perms to only show broadest set of permissions
+                    // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
+                    // Therefore we will only show "/sudo/admin/events/"
+                    const splittedPerm = perm.split('/').filter(Boolean);
+                    // YES, this has a bad runtime complexity, but since n is so small it doesn't matter in practice
+                    const [broaderPermFound] = splittedPerm.reduce(
+                      (accumulator: [boolean, string], permPart: string) => {
+                        const [broaderPermFound, summedPerm] = accumulator;
+                        const concatedString = `${summedPerm}${permPart}/`;
+                        return [
+                          broaderPermFound || acc.includes(concatedString),
+                          concatedString,
+                        ];
+                      },
+                      [false, '/'],
+                    );
+                    if (broaderPermFound) return acc;
+                    return [...acc, perm];
+                  }, [])
+                  .map((permission) => (
+                    <li key={permission}>{permission}</li>
+                  ))}
+              </ul>
+            </ProfileSection>
           )}
 
           {isCurrentUser && user.email !== user.emailAddress && (
-            <div>
-              <h3>Google G Suite</h3>
-              <Card className={styles.infoCard}>
-                <p>
-                  Din konto er linket opp mot Abakus sitt domene i Google
-                  GSuite. E-post sendes til denne brukeren og ikke til e-posten
-                  du har oppgitt i din profil.
-                </p>
+            <ProfileSection title="Google G Suite">
+              <p>
+                Din konto er linket opp mot Abakus sitt domene i Google GSuite.
+                E-post sendes til denne brukeren og ikke til e-posten du har
+                oppgitt i din profil.
+              </p>
 
-                <ul>
-                  <li>
-                    <b>URL:</b>{' '}
-                    <a href="http://mail.abakus.no">mail.abakus.no</a>
-                  </li>
-                  <li>
-                    <b>E-post:</b> {user.emailAddress}
-                  </li>
-                  <li>
-                    <b>Passord:</b> <i>Samme som på abakus.no</i>
-                  </li>
-                </ul>
-              </Card>
-            </div>
+              <ul>
+                <li>
+                  <b>URL:</b> <a href="http://mail.abakus.no">mail.abakus.no</a>
+                </li>
+                <li>
+                  <b>E-post:</b> {user.emailAddress}
+                </li>
+                <li>
+                  <b>Passord:</b> <i>Samme som på abakus.no</i>
+                </li>
+              </ul>
+            </ProfileSection>
           )}
         </div>
         <div className={styles.rightContent}>

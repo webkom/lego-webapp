@@ -1,4 +1,5 @@
-import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
+import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 
@@ -44,25 +45,19 @@ interface Props {
 }
 
 export const UserInfo = ({ user }: Props) => (
-  <>
-    <h3>Brukerinfo</h3>
-    <Card className={styles.infoCard}>
-      <Flex column gap="var(--spacing-sm)">
-        <DefaultField field="Brukernavn" value={user.username} />
-        <EmailField field="E-post" value={user.email} />
-        {'internalEmailAddress' in user && user.internalEmailAddress && (
-          <EmailField field="Abakus e-post" value={user.internalEmailAddress} />
-        )}
-        {user.githubUsername && (
-          <GithubField githubUsername={user.githubUsername} />
-        )}
-        {user.linkedinId && (
-          <LinkedInField
-            linkedinId={user.linkedinId}
-            fullName={user.fullName}
-          />
-        )}
-      </Flex>
-    </Card>
-  </>
+  <ProfileSection title="Brukerinfo">
+    <Flex column gap="var(--spacing-sm)">
+      <DefaultField field="Brukernavn" value={user.username} />
+      <EmailField field="E-post" value={user.email} />
+      {'internalEmailAddress' in user && user.internalEmailAddress && (
+        <EmailField field="Abakus e-post" value={user.internalEmailAddress} />
+      )}
+      {user.githubUsername && (
+        <GithubField githubUsername={user.githubUsername} />
+      )}
+      {user.linkedinId && (
+        <LinkedInField linkedinId={user.linkedinId} fullName={user.fullName} />
+      )}
+    </Flex>
+  </ProfileSection>
 );
