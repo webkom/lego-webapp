@@ -40,7 +40,7 @@
   ],
   "dependencies": {
     "@loadable/component": "^5.16.4",
-    "@reduxjs/toolkit": "^2.2.7",
+    "@reduxjs/toolkit": "^2.2.8",
     "@sentry/browser": "^7.105.0",
     "@sentry/integrations": "^7.114.0",
     "@sentry/node": "^7.101.1",
