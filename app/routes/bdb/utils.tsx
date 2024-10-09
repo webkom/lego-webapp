@@ -1,10 +1,10 @@
 import moment from 'moment';
-import type { EntityId } from '@reduxjs/toolkit';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type {
   TransformedAdminCompany,
