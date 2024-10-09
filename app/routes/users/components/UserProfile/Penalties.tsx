@@ -7,9 +7,10 @@ import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
+import type { EntityId } from '@reduxjs/toolkit';
 
 type Props = {
-  userId: number;
+  userId: EntityId;
 };
 
 const Penalties = ({ userId }: Props) => {
