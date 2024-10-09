@@ -1,5 +1,6 @@
 import type { EventType } from './Event';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -57,6 +58,7 @@ export interface CompanyContact {
   mail?: string;
   phone?: string;
   mobile?: string;
+  updatedAt?: Dateish;
 }
 
 interface CompanyFile {

@@ -11,6 +11,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Trash2 } from 'lucide-react';
+import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -262,6 +263,13 @@ const BdbDetail = () => {
     {
       title: 'Telefon',
       dataIndex: 'phone',
+    },
+    {
+      title: 'Oppdatert',
+      dataIndex: 'updatedAt',
+      render: (_, contact) => (
+        <>{moment(contact.updatedAt).format('YYYY-MM-DD')}</>
+      ),
     },
     {
       title: '',
