@@ -98,7 +98,7 @@ const LandingPage: PageRenderer<null> = () => {
           )}
           <EmailItem
             recipient="Hovedstyret"
-            email="abakus@abakus.no"
+            email="hs@abakus.no"
             logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png"
           />
           <h3>E-postadresser til komiteene</h3>
