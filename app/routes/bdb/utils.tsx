@@ -1,10 +1,15 @@
+import moment from 'moment';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { TransformedSemesterStatus } from 'app/reducers/companies';
+import type {
+  TransformedAdminCompany,
+  TransformedSemesterStatus,
+} from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
 
@@ -109,42 +114,15 @@ export const sortByYearThenSemester = (
     : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
 
-export const indexToYearAndSemester = (
-  index: number,
-  startYear: number,
-  startSem: number,
-) => {
-  const semester = semesterNameOf(((index % 2) + startSem) % 2);
-  let year = 0;
-
-  if (startSem === 0) {
-    year = index < 2 ? startYear : startYear + 1;
-  } else if (index === 0) {
-    year = startYear;
-  } else if (index === 3) {
-    year = startYear + 2;
-  } else {
-    year = startYear + 1;
-  }
-
-  return {
-    year,
-    semester,
-  };
-};
-export const indexToCompanySemester = (
-  index: number,
-  startYear: number,
-  startSem: number,
-  companySemesters: CompanySemester[],
-) => {
-  const { year, semester } = indexToYearAndSemester(index, startYear, startSem);
-
-  return companySemesters.find(
-    (companySemester) =>
-      companySemester.year === year && companySemester.semester === semester,
+export const getSemesterStatus = (
+  company: TransformedAdminCompany,
+  companySemester: CompanySemester,
+) =>
+  company.semesterStatuses.find(
+    (semesterStatus) =>
+      semesterStatus.year == companySemester.year &&
+      semesterStatus.semester == companySemester.semester,
   );
-};
 
 export const httpCheck = (link: string) => {
   const httpLink =
@@ -152,6 +130,32 @@ export const httpCheck = (link: string) => {
       ? link
       : `http://${link}`;
   return link === '' ? link : httpLink;
+};
+
+export const getClosestCompanySemester = (
+  companySemesters: CompanySemester[],
+) => {
+  let closestSemesterId: EntityId | undefined = undefined;
+  let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+
+  const currentTerm = moment().month() < 6 ? 0 : 1;
+  const currentYear = moment().year() + currentTerm * 0.5;
+
+  for (const companySemester of companySemesters) {
+    const year =
+      companySemester.year + (companySemester.semester === 'autumn' ? 0.5 : 0);
+    const semesterDateDiff = Math.abs(currentYear - year);
+
+    if (
+      closestSemesterId === undefined ||
+      semesterDateDiff < closestSemesterDateDiff
+    ) {
+      closestSemesterId = companySemester.id;
+      closestSemesterDateDiff = semesterDateDiff;
+    }
+  }
+
+  return closestSemesterId;
 };
 
 export const getContactStatuses = (

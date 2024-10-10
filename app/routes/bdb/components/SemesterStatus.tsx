@@ -7,25 +7,23 @@ import {
 } from '../utils';
 import styles from './SemesterStatus.css';
 import SemesterStatusContent from './SemesterStatusContent';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { TransformedSemesterStatus } from 'app/reducers/companies';
+import type {
+  TransformedAdminCompany,
+  TransformedSemesterStatus,
+} from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 
 type Props = {
-  semesterStatus: TransformedSemesterStatus | undefined;
   editChangedStatuses: (
-    companyId: EntityId,
-    tableIndex: number,
-    semesterStatusId: EntityId | undefined,
+    company: TransformedAdminCompany,
     contactedStatus: CompanySemesterContactStatus[],
   ) => Promise<unknown>;
-  companyId: EntityId;
-  semIndex: number;
+  semesterStatus: TransformedSemesterStatus | undefined;
+  company: TransformedAdminCompany;
 };
 const SemesterStatus = ({
   semesterStatus,
-  companyId,
-  semIndex,
+  company,
   editChangedStatuses,
 }: Props) => {
   const contactedStatuses = semesterStatus?.contactedStatus ?? [
@@ -45,9 +43,7 @@ const SemesterStatus = ({
         contactedStatus={contactedStatuses}
         editFunction={(status) =>
           editChangedStatuses(
-            companyId,
-            semIndex,
-            semesterStatus?.id,
+            company,
             getContactStatuses(contactedStatuses, status),
           )
         }

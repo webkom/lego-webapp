@@ -35,10 +35,10 @@ export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
   });
 };
 
-export function fetchAllAdmin() {
+export function fetchAllAdmin(semesterId: EntityId) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
-    endpoint: '/bdb/',
+    endpoint: `/bdb/?semester_id=${semesterId}`,
     schema: [companySchema],
     meta: {
       errorMessage: 'Henting av bedrifter feilet',
@@ -271,13 +271,8 @@ export function fetchSemestersForInterestform() {
   });
 }
 
-export function fetchSemesters(
-  queries: Record<
-    string,
-    (string | null | undefined) | (number | null | undefined)
-  > = {},
-) {
-  return callAPI<DetailedSemesterStatus[]>({
+export function fetchSemesters(queries: Record<string, string> = {}) {
+  return callAPI<CompanySemester[]>({
     types: Company.FETCH_SEMESTERS,
     endpoint: `/company-semesters/${createQueryString(queries)}`,
     schema: [companySemesterSchema],
