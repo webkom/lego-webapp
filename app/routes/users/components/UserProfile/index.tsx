@@ -30,6 +30,7 @@ import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
 import { EmailLists } from 'app/routes/users/components/UserProfile/EmailLists';
+import { GroupTree } from 'app/routes/users/components/UserProfile/GroupTree';
 import { Permissions } from 'app/routes/users/components/UserProfile/Permissions';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
@@ -46,14 +47,6 @@ import type { ListEventWithUserRegistration } from 'app/store/models/Event';
 import type { PublicGroup } from 'app/store/models/Group';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import type { ExclusifyUnion } from 'app/types';
-
-type PermissionTreeNode = PublicGroup & {
-  children: PublicGroup[];
-  parent?: number;
-  isMember?: boolean;
-};
-
-type PermissionTree = { [key: number]: PermissionTreeNode };
 
 const UserProfile = () => {
   const params = useParams<{ username: string }>();
@@ -155,93 +148,6 @@ const UserProfile = () => {
   const allAbakusGroups = allAbakusGroupsWithPerms.map(
     ({ abakusGroup }) => abakusGroup,
   );
-  const tree: PermissionTree = {};
-
-  for (const group of permissionsPerGroup) {
-    for (const index in group.parentPermissions) {
-      const parent = group.parentPermissions[index];
-
-      if (Number(index) === 0) {
-        tree[parent.abakusGroup.id] = {
-          ...parent.abakusGroup,
-          children: [],
-          parent: null,
-        };
-      } else {
-        tree[parent.abakusGroup.id] = {
-          ...parent.abakusGroup,
-          children: [],
-          parent: group.parentPermissions[Number(index) - 1].abakusGroup.id,
-        };
-      }
-    }
-  }
-
-  for (const group of permissionsPerGroup) {
-    tree[group.abakusGroup.id] = {
-      ...group.abakusGroup,
-      children: [],
-      isMember: true,
-      parent: group.parentPermissions.length
-        ? group.parentPermissions[group.parentPermissions.length - 1]
-            .abakusGroup.id
-        : null,
-    };
-  }
-
-  const sum = permissionsPerGroup.reduce((roots, val) => {
-    const abakusGroup = val.abakusGroup;
-    const id = abakusGroup.id;
-    const node = tree[id];
-
-    if (!node.parent) {
-      roots = uniqBy(roots.concat(node), (a) => a.id);
-    } else {
-      const parent = tree[node.parent];
-      parent.children = uniqBy(parent.children.concat(node), (a) => a.id);
-    }
-
-    for (const permGroup of val.parentPermissions) {
-      const abakusGroup = permGroup.abakusGroup;
-      const id = abakusGroup.id;
-      const node = tree[id];
-
-      if (!node.parent) {
-        roots.push(node);
-        roots = uniqBy(roots.concat(node), (a) => a.id);
-      } else {
-        const parent = tree[node.parent];
-        parent.children = uniqBy(parent.children.concat(node), (a) => a.id);
-      }
-    }
-
-    return roots;
-  }, [] as PermissionTreeNode[]);
-
-  const genTree = (groups) => {
-    return groups.map((group) => {
-      if (group.children.length) {
-        return (
-          <div key={group.id}>
-            {genTree([{ ...group, children: [] }])}
-            <div
-              style={{
-                marginLeft: 10,
-              }}
-            >
-              {genTree(group.children)}
-            </div>
-          </div>
-        );
-      }
-
-      return (
-        <div key={group.id}>
-          {group.isMember ? <b> {group.name}</b> : <i> {group.name}</i>}
-        </div>
-      );
-    });
-  };
 
   const hasFrame = FRAMEID.includes(user.id as number);
 
@@ -332,17 +238,7 @@ const UserProfile = () => {
           )}
 
           {!!permissionsPerGroup.length && (
-            <ProfileSection title="Grupper">
-              {genTree(sum)}
-
-              <div>
-                <br />
-                <i className={styles.groupExplanation}>
-                  Du er medlem av gruppene markert med fet tekst, og indirekte
-                  medlem av gruppene i kursiv.
-                </i>
-              </div>
-            </ProfileSection>
+            <GroupTree permissionsPerGroup={permissionsPerGroup} />
           )}
 
           <EmailLists
