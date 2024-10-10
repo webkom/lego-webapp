@@ -5,10 +5,10 @@ import { TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useCurrentUser } from 'app/reducers/auth';
+import { validPassword } from 'app/routes/users/utils';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
-import { validPassword } from '../utils';
-import PasswordField from './PasswordField';
+import PasswordField from '../PasswordField';
 
 export type FormValues = {
   password: string;

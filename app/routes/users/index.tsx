@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
 import pageNotFound from '../pageNotFound';
-import userSettingsRoute from './components/UserSettingsIndex';
+import userSettingsRoute from './components/UserSettings';
 import type { RouteObject } from 'react-router-dom';
 
 const UserConfirmationForm = loadable(

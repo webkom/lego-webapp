@@ -1,10 +1,15 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish, PhotoConsentDomain, Semester } from 'app/models';
+import type {
+  ActionGrant,
+  Dateish,
+  PhotoConsentDomain,
+  Semester,
+} from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { PublicEmailList } from 'app/store/models/EmailList';
 import type { PublicGroup } from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
-import type PastMembership from 'app/store/models/PastMembership';
+import type { PastMembership } from 'app/store/models/Membership';
 import type { Required } from 'utility-types';
 
 export interface PhotoConsent {
@@ -20,6 +25,8 @@ export const Gender = {
   female: 'Kvinne',
   other: 'Annet',
 } as const;
+
+export type UserPermissionGroup = Pick<PublicGroup, 'id' | 'name'>;
 
 interface User {
   id: EntityId;
@@ -48,10 +55,10 @@ interface User {
   pastMemberships: PastMembership[];
   selectedTheme: string;
   permissionsPerGroup: {
-    abakusGroup: Pick<PublicGroup, 'id' | 'name'>;
+    abakusGroup: UserPermissionGroup;
     permissions: string[];
     parentPermissions: {
-      abakusGroup: Pick<PublicGroup, 'id' | 'name'>;
+      abakusGroup: UserPermissionGroup;
       permissions: string[];
     }[];
   }[];
@@ -59,6 +66,7 @@ interface User {
   memberships: Membership[];
   githubUsername?: string;
   linkedinId?: string;
+  actionGrant?: ActionGrant;
 }
 
 export type CurrentUser = Pick<
@@ -92,6 +100,7 @@ export type CurrentUser = Pick<
   | 'photoConsents'
   | 'githubUsername'
   | 'linkedinId'
+  | 'actionGrant'
 >;
 
 export type DetailedUser = Pick<
@@ -115,6 +124,7 @@ export type DetailedUser = Pick<
   | 'permissionsPerGroup'
   | 'githubUsername'
   | 'linkedinId'
+  | 'actionGrant'
 >;
 
 export type PublicUser = Pick<
