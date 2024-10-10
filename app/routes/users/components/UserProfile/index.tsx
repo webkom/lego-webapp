@@ -11,7 +11,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { sortBy, uniqBy, orderBy } from 'lodash';
+import { uniqBy, orderBy } from 'lodash';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -30,6 +30,7 @@ import { selectAllEvents } from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
+import { Permissions } from 'app/routes/users/components/UserProfile/Permissions';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
@@ -428,66 +429,7 @@ const UserProfile = () => {
           )}
 
           {canChangeGrade && (
-            <ProfileSection title="Rettigheter">
-              {allAbakusGroupsWithPerms.map(
-                ({ abakusGroup, permissions }) =>
-                  !!permissions.length && (
-                    <div key={abakusGroup.id}>
-                      <h4>
-                        Rettigheter fra gruppen
-                        <Link
-                          to={`/admin/groups/${abakusGroup.id}/permissions/`}
-                        >
-                          {' '}
-                          {abakusGroup.name}
-                        </Link>
-                      </h4>
-                      <ul>
-                        {permissions.map((permission) => (
-                          <li key={permission + abakusGroup.id}>
-                            {permission}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ),
-              )}
-              <h4>Sum alle</h4>
-              <ul>
-                {sortBy(
-                  [
-                    ...permissionsPerGroup,
-                    ...permissionsPerGroup.flatMap(
-                      ({ parentPermissions }) => parentPermissions,
-                    ),
-                  ].flatMap(({ permissions }) => permissions),
-                  (permission: string) => permission.split('/').length,
-                )
-                  .reduce((acc: string[], perm: string) => {
-                    // Reduce perms to only show the broadest set of permissions
-                    // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
-                    // Therefore, we will only show "/sudo/admin/events/"
-                    const splittedPerm = perm.split('/').filter(Boolean);
-                    // YES, this has a bad runtime complexity, but since n is so small it doesn't matter in practice
-                    const [broaderPermFound] = splittedPerm.reduce(
-                      (accumulator, permPart) => {
-                        const [broaderPermFound, summedPerm] = accumulator;
-                        const concatedString = `${summedPerm}${permPart}/`;
-                        return [
-                          broaderPermFound || acc.includes(concatedString),
-                          concatedString,
-                        ];
-                      },
-                      [false, '/'],
-                    );
-                    if (broaderPermFound) return acc;
-                    return [...acc, perm];
-                  }, [])
-                  .map((permission) => (
-                    <li key={permission}>{permission}</li>
-                  ))}
-              </ul>
-            </ProfileSection>
+            <Permissions allAbakusGroupsWithPerms={allAbakusGroupsWithPerms} />
           )}
 
           {isCurrentUser && user.email !== user.emailAddress && (
