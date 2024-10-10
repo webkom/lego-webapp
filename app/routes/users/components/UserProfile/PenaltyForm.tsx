@@ -73,7 +73,7 @@ const PenaltyForm = ({ userId }: Props) => {
   const showForm = !hidden && !sent;
 
   return (
-    <Flex column gap="var(--spacing-md)">
+    <>
       <div className={styles.divider} />
 
       <div>
@@ -118,7 +118,7 @@ const PenaltyForm = ({ userId }: Props) => {
           )}
         </TypedLegoForm>
       )}
-    </Flex>
+    </>
   );
 };
 

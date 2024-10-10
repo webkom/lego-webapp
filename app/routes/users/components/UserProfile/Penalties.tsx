@@ -1,9 +1,13 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
 import { deletePenalty } from 'app/actions/UserActions';
 import { FormatTime } from 'app/components/Time';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
+import {
+  InfoField,
+  LinkInfoField,
+  ProfileSection,
+} from 'app/routes/users/components/UserProfile/ProfileSection';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Penalties.css';
 import PenaltyForm from './PenaltyForm';
@@ -22,41 +26,30 @@ const Penalties = ({ userId }: Props) => {
   const dispatch = useAppDispatch();
 
   return (
-    <Flex column gap="var(--spacing-md)">
+    <ProfileSection title="Prikker">
       {penalties.length ? (
         <>
           {penalties.map((penalty, index) => (
             <>
               <Flex key={penalty.id} column gap="var(--spacing-sm)">
-                <Flex column className={styles.info}>
-                  <span className={styles.weight}>
-                    {penalty.weight} {penalty.weight > 1 ? 'prikker' : 'prikk'}
-                  </span>
-                </Flex>
-                <Flex column className={styles.info}>
-                  <span>Fra</span>
-                  <span className="secondaryFontColor">
-                    <Link
-                      to={`/events/${
-                        penalty.sourceEvent.slug || penalty.sourceEvent.id
-                      }`}
-                      className={styles.eventLink}
-                    >
-                      {penalty.sourceEvent.title}
-                    </Link>
-                  </span>
-                </Flex>
-                <Flex column className={styles.info}>
-                  <span>Begrunnelse</span>
-                  <span className="secondaryFontColor">{penalty.reason}</span>
-                </Flex>
-                <Flex column className={styles.info}>
-                  <span>Utgår</span>
+                <span className={styles.weight}>
+                  {penalty.weight} {penalty.weight > 1 ? 'prikker' : 'prikk'}
+                </span>
+                <LinkInfoField
+                  name="Fra arragement"
+                  to={`/events/${
+                    penalty.sourceEvent.slug || penalty.sourceEvent.id
+                  }`}
+                >
+                  {penalty.sourceEvent.title}
+                </LinkInfoField>
+                <InfoField name="Begrunnelse">{penalty.reason}</InfoField>
+                <InfoField name="Utgår">
                   <FormatTime
                     time={penalty.exactExpiration}
                     className={cx('secondaryFontColor', styles.time)}
                   />
-                </Flex>
+                </InfoField>
 
                 {canDeletePenalties && (
                   <ConfirmModal
@@ -99,7 +92,7 @@ const Penalties = ({ userId }: Props) => {
       )}
 
       <PenaltyForm userId={userId} />
-    </Flex>
+    </ProfileSection>
   );
 };
 

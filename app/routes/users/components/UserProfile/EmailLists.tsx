@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
-import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
+import {
+  InfoField,
+  ProfileSection,
+} from 'app/routes/users/components/UserProfile/ProfileSection';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicEmailList } from 'app/store/models/EmailList';
 
@@ -36,10 +39,21 @@ export const EmailLists = ({
   if (emailListsMapping.length + emailListsOnUser.length === 0) return;
 
   return (
-    <ProfileSection title="E-postlister">
+    <ProfileSection
+      title="E-postlister"
+      footer={
+        <>
+          Kontakt Webkom på{' '}
+          <a href="mailto:webkom@abakus.no"> webkom@abakus.no </a>
+          hvis du mener noen av disse ikke er riktige
+        </>
+      }
+    >
       {emailListsMapping.map(({ abakusGroup, emailLists }) => (
-        <div key={abakusGroup.id}>
-          <h4>E-postlister fra gruppen {abakusGroup.name}</h4>
+        <InfoField
+          key={abakusGroup.id}
+          name={`Fra gruppen ${abakusGroup.name}`}
+        >
           <ul>
             {emailLists.map((emailList) => (
               <li key={emailList.id}>
@@ -60,11 +74,10 @@ export const EmailLists = ({
               </li>
             ))}
           </ul>
-        </div>
+        </InfoField>
       ))}
       {emailListsOnUser.length > 0 && (
-        <>
-          <h4>Direkte koblet til deg som bruker</h4>
+        <InfoField name="Direkte koblet til deg som bruker">
           <ul>
             {emailListsOnUser.map((emailList) => (
               <li key={emailList.id}>
@@ -85,21 +98,8 @@ export const EmailLists = ({
               </li>
             ))}
           </ul>
-        </>
+        </InfoField>
       )}
-
-      <div>
-        <br />
-        <i
-          style={{
-            fontSize: 14,
-          }}
-        >
-          Kontakt Webkom på{' '}
-          <a href="mailto:webkom@abakus.no"> webkom@abakus.no </a>
-          hvis du mener noen av disse ikke er riktige
-        </i>
-      </div>
     </ProfileSection>
   );
 };
