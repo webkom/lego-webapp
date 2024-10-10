@@ -26,6 +26,8 @@ export const Gender = {
   other: 'Annet',
 } as const;
 
+export type UserPermissionGroup = Pick<PublicGroup, 'id' | 'name'>;
+
 interface User {
   id: EntityId;
   username: string;
@@ -53,10 +55,10 @@ interface User {
   pastMemberships: PastMembership[];
   selectedTheme: string;
   permissionsPerGroup: {
-    abakusGroup: Pick<PublicGroup, 'id' | 'name'>;
+    abakusGroup: UserPermissionGroup;
     permissions: string[];
     parentPermissions: {
-      abakusGroup: Pick<PublicGroup, 'id' | 'name'>;
+      abakusGroup: UserPermissionGroup;
       permissions: string[];
     }[];
   }[];
