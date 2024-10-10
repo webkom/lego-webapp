@@ -47,7 +47,7 @@ import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 import type { ExclusifyUnion } from 'app/types';
 
 type PermissionTreeNode = PublicGroup & {
-  children?: PublicGroup[];
+  children: PublicGroup[];
   parent?: number;
   isMember?: boolean;
 };
@@ -105,8 +105,8 @@ const UserProfile = () => {
   const canChangeGrade = useAppSelector((state) => state.allowed.groups);
   const canEditEmailLists = useAppSelector((state) => state.allowed.email);
 
-  const groups = useAppSelector((state) =>
-    selectGroupsByType(state, GroupType.Grade),
+  const grades = useAppSelector((state) =>
+    selectGroupsByType<PublicGroup>(state, GroupType.Grade),
   );
 
   const dispatch = useAppDispatch();
@@ -215,7 +215,7 @@ const UserProfile = () => {
     }
 
     return roots;
-  }, []);
+  }, [] as PermissionTreeNode[]);
 
   const genTree = (groups) => {
     return groups.map((group) => {
@@ -335,7 +335,7 @@ const UserProfile = () => {
           {canChangeGrade && (
             <ProfileSection title="Endre klasse">
               <GroupChange
-                grades={groups.sort((a, b) => a.id > b.id)}
+                grades={grades}
                 abakusGroups={abakusGroups}
                 username={user.username}
               />
@@ -455,23 +455,22 @@ const UserProfile = () => {
               <h4>Sum alle</h4>
               <ul>
                 {sortBy(
-                  permissionsPerGroup
-                    .concat(
-                      permissionsPerGroup.flatMap(
-                        ({ parentPermissions }) => parentPermissions,
-                      ),
-                    )
-                    .flatMap(({ permissions }) => permissions),
+                  [
+                    ...permissionsPerGroup,
+                    ...permissionsPerGroup.flatMap(
+                      ({ parentPermissions }) => parentPermissions,
+                    ),
+                  ].flatMap(({ permissions }) => permissions),
                   (permission: string) => permission.split('/').length,
                 )
-                  .reduce((acc: Array<string>, perm: string) => {
-                    // Reduce perms to only show broadest set of permissions
+                  .reduce((acc: string[], perm: string) => {
+                    // Reduce perms to only show the broadest set of permissions
                     // If a user has "/sudo/admin/events/" it means the user also has "/sudo/admin/events/create/" implicitly.
-                    // Therefore we will only show "/sudo/admin/events/"
+                    // Therefore, we will only show "/sudo/admin/events/"
                     const splittedPerm = perm.split('/').filter(Boolean);
                     // YES, this has a bad runtime complexity, but since n is so small it doesn't matter in practice
                     const [broaderPermFound] = splittedPerm.reduce(
-                      (accumulator: [boolean, string], permPart: string) => {
+                      (accumulator, permPart) => {
                         const [broaderPermFound, summedPerm] = accumulator;
                         const concatedString = `${summedPerm}${permPart}/`;
                         return [
