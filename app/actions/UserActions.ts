@@ -168,7 +168,7 @@ export function changePassword({
     },
   });
 }
-export function changeGrade(groupId: EntityId, username: string) {
+export function changeGrade(groupId: EntityId | null, username: string) {
   return callAPI({
     types: User.UPDATE,
     endpoint: `/users/${username}/change_grade/`,
@@ -460,7 +460,7 @@ export type AddPenaltyBody = {
   user: EntityId;
   reason: string;
   weight: number;
-  sourceEvent: EntityId;
+  sourceEvent?: EntityId;
 };
 export function addPenalty(body: AddPenaltyBody) {
   return callAPI<PenaltyType>({

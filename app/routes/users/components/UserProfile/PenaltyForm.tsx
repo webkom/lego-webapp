@@ -48,7 +48,7 @@ const PenaltyForm = ({ userId }: Props) => {
       addPenalty({
         ...values,
         user: userId,
-        sourceEvent: values.sourceEvent && values.sourceEvent.value,
+        sourceEvent: values.sourceEvent?.value,
       }),
     ).then(() => {
       setHidden(true);

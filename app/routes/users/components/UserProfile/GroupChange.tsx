@@ -4,15 +4,15 @@ import { changeGrade } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
 import { useAppDispatch } from 'app/store/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { Group } from 'app/models';
+import type { PublicGroup } from 'app/store/models/Group';
 
 type Props = {
-  grades: Array<Group>;
-  abakusGroups: Array<Group>;
+  grades: PublicGroup[];
+  abakusGroups: EntityId[];
   username: string;
 };
 type Option = {
-  value: EntityId;
+  value: EntityId | null;
   label: string;
 };
 const noLongerStudent = {
@@ -20,14 +20,14 @@ const noLongerStudent = {
   label: 'Ikke student',
 };
 
-const GroupChange = (props: Props) => {
+const GroupChange = ({ grades, abakusGroups, username }: Props) => {
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
   const dispatch = useAppDispatch();
 
   const handleOnClick = () =>
     selectedOption &&
-    dispatch(changeGrade(selectedOption.value, props.username)).then(() => {
+    dispatch(changeGrade(selectedOption.value, username)).then(() => {
       setSelectedOption(null);
     });
 
@@ -35,10 +35,7 @@ const GroupChange = (props: Props) => {
     setSelectedOption(selectedOption);
   };
 
-  const { grades, abakusGroups } = props;
-  const initialGrade = abakusGroups
-    .filter(Boolean)
-    .find((g) => g.type === 'klasse');
+  const initialGrade = grades.find((g) => abakusGroups.includes(g.id));
   const initalOption = initialGrade
     ? {
         value: initialGrade.id,
