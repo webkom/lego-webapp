@@ -16,20 +16,20 @@ import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
 import frame from 'app/assets/frame.png';
 import EventListCompact from 'app/components/EventListCompact';
 import { ProfilePicture } from 'app/components/Image';
-import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
+import { EmailLists } from 'app/routes/users/components/UserProfile/EmailLists';
 import { Permissions } from 'app/routes/users/components/UserProfile/Permissions';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
@@ -243,18 +243,6 @@ const UserProfile = () => {
     });
   };
 
-  const emailListsMapping = allAbakusGroups
-    .map((abakusGroup) => ({
-      abakusGroup,
-      emailLists: abakusEmailLists.filter((emailList) =>
-        emailList.groups.includes(abakusGroup.id),
-      ),
-    }))
-    .filter(({ emailLists }) => emailLists.length);
-
-  const emailListsOnUser = abakusEmailLists.filter((emailList) =>
-    emailList.users.includes(user.id),
-  );
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
@@ -357,76 +345,12 @@ const UserProfile = () => {
             </ProfileSection>
           )}
 
-          {/* canChangeGrade is a good heuristic if we should show permissions.
-               All users can see their own permission via the API,
-               but only admins can show permissions for other users.*/}
-          {emailListsMapping.length + emailListsOnUser.length > 0 && (
-            <ProfileSection title="E-postlister">
-              {emailListsMapping.map(({ abakusGroup, emailLists }) => (
-                <div key={abakusGroup.id}>
-                  <h4>E-postlister fra gruppen {abakusGroup.name}</h4>
-                  <ul>
-                    {emailLists.map((emailList) => (
-                      <li key={emailList.id}>
-                        <Tooltip content={emailList.name}>
-                          {emailList.email}@abakus.no{' '}
-                          {canEditEmailLists && (
-                            <Link to={`/admin/email/lists/${emailList.id}`}>
-                              <i
-                                style={{
-                                  fontSize: 14,
-                                }}
-                              >
-                                endre
-                              </i>
-                            </Link>
-                          )}
-                        </Tooltip>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-              {emailListsOnUser.length > 0 && (
-                <>
-                  <h4>Direkte koblet til deg som bruker</h4>
-                  <ul>
-                    {emailListsOnUser.map((emailList) => (
-                      <li key={emailList.id}>
-                        <Tooltip content={emailList.name}>
-                          {emailList.email}@abakus.no{' '}
-                          {canEditEmailLists && (
-                            <Link to={`/admin/email/lists/${emailList.id}`}>
-                              <i
-                                style={{
-                                  fontSize: 14,
-                                }}
-                              >
-                                endre
-                              </i>
-                            </Link>
-                          )}
-                        </Tooltip>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              <div>
-                <br />
-                <i
-                  style={{
-                    fontSize: 14,
-                  }}
-                >
-                  Kontakt Webkom på{' '}
-                  <a href="mailto:webkom@abakus.no"> webkom@abakus.no </a>
-                  hvis du mener noen av disse ikke er riktige
-                </i>
-              </div>
-            </ProfileSection>
-          )}
+          <EmailLists
+            userId={user.id}
+            abakusEmailLists={abakusEmailLists}
+            allAbakusGroups={allAbakusGroups}
+            canEditEmailLists={canEditEmailLists}
+          />
 
           {canChangeGrade && (
             <Permissions allAbakusGroupsWithPerms={allAbakusGroupsWithPerms} />
