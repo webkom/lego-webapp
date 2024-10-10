@@ -301,6 +301,10 @@ const BdbDetail = () => {
       dataIndex: 'phone',
     },
     {
+      title: 'Dato oppdatert',
+      dataIndex: 'updatedAt',
+    },
+    {
       title: '',
       dataIndex: '',
       render: (_, contact) =>
@@ -472,7 +476,10 @@ const BdbDetail = () => {
           />
 
           <Flex justifyContent="space-between" alignItems="center">
-            <h3>Bedriftskontakter</h3>
+            <Flex column>
+              <h3>Bedriftskontakter</h3>
+            </Flex>
+
             <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
               Legg til bedriftskontakt
             </LinkButton>
@@ -480,7 +487,10 @@ const BdbDetail = () => {
           {company.companyContacts?.length > 0 ? (
             <Table
               columns={contactsColumns}
-              data={company.companyContacts}
+              data={company.companyContacts.map((contact) => ({
+                ...contact,
+                updatedAt: moment(contact.updatedAt).format('YYYY-MM-DD'),
+              }))}
               hasMore={false}
               loading={showSkeleton}
             />
