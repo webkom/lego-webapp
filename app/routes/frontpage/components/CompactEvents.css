@@ -8,7 +8,7 @@
   text-align: left;
   gap: var(--spacing-xl);
 
-  @media (--small-viewport) {
+  @media (--medium-viewport) {
     flex-direction: column;
   }
 }
@@ -24,29 +24,20 @@
   flex: 1;
 }
 
-.compactEvents li {
-  display: flex;
-  align-items: center;
-}
-
 .eventItem {
-  height: 26px;
-}
-
-.compactEvents a {
+  height: 28.8px; /* Used for the skeleton component */
   color: var(--lego-font-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-left: calc(-1 * var(--spacing-sm));
+  transition: background-color var(--easing-blazingly-fast);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
 }
 
-.compactEvents li > a {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 0;
-  flex-grow: 1;
-  padding-right: 10px;
-}
-
-.compactEvents a:hover {
+.pinned {
+  transform: rotate(-20deg);
   color: var(--lego-link-color);
 }
