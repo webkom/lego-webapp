@@ -33,7 +33,6 @@ import { EmailLists } from 'app/routes/users/components/UserProfile/EmailLists';
 import { GSuiteInfo } from 'app/routes/users/components/UserProfile/GSuiteInfo';
 import { GroupTree } from 'app/routes/users/components/UserProfile/GroupTree';
 import { Permissions } from 'app/routes/users/components/UserProfile/Permissions';
-import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -212,30 +211,23 @@ const UserProfile = () => {
         <div className={styles.info}>
           <UserInfo user={user} />
 
-          {showSettings && (
-            <ProfileSection title="Prikker">
-              <Penalties userId={user.id} />
-            </ProfileSection>
-          )}
+          {showSettings && <Penalties userId={user.id} />}
+
           {showSettings && photoConsents && photoConsents.length > 0 && (
-            <ProfileSection title="Bildesamtykke">
-              <PhotoConsents
-                photoConsents={photoConsents}
-                username={user.username}
-                userId={user.id}
-                isCurrentUser={isCurrentUser}
-              />
-            </ProfileSection>
+            <PhotoConsents
+              photoConsents={photoConsents}
+              username={user.username}
+              userId={user.id}
+              isCurrentUser={isCurrentUser}
+            />
           )}
 
           {canChangeGrade && (
-            <ProfileSection title="Endre klasse">
-              <GroupChange
-                grades={grades}
-                abakusGroups={abakusGroups}
-                username={user.username}
-              />
-            </ProfileSection>
+            <GroupChange
+              grades={grades}
+              abakusGroups={abakusGroups}
+              username={user.username}
+            />
           )}
 
           {!!permissionsPerGroup.length && (

@@ -1,4 +1,9 @@
-import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
+import {
+  EmailInfoField,
+  InfoField,
+  LinkInfoField,
+  ProfileSection,
+} from 'app/routes/users/components/UserProfile/ProfileSection';
 
 interface Props {
   emailAddress: string;
@@ -12,16 +17,12 @@ export const GSuiteInfo = ({ emailAddress }: Props) => (
       profil.
     </p>
 
-    <ul>
-      <li>
-        <b>URL:</b> <a href="http://mail.abakus.no">mail.abakus.no</a>
-      </li>
-      <li>
-        <b>E-post:</b> {emailAddress}
-      </li>
-      <li>
-        <b>Passord:</b> <i>Samme som på abakus.no</i>
-      </li>
-    </ul>
+    <LinkInfoField name="URL" to="http://mail.abakus.no">
+      mail.abakus.no
+    </LinkInfoField>
+    <EmailInfoField name="E-post" email={emailAddress} />
+    <InfoField name="Passord">
+      <i>Samme som på abakus.no</i>
+    </InfoField>
   </ProfileSection>
 );

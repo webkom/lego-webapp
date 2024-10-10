@@ -1,30 +1,21 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
+import { Link } from 'react-router-dom';
+import {
+  EmailInfoField,
+  InfoField,
+  ProfileSection,
+} from 'app/routes/users/components/UserProfile/ProfileSection';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
 import type { CurrentUser, DetailedUser } from 'app/store/models/User';
 
-const DefaultField = ({ field, value }: { field: string; value: string }) => (
-  <span>
-    <strong>{field}:</strong> {value}
-  </span>
-);
-
-const EmailField = ({ field, value }: { field: string; value: string }) => (
-  <span>
-    <strong>{field}:</strong>
-    <a href={`mailto:${value}`}> {value}</a>
-  </span>
-);
-
 const GithubField = ({ githubUsername }: { githubUsername: string }) => (
-  <span>
+  <a href={`https://github.com/${githubUsername}`}>
     <Flex alignItems="center">
-      <Icon name={'logo-github'} className={styles.githubIcon} />
-      <a href={`https://github.com/${githubUsername}`}> {githubUsername}</a>
+      <Icon name={'logo-github'} className={styles.soMeIcon} />
+      {githubUsername}
     </Flex>
-  </span>
+  </a>
 );
-
 const LinkedInField = ({
   linkedinId,
   fullName,
@@ -32,12 +23,12 @@ const LinkedInField = ({
   linkedinId: string;
   fullName: string;
 }) => (
-  <span>
+  <Link to={`https://www.linkedin.com/in/${linkedinId}`}>
     <Flex alignItems="center">
-      <Icon name={'logo-linkedin'} className={styles.githubIcon} />
-      <a href={`https://www.linkedin.com/in/${linkedinId}`}> {fullName}</a>
+      <Icon name={'logo-linkedin'} className={styles.soMeIcon} />
+      {fullName}
     </Flex>
-  </span>
+  </Link>
 );
 
 interface Props {
@@ -47,10 +38,14 @@ interface Props {
 export const UserInfo = ({ user }: Props) => (
   <ProfileSection title="Brukerinfo">
     <Flex column gap="var(--spacing-sm)">
-      <DefaultField field="Brukernavn" value={user.username} />
-      <EmailField field="E-post" value={user.email} />
+      <InfoField name="Brukernavn">{user.username}</InfoField>
+      <InfoField name="Navn">{user.fullName}</InfoField>
+      <EmailInfoField name="E-post" email={user.email} />
       {'internalEmailAddress' in user && user.internalEmailAddress && (
-        <EmailField field="Abakus e-post" value={user.internalEmailAddress} />
+        <EmailInfoField
+          name="Abakus e-post"
+          email={user.internalEmailAddress}
+        />
       )}
       {user.githubUsername && (
         <GithubField githubUsername={user.githubUsername} />

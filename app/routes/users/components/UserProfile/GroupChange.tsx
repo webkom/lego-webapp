@@ -1,7 +1,8 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { changeGrade } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
+import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { useAppDispatch } from 'app/store/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicGroup } from 'app/store/models/Group';
@@ -48,7 +49,7 @@ const GroupChange = ({ grades, abakusGroups, username }: Props) => {
   }));
 
   return (
-    <Flex column gap="var(--spacing-sm)">
+    <ProfileSection title="Endre klasse">
       <SelectInput
         name="form-field-name"
         value={selectedOption || initalOption}
@@ -61,7 +62,7 @@ const GroupChange = ({ grades, abakusGroups, username }: Props) => {
           Lagre endring
         </Button>
       )}
-    </Flex>
+    </ProfileSection>
   );
 };
 

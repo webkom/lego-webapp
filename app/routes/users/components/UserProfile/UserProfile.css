@@ -57,13 +57,21 @@
   margin-bottom: var(--spacing-lg);
 }
 
-.bottomMargin {
-  margin-bottom: var(--spacing-lg);
+.infoCardFooter {
+  font-style: italic;
+  font-size: var(--font-size-sm);
 }
 
-.groupExplanation {
-  font-size: var(--font-size-sm);
+.infoFieldName {
+  font-weight: 500;
+}
+
+.infoFieldContent {
   color: var(--secondary-font-color);
+}
+
+.bottomMargin {
+  margin-bottom: var(--spacing-lg);
 }
 
 .settingsIcon {
@@ -74,7 +82,8 @@
   }
 }
 
-.githubIcon {
+.soMeIcon {
+  color: var(--lego-font-color);
   margin-right: var(--spacing-sm);
 }
 

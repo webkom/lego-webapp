@@ -1,7 +1,6 @@
 import { uniqBy } from 'lodash';
 import { useMemo } from 'react';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
-import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { CurrentUser, UserPermissionGroup } from 'app/store/models/User';
 
@@ -109,16 +108,11 @@ export const GroupTree = ({ permissionsPerGroup }: Props) => {
   }, [permissionsPerGroup]);
 
   return (
-    <ProfileSection title="Grupper">
+    <ProfileSection
+      title="Grupper"
+      footer="Du er medlem av gruppene markert med fet tekst, og indirekte medlem av gruppene i kursiv."
+    >
       <TreeNodes groups={rootGroups} />
-
-      <div>
-        <br />
-        <i className={styles.groupExplanation}>
-          Du er medlem av gruppene markert med fet tekst, og indirekte medlem av
-          gruppene i kursiv.
-        </i>
-      </div>
     </ProfileSection>
   );
 };
