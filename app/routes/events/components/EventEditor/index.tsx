@@ -58,7 +58,6 @@ import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { AdministrateEvent } from 'app/store/models/Event';
-import type { DetailedUser } from 'app/store/models/User';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
@@ -241,7 +240,7 @@ const EventEditor = () => {
         },
         responsibleUsers:
           event.responsibleUsers &&
-          event.responsibleUsers.map((user: DetailedUser) => ({
+          event.responsibleUsers.map((user) => ({
             label: user.fullName,
             value: user.id,
           })),
