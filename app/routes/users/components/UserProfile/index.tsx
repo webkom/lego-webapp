@@ -45,7 +45,7 @@ import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.css';
 import type { ListEventWithUserRegistration } from 'app/store/models/Event';
 import type { PublicGroup } from 'app/store/models/Group';
-import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { CurrentUser, PublicUserWithGroups } from 'app/store/models/User';
 import type { ExclusifyUnion } from 'app/types';
 
 const UserProfile = () => {
@@ -55,7 +55,7 @@ const UserProfile = () => {
   const username = isCurrentUser ? currentUser?.username : params.username;
   const fetching = useAppSelector((state) => state.users.fetching);
   const user = useAppSelector((state) =>
-    selectUserByUsername<ExclusifyUnion<CurrentUser | DetailedUser>>(
+    selectUserByUsername<ExclusifyUnion<CurrentUser | PublicUserWithGroups>>(
       state,
       username,
     ),
@@ -245,9 +245,11 @@ const UserProfile = () => {
             <Permissions allAbakusGroupsWithPerms={allAbakusGroupsWithPerms} />
           )}
 
-          {isCurrentUser && user.email !== user.emailAddress && (
-            <GSuiteInfo emailAddress={user.emailAddress} />
-          )}
+          {isCurrentUser &&
+            user.emailAddress &&
+            user.email !== user.emailAddress && (
+              <GSuiteInfo emailAddress={user.emailAddress} />
+            )}
         </div>
         <div className={styles.rightContent}>
           {isCurrentUser && (

@@ -6,7 +6,7 @@ import {
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
-import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+import type { CurrentUser, PublicUserWithGroups } from 'app/store/models/User';
 
 const GithubField = ({ githubUsername }: { githubUsername: string }) => (
   <a href={`https://github.com/${githubUsername}`}>
@@ -32,7 +32,7 @@ const LinkedInField = ({
 );
 
 interface Props {
-  user: DetailedUser | CurrentUser;
+  user: PublicUserWithGroups | CurrentUser;
 }
 
 export const UserInfo = ({ user }: Props) => (
@@ -40,7 +40,7 @@ export const UserInfo = ({ user }: Props) => (
     <Flex column gap="var(--spacing-sm)">
       <InfoField name="Brukernavn">{user.username}</InfoField>
       <InfoField name="Navn">{user.fullName}</InfoField>
-      <EmailInfoField name="E-post" email={user.email} />
+      {'email' in user && <EmailInfoField name="E-post" email={user.email} />}
       {'internalEmailAddress' in user && user.internalEmailAddress && (
         <EmailInfoField
           name="Abakus e-post"
