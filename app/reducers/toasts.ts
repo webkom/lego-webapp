@@ -5,7 +5,7 @@ import type { RootState } from 'app/store/createRootReducer';
 import type { Optional } from 'utility-types';
 
 type Toast = {
-  id: EntityId;
+  id: string;
   message: string;
   dismissAfter: number;
   removed: boolean;
