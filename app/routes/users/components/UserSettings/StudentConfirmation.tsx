@@ -11,7 +11,7 @@ import {
 import { Button } from 'app/components/Form';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './UserConfirmation.css';
+import styles from '../UserConfirmation.css';
 import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
 
 const NotEligibleInfo = () => (

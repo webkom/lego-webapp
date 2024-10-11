@@ -28,8 +28,8 @@ import {
   required,
   sameAs,
 } from 'app/utils/validation';
-import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import { validPassword } from '../utils';
+import AllergiesOrPreferencesField from './AllergiesOrPreferencesField';
 import Confetti from './Confetti';
 import PasswordField from './PasswordField';
 
@@ -67,9 +67,9 @@ const UserConfirmationForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = (data) =>
-    token &&
-    dispatch(createUser(token, data)).then((action) => {
+  const onSubmit = (data: FormValues) => {
+    if (!token) return;
+    return dispatch(createUser(token, data)).then((action) => {
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
       setSubmitSucceeded(true);
@@ -82,6 +82,7 @@ const UserConfirmationForm = () => {
         },
       });
     });
+  };
 
   if (submitSucceeded) {
     return (

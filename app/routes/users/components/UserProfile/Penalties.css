@@ -1,16 +1,7 @@
 .weight {
   color: var(--danger-color);
-  font-size: var(--font-size);
-  font-weight: 500;
-}
-
-.eventLink {
-  color: var(--secondary-font-color);
-  transition: color var(--easing-fast);
-
-  &:hover {
-    color: var(--color-gray-6);
-  }
+  font-size: var(--font-size-lg);
+  font-weight: 700;
 }
 
 .info {

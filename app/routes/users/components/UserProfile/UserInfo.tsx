@@ -1,0 +1,58 @@
+import { Flex, Icon } from '@webkom/lego-bricks';
+import { Link } from 'react-router-dom';
+import {
+  EmailInfoField,
+  InfoField,
+  ProfileSection,
+} from 'app/routes/users/components/UserProfile/ProfileSection';
+import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
+import type { CurrentUser, DetailedUser } from 'app/store/models/User';
+
+const GithubField = ({ githubUsername }: { githubUsername: string }) => (
+  <a href={`https://github.com/${githubUsername}`}>
+    <Flex alignItems="center">
+      <Icon name={'logo-github'} className={styles.soMeIcon} />
+      {githubUsername}
+    </Flex>
+  </a>
+);
+const LinkedInField = ({
+  linkedinId,
+  fullName,
+}: {
+  linkedinId: string;
+  fullName: string;
+}) => (
+  <Link to={`https://www.linkedin.com/in/${linkedinId}`}>
+    <Flex alignItems="center">
+      <Icon name={'logo-linkedin'} className={styles.soMeIcon} />
+      {fullName}
+    </Flex>
+  </Link>
+);
+
+interface Props {
+  user: DetailedUser | CurrentUser;
+}
+
+export const UserInfo = ({ user }: Props) => (
+  <ProfileSection title="Brukerinfo">
+    <Flex column gap="var(--spacing-sm)">
+      <InfoField name="Brukernavn">{user.username}</InfoField>
+      <InfoField name="Navn">{user.fullName}</InfoField>
+      <EmailInfoField name="E-post" email={user.email} />
+      {'internalEmailAddress' in user && user.internalEmailAddress && (
+        <EmailInfoField
+          name="Abakus e-post"
+          email={user.internalEmailAddress}
+        />
+      )}
+      {user.githubUsername && (
+        <GithubField githubUsername={user.githubUsername} />
+      )}
+      {user.linkedinId && (
+        <LinkedInField linkedinId={user.linkedinId} fullName={user.fullName} />
+      )}
+    </Flex>
+  </ProfileSection>
+);

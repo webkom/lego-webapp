@@ -1,10 +1,14 @@
-import { Button, ButtonGroup, ConfirmModal, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, ConfirmModal } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { updatePhotoConsent } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
+import {
+  InfoField,
+  ProfileSection,
+} from 'app/routes/users/components/UserProfile/ProfileSection';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './PhotoConsents.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -34,8 +38,7 @@ const ConsentManager = ({
       ? 'Abakus.no'
       : 'Sosiale medier';
   return (
-    <>
-      <h4 className={styles.categoryTitle}>{presentableDomain}</h4>
+    <InfoField name={presentableDomain}>
       <h5>
         Jeg godtar at Abakus kan legge ut bilder av meg på {presentableDomain} i
         perioden {toReadableSemester(consent)}:
@@ -69,7 +72,7 @@ const ConsentManager = ({
               dark
               disabled={!isCurrentUser || consent.isConsenting === false}
             >
-              Trekk samtykke
+              Avslå samtykke
             </Button>
           )}
         </ConfirmModal>
@@ -78,10 +81,10 @@ const ConsentManager = ({
           disabled={!isCurrentUser || consent.isConsenting === true}
           onPress={() => updateConsent({ ...consent, isConsenting: true })}
         >
-          Behold samtykke
+          Gi samtykke
         </Button>
       </ButtonGroup>
-    </>
+    </InfoField>
   );
 };
 
@@ -125,22 +128,22 @@ const PhotoConsents = ({
     dispatch(updatePhotoConsent(consent, username, userId));
 
   return (
-    <Flex column={true}>
-      <label htmlFor="select-semester">
-        <h3>Semester</h3>
-      </label>
-      <SelectInput
-        name="select-semester"
-        isClearable={false}
-        options={semesterOptions}
-        value={selectedSemesterOption}
-        onChange={({ value }) =>
-          setSelectedSemesterOption({
-            label: toReadableSemester(value),
-            value,
-          })
-        }
-      />
+    <ProfileSection title="Bildesamtykke">
+      <InfoField name="Semester">
+        <SelectInput
+          name="select-semester"
+          isClearable={false}
+          options={semesterOptions}
+          value={selectedSemesterOption}
+          onChange={({ value }) =>
+            setSelectedSemesterOption({
+              label: toReadableSemester(value),
+              value,
+            })
+          }
+        />
+      </InfoField>
+
       <ConsentManager
         consent={getConsent(
           PhotoConsentDomain.SOCIAL_MEDIA,
@@ -161,7 +164,7 @@ const PhotoConsents = ({
         updateConsent={updateConsent}
         isCurrentUser={isCurrentUser}
       />
-    </Flex>
+    </ProfileSection>
   );
 };
 
