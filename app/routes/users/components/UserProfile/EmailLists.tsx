@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import {
@@ -23,17 +24,23 @@ export const EmailLists = ({
   abakusEmailLists,
   canEditEmailLists,
 }: Props) => {
-  const emailListsMapping = allAbakusGroups
-    .map((abakusGroup) => ({
-      abakusGroup,
-      emailLists: abakusEmailLists.filter((emailList) =>
-        emailList.groups.includes(abakusGroup.id),
-      ),
-    }))
-    .filter(({ emailLists }) => emailLists.length);
+  const emailListsMapping = useMemo(
+    () =>
+      allAbakusGroups
+        .map((abakusGroup) => ({
+          abakusGroup,
+          emailLists: abakusEmailLists.filter((emailList) =>
+            emailList.groups.includes(abakusGroup.id),
+          ),
+        }))
+        .filter(({ emailLists }) => emailLists.length),
+    [allAbakusGroups, abakusEmailLists],
+  );
 
-  const emailListsOnUser = abakusEmailLists.filter((emailList) =>
-    emailList.users.includes(userId),
+  const emailListsOnUser = useMemo(
+    () =>
+      abakusEmailLists.filter((emailList) => emailList.users.includes(userId)),
+    [abakusEmailLists, userId],
   );
 
   if (emailListsMapping.length + emailListsOnUser.length === 0) return;
