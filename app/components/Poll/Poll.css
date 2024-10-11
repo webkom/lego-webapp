@@ -15,16 +15,12 @@
 .topBar {
   width: 100%;
   z-index: 2;
+  background-color: var(--lego-red-color);
 }
 
 .pollIcon {
-  display: block;
-  width: 100%;
-  text-align: center;
-  background-color: var(--lego-red-color);
   color: var(--color-absolute-white);
   padding: var(--spacing-sm) 0 var(--spacing-lg);
-  overflow: hidden;
 }
 
 .titleLink {
