@@ -5,11 +5,7 @@ import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReadRegistration } from 'app/store/models/Registration';
-import type {
-  DetailedUser,
-  PhotoConsent,
-  PublicUser,
-} from 'app/store/models/User';
+import type { PhotoConsent, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum EventType {
@@ -80,7 +76,7 @@ export interface CompleteEvent {
   youtubeUrl: string;
   mazemapPoi?: number;
   pinned: boolean;
-  responsibleUsers: DetailedUser[];
+  responsibleUsers: PublicUser[];
   isForeignLanguage: boolean;
   unregistered: EntityId[];
 

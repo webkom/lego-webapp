@@ -13,7 +13,7 @@ import type {
 } from 'app/models';
 import type { CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
-import type { DetailedUser } from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 
 export type ConfigProperties = {
   displayName: string;
@@ -109,7 +109,7 @@ export type EditingEvent = Event & {
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
   authors: Option[];
-  responsibleUsers: DetailedUser[];
+  responsibleUsers: PublicUser[];
   saveToImageGallery: boolean;
 };
 

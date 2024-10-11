@@ -69,6 +69,7 @@ interface User {
   actionGrant?: ActionGrant;
 }
 
+// Used if the user tries to get themselves or has the EDIT permission.
 export type CurrentUser = Pick<
   User,
   | 'id'
@@ -98,30 +99,6 @@ export type CurrentUser = Pick<
   | 'selectedTheme'
   | 'permissionsPerGroup'
   | 'photoConsents'
-  | 'githubUsername'
-  | 'linkedinId'
-  | 'actionGrant'
->;
-
-export type DetailedUser = Pick<
-  User,
-  | 'id'
-  | 'username'
-  | 'firstName'
-  | 'lastName'
-  | 'fullName'
-  | 'gender'
-  | 'email'
-  | 'emailAddress'
-  | 'emailListsEnabled'
-  | 'profilePicture'
-  | 'profilePicturePlaceholder'
-  | 'allergies'
-  | 'isActive'
-  | 'penalties'
-  | 'abakusGroups'
-  | 'pastMemberships'
-  | 'permissionsPerGroup'
   | 'githubUsername'
   | 'linkedinId'
   | 'actionGrant'
@@ -214,7 +191,6 @@ Some user object, unknown serializer
  */
 export type UnknownUser =
   | CurrentUser
-  | DetailedUser
   | PublicUser
   | PublicUserWithAbakusGroups
   | PublicUserWithGroups
