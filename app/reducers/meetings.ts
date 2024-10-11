@@ -7,6 +7,7 @@ import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import { Meeting } from '../actions/ActionTypes';
 import { addReactionCases } from './reactions';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type { RootState } from 'app/store/createRootReducer';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
@@ -188,14 +189,16 @@ export const selectGroupedMeetings = createSelector(
   },
 );
 
-export const selectUpcomingMeetings = (state: RootState) =>
-  selectMeetingsByField('endTime', (endTime, filterTime) =>
+export const selectUpcomingMeetings = createSelector(
+  selectMeetingsByField('endTime', (endTime, filterTime: Dateish) =>
     moment(endTime).isAfter(filterTime),
-  )(state, moment()).sort((a, b) =>
-    moment(a.startTime).diff(moment(b.startTime)),
-  );
+  ),
+  (meetings) =>
+    meetings.sort((a, b) => moment(a.startTime).diff(moment(b.startTime))),
+);
 
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,
-  (upcomingMeetings) => upcomingMeetings[0]?.id as EntityId | undefined,
+  (upcomingMeetings) =>
+    upcomingMeetings.length ? upcomingMeetings[0].id : undefined,
 );
