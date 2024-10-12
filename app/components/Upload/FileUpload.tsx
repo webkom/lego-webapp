@@ -1,18 +1,15 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { UploadIcon } from 'lucide-react';
 import { useState, useRef } from 'react';
+import { uploadFile } from 'app/actions/FileActions';
 import { useAppDispatch } from 'app/store/hooks';
 import styles from './FileUpload.css';
 
-type FileUploadProps = {
-  uploadFile: (arg0: { file: File }) => Promise<{
-    meta: { fileKey: string; fileToken: string };
-  }>;
-  onChange: (arg0: string, arg1: string) => void;
-  className?: string;
+type Props = {
+  onChange: (fileToken: string) => void;
 };
 
-const FileUpload = ({ uploadFile, onChange }: FileUploadProps) => {
+const FileUpload = ({ onChange }: Props) => {
   const [pending, setPending] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -26,17 +23,15 @@ const FileUpload = ({ uploadFile, onChange }: FileUploadProps) => {
     const file = e.target.files?.[0];
     if (file) {
       setPending(true);
-      dispatch(
-        uploadFile({ file })
-          .then(({ meta }) => {
-            setPending(false);
-            onChange(meta.fileKey, meta.fileToken);
-          })
-          .catch((error) => {
-            setPending(false);
-            throw error;
-          }),
-      );
+      dispatch(uploadFile({ file }))
+        .then(({ meta }) => {
+          setPending(false);
+          onChange(meta.fileToken);
+        })
+        .catch((error) => {
+          setPending(false);
+          throw error;
+        });
     }
   };
 
@@ -45,10 +40,12 @@ const FileUpload = ({ uploadFile, onChange }: FileUploadProps) => {
       <Icon
         disabled={pending}
         name="upload"
-        iconNode={<UploadIcon size={20} />}
         onPress={handleClick}
+        iconNode={<UploadIcon />}
+        size={20}
       />
       <input
+        ref={inputRef}
         className={styles.input}
         onChange={handleChange}
         type="file"

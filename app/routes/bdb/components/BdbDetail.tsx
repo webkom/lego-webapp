@@ -67,16 +67,18 @@ type RenderFileProps = {
     semesterStatus: TransformedSemesterStatus,
   ) => Promise<unknown>;
   addFile: (
-    name: string,
-    token: string,
+    fileToken: string,
     type: string,
     semesterStatus: TransformedSemesterStatus,
   ) => Promise<unknown>;
 };
 
-export const RenderFile = (props: RenderFileProps) => {
-  const { semesterStatus, type, removeFile, addFile } = props;
-
+export const RenderFile = ({
+  type,
+  semesterStatus,
+  removeFile,
+  addFile,
+}: RenderFileProps) => {
   const name = semesterStatus[type + 'Name'];
 
   if (semesterStatus[type]) {
@@ -107,11 +109,10 @@ export const RenderFile = (props: RenderFileProps) => {
       </span>
     );
   }
+
   return (
     <FileUpload
-      onChange={(fileName, fileToken) =>
-        addFile(fileName, fileToken, type, semesterStatus)
-      }
+      onChange={(fileToken) => addFile(fileToken, type, semesterStatus)}
     />
   );
 };
