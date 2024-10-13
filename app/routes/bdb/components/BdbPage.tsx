@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import Table from 'app/components/Table';
-import { selectTransformedAdminCompanies } from 'app/reducers/companies';
+import { selectTransformedAdminCompanies, TransformedStudentCompanyContact } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -107,12 +107,17 @@ const BdbPage = () => {
     },
     {
       title: 'Studentkontakt',
-      dataIndex: 'studentContact',
+      dataIndex: 'studentContacts',
       search: true,
       inlineFiltering: true,
+      filterMapping: (studentContacts: TransformedStudentCompanyContact[]) => {
+        if (studentContacts && typeof studentContacts === 'object') {
+          return studentContacts.map(studentContact => studentContact.user.fullName).join(" ");
+         }
+       },
       render: (_, { studentContacts }) =>
         studentContacts && (
-          <Flex column alignItems="center" gap="var(--spacing-sm)">
+          <Flex column gap="var(--spacing-sm)">
             {studentContacts.map((studentContact) => (
               <UserLink user={studentContact.user} />
             ))}
