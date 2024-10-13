@@ -6,6 +6,7 @@ import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { ContentMain } from 'app/components/Content';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
+import UserLink from 'app/components/UserLink';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -142,18 +143,20 @@ const BdbPage = () => {
       dataIndex: 'studentContact',
       search: true,
       inlineFiltering: true,
-      filterMapping: (studentContact: UnknownUser) => {
-        if (studentContact && typeof studentContact === 'object') {
-          return studentContact.fullName;
-        }
-      },
+      render: (_, { studentContacts }) =>
+        studentContacts && (
+          <Flex column alignItems="center" gap="var(--spacing-sm)">
+            {studentContacts.map((studentContact) => (
+              <UserLink user={studentContact.user} />
+            ))}
+          </Flex>
+        ),
     },
     {
       title: 'Notat',
       dataIndex: 'comment',
       centered: false,
       maxWidth: 200,
-      render: (_, company) => company.adminComment,
       sorter: (a, b) =>
         a.adminComment?.localeCompare(b.adminComment || '') || 0,
 
