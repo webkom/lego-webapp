@@ -23,7 +23,10 @@ import {
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
-import type { TransformedSemesterStatus } from 'app/reducers/companies';
+import type {
+  TransformedSemesterStatus,
+  TransformedStudentCompanyContact,
+} from 'app/reducers/companies';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownUser } from 'app/store/models/User';
 
@@ -140,12 +143,19 @@ const BdbPage = () => {
     },
     {
       title: 'Studentkontakt',
-      dataIndex: 'studentContact',
+      dataIndex: 'studentContacts',
       search: true,
       inlineFiltering: true,
+      filterMapping: (studentContacts: TransformedStudentCompanyContact[]) => {
+        if (studentContacts && typeof studentContacts === 'object') {
+          return studentContacts
+            .map((studentContact) => studentContact.user.fullName)
+            .join(' ');
+        }
+      },
       render: (_, { studentContacts }) =>
         studentContacts && (
-          <Flex column alignItems="center" gap="var(--spacing-sm)">
+          <Flex column gap="var(--spacing-sm)">
             {studentContacts.map((studentContact) => (
               <UserLink user={studentContact.user} />
             ))}
