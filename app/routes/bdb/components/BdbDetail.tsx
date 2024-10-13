@@ -96,7 +96,7 @@ export const RenderFile = (props: RenderFileProps) => {
         >
           {({ openConfirmModal }) => (
             <Icon
-              onClick={openConfirmModal}
+              onPress={openConfirmModal}
               iconNode={<Trash2 />}
               size={20}
               danger
@@ -287,7 +287,7 @@ const BdbDetail = () => {
             >
               {({ openConfirmModal }) => (
                 <Icon
-                  onClick={openConfirmModal}
+                  onPress={openConfirmModal}
                   iconNode={<Trash2 />}
                   danger
                   size={20}
@@ -398,7 +398,7 @@ const BdbDetail = () => {
         >
           {({ openConfirmModal }) => (
             <Icon
-              onClick={openConfirmModal}
+              onPress={openConfirmModal}
               iconNode={<Trash2 />}
               danger
               size={20}

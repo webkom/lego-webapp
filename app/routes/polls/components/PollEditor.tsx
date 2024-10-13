@@ -61,7 +61,7 @@ const renderOptions = ({ fields }): ReactNode => (
           >
             {({ openConfirmModal }) => (
               <Tooltip className="deleteOption" content="Fjern">
-                <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
+                <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
               </Tooltip>
             )}
           </ConfirmModal>

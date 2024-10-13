@@ -76,7 +76,7 @@ function CollapsibleDisplayContent({
       {useCollapse && (
         <div className={styles.showMore}>
           <Icon
-            onClick={() => {
+            onPress={() => {
               setIsOpened(!isOpened);
             }}
             name={isOpened ? 'chevron-up' : 'chevron-down'}

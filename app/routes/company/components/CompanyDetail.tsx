@@ -203,7 +203,7 @@ const CompanyDetail = () => {
               <Icon
                 name="chevron-down-outline"
                 size={30}
-                onClick={fetchMoreEvents}
+                onPress={fetchMoreEvents}
               />
             </Flex>
           )}

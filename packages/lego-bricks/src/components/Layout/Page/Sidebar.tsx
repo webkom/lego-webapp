@@ -18,7 +18,7 @@ type Props = {
 export const Sidebar = ({ title, close, className, children }: Props) => (
   <Flex className={cx(styles.sidebar, className)} column>
     {close && (
-      <Icon iconNode={<X />} className={styles.close} onClick={close} />
+      <Icon iconNode={<X />} className={styles.close} onPress={close} />
     )}
     {title && <h2 className={styles.title}>{title}</h2>}
     {children}

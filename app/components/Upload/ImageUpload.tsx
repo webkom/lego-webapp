@@ -65,7 +65,7 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
         src={previewUrl}
       />
       <div className={styles.fileName}>{file.name}</div>
-      <Icon onClick={onRemove} iconNode={<Trash2 />} danger />
+      <Icon onPress={onRemove} iconNode={<Trash2 />} danger />
     </Flex>
   );
 };

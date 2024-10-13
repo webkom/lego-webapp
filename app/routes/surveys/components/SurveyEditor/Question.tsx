@@ -160,7 +160,7 @@ const Question = ({
             closeOnConfirm
           >
             {({ openConfirmModal }) => (
-              <Icon onClick={openConfirmModal} iconNode={<Trash2 />} danger />
+              <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
             )}
           </ConfirmModal>
         </Flex>

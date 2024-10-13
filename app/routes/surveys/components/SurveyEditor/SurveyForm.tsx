@@ -230,7 +230,7 @@ const Questions = ({ fields }: QuestionsProps) => (
     <Icon
       iconNode={<Plus />}
       size={30}
-      onClick={() => {
+      onPress={() => {
         fields.push(initialQuestion);
       }}
       className={styles.addQuestion}

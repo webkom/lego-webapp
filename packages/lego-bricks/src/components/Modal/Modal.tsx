@@ -78,7 +78,7 @@ const Modal = ({
               )}
               <Icon
                 iconNode={<X />}
-                onClick={close}
+                onPress={close}
                 className={styles.closeButton}
                 data-test-id="Modal__closeButton"
               />
