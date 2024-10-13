@@ -1,4 +1,4 @@
-import { Card, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -20,6 +20,7 @@ import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownUser } from 'app/store/models/User';
+import UserLink from 'app/components/UserLink';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
@@ -109,18 +110,20 @@ const BdbPage = () => {
       dataIndex: 'studentContact',
       search: true,
       inlineFiltering: true,
-      filterMapping: (studentContact: UnknownUser) => {
-        if (studentContact && typeof studentContact === 'object') {
-          return studentContact.fullName;
-        }
-      },
+      render: (_, { studentContacts }) =>
+        studentContacts && (
+          <Flex column alignItems="center" gap="var(--spacing-sm)">
+            {studentContacts.map((studentContact) => (
+              <UserLink user={studentContact.user} />
+            ))}
+          </Flex>
+        ),
     },
     {
       title: 'Notat',
       dataIndex: 'comment',
       centered: false,
       maxWidth: 200,
-      render: (_, company) => company.adminComment,
       sorter: (a, b) =>
         a.adminComment?.localeCompare(b.adminComment || '') || 0,
 
