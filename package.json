@@ -128,7 +128,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.25.7",
     "@babel/preset-react": "^7.24.7",
-    "@babel/preset-typescript": "^7.24.7",
+    "@babel/preset-typescript": "^7.25.7",
     "@cfaester/enzyme-adapter-react-18": "^0.8.0",
     "@loadable/babel-plugin": "^5.16.1",
     "@loadable/server": "^5.16.5",
