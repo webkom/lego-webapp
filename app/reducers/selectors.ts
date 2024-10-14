@@ -1,25 +1,22 @@
 import { isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
+import { createCurriedSelector } from 'app/utils/curriedSelector';
 import { createInitialPagination } from 'app/utils/legoAdapter/buildPaginationReducer';
-import type { RootState } from 'app/store/createRootReducer';
 import type { EntityType } from 'app/store/models/entities';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { schema, Schema } from 'normalizr';
 import type { ParsedQs } from 'qs';
 
-export const selectPaginationNext =
-  ({
-    endpoint,
-    query,
-    schema,
-    entity,
-  }: {
-    endpoint: string;
-    query: ParsedQs;
-    schema?: Schema;
-    entity?: EntityType;
-  }) =>
-  (state: RootState) => {
+type SelectPaginationNextArgs = {
+  endpoint: string;
+  query: ParsedQs;
+  schema?: Schema;
+  entity?: EntityType;
+};
+
+export const selectPaginationNext = createCurriedSelector(
+  [(state) => state, (_, args: SelectPaginationNextArgs) => args],
+  (state, { endpoint, query, schema, entity }) => {
     const paginationKey = `${endpoint}${createQueryString(query)}`;
     const schemaKey =
       entity ||
@@ -34,4 +31,5 @@ export const selectPaginationNext =
       }) as Pagination,
       paginationKey,
     };
-  };
+  },
+);
