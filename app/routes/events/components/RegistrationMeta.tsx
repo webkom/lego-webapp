@@ -241,7 +241,7 @@ const PaymentStatus = ({
 };
 
 export const RegistrationMetaSkeleton = () => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-sm)" margin="var(--spacing-sm) 0 0 0">
     <Skeleton array={2} className={styles.sidebarInfo} />
   </Flex>
 );

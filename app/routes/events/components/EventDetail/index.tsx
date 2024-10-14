@@ -152,7 +152,10 @@ const EventDetail = () => {
             event?.coverPlaceholder || event?.company?.logoPlaceholder
           }
           youtubeUrl={event?.youtubeUrl}
-          skeleton={showSkeleton}
+          skeleton={
+            fetching &&
+            !(event?.cover || event?.company?.logo || event?.youtubeUrl)
+          }
         />
       }
       title={
@@ -176,7 +179,7 @@ const EventDetail = () => {
           </div>
         )
       }
-      skeleton={showSkeleton}
+      skeleton={!event}
       dividerColor={color}
     >
       {event && (
@@ -191,22 +194,25 @@ const EventDetail = () => {
 
       <ContentSection>
         <ContentMain>
-          <DisplayContent content={event?.text || ''} skeleton={showSkeleton} />
+          <DisplayContent
+            content={event?.text || ''}
+            skeleton={fetching && !event?.text}
+          />
           <Flex className={styles.tagRow}>
             {event?.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
           </Flex>
         </ContentMain>
 
         <ContentSidebar>
-          <SidebarInfo showSkeleton={showSkeleton} event={event} />
+          <SidebarInfo event={event} />
 
           {event && ['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
             <>
-              {hasRegistrationAccess && (
+              {(fetching || hasRegistrationAccess) && (
                 <AttendeeSection
-                  showSkeleton={showSkeleton}
+                  showSkeleton={fetching}
                   event={event}
                   currentRegistration={currentRegistration}
                   pools={pools as PoolWithRegistrations[]}
