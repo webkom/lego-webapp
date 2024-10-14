@@ -107,7 +107,7 @@ const GroupMembersList = ({
             size={20}
             edit
             disabled={isCurrentUser}
-            onClick={() =>
+            onPress={() =>
               !isCurrentUser &&
               setMembershipsInEditMode((prev) => ({
                 ...prev,
@@ -123,7 +123,7 @@ const GroupMembersList = ({
         >
           {({ openConfirmModal }) => (
             <Icon
-              onClick={openConfirmModal}
+              onPress={openConfirmModal}
               iconNode={<Trash2 />}
               size={20}
               danger

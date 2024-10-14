@@ -143,7 +143,7 @@ const ActiveSemesters = () => {
           <div>{semesterToText({ ...semester, language: 'norwegian' })}</div>
           <Icon
             name="close-circle"
-            onClick={() =>
+            onPress={() =>
               dispatch(editSemester({ ...semester, activeInterestForm: false }))
             }
             className={styles.remove}

@@ -35,7 +35,7 @@ const LatestReadme = ({
               {readmeIfy('readme')}
               {!disabled && (
                 <Icon
-                  onClick={onClick}
+                  onPress={onClick}
                   iconNode={<ChevronRight />}
                   className={rotateClassName}
                 />

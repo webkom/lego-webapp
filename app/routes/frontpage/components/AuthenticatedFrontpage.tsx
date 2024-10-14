@@ -291,11 +291,11 @@ const ShowMoreButton = ({
   return (
     <div className={styles.showMore}>
       {events.length > eventsToShow && (
-        <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+        <Icon onPress={showMore} name="chevron-down-outline" size={30} />
       )}
 
       {events.length < eventsToShow && (
-        <Icon onClick={scrollToTop} name="chevron-up-outline" size={30} />
+        <Icon onPress={scrollToTop} name="chevron-up-outline" size={30} />
       )}
     </div>
   );

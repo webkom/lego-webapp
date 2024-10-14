@@ -378,14 +378,14 @@ const GalleryPictureModal = () => {
           <Flex justifyContent="center" gap="var(--spacing-lg)">
             {hasPrevious && (
               <Icon
-                onClick={previousGalleryPicture}
+                onPress={previousGalleryPicture}
                 name="arrow-back-outline"
                 size={40}
               />
             )}
             {hasNext && (
               <Icon
-                onClick={nextGalleryPicture}
+                onPress={nextGalleryPicture}
                 name="arrow-forward-outline"
                 size={40}
               />

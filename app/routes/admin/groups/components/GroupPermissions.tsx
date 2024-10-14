@@ -99,7 +99,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
                 >
                   {({ openConfirmModal }) => (
                     <Icon
-                      onClick={openConfirmModal}
+                      onPress={openConfirmModal}
                       iconNode={<Trash2 />}
                       danger
                     />

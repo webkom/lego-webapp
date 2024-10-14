@@ -84,7 +84,7 @@ const Comment = ({
                     danger
                     iconNode={<Trash2 />}
                     size={20}
-                    onClick={() =>
+                    onPress={() =>
                       dispatch(deleteComment(comment.id, contentTarget))
                     }
                     data-test-id="delete-comment-button"

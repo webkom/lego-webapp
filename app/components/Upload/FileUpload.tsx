@@ -46,7 +46,7 @@ const FileUpload = ({ uploadFile, onChange }: FileUploadProps) => {
         disabled={pending}
         name="upload"
         iconNode={<UploadIcon size={20} />}
-        onClick={handleClick}
+        onPress={handleClick}
       />
       <input
         className={styles.input}

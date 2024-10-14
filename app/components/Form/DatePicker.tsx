@@ -77,9 +77,9 @@ const DatePicker = ({
           alignItems="center"
           className={styles.header}
         >
-          <Icon onClick={onPrev} name="arrow-back-outline" />
+          <Icon onPress={onPrev} name="arrow-back-outline" />
           <span>{date.format('MMMM YYYY')}</span>
-          <Icon onClick={onNext} name="arrow-forward-outline" />
+          <Icon onPress={onNext} name="arrow-forward-outline" />
         </Flex>
 
         <table className={styles.calendar}>

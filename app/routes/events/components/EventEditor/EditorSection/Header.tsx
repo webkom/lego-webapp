@@ -128,7 +128,7 @@ const Header = ({
                       >
                         {({ openConfirmModal }) => (
                           <Icon
-                            onClick={openConfirmModal}
+                            onPress={openConfirmModal}
                             iconNode={<Trash2 />}
                             danger
                           />

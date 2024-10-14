@@ -36,7 +36,7 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const onClick = () => {
+  const onPress = () => {
     setAnimation(true);
     dispatch(fetchRandomQuote(seenQuotes.current));
     setTimeout(() => setAnimation(false), 1000);
@@ -56,7 +56,7 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
           <Icon
             iconNode={<RefreshCcw />}
             size={21}
-            onClick={onClick}
+            onPress={onPress}
             className={cx(animation && styles.rotateIcon)}
           />
           <Icon to="/quotes/add" iconNode={<Plus />} />

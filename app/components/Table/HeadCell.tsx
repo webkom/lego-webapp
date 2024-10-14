@@ -128,7 +128,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
           <Icon
             iconNode={sortIconNode}
             size={16}
-            onClick={() => onSortInput(dataIndex, sorter)}
+            onPress={() => onSortInput(dataIndex, sorter)}
             className={styles.icon}
           />
         )}

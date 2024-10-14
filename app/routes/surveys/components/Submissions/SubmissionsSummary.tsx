@@ -49,7 +49,7 @@ const SubmissionsSummary = () => {
                 }
               >
                 <Icon
-                  onClick={() =>
+                  onPress={() =>
                     dispatch(
                       answer.hideFromPublic
                         ? showAnswer(survey.id, submission.id, answer.id)

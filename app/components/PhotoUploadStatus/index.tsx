@@ -40,7 +40,7 @@ const UploadStatusCard = ({
     >
       <Icon
         className={styles.close}
-        onClick={hideUploadStatus}
+        onPress={hideUploadStatus}
         iconNode={<X />}
       />
 

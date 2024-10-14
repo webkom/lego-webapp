@@ -42,7 +42,7 @@ const Dropdown = ({
     >
       {triggerComponent ||
         (iconName ? (
-          <Icon name={iconName} onClick={show ? () => {} : toggle} />
+          <Icon name={iconName} onPress={show ? () => {} : toggle} />
         ) : null)}
 
       <Overlay

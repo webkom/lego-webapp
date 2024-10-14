@@ -21,7 +21,7 @@ export const InterestedButton = ({ event }: InterestedButtonProps) => {
 
   const following = event.following;
 
-  const onClick = following
+  const onPress = following
     ? () => dispatch(unfollow(following, event.id))
     : () => dispatch(follow(currentUser.id, event.id));
 
@@ -31,7 +31,7 @@ export const InterestedButton = ({ event }: InterestedButtonProps) => {
         iconNode={
           <Star fill={following ? 'var(--color-orange-6)' : 'transparent'} />
         }
-        onClick={onClick}
+        onPress={onPress}
         className={styles.star}
       />
     </Tooltip>

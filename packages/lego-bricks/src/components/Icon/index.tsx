@@ -1,14 +1,10 @@
 import cx from 'classnames';
 import { cloneElement } from 'react';
-import { Link } from 'react-aria-components';
+import { Button, Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
-import type {
-  ComponentProps,
-  MouseEventHandler,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { PressEvent } from '@react-types/shared/src/events';
+import type { ComponentProps, ReactElement, ReactNode } from 'react';
 
 type Props = {
   name?: string /** name from ionicons: https://ionic.io/ionicons */;
@@ -17,7 +13,7 @@ type Props = {
   size?: number;
   strokeWidth?: number;
   to?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onPress?: (e: PressEvent) => void;
   danger?: boolean; // name: trash
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
@@ -32,7 +28,7 @@ export const Icon = ({
   size = 24,
   strokeWidth = 1.75,
   to,
-  onClick,
+  onPress,
   danger = false,
   success = false,
   edit = false,
@@ -55,7 +51,9 @@ export const Icon = ({
         absoluteStrokeWidth: true,
       })}
     </>
-  ) : null;
+  ) : (
+    <ion-icon name={name}></ion-icon>
+  );
 
   return (
     <Flex
@@ -68,16 +66,14 @@ export const Icon = ({
     >
       {to ? (
         <Link href={to} className={classNames}>
-          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
+          {iconElement}
         </Link>
-      ) : onClick ? (
-        <button type="button" onClick={onClick} className={classNames}>
-          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
-        </button>
-      ) : iconElement ? (
-        iconElement
+      ) : onPress ? (
+        <Button onPress={onPress} className={classNames}>
+          {iconElement}
+        </Button>
       ) : (
-        <ion-icon name={name}></ion-icon>
+        iconElement
       )}
     </Flex>
   );

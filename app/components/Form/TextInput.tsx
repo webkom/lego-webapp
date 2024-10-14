@@ -80,7 +80,7 @@ const TextInput = ({
       />
       {isPasswordField && (
         <Icon
-          onClick={togglePasswordVisibility}
+          onPress={togglePasswordVisibility}
           name={showPassword ? 'eye-off' : 'eye'}
           size={16}
           className={styles.togglePasswordVisibility}

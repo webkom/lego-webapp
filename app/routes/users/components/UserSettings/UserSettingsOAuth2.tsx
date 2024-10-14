@@ -100,7 +100,7 @@ const UserSettingsOAuth2 = () => {
                 size={20}
                 success={copied}
                 className={styles.copyIcon}
-                onClick={() => handleCopyButtonClick(application.clientId)}
+                onPress={() => handleCopyButtonClick(application.clientId)}
               />
             </Tooltip>
           </Flex>
@@ -145,7 +145,7 @@ const UserSettingsOAuth2 = () => {
             <Tooltip content="Fjern">
               <Flex justifyContent="center">
                 <Icon
-                  onClick={openConfirmModal}
+                  onPress={openConfirmModal}
                   iconNode={<Trash2 />}
                   size={19}
                   danger

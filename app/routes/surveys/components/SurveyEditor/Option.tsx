@@ -14,7 +14,7 @@ type Props = {
 };
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>
-  remove ? <Icon iconNode={<X />} onClick={remove} /> : null;
+  remove ? <Icon iconNode={<X />} onPress={remove} /> : null;
 
 const Option = (props: Props) => {
   return props.questionType === SurveyQuestionType.SingleChoice ? (

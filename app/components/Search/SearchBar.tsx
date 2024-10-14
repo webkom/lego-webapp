@@ -50,7 +50,7 @@ const SearchBar = ({
       ))}
 
       <Icon
-        onClick={onCloseSearch}
+        onPress={onCloseSearch}
         iconNode={<X />}
         size={30}
         data-test-id="closeButton"
