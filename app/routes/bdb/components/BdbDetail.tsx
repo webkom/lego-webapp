@@ -32,7 +32,7 @@ import {
 } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import JoblistingItem from 'app/components/JoblistingItem';
-import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
+import joblistingStyles from 'app/components/JoblistingItem/JoblistingItem.css';
 import Table from 'app/components/Table';
 import TextWithIcon from 'app/components/TextWithIcon';
 import Time from 'app/components/Time';
@@ -48,6 +48,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserById } from 'app/reducers/users';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
 import { semesterToHumanReadable } from 'app/routes/bdb/utils';
+import companyStyles from 'app/routes/company/components/Company.css';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -238,9 +239,7 @@ const BdbDetail = () => {
       link: false,
     },
     {
-      text: studentContact?.fullName || (
-        <span className="secondaryFontColor">Ingen studentkontakt</span>
-      ),
+      text: studentContact?.fullName,
       icon: 'person-outline',
       link: studentContact
         ? `abakus.no/users/${studentContact.username}`
@@ -498,7 +497,7 @@ const BdbDetail = () => {
           <div>
             <h3>Bedriftens jobbannonser</h3>
             {fetchingJoblistings && !joblistings.length ? (
-              <Skeleton className={sharedStyles.joblistingItem} />
+              <Skeleton className={joblistingStyles.joblistingItem} />
             ) : joblistings.length > 0 ? (
               <Flex column gap="var(--spacing-sm)">
                 {joblistings.map((joblisting) => (
@@ -518,13 +517,14 @@ const BdbDetail = () => {
             />
           )}
         </ContentMain>
+
         <ContentSidebar>
           {showSkeleton
             ? companyInfo.map((info, index) => (
                 <TextWithIcon
                   key={index}
                   iconName={info.icon}
-                  content={<Skeleton className={styles.companyInfo} />}
+                  content={<Skeleton className={companyStyles.companyInfo} />}
                 />
               ))
             : companyInfo.some((info) => info.text) &&

@@ -49,11 +49,6 @@
   color: var(--color-gray-7);
 }
 
-.companyInfo {
-  min-width: 180px;
-  min-height: 21px;
-}
-
 .mainContent {
   gap: var(--spacing-md);
 }

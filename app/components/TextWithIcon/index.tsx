@@ -50,7 +50,7 @@ const TextWithIcon = ({
       ) : (
         <>{icon}</>
       )}
-      {iconRight ? <></> : <>{content}</>}
+      <div>{iconRight ? <></> : <>{content}</>}</div>
     </Flex>
   );
 };
