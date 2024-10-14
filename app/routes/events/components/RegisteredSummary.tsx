@@ -137,7 +137,7 @@ const RegisteredSentence = ({
 const RegisteredSummary = ({ skeleton, ...props }: RegisteredSummaryProps) => {
   return (
     <Flex className={styles.summary}>
-      {skeleton && !props.registrations ? (
+      {skeleton && !props.registrations?.length ? (
         <Skeleton width="80%" />
       ) : (
         <RegisteredSentence {...props} />

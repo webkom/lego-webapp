@@ -14,12 +14,11 @@ import styles from 'app/routes/events/components/EventDetail/EventDetail.css';
 import type { DetailedEvent } from 'app/store/models/Event';
 
 interface Props {
-  showSkeleton?: boolean;
   event?: DetailedEvent;
 }
 
-export const SidebarInfo = ({ showSkeleton, event }: Props) => {
-  return showSkeleton || !event ? (
+export const SidebarInfo = ({ event }: Props) => {
+  return !event ? (
     <Flex column gap="var(--spacing-sm)">
       <Skeleton array={3} className={styles.sidebarInfo} />
     </Flex>
