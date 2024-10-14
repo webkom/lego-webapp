@@ -3,7 +3,7 @@
 .eventItem {
   border-left: 4px solid transparent;
   padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
-  height: 60px;
+  min-height: 60px; /* Needed for the skeleton components */
   border-top-right-radius: var(--border-radius-md);
   border-bottom-right-radius: var(--border-radius-md);
   transition: border-color var(--easing-fast);
@@ -25,16 +25,4 @@
 
 .filler {
   margin-top: var(--spacing-xl);
-}
-
-.wrapper {
-  min-height: 150px;
-
-  @media (--mobile-device) {
-    min-height: 0;
-  }
-
-  > div:last-of-type > .eventItem {
-    margin-bottom: 0;
-  }
 }

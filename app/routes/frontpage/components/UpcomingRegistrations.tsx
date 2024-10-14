@@ -99,7 +99,7 @@ const UpcomingRegistrations = () => {
   );
 
   return (
-    <Flex column gap="var(--spacing-sm)" className={styles.wrapper}>
+    <Flex column gap="var(--spacing-sm)">
       {fetching && !events.length ? (
         <Skeleton
           array={UPCOMING_REGISTRATIONS_LIMIT}
