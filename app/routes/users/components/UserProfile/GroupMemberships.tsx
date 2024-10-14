@@ -24,7 +24,7 @@ export const GroupMemberships = ({
 }) => {
   const groupEntities = useAppSelector(selectGroupEntities);
 
-  const { membershipsAsBadges = [], membershipsAsPills } = groupBy(
+  const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
     memberships.map((membership) => ({
       ...membership,
       abakusGroup: groupEntities[membership.abakusGroup] as PublicGroup,
