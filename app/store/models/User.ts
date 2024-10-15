@@ -20,6 +20,21 @@ export interface PhotoConsent {
   updatedAt: Dateish;
 }
 
+export interface Achievement {
+  id: number;
+  identifier: string;
+  hidden: boolean;
+  createdAt: Dateish;
+  level: number;
+  percentage: number;
+}
+
+export interface AchievementData {
+  name: string;
+  description: string;
+  rarity: number;
+}
+
 export const Gender = {
   male: 'Mann',
   female: 'Kvinne',
@@ -67,6 +82,7 @@ interface User {
   githubUsername?: string;
   linkedinId?: string;
   actionGrant?: ActionGrant;
+  achievements: Achievement[];
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
@@ -102,6 +118,7 @@ export type CurrentUser = Pick<
   | 'githubUsername'
   | 'linkedinId'
   | 'actionGrant'
+  | 'achievements'
 >;
 
 export type PublicUser = Pick<
@@ -117,6 +134,7 @@ export type PublicUser = Pick<
   | 'internalEmailAddress'
   | 'githubUsername'
   | 'linkedinId'
+  | 'achievements'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<
