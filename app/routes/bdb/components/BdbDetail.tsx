@@ -330,6 +330,7 @@ const BdbDetail = () => {
     {
       title: 'Beskrivelse',
       dataIndex: 'description',
+      centered: false,
     },
     {
       title: '',
@@ -439,7 +440,7 @@ const BdbDetail = () => {
       <Helmet title={title} />
 
       <ContentSection>
-        <ContentMain className={styles.mainContent}>
+        <ContentMain>
           {company.description && (
             <CollapsibleDisplayContent
               content={company.description}

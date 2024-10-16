@@ -198,9 +198,13 @@ const EventDetail = () => {
             content={event?.text || ''}
             skeleton={fetching && !event?.text}
           />
-          <Flex className={styles.tagRow}>
-            {event?.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
-          </Flex>
+          {event?.tags && event.tags.length > 0 && (
+            <Flex className={styles.tagRow}>
+              {event.tags.map((tag, i) => (
+                <Tag key={i} tag={tag} />
+              ))}
+            </Flex>
+          )}
         </ContentMain>
 
         <ContentSidebar>

@@ -30,11 +30,13 @@ const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
         uploadFile={uploadFile}
         required
       />
-      <Flex className={styles.tagRow}>
-        {(values.tags || []).map((tag, i) => (
-          <Tag key={i} tag={tag} />
-        ))}
-      </Flex>
+      {values.tags?.length > 0 && (
+        <Flex className={styles.tagRow}>
+          {values.tags.map((tag, i) => (
+            <Tag key={i} tag={tag} />
+          ))}
+        </Flex>
+      )}
     </>
   );
 };

@@ -168,58 +168,64 @@ const CompanyDetail = () => {
             skeleton={showSkeleton}
           />
 
-          <h3>Kommende arrangementer</h3>
-          <EventListCompact
-            events={upcomingEvents}
-            noEventsMessage="Ingen kommende arrangementer"
-            eventStyle="extra-compact"
-            loading={showSkeleton}
-            extraCompactSkeletonLimit={1}
-          />
-          {oldEvents.length > 0 && (
-            <Button
-              onPress={() => setViewOldEvents(!viewOldEvents)}
-              className={styles.toggleEventsView}
-            >
-              {viewOldEvents
-                ? 'Skjul tidligere arrangementer'
-                : 'Vis tidligere arrangementer'}
-            </Button>
-          )}
+          <div>
+            <h3>Kommende arrangementer</h3>
+            <EventListCompact
+              events={upcomingEvents}
+              noEventsMessage="Ingen kommende arrangementer"
+              eventStyle="extra-compact"
+              loading={showSkeleton}
+              extraCompactSkeletonLimit={1}
+            />
+          </div>
 
-          {viewOldEvents && (
-            <>
-              <h3>Tidligere arrangementer</h3>
-              <EventListCompact
-                events={oldEvents}
-                noEventsMessage="Ingen tidligere arrangementer"
-                eventStyle="extra-compact"
-                loading={fetchingEvents}
-              />
-            </>
-          )}
-          {viewOldEvents && showFetchMoreEvents && (
-            <Flex justifyContent="center">
-              <Icon
-                name="chevron-down-outline"
-                size={30}
-                onPress={fetchMoreEvents}
-              />
-            </Flex>
-          )}
+          <div>
+            {oldEvents.length > 0 && (
+              <Button
+                onPress={() => setViewOldEvents(!viewOldEvents)}
+                className={styles.toggleEventsView}
+              >
+                {viewOldEvents
+                  ? 'Skjul tidligere arrangementer'
+                  : 'Vis tidligere arrangementer'}
+              </Button>
+            )}
+            {viewOldEvents && (
+              <>
+                <h3>Tidligere arrangementer</h3>
+                <EventListCompact
+                  events={oldEvents}
+                  noEventsMessage="Ingen tidligere arrangementer"
+                  eventStyle="extra-compact"
+                  loading={fetchingEvents}
+                />
+              </>
+            )}
+            {viewOldEvents && showFetchMoreEvents && (
+              <Flex justifyContent="center">
+                <Icon
+                  name="chevron-down-outline"
+                  size={30}
+                  onPress={fetchMoreEvents}
+                />
+              </Flex>
+            )}
+          </div>
 
-          <h3>Jobbannonser</h3>
-          {fetchingJoblistings && !joblistings.length ? (
-            <Skeleton className={sharedStyles.joblistingItem} />
-          ) : joblistings.length > 0 ? (
-            <Flex column gap="var(--spacing-sm)">
-              {joblistings.map((joblisting) => (
-                <JoblistingItem key={joblisting.id} joblisting={joblisting} />
-              ))}
-            </Flex>
-          ) : (
-            <EmptyState body="Ingen tilgjengelige jobbannonser" />
-          )}
+          <div>
+            <h3>Jobbannonser</h3>
+            {fetchingJoblistings && !joblistings.length ? (
+              <Skeleton className={sharedStyles.joblistingItem} />
+            ) : joblistings.length > 0 ? (
+              <Flex column gap="var(--spacing-sm)">
+                {joblistings.map((joblisting) => (
+                  <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+                ))}
+              </Flex>
+            ) : (
+              <EmptyState body="Ingen tilgjengelige jobbannonser" />
+            )}
+          </div>
         </ContentMain>
 
         <ContentSidebar>
