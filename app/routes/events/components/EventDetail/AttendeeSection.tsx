@@ -10,6 +10,7 @@ import RegistrationMeta, {
 } from 'app/routes/events/components/RegistrationMeta';
 import { getEventSemesterFromStartTime } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
+import styles from './EventDetail.css';
 import type {
   PoolWithRegistrations,
   PoolRegistrationWithUser,
@@ -67,22 +68,24 @@ export const AttendeeSection = ({
         skeleton={fetching && registrations.length === 0}
       />
 
-      {loggedIn &&
-        (showSkeleton || !event ? (
-          <RegistrationMetaSkeleton />
-        ) : (
-          <RegistrationMeta
-            useConsent={event.useConsent}
-            hasOpened={moment(event.activationTime).isBefore(currentMoment)}
-            photoConsents={event.photoConsents}
-            eventSemester={getEventSemesterFromStartTime(event.startTime)}
-            hasEnded={moment(event.endTime).isBefore(currentMoment)}
-            registration={currentRegistration}
-            isPriced={event.isPriced}
-            waitingListPosition={waitingListPosition}
-            skeleton={showSkeleton}
-          />
-        ))}
+      <div className={styles.registrationMeta}>
+        {loggedIn &&
+          (showSkeleton || !event ? (
+            <RegistrationMetaSkeleton />
+          ) : (
+            <RegistrationMeta
+              useConsent={event.useConsent}
+              hasOpened={moment(event.activationTime).isBefore(currentMoment)}
+              photoConsents={event.photoConsents}
+              eventSemester={getEventSemesterFromStartTime(event.startTime)}
+              hasEnded={moment(event.endTime).isBefore(currentMoment)}
+              registration={currentRegistration}
+              isPriced={event.isPriced}
+              waitingListPosition={waitingListPosition}
+              skeleton={showSkeleton}
+            />
+          ))}
+      </div>
     </Flex>
   );
 };

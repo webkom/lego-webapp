@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { useField } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
@@ -33,13 +34,15 @@ const SurveySubmissionForm = ({ survey, initialValues, onSubmit }: Props) => {
     >
       {({ handleSubmit }) => (
         <form onSubmit={handleSubmit}>
-          <FieldArray name="answers">
-            {(props) => (
-              <AnswerFields {...props} questions={survey.questions} />
-            )}
-          </FieldArray>
+          <Flex column gap="var(--spacing-md)">
+            <FieldArray name="answers">
+              {(props) => (
+                <AnswerFields {...props} questions={survey.questions} />
+              )}
+            </FieldArray>
 
-          <SubmitButton>Send svar</SubmitButton>
+            <SubmitButton>Send svar</SubmitButton>
+          </Flex>
         </form>
       )}
     </LegoFinalForm>

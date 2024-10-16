@@ -48,7 +48,6 @@ export const Icon = ({
       {cloneElement(iconNode as ReactElement, {
         size,
         strokeWidth,
-        absoluteStrokeWidth: true,
       })}
     </>
   ) : (

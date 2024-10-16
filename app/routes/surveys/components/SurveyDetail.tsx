@@ -1,9 +1,4 @@
-import {
-  LinkButton,
-  LoadingIndicator,
-  Page,
-  PageCover,
-} from '@webkom/lego-bricks';
+import { LinkButton, LoadingPage, Page, PageCover } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ContentSection, ContentMain } from 'app/components/Content';
@@ -29,8 +24,8 @@ const SurveyDetailPage = () => {
 
   const navigate = useNavigate();
 
-  if (fetching || !event || !actionGrant) {
-    return <LoadingIndicator loading />;
+  if (!event || !actionGrant) {
+    return <LoadingPage loading={fetching} />;
   }
 
   if (!actionGrant?.includes('edit')) {
@@ -67,7 +62,7 @@ const SurveyDetailPage = () => {
               {displayNameForEventType(survey.templateType)}
             </h2>
           ) : (
-            <div>
+            <>
               <div className={styles.surveyTime}>
                 Spørreundersøkelse for{' '}
                 <Link to={`/events/${event.id}`}>{event.title}</Link>
@@ -77,15 +72,10 @@ const SurveyDetailPage = () => {
                 Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
               </div>
 
-              <LinkButton
-                href={`/surveys/${survey.id}/answer`}
-                style={{
-                  marginTop: '30px',
-                }}
-              >
+              <LinkButton href={`/surveys/${survey.id}/answer`}>
                 Svar på undersøkelsen
               </LinkButton>
-            </div>
+            </>
           )}
           <StaticSubmission survey={survey} />
         </ContentMain>

@@ -20,7 +20,7 @@
 }
 
 .tagRow {
-  margin-top: 16px;
+  margin-top: var(--spacing-md);
 }
 
 .sidebarInfo {
@@ -28,7 +28,7 @@
 }
 
 .paymentInfo {
-  margin-top: 10px;
+  margin-top: var(--spacing-sm);
 }
 
 .line {
@@ -48,13 +48,17 @@
 }
 
 .mapButton {
-  gap: 4px;
+  gap: var(--spacing-xs);
   font-size: var(--font-size-sm);
 }
 
 .mazemapImg {
   width: 30px;
-  margin-left: -4px;
+  margin-left: calc(-1 * var(--spacing-xs));
+}
+
+.registrationMeta {
+  margin-top: var(--spacing-sm);
 }
 
 .card {

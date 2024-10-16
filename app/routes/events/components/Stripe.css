@@ -19,14 +19,14 @@
 .formSeparator {
   display: flex;
   justify-content: center;
-  margin: 10px 0;
+  margin: var(--spacing-sm) 0;
 }
 
 .stripeElement {
   display: block;
-  margin: 10px 0 20px;
+  margin: var(--spacing-sm) 0 var(--spacing-md);
   max-width: 500px;
-  padding: 10px 14px;
+  padding: var(--spacing-sm) var(--spacing-md);
   font-size: var(--font-size-md);
   font-family: 'Source Code Pro', monospace;
   border: 1.5px solid var(--border-gray);
@@ -37,7 +37,7 @@
 .error {
   background: var(--danger-color);
   color: var(--color-absolute-white);
-  padding: 5px 10px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   margin-bottom: var(--spacing-md);
   border-radius: var(--border-radius-sm);
 }
@@ -46,8 +46,8 @@
   background: var(--success-color);
   color: var(--color-absolute-white);
   text-align: center;
-  padding: 5px 10px;
-  margin-top: 3px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-top: var(--spacing-xs);
   border-radius: var(--border-radius-sm);
   transition: background var(--easing-slow);
 }
