@@ -111,6 +111,13 @@ export const Joblistings = {
   DELETE: generateStatuses('Joblistings.DELETE') as AAT,
 };
 
+export const LendableObjects = {
+  FETCH: generateStatuses('LendableObject.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('LendableObject.CREATE') as AAT,
+  EDIT: generateStatuses('LendableObject.EDIT') as AAT,
+  DELETE: generateStatuses('LendableObject.DELETE') as AAT,
+};
+
 /**
  *
  */
