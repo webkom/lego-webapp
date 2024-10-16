@@ -19,7 +19,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.BEDEX]: {
     displayName: 'Bedex',
     color: colorForEventType(EventType.ALTERNATIVE_PRESENTATION),
-    textColor: '#000',
+    textColor: '#fff',
   },
   [NonEventContactStatus.INTERESTED]: {
     displayName: 'Interessert',
@@ -39,7 +39,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.NOT_CONTACTED]: {
     displayName: 'Ikke kontaktet',
     color: 'var(--additive-background)',
-    textColor: '#000',
+    textColor: 'var(--additive-text)',
   },
 };
 
