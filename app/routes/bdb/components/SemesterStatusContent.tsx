@@ -15,6 +15,7 @@ import {
   getStatusDisplayName,
   contactStatuses,
   getStatusTextColor,
+  NonEventContactStatusConfig,
 } from '../utils';
 import type { CSSProperties } from 'react';
 
@@ -27,20 +28,27 @@ type Props = {
 const SemesterStatusContent = ({ contactedStatus, editFunction }: Props) => {
   const [displayDropdown, setDisplayDropdown] = useState(false);
 
+  const notContactedStatus = NonEventContactStatus.NOT_CONTACTED;
   const statusesToRender = (
     <Tags>
-      {contactedStatus.length > 0
-        ? sortStatusesByProminence(contactedStatus)
-            .slice()
-            .map((status) => (
-              <Tag
-                key={status}
-                tag={getStatusDisplayName(status)}
-                textColor={getStatusTextColor(status)}
-                backgroundColor={getStatusColor(status)}
-              />
-            ))
-        : getStatusDisplayName()}
+      {contactedStatus.length > 0 ? (
+        sortStatusesByProminence(contactedStatus)
+          .slice()
+          .map((status) => (
+            <Tag
+              key={status}
+              tag={getStatusDisplayName(status)}
+              textColor={getStatusTextColor(status)}
+              backgroundColor={getStatusColor(status)}
+            />
+          ))
+      ) : (
+        <Tag
+          tag={getStatusDisplayName(notContactedStatus)}
+          textColor={getStatusTextColor(notContactedStatus)}
+          backgroundColor={getStatusColor(notContactedStatus)}
+        />
+      )}
     </Tags>
   );
 
@@ -66,6 +74,7 @@ const SemesterStatusContent = ({ contactedStatus, editFunction }: Props) => {
                 <button
                   onClick={() => editFunction(status)}
                   style={{
+                    color: active ? getStatusTextColor(status) : '',
                     backgroundColor: active ? getStatusColor(status) : '',
                   }}
                 >
