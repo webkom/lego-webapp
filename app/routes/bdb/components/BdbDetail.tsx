@@ -46,7 +46,7 @@ import {
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserById } from 'app/reducers/users';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
-import { semesterToHumanReadable } from 'app/routes/bdb/utils';
+import { GroupedStudentContacts, groupStudentContacts, semesterToHumanReadable } from 'app/routes/bdb/utils';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -55,8 +55,11 @@ import styles from './bdb.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
-import type { CompanyContact } from 'app/store/models/Company';
+import type { CompanyContact, StudentCompanyContact } from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
+import UserLink from 'app/components/UserLink';
+import { useMemo } from 'react';
+import { PublicUser } from 'app/store/models/User';
 
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;
@@ -137,11 +140,7 @@ const BdbDetail = () => {
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
   );
-  const studentContact = useAppSelector((state) =>
-    company?.studentContact !== null
-      ? selectUserById(state, company?.studentContact as EntityId | undefined)
-      : undefined,
-  );
+
   const { pagination: eventsPagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/events/',
@@ -175,6 +174,8 @@ const BdbDetail = () => {
       ]),
     [companyId],
   );
+
+  const groupedStudentContacts = useMemo(() => groupStudentContacts(company?.studentContacts ?? []), [company]);
 
   const navigate = useNavigate();
   if (!company || !('semesterStatuses' in company)) {
@@ -235,15 +236,21 @@ const BdbDetail = () => {
       icon: 'mail-outline',
       link: false,
     },
+  ];
+
+  const studentContactColumns: ColumnProps<GroupedStudentContacts>[] = [
     {
-      text: studentContact?.fullName || (
-        <span className="secondaryFontColor">Ingen studentkontakt</span>
-      ),
-      icon: 'person-outline',
-      link: studentContact
-        ? `abakus.no/users/${studentContact.username}`
-        : false,
+      title: 'Semester',
+      dataIndex: 'semester',
+      render: (_, studentContacts: GroupedStudentContacts) => semesterToHumanReadable(studentContacts.semester.semester, studentContacts.semester.year),
     },
+    {
+      title: 'Studentkontakter',
+      dataIndex: 'studentContacts',
+      render: (_, studentContacts: GroupedStudentContacts) =>
+        <Flex column gap="var(--spacing-sm)">{studentContacts.users.map(user => (<UserLink user={user}/>))}</Flex>,
+    }
+
   ];
 
   const contactsColumns: ColumnProps<CompanyContact>[] = [
@@ -347,7 +354,7 @@ const BdbDetail = () => {
       title: 'Semester',
       dataIndex: 'semester',
       render: (_, semesterStatus: TransformedSemesterStatus) =>
-        semesterToHumanReadable(semesterStatus),
+        semesterToHumanReadable(semesterStatus.semester, semesterStatus.year),
     },
     {
       title: 'Status',
@@ -389,7 +396,7 @@ const BdbDetail = () => {
         <ConfirmModal
           title="Slett semesterstatus"
           message={`Er du sikker på at du vil slette semesterstatusen for ${semesterToHumanReadable(
-            semesterStatus,
+            semesterStatus.semester, semesterStatus.year
           )}? Alle filer for dette semesteret vil bli slettet.`}
           onConfirm={() =>
             dispatch(deleteSemesterStatus(company.id, semesterStatus.id))
@@ -438,6 +445,26 @@ const BdbDetail = () => {
               skeleton={showSkeleton}
             />
           )}
+
+
+          <div>
+            <Flex justifyContent="space-between" alignItems="center">
+              <h3>Studentkontakter</h3>
+              <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
+                Legg til bedriftskontakt
+              </LinkButton>
+            </Flex>
+            {company.companyContacts?.length > 0 ? (
+              <Table
+                columns={studentContactColumns}
+                data={groupedStudentContacts}
+                hasMore={false}
+                loading={showSkeleton}
+              />
+            ) : (
+              <EmptyState body="Ingen bedriftskontakter registrert" />
+            )}
+          </div>
 
           <div>
             <Flex justifyContent="space-between" alignItems="center">

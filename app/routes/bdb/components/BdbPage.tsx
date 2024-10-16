@@ -22,7 +22,6 @@ import {
 import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import type { UnknownUser } from 'app/store/models/User';
 import UserLink from 'app/components/UserLink';
 
 const companiesDefaultQuery = {
@@ -109,7 +108,7 @@ const BdbPage = () => {
       ),
     },
     {
-      title: 'Studentkontakt',
+      title: 'Studentkontakter',
       dataIndex: 'studentContacts',
       search: true,
       inlineFiltering: true,
