@@ -55,60 +55,62 @@ const AdminSideBar = ({
   return (
     canEdit && (
       <ContentSidebar>
-        <h3>Admin</h3>
+        <div>
+          <h3>Admin</h3>
 
-        <ButtonGroup vertical>
-          <LinkButton href="/surveys/add">
-            <Icon iconNode={<Plus />} size={19} />
-            Ny undersøkelse
-          </LinkButton>
+          <ButtonGroup vertical>
+            <LinkButton href="/surveys/add">
+              <Icon iconNode={<Plus />} size={19} />
+              Ny undersøkelse
+            </LinkButton>
 
-          <LinkButton href={`/surveys/${surveyId}/edit`}>
-            <Icon iconNode={<Pencil />} size={19} />
-            Rediger
-          </LinkButton>
+            <LinkButton href={`/surveys/${surveyId}/edit`}>
+              <Icon iconNode={<Pencil />} size={19} />
+              Rediger
+            </LinkButton>
 
-          {actionGrant &&
-            actionGrant.includes('csv') &&
-            exportSurvey &&
-            (generatedCSV ? (
-              <LinkButton
-                success
-                href={generatedCSV.url}
-                download={generatedCSV.filename}
-              >
-                <Icon iconNode={<FileDown />} size={19} />
-                Last ned CSV
-              </LinkButton>
-            ) : (
-              <Button
-                onPress={async () => setGeneratedCSV(await exportSurvey())}
-              >
-                <Icon iconNode={<FileUp />} size={19} />
-                Eksporter til CSV
+            {actionGrant &&
+              actionGrant.includes('csv') &&
+              exportSurvey &&
+              (generatedCSV ? (
+                <LinkButton
+                  success
+                  href={generatedCSV.url}
+                  download={generatedCSV.filename}
+                >
+                  <Icon iconNode={<FileDown />} size={19} />
+                  Last ned CSV
+                </LinkButton>
+              ) : (
+                <Button
+                  onPress={async () => setGeneratedCSV(await exportSurvey())}
+                >
+                  <Icon iconNode={<FileUp />} size={19} />
+                  Eksporter til CSV
+                </Button>
+              ))}
+
+            {actionGrant && actionGrant.includes('edit') && (
+              <CheckBox
+                id="shareSurvey"
+                label="Del spørreundersøkelsen"
+                onChange={() =>
+                  token
+                    ? dispatch(hideSurvey(surveyId))
+                    : dispatch(shareSurvey(surveyId))
+                }
+                checked={!!token}
+              />
+            )}
+
+            {token && (
+              <Button onPress={handleCopyButtonClick} success={copied}>
+                <Icon iconNode={copied ? <Check /> : <Copy />} size={19} />
+                {copied ? 'Kopiert!' : 'Kopier delbar link'}
               </Button>
-            ))}
-        </ButtonGroup>
-
-        {actionGrant && actionGrant.includes('edit') && (
-          <CheckBox
-            id="shareSurvey"
-            label="Del spørreundersøkelsen"
-            onChange={() =>
-              token
-                ? dispatch(hideSurvey(surveyId))
-                : dispatch(shareSurvey(surveyId))
-            }
-            checked={!!token}
-          />
-        )}
-
-        {token && (
-          <Button onPress={handleCopyButtonClick} success={copied}>
-            <Icon iconNode={copied ? <Check /> : <Copy />} size={19} />
-            {copied ? 'Kopiert!' : 'Kopier delbar link'}
-          </Button>
-        )}
+            )}
+          </ButtonGroup>
+        </div>
       </ContentSidebar>
     )
   );

@@ -13,11 +13,11 @@ const AlreadyAnswered = ({ survey, submission }: Props) => (
     title={survey.title}
     back={{ href: '/', label: 'Tilbake til forsiden' }}
   >
-    <Card severity="info">
-      <Card.Header>Du har svart på denne undersøkelsen. Takk! </Card.Header>
+    <Card severity="success">
+      <Card.Header>Du har svart på denne undersøkelsen. Takk!</Card.Header>
     </Card>
 
-    <h2>Du svarte følgende: </h2>
+    <h2>Du svarte følgende</h2>
     <StaticSubmission survey={survey} submission={submission} />
   </Page>
 );
