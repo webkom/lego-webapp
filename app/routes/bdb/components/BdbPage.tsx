@@ -142,7 +142,7 @@ const BdbPage = () => {
       ),
     },
     {
-      title: 'Studentkontakt',
+      title: 'Studentkontakter',
       dataIndex: 'studentContacts',
       search: true,
       inlineFiltering: true,

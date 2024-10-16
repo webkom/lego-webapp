@@ -27,14 +27,17 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectCompanyById } from 'app/reducers/companies';
-import { selectUserById } from 'app/reducers/users';
+import { selectUserById, selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
 import styles from './bdb.module.css';
-import type { AdminDetailCompany } from 'app/store/models/Company';
+import type {
+  AdminDetailCompany,
+  StudentCompanyContact,
+} from 'app/store/models/Company';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const validate = createValidator({
@@ -61,9 +64,14 @@ const CompanyEditor = () => {
   const company = useAppSelector((state) =>
     selectCompanyById<AdminDetailCompany>(state, companyId),
   );
-  const studentContact = useAppSelector((state) =>
-    company?.studentContact !== null
-      ? selectUserById(state, company?.studentContact)
+  const studentContacts = useAppSelector((state) =>
+    company?.studentContacts !== null
+      ? selectUsersByIds(
+          state,
+          company?.studentContacts?.map(
+            (studentContact) => studentContact.user,
+          ),
+        )
       : undefined,
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
@@ -110,7 +118,7 @@ const CompanyEditor = () => {
         description: '',
         adminComment: '',
         website: '',
-        studentContact: undefined,
+        studentContacts: [] as StudentCompanyContact[],
         active: 'true',
         phone: '',
         companyType: '',
@@ -122,11 +130,13 @@ const CompanyEditor = () => {
         description: company.description,
         adminComment: company.adminComment,
         website: company.website,
-        studentContact: studentContact && {
-          id: studentContact.id,
-          value: studentContact.id,
-          label: studentContact.fullName,
-        },
+        studentContact:
+          studentContacts &&
+          studentContacts.map((studentContact) => ({
+            id: studentContact.id,
+            value: studentContact.id,
+            label: studentContact.fullName,
+          })),
         active: company.active,
         phone: company.phone,
         companyType: company.companyType,
@@ -210,6 +220,14 @@ const CompanyEditor = () => {
               name="phone"
               label="Telefon"
               component={TextInput.Field}
+            />
+
+            <Field
+              placeholder="Studentkontakter"
+              name="studentContacts"
+              isMulti
+              component={SelectInput.AutocompleteField}
+              filter={[AutocompleteContentType.User]}
             />
 
             <Field
