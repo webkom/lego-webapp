@@ -25,6 +25,8 @@ type Props = {
   link?: string;
   className?: string;
   active?: boolean;
+  textColor?: string;
+  backgroundColor?: string;
 };
 
 /**
@@ -38,6 +40,8 @@ const Tag = ({
   link,
   className,
   active,
+  textColor,
+  backgroundColor,
 }: Props) => (
   <div className={styles.linkSpacing}>
     {link ? (
@@ -50,6 +54,7 @@ const Tag = ({
           active && styles.active,
         )}
         to={link}
+        style={{ color: textColor, backgroundColor }}
       >
         {tag}
       </Link>
@@ -58,6 +63,7 @@ const Tag = ({
         gap="var(--spacing-xs)"
         alignItems="center"
         className={cx(styles.tag, styles[color], className)}
+        style={{ color: textColor, backgroundColor: backgroundColor }}
       >
         {icon && <Icon name={icon} size={iconSize ?? 16} />}
         {tag}

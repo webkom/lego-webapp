@@ -29,7 +29,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.NOT_INTERESTED]: {
     displayName: 'Ikke interessert',
     color: 'var(--danger-color)',
-    textColor: '#ff0000',
+    textColor: '#fff',
   },
   [NonEventContactStatus.CONTACTED]: {
     displayName: 'Kontaktet',
@@ -61,6 +61,12 @@ export const getStatusColor = (
   status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
 ) =>
   EventTypeConfig[status]?.color || NonEventContactStatusConfig[status]?.color;
+
+export const getStatusTextColor = (
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
+) =>
+  EventTypeConfig[status]?.textColor ||
+  NonEventContactStatusConfig[status]?.textColor;
 
 export const sortStatusesByProminence = (
   statuses: CompanySemesterContactStatus[],
