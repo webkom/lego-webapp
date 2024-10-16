@@ -114,6 +114,16 @@ export const Joblistings = {
 /**
  *
  */
+export const LendableObjects = {
+  FETCH: generateStatuses('LendableObject.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('LendableObject.CREATE') as AAT,
+  EDIT: generateStatuses('LendableObject.EDIT') as AAT,
+  DELETE: generateStatuses('LendableObject.DELETE') as AAT,
+};
+
+/**
+ *
+ */
 export const Announcements = {
   FETCH_ALL: generateStatuses('Announcements.FETCH_ALL') as AAT,
   CREATE: generateStatuses('Announcements.CREATE') as AAT,
