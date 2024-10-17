@@ -5,6 +5,6 @@
 }
 
 .bottomBorder {
-  margin-top: var(--spacing-md);
+  margin-top: var(--spacing-sm);
   border-top: 1px solid var(--border-gray);
 }

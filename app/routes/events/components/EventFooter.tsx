@@ -1,7 +1,7 @@
+import { Flex } from '@webkom/lego-bricks';
 import Circle from 'app/components/Circle';
 import config from 'app/config';
 import { EventTypeConfig } from '../utils';
-import styles from './EventFooter.css';
 import type { IcalToken } from 'app/models';
 
 const icalTypes: { name: IcalType; title: string }[] = [
@@ -34,54 +34,54 @@ type Props = {
 };
 
 const EventFooter = ({ icalToken }: Props) => (
-  <div className={styles.eventFooter}>
+  <Flex
+    wrap
+    justifyContent="space-between"
+    gap="var(--spacing-md)"
+    margin="var(--spacing-sm) 0"
+  >
     {icalToken && (
-      <p className={styles.section}>
-        Her kan du importere arrangementer og møter til din favorittkalender!
-        <br />
-        Trykk på en av lenkene under for å legge inn i din kalender.
-      </p>
+      <Flex column gap="var(--spacing-md)">
+        <div>
+          <h3>Kalenderimport</h3>
+          <span className="secondaryFontColor">
+            Importer arrangementer og møter til din favorittkalender!
+          </span>
+        </div>
+
+        <Flex wrap gap="var(--spacing-md)">
+          <Flex column gap="var(--spacing-sm)">
+            <h4>Google Kalender</h4>
+            {icalTypes.map((type, key) => (
+              <a key={key} href={getIcalUrlGoogle(icalToken, type.name)}>
+                {type.title}
+              </a>
+            ))}
+          </Flex>
+          <Flex column gap="var(--spacing-sm)">
+            <h4>iCalendar</h4>
+            {icalTypes.map((type, key) => (
+              <a key={key} href={getIcalUrl(icalToken, type.name)}>
+                {type.title}
+              </a>
+            ))}
+          </Flex>
+        </Flex>
+      </Flex>
     )}
-    <div className={styles.eventFooterSections}>
-      {icalToken && (
-        <div className={styles.section}>
-          <h3>Google kalender</h3>
-          <ul>
-            {icalTypes.map((type, key) => (
-              <li key={key}>
-                <a href={getIcalUrlGoogle(icalToken, type.name)}>
-                  {type.title}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {icalToken && (
-        <div className={styles.section}>
-          <h3>iCalendar</h3>
-          <ul>
-            {icalTypes.map((type, key) => (
-              <li key={key}>
-                <a href={getIcalUrl(icalToken, type.name)}>{type.title}</a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <div className={styles.section}>
-        <h3>Fargekoder</h3>
-        <ul>
-          {Object.entries(EventTypeConfig).map(([key, config]) => (
-            <li key={key}>
-              <Circle color={config.color} />
-              <span className={styles.eventType}>{config.displayName}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+
+    <div>
+      <h3>Fargekoder</h3>
+      <Flex column gap="var(--spacing-sm)">
+        {Object.entries(EventTypeConfig).map(([key, config]) => (
+          <Flex key={key} alignItems="center" gap="var(--spacing-sm)">
+            <Circle color={config.color} />
+            <span>{config.displayName}</span>
+          </Flex>
+        ))}
+      </Flex>
     </div>
-  </div>
+  </Flex>
 );
 
 export default EventFooter;
