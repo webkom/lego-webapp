@@ -123,7 +123,7 @@ const UserProfile = () => {
   }
 
   //If you wonder what this is, ask somebody
-  const FRAMEID = [6050, 5962, 7276, 7434, 7747, 8493];
+  const FRAMEID = [6050, 5962, 7276, 7325, 7434, 7747, 8493];
 
   const {
     pastMemberships = [],
