@@ -1,11 +1,14 @@
-import { Card, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import Table from 'app/components/Table';
-import { selectTransformedAdminCompanies } from 'app/reducers/companies';
+import {
+  selectTransformedAdminCompanies,
+  TransformedStudentCompanyContact,
+} from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -20,6 +23,7 @@ import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownUser } from 'app/store/models/User';
+import UserLink from 'app/components/UserLink';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
@@ -106,21 +110,30 @@ const BdbPage = () => {
     },
     {
       title: 'Studentkontakt',
-      dataIndex: 'studentContact',
+      dataIndex: 'studentContacts',
       search: true,
       inlineFiltering: true,
-      filterMapping: (studentContact: UnknownUser) => {
-        if (studentContact && typeof studentContact === 'object') {
-          return studentContact.fullName;
+      filterMapping: (studentContacts: TransformedStudentCompanyContact[]) => {
+        if (studentContacts && typeof studentContacts === 'object') {
+          return studentContacts
+            .map((studentContact) => studentContact.user.fullName)
+            .join(' ');
         }
       },
+      render: (_, { studentContacts }) =>
+        studentContacts && (
+          <Flex column gap="var(--spacing-sm)">
+            {studentContacts.map((studentContact) => (
+              <UserLink user={studentContact.user} />
+            ))}
+          </Flex>
+        ),
     },
     {
       title: 'Notat',
       dataIndex: 'comment',
       centered: false,
       maxWidth: 200,
-      render: (_, company) => company.adminComment,
       sorter: (a, b) =>
         a.adminComment?.localeCompare(b.adminComment || '') || 0,
 
