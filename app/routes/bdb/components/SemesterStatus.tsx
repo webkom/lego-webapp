@@ -7,12 +7,7 @@ import {
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
-import {
-  getStatusColor,
-  getContactStatuses,
-  selectMostProminentStatus,
-  getSemesterStatus,
-} from '../utils';
+import { getContactStatuses, getSemesterStatus } from '../utils';
 import styles from './SemesterStatus.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type { Semester } from 'app/models';
@@ -70,15 +65,7 @@ const SemesterStatus = ({ semesterStatus, semester, company }: Props) => {
   };
 
   return (
-    <Flex
-      alignItems="center"
-      className={styles.semesterStatus}
-      style={{
-        backgroundColor: getStatusColor(
-          selectMostProminentStatus(contactedStatuses),
-        ),
-      }}
-    >
+    <Flex alignItems="center" className={styles.semesterStatus}>
       <SemesterStatusContent
         contactedStatus={contactedStatuses}
         editFunction={(status) =>

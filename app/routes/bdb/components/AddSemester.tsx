@@ -213,10 +213,6 @@ const AddSemester = () => {
                         ),
                       });
                     }}
-                    style={{
-                      minHeight: '30px',
-                      padding: '10px',
-                    }}
                   />
                 </div>
               )}
