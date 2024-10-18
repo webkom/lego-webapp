@@ -7465,18 +7465,18 @@ eslint-plugin-react-hooks@^4.6.2:
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-4.6.2.tgz#c829eb06c0e6f484b3fbb85a97e57784f328c596"
   integrity sha512-QzliNJq4GinDBcD8gPB5v0wh6g8q3SUi6EFF0x8N/BL9PoVs0atuGc47ozMRyOWAKdwaZ5OnbOEa3WR+dSGKuQ==
 
-eslint-plugin-react-redux@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-redux/-/eslint-plugin-react-redux-4.1.0.tgz#a4be1a0c6d596c12a9dae3feb50f45aa873456c9"
-  integrity sha512-DBhCj87sdUnlIfjw3HhDzj5nmyuuBIiiokJ1Ybl/gZ3tStAz/uy/ckK7p4rEgXvDGb7R0fupDGa8gSGAYXRrOw==
+eslint-plugin-react-redux@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-redux/-/eslint-plugin-react-redux-4.2.0.tgz#92643f366a41aa4b0339d59f3406b932df1a6e90"
+  integrity sha512-v9En5rf+zAGZdbPeBJioJLxJpu2OLPiWYsaQHUYWF7VD6jPwulZbwybidt9DN4I+9DDQe37T9Q7HkHrzB5DJmg==
   dependencies:
-    eslint-plugin-react "^7.28.0"
+    eslint-plugin-react "^7.35.0"
     eslint-rule-composer "^0.3.0"
 
-eslint-plugin-react@^7.28.0, eslint-plugin-react@^7.37.0:
-  version "7.37.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.37.0.tgz#c21f64a32fc34df1eaeca571ec8f70bdc40dd20a"
-  integrity sha512-IHBePmfWH5lKhJnJ7WB1V+v/GolbB0rjS8XYVCSQCZKaQCAUhMoVoOEn1Ef8Z8Wf0a7l8KTJvuZg5/e4qrZ6nA==
+eslint-plugin-react@^7.35.0, eslint-plugin-react@^7.37.0:
+  version "7.37.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.37.1.tgz#56493d7d69174d0d828bc83afeffe96903fdadbd"
+  integrity sha512-xwTnwDqzbDRA8uJ7BMxPs/EXRB3i8ZfnOIp8BsxEQkT0nHPp+WWceqGgo6rKb9ctNi8GJLDT4Go5HAWELa/WMg==
   dependencies:
     array-includes "^3.1.8"
     array.prototype.findlast "^1.2.5"
