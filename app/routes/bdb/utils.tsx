@@ -19,7 +19,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.BEDEX]: {
     displayName: 'Bedex',
     color: colorForEventType(EventType.ALTERNATIVE_PRESENTATION),
-    textColor: '#000',
+    textColor: 'var(--color-absolute-white)',
   },
   [NonEventContactStatus.INTERESTED]: {
     displayName: 'Interessert',
@@ -29,7 +29,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.NOT_INTERESTED]: {
     displayName: 'Ikke interessert',
     color: 'var(--danger-color)',
-    textColor: '#ff0000',
+    textColor: 'var(--color-absolute-white)',
   },
   [NonEventContactStatus.CONTACTED]: {
     displayName: 'Kontaktet',
@@ -39,7 +39,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.NOT_CONTACTED]: {
     displayName: 'Ikke kontaktet',
     color: 'var(--additive-background)',
-    textColor: '#000',
+    textColor: 'var(--lego-font-color)',
   },
 };
 
@@ -61,6 +61,12 @@ export const getStatusColor = (
   status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
 ) =>
   EventTypeConfig[status]?.color || NonEventContactStatusConfig[status]?.color;
+
+export const getStatusTextColor = (
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
+) =>
+  EventTypeConfig[status]?.textColor ||
+  NonEventContactStatusConfig[status]?.textColor;
 
 export const sortStatusesByProminence = (
   statuses: CompanySemesterContactStatus[],

@@ -3,6 +3,8 @@ import { Check } from 'lucide-react';
 import { useState } from 'react';
 import Circle from 'app/components/Circle';
 import Dropdown from 'app/components/Dropdown';
+import Tags from 'app/components/Tags';
+import Tag from 'app/components/Tags/Tag';
 import {
   NonEventContactStatus,
   type CompanySemesterContactStatus,
@@ -12,6 +14,7 @@ import {
   getStatusColor,
   getStatusDisplayName,
   contactStatuses,
+  getStatusTextColor,
 } from '../utils';
 import type { CSSProperties } from 'react';
 
@@ -21,26 +24,31 @@ type Props = {
   style?: CSSProperties;
 };
 
-const SemesterStatusContent = ({
-  contactedStatus,
-  editFunction,
-  style,
-}: Props) => {
+const SemesterStatusContent = ({ contactedStatus, editFunction }: Props) => {
   const [displayDropdown, setDisplayDropdown] = useState(false);
 
+  const notContactedStatus = NonEventContactStatus.NOT_CONTACTED;
   const statusesToRender = (
-    <div
-      style={{
-        ...style,
-      }}
-    >
-      {contactedStatus.length > 0
-        ? sortStatusesByProminence(contactedStatus)
-            .slice()
-            .map((status) => getStatusDisplayName(status))
-            .join(', ')
-        : getStatusDisplayName()}
-    </div>
+    <Tags>
+      {contactedStatus.length > 0 ? (
+        sortStatusesByProminence(contactedStatus)
+          .slice()
+          .map((status) => (
+            <Tag
+              key={status}
+              tag={getStatusDisplayName(status)}
+              textColor={getStatusTextColor(status)}
+              backgroundColor={getStatusColor(status)}
+            />
+          ))
+      ) : (
+        <Tag
+          tag={getStatusDisplayName(notContactedStatus)}
+          textColor={getStatusTextColor(notContactedStatus)}
+          backgroundColor={getStatusColor(notContactedStatus)}
+        />
+      )}
+    </Tags>
   );
 
   return (
@@ -65,6 +73,7 @@ const SemesterStatusContent = ({
                 <button
                   onClick={() => editFunction(status)}
                   style={{
+                    color: active ? getStatusTextColor(status) : '',
                     backgroundColor: active ? getStatusColor(status) : '',
                   }}
                 >
