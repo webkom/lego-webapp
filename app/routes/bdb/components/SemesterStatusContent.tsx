@@ -15,7 +15,6 @@ import {
   getStatusDisplayName,
   contactStatuses,
   getStatusTextColor,
-  NonEventContactStatusConfig,
 } from '../utils';
 import type { CSSProperties } from 'react';
 
