@@ -15,6 +15,7 @@ const notificationsFeed: Reducer<State> = produce((newState, action) => {
       break;
 
     case NotificationsFeed.MARK_ALL.SUCCESS:
+    case NotificationsFeed.MARK_ALL.BEGIN: // Optimistically marking all as read first to avoid flickering
       return initialState;
 
     default:

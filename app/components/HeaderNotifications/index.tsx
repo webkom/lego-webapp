@@ -103,11 +103,13 @@ const NotificationsDropdown = () => {
   );
 
   const { unreadCount } = notificationsData;
+
   return (
     <Dropdown
       show={notificationsOpen}
       toggle={() => {
-        setNotificationsOpen(!notificationsOpen);
+        setNotificationsOpen((prev) => !prev);
+
         if (!notificationsOpen) {
           dispatch(fetchNotificationFeed());
         } else {
@@ -117,7 +119,9 @@ const NotificationsDropdown = () => {
       closeOnContentClick
       triggerComponent={
         <Icon.Badge
-          iconNode={unreadCount > 0 ? <BellRing /> : <Bell />}
+          iconNode={
+            !notificationsOpen && unreadCount > 0 ? <BellRing /> : <Bell />
+          }
           badgeCount={notificationsOpen ? 0 : unreadCount}
         />
       }
