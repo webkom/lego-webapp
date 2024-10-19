@@ -33,10 +33,13 @@
   position: absolute;
 }
 
+.leftMarginContent {
+  padding-left: var(--spacing-lg);
+}
+
 .rightContent {
   flex: 2;
   min-width: 320px;
-  padding-left: 30px;
   width: 100%;
 
   @media (--medium-viewport) {
@@ -111,10 +114,11 @@
   padding: var(--spacing-md);
   box-shadow: var(--shadow-xs);
   border-radius: var(--spacing-md);
+  border: 1.5px solid var(--border-gray);
   display: flex;
   align-items: baseline;
   gap: var(--spacing-md);
-  width: 100%;
+  min-width: 100%;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -122,10 +126,15 @@
 @media (--mobile-device) {
   .trophyCaseBox {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: baseline;
     justify-content: center;
   }
+}
+
+.trophyCaseWrapper {
+  min-width: 100%;
+  padding: var(--spacing-xs);
 }
 
 .trophyDetailTooltip {

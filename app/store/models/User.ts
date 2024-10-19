@@ -23,7 +23,6 @@ export interface PhotoConsent {
 export interface Achievement {
   id: number;
   identifier: string;
-  hidden: boolean;
   createdAt: Dateish;
   level: number;
   percentage: number;
@@ -33,6 +32,7 @@ export interface AchievementData {
   name: string;
   description: string;
   rarity: number;
+  hidden: boolean;
 }
 
 export const Gender = {
