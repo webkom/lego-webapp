@@ -19,3 +19,7 @@
     236
   ); /* The color of a blank area in mazemap  */
 }
+
+.mazemapLink {
+  font-size: var(--font-size-sm);
+}

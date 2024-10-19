@@ -27,12 +27,14 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const [hasMounted, setHasMounted] = useState<boolean>(false);
   useEffect(() => setHasMounted(true), []);
   //import Mazemap dynamically to prevent ssr issues
-  const [Mazemap, setMazemap] = useState<MazeMap>(null);
+  const [Mazemap, setMazemap] = useState<MazeMap | null>(null);
   const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
-    import('mazemap').then((mazemap) => setMazemap(mazemap));
+    if (!__DEV__) {
+      import('mazemap').then((mazemap) => setMazemap(mazemap));
+    }
     if (!Mazemap || !hasMounted) return;
     const embeddedMazemap = new Mazemap.Map({
       container: 'mazemap-embed',
