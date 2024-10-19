@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { Bell, BellRing } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { NotificationsFeed } from 'app/actions/ActionTypes';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import {
   fetchNotificationData,
@@ -103,21 +104,27 @@ const NotificationsDropdown = () => {
   );
 
   const { unreadCount } = notificationsData;
+
   return (
     <Dropdown
       show={notificationsOpen}
       toggle={() => {
-        setNotificationsOpen(!notificationsOpen);
+        setNotificationsOpen((prev) => !prev);
+
         if (!notificationsOpen) {
           dispatch(fetchNotificationFeed());
         } else {
+          // Optimistic mark all as read first to avoid flickering
+          dispatch({ type: NotificationsFeed.MARK_ALL.SUCCESS });
           dispatch(markAllNotifications());
         }
       }}
       closeOnContentClick
       triggerComponent={
         <Icon.Badge
-          iconNode={unreadCount > 0 ? <BellRing /> : <Bell />}
+          iconNode={
+            !notificationsOpen && unreadCount > 0 ? <BellRing /> : <Bell />
+          }
           badgeCount={notificationsOpen ? 0 : unreadCount}
         />
       }
