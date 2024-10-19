@@ -202,14 +202,18 @@ const UserProfile = () => {
             </LinkButton>
           )}
         </Flex>
-        <Flex alignItems="center" column className={styles.rightContent}>
+        <Flex
+          alignItems="center"
+          column
+          className={cx(styles.rightContent, styles.leftMarginContent)}
+        >
           <GroupMemberships
             memberships={memberships}
             pastMemberships={pastMemberships}
           />
 
-          {user.achievements.length > 0 && (
-            <AchievementsBox achievements={user?.achievements} />
+          {user.achievements?.length > 0 && (
+            <AchievementsBox achievements={user.achievements} />
           )}
         </Flex>
       </Flex>
@@ -258,7 +262,7 @@ const UserProfile = () => {
               <GSuiteInfo emailAddress={user.emailAddress} />
             )}
         </div>
-        <div className={styles.rightContent}>
+        <div className={cx(styles.rightContent, styles.leftMarginContent)}>
           {isCurrentUser && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>
