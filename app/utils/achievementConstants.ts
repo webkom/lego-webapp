@@ -5,12 +5,12 @@ export const rarityToColorMap = {
   1: 'Silver',
   2: 'Gold',
   3: '#2f9cc5',
-  4: 'DarkTurquoise',
+  4: '#0fdee0',
   5: 'MediumSeaGreen',
   6: 'FireBrick',
   7: 'Crimson',
-  8: 'DarkOrchid',
-  9: 'DarkMagenta',
+  8: '#9340FF',
+  9: '#BF00FF',
 };
 
 const AchievementsInfo: Record<string, AchievementData[]> = {

@@ -1,7 +1,7 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Tooltip from 'app/components/Tooltip';
 import AchievementsInfo, {
   rarityToColorMap,
@@ -15,26 +15,35 @@ export const AchievementsBox = ({
   achievements: Achievement[];
 }) => {
   const [showAll, setShowAll] = useState(false);
-  const topAchievements = [...achievements]
-    .sort(
+
+  const sortedAchievements = useMemo(() => {
+    return [...achievements].sort(
       (a, b) =>
         AchievementsInfo[b.identifier][b.level].rarity -
         AchievementsInfo[a.identifier][a.level].rarity,
-    )
-    .slice(0, showAll ? 999 : 5);
+    );
+  }, [achievements]);
+
+  const topAchievements = showAll
+    ? sortedAchievements
+    : sortedAchievements.slice(0, 5);
+
   return (
     <Flex
       column
-      width={'100%'}
-      alignItems="center"
+      alignItems="flex-start"
       justifyContent="space-between"
+      className={styles.trophyCaseWrapper}
     >
-      <Flex width={'100%'} alignItems="center" justifyContent="center">
-        <h2>Trofeer</h2>
-      </Flex>
-      <div className={styles.trophyCaseBox}>
-        {topAchievements.map((e) => {
-          return (
+      <h2>Trofeer</h2>
+      <Flex
+        column
+        alignItems="center"
+        justifyContent="space-between"
+        className={styles.trophyCaseWrapper}
+      >
+        <div className={styles.trophyCaseBox}>
+          {topAchievements.map((e) => (
             <Flex
               column
               key={AchievementsInfo[e.identifier][e.level].name}
@@ -69,7 +78,13 @@ export const AchievementsBox = ({
                   style={
                     AchievementsInfo[e.identifier][e.level].rarity >= 4
                       ? {
-                          filter: `drop-shadow(0px 0px 6px ${rarityToColorMap[AchievementsInfo[e.identifier][e.level].rarity]})`,
+                          filter: `drop-shadow(0px 0px ${
+                            AchievementsInfo[e.identifier][e.level].rarity - 1
+                          }px ${
+                            rarityToColorMap[
+                              AchievementsInfo[e.identifier][e.level].rarity
+                            ]
+                          })`,
                         }
                       : {}
                   }
@@ -80,19 +95,19 @@ export const AchievementsBox = ({
                 </p>
               </Tooltip>
             </Flex>
-          );
-        })}
-      </div>
-      {achievements.length > 5 && (
-        <Button
-          onPress={() => {
-            setShowAll(!showAll);
-          }}
-          className={styles.showAllButton}
-        >
-          {showAll ? 'Vis færre' : 'Vis alle'}
-        </Button>
-      )}
+          ))}
+        </div>
+        {achievements.length > 5 && (
+          <Button
+            onPress={() => {
+              setShowAll(!showAll);
+            }}
+            className={styles.showAllButton}
+          >
+            {showAll ? 'Vis færre' : 'Vis alle'}
+          </Button>
+        )}
+      </Flex>
     </Flex>
   );
 };

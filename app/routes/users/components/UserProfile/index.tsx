@@ -208,8 +208,8 @@ const UserProfile = () => {
             pastMemberships={pastMemberships}
           />
 
-          {user.achievements.length > 0 && (
-            <AchievementsBox achievements={user?.achievements} />
+          {user.achievements?.length > 0 && (
+            <AchievementsBox achievements={user.achievements} />
           )}
         </Flex>
       </Flex>
