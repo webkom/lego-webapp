@@ -3,6 +3,7 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
+import { PublicUser } from './User';
 
 export enum NonEventContactStatus {
   BEDEX = 'bedex',
@@ -66,6 +67,13 @@ interface CompanyFile {
   file: string;
 }
 
+export interface StudentCompanyContact {
+  id: EntityId;
+  companyId: EntityId;
+  semesterId: EntityId;
+  user: EntityId;
+}
+
 interface Company {
   id: EntityId;
   name: string;
@@ -81,7 +89,7 @@ interface Company {
   joblistingCount?: number;
   thumbnail?: string;
   semesterStatuses?: SemesterStatus[];
-  studentContact?: EntityId | null;
+  studentContacts?: StudentCompanyContact[];
   adminComment?: string;
   paymentMail: string;
   comments: EntityId[];
@@ -111,7 +119,7 @@ export type AdminListCompany = Pick<
   | 'id'
   | 'name'
   | 'semesterStatuses'
-  | 'studentContact'
+  | 'studentContacts'
   | 'adminComment'
   | 'active'
 >;
@@ -146,7 +154,7 @@ export type AdminDetailCompany = Pick<
   Company,
   | 'id'
   | 'name'
-  | 'studentContact'
+  | 'studentContacts'
   | 'description'
   | 'phone'
   | 'companyType'
