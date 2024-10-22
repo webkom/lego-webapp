@@ -1,8 +1,8 @@
-import type { EntityId } from '@reduxjs/toolkit';
 import type { FieldGroup } from 'app/store/models/Group';
+import type { PublicUser } from 'app/store/models/User';
 
 interface ObjectPermissionsMixin {
-  canEditUsers: EntityId[];
+  canEditUsers: PublicUser[];
   canViewGroups: FieldGroup[];
   canEditGroups: FieldGroup[];
   requireAuth: boolean;

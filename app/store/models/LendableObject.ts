@@ -15,10 +15,21 @@ interface LendableObject {
 export type ListLendableObject = Pick<
   LendableObject,
   'id' | 'title' | 'description' | 'image' | 'location' | 'canLend'
-> &
-  ObjectPermissionsMixin;
+>;
 
 export type DetailLendableObject = ListLendableObject &
-  Pick<LendableObject, 'actionGrant'>;
+  Pick<LendableObject, 'actionGrant'> &
+  ObjectPermissionsMixin;
 
 export type UnknownLendableObject = ListLendableObject | DetailLendableObject;
+
+export type EditLendableObject = Pick<
+  LendableObject,
+  'id' | 'title' | 'description' | 'image' | 'location'
+> & {
+  canViewGroups: EntityId[];
+  canEditGroups: EntityId[];
+  canEditUsers: EntityId[];
+};
+
+export type CreateLendableObject = Omit<EditLendableObject, 'id'>;
