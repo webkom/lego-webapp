@@ -5,15 +5,19 @@ import {
   Page,
   filterSidebar,
   FilterSection,
+  LinkButton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import abakus_icon from 'app/assets/icon-192x192.png';
+import EmptyState from 'app/components/EmptyState';
 import TextInput from 'app/components/Form/TextInput';
 import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import useQuery from 'app/utils/useQuery';
 import styles from './LendableObjectList.module.css';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 
@@ -39,7 +43,9 @@ const LendableObject = ({
 };
 
 const LendableObjectList = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { query, setQueryValue } = useQuery({
+    search: '',
+  });
 
   const dispatch = useAppDispatch();
 
@@ -50,21 +56,33 @@ const LendableObjectList = () => {
   );
 
   const lendableObjects = useAppSelector(selectAllLendableObjects);
+  const actionGrant = useAppSelector(
+    (state) => state.lendableObjects.actionGrant,
+  );
   const fetching = useAppSelector((state) => state.lendableObjects.fetching);
+
+  const filteredLendableObjects = lendableObjects.filter((lendableObjects) =>
+    lendableObjects.title.toLowerCase().includes(query.search.toLowerCase()),
+  );
 
   const title = 'Utlån';
   return (
     <Page
       title={title}
+      actionButtons={
+        <>
+          {actionGrant.includes('create') && (
+            <LinkButton href="/lending/new">Nytt utlånsobjekt</LinkButton>
+          )}
+        </>
+      }
       sidebar={filterSidebar({
         children: (
           <FilterSection title="Søk">
             <TextInput
               prefix="search"
               placeholder="Grill, soundboks..."
-              onChange={(e) =>
-                setSearchParams(e.target.value && { search: e.target.value })
-              }
+              onChange={(e) => setQueryValue('search')(e.target.value)}
             />
           </FilterSection>
         ),
@@ -73,22 +91,29 @@ const LendableObjectList = () => {
       <Helmet title={title} />
 
       <LoadingIndicator loading={fetching}>
-        <div className={styles.lendableObjectsContainer}>
-          {lendableObjects
-            .filter((lendableObjects) =>
-              searchParams.get('search')
-                ? lendableObjects.title
-                    .toLowerCase()
-                    .includes((searchParams.get('search') || '').toLowerCase())
-                : true,
-            )
-            .map((lendableObject) => (
+        {filteredLendableObjects.length ? (
+          <div className={styles.lendableObjectsContainer}>
+            {filteredLendableObjects.map((lendableObject) => (
               <LendableObject
                 key={lendableObject.id}
                 lendableObject={lendableObject}
               />
             ))}
-        </div>
+          </div>
+        ) : (
+          <EmptyState
+            iconNode={<FolderOpen />}
+            body={
+              query.search ? (
+                <span>
+                  Fant ingen treff på søket <em>{query.search}</em>
+                </span>
+              ) : (
+                <span>Ingen tilgjengelige utlånsobjekter</span>
+              )
+            }
+          />
+        )}
       </LoadingIndicator>
     </Page>
   );

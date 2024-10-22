@@ -8,10 +8,18 @@ const LendableObjectsList = loadable(
 const LendableObjectDetail = loadable(
   () => import('./components/LendableObjectDetail'),
 );
+const LendableObjectEdit = loadable(
+  () => import('./components/LendableObjectEdit'),
+);
+const LendableObjectCreate = loadable(
+  () => import('./components/LendableObjectCreate'),
+);
 
 const lendingRoute: RouteObject[] = [
   { index: true, Component: LendableObjectsList },
   { path: ':lendableObjectId', Component: LendableObjectDetail },
+  { path: ':lendableObjectId/edit', Component: LendableObjectEdit },
+  { path: 'new', Component: LendableObjectCreate },
   { path: '*', children: pageNotFound },
 ];
 

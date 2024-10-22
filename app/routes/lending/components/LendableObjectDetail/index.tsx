@@ -1,9 +1,7 @@
 import { Page, LinkButton, PageCover, Card } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import { Warehouse } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router-dom';
-import { fetchLendableObjectById } from 'app/actions/LendableObjectActions';
 import {
   ContentMain,
   ContentSection,
@@ -11,22 +9,12 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { selectLendableObjectById } from 'app/reducers/lendableObjects';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useFetchedLendableObject } from 'app/routes/lending/useFetchedLendableObject';
 
 export const LendableObjectList = () => {
   const { lendableObjectId } = useParams<'lendableObjectId'>();
-  const dispatch = useAppDispatch();
-  const fetching = useAppSelector((state) => state.lendableObjects.fetching);
-
-  usePreparedEffect(
-    'fetchLendableObjectById',
-    () => dispatch(fetchLendableObjectById(lendableObjectId!)),
-    [],
-  );
-
-  const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, lendableObjectId!),
+  const { lendableObject, fetching } = useFetchedLendableObject(
+    lendableObjectId!,
   );
 
   const title = lendableObject ? `Utlån: ${lendableObject.title}` : undefined;
@@ -36,9 +24,7 @@ export const LendableObjectList = () => {
       title={title}
       cover={<PageCover image={lendableObject?.image} skeleton={fetching} />}
       actionButtons={
-        lendableObject &&
-        'actionGrant' in lendableObject &&
-        lendableObject.actionGrant.includes('edit') ? (
+        !fetching && lendableObject.actionGrant.includes('edit') ? (
           <LinkButton href={`/lending/${lendableObjectId}/edit`}>
             Rediger
           </LinkButton>

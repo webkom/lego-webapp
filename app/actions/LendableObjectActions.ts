@@ -3,7 +3,9 @@ import callAPI from 'app/actions/callAPI';
 import { lendableObjectSchema } from 'app/reducers';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
+  CreateLendableObject,
   DetailLendableObject,
+  EditLendableObject,
   ListLendableObject,
 } from 'app/store/models/LendableObject';
 
@@ -27,4 +29,28 @@ export const fetchLendableObjectById = (id: EntityId) =>
       errorMessage: 'Henting av utlånsobjekt feilet',
     },
     propagateError: true,
+  });
+
+export const editLendableObject = (data: EditLendableObject) =>
+  callAPI<DetailLendableObject>({
+    types: LendableObjects.EDIT,
+    endpoint: `/lending/objects/${data.id}/`,
+    method: 'PUT',
+    schema: lendableObjectSchema,
+    body: data,
+    meta: {
+      errorMessage: 'Endring av utlånsobjekt feilet',
+    },
+  });
+
+export const createLendableObject = (data: CreateLendableObject) =>
+  callAPI<DetailLendableObject>({
+    types: LendableObjects.CREATE,
+    endpoint: '/lendable-objects/',
+    method: 'POST',
+    schema: lendableObjectSchema,
+    body: data,
+    meta: {
+      errorMessage: 'Opprettelse av utlånsobjekt feilet',
+    },
   });
