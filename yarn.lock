@@ -3801,10 +3801,10 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/blocks@^8.3.1":
-  version "8.3.1"
-  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-8.3.1.tgz#08c1480a11b09807bbdf4933479ca70deb371a6e"
-  integrity sha512-/wNLRVWR/edzHQAFvSW68VxHYmBcfXpL/XdO46I5Z1X/tXUd0rtgGZmliQ2jZ242FqxcT8guqqFGehbeYUns5w==
+"@storybook/blocks@^8.3.6":
+  version "8.3.6"
+  resolved "https://registry.yarnpkg.com/@storybook/blocks/-/blocks-8.3.6.tgz#ac2e4f07a4df23004b3361c592c2cffe6b95464a"
+  integrity sha512-Oc5jU6EzfsENjrd91KcKyEKBh60RT+8uyLi1RIrymC2C/mzZMTEoNIrbnQt0eIqbjlHxn6y9JMJxHu4NJ4EmZg==
   dependencies:
     "@storybook/csf" "^0.1.11"
     "@storybook/global" "^5.0.0"
@@ -4391,9 +4391,9 @@
     "@types/react" "*"
 
 "@types/react@*", "@types/react@>=16.9.11", "@types/react@^16", "@types/react@^16.8.0 || ^17.0.0 || ^18.0.0", "@types/react@^18.2.6", "@types/react@^18.3.3":
-  version "18.3.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.11.tgz#9d530601ff843ee0d7030d4227ea4360236bd537"
-  integrity sha512-r6QZ069rFTjrEYgFdOck1gK7FLVsgJE7tTz0pQBczlBNUhBNk0MQH4UbnFSwjpQLMkLzgqvBBa+qGpLje16eTQ==
+  version "18.3.12"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.3.12.tgz#99419f182ccd69151813b7ee24b792fe08774f60"
+  integrity sha512-D2wOSq/d6Agt28q7rSI3jhU7G6aiuzljDGZ2hTZHIkrTLUI+AF3WMeKkEZ9nN2fkBAlcktT6vcZjDFiIhMYEQw==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
