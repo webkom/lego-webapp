@@ -46,7 +46,7 @@ export const editLendableObject = (data: EditLendableObject) =>
 export const createLendableObject = (data: CreateLendableObject) =>
   callAPI<DetailLendableObject>({
     types: LendableObjects.CREATE,
-    endpoint: '/lendable-objects/',
+    endpoint: '/lending/objects/',
     method: 'POST',
     schema: lendableObjectSchema,
     body: data,
