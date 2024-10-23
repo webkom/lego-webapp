@@ -185,14 +185,15 @@ const VoteOpen = ({ details, poll, options }: VoteOpenProps) => {
     <Flex column alignItems="center" className={styles.optionWrapper}>
       {details && <p className={styles.description}>{poll.description}</p>}
       {options.map((option) => (
-        <Button
-          key={option.id}
-          className={styles.voteButton}
-          dark
-          onPress={() => dispatch(votePoll(poll.id, option.id))}
-        >
-          {option.name}
-        </Button>
+        <Flex key={option.id} width="90%">
+          <Button
+            className={styles.voteButton}
+            dark
+            onPress={() => dispatch(votePoll(poll.id, option.id))}
+          >
+            {option.name}
+          </Button>
+        </Flex>
       ))}
     </Flex>
   );
