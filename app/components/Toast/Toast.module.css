@@ -1,0 +1,78 @@
+@import url('~app/styles/variables.css');
+
+:root {
+  --toast-background: var(--lego-font-color);
+}
+
+.toastRegion {
+  position: fixed;
+  align-items: flex-start;
+  bottom: var(--spacing-lg);
+  left: var(--spacing-lg);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+
+  @media (--mobile-device) {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    gap: 0;
+  }
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  background-color: var(--toast-background);
+  color: var(--inverted-font-color);
+  font-size: var(--font-size-md);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md);
+  line-height: 20px;
+  box-shadow: none;
+  border: 1px solid var(--border-gray);
+
+  .closeButton > button {
+    color: var(--inverted-font-color);
+  }
+
+  @media (--mobile-device) {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+  }
+
+  &[data-animation='entering'] {
+    animation: slide-in var(--bounce);
+  }
+
+  &[data-animation='queued'] {
+    animation: slide-in var(--bounce);
+  }
+
+  &[data-animation='exiting'] {
+    animation: fade-out var(--easing-slow);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}

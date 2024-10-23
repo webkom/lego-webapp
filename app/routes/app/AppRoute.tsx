@@ -11,7 +11,7 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
-import ToastContainer from 'app/components/Toast/ToastContainer';
+import ToastProvider from 'app/components/Toast/ToastProvider';
 import config from 'app/config';
 import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -42,7 +42,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
       }}
     >
       <ErrorBoundary resetOnChange={location}>
-        <ToastContainer />
+        <ToastProvider />
         {statusCode ? <HTTPError statusCode={statusCode} /> : <>{children}</>}
       </ErrorBoundary>
     </div>
