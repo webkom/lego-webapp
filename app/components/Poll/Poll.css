@@ -64,13 +64,10 @@
 
 /* Options visible & voting */
 
-.voteButton,
-.voteButton + .voteButton {
-  font-weight: 500;
-  width: 90%;
-  padding: var(--sapcing-xs);
-  margin: 2px;
-  border-radius: var(--border-radius-md);
+.voteButton {
+  display: flex;
+  flex-grow: 1;
+  margin: calc(var(--spacing-xs) / 2);
 }
 
 /* Options visible & !voting */
