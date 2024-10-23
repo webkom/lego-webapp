@@ -1,5 +1,5 @@
 import ResolveLink from '../ResolveLink';
-import styles from './Search.css';
+import styles from './Search.module.css';
 import type { NavigationLink } from './utils';
 
 type Props = {

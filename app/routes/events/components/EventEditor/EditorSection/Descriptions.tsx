@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { EditorField, TextEditor } from 'app/components/Form';
 import Tag from 'app/components/Tags/Tag';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { EditingEvent } from 'app/routes/events/utils';
 

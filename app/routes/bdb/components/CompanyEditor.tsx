@@ -34,7 +34,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
-import styles from './bdb.css';
+import styles from './bdb.module.css';
 import type { AdminDetailCompany } from 'app/store/models/Company';
 import type { AutocompleteUser } from 'app/store/models/User';
 

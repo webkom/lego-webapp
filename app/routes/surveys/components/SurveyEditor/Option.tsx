@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   questionType: string;

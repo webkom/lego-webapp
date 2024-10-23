@@ -8,7 +8,7 @@ import { selectAllEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
-import styles from './UpcomingRegistrations.css';
+import styles from './UpcomingRegistrations.module.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
 
 const createTimeString = (event: FrontpageEvent) => {

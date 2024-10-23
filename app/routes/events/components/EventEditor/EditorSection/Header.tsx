@@ -18,7 +18,7 @@ import {
   ImageUploadField,
 } from 'app/components/Form';
 import { colorForEventType } from 'app/routes/events/utils';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { FormApi } from 'final-form';
 

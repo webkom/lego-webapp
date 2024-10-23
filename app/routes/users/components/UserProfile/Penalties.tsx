@@ -9,7 +9,7 @@ import {
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Penalties.css';
+import styles from './Penalties.module.css';
 import PenaltyForm from './PenaltyForm';
 import type { EntityId } from '@reduxjs/toolkit';
 

@@ -1,5 +1,5 @@
 import { useAppSelector } from 'app/store/hooks';
-import styles from './SearchPageInput.css';
+import styles from './SearchPageInput.module.css';
 import type { SyntheticEvent, KeyboardEvent } from 'react';
 
 type Props = {

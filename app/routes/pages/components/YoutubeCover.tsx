@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import Youtube from 'react-youtube';
 import getParamsFromUrl from 'app/utils/getParamsFromUrl';
-import styles from './YoutubeCover.css';
+import styles from './YoutubeCover.module.css';
 import type { ComponentProps } from 'react';
 
 type Props = {

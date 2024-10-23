@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import Comment from './Comment';
-import styles from './CommentTree.css';
+import styles from './CommentTree.module.css';
 import type CommentType from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { ContentTarget } from 'app/store/utils/contentTarget';

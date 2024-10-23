@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import styles from './Vision.css';
+import styles from './Vision.module.css';
 
 type Props = {
   title: string;

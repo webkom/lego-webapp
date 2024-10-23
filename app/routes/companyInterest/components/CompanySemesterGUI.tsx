@@ -23,7 +23,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { createValidator, required } from 'app/utils/validation';
 import { semesterToText } from '../utils';
-import styles from './CompanyInterest.css';
+import styles from './CompanyInterest.module.css';
 import type { FormApi } from 'final-form';
 
 type FormValues = {

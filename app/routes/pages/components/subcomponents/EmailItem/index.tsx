@@ -1,6 +1,6 @@
 import { Image } from '@webkom/lego-bricks';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import styles from './EmailItem.css';
+import styles from './EmailItem.module.css';
 
 type Props = {
   email: string;

@@ -8,7 +8,7 @@ import octocat from 'app/assets/octocat.png';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import utilityStyles from 'app/styles/utilities.css';
 import Circle from '../Circle';
-import styles from './Footer.css';
+import styles from './Footer.module.css';
 
 const Footer = () => {
   const loggedIn = useIsLoggedIn();

@@ -10,7 +10,7 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { SurveyDetailTabs } from '../utils';
 import AdminSideBar from './AdminSideBar';
 import StaticSubmission from './StaticSubmission';
-import styles from './surveys.css';
+import styles from './surveys.module.css';
 
 type SurveyDetailPageParams = {
   surveyId: string;

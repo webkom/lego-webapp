@@ -26,7 +26,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './AddSemester.css';
+import styles from './AddSemester.module.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type {
   AdminDetailCompany,

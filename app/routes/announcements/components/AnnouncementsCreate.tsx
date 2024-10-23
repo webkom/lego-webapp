@@ -25,7 +25,7 @@ import {
   createValidator,
   required,
 } from 'app/utils/validation';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 import type {
   AutocompleteEvent,
   SearchEvent,

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
-import styles from './UserGrid.css';
+import styles from './UserGrid.module.css';
 import type { PublicUser } from 'app/store/models/User';
 
 const UserGrid = ({

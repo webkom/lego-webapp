@@ -5,7 +5,7 @@ import {
   InfoField,
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
-import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
+import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
 import type { CurrentUser, PublicUserWithGroups } from 'app/store/models/User';
 
 const GithubField = ({ githubUsername }: { githubUsername: string }) => (

@@ -24,7 +24,7 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './PollEditor.css';
+import styles from './PollEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type Poll from 'app/store/models/Poll';
 import type { ReactNode } from 'react';

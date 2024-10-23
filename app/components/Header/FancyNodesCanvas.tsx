@@ -1,7 +1,7 @@
 import debounce from 'lodash/debounce';
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'app/utils/themeUtils';
-import styles from './FancyNodesCanvas.css';
+import styles from './FancyNodesCanvas.module.css';
 import drawFancyNodes from './drawFancyNodes';
 
 type Props = {

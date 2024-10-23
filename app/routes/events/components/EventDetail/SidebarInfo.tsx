@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { MazemapButton } from 'app/components/MazemapEmbed/MazemapButton';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FromToTime } from 'app/components/Time';
-import styles from 'app/routes/events/components/EventDetail/EventDetail.css';
+import styles from 'app/routes/events/components/EventDetail/EventDetail.module.css';
 import type { DetailedEvent } from 'app/store/models/Event';
 
 interface Props {

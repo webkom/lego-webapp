@@ -12,7 +12,7 @@ import { useAppSelector } from 'app/store/hooks';
 import { EventType } from 'app/store/models/Event';
 import truncateString from 'app/utils/truncateString';
 import { stringifyQuery } from 'app/utils/useQuery';
-import styles from './CompactEvents.css';
+import styles from './CompactEvents.module.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
 import type { CSSProperties } from 'react';
 

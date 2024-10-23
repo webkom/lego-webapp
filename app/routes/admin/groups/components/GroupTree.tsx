@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import TreeView from 'react-treeview';
 import { generateTreeStructure } from 'app/utils';
-import './GroupTree.css';
+import './GroupTree.module.css';
 
 // Returns the URL that a group in the tree should point to.
 // Re-uses the selected tab if there is one.

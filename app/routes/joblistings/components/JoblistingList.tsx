@@ -3,9 +3,9 @@ import { FilterX, FolderOpen } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import EmptyState from 'app/components/EmptyState';
 import JoblistingItem from 'app/components/JoblistingItem';
-import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
+import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './JoblistingList.css';
+import styles from './JoblistingList.module.css';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 type JobListingsListProps = {

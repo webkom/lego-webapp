@@ -53,7 +53,7 @@ import EditorSection, {
   Registration,
   Descriptions,
 } from './EditorSection';
-import styles from './EventEditor.css';
+import styles from './EventEditor.module.css';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';

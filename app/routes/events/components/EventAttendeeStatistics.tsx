@@ -21,7 +21,7 @@ import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
 import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
-import styles from './EventAttendeeStatistics.css';
+import styles from './EventAttendeeStatistics.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { SelectedAdminRegistration } from 'app/reducers/events';

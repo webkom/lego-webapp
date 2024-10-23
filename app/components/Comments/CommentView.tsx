@@ -6,7 +6,7 @@ import CommentForm from 'app/components/CommentForm';
 import Dropdown from 'app/components/Dropdown';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
-import styles from './CommentView.css';
+import styles from './CommentView.module.css';
 import type Comment from 'app/store/models/Comment';
 import type { ContentAuthors } from 'app/store/models/Comment';
 import type { ContentTarget } from 'app/store/utils/contentTarget';

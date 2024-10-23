@@ -38,7 +38,7 @@ import PageHierarchy from 'app/routes/pages/components/PageHierarchy';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import LandingPage from './LandingPage';
-import styles from './PageDetail.css';
+import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { HierarchySectionEntity } from 'app/routes/pages/components/PageHierarchy';

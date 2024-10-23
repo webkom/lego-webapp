@@ -10,7 +10,7 @@ import {
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './PhotoConsents.css';
+import styles from './PhotoConsents.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
 

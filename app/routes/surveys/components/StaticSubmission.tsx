@@ -1,7 +1,7 @@
 import EmptyState from 'app/components/EmptyState';
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import styles from './surveys.css';
+import styles from './surveys.module.css';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveyAnswer } from 'app/store/models/SurveyAnswer';
 import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';

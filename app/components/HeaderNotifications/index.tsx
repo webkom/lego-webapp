@@ -17,7 +17,7 @@ import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
-import styles from './HeaderNotifications.css';
+import styles from './HeaderNotifications.module.css';
 import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
 
 const NotificationElement = ({

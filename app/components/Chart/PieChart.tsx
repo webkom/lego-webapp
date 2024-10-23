@@ -5,7 +5,7 @@ import {
   CHART_COLORS,
   renderCustomizedLabel,
 } from 'app/components/Chart/utils';
-import styles from './Chart.css';
+import styles from './Chart.module.css';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 
 type Props = {

@@ -12,7 +12,7 @@ import {
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, isInteger, required } from 'app/utils/validation';
-import styles from './Penalties.css';
+import styles from './Penalties.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { searchMapping } from 'app/reducers/search';
 import type { FormApi } from 'final-form';

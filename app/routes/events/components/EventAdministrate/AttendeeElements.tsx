@@ -15,7 +15,7 @@ import {
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
-import styles from './Administrate.css';
+import styles from './Administrate.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EventRegistrationPaymentStatus } from 'app/models';
 import type { SelectedAdminRegistration } from 'app/reducers/events';

@@ -30,7 +30,7 @@ import { selectGalleryById } from 'app/reducers/galleries';
 import { selectGalleryPictureById } from 'app/reducers/galleryPictures';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './GalleryPictureModal.css';
+import styles from './GalleryPictureModal.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 

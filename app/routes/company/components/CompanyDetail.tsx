@@ -26,7 +26,7 @@ import {
 import EmptyState from 'app/components/EmptyState';
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
-import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
+import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';
 import TextWithIcon from 'app/components/TextWithIcon';
 import {
   selectCompanyById,
@@ -37,7 +37,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import styles from './Company.css';
+import styles from './Company.module.css';
 import type { DetailedCompany } from 'app/store/models/Company';
 
 const CompanyDetail = () => {

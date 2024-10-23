@@ -10,7 +10,7 @@ import {
 } from 'app/components/JoblistingItem/Items';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import styles from './JoblistingItem.css';
+import styles from './JoblistingItem.module.css';
 import type { ListJoblisting } from 'app/store/models/Joblisting';
 
 type JobListingItemProps = {

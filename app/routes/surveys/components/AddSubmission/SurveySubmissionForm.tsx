@@ -9,7 +9,7 @@ import {
   TextArea,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import styles from 'app/routes/surveys/components/surveys.css';
+import styles from 'app/routes/surveys/components/surveys.module.css';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedSurvey } from 'app/store/models/Survey';

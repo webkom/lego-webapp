@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
 import EmptyState from '../EmptyState';
-import styles from './AttendanceModalContent.css';
+import styles from './AttendanceModalContent.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
 
