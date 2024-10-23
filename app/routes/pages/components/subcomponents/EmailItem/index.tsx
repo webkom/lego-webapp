@@ -19,7 +19,7 @@ const EmailItem = ({ email, logo, recipient }: Props) => {
         />
       )}
       <div>
-        <div className={styles.recipient}>{readmeIfy(recipient)}</div>
+        <div>{readmeIfy(recipient)}</div>
         <a href={`mailto:${email}`}>{email}</a>
       </div>
     </div>
