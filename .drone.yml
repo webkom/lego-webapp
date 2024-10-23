@@ -290,7 +290,7 @@ steps:
     commands:
       - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn cypress run --record
+      - yarn cypress run --record --parallel
 
   - name: docker
     image: plugins/docker
@@ -362,4 +362,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 4edd037ec61390966e80949fd80f036651109310c03b4a9e3ea2708bb68b3549
+hmac: e8961ec048f51e4cf432178029194caf3d6380c08b8b988e4f6d26780cb13b55
