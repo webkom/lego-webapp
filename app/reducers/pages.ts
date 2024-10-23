@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { groupBy, sortBy, uniqBy } from 'lodash';
 import { createSelector } from 'reselect';
+import { GroupType } from 'app/models';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
@@ -71,7 +72,7 @@ export const selectPagesForHierarchy = (
   );
 
 const createGroupSelector = (
-  type: string,
+  type: GroupType,
   section: string,
 ): HierarchySectionSelector =>
   createSelector(
@@ -90,11 +91,17 @@ const createGroupSelector = (
   );
 
 export const selectCommitteeForHierarchy = createGroupSelector(
-  'komite',
+  GroupType.Committee,
   'komiteer',
 );
-export const selectRevueForHierarchy = createGroupSelector('revy', 'revy');
-export const selectBoardsForHierarchy = createGroupSelector('styre', 'styrer');
+export const selectRevueForHierarchy = createGroupSelector(
+  GroupType.Revue,
+  'revy',
+);
+export const selectBoardsForHierarchy = createGroupSelector(
+  GroupType.Board,
+  'styrer',
+);
 export const selectPageHierarchy = createSelector(
   (_: RootState, sections: UnknownSection[]) => sections,
   (state: RootState) => state,
@@ -156,7 +163,7 @@ const groupMemberships = (
 
 export const selectCommitteePageInfo: PageInfoSelector = createSelector(
   (state: RootState, pageSlug: string) =>
-    selectGroupById(state, pageSlug) as PublicDetailedGroup,
+    selectGroupById<PublicDetailedGroup>(state, pageSlug),
   (group) =>
     group && {
       actionGrant: group.actionGrant,
@@ -168,7 +175,7 @@ export const selectCommitteePageInfo: PageInfoSelector = createSelector(
 );
 export const selectCommitteePage: PageSelector<GroupPage> = createSelector(
   (state: RootState, pageSlug: string) =>
-    selectGroupById(state, pageSlug) as PublicDetailedGroup,
+    selectGroupById<PublicDetailedGroup>(state, pageSlug),
   (state: RootState, pageSlug: string) =>
     selectMembershipsForGroup(state, {
       descendants: true,
@@ -177,7 +184,7 @@ export const selectCommitteePage: PageSelector<GroupPage> = createSelector(
         query: {
           descendants: 'true',
         },
-        entity: 'memberships',
+        entity: EntityType.Memberships,
         endpoint: `/groups/${pageSlug}/memberships/`,
       })(state).pagination,
     }),
@@ -199,8 +206,9 @@ export const selectNotFoundPageInfo: PageInfoSelector = createSelector(
     bannerPlaceholder: '',
   }),
 );
-export const selectOmAbakusPageInfo: PageInfoSelector = () => ({
+const omAbakusPageInfo = {
   title: 'Info om Abakus',
   banner: '',
   bannerPlaceholder: '',
-});
+};
+export const selectOmAbakusPageInfo: PageInfoSelector = () => omAbakusPageInfo;

@@ -281,6 +281,8 @@ const sections: Record<string, UnknownSection> = {
   },
 };
 
+const sectionValues = Object.values(sections);
+
 export const categoryOptions = Object.keys(sections)
   .map((key) => sections[key])
   .filter((entry) => entry.pageSelector === selectFlatpagePage)
@@ -359,7 +361,7 @@ const PageDetail = () => {
     useParams<PageDetailParams>() as PageDetailParams;
 
   const pageHierarchy = useAppSelector((state) =>
-    selectPageHierarchy(state, Object.values(sections)),
+    selectPageHierarchy(state, sectionValues),
   );
   const { pageSelector, pageInfoSelector, PageRenderer } =
     getSection(sectionName);
