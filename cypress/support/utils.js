@@ -54,10 +54,10 @@ export const selectEditor = (name, options = {}) =>
     : cy.get('div[data-slate-editor="true"]', options).click().click();
 
 const selectDatePickerHours = () =>
-  cy.get(c('TimePicker__timePickerInput')).first().find('input');
+  cy.get(c('TimePicker-module__timePickerInput')).first().find('input');
 
 const selectDatePickerMinutes = () =>
-  cy.get(c('TimePicker__timePickerInput')).last().find('input');
+  cy.get(c('TimePicker-module__timePickerInput')).last().find('input');
 
 export const setDatePickerTime = (name, hours, minutes) => {
   field(name).click();
@@ -129,7 +129,7 @@ export const clearCardDetails = () => {
   });
 };
 
-export const stripeError = () => cy.get(c('Stripe__error'));
+export const stripeError = () => cy.get(c('Stripe-module__error'));
 
 export const mockMazemapApi = () => {
   cy.intercept('GET', 'https://api.mazemap.com/search/equery/**', {
@@ -144,9 +144,9 @@ export const uploadHeader = () => {
 
   // Upload file
   cy.upload_file(
-    c('ImageUploadField__coverImage') +
+    c('ImageUploadField-module__coverImage') +
       ' ' +
-      c('UploadImage__placeholderContainer') +
+      c('UploadImage-module__placeholderContainer') +
       ' > span',
     'images/screenshot.png',
   );

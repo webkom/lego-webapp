@@ -12,7 +12,7 @@ import {
   Smile,
 } from 'lucide-react';
 import { getTheme } from 'app/utils/themeUtils';
-import styles from './ReactionPickerCategory.css';
+import styles from './ReactionPickerCategory.module.css';
 
 type Props = {
   isActive: boolean;

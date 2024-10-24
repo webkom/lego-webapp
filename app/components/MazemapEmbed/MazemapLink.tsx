@@ -1,4 +1,4 @@
-import styles from './MazemapEmbed.css';
+import styles from './MazemapEmbed.module.css';
 
 type Props = {
   mazemapPoi: number;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Popover, ArrowContainer } from 'react-tiny-popover';
-import styles from './Tooltip.css';
+import styles from './Tooltip.module.css';
 import type { ReactNode, CSSProperties, ComponentProps } from 'react';
 
 type Props = {

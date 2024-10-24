@@ -7,11 +7,11 @@ import {
   CheckBox,
   DatePicker,
 } from 'app/components/Form';
-import fieldStyles from 'app/components/Form/Field.css';
+import fieldStyles from 'app/components/Form/Field.module.css';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import Tooltip from 'app/components/Tooltip';
 import { EventTypeConfig } from 'app/routes/events/utils';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import type { EditingEvent } from 'app/routes/events/utils';
 
 type Props = {

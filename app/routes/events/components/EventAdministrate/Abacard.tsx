@@ -3,7 +3,7 @@ import { markUsernamePresent } from 'app/actions/EventActions';
 import Validator from 'app/components/UserValidator';
 import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Abacard.css';
+import styles from './Abacard.module.css';
 import type { AdministrateEvent } from 'app/store/models/Event';
 
 const Abacard = () => {

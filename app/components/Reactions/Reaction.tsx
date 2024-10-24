@@ -6,7 +6,7 @@ import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './Reaction.css';
+import styles from './Reaction.module.css';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 

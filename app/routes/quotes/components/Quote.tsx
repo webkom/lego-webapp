@@ -7,7 +7,7 @@ import Reaction from 'app/components/Reactions/Reaction';
 import Time from 'app/components/Time';
 import { selectEmojis } from 'app/reducers/emojis';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Quotes.css';
+import styles from './Quotes.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type Emoji from 'app/store/models/Emoji';

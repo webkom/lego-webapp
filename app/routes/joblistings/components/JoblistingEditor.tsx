@@ -41,7 +41,7 @@ import {
   validYoutubeUrl,
 } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
-import styles from './JoblistingEditor.css';
+import styles from './JoblistingEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { searchMapping } from 'app/reducers/search';
 import type { ListCompany } from 'app/store/models/Company';

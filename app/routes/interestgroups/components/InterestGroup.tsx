@@ -2,7 +2,7 @@ import { Flex, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import ABAKUS_ICON from 'app/assets/icon-192x192.png';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 import type { Group } from 'app/models';
 
 type Props = {

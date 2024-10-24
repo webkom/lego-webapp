@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
-import styles from './EventList.css';
+import styles from './EventList.module.css';
 import EventsTabs from './EventsTabs';
 import type { ListEvent } from 'app/store/models/Event';
 

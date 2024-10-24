@@ -12,7 +12,7 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
-import styles from './EventDetail/EventDetail.css';
+import styles from './EventDetail/EventDetail.module.css';
 import type { TextWithIconProps } from 'app/components/TextWithIcon';
 import type {
   EventRegistrationPaymentStatus,

@@ -33,7 +33,7 @@ describe('Create meeting', () => {
     cy.contains('button', 'Opprett møte').should('be.disabled');
     // change the meeting time to enable submit button
     field('startTime').click();
-    cy.get(c('TimePicker__arrowUp')).first().click();
+    cy.get(c('TimePicker-module__arrowUp')).first().click();
     cy.contains('Nytt møte').click(); // Click on something to close the datepicker
 
     cy.contains('button', 'Opprett møte').should('not.be.disabled').click();
@@ -125,13 +125,13 @@ describe('Create meeting', () => {
       .should('contain.text', 'bedkom bedkom')
       .should('be.visible');
 
-    cy.contains(c('AttendanceStatus__poolBox'), 'Ikke svart')
+    cy.contains(c('AttendanceStatus-module__poolBox'), 'Ikke svart')
       .should('contain.text', '2/2')
       .find('button')
       .click();
 
-    cy.get(c('AttendanceModalContent__list'))
-      .find(c('AttendanceModalContent__row'))
+    cy.get(c('AttendanceModalContent-module__list'))
+      .find(c('AttendanceModalContent-module__row'))
       .should('have.length', 2)
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
@@ -193,10 +193,11 @@ describe('Create meeting', () => {
     selectField('reportAuthor').should('contain.text', 'webkom webkom');
 
     // verify invited users modal
-    cy.get(c('AttendanceStatus__poolBox')).find('button').click();
-    cy.contains(c('AttendanceModalContent__row'), 'webkom webkom').should(
-      'be.visible',
-    );
+    cy.get(c('AttendanceStatus-module__poolBox')).find('button').click();
+    cy.contains(
+      c('AttendanceModalContent-module__row'),
+      'webkom webkom',
+    ).should('be.visible');
     cy.get(t('Modal__closeButton')).click();
 
     setDatePickerTime('startTime', '17', '15');
@@ -242,13 +243,13 @@ describe('Create meeting', () => {
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
 
-    cy.contains(c('AttendanceStatus__poolBox'), 'Ikke svart')
+    cy.contains(c('AttendanceStatus-module__poolBox'), 'Ikke svart')
       .should('contain.text', '2/2')
       .find('button')
       .click();
 
-    cy.get(c('AttendanceModalContent__list'))
-      .find(c('AttendanceModalContent__row'))
+    cy.get(c('AttendanceModalContent-module__list'))
+      .find(c('AttendanceModalContent-module__row'))
       .should('have.length', 2)
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');

@@ -40,7 +40,7 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
-import styles from './Event.css';
+import styles from './Event.module.css';
 import PaymentRequestForm from './StripeElement';
 import type { EventRegistrationStatus } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';

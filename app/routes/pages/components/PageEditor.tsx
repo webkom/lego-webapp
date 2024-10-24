@@ -38,7 +38,7 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import { selectPageById } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './PageEditor.css';
+import styles from './PageEditor.module.css';
 import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { AuthDetailedPage } from 'app/store/models/Page';

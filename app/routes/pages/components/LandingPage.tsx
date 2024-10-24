@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
 import { useIsLoggedIn } from 'app/reducers/auth';
-import styles from './LandingPage.css';
+import styles from './LandingPage.module.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';
 import Statistic from './subcomponents/Statistic';

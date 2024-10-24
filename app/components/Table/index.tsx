@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
-import styles from './Table.css';
+import styles from './Table.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 

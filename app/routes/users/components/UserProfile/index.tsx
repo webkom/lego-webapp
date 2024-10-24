@@ -42,7 +42,7 @@ import GroupChange from './GroupChange';
 import { GroupMemberships } from './GroupMemberships';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
-import styles from './UserProfile.css';
+import styles from './UserProfile.module.css';
 import type { ListEventWithUserRegistration } from 'app/store/models/Event';
 import type { PublicGroup } from 'app/store/models/Group';
 import type { CurrentUser, PublicUserWithGroups } from 'app/store/models/User';

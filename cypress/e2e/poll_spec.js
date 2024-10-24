@@ -117,7 +117,7 @@ describe('Polls', () => {
     cy.visit('/');
     cy.contains('Avstemning');
     cy.contains(poll_form.title);
-    cy.get(c('Poll__arrowIcon')).first().click();
+    cy.get(c('Poll-module__arrowIcon')).first().click();
     cy.contains('0 stemmer');
     cy.contains(poll_form.choice_1).click();
     cy.contains('1 stemme');
@@ -127,9 +127,9 @@ describe('Polls', () => {
 
   it('can delete poll', () => {
     cy.visit('/polls');
-    cy.get(c('PollsList__pollListItem')).should('have.length', 2);
+    cy.get(c('PollsList-module__pollListItem')).should('have.length', 2);
 
-    cy.get(c('PollsList__pollListItem')).first().click();
+    cy.get(c('PollsList-module__pollListItem')).first().click();
 
     cy.contains('button', 'Rediger').click();
     cy.contains('button', 'Slett avstemning').click();
@@ -139,6 +139,6 @@ describe('Polls', () => {
 
     cy.visit('/polls');
 
-    cy.get(c('PollsList__pollListItem')).should('have.length', 1);
+    cy.get(c('PollsList-module__pollListItem')).should('have.length', 1);
   });
 });

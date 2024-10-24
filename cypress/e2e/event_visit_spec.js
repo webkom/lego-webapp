@@ -20,7 +20,10 @@ describe('View event', () => {
       .click();
     // When clicking on attendees we should get the modal
     cy.get(c('Modal')).should('be.visible');
-    cy.get(c('AttendanceModalContent__list') + ' li').should('have.length', 9);
+    cy.get(c('AttendanceModalContent-module__list') + ' li').should(
+      'have.length',
+      9,
+    );
 
     cy.get('body').click(20, 20);
     cy.get(c('Modal')).should('not.exist');
@@ -57,7 +60,7 @@ describe('View event', () => {
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
     // We should see the comment and be able to delete it
-    cy.get(c('Comment__comment'))
+    cy.get(c('Comment-module__comment'))
       .last()
       .within(() => {
         cy.contains('This event will be awesome');
@@ -74,7 +77,9 @@ describe('View event', () => {
     cy.focused().type('This is the top comment');
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
-    cy.get(c('Comment__comment')).last().contains('This is the top comment');
+    cy.get(c('Comment-module__comment'))
+      .last()
+      .contains('This is the top comment');
     cy.contains('button', 'Svar').click();
 
     cy.get(c('CommentForm'))
@@ -84,6 +89,6 @@ describe('View event', () => {
       .click();
     cy.focused().type('This is a child comment');
     cy.contains('button', 'Send svar').click();
-    cy.get(c('CommentTree__nested')).contains('This is a child comment');
+    cy.get(c('CommentTree-module__nested')).contains('This is a child comment');
   });
 });

@@ -8,10 +8,10 @@ describe('Navigate throughout app', () => {
 
   // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
-    cy.get(`${c('Header__menu')} ${c('buttonGroup')}`).within(() => {
+    cy.get(`${c('Header-module__menu')} ${c('buttonGroup')}`).within(() => {
       cy.get(t('search-menu-icon')).click();
     });
-    cy.get(c('Search__quickLinks-'))
+    cy.get(c('Search-module__quickLinks-'))
       .first()
       .within(() => {
         cy.contains(name).click();

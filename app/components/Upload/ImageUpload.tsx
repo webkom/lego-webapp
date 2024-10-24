@@ -12,7 +12,7 @@ import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
-import styles from './UploadImage.css';
+import styles from './UploadImage.module.css';
 
 export interface DropFile extends File {
   preview?: string;

@@ -5,7 +5,7 @@ import { useIsLoggedIn } from 'app/reducers/auth';
 import AboutDropdown from './AboutDropdown';
 import CareerDropdown from './CareerDropdown';
 import EventsDropdown from './EventsDropwdown';
-import styles from './Navbar.css';
+import styles from './Navbar.module.css';
 import type { ReactElement } from 'react';
 
 type NavbarLink = {

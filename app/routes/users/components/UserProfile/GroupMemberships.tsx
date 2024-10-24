@@ -7,7 +7,7 @@ import { CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { resolveGroupLink, selectGroupEntities } from 'app/reducers/groups';
-import styles from 'app/routes/users/components/UserProfile/UserProfile.css';
+import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
 import { useAppSelector } from 'app/store/hooks';
 import type { Dateish } from 'app/models';
 import type { PublicGroup } from 'app/store/models/Group';

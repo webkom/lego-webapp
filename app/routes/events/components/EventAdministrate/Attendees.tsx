@@ -9,7 +9,7 @@ import {
   selectEventById,
 } from 'app/reducers/events';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './Abacard.css';
+import styles from './Abacard.module.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import type { AdministrateEvent } from 'app/store/models/Event';
 

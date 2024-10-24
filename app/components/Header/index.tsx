@@ -22,7 +22,7 @@ import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
 import Search from '../Search';
 import FancyNodesCanvas from './FancyNodesCanvas';
-import styles from './Header.css';
+import styles from './Header.module.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
 

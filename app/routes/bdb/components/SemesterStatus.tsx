@@ -8,7 +8,7 @@ import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { getContactStatuses, getSemesterStatus } from '../utils';
-import styles from './SemesterStatus.css';
+import styles from './SemesterStatus.module.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type { Semester } from 'app/models';
 import type {

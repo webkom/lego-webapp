@@ -14,7 +14,7 @@ import { useAppDispatch } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './Quotes.css';
+import styles from './Quotes.module.css';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 type FormValues = {

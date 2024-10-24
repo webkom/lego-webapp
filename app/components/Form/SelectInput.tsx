@@ -3,7 +3,7 @@ import Creatable from 'react-select/creatable';
 import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
-import style from './SelectInput.css';
+import style from './SelectInput.module.css';
 import type { ChangeEvent, ComponentProps, ComponentType } from 'react';
 import type { StylesConfig, ThemeConfig } from 'react-select';
 

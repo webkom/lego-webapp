@@ -10,7 +10,7 @@ import RegistrationMeta, {
 } from 'app/routes/events/components/RegistrationMeta';
 import { getEventSemesterFromStartTime } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './EventDetail.css';
+import styles from './EventDetail.module.css';
 import type {
   PoolWithRegistrations,
   PoolRegistrationWithUser,

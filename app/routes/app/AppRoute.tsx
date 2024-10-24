@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import HTTPError from '../errors/HTTPError';
-import styles from './AppRoute.css';
+import styles from './AppRoute.module.css';
 import type { PropsWithChildren } from 'react';
 
 const AppChildren = ({ children }: PropsWithChildren) => {

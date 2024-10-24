@@ -4,7 +4,7 @@ import { useIsLoggedIn } from 'app/reducers/auth';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { eventStatus } from 'app/utils/eventStatus';
-import styles from './EventItem.css';
+import styles from './EventItem.module.css';
 import type { FrontpageEvent } from 'app/store/models/Event';
 
 type Props = {

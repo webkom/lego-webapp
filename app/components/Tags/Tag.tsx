@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
-import styles from './Tag.css';
+import styles from './Tag.module.css';
 
 const tagColors = [
   'red',

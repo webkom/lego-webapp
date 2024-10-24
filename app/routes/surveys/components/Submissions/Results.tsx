@@ -15,7 +15,7 @@ import {
   SurveyQuestionType,
 } from 'app/store/models/SurveyQuestion';
 import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { EventForSurvey } from 'app/store/models/Event';

@@ -2,7 +2,7 @@ import { useToast } from '@react-aria/toast';
 import { Icon } from '@webkom/lego-bricks';
 import { X } from 'lucide-react';
 import { useRef } from 'react';
-import styles from './Toast.module.css';
+import styles from './Toast.module.module.css';
 import type { AriaToastProps } from '@react-aria/toast';
 import type { ToastState } from '@react-stately/toast';
 

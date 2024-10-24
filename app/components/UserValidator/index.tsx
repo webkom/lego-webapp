@@ -13,7 +13,7 @@ import {
 } from 'app/reducers/search';
 import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './Validator.css';
+import styles from './Validator.module.css';
 import type { SearchUser } from 'app/store/models/User';
 import type { Required } from 'utility-types';
 

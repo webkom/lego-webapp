@@ -14,7 +14,7 @@ import { selectOwnSurveySubmission } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/AlreadyAnswered';
 import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
-import styles from 'app/routes/surveys/components/surveys.css';
+import styles from 'app/routes/surveys/components/surveys.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';

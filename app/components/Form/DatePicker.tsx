@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import parseDateValue from 'app/utils/parseDateValue';
-import styles from './DatePicker.css';
+import styles from './DatePicker.module.css';
 import { createField } from './Field';
 import TextInput from './TextInput';
 import TimePicker from './TimePicker';

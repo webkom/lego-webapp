@@ -32,7 +32,7 @@ import {
 import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
-import styles from './UserSettings.css';
+import styles from './UserSettings.module.css';
 import type { CurrentUser } from 'app/store/models/User';
 
 type GenderKey = keyof typeof Gender;

@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
-import styles from './MazemapEmbed.css';
+import styles from './MazemapEmbed.module.css';
 import MazemapLink from './MazemapLink';
 
 type MazeMap = {

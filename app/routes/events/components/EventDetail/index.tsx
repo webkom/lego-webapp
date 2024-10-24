@@ -37,7 +37,7 @@ import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import styles from './EventDetail.css';
+import styles from './EventDetail.module.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { PoolWithRegistrations } from 'app/reducers/events';
 import type {

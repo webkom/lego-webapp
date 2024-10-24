@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { Card } from '@webkom/lego-bricks';
 import { Children, cloneElement, Component } from 'react';
-import styles from './ErrorBoundary.css';
+import styles from './ErrorBoundary.module.css';
 import type { ReactNode, ReactElement } from 'react';
 
 type Props = {

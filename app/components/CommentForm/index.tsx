@@ -9,7 +9,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
-import styles from './CommentForm.css';
+import styles from './CommentForm.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 

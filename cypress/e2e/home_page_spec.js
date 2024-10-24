@@ -10,10 +10,10 @@ describe('The Home Page and Login', () => {
     cy.contains('a', 'Om Abakus');
 
     cy.contains('h3', 'Bedpres og kurs');
-    cy.contains(c('CompactEvents__eventItem'), 'DIPS');
+    cy.contains(c('CompactEvents-module__eventItem'), 'DIPS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains(c('CompactEvents__eventItem'), 'Sikkerhet og Sårbarhet');
+    cy.contains(c('CompactEvents-module__eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Oppslag');
     cy.contains('span', 'readme');
@@ -28,10 +28,10 @@ describe('The Home Page and Login', () => {
     cy.get('[name=password]').type('Webkom123{enter}');
 
     // Click dropdown for user
-    cy.get(c('Dropdown__content')).should('not.exist');
-    cy.get(c('Header__menu')).find(c('Image__image')).click();
+    cy.get(c('Dropdown-module__content')).should('not.exist');
+    cy.get(c('Header-module__menu')).find(c('Image-module__image')).click();
 
-    cy.get(c('Dropdown__content')).should((dropdown) => {
+    cy.get(c('Dropdown-module__content')).should((dropdown) => {
       expect(dropdown).to.contain(username);
       expect(dropdown).to.contain('Innstillinger');
       expect(dropdown).to.contain('Møte');
@@ -45,10 +45,10 @@ describe('The Home Page and Login', () => {
     cy.visit('/');
 
     cy.contains('h3', 'Bedpres og kurs');
-    cy.contains(c('CompactEvents__eventItem'), 'Deloitte AS');
+    cy.contains(c('CompactEvents-module__eventItem'), 'Deloitte AS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains(c('CompactEvents__eventItem'), 'Sikkerhet og Sårbarhet');
+    cy.contains(c('CompactEvents-module__eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Påmeldinger');
 

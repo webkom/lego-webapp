@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './GalleryEditorActions.css';
+import styles from './GalleryEditorActions.module.css';
 
 type Props = {
   selectedCount: number;

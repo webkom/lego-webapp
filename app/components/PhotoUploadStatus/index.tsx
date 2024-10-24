@@ -7,7 +7,7 @@ import {
   initialUploadStatus,
   hideUploadStatus,
 } from 'app/reducers/galleryPictures';
-import styles from './PhotoUploadStatus.css';
+import styles from './PhotoUploadStatus.module.css';
 import type { UploadStatus } from 'app/reducers/galleryPictures';
 import type { RootState } from 'app/store/createRootReducer';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';

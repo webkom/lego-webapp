@@ -1,6 +1,6 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { Search, X } from 'lucide-react';
-import styles from './Search.css';
+import styles from './Search.module.css';
 import type { Dispatch, KeyboardEventHandler, SetStateAction } from 'react';
 
 type Props = {
