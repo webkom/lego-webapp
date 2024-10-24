@@ -38,6 +38,7 @@ import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { AchievementsBox } from './AchievementsBox';
 import GroupChange from './GroupChange';
 import { GroupMemberships } from './GroupMemberships';
 import Penalties from './Penalties';
@@ -201,10 +202,20 @@ const UserProfile = () => {
             </LinkButton>
           )}
         </Flex>
-        <GroupMemberships
-          memberships={memberships}
-          pastMemberships={pastMemberships}
-        />
+        <Flex
+          alignItems="center"
+          column
+          className={cx(styles.rightContent, styles.leftMarginContent)}
+        >
+          <GroupMemberships
+            memberships={memberships}
+            pastMemberships={pastMemberships}
+          />
+
+          {user.achievements?.length > 0 && (
+            <AchievementsBox achievements={user.achievements} />
+          )}
+        </Flex>
       </Flex>
 
       <Flex wrap className={styles.content}>
@@ -251,7 +262,7 @@ const UserProfile = () => {
               <GSuiteInfo emailAddress={user.emailAddress} />
             )}
         </div>
-        <div className={styles.rightContent}>
+        <div className={cx(styles.rightContent, styles.leftMarginContent)}>
           {isCurrentUser && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>
