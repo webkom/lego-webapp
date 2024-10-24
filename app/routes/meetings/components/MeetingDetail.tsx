@@ -30,6 +30,7 @@ import { ProfilePicture } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import { PizzaMettingbutton } from 'app/components/PizzaMeetingButton';
 import Time, { FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import Attendance from 'app/components/UserAttendance/Attendance';
@@ -161,6 +162,9 @@ const MeetingDetails = () => {
   const statusMe = currentUserInvitation?.status;
   const actionGrant = meeting?.actionGrant;
   const canEdit = actionGrant?.includes('edit');
+  const pizzaActivated =
+    meeting.reactionsGrouped?.find((reaction) => reaction.emoji === ':pizza:')
+      ?.count ?? false;
   const infoItems = [
     {
       key: 'Din status',
@@ -292,6 +296,17 @@ const MeetingDetails = () => {
               )}
             </ButtonGroup>
           </div>
+          {pizzaActivated && (
+            <div>
+              <h3>Pizza</h3>
+              <ButtonGroup>
+                <PizzaMettingbutton
+                  meeting={meeting}
+                  meetingInvitations={meetingInvitations}
+                ></PizzaMettingbutton>
+              </ButtonGroup>
+            </div>
+          )}
         </ContentSidebar>
       </ContentSection>
       <ContentSection>

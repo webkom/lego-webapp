@@ -2,6 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
+import { ContentList } from 'app/components/ContententList';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
@@ -92,13 +93,17 @@ const Reaction = ({
   }
 
   let tooltipContent =
-    showPeople && optimisticUsers?.map((user) => user.fullName).join(', ');
+    showPeople &&
+    optimisticUsers
+      ?.map((user) => user.fullName)
+      .sort()
+      .join(',\n');
   tooltipContent = tooltipContent ? `${tooltipContent} reagerte med ` : '';
   tooltipContent += emoji;
 
   return (
     <>
-      <Tooltip content={tooltipContent}>
+      <Tooltip content={<ContentList content={tooltipContent} />}>
         <Flex
           gap="var(--spacing-xs)"
           justifyContent="center"
