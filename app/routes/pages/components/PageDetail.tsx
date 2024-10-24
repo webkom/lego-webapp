@@ -161,7 +161,8 @@ export type UnknownSection =
   | Section<GroupPage>
   | Section<null>;
 
-const fetchAllMembershipsWithDecendants = (groupId: EntityId) => fetchAllMemberships(groupId, true);
+const fetchAllMembershipsWithDecendants = (groupId: EntityId) =>
+  fetchAllMemberships(groupId, true);
 
 const sections: Record<string, UnknownSection> = {
   generelt: {
@@ -192,10 +193,7 @@ const sections: Record<string, UnknownSection> = {
     PageRenderer: GroupRenderer,
     hierarchySectionSelector: selectBoardsForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Board),
-    fetchItemActions: [
-      fetchGroup,
-      fetchAllMembershipsWithDecendants,
-    ],
+    fetchItemActions: [fetchGroup, fetchAllMembershipsWithDecendants],
   },
   bedrifter: {
     title: 'Bedrifter',
@@ -223,10 +221,7 @@ const sections: Record<string, UnknownSection> = {
     PageRenderer: GroupRenderer,
     hierarchySectionSelector: selectCommitteeForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Committee),
-    fetchItemActions: [
-      fetchGroup,
-      fetchAllMembershipsWithDecendants,
-    ],
+    fetchItemActions: [fetchGroup, fetchAllMembershipsWithDecendants],
   },
   revy: {
     title: 'Revy',
@@ -236,10 +231,7 @@ const sections: Record<string, UnknownSection> = {
     PageRenderer: GroupRenderer,
     hierarchySectionSelector: selectRevueForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Revue),
-    fetchItemActions: [
-      fetchGroup,
-      fetchAllMembershipsWithDecendants
-    ],
+    fetchItemActions: [fetchGroup, fetchAllMembershipsWithDecendants],
   },
   grupper: {
     title: 'Grupper',
@@ -318,7 +310,7 @@ const loadData = async (
   let actionsToDispatch = fetchItemActions;
   if (!loggedIn) {
     actionsToDispatch = fetchItemActions.filter(
-      (action) => action !== fetchAllMembershipsWithDecendants
+      (action) => action !== fetchAllMembershipsWithDecendants,
     );
   }
 
