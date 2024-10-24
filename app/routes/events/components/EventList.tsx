@@ -8,7 +8,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty, orderBy } from 'lodash';
+import { isEmpty, orderBy } from 'lodash-es';
 import { FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';

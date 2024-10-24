@@ -11,7 +11,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { uniqBy, orderBy } from 'lodash';
+import { uniqBy, orderBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';

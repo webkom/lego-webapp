@@ -1,6 +1,6 @@
 import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { FilePenLine } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';

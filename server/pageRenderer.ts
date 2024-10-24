@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import { selectCurrentUser } from 'app/reducers/auth';

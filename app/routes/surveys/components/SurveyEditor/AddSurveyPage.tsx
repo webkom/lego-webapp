@@ -1,6 +1,6 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import moment from 'moment-timezone';
 import { useNavigate } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { without } from 'lodash';
+import { without } from 'lodash-es';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import { EntityType } from 'app/store/models/entities';

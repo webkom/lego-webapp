@@ -1,4 +1,4 @@
-import { omit, isArray } from 'lodash';
+import { omit, isArray } from 'lodash-es';
 import { normalize } from 'normalizr';
 import { logout } from 'app/actions/UserActions';
 import { selectIsLoggedIn } from 'app/reducers/auth';

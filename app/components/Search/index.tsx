@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { autocomplete, toggleSearch } from 'app/actions/SearchActions';

@@ -11,7 +11,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { without } from 'lodash';
+import { without } from 'lodash-es';
 import { Images, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
