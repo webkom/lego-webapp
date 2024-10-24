@@ -79,6 +79,9 @@ export const companySchema = new schema.Entity(EntityType.Companies, {
   comments: [commentSchema],
 });
 export const joblistingsSchema = new schema.Entity(EntityType.Joblistings);
+export const lendableObjectSchema = new schema.Entity(
+  EntityType.LendableObjects,
+);
 export const announcementsSchema = new schema.Entity(EntityType.Announcements);
 export const feedActivitySchema = new schema.Entity(EntityType.FeedActivities);
 export const oauth2ApplicationSchema = new schema.Entity(

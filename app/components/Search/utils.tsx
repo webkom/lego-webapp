@@ -29,6 +29,7 @@ import {
   Send,
   Tags,
   Users,
+  ShoppingCart,
 } from 'lucide-react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Tag } from 'app/components/Tags';
@@ -76,6 +77,18 @@ const LINKS: Array<Link> = [
     ),
     icon: <MessagesSquare />,
     url: '/forum',
+  },
+  {
+    key: 'lending',
+    requireLogin: true,
+    title: (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        Utlån
+        <Tag tag="Beta" color="purple" />
+      </Flex>
+    ),
+    icon: <ShoppingCart />,
+    url: '/lending',
   },
   {
     key: 'events',

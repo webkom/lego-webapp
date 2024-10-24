@@ -1,5 +1,6 @@
 import loadable from '@loadable/component';
 import { type RouteObject } from 'react-router-dom';
+import lendingRoute from 'app/routes/lending';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
 import { AppRoute } from './app';
@@ -53,6 +54,7 @@ export const routerConfig: RouteObject[] = [
       { path: 'interest-groups/*', children: interestGroupsRoute },
       { path: 'interestgroups/*', children: interestGroupsRoute },
       { path: 'joblistings/*', children: joblistingsRoute },
+      { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
       { path: 'pages/*', children: pagesRoute },
       { path: 'photos/*', children: photosRoute },
