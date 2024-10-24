@@ -1,6 +1,6 @@
 import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { map, toPairs } from 'lodash';
+import { map, toPairs } from 'lodash-es';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import { fetch } from 'app/actions/TagActions';

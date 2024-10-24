@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { groupBy, sortBy, uniqBy } from 'lodash';
+import { groupBy, sortBy, uniqBy } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { EntityType } from 'app/store/models/entities';

@@ -1,6 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { MoonStar, Sun } from 'lucide-react';
 import { useCallback } from 'react';
 import { updateUserTheme } from 'app/actions/UserActions';

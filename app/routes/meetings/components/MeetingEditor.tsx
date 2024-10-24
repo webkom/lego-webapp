@@ -7,7 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { unionBy } from 'lodash';
+import { unionBy } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
