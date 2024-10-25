@@ -2,6 +2,7 @@
   background: var(--lego-card-color);
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-lg);
+  border: 1.5px solid var(--border-gray);
   line-height: 1.3;
 }
 
@@ -25,14 +26,14 @@
 }
 
 .isHoverable:hover {
-  transition: box-shadow var(--easing-medium);
+  transition: box-shadow var(--easing-fast);
   box-shadow: var(--shadow-md);
 }
 
 .danger {
   margin: var(--spacing-md) 0;
   background-color: var(--color-red-1);
-  border: 1.5px solid var(--danger-color);
+  border-color: var(--danger-color);
   color: var(--danger-color);
 }
 
@@ -62,7 +63,7 @@ html[data-theme='dark'] .danger a:hover {
 .info {
   margin: var(--spacing-md) 0;
   background-color: var(--color-blue-1);
-  border: 1.5px solid var(--color-blue-7);
+  border-color: var(--color-blue-7);
   color: var(--color-blue-7);
 }
 
@@ -82,7 +83,7 @@ html[data-theme='dark'] .danger a:hover {
 .success {
   margin: var(--spacing-md) 0;
   background-color: var(--color-green-2);
-  border: 1.5px solid var(--color-green-7);
+  border-color: var(--color-green-7);
   color: var(--color-green-7);
 }
 
@@ -102,7 +103,7 @@ html[data-theme='dark'] .danger a:hover {
 .warning {
   margin: var(--spacing-md) 0;
   background-color: var(--color-orange-1);
-  border: 1.5px solid var(--color-orange-7);
+  border-color: var(--color-orange-7);
   color: var(--color-orange-7);
 }
 
