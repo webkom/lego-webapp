@@ -273,6 +273,7 @@ const GalleryPictureModal = () => {
         propertyGenerator={propertyGenerator}
         options={{ gallery, picture }}
       >
+        <title>{`${gallery.title} (${picture.id})`}</title>
         <link
           rel="canonical"
           href={`${config?.webUrl}/photos/${gallery.id}/picture/${picture.id}`}
