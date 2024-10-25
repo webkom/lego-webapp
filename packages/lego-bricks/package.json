@@ -59,7 +59,7 @@
     "@cfaester/enzyme-adapter-react-18": "^0.8.0",
     "@storybook/addon-essentials": "^8.3.2",
     "@storybook/addon-interactions": "^8.3.5",
-    "@storybook/addon-links": "^8.2.9",
+    "@storybook/addon-links": "^8.3.6",
     "@storybook/blocks": "^8.3.6",
     "@storybook/react": "^8.2.9",
     "@storybook/react-vite": "^8.3.6",
