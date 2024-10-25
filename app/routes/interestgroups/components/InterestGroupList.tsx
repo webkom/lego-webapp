@@ -9,11 +9,12 @@ import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.module.css';
+import type { ReactNode } from 'react';
 
 const NavigationItem = (props: {
-  iconNode: React.ElementType;
+  iconNode: ReactNode;
   to: string;
-  children: React.ElementType;
+  children: ReactNode;
 }) => {
   return (
     <Flex
