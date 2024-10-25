@@ -283,7 +283,7 @@ const GalleryPictureModal = () => {
         <OnKeyDownHandler handler={handleKeyDown} />
         <Flex column gap="var(--spacing-md)">
           <Flex width="100%" justifyContent="space-between" alignItems="center">
-            <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between" gap="var(--spacing-md)">
               <Image
                 className={styles.galleryThumbnail}
                 alt="Forsidebilde til album"
