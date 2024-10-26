@@ -11,7 +11,7 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
-import type { CompleteEvent } from 'app/store/models/Event';
+import type { AdministrateEvent, CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
 import type { PublicUser } from 'app/store/models/User';
 
@@ -283,9 +283,9 @@ export const registrationIsClosed = (
   return moment().isAfter(registrationCloseTime(event));
 };
 
-export const unregistrationCloseTime = (event: Event) =>
+const unregistrationCloseTime = (event: AdministrateEvent) =>
   moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
-export const unregistrationIsClosed = (event: Event) => {
+export const unregistrationIsClosed = (event: AdministrateEvent) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
 

@@ -64,11 +64,11 @@ export const Icon = ({
       {...props}
     >
       {to ? (
-        <Link href={to} className={classNames}>
+        <Link href={to} isDisabled={disabled} className={classNames}>
           {iconElement}
         </Link>
       ) : onPress ? (
-        <Button onPress={onPress} className={classNames}>
+        <Button onPress={onPress} isDisabled={disabled} className={classNames}>
           {iconElement}
         </Button>
       ) : (

@@ -9,6 +9,7 @@ import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   getConsent,
+  unregistrationIsClosed,
 } from 'app/routes/events/utils';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
@@ -215,6 +216,8 @@ export const RegisteredTable = ({
     (event.feedbackDescription && event.feedbackDescription !== '') ||
     hasNonEmptyFeedback;
 
+  const isUnregistrationClosed = unregistrationIsClosed(event);
+
   const columns: ColumnProps<Registration>[] = [
     {
       title: '#',
@@ -355,7 +358,13 @@ export const RegisteredTable = ({
       render: (
         fetching: Registration['unregistering'],
         registration: Registration,
-      ) => <Unregister fetching={!!fetching} registration={registration} />,
+      ) => (
+        <Unregister
+          fetching={!!fetching}
+          registration={registration}
+          isUnregistrationClosed={isUnregistrationClosed}
+        />
+      ),
     },
   ].filter(isNotNullish);
 
