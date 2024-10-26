@@ -25,6 +25,7 @@
 .toast {
   display: flex;
   align-items: center;
+  gap: var(--spacing-sm);
   background-color: var(--toast-background);
   color: var(--inverted-font-color);
   font-size: var(--font-size-md);
@@ -32,11 +33,7 @@
   padding: var(--spacing-md);
   line-height: 20px;
   box-shadow: none;
-  border: 1px solid var(--border-gray);
-
-  .closeButton > button {
-    color: var(--inverted-font-color);
-  }
+  border: 1.5px solid var(--border-gray);
 
   @media (--mobile-device) {
     width: 100%;
@@ -55,6 +52,18 @@
   &[data-animation='exiting'] {
     animation: fade-out var(--easing-slow);
   }
+}
+
+.success {
+  background-color: var(--color-green-2);
+  border-color: var(--color-green-7);
+  color: var(--color-green-7);
+}
+
+.error {
+  background-color: var(--color-red-1);
+  border-color: var(--danger-color);
+  color: var(--danger-color);
 }
 
 @keyframes slide-in {
