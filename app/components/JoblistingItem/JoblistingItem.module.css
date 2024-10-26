@@ -4,6 +4,8 @@
   display: flex;
   align-items: center;
   padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  gap: var(--spacing-md);
   min-width: 280px;
   min-height: 140px;
   height: fit-content;
@@ -12,11 +14,12 @@
   transition: background-color var(--easing-fast);
 
   &:hover {
-    background-color: rgba(255, 0, 0, var(--low-alpha));
+    background-color: var(--additive-background);
   }
 
   @media (--mobile-device) {
-    padding: 5px;
+    padding: var(--spacing-xs);
+    margin-left: calc(-1 * var(--spacing-xs));
   }
 }
 
@@ -25,7 +28,6 @@
   max-height: 80px;
   min-width: 120px;
   object-fit: contain;
-  margin-right: var(--spacing-md);
   background: white;
 }
 

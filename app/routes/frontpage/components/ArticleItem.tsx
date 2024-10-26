@@ -20,7 +20,7 @@ const ArticleItem = ({ item, url, meta }: Props) => {
   );
 
   return (
-    <Card skeleton={fetching && !item} className={styles.body}>
+    <Card hideOverflow skeleton={fetching && !item} className={styles.body}>
       <Link to={url} className={styles.link}>
         <Image
           className={styles.image}

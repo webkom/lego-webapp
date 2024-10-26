@@ -4,16 +4,18 @@ import { Info, HandCoins, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllWithType } from 'app/actions/GroupActions';
+import { ContentMain } from 'app/components/Content';
 import { GroupType } from 'app/models';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import InterestGroupComponent from './InterestGroup';
 import styles from './InterestGroup.module.css';
+import type { ReactNode } from 'react';
 
 const NavigationItem = (props: {
-  iconNode: React.ElementType;
+  iconNode: ReactNode;
   to: string;
-  children: React.ElementType;
+  children: ReactNode;
 }) => {
   return (
     <Flex
@@ -66,48 +68,62 @@ const InterestGroupList = () => {
     >
       <Helmet title="Interessegrupper" />
 
-      <Flex gap="var(--spacing-xl)" wrap className={styles.navigationWrapper}>
-        <NavigationItem to="/interestgroups/info" iconNode={<Info />}>
-          Praktisk informasjon
-          <br /> om interessegrupper
-        </NavigationItem>
-        <NavigationItem
-          to="/interestgroups/money-application"
-          iconNode={<HandCoins />}
-        >
-          Send inn en
-          <br />
-          pengesøknad
-        </NavigationItem>
-        <NavigationItem
-          to="/interestgroups/create-application"
-          iconNode={<Plus />}
-        >
-          Søk om å opprette en <br />
-          interessegruppe
-        </NavigationItem>
-      </Flex>
+      <ContentMain>
+        <Flex gap="var(--spacing-xl)" wrap>
+          <NavigationItem to="/interestgroups/info" iconNode={<Info />}>
+            Praktisk informasjon
+            <br /> om interessegrupper
+          </NavigationItem>
+          <NavigationItem
+            to="/interestgroups/money-application"
+            iconNode={<HandCoins />}
+          >
+            Send inn en
+            <br />
+            pengesøknad
+          </NavigationItem>
+          <NavigationItem
+            to="/interestgroups/create-application"
+            iconNode={<Plus />}
+          >
+            Søk om å opprette en <br />
+            interessegruppe
+          </NavigationItem>
+        </Flex>
 
-      <h2>Aktive interessegrupper</h2>
+        <div>
+          <h2>Aktive interessegrupper</h2>
+          <Flex column gap="var(--spacing-sm)">
+            {activeGroups.map((group) => (
+              <InterestGroupComponent
+                group={group}
+                key={group.id}
+                active={true}
+              />
+            ))}
+          </Flex>
+        </div>
 
-      {activeGroups.map((group) => (
-        <InterestGroupComponent group={group} key={group.id} active={true} />
-      ))}
-
-      <div className={styles.inactiveHeader}>
-        <h2>Ikke-aktive interessegrupper</h2>
-        <p>
-          Send gjerne e-post til{' '}
-          <a href="mailTo:interessegrupper@abakus.no">
-            interessegrupper@abakus.no
-          </a>{' '}
-          hvis du ønsker å åpne en av disse igjen!
-        </p>
-      </div>
-
-      {notActiveGroups.map((group) => (
-        <InterestGroupComponent group={group} key={group.id} active={false} />
-      ))}
+        <div>
+          <h2>Ikke-aktive interessegrupper</h2>
+          <p className="secondaryFontColor">
+            Send gjerne e-post til{' '}
+            <a href="mailTo:interessegrupper@abakus.no">
+              interessegrupper@abakus.no
+            </a>{' '}
+            hvis du ønsker å åpne en av disse igjen!
+          </p>
+          <Flex column gap="var(--spacing-sm)">
+            {notActiveGroups.map((group) => (
+              <InterestGroupComponent
+                group={group}
+                key={group.id}
+                active={false}
+              />
+            ))}
+          </Flex>
+        </div>
+      </ContentMain>
     </Page>
   );
 };

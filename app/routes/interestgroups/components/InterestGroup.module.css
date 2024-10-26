@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.navigationWrapper {
-  margin-bottom: var(--spacing-md);
-}
-
 .navigationItem {
   flex-grow: 1;
   color: var(--absolute-white);
@@ -39,39 +35,30 @@
 .listItem {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: var(--lego-font-color);
+  padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  gap: var(--spacing-md);
   border-radius: var(--border-radius-lg);
-  padding: 15px 20px;
-  margin: 3px 0 12px;
+  color: var(--lego-font-color);
   transition: background-color var(--easing-fast);
 
   &:hover {
-    background-color: rgba(255, 0, 0, var(--low-alpha));
+    background-color: var(--additive-background);
+  }
+
+  @media (--mobile-device) {
+    padding: var(--spacing-xs);
+    margin-left: calc(-1 * var(--spacing-xs));
   }
 }
 
 .inactiveListItem:hover {
-  background-color: rgba(123, 123, 123, var(--low-alpha));
-}
-
-.listItemName {
-  margin: 0 0 10px;
-  color: var(--lego-font-color);
+  background-color: var(--additive-background);
 }
 
 .inactiveListItem .listItemName {
   margin: 0;
-  color: var(--color-gray-4);
-}
-
-.listItemContent {
-  opacity: 0.8;
-}
-
-.inactiveHeader {
-  margin: 30px 0;
+  color: var(--placeholder-color);
 }
 
 .textEdit {

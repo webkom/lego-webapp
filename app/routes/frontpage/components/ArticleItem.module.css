@@ -20,8 +20,6 @@
   width: 100%;
   height: auto;
   background: white;
-  border-top-left-radius: var(--border-radius-lg);
-  border-top-right-radius: var(--border-radius-lg);
 }
 
 .infoWrapper {

@@ -1,21 +1,16 @@
 import cx from 'classnames';
 import styles from './Flex.module.css';
-import type {
-  ReactNodeArray,
-  ReactNode,
-  ElementType,
-  HTMLAttributes,
-} from 'react';
+import type { ComponentPropsWithRef, ElementType, ReactNode } from 'react';
 
-type Props = {
-  children?: ReactNode | ReactNodeArray;
+type Props<C extends ElementType> = {
+  children?: ReactNode | ReactNode[];
   className?: string;
 
   /** Column or row */
   column?: boolean;
 
   /* Container component*/
-  component?: ElementType;
+  component?: C;
   componentRef?: React.RefObject<HTMLElement>;
 
   /** Wrap elements */
@@ -35,16 +30,16 @@ type Props = {
   margin?: number | string;
   width?: number | string;
   gap?: number | string;
-} & HTMLAttributes<HTMLDivElement>;
+} & ComponentPropsWithRef<C>;
 
 /**
  * Simple FlexBox component
  */
-const Flex = ({
+const Flex = <C extends ElementType = 'div'>({
   children,
   className,
   column = false,
-  component: Component = 'div',
+  component: Component = 'div' as C,
   componentRef,
   wrap = false,
   wrapReverse = false,
@@ -56,7 +51,7 @@ const Flex = ({
   gap,
   style,
   ...htmlAttributes
-}: Props) => (
+}: Props<C>) => (
   <Component
     className={cx(
       styles.flex,
