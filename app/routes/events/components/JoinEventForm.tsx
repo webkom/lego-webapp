@@ -171,7 +171,6 @@ const PaymentForm = ({
 );
 
 type FormValues = {
-  feedbackRequired: string;
   feedback?: string;
   captchaResponse: string;
 };
@@ -207,8 +206,6 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
 
   const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
   const registrationType = !registration ? 'register' : 'unregister';
-  const feedbackName = getFeedbackName(event);
-  const feedbackLabel = getFeedbackLabel(event);
   const disabledForUser =
     !fetching && !formOpen && !event.activationTime && !registration;
   const showPenaltyNotice = Boolean(
@@ -271,7 +268,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
       register({
         eventId: event.id,
         captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName] ?? '',
+        feedback: values.feedback ?? '',
         userId: currentUser.id,
       }),
     );
@@ -307,7 +304,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
   };
 
   const validate = createValidator({
-    [feedbackName]: [
+    feedback: [
       requiredIf(
         () => !registration && event.feedbackRequired,
         'Svar er påkrevd for dette arrangementet',
@@ -318,8 +315,8 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
     ],
   });
 
-  const initialValues = registration
-    ? { [feedbackName]: registration.feedback }
+  const initialValues: Partial<FormValues> = registration
+    ? { feedback: registration.feedback }
     : {};
 
   return (
@@ -384,7 +381,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
                 >
                   {({ form, handleSubmit, submitting, pristine, invalid }) => {
                     if (event.feedbackRequired) {
-                      form.blur('feedbackRequired');
+                      form.blur('feedback');
                     }
 
                     const isInvalid = registrationOpensIn !== null || invalid;
@@ -462,60 +459,64 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
                           />
                         )}
 
-                        <div>
-                          <label
-                            htmlFor={feedbackName}
-                            className={styles.feedbackLabel}
-                          >
-                            {feedbackLabel}
-                          </label>
-                          <Flex alignItems="center" gap="var(--spacing-md)">
-                            {spyValues((values: FormValues) => (
-                              <Field
-                                id={feedbackName}
-                                placeholder="Kommentar"
-                                name={feedbackName}
-                                component={TextInput.Field}
-                                className={styles.feedbackText}
-                                onKeyDown={(e) => {
-                                  if (e.key === 'Enter' && registration) {
-                                    // Prevent user from unregistering by pressing enter
-                                    e.preventDefault();
+                        {(event.feedbackRequired ||
+                          (event.feedbackDescription &&
+                            event.feedbackDescription !== '')) && (
+                          <div>
+                            <label
+                              htmlFor="feedback"
+                              className={styles.feedbackLabel}
+                            >
+                              {event.feedbackDescription}
+                            </label>
+                            <Flex alignItems="center" gap="var(--spacing-md)">
+                              {spyValues((values: FormValues) => (
+                                <Field
+                                  id="feedback"
+                                  name="feedback"
+                                  placeholder="Kommentar"
+                                  component={TextInput.Field}
+                                  className={styles.feedbackText}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && registration) {
+                                      // Prevent user from unregistering by pressing enter
+                                      e.preventDefault();
 
-                                    if (!pristine) {
+                                      if (!pristine) {
+                                        dispatch(
+                                          updateFeedback(
+                                            event.id,
+                                            registration.id,
+                                            values.feedback ?? '',
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  }}
+                                  withoutMargin
+                                  parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
+                                />
+                              ))}
+                              {registration &&
+                                spyValues((values: FormValues) => (
+                                  <Button
+                                    onPress={() => {
                                       dispatch(
                                         updateFeedback(
                                           event.id,
                                           registration.id,
-                                          values[feedbackName] ?? '',
+                                          values.feedback ?? '',
                                         ),
                                       );
-                                    }
-                                  }
-                                }}
-                                withoutMargin
-                                parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
-                              />
-                            ))}
-                            {registration &&
-                              spyValues((values: FormValues) => (
-                                <Button
-                                  onPress={() => {
-                                    dispatch(
-                                      updateFeedback(
-                                        event.id,
-                                        registration.id,
-                                        values[feedbackName] ?? '',
-                                      ),
-                                    );
-                                  }}
-                                  disabled={pristine}
-                                >
-                                  Oppdater
-                                </Button>
-                              ))}
-                          </Flex>
-                        </div>
+                                    }}
+                                    disabled={pristine}
+                                  >
+                                    Oppdater
+                                  </Button>
+                                ))}
+                            </Flex>
+                          </div>
+                        )}
                       </Form>
                     );
                   }}
@@ -536,13 +537,5 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
     </div>
   );
 };
-
-function getFeedbackName(event: UserDetailedEvent) {
-  return event.feedbackRequired ? 'feedbackRequired' : 'feedback';
-}
-
-function getFeedbackLabel(event: UserDetailedEvent) {
-  return event.feedbackDescription || 'Kommentar';
-}
 
 export default JoinEventForm;
