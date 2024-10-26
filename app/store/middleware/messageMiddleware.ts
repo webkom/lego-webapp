@@ -1,8 +1,12 @@
 import { get } from 'lodash';
 import type { AnyAction, Middleware } from '@reduxjs/toolkit';
+import type { ToastContent } from 'app/reducers/toasts';
 
 const createMessageMiddleware =
-  (actionToDispatch: (message: string) => AnyAction, Sentry: any): Middleware =>
+  (
+    actionToDispatch: (content: ToastContent) => AnyAction,
+    Sentry: any,
+  ): Middleware =>
   ({ dispatch }) =>
   (next) =>
   (action) => {
@@ -14,16 +18,19 @@ const createMessageMiddleware =
     }
 
     let message;
+    let type;
 
     if (error) {
       message = typeof error === 'function' ? error(action.error) : error;
+      type = 'error';
       Sentry.captureException(action.payload);
     } else {
       message = success;
+      type = 'success';
     }
 
     if (actionToDispatch) {
-      dispatch(actionToDispatch(message));
+      dispatch(actionToDispatch({ message, type }));
     }
 
     return next(action);

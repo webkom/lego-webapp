@@ -5,9 +5,10 @@ import { useRef } from 'react';
 import styles from './Toast.module.module.css';
 import type { AriaToastProps } from '@react-aria/toast';
 import type { ToastState } from '@react-stately/toast';
+import type { ToastContent } from 'app/reducers/toasts';
 
-interface ToastProps extends AriaToastProps<string> {
-  state: ToastState<string>;
+interface ToastProps extends AriaToastProps<ToastContent> {
+  state: ToastState<ToastContent>;
 }
 
 export const Toast = ({ state, ...props }: ToastProps) => {
@@ -39,7 +40,7 @@ export const Toast = ({ state, ...props }: ToastProps) => {
         size={18}
       />
       <div {...contentProps}>
-        <div {...titleProps}>{props.toast.content}</div>
+        <div {...titleProps}>{props.toast.content.message}</div>
       </div>
     </div>
   );

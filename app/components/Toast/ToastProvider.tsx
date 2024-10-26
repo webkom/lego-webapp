@@ -4,13 +4,14 @@ import { ToastRegion } from 'app/components/Toast/ToastRegion';
 import { removeToast, selectToasts } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import usePrevious from 'app/utils/usePrevious';
+import type { ToastContent } from 'app/reducers/toasts';
 
 const ToastProvider = () => {
   const dispatch = useAppDispatch();
   const toasts = useAppSelector(selectToasts);
   const previousToasts = usePrevious(toasts);
 
-  const toastState = useToastState<string>({
+  const toastState = useToastState<ToastContent>({
     maxVisibleToasts: 5,
     hasExitAnimation: true,
   });
@@ -21,10 +22,13 @@ const ToastProvider = () => {
 
     for (const toast of toasts) {
       if (!previous.find((t) => t.id === toast.id)) {
-        toastState.add(toast.message, {
-          timeout: toast.dismissAfter,
-          onClose: () => dispatch(removeToast(toast.id)),
-        });
+        toastState.add(
+          { message: toast.message, type: toast.type },
+          {
+            timeout: toast.dismissAfter,
+            onClose: () => dispatch(removeToast(toast.id)),
+          },
+        );
       }
     }
   }, [dispatch, previousToasts, toastState, toasts]);

@@ -4,9 +4,10 @@ import { Toast } from 'app/components/Toast/Toast';
 import styles from './Toast.module.module.css';
 import type { AriaToastRegionProps } from '@react-aria/toast';
 import type { ToastState } from '@react-stately/toast';
+import type { ToastContent } from 'app/reducers/toasts';
 
 interface ToastRegionProps extends AriaToastRegionProps {
-  state: ToastState<string>;
+  state: ToastState<ToastContent>;
 }
 
 export const ToastRegion = ({ state, ...props }: ToastRegionProps) => {
