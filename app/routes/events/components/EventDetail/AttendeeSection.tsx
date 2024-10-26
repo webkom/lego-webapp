@@ -10,7 +10,6 @@ import RegistrationMeta, {
 } from 'app/routes/events/components/RegistrationMeta';
 import { getEventSemesterFromStartTime } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
-import styles from './EventDetail.module.css';
 import type {
   PoolWithRegistrations,
   PoolRegistrationWithUser,
@@ -26,6 +25,7 @@ interface Props {
   currentRegistration?: PoolRegistrationWithUser;
   pools: PoolWithRegistrations[];
   currentPool?: PoolWithRegistrations;
+  fiveMinutesBeforeActivation: boolean;
 }
 
 export const AttendeeSection = ({
@@ -34,6 +34,7 @@ export const AttendeeSection = ({
   currentRegistration,
   pools,
   currentPool,
+  fiveMinutesBeforeActivation,
 }: Props) => {
   const loggedIn = useIsLoggedIn();
   const fetching = useAppSelector((state) => state.events.fetching);
@@ -49,10 +50,7 @@ export const AttendeeSection = ({
 
   // The UserGrid is expanded when there's less than 5 minutes till activation
   const minUserGridRows =
-    event &&
-    currentMoment.isAfter(moment(event.activationTime).subtract(5, 'minutes'))
-      ? MIN_USER_GRID_ROWS
-      : 0;
+    event && fiveMinutesBeforeActivation ? MIN_USER_GRID_ROWS : 0;
 
   return (
     <Flex column>
@@ -65,27 +63,24 @@ export const AttendeeSection = ({
         minUserGridRows={minUserGridRows}
         maxUserGridRows={MAX_USER_GRID_ROWS}
         legacyRegistrationCount={event?.legacyRegistrationCount}
-        skeleton={fetching && registrations.length === 0}
+        skeleton={fetching && !registrations}
       />
 
-      <div className={styles.registrationMeta}>
-        {loggedIn &&
-          (showSkeleton || !event ? (
-            <RegistrationMetaSkeleton />
-          ) : (
-            <RegistrationMeta
-              useConsent={event.useConsent}
-              hasOpened={moment(event.activationTime).isBefore(currentMoment)}
-              photoConsents={event.photoConsents}
-              eventSemester={getEventSemesterFromStartTime(event.startTime)}
-              hasEnded={moment(event.endTime).isBefore(currentMoment)}
-              registration={currentRegistration}
-              isPriced={event.isPriced}
-              waitingListPosition={waitingListPosition}
-              skeleton={showSkeleton}
-            />
-          ))}
-      </div>
+      {loggedIn &&
+        (showSkeleton || !event ? (
+          <RegistrationMetaSkeleton />
+        ) : (
+          <RegistrationMeta
+            useConsent={event.useConsent}
+            fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
+            photoConsents={event.photoConsents}
+            eventSemester={getEventSemesterFromStartTime(event.startTime)}
+            hasEnded={moment(event.endTime).isBefore(currentMoment)}
+            registration={currentRegistration}
+            isPriced={event.isPriced}
+            waitingListPosition={waitingListPosition}
+          />
+        ))}
     </Flex>
   );
 };

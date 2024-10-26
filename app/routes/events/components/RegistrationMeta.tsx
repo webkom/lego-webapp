@@ -35,11 +35,10 @@ type Props = {
   isPriced: boolean;
   waitingListPosition?: WaitingListPosition;
   useConsent: boolean;
-  hasOpened: boolean;
+  fiveMinutesBeforeActivation: boolean;
   hasEnded: boolean;
   photoConsents?: Array<PhotoConsent>;
   eventSemester: EventSemester;
-  skeleton?: boolean;
 };
 
 const TextWithIconWrapper = (props: TextWithIconProps) => (
@@ -241,29 +240,24 @@ const PaymentStatus = ({
 };
 
 export const RegistrationMetaSkeleton = () => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-sm)" className={styles.registrationMeta}>
     <Skeleton array={2} className={styles.sidebarInfo} />
   </Flex>
 );
 
 const RegistrationMeta = ({
   registration,
-  hasOpened,
+  fiveMinutesBeforeActivation,
   hasEnded,
   useConsent,
   isPriced,
   waitingListPosition,
   photoConsents,
   eventSemester,
-  skeleton,
 }: Props) => {
-  if (skeleton) {
-    return <RegistrationMetaSkeleton />;
-  }
-
   return (
-    <Flex column gap="var(--spacing-sm)">
-      {!registration && hasOpened && (
+    <Flex column gap="var(--spacing-sm)" className={styles.registrationMeta}>
+      {!registration && fiveMinutesBeforeActivation && (
         <TextWithIconWrapper
           iconName="close-circle-outline"
           content={`Du ${hasEnded ? 'var' : 'er'} ikke påmeldt`}
