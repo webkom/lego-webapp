@@ -3,6 +3,7 @@ import { Pin } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import Circle from 'app/components/Circle';
+import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { selectAllEvents } from 'app/reducers/events';
@@ -22,6 +23,10 @@ type Props = {
 };
 
 const EVENT_COLUMN_LIMIT = 5;
+
+const EventItemSkeleton = ({ events }: { events: number }) => (
+  <Skeleton array={EVENT_COLUMN_LIMIT - events} className={styles.eventItem} />
+);
 
 const CompactEvents = ({ className, style }: Props) => {
   const events = useAppSelector(selectAllEvents<FrontpageEvent>);
@@ -77,22 +82,15 @@ const CompactEvents = ({ className, style }: Props) => {
     EventType.BREAKFAST_TALK,
     EventType.NEXUS_EVENT,
   ]);
-  const leftEvents =
-    presentations.length > 0 ? presentations : ['Ingen presentasjoner'];
   const other = mapEvents([
     EventType.OTHER,
     EventType.EVENT,
     EventType.SOCIAL,
     EventType.PARTY,
   ]);
-  const rightEvents = other.length > 0 ? other : ['Ingen arrangementer'];
 
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,
-  );
-
-  const skeleton = (
-    <Skeleton array={EVENT_COLUMN_LIMIT} className={styles.eventItem} />
   );
 
   return (
@@ -113,7 +111,10 @@ const CompactEvents = ({ className, style }: Props) => {
             <h3 className="u-ui-heading">Bedpres og kurs</h3>
           </Link>
           <Flex column gap="var(--spacing-xs)">
-            {fetching && !presentations.length ? skeleton : leftEvents}
+            {presentations
+              ? presentations
+              : !fetching && <EmptyState body="Ingen presentasjoner" />}
+            {fetching && <EventItemSkeleton events={presentations.length} />}
           </Flex>
         </Flex>
         <Flex column className={styles.compactRight}>
@@ -128,10 +129,13 @@ const CompactEvents = ({ className, style }: Props) => {
               ),
             }}
           >
-            <h3 className="u-ui-heading">Arrangementer</h3>
+            <h3 className="u-ui-heading">Sosialt</h3>
           </Link>
           <Flex column gap="var(--spacing-xs)">
-            {fetching && !other.length ? skeleton : rightEvents}
+            {other
+              ? other
+              : !fetching && <EmptyState body="Ingen arrangementer" />}
+            {fetching && <EventItemSkeleton events={other.length} />}
           </Flex>
         </Flex>
       </Flex>
