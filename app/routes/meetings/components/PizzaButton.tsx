@@ -1,10 +1,10 @@
-import { Button } from '@webkom/lego-bricks';
-import { Pizza } from 'lucide-react';
-import Tooltip from 'app/components/Tooltip';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { EntityId } from '@reduxjs/toolkit';
+import { Button } from '@webkom/lego-bricks';
+import Tooltip from 'app/components/Tooltip';
 import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
+import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import { Pizza } from 'lucide-react';
 
 type Props = {
   meeting: {
@@ -47,7 +47,7 @@ export const PizzaButton = ({ meeting, meetingInvitations }: Props) => {
   return (
     <Tooltip content={tooltipContent}>
       <Button>
-        Pizza-reaksjoner <Pizza />
+        <Pizza /> Pizza-reaksjoner
       </Button>
     </Tooltip>
   );
