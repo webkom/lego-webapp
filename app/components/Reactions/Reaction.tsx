@@ -102,9 +102,7 @@ const Reaction = ({
       {tooltipContentNames}
       <p>har reagert med {emoji}</p>
     </div>
-  ) : (
-    <div></div>
-  );
+  ) : undefined;
 
   return (
     <Tooltip content={tooltipContent}>

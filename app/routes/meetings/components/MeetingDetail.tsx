@@ -30,7 +30,6 @@ import { ProfilePicture } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import LegoReactions from 'app/components/LegoReactions';
 import { MazemapEmbed } from 'app/components/MazemapEmbed';
-import { PizzaMettingButton } from 'app/components/PizzaMeetingButton';
 import Time, { FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import Attendance from 'app/components/UserAttendance/Attendance';
@@ -43,6 +42,7 @@ import {
 } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
+import { PizzaButton } from 'app/routes/meetings/components/PizzaButton';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -300,7 +300,7 @@ const MeetingDetails = () => {
             <div>
               <h3>Pizza</h3>
               <ButtonGroup>
-                <PizzaMettingButton
+                <PizzaButton
                   meeting={meeting}
                   meetingInvitations={meetingInvitations}
                 />

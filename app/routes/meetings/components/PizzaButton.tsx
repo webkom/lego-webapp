@@ -14,7 +14,7 @@ type Props = {
   meetingInvitations: MeetingInvitationWithUser[];
 };
 
-export const PizzaMettingButton = ({ meeting, meetingInvitations }: Props) => {
+export const PizzaButton = ({ meeting, meetingInvitations }: Props) => {
   const pizzaUsers: string[] =
     meeting.reactions
       ?.filter((reaction) => reaction.emoji === ':pizza:')
@@ -28,9 +28,10 @@ export const PizzaMettingButton = ({ meeting, meetingInvitations }: Props) => {
 
   const notPizzaUsers = attendence
     .filter((name) => !pizzaUsers.includes(name))
-    .sort();
+    .sort((a, b) => a.localeCompare(b));
 
-  const tooltipContent = (
+  const pizzaHasBeenReacted = pizzaUsers && notPizzaUsers;
+  const tooltipContent = pizzaHasBeenReacted ? (
     <div>
       <h3>Skal ha pizza:</h3>
       {pizzaUsers.map((user) => (
@@ -41,7 +42,7 @@ export const PizzaMettingButton = ({ meeting, meetingInvitations }: Props) => {
         <div key={user}>{user}</div>
       ))}
     </div>
-  );
+  ) : undefined;
 
   return (
     <Tooltip content={tooltipContent}>
