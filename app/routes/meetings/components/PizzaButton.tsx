@@ -1,4 +1,5 @@
 import { Button } from '@webkom/lego-bricks';
+import { Pizza } from 'lucide-react';
 import Tooltip from 'app/components/Tooltip';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -23,21 +24,20 @@ export const PizzaButton = ({ meeting, meetingInvitations }: Props) => {
 
   const attendence: string[] = meetingInvitations
     .filter((invite) => invite.status === MeetingInvitationStatus.Attending)
-    .map((invite) => invite.user)
-    .map((user) => user.fullName);
+    .map((invite) => invite.user.fullName);
 
   const notPizzaUsers = attendence
     .filter((name) => !pizzaUsers.includes(name))
-    .sort((a, b) => a.localeCompare(b));
+    .sort();
 
   const pizzaHasBeenReacted = pizzaUsers && notPizzaUsers;
   const tooltipContent = pizzaHasBeenReacted ? (
     <div>
-      <h3>Skal ha pizza:</h3>
+      <h3>Skal ha pizza</h3>
       {pizzaUsers.map((user) => (
         <div key={user}>{user}</div>
       ))}
-      <h3>Skal ha ikke pizza:</h3>
+      <h3>Skal ikke ha pizza</h3>
       {notPizzaUsers.map((user: string) => (
         <div key={user}>{user}</div>
       ))}
@@ -46,7 +46,9 @@ export const PizzaButton = ({ meeting, meetingInvitations }: Props) => {
 
   return (
     <Tooltip content={tooltipContent}>
-      <Button>Pizza reaksjoner</Button>
+      <Button>
+        Pizza-reaksjoner <Pizza />
+      </Button>
     </Tooltip>
   );
 };
