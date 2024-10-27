@@ -2,7 +2,6 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
 import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
-import { ContentList } from 'app/components/ContententList';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
@@ -92,32 +91,36 @@ const Reaction = ({
     return <></>;
   }
 
-  let tooltipContent =
+  const tooltipContentNames =
     showPeople &&
     optimisticUsers
       ?.map((user) => user.fullName)
       .sort()
-      .join(',\n');
-  tooltipContent = tooltipContent ? `${tooltipContent} reagerte med ` : '';
-  tooltipContent += emoji;
+      .map((name) => <div key={name}>{name}</div>);
+  const tooltipContent = tooltipContentNames ? (
+    <div>
+      {tooltipContentNames}
+      <p>har reagert med {emoji}</p>
+    </div>
+  ) : (
+    <div></div>
+  );
 
   return (
-    <>
-      <Tooltip content={<ContentList content={tooltipContent} />}>
-        <Flex
-          gap="var(--spacing-xs)"
-          justifyContent="center"
-          alignItems="center"
-          className={classNames}
-          onClick={handleReaction}
-        >
-          <div>
-            <Emoji unicodeString={unicodeString} />
-          </div>
-          <span className={styles.reactionCount}>{optimisticCount}</span>
-        </Flex>
-      </Tooltip>
-    </>
+    <Tooltip content={tooltipContent}>
+      <Flex
+        gap="var(--spacing-xs)"
+        justifyContent="center"
+        alignItems="center"
+        className={classNames}
+        onClick={handleReaction}
+      >
+        <div>
+          <Emoji unicodeString={unicodeString} />
+        </div>
+        <span className={styles.reactionCount}>{optimisticCount}</span>
+      </Flex>
+    </Tooltip>
   );
 };
 

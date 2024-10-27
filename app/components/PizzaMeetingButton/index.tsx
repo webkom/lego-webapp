@@ -1,5 +1,4 @@
 import { Button } from '@webkom/lego-bricks';
-import { ContentList } from 'app/components/ContententList';
 import Tooltip from 'app/components/Tooltip';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -15,8 +14,8 @@ type Props = {
   meetingInvitations: MeetingInvitationWithUser[];
 };
 
-export const PizzaMettingbutton = ({ meeting, meetingInvitations }: Props) => {
-  const pizza_users: string[] =
+export const PizzaMettingButton = ({ meeting, meetingInvitations }: Props) => {
+  const pizzaUsers: string[] =
     meeting.reactions
       ?.filter((reaction) => reaction.emoji === ':pizza:')
       .map((reaction) => reaction.author.fullName)
@@ -28,19 +27,25 @@ export const PizzaMettingbutton = ({ meeting, meetingInvitations }: Props) => {
     .map((user) => user.fullName);
 
   const notPizzaUsers = attendence
-    .filter((name) => !pizza_users.includes(name))
+    .filter((name) => !pizzaUsers.includes(name))
     .sort();
 
-  const tooltipContent =
-    'Skal ha pizza:  \n' +
-    pizza_users.join('\n') +
-    '\n ------\n' +
-    'Skal IKKE ha pizza:\n' +
-    notPizzaUsers.join('\n');
+  const tooltipContent = (
+    <div>
+      <h3>Skal ha pizza:</h3>
+      {pizzaUsers.map((user) => (
+        <div key={user}>{user}</div>
+      ))}
+      <h3>Skal ha ikke pizza:</h3>
+      {notPizzaUsers.map((user: string) => (
+        <div key={user}>{user}</div>
+      ))}
+    </div>
+  );
 
   return (
-    <Tooltip content={<ContentList content={tooltipContent} />}>
-      <Button>Pizza reaction difference</Button>
+    <Tooltip content={tooltipContent}>
+      <Button>Pizza reaksjoner</Button>
     </Tooltip>
   );
 };
