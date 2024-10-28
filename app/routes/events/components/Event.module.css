@@ -20,17 +20,10 @@
   margin-top: var(--spacing-md);
 }
 
-.registrationPending {
-  line-height: 1.3;
-  text-align: center;
-  margin: var(--spacing-md) 0;
-}
-
-.registrationPendingHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin-bottom: var(--spacing-md);
+.registrationPendingTooltip {
+  display: inline;
+  vertical-align: middle;
+  margin-left: var(--spacing-xs);
 }
 
 .eventPrice {

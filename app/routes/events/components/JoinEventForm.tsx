@@ -8,7 +8,7 @@ import {
   ProgressBar,
 } from '@webkom/lego-bricks';
 import { sumBy } from 'lodash';
-import { Info, UserMinus } from 'lucide-react';
+import { CircleHelp, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Field } from 'react-final-form';
@@ -41,6 +41,7 @@ import {
   toReadableSemester,
 } from '../utils';
 import styles from './Event.module.css';
+import sharedStyles from './EventDetail/EventDetail.module.css';
 import PaymentRequestForm from './StripeElement';
 import type { EventRegistrationStatus } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
@@ -104,21 +105,15 @@ const RegistrationPending = ({
 }: {
   reg_status?: EventRegistrationStatus;
 }) => (
-  <Card className={styles.registrationPending}>
-    <span className={styles.registrationPendingHeader}>
-      <h3>
-        Vi behandler din{' '}
-        {reg_status === 'PENDING_UNREGISTER'
-          ? 'avregistrering'
-          : 'registrering'}
-        .
-      </h3>
-    </span>
-    <p>
-      Det kan ta et øyeblikk eller to.
-      <br />
-      <i>Du trenger ikke refreshe siden.</i>
+  <Card severity="info" className={sharedStyles.card}>
+    <Card.Header>
+      Vi behandler din{' '}
+      {reg_status === 'PENDING_UNREGISTER' ? 'avregistrering' : 'registrering'}
+    </Card.Header>
+    <span>
+      Det kan ta et øyeblikk eller to, og du trenger ikke refreshe siden
       <Tooltip
+        className={styles.registrationPendingTooltip}
         content={
           <span>
             Avhengig av last på våre servere kan dette ta litt tid. Ved mistanke
@@ -134,9 +129,9 @@ const RegistrationPending = ({
           </span>
         }
       >
-        <Icon iconNode={<Info />} size={20} />
+        <Icon iconNode={<CircleHelp />} size={18} />
       </Tooltip>
-    </p>
+    </span>
     <ProgressBar />
   </Card>
 );
@@ -342,7 +337,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
             )}
 
             {sumPenalties > 0 && event.heedPenalties && (
-              <Card severity="warning">
+              <Card severity="warning" className={sharedStyles.card}>
                 <Card.Header>NB!</Card.Header>
                 <p>
                   {sumPenalties > 2
@@ -448,7 +443,7 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
                               <LoadingIndicator
                                 loading
                                 loadingStyle={{
-                                  margin: '5px auto',
+                                  margin: 'var(--spacing-sm) auto',
                                 }}
                               />
                             ))}
