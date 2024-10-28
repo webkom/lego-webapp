@@ -182,9 +182,15 @@ export type Props = {
   event: UserDetailedEvent | AuthUserDetailedEvent;
   registration?: PoolRegistrationWithUser;
   registrationPending?: boolean;
+  fiveMinutesBeforeActivation?: boolean;
 };
 
-const JoinEventForm = ({ title, event, registration }: Props) => {
+const JoinEventForm = ({
+  title,
+  event,
+  registration,
+  fiveMinutesBeforeActivation = false,
+}: Props) => {
   const { buttonOpen, formOpen, captchaOpen, registrationOpensIn } =
     useRegistrationCountdown(event, registration);
 
@@ -432,17 +438,16 @@ const JoinEventForm = ({ title, event, registration }: Props) => {
                             />
 
                             <SubmissionError />
-
-                            {!registration && (
-                              <div>
-                                Ved å melde deg på arrangementet samtykker du
-                                til{' '}
-                                <Link to="/pages/arrangementer/26-arrangementsregler">
-                                  arrangementsreglene
-                                </Link>
-                              </div>
-                            )}
                           </>
+                        )}
+
+                        {!registration && fiveMinutesBeforeActivation && (
+                          <div>
+                            Ved å melde deg på arrangementet samtykker du til{' '}
+                            <Link to="/pages/arrangementer/26-arrangementsregler">
+                              arrangementsreglene
+                            </Link>
+                          </div>
                         )}
 
                         {submitting ||

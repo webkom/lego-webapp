@@ -2,6 +2,7 @@ import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { FilePenLine } from 'lucide-react';
+import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';
@@ -143,6 +144,10 @@ const EventDetail = () => {
   const deadlinesInfoList = useDeadlineInfoList(event);
   const eventCreatorInfoList = useEventCreatorInfoList(event);
 
+  const fiveMinutesBeforeActivation = moment().isAfter(
+    moment(event?.activationTime).subtract(5, 'minutes'),
+  );
+
   return (
     <Page
       cover={
@@ -221,6 +226,7 @@ const EventDetail = () => {
                   currentRegistration={currentRegistration}
                   pools={pools as PoolWithRegistrations[]}
                   currentPool={currentPool}
+                  fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
                 />
               )}
 
@@ -238,6 +244,7 @@ const EventDetail = () => {
                   <JoinEventForm
                     event={event}
                     registration={currentRegistration}
+                    fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
                   />
                 )
               )}
