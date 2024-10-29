@@ -29,12 +29,13 @@ describe('View event', () => {
     cy.get(c('Modal')).should('not.exist');
   });
 
-  it('Should be possible to update event details', () => {
-    cy.visit('/events/20');
+  it('Should only be possible to update event feedback for events where it is required', () => {
+    cy.visit('/events/19');
+    cy.get('#feedback').should('not.exist');
 
-    // Update message
+    cy.visit('/events/20');
     cy.contains('button', 'Oppdater').should('be.disabled');
-    cy.get('#feedback').click().type('This is some feedback text');
+    cy.get('#feedback').click().type('noe lættis');
     cy.contains('button', 'Oppdater').should('not.be.disabled').click();
     // We should get a toast confirming
     cy.contains('Tilbakemelding oppdatert');

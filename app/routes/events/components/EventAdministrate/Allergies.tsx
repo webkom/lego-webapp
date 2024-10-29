@@ -133,9 +133,8 @@ const Allergies = () => {
         title: 'Tilbakemelding',
         dataIndex: 'feedback',
         centered: false,
-        render: (feedback: RegistrationWithAllergies['feedback']) => (
-          <span>{feedback || '-'}</span>
-        ),
+        render: (feedback: RegistrationWithAllergies['feedback']) =>
+          feedback ? <span>{feedback}</span> : <EmptyState body="-" />,
         sorter: (a: RegistrationWithAllergies, b: RegistrationWithAllergies) =>
           a.feedback.localeCompare(b.feedback),
       })
