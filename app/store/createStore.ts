@@ -6,6 +6,7 @@ import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
 import { isTruthy } from 'app/utils';
+import type { ToastContent } from 'app/reducers/toasts';
 import type { RootState } from 'app/store/createRootReducer';
 import type { GetCookie } from 'app/types';
 
@@ -37,10 +38,7 @@ const createStore = (
         .concat(
           new Tuple(
             createMessageMiddleware(
-              (message) =>
-                addToast({
-                  message,
-                }),
+              (content: ToastContent) => addToast(content),
               Sentry,
             ),
             Sentry && createSentryMiddleware(Sentry),

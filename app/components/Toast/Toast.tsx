@@ -1,13 +1,15 @@
 import { useToast } from '@react-aria/toast';
 import { Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { X } from 'lucide-react';
 import { useRef } from 'react';
-import styles from './Toast.module.module.css';
+import styles from './Toast.module.css';
 import type { AriaToastProps } from '@react-aria/toast';
 import type { ToastState } from '@react-stately/toast';
+import type { ToastContent } from 'app/reducers/toasts';
 
-interface ToastProps extends AriaToastProps<string> {
-  state: ToastState<string>;
+interface ToastProps extends AriaToastProps<ToastContent> {
+  state: ToastState<ToastContent>;
 }
 
 export const Toast = ({ state, ...props }: ToastProps) => {
@@ -18,11 +20,13 @@ export const Toast = ({ state, ...props }: ToastProps) => {
     ref,
   );
 
+  const { message, type } = props.toast.content;
+
   return (
     <div
       {...toastProps}
       ref={ref}
-      className={styles.toast}
+      className={cx(styles.toast, type && styles[type])}
       // Use a data attribute to trigger animations in CSS.
       data-animation={props.toast.animation}
       onAnimationEnd={() => {
@@ -34,12 +38,13 @@ export const Toast = ({ state, ...props }: ToastProps) => {
     >
       <Icon
         {...closeButtonProps}
-        className={styles.closeButton}
         iconNode={<X />}
+        success={type === 'success'}
+        danger={type === 'error'}
         size={18}
       />
       <div {...contentProps}>
-        <div {...titleProps}>{props.toast.content}</div>
+        <div {...titleProps}>{message}</div>
       </div>
     </div>
   );

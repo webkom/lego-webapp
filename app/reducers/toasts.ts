@@ -7,9 +7,12 @@ import type { Optional } from 'utility-types';
 type Toast = {
   id: string;
   message: string;
+  type?: 'success' | 'error';
   dismissAfter: number;
   removed: boolean;
 };
+
+export type ToastContent = Pick<Toast, 'message' | 'type'>;
 
 const initialState = {
   items: [] as Toast[],
