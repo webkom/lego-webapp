@@ -36,6 +36,7 @@ type PresenceProps = {
 type UnregisterProps = {
   fetching: boolean;
   registration: SelectedAdminRegistration;
+  isUnregistrationClosed: boolean;
 };
 type StripeStatusProps = {
   registrationId: EntityId;
@@ -179,9 +180,13 @@ export const StripeStatus = ({
   );
 };
 
-export const Unregister = ({ fetching, registration }: UnregisterProps) => {
-  const { eventId } = useParams<{ eventId: string }>();
+export const Unregister = ({
+  fetching,
+  registration,
+  isUnregistrationClosed,
+}: UnregisterProps) => {
   const dispatch = useAppDispatch();
+  const { eventId } = useParams<{ eventId: string }>();
 
   return (
     <>
@@ -192,21 +197,28 @@ export const Unregister = ({ fetching, registration }: UnregisterProps) => {
           title="Bekreft avregistrering"
           message={`Er du sikker på at du vil melde av "${registration.user.fullName}"?`}
           onConfirm={() => {
-            eventId &&
-              dispatch(
-                unregister({
-                  eventId,
-                  registrationId: registration.id,
-                  admin: true,
-                }),
-              );
+            if (!eventId) return;
+            dispatch(
+              unregister({
+                eventId,
+                registrationId: registration.id,
+                admin: true,
+              }),
+            );
           }}
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
             <Flex justifyContent="center">
-              <Tooltip content="Meld av bruker">
+              <Tooltip
+                content={
+                  isUnregistrationClosed
+                    ? 'Avregistreringsfrist har gått ut'
+                    : 'Meld av bruker'
+                }
+              >
                 <Icon
+                  disabled={isUnregistrationClosed}
                   onPress={openConfirmModal}
                   name="person-remove-outline"
                   size={18}
