@@ -15,6 +15,7 @@ import {
   eventStatusTypes,
   registrationCloseTime,
   tooLow,
+  unregistrationCloseTime,
 } from 'app/routes/events/utils';
 import { spyValues } from 'app/utils/formSpyUtils';
 import styles from '../EventEditor.module.css';
@@ -179,6 +180,9 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
                 fieldClassName={styles.metaField}
                 className={styles.formField}
               />
+              <p className={styles.unregistrationDeadlineHours}>
+                Stenger <FormatTime time={unregistrationCloseTime(values)} />
+              </p>
             </div>
           )}
         </Flex>

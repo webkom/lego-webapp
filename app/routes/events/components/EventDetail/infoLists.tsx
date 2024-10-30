@@ -7,7 +7,11 @@ import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
-import { penaltyHours, registrationCloseTime } from 'app/routes/events/utils';
+import {
+  penaltyHours,
+  registrationCloseTime,
+  unregistrationCloseTime,
+} from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import type { DetailedEvent } from 'app/store/models/Event';
@@ -33,6 +37,9 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
     : activationTimeMoment;
 
   const registrationCloseTimeMoment = registrationCloseTime(event);
+  const unregistrationCloseTimeMoment = unregistrationCloseTime(event);
+  const sameRegistrationAndUnregistration =
+    event.registrationDeadlineHours === event.unregistrationDeadlineHours;
 
   return [
     event.activationTime && currentMoment.isBefore(activationTimeMoment)
@@ -76,7 +83,8 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
           ),
         }
       : null,
-    activationTimeMoment.isBefore(currentMoment)
+    activationTimeMoment.isBefore(currentMoment) &&
+    sameRegistrationAndUnregistration
       ? {
           key: 'Frist for av/påmelding',
           keyNode: (
@@ -101,6 +109,66 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
             <FormatTime
               format="dd DD. MMM HH:mm"
               time={registrationCloseTimeMoment}
+            />
+          ),
+        }
+      : null,
+    activationTimeMoment.isBefore(currentMoment) &&
+    !sameRegistrationAndUnregistration
+      ? {
+          key: 'Frist for påmelding',
+          keyNode: (
+            <TextWithIcon
+              iconNode={<CircleHelp />}
+              content={
+                currentMoment.isBefore(registrationCloseTimeMoment)
+                  ? 'Påmelding stenger'
+                  : 'Påmelding stengte'
+              }
+              tooltipContentIcon={
+                <>
+                  Etter påmeldingen stenger er det ikke mulig å melde seg på
+                  arrangementet
+                </>
+              }
+              iconRight
+              size={14}
+            />
+          ),
+          value: (
+            <FormatTime
+              format="dd DD. MMM HH:mm"
+              time={registrationCloseTimeMoment}
+            />
+          ),
+        }
+      : null,
+    activationTimeMoment.isBefore(currentMoment) &&
+    !sameRegistrationAndUnregistration
+      ? {
+          key: 'Frist for avmelding',
+          keyNode: (
+            <TextWithIcon
+              iconNode={<CircleHelp />}
+              content={
+                currentMoment.isBefore(registrationCloseTimeMoment)
+                  ? 'Avmelding stenger'
+                  : 'Avmelding stengte'
+              }
+              tooltipContentIcon={
+                <>
+                  Etter avmeldingen stenger er det ikke mulig å melde seg av
+                  arrangementet
+                </>
+              }
+              iconRight
+              size={14}
+            />
+          ),
+          value: (
+            <FormatTime
+              format="dd DD. MMM HH:mm"
+              time={unregistrationCloseTimeMoment}
             />
           ),
         }
