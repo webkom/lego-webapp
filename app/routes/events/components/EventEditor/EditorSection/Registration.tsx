@@ -132,8 +132,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <div className={styles.subSection}>
           <Field
             key="unregistrationDeadline"
-            label="Avregistreringsfrist"
-            description="Frist for avmelding - fører til prikk etterpå"
+            label="Frist for prikk"
+            description="Avmelding etter denne fristen vil gi prikk"
             name="unregistrationDeadline"
             component={DatePicker.Field}
             fieldClassName={styles.metaField}
@@ -145,8 +145,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <Flex column className={styles.editorSectionColumn}>
           <Field
             key="registrationDeadlineHours"
-            label="Registrering antall timer før"
-            description="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)"
+            label="Registreringsfrist"
+            description="Etter denne fristen er det ikke mulig å melde seg på. Gjelder også avmelding, med mindre separat avregistreringsfrist er valgt."
             name="registrationDeadlineHours"
             type="number"
             component={TextInput.Field}
@@ -154,13 +154,13 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             className={styles.formField}
           />
           <p className={styles.registrationDeadlineHours}>
-            Stenger <FormatTime time={registrationCloseTime(values)} />
+            {`${values.separateDeadlines ? 'Påmelding' : 'På- og avmelding'} stenger ${values.registrationDeadlineHours} timer ${values.registrationDeadlineHours >= 0 ? 'før' : 'etter'} arrangementet starter.`}
           </p>
         </Flex>
         <Flex column className={styles.editorSectionColumn}>
           <Field
             label="Separat avregistreringsfrist"
-            description="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)"
+            description="Velg om du vil ha en separat frist for avregistrering"
             name="separateDeadlines"
             type="checkbox"
             component={CheckBox.Field}
@@ -171,8 +171,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             <div className={styles.subSection}>
               <Field
                 key="unregistrationDeadlineHours"
-                label="Avregistrering antall timer før"
-                description="Frist for avmelding antall timer før arrangementet (negativ verdi betyr antall timer etter starten på arrangementet)"
+                label="Avregistreringsfrist"
+                description="Etter denne fristen er det ikke mulig å melde seg av"
                 name="unregistrationDeadlineHours"
                 type="number"
                 component={TextInput.Field}
