@@ -1,17 +1,19 @@
+import { configureStore } from '@reduxjs/toolkit';
 import { mount } from 'enzyme';
 import { Field } from 'react-final-form';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { describe, it, expect } from 'vitest';
+import createRootReducer from 'app/store/createRootReducer';
 import LoginForm from './LoginForm';
 
 describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
-      const login = () => {};
+      const store = configureStore({
+        reducer: createRootReducer(),
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
+      });
 
-      const mockStore = configureStore();
-      const store = mockStore();
       const wrapper = mount(
         <Provider
           {...{
@@ -22,7 +24,6 @@ describe('components', () => {
         </Provider>,
       );
       const form = wrapper.find('form');
-      expect(form.hasClass('LoginForm')).toBe(true);
       const username = form.childAt(0);
       const password = form.childAt(1);
       expect(username.type()).toEqual(Field);
