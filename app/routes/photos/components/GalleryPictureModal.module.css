@@ -10,13 +10,18 @@
 }
 
 .pictureContainer {
-  display: grid;
-  justify-content: center;
-  min-height: 600px;
+  height: max(60vh, 400px);
+
+  @media (--mobile-device) {
+    /* Remove the modal-padding to make the image reach the edges on mobile */
+    margin: 0 calc(var(--spacing-xl) * -1);
+  }
 }
 
 .picture {
   margin: auto;
+  width: auto;
+  max-height: 100%;
 }
 
 .pictureDescription {
@@ -30,6 +35,9 @@
 }
 
 .dropdown {
+  position: absolute;
+  top: 0;
+  right: 3rem;
   margin: var(--spacing-md) var(--spacing-md) 0 0;
 }
 

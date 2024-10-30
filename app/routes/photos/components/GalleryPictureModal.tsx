@@ -376,7 +376,7 @@ const GalleryPictureModal = () => {
             </Dropdown>
           </Flex>
 
-          <Flex className={styles.pictureContainer}>
+          <Flex justifyContent="center" className={styles.pictureContainer}>
             <Image
               key={picture.id}
               src={picture.file}
