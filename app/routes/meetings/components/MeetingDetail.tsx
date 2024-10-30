@@ -211,6 +211,7 @@ const MeetingDetails = () => {
                     iconNode={<ListRestart />}
                     size={20}
                     className="secondaryFontColor"
+                    data-test-id="changelog-dropdown-trigger"
                   />
                 }
               >

@@ -118,12 +118,15 @@ describe('Create meeting', () => {
     cy.contains('div', 'Sted')
       .should('contain.text', 'Test location')
       .should('be.visible');
-    cy.contains('div', 'Forfatter')
-      .should('contain.text', 'webkom webkom')
-      .should('be.visible');
     cy.contains('div', 'Referent')
       .should('contain.text', 'bedkom bedkom')
       .should('be.visible');
+
+    cy.get(t('changelog-dropdown-trigger')).click();
+    cy.get(c('Dropdown-module__dropdownList'))
+      .find('li')
+      .should('have.length', 1);
+    cy.contains('span', 'webkom opprettet').should('be.visible');
 
     cy.contains(c('AttendanceStatus-module__poolBox'), 'Ikke svart')
       .should('contain.text', '2/2')
@@ -236,12 +239,15 @@ describe('Create meeting', () => {
     cy.contains('div', 'Sted')
       .should('contain.text', 'Abakus, Realfagbygget')
       .should('be.visible');
-    cy.contains('div', 'Forfatter')
-      .should('contain.text', 'webkom webkom')
-      .should('be.visible');
     cy.contains('div', 'Referent')
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
+
+    cy.get(t('changelog-dropdown-trigger')).click();
+    cy.get(c('Dropdown-module__dropdownList'))
+      .find('li')
+      .should('have.length', 3); // The dropdown divider counts as one
+    cy.contains('span', 'webkom redigerte').should('be.visible');
 
     cy.contains(c('AttendanceStatus-module__poolBox'), 'Ikke svart')
       .should('contain.text', '2/2')
