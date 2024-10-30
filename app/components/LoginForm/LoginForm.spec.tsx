@@ -18,7 +18,7 @@ describe('components', () => {
             store,
           }}
         >
-          <LoginForm login={login} className="LoginForm" />
+          <LoginForm />
         </Provider>,
       );
       const form = wrapper.find('form');
