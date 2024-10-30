@@ -174,7 +174,7 @@ const MeetingDetails = () => {
       key: 'Sted',
       value: `${meeting.location}`,
     },
-    {
+    (!meeting.reportChangelogs || meeting.reportChangelogs.length === 0) && {
       key: 'Forfatter',
       value: <UserLink user={createdBy} />,
     },
@@ -201,7 +201,7 @@ const MeetingDetails = () => {
           )}
           <Flex alignItems="center" gap="var(--spacing-sm)">
             <h2>Referat</h2>
-            {meeting.reportChangelogs?.length > 1 && (
+            {meeting.reportChangelogs?.length > 0 && (
               <Dropdown
                 show={changelogOpen}
                 toggle={() => setChangelogOpen(!changelogOpen)}
@@ -209,7 +209,7 @@ const MeetingDetails = () => {
                 triggerComponent={
                   <Icon
                     iconNode={<ListRestart />}
-                    size={18}
+                    size={20}
                     className="secondaryFontColor"
                   />
                 }
