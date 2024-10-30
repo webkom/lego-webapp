@@ -1,4 +1,11 @@
-import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
+import {
+  Flex,
+  Icon,
+  Modal,
+  Image,
+  LoadingPage,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
@@ -9,7 +16,7 @@ import { fetchGallery, updateGalleryCover } from 'app/actions/GalleryActions';
 import {
   deletePicture,
   fetchGalleryPicture,
-  fetchSiblingGallerPicture,
+  fetchGalleryPictures,
 } from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
 import Dropdown from 'app/components/Dropdown';
@@ -145,38 +152,58 @@ const GalleryPictureModal = () => {
   );
   const actionGrant = gallery?.actionGrant || [];
 
-  let isFirstImage = false;
-  let isLastImage = false;
-  if (pictures.length > 0 && pictureId) {
-    if (Number(pictures[0].id) === Number(pictureId)) {
-      isFirstImage = true;
-    }
+  const isFirstImage =
+    !pictures?.length || String(pictures[0].id) === String(pictureId);
+  const isLastLoadedImage =
+    !pictures?.length ||
+    String(pictures[pictures.length - 1].id) === String(pictureId);
+  const isLastImage = !pagination.hasMore && isLastLoadedImage;
 
-    if (
-      Number(pictures[pictures.length - 1].id) === Number(pictureId) &&
-      !pagination.hasMore
-    ) {
-      isLastImage = true;
-    }
-  }
+  const pictureIndex = pictures.findIndex(
+    (pic) => String(pic.id) === String(pictureId),
+  );
 
   const [showMore, setShowMore] = useState(false);
   const [clickedDeletePicture, setClickedDeletePicture] = useState(0);
-  const [hasNext, setHasNext] = useState(!isLastImage);
-  const [hasPrevious, setHasPrevious] = useState(!isFirstImage);
 
   const dispatch = useAppDispatch();
+
+  usePreparedEffect(
+    'fetchGalleryPictureGallery',
+    () =>
+      galleryId &&
+      Promise.allSettled([
+        dispatch(fetchGallery(galleryId)),
+        dispatch(fetchGalleryPictures(galleryId)),
+      ]),
+    [dispatch, galleryId],
+  );
 
   usePreparedEffect(
     'fetchGalleryPicture',
     () =>
       galleryId &&
-      Promise.allSettled([
-        dispatch(fetchGallery(galleryId)),
-        pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
-      ]),
-    [],
+      pictureId &&
+      !pictures.find((pic) => String(pic.id) === String(pictureId)) &&
+      dispatch(fetchGalleryPicture(galleryId, pictureId)),
+    [dispatch, galleryId, pictureId, pictures],
   );
+
+  useEffect(() => {
+    if (pagination.hasMore && isLastLoadedImage) {
+      dispatch(
+        fetchGalleryPictures(galleryId, {
+          next: true,
+        }),
+      );
+    }
+  }, [
+    dispatch,
+    galleryId,
+    isLastLoadedImage,
+    pagination.hasMore,
+    pictures.length,
+  ]);
 
   const navigate = useNavigate();
 
@@ -208,17 +235,11 @@ const GalleryPictureModal = () => {
     }
   };
 
-  const siblingGalleryPicture = (next: boolean) => {
-    return dispatch(
-      fetchSiblingGallerPicture(gallery.id, pictureId, next),
-    ).then((result) => {
-      setHasNext(!!result.payload.next);
-      setHasPrevious(!!result.payload.previous);
-      return (
-        result.payload.result.length > 0 &&
-        navigate(`/photos/${gallery.id}/picture/${result.payload.result[0]}`)
-      );
-    });
+  const siblingGalleryPicture = async (next: boolean) => {
+    if ((next && isLastLoadedImage) || (!next && isFirstImage)) return;
+    navigate(
+      `/photos/${gallery.id}/picture/${pictures[pictureIndex + (next ? 1 : -1)].id}`,
+    );
   };
 
   const previousGalleryPicture = throttle(
@@ -376,19 +397,25 @@ const GalleryPictureModal = () => {
             </span>
           )}
 
-          <Flex justifyContent="center" gap="var(--spacing-lg)">
-            {hasPrevious && (
-              <Icon
-                onPress={previousGalleryPicture}
-                name="arrow-back-outline"
-                size={40}
-              />
-            )}
-            {hasNext && (
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            gap="var(--spacing-lg)"
+          >
+            <Icon
+              onPress={previousGalleryPicture}
+              name="arrow-back-outline"
+              size={40}
+              disabled={isFirstImage}
+            />
+            {isLastLoadedImage && !isLastImage ? (
+              <LoadingIndicator loading className={styles.loadingIndicator} />
+            ) : (
               <Icon
                 onPress={nextGalleryPicture}
                 name="arrow-forward-outline"
                 size={40}
+                disabled={isLastLoadedImage}
               />
             )}
           </Flex>

@@ -23,7 +23,11 @@ export const initialUploadStatus: UploadStatus = {
   showStatus: false,
 };
 
-const legoAdapter = createLegoAdapter(EntityType.GalleryPictures);
+const legoAdapter = createLegoAdapter(EntityType.GalleryPictures, {
+  sortComparer: (a, b) => {
+    return Number(a.id) - Number(b.id);
+  },
+});
 
 const galleryPicturesSlice = createSlice({
   name: EntityType.GalleryPictures,
@@ -78,5 +82,7 @@ export const {
   selectByField: selectGalleryPicturesByField,
 } = legoAdapter.getSelectors((state: RootState) => state.galleryPictures);
 
-export const selectGalleryPicturesByGalleryId =
-  selectGalleryPicturesByField('gallery');
+export const selectGalleryPicturesByGalleryId = selectGalleryPicturesByField(
+  'gallery',
+  (a: EntityId, b: EntityId) => Number(a) === Number(b),
+);

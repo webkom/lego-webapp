@@ -1,5 +1,9 @@
 @import url('~app/styles/variables.css');
 
+.loadingIndicator {
+  margin: 0.375rem;
+}
+
 .content {
   width: var(--lego-max-width);
   max-height: calc(100vh - 100px);
