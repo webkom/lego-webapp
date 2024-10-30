@@ -12,7 +12,7 @@ import { Download, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
-import { fetchGallery, updateGalleryCover } from 'app/actions/GalleryActions';
+import { updateGalleryCover } from 'app/actions/GalleryActions';
 import {
   deletePicture,
   fetchGalleryPicture,
@@ -166,17 +166,6 @@ const GalleryPictureModal = () => {
   const [clickedDeletePicture, setClickedDeletePicture] = useState(0);
 
   const dispatch = useAppDispatch();
-
-  usePreparedEffect(
-    'fetchGalleryPictureGallery',
-    () =>
-      galleryId &&
-      Promise.allSettled([
-        dispatch(fetchGallery(galleryId)),
-        dispatch(fetchGalleryPictures(galleryId)),
-      ]),
-    [dispatch, galleryId],
-  );
 
   usePreparedEffect(
     'fetchGalleryPicture',

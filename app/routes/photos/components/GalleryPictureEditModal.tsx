@@ -11,7 +11,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { fetchGallery } from 'app/actions/GalleryActions';
 import {
   deletePicture,
   fetchGalleryPicture,
@@ -62,11 +61,9 @@ const GalleryPictureEditModal = () => {
     'fetchGalleryAndGalleryPicture',
     () =>
       galleryId &&
-      Promise.allSettled([
-        dispatch(fetchGallery(galleryId)),
-        pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
-      ]),
-    [galleryId, pictureId],
+      pictureId &&
+      dispatch(fetchGalleryPicture(galleryId, pictureId)),
+    [dispatch, galleryId, pictureId],
   );
 
   const navigate = useNavigate();
