@@ -8,8 +8,8 @@ const GalleryDetail = loadable(() => import('./components/GalleryDetail'));
 const GalleryPictureModal = loadable(
   () => import('./components/GalleryPictureModal'),
 );
-const GalleryPictureEditModal = loadable(
-  () => import('./components/GalleryPictureEditModal'),
+const GalleryPictureEditForm = loadable(
+  () => import('./components/GalleryPictureEditForm'),
 );
 
 const photosRoute: RouteObject[] = [
@@ -20,10 +20,15 @@ const photosRoute: RouteObject[] = [
     path: ':galleryId',
     Component: GalleryDetail,
     children: [
-      { path: 'picture/:pictureId', Component: GalleryPictureModal },
       {
-        path: 'picture/:pictureId/edit',
-        Component: GalleryPictureEditModal,
+        path: 'picture/:pictureId',
+        Component: GalleryPictureModal,
+        children: [
+          {
+            path: 'edit',
+            Component: GalleryPictureEditForm,
+          },
+        ],
       },
     ],
   },

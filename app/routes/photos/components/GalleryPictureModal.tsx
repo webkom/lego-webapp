@@ -3,14 +3,13 @@ import {
   Icon,
   Modal,
   Image,
-  LoadingPage,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, Outlet } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { updateGalleryCover } from 'app/actions/GalleryActions';
 import {
@@ -196,7 +195,15 @@ const GalleryPictureModal = () => {
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return <LoadingPage loading={fetching} />;
+    return (
+      <Modal
+        onOpenChange={(open) => !open && navigate(`/photos/${galleryId}`)}
+        isOpen
+        contentClassName={styles.content}
+      >
+        <LoadingIndicator loading={fetching} />;
+      </Modal>
+    );
   }
 
   const toggleDropdown = () => {
@@ -277,6 +284,7 @@ const GalleryPictureModal = () => {
       isDismissable={false} // Avoid closing the modal when pressing something from the dropdown
       isOpen
       contentClassName={styles.content}
+      aria-label={`Bilde ${picture.id} av ${gallery.title}`}
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
@@ -409,6 +417,9 @@ const GalleryPictureModal = () => {
               />
             )}
           </Flex>
+
+          <Outlet />
+
           {picture.contentTarget && (
             <CommentView
               contentTarget={picture.contentTarget}
