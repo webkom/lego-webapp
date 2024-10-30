@@ -18,7 +18,7 @@ const TimePickerInput = ({
   ...props
 }: TimePickerInputProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    switch (e.which) {
+    switch (e.key) {
       case Keyboard.UP:
         onNext();
         break;

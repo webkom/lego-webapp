@@ -242,7 +242,7 @@ const GalleryPictureModal = () => {
       return;
     }
 
-    switch (e.which) {
+    switch (e.key) {
       case Keyboard.LEFT:
         e.preventDefault();
         previousGalleryPicture();

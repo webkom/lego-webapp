@@ -30,7 +30,7 @@ const Search = () => {
   const onCloseSearch = () => dispatch(toggleSearch());
 
   const handleKeyDown = (e) => {
-    switch (e.which) {
+    switch (e.key) {
       case Keyboard.UP:
         e.preventDefault();
         setSelectedIndex(Math.max(-1, selectedIndex - 1));

@@ -41,7 +41,7 @@ const SearchPage = <SearchType extends SearchResult>(
   const handleKeyDown = (e: KeyboardEvent) => {
     if (props.results.length === 0) return;
 
-    switch (e.which) {
+    switch (e.key) {
       case Keyboard.UP:
         e.preventDefault();
         setSelectedIndex(Math.max(0, selectedIndex - 1));

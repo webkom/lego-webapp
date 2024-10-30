@@ -29,6 +29,7 @@ import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
+import { Keyboard } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
 import {
@@ -478,7 +479,10 @@ const JoinEventForm = ({
                                   component={TextInput.Field}
                                   className={styles.feedbackText}
                                   onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && registration) {
+                                    if (
+                                      e.key === Keyboard.ENTER &&
+                                      registration
+                                    ) {
                                       // Prevent user from unregistering by pressing enter
                                       e.preventDefault();
 

@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
+import { Keyboard } from 'app/utils/constants';
 import styles from './MazemapEmbed.module.css';
 import MazemapLink from './MazemapLink';
 
@@ -63,13 +64,13 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     let zoomButtonPressed = false;
 
     const onKeyDown = (e) => {
-      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+      if (isMac ? e.key === Keyboard.META : e.key === Keyboard.CONTROL) {
         zoomButtonPressed = true;
       }
     };
 
     const onKeyUp = (e) => {
-      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+      if (isMac ? e.key === Keyboard.META : e.key === Keyboard.CONTROL) {
         zoomButtonPressed = false;
       }
     };

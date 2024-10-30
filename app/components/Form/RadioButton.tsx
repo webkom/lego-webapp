@@ -1,5 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Keyboard } from 'app/utils/constants';
 import { createField } from './Field';
 import styles from './RadioButton.module.css';
 import type { ComponentProps, InputHTMLAttributes, KeyboardEvent } from 'react';
@@ -18,7 +19,7 @@ function RadioButton({
   ...props
 }: Props) {
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === Keyboard.ENTER) {
       event.preventDefault();
 
       const inputElement = event.target as HTMLInputElement;
