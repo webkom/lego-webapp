@@ -1,12 +1,14 @@
 import config from 'app/config';
 
 export const Keyboard = {
-  ESCAPE: 27,
-  RIGHT: 39,
-  LEFT: 37,
-  ENTER: 13,
-  UP: 38,
-  DOWN: 40,
+  ESCAPE: 'Escape',
+  RIGHT: 'ArrowRight',
+  LEFT: 'ArrowLeft',
+  UP: 'ArrowUp',
+  DOWN: 'ArrowDown',
+  ENTER: 'Enter',
+  META: 'Meta',
+  CONTROL: 'Control',
 };
 
 export const ROLES = {
