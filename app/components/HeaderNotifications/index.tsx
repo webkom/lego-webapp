@@ -1,4 +1,4 @@
-import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { BadgeIcon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Bell, BellRing } from 'lucide-react';
@@ -118,7 +118,7 @@ const NotificationsDropdown = () => {
       }}
       closeOnContentClick
       triggerComponent={
-        <Icon.Badge
+        <BadgeIcon
           iconNode={
             !notificationsOpen && unreadCount > 0 ? <BellRing /> : <Bell />
           }
