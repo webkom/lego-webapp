@@ -147,6 +147,17 @@ export const getCompanySemesterBySlug = (
   );
 };
 
+export const getSemesterSlugById = (
+  id: number,
+  companySemesters: CompanySemester[],
+) => {
+  const semester = companySemesters.find((semester) => semester.id === id);
+  if (!semester) {
+    return undefined;
+  }
+  return `${semester.year}${semester.semester === 'autumn' ? 'h' : 'v'}`;
+};
+
 export const httpCheck = (link: string) => {
   const httpLink =
     link.startsWith('http://') || link.startsWith('https://')

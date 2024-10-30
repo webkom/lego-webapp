@@ -4,8 +4,12 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
+import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
-import { selectTransformedAdminCompanies } from 'app/reducers/companies';
+import {
+  selectTransformedAdminCompanies,
+  TransformedSemesterStatus,
+} from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -14,18 +18,21 @@ import {
   BdbTabs,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
+  getSemesterSlugById,
   getSemesterStatus,
+  semesterToHumanReadable,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownUser } from 'app/store/models/User';
+import styles from './bdb.module.css';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
   name: '',
   studentContact: '',
-  semester: undefined,
+  semester: undefined as string | undefined,
 };
 
 const BdbPage = () => {
@@ -55,22 +62,24 @@ const BdbPage = () => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     'fetchBdb',
-    () =>
-      dispatch(fetchSemesters()).then((action) => {
+    async () => {
+      if (!companySemesters.length) {
+        const action = await dispatch(fetchSemesters());
         const companySemesterEntities =
           action.payload.entities.companySemesters;
         const companySemesters = Object.values(companySemesterEntities).filter(
           (companySemester) => companySemester !== undefined,
         );
-
         const semester = resolveCurrentSemester(
           query.semester,
           companySemesters,
         );
-
         return dispatch(fetchAllAdmin(semester!.id));
-      }),
-    [],
+      } else {
+        return dispatch(fetchAllAdmin(currentCompanySemester!.id));
+      }
+    },
+    [query.semester, currentCompanySemester, companySemesters],
   );
 
   const columns: ColumnProps<(typeof companies)[number]>[] = [
@@ -148,9 +157,40 @@ const BdbPage = () => {
         Du kan endre semesterstatuser ved å trykke på dem i listen!
       </Card>
 
+      <SelectInput
+        name="semester"
+        options={companySemesters
+          .sort((a, b) => (b.semester === 'autumn' ? 1 : -1))
+          .sort((a, b) => b.year - a.year)
+          .map((semester) => ({
+            label: semesterToHumanReadable(
+              semester as TransformedSemesterStatus,
+            ),
+            value: semester.id as number,
+          }))}
+        value={{
+          label: currentCompanySemester
+            ? semesterToHumanReadable(
+                currentCompanySemester as TransformedSemesterStatus,
+              )
+            : 'Velg semester',
+          value: currentCompanySemester?.id as number,
+        }}
+        onChange={(e) =>
+          setQuery({
+            ...query,
+            semester: getSemesterSlugById(
+              (e as { label: string; value: number }).value,
+              companySemesters,
+            ),
+          })
+        }
+      ></SelectInput>
+
       <Table
+        className={styles.bdbTable}
         columns={columns}
-        data={companies}
+        data={fetching ? [] : companies}
         filters={query}
         onChange={setQuery}
         loading={fetching}
