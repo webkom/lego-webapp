@@ -33,10 +33,13 @@
   position: absolute;
 }
 
+.leftMarginContent {
+  padding-left: var(--spacing-lg);
+}
+
 .rightContent {
   flex: 2;
   min-width: 320px;
-  padding-left: 30px;
   width: 100%;
 
   @media (--medium-viewport) {
@@ -98,4 +101,57 @@
     filter: grayscale(100%);
     opacity: 0.7;
   }
+}
+
+.trophyElementBox {
+  text-align: center;
+  white-space: pre-line;
+  padding: var(--spacing-xs);
+}
+
+.trophyCaseBox {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  box-shadow: var(--shadow-xs);
+  border-radius: var(--spacing-md);
+  border: 1.5px solid var(--border-gray);
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-md);
+  min-width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (--mobile-device) {
+  .trophyCaseBox {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: center;
+  }
+}
+
+.trophyCaseWrapper {
+  min-width: 100%;
+  padding: var(--spacing-xs);
+}
+
+.trophyDetailTooltip {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.achievementSettingItem {
+  background: var(--lego-background-color);
+  margin: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border-radius: var(--spacing-md);
+}
+
+.showAllButton {
+  margin-top: var(--spacing-md);
 }
