@@ -6,10 +6,7 @@ import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
-import {
-  selectTransformedAdminCompanies,
-  TransformedSemesterStatus,
-} from 'app/reducers/companies';
+import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -23,10 +20,11 @@ import {
   semesterToHumanReadable,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
+import styles from './bdb.module.css';
 import type { ColumnProps } from 'app/components/Table';
+import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownUser } from 'app/store/models/User';
-import styles from './bdb.module.css';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
