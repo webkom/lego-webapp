@@ -163,7 +163,7 @@
     "enzyme": "^3.9.0",
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-import-resolver-webpack": "^0.13.8",
+    "eslint-import-resolver-webpack": "^0.13.9",
     "eslint-plugin-cypress": "^3.6.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
