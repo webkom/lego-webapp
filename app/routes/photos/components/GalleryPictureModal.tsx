@@ -8,7 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate, Outlet } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { updateGalleryCover } from 'app/actions/GalleryActions';
@@ -148,6 +148,9 @@ const GalleryPictureModal = () => {
   const gallery = useAppSelector((state) =>
     selectGalleryById<DetailedGallery>(state, galleryId),
   );
+
+  const modalRef = useRef<HTMLElement>(null);
+
   const actionGrant = gallery?.actionGrant || [];
 
   const isFirstImage =
@@ -281,10 +284,10 @@ const GalleryPictureModal = () => {
   return (
     <Modal
       onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
-      isDismissable={false} // Avoid closing the modal when pressing something from the dropdown
       isOpen
       contentClassName={styles.content}
       aria-label={`Bilde ${picture.id} av ${gallery.title}`}
+      ref={modalRef}
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
@@ -320,6 +323,7 @@ const GalleryPictureModal = () => {
               closeOnContentClick
               className={styles.dropdown}
               iconName="ellipsis-horizontal"
+              container={modalRef.current}
             >
               <Dropdown.List>
                 <Dropdown.ListItem>

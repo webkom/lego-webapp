@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import { X } from 'lucide-react';
+import { forwardRef } from 'react';
 import {
   Dialog,
   Heading,
@@ -50,49 +51,57 @@ type Props = {
  * </DialogTrigger>
  * ```
  */
-const Modal = ({
-  isOpen,
-  onOpenChange,
-  isDismissable = true,
-  contentClassName,
-  dialogRole,
-  title,
-  children,
-}: Props) => {
-  return (
-    <ModalOverlay
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      isDismissable={isDismissable}
-      isKeyboardDismissDisabled={!isDismissable}
-      className={styles.overlay}
-    >
-      <AriaModal className={cx(styles.modal, contentClassName)}>
-        <Dialog role={dialogRole} data-test-id="Modal__content">
-          {({ close }) => (
-            <>
-              {title && (
-                <Heading slot="title" className={styles.title}>
-                  {title}
-                </Heading>
-              )}
-              <Icon
-                iconNode={<X />}
-                onPress={close}
-                className={styles.closeButton}
-                data-test-id="Modal__closeButton"
-                // Fix to avoid clicking the element behind the modal when using touch devices
-                ref={(ref) =>
-                  ref?.addEventListener('touchend', (e) => e.preventDefault())
-                }
-              />
-              {typeof children === 'function' ? children({ close }) : children}
-            </>
-          )}
-        </Dialog>
-      </AriaModal>
-    </ModalOverlay>
-  );
-};
+const Modal = forwardRef<HTMLElement, Props>(
+  (
+    {
+      isOpen,
+      onOpenChange,
+      isDismissable = true,
+      contentClassName,
+      dialogRole,
+      title,
+      children,
+    },
+    ref,
+  ) => {
+    return (
+      <ModalOverlay
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        isDismissable={isDismissable}
+        isKeyboardDismissDisabled={!isDismissable}
+        className={styles.overlay}
+      >
+        <AriaModal className={cx(styles.modal, contentClassName)}>
+          <Dialog role={dialogRole} data-test-id="Modal__content" ref={ref}>
+            {({ close }) => (
+              <>
+                {title && (
+                  <Heading slot="title" className={styles.title}>
+                    {title}
+                  </Heading>
+                )}
+                <Icon
+                  iconNode={<X />}
+                  onPress={close}
+                  className={styles.closeButton}
+                  data-test-id="Modal__closeButton"
+                  // Fix to avoid clicking the element behind the modal when using touch devices
+                  ref={(ref) =>
+                    ref?.addEventListener('touchend', (e) => e.preventDefault())
+                  }
+                />
+                {typeof children === 'function'
+                  ? children({ close })
+                  : children}
+              </>
+            )}
+          </Dialog>
+        </AriaModal>
+      </ModalOverlay>
+    );
+  },
+);
+Modal.displayName = 'Modal';
 
 export default Modal;
