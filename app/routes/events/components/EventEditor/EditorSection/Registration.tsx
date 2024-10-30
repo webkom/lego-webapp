@@ -132,8 +132,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <div className={styles.subSection}>
           <Field
             key="unregistrationDeadline"
-            label="Frist for prikk"
-            description="Avmelding etter denne fristen vil gi prikk"
+            label="Avregistreringsfrist"
+            description="Frist for avmelding - fører til prikk etterpå"
             name="unregistrationDeadline"
             component={DatePicker.Field}
             fieldClassName={styles.metaField}
@@ -145,7 +145,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <Flex column className={styles.editorSectionColumn}>
           <Field
             key="registrationDeadlineHours"
-            label="Registreringsfrist"
+            label="Registrering antall timer før"
             description="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)"
             name="registrationDeadlineHours"
             type="number"
