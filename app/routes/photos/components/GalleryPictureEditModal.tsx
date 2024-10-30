@@ -25,7 +25,6 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import ProgressiveImage from 'app/components/ProgressiveImage';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { selectGalleryPictureById } from 'app/reducers/galleryPictures';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -125,10 +124,12 @@ const GalleryPictureEditModal = () => {
         </Flex>
 
         <Flex className={styles.pictureContainer}>
-          <ProgressiveImage
+          <Image
             key={picture.id}
             src={picture.file}
+            placeholder={picture.thumbnail}
             alt={picture.description}
+            className={styles.picture}
           />
         </Flex>
 

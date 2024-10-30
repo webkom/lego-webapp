@@ -15,6 +15,10 @@
   min-height: 600px;
 }
 
+.picture {
+  margin: auto;
+}
+
 .pictureDescription {
   text-align: center;
 }

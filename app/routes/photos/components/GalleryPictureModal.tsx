@@ -20,7 +20,6 @@ import {
 } from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
 import Dropdown from 'app/components/Dropdown';
-import ProgressiveImage from 'app/components/ProgressiveImage';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
@@ -381,10 +380,12 @@ const GalleryPictureModal = () => {
           </Flex>
 
           <Flex className={styles.pictureContainer}>
-            <ProgressiveImage
+            <Image
               key={picture.id}
               src={picture.file}
+              placeholder={picture.thumbnail}
               alt={picture.description}
+              className={styles.picture}
             />
           </Flex>
 
