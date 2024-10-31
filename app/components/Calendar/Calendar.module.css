@@ -1,0 +1,111 @@
+@import url('~app/styles/variables.css');
+
+.wrapper {
+  display: grid;
+  grid-template:
+    'compact-events registrations'
+    'cal calendar'
+    'pinned weekly'
+    'events poll'
+    'events quote'
+    'events readme'
+    'events articles'
+    'events .'
+    / 2fr 1fr;
+  padding: 0 var(--spacing-md);
+  gap: var(--spacing-xl);
+
+  @media (--mobile-device) {
+    grid-template:
+      'compact-events'
+      'registrations'
+      'pinned'
+      'poll'
+      'quote'
+      'readme'
+      'weekly'
+      'articles'
+      'events';
+  }
+
+  h3 {
+    margin-top: 0;
+    margin-left: 0;
+  }
+}
+
+.link {
+  display: block;
+  margin: 0 var(--spacing-md);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+  animation-name: wiggle;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-delay: 5s;
+}
+
+.subHeader {
+  color: var(--secondary-font-color);
+}
+
+.header > h1 {
+  margin: 0;
+}
+
+.red {
+  background-color: var(--color-red-5);
+  color: var(--color-absolute-white);
+}
+
+.gray {
+  background-color: var(--color-gray-4);
+  color: var(--color-white);
+}
+
+.white {
+  color: var(--color-black);
+}
+
+.lightBlue {
+  background-color: var(--color-blue-5);
+  color: var(--color-white);
+}
+
+.itdageneBlue {
+  background-color: #0778bc;
+  color: var(--color-white);
+}
+
+.buddyweek2024 {
+  border: 5px dashed var(--lego-red-color);
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(-1.5deg);
+  }
+
+  10% {
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(1.5deg);
+  }
+
+  20% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
