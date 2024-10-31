@@ -31,6 +31,10 @@ export const SurveyDetailTabs = ({ surveyId }: { surveyId?: EntityId }) =>
 
 export const getCsvUrl = (surveyId: EntityId) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
+
+export const getPdfUrl = (surveyId: EntityId) =>
+  `${config.serverUrl}/surveys/${surveyId}/pdf/`;
+
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
     style={{
