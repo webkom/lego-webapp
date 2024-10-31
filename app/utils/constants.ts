@@ -32,6 +32,12 @@ export const ROLES = {
   trip_admin: 'Turansvarlig',
   sponsor_admin: 'Sponsoransvarlig',
   social_admin: 'Sosialansvarlig',
+  merch_admin: 'Merchansvarlig',
+  hs_representative: 'HS-representant',
+  cuddling_manager: 'Kosansvarlig',
+  photo_admin: 'Foto- og filmansvarlig',
+  graphic_admin: 'Grafiskansvarlig',
+  social_media_admin: 'SoMe-ansvarlig',
 };
 
 export type RoleType = keyof typeof ROLES;
