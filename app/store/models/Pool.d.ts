@@ -8,6 +8,7 @@ interface CompletePool {
   capacity: number;
   activationDate: Dateish;
   permissionGroups: PublicGroup[];
+  allPermissionGroupIds: EntityId[];
   registrationCount: number;
   registrations: EntityId[];
 }
@@ -29,6 +30,7 @@ export type AuthPool = Pick<
   | 'capacity'
   | 'activationDate'
   | 'permissionGroups'
+  | 'allPermissionGroupIds'
   | 'registrationCount'
   | 'registrations'
 >;

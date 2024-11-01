@@ -8,10 +8,8 @@ const isPermittedInPool = (
   user: PublicUserWithAbakusGroups,
   pool: PoolWithRegistrations,
 ) => {
-  return pool.permissionGroups.some((permissionGroup) =>
-    user.allAbakusGroupIds?.some(
-      (userGroup) => userGroup === permissionGroup.id,
-    ),
+  return pool.allPermissionGroupIds.some((permissionGroupId) =>
+    user.abakusGroups?.includes(permissionGroupId),
   );
 };
 
