@@ -1,24 +1,44 @@
+import { configureStore } from '@reduxjs/toolkit';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
-import configureStore from 'redux-mock-store';
 import { describe, it, expect } from 'vitest';
+import createRootReducer from 'app/store/createRootReducer';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
 
-const store = configureStore([])({
-  theme: {
-    theme: 'light',
+const store = configureStore({
+  reducer: createRootReducer(),
+  preloadedState: {
+    theme: {
+      theme: 'light',
+    },
+    auth: {
+      id: 1,
+      username: 'webkom',
+      token: 'token',
+      loginFailed: false,
+      loggingIn: false,
+      registrationToken: null,
+      studentConfirmed: true,
+    },
+    users: {
+      ids: [],
+      entities: {},
+      actionGrant: ['view'],
+      fetching: false,
+      paginationNext: {},
+    },
+    emojis: {
+      ids: [],
+      entities: {},
+      actionGrant: ['view'],
+      fetching: false,
+      paginationNext: {},
+    },
   },
-  auth: {},
-  users: {
-    entities: {},
-  },
-  emojis: {
-    ids: [],
-    entities: {},
-  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 describe('<CommentTree />', () => {
@@ -43,6 +63,6 @@ describe('<CommentTree />', () => {
     const rootElements = wrapper.find('[data-ischild=false]');
     const rootElement = rootElements.at(1);
     const childTree = rootElement.find('[data-ischild=true]');
-    expect(childTree.text()).toMatch(comments[2].text);
+    expect(childTree.text()).toMatch(comments[2].text ?? '');
   });
 });
