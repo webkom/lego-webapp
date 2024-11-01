@@ -4029,6 +4029,14 @@
     "@vitest/utils" "^2.0.5"
     util "^0.12.4"
 
+"@storybook/instrumenter@8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@storybook/instrumenter/-/instrumenter-8.4.0.tgz#bc31342cb2acdf3083decd09396f86f9361b3630"
+  integrity sha512-iqQdH2lhyRVcCBnVOmjn/r/pFwIJ5X1isUkvyavwPf0KOB2bz+QuXXkvKdzirwQFu9jSLOEdu0v3Fr+PHUbIfA==
+  dependencies:
+    "@storybook/global" "^5.0.0"
+    "@vitest/utils" "^2.1.1"
+
 "@storybook/manager-api@^8.3.6":
   version "8.3.6"
   resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-8.3.6.tgz#6dfb268a5f1f8228d0bac69fd6e63f6bd2620c2d"
@@ -4090,7 +4098,7 @@
     type-fest "~2.19"
     util-deprecate "^1.0.2"
 
-"@storybook/test@8.3.5", "@storybook/test@^8.3.0":
+"@storybook/test@8.3.5":
   version "8.3.5"
   resolved "https://registry.yarnpkg.com/@storybook/test/-/test-8.3.5.tgz#0dffc9d4a1eaa9552e69457b16b5085e36883c8a"
   integrity sha512-1BXWsUGWk9FiKKelZZ55FDJdeoL8uRBHbjTYBRM2xJLhdNSvGzI4Tb3bkmxPpGn72Ua6AyldhlTxr2BpUFKOHA==
@@ -4104,6 +4112,20 @@
     "@vitest/expect" "2.0.5"
     "@vitest/spy" "2.0.5"
     util "^0.12.4"
+
+"@storybook/test@^8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@storybook/test/-/test-8.4.0.tgz#942a24b426ebc6ed79e75d634aa243da27c18ced"
+  integrity sha512-uHZ6+8RfEauwxi7Zy/LijfyIXrjCD7iTHmnTdT3BdP+2c/lDFAKXzHmbQJitefDFEgz1eHx/MArHZ8V3qu1ogg==
+  dependencies:
+    "@storybook/csf" "^0.1.11"
+    "@storybook/global" "^5.0.0"
+    "@storybook/instrumenter" "8.4.0"
+    "@testing-library/dom" "10.4.0"
+    "@testing-library/jest-dom" "6.5.0"
+    "@testing-library/user-event" "14.5.2"
+    "@vitest/expect" "2.0.5"
+    "@vitest/spy" "2.0.5"
 
 "@storybook/theming@^8.3.6":
   version "8.3.6"
@@ -4853,6 +4875,13 @@
   dependencies:
     tinyrainbow "^1.2.0"
 
+"@vitest/pretty-format@2.1.4":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@vitest/pretty-format/-/pretty-format-2.1.4.tgz#fc31993bdc1ef5a6c1a4aa6844e7ba55658a4f9f"
+  integrity sha512-L95zIAkEuTDbUX1IsjRl+vyBSLh3PwLLgKpghl37aCK9Jvw0iP+wKwIFhfjdUtA2myLgjrG6VU6JCFLv8q/3Ww==
+  dependencies:
+    tinyrainbow "^1.2.0"
+
 "@vitest/runner@2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@vitest/runner/-/runner-2.1.1.tgz#f3b1fbc3c109fc44e2cceecc881344453f275559"
@@ -4901,6 +4930,15 @@
   dependencies:
     "@vitest/pretty-format" "2.1.1"
     loupe "^3.1.1"
+    tinyrainbow "^1.2.0"
+
+"@vitest/utils@^2.1.1":
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/@vitest/utils/-/utils-2.1.4.tgz#6d67ac966647a21ce8bc497472ce230de3b64537"
+  integrity sha512-MXDnZn0Awl2S86PSNIim5PWXgIAx8CIkzu35mBdSApUip6RFOGXBCf3YFyeEu8n1IHk4bWD46DeYFu9mQlFIRg==
+  dependencies:
+    "@vitest/pretty-format" "2.1.4"
+    loupe "^3.1.2"
     tinyrainbow "^1.2.0"
 
 "@webassemblyjs/ast@1.12.1", "@webassemblyjs/ast@^1.12.1":
@@ -9574,6 +9612,11 @@ loupe@^3.1.0, loupe@^3.1.1:
   integrity sha512-edNu/8D5MKVfGVFRhFf8aAxiTM6Wumfz5XsaatSxlD3w4R1d/WEKUTydCdPGbl9K7QG/Ca3GnDV2sIKIpXRQcw==
   dependencies:
     get-func-name "^2.0.1"
+
+loupe@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/loupe/-/loupe-3.1.2.tgz#c86e0696804a02218f2206124c45d8b15291a240"
+  integrity sha512-23I4pFZHmAemUnz8WZXbYRSKYj801VDaNv9ETuMh7IrMc7VuVVSo+Z9iLE3ni30+U48iDWfi30d3twAXBYmnCg==
 
 lru-cache@^5.1.1:
   version "5.1.1"
