@@ -37,7 +37,7 @@ export const EVENTS = {
     norwegian: 'Bedrift-til-bedrift',
     english: 'Company-to-company',
   },
-};
+} as const;
 
 export const TOOLTIP = {
   company_presentation: {

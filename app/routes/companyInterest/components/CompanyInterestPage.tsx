@@ -67,7 +67,10 @@ import {
   COMPANY_TYPES,
   TOOLTIP,
 } from './Translations';
-import type { DetailedCompanyInterest } from 'app/store/models/CompanyInterest';
+import type {
+  CompanyInterestEventFullType,
+  DetailedCompanyInterest,
+} from 'app/store/models/CompanyInterest';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
 
@@ -222,7 +225,7 @@ type CompanyInterestFormEntity = {
   phone: string;
   semesters: Array<CompanySemester & { checked: boolean }>;
   events: Array<{
-    name: string;
+    event: CompanyInterestEventFullType;
     checked: boolean;
   }>;
   companyCourseThemes: Array<{ name: string; checked: boolean }>;
@@ -245,9 +248,9 @@ type CompanyInterestFormEntity = {
 
 const requiredIfEventType = (eventType: string) =>
   requiredIf((allValues) => {
-    const event = allValues.events.filter(
-      (event) => event.name === eventType,
-    )[0];
+    const event = allValues.interestEvents
+      .map((e) => e.name)
+      .filter((event) => event.name === eventType)[0];
     return event && event.checked;
   });
 
@@ -343,9 +346,11 @@ const CompanyInterestPage = () => {
           label: companyInterest?.companyName,
           title: companyInterest?.companyName,
         },
-    events: allEvents.map((event) => ({
+    interestEvents: allEvents.map((event) => ({
       name: event,
-      checked: companyInterest?.events.includes(event) || false,
+      checked:
+        companyInterest?.interestEvents.map((e) => e.name).includes(event) ||
+        false,
     })),
     companyCourseThemes: allSurveyOffers.map((offer) => ({
       name: offer,
@@ -406,9 +411,14 @@ const CompanyInterestPage = () => {
       semesters: data.semesters
         .filter((semester) => semester.checked)
         .map((semester) => semester.id),
-      events: data.events
+      interestEvents: data.events
         .filter((event) => event.checked)
-        .map((event) => event.name),
+        .map((event) => {
+          return {
+            name: event.name,
+            priority: 0,
+          };
+        }),
       companyCourseThemes: data.companyCourseThemes
         .filter((offer) => offer.checked)
         .map((offer) => offer.name),
@@ -732,7 +742,8 @@ const CompanyInterestPage = () => {
             {eventTypeEntities.map((eventTypeEntity) => {
               return spyValues((values: CompanyInterestFormEntity) => {
                 const showComment = values.events?.some(
-                  (e) => e.name === eventTypeEntity.name && e.checked === true,
+                  (e) =>
+                    e.event.name === eventTypeEntity.name && e.checked === true,
                 );
 
                 return (

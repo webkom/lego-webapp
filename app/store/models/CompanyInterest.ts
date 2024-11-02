@@ -16,6 +16,12 @@ export enum CompanyInterestEventType {
   CompanyToCompany = 'company_to_company',
 }
 
+export interface CompanyInterestEventFullType {
+  id: number;
+  name: CompanyInterestEventType;
+  priority: number;
+}
+
 interface CompleteCompanyInterest {
   id: EntityId;
   companyName: string;
@@ -26,7 +32,6 @@ interface CompleteCompanyInterest {
   semesters: EntityId[];
   createdAt: Dateish;
   officeInTrondheim: string;
-  events: CompanyInterestEventType[];
   companyCourseThemes: string[];
   otherOffers: string[];
   collaborations: string[];
@@ -42,6 +47,7 @@ interface CompleteCompanyInterest {
   bedexComment: string;
   companyToCompanyComment: string;
   companyPresentationComment: string;
+  interestEvents: CompanyInterestEventFullType[];
 }
 
 export type DetailedCompanyInterest = Pick<
@@ -53,7 +59,6 @@ export type DetailedCompanyInterest = Pick<
   | 'mail'
   | 'phone'
   | 'semesters'
-  | 'events'
   | 'companyCourseThemes'
   | 'otherOffers'
   | 'collaborations'
@@ -70,6 +75,7 @@ export type DetailedCompanyInterest = Pick<
   | 'companyToCompanyComment'
   | 'companyPresentationComment'
   | 'officeInTrondheim'
+  | 'interestEvents'
 >;
 
 export type ListCompanyInterest = Pick<
@@ -81,8 +87,8 @@ export type ListCompanyInterest = Pick<
   | 'mail'
   | 'phone'
   | 'semesters'
-  | 'events'
   | 'createdAt'
+  | 'interestEvents'
 >;
 
 export type UnknownCompanyInterest =
