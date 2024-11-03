@@ -120,10 +120,6 @@
   min-width: 100%;
   align-items: baseline;
   grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
-
-  @media (--mobile-device) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 .trophyCaseWrapper {
