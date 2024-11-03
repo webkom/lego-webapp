@@ -115,20 +115,14 @@
   box-shadow: var(--shadow-xs);
   border-radius: var(--spacing-md);
   border: 1.5px solid var(--border-gray);
-  display: flex;
-  align-items: baseline;
+  display: grid;
   gap: var(--spacing-md);
   min-width: 100%;
-  flex-wrap: wrap;
-  justify-content: center;
-}
+  align-items: baseline;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
 
-@media (--mobile-device) {
-  .trophyCaseBox {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: center;
+  @media (--mobile-device) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
