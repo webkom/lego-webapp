@@ -7,20 +7,11 @@
 .colRight {
   flex: 2;
   align-items: center;
-  padding-top: 10px;
+  padding: var(--spacing-sm) 0;
   background-color: var(--color-absolute-white);
 }
 
 .colLeft ul {
   list-style: outside;
   padding-left: var(--spacing-lg);
-}
-
-.inlineLink {
-  display: inline-block;
-  padding-right: 5px;
-}
-
-.h2Padding {
-  padding-top: 20px;
 }
