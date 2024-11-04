@@ -29,9 +29,13 @@ export const SidebarInfo = ({ event }: Props) => {
           iconNode={<BriefcaseBusiness />}
           size={20}
           content={
-            <Link to={`/companies/${event.company.id}`}>
-              {event.company.name}
-            </Link>
+            event.company.name ? (
+              <Link to={`/companies/${event.company.id}`}>
+                {event.company.name}
+              </Link>
+            ) : (
+              <Skeleton className={styles.sidebarInfo} width={100} />
+            )
           }
           className={styles.sidebarInfo}
         />
@@ -57,7 +61,13 @@ export const SidebarInfo = ({ event }: Props) => {
         <TextWithIcon
           iconNode={<Coins />}
           size={20}
-          content={event.priceMember / 100 + ',-'}
+          content={
+            event.priceMember ? (
+              event.priceMember / 100 + ',-'
+            ) : (
+              <Skeleton className={styles.sidebarInfo} width={50} />
+            )
+          }
           className={styles.sidebarInfo}
         />
       )}

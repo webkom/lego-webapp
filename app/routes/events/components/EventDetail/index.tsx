@@ -272,7 +272,7 @@ const EventDetail = () => {
 
           <Line />
 
-          {showSkeleton ? (
+          {fetching && !event?.createdBy && !event?.responsibleUsers ? (
             <Flex column gap="var(--spacing-sm)">
               <Flex gap="var(--spacing-md)" className={styles.sidebarInfo}>
                 Arrangør
