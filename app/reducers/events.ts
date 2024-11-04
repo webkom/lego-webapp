@@ -259,6 +259,9 @@ export const selectMergedPoolWithRegistrations = createSelector(
             const permissionGroups = total.permissionGroups.concat(
               pool.permissionGroups,
             );
+            const allPermissionGroupIds = total.allPermissionGroupIds.concat(
+              'allPermissionGroupIds' in pool ? pool.allPermissionGroupIds : [],
+            );
             const registrations =
               'registrations' in pool
                 ? total.registrations.concat(
@@ -274,6 +277,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
             return {
               capacity,
               permissionGroups,
+              allPermissionGroupIds,
               registrations: orderBy(
                 registrations,
                 'sharedMemberships',
@@ -285,6 +289,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
           {
             capacity: 0,
             permissionGroups: [] as PublicGroup[],
+            allPermissionGroupIds: [] as EntityId[],
             registrations: [] as PoolRegistrationWithUser[],
             registrationCount: 0,
           },
