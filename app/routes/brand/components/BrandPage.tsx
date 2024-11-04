@@ -7,7 +7,7 @@ import styles from './BrandPage.module.css';
 const BrandPage = () => (
   <Page title="Brand Guidelines">
     <section>
-      <Flex className={styles.root}>
+      <Flex column>
         <p>
           Hei, vi i PR har laget noen retningslinjer for å hjelpe deg å bruke
           vårt brand og design. For å bruke logoen og designet på en måte som

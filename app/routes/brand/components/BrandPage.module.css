@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.root {
-  flex-direction: column;
-}
-
 .colLeft {
   flex: 3;
 }
