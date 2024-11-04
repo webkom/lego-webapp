@@ -1,28 +1,32 @@
 import { Flex, Icon, LinkButton, Image, Page } from '@webkom/lego-bricks';
 import { Download } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import logosDonts from 'app/assets/logos-donts.png';
 import logosDos from 'app/assets/logos-dos.png';
+import { ContentMain } from 'app/components/Content';
 import styles from './BrandPage.module.css';
 
-const BrandPage = () => (
-  <Page title="Brand Guidelines">
-    <section>
-      <Flex className={styles.root}>
+const BrandPage = () => {
+  const title = 'Retningslinjer for merkevare';
+  return (
+    <Page title={title}>
+      <Helmet title={title} />
+      <ContentMain>
         <p>
-          Hei, vi i PR har laget noen retningslinjer for å hjelpe deg å bruke
-          vårt brand og design. For å bruke logoen og designet på en måte som
-          ikke er dekket av disse retningslinjene kontakt oss på{' '}
-          <a className={styles.inlineLink} href="mailto:pr@abakus.no">
-            pr@abakus.no
-          </a>
-          og legg ved en mockup av hvordan du har tenkt til å bruke det.
+          PR har utformet noen retningslinjer for å hjelpe deg å bruke vår
+          merkevare. For å bruke logoen og designet på en måte som ikke er
+          dekket av disse retningslinjene kontakt oss på{' '}
+          <a href="mailto:pr@abakus.no">pr@abakus.no</a> og legg ved en mockup
+          av hvordan du har tenkt til å bruke det.
         </p>
-        <h2>Bruk</h2>
-        <p>
-          Abakus{"'"} merker inkluderer Abakus-navnet, logoen og ord som
-          identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
-          dem på en forvirrende måte.
-        </p>
+        <div>
+          <h2>Bruk</h2>
+          <p>
+            Abakus{"'"} merker inkluderer Abakus-navnet, logoen og ord som
+            identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
+            dem på en forvirrende måte.
+          </p>
+        </div>
         <Flex>
           <Flex column className={styles.colLeft}>
             <h2>Logo</h2>
@@ -48,7 +52,6 @@ const BrandPage = () => (
             />
           </Flex>
         </Flex>
-
         <Flex>
           <Flex column className={styles.colLeft}>
             <b>Vi ber om at du er omtenksom og ikke:</b>
@@ -83,7 +86,7 @@ const BrandPage = () => (
           </Flex>
         </Flex>
         <div>
-          <h2 className={styles.h2Padding}>Logoer i vektorformat</h2>
+          <h2>Logoer i vektorformat</h2>
           <LinkButton
             href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
             download="proposed_file_name"
@@ -91,7 +94,9 @@ const BrandPage = () => (
             <Icon iconNode={<Download />} size={19} />
             Last ned
           </LinkButton>
-          <h2 className={styles.h2Padding}>Abakusfarger</h2>
+        </div>
+        <div>
+          <h2>Abakusfarger</h2>
           <ul>
             <li>Hvit: CMYK(0,0,0,0)</li>
             <li>Svart: CMYK(0,0,0,95)</li>
@@ -100,7 +105,9 @@ const BrandPage = () => (
             <li>Lyserød: CMYK(1,98,98,0) RGB(E21617)</li>
             <li>Mørkerød: CMYK(20,99,100,13) RGB(B21C17)</li>
           </ul>
-          <h2 className={styles.h2Padding}>Powerpointmal</h2>
+        </div>
+        <div>
+          <h2>PowerPoint-mal</h2>
           <p>
             Denne malen skal brukes for presentasjoner som holdes i Abakus-regi
           </p>
@@ -112,9 +119,9 @@ const BrandPage = () => (
             Last ned
           </LinkButton>
         </div>
-      </Flex>
-    </section>
-  </Page>
-);
+      </ContentMain>
+    </Page>
+  );
+};
 
 export default BrandPage;
