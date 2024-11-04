@@ -11,6 +11,7 @@ export const rarityToColorMap = {
   7: 'Crimson',
   8: '#9340FF',
   9: '#BF00FF',
+  10: '#780606',  // Dark red
 };
 
 const AchievementsInfo: Record<string, AchievementData[]> = {
@@ -128,6 +129,26 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: false,
     },
   ],
+  penalty_count: [
+    {
+      name: 'Bølle',
+      description: 'Fått 1 prikk',
+      rarity: 0,
+      hidden: false,
+    },
+    {
+      name: 'Cancelled',
+      description: 'Fått 5 prikker',
+      rarity: 7,
+      hidden: false,
+    },
+    {
+      name: 'Kriminell',
+      description: 'Fått 10 prikker',
+      rarity: 10,
+      hidden: false,
+    },
+  ]
 };
 
 export default AchievementsInfo;
