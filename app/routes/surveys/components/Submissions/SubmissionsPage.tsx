@@ -5,7 +5,7 @@ import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { SurveyDetailTabs, getCsvUrl } from '../../utils';
+import { SurveyDetailTabs, getCsvUrl, getPdfUrl } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
@@ -63,7 +63,7 @@ const SubmissionsPage = ({ children: Children }: Props) => {
           surveyId={survey.id}
           actionGrant={survey.actionGrant}
           token={survey.token}
-          exportSurvey={async () => {
+          exportSurveyCSV={async () => {
             const blob = await fetch(getCsvUrl(survey.id), {
               headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -72,6 +72,17 @@ const SubmissionsPage = ({ children: Children }: Props) => {
             return {
               url: URL.createObjectURL(blob),
               filename: survey.title.replace(/ /g, '_') + '.csv',
+            };
+          }}
+          exportSurveyPDF={async () => {
+            const blob = await fetch(getPdfUrl(survey.id), {
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
+            }).then((response) => response.blob());
+            return {
+              url: URL.createObjectURL(blob),
+              filename: survey.title.replace(/ /g, '_') + '.pdf',
             };
           }}
         />

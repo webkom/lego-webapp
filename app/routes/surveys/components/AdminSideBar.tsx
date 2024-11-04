@@ -9,7 +9,7 @@ import { useAppDispatch } from 'app/store/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 
-type GeneratedCSV = {
+type GeneratedFile = {
   url: string;
   filename: string;
 };
@@ -18,19 +18,22 @@ type Props = {
   surveyId: EntityId;
   actionGrant: ActionGrant;
   token: string | null;
-  exportSurvey?: () => Promise<GeneratedCSV>;
+  exportSurveyCSV?: () => Promise<GeneratedFile>;
+  exportSurveyPDF?: () => Promise<GeneratedFile>;
 };
 
 const AdminSideBar = ({
   surveyId,
   actionGrant,
   token,
-  exportSurvey,
+  exportSurveyCSV,
+  exportSurveyPDF,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [copied, setCopied] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout>();
-  const [generatedCSV, setGeneratedCSV] = useState<GeneratedCSV>();
+  const [generatedCSV, setGeneratedCSV] = useState<GeneratedFile>();
+  const [generatedPDF, setgeneratedPDF] = useState<GeneratedFile>();
   const canEdit = actionGrant.includes('edit');
   const shareLink = token
     ? `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`
@@ -69,9 +72,8 @@ const AdminSideBar = ({
               Rediger
             </LinkButton>
 
-            {actionGrant &&
-              actionGrant.includes('csv') &&
-              exportSurvey &&
+            {actionGrant?.includes('csv') &&
+              exportSurveyCSV &&
               (generatedCSV ? (
                 <LinkButton
                   success
@@ -83,10 +85,30 @@ const AdminSideBar = ({
                 </LinkButton>
               ) : (
                 <Button
-                  onPress={async () => setGeneratedCSV(await exportSurvey())}
+                  onPress={async () => setGeneratedCSV(await exportSurveyCSV())}
                 >
                   <Icon iconNode={<FileUp />} size={19} />
                   Eksporter til CSV
+                </Button>
+              ))}
+
+            {actionGrant?.includes('csv') &&
+              exportSurveyPDF &&
+              (generatedPDF ? (
+                <LinkButton
+                  success
+                  href={generatedPDF.url}
+                  download={generatedPDF.filename}
+                >
+                  <Icon iconNode={<FileDown />} size={19} />
+                  Last ned PDF
+                </LinkButton>
+              ) : (
+                <Button
+                  onPress={async () => setgeneratedPDF(await exportSurveyPDF())}
+                >
+                  <Icon iconNode={<FileUp />} size={19} />
+                  Eksporter til PDF
                 </Button>
               ))}
 
