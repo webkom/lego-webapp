@@ -64,7 +64,6 @@ interface User {
   penalties: EntityId[];
   icalToken: string;
   abakusGroups: EntityId[];
-  allAbakusGroupIds: EntityId[];
   isAbakusMember: boolean;
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
@@ -137,10 +136,7 @@ export type PublicUser = Pick<
   | 'achievements'
 >;
 
-export type PublicUserWithAbakusGroups = Pick<
-  User,
-  'abakusGroups' | 'allAbakusGroupIds'
-> &
+export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &
   PublicUser;
 
 export type PublicUserWithGroups = Pick<
