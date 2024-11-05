@@ -11,6 +11,7 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
+import { EntityId } from '@reduxjs/toolkit';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
@@ -148,7 +149,7 @@ export const getCompanySemesterBySlug = (
 };
 
 export const getSemesterSlugById = (
-  id: number,
+  id: EntityId,
   companySemesters: CompanySemester[],
 ) => {
   const semester = companySemesters.find((semester) => semester.id === id);

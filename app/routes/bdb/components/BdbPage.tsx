@@ -1,4 +1,4 @@
-import { Card, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -30,7 +30,7 @@ const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
   name: '',
   studentContact: '',
-  semester: undefined as string | undefined,
+  semester: '',
 };
 
 const BdbPage = () => {
@@ -73,9 +73,8 @@ const BdbPage = () => {
           companySemesters,
         );
         return dispatch(fetchAllAdmin(semester!.id));
-      } else {
-        return dispatch(fetchAllAdmin(currentCompanySemester!.id));
       }
+      return dispatch(fetchAllAdmin(currentCompanySemester!.id));
     },
     [query.semester, currentCompanySemester, companySemesters],
   );
@@ -155,40 +154,42 @@ const BdbPage = () => {
         Du kan endre semesterstatuser ved å trykke på dem i listen!
       </Card>
 
-      <SelectInput
-        name="semester"
-        options={companySemesters
-          .sort((a, b) => (b.semester === 'autumn' ? 1 : -1))
-          .sort((a, b) => b.year - a.year)
-          .map((semester) => ({
-            label: semesterToHumanReadable(
-              semester as TransformedSemesterStatus,
-            ),
-            value: semester.id as number,
-          }))}
-        value={{
-          label: currentCompanySemester
-            ? semesterToHumanReadable(
-                currentCompanySemester as TransformedSemesterStatus,
-              )
-            : 'Velg semester',
-          value: currentCompanySemester?.id as number,
-        }}
-        onChange={(e) =>
-          setQuery({
-            ...query,
-            semester: getSemesterSlugById(
-              (e as { label: string; value: number }).value,
-              companySemesters,
-            ),
-          })
-        }
-      ></SelectInput>
+      <Flex width="fit-content">
+        <SelectInput
+          name="semester"
+          options={companySemesters
+            .sort((a, b) => (b.semester === 'autumn' ? 1 : -1))
+            .sort((a, b) => b.year - a.year)
+            .map((semester) => ({
+              label: semesterToHumanReadable(
+                semester as TransformedSemesterStatus,
+              ),
+              value: semester.id as number,
+            }))}
+          value={{
+            label: currentCompanySemester
+              ? semesterToHumanReadable(
+                  currentCompanySemester as TransformedSemesterStatus,
+                )
+              : 'Velg semester',
+            value: currentCompanySemester?.id as number,
+          }}
+          onChange={(e) =>
+            setQuery({
+              ...query,
+              semester: getSemesterSlugById(
+                (e as { label: string; value: number }).value,
+                companySemesters,
+              ),
+            })
+          }
+        />
+      </Flex>
 
       <Table
         className={styles.bdbTable}
         columns={columns}
-        data={fetching ? [] : companies}
+        data={companies}
         filters={query}
         onChange={setQuery}
         loading={fetching}
