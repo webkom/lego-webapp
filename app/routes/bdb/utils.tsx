@@ -4,6 +4,7 @@ import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type {
   TransformedAdminCompany,
@@ -11,7 +12,6 @@ import type {
 } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import { EntityId } from '@reduxjs/toolkit';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
