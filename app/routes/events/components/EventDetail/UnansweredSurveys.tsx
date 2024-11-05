@@ -20,7 +20,7 @@ export const UnansweredSurveys = ({ event, currentRegistration }: Props) => {
       <ul>
         {event.unansweredSurveys.map((surveyId, i) => (
           <li key={surveyId}>
-            <Link to={`/surveys/${surveyId}`}>Undersøkelse {i + 1}</Link>
+            <Link to={`/surveys/${surveyId}/answer`}>Undersøkelse {i + 1}</Link>
           </li>
         ))}
       </ul>
