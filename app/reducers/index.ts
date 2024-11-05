@@ -112,6 +112,10 @@ export const meetingSchema = new schema.Entity(EntityType.Meetings, {
   createdBy: userSchema,
   comments: [commentSchema],
 });
+export const meetingTemplatesSchema = new schema.Entity(
+  EntityType.MeetingTemplates,
+);
+
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],
   articles: [articleSchema],

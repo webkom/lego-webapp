@@ -23,6 +23,10 @@ import {
   inviteUsersAndGroups,
 } from 'app/actions/MeetingActions';
 import {
+  createMeetingTemplate,
+  fetchAllMeetingTemplates,
+} from 'app/actions/MeetingTemplateActions';
+import {
   Button,
   CheckBox,
   DatePicker,
@@ -40,6 +44,7 @@ import Attendance from 'app/components/UserAttendance/Attendance';
 import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
+import { selectAllMeetingTemplates } from 'app/reducers/meetingTemplates';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
 import styles from 'app/routes/meetings/components/MeetingEditor.module.css';
@@ -105,6 +110,7 @@ type MeetingEditorParams = {
   meetingId?: string;
 };
 const MeetingEditor = () => {
+  const [meetingRefreshKey, setMeetingRefreshkey] = useState(0);
   const { meetingId } = useParams<MeetingEditorParams>();
   const isEditPage = meetingId !== undefined;
   const meeting = useAppSelector((state) =>
@@ -164,6 +170,15 @@ const MeetingEditor = () => {
       });
   };
 
+  usePreparedEffect(
+    'loadMeetingTemplates',
+    () => {
+      dispatch(fetchAllMeetingTemplates());
+    },
+    [],
+  );
+
+  const allMeetingTemplates = useAppSelector(selectAllMeetingTemplates);
   const navigate = useNavigate();
 
   if (isEditPage && !meeting) {
@@ -247,6 +262,7 @@ const MeetingEditor = () => {
       }}
     >
       <Helmet title={title} />
+
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -266,7 +282,31 @@ const MeetingEditor = () => {
                 name="report"
                 label="Referat"
                 component={EditorField.Field}
+                key={meetingRefreshKey}
               />
+              <Field
+                name="template"
+                label="Velg en møtemal"
+                placeholder="Velg møtemal"
+                component={SelectInput.Field}
+                options={allMeetingTemplates.map((template) => ({
+                  label: template.name,
+                  value: template.id,
+                }))}
+                isSearchable={false}
+                onChange={(templateId) => {
+                  const selectedTemplate = allMeetingTemplates.find(
+                    (template) => template.id === templateId.value,
+                  );
+
+                  if (selectedTemplate) {
+                    form.change('title', selectedTemplate.name);
+                    form.change('report', selectedTemplate.report);
+                    setMeetingRefreshkey((prev) => prev + 1);
+                  }
+                }}
+              />
+
               <Field
                 name="description"
                 label="Kort beskrivelse"
@@ -336,7 +376,6 @@ const MeetingEditor = () => {
                   />
                 );
               })}
-
               <div className={styles.sideBySideBoxes}>
                 <div>
                   <Field
@@ -359,7 +398,6 @@ const MeetingEditor = () => {
                   />
                 </div>
               </div>
-
               {spyValues<MeetingFormValues>((values) => {
                 const invitingUsers = values?.users ?? [];
                 const invitingGroups = values?.groups ?? [];
@@ -404,7 +442,6 @@ const MeetingEditor = () => {
                   />
                 );
               })}
-
               {isEditPage && (
                 <>
                   <h3>Allerede inviterte</h3>
@@ -422,7 +459,6 @@ const MeetingEditor = () => {
                   </div>
                 </>
               )}
-
               <SubmissionError />
               <ButtonGroup>
                 <Button
@@ -432,6 +468,15 @@ const MeetingEditor = () => {
                   }
                 >
                   Avbryt
+                </Button>
+                <Button
+                  onPress={() => {
+                    const report = form.getFieldState('report')?.value;
+                    const name = form.getFieldState('title')?.value;
+                    dispatch(createMeetingTemplate({ name, report }));
+                  }}
+                >
+                  Lagre som møtemal
                 </Button>
                 <SubmitButton>
                   {isEditPage ? 'Lagre endringer' : 'Opprett møte'}

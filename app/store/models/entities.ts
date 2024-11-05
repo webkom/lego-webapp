@@ -1,5 +1,6 @@
 import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { MeetingTemplate } from 'app/models';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
@@ -58,6 +59,7 @@ export enum EntityType {
   LendableObjects = 'lendableObjects',
   MeetingInvitations = 'meetingInvitations',
   Meetings = 'meetings',
+  MeetingTemplates = 'meetingtemplates',
   Memberships = 'memberships',
   OAuth2Applications = 'oauth2Applications',
   OAuth2Grants = 'oauth2Grants',
@@ -99,6 +101,7 @@ export default interface Entities {
   [EntityType.ImageGalleryEntries]: Record<EntityId, ImageGalleryEntry>;
   [EntityType.MeetingInvitations]: Record<EntityId, MeetingInvitation>;
   [EntityType.Meetings]: Record<EntityId, UnknownMeeting>;
+  [EntityType.MeetingTemplates]: Record<EntityId, MeetingTemplate>;
   [EntityType.Memberships]: Record<EntityId, Membership>;
   [EntityType.OAuth2Applications]: Record<EntityId, OAuth2Application>;
   [EntityType.OAuth2Grants]: Record<EntityId, OAuth2Grant>;

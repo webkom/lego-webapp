@@ -22,6 +22,7 @@ import imageGalleryEntries from 'app/reducers/imageGallery';
 import joblistings from 'app/reducers/joblistings';
 import lendableObjects from 'app/reducers/lendableObjects';
 import meetingInvitations from 'app/reducers/meetingInvitations';
+import meetingTemplates from 'app/reducers/meetingTemplates';
 import meetings from 'app/reducers/meetings';
 import memberships from 'app/reducers/memberships';
 import notificationSettings from 'app/reducers/notificationSettings';
@@ -72,6 +73,7 @@ const createRootReducer = () => {
     lendableObjects,
     meetingInvitations,
     meetings,
+    meetingTemplates,
     memberships,
     notificationSettings,
     notificationsFeed,

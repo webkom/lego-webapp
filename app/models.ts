@@ -318,6 +318,13 @@ export type Meeting = {
   reactionsGrouped?: ReactionsGrouped;
 };
 
+export type MeetingTemplate = {
+  id: EntityId;
+  name: string;
+  report: string;
+  createdBy: EntityId;
+};
+
 export type FollowerItem = {
   id: EntityId;
   follower: PublicUser;

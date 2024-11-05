@@ -144,6 +144,13 @@ export const Meeting = {
   ) as AAT,
 };
 
+export const MeetingTemplates = {
+  FETCH_ALL: generateStatuses('MeetingTemplates.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('MeetingTemplates.CREATE') as AAT,
+  DELETE: generateStatuses('MeetingTemplates.DELETE') as AAT,
+  UPDATE: generateStatuses('MeetingTemplates.UPDATE') as AAT,
+};
+
 /**
  *
  */
