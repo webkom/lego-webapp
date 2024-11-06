@@ -6,6 +6,7 @@ import {
   Icon,
   LoadingIndicator,
   ProgressBar,
+  Skeleton,
 } from '@webkom/lego-bricks';
 import { sumBy } from 'lodash';
 import { CircleHelp, UserMinus } from 'lucide-react';
@@ -330,6 +331,8 @@ const JoinEventForm = ({
           registrationMessage(event)
         ) : (
           <>
+            {!event?.activationTime && <Skeleton array={2} height={35} />}
+
             {!formOpen && event.activationTime && (
               <div>
                 Åpner om{' '}

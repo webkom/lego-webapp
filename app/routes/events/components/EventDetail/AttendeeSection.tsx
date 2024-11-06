@@ -63,7 +63,7 @@ export const AttendeeSection = ({
         minUserGridRows={minUserGridRows}
         maxUserGridRows={MAX_USER_GRID_ROWS}
         legacyRegistrationCount={event?.legacyRegistrationCount}
-        skeleton={fetching && !registrations}
+        skeleton={fetching && !registrations.length}
       />
 
       {loggedIn &&
