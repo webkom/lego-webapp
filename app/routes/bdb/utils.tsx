@@ -4,6 +4,7 @@ import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type {
   TransformedAdminCompany,
@@ -145,6 +146,17 @@ export const getCompanySemesterBySlug = (
     (companySemester) =>
       companySemester.semester === season && companySemester.year === year,
   );
+};
+
+export const getSemesterSlugById = (
+  id: EntityId,
+  companySemesters: CompanySemester[],
+) => {
+  const semester = companySemesters.find((semester) => semester.id === id);
+  if (!semester) {
+    return undefined;
+  }
+  return `${semester.year}${semester.semester === 'autumn' ? 'h' : 'v'}`;
 };
 
 export const httpCheck = (link: string) => {
