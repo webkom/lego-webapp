@@ -52,3 +52,6 @@
 .badge {
   height: fit-content;
 }
+.bdbTable {
+  margin-top: var(--spacing-md);
+}

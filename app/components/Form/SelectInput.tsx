@@ -15,7 +15,7 @@ type Props<Option, IsMulti extends boolean = false> = {
   fetching?: boolean;
   className?: string;
   selectStyle?: StylesConfig<Option, IsMulti>;
-  onChange?: (event: ChangeEvent | string | Option[]) => void;
+  onChange?: (event: ChangeEvent | string | Option[] | Option) => void;
   onSearch?: (search: string) => void;
   isValidNewOption?: (arg0: string) => boolean;
   value?: Option | Option[] | null;
