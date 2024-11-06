@@ -176,7 +176,7 @@ const LINKS: Array<Link> = [
     key: 'bdb',
     title: (
       <Flex alignItems="center" gap="var(--spacing-sm)">
-        Bedriftsdatabase
+        BDB
         <Tag tag="PRO" color="gray" />
       </Flex>
     ),
