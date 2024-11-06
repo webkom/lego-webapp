@@ -1,10 +1,11 @@
-import { Card, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import Table from 'app/components/Table';
+import Tag from 'app/components/Tags/Tag';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -17,6 +18,7 @@ import {
   getSemesterStatus,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
+import styles from './bdb.module.css';
 import type { ColumnProps } from 'app/components/Table';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { UnknownUser } from 'app/store/models/User';
@@ -133,7 +135,12 @@ const BdbPage = () => {
     },
   ];
 
-  const title = 'Bedriftsdatabase';
+  const title = (
+    <Flex gap="var(--spacing-sm)" alignItems="center">
+      <h1>BDB</h1>
+      <Tag className={styles.badge} tag="PRO" color="gray" />
+    </Flex>
+  );
 
   return (
     <Page
@@ -141,7 +148,7 @@ const BdbPage = () => {
       actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
       tabs={<BdbTabs />}
     >
-      <Helmet title={title} />
+      <Helmet title="BDB" />
 
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
