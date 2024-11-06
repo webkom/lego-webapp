@@ -157,12 +157,17 @@ const UserProfile = () => {
       title={user.fullName}
       actionButtons={
         showSettings && (
-          <Icon
-            iconNode={<SettingsIcon />}
-            size={22}
-            className={styles.settingsIcon}
-            to={`/users/${user.username}/settings/profile`}
-          />
+          <LinkButton
+            className={styles.settingsButton}
+            href={`/users/${user.username}/settings/profile`}
+          >
+            <Icon
+              iconNode={<SettingsIcon />}
+              size={19}
+              className={styles.settingsIcon}
+            />
+            Innstillinger
+          </LinkButton>
         )
       }
     >
@@ -194,12 +199,6 @@ const UserProfile = () => {
                 </Flex>
               </Modal>
             </DialogTrigger>
-          )}
-          {showSettings && (
-            <LinkButton href={`/users/${user.username}/settings/profile`}>
-              <Icon iconNode={<SettingsIcon />} size={19} />
-              Innstillinger
-            </LinkButton>
           )}
         </Flex>
         <Flex
