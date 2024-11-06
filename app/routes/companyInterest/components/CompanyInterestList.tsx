@@ -16,15 +16,17 @@ import {
   fetchAll,
 } from 'app/actions/CompanyInterestActions';
 import SelectInput from 'app/components/Form/SelectInput';
-import Table from 'app/components/Table';
+import Table, { type ColumnProps } from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterests } from 'app/reducers/companyInterest';
-import {
-  selectAllCompanySemesters,
-  selectCompanySemesterById,
-} from 'app/reducers/companySemesters';
+import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { BdbTabs } from 'app/routes/bdb/utils';
+import {
+  BdbTabs,
+  getClosestCompanySemester,
+  getCompanySemesterBySlug,
+  getSemesterSlugById,
+} from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
 import { EntityType } from 'app/store/models/entities';
@@ -36,13 +38,13 @@ import type CompanySemester from 'app/store/models/CompanySemester';
 
 type SemesterOptionType = {
   id: number;
+  year: number;
   semester: string;
-  year: string;
   label: string;
 };
 
 const defaultCompanyInterestsQuery = {
-  semesters: '',
+  semester: '',
   event: CompanyInterestEventType.All,
 };
 
@@ -52,34 +54,35 @@ const CompanyInterestList = () => {
   >(undefined);
 
   const { query, setQueryValue } = useQuery(defaultCompanyInterestsQuery);
-  const semesters = useAppSelector(selectAllCompanySemesters);
-  const filterSemester = useAppSelector((state) =>
-    selectCompanySemesterById(state, query.semesters),
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
+
+  const resolveCurrentSemester = (
+    slug: string | undefined,
+    companySemesters: CompanySemester[],
+  ) => {
+    if (slug) {
+      const companySemester = getCompanySemesterBySlug(slug, companySemesters);
+      if (companySemester) return companySemester;
+    }
+
+    return getClosestCompanySemester(companySemesters);
+  };
+
+  const currentCompanySemester = useMemo(
+    () => resolveCurrentSemester(query.semester, companySemesters),
+    [companySemesters, query.semester],
   );
-  const selectedSemesterFilterOption = useMemo(
-    () => ({
-      id: Number(query.semesters),
-      semester: filterSemester?.semester ?? '',
-      year: filterSemester?.year ?? '',
-      label: filterSemester
-        ? semesterToText({
-            semester: filterSemester.semester,
-            year: filterSemester.year,
-            language: 'norwegian',
-          })
-        : 'Vis alle semestre',
-    }),
-    [query.semesters, filterSemester],
-  );
+
   const selectedEventOption: CompanyInterestEventTypeOption = {
     value: query.event,
     label:
       EVENT_TYPE_OPTIONS.find((eventType) => eventType.value === query.event)
         ?.label ?? 'Vis alle arrangementstyper',
   };
+
   const companyInterestList = useAppSelector((state) =>
     selectCompanyInterests(state, {
-      semesterId: selectedSemesterFilterOption.id,
+      semesterId: currentCompanySemester?.id ?? 0,
       eventType: selectedEventOption.value,
     }),
   );
@@ -91,6 +94,7 @@ const CompanyInterestList = () => {
       query,
     }),
   );
+
   const hasMore = pagination.hasMore;
   const fetching = useAppSelector((state) => state.companyInterest.fetching);
   const authToken = useAppSelector((state) => state.auth.token);
@@ -99,7 +103,7 @@ const CompanyInterestList = () => {
 
   useEffect(() => {
     setGeneratedCSV(undefined);
-  }, [selectedSemesterFilterOption]);
+  }, [currentCompanySemester]);
 
   usePreparedEffect(
     'fetchCompanyInterestList',
@@ -119,10 +123,13 @@ const CompanyInterestList = () => {
   );
 
   const exportInterestList = async (event?: string) => {
+    if (!currentCompanySemester) {
+      return;
+    }
     const blob = await fetch(
       getCsvUrl(
-        selectedSemesterFilterOption.year,
-        selectedSemesterFilterOption.semester,
+        currentCompanySemester.year,
+        currentCompanySemester.semester,
         event,
       ),
       {
@@ -133,17 +140,17 @@ const CompanyInterestList = () => {
     ).then((response) => response.blob());
     return {
       url: URL.createObjectURL(blob),
-      filename: `company-interests-${selectedSemesterFilterOption.year}-${
-        selectedSemesterFilterOption.semester
+      filename: `company-interests-${currentCompanySemester.year}-${
+        currentCompanySemester.semester
       }${selectedEventOption.value ? `-${selectedEventOption.value}` : ''}.csv`,
     };
   };
 
-  const columns = [
+  const columns: ColumnProps<(typeof companyInterestList)[number]>[] = [
     {
       title: 'Bedriftsnavn',
       dataIndex: 'companyName',
-      render: (companyName: string, companyInterest: Record<string, any>) => (
+      render: (companyName: string, companyInterest) => (
         <Link to={`/company-interest/${companyInterest.id}/edit`}>
           {companyInterest.company ? companyInterest.company.name : companyName}
         </Link>
@@ -188,7 +195,7 @@ const CompanyInterestList = () => {
       semester: '',
       label: 'Vis alle semestre',
     },
-    ...semesters.map((semesterObj: CompanySemester) => {
+    ...companySemesters.map((semesterObj: CompanySemester) => {
       const { id, year, semester } = semesterObj;
       return {
         id,
@@ -226,9 +233,25 @@ const CompanyInterestList = () => {
           <Flex column>
             <SelectInput
               name="form-semester-selector"
-              value={selectedSemesterFilterOption}
-              onChange={(clickedOption: SemesterOptionType) =>
-                setQueryValue('semesters')(String(clickedOption.id ?? ''))
+              value={{
+                label: currentCompanySemester
+                  ? semesterToText({
+                      semester: currentCompanySemester.semester,
+                      year: currentCompanySemester.year,
+                      language: 'norwegian',
+                    })
+                  : 'Vis alle semestre',
+                value: Number(currentCompanySemester?.id) ?? 9999,
+                year: currentCompanySemester?.year ?? 9999,
+                semester: currentCompanySemester?.semester ?? '',
+              }}
+              onChange={(e) =>
+                setQueryValue('semester')(
+                  getSemesterSlugById(
+                    (e as SemesterOptionType).id,
+                    companySemesters,
+                  ) ?? '',
+                )
               }
               options={semesterOptions}
               isClearable={false}
@@ -244,8 +267,10 @@ const CompanyInterestList = () => {
             <SelectInput
               name="form-event-selector"
               value={selectedEventOption}
-              onChange={(clickedOption: CompanyInterestEventTypeOption) =>
-                setQueryValue('event')(clickedOption.value)
+              onChange={(e) =>
+                setQueryValue('event')(
+                  (e as CompanyInterestEventTypeOption).value,
+                )
               }
               options={EVENT_TYPE_OPTIONS}
               isClearable={false}
@@ -263,14 +288,14 @@ const CompanyInterestList = () => {
             </LinkButton>
           ) : (
             <Tooltip
-              disabled={!!selectedSemesterFilterOption.year}
+              disabled={!currentCompanySemester}
               content={'Vennligst velg semester'}
             >
               <Button
                 onPress={async () =>
                   setGeneratedCSV(await exportInterestList())
                 }
-                disabled={!selectedSemesterFilterOption.year}
+                disabled={!currentCompanySemester}
               >
                 Eksporter til CSV
               </Button>

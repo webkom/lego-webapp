@@ -80,7 +80,8 @@ const NO_OPTIONS_MESSAGE = 'Ingen treff';
 const LOADING_MESSAGE = 'Laster inn ...';
 
 const SelectInput = <
-  Option extends { label: string; value: number },
+  T,
+  Option extends { label: string; value: T },
   IsMulti extends boolean = false,
 >({
   name,
