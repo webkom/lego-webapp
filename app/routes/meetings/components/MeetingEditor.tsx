@@ -26,6 +26,7 @@ import {
   createMeetingTemplate,
   fetchAllMeetingTemplates,
 } from 'app/actions/MeetingTemplateActions';
+import Dropdown from 'app/components/Dropdown';
 import {
   Button,
   CheckBox,
@@ -52,6 +53,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+
 import {
   createValidator,
   ifField,
@@ -64,6 +66,7 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { AutocompleteGroup } from 'app/store/models/Group';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
+import { MeetingTemplate } from 'app/models';
 
 const time = (hours: number, minutes?: number) =>
   moment()
@@ -110,7 +113,10 @@ type MeetingEditorParams = {
   meetingId?: string;
 };
 const MeetingEditor = () => {
-  const [meetingRefreshKey, setMeetingRefreshkey] = useState(0);
+  const [meetingRefreshKey, setMeetingRefreshKey] = useState(0);
+  const [displayTemplateDropdown, setDisplayTemplateDropdown] = useState(false);
+  const [formInstance, setFormInstance] = useState<FormApi | null>(null);
+
   const { meetingId } = useParams<MeetingEditorParams>();
   const isEditPage = meetingId !== undefined;
   const meeting = useAppSelector((state) =>
@@ -177,7 +183,6 @@ const MeetingEditor = () => {
     },
     [],
   );
-  const [selectedTemplate, setSelectedTemplate] = useState<EntityId>(null);
 
   const allMeetingTemplates = useAppSelector(selectAllMeetingTemplates);
   const navigate = useNavigate();
@@ -253,6 +258,70 @@ const MeetingEditor = () => {
 
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
 
+  const applyTemplate = (template: MeetingTemplate) => {
+    if (!formInstance) return;
+
+    formInstance.change('title', template.name);
+    formInstance.change('report', template.report);
+    formInstance.change('startTime', template.startTime);
+    formInstance.change('endTime', template.endTime);
+    formInstance.change(
+      'users',
+      template.invitedUsers.map((user) => ({
+        value: user.username,
+        label: user.fullName,
+        id: user.id,
+      })),
+    );
+    formInstance.change(
+      'groups',
+      template.invitedGroups.map((group) => ({
+        value: group.id,
+        label: group.name,
+        id: group.id,
+      })),
+    );
+    formInstance.change('mazemapPoi', template.mazemapPoi || null);
+    formInstance.change('location', template.location || '');
+    setMeetingRefreshKey((prev) => prev + 1);
+  };
+
+  const actionButtons = (
+    <Dropdown
+      show={displayTemplateDropdown}
+      toggle={() => {
+        setDisplayTemplateDropdown(!displayTemplateDropdown);
+      }}
+      triggerComponent={
+        <Button
+          onPress={() => {
+            setDisplayTemplateDropdown(!displayTemplateDropdown);
+          }}
+        >
+          Bruk møtemal
+        </Button>
+      }
+    >
+      <Dropdown.List>
+        {allMeetingTemplates.map((template, index) => (
+          <>
+            {index !== 0 && <Dropdown.Divider />}
+            <Dropdown.ListItem>
+              <button
+                onClick={() => {
+                  applyTemplate(template);
+                  setDisplayTemplateDropdown(false);
+                }}
+              >
+                {template.name}
+              </button>
+            </Dropdown.ListItem>
+          </>
+        ))}
+      </Dropdown.List>
+    </Dropdown>
+  );
+
   return (
     <Page
       title={title}
@@ -261,9 +330,9 @@ const MeetingEditor = () => {
         label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
         href: `/meetings/${isEditPage ? meetingId : ''}`,
       }}
+      actionButtons={actionButtons}
     >
       <Helmet title={title} />
-
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -271,6 +340,7 @@ const MeetingEditor = () => {
         subscription={{}}
       >
         {({ handleSubmit, form }) => {
+          if (!formInstance) setFormInstance(form);
           return (
             <Form onSubmit={handleSubmit}>
               <Field
@@ -285,74 +355,6 @@ const MeetingEditor = () => {
                 component={EditorField.Field}
                 key={meetingRefreshKey}
               />
-
-              <ConfirmModal
-                title="Bruk møtemal"
-                message="Du vil overskrive dine nåværende endringer"
-                onConfirm={() => {
-                  const template = allMeetingTemplates.find(
-                    (t) => t.id === selectedTemplate,
-                  );
-
-                  if (template) {
-                    form.change('title', template.name);
-                    form.change('report', template.report);
-                    form.change('startTime', template.startTime);
-                    form.change('endTime', template.endTime);
-                    form.change(
-                      'reportAuthor',
-                      template.reportAuthor && {
-                        value: template.reportAuthor.username,
-                        label: template.reportAuthor.fullName,
-                        id: template.reportAuthor.id,
-                      },
-                    );
-
-                    form.change(
-                      'users',
-                      template?.invitedUsers.map((user) => ({
-                        value: user.username,
-                        label: user.fullName,
-                        id: user.id,
-                      })),
-                    );
-                    form.change(
-                      'groups',
-                      template?.invitedGroups.map((group) => ({
-                        value: group.id,
-                        label: group.name,
-                        id: group.id,
-                      })),
-                    );
-                    if (template.mazemapPoi) {
-                      form.change('mazemapPoi', template.mazemapPoi);
-                    } else {
-                      form.change('useMazemap', false);
-                      form.change('location', template.location);
-                    }
-                    setMeetingRefreshkey((prev) => prev + 1);
-                  }
-                }}
-                closeOnConfirm
-              >
-                {({ openConfirmModal }) => (
-                  <Field
-                    name="template"
-                    label="Velg en møtemal"
-                    placeholder="Velg møtemal"
-                    component={SelectInput.Field}
-                    options={allMeetingTemplates.map((template) => ({
-                      label: template.name,
-                      value: template.id,
-                    }))}
-                    isSearchable={false}
-                    onChange={(selectedOption) => {
-                      setSelectedTemplate(selectedOption.value);
-                      openConfirmModal();
-                    }}
-                  />
-                )}
-              </ConfirmModal>
 
               <Field
                 name="description"
