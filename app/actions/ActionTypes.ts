@@ -94,7 +94,6 @@ export const ImageGallery = {
  */
 export const GalleryPicture = {
   FETCH: generateStatuses('GalleryPicture.FETCH') as AAT,
-  FETCH_SIBLING: generateStatuses('GalleryPicture.FETCH_SIBLING') as AAT,
   CREATE: generateStatuses('GalleryPicture.CREATE') as AAT,
   EDIT: generateStatuses('GalleryPicture.EDIT') as AAT,
   DELETE: generateStatuses('GalleryPicture.DELETE') as AAT,

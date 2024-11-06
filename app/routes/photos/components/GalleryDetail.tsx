@@ -8,7 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Outlet } from 'react-router-dom';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
   fetchGalleryPictures,
@@ -208,6 +208,8 @@ const GalleryDetail = () => {
             href={`${config?.webUrl}/photos/${gallery.id}`}
           />
         </PropertyHelmet>
+
+        <Outlet />
 
         <GalleryDetailsRow gallery={gallery} showDescription />
 

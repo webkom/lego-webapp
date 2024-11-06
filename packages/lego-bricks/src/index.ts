@@ -21,7 +21,7 @@ export {
   FilterSection,
 } from './components/Layout';
 export { Card } from './components/Card';
-export { Icon } from './components/Icon';
+export { Icon, BadgeIcon } from './components/Icon';
 export { Image } from './components/Image';
 export {
   LoadingIndicator,

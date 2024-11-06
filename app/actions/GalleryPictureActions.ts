@@ -32,28 +32,6 @@ export const fetchGalleryPictures = (
     propagateError: true,
   });
 
-export function fetchSiblingGallerPicture(
-  galleryId: EntityId,
-  currentPictureId: EntityId,
-  next: boolean,
-) {
-  const rawCursor = `p=${currentPictureId}&r=${next ? 0 : 1}`;
-  const cursor = Buffer.from(rawCursor).toString('base64');
-  return callAPI({
-    types: GalleryPicture.FETCH_SIBLING,
-    endpoint: `/galleries/${galleryId}/pictures/`,
-    query: {
-      page_size: 1,
-      cursor,
-    },
-    schema: [galleryPictureSchema],
-    meta: {
-      errorMessage: 'Henting av bilde feilet',
-    },
-    propagateError: true,
-  });
-}
-
 export function fetchGalleryPicture(galleryId: EntityId, pictureId: EntityId) {
   return callAPI({
     types: GalleryPicture.FETCH,

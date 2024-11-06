@@ -8,19 +8,29 @@ const GalleryDetail = loadable(() => import('./components/GalleryDetail'));
 const GalleryPictureModal = loadable(
   () => import('./components/GalleryPictureModal'),
 );
-const GalleryPictureEditModal = loadable(
-  () => import('./components/GalleryPictureEditModal'),
+const GalleryPictureEditForm = loadable(
+  () => import('./components/GalleryPictureEditForm'),
 );
 
 const photosRoute: RouteObject[] = [
   { index: true, Component: Overview },
   { path: 'new', Component: GalleryEditor },
-  { path: ':galleryId', Component: GalleryDetail },
   { path: ':galleryId/edit', Component: GalleryEditor },
-  { path: ':galleryId/picture/:pictureId', Component: GalleryPictureModal },
   {
-    path: ':galleryId/picture/:pictureId/edit',
-    Component: GalleryPictureEditModal,
+    path: ':galleryId',
+    Component: GalleryDetail,
+    children: [
+      {
+        path: 'picture/:pictureId',
+        Component: GalleryPictureModal,
+        children: [
+          {
+            path: 'edit',
+            Component: GalleryPictureEditForm,
+          },
+        ],
+      },
+    ],
   },
   { path: '*', children: pageNotFound },
 ];

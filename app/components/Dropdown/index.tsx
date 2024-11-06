@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
 import styles from './Dropdown.module.css';
 import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
+import type { DOMContainer } from 'react-overlays/useWaitForDOMRef';
 
 type Props = {
   iconName?: string;
@@ -17,6 +18,7 @@ type Props = {
   children?: ReactNode;
   style?: Record<string, string>;
   rootClose?: boolean;
+  container?: DOMContainer;
 };
 
 const Dropdown = ({
@@ -31,6 +33,7 @@ const Dropdown = ({
   children,
   style,
   rootClose,
+  container,
 }: Props) => {
   const triggerRef = useRef(null);
   return (
@@ -51,6 +54,7 @@ const Dropdown = ({
         target={triggerRef}
         placement="bottom"
         rootClose={rootClose ?? true}
+        container={container}
       >
         {({ props, arrowProps }) => (
           <div
