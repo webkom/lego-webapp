@@ -189,7 +189,7 @@ const BdbPage = () => {
       <Table
         className={styles.bdbTable}
         columns={columns}
-        data={companies}
+        data={fetching ? [] : companies}
         filters={query}
         onChange={setQuery}
         loading={fetching}
