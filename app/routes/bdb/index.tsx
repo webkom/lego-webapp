@@ -21,6 +21,9 @@ const CompanyInterestPage = loadable(
 const CompanySemesterGUI = loadable(
   () => import('./components/companyInterest/components/CompanySemesterGUI'),
 );
+const StudentContactEditor = loadable(
+  () => import('./components/StudentContactEditor'),
+);
 
 const BdbOverview = () => {
   const isCompanyInterest = useLocation().pathname.includes('company-interest');
@@ -72,6 +75,7 @@ const bdbRoute: RouteObject[] = [
   { path: ':companyId', Component: BdbDetail },
   { path: ':companyId/edit', Component: CompanyEditor },
   { path: ':companyId/semesters/add', Component: AddSemester },
+  { path: ':companyId/student-contacts/add', Component: StudentContactEditor },
   { path: ':companyId/company-contacts/add', Component: CompanyContactEditor },
   {
     path: ':companyId/company-contacts/:companyContactId',
