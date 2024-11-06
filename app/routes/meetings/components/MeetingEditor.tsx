@@ -64,10 +64,11 @@ import {
   timeIsAfter,
 } from 'app/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { MeetingTemplate } from 'app/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
-import { MeetingTemplate } from 'app/models';
+import type { FormApi } from 'final-form';
 
 const time = (hours: number, minutes?: number) =>
   moment()
@@ -262,7 +263,7 @@ const MeetingEditor = () => {
   const applyTemplate = (template: MeetingTemplate) => {
     if (!formInstance) return;
 
-    formInstance.change('title', template.name);
+    formInstance.change('title', template.title);
     formInstance.change('report', template.report);
     formInstance.change('startTime', template.startTime);
     formInstance.change('endTime', template.endTime);
@@ -309,15 +310,16 @@ const MeetingEditor = () => {
             {index !== 0 && <Dropdown.Divider />}
             <Dropdown.ListItem>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   applyTemplate(template);
                   setDisplayTemplateDropdown(false);
                 }}
               >
-                {template.name}
+                {template.title}
                 <Icon
                   iconNode={<X />}
-                  onClick={dispatch(deleteMeetingTemplate(template.id))}
+                  onClick={() => dispatch(deleteMeetingTemplate(template.id))}
                 />
               </button>
             </Dropdown.ListItem>
@@ -335,7 +337,7 @@ const MeetingEditor = () => {
         label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
         href: `/meetings/${isEditPage ? meetingId : ''}`,
       }}
-      actionButtons={actionButtons && allMeetingTemplates.length > 0}
+      actionButtons={allMeetingTemplates.length > 0 ? actionButtons : <></>}
     >
       <Helmet title={title} />
       <LegoFinalForm
@@ -526,7 +528,7 @@ const MeetingEditor = () => {
                 <Button
                   onPress={() => {
                     const report = form.getFieldState('report')?.value;
-                    const name = form.getFieldState('title')?.value;
+                    const title = form.getFieldState('title')?.value;
                     const location = form.getFieldState('location')?.value;
                     const startTime = form.getFieldState('startTime')?.value;
                     const endTime = form.getFieldState('endTime')?.value;
@@ -546,7 +548,7 @@ const MeetingEditor = () => {
 
                     dispatch(
                       createMeetingTemplate({
-                        name,
+                        title,
                         report,
                         location,
                         startTime,
