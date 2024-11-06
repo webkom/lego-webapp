@@ -1,4 +1,5 @@
 import type { EventType } from './store/models/Event';
+import type { PublicGroup } from './store/models/Group';
 import type { Presence } from './store/models/Registration';
 import type { EntityId } from '@reduxjs/toolkit';
 import type Comment from 'app/store/models/Comment';
@@ -322,6 +323,14 @@ export type MeetingTemplate = {
   id: EntityId;
   name: string;
   report: string;
+  location: string;
+  startTime: Dateish;
+  endTime: Dateish;
+  description: string;
+  mazemapPoi: number | null;
+  reportAuthor: PublicUser;
+  invitedUsers: PublicUser[];
+  invitedGroups: PublicGroup[];
   createdBy: EntityId;
 };
 

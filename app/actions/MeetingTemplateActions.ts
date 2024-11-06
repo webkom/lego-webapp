@@ -2,7 +2,7 @@ import { meetingTemplatesSchema } from '../reducers';
 import { MeetingTemplates } from './ActionTypes';
 import callAPI from './callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { MeetingTemplate } from 'app/models';
+import type { Dateish, MeetingTemplate } from 'app/models';
 
 export const fetchAllMeetingTemplates = () =>
   callAPI<MeetingTemplate[]>({
@@ -17,6 +17,14 @@ export const fetchAllMeetingTemplates = () =>
 export function createMeetingTemplate(data: {
   name: EntityId;
   report: string;
+  location: string;
+  startTime: Dateish;
+  endTime: Dateish;
+  description: string;
+  mazemapPoi: number | null;
+  reportAuthor: EntityId;
+  invitedUsers: EntityId[];
+  invitedGroups: EntityId[];
 }) {
   return callAPI<MeetingTemplate>({
     types: MeetingTemplates.CREATE,

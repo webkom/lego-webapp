@@ -177,6 +177,7 @@ const MeetingEditor = () => {
     },
     [],
   );
+  const [selectedTemplate, setSelectedTemplate] = useState<EntityId>(null);
 
   const allMeetingTemplates = useAppSelector(selectAllMeetingTemplates);
   const navigate = useNavigate();
@@ -284,28 +285,74 @@ const MeetingEditor = () => {
                 component={EditorField.Field}
                 key={meetingRefreshKey}
               />
-              <Field
-                name="template"
-                label="Velg en møtemal"
-                placeholder="Velg møtemal"
-                component={SelectInput.Field}
-                options={allMeetingTemplates.map((template) => ({
-                  label: template.name,
-                  value: template.id,
-                }))}
-                isSearchable={false}
-                onChange={(templateId) => {
-                  const selectedTemplate = allMeetingTemplates.find(
-                    (template) => template.id === templateId.value,
+
+              <ConfirmModal
+                title="Bruk møtemal"
+                message="Du vil overskrive dine nåværende endringer"
+                onConfirm={() => {
+                  const template = allMeetingTemplates.find(
+                    (t) => t.id === selectedTemplate,
                   );
 
-                  if (selectedTemplate) {
-                    form.change('title', selectedTemplate.name);
-                    form.change('report', selectedTemplate.report);
+                  if (template) {
+                    form.change('title', template.name);
+                    form.change('report', template.report);
+                    form.change('startTime', template.startTime);
+                    form.change('endTime', template.endTime);
+                    form.change(
+                      'reportAuthor',
+                      template.reportAuthor && {
+                        value: template.reportAuthor.username,
+                        label: template.reportAuthor.fullName,
+                        id: template.reportAuthor.id,
+                      },
+                    );
+
+                    form.change(
+                      'users',
+                      template?.invitedUsers.map((user) => ({
+                        value: user.username,
+                        label: user.fullName,
+                        id: user.id,
+                      })),
+                    );
+                    form.change(
+                      'groups',
+                      template?.invitedGroups.map((group) => ({
+                        value: group.id,
+                        label: group.name,
+                        id: group.id,
+                      })),
+                    );
+                    if (template.mazemapPoi) {
+                      form.change('mazemapPoi', template.mazemapPoi);
+                    } else {
+                      form.change('useMazemap', false);
+                      form.change('location', template.location);
+                    }
                     setMeetingRefreshkey((prev) => prev + 1);
                   }
                 }}
-              />
+                closeOnConfirm
+              >
+                {({ openConfirmModal }) => (
+                  <Field
+                    name="template"
+                    label="Velg en møtemal"
+                    placeholder="Velg møtemal"
+                    component={SelectInput.Field}
+                    options={allMeetingTemplates.map((template) => ({
+                      label: template.name,
+                      value: template.id,
+                    }))}
+                    isSearchable={false}
+                    onChange={(selectedOption) => {
+                      setSelectedTemplate(selectedOption.value);
+                      openConfirmModal();
+                    }}
+                  />
+                )}
+              </ConfirmModal>
 
               <Field
                 name="description"
@@ -473,7 +520,37 @@ const MeetingEditor = () => {
                   onPress={() => {
                     const report = form.getFieldState('report')?.value;
                     const name = form.getFieldState('title')?.value;
-                    dispatch(createMeetingTemplate({ name, report }));
+                    const location = form.getFieldState('location')?.value;
+                    const startTime = form.getFieldState('startTime')?.value;
+                    const endTime = form.getFieldState('endTime')?.value;
+                    const description =
+                      form.getFieldState('description')?.value;
+                    const mazemapPoi = form.getFieldState('mazemapPoi')?.value;
+                    const reportAuthor =
+                      form.getFieldState('reportAuthor')?.value?.id;
+
+                    const invitedUsers = form
+                      .getFieldState('users')
+                      ?.value?.map((user) => user.id);
+
+                    const invitedGroups = form
+                      .getFieldState('groups')
+                      ?.value?.map((group) => group.id);
+
+                    dispatch(
+                      createMeetingTemplate({
+                        name,
+                        report,
+                        location,
+                        startTime,
+                        endTime,
+                        description,
+                        mazemapPoi,
+                        reportAuthor,
+                        invitedUsers,
+                        invitedGroups,
+                      }),
+                    );
                   }}
                 >
                   Lagre som møtemal
