@@ -44,3 +44,7 @@
 .navigateThroughTime svg {
   color: var(--color-gray-7);
 }
+
+.badge {
+  height: fit-content;
+}
