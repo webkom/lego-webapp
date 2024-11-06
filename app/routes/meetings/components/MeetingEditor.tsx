@@ -8,7 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
-import { Trash2 } from 'lucide-react';
+import { Trash2, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
@@ -24,6 +24,7 @@ import {
 } from 'app/actions/MeetingActions';
 import {
   createMeetingTemplate,
+  deleteMeetingTemplate,
   fetchAllMeetingTemplates,
 } from 'app/actions/MeetingTemplateActions';
 import Dropdown from 'app/components/Dropdown';
@@ -314,6 +315,10 @@ const MeetingEditor = () => {
                 }}
               >
                 {template.name}
+                <Icon
+                  iconNode={<X />}
+                  onClick={dispatch(deleteMeetingTemplate(template.id))}
+                />
               </button>
             </Dropdown.ListItem>
           </>
@@ -330,7 +335,7 @@ const MeetingEditor = () => {
         label: `${isEditPage ? 'Tilbake' : 'Dine møter'}`,
         href: `/meetings/${isEditPage ? meetingId : ''}`,
       }}
-      actionButtons={actionButtons}
+      actionButtons={actionButtons && allMeetingTemplates.length > 0}
     >
       <Helmet title={title} />
       <LegoFinalForm

@@ -7,7 +7,7 @@ import type { Dateish, MeetingTemplate } from 'app/models';
 export const fetchAllMeetingTemplates = () =>
   callAPI<MeetingTemplate[]>({
     types: MeetingTemplates.FETCH_ALL,
-    endpoint: '/meetingtemplates/',
+    endpoint: '/meetings/templates/',
     schema: [meetingTemplatesSchema],
     meta: {
       errorMessage: 'Henting av møte-maler feilet',
@@ -28,7 +28,7 @@ export function createMeetingTemplate(data: {
 }) {
   return callAPI<MeetingTemplate>({
     types: MeetingTemplates.CREATE,
-    endpoint: '/meetingtemplates/',
+    endpoint: '/meetings/templates/',
     method: 'POST',
     body: data,
     schema: meetingTemplatesSchema,
@@ -46,7 +46,7 @@ export function editMeetingTemplate(data: {
 }) {
   return callAPI<MeetingTemplate>({
     types: MeetingTemplates.UPDATE,
-    endpoint: `/meetingtemplates/${data.meetingTemplateId}/`,
+    endpoint: `/meetings/templates/${data.meetingTemplateId}/`,
     method: 'PATCH',
     body: data,
     schema: meetingTemplatesSchema,
@@ -57,10 +57,10 @@ export function editMeetingTemplate(data: {
   });
 }
 
-export function deletePoll(id: EntityId) {
+export function deleteMeetingTemplate(id: EntityId) {
   return callAPI({
     types: MeetingTemplates.DELETE,
-    endpoint: `/meetingtemplates/${id}/`,
+    endpoint: `/meetings/templates/${id}/`,
     method: 'DELETE',
     meta: {
       id,
