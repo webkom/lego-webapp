@@ -31,6 +31,10 @@
   width: 400px;
 }
 
+.editTitle {
+  width: 250px;
+}
+
 .surveyContainer {
   display: flex;
   justify-content: center;
@@ -43,6 +47,10 @@
 
 .navigateThroughTime svg {
   color: var(--color-gray-7);
+}
+
+.bdbTable {
+  margin-top: var(--spacing-md);
 }
 
 .badge {
