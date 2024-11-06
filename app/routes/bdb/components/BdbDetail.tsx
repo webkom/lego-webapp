@@ -450,11 +450,11 @@ const BdbDetail = () => {
           <div>
             <Flex justifyContent="space-between" alignItems="center">
               <h3>Studentkontakter</h3>
-              <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
-                Legg til bedriftskontakt
+              <LinkButton href={`/bdb/${company.id}/student-contacts/add`}>
+                Legg til studentkontakt
               </LinkButton>
             </Flex>
-            {company.companyContacts?.length > 0 ? (
+            {company.studentContacts && company.studentContacts.length > 0 ? (
               <Table
                 columns={studentContactColumns}
                 data={groupedStudentContacts}

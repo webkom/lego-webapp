@@ -16,6 +16,7 @@ import type {
   DetailedSemesterStatus,
   ListCompany,
   SemesterStatus,
+  StudentCompanyContact,
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
 

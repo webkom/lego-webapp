@@ -129,6 +129,7 @@ export const getSemesterStatus = (
   );
 
 export type GroupedStudentContacts = {
+  id: EntityId;
   semester: CompanySemester;
   users: PublicUser[];
 }
@@ -149,7 +150,7 @@ export const groupStudentContacts = (studentContacts: TransformedStudentCompanyC
     studentContactsInSemester[semesterId].push(user);
   }
 
-  return Object.keys(studentContactsInSemester).map(semesterId => ({semester: semestersById[semesterId], users: studentContactsInSemester[semesterId]}));
+  return Object.keys(studentContactsInSemester).map(semesterId => ({id: semesterId, semester: semestersById[semesterId], users: studentContactsInSemester[semesterId]}));
 }
 
 export const getCompanySemesterBySlug = (
