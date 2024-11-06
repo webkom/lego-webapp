@@ -143,7 +143,7 @@ const BdbPage = () => {
   const title = (
     <Flex gap="var(--spacing-sm)" alignItems="center">
       <h1>BDB</h1>
-      <Tag className={styles.badge} tag="PRO" color="gray" />
+      <Tag tag="PRO" color="gray" />
     </Flex>
   );
 

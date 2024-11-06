@@ -49,9 +49,6 @@
   color: var(--color-gray-7);
 }
 
-.badge {
-  height: fit-content;
-}
 .bdbTable {
   margin-top: var(--spacing-md);
 }
