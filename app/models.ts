@@ -321,7 +321,7 @@ export type Meeting = {
 
 export type MeetingTemplate = {
   id: EntityId;
-  name: string;
+  title: string;
   report: string;
   location: string;
   startTime: Dateish;

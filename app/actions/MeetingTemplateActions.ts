@@ -15,7 +15,7 @@ export const fetchAllMeetingTemplates = () =>
   });
 
 export function createMeetingTemplate(data: {
-  name: EntityId;
+  title: EntityId;
   report: string;
   location: string;
   startTime: Dateish;
@@ -42,7 +42,7 @@ export function createMeetingTemplate(data: {
 export function editMeetingTemplate(data: {
   meetingTemplateId: EntityId;
   report: string;
-  name: string;
+  title: string;
 }) {
   return callAPI<MeetingTemplate>({
     types: MeetingTemplates.UPDATE,
