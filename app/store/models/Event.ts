@@ -46,7 +46,7 @@ export interface CompleteEvent {
   mergeTime?: Dateish;
   thumbnail: string;
   pools: EntityId[];
-  totalCapacity: number;
+  totalCapacity?: number;
   registrationCloseTime?: Dateish;
   registrationDeadlineHours?: number;
   unregistrationCloseTime?: Dateish;
@@ -69,8 +69,8 @@ export interface CompleteEvent {
   isMerged: boolean;
   heedPenalties: boolean;
   createdBy?: PublicUser;
-  registrationCount: number;
-  legacyRegistrationCount: number;
+  registrationCount?: number;
+  legacyRegistrationCount?: number;
   survey?: EntityId;
   useConsent: boolean;
   youtubeUrl: string;
