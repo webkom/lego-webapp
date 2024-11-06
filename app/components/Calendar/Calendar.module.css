@@ -90,7 +90,7 @@
   }
 
   5% {
-    transform: rotate(-1.5deg);
+    transform: rotate(-10deg);
   }
 
   10% {
@@ -98,7 +98,7 @@
   }
 
   15% {
-    transform: rotate(1.5deg);
+    transform: rotate(10deg);
   }
 
   20% {
@@ -108,4 +108,31 @@
   100% {
     transform: rotate(0deg);
   }
+}
+
+.boxContainer {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  justify-items: center;
+}
+
+.box {
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-red-5);
+  color: var(--color-absolute-white);
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.wiggle {
+  animation: wiggle 0.5s ease-in-out infinite;
 }
