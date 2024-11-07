@@ -241,8 +241,8 @@ const CompanyInterestList = () => {
                       language: 'norwegian',
                     })
                   : 'Vis alle semestre',
-                value: Number(currentCompanySemester?.id) ?? 9999,
-                year: currentCompanySemester?.year ?? 9999,
+                value: Number(currentCompanySemester?.id),
+                year: Number(currentCompanySemester?.year),
                 semester: currentCompanySemester?.semester ?? '',
               }}
               onChange={(e) =>
