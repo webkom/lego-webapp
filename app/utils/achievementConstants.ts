@@ -150,7 +150,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Flink pike',
       description: 'Gått 4 år uten prikk',
-      rarity: 7,
+      rarity: 6,
       hidden: false,
     },
   ],
