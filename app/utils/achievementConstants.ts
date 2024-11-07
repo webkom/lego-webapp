@@ -6,12 +6,11 @@ export const rarityToColorMap = {
   2: 'Gold',
   3: '#2f9cc5',
   4: '#0fdee0',
-  5: '#780606',  // Dark red
-  6: 'MediumSeaGreen',
-  7: '#911b1b',
-  8: 'Crimson',
-  9: '#9340FF',
-  10: '#BF00FF',
+  5: 'MediumSeaGreen',
+  6: '#911b1b',
+  7: 'Crimson',
+  8: '#9340FF',
+  9: '#BF00FF',
 };
 
 const AchievementsInfo: Record<string, AchievementData[]> = {
@@ -49,7 +48,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Arrangement:\nLegende',
       description: 'Deltatt på 200 arrangementer',
-      rarity: 7,
+      rarity: 6,
       hidden: false,
     },
   ],
@@ -57,19 +56,19 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Arrangement:\nMester',
       description: '3. plass - flest arrangementer',
-      rarity: 8,
+      rarity: 7,
       hidden: false,
     },
     {
       name: 'Arrangement:\nIkon',
       description: '2. plass - flest arrangementer',
-      rarity: 9,
+      rarity: 8,
       hidden: false,
     },
     {
       name: 'Arrangement:\nFyrtårn',
       description: '1. plass - flest arrangementer',
-      rarity: 10,
+      rarity: 9,
       hidden: false,
     },
   ],
@@ -97,7 +96,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Bærumsbaron',
       description: 'Betalt over 10.000 i påmeldingsavgift',
-      rarity: 6,
+      rarity: 5,
       hidden: false,
     },
   ],
@@ -129,26 +128,32 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: false,
     },
   ],
-  penalty_count: [
+  penalty_period: [
     {
-      name: 'Bølle',
-      description: 'Fått 1 prikk',
+      name: 'Pliktoppfyllende',
+      description: 'Gått 1 år uten prikk',
       rarity: 0,
       hidden: false,
     },
     {
-      name: 'Cancelled',
-      description: 'Fått 5 prikker',
-      rarity: 3,
+      name: 'Englebarn',
+      description: 'Gått 2 år uten prikk',
+      rarity: 1,
       hidden: false,
     },
     {
-      name: 'Kriminell',
-      description: 'Fått 10 prikker',
-      rarity: 5,
+      name: 'Eksemplarisk',
+      description: 'Gått 3 år uten prikk',
+      rarity: 4,
       hidden: false,
     },
-  ]
+    {
+      name: 'Flink pike',
+      description: 'Gått 4 år uten prikk',
+      rarity: 7,
+      hidden: false,
+    },
+  ],
 };
 
 export default AchievementsInfo;
