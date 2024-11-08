@@ -128,6 +128,32 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: false,
     },
   ],
+  penalty_period: [
+    {
+      name: 'Pliktoppfyllende',
+      description: 'Gått 1 år uten prikk',
+      rarity: 0,
+      hidden: false,
+    },
+    {
+      name: 'Englebarn',
+      description: 'Gått 2 år uten prikk',
+      rarity: 3,
+      hidden: false,
+    },
+    {
+      name: 'Eksemplarisk',
+      description: 'Gått 3 år uten prikk',
+      rarity: 5,
+      hidden: false,
+    },
+    {
+      name: 'Flink pike',
+      description: 'Gått 4 år uten prikk',
+      rarity: 6,
+      hidden: false,
+    },
+  ],
 };
 
 export default AchievementsInfo;
