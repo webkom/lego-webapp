@@ -138,13 +138,13 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Englebarn',
       description: 'Gått 2 år uten prikk',
-      rarity: 1,
+      rarity: 3,
       hidden: false,
     },
     {
       name: 'Eksemplarisk',
       description: 'Gått 3 år uten prikk',
-      rarity: 4,
+      rarity: 5,
       hidden: false,
     },
     {
