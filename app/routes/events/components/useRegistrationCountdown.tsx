@@ -72,7 +72,7 @@ const getCountdownState = (
 
   const activationTime = moment(event.activationTime);
 
-  if (!moment().isBefore(activationTime)) {
+  if (registration || !moment().isBefore(activationTime)) {
     return CountdownState.RegistrationAvailable;
   }
 

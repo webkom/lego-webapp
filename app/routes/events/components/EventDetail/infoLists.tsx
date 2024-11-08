@@ -151,7 +151,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
             <TextWithIcon
               iconNode={<CircleHelp />}
               content={
-                currentMoment.isBefore(registrationCloseTimeMoment)
+                currentMoment.isBefore(unregistrationCloseTimeMoment)
                   ? 'Avmelding stenger'
                   : 'Avmelding stengte'
               }
