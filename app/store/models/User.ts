@@ -23,7 +23,7 @@ export interface PhotoConsent {
 export interface Achievement {
   id: number;
   identifier: string;
-  createdAt: Dateish;
+  updatedAt: Dateish;
   level: number;
   percentage: number;
 }
