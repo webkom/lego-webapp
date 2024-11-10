@@ -82,6 +82,7 @@ interface User {
   linkedinId?: string;
   actionGrant?: ActionGrant;
   achievements: Achievement[];
+  achievementScore: number;
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
@@ -118,6 +119,7 @@ export type CurrentUser = Pick<
   | 'linkedinId'
   | 'actionGrant'
   | 'achievements'
+  | 'achievementScore'
 >;
 
 export type PublicUser = Pick<
@@ -134,6 +136,7 @@ export type PublicUser = Pick<
   | 'githubUsername'
   | 'linkedinId'
   | 'achievements'
+  | 'achievementScore'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &
