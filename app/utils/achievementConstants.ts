@@ -1,4 +1,4 @@
-import type { AchievementData, PublicUser } from 'app/store/models/User';
+import type { AchievementData } from 'app/store/models/User';
 
 export const rarityToColorMap = {
   0: 'Sienna',
@@ -155,45 +155,5 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     },
   ],
 };
-
-//See docs on drive about this calculation
-export function calculateUserRank(user: PublicUser): number {
-  const alpha = 0.55;
-  const beta = 0.45;
-  const gamma = 0.35;
-  const N = Object.keys(AchievementsInfo).length;
-  let highestRarity = 0;
-  let normalizedRaritiesProduct = 1;
-  const achievementCount = user.achievements.length;
-
-  user.achievements.forEach((achievement) => {
-    const { identifier, level } = achievement;
-    const achievementInfo = AchievementsInfo[identifier];
-
-    const rarity = achievementInfo?.[level]?.rarity;
-    highestRarity = Math.max(highestRarity, rarity);
-    const normalizedRarity = (rarity + 1) / (9 + 1);
-    normalizedRaritiesProduct *= normalizedRarity;
-  });
-
-  const G = Math.pow(normalizedRaritiesProduct, 1 / achievementCount);
-
-  const highestRarityComponent =
-    alpha * (Math.sqrt(highestRarity + 1) / Math.sqrt(10));
-
-  const geometricMeanComponent = beta * G;
-
-  const achievementCountComponent =
-    gamma * (Math.log(achievementCount + 1) / Math.log(N + 1));
-
-  const rank =
-    (4 *
-      (highestRarityComponent +
-        geometricMeanComponent +
-        achievementCountComponent)) /
-    (alpha + beta + gamma);
-
-  return rank;
-}
 
 export default AchievementsInfo;
