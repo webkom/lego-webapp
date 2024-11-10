@@ -1,0 +1,30 @@
+@import url('~app/styles/variables.css');
+
+.listWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  @media (--mobile-device) {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  gap: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  color: var(--lego-font-color);
+  transition: background-color var(--easing-fast);
+  width: 50%;
+  @media (--mobile-device) {
+    width: 100%;
+  }
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}
