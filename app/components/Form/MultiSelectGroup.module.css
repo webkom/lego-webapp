@@ -2,24 +2,3 @@
   display: flex;
   flex-flow: row wrap;
 }
-
-.groupLabel {
-  font-size: var(--font-size-lg);
-}
-
-.radioLabel {
-  display: flex;
-  flex-direction: row;
-}
-
-.radioLabel:hover {
-  cursor: pointer;
-}
-
-.radioLabel > span {
-  font-size: var(--font-size-md);
-  margin-left: 15px;
-
-  /* For radio groups we want the label last: */
-  order: 1;
-}

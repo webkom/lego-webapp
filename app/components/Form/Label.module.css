@@ -1,0 +1,35 @@
+@import '~app/styles/variables.css';
+
+.inline {
+  cursor: pointer;
+
+  .label {
+    font-size: inherit;
+    margin-bottom: 0;
+  }
+}
+
+.label {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xs);
+}
+
+.required {
+  color: var(--danger-color);
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.description {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: var(--spacing-sm);
+}
+
+.fieldSet {
+  border: 0;
+}
+
+.fieldSetLegend {
+  margin-bottom: var(--spacing-sm);
+}

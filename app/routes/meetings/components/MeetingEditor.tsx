@@ -259,12 +259,14 @@ const MeetingEditor = () => {
               <Field
                 name="title"
                 label="Tittel"
+                required
                 placeholder="Ny tittel for møte"
                 component={TextInput.Field}
               />
               <Field
                 name="report"
                 label="Referat"
+                required
                 component={EditorField.Field}
               />
               <Field
@@ -308,13 +310,13 @@ const MeetingEditor = () => {
                 name="useMazemap"
                 type="checkbox"
                 component={CheckBox.Field}
-                withoutMargin
               />
               {spyValues<MeetingFormValues>((values) => {
                 return values?.useMazemap ? (
                   <Flex alignItems="center">
                     <Field
                       label="Mazemap-rom"
+                      required
                       name="mazemapPoi"
                       component={SelectInput.MazemapAutocomplete}
                       fieldClassName={styles.metaField}
@@ -331,6 +333,7 @@ const MeetingEditor = () => {
                   <Field
                     name="location"
                     label="Sted"
+                    required
                     placeholder="Sted for møte"
                     component={TextInput.Field}
                   />

@@ -1,7 +1,6 @@
-import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
-import { Info } from 'lucide-react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -29,7 +28,6 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import Tooltip from 'app/components/Tooltip';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import {
   selectAllCompanySemesters,
@@ -547,7 +545,6 @@ const CompanyInterestPage = () => {
               label={FORM_LABELS.company.header[language]}
               placeholder={FORM_LABELS.company.placeholder[language]}
               filter={['companies.company']}
-              fieldClassName={styles.metaField}
               component={SelectInput.AutocompleteField}
               creatable
               required
@@ -576,10 +573,11 @@ const CompanyInterestPage = () => {
 
             <Flex wrap justifyContent="space-between">
               <Flex column className={styles.interestBox}>
-                <label htmlFor="companyType" className={styles.heading}>
-                  {FORM_LABELS.companyTypes[language]}
-                </label>
-                <MultiSelectGroup name="companyType">
+                <MultiSelectGroup
+                  required
+                  legend={FORM_LABELS.companyTypes[language]}
+                  name="companyType"
+                >
                   {Object.keys(COMPANY_TYPES).map((key) => (
                     <Field
                       key={key}
@@ -594,10 +592,11 @@ const CompanyInterestPage = () => {
                 </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
-                <label htmlFor="officeInTrondheim" className={styles.heading}>
-                  {FORM_LABELS.officeInTrondheim[language]}
-                </label>
-                <MultiSelectGroup name="officeInTrondheim">
+                <MultiSelectGroup
+                  legend={FORM_LABELS.officeInTrondheim[language]}
+                  required
+                  name="officeInTrondheim"
+                >
                   {Object.keys(OFFICE_IN_TRONDHEIM).map((key) => (
                     <Field
                       key={key}
@@ -612,29 +611,17 @@ const CompanyInterestPage = () => {
                 </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
-                <label htmlFor="companyCourseThemes" className={styles.heading}>
-                  <Flex alignItems="center" gap="var(--spacing-xs)">
-                    {FORM_LABELS.companyCourseThemes[language]}
-                    <Tooltip
-                      className={styles.tooltip}
-                      content={
-                        <span>
-                          {language === 'norwegian'
-                            ? 'Dette er temaer som studenter har uttrykt interesse for å lære mer om i vår bedriftsundersøkelse. Kryss av for de temaene dere kan ønske å holde kurs om eller snakke om på deres presentasjoner. (Uforpliktende)'
-                            : 'These are topics that students expressed interest in learning more about in our company survey. Check off the topics that you might be interested in arranging a course or workshop about or talk about in your presentations. (Non-binding)'}
-                        </span>
-                      }
-                    >
-                      <Icon iconNode={<Info />} size={20} />
-                    </Tooltip>
-                  </Flex>
-                </label>
-                <FieldArray
-                  label="companyCourseThemes"
+                <MultiSelectGroup
                   name="companyCourseThemes"
-                  language={language}
-                  component={SurveyOffersBox}
-                />
+                  legend={FORM_LABELS.companyCourseThemes[language]}
+                  description={FORM_LABELS.companyCourseThemesInfo[language]}
+                >
+                  <FieldArray
+                    name="companyCourseThemes"
+                    language={language}
+                    component={SurveyOffersBox}
+                  />
+                </MultiSelectGroup>
               </Flex>
             </Flex>
             <div className={styles.topline} />
@@ -649,10 +636,11 @@ const CompanyInterestPage = () => {
             />
             <Flex wrap justifyContent="space-between" gap="var(--spacing-md)">
               <Flex column className={styles.interestBox}>
-                <label htmlFor="semesters" className={styles.heading}>
-                  {FORM_LABELS.semesters[language]}
-                </label>
-                <MultiSelectGroup name="semesters">
+                <MultiSelectGroup
+                  name="semesters"
+                  legend={FORM_LABELS.semesters[language]}
+                  required
+                >
                   <FieldArray
                     name="semesters"
                     language={language}
@@ -661,10 +649,11 @@ const CompanyInterestPage = () => {
                 </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
-                <label htmlFor="events" className={styles.heading}>
-                  {FORM_LABELS.events[language]}
-                </label>
-                <MultiSelectGroup name="events">
+                <MultiSelectGroup
+                  name="events"
+                  legend={FORM_LABELS.events[language]}
+                  required
+                >
                   <FieldArray
                     name="events"
                     language={language}
@@ -673,34 +662,38 @@ const CompanyInterestPage = () => {
                 </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
-                <label htmlFor="collaborations" className={styles.heading}>
-                  {FORM_LABELS.collaborations[language]}
-                </label>
-                <FieldArray
+                <MultiSelectGroup
                   name="collaborations"
-                  language={language}
-                  component={CollaborationBox}
-                />
+                  legend={FORM_LABELS.collaborations[language]}
+                >
+                  <FieldArray
+                    name="collaborations"
+                    language={language}
+                    component={CollaborationBox}
+                  />
+                </MultiSelectGroup>
               </Flex>
             </Flex>
 
             <Flex wrap justifyContent="space-between">
               <Flex column className={styles.interestBox}>
-                <label htmlFor="targetGrades" className={styles.heading}>
-                  {FORM_LABELS.targetGrades[language]}
-                </label>
-                <FieldArray
+                <MultiSelectGroup
                   name="targetGrades"
-                  language={language}
-                  component={TargetGradeBox}
-                />
+                  legend={FORM_LABELS.targetGrades[language]}
+                >
+                  <FieldArray
+                    name="targetGrades"
+                    language={language}
+                    component={TargetGradeBox}
+                  />
+                </MultiSelectGroup>
               </Flex>
 
               <Flex column className={styles.interestBox}>
-                <label htmlFor="participantRange" className={styles.heading}>
-                  {FORM_LABELS.participantRange[language]}
-                </label>
-                <MultiSelectGroup name="participantRange">
+                <MultiSelectGroup
+                  name="participantRange"
+                  legend={FORM_LABELS.participantRange[language]}
+                >
                   {Object.keys(PARTICIPANT_RANGE_TYPES).map((key) => (
                     <Field
                       key={key}
@@ -714,14 +707,16 @@ const CompanyInterestPage = () => {
                 </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
-                <label htmlFor="otherOffers" className={styles.heading}>
-                  {FORM_LABELS.otherOffers[language]}
-                </label>
-                <FieldArray
+                <MultiSelectGroup
                   name="otherOffers"
-                  language={language}
-                  component={OtherBox}
-                />
+                  legend={FORM_LABELS.otherOffers[language]}
+                >
+                  <FieldArray
+                    name="otherOffers"
+                    language={language}
+                    component={OtherBox}
+                  />
+                </MultiSelectGroup>
               </Flex>
             </Flex>
             <h3 className={styles.topline}>
