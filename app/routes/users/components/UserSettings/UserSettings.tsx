@@ -197,7 +197,7 @@ const UserSettings = () => {
               />
             </Flex>
 
-            <MultiSelectGroup label="Fargetema" name="selectedTheme">
+            <MultiSelectGroup legend="Fargetema" name="selectedTheme">
               <Field
                 name="selectedTheme"
                 label="Auto"
@@ -222,7 +222,10 @@ const UserSettings = () => {
             </MultiSelectGroup>
 
             {showAbakusMembership && (
-              <MultiSelectGroup name="isAbakusMember" label="Medlem av Abakus?">
+              <MultiSelectGroup
+                name="isAbakusMember"
+                legend="Medlem av Abakus?"
+              >
                 <Field
                   name="isMemberYes"
                   label="Ja"

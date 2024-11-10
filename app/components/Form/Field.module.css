@@ -22,17 +22,3 @@
   font-size: var(--font-size-sm);
   border-radius: var(--border-radius-md);
 }
-
-.labelContent {
-  line-height: 1.8;
-}
-
-.description {
-  margin-left: var(--spacing-sm);
-}
-
-.required {
-  color: var(--danger-color);
-  font-weight: 600;
-  margin-left: 2px;
-}

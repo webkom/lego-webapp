@@ -289,7 +289,7 @@ const CompanyEditor = () => {
             </div>
 
             <div>
-              <MultiSelectGroup name="active" label="Aktiv bedrift?">
+              <MultiSelectGroup name="active" legend="Aktiv bedrift?">
                 <Field
                   name="Yes"
                   label="Ja"

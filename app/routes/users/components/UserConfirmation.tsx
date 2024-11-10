@@ -141,6 +141,7 @@ const UserConfirmationForm = () => {
             })}
 
             <Field
+              required
               label="Gjenta passord"
               name="retypePassword"
               type="password"
@@ -149,6 +150,7 @@ const UserConfirmationForm = () => {
             />
 
             <Field
+              required
               name="firstName"
               placeholder="Fornavn"
               label="Fornavn"
@@ -157,6 +159,7 @@ const UserConfirmationForm = () => {
             />
 
             <Field
+              required
               name="lastName"
               label="Etternavn"
               placeholder="Etternavn"
@@ -164,13 +167,14 @@ const UserConfirmationForm = () => {
               component={TextInput.Field}
             />
 
-            <MultiSelectGroup label="Kjønn" name="gender">
+            <MultiSelectGroup required legend="Kjønn" name="gender">
               <Field
                 name="genderMan"
                 label="Mann"
                 value="male"
                 type="radio"
                 component={RadioButton.Field}
+                showErrors={false}
               />
               <Field
                 name="genderWoman"
@@ -178,6 +182,7 @@ const UserConfirmationForm = () => {
                 value="female"
                 type="radio"
                 component={RadioButton.Field}
+                showErrors={false}
               />
               <Field
                 name="genderOther"
@@ -185,6 +190,7 @@ const UserConfirmationForm = () => {
                 value="other"
                 type="radio"
                 component={RadioButton.Field}
+                showErrors={false}
               />
             </MultiSelectGroup>
 
