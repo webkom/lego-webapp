@@ -78,6 +78,7 @@ const UserConfirmationForm = () => {
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),
         meta: {
+          endpoint: '/users/me',
           isCurrentUser: true,
         },
       });
