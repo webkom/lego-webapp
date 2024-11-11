@@ -21,7 +21,7 @@ export const AchievementsBox = ({
     return [...achievements].sort(
       (a, b) =>
         AchievementsInfo[b.identifier][b.level].rarity -
-        AchievementsInfo[a.identifier][a.level].rarity
+        AchievementsInfo[a.identifier][a.level].rarity,
     );
   }, [achievements]);
 
