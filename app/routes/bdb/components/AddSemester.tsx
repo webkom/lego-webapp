@@ -172,7 +172,7 @@ const AddSemester = () => {
             />
 
             <div className={styles.choices}>
-              <MultiSelectGroup name="semester" label="Semester">
+              <MultiSelectGroup name="semester" legend="Semester">
                 <Field
                   name="Spring"
                   label="Vår"

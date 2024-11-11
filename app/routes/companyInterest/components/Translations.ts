@@ -283,6 +283,12 @@ export const FORM_LABELS = {
     norwegian: 'Temaer som er relevant for dere',
     english: 'Topics that are relevant for you',
   },
+  companyCourseThemesInfo: {
+    norwegian:
+      'Dette er temaer som studenter har uttrykt interesse for å lære mer om i vår bedriftsundersøkelse. Kryss av for de temaene dere kan ønske å holde kurs om eller snakke om på deres presentasjoner. (Uforpliktende)',
+    english:
+      'These are topics that students expressed interest in learning more about in our company survey. Check off the topics that you might be interested in arranging a course or workshop about or talk about in your presentations. (Non-binding)',
+  },
   participantRange: {
     norwegian: 'Antall deltagere',
     english: 'Number of participants',

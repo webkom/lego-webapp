@@ -1,5 +1,4 @@
 import { Flex } from '@webkom/lego-bricks';
-import cx from 'classnames';
 import { Field } from 'react-final-form';
 import {
   SelectInput,
@@ -7,7 +6,7 @@ import {
   CheckBox,
   DatePicker,
 } from 'app/components/Form';
-import fieldStyles from 'app/components/Form/Field.module.css';
+import { Label } from 'app/components/Form/Label';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import Tooltip from 'app/components/Tooltip';
 import { EventTypeConfig } from 'app/routes/events/utils';
@@ -86,20 +85,19 @@ const Details: React.FC<Props> = ({ values }) => {
       <Flex className={styles.editorSectionRow}>
         <Flex column className={styles.editorSectionColumn}>
           <Flex alignItems="center">
-            <label
+            <Label
+              label="Sted"
               htmlFor="react-select-mazemapPoi-input"
               className={styles.label}
-            >
-              Sted
-            </label>
-            <span className={fieldStyles.required}>*</span>
+              required
+            />
           </Flex>
           <Field
             label="Bruk MazeMap"
             name="useMazemap"
             type="checkbox"
             component={CheckBox.Field}
-            fieldClassName={cx(styles.metaField, styles.mazemap)}
+            withoutMargin
             className={styles.formField}
           />
           {!values.useMazemap ? (

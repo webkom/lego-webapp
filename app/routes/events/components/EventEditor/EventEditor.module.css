@@ -63,10 +63,6 @@
   margin-bottom: var(--spacing-sm);
 }
 
-.metaField.mazemap {
-  margin-bottom: 0;
-}
-
 .metaField input {
   padding-bottom: var(--spacing-xs);
   padding-top: var(--spacing-xs);

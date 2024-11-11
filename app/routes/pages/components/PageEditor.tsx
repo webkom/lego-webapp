@@ -117,7 +117,7 @@ const PageEditor = () => {
       delete body.picture;
     }
 
-    dispatch(isNew ? createPage(body) : updatePage(pageSlug, body)).then(
+    return dispatch(isNew ? createPage(body) : updatePage(pageSlug, body)).then(
       (result) => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
@@ -162,11 +162,14 @@ const PageEditor = () => {
 
             <Flex justifyContent="space-between">
               <Field
+                label="Tittel"
+                required
                 placeholder="Title"
                 name="title"
                 component={TextInput.Field}
               />
               <Field
+                label="Kategori"
                 name="category"
                 component={SelectInput.Field}
                 placeholder="Velg kategori"

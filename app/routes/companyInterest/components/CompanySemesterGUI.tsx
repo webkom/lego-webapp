@@ -105,7 +105,7 @@ const AddSemesterForm = () => {
             className={styles.yearForm}
             required
           />
-          <MultiSelectGroup name="semester" label="Semester">
+          <MultiSelectGroup name="semester" legend="Semester">
             <Field
               name="Spring"
               label="Vår"

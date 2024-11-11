@@ -1,0 +1,28 @@
+import cx from 'classnames';
+import styles from 'app/components/Form/FieldSet.module.css';
+import { LabelText } from 'app/components/Form/Label';
+import type { HTMLProps, ReactNode } from 'react';
+
+type FieldSetProps = HTMLProps<HTMLFieldSetElement> & {
+  legend: string;
+  description?: string;
+  required?: boolean;
+  children: ReactNode;
+};
+export const FieldSet = ({
+  legend,
+  description,
+  required,
+  children,
+  ...fieldSetProps
+}: FieldSetProps) => (
+  <fieldset
+    className={cx(styles.fieldSet, fieldSetProps.className)}
+    {...fieldSetProps}
+  >
+    <legend className={styles.fieldSetLegend}>
+      <LabelText label={legend} description={description} required={required} />
+    </legend>
+    {children}
+  </fieldset>
+);
