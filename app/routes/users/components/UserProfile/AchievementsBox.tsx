@@ -62,7 +62,7 @@ export const AchievementsBox = ({
                       </i>
                     </p>
                     <p>
-                      Opnådd den {moment(e.updatedAt).format('D. MMMM YYYY')}
+                      Oppnådd den {moment(e.updatedAt).format('D. MMMM YYYY')}
                     </p>
                     <p>{e.percentage.toFixed(1)}% har denne!</p>
                   </div>
