@@ -62,7 +62,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
             <TextWithIcon
               iconNode={<CircleHelp />}
               content="Frist for prikk"
-              tooltipContentIcon={
+              tooltipContent={
                 <>
                   Lurer du på hvordan prikksystemet fungerer? Sjekk ut{' '}
                   <Link to="/pages/arrangementer/26-arrangementsregler">
@@ -95,7 +95,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
                   ? 'Påmelding stenger'
                   : 'Påmelding stengte'
               }
-              tooltipContentIcon={
+              tooltipContent={
                 <>
                   Etter påmeldingen stenger er det hverken mulig å melde seg på
                   eller av arrangementet
@@ -125,7 +125,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
                   ? 'Påmelding stenger'
                   : 'Påmelding stengte'
               }
-              tooltipContentIcon={
+              tooltipContent={
                 <>
                   Etter påmeldingen stenger er det ikke mulig å melde seg på
                   arrangementet
@@ -155,7 +155,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
                   ? 'Avmelding stenger'
                   : 'Avmelding stengte'
               }
-              tooltipContentIcon={
+              tooltipContent={
                 <>
                   Etter avmeldingen stenger er det ikke mulig å melde seg av
                   arrangementet
