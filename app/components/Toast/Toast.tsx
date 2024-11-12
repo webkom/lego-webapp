@@ -1,7 +1,7 @@
 import { useToast } from '@react-aria/toast';
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { useRef } from 'react';
 import styles from './Toast.module.css';
 import type { AriaToastProps } from '@react-aria/toast';
@@ -38,7 +38,7 @@ export const Toast = ({ state, ...props }: ToastProps) => {
     >
       <Icon
         {...closeButtonProps}
-        iconNode={<X />}
+        iconNode={type === 'success' ? <Check /> : <X />}
         success={type === 'success'}
         danger={type === 'error'}
         size={18}
