@@ -11,7 +11,7 @@ import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
-import AuthSection from 'app/components/AuthSection/AuthSection';
+import Auth from 'app/components/Auth';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -161,7 +161,7 @@ const AccountDropdown = () => {
       contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
-      <AuthSection />
+      <Auth />
     </Dropdown>
   );
 };
