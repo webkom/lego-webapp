@@ -11,7 +11,8 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
-import type { AdministrateEvent, CompleteEvent } from 'app/store/models/Event';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
+import type { CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
 import type { PublicUser } from 'app/store/models/User';
 
@@ -283,11 +284,27 @@ export const registrationIsClosed = (
   return moment().isAfter(registrationCloseTime(event));
 };
 
-const unregistrationCloseTime = (event: AdministrateEvent) =>
+export const unregistrationCloseTime = (
+  event: Pick<CompleteEvent, 'startTime' | 'unregistrationDeadlineHours'>,
+) =>
   moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
-export const unregistrationIsClosed = (event: AdministrateEvent) => {
+
+export const unregistrationIsClosed = (
+  event: Pick<CompleteEvent, 'startTime' | 'unregistrationDeadlineHours'>,
+) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
+
+export const registrationActionUnavailable = (
+  event: Pick<
+    CompleteEvent,
+    'startTime' | 'registrationDeadlineHours' | 'unregistrationDeadlineHours'
+  >,
+  registration: PoolRegistrationWithUser | undefined,
+) =>
+  (!registration && registrationIsClosed(event)) ||
+  (registration && unregistrationIsClosed(event)) ||
+  (registrationIsClosed(event) && unregistrationIsClosed(event));
 
 export const sumPenalties = (penalties: Penalty[]) =>
   sumBy(penalties, 'weight');

@@ -41,7 +41,8 @@
   margin-left: 3px;
 }
 
-.registrationDeadlineHours {
+.registrationDeadlineHours,
+.unregistrationDeadlineHours {
   color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
 }

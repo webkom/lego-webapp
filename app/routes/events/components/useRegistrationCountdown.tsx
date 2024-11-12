@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useState } from 'react';
-import { registrationIsClosed } from '../utils';
+import { registrationActionUnavailable } from '../utils';
 import type { Dateish } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { DetailedEvent } from 'app/store/models/Event';
@@ -63,14 +63,19 @@ const getCountdownState = (
   event: DetailedEvent,
   registration?: PoolRegistrationWithUser,
 ) => {
-  if ((!registration && !event.activationTime) || registrationIsClosed(event)) {
+  if (
+    (!registration && !event.activationTime) ||
+    registrationActionUnavailable(event, registration)
+  ) {
     return CountdownState.RegistrationNotAvailable;
   }
+
   const activationTime = moment(event.activationTime);
 
   if (registration || !moment().isBefore(activationTime)) {
     return CountdownState.RegistrationAvailable;
   }
+
   const secondsUntilRegistrationOpens = getTimeUntil(
     event.activationTime,
   ).asSeconds();

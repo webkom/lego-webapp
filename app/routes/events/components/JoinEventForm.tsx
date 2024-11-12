@@ -37,10 +37,10 @@ import {
   paymentSuccess,
   paymentManual,
   penaltyHours,
-  registrationIsClosed,
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   toReadableSemester,
+  registrationActionUnavailable,
 } from '../utils';
 import styles from './Event.module.css';
 import sharedStyles from './EventDetail/EventDetail.module.css';
@@ -277,7 +277,7 @@ const JoinEventForm = ({
     );
   };
 
-  if (registrationIsClosed(event)) {
+  if (registrationActionUnavailable(event, registration)) {
     return (
       <>
         {!formOpen && registration && showStripe && (

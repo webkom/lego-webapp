@@ -9,7 +9,7 @@ export type TextWithIconProps = {
   iconNode?: ReactNode;
   className?: string;
   content: ReactNode;
-  tooltipContentIcon?: ReactElement;
+  tooltipContent?: ReactElement;
   iconRight?: boolean;
   size?: number;
   gap?: number | string;
@@ -20,7 +20,7 @@ const TextWithIcon = ({
   iconNode,
   className,
   content,
-  tooltipContentIcon,
+  tooltipContent,
   iconRight = false,
   size,
   gap = 'var(--spacing-sm)',
@@ -45,8 +45,8 @@ const TextWithIcon = ({
           <span>{content}</span>
         </div>
       )}
-      {tooltipContentIcon ? (
-        <Tooltip content={tooltipContentIcon}>{icon}</Tooltip>
+      {tooltipContent ? (
+        <Tooltip content={tooltipContent}>{icon}</Tooltip>
       ) : (
         <>{icon}</>
       )}
