@@ -38,6 +38,7 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import { selectPageById } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './PageEditor.module.css';
 import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
@@ -219,4 +220,4 @@ const PageEditor = () => {
   );
 };
 
-export default PageEditor;
+export default guardLogin(PageEditor);

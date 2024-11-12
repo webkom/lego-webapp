@@ -32,6 +32,7 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { httpCheck } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
   createValidator,
@@ -375,4 +376,4 @@ const JoblistingEditor = () => {
   );
 };
 
-export default JoblistingEditor;
+export default guardLogin(JoblistingEditor);

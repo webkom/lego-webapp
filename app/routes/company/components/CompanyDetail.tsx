@@ -36,7 +36,6 @@ import {
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './Company.module.css';
 import type { DetailedCompany } from 'app/store/models/Company';
 
@@ -261,4 +260,4 @@ const CompanyDetail = () => {
   );
 };
 
-export default guardLogin(CompanyDetail);
+export default CompanyDetail;

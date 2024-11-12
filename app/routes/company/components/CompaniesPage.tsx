@@ -18,7 +18,6 @@ import { selectActiveCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilities from 'app/styles/utilities.css';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import styles from './CompaniesPage.module.css';
 import type { ListCompany } from 'app/store/models/Company';
 
@@ -188,4 +187,4 @@ const CompaniesPage = () => {
   );
 };
 
-export default guardLogin(CompaniesPage);
+export default CompaniesPage;
