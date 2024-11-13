@@ -105,8 +105,10 @@ const companiesSlice = createSlice({
 
 export default companiesSlice.reducer;
 
-export const { selectAll: selectAllCompanies, selectById: selectCompanyById } =
-  legoAdapter.getSelectors((state: RootState) => state.companies);
+export const {
+  selectAllPaginated: selectAllCompanies,
+  selectById: selectCompanyById,
+} = legoAdapter.getSelectors((state: RootState) => state.companies);
 
 export type TransformedSemesterStatus = Overwrite<
   SemesterStatus,
