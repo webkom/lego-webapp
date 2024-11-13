@@ -42,15 +42,21 @@ export const fetchAll = ({
   });
 };
 
-export function fetchAllAdmin(semesterId: EntityId) {
+export function fetchAllAdmin(semesterId: EntityId, fetchMore: boolean) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
-    endpoint: `/bdb/?semester_id=${semesterId}`,
+    endpoint: `/bdb/`,
     schema: [companySchema],
     meta: {
       errorMessage: 'Henting av bedrifter feilet',
     },
     propagateError: true,
+    query: {
+      semester_id: semesterId,
+    },
+    pagination: {
+      fetchNext: fetchMore,
+    },
   });
 }
 
