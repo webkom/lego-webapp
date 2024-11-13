@@ -50,7 +50,7 @@ export interface CompleteEvent {
   registrationCloseTime?: Dateish;
   registrationDeadlineHours?: number;
   unregistrationCloseTime?: Dateish;
-  unregistrationDeadline?: Dateish;
+  unregistrationPenaltyDeadline?: Dateish;
   unregistrationDeadlineHours?: number;
   company?: ListCompany;
   responsibleGroup?: PublicGroup;
@@ -163,7 +163,7 @@ export type DetailedEvent = Pick<
   | 'registrationCloseTime'
   | 'registrationDeadlineHours'
   | 'unregistrationCloseTime'
-  | 'unregistrationDeadline'
+  | 'unregistrationPenaltyDeadline'
   | 'unregistrationDeadlineHours'
   | 'company'
   | 'responsibleGroup'

@@ -212,7 +212,7 @@ const JoinEventForm = ({
     !fetching && !formOpen && !event.activationTime && !registration;
   const showPenaltyNotice = Boolean(
     event.heedPenalties &&
-      moment().isAfter(event.unregistrationDeadline) &&
+      moment().isAfter(event.unregistrationPenaltyDeadline) &&
       registration &&
       registration.pool,
   );

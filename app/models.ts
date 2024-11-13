@@ -171,7 +171,7 @@ type EventBase = {
   tags: Array<Tags>;
   separateDeadlines: boolean;
   registrationDeadlineHours: number;
-  unregistrationDeadline: Dateish;
+  unregistrationPenaltyDeadline: Dateish;
   unregistrationDeadlineHours: number;
   pinned: boolean;
   youtubeUrl: string;

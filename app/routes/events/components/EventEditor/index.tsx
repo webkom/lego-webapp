@@ -87,7 +87,7 @@ const validate = createValidator({
   ],
   paymentDueDate: [
     timeIsAtLeastDurationAfter(
-      'unregistrationDeadline',
+      'unregistrationPenaltyDeadline',
       moment.duration(1, 'day'),
       'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
     ),
@@ -304,7 +304,7 @@ const EventEditor = () => {
         pools: [],
         useMazemap: false,
         separateDeadlines: false,
-        unregistrationDeadline: time({
+        unregistrationPenaltyDeadline: time({
           hours: 12,
         }),
         registrationDeadlineHours: 2,

@@ -211,9 +211,9 @@ const calculatePaymentDueDate = (data) =>
 /* Calcualte and convert the registation deadline
  * @param unregistationDeadline: data from form
  */
-const calculateUnregistrationDeadline = (data) =>
-  data.unregistrationDeadline
-    ? moment(data.unregistrationDeadline).toISOString()
+const calculateunregistrationPenaltyDeadline = (data) =>
+  data.unregistrationPenaltyDeadline
+    ? moment(data.unregistrationPenaltyDeadline).toISOString()
     : null;
 
 const calculateUnregistrationDeadlineHours = (data) =>
@@ -247,7 +247,7 @@ export const transformEvent = (data: TransformEvent) => ({
     ? data.canViewGroups.map((group) => group.id)
     : [],
   requireAuth: data.canViewGroups.length > 0,
-  unregistrationDeadline: calculateUnregistrationDeadline(data),
+  unregistrationPenaltyDeadline: calculateunregistrationPenaltyDeadline(data),
   unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),
   pools: calculatePools(data),
   useCaptcha: config.environment === 'ci' ? false : data.useCaptcha,

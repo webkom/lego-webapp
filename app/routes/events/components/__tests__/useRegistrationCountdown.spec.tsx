@@ -52,7 +52,7 @@ const EVENT: UserDetailedEvent = {
   registrationDeadlineHours: 2,
   registrationCloseTime: moment().add(2, 'hours'),
   unregistrationDeadlineHours: 2,
-  unregistrationDeadline: moment().add(10, 'days'),
+  unregistrationPenaltyDeadline: moment().add(10, 'days'),
   activationTime: moment().add(1, 'days'),
   activeCapacity: 30,
   registrationCount: 10,

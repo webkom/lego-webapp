@@ -47,7 +47,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
         }
       : null,
     event.heedPenalties &&
-    event.unregistrationDeadline &&
+    event.unregistrationPenaltyDeadline &&
     !['OPEN', 'TBA'].includes(event.eventStatusType)
       ? {
           key: 'Frist for prikk',
@@ -71,7 +71,7 @@ export const useDeadlineInfoList = (event?: DetailedEvent) => {
           value: (
             <FormatTime
               format="dd DD. MMM HH:mm"
-              time={event.unregistrationDeadline}
+              time={event.unregistrationPenaltyDeadline}
             />
           ),
         }

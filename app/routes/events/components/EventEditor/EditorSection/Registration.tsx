@@ -131,10 +131,10 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
       {values.heedPenalties && (
         <div className={styles.subSection}>
           <Field
-            key="unregistrationDeadline"
+            key="unregistrationPenaltyDeadline"
             label="Frist for prikk"
             description="Avmelding etter denne fristen vil gi prikk"
-            name="unregistrationDeadline"
+            name="unregistrationPenaltyDeadline"
             component={DatePicker.Field}
             fieldClassName={styles.metaField}
             className={styles.formField}
