@@ -22,11 +22,11 @@ import {
   SelectInput,
   ImageUploadField,
   MultiSelectGroup,
+  Form,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import InfoBubble from 'app/components/InfoBubble';
 import { selectCompanyById } from 'app/reducers/companies';
 import { addToast } from 'app/reducers/toasts';
 import { selectUserById } from 'app/reducers/users';
@@ -172,153 +172,106 @@ const CompanyEditor = () => {
         validate={validate}
         subscription={{}}
       >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Field
-              name="logo"
-              component={ImageUploadField}
-              aspectRatio={20 / 6}
-              img={company && company.logo}
-            />
-
-            <Field
-              placeholder="Bedriftens navn"
-              name="name"
-              component={TextInput.Field}
-              className={styles.editTitle}
-              withoutMargin
-            />
-
-            <Field
-              placeholder="Beskrivelse av bedriften"
-              name="description"
-              component={TextEditor.Field}
-            />
-
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="briefcase"
-                data={
-                  <Field
-                    placeholder="Type bedrift"
-                    label=" "
-                    name="companyType"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Type bedrift"
-                style={{
-                  order: 0,
-                }}
-              />
-              <InfoBubble
-                icon="mail"
-                data={
-                  <Field
-                    placeholder="Fakturamail"
-                    name="paymentMail"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Fakturamail"
-                style={{
-                  order: 1,
-                }}
-              />
-              <InfoBubble
-                icon="call"
-                data={
-                  <Field
-                    placeholder="Telefonnummer"
-                    name="phone"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Telefon"
-                style={{
-                  order: 2,
-                }}
-              />
-            </div>
-
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="at"
-                data={
-                  <Field
-                    placeholder="Nettside"
-                    name="website"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Nettside"
-                style={{
-                  order: 0,
-                }}
+        {({ handleSubmit }) => {
+          return (
+            <Form onSubmit={handleSubmit}>
+              <Field
+                name="logo"
+                component={ImageUploadField}
+                aspectRatio={20 / 6}
+                img={company && company.logo}
               />
 
-              <InfoBubble
-                icon="home"
-                data={
-                  <Field
-                    placeholder="Adresse"
-                    name="address"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Adresse"
-                style={{
-                  order: 1,
-                }}
+              <Field
+                placeholder="Bedriftens navn"
+                name="name"
+                label="Navn"
+                required
+                component={TextInput.Field}
               />
-              <InfoBubble
-                icon="person"
-                data={
-                  <Field
-                    placeholder="Studentkontakt"
-                    name="studentContact"
-                    component={SelectInput.AutocompleteField}
-                    filter={[AutocompleteContentType.User]}
-                  />
-                }
-                meta="Studentkontakt"
-                style={{
-                  order: 2,
-                }}
+
+              <Field
+                placeholder="Beskrivelse av bedriften"
+                name="description"
+                label="Beskrivelse"
+                component={TextEditor.Field}
               />
-            </div>
 
-            <div>
-              <MultiSelectGroup name="active" legend="Aktiv bedrift?">
-                <Field
-                  name="Yes"
-                  label="Ja"
-                  value="true"
-                  type="radio"
-                  component={RadioButton.Field}
-                />
-                <Field
-                  name="No"
-                  label="Nei"
-                  value="false"
-                  type="radio"
-                  component={RadioButton.Field}
-                />
-              </MultiSelectGroup>
-            </div>
+              <Field
+                placeholder="Type bedrift"
+                label="Type bedrift"
+                name="companyType"
+                component={TextInput.Field}
+              />
 
-            <Field
-              placeholder="Bedriften ønsker kun kurs"
-              label="Notat fra Bedkom"
-              name="adminComment"
-              component={TextEditor.Field}
-              className={styles.adminNote}
-            />
+              <Field
+                placeholder="mail@abakus.no"
+                name="paymentMail"
+                label="Fakturamail"
+                component={TextInput.Field}
+              />
 
-            <SubmissionError />
-            <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-          </form>
-        )}
+              <Field
+                placeholder="123 45 678"
+                name="phone"
+                label="Telefon"
+                component={TextInput.Field}
+              />
+
+              <Field
+                placeholder="https://www.abakus.no"
+                name="website"
+                label="Nettside"
+                component={TextInput.Field}
+              />
+
+              <Field
+                placeholder="Adresse"
+                name="address"
+                label="Adresse"
+                component={TextInput.Field}
+              />
+
+              <Field
+                placeholder="Studentkontakt"
+                label="Studentkontakt"
+                name="studentContact"
+                component={SelectInput.AutocompleteField}
+                filter={[AutocompleteContentType.User]}
+              />
+
+              <div>
+                <MultiSelectGroup name="active" legend="Aktiv bedrift?">
+                  <Field
+                    name="Yes"
+                    label="Ja"
+                    value="true"
+                    type="radio"
+                    component={RadioButton.Field}
+                  />
+                  <Field
+                    name="No"
+                    label="Nei"
+                    value="false"
+                    type="radio"
+                    component={RadioButton.Field}
+                  />
+                </MultiSelectGroup>
+              </div>
+
+              <Field
+                placeholder="Bedriften ønsker kun kurs"
+                label="Notat fra Bedkom"
+                name="adminComment"
+                component={TextEditor.Field}
+                className={styles.adminNote}
+              />
+
+              <SubmissionError />
+              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+            </Form>
+          );
+        }}
       </TypedLegoForm>
     </Page>
   );
