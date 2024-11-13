@@ -76,7 +76,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Psssst',
       description: '',
-      rarity: 2,
+      rarity: 1,
       hidden: true,
     },
   ],
@@ -104,7 +104,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     {
       name: 'Er det noen her?',
       description: '',
-      rarity: 2,
+      rarity: 1,
       hidden: true,
     },
   ],
