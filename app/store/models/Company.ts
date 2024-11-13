@@ -67,7 +67,7 @@ interface CompanyFile {
 
 export interface StudentCompanyContact {
   id: EntityId;
-  companyId: EntityId;
+  company: EntityId;
   semester: EntityId;
   user: EntityId;
 }
