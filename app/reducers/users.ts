@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { eventSchema, registrationSchema, userSchema } from 'app/reducers';
+import { eventSchema, registrationSchema } from 'app/reducers';
 import { selectGroupEntities } from 'app/reducers/groups';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
@@ -9,7 +9,6 @@ import { User, Event } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import { Users } from 'lucide-react';
 
 export type UserEntity = {
   id: number;
@@ -37,13 +36,6 @@ const usersSlice = createSlice({
     extraCases: (addCase) => {
       addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const users = normalize(action.payload, eventSchema).entities.users!;
-        if (!users) return;
-        legoAdapter.upsertMany(state, users);
-      });
-      addCase(User.FETCH_LEADERBOARD.SUCCESS, (state, action: AnyAction) => {
-        const normalizedData = normalize(action.payload, [userSchema]);
-        const users = normalizedData.entities?.users;
-        console.log('Normalized users:', users);
         if (!users) return;
         legoAdapter.upsertMany(state, users);
       });
