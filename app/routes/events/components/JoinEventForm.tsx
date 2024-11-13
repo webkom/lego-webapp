@@ -331,7 +331,9 @@ const JoinEventForm = ({
           registrationMessage(event)
         ) : (
           <>
-            {!event?.activationTime && <Skeleton array={2} height={35} />}
+            {!event?.activationTime && fetching && (
+              <Skeleton array={2} height={35} />
+            )}
 
             {!formOpen && event.activationTime && (
               <div>
@@ -366,7 +368,7 @@ const JoinEventForm = ({
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <Card severity="danger">
+                <Card severity="danger" className={sharedStyles.card}>
                   <Card.Header>NB!</Card.Header>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}
