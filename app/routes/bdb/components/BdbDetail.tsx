@@ -447,76 +447,6 @@ const BdbDetail = () => {
               skeleton={showSkeleton}
             />
           )}
-
-          <div>
-            <Flex justifyContent="space-between" alignItems="center">
-              <h3>Bedriftskontakter</h3>
-              <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
-                Legg til bedriftskontakt
-              </LinkButton>
-            </Flex>
-            {company.companyContacts?.length > 0 ? (
-              <Table
-                columns={contactsColumns}
-                data={company.companyContacts}
-                hasMore={false}
-                loading={showSkeleton}
-              />
-            ) : (
-              <EmptyState body="Ingen bedriftskontakter registrert" />
-            )}
-          </div>
-
-          <div>
-            <h3>Semesterstatuser</h3>
-            {company.semesterStatuses?.length > 0 ? (
-              <Table
-                columns={semesterColumns}
-                data={company.semesterStatuses}
-                hasMore={false}
-                loading={showSkeleton}
-              />
-            ) : (
-              <EmptyState body="Ingen semesterstatuser registrert" />
-            )}
-          </div>
-
-          <div>
-            <h3>Bedriftens arrangementer</h3>
-            {companyEvents.length > 0 ? (
-              <Table
-                columns={eventColumns}
-                data={companyEvents}
-                hasMore={showFetchMoreEvents}
-                loading={fetchingCompany}
-              />
-            ) : (
-              <EmptyState body="Ingen arrangementer registrert" />
-            )}
-          </div>
-
-          <div>
-            <h3>Bedriftens jobbannonser</h3>
-            {fetchingJoblistings && !joblistings.length ? (
-              <Skeleton className={joblistingStyles.joblistingItem} />
-            ) : joblistings.length > 0 ? (
-              <Flex column gap="var(--spacing-sm)">
-                {joblistings.map((joblisting) => (
-                  <JoblistingItem key={joblisting.id} joblisting={joblisting} />
-                ))}
-              </Flex>
-            ) : (
-              <EmptyState body="Ingen tidligere jobbannonser" />
-            )}
-          </div>
-
-          {company.contentTarget && (
-            <CommentView
-              contentTarget={company.contentTarget}
-              comments={comments}
-              newOnTop
-            />
-          )}
         </ContentMain>
 
         <ContentSidebar>
@@ -535,7 +465,6 @@ const BdbDetail = () => {
                     <TextWithIcon
                       key={info.text}
                       iconName={info.icon}
-                      className={styles.companyInfo}
                       content={
                         info.link ? (
                           <a href={info.text}>{company.name}</a>
@@ -548,6 +477,70 @@ const BdbDetail = () => {
               )}
         </ContentSidebar>
       </ContentSection>
+
+      <Flex column gap="var(--spacing-md)" margin="var(--spacing-md) 0 0 0">
+        <Flex justifyContent="space-between" alignItems="center">
+          <h3>Bedriftskontakter</h3>
+          <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
+            Legg til bedriftskontakt
+          </LinkButton>
+        </Flex>
+        {company.companyContacts?.length > 0 ? (
+          <Table
+            columns={contactsColumns}
+            data={company.companyContacts}
+            hasMore={false}
+            loading={showSkeleton}
+          />
+        ) : (
+          <EmptyState body="Ingen bedriftskontakter registrert" />
+        )}
+
+        <h3>Semesterstatuser</h3>
+        {company.semesterStatuses?.length > 0 ? (
+          <Table
+            columns={semesterColumns}
+            data={company.semesterStatuses}
+            hasMore={false}
+            loading={showSkeleton}
+          />
+        ) : (
+          <EmptyState body="Ingen semesterstatuser registrert" />
+        )}
+
+        <h3>Bedriftens arrangementer</h3>
+        {companyEvents.length > 0 ? (
+          <Table
+            columns={eventColumns}
+            data={companyEvents}
+            hasMore={showFetchMoreEvents}
+            loading={fetchingCompany}
+          />
+        ) : (
+          <EmptyState body="Ingen arrangementer registrert" />
+        )}
+
+        <h3>Bedriftens jobbannonser</h3>
+        {fetchingJoblistings && !joblistings.length ? (
+          <Skeleton className={joblistingStyles.joblistingItem} />
+        ) : joblistings.length > 0 ? (
+          <Flex column gap="var(--spacing-sm)">
+            {joblistings.map((joblisting) => (
+              <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+            ))}
+          </Flex>
+        ) : (
+          <EmptyState body="Ingen tidligere jobbannonser" />
+        )}
+
+        {company.contentTarget && (
+          <CommentView
+            contentTarget={company.contentTarget}
+            comments={comments}
+            newOnTop
+          />
+        )}
+      </Flex>
     </Page>
   );
 };
