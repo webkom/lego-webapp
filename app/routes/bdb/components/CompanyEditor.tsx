@@ -32,6 +32,7 @@ import { addToast } from 'app/reducers/toasts';
 import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
 import styles from './bdb.module.css';
@@ -324,4 +325,4 @@ const CompanyEditor = () => {
   );
 };
 
-export default CompanyEditor;
+export default guardLogin(CompanyEditor);

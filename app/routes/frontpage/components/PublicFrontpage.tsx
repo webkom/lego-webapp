@@ -16,7 +16,7 @@ import komtekGraphic from 'app/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import netcompany from 'app/assets/netcompany_dark.svg';
 import netcompanyLight from 'app/assets/netcompany_white.svg';
-import AuthSection from 'app/components/AuthSection/AuthSection';
+import Auth from 'app/components/Auth';
 // import Banner from 'app/components/Banner';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectPinned } from 'app/reducers/frontpage';
@@ -49,7 +49,7 @@ const PublicFrontpage = () => {
       <div className={styles.wrapper}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>
-          <AuthSection />
+          <Auth />
         </Card>
         <CompactEvents style={{ gridArea: 'events' }} />
         <Card style={{ gridArea: 'hsp' }}>

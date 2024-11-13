@@ -1,4 +1,6 @@
+import { Icon } from '@webkom/lego-bricks';
 import { FORM_ERROR } from 'final-form';
+import { LogIn } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { login } from 'app/actions/UserActions';
 import { Form } from 'app/components/Form';
@@ -53,7 +55,9 @@ const LoginForm = () => {
             />
 
             <SubmissionError />
-            <SubmitButton>Logg inn</SubmitButton>
+            <SubmitButton>
+              <Icon iconNode={<LogIn />} size={19} /> Logg inn
+            </SubmitButton>
           </Form>
         )}
       </LegoFinalForm>

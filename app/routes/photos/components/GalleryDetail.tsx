@@ -16,7 +16,6 @@ import {
 } from 'app/actions/GalleryPictureActions';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
-import { LoginRequiredPage } from 'app/components/LoginForm';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
@@ -29,6 +28,7 @@ import {
   selectGalleryPicturesByGalleryId,
 } from 'app/reducers/galleryPictures';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import LoginPage from 'app/routes/auth/components/LoginPage';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -264,7 +264,7 @@ const GalleryDetail = () => {
   }
 
   if (!loggedIn) {
-    return <LoginRequiredPage />;
+    return <LoginPage loginRequired />;
   }
 
   return <HTTPError />;
