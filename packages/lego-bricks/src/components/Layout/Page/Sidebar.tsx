@@ -1,6 +1,7 @@
 import cx from 'classnames';
-import { X } from 'lucide-react';
+import { FilterX, X } from 'lucide-react';
 import { createContext, useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import Flex from '../Flex';
@@ -15,15 +16,40 @@ type Props = {
   children: ReactNode;
 };
 
-export const Sidebar = ({ title, close, className, children }: Props) => (
-  <Flex className={cx(styles.sidebar, className)} column>
-    {close && (
-      <Icon iconNode={<X />} className={styles.close} onPress={close} />
-    )}
-    {title && <h2 className={styles.title}>{title}</h2>}
-    {children}
-  </Flex>
-);
+export const Sidebar = ({ title, close, className, children }: Props) => {
+  const navigate = useNavigate();
+  const { pathname, search } = useLocation();
+  const clearQueryParams = () => {
+    navigate(pathname);
+  };
+
+  return (
+    <Flex className={cx(styles.sidebar, className)} column>
+      {close && (
+        <Icon iconNode={<X />} className={styles.close} onPress={close} />
+      )}
+      {title && (
+        <Flex
+          wrap
+          alignItems="center"
+          gap="var(--spacing-sm)"
+          className={styles.title}
+        >
+          <h2>{title}</h2>
+          {title === 'Filter' && (
+            <Icon
+              iconNode={<FilterX />}
+              onPress={clearQueryParams}
+              disabled={!search}
+              size={20}
+            />
+          )}
+        </Flex>
+      )}
+      {children}
+    </Flex>
+  );
+};
 
 type ContextContent = {
   side: 'right' | 'left';
