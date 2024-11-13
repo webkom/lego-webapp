@@ -61,8 +61,14 @@ const StudentContactEditor = () => {
   }
 
   const onSubmit = async (formContent: FormValues) => {
+    if (!companyId || !semesterId) return;
+
+    const updatedStudentContactsForSemester = formContent.studentContacts.map(studentContact => ({company: Number(companyId), semester: Number(semesterId), user: studentContact.value}));
+
+    const missingStudentContacts = company.studentContacts?.filter(studentContact => studentContact.semester.id != semesterId).map(studentContact => ({company: studentContact.company, user: studentContact.user.id, semester: studentContact.semester.id}));
+
     const body = {
-      ...formContent,
+      studentContacts: [...updatedStudentContactsForSemester, ...(missingStudentContacts ?? [])],
       companyId: company.id,
     };
 
