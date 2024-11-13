@@ -5,11 +5,9 @@ import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import Table from 'app/components/Table';
 import { selectUsersWithAchievementScore } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AchievementTabs } from './utils';
 import type { ColumnProps } from 'app/components/Table';
 import type { PublicUser } from 'app/store/models/User';
-import { AchievementTabs } from './utils';
-import { Info } from 'lucide-react';
-import Tooltip from 'app/components/Tooltip';
 
 type RankedUser = PublicUser & {
   rank: number;
@@ -53,7 +51,7 @@ const Leaderboard = () => {
       ),
     },
     {
-      title: 'Score',
+      title: 'Fullføringsprosent',
       dataIndex: 'score',
       search: false,
       inlineFiltering: false,
@@ -68,15 +66,7 @@ const Leaderboard = () => {
       tabs={<AchievementTabs />}
       title={
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          Trofe-tabell
-          <Tooltip
-            content={
-              'Listen rangerer brukere etter samlet trofe-score. Scoren tar hensyn til bl.a sjeldenhet og antall.'
-            }
-            positions="right"
-          >
-            <Info />
-          </Tooltip>
+          Topplister
         </Flex>
       }
     >
