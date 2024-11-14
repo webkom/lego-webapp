@@ -31,10 +31,6 @@
   width: 400px;
 }
 
-.editTitle {
-  width: 250px;
-}
-
 .surveyContainer {
   display: flex;
   justify-content: center;
