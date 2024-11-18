@@ -1,0 +1,31 @@
+.root {
+    z-index: 2;
+    padding: 0 var(--spacing-sm) ;
+    background-color: var(--color-gray-2);
+}
+
+.button {
+    border-radius: var(--border-radius-sm);
+    background-color: transparent;
+    border: none;
+    color: var(--lego-font-color);
+    cursor: pointer;
+    margin: 3px 2px 1px;
+    aspect-ratio: 1;
+}
+
+.active {
+    background-color: var(--color-gray-3);
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.button:hover {
+    background-color: var(--color-gray-3);
+    transition: background-color var(--easing-blazingly-fast);
+}
+
+
