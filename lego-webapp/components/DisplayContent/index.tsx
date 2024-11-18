@@ -1,8 +1,6 @@
 import { Skeleton } from '@webkom/lego-bricks';
-import Editor from '@webkom/lego-editor';
+import { EditorContent } from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
-import 'react-image-crop/dist/ReactCrop.css';
-import { usePageContext } from 'vike-react/usePageContext';
 import styles from './DisplayContent.module.css';
 import type { CSSProperties } from 'react';
 
@@ -11,7 +9,6 @@ type Props = {
   id?: string;
   className?: string;
   style?: CSSProperties;
-  placeholder?: string;
   skeleton?: boolean;
 };
 
@@ -23,11 +20,8 @@ function DisplayContent({
   id,
   style,
   className,
-  placeholder,
   skeleton = false,
 }: Props) {
-  const pageContext = usePageContext();
-
   if (skeleton) {
     return (
       <div key={content} style={style}>
@@ -40,15 +34,7 @@ function DisplayContent({
 
   return (
     <div key={content} id={id} style={style} className={className}>
-      <Editor
-        onChange={() => {}}
-        onBlur={() => {}}
-        onFocus={() => {}}
-        value={content}
-        placeholder={placeholder}
-        disabled
-        domParser={import.meta.env.SSR ? pageContext.domParser : undefined}
-      />
+      <EditorContent content={content ?? ''} />
     </div>
   );
 }

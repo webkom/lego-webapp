@@ -1,0 +1,70 @@
+{
+  "name": "@webkom/lego-editor",
+  "version": "3.0.0",
+  "description": "A React editor written in TS with tiptap for lego-webapp",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/lego-editor.umd.cjs",
+  "module": "./dist/lego-editor.js",
+  "style": "dist/style.css",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.tsx",
+      "import": "./src/index.tsx"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/lego-editor.js",
+        "require": "./dist/lego-editor.umd.cjs"
+      },
+      "./dist/style.css": {
+        "import": "./dist/style.css",
+        "require": "./dist/style.css"
+      }
+    }
+  },
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && pnpm build:types",
+    "build:types": "tsc --project tsconfig.app.json -d --emitDeclarationOnly",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.11.5",
+    "@tiptap/extension-image": "^2.9.1",
+    "@tiptap/extension-placeholder": "^2.9.1",
+    "@tiptap/extension-underline": "^2.9.1",
+    "@tiptap/html": "^2.9.1",
+    "@tiptap/pm": "^2.9.1",
+    "@tiptap/react": "^2.9.1",
+    "@tiptap/starter-kit": "^2.9.1",
+    "@webkom/lego-bricks": "workspace:",
+    "classnames": "^2.5.1",
+    "lucide-react": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^9.13.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "globals": "^15.11.0",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.11.0",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.5"
+  }
+}

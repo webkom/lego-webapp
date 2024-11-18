@@ -31,7 +31,7 @@
     "@stripe/stripe-js": "^5.7.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@webkom/lego-bricks": "workspace:*",
-    "@webkom/lego-editor": "^2.6.3",
+    "@webkom/lego-editor": "workspace:*",
     "@webkom/mazemap": "workspace:*",
     "@webkom/react-meter-bar": "^2.0.0",
     "@webkom/react-prepare": "^1.2.0",
