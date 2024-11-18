@@ -1,9 +1,7 @@
 import { Icon, Skeleton } from '@webkom/lego-bricks';
-import Editor from '@webkom/lego-editor';
+import { EditorContent } from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
-import 'react-image-crop/dist/ReactCrop.css';
 import { type CSSProperties, useRef, useState } from 'react';
-import { usePageContext } from 'vike-react/usePageContext';
 import styles from './CollapsibleDisplayContent.module.css';
 
 type Props = {
@@ -11,7 +9,6 @@ type Props = {
   id?: string;
   className?: string;
   style?: CSSProperties;
-  placeholder?: string;
   collapsedHeight?: number;
   skeleton?: boolean;
 };
@@ -24,12 +21,9 @@ function CollapsibleDisplayContent({
   id,
   style,
   className,
-  placeholder,
   collapsedHeight = 250,
   skeleton = false,
 }: Props) {
-  const pageContext = usePageContext();
-
   const [isOpened, setIsOpened] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -57,15 +51,7 @@ function CollapsibleDisplayContent({
           className={className}
           ref={ref}
         >
-          <Editor
-            onChange={() => {}}
-            onBlur={() => {}}
-            onFocus={() => {}}
-            value={content}
-            placeholder={placeholder}
-            disabled
-            domParser={import.meta.env.SSR ? pageContext.domParser : undefined}
-          />
+          <EditorContent content={content ?? ''} />
         </div>
       )}
       {useCollapse && (
