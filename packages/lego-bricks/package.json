@@ -1,6 +1,6 @@
 {
   "name": "@webkom/lego-bricks",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "Component library for lego and other Abakus projects",
   "author": "webkom",
   "license": "MIT",
@@ -19,8 +19,8 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/lego-bricks.js",
-      "require": "./dist/lego-bricks.umd.cjs"
+      "import": ["./dist/lego-bricks.js", "./dist/index.d.ts"],
+      "require": ["./dist/lego-bricks.umd.cjs", "./dist/index.d.ts"]
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
@@ -64,7 +64,7 @@
     "@storybook/react": "^8.4.2",
     "@storybook/react-vite": "^8.3.6",
     "@storybook/test": "^8.4.2",
-    "@types/enzyme": "^3.10.16",
+    "@types/enzyme": "^3.10.18",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
