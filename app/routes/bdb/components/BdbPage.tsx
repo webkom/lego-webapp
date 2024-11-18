@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
+import Tag from 'app/components/Tags/Tag';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -139,7 +140,12 @@ const BdbPage = () => {
     },
   ];
 
-  const title = 'Bedriftsdatabase';
+  const title = (
+    <Flex gap="var(--spacing-sm)" alignItems="center">
+      <h1>BDB</h1>
+      <Tag tag="PRO" color="gray" />
+    </Flex>
+  );
 
   return (
     <Page
@@ -147,7 +153,7 @@ const BdbPage = () => {
       actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
       tabs={<BdbTabs />}
     >
-      <Helmet title={title} />
+      <Helmet title="BDB" />
 
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
