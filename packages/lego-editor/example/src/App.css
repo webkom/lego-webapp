@@ -1,0 +1,12 @@
+body {
+  font-family: Inter, sans-serif;
+  background: var(--lego-background-color);
+  color: var(--lego-font-color);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+pre {
+  max-width: 100%;
+  line-break: anywhere;
+}

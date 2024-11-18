@@ -1,7 +1,6 @@
 import { Skeleton } from '@webkom/lego-bricks';
-import Editor from '@webkom/lego-editor';
+import { EditorContent } from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
-import 'react-image-crop/dist/ReactCrop.css';
 import styles from './DisplayContent.module.css';
 import type { CSSProperties } from 'react';
 
@@ -10,7 +9,6 @@ type Props = {
   id?: string;
   className?: string;
   style?: CSSProperties;
-  placeholder?: string;
   skeleton?: boolean;
 };
 
@@ -22,17 +20,8 @@ function DisplayContent({
   id,
   style,
   className,
-  placeholder,
   skeleton = false,
 }: Props) {
-  let domParser = null;
-
-  if (!__CLIENT__) {
-    const JSDOM = require('jsdom').JSDOM;
-
-    domParser = (val) => new JSDOM(val).window.document;
-  }
-
   if (skeleton) {
     return (
       <div key={content} style={style}>
@@ -45,15 +34,7 @@ function DisplayContent({
 
   return (
     <div key={content} id={id} style={style} className={className}>
-      <Editor
-        onChange={() => {}}
-        onBlur={() => {}}
-        onFocus={() => {}}
-        value={content}
-        placeholder={placeholder}
-        disabled
-        domParser={domParser}
-      />
+      <EditorContent content={content ?? ''} />
     </div>
   );
 }
