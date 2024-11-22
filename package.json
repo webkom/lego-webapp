@@ -44,7 +44,7 @@
     "@reduxjs/toolkit": "^2.3.0",
     "@sentry/browser": "^7.105.0",
     "@sentry/integrations": "^7.114.0",
-    "@sentry/node": "^7.101.1",
+    "@sentry/node": "^8.40.0",
     "@stripe/react-stripe-js": "^1.14.2",
     "@stripe/stripe-js": "^1.46.0",
     "@webkom/lego-editor": "^2.6.1",
