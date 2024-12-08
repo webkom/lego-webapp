@@ -15,7 +15,7 @@ import { Helmet } from 'react-helmet-async';
 import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
-import { CheckBox, SelectInput } from 'app/components/Form/';
+import { CheckBox, RadioButton } from 'app/components/Form/';
 import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
@@ -91,7 +91,7 @@ type Option = {
   value: FilterRegistrationsType;
   field: EventTime;
 };
-const filterRegDateOptions: Array<Option> = [
+const filterRegDateOptions: Option[] = [
   {
     filterRegDateFunc: (event) => !!event,
     label: 'Vis alle',
@@ -254,17 +254,18 @@ const EventList = () => {
               />
             </FilterSection>
             <FilterSection title="Påmelding">
-              <SelectInput
-                name="form-field-name"
-                value={regDateFilter}
-                onChange={(selectedOption) =>
-                  selectedOption &&
-                  setQueryValue('registrations')(selectedOption.value)
-                }
-                className={styles.select}
-                options={filterRegDateOptions}
-                isClearable={false}
-              />
+              {filterRegDateOptions.map((option) => (
+                <RadioButton
+                  key={option.value}
+                  name="registrations"
+                  id={option.value}
+                  label={option.label}
+                  checked={query.registrations === option.value}
+                  onChange={() => {
+                    setQueryValue('registrations')(option.value);
+                  }}
+                />
+              ))}
             </FilterSection>
           </>
         ),
