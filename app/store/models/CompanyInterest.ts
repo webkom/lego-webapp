@@ -25,7 +25,7 @@ interface CompleteCompanyInterest {
   phone: string;
   semesters: EntityId[];
   createdAt: Dateish;
-  officeInTrondheim: string;
+  officeInTrondheim: boolean;
   events: CompanyInterestEventType[];
   companyCourseThemes: string[];
   otherOffers: string[];
