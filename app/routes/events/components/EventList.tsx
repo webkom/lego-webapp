@@ -12,6 +12,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
 import { FilterX, FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchEvents } from 'app/actions/EventActions';
@@ -37,12 +38,14 @@ type FilterRegistrationsType = 'all' | 'open' | 'future';
 export const eventListDefaultQuery = {
   eventTypes: [] as FilterEventType[],
   registrations: 'all' as FilterRegistrationsType,
+  showPrevious: '' as '' | 'true' | 'false',
 };
 
 type GroupedEvents = {
   currentWeek?: ListEvent[];
   nextWeek?: ListEvent[];
   later?: ListEvent[];
+  previous?: ListEvent[];
 };
 
 const groupEvents = (
@@ -56,17 +59,20 @@ const groupEvents = (
     nextWeek: (event: ListEvent) =>
       moment(event[field]).isSame(nextWeek, 'week'),
     later: (event: ListEvent) => moment(event[field]).isAfter(nextWeek),
+    previous: (event: ListEvent) => moment(event[field]).isBefore(moment()),
   };
+
+  const initialGroups: GroupedEvents = {};
+
   return events.reduce((result, event) => {
     for (const groupName in groups) {
       if (groups[groupName](event)) {
-        result[groupName] = (result[groupName] || []).concat(event);
-        return result;
+        result[groupName] = [...(result[groupName] || []), event];
+        break;
       }
     }
-
     return result;
-  }, {});
+  }, initialGroups);
 };
 
 const EventListGroup = ({
@@ -139,8 +145,19 @@ const EventList = () => {
   const icalToken = useCurrentUser()?.icalToken;
   const loggedIn = useIsLoggedIn();
 
+  const [previousStart, setPreviousStart] = useState(
+    moment().subtract(2, 'week'),
+  );
+  const [previousEvents, setPreviousEvents] = useState<ListEvent[]>([]);
+
   const fetchQuery = {
-    date_after: moment().format('YYYY-MM-DD'),
+    date_after:
+      query.showPrevious === 'true'
+        ? previousStart.format('YYYY-MM-DD')
+        : moment().format('YYYY-MM-DD'),
+    date_before:
+      query.showPrevious === 'true' ? moment().format('YYYY-MM-DD') : undefined,
+    ordering: query.showPrevious === 'true' ? '-start_time' : 'start_time',
   };
 
   const { pagination } = useAppSelector(
@@ -148,6 +165,16 @@ const EventList = () => {
       entity: EntityType.Events,
       endpoint: '/events/',
       query: fetchQuery,
+    }),
+  );
+
+  const { pagination: previousPagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/',
+      query: {
+        date_before: moment().format('YYYY-MM-DD'),
+      },
     }),
   );
 
@@ -166,16 +193,32 @@ const EventList = () => {
           query: fetchQuery,
         }),
       ),
-    [loggedIn],
+    [loggedIn, query.showPrevious],
   );
 
-  const fetchMore = () =>
-    dispatch(
+  const fetchMore = () => {
+    if (query.showPrevious === 'true') {
+      const newStart = previousStart.clone().subtract(1, 'week');
+      setPreviousStart(newStart);
+
+      return dispatch(
+        fetchEvents({
+          query: {
+            ...fetchQuery,
+            date_after: newStart.format('YYYY-MM-DD'),
+            date_before: moment().format('YYYY-MM-DD'),
+          },
+        }),
+      );
+    }
+
+    return dispatch(
       fetchEvents({
         query: fetchQuery,
         next: true,
       }),
     );
+  };
 
   const filterEventTypesFunc = (event: ListEvent) => {
     if (!showCompanyPresentation && !showCourse && !showSocial && !showOther)
@@ -207,10 +250,29 @@ const EventList = () => {
     }
   };
 
+  const filterPreviousEvents = (event: ListEvent) =>
+    query.showPrevious === 'true'
+      ? moment(event[field]).isBefore(moment())
+      : true;
+
+  useEffect(() => {
+    if (!pagination.fetching && events.length > 0) {
+      setPreviousEvents(events);
+    }
+  }, [events, pagination.fetching]);
+
   const groupedEvents = groupEvents(
     orderBy(
-      events.filter(filterRegDateFunc).filter(filterEventTypesFunc),
+      [...previousEvents, ...events]
+        .filter(
+          (event, index, self) =>
+            index === self.findIndex((e) => e.id === event.id),
+        )
+        .filter(filterRegDateFunc)
+        .filter(filterEventTypesFunc)
+        .filter(filterPreviousEvents),
       field,
+      query.showPrevious === 'true' ? 'desc' : 'asc',
     ),
     field,
   );
@@ -237,6 +299,22 @@ const EventList = () => {
       sidebar={filterSidebar({
         children: (
           <>
+            <FilterSection title="Vis tidligere">
+              <RadioButton
+                name="showPrevious"
+                id="showPreviousYes"
+                label="Ja"
+                checked={query.showPrevious === 'true'}
+                onChange={() => setQueryValue('showPrevious')('true')}
+              />
+              <RadioButton
+                name="showPrevious"
+                id="showPreviousNo"
+                label="Nei"
+                checked={query.showPrevious === 'false'}
+                onChange={() => setQueryValue('showPrevious')('false')}
+              />
+            </FilterSection>
             <FilterSection title="Arrangementstype">
               <CheckBox
                 id="companyPresentation"
@@ -288,13 +366,14 @@ const EventList = () => {
       tabs={<EventsTabs />}
     >
       <Helmet title="Arrangementer" />
+      <EventListGroup name="Tidligere" events={groupedEvents.previous} />
       <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
       <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
       <EventListGroup name="Senere" events={groupedEvents.later} />
-      {isEmpty(groupedEvents) && pagination.fetching && (
-        <LoadingIndicator loading />
+      {isEmpty(events) && pagination.fetching && (
+        <LoadingIndicator loading={pagination.fetching} />
       )}
-      {isEmpty(groupedEvents) && !pagination.fetching && (
+      {isEmpty(events) && !pagination.fetching && (
         <EmptyState
           iconNode={<FolderOpen />}
           header="Her var det tomt ..."
@@ -314,10 +393,15 @@ const EventList = () => {
           className={sharedStyles.emptyState}
         />
       )}
-      {pagination.hasMore && field === 'startTime' && (
+      {(query.showPrevious === 'true'
+        ? previousPagination.hasMore
+        : pagination.hasMore) && (
         <Button
           onPress={fetchMore}
-          isPending={!isEmpty(events) && pagination.fetching}
+          isPending={
+            !isEmpty(events) &&
+            (pagination.fetching || previousPagination.fetching)
+          }
         >
           Last inn mer
         </Button>
