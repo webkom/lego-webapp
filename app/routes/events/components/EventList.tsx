@@ -3,15 +3,17 @@ import {
   FilterSection,
   filterSidebar,
   Flex,
+  Icon,
   LinkButton,
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
-import { FolderOpen } from 'lucide-react';
+import { FilterX, FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
@@ -20,6 +22,7 @@ import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import sharedStyles from 'app/routes/joblistings/components/JoblistingList.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
@@ -211,6 +214,13 @@ const EventList = () => {
     ),
     field,
   );
+  const totalCount = events.length;
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const clearQueryParams = () => {
+    navigate(pathname);
+  };
 
   const toggleEventType =
     (type: 'company_presentation' | 'course' | 'social' | 'other') => () => {
@@ -281,11 +291,27 @@ const EventList = () => {
       <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
       <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
       <EventListGroup name="Senere" events={groupedEvents.later} />
-      {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
-      {isEmpty(events) && !pagination.fetching && (
+      {isEmpty(groupedEvents) && pagination.fetching && (
+        <LoadingIndicator loading />
+      )}
+      {isEmpty(groupedEvents) && !pagination.fetching && (
         <EmptyState
           iconNode={<FolderOpen />}
-          body="Ingen kommende arrangementer"
+          header="Her var det tomt ..."
+          body={
+            <>
+              Ingen arrangementer {totalCount > 0 && 'som matcher ditt filter'}{' '}
+              ligger
+              {totalCount === 0 && ' for øyeblikket'} ute
+              {totalCount > 0 && (
+                <Button flat onPress={clearQueryParams}>
+                  <Icon iconNode={<FilterX />} size={22} />
+                  Tøm filter
+                </Button>
+              )}
+            </>
+          }
+          className={sharedStyles.emptyState}
         />
       )}
       {pagination.hasMore && field === 'startTime' && (
