@@ -5,9 +5,11 @@
   text-align: center;
   margin: 0 auto;
   margin-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
   line-height: 1.3;
 
   @media (--mobile-device) {
     margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
   }
 }
