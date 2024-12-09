@@ -5,8 +5,8 @@ import {
   Flex,
   Icon,
   LinkButton,
-  LoadingIndicator,
   Page,
+  Skeleton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
@@ -18,12 +18,13 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
+import eventItemStyles from 'app/components/EventItem/styles.module.css';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import sharedStyles from 'app/routes/joblistings/components/JoblistingList.module.css';
+import joblistingListStyles from 'app/routes/joblistings/components/JoblistingList.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
@@ -84,7 +85,7 @@ const EventListGroup = ({
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
-      <h3>{name}</h3>
+      <h3 className={styles.eventGroupTitle}>{name}</h3>
       <Flex column gap="var(--spacing-md)">
         {events.map((event) => (
           <EventItem key={event.id} event={event} showTags={false} />
@@ -371,9 +372,26 @@ const EventList = () => {
       <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
       <EventListGroup name="Senere" events={groupedEvents.later} />
       {isEmpty(events) && pagination.fetching && (
-        <LoadingIndicator loading={pagination.fetching} />
+        <>
+          <div className={styles.eventGroup}>
+            {isEmpty(groupedEvents) && (
+              <Skeleton className={styles.skeletonEventGroupTitle} />
+            )}
+            <Flex column gap="var(--spacing-md)">
+              <Skeleton array={3} className={eventItemStyles.eventItem} />
+            </Flex>
+          </div>
+          <div className={styles.eventGroup}>
+            {isEmpty(groupedEvents) && (
+              <Skeleton className={styles.skeletonEventGroupTitle} />
+            )}
+            <Flex column gap="var(--spacing-md)">
+              <Skeleton array={5} className={eventItemStyles.eventItem} />
+            </Flex>
+          </div>
+        </>
       )}
-      {isEmpty(events) && !pagination.fetching && (
+      {isEmpty(groupedEvents) && !pagination.fetching && (
         <EmptyState
           iconNode={<FolderOpen />}
           header="Her var det tomt ..."
@@ -390,7 +408,7 @@ const EventList = () => {
               )}
             </>
           }
-          className={sharedStyles.emptyState}
+          className={joblistingListStyles.emptyState}
         />
       )}
       {(query.showPrevious === 'true'
