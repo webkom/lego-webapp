@@ -13,6 +13,7 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectUserByUsername } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/UserSettings/DeleteUser';
@@ -222,25 +223,11 @@ const UserSettings = () => {
             </MultiSelectGroup>
 
             {showAbakusMembership && (
-              <MultiSelectGroup
+              <Field
                 name="isAbakusMember"
-                legend="Medlem av Abakus?"
-              >
-                <Field
-                  name="isMemberYes"
-                  label="Ja"
-                  value="true"
-                  type="radio"
-                  component={RadioButton.Field}
-                />
-                <Field
-                  name="isMemberNo"
-                  label="Nei"
-                  value="false"
-                  type="radio"
-                  component={RadioButton.Field}
-                />
-              </MultiSelectGroup>
+                label="Medlem av Abakus?"
+                component={ToggleSwitch.Field}
+              />
             )}
 
             <SubmissionError />

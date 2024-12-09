@@ -20,6 +20,7 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import eventItemStyles from 'app/components/EventItem/styles.module.css';
 import { CheckBox, RadioButton } from 'app/components/Form/';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
@@ -147,7 +148,7 @@ const EventList = () => {
   const loggedIn = useIsLoggedIn();
 
   const [previousStart, setPreviousStart] = useState(
-    moment().subtract(2, 'week'),
+    moment().subtract(1, 'month'),
   );
   const [previousEvents, setPreviousEvents] = useState<ListEvent[]>([]);
 
@@ -199,7 +200,7 @@ const EventList = () => {
 
   const fetchMore = () => {
     if (query.showPrevious === 'true') {
-      const newStart = previousStart.clone().subtract(1, 'week');
+      const newStart = previousStart.clone().subtract(1, 'month');
       setPreviousStart(newStart);
 
       return dispatch(
@@ -301,19 +302,12 @@ const EventList = () => {
         children: (
           <>
             <FilterSection title="Vis tidligere">
-              <RadioButton
-                name="showPrevious"
-                id="showPreviousYes"
-                label="Ja"
+              <ToggleSwitch
+                id="showPrevious"
                 checked={query.showPrevious === 'true'}
-                onChange={() => setQueryValue('showPrevious')('true')}
-              />
-              <RadioButton
-                name="showPrevious"
-                id="showPreviousNo"
-                label="Nei"
-                checked={query.showPrevious === 'false'}
-                onChange={() => setQueryValue('showPrevious')('false')}
+                onChange={(checked) =>
+                  setQueryValue('showPrevious')(checked ? 'true' : 'false')
+                }
               />
             </FilterSection>
             <FilterSection title="Arrangementstype">
