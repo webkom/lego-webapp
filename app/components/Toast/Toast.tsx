@@ -41,6 +41,7 @@ export const Toast = ({ state, ...props }: ToastProps) => {
         iconNode={type === 'success' ? <Check /> : <X />}
         success={type === 'success'}
         danger={type === 'error'}
+        className={!type ? styles.defaultIcon : undefined}
         size={18}
       />
       <div {...contentProps}>
