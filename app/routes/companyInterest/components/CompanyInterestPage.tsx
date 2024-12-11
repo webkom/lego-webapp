@@ -507,9 +507,7 @@ const CompanyInterestPage = () => {
   return (
     <Page
       title={title}
-      back={{
-        href: '/company-interest',
-      }}
+      back={edit ? { href: '/company-interest' } : undefined}
       actionButtons={
         !edit && (
           <Link to={isEnglish ? '/interesse' : '/register-interest'}>
