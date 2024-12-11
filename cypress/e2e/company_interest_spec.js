@@ -17,7 +17,7 @@ const createCompanyInterest = () => {
   field('mail').click().type('webkom@webkom.no');
 
   field('phone').click().type('90909090');
-  field('officeInTrondheim').check();
+  field('officeInTrondheim').click({ force: true });
 
   field('semesters[0].checked').check();
   field('events[0].checked').check();

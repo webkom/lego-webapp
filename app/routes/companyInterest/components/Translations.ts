@@ -157,11 +157,6 @@ export const COMPANY_TYPES: Record<
   company_types_governmental: { norwegian: 'Statlig', english: 'Governmental' },
 };
 
-export const OFFICE_IN_TRONDHEIM = {
-  yes: { norwegian: 'Ja', english: 'Yes' },
-  no: { norwegian: 'Nei', english: 'No' },
-};
-
 export const COLLABORATION_TYPES = {
   collaboration_omega: {
     norwegian: 'Samarbeid med Omega linjeforening',

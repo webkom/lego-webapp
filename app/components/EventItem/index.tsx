@@ -208,7 +208,9 @@ const EventItem = ({
           <Flex column gap="var(--spacing-xs)" className="secondaryFontColor">
             <div>
               <h3 className={styles.eventItemTitle}>{event.title}</h3>
-              {event.totalCapacity > 0 && <Attendance event={event} />}
+              {event.totalCapacity != null && event.totalCapacity > 0 && (
+                <Attendance event={event} />
+              )}
             </div>
             <TimeStartAndRegistration event={event} />
             {showTags && (
