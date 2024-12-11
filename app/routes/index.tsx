@@ -1,6 +1,7 @@
 import loadable from '@loadable/component';
 import { type RouteObject } from 'react-router-dom';
 import lendingRoute from 'app/routes/lending';
+import achievementRoute from './achievements';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
 import { AppRoute } from './app';
@@ -38,6 +39,7 @@ export const routerConfig: RouteObject[] = [
     Component: AppRoute,
     children: [
       { index: true, Component: Frontpage },
+      { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },
       { path: 'articles/*', children: articlesRoute },
