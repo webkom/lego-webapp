@@ -97,6 +97,7 @@ export function addCompany(data: Record<string, any>) {
     body: data,
     schema: companySchema,
     meta: {
+      successMessage: 'Bedrift lagt til',
       errorMessage: 'Legg til bedrift feilet',
     },
   });
@@ -110,6 +111,7 @@ export function editCompany({ companyId, ...data }: Record<string, any>) {
     body: data,
     schema: companySchema,
     meta: {
+      successMessage: 'Bedrift oppdatert',
       errorMessage: 'Endring av bedrift feilet',
     },
   });

@@ -48,6 +48,11 @@ const createWebSocketMiddleware = (): Middleware<
           dispatch(
             addToast({
               message,
+              type: meta.successMessage
+                ? 'success'
+                : meta.errorMessage
+                  ? 'error'
+                  : undefined,
             }),
           );
         }

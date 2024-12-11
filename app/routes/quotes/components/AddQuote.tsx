@@ -56,7 +56,8 @@ const AddQuote = () => {
       dispatch(
         addToast({
           message:
-            'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+            'Sitat ble sendt inn, og vil dukke opp her hvis det blir godkjent!',
+          type: 'success',
           dismissAfter: 10000,
         }),
       );

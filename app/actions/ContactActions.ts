@@ -8,5 +8,9 @@ export function sendContactMessage(contactForm: ContactForm) {
     method: 'POST',
     endpoint: '/contact-form/',
     body: contactForm,
+    meta: {
+      successMessage: 'Melding er sendt',
+      errorMessage: 'Kunne ikke sende melding',
+    },
   });
 }

@@ -54,6 +54,10 @@
   }
 }
 
+.defaultIcon svg {
+  color: var(--inverted-font-color);
+}
+
 .success {
   background-color: var(--color-green-2);
   border-color: var(--color-green-7);

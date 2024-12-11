@@ -28,7 +28,6 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectCompanyById } from 'app/reducers/companies';
-import { addToast } from 'app/reducers/toasts';
 import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
@@ -101,11 +100,6 @@ const CompanyEditor = () => {
     };
 
     dispatch(isNew ? addCompany(body) : editCompany(body)).then((res) => {
-      dispatch(
-        addToast({
-          message: isNew ? 'Bedrift lagt til' : 'Bedrift oppdatert',
-        }),
-      );
       navigate(`/bdb/${isNew ? res.payload.result : companyId}`);
     });
   };
