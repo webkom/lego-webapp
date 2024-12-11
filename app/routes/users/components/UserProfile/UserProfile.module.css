@@ -79,9 +79,13 @@
 
 .settingsIcon {
   transition: transform var(--easing-medium);
+}
 
+.settingsButton {
   &:hover {
-    transform: rotate(90deg);
+    .settingsIcon {
+      transform: rotate(90deg);
+    }
   }
 }
 
