@@ -79,6 +79,7 @@ export interface CompleteEvent {
   responsibleUsers: PublicUser[];
   isForeignLanguage: boolean;
   unregistered: EntityId[];
+  userReg?: ReadRegistration;
 
   // for survey
   attendedCount: number;
@@ -134,13 +135,9 @@ export type ListEvent = Pick<
   | 'survey'
   | 'responsibleUsers'
   | 'actionGrant'
+  | 'userReg'
 > &
   ObjectPermissionsMixin;
-
-// Used for /upcoming and /previous endpoints
-export type ListEventWithUserRegistration = ListEvent & {
-  userReg?: ReadRegistration;
-};
 
 export type DetailedEvent = Pick<
   CompleteEvent,
@@ -282,7 +279,6 @@ export type AutocompleteEvent = Pick<
 export type UnknownEvent = (
   | PublicEvent
   | ListEvent
-  | ListEventWithUserRegistration
   | DetailedEvent
   | EventForSurvey
   | UserDetailedEvent
