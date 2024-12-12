@@ -188,6 +188,7 @@ export type DetailedEvent = Pick<
   | 'responsibleUsers'
   | 'isForeignLanguage'
   | 'actionGrant'
+  | 'isAdmitted'
 > &
   ObjectPermissionsMixin;
 
