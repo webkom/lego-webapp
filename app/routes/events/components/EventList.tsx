@@ -17,7 +17,7 @@ import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import { CheckBox, SelectInput } from 'app/components/Form/';
 import { EventTime } from 'app/models';
-import { useCurrentUser } from 'app/reducers/auth';
+import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -134,6 +134,7 @@ const EventList = () => {
   );
 
   const icalToken = useCurrentUser()?.icalToken;
+  const loggedIn = useIsLoggedIn();
 
   const fetchQuery = {
     date_after: moment().format('YYYY-MM-DD'),
@@ -162,7 +163,7 @@ const EventList = () => {
           query: fetchQuery,
         }),
       ),
-    [],
+    [loggedIn],
   );
 
   const fetchMore = () =>
