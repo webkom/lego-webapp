@@ -1,7 +1,8 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Calendar } from 'lucide-react';
 import moment from 'moment-timezone';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import parseDateValue from 'app/utils/parseDateValue';
@@ -9,18 +10,33 @@ import styles from './DatePicker.module.css';
 import { createField } from './Field';
 import TextInput from './TextInput';
 import TimePicker from './TimePicker';
+import type { Dateish } from 'app/models';
 import type { Moment } from 'moment';
 
-type Props = {
-  onChange: (selectedDate: string) => void;
-  onBlur: (selectedDate?: string) => void;
-  onFocus: () => void;
+type BaseDatePickerProps = {
   className?: string;
-  value?: string;
   showTimePicker?: boolean;
   dateFormat?: string;
   name?: string;
+  dropdownClassName?: string;
+  onFocus: () => void;
 };
+
+type SingleDatePickerProps = BaseDatePickerProps & {
+  range?: false;
+  value?: Dateish;
+  onChange: (selectedDate: Dateish) => void;
+  onBlur: (selectedDate?: Dateish) => void;
+};
+
+type RangeDatePickerProps = BaseDatePickerProps & {
+  range: true;
+  value?: [Dateish, Dateish];
+  onChange: (selectedDate: [Dateish, Dateish]) => void;
+  onBlur: (selectedDate?: [Dateish, Dateish]) => void;
+};
+
+type Props = SingleDatePickerProps | RangeDatePickerProps;
 
 const DatePicker = ({
   onChange,
@@ -31,30 +47,209 @@ const DatePicker = ({
   showTimePicker = true,
   dateFormat = 'lll',
   name,
+  range = false,
 }: Props) => {
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [date, setDate] = useState(moment());
-  const parsedValue = parseDateValue(value);
 
-  const onNext = () => setDate(date.clone().add(1, 'month'));
-  const onPrev = () => setDate(date.clone().subtract(1, 'month'));
+  const [date, setDate] = useState(() => {
+    if (!range && !Array.isArray(value) && value) {
+      return moment(value);
+    }
+    return moment();
+  });
+
+  const [startDate, setstartDate] = useState(() => {
+    if (range && Array.isArray(value) && value[0]) {
+      return moment(value[0]);
+    }
+    return moment();
+  });
+  const [endDate, setendDate] = useState(() => {
+    if (range && Array.isArray(value) && value[1]) {
+      return moment(value[1]);
+    }
+    if (range && Array.isArray(value) && value[0]) {
+      return moment(value[0]).add(1, 'month');
+    }
+    return moment().add(1, 'month');
+  });
+  const [selectingEnd, setSelectingEnd] = useState(false);
+
+  const parsedValue: Dateish | Dateish[] = useMemo(() => {
+    if (range && Array.isArray(value)) {
+      return value.map((v) => parseDateValue(v));
+    }
+    return parseDateValue(value as string);
+  }, [value, range]);
+
+  const onNext = () => {
+    if (range) {
+      setstartDate(startDate.clone().add(1, 'month'));
+      setendDate(endDate.clone().add(1, 'month'));
+    } else {
+      setDate(date.clone().add(1, 'month'));
+    }
+  };
+
+  const onPrev = () => {
+    if (range) {
+      setstartDate(startDate.clone().subtract(1, 'month'));
+      setendDate(endDate.clone().subtract(1, 'month'));
+    } else {
+      setDate(date.clone().subtract(1, 'month'));
+    }
+  };
 
   const togglePicker = (open = !pickerOpen) => {
     setPickerOpen(open);
-    open ? onFocus() : onBlur(value);
+    if (open) {
+      onFocus();
+    } else {
+      handleBlur();
+    }
+  };
+
+  const handleChange = (newValue: Dateish | [Dateish, Dateish]) => {
+    if (range) {
+      (onChange as RangeDatePickerProps['onChange'])(
+        newValue as [Dateish, Dateish],
+      );
+    } else {
+      (onChange as SingleDatePickerProps['onChange'])(newValue as Dateish);
+    }
+  };
+
+  const handleBlur = (blurValue?: Dateish | [Dateish, Dateish]) => {
+    if (range) {
+      (onBlur as RangeDatePickerProps['onBlur'])(
+        blurValue as [Dateish, Dateish],
+      );
+    } else {
+      (onBlur as SingleDatePickerProps['onBlur'])(blurValue as Dateish);
+    }
   };
 
   const changeDay = (day: Moment) => {
-    const value = day
-      .clone()
-      .hour(parsedValue.hour())
-      .minute(parsedValue.minute());
-    onChange(value.toISOString());
-    onBlur(value.toISOString());
-    setPickerOpen(false);
+    if (!range && !Array.isArray(parsedValue)) {
+      const value = day
+        .clone()
+        .hour(parsedValue.hour())
+        .minute(parsedValue.minute());
+      handleChange(value.toISOString());
+      handleBlur(value.toISOString());
+      setPickerOpen(false);
+      return;
+    }
+
+    const selected = day.clone();
+    if (!selectingEnd) {
+      const endTime =
+        Array.isArray(value) && value[1]
+          ? moment(value[1])
+          : selected.clone().endOf('day');
+
+      handleChange([
+        selected
+          .clone()
+          .hour(showTimePicker ? 0 : selected.hour())
+          .minute(showTimePicker ? 0 : selected.minute())
+          .toISOString(),
+        endTime.toISOString(),
+      ]);
+      setSelectingEnd(true);
+    } else {
+      const [start] = Array.isArray(value) ? value : [null];
+      const startDate = moment(start);
+      const [rangeStart, rangeEnd] = startDate.isBefore(selected)
+        ? [startDate, selected]
+        : [selected, startDate];
+
+      const originalStart = Array.isArray(value)
+        ? moment(value[0])
+        : rangeStart;
+      const originalEnd = Array.isArray(value) ? moment(value[1]) : rangeEnd;
+
+      handleChange([
+        rangeStart
+          .clone()
+          .hour(showTimePicker ? originalStart.hour() : 0)
+          .minute(showTimePicker ? originalStart.minute() : 0)
+          .toISOString(),
+        rangeEnd
+          .clone()
+          .hour(showTimePicker ? originalEnd.hour() : 23)
+          .minute(showTimePicker ? originalEnd.minute() : 59)
+          .toISOString(),
+      ]);
+      setSelectingEnd(false);
+      setPickerOpen(false);
+    }
   };
 
-  const calendarDays = createMonthlyCalendar(date);
+  const isInRange = (day: Moment) => {
+    if (!range || !Array.isArray(value)) return false;
+    const [start, end] = value.map((d) => moment(d));
+    return day.isBetween(start, end, 'day', '[]');
+  };
+
+  const displayValue = useMemo(() => {
+    if (!range && !Array.isArray(parsedValue)) {
+      return parsedValue.format(showTimePicker ? dateFormat : 'LL');
+    }
+    if (!Array.isArray(value)) return '';
+    const format = showTimePicker ? dateFormat : 'LL';
+    return `${moment(value[0]).format(format)} - ${moment(value[1]).format(
+      format,
+    )}`;
+  }, [value, dateFormat, showTimePicker, range, parsedValue]);
+
+  const renderCalendar = (currentDate: Moment) => (
+    <table className={styles.calendar}>
+      <thead>
+        <tr>
+          {['Ma', 'Ti', 'On', 'To', 'Fr', 'Lø', 'Sø'].map((d, i) => (
+            <th key={i}>{d}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {Array.from(
+          { length: Math.ceil(createMonthlyCalendar(currentDate).length / 7) },
+          (_, i) => (
+            <tr key={i}>
+              {createMonthlyCalendar(currentDate)
+                .slice(i * 7, i * 7 + 7)
+                .map((dateProps, j) => (
+                  <td key={j}>
+                    <button
+                      className={cx(
+                        styles.calendarItem,
+                        dateProps.prevOrNextMonth && styles.prevOrNextMonth,
+                        !range &&
+                          !Array.isArray(parsedValue) &&
+                          dateProps.day.isSame(parsedValue, 'day') &&
+                          styles.selectedDate,
+                        range &&
+                          dateProps.day.isSame(parsedValue[0], 'day') &&
+                          styles.selectedDate,
+                        range &&
+                          dateProps.day.isSame(parsedValue[1], 'day') &&
+                          styles.selectedDate,
+                        dateProps.day.isSame(moment(), 'day') && styles.today,
+                        isInRange(dateProps.day) && styles.inRange,
+                      )}
+                      onClick={() => changeDay(dateProps.day)}
+                    >
+                      {dateProps.day.date()}
+                    </button>
+                  </td>
+                ))}
+            </tr>
+          ),
+        )}
+      </tbody>
+    </table>
+  );
 
   return (
     <Dropdown
@@ -63,13 +258,14 @@ const DatePicker = ({
       triggerComponent={
         <TextInput
           className={cx(styles.inputField, className)}
-          value={parsedValue.format(dateFormat)}
+          prefixIconNode={<Calendar />}
+          value={displayValue}
           name={name}
           readOnly
         />
       }
       componentClass="div"
-      contentClassName={styles.dropdown}
+      contentClassName={cx(styles.dropdown, range && styles.rangeDropdown)}
     >
       <div onClick={(e) => e.stopPropagation()}>
         <Flex
@@ -78,46 +274,59 @@ const DatePicker = ({
           className={styles.header}
         >
           <Icon onPress={onPrev} name="arrow-back-outline" />
-          <span>{date.format('MMMM YYYY')}</span>
+          <span>
+            {range
+              ? `${startDate.format('MMMM YYYY')} - ${
+                  startDate.isSame(endDate, 'day')
+                    ? startDate.clone().add(1, 'month').format('MMMM YYYY')
+                    : endDate.format('MMMM YYYY')
+                }`
+              : date.format('MMMM YYYY')}
+          </span>
           <Icon onPress={onNext} name="arrow-forward-outline" />
         </Flex>
 
-        <table className={styles.calendar}>
-          <thead>
-            <tr>
-              {['Ma', 'Ti', 'On', 'To', 'Fr', 'Lø', 'Sø'].map((d, i) => (
-                <th key={i}>{d}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from(
-              { length: Math.ceil(calendarDays.length / 7) },
-              (_, i) => i,
-            ).map((_, i) => (
-              <tr key={i}>
-                {calendarDays.slice(i * 7, i * 7 + 7).map((dateProps, j) => (
-                  <td key={j}>
-                    <button
-                      className={cx(
-                        styles.calendarItem,
-                        dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                        dateProps.day.isSame(parsedValue, 'day') &&
-                          styles.selectedDate,
-                        dateProps.day.isSame(moment(), 'day') && styles.today,
-                      )}
-                      onClick={() => changeDay(dateProps.day)}
-                    >
-                      {dateProps.day.date()}
-                    </button>
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {range ? (
+          <Flex wrap justifyContent="center" gap="var(--spacing-md)">
+            {renderCalendar(startDate)}
+            {renderCalendar(
+              startDate.isSame(endDate, 'day')
+                ? startDate.clone().add(1, 'month')
+                : endDate,
+            )}
+          </Flex>
+        ) : (
+          renderCalendar(date)
+        )}
 
-        {showTimePicker && <TimePicker value={value} onChange={onChange} />}
+        {showTimePicker && (
+          <>
+            {range ? (
+              <Flex justifyContent="space-around">
+                <div>
+                  <TimePicker
+                    value={Array.isArray(value) ? value[0] : undefined}
+                    onChange={(newTime) => {
+                      if (!Array.isArray(value)) return;
+                      handleChange([newTime, value[1]]);
+                    }}
+                  />
+                </div>
+                <div>
+                  <TimePicker
+                    value={Array.isArray(value) ? value[1] : undefined}
+                    onChange={(newTime) => {
+                      if (!Array.isArray(value)) return;
+                      handleChange([value[0], newTime]);
+                    }}
+                  />
+                </div>
+              </Flex>
+            ) : (
+              <TimePicker value={value as string} onChange={handleChange} />
+            )}
+          </>
+        )}
       </div>
     </Dropdown>
   );

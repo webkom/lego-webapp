@@ -96,13 +96,6 @@ table {
   border-collapse: collapse;
 }
 
-thead {
-  background-color: var(--color-gray-2);
-  color: var(--color-gray-7);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-}
-
 th,
 td {
   padding: var(--spacing-sm);

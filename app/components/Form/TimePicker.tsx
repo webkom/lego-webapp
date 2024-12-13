@@ -5,6 +5,7 @@ import parseDateValue from 'app/utils/parseDateValue';
 import { createField } from './Field';
 import TextInput from './TextInput';
 import styles from './TimePicker.module.css';
+import type { Dateish } from 'app/models';
 import type { ComponentProps, KeyboardEvent, SyntheticEvent } from 'react';
 
 type TimePickerInputProps = ComponentProps<typeof TextInput> & {
@@ -44,8 +45,8 @@ const TimePickerInput = ({
 };
 
 type Props = {
-  value?: string;
-  onChange: (newValue: string) => void;
+  value?: Dateish;
+  onChange: (newValue: Dateish) => void;
 };
 
 const max = {
