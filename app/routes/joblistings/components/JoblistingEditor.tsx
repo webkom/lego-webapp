@@ -36,9 +36,10 @@ import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
   createValidator,
+  dateRequired,
+  datesAreInCorrectOrder,
   legoEditorRequired,
   required,
-  timeIsAfter,
   validYoutubeUrl,
 } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
@@ -59,19 +60,11 @@ const validate = createValidator({
   description: [required('Du må skrive en søknadsintro')],
   text: [legoEditorRequired('Du må skrive en søknadstekst')],
   company: [required('Du må angi en bedrift for jobbannonsen')],
-  workplaces: [required('Arbeidssteder kan ikke være tom')],
+  workplaces: [required('Arbeidssteder må oppgis')],
   toYear: [required('Du må velge sluttår')],
-  fromYear: [
-    required('Du må velge sluttår'),
-    timeIsAfter(
-      'toYear',
-      'Sluttidspunkt kan ikke være lavere enn starttidspunkt',
-    ),
-  ],
-  visibleTo: [
-    required('Du må velge dato for når jobbannonsen skal slutte å være synlig'),
-    timeIsAfter(
-      'visibleFrom',
+  visibleRange: [
+    dateRequired('Du må velge når jobbannonsen skal være synlig'),
+    datesAreInCorrectOrder(
       'Sluttidspunkt kan ikke være lavere enn starttidspunkt',
     ),
   ],
@@ -111,6 +104,8 @@ const JoblistingEditor = () => {
       id: joblistingId,
       fromYear: newJoblisting.fromYear?.value,
       toYear: newJoblisting.toYear?.value,
+      visibleFrom: newJoblisting.visibleRange[0],
+      visibleTo: newJoblisting.visibleRange[1],
       jobType: newJoblisting.jobType?.value,
       applicationUrl:
         newJoblisting.applicationUrl && httpCheck(newJoblisting.applicationUrl),
@@ -183,9 +178,10 @@ const JoblistingEditor = () => {
           value: joblisting.company.id,
         }
       : {},
-    visibleFrom: joblisting?.visibleFrom || time({ hours: 12 }),
-    visibleTo:
+    visibleRange: [
+      joblisting?.visibleFrom || time({ hours: 12 }),
       joblisting?.visibleTo || time({ days: 31, hours: 23, minutes: 59 }),
+    ],
     deadline:
       joblisting?.deadline || time({ days: 30, hours: 23, minutes: 59 }),
     fromYear: matchingFromYear || yearValues.find(({ value }) => value === 1),
@@ -227,7 +223,7 @@ const JoblistingEditor = () => {
         {({ handleSubmit, form }) => (
           <Form onSubmit={handleSubmit}>
             <Field
-              placeholder="Tittel"
+              placeholder="Vi søker etter IT-konsulenter!"
               label="Tittel"
               name="title"
               component={TextInput.Field}
@@ -264,18 +260,14 @@ const JoblistingEditor = () => {
               component={DatePicker.Field}
             />
             <Field
-              name="visibleFrom"
-              label="Synlig fra dato"
-              component={DatePicker.Field}
-            />
-            <Field
-              name="visibleTo"
-              label="Synlig til dato"
-              component={DatePicker.Field}
+              name="visibleRange"
+              label="Synlighetsperiode"
               required
+              range
+              component={DatePicker.Field}
             />
             <Field
-              placeholder="Arbeidssteder"
+              placeholder="Oslo, Bergen, ..."
               label="Arbeidssteder"
               name="workplaces"
               component={SelectInput.Field}
@@ -300,7 +292,7 @@ const JoblistingEditor = () => {
               required
             />
             <Field
-              placeholder="Søknadslenke"
+              placeholder="https://opptak.abakus.no/"
               label="Søknadslenke"
               name="applicationUrl"
               component={TextInput.Field}
@@ -308,7 +300,7 @@ const JoblistingEditor = () => {
             />
             <Field
               name="contactMail"
-              placeholder="E-post"
+              placeholder="hjelp@guttaconsulting.no"
               label="Søknads- eller kontakt-e-post"
               component={TextInput.Field}
               parse={(value) => value}
