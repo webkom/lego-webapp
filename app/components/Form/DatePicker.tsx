@@ -148,14 +148,16 @@ const DatePicker = ({
           ? moment(value[1])
           : selected.clone().endOf('day');
 
-      handleChange([
-        selected
-          .clone()
-          .hour(showTimePicker ? 0 : selected.hour())
-          .minute(showTimePicker ? 0 : selected.minute())
-          .toISOString(),
-        endTime.toISOString(),
-      ]);
+      const newStartTime = selected
+        .clone()
+        .hour(showTimePicker ? 0 : selected.hour())
+        .minute(showTimePicker ? 0 : selected.minute());
+
+      const newEndTime = selected.isAfter(endTime)
+        ? selected.clone().endOf('day')
+        : endTime;
+
+      handleChange([newStartTime.toISOString(), newEndTime.toISOString()]);
       setSelectingEnd(true);
     } else {
       const [start] = Array.isArray(value) ? value : [null];
