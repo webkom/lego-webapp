@@ -105,7 +105,7 @@ const DatePicker = ({
     if (open) {
       onFocus();
     } else {
-      handleBlur();
+      handleBlur(value);
     }
   };
 

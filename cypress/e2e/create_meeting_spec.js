@@ -27,12 +27,11 @@ describe('Create meeting', () => {
 
     // verify initial values are set
     field('useMazemap').should('be.checked');
-    field('startTime').should('not.have.value', '');
-    field('endTime').should('not.have.value', '');
+    field('date').should('not.have.value', '');
 
     cy.contains('button', 'Opprett møte').should('be.disabled');
     // change the meeting time to enable submit button
-    field('startTime').click();
+    field('date').click();
     cy.get(c('TimePicker-module__arrowUp')).first().click();
     cy.contains('Nytt møte').click(); // Click on something to close the datepicker
 
@@ -44,19 +43,19 @@ describe('Create meeting', () => {
     fieldError('report').should('be.visible');
     fieldError('mazemapPoi').should('be.visible');
 
-    fieldError('startTime').should('not.exist');
-    fieldError('endTime').should('not.exist');
+    fieldError('date').should('not.exist');
     fieldError('description').should('not.exist');
 
-    setDatePickerTime('endTime', '19', '30');
-    setDatePickerTime('startTime', '20', '00');
+    setDatePickerTime('date', '19', '30', false);
+    setDatePickerTime('date', '20', '00', true);
 
-    fieldError('endTime').should('not.exist');
-    field('endTime').should('contain.value', '22:00');
+    fieldError('date').should('not.exist');
+    field('date').should('contain.value', '19:30');
+    field('date').should('contain.value', '20:00');
 
-    setDatePickerTime('endTime', '20', '30');
+    setDatePickerTime('date', '20', '30', true);
 
-    fieldError('endTime').should('not.exist');
+    fieldError('date').should('not.exist');
 
     field('useMazemap').click();
 
@@ -86,8 +85,8 @@ describe('Create meeting', () => {
 
     field('title').type('Test meeting');
     selectEditor().type('Meeting plan');
-    setDatePickerTime('startTime', '10', '00');
-    setDatePickerTime('endTime', '13', '37');
+    setDatePickerTime('date', '10', '00', false);
+    setDatePickerTime('date', '13', '37', true);
     field('useMazemap').click();
     field('location').type('Test location');
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
@@ -96,8 +95,7 @@ describe('Create meeting', () => {
 
     fieldError('title').should('not.exist');
     fieldError('report').should('not.exist');
-    fieldError('startTime').should('not.exist');
-    fieldError('endTime').should('not.exist');
+    fieldError('date').should('not.exist');
     fieldError('location').should('not.exist');
     fieldError('reportAuthor').should('not.exist');
     fieldError('users').should('not.exist');
@@ -180,13 +178,11 @@ describe('Create meeting', () => {
 
     field('title').should('have.value', meeting.title);
     selectEditor().should('contain', meeting.report.replaceAll(/<.*?>/g, ''));
-    field('startTime').should(
+    field('date').should(
       'have.value',
-      moment(meeting.startTime).tz(config.timezone).format('lll'),
-    );
-    field('endTime').should(
-      'have.value',
-      moment(meeting.endTime).tz(config.timezone).format('lll'),
+      moment(meeting.startTime).format('lll') +
+        ' - ' +
+        moment(meeting.endTime).format('lll'),
     );
     field('description').should('have.value', meeting.description);
     field('location').should('have.value', meeting.location);
@@ -200,8 +196,8 @@ describe('Create meeting', () => {
     ).should('be.visible');
     cy.get(t('Modal__closeButton')).click();
 
-    setDatePickerTime('startTime', '17', '15');
-    setDatePickerTime('endTime', '20', '00');
+    setDatePickerTime('date', '17', '15', false);
+    setDatePickerTime('date', '20', '00', true);
     field('useMazemap').click();
     selectFromSelectField('mazemapPoi', 'Abakus, Realfagbygget', 'abakus');
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
@@ -211,8 +207,7 @@ describe('Create meeting', () => {
 
     fieldError('title').should('not.exist');
     fieldError('report').should('not.exist');
-    fieldError('startTime').should('not.exist');
-    fieldError('endTime').should('not.exist');
+    fieldError('date').should('not.exist');
     fieldError('location').should('not.exist');
     fieldError('reportAuthor').should('not.exist');
     fieldError('users').should('not.exist');

@@ -267,3 +267,32 @@ export function createValidator(
     return merge(fieldValidatorErrors, rawValidatorErrors);
   };
 }
+
+/* Used for DatePicker (supports both single date and range) */
+export const dateRequired =
+  (message = 'Du må velge dato') =>
+  (value) => {
+    if (!value) return [false, message] as const;
+
+    if (Array.isArray(value)) {
+      // Range validation
+      return [value.length === 2 && value[0] && value[1], message] as const;
+    }
+
+    // Single date validation
+    return [!!value, message] as const;
+  };
+
+/* Used for DatePicker (supports both single date and range) */
+export const datesAreInCorrectOrder =
+  (message = 'Sluttidspunkt kan ikke være før starttidspunkt') =>
+  (value) => {
+    const firstDate = moment(value[0]);
+    const secondDate = moment(value[1]);
+
+    if (firstDate.isAfter(secondDate)) {
+      return [false, message] as const;
+    }
+
+    return [true] as const;
+  };

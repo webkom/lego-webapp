@@ -7,6 +7,7 @@ import {
   selectFieldDropdown,
   selectEditor,
   setDatePickerDate,
+  setDatePickerTime,
   uploadHeader,
   NO_OPTIONS_MESSAGE,
 } from '../support/utils.js';
@@ -262,8 +263,10 @@ describe('Create event', () => {
     dateObject.setDate(dateObject.getDate() + 1);
     const tomorrowDay = dateObject.getDate();
 
-    setDatePickerDate('startTime', tomorrowDay, tomorrowDay < todayDay);
-    setDatePickerDate('endTime', tomorrowDay, tomorrowDay < todayDay);
+    setDatePickerDate('date', tomorrowDay, tomorrowDay < todayDay);
+
+    setDatePickerTime('date', '10', '00', false); // Start time
+    setDatePickerTime('date', '12', '00', true); // End time
 
     // Select regitrationType
     selectField('eventStatusType').click();

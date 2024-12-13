@@ -287,6 +287,7 @@ export type TransformEvent = EventBase & {
   hasFeedbackQuestion: boolean;
   responsibleUsers: PublicUser[];
   isForeignLanguage: boolean;
+  date: [Dateish, Dateish];
 };
 
 export type Workplace = {
