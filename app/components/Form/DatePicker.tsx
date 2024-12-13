@@ -137,7 +137,9 @@ const DatePicker = ({
         .minute(parsedValue.minute());
       handleChange(value.toISOString());
       handleBlur(value.toISOString());
-      setPickerOpen(false);
+      if (!showTimePicker) {
+        setPickerOpen(false);
+      }
       return;
     }
 
@@ -184,7 +186,9 @@ const DatePicker = ({
           .toISOString(),
       ]);
       setSelectingEnd(false);
-      setPickerOpen(false);
+      if (!showTimePicker) {
+        setPickerOpen(false);
+      }
     }
   };
 
