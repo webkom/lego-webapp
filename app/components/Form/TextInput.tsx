@@ -3,12 +3,13 @@ import cx from 'classnames';
 import { useMemo, useRef, useState } from 'react';
 import { createField } from './Field';
 import styles from './TextInput.module.css';
-import type { RefObject, InputHTMLAttributes } from 'react';
+import type { RefObject, InputHTMLAttributes, ReactNode } from 'react';
 import type { Overwrite } from 'utility-types';
 
 type Props = {
   type?: string;
   prefix?: string;
+  prefixIconNode?: ReactNode;
   suffix?: string;
   className?: string;
   inputRef?: RefObject<HTMLInputElement>;
@@ -30,6 +31,7 @@ const TextInput = ({
   disabled,
   inputRef,
   prefix,
+  prefixIconNode,
   suffix,
   readOnly,
   placeholder,
@@ -56,18 +58,18 @@ const TextInput = ({
         styles.input,
         styles.textInput,
         disabled && styles.disabled,
-        !prefix && styles.spacing,
+        !(prefix || prefixIconNode) && styles.spacing,
         removeBorder && styles.removeBorder,
         centered && styles.centered,
         className,
       )}
     >
-      {prefix && (
+      {(prefix || prefixIconNode) && (
         <div
           onClick={() => ref.current && ref.current.focus()}
           className={styles.prefix}
         >
-          <Icon name={prefix} size={16} />
+          <Icon name={prefix} iconNode={prefixIconNode} size={16} />
         </div>
       )}
       <input
