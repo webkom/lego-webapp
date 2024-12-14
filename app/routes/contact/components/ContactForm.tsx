@@ -112,7 +112,7 @@ const ContactForm = () => {
             bare ønsker å dele informasjon med oss.
           </p>
           <Card severity="info">
-            <p>
+            <span>
               Dersom du ønsker å varsle om kritikkverdige forhold, vennligst
               benytt vår{' '}
               <a
@@ -130,7 +130,7 @@ const ContactForm = () => {
                 Etiske retningslinjer
               </Link>
               .
-            </p>
+            </span>
           </Card>
           <p>
             Sender du meldingen til en spesifikk komité er det kun lederen av

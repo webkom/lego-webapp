@@ -6,6 +6,7 @@ import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
+import FancyNodesCanvas from '../Header/FancyNodesCanvas';
 import QuickLinks from './QuickLinks';
 import styles from './Search.module.css';
 import SearchBar from './SearchBar';
@@ -78,42 +79,45 @@ const Search = () => {
   });
 
   return (
-    <div tabIndex={-1}>
-      <SearchBar
-        query={query}
-        handleKeyDown={handleKeyDown}
-        onQueryChanged={onQueryChanged}
-        onCloseSearch={onCloseSearch}
-      />
-      <div className={styles.resultsContainer}>
-        {query.length > 0 && (
-          <SearchResults
-            results={results}
-            onCloseSearch={onCloseSearch}
-            searching={searching}
-            selectedIndex={selectedIndex}
-          />
-        )}
-        <div className={styles.sidePanel}>
-          <QuickLinks
-            title="Sider"
-            links={regularLinks}
-            onCloseSearch={onCloseSearch}
-          />
-          {externalLinks.length > 0 && (
-            <QuickLinks
-              title="Andre tjenester"
-              links={externalLinks}
+    <div className={styles.wrapper} tabIndex={-1}>
+      <FancyNodesCanvas height={300} />
+      <div className={styles.content}>
+        <SearchBar
+          query={query}
+          handleKeyDown={handleKeyDown}
+          onQueryChanged={onQueryChanged}
+        />
+        <div className={styles.resultsContainer}>
+          {query.length > 0 && (
+            <SearchResults
+              results={results}
               onCloseSearch={onCloseSearch}
+              searching={searching}
+              selectedIndex={selectedIndex}
+              query={query}
             />
           )}
-          {adminLinks.length > 0 && (
+          <div className={styles.sidePanel}>
             <QuickLinks
-              title="Admin"
-              links={adminLinks}
+              title="Sider"
+              links={regularLinks}
               onCloseSearch={onCloseSearch}
             />
-          )}
+            {externalLinks.length > 0 && (
+              <QuickLinks
+                title="Andre tjenester"
+                links={externalLinks}
+                onCloseSearch={onCloseSearch}
+              />
+            )}
+            {adminLinks.length > 0 && (
+              <QuickLinks
+                title="Admin"
+                links={adminLinks}
+                onCloseSearch={onCloseSearch}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

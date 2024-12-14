@@ -17,6 +17,7 @@ type SearchResultProps = {
   results: SearchResult[];
   onCloseSearch: () => void;
   selectedIndex: number;
+  query: string;
 };
 
 const ResultIcon = ({ result }) => {
@@ -57,7 +58,7 @@ export const SearchResultItem = ({
   isSelected,
   onCloseSearch,
 }: SearchResultItemProps) => (
-  <Link to={result.link} onClick={onCloseSearch}>
+  <Link to={result.link ?? ''} onClick={onCloseSearch}>
     <Flex
       gap="var(--spacing-sm)"
       className={cx(isSelected && styles.isSelected, styles.resultItem)}
@@ -81,6 +82,7 @@ const SearchResults = ({
   onCloseSearch,
   searching,
   selectedIndex,
+  query,
 }: SearchResultProps) => {
   if (searching) {
     return (
@@ -106,7 +108,9 @@ const SearchResults = ({
           ))}
       </ul>
       <p className={styles.searchingText}>
-        {results.length === 0 && 'Ingen treff. '}Trykk enter for fullstendig søk
+        {results.length === 0
+          ? `Ingen treff på "${query}", men trykk enter for avansert søk!`
+          : 'Trykk enter for avansert søk'}
       </p>
     </div>
   );

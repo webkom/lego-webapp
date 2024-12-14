@@ -106,7 +106,7 @@ const StudentConfirmation = () => {
         (currentUser.isStudent ? (
           <Card severity="info">
             <Card.Header>Du er verifisert som student</Card.Header>
-            <p className={styles.infoText}>
+            <span className={styles.infoText}>
               Dersom du ønsker å endre trinn eller studie, vennligst send en
               forespørsel til{' '}
               <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> med
@@ -119,7 +119,7 @@ const StudentConfirmation = () => {
                 </li>
                 <li>Dokumentasjon fra institutt/fakultet</li>
               </ul>
-            </p>
+            </span>
           </Card>
         ) : (
           <Card severity="danger">
