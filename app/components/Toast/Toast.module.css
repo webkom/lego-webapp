@@ -15,10 +15,10 @@
   gap: var(--spacing-sm);
 
   @media (--mobile-device) {
-    bottom: 0;
-    left: 0;
-    right: 0;
-    gap: 0;
+    bottom: var(--spacing-sm);
+    left: var(--spacing-sm);
+    right: var(--spacing-sm);
+    gap: var(--spacing-sm);
   }
 }
 
@@ -37,8 +37,6 @@
 
   @media (--mobile-device) {
     width: 100%;
-    border-radius: 0;
-    border: none;
   }
 
   &[data-animation='entering'] {
