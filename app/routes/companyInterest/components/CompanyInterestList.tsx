@@ -46,6 +46,7 @@ type SemesterOptionType = {
 const defaultCompanyInterestsQuery = {
   semester: '',
   event: CompanyInterestEventType.All,
+  companyName: '',
 };
 
 const CompanyInterestList = () => {
@@ -53,7 +54,9 @@ const CompanyInterestList = () => {
     { url: string; filename: string } | undefined
   >(undefined);
 
-  const { query, setQueryValue } = useQuery(defaultCompanyInterestsQuery);
+  const { query, setQuery, setQueryValue } = useQuery(
+    defaultCompanyInterestsQuery,
+  );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
 
   const resolveCurrentSemester = (
@@ -117,10 +120,10 @@ const CompanyInterestList = () => {
       ),
     [query],
   );
+
   usePreparedEffect(
     'fetchCompanyInterestListSemesters',
     () => dispatch(fetchSemesters()),
-
     [],
   );
 
@@ -152,6 +155,8 @@ const CompanyInterestList = () => {
     {
       title: 'Bedriftsnavn',
       dataIndex: 'companyName',
+      search: true,
+      inlineFiltering: true,
       render: (companyName: string, companyInterest) => (
         <Link to={`/company-interest/${companyInterest.id}/edit`}>
           {companyInterest.company ? companyInterest.company.name : companyName}
@@ -182,7 +187,12 @@ const CompanyInterestList = () => {
             }}
           >
             {({ openConfirmModal }) => (
-              <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
+              <Icon
+                onPress={openConfirmModal}
+                iconNode={<Trash2 />}
+                size={18}
+                danger
+              />
             )}
           </ConfirmModal>
         </Flex>
@@ -317,6 +327,8 @@ const CompanyInterestList = () => {
           }}
           hasMore={hasMore}
           loading={fetching}
+          filters={query}
+          onChange={setQuery}
           data={companyInterestList}
         />
       </Flex>
