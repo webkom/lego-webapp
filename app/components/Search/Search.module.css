@@ -93,13 +93,53 @@
   padding: 0 var(--spacing-md);
   gap: var(--spacing-lg);
   overflow-y: auto;
+  /* stylelint-disable indentation */
+  background:
+  /*
+  Shadow cover TOP
+  */
+    linear-gradient(
+        var(--inverted-font-color) 30%,
+        rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%)
+      )
+      center top,
+    /*
+  Shadow cover BOTTOM
+  */
+      linear-gradient(
+        rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%),
+        var(--inverted-font-color) 70%
+      )
+      center bottom,
+    /*
+  Shadow TOP
+  */
+      radial-gradient(
+        farthest-side at 50% 0,
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
+      )
+      center top,
+    /*
+  Shadow BOTTOM
+  */
+      radial-gradient(
+        farthest-side at 50% 100%,
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
+      )
+      center bottom;
+  /* stylelint-enable indentation */
+  background-repeat: no-repeat;
+  background-size:
+    100% 40px,
+    100% 40px,
+    100% 14px,
+    100% 14px;
+  background-attachment: local, local, scroll, scroll;
 
   .sidePanel {
     padding: 0;
-  }
-
-  @media (--mobile-device) {
-    height: 100svh;
   }
 }
 
