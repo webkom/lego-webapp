@@ -158,7 +158,7 @@ const CompanyInterestList = () => {
       search: true,
       inlineFiltering: true,
       render: (companyName: string, companyInterest) => (
-        <Link to={`/company-interest/${companyInterest.id}/edit`}>
+        <Link to={`/bdb/company-interest/${companyInterest.id}/edit`}>
           {companyInterest.company ? companyInterest.company.name : companyName}
         </Link>
       ),
@@ -229,9 +229,9 @@ const CompanyInterestList = () => {
 
   return (
     <Page
-      title="Bedriftsinteresser"
+      title="Bedriftsdatabase"
       actionButtons={
-        <LinkButton href="/company-interest/create">
+        <LinkButton href="/bdb/company-interest/create">
           Ny bedriftsinteresse
         </LinkButton>
       }
@@ -269,7 +269,7 @@ const CompanyInterestList = () => {
               isClearable={false}
             />
           </Flex>
-          <LinkButton href="/company-interest/semesters">
+          <LinkButton href="/bdb/company-interest/semesters">
             Endre aktive semestre
           </LinkButton>
         </Flex>

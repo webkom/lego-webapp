@@ -9,6 +9,15 @@ const AddSemester = loadable(() => import('./components/AddSemester'));
 const CompanyContactEditor = loadable(
   () => import('./components/CompanyContactEditor'),
 );
+const CompanyInterestList = loadable(
+  () => import('./components/companyInterest/components/CompanyInterestList'),
+);
+const CompanyInterestPage = loadable(
+  () => import('./components/companyInterest/components/CompanyInterestPage'),
+);
+const CompanySemesterGUI = loadable(
+  () => import('./components/companyInterest/components/CompanySemesterGUI'),
+);
 
 const bdbRoute: RouteObject[] = [
   { index: true, Component: BdbPage },
@@ -20,6 +29,13 @@ const bdbRoute: RouteObject[] = [
   {
     path: ':companyId/company-contacts/:companyContactId',
     Component: CompanyContactEditor,
+  },
+  { path: 'company-interest', Component: CompanyInterestList },
+  { path: 'company-interest/create', Component: CompanyInterestPage },
+  { path: 'company-interest/semesters', Component: CompanySemesterGUI },
+  {
+    path: 'company-interest/:companyInterestId/edit',
+    Component: CompanyInterestPage,
   },
   { path: '*', children: pageNotFound },
 ];

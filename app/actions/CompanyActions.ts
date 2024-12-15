@@ -4,8 +4,8 @@ import {
   companySemesterSchema,
   eventSchema,
 } from 'app/reducers';
+import { semesterToText } from 'app/routes/bdb/components/companyInterest/utils';
 import createQueryString from 'app/utils/createQueryString';
-import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
