@@ -9,4 +9,5 @@
   gap: var(--spacing-sm);
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
