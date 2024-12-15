@@ -41,6 +41,7 @@ import registrations from '~/redux/slices/registrations';
 import restrictedMails from '~/redux/slices/restrictedMails';
 import routing from '~/redux/slices/routing';
 import search from '~/redux/slices/search';
+import status from '~/redux/slices/status';
 import surveySubmissions from '~/redux/slices/surveySubmissions';
 import surveys from '~/redux/slices/surveys';
 import tags from '~/redux/slices/tags';
@@ -98,6 +99,7 @@ export const createRootReducer = () => {
     theme,
     threads,
     users,
+    status
   });
 };
 
