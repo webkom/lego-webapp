@@ -60,6 +60,8 @@ const CompanyInterestList = () => {
     slug: string | undefined,
     companySemesters: CompanySemester[],
   ) => {
+    if (slug === '') return null;
+
     if (slug) {
       const companySemester = getCompanySemesterBySlug(slug, companySemesters);
       if (companySemester) return companySemester;
