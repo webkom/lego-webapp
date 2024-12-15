@@ -6,7 +6,6 @@ import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
-import FancyNodesCanvas from '../Header/FancyNodesCanvas';
 import QuickLinks from './QuickLinks';
 import styles from './Search.module.css';
 import SearchBar from './SearchBar';
@@ -80,7 +79,6 @@ const Search = () => {
 
   return (
     <div className={styles.wrapper} tabIndex={-1}>
-      <FancyNodesCanvas height={300} />
       <div className={styles.content}>
         <SearchBar
           query={query}
