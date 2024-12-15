@@ -7,17 +7,22 @@ import {
   Image,
   Page,
   LinkButton,
+  filterSidebar,
+  FilterSection,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
-import { selectActiveCompanies } from 'app/reducers/companies';
+import { CheckBox, TextInput } from 'app/components/Form';
+import { selectAllCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import utilities from 'app/styles/utilities.css';
+import useQuery from 'app/utils/useQuery';
 import styles from './CompaniesPage.module.css';
 import type { ListCompany } from 'app/store/models/Company';
 
@@ -84,20 +89,48 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
   </div>
 );
 
+export const companiesDefaultQuery = {
+  search: '',
+  showInactive: 'false' as 'true' | 'false',
+};
+
+const filterCompanies = (
+  companies: ListCompany[],
+  query: typeof companiesDefaultQuery,
+) => {
+  return companies.filter((company) => {
+    const searchMatch =
+      !query.search ||
+      company.name.toLowerCase().includes(query.search.toLowerCase()) ||
+      company.description?.toLowerCase().includes(query.search.toLowerCase());
+
+    const activeMatch = !query.showInactive || company.active !== false;
+
+    return searchMatch && activeMatch;
+  });
+};
+
 const CompaniesPage = () => {
   const [expanded, setExpanded] = useState(false);
+  const { query, setQueryValue } = useQuery(companiesDefaultQuery);
 
-  const companies = useAppSelector(selectActiveCompanies<ListCompany>);
+  const companies = useAppSelector(selectAllCompanies<ListCompany>);
+  const inactiveCompanies = companies.filter((company) => !company.active);
+  console.log('inactiveCompanies', inactiveCompanies);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       query: {},
-      entity: 'companies',
+      entity: EntityType.Companies,
       endpoint: '/companies/',
     })(state),
   );
 
-  const dispatch = useAppDispatch();
+  const filteredCompanies = useMemo(
+    () => filterCompanies(companies, query),
+    [companies, query],
+  );
 
+  const dispatch = useAppDispatch();
   const actionGrant = useAppSelector((state) => state.companies.actionGrant);
 
   usePreparedEffect(
@@ -109,6 +142,31 @@ const CompaniesPage = () => {
   return (
     <Page
       title="Bedrifter"
+      sidebar={filterSidebar({
+        children: (
+          <>
+            <FilterSection title="Søk">
+              <TextInput
+                type="text"
+                prefix="search"
+                placeholder="Søk etter bedrifter ..."
+                value={query.search}
+                onChange={(e) => setQueryValue('search')(e.target.value)}
+              />
+            </FilterSection>
+            <CheckBox
+              id="showInactive"
+              label="Vis inaktive bedrifter"
+              checked={query.showInactive === 'true'}
+              onChange={() =>
+                setQueryValue('showInactive')(
+                  query.showInactive === 'true' ? 'false' : 'true',
+                )
+              }
+            />
+          </>
+        ),
+      })}
       actionButtons={
         (actionGrant.includes('create') || actionGrant.includes('edit')) && (
           <LinkButton href="/bdb">Bedriftsdatabasen</LinkButton>
@@ -181,7 +239,7 @@ const CompaniesPage = () => {
         initialLoad={false}
         loader={<LoadingIndicator loading />}
       >
-        <CompanyList companies={companies} />
+        <CompanyList companies={filteredCompanies} />
       </InfiniteScroll>
     </Page>
   );
