@@ -1,26 +1,15 @@
-import {
-  Button,
-  FilterSection,
-  filterSidebar,
-  Flex,
-  Icon,
-  LinkButton,
-  Page,
-  Skeleton,
-} from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
 import { FilterX, FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import eventItemStyles from 'app/components/EventItem/styles.module.css';
-import { CheckBox, RadioButton } from 'app/components/Form/';
-import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
@@ -28,20 +17,10 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import joblistingListStyles from 'app/routes/joblistings/components/JoblistingList.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
-import useQuery from 'app/utils/useQuery';
 import EventFooter from './EventFooter';
 import styles from './EventList.module.css';
-import EventsTabs from './EventsTabs';
+import type { EventsOutletContext } from './EventsOverview';
 import type { ListEvent } from 'app/store/models/Event';
-
-type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
-type FilterRegistrationsType = 'all' | 'open' | 'future';
-
-export const eventListDefaultQuery = {
-  eventTypes: [] as FilterEventType[],
-  registrations: 'all' as FilterRegistrationsType,
-  showPrevious: '' as '' | 'true' | 'false',
-};
 
 type GroupedEvents = {
   currentWeek?: ListEvent[];
@@ -96,53 +75,17 @@ const EventListGroup = ({
   );
 };
 
-type Option = {
-  filterRegDateFunc: (event: ListEvent) => boolean;
-  label: string;
-  value: FilterRegistrationsType;
-  field: EventTime;
-};
-const filterRegDateOptions: Option[] = [
-  {
-    filterRegDateFunc: (event) => !!event,
-    label: 'Vis alle',
-    value: 'all',
-    field: EventTime.start,
-  },
-  {
-    filterRegDateFunc: (event) =>
-      event.activationTime != null &&
-      moment(event.activationTime).isBefore(moment()),
-    label: 'Påmelding åpnet',
-    value: 'open',
-    field: EventTime.start,
-  },
-  {
-    filterRegDateFunc: (event) =>
-      event.activationTime != null &&
-      moment(event.activationTime).isAfter(moment()),
-    label: 'Åpner i fremtiden',
-    value: 'future',
-    field: EventTime.activate,
-  },
-];
-
 const EventList = () => {
-  const { query, setQueryValue } = useQuery(eventListDefaultQuery);
-
-  const regDateFilter =
-    filterRegDateOptions.find(
-      (option) => option.value === query.registrations,
-    ) || filterRegDateOptions[0];
+  const {
+    query,
+    regDateFilter,
+    showCourse,
+    showSocial,
+    showOther,
+    showCompanyPresentation,
+  } = useOutletContext<EventsOutletContext>();
 
   const { field, filterRegDateFunc } = regDateFilter;
-
-  const showCourse = query.eventTypes.includes('course');
-  const showSocial = query.eventTypes.includes('social');
-  const showOther = query.eventTypes.includes('other');
-  const showCompanyPresentation = query.eventTypes.includes(
-    'company_presentation',
-  );
 
   const icalToken = useCurrentUser()?.icalToken;
   const loggedIn = useIsLoggedIn();
@@ -180,7 +123,6 @@ const EventList = () => {
     }),
   );
 
-  const actionGrant = useAppSelector((state) => state.events.actionGrant);
   const events = useAppSelector((state) =>
     selectAllEvents<ListEvent>(state, { pagination }),
   );
@@ -286,80 +228,8 @@ const EventList = () => {
     navigate(pathname);
   };
 
-  const toggleEventType =
-    (type: 'company_presentation' | 'course' | 'social' | 'other') => () => {
-      setQueryValue('eventTypes')(
-        query.eventTypes.includes(type)
-          ? query.eventTypes.filter((t) => t !== type)
-          : [...query.eventTypes, type],
-      );
-    };
-
   return (
-    <Page
-      title="Arrangementer"
-      sidebar={filterSidebar({
-        children: (
-          <>
-            <FilterSection title="Vis tidligere">
-              <ToggleSwitch
-                id="showPrevious"
-                checked={query.showPrevious === 'true'}
-                onChange={(checked) =>
-                  setQueryValue('showPrevious')(checked ? 'true' : 'false')
-                }
-              />
-            </FilterSection>
-            <FilterSection title="Arrangementstype">
-              <CheckBox
-                id="companyPresentation"
-                label="Bedpres"
-                checked={showCompanyPresentation}
-                onChange={toggleEventType('company_presentation')}
-              />
-              <CheckBox
-                id="course"
-                label="Kurs"
-                checked={showCourse}
-                onChange={toggleEventType('course')}
-              />
-              <CheckBox
-                id="social"
-                label="Sosialt"
-                checked={showSocial}
-                onChange={toggleEventType('social')}
-              />
-              <CheckBox
-                id="other"
-                label="Annet"
-                checked={showOther}
-                onChange={toggleEventType('other')}
-              />
-            </FilterSection>
-            <FilterSection title="Påmelding">
-              {filterRegDateOptions.map((option) => (
-                <RadioButton
-                  key={option.value}
-                  name="registrations"
-                  id={option.value}
-                  label={option.label}
-                  checked={query.registrations === option.value}
-                  onChange={() => {
-                    setQueryValue('registrations')(option.value);
-                  }}
-                />
-              ))}
-            </FilterSection>
-          </>
-        ),
-      })}
-      actionButtons={
-        actionGrant?.includes('create') && (
-          <LinkButton href="/events/create">Lag nytt</LinkButton>
-        )
-      }
-      tabs={<EventsTabs />}
-    >
+    <>
       <Helmet title="Arrangementer" />
       <EventListGroup name="Tidligere" events={groupedEvents.previous} />
       <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
@@ -420,7 +290,7 @@ const EventList = () => {
       )}
       <div className={styles.bottomBorder} />
       {icalToken && <EventFooter icalToken={icalToken} />}
-    </Page>
+    </>
   );
 };
 
