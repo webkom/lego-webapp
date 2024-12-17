@@ -1,7 +1,7 @@
 import { BadgeIcon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Bell, BellRing } from 'lucide-react';
+import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
@@ -71,7 +71,9 @@ const HeaderNotificationsContent = () => {
   }
 
   if (!fetchingNotifications && notifications.length === 0) {
-    return <EmptyState body="Ingen varslinger å vise" />;
+    return (
+      <EmptyState iconNode={<BellOff />} body="Du har ingen varslinger ..." />
+    );
   }
 
   return (

@@ -16,8 +16,3 @@
 .meetingTime {
   color: var(--secondary-font-color);
 }
-
-.noDataMessage {
-  color: var(--secondary-font-color);
-  text-align: center;
-}
