@@ -2,6 +2,7 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import styles from './Tag.module.css';
+import type { ReactNode } from 'react';
 
 const tagColors = [
   'red',
@@ -18,7 +19,7 @@ const tagColors = [
 export type TagColors = (typeof tagColors)[number];
 
 type Props = {
-  tag: string;
+  tag: string | ReactNode;
   icon?: string;
   iconSize?: number;
   color?: TagColors;

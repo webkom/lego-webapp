@@ -1,6 +1,5 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import {
-  AlarmClock,
   Calendar,
   CalendarClock,
   CircleAlert,
@@ -8,6 +7,7 @@ import {
   Clock,
   Timer,
 } from 'lucide-react';
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
@@ -16,6 +16,7 @@ import Tooltip from 'app/components/Tooltip';
 import { colorForEventType } from 'app/routes/events/utils';
 import { EventStatusType } from 'app/store/models/Event';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
+import RegistrationStatusTag from './RegistrationStatusTag';
 import styles from './styles.module.css';
 import type { CompleteEvent, ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
@@ -33,27 +34,34 @@ const getRegistrationIconOptions = (
 ): RegistrationIconOptions => {
   const { isAdmitted, eventStatusType } = event;
 
+  if (isAdmitted) {
+    return {
+      icon: <CircleCheckBig />,
+      color: 'var(--success-color)',
+      tooltip: 'Du er påmeldt',
+    };
+  }
+
   switch (eventStatusType) {
     case EventStatusType.NORMAL:
     case EventStatusType.INFINITE:
-      if (isAdmitted) {
-        return {
-          icon: <CircleCheckBig />,
-          color: 'var(--success-color)',
-          tooltip: 'Du er påmeldt',
-        } satisfies RegistrationIconOptions;
-      }
       return {
         icon: <Timer />,
         color: 'var(--color-orange-6)',
         tooltip: 'Du er på ventelisten',
-      } satisfies RegistrationIconOptions;
+      };
+    case EventStatusType.OPEN:
+      return {
+        icon: <CircleCheckBig />,
+        color: 'var(--success-color)',
+        tooltip: 'Åpent for alle',
+      };
     default:
       return {
         icon: <CircleAlert />,
         color: 'var(--danger-color)',
         tooltip: 'Det har oppstått en feil',
-      } satisfies RegistrationIconOptions;
+      };
   }
 };
 
@@ -85,24 +93,6 @@ const TimeStamp = ({ event }: TimeStampProps) => {
   );
 };
 
-const TimeStartAndRegistration = ({ event }: TimeStampProps) => (
-  <>
-    <Flex alignItems="center" gap="var(--spacing-sm)">
-      <Icon iconNode={<CalendarClock />} size={18} />
-      <Time time={event.startTime} format="ll HH:mm" />
-    </Flex>
-
-    {!!event.activationTime && (
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        <Tooltip content="Påmelding åpner">
-          <Icon iconNode={<AlarmClock />} size={18} />
-        </Tooltip>
-        <Time time={event.activationTime} format="ll HH:mm" />
-      </Flex>
-    )}
-  </>
-);
-
 const RegistrationIcon = ({ event }: TimeStampProps) => {
   const registrationIconOptions = getRegistrationIconOptions(event);
   return (
@@ -127,6 +117,12 @@ const EventItem = ({
   showTags = true,
   eventStyle,
 }: EventItemProps): ReactNode => {
+  const isRegistrationOpen = moment(event.activationTime).isBefore(moment());
+  // No need to show the year if it is the same year
+  const isRegistrationSameYear =
+    moment().year() === moment(event.activationTime).year();
+  const isEventSameYear = moment().year() === moment(event.startTime).year();
+
   switch (eventStyle) {
     case 'extra-compact':
       return (
@@ -205,12 +201,20 @@ const EventItem = ({
           }}
           className={styles.eventItem}
         >
-          <Flex column gap="var(--spacing-xs)" className="secondaryFontColor">
-            <div>
-              <h3 className={styles.eventItemTitle}>{event.title}</h3>
-              {event.totalCapacity > 0 && <Attendance event={event} />}
-            </div>
-            <TimeStartAndRegistration event={event} />
+          <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
+            <h3 className={styles.eventItemTitle}>{event.title}</h3>
+            {event.totalCapacity != null && event.totalCapacity > 0 && (
+              <div>
+                <Attendance event={event} />
+              </div>
+            )}
+            <Flex alignItems="center" gap="var(--spacing-sm)">
+              <Icon iconNode={<CalendarClock />} size={16} />
+              <Time
+                time={event.startTime}
+                format={isEventSameYear ? 'D. MMM HH:mm' : 'll HH:mm'}
+              />
+            </Flex>
             {showTags && (
               <Flex wrap>
                 {event.tags.map((tag, index) => (
@@ -220,14 +224,21 @@ const EventItem = ({
             )}
           </Flex>
 
-          <Flex className={styles.companyLogo}>
-            {event.cover && (
-              <Image
-                alt="Forsidebilde"
-                src={event.cover}
-                placeholder={event.coverPlaceholder}
-              />
-            )}
+          <Flex column alignItems="flex-end" gap="var(--spacing-sm)">
+            <Flex className={styles.companyLogo}>
+              {event.cover && (
+                <Image
+                  alt="Forsidebilde"
+                  src={event.cover}
+                  placeholder={event.coverPlaceholder}
+                />
+              )}
+            </Flex>
+            <RegistrationStatusTag
+              event={event}
+              isRegistrationOpen={isRegistrationOpen}
+              isRegistrationSameYear={isRegistrationSameYear}
+            />
           </Flex>
         </Link>
       );

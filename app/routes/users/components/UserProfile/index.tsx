@@ -44,7 +44,7 @@ import { GroupMemberships } from './GroupMemberships';
 import Penalties from './Penalties';
 import PhotoConsents from './PhotoConsents';
 import styles from './UserProfile.module.css';
-import type { ListEventWithUserRegistration } from 'app/store/models/Event';
+import type { ListEvent } from 'app/store/models/Event';
 import type { PublicGroup } from 'app/store/models/Group';
 import type { CurrentUser, PublicUserWithGroups } from 'app/store/models/User';
 import type { ExclusifyUnion } from 'app/types';
@@ -74,7 +74,7 @@ const UserProfile = () => {
     }),
   );
   const upcomingEvents = useAppSelector((state) =>
-    selectAllEvents<ListEventWithUserRegistration>(state, {
+    selectAllEvents<ListEvent>(state, {
       pagination: upcomingEventsPagination,
     }),
   );
@@ -87,7 +87,7 @@ const UserProfile = () => {
     }),
   );
   const previousEvents = useAppSelector((state) =>
-    selectAllEvents<ListEventWithUserRegistration>(state, {
+    selectAllEvents<ListEvent>(state, {
       pagination: previousEventsPagination,
     }),
   ).filter((e) => e.userReg);
