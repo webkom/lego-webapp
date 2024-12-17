@@ -40,18 +40,17 @@ const surveysSlice = createSlice({
 export default surveysSlice.reducer;
 
 export const {
+  selectAll,
   selectById: selectSurveyById,
   selectByField: selectSurveysByField,
 } = legoAdapter.getSelectors((state: RootState) => state.surveys);
 
-export const selectAllSurveys = createSelector(
-  legoAdapter.getSelectors((state: RootState) => state.surveys).selectAll,
-  (surveys) => surveys.filter((survey) => !survey.templateType),
+export const selectAllSurveys = createSelector(selectAll, (surveys) =>
+  surveys.filter((survey) => !survey.templateType),
 );
 
-export const selectSurveyTemplates = createSelector(
-  legoAdapter.getSelectors((state: RootState) => state.surveys).selectAll,
-  (surveys) => surveys.filter((survey) => survey.templateType),
+export const selectSurveyTemplates = createSelector(selectAll, (surveys) =>
+  surveys.filter((survey) => survey.templateType),
 );
 
 export type TransformedSurveyTemplate = Overwrite<

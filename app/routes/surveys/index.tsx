@@ -4,6 +4,7 @@ import { type RouteObject, Outlet } from 'react-router-dom';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { LinkButton } from 'packages/lego-bricks/src/components/Button';
 import pageNotFound from '../pageNotFound';
+import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
@@ -13,6 +14,7 @@ const SurveyListPage = loadable(
 const SurveyTemplatesListPage = loadable(
   () => import('./components/SurveyList/SurveyTemplatesListPage'),
 );
+const SurveysWrapper = loadable(() => import('./components/SurveysWrapper'));
 const SurveyDetailPage = loadable(() => import('./components/SurveyDetail'));
 const AddSurveyPage = loadable(
   () => import('./components/SurveyEditor/AddSurveyPage'),
@@ -58,8 +60,9 @@ const SurveysOverview = () => {
 };
 
 export type SurveysRouteContext = {
-  submissions: SurveySubmission[];
   survey: DetailedSurvey;
+  event: EventForSurvey;
+  submissions: SurveySubmission[];
 };
 
 const surveysRoute: RouteObject[] = [
@@ -72,23 +75,31 @@ const surveysRoute: RouteObject[] = [
     ],
   },
   { path: 'add', Component: AddSurveyPage },
-  { path: ':surveyId', Component: SurveyDetailPage },
   { path: ':surveyId/edit', Component: EditSurveyPage },
   { path: ':surveyId/answer', Component: AddSubmissionPage },
   {
-    path: ':surveyId/submissions/*',
-    Component: () => (
-      <SubmissionsPage>
-        {({ submissions, survey }) => (
-          <Outlet
-            context={{ submissions, survey } satisfies SurveysRouteContext}
-          />
-        )}
-      </SubmissionsPage>
-    ),
+    path: ':surveyId',
+    Component: SurveysWrapper,
     children: [
-      { path: 'summary', Component: SubmissionsSummary },
-      { path: 'individual', Component: SubmissionsIndividual },
+      { index: true, Component: SurveyDetailPage },
+      {
+        path: 'submissions',
+        Component: () => (
+          <SubmissionsPage>
+            {({ survey, event, submissions }) => (
+              <Outlet
+                context={
+                  { survey, event, submissions } satisfies SurveysRouteContext
+                }
+              />
+            )}
+          </SubmissionsPage>
+        ),
+        children: [
+          { path: 'summary', Component: SubmissionsSummary },
+          { path: 'individual', Component: SubmissionsIndividual },
+        ],
+      },
     ],
   },
   { path: ':surveyId/results', Component: SubmissionPublicResultsPage },
