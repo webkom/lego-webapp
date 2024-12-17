@@ -3,7 +3,7 @@ import { galleryPictureSchema } from 'app/reducers';
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { DropFile } from 'app/components/Upload/ImageUpload';
+import type { DropFile } from '@webkom/lego-bricks';
 import type { AppDispatch } from 'app/store/createStore';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { ParsedQs } from 'qs';

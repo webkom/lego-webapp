@@ -1,5 +1,5 @@
+import { ImageUpload } from '@webkom/lego-bricks';
 import { updatePicture } from 'app/actions/UserActions';
-import ImageUpload from 'app/components/Upload/ImageUpload';
 import { useAppDispatch } from 'app/store/hooks';
 import type { PublicUser } from 'app/store/models/User';
 

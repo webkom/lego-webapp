@@ -4,6 +4,7 @@ import {
   ConfirmModal,
   Flex,
   Icon,
+  ImageUpload,
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
@@ -34,7 +35,6 @@ import {
   objectPermissionsToInitialValues,
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import ImageUpload from 'app/components/Upload/ImageUpload';
 import { selectPageById } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
