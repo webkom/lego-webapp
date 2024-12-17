@@ -1,11 +1,17 @@
 import loadable from '@loadable/component';
+import { Page } from '@webkom/lego-bricks';
 import { type RouteObject, Outlet } from 'react-router-dom';
+import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
+import { LinkButton } from 'packages/lego-bricks/src/components/Button';
 import pageNotFound from '../pageNotFound';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
 const SurveyListPage = loadable(
   () => import('./components/SurveyList/SurveyListPage'),
+);
+const SurveyTemplatesListPage = loadable(
+  () => import('./components/SurveyList/SurveyTemplatesListPage'),
 );
 const SurveyDetailPage = loadable(() => import('./components/SurveyDetail'));
 const AddSurveyPage = loadable(
@@ -30,14 +36,41 @@ const SubmissionPublicResultsPage = loadable(
   () => import('./components/Submissions/SubmissionPublicResultsPage'),
 );
 
+const SurveysOverview = () => {
+  return (
+    <Page
+      title="Spørreundersøkelser"
+      actionButtons={
+        <LinkButton href="/surveys/add">Ny undersøkelse</LinkButton>
+      }
+      tabs={
+        <>
+          <NavigationTab href="/surveys">Undersøkelser</NavigationTab>
+          <NavigationTab href="/surveys/templates" matchSubpages>
+            Maler
+          </NavigationTab>
+        </>
+      }
+    >
+      <Outlet />
+    </Page>
+  );
+};
+
 export type SurveysRouteContext = {
   submissions: SurveySubmission[];
   survey: DetailedSurvey;
 };
 
 const surveysRoute: RouteObject[] = [
-  { index: true, Component: SurveyListPage },
-  { path: 'templates', Component: () => <SurveyListPage templates /> },
+  {
+    path: '',
+    Component: SurveysOverview,
+    children: [
+      { index: true, Component: SurveyListPage },
+      { path: 'templates', Component: SurveyTemplatesListPage },
+    ],
+  },
   { path: 'add', Component: AddSurveyPage },
   { path: ':surveyId', Component: SurveyDetailPage },
   { path: ':surveyId/edit', Component: EditSurveyPage },
