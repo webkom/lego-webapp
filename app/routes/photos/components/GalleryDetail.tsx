@@ -1,6 +1,7 @@
 import {
   Button,
   Icon,
+  ImageUpload,
   LinkButton,
   LoadingPage,
   Page,
@@ -19,7 +20,6 @@ import Gallery from 'app/components/Gallery';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
-import ImageUpload from 'app/components/Upload/ImageUpload';
 import config from 'app/config';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGalleryById } from 'app/reducers/galleries';
@@ -36,7 +36,7 @@ import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.module.css';
-import type { DropFile } from 'app/components/Upload/ImageUpload';
+import type { DropFile } from '@webkom/lego-bricks';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 

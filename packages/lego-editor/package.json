@@ -35,6 +35,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/extension-image": "^2.9.1",
     "@tiptap/extension-placeholder": "^2.9.1",
     "@tiptap/extension-underline": "^2.9.1",
     "@tiptap/html": "^2.9.1",

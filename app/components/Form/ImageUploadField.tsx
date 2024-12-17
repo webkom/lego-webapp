@@ -1,10 +1,10 @@
+import { ImageUpload } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { uploadFile } from 'app/actions/FileActions';
-import ImageUpload from 'app/components/Upload/ImageUpload';
 import { useAppDispatch } from 'app/store/hooks';
 import { createField } from './Field';
 import styles from './ImageUploadField.module.css';
-import type { DropFile } from 'app/components/Upload/ImageUpload';
+import type { DropFile } from '@webkom/lego-bricks';
 import type { ComponentProps, CSSProperties } from 'react';
 
 type Props = {
