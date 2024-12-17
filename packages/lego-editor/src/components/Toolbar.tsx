@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, useState } from 'react';
 import cx from 'classnames';
 import styles from './Toolbar.module.css';
 import { Editor } from '@tiptap/react';
@@ -17,7 +17,9 @@ import {
   Outdent,
   Strikethrough,
   Underline,
+  Image,
 } from 'lucide-react';
+import { ImageUploadModal } from './ImageUploadModal.js';
 
 type ButtonProps = {
   onClick: MouseEventHandler;
@@ -47,11 +49,38 @@ const ToolbarButton = ({
   );
 };
 
-type Props = {
-  editor: Editor | null;
+type ImageUploadButtonProps = {
+  editor: Editor;
+  imageUpload: (file: File) => Promise<{ src: string | null }>;
 };
 
-const Toolbar = ({ editor }: Props): ReactNode => {
+const ImageUploadButton = ({ editor, imageUpload }: ImageUploadButtonProps) => {
+  const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
+
+  return (
+    <>
+      <ToolbarButton
+        onClick={() => setImageUploadModalOpen(true)}
+        active={editor.isActive('image')}
+      >
+        <Image size={18} />
+      </ToolbarButton>
+      <ImageUploadModal
+        editor={editor}
+        imageUpload={imageUpload}
+        isOpen={imageUploadModalOpen}
+        onOpenChange={setImageUploadModalOpen}
+      />
+    </>
+  );
+};
+
+type Props = {
+  editor: Editor | null;
+  imageUpload: (file: File) => Promise<{ src: string | null }>;
+};
+
+const Toolbar = ({ editor, imageUpload }: Props): ReactNode => {
   if (!editor) {
     return null;
   }
@@ -142,6 +171,7 @@ const Toolbar = ({ editor }: Props): ReactNode => {
       >
         <Outdent size={18} />
       </ToolbarButton>
+      <ImageUploadButton editor={editor} imageUpload={imageUpload} />
     </div>
   );
 };

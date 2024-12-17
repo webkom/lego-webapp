@@ -36,3 +36,4 @@ export {
   useClearSearchParams,
   useNavigate,
 } from './RouterContext';
+export { ImageUpload, type DropFile } from './components/ImageUpload';

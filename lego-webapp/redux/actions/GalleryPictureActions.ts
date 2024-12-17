@@ -3,8 +3,8 @@ import callAPI from '~/redux/actions/callAPI';
 import { galleryPictureSchema } from '~/redux/schemas';
 import { uploadFile } from './FileActions';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { DropFile } from '@webkom/lego-bricks';
 import type { ParsedQs } from 'qs';
-import type { DropFile } from '~/components/Upload/ImageUpload';
 import type { AppDispatch } from '~/redux/createStore';
 import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
 
