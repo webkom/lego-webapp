@@ -13,31 +13,31 @@ type Props = {
 };
 
 export const Tab = ({ active, disabled, onPress, href, children }: Props) => {
-  const className = cx(
-    styles.tab,
-    active && styles.active,
-    disabled && styles.disabled,
-  );
+  const className = cx(styles.tab, disabled && styles.disabled);
 
-  return href ? (
-    <Link
-      href={href}
-      isDisabled={disabled}
-      onPress={onPress}
-      className={className}
-      data-test-id="tab"
-    >
-      {children}
-    </Link>
-  ) : (
-    <Button
-      isDisabled={disabled}
-      onPress={onPress}
-      className={className}
-      data-test-id="tab"
-    >
-      {children}
-    </Button>
+  return (
+    <div className={styles.tabContainer} data-active={active}>
+      {href ? (
+        <Link
+          href={href}
+          isDisabled={disabled}
+          onPress={onPress}
+          className={className}
+          data-test-id="tab"
+        >
+          {children}
+        </Link>
+      ) : (
+        <Button
+          isDisabled={disabled}
+          onPress={onPress}
+          className={className}
+          data-test-id="tab"
+        >
+          {children}
+        </Button>
+      )}
+    </div>
   );
 };
 
