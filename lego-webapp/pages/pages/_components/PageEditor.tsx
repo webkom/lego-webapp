@@ -4,6 +4,7 @@ import {
   ConfirmModal,
   Icon,
   LinkButton,
+  ImageUpload,
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
@@ -28,7 +29,6 @@ import {
   objectPermissionsToInitialValues,
 } from '~/components/Form/ObjectPermissions';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import ImageUpload from '~/components/Upload/ImageUpload';
 import { categoryOptions } from '~/pages/pages/page/+Page';
 import { uploadFile } from '~/redux/actions/FileActions';
 import {
