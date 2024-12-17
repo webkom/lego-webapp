@@ -1,61 +1,55 @@
 .toggleSwitch {
-  --width: 2.6rem;
-  --height: 1.3rem;
-  --thumb-size: 0.9rem;
-  --border-hover: var(--color-gray-4);
-
   position: relative;
-  width: var(--width);
-  height: var(--height);
+  display: inline-block;
+  width: 2.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
 }
 
-.toggleSwitch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute;
+.toggleSwitch[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .slider {
   position: absolute;
-  cursor: pointer;
   inset: 0;
-  background-color: var(--border-gray);
+  background-color: var(--additive-background);
   transition: var(--easing-medium);
   transition-property: background-color, box-shadow;
-  border-radius: var(--height);
+  border-radius: var(--border-radius-lg);
 }
 
 .slider::before {
-  content: '';
   position: absolute;
-  left: 2.5px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: var(--thumb-size);
-  width: var(--thumb-size);
-  background-color: white;
-  transition: var(--linear-medium);
+  content: '';
+  height: var(--spacing-md);
+  width: var(--spacing-md);
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--color-absolute-white);
+  transition: var(--easing-medium);
   border-radius: 50%;
 }
 
-input:checked + .slider {
+.toggleSwitch[data-selected] .slider {
   background-color: var(--lego-red-color);
 }
 
-input:focus-visible + .slider {
-  box-shadow: 0 0 0 2px var(--border-hover) inset;
+.toggleSwitch[data-selected] .slider::before {
+  transform: translateX(var(--spacing-md));
 }
 
-input:disabled + .slider {
-  opacity: 0.5;
-  cursor: not-allowed;
+.toggleSwitch[data-focus-visible] .slider,
+.toggleSwitch:not([data-disabled]):hover .slider {
+  box-shadow: 0 0 0 1.5px var(--color-gray-4) inset;
 }
 
-.toggleSwitch:hover input:not(:disabled) + .slider {
-  box-shadow: 0 0 0 1.5px var(--border-hover) inset;
-}
-
-input:checked + .slider::before {
-  transform: translate(calc(var(--width) - var(--thumb-size) - 5px), -50%);
+.toggleSwitch[data-selected][data-focus-visible] .slider,
+.toggleSwitch[data-selected]:not([data-disabled]):hover .slider {
+  box-shadow: 0 0 0 1.5px var(--danger-color) inset;
 }

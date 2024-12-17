@@ -1,76 +1,57 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Keyboard } from 'app/utils/constants';
+import { ToggleButton } from 'react-aria-components';
 import { createField } from './Field';
 import styles from './ToggleSwitch.module.css';
-import type {
-  ComponentProps,
-  InputHTMLAttributes,
-  KeyboardEvent,
-  MouseEvent,
-} from 'react';
+import type { ComponentProps, InputHTMLAttributes } from 'react';
+import type { ToggleButtonProps } from 'react-aria-components';
 import type { Overwrite } from 'utility-types';
 
 type Props = {
   className?: string;
-} & Overwrite<
-  InputHTMLAttributes<HTMLInputElement>,
-  { onChange?: (checked: boolean) => void }
->;
+  value?: string | boolean;
+  name?: string;
+  checked?: boolean;
+} & ToggleButtonProps &
+  Overwrite<
+    InputHTMLAttributes<HTMLInputElement>,
+    {
+      onChange?: ToggleButtonProps['onChange'];
+    }
+  >;
 
 const ToggleSwitch = ({
   id,
-  checked,
+  name,
   value,
+  checked,
   className,
-  disabled,
+  isDisabled,
+  onChange,
   ...props
 }: Props) => {
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === Keyboard.ENTER) {
-      event.preventDefault();
-      const inputElement = event.target as HTMLInputElement;
-      inputElement.click();
-    }
-  };
-
-  const handleClick = (e: MouseEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    if (!disabled) {
-      props.onChange?.(!isChecked);
-    }
-  };
-
   const isInFormContext = value !== undefined;
   // Supporting both string and boolean values
-  const isChecked = isInFormContext
+  const isSelected = isInFormContext
     ? typeof value === 'string'
       ? value === 'true'
       : !!value
-    : typeof checked === 'string'
-      ? checked === 'true'
-      : !!checked;
+    : checked;
 
   return (
     <Flex wrap alignItems="center" gap="var(--spacing-sm)">
-      <div className={cx(styles.toggleSwitch, className)} onClick={handleClick}>
-        <input
-          {...props}
-          type="checkbox"
-          role="switch"
-          id={id}
-          {...(isInFormContext
-            ? { value: value, checked: isChecked }
-            : { checked: isChecked })}
-          aria-checked={isChecked}
-          disabled={disabled}
-          onChange={(e) => {
-            props.onChange?.(e.target.checked);
-          }}
-          onKeyDown={handleKeyDown}
-        />
+      {/* A hidden input used in the e2e specs to find the field through the name attribute */}
+      <input type="hidden" name={name} value={isSelected ? 'true' : 'false'} />
+      <ToggleButton
+        {...props}
+        id={id}
+        isDisabled={isDisabled}
+        isSelected={isSelected}
+        onChange={onChange}
+        className={cx(styles.toggleSwitch, className)}
+      >
         <span className={styles.slider} />
-      </div>
+      </ToggleButton>
     </Flex>
   );
 };
