@@ -1,4 +1,4 @@
-import ImageUpload from '~/components/Upload/ImageUpload';
+import { ImageUpload } from '@webkom/lego-bricks';
 import { updatePicture } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
 import type { PublicUser } from '~/redux/models/User';

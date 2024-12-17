@@ -1,11 +1,10 @@
+import { ImageUpload, DropFile } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import ImageUpload from '~/components/Upload/ImageUpload';
 import { uploadFile } from '~/redux/actions/FileActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { createField } from './Field';
 import styles from './ImageUploadField.module.css';
 import type { ComponentProps, CSSProperties } from 'react';
-import type { DropFile } from '~/components/Upload/ImageUpload';
 
 type Props = {
   className?: string;

@@ -1,5 +1,5 @@
 import '@webkom/lego-bricks/dist/style.css';
-import Editor from '../../src/index';
+import { Editor, EditorContent } from '../../src';
 import { useState } from 'react';
 import './App.css';
 
@@ -33,21 +33,21 @@ const App = () => {
       </label>
       <br />
       <br />
-      LEGO editor:
+      <b>LEGO editor:</b>
       <Editor
         content={content}
         placeholder="Write something..."
-        // imageUpload={() =>
-        //   new Promise((resolve) => {
-        //     resolve({ src: null });
-        //   })
-        // }
+        imageUpload={(file) =>
+          new Promise((resolve) => {
+            resolve({ src: URL.createObjectURL(file) });
+          })
+        }
         disabled={disabled}
         onChange={setContent}
       />
       <br />
       <label>
-        Mirrored textarea:
+        <b>Mirrored textarea:</b>
         <br />
         <textarea
           style={{ width: '100%' }}
@@ -55,6 +55,13 @@ const App = () => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
+      </label>
+      <br />
+      <br />
+      <label>
+        <b>Read only EditorContent:</b>
+        <br />
+        <EditorContent content={content} />
       </label>
     </div>
   );

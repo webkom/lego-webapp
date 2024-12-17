@@ -1,18 +1,16 @@
-import {
-  Button,
-  ButtonGroup,
-  Flex,
-  Icon,
-  Modal,
-  Image,
-} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Trash2 } from 'lucide-react';
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Cropper } from 'react-cropper';
 import { type Accept, useDropzone } from 'react-dropzone';
 import 'cropperjs/dist/cropper.css';
-import styles from './UploadImage.module.css';
+import { Button } from '../Button';
+import { ButtonGroup } from '../Button/ButtonGroup';
+import { Icon } from '../Icon';
+import { Image } from '../Image';
+import { Flex } from '../Layout';
+import { Modal } from '../Modal';
+import styles from './ImageUpload.module.css';
 
 export interface DropFile extends File {
   preview?: string;
@@ -144,7 +142,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
   );
 };
 
-const ImageUpload = ({
+export const ImageUpload = ({
   crop = true,
   inModal = false,
   aspectRatio,
@@ -283,5 +281,3 @@ const ImageUpload = ({
     </>
   );
 };
-
-export default ImageUpload;

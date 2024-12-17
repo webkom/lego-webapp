@@ -26,8 +26,8 @@
     "sourceMap": true,
     "declarationMap": true,
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
   "include": ["src"],
-  "files": ["src/index.tsx"],
+  "files": ["src/index.tsx"]
 }

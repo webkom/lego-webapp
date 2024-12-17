@@ -35,12 +35,13 @@
     "dev": "vite",
     "build": "vite build && pnpm build:types",
     "build:types": "tsc --project tsconfig.app.json -d --emitDeclarationOnly",
+    "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
     "@tiptap/core": "^2.11.5",
-    "@tiptap/extension-image": "^2.9.1",
+    "@tiptap/extension-image": "^2.11.5",
     "@tiptap/extension-placeholder": "^2.9.1",
     "@tiptap/extension-underline": "^2.9.1",
     "@tiptap/html": "^2.9.1",

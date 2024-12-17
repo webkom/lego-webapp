@@ -1,4 +1,4 @@
-import './declaration';
+import './declaration.d.ts';
 import { useEditor, EditorContent as TipTapEditorContent } from '@tiptap/react';
 import { generateHTML, generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
@@ -8,6 +8,12 @@ import Toolbar from './components/Toolbar';
 import styles from './Editor.module.css';
 import { useEffect, useState } from 'react';
 import cx from 'classnames';
+import { Figure } from './extensions/figure';
+import { ImageWithFileKey } from './extensions/image.ts';
+
+export type ImageUploadFn = (
+  file: File,
+) => Promise<{ src: string | null; fileKey?: string }>;
 
 type Props = {
   content?: string;
@@ -15,17 +21,23 @@ type Props = {
   onChange?: (content: string) => void;
   disabled?: boolean;
   className?: string;
-  // imageUpload: (file: File) => Promise<{ src: string | null }>;
+  imageUpload: ImageUploadFn;
 };
 
-const extensions = [StarterKit.configure({ orderedList: {} }), Underline];
+const extensions = [
+  StarterKit.configure({ orderedList: {} }),
+  Underline,
+  ImageWithFileKey,
+  Figure,
+];
 
-const Editor = ({
+export const Editor = ({
   content,
   placeholder,
   onChange,
   disabled,
   className,
+  imageUpload,
 }: Props) => {
   const [prevContent, setPrevContent] = useState<string | undefined>(content);
 
@@ -62,7 +74,7 @@ const Editor = ({
 
   return (
     <div className={cx(styles.container, className)}>
-      <Toolbar editor={editor} />
+      <Toolbar editor={editor} imageUpload={imageUpload} />
       <TipTapEditorContent editor={editor} className={styles.content} />
     </div>
   );
@@ -84,5 +96,3 @@ export const EditorContent = ({ content }: { content: string }) => {
     />
   );
 };
-
-export default Editor;
