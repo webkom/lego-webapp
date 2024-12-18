@@ -11,13 +11,13 @@ import {
   FilterSection,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
 import { CheckBox, TextInput } from 'app/components/Form';
-import { selectAllCompanies } from 'app/reducers/companies';
+import { selectAllPaginatedCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
@@ -94,49 +94,44 @@ export const companiesDefaultQuery = {
   showInactive: 'false' as 'true' | 'false',
 };
 
-const filterCompanies = (
-  companies: ListCompany[],
-  query: typeof companiesDefaultQuery,
-) => {
-  return companies.filter((company) => {
-    const searchMatch =
-      !query.search ||
-      company.name.toLowerCase().includes(query.search.toLowerCase()) ||
-      company.description?.toLowerCase().includes(query.search.toLowerCase());
-
-    const activeMatch = !query.showInactive || company.active !== false;
-
-    return searchMatch && activeMatch;
-  });
-};
-
 const CompaniesPage = () => {
   const [expanded, setExpanded] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const { query, setQueryValue } = useQuery(companiesDefaultQuery);
 
-  const companies = useAppSelector(selectAllCompanies<ListCompany>);
-  const inactiveCompanies = companies.filter((company) => !company.active);
-  console.log('inactiveCompanies', inactiveCompanies);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
-      query: {},
+      query: { ...query, search: debouncedSearch },
       entity: EntityType.Companies,
       endpoint: '/companies/',
     })(state),
   );
 
-  const filteredCompanies = useMemo(
-    () => filterCompanies(companies, query),
-    [companies, query],
+  const companies = useAppSelector((state) =>
+    selectAllPaginatedCompanies<ListCompany>(state, { pagination }),
   );
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(query.search);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query.search]);
 
   const dispatch = useAppDispatch();
   const actionGrant = useAppSelector((state) => state.companies.actionGrant);
 
   usePreparedEffect(
     'fetchAllCompanies',
-    () => dispatch(fetchAll({ fetchMore: false })),
-    [],
+    () =>
+      dispatch(
+        fetchAll({
+          fetchMore: false,
+          query: { ...query, search: debouncedSearch },
+        }),
+      ),
+    [query.showInactive, debouncedSearch],
   );
 
   return (
@@ -234,12 +229,17 @@ const CompaniesPage = () => {
         loadMore={() =>
           pagination.hasMore &&
           !pagination.fetching &&
-          dispatch(fetchAll({ fetchMore: true }))
+          dispatch(
+            fetchAll({
+              fetchMore: true,
+              query: { ...query, search: debouncedSearch },
+            }),
+          )
         }
         initialLoad={false}
         loader={<LoadingIndicator loading />}
       >
-        <CompanyList companies={filteredCompanies} />
+        <CompanyList companies={companies} />
       </InfiniteScroll>
     </Page>
   );

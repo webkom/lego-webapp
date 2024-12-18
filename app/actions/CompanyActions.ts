@@ -18,18 +18,25 @@ import type {
   SemesterStatus,
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
+import type { ParsedQs } from 'qs';
 
-export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
+export const fetchAll = ({
+  fetchMore,
+  query,
+}: {
+  fetchMore: boolean;
+  query: ParsedQs;
+}) => {
   return callAPI<ListCompany[]>({
     types: Company.FETCH,
     endpoint: '/companies/',
     schema: [companySchema],
+    query,
     pagination: {
       fetchNext: fetchMore,
     },
     meta: {
       errorMessage: 'Henting av bedrifter feilet',
-      queryString: '',
     },
     propagateError: true,
   });
