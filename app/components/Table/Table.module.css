@@ -8,6 +8,13 @@
   width: 100%;
 }
 
+.wrapper thead {
+  background-color: var(--color-gray-2);
+  color: var(--color-gray-7);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
 /* https://stackoverflow.com/questions/36575846/how-to-make-div-fill-td-height-in-firefox */
 .td {
   height: 1px;

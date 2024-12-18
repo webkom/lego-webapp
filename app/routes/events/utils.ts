@@ -231,8 +231,8 @@ const calculateMergeTime = (data) =>
 // Takes the full data-object and input and transforms the event to the API format.
 export const transformEvent = (data: TransformEvent) => ({
   ...pick(data, eventCreateAndUpdateFields),
-  startTime: moment(data.startTime).toISOString(),
-  endTime: moment(data.endTime).toISOString(),
+  startTime: moment(data.date[0]).toISOString(),
+  endTime: moment(data.date[1]).toISOString(),
   mergeTime: calculateMergeTime(data),
   company: data.company && data.company.value,
   eventStatusType: data.eventStatusType && data.eventStatusType.value,

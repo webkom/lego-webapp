@@ -35,6 +35,8 @@ import time from 'app/utils/time';
 import {
   conditionalValidation,
   createValidator,
+  dateRequired,
+  datesAreInCorrectOrder,
   isInteger,
   legoEditorRequired,
   maxSize,
@@ -42,7 +44,6 @@ import {
   minSize,
   required,
   requiredIf,
-  timeIsAfter,
   timeIsAtLeastDurationAfter,
   validYoutubeUrl,
 } from 'app/utils/validation';
@@ -108,8 +109,9 @@ const validate = createValidator({
   ],
   registrationDeadlineHours: [isInteger('Kun hele timer')],
   unregistrationDeadlineHours: [isInteger('Kun hele timer')],
-  endTime: [
-    timeIsAfter('startTime', 'Sluttidspunkt kan ikke være før starttidspunkt'),
+  date: [
+    dateRequired('Du må velge start- og sluttdato'),
+    datesAreInCorrectOrder('Sluttidspunkt kan ikke være før starttidspunkt'),
   ],
   mergeTime: [
     conditionalValidation(
@@ -245,6 +247,8 @@ const EventEditor = () => {
             value: user.id,
           })),
         isForeignLanguage: event.isForeignLanguage,
+        date: event.startTime &&
+          event.endTime && [event.startTime, event.endTime],
         eventType: event.eventType && {
           label: displayNameForEventType(event.eventType),
           value: event.eventType,
@@ -266,14 +270,16 @@ const EventEditor = () => {
       }
     : {
         title: '',
-        startTime: time({
-          hours: 17,
-          minutes: 15,
-        }),
-        endTime: time({
-          hours: 20,
-          minutes: 15,
-        }),
+        date: [
+          time({
+            hours: 17,
+            minutes: 15,
+          }),
+          time({
+            hours: 20,
+            minutes: 15,
+          }),
+        ],
         description: '',
         text: '',
         eventType: '',

@@ -66,16 +66,9 @@ const Details: React.FC<Props> = ({ values }) => {
       </Flex>
       <Flex className={styles.editorSectionRow}>
         <Field
-          label="Starter"
-          name="startTime"
-          component={DatePicker.Field}
-          fieldClassName={styles.metaField}
-          className={styles.formField}
-          required
-        />
-        <Field
-          label="Slutter"
-          name="endTime"
+          label="Dato"
+          name="date"
+          range
           component={DatePicker.Field}
           fieldClassName={styles.metaField}
           className={styles.formField}

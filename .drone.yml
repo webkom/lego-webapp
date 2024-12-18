@@ -281,6 +281,7 @@ steps:
       - install_cypress
       - ssr
     environment:
+      TZ: Europe/Oslo
       CYPRESS_API_BASE_URL: http://api:8000
       CYPRESS_RESET_DB_API: http://legocypresshelper:3030
       CYPRESS_BASE_URL: http://ssr:3000
@@ -362,4 +363,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 4edd037ec61390966e80949fd80f036651109310c03b4a9e3ea2708bb68b3549
+hmac: 67ad38a63b7569ba2bb1386bb795cbe780df789dff66e27467af0e3c5df2df36

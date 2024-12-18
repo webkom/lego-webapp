@@ -49,13 +49,15 @@ import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import {
   createValidator,
+  datesAreInCorrectOrder,
+  dateRequired,
   ifField,
   ifNotField,
   legoEditorRequired,
   required,
-  timeIsAfter,
 } from 'app/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { AutocompleteUser } from 'app/store/models/User';
@@ -75,8 +77,7 @@ export type MeetingFormValues = {
   title?: string;
   report?: string;
   description?: string;
-  startTime?: string;
-  endTime?: string;
+  date?: [Dateish, Dateish];
   useMazemap: boolean;
   mazemapPoi?: { value: number; label: string };
   location?: string;
@@ -88,16 +89,15 @@ export type MeetingFormValues = {
 const validate = createValidator({
   title: [required('Du må gi møtet en tittel')],
   report: [legoEditorRequired('Referatet kan ikke være tomt')],
+  date: [
+    dateRequired('Du må velge start- og sluttdato'),
+    datesAreInCorrectOrder('Sluttidspunkt kan ikke være før starttidspunkt'),
+  ],
   location: [
     ifNotField('useMazemap', required('Sted eller Mazemap-rom er påkrevd')),
   ],
   mazemapPoi: [
     ifField('useMazemap', required('Sted eller Mazemap-rom er påkrevd')),
-  ],
-  startTime: [required('Du må velge starttidspunkt')],
-  endTime: [
-    required('Du må velge sluttidspunkt'),
-    timeIsAfter('startTime', 'Sluttidspunkt kan ikke være før starttidspunkt'),
   ],
 });
 
@@ -184,25 +184,33 @@ const MeetingEditor = () => {
       }))
     : [];
 
-  const onSubmit = (values) =>
-    dispatch(isEditPage ? editMeeting(values) : createMeeting(values)).then(
-      (result) => {
-        const id = meetingId || result.payload.result;
-        const { groups, users } = values;
+  const onSubmit = (values) => {
+    const formValues = {
+      ...values,
+      startTime: values.date[0],
+      endTime: values.date[1],
+    };
+    delete formValues.date;
 
-        if (groups || users) {
-          return dispatch(
-            inviteUsersAndGroups({
-              id,
-              users,
-              groups,
-            }),
-          ).then(() => navigate(`/meetings/${id}`));
-        }
+    return dispatch(
+      isEditPage ? editMeeting(formValues) : createMeeting(formValues),
+    ).then((result) => {
+      const id = meetingId || result.payload.result;
+      const { groups, users } = values;
 
-        navigate(`/meetings/${id}`);
-      },
-    );
+      if (groups || users) {
+        return dispatch(
+          inviteUsersAndGroups({
+            id,
+            users,
+            groups,
+          }),
+        ).then(() => navigate(`/meetings/${id}`));
+      }
+
+      navigate(`/meetings/${id}`);
+    });
+  };
 
   const onDeleteMeeting = isEditPage
     ? () =>
@@ -215,6 +223,7 @@ const MeetingEditor = () => {
   const initialValues = isEditPage
     ? {
         ...meeting,
+        date: [meeting.startTime, meeting.endTime],
         reportAuthor: reportAuthor && {
           id: reportAuthor.id,
           value: reportAuthor.username,
@@ -229,8 +238,7 @@ const MeetingEditor = () => {
         useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
       }
     : {
-        startTime: time(16, 15),
-        endTime: time(18),
+        date: [time(16, 15), time(18)],
         report: EDITOR_EMPTY,
         useMazemap: true,
       };
@@ -279,31 +287,23 @@ const MeetingEditor = () => {
                 <FormSpy subscription={{ values: true }}>
                   {({ values }) => (
                     <Field
-                      name="startTime"
-                      label="Starttidspunkt"
+                      name="date"
+                      label="Dato"
+                      range
                       component={DatePicker.Field}
-                      onBlur={(value: string) => {
-                        const startTime = moment(value);
-                        const endTime = moment(values.endTime);
+                      onBlur={(value: [Dateish, Dateish]) => {
+                        const startTime = moment(value[0]);
+                        const endTime = moment(values.date[1]);
                         if (endTime.isBefore(startTime)) {
-                          form.change(
-                            'endTime',
-                            startTime
-                              .clone()
-                              .add(2, 'hours')
-                              .set('minute', 0)
-                              .toISOString(),
-                          );
+                          form.change('date', [
+                            startTime,
+                            endTime.clone().add(2, 'hours').set('minute', 0),
+                          ]);
                         }
                       }}
                     />
                   )}
                 </FormSpy>
-                <Field
-                  name="endTime"
-                  label="Sluttidspunkt"
-                  component={DatePicker.Field}
-                />
               </div>
               <Field
                 label="Bruk mazemap"

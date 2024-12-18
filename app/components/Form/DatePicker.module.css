@@ -1,16 +1,21 @@
+@import url('~app/styles/variables.css');
+
 .calendar th,
 .calendar td {
   width: calc(100% / 7);
   text-align: center;
   font-size: var(--font-size-md);
-  padding: var(--spacing-xs);
   transition: background var(--easing-blazingly-fast);
+}
+
+.calendar td {
+  padding: var(--spacing-xs) 0;
 }
 
 .dropdown {
   width: auto;
   max-width: 335px;
-  padding: 0 var(--spacing-md) var(--spacing-sm);
+  padding: 0 var(--spacing-md) var(--spacing-md);
   z-index: 20;
 }
 
@@ -22,6 +27,7 @@
   font-size: var(--font-size-lg);
   padding: var(--spacing-sm);
   text-transform: capitalize;
+  text-align: center;
 }
 
 .calendarItem {
@@ -31,7 +37,7 @@
   color: var(--lego-font-color);
   text-align: center;
   font-size: var(--font-size-md);
-  padding: var(--spacing-xs);
+  padding: var(--spacing-sm);
   transition: background var(--easing-blazingly-fast);
 
   &:hover:not(.today, .selectedDate) {
@@ -52,4 +58,32 @@
 .today:not(.selectedDate) {
   color: var(--lego-font-color);
   background-color: var(--additive-background);
+}
+
+.rangeDropdown {
+  width: auto;
+  max-width: 600px;
+  padding: 0 var(--spacing-md) var(--spacing-md);
+  z-index: 20;
+
+  @media (--small-viewport) {
+    max-width: 315px;
+  }
+}
+
+.inRange:not(.selectedDate) {
+  background-color: var(--additive-background);
+  border-radius: 0;
+}
+
+/* First selected date */
+td:has(.selectedDate):has(+ td .inRange) .calendarItem {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Last selected date */
+td:has(.inRange) + td:has(.selectedDate) .calendarItem {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
