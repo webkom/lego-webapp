@@ -245,6 +245,7 @@ export const NotificationsFeed = {
  */
 export const User = {
   FETCH: generateStatuses('User.FETCH') as AAT,
+  FETCH_LEADERBOARD: generateStatuses('User.FETCH') as AAT,
   UPDATE: generateStatuses('User.UPDATE') as AAT,
   PASSWORD_CHANGE: generateStatuses('User.PASSWORD_CHANGE') as AAT,
   LOGIN: generateStatuses('User.LOGIN') as AAT,

@@ -9,6 +9,7 @@ import AchievementsInfo, {
 } from 'app/utils/achievementConstants';
 import styles from './UserProfile.module.css';
 import type { Achievement } from 'app/store/models/User';
+import { useNavigate } from 'react-router-dom';
 
 export const AchievementsBox = ({
   achievements,
@@ -29,6 +30,8 @@ export const AchievementsBox = ({
     ? sortedAchievements
     : sortedAchievements.slice(0, 5);
 
+  const navigate = useNavigate();
+
   return (
     <Flex
       column
@@ -37,6 +40,13 @@ export const AchievementsBox = ({
       className={cx(styles.trophyCaseWrapper, styles.contentRight)}
     >
       <h2>Trofeer</h2>
+      <Button
+        onPress={() => {
+          navigate('/achievements/overview');
+        }}
+      >
+        Mer info
+      </Button>
       <Flex
         column
         alignItems="center"
