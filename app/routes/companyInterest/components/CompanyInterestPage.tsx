@@ -27,6 +27,7 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import {
@@ -60,7 +61,6 @@ import {
   SURVEY_OFFERS,
   TARGET_GRADES,
   FORM_LABELS,
-  OFFICE_IN_TRONDHEIM,
   COLLABORATION_TYPES,
   COMPANY_TYPES,
   TOOLTIP,
@@ -119,7 +119,7 @@ const EventBox = ({
   <FormSpy subscription={{ values: true }}>
     {(props) => {
       const filteredFields = fields.map((field) => field); // This is just to get an array instead of what fields is (which is an object that mimics an iterable). See: https://github.com/final-form/react-final-form-arrays#fieldarrayrenderprops
-      if (props.values.officeInTrondheim !== 'yes') {
+      if (!props.values.officeInTrondheim) {
         fields.forEach((field, index) => {
           if (fields.value[index].name == 'company_to_company') {
             filteredFields.splice(index, 1);
@@ -238,7 +238,7 @@ type CompanyInterestFormEntity = {
   companyToCompanyComment: string;
   companyPresentationComment: string;
   companyType: string;
-  officeInTrondheim: 'yes' | 'no';
+  officeInTrondheim: boolean;
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -266,7 +266,6 @@ const validate = createValidator({
   phone: [required()],
   comment: [required()],
   companyType: [required()],
-  officeInTrondheim: [required()],
   events: [required()],
   semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
@@ -363,7 +362,7 @@ const CompanyInterestPage = () => {
         companyInterest?.targetGrades?.includes(Number(targetGrade)) || false,
     })),
     participantRange: (participantRange && participantRange[0]) || null,
-    officeInTrondheim: companyInterest?.officeInTrondheim ? 'yes' : 'no',
+    officeInTrondheim: companyInterest?.officeInTrondheim || false,
     semesters: edit
       ? semesters
           .map((semester) => ({
@@ -400,7 +399,7 @@ const CompanyInterestPage = () => {
       contactPerson: data.contactPerson,
       mail: data.mail,
       phone: data.phone,
-      officeInTrondheim: data.officeInTrondheim === 'yes',
+      officeInTrondheim: data.officeInTrondheim,
       semesters: data.semesters
         .filter((semester) => semester.checked)
         .map((semester) => semester.id),
@@ -590,23 +589,11 @@ const CompanyInterestPage = () => {
                 </MultiSelectGroup>
               </Flex>
               <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  legend={FORM_LABELS.officeInTrondheim[language]}
-                  required
+                <Field
                   name="officeInTrondheim"
-                >
-                  {Object.keys(OFFICE_IN_TRONDHEIM).map((key) => (
-                    <Field
-                      key={key}
-                      name={key}
-                      value={key}
-                      label={OFFICE_IN_TRONDHEIM[key][language]}
-                      type="radio"
-                      component={RadioButton.Field}
-                      showErrors={false}
-                    />
-                  ))}
-                </MultiSelectGroup>
+                  component={ToggleSwitch.Field}
+                  label={FORM_LABELS.officeInTrondheim[language]}
+                />
               </Flex>
               <Flex column className={styles.interestBox}>
                 <MultiSelectGroup

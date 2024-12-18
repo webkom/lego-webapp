@@ -1,0 +1,55 @@
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 2.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.toggleSwitch[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background-color: var(--additive-background);
+  transition: var(--easing-medium);
+  transition-property: background-color, box-shadow;
+  border-radius: var(--border-radius-lg);
+}
+
+.slider::before {
+  position: absolute;
+  content: '';
+  height: var(--spacing-md);
+  width: var(--spacing-md);
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--color-absolute-white);
+  transition: var(--easing-medium);
+  border-radius: 50%;
+}
+
+.toggleSwitch[data-selected] .slider {
+  background-color: var(--lego-red-color);
+}
+
+.toggleSwitch[data-selected] .slider::before {
+  transform: translateX(var(--spacing-md));
+}
+
+.toggleSwitch[data-focus-visible] .slider,
+.toggleSwitch:not([data-disabled]):hover .slider {
+  box-shadow: 0 0 0 1.5px var(--color-gray-4) inset;
+}
+
+.toggleSwitch[data-selected][data-focus-visible] .slider,
+.toggleSwitch[data-selected]:not([data-disabled]):hover .slider {
+  box-shadow: 0 0 0 1.5px var(--danger-color) inset;
+}

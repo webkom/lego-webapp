@@ -3,23 +3,29 @@ import {
   FilterSection,
   filterSidebar,
   Flex,
+  Icon,
   LinkButton,
-  LoadingIndicator,
   Page,
+  Skeleton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash';
-import { FolderOpen } from 'lucide-react';
+import { FilterX, FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
-import { CheckBox, SelectInput } from 'app/components/Form/';
+import eventItemStyles from 'app/components/EventItem/styles.module.css';
+import { CheckBox, RadioButton } from 'app/components/Form/';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { EventTime } from 'app/models';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectAllEvents } from 'app/reducers/events';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import joblistingListStyles from 'app/routes/joblistings/components/JoblistingList.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
@@ -34,12 +40,14 @@ type FilterRegistrationsType = 'all' | 'open' | 'future';
 export const eventListDefaultQuery = {
   eventTypes: [] as FilterEventType[],
   registrations: 'all' as FilterRegistrationsType,
+  showPrevious: '' as '' | 'true' | 'false',
 };
 
 type GroupedEvents = {
   currentWeek?: ListEvent[];
   nextWeek?: ListEvent[];
   later?: ListEvent[];
+  previous?: ListEvent[];
 };
 
 const groupEvents = (
@@ -53,17 +61,20 @@ const groupEvents = (
     nextWeek: (event: ListEvent) =>
       moment(event[field]).isSame(nextWeek, 'week'),
     later: (event: ListEvent) => moment(event[field]).isAfter(nextWeek),
+    previous: (event: ListEvent) => moment(event[field]).isBefore(moment()),
   };
+
+  const initialGroups: GroupedEvents = {};
+
   return events.reduce((result, event) => {
     for (const groupName in groups) {
       if (groups[groupName](event)) {
-        result[groupName] = (result[groupName] || []).concat(event);
-        return result;
+        result[groupName] = [...(result[groupName] || []), event];
+        break;
       }
     }
-
     return result;
-  }, {});
+  }, initialGroups);
 };
 
 const EventListGroup = ({
@@ -75,7 +86,7 @@ const EventListGroup = ({
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
-      <h3>{name}</h3>
+      <h3 className={styles.eventGroupTitle}>{name}</h3>
       <Flex column gap="var(--spacing-md)">
         {events.map((event) => (
           <EventItem key={event.id} event={event} showTags={false} />
@@ -91,7 +102,7 @@ type Option = {
   value: FilterRegistrationsType;
   field: EventTime;
 };
-const filterRegDateOptions: Array<Option> = [
+const filterRegDateOptions: Option[] = [
   {
     filterRegDateFunc: (event) => !!event,
     label: 'Vis alle',
@@ -136,8 +147,19 @@ const EventList = () => {
   const icalToken = useCurrentUser()?.icalToken;
   const loggedIn = useIsLoggedIn();
 
+  const [previousStart, setPreviousStart] = useState(
+    moment().subtract(1, 'month'),
+  );
+  const [previousEvents, setPreviousEvents] = useState<ListEvent[]>([]);
+
   const fetchQuery = {
-    date_after: moment().format('YYYY-MM-DD'),
+    date_after:
+      query.showPrevious === 'true'
+        ? previousStart.format('YYYY-MM-DD')
+        : moment().format('YYYY-MM-DD'),
+    date_before:
+      query.showPrevious === 'true' ? moment().format('YYYY-MM-DD') : undefined,
+    ordering: query.showPrevious === 'true' ? '-start_time' : 'start_time',
   };
 
   const { pagination } = useAppSelector(
@@ -145,6 +167,16 @@ const EventList = () => {
       entity: EntityType.Events,
       endpoint: '/events/',
       query: fetchQuery,
+    }),
+  );
+
+  const { pagination: previousPagination } = useAppSelector(
+    selectPaginationNext({
+      entity: EntityType.Events,
+      endpoint: '/events/',
+      query: {
+        date_before: moment().format('YYYY-MM-DD'),
+      },
     }),
   );
 
@@ -163,16 +195,32 @@ const EventList = () => {
           query: fetchQuery,
         }),
       ),
-    [loggedIn],
+    [loggedIn, query.showPrevious],
   );
 
-  const fetchMore = () =>
-    dispatch(
+  const fetchMore = () => {
+    if (query.showPrevious === 'true') {
+      const newStart = previousStart.clone().subtract(1, 'month');
+      setPreviousStart(newStart);
+
+      return dispatch(
+        fetchEvents({
+          query: {
+            ...fetchQuery,
+            date_after: newStart.format('YYYY-MM-DD'),
+            date_before: moment().format('YYYY-MM-DD'),
+          },
+        }),
+      );
+    }
+
+    return dispatch(
       fetchEvents({
         query: fetchQuery,
         next: true,
       }),
     );
+  };
 
   const filterEventTypesFunc = (event: ListEvent) => {
     if (!showCompanyPresentation && !showCourse && !showSocial && !showOther)
@@ -204,13 +252,39 @@ const EventList = () => {
     }
   };
 
+  const filterPreviousEvents = (event: ListEvent) =>
+    query.showPrevious === 'true'
+      ? moment(event[field]).isBefore(moment())
+      : true;
+
+  useEffect(() => {
+    if (!pagination.fetching && events.length > 0) {
+      setPreviousEvents(events);
+    }
+  }, [events, pagination.fetching]);
+
   const groupedEvents = groupEvents(
     orderBy(
-      events.filter(filterRegDateFunc).filter(filterEventTypesFunc),
+      [...previousEvents, ...events]
+        .filter(
+          (event, index, self) =>
+            index === self.findIndex((e) => e.id === event.id),
+        )
+        .filter(filterRegDateFunc)
+        .filter(filterEventTypesFunc)
+        .filter(filterPreviousEvents),
       field,
+      query.showPrevious === 'true' ? 'desc' : 'asc',
     ),
     field,
   );
+  const totalCount = events.length;
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const clearQueryParams = () => {
+    navigate(pathname);
+  };
 
   const toggleEventType =
     (type: 'company_presentation' | 'course' | 'social' | 'other') => () => {
@@ -227,6 +301,15 @@ const EventList = () => {
       sidebar={filterSidebar({
         children: (
           <>
+            <FilterSection title="Vis tidligere">
+              <ToggleSwitch
+                id="showPrevious"
+                checked={query.showPrevious === 'true'}
+                onChange={(checked) =>
+                  setQueryValue('showPrevious')(checked ? 'true' : 'false')
+                }
+              />
+            </FilterSection>
             <FilterSection title="Arrangementstype">
               <CheckBox
                 id="companyPresentation"
@@ -254,17 +337,18 @@ const EventList = () => {
               />
             </FilterSection>
             <FilterSection title="Påmelding">
-              <SelectInput
-                name="form-field-name"
-                value={regDateFilter}
-                onChange={(selectedOption) =>
-                  selectedOption &&
-                  setQueryValue('registrations')(selectedOption.value)
-                }
-                className={styles.select}
-                options={filterRegDateOptions}
-                isClearable={false}
-              />
+              {filterRegDateOptions.map((option) => (
+                <RadioButton
+                  key={option.value}
+                  name="registrations"
+                  id={option.value}
+                  label={option.label}
+                  checked={query.registrations === option.value}
+                  onChange={() => {
+                    setQueryValue('registrations')(option.value);
+                  }}
+                />
+              ))}
             </FilterSection>
           </>
         ),
@@ -277,20 +361,59 @@ const EventList = () => {
       tabs={<EventsTabs />}
     >
       <Helmet title="Arrangementer" />
+      <EventListGroup name="Tidligere" events={groupedEvents.previous} />
       <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
       <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
       <EventListGroup name="Senere" events={groupedEvents.later} />
-      {isEmpty(events) && pagination.fetching && <LoadingIndicator loading />}
-      {isEmpty(events) && !pagination.fetching && (
+      {isEmpty(events) && pagination.fetching && (
+        <>
+          <div className={styles.eventGroup}>
+            {isEmpty(groupedEvents) && (
+              <Skeleton className={styles.skeletonEventGroupTitle} />
+            )}
+            <Flex column gap="var(--spacing-md)">
+              <Skeleton array={3} className={eventItemStyles.eventItem} />
+            </Flex>
+          </div>
+          <div className={styles.eventGroup}>
+            {isEmpty(groupedEvents) && (
+              <Skeleton className={styles.skeletonEventGroupTitle} />
+            )}
+            <Flex column gap="var(--spacing-md)">
+              <Skeleton array={5} className={eventItemStyles.eventItem} />
+            </Flex>
+          </div>
+        </>
+      )}
+      {isEmpty(groupedEvents) && !pagination.fetching && (
         <EmptyState
           iconNode={<FolderOpen />}
-          body="Ingen kommende arrangementer"
+          header="Her var det tomt ..."
+          body={
+            <>
+              Ingen arrangementer {totalCount > 0 && 'som matcher ditt filter'}{' '}
+              ligger
+              {totalCount === 0 && ' for øyeblikket'} ute
+              {totalCount > 0 && (
+                <Button flat onPress={clearQueryParams}>
+                  <Icon iconNode={<FilterX />} size={22} />
+                  Tøm filter
+                </Button>
+              )}
+            </>
+          }
+          className={joblistingListStyles.emptyState}
         />
       )}
-      {pagination.hasMore && field === 'startTime' && (
+      {(query.showPrevious === 'true'
+        ? previousPagination.hasMore
+        : pagination.hasMore) && (
         <Button
           onPress={fetchMore}
-          isPending={!isEmpty(events) && pagination.fetching}
+          isPending={
+            !isEmpty(events) &&
+            (pagination.fetching || previousPagination.fetching)
+          }
         >
           Last inn mer
         </Button>

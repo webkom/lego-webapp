@@ -18,15 +18,14 @@ import {
 import {
   TextEditor,
   TextInput,
-  RadioButton,
   SelectInput,
   ImageUploadField,
-  MultiSelectGroup,
   Form,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectCompanyById } from 'app/reducers/companies';
 import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -51,6 +50,7 @@ type FormValues = {
   website?: string;
   address?: string;
   studentContact?: AutocompleteUser;
+  active?: boolean;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -127,7 +127,7 @@ const CompanyEditor = () => {
           value: studentContact.id,
           label: studentContact.fullName,
         },
-        active: company.active ? 'true' : 'false',
+        active: company.active,
         phone: company.phone,
         companyType: company.companyType,
         paymentMail: company.paymentMail,
@@ -167,106 +167,91 @@ const CompanyEditor = () => {
         validate={validate}
         subscription={{}}
       >
-        {({ handleSubmit }) => {
-          return (
-            <Form onSubmit={handleSubmit}>
-              <Field
-                name="logo"
-                component={ImageUploadField}
-                aspectRatio={20 / 6}
-                img={company && company.logo}
-              />
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              name="logo"
+              component={ImageUploadField}
+              aspectRatio={20 / 6}
+              img={company && company.logo}
+            />
 
-              <Field
-                placeholder="Bedriftens navn"
-                name="name"
-                label="Navn"
-                required
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="Bedriftens navn"
+              name="name"
+              label="Navn"
+              required
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="Beskrivelse av bedriften"
-                name="description"
-                label="Beskrivelse"
-                component={TextEditor.Field}
-              />
+            <Field
+              placeholder="Beskrivelse av bedriften"
+              name="description"
+              label="Beskrivelse"
+              component={TextEditor.Field}
+            />
 
-              <Field
-                placeholder="Type bedrift"
-                label="Type bedrift"
-                name="companyType"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="Type bedrift"
+              label="Type bedrift"
+              name="companyType"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="mail@abakus.no"
-                name="paymentMail"
-                label="Fakturamail"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="mail@abakus.no"
+              name="paymentMail"
+              label="Fakturamail"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="123 45 678"
-                name="phone"
-                label="Telefon"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="123 45 678"
+              name="phone"
+              label="Telefon"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="https://www.abakus.no"
-                name="website"
-                label="Nettside"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="https://www.abakus.no"
+              name="website"
+              label="Nettside"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="Adresse"
-                name="address"
-                label="Adresse"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="Adresse"
+              name="address"
+              label="Adresse"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="Studentkontakt"
-                label="Studentkontakt"
-                name="studentContact"
-                component={SelectInput.AutocompleteField}
-                filter={[AutocompleteContentType.User]}
-              />
+            <Field
+              placeholder="Studentkontakt"
+              label="Studentkontakt"
+              name="studentContact"
+              component={SelectInput.AutocompleteField}
+              filter={[AutocompleteContentType.User]}
+            />
 
-              <div>
-                <MultiSelectGroup name="active" legend="Aktiv bedrift?">
-                  <Field
-                    name="Yes"
-                    label="Ja"
-                    value="true"
-                    type="radio"
-                    component={RadioButton.Field}
-                  />
-                  <Field
-                    name="No"
-                    label="Nei"
-                    value="false"
-                    type="radio"
-                    component={RadioButton.Field}
-                  />
-                </MultiSelectGroup>
-              </div>
+            <Field
+              name="active"
+              label="Aktiv bedrift?"
+              component={ToggleSwitch.Field}
+            />
 
-              <Field
-                placeholder="Bedriften ønsker kun kurs"
-                label="Notat fra Bedkom"
-                name="adminComment"
-                component={TextEditor.Field}
-                className={styles.adminNote}
-              />
+            <Field
+              placeholder="Bedriften ønsker kun kurs"
+              label="Notat fra Bedkom"
+              name="adminComment"
+              component={TextEditor.Field}
+              className={styles.adminNote}
+            />
 
-              <SubmissionError />
-              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-            </Form>
-          );
-        }}
+            <SubmissionError />
+            <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
+          </Form>
+        )}
       </TypedLegoForm>
     </Page>
   );

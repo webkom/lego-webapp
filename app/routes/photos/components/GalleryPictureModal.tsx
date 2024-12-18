@@ -180,7 +180,7 @@ const GalleryPictureModal = () => {
   );
 
   useEffect(() => {
-    if (pagination.hasMore && isLastLoadedImage) {
+    if (pagination.hasMore && isLastLoadedImage && galleryId) {
       dispatch(
         fetchGalleryPictures(galleryId, {
           next: true,
