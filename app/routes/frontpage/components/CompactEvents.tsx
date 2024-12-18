@@ -7,7 +7,7 @@ import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { selectAllEvents } from 'app/reducers/events';
-import { eventListDefaultQuery } from 'app/routes/events/components/EventList';
+import { eventListDefaultQuery } from 'app/routes/events/components/EventsOverview';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { EventType } from 'app/store/models/Event';

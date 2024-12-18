@@ -1,5 +1,6 @@
 import cx from 'classnames';
-import { Flex } from '../Layout';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import styles from './TabContainer.module.css';
 import type { ReactNode } from 'react';
 
@@ -9,9 +10,28 @@ type Props = {
   children?: ReactNode;
 };
 
-export const TabContainer = ({ className, lineColor, children }: Props) => (
-  <Flex wrap className={cx(styles.container, className)}>
-    {children}
-    <div className={styles.spacer} style={{ borderColor: lineColor }} />
-  </Flex>
-);
+export const TabContainer = ({ className, lineColor, children }: Props) => {
+  const [indicatorStyle, setIndicatorStyle] = useState<React.CSSProperties>({});
+  const location = useLocation();
+
+  useEffect(() => {
+    const activeTab = document.querySelector('[data-active="true"]');
+    if (activeTab) {
+      const width = activeTab.clientWidth;
+      const left = (activeTab as HTMLElement).offsetLeft;
+      setIndicatorStyle({
+        width: `${width}px`,
+        transform: `translateX(${left}px)`,
+      });
+    }
+  }, [children, location.pathname]);
+
+  return (
+    <div className={cx(styles.container, className)}>
+      <div className={styles.tabList} style={{ borderColor: lineColor }}>
+        {children}
+        <div className={styles.indicator} style={indicatorStyle} />
+      </div>
+    </div>
+  );
+};

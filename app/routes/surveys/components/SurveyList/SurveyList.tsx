@@ -7,14 +7,15 @@ import type { DetailedSurvey } from 'app/store/models/Survey';
 type Props = {
   surveys: DetailedSurvey[];
   fetching: boolean;
+  isTemplates?: boolean;
 };
 
-const SurveyList = ({ surveys, fetching }: Props) => {
+const SurveyList = ({ surveys, fetching, isTemplates }: Props) => {
   if (isEmpty(surveys) && !fetching) {
     return (
       <EmptyState
         iconNode={<FolderOpen />}
-        body="Ingen spørreundersøkelser funnet"
+        body={`Ingen ${isTemplates ? 'maler' : 'spørreundersøkelser'} funnet`}
       />
     );
   }

@@ -1,15 +1,28 @@
+.tabContainer {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+}
+
 .tab {
   display: inline-block;
   color: var(--lego-font-color);
   padding: var(--spacing-sm) var(--spacing-md);
-  border-bottom: 2px solid var(--border-gray);
-}
-
-.tab.active {
-  border-bottom: 2px solid var(--color-black);
+  cursor: pointer;
+  outline: none;
 }
 
 .tab.disabled {
-  color: var(--border-gray);
+  opacity: 0.5;
   pointer-events: none;
+}
+
+.tabIndicator {
+  position: absolute;
+  bottom: -2px;
+  height: 2px;
+  background-color: var(--color-black);
+  transition:
+    transform var(--easing-medium),
+    width var(--easing-medium);
 }

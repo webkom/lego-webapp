@@ -1,8 +1,24 @@
 .container {
   margin: var(--spacing-sm) 0 var(--spacing-md);
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.spacer {
-  flex-grow: 1;
+.tabList {
+  display: flex;
+  position: relative;
   border-bottom: 2px solid var(--border-gray);
+  width: 100%;
+}
+
+.indicator {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background-color: var(--color-black);
+  transition:
+    transform var(--easing-medium),
+    width var(--easing-medium);
 }
