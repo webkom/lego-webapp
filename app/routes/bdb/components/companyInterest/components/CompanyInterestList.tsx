@@ -4,7 +4,6 @@ import {
   Flex,
   Icon,
   LinkButton,
-  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FileDown, Trash2 } from 'lucide-react';
@@ -22,7 +21,6 @@ import { selectCompanyInterests } from 'app/reducers/companyInterest';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import {
-  BdbTabs,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
@@ -228,15 +226,7 @@ const CompanyInterestList = () => {
   });
 
   return (
-    <Page
-      title="Bedriftsdatabase"
-      actionButtons={
-        <LinkButton href="/bdb/company-interest/create">
-          Ny bedriftsinteresse
-        </LinkButton>
-      }
-      tabs={<BdbTabs />}
-    >
+    <>
       <Flex column gap="var(--spacing-md)">
         <p>
           Her finner du all praktisk informasjon knyttet til bedriftsinteresser
@@ -332,7 +322,7 @@ const CompanyInterestList = () => {
           data={companyInterestList}
         />
       </Flex>
-    </Page>
+    </>
   );
 };
 
