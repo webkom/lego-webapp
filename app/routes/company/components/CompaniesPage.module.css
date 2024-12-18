@@ -83,6 +83,10 @@
 .iconInfoPlacement {
   margin: var(--spacing-lg) 0;
   gap: var(--spacing-xl);
+
+  @media (--small-viewport) {
+    gap: var(--spacing-md);
+  }
 }
 
 .infoText {
@@ -91,16 +95,5 @@
 }
 
 .readMore {
-  display: none;
-  color: var(--lego-red-color);
-}
-
-@media (--small-viewport) {
-  .iconInfoPlacement {
-    gap: var(--spacing-md);
-  }
-
-  .readMore {
-    display: contents;
-  }
+  margin-left: calc(-1 * var(--spacing-md));
 }

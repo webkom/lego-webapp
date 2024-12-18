@@ -40,7 +40,10 @@ const validate = createValidator({
 
 const CompanySemesterGUI = () => {
   return (
-    <Page title="Endre aktive semestre" back={{ href: '/company-interest' }}>
+    <Page
+      title="Endre aktive semestre"
+      back={{ href: '/bdb/company-interest' }}
+    >
       <Flex wrap gap="var(--spacing-xl)">
         <Flex column>
           <AddSemesterForm />

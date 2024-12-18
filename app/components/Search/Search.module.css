@@ -2,7 +2,7 @@
 
 .wrapper {
   position: fixed;
-  inset: var(--development-banner-height) 0 0;
+  inset: 0;
   z-index: 200;
   overflow-y: auto;
   display: flex;
@@ -29,7 +29,7 @@
 }
 
 .inputContainer {
-  margin: 0 var(--spacing-md);
+  margin: var(--development-banner-height) var(--spacing-md) 0;
   height: var(--lego-header-height);
   border-bottom: 1.5px solid var(--border-gray);
 }

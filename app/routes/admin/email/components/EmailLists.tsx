@@ -7,6 +7,7 @@ import Tag from 'app/components/Tags/Tag';
 import { selectEmailLists } from 'app/reducers/emailLists';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 
 const emailListsDefaultQuery = {
@@ -21,7 +22,7 @@ const EmailLists = () => {
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/email-lists/',
-      entity: 'emailLists',
+      entity: EntityType.EmailLists,
       query,
     })(state),
   );

@@ -1,7 +1,6 @@
-import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useMemo } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { SelectInput } from 'app/components/Form';
@@ -12,7 +11,6 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import {
-  BdbTabs,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
@@ -139,16 +137,8 @@ const BdbPage = () => {
     },
   ];
 
-  const title = 'Bedriftsdatabase';
-
   return (
-    <Page
-      title={title}
-      actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
-      tabs={<BdbTabs />}
-    >
-      <Helmet title={title} />
-
+    <>
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
         Du kan endre semesterstatuser ved å trykke på dem i listen!
@@ -195,7 +185,7 @@ const BdbPage = () => {
         loading={fetching}
         hasMore={false}
       />
-    </Page>
+    </>
   );
 };
 
