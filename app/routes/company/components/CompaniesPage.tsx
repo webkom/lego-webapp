@@ -21,7 +21,6 @@ import { selectAllPaginatedCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
-import utilities from 'app/styles/utilities.css';
 import useQuery from 'app/utils/useQuery';
 import styles from './CompaniesPage.module.css';
 import type { ListCompany } from 'app/store/models/Company';
@@ -188,36 +187,39 @@ const CompaniesPage = () => {
             Vis mer
           </Button>
         )}
-        <div className={!expanded ? utilities.hiddenOnMobile : undefined}>
-          <p className={styles.infoText}>
-            Trykk deg inn på en bedrift for å se hva slags type bedrift det er,
-            les mer om hva de jobber med og se hvor de holder til. Bla deg
-            gjennom en oversikt over tidligere eller kommende arrangementer og
-            se hvem som har jobbannonser ute for øyeblikket. Hvis du vil lese
-            mer om bedriften så kan du navigere deg til nettsiden deres via
-            linken.
-          </p>
+        {expanded && (
+          <div>
+            <p className={styles.infoText}>
+              Trykk deg inn på en bedrift for å se hva slags type bedrift det
+              er, les mer om hva de jobber med og se hvor de holder til. Bla deg
+              les mer om hva de jobber med og se hvor de holder til. Bla deg
+              gjennom en oversikt over tidligere eller kommende arrangementer og
+              se hvem som har jobbannonser ute for øyeblikket. Hvis du vil lese
+              mer om bedriften så kan du navigere deg til nettsiden deres via
+              linken.
+            </p>
 
-          <p className={styles.infoText}>
-            Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
-            kontakt med Bedkom, vi tar gjerne imot innspill!
-          </p>
-          <Button
-            flat
-            className={styles.readMore}
-            onPress={() => setExpanded(false)}
-          >
-            Vis mindre
-          </Button>
-        </div>
+            <p className={styles.infoText}>
+              Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
+              kontakt med Bedkom, vi tar gjerne imot innspill!
+            </p>
+            <Button
+              flat
+              className={styles.readMore}
+              onPress={() => setExpanded(false)}
+            >
+              Vis mindre
+            </Button>
+          </div>
+        )}
       </div>
 
       <Flex wrap justifyContent="center" className={styles.iconInfoPlacement}>
-        <Flex gap="var(--spacing-sm)">
+        <Flex alignItems="center" gap="var(--spacing-sm)">
           <Icon name="briefcase" />
           <span>Aktive jobbannonser</span>
         </Flex>
-        <Flex gap="var(--spacing-sm)">
+        <Flex alignItems="center" gap="var(--spacing-sm)">
           <Icon name="calendar-clear" />
           <span>Kommende arrangementer</span>
         </Flex>
