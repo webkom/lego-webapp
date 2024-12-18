@@ -411,3 +411,10 @@ export const Thread = {
   DELETE: generateStatuses('Thread.DELETE') as AAT,
   UPDATE: generateStatuses('Thread.UPDATE') as AAT,
 };
+
+/**
+ * Actions for fetching system status from Upptime
+ */
+export const SystemStatus = {
+  FETCH: generateStatuses('SystemStatus.FETCH') as AAT,
+};
