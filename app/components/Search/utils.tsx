@@ -6,7 +6,6 @@ import {
   BookOpenText,
   BriefcaseBusiness,
   CalendarRange,
-  CircleUser,
   ChartNoAxesColumn,
   Database,
   ExternalLink,
@@ -27,7 +26,6 @@ import {
   ReceiptText,
   ScrollText,
   Send,
-  Tags,
   Users,
   ShoppingCart,
 } from 'lucide-react';
@@ -47,13 +45,6 @@ type Link = {
 };
 
 const LINKS: Array<Link> = [
-  {
-    key: 'profile',
-    requireLogin: true,
-    title: 'Profil',
-    icon: <CircleUser />,
-    url: '/users/me',
-  },
   {
     key: 'contact',
     requireLogin: true,
@@ -151,12 +142,6 @@ const LINKS: Array<Link> = [
     title: 'Jobbannonser',
     icon: <Newspaper />,
     url: '/joblistings',
-  },
-  {
-    key: 'tags',
-    title: 'Tags',
-    icon: <Tags />,
-    url: '/tags',
   },
   {
     key: 'polls',

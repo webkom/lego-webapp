@@ -78,42 +78,44 @@ const Search = () => {
   });
 
   return (
-    <div tabIndex={-1}>
-      <SearchBar
-        query={query}
-        handleKeyDown={handleKeyDown}
-        onQueryChanged={onQueryChanged}
-        onCloseSearch={onCloseSearch}
-      />
-      <div className={styles.resultsContainer}>
-        {query.length > 0 && (
-          <SearchResults
-            results={results}
-            onCloseSearch={onCloseSearch}
-            searching={searching}
-            selectedIndex={selectedIndex}
-          />
-        )}
-        <div className={styles.sidePanel}>
-          <QuickLinks
-            title="Sider"
-            links={regularLinks}
-            onCloseSearch={onCloseSearch}
-          />
-          {externalLinks.length > 0 && (
-            <QuickLinks
-              title="Andre tjenester"
-              links={externalLinks}
+    <div className={styles.wrapper} tabIndex={-1}>
+      <div className={styles.content}>
+        <SearchBar
+          query={query}
+          handleKeyDown={handleKeyDown}
+          onQueryChanged={onQueryChanged}
+        />
+        <div className={styles.resultsContainer}>
+          {query.length > 0 && (
+            <SearchResults
+              results={results}
               onCloseSearch={onCloseSearch}
+              searching={searching}
+              selectedIndex={selectedIndex}
+              query={query}
             />
           )}
-          {adminLinks.length > 0 && (
+          <div className={styles.sidePanel}>
             <QuickLinks
-              title="Admin"
-              links={adminLinks}
+              title="Sider"
+              links={regularLinks}
               onCloseSearch={onCloseSearch}
             />
-          )}
+            {externalLinks.length > 0 && (
+              <QuickLinks
+                title="Andre tjenester"
+                links={externalLinks}
+                onCloseSearch={onCloseSearch}
+              />
+            )}
+            {adminLinks.length > 0 && (
+              <QuickLinks
+                title="Admin"
+                links={adminLinks}
+                onCloseSearch={onCloseSearch}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

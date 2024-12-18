@@ -140,7 +140,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Artikler');
 
     // Go back
-    cy.get(t('closeButton')).click();
+    cy.get(t('search-menu-icon')).click();
     cy.url().should('contain', '/');
     cy.contains('Arrangementer');
     cy.contains('Påmeldinger');
@@ -189,17 +189,17 @@ describe('Navigate throughout app', () => {
     openMenuAndSelect('Om Abakus', '/pages/info-om-abakus');
     cy.contains('Generelt');
 
-    // Profile
-    openMenuAndSelect('Profil', '/users/me');
-    cy.contains('Brukerinfo');
-
     // Quotes
     openMenuAndSelect('Overhørt', '/quotes');
     cy.contains('Just do it!');
 
-    // Tags
-    openMenuAndSelect('Tags', '/tags');
-    cy.contains('lorem');
+    // Forum
+    openMenuAndSelect('Forum', '/forum');
+    cy.contains('Forum');
+
+    // Lending
+    openMenuAndSelect('Utlån', '/lending');
+    cy.contains('Prinsessekjole');
   });
 
   it('should be able to log out', () => {

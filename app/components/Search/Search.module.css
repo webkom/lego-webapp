@@ -1,22 +1,53 @@
 @import url('~app/styles/variables.css');
 
+.wrapper {
+  position: fixed;
+  inset: var(--development-banner-height) 0 0;
+  z-index: 200;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  background-color: var(--inverted-font-color);
+  animation: fade-in var(--easing-fast) forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.content {
+  width: var(--lego-max-width);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
 .inputContainer {
-  height: 7rem;
-  padding: 0 var(--spacing-md);
+  margin: 0 var(--spacing-md);
+  height: var(--lego-header-height);
+  border-bottom: 1.5px solid var(--border-gray);
 }
 
 .inputContainer input {
+  height: 100%;
+  min-height: var(--lego-header-height);
   appearance: none;
   flex: 1;
   outline: none;
   border: 0;
   padding: 0 var(--spacing-md);
-  font-size: var(--font-size-lg);
+  font-size: 24px;
   color: var(--lego-font-color);
   background: transparent;
 
   &::placeholder {
-    color: var(--color-gray-6);
+    color: var(--placeholder-color);
   }
 }
 
@@ -37,26 +68,14 @@
 }
 
 .searchIcon {
-  color: var(--color-gray-6);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  color: var(--placeholder-color);
 }
 
 .searchResultItemIcon {
   color: var(--lego-font-color);
-}
-
-.resultsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  max-height: calc(100svh - 120px);
-  overflow-y: auto;
-  padding: var(--spacing-xl) 3rem 3rem;
-  background-color: var(--lego-card-color);
-  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-
-  @media (--mobile-device) {
-    height: 100svh;
-    padding: var(--spacing-lg) var(--spacing-lg) var(--spacing-lg);
-  }
 }
 
 .sidePanel {
@@ -64,11 +83,68 @@
   flex-direction: column;
   gap: var(--spacing-lg);
   flex-grow: 1;
+  margin-bottom: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+}
+
+.resultsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 var(--spacing-md);
+  gap: var(--spacing-lg);
+  overflow-y: auto;
+  /* stylelint-disable indentation */
+  background:
+  /*
+  Shadow cover TOP
+  */
+    linear-gradient(
+        var(--inverted-font-color) 30%,
+        rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%)
+      )
+      center top,
+    /*
+  Shadow cover BOTTOM
+  */
+      linear-gradient(
+        rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%),
+        var(--inverted-font-color) 70%
+      )
+      center bottom,
+    /*
+  Shadow TOP
+  */
+      radial-gradient(
+        farthest-side at 50% 0,
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
+      )
+      center top,
+    /*
+  Shadow BOTTOM
+  */
+      radial-gradient(
+        farthest-side at 50% 100%,
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
+      )
+      center bottom;
+  /* stylelint-enable indentation */
+  background-repeat: no-repeat;
+  background-size:
+    100% 40px,
+    100% 40px,
+    100% 14px,
+    100% 14px;
+  background-attachment: local, local, scroll, scroll;
+
+  .sidePanel {
+    padding: 0;
+  }
 }
 
 .quickLinksHeader {
   color: var(--lego-font-color);
-  padding-left: var(--spacing-md);
 }
 
 .quickLinks {
@@ -76,10 +152,7 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   list-style-type: none;
   gap: var(--spacing-xs);
-}
-
-.quickLinkWrapper {
-  padding: 0;
+  margin-left: calc(-1 * var(--spacing-md));
 }
 
 .quickLink {
@@ -89,14 +162,14 @@
   border-radius: var(--border-radius-md);
   transition: background-color var(--linear-fast);
   color: var(--lego-font-color);
-}
 
-.quickLink:hover {
-  background-color: var(--additive-background);
+  &:hover {
+    background-color: var(--additive-background);
+  }
 }
 
 .results {
-  flex: 1 1 66%;
+  flex: 1 1 60%;
   min-width: 0;
 }
 

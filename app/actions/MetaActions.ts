@@ -41,7 +41,7 @@ export function fetchMeta() {
     types: Meta.FETCH,
     endpoint: '/site-meta/',
     meta: {
-      errorMessage: 'Noe gikk galt med innlastingen av sida',
+      errorMessage: 'Noe gikk galt med innlastingen av siden',
     },
     propagateError: true,
   });

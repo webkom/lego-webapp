@@ -1,6 +1,5 @@
 import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import cx from 'classnames';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -53,7 +52,6 @@ const App = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
-  const searchOpen = useAppSelector((state) => state.search.open);
 
   usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
     serverOnly: true,
@@ -61,11 +59,7 @@ const App = () => {
 
   return (
     <LegoBricksProvider theme={theme} navigate={navigate}>
-      <div
-        className={cx(styles.appRoute, {
-          [styles.searchOpen]: searchOpen,
-        })}
-      >
+      <div className={styles.appRoute}>
         <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
           <meta property="og:image" content={coverPhoto} />
           <meta
@@ -76,6 +70,7 @@ const App = () => {
 
         {config.environment !== 'production' && (
           <div
+            id="development-banner"
             style={{
               backgroundColor: 'var(--danger-color)',
               color: 'white',

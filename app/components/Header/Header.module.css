@@ -1,20 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.modal {
-  composes: container from '~app/styles/utilities.css';
-  max-width: 900px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-/* Makes it possible to close the header modal by clicking outside */
-.backdrop {
-  inset: 0;
-  position: fixed;
-}
-
 .themeChange {
   padding: var(--spacing-sm) var(--spacing-md);
   line-height: 1.3;
@@ -110,4 +95,35 @@
 html[data-theme='light'] .logoLightMode,
 html[data-theme='dark'] .logoDarkMode {
   display: block;
+}
+
+.searchButton {
+  z-index: 301;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.menuIcon,
+.closeIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: var(--easing-medium);
+  transition-property: transform, opacity;
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+.hideIcon.menuIcon {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.hideIcon.closeIcon {
+  transform: rotate(-90deg);
+  opacity: 0;
 }
