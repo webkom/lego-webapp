@@ -9,7 +9,6 @@ import authRoute from './auth';
 import bdbRoute from './bdb';
 import brandRoute from './brand';
 import companyRoute from './company';
-import companyInterestRoute from './companyInterest';
 import contactRoute from './contact';
 import eventsRoute from './events';
 import forumRoute from './forum';
@@ -29,7 +28,8 @@ import validatorRoute from './userValidator';
 import usersRoute from './users';
 
 const CompanyInterestPage = loadable(
-  () => import('./companyInterest/components/CompanyInterestPage'),
+  () =>
+    import('./bdb/components/companyInterest/components/CompanyInterestPage'),
 );
 const Frontpage = loadable(() => import('./frontpage'));
 
@@ -47,8 +47,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'companies/*', children: companyRoute },
       { path: 'register-interest', Component: CompanyInterestPage },
       { path: 'interesse', Component: CompanyInterestPage },
-      { path: 'companyInterest/*', children: companyInterestRoute },
-      { path: 'company-interest/*', children: companyInterestRoute },
       { path: 'contact', children: contactRoute },
       { path: 'kontakt', children: contactRoute },
       { path: 'events/*', children: eventsRoute },

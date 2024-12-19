@@ -7,17 +7,21 @@ import {
   Image,
   Page,
   LinkButton,
+  filterSidebar,
+  FilterSection,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/CompanyActions';
-import { selectActiveCompanies } from 'app/reducers/companies';
+import { CheckBox, TextInput } from 'app/components/Form';
+import { selectAllPaginatedCompanies } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import utilities from 'app/styles/utilities.css';
+import { EntityType } from 'app/store/models/entities';
+import useQuery from 'app/utils/useQuery';
 import styles from './CompaniesPage.module.css';
 import type { ListCompany } from 'app/store/models/Company';
 
@@ -84,31 +88,79 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
   </div>
 );
 
+export const companiesDefaultQuery = {
+  search: '',
+  showInactive: 'false' as 'true' | 'false',
+};
+
 const CompaniesPage = () => {
   const [expanded, setExpanded] = useState(false);
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const { query, setQueryValue } = useQuery(companiesDefaultQuery);
 
-  const companies = useAppSelector(selectActiveCompanies<ListCompany>);
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
-      query: {},
-      entity: 'companies',
+      query: { ...query, search: debouncedSearch },
+      entity: EntityType.Companies,
       endpoint: '/companies/',
     })(state),
   );
 
-  const dispatch = useAppDispatch();
+  const companies = useAppSelector((state) =>
+    selectAllPaginatedCompanies<ListCompany>(state, { pagination }),
+  );
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(query.search);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [query.search]);
+
+  const dispatch = useAppDispatch();
   const actionGrant = useAppSelector((state) => state.companies.actionGrant);
 
   usePreparedEffect(
     'fetchAllCompanies',
-    () => dispatch(fetchAll({ fetchMore: false })),
-    [],
+    () =>
+      dispatch(
+        fetchAll({
+          fetchMore: false,
+          query: { ...query, search: debouncedSearch },
+        }),
+      ),
+    [query.showInactive, debouncedSearch],
   );
 
   return (
     <Page
       title="Bedrifter"
+      sidebar={filterSidebar({
+        children: (
+          <>
+            <FilterSection title="Søk">
+              <TextInput
+                type="text"
+                prefix="search"
+                placeholder="Søk etter bedrifter ..."
+                value={query.search}
+                onChange={(e) => setQueryValue('search')(e.target.value)}
+              />
+            </FilterSection>
+            <CheckBox
+              id="showInactive"
+              label="Vis inaktive bedrifter"
+              checked={query.showInactive === 'true'}
+              onChange={() =>
+                setQueryValue('showInactive')(
+                  query.showInactive === 'true' ? 'false' : 'true',
+                )
+              }
+            />
+          </>
+        ),
+      })}
       actionButtons={
         (actionGrant.includes('create') || actionGrant.includes('edit')) && (
           <LinkButton href="/bdb">Bedriftsdatabasen</LinkButton>
@@ -135,36 +187,39 @@ const CompaniesPage = () => {
             Vis mer
           </Button>
         )}
-        <div className={!expanded ? utilities.hiddenOnMobile : undefined}>
-          <p className={styles.infoText}>
-            Trykk deg inn på en bedrift for å se hva slags type bedrift det er,
-            les mer om hva de jobber med og se hvor de holder til. Bla deg
-            gjennom en oversikt over tidligere eller kommende arrangementer og
-            se hvem som har jobbannonser ute for øyeblikket. Hvis du vil lese
-            mer om bedriften så kan du navigere deg til nettsiden deres via
-            linken.
-          </p>
+        {expanded && (
+          <div>
+            <p className={styles.infoText}>
+              Trykk deg inn på en bedrift for å se hva slags type bedrift det
+              er, les mer om hva de jobber med og se hvor de holder til. Bla deg
+              les mer om hva de jobber med og se hvor de holder til. Bla deg
+              gjennom en oversikt over tidligere eller kommende arrangementer og
+              se hvem som har jobbannonser ute for øyeblikket. Hvis du vil lese
+              mer om bedriften så kan du navigere deg til nettsiden deres via
+              linken.
+            </p>
 
-          <p className={styles.infoText}>
-            Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
-            kontakt med Bedkom, vi tar gjerne imot innspill!
-          </p>
-          <Button
-            flat
-            className={styles.readMore}
-            onPress={() => setExpanded(false)}
-          >
-            Vis mindre
-          </Button>
-        </div>
+            <p className={styles.infoText}>
+              Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
+              kontakt med Bedkom, vi tar gjerne imot innspill!
+            </p>
+            <Button
+              flat
+              className={styles.readMore}
+              onPress={() => setExpanded(false)}
+            >
+              Vis mindre
+            </Button>
+          </div>
+        )}
       </div>
 
       <Flex wrap justifyContent="center" className={styles.iconInfoPlacement}>
-        <Flex gap="var(--spacing-sm)">
+        <Flex alignItems="center" gap="var(--spacing-sm)">
           <Icon name="briefcase" />
           <span>Aktive jobbannonser</span>
         </Flex>
-        <Flex gap="var(--spacing-sm)">
+        <Flex alignItems="center" gap="var(--spacing-sm)">
           <Icon name="calendar-clear" />
           <span>Kommende arrangementer</span>
         </Flex>
@@ -176,7 +231,12 @@ const CompaniesPage = () => {
         loadMore={() =>
           pagination.hasMore &&
           !pagination.fetching &&
-          dispatch(fetchAll({ fetchMore: true }))
+          dispatch(
+            fetchAll({
+              fetchMore: true,
+              query: { ...query, search: debouncedSearch },
+            }),
+          )
         }
         initialLoad={false}
         loader={<LoadingIndicator loading />}

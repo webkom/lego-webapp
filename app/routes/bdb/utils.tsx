@@ -1,5 +1,4 @@
 import moment from 'moment';
-import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
@@ -233,10 +232,3 @@ export const getContactStatuses = (
 
   return Array.from(statuses);
 };
-
-export const BdbTabs = () => (
-  <>
-    <NavigationTab href="/company-interest">Bedriftsinteresser</NavigationTab>
-    <NavigationTab href="/bdb">BDB</NavigationTab>
-  </>
-);

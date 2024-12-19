@@ -4,7 +4,6 @@ import {
   Flex,
   Icon,
   LinkButton,
-  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FileDown, Trash2 } from 'lucide-react';
@@ -22,7 +21,6 @@ import { selectCompanyInterests } from 'app/reducers/companyInterest';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import {
-  BdbTabs,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
@@ -46,6 +44,7 @@ type SemesterOptionType = {
 const defaultCompanyInterestsQuery = {
   semester: '',
   event: CompanyInterestEventType.All,
+  companyName: '',
 };
 
 const CompanyInterestList = () => {
@@ -53,13 +52,17 @@ const CompanyInterestList = () => {
     { url: string; filename: string } | undefined
   >(undefined);
 
-  const { query, setQueryValue } = useQuery(defaultCompanyInterestsQuery);
+  const { query, setQuery, setQueryValue } = useQuery(
+    defaultCompanyInterestsQuery,
+  );
   const companySemesters = useAppSelector(selectAllCompanySemesters);
 
   const resolveCurrentSemester = (
     slug: string | undefined,
     companySemesters: CompanySemester[],
   ) => {
+    if (slug === '') return null;
+
     if (slug) {
       const companySemester = getCompanySemesterBySlug(slug, companySemesters);
       if (companySemester) return companySemester;
@@ -115,10 +118,10 @@ const CompanyInterestList = () => {
       ),
     [query],
   );
+
   usePreparedEffect(
     'fetchCompanyInterestListSemesters',
     () => dispatch(fetchSemesters()),
-
     [],
   );
 
@@ -150,8 +153,10 @@ const CompanyInterestList = () => {
     {
       title: 'Bedriftsnavn',
       dataIndex: 'companyName',
+      search: true,
+      inlineFiltering: true,
       render: (companyName: string, companyInterest) => (
-        <Link to={`/company-interest/${companyInterest.id}/edit`}>
+        <Link to={`/bdb/company-interest/${companyInterest.id}/edit`}>
           {companyInterest.company ? companyInterest.company.name : companyName}
         </Link>
       ),
@@ -180,7 +185,12 @@ const CompanyInterestList = () => {
             }}
           >
             {({ openConfirmModal }) => (
-              <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
+              <Icon
+                onPress={openConfirmModal}
+                iconNode={<Trash2 />}
+                size={18}
+                danger
+              />
             )}
           </ConfirmModal>
         </Flex>
@@ -216,15 +226,7 @@ const CompanyInterestList = () => {
   });
 
   return (
-    <Page
-      title="Bedriftsinteresser"
-      actionButtons={
-        <LinkButton href="/company-interest/create">
-          Ny bedriftsinteresse
-        </LinkButton>
-      }
-      tabs={<BdbTabs />}
-    >
+    <>
       <Flex column gap="var(--spacing-md)">
         <p>
           Her finner du all praktisk informasjon knyttet til bedriftsinteresser
@@ -257,7 +259,7 @@ const CompanyInterestList = () => {
               isClearable={false}
             />
           </Flex>
-          <LinkButton href="/company-interest/semesters">
+          <LinkButton href="/bdb/company-interest/semesters">
             Endre aktive semestre
           </LinkButton>
         </Flex>
@@ -315,10 +317,12 @@ const CompanyInterestList = () => {
           }}
           hasMore={hasMore}
           loading={fetching}
+          filters={query}
+          onChange={setQuery}
           data={companyInterestList}
         />
       </Flex>
-    </Page>
+    </>
   );
 };
 

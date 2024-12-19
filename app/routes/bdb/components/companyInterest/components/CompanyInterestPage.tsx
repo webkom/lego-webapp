@@ -437,7 +437,7 @@ const CompanyInterestPage = () => {
         : createCompanyInterest(newData, isEnglish),
     ).then(() => {
       navigate(
-        allowedBdb ? '/company-interest' : '/pages/bedrifter/for-bedrifter',
+        allowedBdb ? '/bdb/company-interest' : '/pages/bedrifter/for-bedrifter',
       );
     });
   };
@@ -506,7 +506,7 @@ const CompanyInterestPage = () => {
   return (
     <Page
       title={title}
-      back={edit ? { href: '/company-interest' } : undefined}
+      back={edit ? { href: '/bdb/company-interest' } : undefined}
       actionButtons={
         !edit && (
           <Link to={isEnglish ? '/interesse' : '/register-interest'}>
