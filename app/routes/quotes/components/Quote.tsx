@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { approve, deleteQuote, unapprove } from 'app/actions/QuoteActions';
+import { approve, deleteQuote } from 'app/actions/QuoteActions';
 import Dropdown from 'app/components/Dropdown';
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
@@ -30,6 +30,7 @@ const Quote = ({
   const fetchingEmojis = useAppSelector((state) => state.emojis.fetching);
 
   const [deleting, setDeleting] = useState(false);
+  const [pippi, setPippi] = useState(true);
   const dispatch = useAppDispatch();
 
   let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: EntityId })[] =
@@ -93,17 +94,15 @@ const Quote = ({
                   iconName="ellipsis-horizontal"
                 >
                   <Dropdown.List>
-                    <Dropdown.ListItem>
-                      <button
-                        onClick={() =>
-                          quote.approved
-                            ? dispatch(unapprove(quote.id))
-                            : dispatch(approve(quote.id))
-                        }
-                      >
-                        {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
-                      </button>
-                    </Dropdown.ListItem>
+                    {!quote.approved && pippi ? (
+                      <Dropdown.ListItem>
+                        <button onClick={() => dispatch(approve(quote.id))}>
+                          {'Godkjenn'}
+                        </button>
+                      </Dropdown.ListItem>
+                    ) : (
+                      <div></div>
+                    )}
 
                     {!deleting ? (
                       <Dropdown.ListItem danger>
@@ -113,8 +112,8 @@ const Quote = ({
                               e.preventDefault();
                               e.stopPropagation();
                             }
-
                             setDeleting(!deleting);
+                            setPippi(false);
                           }}
                         >
                           Slett
@@ -123,7 +122,7 @@ const Quote = ({
                     ) : (
                       <Dropdown.ListItem>
                         <button onClick={() => dispatch(deleteQuote(quote.id))}>
-                          Er du sikker?
+                          Jeg er sikker, slett den! Fyfy
                         </button>
                       </Dropdown.ListItem>
                     )}
