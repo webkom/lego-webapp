@@ -1,17 +1,42 @@
-import { Flex, Icon, Image } from '@webkom/lego-bricks';
+import { Flex, Icon, Image, LinkButton } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
+import { fetchSystemStatus } from 'app/actions/StatusActions';
 import netcompany from 'app/assets/netcompany_white.svg';
 import octocat from 'app/assets/octocat.png';
 import { useIsLoggedIn } from 'app/reducers/auth';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilityStyles from 'app/styles/utilities.css';
 import Circle from '../Circle';
 import styles from './Footer.module.css';
 
 const Footer = () => {
+  const dispatch = useAppDispatch();
+  const systemStatus = useAppSelector((state) => state.status.systemStatus);
   const loggedIn = useIsLoggedIn();
+
+  usePreparedEffect(
+    'fetchSystemStatus',
+    () => dispatch(fetchSystemStatus()),
+    [],
+  );
+
+  const getStatusColor = (status?: string) => {
+    switch (status) {
+      case 'operational':
+        return 'var(--success-color)';
+      case 'degraded':
+        return 'var(--color-orange-6)';
+      case 'major':
+        return 'var(--danger-color)';
+      default:
+        return 'var(--color-gray-6)';
+    }
+  };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
@@ -54,6 +79,32 @@ const Footer = () => {
               Backend
             </a>
           </Flex>
+          {systemStatus?.status && systemStatus?.message && (
+            <LinkButton
+              flat
+              size="small"
+              href="https://status.abakus.no"
+              rel="noopener noreferrer"
+              target="_blank"
+              className={styles.statusLink}
+            >
+              <span className={styles.statusDot}>
+                <span
+                  className={styles.statusDotPing}
+                  style={{
+                    backgroundColor: getStatusColor(systemStatus.status),
+                  }}
+                />
+                <span
+                  className={styles.statusDotCore}
+                  style={{
+                    backgroundColor: getStatusColor(systemStatus.status),
+                  }}
+                />
+              </span>
+              {systemStatus.message}
+            </LinkButton>
+          )}
         </div>
 
         <div className={cx(styles.section, styles.rightSection)}>

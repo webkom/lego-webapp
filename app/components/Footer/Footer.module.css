@@ -26,12 +26,51 @@
   }
 }
 
+.statusDot {
+  position: relative;
+  display: inline-flex;
+  height: var(--spacing-sm);
+  width: var(--spacing-sm);
+}
+
+.statusDotCore {
+  position: relative;
+  display: inline-flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+}
+
+.statusDotPing {
+  position: absolute;
+  display: inline-flex;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.statusLink {
+  margin-top: var(--spacing-sm);
+  margin-left: calc(-1 * var(--spacing-sm));
+  font-weight: 400;
+}
+
 /* stylelint-disable no-descending-specificity */
 .footerContent a {
   color: var(--color-red-8);
   margin-bottom: var(--spacing-sm);
 
-  &:hover {
+  &:hover:not(.statusLink) {
     color: var(--color-red-7);
   }
 }
@@ -43,7 +82,7 @@
 html[data-theme='dark'] .footerContent a {
   color: var(--color-red-2);
 
-  &:hover {
+  &:hover:not(.statusLink) {
     color: var(--color-red-3);
   }
 }
