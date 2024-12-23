@@ -87,10 +87,15 @@ const validate = createValidator({
     ),
   ],
   paymentDueDate: [
-    timeIsAtLeastDurationAfter(
-      'unregistrationDeadline',
-      moment.duration(1, 'day'),
-      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
+    conditionalValidation(
+      (allValues) => allValues.isPriced,
+      () => [
+        timeIsAtLeastDurationAfter(
+          'unregistrationDeadline',
+          moment.duration(1, 'day'),
+          'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
+        ),
+      ],
     ),
   ],
   isClarified: [
