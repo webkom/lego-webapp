@@ -3,13 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
-import {
-  TextInput,
-  MultiSelectGroup,
-  RadioButton,
-  PhoneNumberInput,
-  SelectInput,
-} from 'app/components/Form';
+import { TextInput, PhoneNumberInput, SelectInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
@@ -32,6 +26,7 @@ import {
 } from 'app/utils/validation';
 import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import ChangePassword from './ChangePassword';
+import ThemeSelector from './ThemeSelector';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from 'app/store/models/User';
@@ -198,29 +193,7 @@ const UserSettings = () => {
               />
             </Flex>
 
-            <MultiSelectGroup legend="Fargetema" name="selectedTheme">
-              <Field
-                name="selectedTheme"
-                label="Auto"
-                value="auto"
-                type="radio"
-                component={RadioButton.Field}
-              />
-              <Field
-                name="selectedTheme"
-                label="Lyst"
-                value="light"
-                type="radio"
-                component={RadioButton.Field}
-              />
-              <Field
-                name="selectedTheme"
-                label="Mørkt"
-                value="dark"
-                type="radio"
-                component={RadioButton.Field}
-              />
-            </MultiSelectGroup>
+            <ThemeSelector />
 
             {showAbakusMembership && (
               <Field
