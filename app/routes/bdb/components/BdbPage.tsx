@@ -70,8 +70,6 @@ const BdbPage = () => {
     selectTransformedAdminCompanies(state, { pagination }),
   );
 
-  const fetching = useAppSelector((state) => state.companies.fetching);
-
   const dispatch = useAppDispatch();
   usePreparedEffect(
     'fetchBdb',
@@ -213,7 +211,7 @@ const BdbPage = () => {
         data={companies}
         filters={query}
         onChange={setQuery}
-        loading={fetching}
+        loading={pagination.fetching}
         onLoad={() => {
           currentCompanySemester?.id &&
             dispatch(
