@@ -57,13 +57,13 @@ const BdbPage = () => {
     [companySemesters, query.semester],
   );
 
-  console.log(currentCompanySemester);
   const { pagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/bdb/',
       entity: EntityType.Companies,
       query: {
-        semester_id: currentCompanySemester?.id,
+        ...query,
+        semester_id: String(currentCompanySemester?.id),
       },
     }),
   );
@@ -80,18 +80,32 @@ const BdbPage = () => {
     async () => {
       if (!companySemesters.length) {
         const action = await dispatch(fetchSemesters());
-        const companySemesterEntities =
-          action.payload.entities.companySemesters;
-        const companySemesters = Object.values(companySemesterEntities).filter(
-          (companySemester) => companySemester !== undefined,
-        );
+        const companySemesters = Object.values(
+          action.payload.entities.companySemesters,
+        ).filter((companySemester) => companySemester !== undefined);
         const semester = resolveCurrentSemester(
           query.semester,
           companySemesters,
         );
-        return dispatch(fetchAllAdmin(semester!.id, false));
+        return dispatch(
+          fetchAllAdmin(
+            {
+              ...query,
+              semester_id: semester!.id,
+            },
+            false,
+          ),
+        );
       }
-      return dispatch(fetchAllAdmin(currentCompanySemester!.id, false));
+      return dispatch(
+        fetchAllAdmin(
+          {
+            ...query,
+            semester_id: currentCompanySemester!.id,
+          },
+          false,
+        ),
+      );
     },
     [query.semester, currentCompanySemester, companySemesters],
   );
@@ -175,7 +189,7 @@ const BdbPage = () => {
         <SelectInput
           name="semester"
           options={companySemesters
-            .sort((a, b) => (b.semester === 'autumn' ? 1 : -1))
+            .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
             .sort((a, b) => b.year - a.year)
             .map((semester) => ({
               label: semesterToHumanReadable(
@@ -206,12 +220,21 @@ const BdbPage = () => {
       <Table
         className={styles.bdbTable}
         columns={columns}
-        data={fetching ? [] : companies}
+        data={companies}
         filters={query}
         onChange={setQuery}
         loading={fetching}
         onLoad={() => {
-          dispatch(fetchAllAdmin(currentCompanySemester?.id, true));
+          currentCompanySemester?.id &&
+            dispatch(
+              fetchAllAdmin(
+                {
+                  ...query,
+                  semester_id: currentCompanySemester.id,
+                },
+                true,
+              ),
+            );
         }}
         hasMore={pagination.hasMore}
       />
