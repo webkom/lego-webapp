@@ -43,7 +43,7 @@ export const fetchAll = ({
   });
 };
 
-export function fetchAllAdmin(query, next: boolean) {
+export function fetchAllAdmin(query = {}, next: boolean = false) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
     endpoint: `/bdb/`,

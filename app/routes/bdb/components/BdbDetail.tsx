@@ -479,8 +479,8 @@ const BdbDetail = () => {
       </ContentSection>
 
       <Flex column gap="var(--spacing-md)" margin="var(--spacing-md) 0 0 0">
-        <div>
-          <Flex justifyContent="space-between" alignItems="center">
+        <Flex column gap="var(--spacing-sm)">
+          <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Bedriftskontakter</h3>
             <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
               Legg til bedriftskontakt
@@ -496,10 +496,15 @@ const BdbDetail = () => {
           ) : (
             <EmptyState body="Ingen bedriftskontakter registrert" />
           )}
-        </div>
+        </Flex>
 
-        <div>
-          <h3>Semesterstatuser</h3>
+        <Flex column gap="var(--spacing-sm)">
+          <Flex wrap justifyContent="space-between" alignItems="center">
+            <h3>Semesterstatuser</h3>
+            <LinkButton href={`/bdb/${company.id}/semesters/add`}>
+              Legg til nytt semester
+            </LinkButton>
+          </Flex>
           {company.semesterStatuses?.length > 0 ? (
             <Table
               columns={semesterColumns}
@@ -510,7 +515,7 @@ const BdbDetail = () => {
           ) : (
             <EmptyState body="Ingen semesterstatuser registrert" />
           )}
-        </div>
+        </Flex>
 
         <div>
           <h3>Bedriftens arrangementer</h3>
