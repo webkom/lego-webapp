@@ -62,10 +62,10 @@ export const Achievements = ({
                   ] ?? 'Gold'
                 }
                 style={
-                  AchievementsInfo[e.identifier][e.level].rarity >= 4
+                  AchievementsInfo[e.identifier][e.level].rarity >= 3
                     ? {
-                        filter: `drop-shadow(0px 0px ${
-                          AchievementsInfo[e.identifier][e.level].rarity - 1
+                        filter: `drop-shadow(0 0 ${
+                          AchievementsInfo[e.identifier][e.level].rarity
                         }px ${
                           rarityToColorMap[
                             AchievementsInfo[e.identifier][e.level].rarity
@@ -75,7 +75,22 @@ export const Achievements = ({
                     : {}
                 }
               />
-              <span style={{ textShadow: '#FC0 1px 0 10px' }}>
+              <span
+                style={
+                  AchievementsInfo[e.identifier][e.level].rarity >= 3
+                    ? {
+                        textShadow: `
+                          ${
+                            rarityToColorMap[
+                              AchievementsInfo[e.identifier][e.level].rarity
+                            ]
+                          } 0 0 ${
+                            AchievementsInfo[e.identifier][e.level].rarity * 1.5
+                          }px`,
+                      }
+                    : {}
+                }
+              >
                 {AchievementsInfo[e.identifier][e.level].name}
               </span>
             </Flex>
