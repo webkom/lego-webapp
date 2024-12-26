@@ -15,7 +15,7 @@ const RestrictedMailEditor = loadable(
 );
 const EmailRouteWrapper = () => (
   <Page
-    title="Administer E-post"
+    title="Administer e-post"
     tabs={
       <>
         <NavigationTab href="/admin/email/lists" matchSubpages>
