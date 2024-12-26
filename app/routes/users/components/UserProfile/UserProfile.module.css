@@ -21,7 +21,7 @@
 }
 
 .sidebar {
-  min-width: 320px;
+  min-width: 348.53px; /* The width of the info cards below */
   position: relative;
 }
 
@@ -90,41 +90,23 @@
   margin-right: var(--spacing-sm);
 }
 
-.membershipPill {
-  margin: var(--spacing-xs);
-}
-
 .membershipBadge {
-  margin: var(--spacing-sm);
-
   &.inactive {
     filter: grayscale(100%);
     opacity: 0.7;
   }
 }
 
-.trophyElementBox {
+.achievements {
+  width: 100%;
+  padding-top: var(--spacing-md);
+}
+
+.trophy {
   text-align: center;
   white-space: pre-line;
-  padding: var(--spacing-xs);
-}
-
-.trophyCaseBox {
-  margin-top: var(--spacing-md);
-  padding: var(--spacing-md);
-  box-shadow: var(--shadow-xs);
-  border-radius: var(--spacing-md);
-  border: 1.5px solid var(--border-gray);
-  display: grid;
-  gap: var(--spacing-md);
-  min-width: 100%;
-  align-items: baseline;
-  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
-}
-
-.trophyCaseWrapper {
-  min-width: 100%;
-  padding: var(--spacing-xs);
+  font-weight: 500;
+  cursor: default;
 }
 
 .trophyDetailTooltip {
@@ -133,13 +115,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-}
-
-.achievementSettingItem {
-  background: var(--lego-background-color);
-  margin: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  border-radius: var(--spacing-md);
 }
 
 .showAllButton {

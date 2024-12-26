@@ -63,13 +63,13 @@ export const GroupMemberships = ({
   );
 
   return (
-    <Flex column className={styles.rightContent}>
-      <Flex wrap>
+    <Flex column gap="var(--spacing-sm)" className={styles.rightContent}>
+      <Flex wrap gap="var(--spacing-sm)">
         {membershipsAsPills.map((membership) => (
           <GroupPill key={membership.id} group={membership.abakusGroup} />
         ))}
       </Flex>
-      <Flex wrap>
+      <Flex wrap gap="var(--spacing-sm)">
         {groupedMemberships.map((memberships) => (
           <GroupBadge memberships={memberships} key={memberships[0].id} />
         ))}
@@ -79,11 +79,7 @@ export const GroupMemberships = ({
 };
 
 const GroupPill = ({ group }: { group: PublicGroup }) =>
-  group.showBadge ? (
-    <Pill key={group.id} className={styles.membershipPill}>
-      {group.name}
-    </Pill>
-  ) : null;
+  group.showBadge ? <Pill key={group.id}>{group.name}</Pill> : null;
 
 const badgeTooltip = (groupName: string, start: Dateish, end?: Dateish) => {
   const startYear = moment(start).year();

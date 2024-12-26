@@ -29,6 +29,7 @@ import { selectAllEvents } from 'app/reducers/events';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUserByUsername } from 'app/reducers/users';
+import { Achievements } from 'app/routes/users/components/UserProfile/Achievements';
 import { EmailLists } from 'app/routes/users/components/UserProfile/EmailLists';
 import { GSuiteInfo } from 'app/routes/users/components/UserProfile/GSuiteInfo';
 import { GroupTree } from 'app/routes/users/components/UserProfile/GroupTree';
@@ -38,7 +39,6 @@ import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import { AchievementsBox } from './AchievementsBox';
 import GroupChange from './GroupChange';
 import { GroupMemberships } from './GroupMemberships';
 import Penalties from './Penalties';
@@ -212,7 +212,7 @@ const UserProfile = () => {
           />
 
           {user.achievements?.length > 0 && (
-            <AchievementsBox achievements={user.achievements} />
+            <Achievements achievements={user.achievements} />
           )}
         </Flex>
       </Flex>
