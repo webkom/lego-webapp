@@ -97,3 +97,12 @@ export const selectUserWithGroups = createSelector(
     };
   },
 );
+
+export const selectUsersWithAchievementScore = createSelector(
+  selectUserEntities,
+  (userEntities) => {
+    return Object.values(userEntities).filter(
+      (user) => user.achievementScore != null,
+    );
+  },
+);
