@@ -1,11 +1,19 @@
 import { Flex, Icon, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { X } from 'lucide-react';
+import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import {
   addSemester,
   editSemester,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
+import {
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
+} from 'app/components/Content';
+import EmptyState from 'app/components/EmptyState';
 import {
   Form,
   TextInput,
@@ -44,15 +52,17 @@ const CompanySemesterGUI = () => {
       title="Endre aktive semestre"
       back={{ href: '/bdb/company-interest' }}
     >
-      <Flex wrap gap="var(--spacing-xl)">
-        <Flex column>
+      <ContentSection>
+        <ContentMain>
           <AddSemesterForm />
-        </Flex>
-        <Flex column>
-          <label className={styles.heading}>Deaktiver semestre</label>
-          <ActiveSemesters />
-        </Flex>
-      </Flex>
+        </ContentMain>
+        <ContentSidebar>
+          <div>
+            <h3>Deaktiver semestre</h3>
+            <ActiveSemesters />
+          </div>
+        </ContentSidebar>
+      </ContentSection>
     </Page>
   );
 };
@@ -98,16 +108,7 @@ const AddSemesterForm = () => {
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <label className={styles.heading}>Legg til aktivt semester</label>
-          <Field
-            placeholder="2020"
-            label="År"
-            name="year"
-            type="number"
-            component={TextInput.Field}
-            className={styles.yearForm}
-            required
-          />
+          <h3>Legg til aktivt semester</h3>
           <MultiSelectGroup name="semester" legend="Semester">
             <Field
               name="Spring"
@@ -124,6 +125,15 @@ const AddSemesterForm = () => {
               component={RadioButton.Field}
             />
           </MultiSelectGroup>
+          <Field
+            placeholder={moment().year() + 1}
+            label="År"
+            name="year"
+            type="number"
+            component={TextInput.Field}
+            className={styles.yearForm}
+            required
+          />
           <SubmissionError />
           <SubmitButton>Legg til semester</SubmitButton>
         </Form>
@@ -139,17 +149,22 @@ const ActiveSemesters = () => {
 
   const dispatch = useAppDispatch();
 
+  if (activeSemesters.length === 0) {
+    return <EmptyState body="Ingen aktive semestre" />;
+  }
+
   return (
-    <Flex column>
+    <Flex column gap="var(--spacing-sm)">
       {activeSemesters.map((semester, index) => (
-        <Flex key={index} className={styles.guiBoxes}>
-          <div>{semesterToText({ ...semester, language: 'norwegian' })}</div>
+        <Flex key={index} alignItems="center" gap="var(--spacing-xs)">
+          <span>{semesterToText({ ...semester, language: 'norwegian' })}</span>
           <Icon
-            name="close-circle"
+            iconNode={<X />}
+            danger
+            size={20}
             onPress={() =>
               dispatch(editSemester({ ...semester, activeInterestForm: false }))
             }
-            className={styles.remove}
           />
         </Flex>
       ))}

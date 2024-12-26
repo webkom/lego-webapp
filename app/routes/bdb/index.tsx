@@ -27,7 +27,7 @@ const BdbOverview = () => {
 
   return (
     <Page
-      title="Semesterstatuser"
+      title="Bedriftsdatabase"
       actionButtons={
         isCompanyInterest ? (
           <LinkButton

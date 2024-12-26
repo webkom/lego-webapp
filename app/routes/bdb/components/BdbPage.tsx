@@ -3,6 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
+import { ContentMain } from 'app/components/Content';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
@@ -20,7 +21,6 @@ import {
   semesterToHumanReadable,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.module.css';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type CompanySemester from 'app/store/models/CompanySemester';
@@ -167,7 +167,7 @@ const BdbPage = () => {
   ];
 
   return (
-    <>
+    <ContentMain>
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
         Du kan endre semesterstatuser ved å trykke på dem i listen!
@@ -206,7 +206,6 @@ const BdbPage = () => {
       </Flex>
 
       <Table
-        className={styles.bdbTable}
         columns={columns}
         data={companies}
         filters={query}
@@ -226,7 +225,7 @@ const BdbPage = () => {
         }}
         hasMore={pagination.hasMore}
       />
-    </>
+    </ContentMain>
   );
 };
 

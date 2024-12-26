@@ -16,6 +16,7 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
+import { ContentMain } from 'app/components/Content';
 import {
   TextEditor,
   TextInput,
@@ -506,7 +507,7 @@ const CompanyInterestPage = () => {
   return (
     <Page
       title={title}
-      back={edit ? { href: '/bdb/company-interest' } : undefined}
+      back={allowedBdb ? { href: '/bdb/company-interest' } : undefined}
       actionButtons={
         !edit && (
           <Link to={isEnglish ? '/interesse' : '/register-interest'}>
@@ -517,241 +518,247 @@ const CompanyInterestPage = () => {
     >
       <Helmet title={title} />
 
-      <LegoFinalForm
-        onSubmit={onSubmit}
-        validate={validate}
-        initialValues={initialValues}
-        subscription={{}}
-        mutators={{
-          ...arrayMutators,
-        }}
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            {!edit && (
-              <Card severity="info">
-                {FORM_LABELS.subHeading[language]}
-                <a href="mailto:bedriftskontakt@abakus.no">
-                  bedriftskontakt@abakus.no
-                </a>
-              </Card>
-            )}
-
-            <Field
-              name="company"
-              label={FORM_LABELS.company.header[language]}
-              placeholder={FORM_LABELS.company.placeholder[language]}
-              filter={['companies.company']}
-              component={SelectInput.AutocompleteField}
-              creatable
-              required
-            />
-            <Field
-              label={FORM_LABELS.contactPerson.header[language]}
-              placeholder={FORM_LABELS.contactPerson.placeholder[language]}
-              name="contactPerson"
-              component={TextInput.Field}
-              required
-            />
-            <Field
-              label={FORM_LABELS.mail[language]}
-              placeholder="example@gmail.com"
-              name="mail"
-              component={TextInput.Field}
-              required
-            />
-            <Field
-              label={FORM_LABELS.phone[language]}
-              placeholder="+47 909 09 090"
-              name="phone"
-              component={TextInput.Field}
-              required
-            />
-
-            <Flex wrap justifyContent="space-between">
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  required
-                  legend={FORM_LABELS.companyTypes[language]}
-                  name="companyType"
-                >
-                  {Object.keys(COMPANY_TYPES).map((key) => (
-                    <Field
-                      key={key}
-                      name={key}
-                      value={key}
-                      label={COMPANY_TYPES[key][language]}
-                      type="radio"
-                      component={RadioButton.Field}
-                      showErrors={false}
-                    />
-                  ))}
-                </MultiSelectGroup>
-              </Flex>
-              <Flex column className={styles.interestBox}>
-                <Field
-                  name="officeInTrondheim"
-                  component={ToggleSwitch.Field}
-                  label={FORM_LABELS.officeInTrondheim[language]}
-                />
-              </Flex>
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="companyCourseThemes"
-                  legend={FORM_LABELS.companyCourseThemes[language]}
-                  description={FORM_LABELS.companyCourseThemesInfo[language]}
-                >
-                  <FieldArray
-                    name="companyCourseThemes"
-                    language={language}
-                    component={SurveyOffersBox}
-                  />
-                </MultiSelectGroup>
-              </Flex>
-            </Flex>
-            <div className={styles.topline} />
-            <Field
-              placeholder={interestText.comment[language]}
-              name="comment"
-              component={TextEditor.Field}
-              rows={10}
-              className={styles.textEditor}
-              label={FORM_LABELS.comment[language]}
-              required
-            />
-            <Flex wrap justifyContent="space-between" gap="var(--spacing-md)">
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="semesters"
-                  legend={FORM_LABELS.semesters[language]}
-                  required
-                >
-                  <FieldArray
-                    name="semesters"
-                    language={language}
-                    component={SemesterBox}
-                  />
-                </MultiSelectGroup>
-              </Flex>
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="events"
-                  legend={FORM_LABELS.events[language]}
-                  required
-                >
-                  <FieldArray
-                    name="events"
-                    language={language}
-                    component={EventBox}
-                  />
-                </MultiSelectGroup>
-              </Flex>
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="collaborations"
-                  legend={FORM_LABELS.collaborations[language]}
-                >
-                  <FieldArray
-                    name="collaborations"
-                    language={language}
-                    component={CollaborationBox}
-                  />
-                </MultiSelectGroup>
-              </Flex>
-            </Flex>
-
-            <Flex wrap justifyContent="space-between">
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="targetGrades"
-                  legend={FORM_LABELS.targetGrades[language]}
-                >
-                  <FieldArray
-                    name="targetGrades"
-                    language={language}
-                    component={TargetGradeBox}
-                  />
-                </MultiSelectGroup>
-              </Flex>
-
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="participantRange"
-                  legend={FORM_LABELS.participantRange[language]}
-                >
-                  {Object.keys(PARTICIPANT_RANGE_TYPES).map((key) => (
-                    <Field
-                      key={key}
-                      name={key}
-                      value={key}
-                      label={PARTICIPANT_RANGE_TYPES[key]}
-                      type="radio"
-                      component={RadioButton.Field}
-                    />
-                  ))}
-                </MultiSelectGroup>
-              </Flex>
-              <Flex column className={styles.interestBox}>
-                <MultiSelectGroup
-                  name="otherOffers"
-                  legend={FORM_LABELS.otherOffers[language]}
-                >
-                  <FieldArray
-                    name="otherOffers"
-                    language={language}
-                    component={OtherBox}
-                  />
-                </MultiSelectGroup>
-              </Flex>
-            </Flex>
-            <h3 className={styles.topline}>
-              {FORM_LABELS.eventDescriptionHeader[language]}
-            </h3>
-            <p>{FORM_LABELS.eventDescriptionIntro[language]}</p>
-
-            {eventTypeEntities.map((eventTypeEntity) => {
-              return spyValues((values: CompanyInterestFormEntity) => {
-                const showComment = values.events?.some(
-                  (e) => e.name === eventTypeEntity.name && e.checked === true,
-                );
-
-                return (
-                  showComment && (
-                    <div className={styles.topline}>
-                      <Flex alignItems="center" gap={2}>
-                        <h3>{eventTypeEntity.translated}</h3>
-                        <span className={styles.label}>*</span>
-                      </Flex>
-
-                      <p>{eventTypeEntity.description}</p>
-                      <Field
-                        placeholder={eventTypeEntity.commentPlaceholder}
-                        name={eventTypeEntity.commentName}
-                        component={TextEditor.Field}
-                        rows={10}
-                        className={styles.textEditor}
-                      />
-                    </div>
-                  )
-                );
-              });
-            })}
-
-            <div className={styles.topline}>
-              <b>{interestText.priorityReasoningTitle[language]}</b>
-              <br />
-              {interestText.priorityReasoning[language]}
-            </div>
-
-            <SubmissionError />
-            <SubmitButton>
-              {edit
-                ? 'Oppdater bedriftsinteresse'
-                : FORM_LABELS.create[language]}
-            </SubmitButton>
-          </form>
+      <ContentMain>
+        {!edit && (
+          <Card severity="info">
+            {FORM_LABELS.subHeading[language]}
+            <a href="mailto:bedriftskontakt@abakus.no">
+              bedriftskontakt@abakus.no
+            </a>
+          </Card>
         )}
-      </LegoFinalForm>
+        <LegoFinalForm
+          onSubmit={onSubmit}
+          validate={validate}
+          initialValues={initialValues}
+          subscription={{}}
+          mutators={{
+            ...arrayMutators,
+          }}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field
+                name="company"
+                label={FORM_LABELS.company.header[language]}
+                placeholder={FORM_LABELS.company.placeholder[language]}
+                filter={['companies.company']}
+                component={SelectInput.AutocompleteField}
+                creatable
+                required
+              />
+              <Field
+                label={FORM_LABELS.contactPerson.header[language]}
+                placeholder={FORM_LABELS.contactPerson.placeholder[language]}
+                name="contactPerson"
+                component={TextInput.Field}
+                required
+              />
+              <Field
+                label={FORM_LABELS.mail[language]}
+                placeholder={FORM_LABELS.mail.placeholder[language]}
+                name="mail"
+                component={TextInput.Field}
+                required
+              />
+              <Field
+                label={FORM_LABELS.phone[language]}
+                placeholder={FORM_LABELS.phone.placeholder[language]}
+                name="phone"
+                component={TextInput.Field}
+                required
+              />
+
+              <Flex wrap justifyContent="space-between">
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    required
+                    legend={FORM_LABELS.companyTypes[language]}
+                    name="companyType"
+                  >
+                    {Object.keys(COMPANY_TYPES).map((key) => (
+                      <Field
+                        key={key}
+                        name={key}
+                        value={key}
+                        label={COMPANY_TYPES[key][language]}
+                        type="radio"
+                        component={RadioButton.Field}
+                        showErrors={false}
+                      />
+                    ))}
+                  </MultiSelectGroup>
+                </Flex>
+                <Flex column className={styles.interestBox}>
+                  <Field
+                    name="officeInTrondheim"
+                    component={ToggleSwitch.Field}
+                    label={FORM_LABELS.officeInTrondheim[language]}
+                  />
+                </Flex>
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="companyCourseThemes"
+                    legend={FORM_LABELS.companyCourseThemes[language]}
+                    description={FORM_LABELS.companyCourseThemesInfo[language]}
+                  >
+                    <FieldArray
+                      name="companyCourseThemes"
+                      language={language}
+                      component={SurveyOffersBox}
+                    />
+                  </MultiSelectGroup>
+                </Flex>
+              </Flex>
+              <Field
+                placeholder={interestText.comment[language]}
+                name="comment"
+                component={TextEditor.Field}
+                rows={10}
+                className={styles.textEditor}
+                label={FORM_LABELS.comment[language]}
+                required
+              />
+              <div className={styles.topline} />
+              <Flex wrap justifyContent="space-between" gap="var(--spacing-md)">
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="semesters"
+                    legend={FORM_LABELS.semesters[language]}
+                    required
+                  >
+                    <FieldArray
+                      name="semesters"
+                      language={language}
+                      component={SemesterBox}
+                    />
+                  </MultiSelectGroup>
+                </Flex>
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="events"
+                    legend={FORM_LABELS.events[language]}
+                    required
+                  >
+                    <FieldArray
+                      name="events"
+                      language={language}
+                      component={EventBox}
+                    />
+                  </MultiSelectGroup>
+                </Flex>
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="collaborations"
+                    legend={FORM_LABELS.collaborations[language]}
+                  >
+                    <FieldArray
+                      name="collaborations"
+                      language={language}
+                      component={CollaborationBox}
+                    />
+                  </MultiSelectGroup>
+                </Flex>
+              </Flex>
+
+              <Flex wrap justifyContent="space-between">
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="targetGrades"
+                    legend={FORM_LABELS.targetGrades[language]}
+                  >
+                    <FieldArray
+                      name="targetGrades"
+                      language={language}
+                      component={TargetGradeBox}
+                    />
+                  </MultiSelectGroup>
+                </Flex>
+
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="participantRange"
+                    legend={FORM_LABELS.participantRange[language]}
+                  >
+                    {Object.keys(PARTICIPANT_RANGE_TYPES).map((key) => (
+                      <Field
+                        key={key}
+                        name={key}
+                        value={key}
+                        label={PARTICIPANT_RANGE_TYPES[key]}
+                        type="radio"
+                        component={RadioButton.Field}
+                      />
+                    ))}
+                  </MultiSelectGroup>
+                </Flex>
+                <Flex column className={styles.interestBox}>
+                  <MultiSelectGroup
+                    name="otherOffers"
+                    legend={FORM_LABELS.otherOffers[language]}
+                  >
+                    <FieldArray
+                      name="otherOffers"
+                      language={language}
+                      component={OtherBox}
+                    />
+                  </MultiSelectGroup>
+                </Flex>
+              </Flex>
+              <div className={styles.topline} />
+              <h3>{FORM_LABELS.eventDescriptionHeader[language]}</h3>
+              <p>{FORM_LABELS.eventDescriptionIntro[language]}</p>
+
+              {eventTypeEntities.map((eventTypeEntity) => {
+                return spyValues((values: CompanyInterestFormEntity) => {
+                  const showComment = values.events?.some(
+                    (e) =>
+                      e.name === eventTypeEntity.name && e.checked === true,
+                  );
+
+                  return (
+                    showComment && (
+                      <>
+                        <div className={styles.topline} />
+                        <Flex alignItems="center" gap={2}>
+                          <h3>{eventTypeEntity.translated}</h3>
+                          <span className={styles.label}>*</span>
+                        </Flex>
+
+                        <p>{eventTypeEntity.description}</p>
+                        <Field
+                          placeholder={eventTypeEntity.commentPlaceholder}
+                          name={eventTypeEntity.commentName}
+                          component={TextEditor.Field}
+                          rows={10}
+                          className={styles.textEditor}
+                        />
+                      </>
+                    )
+                  );
+                });
+              })}
+
+              {!edit && (
+                <div>
+                  <div className={styles.topline} />
+                  <b>{interestText.priorityReasoningTitle[language]}</b>
+                  <br />
+                  {interestText.priorityReasoning[language]}
+                </div>
+              )}
+
+              <SubmissionError />
+
+              <SubmitButton className={styles.submitButton}>
+                {edit
+                  ? 'Oppdater bedriftsinteresse'
+                  : FORM_LABELS.create[language]}
+              </SubmitButton>
+            </form>
+          )}
+        </LegoFinalForm>
+      </ContentMain>
     </Page>
   );
 };
