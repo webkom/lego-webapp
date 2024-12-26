@@ -11,6 +11,7 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { selectGroupById } from 'app/reducers/groups';
@@ -104,22 +105,18 @@ const GroupForm = ({ isInterestGroup }: Props) => {
             name="contactEmail"
             component={TextInput.Field}
           />
-          <Tooltip content="Skal gruppen vises på brukerprofilen til folk?">
-            <Field
-              label="Vis badge på brukerprofiler"
-              name="showBadge"
-              type="checkbox"
-              component={CheckBox.Field}
-            />
-          </Tooltip>
-          <Tooltip content="Er dette en aktiv gruppe?">
-            <Field
-              label="Aktiv gruppe"
-              name="active"
-              type="checkbox"
-              component={CheckBox.Field}
-            />
-          </Tooltip>
+          <Field
+            label="Vis badge på brukerprofiler"
+            name="showBadge"
+            type="checkbox"
+            component={ToggleSwitch.Field}
+          />
+          <Field
+            label="Aktiv gruppe"
+            name="active"
+            type="checkbox"
+            component={ToggleSwitch.Field}
+          />
           <Field
             label="Beskrivelse"
             placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
