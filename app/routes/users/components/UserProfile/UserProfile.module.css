@@ -79,10 +79,10 @@
 
 .settingsIcon {
   transition: transform var(--easing-medium);
+}
 
-  &:hover {
-    transform: rotate(90deg);
-  }
+.settingsButton:hover .settingsIcon {
+  transform: rotate(90deg);
 }
 
 .soMeIcon {
