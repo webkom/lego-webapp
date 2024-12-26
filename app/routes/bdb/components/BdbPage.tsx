@@ -7,7 +7,9 @@ import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import {
@@ -34,9 +36,7 @@ const companiesDefaultQuery = {
 const BdbPage = () => {
   const { query, setQuery } = useQuery(companiesDefaultQuery);
 
-  const companies = useAppSelector(selectTransformedAdminCompanies);
   const companySemesters = useAppSelector(selectAllCompanySemesters);
-  const fetching = useAppSelector((state) => state.companies.fetching);
 
   const resolveCurrentSemester = (
     slug: string | undefined,
@@ -55,24 +55,53 @@ const BdbPage = () => {
     [companySemesters, query.semester],
   );
 
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/bdb/',
+      entity: EntityType.Companies,
+      query: {
+        ...query,
+        semester_id: String(currentCompanySemester?.id),
+      },
+    }),
+  );
+
+  const companies = useAppSelector((state) =>
+    selectTransformedAdminCompanies(state, { pagination }),
+  );
+
   const dispatch = useAppDispatch();
   usePreparedEffect(
     'fetchBdb',
     async () => {
       if (!companySemesters.length) {
         const action = await dispatch(fetchSemesters());
-        const companySemesterEntities =
-          action.payload.entities.companySemesters;
-        const companySemesters = Object.values(companySemesterEntities).filter(
-          (companySemester) => companySemester !== undefined,
-        );
+        const companySemesters = Object.values(
+          action.payload.entities.companySemesters,
+        ).filter((companySemester) => companySemester !== undefined);
         const semester = resolveCurrentSemester(
           query.semester,
           companySemesters,
         );
-        return dispatch(fetchAllAdmin(semester!.id));
+        return dispatch(
+          fetchAllAdmin(
+            {
+              ...query,
+              semester_id: semester!.id,
+            },
+            false,
+          ),
+        );
       }
-      return dispatch(fetchAllAdmin(currentCompanySemester!.id));
+      return dispatch(
+        fetchAllAdmin(
+          {
+            ...query,
+            semester_id: currentCompanySemester!.id,
+          },
+          false,
+        ),
+      );
     },
     [query.semester, currentCompanySemester, companySemesters],
   );
@@ -148,7 +177,7 @@ const BdbPage = () => {
         <SelectInput
           name="semester"
           options={companySemesters
-            .sort((a, b) => (b.semester === 'autumn' ? 1 : -1))
+            .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
             .sort((a, b) => b.year - a.year)
             .map((semester) => ({
               label: semesterToHumanReadable(
@@ -179,11 +208,23 @@ const BdbPage = () => {
       <Table
         className={styles.bdbTable}
         columns={columns}
-        data={fetching ? [] : companies}
+        data={companies}
         filters={query}
         onChange={setQuery}
-        loading={fetching}
-        hasMore={false}
+        loading={pagination.fetching}
+        onLoad={() => {
+          currentCompanySemester?.id &&
+            dispatch(
+              fetchAllAdmin(
+                {
+                  ...query,
+                  semester_id: currentCompanySemester.id,
+                },
+                true,
+              ),
+            );
+        }}
+        hasMore={pagination.hasMore}
       />
     </>
   );
