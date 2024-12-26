@@ -2,6 +2,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { fetchAllWithType } from 'app/actions/GroupActions';
+import { ContentMain } from 'app/components/Content';
 import { DatePicker } from 'app/components/Form';
 import { GroupType, type Dateish } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
@@ -27,7 +28,7 @@ const Statistics = () => {
   };
 
   return (
-    <>
+    <ContentMain>
       <div className={styles.filterContainer}>
         <label>Velg periode</label>
         <DatePicker
@@ -44,7 +45,7 @@ const Statistics = () => {
         viewStartTime={dateRange[0]}
         viewEndTime={dateRange[1]}
       />
-    </>
+    </ContentMain>
   );
 };
 

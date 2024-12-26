@@ -1,13 +1,8 @@
 @import url('~app/styles/variables.css');
 
 .sectionDividerTitle {
-  margin-top: var(--spacing-md);
-  margin-bottom: 0;
-}
-
-.sectionDividerDescription {
-  color: var(--secondary-font-color);
-  margin-bottom: var(--spacing-md);
+  /* margin-top: var(--spacing-md);
+  margin-bottom: 0; */
 }
 
 .chartContainer {
@@ -26,10 +21,7 @@
   margin-top: var(--spacing-md);
 }
 
-.filterContainer {
-  margin: var(--spacing-md) 0;
-}
-
 .filterContainer > label {
-  margin-top: var(--spacing-md);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
 }
