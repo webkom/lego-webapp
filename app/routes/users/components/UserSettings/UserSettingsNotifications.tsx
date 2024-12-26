@@ -6,6 +6,7 @@ import {
   updateNotificationSetting,
 } from 'app/actions/NotificationSettingsActions';
 import { updateUser } from 'app/actions/UserActions';
+import { ContentMain } from 'app/components/Content';
 import { CheckBox } from 'app/components/Form';
 import { useCurrentUser } from 'app/reducers/auth';
 import {
@@ -68,13 +69,11 @@ const UserSettingsNotifications = () => {
   }
 
   return (
-    <div>
-      <h2>Notifikasjoner</h2>
-
-      <p>
+    <ContentMain>
+      <span>
         Abakus sender ut notifikasjoner for forskjellige hendleser som skjer.
         Her kan du selv velge hva du vil motta og på hvilken kanal.
-      </p>
+      </span>
 
       <Card severity="warning">
         <Card.Header>Pass på!</Card.Header>
@@ -152,7 +151,7 @@ const UserSettingsNotifications = () => {
           })}
         </tbody>
       </table>
-    </div>
+    </ContentMain>
   );
 };
 

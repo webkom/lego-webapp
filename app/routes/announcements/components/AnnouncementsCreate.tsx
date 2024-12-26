@@ -138,7 +138,6 @@ const AnnouncementsCreate = () => {
         validateOnSubmitOnly
         onSubmit={onSubmit}
         initialValues={initialValues}
-        className={styles.form}
         subscription={{}}
       >
         {({ handleSubmit }) => (
@@ -231,7 +230,7 @@ const AnnouncementsCreate = () => {
             </Card>
 
             {spyValues<FormValues>((values) => (
-              <ButtonGroup>
+              <ButtonGroup className={styles.buttonGroup}>
                 <SubmitButton
                   onPress={() => {
                     values.send = false;

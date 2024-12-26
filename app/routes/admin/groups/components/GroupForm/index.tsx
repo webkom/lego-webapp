@@ -6,13 +6,11 @@ import {
   TextInput,
   EditorField,
   ImageUploadField,
-  CheckBox,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
-import Tooltip from 'app/components/Tooltip';
 import { GroupType } from 'app/models';
 import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';

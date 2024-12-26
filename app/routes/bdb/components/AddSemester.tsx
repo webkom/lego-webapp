@@ -17,12 +17,7 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectCompanyById } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
-import {
-  getContactStatuses,
-  getStatusColor,
-  selectMostProminentStatus,
-  semesterCodeToName,
-} from 'app/routes/bdb/utils';
+import { getContactStatuses, semesterCodeToName } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';

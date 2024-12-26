@@ -29,6 +29,10 @@
   margin-right: 30px;
 }
 
+.surveyInfo {
+  margin: var(--spacing-md) 0;
+}
+
 .search h2 {
   display: inline;
   margin-right: 20px;

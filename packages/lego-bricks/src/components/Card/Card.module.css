@@ -9,7 +9,7 @@
 .withIcon {
   gap: var(--spacing-md);
 
-  @media (max-width: 992px) {
+  @media (max-width: 35em) {
     flex-direction: column;
     gap: var(--spacing-sm);
   }

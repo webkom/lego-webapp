@@ -155,7 +155,7 @@ const SurveyForm = ({
             component={Questions}
             rerenderOnEveryChange={true}
           />
-          <Card severity="info">
+          <Card severity="info" className={styles.surveyInfo}>
             <span>
               Deltagerene på arrangementet vil få e-post med link til
               spørreundersøkelsen når den aktiveres ({<SurveyActivationTime />}

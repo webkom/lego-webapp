@@ -76,11 +76,12 @@ const AddSubmissionPage = () => {
         title={survey.title}
         back={{ href: '/', label: 'Tilbake til forsiden' }}
       >
-        <Card severity="warning">Denne undersøkelsen er ikke aktiv enda.</Card>
-        <p>
-          Den vil aktiveres{' '}
-          <Time time={survey.activeFrom} format="HH:mm DD. MMM" />.
-        </p>
+        <ContentMain>
+          <Card severity="warning">
+            Denne undersøkelsen er ikke aktiv enda. Den vil aktiveres{' '}
+            <Time time={survey.activeFrom} format="HH:mm DD. MMM" />.
+          </Card>
+        </ContentMain>
       </Page>
     );
   }

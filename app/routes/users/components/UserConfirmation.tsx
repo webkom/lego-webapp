@@ -11,6 +11,7 @@ import {
   saveToken,
   validateRegistrationToken,
 } from 'app/actions/UserActions';
+import { ContentMain } from 'app/components/Content';
 import {
   TextInput,
   MultiSelectGroup,
@@ -91,19 +92,24 @@ const UserConfirmationForm = () => {
         <Confetti />
 
         <Page title="Du er nå registrert!">
-          <Card severity="warning">
-            <Card.Header>Er du student?</Card.Header>
-            <span>
-              For å kunne melde deg på arrangementer i Abakus må du verifisere
-              at du er student.
-            </span>
-          </Card>
-          <ButtonGroup>
-            <LinkButton success href="/users/me/settings/student-confirmation/">
-              Verifiser studentstatus
-            </LinkButton>
-            <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
-          </ButtonGroup>
+          <ContentMain>
+            <Card severity="warning">
+              <Card.Header>Er du student?</Card.Header>
+              <span>
+                For å kunne melde deg på arrangementer i Abakus må du verifisere
+                at du er student.
+              </span>
+            </Card>
+            <ButtonGroup>
+              <LinkButton
+                success
+                href="/users/me/settings/student-confirmation/"
+              >
+                Verifiser studentstatus
+              </LinkButton>
+              <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
+            </ButtonGroup>
+          </ContentMain>
         </Page>
       </>
     );

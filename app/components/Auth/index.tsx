@@ -13,6 +13,7 @@ import {
   LoginForm,
   RegisterForm,
 } from 'app/components/LoginForm';
+import { ContentMain } from '../Content';
 import type { ComponentType } from 'react';
 
 enum AuthMode {
@@ -68,10 +69,12 @@ const Auth = ({ asPage = false, loginRequired = false }: Props) => {
           </>
         }
       >
-        {loginRequired && (
-          <Card severity="danger">Denne siden krever innlogging</Card>
-        )}
-        <Form />
+        <ContentMain>
+          {loginRequired && (
+            <Card severity="danger">Denne siden krever innlogging</Card>
+          )}
+          <Form />
+        </ContentMain>
       </Page>
     );
   }
