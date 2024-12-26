@@ -78,7 +78,7 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
         });
       }
     },
-    [eventId],
+    [eventId, viewStartTime, viewEndTime],
   );
 
   return (
