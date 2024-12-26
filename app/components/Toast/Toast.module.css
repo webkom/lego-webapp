@@ -14,7 +14,7 @@
   flex-direction: column;
   gap: var(--spacing-sm);
 
-  @media (--mobile-device) {
+  @media (--small-viewport) {
     bottom: var(--spacing-sm);
     left: var(--spacing-sm);
     right: var(--spacing-sm);
@@ -35,7 +35,7 @@
   box-shadow: none;
   border: 1.5px solid var(--border-gray);
 
-  @media (--mobile-device) {
+  @media (--small-viewport) {
     width: 100%;
   }
 
