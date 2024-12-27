@@ -128,9 +128,12 @@
 
 .imageGallery {
   min-width: 600px;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  word-break: break-word;
 
   @media (--small-viewport) {
-    width: 100%;
+    min-width: 100%;
   }
 }
 
