@@ -14,6 +14,7 @@ import {
   deleteCompanyInterest,
   fetchAll,
 } from 'app/actions/CompanyInterestActions';
+import { ContentMain } from 'app/components/Content';
 import SelectInput from 'app/components/Form/SelectInput';
 import Table, { type ColumnProps } from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
@@ -226,103 +227,96 @@ const CompanyInterestList = () => {
   });
 
   return (
-    <>
-      <Flex column gap="var(--spacing-md)">
-        <p>
-          Her finner du all praktisk informasjon knyttet til bedriftsinteresser
-        </p>
-        <Flex justifyContent="space-between" alignItems="flex-end">
-          <Flex column>
-            <SelectInput
-              name="form-semester-selector"
-              value={{
-                label: currentCompanySemester
-                  ? semesterToText({
-                      semester: currentCompanySemester.semester,
-                      year: currentCompanySemester.year,
-                      language: 'norwegian',
-                    })
-                  : 'Vis alle semestre',
-                value: Number(currentCompanySemester?.id),
-                year: Number(currentCompanySemester?.year),
-                semester: currentCompanySemester?.semester ?? '',
-              }}
-              onChange={(e) =>
-                setQueryValue('semester')(
-                  getSemesterSlugById(
-                    (e as SemesterOptionType).id,
-                    companySemesters,
-                  ) ?? '',
-                )
-              }
-              options={semesterOptions}
-              isClearable={false}
-            />
-          </Flex>
-          <LinkButton href="/bdb/company-interest/semesters">
-            Endre aktive semestre
-          </LinkButton>
+    <ContentMain>
+      <Flex justifyContent="space-between" alignItems="flex-end">
+        <Flex column>
+          <SelectInput
+            name="form-semester-selector"
+            value={{
+              label: currentCompanySemester
+                ? semesterToText({
+                    semester: currentCompanySemester.semester,
+                    year: currentCompanySemester.year,
+                    language: 'norwegian',
+                  })
+                : 'Vis alle semestre',
+              value: Number(currentCompanySemester?.id),
+              year: Number(currentCompanySemester?.year),
+              semester: currentCompanySemester?.semester ?? '',
+            }}
+            onChange={(e) =>
+              setQueryValue('semester')(
+                getSemesterSlugById(
+                  (e as SemesterOptionType).id,
+                  companySemesters,
+                ) ?? '',
+              )
+            }
+            options={semesterOptions}
+            isClearable={false}
+          />
         </Flex>
-
-        <Flex wrap justifyContent="space-between" alignItems="flex-end">
-          <Flex column>
-            <SelectInput
-              name="form-event-selector"
-              value={selectedEventOption}
-              onChange={(e) =>
-                setQueryValue('event')(
-                  (e as CompanyInterestEventTypeOption).value,
-                )
-              }
-              options={EVENT_TYPE_OPTIONS}
-              isClearable={false}
-            />
-          </Flex>
-
-          {generatedCSV ? (
-            <LinkButton
-              success
-              href={generatedCSV.url}
-              download={generatedCSV.filename}
-            >
-              <Icon iconNode={<FileDown />} size={19} />
-              Last ned CSV
-            </LinkButton>
-          ) : (
-            <Tooltip
-              disabled={!currentCompanySemester}
-              content={'Vennligst velg semester'}
-            >
-              <Button
-                onPress={async () =>
-                  setGeneratedCSV(await exportInterestList())
-                }
-                disabled={!currentCompanySemester}
-              >
-                Eksporter til CSV
-              </Button>
-            </Tooltip>
-          )}
-        </Flex>
-
-        <Table
-          columns={columns}
-          onLoad={() => {
-            dispatch(
-              fetchAll({
-                next: true,
-                query,
-              }),
-            );
-          }}
-          hasMore={hasMore}
-          loading={fetching}
-          filters={query}
-          onChange={setQuery}
-          data={companyInterestList}
-        />
+        <LinkButton href="/bdb/company-interest/semesters">
+          Endre aktive semestre
+        </LinkButton>
       </Flex>
-    </>
+
+      <Flex wrap justifyContent="space-between" alignItems="flex-end">
+        <Flex column>
+          <SelectInput
+            name="form-event-selector"
+            value={selectedEventOption}
+            onChange={(e) =>
+              setQueryValue('event')(
+                (e as CompanyInterestEventTypeOption).value,
+              )
+            }
+            options={EVENT_TYPE_OPTIONS}
+            isClearable={false}
+          />
+        </Flex>
+
+        {generatedCSV ? (
+          <LinkButton
+            success
+            href={generatedCSV.url}
+            download={generatedCSV.filename}
+          >
+            <Icon iconNode={<FileDown />} size={19} />
+            Last ned CSV
+          </LinkButton>
+        ) : (
+          <Tooltip
+            disabled={!currentCompanySemester}
+            content={'Vennligst velg semester'}
+          >
+            <Button
+              onPress={async () => setGeneratedCSV(await exportInterestList())}
+              disabled={!currentCompanySemester}
+            >
+              Eksporter til CSV
+            </Button>
+          </Tooltip>
+        )}
+      </Flex>
+
+      <Table
+        columns={columns}
+        onLoad={() => {
+          dispatch(
+            fetchAll({
+              next: true,
+              query,
+            }),
+          );
+        }}
+        hasMore={hasMore}
+        loading={fetching}
+        filters={query}
+        onChange={setQuery}
+        data={companyInterestList}
+      />
+    </ContentMain>
   );
 };
 

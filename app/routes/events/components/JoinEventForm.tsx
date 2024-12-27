@@ -43,7 +43,6 @@ import {
   registrationActionUnavailable,
 } from '../utils';
 import styles from './Event.module.css';
-import sharedStyles from './EventDetail/EventDetail.module.css';
 import PaymentRequestForm from './StripeElement';
 import type { EventRegistrationStatus } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
@@ -107,7 +106,7 @@ const RegistrationPending = ({
 }: {
   reg_status?: EventRegistrationStatus;
 }) => (
-  <Card severity="info" className={sharedStyles.card}>
+  <Card severity="info">
     <Card.Header>
       Vi behandler din{' '}
       {reg_status === 'PENDING_UNREGISTER' ? 'avregistrering' : 'registrering'}
@@ -349,7 +348,7 @@ const JoinEventForm = ({
             )}
 
             {sumPenalties > 0 && event.heedPenalties && (
-              <Card severity="warning" className={sharedStyles.card}>
+              <Card severity="warning">
                 <Card.Header>NB!</Card.Header>
                 <p>
                   {sumPenalties > 2
@@ -368,7 +367,7 @@ const JoinEventForm = ({
             {!disabledForUser &&
               event.useConsent &&
               !hasRegisteredConsentForSemester && (
-                <Card severity="danger" className={sharedStyles.card}>
+                <Card severity="danger">
                   <Card.Header>NB!</Card.Header>
                   <p>
                     Du må ta stilling til bildesamtykke for semesteret{' '}

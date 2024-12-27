@@ -9,6 +9,7 @@ import createQueryString from 'app/utils/createQueryString';
 import { Company, Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
+import type { Semester } from 'app/store/models';
 import type {
   AdminListCompany,
   CompanyContact,
@@ -42,7 +43,7 @@ export const fetchAll = ({
   });
 };
 
-export function fetchAllAdmin(query, next: boolean) {
+export function fetchAllAdmin(query = {}, next: boolean = false) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
     endpoint: `/bdb/`,
@@ -324,8 +325,8 @@ export function editSemester({
   activeInterestForm,
 }: {
   id: EntityId;
-  year: string;
-  semester: string;
+  year: number;
+  semester: Semester;
   activeInterestForm: boolean;
 }) {
   return callAPI<DetailedSemesterStatus>({

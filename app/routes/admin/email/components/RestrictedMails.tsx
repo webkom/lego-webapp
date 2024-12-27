@@ -1,21 +1,28 @@
-import { Flex, LinkButton } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/RestrictedMailActions';
+import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { selectRestrictedMails } from 'app/reducers/restrictedMails';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { ListRestrictedMail } from 'app/store/models/RestrictedMail';
 
 const RestrictedMails = () => {
-  const restrictedMails = useAppSelector(selectRestrictedMails);
+  const restrictedMails = useAppSelector<ListRestrictedMail[]>(
+    selectRestrictedMails,
+  );
   const fetching = useAppSelector((state) => state.restrictedMails.fetching);
-  const hasMore = useAppSelector((state) => state.restrictedMails.hasMore);
 
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchRestrictedMails', () => dispatch(fetch()), []);
+  usePreparedEffect(
+    'fetchRestrictedMails',
+    () => dispatch(fetch({ next: false })),
+    [],
+  );
 
   const columns = [
     {
@@ -48,19 +55,20 @@ const RestrictedMails = () => {
   ];
 
   return (
-    <div>
-      <p>
-        Begrenset e-post benyttes om det ønskes å sende en målrettet e-post til
-        en kombinasjon av grupper, brukere, møter, arrangementer eller definerte
-        adresser. En begrenset e-post kan kun benyttes en gang, og må komme fra
-        en forhåndsdefinert adresse. For ytterligere sikkerhet må en fil legges
-        som vedlegg for verifisering av avsender. Denne filen vil bli validert
-        og fjernet før e-posten sendes til mottakere. Begrenset e-post kan
-        sendes med skult avsender, og mottakere vil da ikke kunne svare på
-        e-posten.
-        <ul
+    <ContentMain>
+      <Card severity="info">
+        <p>
+          Begrenset e-post benyttes når det ønskes å sende en målrettet e-post
+          til en kombinasjon av grupper, brukere, møter, arrangementer eller
+          definerte adresser. En begrenset e-post kan kun benyttes en gang, og
+          må komme fra en forhåndsdefinert adresse. For ytterligere sikkerhet må
+          en fil legges som vedlegg for verifisering av avsender. Denne filen
+          vil bli validert og fjernet før e-posten sendes til mottakere.
+          Begrenset e-post kan sendes med skjult avsender, og mottakere vil da
+          ikke kunne svare på e-posten.
+        </p>
+        <ol
           style={{
-            listStyleType: 'circle',
             listStylePosition: 'inside',
           }}
         >
@@ -72,33 +80,24 @@ const RestrictedMails = () => {
           </li>
           <li>Legg inn e-post token som vedlegg</li>
           <li>Send e-posten</li>
-        </ul>
-      </p>
-      <Flex
-        justifyContent="space-between"
-        style={{
-          marginBottom: 'var(--spacing-sm)',
-        }}
-      >
-        <h3>Dine begrensede e-poster</h3>
-        <LinkButton href={'/admin/email/restricted/new'}>
-          Ny begrenset e-post
-        </LinkButton>
+        </ol>
+      </Card>
+      <Flex column gap="var(--spacing-sm)">
+        <Flex alignItems="center" justifyContent="space-between">
+          <h3>Dine begrensede e-poster</h3>
+          <LinkButton href={'/admin/email/restricted/new'}>
+            Opprett en begrenset e-post
+          </LinkButton>
+        </Flex>
+        <Table
+          columns={columns}
+          onLoad={() => dispatch(fetch({ next: true }))}
+          hasMore={false}
+          loading={fetching}
+          data={restrictedMails}
+        />
       </Flex>
-      <Table
-        columns={columns}
-        onFetch={() =>
-          dispatch(
-            fetch({
-              next: true,
-            }),
-          )
-        }
-        hasMore={hasMore || false}
-        loading={fetching}
-        data={restrictedMails}
-      />
-    </div>
+    </ContentMain>
   );
 };
 

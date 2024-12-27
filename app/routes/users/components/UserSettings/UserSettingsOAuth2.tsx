@@ -15,6 +15,7 @@ import {
   fetchOAuth2Applications,
   fetchOAuth2Grants,
 } from 'app/actions/OAuth2Actions';
+import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
@@ -159,9 +160,8 @@ const UserSettingsOAuth2 = () => {
   ];
 
   return (
-    <>
-      <h2>OAuth2</h2>
-      <p>
+    <ContentMain>
+      <span>
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
         applikasjoner. OAuth2 er samme metode som GitHub og andre benytter seg
         av for pålogging. Du kan lese mer i{' '}
@@ -171,7 +171,7 @@ const UserSettingsOAuth2 = () => {
         til APIet. Kontakt{' '}
         <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> hvis du ønsker å
         slette en applikasjon du har opprettet.
-      </p>
+      </span>
 
       <Card severity="warning">
         <Card.Header>Obs!</Card.Header>
@@ -199,13 +199,15 @@ const UserSettingsOAuth2 = () => {
         </li>
       </ul>
 
-      <h3>Applikasjoner</h3>
-      <Flex column gap="var(--spacing-md)">
-        {actionGrant.includes('create') && (
-          <LinkButton href="/users/me/settings/oauth2/new">
-            Ny applikasjon
-          </LinkButton>
-        )}
+      <Flex column gap="var(--spacing-sm)">
+        <Flex justifyContent="space-between" alignItems="center">
+          <h3>Applikasjoner</h3>
+          {actionGrant.includes('create') && (
+            <LinkButton href="/users/me/settings/oauth2/new">
+              Ny applikasjon
+            </LinkButton>
+          )}
+        </Flex>
         {applications.length === 0 && !fetchingApplications ? (
           <EmptyState body="Du har ingen applikasjoner" />
         ) : (
@@ -218,18 +220,20 @@ const UserSettingsOAuth2 = () => {
         )}
       </Flex>
 
-      <h3>Aksepterte applikasjoner</h3>
-      {grants.length === 0 && !fetchingGrants ? (
-        <EmptyState body="Du har ikke logget på en app enda" />
-      ) : (
-        <Table
-          columns={acceptedApplicationcolumns}
-          data={grants}
-          loading={fetchingGrants}
-          hasMore={false}
-        />
-      )}
-    </>
+      <Flex column gap="var(--spacing-sm)">
+        <h3>Aksepterte applikasjoner</h3>
+        {grants.length === 0 && !fetchingGrants ? (
+          <EmptyState body="Du har ikke logget på en app enda" />
+        ) : (
+          <Table
+            columns={acceptedApplicationcolumns}
+            data={grants}
+            loading={fetchingGrants}
+            hasMore={false}
+          />
+        )}
+      </Flex>
+    </ContentMain>
   );
 };
 

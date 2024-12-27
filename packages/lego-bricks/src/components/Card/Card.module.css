@@ -9,7 +9,7 @@
 .withIcon {
   gap: var(--spacing-md);
 
-  @media (max-width: 992px) {
+  @media (max-width: 35em) {
     flex-direction: column;
     gap: var(--spacing-sm);
   }
@@ -31,7 +31,6 @@
 }
 
 .danger {
-  margin: var(--spacing-md) 0;
   background-color: var(--color-red-1);
   border-color: var(--danger-color);
   color: var(--danger-color);
@@ -61,7 +60,6 @@ html[data-theme='dark'] .danger a:hover {
 
 /* stylelint-disable no-descending-specificity */
 .info {
-  margin: var(--spacing-md) 0;
   background-color: var(--color-blue-1);
   border-color: var(--color-blue-7);
   color: var(--color-blue-7);
@@ -81,7 +79,6 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .success {
-  margin: var(--spacing-md) 0;
   background-color: var(--color-green-2);
   border-color: var(--color-green-7);
   color: var(--color-green-7);
@@ -101,7 +98,6 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .warning {
-  margin: var(--spacing-md) 0;
   background-color: var(--color-orange-1);
   border-color: var(--color-orange-7);
   color: var(--color-orange-7);

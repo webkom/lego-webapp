@@ -5,3 +5,11 @@
     flex-direction: column;
   }
 }
+
+.reverse {
+  flex-direction: row-reverse;
+
+  @media (--medium-viewport) {
+    flex-direction: column-reverse;
+  }
+}

@@ -8,6 +8,7 @@ import {
   startStudentAuth,
   updateUser,
 } from 'app/actions/UserActions';
+import { ContentMain } from 'app/components/Content';
 import { Button } from 'app/components/Form';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
@@ -88,18 +89,16 @@ const StudentConfirmation = () => {
   };
 
   return (
-    <>
-      <h2>Verifiser studentstatus</h2>
-
+    <ContentMain>
       {currentUser.isStudent === null && (
-        <p>
+        <span>
           For å kunne bli medlem i Abakus og få mulighet til å delta på
           arrangementer, få tilgang til bilder og interessegrupper og mer må du
           verifisere at du går enten Cybersikkerhet og datakommunikasjon eller
           Datateknologi. Ved å trykke på knappen under gir du Abakus tilgang til
           dine studier og fag i StudentWeb gjennom FEIDE slik at vi kan
           registrere deg som medlem.
-        </p>
+        </span>
       )}
 
       {currentUser.isStudent !== null &&
@@ -151,7 +150,7 @@ const StudentConfirmation = () => {
               <Card.Header>
                 En feil oppsto under validering av din studentstatus:
               </Card.Header>
-              <p>{authRes.detail}</p>
+              <span>{authRes.detail}</span>
             </>
           )}
         </Card>
@@ -160,13 +159,6 @@ const StudentConfirmation = () => {
       <Button success onPress={() => performStudentAuth()}>
         Verifiser med FEIDE
       </Button>
-      {currentUser.isStudent !== null && (
-        <p className={styles.infoText}>
-          Du har allerede verifisert din status. Dersom du har byttet studie og
-          ønsker å bli medlem av Abakus, kan du verifisere deg på nytt og vi vil
-          oppdatere statusen din dersom du er registrert riktig på StudentWeb.
-        </p>
-      )}
 
       <Modal
         show={showMemberModal}
@@ -211,7 +203,7 @@ const StudentConfirmation = () => {
           </Button>
         </ButtonGroup>
       </Modal>
-    </>
+    </ContentMain>
   );
 };
 

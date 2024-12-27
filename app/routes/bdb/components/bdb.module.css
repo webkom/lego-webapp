@@ -44,7 +44,3 @@
 .navigateThroughTime svg {
   color: var(--color-gray-7);
 }
-
-.bdbTable {
-  margin-top: var(--spacing-md);
-}

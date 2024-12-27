@@ -31,6 +31,10 @@
   }
 }
 
+.pinnedWarning {
+  margin-bottom: var(--spacing-md);
+}
+
 .descriptionEditor {
   background: inherit;
   color: var(--lego-font-color);

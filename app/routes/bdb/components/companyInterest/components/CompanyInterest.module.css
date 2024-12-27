@@ -5,20 +5,6 @@
   min-width: 300px;
 }
 
-.guiBoxes {
-  justify-content: flex-end;
-  margin: 10px 0;
-}
-
-.remove {
-  font-size: 30px;
-  margin: 0 5px;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  cursor: pointer;
-}
-
 .yearForm {
   width: 100px;
   display: block;
@@ -36,9 +22,9 @@
 }
 
 .topline {
-  margin: 15px 0;
-  padding: 10px 0;
-  border-top: 1px solid var(--border-gray);
+  height: 1px;
+  background-color: var(--border-gray);
+  margin: var(--spacing-md) 0;
 }
 
 .companyInterestList {
@@ -67,39 +53,16 @@
   border-bottom: 1px dashed var(--color-black);
 }
 
-.companyInterestListMobile {
-  display: none;
-  width: 350px;
-
-  @media (--small-viewport) {
-    display: block;
-  }
-}
-
-.companyInterestListMobile td {
-  border: none;
-}
-
 .flag {
   height: 3em;
   width: 5em;
   object-fit: cover;
 }
 
-.subHeading {
-  margin-bottom: var(--spacing-sm);
-}
-
-.tooltip {
-  text-transform: initial;
-  font-weight: initial;
-  margin-left: 15px;
-}
-
 .label {
   color: var(--danger-color);
 }
 
-.selector {
-  min-width: 500px;
+.submitButton {
+  margin-top: var(--spacing-md);
 }

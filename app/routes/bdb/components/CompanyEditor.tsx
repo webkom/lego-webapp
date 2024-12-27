@@ -192,35 +192,35 @@ const CompanyEditor = () => {
             />
 
             <Field
-              placeholder="Type bedrift"
+              placeholder="Velg bedriftstype"
               label="Type bedrift"
               name="companyType"
               component={TextInput.Field}
             />
 
             <Field
-              placeholder="mail@abakus.no"
+              placeholder="penger@bedrift.no"
               name="paymentMail"
-              label="Fakturamail"
+              label="E-post for faktura"
               component={TextInput.Field}
             />
 
             <Field
-              placeholder="123 45 678"
+              placeholder="+47 909 09 090"
               name="phone"
               label="Telefon"
               component={TextInput.Field}
             />
 
             <Field
-              placeholder="https://www.abakus.no"
+              placeholder="https://bedrift.no"
               name="website"
               label="Nettside"
               component={TextInput.Field}
             />
 
             <Field
-              placeholder="Adresse"
+              placeholder="Sem Sælands vei 7-9, 7491 Trondheim"
               name="address"
               label="Adresse"
               component={TextInput.Field}

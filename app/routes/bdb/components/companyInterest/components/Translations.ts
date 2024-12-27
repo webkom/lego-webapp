@@ -245,10 +245,18 @@ export const FORM_LABELS = {
   mail: {
     norwegian: 'E-post',
     english: 'E-mail',
+    placeholder: {
+      norwegian: 'eksempel@bedrift.no',
+      english: 'example@company.com',
+    },
   },
   phone: {
     norwegian: 'Telefonnummer',
     english: 'Phone number',
+    placeholder: {
+      norwegian: '+47 909 09 090',
+      english: '+44 117 234 5678',
+    },
   },
   semesters: {
     norwegian: 'Semester',

@@ -6,6 +6,7 @@ import {
   editEmailList,
   fetchEmailList,
 } from 'app/actions/EmailListActions';
+import { ContentMain } from 'app/components/Content';
 import {
   TextInput,
   Form,
@@ -126,79 +127,81 @@ const EmailListEditor = () => {
       };
 
   return (
-    <LegoFinalForm
-      onSubmit={handleSubmit}
-      validate={validate}
-      initialValues={initialValues}
-    >
-      {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
-          <Field
-            required
-            placeholder="Abakus"
-            name="name"
-            label="Navnet på e-postliste"
-            component={TextInput.Field}
-          />
-          <Field
-            required
-            disabled={!isNew && emailListId}
-            placeholder="abakus"
-            suffix="@abakus.no"
-            name="email"
-            label="E-post"
-            component={TextInput.Field}
-          />
-          <Field
-            label="Brukere"
-            name="users"
-            isMulti
-            placeholder="Inviter en ny bruker"
-            filter={[AutocompleteContentType.User]}
-            component={SelectInput.AutocompleteField}
-          />
-          <Field
-            label="Grupper"
-            name="groups"
-            isMulti
-            placeholder="Inviter en ny bruker"
-            filter={[AutocompleteContentType.Group]}
-            component={SelectInput.AutocompleteField}
-          />
-          <Field
-            label="Roller (hvis du lar denne stå tom betyr det at alle medlemmene i gruppene får e-post!)"
-            name="groupRoles"
-            isMulti
-            placeholder="Velg rolle"
-            options={roleOptions}
-            component={SelectInput.Field}
-          />
+    <ContentMain>
+      <LegoFinalForm
+        onSubmit={handleSubmit}
+        validate={validate}
+        initialValues={initialValues}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              required
+              placeholder="Abakus"
+              name="name"
+              label="Navnet på e-postliste"
+              component={TextInput.Field}
+            />
+            <Field
+              required
+              disabled={!isNew && emailListId}
+              placeholder="abakus"
+              suffix="@abakus.no"
+              name="email"
+              label="E-post"
+              component={TextInput.Field}
+            />
+            <Field
+              label="Brukere"
+              name="users"
+              isMulti
+              placeholder="Inviter en ny bruker"
+              filter={[AutocompleteContentType.User]}
+              component={SelectInput.AutocompleteField}
+            />
+            <Field
+              label="Grupper"
+              name="groups"
+              isMulti
+              placeholder="Inviter en ny bruker"
+              filter={[AutocompleteContentType.Group]}
+              component={SelectInput.AutocompleteField}
+            />
+            <Field
+              label="Roller (hvis du lar denne stå tom betyr det at alle medlemmene i gruppene får e-post!)"
+              name="groupRoles"
+              isMulti
+              placeholder="Velg rolle"
+              options={roleOptions}
+              component={SelectInput.Field}
+            />
 
-          <Field
-            label="Kun for for brukere med internmail (@abakus.no)"
-            description="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få e-post fra denne listen"
-            name="requireInternalAddress"
-            type="checkbox"
-            component={CheckBox.Field}
-          />
+            <Field
+              label="Kun for for brukere med internmail (@abakus.no)"
+              description="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få e-post fra denne listen"
+              name="requireInternalAddress"
+              type="checkbox"
+              component={CheckBox.Field}
+            />
 
-          <Field
-            label="E-poster for medlemmer utenfor abakus"
-            description="Her kan du legge til e-postene til de som skal ha mailer fra gruppemailen, men ikke er medlem av abakus"
-            name="additionalEmails"
-            placeholder="Skriv inn e-post her"
-            component={SelectInput.Field}
-            isMulti
-            tags
-          />
+            <Field
+              label="E-poster for medlemmer utenfor abakus"
+              description="Her kan du legge til e-postene til de som skal ha mailer fra gruppemailen, men ikke er medlem av abakus"
+              name="additionalEmails"
+              placeholder="Skriv inn e-post her"
+              component={SelectInput.Field}
+              isMulti
+              tags
+            />
 
-          <SubmissionError />
-          <SubmitButton>
-            {isNew ? 'Opprett e-postliste' : 'Oppdater e-postliste'}
-          </SubmitButton>
-        </Form>
-      )}
-    </LegoFinalForm>
+            <SubmissionError />
+            <SubmitButton>
+              {isNew ? 'Opprett e-postliste' : 'Oppdater e-postliste'}
+            </SubmitButton>
+          </Form>
+        )}
+      </LegoFinalForm>
+    </ContentMain>
   );
 };
 

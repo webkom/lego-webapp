@@ -1,9 +1,7 @@
 @import url('~app/styles/variables.css');
 
-.form {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
+.buttonGroup {
+  margin-top: var(--spacing-md);
 }
 
 .formHeaders {
