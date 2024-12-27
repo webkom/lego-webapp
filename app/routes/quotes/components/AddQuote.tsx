@@ -4,10 +4,14 @@ import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { addQuotes } from 'app/actions/QuoteActions';
-import { TextInput } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { ContentMain } from 'app/components/Content';
+import {
+  Form,
+  LegoFinalForm,
+  TextInput,
+  SubmitButton,
+  SubmissionError,
+} from 'app/components/Form';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
 import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch } from 'app/store/hooks';
@@ -74,9 +78,9 @@ const AddQuote = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <>
+          <ContentMain>
             <div className={styles.addQuote}>
-              <form onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Field
                   placeholder="Eks: Det er bare å gjøre det"
                   label="Selve sitatet"
@@ -92,35 +96,35 @@ const AddQuote = () => {
                   type="text"
                 />
 
-                <div className={styles.clear} />
-
                 <SubmissionError />
                 <SubmitButton>Send inn sitat</SubmitButton>
-              </form>
+              </Form>
             </div>
 
-            <h2>Forhåndsvisning</h2>
-            <h3 className="u-ui-heading">Overhørt</h3>
-            <div className={styles.innerPreview}>
-              {spyValues<FormValues>((values) => (
-                <RandomQuote
-                  dummyQuote={{
-                    id: 1,
-                    text: values.text || 'Det er bare å gjøre det',
-                    source:
-                      (values.source && removeUnnecessaryDash(values.source)) ||
-                      'Esso',
-                    approved: true,
-                    contentTarget: '' as ContentTarget,
-                    reactionsGrouped: [],
-                    createdAt: moment(),
-                    tags: [],
-                  }}
-                  useReactions={false}
-                />
-              ))}
+            <div>
+              <h2>Forhåndsvisning</h2>
+              <div className={styles.innerPreview}>
+                {spyValues<FormValues>((values) => (
+                  <RandomQuote
+                    dummyQuote={{
+                      id: 1,
+                      text: values.text || 'Det er bare å gjøre det',
+                      source:
+                        (values.source &&
+                          removeUnnecessaryDash(values.source)) ||
+                        'Esso',
+                      approved: true,
+                      contentTarget: '' as ContentTarget,
+                      reactionsGrouped: [],
+                      createdAt: moment(),
+                      tags: [],
+                    }}
+                    useReactions={false}
+                  />
+                ))}
+              </div>
             </div>
-          </>
+          </ContentMain>
         )}
       </LegoFinalForm>
     </Page>

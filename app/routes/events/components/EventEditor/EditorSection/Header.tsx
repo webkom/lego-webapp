@@ -48,7 +48,7 @@ const Header = ({
       <Field
         label="Tittel"
         name="title"
-        placeholder="Tittel"
+        placeholder="Sjakkrave"
         style={{
           borderBottom: `3px solid ${colorForEventType(
             values.eventType?.value,
@@ -62,8 +62,6 @@ const Header = ({
         name="pinned"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
 
       {values.pinned && (
@@ -87,7 +85,6 @@ const Header = ({
         gap="var(--spacing-sm)"
         alignItems="center"
         justifyContent="space-between"
-        margin={'0 0 var(--spacing-md) 0'}
       >
         <DialogTrigger>
           <Button>Velg bilde fra bildegalleriet</Button>
@@ -155,8 +152,6 @@ const Header = ({
             name="saveToImageGallery"
             type="checkbox"
             component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
         </div>
       </Flex>

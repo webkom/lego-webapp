@@ -7,6 +7,7 @@ import {
   sendAnnouncement,
 } from 'app/actions/AnnouncementsActions';
 import {
+  Form,
   CheckBox,
   LegoFinalForm,
   SelectInput,
@@ -141,7 +142,7 @@ const AnnouncementsCreate = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="message"
               component={TextArea.Field}
@@ -230,7 +231,7 @@ const AnnouncementsCreate = () => {
             </Card>
 
             {spyValues<FormValues>((values) => (
-              <ButtonGroup className={styles.buttonGroup}>
+              <ButtonGroup>
                 <SubmitButton
                   onPress={() => {
                     values.send = false;
@@ -247,7 +248,7 @@ const AnnouncementsCreate = () => {
                 </SubmitButton>
               </ButtonGroup>
             ))}
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </div>

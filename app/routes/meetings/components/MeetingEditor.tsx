@@ -94,10 +94,10 @@ const validate = createValidator({
     datesAreInCorrectOrder('Sluttidspunkt kan ikke være før starttidspunkt'),
   ],
   location: [
-    ifNotField('useMazemap', required('Sted eller Mazemap-rom er påkrevd')),
+    ifNotField('useMazemap', required('Sted eller MazeMap-rom er påkrevd')),
   ],
   mazemapPoi: [
-    ifField('useMazemap', required('Sted eller Mazemap-rom er påkrevd')),
+    ifField('useMazemap', required('Sted eller MazeMap-rom er påkrevd')),
   ],
 });
 
@@ -306,7 +306,7 @@ const MeetingEditor = () => {
                 </FormSpy>
               </div>
               <Field
-                label="Bruk mazemap"
+                label="Bruk MazeMap"
                 name="useMazemap"
                 type="checkbox"
                 component={CheckBox.Field}
@@ -315,11 +315,10 @@ const MeetingEditor = () => {
                 return values?.useMazemap ? (
                   <Flex alignItems="center">
                     <Field
-                      label="Mazemap-rom"
+                      label="MazeMap-rom"
                       required
                       name="mazemapPoi"
                       component={SelectInput.MazemapAutocomplete}
-                      fieldClassName={styles.metaField}
                       placeholder="R1, Abakus, Kjel4"
                     />
                     {values?.mazemapPoi?.value > 0 && (

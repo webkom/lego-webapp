@@ -1,9 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.buttonGroup {
-  margin-top: var(--spacing-md);
-}
-
 .formHeaders {
   font-size: var(--font-size-lg);
 }

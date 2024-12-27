@@ -13,14 +13,15 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
 import {
+  Form,
+  LegoFinalForm,
   TextInput,
   SelectInput,
   TextArea,
   CheckBox,
+  SubmitButton,
+  SubmissionError,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
@@ -152,7 +153,7 @@ const PollEditor = ({
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="title"
               label="Spørsmål"
@@ -194,7 +195,7 @@ const PollEditor = ({
             />
 
             <SubmissionError />
-            <ButtonGroup className={styles.actionButtons}>
+            <ButtonGroup>
               <SubmitButton>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </SubmitButton>
@@ -218,7 +219,7 @@ const PollEditor = ({
                 </ConfirmModal>
               )}
             </ButtonGroup>
-          </form>
+          </Form>
         )}
       </LegoFinalForm>
     </>

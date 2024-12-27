@@ -58,7 +58,6 @@ const Registrations: React.FC<Props> = ({ values }) => {
             label="Påmeldingstype"
             name="eventStatusType"
             component={SelectInput.Field}
-            fieldClassName={styles.metaField}
             options={eventStatusTypes}
             required
           />
@@ -86,8 +85,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         name="isPriced"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
       {values.isPriced && (
         <div className={styles.subSection}>
@@ -97,8 +94,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             name="useStripe"
             type="checkbox"
             component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
           <Flex className={styles.editorSectionRow}>
             <Field
@@ -106,8 +101,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
               name="priceMember"
               type="number"
               component={TextInput.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
               warn={tooLow}
               required
             />
@@ -115,33 +108,29 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
               label="Betalingsfrist"
               name="paymentDueDate"
               component={DatePicker.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
             />
           </Flex>
         </div>
       )}
-      <Field
-        label="Bruk prikker"
-        name="heedPenalties"
-        type="checkbox"
-        component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
-      />
-      {values.heedPenalties && (
-        <div className={styles.subSection}>
-          <Field
-            key="unregistrationDeadline"
-            label="Avregistreringsfrist"
-            description="Frist for avmelding - fører til prikk etterpå"
-            name="unregistrationDeadline"
-            component={DatePicker.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
-          />
-        </div>
-      )}
+      <div>
+        <Field
+          label="Bruk prikker"
+          name="heedPenalties"
+          type="checkbox"
+          component={CheckBox.Field}
+        />
+        {values.heedPenalties && (
+          <div className={styles.subSection}>
+            <Field
+              key="unregistrationDeadline"
+              label="Avregistreringsfrist"
+              description="Frist for avmelding - fører til prikk etterpå"
+              name="unregistrationDeadline"
+              component={DatePicker.Field}
+            />
+          </div>
+        )}
+      </div>
       <Flex className={styles.editorSectionRow}>
         <Flex column className={styles.editorSectionColumn}>
           <Field
@@ -151,12 +140,10 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             name="registrationDeadlineHours"
             type="number"
             component={TextInput.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
-          <p className={styles.registrationDeadlineHours}>
+          <span className={styles.registrationDeadlineHours}>
             Stenger <FormatTime time={registrationCloseTime(values)} />
-          </p>
+          </span>
         </Flex>
         <Flex column className={styles.editorSectionColumn}>
           <Field
@@ -165,8 +152,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             name="separateDeadlines"
             type="checkbox"
             component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
           {values.separateDeadlines && (
             <div className={styles.subSection}>
@@ -177,8 +162,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
                 name="unregistrationDeadlineHours"
                 type="number"
                 component={TextInput.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
               />
               <p className={styles.unregistrationDeadlineHours}>
                 Stenger <FormatTime time={unregistrationCloseTime(values)} />
@@ -193,8 +176,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         name="useConsent"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
       <Field
         label="Påmeldingsspørsmål"
@@ -202,8 +183,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         name="hasFeedbackQuestion"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
       {values.hasFeedbackQuestion && (
         <div className={styles.subSection}>
@@ -211,8 +190,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             name="feedbackDescription"
             placeholder="Burger eller sushi?"
             component={TextInput.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
             warn={containsAllergier}
           />
           <Field
@@ -220,8 +197,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             label="Obligatorisk"
             type="checkbox"
             component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
         </div>
       )}
@@ -242,8 +217,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             description="Tidspunkt for å slå sammen poolene"
             name="mergeTime"
             component={DatePicker.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
         )}
       </Flex>

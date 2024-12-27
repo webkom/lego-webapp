@@ -70,7 +70,6 @@ export function createField<T, ExtraProps extends object>(
       onChange,
       showErrors = true,
       className = null,
-      withoutMargin = false,
       ...props
     } = fieldProps;
     const { error, submitError, touched } = meta;
@@ -95,11 +94,7 @@ export function createField<T, ExtraProps extends object>(
     return (
       <Flex
         column
-        className={cx(
-          styles.field,
-          withoutMargin && styles.withoutMargin,
-          fieldClassName,
-        )}
+        className={cx(styles.field, fieldClassName)}
         style={fieldStyle}
       >
         <Label

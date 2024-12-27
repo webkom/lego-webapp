@@ -1,7 +1,3 @@
 .fieldSet {
   border: 0;
 }
-
-.fieldSetLegend {
-  margin-bottom: var(--spacing-sm);
-}

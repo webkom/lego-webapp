@@ -18,6 +18,7 @@ import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import { ContentMain } from 'app/components/Content';
 import {
+  Form,
   TextEditor,
   TextInput,
   LegoFinalForm,
@@ -77,7 +78,7 @@ const SemesterBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column>
+  <Flex column gap="var(--spacing-sm)">
     {fields.map((item, index) => (
       <Field
         key={`semesters[${index}]`}
@@ -97,7 +98,7 @@ const SurveyOffersBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column>
+  <Flex column gap="var(--spacing-sm)">
     {fields.map((item, index) => (
       <Field
         key={`companyCourseThemes[${index}]`}
@@ -128,7 +129,7 @@ const EventBox = ({
         });
       }
       return (
-        <Flex column>
+        <Flex column gap="var(--spacing-sm)">
           {filteredFields.map((key, index) => (
             <Field
               key={`events[${index}]`}
@@ -152,7 +153,7 @@ const TargetGradeBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column>
+  <Flex column gap="var(--spacing-sm)">
     {fields.map((key, index) => (
       <Field
         key={`targetGrades[${index}]`}
@@ -172,7 +173,7 @@ const OtherBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column>
+  <Flex column gap="var(--spacing-sm)">
     {fields.map((key, index) => (
       <Field
         key={`otherOffers[${index}]`}
@@ -192,7 +193,7 @@ const CollaborationBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column>
+  <Flex column gap="var(--spacing-sm)">
     {fields.map((key, index) => (
       <Field
         key={`collaborations[${index}]`}
@@ -537,7 +538,7 @@ const CompanyInterestPage = () => {
           }}
         >
           {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
               <Field
                 name="company"
                 label={FORM_LABELS.company.header[language]}
@@ -706,8 +707,10 @@ const CompanyInterestPage = () => {
                 </Flex>
               </Flex>
               <div className={styles.topline} />
-              <h3>{FORM_LABELS.eventDescriptionHeader[language]}</h3>
-              <p>{FORM_LABELS.eventDescriptionIntro[language]}</p>
+              <div>
+                <h3>{FORM_LABELS.eventDescriptionHeader[language]}</h3>
+                <span>{FORM_LABELS.eventDescriptionIntro[language]}</span>
+              </div>
 
               {eventTypeEntities.map((eventTypeEntity) => {
                 return spyValues((values: CompanyInterestFormEntity) => {
@@ -750,12 +753,12 @@ const CompanyInterestPage = () => {
 
               <SubmissionError />
 
-              <SubmitButton className={styles.submitButton}>
+              <SubmitButton>
                 {edit
                   ? 'Oppdater bedriftsinteresse'
                   : FORM_LABELS.create[language]}
               </SubmitButton>
-            </form>
+            </Form>
           )}
         </LegoFinalForm>
       </ContentMain>

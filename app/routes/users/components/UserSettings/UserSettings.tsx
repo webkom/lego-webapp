@@ -3,16 +3,18 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
+import { ContentMain } from 'app/components/Content';
 import {
+  Form,
+  LegoFinalForm,
   TextInput,
   MultiSelectGroup,
   RadioButton,
   PhoneNumberInput,
   SelectInput,
+  SubmitButton,
+  SubmissionError,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectUserByUsername } from 'app/reducers/users';
@@ -107,7 +109,7 @@ const UserSettings = () => {
   };
 
   return (
-    <>
+    <ContentMain>
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -115,7 +117,7 @@ const UserSettings = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Flex gap="var(--spacing-xl)" className={styles.mobileColumn}>
               <Flex
                 column
@@ -127,7 +129,7 @@ const UserSettings = () => {
                 <RemovePicture username={user.username} />
               </Flex>
 
-              <Flex column className={styles.right}>
+              <Flex column gap="var(--spacing-md)" className={styles.right}>
                 <Field
                   placeholder="Brukernavn"
                   label="Brukernavn"
@@ -170,7 +172,7 @@ const UserSettings = () => {
               </Flex>
             </Flex>
 
-            <Flex gap="var(--spacing-md)" className={styles.bottom}>
+            <Flex gap="var(--spacing-md)">
               <Field
                 name="gender"
                 label="Kjønn"
@@ -232,21 +234,23 @@ const UserSettings = () => {
 
             <SubmissionError />
             <SubmitButton>Lagre endringer</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
 
       {isCurrentUser && (
         <>
-          <div className={styles.changePassword}>
+          <div>
             <h2>Endre passord</h2>
             <ChangePassword />
           </div>
-          <h2 className={styles.deleteUser}>Slett bruker</h2>
-          <DeleteUser />
+          <div>
+            <h2 className={styles.deleteUser}>Slett bruker</h2>
+            <DeleteUser />
+          </div>
         </>
       )}
-    </>
+    </ContentMain>
   );
 };
 
