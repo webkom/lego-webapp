@@ -78,7 +78,7 @@ const SemesterBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-md)">
     {fields.map((item, index) => (
       <Field
         key={`semesters[${index}]`}
@@ -98,7 +98,7 @@ const SurveyOffersBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-md)">
     {fields.map((item, index) => (
       <Field
         key={`companyCourseThemes[${index}]`}
@@ -129,7 +129,7 @@ const EventBox = ({
         });
       }
       return (
-        <Flex column gap="var(--spacing-sm)">
+        <Flex column gap="var(--spacing-md)">
           {filteredFields.map((key, index) => (
             <Field
               key={`events[${index}]`}
@@ -153,7 +153,7 @@ const TargetGradeBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-md)">
     {fields.map((key, index) => (
       <Field
         key={`targetGrades[${index}]`}
@@ -173,7 +173,7 @@ const OtherBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-md)">
     {fields.map((key, index) => (
       <Field
         key={`otherOffers[${index}]`}
@@ -193,7 +193,7 @@ const CollaborationBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-md)">
     {fields.map((key, index) => (
       <Field
         key={`collaborations[${index}]`}

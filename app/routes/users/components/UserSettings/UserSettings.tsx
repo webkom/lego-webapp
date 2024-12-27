@@ -1,5 +1,6 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
@@ -14,6 +15,7 @@ import {
   SelectInput,
   SubmitButton,
   SubmissionError,
+  RowSection,
 } from 'app/components/Form';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { useCurrentUser } from 'app/reducers/auth';
@@ -139,7 +141,7 @@ const UserSettings = () => {
                   disabled
                 />
 
-                <Flex gap="var(--spacing-md)">
+                <RowSection>
                   <Field
                     placeholder="Fornavn"
                     label="Fornavn"
@@ -153,14 +155,14 @@ const UserSettings = () => {
                     name="lastName"
                     component={TextInput.Field}
                   />
-                </Flex>
+                </RowSection>
 
-                <Flex gap="var(--spacing-md)">
+                <RowSection>
                   <Field
                     placeholder="abc@xyz.no"
                     label="E-post"
                     name="email"
-                    prefix="mail-outline"
+                    prefixIconNode={<Icon iconNode={<Mail />} />}
                     component={TextInput.Field}
                   />
                   <Field
@@ -168,11 +170,11 @@ const UserSettings = () => {
                     name="phoneNumber"
                     component={PhoneNumberInput.Field}
                   />
-                </Flex>
+                </RowSection>
               </Flex>
             </Flex>
 
-            <Flex gap="var(--spacing-md)">
+            <RowSection>
               <Field
                 name="gender"
                 label="Kjønn"
@@ -184,21 +186,23 @@ const UserSettings = () => {
               />
 
               <AllergiesOrPreferencesField />
-            </Flex>
+            </RowSection>
 
-            <Flex gap="var(--spacing-md)">
+            <RowSection>
               <Field
                 label="GitHub-brukernavn"
                 name="githubUsername"
+                prefixIconNode={<Icon iconNode={<Github />} />}
                 component={TextInput.Field}
               />
 
               <Field
                 label="LinkedIn-ID"
                 name="linkedinId"
+                prefixIconNode={<Icon iconNode={<Linkedin />} />}
                 component={TextInput.Field}
               />
-            </Flex>
+            </RowSection>
 
             <MultiSelectGroup legend="Fargetema" name="selectedTheme">
               <Field

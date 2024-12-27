@@ -21,19 +21,6 @@
   cursor: pointer;
 }
 
-.editorSectionRow {
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-
-  @media (--medium-viewport) {
-    gap: 0;
-  }
-}
-
-.pinnedWarning {
-  margin-bottom: var(--spacing-md);
-}
-
 .descriptionEditor {
   background: inherit;
   color: var(--lego-font-color);
@@ -44,15 +31,6 @@
   color: var(--secondary-font-color);
   font-size: var(--font-size-sm);
   margin-top: var(--spacing-xs);
-}
-
-.editorSectionRow > .metaField,
-.editorSectionRow > .editorSectionColumn {
-  flex-basis: calc(50% - var(--spacing-sm));
-
-  @media (--medium-viewport) {
-    flex-basis: 100%;
-  }
 }
 
 .metaList {
@@ -122,8 +100,7 @@
   margin-top: -2px;
   margin-left: 7px;
   border-left: var(--spacing-xs) solid var(--lego-red-color);
-  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-sm) 0 0 var(--spacing-md);
 }
 
 .imageGallery {

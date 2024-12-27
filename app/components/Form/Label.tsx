@@ -52,7 +52,7 @@ export const Label = ({
       {inline ? (
         <Flex
           alignItems="center"
-          gap="var(--spacing-xs)"
+          gap="var(--spacing-sm)"
           className={styles.inline}
         >
           {children}

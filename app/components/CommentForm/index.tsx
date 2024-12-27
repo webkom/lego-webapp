@@ -71,7 +71,6 @@ const CommentForm = ({
                   component={TextInput.Field}
                   removeBorder
                   maxLength={140}
-                  withoutMargin
                 />
               </div>
 

@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import {
+  RowSection,
   SelectInput,
   TextInput,
   CheckBox,
@@ -20,7 +21,7 @@ type Props = {
 const Details: React.FC<Props> = ({ values }) => {
   return (
     <>
-      <Flex className={styles.editorSectionRow}>
+      <RowSection>
         <Field
           name="eventType"
           label="Type arrangement"
@@ -42,8 +43,8 @@ const Details: React.FC<Props> = ({ values }) => {
           placeholder="Bedrift"
           isClearable
         />
-      </Flex>
-      <Flex className={styles.editorSectionRow}>
+      </RowSection>
+      <RowSection>
         <Field
           name="responsibleGroup"
           label="Ansvarlig gruppe"
@@ -63,7 +64,7 @@ const Details: React.FC<Props> = ({ values }) => {
           placeholder="Velg ansvarlige brukere"
           isClearable
         />
-      </Flex>
+      </RowSection>
       <Flex className={styles.editorSectionRow}>
         <Field
           label="Dato"
@@ -86,7 +87,6 @@ const Details: React.FC<Props> = ({ values }) => {
             name="useMazemap"
             type="checkbox"
             component={CheckBox.Field}
-            withoutMargin
           />
           {!values.useMazemap ? (
             <Field
