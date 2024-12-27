@@ -5,10 +5,8 @@
 }
 
 .rowRec {
-  gap: var(--spacing-md);
-
-  @media (--mobile-device) {
-    gap: 0;
+  @media (--medium-viewport) {
+    gap: var(--spacing-sm) !important;
     flex-direction: column;
   }
 }

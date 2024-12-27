@@ -12,6 +12,7 @@ import {
   LegoFinalForm,
   SelectInput,
   TextArea,
+  RowSection,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Tooltip from 'app/components/Tooltip';
@@ -150,72 +151,74 @@ const AnnouncementsCreate = () => {
               label="Melding"
               required
             />
-            <span className={styles.formHeaders}>Mottakere</span>
-            <Flex column>
-              <Flex className={styles.rowRec}>
-                <Field
-                  name="users"
-                  placeholder="Brukere"
-                  filter={['users.user']}
-                  isMulti
-                  component={SelectInput.AutocompleteField}
-                />
-                <Field
-                  name="groups"
-                  placeholder="Grupper"
-                  filter={['users.abakusgroup']}
-                  isMulti
-                  component={SelectInput.AutocompleteField}
-                />
+            <div>
+              <span className={styles.formHeaders}>Mottakere</span>
+              <Flex column gap="var(--spacing-sm)">
+                <RowSection className={styles.rowRec}>
+                  <Field
+                    name="users"
+                    placeholder="Brukere"
+                    filter={['users.user']}
+                    isMulti
+                    component={SelectInput.AutocompleteField}
+                  />
+                  <Field
+                    name="groups"
+                    placeholder="Grupper"
+                    filter={['users.abakusgroup']}
+                    isMulti
+                    component={SelectInput.AutocompleteField}
+                  />
+                </RowSection>
+                <RowSection className={styles.rowRec}>
+                  <Field
+                    name="events"
+                    placeholder="Arrangementer"
+                    filter={['events.event']}
+                    isMulti
+                    component={SelectInput.AutocompleteField}
+                  />
+                  {spyValues<FormValues>((values) => {
+                    const disabled = isEmpty(values.events);
+                    return (
+                      <Flex width="100%">
+                        <Tooltip
+                          content="Velg minst ett arrangement"
+                          disabled={!disabled}
+                        >
+                          <Field
+                            name="excludeWaitingList"
+                            label="Ekskluder venteliste"
+                            component={CheckBox.Field}
+                            disabled={disabled}
+                          />
+                        </Tooltip>
+                      </Flex>
+                    );
+                  })}
+                </RowSection>
+                <RowSection className={styles.rowRec}>
+                  <Field
+                    name="meetings"
+                    placeholder="Møter"
+                    filter={['meetings.meeting']}
+                    isMulti
+                    component={SelectInput.AutocompleteField}
+                  />
+                  <Field
+                    name="meetingInvitationStatus"
+                    placeholder="Filtrer på deltagelsesstatus til møtet"
+                    component={SelectInput.Field}
+                    options={Object.values(MeetingInvitationStatus).map(
+                      (status) => ({
+                        label: statusesText[status],
+                        value: status,
+                      }),
+                    )}
+                  />
+                </RowSection>
               </Flex>
-              <Flex alignItems="center" className={styles.rowRec}>
-                <Field
-                  name="events"
-                  placeholder="Arrangementer"
-                  filter={['events.event']}
-                  isMulti
-                  component={SelectInput.AutocompleteField}
-                />
-                {spyValues<FormValues>((values) => {
-                  const disabled = isEmpty(values.events);
-                  return (
-                    <Flex width="100%">
-                      <Tooltip
-                        content="Velg minst ett arrangement"
-                        disabled={!disabled}
-                      >
-                        <Field
-                          name="excludeWaitingList"
-                          label="Ekskluder venteliste"
-                          component={CheckBox.Field}
-                          disabled={disabled}
-                        />
-                      </Tooltip>
-                    </Flex>
-                  );
-                })}
-              </Flex>
-              <Flex className={styles.rowRec} justifyContent="center">
-                <Field
-                  name="meetings"
-                  placeholder="Møter"
-                  filter={['meetings.meeting']}
-                  isMulti
-                  component={SelectInput.AutocompleteField}
-                />
-                <Field
-                  name="meetingInvitationStatus"
-                  placeholder="Filtrer på deltagelsesstatus til møtet"
-                  component={SelectInput.Field}
-                  options={Object.values(MeetingInvitationStatus).map(
-                    (status) => ({
-                      label: statusesText[status],
-                      value: status,
-                    }),
-                  )}
-                />
-              </Flex>
-            </Flex>
+            </div>
             <Field
               name="fromGroup"
               placeholder="Velg gruppe"

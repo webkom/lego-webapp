@@ -12,7 +12,6 @@ import { Field } from 'react-final-form';
 import { setSaveForUse } from 'app/actions/FileActions';
 import EmptyState from 'app/components/EmptyState';
 import {
-  RowSection,
   TextInput,
   CheckBox,
   Button,

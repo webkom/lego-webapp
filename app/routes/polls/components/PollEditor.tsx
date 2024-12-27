@@ -38,40 +38,38 @@ type Props = {
 
 const renderOptions = ({ fields }): ReactNode => (
   <>
-    <ul>
-      {fields.map((option: string, i: number) => (
-        <li className={styles.optionField} key={i}>
-          <Field
-            name={`${option}.name`}
-            label={`Valg nr. ${i + 1}`}
-            placeholder={`Valg ${i + 1}`}
-            component={TextInput.Field}
-            validate={(value) => {
-              if (!value || value.length == 0) return 'Alle valg må ha et navn';
-              if (value.length > 30)
-                return 'Valget kan ikke være lengre enn 30 tegn';
-              return undefined;
-            }}
-            required
-          />
-          <ConfirmModal
-            title="Slett valg"
-            message="Er du sikker på at du vil fjerne dette valget?"
-            onConfirm={async () => await fields.remove(i)}
-            closeOnConfirm
-          >
-            {({ openConfirmModal }) => (
-              <Tooltip className="deleteOption" content="Fjern">
-                <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
-              </Tooltip>
-            )}
-          </ConfirmModal>
-        </li>
-      ))}
-    </ul>
+    {fields.map((option: string, i: number) => (
+      <li className={styles.optionField} key={i}>
+        <Field
+          name={`${option}.name`}
+          label={`Valg nr. ${i + 1}`}
+          placeholder={`Valg ${i + 1}`}
+          component={TextInput.Field}
+          validate={(value) => {
+            if (!value || value.length == 0) return 'Alle valg må ha et navn';
+            if (value.length > 30)
+              return 'Valget kan ikke være lengre enn 30 tegn';
+            return undefined;
+          }}
+          required
+        />
+        <ConfirmModal
+          title="Slett valg"
+          message="Er du sikker på at du vil fjerne dette valget?"
+          onConfirm={async () => await fields.remove(i)}
+          closeOnConfirm
+        >
+          {({ openConfirmModal }) => (
+            <Tooltip className="deleteOption" content="Fjern">
+              <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
+            </Tooltip>
+          )}
+        </ConfirmModal>
+      </li>
+    ))}
 
     <Button onPress={() => fields.push({})}>
-      <Icon iconNode={<Plus />} size={25} />
+      <Icon iconNode={<Plus />} size={19} />
       Legg til alternativ
     </Button>
   </>

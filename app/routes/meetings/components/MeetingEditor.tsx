@@ -28,6 +28,7 @@ import {
   DatePicker,
   EditorField,
   Form,
+  RowSection,
   SelectInput,
   TextArea,
   TextInput,
@@ -42,7 +43,6 @@ import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import styles from 'app/routes/meetings/components/MeetingEditor.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -283,28 +283,26 @@ const MeetingEditor = () => {
                 placeholder="Dette vises i kalenderen til de inviterte, så gjerne putt zoom-lenka her..."
                 component={TextArea.Field}
               />
-              <div className={styles.sideBySideBoxes}>
-                <FormSpy subscription={{ values: true }}>
-                  {({ values }) => (
-                    <Field
-                      name="date"
-                      label="Dato"
-                      range
-                      component={DatePicker.Field}
-                      onBlur={(value: [Dateish, Dateish]) => {
-                        const startTime = moment(value[0]);
-                        const endTime = moment(values.date[1]);
-                        if (endTime.isBefore(startTime)) {
-                          form.change('date', [
-                            startTime,
-                            endTime.clone().add(2, 'hours').set('minute', 0),
-                          ]);
-                        }
-                      }}
-                    />
-                  )}
-                </FormSpy>
-              </div>
+              <FormSpy subscription={{ values: true }}>
+                {({ values }) => (
+                  <Field
+                    name="date"
+                    label="Dato"
+                    range
+                    component={DatePicker.Field}
+                    onBlur={(value: [Dateish, Dateish]) => {
+                      const startTime = moment(value[0]);
+                      const endTime = moment(values.date[1]);
+                      if (endTime.isBefore(startTime)) {
+                        form.change('date', [
+                          startTime,
+                          endTime.clone().add(2, 'hours').set('minute', 0),
+                        ]);
+                      }
+                    }}
+                  />
+                )}
+              </FormSpy>
               <Field
                 label="Bruk MazeMap"
                 name="useMazemap"
@@ -339,28 +337,24 @@ const MeetingEditor = () => {
                 );
               })}
 
-              <div className={styles.sideBySideBoxes}>
-                <div>
-                  <Field
-                    name="users"
-                    filter={['users.user']}
-                    label="Inviter brukere"
-                    placeholder="Skriv inn brukernavn på de du vil invitere"
-                    component={SelectInput.AutocompleteField}
-                    isMulti
-                  />
-                </div>
-                <div>
-                  <Field
-                    name="groups"
-                    filter={['users.abakusgroup']}
-                    label="Inviter grupper"
-                    placeholder="Skriv inn gruppene du vil invitere"
-                    component={SelectInput.AutocompleteField}
-                    isMulti
-                  />
-                </div>
-              </div>
+              <RowSection>
+                <Field
+                  name="users"
+                  filter={['users.user']}
+                  label="Inviter brukere"
+                  placeholder="Skriv inn brukernavn på de du vil invitere"
+                  component={SelectInput.AutocompleteField}
+                  isMulti
+                />
+                <Field
+                  name="groups"
+                  filter={['users.abakusgroup']}
+                  label="Inviter grupper"
+                  placeholder="Skriv inn gruppene du vil invitere"
+                  component={SelectInput.AutocompleteField}
+                  isMulti
+                />
+              </RowSection>
 
               {spyValues<MeetingFormValues>((values) => {
                 const invitingUsers = values?.users ?? [];

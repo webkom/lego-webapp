@@ -171,22 +171,22 @@ const UserSettings = () => {
                     component={PhoneNumberInput.Field}
                   />
                 </RowSection>
+
+                <RowSection>
+                  <Field
+                    name="gender"
+                    label="Kjønn"
+                    component={SelectInput.Field}
+                    options={Object.entries(Gender).map(([key, value]) => ({
+                      label: value,
+                      value: key,
+                    }))}
+                  />
+
+                  <AllergiesOrPreferencesField />
+                </RowSection>
               </Flex>
             </Flex>
-
-            <RowSection>
-              <Field
-                name="gender"
-                label="Kjønn"
-                component={SelectInput.Field}
-                options={Object.entries(Gender).map(([key, value]) => ({
-                  label: value,
-                  value: key,
-                }))}
-              />
-
-              <AllergiesOrPreferencesField />
-            </RowSection>
 
             <RowSection>
               <Field
