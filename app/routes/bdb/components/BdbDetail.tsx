@@ -47,7 +47,6 @@ import {
   selectTransformedAdminCompanyById,
 } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectUserById } from 'app/reducers/users';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
 import {
   semesterToHumanReadable,
@@ -56,18 +55,13 @@ import {
 import companyStyles from 'app/routes/company/components/Company.module.css';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { PublicUser } from 'app/store/models/User';
 import { EntityType } from 'app/store/models/entities';
 import truncateString from 'app/utils/truncateString';
 import styles from './bdb.module.css';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { GroupedStudentContacts } from 'app/routes/bdb/utils';
-import type {
-  CompanyContact,
-  StudentCompanyContact,
-} from 'app/store/models/Company';
+import type { CompanyContact } from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
 
 type RenderFileProps = {
@@ -267,7 +261,7 @@ const BdbDetail = () => {
       render: (_, studentContacts: GroupedStudentContacts) => (
         <Flex column gap="var(--spacing-sm)">
           {studentContacts.users.map((user) => (
-            <UserLink user={user} />
+            <UserLink key={user.id} user={user} />
           ))}
         </Flex>
       ),

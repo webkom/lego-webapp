@@ -27,7 +27,7 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectCompanyById } from 'app/reducers/companies';
-import { selectUserById, selectUsersByIds } from 'app/reducers/users';
+import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';

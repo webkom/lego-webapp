@@ -23,12 +23,8 @@ import {
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
-import type {
-  TransformedSemesterStatus,
-  TransformedStudentCompanyContact,
-} from 'app/reducers/companies';
+import type { TransformedStudentCompanyContact } from 'app/reducers/companies';
 import type CompanySemester from 'app/store/models/CompanySemester';
-import type { UnknownUser } from 'app/store/models/User';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
@@ -75,14 +71,15 @@ const BdbPage = () => {
   );
 
   const dispatch = useAppDispatch();
+
   usePreparedEffect(
     'fetchBdb',
-    async () => {
-      if (!companySemesters.length) {
-        const action = await dispatch(fetchSemesters());
+    () =>
+      dispatch(fetchSemesters()).then((result) => {
         const companySemesters = Object.values(
-          action.payload.entities.companySemesters,
+          result.payload.entities.companySemesters,
         ).filter((companySemester) => companySemester !== undefined);
+
         const semester = resolveCurrentSemester(
           query.semester,
           companySemesters,
@@ -96,18 +93,8 @@ const BdbPage = () => {
             false,
           ),
         );
-      }
-      return dispatch(
-        fetchAllAdmin(
-          {
-            ...query,
-            semester_id: currentCompanySemester!.id,
-          },
-          false,
-        ),
-      );
-    },
-    [query.semester, currentCompanySemester, companySemesters],
+      }),
+    [query.semester],
   );
 
   const columns: ColumnProps<(typeof companies)[number]>[] = [
@@ -157,7 +144,10 @@ const BdbPage = () => {
         studentContacts && (
           <Flex column gap="var(--spacing-sm)">
             {studentContacts.map((studentContact) => (
-              <UserLink user={studentContact.user} />
+              <UserLink
+                key={studentContact.user.id}
+                user={studentContact.user}
+              />
             ))}
           </Flex>
         ),
@@ -193,15 +183,14 @@ const BdbPage = () => {
             .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
             .sort((a, b) => b.year - a.year)
             .map((semester) => ({
-              label: semesterToHumanReadable(
-                semester as TransformedSemesterStatus,
-              ),
+              label: semesterToHumanReadable(semester.semester, semester.year),
               value: semester.id as number,
             }))}
           value={{
             label: currentCompanySemester
               ? semesterToHumanReadable(
-                  currentCompanySemester as TransformedSemesterStatus,
+                  currentCompanySemester.semester,
+                  currentCompanySemester.year,
                 )
               : 'Velg semester',
             value: currentCompanySemester?.id as number,

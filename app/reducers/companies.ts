@@ -114,7 +114,7 @@ export const {
 
 export type TransformedStudentCompanyContact = Overwrite<
   StudentCompanyContact,
-  { semester: CompanySemester, user: PublicUser }
+  { semester: CompanySemester; user: PublicUser }
 >;
 
 export type TransformedSemesterStatus = Overwrite<
@@ -156,7 +156,7 @@ const transformCompany = (
 });
 
 export const selectTransformedAdminCompanies = createSelector(
-  selectAllCompanies,
+  selectAllPaginatedCompanies,
   selectCompanySemesterEntities,
   selectUserEntities,
   (companies, companySemesterEntities, userEntities) => {
@@ -175,7 +175,8 @@ export const selectTransformedAdminCompanyById = createSelector(
   selectCompanyById,
   selectCompanySemesterEntities,
   selectUserEntities,
-  (company, companySemesterEntities, userEntities) => company && 'semesterStatuses' in company
+  (company, companySemesterEntities, userEntities) =>
+    company && 'semesterStatuses' in company
       ? (transformCompany(
           companySemesterEntities,
           company,
