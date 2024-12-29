@@ -75,7 +75,7 @@ const bdbRoute: RouteObject[] = [
   { path: ':companyId', Component: BdbDetail },
   { path: ':companyId/edit', Component: CompanyEditor },
   { path: ':companyId/semesters/add', Component: AddSemester },
-  { path: ':companyId/student-contacts/add', Component: StudentContactEditor },
+  { path: ':companyId/student-contacts/edit', Component: StudentContactEditor },
   { path: ':companyId/company-contacts/add', Component: CompanyContactEditor },
   {
     path: ':companyId/company-contacts/:companyContactId',

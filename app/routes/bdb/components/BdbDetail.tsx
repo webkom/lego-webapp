@@ -504,8 +504,8 @@ const BdbDetail = () => {
         <Flex column gap="var(--spacing-sm)">
           <Flex justifyContent="space-between" alignItems="center">
             <h3>Studentkontakter</h3>
-            <LinkButton href={`/bdb/${company.id}/student-contacts/add`}>
-              Legg til studentkontakt
+            <LinkButton href={`/bdb/${company.id}/student-contacts/edit`}>
+              Rediger studentkontakter
             </LinkButton>
           </Flex>
           {company.studentContacts && company.studentContacts.length > 0 ? (
