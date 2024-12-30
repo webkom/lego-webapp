@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useParams } from 'react-router-dom';
+import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {
   selectRegistrationGroups,
@@ -61,65 +62,69 @@ const Attendees = () => {
   const eventHasEnded = moment().isAfter(event?.endTime);
 
   return (
-    <>
-      <Flex alignItems="center" justifyContent="space-between">
-        <h3>Påmeldte</h3>
-        <div>
-          <div className={styles.attendeeStatistics}>
-            {`${registerCount}/${event?.registrationCount || '?'} ${
-              eventHasEnded ? 'møtte opp' : 'har møtt opp'
-            }`}
+    <ContentMain>
+      <Flex column gap="var(--spacing-sm)">
+        <Flex alignItems="center" justifyContent="space-between">
+          <h3>Påmeldte</h3>
+          <div>
+            <div className={styles.attendeeStatistics}>
+              {`${registerCount}/${event?.registrationCount || '?'} ${
+                eventHasEnded ? 'møtte opp' : 'har møtt opp'
+              }`}
+            </div>
+            <div className={styles.attendeeStatistics}>
+              {`${adminRegisterCount}/${event?.registrationCount || '?'} ${
+                eventHasEnded ? 'ble' : 'er'
+              } adminpåmeldt`}
+            </div>
+            <div className={styles.attendeeStatistics}>
+              {registeredPaidCount > 0
+                ? `${registeredPaidCount}/${
+                    event?.registrationCount
+                  } registrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
+                : ''}
+            </div>
+            <div className={styles.attendeeStatistics}>
+              {unRegisteredPaidCount > 0
+                ? `${unRegisteredPaidCount}/${
+                    unregistered.length
+                  } avregistrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
+                : ''}
+            </div>
           </div>
-          <div className={styles.attendeeStatistics}>
-            {`${adminRegisterCount}/${event?.registrationCount || '?'} ${
-              eventHasEnded ? 'ble' : 'er'
-            } adminpåmeldt`}
-          </div>
-          <div className={styles.attendeeStatistics}>
-            {registeredPaidCount > 0
-              ? `${registeredPaidCount}/${
-                  event?.registrationCount
-                } registrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
-              : ''}
-          </div>
-          <div className={styles.attendeeStatistics}>
-            {unRegisteredPaidCount > 0
-              ? `${unRegisteredPaidCount}/${
-                  unregistered.length
-                } avregistrerte ${eventHasEnded ? 'betalte' : 'har betalt'}`
-              : ''}
-          </div>
-        </div>
+        </Flex>
+
+        {registered.length === 0 && !loading ? (
+          <EmptyState body="Ingen påmeldte" />
+        ) : (
+          event && (
+            <RegisteredTable
+              event={event}
+              registered={registered}
+              loading={loading}
+              showPresence={showPresence}
+              showUnregister={showUnregister}
+              pools={pools}
+            />
+          )
+        )}
       </Flex>
 
-      {registered.length === 0 && !loading ? (
-        <EmptyState body="Ingen påmeldte" />
-      ) : (
-        event && (
-          <RegisteredTable
-            event={event}
-            registered={registered}
-            loading={loading}
-            showPresence={showPresence}
-            showUnregister={showUnregister}
-            pools={pools}
-          />
-        )
-      )}
-
-      <h3>Avmeldte</h3>
-      {unregistered.length === 0 && !loading ? (
-        <EmptyState body="Ingen avmeldte" />
-      ) : (
-        event && (
-          <UnregisteredTable
-            unregistered={unregistered}
-            loading={loading}
-            event={event}
-          />
-        )
-      )}
-    </>
+      <Flex column gap="var(--spacing-sm)">
+        <h3>Avmeldte</h3>
+        {unregistered.length === 0 && !loading ? (
+          <EmptyState body="Ingen avmeldte" />
+        ) : (
+          event && (
+            <UnregisteredTable
+              unregistered={unregistered}
+              loading={loading}
+              event={event}
+            />
+          )
+        )}
+      </Flex>
+    </ContentMain>
   );
 };
 
