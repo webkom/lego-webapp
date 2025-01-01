@@ -503,7 +503,7 @@ const BdbDetail = () => {
 
       <Flex column gap="var(--spacing-md)" margin="var(--spacing-md) 0 0 0">
         <Flex column gap="var(--spacing-sm)">
-          <Flex justifyContent="space-between" alignItems="center">
+          <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Studentkontakter</h3>
             <LinkButton href={`/bdb/${company.id}/student-contacts/edit`}>
               Rediger studentkontakter
