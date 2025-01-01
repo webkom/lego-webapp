@@ -150,7 +150,7 @@ const StudentContactEditor = () => {
             />
 
             <Field
-              placeholder="Velg student kontakter"
+              placeholder="Velg studentkontakter"
               name="studentContacts"
               label="Studentkontakter"
               component={SelectInput.AutocompleteField}
