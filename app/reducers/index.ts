@@ -75,7 +75,7 @@ export const companyInterestSchema = new schema.Entity(
   },
 );
 export const companySchema = new schema.Entity(EntityType.Companies, {
-  studentContact: userSchema,
+  studentContacts: [{ user: userSchema, semester: companySemesterSchema }],
   comments: [commentSchema],
 });
 export const joblistingsSchema = new schema.Entity(EntityType.Joblistings);

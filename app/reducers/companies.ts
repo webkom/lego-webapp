@@ -16,11 +16,12 @@ import type {
   AdminDetailCompany,
   AdminListCompany,
   SemesterStatus,
+  StudentCompanyContact,
   UnknownCompany,
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ListEvent } from 'app/store/models/Event';
-import type { UnknownUser } from 'app/store/models/User';
+import type { PublicUser, UnknownUser } from 'app/store/models/User';
 import type { AnyAction } from 'redux';
 import type { Overwrite } from 'utility-types';
 
@@ -111,10 +112,16 @@ export const {
   selectAllPaginated: selectAllPaginatedCompanies,
 } = legoAdapter.getSelectors((state: RootState) => state.companies);
 
+export type TransformedStudentCompanyContact = Overwrite<
+  StudentCompanyContact,
+  { semester: CompanySemester; user: PublicUser }
+>;
+
 export type TransformedSemesterStatus = Overwrite<
   SemesterStatus,
   { semester: Semester }
 > & { year: number };
+
 export type TransformedAdminCompany<
   T extends AdminDetailCompany | AdminListCompany =
     | AdminDetailCompany
@@ -122,7 +129,7 @@ export type TransformedAdminCompany<
 > = Overwrite<
   T,
   {
-    studentContact?: UnknownUser | EntityId | null;
+    studentContacts?: TransformedStudentCompanyContact[];
     semesterStatuses: TransformedSemesterStatus[];
   }
 >;
@@ -134,10 +141,14 @@ const transformCompany = (
   userEntities?: Record<EntityId, UnknownUser>,
 ): TransformedAdminCompany => ({
   ...company,
-  studentContact:
+  studentContacts:
     userEntities &&
-    company.studentContact &&
-    userEntities[company.studentContact],
+    company.studentContacts &&
+    company.studentContacts.map((studentContact) => ({
+      ...studentContact,
+      semester: companySemesterEntities[studentContact.semester],
+      user: userEntities[studentContact.user],
+    })),
   semesterStatuses: transformSemesterStatuses(
     companySemesterEntities,
     company.semesterStatuses ?? [],
@@ -145,7 +156,7 @@ const transformCompany = (
 });
 
 export const selectTransformedAdminCompanies = createSelector(
-  selectAllCompanies,
+  selectAllPaginatedCompanies,
   selectCompanySemesterEntities,
   selectUserEntities,
   (companies, companySemesterEntities, userEntities) => {
@@ -163,11 +174,13 @@ export const selectTransformedAdminCompanies = createSelector(
 export const selectTransformedAdminCompanyById = createSelector(
   selectCompanyById,
   selectCompanySemesterEntities,
-  (company, companySemesterEntities) =>
+  selectUserEntities,
+  (company, companySemesterEntities, userEntities) =>
     company && 'semesterStatuses' in company
       ? (transformCompany(
           companySemesterEntities,
           company,
+          userEntities,
         ) as TransformedAdminDetailCompany)
       : undefined,
 );

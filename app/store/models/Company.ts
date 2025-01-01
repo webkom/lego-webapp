@@ -66,6 +66,13 @@ interface CompanyFile {
   file: string;
 }
 
+export interface StudentCompanyContact {
+  id: EntityId;
+  company: EntityId;
+  semester: EntityId;
+  user: EntityId;
+}
+
 interface Company {
   id: EntityId;
   name: string;
@@ -81,7 +88,7 @@ interface Company {
   joblistingCount?: number;
   thumbnail?: string;
   semesterStatuses?: SemesterStatus[];
-  studentContact?: EntityId | null;
+  studentContacts?: StudentCompanyContact[];
   adminComment?: string;
   paymentMail: string;
   comments: EntityId[];
@@ -111,7 +118,7 @@ export type AdminListCompany = Pick<
   | 'id'
   | 'name'
   | 'semesterStatuses'
-  | 'studentContact'
+  | 'studentContacts'
   | 'adminComment'
   | 'active'
 >;
@@ -146,7 +153,7 @@ export type AdminDetailCompany = Pick<
   Company,
   | 'id'
   | 'name'
-  | 'studentContact'
+  | 'studentContacts'
   | 'description'
   | 'phone'
   | 'companyType'

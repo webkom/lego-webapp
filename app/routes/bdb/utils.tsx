@@ -8,9 +8,11 @@ import type { Semester } from 'app/models';
 import type {
   TransformedAdminCompany,
   TransformedSemesterStatus,
+  TransformedStudentCompanyContact,
 } from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
+import type { PublicUser } from 'app/store/models/User';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
@@ -93,11 +95,9 @@ export const semesterNameOf = (index: number) => {
   };
   return indexToSemesterName[index] || 'spring';
 };
-export const semesterToHumanReadable = (
-  semester: TransformedSemesterStatus,
-) => {
-  const semesterName = semesterCodeToName(semester.semester);
-  return `${semester.year} ${semesterName}`;
+export const semesterToHumanReadable = (semester: Semester, year: number) => {
+  const semesterName = semesterCodeToName(semester);
+  return `${year} ${semesterName}`;
 };
 export const semesterCodeToName = (code: Semester) => {
   const codeToName = {
@@ -128,6 +128,41 @@ export const getSemesterStatus = (
       semesterStatus.year == companySemester.year &&
       semesterStatus.semester == companySemester.semester,
   );
+
+export type GroupedStudentContactsBySemester = {
+  id: EntityId;
+  semester: CompanySemester;
+  users: PublicUser[];
+};
+
+export const groupStudentContactsBySemester = (
+  studentContacts: TransformedStudentCompanyContact[],
+): GroupedStudentContactsBySemester[] => {
+  const studentContactsInSemester: Record<EntityId, PublicUser[]> = {};
+  const semestersById: Record<EntityId, CompanySemester> = Object.fromEntries(
+    studentContacts.map((studentContact) => [
+      studentContact.semester.id,
+      studentContact.semester,
+    ]),
+  );
+
+  for (const studentContact of studentContacts) {
+    const { semester, user } = studentContact;
+    const semesterId = semester.id;
+
+    if (!studentContactsInSemester[semesterId]) {
+      studentContactsInSemester[semesterId] = [];
+    }
+
+    studentContactsInSemester[semesterId].push(user);
+  }
+
+  return Object.keys(studentContactsInSemester).map((semesterId) => ({
+    id: semesterId,
+    semester: semestersById[semesterId],
+    users: studentContactsInSemester[semesterId],
+  }));
+};
 
 export const getCompanySemesterBySlug = (
   slug: string,

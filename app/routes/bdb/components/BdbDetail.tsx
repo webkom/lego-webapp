@@ -12,6 +12,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
@@ -38,6 +39,7 @@ import TextWithIcon from 'app/components/TextWithIcon';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import FileUpload from 'app/components/Upload/FileUpload';
+import UserLink from 'app/components/UserLink';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import {
   selectEventsForCompany,
@@ -45,18 +47,20 @@ import {
   selectTransformedAdminCompanyById,
 } from 'app/reducers/companies';
 import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectUserById } from 'app/reducers/users';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
-import { semesterToHumanReadable } from 'app/routes/bdb/utils';
+import {
+  semesterToHumanReadable,
+  groupStudentContactsBySemester,
+} from 'app/routes/bdb/utils';
 import companyStyles from 'app/routes/company/components/Company.module.css';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import truncateString from 'app/utils/truncateString';
 import styles from './bdb.module.css';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
+import type { GroupedStudentContactsBySemester } from 'app/routes/bdb/utils';
 import type { CompanyContact } from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
 
@@ -140,11 +144,7 @@ const BdbDetail = () => {
   const companyEvents = useAppSelector((state) =>
     selectEventsForCompany(state, companyId),
   );
-  const studentContact = useAppSelector((state) =>
-    company?.studentContact !== null
-      ? selectUserById(state, company?.studentContact as EntityId | undefined)
-      : undefined,
-  );
+
   const { pagination: eventsPagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/events/',
@@ -177,6 +177,11 @@ const BdbDetail = () => {
         dispatch(fetchAllJoblistings({ company: companyId })),
       ]),
     [companyId],
+  );
+
+  const groupedStudentContacts = useMemo(
+    () => groupStudentContactsBySemester(company?.studentContacts ?? []),
+    [company.studentContacts],
   );
 
   const navigate = useNavigate();
@@ -238,14 +243,31 @@ const BdbDetail = () => {
       icon: 'mail-outline',
       link: false,
     },
-    {
-      text: studentContact?.fullName,
-      icon: 'person-outline',
-      link: studentContact
-        ? `abakus.no/users/${studentContact.username}`
-        : false,
-    },
   ];
+
+  const studentContactColumns: ColumnProps<GroupedStudentContactsBySemester>[] =
+    [
+      {
+        title: 'Semester',
+        dataIndex: 'semester',
+        render: (_, studentContacts: GroupedStudentContactsBySemester) =>
+          semesterToHumanReadable(
+            studentContacts.semester.semester,
+            studentContacts.semester.year,
+          ),
+      },
+      {
+        title: 'Studentkontakter',
+        dataIndex: 'studentContacts',
+        render: (_, studentContacts: GroupedStudentContactsBySemester) => (
+          <Flex column gap="var(--spacing-sm)">
+            {studentContacts.users.map((user) => (
+              <UserLink key={user.id} user={user} />
+            ))}
+          </Flex>
+        ),
+      },
+    ];
 
   const contactsColumns: ColumnProps<CompanyContact>[] = [
     {
@@ -356,7 +378,7 @@ const BdbDetail = () => {
       title: 'Semester',
       dataIndex: 'semester',
       render: (_, semesterStatus: TransformedSemesterStatus) =>
-        semesterToHumanReadable(semesterStatus),
+        semesterToHumanReadable(semesterStatus.semester, semesterStatus.year),
     },
     {
       title: 'Status',
@@ -398,7 +420,8 @@ const BdbDetail = () => {
         <ConfirmModal
           title="Slett semesterstatus"
           message={`Er du sikker på at du vil slette semesterstatusen for ${semesterToHumanReadable(
-            semesterStatus,
+            semesterStatus.semester,
+            semesterStatus.year,
           )}? Alle filer for dette semesteret vil bli slettet.`}
           onConfirm={() =>
             dispatch(deleteSemesterStatus(company.id, semesterStatus.id))
@@ -479,6 +502,25 @@ const BdbDetail = () => {
       </ContentSection>
 
       <Flex column gap="var(--spacing-md)" margin="var(--spacing-md) 0 0 0">
+        <Flex column gap="var(--spacing-sm)">
+          <Flex wrap justifyContent="space-between" alignItems="center">
+            <h3>Studentkontakter</h3>
+            <LinkButton href={`/bdb/${company.id}/student-contacts/edit`}>
+              Rediger studentkontakter
+            </LinkButton>
+          </Flex>
+          {company.studentContacts && company.studentContacts.length > 0 ? (
+            <Table
+              columns={studentContactColumns}
+              data={groupedStudentContacts}
+              hasMore={false}
+              loading={showSkeleton}
+            />
+          ) : (
+            <EmptyState body="Ingen studentkontakter registrert" />
+          )}
+        </Flex>
+
         <Flex column gap="var(--spacing-sm)">
           <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Bedriftskontakter</h3>
