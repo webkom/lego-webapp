@@ -181,7 +181,7 @@ const BdbDetail = () => {
 
   const groupedStudentContacts = useMemo(
     () => groupStudentContactsBySemester(company?.studentContacts ?? []),
-    [company],
+    [company.studentContacts],
   );
 
   const navigate = useNavigate();
