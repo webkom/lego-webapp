@@ -3,7 +3,6 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
-import { PublicUser } from './User';
 
 export enum NonEventContactStatus {
   BEDEX = 'bedex',

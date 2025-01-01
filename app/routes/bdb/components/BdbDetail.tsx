@@ -50,7 +50,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
 import {
   semesterToHumanReadable,
-  groupStudentContacts,
+  groupStudentContactsBySemester,
 } from 'app/routes/bdb/utils';
 import companyStyles from 'app/routes/company/components/Company.module.css';
 import { displayNameForEventType } from 'app/routes/events/utils';
@@ -60,7 +60,7 @@ import truncateString from 'app/utils/truncateString';
 import styles from './bdb.module.css';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedSemesterStatus } from 'app/reducers/companies';
-import type { GroupedStudentContacts } from 'app/routes/bdb/utils';
+import type { GroupedStudentContactsBySemester } from 'app/routes/bdb/utils';
 import type { CompanyContact } from 'app/store/models/Company';
 import type { ListEvent } from 'app/store/models/Event';
 
@@ -180,7 +180,7 @@ const BdbDetail = () => {
   );
 
   const groupedStudentContacts = useMemo(
-    () => groupStudentContacts(company?.studentContacts ?? []),
+    () => groupStudentContactsBySemester(company?.studentContacts ?? []),
     [company],
   );
 
@@ -245,28 +245,29 @@ const BdbDetail = () => {
     },
   ];
 
-  const studentContactColumns: ColumnProps<GroupedStudentContacts>[] = [
-    {
-      title: 'Semester',
-      dataIndex: 'semester',
-      render: (_, studentContacts: GroupedStudentContacts) =>
-        semesterToHumanReadable(
-          studentContacts.semester.semester,
-          studentContacts.semester.year,
+  const studentContactColumns: ColumnProps<GroupedStudentContactsBySemester>[] =
+    [
+      {
+        title: 'Semester',
+        dataIndex: 'semester',
+        render: (_, studentContacts: GroupedStudentContactsBySemester) =>
+          semesterToHumanReadable(
+            studentContacts.semester.semester,
+            studentContacts.semester.year,
+          ),
+      },
+      {
+        title: 'Studentkontakter',
+        dataIndex: 'studentContacts',
+        render: (_, studentContacts: GroupedStudentContactsBySemester) => (
+          <Flex column gap="var(--spacing-sm)">
+            {studentContacts.users.map((user) => (
+              <UserLink key={user.id} user={user} />
+            ))}
+          </Flex>
         ),
-    },
-    {
-      title: 'Studentkontakter',
-      dataIndex: 'studentContacts',
-      render: (_, studentContacts: GroupedStudentContacts) => (
-        <Flex column gap="var(--spacing-sm)">
-          {studentContacts.users.map((user) => (
-            <UserLink key={user.id} user={user} />
-          ))}
-        </Flex>
-      ),
-    },
-  ];
+      },
+    ];
 
   const contactsColumns: ColumnProps<CompanyContact>[] = [
     {

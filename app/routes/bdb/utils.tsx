@@ -129,15 +129,15 @@ export const getSemesterStatus = (
       semesterStatus.semester == companySemester.semester,
   );
 
-export type GroupedStudentContacts = {
+export type GroupedStudentContactsBySemester = {
   id: EntityId;
   semester: CompanySemester;
   users: PublicUser[];
 };
 
-export const groupStudentContacts = (
+export const groupStudentContactsBySemester = (
   studentContacts: TransformedStudentCompanyContact[],
-): GroupedStudentContacts[] => {
+): GroupedStudentContactsBySemester[] => {
   const studentContactsInSemester: Record<EntityId, PublicUser[]> = {};
   const semestersById: Record<EntityId, CompanySemester> = Object.fromEntries(
     studentContacts.map((studentContact) => [

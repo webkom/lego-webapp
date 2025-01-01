@@ -1,32 +1,26 @@
 import { LoadingPage, Page } from '@webkom/lego-bricks';
-import {
-  LegoFinalForm,
-  SelectInput,
-  SubmissionError,
-  SubmitButton,
-} from 'app/components/Form';
-import {
-  selectCompanyById,
-  selectTransformedAdminCompanyById,
-} from 'app/reducers/companies';
-import { selectCompanySemesterEntities } from 'app/reducers/companySemesters';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import {
-  AdminDetailCompany,
-  StudentCompanyContact,
-} from 'app/store/models/Company';
-import CompanySemester from 'app/store/models/CompanySemester';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import { semesterToHumanReadable } from '../utils';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import {
   editCompany,
   fetchAdmin,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
+import {
+  LegoFinalForm,
+  Form,
+  SelectInput,
+  SubmissionError,
+  SubmitButton,
+} from 'app/components/Form';
+import { selectTransformedAdminCompanyById } from 'app/reducers/companies';
+import { selectCompanySemesterEntities } from 'app/reducers/companySemesters';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import { EntityId } from '@reduxjs/toolkit';
+import { semesterToHumanReadable } from '../utils';
+import type { EntityId } from '@reduxjs/toolkit';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 export type FormValues = {
   semesterId: { label: string; value: string };
@@ -136,7 +130,7 @@ const StudentContactEditor = () => {
     <Page title={title} back={{ href: `/bdb/${company.id}` }}>
       <TypedLegoForm onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="semesterId"
               label="Semester"
@@ -168,7 +162,7 @@ const StudentContactEditor = () => {
 
             <SubmissionError />
             <SubmitButton>Lagre</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </Page>
