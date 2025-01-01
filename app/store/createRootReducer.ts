@@ -33,8 +33,8 @@ import penalties from 'app/reducers/penalties';
 import polls from 'app/reducers/polls';
 import pools from 'app/reducers/pools';
 import quotes from 'app/reducers/quotes';
-import readme from 'app/reducers/readme';
 import registrations from 'app/reducers/registrations';
+import requests from 'app/reducers/requests';
 import restrictedMails from 'app/reducers/restrictedMails';
 import routing from 'app/reducers/routing';
 import search from 'app/reducers/search';
@@ -49,6 +49,7 @@ import users from 'app/reducers/users';
 const createRootReducer = () => {
   return combineReducers({
     router: routing,
+    requests,
     allowed,
     announcements,
     articles,
@@ -82,7 +83,6 @@ const createRootReducer = () => {
     polls,
     pools,
     quotes,
-    readme,
     registrations,
     restrictedMails,
     search,

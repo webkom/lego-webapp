@@ -1,8 +1,9 @@
 import { Accordion, Card, Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
+import { useReadmes } from 'app/actions/FrontpageActions';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import { useAppSelector } from 'app/store/hooks';
+import { useIsLoggedIn } from 'app/reducers/auth';
 import styles from './LatestReadme.module.css';
 import type { CSSProperties } from 'react';
 
@@ -19,7 +20,8 @@ const LatestReadme = ({
   style,
   displayCount = 4,
 }: Props) => {
-  const readmes = useAppSelector((state) => state.readme);
+  const loggedIn = useIsLoggedIn();
+  const readmes = useReadmes(loggedIn ? 4 : 2);
 
   return (
     <Card className={styles.latestReadme} style={style}>

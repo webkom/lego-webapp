@@ -8,7 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
+import { fetchData } from 'app/actions/FrontpageActions';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
@@ -31,12 +31,7 @@ const PublicFrontpage = () => {
   const dispatch = useAppDispatch();
   const pinned = useAppSelector(selectPinned);
 
-  usePreparedEffect(
-    'fetchIndex',
-    () =>
-      Promise.allSettled([dispatch(fetchReadmes(2)), dispatch(fetchData())]),
-    [],
-  );
+  usePreparedEffect('fetchIndex', () => dispatch(fetchData()), []);
 
   return (
     <PageContainer card={false}>

@@ -4,7 +4,7 @@ import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
+import { fetchData } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
@@ -54,7 +54,6 @@ const AuthenticatedFrontpage = () => {
     () =>
       Promise.allSettled([
         loggedIn && shouldFetchQuote && dispatch(fetchRandomQuote()),
-        dispatch(fetchReadmes(loggedIn ? 4 : 2)),
         dispatch(fetchData()),
       ]),
     [loggedIn, shouldFetchQuote],
