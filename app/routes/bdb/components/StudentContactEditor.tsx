@@ -155,7 +155,7 @@ const StudentContactEditor = () => {
               label="Studentkontakter"
               component={SelectInput.AutocompleteField}
               isMulti
-              filter={['users.user']}
+              filter={[AutocompleteContentType.User]}
               id="student-contacts"
               required
             />
