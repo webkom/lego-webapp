@@ -161,11 +161,13 @@ export const getSemesterSlugById = (
 export const getSemesterSlugOffset = (
   id: EntityId,
   companySemesters: CompanySemester[],
-  offset: number,
+  offset: 'previous' | 'next',
 ) => {
   return getSemesterSlugById(
-    companySemesters.find((semester) => semester.id === (id as number) + offset)
-      ?.id as number,
+    companySemesters.find(
+      (semester) =>
+        semester.id === (id as number) + (offset === 'previous' ? -1 : 1),
+    )?.id as number,
     companySemesters,
   );
 };

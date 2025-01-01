@@ -176,20 +176,19 @@ const BdbPage = () => {
       </Card>
 
       <Flex width="fit-content">
-        <button
-          onClick={() =>
+        <Icon
+          iconNode={<ChevronLeft />}
+          onPress={() =>
             setQuery({
               ...query,
               semester: getSemesterSlugOffset(
                 currentCompanySemester!.id,
                 companySemesters,
-                -1,
+                'previous',
               ),
             })
           }
-        >
-          <Icon iconNode={<ChevronLeft />} />
-        </button>
+        />
         <SelectInput
           name="semester"
           options={companySemesters
@@ -219,20 +218,19 @@ const BdbPage = () => {
             })
           }
         />
-        <button
-          onClick={() =>
+        <Icon
+          iconNode={<ChevronRight />}
+          onPress={() =>
             setQuery({
               ...query,
               semester: getSemesterSlugOffset(
                 currentCompanySemester!.id,
                 companySemesters,
-                1,
+                'next',
               ),
             })
           }
-        >
-          <Icon iconNode={<ChevronRight />} />
-        </button>
+        />
       </Flex>
 
       <Table
