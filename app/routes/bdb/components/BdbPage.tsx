@@ -157,6 +157,7 @@ const BdbPage = () => {
       dataIndex: 'comment',
       centered: false,
       maxWidth: 200,
+      render: (_, company) => company.adminComment,
       sorter: (a, b) =>
         a.adminComment?.localeCompare(b.adminComment || '') || 0,
 

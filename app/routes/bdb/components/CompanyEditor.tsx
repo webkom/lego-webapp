@@ -133,7 +133,6 @@ const CompanyEditor = () => {
         studentContact:
           studentContacts &&
           studentContacts.map((studentContact) => ({
-            id: studentContact.id,
             value: studentContact.id,
             label: studentContact.fullName,
           })),

@@ -17,6 +17,7 @@ import {
 import { selectTransformedAdminCompanyById } from 'app/reducers/companies';
 import { selectCompanySemesterEntities } from 'app/reducers/companySemesters';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import useQuery from 'app/utils/useQuery';
 import { semesterToHumanReadable } from '../utils';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -61,10 +62,6 @@ const StudentContactEditor = () => {
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  const onSemesterChange = ({ value }: { label: string; value: string }) => {
-    setQueryValue('semesterId')(value);
-  };
 
   usePreparedEffect(
     'fetchSemester',
@@ -134,7 +131,7 @@ const StudentContactEditor = () => {
             <Field
               name="semesterId"
               label="Semester"
-              onChange={onSemesterChange}
+              onChange={({ value }) => setQueryValue('semesterId')(value)}
               component={SelectInput.Field}
               options={Object.entries(semesters).map(
                 ([semesterId, semester]) => ({
