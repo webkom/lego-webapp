@@ -8,7 +8,6 @@ import {
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
@@ -17,7 +16,7 @@ import {
   createArticle,
   deleteArticle,
   editArticle,
-  fetchArticle,
+  useArticleByIdOrSlug,
 } from 'app/actions/ArticleActions';
 import {
   EditorField,
@@ -36,7 +35,6 @@ import {
   objectPermissionsToInitialValues,
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectArticleById } from 'app/reducers/articles';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -49,7 +47,6 @@ import {
 } from 'app/utils/validation';
 import styles from './ArticleEditor.module.css';
 import type { EditingEvent } from 'app/routes/events/utils';
-import type { AdminDetailedArticle } from 'app/store/models/Article';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
@@ -68,9 +65,7 @@ const ArticleEditor = () => {
   const { articleId } = useParams<ArticleEditorParams>() as ArticleEditorParams;
   const isNew = articleId === undefined;
 
-  const article = useAppSelector((state) =>
-    selectArticleById<AdminDetailedArticle>(state, articleId),
-  );
+  const { data: article } = useArticleByIdOrSlug(articleId);
   const fetching = useAppSelector((state) => state.articles.fetching);
 
   let authors = useAppSelector((state) =>
@@ -81,12 +76,6 @@ const ArticleEditor = () => {
   }
 
   const dispatch = useAppDispatch();
-
-  usePreparedEffect(
-    'fetchArticleForEditor',
-    () => articleId && dispatch(fetchArticle(articleId)),
-    [articleId],
-  );
 
   const navigate = useNavigate();
 

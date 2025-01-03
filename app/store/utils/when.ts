@@ -6,7 +6,7 @@ type WhenArg<T, E = unknown> = {
   pending: (
     state: RequestState<T, E> & { status: RequestStatus.PENDING },
   ) => ReactNode;
-  error: (
+  error?: (
     error: E,
     state: RequestState<T, E> & { status: RequestStatus.FAILURE },
   ) => ReactNode;
@@ -42,6 +42,10 @@ export const when = <T>(
       return pending(request);
     }
     case RequestStatus.FAILURE: {
+      if (!error)
+        throw Error(
+          `No error renderer provided when displaying request "${request.id}"`,
+        );
       return error(request.error, request);
     }
     case RequestStatus.SUCCESS: {

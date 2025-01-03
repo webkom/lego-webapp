@@ -7,6 +7,7 @@ import { addReactionCases } from 'app/reducers/reactions';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
 import type { RootState } from 'app/store/createRootReducer';
+import type { DetailedArticle } from 'app/store/models/Article';
 
 const legoAdapter = createLegoAdapter(EntityType.Articles, {
   sortComparer: (a, b) => moment(a.createdAt).diff(moment(b.createdAt)),
@@ -40,7 +41,7 @@ export const selectArticlesByTag = selectArticlesByField(
 );
 export const selectArticleBySlug = selectArticlesByField('slug').single;
 export const selectArticleByIdOrSlug = createSelector(
-  selectArticleById,
-  selectArticleBySlug,
+  selectArticleById<DetailedArticle>,
+  selectArticleBySlug<DetailedArticle>,
   (article, articleBySlug) => article || articleBySlug,
 );

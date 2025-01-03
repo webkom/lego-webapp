@@ -25,7 +25,7 @@ import type { Schema } from 'normalizr';
 import type { ParsedQs } from 'qs';
 import type { Required } from 'utility-types';
 
-function urlFor(resource: string) {
+export function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
     return configWithSSR.baseUrl + resource.replace(/^\//, '');
   } else if (resource.match(/^http?:/) || resource.match(/^https:/)) {

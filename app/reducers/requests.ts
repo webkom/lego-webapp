@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment-timezone';
+import { createAppAsyncThunk } from 'app/store/hooks';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RequestThunk } from 'app/actions/FrontpageActions';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
 import type { GetState } from 'app/types';
@@ -12,6 +14,7 @@ export enum RequestStatus {
 }
 
 export type RequestState<T = unknown, E = unknown> = {
+  id: string;
   loading: boolean;
   ttl: number; // Time to live in milliseconds before the request may be re-fetched
   fetchTime?: number; // The time the request was fetched
@@ -32,11 +35,12 @@ export type RequestState<T = unknown, E = unknown> = {
     }
 );
 
-const defaultRequestState: RequestState = {
+const defaultRequestState = (id: string): RequestState => ({
+  id,
   loading: false,
   status: RequestStatus.PENDING,
   ttl: 10_000, // 10 seconds
-};
+});
 
 type RequestActionPayload = {
   id: string; // Typically the url with query params
@@ -48,7 +52,7 @@ const requestsSlice = createSlice({
   initialState: {} as Record<string, RequestState>,
   reducers: {
     requestStarted(state, action: PayloadAction<RequestActionPayload>) {
-      state[action.payload.id] ??= defaultRequestState;
+      state[action.payload.id] ??= defaultRequestState(action.payload.id);
       state[action.payload.id] = {
         ...state[action.payload.id],
         loading: true,
@@ -87,7 +91,7 @@ export const { requestStarted, requestSucceeded, requestFailed } =
   requestsSlice.actions;
 
 export const selectRequest = <T = unknown>(state: RootState, id: string) =>
-  (state.requests[id] ?? defaultRequestState) as RequestState<T>;
+  (state.requests[id] ?? defaultRequestState(id)) as RequestState<T>;
 
 /**
  * Helper functions for using the request slice
@@ -127,4 +131,32 @@ export const executeRequest = async <T>(
     dispatch(requestFailed({ id, error }));
   }
   return getRequest();
+};
+
+/**
+ * Helper for creating a thunk executing a request with useful functions added to the thunk object
+ */
+export const createRequestThunk = <Returned, ThunkArg = void>(
+  typePrefix: Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[0],
+  createRequestId: (arg: ThunkArg) => string,
+  payloadCreator: (
+    requestId: string,
+    ...args: Parameters<
+      Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[1]
+    >
+  ) => ReturnType<
+    Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[1]
+  >,
+  thunkOptions?: Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[2],
+): RequestThunk<Returned, ThunkArg> => {
+  return Object.assign(
+    createAppAsyncThunk(
+      typePrefix,
+      (arg, thunkAPI) => payloadCreator(createRequestId(arg), arg, thunkAPI),
+      thunkOptions,
+    ),
+    {
+      createRequestId,
+    },
+  );
 };

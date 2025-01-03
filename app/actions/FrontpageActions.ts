@@ -1,10 +1,10 @@
 import callAPI from 'app/actions/callAPI';
 import { frontpageSchema } from 'app/reducers';
-import { executeRequest } from 'app/reducers/requests';
-import { createAppAsyncThunk } from 'app/store/hooks';
+import { createRequestThunk, executeRequest } from 'app/reducers/requests';
 import { createFetchHook } from 'app/store/utils/createFetchHook';
 import { Frontpage } from './ActionTypes';
 import type { Readme } from 'app/models';
+import type { createAppAsyncThunk } from 'app/store/hooks';
 
 const gql = String.raw;
 export function fetchData() {
@@ -36,31 +36,6 @@ const readmeUtgaver = gql`
   }
   ${readmeFragment}
 `;
-
-const createRequestThunk = <Returned, ThunkArg = void>(
-  typePrefix: Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[0],
-  createRequestId: (arg: ThunkArg) => string,
-  payloadCreator: (
-    requestId: string,
-    ...args: Parameters<
-      Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[1]
-    >
-  ) => ReturnType<
-    Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[1]
-  >,
-  thunkOptions?: Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[2],
-): RequestThunk<Returned, ThunkArg> => {
-  return Object.assign(
-    createAppAsyncThunk(
-      typePrefix,
-      (arg, thunkAPI) => payloadCreator(createRequestId(arg), arg, thunkAPI),
-      thunkOptions,
-    ),
-    {
-      createRequestId,
-    },
-  );
-};
 
 export type RequestThunk<Returned, Arg> = ReturnType<
   typeof createAppAsyncThunk<Returned, Arg>

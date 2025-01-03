@@ -12,24 +12,24 @@ import type { RootState } from 'app/store/createRootReducer';
 export const createFetchHook = <Arg, RT, T = RT>(
   prepareId: string,
   fetchAction: RequestThunk<RequestState<RT>, Arg>,
-  returnValueSelector?: (
+  returnValueSelector: (
     state: RootState,
     request: RequestState<RT>,
-  ) => RequestState<T>,
+    arg?: Arg,
+  ) => RequestState<T> = (_, request) => request as RequestState<T>,
 ) => {
-  return (arg: Arg) => {
+  return (arg?: Arg) => {
     const dispatch = useAppDispatch();
 
     usePreparedEffect(prepareId, () => {
-      dispatch(fetchAction(arg));
+      arg !== undefined && dispatch(fetchAction(arg));
     }, [dispatch, arg]);
 
-    returnValueSelector ??= (_, request) => request as RequestState<T>;
-
     return useAppSelector((state) =>
-      returnValueSelector!(
+      returnValueSelector(
         state,
-        selectRequest(state, fetchAction.createRequestId(arg)),
+        selectRequest(state, arg ? fetchAction.createRequestId(arg) : ''),
+        arg,
       ),
     );
   };
