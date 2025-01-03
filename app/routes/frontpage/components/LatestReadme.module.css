@@ -40,3 +40,8 @@
     transform: scale(1.05);
   }
 }
+
+.readmeSkeleton {
+  flex-basis: 48%;
+  aspect-ratio: 0.82;
+}

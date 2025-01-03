@@ -1,16 +1,10 @@
-import { createSelector } from 'reselect';
 import callAPI from 'app/actions/callAPI';
 import { frontpageSchema } from 'app/reducers';
-import {
-  executeRequest,
-  RequestStatus,
-  selectRequest,
-} from 'app/reducers/requests';
+import { executeRequest } from 'app/reducers/requests';
 import { createAppAsyncThunk } from 'app/store/hooks';
 import { createFetchHook } from 'app/store/utils/createFetchHook';
 import { Frontpage } from './ActionTypes';
 import type { Readme } from 'app/models';
-import type { RootState } from 'app/store/createRootReducer';
 
 const gql = String.raw;
 export function fetchData() {
@@ -43,12 +37,43 @@ const readmeUtgaver = gql`
   ${readmeFragment}
 `;
 
-const fetchReadmes = createAppAsyncThunk(
+const createRequestThunk = <Returned, ThunkArg = void>(
+  typePrefix: Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[0],
+  createRequestId: (arg: ThunkArg) => string,
+  payloadCreator: (
+    requestId: string,
+    ...args: Parameters<
+      Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[1]
+    >
+  ) => ReturnType<
+    Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[1]
+  >,
+  thunkOptions?: Parameters<typeof createAppAsyncThunk<Returned, ThunkArg>>[2],
+): RequestThunk<Returned, ThunkArg> => {
+  return Object.assign(
+    createAppAsyncThunk(
+      typePrefix,
+      (arg, thunkAPI) => payloadCreator(createRequestId(arg), arg, thunkAPI),
+      thunkOptions,
+    ),
+    {
+      createRequestId,
+    },
+  );
+};
+
+export type RequestThunk<Returned, Arg> = ReturnType<
+  typeof createAppAsyncThunk<Returned, Arg>
+> & {
+  createRequestId: (arg: Arg) => string;
+};
+
+const fetchReadmes = createRequestThunk(
   'readme/fetch',
-  async (number: number, thunkAPI) => {
-    const readmes = selectReadmes(thunkAPI.getState());
-    await executeRequest(
-      'readmes',
+  (amount: number) => `readmes-${amount}`,
+  async (requestId, amount, thunkAPI) => {
+    return await executeRequest(
+      requestId,
       async () => {
         const res = await fetch(readmeUrl, {
           method: 'POST',
@@ -60,7 +85,7 @@ const fetchReadmes = createAppAsyncThunk(
             operationName: null,
             query: readmeUtgaver,
             variables: {
-              first: number,
+              first: amount,
             },
           }),
         });
@@ -70,18 +95,8 @@ const fetchReadmes = createAppAsyncThunk(
         return output.data.readmeUtgaver;
       },
       thunkAPI,
-      { forceFetch: readmes.length !== number },
     );
   },
 );
 
-const selectReadmes = createSelector(
-  (state: RootState) => selectRequest<Readme[]>(state, 'readmes'),
-  (request) => (request.status === RequestStatus.SUCCESS ? request.result : []),
-);
-
-export const useReadmes = createFetchHook(
-  'fetchReadmes',
-  fetchReadmes,
-  selectReadmes,
-);
+export const useReadmes = createFetchHook('fetchReadmes', fetchReadmes);

@@ -1,9 +1,17 @@
-import { Accordion, Card, Flex, Icon, Image } from '@webkom/lego-bricks';
+import {
+  Accordion,
+  Card,
+  Flex,
+  Icon,
+  Image,
+  Skeleton,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import { useReadmes } from 'app/actions/FrontpageActions';
-import { readmeIfy } from 'app/components/ReadmeLogo';
+import ReadmeLogo, { readmeIfy } from 'app/components/ReadmeLogo';
 import { useIsLoggedIn } from 'app/reducers/auth';
+import { when } from 'app/store/utils/when';
 import styles from './LatestReadme.module.css';
 import type { CSSProperties } from 'react';
 
@@ -46,13 +54,31 @@ const LatestReadme = ({
           </div>
         )}
       >
-        <div className={styles.thumbnailContainer}>
-          {readmes.slice(0, displayCount).map(({ image, pdf, title }) => (
-            <a key={title} href={pdf} className={styles.thumb}>
-              <Image src={image} alt={`Forsidebildet til ${title}`} />
-            </a>
-          ))}
-        </div>
+        {when(readmes, {
+          pending: () => (
+            <div className={styles.thumbnailContainer}>
+              {Array(displayCount)
+                .fill(0)
+                .map((_, i) => (
+                  <Skeleton key={i} className={styles.readmeSkeleton} />
+                ))}
+            </div>
+          ),
+          error: () => (
+            <Card severity="danger">
+              Kunne ikke hente nyeste <ReadmeLogo />
+            </Card>
+          ),
+          data: (readmes) => (
+            <div className={styles.thumbnailContainer}>
+              {readmes.slice(0, displayCount).map(({ image, pdf, title }) => (
+                <a key={title} href={pdf} className={styles.thumb}>
+                  <Image src={image} alt={`Forsidebildet til ${title}`} />
+                </a>
+              ))}
+            </div>
+          ),
+        })}
       </Accordion>
     </Card>
   );

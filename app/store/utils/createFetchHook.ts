@@ -1,16 +1,21 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { selectRequest } from 'app/reducers/requests';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import type { RequestThunk } from 'app/actions/FrontpageActions';
+import type { RequestState } from 'app/reducers/requests';
 import type { RootState } from 'app/store/createRootReducer';
-import type { AppDispatch } from 'app/store/createStore';
 
 /**
  * Creates a hook that fetches data (server side) using the given action and
  * returns data using the given selector.
  */
-export const createFetchHook = <Arg, T>(
+export const createFetchHook = <Arg, RT, T = RT>(
   prepareId: string,
-  fetchAction: (arg: Arg) => Parameters<AppDispatch>[0],
-  selector: (state: RootState) => T,
+  fetchAction: RequestThunk<RequestState<RT>, Arg>,
+  returnValueSelector?: (
+    state: RootState,
+    request: RequestState<RT>,
+  ) => RequestState<T>,
 ) => {
   return (arg: Arg) => {
     const dispatch = useAppDispatch();
@@ -19,6 +24,13 @@ export const createFetchHook = <Arg, T>(
       dispatch(fetchAction(arg));
     }, [dispatch, arg]);
 
-    return useAppSelector(selector);
+    returnValueSelector ??= (_, request) => request as RequestState<T>;
+
+    return useAppSelector((state) =>
+      returnValueSelector!(
+        state,
+        selectRequest(state, fetchAction.createRequestId(arg)),
+      ),
+    );
   };
 };

@@ -11,21 +11,24 @@ export enum RequestStatus {
   FAILURE = 'failure',
 }
 
-export type RequestState<T = unknown> = {
+export type RequestState<T = unknown, E = unknown> = {
   loading: boolean;
   ttl: number; // Time to live in milliseconds before the request may be re-fetched
+  fetchTime?: number; // The time the request was fetched
+  data?: T;
+  error?: E;
 } & (
   | {
       status: RequestStatus.PENDING;
     }
   | {
       status: RequestStatus.SUCCESS;
-      result: T;
-      fetchTime: number; // The time the request was fetched
+      data: T;
+      fetchTime: number;
     }
   | {
       status: RequestStatus.FAILURE;
-      error: unknown;
+      error: E;
     }
 );
 
@@ -54,13 +57,14 @@ const requestsSlice = createSlice({
     },
     requestSucceeded(
       state,
-      action: PayloadAction<RequestActionPayload & { result: unknown }>,
+      action: PayloadAction<RequestActionPayload & { data: unknown }>,
     ) {
       state[action.payload.id] = {
         ...state[action.payload.id],
         loading: false,
         status: RequestStatus.SUCCESS,
-        result: action.payload.result,
+        data: action.payload.data,
+        error: undefined,
         fetchTime: moment().valueOf(),
       };
     },
@@ -98,30 +102,29 @@ export const executeRequest = async <T>(
   id: string,
   requestFunction: () => Promise<T>,
   { dispatch, getState }: { dispatch: AppDispatch; getState: GetState },
-  { ttl, forceFetch }: { ttl?: number; forceFetch?: boolean } = {},
-) => {
-  let request = selectRequest<T>(getState(), id);
-  if (!forceFetch && shouldUseCachedResult(request)) {
-    return request.result;
+  { ttl }: { ttl?: number } = {},
+): Promise<RequestState<T>> => {
+  const getRequest = () => selectRequest<T>(getState(), id);
+  let request = getRequest();
+  if (shouldUseCachedResult(request)) {
+    return request;
   }
   if (request.loading) {
     // spin while waiting for the request to finish
     do {
       await new Promise((resolve) => setTimeout(resolve, 100));
-      request = selectRequest<T>(getState(), id);
+      request = getRequest();
     } while (request.loading);
 
-    return request.status === RequestStatus.SUCCESS
-      ? request.result
-      : undefined;
+    return request;
   }
 
   dispatch(requestStarted({ id, ttl }));
   try {
-    const result = await requestFunction();
-    dispatch(requestSucceeded({ id, result }));
-    return result;
+    const data = await requestFunction();
+    dispatch(requestSucceeded({ id, data }));
   } catch (error) {
     dispatch(requestFailed({ id, error }));
   }
+  return getRequest();
 };
