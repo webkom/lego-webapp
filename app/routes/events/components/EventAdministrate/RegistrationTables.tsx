@@ -374,6 +374,7 @@ export const RegisteredTable = ({
       columns={columns}
       loading={loading}
       data={registered}
+      collapseAfter={20}
     />
   );
 };
@@ -395,9 +396,10 @@ export const UnregisteredTable = ({
       title: 'Bruker',
       dataIndex: 'user',
       filterMessage: 'Filtrer på navn',
+      centered: false,
       render: (user: Registration['user']) => (
         <Tooltip content={user.fullName}>
-          <Link to={`/users/${user.username}`}>{user.username}</Link>
+          <Link to={`/users/${user.username}`}>{user.fullName}</Link>
         </Tooltip>
       ),
     },
@@ -448,6 +450,7 @@ export const UnregisteredTable = ({
       columns={columns}
       loading={loading}
       data={unregistered}
+      collapseAfter={20}
     />
   );
 };
