@@ -1,5 +1,6 @@
-import { Card, Flex } from '@webkom/lego-bricks';
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
@@ -18,6 +19,7 @@ import {
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
+  getSemesterSlugOffset,
   getSemesterStatus,
   semesterToHumanReadable,
 } from '../utils';
@@ -178,6 +180,19 @@ const BdbPage = () => {
       </Card>
 
       <Flex width="fit-content">
+        <Icon
+          iconNode={<ChevronLeft />}
+          onPress={() =>
+            setQuery({
+              ...query,
+              semester: getSemesterSlugOffset(
+                currentCompanySemester!.id,
+                companySemesters,
+                'previous',
+              ),
+            })
+          }
+        />
         <SelectInput
           name="semester"
           options={companySemesters
@@ -202,6 +217,19 @@ const BdbPage = () => {
               semester: getSemesterSlugById(
                 (e as { label: string; value: number }).value,
                 companySemesters,
+              ),
+            })
+          }
+        />
+        <Icon
+          iconNode={<ChevronRight />}
+          onPress={() =>
+            setQuery({
+              ...query,
+              semester: getSemesterSlugOffset(
+                currentCompanySemester!.id,
+                companySemesters,
+                'next',
               ),
             })
           }

@@ -193,6 +193,20 @@ export const getSemesterSlugById = (
   return `${semester.year}${semester.semester === 'autumn' ? 'h' : 'v'}`;
 };
 
+export const getSemesterSlugOffset = (
+  id: EntityId,
+  companySemesters: CompanySemester[],
+  offset: 'previous' | 'next',
+) => {
+  return getSemesterSlugById(
+    companySemesters.find(
+      (semester) =>
+        semester.id === (id as number) + (offset === 'previous' ? -1 : 1),
+    )?.id as number,
+    companySemesters,
+  );
+};
+
 export const httpCheck = (link: string) => {
   const httpLink =
     link.startsWith('http://') || link.startsWith('https://')
