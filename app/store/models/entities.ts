@@ -1,5 +1,6 @@
 import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { SystemStatus } from 'app/actions/StatusActions';
 import type { UnknownAnnouncement } from 'app/store/models/Announcement';
 import type { UnknownArticle } from 'app/store/models/Article';
 import type Comment from 'app/store/models/Comment';
@@ -74,6 +75,7 @@ export enum EntityType {
   Tags = 'tags',
   Thread = 'threads',
   Users = 'users',
+  SystemStatus = 'systemStatus',
 }
 
 // Most fetch success redux actions are normalized such that payload.entities is a subset of this interface.
@@ -115,6 +117,7 @@ export default interface Entities {
   [EntityType.Tags]: Record<EntityId, UnknownTag>;
   [EntityType.Thread]: Record<EntityId, UnknownThread>;
   [EntityType.Users]: Record<EntityId, UnknownUser>;
+  [EntityType.SystemStatus]: Record<EntityId, SystemStatus>;
 }
 
 type InferEntityType<T> = {

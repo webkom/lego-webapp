@@ -38,6 +38,7 @@ import registrations from 'app/reducers/registrations';
 import restrictedMails from 'app/reducers/restrictedMails';
 import routing from 'app/reducers/routing';
 import search from 'app/reducers/search';
+import status from 'app/reducers/status';
 import surveySubmissions from 'app/reducers/surveySubmissions';
 import surveys from 'app/reducers/surveys';
 import tags from 'app/reducers/tags';
@@ -94,6 +95,7 @@ const createRootReducer = () => {
     threads,
     toasts,
     users,
+    status,
   });
 };
 
