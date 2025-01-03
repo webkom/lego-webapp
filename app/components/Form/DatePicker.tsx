@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Calendar } from 'lucide-react';
-import moment from 'moment-timezone';
+import moment, { isMoment } from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
@@ -75,11 +75,11 @@ const DatePicker = ({
   });
   const [selectingEnd, setSelectingEnd] = useState(false);
 
-  const parsedValue: Dateish | Dateish[] = useMemo(() => {
+  const parsedValue = useMemo(() => {
     if (range && Array.isArray(value)) {
-      return value.map((v) => parseDateValue(v));
+      return value.map((v) => (v ? parseDateValue(v) : ''));
     }
-    return parseDateValue(value as string);
+    return value ? parseDateValue(value as string) : '';
   }, [value, range]);
 
   const onNext = () => {
@@ -130,7 +130,7 @@ const DatePicker = ({
   };
 
   const changeDay = (day: Moment) => {
-    if (!range && !Array.isArray(parsedValue)) {
+    if (!range && isMoment(parsedValue)) {
       const value = day
         .clone()
         .hour(parsedValue.hour())
@@ -144,51 +144,40 @@ const DatePicker = ({
     }
 
     const selected = day.clone();
-    if (!selectingEnd) {
-      const endTime =
-        Array.isArray(value) && value[1]
-          ? moment(value[1])
-          : selected.clone().endOf('day');
 
+    // If we're not selecting end date or there's no valid start date
+    if (!selectingEnd || !Array.isArray(value) || !value[0]) {
       const newStartTime = selected
         .clone()
         .hour(showTimePicker ? 0 : selected.hour())
         .minute(showTimePicker ? 0 : selected.minute());
 
-      const newEndTime = selected.isAfter(endTime)
-        ? selected.clone().endOf('day')
-        : endTime;
-
-      handleChange([newStartTime.toISOString(), newEndTime.toISOString()]);
+      handleChange([newStartTime.toISOString(), '']);
       setSelectingEnd(true);
-    } else {
-      const [start] = Array.isArray(value) ? value : [null];
-      const startDate = moment(start);
-      const [rangeStart, rangeEnd] = startDate.isBefore(selected)
-        ? [startDate, selected]
-        : [selected, startDate];
+      return;
+    }
 
-      const originalStart = Array.isArray(value)
-        ? moment(value[0])
-        : rangeStart;
-      const originalEnd = Array.isArray(value) ? moment(value[1]) : rangeEnd;
+    // We're selecting end date
+    const startDate = moment(value[0]);
+    const [rangeStart, rangeEnd] = startDate.isBefore(selected)
+      ? [startDate, selected]
+      : [selected, startDate];
 
-      handleChange([
-        rangeStart
-          .clone()
-          .hour(showTimePicker ? originalStart.hour() : 0)
-          .minute(showTimePicker ? originalStart.minute() : 0)
-          .toISOString(),
-        rangeEnd
-          .clone()
-          .hour(showTimePicker ? originalEnd.hour() : 23)
-          .minute(showTimePicker ? originalEnd.minute() : 59)
-          .toISOString(),
-      ]);
-      setSelectingEnd(false);
-      if (!showTimePicker) {
-        setPickerOpen(false);
-      }
+    handleChange([
+      rangeStart
+        .clone()
+        .hour(showTimePicker ? 0 : rangeStart.hour())
+        .minute(showTimePicker ? 0 : rangeStart.minute())
+        .toISOString(),
+      rangeEnd
+        .clone()
+        .hour(showTimePicker ? 23 : rangeEnd.hour())
+        .minute(showTimePicker ? 59 : rangeEnd.minute())
+        .toISOString(),
+    ]);
+    setSelectingEnd(false);
+    if (!showTimePicker) {
+      setPickerOpen(false);
     }
   };
 
@@ -199,14 +188,20 @@ const DatePicker = ({
   };
 
   const displayValue = useMemo(() => {
-    if (!range && !Array.isArray(parsedValue)) {
+    if (!range && isMoment(parsedValue) && !Array.isArray(parsedValue)) {
       return parsedValue.format(showTimePicker ? dateFormat : 'LL');
     }
     if (!Array.isArray(value)) return '';
     const format = showTimePicker ? dateFormat : 'LL';
-    return `${moment(value[0]).format(format)} - ${moment(value[1]).format(
-      format,
-    )}`;
+
+    const start = value[0] ? moment(value[0]).format(format) : '';
+    const end = value[1] ? moment(value[1]).format(format) : '';
+
+    if (!start && !end) return '';
+    if (!end) return start;
+    if (!start) return end;
+
+    return `${start} - ${end}`;
   }, [value, dateFormat, showTimePicker, range, parsedValue]);
 
   const renderCalendar = (currentDate: Moment) => (
@@ -236,10 +231,10 @@ const DatePicker = ({
                           dateProps.day.isSame(parsedValue, 'day') &&
                           styles.selectedDate,
                         range &&
-                          dateProps.day.isSame(parsedValue[0], 'day') &&
+                          dateProps.day.isSame(parsedValue?.[0], 'day') &&
                           styles.selectedDate,
                         range &&
-                          dateProps.day.isSame(parsedValue[1], 'day') &&
+                          dateProps.day.isSame(parsedValue?.[1], 'day') &&
                           styles.selectedDate,
                         dateProps.day.isSame(moment(), 'day') && styles.today,
                         isInRange(dateProps.day) && styles.inRange,

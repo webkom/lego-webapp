@@ -74,10 +74,18 @@ const useQuery = <Values extends ParsedQs>(defaultValues: Values) => {
       });
     };
 
+  const setQueryValues = (updates: Partial<Values>) => {
+    setQuery({
+      ...query,
+      ...updates,
+    });
+  };
+
   return {
     query,
     setQuery,
     setQueryValue,
+    setQueryValues,
   };
 };
 

@@ -264,8 +264,9 @@ describe('Create event', () => {
     const tomorrowDay = dateObject.getDate();
 
     setDatePickerDate('date', tomorrowDay, tomorrowDay < todayDay);
-
     setDatePickerTime('date', '10', '00', false); // Start time
+
+    setDatePickerDate('date', tomorrowDay, tomorrowDay < todayDay);
     setDatePickerTime('date', '12', '00', true); // End time
 
     // Select regitrationType

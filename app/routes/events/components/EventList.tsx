@@ -97,13 +97,19 @@ const EventList = () => {
 
   const fetchQuery = {
     date_after:
-      query.showPrevious === 'true'
+      query.from ||
+      (query.showPrevious === 'true'
         ? previousStart.format('YYYY-MM-DD')
-        : moment().format('YYYY-MM-DD'),
+        : moment().format('YYYY-MM-DD')),
     date_before:
-      query.showPrevious === 'true' ? moment().format('YYYY-MM-DD') : undefined,
+      query.to ||
+      (query.showPrevious === 'true'
+        ? moment().format('YYYY-MM-DD')
+        : undefined),
     ordering: query.showPrevious === 'true' ? '-start_time' : 'start_time',
   };
+
+  console.log(fetchQuery);
 
   const { pagination } = useAppSelector(
     selectPaginationNext({
@@ -137,10 +143,19 @@ const EventList = () => {
           query: fetchQuery,
         }),
       ),
-    [loggedIn, query.showPrevious],
+    [loggedIn, query.from, query.to, query.showPrevious],
   );
 
   const fetchMore = () => {
+    if (query.from || query.to) {
+      return dispatch(
+        fetchEvents({
+          query: fetchQuery,
+          next: true,
+        }),
+      );
+    }
+
     if (query.showPrevious === 'true') {
       const newStart = previousStart.clone().subtract(1, 'month');
       setPreviousStart(newStart);
@@ -194,11 +209,6 @@ const EventList = () => {
     }
   };
 
-  const filterPreviousEvents = (event: ListEvent) =>
-    query.showPrevious === 'true'
-      ? moment(event[field]).isBefore(moment())
-      : true;
-
   useEffect(() => {
     if (!pagination.fetching && events.length > 0) {
       setPreviousEvents(events);
@@ -213,8 +223,7 @@ const EventList = () => {
             index === self.findIndex((e) => e.id === event.id),
         )
         .filter(filterRegDateFunc)
-        .filter(filterEventTypesFunc)
-        .filter(filterPreviousEvents),
+        .filter(filterEventTypesFunc),
       field,
       query.showPrevious === 'true' ? 'desc' : 'asc',
     ),
@@ -261,7 +270,8 @@ const EventList = () => {
           header="Her var det tomt ..."
           body={
             <>
-              Ingen arrangementer {totalCount > 0 && 'som matcher ditt filter'}{' '}
+              Ingen arrangementer{' '}
+              {totalCount > 0 || (!isEmpty(query) && 'som matcher ditt filter')}{' '}
               ligger
               {totalCount === 0 && ' for øyeblikket'} ute
               {totalCount > 0 && (
@@ -275,7 +285,7 @@ const EventList = () => {
           className={joblistingListStyles.emptyState}
         />
       )}
-      {(query.showPrevious === 'true'
+      {(query.showPrevious === 'true' && (!query.from || !query.to)
         ? previousPagination.hasMore
         : pagination.hasMore) && (
         <Button
