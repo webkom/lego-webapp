@@ -18,8 +18,3 @@
 .label {
   font-size: var(--font-size-lg);
 }
-
-.errorCard,
-.submitButton {
-  margin-top: var(--spacing-md);
-}

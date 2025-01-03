@@ -163,6 +163,10 @@
   transition: background-color var(--linear-fast);
   color: var(--lego-font-color);
 
+  div {
+    min-width: fit-content;
+  }
+
   &:hover {
     background-color: var(--additive-background);
   }

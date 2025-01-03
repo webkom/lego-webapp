@@ -33,7 +33,7 @@ const MultipleChoice = (props: Props) => {
         name={`${props.option}.optionText`}
         component={TextInput.Field}
         className={styles.optionInput}
-        placeholder="Alternativ"
+        placeholder="Begynn å skrive for å legge til alternativ"
         fieldClassName={styles.optionField}
       />
       <RemoveButton remove={props.remove} />
@@ -50,7 +50,7 @@ const Checkbox = (props: Props) => {
         name={`${props.option}.optionText`}
         component={TextInput.Field}
         className={styles.optionInput}
-        placeholder="Alternativ"
+        placeholder="Begynn å skrive for å legge til alternativ"
         fieldClassName={styles.optionField}
       />
       <RemoveButton remove={props.remove} />

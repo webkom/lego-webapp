@@ -14,6 +14,7 @@ type Props = {
   minUserGridRows?: number;
   maxUserGridRows?: number;
   isMeeting?: boolean;
+  showUserGrid?: boolean;
   legacyRegistrationCount?: number;
   skeleton?: boolean;
 };
@@ -25,6 +26,7 @@ const Attendance = ({
   minUserGridRows = 0,
   maxUserGridRows = 2,
   isMeeting,
+  showUserGrid = true,
   legacyRegistrationCount,
   skeleton,
 }: Props) => {
@@ -40,7 +42,7 @@ const Attendance = ({
 
   return (
     <>
-      {!isMeeting && (
+      {!isMeeting && showUserGrid && (
         <>
           <UserGrid
             minRows={minUserGridRows}

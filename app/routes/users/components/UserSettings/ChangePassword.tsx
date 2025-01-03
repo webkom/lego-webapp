@@ -1,9 +1,12 @@
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router-dom';
 import { changePassword } from 'app/actions/UserActions';
-import { TextInput } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
+import {
+  Form,
+  TextInput,
+  LegoFinalForm,
+  SubmitButton,
+} from 'app/components/Form';
 import { useCurrentUser } from 'app/reducers/auth';
 import { validPassword } from 'app/routes/users/utils';
 import { useAppDispatch } from 'app/store/hooks';
@@ -32,17 +35,19 @@ const ChangePasswordForm = () => {
   return (
     <TypedLegoForm onSubmit={onSubmit} validate={validate}>
       {({ handleSubmit, valid }) => (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Field
-            label="Gammelt passord"
+            label="Nåværende passord"
             name="password"
             type="password"
+            placeholder="passord123"
             autocomplete="current-password"
             component={TextInput.Field}
           />
           <PasswordField
             user={currentUser}
             label="Nytt passord"
+            placeholder="passord123!"
             name="newPassword"
           />
           <Field
@@ -55,7 +60,7 @@ const ChangePasswordForm = () => {
           <SubmitButton disabled={!valid} danger>
             Endre passord
           </SubmitButton>
-        </form>
+        </Form>
       )}
     </TypedLegoForm>
   );

@@ -21,6 +21,7 @@ import {
   SelectInput,
   ImageUploadField,
   Form,
+  RowSection,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
@@ -193,76 +194,72 @@ const CompanyEditor = () => {
               component={TextInput.Field}
             />
 
-            <Field
-              placeholder="Beskrivelse av bedriften"
-              name="description"
-              label="Beskrivelse"
-              component={TextEditor.Field}
-            />
+            <RowSection>
+              <Field
+                placeholder="Beskrivelse av bedriften"
+                name="description"
+                label="Beskrivelse"
+                component={TextEditor.Field}
+              />
+              <Field
+                placeholder="Bedriften ønsker kun kurs"
+                label="Notat fra Bedkom"
+                name="adminComment"
+                component={TextEditor.Field}
+                className={styles.adminNote}
+              />
+            </RowSection>
 
-            <Field
-              placeholder="Velg bedriftstype"
-              label="Type bedrift"
-              name="companyType"
-              component={TextInput.Field}
-            />
+            <RowSection>
+              <Field
+                placeholder="Velg bedriftstype"
+                label="Type bedrift"
+                name="companyType"
+                component={TextInput.Field}
+              />
+              <Field
+                placeholder="Studentkontakter"
+                name="studentContacts"
+                isMulti
+                component={SelectInput.AutocompleteField}
+                filter={[AutocompleteContentType.User]}
+              />
+            </RowSection>
 
-            <Field
-              placeholder="penger@bedrift.no"
-              name="paymentMail"
-              label="E-post for faktura"
-              component={TextInput.Field}
-            />
+            <RowSection>
+              <Field
+                placeholder="penger@bedrift.no"
+                name="paymentMail"
+                label="E-post for faktura"
+                component={TextInput.Field}
+              />
+              <Field
+                placeholder="+47 909 09 090"
+                name="phone"
+                label="Telefon"
+                component={TextInput.Field}
+              />
+            </RowSection>
 
-            <Field
-              placeholder="+47 909 09 090"
-              name="phone"
-              label="Telefon"
-              component={TextInput.Field}
-            />
-
-            <Field
-              placeholder="Studentkontakter"
-              name="studentContacts"
-              isMulti
-              component={SelectInput.AutocompleteField}
-              filter={[AutocompleteContentType.User]}
-            />
-
-            <Field
-              placeholder="https://bedrift.no"
-              name="website"
-              label="Nettside"
-              component={TextInput.Field}
-            />
-
-            <Field
-              placeholder="Sem Sælands vei 7-9, 7491 Trondheim"
-              name="address"
-              label="Adresse"
-              component={TextInput.Field}
-            />
-
-            <Field
-              placeholder="Studentkontakt"
-              label="Studentkontakt"
-              name="studentContact"
-              component={SelectInput.AutocompleteField}
-              filter={[AutocompleteContentType.User]}
-            />
+            <RowSection>
+              <Field
+                placeholder="https://bedrift.no"
+                name="website"
+                label="Nettside"
+                component={TextInput.Field}
+              />
+              <Field
+                placeholder="Sem Sælands vei 7-9, 7491 Trondheim"
+                name="address"
+                label="Adresse"
+                component={TextInput.Field}
+              />
+            </RowSection>
 
             <Field
               name="active"
               label="Aktiv bedrift?"
               component={ToggleSwitch.Field}
-            />
-
-            <Field
-              placeholder="Bedriften ønsker kun kurs"
-              label="Notat fra Bedkom"
-              name="adminComment"
-              component={TextEditor.Field}
-              className={styles.adminNote}
             />
 
             <SubmissionError />

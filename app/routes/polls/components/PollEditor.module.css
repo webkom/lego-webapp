@@ -5,7 +5,3 @@
   align-items: center;
   gap: var(--spacing-md);
 }
-
-.actionButtons {
-  margin-top: var(--spacing-md);
-}

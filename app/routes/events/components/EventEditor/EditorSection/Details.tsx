@@ -1,6 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import {
+  RowSection,
   SelectInput,
   TextInput,
   CheckBox,
@@ -20,7 +21,7 @@ type Props = {
 const Details: React.FC<Props> = ({ values }) => {
   return (
     <>
-      <Flex className={styles.editorSectionRow}>
+      <RowSection>
         <Field
           name="eventType"
           label="Type arrangement"
@@ -42,8 +43,8 @@ const Details: React.FC<Props> = ({ values }) => {
           placeholder="Bedrift"
           isClearable
         />
-      </Flex>
-      <Flex className={styles.editorSectionRow}>
+      </RowSection>
+      <RowSection>
         <Field
           name="responsibleGroup"
           label="Ansvarlig gruppe"
@@ -63,35 +64,29 @@ const Details: React.FC<Props> = ({ values }) => {
           placeholder="Velg ansvarlige brukere"
           isClearable
         />
-      </Flex>
+      </RowSection>
       <Flex className={styles.editorSectionRow}>
         <Field
           label="Dato"
           name="date"
           range
           component={DatePicker.Field}
-          fieldClassName={styles.metaField}
-          className={styles.formField}
           required
         />
       </Flex>
       <Flex className={styles.editorSectionRow}>
         <Flex column className={styles.editorSectionColumn}>
-          <Flex alignItems="center">
-            <Label
-              label="Sted"
-              htmlFor="react-select-mazemapPoi-input"
-              className={styles.label}
-              required
-            />
-          </Flex>
+          <Label
+            label="Sted"
+            htmlFor="react-select-mazemapPoi-input"
+            className={styles.label}
+            required
+          />
           <Field
             label="Bruk MazeMap"
             name="useMazemap"
             type="checkbox"
             component={CheckBox.Field}
-            withoutMargin
-            className={styles.formField}
           />
           {!values.useMazemap ? (
             <Field
@@ -99,8 +94,6 @@ const Details: React.FC<Props> = ({ values }) => {
               name="location"
               placeholder="Den Gode Nabo, Downtown, ..."
               component={TextInput.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
             />
           ) : (
             <Flex alignItems="flex-start" gap="var(--spacing-sm)">
@@ -129,30 +122,27 @@ const Details: React.FC<Props> = ({ values }) => {
         name="isForeignLanguage"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
-      <Field
-        label="Kun for spesifikk gruppe"
-        description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
-        name="isGroupOnly"
-        type="checkbox"
-        component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
-      />
-      {values.isGroupOnly && (
-        <div className={styles.subSection}>
-          <Field
-            name="canViewGroups"
-            placeholder="Velg grupper"
-            filter={['users.abakusgroup']}
-            fieldClassName={styles.metaField}
-            component={SelectInput.AutocompleteField}
-            isMulti
-          />
-        </div>
-      )}
+      <div>
+        <Field
+          label="Kun for spesifikk gruppe"
+          description="Gjør arrangementet synlig for kun medlemmer i spesifikke grupper"
+          name="isGroupOnly"
+          type="checkbox"
+          component={CheckBox.Field}
+        />
+        {values.isGroupOnly && (
+          <div className={styles.subSection}>
+            <Field
+              name="canViewGroups"
+              placeholder="Velg grupper"
+              filter={['users.abakusgroup']}
+              component={SelectInput.AutocompleteField}
+              isMulti
+            />
+          </div>
+        )}
+      </div>
     </>
   );
 };

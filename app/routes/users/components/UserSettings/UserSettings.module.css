@@ -4,20 +4,11 @@
   flex: 1;
 }
 
-.bottom {
-  margin-top: var(--spacing-md);
-}
-
-.changePassword {
-  margin-top: var(--spacing-md);
-}
-
 .deleteUser {
-  margin-top: var(--spacing-md);
   color: var(--danger-color);
 }
 
-@media (--mobile-device) {
+@media (--medium-viewport) {
   .mobileColumn {
     flex-direction: column;
   }

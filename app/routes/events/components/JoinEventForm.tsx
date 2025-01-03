@@ -412,7 +412,6 @@ const JoinEventForm = ({
                               width: '100%',
                             }}
                             component={Captcha.Field}
-                            withoutMargin
                           />
                         )}
 
@@ -501,7 +500,6 @@ const JoinEventForm = ({
                                       }
                                     }
                                   }}
-                                  withoutMargin
                                   parse={(value) => value} // Prevent react-final-form from removing empty string in patch request
                                 />
                               ))}

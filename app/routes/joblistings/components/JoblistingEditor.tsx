@@ -26,6 +26,7 @@ import {
   SelectInput,
   LegoFinalForm,
   DatePicker,
+  RowSection,
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
@@ -245,81 +246,91 @@ const JoblistingEditor = () => {
               }}
               required
             />
-            <Field
-              name="jobType"
-              label="Jobbtype"
-              component={SelectInput.Field}
-              placeholder="Jobbtype"
-              options={jobTypes}
-              required
-            />
-            <Field
-              placeholder="Søknadsfrist"
-              label="Søknadsfrist"
-              name="deadline"
-              component={DatePicker.Field}
-            />
-            <Field
-              name="visibleRange"
-              label="Synlighetsperiode"
-              required
-              range
-              component={DatePicker.Field}
-            />
-            <Field
-              placeholder="Oslo, Bergen, ..."
-              label="Arbeidssteder"
-              name="workplaces"
-              component={SelectInput.Field}
-              options={places}
-              required
-              tags
-            />
-            <Field
-              name="fromYear"
-              label="For klassetrinn fra"
-              placeholder="Jobbtype"
-              component={SelectInput.Field}
-              options={yearValues}
-              required
-            />
-            <Field
-              name="toYear"
-              label="Til klasse"
-              placeholder="Jobbtype"
-              component={SelectInput.Field}
-              options={yearValues}
-              required
-            />
-            <Field
-              placeholder="https://opptak.abakus.no/"
-              label="Søknadslenke"
-              name="applicationUrl"
-              component={TextInput.Field}
-              parse={(value) => value}
-            />
-            <Field
-              name="contactMail"
-              placeholder="hjelp@guttaconsulting.no"
-              label="Søknads- eller kontakt-e-post"
-              component={TextInput.Field}
-              parse={(value) => value}
-            />
-            <Field
-              name="responsible"
-              placeholder="Kontaktperson"
-              label="Kontaktperson"
-              options={responsibleOptions}
-              component={SelectInput.Field}
-              isClearable
-            />
-            <Field
-              name="youtubeUrl"
-              label="YouTube-video som cover"
-              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-              component={TextInput.Field}
-              parse={(value) => value}
-            />
+            <RowSection>
+              <Field
+                name="jobType"
+                label="Jobbtype"
+                component={SelectInput.Field}
+                placeholder="Jobbtype"
+                options={jobTypes}
+                required
+              />
+              <Field
+                placeholder="Oslo, Bergen, ..."
+                label="Arbeidssteder"
+                name="workplaces"
+                component={SelectInput.Field}
+                options={places}
+                required
+                tags
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                placeholder="Søknadsfrist"
+                label="Søknadsfrist"
+                name="deadline"
+                component={DatePicker.Field}
+              />
+              <Field
+                name="visibleRange"
+                label="Synlighetsperiode"
+                required
+                range
+                component={DatePicker.Field}
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                name="fromYear"
+                label="For klassetrinn fra"
+                placeholder="Jobbtype"
+                component={SelectInput.Field}
+                options={yearValues}
+                required
+              />
+              <Field
+                name="toYear"
+                label="Til klasse"
+                placeholder="Jobbtype"
+                component={SelectInput.Field}
+                options={yearValues}
+                required
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                name="contactMail"
+                placeholder="hjelp@guttaconsulting.no"
+                label="Søknads- eller kontakt-e-post"
+                component={TextInput.Field}
+                parse={(value) => value}
+              />
+              <Field
+                name="responsible"
+                placeholder="Kontaktperson"
+                label="Kontaktperson"
+                options={responsibleOptions}
+                component={SelectInput.Field}
+                isClearable
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                placeholder="https://opptak.abakus.no/"
+                label="Søknadslenke"
+                name="applicationUrl"
+                component={TextInput.Field}
+                parse={(value) => value}
+              />
+              <Field
+                name="youtubeUrl"
+                label="YouTube-video som cover"
+                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+                component={TextInput.Field}
+                parse={(value) => value}
+              />
+            </RowSection>
             <Field
               name="description"
               className={styles.descriptionField}

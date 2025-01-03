@@ -12,12 +12,14 @@ type Props = {
   user?: PasswordFieldUser;
   name?: string;
   label?: string;
+  placeholder?: string;
 };
 
 const PasswordField = ({
   user,
   name = 'password',
   label = 'Passord',
+  placeholder = 'passord123',
 }: Props) => {
   const [password, setPassword] = useState('');
 
@@ -26,7 +28,7 @@ const PasswordField = ({
       <Field
         name={name}
         type="password"
-        placeholder={label}
+        placeholder={placeholder}
         label={label}
         autocomplete="new-password"
         component={TextInput.Field}

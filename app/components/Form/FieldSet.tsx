@@ -20,7 +20,7 @@ export const FieldSet = ({
     className={cx(styles.fieldSet, fieldSetProps.className)}
     {...fieldSetProps}
   >
-    <legend className={styles.fieldSetLegend}>
+    <legend>
       <LabelText label={legend} description={description} required={required} />
     </legend>
     {children}

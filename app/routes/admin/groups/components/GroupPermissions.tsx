@@ -4,6 +4,7 @@ import { Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { editGroup } from 'app/actions/GroupActions';
+import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -71,7 +72,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
     .map((permission) => <li key={permission}>{permission}</li>);
 
   return (
-    <div>
+    <ContentMain>
       <h3>Nåværende rettigheter</h3>
       <ul>
         {permissions.length ? (
@@ -115,19 +116,23 @@ const PermissionList = ({ group }: PermissionListProps) => {
           </li>
         )}
       </ul>
-      <h3>Implisitte rettigheter fra foreldregrupper</h3>
-      {parentPermissionsList.length ? (
-        parentPermissionsList
-      ) : (
-        <EmptyState body="Ingen nåværenede rettighete" />
-      )}
-      <h3>Sum alle rettigheter</h3>
-      {allPermissionsList.length ? (
-        <ul>{allPermissionsList}</ul>
-      ) : (
-        <EmptyState body="Ingen nåværenede rettigheter" />
-      )}
-    </div>
+      <div>
+        <h3>Implisitte rettigheter fra foreldregrupper</h3>
+        {parentPermissionsList.length ? (
+          parentPermissionsList
+        ) : (
+          <EmptyState body="Ingen nåværenede rettighete" />
+        )}
+      </div>
+      <div>
+        <h3>Sum alle rettigheter</h3>
+        {allPermissionsList.length ? (
+          <ul>{allPermissionsList}</ul>
+        ) : (
+          <EmptyState body="Ingen nåværenede rettigheter" />
+        )}
+      </div>
+    </ContentMain>
   );
 };
 
@@ -136,14 +141,14 @@ const GroupPermissions = () => {
   const group = useAppSelector((state) => selectGroupById(state, groupId));
 
   return (
-    <div>
+    <ContentMain>
       {group && (
         <>
           <PermissionList group={group} />
           <AddGroupPermission group={group} />
         </>
       )}
-    </div>
+    </ContentMain>
   );
 };
 

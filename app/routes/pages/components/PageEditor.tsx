@@ -2,8 +2,8 @@ import {
   Button,
   ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
@@ -28,6 +28,7 @@ import {
   Fields,
   SelectInput,
   ObjectPermissions,
+  RowSection,
 } from 'app/components/Form';
 import {
   normalizeObjectPermissions,
@@ -161,7 +162,7 @@ const PageEditor = () => {
               />
             </div>
 
-            <Flex justifyContent="space-between">
+            <RowSection>
               <Field
                 label="Tittel"
                 required
@@ -176,7 +177,7 @@ const PageEditor = () => {
                 placeholder="Velg kategori"
                 options={categoryOptions}
               />
-            </Flex>
+            </RowSection>
 
             <Fields
               names={[
@@ -196,6 +197,10 @@ const PageEditor = () => {
             />
 
             <ButtonGroup>
+              <LinkButton href={backUrl}>Avbryt</LinkButton>
+              <SubmitButton>
+                {isNew ? 'Opprett side' : 'Lagre endringer'}
+              </SubmitButton>
               {!isNew && (
                 <ConfirmModal
                   title="Slett side"
@@ -205,13 +210,11 @@ const PageEditor = () => {
                   {({ openConfirmModal }) => (
                     <Button onPress={openConfirmModal} danger>
                       <Icon iconNode={<Trash2 />} size={19} />
-                      Slett
+                      Slett side
                     </Button>
                   )}
                 </ConfirmModal>
               )}
-
-              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
             </ButtonGroup>
           </Form>
         )}

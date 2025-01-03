@@ -332,7 +332,8 @@ const GalleryEditor = () => {
               id="gallery-description"
             />
             <Field
-              label="Publiser metadata for deling på sosiale medier. Dette deler kun cover, tittel og beskrivelse."
+              label="Publiser metadata for deling på sosiale medier"
+              description="Dette deler kun cover, tittel og beskrivelse"
               name="publicMetadata"
               type="checkbox"
               component={CheckBox.Field}
@@ -347,7 +348,7 @@ const GalleryEditor = () => {
               component={ObjectPermissions}
             />
 
-            <ButtonGroup className={styles.buttonRow}>
+            <ButtonGroup>
               <LinkButton flat href={`/photos/${gallery?.id ?? ''}`}>
                 Avbryt
               </LinkButton>
@@ -367,43 +368,44 @@ const GalleryEditor = () => {
                 </ConfirmModal>
               )}
             </ButtonGroup>
+
+            <GalleryEditorActions
+              selectedCount={selected.length}
+              newPicutureStatus={pictureStatus()}
+              onUpdateGalleryCover={onUpdateGalleryCover}
+              onDeselect={onDeselect}
+              onTogglePicturesStatus={onTogglePicturesStatus}
+              onDeletePictures={onDeletePictures}
+            />
+
+            <Flex>
+              {!gallery ? (
+                <Card severity="info">
+                  For å legge inn bilder må du først lage albumet!
+                </Card>
+              ) : (
+                <GalleryComponent
+                  photos={pictures}
+                  hasMore={pagination.hasMore}
+                  fetching={fetching}
+                  fetchNext={() =>
+                    dispatch(
+                      fetchGalleryPictures(gallery.id, {
+                        next: true,
+                      }),
+                    )
+                  }
+                  renderOverlay={(photo) => photoOverlay(photo, selected)}
+                  renderBottom={(photo) => renderBottom(photo, gallery)}
+                  renderEmpty={() => renderEmpty(gallery)}
+                  onClick={handleClick}
+                  getSrc={(photo) => photo.file}
+                />
+              )}
+            </Flex>
           </Form>
         )}
       </TypedLegoForm>
-
-      <GalleryEditorActions
-        selectedCount={selected.length}
-        newPicutureStatus={pictureStatus()}
-        onUpdateGalleryCover={onUpdateGalleryCover}
-        onDeselect={onDeselect}
-        onTogglePicturesStatus={onTogglePicturesStatus}
-        onDeletePictures={onDeletePictures}
-      />
-      <Flex>
-        {!gallery ? (
-          <Card severity="info">
-            For å legge inn bilder må du først lage albumet!
-          </Card>
-        ) : (
-          <GalleryComponent
-            photos={pictures}
-            hasMore={pagination.hasMore}
-            fetching={fetching}
-            fetchNext={() =>
-              dispatch(
-                fetchGalleryPictures(gallery.id, {
-                  next: true,
-                }),
-              )
-            }
-            renderOverlay={(photo) => photoOverlay(photo, selected)}
-            renderBottom={(photo) => renderBottom(photo, gallery)}
-            renderEmpty={() => renderEmpty(gallery)}
-            onClick={handleClick}
-            getSrc={(photo) => photo.file}
-          />
-        )}
-      </Flex>
     </Page>
   );
 };

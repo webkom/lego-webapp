@@ -30,31 +30,28 @@ const DeleteUser = () => {
     });
 
   return (
-    <>
-      {!show ? (
-        <Button danger onPress={() => setShow(true)}>
-          Gå videre til sletting av bruker
-        </Button>
-      ) : (
-        <>
-          <Button onPress={() => setShow(false)}>Avbryt</Button>
-          <TypedLegoForm onSubmit={onSubmit} validate={validate}>
-            {({ handleSubmit }) => (
-              <Form onSubmit={handleSubmit}>
-                <Field
-                  label="Skriv inn ditt nåværende passord"
-                  name="password"
-                  type="password"
-                  autocomplete="current-password"
-                  component={TextInput.Field}
-                />
-                <SubmitButton danger>Slett bruker</SubmitButton>
-              </Form>
-            )}
-          </TypedLegoForm>
-        </>
+    <TypedLegoForm onSubmit={onSubmit} validate={validate}>
+      {({ handleSubmit }) => (
+        <Form onSubmit={handleSubmit}>
+          <Button danger onPress={() => setShow((prev) => !prev)}>
+            {show ? 'Avbryt' : 'Gå videre til sletting av bruker'}
+          </Button>
+          {show && (
+            <>
+              <Field
+                label="Skriv inn ditt nåværende passord"
+                name="password"
+                placeholder="passord123"
+                type="password"
+                autocomplete="current-password"
+                component={TextInput.Field}
+              />
+              <SubmitButton danger>Slett bruker</SubmitButton>
+            </>
+          )}
+        </Form>
       )}
-    </>
+    </TypedLegoForm>
   );
 };
 

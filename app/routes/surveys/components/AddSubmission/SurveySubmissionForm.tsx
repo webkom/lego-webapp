@@ -1,14 +1,14 @@
-import { Flex } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { useField } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
+  Form,
   CheckBox,
   LegoFinalForm,
   RadioButton,
   TextArea,
+  SubmitButton,
 } from 'app/components/Form';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import styles from 'app/routes/surveys/components/surveys.module.css';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -33,17 +33,15 @@ const SurveySubmissionForm = ({ survey, initialValues, onSubmit }: Props) => {
       mutators={{ ...arrayMutators }}
     >
       {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
-          <Flex column gap="var(--spacing-md)">
-            <FieldArray name="answers">
-              {(props) => (
-                <AnswerFields {...props} questions={survey.questions} />
-              )}
-            </FieldArray>
+        <Form onSubmit={handleSubmit}>
+          <FieldArray name="answers">
+            {(props) => (
+              <AnswerFields {...props} questions={survey.questions} />
+            )}
+          </FieldArray>
 
-            <SubmitButton>Send svar</SubmitButton>
-          </Flex>
-        </form>
+          <SubmitButton>Send svar</SubmitButton>
+        </Form>
       )}
     </LegoFinalForm>
   );

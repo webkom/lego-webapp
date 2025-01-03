@@ -62,7 +62,3 @@
 .label {
   color: var(--danger-color);
 }
-
-.submitButton {
-  margin-top: var(--spacing-md);
-}

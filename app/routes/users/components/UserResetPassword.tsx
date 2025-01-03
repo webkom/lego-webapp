@@ -2,9 +2,12 @@ import { Card, Page } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router-dom';
 import { resetPassword } from 'app/actions/UserActions';
-import { TextInput } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
+import {
+  Form,
+  LegoFinalForm,
+  TextInput,
+  SubmitButton,
+} from 'app/components/Form';
 import { useCurrentUser } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
@@ -48,7 +51,7 @@ const UserResetPasswordForm = () => {
       {token ? (
         <TypedLegoForm onSubmit={onSubmit} validate={validate}>
           {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
               <PasswordField label="Nytt passord" user={user} />
               <Field
                 label="Gjenta nytt passord"
@@ -59,7 +62,7 @@ const UserResetPasswordForm = () => {
               />
 
               <SubmitButton danger>Tilbakestill passord</SubmitButton>
-            </form>
+            </Form>
           )}
         </TypedLegoForm>
       ) : (

@@ -7,7 +7,8 @@
   position: fixed;
   width: 72.5%;
   z-index: 2;
-  bottom: 30px;
+  bottom: var(--spacing-lg);
+  margin: 0 auto;
   opacity: 0;
   transition: opacity var(--easing-medium);
 

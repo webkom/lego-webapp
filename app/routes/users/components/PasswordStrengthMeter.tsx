@@ -56,10 +56,10 @@ const PasswordStrengthMeter = ({ password, user }: Props) => {
                   <strong>Passordstyrke: </strong>{' '}
                   {passwordLabel[zxcvbnValue.score]}
                 </span>
-                <p>
+                <span>
                   Dette passordet hadde tatt en maskin {crackTime} å knekke @
                   10⁴ Hash/s.
-                </p>
+                </span>
               </>
             )}
             {password && zxcvbnValue.score < 3 && (

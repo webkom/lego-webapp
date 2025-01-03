@@ -72,10 +72,6 @@
   padding: 0 var(--spacing-xs);
 }
 
-.buttonRow {
-  margin-bottom: 20px;
-}
-
 .detailTitle {
   margin-bottom: 0;
   width: 100%;

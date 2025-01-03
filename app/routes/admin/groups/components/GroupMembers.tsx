@@ -1,8 +1,8 @@
-import { LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';
+import { ContentMain } from 'app/components/Content';
 import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { selectPaginationNext } from 'app/reducers/selectors';
@@ -69,8 +69,8 @@ const GroupMembers = () => {
   ]);
 
   return (
-    <>
-      <>Antall medlemmer (inkl. undergrupper): {group?.numberOfUsers}</>
+    <ContentMain>
+      <span>Antall medlemmer (inkl. undergrupper): {group?.numberOfUsers}</span>
 
       {showDescendants || (
         <AddGroupMember
@@ -79,7 +79,7 @@ const GroupMembers = () => {
         />
       )}
 
-      <LoadingIndicator loading={!memberships && pagination.fetching}>
+      <div>
         <h3>Brukere</h3>
         <GroupMembersList
           key={Number(groupId) + Number(showDescendants)}
@@ -88,8 +88,8 @@ const GroupMembers = () => {
           memberships={memberships}
           fetchMemberships={fetchMemberships}
         />
-      </LoadingIndicator>
-    </>
+      </div>
+    </ContentMain>
   );
 };
 

@@ -54,18 +54,13 @@ const Question = ({
 
   return (
     <Card className={styles.question}>
-      <div className={styles.left}>
-        <div className={styles.questionTop}>
-          <Field
-            name={`${question}.questionText`}
-            className={styles.questionTitle}
-            placeholder="Spørsmål"
-            component={TextInput.Field}
-            fieldStyle={{
-              marginBottom: 0,
-            }}
-          />
-        </div>
+      <Flex column gap="var(--spacing-sm)" className={styles.left}>
+        <Field
+          name={`${question}.questionText`}
+          className={styles.questionTitle}
+          placeholder="Spørsmål"
+          component={TextInput.Field}
+        />
         {questionData.questionType?.value === SurveyQuestionType.TextField ? (
           <TextArea
             className={styles.freeText}
@@ -80,70 +75,64 @@ const Question = ({
             component={renderOptions}
           />
         )}
-      </div>
-      <div className={styles.right}>
-        <div className="top">
-          <div>
-            <Field
-              name={`${question}.questionType`}
-              placeholder="Velg type"
-              component={SelectInput.Field}
-              components={{
-                Option: (props) => {
-                  const value = props.data.value;
-                  return (
-                    <QuestionTypeOption
-                      iconName={questionTypeToIcon[value]}
-                      {...props}
-                    />
-                  );
-                },
-                SingleValue: (props) => {
-                  const value = props.data.value;
-                  return (
-                    <QuestionTypeValue
-                      iconName={questionTypeToIcon[value]}
-                      {...props}
-                    />
-                  );
-                },
-              }}
-              options={questionTypeOptions}
-              className={styles.questionType}
-              clearable={false}
-              backspaceRemoves={false}
-              searchable={false}
-            />
-          </div>
+      </Flex>
+      <Flex column gap="var(--spacing-sm)" className={styles.right}>
+        <Field
+          name={`${question}.questionType`}
+          placeholder="Velg type"
+          component={SelectInput.Field}
+          components={{
+            Option: (props) => {
+              const value = props.data.value;
+              return (
+                <QuestionTypeOption
+                  iconName={questionTypeToIcon[value]}
+                  {...props}
+                />
+              );
+            },
+            SingleValue: (props) => {
+              const value = props.data.value;
+              return (
+                <QuestionTypeValue
+                  iconName={questionTypeToIcon[value]}
+                  {...props}
+                />
+              );
+            },
+          }}
+          options={questionTypeOptions}
+          className={styles.questionType}
+          clearable={false}
+          backspaceRemoves={false}
+          searchable={false}
+        />
 
-          <div>
-            <SelectInput
-              value={{
-                value: relativeIndex,
-                label: `Spørsmålsnummer: ${relativeIndex + 1}`,
-              }}
-              placeholder="0"
-              name="relativeIndex"
-              options={indexOptions}
-              components={{
-                Option: (props: any) => {
-                  return <QuestionTypeOption iconName="list" {...props} />;
-                },
-                SingleValue: (props: any) => {
-                  return <QuestionTypeValue iconName="list" {...props} />;
-                },
-              }}
-              onChange={(user) =>
-                updateRelativeIndexes(relativeIndex, user.value, fields)
-              }
-              onBlur={() => null}
-              className={styles.reorderQuestion}
-              clearable={false}
-              backspaceRemoves={false}
-              searchable={false}
-            />
-          </div>
-        </div>
+        <SelectInput
+          value={{
+            value: relativeIndex,
+            label: `Spørsmålsnummer: ${relativeIndex + 1}`,
+          }}
+          placeholder="0"
+          name="relativeIndex"
+          options={indexOptions}
+          components={{
+            Option: (props: any) => {
+              return <QuestionTypeOption iconName="list" {...props} />;
+            },
+            SingleValue: (props: any) => {
+              return <QuestionTypeValue iconName="list" {...props} />;
+            },
+          }}
+          onChange={(user) =>
+            updateRelativeIndexes(relativeIndex, user.value, fields)
+          }
+          onBlur={() => null}
+          className={styles.reorderQuestion}
+          clearable={false}
+          backspaceRemoves={false}
+          searchable={false}
+        />
 
         <Flex alignItems="center" className={styles.bottom}>
           <Field
@@ -164,7 +153,7 @@ const Question = ({
             )}
           </ConfirmModal>
         </Flex>
-      </div>
+      </Flex>
     </Card>
   );
 };
@@ -176,7 +165,7 @@ const renderOptions = ({
   fields: any;
   questionType: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-md)" className={styles.options}>
+  <Flex column gap="var(--spacing-sm)" className={styles.options}>
     {fields.map((option, relativeIndex) => {
       const isLast = fields.length - 1 === relativeIndex;
 
