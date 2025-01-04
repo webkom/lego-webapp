@@ -1,5 +1,6 @@
 import { denormalize } from 'normalizr';
 import { createSelector } from 'reselect';
+import { eventSchema } from 'app/reducers';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type Entities from 'app/store/models/entities';
@@ -50,3 +51,11 @@ export const createDenormalizedEntitySelector = <T>(
       ) as T,
   );
 };
+
+/**
+ * Example: Selecting a denormalized event
+ * This will include all nested entities in the event such as responsible company, pools, comments, authors,
+ * registrations, registered users, etc. as their respective full entities.
+ */
+export const selectDenormalizedEvent =
+  createDenormalizedEntitySelector(eventSchema);

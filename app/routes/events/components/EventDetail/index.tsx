@@ -36,6 +36,7 @@ import {
 } from 'app/routes/events/utils';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { selectDenormalizedEvent } from 'app/store/utils/createDenormalizedEntitySelector';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import styles from './EventDetail.module.css';
@@ -103,9 +104,11 @@ const EventDetail = () => {
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
 
-  const comments = useAppSelector((state) =>
-    selectCommentsByIds(state, event?.comments),
+  const denormalizedEvent = useAppSelector((state) =>
+    selectDenormalizedEvent(state, event?.id),
   );
+  const comments = denormalizedEvent?.comments || [];
+  console.log(denormalizedEvent);
 
   const hasRegistrationAccess = Boolean(
     event && 'waitingRegistrations' in event,
