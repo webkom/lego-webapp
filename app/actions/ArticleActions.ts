@@ -2,13 +2,14 @@ import { omit } from 'lodash';
 import { normalize } from 'normalizr';
 import callAPI, { urlFor } from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
-import { selectArticleByIdOrSlug } from 'app/reducers/articles';
+import { selectArticleById } from 'app/reducers/articles';
 import { createRequestThunk, executeRequest } from 'app/reducers/requests';
 import { createFetchHook } from 'app/store/utils/createFetchHook';
 import { entitiesReceived } from 'app/utils/legoAdapter/actions';
 import { Article } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RequestState } from 'app/reducers/requests';
+import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
 import type { DetailedArticle } from 'app/store/models/Article';
 import type { GetState } from 'app/types';
@@ -48,24 +49,36 @@ const normalizeFetchResult =
     return normalized.result;
   };
 
-export const fetchArticleById = createRequestThunk(
+const createNormalizedDataHook = <Arg, T>(
+  fetchActionId: string,
+  createUrl: (arg: Arg) => string,
+  selector: (state: RootState, entityId?: EntityId) => T | undefined,
+  schema: Schema,
+) =>
+  createFetchHook(
+    fetchActionId,
+    createRequestThunk(
+      fetchActionId,
+      createUrl,
+      async (url, _, thunkAPI) =>
+        await apiFetchRequest<EntityId>(
+          url,
+          thunkAPI,
+          normalizeFetchResult(schema, thunkAPI),
+        ),
+    ),
+    (state, request) =>
+      ({
+        ...request,
+        data: selector(state, request.data),
+      }) as RequestState<T>, // typecast to convince TypeScript that the selector will always return result for successful requests
+  );
+
+export const useArticleByIdOrSlug = createNormalizedDataHook(
   'articles/fetchById',
   (articleId: string) => `/articles/${articleId}/`,
-  async (url, _, thunkAPI) =>
-    await apiFetchRequest<EntityId>(
-      url,
-      thunkAPI,
-      normalizeFetchResult(articleSchema, thunkAPI),
-    ),
-);
-
-export const useArticleByIdOrSlug = createFetchHook(
-  'articles/fetchById',
-  fetchArticleById,
-  (state, request, arg) => ({
-    ...request,
-    data: selectArticleByIdOrSlug(state, arg)!,
-  }),
+  selectArticleById<DetailedArticle>,
+  articleSchema,
 );
 
 export function createArticle(data) {
