@@ -109,8 +109,6 @@ const EventList = () => {
     ordering: query.showPrevious === 'true' ? '-start_time' : 'start_time',
   };
 
-  console.log(fetchQuery);
-
   const { pagination } = useAppSelector(
     selectPaginationNext({
       entity: EntityType.Events,
@@ -276,7 +274,7 @@ const EventList = () => {
               {totalCount === 0 && ' for øyeblikket'} ute
               {totalCount > 0 && (
                 <Button flat onPress={clearQueryParams}>
-                  <Icon iconNode={<FilterX />} size={22} />
+                  <Icon iconNode={<FilterX />} size={19} />
                   Tøm filter
                 </Button>
               )}

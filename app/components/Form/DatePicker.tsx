@@ -73,7 +73,6 @@ const DatePicker = ({
     }
     return moment().add(1, 'month');
   });
-  const [selectingEnd, setSelectingEnd] = useState(false);
 
   const parsedValue = useMemo(() => {
     if (range && Array.isArray(value)) {
@@ -130,6 +129,7 @@ const DatePicker = ({
   };
 
   const changeDay = (day: Moment) => {
+    // Single date picker
     if (!range && isMoment(parsedValue)) {
       const value = day
         .clone()
@@ -143,41 +143,61 @@ const DatePicker = ({
       return;
     }
 
+    // Range date picker
     const selected = day.clone();
-
-    // If we're not selecting end date or there's no valid start date
-    if (!selectingEnd || !Array.isArray(value) || !value[0]) {
-      const newStartTime = selected
+    const createDateWithTime = (date: Moment, isEndDate = false) => {
+      return date
         .clone()
-        .hour(showTimePicker ? 0 : selected.hour())
-        .minute(showTimePicker ? 0 : selected.minute());
+        .hour(showTimePicker ? (isEndDate ? 23 : 0) : date.hour())
+        .minute(showTimePicker ? (isEndDate ? 59 : 0) : date.minute())
+        .toISOString();
+    };
 
-      handleChange([newStartTime.toISOString(), '']);
-      setSelectingEnd(true);
+    // Case 1: Initial selection or no start date
+    if (!Array.isArray(value) || !value[0]) {
+      handleChange([createDateWithTime(selected), '']);
       return;
     }
 
-    // We're selecting end date
     const startDate = moment(value[0]);
-    const [rangeStart, rangeEnd] = startDate.isBefore(selected)
-      ? [startDate, selected]
-      : [selected, startDate];
+    const endDate = value[1] ? moment(value[1]) : null;
 
-    handleChange([
-      rangeStart
-        .clone()
-        .hour(showTimePicker ? 0 : rangeStart.hour())
-        .minute(showTimePicker ? 0 : rangeStart.minute())
-        .toISOString(),
-      rangeEnd
-        .clone()
-        .hour(showTimePicker ? 23 : rangeEnd.hour())
-        .minute(showTimePicker ? 59 : rangeEnd.minute())
-        .toISOString(),
-    ]);
-    setSelectingEnd(false);
-    if (!showTimePicker) {
-      setPickerOpen(false);
+    // Case 2: We have a start date but no end date
+    if (!endDate) {
+      // If selected date is before start, make it the new start
+      if (selected.isBefore(startDate)) {
+        handleChange([createDateWithTime(selected), '']);
+        return;
+      }
+      // Otherwise set it as end date
+      handleChange([value[0], createDateWithTime(selected, true)]);
+      if (!showTimePicker) {
+        setPickerOpen(false);
+      }
+      return;
+    }
+
+    // Case 3: We have both dates
+    const isClickingStartDate = selected.isSame(startDate, 'day');
+    const isClickingEndDate = selected.isSame(endDate, 'day');
+
+    if (isClickingStartDate) {
+      // Clear both dates when clicking start date
+      handleChange(['', '']);
+    } else if (isClickingEndDate) {
+      // Remove end date if clicking end date with both dates selected, and set start date to end date
+      handleChange([createDateWithTime(selected), '']);
+    } else {
+      if (selected.isAfter(endDate)) {
+        // If after current end date, keep start date and set new end date
+        handleChange([value[0], createDateWithTime(selected, true)]);
+      } else if (selected.isBefore(startDate)) {
+        // If before current start date, make it the new start date
+        handleChange([createDateWithTime(selected), value[1]]);
+      } else {
+        // If between start and end, update start date
+        handleChange([createDateWithTime(selected), value[1]]);
+      }
     }
   };
 
@@ -191,6 +211,7 @@ const DatePicker = ({
     if (!range && isMoment(parsedValue) && !Array.isArray(parsedValue)) {
       return parsedValue.format(showTimePicker ? dateFormat : 'LL');
     }
+
     if (!Array.isArray(value)) return '';
     const format = showTimePicker ? dateFormat : 'LL';
 
@@ -198,8 +219,8 @@ const DatePicker = ({
     const end = value[1] ? moment(value[1]).format(format) : '';
 
     if (!start && !end) return '';
-    if (!end) return start;
-    if (!start) return end;
+    if (!end) return `${start} - ...`;
+    if (!start) return `... - ${end}`;
 
     return `${start} - ${end}`;
   }, [value, dateFormat, showTimePicker, range, parsedValue]);

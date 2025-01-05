@@ -123,20 +123,24 @@ const EventsOverview = () => {
                       showTimePicker={false}
                       onChange={(value) => {
                         if (!Array.isArray(value)) return;
-
                         const [from, to] = value;
-
                         const updates: Partial<typeof eventListDefaultQuery> =
                           {};
 
-                        if (from) {
+                        if (from && from !== '') {
                           updates.from = moment(from).format('YYYY-MM-DD');
                           updates.showPrevious = moment(from).isBefore(moment())
                             ? 'true'
                             : 'false';
+                        } else {
+                          updates.from = '';
+                          updates.showPrevious = 'false';
                         }
-                        if (to) {
+
+                        if (to && to !== '') {
                           updates.to = moment(to).format('YYYY-MM-DD');
+                        } else {
+                          updates.to = '';
                         }
 
                         setQueryValues(updates);
