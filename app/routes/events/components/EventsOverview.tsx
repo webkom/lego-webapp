@@ -109,6 +109,7 @@ const EventsOverview = () => {
                     <ToggleSwitch
                       id="showPrevious"
                       checked={query.showPrevious === 'true'}
+                      isDisabled={query.from !== ''}
                       onChange={(checked) =>
                         setQueryValue('showPrevious')(
                           checked ? 'true' : 'false',
