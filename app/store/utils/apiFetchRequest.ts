@@ -13,21 +13,41 @@ export type ApiFetchRequestError = {
 
 export type ApiFetchRequestOptions = {
   errorMessage?: string;
-  propagateError?: boolean;
+  propagateError?: boolean; // default false
+  requiresAuthentication?: boolean; // default true
+  headers?: Record<string, string>;
 };
 
 export const apiFetchRequest = async <T = unknown>(
   endpoint: string,
   thunkAPI: { dispatch: AppDispatch; getState: GetState },
   resultTransformer: (result: unknown) => T = (result) => result as T,
-  options: ApiFetchRequestOptions = {},
+  {
+    errorMessage,
+    propagateError,
+    requiresAuthentication = true,
+    headers,
+  }: ApiFetchRequestOptions = {},
 ): Promise<RequestState<T, ApiFetchRequestError>> =>
   executeRequest(
     endpoint,
     async () => {
-      const response = await fetch(urlFor(endpoint));
+      headers ??= {};
+      if (requiresAuthentication) {
+        const token = thunkAPI.getState().auth.token;
+        if (token) {
+          headers.Authorization = `Bearer ${token}`;
+        }
+      }
+      const response = await fetch(urlFor(endpoint), {
+        headers,
+      });
       if (!response.ok) {
-        handleError(response, options, thunkAPI.dispatch);
+        handleError(
+          response,
+          { errorMessage, propagateError },
+          thunkAPI.dispatch,
+        );
         throw { status: response.status, message: response.statusText };
       }
       const json = await response.json();
@@ -38,7 +58,7 @@ export const apiFetchRequest = async <T = unknown>(
 
 const handleError = (
   response: Response,
-  options: ApiFetchRequestOptions,
+  options: Pick<ApiFetchRequestOptions, 'errorMessage' | 'propagateError'>,
   dispatch: AppDispatch,
 ) => {
   if (options.errorMessage) {
