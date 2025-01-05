@@ -21,7 +21,7 @@ export function fetchArticle(articleId: EntityId) {
 
 export const useArticleByIdOrSlug = createNormalizedApiDataHook(
   'articles/fetchById',
-  (articleId: string) => `/articles/${articleId}/`,
+  (idOrSlug: string) => `/articles/${idOrSlug}/`,
   selectArticleById<DetailedArticle>,
   articleSchema,
   {

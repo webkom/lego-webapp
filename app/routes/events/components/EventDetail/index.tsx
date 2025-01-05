@@ -1,11 +1,10 @@
 import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { fetchEvent } from 'app/actions/EventActions';
+import { useEventByIdOrSlug } from 'app/actions/EventActions';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   ContentSection,
@@ -20,7 +19,6 @@ import TextWithIcon from 'app/components/TextWithIcon';
 import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
-import { selectEventByIdOrSlug } from 'app/reducers/events';
 import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
 import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
 import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
@@ -35,7 +33,7 @@ import {
   displayNameForEventType,
 } from 'app/routes/events/utils';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import styles from './EventDetail.module.css';
@@ -93,10 +91,7 @@ const propertyGenerator: PropertyGenerator<{
 
 const EventDetail = () => {
   const { eventIdOrSlug } = useParams<{ eventIdOrSlug: string }>();
-  const event = useAppSelector((state) =>
-    selectEventByIdOrSlug(state, eventIdOrSlug),
-  ) as AuthUserDetailedEvent | UserDetailedEvent | undefined;
-  const fetching = useAppSelector((state) => state.events.fetching);
+  const { data: event, loading: fetching } = useEventByIdOrSlug(eventIdOrSlug);
   const showSkeleton = fetching && isEmpty(event);
   const actionGrant = event?.actionGrant || [];
 
@@ -130,14 +125,6 @@ const EventDetail = () => {
       navigate(`/events/${event.slug}`, { replace: true });
     }
   }, [event?.slug, navigate, eventIdOrSlug]);
-
-  const dispatch = useAppDispatch();
-
-  usePreparedEffect(
-    'fetchEventDetail',
-    () => eventIdOrSlug && dispatch(fetchEvent(eventIdOrSlug)),
-    [eventIdOrSlug, loggedIn],
-  );
 
   const color = colorForEventType(event?.eventType);
 

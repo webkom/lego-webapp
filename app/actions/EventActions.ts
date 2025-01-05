@@ -1,7 +1,15 @@
 import callAPI from 'app/actions/callAPI';
-import { eventSchema, eventAdministrateSchema } from 'app/reducers';
+import {
+  eventSchema,
+  eventAdministrateSchema,
+  articleSchema,
+} from 'app/reducers';
+import { selectArticleById } from 'app/reducers/articles';
+import { selectEventById } from 'app/reducers/events';
+import { createNormalizedApiDataHook } from 'app/store/utils/normalizedDataRequest';
 import { Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { DetailedArticle } from 'app/store/models/Article';
 import type { DetailedEvent } from 'app/store/models/Event';
 import type { Presence, ReadRegistration } from 'app/store/models/Registration';
 import type { Thunk, Action } from 'app/types';
@@ -35,6 +43,17 @@ export function fetchEvent(eventId: EntityId) {
     propagateError: true,
   });
 }
+
+export const useEventByIdOrSlug = createNormalizedApiDataHook(
+  'events/fetchById',
+  (idOrSlug: string) => `/events/${idOrSlug}/`,
+  selectEventById<DetailedEvent>,
+  eventSchema,
+  {
+    errorMessage: 'Henting av arrangement feilet',
+    propagateError: true,
+  },
+);
 
 export function fetchPrevious() {
   return callAPI({
