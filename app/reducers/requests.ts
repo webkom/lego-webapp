@@ -111,8 +111,10 @@ export default requestsSlice.reducer;
 export const { requestStarted, requestSucceeded, requestFailed } =
   requestsSlice.actions;
 
-export const selectRequest = <T = unknown>(state: RootState, id: string) =>
-  (state.requests[id] ?? defaultRequestState(id)) as RequestState<T>;
+export const selectRequest = <T = unknown, E = unknown>(
+  state: RootState,
+  id: string,
+) => (state.requests[id] ?? defaultRequestState(id)) as RequestState<T, E>;
 
 /**
  * Helper functions for using the request slice
@@ -123,13 +125,13 @@ export const shouldUseCachedResult = <T>(
   request.status === RequestStatus.SUCCESS &&
   request.fetchTime > moment().valueOf() - request.ttl;
 
-export const executeRequest = async <T>(
+export const executeRequest = async <T, E = unknown>(
   id: string,
   requestFunction: () => Promise<T>,
   { dispatch, getState }: { dispatch: AppDispatch; getState: GetState },
   { ttl }: { ttl?: number } = {},
-): Promise<RequestState<T>> => {
-  const getRequest = () => selectRequest<T>(getState(), id);
+): Promise<RequestState<T, E>> => {
+  const getRequest = () => selectRequest<T, E>(getState(), id);
   let request = getRequest();
   if (shouldUseCachedResult(request)) {
     return request;

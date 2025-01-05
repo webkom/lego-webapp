@@ -2,7 +2,7 @@ import { omit } from 'lodash';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { selectArticleById } from 'app/reducers/articles';
-import { createNormalizedDataHook } from 'app/store/utils/normalizedDataRequest';
+import { createNormalizedApiDataHook } from 'app/store/utils/normalizedDataRequest';
 import { Article } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedArticle } from 'app/store/models/Article';
@@ -19,11 +19,15 @@ export function fetchArticle(articleId: EntityId) {
   });
 }
 
-export const useArticleByIdOrSlug = createNormalizedDataHook(
+export const useArticleByIdOrSlug = createNormalizedApiDataHook(
   'articles/fetchById',
   (articleId: string) => `/articles/${articleId}/`,
   selectArticleById<DetailedArticle>,
   articleSchema,
+  {
+    errorMessage: 'Henting av artikkel feilet',
+    propagateError: true,
+  },
 );
 
 export function createArticle(data) {

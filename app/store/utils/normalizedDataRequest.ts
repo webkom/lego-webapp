@@ -6,6 +6,7 @@ import { entitiesReceived } from 'app/utils/legoAdapter/actions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
+import type { ApiFetchRequestOptions } from 'app/store/utils/apiFetchRequest';
 import type { Schema } from 'normalizr';
 
 export const normalizeFetchResult =
@@ -16,11 +17,12 @@ export const normalizeFetchResult =
     return normalized.result;
   };
 
-export const createNormalizedDataHook = <Arg, T>(
+export const createNormalizedApiDataHook = <Arg, T>(
   fetchActionId: string,
   createUrl: (arg: Arg) => string,
   selectEntityById: (state: RootState, entityId?: EntityId) => T | undefined,
   schema: Schema,
+  options: ApiFetchRequestOptions = {},
 ) =>
   createFetchHook(
     fetchActionId,
@@ -32,11 +34,12 @@ export const createNormalizedDataHook = <Arg, T>(
           url,
           thunkAPI,
           normalizeFetchResult(schema, thunkAPI),
+          options,
         ),
     ),
     (state, request) =>
       ({
         ...request,
-        data: selectEntityById(state, request.data),
+        data: selectEntityById(state, request.data), // overwrite data with selected from state with given selector
       }) as RequestState<T>, // typecast to convince TypeScript that the selector will always return result for successful requests
   );
