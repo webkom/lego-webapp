@@ -9,13 +9,13 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
+import bekk from 'app/assets/bekk_black.svg';
+import bekkWhite from 'app/assets/bekk_white.svg';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
 import dataGraphic from 'app/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from 'app/assets/frontpage-graphic-for-companies.png';
 import komtekGraphic from 'app/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
-import netcompany from 'app/assets/netcompany_dark.svg';
-import netcompanyLight from 'app/assets/netcompany_white.svg';
 import Auth from 'app/components/Auth';
 // import Banner from 'app/components/Banner';
 import { readmeIfy } from 'app/components/ReadmeLogo';
@@ -95,18 +95,18 @@ const Welcome = () => (
 const HspInfo = () => (
   <div className={styles.hsp}>
     <h3>
-      <a href="https://www.netcompany.com/no" target="blank">
+      <a href="https://www.bekk.no/" target="blank">
         <Image
           className={styles.hspImage}
-          src={netcompany}
-          alt="Netcompany sin logo"
-          darkThemeSource={netcompanyLight}
+          src={bekk}
+          alt="Bekk sin logo"
+          darkThemeSource={bekkWhite}
         />
       </a>
     </h3>
-    Hovedsamarbeidspartneren vår er Netcompany. Hos Netcompany står fag,
-    innovasjon og samhold sterkt, og de er opptatt av å ta ansvar – både for
-    egne leveranser, for kundene og for sine ansatte.
+    Hovedsamarbeidspartneren vår er Bekk. Vi i Bekk lager tjenester som hjelper
+    mennesker i hver by og bygd, krik og krok, hver eneste dag. Vi er et
+    fellesskap. Et fagmiljø. En langsiktig samarbeidspartner.
   </div>
 );
 

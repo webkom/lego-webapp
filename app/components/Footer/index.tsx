@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
-import netcompany from 'app/assets/netcompany_white.svg';
+import bekk from 'app/assets/bekk_short_white.svg';
 import octocat from 'app/assets/octocat.png';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import utilityStyles from 'app/styles/utilities.css';
@@ -118,11 +118,13 @@ const Footer = () => {
 
       <div className={styles.bottom}>
         <div className={styles.bottomContent}>
-          <Image
-            className={styles.cooperator}
-            src={netcompany}
-            alt="Netcompany sin logo"
-          />
+          <a href="https://www.bekk.no/" target="blank">
+            <Image
+              className={styles.cooperator}
+              src={bekk}
+              alt="Bekk sin logo"
+            />
+          </a>
           <Link to="/pages/personvern/114-informasjonskapsler">
             Informasjonskapsler (cookies)
           </Link>
