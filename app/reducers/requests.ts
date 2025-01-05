@@ -20,17 +20,29 @@ export type RequestState<T = unknown, E = unknown> = {
   fetchTime?: number; // The time the request was fetched
   data?: T;
   error?: E;
+  isPending: boolean;
+  isSuccess: boolean;
+  isFailure: boolean;
 } & (
   | {
       status: RequestStatus.PENDING;
+      isPending: true;
+      isSuccess: false;
+      isFailure: false;
     }
   | {
       status: RequestStatus.SUCCESS;
+      isPending: false;
+      isSuccess: true;
+      isFailure: false;
       data: T;
       fetchTime: number;
     }
   | {
       status: RequestStatus.FAILURE;
+      isPending: false;
+      isSuccess: false;
+      isFailure: true;
       error: E;
     }
 );
@@ -39,6 +51,9 @@ const defaultRequestState = (id: string): RequestState => ({
   id,
   loading: false,
   status: RequestStatus.PENDING,
+  isPending: true,
+  isSuccess: false,
+  isFailure: false,
   ttl: 10_000, // 10 seconds
 });
 
@@ -67,6 +82,9 @@ const requestsSlice = createSlice({
         ...state[action.payload.id],
         loading: false,
         status: RequestStatus.SUCCESS,
+        isPending: false,
+        isSuccess: true,
+        isFailure: false,
         data: action.payload.data,
         error: undefined,
         fetchTime: moment().valueOf(),
@@ -78,6 +96,9 @@ const requestsSlice = createSlice({
     ) {
       state[action.payload.id] = {
         ...state[action.payload.id],
+        isPending: false,
+        isSuccess: false,
+        isFailure: true,
         loading: false,
         status: RequestStatus.FAILURE,
         error: action.payload.error,
