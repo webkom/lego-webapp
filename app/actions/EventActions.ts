@@ -5,7 +5,7 @@ import {
   articleSchema,
 } from 'app/reducers';
 import { selectArticleById } from 'app/reducers/articles';
-import { selectEventById } from 'app/reducers/events';
+import { selectEventById, selectEventByIdOrSlug } from 'app/reducers/events';
 import { createNormalizedApiDataHook } from 'app/store/utils/normalizedDataRequest';
 import { Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -52,6 +52,7 @@ export const useEventByIdOrSlug = createNormalizedApiDataHook(
   {
     errorMessage: 'Henting av arrangement feilet',
     propagateError: true,
+    optimisticSelector: selectEventByIdOrSlug,
   },
 );
 

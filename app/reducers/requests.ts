@@ -151,6 +151,9 @@ export const executeRequest = async <T, E = unknown>(
     const data = await requestFunction();
     dispatch(requestSucceeded({ id, data }));
   } catch (error) {
+    if (error instanceof Error) {
+      error = `${error.name}: ${error.message}`;
+    }
     dispatch(requestFailed({ id, error }));
   }
   return getRequest();

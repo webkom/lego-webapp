@@ -1,7 +1,10 @@
 import { omit } from 'lodash';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
-import { selectArticleById } from 'app/reducers/articles';
+import {
+  selectArticleById,
+  selectArticleByIdOrSlug,
+} from 'app/reducers/articles';
 import { createNormalizedApiDataHook } from 'app/store/utils/normalizedDataRequest';
 import { Article } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -27,6 +30,7 @@ export const useArticleByIdOrSlug = createNormalizedApiDataHook(
   {
     errorMessage: 'Henting av artikkel feilet',
     propagateError: true,
+    optimisticSelector: selectArticleByIdOrSlug,
   },
 );
 

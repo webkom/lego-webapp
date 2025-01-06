@@ -17,12 +17,24 @@ export const normalizeFetchResult =
     return normalized.result;
   };
 
+type NormalizedApiDataOptions<Arg, T> = {
+  optimistic?: boolean; // if true, the result will be attempted to be selected from state before the request is made
+  optimisticSelector?: (state: RootState, arg?: Arg) => T | undefined; // default is the same as selectEntityById
+};
+
 export const createNormalizedApiDataHook = <Arg, T>(
   fetchActionId: string,
   createUrl: (arg: Arg) => string,
   selectEntityById: (state: RootState, entityId?: EntityId) => T | undefined,
   schema: Schema,
-  options: ApiFetchRequestOptions = {},
+  {
+    optimistic = true,
+    optimisticSelector = selectEntityById as (
+      state: RootState,
+      arg?: Arg,
+    ) => T | undefined,
+    ...apiFetchRequestOptions
+  }: ApiFetchRequestOptions & NormalizedApiDataOptions<Arg, T> = {},
 ) =>
   createFetchHook(
     fetchActionId,
@@ -34,12 +46,17 @@ export const createNormalizedApiDataHook = <Arg, T>(
           url,
           thunkAPI,
           normalizeFetchResult(schema, thunkAPI),
-          options,
+          apiFetchRequestOptions,
         ),
     ),
-    (state, request) =>
+    (state, request, arg) =>
       ({
         ...request,
-        data: selectEntityById(state, request.data), // overwrite data with selected from state with given selector
+        data:
+          request.data !== undefined
+            ? selectEntityById(state, request.data) // overwrite data with selected from state with given selector
+            : optimistic
+              ? optimisticSelector(state, arg) // or with optimisticSelector
+              : undefined,
       }) as RequestState<T>, // typecast to convince TypeScript that the selector will always return result for successful requests
   );
