@@ -1,15 +1,21 @@
 import { get } from 'lodash';
 import styles from './Table.module.css';
-import type { ColumnProps, ShowColumn, TableData } from '.';
+import type { ColumnProps, ShowColumn } from '.';
+import type { EntityId } from '@reduxjs/toolkit';
 
-type CellProps = {
-  column: ColumnProps;
-  data: TableData;
+type CellProps<T> = {
+  column: ColumnProps<T>;
+  data: T;
   index: number;
   showColumn: ShowColumn;
 };
 
-const BodyCell: React.FC<CellProps> = ({ column, data, index, showColumn }) => {
+const BodyCell = <T extends { id: EntityId }>({
+  column,
+  data,
+  index,
+  showColumn,
+}: CellProps<T>) => {
   if (column.columnChoices) {
     if (Object.keys(showColumn).length === 0) {
       return null;
