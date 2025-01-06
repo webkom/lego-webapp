@@ -7,6 +7,7 @@ import {
   TextInput,
   CheckBox,
   DatePicker,
+  RowSection,
 } from 'app/components/Form';
 import { FormatTime } from 'app/components/Time';
 import Attendance from 'app/components/UserAttendance/Attendance';
@@ -58,7 +59,6 @@ const Registrations: React.FC<Props> = ({ values }) => {
             label="Påmeldingstype"
             name="eventStatusType"
             component={SelectInput.Field}
-            fieldClassName={styles.metaField}
             options={eventStatusTypes}
             required
           />
@@ -81,120 +81,102 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
 }) => {
   return (
     <>
-      <Field
-        label="Betalt arrangement"
-        name="isPriced"
-        type="checkbox"
-        component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
-      />
-      {values.isPriced && (
-        <div className={styles.subSection}>
-          <Field
-            label="Betaling via Abakus.no"
-            description="Manuell betaling kan også godkjennes av oss i etterkant"
-            name="useStripe"
-            type="checkbox"
-            component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
-          />
-          <Flex className={styles.editorSectionRow}>
+      <div>
+        <Field
+          label="Betalt arrangement"
+          name="isPriced"
+          type="checkbox"
+          component={CheckBox.Field}
+        />
+        {values.isPriced && (
+          <Flex column gap="var(--spacing-sm)" className={styles.subSection}>
             <Field
-              label="Pris"
-              name="priceMember"
-              type="number"
-              component={TextInput.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-              warn={tooLow}
-              required
+              label="Betaling via Abakus.no"
+              description="Manuell betaling kan også godkjennes i påmeldingsoversikt i etterkant"
+              name="useStripe"
+              type="checkbox"
+              component={CheckBox.Field}
             />
-            <Field
-              label="Betalingsfrist"
-              name="paymentDueDate"
-              component={DatePicker.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-            />
-          </Flex>
-        </div>
-      )}
-      <Field
-        label="Bruk prikker"
-        name="heedPenalties"
-        type="checkbox"
-        component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
-      />
-      {values.heedPenalties && (
-        <div className={styles.subSection}>
-          <Field
-            key="unregistrationDeadline"
-            label="Avregistreringsfrist"
-            description="Frist for avmelding - fører til prikk etterpå"
-            name="unregistrationDeadline"
-            component={DatePicker.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
-          />
-        </div>
-      )}
-      <Flex className={styles.editorSectionRow}>
-        <Flex column className={styles.editorSectionColumn}>
-          <Field
-            key="registrationDeadlineHours"
-            label="Registrering antall timer før"
-            description="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)"
-            name="registrationDeadlineHours"
-            type="number"
-            component={TextInput.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
-          />
-          <p className={styles.registrationDeadlineHours}>
-            Stenger <FormatTime time={registrationCloseTime(values)} />
-          </p>
-        </Flex>
-        <Flex column className={styles.editorSectionColumn}>
-          <Field
-            label="Separat avregistreringsfrist"
-            description="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)"
-            name="separateDeadlines"
-            type="checkbox"
-            component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
-          />
-          {values.separateDeadlines && (
-            <div className={styles.subSection}>
+            <RowSection>
               <Field
-                key="unregistrationDeadlineHours"
-                label="Avregistrering antall timer før"
-                description="Frist for avmelding antall timer før arrangementet (negativ verdi betyr antall timer etter starten på arrangementet)"
-                name="unregistrationDeadlineHours"
+                label="Pris"
+                name="priceMember"
                 type="number"
                 component={TextInput.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
+                warn={tooLow}
+                required
               />
-              <p className={styles.unregistrationDeadlineHours}>
-                Stenger <FormatTime time={unregistrationCloseTime(values)} />
-              </p>
-            </div>
-          )}
-        </Flex>
-      </Flex>
+              <Field
+                label="Betalingsfrist"
+                name="paymentDueDate"
+                component={DatePicker.Field}
+              />
+            </RowSection>
+          </Flex>
+        )}
+      </div>
+      <div>
+        <Field
+          label="Bruk prikker"
+          name="heedPenalties"
+          type="checkbox"
+          component={CheckBox.Field}
+        />
+        {values.heedPenalties && (
+          <div className={styles.subSection}>
+            <Field
+              key="unregistrationDeadline"
+              label="Avregistreringsfrist"
+              description="Frist for avmelding - fører til prikk etterpå"
+              name="unregistrationDeadline"
+              component={DatePicker.Field}
+            />
+          </div>
+        )}
+      </div>
+      <div>
+        <Field
+          key="registrationDeadlineHours"
+          label="Registrering antall timer før"
+          description="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen (negativ verdi betyr antall timer etter starten på arrangementet)"
+          name="registrationDeadlineHours"
+          type="number"
+          component={TextInput.Field}
+        />
+        <span className={styles.registrationDeadlineHours}>
+          Stenger <FormatTime time={registrationCloseTime(values)} />
+        </span>
+      </div>
+      <div>
+        <Field
+          label="Separat avregistreringsfrist"
+          description="Separate frister for påmelding og avmelding - antall timer før arrangementet. Det vil ikke være mulig å melde seg av eller på etter de satte fristene (negativ verdi betyr antall timer etter starten på arrangementet)"
+          name="separateDeadlines"
+          type="checkbox"
+          component={CheckBox.Field}
+        />
+        {values.separateDeadlines && (
+          <div className={styles.subSection}>
+            <Field
+              key="unregistrationDeadlineHours"
+              label="Avregistrering antall timer før"
+              description="Frist for avmelding antall timer før arrangementet (negativ verdi betyr antall timer etter starten på arrangementet)"
+              name="unregistrationDeadlineHours"
+              type="number"
+              component={TextInput.Field}
+            />
+            <span className={styles.unregistrationDeadlineHours}>
+              Stenger <FormatTime time={unregistrationCloseTime(values)} />
+            </span>
+          </div>
+        )}
+      </div>
       <Field
         label="Samtykke til bilder"
         description="Bruk samtykke til bilder"
         name="useConsent"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
       <Field
         label="Påmeldingsspørsmål"
@@ -202,8 +184,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         name="hasFeedbackQuestion"
         type="checkbox"
         component={CheckBox.Field}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
       />
       {values.hasFeedbackQuestion && (
         <div className={styles.subSection}>
@@ -211,8 +191,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             name="feedbackDescription"
             placeholder="Burger eller sushi?"
             component={TextInput.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
             warn={containsAllergier}
           />
           <Field
@@ -220,14 +198,12 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             label="Obligatorisk"
             type="checkbox"
             component={CheckBox.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
         </div>
       )}
-      <Flex column>
+      <div>
         <h3>Pools</h3>
-        <Attendance pools={values.pools} />
+        <Attendance pools={values.pools} showUserGrid={false} />
         <div className={styles.metaList}>
           <FieldArray
             name="pools"
@@ -242,11 +218,9 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             description="Tidspunkt for å slå sammen poolene"
             name="mergeTime"
             component={DatePicker.Field}
-            fieldClassName={styles.metaField}
-            className={styles.formField}
           />
         )}
-      </Flex>
+      </div>
     </>
   );
 };

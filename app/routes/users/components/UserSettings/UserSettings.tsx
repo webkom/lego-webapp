@@ -1,18 +1,22 @@
-import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
+import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
+import { ContentMain } from 'app/components/Content';
 import {
+  Form,
+  LegoFinalForm,
   TextInput,
   MultiSelectGroup,
   RadioButton,
   PhoneNumberInput,
   SelectInput,
+  SubmitButton,
+  SubmissionError,
+  RowSection,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectUserByUsername } from 'app/reducers/users';
@@ -107,7 +111,7 @@ const UserSettings = () => {
   };
 
   return (
-    <>
+    <ContentMain>
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -115,7 +119,7 @@ const UserSettings = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Flex gap="var(--spacing-xl)" className={styles.mobileColumn}>
               <Flex
                 column
@@ -127,7 +131,7 @@ const UserSettings = () => {
                 <RemovePicture username={user.username} />
               </Flex>
 
-              <Flex column className={styles.right}>
+              <Flex column gap="var(--spacing-md)" className={styles.right}>
                 <Field
                   placeholder="Brukernavn"
                   label="Brukernavn"
@@ -137,7 +141,7 @@ const UserSettings = () => {
                   disabled
                 />
 
-                <Flex gap="var(--spacing-md)">
+                <RowSection>
                   <Field
                     placeholder="Fornavn"
                     label="Fornavn"
@@ -151,14 +155,14 @@ const UserSettings = () => {
                     name="lastName"
                     component={TextInput.Field}
                   />
-                </Flex>
+                </RowSection>
 
-                <Flex gap="var(--spacing-md)">
+                <RowSection>
                   <Field
                     placeholder="abc@xyz.no"
                     label="E-post"
                     name="email"
-                    prefix="mail-outline"
+                    prefixIconNode={<Icon iconNode={<Mail />} />}
                     component={TextInput.Field}
                   />
                   <Field
@@ -166,37 +170,39 @@ const UserSettings = () => {
                     name="phoneNumber"
                     component={PhoneNumberInput.Field}
                   />
-                </Flex>
+                </RowSection>
+
+                <RowSection>
+                  <Field
+                    name="gender"
+                    label="Kjønn"
+                    component={SelectInput.Field}
+                    options={Object.entries(Gender).map(([key, value]) => ({
+                      label: value,
+                      value: key,
+                    }))}
+                  />
+
+                  <AllergiesOrPreferencesField />
+                </RowSection>
               </Flex>
             </Flex>
 
-            <Flex gap="var(--spacing-md)" className={styles.bottom}>
-              <Field
-                name="gender"
-                label="Kjønn"
-                component={SelectInput.Field}
-                options={Object.entries(Gender).map(([key, value]) => ({
-                  label: value,
-                  value: key,
-                }))}
-              />
-
-              <AllergiesOrPreferencesField />
-            </Flex>
-
-            <Flex gap="var(--spacing-md)">
+            <RowSection>
               <Field
                 label="GitHub-brukernavn"
                 name="githubUsername"
+                prefixIconNode={<Icon iconNode={<Github />} />}
                 component={TextInput.Field}
               />
 
               <Field
                 label="LinkedIn-ID"
                 name="linkedinId"
+                prefixIconNode={<Icon iconNode={<Linkedin />} />}
                 component={TextInput.Field}
               />
-            </Flex>
+            </RowSection>
 
             <MultiSelectGroup legend="Fargetema" name="selectedTheme">
               <Field
@@ -232,21 +238,23 @@ const UserSettings = () => {
 
             <SubmissionError />
             <SubmitButton>Lagre endringer</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
 
       {isCurrentUser && (
         <>
-          <div className={styles.changePassword}>
+          <div>
             <h2>Endre passord</h2>
             <ChangePassword />
           </div>
-          <h2 className={styles.deleteUser}>Slett bruker</h2>
-          <DeleteUser />
+          <div>
+            <h2 className={styles.deleteUser}>Slett bruker</h2>
+            <DeleteUser />
+          </div>
         </>
       )}
-    </>
+    </ContentMain>
   );
 };
 

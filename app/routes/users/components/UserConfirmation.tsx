@@ -13,13 +13,14 @@ import {
 } from 'app/actions/UserActions';
 import { ContentMain } from 'app/components/Content';
 import {
+  Form,
+  LegoFinalForm,
   TextInput,
   MultiSelectGroup,
   RadioButton,
   PhoneNumberInput,
+  SubmitButton,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { userSchema } from 'app/reducers';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -129,7 +130,7 @@ const UserConfirmationForm = () => {
     <Page title="Registrer bruker">
       <TypedLegoForm onSubmit={onSubmit} validate={validate}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="username"
               placeholder="Brukernavn"
@@ -211,7 +212,7 @@ const UserConfirmationForm = () => {
             />
 
             <SubmitButton>Registrer bruker</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </Page>

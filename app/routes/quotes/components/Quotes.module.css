@@ -2,20 +2,6 @@
 
 .addQuote {
   max-width: 550px;
-  margin-bottom: var(--spacing-lg);
-}
-
-.addQuote label {
-  display: block;
-}
-
-.addQuote .fieldError {
-  color: var(--danger-color);
-  font-weight: bold;
-}
-
-.clear {
-  clear: both;
 }
 
 /* Detail */
@@ -117,10 +103,6 @@
   order: 2;
 }
 
-.adminDropdown {
-  position: absolute;
-}
-
 .quoteReactions {
   order: 4;
   margin-left: 125px;
@@ -129,10 +111,6 @@
 @media (--small-viewport) {
   .sortQuote {
     margin: 0;
-  }
-
-  .quotepageLeft {
-    width: 100%;
   }
 
   .singleQuote {
@@ -157,13 +135,6 @@
     width: 100%;
   }
 
-  .quotepageRight {
-    order: 99;
-    border: 0;
-    margin: 0 0 0 100px;
-    font-size: var(--font-size-lg);
-  }
-
   .quoteReactions {
     margin-left: 0;
   }
@@ -171,16 +142,4 @@
 
 .innerPreview {
   width: 360px;
-}
-
-.select {
-  width: 200px;
-  margin-right: 0;
-  margin-left: auto;
-  margin-bottom: 30px;
-  font-size: var(--font-size-lg);
-
-  @media (--mobile-device) {
-    margin-left: 0;
-  }
 }

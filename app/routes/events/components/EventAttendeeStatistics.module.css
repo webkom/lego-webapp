@@ -1,10 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.sectionDividerTitle {
-  /* margin-top: var(--spacing-md);
-  margin-bottom: 0; */
-}
-
 .chartContainer {
   overflow: hidden;
   display: grid;

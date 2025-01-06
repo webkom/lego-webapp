@@ -11,7 +11,12 @@ import {
   fetchSemesters,
 } from 'app/actions/CompanyActions';
 import { ContentMain } from 'app/components/Content';
-import { MultiSelectGroup, RadioButton, TextInput } from 'app/components/Form';
+import {
+  Form,
+  MultiSelectGroup,
+  RadioButton,
+  TextInput,
+} from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
@@ -158,7 +163,7 @@ const AddSemester = () => {
           subscription={{}}
         >
           {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
               <MultiSelectGroup name="semester" legend="Semester">
                 <Field
                   name="Spring"
@@ -207,7 +212,7 @@ const AddSemester = () => {
               </Field>
 
               {foundSemesterStatus && (
-                <Card severity="danger" className={styles.errorCard}>
+                <Card severity="danger">
                   <Card.Header>Feil</Card.Header>
                   <span>
                     Denne bedriften har allerede et registrert semester status
@@ -219,13 +224,10 @@ const AddSemester = () => {
               )}
 
               <SubmissionError />
-              <SubmitButton
-                onPress={() => setSubmit(true)}
-                className={styles.submitButton}
-              >
+              <SubmitButton onPress={() => setSubmit(true)}>
                 Legg til
               </SubmitButton>
-            </form>
+            </Form>
           )}
         </TypedLegoForm>
       </ContentMain>

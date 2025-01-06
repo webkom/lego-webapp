@@ -13,14 +13,15 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
 import {
+  Form,
+  LegoFinalForm,
   TextInput,
   SelectInput,
   TextArea,
   CheckBox,
+  SubmitButton,
+  SubmissionError,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
@@ -37,40 +38,38 @@ type Props = {
 
 const renderOptions = ({ fields }): ReactNode => (
   <>
-    <ul>
-      {fields.map((option: string, i: number) => (
-        <li className={styles.optionField} key={i}>
-          <Field
-            name={`${option}.name`}
-            label={`Valg nr. ${i + 1}`}
-            placeholder={`Valg ${i + 1}`}
-            component={TextInput.Field}
-            validate={(value) => {
-              if (!value || value.length == 0) return 'Alle valg må ha et navn';
-              if (value.length > 30)
-                return 'Valget kan ikke være lengre enn 30 tegn';
-              return undefined;
-            }}
-            required
-          />
-          <ConfirmModal
-            title="Slett valg"
-            message="Er du sikker på at du vil fjerne dette valget?"
-            onConfirm={async () => await fields.remove(i)}
-            closeOnConfirm
-          >
-            {({ openConfirmModal }) => (
-              <Tooltip className="deleteOption" content="Fjern">
-                <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
-              </Tooltip>
-            )}
-          </ConfirmModal>
-        </li>
-      ))}
-    </ul>
+    {fields.map((option: string, i: number) => (
+      <li className={styles.optionField} key={i}>
+        <Field
+          name={`${option}.name`}
+          label={`Valg nr. ${i + 1}`}
+          placeholder={`Valg ${i + 1}`}
+          component={TextInput.Field}
+          validate={(value) => {
+            if (!value || value.length == 0) return 'Alle valg må ha et navn';
+            if (value.length > 30)
+              return 'Valget kan ikke være lengre enn 30 tegn';
+            return undefined;
+          }}
+          required
+        />
+        <ConfirmModal
+          title="Slett valg"
+          message="Er du sikker på at du vil fjerne dette valget?"
+          onConfirm={async () => await fields.remove(i)}
+          closeOnConfirm
+        >
+          {({ openConfirmModal }) => (
+            <Tooltip className="deleteOption" content="Fjern">
+              <Icon onPress={openConfirmModal} iconNode={<Trash2 />} danger />
+            </Tooltip>
+          )}
+        </ConfirmModal>
+      </li>
+    ))}
 
     <Button onPress={() => fields.push({})}>
-      <Icon iconNode={<Plus />} size={25} />
+      <Icon iconNode={<Plus />} size={19} />
       Legg til alternativ
     </Button>
   </>
@@ -152,7 +151,7 @@ const PollEditor = ({
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="title"
               label="Spørsmål"
@@ -194,7 +193,7 @@ const PollEditor = ({
             />
 
             <SubmissionError />
-            <ButtonGroup className={styles.actionButtons}>
+            <ButtonGroup>
               <SubmitButton>
                 {editing ? 'Lagre endringer' : 'Lag ny avstemning'}
               </SubmitButton>
@@ -218,7 +217,7 @@ const PollEditor = ({
                 </ConfirmModal>
               )}
             </ButtonGroup>
-          </form>
+          </Form>
         )}
       </LegoFinalForm>
     </>

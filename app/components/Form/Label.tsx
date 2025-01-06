@@ -18,15 +18,15 @@ export const LabelText = ({
   required,
   className,
 }: LabelTextProps) => (
-  <div className={cx(styles.label, className)}>
+  <Flex alignItems="center" className={cx(styles.label, className)}>
     {label}
     {required && <span className={styles.required}>*</span>}
     {description && (
       <Tooltip content={description} className={styles.description}>
-        <Icon size={20} iconNode={<HelpCircle />} />
+        <Icon size={18} iconNode={<HelpCircle />} />
       </Tooltip>
     )}
-  </div>
+  </Flex>
 );
 
 type LabelProps = HTMLProps<HTMLLabelElement> & {
@@ -52,7 +52,7 @@ export const Label = ({
       {inline ? (
         <Flex
           alignItems="center"
-          gap="var(--spacing-xs)"
+          gap="var(--spacing-sm)"
           className={styles.inline}
         >
           {children}
