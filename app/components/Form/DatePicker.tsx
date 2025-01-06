@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Calendar } from 'lucide-react';
-import moment from 'moment-timezone';
+import moment, { isMoment } from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
@@ -73,13 +73,12 @@ const DatePicker = ({
     }
     return moment().add(1, 'month');
   });
-  const [selectingEnd, setSelectingEnd] = useState(false);
 
-  const parsedValue: Dateish | Dateish[] = useMemo(() => {
+  const parsedValue = useMemo(() => {
     if (range && Array.isArray(value)) {
-      return value.map((v) => parseDateValue(v));
+      return value.map((v) => (v ? parseDateValue(v) : ''));
     }
-    return parseDateValue(value as string);
+    return value ? parseDateValue(value as string) : '';
   }, [value, range]);
 
   const onNext = () => {
@@ -130,7 +129,8 @@ const DatePicker = ({
   };
 
   const changeDay = (day: Moment) => {
-    if (!range && !Array.isArray(parsedValue)) {
+    // Single date picker
+    if (!range && isMoment(parsedValue)) {
       const value = day
         .clone()
         .hour(parsedValue.hour())
@@ -143,51 +143,60 @@ const DatePicker = ({
       return;
     }
 
+    // Range date picker
     const selected = day.clone();
-    if (!selectingEnd) {
-      const endTime =
-        Array.isArray(value) && value[1]
-          ? moment(value[1])
-          : selected.clone().endOf('day');
-
-      const newStartTime = selected
+    const createDateWithTime = (date: Moment, isEndDate = false) => {
+      return date
         .clone()
-        .hour(showTimePicker ? 0 : selected.hour())
-        .minute(showTimePicker ? 0 : selected.minute());
+        .hour(showTimePicker ? (isEndDate ? 23 : 0) : date.hour())
+        .minute(showTimePicker ? (isEndDate ? 59 : 0) : date.minute())
+        .toISOString();
+    };
 
-      const newEndTime = selected.isAfter(endTime)
-        ? selected.clone().endOf('day')
-        : endTime;
+    // Case 1: Initial selection or no start date
+    if (!Array.isArray(value) || !value[0]) {
+      handleChange([createDateWithTime(selected), '']);
+      return;
+    }
 
-      handleChange([newStartTime.toISOString(), newEndTime.toISOString()]);
-      setSelectingEnd(true);
-    } else {
-      const [start] = Array.isArray(value) ? value : [null];
-      const startDate = moment(start);
-      const [rangeStart, rangeEnd] = startDate.isBefore(selected)
-        ? [startDate, selected]
-        : [selected, startDate];
+    const startDate = moment(value[0]);
+    const endDate = value[1] ? moment(value[1]) : null;
 
-      const originalStart = Array.isArray(value)
-        ? moment(value[0])
-        : rangeStart;
-      const originalEnd = Array.isArray(value) ? moment(value[1]) : rangeEnd;
-
-      handleChange([
-        rangeStart
-          .clone()
-          .hour(showTimePicker ? originalStart.hour() : 0)
-          .minute(showTimePicker ? originalStart.minute() : 0)
-          .toISOString(),
-        rangeEnd
-          .clone()
-          .hour(showTimePicker ? originalEnd.hour() : 23)
-          .minute(showTimePicker ? originalEnd.minute() : 59)
-          .toISOString(),
-      ]);
-      setSelectingEnd(false);
+    // Case 2: We have a start date but no end date
+    if (!endDate) {
+      // If selected date is before start, make it the new start
+      if (selected.isBefore(startDate)) {
+        handleChange([createDateWithTime(selected), '']);
+        return;
+      }
+      // Otherwise set it as end date
+      handleChange([value[0], createDateWithTime(selected, true)]);
       if (!showTimePicker) {
         setPickerOpen(false);
+      }
+      return;
+    }
+
+    // Case 3: We have both dates
+    const isClickingStartDate = selected.isSame(startDate, 'day');
+    const isClickingEndDate = selected.isSame(endDate, 'day');
+
+    if (isClickingStartDate) {
+      // Clear both dates when clicking start date
+      handleChange(['', '']);
+    } else if (isClickingEndDate) {
+      // Remove end date if clicking end date with both dates selected, and set start date to end date
+      handleChange([createDateWithTime(selected), '']);
+    } else {
+      if (selected.isAfter(endDate)) {
+        // If after current end date, keep start date and set new end date
+        handleChange([value[0], createDateWithTime(selected, true)]);
+      } else if (selected.isBefore(startDate)) {
+        // If before current start date, make it the new start date
+        handleChange([createDateWithTime(selected), value[1]]);
+      } else {
+        // If between start and end, update start date
+        handleChange([createDateWithTime(selected), value[1]]);
       }
     }
   };
@@ -199,14 +208,21 @@ const DatePicker = ({
   };
 
   const displayValue = useMemo(() => {
-    if (!range && !Array.isArray(parsedValue)) {
+    if (!range && isMoment(parsedValue) && !Array.isArray(parsedValue)) {
       return parsedValue.format(showTimePicker ? dateFormat : 'LL');
     }
+
     if (!Array.isArray(value)) return '';
     const format = showTimePicker ? dateFormat : 'LL';
-    return `${moment(value[0]).format(format)} - ${moment(value[1]).format(
-      format,
-    )}`;
+
+    const start = value[0] ? moment(value[0]).format(format) : '';
+    const end = value[1] ? moment(value[1]).format(format) : '';
+
+    if (!start && !end) return '';
+    if (!end) return `${start} - ...`;
+    if (!start) return `... - ${end}`;
+
+    return `${start} - ${end}`;
   }, [value, dateFormat, showTimePicker, range, parsedValue]);
 
   const renderCalendar = (currentDate: Moment) => (
@@ -236,10 +252,10 @@ const DatePicker = ({
                           dateProps.day.isSame(parsedValue, 'day') &&
                           styles.selectedDate,
                         range &&
-                          dateProps.day.isSame(parsedValue[0], 'day') &&
+                          dateProps.day.isSame(parsedValue?.[0], 'day') &&
                           styles.selectedDate,
                         range &&
-                          dateProps.day.isSame(parsedValue[1], 'day') &&
+                          dateProps.day.isSame(parsedValue?.[1], 'day') &&
                           styles.selectedDate,
                         dateProps.day.isSame(moment(), 'day') && styles.today,
                         isInRange(dateProps.day) && styles.inRange,

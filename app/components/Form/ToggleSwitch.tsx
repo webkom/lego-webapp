@@ -3,22 +3,15 @@ import cx from 'classnames';
 import { ToggleButton } from 'react-aria-components';
 import { createField } from './Field';
 import styles from './ToggleSwitch.module.css';
-import type { ComponentProps, InputHTMLAttributes } from 'react';
+import type { ComponentProps } from 'react';
 import type { ToggleButtonProps } from 'react-aria-components';
-import type { Overwrite } from 'utility-types';
 
 type Props = {
   className?: string;
   value?: string | boolean;
   name?: string;
   checked?: boolean;
-} & ToggleButtonProps &
-  Overwrite<
-    InputHTMLAttributes<HTMLInputElement>,
-    {
-      onChange?: ToggleButtonProps['onChange'];
-    }
-  >;
+} & ToggleButtonProps;
 
 const ToggleSwitch = ({
   id,
@@ -26,7 +19,6 @@ const ToggleSwitch = ({
   value,
   checked,
   className,
-  isDisabled,
   onChange,
   ...props
 }: Props) => {
@@ -45,7 +37,6 @@ const ToggleSwitch = ({
       <ToggleButton
         {...props}
         id={id}
-        isDisabled={isDisabled}
         isSelected={isSelected}
         onChange={onChange}
         className={cx(styles.toggleSwitch, className)}

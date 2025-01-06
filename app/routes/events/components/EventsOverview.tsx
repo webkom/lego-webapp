@@ -6,7 +6,7 @@ import {
 } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Outlet, useLocation } from 'react-router-dom';
-import { CheckBox, RadioButton } from 'app/components/Form';
+import { CheckBox, DatePicker, RadioButton } from 'app/components/Form';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTime } from 'app/models';
@@ -19,9 +19,11 @@ type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
 type FilterRegistrationsType = 'all' | 'open' | 'future';
 
 export const eventListDefaultQuery = {
+  showPrevious: '' as '' | 'true' | 'false',
+  from: '',
+  to: '',
   eventTypes: [] as FilterEventType[],
   registrations: 'all' as FilterRegistrationsType,
-  showPrevious: '' as '' | 'true' | 'false',
 };
 
 type Option = {
@@ -70,7 +72,9 @@ const EventsOverview = () => {
   const location = useLocation();
   const showFilters = location.pathname === '/events';
 
-  const { query, setQueryValue } = useQuery(eventListDefaultQuery);
+  const { query, setQueryValue, setQueryValues } = useQuery(
+    eventListDefaultQuery,
+  );
 
   const showCourse = query.eventTypes.includes('course');
   const showSocial = query.eventTypes.includes('social');
@@ -105,11 +109,45 @@ const EventsOverview = () => {
                     <ToggleSwitch
                       id="showPrevious"
                       checked={query.showPrevious === 'true'}
+                      isDisabled={query.from !== ''}
                       onChange={(checked) =>
                         setQueryValue('showPrevious')(
                           checked ? 'true' : 'false',
                         )
                       }
+                    />
+                  </FilterSection>
+                  <FilterSection title="Periode">
+                    <DatePicker
+                      range
+                      value={[query.from, query.to]}
+                      showTimePicker={false}
+                      onChange={(value) => {
+                        if (!Array.isArray(value)) return;
+                        const [from, to] = value;
+                        const updates: Partial<typeof eventListDefaultQuery> =
+                          {};
+
+                        if (from && from !== '') {
+                          updates.from = moment(from).format('YYYY-MM-DD');
+                          updates.showPrevious = moment(from).isBefore(moment())
+                            ? 'true'
+                            : 'false';
+                        } else {
+                          updates.from = '';
+                          updates.showPrevious = 'false';
+                        }
+
+                        if (to && to !== '') {
+                          updates.to = moment(to).format('YYYY-MM-DD');
+                        } else {
+                          updates.to = '';
+                        }
+
+                        setQueryValues(updates);
+                      }}
+                      onBlur={() => {}}
+                      onFocus={() => {}}
                     />
                   </FilterSection>
                   <FilterSection title="Arrangementstype">
