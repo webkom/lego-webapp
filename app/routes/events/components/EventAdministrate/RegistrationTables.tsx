@@ -271,6 +271,20 @@ export const RegisteredTable = ({
           <PresenceIcons registrationId={registration.id} presence={presence} />
         );
       },
+      sorter: (a: Registration, b: Registration) => {
+        const presenceSortingOrder = [
+          'UNKNOWN',
+          'NOT_PRESENT',
+          'LATE',
+          'PRESENT',
+        ];
+        if (
+          presenceSortingOrder.indexOf(a['presence']) >
+          presenceSortingOrder.indexOf(b['presence'])
+        )
+          return 1;
+        else return -1;
+      },
     },
     {
       title: 'Dato',
