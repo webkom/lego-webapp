@@ -263,6 +263,17 @@ export const RegisteredTable = ({
       title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
+      // Filters had to be lowercase to work
+      inlineFiltering: true,
+      filter: [
+        { label: 'Ikke møtt', value: 'not_present' },
+        { label: 'Møtt', value: 'present' },
+        { label: 'Sen', value: 'late' },
+        { label: 'Ukjent', value: 'unknown' },
+      ],
+      filterOptions: {
+        multiSelect: true,
+      },
       render: (
         presence: Registration['presence'],
         registration: Registration,
