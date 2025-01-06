@@ -138,7 +138,11 @@ const Table = <T extends { id: EntityId }>({
   }, [sort, data]);
 
   const filter: (item: T) => boolean = (item) => {
-    if (isEmpty(filters)) {
+    const activeFilters = Object.entries(filters).filter(
+      ([_, value]) => value?.length,
+    );
+
+    if (activeFilters.length === 0) {
       return true;
     }
 
@@ -163,7 +167,6 @@ const Table = <T extends { id: EntityId }>({
       if (typeof filters[key] === 'boolean') {
         return filters[key] === get(item, index);
       }
-
       return filters[key]?.some((arrayFilter) =>
         String(filterMapping(get(item, index) ?? ''))
           .toLowerCase()
