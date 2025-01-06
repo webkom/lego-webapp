@@ -263,13 +263,13 @@ export const RegisteredTable = ({
       title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
-      // Filters had to be lowercase to work
       inlineFiltering: true,
+      // Values are lowercase to work with filtering function in Components/Table/Index
       filter: [
-        { label: 'Ikke møtt', value: 'not_present' },
-        { label: 'Møtt', value: 'present' },
-        { label: 'Sen', value: 'late' },
         { label: 'Ukjent', value: 'unknown' },
+        { label: 'Ikke møtt', value: 'not_present' },
+        { label: 'Sen', value: 'late' },
+        { label: 'Møtt', value: 'present' },
       ],
       filterOptions: {
         multiSelect: true,
@@ -284,9 +284,9 @@ export const RegisteredTable = ({
       },
       sorter: (a: Registration, b: Registration) => {
         const presenceSortingOrder = [
-          'UNKNOWN',
           'NOT_PRESENT',
           'LATE',
+          'UNKNOWN',
           'PRESENT',
         ];
         if (
