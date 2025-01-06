@@ -60,16 +60,11 @@ export default usersSlice.reducer;
 
 export const {
   selectById: selectUserById,
+  selectByIds: selectUsersByIds,
   selectEntities: selectUserEntities,
   selectByField: selectUsersByField,
 } = legoAdapter.getSelectors((state: RootState) => state.users);
 export const selectUserByUsername = selectUsersByField('username').single;
-
-export const selectUsersByIds = createSelector(
-  selectUserEntities,
-  (_: RootState, userIds: EntityId[] = []) => userIds,
-  (userEntities, userIds) => userIds.map((userId) => userEntities[userId]),
-);
 
 export const selectUserWithGroups = createSelector(
   (

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
 import { GroupType } from 'app/models';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
@@ -74,13 +73,9 @@ export default groupsSlice.reducer;
 export const {
   selectAll: selectAllGroups,
   selectById: selectGroupById,
+  selectByIds: selectGroupsByIds,
   selectEntities: selectGroupEntities,
   selectByField: selectGroupsByField,
 } = legoAdapter.getSelectors((state: RootState) => state.groups);
 
-export const selectGroupsByIds = createSelector(
-  selectGroupEntities,
-  (_: RootState, groupIds: EntityId[] = []) => groupIds,
-  (groupsById, groupIds) => groupIds.map((id) => groupsById[id]),
-);
 export const selectGroupsByType = selectGroupsByField('type');

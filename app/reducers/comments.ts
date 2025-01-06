@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { createSelector } from 'reselect';
 import { Comment } from 'app/actions/ActionTypes';
 import { EntityType } from 'app/store/models/entities';
 import { parseContentTarget } from 'app/store/utils/contentTarget';
@@ -56,11 +55,6 @@ const commentSlice = createSlice({
 });
 
 export default commentSlice.reducer;
-export const { selectEntities: selectCommentEntities } =
-  legoAdapter.getSelectors((state: RootState) => state.comments);
-
-export const selectCommentsByIds = createSelector(
-  selectCommentEntities,
-  (_: RootState, ids: EntityId[] = []) => ids,
-  (entities, ids) => ids.map((id) => entities[id]),
+export const { selectByIds: selectCommentsByIds } = legoAdapter.getSelectors(
+  (state: RootState) => state.comments,
 );

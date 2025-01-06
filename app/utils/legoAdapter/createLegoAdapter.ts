@@ -42,6 +42,7 @@ type LegoEntitySelectors<T, V, Id extends EntityId> = Assign<
       state: V,
       id: Id | undefined,
     ) => Type | undefined; // Overwrite the selectById method to accept undefined id
+    selectByIds: <Type extends T = T>(state: V, ids?: Id[]) => Type[];
     selectAllPaginated: <Type extends T = T>(
       state: V,
       options?: { pagination?: Pagination<Id> },
@@ -169,6 +170,11 @@ function createLegoAdapter<
         : entityAdapter.getSelectors();
       return {
         ...selectors,
+        selectByIds: createSelector(
+          selectors.selectEntities,
+          (_: V, ids: Id[] = []) => ids,
+          (entities, ids) => ids.map((id) => entities[id]).filter(isNotNullish),
+        ),
         selectAllPaginated: createSelector(
           selectors.selectEntities,
           selectors.selectIds,
