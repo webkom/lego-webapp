@@ -163,11 +163,7 @@ const Table = <T extends { id: EntityId }>({
       if (typeof filters[key] === 'boolean') {
         return filters[key] === get(item, index);
       }
-      console.log(
-        filters[key],
-        get(item, index),
-        filterMapping(get(item, index) ?? ''),
-      );
+
       return filters[key]?.some((arrayFilter) =>
         String(filterMapping(get(item, index) ?? ''))
           .toLowerCase()
