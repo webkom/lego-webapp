@@ -27,6 +27,7 @@ import type {
   SelectedAdminRegistration,
 } from 'app/reducers/events';
 import type { AdministrateEvent } from 'app/store/models/Event';
+import { Presence } from 'app/store/models/Registration';
 
 type Props = {
   registered: SelectedAdminRegistration[];
@@ -266,10 +267,10 @@ export const RegisteredTable = ({
       inlineFiltering: true,
       // Values are lowercase to work with filtering function in Components/Table/Index
       filter: [
-        { label: 'Ukjent', value: 'unknown' },
-        { label: 'Ikke møtt', value: 'not_present' },
-        { label: 'Sen', value: 'late' },
-        { label: 'Møtt', value: 'present' },
+        { label: 'Ukjent', value: Presence.UNKNOWN.toLowerCase() },
+        { label: 'Ikke møtt', value: Presence.NOT_PRESENT.toLowerCase() },
+        { label: 'Sen', value: Presence.LATE.toLowerCase() },
+        { label: 'Møtt', value: Presence.PRESENT.toLowerCase() },
       ],
       filterOptions: {
         multiSelect: true,
@@ -284,12 +285,16 @@ export const RegisteredTable = ({
       },
       sorter: (a: Registration, b: Registration) => {
         const presenceSortingOrder = [
-          'NOT_PRESENT',
-          'LATE',
-          'UNKNOWN',
-          'PRESENT',
+          Presence.NOT_PRESENT,
+          Presence.LATE,
+          Presence.UNKNOWN,
+          Presence.PRESENT,
         ];
-        return (presenceSortingOrder.indexOf(a['presence']) - presenceSortingOrder.indexOf(b['presence']));
+
+        return (
+          presenceSortingOrder.indexOf(a['presence']) -
+          presenceSortingOrder.indexOf(b['presence'])
+        );
       },
     },
     {
