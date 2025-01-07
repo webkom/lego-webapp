@@ -137,8 +137,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
       <div>
         <Field
           key="registrationDeadlineHours"
-          label="Registreringsfrist (timer før arrangement)"
-          description="Etter denne fristen er det ikke mulig å melde seg på. Gjelder også avmelding, med mindre separat avregistreringsfrist er valgt"
+          label="Påmeldingsfrist (timer før arrangementstart)"
+          description="Etter denne fristen er det ikke mulig å melde seg på. Gjelder også avmelding, med mindre separat avregistreringsfrist er valgt. Negativ verdi gir frist etter arrangementstart."
           name="registrationDeadlineHours"
           type="number"
           component={TextInput.Field}
@@ -150,8 +150,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
       </div>
       <div>
         <Field
-          label="Separat avregistreringsfrist"
-          description="Velg om du vil ha en separat frist for avregistrering"
+          label="Separat avmeldingsfrist"
+          description="Velg om du vil ha en separat frist for avmelding"
           name="separateDeadlines"
           type="checkbox"
           component={CheckBox.Field}
@@ -160,8 +160,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
           <div className={styles.subSection}>
             <Field
               key="unregistrationDeadlineHours"
-              label="Avregistreringsfrist (timer før arrangement)"
-              description="Etter denne fristen er det ikke mulig å melde seg av"
+              label="Avmeldingsfrist (timer før arrangementstart)"
+              description="Etter denne fristen er det ikke mulig å melde seg av. Negativ verdi gir frist etter arrangementstart."
               name="unregistrationDeadlineHours"
               type="number"
               component={TextInput.Field}
