@@ -265,12 +265,11 @@ export const RegisteredTable = ({
       dataIndex: 'presence',
       visible: showPresence,
       inlineFiltering: true,
-      // Values are lowercase to work with filtering function in Components/Table/Index
       filter: [
-        { label: 'Ukjent', value: Presence.UNKNOWN.toLowerCase() },
-        { label: 'Ikke møtt', value: Presence.NOT_PRESENT.toLowerCase() },
-        { label: 'Sen', value: Presence.LATE.toLowerCase() },
-        { label: 'Møtt', value: Presence.PRESENT.toLowerCase() },
+        { label: 'Ukjent', value: Presence.UNKNOWN },
+        { label: 'Ikke møtt', value: Presence.NOT_PRESENT },
+        { label: 'Sen', value: Presence.LATE },
+        { label: 'Møtt', value: Presence.PRESENT },
       ],
       filterOptions: {
         multiSelect: true,
