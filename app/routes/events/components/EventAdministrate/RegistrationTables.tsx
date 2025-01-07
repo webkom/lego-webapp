@@ -11,6 +11,7 @@ import {
   getConsent,
   unregistrationIsClosed,
 } from 'app/routes/events/utils';
+import { Presence } from 'app/store/models/Registration';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import styles from './Administrate.module.css';
@@ -263,12 +264,35 @@ export const RegisteredTable = ({
       title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
+      inlineFiltering: true,
+      filter: [
+        { label: 'Ukjent', value: Presence.UNKNOWN },
+        { label: 'Ikke møtt', value: Presence.NOT_PRESENT },
+        { label: 'Sen', value: Presence.LATE },
+        { label: 'Møtt', value: Presence.PRESENT },
+      ],
+      filterOptions: {
+        multiSelect: true,
+      },
       render: (
         presence: Registration['presence'],
         registration: Registration,
       ) => {
         return (
           <PresenceIcons registrationId={registration.id} presence={presence} />
+        );
+      },
+      sorter: (a: Registration, b: Registration) => {
+        const presenceSortingOrder = [
+          Presence.NOT_PRESENT,
+          Presence.LATE,
+          Presence.UNKNOWN,
+          Presence.PRESENT,
+        ];
+
+        return (
+          presenceSortingOrder.indexOf(a['presence']) -
+          presenceSortingOrder.indexOf(b['presence'])
         );
       },
     },
