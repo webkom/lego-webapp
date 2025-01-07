@@ -289,12 +289,7 @@ export const RegisteredTable = ({
           'UNKNOWN',
           'PRESENT',
         ];
-        if (
-          presenceSortingOrder.indexOf(a['presence']) >
-          presenceSortingOrder.indexOf(b['presence'])
-        )
-          return 1;
-        else return -1;
+        return (presenceSortingOrder.indexOf(a['presence']) - presenceSortingOrder.indexOf(b['presence']));
       },
     },
     {
