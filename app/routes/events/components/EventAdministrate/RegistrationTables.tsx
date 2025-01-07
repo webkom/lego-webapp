@@ -11,6 +11,7 @@ import {
   getConsent,
   unregistrationIsClosed,
 } from 'app/routes/events/utils';
+import { Presence } from 'app/store/models/Registration';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import styles from './Administrate.module.css';
@@ -27,7 +28,6 @@ import type {
   SelectedAdminRegistration,
 } from 'app/reducers/events';
 import type { AdministrateEvent } from 'app/store/models/Event';
-import { Presence } from 'app/store/models/Registration';
 
 type Props = {
   registered: SelectedAdminRegistration[];
