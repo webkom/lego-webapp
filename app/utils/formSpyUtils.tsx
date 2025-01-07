@@ -38,8 +38,19 @@ export const spySubmittable = (
       submitting: true,
     }}
   >
-    {({ pristine, submitting }) =>
-      render((!pristine || allowPristine) && !submitting)
-    }
+    {({ pristine, submitting }) => (
+      <>
+        <div>
+          <p>Real pristine: {pristine ? 'true' : 'false'}</p>
+          <p>Real submitting: {submitting ? 'true' : 'false'}</p>
+          <p>Real allowPristine: {allowPristine ? 'true' : 'false'}</p>
+          <p>
+            Real submittable:{' '}
+            {(!pristine || allowPristine) && !submitting ? 'true' : 'false'}
+          </p>
+        </div>
+        {render((!pristine || allowPristine) && !submitting)}
+      </>
+    )}
   </FormSpy>
 );
