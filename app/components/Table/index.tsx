@@ -138,11 +138,7 @@ const Table = <T extends { id: EntityId }>({
   }, [sort, data]);
 
   const filter: (item: T) => boolean = (item) => {
-    const activeFilters = Object.entries(filters).filter(
-      ([_, value]) => value?.length,
-    );
-
-    if (activeFilters.length === 0) {
+    if (Object.values(filters).every(isEmpty)) {
       return true;
     }
 
