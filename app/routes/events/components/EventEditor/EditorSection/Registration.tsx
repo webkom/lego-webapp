@@ -14,9 +14,9 @@ import Attendance from 'app/components/UserAttendance/Attendance';
 import {
   containsAllergier,
   eventStatusTypes,
-  registrationCloseTime,
+  registrationEditingCloseTime,
   tooLow,
-  unregistrationCloseTime,
+  unregistrationEditingCloseTime,
 } from 'app/routes/events/utils';
 import { spyValues } from 'app/utils/formSpyUtils';
 import styles from '../EventEditor.module.css';
@@ -144,7 +144,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
           component={TextInput.Field}
         />
         <span className={styles.registrationDeadlineHours}>
-          Stenger <FormatTime time={registrationCloseTime(values)} />
+          Stenger <FormatTime time={registrationEditingCloseTime(values)} />
         </span>
       </div>
       <div>
@@ -166,7 +166,8 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
               component={TextInput.Field}
             />
             <span className={styles.unregistrationDeadlineHours}>
-              Stenger <FormatTime time={unregistrationCloseTime(values)} />
+              Stenger{' '}
+              <FormatTime time={unregistrationEditingCloseTime(values)} />
             </span>
           </div>
         )}

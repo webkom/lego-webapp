@@ -112,6 +112,7 @@ export type EditingEvent = Event & {
   authors: Option[];
   responsibleUsers: PublicUser[];
   saveToImageGallery: boolean;
+  date: [Dateish, Dateish];
 };
 
 // Event fields that should be created or updated based on the API.
@@ -274,6 +275,10 @@ const paymentSuccessMappings = {
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
 
+export const registrationEditingCloseTime = (
+  event: Pick<EditingEvent, 'date' | 'registrationDeadlineHours'>,
+) => moment(event.date[0]).subtract(event.registrationDeadlineHours, 'hours');
+
 export const registrationCloseTime = (
   event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
 ) => moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
@@ -283,6 +288,10 @@ export const registrationIsClosed = (
 ) => {
   return moment().isAfter(registrationCloseTime(event));
 };
+
+export const unregistrationEditingCloseTime = (
+  event: Pick<EditingEvent, 'date' | 'unregistrationDeadlineHours'>,
+) => moment(event.date[0]).subtract(event.unregistrationDeadlineHours, 'hours');
 
 export const unregistrationCloseTime = (
   event: Pick<CompleteEvent, 'startTime' | 'unregistrationDeadlineHours'>,
