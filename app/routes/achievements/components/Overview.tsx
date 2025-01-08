@@ -1,15 +1,14 @@
-import { FilterSection, filterSidebar, Flex, Page } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
-import { RadioButton } from 'app/components/Form';
 import AchievementsInfo, {
   rarityToColorMap,
 } from 'app/utils/achievementConstants';
 import useQuery from 'app/utils/useQuery';
 import styles from './Overview.module.css';
-import { AchievementTabs } from './utils';
+import { ContentMain } from 'app/components/Content';
 
 const Overview = () => {
-  const { query, setQueryValue, setQuery } = useQuery({
+  const { query } = useQuery({
     min_rarity: 'any',
     max_rarity: 'any',
     sort: 'none',
@@ -46,107 +45,7 @@ const Overview = () => {
   });
 
   return (
-    <Page
-      back={{ href: '/users/me' }}
-      tabs={<AchievementTabs />}
-      title={
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          Oversikt
-        </Flex>
-      }
-      sidebar={filterSidebar({
-        children: (
-          <>
-            <FilterSection title="Sjeldenhet">
-              <RadioButton
-                name="filter"
-                id="all"
-                label="Alle"
-                onChange={() =>
-                  setQuery({ ...query, min_rarity: 'any', max_rarity: 'any' })
-                }
-                checked={
-                  query.min_rarity === 'any' && query.max_rarity === 'any'
-                }
-              />
-              <RadioButton
-                name="filter"
-                id="0_3"
-                label="0-3"
-                onChange={() =>
-                  setQuery({ ...query, min_rarity: '0', max_rarity: '3' })
-                }
-                checked={query.min_rarity === '0' && query.max_rarity === '3'}
-              />
-              <RadioButton
-                name="filter"
-                id="4_6"
-                label="4-6"
-                onChange={() =>
-                  setQuery({ ...query, min_rarity: '4', max_rarity: '6' })
-                }
-                checked={query.min_rarity === '4' && query.max_rarity === '6'}
-              />
-              <RadioButton
-                name="filter"
-                id="7_plus"
-                label="7+"
-                onChange={() =>
-                  setQuery({ ...query, min_rarity: '7', max_rarity: 'any' })
-                }
-                checked={query.min_rarity === '7' && query.max_rarity === 'any'}
-              />
-            </FilterSection>
-            <FilterSection title="Sortering">
-              <RadioButton
-                name="sort"
-                id="sort_none"
-                label="Ingen"
-                onChange={() => setQueryValue('sort')('none')}
-                checked={query.sort === 'none'}
-              />
-              <RadioButton
-                name="sort"
-                id="sort_rarity"
-                label="Sjeldenhet"
-                onChange={() => setQueryValue('sort')('rarity')}
-                checked={query.sort === 'rarity'}
-              />
-              <RadioButton
-                name="sort"
-                id="sort_alphabetical"
-                label="Alfabetisk"
-                onChange={() => setQueryValue('sort')('alphabetical')}
-                checked={query.sort === 'alphabetical'}
-              />
-              <RadioButton
-                name="sort"
-                id="sort_hidden"
-                label="Hemmelig"
-                onChange={() => setQueryValue('sort')('hidden')}
-                checked={query.sort === 'hidden'}
-              />
-            </FilterSection>
-            <FilterSection title="Sorteringsrekkefølge">
-              <RadioButton
-                name="sort_order"
-                id="order_asc"
-                label="Stigende"
-                onChange={() => setQueryValue('sort_order')('asc')}
-                checked={query.sort_order === 'asc'}
-              />
-              <RadioButton
-                name="sort_order"
-                id="order_desc"
-                label="Synkende"
-                onChange={() => setQueryValue('sort_order')('desc')}
-                checked={query.sort_order === 'desc'}
-              />
-            </FilterSection>
-          </>
-        ),
-      })}
-    >
+    <ContentMain>
       <Flex className={styles.listWrapper}>
         {sortedTrophies.map((e) => (
           <Flex className={styles.listItem} key={e.name + e.rarity}>
@@ -179,7 +78,7 @@ const Overview = () => {
           </Flex>
         ))}
       </Flex>
-    </Page>
+    </ContentMain>
   );
 };
 
