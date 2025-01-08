@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AchievementTabs } from './utils';
 import type { ColumnProps } from 'app/components/Table';
 import type { PublicUser } from 'app/store/models/User';
+import { ContentMain } from 'app/components/Content';
 
 type RankedUser = PublicUser & {
   rank: number;
@@ -56,21 +57,14 @@ const Leaderboard = () => {
       dataIndex: 'score',
       search: false,
       inlineFiltering: false,
-      render: (_, user: RankedUser) => <p>{user.achievementsScore}</p>,
+      render: (_, user: RankedUser) => <>{user.achievementsScore}%</>,
       sorter: (a: RankedUser, b: RankedUser) =>
         b.achievementsScore - a.achievementsScore,
     },
   ];
 
   return (
-    <Page
-      tabs={<AchievementTabs />}
-      title={
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          Topplister
-        </Flex>
-      }
-    >
+    <ContentMain>
       <Table
         columns={columns}
         data={rankedUsers}
@@ -78,7 +72,7 @@ const Leaderboard = () => {
         hasMore={false}
       />
       <LoadingIndicator loading={fetching} />
-    </Page>
+    </ContentMain>
   );
 };
 
