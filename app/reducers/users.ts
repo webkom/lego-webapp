@@ -29,7 +29,7 @@ const legoAdapter = createLegoAdapter(EntityType.Users);
 
 const usersSlice = createSlice({
   name: EntityType.Users,
-  initialState: legoAdapter.getInitialState(),
+  initialState: legoAdapter.getInitialState({ fetchingAchievements: false }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [User.FETCH],
@@ -38,6 +38,15 @@ const usersSlice = createSlice({
         const users = normalize(action.payload, eventSchema).entities.users!;
         if (!users) return;
         legoAdapter.upsertMany(state, users);
+      });
+      addCase(User.FETCH_LEADERBOARD.BEGIN, (state) => {
+        state.fetchingAchievements = true;
+      });
+      addCase(User.FETCH_LEADERBOARD.SUCCESS, (state) => {
+        state.fetchingAchievements = false;
+      });
+      addCase(User.FETCH_LEADERBOARD.FAILURE, (state) => {
+        state.fetchingAchievements = false;
       });
     },
     extraMatchers: (addMatcher) => {

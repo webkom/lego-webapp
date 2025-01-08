@@ -20,7 +20,12 @@
   border-radius: var(--border-radius-lg);
   color: var(--lego-font-color);
   width: 50%;
-  @media (--mobile-device) {
+
+  @media (--small-viewport) {
     width: 100%;
   }
+}
+
+.description {
+  color: var(--secondary-font-color);
 }

@@ -1,11 +1,11 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
+import { ContentMain } from 'app/components/Content';
 import AchievementsInfo, {
   rarityToColorMap,
 } from 'app/utils/achievementConstants';
 import useQuery from 'app/utils/useQuery';
 import styles from './Overview.module.css';
-import { ContentMain } from 'app/components/Content';
 
 const Overview = () => {
   const { query } = useQuery({
@@ -71,9 +71,13 @@ const Overview = () => {
               }
             />
             <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
-              <h2 className={styles.listItemName}>{e.name}</h2>
-              <span>{e.hidden ? '?????????' : e.description}</span>
-              <span>Sjeldenhet: {e.rarity + 1}</span>
+              <h3>{e.name}</h3>
+              <span className={styles.description}>
+                {e.hidden ? '?????????' : e.description}
+              </span>
+              <span className={styles.description}>
+                Sjeldenhet: {e.rarity + 1}
+              </span>
             </Flex>
           </Flex>
         ))}
