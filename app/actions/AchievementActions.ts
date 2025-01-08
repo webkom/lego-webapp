@@ -8,6 +8,7 @@ export function fetchLeaderboardUsers() {
     types: User.FETCH_LEADERBOARD,
     endpoint: `/achievements/leaderboard/`,
     schema: [userSchema],
+    method: 'GET',
     meta: {
       errorMessage: 'Henting av brukere feilet',
     },

@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import Table from 'app/components/Table';
-import { selectUsersWithAchievementScore } from 'app/reducers/users';
+import { selectUsersWithAchievementsScore } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AchievementTabs } from './utils';
 import type { ColumnProps } from 'app/components/Table';
@@ -24,19 +24,20 @@ const Leaderboard = () => {
     [dispatch],
   );
   const users = useAppSelector((state) =>
-    selectUsersWithAchievementScore(state),
+    selectUsersWithAchievementsScore(state),
   );
   const fetching = useAppSelector((state) => state.users.fetching);
   const rankedUsers: RankedUser[] = users
     .slice()
-    .sort((a, b) => b.achievementScore - a.achievementScore)
+    .sort((a, b) => b.achievementsScore - a.achievementsScore)
     .map((user, index) => ({
       ...user,
       rank: index + 1,
     }));
+
   const columns: ColumnProps<RankedUser>[] = [
     {
-      title: 'Posisjon',
+      title: 'Rangering',
       dataIndex: 'rank',
       search: false,
       render: (_, user: RankedUser) => <>{user.rank}</>,
@@ -55,9 +56,9 @@ const Leaderboard = () => {
       dataIndex: 'score',
       search: false,
       inlineFiltering: false,
-      render: (_, user: RankedUser) => <p>{user.achievementScore}</p>,
+      render: (_, user: RankedUser) => <p>{user.achievementsScore}</p>,
       sorter: (a: RankedUser, b: RankedUser) =>
-        b.achievementScore - a.achievementScore,
+        b.achievementsScore - a.achievementsScore,
     },
   ];
 

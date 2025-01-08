@@ -98,11 +98,11 @@ export const selectUserWithGroups = createSelector(
   },
 );
 
-export const selectUsersWithAchievementScore = createSelector(
+export const selectUsersWithAchievementsScore = createSelector(
   selectUserEntities,
   (userEntities) => {
     return Object.values(userEntities).filter(
-      (user) => user.achievementScore != null,
+      (user) => user.achievementsScore != null,
     );
   },
 );
