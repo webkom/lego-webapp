@@ -1,14 +1,12 @@
-import { Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
+import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
 import { selectUsersWithAchievementsScore } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { AchievementTabs } from './utils';
 import type { ColumnProps } from 'app/components/Table';
 import type { PublicUser } from 'app/store/models/User';
-import { ContentMain } from 'app/components/Content';
 
 type RankedUser = PublicUser & {
   rank: number;
@@ -27,7 +25,7 @@ const Leaderboard = () => {
   const users = useAppSelector((state) =>
     selectUsersWithAchievementsScore(state),
   );
-  const fetching = useAppSelector((state) => state.users.fetching);
+  const fetching = useAppSelector((state) => state.users.fetchingAchievements);
   const rankedUsers: RankedUser[] = users
     .slice()
     .sort((a, b) => b.achievementsScore - a.achievementsScore)
@@ -71,7 +69,6 @@ const Leaderboard = () => {
         loading={fetching}
         hasMore={false}
       />
-      <LoadingIndicator loading={fetching} />
     </ContentMain>
   );
 };
