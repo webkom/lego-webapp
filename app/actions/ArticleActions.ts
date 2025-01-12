@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import callAPI from 'app/actions/callAPI';
 import { articleSchema } from 'app/reducers';
 import { Article } from './ActionTypes';

@@ -1,6 +1,6 @@
 import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import qs from 'qs';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router-dom';
