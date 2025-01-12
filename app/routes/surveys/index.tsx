@@ -1,8 +1,7 @@
 import loadable from '@loadable/component';
-import { Page } from '@webkom/lego-bricks';
+import { Page, LinkButton } from '@webkom/lego-bricks';
 import { type RouteObject, Outlet } from 'react-router-dom';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { LinkButton } from 'packages/lego-bricks/src/components/Button';
 import pageNotFound from '../pageNotFound';
 import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';

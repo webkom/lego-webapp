@@ -86,10 +86,6 @@ module.exports = (env, argv) => {
           manifest: manifestPath,
         }),
 
-      new webpack.DefinePlugin({
-        __DEV__: JSON.stringify(!isProduction),
-        __CLIENT__: true,
-      }),
       process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       !isProduction && new ReactRefreshWebpackPlugin(),

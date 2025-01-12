@@ -5,8 +5,8 @@ import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import createSentryMiddleware from 'app/store/middleware/sentryMiddleware';
+import createWebSocketMiddleware from 'app/store/middleware/websocketMiddleware';
 import { isTruthy } from 'app/utils';
-import type { ToastContent } from 'app/reducers/toasts';
 import type { RootState } from 'app/store/createRootReducer';
 import type { GetCookie } from 'app/types';
 
@@ -37,20 +37,16 @@ const createStore = (
         .prepend(promiseMiddleware())
         .concat(
           new Tuple(
-            createMessageMiddleware(
-              (content: ToastContent) => addToast(content),
-              Sentry,
-            ),
+            createMessageMiddleware((message) => addToast(message), Sentry),
             Sentry && createSentryMiddleware(Sentry),
-            __CLIENT__ &&
-              require('app/store/middleware/websocketMiddleware').default(),
-            __CLIENT__ && __DEV__ && loggerMiddleware,
+            !import.meta.env.SSR && createWebSocketMiddleware(),
+            !import.meta.env.SSR && import.meta.env.DEV && loggerMiddleware,
           ).filter(isTruthy),
         ),
   });
 
-  if (module.hot) {
-    module.hot.accept('app/store/createRootReducer', () => {
+  if (import.meta.hot) {
+    import.meta.hot.accept('app/store/createRootReducer', () => {
       const nextReducer = require('app/store/createRootReducer').default;
 
       store.replaceReducer(nextReducer());

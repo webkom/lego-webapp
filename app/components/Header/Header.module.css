@@ -58,7 +58,7 @@
 }
 
 .content {
-  composes: container from '~app/styles/utilities.css';
+  composes: container from '~app/styles/utilities.module.css';
   position: relative;
   display: flex;
   justify-content: space-between;
