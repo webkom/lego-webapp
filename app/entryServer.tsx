@@ -58,7 +58,7 @@ export async function render(req: Request, res: Response) {
   try {
     preparedStateCode = await prepareWithTimeout(app);
   } catch (error) {
-    //console.log(error);
+    console.log(error);
     reportError(error);
   }
   const html = ReactDOMServer.renderToString(app);
