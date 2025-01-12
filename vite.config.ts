@@ -47,6 +47,7 @@ export default defineConfig({
   },
   build: {
     ssrManifest: true,
+    sourcemap: 'inline',
   },
   server: {
     port: 3000,
