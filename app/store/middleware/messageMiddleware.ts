@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import type { AnyAction, Middleware } from '@reduxjs/toolkit';
 import type { ToastContent } from 'app/reducers/toasts';
 

@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useEffect, useState } from 'react';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';

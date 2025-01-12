@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import styles from './Table.module.css';
 import type { ColumnProps, ShowColumn } from '.';
 import type { EntityId } from '@reduxjs/toolkit';

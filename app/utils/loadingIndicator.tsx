@@ -1,5 +1,5 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import type { LoadingIndicatorProps } from '@webkom/lego-bricks';
 import type { ComponentType } from 'react';
 /**

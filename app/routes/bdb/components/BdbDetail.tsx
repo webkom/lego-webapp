@@ -9,7 +9,7 @@ import {
   PageCover,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
