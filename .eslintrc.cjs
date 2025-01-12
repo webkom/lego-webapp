@@ -20,8 +20,6 @@ module.exports = {
   globals: {
     log: true,
     expect: true,
-    __DEV__: true,
-    __CLIENT__: true,
     cypress: true,
   },
   parser: '@typescript-eslint/parser',
@@ -89,11 +87,13 @@ module.exports = {
   ],
   settings: {
     'import/resolver': {
-      node: {
+      alias: {
+        map: [
+          ['app', './app'],
+          ['config', './config'],
+          ['node_modules', './node_modules'],
+        ],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
-      },
-      webpack: {
-        config: './config/webpack.client.js',
       },
     },
     react: {

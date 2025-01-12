@@ -5,7 +5,7 @@ import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { EventStatusType } from 'app/store/models/Event';
-import utilities from 'app/styles/utilities.css';
+import utilities from 'app/styles/utilities.module.css';
 import type { ListEvent } from 'app/store/models/Event';
 
 type Props = {

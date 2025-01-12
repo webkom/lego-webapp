@@ -13,7 +13,7 @@ from CSS Modules:
 
 ```css
 .myClassName {
-  composes: utilityClassName from 'app/styles/utilities.css';
+    composes: utilityClassName from 'utilities.module.css';
 }
 ```
 

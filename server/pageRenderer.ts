@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { ChunkExtractor } from '@loadable/server';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { renderToString } from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import { selectCurrentUser } from 'app/reducers/auth';
@@ -11,16 +11,19 @@ import webpackClient from '../config/webpack.client';
 import { helmetContext } from './ssr';
 import type { RootState } from 'app/store/createRootReducer';
 import type { HelmetData } from 'react-helmet-async';
+import type { ReactElement } from 'react';
 
-const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
+const dllPlugin = import.meta.env.DEV
+  ? '<script src="/vendors.dll.js"></script>'
+  : '';
 
 export type PageRendererProps = {
-  app?: React.ReactElement<React.ComponentProps<any>, any>;
+  app?: ReactElement;
   state?: RootState | Record<string, never>;
   preparedStateCode?: string;
 };
 
-const extractor = !__DEV__
+const extractor = !import.meta.env.DEV
   ? new ChunkExtractor({
       statsFile: path.join(webpackClient.outputPath, 'loadable-stats.json'),
       entrypoints: ['app'],
@@ -73,7 +76,7 @@ const readyHtml = (app) => {
   }
 };
 
-const analytics = __DEV__
+const analytics = import.meta.env.DEV
   ? '' // The .replace() removes the protocol (https://) part of the url, leaving just the domain
   : `<script defer data-domain=${config.webUrl.replace(
       /(^\w+:|^)\/\//,
