@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { keyBy } from 'lodash';
+import { keyBy } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { NotificationSettings } from 'app/actions/ActionTypes';
 import type { RootState } from 'app/store/createRootReducer';

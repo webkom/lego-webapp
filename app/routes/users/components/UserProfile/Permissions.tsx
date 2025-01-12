@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import { Link } from 'react-router-dom';
 import {
   InfoField,

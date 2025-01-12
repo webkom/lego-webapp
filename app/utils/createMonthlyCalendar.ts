@@ -1,4 +1,4 @@
-import { range, takeWhile, last } from 'lodash';
+import { range, takeWhile, last } from 'lodash-es';
 import moment from 'moment-timezone';
 import type { Moment } from 'moment-timezone';
 /**

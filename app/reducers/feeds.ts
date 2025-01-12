@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { union } from 'lodash';
+import { union } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { selectFeedActivityEntities } from 'app/reducers/feedActivities';
 import { asArray } from 'app/reducers/utils';
