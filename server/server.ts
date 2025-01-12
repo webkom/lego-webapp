@@ -29,7 +29,7 @@ app.set('log', log);
 
 const webpackClient = require('../config/webpack.client.js');
 
-if (__DEV__) {
+if (import.meta.env.DEV) {
   const compiler = require('webpack')(
     webpackClient(undefined, {
       mode: 'development',

@@ -1,25 +1,65 @@
-/// <reference types="vitest" />
-
-import path from 'path';
+import path from 'node:path';
 import react from '@vitejs/plugin-react';
+import postcssImport from 'postcss-import';
+import postcssNested from 'postcss-nested';
+import postcssPresetEnv from 'postcss-preset-env';
 import { defineConfig } from 'vite';
+import { patchCssModules } from 'vite-css-modules';
 
 export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      app: path.resolve(__dirname, './app/'),
-      '@webkom/lego-bricks': path.resolve(
-        __dirname,
-        './packages/lego-bricks/src/index.ts',
-      ),
+  root: '.',
+  plugins: [patchCssModules(), react()],
+  css: {
+    postcss: {
+      plugins: [
+        postcssImport({
+          path: [path.resolve(__dirname)],
+          // postcss doesn't support webpack modules import, which css-loader
+          // requires that we use, so we need to resolve imports with '~'
+          // manually.
+          resolve(id, basedir) {
+            if (/^~app/.test(id)) {
+              return path.resolve(path.resolve(__dirname), id.slice(1));
+            }
+            if (/^~/.test(id)) {
+              return path.resolve('./node_modules', id);
+            }
+            return path.resolve(basedir, id);
+          },
+        }),
+        postcssPresetEnv({
+          stage: 1,
+          features: {
+            'custom-media-queries': true,
+          },
+        }),
+        postcssNested(),
+      ],
     },
   },
-  test: {
+  resolve: {
     alias: {
-      node_modules: path.resolve(__dirname, './node_modules/'),
+      app: path.resolve(__dirname, 'app/'),
+      '~app': path.resolve(__dirname, 'app/'),
+      config: path.resolve(__dirname, 'config/'),
+      node_modules: path.resolve(__dirname, 'node_modules'),
     },
-    environment: 'jsdom',
-    setupFiles: ['./vitest.setup.ts'],
+  },
+  build: {
+    ssrManifest: true,
+  },
+  server: {
+    port: 3000,
+    open: true,
+  },
+  ssr: {
+    noExternal: [
+      'react-helmet-async',
+      '@webkom/react-prepare',
+      'final-form-focus',
+    ],
+  },
+  define: {
+    global: {},
   },
 });

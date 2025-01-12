@@ -28,7 +28,7 @@ import config from 'app/config';
 import createStore from 'app/store/createStore';
 import renderApp from './render';
 
-!__DEV__ &&
+!import.meta.env.DEV &&
   console.error(`
                      \`smMMms\`
                      NMMMMMMN

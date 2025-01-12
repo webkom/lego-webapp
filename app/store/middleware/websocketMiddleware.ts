@@ -1,4 +1,3 @@
-import WebSocketClient from 'websocket.js';
 import { User, Event } from 'app/actions/ActionTypes';
 import { fetchFollowers } from 'app/actions/EventActions';
 import config from 'app/config';
@@ -14,14 +13,14 @@ const createWebSocketMiddleware = (): Middleware<
   RootState,
   AppDispatch
 > => {
-  let socket = null;
+  let socket: WebSocket | null = null;
   return ({ getState, dispatch }) => {
     const makeSocket = (jwt) => {
       if (socket || !jwt) return;
       const qs = createQueryString({
         jwt,
       });
-      socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
+      socket = new WebSocket(`${config.wsServerUrl}/${qs}`);
 
       socket.onmessage = (event) => {
         const { type, payload, meta: socketMeta } = JSON.parse(event.data);
