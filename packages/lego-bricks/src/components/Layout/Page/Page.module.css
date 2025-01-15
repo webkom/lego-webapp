@@ -39,8 +39,9 @@
 }
 
 .buttonGroup {
-  flex-grow: 1;
+  flex-grow: 0;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .description {
