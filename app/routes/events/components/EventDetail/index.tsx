@@ -173,13 +173,18 @@ const EventDetail = () => {
       }
       actionButtons={
         event && (
-          <div className={styles.eventType}>
-            <strong
+          <div className={`${styles.eventType} justifyContent__flex-end`}
+            style={{
+            display: 'flex', 
+            justifyContent: 'flex-end', 
+            width:'100%'
+            }}>
+            <strong 
               style={{
                 color,
               }}
             >
-              {displayNameForEventType(event.eventType)}
+              {displayNameForEventType(event.eventType)} 
             </strong>
           </div>
         )
