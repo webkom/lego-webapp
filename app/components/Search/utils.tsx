@@ -161,7 +161,7 @@ const LINKS: Array<Link> = [
     key: 'bdb',
     title: 'Bedriftsdatabase',
     icon: <Database />,
-    url: '/bdb',
+    url: '/bdb/bdb-pro',
   },
   {
     admin: true,

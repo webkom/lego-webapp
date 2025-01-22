@@ -452,7 +452,7 @@ const BdbDetail = () => {
       }
       title={title}
       back={{
-        href: '/bdb',
+        href: '/bdb/bdb-pro',
       }}
       actionButtons={
         <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>

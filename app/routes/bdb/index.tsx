@@ -1,9 +1,20 @@
 import loadable from '@loadable/component';
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import {
+  FilterSection,
+  filterSidebar,
+  LinkButton,
+  Page,
+} from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, type RouteObject } from 'react-router-dom';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
+import useQuery from 'app/utils/useQuery';
 import pageNotFound from '../pageNotFound';
+
+const bdbDefaultQuery = {
+  show_inactive: '' as '' | 'true' | 'false',
+};
 
 const BdbPage = loadable(() => import('./components/BdbPage'));
 const CompanyEditor = loadable(() => import('./components/CompanyEditor'));
@@ -27,9 +38,33 @@ const StudentContactEditor = loadable(
 
 const BdbOverview = () => {
   const isCompanyInterest = useLocation().pathname.includes('company-interest');
+  const isBdBPro = useLocation().pathname.includes('bdb-pro');
+
+  const { query, setQueryValue } = useQuery(bdbDefaultQuery);
 
   return (
     <Page
+      sidebar={
+        isBdBPro
+          ? filterSidebar({
+              children: (
+                <>
+                  <FilterSection title="Vis inaktive">
+                    <ToggleSwitch
+                      id="active"
+                      checked={query.show_inactive === 'true'}
+                      onChange={() =>
+                        setQueryValue('show_inactive')(
+                          query.show_inactive === 'true' ? 'false' : 'true',
+                        )
+                      }
+                    />
+                  </FilterSection>
+                </>
+              ),
+            })
+          : undefined
+      }
       title="Bedriftsdatabase"
       actionButtons={
         isCompanyInterest ? (
@@ -47,7 +82,7 @@ const BdbOverview = () => {
       }
       tabs={
         <>
-          <NavigationTab href="/bdb">Semesterstatuser</NavigationTab>
+          <NavigationTab href="/bdb/bdb-pro">Semesterstatuser</NavigationTab>
           <NavigationTab href="/bdb/company-interest">
             Bedriftsinteresser
           </NavigationTab>
@@ -67,7 +102,7 @@ const bdbRoute: RouteObject[] = [
     path: '',
     Component: BdbOverview,
     children: [
-      { index: true, Component: BdbPage },
+      { path: 'bdb-pro', Component: BdbPage },
       { path: 'company-interest', Component: CompanyInterestList },
     ],
   },
