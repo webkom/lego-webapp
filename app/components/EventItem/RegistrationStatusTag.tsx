@@ -39,6 +39,9 @@ const RegistrationStatusTag = ({
       return `Du ${wasIs} på venteliste`;
     }
 
+    if (event.eventStatusType === 'TBA')
+      return `Påmelding ${isPastTenseNeeded ? 'ble aldri' : 'er ikke'} bestemt`;
+
     if (!!event.activationTime) {
       return (
         <Flex alignItems="center" gap="var(--spacing-xs)">
@@ -57,8 +60,7 @@ const RegistrationStatusTag = ({
         </Flex>
       );
     }
-
-    return `Påmelding ${isPastTenseNeeded ? 'ble aldri' : 'er ikke'} bestemt`;
+    return 'Du kan ikke melde deg på';
   };
 
   const getTagColor = () => {
