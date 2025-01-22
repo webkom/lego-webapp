@@ -473,13 +473,13 @@ const CompanyInterestPage = () => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    // {
-    //   name: 'bedex',
-    //   translated: EVENTS.bedex[language],
-    //   description: interestText.bedexDescription[language],
-    //   commentName: 'bedexComment',
-    //   commentPlaceholder: interestText.bedexComment[language],
-    // },
+    {
+      name: 'bedex',
+      translated: EVENTS.bedex[language],
+      description: interestText.bedexDescription[language],
+      commentName: 'bedexComment',
+      commentPlaceholder: interestText.bedexComment[language],
+    },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -487,13 +487,13 @@ const CompanyInterestPage = () => {
       commentName: 'otherEventComment',
       commentPlaceholder: interestText.otherEventComment[language],
     },
-    {
-      name: 'start_up',
-      translated: EVENTS.start_up[language],
-      description: interestText.startUpDescription[language],
-      commentName: 'startupComment',
-      commentPlaceholder: interestText.startUpComment[language],
-    },
+    // {
+    //   name: 'start_up',
+    //   translated: EVENTS.start_up[language],
+    //   description: interestText.startUpDescription[language],
+    //   commentName: 'startupComment',
+    //   commentPlaceholder: interestText.startUpComment[language],
+    // },
     {
       name: 'company_to_company',
       translated: EVENTS.company_to_company[language],
