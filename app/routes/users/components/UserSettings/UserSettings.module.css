@@ -13,3 +13,14 @@
     flex-direction: column;
   }
 }
+
+.advancedSettings {
+  cursor: pointer;
+  border-radius: 4px;
+
+  /*
+  &:hover {
+    background-color: var(--additive-background);
+  }
+  */
+}
