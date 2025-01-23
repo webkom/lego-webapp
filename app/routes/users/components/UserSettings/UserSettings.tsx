@@ -248,12 +248,12 @@ const UserSettings = () => {
           </Form>
         )}
       </TypedLegoForm>
-
+      
       {isCurrentUser && (
         <Accordion
           triggerComponent={({ onClick, disabled, rotateClassName }) => (
             <div className={ styles.advancedSettings }  onClick={onClick}>
-              <Flex gap={5} alignItems="center">
+              <Flex gap="var(--spacing-sm)" alignItems="center">
                 <h2>Avansert</h2>
                 {!disabled && (
                   <Icon
