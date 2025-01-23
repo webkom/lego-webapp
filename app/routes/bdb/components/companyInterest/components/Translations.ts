@@ -21,18 +21,18 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  // bedex: {
-  //   norwegian: 'Bedriftsekskursjon (BedEx)',
-  //   english: 'Company excursion (BedEx)',
-  // },
+  bedex: {
+    norwegian: 'Bedriftsekskursjon (BedEx)',
+    english: 'Company excursion (BedEx)',
+  },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
   },
-  start_up: {
-    norwegian: 'Start-up kveld',
-    english: 'Start-up night',
-  },
+  // start_up: {
+  //   norwegian: 'Start-up kveld',
+  //   english: 'Start-up night',
+  // },
   company_to_company: {
     norwegian: 'Bedrift-til-bedrift',
     english: 'Company-to-company',
@@ -170,10 +170,10 @@ export const COLLABORATION_TYPES = {
     norwegian: 'Samarbeid med TIHLDE linjeforening',
     english: 'Event in collaboration with TIHLDE',
   },
-  collaboration_revue: {
-    norwegian: 'Samarbeid med Revyen',
-    english: 'Collaboration with the revue',
-  },
+  // collaboration_revue: {
+  //   norwegian: 'Samarbeid med Revyen',
+  //   english: 'Collaboration with the revue',
+  // },
   // collaboration_anniversary: {
   //   english: "Collaboration with Abakus' anniversary committee*",
   //   norwegian: 'Samarbeid med Abakus sitt Jubileum*',
