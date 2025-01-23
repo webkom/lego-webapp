@@ -248,33 +248,35 @@ const UserSettings = () => {
           </Form>
         )}
       </TypedLegoForm>
-      
+
       {isCurrentUser && (
-        <Accordion
-          triggerComponent={({ onClick, disabled, rotateClassName }) => (
-            <div className={ styles.advancedSettings }  onClick={onClick}>
-              <Flex gap="var(--spacing-sm)" alignItems="center">
-                <h2>Avansert</h2>
-                {!disabled && (
-                  <Icon
-                    onPress={onClick}
-                    iconNode={<ChevronRight />}
-                    className={rotateClassName}
-                  />
-                )}
-              </Flex>
+        <Flex column gap="var(--spacing-md)">
+          <Accordion
+            triggerComponent={({ onClick, disabled, rotateClassName }) => (
+              <div className={styles.advancedSettings} onClick={onClick}>
+                <Flex gap="var(--spacing-sm)" alignItems="center">
+                  <h2>Avansert</h2>
+                  {!disabled && (
+                    <Icon
+                      onPress={onClick}
+                      iconNode={<ChevronRight />}
+                      className={rotateClassName}
+                    />
+                  )}
+                </Flex>
+              </div>
+            )}
+          >
+            <div>
+              <h2>Endre passord</h2>
+              <ChangePassword />
             </div>
-          )}
-        >
-          <div>
-            <h2>Endre passord</h2>
-            <ChangePassword />
-          </div>
-          <div>
-            <h2 className={styles.deleteUser}>Slett bruker</h2>
-            <DeleteUser />
-          </div>
-        </Accordion>
+            <div>
+              <h2 className={styles.deleteUser}>Slett bruker</h2>
+              <DeleteUser />
+            </div>
+          </Accordion>
+        </Flex>
       )}
     </ContentMain>
   );
