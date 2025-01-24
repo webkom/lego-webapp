@@ -18,6 +18,9 @@ export const resolveGroupLink = (group: { type: GroupType; id: EntityId }) => {
     case GroupType.Revue:
       return `/pages/revy/${group.id}`;
 
+    case GroupType.Board:
+      return `/pages/styrer/${group.id}`;
+
     default:
       return null;
   }
