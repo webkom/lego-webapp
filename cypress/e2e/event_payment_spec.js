@@ -9,7 +9,9 @@ import {
   stripeError,
   clearCardDetails,
   uploadHeader,
-  NO_OPTIONS_MESSAGE,
+  selectFromSelectField,
+  setDatePickerDate,
+  setDatePickerTime,
 } from '../support/utils.js';
 
 describe('Event registration & payment', () => {
@@ -48,30 +50,37 @@ describe('Event registration & payment', () => {
       // Set event to priced
       cy.contains('Betalt arrangement').click();
       // You need to touch the field before the errors pop up
-      cy.contains('Pris (medlem)').should('be.visible').click();
+      cy.contains('Pris').should('be.visible').click();
 
       // FIXME: You need to click outside the payment "sub-form" to show
       // field errors.
       cy.contains('Samtykke til bilder').click().click();
       fieldError('priceMember').should('be.visible');
-      cy.contains('Summen må være større').should('be.visible');
+      cy.contains('Pris er påkrevd').should('be.visible');
 
-      cy.contains('systemgebyr').should('exist').click();
+      // cy.contains('systemgebyr').should('exist').click();
 
-      cy.contains('Pris (medlem)').click();
+      cy.contains('Pris').click();
       // TODO Make form clear if value is invalid (0 or non-numeneric)
       cy.focused().type('{moveToEnd}{backspace}200');
 
       // Set the first pool
       field('pools[0].name').clear().type('WebkomPool').blur();
       field('pools[0].capacity').type('20').blur();
-      selectField('pools[0].permissionGroups').click();
-      cy.focused().type('Webkom', { force: true });
-      selectField('pools[0].permissionGroups')
-        .find('[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]')
-        .should('not.contain', NO_OPTIONS_MESSAGE)
-        .and('contain', 'Webkom');
-      cy.focused().type('{enter}', { force: true });
+      selectFromSelectField('pools\\[0\\]\\.permissionGroups', 'Webkom');
+      // Set the pool open time a day into the future to avoid test issues with "Påmelding åpner/stenger" variants changing
+      const dateObject = new Date();
+      const todayDay = dateObject.getDate();
+      dateObject.setDate(dateObject.getDate() + 1);
+      const tomorrowDay = dateObject.getDate();
+      setDatePickerDate(
+        'pools[0].activationDate',
+        tomorrowDay,
+        tomorrowDay < todayDay,
+      );
+      setDatePickerTime('pools[0].activationDate', '10', '00', false); // Start time
+
+      field('isClarified').check();
 
       cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -84,8 +93,8 @@ describe('Event registration & payment', () => {
       cy.contains('WebkomPool').should('be.visible');
       cy.contains('R4').should('be.visible');
       cy.contains('Påmelding åpner').should('be.visible');
-      cy.contains('Dette er et betalt arrangement').should('be.visible');
-      cy.contains('205,-').should('be.visible');
+      cy.contains('Betalingsfrist').should('be.visible');
+      cy.contains('200,-').should('be.visible');
     });
 
     it('Should be possible to register to a paid event and pay', () => {
