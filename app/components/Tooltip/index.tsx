@@ -31,7 +31,7 @@ const Tooltip = ({
       className={className}
       style={style}
       onClick={onClick}
-      onMouseEnter={() => setHovered(!disabled && true)}
+      onMouseEnter={() => setHovered(!disabled && !!content && true)}
       onMouseLeave={() => setHovered(false)}
     >
       <Popover
