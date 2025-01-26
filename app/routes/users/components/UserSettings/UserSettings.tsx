@@ -1,6 +1,5 @@
 import {
   Accordion,
-  Button,
   Flex,
   Icon,
   LoadingIndicator,
@@ -45,7 +44,6 @@ import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from 'app/store/models/User';
-import { divide } from 'lodash';
 
 type GenderKey = keyof typeof Gender;
 
