@@ -239,7 +239,6 @@ const BdbPage = () => {
       <Table
         columns={columns}
         data={companies}
-        filters={query}
         onChange={setQuery}
         loading={pagination.fetching}
         onLoad={() => {
