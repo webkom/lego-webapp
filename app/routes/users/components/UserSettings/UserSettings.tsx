@@ -267,14 +267,16 @@ const UserSettings = () => {
               </div>
             )}
           >
-            <div>
-              <h2>Endre passord</h2>
-              <ChangePassword />
-            </div>
-            <div>
-              <h2 className={styles.deleteUser}>Slett bruker</h2>
-              <DeleteUser />
-            </div>
+            <Flex column gap="var(--spacing-md)">
+              <div>
+                <h2>Endre passord</h2>
+                <ChangePassword />
+              </div>
+              <div>
+                <h2 className={styles.deleteUser}>Slett bruker</h2>
+                <DeleteUser />
+              </div>
+            </Flex>
           </Accordion>
         </Flex>
       )}
