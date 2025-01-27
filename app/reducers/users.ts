@@ -32,7 +32,7 @@ const usersSlice = createSlice({
   initialState: legoAdapter.getInitialState({ fetchingAchievements: false }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [User.FETCH],
+    fetchActions: [User.FETCH, User.FETCH_LEADERBOARD],
     extraCases: (addCase) => {
       addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const users = normalize(action.payload, eventSchema).entities.users!;

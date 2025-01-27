@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUsersWithAchievementsScore } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import type { ColumnProps } from 'app/components/Table';
 import type { PublicUser } from 'app/store/models/User';
 
@@ -15,17 +17,24 @@ type RankedUser = PublicUser & {
 const Leaderboard = () => {
   const dispatch = useAppDispatch();
 
+  const { pagination } = useAppSelector((state) =>
+    selectPaginationNext({
+      endpoint: '/achievements/leaderboard/',
+      entity: EntityType.Users,
+      query: {},
+    })(state),
+  );
+
   usePreparedEffect(
     'fetchLeaderboardUsers',
     () => {
-      dispatch(fetchLeaderboardUsers());
+      dispatch(fetchLeaderboardUsers({ next: true }));
     },
     [dispatch],
   );
   const users = useAppSelector((state) =>
     selectUsersWithAchievementsScore(state),
   );
-  const fetching = useAppSelector((state) => state.users.fetchingAchievements);
   const rankedUsers: RankedUser[] = users
     .slice()
     .sort((a, b) => b.achievementsScore - a.achievementsScore)
@@ -66,8 +75,11 @@ const Leaderboard = () => {
       <Table
         columns={columns}
         data={rankedUsers}
-        loading={fetching}
-        hasMore={false}
+        loading={pagination.fetching}
+        hasMore={pagination.hasMore}
+        onLoad={() => {
+          dispatch(fetchLeaderboardUsers({ next: true }));
+        }}
       />
     </ContentMain>
   );
