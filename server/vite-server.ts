@@ -2,6 +2,7 @@ import { promises as fs } from 'fs';
 import * as Sentry from '@sentry/node';
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import moment from 'moment-timezone';
 import baseConfig from '../config/env';
 import config from './env';
 import healthCheck from './health';
@@ -25,6 +26,7 @@ const templateHtml = isProduction
   : '';
 
 process.__CONFIG__ = baseConfig;
+moment.locale('nb-NO');
 
 // Create http server
 const app = express();
@@ -86,6 +88,11 @@ app.use('*', async (req, res) => {
     //console.log(e.stack);
     res.status(500).end(e.stack);
   }
+});
+
+app.on('error', (err) => {
+  console.error(err);
+  // Sentry.captureException(err);
 });
 
 // Start http server

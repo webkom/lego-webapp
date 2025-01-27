@@ -36,21 +36,18 @@ export const renderHtml = (
     (!isEmpty(reduxState) && selectCurrentUser(reduxState)?.selectedTheme) ||
     'auto';
 
-  return (
-    template
-      .replace(
-        `<html lang='nb'>`,
-        `<html lang='nb' data-theme='${selectedTheme === 'auto' ? 'light' : selectedTheme}'>`,
-      )
-      .replace(`<!--helmet-title-->`, helmet?.title.toString() ?? '')
-      .replace(`<!--helmet-meta-->`, helmet?.meta.toString() ?? '')
-      .replace(`<!--analytics-->`, analytics)
-      // .replace(`<!--links-->`, links)
-      // .replace(`<!--styles-->`, styles)
-      .replace(`<!--app-body-->`, reactHtml ?? '')
-      .replace(
-        `<!--scripts-->`,
-        `<script>
+  return template
+    .replace(
+      `<html lang='nb'>`,
+      `<html lang='nb' data-theme='${selectedTheme === 'auto' ? 'light' : selectedTheme}'>`,
+    )
+    .replace(`<!--helmet-title-->`, helmet?.title.toString() ?? '')
+    .replace(`<!--helmet-meta-->`, helmet?.meta.toString() ?? '')
+    .replace(`<!--analytics-->`, analytics)
+    .replace(`<!--app-body-->`, reactHtml ?? '')
+    .replace(
+      `<!--scripts-->`,
+      `<script>
         window.__CONFIG__ = ${serialize(config, {
           isJSON: true,
         })};
@@ -61,6 +58,5 @@ export const renderHtml = (
         ${preparedStateCode}
         ${selectedTheme === 'auto' ? autoDarkModeScript : ''}
       </script>`,
-      )
-  );
+    );
 };

@@ -8,6 +8,12 @@ declare global {
     __IS_SSR__?: boolean;
   }
 
+  namespace NodeJS {
+    interface Process {
+      __CONFIG__?: Config;
+    }
+  }
+
   interface ImportMeta {
     env: {
       /**

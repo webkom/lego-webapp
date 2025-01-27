@@ -47,18 +47,14 @@ export default defineConfig({
   },
   build: {
     ssrManifest: true,
-    sourcemap: 'inline',
+    sourcemap: true,
   },
   server: {
     port: 3000,
     open: true,
   },
   ssr: {
-    noExternal: [
-      'react-helmet-async',
-      '@webkom/react-prepare',
-      'final-form-focus',
-    ],
+    noExternal: ['@webkom/react-prepare', 'final-form-focus'],
   },
   define: {
     global: {},
