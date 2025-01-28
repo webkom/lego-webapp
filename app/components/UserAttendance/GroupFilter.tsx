@@ -13,6 +13,10 @@ const excludeFilterGroups: EntityId[] = [
   1, // Users
   2, // Abakus
   47, // Formaterte
+  227, // Baksida-Komite
+  228, // Baksida-Revy
+  92, // Kasserere
+  242, // Klassetillitsvalgt
 ];
 
 type Props = {
