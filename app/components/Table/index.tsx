@@ -72,7 +72,9 @@ const filtersToQueryFilters: (filters: Filters) => QueryFilters = (filters) => {
   const queryFilters: QueryFilters = {};
   Object.entries(filters).forEach(
     ([key, filter]) =>
-      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined),
+      (queryFilters[key] = filter?.length
+        ? filter?.filter((filter) => filter !== '').join(',')
+        : undefined),
   );
   return queryFilters;
 };
