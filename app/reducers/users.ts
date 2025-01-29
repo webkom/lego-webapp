@@ -29,15 +29,24 @@ const legoAdapter = createLegoAdapter(EntityType.Users);
 
 const usersSlice = createSlice({
   name: EntityType.Users,
-  initialState: legoAdapter.getInitialState(),
+  initialState: legoAdapter.getInitialState({ fetchingAchievements: false }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [User.FETCH],
+    fetchActions: [User.FETCH, User.FETCH_LEADERBOARD],
     extraCases: (addCase) => {
       addCase(Event.SOCKET_EVENT_UPDATED, (state, action: AnyAction) => {
         const users = normalize(action.payload, eventSchema).entities.users!;
         if (!users) return;
         legoAdapter.upsertMany(state, users);
+      });
+      addCase(User.FETCH_LEADERBOARD.BEGIN, (state) => {
+        state.fetchingAchievements = true;
+      });
+      addCase(User.FETCH_LEADERBOARD.SUCCESS, (state) => {
+        state.fetchingAchievements = false;
+      });
+      addCase(User.FETCH_LEADERBOARD.FAILURE, (state) => {
+        state.fetchingAchievements = false;
       });
     },
     extraMatchers: (addMatcher) => {
@@ -95,5 +104,14 @@ export const selectUserWithGroups = createSelector(
           ? user.abakusGroups.map((groupId) => groupEntities[groupId])
           : [],
     };
+  },
+);
+
+export const selectUsersWithAchievementsScore = createSelector(
+  selectUserEntities,
+  (userEntities) => {
+    return Object.values(userEntities).filter(
+      (user) => user.achievementsScore != null,
+    );
   },
 );
