@@ -12,6 +12,7 @@ describe('Change password', () => {
 
   it('can change password', () => {
     cy.visit('/users/me/settings/profile');
+    cy.get('h2').contains('Avansert').click();
 
     button('Endre passord').should('be.disabled');
     field('password').type(password).blur();
@@ -27,6 +28,7 @@ describe('Change password', () => {
 
   it('should require certain password strength', () => {
     cy.visit('/users/me/settings/profile');
+    cy.get('h2').contains('Avansert').click();
 
     field('password').type(password).blur();
     fieldError('newPassword').should('not.exist');
