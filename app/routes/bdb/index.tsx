@@ -1,24 +1,9 @@
 import loadable from '@loadable/component';
-import {
-  FilterSection,
-  filterSidebar,
-  LinkButton,
-  Page,
-} from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, type RouteObject } from 'react-router-dom';
-import { CheckBox } from 'app/components/Form';
-import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { contactStatuses, getStatusDisplayName } from 'app/routes/bdb/utils';
-import useQuery from 'app/utils/useQuery';
 import pageNotFound from '../pageNotFound';
-import type { CompanySemesterContactStatus } from 'app/store/models/Company';
-
-const bdbDefaultQuery = {
-  show_inactive: '' as '' | 'true' | 'false',
-  semesterStatus: [] as CompanySemesterContactStatus[],
-};
 
 const BdbPage = loadable(() => import('./components/BdbPage'));
 const CompanyEditor = loadable(() => import('./components/CompanyEditor'));
@@ -42,52 +27,9 @@ const StudentContactEditor = loadable(
 
 const BdbOverview = () => {
   const isCompanyInterest = useLocation().pathname.includes('company-interest');
-  const isBdBPro = useLocation().pathname.includes('bdb-pro');
-
-  const { query, setQueryValue } = useQuery(bdbDefaultQuery);
-
-  const toggleSemesterStatus = (status: CompanySemesterContactStatus) => () => {
-    setQueryValue('semesterStatus')(
-      query.semesterStatus.includes(status)
-        ? query.semesterStatus.filter((t) => t !== status)
-        : [...query.semesterStatus, status],
-    );
-  };
 
   return (
     <Page
-      sidebar={
-        isBdBPro
-          ? filterSidebar({
-              children: (
-                <>
-                  <FilterSection title="Vis inaktive">
-                    <ToggleSwitch
-                      id="active"
-                      checked={query.show_inactive === 'true'}
-                      onChange={() =>
-                        setQueryValue('show_inactive')(
-                          query.show_inactive === 'true' ? 'false' : 'true',
-                        )
-                      }
-                    />
-                  </FilterSection>
-                  <FilterSection title="Semesterstatus">
-                    {contactStatuses.map((status) => (
-                      <CheckBox
-                        key={status}
-                        id={status}
-                        label={getStatusDisplayName(status)}
-                        checked={query.semesterStatus.includes(status)}
-                        onChange={toggleSemesterStatus(status)}
-                      />
-                    ))}
-                  </FilterSection>
-                </>
-              ),
-            })
-          : undefined
-      }
       title="Bedriftsdatabase"
       actionButtons={
         isCompanyInterest ? (
