@@ -8,7 +8,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash';
-import { Trash2 } from 'lucide-react';
+import { LucideSquareArrowOutUpRight, Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
@@ -309,20 +309,21 @@ const MeetingEditor = () => {
                 type="checkbox"
                 component={CheckBox.Field}
               />
-              {spyValues<MeetingFormValues>((values) => {
-                return values?.useMazemap ? (
-                  <Flex alignItems="center">
+              {spyValues<MeetingFormValues>((values) =>
+                values?.useMazemap ? (
+                  <Flex gap="var(--spacing-sm)">
                     <Field
-                      label="MazeMap-rom"
+                      label="Mazemap-rom"
                       required
                       name="mazemapPoi"
                       component={SelectInput.MazemapAutocomplete}
                       placeholder="R1, Abakus, Kjel4"
                     />
-                    {values?.mazemapPoi?.value > 0 && (
+                    {values?.mazemapPoi?.value && (
                       <MazemapLink
-                        mazemapPoi={values?.mazemapPoi?.value}
-                        linkText="↗️"
+                        mazemapPoi={values.mazemapPoi?.value}
+                        iconOnly
+                        style={{ position: 'relative', top: '0.8rem' }}
                       />
                     )}
                   </Flex>
@@ -334,9 +335,8 @@ const MeetingEditor = () => {
                     placeholder="Sted for møte"
                     component={TextInput.Field}
                   />
-                );
-              })}
-
+                ),
+              )}
               <RowSection>
                 <Field
                   name="users"
