@@ -4,7 +4,6 @@ import {
   selectField,
   selectEditor,
   fillCardDetails,
-  confirm3DSecureDialog,
   confirm3DSecure2Dialog,
   stripeError,
   clearCardDetails,
@@ -110,15 +109,15 @@ describe('Event registration & payment', () => {
 
       cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
 
-      // This card requires 3D secure
+      // Card type: Requires 3D secure
       fillCardDetails('4000 0025 0000 3155', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds',
       );
-      cy.wait('@stripeHook');
-      confirm3DSecureDialog();
+      cy.wait('@stripe3ds');
+      confirm3DSecure2Dialog();
 
       cy.contains('Du har betalt').should('be.visible');
 
@@ -142,33 +141,34 @@ describe('Event registration & payment', () => {
        * See https://stripe.com/docs/testing for the different test cards.
        */
 
-      // Invalid cvc
-      fillCardDetails('4000 0000 0000 0101', '0230', '123');
+      // Card type: Invalid cvc
+      fillCardDetails('4000 0000 0000 0127', '0230', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
         // The first one may take some time (due to calls to stripe API)
-        .contains(
-          /(sikkerhetskode er ikke korrekt)|(security code is incorrect)/,
-          { timeout: 8000 },
-        )
+        .contains(/(Kortets CVC-nummer er feil)|(security code is incorrect)/, {
+          timeout: 8000,
+        })
         .should('be.visible');
       clearCardDetails();
 
-      // Invalid expiry
+      // Card type: Invalid expiry
       fillCardDetails('4242 4242 4242 4242', '0210', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
         .contains(
-          /(Kortets utløpsår er passert)|(Your card's expiration year is in the past)/,
+          /(Kortets utløpsår er i fortiden)|(Your card's expiration year is in the past)/,
         )
         .should('be.visible');
       clearCardDetails();
 
-      // Insufficient funds
+      // Card type: Insufficient funds
       fillCardDetails('4000 0000 0000 9995', '0230', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
-        .contains(/(ikke nok penger)|(card has insufficient funds)/)
+        .contains(
+          /(Kortet har ikke nok midler. Prøv et annet kort)|(card has insufficient funds)/,
+        )
         .should('be.visible');
 
       //
@@ -188,6 +188,7 @@ describe('Event registration & payment', () => {
        * Test cases defined here: https://stripe.com/docs/testing#regulatory-cards
        */
 
+      // Card type: 3DS Required, outcome OK
       fillCardDetails('4000 0000 0000 3220', '0230', '123');
       cy.contains('button', 'Betal').click();
 
@@ -211,26 +212,27 @@ describe('Event registration & payment', () => {
       fillCardDetails('4000 0000 0000 3063', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds',
       );
-      cy.wait('@stripeHook');
-      confirm3DSecureDialog(false);
+      cy.wait('@stripe3ds');
+      confirm3DSecure2Dialog(false);
       stripeError()
         .contains(
-          /(Vi kan ikke verifisere betalingsmåten din)|(We are unable to authenticate your payment method)/,
+          /(Vi kan ikke autentisere betalingsmåten din)|(We are unable to authenticate your payment method)/,
         )
         .should('be.visible');
 
       clearCardDetails();
+      // Card type: Always authenticate
       fillCardDetails('4000 0027 6000 3184', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds',
       );
-      cy.wait('@stripeHook');
-      confirm3DSecureDialog();
+      cy.wait('@stripe3ds');
+      confirm3DSecure2Dialog();
 
       cy.contains('Du har betalt').should('be.visible');
     });
@@ -257,11 +259,12 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
 
       cy.wait('@confirm');
+
       cy.reload();
       cy.cachedLogin();
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
-
       cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
+
       fillCardDetails('3782 8224 6310 005', '0230', '123');
       cy.contains('button', 'Betal').click();
 
