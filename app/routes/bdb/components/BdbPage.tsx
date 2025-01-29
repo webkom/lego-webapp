@@ -36,6 +36,7 @@ const companiesDefaultQuery = {
   studentContact: '',
   semester: '',
   search: '',
+  status: '',
 };
 
 const BdbPage = () => {
@@ -252,6 +253,7 @@ const BdbPage = () => {
         data={companies}
         onChange={setQuery}
         loading={pagination.fetching}
+        filters={query}
         onLoad={() => {
           currentCompanySemester?.id &&
             dispatch(
