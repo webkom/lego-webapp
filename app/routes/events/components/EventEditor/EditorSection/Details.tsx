@@ -108,7 +108,8 @@ const Details: React.FC<Props> = ({ values }) => {
                 <Tooltip content="Åpne stedet i MazeMap">
                   <MazemapLink
                     mazemapPoi={values.mazemapPoi?.value}
-                    linkText="↗️"
+                    iconOnly
+                    style={{ position: 'relative', top: '0.8rem' }}
                   />
                 </Tooltip>
               )}
