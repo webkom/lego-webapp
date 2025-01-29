@@ -56,7 +56,9 @@ const Leaderboard = () => {
       search: false,
       inlineFiltering: false,
       render: (_, user: RankedUser) => (
-        <Link to={`/users/${user.username}`}>{user.username}</Link>
+        <Link to={`/users/${user.username}`}>
+          {user.firstName} {user.lastName} ({user.username})
+        </Link>
       ),
     },
     {
