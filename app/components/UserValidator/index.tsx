@@ -1,12 +1,13 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get, debounce } from 'lodash';
-import { ScanQrCode } from 'lucide-react';
+import { Check, ScanQrCode, X } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
+import TextWithIcon from 'app/components/TextWithIcon';
 import {
   selectAutocompleteRedux,
   type UserSearchResult,
@@ -15,6 +16,7 @@ import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Validator.module.css';
 import type { SearchUser } from 'app/store/models/User';
+import type { ReactNode } from 'react';
 import type { Required } from 'utility-types';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
@@ -25,7 +27,9 @@ type Res = {
 
 type ScanResult = {
   message: string;
-  count: number;
+  icon: ReactNode;
+  color: string;
+  count?: number;
 };
 
 type Props = {
@@ -76,16 +80,19 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
    * @param {string} result The newest scan
    * @returns void
    */
-  const addScanResult = (result: string) => {
+  const addScanResult = (result: ScanResult) => {
     setScanResults((prevScanResults) => {
       if (
         prevScanResults.length !== 0 &&
-        prevScanResults[0].message === result
+        prevScanResults[0].message === result.message
       ) {
-        prevScanResults[0].count++;
+        prevScanResults[0].count = (prevScanResults[0].count ?? 1) + 1;
         return prevScanResults;
       }
-      return [{ message: result, count: 1 }, ...prevScanResults].slice(0, 5);
+      return [
+        { ...result, count: result.count ?? 1 },
+        ...prevScanResults,
+      ].slice(0, 5);
     });
   };
 
@@ -97,15 +104,15 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
    * @returns void
    */
   const displayResult = useCallback(
-    (result: string, success = false) => {
+    (result: ScanResult, success = false) => {
       if (showScanner) {
         addScanResult(result);
         return;
       }
       if (success) {
-        showSuccessModal(result);
+        showSuccessModal(result.message);
       } else {
-        dispatch(addToast({ message: result }));
+        dispatch(addToast({ message: result.message }));
       }
     },
     [showScanner, dispatch],
@@ -125,29 +132,56 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
             if (!validateAbakusGroup || (isUser(user) && user.isAbakusMember)) {
               const sound = new window.Audio(goodSound);
               sound.play();
-              if (validateAbakusGroup) {
-                displayResult(`${username} er Abakus-medlem`, true);
-              } else {
-                displayResult(`${username} ble registrert`, true);
-              }
+
+              displayResult(
+                {
+                  message: validateAbakusGroup
+                    ? `${username} er Abakus-medlem`
+                    : `${username} ble registrert`,
+                  icon: <Check />,
+                  color: 'var(--success-color)',
+                },
+                true,
+              );
             } else {
-              displayResult(`${username} er ikke medlem av Abakus!`);
+              displayResult(
+                {
+                  message: `${username} er ikke medlem av Abakus`,
+                  icon: <X />,
+                  color: 'var(--danger-color)',
+                },
+                false,
+              );
             }
           },
           (err) => {
             setIsLoading(false);
             const payload = get(err, 'payload.response.jsonData');
-            if (payload && payload.errorCode === 'not_registered') {
-              displayResult(`${username} er ikke påmeldt arrangementet`);
-            } else if (payload && payload.errorCode === 'already_present') {
-              displayResult(`${username} er allerede registrert`);
-            } else if (payload && payload.detail === 'Not found.') {
-              displayResult(`Brukeren finnes ikke!\nBrukernavn: ${username}`);
-            } else {
-              displayResult(
-                `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`,
-              );
-            }
+
+            const errorMessages = {
+              not_registered: `${username} er ikke påmeldt arrangementet`,
+              already_present: `${username} er allerede registrert`,
+              unregistered: `${username} har meldt seg av`,
+              not_properly_registered: `${username} sin påmelding er i limbo. Ta kontakt med Webkom`,
+              waitlisted: `${username} er på venteliste`,
+              late_or_absent: `${username} har blitt registrert som ikke tilstede`,
+              missing_payment: `${username} har ikke betalt`,
+              no_user: `Brukeren finnes ikke! Brukernavn: ${username}`,
+            };
+
+            const errorMessage =
+              payload && payload.errorCode in errorMessages
+                ? errorMessages[payload.errorCode]
+                : `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`;
+
+            displayResult(
+              {
+                message: errorMessage,
+                icon: <X />,
+                color: 'var(--danger-color)',
+              },
+              false,
+            );
           },
         )
         .then(() => {
@@ -182,7 +216,6 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
         </Flex>
       </Modal>
       <Modal
-        contentClassName={styles.scannerModal}
         isOpen={showScanner}
         onOpenChange={(open) => {
           if (!open) {
@@ -208,10 +241,13 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
         />
         <h3>Nylig scannede ABA-IDer</h3>
         <Flex column justifyContent="center" gap={5}>
-          {scanResults.map(({ message, count }) => (
-            <span key={message + count}>
-              {message} (x{count})
-            </span>
+          {scanResults.map(({ message, color, icon, count }) => (
+            <div style={{ color }} key={message + count}>
+              <TextWithIcon
+                iconNode={icon}
+                content={`${message} (x${count ?? 1})`}
+              />
+            </div>
           ))}
           {scanResults.length === 0 && (
             <span className="secondaryFontColor">
