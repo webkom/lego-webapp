@@ -1,12 +1,13 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
 import { get, debounce } from 'lodash';
 import { Check, ScanQrCode, X } from 'lucide-react';
-import { ReactNode, useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router-dom';
 import { autocomplete } from 'app/actions/SearchActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
+import TextWithIcon from 'app/components/TextWithIcon';
 import {
   selectAutocompleteRedux,
   type UserSearchResult,
@@ -15,8 +16,8 @@ import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Validator.module.css';
 import type { SearchUser } from 'app/store/models/User';
+import type { ReactNode } from 'react';
 import type { Required } from 'utility-types';
-import TextWithIcon from 'app/components/TextWithIcon';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
 
