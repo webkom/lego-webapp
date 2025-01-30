@@ -1,5 +1,8 @@
 import { Modal } from '@webkom/lego-bricks';
+import { Drawer } from 'app/components/Drawer';
+import { useIsMobileViewport } from 'app/utils/isMobileViewport';
 import AttendanceModalContent from './AttendanceModalContent';
+import styles from './AttendanceModalContent.module.css';
 import type { AttendanceModalPool } from './AttendanceModalContent';
 
 export type AttendanceModalProps = {
@@ -20,15 +23,36 @@ const AttendanceModal = ({
   onOpenChange,
   openTab,
   onOpenTabChange,
-}: AttendanceModalProps) => (
-  <Modal isOpen={isOpen} onOpenChange={onOpenChange} title={title}>
+}: AttendanceModalProps) => {
+  const isMobile = useIsMobileViewport();
+
+  const content = (
     <AttendanceModalContent
       selectedPool={openTab}
       togglePool={onOpenTabChange}
       pools={pools}
       isMeeting={isMeeting}
     />
-  </Modal>
-);
+  );
+
+  if (isMobile) {
+    return (
+      <Drawer isOpen={isOpen} onOpenChange={onOpenChange} title={title}>
+        {content}
+      </Drawer>
+    );
+  } else {
+    return (
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        title={title}
+        contentClassName={styles.modalContainer}
+      >
+        {content}
+      </Modal>
+    );
+  }
+};
 
 export default AttendanceModal;
