@@ -42,7 +42,7 @@ export const AchievementsBox = ({
       <h2>Trofeer</h2>
       <Button
         onPress={() => {
-          navigate('/achievements/overview');
+          navigate('/achievements/leaderboard');
         }}
       >
         Mer info
