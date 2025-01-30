@@ -1,6 +1,6 @@
-import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { Accordion, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
@@ -243,16 +243,35 @@ const UserSettings = () => {
       </TypedLegoForm>
 
       {isCurrentUser && (
-        <>
-          <div>
-            <h2>Endre passord</h2>
-            <ChangePassword />
-          </div>
-          <div>
-            <h2 className={styles.deleteUser}>Slett bruker</h2>
-            <DeleteUser />
-          </div>
-        </>
+        <Flex column gap="var(--spacing-md)">
+          <Accordion
+            triggerComponent={({ onClick, disabled, rotateClassName }) => (
+              <div className={styles.advancedSettings} onClick={onClick}>
+                <Flex gap="var(--spacing-sm)" alignItems="center">
+                  <h2>Avansert</h2>
+                  {!disabled && (
+                    <Icon
+                      onPress={onClick}
+                      iconNode={<ChevronRight />}
+                      className={rotateClassName}
+                    />
+                  )}
+                </Flex>
+              </div>
+            )}
+          >
+            <Flex column gap="var(--spacing-md)">
+              <div>
+                <h2>Endre passord</h2>
+                <ChangePassword />
+              </div>
+              <div>
+                <h2 className={styles.deleteUser}>Slett bruker</h2>
+                <DeleteUser />
+              </div>
+            </Flex>
+          </Accordion>
+        </Flex>
       )}
     </ContentMain>
   );
