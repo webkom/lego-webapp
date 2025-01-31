@@ -30,3 +30,16 @@
   height: 1px;
   background-color: var(--border-gray);
 }
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.infoIcon {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  color: black;
+}
