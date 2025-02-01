@@ -94,7 +94,7 @@ const Penalties = ({ userId }: Props) => {
         <a href="https://abakus.no/pages/arrangementer/26-arrangementsregler">
           <Icon
             name="information-circle-outline"
-            size={25}
+            size={22}
             className={styles.infoIcon}
           />
         </a>
