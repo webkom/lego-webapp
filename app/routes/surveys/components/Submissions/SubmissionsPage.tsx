@@ -14,6 +14,7 @@ type ChildProps = {
   survey: DetailedSurvey;
   event: EventForSurvey;
   submissions: SurveySubmission[];
+  fetchingSubmissions: boolean;
 };
 export type SubmissionsPageChild = ComponentType<ChildProps>;
 
@@ -22,14 +23,19 @@ type Props = {
 };
 
 const SubmissionsPage = ({ children: Children }: Props) => {
-  const { survey, event, submissions } =
+  const { survey, event, submissions, fetchingSubmissions } =
     useOutletContext<SurveysRouteContext>();
   const authToken = useAppSelector((state) => state.auth.token);
 
   return (
     <ContentSection>
       <ContentMain>
-        <Children survey={survey!} event={event!} submissions={submissions} />
+        <Children
+          survey={survey!}
+          event={event!}
+          submissions={submissions}
+          fetchingSubmissions={fetchingSubmissions}
+        />
       </ContentMain>
 
       <AdminSideBar

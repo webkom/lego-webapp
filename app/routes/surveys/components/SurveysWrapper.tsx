@@ -18,10 +18,13 @@ const SurveysWrapper = () => {
     'surveySubmissions',
     surveyId,
   );
-  const fetching = useAppSelector((state) => state.surveys.fetching);
+  const fetchingSurveys = useAppSelector((state) => state.surveys.fetching);
+  const fetchingSubmissions = useAppSelector(
+    (state) => state.surveySubmissions.fetching,
+  );
 
   if (!survey) {
-    return <LoadingPage loading={fetching} />;
+    return <LoadingPage loading={fetchingSurveys} />;
   }
 
   const isTemplate = !!survey.templateType;
@@ -41,7 +44,16 @@ const SurveysWrapper = () => {
       tabs={!isTemplate && <SurveyDetailTabs surveyId={survey.id} />}
     >
       <Helmet title={survey.title} />
-      <Outlet context={{ survey, event, submissions } as SurveysRouteContext} />
+      <Outlet
+        context={
+          {
+            survey,
+            event,
+            submissions,
+            fetchingSubmissions,
+          } as SurveysRouteContext
+        }
+      />
     </Page>
   );
 };

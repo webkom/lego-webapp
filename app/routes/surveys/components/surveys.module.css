@@ -6,6 +6,9 @@
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
+}
+
+.surveryItemBorder {
   border-color: var(--color-orange-5);
 }
 
@@ -253,4 +256,33 @@
   @media (--mobile-device) {
     justify-content: center;
   }
+}
+
+.answerTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  gap: var(--spacing-md);
+  height: fit-content;
+  border-radius: var(--border-radius-lg);
+  color: var(--lego-font-color);
+  transition: background-color var(--easing-fast);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}
+
+.surveySkeleton {
+  height: 70.2px;
+}
+
+.submissionSkeleton {
+  height: 76.6px;
+}
+
+.textAnswerSkeleton {
+  height: 36.8px;
 }
