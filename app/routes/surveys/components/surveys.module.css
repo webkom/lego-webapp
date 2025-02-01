@@ -263,7 +263,6 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacing-md);
-  margin-left: calc(-1 * var(--spacing-md));
   gap: var(--spacing-md);
   height: fit-content;
   border-radius: var(--border-radius-lg);
