@@ -103,7 +103,7 @@ const Results = ({
     },
     {
       icon: 'chatbox-ellipses',
-      data: fetchingSubmissions ? "?" : numberOfSubmissions,
+      data: fetchingSubmissions ? '?' : numberOfSubmissions,
       meta: 'Har svart',
     },
   ];

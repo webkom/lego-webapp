@@ -15,7 +15,8 @@ import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
 
 const SubmissionsSummary = () => {
-  const { submissions, survey, fetchingSubmissions } = useOutletContext<SurveysRouteContext>();
+  const { submissions, survey, fetchingSubmissions } =
+    useOutletContext<SurveysRouteContext>();
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {

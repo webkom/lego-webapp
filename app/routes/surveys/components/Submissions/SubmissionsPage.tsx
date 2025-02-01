@@ -30,7 +30,12 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   return (
     <ContentSection>
       <ContentMain>
-        <Children survey={survey!} event={event!} submissions={submissions} fetchingSubmissions={fetchingSubmissions} />
+        <Children
+          survey={survey!}
+          event={event!}
+          submissions={submissions}
+          fetchingSubmissions={fetchingSubmissions}
+        />
       </ContentMain>
 
       <AdminSideBar

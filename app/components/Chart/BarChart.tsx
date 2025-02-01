@@ -14,9 +14,10 @@ const DistributionBarChart = ({
   distributionData,
   fetching = false,
 }: Props) => {
-
   if (fetching) {
-    return <Skeleton width={307} height={321} className={styles.barChartSkeleton} />;
+    return (
+      <Skeleton width={307} height={321} className={styles.barChartSkeleton} />
+    );
   }
 
   return (

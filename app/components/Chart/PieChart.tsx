@@ -50,7 +50,9 @@ const DistributionPieChart = ({
   };
 
   if (fetching) {
-    return <Skeleton width={224} height={224} className={styles.pieChartSkeleton} />;
+    return (
+      <Skeleton width={224} height={224} className={styles.pieChartSkeleton} />
+    );
   }
 
   return (

@@ -90,7 +90,12 @@ const surveysRoute: RouteObject[] = [
             {({ survey, event, submissions, fetchingSubmissions }) => (
               <Outlet
                 context={
-                  { survey, event, submissions, fetchingSubmissions } satisfies SurveysRouteContext
+                  {
+                    survey,
+                    event,
+                    submissions,
+                    fetchingSubmissions,
+                  } satisfies SurveysRouteContext
                 }
               />
             )}

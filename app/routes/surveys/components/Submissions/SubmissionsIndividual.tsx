@@ -8,7 +8,13 @@ import styles from '../surveys.module.css';
 import type { SurveysRouteContext } from 'app/routes/surveys';
 import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 
-const SubmissionItem = ({ submission, index }: { submission: SurveySubmission, index: number }) => {
+const SubmissionItem = ({
+  submission,
+  index,
+}: {
+  submission: SurveySubmission;
+  index: number;
+}) => {
   const [open, setOpen] = useState(false);
   const { survey } = useOutletContext<SurveysRouteContext>();
   return (
@@ -46,10 +52,16 @@ const SubmissionItem = ({ submission, index }: { submission: SurveySubmission, i
 };
 
 const SubmissionPage = () => {
-  const { submissions, fetchingSubmissions } = useOutletContext<SurveysRouteContext>();
+  const { submissions, fetchingSubmissions } =
+    useOutletContext<SurveysRouteContext>();
 
   if (fetchingSubmissions) {
-    return <Skeleton array={5} className={cx(styles.answerTrigger, styles.submissionSkeleton)} />
+    return (
+      <Skeleton
+        array={5}
+        className={cx(styles.answerTrigger, styles.submissionSkeleton)}
+      />
+    );
   }
 
   return (
