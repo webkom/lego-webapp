@@ -1,15 +1,24 @@
+import { Skeleton } from '@webkom/lego-bricks';
 import { BarChart, Bar, Cell, XAxis, YAxis } from 'recharts';
 import { CHART_COLORS } from 'app/components/Chart/utils';
+import styles from './Chart.module.css';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 
 type Props = {
   distributionData: DistributionDataPoint[];
   chartColors?: string[];
+  fetching?: boolean;
 };
 const DistributionBarChart = ({
   chartColors = CHART_COLORS,
   distributionData,
+  fetching = false,
 }: Props) => {
+
+  if (fetching) {
+    return <Skeleton width={307} height={321} className={styles.barChartSkeleton} />;
+  }
+
   return (
     <BarChart
       width={375}

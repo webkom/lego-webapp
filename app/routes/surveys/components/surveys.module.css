@@ -6,6 +6,9 @@
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
+}
+
+.surveryItemBorder {
   border-color: var(--color-orange-5);
 }
 
@@ -271,4 +274,16 @@
   &:hover {
     background-color: var(--additive-background);
   }
+}
+
+.surveySkeleton {
+  height: 70.2px;
+}
+
+.submissionSkeleton {
+  height: 76.6px;
+}
+
+.textAnswerSkeleton {
+  height: 36.8px;
 }

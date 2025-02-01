@@ -1,4 +1,4 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { useOutletContext } from 'react-router-dom';
 import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
 import EmptyState from 'app/components/EmptyState';
@@ -15,7 +15,7 @@ import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
 
 const SubmissionsSummary = () => {
-  const { submissions, survey } = useOutletContext<SurveysRouteContext>();
+  const { submissions, survey, fetchingSubmissions } = useOutletContext<SurveysRouteContext>();
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {
@@ -66,6 +66,10 @@ const SubmissionsSummary = () => {
         );
       })
       .filter(isNotNullish);
+
+    if (fetchingSubmissions) {
+      return <Skeleton array={5} className={styles.textAnswerSkeleton} />;
+    }
 
     return texts.length === 0 ? <EmptyState body="Ingen svar" /> : texts;
   };

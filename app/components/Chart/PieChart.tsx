@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import { PieChart, Cell, Pie, Tooltip } from 'recharts';
 import {
@@ -11,10 +11,12 @@ import type { DistributionDataPoint } from 'app/components/Chart/utils';
 type Props = {
   distributionData: DistributionDataPoint[];
   chartColors?: string[];
+  fetching?: boolean;
 };
 const DistributionPieChart = ({
   chartColors = CHART_COLORS,
   distributionData,
+  fetching = false,
 }: Props) => {
   const [opacity, setOpacity] = useState<{ [key: string]: number }>({});
 
@@ -46,6 +48,10 @@ const DistributionPieChart = ({
       }, {}),
     );
   };
+
+  if (fetching) {
+    return <Skeleton width={224} height={224} className={styles.pieChartSkeleton} />;
+  }
 
   return (
     <PieChart width={300} height={275}>

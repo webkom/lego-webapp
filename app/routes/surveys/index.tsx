@@ -63,6 +63,7 @@ export type SurveysRouteContext = {
   survey: DetailedSurvey;
   event: EventForSurvey;
   submissions: SurveySubmission[];
+  fetchingSubmissions: boolean;
 };
 
 const surveysRoute: RouteObject[] = [
@@ -86,10 +87,10 @@ const surveysRoute: RouteObject[] = [
         path: 'submissions',
         Component: () => (
           <SubmissionsPage>
-            {({ survey, event, submissions }) => (
+            {({ survey, event, submissions, fetchingSubmissions }) => (
               <Outlet
                 context={
-                  { survey, event, submissions } satisfies SurveysRouteContext
+                  { survey, event, submissions, fetchingSubmissions } satisfies SurveysRouteContext
                 }
               />
             )}
