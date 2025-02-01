@@ -12,8 +12,6 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Penalties.module.css';
 import PenaltyForm from './PenaltyForm';
 import type { EntityId } from '@reduxjs/toolkit';
-import { Heading1, icons } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 type Props = {
   userId: EntityId;
