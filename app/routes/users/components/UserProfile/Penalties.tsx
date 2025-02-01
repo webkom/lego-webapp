@@ -93,7 +93,7 @@ const Penalties = ({ userId }: Props) => {
             </Flex>
           </>
         )}
-        <a href={`https://abakus.no/pages/arrangementer/26-arrangementsregler`}>
+        <a href="https://abakus.no/pages/arrangementer/26-arrangementsregler">
           <Icon
             name="information-circle-outline"
             size={25}

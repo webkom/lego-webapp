@@ -41,5 +41,5 @@
   position: absolute;
   top: 0px;
   right: 0px;
-  color: black;
+  color: var(--secondary-font-color);
 }
