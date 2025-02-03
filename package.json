@@ -139,7 +139,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/loadable__component": "^5.13.9",
     "@types/lodash": "^4.17.7",
-    "@types/node": "^20.12.7",
+    "@types/node": "^22.13.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.1",
     "@types/react-infinite-scroller": "^1.2.5",
