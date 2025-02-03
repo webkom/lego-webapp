@@ -333,7 +333,7 @@ const BdbDetail = () => {
     {
       title: 'Tittel',
       dataIndex: 'title',
-      render: (title) => <Link to={`/events/${title.id}`}>{title}</Link>,
+      render: (title, event) => <Link to={`/events/${event.id}`}>{title}</Link>,
     },
     {
       title: 'Type',
