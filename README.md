@@ -156,6 +156,12 @@ $  STRIPE_WEBHOOK_SECRET=<SECRET> STRIPE_TEST_KEY=<SECRET> python manage.py runs
 
 The webhook is obtained when running the stripe command above, while the test key can be obtained from the stripe dashboard.
 
+To run the payment tests successfully you also need to run a websocket-server to receive updates when the backend handles payments.
+
+```bash
+$ daphne lego.asgi:application -b 0.0.0.0 -p 8001
+```
+
 Lastly, one has to run the frontend without captcha:
 
 ```bash
