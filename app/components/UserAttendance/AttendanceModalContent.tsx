@@ -121,7 +121,7 @@ const AttendanceModalContent = ({
         )}
       </ul>
 
-      <Flex justifyContent="space-between" className={styles.nav}>
+      <Flex alignItems="stretch" className={styles.nav}>
         {amendedPools.map((pool, i) => (
           <Tab
             name={pool.name}
