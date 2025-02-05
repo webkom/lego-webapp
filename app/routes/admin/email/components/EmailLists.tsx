@@ -1,12 +1,14 @@
-import { Flex, LinkButton } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailListActions';
+import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { selectEmailLists } from 'app/reducers/emailLists';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 
 const emailListsDefaultQuery = {
@@ -21,7 +23,7 @@ const EmailLists = () => {
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/email-lists/',
-      entity: 'emailLists',
+      entity: EntityType.EmailLists,
       query,
     })(state),
   );
@@ -84,41 +86,38 @@ const EmailLists = () => {
   ];
 
   return (
-    <div>
-      <p>
+    <ContentMain>
+      <Card severity="info">
         Lister brukes for permanente lister som skal mottas av definerte brukere
         eller grupper. Lister kan ikke slettes, men mottakere kan endres. Delen
         av adressen som kommer før @abakus.no er unik og kan ikke brukes andre
         steder på abakus.no. Lister er åpne og alle kan sende e-post til disse.
         Ønsker brukere å sende e-post fra en @abakus.no-adresse må de få
         opprettet en personlig adresse under Brukere.
-      </p>
-      <Flex
-        justifyContent="space-between"
-        style={{
-          marginBottom: 'var(--spacing-sm)',
-        }}
-      >
-        <h3>Aktive e-postlister</h3>
-        <LinkButton href="/admin/email/lists/new">Ny e-postliste</LinkButton>
+      </Card>
+      <Flex column gap="var(--spacing-sm)">
+        <Flex alignItems="center" justifyContent="space-between">
+          <h3>Aktive e-postlister</h3>
+          <LinkButton href="/admin/email/lists/new">Ny e-postliste</LinkButton>
+        </Flex>
+        <Table
+          columns={columns}
+          onLoad={() => {
+            dispatch(
+              fetch({
+                next: true,
+                query: query,
+              }),
+            );
+          }}
+          filters={query}
+          onChange={setQuery}
+          hasMore={pagination.hasMore}
+          loading={pagination.fetching}
+          data={emailLists}
+        />
       </Flex>
-      <Table
-        columns={columns}
-        onLoad={() => {
-          dispatch(
-            fetch({
-              next: true,
-              query: query,
-            }),
-          );
-        }}
-        filters={query}
-        onChange={setQuery}
-        hasMore={pagination.hasMore}
-        loading={pagination.fetching}
-        data={emailLists}
-      />
-    </div>
+    </ContentMain>
   );
 };
 

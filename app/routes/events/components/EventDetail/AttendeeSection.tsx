@@ -1,8 +1,10 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
+import { useMemo } from 'react';
 import Attendance from 'app/components/UserAttendance/Attendance';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectRegistrationsFromPools } from 'app/reducers/events';
+import { getWaitingListPosition } from 'app/routes/events/components/EventDetail/getWaitingListPosition';
 import RegistrationMeta, {
   RegistrationMetaSkeleton,
 } from 'app/routes/events/components/RegistrationMeta';
@@ -23,6 +25,7 @@ interface Props {
   currentRegistration?: PoolRegistrationWithUser;
   pools: PoolWithRegistrations[];
   currentPool?: PoolWithRegistrations;
+  fiveMinutesBeforeActivation: boolean;
 }
 
 export const AttendeeSection = ({
@@ -31,6 +34,7 @@ export const AttendeeSection = ({
   currentRegistration,
   pools,
   currentPool,
+  fiveMinutesBeforeActivation,
 }: Props) => {
   const loggedIn = useIsLoggedIn();
   const fetching = useAppSelector((state) => state.events.fetching);
@@ -39,18 +43,14 @@ export const AttendeeSection = ({
   );
 
   const currentMoment = moment();
-  const hasSimpleWaitingList =
-    pools.filter((p) => p.name != 'Venteliste').length <= 1;
-  const waitingListIndex =
-    currentRegistration &&
-    currentPool?.registrations.indexOf(currentRegistration);
+  const waitingListPosition = useMemo(
+    () => getWaitingListPosition(currentRegistration, currentPool, pools),
+    [currentRegistration, currentPool, pools],
+  );
 
   // The UserGrid is expanded when there's less than 5 minutes till activation
   const minUserGridRows =
-    event &&
-    currentMoment.isAfter(moment(event.activationTime).subtract(5, 'minutes'))
-      ? MIN_USER_GRID_ROWS
-      : 0;
+    event && fiveMinutesBeforeActivation ? MIN_USER_GRID_ROWS : 0;
 
   return (
     <Flex column>
@@ -63,7 +63,7 @@ export const AttendeeSection = ({
         minUserGridRows={minUserGridRows}
         maxUserGridRows={MAX_USER_GRID_ROWS}
         legacyRegistrationCount={event?.legacyRegistrationCount}
-        skeleton={fetching && !registrations}
+        skeleton={fetching && !registrations.length}
       />
 
       {loggedIn &&
@@ -72,15 +72,13 @@ export const AttendeeSection = ({
         ) : (
           <RegistrationMeta
             useConsent={event.useConsent}
-            hasOpened={moment(event.activationTime).isBefore(currentMoment)}
+            fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
             photoConsents={event.photoConsents}
             eventSemester={getEventSemesterFromStartTime(event.startTime)}
             hasEnded={moment(event.endTime).isBefore(currentMoment)}
             registration={currentRegistration}
             isPriced={event.isPriced}
-            registrationIndex={waitingListIndex ?? 0}
-            hasSimpleWaitingList={hasSimpleWaitingList}
-            skeleton={showSkeleton}
+            waitingListPosition={waitingListPosition}
           />
         ))}
     </Flex>

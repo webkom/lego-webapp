@@ -3,12 +3,13 @@ import { quoteSchema } from 'app/reducers';
 import { Quote } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type QuoteType from 'app/store/models/Quote';
+import type { ParsedQs } from 'qs';
 
 export function fetchAll({
   query,
   next = false,
 }: {
-  query?: Record<string, any>;
+  query?: ParsedQs;
   next?: boolean;
 } = {}) {
   return callAPI<QuoteType[]>({
@@ -33,7 +34,7 @@ export function fetchQuote(quoteId: EntityId) {
     method: 'GET',
     meta: {
       quoteId,
-      errorMessage: 'Henting av quote feilet',
+      errorMessage: 'Henting av sitat feilet',
     },
     schema: quoteSchema,
     propagateError: true,
@@ -48,7 +49,7 @@ export function fetchRandomQuote(seenQuotes: EntityId[] = []) {
     method: 'GET',
     meta: {
       queryString,
-      errorMessage: 'Henting av tilfeldig quote feilet',
+      errorMessage: 'Henting av tilfeldig sitat feilet',
     },
     schema: quoteSchema,
   });
@@ -60,7 +61,7 @@ export function approve(quoteId: EntityId) {
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'PUT',
     meta: {
-      errorMessage: 'Godkjenning av quote feilet',
+      errorMessage: 'Godkjenning av sitat feilet',
       quoteId: Number(quoteId),
     },
   });
@@ -72,7 +73,7 @@ export function unapprove(quoteId: EntityId) {
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'PUT',
     meta: {
-      errorMessage: 'Underkjenning av quote feilet',
+      errorMessage: 'Underkjenning av sitat feilet',
       quoteId: Number(quoteId),
     },
   });
@@ -89,7 +90,7 @@ export function addQuotes({ text, source }: { text: string; source: string }) {
     },
     schema: quoteSchema,
     meta: {
-      errorMessage: 'Legg til quote feilet',
+      errorMessage: 'Kunne ikke legge til sitat',
     },
   });
 }
@@ -101,7 +102,7 @@ export function deleteQuote(id: EntityId) {
     method: 'DELETE',
     meta: {
       id,
-      errorMessage: 'Sletting av quote feilet',
+      errorMessage: 'Sletting av sitat feilet',
     },
   });
 }

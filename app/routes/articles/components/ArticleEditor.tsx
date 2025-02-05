@@ -1,6 +1,7 @@
 import {
   Button,
   ButtonGroup,
+  Card,
   ConfirmModal,
   Icon,
   LinkButton,
@@ -158,7 +159,7 @@ const ArticleEditor = () => {
         validate={validate}
         initialValues={initialValues}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, values }) => (
           <Form onSubmit={handleSubmit}>
             <Field
               name="cover"
@@ -179,6 +180,15 @@ const ArticleEditor = () => {
               type="checkbox"
               component={CheckBox.Field}
             />
+            {values.pinned && (
+              <Card severity="warning">
+                <Card.Header>Obs!</Card.Header>
+                <p>
+                  Du må ha godkjenning fra ledelsen for å feste til forsiden.
+                </p>
+              </Card>
+            )}
+
             <Field
               placeholder="Title"
               name="title"

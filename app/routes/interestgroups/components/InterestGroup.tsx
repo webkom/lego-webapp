@@ -2,7 +2,7 @@ import { Flex, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import ABAKUS_ICON from 'app/assets/icon-192x192.png';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 import type { Group } from 'app/models';
 
 type Props = {
@@ -16,17 +16,6 @@ const InterestGroupComponent = ({ group, active }: Props) => {
       to={`/interest-groups/${group.id}`}
       className={cx(styles.listItem, !active && styles.inactiveListItem)}
     >
-      <Flex column>
-        <h2 className={styles.listItemName}>{group.name}</h2>
-        {active && (
-          <div className={styles.listItemContent}>
-            <div>{group.description}</div>
-            <div style={{ marginTop: '10px' }}>
-              {group.numberOfUsers} medlemmer
-            </div>
-          </div>
-        )}
-      </Flex>
       <Image
         className={active ? styles.logoMedium : styles.logoSmall}
         src={group.logo || ABAKUS_ICON}
@@ -36,6 +25,15 @@ const InterestGroupComponent = ({ group, active }: Props) => {
         }}
         alt={`${group.name} sin logo`}
       />
+      <Flex column>
+        <h2 className={styles.listItemName}>{group.name}</h2>
+        {active && (
+          <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
+            <span>{group.description}</span>
+            <span>{group.numberOfUsers} medlemmer</span>
+          </Flex>
+        )}
+      </Flex>
     </Link>
   );
 };

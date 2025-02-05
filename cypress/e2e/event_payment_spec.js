@@ -4,12 +4,13 @@ import {
   selectField,
   selectEditor,
   fillCardDetails,
-  confirm3DSecureDialog,
   confirm3DSecure2Dialog,
   stripeError,
   clearCardDetails,
   uploadHeader,
-  NO_OPTIONS_MESSAGE,
+  selectFromSelectField,
+  setDatePickerDate,
+  setDatePickerTime,
 } from '../support/utils.js';
 
 describe('Event registration & payment', () => {
@@ -48,30 +49,37 @@ describe('Event registration & payment', () => {
       // Set event to priced
       cy.contains('Betalt arrangement').click();
       // You need to touch the field before the errors pop up
-      cy.contains('Pris (medlem)').should('be.visible').click();
+      cy.contains('Pris').should('be.visible').click();
 
       // FIXME: You need to click outside the payment "sub-form" to show
       // field errors.
       cy.contains('Samtykke til bilder').click().click();
       fieldError('priceMember').should('be.visible');
-      cy.contains('Summen må være større').should('be.visible');
+      cy.contains('Pris er påkrevd').should('be.visible');
 
-      cy.contains('systemgebyr').should('exist').click();
+      // cy.contains('systemgebyr').should('exist').click();
 
-      cy.contains('Pris (medlem)').click();
+      cy.contains('Pris').click();
       // TODO Make form clear if value is invalid (0 or non-numeneric)
       cy.focused().type('{moveToEnd}{backspace}200');
 
       // Set the first pool
       field('pools[0].name').clear().type('WebkomPool').blur();
       field('pools[0].capacity').type('20').blur();
-      selectField('pools[0].permissionGroups').click();
-      cy.focused().type('Webkom', { force: true });
-      selectField('pools[0].permissionGroups')
-        .find('[id=react-select-pools\\[0\\]\\.permissionGroups-listbox]')
-        .should('not.contain', NO_OPTIONS_MESSAGE)
-        .and('contain', 'Webkom');
-      cy.focused().type('{enter}', { force: true });
+      selectFromSelectField('pools\\[0\\]\\.permissionGroups', 'Webkom');
+      // Set the pool open time a day into the future to avoid test issues with "Påmelding åpner/stenger" variants changing
+      const dateObject = new Date();
+      const todayDay = dateObject.getDate();
+      dateObject.setDate(dateObject.getDate() + 1);
+      const tomorrowDay = dateObject.getDate();
+      setDatePickerDate(
+        'pools[0].activationDate',
+        tomorrowDay,
+        tomorrowDay < todayDay,
+      );
+      setDatePickerTime('pools[0].activationDate', '10', '00', false); // Start time
+
+      field('isClarified').check();
 
       cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -84,8 +92,8 @@ describe('Event registration & payment', () => {
       cy.contains('WebkomPool').should('be.visible');
       cy.contains('R4').should('be.visible');
       cy.contains('Påmelding åpner').should('be.visible');
-      cy.contains('Dette er et betalt arrangement').should('be.visible');
-      cy.contains('205,-').should('be.visible');
+      cy.contains('Betalingsfrist').should('be.visible');
+      cy.contains('200,-').should('be.visible');
     });
 
     it('Should be possible to register to a paid event and pay', () => {
@@ -101,15 +109,15 @@ describe('Event registration & payment', () => {
 
       cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
 
-      // This card requires 3D secure
+      // Card type: Requires 3D secure
       fillCardDetails('4000 0025 0000 3155', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds',
       );
-      cy.wait('@stripeHook');
-      confirm3DSecureDialog();
+      cy.wait('@stripe3ds');
+      confirm3DSecure2Dialog();
 
       cy.contains('Du har betalt').should('be.visible');
 
@@ -133,33 +141,34 @@ describe('Event registration & payment', () => {
        * See https://stripe.com/docs/testing for the different test cards.
        */
 
-      // Invalid cvc
-      fillCardDetails('4000 0000 0000 0101', '0230', '123');
+      // Card type: Invalid cvc
+      fillCardDetails('4000 0000 0000 0127', '0230', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
         // The first one may take some time (due to calls to stripe API)
-        .contains(
-          /(sikkerhetskode er ikke korrekt)|(security code is incorrect)/,
-          { timeout: 8000 },
-        )
+        .contains(/(Kortets CVC-nummer er feil)|(security code is incorrect)/, {
+          timeout: 8000,
+        })
         .should('be.visible');
       clearCardDetails();
 
-      // Invalid expiry
+      // Card type: Invalid expiry
       fillCardDetails('4242 4242 4242 4242', '0210', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
         .contains(
-          /(Kortets utløpsår er passert)|(Your card's expiration year is in the past)/,
+          /(Kortets utløpsår er i fortiden)|(Your card's expiration year is in the past)/,
         )
         .should('be.visible');
       clearCardDetails();
 
-      // Insufficient funds
+      // Card type: Insufficient funds
       fillCardDetails('4000 0000 0000 9995', '0230', '123');
       cy.contains('button', 'Betal').click();
       stripeError()
-        .contains(/(ikke nok penger)|(card has insufficient funds)/)
+        .contains(
+          /(Kortet har ikke nok midler. Prøv et annet kort)|(card has insufficient funds)/,
+        )
         .should('be.visible');
 
       //
@@ -179,6 +188,7 @@ describe('Event registration & payment', () => {
        * Test cases defined here: https://stripe.com/docs/testing#regulatory-cards
        */
 
+      // Card type: 3DS Required, outcome OK
       fillCardDetails('4000 0000 0000 3220', '0230', '123');
       cy.contains('button', 'Betal').click();
 
@@ -202,26 +212,27 @@ describe('Event registration & payment', () => {
       fillCardDetails('4000 0000 0000 3063', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds',
       );
-      cy.wait('@stripeHook');
-      confirm3DSecureDialog(false);
+      cy.wait('@stripe3ds');
+      confirm3DSecure2Dialog(false);
       stripeError()
         .contains(
-          /(Vi kan ikke verifisere betalingsmåten din)|(We are unable to authenticate your payment method)/,
+          /(Vi kan ikke autentisere betalingsmåten din)|(We are unable to authenticate your payment method)/,
         )
         .should('be.visible');
 
       clearCardDetails();
+      // Card type: Always authenticate
       fillCardDetails('4000 0027 6000 3184', '0230', '123');
       cy.contains('button', 'Betal').click();
 
-      cy.intercept('https://hooks.stripe.com/redirect/authenticate/*').as(
-        'stripeHook',
+      cy.intercept('https://js.stripe.com/v3/three-ds-2-challenge*').as(
+        'stripe3ds',
       );
-      cy.wait('@stripeHook');
-      confirm3DSecureDialog();
+      cy.wait('@stripe3ds');
+      confirm3DSecure2Dialog();
 
       cy.contains('Du har betalt').should('be.visible');
     });
@@ -248,11 +259,12 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Betal').click();
 
       cy.wait('@confirm');
+
       cy.reload();
       cy.cachedLogin();
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
-
       cy.wait(['@stripeJs', '@stripeJs', '@stripeJs']);
+
       fillCardDetails('3782 8224 6310 005', '0230', '123');
       cy.contains('button', 'Betal').click();
 

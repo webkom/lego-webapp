@@ -1,7 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import 'node_modules/mazemap/mazemap.min.css';
-import styles from './MazemapEmbed.css';
+import { Keyboard } from 'app/utils/constants';
+import styles from './MazemapEmbed.module.css';
 import MazemapLink from './MazemapLink';
 
 type MazeMap = {
@@ -27,12 +28,14 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const [hasMounted, setHasMounted] = useState<boolean>(false);
   useEffect(() => setHasMounted(true), []);
   //import Mazemap dynamically to prevent ssr issues
-  const [Mazemap, setMazemap] = useState<MazeMap>(null);
+  const [Mazemap, setMazemap] = useState<MazeMap | null>(null);
   const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
-    import('mazemap').then((mazemap) => setMazemap(mazemap));
+    if (!__DEV__) {
+      import('mazemap').then((mazemap) => setMazemap(mazemap));
+    }
     if (!Mazemap || !hasMounted) return;
     const embeddedMazemap = new Mazemap.Map({
       container: 'mazemap-embed',
@@ -61,13 +64,13 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     let zoomButtonPressed = false;
 
     const onKeyDown = (e) => {
-      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+      if (isMac ? e.key === Keyboard.META : e.key === Keyboard.CONTROL) {
         zoomButtonPressed = true;
       }
     };
 
     const onKeyUp = (e) => {
-      if (isMac ? e.key === 'Meta' : e.key === 'Control') {
+      if (isMac ? e.key === Keyboard.META : e.key === Keyboard.CONTROL) {
         zoomButtonPressed = false;
       }
     };

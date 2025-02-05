@@ -2,7 +2,7 @@ import { Icon } from '@webkom/lego-bricks';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import config from 'app/config';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import styles from './components/surveys.css';
+import styles from './components/surveys.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 
 export const questionTypeString: Record<SurveyQuestionType, string> = {
@@ -31,6 +31,10 @@ export const SurveyDetailTabs = ({ surveyId }: { surveyId?: EntityId }) =>
 
 export const getCsvUrl = (surveyId: EntityId) =>
   `${config.serverUrl}/surveys/${surveyId}/csv/`;
+
+export const getPdfUrl = (surveyId: EntityId) =>
+  `${config.serverUrl}/surveys/${surveyId}/pdf/`;
+
 export const QuestionTypeOption = ({ iconName, option, ...props }: any) => (
   <div
     style={{

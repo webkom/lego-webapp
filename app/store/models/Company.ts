@@ -1,5 +1,6 @@
 import type { EventType } from './Event';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -57,11 +58,19 @@ export interface CompanyContact {
   mail?: string;
   phone?: string;
   mobile?: string;
+  updatedAt?: Dateish;
 }
 
 interface CompanyFile {
   id: EntityId;
   file: string;
+}
+
+export interface StudentCompanyContact {
+  id: EntityId;
+  company: EntityId;
+  semester: EntityId;
+  user: EntityId;
 }
 
 interface Company {
@@ -79,7 +88,7 @@ interface Company {
   joblistingCount?: number;
   thumbnail?: string;
   semesterStatuses?: SemesterStatus[];
-  studentContact?: EntityId | null;
+  studentContacts?: StudentCompanyContact[];
   paymentMail: string;
   comments: EntityId[];
   contentTarget: ContentTarget;
@@ -108,7 +117,7 @@ export type AdminListCompany = Pick<
   | 'id'
   | 'name'
   | 'semesterStatuses'
-  | 'studentContact'
+  | 'studentContacts'
   | 'active'
 >;
 
@@ -142,7 +151,7 @@ export type AdminDetailCompany = Pick<
   Company,
   | 'id'
   | 'name'
-  | 'studentContact'
+  | 'studentContacts'
   | 'description'
   | 'phone'
   | 'companyType'
@@ -156,6 +165,7 @@ export type AdminDetailCompany = Pick<
   | 'logo'
   | 'files'
   | 'companyContacts'
+  | 'logoPlaceholder'
 >;
 
 export type UnknownCompany = (

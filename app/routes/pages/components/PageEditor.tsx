@@ -2,8 +2,8 @@ import {
   Button,
   ButtonGroup,
   ConfirmModal,
-  Flex,
   Icon,
+  LinkButton,
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
@@ -28,6 +28,7 @@ import {
   Fields,
   SelectInput,
   ObjectPermissions,
+  RowSection,
 } from 'app/components/Form';
 import {
   normalizeObjectPermissions,
@@ -38,7 +39,8 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import { selectPageById } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './PageEditor.css';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import styles from './PageEditor.module.css';
 import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { AuthDetailedPage } from 'app/store/models/Page';
@@ -117,7 +119,7 @@ const PageEditor = () => {
       delete body.picture;
     }
 
-    dispatch(isNew ? createPage(body) : updatePage(pageSlug, body)).then(
+    return dispatch(isNew ? createPage(body) : updatePage(pageSlug, body)).then(
       (result) => {
         const slug = result.payload.result;
         const pageCategory = result.payload.entities.pages[slug].category;
@@ -160,19 +162,22 @@ const PageEditor = () => {
               />
             </div>
 
-            <Flex justifyContent="space-between">
+            <RowSection>
               <Field
+                label="Tittel"
+                required
                 placeholder="Title"
                 name="title"
                 component={TextInput.Field}
               />
               <Field
+                label="Kategori"
                 name="category"
                 component={SelectInput.Field}
                 placeholder="Velg kategori"
                 options={categoryOptions}
               />
-            </Flex>
+            </RowSection>
 
             <Fields
               names={[
@@ -192,6 +197,10 @@ const PageEditor = () => {
             />
 
             <ButtonGroup>
+              <LinkButton href={backUrl}>Avbryt</LinkButton>
+              <SubmitButton>
+                {isNew ? 'Opprett side' : 'Lagre endringer'}
+              </SubmitButton>
               {!isNew && (
                 <ConfirmModal
                   title="Slett side"
@@ -201,13 +210,11 @@ const PageEditor = () => {
                   {({ openConfirmModal }) => (
                     <Button onPress={openConfirmModal} danger>
                       <Icon iconNode={<Trash2 />} size={19} />
-                      Slett
+                      Slett side
                     </Button>
                   )}
                 </ConfirmModal>
               )}
-
-              <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
             </ButtonGroup>
           </Form>
         )}
@@ -216,4 +223,4 @@ const PageEditor = () => {
   );
 };
 
-export default PageEditor;
+export default guardLogin(PageEditor);

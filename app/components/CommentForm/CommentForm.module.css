@@ -1,0 +1,11 @@
+.field {
+  flex: 1;
+}
+
+.field > div {
+  margin: 0;
+}
+
+.submitButton:disabled {
+  display: none;
+}

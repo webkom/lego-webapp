@@ -1,6 +1,6 @@
-import { Button, ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
+import { Button, ButtonGroup, Card } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './GalleryEditorActions.css';
+import styles from './GalleryEditorActions.module.css';
 
 type Props = {
   selectedCount: number;
@@ -19,34 +19,36 @@ const GalleryEditorActions = ({
   onDeletePictures,
   newPicutureStatus,
 }: Props) => {
+  if (selectedCount === 0) {
+    return null;
+  }
+
   return (
-    <Flex justifyContent="center">
-      <Card className={cx(styles.fixed, selectedCount > 0 && styles.visible)}>
-        <span>
-          <b>{selectedCount}</b> valgt
-        </span>
-        <ButtonGroup>
-          <Button flat onPress={onDeselect}>
-            Avbryt
+    <Card className={cx(styles.fixed, selectedCount > 0 && styles.visible)}>
+      <span>
+        <b>{selectedCount}</b> valgt
+      </span>
+      <ButtonGroup>
+        <Button flat onPress={onDeselect}>
+          Avbryt
+        </Button>
+        {selectedCount <= 1 && (
+          <Button onPress={onUpdateGalleryCover}>Bruk som albumcover</Button>
+        )}
+        {newPicutureStatus !== -1 && (
+          <Button
+            danger={newPicutureStatus === 0}
+            onPress={() => onTogglePicturesStatus(!!newPicutureStatus)}
+          >
+            {newPicutureStatus === 0 && 'Skjul'}
+            {newPicutureStatus === 1 && 'Synliggjør'}
           </Button>
-          {selectedCount <= 1 && (
-            <Button onPress={onUpdateGalleryCover}>Bruk som albumcover</Button>
-          )}
-          {newPicutureStatus !== -1 && (
-            <Button
-              danger={newPicutureStatus === 0}
-              onPress={() => onTogglePicturesStatus(!!newPicutureStatus)}
-            >
-              {newPicutureStatus === 0 && 'Skjul'}
-              {newPicutureStatus === 1 && 'Synliggjør'}
-            </Button>
-          )}
-          <Button danger onPress={onDeletePictures}>
-            Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
-          </Button>
-        </ButtonGroup>
-      </Card>
-    </Flex>
+        )}
+        <Button danger onPress={onDeletePictures}>
+          Slett {selectedCount > 1 ? 'valgte' : 'valgt'}
+        </Button>
+      </ButtonGroup>
+    </Card>
   );
 };
 

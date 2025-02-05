@@ -18,24 +18,27 @@ import {
 import {
   TextEditor,
   TextInput,
-  RadioButton,
   SelectInput,
   ImageUploadField,
-  MultiSelectGroup,
+  Form,
+  RowSection,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import InfoBubble from 'app/components/InfoBubble';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectCompanyById } from 'app/reducers/companies';
-import { addToast } from 'app/reducers/toasts';
-import { selectUserById } from 'app/reducers/users';
+import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
-import styles from './bdb.css';
-import type { AdminDetailCompany } from 'app/store/models/Company';
+import styles from './bdb.module.css';
+import type {
+  AdminDetailCompany,
+  StudentCompanyContact,
+} from 'app/store/models/Company';
 import type { AutocompleteUser } from 'app/store/models/User';
 
 const validate = createValidator({
@@ -51,6 +54,7 @@ type FormValues = {
   website?: string;
   address?: string;
   studentContact?: AutocompleteUser;
+  active?: boolean;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -61,9 +65,14 @@ const CompanyEditor = () => {
   const company = useAppSelector((state) =>
     selectCompanyById<AdminDetailCompany>(state, companyId),
   );
-  const studentContact = useAppSelector((state) =>
-    company?.studentContact !== null
-      ? selectUserById(state, company?.studentContact)
+  const studentContacts = useAppSelector((state) =>
+    company?.studentContacts !== null
+      ? selectUsersByIds(
+          state,
+          company?.studentContacts?.map(
+            (studentContact) => studentContact.user,
+          ),
+        )
       : undefined,
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
@@ -100,11 +109,6 @@ const CompanyEditor = () => {
     };
 
     dispatch(isNew ? addCompany(body) : editCompany(body)).then((res) => {
-      dispatch(
-        addToast({
-          message: isNew ? 'Bedrift lagt til' : 'Bedrift oppdatert',
-        }),
-      );
       navigate(`/bdb/${isNew ? res.payload.result : companyId}`);
     });
   };
@@ -114,7 +118,7 @@ const CompanyEditor = () => {
         name: '',
         description: '',
         website: '',
-        studentContact: undefined,
+        studentContacts: [] as StudentCompanyContact[],
         active: 'true',
         phone: '',
         companyType: '',
@@ -125,12 +129,13 @@ const CompanyEditor = () => {
         name: company.name,
         description: company.description,
         website: company.website,
-        studentContact: studentContact && {
-          id: studentContact.id,
-          value: studentContact.id,
-          label: studentContact.fullName,
-        },
-        active: company.active ? 'true' : 'false',
+        studentContact:
+          studentContacts &&
+          studentContacts.map((studentContact) => ({
+            value: studentContact.id,
+            label: studentContact.fullName,
+          })),
+        active: company.active,
         phone: company.phone,
         companyType: company.companyType,
         paymentMail: company.paymentMail,
@@ -171,7 +176,7 @@ const CompanyEditor = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="logo"
               component={ImageUploadField}
@@ -182,136 +187,79 @@ const CompanyEditor = () => {
             <Field
               placeholder="Bedriftens navn"
               name="name"
+              label="Navn"
+              required
               component={TextInput.Field}
-              className={styles.editTitle}
-              withoutMargin
             />
+
+            <RowSection>
+              <Field
+                placeholder="Beskrivelse av bedriften"
+                name="description"
+                label="Beskrivelse"
+                component={TextEditor.Field}
+              />
+            </RowSection>
+
+            <RowSection>
+              <Field
+                placeholder="Velg bedriftstype"
+                label="Type bedrift"
+                name="companyType"
+                component={TextInput.Field}
+              />
+              <Field
+                placeholder="Studentkontakter"
+                name="studentContacts"
+                isMulti
+                component={SelectInput.AutocompleteField}
+                filter={[AutocompleteContentType.User]}
+              />
+            </RowSection>
+
+            <RowSection>
+              <Field
+                placeholder="penger@bedrift.no"
+                name="paymentMail"
+                label="E-post for faktura"
+                component={TextInput.Field}
+              />
+              <Field
+                placeholder="+47 909 09 090"
+                name="phone"
+                label="Telefon"
+                component={TextInput.Field}
+              />
+            </RowSection>
+
+            <RowSection>
+              <Field
+                placeholder="https://bedrift.no"
+                name="website"
+                label="Nettside"
+                component={TextInput.Field}
+              />
+              <Field
+                placeholder="Sem Sælands vei 7-9, 7491 Trondheim"
+                name="address"
+                label="Adresse"
+                component={TextInput.Field}
+              />
+            </RowSection>
 
             <Field
-              placeholder="Beskrivelse av bedriften"
-              name="description"
-              component={TextEditor.Field}
+              name="active"
+              label="Aktiv bedrift?"
+              component={ToggleSwitch.Field}
             />
 
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="briefcase"
-                data={
-                  <Field
-                    placeholder="Type bedrift"
-                    label=" "
-                    name="companyType"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Type bedrift"
-                style={{
-                  order: 0,
-                }}
-              />
-              <InfoBubble
-                icon="mail"
-                data={
-                  <Field
-                    placeholder="Fakturamail"
-                    name="paymentMail"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Fakturamail"
-                style={{
-                  order: 1,
-                }}
-              />
-              <InfoBubble
-                icon="call"
-                data={
-                  <Field
-                    placeholder="Telefonnummer"
-                    name="phone"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Telefon"
-                style={{
-                  order: 2,
-                }}
-              />
-            </div>
-
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="at"
-                data={
-                  <Field
-                    placeholder="Nettside"
-                    name="website"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Nettside"
-                style={{
-                  order: 0,
-                }}
-              />
-
-              <InfoBubble
-                icon="home"
-                data={
-                  <Field
-                    placeholder="Adresse"
-                    name="address"
-                    component={TextInput.Field}
-                  />
-                }
-                meta="Adresse"
-                style={{
-                  order: 1,
-                }}
-              />
-              <InfoBubble
-                icon="person"
-                data={
-                  <Field
-                    placeholder="Studentkontakt"
-                    name="studentContact"
-                    component={SelectInput.AutocompleteField}
-                    filter={[AutocompleteContentType.User]}
-                  />
-                }
-                meta="Studentkontakt"
-                style={{
-                  order: 2,
-                }}
-              />
-            </div>
-
-            <div>
-              <MultiSelectGroup name="active" label="Aktiv bedrift?">
-                <Field
-                  name="Yes"
-                  label="Ja"
-                  value="true"
-                  type="radio"
-                  component={RadioButton.Field}
-                />
-                <Field
-                  name="No"
-                  label="Nei"
-                  value="false"
-                  type="radio"
-                  component={RadioButton.Field}
-                />
-              </MultiSelectGroup>
-            </div>
-            
             <SubmissionError />
             <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </Page>
   );
 };
 
-export default CompanyEditor;
+export default guardLogin(CompanyEditor);

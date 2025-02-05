@@ -6,7 +6,6 @@ import {
   BookOpenText,
   BriefcaseBusiness,
   CalendarRange,
-  CircleUser,
   ChartNoAxesColumn,
   Database,
   ExternalLink,
@@ -27,8 +26,8 @@ import {
   ReceiptText,
   ScrollText,
   Send,
-  Tags,
   Users,
+  ShoppingCart,
 } from 'lucide-react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Tag } from 'app/components/Tags';
@@ -46,13 +45,6 @@ type Link = {
 };
 
 const LINKS: Array<Link> = [
-  {
-    key: 'profile',
-    requireLogin: true,
-    title: 'Profil',
-    icon: <CircleUser />,
-    url: '/users/me',
-  },
   {
     key: 'contact',
     requireLogin: true,
@@ -76,6 +68,18 @@ const LINKS: Array<Link> = [
     ),
     icon: <MessagesSquare />,
     url: '/forum',
+  },
+  {
+    key: 'lending',
+    requireLogin: true,
+    title: (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        Utlån
+        <Tag tag="Beta" color="purple" />
+      </Flex>
+    ),
+    icon: <ShoppingCart />,
+    url: '/lending',
   },
   {
     key: 'events',
@@ -138,12 +142,6 @@ const LINKS: Array<Link> = [
     title: 'Jobbannonser',
     icon: <Newspaper />,
     url: '/joblistings',
-  },
-  {
-    key: 'tags',
-    title: 'Tags',
-    icon: <Tags />,
-    url: '/tags',
   },
   {
     key: 'polls',

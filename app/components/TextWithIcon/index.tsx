@@ -1,6 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import Tooltip from '../Tooltip';
-import styles from './TextWithIcon.css';
+import styles from './TextWithIcon.module.css';
 import type { ReactElement, ReactNode } from 'react';
 
 export type TextWithIconProps = {
@@ -8,7 +9,7 @@ export type TextWithIconProps = {
   iconNode?: ReactNode;
   className?: string;
   content: ReactNode;
-  tooltipContentIcon?: ReactElement;
+  tooltipContent?: ReactElement;
   iconRight?: boolean;
   size?: number;
   gap?: number | string;
@@ -19,7 +20,7 @@ const TextWithIcon = ({
   iconNode,
   className,
   content,
-  tooltipContentIcon,
+  tooltipContent,
   iconRight = false,
   size,
   gap = 'var(--spacing-sm)',
@@ -34,14 +35,18 @@ const TextWithIcon = ({
   );
 
   return (
-    <Flex alignItems="center" gap={gap} className={className}>
+    <Flex
+      alignItems="center"
+      gap={gap}
+      className={cx(styles.overflowWrap, className)}
+    >
       {iconRight && (
         <div className={styles.textContainer}>
           <span>{content}</span>
         </div>
       )}
-      {tooltipContentIcon ? (
-        <Tooltip content={tooltipContentIcon}>{icon}</Tooltip>
+      {tooltipContent ? (
+        <Tooltip content={tooltipContent}>{icon}</Tooltip>
       ) : (
         <>{icon}</>
       )}

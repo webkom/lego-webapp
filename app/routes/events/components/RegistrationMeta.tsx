@@ -12,7 +12,7 @@ import {
   allConsentsAnswered,
   toReadableSemester,
 } from '../utils';
-import styles from './EventDetail/EventDetail.css';
+import styles from './EventDetail/EventDetail.module.css';
 import type { TextWithIconProps } from 'app/components/TextWithIcon';
 import type {
   EventRegistrationPaymentStatus,
@@ -23,17 +23,22 @@ import type {
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { Presence } from 'app/store/models/Registration';
 
+type WaitingListPosition =
+  | number
+  | {
+      poolName: string;
+      position: number;
+    }[];
+
 type Props = {
   registration?: PoolRegistrationWithUser;
   isPriced: boolean;
-  registrationIndex: number;
-  hasSimpleWaitingList: boolean;
+  waitingListPosition?: WaitingListPosition;
   useConsent: boolean;
-  hasOpened: boolean;
+  fiveMinutesBeforeActivation: boolean;
   hasEnded: boolean;
   photoConsents?: Array<PhotoConsent>;
   eventSemester: EventSemester;
-  skeleton?: boolean;
 };
 
 const TextWithIconWrapper = (props: TextWithIconProps) => (
@@ -235,30 +240,24 @@ const PaymentStatus = ({
 };
 
 export const RegistrationMetaSkeleton = () => (
-  <Flex column gap="var(--spacing-sm)">
+  <Flex column gap="var(--spacing-sm)" className={styles.registrationMeta}>
     <Skeleton array={2} className={styles.sidebarInfo} />
   </Flex>
 );
 
 const RegistrationMeta = ({
   registration,
-  hasOpened,
+  fiveMinutesBeforeActivation,
   hasEnded,
   useConsent,
   isPriced,
-  registrationIndex,
-  hasSimpleWaitingList,
+  waitingListPosition,
   photoConsents,
   eventSemester,
-  skeleton,
 }: Props) => {
-  if (skeleton) {
-    return <RegistrationMetaSkeleton />;
-  }
-
   return (
-    <Flex column gap="var(--spacing-sm)">
-      {!registration && hasOpened && (
+    <Flex column gap="var(--spacing-sm)" className={styles.registrationMeta}>
+      {!registration && fiveMinutesBeforeActivation && (
         <TextWithIconWrapper
           iconName="close-circle-outline"
           content={`Du ${hasEnded ? 'var' : 'er'} ikke påmeldt`}
@@ -282,20 +281,39 @@ const RegistrationMeta = ({
                 />
               )}
             </>
-          ) : hasSimpleWaitingList ? (
-            <TextWithIconWrapper
-              iconName="pause-circle-outline"
-              content={
-                <>
-                  Din plass i ventelisten er{' '}
-                  <strong>{registrationIndex + 1}</strong>
-                </>
-              }
-            />
           ) : (
             <TextWithIconWrapper
               iconName="pause-circle-outline"
-              content={`Du ${hasEnded ? 'stod' : 'står'} på venteliste`}
+              content={
+                waitingListPosition === undefined ? (
+                  <>Du {hasEnded ? 'stod' : 'står'} på venteliste</>
+                ) : typeof waitingListPosition === 'number' ? (
+                  <>
+                    Din plass i ventelisten er{' '}
+                    <strong>{waitingListPosition}</strong>
+                  </>
+                ) : waitingListPosition.length === 1 ? (
+                  <>
+                    Din plass i ventelisten for{' '}
+                    {waitingListPosition[0].poolName} er{' '}
+                    <strong>{waitingListPosition[0].position}</strong>
+                  </>
+                ) : (
+                  <>
+                    Dine plasser i ventelistene er{' '}
+                    {waitingListPosition.map(
+                      ({ poolName, position }, index) => (
+                        <>
+                          <strong>{position}</strong> for {poolName}
+                          {index < waitingListPosition.length - 2
+                            ? ', '
+                            : index < waitingListPosition.length - 1 && ' og '}
+                        </>
+                      ),
+                    )}
+                  </>
+                )
+              }
             />
           )}
           <PresenceStatus

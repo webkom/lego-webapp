@@ -7,7 +7,7 @@ import LegoReactions from 'app/components/LegoReactions';
 import { selectRandomQuote } from 'app/reducers/quotes';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import styles from './RandomQuote.css';
+import styles from './RandomQuote.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type Quote from 'app/store/models/Quote';
 
@@ -36,7 +36,7 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const onClick = () => {
+  const onPress = () => {
     setAnimation(true);
     dispatch(fetchRandomQuote(seenQuotes.current));
     setTimeout(() => setAnimation(false), 1000);
@@ -56,7 +56,7 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
           <Icon
             iconNode={<RefreshCcw />}
             size={21}
-            onClick={onClick}
+            onPress={onPress}
             className={cx(animation && styles.rotateIcon)}
           />
           <Icon to="/quotes/add" iconNode={<Plus />} />

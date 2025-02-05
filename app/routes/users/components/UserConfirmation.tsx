@@ -11,14 +11,16 @@ import {
   saveToken,
   validateRegistrationToken,
 } from 'app/actions/UserActions';
+import { ContentMain } from 'app/components/Content';
 import {
+  Form,
+  LegoFinalForm,
   TextInput,
   MultiSelectGroup,
   RadioButton,
   PhoneNumberInput,
+  SubmitButton,
 } from 'app/components/Form';
-import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { userSchema } from 'app/reducers';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
@@ -28,8 +30,8 @@ import {
   required,
   sameAs,
 } from 'app/utils/validation';
-import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import { validPassword } from '../utils';
+import AllergiesOrPreferencesField from './AllergiesOrPreferencesField';
 import Confetti from './Confetti';
 import PasswordField from './PasswordField';
 
@@ -67,9 +69,9 @@ const UserConfirmationForm = () => {
 
   const dispatch = useAppDispatch();
 
-  const onSubmit = (data) =>
-    token &&
-    dispatch(createUser(token, data)).then((action) => {
+  const onSubmit = (data: FormValues) => {
+    if (!token) return;
+    return dispatch(createUser(token, data)).then((action) => {
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
       setSubmitSucceeded(true);
@@ -78,10 +80,12 @@ const UserConfirmationForm = () => {
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),
         meta: {
+          endpoint: '/users/me',
           isCurrentUser: true,
         },
       });
     });
+  };
 
   if (submitSucceeded) {
     return (
@@ -89,19 +93,24 @@ const UserConfirmationForm = () => {
         <Confetti />
 
         <Page title="Du er nå registrert!">
-          <Card severity="warning">
-            <Card.Header>Er du student?</Card.Header>
-            <span>
-              For å kunne melde deg på arrangementer i Abakus må du verifisere
-              at du er student.
-            </span>
-          </Card>
-          <ButtonGroup>
-            <LinkButton success href="/users/me/settings/student-confirmation/">
-              Verifiser studentstatus
-            </LinkButton>
-            <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
-          </ButtonGroup>
+          <ContentMain>
+            <Card severity="warning">
+              <Card.Header>Er du student?</Card.Header>
+              <span>
+                For å kunne melde deg på arrangementer i Abakus må du verifisere
+                at du er student.
+              </span>
+            </Card>
+            <ButtonGroup>
+              <LinkButton
+                success
+                href="/users/me/settings/student-confirmation/"
+              >
+                Verifiser studentstatus
+              </LinkButton>
+              <LinkButton href="/">Eller gå til hovedsiden</LinkButton>
+            </ButtonGroup>
+          </ContentMain>
         </Page>
       </>
     );
@@ -121,7 +130,7 @@ const UserConfirmationForm = () => {
     <Page title="Registrer bruker">
       <TypedLegoForm onSubmit={onSubmit} validate={validate}>
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="username"
               placeholder="Brukernavn"
@@ -140,6 +149,7 @@ const UserConfirmationForm = () => {
             })}
 
             <Field
+              required
               label="Gjenta passord"
               name="retypePassword"
               type="password"
@@ -148,6 +158,7 @@ const UserConfirmationForm = () => {
             />
 
             <Field
+              required
               name="firstName"
               placeholder="Fornavn"
               label="Fornavn"
@@ -156,6 +167,7 @@ const UserConfirmationForm = () => {
             />
 
             <Field
+              required
               name="lastName"
               label="Etternavn"
               placeholder="Etternavn"
@@ -163,13 +175,14 @@ const UserConfirmationForm = () => {
               component={TextInput.Field}
             />
 
-            <MultiSelectGroup label="Kjønn" name="gender">
+            <MultiSelectGroup required legend="Kjønn" name="gender">
               <Field
                 name="genderMan"
                 label="Mann"
                 value="male"
                 type="radio"
                 component={RadioButton.Field}
+                showErrors={false}
               />
               <Field
                 name="genderWoman"
@@ -177,6 +190,7 @@ const UserConfirmationForm = () => {
                 value="female"
                 type="radio"
                 component={RadioButton.Field}
+                showErrors={false}
               />
               <Field
                 name="genderOther"
@@ -184,6 +198,7 @@ const UserConfirmationForm = () => {
                 value="other"
                 type="radio"
                 component={RadioButton.Field}
+                showErrors={false}
               />
             </MultiSelectGroup>
 
@@ -197,7 +212,7 @@ const UserConfirmationForm = () => {
             />
 
             <SubmitButton>Registrer bruker</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </Page>

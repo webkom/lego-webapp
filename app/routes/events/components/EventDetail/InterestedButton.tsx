@@ -3,7 +3,7 @@ import { Star } from 'lucide-react';
 import { follow, unfollow } from 'app/actions/EventActions';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser } from 'app/reducers/auth';
-import styles from 'app/routes/events/components/EventDetail/EventDetail.css';
+import styles from 'app/routes/events/components/EventDetail/EventDetail.module.css';
 import { useAppDispatch } from 'app/store/hooks';
 import type { UserDetailedEvent } from 'app/store/models/Event';
 
@@ -21,7 +21,7 @@ export const InterestedButton = ({ event }: InterestedButtonProps) => {
 
   const following = event.following;
 
-  const onClick = following
+  const onPress = following
     ? () => dispatch(unfollow(following, event.id))
     : () => dispatch(follow(currentUser.id, event.id));
 
@@ -31,7 +31,7 @@ export const InterestedButton = ({ event }: InterestedButtonProps) => {
         iconNode={
           <Star fill={following ? 'var(--color-orange-6)' : 'transparent'} />
         }
-        onClick={onClick}
+        onPress={onPress}
         className={styles.star}
       />
     </Tooltip>

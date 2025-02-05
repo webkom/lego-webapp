@@ -1,4 +1,6 @@
+import { Icon } from '@webkom/lego-bricks';
 import { FORM_ERROR } from 'final-form';
+import { LogIn } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { login } from 'app/actions/UserActions';
 import { Form } from 'app/components/Form';
@@ -8,17 +10,10 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
-import type { Action } from 'app/types';
 
 type FormValues = {
   username: string;
   password: string;
-};
-
-type Props = {
-  className?: string;
-  postLoginFail?: (error: unknown) => void;
-  postLoginSuccess?: (res: Action) => any;
 };
 
 const validate = createValidator({
@@ -26,22 +21,13 @@ const validate = createValidator({
   password: [required()],
 });
 
-const LoginForm = (props: Props) => {
+const LoginForm = () => {
   const dispatch = useAppDispatch();
-
-  const {
-    postLoginSuccess = (res) => res,
-    postLoginFail = (error) => {
-      console.error(error);
-    },
-  } = props;
 
   const onSubmit = async (values: FormValues) => {
     try {
-      const res = await dispatch(login(values.username, values.password));
-      return postLoginSuccess(res);
+      await dispatch(login(values.username, values.password));
     } catch (error) {
-      postLoginFail(error);
       return { [FORM_ERROR]: 'Feil brukernavn eller passord' };
     }
   };
@@ -50,7 +36,7 @@ const LoginForm = (props: Props) => {
     <div onClick={(e) => e.stopPropagation()}>
       <LegoFinalForm onSubmit={onSubmit} validate={validate} subscription={{}}>
         {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit} className={props.className}>
+          <Form onSubmit={handleSubmit}>
             <Field
               name="username"
               placeholder="Brukernavn"
@@ -69,7 +55,9 @@ const LoginForm = (props: Props) => {
             />
 
             <SubmissionError />
-            <SubmitButton>Logg inn</SubmitButton>
+            <SubmitButton>
+              <Icon iconNode={<LogIn />} size={19} /> Logg inn
+            </SubmitButton>
           </Form>
         )}
       </LegoFinalForm>

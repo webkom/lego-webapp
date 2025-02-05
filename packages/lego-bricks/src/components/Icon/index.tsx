@@ -1,14 +1,10 @@
 import cx from 'classnames';
-import { cloneElement } from 'react';
-import { Link } from 'react-aria-components';
+import { cloneElement, forwardRef } from 'react';
+import { Button, Link } from 'react-aria-components';
 import Flex from '../Layout/Flex';
 import styles from './Icon.module.css';
-import type {
-  ComponentProps,
-  MouseEventHandler,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { PressEvent } from '@react-types/shared/src/events';
+import type { ComponentProps, ReactElement, ReactNode } from 'react';
 
 type Props = {
   name?: string /** name from ionicons: https://ionic.io/ionicons */;
@@ -17,73 +13,88 @@ type Props = {
   size?: number;
   strokeWidth?: number;
   to?: string;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onPress?: (e: PressEvent) => void;
   danger?: boolean; // name: trash
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
   disabled?: boolean;
 } & Omit<ComponentProps<typeof Flex>, 'onClick'>;
 
-export const Icon = ({
-  name = 'star',
-  iconNode,
-  className,
-  style = {},
-  size = 24,
-  strokeWidth = 1.75,
-  to,
-  onClick,
-  danger = false,
-  success = false,
-  edit = false,
-  disabled = false,
-  ...props
-}: Props) => {
-  const classNames = cx(
-    styles.clickable,
-    danger && styles.danger,
-    success && styles.success,
-    edit && styles.edit,
-    disabled && styles.disabled,
-  );
+export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
+  (
+    {
+      name = 'star',
+      iconNode,
+      className,
+      style = {},
+      size = 24,
+      strokeWidth = 1.75,
+      to,
+      onPress,
+      danger = false,
+      success = false,
+      edit = false,
+      disabled = false,
+      ...props
+    }: Props,
+    ref,
+  ) => {
+    const classNames = cx(
+      styles.clickable,
+      danger && styles.danger,
+      success && styles.success,
+      edit && styles.edit,
+      disabled && styles.disabled,
+    );
 
-  const iconElement = iconNode ? (
-    <>
-      {cloneElement(iconNode as ReactElement, {
-        size,
-        strokeWidth,
-        absoluteStrokeWidth: true,
-      })}
-    </>
-  ) : null;
+    const iconElement = iconNode ? (
+      <>
+        {cloneElement(iconNode as ReactElement, {
+          size,
+          strokeWidth,
+        })}
+      </>
+    ) : (
+      <ion-icon name={name}></ion-icon>
+    );
 
-  return (
-    <Flex
-      className={className}
-      style={{
-        fontSize: `${size.toString()}px`,
-        ...style,
-      }}
-      {...props}
-    >
-      {to ? (
-        <Link href={to} className={classNames}>
-          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
-        </Link>
-      ) : onClick ? (
-        <button type="button" onClick={onClick} className={classNames}>
-          {iconElement ? iconElement : <ion-icon name={name}></ion-icon>}
-        </button>
-      ) : iconElement ? (
-        iconElement
-      ) : (
-        <ion-icon name={name}></ion-icon>
-      )}
-    </Flex>
-  );
-};
+    return (
+      <Flex
+        className={className}
+        style={{
+          fontSize: `${size.toString()}px`,
+          ...style,
+        }}
+        {...props}
+      >
+        {to ? (
+          <Link
+            href={to}
+            isDisabled={disabled}
+            className={classNames}
+            ref={ref}
+          >
+            {iconElement}
+          </Link>
+        ) : onPress ? (
+          <Button
+            onPress={onPress}
+            isDisabled={disabled}
+            className={classNames}
+            ref={ref}
+          >
+            {iconElement}
+          </Button>
+        ) : (
+          iconElement
+        )}
+      </Flex>
+    );
+  },
+);
+Icon.displayName = 'Icon';
 
-Icon.Badge = function IconBadge({
+export function BadgeIcon({
   badgeCount,
   ...props
 }: Props & {
@@ -105,4 +116,4 @@ Icon.Badge = function IconBadge({
       {icon}
     </div>
   );
-};
+}

@@ -9,10 +9,12 @@ import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   getConsent,
+  unregistrationIsClosed,
 } from 'app/routes/events/utils';
+import { Presence } from 'app/store/models/Registration';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
-import styles from './Administrate.css';
+import styles from './Administrate.module.css';
 import {
   StripeStatus,
   TooltipIcon,
@@ -215,6 +217,8 @@ export const RegisteredTable = ({
     (event.feedbackDescription && event.feedbackDescription !== '') ||
     hasNonEmptyFeedback;
 
+  const isUnregistrationClosed = unregistrationIsClosed(event);
+
   const columns: ColumnProps<Registration>[] = [
     {
       title: '#',
@@ -260,12 +264,35 @@ export const RegisteredTable = ({
       title: 'Oppmøte',
       dataIndex: 'presence',
       visible: showPresence,
+      inlineFiltering: true,
+      filter: [
+        { label: 'Ukjent', value: Presence.UNKNOWN },
+        { label: 'Ikke møtt', value: Presence.NOT_PRESENT },
+        { label: 'Sen', value: Presence.LATE },
+        { label: 'Møtt', value: Presence.PRESENT },
+      ],
+      filterOptions: {
+        multiSelect: true,
+      },
       render: (
         presence: Registration['presence'],
         registration: Registration,
       ) => {
         return (
           <PresenceIcons registrationId={registration.id} presence={presence} />
+        );
+      },
+      sorter: (a: Registration, b: Registration) => {
+        const presenceSortingOrder = [
+          Presence.NOT_PRESENT,
+          Presence.LATE,
+          Presence.UNKNOWN,
+          Presence.PRESENT,
+        ];
+
+        return (
+          presenceSortingOrder.indexOf(a['presence']) -
+          presenceSortingOrder.indexOf(b['presence'])
         );
       },
     },
@@ -355,7 +382,13 @@ export const RegisteredTable = ({
       render: (
         fetching: Registration['unregistering'],
         registration: Registration,
-      ) => <Unregister fetching={!!fetching} registration={registration} />,
+      ) => (
+        <Unregister
+          fetching={!!fetching}
+          registration={registration}
+          isUnregistrationClosed={isUnregistrationClosed}
+        />
+      ),
     },
   ].filter(isNotNullish);
 
@@ -365,6 +398,7 @@ export const RegisteredTable = ({
       columns={columns}
       loading={loading}
       data={registered}
+      collapseAfter={20}
     />
   );
 };
@@ -386,10 +420,9 @@ export const UnregisteredTable = ({
       title: 'Bruker',
       dataIndex: 'user',
       filterMessage: 'Filtrer på navn',
+      centered: false,
       render: (user: Registration['user']) => (
-        <Tooltip content={user.fullName}>
-          <Link to={`/users/${user.username}`}>{user.username}</Link>
-        </Tooltip>
+        <Link to={`/users/${user.username}`}>{user.fullName}</Link>
       ),
     },
     {
@@ -439,6 +472,7 @@ export const UnregisteredTable = ({
       columns={columns}
       loading={loading}
       data={unregistered}
+      collapseAfter={20}
     />
   );
 };

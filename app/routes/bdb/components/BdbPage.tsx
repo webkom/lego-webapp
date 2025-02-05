@@ -1,158 +1,103 @@
-import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { MoveLeft, MoveRight } from 'lucide-react';
-import moment from 'moment-timezone';
-import { useState } from 'react';
-import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
-import {
-  fetchAllAdmin,
-  addSemesterStatus,
-  editSemesterStatus,
-  fetchSemesters,
-  addSemester,
-} from 'app/actions/CompanyActions';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
+import { ContentMain } from 'app/components/Content';
+import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
+import UserLink from 'app/components/UserLink';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
+import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Semester } from 'app/store/models';
+import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import {
-  indexToCompanySemester,
-  indexToYearAndSemester,
-  BdbTabs,
-  selectMostProminentStatus,
-  contactStatuses,
+  getClosestCompanySemester,
+  getCompanySemesterBySlug,
+  getSemesterSlugById,
+  getSemesterSlugOffset,
+  getSemesterStatus,
+  semesterToHumanReadable,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.css';
-import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
-import type { TransformedAdminCompany } from 'app/reducers/companies';
-import type { CompanySemesterContactStatus } from 'app/store/models/Company';
-import type { UnknownUser } from 'app/store/models/User';
+import type { TransformedStudentCompanyContact } from 'app/reducers/companies';
+import type CompanySemester from 'app/store/models/CompanySemester';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
   name: '',
   studentContact: '',
+  semester: '',
 };
-
-const NUMBER_OF_SEMESTERS = 3;
 
 const BdbPage = () => {
   const { query, setQuery } = useQuery(companiesDefaultQuery);
 
-  const [startYear, setStartYear] = useState(moment().year());
-  const [startSemester, setStartSemester] = useState(
-    moment().month() > 6 ? 1 : 0,
+  const companySemesters = useAppSelector(selectAllCompanySemesters);
+
+  const resolveCurrentSemester = (
+    slug: string | undefined,
+    companySemesters: CompanySemester[],
+  ) => {
+    if (slug) {
+      const companySemester = getCompanySemesterBySlug(slug, companySemesters);
+      if (companySemester) return companySemester;
+    }
+
+    return getClosestCompanySemester(companySemesters);
+  };
+
+  const currentCompanySemester = useMemo(
+    () => resolveCurrentSemester(query.semester, companySemesters),
+    [companySemesters, query.semester],
   );
 
-  const companies = useAppSelector(selectTransformedAdminCompanies);
-  const companySemesters = useAppSelector(selectAllCompanySemesters);
-  const fetching = useAppSelector((state) => state.companies.fetching);
+  const { pagination } = useAppSelector(
+    selectPaginationNext({
+      endpoint: '/bdb/',
+      entity: EntityType.Companies,
+      query: {
+        ...query,
+        semester_id: String(currentCompanySemester?.id),
+      },
+    }),
+  );
+
+  const companies = useAppSelector((state) =>
+    selectTransformedAdminCompanies(state, { pagination }),
+  );
 
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchBdb',
-    () => dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin())),
-    [],
+    () =>
+      dispatch(fetchSemesters()).then((result) => {
+        const companySemesters = Object.values(
+          result.payload.entities.companySemesters,
+        ).filter((companySemester) => companySemester !== undefined);
+
+        const semester = resolveCurrentSemester(
+          query.semester,
+          companySemesters,
+        );
+        return dispatch(
+          fetchAllAdmin(
+            {
+              ...query,
+              semester_id: semester!.id,
+            },
+            false,
+          ),
+        );
+      }),
+    [query.semester],
   );
-
-  const navigateThroughTime = (options: {
-    direction: 'forward' | 'backward';
-  }) => {
-    let newYear: number;
-    if (options.direction === 'forward') {
-      newYear = startSemester === 0 ? startYear : startYear + 1;
-    } else {
-      newYear = startSemester === 1 ? startYear : startYear - 1;
-    }
-    setStartYear(newYear);
-
-    const newSemester = (startSemester + 1) % (NUMBER_OF_SEMESTERS - 1);
-    setStartSemester(newSemester);
-  };
-
-  const navigate = useNavigate();
-
-  const editChangedStatuses = async (
-    companyId: EntityId,
-    tableIndex: number,
-    semesterStatusId: EntityId | undefined,
-    contactedStatus: CompanySemesterContactStatus[],
-  ) => {
-    // Update state whenever a semesterStatus is graphically changed by the user
-    const companySemester = indexToCompanySemester(
-      tableIndex,
-      startYear,
-      startSemester,
-      companySemesters,
-    );
-
-    let companySemesterId: EntityId;
-
-    if (!companySemester) {
-      const newCompanySemester = indexToYearAndSemester(
-        tableIndex,
-        startYear,
-        startSemester,
-      );
-      const response = await dispatch(addSemester(newCompanySemester));
-      companySemesterId = response.payload.result;
-    } else {
-      companySemesterId = companySemester.id;
-    }
-
-    const semesterStatus = {
-      companyId,
-      contactedStatus,
-      semester: companySemesterId,
-    };
-    return semesterStatusId
-      ? dispatch(editSemesterStatus({ ...semesterStatus, semesterStatusId }))
-      : dispatch(addSemesterStatus(semesterStatus)).then(() => {
-          navigate('/bdb');
-        });
-  };
-
-  const semesterTitle = (index: number) => {
-    const result = indexToYearAndSemester(index, startYear, startSemester);
-    const semester = result.semester === Semester.Spring ? 'Vår' : 'Høst';
-
-    return (
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        {index === 0 && (
-          <Icon
-            onClick={() => navigateThroughTime({ direction: 'backward' })}
-            iconNode={<MoveLeft />}
-            className={styles.navigateThroughTime}
-          />
-        )}
-        <span>
-          {semester} {result.year}
-        </span>
-        {index === NUMBER_OF_SEMESTERS - 1 && (
-          <Icon
-            onClick={() => navigateThroughTime({ direction: 'forward' })}
-            iconNode={<MoveRight />}
-            className={styles.navigateThroughTime}
-          />
-        )}
-      </Flex>
-    );
-  };
-
-  const semesterElement = (index: number, company: TransformedAdminCompany) => {
-    const result = indexToYearAndSemester(index, startYear, startSemester);
-    return (company.semesterStatuses || []).find(
-      (status) =>
-        status.year === result.year && status.semester === result.semester,
-    );
-  };
 
   const columns: ColumnProps<(typeof companies)[number]>[] = [
     {
@@ -165,67 +110,54 @@ const BdbPage = () => {
         <Link to={`/bdb/${company.id}`}>{company.name}</Link>
       ),
     },
-    ...Array.from({ length: NUMBER_OF_SEMESTERS }, (_, index) => ({
-      title: semesterTitle(index),
-      dataIndex: `semester-${index}`,
-      sorter: (a, b) => {
-        const { year, semester } = indexToYearAndSemester(
-          index,
-          startYear,
-          startSemester,
-        );
-        const semesterA = a.semesterStatuses?.find(
-          (obj) => obj.year === year && obj.semester === semester,
-        );
-        const statusA = selectMostProminentStatus(semesterA?.contactedStatus);
-        const semesterB = b.semesterStatuses?.find(
-          (obj) => obj.year === year && obj.semester === semester,
-        );
-        const statusB = selectMostProminentStatus(semesterB?.contactedStatus);
-
-        if (statusA === statusB) {
-          return a.name.localeCompare(b.name);
-        }
-
-        return (
-          contactStatuses.indexOf(statusA) - contactStatuses.indexOf(statusB)
-        );
-      },
+    {
+      title: 'Status',
+      dataIndex: `status`,
       padding: 0,
       render: (_, company) => (
         <SemesterStatus
-          semIndex={index}
-          semesterStatus={semesterElement(index, company)}
-          editChangedStatuses={editChangedStatuses}
-          companyId={company.id}
+          semesterStatus={
+            currentCompanySemester &&
+            getSemesterStatus(company, currentCompanySemester)
+          }
+          semester={
+            currentCompanySemester && {
+              semester: currentCompanySemester?.semester,
+              year: currentCompanySemester.year,
+            }
+          }
+          company={company}
         />
       ),
-    })),
+    },
     {
-      title: 'Studentkontakt',
-      dataIndex: 'studentContact',
+      title: 'Studentkontakter',
+      dataIndex: 'studentContacts',
       search: true,
       inlineFiltering: true,
-      filterMapping: (studentContact: UnknownUser) => {
-        if (studentContact && typeof studentContact === 'object') {
-          return studentContact.fullName;
+      filterMapping: (studentContacts: TransformedStudentCompanyContact[]) => {
+        if (studentContacts && typeof studentContacts === 'object') {
+          return studentContacts
+            .map((studentContact) => studentContact.user.fullName)
+            .join(' ');
         }
       },
-      render: (_, { studentContact }) => {
-        if (studentContact && typeof studentContact === 'object') {
-          return (
-            <Link to={`/users/${studentContact.username}`}>
-              {studentContact.fullName}
-            </Link>
-          );
-        }
-      },
+      render: (_, { studentContacts }) =>
+        studentContacts && (
+          <Flex column gap="var(--spacing-sm)">
+            {studentContacts.map((studentContact) => (
+              <UserLink
+                key={studentContact.user.id}
+                user={studentContact.user}
+              />
+            ))}
+          </Flex>
+        ),
     },
     {
       // Using an empty column for filtering
       title: '',
-      dataIndex: 'Filter',
-      centered: false,
+      dataIndex: 'active',
       maxWidth: 50,
       render: () => '',
       filterIndex: 'active',
@@ -236,30 +168,91 @@ const BdbPage = () => {
     },
   ];
 
-  const title = 'Bedriftsdatabase';
-
   return (
-    <Page
-      title={title}
-      actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
-      tabs={<BdbTabs />}
-    >
-      <Helmet title={title} />
-
+    <ContentMain>
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
         Du kan endre semesterstatuser ved å trykke på dem i listen!
       </Card>
+
+      <Flex width="fit-content">
+        <Icon
+          iconNode={<ChevronLeft />}
+          onPress={() =>
+            setQuery({
+              ...query,
+              semester: getSemesterSlugOffset(
+                currentCompanySemester!.id,
+                companySemesters,
+                'previous',
+              ),
+            })
+          }
+        />
+        <SelectInput
+          name="semester"
+          options={companySemesters
+            .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
+            .sort((a, b) => b.year - a.year)
+            .map((semester) => ({
+              label: semesterToHumanReadable(semester.semester, semester.year),
+              value: semester.id as number,
+            }))}
+          value={{
+            label: currentCompanySemester
+              ? semesterToHumanReadable(
+                  currentCompanySemester.semester,
+                  currentCompanySemester.year,
+                )
+              : 'Velg semester',
+            value: currentCompanySemester?.id as number,
+          }}
+          onChange={(e) =>
+            setQuery({
+              ...query,
+              semester: getSemesterSlugById(
+                (e as { label: string; value: number }).value,
+                companySemesters,
+              ),
+            })
+          }
+        />
+        <Icon
+          iconNode={<ChevronRight />}
+          onPress={() =>
+            setQuery({
+              ...query,
+              semester: getSemesterSlugOffset(
+                currentCompanySemester!.id,
+                companySemesters,
+                'next',
+              ),
+            })
+          }
+        />
+      </Flex>
 
       <Table
         columns={columns}
         data={companies}
         filters={query}
         onChange={setQuery}
-        loading={fetching}
-        hasMore={false}
+        loading={pagination.fetching}
+        onLoad={() => {
+          currentCompanySemester?.id &&
+            dispatch(
+              fetchAllAdmin(
+                {
+                  ...query,
+                  semester_id: currentCompanySemester.id,
+                },
+                true,
+              ),
+            );
+        }}
+        hasMore={pagination.hasMore}
       />
-    </Page>
+    </ContentMain>
   );
 };
 

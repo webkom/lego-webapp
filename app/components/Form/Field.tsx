@@ -1,7 +1,7 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import Tooltip from 'app/components/Tooltip';
-import styles from './Field.css';
+import { Label } from 'app/components/Form/Label';
+import styles from './Field.module.css';
 import type { ComponentType } from 'react';
 import type { FieldInputProps, FieldRenderProps } from 'react-final-form';
 
@@ -67,11 +67,9 @@ export function createField<T, ExtraProps extends object>(
       description,
       fieldClassName,
       labelClassName,
-      labelContentClassName,
       onChange,
       showErrors = true,
       className = null,
-      withoutMargin = false,
       ...props
     } = fieldProps;
     const { error, submitError, touched } = meta;
@@ -79,30 +77,6 @@ export function createField<T, ExtraProps extends object>(
     const hasError = showErrors && touched && anyError && anyError.length > 0;
     const fieldName = input?.name;
     const { noLabel, inlineLabel } = options || {};
-
-    const labelComponent = (
-      <Flex alignItems="center">
-        {label && (
-          <div
-            style={{
-              cursor: inlineLabel && !props.disabled ? 'pointer' : 'default',
-              fontSize: !inlineLabel ? 'var(--font-size-lg)' : 'inherit',
-            }}
-            className={cx(labelContentClassName, styles.labelContent)}
-          >
-            {label}
-          </div>
-        )}
-        {required && <span className={styles.required}>*</span>}
-        {description && (
-          <Flex className={styles.description}>
-            <Tooltip content={description}>
-              <Icon size={18} name="help-circle-outline" />
-            </Tooltip>
-          </Flex>
-        )}
-      </Flex>
-    );
 
     const component = (
       <Component
@@ -117,33 +91,22 @@ export function createField<T, ExtraProps extends object>(
       />
     );
 
-    const content = inlineLabel ? (
-      <Flex gap="var(--spacing-sm)">
-        {component}
-        {labelComponent}
-      </Flex>
-    ) : (
-      <>
-        {labelComponent}
-        {component}
-      </>
-    );
-
     return (
       <Flex
         column
-        className={cx(
-          styles.field,
-          withoutMargin && styles.withoutMargin,
-          fieldClassName,
-        )}
+        className={cx(styles.field, fieldClassName)}
         style={fieldStyle}
       >
-        {noLabel ? (
-          content
-        ) : (
-          <label className={labelClassName}>{content}</label>
-        )}
+        <Label
+          className={labelClassName}
+          label={label}
+          noLabel={noLabel}
+          description={description}
+          inline={inlineLabel}
+          required={required}
+        >
+          {component}
+        </Label>
         {hasError && (
           <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}

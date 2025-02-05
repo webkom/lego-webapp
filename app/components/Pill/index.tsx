@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import styles from './Pill.css';
+import styles from './Pill.module.css';
 import type { HTMLAttributes } from 'react';
 
 type Props = {

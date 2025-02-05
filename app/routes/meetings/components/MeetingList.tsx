@@ -7,11 +7,13 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { CalendarOff } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAll } from 'app/actions/MeetingActions';
+import EmptyState from 'app/components/EmptyState';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import { useCurrentUser } from 'app/reducers/auth';
@@ -23,10 +25,11 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import styles from './MeetingList.css';
+import styles from './MeetingList.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ListMeeting } from 'app/store/models/Meeting';
 import type { CurrentUser } from 'app/store/models/User';
+import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 
 function MeetingListItem({
   meeting,
@@ -77,9 +80,13 @@ function MeetingListItem({
 const MeetingListView = ({
   sections,
   currentUser,
+  fetchMorePagination,
+  fetchOlderPagination,
 }: {
   sections: MeetingSection[];
   currentUser: CurrentUser;
+  fetchMorePagination: Pagination;
+  fetchOlderPagination: Pagination;
 }) => (
   <div>
     {sections.map((item, key) => (
@@ -91,7 +98,15 @@ const MeetingListView = ({
       </div>
     ))}
     {!sections.length && (
-      <h3 className={styles.noDataMessage}>Ingen møter å vise</h3>
+      <EmptyState
+        iconNode={<CalendarOff />}
+        header={`Du har ingen ${
+          !fetchMorePagination.hasMore && fetchOlderPagination.hasMore
+            ? 'kommende'
+            : ''
+        } møter`}
+        body="Opprett et nytt et da vel!"
+      />
     )}
   </div>
 );
@@ -187,7 +202,12 @@ const MeetingList = () => {
     >
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (
-        <MeetingListView currentUser={currentUser} sections={meetingSections} />
+        <MeetingListView
+          currentUser={currentUser}
+          sections={meetingSections}
+          fetchMorePagination={fetchMorePagination}
+          fetchOlderPagination={fetchOlderPagination}
+        />
       )}
       <LoadingIndicator
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}

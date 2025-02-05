@@ -35,6 +35,8 @@ import time from 'app/utils/time';
 import {
   conditionalValidation,
   createValidator,
+  dateRequired,
+  datesAreInCorrectOrder,
   isInteger,
   legoEditorRequired,
   maxSize,
@@ -42,7 +44,6 @@ import {
   minSize,
   required,
   requiredIf,
-  timeIsAfter,
   timeIsAtLeastDurationAfter,
   validYoutubeUrl,
 } from 'app/utils/validation';
@@ -53,12 +54,10 @@ import EditorSection, {
   Registration,
   Descriptions,
 } from './EditorSection';
-import styles from './EventEditor.css';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { AdministrateEvent } from 'app/store/models/Event';
-import type { DetailedUser } from 'app/store/models/User';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
@@ -87,10 +86,15 @@ const validate = createValidator({
     ),
   ],
   paymentDueDate: [
-    timeIsAtLeastDurationAfter(
-      'unregistrationDeadline',
-      moment.duration(1, 'day'),
-      'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
+    conditionalValidation(
+      (allValues) => allValues.isPriced,
+      () => [
+        timeIsAtLeastDurationAfter(
+          'unregistrationDeadline',
+          moment.duration(1, 'day'),
+          'Betalingsfristen må være minst 24 timer etter avregistreringsfristen',
+        ),
+      ],
     ),
   ],
   isClarified: [
@@ -109,8 +113,9 @@ const validate = createValidator({
   ],
   registrationDeadlineHours: [isInteger('Kun hele timer')],
   unregistrationDeadlineHours: [isInteger('Kun hele timer')],
-  endTime: [
-    timeIsAfter('startTime', 'Sluttidspunkt kan ikke være før starttidspunkt'),
+  date: [
+    dateRequired('Du må velge start- og sluttdato'),
+    datesAreInCorrectOrder('Sluttidspunkt kan ikke være før starttidspunkt'),
   ],
   mergeTime: [
     conditionalValidation(
@@ -241,11 +246,13 @@ const EventEditor = () => {
         },
         responsibleUsers:
           event.responsibleUsers &&
-          event.responsibleUsers.map((user: DetailedUser) => ({
+          event.responsibleUsers.map((user) => ({
             label: user.fullName,
             value: user.id,
           })),
         isForeignLanguage: event.isForeignLanguage,
+        date: event.startTime &&
+          event.endTime && [event.startTime, event.endTime],
         eventType: event.eventType && {
           label: displayNameForEventType(event.eventType),
           value: event.eventType,
@@ -267,14 +274,16 @@ const EventEditor = () => {
       }
     : {
         title: '',
-        startTime: time({
-          hours: 17,
-          minutes: 15,
-        }),
-        endTime: time({
-          hours: 20,
-          minutes: 15,
-        }),
+        date: [
+          time({
+            hours: 17,
+            minutes: 15,
+          }),
+          time({
+            hours: 20,
+            minutes: 15,
+          }),
+        ],
         description: '',
         text: '',
         eventType: '',
@@ -367,12 +376,12 @@ const EventEditor = () => {
             {!isEditPage && (
               <Field
                 label={
-                  <>
+                  <span>
                     Arrangementet er avklart i{' '}
                     <Link to="/pages/arrangementer/86-arrangementskalender">
                       arrangementskalenderen
                     </Link>
-                  </>
+                  </span>
                 }
                 description={
                   <>
@@ -398,8 +407,6 @@ const EventEditor = () => {
                 name="isClarified"
                 type="checkbox"
                 component={CheckBox.Field}
-                fieldClassName={styles.metaFieldInformation}
-                className={styles.formField}
                 required
               />
             )}

@@ -1,12 +1,18 @@
-import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
+import moment from 'moment';
 import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
 import { NonEventContactStatus } from 'app/store/models/Company';
 import { EventType } from 'app/store/models/Event';
 import type { ConfigProperties } from '../events/utils';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { TransformedSemesterStatus } from 'app/reducers/companies';
+import type {
+  TransformedAdminCompany,
+  TransformedSemesterStatus,
+  TransformedStudentCompanyContact,
+} from 'app/reducers/companies';
 import type { CompanySemesterContactStatus } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
+import type { PublicUser } from 'app/store/models/User';
 
 export const NonEventContactStatusConfig: Record<
   NonEventContactStatus,
@@ -15,7 +21,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.BEDEX]: {
     displayName: 'Bedex',
     color: colorForEventType(EventType.ALTERNATIVE_PRESENTATION),
-    textColor: '#000',
+    textColor: 'var(--color-absolute-white)',
   },
   [NonEventContactStatus.INTERESTED]: {
     displayName: 'Interessert',
@@ -25,7 +31,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.NOT_INTERESTED]: {
     displayName: 'Ikke interessert',
     color: 'var(--danger-color)',
-    textColor: '#ff0000',
+    textColor: 'var(--color-absolute-white)',
   },
   [NonEventContactStatus.CONTACTED]: {
     displayName: 'Kontaktet',
@@ -35,7 +41,7 @@ export const NonEventContactStatusConfig: Record<
   [NonEventContactStatus.NOT_CONTACTED]: {
     displayName: 'Ikke kontaktet',
     color: 'var(--additive-background)',
-    textColor: '#000',
+    textColor: 'var(--lego-font-color)',
   },
 };
 
@@ -57,6 +63,12 @@ export const getStatusColor = (
   status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
 ) =>
   EventTypeConfig[status]?.color || NonEventContactStatusConfig[status]?.color;
+
+export const getStatusTextColor = (
+  status: CompanySemesterContactStatus = NonEventContactStatus.NOT_CONTACTED,
+) =>
+  EventTypeConfig[status]?.textColor ||
+  NonEventContactStatusConfig[status]?.textColor;
 
 export const sortStatusesByProminence = (
   statuses: CompanySemesterContactStatus[],
@@ -83,6 +95,10 @@ export const semesterNameOf = (index: number) => {
   };
   return indexToSemesterName[index] || 'spring';
 };
+export const semesterToHumanReadable = (semester: Semester, year: number) => {
+  const semesterName = semesterCodeToName(semester);
+  return `${year} ${semesterName}`;
+};
 export const semesterCodeToName = (code: Semester) => {
   const codeToName = {
     spring: 'Vår',
@@ -103,40 +119,91 @@ export const sortByYearThenSemester = (
     : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
 
-export const indexToYearAndSemester = (
-  index: number,
-  startYear: number,
-  startSem: number,
-) => {
-  const semester = semesterNameOf(((index % 2) + startSem) % 2);
-  let year = 0;
+export const getSemesterStatus = (
+  company: TransformedAdminCompany,
+  companySemester: CompanySemester,
+) =>
+  company.semesterStatuses.find(
+    (semesterStatus) =>
+      semesterStatus.year == companySemester.year &&
+      semesterStatus.semester == companySemester.semester,
+  );
 
-  if (startSem === 0) {
-    year = index < 2 ? startYear : startYear + 1;
-  } else if (index === 0) {
-    year = startYear;
-  } else if (index === 3) {
-    year = startYear + 2;
-  } else {
-    year = startYear + 1;
+export type GroupedStudentContactsBySemester = {
+  id: EntityId;
+  semester: CompanySemester;
+  users: PublicUser[];
+};
+
+export const groupStudentContactsBySemester = (
+  studentContacts: TransformedStudentCompanyContact[],
+): GroupedStudentContactsBySemester[] => {
+  const studentContactsInSemester: Record<EntityId, PublicUser[]> = {};
+  const semestersById: Record<EntityId, CompanySemester> = Object.fromEntries(
+    studentContacts.map((studentContact) => [
+      studentContact.semester.id,
+      studentContact.semester,
+    ]),
+  );
+
+  for (const studentContact of studentContacts) {
+    const { semester, user } = studentContact;
+    const semesterId = semester.id;
+
+    if (!studentContactsInSemester[semesterId]) {
+      studentContactsInSemester[semesterId] = [];
+    }
+
+    studentContactsInSemester[semesterId].push(user);
   }
 
-  return {
-    year,
-    semester,
-  };
+  return Object.keys(studentContactsInSemester).map((semesterId) => ({
+    id: semesterId,
+    semester: semestersById[semesterId],
+    users: studentContactsInSemester[semesterId],
+  }));
 };
-export const indexToCompanySemester = (
-  index: number,
-  startYear: number,
-  startSem: number,
+
+export const getCompanySemesterBySlug = (
+  slug: string,
   companySemesters: CompanySemester[],
 ) => {
-  const { year, semester } = indexToYearAndSemester(index, startYear, startSem);
+  const parts = /^(\d+)(h|v)$/.exec(slug);
+  if (!parts) {
+    return undefined;
+  }
+
+  const year = parseInt(parts[1]);
+  const season: Semester = parts[2] === 'h' ? 'autumn' : 'spring';
 
   return companySemesters.find(
     (companySemester) =>
-      companySemester.year === year && companySemester.semester === semester,
+      companySemester.semester === season && companySemester.year === year,
+  );
+};
+
+export const getSemesterSlugById = (
+  id: EntityId,
+  companySemesters: CompanySemester[],
+) => {
+  const semester = companySemesters.find((semester) => semester.id === id);
+  if (!semester) {
+    return undefined;
+  }
+  return `${semester.year}${semester.semester === 'autumn' ? 'h' : 'v'}`;
+};
+
+export const getSemesterSlugOffset = (
+  id: EntityId,
+  companySemesters: CompanySemester[],
+  offset: 'previous' | 'next',
+) => {
+  return getSemesterSlugById(
+    companySemesters.find(
+      (semester) =>
+        semester.id === (id as number) + (offset === 'previous' ? -1 : 1),
+    )?.id as number,
+    companySemesters,
   );
 };
 
@@ -146,6 +213,36 @@ export const httpCheck = (link: string) => {
       ? link
       : `http://${link}`;
   return link === '' ? link : httpLink;
+};
+
+export const getClosestCompanySemester = (
+  companySemesters: CompanySemester[],
+) => {
+  let closestSemesterIndex: number | undefined = undefined;
+  let closestSemesterDateDiff: number = Number.MAX_SAFE_INTEGER;
+
+  const currentTerm = moment().month() < 6 ? 0 : 1;
+  const currentYear = moment().year() + currentTerm * 0.5;
+
+  for (let i = 0; i < companySemesters.length; i++) {
+    const companySemester = companySemesters[i];
+
+    const year =
+      companySemester.year + (companySemester.semester === 'autumn' ? 0.5 : 0);
+    const semesterDateDiff = Math.abs(currentYear - year);
+
+    if (
+      closestSemesterIndex === undefined ||
+      semesterDateDiff < closestSemesterDateDiff
+    ) {
+      closestSemesterIndex = i;
+      closestSemesterDateDiff = semesterDateDiff;
+    }
+  }
+
+  if (closestSemesterIndex === undefined) return undefined;
+
+  return companySemesters[closestSemesterIndex];
 };
 
 export const getContactStatuses = (
@@ -184,10 +281,3 @@ export const getContactStatuses = (
 
   return Array.from(statuses);
 };
-
-export const BdbTabs = () => (
-  <>
-    <NavigationTab href="/company-interest">Bedriftsinteresser</NavigationTab>
-    <NavigationTab href="/bdb">BDB</NavigationTab>
-  </>
-);

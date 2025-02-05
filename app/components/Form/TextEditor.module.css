@@ -1,0 +1,17 @@
+.input {
+  composes: input from './TextInput.module.css';
+  width: 100%;
+  max-width: 100%;
+  min-height: 70px;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  outline: none;
+
+  &::placeholder {
+    color: var(--placeholder-color);
+  }
+
+  &:focus::placeholder {
+    transition: opacity var(--easing-medium);
+    opacity: 0;
+  }
+}

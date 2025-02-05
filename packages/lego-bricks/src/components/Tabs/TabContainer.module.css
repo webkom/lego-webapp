@@ -1,8 +1,102 @@
 .container {
   margin: var(--spacing-sm) 0 var(--spacing-md);
+  position: relative;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
 }
 
-.spacer {
-  flex-grow: 1;
+.tabList {
+  display: inline-flex;
+  position: relative;
   border-bottom: 2px solid var(--border-gray);
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+}
+
+.tabList::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--easing-medium);
+
+  svg {
+    color: var(--secondary-font-color);
+    width: var(--font-size-md);
+    height: var(--font-size-md);
+  }
+}
+
+.scrollButton.left {
+  left: calc(-1 * var(--spacing-sm));
+}
+
+.scrollButton.right {
+  right: calc(-1 * var(--spacing-sm));
+}
+
+.container.showLeftShadow .scrollButton.left,
+.container.showRightShadow .scrollButton.right {
+  opacity: 1;
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  border-top-left-radius: var(--spacing-xs);
+  border-top-right-radius: var(--spacing-xs);
+  background-color: var(--color-black);
+  transition:
+    transform var(--easing-medium),
+    width var(--easing-medium);
+}
+
+.container::before,
+.container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 2px;
+  width: 40px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity var(--easing-medium);
+}
+
+.container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--lego-card-color), transparent);
+}
+
+.container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--lego-card-color), transparent);
+}
+
+.container.showLeftShadow::before {
+  opacity: 1;
+}
+
+.container.showRightShadow::after {
+  opacity: 1;
 }

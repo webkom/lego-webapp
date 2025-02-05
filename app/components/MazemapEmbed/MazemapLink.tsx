@@ -1,3 +1,5 @@
+import styles from './MazemapEmbed.module.css';
+
 type Props = {
   mazemapPoi: number;
   linkText?: string;
@@ -11,6 +13,7 @@ const MazemapLink = ({ mazemapPoi, linkText }: Props) => (
     }
     rel="noreferrer noopener"
     target="_blank"
+    className={styles.mazemapLink}
   >
     {linkText || 'Åpne kart i ny fane'}
   </a>

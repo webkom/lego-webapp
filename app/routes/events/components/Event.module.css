@@ -1,0 +1,41 @@
+@import url('~app/styles/variables.css');
+
+.form {
+  gap: var(--spacing-md);
+}
+
+.feedbackLabel {
+  font-size: var(--font-size-lg);
+}
+
+.feedbackText {
+  min-height: 40px;
+  min-width: 190px;
+  max-width: 893px;
+  max-height: 300px;
+  resize: vertical;
+}
+
+.tagRow {
+  margin-top: var(--spacing-md);
+}
+
+.registrationPendingTooltip {
+  display: inline;
+  vertical-align: middle;
+  margin-left: var(--spacing-xs);
+}
+
+.eventPrice {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.eventPrice::after {
+  width: 70%;
+  display: block;
+  content: '';
+  margin: 0 auto;
+  border-bottom: 1px solid #6772e585;
+}

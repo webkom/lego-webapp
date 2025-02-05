@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import { isNotNullish } from 'app/utils';
-import styles from './styles.css';
+import styles from './styles.module.css';
 import type { ReactNode } from 'react';
 
 type Item = {

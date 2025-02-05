@@ -1,9 +1,0 @@
-@import url('~app/styles/variables.css');
-
-.scannerModal {
-  text-align: center;
-}
-
-.scannerButton {
-  margin-bottom: var(--spacing-md);
-}

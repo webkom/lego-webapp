@@ -1,7 +1,7 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
-import styles from './Registrations.css';
+import styles from './Registrations.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from 'app/store/models/User';
 
@@ -40,8 +40,8 @@ const renderNameList = (registrations) => {
       {registrationsList.map((reg) => (
         <Flex key={reg.id}>{reg.user.fullName}</Flex>
       ))}
-      {registrations.length > 10 && (
-        <Flex>{`og ${registrations.length - 12} andre`}</Flex>
+      {registrations.length > 14 && (
+        <Flex>{`og ${registrations.length - 14} ${registrations.length - 14 === 1 ? 'annen' : 'andre'}`}</Flex>
       )}
     </Flex>
   );
@@ -137,7 +137,7 @@ const RegisteredSentence = ({
 const RegisteredSummary = ({ skeleton, ...props }: RegisteredSummaryProps) => {
   return (
     <Flex className={styles.summary}>
-      {skeleton && !props.registrations ? (
+      {skeleton && !props.registrations?.length ? (
         <Skeleton width="80%" />
       ) : (
         <RegisteredSentence {...props} />

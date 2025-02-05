@@ -8,10 +8,10 @@ describe('Navigate throughout app', () => {
 
   // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
-    cy.get(`${c('Header__menu')} ${c('buttonGroup')}`).within(() => {
+    cy.get(`${c('Header-module__menu')} ${c('buttonGroup')}`).within(() => {
       cy.get(t('search-menu-icon')).click();
     });
-    cy.get(c('Search__quickLinks-'))
+    cy.get(c('Search-module__quickLinks-'))
       .first()
       .within(() => {
         cy.contains(name).click();
@@ -65,11 +65,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Prikker');
 
     // Go to settings from profile
-    cy.get(c('UserProfile__infoCard'))
-      .first()
-      .within(() => {
-        cy.contains('Innstillinger').click();
-      });
+    cy.contains('Innstillinger').click();
     cy.contains('Brukernavn');
   });
 
@@ -144,7 +140,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Artikler');
 
     // Go back
-    cy.get(t('closeButton')).click();
+    cy.get(t('search-menu-icon')).click();
     cy.url().should('contain', '/');
     cy.contains('Arrangementer');
     cy.contains('Påmeldinger');
@@ -193,17 +189,17 @@ describe('Navigate throughout app', () => {
     openMenuAndSelect('Om Abakus', '/pages/info-om-abakus');
     cy.contains('Generelt');
 
-    // Profile
-    openMenuAndSelect('Profil', '/users/me');
-    cy.contains('Brukerinfo');
-
     // Quotes
     openMenuAndSelect('Overhørt', '/quotes');
     cy.contains('Just do it!');
 
-    // Tags
-    openMenuAndSelect('Tags', '/tags');
-    cy.contains('lorem');
+    // Forum
+    openMenuAndSelect('Forum', '/forum');
+    cy.contains('Forum');
+
+    // Lending
+    openMenuAndSelect('Utlån', '/lending');
+    cy.contains('Prinsessekjole');
   });
 
   it('should be able to log out', () => {

@@ -1,6 +1,6 @@
 import { Button, Flex, Skeleton } from '@webkom/lego-bricks';
 import Tooltip from 'app/components/Tooltip';
-import styles from './AttendanceStatus.css';
+import styles from './AttendanceStatus.module.css';
 import type { AttendanceModalPool } from './AttendanceModalContent';
 
 type AttendancePool = AttendanceModalPool & {

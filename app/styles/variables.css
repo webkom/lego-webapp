@@ -26,6 +26,7 @@
 
   --lego-header-height: 120px;
   --lego-main-nav-height: 50px;
+  --development-banner-height: 0px;
 
   --color-event-red: #b11c11;
   --color-event-black: #111;
@@ -255,4 +256,8 @@
   --color-yellow-7: #fad643;
   --color-yellow-8: #ffe169;
   --color-yellow-9: #fff9cc;
+}
+
+html:has(#development-banner) {
+  --development-banner-height: 36.6px;
 }

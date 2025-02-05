@@ -18,7 +18,6 @@ import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById, selectGroupsByType } from 'app/reducers/groups';
-import { addToast } from 'app/reducers/toasts';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { createValidator, maxLength, required } from 'app/utils/validation';
@@ -68,22 +67,9 @@ const ContactForm = () => {
         ...data,
         recipient_group: data.recipient_group.value,
       }),
-    )
-      .then(() => {
-        form.reset();
-        dispatch(
-          addToast({
-            message: 'Melding er sendt',
-          }),
-        );
-      })
-      .catch(() =>
-        dispatch(
-          addToast({
-            message: 'Kunne ikke sende melding',
-          }),
-        ),
-      );
+    ).then(() => {
+      form.reset();
+    });
   };
 
   const hsRecipient = {
@@ -112,7 +98,7 @@ const ContactForm = () => {
             bare ønsker å dele informasjon med oss.
           </p>
           <Card severity="info">
-            <p>
+            <span>
               Dersom du ønsker å varsle om kritikkverdige forhold, vennligst
               benytt vår{' '}
               <a
@@ -130,7 +116,7 @@ const ContactForm = () => {
                 Etiske retningslinjer
               </Link>
               .
-            </p>
+            </span>
           </Card>
           <p>
             Sender du meldingen til en spesifikk komité er det kun lederen av

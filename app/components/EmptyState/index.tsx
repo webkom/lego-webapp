@@ -1,6 +1,6 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './EmptyState.css';
+import styles from './EmptyState.module.css';
 import type { ReactNode } from 'react';
 
 type Props = {
@@ -18,15 +18,11 @@ const EmptyState = ({
   size = 45,
   className,
 }: Props) => (
-  <Flex
-    column
-    gap="var(--spacing-sm)"
-    className={cx(styles.container, iconNode && styles.centered, className)}
-  >
+  <div className={cx(styles.container, iconNode && styles.centered, className)}>
     {iconNode && <Icon iconNode={iconNode} size={size} />}
     {header && <h4>{header}</h4>}
     {body}
-  </Flex>
+  </div>
 );
 
 export default EmptyState;

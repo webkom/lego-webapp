@@ -3,7 +3,6 @@ import { restrictedMailSchema } from 'app/reducers';
 import { RestrictedMail } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RestrictedMailEntity } from 'app/reducers/restrictedMails';
-import type { Thunk } from 'app/types';
 
 export function fetchRestrictedMail(restrictedMailId: EntityId) {
   return callAPI({
@@ -30,24 +29,17 @@ export function createRestrictedMail(restrictedMail: RestrictedMailEntity) {
   });
 }
 
-export function fetch({
-  next,
-}: {
-  next?: boolean;
-} = {}): Thunk<any> {
-  return (dispatch, getState) => {
-    return dispatch(
-      callAPI({
-        types: RestrictedMail.FETCH,
-        endpoint: `/restricted-mail/${
-          next ? `?${getState().restrictedMails.pagination.next}` : ''
-        }`,
-        schema: [restrictedMailSchema],
-        meta: {
-          errorMessage: 'Henting av begrensete e-poster feilet',
-        },
-        propagateError: true,
-      }),
-    );
-  };
+export function fetch({ next = false }: { next?: boolean }) {
+  return callAPI({
+    types: RestrictedMail.FETCH,
+    endpoint: '/restricted-mail/',
+    pagination: {
+      fetchNext: next,
+    },
+    schema: [restrictedMailSchema],
+    meta: {
+      errorMessage: 'Henting av begrensete e-poster feilet',
+    },
+    propagateError: true,
+  });
 }

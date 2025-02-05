@@ -53,16 +53,28 @@ export const selectEditor = (name, options = {}) =>
         .click()
     : cy.get('div[data-slate-editor="true"]', options).click().click();
 
-const selectDatePickerHours = () =>
-  cy.get(c('TimePicker__timePickerInput')).first().find('input');
-
-const selectDatePickerMinutes = () =>
-  cy.get(c('TimePicker__timePickerInput')).last().find('input');
-
-export const setDatePickerTime = (name, hours, minutes) => {
+export const setDatePickerTime = (name, hours, minutes, isEndTime = false) => {
   field(name).click();
-  selectDatePickerHours().click().clear().type(hours);
-  selectDatePickerMinutes().click().clear().type(minutes);
+
+  const timePickers = cy.get(c('TimePicker-module__timePicker'));
+  const timePickerIndex = isEndTime ? 3 : 0;
+  timePickers.eq(timePickerIndex).within(() => {
+    cy.get(c('timePickerInput'))
+      .first()
+      .find('input')
+      .click()
+      .clear()
+      .type(hours);
+
+    cy.get(c('timePickerInput'))
+      .last()
+      .find('input')
+      .click()
+      .clear()
+      .type(minutes);
+  });
+
+  // Click outside to close picker
   field(name).click();
 };
 
@@ -79,20 +91,11 @@ export const setDatePickerDate = (name, date, isNextMonth = false) => {
   cy.get('button:not(:disabled):not([class*="prevOrNextMonth"])')
     .contains(new RegExp('^' + date + '$', 'g'))
     .click();
+
+  field(name).click();
 };
 
 // Used to either confirm or deny the 3D secure pop-up from Stripe.
-export const confirm3DSecureDialog = (confirm = true) => {
-  const target = confirm
-    ? '#test-source-authorize-3ds'
-    : '#test-source-fail-3ds';
-  cy.getIframeBody('iframe[name^=__privateStripeFrame]')
-    .findIframeBody('iframe#challengeFrame')
-    .findIframeBody('iframe[name="acsFrame"]')
-    .find(target)
-    .click();
-};
-
 export const confirm3DSecure2Dialog = (confirm = true) => {
   const target = confirm
     ? '#test-source-authorize-3ds'
@@ -104,32 +107,30 @@ export const confirm3DSecure2Dialog = (confirm = true) => {
 };
 
 export const fillCardDetails = (cardNumber, expiry, cvc) => {
-  cy.get('[data-testid="cardnumber-input"] iframe')
-    .its('0.contentDocument.body')
-    .then(cy.wrap)
+  cy.getIframeBody('[data-testid="cardnumber-input"] iframe')
     .find('input[name="cardnumber"]')
     .type(cardNumber);
-  cy.get('[data-testid="expiry-input"] iframe')
-    .its('0.contentDocument.body')
-    .then(cy.wrap)
+  cy.getIframeBody('[data-testid="expiry-input"] iframe')
     .find('input[name="exp-date"]')
     .type(expiry);
-  cy.get('[data-testid="cvc-input"] iframe')
-    .its('0.contentDocument.body')
-    .then(cy.wrap)
+  cy.getIframeBody('[data-testid="cvc-input"] iframe')
     .find('input[name="cvc"]')
     .type(cvc);
 };
 
 export const clearCardDetails = () => {
-  cy.get('.__PrivateStripeElement iframe').then((iframe) => {
-    cy.wrap(iframe.contents()[0].body).find('input[name="cardnumber"]').clear();
-    cy.wrap(iframe.contents()[1].body).find('input[name="exp-date"]').clear();
-    cy.wrap(iframe.contents()[2].body).find('input[name="cvc"]').clear();
-  });
+  cy.getIframeBody('[data-testid="cardnumber-input"] iframe')
+    .find('input[name="cardnumber"]')
+    .clear();
+  cy.getIframeBody('[data-testid="expiry-input"] iframe')
+    .find('input[name="exp-date"]')
+    .clear();
+  cy.getIframeBody('[data-testid="cvc-input"] iframe')
+    .find('input[name="cvc"]')
+    .clear();
 };
 
-export const stripeError = () => cy.get(c('Stripe__error'));
+export const stripeError = () => cy.get(c('Stripe-module__error'));
 
 export const mockMazemapApi = () => {
   cy.intercept('GET', 'https://api.mazemap.com/search/equery/**', {
@@ -144,9 +145,9 @@ export const uploadHeader = () => {
 
   // Upload file
   cy.upload_file(
-    c('ImageUploadField__coverImage') +
+    c('ImageUploadField-module__coverImage') +
       ' ' +
-      c('UploadImage__placeholderContainer') +
+      c('UploadImage-module__placeholderContainer') +
       ' > span',
     'images/screenshot.png',
   );

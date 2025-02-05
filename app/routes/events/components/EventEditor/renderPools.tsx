@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import {
@@ -6,7 +7,7 @@ import {
   SelectInput,
   Button,
 } from 'app/components/Form';
-import styles from './EventEditor.css';
+import styles from './EventEditor.module.css';
 import PoolSuggestion from './PoolSuggestions';
 import type { Dateish, EventStatusType } from 'app/models';
 
@@ -23,7 +24,12 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
     }}
   >
     {fields.map((pool, index) => (
-      <li key={index} className={styles.poolBox}>
+      <Flex
+        column
+        gap="var(--spacing-sm)"
+        key={index}
+        className={styles.poolBox}
+      >
         <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
         <Field
           label="Navn"
@@ -34,8 +40,6 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             }
             return undefined;
           }}
-          fieldClassName={styles.metaField}
-          className={styles.formField}
           component={TextInput.Field}
         />
         {['NORMAL'].includes(eventStatusType) && (
@@ -56,16 +60,12 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             }}
             type="number"
             placeholder="20,30,50"
-            fieldClassName={styles.metaField}
-            className={styles.formField}
             component={TextInput.Field}
           />
         )}
         <Field
           label="Aktiveringstidspunkt"
           name={`pools[${index}].activationDate`}
-          fieldClassName={styles.metaField}
-          className={styles.formField}
           component={DatePicker.Field}
         />
         <Field
@@ -77,7 +77,6 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             }
             return undefined;
           }}
-          fieldClassName={styles.metaField}
           filter={['users.abakusgroup']}
           component={SelectInput.AutocompleteField}
           isMulti
@@ -96,11 +95,11 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             </Button>
           </div>
         )}
-      </li>
+      </Flex>
     ))}
     {['NORMAL'].includes(eventStatusType) && (
       <li>
-        <div className={styles.centeredButton}>
+        <div className={styles.addPoolButton}>
           <Button
             onPress={() =>
               fields.push({

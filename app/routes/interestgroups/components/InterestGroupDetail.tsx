@@ -31,7 +31,7 @@ import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectGroupById } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import styles from './InterestGroup.css';
+import styles from './InterestGroup.module.css';
 import InterestGroupMemberModal from './InterestGroupMemberModal';
 import type { TransformedMembership } from 'app/reducers/memberships';
 import type { PublicDetailedGroup } from 'app/store/models/Group';

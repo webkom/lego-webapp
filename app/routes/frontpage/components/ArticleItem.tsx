@@ -2,7 +2,7 @@ import { Card, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
-import styles from './ArticleItem.css';
+import styles from './ArticleItem.module.css';
 import type { PublicArticle } from 'app/store/models/Article';
 
 type Props = {
@@ -20,7 +20,7 @@ const ArticleItem = ({ item, url, meta }: Props) => {
   );
 
   return (
-    <Card skeleton={fetching && !item} className={styles.body}>
+    <Card hideOverflow skeleton={fetching && !item} className={styles.body}>
       <Link to={url} className={styles.link}>
         <Image
           className={styles.image}

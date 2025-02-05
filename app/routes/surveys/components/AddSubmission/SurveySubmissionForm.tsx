@@ -2,13 +2,14 @@ import arrayMutators from 'final-form-arrays';
 import { useField } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
+  Form,
   CheckBox,
   LegoFinalForm,
   RadioButton,
   TextArea,
+  SubmitButton,
 } from 'app/components/Form';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
-import styles from 'app/routes/surveys/components/surveys.css';
+import styles from 'app/routes/surveys/components/surveys.module.css';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedSurvey } from 'app/store/models/Survey';
@@ -32,7 +33,7 @@ const SurveySubmissionForm = ({ survey, initialValues, onSubmit }: Props) => {
       mutators={{ ...arrayMutators }}
     >
       {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <FieldArray name="answers">
             {(props) => (
               <AnswerFields {...props} questions={survey.questions} />
@@ -40,7 +41,7 @@ const SurveySubmissionForm = ({ survey, initialValues, onSubmit }: Props) => {
           </FieldArray>
 
           <SubmitButton>Send svar</SubmitButton>
-        </form>
+        </Form>
       )}
     </LegoFinalForm>
   );

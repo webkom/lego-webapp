@@ -1,10 +1,12 @@
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get } from 'lodash';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
-import styles from './Table.css';
+import styles from './Table.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 
@@ -55,6 +57,7 @@ type TableProps<T extends { id: EntityId }> = {
   rowKey?: string;
   columns: ColumnProps<T>[];
   data: T[];
+  collapseAfter?: number;
   hasMore: boolean;
   loading: boolean;
   onChange?: (queryFilters: QueryFilters, querySort: Sort) => void;
@@ -94,6 +97,7 @@ const Table = <T extends { id: EntityId }>({
   className,
   onChange,
   onLoad,
+  collapseAfter,
   ...props
 }: TableProps<T>) => {
   const [sort, setSort] = useState<Sort>({});
@@ -102,6 +106,7 @@ const Table = <T extends { id: EntityId }>({
   );
   const [isShown, setIsShown] = useState<IsShown>({});
   const [showColumn, setShowColumn] = useState<ShowColumn>({});
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const initialShowColumn = {};
@@ -138,7 +143,7 @@ const Table = <T extends { id: EntityId }>({
   }, [sort, data]);
 
   const filter: (item: T) => boolean = (item) => {
-    if (isEmpty(filters)) {
+    if (Object.values(filters).every(isEmpty)) {
       return true;
     }
 
@@ -167,7 +172,7 @@ const Table = <T extends { id: EntityId }>({
       return filters[key]?.some((arrayFilter) =>
         String(filterMapping(get(item, index) ?? ''))
           .toLowerCase()
-          .includes(arrayFilter),
+          .includes(arrayFilter.toLowerCase()),
       );
     });
   };
@@ -180,60 +185,87 @@ const Table = <T extends { id: EntityId }>({
 
   const visibleColumns = columns.filter(isVisible);
 
+  const filteredAndSortedData = sortedData.filter(filter);
+  const displayData =
+    collapseAfter && !isExpanded
+      ? filteredAndSortedData.slice(0, collapseAfter)
+      : filteredAndSortedData;
+
   return (
-    <div className={cx(styles.wrapper, className)}>
-      <table>
-        <thead>
-          <tr>
-            {visibleColumns.map((column, index) => (
-              <HeadCell
-                key={column.dataIndex + column.title}
-                column={column}
-                index={index}
-                sort={sort}
-                filters={filters}
-                isShown={isShown}
-                showColumn={showColumn}
-                setSort={setSort}
-                setFilters={setFilters}
-                setIsShown={setIsShown}
-                setShowColumn={setShowColumn}
-              />
-            ))}
-          </tr>
-        </thead>
-        <InfiniteScroll
-          element="tbody"
-          hasMore={hasMore && !loading}
-          loadMore={loadMore}
-          threshold={50}
-        >
-          {sortedData.filter(filter).map((data) => (
-            <tr key={data[rowKey]}>
+    <Flex
+      column
+      alignItems="center"
+      gap="var(--spacing-md)"
+      className={cx(styles.wrapper, className)}
+    >
+      <div className={styles.tableContainer}>
+        <table>
+          <thead>
+            <tr>
               {visibleColumns.map((column, index) => (
-                <BodyCell
-                  key={column.title + column.dataIndex}
+                <HeadCell
+                  key={column.dataIndex + column.title}
                   column={column}
-                  data={data}
                   index={index}
+                  sort={sort}
+                  filters={filters}
+                  isShown={isShown}
                   showColumn={showColumn}
+                  setSort={setSort}
+                  setFilters={setFilters}
+                  setIsShown={setIsShown}
+                  setShowColumn={setShowColumn}
                 />
               ))}
             </tr>
-          ))}
-          {loading &&
-            Array.from({ length: 10 }).map((_, index) => (
-              <tr key={index}>
-                {Array.from({ length: visibleColumns.length }).map(
-                  (_, index) => (
-                    <td key={index} className={styles.loader} />
-                  ),
-                )}
+          </thead>
+          <InfiniteScroll
+            element="tbody"
+            hasMore={hasMore && !loading && (!collapseAfter || isExpanded)}
+            loadMore={loadMore}
+            threshold={50}
+          >
+            {displayData.map((data) => (
+              <tr key={data[rowKey]}>
+                {visibleColumns.map((column, index) => (
+                  <BodyCell
+                    key={column.title + column.dataIndex}
+                    column={column}
+                    data={data}
+                    index={index}
+                    showColumn={showColumn}
+                  />
+                ))}
               </tr>
             ))}
-        </InfiniteScroll>
-      </table>
-    </div>
+            {loading &&
+              Array.from({ length: 10 }).map((_, index) => (
+                <tr key={index}>
+                  {Array.from({ length: visibleColumns.length }).map(
+                    (_, index) => (
+                      <td key={index} className={styles.loader} />
+                    ),
+                  )}
+                </tr>
+              ))}
+          </InfiniteScroll>
+        </table>
+        {collapseAfter &&
+          filteredAndSortedData.length > collapseAfter &&
+          !isExpanded && <div className={styles.fadeOverlay} />}
+      </div>
+      {collapseAfter && filteredAndSortedData.length > collapseAfter && (
+        <Button flat onPress={() => setIsExpanded((prev) => !prev)}>
+          <Icon
+            iconNode={isExpanded ? <ChevronUp /> : <ChevronDown />}
+            size={19}
+          />
+          {isExpanded
+            ? 'Vis mindre'
+            : `Vis alle ${filteredAndSortedData.length} rader`}
+        </Button>
+      )}
+    </Flex>
   );
 };
 

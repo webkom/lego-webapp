@@ -10,11 +10,12 @@ import {
 import { useEffect, useRef } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import { TextInput, RadioButton, CheckBox } from 'app/components/Form';
-import styles from './Table.css';
+import styles from './Table.module.css';
 import type { ColumnProps, Filters, IsShown, ShowColumn, Sort } from '.';
+import type { EntityId } from '@reduxjs/toolkit';
 
-type HeadCellProps = {
-  column: ColumnProps;
+type HeadCellProps<T> = {
+  column: ColumnProps<T>;
   index: number;
   sort: Sort;
   filters: Filters;
@@ -26,7 +27,7 @@ type HeadCellProps = {
   setShowColumn: React.Dispatch<React.SetStateAction<ShowColumn>>;
 };
 
-const HeadCell: React.FC<HeadCellProps> = ({
+const HeadCell = <T extends { id: EntityId }>({
   column,
   index,
   sort,
@@ -37,7 +38,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
   setFilters,
   setIsShown,
   setShowColumn,
-}) => {
+}: HeadCellProps<T>) => {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const onSortInput = (dataIndex: any, sorter: any) => {
@@ -128,7 +129,7 @@ const HeadCell: React.FC<HeadCellProps> = ({
           <Icon
             iconNode={sortIconNode}
             size={16}
-            onClick={() => onSortInput(dataIndex, sorter)}
+            onPress={() => onSortInput(dataIndex, sorter)}
             className={styles.icon}
           />
         )}

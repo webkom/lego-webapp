@@ -26,22 +26,25 @@ import {
   SelectInput,
   LegoFinalForm,
   DatePicker,
+  RowSection,
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { httpCheck } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
   createValidator,
+  dateRequired,
+  datesAreInCorrectOrder,
   legoEditorRequired,
   required,
-  timeIsAfter,
   validYoutubeUrl,
 } from 'app/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
-import styles from './JoblistingEditor.css';
+import styles from './JoblistingEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { searchMapping } from 'app/reducers/search';
 import type { ListCompany } from 'app/store/models/Company';
@@ -58,19 +61,11 @@ const validate = createValidator({
   description: [required('Du må skrive en søknadsintro')],
   text: [legoEditorRequired('Du må skrive en søknadstekst')],
   company: [required('Du må angi en bedrift for jobbannonsen')],
-  workplaces: [required('Arbeidssteder kan ikke være tom')],
+  workplaces: [required('Arbeidssteder må oppgis')],
   toYear: [required('Du må velge sluttår')],
-  fromYear: [
-    required('Du må velge sluttår'),
-    timeIsAfter(
-      'toYear',
-      'Sluttidspunkt kan ikke være lavere enn starttidspunkt',
-    ),
-  ],
-  visibleTo: [
-    required('Du må velge dato for når jobbannonsen skal slutte å være synlig'),
-    timeIsAfter(
-      'visibleFrom',
+  visibleRange: [
+    dateRequired('Du må velge når jobbannonsen skal være synlig'),
+    datesAreInCorrectOrder(
       'Sluttidspunkt kan ikke være lavere enn starttidspunkt',
     ),
   ],
@@ -110,6 +105,8 @@ const JoblistingEditor = () => {
       id: joblistingId,
       fromYear: newJoblisting.fromYear?.value,
       toYear: newJoblisting.toYear?.value,
+      visibleFrom: newJoblisting.visibleRange[0],
+      visibleTo: newJoblisting.visibleRange[1],
       jobType: newJoblisting.jobType?.value,
       applicationUrl:
         newJoblisting.applicationUrl && httpCheck(newJoblisting.applicationUrl),
@@ -182,9 +179,10 @@ const JoblistingEditor = () => {
           value: joblisting.company.id,
         }
       : {},
-    visibleFrom: joblisting?.visibleFrom || time({ hours: 12 }),
-    visibleTo:
+    visibleRange: [
+      joblisting?.visibleFrom || time({ hours: 12 }),
       joblisting?.visibleTo || time({ days: 31, hours: 23, minutes: 59 }),
+    ],
     deadline:
       joblisting?.deadline || time({ days: 30, hours: 23, minutes: 59 }),
     fromYear: matchingFromYear || yearValues.find(({ value }) => value === 1),
@@ -226,7 +224,7 @@ const JoblistingEditor = () => {
         {({ handleSubmit, form }) => (
           <Form onSubmit={handleSubmit}>
             <Field
-              placeholder="Tittel"
+              placeholder="Vi søker etter IT-konsulenter!"
               label="Tittel"
               name="title"
               component={TextInput.Field}
@@ -248,85 +246,91 @@ const JoblistingEditor = () => {
               }}
               required
             />
-            <Field
-              name="jobType"
-              label="Jobbtype"
-              component={SelectInput.Field}
-              placeholder="Jobbtype"
-              options={jobTypes}
-              required
-            />
-            <Field
-              placeholder="Søknadsfrist"
-              label="Søknadsfrist"
-              name="deadline"
-              component={DatePicker.Field}
-            />
-            <Field
-              name="visibleFrom"
-              label="Synlig fra dato"
-              component={DatePicker.Field}
-            />
-            <Field
-              name="visibleTo"
-              label="Synlig til dato"
-              component={DatePicker.Field}
-              required
-            />
-            <Field
-              placeholder="Arbeidssteder"
-              label="Arbeidssteder"
-              name="workplaces"
-              component={SelectInput.Field}
-              options={places}
-              required
-              tags
-            />
-            <Field
-              name="fromYear"
-              label="For klassetrinn fra"
-              placeholder="Jobbtype"
-              component={SelectInput.Field}
-              options={yearValues}
-              required
-            />
-            <Field
-              name="toYear"
-              label="Til klasse"
-              placeholder="Jobbtype"
-              component={SelectInput.Field}
-              options={yearValues}
-              required
-            />
-            <Field
-              placeholder="Søknadslenke"
-              label="Søknadslenke"
-              name="applicationUrl"
-              component={TextInput.Field}
-              parse={(value) => value}
-            />
-            <Field
-              name="contactMail"
-              placeholder="E-post"
-              label="Søknads- eller kontakt-e-post"
-              component={TextInput.Field}
-              parse={(value) => value}
-            />
-            <Field
-              name="responsible"
-              placeholder="Kontaktperson"
-              label="Kontaktperson"
-              options={responsibleOptions}
-              component={SelectInput.Field}
-              isClearable
-            />
-            <Field
-              name="youtubeUrl"
-              label="YouTube-video som cover"
-              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-              component={TextInput.Field}
-              parse={(value) => value}
-            />
+            <RowSection>
+              <Field
+                name="jobType"
+                label="Jobbtype"
+                component={SelectInput.Field}
+                placeholder="Jobbtype"
+                options={jobTypes}
+                required
+              />
+              <Field
+                placeholder="Oslo, Bergen, ..."
+                label="Arbeidssteder"
+                name="workplaces"
+                component={SelectInput.Field}
+                options={places}
+                required
+                tags
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                placeholder="Søknadsfrist"
+                label="Søknadsfrist"
+                name="deadline"
+                component={DatePicker.Field}
+              />
+              <Field
+                name="visibleRange"
+                label="Synlighetsperiode"
+                required
+                range
+                component={DatePicker.Field}
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                name="fromYear"
+                label="For klassetrinn fra"
+                placeholder="Jobbtype"
+                component={SelectInput.Field}
+                options={yearValues}
+                required
+              />
+              <Field
+                name="toYear"
+                label="Til klasse"
+                placeholder="Jobbtype"
+                component={SelectInput.Field}
+                options={yearValues}
+                required
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                name="contactMail"
+                placeholder="hjelp@guttaconsulting.no"
+                label="Søknads- eller kontakt-e-post"
+                component={TextInput.Field}
+                parse={(value) => value}
+              />
+              <Field
+                name="responsible"
+                placeholder="Kontaktperson"
+                label="Kontaktperson"
+                options={responsibleOptions}
+                component={SelectInput.Field}
+                isClearable
+              />
+            </RowSection>
+            <RowSection>
+              <Field
+                placeholder="https://opptak.abakus.no/"
+                label="Søknadslenke"
+                name="applicationUrl"
+                component={TextInput.Field}
+                parse={(value) => value}
+              />
+              <Field
+                name="youtubeUrl"
+                label="YouTube-video som cover"
+                placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+                component={TextInput.Field}
+                parse={(value) => value}
+              />
+            </RowSection>
             <Field
               name="description"
               className={styles.descriptionField}
@@ -375,4 +379,4 @@ const JoblistingEditor = () => {
   );
 };
 
-export default JoblistingEditor;
+export default guardLogin(JoblistingEditor);

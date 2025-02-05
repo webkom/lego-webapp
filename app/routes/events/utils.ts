@@ -11,9 +11,10 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
+import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { CompleteEvent } from 'app/store/models/Event';
 import type Penalty from 'app/store/models/Penalty';
-import type { DetailedUser } from 'app/store/models/User';
+import type { PublicUser } from 'app/store/models/User';
 
 export type ConfigProperties = {
   displayName: string;
@@ -109,8 +110,9 @@ export type EditingEvent = Event & {
   hasFeedbackQuestion: boolean;
   isClarified: boolean;
   authors: Option[];
-  responsibleUsers: DetailedUser[];
+  responsibleUsers: PublicUser[];
   saveToImageGallery: boolean;
+  date: [Dateish, Dateish];
 };
 
 // Event fields that should be created or updated based on the API.
@@ -230,8 +232,8 @@ const calculateMergeTime = (data) =>
 // Takes the full data-object and input and transforms the event to the API format.
 export const transformEvent = (data: TransformEvent) => ({
   ...pick(data, eventCreateAndUpdateFields),
-  startTime: moment(data.startTime).toISOString(),
-  endTime: moment(data.endTime).toISOString(),
+  startTime: moment(data.date[0]).toISOString(),
+  endTime: moment(data.date[1]).toISOString(),
   mergeTime: calculateMergeTime(data),
   company: data.company && data.company.value,
   eventStatusType: data.eventStatusType && data.eventStatusType.value,
@@ -273,6 +275,10 @@ const paymentSuccessMappings = {
 export const hasPaid = (paymentStatus: string) =>
   paymentSuccessMappings[paymentStatus];
 
+export const registrationEditingCloseTime = (
+  event: Pick<EditingEvent, 'date' | 'registrationDeadlineHours'>,
+) => moment(event.date[0]).subtract(event.registrationDeadlineHours, 'hours');
+
 export const registrationCloseTime = (
   event: Pick<CompleteEvent, 'startTime' | 'registrationDeadlineHours'>,
 ) => moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
@@ -283,11 +289,31 @@ export const registrationIsClosed = (
   return moment().isAfter(registrationCloseTime(event));
 };
 
-export const unregistrationCloseTime = (event: Event) =>
+export const unregistrationEditingCloseTime = (
+  event: Pick<EditingEvent, 'date' | 'unregistrationDeadlineHours'>,
+) => moment(event.date[0]).subtract(event.unregistrationDeadlineHours, 'hours');
+
+export const unregistrationCloseTime = (
+  event: Pick<CompleteEvent, 'startTime' | 'unregistrationDeadlineHours'>,
+) =>
   moment(event.startTime).subtract(event.unregistrationDeadlineHours, 'hours');
-export const unregistrationIsClosed = (event: Event) => {
+
+export const unregistrationIsClosed = (
+  event: Pick<CompleteEvent, 'startTime' | 'unregistrationDeadlineHours'>,
+) => {
   return moment().isAfter(unregistrationCloseTime(event));
 };
+
+export const registrationActionUnavailable = (
+  event: Pick<
+    CompleteEvent,
+    'startTime' | 'registrationDeadlineHours' | 'unregistrationDeadlineHours'
+  >,
+  registration: PoolRegistrationWithUser | undefined,
+) =>
+  (!registration && registrationIsClosed(event)) ||
+  (registration && unregistrationIsClosed(event)) ||
+  (registrationIsClosed(event) && unregistrationIsClosed(event));
 
 export const sumPenalties = (penalties: Penalty[]) =>
   sumBy(penalties, 'weight');

@@ -1,9 +1,0 @@
-@import url('~app/styles/variables.css');
-
-.tagRow {
-  margin-top: 8px;
-}
-
-.articleReactions {
-  margin: var(--spacing-md) 0;
-}

@@ -94,7 +94,6 @@ export const ImageGallery = {
  */
 export const GalleryPicture = {
   FETCH: generateStatuses('GalleryPicture.FETCH') as AAT,
-  FETCH_SIBLING: generateStatuses('GalleryPicture.FETCH_SIBLING') as AAT,
   CREATE: generateStatuses('GalleryPicture.CREATE') as AAT,
   EDIT: generateStatuses('GalleryPicture.EDIT') as AAT,
   DELETE: generateStatuses('GalleryPicture.DELETE') as AAT,
@@ -109,6 +108,13 @@ export const Joblistings = {
   CREATE: generateStatuses('Joblistings.CREATE') as AAT,
   EDIT: generateStatuses('Joblistings.EDIT') as AAT,
   DELETE: generateStatuses('Joblistings.DELETE') as AAT,
+};
+
+export const LendableObjects = {
+  FETCH: generateStatuses('LendableObject.FETCH_ALL') as AAT,
+  CREATE: generateStatuses('LendableObject.CREATE') as AAT,
+  EDIT: generateStatuses('LendableObject.EDIT') as AAT,
+  DELETE: generateStatuses('LendableObject.DELETE') as AAT,
 };
 
 /**
@@ -239,6 +245,7 @@ export const NotificationsFeed = {
  */
 export const User = {
   FETCH: generateStatuses('User.FETCH') as AAT,
+  FETCH_LEADERBOARD: generateStatuses('User.FETCH_LEADERBOARD') as AAT,
   UPDATE: generateStatuses('User.UPDATE') as AAT,
   PASSWORD_CHANGE: generateStatuses('User.PASSWORD_CHANGE') as AAT,
   LOGIN: generateStatuses('User.LOGIN') as AAT,

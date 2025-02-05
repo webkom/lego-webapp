@@ -1,0 +1,15 @@
+@import url('~app/styles/variables.css');
+
+.right {
+  flex: 1;
+}
+
+.deleteUser {
+  color: var(--danger-color);
+}
+
+@media (--medium-viewport) {
+  .mobileColumn {
+    flex-direction: column;
+  }
+}

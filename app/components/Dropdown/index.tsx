@@ -2,8 +2,9 @@ import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useRef } from 'react';
 import { Overlay } from 'react-overlays';
-import styles from './Dropdown.css';
+import styles from './Dropdown.module.css';
 import type { ReactNode, ReactPortal, HTMLAttributes } from 'react';
+import type { DOMContainer } from 'react-overlays/useWaitForDOMRef';
 
 type Props = {
   iconName?: string;
@@ -17,6 +18,7 @@ type Props = {
   children?: ReactNode;
   style?: Record<string, string>;
   rootClose?: boolean;
+  container?: DOMContainer;
 };
 
 const Dropdown = ({
@@ -31,6 +33,7 @@ const Dropdown = ({
   children,
   style,
   rootClose,
+  container,
 }: Props) => {
   const triggerRef = useRef(null);
   return (
@@ -42,7 +45,7 @@ const Dropdown = ({
     >
       {triggerComponent ||
         (iconName ? (
-          <Icon name={iconName} onClick={show ? () => {} : toggle} />
+          <Icon name={iconName} onPress={show ? () => {} : toggle} />
         ) : null)}
 
       <Overlay
@@ -51,6 +54,7 @@ const Dropdown = ({
         target={triggerRef}
         placement="bottom"
         rootClose={rootClose ?? true}
+        container={container}
       >
         {({ props, arrowProps }) => (
           <div
@@ -78,11 +82,15 @@ const List = ({ children, className }: ListProps) => (
 );
 
 type ListItemProps = {
+  active?: boolean;
   danger?: boolean;
 } & HTMLAttributes<HTMLLIElement>;
 
-const ListItem = ({ danger, ...props }: ListItemProps) => (
-  <li className={cx(danger && styles.danger)} {...props} />
+const ListItem = ({ active, danger, ...props }: ListItemProps) => (
+  <li
+    className={cx(active && styles.active, danger && styles.danger)}
+    {...props}
+  />
 );
 
 const Divider = () => <li className={styles.divider} />;

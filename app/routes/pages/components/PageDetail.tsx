@@ -38,7 +38,7 @@ import PageHierarchy from 'app/routes/pages/components/PageHierarchy';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import LandingPage from './LandingPage';
-import styles from './PageDetail.css';
+import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { HierarchySectionEntity } from 'app/routes/pages/components/PageHierarchy';
@@ -161,6 +161,9 @@ export type UnknownSection =
   | Section<GroupPage>
   | Section<null>;
 
+const fetchAllMembershipsWithDecendants = (groupId: EntityId) =>
+  fetchAllMemberships(groupId, true);
+
 const sections: Record<string, UnknownSection> = {
   generelt: {
     title: 'Generelt',
@@ -190,10 +193,7 @@ const sections: Record<string, UnknownSection> = {
     PageRenderer: GroupRenderer,
     hierarchySectionSelector: selectBoardsForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Board),
-    fetchItemActions: [
-      fetchGroup,
-      (groupId: EntityId) => fetchAllMemberships(groupId, true),
-    ],
+    fetchItemActions: [fetchGroup, fetchAllMembershipsWithDecendants],
   },
   bedrifter: {
     title: 'Bedrifter',
@@ -221,10 +221,7 @@ const sections: Record<string, UnknownSection> = {
     PageRenderer: GroupRenderer,
     hierarchySectionSelector: selectCommitteeForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Committee),
-    fetchItemActions: [
-      fetchGroup,
-      (groupId: EntityId) => fetchAllMemberships(groupId, true),
-    ],
+    fetchItemActions: [fetchGroup, fetchAllMembershipsWithDecendants],
   },
   revy: {
     title: 'Revy',
@@ -234,10 +231,7 @@ const sections: Record<string, UnknownSection> = {
     PageRenderer: GroupRenderer,
     hierarchySectionSelector: selectRevueForHierarchy,
     fetchAll: () => fetchAllWithType(GroupType.Revue),
-    fetchItemActions: [
-      fetchGroup,
-      (groupId: EntityId) => fetchAllMemberships(groupId, true),
-    ],
+    fetchItemActions: [fetchGroup, fetchAllMembershipsWithDecendants],
   },
   grupper: {
     title: 'Grupper',
@@ -316,7 +310,7 @@ const loadData = async (
   let actionsToDispatch = fetchItemActions;
   if (!loggedIn) {
     actionsToDispatch = fetchItemActions.filter(
-      (action) => !action.toString().includes('fetchAllMemberships'),
+      (action) => action !== fetchAllMembershipsWithDecendants,
     );
   }
 

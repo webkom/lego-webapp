@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { Link } from 'react-router-dom';
 import TextWithIcon from 'app/components/TextWithIcon';
-import styles from './Item.css';
+import styles from './Item.module.css';
 import type { ReactNode } from 'react';
 
 export type ItemProps = {

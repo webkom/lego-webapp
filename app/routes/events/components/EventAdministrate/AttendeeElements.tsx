@@ -5,6 +5,7 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Button } from 'react-aria-components';
 import { useParams } from 'react-router-dom';
 import {
   unregister,
@@ -14,14 +15,14 @@ import {
 import Tooltip from 'app/components/Tooltip';
 import { useAppDispatch } from 'app/store/hooks';
 import { Presence } from 'app/store/models/Registration';
-import styles from './Administrate.css';
+import styles from './Administrate.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EventRegistrationPaymentStatus } from 'app/models';
 import type { SelectedAdminRegistration } from 'app/reducers/events';
-import type { MouseEventHandler } from 'react';
+import type { PressEvent } from 'react-aria-components';
 
 type TooltipIconProps = {
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onPress?: (e: PressEvent) => void;
   content: string;
   transparent?: boolean;
   iconName?: string;
@@ -35,6 +36,7 @@ type PresenceProps = {
 type UnregisterProps = {
   fetching: boolean;
   registration: SelectedAdminRegistration;
+  isUnregistrationClosed: boolean;
 };
 type StripeStatusProps = {
   registrationId: EntityId;
@@ -42,7 +44,7 @@ type StripeStatusProps = {
 };
 
 export const TooltipIcon = ({
-  onClick,
+  onPress,
   content,
   transparent,
   iconName,
@@ -57,14 +59,14 @@ export const TooltipIcon = ({
         <Icon
           name={iconName}
           className={classNames}
-          onClick={onClick}
+          onPress={onPress}
           disabled={disabled}
           size={22}
         />
       ) : (
-        <button onClick={onClick} disabled={disabled}>
+        <Button onPress={onPress} isDisabled={disabled}>
           <i className={classNames} />
-        </button>
+        </Button>
       )}
     </Tooltip>
   );
@@ -81,7 +83,7 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
         iconName="checkmark"
         iconClass={styles.greenIcon}
         transparent={presence !== 'PRESENT'}
-        onClick={() =>
+        onPress={() =>
           eventId &&
           dispatch(updatePresence(eventId, registrationId, Presence.PRESENT))
         }
@@ -120,7 +122,7 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
         iconClass={styles.questionIcon}
         iconName="help-outline"
         transparent={presence !== 'UNKNOWN'}
-        onClick={() =>
+        onPress={() =>
           eventId &&
           dispatch(updatePresence(eventId, registrationId, Presence.UNKNOWN))
         }
@@ -130,7 +132,7 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
         iconClass={styles.redIcon}
         iconName="close-outline"
         transparent={presence !== 'NOT_PRESENT'}
-        onClick={() =>
+        onPress={() =>
           eventId &&
           dispatch(
             updatePresence(eventId, registrationId, Presence.NOT_PRESENT),
@@ -161,7 +163,7 @@ export const StripeStatus = ({
         transparent={paymentStatus !== 'manual'}
         iconName="cash-outline"
         iconClass={styles.greenIcon}
-        onClick={() =>
+        onPress={() =>
           eventId && dispatch(updatePayment(eventId, registrationId, 'manual'))
         }
       />
@@ -170,7 +172,7 @@ export const StripeStatus = ({
         transparent={['manual', 'succeeded'].includes(paymentStatus ?? '')}
         iconName="close-outline"
         iconClass={styles.redIcon}
-        onClick={() =>
+        onPress={() =>
           eventId && dispatch(updatePayment(eventId, registrationId, 'failed'))
         }
       />
@@ -178,9 +180,13 @@ export const StripeStatus = ({
   );
 };
 
-export const Unregister = ({ fetching, registration }: UnregisterProps) => {
-  const { eventId } = useParams<{ eventId: string }>();
+export const Unregister = ({
+  fetching,
+  registration,
+  isUnregistrationClosed,
+}: UnregisterProps) => {
   const dispatch = useAppDispatch();
+  const { eventId } = useParams<{ eventId: string }>();
 
   return (
     <>
@@ -191,22 +197,29 @@ export const Unregister = ({ fetching, registration }: UnregisterProps) => {
           title="Bekreft avregistrering"
           message={`Er du sikker på at du vil melde av "${registration.user.fullName}"?`}
           onConfirm={() => {
-            eventId &&
-              dispatch(
-                unregister({
-                  eventId,
-                  registrationId: registration.id,
-                  admin: true,
-                }),
-              );
+            if (!eventId) return;
+            dispatch(
+              unregister({
+                eventId,
+                registrationId: registration.id,
+                admin: true,
+              }),
+            );
           }}
           closeOnConfirm
         >
           {({ openConfirmModal }) => (
             <Flex justifyContent="center">
-              <Tooltip content="Meld av bruker">
+              <Tooltip
+                content={
+                  isUnregistrationClosed
+                    ? 'Avregistreringsfrist har gått ut'
+                    : 'Meld av bruker'
+                }
+              >
                 <Icon
-                  onClick={openConfirmModal}
+                  disabled={isUnregistrationClosed}
+                  onPress={openConfirmModal}
                   name="person-remove-outline"
                   size={18}
                   danger

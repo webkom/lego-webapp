@@ -1,28 +1,36 @@
 import { Children, cloneElement } from 'react';
 import { FormSpy } from 'react-final-form';
+import { FieldSet } from 'app/components/Form/FieldSet';
 import { RenderErrorMessage } from './Field';
-import styles from './MultiSelectGroup.css';
+import styles from './MultiSelectGroup.module.css';
 import type { ReactElement } from 'react';
 
 type Props = {
   name: string;
-  label?: string;
+  legend: string;
+  description?: string;
+  required?: boolean;
   children: ReactElement | ReactElement[];
 };
 
-const MultiSelectGroup = ({ name, label, children }: Props) => {
+const MultiSelectGroup = ({
+  name,
+  legend,
+  description,
+  required,
+  children,
+}: Props) => {
   return (
     <>
-      <label className={styles.groupLabel}>{label}</label>
-      <div className={styles.group}>
-        {Children.map(children, (child) =>
-          cloneElement(child, {
-            name,
-            fieldClassName: styles.radioField,
-            labelContentClassName: styles.radioLabel,
-          }),
-        )}
-      </div>
+      <FieldSet legend={legend} description={description} required={required}>
+        <div className={styles.group}>
+          {Children.map(children, (child) =>
+            cloneElement(child, {
+              name,
+            }),
+          )}
+        </div>
+      </FieldSet>
       <FormSpy
         subscription={{ errors: true, submitErrors: true, touched: true }}
       >

@@ -2,12 +2,13 @@ import { Flex, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { fetchAll } from 'app/actions/AnnouncementsActions';
+import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import { selectAnnouncements } from 'app/reducers/announcements';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
-import styles from './AnnouncementsList.css';
+import styles from './AnnouncementsList.module.css';
 
 const AnnouncementsList = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ const AnnouncementsList = () => {
   return (
     <Page title={title}>
       <Helmet title={title} />
-      <Flex column gap="var(--spacing-md)">
+      <ContentMain>
         {actionGrant.includes('create') && <AnnouncementsCreate />}
 
         {actionGrant.includes('list') && actionGrant.includes('delete') && (
@@ -50,7 +51,7 @@ const AnnouncementsList = () => {
             )}
           </div>
         )}
-      </Flex>
+      </ContentMain>
     </Page>
   );
 };

@@ -1,0 +1,129 @@
+@import url('~app/styles/variables.css');
+
+.themeChange {
+  padding: var(--spacing-sm) var(--spacing-md);
+  line-height: 1.3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color var(--linear-medium);
+
+  & button {
+    padding: 0;
+  }
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}
+
+.buttonGroup {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo > img {
+  width: 160px;
+}
+
+.buttonGroup button {
+  flex-shrink: 0;
+  padding: 0 7px;
+}
+
+.buttonGroup button,
+.buttonGroup img {
+  background-color: transparent;
+  border: 0;
+  color: var(--lego-font-color);
+  cursor: pointer;
+  transition: color var(--linear-fast);
+
+  &:hover,
+  &.activeItem {
+    color: var(--color-gray-7);
+  }
+}
+
+.buttonGroup button:focus {
+  outline: none;
+}
+
+.hideOnMobile {
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.content {
+  composes: container from '~app/styles/utilities.css';
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  height: var(--lego-header-height);
+  padding: 0 var(--spacing-md);
+}
+
+.logo {
+  flex: 1;
+}
+
+.menu {
+  display: flex;
+  flex-direction: row;
+}
+
+.dropdown {
+  width: 355px;
+  z-index: 10;
+  padding: var(--spacing-md);
+
+  @media (--small-viewport) {
+    width: 95%;
+  }
+}
+
+.logoLightMode,
+.logoDarkMode {
+  display: none;
+}
+
+html[data-theme='light'] .logoLightMode,
+html[data-theme='dark'] .logoDarkMode {
+  display: block;
+}
+
+.searchButton {
+  z-index: 301;
+}
+
+.iconWrapper {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.menuIcon,
+.closeIcon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: var(--easing-medium);
+  transition-property: transform, opacity;
+  transform: rotate(0deg);
+  opacity: 1;
+}
+
+.hideIcon.menuIcon {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.hideIcon.closeIcon {
+  transform: rotate(-90deg);
+  opacity: 0;
+}

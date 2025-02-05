@@ -1,6 +1,6 @@
 import { Image } from '@webkom/lego-bricks';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import styles from './EmailItem.css';
+import styles from './EmailItem.module.css';
 
 type Props = {
   email: string;
@@ -19,7 +19,7 @@ const EmailItem = ({ email, logo, recipient }: Props) => {
         />
       )}
       <div>
-        <div className={styles.recipient}>{readmeIfy(recipient)}</div>
+        <div>{readmeIfy(recipient)}</div>
         <a href={`mailto:${email}`}>{email}</a>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import { Image } from '@webkom/lego-bricks';
 import Paginator from 'app/components/Paginator';
-import styles from './Gallery.css';
+import styles from './Gallery.module.css';
 import type { ListGallery } from 'app/store/models/Gallery';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { ReactNode } from 'react';

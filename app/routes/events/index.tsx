@@ -7,10 +7,17 @@ const Calendar = loadable(() => import('./components/Calendar'));
 const EventDetail = loadable(() => import('./components/EventDetail'));
 const EventEditor = loadable(() => import('./components/EventEditor'));
 const EventList = loadable(() => import('./components/EventList'));
+const EventsOverview = loadable(() => import('./components/EventsOverview'));
 
 const eventsRoute: RouteObject[] = [
-  { index: true, Component: EventList },
-  { path: 'calendar/:year?/:month?', Component: Calendar },
+  {
+    path: '',
+    Component: EventsOverview,
+    children: [
+      { index: true, Component: EventList },
+      { path: 'calendar/:year?/:month?', Component: Calendar },
+    ],
+  },
   { path: 'create', Component: EventEditor },
   { path: ':eventIdOrSlug', Component: EventDetail },
   { path: ':eventIdOrSlug/edit', Component: EventEditor },

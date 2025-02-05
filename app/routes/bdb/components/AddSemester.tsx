@@ -10,23 +10,24 @@ import {
   fetchAllAdmin,
   fetchSemesters,
 } from 'app/actions/CompanyActions';
-import { MultiSelectGroup, RadioButton, TextInput } from 'app/components/Form';
+import { ContentMain } from 'app/components/Content';
+import {
+  Form,
+  MultiSelectGroup,
+  RadioButton,
+  TextInput,
+} from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectCompanyById } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
-import {
-  getContactStatuses,
-  getStatusColor,
-  selectMostProminentStatus,
-  semesterCodeToName,
-} from 'app/routes/bdb/utils';
+import { getContactStatuses, semesterCodeToName } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
-import styles from './AddSemester.css';
+import styles from './AddSemester.module.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type {
   AdminDetailCompany,
@@ -147,32 +148,23 @@ const AddSemester = () => {
         href: `/bdb/${companyId}/`,
       }}
     >
-      <Card severity="info">
-        <Card.Header>Hint</Card.Header>
-        <span>
-          Du kan legge til status for flere semestere samtidig på Bdb-forsiden!
-        </span>
-      </Card>
+      <ContentMain>
+        <Card severity="info">
+          <Card.Header>Hint</Card.Header>
+          <span>
+            Du kan legge til status for flere semestre samtidig på BDB-forsiden!
+          </span>
+        </Card>
 
-      <TypedLegoForm
-        onSubmit={onSubmit}
-        validate={validate}
-        initialValues={initialValues}
-        subscription={{}}
-      >
-        {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
-            <Field
-              placeholder="2020"
-              label="År"
-              name="year"
-              type="number"
-              component={TextInput.Field}
-              className={styles.yearForm}
-            />
-
-            <div className={styles.choices}>
-              <MultiSelectGroup name="semester" label="Semester">
+        <TypedLegoForm
+          onSubmit={onSubmit}
+          validate={validate}
+          initialValues={initialValues}
+          subscription={{}}
+        >
+          {({ handleSubmit }) => (
+            <Form onSubmit={handleSubmit}>
+              <MultiSelectGroup name="semester" legend="Semester">
                 <Field
                   name="Spring"
                   label="Vår"
@@ -190,56 +182,55 @@ const AddSemester = () => {
                   showErrors={false}
                 />
               </MultiSelectGroup>
-            </div>
 
-            <label>Status</label>
-            <Field name="semesterStatus">
-              {({ input }) => (
-                <div
-                  className={styles.semesterStatus}
-                  style={{
-                    backgroundColor: getStatusColor(
-                      selectMostProminentStatus(input.value.contactedStatus),
-                    ),
-                  }}
-                >
-                  <SemesterStatusContent
-                    contactedStatus={input.value.contactedStatus}
-                    editFunction={(status) => {
-                      input.onChange({
-                        contactedStatus: getContactStatuses(
-                          input.value.contactedStatus,
-                          status,
-                        ),
-                      });
-                    }}
-                    style={{
-                      minHeight: '30px',
-                      padding: '10px',
-                    }}
-                  />
-                </div>
+              <Field
+                placeholder={moment().year() + 1}
+                label="År"
+                name="year"
+                type="number"
+                component={TextInput.Field}
+                className={styles.yearForm}
+              />
+
+              <label className={styles.label}>Status</label>
+              <Field name="semesterStatus">
+                {({ input }) => (
+                  <div className={styles.semesterStatus}>
+                    <SemesterStatusContent
+                      contactedStatus={input.value.contactedStatus}
+                      editFunction={(status) => {
+                        input.onChange({
+                          contactedStatus: getContactStatuses(
+                            input.value.contactedStatus,
+                            status,
+                          ),
+                        });
+                      }}
+                    />
+                  </div>
+                )}
+              </Field>
+
+              {foundSemesterStatus && (
+                <Card severity="danger">
+                  <Card.Header>Feil</Card.Header>
+                  <span>
+                    Denne bedriften har allerede et registrert semester status
+                    for {semesterCodeToName(foundSemesterStatus.semester)}{' '}
+                    {foundSemesterStatus.year}. Du kan endre denne på bedriftens
+                    side.
+                  </span>
+                </Card>
               )}
-            </Field>
 
-            {foundSemesterStatus && (
-              <Card severity="danger">
-                <Card.Header>Feil</Card.Header>
-                <span>
-                  Denne bedriften har allerede et registrert semester status for{' '}
-                  {semesterCodeToName(foundSemesterStatus.semester)}{' '}
-                  {foundSemesterStatus.year}. Du kan endre denne på bedriftens
-                  side.
-                </span>
-              </Card>
-            )}
-            <SubmissionError />
-            <SubmitButton onPress={() => setSubmit(true)}>
-              Legg til
-            </SubmitButton>
-          </form>
-        )}
-      </TypedLegoForm>
+              <SubmissionError />
+              <SubmitButton onPress={() => setSubmit(true)}>
+                Legg til
+              </SubmitButton>
+            </Form>
+          )}
+        </TypedLegoForm>
+      </ContentMain>
     </Page>
   );
 };

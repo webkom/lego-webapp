@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { EditorField, TextEditor } from 'app/components/Form';
 import Tag from 'app/components/Tags/Tag';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import type { UploadArgs } from 'app/actions/FileActions';
 import type { EditingEvent } from 'app/routes/events/utils';
 
@@ -30,11 +30,13 @@ const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
         uploadFile={uploadFile}
         required
       />
-      <Flex className={styles.tagRow}>
-        {(values.tags || []).map((tag, i) => (
-          <Tag key={i} tag={tag} />
-        ))}
-      </Flex>
+      {values.tags?.length > 0 && (
+        <Flex className={styles.tagRow}>
+          {values.tags.map((tag, i) => (
+            <Tag key={i} tag={tag} />
+          ))}
+        </Flex>
+      )}
     </>
   );
 };

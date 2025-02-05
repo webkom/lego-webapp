@@ -32,6 +32,7 @@ import type {
   AdministrateUser,
   AdministrateUserWithGrade,
   PublicUser,
+  PublicUserWithAbakusGroups,
 } from 'app/store/models/User';
 import type { AnyAction } from 'redux';
 import type { Optional, Overwrite } from 'utility-types';
@@ -174,12 +175,14 @@ export const selectEventByIdOrSlug = createSelector(
 
 export type PoolRegistrationWithUser = Overwrite<
   ReadRegistration,
-  { user: PublicUser }
+  { user: PublicUserWithAbakusGroups }
 >;
 export type PoolWithRegistrations = Overwrite<
   Optional<AuthPool, 'activationDate'>,
   { registrations: PoolRegistrationWithUser[] }
->;
+> & {
+  isWaitingList?: boolean;
+};
 export const selectPoolsForEvent = createSelector(
   selectEventById<DetailedEvent>,
   selectPoolEntities,
@@ -243,7 +246,7 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, (pools) => {
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
   selectRegistrationEntities<ReadRegistration>,
-  selectUserEntities<PublicUser>,
+  selectUserEntities<PublicUserWithAbakusGroups>,
   (pools, registrationEntities, userEntities) => {
     if (pools.length === 0) return [];
     return [
@@ -255,6 +258,9 @@ export const selectMergedPoolWithRegistrations = createSelector(
             const capacity = total.capacity + pool.capacity;
             const permissionGroups = total.permissionGroups.concat(
               pool.permissionGroups,
+            );
+            const allPermissionGroupIds = total.allPermissionGroupIds.concat(
+              'allPermissionGroupIds' in pool ? pool.allPermissionGroupIds : [],
             );
             const registrations =
               'registrations' in pool
@@ -271,6 +277,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
             return {
               capacity,
               permissionGroups,
+              allPermissionGroupIds,
               registrations: orderBy(
                 registrations,
                 'sharedMemberships',
@@ -282,6 +289,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
           {
             capacity: 0,
             permissionGroups: [] as PublicGroup[],
+            allPermissionGroupIds: [] as EntityId[],
             registrations: [] as PoolRegistrationWithUser[],
             registrationCount: 0,
           },

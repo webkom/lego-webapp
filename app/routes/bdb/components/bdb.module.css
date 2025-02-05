@@ -1,0 +1,46 @@
+@import url('~app/styles/variables.css');
+
+.title {
+  float: left;
+  width: 80%;
+}
+
+.deleteFile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & i:hover {
+    cursor: pointer;
+  }
+
+  & div {
+    display: inline;
+  }
+
+  & span {
+    max-width: 200px;
+  }
+}
+
+.showAllButton {
+  margin-top: var(--spacing-sm);
+}
+
+.adminNote {
+  width: 400px;
+}
+
+.surveyContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.newestFirst {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.navigateThroughTime svg {
+  color: var(--color-gray-7);
+}

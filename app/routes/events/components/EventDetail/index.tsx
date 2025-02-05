@@ -2,6 +2,7 @@ import { Flex, Page, Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { FilePenLine } from 'lucide-react';
+import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { fetchEvent } from 'app/actions/EventActions';
@@ -37,7 +38,7 @@ import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
-import styles from './EventDetail.css';
+import styles from './EventDetail.module.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { PoolWithRegistrations } from 'app/reducers/events';
 import type {
@@ -143,6 +144,10 @@ const EventDetail = () => {
   const deadlinesInfoList = useDeadlineInfoList(event);
   const eventCreatorInfoList = useEventCreatorInfoList(event);
 
+  const fiveMinutesBeforeActivation = moment().isAfter(
+    moment(event?.activationTime).subtract(5, 'minutes'),
+  );
+
   return (
     <Page
       cover={
@@ -152,7 +157,10 @@ const EventDetail = () => {
             event?.coverPlaceholder || event?.company?.logoPlaceholder
           }
           youtubeUrl={event?.youtubeUrl}
-          skeleton={showSkeleton}
+          skeleton={
+            fetching &&
+            !(event?.cover || event?.company?.logo || event?.youtubeUrl)
+          }
         />
       }
       title={
@@ -176,7 +184,7 @@ const EventDetail = () => {
           </div>
         )
       }
-      skeleton={showSkeleton}
+      skeleton={!event}
       dividerColor={color}
     >
       {event && (
@@ -191,26 +199,34 @@ const EventDetail = () => {
 
       <ContentSection>
         <ContentMain>
-          <DisplayContent content={event?.text || ''} skeleton={showSkeleton} />
-          <Flex className={styles.tagRow}>
-            {event?.tags?.map((tag, i) => <Tag key={i} tag={tag} />)}
-          </Flex>
+          <DisplayContent
+            content={event?.text || ''}
+            skeleton={fetching && !event?.text}
+          />
+          {event?.tags && event.tags.length > 0 && (
+            <Flex className={styles.tagRow}>
+              {event.tags.map((tag, i) => (
+                <Tag key={i} tag={tag} />
+              ))}
+            </Flex>
+          )}
         </ContentMain>
 
         <ContentSidebar>
-          <SidebarInfo showSkeleton={showSkeleton} event={event} />
+          <SidebarInfo event={event} />
 
           {event && ['OPEN', 'TBA'].includes(event.eventStatusType) ? (
             <JoinEventForm event={event} />
           ) : (
             <>
-              {hasRegistrationAccess && (
+              {(fetching || hasRegistrationAccess) && (
                 <AttendeeSection
-                  showSkeleton={showSkeleton}
+                  showSkeleton={fetching}
                   event={event}
                   currentRegistration={currentRegistration}
                   pools={pools as PoolWithRegistrations[]}
                   currentPool={currentPool}
+                  fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
                 />
               )}
 
@@ -228,6 +244,7 @@ const EventDetail = () => {
                   <JoinEventForm
                     event={event}
                     registration={currentRegistration}
+                    fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
                   />
                 )
               )}
@@ -255,7 +272,7 @@ const EventDetail = () => {
 
           <Line />
 
-          {showSkeleton ? (
+          {fetching && !event?.createdBy && !event?.responsibleUsers ? (
             <Flex column gap="var(--spacing-sm)">
               <Flex gap="var(--spacing-md)" className={styles.sidebarInfo}>
                 Arrangør

@@ -12,13 +12,14 @@ import type {
   EntityId,
   EntityState,
   ActionReducerMapBuilder,
+  Comparer,
+  IdSelector,
 } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { EntityType } from 'app/store/models/entities';
 import type Entities from 'app/store/models/entities';
 import type { AsyncActionType } from 'app/types';
 import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
-import type { EntityAdapterOptions } from 'node_modules/@reduxjs/toolkit/dist/entities/models';
 import type { Assign } from 'utility-types';
 
 export type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
@@ -91,7 +92,10 @@ type ReducerBuilder<
   Id extends EntityId,
   ExtraState extends object,
 > = ActionReducerMapBuilder<NoInfer<LegoEntityState<Entity, Id>> & ExtraState>;
-type LegoAdapterOptions<T, Id extends EntityId> = EntityAdapterOptions<T, Id>;
+type LegoAdapterOptions<T, Id extends EntityId> = {
+  selectId?: IdSelector<T, Id>;
+  sortComparer?: false | Comparer<T>;
+};
 
 // function type overrides mirror the createEntityAdapter function
 function createLegoAdapter<

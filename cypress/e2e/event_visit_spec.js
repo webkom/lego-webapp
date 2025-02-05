@@ -20,18 +20,22 @@ describe('View event', () => {
       .click();
     // When clicking on attendees we should get the modal
     cy.get(c('Modal')).should('be.visible');
-    cy.get(c('AttendanceModalContent__list') + ' li').should('have.length', 9);
+    cy.get(c('AttendanceModalContent-module__list') + ' li').should(
+      'have.length',
+      9,
+    );
 
     cy.get('body').click(20, 20);
     cy.get(c('Modal')).should('not.exist');
   });
 
-  it('Should be possible to update event details', () => {
-    cy.visit('/events/20');
+  it('Should only be possible to update event feedback for events where it is required', () => {
+    cy.visit('/events/19');
+    cy.get('#feedback').should('not.exist');
 
-    // Update message
+    cy.visit('/events/20');
     cy.contains('button', 'Oppdater').should('be.disabled');
-    cy.get('#feedback').click().type('This is some feedback text');
+    cy.get('#feedback').click().type('noe lættis');
     cy.contains('button', 'Oppdater').should('not.be.disabled').click();
     // We should get a toast confirming
     cy.contains('Tilbakemelding oppdatert');
@@ -57,7 +61,7 @@ describe('View event', () => {
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
     // We should see the comment and be able to delete it
-    cy.get(c('Comment__comment'))
+    cy.get(c('Comment-module__comment'))
       .last()
       .within(() => {
         cy.contains('This event will be awesome');
@@ -74,7 +78,9 @@ describe('View event', () => {
     cy.focused().type('This is the top comment');
     cy.contains('button', 'Kommenter').should('be.visible').click();
 
-    cy.get(c('Comment__comment')).last().contains('This is the top comment');
+    cy.get(c('Comment-module__comment'))
+      .last()
+      .contains('This is the top comment');
     cy.contains('button', 'Svar').click();
 
     cy.get(c('CommentForm'))
@@ -84,6 +90,6 @@ describe('View event', () => {
       .click();
     cy.focused().type('This is a child comment');
     cy.contains('button', 'Send svar').click();
-    cy.get(c('CommentTree__nested')).contains('This is a child comment');
+    cy.get(c('CommentTree-module__nested')).contains('This is a child comment');
   });
 });

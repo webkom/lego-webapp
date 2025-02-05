@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 
 type Props = {
   questionType: string;
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>
-  remove ? <Icon iconNode={<X />} onClick={remove} /> : null;
+  remove ? <Icon iconNode={<X />} onPress={remove} /> : null;
 
 const Option = (props: Props) => {
   return props.questionType === SurveyQuestionType.SingleChoice ? (
@@ -33,7 +33,7 @@ const MultipleChoice = (props: Props) => {
         name={`${props.option}.optionText`}
         component={TextInput.Field}
         className={styles.optionInput}
-        placeholder="Alternativ"
+        placeholder="Begynn å skrive for å legge til alternativ"
         fieldClassName={styles.optionField}
       />
       <RemoveButton remove={props.remove} />
@@ -50,7 +50,7 @@ const Checkbox = (props: Props) => {
         name={`${props.option}.optionText`}
         component={TextInput.Field}
         className={styles.optionInput}
-        placeholder="Alternativ"
+        placeholder="Begynn å skrive for å legge til alternativ"
         fieldClassName={styles.optionField}
       />
       <RemoveButton remove={props.remove} />

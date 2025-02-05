@@ -26,7 +26,7 @@ import {
 import EmptyState from 'app/components/EmptyState';
 import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
-import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.css';
+import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';
 import TextWithIcon from 'app/components/TextWithIcon';
 import {
   selectCompanyById,
@@ -36,8 +36,7 @@ import {
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import styles from './Company.css';
+import styles from './Company.module.css';
 import type { DetailedCompany } from 'app/store/models/Company';
 
 const CompanyDetail = () => {
@@ -168,58 +167,64 @@ const CompanyDetail = () => {
             skeleton={showSkeleton}
           />
 
-          <h3>Kommende arrangementer</h3>
-          <EventListCompact
-            events={upcomingEvents}
-            noEventsMessage="Ingen kommende arrangementer"
-            eventStyle="extra-compact"
-            loading={showSkeleton}
-            extraCompactSkeletonLimit={1}
-          />
-          {oldEvents.length > 0 && (
-            <Button
-              onPress={() => setViewOldEvents(!viewOldEvents)}
-              className={styles.toggleEventsView}
-            >
-              {viewOldEvents
-                ? 'Skjul tidligere arrangementer'
-                : 'Vis tidligere arrangementer'}
-            </Button>
-          )}
+          <div>
+            <h3>Kommende arrangementer</h3>
+            <EventListCompact
+              events={upcomingEvents}
+              noEventsMessage="Ingen kommende arrangementer"
+              eventStyle="extra-compact"
+              loading={showSkeleton}
+              extraCompactSkeletonLimit={1}
+            />
+          </div>
 
-          {viewOldEvents && (
-            <>
-              <h3>Tidligere arrangementer</h3>
-              <EventListCompact
-                events={oldEvents}
-                noEventsMessage="Ingen tidligere arrangementer"
-                eventStyle="extra-compact"
-                loading={fetchingEvents}
-              />
-            </>
-          )}
-          {viewOldEvents && showFetchMoreEvents && (
-            <Flex justifyContent="center">
-              <Icon
-                name="chevron-down-outline"
-                size={30}
-                onClick={fetchMoreEvents}
-              />
-            </Flex>
-          )}
+          <div>
+            {oldEvents.length > 0 && (
+              <Button
+                onPress={() => setViewOldEvents(!viewOldEvents)}
+                className={styles.toggleEventsView}
+              >
+                {viewOldEvents
+                  ? 'Skjul tidligere arrangementer'
+                  : 'Vis tidligere arrangementer'}
+              </Button>
+            )}
+            {viewOldEvents && (
+              <>
+                <h3>Tidligere arrangementer</h3>
+                <EventListCompact
+                  events={oldEvents}
+                  noEventsMessage="Ingen tidligere arrangementer"
+                  eventStyle="extra-compact"
+                  loading={fetchingEvents}
+                />
+              </>
+            )}
+            {viewOldEvents && showFetchMoreEvents && (
+              <Flex justifyContent="center">
+                <Icon
+                  name="chevron-down-outline"
+                  size={30}
+                  onPress={fetchMoreEvents}
+                />
+              </Flex>
+            )}
+          </div>
 
-          <h3>Jobbannonser</h3>
-          {fetchingJoblistings && !joblistings.length ? (
-            <Skeleton className={sharedStyles.joblistingItem} />
-          ) : joblistings.length > 0 ? (
-            <Flex column gap="var(--spacing-sm)">
-              {joblistings.map((joblisting) => (
-                <JoblistingItem key={joblisting.id} joblisting={joblisting} />
-              ))}
-            </Flex>
-          ) : (
-            <EmptyState body="Ingen tilgjengelige jobbannonser" />
-          )}
+          <div>
+            <h3>Jobbannonser</h3>
+            {fetchingJoblistings && !joblistings.length ? (
+              <Skeleton className={sharedStyles.joblistingItem} />
+            ) : joblistings.length > 0 ? (
+              <Flex column gap="var(--spacing-sm)">
+                {joblistings.map((joblisting) => (
+                  <JoblistingItem key={joblisting.id} joblisting={joblisting} />
+                ))}
+              </Flex>
+            ) : (
+              <EmptyState body="Ingen tilgjengelige jobbannonser" />
+            )}
+          </div>
         </ContentMain>
 
         <ContentSidebar>
@@ -255,4 +260,4 @@ const CompanyDetail = () => {
   );
 };
 
-export default guardLogin(CompanyDetail);
+export default CompanyDetail;

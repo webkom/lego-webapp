@@ -21,7 +21,7 @@ import { selectRandomQuote } from 'app/reducers/quotes';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import ArticleItem from './ArticleItem';
-import styles from './AuthenticatedFrontpage.css';
+import styles from './AuthenticatedFrontpage.module.css';
 import CompactEvents from './CompactEvents';
 import FrontpageEventItem from './FrontpageEventItem';
 import LatestReadme from './LatestReadme';
@@ -291,11 +291,11 @@ const ShowMoreButton = ({
   return (
     <div className={styles.showMore}>
       {events.length > eventsToShow && (
-        <Icon onClick={showMore} name="chevron-down-outline" size={30} />
+        <Icon onPress={showMore} name="chevron-down-outline" size={30} />
       )}
 
       {events.length < eventsToShow && (
-        <Icon onClick={scrollToTop} name="chevron-up-outline" size={30} />
+        <Icon onPress={scrollToTop} name="chevron-up-outline" size={30} />
       )}
     </div>
   );

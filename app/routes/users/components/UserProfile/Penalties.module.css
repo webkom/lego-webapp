@@ -1,0 +1,45 @@
+.weight {
+  color: var(--danger-color);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.info {
+  line-height: 1.3;
+
+  & :first-child {
+    font-weight: 500;
+  }
+}
+
+.time {
+  text-transform: capitalize;
+}
+
+.success {
+  color: var(--success-color);
+}
+
+.successMessage {
+  font-weight: 500;
+}
+
+.divider {
+  margin: 0 auto;
+  width: 85%;
+  height: 1px;
+  background-color: var(--border-gray);
+}
+
+.cardContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.infoIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: var(--secondary-font-color);
+}

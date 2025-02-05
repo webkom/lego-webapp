@@ -1,13 +1,15 @@
 import loadable from '@loadable/component';
 import { type RouteObject } from 'react-router-dom';
+import lendingRoute from 'app/routes/lending';
+import achievementRoute from './achievements';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
 import { AppRoute } from './app';
 import articlesRoute from './articles';
+import authRoute from './auth';
 import bdbRoute from './bdb';
 import brandRoute from './brand';
 import companyRoute from './company';
-import companyInterestRoute from './companyInterest';
 import contactRoute from './contact';
 import eventsRoute from './events';
 import forumRoute from './forum';
@@ -27,7 +29,8 @@ import validatorRoute from './userValidator';
 import usersRoute from './users';
 
 const CompanyInterestPage = loadable(
-  () => import('./companyInterest/components/CompanyInterestPage'),
+  () =>
+    import('./bdb/components/companyInterest/components/CompanyInterestPage'),
 );
 const Frontpage = loadable(() => import('./frontpage'));
 
@@ -36,16 +39,16 @@ export const routerConfig: RouteObject[] = [
     Component: AppRoute,
     children: [
       { index: true, Component: Frontpage },
+      { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },
       { path: 'articles/*', children: articlesRoute },
+      { path: 'auth/*', children: authRoute },
       { path: 'bdb/*', children: bdbRoute },
       { path: 'brand/*', children: brandRoute },
       { path: 'companies/*', children: companyRoute },
       { path: 'register-interest', Component: CompanyInterestPage },
       { path: 'interesse', Component: CompanyInterestPage },
-      { path: 'companyInterest/*', children: companyInterestRoute },
-      { path: 'company-interest/*', children: companyInterestRoute },
       { path: 'contact', children: contactRoute },
       { path: 'kontakt', children: contactRoute },
       { path: 'events/*', children: eventsRoute },
@@ -53,6 +56,7 @@ export const routerConfig: RouteObject[] = [
       { path: 'interest-groups/*', children: interestGroupsRoute },
       { path: 'interestgroups/*', children: interestGroupsRoute },
       { path: 'joblistings/*', children: joblistingsRoute },
+      { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
       { path: 'pages/*', children: pagesRoute },
       { path: 'photos/*', children: photosRoute },

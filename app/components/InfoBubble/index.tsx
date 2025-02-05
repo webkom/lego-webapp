@@ -1,6 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './InfoBubble.css';
+import styles from './InfoBubble.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
 type Props = {

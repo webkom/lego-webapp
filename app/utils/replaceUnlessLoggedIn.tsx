@@ -1,6 +1,8 @@
-import { LoginRequiredPage } from 'app/components/LoginForm';
 import { useIsLoggedIn } from 'app/reducers/auth';
+import LoginPage from 'app/routes/auth/components/LoginPage';
 import type { ComponentType } from 'react';
+
+const LoginRequiredPage: ComponentType = () => <LoginPage loginRequired />;
 
 const replaceUnlessLoggedIn =
   <RP extends object>(

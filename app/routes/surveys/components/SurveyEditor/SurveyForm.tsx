@@ -7,13 +7,14 @@ import { FieldArray } from 'react-final-form-arrays';
 import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import {
+  Form,
   DatePicker,
   LegoFinalForm,
   SelectInput,
   TextInput,
+  SubmitButton,
+  SubmissionError,
 } from 'app/components/Form';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Time from 'app/components/Time';
 import {
   EventTypeConfig,
@@ -24,7 +25,7 @@ import {
   hasOptions,
   initialQuestion,
 } from 'app/routes/surveys/components/SurveyEditor/utils';
-import styles from 'app/routes/surveys/components/surveys.css';
+import styles from 'app/routes/surveys/components/surveys.module.css';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import type { EventType } from 'app/store/models/Event';
@@ -83,13 +84,12 @@ const SurveyForm = ({
       }}
     >
       {({ handleSubmit }) => (
-        <form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit}>
           <Field
-            placeholder="Tittel"
-            label=" "
+            placeholder="Spørreundersøkelse for arrangementet"
+            label="Tittel"
             name="title"
             component={TextInput.Field}
-            className={styles.editTitle}
           />
           {templateType && (
             <div className={styles.templateType}>
@@ -132,13 +132,15 @@ const SurveyForm = ({
                 {displayNameForEventType(values.templateType)}
               </h2>
             ) : (
-              <Flex>
+              <Flex
+                gap="var(--spacing-md)"
+                className={styles.eventAndTimeFields}
+              >
                 <Field
                   placeholder="Velg arrangement"
                   label="Arrangement"
                   name="event"
                   component={SelectInput.AutocompleteField}
-                  className={styles.editEvent}
                   filter={['events.event']}
                 />
 
@@ -167,7 +169,7 @@ const SurveyForm = ({
           <SubmitButton allowPristine={isNew && !!templateType}>
             {isNew ? 'Opprett' : 'Lagre'}
           </SubmitButton>
-        </form>
+        </Form>
       )}
     </TypedLegoForm>
   );
@@ -212,25 +214,23 @@ const updateRelativeIndexes = (
 };
 const Questions = ({ fields }: QuestionsProps) => (
   <>
-    <ul className={styles.questions} key="questions">
-      {fields.map((question, i) => (
-        <Question
-          key={i}
-          numberOfQuestions={fields.length ?? 0}
-          question={question}
-          questionData={fields.value[i]}
-          deleteQuestion={() => Promise.resolve(fields.remove(i))}
-          updateRelativeIndexes={updateRelativeIndexes}
-          relativeIndex={i}
-          fields={fields}
-        />
-      ))}
-    </ul>
+    {fields.map((question, i) => (
+      <Question
+        key={i}
+        numberOfQuestions={fields.length ?? 0}
+        question={question}
+        questionData={fields.value[i]}
+        deleteQuestion={() => Promise.resolve(fields.remove(i))}
+        updateRelativeIndexes={updateRelativeIndexes}
+        relativeIndex={i}
+        fields={fields}
+      />
+    ))}
 
     <Icon
       iconNode={<Plus />}
       size={30}
-      onClick={() => {
+      onPress={() => {
         fields.push(initialQuestion);
       }}
       className={styles.addQuestion}

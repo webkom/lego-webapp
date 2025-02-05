@@ -23,3 +23,4 @@ export { default as ObjectPermissions } from './ObjectPermissions';
 export { default as Fields } from './Fields';
 export { default as SubmitButton } from './SubmitButton';
 export { default as SubmissionError } from './SubmissionError';
+export { default as RowSection } from './RowSection';

@@ -1,8 +1,9 @@
-import { Flex, LinkButton } from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router-dom';
 import { fetch } from 'app/actions/EmailUserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
+import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
@@ -11,6 +12,7 @@ import { selectTransformedEmailUsers } from 'app/reducers/emailUsers';
 import { selectGroupsByType } from 'app/reducers/groups';
 import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import type { ColumnProps } from 'app/components/Table';
 
@@ -35,7 +37,7 @@ const EmailUsers = () => {
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/email-users/',
-      entity: 'emailUsers',
+      entity: EntityType.EmailUsers,
       query,
     })(state),
   );
@@ -71,7 +73,7 @@ const EmailUsers = () => {
       search: true,
       inlineFiltering: false,
       render: (_, emailUser) => (
-        <Link to={`/admin/email/users/${emailUser.id}`}>
+        <Link to={`/users/${emailUser.user?.username}`}>
           {emailUser.user?.fullName}
         </Link>
       ),
@@ -144,7 +146,8 @@ const EmailUsers = () => {
               {grade.name}{' '}
             </Link>
           ));
-        if (!output?.length) return <i> Ikke student </i>;
+        if (!output?.length)
+          return <span className="secondaryFontColor">Ikke student</span>;
         return output;
       },
     },
@@ -173,8 +176,8 @@ const EmailUsers = () => {
   ];
 
   return (
-    <div>
-      <p>
+    <ContentMain>
+      <Card severity="info">
         Brukere som har behov for det kan få sin egen private @abakus.no
         adresse.
         <br />
@@ -183,33 +186,30 @@ const EmailUsers = () => {
         <br />
         Adressen skal deaktiveres når brukeren ikke lengre har et aktivt verv i
         Abakus, men adressen vil ikke bli tilgjengelig for andre brukere.
-      </p>
-      <Flex
-        justifyContent="space-between"
-        style={{
-          marginBottom: 'var(--spacing-sm)',
-        }}
-      >
-        <h3>Aktive/Inaktive e-postkontoer</h3>
-        <LinkButton href="/admin/email/users/new">Ny bruker</LinkButton>
+      </Card>
+      <Flex column gap="var(--spacing-sm)">
+        <Flex alignItems="center" justifyContent="space-between">
+          <h3>E-postkontoer</h3>
+          <LinkButton href="/admin/email/users/new">Ny bruker</LinkButton>
+        </Flex>
+        <Table
+          columns={columns}
+          onLoad={() => {
+            dispatch(
+              fetch({
+                next: true,
+                query: query,
+              }),
+            );
+          }}
+          filters={query}
+          onChange={setQuery}
+          hasMore={pagination.hasMore}
+          loading={pagination.fetching}
+          data={emailUsers}
+        />
       </Flex>
-      <Table
-        columns={columns}
-        onLoad={() => {
-          dispatch(
-            fetch({
-              next: true,
-              query: query,
-            }),
-          );
-        }}
-        filters={query}
-        onChange={setQuery}
-        hasMore={pagination.hasMore}
-        loading={pagination.fetching}
-        data={emailUsers}
-      />
-    </div>
+    </ContentMain>
   );
 };
 

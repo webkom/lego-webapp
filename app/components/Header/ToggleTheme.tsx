@@ -7,7 +7,7 @@ import { updateUserTheme } from 'app/actions/UserActions';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { applySelectedTheme, getTheme, useTheme } from 'app/utils/themeUtils';
-import styles from './toggleTheme.css';
+import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 
 const useIcon = () => (useTheme() === 'dark' ? <Sun /> : <MoonStar />);

@@ -2,10 +2,14 @@ import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { useParams } from 'react-router-dom';
 import { adminRegister, waitinglistPoolId } from 'app/actions/EventActions';
-import { TextEditor, SelectInput } from 'app/components/Form';
+import {
+  TextEditor,
+  SelectInput,
+  Form,
+  SubmitButton,
+  SubmissionError,
+} from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import SubmissionError from 'app/components/Form/SubmissionError';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { selectPoolsForEvent } from 'app/reducers/events';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
@@ -56,7 +60,7 @@ const AdminRegister = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               required
               name="users"
@@ -97,7 +101,7 @@ const AdminRegister = () => {
             />
             <SubmissionError />
             <SubmitButton>Adminregistrer</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </LoadingIndicator>

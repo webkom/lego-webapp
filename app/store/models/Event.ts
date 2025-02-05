@@ -5,11 +5,7 @@ import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import type { ListCompany } from 'app/store/models/Company';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { ReadRegistration } from 'app/store/models/Registration';
-import type {
-  DetailedUser,
-  PhotoConsent,
-  PublicUser,
-} from 'app/store/models/User';
+import type { PhotoConsent, PublicUser } from 'app/store/models/User';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
 export enum EventType {
@@ -50,7 +46,7 @@ export interface CompleteEvent {
   mergeTime?: Dateish;
   thumbnail: string;
   pools: EntityId[];
-  totalCapacity: number;
+  totalCapacity?: number;
   registrationCloseTime?: Dateish;
   registrationDeadlineHours?: number;
   unregistrationCloseTime?: Dateish;
@@ -73,16 +69,17 @@ export interface CompleteEvent {
   isMerged: boolean;
   heedPenalties: boolean;
   createdBy?: PublicUser;
-  registrationCount: number;
-  legacyRegistrationCount: number;
+  registrationCount?: number;
+  legacyRegistrationCount?: number;
   survey?: EntityId;
   useConsent: boolean;
   youtubeUrl: string;
   mazemapPoi?: number;
   pinned: boolean;
-  responsibleUsers: DetailedUser[];
+  responsibleUsers: PublicUser[];
   isForeignLanguage: boolean;
   unregistered: EntityId[];
+  userReg?: ReadRegistration;
 
   // for survey
   attendedCount: number;
@@ -138,13 +135,9 @@ export type ListEvent = Pick<
   | 'survey'
   | 'responsibleUsers'
   | 'actionGrant'
+  | 'userReg'
 > &
   ObjectPermissionsMixin;
-
-// Used for /upcoming and /previous endpoints
-export type ListEventWithUserRegistration = ListEvent & {
-  userReg?: ReadRegistration;
-};
 
 export type DetailedEvent = Pick<
   CompleteEvent,
@@ -195,6 +188,7 @@ export type DetailedEvent = Pick<
   | 'responsibleUsers'
   | 'isForeignLanguage'
   | 'actionGrant'
+  | 'isAdmitted'
 > &
   ObjectPermissionsMixin;
 
@@ -286,7 +280,6 @@ export type AutocompleteEvent = Pick<
 export type UnknownEvent = (
   | PublicEvent
   | ListEvent
-  | ListEventWithUserRegistration
   | DetailedEvent
   | EventForSurvey
   | UserDetailedEvent

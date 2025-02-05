@@ -1,0 +1,14 @@
+.metrics {
+  min-height: 80px;
+}
+
+.metricHeader {
+  font-weight: 500;
+  color: var(--secondary-font-color);
+}
+
+.metricNumber {
+  font-size: var(--font-size-xl);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}

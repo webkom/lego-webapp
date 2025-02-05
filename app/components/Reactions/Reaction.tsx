@@ -6,7 +6,7 @@ import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './Reaction.css';
+import styles from './Reaction.module.css';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -91,28 +91,34 @@ const Reaction = ({
     return <></>;
   }
 
-  let tooltipContent =
-    showPeople && optimisticUsers?.map((user) => user.fullName).join(', ');
-  tooltipContent = tooltipContent ? `${tooltipContent} reagerte med ` : '';
-  tooltipContent += emoji;
+  const tooltipContentNames =
+    showPeople &&
+    optimisticUsers
+      ?.map((user) => user.fullName)
+      .sort()
+      .map((name) => <div key={name}>{name}</div>);
+  const tooltipContent = tooltipContentNames ? (
+    <div>
+      {tooltipContentNames}
+      har reagert med {emoji}
+    </div>
+  ) : undefined;
 
   return (
-    <>
-      <Tooltip content={tooltipContent}>
-        <Flex
-          gap="var(--spacing-xs)"
-          justifyContent="center"
-          alignItems="center"
-          className={classNames}
-          onClick={handleReaction}
-        >
-          <div>
-            <Emoji unicodeString={unicodeString} />
-          </div>
-          <span className={styles.reactionCount}>{optimisticCount}</span>
-        </Flex>
-      </Tooltip>
-    </>
+    <Tooltip content={tooltipContent}>
+      <Flex
+        gap="var(--spacing-xs)"
+        justifyContent="center"
+        alignItems="center"
+        className={classNames}
+        onClick={handleReaction}
+      >
+        <div>
+          <Emoji unicodeString={unicodeString} />
+        </div>
+        <span className={styles.reactionCount}>{optimisticCount}</span>
+      </Flex>
+    </Tooltip>
   );
 };
 

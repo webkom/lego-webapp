@@ -11,6 +11,7 @@
     align-items: center;
     width: fit-content;
     margin-bottom: var(--spacing-sm);
+    outline: none;
   }
 
   span.backLabel {
@@ -22,6 +23,7 @@
     transition: transform var(--easing-medium);
   }
 
+  .back:focus > .backIcon,
   .back:hover > .backIcon {
     transform: translateX(calc(-1 * var(--spacing-xs)));
   }
@@ -37,8 +39,9 @@
 }
 
 .buttonGroup {
-  flex-grow: 1;
+  flex-grow: 0;
   justify-content: flex-end;
+  margin-left: auto;
 }
 
 .description {

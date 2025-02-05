@@ -1,7 +1,7 @@
 import loadable from '@loadable/component';
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, type RouteObject } from 'react-router-dom';
+import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import pageNotFound from '../../pageNotFound';
 
@@ -15,14 +15,16 @@ const RestrictedMailEditor = loadable(
 );
 const EmailRouteWrapper = () => (
   <Page
-    title="Administer E-post"
+    title="Administer e-post"
     tabs={
       <>
-        <NavigationTab href="/admin/email">Lister</NavigationTab>
-        <NavigationTab href="/admin/email/users?enabled=true">
+        <NavigationTab href="/admin/email/lists" matchSubpages>
+          Lister
+        </NavigationTab>
+        <NavigationTab href="/admin/email/users?enabled=true" matchSubpages>
           Brukere
         </NavigationTab>
-        <NavigationTab href="/admin/email/restricted">
+        <NavigationTab href="/admin/email/restricted" matchSubpages>
           Begrenset e-post
         </NavigationTab>
       </>
@@ -38,7 +40,7 @@ const emailRoute: RouteObject[] = [
   {
     Component: EmailRouteWrapper,
     children: [
-      { index: true, Component: EmailLists },
+      { index: true, element: <Navigate to="lists" replace /> },
       { path: 'lists', Component: EmailLists },
       { path: 'lists/new', Component: EmailListEditor },
       { path: 'lists/:emailListId', Component: EmailListEditor },

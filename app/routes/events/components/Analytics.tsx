@@ -14,7 +14,8 @@ import {
 } from 'recharts';
 import { fetchAnalytics } from 'app/actions/EventActions';
 import { useAppDispatch } from 'app/store/hooks';
-import styles from './Analytics.css';
+import styles from './Analytics.module.css';
+import type { Analytics as AnalyticsType } from 'app/actions/EventActions';
 import type { Dateish } from 'app/models';
 
 const initialMetricValue = {
@@ -49,7 +50,7 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
     pageviews: { title: string; value: number };
     visitDuration: { title: string; value: number };
   }>(initialMetricValue);
-  const [data, setData] = useState<{ date: string; visitors: number }[]>([]);
+  const [data, setData] = useState<AnalyticsType[]>([]);
 
   const dispatch = useAppDispatch();
 
@@ -77,28 +78,29 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
         });
       }
     },
-    [eventId],
+    [eventId, viewStartTime, viewEndTime],
   );
 
   return (
-    <>
-      <Flex wrap gap={40} className={styles.metrics}>
-        {Object.values(metrics).map((metric, i) => (
-          <>
-            {i !== 0 && <div key={i} className={styles.metricDivider} />}
-
-            <Flex column justifyContent="center" key={metric.title}>
-              <span className={styles.metricHeader}>{metric.title}</span>
-              <span className={styles.metricNumber}>
-                {metric.value.toLocaleString('no-NO')}
-              </span>
-            </Flex>
-          </>
+    <Flex column gap="var(--spacing-md)">
+      <Flex wrap gap="var(--spacing-xl)" className={styles.metrics}>
+        {Object.values(metrics).map((metric) => (
+          <Flex column justifyContent="center" key={metric.title}>
+            <span className={styles.metricHeader}>{metric.title}</span>
+            <span className={styles.metricNumber}>
+              {metric.value.toLocaleString('no-NO')}
+            </span>
+          </Flex>
         ))}
       </Flex>
 
       <ResponsiveContainer width="100%" aspect={2.0 / 0.8}>
-        <AreaChart data={data}>
+        <AreaChart
+          data={data}
+          margin={{
+            left: -16,
+          }}
+        >
           <defs>
             <linearGradient id="colorView" x1="0" y1="0" x2="0" y2="1">
               <stop
@@ -151,7 +153,7 @@ const Analytics = ({ viewStartTime, viewEndTime }: Props) => {
           />
         </AreaChart>
       </ResponsiveContainer>
-    </>
+    </Flex>
   );
 };
 

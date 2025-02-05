@@ -42,11 +42,12 @@ import {
 } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
+import { PizzaButton } from 'app/routes/meetings/components/PizzaButton';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import urlifyString from 'app/utils/urlifyString';
-import styles from './MeetingDetail.css';
+import styles from './MeetingDetail.module.css';
 import type { Dateish } from 'app/models';
 import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { PublicUser } from 'app/store/models/User';
@@ -161,6 +162,9 @@ const MeetingDetails = () => {
   const statusMe = currentUserInvitation?.status;
   const actionGrant = meeting?.actionGrant;
   const canEdit = actionGrant?.includes('edit');
+  const isPizzaReactedWith =
+    meeting.reactionsGrouped?.find((reaction) => reaction.emoji === ':pizza:')
+      ?.count ?? false;
   const infoItems = [
     {
       key: 'Din status',
@@ -267,20 +271,18 @@ const MeetingDetails = () => {
           <DisplayContent content={meeting.report} />
         </ContentMain>
         <ContentSidebar>
-          <ul>
-            {attendanceButtons(statusMe, meeting.startTime)}
-            <InfoList items={infoItems} />
-            <Attendance isMeeting pools={sortInvitations()} />
-            {meeting.mazemapPoi && (
-              <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
-            )}
+          {attendanceButtons(statusMe, meeting.startTime)}
+          <InfoList items={infoItems} />
 
-            {icalToken && (
-              <li>
-                <AddToCalendar icalToken={icalToken} meeting={meeting} />
-              </li>
-            )}
-          </ul>
+          <Attendance isMeeting pools={sortInvitations()} />
+
+          {meeting.mazemapPoi && (
+            <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+          )}
+
+          {icalToken && (
+            <AddToCalendar icalToken={icalToken} meeting={meeting} />
+          )}
 
           <div>
             <h3>Admin</h3>
@@ -294,6 +296,17 @@ const MeetingDetails = () => {
               )}
             </ButtonGroup>
           </div>
+          {isPizzaReactedWith && (
+            <div>
+              <h3>Pizza</h3>
+              <ButtonGroup>
+                <PizzaButton
+                  meeting={meeting}
+                  meetingInvitations={meetingInvitations}
+                />
+              </ButtonGroup>
+            </div>
+          )}
         </ContentSidebar>
       </ContentSection>
       <ContentSection>

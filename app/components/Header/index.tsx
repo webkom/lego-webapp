@@ -1,28 +1,27 @@
 import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Menu, CircleUser, LogOut, Settings, Users } from 'lucide-react';
+import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { Modal } from 'react-overlays';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';
 import logoLightMode from 'app/assets/logo-dark.png';
 import logoDarkMode from 'app/assets/logo.png';
-import AuthSection from 'app/components/AuthSection/AuthSection';
+import Auth from 'app/components/Auth';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectUpcomingMeetingId } from 'app/reducers/meetings';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import utilStyles from 'app/styles/utilities.css';
+import { Keyboard } from 'app/utils/constants';
 import { applySelectedTheme, getOSTheme, getTheme } from 'app/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
 import Search from '../Search';
-import FancyNodesCanvas from './FancyNodesCanvas';
-import styles from './Header.css';
+import styles from './Header.module.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
 
@@ -161,23 +160,8 @@ const AccountDropdown = () => {
       contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >
-      <AuthSection />
+      <Auth />
     </Dropdown>
-  );
-};
-
-const SearchModal = () => {
-  const dispatch = useAppDispatch();
-  const searchOpen = useAppSelector((state) => state.search.open);
-  return (
-    <Modal
-      show={searchOpen}
-      onHide={() => dispatch(toggleSearch())}
-      renderBackdrop={(props) => <div {...props} className={styles.backdrop} />}
-      className={styles.modal}
-    >
-      <Search />
-    </Modal>
   );
 };
 
@@ -185,6 +169,7 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
+  const searchOpen = useAppSelector((state) => state.search.open);
 
   useEffect(() => {
     if (
@@ -199,9 +184,27 @@ const Header = () => {
     }
   }, [loggedIn, currentUser]);
 
+  useEffect(() => {
+    if (searchOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [searchOpen]);
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === Keyboard.ESCAPE && searchOpen) {
+        dispatch(toggleSearch());
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [dispatch, searchOpen]);
+
   return (
     <header>
-      <FancyNodesCanvas height={300} />
       <div className={styles.content}>
         <HeaderLogo />
 
@@ -217,14 +220,31 @@ const Header = () => {
 
             <AccountDropdown />
 
-            <button onClick={() => dispatch(toggleSearch())}>
-              <Icon iconNode={<Menu />} data-test-id="search-menu-icon" />
+            <button
+              onClick={() => dispatch(toggleSearch())}
+              className={styles.searchButton}
+              data-test-id="search-menu-icon"
+            >
+              <div className={styles.iconWrapper}>
+                <Icon
+                  iconNode={<Menu />}
+                  size={24}
+                  className={cx(styles.menuIcon, searchOpen && styles.hideIcon)}
+                />
+                <Icon
+                  iconNode={<X />}
+                  size={24}
+                  className={cx(
+                    styles.closeIcon,
+                    !searchOpen && styles.hideIcon,
+                  )}
+                />
+              </div>
             </button>
           </div>
         </div>
-
-        <SearchModal />
       </div>
+      {searchOpen && <Search />}
     </header>
   );
 };

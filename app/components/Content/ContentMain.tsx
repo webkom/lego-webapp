@@ -14,6 +14,7 @@ function ContentMain({ children, className }: Props) {
   return (
     <Flex
       column
+      gap="var(--spacing-md)"
       style={{
         flex: 2,
       }}

@@ -1,0 +1,25 @@
+.blockingText {
+  z-index: 5;
+  font-size: var(--font-size-lg);
+  text-align: center;
+  color: var(--color-absolute-black);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.mazemapEmbed {
+  border-radius: var(--border-radius-md);
+  color: var(--color-absolute-black);
+  background-color: rgb(
+    248,
+    244,
+    236
+  ); /* The color of a blank area in mazemap  */
+}
+
+.mazemapLink {
+  font-size: var(--font-size-sm);
+}

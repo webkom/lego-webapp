@@ -7,15 +7,16 @@ import {
   editEmailUser,
   fetchEmailUser,
 } from 'app/actions/EmailUserActions';
+import { ContentMain } from 'app/components/Content';
 import {
   TextInput,
   Form,
   SelectInput,
-  CheckBox,
   LegoFinalForm,
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectEmailUserById } from 'app/reducers/emailUsers';
 import { selectUserById } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -102,57 +103,61 @@ const EmailUserEditor = () => {
   if (fetching) return <LoadingIndicator loading={true} />;
 
   return (
-    <LegoFinalForm
-      onSubmit={handleSubmit}
-      validate={validate}
-      initialValues={initialValues}
-    >
-      {({ handleSubmit, form }) => (
-        <Form onSubmit={(values) => handleSubmit(values)}>
-          {isNew && (
-            <Card severity="warning">
-              <span>
-                Personlige e-postadresser skal være på formatet{' '}
-                <b>fornavn.etternavn@abakus.no</b>.
-              </span>
-              <span>
-                <b>Adressen kan ikke endres senere</b>, så vær sikker på at
-                adressen som settes er riktig.
-              </span>
-            </Card>
-          )}
-          <Field
-            label="Bruker"
-            name="user"
-            required
-            disabled={emailUserId}
-            filter={[AutocompleteContentType.User]}
-            component={SelectInput.AutocompleteField}
-            onChange={(data: AutocompleteUserValue) => onUserChange(data, form)}
-          />
-          <Field
-            required
-            disabled={emailUserId}
-            placeholder="abakus"
-            suffix="@abakus.no"
-            name="internalEmail"
-            label="G Suite e-post"
-            component={TextInput.Field}
-          />
-          <Field
-            label="Aktiv e-post"
-            name="internalEmailEnabled"
-            component={CheckBox.Field}
-            type="checkbox"
-          />
-
-          <SubmissionError />
-          <SubmitButton>
-            {isNew ? 'Lag e-postbruker' : 'Oppdater e-postbruker'}
-          </SubmitButton>
-        </Form>
+    <ContentMain>
+      {isNew && (
+        <Card severity="warning">
+          <span>
+            Personlige e-postadresser skal være på formatet{' '}
+            <b>fornavn.etternavn@abakus.no</b>.
+          </span>
+          <span>
+            <b>Adressen kan ikke endres senere</b>, så vær sikker på at adressen
+            som settes er riktig.
+          </span>
+        </Card>
       )}
-    </LegoFinalForm>
+      <LegoFinalForm
+        onSubmit={handleSubmit}
+        validate={validate}
+        initialValues={initialValues}
+      >
+        {({ handleSubmit, form }) => (
+          <Form onSubmit={(values) => handleSubmit(values)}>
+            <Field
+              label="Bruker"
+              name="user"
+              required
+              disabled={emailUserId}
+              filter={[AutocompleteContentType.User]}
+              component={SelectInput.AutocompleteField}
+              onChange={(data: AutocompleteUserValue) =>
+                onUserChange(data, form)
+              }
+            />
+            <Field
+              required
+              disabled={emailUserId}
+              placeholder="jan.doe"
+              suffix="@abakus.no"
+              name="internalEmail"
+              label="Adresse"
+              component={TextInput.Field}
+            />
+            <Field
+              label="Aktiv e-post"
+              name="internalEmailEnabled"
+              component={ToggleSwitch.Field}
+              type="checkbox"
+            />
+
+            <SubmissionError />
+            <SubmitButton>
+              {isNew ? 'Lag e-postbruker' : 'Oppdater e-postbruker'}
+            </SubmitButton>
+          </Form>
+        )}
+      </LegoFinalForm>
+    </ContentMain>
   );
 };
 

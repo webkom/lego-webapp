@@ -10,16 +10,15 @@ import { Link } from 'react-router-dom';
 import { MazemapButton } from 'app/components/MazemapEmbed/MazemapButton';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FromToTime } from 'app/components/Time';
-import styles from 'app/routes/events/components/EventDetail/EventDetail.css';
+import styles from 'app/routes/events/components/EventDetail/EventDetail.module.css';
 import type { DetailedEvent } from 'app/store/models/Event';
 
 interface Props {
-  showSkeleton?: boolean;
   event?: DetailedEvent;
 }
 
-export const SidebarInfo = ({ showSkeleton, event }: Props) => {
-  return showSkeleton || !event ? (
+export const SidebarInfo = ({ event }: Props) => {
+  return !event ? (
     <Flex column gap="var(--spacing-sm)">
       <Skeleton array={3} className={styles.sidebarInfo} />
     </Flex>
@@ -30,9 +29,13 @@ export const SidebarInfo = ({ showSkeleton, event }: Props) => {
           iconNode={<BriefcaseBusiness />}
           size={20}
           content={
-            <Link to={`/companies/${event.company.id}`}>
-              {event.company.name}
-            </Link>
+            event.company.name ? (
+              <Link to={`/companies/${event.company.id}`}>
+                {event.company.name}
+              </Link>
+            ) : (
+              <Skeleton className={styles.sidebarInfo} width={100} />
+            )
           }
           className={styles.sidebarInfo}
         />
@@ -58,7 +61,13 @@ export const SidebarInfo = ({ showSkeleton, event }: Props) => {
         <TextWithIcon
           iconNode={<Coins />}
           size={20}
-          content={event.priceMember / 100 + ',-'}
+          content={
+            event.priceMember ? (
+              event.priceMember / 100 + ',-'
+            ) : (
+              <Skeleton className={styles.sidebarInfo} width={50} />
+            )
+          }
           className={styles.sidebarInfo}
         />
       )}

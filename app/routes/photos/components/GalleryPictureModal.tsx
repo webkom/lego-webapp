@@ -1,19 +1,24 @@
-import { Flex, Icon, Modal, Image, LoadingPage } from '@webkom/lego-bricks';
+import {
+  Flex,
+  Icon,
+  Modal,
+  Image,
+  LoadingIndicator,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, useParams, useNavigate, Outlet } from 'react-router-dom';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
-import { fetchGallery, updateGalleryCover } from 'app/actions/GalleryActions';
+import { updateGalleryCover } from 'app/actions/GalleryActions';
 import {
   deletePicture,
   fetchGalleryPicture,
-  fetchSiblingGallerPicture,
+  fetchGalleryPictures,
 } from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
 import Dropdown from 'app/components/Dropdown';
-import ProgressiveImage from 'app/components/ProgressiveImage';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
@@ -29,7 +34,7 @@ import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { Keyboard } from 'app/utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './GalleryPictureModal.css';
+import styles from './GalleryPictureModal.module.css';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
 import type { PublicUser } from 'app/store/models/User';
@@ -143,27 +148,24 @@ const GalleryPictureModal = () => {
   const gallery = useAppSelector((state) =>
     selectGalleryById<DetailedGallery>(state, galleryId),
   );
+
+  const modalRef = useRef<HTMLElement>(null);
+
   const actionGrant = gallery?.actionGrant || [];
 
-  let isFirstImage = false;
-  let isLastImage = false;
-  if (pictures.length > 0 && pictureId) {
-    if (Number(pictures[0].id) === Number(pictureId)) {
-      isFirstImage = true;
-    }
+  const isFirstImage =
+    !pictures?.length || String(pictures[0].id) === String(pictureId);
+  const isLastLoadedImage =
+    !pictures?.length ||
+    String(pictures[pictures.length - 1].id) === String(pictureId);
+  const isLastImage = !pagination.hasMore && isLastLoadedImage;
 
-    if (
-      Number(pictures[pictures.length - 1].id) === Number(pictureId) &&
-      !pagination.hasMore
-    ) {
-      isLastImage = true;
-    }
-  }
+  const pictureIndex = pictures.findIndex(
+    (pic) => String(pic.id) === String(pictureId),
+  );
 
   const [showMore, setShowMore] = useState(false);
   const [clickedDeletePicture, setClickedDeletePicture] = useState(0);
-  const [hasNext, setHasNext] = useState(!isLastImage);
-  const [hasPrevious, setHasPrevious] = useState(!isFirstImage);
 
   const dispatch = useAppDispatch();
 
@@ -171,17 +173,40 @@ const GalleryPictureModal = () => {
     'fetchGalleryPicture',
     () =>
       galleryId &&
-      Promise.allSettled([
-        dispatch(fetchGallery(galleryId)),
-        pictureId && dispatch(fetchGalleryPicture(galleryId, pictureId)),
-      ]),
-    [],
+      pictureId &&
+      !pictures.find((pic) => String(pic.id) === String(pictureId)) &&
+      dispatch(fetchGalleryPicture(galleryId, pictureId)),
+    [dispatch, galleryId, pictureId, pictures],
   );
+
+  useEffect(() => {
+    if (pagination.hasMore && isLastLoadedImage && galleryId) {
+      dispatch(
+        fetchGalleryPictures(galleryId, {
+          next: true,
+        }),
+      );
+    }
+  }, [
+    dispatch,
+    galleryId,
+    isLastLoadedImage,
+    pagination.hasMore,
+    pictures.length,
+  ]);
 
   const navigate = useNavigate();
 
   if (!gallery || !picture) {
-    return <LoadingPage loading={fetching} />;
+    return (
+      <Modal
+        onOpenChange={(open) => !open && navigate(`/photos/${galleryId}`)}
+        isOpen
+        contentClassName={styles.content}
+      >
+        <LoadingIndicator loading={fetching} />;
+      </Modal>
+    );
   }
 
   const toggleDropdown = () => {
@@ -208,17 +233,11 @@ const GalleryPictureModal = () => {
     }
   };
 
-  const siblingGalleryPicture = (next: boolean) => {
-    return dispatch(
-      fetchSiblingGallerPicture(gallery.id, pictureId, next),
-    ).then((result) => {
-      setHasNext(!!result.payload.next);
-      setHasPrevious(!!result.payload.previous);
-      return (
-        result.payload.result.length > 0 &&
-        navigate(`/photos/${gallery.id}/picture/${result.payload.result[0]}`)
-      );
-    });
+  const siblingGalleryPicture = async (next: boolean) => {
+    if ((next && isLastLoadedImage) || (!next && isFirstImage)) return;
+    navigate(
+      `/photos/${gallery.id}/picture/${pictures[pictureIndex + (next ? 1 : -1)].id}`,
+    );
   };
 
   const previousGalleryPicture = throttle(
@@ -242,7 +261,7 @@ const GalleryPictureModal = () => {
       return;
     }
 
-    switch (e.which) {
+    switch (e.key) {
       case Keyboard.LEFT:
         e.preventDefault();
         previousGalleryPicture();
@@ -265,14 +284,16 @@ const GalleryPictureModal = () => {
   return (
     <Modal
       onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
-      isDismissable={false} // Avoid closing the modal when pressing something from the dropdown
       isOpen
       contentClassName={styles.content}
+      aria-label={`Bilde ${picture.id} av ${gallery.title}`}
+      ref={modalRef}
     >
       <PropertyHelmet
         propertyGenerator={propertyGenerator}
         options={{ gallery, picture }}
       >
+        <title>{`${gallery.title} (${picture.id})`}</title>
         <link
           rel="canonical"
           href={`${config?.webUrl}/photos/${gallery.id}/picture/${picture.id}`}
@@ -283,7 +304,7 @@ const GalleryPictureModal = () => {
         <OnKeyDownHandler handler={handleKeyDown} />
         <Flex column gap="var(--spacing-md)">
           <Flex width="100%" justifyContent="space-between" alignItems="center">
-            <Flex justifyContent="space-between">
+            <Flex justifyContent="space-between" gap="var(--spacing-md)">
               <Image
                 className={styles.galleryThumbnail}
                 alt="Forsidebilde til album"
@@ -302,6 +323,7 @@ const GalleryPictureModal = () => {
               closeOnContentClick
               className={styles.dropdown}
               iconName="ellipsis-horizontal"
+              container={modalRef.current}
             >
               <Dropdown.List>
                 <Dropdown.ListItem>
@@ -358,11 +380,13 @@ const GalleryPictureModal = () => {
             </Dropdown>
           </Flex>
 
-          <Flex className={styles.pictureContainer}>
-            <ProgressiveImage
+          <Flex justifyContent="center" className={styles.pictureContainer}>
+            <Image
               key={picture.id}
               src={picture.file}
+              placeholder={picture.thumbnail}
               alt={picture.description}
+              className={styles.picture}
             />
           </Flex>
 
@@ -375,22 +399,31 @@ const GalleryPictureModal = () => {
             </span>
           )}
 
-          <Flex justifyContent="center" gap="var(--spacing-lg)">
-            {hasPrevious && (
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            gap="var(--spacing-lg)"
+          >
+            <Icon
+              onPress={previousGalleryPicture}
+              name="arrow-back-outline"
+              size={40}
+              disabled={isFirstImage}
+            />
+            {isLastLoadedImage && !isLastImage ? (
+              <LoadingIndicator loading className={styles.loadingIndicator} />
+            ) : (
               <Icon
-                onClick={previousGalleryPicture}
-                name="arrow-back-outline"
-                size={40}
-              />
-            )}
-            {hasNext && (
-              <Icon
-                onClick={nextGalleryPicture}
+                onPress={nextGalleryPicture}
                 name="arrow-forward-outline"
                 size={40}
+                disabled={isLastLoadedImage}
               />
             )}
           </Flex>
+
+          <Outlet />
+
           {picture.contentTarget && (
             <CommentView
               contentTarget={picture.contentTarget}

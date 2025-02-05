@@ -14,9 +14,7 @@ const legoAdapter = createLegoAdapter(EntityType.Registrations);
 
 const registrationsSlice = createSlice({
   name: EntityType.Registrations,
-  initialState: legoAdapter.getInitialState({
-    test: 1,
-  }),
+  initialState: legoAdapter.getInitialState(),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     extraCases: (addCase) => {

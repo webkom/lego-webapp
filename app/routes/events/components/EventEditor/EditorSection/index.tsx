@@ -1,7 +1,8 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
-import styles from '../EventEditor.css';
+import styles from '../EventEditor.module.css';
 import type { PropsWithChildren } from 'react';
 
 type Props = {
@@ -22,7 +23,7 @@ const EditorSection: React.FC<PropsWithChildren<Props>> = ({
     <>
       <Flex
         alignItems="center"
-        gap={4}
+        gap="var(--spacing-sm)"
         className={cx(
           styles.editorSectionToggle,
           collapsible && styles.collapsible,
@@ -32,13 +33,20 @@ const EditorSection: React.FC<PropsWithChildren<Props>> = ({
         {collapsible && (
           <Icon
             className={cx(styles.toggleIcon, expanded && styles.expanded)}
-            name={`chevron-forward`}
+            size={20}
+            iconNode={<ChevronRight />}
           />
         )}
         <h3>{title}</h3>
       </Flex>
       {expanded && (
-        <div className={styles.editorSectionContent}>{children}</div>
+        <Flex
+          column
+          gap="var(--spacing-md)"
+          className={styles.editorSectionContent}
+        >
+          {children}
+        </Flex>
       )}
     </>
   );

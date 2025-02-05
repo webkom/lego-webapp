@@ -20,6 +20,7 @@ import galleryPictures from 'app/reducers/galleryPictures';
 import groups from 'app/reducers/groups';
 import imageGalleryEntries from 'app/reducers/imageGallery';
 import joblistings from 'app/reducers/joblistings';
+import lendableObjects from 'app/reducers/lendableObjects';
 import meetingInvitations from 'app/reducers/meetingInvitations';
 import meetings from 'app/reducers/meetings';
 import memberships from 'app/reducers/memberships';
@@ -68,6 +69,7 @@ const createRootReducer = () => {
     groups,
     imageGalleryEntries,
     joblistings,
+    lendableObjects,
     meetingInvitations,
     meetings,
     memberships,

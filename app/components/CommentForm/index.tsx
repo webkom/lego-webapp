@@ -1,7 +1,7 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { addComment } from 'app/actions/CommentActions';
-import { TextInput } from 'app/components/Form';
+import { Form, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
@@ -9,7 +9,7 @@ import { ProfilePicture } from 'app/components/Image';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
-import styles from './CommentForm.css';
+import styles from './CommentForm.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ContentTarget } from 'app/store/utils/contentTarget';
 
@@ -58,33 +58,30 @@ const CommentForm = ({
           });
         }}
       >
-        {({ handleSubmit }) => {
-          return (
-            <form onSubmit={handleSubmit}>
-              <Flex alignItems="center" gap="var(--spacing-md)">
-                {currentUser && <ProfilePicture size={40} user={currentUser} />}
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Flex alignItems="center" gap="var(--spacing-md)">
+              {currentUser && <ProfilePicture size={40} user={currentUser} />}
 
-                <div className={styles.field}>
-                  <Field
-                    autoFocus={autoFocus}
-                    name="text"
-                    placeholder={placeholder}
-                    component={TextInput.Field}
-                    removeBorder
-                    maxLength={140}
-                    withoutMargin
-                  />
-                </div>
+              <div className={styles.field}>
+                <Field
+                  autoFocus={autoFocus}
+                  name="text"
+                  placeholder={placeholder}
+                  component={TextInput.Field}
+                  removeBorder
+                  maxLength={140}
+                />
+              </div>
 
-                <SubmitButton className={styles.submitButton}>
-                  {submitText}
-                </SubmitButton>
-              </Flex>
+              <SubmitButton className={styles.submitButton}>
+                {submitText}
+              </SubmitButton>
+            </Flex>
 
-              <SubmissionError />
-            </form>
-          );
-        }}
+            <SubmissionError />
+          </Form>
+        )}
       </LegoFinalForm>
     </Card>
   );

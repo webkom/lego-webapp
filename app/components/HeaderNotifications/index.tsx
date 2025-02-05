@@ -1,7 +1,7 @@
-import { Icon, LoadingIndicator } from '@webkom/lego-bricks';
+import { BadgeIcon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Bell, BellRing } from 'lucide-react';
+import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
@@ -17,7 +17,7 @@ import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
-import styles from './HeaderNotifications.css';
+import styles from './HeaderNotifications.module.css';
 import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
 
 const NotificationElement = ({
@@ -71,7 +71,9 @@ const HeaderNotificationsContent = () => {
   }
 
   if (!fetchingNotifications && notifications.length === 0) {
-    return <EmptyState body="Ingen varslinger å vise" />;
+    return (
+      <EmptyState iconNode={<BellOff />} body="Du har ingen varslinger ..." />
+    );
   }
 
   return (
@@ -103,11 +105,13 @@ const NotificationsDropdown = () => {
   );
 
   const { unreadCount } = notificationsData;
+
   return (
     <Dropdown
       show={notificationsOpen}
       toggle={() => {
-        setNotificationsOpen(!notificationsOpen);
+        setNotificationsOpen((prev) => !prev);
+
         if (!notificationsOpen) {
           dispatch(fetchNotificationFeed());
         } else {
@@ -116,8 +120,10 @@ const NotificationsDropdown = () => {
       }}
       closeOnContentClick
       triggerComponent={
-        <Icon.Badge
-          iconNode={unreadCount > 0 ? <BellRing /> : <Bell />}
+        <BadgeIcon
+          iconNode={
+            !notificationsOpen && unreadCount > 0 ? <BellRing /> : <Bell />
+          }
           badgeCount={notificationsOpen ? 0 : unreadCount}
         />
       }

@@ -8,7 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Outlet } from 'react-router-dom';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
   fetchGalleryPictures,
@@ -16,7 +16,6 @@ import {
 } from 'app/actions/GalleryPictureActions';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
-import { LoginRequiredPage } from 'app/components/LoginForm';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
@@ -29,13 +28,14 @@ import {
   selectGalleryPicturesByGalleryId,
 } from 'app/reducers/galleryPictures';
 import { selectPaginationNext } from 'app/reducers/selectors';
+import LoginPage from 'app/routes/auth/components/LoginPage';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './Overview.css';
+import styles from './Overview.module.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
 import type { DetailedGallery } from 'app/store/models/Gallery';
 import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
@@ -209,6 +209,8 @@ const GalleryDetail = () => {
           />
         </PropertyHelmet>
 
+        <Outlet />
+
         <GalleryDetailsRow gallery={gallery} showDescription />
 
         <Gallery
@@ -262,7 +264,7 @@ const GalleryDetail = () => {
   }
 
   if (!loggedIn) {
-    return <LoginRequiredPage />;
+    return <LoginPage loginRequired />;
   }
 
   return <HTTPError />;

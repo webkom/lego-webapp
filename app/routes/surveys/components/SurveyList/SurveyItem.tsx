@@ -1,10 +1,11 @@
 import { Image } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
-import styles from '../surveys.css';
+import styles from '../surveys.module.css';
 import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 
@@ -19,7 +20,7 @@ const SurveyItem = ({ survey }: Props) => {
 
   return (
     <div
-      className={styles.surveyItem}
+      className={cx(styles.surveyItem, styles.surveyItemBorder)}
       style={{
         borderColor: colorForEventType(survey.templateType || event?.eventType),
       }}

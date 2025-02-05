@@ -1,0 +1,17 @@
+@import url('~app/styles/variables.css');
+
+.colLeft {
+  flex: 3;
+}
+
+.colRight {
+  flex: 2;
+  align-items: center;
+  padding: var(--spacing-sm) 0;
+  background-color: var(--color-absolute-white);
+}
+
+.colLeft ul {
+  list-style: outside;
+  padding-left: var(--spacing-lg);
+}

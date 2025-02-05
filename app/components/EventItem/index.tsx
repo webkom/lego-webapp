@@ -1,6 +1,5 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import {
-  AlarmClock,
   Calendar,
   CalendarClock,
   CircleAlert,
@@ -8,6 +7,7 @@ import {
   Clock,
   Timer,
 } from 'lucide-react';
+import moment from 'moment-timezone';
 import { Link } from 'react-router-dom';
 import Pill from 'app/components/Pill';
 import Tag from 'app/components/Tags/Tag';
@@ -16,7 +16,8 @@ import Tooltip from 'app/components/Tooltip';
 import { colorForEventType } from 'app/routes/events/utils';
 import { EventStatusType } from 'app/store/models/Event';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
-import styles from './styles.css';
+import RegistrationStatusTag from './RegistrationStatusTag';
+import styles from './styles.module.css';
 import type { CompleteEvent, ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
 
@@ -33,27 +34,34 @@ const getRegistrationIconOptions = (
 ): RegistrationIconOptions => {
   const { isAdmitted, eventStatusType } = event;
 
+  if (isAdmitted) {
+    return {
+      icon: <CircleCheckBig />,
+      color: 'var(--success-color)',
+      tooltip: 'Du er påmeldt',
+    };
+  }
+
   switch (eventStatusType) {
     case EventStatusType.NORMAL:
     case EventStatusType.INFINITE:
-      if (isAdmitted) {
-        return {
-          icon: <CircleCheckBig />,
-          color: 'var(--success-color)',
-          tooltip: 'Du er påmeldt',
-        } satisfies RegistrationIconOptions;
-      }
       return {
         icon: <Timer />,
         color: 'var(--color-orange-6)',
         tooltip: 'Du er på ventelisten',
-      } satisfies RegistrationIconOptions;
+      };
+    case EventStatusType.OPEN:
+      return {
+        icon: <CircleCheckBig />,
+        color: 'var(--success-color)',
+        tooltip: 'Åpent for alle',
+      };
     default:
       return {
         icon: <CircleAlert />,
         color: 'var(--danger-color)',
         tooltip: 'Det har oppstått en feil',
-      } satisfies RegistrationIconOptions;
+      };
   }
 };
 
@@ -72,7 +80,7 @@ type TimeStampProps = {
 
 const TimeStamp = ({ event }: TimeStampProps) => {
   return (
-    <div className={styles.eventTime}>
+    <Flex column gap="var(--spacing-sm)" className={styles.eventTime}>
       <Flex alignItems="center" gap="var(--spacing-sm)">
         <Icon iconNode={<Calendar />} size={18} />
         <Time time={event.startTime} format="ll" />
@@ -81,27 +89,7 @@ const TimeStamp = ({ event }: TimeStampProps) => {
         <Icon iconNode={<Clock />} size={18} />
         <Time time={event.startTime} format="HH:mm" />
       </Flex>
-    </div>
-  );
-};
-
-const TimeStartAndRegistration = ({ event }: TimeStampProps) => {
-  return (
-    <div className={styles.eventTime}>
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        <Icon iconNode={<CalendarClock />} size={18} />
-        <Time time={event.startTime} format="ll HH:mm" />
-      </Flex>
-
-      {!!event.activationTime && (
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          <Tooltip content="Påmelding åpner">
-            <Icon iconNode={<AlarmClock />} size={18} />
-          </Tooltip>
-          <Time time={event.activationTime} format="ll HH:mm" />
-        </Flex>
-      )}
-    </div>
+    </Flex>
   );
 };
 
@@ -129,10 +117,17 @@ const EventItem = ({
   showTags = true,
   eventStyle,
 }: EventItemProps): ReactNode => {
+  const isRegistrationOpen = moment(event.activationTime).isBefore(moment());
+  // No need to show the year if it is the same year
+  const isRegistrationSameYear =
+    moment().year() === moment(event.activationTime).year();
+  const isEventSameYear = moment().year() === moment(event.startTime).year();
+
   switch (eventStyle) {
     case 'extra-compact':
       return (
-        <div
+        <Link
+          to={`/events/${event.slug}`}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
@@ -157,37 +152,33 @@ const EventItem = ({
               />
             )}
           </Flex>
-        </div>
+        </Link>
       );
     case 'compact':
       return (
-        <div
+        <Link
+          to={`/events/${event.slug}`}
           style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
-          <Link to={`/events/${event.slug}`}>
-            <h3 className={styles.eventItemTitle}>{event.title}</h3>
-          </Link>
-          <Flex justifyContent="space-between">
-            <Flex width="72%">
-              <Flex className={styles.companyLogoCompact}>
-                {event.cover && (
-                  <Link to={`/events/${event.slug}`}>
-                    <Image
-                      src={event.cover}
-                      placeholder={event.coverPlaceholder}
-                      alt={`Forsidebildet til ${event.title}`}
-                    />
-                  </Link>
-                )}
-              </Flex>
+          <h3 className={styles.eventItemTitle}>{event.title}</h3>
+          <Flex justifyContent="space-between" gap="var(--spacing-sm)">
+            <Flex width="72%" className={styles.companyLogoCompact}>
+              {event.cover && (
+                <Link to={`/events/${event.slug}`}>
+                  <Image
+                    src={event.cover}
+                    placeholder={event.coverPlaceholder}
+                    alt={`Forsidebildet til ${event.title}`}
+                  />
+                </Link>
+              )}
             </Flex>
-            <Flex justifyContent="flex-start" column width="25%">
+            <Flex column width="25%" gap="var(--spacing-sm)">
               <Flex wrap alignItems="center" gap="var(--spacing-sm)">
                 <RegistrationIcon event={event} />
                 <Attendance event={event} />
               </Flex>
-
               <TimeStamp event={event} />
             </Flex>
           </Flex>
@@ -198,23 +189,32 @@ const EventItem = ({
               ))}
             </Flex>
           )}
-        </div>
+        </Link>
       );
     case 'default':
     default:
       return (
-        <div
+        <Link
+          to={`/events/${event.slug}`}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
           className={styles.eventItem}
         >
-          <div>
-            <Link to={`/events/${event.slug}`}>
-              <h3 className={styles.eventItemTitle}>{event.title}</h3>
-              {event.totalCapacity > 0 && <Attendance event={event} />}
-            </Link>
-            <TimeStartAndRegistration event={event} />
+          <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
+            <h3 className={styles.eventItemTitle}>{event.title}</h3>
+            {event.totalCapacity != null && event.totalCapacity > 0 && (
+              <div>
+                <Attendance event={event} />
+              </div>
+            )}
+            <Flex alignItems="center" gap="var(--spacing-sm)">
+              <Icon iconNode={<CalendarClock />} size={16} />
+              <Time
+                time={event.startTime}
+                format={isEventSameYear ? 'D. MMM HH:mm' : 'll HH:mm'}
+              />
+            </Flex>
             {showTags && (
               <Flex wrap>
                 {event.tags.map((tag, index) => (
@@ -222,18 +222,25 @@ const EventItem = ({
                 ))}
               </Flex>
             )}
-          </div>
-
-          <Flex className={styles.companyLogo}>
-            {event.cover && (
-              <Image
-                alt="Forsidebilde"
-                src={event.cover}
-                placeholder={event.coverPlaceholder}
-              />
-            )}
           </Flex>
-        </div>
+
+          <Flex column alignItems="flex-end" gap="var(--spacing-sm)">
+            <Flex className={styles.companyLogo}>
+              {event.cover && (
+                <Image
+                  alt="Forsidebilde"
+                  src={event.cover}
+                  placeholder={event.coverPlaceholder}
+                />
+              )}
+            </Flex>
+            <RegistrationStatusTag
+              event={event}
+              isRegistrationOpen={isRegistrationOpen}
+              isRegistrationSameYear={isRegistrationSameYear}
+            />
+          </Flex>
+        </Link>
       );
   }
 };

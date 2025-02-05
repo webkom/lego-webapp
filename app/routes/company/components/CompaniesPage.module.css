@@ -1,0 +1,99 @@
+@import url('~app/styles/variables.css');
+
+.picture {
+  background-color: var(--color-white);
+}
+
+.titleFlex {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.companyList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 240px);
+  gap: var(--spacing-lg) var(--spacing-md);
+  justify-content: space-around;
+}
+
+.website {
+  color: var(--lego-link-color);
+}
+
+.companyItem {
+  width: 220px;
+  height: 220px;
+  padding: 0;
+  word-wrap: break-word;
+}
+
+.companyItemContent {
+  justify-content: space-between;
+  flex-direction: column;
+  text-align: center;
+  display: flex;
+  height: 100%;
+}
+
+.iconLink {
+  color: var(--lego-link-color);
+  display: flex;
+  justify-content: center;
+}
+
+.companyInfo {
+  background-color: var(--additive-background);
+  color: var(--secondary-font-color);
+  font-weight: 600;
+  padding: var(--spacing-sm) 0;
+}
+
+.interestingCount {
+  color: var(--lego-red-color);
+}
+
+.companyLogoContainer {
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.companyLogo {
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  padding: 0 21px;
+}
+
+.companyLogo img {
+  object-fit: contain;
+  display: block;
+  max-height: 88px;
+  background: white;
+}
+
+.companyLogoDetail {
+  max-height: 300px;
+  width: 100%;
+}
+
+.iconInfoPlacement {
+  margin: var(--spacing-lg) 0;
+  gap: var(--spacing-xl);
+
+  @media (--small-viewport) {
+    gap: var(--spacing-md);
+  }
+}
+
+.infoText {
+  display: flex;
+  font-size: var(--font-size-md);
+}
+
+.readMore {
+  margin-left: calc(-1 * var(--spacing-md));
+}

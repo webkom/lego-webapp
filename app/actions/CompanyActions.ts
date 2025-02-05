@@ -4,11 +4,12 @@ import {
   companySemesterSchema,
   eventSchema,
 } from 'app/reducers';
+import { semesterToText } from 'app/routes/bdb/components/companyInterest/utils';
 import createQueryString from 'app/utils/createQueryString';
-import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FormValues as CompanyContactEditorFormValues } from 'app/routes/bdb/components/CompanyContactEditor';
+import type { Semester } from 'app/store/models';
 import type {
   AdminListCompany,
   CompanyContact,
@@ -18,32 +19,43 @@ import type {
   SemesterStatus,
 } from 'app/store/models/Company';
 import type CompanySemester from 'app/store/models/CompanySemester';
+import type { ParsedQs } from 'qs';
 
-export const fetchAll = ({ fetchMore }: { fetchMore: boolean }) => {
+export const fetchAll = ({
+  fetchMore,
+  query,
+}: {
+  fetchMore: boolean;
+  query: ParsedQs;
+}) => {
   return callAPI<ListCompany[]>({
     types: Company.FETCH,
     endpoint: '/companies/',
     schema: [companySchema],
+    query,
     pagination: {
       fetchNext: fetchMore,
     },
     meta: {
       errorMessage: 'Henting av bedrifter feilet',
-      queryString: '',
     },
     propagateError: true,
   });
 };
 
-export function fetchAllAdmin() {
+export function fetchAllAdmin(query = {}, next: boolean = false) {
   return callAPI<AdminListCompany[]>({
     types: Company.FETCH,
-    endpoint: '/bdb/',
+    endpoint: `/bdb/`,
     schema: [companySchema],
     meta: {
       errorMessage: 'Henting av bedrifter feilet',
     },
     propagateError: true,
+    query: query,
+    pagination: {
+      fetchNext: next,
+    },
   });
 }
 
@@ -97,6 +109,7 @@ export function addCompany(data: Record<string, any>) {
     body: data,
     schema: companySchema,
     meta: {
+      successMessage: 'Bedrift lagt til',
       errorMessage: 'Legg til bedrift feilet',
     },
   });
@@ -110,6 +123,7 @@ export function editCompany({ companyId, ...data }: Record<string, any>) {
     body: data,
     schema: companySchema,
     meta: {
+      successMessage: 'Bedrift oppdatert',
       errorMessage: 'Endring av bedrift feilet',
     },
   });
@@ -271,13 +285,8 @@ export function fetchSemestersForInterestform() {
   });
 }
 
-export function fetchSemesters(
-  queries: Record<
-    string,
-    (string | null | undefined) | (number | null | undefined)
-  > = {},
-) {
-  return callAPI<DetailedSemesterStatus[]>({
+export function fetchSemesters(queries: Record<string, string> = {}) {
+  return callAPI<CompanySemester[]>({
     types: Company.FETCH_SEMESTERS,
     endpoint: `/company-semesters/${createQueryString(queries)}`,
     schema: [companySemesterSchema],
@@ -316,8 +325,8 @@ export function editSemester({
   activeInterestForm,
 }: {
   id: EntityId;
-  year: string;
-  semester: string;
+  year: number;
+  semester: Semester;
   activeInterestForm: boolean;
 }) {
   return callAPI<DetailedSemesterStatus>({

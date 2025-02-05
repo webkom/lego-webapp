@@ -1,6 +1,18 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import styles from './ReactionPickerCategory.css';
+import {
+  Beer,
+  CircleHelp,
+  Flag,
+  Heart,
+  LandPlot,
+  Leaf,
+  Lightbulb,
+  Plane,
+  Smile,
+} from 'lucide-react';
+import { getTheme } from 'app/utils/themeUtils';
+import styles from './ReactionPickerCategory.module.css';
 
 type Props = {
   isActive: boolean;
@@ -9,34 +21,40 @@ type Props = {
   isSearching: boolean;
 };
 
-const mapCategoryNameToIcon = (name) => {
+const mapCategoryNameToIcon = (name, isActive) => {
+  const fill = isActive
+    ? getTheme() === 'dark'
+      ? 'var(--color-blue-5)'
+      : 'var(--color-blue-6)'
+    : 'transparent';
+
   switch (name) {
     case 'people':
-      return 'happy';
+      return <Smile fill={fill} />;
 
     case 'animals_and_nature':
-      return 'leaf';
+      return <Leaf fill={fill} />;
 
     case 'food_and_drink':
-      return 'beer';
+      return <Beer fill={fill} />;
 
     case 'activity':
-      return 'football';
+      return <LandPlot fill={fill} />;
 
     case 'travel_and_places':
-      return 'airplane';
+      return <Plane fill={fill} />;
 
     case 'objects':
-      return 'bulb';
+      return <Lightbulb fill={fill} />;
 
     case 'symbols':
-      return 'heart';
+      return <Heart fill={fill} />;
 
     case 'flags':
-      return 'flag';
+      return <Flag fill={fill} />;
 
     default:
-      return 'help';
+      return <CircleHelp fill={fill} />;
   }
 };
 
@@ -60,12 +78,7 @@ const ReactionPickerCategory = ({
     <div title={name} onClick={() => onCategoryClick(name)}>
       <div className={styles.container}>
         <div className={cx(categoryClasses)}>
-          <Icon
-            size={22}
-            name={`${mapCategoryNameToIcon(name)}${
-              !isActive ? '-outline' : ''
-            }`}
-          />
+          <Icon size={22} iconNode={mapCategoryNameToIcon(name, isActive)} />
         </div>
       </div>
     </div>

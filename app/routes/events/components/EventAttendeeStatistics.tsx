@@ -21,7 +21,7 @@ import { selectGroupsByType } from 'app/reducers/groups';
 import { useAppSelector } from 'app/store/hooks';
 import { Gender } from 'app/store/models/User';
 import Analytics from './Analytics';
-import styles from './EventAttendeeStatistics.css';
+import styles from './EventAttendeeStatistics.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { SelectedAdminRegistration } from 'app/reducers/events';
@@ -256,6 +256,8 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
     revueGroupIDs,
   );
 
+  const hasEventEnded = moment().isAfter(moment(event?.endTime));
+
   return (
     <>
       {isEventFromPreviousSemester(event?.startTime) && (
@@ -269,80 +271,95 @@ const EventAttendeeStatistics = ({ viewStartTime, viewEndTime }: Props) => {
         </Card>
       )}
 
-      <h2 className={styles.sectionDividerTitle}>Analyse</h2>
-      <p className={styles.sectionDividerDescription}>
-        Analyse av besøkende på arrangementssiden
-      </p>
-
-      <Analytics viewStartTime={viewStartTime} viewEndTime={viewEndTime} />
-
-      <h2 className={styles.sectionDividerTitle}>Statistikk</h2>
-      <p className={styles.sectionDividerDescription}>
-        Statistikk av brukerne som{' '}
-        {moment().isAfter(moment(event?.endTime)) ? 'var' : 'er'} påmeldt
-        arrangementet
-      </p>
-
-      {registered.length === 0 ? (
-        <EmptyState iconNode={<Send />} body="Ingen er påmeldt enda" />
-      ) : (
-        <div className={styles.chartContainer}>
-          <PieChartWithLabel
-            label={'Kjønnsfordeling'}
-            distributionData={genderDistribution}
-          />
-          <PieChartWithLabel
-            label={'Datateknologi'}
-            distributionData={dataTekDistribution}
-          />
-          <PieChartWithLabel
-            label={'Cybersikkerhet og datakommunikasjon'}
-            distributionData={komTekDistribution}
-          />
-          <PieChartWithLabel
-            label={'Data vs Komtek'}
-            distributionData={totalDistribution}
-          />
-          <PieChartWithLabel
-            label={'Gruppetilhørighet'}
-            distributionData={groupDistribution}
-          />
+      <Flex column gap="var(--spacing-sm)">
+        <div>
+          <h2>Analyse</h2>
+          <span className="secondaryFontColor">
+            Analyse av besøkende på arrangementssiden
+          </span>
         </div>
-      )}
+        <Analytics viewStartTime={viewStartTime} viewEndTime={viewEndTime} />
+      </Flex>
 
-      <Card className={styles.graphCard}>
-        <Card.Header>Påmeldinger og avmeldinger per dag</Card.Header>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart
-            data={registrationTimeDistribution}
-            margin={{
-              top: 10,
-              right: 30,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="registrations"
-              name="Påmeldinger"
-              stroke="var(--color-green-6)"
-              activeDot={{ r: 8 }}
+      <Flex column gap="var(--spacing-sm)">
+        <div>
+          <h2>Statistikk</h2>
+          <span className="secondaryFontColor">
+            Statistikk av brukerne som {hasEventEnded ? 'var' : 'er'} påmeldt
+            arrangementet
+          </span>
+        </div>
+
+        {registered.length === 0 ? (
+          <EmptyState
+            iconNode={<Send />}
+            body={
+              hasEventEnded
+                ? 'Arrangementet hadde ingen påmeldinger'
+                : 'Ingen er påmeldt enda'
+            }
+          />
+        ) : (
+          <div className={styles.chartContainer}>
+            <PieChartWithLabel
+              label={'Kjønnsfordeling'}
+              distributionData={genderDistribution}
             />
-            <Line
-              type="monotone"
-              dataKey="unregistrations"
-              name="Avmeldinger"
-              stroke="var(--lego-red-color)"
-              activeDot={{ r: 8 }}
+            <PieChartWithLabel
+              label={'Datateknologi'}
+              distributionData={dataTekDistribution}
             />
-          </LineChart>
-        </ResponsiveContainer>
-      </Card>
+            <PieChartWithLabel
+              label={'Cybersikkerhet og datakommunikasjon'}
+              distributionData={komTekDistribution}
+            />
+            <PieChartWithLabel
+              label={'Data vs Komtek'}
+              distributionData={totalDistribution}
+            />
+            <PieChartWithLabel
+              label={'Gruppetilhørighet'}
+              distributionData={groupDistribution}
+            />
+          </div>
+        )}
+
+        {registered.length > 0 && (
+          <Card className={styles.graphCard}>
+            <Card.Header>Påmeldinger og avmeldinger per dag</Card.Header>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={registrationTimeDistribution}
+                margin={{
+                  top: 10,
+                  right: 30,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="registrations"
+                  name="Påmeldinger"
+                  stroke="var(--color-green-6)"
+                  activeDot={{ r: 8 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="unregistrations"
+                  name="Avmeldinger"
+                  stroke="var(--lego-red-color)"
+                  activeDot={{ r: 8 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </Card>
+        )}
+      </Flex>
     </>
   );
 };

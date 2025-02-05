@@ -7,7 +7,7 @@ interface Group {
   name: string;
   description: string;
   contactEmail: string;
-  parent: number;
+  parent?: EntityId;
   permissions: string[];
   parentPermissions: {
     abakusGroup: Pick<Group, 'id' | 'name'>;

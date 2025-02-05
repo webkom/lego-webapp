@@ -1,0 +1,18 @@
+.attendanceBox {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 72px;
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+.poolBox {
+  flex-grow: 1;
+  min-width: 25%;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-sm);
+  background-color: var(--additive-background);
+}

@@ -6,7 +6,7 @@ import Time from 'app/components/Time';
 import { frontpageObjectDate, isEvent } from 'app/reducers/frontpage';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
-import styles from './AuthenticatedFrontpage.css';
+import styles from './AuthenticatedFrontpage.module.css';
 import type { ArticleWithType, EventWithType } from 'app/reducers/frontpage';
 
 export const itemUrl = (item?: ArticleWithType | EventWithType) => {

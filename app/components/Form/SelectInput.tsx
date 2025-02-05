@@ -3,7 +3,7 @@ import Creatable from 'react-select/creatable';
 import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
-import style from './SelectInput.css';
+import style from './SelectInput.module.css';
 import type { ChangeEvent, ComponentProps, ComponentType } from 'react';
 import type { StylesConfig, ThemeConfig } from 'react-select';
 
@@ -15,7 +15,7 @@ type Props<Option, IsMulti extends boolean = false> = {
   fetching?: boolean;
   className?: string;
   selectStyle?: StylesConfig<Option, IsMulti>;
-  onChange?: (event: ChangeEvent | string | Option[]) => void;
+  onChange?: (event: ChangeEvent | string | Option[] | Option) => void;
   onSearch?: (search: string) => void;
   isValidNewOption?: (arg0: string) => boolean;
   value?: Option | Option[] | null;
@@ -80,7 +80,8 @@ const NO_OPTIONS_MESSAGE = 'Ingen treff';
 const LOADING_MESSAGE = 'Laster inn ...';
 
 const SelectInput = <
-  Option extends { label: string; value: number },
+  T,
+  Option extends { label: string; value: T },
   IsMulti extends boolean = false,
 >({
   name,

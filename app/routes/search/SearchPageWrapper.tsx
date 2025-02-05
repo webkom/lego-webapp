@@ -2,6 +2,7 @@ import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { debounce } from 'lodash';
 import qs from 'qs';
+import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -34,8 +35,11 @@ const SearchPageWrapper = () => {
     navigate(`/search?q=${query}`);
   }, 300);
 
+  const title = 'Avansert søk';
+
   return (
-    <Page title="Søk">
+    <Page title={title}>
+      <Helmet title={title} />
       <SearchPage
         results={results}
         handleSelect={handleSelect}

@@ -7,8 +7,12 @@ import {
   editCompanyContact,
   fetchAdmin,
 } from 'app/actions/CompanyActions';
-import { LegoFinalForm, TextInput } from 'app/components/Form';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
+import {
+  Form,
+  LegoFinalForm,
+  TextInput,
+  SubmitButton,
+} from 'app/components/Form';
 import { selectCompanyById } from 'app/reducers/companies';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -94,7 +98,7 @@ const CompanyContactEditor = () => {
         validate={validate}
       >
         {({ handleSubmit }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Field
               placeholder="Arne Arnsten"
               label="Navn"
@@ -125,7 +129,7 @@ const CompanyContactEditor = () => {
 
             <SubmissionError />
             <SubmitButton>{isNew ? 'Opprett' : 'Lagre'}</SubmitButton>
-          </form>
+          </Form>
         )}
       </TypedLegoForm>
     </Page>

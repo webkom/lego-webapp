@@ -1,0 +1,12 @@
+.infoIcon {
+  justify-content: center;
+  margin-right: var(--spacing-xs);
+}
+
+.textContainer {
+  width: max-content;
+}
+
+.overflowWrap {
+  overflow-wrap: anywhere;
+}
