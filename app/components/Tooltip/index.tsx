@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { useState } from 'react';
 import { Popover, ArrowContainer } from 'react-tiny-popover';
 import styles from './Tooltip.module.css';
@@ -37,7 +38,7 @@ const Tooltip = ({
       <Popover
         isOpen={hovered}
         positions={positions}
-        containerClassName={containerClassName}
+        containerClassName={cx(containerClassName, styles.zIndex)}
         content={({ position, childRect, popoverRect }) => (
           <ArrowContainer
             position={position}
