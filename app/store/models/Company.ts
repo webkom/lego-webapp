@@ -114,11 +114,7 @@ export type ListCompany = Pick<
 
 export type AdminListCompany = Pick<
   Company,
-  | 'id'
-  | 'name'
-  | 'semesterStatuses'
-  | 'studentContacts'
-  | 'active'
+  'id' | 'name' | 'semesterStatuses' | 'studentContacts' | 'active'
 >;
 
 export type DetailedCompany = Pick<
