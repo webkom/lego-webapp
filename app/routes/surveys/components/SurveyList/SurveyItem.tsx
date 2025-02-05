@@ -1,4 +1,5 @@
 import { Image } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import { selectEventById } from 'app/reducers/events';
@@ -19,7 +20,7 @@ const SurveyItem = ({ survey }: Props) => {
 
   return (
     <div
-      className={styles.surveyItem}
+      className={cx(styles.surveyItem, styles.surveyItemBorder)}
       style={{
         borderColor: colorForEventType(survey.templateType || event?.eventType),
       }}

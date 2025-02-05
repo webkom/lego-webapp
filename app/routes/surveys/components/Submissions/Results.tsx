@@ -1,5 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import { produce } from 'immer';
+import { useOutletContext } from 'react-router-dom';
 import { editSurvey } from 'app/actions/SurveyActions';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';
@@ -16,6 +17,7 @@ import {
 } from 'app/store/models/SurveyQuestion';
 import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
 import styles from '../surveys.module.css';
+import type { SurveysRouteContext } from '../..';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
 import type { EventForSurvey } from 'app/store/models/Event';
@@ -34,7 +36,7 @@ type Props = {
 };
 type Info = {
   icon: string;
-  data: number;
+  data: number | string;
   meta: string;
 };
 type EventDataProps = {
@@ -81,11 +83,12 @@ const Results = ({
   const event = useAppSelector(
     (state) => selectEventById<EventForSurvey>(state, survey.event)!,
   );
+  const { fetchingSubmissions } = useOutletContext<SurveysRouteContext>();
 
   const info: Info[] = [
     {
       icon: 'person',
-      data: event.registrationCount,
+      data: event.registrationCount || 0,
       meta: 'Påmeldte',
     },
     {
@@ -100,7 +103,7 @@ const Results = ({
     },
     {
       icon: 'chatbox-ellipses',
-      data: numberOfSubmissions,
+      data: fetchingSubmissions ? '?' : numberOfSubmissions,
       meta: 'Har svart',
     },
   ];
@@ -188,11 +191,13 @@ const Results = ({
                       <DistributionPieChart
                         distributionData={pieData}
                         chartColors={chartColors}
+                        fetching={fetchingSubmissions}
                       />
                     ) : (
                       <DistributionBarChart
                         distributionData={pieData}
                         chartColors={chartColors}
+                        fetching={fetchingSubmissions}
                       />
                     )}
 
