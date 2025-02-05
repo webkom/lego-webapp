@@ -7,6 +7,7 @@ import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
 import GroupTree from 'app/routes/admin/groups/components/GroupTree';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { loadable } from 'app/utils/loadable';
 import type { DetailedGroup, PublicGroup } from 'app/store/models/Group';
 import type { Optional } from 'utility-types';
 

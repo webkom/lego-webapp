@@ -12,12 +12,12 @@ import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
-import abakus_icon from '../../../../../public/icon-192x192.png';
 import EmptyState from 'app/components/EmptyState';
 import TextInput from 'app/components/Form/TextInput';
 import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
+import abakus_icon from '../../../../../public/icon-192x192.png';
 import styles from './LendableObjectList.module.css';
 import type { ListLendableObject } from 'app/store/models/LendableObject';
 

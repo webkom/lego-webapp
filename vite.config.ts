@@ -1,14 +1,15 @@
 import path from 'node:path';
-import react from '@vitejs/plugin-react';
+import { default as react } from '@vitejs/plugin-react';
 import postcssImport from 'postcss-import';
 import postcssNested from 'postcss-nested';
 import postcssPresetEnv from 'postcss-preset-env';
 import { defineConfig } from 'vite';
 import { patchCssModules } from 'vite-css-modules';
+import preloadPlugin from 'vite-preload/plugin';
 
 export default defineConfig({
   root: '.',
-  plugins: [patchCssModules(), react()],
+  plugins: [preloadPlugin(), patchCssModules(), react()],
   css: {
     postcss: {
       plugins: [
@@ -46,7 +47,8 @@ export default defineConfig({
     },
   },
   build: {
-    ssrManifest: true,
+    manifest: true,
+    ssrManifest: false,
     sourcemap: true,
   },
   server: {

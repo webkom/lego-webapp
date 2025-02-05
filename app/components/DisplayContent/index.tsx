@@ -2,6 +2,7 @@ import { Skeleton } from '@webkom/lego-bricks';
 import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import styles from './DisplayContent.module.css';
 import type { CSSProperties } from 'react';
 
@@ -27,11 +28,17 @@ function DisplayContent({
 }: Props) {
   let domParser = null;
 
-  if (import.meta.env.SSR) {
-    const JSDOM = require('jsdom').JSDOM;
-
-    domParser = (val) => new JSDOM(val).window.document;
-  }
+  usePreparedEffect(
+    'import-jsdom',
+    async () => {
+      if (import.meta.env.SSR) {
+        const JSDOM = await import('jsdom');
+        domParser = (val) => new JSDOM(val).window.document;
+      }
+    },
+    [],
+    { serverOnly: true },
+  );
 
   if (skeleton) {
     return (

@@ -19,6 +19,7 @@ import {
 } from 'app/actions/UserActions';
 import config from 'app/config';
 import createStore from 'app/store/createStore';
+import { preloadAll } from 'vite-preload';
 
 moment.locale('nb-NO');
 
@@ -50,15 +51,21 @@ if (isSSR) {
     .then(() => store.dispatch(maybeRefreshToken()));
 }
 
-store.dispatch({
-  type: 'REHYDRATED',
-});
+async function main() {
+  store.dispatch({
+    type: 'REHYDRATED',
+  });
 
-const rootElement: HTMLElement = document.getElementById('root')!;
+  const rootElement: HTMLElement = document.getElementById('root')!;
 
-ReactDOM.hydrateRoot(
-  rootElement,
-  <React.StrictMode>
-    <Root store={store} />
-  </React.StrictMode>,
-);
+  await preloadAll();
+
+  ReactDOM.hydrateRoot(
+    rootElement,
+    <React.StrictMode>
+      <Root store={store} />
+    </React.StrictMode>,
+  );
+}
+
+main();

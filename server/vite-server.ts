@@ -6,7 +6,6 @@ import moment from 'moment-timezone';
 import baseConfig from '../config/env';
 import config from './env';
 import healthCheck from './health';
-import { renderHtml } from './renderHtml';
 import type { render as entryServerRender } from 'app/entryServer';
 import type { ViteDevServer } from 'vite';
 
@@ -74,14 +73,9 @@ app.use('*', async (req, res) => {
       render = (await import('../dist/server/entryServer.js')).render;
     }
 
-    const rendered = await render(req, res);
-
-    const statusCode = rendered.reduxState?.router.statusCode || 200;
-
-    const html = renderHtml(template, rendered);
-
-    res.status(statusCode).set({ 'Content-Type': 'text/html' }).send(html);
+    await render(req, res, template);
   } catch (e: unknown) {
+    console.log(e);
     if (!(e instanceof Error)) return res.status(500).end();
 
     vite?.ssrFixStacktrace(e);

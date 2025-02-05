@@ -1,8 +1,9 @@
 import { isEmpty } from 'lodash-es';
 import serialize from 'serialize-javascript';
+import config from 'app/config';
 import { selectCurrentUser } from 'app/reducers/auth';
-import config from '../config/env';
-import type { render } from 'app/entryServer';
+import type { RootState } from 'app/store/createRootReducer';
+import type { HelmetServerState } from 'react-helmet-async/lib/types';
 
 const analytics = import.meta.env.DEV
   ? '' // The .replace() removes the protocol (https://) part of the url, leaving just the domain
@@ -23,18 +24,15 @@ const autoDarkModeScript = `
 })();
 `;
 
-export const renderHtml = (
+const selectSelectedTheme = (reduxState: RootState) =>
+  (!isEmpty(reduxState) && selectCurrentUser(reduxState)?.selectedTheme) ||
+  'auto';
+
+export const populateTemplateHead = (
   template: string,
-  {
-    reactHtml,
-    reduxState,
-    helmet,
-    preparedStateCode,
-  }: Awaited<ReturnType<typeof render>>,
+  { helmet, reduxState }: { helmet?: HelmetServerState; reduxState: RootState },
 ) => {
-  const selectedTheme =
-    (!isEmpty(reduxState) && selectCurrentUser(reduxState)?.selectedTheme) ||
-    'auto';
+  const selectedTheme = selectSelectedTheme(reduxState);
 
   return template
     .replace(
@@ -43,11 +41,21 @@ export const renderHtml = (
     )
     .replace(`<!--helmet-title-->`, helmet?.title.toString() ?? '')
     .replace(`<!--helmet-meta-->`, helmet?.meta.toString() ?? '')
-    .replace(`<!--analytics-->`, analytics)
-    .replace(`<!--app-body-->`, reactHtml ?? '')
-    .replace(
-      `<!--scripts-->`,
-      `<script>
+    .replace(`<!--analytics-->`, analytics);
+};
+
+export const populateTemplateTail = (
+  template: string,
+  {
+    preparedStateCode,
+    reduxState,
+  }: { preparedStateCode: string; reduxState: RootState },
+) => {
+  const selectedTheme = selectSelectedTheme(reduxState);
+
+  return template.replace(
+    `<!--scripts-->`,
+    `<script>
         window.__CONFIG__ = ${serialize(config, {
           isJSON: true,
         })};
@@ -58,5 +66,5 @@ export const renderHtml = (
         ${preparedStateCode}
         ${selectedTheme === 'auto' ? autoDarkModeScript : ''}
       </script>`,
-    );
+  );
 };

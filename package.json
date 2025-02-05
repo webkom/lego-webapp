@@ -38,7 +38,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "@loadable/component": "^5.16.4",
     "@react-aria/toast": "^3.0.0-beta.16",
     "@reduxjs/toolkit": "^2.3.0",
     "@sentry/browser": "^7.119.1",
@@ -48,7 +47,7 @@
     "@stripe/stripe-js": "^1.46.0",
     "@webkom/lego-editor": "^2.6.1",
     "@webkom/react-meter-bar": "^2.0.0",
-    "@webkom/react-prepare": "^1.1.0",
+    "@webkom/react-prepare": "file:webkom-react-prepare-v1.1.1-l.tgz",
     "animate.css": "^4.1.1",
     "buffer": "^6.0.3",
     "bunyan": "^1.8.15",
@@ -119,6 +118,7 @@
     "validator": "^13.12.0",
     "vaul": "^1.1.2",
     "vite": "^5.4.14",
+    "vite-preload": "^1.0.3",
     "vm-browserify": "^1.1.2",
     "zxcvbn": "^4.4.2"
   },
@@ -131,9 +131,6 @@
     "@babel/preset-react": "^7.25.9",
     "@babel/preset-typescript": "^7.26.0",
     "@cfaester/enzyme-adapter-react-18": "^0.8.0",
-    "@loadable/babel-plugin": "^5.16.1",
-    "@loadable/server": "^5.16.5",
-    "@loadable/webpack-plugin": "^5.15.2",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
     "@types/compression": "^1.7.5",
     "@types/cookie-parser": "^1.4.8",
@@ -178,7 +175,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-redux": "^4.2.0",
     "eslint-plugin-testing-library": "^6.4.0",
-    "express": "^4.21.1",
+    "express": "^4.21.2",
     "express-static-gzip": "^2.1.8",
     "identity-obj-proxy": "3.0.0",
     "mini-css-extract-plugin": "^2.9.2",
