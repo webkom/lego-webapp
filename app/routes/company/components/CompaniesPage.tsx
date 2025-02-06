@@ -163,7 +163,7 @@ const CompaniesPage = () => {
       })}
       actionButtons={
         (actionGrant.includes('create') || actionGrant.includes('edit')) && (
-          <LinkButton href="/bdb/bdb-pro">Bedriftsdatabasen</LinkButton>
+          <LinkButton href="/bdb">Bedriftsdatabasen</LinkButton>
         )
       }
     >

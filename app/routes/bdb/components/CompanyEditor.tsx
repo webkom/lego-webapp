@@ -157,7 +157,7 @@ const CompanyEditor = () => {
             message="Er du sikker på at du vil slette denne bedriften?"
             onConfirm={() =>
               dispatch(deleteCompany(companyId)).then(() => {
-                navigate('/bdb/bdb-pro');
+                navigate('/bdb');
               })
             }
           >
