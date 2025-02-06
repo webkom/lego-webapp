@@ -90,11 +90,41 @@
   margin-right: var(--spacing-sm);
 }
 
+.badges {
+  position: relative;
+}
+
 .membershipBadge {
   &.inactive {
     filter: grayscale(100%);
     opacity: 0.7;
   }
+}
+
+.removeBadge {
+  position: absolute;
+  top: -3px;
+  right: -6px;
+  color: var(--secondary-font-color);
+  transition: opacity 0.2s ease-in-out;
+}
+
+.badges:hover .removeBadge {
+  animation: wiggle 1.5s ease-in-out;
+}
+
+@keyframes wiggle {
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-10deg); }
+  20% { transform: rotate(10deg); }
+  30% { transform: rotate(-10deg); }
+  40% { transform: rotate(10deg); }
+  50% { transform: rotate(-5deg); }
+  60% { transform: rotate(5deg); }
+  70% { transform: rotate(-3deg); }
+  80% { transform: rotate(3deg); }
+  90% { transform: rotate(-2deg); }
+  100% { transform: rotate(0deg); }
 }
 
 .achievements {
