@@ -1,6 +1,7 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash';
+import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router';
 import { CircularPicture } from 'app/components/Image';
@@ -104,24 +105,33 @@ const GroupBadge = ({
   const lastMembership = sortedMemberships[sortedMemberships.length - 1];
   const { id, name, logo } = abakusGroup;
   const groupElement = (
-    <Tooltip
-      key={id}
-      content={badgeTooltip(
-        abakusGroup.name,
-        firstMembership.startDate || firstMembership.createdAt,
-        lastMembership.endDate,
-      )}
-    >
-      <CircularPicture
-        alt={name}
-        src={logo!}
-        size={50}
-        className={cx(
-          styles.membershipBadge,
-          !activeMembership && styles.inactive,
+    <div className={styles.badges}>
+      <Tooltip
+        key={id}
+        content={badgeTooltip(
+          abakusGroup.name,
+          firstMembership.startDate || firstMembership.createdAt,
+          lastMembership.endDate,
         )}
-      />
-    </Tooltip>
+      >
+        <CircularPicture
+          alt={name}
+          src={logo!}
+          size={50}
+          className={cx(
+            styles.membershipBadge,
+            !activeMembership && styles.inactive,
+          )}
+        />
+        {!activeMembership && (
+          <Icon
+            className={styles.removeBadge}
+            iconNode={<CircleMinus />}
+            size={14}
+          />
+        )}
+      </Tooltip>
+    </div>
   );
   const link = resolveGroupLink(abakusGroup);
 
