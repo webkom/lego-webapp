@@ -47,7 +47,7 @@ const BdbOverview = () => {
       }
       tabs={
         <>
-          <NavigationTab href="/bdb/bdb-pro">Semesterstatuser</NavigationTab>
+          <NavigationTab href="/bdb">Semesterstatuser</NavigationTab>
           <NavigationTab href="/bdb/company-interest">
             Bedriftsinteresser
           </NavigationTab>
@@ -67,7 +67,7 @@ const bdbRoute: RouteObject[] = [
     path: '',
     Component: BdbOverview,
     children: [
-      { path: 'bdb-pro', Component: BdbPage },
+      { index: true, Component: BdbPage },
       { path: 'company-interest', Component: CompanyInterestList },
     ],
   },
