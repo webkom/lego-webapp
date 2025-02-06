@@ -35,3 +35,7 @@
 .arrow {
   animation: fade-in 0.2s;
 }
+
+.zIndex {
+  z-index: 6;
+}
