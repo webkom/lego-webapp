@@ -1,8 +1,9 @@
 import loadable from '@loadable/component';
-import { LinkButton, Page } from '@webkom/lego-bricks';
+import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, type RouteObject } from 'react-router-dom';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
+import { Tag } from 'app/components/Tags';
 import pageNotFound from '../pageNotFound';
 
 const BdbPage = loadable(() => import('./components/BdbPage'));
@@ -28,9 +29,16 @@ const StudentContactEditor = loadable(
 const BdbOverview = () => {
   const isCompanyInterest = useLocation().pathname.includes('company-interest');
 
+  const title = (
+    <Flex gap="var(--spacing-sm)" alignItems="center">
+      <h1>BDB</h1>
+      <Tag tag="PRO" color="gray" />
+    </Flex>
+  );
+
   return (
     <Page
-      title="Bedriftsdatabase"
+      title={title}
       actionButtons={
         isCompanyInterest ? (
           <LinkButton

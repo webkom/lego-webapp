@@ -1,4 +1,4 @@
-import { Card, Flex, Icon, Page } from '@webkom/lego-bricks';
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
@@ -7,7 +7,6 @@ import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { ContentMain } from 'app/components/Content';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
-import Tag from 'app/components/Tags/Tag';
 import UserLink from 'app/components/UserLink';
 import { selectTransformedAdminCompanies } from 'app/reducers/companies';
 import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
@@ -27,7 +26,6 @@ import {
   semesterToHumanReadable,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
-import styles from './bdb.module.css';
 import type { ColumnProps } from 'app/components/Table';
 import type { TransformedStudentCompanyContact } from 'app/reducers/companies';
 import type CompanySemester from 'app/store/models/CompanySemester';
@@ -182,21 +180,8 @@ const BdbPage = () => {
     },
   ];
 
-  const title = (
-    <Flex gap="var(--spacing-sm)" alignItems="center">
-      <h1>BDB</h1>
-      <Tag tag="PRO" color="gray" />
-    </Flex>
-  );
-
   return (
-    <Page
-      title={title}
-      actionButtons={<LinkButton href="/bdb/add">Ny bedrift</LinkButton>}
-      tabs={<BdbTabs />}
-    >
-      <Helmet title="BDB" />
-
+    <ContentMain>
       <Card severity="info">
         <Card.Header>Tips</Card.Header>
         Du kan endre semesterstatuser ved å trykke på dem i listen!
