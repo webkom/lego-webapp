@@ -89,7 +89,6 @@ interface Company {
   thumbnail?: string;
   semesterStatuses?: SemesterStatus[];
   studentContacts?: StudentCompanyContact[];
-  adminComment?: string;
   paymentMail: string;
   comments: EntityId[];
   contentTarget: ContentTarget;
@@ -115,12 +114,7 @@ export type ListCompany = Pick<
 
 export type AdminListCompany = Pick<
   Company,
-  | 'id'
-  | 'name'
-  | 'semesterStatuses'
-  | 'studentContacts'
-  | 'adminComment'
-  | 'active'
+  'id' | 'name' | 'semesterStatuses' | 'studentContacts' | 'active'
 >;
 
 export type DetailedCompany = Pick<
@@ -164,7 +158,6 @@ export type AdminDetailCompany = Pick<
   | 'contentTarget'
   | 'semesterStatuses'
   | 'active'
-  | 'adminComment'
   | 'logo'
   | 'files'
   | 'companyContacts'

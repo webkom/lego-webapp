@@ -34,7 +34,6 @@ import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
-import styles from './bdb.module.css';
 import type {
   AdminDetailCompany,
   StudentCompanyContact,
@@ -117,7 +116,6 @@ const CompanyEditor = () => {
     ? {
         name: '',
         description: '',
-        adminComment: '',
         website: '',
         studentContacts: [] as StudentCompanyContact[],
         active: 'true',
@@ -129,7 +127,6 @@ const CompanyEditor = () => {
     : {
         name: company.name,
         description: company.description,
-        adminComment: company.adminComment,
         website: company.website,
         studentContact:
           studentContacts &&
@@ -200,13 +197,6 @@ const CompanyEditor = () => {
                 name="description"
                 label="Beskrivelse"
                 component={TextEditor.Field}
-              />
-              <Field
-                placeholder="Bedriften ønsker kun kurs"
-                label="Notat fra Bedkom"
-                name="adminComment"
-                component={TextEditor.Field}
-                className={styles.adminNote}
               />
             </RowSection>
 
