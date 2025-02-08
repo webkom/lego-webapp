@@ -1,10 +1,5 @@
 @import url('~app/styles/variables.css');
 
-.title {
-  float: left;
-  width: 80%;
-}
-
 .deleteFile {
   display: flex;
   justify-content: space-between;
@@ -23,36 +18,7 @@
   }
 }
 
-.showAllButton {
-  margin-top: var(--spacing-sm);
-}
-
-.adminNote {
-  width: 400px;
-}
-
-.editTitle {
-  width: 250px;
-}
-
 .surveyContainer {
   display: flex;
   justify-content: center;
-}
-
-.newestFirst {
-  color: var(--secondary-font-color);
-  font-size: var(--font-size-sm);
-}
-
-.navigateThroughTime svg {
-  color: var(--color-gray-7);
-}
-
-.bdbTable {
-  margin-top: var(--spacing-md);
-}
-
-.badge {
-  height: fit-content;
 }

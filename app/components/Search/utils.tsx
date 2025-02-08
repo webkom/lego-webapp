@@ -38,6 +38,7 @@ import type { ReactNode } from 'react';
 type Link = {
   key: string;
   title: ReactNode;
+  sortTitle?: string;
   url: string;
   admin?: boolean;
   requireLogin?: boolean;
@@ -66,6 +67,7 @@ const LINKS: Array<Link> = [
         <Tag tag="Beta" color="purple" />
       </Flex>
     ),
+    sortTitle: 'Forum',
     icon: <MessagesSquare />,
     url: '/forum',
   },
@@ -78,6 +80,7 @@ const LINKS: Array<Link> = [
         <Tag tag="Beta" color="purple" />
       </Flex>
     ),
+    sortTitle: 'Utlån',
     icon: <ShoppingCart />,
     url: '/lending',
   },
@@ -96,6 +99,7 @@ const LINKS: Array<Link> = [
   {
     key: 'readme',
     title: <ReadmeLogo />,
+    sortTitle: 'Readme',
     url: 'https://readme.abakus.no',
   },
   {
@@ -165,6 +169,7 @@ const LINKS: Array<Link> = [
         <Tag tag="PRO" color="gray" />
       </Flex>
     ),
+    sortTitle: 'BDB',
     icon: <Database />,
     url: '/bdb',
   },
@@ -222,17 +227,12 @@ const EXTERNAL_LINKS: Link[] = [
   },
 ];
 
-const sortFn = (a, b) => {
-  // Sort non-strings last:
-  if (typeof a.title !== 'string') {
-    return 1;
-  }
-
-  if (typeof b.title !== 'string') {
-    return -1;
-  }
-
-  return a.title.localeCompare(b.title);
+const sortFn = (a: Link, b: Link) => {
+  const aSortTitle =
+    a.sortTitle || (typeof a.title === 'string' ? a.title : a.key);
+  const bSortTitle =
+    b.sortTitle || (typeof b.title === 'string' ? b.title : b.key);
+  return aSortTitle.localeCompare(bSortTitle);
 };
 
 const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
