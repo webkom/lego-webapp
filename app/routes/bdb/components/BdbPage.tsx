@@ -16,11 +16,13 @@ import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
 import {
+  contactStatuses,
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
   getSemesterSlugOffset,
   getSemesterStatus,
+  getStatusDisplayName,
   semesterToHumanReadable,
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
@@ -33,6 +35,8 @@ const companiesDefaultQuery = {
   name: '',
   studentContact: '',
   semester: '',
+  search: '',
+  status: '',
 };
 
 const BdbPage = () => {
@@ -129,6 +133,14 @@ const BdbPage = () => {
           company={company}
         />
       ),
+      filter: contactStatuses.map((status) => ({
+        value: status,
+        label: getStatusDisplayName(status),
+      })),
+      inlineFiltering: false,
+      filterOptions: {
+        multiSelect: true,
+      },
     },
     {
       title: 'Studentkontakter',
@@ -235,9 +247,9 @@ const BdbPage = () => {
       <Table
         columns={columns}
         data={companies}
-        filters={query}
         onChange={setQuery}
         loading={pagination.fetching}
+        filters={query}
         onLoad={() => {
           currentCompanySemester?.id &&
             dispatch(

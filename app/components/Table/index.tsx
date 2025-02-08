@@ -72,7 +72,9 @@ const filtersToQueryFilters: (filters: Filters) => QueryFilters = (filters) => {
   const queryFilters: QueryFilters = {};
   Object.entries(filters).forEach(
     ([key, filter]) =>
-      (queryFilters[key] = filter?.length ? filter?.join(',') : undefined),
+      (queryFilters[key] = filter?.length
+        ? filter?.filter((filter) => filter !== '').join(',')
+        : undefined),
   );
   return queryFilters;
 };
@@ -104,6 +106,11 @@ const Table = <T extends { id: EntityId }>({
   const [filters, setFilters] = useState<Filters>(
     queryFiltersToFilters(props.filters),
   );
+
+  useEffect(() => {
+    setFilters(queryFiltersToFilters(props.filters));
+  }, [props.filters]);
+
   const [isShown, setIsShown] = useState<IsShown>({});
   const [showColumn, setShowColumn] = useState<ShowColumn>({});
   const [isExpanded, setIsExpanded] = useState(false);
