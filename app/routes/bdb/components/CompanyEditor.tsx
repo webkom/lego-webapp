@@ -34,7 +34,6 @@ import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
-import styles from './bdb.module.css';
 import type {
   AdminDetailCompany,
   StudentCompanyContact,
