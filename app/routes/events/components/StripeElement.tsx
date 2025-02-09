@@ -15,6 +15,7 @@ import config from 'app/config';
 import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import stripeStyles from './Stripe.module.css';
+import type { PaymentMethod, PaymentRequest } from '@stripe/stripe-js';
 import type { EventRegistrationPaymentStatus } from 'app/models';
 import type {
   AuthUserDetailedEvent,
@@ -32,16 +33,16 @@ type Props = {
 type FormProps = Props & {
   fontSize?: string;
 };
-type CardFormProps = FormProps & {
-  ledgend: string;
-  setError: (arg0: string) => void;
+
+type SharedFormProps = FormProps & {
+  setError: (errorMessage: string) => void;
   setSuccess: () => void;
-  setLoading: (arg0: boolean) => void;
+  setLoading: (loading: boolean) => void;
 };
-type PaymentRequestFormProps = FormProps & {
-  setError: (arg0: string) => void;
-  setSuccess: () => void;
-  setLoading: (arg0: boolean) => void;
+type CardFormProps = SharedFormProps & {
+  legend: string;
+};
+type PaymentRequestFormProps = SharedFormProps & {
   setCanPaymentRequest: (arg0: boolean) => void;
 };
 
@@ -97,7 +98,13 @@ const CardForm = (props: CardFormProps) => {
   const completePayment = useCallback(
     async (clientSecret) => {
       setPaymentStarted(false);
-      const card = elements.getElement(CardNumberElement);
+      const card = elements?.getElement(CardNumberElement);
+      if (!card || !stripe) {
+        setError(
+          'Teknisk feil, skjemaet har ikke blitt startet riktig. Ta kontakt med Webkom om problemet vedvarer.',
+        );
+        return;
+      }
       const { error } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,
@@ -109,7 +116,9 @@ const CardForm = (props: CardFormProps) => {
       });
 
       if (error) {
-        setError(error.message);
+        setError(
+          error.message ?? 'Det skjedde en ukjent feil med betalingen din.',
+        );
       } else {
         setSuccess();
       }
@@ -137,9 +146,7 @@ const CardForm = (props: CardFormProps) => {
       onSubmit={handleSubmit}
     >
       <fieldset className={stripeStyles.elementsFieldset}>
-        <legend className={stripeStyles.elementsLedgend}>
-          {props.ledgend}
-        </legend>
+        <legend className={stripeStyles.elementsLegend}>{props.legend}</legend>
         <label data-testid="cardnumber-input">
           Kortnummer
           <CardNumberElement
@@ -170,11 +177,17 @@ const CardForm = (props: CardFormProps) => {
 };
 
 const PaymentRequestForm = (props: PaymentRequestFormProps) => {
-  const [complete, setComplete] = useState(null);
-  const [paymentRequest, setPaymentRequest] = useState(null);
+  const [complete, setComplete] = useState<
+    ((status: CompleteStatus) => void) | null
+  >(null);
+  const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
+    null,
+  );
   const [canMakePayment, setCanMakePayment] = useState(false);
   const [paymentStarted, setPaymentStarted] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(
+    null,
+  );
 
   const stripe = useStripe();
 
@@ -182,7 +195,6 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     event,
     paymentError,
     clientSecret,
-    createPaymentIntent,
     setError,
     setSuccess,
     setLoading,
@@ -191,15 +203,16 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
   const completePayment = useCallback(
     async (clientSecret) => {
-      if (!complete || !paymentMethod) {
+      if (!complete || !paymentMethod || !stripe) {
         return;
       }
 
-      const { error: confirmError } = await stripe.confirmPaymentIntent(
+      const { error: confirmError } = await stripe.confirmCardPayment(
         clientSecret,
         {
           payment_method: paymentMethod.id,
         },
+        { handleActions: false },
       );
 
       if (confirmError) {
@@ -209,10 +222,13 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
       complete('success');
       setLoading(true);
-      const { error } = await stripe.handleCardPayment(clientSecret);
+      const { error } = await stripe.confirmCardPayment(clientSecret);
 
       if (error) {
-        setError(error.message);
+        setError(
+          error.message ??
+            'Det oppsto en ukjent feil. Hvis problemet vedvarer, ta kontakt med Webkom.',
+        );
       } else {
         setSuccess();
       }
@@ -228,7 +244,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
         return;
       }
 
-      setComplete(status);
+      complete(status);
 
       if (status === 'success') {
         setSuccess();
@@ -239,6 +255,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
   useEffect(() => {
     if (!paymentRequest && stripe && event) {
+      // Create a paymentRequest instance
       const paymentReq = stripe.paymentRequest({
         currency: 'nok',
         total: {
@@ -250,16 +267,16 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
         requestPayerPhone: true,
         country: 'NO',
       });
+      // Complete the payment
       paymentReq.on('paymentmethod', async ({ paymentMethod, complete }) => {
         setComplete(() => complete);
         setPaymentMethod(paymentMethod);
 
         if (clientSecret) {
           completePayment(clientSecret);
-        } else {
-          createPaymentIntent();
         }
       });
+      // Render the Payment Request Button Element
       paymentReq.canMakePayment().then((result) => {
         setCanMakePayment(!!result);
         setCanPaymentRequest(!!result);
@@ -272,7 +289,6 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     stripe,
     event,
     completePayment,
-    createPaymentIntent,
     setCanPaymentRequest,
   ]);
 
@@ -312,7 +328,6 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
               );
             }
           }}
-          paymentRequest={paymentRequest}
           className={stripeStyles.PaymentRequestButton}
           options={{
             style: {
@@ -380,7 +395,7 @@ const PaymentForm = (props: FormProps) => {
             setSuccess={() => setSuccess(true)}
             setError={(error) => setError(error)}
             setLoading={(loading) => setLoading(loading)}
-            ledgend={
+            legend={
               paymentRequest
                 ? 'Eller skriv inn kortinformasjon'
                 : 'Skriv inn kortinformasjon'
