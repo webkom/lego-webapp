@@ -135,7 +135,7 @@ export const OTHER_OFFERS = {
   },
   thursday_event: {
     norwegian: 'Ønsker arrangement torsdag',
-    english: 'Wish event thursday,',
+    english: 'Wish event thursday',
   },
 };
 
