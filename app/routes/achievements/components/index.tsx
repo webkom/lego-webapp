@@ -4,9 +4,11 @@ import { RadioButton } from 'app/components/Form';
 import useQuery from 'app/utils/useQuery';
 import { AchievementTabs } from './utils';
 
-const showFilters = location.pathname === '/achievements/overview';
-
 const AchievementsPageWrapper = () => {
+  const showFilters =
+    location.pathname === '/achievements' ||
+    location.pathname === '/achievements/';
+
   const { query, setQueryValue, setQuery } = useQuery({
     min_rarity: 'any',
     max_rarity: 'any',

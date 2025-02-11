@@ -2,6 +2,7 @@ import { Button, Flex } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import AchievementsInfo, {
   rarityToColorMap,
@@ -33,7 +34,7 @@ export const Achievements = ({
   return (
     <div className={styles.achievements}>
       <h3>Trofeer</h3>
-      <Flex wrap gap="var(--spacing-lg)">
+      <Flex wrap gap="var(--spacing-sm) var(--spacing-md)">
         {topAchievements.map((e) => (
           <Tooltip
             key={AchievementsInfo[e.identifier][e.level].name}
@@ -97,16 +98,21 @@ export const Achievements = ({
           </Tooltip>
         ))}
       </Flex>
-      {achievements.length > MAX_ACHIEVEMENTS && (
-        <Button
-          onPress={() => {
-            setShowAll((prev) => !prev);
-          }}
-          className={styles.showAllButton}
-        >
-          {showAll ? 'Vis færre' : 'Vis alle'}
-        </Button>
-      )}
+      <Flex gap="var(--spacing-md)" className={styles.trophyLinks}>
+        {achievements.length > MAX_ACHIEVEMENTS && (
+          <Button
+            onPress={() => {
+              setShowAll((prev) => !prev);
+            }}
+          >
+            {showAll ? 'Vis færre' : 'Vis alle'}
+          </Button>
+        )}
+
+        <Link to="/achievements">
+          <Button>Topplister</Button>
+        </Link>
+      </Flex>
     </div>
   );
 };
