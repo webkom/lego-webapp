@@ -16,7 +16,7 @@ import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUser } from 'app/actions/UserActions';
@@ -215,9 +215,6 @@ const UserProfile = () => {
             <Achievements achievements={user.achievements} />
           )}
         </Flex>
-        <Link to="/achievements">
-          <Button>Topplister</Button>
-        </Link>
       </Flex>
 
       <Flex wrap className={styles.content}>

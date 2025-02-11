@@ -11,7 +11,6 @@ const achievementRoute: RouteObject[] = [
     Component: AchievementsPageWrapper,
     children: [
       { index: true, Component: Overview },
-      { path: 'overview', Component: Overview },
       { path: 'leaderboard', Component: Leaderboard },
     ],
   },
