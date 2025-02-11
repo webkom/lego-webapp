@@ -42,7 +42,7 @@
     "@loadable/component": "^5.16.4",
     "@react-aria/toast": "^3.0.0-beta.16",
     "@reduxjs/toolkit": "^2.3.0",
-    "@sentry/browser": "^7.119.1",
+    "@sentry/browser": "^9.0.0",
     "@sentry/integrations": "^7.114.0",
     "@sentry/node": "^7.101.1",
     "@stripe/react-stripe-js": "^1.14.2",
