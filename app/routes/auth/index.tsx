@@ -1,8 +1,8 @@
-import loadable from '@loadable/component';
 import { type RouteObject } from 'react-router-dom';
+import { lazyComponent } from 'app/utils/lazyComponent';
 
-const LoginPage = loadable(() => import('./components/LoginPage'));
+const LoginPage = lazyComponent(() => import('./components/LoginPage'));
 
-const authRoute: RouteObject[] = [{ index: true, Component: LoginPage }];
+const authRoute: RouteObject[] = [{ index: true, lazy: LoginPage }];
 
 export default authRoute;

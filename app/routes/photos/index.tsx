@@ -1,32 +1,32 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const Overview = loadable(() => import('./components/Overview'));
-const GalleryEditor = loadable(() => import('./components/GalleryEditor'));
-const GalleryDetail = loadable(() => import('./components/GalleryDetail'));
-const GalleryPictureModal = loadable(
+const Overview = lazyComponent(() => import('./components/Overview'));
+const GalleryEditor = lazyComponent(() => import('./components/GalleryEditor'));
+const GalleryDetail = lazyComponent(() => import('./components/GalleryDetail'));
+const GalleryPictureModal = lazyComponent(
   () => import('./components/GalleryPictureModal'),
 );
-const GalleryPictureEditForm = loadable(
+const GalleryPictureEditForm = lazyComponent(
   () => import('./components/GalleryPictureEditForm'),
 );
 
 const photosRoute: RouteObject[] = [
-  { index: true, Component: Overview },
-  { path: 'new', Component: GalleryEditor },
-  { path: ':galleryId/edit', Component: GalleryEditor },
+  { index: true, lazy: Overview },
+  { path: 'new', lazy: GalleryEditor },
+  { path: ':galleryId/edit', lazy: GalleryEditor },
   {
     path: ':galleryId',
-    Component: GalleryDetail,
+    lazy: GalleryDetail,
     children: [
       {
         path: 'picture/:pictureId',
-        Component: GalleryPictureModal,
+        lazy: GalleryPictureModal,
         children: [
           {
             path: 'edit',
-            Component: GalleryPictureEditForm,
+            lazy: GalleryPictureEditForm,
           },
         ],
       },

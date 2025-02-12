@@ -1,25 +1,25 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const LendableObjectsList = loadable(
+const LendableObjectsList = lazyComponent(
   () => import('./components/LendableObjectList'),
 );
-const LendableObjectDetail = loadable(
+const LendableObjectDetail = lazyComponent(
   () => import('./components/LendableObjectDetail'),
 );
-const LendableObjectEdit = loadable(
+const LendableObjectEdit = lazyComponent(
   () => import('./components/LendableObjectEdit'),
 );
-const LendableObjectCreate = loadable(
+const LendableObjectCreate = lazyComponent(
   () => import('./components/LendableObjectCreate'),
 );
 
 const lendingRoute: RouteObject[] = [
-  { index: true, Component: LendableObjectsList },
-  { path: ':lendableObjectId', Component: LendableObjectDetail },
-  { path: ':lendableObjectId/edit', Component: LendableObjectEdit },
-  { path: 'new', Component: LendableObjectCreate },
+  { index: true, lazy: LendableObjectsList },
+  { path: ':lendableObjectId', lazy: LendableObjectDetail },
+  { path: ':lendableObjectId/edit', lazy: LendableObjectEdit },
+  { path: 'new', lazy: LendableObjectCreate },
   { path: '*', children: pageNotFound },
 ];
 

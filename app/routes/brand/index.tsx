@@ -1,11 +1,11 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const BrandPage = loadable(() => import('./components/BrandPage'));
+const BrandPage = lazyComponent(() => import('./components/BrandPage'));
 
 const brandRoute: RouteObject[] = [
-  { index: true, Component: BrandPage },
+  { index: true, lazy: BrandPage },
   { path: '*', children: pageNotFound },
 ];
 

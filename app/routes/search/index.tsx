@@ -1,11 +1,11 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const SearchPageWrapper = loadable(() => import('./SearchPageWrapper'));
+const SearchPageWrapper = lazyComponent(() => import('./SearchPageWrapper'));
 
 const searchRoute: RouteObject[] = [
-  { index: true, Component: SearchPageWrapper },
+  { index: true, lazy: SearchPageWrapper },
   { path: '*', children: pageNotFound },
 ];
 

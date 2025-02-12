@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 
 const isMobileViewport = () => {
-  const width = window.innerWidth;
+  if (!__CLIENT__) {
+    return false;
+  }
+  const width = window?.innerWidth;
   return width < 768;
 };
 

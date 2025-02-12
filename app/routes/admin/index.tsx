@@ -1,6 +1,6 @@
 import pageNotFound from '../pageNotFound';
 import emailRoute from './email';
-import groupPageRoute from './groups/components/GroupPage';
+import groupPageRoute from './groups/components/groupPageRoute';
 import type { RouteObject } from 'react-router-dom';
 
 const adminRoute: RouteObject[] = [

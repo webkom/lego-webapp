@@ -1,17 +1,17 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const PollsList = loadable(() => import('./components/PollsList'));
-const PollCreator = loadable(() => import('./components/PollEditor'), {
+const PollsList = lazyComponent(() => import('./components/PollsList'));
+const PollCreator = lazyComponent(() => import('./components/PollEditor'), {
   resolveComponent: (components) => components.PollCreator,
 });
-const PollDetail = loadable(() => import('./components/PollDetail'));
+const PollDetail = lazyComponent(() => import('./components/PollDetail'));
 
 const pollsRoute: RouteObject[] = [
-  { index: true, Component: PollsList },
-  { path: 'new', Component: PollCreator },
-  { path: ':pollsId', Component: PollDetail },
+  { index: true, lazy: PollsList },
+  { path: 'new', lazy: PollCreator },
+  { path: ':pollsId', lazy: PollDetail },
   { path: '*', children: pageNotFound },
 ];
 

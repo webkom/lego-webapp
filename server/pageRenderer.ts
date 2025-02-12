@@ -10,7 +10,7 @@ import config from '../config/env';
 import webpackClient from '../config/webpack.client';
 import { helmetContext } from './ssr';
 import type { RootState } from 'app/store/createRootReducer';
-import type { FilledContext } from 'react-helmet-async';
+import type { HelmetData } from 'react-helmet-async';
 
 const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 
@@ -89,7 +89,7 @@ export default function pageRenderer({
   const selectedTheme: string =
     (!isEmpty(state) && selectCurrentUser(state)?.selectedTheme) || 'auto';
   const { body, scripts, styles, links } = readyHtml(app);
-  const { helmet } = helmetContext as FilledContext;
+  const { helmet } = helmetContext as HelmetData['context'];
   return `
     <!DOCTYPE html>
     <html data-theme=${serialize(

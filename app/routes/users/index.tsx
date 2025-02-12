@@ -1,20 +1,20 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import userSettingsRoute from './components/UserSettings';
 import type { RouteObject } from 'react-router-dom';
 
-const UserConfirmationForm = loadable(
+const UserConfirmationForm = lazyComponent(
   () => import('./components/UserConfirmation'),
 );
-const UserResetPasswordForm = loadable(
+const UserResetPasswordForm = lazyComponent(
   () => import('./components/UserResetPassword'),
 );
-const UserProfile = loadable(() => import('./components/UserProfile'));
+const UserProfile = lazyComponent(() => import('./components/UserProfile'));
 
 const usersRoute: RouteObject[] = [
-  { path: 'registration', Component: UserConfirmationForm },
-  { path: 'reset-password', Component: UserResetPasswordForm },
-  { path: ':username', Component: UserProfile },
+  { path: 'registration', lazy: UserConfirmationForm },
+  { path: 'reset-password', lazy: UserResetPasswordForm },
+  { path: ':username', lazy: UserProfile },
   { path: ':username/settings/*', children: userSettingsRoute },
   { path: '*', children: pageNotFound },
 ];

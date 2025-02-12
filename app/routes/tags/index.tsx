@@ -1,13 +1,13 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const TagCloud = loadable(() => import('./components/TagCloud'));
-const TagDetail = loadable(() => import('./components/TagDetail'));
+const TagCloud = lazyComponent(() => import('./components/TagCloud'));
+const TagDetail = lazyComponent(() => import('./components/TagDetail'));
 
 const tagsRoute: RouteObject[] = [
-  { index: true, Component: TagCloud },
-  { path: ':tagId', Component: TagDetail },
+  { index: true, lazy: TagCloud },
+  { path: ':tagId', lazy: TagDetail },
   { path: '*', children: pageNotFound },
 ];
 

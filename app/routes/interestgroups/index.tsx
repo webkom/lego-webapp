@@ -1,34 +1,34 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const InterestGroupList = loadable(
+const InterestGroupList = lazyComponent(
   () => import('./components/InterestGroupList'),
 );
-const InterestGroupInfo = loadable(
+const InterestGroupInfo = lazyComponent(
   () => import('./components/InterestGroupInfo'),
 );
-const InterestGroupMoneyApplication = loadable(
+const InterestGroupMoneyApplication = lazyComponent(
   () => import('./components/InterestGroupMoneyApplication'),
 );
-const InterestGroupCreateApplication = loadable(
+const InterestGroupCreateApplication = lazyComponent(
   () => import('./components/InterestGroupApplyCreateApplication'),
 );
-const InterestGroupEdit = loadable(
+const InterestGroupEdit = lazyComponent(
   () => import('./components/InterestGroupEdit'),
 );
-const InterestGroupDetail = loadable(
+const InterestGroupDetail = lazyComponent(
   () => import('./components/InterestGroupDetail'),
 );
 
 const interestGroupsRoute: RouteObject[] = [
-  { index: true, Component: InterestGroupList },
-  { path: 'info', Component: InterestGroupInfo },
-  { path: 'money-application', Component: InterestGroupMoneyApplication },
-  { path: 'create-application', Component: InterestGroupCreateApplication },
-  { path: 'create', Component: InterestGroupEdit },
-  { path: ':groupId', Component: InterestGroupDetail },
-  { path: ':groupId/edit', Component: InterestGroupEdit },
+  { index: true, lazy: InterestGroupList },
+  { path: 'info', lazy: InterestGroupInfo },
+  { path: 'money-application', lazy: InterestGroupMoneyApplication },
+  { path: 'create-application', lazy: InterestGroupCreateApplication },
+  { path: 'create', lazy: InterestGroupEdit },
+  { path: ':groupId', lazy: InterestGroupDetail },
+  { path: ':groupId/edit', lazy: InterestGroupEdit },
   { path: '*', children: pageNotFound },
 ];
 

@@ -1,11 +1,11 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const TimelinePage = loadable(() => import('./components/TimelinePage'));
+const TimelinePage = lazyComponent(() => import('./components/TimelinePage'));
 
 const timelineRoute: RouteObject[] = [
-  { index: true, Component: TimelinePage },
+  { index: true, lazy: TimelinePage },
   { path: '*', children: pageNotFound },
 ];
 

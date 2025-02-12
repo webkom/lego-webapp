@@ -1,26 +1,28 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import eventAdministrateRoute from './components/EventAdministrate';
 import type { RouteObject } from 'react-router-dom';
 
-const Calendar = loadable(() => import('./components/Calendar'));
-const EventDetail = loadable(() => import('./components/EventDetail'));
-const EventEditor = loadable(() => import('./components/EventEditor'));
-const EventList = loadable(() => import('./components/EventList'));
-const EventsOverview = loadable(() => import('./components/EventsOverview'));
+const Calendar = lazyComponent(() => import('./components/Calendar'));
+const EventDetail = lazyComponent(() => import('./components/EventDetail'));
+const EventEditor = lazyComponent(() => import('./components/EventEditor'));
+const EventList = lazyComponent(() => import('./components/EventList'));
+const EventsOverview = lazyComponent(
+  () => import('./components/EventsOverview'),
+);
 
 const eventsRoute: RouteObject[] = [
   {
     path: '',
-    Component: EventsOverview,
+    lazy: EventsOverview,
     children: [
-      { index: true, Component: EventList },
-      { path: 'calendar/:year?/:month?', Component: Calendar },
+      { index: true, lazy: EventList },
+      { path: 'calendar/:year?/:month?', lazy: Calendar },
     ],
   },
-  { path: 'create', Component: EventEditor },
-  { path: ':eventIdOrSlug', Component: EventDetail },
-  { path: ':eventIdOrSlug/edit', Component: EventEditor },
+  { path: 'create', lazy: EventEditor },
+  { path: ':eventIdOrSlug', lazy: EventDetail },
+  { path: ':eventIdOrSlug/edit', lazy: EventEditor },
   { path: ':eventId/administrate/*', children: eventAdministrateRoute },
   { path: '*', children: pageNotFound },
 ];

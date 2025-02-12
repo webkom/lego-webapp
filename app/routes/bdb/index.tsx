@@ -1,100 +1,53 @@
-import loadable from '@loadable/component';
-import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
-import { Helmet } from 'react-helmet-async';
-import { Outlet, useLocation, type RouteObject } from 'react-router-dom';
-import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { Tag } from 'app/components/Tags';
+import { type RouteObject } from 'react-router-dom';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 
-const BdbPage = loadable(() => import('./components/BdbPage'));
-const CompanyEditor = loadable(() => import('./components/CompanyEditor'));
-const BdbDetail = loadable(() => import('./components/BdbDetail'));
-const AddSemester = loadable(() => import('./components/AddSemester'));
-const CompanyContactEditor = loadable(
+const BdbOverview = lazyComponent(() => import('./components/BdbOverview'));
+const BdbPage = lazyComponent(() => import('./components/BdbPage'));
+const CompanyEditor = lazyComponent(() => import('./components/CompanyEditor'));
+const BdbDetail = lazyComponent(() => import('./components/BdbDetail'));
+const AddSemester = lazyComponent(() => import('./components/AddSemester'));
+const CompanyContactEditor = lazyComponent(
   () => import('./components/CompanyContactEditor'),
 );
-const CompanyInterestList = loadable(
+const CompanyInterestList = lazyComponent(
   () => import('./components/companyInterest/components/CompanyInterestList'),
 );
-const CompanyInterestPage = loadable(
+const CompanyInterestPage = lazyComponent(
   () => import('./components/companyInterest/components/CompanyInterestPage'),
 );
-const CompanySemesterGUI = loadable(
+const CompanySemesterGUI = lazyComponent(
   () => import('./components/companyInterest/components/CompanySemesterGUI'),
 );
-const StudentContactEditor = loadable(
+const StudentContactEditor = lazyComponent(
   () => import('./components/StudentContactEditor'),
 );
-
-const BdbOverview = () => {
-  const isCompanyInterest = useLocation().pathname.includes('company-interest');
-
-  const title = (
-    <Flex gap="var(--spacing-sm)" alignItems="center">
-      <h1>BDB</h1>
-      <Tag tag="PRO" color="gray" />
-    </Flex>
-  );
-
-  return (
-    <Page
-      title={title}
-      actionButtons={
-        isCompanyInterest ? (
-          <LinkButton
-            key="new-company-interest"
-            href="/bdb/company-interest/create"
-          >
-            Ny bedriftsinteresse
-          </LinkButton>
-        ) : (
-          <LinkButton key="new-company" href="/bdb/add">
-            Ny bedrift
-          </LinkButton>
-        )
-      }
-      tabs={
-        <>
-          <NavigationTab href="/bdb">Semesterstatuser</NavigationTab>
-          <NavigationTab href="/bdb/company-interest">
-            Bedriftsinteresser
-          </NavigationTab>
-        </>
-      }
-    >
-      <Helmet
-        title={isCompanyInterest ? 'Bedriftsinteresser' : 'Semesterstatuser'}
-      />
-      <Outlet />
-    </Page>
-  );
-};
 
 const bdbRoute: RouteObject[] = [
   {
     path: '',
-    Component: BdbOverview,
+    lazy: BdbOverview,
     children: [
-      { index: true, Component: BdbPage },
-      { path: 'company-interest', Component: CompanyInterestList },
+      { index: true, lazy: BdbPage },
+      { path: 'company-interest', lazy: CompanyInterestList },
     ],
   },
-  { path: 'add', Component: CompanyEditor },
-  { path: ':companyId', Component: BdbDetail },
-  { path: ':companyId/edit', Component: CompanyEditor },
-  { path: ':companyId/semesters/add', Component: AddSemester },
-  { path: ':companyId/student-contacts/edit', Component: StudentContactEditor },
-  { path: ':companyId/company-contacts/add', Component: CompanyContactEditor },
+  { path: 'add', lazy: CompanyEditor },
+  { path: ':companyId', lazy: BdbDetail },
+  { path: ':companyId/edit', lazy: CompanyEditor },
+  { path: ':companyId/semesters/add', lazy: AddSemester },
+  { path: ':companyId/student-contacts/edit', lazy: StudentContactEditor },
+  { path: ':companyId/company-contacts/add', lazy: CompanyContactEditor },
   {
     path: ':companyId/company-contacts/:companyContactId',
-    Component: CompanyContactEditor,
+    lazy: CompanyContactEditor,
   },
-  { path: 'company-interest', Component: CompanyInterestList },
-  { path: 'company-interest/create', Component: CompanyInterestPage },
-  { path: 'company-interest/semesters', Component: CompanySemesterGUI },
+  { path: 'company-interest', lazy: CompanyInterestList },
+  { path: 'company-interest/create', lazy: CompanyInterestPage },
+  { path: 'company-interest/semesters', lazy: CompanySemesterGUI },
   {
     path: 'company-interest/:companyInterestId/edit',
-    Component: CompanyInterestPage,
+    lazy: CompanyInterestPage,
   },
   { path: '*', children: pageNotFound },
 ];

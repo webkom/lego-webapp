@@ -1,15 +1,15 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const PageEditor = loadable(() => import('./components/PageEditor'));
-const PageDetail = loadable(() => import('./components/PageDetail'));
+const PageEditor = lazyComponent(() => import('./components/PageEditor'));
+const PageDetail = lazyComponent(() => import('./components/PageDetail'));
 
 const pagesRoute: RouteObject[] = [
-  { path: 'new', Component: PageEditor },
-  { path: ':section', Component: PageDetail },
-  { path: ':section/:pageSlug', Component: PageDetail },
-  { path: ':section/:pageSlug/edit', Component: PageEditor },
+  { path: 'new', lazy: PageEditor },
+  { path: ':section', lazy: PageDetail },
+  { path: ':section/:pageSlug', lazy: PageDetail },
+  { path: ':section/:pageSlug/edit', lazy: PageEditor },
   { path: '*', children: pageNotFound },
 ];
 

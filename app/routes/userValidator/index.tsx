@@ -1,11 +1,11 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const WrappedValidator = loadable(() => import('./WrappedValidator'));
+const WrappedValidator = lazyComponent(() => import('./WrappedValidator'));
 
 const validatorRoute: RouteObject[] = [
-  { index: true, Component: WrappedValidator },
+  { index: true, lazy: WrappedValidator },
   { path: '*', children: pageNotFound },
 ];
 

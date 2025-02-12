@@ -1,16 +1,22 @@
-import loadable from '@loadable/component';
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../../pageNotFound';
 
-const EmailLists = loadable(() => import('./components/EmailLists'));
-const EmailListEditor = loadable(() => import('./components/EmailListEditor'));
-const EmailUsers = loadable(() => import('./components/EmailUsers'));
-const EmailUserEditor = loadable(() => import('./components/EmailUserEditor'));
-const RestrictedMails = loadable(() => import('./components/RestrictedMails'));
-const RestrictedMailEditor = loadable(
+const EmailLists = lazyComponent(() => import('./components/EmailLists'));
+const EmailListEditor = lazyComponent(
+  () => import('./components/EmailListEditor'),
+);
+const EmailUsers = lazyComponent(() => import('./components/EmailUsers'));
+const EmailUserEditor = lazyComponent(
+  () => import('./components/EmailUserEditor'),
+);
+const RestrictedMails = lazyComponent(
+  () => import('./components/RestrictedMails'),
+);
+const RestrictedMailEditor = lazyComponent(
   () => import('./components/RestrictedMailEditor'),
 );
 const EmailRouteWrapper = () => (
@@ -41,15 +47,15 @@ const emailRoute: RouteObject[] = [
     Component: EmailRouteWrapper,
     children: [
       { index: true, element: <Navigate to="lists" replace /> },
-      { path: 'lists', Component: EmailLists },
-      { path: 'lists/new', Component: EmailListEditor },
-      { path: 'lists/:emailListId', Component: EmailListEditor },
-      { path: 'users', Component: EmailUsers },
-      { path: 'users/new', Component: EmailUserEditor },
-      { path: 'users/:emailUserId', Component: EmailUserEditor },
-      { path: 'restricted', Component: RestrictedMails },
-      { path: 'restricted/new', Component: RestrictedMailEditor },
-      { path: 'restricted/:restrictedMailId', Component: RestrictedMailEditor },
+      { path: 'lists', lazy: EmailLists },
+      { path: 'lists/new', lazy: EmailListEditor },
+      { path: 'lists/:emailListId', lazy: EmailListEditor },
+      { path: 'users', lazy: EmailUsers },
+      { path: 'users/new', lazy: EmailUserEditor },
+      { path: 'users/:emailUserId', lazy: EmailUserEditor },
+      { path: 'restricted', lazy: RestrictedMails },
+      { path: 'restricted/new', lazy: RestrictedMailEditor },
+      { path: 'restricted/:restrictedMailId', lazy: RestrictedMailEditor },
     ],
   },
   { path: '*', children: pageNotFound },
