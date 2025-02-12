@@ -1,5 +1,5 @@
 import { userSchema } from 'app/reducers';
-import { User } from './ActionTypes';
+import { Achievement, User } from './ActionTypes';
 import callAPI from './callAPI';
 import type { PublicUser } from 'app/store/models/User';
 
@@ -14,6 +14,29 @@ export function fetchLeaderboardUsers({ next = false }: { next: boolean }) {
     method: 'GET',
     meta: {
       errorMessage: 'Henting av brukere feilet',
+    },
+  });
+}
+
+export function postGettingWood() {
+  return callAPI({
+    endpoint: `/achievements/getting_wood/`,
+    method: 'POST',
+    types: Achievement.CREATE,
+    meta: {
+      errorMessage: 'Oppretting av trofé feilet.',
+    },
+  });
+}
+
+export function postKeypress({ code }: { code: number[] }) {
+  return callAPI({
+    endpoint: `/achievements/keypress_order/`,
+    method: 'POST',
+    body: { code },
+    types: Achievement.CREATE,
+    meta: {
+      errorMessage: 'Oppretting av trofé feilet.',
     },
   });
 }

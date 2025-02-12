@@ -1,6 +1,9 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
+import { useEffect } from 'react';
+import { postKeypress } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';
+import { useAppDispatch } from 'app/store/hooks';
 import AchievementsInfo, {
   rarityToColorMap,
 } from 'app/utils/achievementConstants';
@@ -43,6 +46,27 @@ const Overview = () => {
 
     return query.sort_order === 'desc' ? -comparison : comparison;
   });
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    let count = 0;
+    const codeArr: number[] = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+    const keyHandler = (event: KeyboardEvent) => {
+      if (event.keyCode === codeArr[count]) {
+        count++;
+        if (count === codeArr.length) {
+          dispatch(postKeypress({ code: codeArr.slice(0, count) }));
+          count = 0;
+        }
+      } else {
+        count = 0;
+      }
+    };
+
+    window.addEventListener('keydown', keyHandler);
+    return () => window.removeEventListener('keydown', keyHandler);
+  }, [dispatch]);
 
   return (
     <ContentMain>
