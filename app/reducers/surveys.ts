@@ -46,11 +46,11 @@ export const {
 } = legoAdapter.getSelectors((state: RootState) => state.surveys);
 
 export const selectAllSurveys = createSelector(selectAll, (surveys) =>
-  surveys.filter((survey) => !survey.templateType),
+  surveys.filter((survey) => !survey.isTemplate),
 );
 
 export const selectSurveyTemplates = createSelector(selectAll, (surveys) =>
-  surveys.filter((survey) => survey.templateType),
+  surveys.filter((survey) => survey.isTemplate),
 );
 
 export type TransformedSurveyTemplate = Overwrite<
