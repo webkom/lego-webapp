@@ -1,79 +1,35 @@
-import loadable from '@loadable/component';
-import { Page } from '@webkom/lego-bricks';
-import { Helmet } from 'react-helmet-async';
-import { Outlet, type RouteObject, useParams } from 'react-router-dom';
-import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { useCurrentUser } from 'app/reducers/auth';
+import { type RouteObject } from 'react-router-dom';
 import pageNotFound from 'app/routes/pageNotFound';
-import { useIsCurrentUser } from 'app/routes/users/utils';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { lazyComponent } from 'app/utils/lazyComponent';
 
-const UserSettings = loadable(() => import('./UserSettings'));
-const UserSettingsNotifications = loadable(
+const UserSettingsIndex = lazyComponent(() => import('./UserSettingsIndex'));
+const UserSettings = lazyComponent(() => import('./UserSettings'));
+const UserSettingsNotifications = lazyComponent(
   () => import('./UserSettingsNotifications'),
 );
-const UserSettingsOAuth2 = loadable(() => import('./UserSettingsOAuth2'));
-const UserSettingsOAuth2Form = loadable(
+const UserSettingsOAuth2 = lazyComponent(() => import('./UserSettingsOAuth2'));
+const UserSettingsOAuth2Form = lazyComponent(
   () => import('./UserSettingsOAuth2Form'),
 );
-const StudentConfirmation = loadable(() => import('./StudentConfirmation'));
-
-const UserSettingsIndex = () => {
-  const { username } = useParams<{ username: string }>();
-  const isCurrentUser = useIsCurrentUser(username);
-  const currentUser = useCurrentUser();
-  const base = `/users/${username}/settings`;
-
-  // At the moment changing settings for other users only works
-  // for the settings under `/profile` - so no point in showing
-  // the other tabs.
-  return (
-    <Page
-      title="Innstillinger"
-      back={{
-        label: 'Profil',
-        href: `/users/${username}`,
-      }}
-      tabs={
-        isCurrentUser && (
-          <>
-            <NavigationTab href={`${base}/profile`}>
-              Rediger profil
-            </NavigationTab>
-            <NavigationTab href={`${base}/notifications`}>
-              Notifikasjoner
-            </NavigationTab>
-            <NavigationTab href={`${base}/oauth2`}>OAuth2</NavigationTab>
-            <NavigationTab href={`${base}/student-confirmation`}>
-              {currentUser?.isStudent
-                ? 'Studentstatus'
-                : 'Verifiser studentstatus'}
-            </NavigationTab>
-          </>
-        )
-      }
-    >
-      <Helmet title="Innstillinger" />
-      <Outlet />
-    </Page>
-  );
-};
+const StudentConfirmation = lazyComponent(
+  () => import('./StudentConfirmation'),
+);
 
 const userSettingsRoute: RouteObject[] = [
   {
-    Component: guardLogin(UserSettingsIndex),
+    lazy: UserSettingsIndex,
     children: [
-      { path: 'profile', Component: UserSettings },
-      { path: 'notifications', Component: UserSettingsNotifications },
+      { path: 'profile', lazy: UserSettings },
+      { path: 'notifications', lazy: UserSettingsNotifications },
       {
         path: 'oauth2/*',
         children: [
-          { index: true, Component: UserSettingsOAuth2 },
-          { path: 'new', Component: UserSettingsOAuth2Form },
-          { path: ':applicationId', Component: UserSettingsOAuth2Form },
+          { index: true, lazy: UserSettingsOAuth2 },
+          { path: 'new', lazy: UserSettingsOAuth2Form },
+          { path: ':applicationId', lazy: UserSettingsOAuth2Form },
         ],
       },
-      { path: 'student-confirmation', Component: StudentConfirmation },
+      { path: 'student-confirmation', lazy: StudentConfirmation },
     ],
   },
   { path: '*', children: pageNotFound },

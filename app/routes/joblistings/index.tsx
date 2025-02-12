@@ -1,20 +1,22 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const JoblistingsPage = loadable(() => import('./components/JoblistingPage'));
-const JoblistingEditor = loadable(
+const JoblistingsPage = lazyComponent(
+  () => import('./components/JoblistingPage'),
+);
+const JoblistingEditor = lazyComponent(
   () => import('./components/JoblistingEditor'),
 );
-const JoblistingDetail = loadable(
+const JoblistingDetail = lazyComponent(
   () => import('./components/JoblistingDetail'),
 );
 
 const joblistingsRoute: RouteObject[] = [
-  { index: true, Component: JoblistingsPage },
-  { path: 'create', Component: JoblistingEditor },
-  { path: ':joblistingIdOrSlug', Component: JoblistingDetail },
-  { path: ':joblistingId/edit', Component: JoblistingEditor },
+  { index: true, lazy: JoblistingsPage },
+  { path: 'create', lazy: JoblistingEditor },
+  { path: ':joblistingIdOrSlug', lazy: JoblistingDetail },
+  { path: ':joblistingId/edit', lazy: JoblistingEditor },
   { path: '*', children: pageNotFound },
 ];
 export default joblistingsRoute;

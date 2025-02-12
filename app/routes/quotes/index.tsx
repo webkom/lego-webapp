@@ -1,14 +1,14 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const QuotePage = loadable(() => import('./components/QuotePage'));
-const AddQuote = loadable(() => import('./components/AddQuote'));
+const QuotePage = lazyComponent(() => import('./components/QuotePage'));
+const AddQuote = lazyComponent(() => import('./components/AddQuote'));
 
 const quotesRoute: RouteObject[] = [
-  { index: true, Component: QuotePage },
-  { path: 'add', Component: AddQuote },
-  { path: ':quoteId', Component: QuotePage },
+  { index: true, lazy: QuotePage },
+  { path: 'add', lazy: AddQuote },
+  { path: ':quoteId', lazy: QuotePage },
   { path: '*', children: pageNotFound },
 ];
 

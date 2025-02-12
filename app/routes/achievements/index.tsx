@@ -1,17 +1,19 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import type { RouteObject } from 'react-router-dom';
 
-const Leaderboard = loadable(() => import('./components/Leaderboard'));
-const Overview = loadable(() => import('./components/Overview'));
-const AchievementsPageWrapper = loadable(() => import('./components/index'));
+const Leaderboard = lazyComponent(() => import('./components/Leaderboard'));
+const Overview = lazyComponent(() => import('./components/Overview'));
+const AchievementsPageWrapper = lazyComponent(
+  () => import('./components/index'),
+);
 
 const achievementRoute: RouteObject[] = [
   {
     path: '',
-    Component: AchievementsPageWrapper,
+    lazy: AchievementsPageWrapper,
     children: [
-      { index: true, Component: Overview },
-      { path: 'leaderboard', Component: Leaderboard },
+      { index: true, lazy: Overview },
+      { path: 'leaderboard', lazy: Leaderboard },
     ],
   },
 ];

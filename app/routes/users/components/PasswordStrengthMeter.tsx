@@ -1,7 +1,8 @@
-import loadable from '@loadable/component';
 import Bar from '@webkom/react-meter-bar';
 import '@webkom/react-meter-bar/style.css';
 import moment from 'moment-timezone';
+import { useEffect, useMemo, useState } from 'react';
+import { isNotNullish } from 'app/utils';
 import styles from './PasswordStrengthMeter.module.css';
 import {
   passwordLabel,
@@ -14,65 +15,61 @@ type Props = {
   password: string;
   user?: PasswordFieldUser;
 };
-const Zxcvbn = loadable.lib(() => import('zxcvbn'), {
-  ssr: false,
-});
+const loadZxcvbn = () => import('zxcvbn').then((module) => module.default);
 
 const PasswordStrengthMeter = ({ password, user }: Props) => {
+  const [zxcvbn, setZxcvbn] =
+    useState<Awaited<ReturnType<typeof loadZxcvbn>>>();
+
+  useEffect(() => {
+    loadZxcvbn().then((zxcvbn) => setZxcvbn(() => zxcvbn));
+  }, []);
+
+  const zxcvbnValue = useMemo(
+    () =>
+      zxcvbn?.(
+        password,
+        [user?.username, user?.firstName, user?.lastName].filter(isNotNullish),
+      ),
+    [password, user, zxcvbn],
+  );
+
+  const { suggestions = [], warning } = zxcvbnValue?.feedback ?? {};
+  const tips = [...suggestions, warning]
+    .filter(isNotNullish)
+    .map((tip) => passwordFeedbackMessages[tip]);
+  const crackTimeSec = Number(
+    zxcvbnValue?.crack_times_seconds?.offline_slow_hashing_1e4_per_second,
+  );
+  const crackTimeDuration = moment.duration(crackTimeSec, 'seconds').humanize();
+  const crackTime =
+    crackTimeSec > 2 ? crackTimeDuration : crackTimeSec + ' sekunder';
   return (
-    <Zxcvbn
-      fallback={
+    <>
+      <PasswordStrengthBar strengthScore={zxcvbnValue?.score ?? 0} />
+      {password && zxcvbnValue ? (
         <>
-          <PasswordStrengthBar strengthScore={0} />
           <span>
-            <strong>Kalkulerer passordstyrke</strong>
+            <strong>Passordstyrke: </strong> {passwordLabel[zxcvbnValue.score]}
+          </span>
+          <span>
+            Dette passordet hadde tatt en maskin {crackTime} å knekke @ 10⁴
+            Hash/s.
           </span>
         </>
-      }
-    >
-      {({ default: zxcvbn }) => {
-        const zxcvbnValue = zxcvbn(password, [
-          user?.username,
-          user?.firstName,
-          user?.lastName,
-        ]);
-        let tips = zxcvbnValue.feedback?.suggestions ?? [];
-        tips.push(zxcvbnValue.feedback?.warning);
-        tips = tips.map((tip) => passwordFeedbackMessages[tip]).filter(Boolean);
-        const crackTimeSec = Number(
-          zxcvbnValue.crack_times_seconds?.offline_slow_hashing_1e4_per_second,
-        );
-        const crackTimeDuration = moment
-          .duration(crackTimeSec, 'seconds')
-          .humanize();
-        const crackTime =
-          crackTimeSec > 2 ? crackTimeDuration : crackTimeSec + ' sekunder';
-        return (
-          <>
-            <PasswordStrengthBar strengthScore={zxcvbnValue.score} />
-            {password && (
-              <>
-                <span>
-                  <strong>Passordstyrke: </strong>{' '}
-                  {passwordLabel[zxcvbnValue.score]}
-                </span>
-                <span>
-                  Dette passordet hadde tatt en maskin {crackTime} å knekke @
-                  10⁴ Hash/s.
-                </span>
-              </>
-            )}
-            {password && zxcvbnValue.score < 3 && (
-              <ul className={styles.tipsList}>
-                {tips.map((value, key) => {
-                  return <li key={key}>{value}</li>;
-                })}
-              </ul>
-            )}
-          </>
-        );
-      }}
-    </Zxcvbn>
+      ) : (
+        <span>
+          <strong>Kalkulerer passordstyrke</strong>
+        </span>
+      )}
+      {password && zxcvbnValue && zxcvbnValue.score < 3 && (
+        <ul className={styles.tipsList}>
+          {tips.map((value, key) => {
+            return <li key={key}>{value}</li>;
+          })}
+        </ul>
+      )}
+    </>
   );
 };
 

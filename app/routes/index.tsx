@@ -1,6 +1,6 @@
-import loadable from '@loadable/component';
 import { type RouteObject } from 'react-router-dom';
 import lendingRoute from 'app/routes/lending';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import achievementRoute from './achievements';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
@@ -28,17 +28,17 @@ import timelineRoute from './timeline';
 import validatorRoute from './userValidator';
 import usersRoute from './users';
 
-const CompanyInterestPage = loadable(
+const CompanyInterestPage = lazyComponent(
   () =>
     import('./bdb/components/companyInterest/components/CompanyInterestPage'),
 );
-const Frontpage = loadable(() => import('./frontpage'));
+const Frontpage = lazyComponent(() => import('./frontpage'));
 
 export const routerConfig: RouteObject[] = [
   {
     Component: AppRoute,
     children: [
-      { index: true, Component: Frontpage },
+      { index: true, lazy: Frontpage },
       { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },
@@ -47,8 +47,8 @@ export const routerConfig: RouteObject[] = [
       { path: 'bdb/*', children: bdbRoute },
       { path: 'brand/*', children: brandRoute },
       { path: 'companies/*', children: companyRoute },
-      { path: 'register-interest', Component: CompanyInterestPage },
-      { path: 'interesse', Component: CompanyInterestPage },
+      { path: 'register-interest', lazy: CompanyInterestPage },
+      { path: 'interesse', lazy: CompanyInterestPage },
       { path: 'contact', children: contactRoute },
       { path: 'kontakt', children: contactRoute },
       { path: 'events/*', children: eventsRoute },

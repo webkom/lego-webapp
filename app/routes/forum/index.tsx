@@ -1,21 +1,21 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const ForumDetail = loadable(() => import('./components/ForumDetail'));
-const ForumEditor = loadable(() => import('./components/ForumEditor'));
-const ThreadDetail = loadable(() => import('./components/ThreadDetail'));
-const ThreadEditor = loadable(() => import('./components/ThreadEditor'));
-const ForumList = loadable(() => import('./components/ForumList'));
+const ForumDetail = lazyComponent(() => import('./components/ForumDetail'));
+const ForumEditor = lazyComponent(() => import('./components/ForumEditor'));
+const ThreadDetail = lazyComponent(() => import('./components/ThreadDetail'));
+const ThreadEditor = lazyComponent(() => import('./components/ThreadEditor'));
+const ForumList = lazyComponent(() => import('./components/ForumList'));
 
 const forumRoute: RouteObject[] = [
-  { index: true, Component: ForumList },
-  { path: ':forumId/threads', Component: ForumDetail },
-  { path: 'new', Component: ForumEditor },
-  { path: ':forumId/edit', Component: ForumEditor },
-  { path: ':forumId/threads/:threadId', Component: ThreadDetail },
-  { path: ':forumId/new', Component: ThreadEditor },
-  { path: ':forumId/threads/:threadId/edit', Component: ThreadEditor },
+  { index: true, lazy: ForumList },
+  { path: ':forumId/threads', lazy: ForumDetail },
+  { path: 'new', lazy: ForumEditor },
+  { path: ':forumId/edit', lazy: ForumEditor },
+  { path: ':forumId/threads/:threadId', lazy: ThreadDetail },
+  { path: ':forumId/new', lazy: ThreadEditor },
+  { path: ':forumId/threads/:threadId/edit', lazy: ThreadEditor },
   { path: '*', children: pageNotFound },
 ];
 

@@ -10,7 +10,9 @@ type Props = {
   store: Store;
 };
 
-const router = createBrowserRouter(routerConfig);
+const router = createBrowserRouter(routerConfig, {
+  hydrationData: window.__staticRouterHydrationData,
+});
 
 const Root = ({ store }: Props) => (
   <HelmetProvider>

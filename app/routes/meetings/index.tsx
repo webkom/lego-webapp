@@ -1,16 +1,18 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const MeetingList = loadable(() => import('./components/MeetingList'));
-const MeetingEditor = loadable(() => import('./components/MeetingEditor'));
-const MeetingDetailWrapper = loadable(() => import('./MeetingDetailWrapper'));
+const MeetingList = lazyComponent(() => import('./components/MeetingList'));
+const MeetingEditor = lazyComponent(() => import('./components/MeetingEditor'));
+const MeetingDetailWrapper = lazyComponent(
+  () => import('./MeetingDetailWrapper'),
+);
 
 const meetingsRoute: RouteObject[] = [
-  { index: true, Component: MeetingList },
-  { path: 'create', Component: MeetingEditor },
-  { path: ':meetingId', Component: MeetingDetailWrapper },
-  { path: ':meetingId/edit', Component: MeetingEditor },
+  { index: true, lazy: MeetingList },
+  { path: 'create', lazy: MeetingEditor },
+  { path: ':meetingId', lazy: MeetingDetailWrapper },
+  { path: ':meetingId/edit', lazy: MeetingEditor },
   { path: '*', children: pageNotFound },
 ];
 

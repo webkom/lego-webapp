@@ -1,13 +1,13 @@
-import loadable from '@loadable/component';
+import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router-dom';
 
-const CompaniesPage = loadable(() => import('./components/CompaniesPage'));
-const CompanyDetail = loadable(() => import('./components/CompanyDetail'));
+const CompaniesPage = lazyComponent(() => import('./components/CompaniesPage'));
+const CompanyDetail = lazyComponent(() => import('./components/CompanyDetail'));
 
 const companyRoute: RouteObject[] = [
-  { index: true, Component: CompaniesPage },
-  { path: ':companyId', Component: CompanyDetail },
+  { index: true, lazy: CompaniesPage },
+  { path: ':companyId', lazy: CompanyDetail },
   { path: '*', children: pageNotFound },
 ];
 
