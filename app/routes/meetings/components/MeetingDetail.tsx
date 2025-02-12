@@ -42,7 +42,7 @@ import {
 } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
 import { selectUserById } from 'app/reducers/users';
-import { PizzaButton } from 'app/routes/meetings/components/PizzaButton';
+import { PizzaAccordion } from 'app/routes/meetings/components/PizzaAccordion';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -298,13 +298,10 @@ const MeetingDetails = () => {
           </div>
           {isPizzaReactedWith && (
             <div>
-              <h3>Pizza</h3>
-              <ButtonGroup>
-                <PizzaButton
-                  meeting={meeting}
-                  meetingInvitations={meetingInvitations}
-                />
-              </ButtonGroup>
+              <PizzaAccordion
+                meeting={meeting}
+                meetingInvitations={meetingInvitations}
+              />
             </div>
           )}
         </ContentSidebar>

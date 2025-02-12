@@ -22,3 +22,27 @@
 .meetingReactions {
   margin: var(--spacing-sm) 0;
 }
+
+.pizzaTrigger {
+  background-color: var(--additive-background);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.pizzaTrigger > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  height: fit-content;
+  color: var(--lego-font-color);
+  cursor: pointer;
+}
+
+.pizzaTrigger > div > div {
+  gap: var(--spacing-sm);
+}
+
+.pizzaList {
+  list-style: inside;
+}
