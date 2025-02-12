@@ -73,7 +73,6 @@
 
 .popoverEventTitle {
   display: inline-block;
-  line-height: 1.3;
 }
 
 .popoverEventTitleText {
@@ -81,7 +80,6 @@
 }
 
 .popoverEventDescription {
-  line-height: 1.3;
 }
 
 .textWithIcon {
