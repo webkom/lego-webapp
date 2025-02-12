@@ -9,7 +9,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { postGettingWood } from 'app/actions/AchievementActions';
 import {
   fetchAllMemberships,
