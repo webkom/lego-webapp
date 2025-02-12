@@ -1,7 +1,6 @@
 @import url('styles/custom-media.css');
 
 .chartLabel {
-
   @media (--mobile-device) {
     align-items: center;
   }
