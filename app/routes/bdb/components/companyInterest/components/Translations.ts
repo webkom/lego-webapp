@@ -133,6 +133,10 @@ export const OTHER_OFFERS = {
     norwegian: 'Profilering på sosiale medier',
     english: 'Profiling on social media',
   },
+  thursday_event: {
+    norwegian: 'Ønsker arrangement torsdag',
+    english: 'Wish event thursday',
+  },
 };
 
 export const COMPANY_TYPES: Record<
