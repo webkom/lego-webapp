@@ -2,7 +2,7 @@ import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { ContentMain } from 'app/components/Content';
 import { SelectInput } from 'app/components/Form';

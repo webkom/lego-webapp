@@ -1,6 +1,6 @@
 import { Card, Page } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { resetPassword } from 'app/actions/UserActions';
 import {
   Form,

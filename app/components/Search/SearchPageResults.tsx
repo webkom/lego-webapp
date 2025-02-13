@@ -1,7 +1,7 @@
 import { Flex, Icon, Skeleton, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { FolderOpen, FolderSearch } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
 import { ProfilePicture } from 'app/components/Image';
 import { isUserResult } from 'app/reducers/search';

@@ -135,7 +135,7 @@ steps:
       - echo "server stopped"
 
   - name: setup
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -156,7 +156,7 @@ steps:
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
   - name: build_packages
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -167,7 +167,7 @@ steps:
       - yarn build:packages
 
   - name: build_server
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -179,7 +179,7 @@ steps:
       - yarn build:server
 
   - name: build_client
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -191,7 +191,7 @@ steps:
       - yarn build:client
 
   - name: test
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -203,7 +203,7 @@ steps:
       - yarn test:packages
 
   - name: lint
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -215,7 +215,7 @@ steps:
       - yarn lint:packages
 
   - name: typescript
-    image: node:18-slim
+    image: node:20-slim
     when:
       event: [push]
       branch:
@@ -227,7 +227,7 @@ steps:
     failure: ignore
 
   - name: typescript_packages
-    image: node:18-slim
+    image: node:20-slim
     when:
       event: [push]
       branch:
@@ -238,7 +238,7 @@ steps:
       - yarn types:packages
 
   - name: install_cypress
-    image: node:18-alpine
+    image: node:20-alpine
     when:
       event: [push]
       branch:
@@ -251,7 +251,7 @@ steps:
       - yarn cypress install
 
   - name: ssr
-    image: node:18-alpine
+    image: node:20-alpine
     detach: true
     when:
       event: [push]
@@ -269,7 +269,7 @@ steps:
       - yarn ssr
 
   - name: cypress
-    image: cypress/browsers:node-18.15.0-chrome-106.0.5249.61-1-ff-99.0.1-edge-114.0.1823.51-1
+    image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
     shm_size: 512m
     ipc: host
     when:

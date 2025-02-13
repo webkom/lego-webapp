@@ -1,6 +1,6 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LendableObjectEditor } from 'app/routes/lending/components/LendableObjectEditor';
 import { useFetchedLendableObject } from 'app/routes/lending/useFetchedLendableObject';

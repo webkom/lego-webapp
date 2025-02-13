@@ -1,6 +1,6 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import { ProfilePicture } from '../Image';
 import styles from './Search.module.css';

@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import {
   deleteAnnouncement,
   sendAnnouncement,

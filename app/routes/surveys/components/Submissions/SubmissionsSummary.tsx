@@ -1,5 +1,5 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
 import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';

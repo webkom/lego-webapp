@@ -4,7 +4,7 @@ import { normalize } from 'normalizr';
 import qs from 'qs';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import { User } from 'app/actions/ActionTypes';
 import {
   createUser,

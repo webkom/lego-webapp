@@ -2,7 +2,7 @@ import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import bekk from 'app/assets/bekk_short_white.svg';
 import octocat from 'app/assets/octocat.png';
 import { useIsLoggedIn } from 'app/reducers/auth';

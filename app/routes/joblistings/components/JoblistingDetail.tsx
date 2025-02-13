@@ -2,7 +2,7 @@ import { Flex, Icon, LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router';
 import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import {
   ContentSection,

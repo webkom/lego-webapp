@@ -1,7 +1,7 @@
 import { LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { fetchGroup } from 'app/actions/GroupActions';
 import { selectGroupById } from 'app/reducers/groups';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';

@@ -1,7 +1,7 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { TagCloud as Cloud } from 'react-tagcloud';
 import { fetchAll } from 'app/actions/TagActions';
 import { selectAllTags } from 'app/reducers/tags';

@@ -6,7 +6,7 @@ import {
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Button } from 'react-aria-components';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import {
   unregister,
   updatePayment,

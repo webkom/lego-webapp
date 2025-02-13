@@ -1,7 +1,7 @@
 import { Page } from '@webkom/lego-bricks';
 import { debounce } from 'lodash';
 import qs from 'qs';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { autocomplete } from 'app/actions/SearchActions';
 import { fetchUser } from 'app/actions/UserActions';
 import Validator from 'app/components/UserValidator';

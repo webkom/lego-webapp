@@ -1,5 +1,5 @@
 import { lazyComponent } from 'app/utils/lazyComponent';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 const GroupForm = lazyComponent(() => import('./GroupForm'));
 const GroupMembers = lazyComponent(() => import('./GroupMembers'));

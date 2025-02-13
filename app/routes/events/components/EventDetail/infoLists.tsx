@@ -1,6 +1,6 @@
 import { CircleHelp } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';

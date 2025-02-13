@@ -2,7 +2,7 @@ import { Page } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { addQuotes } from 'app/actions/QuoteActions';
 import { ContentMain } from 'app/components/Content';
 import {

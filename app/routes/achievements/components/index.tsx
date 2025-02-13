@@ -1,5 +1,5 @@
 import { FilterSection, filterSidebar, Flex, Page } from '@webkom/lego-bricks';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { RadioButton } from 'app/components/Form';
 import useQuery from 'app/utils/useQuery';
 import { AchievementTabs } from './utils';

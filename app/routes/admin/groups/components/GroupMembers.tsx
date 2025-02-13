@@ -1,6 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
 import { selectGroupById } from 'app/reducers/groups';

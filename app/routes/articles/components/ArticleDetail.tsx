@@ -2,7 +2,7 @@ import { LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import CommentView from 'app/components/Comments/CommentView';
 import DisplayContent from 'app/components/DisplayContent';

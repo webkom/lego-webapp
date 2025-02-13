@@ -1,6 +1,6 @@
 import { Card } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import styles from './Banner.module.css';
 import type { ReactNode } from 'react';
 import type { $Keys } from 'utility-types';

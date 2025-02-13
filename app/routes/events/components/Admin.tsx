@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { deleteEvent } from 'app/actions/EventActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { TextInput } from 'app/components/Form';

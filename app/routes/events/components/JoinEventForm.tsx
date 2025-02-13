@@ -13,7 +13,7 @@ import { CircleHelp, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { register, unregister, updateFeedback } from 'app/actions/EventActions';
 import {
   Form,

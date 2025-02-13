@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import {
   createLendableObject,
   editLendableObject,

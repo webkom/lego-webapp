@@ -1,6 +1,6 @@
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { ThemeContextListener } from 'app/utils/themeUtils';
 import routerConfig from './routes';

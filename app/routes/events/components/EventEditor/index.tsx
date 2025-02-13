@@ -10,7 +10,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams, Link, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, Link, useLocation } from 'react-router';
 import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
 import {
   uploadFile as _uploadFile,

@@ -1,5 +1,5 @@
 import { createRoot, hydrateRoot } from 'react-dom/client';
-import { matchRoutes } from 'react-router-dom';
+import { matchRoutes } from 'react-router';
 import routerConfig from 'app/routes';
 import Root from './Root';
 import type { Store } from 'app/store/createStore';

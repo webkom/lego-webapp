@@ -11,7 +11,7 @@
   border-radius: var(--border-radius-lg);
 }
 
-.elementsLedgend {
+.elementsLegend {
   text-align: center;
   padding: 0 var(--spacing-md);
 }

@@ -6,7 +6,7 @@ import {
   Languages,
   MapPin,
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { MazemapButton } from 'app/components/MazemapEmbed/MazemapButton';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FromToTime } from 'app/components/Time';

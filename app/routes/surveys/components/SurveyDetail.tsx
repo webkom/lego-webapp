@@ -1,10 +1,5 @@
 import { LinkButton, LoadingPage } from '@webkom/lego-bricks';
-import {
-  Link,
-  useNavigate,
-  useOutletContext,
-  useParams,
-} from 'react-router-dom';
+import { Link, useNavigate, useOutletContext, useParams } from 'react-router';
 import { ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
 import { displayNameForEventType } from 'app/routes/events/utils';

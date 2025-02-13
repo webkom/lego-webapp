@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import qs from 'qs';
 import { useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router';
 import type { ParsedQs } from 'qs';
 
 /**

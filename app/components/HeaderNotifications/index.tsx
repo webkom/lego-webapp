@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import {
   fetchNotificationData,

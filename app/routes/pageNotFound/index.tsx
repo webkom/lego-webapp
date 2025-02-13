@@ -1,5 +1,5 @@
 import { lazyComponent } from 'app/utils/lazyComponent';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 const HTTPError = lazyComponent(() => import('app/routes/errors/HTTPError'));
 

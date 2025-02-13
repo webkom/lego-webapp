@@ -2,7 +2,7 @@ import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { CircleCheck, CircleX } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchAll } from 'app/actions/PollActions';
 import Paginator from 'app/components/Paginator';
 import { selectAllPolls } from 'app/reducers/polls';

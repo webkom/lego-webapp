@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
 import {
   Form,

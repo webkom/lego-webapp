@@ -1,7 +1,7 @@
 import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetch } from 'app/actions/RestrictedMailActions';
 import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';

@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ProfilePicture } from 'app/components/Image';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMember.module.css';

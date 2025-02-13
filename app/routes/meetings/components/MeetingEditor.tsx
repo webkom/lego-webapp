@@ -13,7 +13,7 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { fetchMemberships } from 'app/actions/GroupActions';
 import {
   createMeeting,

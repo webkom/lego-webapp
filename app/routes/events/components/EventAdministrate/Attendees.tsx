@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import {

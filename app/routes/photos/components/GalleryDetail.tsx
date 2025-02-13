@@ -8,7 +8,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { useState } from 'react';
-import { useParams, useNavigate, Outlet } from 'react-router-dom';
+import { useParams, useNavigate, Outlet } from 'react-router';
 import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import {
   fetchGalleryPictures,

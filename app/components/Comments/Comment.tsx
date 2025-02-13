@@ -2,7 +2,7 @@ import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { Reply, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { deleteComment } from 'app/actions/CommentActions';
 import CommentForm from 'app/components/CommentForm';
 import DisplayContent from 'app/components/DisplayContent';

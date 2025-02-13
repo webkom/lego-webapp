@@ -2,7 +2,7 @@ import { Accordion, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { fetchUser, updateUser } from 'app/actions/UserActions';
 import { ContentMain } from 'app/components/Content';
 import {

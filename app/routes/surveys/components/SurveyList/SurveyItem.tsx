@@ -1,6 +1,6 @@
 import { Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import AchievementsInfo, {
   rarityToColorMap,
