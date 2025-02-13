@@ -100,11 +100,27 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: false,
     },
   ],
+  event_rules: [
+    {
+      name: 'Skaffe tre',
+      description: 'Lest arrangementsreglene',
+      rarity: 0,
+      hidden: false,
+    },
+  ],
   meeting_hidden: [
     {
       name: 'Er det noen her?',
       description: '',
       rarity: 1,
+      hidden: true,
+    },
+  ],
+  keypress_order: [
+    {
+      name: 'Powermode\nactivate!',
+      description: '',
+      rarity: 2,
       hidden: true,
     },
   ],

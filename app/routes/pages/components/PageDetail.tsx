@@ -7,8 +7,10 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
+import { postGettingWood } from 'app/actions/AchievementActions';
 import {
   fetchAllMemberships,
   fetchAllWithType,
@@ -47,7 +49,6 @@ import type { AppDispatch } from 'app/store/createStore';
 import type { PublicUser } from 'app/store/models/User';
 import type { Thunk } from 'app/types';
 import type { RoleType } from 'app/utils/constants';
-import type { ComponentType } from 'react';
 
 type PageRendererProps<T> = {
   page: T;
@@ -365,6 +366,11 @@ const PageDetail = () => {
   const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (pageSlug === '26-arrangementsregler') {
+      dispatch(postGettingWood());
+    }
+  }, [dispatch, pageSlug]);
 
   usePreparedEffect(
     'fetchPageDetail',

@@ -412,3 +412,10 @@ export const Thread = {
   DELETE: generateStatuses('Thread.DELETE') as AAT,
   UPDATE: generateStatuses('Thread.UPDATE') as AAT,
 };
+
+/**
+ *
+ */
+export const Achievement = {
+  CREATE: generateStatuses('Achievement.CREATE') as AAT,
+};
