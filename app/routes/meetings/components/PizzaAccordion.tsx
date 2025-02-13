@@ -23,11 +23,11 @@ export const PizzaAccordion = ({ meeting, meetingInvitations }: Props) => {
       .map((reaction) => reaction.author.fullName)
       .sort() ?? [];
 
-  const attendence: string[] = meetingInvitations
+  const attendingUsers: string[] = meetingInvitations
     .filter((invite) => invite.status === MeetingInvitationStatus.Attending)
     .map((invite) => invite.user.fullName);
 
-  const notPizzaUsers = attendence
+  const notPizzaUsers = attendingUsers
     .filter((name) => !pizzaUsers.includes(name))
     .sort();
 
