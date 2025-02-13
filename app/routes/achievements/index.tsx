@@ -1,19 +1,19 @@
-import { lazyComponent } from 'app/utils/lazyComponent';
+import { convert } from 'app/utils/convertRoute';
 import type { RouteObject } from 'react-router';
-
-const Leaderboard = lazyComponent(() => import('./components/Leaderboard'));
-const Overview = lazyComponent(() => import('./components/Overview'));
-const AchievementsPageWrapper = lazyComponent(
-  () => import('./components/index'),
-);
 
 const achievementRoute: RouteObject[] = [
   {
     path: '',
-    lazy: AchievementsPageWrapper,
+    lazy: () => import('./route').then(convert),
     children: [
-      { index: true, lazy: Overview },
-      { path: 'leaderboard', lazy: Leaderboard },
+      {
+        index: true,
+        lazy: () => import('../achievements._index/route').then(convert),
+      },
+      {
+        path: 'leaderboard',
+        lazy: () => import('../achievements.leaderboard/route').then(convert),
+      },
     ],
   },
 ];

@@ -1,5 +1,6 @@
 import { type RouteObject } from 'react-router';
 import lendingRoute from 'app/routes/lending';
+import { convert } from 'app/utils/convertRoute';
 import { lazyComponent } from 'app/utils/lazyComponent';
 import achievementRoute from './achievements';
 import adminRoute from './admin';
@@ -32,13 +33,12 @@ const CompanyInterestPage = lazyComponent(
   () =>
     import('./bdb/components/companyInterest/components/CompanyInterestPage'),
 );
-const Frontpage = lazyComponent(() => import('./frontpage'));
 
 export const routerConfig: RouteObject[] = [
   {
     Component: AppRoute,
     children: [
-      { index: true, lazy: Frontpage },
+      { index: true, lazy: () => import('./_index/route').then(convert) },
       { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },

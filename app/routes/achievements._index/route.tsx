@@ -8,9 +8,9 @@ import AchievementsInfo, {
   rarityToColorMap,
 } from 'app/utils/achievementConstants';
 import useQuery from 'app/utils/useQuery';
-import styles from './Overview.module.css';
+import styles from './route.module.css';
 
-const Overview = () => {
+const AchievementsOverview = () => {
   const { query } = useQuery({
     min_rarity: 'any',
     max_rarity: 'any',
@@ -110,4 +110,4 @@ const Overview = () => {
   );
 };
 
-export default Overview;
+export default AchievementsOverview;
