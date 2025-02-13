@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import AboutDropdown from './AboutDropdown';

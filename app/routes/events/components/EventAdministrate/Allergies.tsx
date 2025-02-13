@@ -2,7 +2,7 @@ import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { FileDown } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { fetchAllergies } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';

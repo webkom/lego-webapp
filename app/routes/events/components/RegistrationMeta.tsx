@@ -1,5 +1,5 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { PhotoConsentDomain } from 'app/models';
 import {

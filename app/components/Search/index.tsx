@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectAutocompleteRedux } from 'app/reducers/search';

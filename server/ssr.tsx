@@ -7,14 +7,14 @@ import {
   createStaticHandler,
   createStaticRouter,
   StaticRouterProvider,
-} from 'react-router-dom/server';
+} from 'react-router';
 import createStore from 'app/store/createStore';
 import routerConfig from '../app/routes';
 import pageRenderer from './pageRenderer';
 import createFetchRequest from './request';
 import type { RootState } from 'app/store/createRootReducer';
 import type { Request, Response } from 'express';
-import type { StaticHandlerContext } from 'react-router-dom/server';
+import type { StaticHandlerContext } from 'react-router';
 
 const serverSideTimeoutInMs = 4000;
 export const helmetContext = {}; // AntiPattern because of babel

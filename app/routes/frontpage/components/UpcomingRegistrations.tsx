@@ -2,7 +2,7 @@ import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { AlarmClock, Leaf } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
 import { selectAllEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';

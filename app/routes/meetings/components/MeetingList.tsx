@@ -11,7 +11,7 @@ import { CalendarOff } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchAll } from 'app/actions/MeetingActions';
 import EmptyState from 'app/components/EmptyState';
 import { Tag } from 'app/components/Tags';

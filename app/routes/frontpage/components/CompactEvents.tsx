@@ -1,7 +1,7 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { Pin } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Circle from 'app/components/Circle';
 import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';

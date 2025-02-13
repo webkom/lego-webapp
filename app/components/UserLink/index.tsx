@@ -1,5 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { ProfilePicture } from '../Image';
 import type { UnknownUser } from 'app/store/models/User';
 

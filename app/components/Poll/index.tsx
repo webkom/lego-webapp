@@ -9,7 +9,7 @@ import {
   Info,
 } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { votePoll } from 'app/actions/PollActions';
 import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';

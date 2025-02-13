@@ -1,7 +1,7 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';

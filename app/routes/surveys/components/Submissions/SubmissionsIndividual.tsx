@@ -2,7 +2,7 @@ import { Accordion, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import StaticSubmission from '../StaticSubmission';
 import styles from '../surveys.module.css';
 import type { SurveysRouteContext } from 'app/routes/surveys';

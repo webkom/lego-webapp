@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { Helmet } from 'react-helmet-async';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
 import { selectResult } from 'app/reducers/search';

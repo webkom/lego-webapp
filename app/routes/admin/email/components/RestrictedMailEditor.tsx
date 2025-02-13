@@ -2,7 +2,7 @@ import { Icon, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Download } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import {
   createRestrictedMail,
   fetchRestrictedMail,

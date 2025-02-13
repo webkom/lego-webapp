@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import { produce } from 'immer';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext } from 'react-router';
 import { editSurvey } from 'app/actions/SurveyActions';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';

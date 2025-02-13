@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { FilterX, X } from 'lucide-react';
 import { createContext, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import Flex from '../Flex';

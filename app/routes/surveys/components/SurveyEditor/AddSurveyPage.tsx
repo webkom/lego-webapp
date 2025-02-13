@@ -2,7 +2,7 @@ import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { fetchEvent } from 'app/actions/EventActions';
 import { addSurvey } from 'app/actions/SurveyActions';
 import { selectEventById } from 'app/reducers/events';

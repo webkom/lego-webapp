@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import styles from './ForumList.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicThread } from 'app/store/models/Forum';

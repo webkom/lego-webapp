@@ -4,7 +4,7 @@ import {
   Page,
   PageCover,
 } from '@webkom/lego-bricks';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';

@@ -1,6 +1,6 @@
 import { LoadingPage, Page, PageCover } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router';
 import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { useFetchedSurvey } from 'app/reducers/surveys';
 import { useAppSelector } from 'app/store/hooks';

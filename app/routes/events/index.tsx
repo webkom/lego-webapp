@@ -1,7 +1,7 @@
 import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import eventAdministrateRoute from './components/EventAdministrate';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 const Calendar = lazyComponent(() => import('./components/Calendar'));
 const EventDetail = lazyComponent(() => import('./components/EventDetail'));

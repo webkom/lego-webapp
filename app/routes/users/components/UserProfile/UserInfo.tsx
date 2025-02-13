@@ -1,5 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import {
   EmailInfoField,
   InfoField,

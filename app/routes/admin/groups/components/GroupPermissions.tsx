@@ -2,7 +2,7 @@ import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash';
 import { Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router';
 import { editGroup } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';

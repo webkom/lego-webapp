@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { createSelector } from 'reselect';
 import Pill from 'app/components/Pill';
 import Popover from 'app/components/Popover';

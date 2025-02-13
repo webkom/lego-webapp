@@ -14,7 +14,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchAll } from 'app/actions/CompanyActions';
 import { CheckBox, TextInput } from 'app/components/Form';
 import { selectAllPaginatedCompanies } from 'app/reducers/companies';

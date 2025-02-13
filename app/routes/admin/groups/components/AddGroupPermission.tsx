@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { editGroup } from 'app/actions/GroupActions';
 import { Form, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';

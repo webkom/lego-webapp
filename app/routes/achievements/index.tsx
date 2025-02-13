@@ -1,5 +1,5 @@
 import { lazyComponent } from 'app/utils/lazyComponent';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 const Leaderboard = lazyComponent(() => import('./components/Leaderboard'));
 const Overview = lazyComponent(() => import('./components/Overview'));

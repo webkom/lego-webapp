@@ -2,7 +2,7 @@ import { LinkButton, Page, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Info, HandCoins, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchAllWithType } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
 import { GroupType } from 'app/models';

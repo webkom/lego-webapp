@@ -1,9 +1,9 @@
 import { Tab } from '@webkom/lego-bricks';
 import qs from 'qs';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import type { ParsedQs } from 'qs';
 import type { ReactNode } from 'react';
-import type { Location } from 'react-router-dom';
+import type { Location } from 'react-router';
 
 type QueryValue = ParsedQs[string];
 

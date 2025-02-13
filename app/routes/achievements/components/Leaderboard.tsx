@@ -1,5 +1,5 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';

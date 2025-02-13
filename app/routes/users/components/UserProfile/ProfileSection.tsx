@@ -1,5 +1,5 @@
 import { Card, Flex } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
 import type { ReactNode } from 'react';
 

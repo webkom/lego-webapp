@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import { FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router';
 import { fetchEvent } from 'app/actions/EventActions';
 import CommentView from 'app/components/Comments/CommentView';
 import {
