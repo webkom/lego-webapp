@@ -1,6 +1,6 @@
 import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { Tag } from 'app/components/Tags';
 

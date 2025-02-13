@@ -1,7 +1,7 @@
 import { ButtonGroup, Card, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 import {
   type ConfirmStudentAuthResponse,
   confirmStudentAuth,

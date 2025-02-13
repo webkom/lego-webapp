@@ -1,6 +1,6 @@
 import { LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { fetchForum } from 'app/actions/ForumActions';
 import { selectForumById } from 'app/reducers/forums';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';

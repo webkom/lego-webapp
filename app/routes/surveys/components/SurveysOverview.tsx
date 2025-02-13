@@ -1,5 +1,5 @@
 import { LinkButton, Page } from '@webkom/lego-bricks';
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 
 const SurveysOverview = () => {

@@ -1,5 +1,5 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Registrations.module.css';
 import type { EntityId } from '@reduxjs/toolkit';

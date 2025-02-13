@@ -2,7 +2,7 @@ import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Images } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router';
 import { fetchGalleries } from 'app/actions/GalleryActions';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';

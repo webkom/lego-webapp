@@ -1,6 +1,6 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Navigate, Outlet, type RouteObject } from 'react-router-dom';
+import { Navigate, Outlet, type RouteObject } from 'react-router';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../../pageNotFound';

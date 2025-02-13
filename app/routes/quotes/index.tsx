@@ -1,6 +1,6 @@
 import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 const QuotePage = lazyComponent(() => import('./components/QuotePage'));
 const AddQuote = lazyComponent(() => import('./components/AddQuote'));

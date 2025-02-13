@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { markUsernamePresent } from 'app/actions/EventActions';
 import Validator from 'app/components/UserValidator';
 import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';

@@ -1,7 +1,7 @@
 import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router';
 import { fetchAdministrate } from 'app/actions/EventActions';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import Tooltip from 'app/components/Tooltip';

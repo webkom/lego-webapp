@@ -2,7 +2,7 @@ import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router';
 import { fetchMeta } from 'app/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import coverPhoto from 'app/assets/cover.png';

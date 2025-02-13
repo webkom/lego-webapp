@@ -4,7 +4,7 @@ import arrayMutators from 'final-form-arrays';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,

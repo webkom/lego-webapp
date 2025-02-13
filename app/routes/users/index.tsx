@@ -1,7 +1,7 @@
 import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 import userSettingsRoute from './components/UserSettings';
-import type { RouteObject } from 'react-router-dom';
+import type { RouteObject } from 'react-router';
 
 const UserConfirmationForm = lazyComponent(
   () => import('./components/UserConfirmation'),

@@ -10,7 +10,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import abakus_icon from 'app/assets/icon-192x192.png';
 import EmptyState from 'app/components/EmptyState';

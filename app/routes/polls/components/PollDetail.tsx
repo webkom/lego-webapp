@@ -3,7 +3,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'react-router';
 import { fetchPoll } from 'app/actions/PollActions';
 import Poll from 'app/components/Poll';
 import { selectPollById } from 'app/reducers/polls';

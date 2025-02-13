@@ -1,7 +1,7 @@
 import { ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import {
   createAnnouncement,
   sendAnnouncement,

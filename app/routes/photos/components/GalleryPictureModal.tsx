@@ -9,7 +9,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Link, useParams, useNavigate, Outlet } from 'react-router-dom';
+import { Link, useParams, useNavigate, Outlet } from 'react-router';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { updateGalleryCover } from 'app/actions/GalleryActions';
 import {

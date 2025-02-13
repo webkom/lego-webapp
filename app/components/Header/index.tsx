@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router';
 import { fetchAll as fetchMeetings } from 'app/actions/MeetingActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import { logout } from 'app/actions/UserActions';

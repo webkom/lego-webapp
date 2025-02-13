@@ -1,7 +1,7 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import { CalendarClock } from 'lucide-react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import {
   jobType,
   Year,

@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';

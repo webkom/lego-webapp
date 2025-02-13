@@ -12,7 +12,7 @@ import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { uploadFile } from 'app/actions/FileActions';
 import {
   createPage,

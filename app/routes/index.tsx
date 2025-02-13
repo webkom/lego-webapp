@@ -1,4 +1,4 @@
-import { type RouteObject } from 'react-router-dom';
+import { type RouteObject } from 'react-router';
 import lendingRoute from 'app/routes/lending';
 import { lazyComponent } from 'app/utils/lazyComponent';
 import achievementRoute from './achievements';

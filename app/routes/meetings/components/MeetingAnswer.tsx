@@ -1,5 +1,5 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { resetMeetingToken } from 'app/reducers/meetings';
 import { useAppDispatch } from 'app/store/hooks';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';

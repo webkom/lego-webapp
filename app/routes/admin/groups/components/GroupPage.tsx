@@ -1,7 +1,7 @@
 import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';

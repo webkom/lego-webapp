@@ -1,4 +1,4 @@
-import { type RouteObject } from 'react-router-dom';
+import { type RouteObject } from 'react-router';
 import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
 

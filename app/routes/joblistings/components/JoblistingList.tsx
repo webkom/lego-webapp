@@ -1,6 +1,6 @@
 import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { FilterX, FolderOpen } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';

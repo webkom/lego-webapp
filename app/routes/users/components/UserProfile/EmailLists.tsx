@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import {
   InfoField,

@@ -1,7 +1,7 @@
 import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { fetchThreadByForum } from 'app/actions/ForumActions';
 import { CommentView } from 'app/components/Comments';
 import DisplayContent from 'app/components/DisplayContent';

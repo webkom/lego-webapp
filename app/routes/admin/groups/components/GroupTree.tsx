@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import TreeView from 'react-treeview';
 import { generateTreeStructure } from 'app/utils';
 import './GroupTree.module.css';

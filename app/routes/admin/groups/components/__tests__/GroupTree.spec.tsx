@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import TreeView from 'react-treeview';
 import { describe, it, expect } from 'vitest';
 import GroupTree from '../GroupTree';

@@ -1,6 +1,6 @@
 import { Card } from '@webkom/lego-bricks';
 import Linkify from 'linkify-react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { LinkTag } from 'app/components/Feed/Tag';
 import { ProfilePicture } from 'app/components/Image';
 import Time from 'app/components/Time';

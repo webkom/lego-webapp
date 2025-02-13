@@ -28,7 +28,7 @@ For client-side routing (with f.ex. `react-router`) and certain dark-mode featur
 
 ```typescript jsx
 import { Provider } from '@webkom/lego-webapp';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 const App = () => {
   const navigate = useNavigate();

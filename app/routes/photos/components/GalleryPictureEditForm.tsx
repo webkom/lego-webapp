@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, LoadingPage } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router';
 import { updatePicture } from 'app/actions/GalleryPictureActions';
 import {
   Form,

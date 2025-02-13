@@ -5,7 +5,7 @@ import {
   FilterSection,
 } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router';
 import { CheckBox, DatePicker, RadioButton } from 'app/components/Form';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';

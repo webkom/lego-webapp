@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { approve, deleteQuote, unapprove } from 'app/actions/QuoteActions';
 import Dropdown from 'app/components/Dropdown';
 import Reactions from 'app/components/Reactions';

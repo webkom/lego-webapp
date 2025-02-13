@@ -1,5 +1,5 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';

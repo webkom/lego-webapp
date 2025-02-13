@@ -1,5 +1,5 @@
 import { Card } from '@webkom/lego-bricks';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import styles from './EventDetail.module.css';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { AuthUserDetailedEvent } from 'app/store/models/Event';

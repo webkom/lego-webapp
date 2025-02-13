@@ -10,7 +10,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
 import {
   Form,
