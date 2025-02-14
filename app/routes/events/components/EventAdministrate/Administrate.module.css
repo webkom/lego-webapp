@@ -68,36 +68,8 @@
   color: var(--color-blue-6);
 }
 
-.greenIcon {
-  color: var(--success-color);
-
-  ion-icon {
-    color: var(--success-color);
-  }
-}
-
-.tooLateIcon {
-  width: 34px;
-  height: 34px;
-  padding: 0.375rem;
-  cursor: pointer;
-  border-radius: 50%;
-
-  &:hover {
-    background-color: var(--additive-background);
-  }
-}
-
-.questionIcon ion-icon {
+.questionIcon {
   color: var(--color-blue-6);
-}
-
-.redIcon {
-  color: var(--danger-color);
-
-  ion-icon {
-    color: var(--danger-color);
-  }
 }
 
 .consentIcon {
@@ -110,7 +82,31 @@
 }
 
 .transparent {
-  opacity: 0.3;
+  opacity: 0.7;
+  color: var(--secondary-font-color);
+}
+
+.activeSuccess,
+.activeEdit,
+.activeInfo,
+.activeDanger {
+  border-radius: 50%;
+}
+
+.activeSuccess {
+  background-color: var(--color-green-1);
+}
+
+.activeEdit {
+  background-color: var(--color-orange-1);
+}
+
+.activeInfo {
+  background-color: var(--color-blue-1);
+}
+
+.activeDanger {
+  background-color: var(--color-red-1);
 }
 
 a.transparent:hover {

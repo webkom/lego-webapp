@@ -17,6 +17,7 @@ type Props = {
   danger?: boolean; // name: trash
   success?: boolean; // name: checkmark
   edit?: boolean; // name: pencil
+  info?: boolean;
   disabled?: boolean;
 } & Omit<ComponentProps<typeof Flex>, 'onClick'>;
 
@@ -34,6 +35,7 @@ export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
       danger = false,
       success = false,
       edit = false,
+      info = false,
       disabled = false,
       ...props
     }: Props,
@@ -44,6 +46,7 @@ export const Icon = forwardRef<HTMLButtonElement & HTMLAnchorElement, Props>(
       danger && styles.danger,
       success && styles.success,
       edit && styles.edit,
+      info && styles.info,
       disabled && styles.disabled,
     );
 

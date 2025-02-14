@@ -81,6 +81,20 @@
   }
 }
 
+.info {
+  composes: clickable;
+  color: var(--color-blue-6);
+
+  &:hover:not(:disabled),
+  &:focus-visible:not(:disabled) {
+    background-color: var(--color-blue-2);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--color-blue-3);
+  }
+}
+
 .disabled {
   opacity: 0.5;
   cursor: not-allowed;
