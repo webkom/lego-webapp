@@ -5,6 +5,10 @@ export const EVENTS = {
     norwegian: 'Bedriftspresentasjon',
     english: 'Company presentation',
   },
+  company_presentation_thursday: {
+    norwegian: 'Bedriftspresentasjon (Torsdag)',
+    english: 'Company presentation (Thursday)',
+  },
   lunch_presentation: {
     norwegian: 'Lunsjpresentasjon',
     english: 'Lunch presentation',
@@ -13,14 +17,14 @@ export const EVENTS = {
     norwegian: 'Bedriftskurs',
     english: 'Course or workshop',
   },
+  course_thursday: {
+    norwegian: 'Bedriftskurs (Torsdag)',
+    english: 'Course or workshop (Thursday)',
+  },
   breakfast_talk: {
     norwegian: 'Frokostforedrag',
     english: 'Breakfast talk',
   },
-  // digital_presentation: {
-  //   norwegian: 'Digital presentasjon',
-  //   english: 'Digital presentation',
-  // },
   bedex: {
     norwegian: 'Bedriftsekskursjon (BedEx)',
     english: 'Company excursion (BedEx)',
@@ -43,7 +47,14 @@ export const TOOLTIP = {
   company_presentation: {
     norwegian:
       'Kom og fortell om hvem dere er og hva dere gjør i bedriften deres.',
-    english: 'Come and tell us who you are and what you do in your company.',
+    english:
+      'Come and tell us who you are and what you do in your company.',
+  },
+  company_presentation_thursday: {
+    norwegian:
+      'Kom og fortell om hvem dere er og hva dere gjør i bedriften deres. Torsdager pleier vere mer attraktivt',
+    english:
+      'Come and tell us who you are and what you do in your company. Thursdays are usually more attractive',
   },
   lunch_presentation: {
     norwegian:
@@ -56,6 +67,12 @@ export const TOOLTIP = {
       'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. ',
     english:
       'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops.',
+  },
+  course_thursday: {
+    norwegian:
+      'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. Torsdager pleier vere mer attraktivt',
+    english:
+      'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops. Thursdays are usually more attractive',
   },
   breakfast_talk: {
     norwegian:

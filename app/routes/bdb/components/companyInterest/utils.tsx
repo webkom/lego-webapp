@@ -128,6 +128,10 @@ export const interestText = {
     norwegian: 'Skriv litt om hva slags faglig arrangement dere ønsker.',
     english: 'Write a litte about the course you wish for.',
   },
+  courseThursdayComment: {
+    norwegian: 'Skriv litt om hva slags faglig arrangement dere ønsker.',
+    english: 'Write a litte about the course you wish for.',
+  },
   breakfastTalkComment: {
     norwegian: 'Skriv litt om hva slags frokostforedrag dere ønsker.',
     english: 'Write a litte about the breakfast talk you wish for.',
@@ -154,6 +158,10 @@ export const interestText = {
     english: 'Write a litte about the company to company event you wish for.',
   },
   companyPresentationComment: {
+    norwegian: 'Skriv litt om hva slags bedriftspresentasjon dere ønsker.',
+    english: 'Write a litte about the company presentation event you wish for.',
+  },
+  companyPresentationThursdayComment: {
     norwegian: 'Skriv litt om hva slags bedriftspresentasjon dere ønsker.',
     english: 'Write a litte about the company presentation event you wish for.',
   },
@@ -190,14 +198,26 @@ export const interestText = {
     english:
       'We would like for you to describe the type of company presentation you want. Do you have any thoughts about the content of the presentation that you want to focus on or the type of networking afterwards?',
   },
+  companyPresentationThursdayDescription: {
+    norwegian:
+      'Vi ønsker gjerne at dere vil beskrive hvordan bedriftspresentasjon dere ønsker. Har dere noen tanker om innhold i presentasjonen dere ønsker å fokusere på eller typen mingling i etterkant?',
+    english:
+      'We would like for you to describe the type of company presentation you want. Do you have any thoughts about the content of the presentation that you want to focus on or the type of networking afterwards?',
+  },
 
-  lunchPresentationDescriptiont: {
+  lunchPresentationDescription: {
     norwegian:
       'Skriv gjerne litt om hvordan presentasjon dere ønsker i forhold til innhold og mingling. I motsetning til bedriftspresentasjon legger denne opp til å starte ved lunsjtider og holder minglingen på Gløshaugen.',
     english:
       'Please write a little bit about the type of presentation you would like in terms of content and networking. In contrast to the company presentation, this is scheduled to start at lunchtime and will hold networking at Gløshaugen.',
   },
   courseDescription: {
+    norwegian:
+      'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
+    english:
+      'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops. Tell us what you can hold a course about, and feel free to pitch a complete idea for carrying out the course. Is there something you can teach that coincides with the topics the students have answered that they want, or do you do something else the students will be interested in?',
+  },
+  courseThursdayDescription: {
     norwegian:
       'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
     english:

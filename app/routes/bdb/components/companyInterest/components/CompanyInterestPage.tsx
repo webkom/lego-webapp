@@ -232,6 +232,7 @@ type CompanyInterestFormEntity = {
   }>;
   comment: string;
   courseComment: string;
+  courseThursdayComment: string;
   breakfastTalkComment: string;
   otherEventComment: string;
   startupComment: string;
@@ -239,6 +240,7 @@ type CompanyInterestFormEntity = {
   bedexComment: string;
   companyToCompanyComment: string;
   companyPresentationComment: string;
+  companyPresentationThursdayComment: string;
   companyType: string;
   officeInTrondheim: boolean;
 };
@@ -271,12 +273,25 @@ const validate = createValidator({
   events: [required()],
   semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
-  companyPresentationComment: [requiredIfEventType('company_presentation')],
-  lunchPresentationComment: [requiredIfEventType('lunsh_presentation')],
-  courseComment: [requiredIfEventType('course')],
+  companyPresentationComment: [
+    requiredIf((values) => 
+      values.events?.some(e => 
+        (e.name === 'company_presentation' || e.name === 'company_presentation_thursday') && 
+        e.checked
+      )
+    )
+  ],
+  lunchPresentationComment: [requiredIfEventType('lunch_presentation')],
+  courseComment: [
+    requiredIf((values) => 
+      values.events?.some(e => 
+        (e.name === 'course' || e.name === 'course_thursday') && 
+        e.checked
+      )
+    )
+  ],
   bedexComment: [requiredIfEventType('bedex')],
   otherEventComment: [requiredIfEventType('other')],
-  startupComment: [requiredIfEventType('start_up')],
   companyToCompanyComment: [requiredIfEventType('company_to_company')],
 });
 
@@ -424,6 +439,7 @@ const CompanyInterestPage = () => {
       participantRangeEnd: range_end,
       comment: data.comment,
       courseComment: data.courseComment,
+      courseThursdayComment: data.courseComment,
       breakfastTalkComment: data.breakfastTalkComment,
       otherEventComment: data.otherEventComment,
       startupComment: data.startupComment,
@@ -431,6 +447,7 @@ const CompanyInterestPage = () => {
       bedexComment: data.bedexComment,
       companyToCompanyComment: data.companyToCompanyComment,
       companyPresentationComment: data.companyPresentationComment,
+      companyPresentationThursdayComment: data.companyPresentationThursdayComment,
     };
 
     dispatch(
@@ -446,7 +463,7 @@ const CompanyInterestPage = () => {
 
   const eventTypeEntities = [
     {
-      name: 'company_presentation',
+      names: ['company_presentation', 'company_presentation_thursday'],
       translated: EVENTS.company_presentation[language],
       description: interestText.companyPresentationDescription[language],
       commentName: 'companyPresentationComment',
@@ -455,12 +472,12 @@ const CompanyInterestPage = () => {
     {
       name: 'lunch_presentation',
       translated: EVENTS.lunch_presentation[language],
-      description: interestText.lunchPresentationDescriptiont[language],
+      description: interestText.lunchPresentationDescription[language],
       commentName: 'lunchPresentationComment',
       commentPlaceholder: interestText.lunchPresentationComment[language],
     },
     {
-      name: 'course',
+      names: ['course', 'course_thursday'],
       translated: EVENTS.course[language],
       description: interestText.courseDescription[language],
       commentName: 'courseComment',
@@ -487,13 +504,6 @@ const CompanyInterestPage = () => {
       commentName: 'otherEventComment',
       commentPlaceholder: interestText.otherEventComment[language],
     },
-    // {
-    //   name: 'start_up',
-    //   translated: EVENTS.start_up[language],
-    //   description: interestText.startUpDescription[language],
-    //   commentName: 'startupComment',
-    //   commentPlaceholder: interestText.startUpComment[language],
-    // },
     {
       name: 'company_to_company',
       translated: EVENTS.company_to_company[language],
@@ -715,8 +725,11 @@ const CompanyInterestPage = () => {
               {eventTypeEntities.map((eventTypeEntity) => {
                 return spyValues((values: CompanyInterestFormEntity) => {
                   const showComment = values.events?.some(
-                    (e) =>
-                      e.name === eventTypeEntity.name && e.checked === true,
+                    (e) => 
+                      (eventTypeEntity.names ? 
+                        eventTypeEntity.names.includes(e.name) : 
+                        e.name === eventTypeEntity.name) && 
+                      e.checked === true
                   );
 
                   return (
