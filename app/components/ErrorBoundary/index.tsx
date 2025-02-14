@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import { Card } from '@webkom/lego-bricks';
 import { Children, cloneElement, Component } from 'react';
 import styles from './ErrorBoundary.module.css';
