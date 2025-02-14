@@ -1,4 +1,4 @@
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/react';
 import createFocusOnErrorDecorator from 'final-form-focus';
 import { isEmpty, isEqual } from 'lodash';
 import { Form } from 'react-final-form';

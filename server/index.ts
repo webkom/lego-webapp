@@ -3,7 +3,6 @@ import 'regenerator-runtime/runtime';
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
-import { RewriteFrames } from '@sentry/integrations';
 import * as Sentry from '@sentry/node';
 import config from './env';
 import app from './server';
@@ -14,7 +13,7 @@ Sentry.init({
   environment: config.environment,
   normalizeDepth: 10,
   integrations: [
-    new RewriteFrames({
+    Sentry.rewriteFramesIntegration({
       root: '/app/dist/',
     }),
   ],

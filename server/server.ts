@@ -15,7 +15,6 @@ import render from './render';
 
 moment.locale('nb-NO');
 const app = express();
-app.use(Sentry.Handlers.requestHandler());
 app.use(cookieParser());
 const log = bunyan.createLogger({
   name: 'lego-webapp',
@@ -81,7 +80,7 @@ app.use((req, res) => {
     message: 'Not Found',
   });
 });
-app.use(Sentry.Handlers.errorHandler());
+Sentry.setupExpressErrorHandler(app);
 // Express uses number of args to determine if this is an error handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err, req, res, next) => {
