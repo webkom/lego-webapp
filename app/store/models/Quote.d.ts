@@ -1,3 +1,4 @@
+import type { PublicUser } from './User';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { ReactionsGrouped } from 'app/store/models/Reaction';
@@ -12,4 +13,5 @@ export default interface Quote {
   tags: string[];
   reactionsGrouped: ReactionsGrouped[];
   contentTarget: ContentTarget;
+  createdBy: PublicUser | null;
 }
