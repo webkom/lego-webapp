@@ -47,8 +47,7 @@ export const TOOLTIP = {
   company_presentation: {
     norwegian:
       'Kom og fortell om hvem dere er og hva dere gjør i bedriften deres.',
-    english:
-      'Come and tell us who you are and what you do in your company.',
+    english: 'Come and tell us who you are and what you do in your company.',
   },
   company_presentation_thursday: {
     norwegian:

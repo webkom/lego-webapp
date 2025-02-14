@@ -274,21 +274,23 @@ const validate = createValidator({
   semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
   companyPresentationComment: [
-    requiredIf((values) => 
-      values.events?.some(e => 
-        (e.name === 'company_presentation' || e.name === 'company_presentation_thursday') && 
-        e.checked
-      )
-    )
+    requiredIf((values) =>
+      values.events?.some(
+        (e) =>
+          (e.name === 'company_presentation' ||
+            e.name === 'company_presentation_thursday') &&
+          e.checked,
+      ),
+    ),
   ],
   lunchPresentationComment: [requiredIfEventType('lunch_presentation')],
   courseComment: [
-    requiredIf((values) => 
-      values.events?.some(e => 
-        (e.name === 'course' || e.name === 'course_thursday') && 
-        e.checked
-      )
-    )
+    requiredIf((values) =>
+      values.events?.some(
+        (e) =>
+          (e.name === 'course' || e.name === 'course_thursday') && e.checked,
+      ),
+    ),
   ],
   bedexComment: [requiredIfEventType('bedex')],
   otherEventComment: [requiredIfEventType('other')],
@@ -447,7 +449,8 @@ const CompanyInterestPage = () => {
       bedexComment: data.bedexComment,
       companyToCompanyComment: data.companyToCompanyComment,
       companyPresentationComment: data.companyPresentationComment,
-      companyPresentationThursdayComment: data.companyPresentationThursdayComment,
+      companyPresentationThursdayComment:
+        data.companyPresentationThursdayComment,
     };
 
     dispatch(
@@ -725,11 +728,11 @@ const CompanyInterestPage = () => {
               {eventTypeEntities.map((eventTypeEntity) => {
                 return spyValues((values: CompanyInterestFormEntity) => {
                   const showComment = values.events?.some(
-                    (e) => 
-                      (eventTypeEntity.names ? 
-                        eventTypeEntity.names.includes(e.name) : 
-                        e.name === eventTypeEntity.name) && 
-                      e.checked === true
+                    (e) =>
+                      (eventTypeEntity.names
+                        ? eventTypeEntity.names.includes(e.name)
+                        : e.name === eventTypeEntity.name) &&
+                      e.checked === true,
                   );
 
                   return (
