@@ -5,8 +5,8 @@ import { Outlet, useLocation, useParams } from 'react-router';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { selectGroupById, selectAllGroups } from 'app/reducers/groups';
-import GroupTree from 'app/routes/admin/groups/components/GroupTree';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import GroupTree from './components/GroupTree';
 import type { DetailedGroup, PublicGroup } from 'app/store/models/Group';
 import type { Optional } from 'utility-types';
 

@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
 import { fetchGroup } from 'app/actions/GroupActions';
 import { selectGroupById } from 'app/reducers/groups';
-import GroupForm from 'app/routes/admin/groups/components/GroupForm';
+import GroupForm from 'app/routes/admin_.groups.$groupId.settings/route';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import type { PublicDetailedGroup } from 'app/store/models/Group';

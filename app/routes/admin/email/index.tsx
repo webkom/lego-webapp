@@ -1,61 +1,67 @@
-import { Page } from '@webkom/lego-bricks';
-import { Helmet } from 'react-helmet-async';
-import { Navigate, Outlet, type RouteObject } from 'react-router';
-import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { lazyComponent } from 'app/utils/lazyComponent';
+import { Navigate, type RouteObject } from 'react-router';
+import { convert } from 'app/utils/convertRoute';
 import pageNotFound from '../../pageNotFound';
-
-const EmailLists = lazyComponent(() => import('./components/EmailLists'));
-const EmailListEditor = lazyComponent(
-  () => import('./components/EmailListEditor'),
-);
-const EmailUsers = lazyComponent(() => import('./components/EmailUsers'));
-const EmailUserEditor = lazyComponent(
-  () => import('./components/EmailUserEditor'),
-);
-const RestrictedMails = lazyComponent(
-  () => import('./components/RestrictedMails'),
-);
-const RestrictedMailEditor = lazyComponent(
-  () => import('./components/RestrictedMailEditor'),
-);
-const EmailRouteWrapper = () => (
-  <Page
-    title="Administer e-post"
-    tabs={
-      <>
-        <NavigationTab href="/admin/email/lists" matchSubpages>
-          Lister
-        </NavigationTab>
-        <NavigationTab href="/admin/email/users?enabled=true" matchSubpages>
-          Brukere
-        </NavigationTab>
-        <NavigationTab href="/admin/email/restricted" matchSubpages>
-          Begrenset e-post
-        </NavigationTab>
-      </>
-    }
-  >
-    <Helmet title="E-post" />
-
-    <Outlet />
-  </Page>
-);
 
 const emailRoute: RouteObject[] = [
   {
-    Component: EmailRouteWrapper,
+    lazy: () => import('app/routes/admin_.email/route').then(convert),
     children: [
       { index: true, element: <Navigate to="lists" replace /> },
-      { path: 'lists', lazy: EmailLists },
-      { path: 'lists/new', lazy: EmailListEditor },
-      { path: 'lists/:emailListId', lazy: EmailListEditor },
-      { path: 'users', lazy: EmailUsers },
-      { path: 'users/new', lazy: EmailUserEditor },
-      { path: 'users/:emailUserId', lazy: EmailUserEditor },
-      { path: 'restricted', lazy: RestrictedMails },
-      { path: 'restricted/new', lazy: RestrictedMailEditor },
-      { path: 'restricted/:restrictedMailId', lazy: RestrictedMailEditor },
+      {
+        path: 'lists',
+        lazy: () => import('app/routes/admin_.email.lists/route').then(convert),
+      },
+      {
+        path: 'lists/new',
+        lazy: () =>
+          import('app/routes/admin_.email.lists.$emailListId/route').then(
+            convert,
+          ),
+      },
+      {
+        path: 'lists/:emailListId',
+        lazy: () =>
+          import('app/routes/admin_.email.lists.$emailListId/route').then(
+            convert,
+          ),
+      },
+      {
+        path: 'users',
+        lazy: () => import('app/routes/admin_.email.users/route').then(convert),
+      },
+      {
+        path: 'users/new',
+        lazy: () =>
+          import('app/routes/admin_.email.users_.$emailUserId/route').then(
+            convert,
+          ),
+      },
+      {
+        path: 'users/:emailUserId',
+        lazy: () =>
+          import('app/routes/admin_.email.users_.$emailUserId/route').then(
+            convert,
+          ),
+      },
+      {
+        path: 'restricted',
+        lazy: () =>
+          import('app/routes/admin_.email.restricted/route').then(convert),
+      },
+      {
+        path: 'restricted/new',
+        lazy: () =>
+          import(
+            'app/routes/admin_.email.restricted_.$restrictedMailId/route'
+          ).then(convert),
+      },
+      {
+        path: 'restricted/:restrictedMailId',
+        lazy: () =>
+          import(
+            'app/routes/admin_.email.restricted_.$restrictedMailId/route'
+          ).then(convert),
+      },
     ],
   },
   { path: '*', children: pageNotFound },

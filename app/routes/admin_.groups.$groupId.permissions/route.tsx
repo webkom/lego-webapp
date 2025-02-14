@@ -8,8 +8,8 @@ import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import AddGroupPermission from './AddGroupPermission';
-import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
+import AddGroupPermission from './components/AddGroupPermission';
+import type { GroupPageParams } from 'app/routes/admin_.groups/route';
 import type { DetailedGroup, UnknownGroup } from 'app/store/models/Group';
 
 type PermissionListProps = {

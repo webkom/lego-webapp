@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import { Link } from 'react-router';
 import { describe, it, expect } from 'vitest';
-import GroupMembersList from '../GroupMembersList';
+import GroupMembersList from '../components/GroupMembersList';
 
 const memberships = [
   {

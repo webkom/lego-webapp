@@ -6,7 +6,7 @@ import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import { selectGroupEntities } from 'app/reducers/groups';
-import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
+import { defaultGroupMembersQuery } from 'app/routes/admin_.groups.$groupId.members/route';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';

@@ -9,9 +9,9 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
-import AddGroupMember from './AddGroupMember';
-import GroupMembersList from './GroupMembersList';
-import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
+import AddGroupMember from './components/AddGroupMember';
+import GroupMembersList from './components/GroupMembersList';
+import type { GroupPageParams } from 'app/routes/admin_.groups/route';
 import type { DetailedGroup } from 'app/store/models/Group';
 
 export const defaultGroupMembersQuery = {

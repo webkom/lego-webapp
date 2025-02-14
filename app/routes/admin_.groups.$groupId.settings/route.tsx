@@ -16,7 +16,7 @@ import { selectGroupById } from 'app/reducers/groups';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
-import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
+import type { GroupPageParams } from 'app/routes/admin_.groups/route';
 import type { DetailedGroup } from 'app/store/models/Group';
 
 type FormValues = {
