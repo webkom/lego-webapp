@@ -1,4 +1,4 @@
-FROM node:20-alpine as builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app/
 COPY . /app
@@ -6,11 +6,11 @@ COPY . /app
 RUN apk add curl
 RUN yarn
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN yarn build
 
-FROM getsentry/sentry-cli:1.26.1 as sentry
+FROM getsentry/sentry-cli:1.26.1 AS sentry
 
 WORKDIR /app/
 
@@ -21,11 +21,11 @@ ARG SENTRY_URL
 ARG RELEASE
 ARG COMMIT_SHA
 
-ENV SENTRY_AUTH_TOKEN ${SENTRY_AUTH_TOKEN}
-ENV SENTRY_ORG ${SENTRY_ORG}
-ENV SENTRY_PROJECT ${SENTRY_PROJECT}
-ENV SENTRY_URL ${SENTRY_URL}
-ENV RELEASE ${RELEASE}
+ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+ENV SENTRY_ORG=${SENTRY_ORG}
+ENV SENTRY_PROJECT=${SENTRY_PROJECT}
+ENV SENTRY_URL=${SENTRY_URL}
+ENV RELEASE=${RELEASE}
 
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
@@ -47,7 +47,7 @@ RUN apk add curl
 WORKDIR /app/
 
 ARG RELEASE
-ENV RELEASE ${RELEASE}
+ENV RELEASE=${RELEASE}
 
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
