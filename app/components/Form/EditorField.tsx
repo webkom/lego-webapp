@@ -24,7 +24,7 @@ class NoSSRError {
 }
 
 const EditorField = ({ className, name, ...props }: Props) => {
-  if (!__CLIENT__) {
+  if (!!import.meta.env.SSR) {
     throw new NoSSRError('Cannot SSR editor');
   }
 

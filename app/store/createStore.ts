@@ -41,9 +41,9 @@ const createStore = (
               (content: ToastContent) => addToast(content),
               Sentry,
             ),
-            __CLIENT__ &&
+            !import.meta.env.SSR &&
               require('app/store/middleware/websocketMiddleware').default(),
-            __CLIENT__ && __DEV__ && loggerMiddleware,
+            !import.meta.env.SSR && __DEV__ && loggerMiddleware,
           ).filter(isTruthy),
         ),
     enhancers: (getDefaultEnhancers) => {

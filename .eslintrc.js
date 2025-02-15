@@ -21,7 +21,6 @@ module.exports = {
     log: true,
     expect: true,
     __DEV__: true,
-    __CLIENT__: true,
     cypress: true,
   },
   parser: '@typescript-eslint/parser',

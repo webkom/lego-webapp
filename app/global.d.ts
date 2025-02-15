@@ -3,7 +3,6 @@ import type { RootState } from 'app/store/createRootReducer';
 
 declare global {
   const __DEV__: boolean;
-  const __CLIENT__: boolean;
 
   interface Window {
     __CONFIG__?: Config;

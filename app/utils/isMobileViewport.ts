@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 const isMobileViewport = () => {
-  if (!__CLIENT__) {
+  if (!!import.meta.env.SSR) {
     return false;
   }
   const width = window?.innerWidth;

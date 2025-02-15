@@ -4,4 +4,3 @@ import Enzyme from 'enzyme';
 Enzyme.configure({ adapter: new Adapter() });
 
 global.__DEV__ = false;
-global.__CLIENT__ = true;

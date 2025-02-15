@@ -48,7 +48,7 @@ function handleError(
     }
 
     if (propagateError) {
-      const serverRenderer = !__CLIENT__;
+      const serverRenderer = !!import.meta.env.SSR;
 
       if ((serverRenderer && statusCode < 500) || !serverRenderer) {
         dispatch(setStatusCode(statusCode));
