@@ -58,6 +58,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           href="/opensearch.xml"
           title="Abakus Søk"
         />
+        <link rel="icon" type="image/x-icon" href="/favicon.png" />
         <link rel="icon" href="/icon-512x512.png" sizes="512x512" />
         <link rel="apple-touch-icon" href="/icon-512x512.png" sizes="512x512" />
         <link rel="icon" href="/icon-384x384.png" sizes="384x384" />
