@@ -78,7 +78,7 @@
     "lucide-react": "^0.453.0",
     "mazemap": "file:mazemap",
     "minireset.css": "^0.0.7",
-    "moment-timezone": "^0.5.46",
+    "moment-timezone": "^0.5.47",
     "morgan": "^1.9.1",
     "node-htmldiff": "^0.9.4",
     "normalizr": "^3.6.2",

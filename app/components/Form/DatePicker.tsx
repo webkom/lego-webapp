@@ -1,7 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Calendar } from 'lucide-react';
-import moment, { isMoment } from 'moment-timezone';
+import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
@@ -130,7 +130,7 @@ const DatePicker = ({
 
   const changeDay = (day: Moment) => {
     // Single date picker
-    if (!range && isMoment(parsedValue)) {
+    if (!range && moment.isMoment(parsedValue)) {
       const value = day
         .clone()
         .hour(parsedValue.hour())
@@ -208,7 +208,7 @@ const DatePicker = ({
   };
 
   const displayValue = useMemo(() => {
-    if (!range && isMoment(parsedValue) && !Array.isArray(parsedValue)) {
+    if (!range && moment.isMoment(parsedValue) && !Array.isArray(parsedValue)) {
       return parsedValue.format(showTimePicker ? dateFormat : 'LL');
     }
 
