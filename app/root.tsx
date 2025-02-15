@@ -9,6 +9,10 @@ import {
 
 import type { Route } from './+types/root';
 import { Provider } from 'react-redux';
+import createStore from 'app/store/createStore';
+import * as Sentry from '@sentry/react';
+import cookie from 'js-cookie';
+import { maybeRefreshToken } from 'app/actions/UserActions';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -27,8 +31,20 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+export const clientLoader = async () => {
+  const preloadedState = window.__PRELOADED_STATE__;
+  const store = createStore(preloadedState, {
+    Sentry,
+    getCookie: (key) => cookie.get(key),
+  });
+  store.dispatch(maybeRefreshToken());
+  store.dispatch({
+    type: 'REHYDRATED',
+  });
+  return { store };
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
-  console.log(import.meta.env);
   return (
     <html lang="nb">
       <head>
@@ -48,8 +64,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="apple-touch-icon" href="/icon-384x384.png" sizes="384x384" />
         <link rel="icon" href="/icon-256x256.png" sizes="256x256" />
         <link rel="apple-touch-icon" href="/icon-256x256.png" sizes="256x256" />
-        <link rel="icon" href="/icon-192x192.png" sizes="192x192" />
-        <link rel="apple-touch-icon" href="/icon-192x192.png" sizes="192x192" />
+        <link rel="icon" href="/app/assets/icon-192x192.png" sizes="192x192" />
+        <link
+          rel="apple-touch-icon"
+          href="/app/assets/icon-192x192.png"
+          sizes="192x192"
+        />
         <link rel="icon" href="/icon-96x96.png" sizes="96x96" />
         <link rel="apple-touch-icon" href="/icon-96x96.png" sizes="96x96" />
         <link rel="icon" href="/icon-48x48.png" sizes="48x48" />
@@ -64,7 +84,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <Provider store={store}>{children}</Provider>
+        {children}
         {/*<ThemeContextListener />*/}
         <ScrollRestoration />
         <Scripts />
@@ -73,8 +93,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
-  return <Outlet />;
+export default function App({ loaderData }: Route.ComponentProps) {
+  return (
+    <Provider store={loaderData.store}>
+      <Outlet />
+    </Provider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {

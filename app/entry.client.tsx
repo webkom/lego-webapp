@@ -10,16 +10,9 @@ import ReactDOM from 'react-dom/client';
 import { HydratedRouter } from 'react-router/dom';
 
 import * as Sentry from '@sentry/react';
-import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
-import { fetchMeta } from 'app/actions/MetaActions';
-import {
-  loginAutomaticallyIfPossible,
-  maybeRefreshToken,
-} from 'app/actions/UserActions';
 import config from 'app/config';
-import createStore from 'app/store/createStore';
 
 !__DEV__ &&
   console.error(`
@@ -56,26 +49,6 @@ Sentry.init({
   release: config.release,
   environment: config.environment,
   normalizeDepth: 10,
-});
-const preloadedState = window.__PRELOADED_STATE__;
-const store = createStore(preloadedState, {
-  Sentry,
-  getCookie: (key) => cookie.get(key),
-});
-
-const isSSR = window.__IS_SSR__;
-
-if (isSSR) {
-  store.dispatch(maybeRefreshToken());
-} else {
-  store
-    .dispatch(loginAutomaticallyIfPossible())
-    .then(() => store.dispatch(fetchMeta()))
-    .then(() => store.dispatch(maybeRefreshToken()));
-}
-
-store.dispatch({
-  type: 'REHYDRATED',
 });
 
 ReactDOM.hydrateRoot(
