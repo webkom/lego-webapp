@@ -4,6 +4,7 @@ import createRootReducer from 'app/store/createRootReducer';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import sentryReduxEnhancer from 'app/store/middleware/sentryEnhancer';
+import createWebSocketMiddleware from 'app/store/middleware/websocketMiddleware.client';
 import { isTruthy } from 'app/utils';
 import type { ToastContent } from 'app/reducers/toasts';
 import type { RootState } from 'app/store/createRootReducer';
@@ -40,8 +41,7 @@ const createStore = (
               (content: ToastContent) => addToast(content),
               Sentry,
             ),
-            !import.meta.env.SSR &&
-              require('app/store/middleware/websocketMiddleware').default(),
+            !import.meta.env.SSR && createWebSocketMiddleware(),
           ).filter(isTruthy),
         ),
     enhancers: (getDefaultEnhancers) => {
