@@ -15,7 +15,7 @@ export default defineConfig({
     },
   },
   ssr: {
-    noExternal: ['react-textarea-autosize'],
+    noExternal: ['react-textarea-autosize', 'react-dropzone'],
   },
   test: {
     alias: {
