@@ -1,11 +1,17 @@
-import Select from 'react-select';
-import Creatable from 'react-select/creatable';
 import withMazemapAutocomplete from '../Search/mazemapAutocomplete';
 import withAutocomplete from '../Search/withAutocomplete';
 import { createField } from './Field';
 import style from './SelectInput.module.css';
-import type { ChangeEvent, ComponentProps, ComponentType } from 'react';
+import {
+  type ChangeEvent,
+  type ComponentProps,
+  type ComponentType,
+  useEffect,
+  useState,
+} from 'react';
 import type { StylesConfig, ThemeConfig } from 'react-select';
+import type Select from 'react-select';
+import type CreatableSelect from 'react-select/creatable';
 
 type Props<Option, IsMulti extends boolean = false> = {
   name: string;
@@ -26,7 +32,7 @@ type Props<Option, IsMulti extends boolean = false> = {
   isClearable?: boolean;
   filter?: string[];
   SuggestionComponent?: SuggestionComponent<Option>;
-} & Pick<ComponentProps<Creatable>, 'onBlur'>;
+} & Pick<ComponentProps<CreatableSelect>, 'onBlur'>;
 
 export type SuggestionComponent<Option = { label: string; value: number }> =
   ComponentType<{
@@ -98,6 +104,19 @@ const SelectInput = <
   SuggestionComponent,
   ...props
 }: Props<Option, IsMulti>) => {
+  const [Select, setSelect] = useState<Select>();
+  useEffect(() => {
+    import('react-select').then(({ default: Select }) => {
+      setSelect(() => Select);
+    });
+  }, []);
+  const [Creatable, setCreatable] = useState<CreatableSelect>();
+  useEffect(() => {
+    import('react-select/creatable').then(({ default: Creatable }) => {
+      setCreatable(() => Creatable);
+    });
+  }, []);
+
   if (props.tags) {
     creatable = true;
     props.isMulti = true;
@@ -108,25 +127,27 @@ const SelectInput = <
   if (creatable) {
     return (
       <div className={style.field}>
-        <Creatable
-          {...props}
-          isDisabled={disabled}
-          placeholder={!disabled && (placeholder || defaultPlaceholder)}
-          instanceId={name}
-          isMulti={props.isMulti}
-          value={value}
-          isValidNewOption={isValidNewOption}
-          options={options}
-          isLoading={fetching}
-          styles={selectStyle ?? selectStyles}
-          theme={selectTheme}
-          onInputChange={(value) => {
-            onSearch?.(value);
-            return value;
-          }}
-          loadingMessage={() => LOADING_MESSAGE}
-          noOptionsMessage={() => NO_OPTIONS_MESSAGE}
-        />
+        {Creatable && (
+          <Creatable
+            {...props}
+            isDisabled={disabled}
+            placeholder={!disabled && (placeholder || defaultPlaceholder)}
+            instanceId={name}
+            isMulti={props.isMulti}
+            value={value}
+            isValidNewOption={isValidNewOption}
+            options={options}
+            isLoading={fetching}
+            styles={selectStyle ?? selectStyles}
+            theme={selectTheme}
+            onInputChange={(value) => {
+              onSearch?.(value);
+              return value;
+            }}
+            loadingMessage={() => LOADING_MESSAGE}
+            noOptionsMessage={() => NO_OPTIONS_MESSAGE}
+          />
+        )}
       </div>
     );
   }
@@ -136,25 +157,27 @@ const SelectInput = <
       {SuggestionComponent && (
         <SuggestionComponent value={value} onChange={props.onChange} />
       )}
-      <Select
-        {...props}
-        isDisabled={disabled}
-        placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
-        instanceId={name}
-        value={value}
-        options={options}
-        isLoading={fetching}
-        onInputChange={(value) => {
-          onSearch?.(value);
-          return value;
-        }}
-        menuPortalTarget={document.body}
-        styles={selectStyle ?? selectStyles}
-        theme={selectTheme}
-        blurInputOnSelect={false}
-        loadingMessage={() => LOADING_MESSAGE}
-        noOptionsMessage={() => NO_OPTIONS_MESSAGE}
-      />
+      {Select && (
+        <Select
+          {...props}
+          isDisabled={disabled}
+          placeholder={disabled ? 'Tomt' : placeholder || defaultPlaceholder}
+          instanceId={name}
+          value={value}
+          options={options}
+          isLoading={fetching}
+          onInputChange={(value) => {
+            onSearch?.(value);
+            return value;
+          }}
+          menuPortalTarget={document.body}
+          styles={selectStyle ?? selectStyles}
+          theme={selectTheme}
+          blurInputOnSelect={false}
+          loadingMessage={() => LOADING_MESSAGE}
+          noOptionsMessage={() => NO_OPTIONS_MESSAGE}
+        />
+      )}
     </div>
   );
 };
