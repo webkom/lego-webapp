@@ -51,8 +51,8 @@ const createStore = (
     },
   });
 
-  if (module.hot) {
-    module.hot.accept('app/store/createRootReducer', () => {
+  if (import.meta.hot) {
+    import.meta.hot.accept('app/store/createRootReducer', () => {
       const nextReducer = require('app/store/createRootReducer').default;
 
       store.replaceReducer(nextReducer());
