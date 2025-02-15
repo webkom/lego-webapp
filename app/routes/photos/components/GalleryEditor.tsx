@@ -9,7 +9,8 @@ import {
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import cx from 'classnames';
 import { without } from 'lodash-es';
 import { Images, Trash2 } from 'lucide-react';

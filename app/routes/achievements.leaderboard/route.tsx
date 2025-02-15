@@ -1,4 +1,5 @@
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Link } from 'react-router';
 import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';

@@ -1,5 +1,6 @@
 import { BadgeIcon, LoadingIndicator } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import cx from 'classnames';
 import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';

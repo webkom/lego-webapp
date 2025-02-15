@@ -1,5 +1,6 @@
 import { Card, LoadingIndicator, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';

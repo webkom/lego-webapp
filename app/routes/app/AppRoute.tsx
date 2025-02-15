@@ -1,5 +1,6 @@
 import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate } from 'react-router';

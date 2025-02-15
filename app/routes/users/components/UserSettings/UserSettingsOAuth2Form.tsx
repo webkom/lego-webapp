@@ -1,4 +1,5 @@
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Field } from 'react-final-form';
 import { useParams, useNavigate } from 'react-router';
 import {

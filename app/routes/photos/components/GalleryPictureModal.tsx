@@ -5,7 +5,8 @@ import {
   Image,
   LoadingIndicator,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';

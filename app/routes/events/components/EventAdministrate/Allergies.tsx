@@ -1,5 +1,6 @@
 import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { isEmpty } from 'lodash-es';
 import { FileDown } from 'lucide-react';
 import { Link, useParams } from 'react-router';

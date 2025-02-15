@@ -1,4 +1,5 @@
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { useCallback } from 'react';
 import { useParams } from 'react-router';
 import { fetchMembershipsPagination } from 'app/actions/GroupActions';

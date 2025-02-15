@@ -6,7 +6,8 @@ import {
   Image,
   PageContainer,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import moment from 'moment-timezone';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import bekk from 'app/assets/bekk_black.svg';

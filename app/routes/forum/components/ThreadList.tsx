@@ -1,5 +1,6 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { fetchThreadsByForum } from 'app/actions/ForumActions';
 import { selectThreadsByForumId } from 'app/reducers/threads';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';

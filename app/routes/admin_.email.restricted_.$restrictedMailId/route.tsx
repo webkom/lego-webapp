@@ -1,5 +1,6 @@
 import { Icon, LinkButton } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Download } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';

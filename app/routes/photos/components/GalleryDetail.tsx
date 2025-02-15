@@ -5,7 +5,8 @@ import {
   LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useParams, useNavigate, Outlet } from 'react-router';

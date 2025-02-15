@@ -1,5 +1,6 @@
 import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Link } from 'react-router';
 import { fetch } from 'app/actions/EmailListActions';
 import { ContentMain } from 'app/components/Content';

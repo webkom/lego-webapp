@@ -8,7 +8,8 @@ import {
   LinkButton,
   PageCover,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { isEmpty } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';

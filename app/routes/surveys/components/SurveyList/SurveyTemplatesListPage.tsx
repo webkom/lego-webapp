@@ -1,4 +1,5 @@
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Helmet } from 'react-helmet-async';
 import { fetchTemplates } from 'app/actions/SurveyActions';
 import Paginator from 'app/components/Paginator';

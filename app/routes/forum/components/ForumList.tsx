@@ -1,5 +1,6 @@
 import { Flex, LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { MessageSquareDashed } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { fetchForums } from 'app/actions/ForumActions';

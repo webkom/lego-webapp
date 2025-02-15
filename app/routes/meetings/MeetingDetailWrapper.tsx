@@ -1,4 +1,5 @@
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import qs from 'qs';
 import { useLocation, useParams } from 'react-router';
 import {

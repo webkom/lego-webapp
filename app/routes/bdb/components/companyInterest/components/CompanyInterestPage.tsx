@@ -1,5 +1,6 @@
 import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import arrayMutators from 'final-form-arrays';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';

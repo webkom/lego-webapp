@@ -1,5 +1,6 @@
 import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import cx from 'classnames';
 import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';

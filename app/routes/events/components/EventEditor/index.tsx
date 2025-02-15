@@ -4,7 +4,8 @@ import {
   LoadingPage,
   Page,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import arrayMutators from 'final-form-arrays';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';

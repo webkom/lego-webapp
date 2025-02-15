@@ -5,7 +5,8 @@ import {
   LoadingIndicator,
   Page,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';

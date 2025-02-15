@@ -1,4 +1,5 @@
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { useState } from 'react';
 import { fetchLendableObjectById } from 'app/actions/LendableObjectActions';
 import { selectLendableObjectById } from 'app/reducers/lendableObjects';

@@ -1,5 +1,6 @@
 import { ButtonGroup, Card, LinkButton, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { normalize } from 'normalizr';
 import qs from 'qs';
 import { useState } from 'react';

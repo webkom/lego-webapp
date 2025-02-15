@@ -1,5 +1,6 @@
 import { Flex, LoadingPage, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Helmet } from 'react-helmet-async';
 import { fetchAll } from 'app/actions/AnnouncementsActions';
 import { ContentMain } from 'app/components/Content';

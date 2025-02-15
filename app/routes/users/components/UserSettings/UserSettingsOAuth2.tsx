@@ -5,7 +5,8 @@ import {
   Icon,
   LinkButton,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import keys from 'lodash/keys';
 import { Copy, Trash2 } from 'lucide-react';
 import { useState } from 'react';

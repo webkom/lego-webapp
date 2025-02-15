@@ -9,7 +9,8 @@ import {
   LoadingPage,
   LinkButton,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import cx from 'classnames';
 import { uniqBy, orderBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';

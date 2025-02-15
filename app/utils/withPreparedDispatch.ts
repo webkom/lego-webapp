@@ -1,4 +1,5 @@
-import { withPreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { withPreparedEffect } = pkg;
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { PreparedEffectOptions } from '@webkom/react-prepare';

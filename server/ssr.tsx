@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/node';
-import { prepare } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { prepare } = pkg;
 import { type ReactElement, type ReactNode } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';

@@ -1,5 +1,6 @@
 import { Card, Flex, Icon } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link } from 'react-router';

@@ -1,5 +1,6 @@
 import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { isEmpty, orderBy } from 'lodash-es';
 import { FilterX, FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';

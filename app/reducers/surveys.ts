@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { omit } from 'lodash-es';
 import { createSelector } from 'reselect';
 import {

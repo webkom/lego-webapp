@@ -1,5 +1,6 @@
 import { LoadingPage, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
 import { fetchGroup } from 'app/actions/GroupActions';

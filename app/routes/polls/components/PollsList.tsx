@@ -1,5 +1,6 @@
 import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import { CircleCheck, CircleX } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';

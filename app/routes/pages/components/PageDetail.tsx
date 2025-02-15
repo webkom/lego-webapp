@@ -5,7 +5,8 @@ import {
   PageCover,
   LinkButton,
 } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
 import cx from 'classnames';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
