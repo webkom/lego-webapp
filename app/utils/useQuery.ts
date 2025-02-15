@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import qs from 'qs';
 import { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router';

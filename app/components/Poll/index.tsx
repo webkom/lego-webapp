@@ -1,6 +1,6 @@
 import { Accordion, Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import {
   ChartNoAxesColumn,
   ChevronDown,

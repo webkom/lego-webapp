@@ -1,4 +1,4 @@
-import { isArray } from 'lodash';
+import { isArray } from 'lodash-es';
 import createQueryString from 'app/utils/createQueryString';
 import { createInitialPagination } from 'app/utils/legoAdapter/buildPaginationReducer';
 import type { RootState } from 'app/store/createRootReducer';

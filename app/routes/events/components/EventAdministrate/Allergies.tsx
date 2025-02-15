@@ -1,6 +1,6 @@
 import { Flex, Icon, LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { FileDown } from 'lucide-react';
 import { Link, useParams } from 'react-router';
 import { fetchAllergies } from 'app/actions/EventActions';

@@ -1,5 +1,5 @@
 import { Page } from '@webkom/lego-bricks';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import qs from 'qs';
 import { useLocation, useNavigate } from 'react-router';
 import { autocomplete } from 'app/actions/SearchActions';

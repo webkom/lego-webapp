@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { groupBy, orderBy } from 'lodash';
+import { groupBy, orderBy } from 'lodash-es';
 import moment from 'moment-timezone';
 import { Link } from 'react-router';
 import { CircularPicture } from 'app/components/Image';

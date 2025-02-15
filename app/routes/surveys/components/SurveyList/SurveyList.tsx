@@ -1,6 +1,6 @@
 import { Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { FolderOpen } from 'lucide-react';
 import EmptyState from 'app/components/EmptyState';
 import styles from '../surveys.module.css';

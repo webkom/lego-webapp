@@ -1,4 +1,4 @@
-import { uniqBy } from 'lodash';
+import { uniqBy } from 'lodash-es';
 import { useMemo } from 'react';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import type { EntityId } from '@reduxjs/toolkit';

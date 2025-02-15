@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { flatMap } from 'lodash';
+import { flatMap } from 'lodash-es';
 import { Send } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router';

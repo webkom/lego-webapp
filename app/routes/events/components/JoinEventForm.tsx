@@ -8,7 +8,7 @@ import {
   ProgressBar,
   Skeleton,
 } from '@webkom/lego-bricks';
-import { sumBy } from 'lodash';
+import { sumBy } from 'lodash-es';
 import { CircleHelp, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';

@@ -1,5 +1,5 @@
 import { ButtonGroup, Card, Flex } from '@webkom/lego-bricks';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { Field } from 'react-final-form';
 import { useLocation } from 'react-router';
 import {

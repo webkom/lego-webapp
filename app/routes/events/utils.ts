@@ -1,4 +1,4 @@
-import { pick, sumBy, find } from 'lodash';
+import { pick, sumBy, find } from 'lodash-es';
 import moment from 'moment-timezone';
 import config from 'app/config';
 import { EventType } from 'app/store/models/Event';
