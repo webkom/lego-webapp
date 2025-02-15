@@ -1,18 +1,24 @@
-FROM node:20-alpine AS builder
-
-WORKDIR /app/
+FROM node:20-alpine AS development-dependencies-env
 COPY . /app
-
+WORKDIR /app
 RUN apk add curl
-RUN yarn
+RUN yarn install
 
-ENV NODE_ENV=production
+FROM node:20-alpine AS production-dependencies-env
+COPY ./package.json yarn.lock /app/
+WORKDIR /app
+RUN apk add curl
+RUN yarn install --omit=dev
 
+FROM node:20-alpine AS build-env
+COPY . /app/
+COPY --from=development-dependencies-env /app/node_modules /app/node_modules
+WORKDIR /app
 RUN yarn build
 
 FROM getsentry/sentry-cli:1.26.1 AS sentry
 
-WORKDIR /app/
+WORKDIR /app
 
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
@@ -42,18 +48,11 @@ RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
 FROM node:20-alpine
 
-RUN apk add curl
-
-WORKDIR /app/
-
 ARG RELEASE
 ENV RELEASE=${RELEASE}
 
-COPY --from=builder /app/dist dist
-COPY --from=builder /app/dist-client dist-client
-COPY --from=builder /app/packages/lego-bricks/dist packages/lego-bricks/dist
-COPY --from=builder /app/packages/lego-bricks/package.json packages/lego-bricks/package.json
-COPY --from=builder /app/package.json .
-COPY --from=builder /app/node_modules node_modules
-
-ENTRYPOINT ["node", "dist/server.js"]
+COPY ./package.json yarn.lock /app/
+COPY --from=production-dependencies-env /app/node_modules /app/node_modules
+COPY --from=build-env /app/build /app/build
+WORKDIR /app
+CMD ["yarn", "start"]

@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import 'animate.css/animate.css';
@@ -15,6 +14,10 @@ import 'app/assets/icon-384x384.png';
 import 'app/assets/icon-512x512.png';
 import 'app/assets/opensearch.xml';
 import '@webkom/lego-bricks/dist/style.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { HydratedRouter } from 'react-router/dom';
+
 import * as Sentry from '@sentry/react';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
@@ -26,7 +29,6 @@ import {
 } from 'app/actions/UserActions';
 import config from 'app/config';
 import createStore from 'app/store/createStore';
-import renderApp from './render';
 
 !__DEV__ &&
   console.error(`
@@ -58,11 +60,6 @@ import renderApp from './render';
 `);
 moment.locale('nb-NO');
 
-global.log = function log(self = this) {
-  console.log(self);
-  return this;
-};
-
 Sentry.init({
   dsn: config.sentryDSN,
   release: config.release,
@@ -90,16 +87,9 @@ store.dispatch({
   type: 'REHYDRATED',
 });
 
-renderApp({
-  store,
-  isSSR,
-});
-
-if (module.hot) {
-  module.hot.accept('./render', () => {
-    renderApp({
-      store,
-      isSSR,
-    });
-  });
-}
+ReactDOM.hydrateRoot(
+  document,
+  <React.StrictMode>
+    <HydratedRouter />
+  </React.StrictMode>,
+);

@@ -1,6 +1,7 @@
 import { Page } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import { Helmet } from 'react-helmet-async';
+import pkg from '@webkom/react-prepare';
+const { usePreparedEffect } = pkg;
+// import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useParams } from 'react-router';
 import { fetchAll, fetchGroup } from 'app/actions/GroupActions';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
@@ -74,7 +75,7 @@ const GroupPage = () => {
       }}
       tabs={groupId && <NavigationTabs groupId={groupId} />}
     >
-      <Helmet title={group ? group.name : 'Grupper'} />
+      {/*<Helmet title={group ? group.name : 'Grupper'} />*/}
       <Outlet />
     </Page>
   );

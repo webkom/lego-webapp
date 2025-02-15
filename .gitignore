@@ -20,6 +20,9 @@ package-lock.json
 report.*.json
 mazemap/mazemap.min.*
 
+# React Router
+/.react-router/
+/build/
 
 # Certs
 localhost.pem

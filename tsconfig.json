@@ -1,33 +1,27 @@
 {
+  "include": [
+    "**/*",
+    "**/.server/**/*",
+    "**/.client/**/*",
+    ".react-router/types/**/*"
+  ],
   "compilerOptions": {
-    "target": "esnext",
-    "jsx": "react-jsx",
-    "module": "preserve",
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["node", "vite/client"],
+    "target": "ES2022",
+    "module": "ES2022",
     "moduleResolution": "bundler",
-    "baseUrl": "./",
+    "jsx": "react-jsx",
+    "rootDirs": [".", "./.react-router/types"],
+    "baseUrl": ".",
     "paths": {
-      "app/*": ["app/*"],
-      // alias to allow for "go to definition" on local packages
-      "@webkom/lego-bricks": ["packages/lego-bricks/src"]
+      "app/*": ["./app/*"]
     },
-    "allowJs": true,
-    "sourceMap": true,
-    "noEmit": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitAny": false,
-    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
     "resolveJsonModule": true,
-    "plugins": [
-      {
-        "name": "typescript-plugin-css-modules",
-        "options": {
-          "customMatcher": "\\.css$"
-        }
-      }
-    ]
-  },
-  "include": ["app/**/*", "server/**/*", "packages/*/src/**/*"]
+    "skipLibCheck": true,
+    "strict": true
+  }
 }
