@@ -33,7 +33,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
-    if (!__DEV__) {
+    if (!import.meta.env.DEV) {
       import('mazemap').then((mazemap) => setMazemap(mazemap));
     }
     if (!Mazemap || !hasMounted) return;

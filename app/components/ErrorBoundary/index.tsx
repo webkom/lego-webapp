@@ -51,7 +51,7 @@ class ErrorBoundary extends Component<Props, State> {
       error,
     });
 
-    if (__DEV__) {
+    if (import.meta.env.DEV) {
       /* eslint no-console: 0 */
       console.error(error);
 

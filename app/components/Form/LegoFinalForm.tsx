@@ -59,7 +59,7 @@ const LegoFinalForm = <FormValues,>({
           })
           .catch((error) => {
             Sentry.captureException(error);
-            if (__DEV__) console.error(error);
+            if (import.meta.env.DEV) console.error(error);
 
             if (!enableSubmissionError) {
               throw error;

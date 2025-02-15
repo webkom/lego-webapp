@@ -14,7 +14,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/nb';
 import config from 'app/config';
 
-!__DEV__ &&
+!import.meta.env.DEV &&
   console.error(`
                      \`smMMms\`
                      NMMMMMMN

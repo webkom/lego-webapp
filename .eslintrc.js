@@ -20,7 +20,6 @@ module.exports = {
   globals: {
     log: true,
     expect: true,
-    __DEV__: true,
     cypress: true,
   },
   parser: '@typescript-eslint/parser',
