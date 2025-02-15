@@ -1,4 +1,4 @@
-@import url('~app/styles/variables.css');
+@import url('app/styles/variables.css');
 
 .label {
   font-size: var(--font-size-lg);

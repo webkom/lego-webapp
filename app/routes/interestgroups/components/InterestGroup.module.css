@@ -1,4 +1,4 @@
-@import url('~app/styles/variables.css');
+@import url('app/styles/variables.css');
 
 .navigationItem {
   flex-grow: 1;
