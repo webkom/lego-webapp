@@ -8,6 +8,10 @@ export default defineConfig({
   resolve: {
     alias: {
       app: path.resolve(__dirname, './app/'),
+      '@webkom/lego-bricks/dist/style.css': path.resolve(
+        __dirname,
+        './packages/lego-bricks/src/global.css',
+      ),
       '@webkom/lego-bricks': path.resolve(
         __dirname,
         './packages/lego-bricks/src/index.ts',
