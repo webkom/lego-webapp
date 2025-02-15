@@ -1,7 +1,6 @@
 import { configureStore, Tuple } from '@reduxjs/toolkit';
 import { addToast } from 'app/reducers/toasts';
 import createRootReducer from 'app/store/createRootReducer';
-import loggerMiddleware from 'app/store/middleware/loggerMiddleware';
 import createMessageMiddleware from 'app/store/middleware/messageMiddleware';
 import promiseMiddleware from 'app/store/middleware/promiseMiddleware';
 import sentryReduxEnhancer from 'app/store/middleware/sentryEnhancer';
@@ -43,7 +42,6 @@ const createStore = (
             ),
             !import.meta.env.SSR &&
               require('app/store/middleware/websocketMiddleware').default(),
-            !import.meta.env.SSR && __DEV__ && loggerMiddleware,
           ).filter(isTruthy),
         ),
     enhancers: (getDefaultEnhancers) => {
