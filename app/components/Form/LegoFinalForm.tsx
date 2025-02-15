@@ -1,11 +1,9 @@
 import * as Sentry from '@sentry/react';
-import createFocusOnErrorDecorator from 'final-form-focus';
 import { isEmpty, isEqual } from 'lodash-es';
 import { Form } from 'react-final-form';
 import { handleSubmissionErrorFinalForm } from 'app/components/Form/utils';
 import type { FormProps } from 'react-final-form';
 
-const focusOnError = createFocusOnErrorDecorator();
 interface Props<FormValues> extends FormProps<FormValues> {
   /*
    * Automatic submission error handling
@@ -32,7 +30,7 @@ const LegoFinalForm = <FormValues,>({
   ...rest
 }: Props<FormValues>) => {
   if (enableFocusOnError) {
-    decorators = [focusOnError, ...decorators];
+    decorators = [...decorators];
   }
 
   return (
