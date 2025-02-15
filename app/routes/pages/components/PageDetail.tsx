@@ -9,7 +9,7 @@ import pkg from '@webkom/react-prepare';
 const { usePreparedEffect } = pkg;
 import cx from 'classnames';
 import { useEffect, type ComponentType } from 'react';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
 import { postGettingWood } from 'app/actions/AchievementActions';
 import {
@@ -419,7 +419,7 @@ const PageDetail = () => {
       ]}
       skeleton={showSkeleton}
     >
-      <Helmet title={pageInfo?.title} />
+      {/*<Helmet title={pageInfo?.title} />*/}
       {showSkeleton ? (
         <PageSkeleton />
       ) : (

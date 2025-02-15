@@ -3,7 +3,7 @@ import pkg from '@webkom/react-prepare';
 const { usePreparedEffect } = pkg;
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
@@ -78,7 +78,7 @@ const AuthenticatedFrontpage = () => {
 
   return (
     <PageContainer card={false}>
-      <Helmet title="Hjem" />
+      {/*<Helmet title="Hjem" />*/}
       {/*<Banner
         header="Abakus har opptak!"
         subHeader="Trykk her for å søke på komité og revy"

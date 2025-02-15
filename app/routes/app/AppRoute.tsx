@@ -2,7 +2,7 @@ import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
 import pkg from '@webkom/react-prepare';
 const { usePreparedEffect } = pkg;
 import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { fetchMeta } from 'app/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
@@ -61,13 +61,13 @@ const App = () => {
   return (
     <LegoBricksProvider theme={theme} navigate={navigate}>
       <div className={styles.appRoute}>
-        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
-          <meta property="og:image" content={coverPhoto} />
-          <meta
-            property="og:description"
-            content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."
-          />
-        </Helmet>
+        {/*<Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">*/}
+        {/*  <meta property="og:image" content={coverPhoto} />*/}
+        {/*  <meta*/}
+        {/*    property="og:description"*/}
+        {/*    content="Abakus er linjeforeningen for studentene ved Datateknologi & Cybersikkerhet og datakommunikasjon på NTNU, og drives av studenter ved disse studiene."*/}
+        {/*  />*/}
+        {/*</Helmet>*/}
 
         {config.environment !== 'production' && (
           <div

@@ -1,5 +1,5 @@
 import { Page } from '@webkom/lego-bricks';
-import { Helmet } from 'react-helmet-async';
+// import { Helmet } from 'react-helmet-async';
 import { Outlet } from 'react-router';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 
@@ -20,7 +20,7 @@ const EmailRouteWrapper = () => (
       </>
     }
   >
-    <Helmet title="E-post" />
+    {/*<Helmet title="E-post" />*/}
 
     <Outlet />
   </Page>
