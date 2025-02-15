@@ -14,6 +14,9 @@ export default defineConfig({
       ),
     },
   },
+  ssr: {
+    noExternal: ['react-textarea-autosize'],
+  },
   test: {
     alias: {
       node_modules: path.resolve(__dirname, './node_modules/'),
