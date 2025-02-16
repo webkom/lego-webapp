@@ -34,14 +34,13 @@ const SurveyDetailPage = () => {
   return (
     <ContentSection>
       <ContentMain>
-        {survey.templateType ? (
+        {survey.isTemplate ? (
           <h2
             style={{
               color: 'var(--lego-red-color)',
             }}
           >
-            Dette er malen for arrangementer av type{' '}
-            {displayNameForEventType(survey.templateType)}
+            Dette er malen {survey.title}
           </h2>
         ) : (
           <>

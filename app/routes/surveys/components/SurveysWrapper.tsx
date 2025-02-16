@@ -27,12 +27,10 @@ const SurveysWrapper = () => {
     return <LoadingPage loading={fetchingSurveys} />;
   }
 
-  const isTemplate = !!survey.templateType;
-
   return (
     <Page
       cover={
-        !isTemplate && (
+        !survey.isTemplate && (
           <PageCover
             image={event?.cover}
             imagePlaceholder={event?.coverPlaceholder}
@@ -40,8 +38,8 @@ const SurveysWrapper = () => {
         )
       }
       title={survey.title}
-      back={{ href: `/surveys/${isTemplate ? 'templates' : ''}` }}
-      tabs={!isTemplate && <SurveyDetailTabs surveyId={survey.id} />}
+      back={{ href: `/surveys/${survey.isTemplate ? 'templates' : ''}` }}
+      tabs={!survey.isTemplate && <SurveyDetailTabs surveyId={survey.id} />}
     >
       <Helmet title={survey.title} />
       <Outlet

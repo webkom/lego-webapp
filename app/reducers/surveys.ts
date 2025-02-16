@@ -46,11 +46,11 @@ export const {
 } = legoAdapter.getSelectors((state: RootState) => state.surveys);
 
 export const selectAllSurveys = createSelector(selectAll, (surveys) =>
-  surveys.filter((survey) => !survey.templateType),
+  surveys.filter((survey) => !survey.isTemplate),
 );
 
 export const selectSurveyTemplates = createSelector(selectAll, (surveys) =>
-  surveys.filter((survey) => survey.templateType),
+  surveys.filter((survey) => survey.isTemplate),
 );
 
 export type TransformedSurveyTemplate = Overwrite<
@@ -64,8 +64,8 @@ export type TransformedSurveyTemplate = Overwrite<
     >[];
   }
 >;
-export const selectSurveyTemplateByType = createSelector(
-  selectSurveysByField('templateType').single,
+export const selectSurveyTemplateByTitle = createSelector(
+  selectSurveysByField('title').single,
   (template) => {
     if (!template || !('actionGrant' in template)) return undefined;
     const questions = (template.questions || []).map((question) => ({
@@ -81,16 +81,16 @@ export const selectSurveyTemplateByType = createSelector(
 
 export const useFetchedTemplate = (
   prepareId: string,
-  templateType?: EventType,
+  title?: string,
 ): TransformedSurveyTemplate | undefined => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedTemplate-${prepareId}`,
-    () => templateType && dispatch(fetchTemplate(templateType)),
-    [templateType],
+    () => title && dispatch(fetchTemplate(title)),
+    [title],
   );
   return useAppSelector((state: RootState) =>
-    selectSurveyTemplateByType(state, templateType),
+    selectSurveyTemplateByTitle(state, title),
   );
 };
 

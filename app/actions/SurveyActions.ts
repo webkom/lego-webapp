@@ -98,10 +98,10 @@ export function fetchTemplates({ next = false }: { next?: boolean } = {}) {
     propagateError: true,
   });
 }
-export function fetchTemplate(template: string) {
+export function fetchTemplate(templateTitle: string) {
   return callAPI<DetailedSurvey>({
     types: Survey.FETCH,
-    endpoint: `/survey-templates/${template}/`,
+    endpoint: `/survey-templates/${templateTitle}/`,
     schema: surveySchema,
     meta: {
       errorMessage: 'Henting av spørreundersøkelse mal feilet',

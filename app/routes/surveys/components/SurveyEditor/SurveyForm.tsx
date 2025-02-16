@@ -1,10 +1,12 @@
 import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Link } from 'react-router';
+import { fetchTemplates } from 'app/actions/SurveyActions';
 import Dropdown from 'app/components/Dropdown';
 import {
   Form,
@@ -14,22 +16,24 @@ import {
   TextInput,
   SubmitButton,
   SubmissionError,
+  CheckBox,
 } from 'app/components/Form';
 import Time from 'app/components/Time';
-import {
-  EventTypeConfig,
-  displayNameForEventType,
-} from 'app/routes/events/utils';
+import { selectSurveyTemplates } from 'app/reducers/surveys';
 import Question from 'app/routes/surveys/components/SurveyEditor/Question';
 import {
   hasOptions,
   initialQuestion,
 } from 'app/routes/surveys/components/SurveyEditor/utils';
 import styles from 'app/routes/surveys/components/surveys.module.css';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
-import type { EventType } from 'app/store/models/Event';
-import type { FormSurvey, FormSubmitSurvey } from 'app/store/models/Survey';
+import type {
+  FormSurvey,
+  FormSubmitSurvey,
+  DetailedSurvey,
+} from 'app/store/models/Survey';
 import type { FormSurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
 
@@ -47,16 +51,18 @@ type Props = {
   isNew?: boolean;
   onSubmit: (surveyData: FormSubmitSurvey) => Promise<void>;
   initialValues: Partial<FormSurvey>;
-  templateType: EventType | undefined;
-  setTemplateType: (templateType: EventType) => void;
+  templateTitle: string | undefined;
+  setTemplateTitle: (TemplateTitle: string) => void;
+  templates: DetailedSurvey[];
 };
 
 const SurveyForm = ({
   isNew,
   onSubmit,
   initialValues,
-  templateType,
-  setTemplateType,
+  templateTitle,
+  setTemplateTitle,
+  templates,
 }: Props) => {
   const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
 
@@ -91,46 +97,56 @@ const SurveyForm = ({
             name="title"
             component={TextInput.Field}
           />
-          {templateType && (
+
+          {templateTitle && (
             <div className={styles.templateType}>
               <span>
-                Bruker mal: <i>{displayNameForEventType(templateType)}</i>
+                Bruker mal: <i>{templateTitle}</i>
               </span>
             </div>
           )}
-          <div className={styles.templatePicker}>
-            <ConfirmModal
-              title="Bekreft bruk av mal"
-              message={
-                'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
-                'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
-              }
-              closeOnConfirm
-              onCancel={async () => setTemplatePickerOpen(false)}
-              onConfirm={async () => setTemplatePickerOpen(true)}
-            >
-              {({ openConfirmModal }) => (
-                <Button onPress={openConfirmModal}>
-                  {templateType ? 'Bytt mal' : 'Bruk mal'}
-                </Button>
-              )}
-            </ConfirmModal>
-            <Dropdown
-              className={styles.templateDropdown}
-              show={templatePickerOpen}
-              toggle={() => setTemplatePickerOpen(false)}
-              closeOnContentClick
-            >
-              <TemplateTypeDropdownItems setTemplateType={setTemplateType} />
-            </Dropdown>
-          </div>
+          <Field
+            name="isTemplate"
+            id="isTemplate"
+            label="Lagre som mal"
+            component={CheckBox.Field}
+          />
+
+          {templates.length > 0 && (
+            <div className={styles.templatePicker}>
+              <ConfirmModal
+                title="Bekreft bruk av mal"
+                message={
+                  'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
+                  'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
+                }
+                closeOnConfirm
+                onCancel={async () => setTemplatePickerOpen(false)}
+                onConfirm={async () => setTemplatePickerOpen(true)}
+              >
+                {({ openConfirmModal }) => (
+                  <Button onPress={openConfirmModal}>
+                    {templateTitle ? 'Bytt mal' : 'Bruk mal'}
+                  </Button>
+                )}
+              </ConfirmModal>
+              <Dropdown
+                className={styles.templateDropdown}
+                show={templatePickerOpen}
+                toggle={() => setTemplatePickerOpen(false)}
+                closeOnContentClick
+              >
+                <TemplateTypeDropdownItems
+                  setTemplateTitle={setTemplateTitle}
+                  templates={templates}
+                />
+              </Dropdown>
+            </div>
+          )}
           {spyValues((values: FormSurvey) =>
             // If this is a template
-            values.templateType ? (
-              <h2>
-                Dette er malen for arrangementer av type:{' '}
-                {displayNameForEventType(values.templateType)}
-              </h2>
+            values.isTemplate ? (
+              <h2>Dette er malen {templateTitle}</h2>
             ) : (
               <Flex
                 gap="var(--spacing-md)"
@@ -152,6 +168,7 @@ const SurveyForm = ({
               </Flex>
             ),
           )}
+
           <FieldArray
             name="questions"
             component={Questions}
@@ -166,7 +183,7 @@ const SurveyForm = ({
             </span>
           </Card>
           <SubmissionError />
-          <SubmitButton allowPristine={isNew && !!templateType}>
+          <SubmitButton allowPristine={isNew && !!templateTitle}>
             {isNew ? 'Opprett' : 'Lagre'}
           </SubmitButton>
         </Form>
@@ -176,26 +193,27 @@ const SurveyForm = ({
 };
 
 type TemplateTypeDropdownItemsProps = {
-  setTemplateType: (templateType: EventType) => void;
+  setTemplateTitle: (templateTitle: string) => void;
+  templates: DetailedSurvey[];
 };
 const TemplateTypeDropdownItems = ({
-  setTemplateType,
+  setTemplateTitle,
+  templates,
 }: TemplateTypeDropdownItemsProps) => {
   return (
     <Dropdown.List>
-      {Object.entries(EventTypeConfig).map(([key, config]) => {
-        const eventType = key as EventType;
+      {templates.map((t) => {
         return (
-          <Dropdown.ListItem key={eventType}>
+          <Dropdown.ListItem key={t.id}>
             <Link
               to="#"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setTemplateType(eventType);
+                setTemplateTitle(t.title);
               }}
             >
-              {config.displayName}
+              {t.title}
             </Link>
           </Dropdown.ListItem>
         );

@@ -4,19 +4,26 @@ import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useNavigate } from 'react-router';
 import { fetchEvent } from 'app/actions/EventActions';
-import { addSurvey } from 'app/actions/SurveyActions';
+import { addSurvey, fetchTemplates } from 'app/actions/SurveyActions';
 import { selectEventById } from 'app/reducers/events';
-import { useFetchedTemplate } from 'app/reducers/surveys';
+import {
+  selectSurveyTemplates,
+  useFetchedTemplate,
+} from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
 import { initialQuestion } from 'app/routes/surveys/components/SurveyEditor/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import type { Dateish } from 'app/models';
-import type { AdministrateEvent, EventType } from 'app/store/models/Event';
-import type { FormSubmitSurvey, FormSurvey } from 'app/store/models/Survey';
+import type { AdministrateEvent } from 'app/store/models/Event';
+import type {
+  DetailedSurvey,
+  FormSubmitSurvey,
+  FormSurvey,
+} from 'app/store/models/Survey';
 
 const defaultAddSurveyQuery = {
-  templateType: '' as EventType,
+  templateTitle: '',
   event: '',
 };
 
@@ -26,16 +33,23 @@ const AddSurveyPage = () => {
     (state) => state.surveys.fetching || state.events.fetching,
   );
   const { query, setQueryValue } = useQuery(defaultAddSurveyQuery);
-  const setTemplateType = setQueryValue('templateType');
-  const { templateType, event } = query;
-  const template = useFetchedTemplate('addSurvey', templateType);
+  const setTemplateTitle = setQueryValue('templateTitle');
+  const { templateTitle, event } = query;
+  const template = useFetchedTemplate('addSurvey', templateTitle);
+
+  usePreparedEffect(
+    'fetchSurveyTemplates',
+    () => dispatch(fetchTemplates()),
+    [],
+  );
+  const templates = useAppSelector(selectSurveyTemplates) as DetailedSurvey[];
 
   usePreparedEffect(
     'fetchAddSurveyEvent',
     () => {
       if (event) {
         return dispatch(fetchEvent(event)).then(({ payload }) =>
-          setTemplateType(payload.entities.events[payload.result]!.eventType),
+          setTemplateTitle(payload.entities.events[payload.result]!.eventType),
         );
       }
     },
@@ -78,7 +92,7 @@ const AddSurveyPage = () => {
           options: [...question.options, { optionText: '' }],
         })),
         activeFrom: getActiveFrom(fullEvent?.endTime),
-        templateType: null,
+        isTemplate: false,
       }
     : {
         questions: [initialQuestion],
@@ -94,8 +108,9 @@ const AddSurveyPage = () => {
         isNew
         onSubmit={onSubmit}
         initialValues={initialValues}
-        templateType={templateType}
-        setTemplateType={setTemplateType}
+        templateTitle={templateTitle}
+        setTemplateTitle={setTemplateTitle}
+        templates={templates}
       />
     </Page>
   );

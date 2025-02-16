@@ -1,16 +1,24 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import { useParams, useNavigate } from 'react-router';
-import { editSurvey } from 'app/actions/SurveyActions';
-import { useFetchedSurvey, useFetchedTemplate } from 'app/reducers/surveys';
+import { editSurvey, fetchTemplates } from 'app/actions/SurveyActions';
+import {
+  selectSurveyTemplates,
+  useFetchedSurvey,
+  useFetchedTemplate,
+} from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
 import { questionTypeString } from 'app/routes/surveys/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import type { EventType } from 'app/store/models/Event';
-import type { FormSubmitSurvey, FormSurvey } from 'app/store/models/Survey';
+import type {
+  DetailedSurvey,
+  FormSubmitSurvey,
+  FormSurvey,
+} from 'app/store/models/Survey';
 
 const defaultEditSurveyQuery = {
-  templateType: '' as EventType,
+  templateTitle: '',
 };
 type EditSurveyPageParams = {
   surveyId: string;
@@ -21,9 +29,15 @@ const EditSurveyPage = () => {
     useParams<EditSurveyPageParams>() as EditSurveyPageParams;
   const { query, setQueryValue } = useQuery(defaultEditSurveyQuery);
   const { survey, event } = useFetchedSurvey('editSurvey', surveyId);
-  const { templateType } = query;
-  const template = useFetchedTemplate('addSurvey', templateType);
+  const { templateTitle } = query;
+  const template = useFetchedTemplate('addSurvey', templateTitle);
   const fetching = useAppSelector((state) => state.surveys.fetching);
+  usePreparedEffect(
+    'fetchSurveyTemplates',
+    () => dispatch(fetchTemplates()),
+    [],
+  );
+  const templates = useAppSelector(selectSurveyTemplates) as DetailedSurvey[];
 
   const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
@@ -57,8 +71,9 @@ const EditSurveyPage = () => {
       <SurveyForm
         onSubmit={onSubmit}
         initialValues={initialValues}
-        templateType={query.templateType}
-        setTemplateType={setQueryValue('templateType')}
+        templateTitle={query.templateTitle}
+        setTemplateTitle={setQueryValue('templateTitle')}
+        templates={templates}
       />
     </Page>
   );
