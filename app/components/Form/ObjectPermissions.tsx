@@ -1,5 +1,7 @@
+import { Field } from 'react-final-form';
 import { SelectInput, CheckBox } from 'app/components/Form';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import type { FieldRenderProps } from 'react-final-form';
 
 /*
  * Usage inside 'react-final-form':
@@ -21,20 +23,22 @@ import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin
  * You may import Fields from 'app/components/Form/Fields'
  *
  * */
+
 const ObjectPermissions = ({
-  canEditUsers,
+  requireAuth,
   canEditGroups,
   canViewGroups,
-  requireAuth,
-}: ObjectPermissionsMixin) => {
+  canEditUsers,
+}: FieldRenderProps<ObjectPermissionsMixin>) => {
   return [
     requireAuth && (
-      <CheckBox.Field
+      <Field
+        name="requireAuth"
         type="checkbox"
         description="Gi alle brukere lesetilgang. Dette inkluderer også brukere som ikke har logget inn."
-        inverted
-        {...requireAuth}
         label="Åpen for alle - offentlig på nettet"
+        inverted
+        component={CheckBox.Field}
       />
     ),
     canEditGroups && (
@@ -74,7 +78,7 @@ export const normalizeObjectPermissions = ({
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
   canEditUsers: initialCanEditUsers,
-}: Record<string, any>) => {
+}: ObjectPermissionsMixin) => {
   return {
     requireAuth: !!requireAuth,
     canEditUsers: initialCanEditUsers?.map(toIds) ?? {},
@@ -86,7 +90,7 @@ export const objectPermissionsToInitialValues = ({
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
   canEditUsers: initialCanEditUsers,
-}: Record<string, any>) => {
+}: ObjectPermissionsMixin) => {
   const canEditGroups = initialCanEditGroups
     ?.filter(Boolean)
     .map((group) => ({ ...group, label: group.name, value: group.id }));
