@@ -5,6 +5,7 @@ import Dropdown from 'app/components/Dropdown';
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import Time from 'app/components/Time';
+import { useCurrentUser } from 'app/reducers/auth';
 import { selectEmojis } from 'app/reducers/emojis';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import styles from './Quotes.module.css';
@@ -31,6 +32,8 @@ const Quote = ({
 
   const [deleting, setDeleting] = useState(false);
   const dispatch = useAppDispatch();
+
+  const currentUser = useCurrentUser();
 
   let mappedEmojis: (Emoji & { hasReacted: boolean; reactionId: EntityId })[] =
     [];
@@ -93,17 +96,19 @@ const Quote = ({
                   iconName="ellipsis-horizontal"
                 >
                   <Dropdown.List>
-                    <Dropdown.ListItem>
-                      <button
-                        onClick={() =>
-                          quote.approved
-                            ? dispatch(unapprove(quote.id))
-                            : dispatch(approve(quote.id))
-                        }
-                      >
-                        {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
-                      </button>
-                    </Dropdown.ListItem>
+                    {currentUser?.username !== quote.createdBy?.username && (
+                      <Dropdown.ListItem>
+                        <button
+                          onClick={() =>
+                            quote.approved
+                              ? dispatch(unapprove(quote.id))
+                              : dispatch(approve(quote.id))
+                          }
+                        >
+                          {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
+                        </button>
+                      </Dropdown.ListItem>
+                    )}
 
                     {!deleting ? (
                       <Dropdown.ListItem danger>
