@@ -19,14 +19,12 @@ import {
   CheckBox,
 } from 'app/components/Form';
 import Time from 'app/components/Time';
-import { selectSurveyTemplates } from 'app/reducers/surveys';
 import Question from 'app/routes/surveys/components/SurveyEditor/Question';
 import {
   hasOptions,
   initialQuestion,
 } from 'app/routes/surveys/components/SurveyEditor/utils';
 import styles from 'app/routes/surveys/components/surveys.module.css';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
 import type {
@@ -42,7 +40,6 @@ const TypedLegoForm = LegoFinalForm<FormSurvey>;
 const validate = createValidator(
   {
     title: [required()],
-    event: [required()],
   },
   hasOptions,
 );
@@ -69,7 +66,7 @@ const SurveyForm = ({
   const internalOnSubmit = (surveyData: FormSurvey) => {
     return onSubmit({
       ...surveyData,
-      event: surveyData.event.value,
+      event: surveyData?.event?.value ?? 1,
       questions: surveyData.questions.map((question, i) => ({
         ...question,
         questionType: question.questionType.value,
@@ -202,18 +199,18 @@ const TemplateTypeDropdownItems = ({
 }: TemplateTypeDropdownItemsProps) => {
   return (
     <Dropdown.List>
-      {templates.map((t) => {
+      {templates.map((template) => {
         return (
-          <Dropdown.ListItem key={t.id}>
+          <Dropdown.ListItem key={template.id}>
             <Link
               to="#"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setTemplateTitle(t.title);
+                setTemplateTitle(template.title);
               }}
             >
-              {t.title}
+              {template.title}
             </Link>
           </Dropdown.ListItem>
         );

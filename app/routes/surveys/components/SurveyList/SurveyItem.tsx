@@ -30,9 +30,9 @@ const SurveyItem = ({ survey }: Props) => {
           <h3 className={styles.surveyItemTitle}>{survey.title}</h3>
         </Link>
 
-        {survey.templateType ? (
+        {survey.isTemplate ? (
           <div className={styles.surveyTime}>
-            Mal for arrangement av type {String(survey.templateType)}
+            Mal for med tittel {survey.title}
           </div>
         ) : (
           <div>
