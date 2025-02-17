@@ -46,6 +46,7 @@ const SubmissionsPage = ({ children: Children }: Props) => {
       </ContentMain>
 
       <AdminSideBar
+        isTemplate={survey.isTemplate}
         surveyId={survey!.id}
         actionGrant={survey!.actionGrant}
         token={survey!.token}

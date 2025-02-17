@@ -14,7 +14,7 @@ import { Survey } from '../actions/ActionTypes';
 import { selectEventById } from './events';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { EventForSurvey, EventType } from 'app/store/models/Event';
+import type { EventForSurvey } from 'app/store/models/Event';
 import type {
   DetailedSurvey,
   PublicResultsSurvey,
@@ -64,8 +64,8 @@ export type TransformedSurveyTemplate = Overwrite<
     >[];
   }
 >;
-export const selectSurveyTemplateByTitle = createSelector(
-  selectSurveysByField('title').single,
+export const selectSurveyTemplateById = createSelector(
+  selectSurveyById,
   (template) => {
     if (!template || !('actionGrant' in template)) return undefined;
     const questions = (template.questions || []).map((question) => ({
@@ -81,16 +81,16 @@ export const selectSurveyTemplateByTitle = createSelector(
 
 export const useFetchedTemplate = (
   prepareId: string,
-  title?: string,
+  id?: EntityId,
 ): TransformedSurveyTemplate | undefined => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedTemplate-${prepareId}`,
-    () => title && dispatch(fetchTemplate(title)),
-    [title],
+    () => id && dispatch(fetchTemplate(id)),
+    [id],
   );
   return useAppSelector((state: RootState) =>
-    selectSurveyTemplateByTitle(state, title),
+    selectSurveyTemplateById(state, id),
   );
 };
 

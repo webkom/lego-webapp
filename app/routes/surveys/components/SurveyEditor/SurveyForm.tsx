@@ -1,12 +1,10 @@
 import { Button, Card, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Link } from 'react-router';
-import { fetchTemplates } from 'app/actions/SurveyActions';
 import Dropdown from 'app/components/Dropdown';
 import {
   Form,
@@ -27,6 +25,7 @@ import {
 import styles from 'app/routes/surveys/components/surveys.module.css';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
+import type { EntityId } from '@reduxjs/toolkit';
 import type {
   FormSurvey,
   FormSubmitSurvey,
@@ -48,8 +47,8 @@ type Props = {
   isNew?: boolean;
   onSubmit: (surveyData: FormSubmitSurvey) => Promise<void>;
   initialValues: Partial<FormSurvey>;
-  templateTitle: string | undefined;
-  setTemplateTitle: (TemplateTitle: string) => void;
+  templateId: EntityId | undefined;
+  setTemplateId: (id: string) => void;
   templates: DetailedSurvey[];
 };
 
@@ -57,8 +56,8 @@ const SurveyForm = ({
   isNew,
   onSubmit,
   initialValues,
-  templateTitle,
-  setTemplateTitle,
+  templateId,
+  setTemplateId,
   templates,
 }: Props) => {
   const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
@@ -95,10 +94,10 @@ const SurveyForm = ({
             component={TextInput.Field}
           />
 
-          {templateTitle && (
+          {templateId && (
             <div className={styles.templateType}>
               <span>
-                Bruker mal: <i>{templateTitle}</i>
+                Bruker mal: <i>{initialValues.title}</i>
               </span>
             </div>
           )}
@@ -106,6 +105,7 @@ const SurveyForm = ({
             name="isTemplate"
             id="isTemplate"
             label="Lagre som mal"
+            type="checkbox"
             component={CheckBox.Field}
           />
 
@@ -123,7 +123,7 @@ const SurveyForm = ({
               >
                 {({ openConfirmModal }) => (
                   <Button onPress={openConfirmModal}>
-                    {templateTitle ? 'Bytt mal' : 'Bruk mal'}
+                    {templateId ? 'Bytt mal' : 'Bruk mal'}
                   </Button>
                 )}
               </ConfirmModal>
@@ -134,7 +134,7 @@ const SurveyForm = ({
                 closeOnContentClick
               >
                 <TemplateTypeDropdownItems
-                  setTemplateTitle={setTemplateTitle}
+                  setTemplateId={setTemplateId}
                   templates={templates}
                 />
               </Dropdown>
@@ -143,7 +143,7 @@ const SurveyForm = ({
           {spyValues((values: FormSurvey) =>
             // If this is a template
             values.isTemplate ? (
-              <h2>Dette er malen {templateTitle}</h2>
+              <h2>Dette er malen {values.title}</h2>
             ) : (
               <Flex
                 gap="var(--spacing-md)"
@@ -180,7 +180,7 @@ const SurveyForm = ({
             </span>
           </Card>
           <SubmissionError />
-          <SubmitButton allowPristine={isNew && !!templateTitle}>
+          <SubmitButton allowPristine={isNew && !!templateId}>
             {isNew ? 'Opprett' : 'Lagre'}
           </SubmitButton>
         </Form>
@@ -190,11 +190,11 @@ const SurveyForm = ({
 };
 
 type TemplateTypeDropdownItemsProps = {
-  setTemplateTitle: (templateTitle: string) => void;
+  setTemplateId: (templateId: EntityId) => void;
   templates: DetailedSurvey[];
 };
 const TemplateTypeDropdownItems = ({
-  setTemplateTitle,
+  setTemplateId,
   templates,
 }: TemplateTypeDropdownItemsProps) => {
   return (
@@ -207,7 +207,7 @@ const TemplateTypeDropdownItems = ({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setTemplateTitle(template.title);
+                setTemplateId(template.id);
               }}
             >
               {template.title}

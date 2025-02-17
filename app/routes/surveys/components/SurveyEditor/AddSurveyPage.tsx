@@ -23,7 +23,7 @@ import type {
 } from 'app/store/models/Survey';
 
 const defaultAddSurveyQuery = {
-  templateTitle: '',
+  templateId: '',
   event: '',
 };
 
@@ -33,10 +33,9 @@ const AddSurveyPage = () => {
     (state) => state.surveys.fetching || state.events.fetching,
   );
   const { query, setQueryValue } = useQuery(defaultAddSurveyQuery);
-  const setTemplateTitle = setQueryValue('templateTitle');
-  const { templateTitle, event } = query;
-  const template = useFetchedTemplate('addSurvey', templateTitle);
-
+  const setTemplateId = setQueryValue('templateId');
+  const { templateId, event } = query;
+  const template = useFetchedTemplate('addSurvey', templateId);
   usePreparedEffect(
     'fetchSurveyTemplates',
     () => dispatch(fetchTemplates()),
@@ -49,7 +48,7 @@ const AddSurveyPage = () => {
     () => {
       if (event) {
         return dispatch(fetchEvent(event)).then(({ payload }) =>
-          setTemplateTitle(payload.entities.events[payload.result]!.eventType),
+          setTemplateId(payload.entities.events[payload.result]!.id.toString()),
         );
       }
     },
@@ -108,8 +107,8 @@ const AddSurveyPage = () => {
         isNew
         onSubmit={onSubmit}
         initialValues={initialValues}
-        templateTitle={templateTitle}
-        setTemplateTitle={setTemplateTitle}
+        templateId={templateId}
+        setTemplateId={setTemplateId}
         templates={templates}
       />
     </Page>

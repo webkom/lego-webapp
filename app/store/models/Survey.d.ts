@@ -14,7 +14,7 @@ interface Survey {
   id: EntityId;
   title: string;
   activeFrom: Dateish;
-  event: EntityId;
+  event: EntityId | null;
   templateType: EventType | null;
   questions: SurveyQuestion[];
   actionGrant: ActionGrant;

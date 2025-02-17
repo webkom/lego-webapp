@@ -18,7 +18,7 @@ import type {
 } from 'app/store/models/Survey';
 
 const defaultEditSurveyQuery = {
-  templateTitle: '',
+  templateId: '',
 };
 type EditSurveyPageParams = {
   surveyId: string;
@@ -29,8 +29,8 @@ const EditSurveyPage = () => {
     useParams<EditSurveyPageParams>() as EditSurveyPageParams;
   const { query, setQueryValue } = useQuery(defaultEditSurveyQuery);
   const { survey, event } = useFetchedSurvey('editSurvey', surveyId);
-  const { templateTitle } = query;
-  const template = useFetchedTemplate('addSurvey', templateTitle);
+  const { templateId } = query;
+  const template = useFetchedTemplate('addSurvey', templateId);
   const fetching = useAppSelector((state) => state.surveys.fetching);
   usePreparedEffect(
     'fetchSurveyTemplates',
@@ -51,7 +51,9 @@ const EditSurveyPage = () => {
 
   const initialValues: Partial<FormSurvey> = {
     ...survey,
-    event: { value: event?.id ?? 0, label: event?.title ?? '' },
+    event: survey?.isTemplate
+      ? { value: null, label: '' }
+      : { value: event?.id ?? 0, label: event?.title ?? '' },
     questions: (template ?? survey).questions.map((question) => ({
       ...question,
       questionType: {
@@ -71,8 +73,8 @@ const EditSurveyPage = () => {
       <SurveyForm
         onSubmit={onSubmit}
         initialValues={initialValues}
-        templateTitle={query.templateTitle}
-        setTemplateTitle={setQueryValue('templateTitle')}
+        templateId={query.templateId}
+        setTemplateId={setQueryValue('templateId')}
         templates={templates}
       />
     </Page>
