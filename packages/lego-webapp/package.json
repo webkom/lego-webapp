@@ -1,0 +1,43 @@
+{
+  "name": "lego-webapp-vike",
+  "version": "2.0.0",
+  "description": "Abakus",
+  "main": "index.js",
+  "author": "webkom",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vike dev",
+    "build": "vike build",
+    "preview": "vike preview",
+    "lint": "lint:js && lint:prettier",
+    "lint:js": "eslint .",
+    "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
+    "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write"
+  },
+  "dependencies": {
+    "@sentry/react": "^9.1.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vike-react": "^0.5.13"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "@sentry/vite-plugin": "^3.1.2",
+    "@types/react": "^19.0.9",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-react": "^7.37.4",
+    "globals": "^15.15.0",
+    "prettier": "^3.5.1",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0",
+    "vike": "^0.4.223",
+    "vite": "^6.1.0"
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "type": "module"
+}
