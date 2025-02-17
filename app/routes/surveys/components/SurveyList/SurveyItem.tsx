@@ -5,8 +5,8 @@ import Time from 'app/components/Time';
 import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
+import { EventType, type EventForSurvey } from 'app/store/models/Event';
 import styles from '../surveys.module.css';
-import type { EventForSurvey } from 'app/store/models/Event';
 import type { DetailedSurvey } from 'app/store/models/Survey';
 
 type Props = {
@@ -15,14 +15,16 @@ type Props = {
 
 const SurveyItem = ({ survey }: Props) => {
   const event = useAppSelector((state) =>
-    selectEventById<EventForSurvey>(state, survey.event),
+    selectEventById<EventForSurvey>(state, survey?.event),
   );
 
   return (
     <div
       className={cx(styles.surveyItem, styles.surveyItemBorder)}
       style={{
-        borderColor: colorForEventType(survey.templateType || event?.eventType),
+        borderColor: colorForEventType(
+          survey.templateType || event?.eventType || EventType.COURSE,
+        ),
       }}
     >
       <div>

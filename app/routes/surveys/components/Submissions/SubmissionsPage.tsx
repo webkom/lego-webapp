@@ -27,6 +27,13 @@ const SubmissionsPage = ({ children: Children }: Props) => {
     useOutletContext<SurveysRouteContext>();
   const authToken = useAppSelector((state) => state.auth.token);
 
+  if (survey.isTemplate) {
+    return (
+      <div>
+        <h3>Dette er en mal!</h3>
+      </div>
+    );
+  }
   return (
     <ContentSection>
       <ContentMain>
