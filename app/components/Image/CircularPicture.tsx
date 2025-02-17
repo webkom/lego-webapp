@@ -1,4 +1,4 @@
-import { Image, PressEvent } from '@webkom/lego-bricks';
+import { Image } from '@webkom/lego-bricks';
 import type { ComponentProps } from 'react';
 
 type Props = {
