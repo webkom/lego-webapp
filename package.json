@@ -72,7 +72,7 @@
     "linkifyjs": "^3.0.5",
     "lodash-es": "^4.17.21",
     "lucide-react": "^0.453.0",
-    "mazemap": "file:mazemap",
+    "mazemap": "file:packages/mazemap",
     "minireset.css": "^0.0.7",
     "moment-timezone": "^0.5.46",
     "morgan": "^1.9.1",
