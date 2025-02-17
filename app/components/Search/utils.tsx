@@ -163,13 +163,7 @@ const LINKS: Array<Link> = [
   {
     admin: true,
     key: 'bdb',
-    title: (
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        BDB
-        <Tag tag="PRO" color="gray" />
-      </Flex>
-    ),
-    sortTitle: 'BDB',
+    title: 'Bedriftsdatabase',
     icon: <Database />,
     url: '/bdb',
   },
