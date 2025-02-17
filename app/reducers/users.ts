@@ -5,10 +5,12 @@ import { eventSchema, registrationSchema } from 'app/reducers';
 import { selectGroupEntities } from 'app/reducers/groups';
 import { EntityType } from 'app/store/models/entities';
 import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
-import { User, Event } from '../actions/ActionTypes';
+import { User, Event, MembershipHistory } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
+import { ActionMenu } from 'packages/lego-bricks/src/components/Layout/Page/ActionMenu';
+import { CurrentUser } from 'app/store/models/User';
 
 export type UserEntity = {
   id: number;
@@ -47,6 +49,12 @@ const usersSlice = createSlice({
       });
       addCase(User.FETCH_LEADERBOARD.FAILURE, (state) => {
         state.fetchingAchievements = false;
+      });
+      addCase(MembershipHistory.DELETE.SUCCESS, (state, action) => {
+        const user = state.entities[action.meta.userId] as CurrentUser;
+        user.pastMemberships = user.pastMemberships.filter(
+          (membership) => membership.abakusGroup.id !== action.meta.groupId,
+        );
       });
     },
     extraMatchers: (addMatcher) => {

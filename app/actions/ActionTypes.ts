@@ -168,7 +168,9 @@ export const Membership = {
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP') as AAT,
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP') as AAT,
 };
-
+export const MembershipHistory = {
+  DELETE: generateStatuses('MembershipHistory.DELETE') as AAT,
+}
 /**
  *
  */

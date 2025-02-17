@@ -1,4 +1,10 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  Icon,
+  PressEvent,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash';
 import { CircleMinus } from 'lucide-react';
@@ -9,12 +15,16 @@ import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { resolveGroupLink, selectGroupEntities } from 'app/reducers/groups';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
-import { useAppSelector } from 'app/store/hooks';
-import type { Dateish } from 'app/models';
+import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { GroupType, type Dateish } from 'app/models';
 import type { PublicGroup } from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 import type { PastMembership } from 'app/store/models/Membership';
 import type { Optional } from 'utility-types';
+import { deleteMembershipHistory } from 'app/actions/GroupActions';
+import { useCurrentUser } from 'app/reducers/auth';
+import { useIsCurrentUser } from '../../utils';
+import { useEffect } from 'react';
 
 export const GroupMemberships = ({
   memberships,
@@ -93,9 +103,19 @@ const GroupBadge = ({
 }: {
   memberships: Optional<PastMembership, 'startDate' | 'endDate'>[];
 }) => {
+  //const isCurrentUser = isCurrentUser("MariaMelsnes");
   const activeMembership = memberships.find(
     (membership) => membership.isActive,
   );
+  const dispatch = useAppDispatch();
+
+  const params = useParams<{ username: string }>();
+  const isCurrentUser = useIsCurrentUser(params.username);
+
+  useEffect(() => {
+    console.log(params, isCurrentUser)
+  }, [params, isCurrentUser])
+
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
   const sortedMemberships = orderBy(memberships, (membership) =>
@@ -103,7 +123,8 @@ const GroupBadge = ({
   );
   const firstMembership = sortedMemberships[0];
   const lastMembership = sortedMemberships[sortedMemberships.length - 1];
-  const { id, name, logo } = abakusGroup;
+  const { id, name, logo, type } = abakusGroup;
+  const isInterestGroup = type === GroupType.Interest;
   const groupElement = (
     <div className={styles.badges}>
       <Tooltip
@@ -123,13 +144,6 @@ const GroupBadge = ({
             !activeMembership && styles.inactive,
           )}
         />
-        {!activeMembership && (
-          <Icon
-            className={styles.removeBadge}
-            iconNode={<CircleMinus />}
-            size={14}
-          />
-        )}
       </Tooltip>
     </div>
   );
@@ -140,8 +154,38 @@ const GroupBadge = ({
   }
 
   return (
-    <Link key={id} to={link}>
-      {groupElement}
-    </Link>
+    <div className={styles.badgeContainer}>
+      <Link key={id} to={link}>
+        {groupElement}
+      </Link>
+      {!activeMembership && isCurrentUser && isInterestGroup && (
+        <ConfirmModal
+          title="Slett Historikk"
+          message={
+            <>
+              Dette vil slette historikken din med{' '}
+              <strong>{abakusGroup.name}</strong>
+            </>
+          }
+          onConfirm={() =>
+            dispatch(
+              deleteMembershipHistory({
+                userId: user?.id,
+                groupId: abakusGroup.id,
+              }),
+            )
+          }
+        >
+          {({ openConfirmModal }) => (
+            <Icon
+              onClick={openConfirmModal}
+              className={styles.removeBadge}
+              iconNode={<CircleMinus />}
+              size={14}
+            />
+          )}
+        </ConfirmModal>
+      )}
+    </div>
   );
 };

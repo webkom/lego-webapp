@@ -1,6 +1,6 @@
 import callAPI from 'app/actions/callAPI';
 import { groupSchema, membershipSchema } from 'app/reducers';
-import { Group, Membership } from './ActionTypes';
+import { Group, Membership, MembershipHistory } from './ActionTypes';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { GroupType } from 'app/models';
 import type { TransformedMembership } from 'app/reducers/memberships';
@@ -31,6 +31,21 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
     },
   });
 }
+
+export const deleteMembershipHistory = ({ groupId, userId }: { groupId:EntityId, userId?:EntityId }) => {
+  return callAPI({
+    types: MembershipHistory.DELETE,
+    endpoint: `/membership-history`,
+    method: 'DELETE',
+    body: {
+      groupId: groupId,
+    },
+    meta: {
+      userId: userId,
+      groupId: groupId,
+    },
+  });
+};
 
 export function removeMember(membership: {
   id: EntityId;
