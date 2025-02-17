@@ -107,7 +107,7 @@
   top: -2px;
   right: -2px;
   color: var(--color-red-6);
-  background-color: var(--color-absolute-white);
+  background-color: var(--lego-card-color);
   border-radius: 50%;
   padding: 2px;
   opacity: 0;
