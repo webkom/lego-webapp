@@ -170,7 +170,7 @@ export const Membership = {
 };
 export const MembershipHistory = {
   DELETE: generateStatuses('MembershipHistory.DELETE') as AAT,
-}
+};
 /**
  *
  */

@@ -103,7 +103,6 @@ const GroupBadge = ({
 }: {
   memberships: Optional<PastMembership, 'startDate' | 'endDate'>[];
 }) => {
-  //const isCurrentUser = isCurrentUser("MariaMelsnes");
   const activeMembership = memberships.find(
     (membership) => membership.isActive,
   );
@@ -113,8 +112,8 @@ const GroupBadge = ({
   const isCurrentUser = useIsCurrentUser(params.username);
 
   useEffect(() => {
-    console.log(params, isCurrentUser)
-  }, [params, isCurrentUser])
+    console.log(params, isCurrentUser);
+  }, [params, isCurrentUser]);
 
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
@@ -160,7 +159,7 @@ const GroupBadge = ({
       </Link>
       {!activeMembership && isCurrentUser && isInterestGroup && (
         <ConfirmModal
-          title="Slett Historikk"
+          title="Fjern historikk"
           message={
             <>
               Dette vil slette historikken din med{' '}

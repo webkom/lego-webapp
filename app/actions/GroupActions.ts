@@ -32,7 +32,13 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
   });
 }
 
-export const deleteMembershipHistory = ({ groupId, userId }: { groupId:EntityId, userId?:EntityId }) => {
+export const deleteMembershipHistory = ({
+  groupId,
+  userId,
+}: {
+  groupId: EntityId;
+  userId?: EntityId;
+}) => {
   return callAPI({
     types: MembershipHistory.DELETE,
     endpoint: `/membership-history`,
