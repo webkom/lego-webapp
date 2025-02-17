@@ -20,6 +20,7 @@ type Props = {
   token: string | null;
   exportSurveyCSV?: () => Promise<GeneratedFile>;
   exportSurveyPDF?: () => Promise<GeneratedFile>;
+  isTemplate: boolean;
 };
 
 const AdminSideBar = ({
@@ -28,6 +29,7 @@ const AdminSideBar = ({
   token,
   exportSurveyCSV,
   exportSurveyPDF,
+  isTemplate,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [copied, setCopied] = useState(false);
@@ -112,7 +114,7 @@ const AdminSideBar = ({
                 </Button>
               ))}
 
-            {actionGrant && actionGrant.includes('edit') && (
+            {!isTemplate && actionGrant && actionGrant.includes('edit') && (
               <CheckBox
                 id="shareSurvey"
                 label="Del spørreundersøkelsen"
@@ -125,7 +127,7 @@ const AdminSideBar = ({
               />
             )}
 
-            {token && (
+            {token && !isTemplate && (
               <Button onPress={handleCopyButtonClick} success={copied}>
                 <Icon iconNode={copied ? <Check /> : <Copy />} size={19} />
                 {copied ? 'Kopiert!' : 'Kopier delbar link'}

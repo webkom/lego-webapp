@@ -14,7 +14,7 @@ import { Survey } from '../actions/ActionTypes';
 import { selectEventById } from './events';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import type { EventForSurvey, EventType } from 'app/store/models/Event';
+import type { EventForSurvey } from 'app/store/models/Event';
 import type {
   DetailedSurvey,
   PublicResultsSurvey,
@@ -46,11 +46,11 @@ export const {
 } = legoAdapter.getSelectors((state: RootState) => state.surveys);
 
 export const selectAllSurveys = createSelector(selectAll, (surveys) =>
-  surveys.filter((survey) => !survey.templateType),
+  surveys.filter((survey) => !survey.isTemplate),
 );
 
 export const selectSurveyTemplates = createSelector(selectAll, (surveys) =>
-  surveys.filter((survey) => survey.templateType),
+  surveys.filter((survey) => survey.isTemplate),
 );
 
 export type TransformedSurveyTemplate = Overwrite<
@@ -64,8 +64,8 @@ export type TransformedSurveyTemplate = Overwrite<
     >[];
   }
 >;
-export const selectSurveyTemplateByType = createSelector(
-  selectSurveysByField('templateType').single,
+export const selectSurveyTemplateById = createSelector(
+  selectSurveyById,
   (template) => {
     if (!template || !('actionGrant' in template)) return undefined;
     const questions = (template.questions || []).map((question) => ({
@@ -81,16 +81,16 @@ export const selectSurveyTemplateByType = createSelector(
 
 export const useFetchedTemplate = (
   prepareId: string,
-  templateType?: EventType,
+  id?: EntityId,
 ): TransformedSurveyTemplate | undefined => {
   const dispatch = useAppDispatch();
   usePreparedEffect(
     `useFetchedTemplate-${prepareId}`,
-    () => templateType && dispatch(fetchTemplate(templateType)),
-    [templateType],
+    () => id && dispatch(fetchTemplate(id)),
+    [id],
   );
   return useAppSelector((state: RootState) =>
-    selectSurveyTemplateByType(state, templateType),
+    selectSurveyTemplateById(state, id),
   );
 };
 
