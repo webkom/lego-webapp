@@ -9,30 +9,36 @@
     "dev": "vike dev",
     "build": "vike build",
     "preview": "vike preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
+    "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.1",
+    "@sentry/react": "^9.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "vike-react": "^0.5.13",
-    "@sentry/react": "^9.1.0"
+    "react-redux": "^9.2.0",
+    "vike-react": "^0.5.13"
   },
   "devDependencies": {
-    "typescript": "^5.7.3",
-    "vike": "^0.4.223",
-    "vite": "^6.1.0",
-    "eslint": "^9.20.1",
     "@eslint/js": "^9.20.0",
-    "typescript-eslint": "^8.24.0",
-    "eslint-plugin-prettier": "^5.2.3",
+    "@sentry/vite-plugin": "^3.1.2",
+    "@types/react": "^19.0.9",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.20.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.15.0",
     "prettier": "^3.5.1",
-    "@types/react": "^19.0.9",
-    "@types/react-dom": "^19.0.3",
-    "@sentry/vite-plugin": "^3.1.2"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0",
+    "vike": "^0.4.223",
+    "vite": "^6.1.0"
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "type": "module"
 }

@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import * as Sentry from "@sentry/react";
+import React, { useEffect } from 'react';
+import * as Sentry from '@sentry/react';
 
 export default function ReactSentryErrorPage() {
   const [sentryClientStatus, setSentryClientStatus] = React.useState({
@@ -14,25 +14,36 @@ export default function ReactSentryErrorPage() {
       dsn_missing: (options?.dsn?.length ?? 0) < 2,
       enabled: (options?.enabled ?? true) !== false,
     });
-    console.log("Sentry DSN: ", options?.dsn);
+    console.log('Sentry DSN: ', options?.dsn);
   }, []);
 
   return (
     <>
       <h1>Sentry Test Page</h1>
-      {(sentryClientStatus.client_not_loaded || sentryClientStatus.dsn_missing || !sentryClientStatus.enabled) && (
-        <p style={{ color: "red" }}>
+      {(sentryClientStatus.client_not_loaded ||
+        sentryClientStatus.dsn_missing ||
+        !sentryClientStatus.enabled) && (
+        <p style={{ color: 'red' }}>
           <b>Sentry Config Error:</b>
-          {sentryClientStatus.client_not_loaded ? "Client not loaded!" : ""}{" "}
-          {!sentryClientStatus.client_not_loaded && sentryClientStatus.dsn_missing ? "DSN is missing! " : ""}
-          {!sentryClientStatus.client_not_loaded && !sentryClientStatus.enabled ? "Client is not enabled! " : ""} Vite
-          Mode: {import.meta.env.PROD ? "PROD" : "DEV"}
+          {sentryClientStatus.client_not_loaded
+            ? 'Client not loaded!'
+            : ''}{' '}
+          {!sentryClientStatus.client_not_loaded &&
+          sentryClientStatus.dsn_missing
+            ? 'DSN is missing! '
+            : ''}
+          {!sentryClientStatus.client_not_loaded && !sentryClientStatus.enabled
+            ? 'Client is not enabled! '
+            : ''}{' '}
+          Vite Mode: {import.meta.env.PROD ? 'PROD' : 'DEV'}
         </p>
       )}
       <div>
         <button
           onClick={() => {
-            throw new Error(`This is a React SENTRY Browser Test! [${import.meta.env.DEV ? "DEV Mode" : "PROD Mode"}]`);
+            throw new Error(
+              `This is a React SENTRY Browser Test! [${import.meta.env.DEV ? 'DEV Mode' : 'PROD Mode'}]`,
+            );
           }}
         >
           Throw Javascript Error

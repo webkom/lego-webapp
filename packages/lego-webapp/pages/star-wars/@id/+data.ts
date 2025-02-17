@@ -1,8 +1,8 @@
 // https://vike.dev/data
 
-import type { PageContextServer } from "vike/types";
-import type { MovieDetails } from "../types.js";
-import { useConfig } from "vike-react/useConfig";
+import type { PageContextServer } from 'vike/types';
+import type { MovieDetails } from '../types.js';
+import { useConfig } from 'vike-react/useConfig';
 
 export type Data = Awaited<ReturnType<typeof data>>;
 
@@ -10,7 +10,9 @@ export const data = async (pageContext: PageContextServer) => {
   // https://vike.dev/useConfig
   const config = useConfig();
 
-  const response = await fetch(`https://brillout.github.io/star-wars/api/films/${pageContext.routeParams.id}.json`);
+  const response = await fetch(
+    `https://brillout.github.io/star-wars/api/films/${pageContext.routeParams.id}.json`,
+  );
   let movie = (await response.json()) as MovieDetails;
 
   config({

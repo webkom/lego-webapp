@@ -6,16 +6,16 @@ npm create bati --- --react --plausible.io --eslint --prettier --sentry
 
 ## Contents
 
-* [React](#react)
+- [React](#react)
 
-  * [`/pages/+config.ts`](#pagesconfigts)
-  * [Routing](#routing)
-  * [`/pages/_error/+Page.jsx`](#pages_errorpagejsx)
-  * [`/pages/+onPageTransitionStart.ts` and `/pages/+onPageTransitionEnd.ts`](#pagesonpagetransitionstartts-and-pagesonpagetransitionendts)
-  * [SSR](#ssr)
-  * [HTML Streaming](#html-streaming)
+  - [`/pages/+config.ts`](#pagesconfigts)
+  - [Routing](#routing)
+  - [`/pages/_error/+Page.jsx`](#pages_errorpagejsx)
+  - [`/pages/+onPageTransitionStart.ts` and `/pages/+onPageTransitionEnd.ts`](#pagesonpagetransitionstartts-and-pagesonpagetransitionendts)
+  - [SSR](#ssr)
+  - [HTML Streaming](#html-streaming)
 
-* [Sentry Browser / Error Tracking & Performance Monitoring](#sentry-browser--error-tracking--performance-monitoring)
+- [Sentry Browser / Error Tracking & Performance Monitoring](#sentry-browser--error-tracking--performance-monitoring)
 
 ## React
 
@@ -25,17 +25,17 @@ This app is ready to start. It's powered by [Vike](https://vike.dev) and [React]
 
 Such `+` files are [the interface](https://vike.dev/config) between Vike and your code. It defines:
 
-* A default [`<Layout>` component](https://vike.dev/Layout) (that wraps your [`<Page>` components](https://vike.dev/Page)).
-* A default [`title`](https://vike.dev/title).
-* Global [`<head>` tags](https://vike.dev/head-tags).
+- A default [`<Layout>` component](https://vike.dev/Layout) (that wraps your [`<Page>` components](https://vike.dev/Page)).
+- A default [`title`](https://vike.dev/title).
+- Global [`<head>` tags](https://vike.dev/head-tags).
 
 ### Routing
 
 [Vike's built-in router](https://vike.dev/routing) lets you choose between:
 
-* [Filesystem Routing](https://vike.dev/filesystem-routing) (the URL of a page is determined based on where its `+Page.jsx` file is located on the filesystem)
-* [Route Strings](https://vike.dev/route-string)
-* [Route Functions](https://vike.dev/route-function)
+- [Filesystem Routing](https://vike.dev/filesystem-routing) (the URL of a page is determined based on where its `+Page.jsx` file is located on the filesystem)
+- [Route Strings](https://vike.dev/route-string)
+- [Route Functions](https://vike.dev/route-function)
 
 ### `/pages/_error/+Page.jsx`
 
@@ -71,4 +71,3 @@ You have to configure `SENTRY_ORG`, `SENTRY_PROJECT` and `SENTRY_AUTH_TOKEN` in 
 1. Build & Start the app `pnpm build && pnpm preview`.
 2. open Testpage in browser: http://localhost:3000/sentry.
 3. check your [Sentry Dashboard](https://sentry.io) for new Errors.
-

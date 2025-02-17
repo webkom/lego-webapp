@@ -1,2 +1,2 @@
 sentryBrowserConfig();
-import { sentryBrowserConfig } from "../sentry.browser.config";
+import { sentryBrowserConfig } from '../sentry.browser.config';

@@ -1,7 +1,7 @@
 // https://vike.dev/Head
 
-import React from "react";
-import logoUrl from "../assets/logo.svg";
+import React from 'react';
+import logoUrl from '../assets/logo.svg';
 
 export default function HeadDefault() {
   return (
@@ -10,7 +10,11 @@ export default function HeadDefault() {
 
       {/* See https://plausible.io/docs/plausible-script */}
       {/* TODO: update data-domain */}
-      <script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
+      <script
+        defer
+        data-domain="yourdomain.com"
+        src="https://plausible.io/js/script.js"
+      ></script>
     </>
   );
 }

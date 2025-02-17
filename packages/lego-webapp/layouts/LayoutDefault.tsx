@@ -1,16 +1,20 @@
-import "./style.css";
+import './style.css';
 
-import React from "react";
-import logoUrl from "../assets/logo.svg";
-import { Link } from "../components/Link.js";
+import React from 'react';
+import logoUrl from '../assets/logo.svg';
+import { Link } from '../components/Link.js';
 
-export default function LayoutDefault({ children }: { children: React.ReactNode }) {
+export default function LayoutDefault({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <div
       style={{
-        display: "flex",
+        display: 'flex',
         maxWidth: 900,
-        margin: "auto",
+        margin: 'auto',
       }}
     >
       <Sidebar>
@@ -18,7 +22,7 @@ export default function LayoutDefault({ children }: { children: React.ReactNode 
         <Link href="/">Welcome</Link>
         <Link href="/todo">Todo</Link>
         <Link href="/star-wars">Data Fetching</Link>
-        {""}
+        {''}
       </Sidebar>
       <Content>{children}</Content>
     </div>
@@ -32,10 +36,10 @@ function Sidebar({ children }: { children: React.ReactNode }) {
       style={{
         padding: 20,
         flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        lineHeight: "1.8em",
-        borderRight: "2px solid #eee",
+        display: 'flex',
+        flexDirection: 'column',
+        lineHeight: '1.8em',
+        borderRight: '2px solid #eee',
       }}
     >
       {children}
@@ -51,7 +55,7 @@ function Content({ children }: { children: React.ReactNode }) {
         style={{
           padding: 20,
           paddingBottom: 50,
-          minHeight: "100vh",
+          minHeight: '100vh',
         }}
       >
         {children}
