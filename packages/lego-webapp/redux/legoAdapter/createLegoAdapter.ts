@@ -1,11 +1,11 @@
 import { createEntityAdapter } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { isNotNullish } from 'app/utils';
-import buildActionGrantReducer from 'app/utils/legoAdapter/buildActionGrantReducer';
-import buildDeleteEntityReducer from 'app/utils/legoAdapter/buildDeleteEntityReducer';
-import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
-import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
-import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
+import { isNotNullish } from '~/utils';
+import buildActionGrantReducer from '~/redux/legoAdapter/buildActionGrantReducer';
+import buildDeleteEntityReducer from '~/redux/legoAdapter/buildDeleteEntityReducer';
+import buildEntitiesReducer from '~/redux/legoAdapter/buildEntitiesReducer';
+import buildFetchingReducer from '~/redux/legoAdapter/buildFetchingReducer';
+import buildPaginationReducer from '~/redux/legoAdapter/buildPaginationReducer';
 import type {
   EntityAdapter,
   EntitySelectors,
@@ -15,12 +15,12 @@ import type {
   Comparer,
   IdSelector,
 } from '@reduxjs/toolkit';
-import type { ActionGrant } from 'app/models';
-import type { EntityType } from 'app/store/models/entities';
-import type Entities from 'app/store/models/entities';
-import type { AsyncActionType } from 'app/types';
-import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import type { EntityType } from '~/redux/models/entities';
+import type Entities from '~/redux/models/entities';
+import type { Pagination } from '~/redux/legoAdapter/buildPaginationReducer';
 import type { Assign } from 'utility-types';
+import { ActionGrant } from '~/redux/models';
+import { AsyncActionType } from '~/redux/ActionTypes';
 
 export type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;

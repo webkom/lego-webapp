@@ -2,9 +2,9 @@ import {
   isAsyncApiActionBegin,
   isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
-} from 'app/utils/legoAdapter/asyncApiActions';
+} from '~/redux/legoAdapter/asyncApiActions';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
-import type { AsyncActionType } from 'app/types';
+import { AsyncActionType } from '../ActionTypes';
 
 type StateWithFetching = {
   fetching: boolean;

@@ -1,11 +1,11 @@
 // is often expanded with additional properties
 import type { EntityId, AnyAction } from '@reduxjs/toolkit';
-import type Entities from 'app/store/models/entities';
+import type Entities from '~/redux/models/entities';
 import type {
   EntityType,
   NormalizedEntityPayload,
-} from 'app/store/models/entities';
-import type { AsyncActionType } from 'app/types';
+} from '~/redux/models/entities';
+import { AsyncActionType } from '~/redux/ActionTypes';
 
 interface BaseMeta {
   queryString: string;

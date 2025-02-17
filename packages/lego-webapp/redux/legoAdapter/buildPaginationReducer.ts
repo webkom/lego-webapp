@@ -3,14 +3,14 @@ import {
   isAsyncApiActionBegin,
   isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
-} from 'app/utils/legoAdapter/asyncApiActions';
+} from '~/redux/legoAdapter/asyncApiActions';
 import type { EntityId, ActionReducerMapBuilder } from '@reduxjs/toolkit';
-import type { AsyncActionType } from 'app/types';
 import type {
   FetchMeta,
   FetchPayload,
-} from 'app/utils/legoAdapter/asyncApiActions';
+} from '~/redux/legoAdapter/asyncApiActions';
 import type { ParsedQs } from 'qs';
+import { AsyncActionType } from '~/redux/ActionTypes';
 
 export type Pagination<Id extends EntityId = EntityId> = {
   query: ParsedQs;

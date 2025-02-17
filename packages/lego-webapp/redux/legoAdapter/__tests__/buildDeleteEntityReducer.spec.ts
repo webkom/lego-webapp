@@ -1,7 +1,7 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
 import { describe, it, expect } from 'vitest';
-import { generateStatuses } from 'app/actions/ActionTypes';
-import buildDeleteEntityReducer from 'app/utils/legoAdapter/buildDeleteEntityReducer';
+import { generateStatuses } from '~/redux/ActionTypes';
+import buildDeleteEntityReducer from '~/redux/legoAdapter/buildDeleteEntityReducer';
 
 type Entity = {
   id: number;

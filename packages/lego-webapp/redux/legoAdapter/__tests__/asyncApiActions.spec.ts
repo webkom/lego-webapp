@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import { generateStatuses } from 'app/actions/ActionTypes';
-import { EntityType } from 'app/store/models/entities';
+import { EntityType } from '~/redux/models/entities';
 import {
   isAsyncApiActionBegin,
   isAsyncApiActionFailure,
   isAsyncApiActionSuccess,
-} from 'app/utils/legoAdapter/asyncApiActions';
+} from '~/redux/legoAdapter/asyncApiActions';
+import { generateStatuses } from '~/redux/ActionTypes';
 
 describe('async action type guards', () => {
   const FETCH = generateStatuses('FETCH');

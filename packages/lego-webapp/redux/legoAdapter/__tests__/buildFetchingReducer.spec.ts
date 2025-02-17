@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { describe, it, expect } from 'vitest';
-import { generateStatuses } from 'app/actions/ActionTypes';
-import buildFetchingReducer from 'app/utils/legoAdapter/buildFetchingReducer';
+import { generateStatuses } from '~/redux/ActionTypes';
+import buildFetchingReducer from '~/redux/legoAdapter/buildFetchingReducer';
 
 describe('addFetchingReducer', () => {
   const FETCH = generateStatuses('FETCH');

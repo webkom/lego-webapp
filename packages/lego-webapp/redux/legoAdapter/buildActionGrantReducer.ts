@@ -1,6 +1,6 @@
-import { isAsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
+import { isAsyncApiActionSuccess } from '~/redux/legoAdapter/asyncApiActions';
 import type { ActionReducerMapBuilder } from '@reduxjs/toolkit';
-import type { EntityType } from 'app/store/models/entities';
+import type { EntityType } from '~/redux/models/entities';
 
 interface StateWithActionGrant {
   actionGrant: string[];

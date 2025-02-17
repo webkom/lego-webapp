@@ -14,8 +14,17 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      '~': path.resolve(__dirname),
+    },
+  },
   build: {
     target: 'es2022',
     sourcemap: true,
+  },
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./vitest.setup.ts'],
   },
 });

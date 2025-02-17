@@ -1,10 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { describe, it, expect } from 'vitest';
-import { generateStatuses } from 'app/actions/ActionTypes';
-import { EntityType } from 'app/store/models/entities';
-import createLegoAdapter from 'app/utils/legoAdapter/createLegoAdapter';
-import type { DetailedArticle } from 'app/store/models/Article';
-import type { AsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
+import { generateStatuses } from '~/redux/ActionTypes';
+import { EntityType } from '~/redux/models/entities';
+import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
+import type { DetailedArticle } from '~/redux/models/Article';
+import type { AsyncApiActionSuccess } from '~/redux/legoAdapter/asyncApiActions';
 
 const article = {
   id: 42,

@@ -1,8 +1,8 @@
 import { createEntityAdapter, createReducer } from '@reduxjs/toolkit';
 import { describe, it, expect } from 'vitest';
-import { EntityType } from 'app/store/models/entities';
-import buildEntitiesReducer from 'app/utils/legoAdapter/buildEntitiesReducer';
-import type { UnknownArticle } from 'app/store/models/Article';
+import { EntityType } from '~/redux/models/entities';
+import buildEntitiesReducer from '~/redux/legoAdapter/buildEntitiesReducer';
+import type { UnknownArticle } from '~/redux/models/Article';
 
 describe('buildEntitiesReducer', () => {
   const adapter = createEntityAdapter<UnknownArticle>();

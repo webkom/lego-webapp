@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { describe, it, expect } from 'vitest';
-import { EntityType } from 'app/store/models/entities';
-import buildActionGrantReducer from 'app/utils/legoAdapter/buildActionGrantReducer';
+import { EntityType } from '~/redux/models/entities';
+import buildActionGrantReducer from '~/redux/legoAdapter/buildActionGrantReducer';
 
 describe('buildActionGrantReducer', () => {
   const initialState = {

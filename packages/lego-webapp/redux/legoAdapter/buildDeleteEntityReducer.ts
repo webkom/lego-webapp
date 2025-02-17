@@ -1,11 +1,11 @@
-import { isAsyncApiActionSuccess } from 'app/utils/legoAdapter/asyncApiActions';
+import { isAsyncApiActionSuccess } from '~/redux/legoAdapter/asyncApiActions';
 import type {
   EntityId,
   EntityState,
   ActionReducerMapBuilder,
 } from '@reduxjs/toolkit';
-import type { AsyncActionType } from 'app/types';
-import type { DeleteMeta } from 'app/utils/legoAdapter/asyncApiActions';
+import type { DeleteMeta } from '~/redux/legoAdapter/asyncApiActions';
+import { AsyncActionType } from '../ActionTypes';
 
 /**
  * Handles optimistic and actual deletion of entities

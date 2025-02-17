@@ -9,6 +9,9 @@
     "dev": "vike dev",
     "build": "vike build",
     "preview": "vike preview",
+    "test": "vitest run",
+    "test:coverage": "yarn run test -- --coverage",
+    "test:watch": "vitest",
     "lint": "eslint .",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write"
@@ -38,7 +41,8 @@
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.0",
     "vike": "^0.4.223",
-    "vite": "^6.1.0"
+    "vite": "^6.1.0",
+    "vitest": "^3.0.5"
   },
   "prettier": {
     "singleQuote": true

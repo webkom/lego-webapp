@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { produce } from 'immer';
 import { describe, it, expect } from 'vitest';
-import { generateStatuses } from 'app/actions/ActionTypes';
-import buildPaginationReducer from 'app/utils/legoAdapter/buildPaginationReducer';
-import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import { generateStatuses } from '~/redux/ActionTypes';
+import buildPaginationReducer from '~/redux/legoAdapter/buildPaginationReducer';
+import type { Pagination } from '~/redux/legoAdapter/buildPaginationReducer';
 
 describe('buildPaginationReducer', () => {
   const FETCH = generateStatuses('FETCH');
