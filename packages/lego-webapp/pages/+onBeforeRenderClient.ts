@@ -1,5 +1,5 @@
 import { PageContextClient } from 'vike/types';
-import createStore from '../redux/createStore';
+import createStore from '~/redux/createStore';
 import cookie from 'js-cookie';
 
 export function onBeforeRenderClient(pageContext: PageContextClient) {

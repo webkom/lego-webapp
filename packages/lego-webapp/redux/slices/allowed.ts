@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Meta } from 'redux/ActionTypes';
+import { Meta } from '~/redux/ActionTypes';
 
 const initialState = {
   announcements: false,

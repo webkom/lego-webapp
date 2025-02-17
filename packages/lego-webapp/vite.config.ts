@@ -14,11 +14,6 @@ export default defineConfig({
       },
     }),
   ],
-  resolve: {
-    alias: {
-      app: path.resolve(__dirname, './app/'),
-    },
-  },
   build: {
     target: 'es2022',
     sourcemap: true,
