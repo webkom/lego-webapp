@@ -110,10 +110,7 @@ const GroupBadge = ({
 
   const params = useParams<{ username: string }>();
   const isCurrentUser = useIsCurrentUser(params.username);
-
-  useEffect(() => {
-    console.log(params, isCurrentUser);
-  }, [params, isCurrentUser]);
+  const currentUser = useCurrentUser();
 
   const abakusGroup = memberships[0].abakusGroup;
   if (!abakusGroup.showBadge) return null;
@@ -169,7 +166,7 @@ const GroupBadge = ({
           onConfirm={() =>
             dispatch(
               deleteMembershipHistory({
-                userId: user?.id,
+                userId: currentUser?.id,
                 groupId: abakusGroup.id,
               }),
             )
