@@ -13,5 +13,7 @@ export default {
   title: 'My Vike App',
   description: 'Demo showcasing Vike',
 
+  passToClient: ['storeInitialState'],
+
   extends: vikeReact,
 } satisfies Config;
