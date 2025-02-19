@@ -17,6 +17,7 @@
   "dependencies": {
     "@sentry/react": "^9.1.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "@webkom/react-prepare": "^1.2.0",
     "cookie": "^1.0.2",
     "js-cookie": "^3.0.5",
     "react": "^18.3.1",
