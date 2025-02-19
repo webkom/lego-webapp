@@ -1,3 +1,4 @@
+import { prepare } from '@webkom/react-prepare';
 import { parse } from 'cookie';
 import {
   createStaticHandler,
@@ -5,8 +6,10 @@ import {
   type StaticHandlerContext,
 } from 'react-router';
 import { PageContextServer } from 'vike/types';
+import { PageContextProvider } from 'vike-react/usePageContext';
 import { routerConfig } from '~/pages/react-router/routerConfig';
 import createStore from '../redux/createStore';
+import Wrapper from './+Wrapper';
 
 const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
   const origin = `${pageContext.urlParsed.protocol}://${pageContext.urlParsed.hostname}`;
@@ -52,4 +55,14 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   const context = (await query(fetchRequest)) as StaticHandlerContext;
   pageContext.router = createStaticRouter(dataRoutes, context);
   pageContext.routerContext = context;
+  // Fucking react-prepare
+  const Page = pageContext.Page;
+  if (Page)
+    await prepare(
+      <PageContextProvider pageContext={pageContext}>
+        <Wrapper>
+          <Page />
+        </Wrapper>
+      </PageContextProvider>,
+    );
 }
