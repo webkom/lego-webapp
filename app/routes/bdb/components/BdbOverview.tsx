@@ -1,22 +1,14 @@
-import { Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import { LinkButton, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation } from 'react-router';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { Tag } from 'app/components/Tags';
 
 const BdbOverview = () => {
   const isCompanyInterest = useLocation().pathname.includes('company-interest');
 
-  const title = (
-    <Flex gap="var(--spacing-sm)" alignItems="center">
-      <h1>BDB</h1>
-      <Tag tag="PRO" color="gray" />
-    </Flex>
-  );
-
   return (
     <Page
-      title={title}
+      title="Bedriftsdatabase"
       actionButtons={
         isCompanyInterest ? (
           <LinkButton
