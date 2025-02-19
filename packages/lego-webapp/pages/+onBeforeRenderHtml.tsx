@@ -49,6 +49,8 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
       getCookie: (key) => cookies[key],
     },
   );
+  // Helmet support
+  pageContext.helmetContext = {};
   // React router support
   const { query, dataRoutes } = createStaticHandler(routerConfig);
   const fetchRequest = createReactRouterFetchRequest(pageContext);
