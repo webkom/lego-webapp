@@ -20,10 +20,10 @@ import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import config from 'app/config';
 import { selectAllOAuth2Applications } from 'app/reducers/oauth2Applications';
 import { selectAllOAuth2Grants } from 'app/reducers/oauth2Grants';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import appConfig from '~/utils/appConfig';
 import styles from './UserSettingsOAuth2.module.css';
 
 const UserSettingsOAuth2 = () => {
@@ -165,7 +165,7 @@ const UserSettingsOAuth2 = () => {
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
         applikasjoner. OAuth2 er samme metode som GitHub og andre benytter seg
         av for pålogging. Du kan lese mer i{' '}
-        <a href={`${config.baseUrl}/docs/authentication.html#oauth2`}>
+        <a href={`${appConfig.baseUrl}/docs/authentication.html#oauth2`}>
           dokumentasjonen
         </a>{' '}
         til APIet. Kontakt{' '}
@@ -185,15 +185,15 @@ const UserSettingsOAuth2 = () => {
       <ul>
         <li>
           Auth Url:{' '}
-          <a href={`${config.baseUrl}/authorization/oauth2/authorize/`}>
-            {config.baseUrl}
+          <a href={`${appConfig.baseUrl}/authorization/oauth2/authorize/`}>
+            {appConfig.baseUrl}
             /authorization/oauth2/authorize/
           </a>
         </li>
         <li>
           Access Token Url:{' '}
-          <a href={`${config.baseUrl}/authorization/oauth2/token/`}>
-            {config.baseUrl}
+          <a href={`${appConfig.baseUrl}/authorization/oauth2/token/`}>
+            {appConfig.baseUrl}
             /authorization/oauth2/token/
           </a>
         </li>

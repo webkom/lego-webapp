@@ -22,7 +22,6 @@ import Dropdown from 'app/components/Dropdown';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
-import config from 'app/config';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectGalleryById } from 'app/reducers/galleries';
 import {
@@ -33,6 +32,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import { Keyboard } from 'app/utils/constants';
+import appConfig from '~/utils/appConfig';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.module.css';
 import type { DetailedGallery } from 'app/store/models/Gallery';
@@ -296,7 +296,7 @@ const GalleryPictureModal = () => {
         <title>{`${gallery.title} (${picture.id})`}</title>
         <link
           rel="canonical"
-          href={`${config?.webUrl}/photos/${gallery.id}/picture/${picture.id}`}
+          href={`${appConfig?.webUrl}/photos/${gallery.id}/picture/${picture.id}`}
         />
       </PropertyHelmet>
 

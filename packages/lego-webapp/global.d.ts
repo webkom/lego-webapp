@@ -11,9 +11,12 @@ import type { Config } from '~/utils/config';
 declare global {
   namespace Vike {
     interface PageContext {
-      store: Store;
+      // Passed from server to client (as defined in './pages/+config.ts')
       storeInitialState: RootState;
+      // Created on server and client
+      store: Store;
       router: Router;
+      // Created on server
       routerContext?: StaticHandlerContext;
       helmetContext?: {
         helmet?: HelmetServerState;

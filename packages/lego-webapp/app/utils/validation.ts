@@ -1,7 +1,7 @@
 import { merge } from 'lodash';
 import moment from 'moment-timezone';
-import config from 'app/config';
 import { EDITOR_EMPTY } from 'app/utils/constants';
+import appConfig from '~/utils/appConfig';
 import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
@@ -117,8 +117,8 @@ export const sameAs = (otherField, message) => (value, context) =>
   [value === context[otherField], message] as const;
 
 export const timeIsAfter = (otherField, message) => (value, context) => {
-  const startTime = moment.tz(context[otherField], config.timezone);
-  const endTime = moment.tz(value, config.timezone);
+  const startTime = moment.tz(context[otherField], appConfig.timezone);
+  const endTime = moment.tz(value, appConfig.timezone);
 
   if (startTime > endTime) {
     return [false, message] as const;

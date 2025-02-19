@@ -11,11 +11,11 @@ import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastProvider from 'app/components/Toast/ToastProvider';
-import config from 'app/config';
 import { setStatusCode } from 'app/reducers/routing';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
+import appConfig from '~/utils/appConfig';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.module.css';
 import type { PropsWithChildren } from 'react';
@@ -68,7 +68,7 @@ const App = () => {
           />
         </Helmet>
 
-        {config.environment !== 'production' && (
+        {appConfig.environment !== 'production' && (
           <div
             id="development-banner"
             style={{

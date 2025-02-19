@@ -42,7 +42,7 @@ const RegistrationStatusTag = ({
     if (event.eventStatusType === 'TBA')
       return `Påmelding ${isPastTenseNeeded ? 'ble aldri' : 'er ikke'} bestemt`;
 
-    if (!!event.activationTime) {
+    if (event.activationTime) {
       return (
         <Flex alignItems="center" gap="var(--spacing-xs)">
           <Icon

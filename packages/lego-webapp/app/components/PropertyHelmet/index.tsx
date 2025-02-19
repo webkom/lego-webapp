@@ -1,12 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-import config, { type Config } from 'app/config';
+import appConfig, { type AppConfig } from '~/utils/appConfig';
 import type { MetaHTMLAttributes, ReactNode } from 'react';
 
 type MetaProperty = MetaHTMLAttributes<HTMLMetaElement>;
 
 export type PropertyGenerator<T> = (
   props: T,
-  config?: Partial<Config>,
+  config?: Partial<AppConfig>,
 ) => MetaProperty[] | undefined;
 
 /**
@@ -50,7 +50,7 @@ const PropertyHelmet = <T = unknown,>({
   options,
   children,
 }: Props<T>) => {
-  const properties = propertyGenerator(options, config);
+  const properties = propertyGenerator(options, appConfig);
   if (!properties) return null;
   return (
     <Helmet>

@@ -1,9 +1,9 @@
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import Turnstile from 'react-turnstile';
-import config from 'app/config';
 import { useTheme } from 'app/utils/themeUtils';
 import usePrevious from 'app/utils/usePrevious';
+import appConfig from '~/utils/appConfig';
 import styles from './Captcha.module.css';
 import { createField } from './Field';
 
@@ -27,7 +27,7 @@ const Captcha = ({ className, onChange = () => {}, value }: Props) => {
     <div className={cx(className, styles.captchaContainer)}>
       <Turnstile
         key={captchaKey}
-        sitekey={config.captchaKey}
+        sitekey={appConfig.captchaKey}
         onVerify={onChange}
         theme={theme}
       />

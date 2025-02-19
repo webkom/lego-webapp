@@ -11,9 +11,9 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { useState, useEffect, useCallback } from 'react';
 import { payment } from 'app/actions/EventActions';
-import config from 'app/config';
 import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
+import appConfig from '~/utils/appConfig';
 import stripeStyles from './Stripe.module.css';
 import type { PaymentMethod, PaymentRequest } from '@stripe/stripe-js';
 import type { EventRegistrationPaymentStatus } from 'app/models';
@@ -343,7 +343,7 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
   );
 };
 
-const stripePromise = loadStripe(config.stripeKey);
+const stripePromise = loadStripe(appConfig.stripeKey);
 
 const PaymentForm = (props: FormProps) => {
   const [loading, _setLoading] = useState(false);

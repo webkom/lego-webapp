@@ -38,7 +38,6 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import Attendance from 'app/components/UserAttendance/Attendance';
-import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
 import { selectMeetingById } from 'app/reducers/meetings';
@@ -56,6 +55,7 @@ import {
   legoEditorRequired,
   required,
 } from 'app/utils/validation';
+import appConfig from '~/utils/appConfig';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { AutocompleteGroup } from 'app/store/models/Group';
@@ -64,7 +64,7 @@ import type { AutocompleteUser } from 'app/store/models/User';
 
 const time = (hours: number, minutes?: number) =>
   moment()
-    .tz(config.timezone)
+    .tz(appConfig.timezone)
     .startOf('day')
     .add({
       hours,

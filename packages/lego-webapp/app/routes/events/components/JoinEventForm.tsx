@@ -23,7 +23,6 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
-import config from 'app/config';
 import { useCurrentUser } from 'app/reducers/auth';
 import { selectRegistrationForEventByUserId } from 'app/reducers/events';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
@@ -33,6 +32,7 @@ import { Presence } from 'app/store/models/Registration';
 import { Keyboard } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
+import appConfig from '~/utils/appConfig';
 import {
   paymentSuccess,
   paymentManual,
@@ -400,7 +400,7 @@ const JoinEventForm = ({
                       !registrationPending &&
                       !registration &&
                       captchaOpen &&
-                      config.environment !== 'ci' &&
+                      appConfig.environment !== 'ci' &&
                       event.useCaptcha;
 
                     return (

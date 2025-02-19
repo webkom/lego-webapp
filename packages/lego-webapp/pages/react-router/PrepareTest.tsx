@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '~/redux/rootReducer';
 import { setTest } from '~/redux/slices/test';
+import appConfig from '~/utils/appConfig';
 
 export default function PrepareTest() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ export default function PrepareTest() {
         <title>Prepare Test</title>
       </Helmet>
       <pre>{value}</pre>
+      <pre>{JSON.stringify(appConfig, undefined, 2)}</pre>
     </div>
   );
 }

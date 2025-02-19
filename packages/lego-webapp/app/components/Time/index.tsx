@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import config from 'app/config';
+import appConfig from '~/utils/appConfig';
 import type { Dateish } from 'app/models';
 import type { TimeHTMLAttributes } from 'react';
 
@@ -31,7 +31,7 @@ function Time({
   ...props
 }: Props & TimeHTMLAttributes<HTMLTimeElement>) {
   const formatted = getFormattedDateTime(
-    moment.tz(time || moment(), config.timezone),
+    moment.tz(time || moment(), appConfig.timezone),
     wordsAgo ? 'timeAgoInWords' : format,
   );
 

@@ -24,8 +24,8 @@ import {
   loginAutomaticallyIfPossible,
   maybeRefreshToken,
 } from 'app/actions/UserActions';
-import config from 'app/config';
 import createStore from 'app/store/createStore';
+import appConfig from '~/utils/appConfig';
 import renderApp from './render';
 
 !__DEV__ &&
@@ -64,9 +64,9 @@ global.log = function log(self = this) {
 };
 
 Sentry.init({
-  dsn: config.sentryDSN,
-  release: config.release,
-  environment: config.environment,
+  dsn: appConfig.sentryDSN,
+  release: appConfig.release,
+  environment: appConfig.environment,
   normalizeDepth: 10,
 });
 const preloadedState = window.__PRELOADED_STATE__;

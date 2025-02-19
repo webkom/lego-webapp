@@ -4,8 +4,8 @@ import { useCallback, useState } from 'react';
 import { hideSurvey, shareSurvey } from 'app/actions/SurveyActions';
 import { ContentSidebar } from 'app/components/Content';
 import { CheckBox } from 'app/components/Form';
-import config from 'app/config';
 import { useAppDispatch } from 'app/store/hooks';
+import appConfig from '~/utils/appConfig';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 
@@ -36,7 +36,7 @@ const AdminSideBar = ({
   const [generatedPDF, setgeneratedPDF] = useState<GeneratedFile>();
   const canEdit = actionGrant.includes('edit');
   const shareLink = token
-    ? `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`
+    ? `${appConfig.webUrl}/surveys/${surveyId}/results/?token=${token}`
     : '';
 
   const handleCopyButtonClick = useCallback(() => {
