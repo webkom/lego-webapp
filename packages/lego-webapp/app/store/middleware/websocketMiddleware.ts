@@ -1,10 +1,10 @@
 import WebSocketClient from 'websocket.js';
 import { User, Event } from 'app/actions/ActionTypes';
 import { fetchFollowers } from 'app/actions/EventActions';
-import config from 'app/config';
 import { selectCurrentUser } from 'app/reducers/auth';
 import { addToast } from 'app/reducers/toasts';
 import createQueryString from 'app/utils/createQueryString';
+import appConfig from '~/utils/appConfig';
 import type { Middleware } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
 import type { AppDispatch } from 'app/store/createStore';
@@ -21,7 +21,7 @@ const createWebSocketMiddleware = (): Middleware<
       const qs = createQueryString({
         jwt,
       });
-      socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
+      socket = new WebSocketClient(`${appConfig.wsServerUrl}/${qs}`);
 
       socket.onmessage = (event) => {
         const { type, payload, meta: socketMeta } = JSON.parse(event.data);

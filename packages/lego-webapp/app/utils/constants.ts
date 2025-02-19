@@ -1,4 +1,4 @@
-import config from 'app/config';
+import appConfig from '~/utils/appConfig';
 
 export const Keyboard = {
   ESCAPE: 'Escape',
@@ -55,8 +55,8 @@ export const roleOptions = (Object.keys(ROLES) as RoleType[])
  * Use the local backend group id (12) if the webapp is running with yarn start.
  */
 export const WEBKOM_GROUP_ID: number =
-  config.environment &&
-  ['production', 'staging', 'local_staging'].includes(config.environment)
+  appConfig.environment &&
+  ['production', 'staging', 'local_staging'].includes(appConfig.environment)
     ? 11
     : 12;
 export const EDITOR_EMPTY = '<p></p>';

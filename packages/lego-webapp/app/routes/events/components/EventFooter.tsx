@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import Circle from 'app/components/Circle';
-import config from 'app/config';
+import appConfig from '~/utils/appConfig';
 import { EventTypeConfig } from '../utils';
 import type { IcalToken } from 'app/models';
 
@@ -22,7 +22,7 @@ const icalTypes: { name: IcalType; title: string }[] = [
 type IcalType = 'events' | 'registrations' | 'personal';
 
 export const getIcalUrl = (icalToken: IcalToken, icalType: IcalType) =>
-  `${config.serverUrl}/calendar-ical/${icalType}/?token=${icalToken}`;
+  `${appConfig.serverUrl}/calendar-ical/${icalType}/?token=${icalToken}`;
 
 export const getIcalUrlGoogle = (icalToken: IcalToken, icalType: IcalType) => {
   const icalUrl = getIcalUrl(icalToken, icalType).replace(/^https/i, 'http');

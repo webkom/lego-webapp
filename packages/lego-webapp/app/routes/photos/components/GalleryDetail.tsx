@@ -20,7 +20,6 @@ import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
 import ImageUpload from 'app/components/Upload/ImageUpload';
-import config from 'app/config';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectGalleryById } from 'app/reducers/galleries';
 import {
@@ -34,6 +33,7 @@ import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
+import appConfig from '~/utils/appConfig';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.module.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
@@ -205,7 +205,7 @@ const GalleryDetail = () => {
           <title>{gallery.title}</title>
           <link
             rel="canonical"
-            href={`${config?.webUrl}/photos/${gallery.id}`}
+            href={`${appConfig?.webUrl}/photos/${gallery.id}`}
           />
         </PropertyHelmet>
 

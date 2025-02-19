@@ -1,7 +1,7 @@
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
-import config from 'app/config';
 import { EventType } from 'app/store/models/Event';
+import appConfig from '~/utils/appConfig';
 import type {
   Event,
   TransformEvent,
@@ -252,7 +252,7 @@ export const transformEvent = (data: TransformEvent) => ({
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   unregistrationDeadlineHours: calculateUnregistrationDeadlineHours(data),
   pools: calculatePools(data),
-  useCaptcha: config.environment === 'ci' ? false : data.useCaptcha,
+  useCaptcha: appConfig.environment === 'ci' ? false : data.useCaptcha,
   youtubeUrl: data.youtubeUrl,
   mazemapPoi: calculateMazemapPoi(data),
   feedbackDescription:

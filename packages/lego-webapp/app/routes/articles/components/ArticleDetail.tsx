@@ -10,7 +10,6 @@ import LegoReactions from 'app/components/LegoReactions';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
-import config from 'app/config';
 import { selectArticleByIdOrSlug } from 'app/reducers/articles';
 import { useIsLoggedIn } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
@@ -18,6 +17,7 @@ import { selectUsersByIds } from 'app/reducers/users';
 import sharedStyles from 'app/routes/articles/articles.module.css';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import appConfig from '~/utils/appConfig';
 import styles from './ArticleDetail.module.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { DetailedArticle, PublicArticle } from 'app/store/models/Article';
@@ -134,7 +134,7 @@ const ArticleDetail = () => {
         <title>{article.title}</title>
         <link
           rel="canonical"
-          href={`${config?.webUrl}/articles/${article.id}`}
+          href={`${appConfig?.webUrl}/articles/${article.id}`}
         />
       </PropertyHelmet>
 
