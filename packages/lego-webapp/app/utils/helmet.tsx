@@ -1,7 +1,7 @@
 /* eslint react/display-name: 0 */
 import { createElement } from 'react';
 import { Helmet } from 'react-helmet-async';
-import config from 'app/config';
+import appConfig from '~/utils/appConfig';
 import type { ComponentType } from 'react';
 
 /**
@@ -27,7 +27,7 @@ export default function helmet<T>(
 ) {
   return (Component: ComponentType<T>) => (props: T) => {
     const properties: Array<Property> | null | undefined =
-      propertyGenerator && propertyGenerator(props, config);
+      propertyGenerator && propertyGenerator(props, appConfig);
 
     return (
       <>

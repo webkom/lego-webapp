@@ -17,7 +17,6 @@ import InfoList from 'app/components/InfoList';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
-import config from 'app/config';
 import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
 import { selectCommentsByIds } from 'app/reducers/comments';
 import { selectEventByIdOrSlug } from 'app/reducers/events';
@@ -36,6 +35,7 @@ import {
 } from 'app/routes/events/utils';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import appConfig from '~/utils/appConfig';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import styles from './EventDetail.module.css';
@@ -193,7 +193,10 @@ const EventDetail = () => {
           options={{ event }}
         >
           <title>{event.title}</title>
-          <link rel="canonical" href={`${config?.webUrl}/events/${event.id}`} />
+          <link
+            rel="canonical"
+            href={`${appConfig?.webUrl}/events/${event.id}`}
+          />
         </PropertyHelmet>
       )}
 

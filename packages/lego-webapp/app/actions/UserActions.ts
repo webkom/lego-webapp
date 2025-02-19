@@ -3,9 +3,9 @@ import { jwtDecode } from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import callAPI from 'app/actions/callAPI';
-import config from 'app/config';
 import { userSchema, penaltySchema } from 'app/reducers';
 import { setStatusCode } from 'app/reducers/routing';
+import appConfig from '~/utils/appConfig';
 import { User, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
@@ -28,7 +28,7 @@ export function saveToken(token: EncodedToken) {
     path: '/',
     expires: expires.toDate(),
     // Only HTTPS in prod:
-    secure: config.environment === 'production',
+    secure: appConfig.environment === 'production',
   });
 }
 

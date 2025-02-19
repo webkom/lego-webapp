@@ -14,11 +14,11 @@ import InfoList from 'app/components/InfoList';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Time from 'app/components/Time';
-import config from 'app/config';
 import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isTruthy } from 'app/utils';
+import appConfig from '~/utils/appConfig';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
 import type { DetailedJoblisting } from 'app/store/models/Joblisting';
 
@@ -117,7 +117,7 @@ const JoblistingDetail = () => {
         <title>{joblisting.title}</title>
         <link
           rel="canonical"
-          href={`${config?.webUrl}/joblistings/${joblisting.id}`}
+          href={`${appConfig?.webUrl}/joblistings/${joblisting.id}`}
         />
       </PropertyHelmet>
       <ContentSection>

@@ -1,6 +1,6 @@
 import qs from 'qs';
-import config from 'app/config';
 import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
+import appConfig from '~/utils/appConfig';
 import {
   COLLABORATION_TYPES,
   EVENTS,
@@ -89,7 +89,7 @@ export const getCsvUrl = (
   semester: string,
   event?: string,
 ) =>
-  `${config.serverUrl}/company-interests/csv/?${qs.stringify({
+  `${appConfig.serverUrl}/company-interests/csv/?${qs.stringify({
     year,
     semester,
     event,

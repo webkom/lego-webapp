@@ -17,10 +17,10 @@ import {
 import CheckBox from 'app/components/Form/CheckBox';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import config from 'app/config';
 import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isEmail, createValidator, required } from 'app/utils/validation';
+import appConfig from '~/utils/appConfig';
 import type { DetailedRestrictedMail } from 'app/store/models/RestrictedMail';
 
 const validate = createValidator({
@@ -185,7 +185,7 @@ const RestrictedMailEditor = () => {
             {isNew && <SubmitButton>Opprett flaskepost</SubmitButton>}
             {!isNew && restrictedMailId && restrictedMail && (
               <LinkButton
-                href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
+                href={`${appConfig.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
                 download
               >
                 <Icon iconNode={<Download />} size={19} />
