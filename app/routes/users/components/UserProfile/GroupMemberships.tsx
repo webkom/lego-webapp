@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { deleteMembershipHistory } from 'app/actions/GroupActions';
 import { CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
