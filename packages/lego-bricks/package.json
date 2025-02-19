@@ -20,7 +20,8 @@
   "exports": {
     ".": {
       "import": "./dist/lego-bricks.js",
-      "require": "./dist/lego-bricks.umd.cjs"
+      "require": "./dist/lego-bricks.umd.cjs",
+      "types": "./dist/index.d.ts"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
