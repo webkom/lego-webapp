@@ -1,4 +1,5 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '~/redux/rootReducer';
 import { setTest } from '~/redux/slices/test';
@@ -18,6 +19,9 @@ export default function PrepareTest() {
 
   return (
     <div>
+      <Helmet>
+        <title>Prepare Test</title>
+      </Helmet>
       <pre>{value}</pre>
     </div>
   );

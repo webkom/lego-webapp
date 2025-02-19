@@ -10,8 +10,8 @@ export default {
   Layout,
 
   // https://vike.dev/head-tags
-  title: 'My Vike App',
-  description: 'Demo showcasing Vike',
+  // title: 'My Vike App',
+  // description: 'Demo showcasing Vike',
 
   passToClient: ['storeInitialState'],
 

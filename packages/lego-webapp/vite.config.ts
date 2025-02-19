@@ -3,6 +3,7 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react';
 import vike from 'vike/plugin';
 import { defineConfig } from 'vite';
+import { cjsInterop } from 'vite-plugin-cjs-interop';
 
 export default defineConfig({
   plugins: [
@@ -12,6 +13,9 @@ export default defineConfig({
       sourcemaps: {
         disable: false,
       },
+    }),
+    cjsInterop({
+      dependencies: ['react-helmet-async'],
     }),
   ],
   resolve: {
