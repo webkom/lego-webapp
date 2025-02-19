@@ -2,6 +2,7 @@
 
 import { usePageContext } from 'vike-react/usePageContext';
 import logoUrl from '~/assets/logo.svg';
+import { appConfig } from '~/utils/appConfig';
 
 export default function HeadDefault() {
   const pageContext = usePageContext();
@@ -15,13 +16,14 @@ export default function HeadDefault() {
         pageContext.helmetContext?.helmet?.link.toComponent(),
       ]}
 
-      {/* See https://plausible.io/docs/plausible-script */}
-      {/* TODO: update data-domain */}
-      <script
-        defer
-        data-domain="yourdomain.com"
-        src="https://plausible.io/js/script.js"
-      ></script>
+      {!import.meta.env.DEV && (
+        <script
+          defer
+          // The .replace() removes the protocol (https://) part of the url, leaving just the domain
+          data-domain={appConfig.webUrl.replace(/(^\w+:|^)\/\//, '')}
+          src="https://ls.webkom.dev/js/script.js"
+        ></script>
+      )}
     </>
   );
 }
