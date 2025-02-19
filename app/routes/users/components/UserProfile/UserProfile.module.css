@@ -90,11 +90,37 @@
   margin-right: var(--spacing-sm);
 }
 
+.badges {
+  position: relative;
+  display: inline-block;
+}
+
 .membershipBadge {
   &.inactive {
     filter: grayscale(100%);
     opacity: 0.7;
   }
+}
+
+.removeBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  color: var(--danger-color);
+  background-color: var(--lego-card-color);
+  border-radius: 50%;
+  padding: 2px;
+  opacity: 0;
+  transition: opacity var(--easing-md);
+  cursor: pointer;
+}
+
+.badgeContainer {
+  position: relative;
+}
+
+.badgeContainer:hover .removeBadge {
+  opacity: 1;
 }
 
 .achievements {
