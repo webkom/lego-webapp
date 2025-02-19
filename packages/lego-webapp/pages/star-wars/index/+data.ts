@@ -1,7 +1,7 @@
 // https://vike.dev/data
 
-import type { Movie, MovieDetails } from '../types';
 import { useConfig } from 'vike-react/useConfig';
+import type { Movie, MovieDetails } from '../types';
 
 export type Data = Awaited<ReturnType<typeof data>>;
 
