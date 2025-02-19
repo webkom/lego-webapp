@@ -9,8 +9,7 @@ import { User, Event, MembershipHistory } from '../actions/ActionTypes';
 import type { PhotoConsent } from '../models';
 import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { RootState } from 'app/store/createRootReducer';
-import { ActionMenu } from 'packages/lego-bricks/src/components/Layout/Page/ActionMenu';
-import { CurrentUser } from 'app/store/models/User';
+import type { CurrentUser } from 'app/store/models/User';
 
 export type UserEntity = {
   id: number;

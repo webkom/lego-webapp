@@ -106,12 +106,12 @@
   position: absolute;
   top: -2px;
   right: -2px;
-  color: var(--color-red-6);
+  color: var(--danger-color);
   background-color: var(--lego-card-color);
   border-radius: 50%;
   padding: 2px;
   opacity: 0;
-  transition: opacity 0.25s ease-in-out;
+  transition: opacity var(--easing-md);
   cursor: pointer;
 }
 

@@ -1,30 +1,23 @@
-import {
-  Button,
-  ConfirmModal,
-  Flex,
-  Icon,
-  PressEvent,
-} from '@webkom/lego-bricks';
+import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router';
+import { deleteMembershipHistory } from 'app/actions/GroupActions';
 import { CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
+import { GroupType, type Dateish } from 'app/models';
+import { useCurrentUser } from 'app/reducers/auth';
 import { resolveGroupLink, selectGroupEntities } from 'app/reducers/groups';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { GroupType, type Dateish } from 'app/models';
+import { useIsCurrentUser } from '../../utils';
 import type { PublicGroup } from 'app/store/models/Group';
 import type Membership from 'app/store/models/Membership';
 import type { PastMembership } from 'app/store/models/Membership';
 import type { Optional } from 'utility-types';
-import { deleteMembershipHistory } from 'app/actions/GroupActions';
-import { useCurrentUser } from 'app/reducers/auth';
-import { useIsCurrentUser } from '../../utils';
-import { useEffect } from 'react';
 
 export const GroupMemberships = ({
   memberships,
