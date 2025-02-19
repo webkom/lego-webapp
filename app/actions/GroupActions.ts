@@ -41,11 +41,8 @@ export const deleteMembershipHistory = ({
 }) => {
   return callAPI({
     types: MembershipHistory.DELETE,
-    endpoint: `/membership-history/`,
+    endpoint: `/membership-history/${groupId}`,
     method: 'DELETE',
-    body: {
-      groupId: groupId,
-    },
     meta: {
       userId: userId,
       groupId: groupId,
