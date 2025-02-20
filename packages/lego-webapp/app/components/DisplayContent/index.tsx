@@ -2,6 +2,7 @@ import { Skeleton } from '@webkom/lego-bricks';
 import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
+import { usePageContext } from 'vike-react/usePageContext';
 import styles from './DisplayContent.module.css';
 import type { CSSProperties } from 'react';
 
@@ -25,13 +26,7 @@ function DisplayContent({
   placeholder,
   skeleton = false,
 }: Props) {
-  let domParser = null;
-
-  if (import.meta.env.SSR) {
-    const JSDOM = require('jsdom').JSDOM;
-
-    domParser = (val) => new JSDOM(val).window.document;
-  }
+  const pageContext = usePageContext();
 
   if (skeleton) {
     return (
@@ -52,7 +47,7 @@ function DisplayContent({
         value={content}
         placeholder={placeholder}
         disabled
-        domParser={domParser}
+        domParser={pageContext.domParser}
       />
     </div>
   );
