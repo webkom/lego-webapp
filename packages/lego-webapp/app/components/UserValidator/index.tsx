@@ -4,20 +4,20 @@ import { Check, ScanQrCode, X } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router';
-import { autocomplete } from 'app/actions/SearchActions';
 import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
 import TextWithIcon from 'app/components/TextWithIcon';
+import { autocomplete } from '~/redux/actions/SearchActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectAutocompleteRedux,
   type UserSearchResult,
-} from 'app/reducers/search';
-import { addToast } from 'app/reducers/toasts';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+} from '~/redux/slices/search';
+import { addToast } from '~/redux/slices/toasts';
 import styles from './Validator.module.css';
-import type { SearchUser } from 'app/store/models/User';
 import type { ReactNode } from 'react';
 import type { Required } from 'utility-types';
+import type { SearchUser } from '~/redux/models/User';
 
 type UserWithUsername = Required<Partial<UserSearchResult>, 'username'>;
 

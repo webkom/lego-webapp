@@ -1,6 +1,5 @@
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import { createGroup, editGroup } from 'app/actions/GroupActions';
 import {
   Form,
   TextInput,
@@ -12,12 +11,13 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { GroupType } from 'app/models';
-import { selectGroupById } from 'app/reducers/groups';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
+import { createGroup, editGroup } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectGroupById } from '~/redux/slices/groups';
 import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
-import type { DetailedGroup } from 'app/store/models/Group';
+import type { DetailedGroup } from '~/redux/models/Group';
 
 type FormValues = {
   name: string;

@@ -5,7 +5,6 @@ import { FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
-import { fetchEvent } from 'app/actions/EventActions';
 import CommentView from 'app/components/Comments/CommentView';
 import {
   ContentSection,
@@ -17,9 +16,6 @@ import InfoList from 'app/components/InfoList';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Tag from 'app/components/Tags/Tag';
 import TextWithIcon from 'app/components/TextWithIcon';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { selectCommentsByIds } from 'app/reducers/comments';
-import { selectEventByIdOrSlug } from 'app/reducers/events';
 import { AttendeeSection } from 'app/routes/events/components/EventDetail/AttendeeSection';
 import { InterestedButton } from 'app/routes/events/components/EventDetail/InterestedButton';
 import { SidebarInfo } from 'app/routes/events/components/EventDetail/SidebarInfo';
@@ -34,17 +30,21 @@ import {
   displayNameForEventType,
 } from 'app/routes/events/utils';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import appConfig from '~/utils/appConfig';
+import { fetchEvent } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
+import { selectCommentsByIds } from '~/redux/slices/comments';
+import { selectEventByIdOrSlug } from '~/redux/slices/events';
+import { appConfig } from '~/utils/appConfig';
 import Admin from '../Admin';
 import JoinEventForm from '../JoinEventForm';
 import styles from './EventDetail.module.css';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
-import type { PoolWithRegistrations } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
-} from 'app/store/models/Event';
+} from '~/redux/models/Event';
+import type { PoolWithRegistrations } from '~/redux/slices/events';
 
 const Line = () => <div className={styles.line} />;
 

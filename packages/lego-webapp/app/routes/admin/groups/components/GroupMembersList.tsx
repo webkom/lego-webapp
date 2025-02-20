@@ -2,21 +2,21 @@ import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { removeMember, addMember } from 'app/actions/GroupActions';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
-import { selectGroupEntities } from 'app/reducers/groups';
 import { defaultGroupMembersQuery } from 'app/routes/admin/groups/components/GroupMembers';
 import { useIsCurrentUser } from 'app/routes/users/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { roleOptions, ROLES, type RoleType } from 'app/utils/constants';
 import useQuery from 'app/utils/useQuery';
+import { removeMember, addMember } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectGroupEntities } from '~/redux/slices/groups';
 import styles from './GroupMembersList.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ColumnProps } from 'app/components/Table';
-import type { TransformedMembership } from 'app/reducers/memberships';
 import type { ReactNode } from 'react';
+import type { TransformedMembership } from '~/redux/slices/memberships';
 
 type Props = {
   fetching: boolean;

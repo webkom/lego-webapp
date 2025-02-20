@@ -10,18 +10,25 @@ import cx from 'classnames';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
-import { postGettingWood } from 'app/actions/AchievementActions';
-import {
-  fetchAllMemberships,
-  fetchAllWithType,
-  fetchGroup,
-} from 'app/actions/GroupActions';
-import { fetchPage, fetchAll as fetchAllPages } from 'app/actions/PageActions';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import { GroupType } from 'app/models';
-import { useIsLoggedIn } from 'app/reducers/auth';
+import HTTPError from 'app/routes/errors/HTTPError';
+import PageHierarchy from 'app/routes/pages/components/PageHierarchy';
+import { isNotNullish } from 'app/utils';
+import { postGettingWood } from '~/redux/actions/AchievementActions';
+import {
+  fetchAllMemberships,
+  fetchAllWithType,
+  fetchGroup,
+} from '~/redux/actions/GroupActions';
+import {
+  fetchPage,
+  fetchAll as fetchAllPages,
+} from '~/redux/actions/PageActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import {
   selectPagesForHierarchy,
   selectCommitteeForHierarchy,
@@ -34,21 +41,17 @@ import {
   selectFlatpagePageInfo,
   selectCommitteePageInfo,
   selectNotFoundPageInfo,
-} from 'app/reducers/pages';
-import HTTPError from 'app/routes/errors/HTTPError';
-import PageHierarchy from 'app/routes/pages/components/PageHierarchy';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { isNotNullish } from 'app/utils';
+} from '~/redux/slices/pages';
 import LandingPage from './LandingPage';
 import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { HierarchySectionEntity } from 'app/routes/pages/components/PageHierarchy';
-import type { RootState } from 'app/store/createRootReducer';
-import type { AppDispatch } from 'app/store/createStore';
-import type { PublicUser } from 'app/store/models/User';
 import type { Thunk } from 'app/types';
 import type { RoleType } from 'app/utils/constants';
+import type { AppDispatch } from '~/redux/createStore';
+import type { PublicUser } from '~/redux/models/User';
+import type { RootState } from '~/redux/rootReducer';
 
 type PageRendererProps<T> = {
   page: T;

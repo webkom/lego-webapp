@@ -1,10 +1,10 @@
 import { useToastState } from '@react-stately/toast';
 import { useEffect } from 'react';
 import { ToastRegion } from 'app/components/Toast/ToastRegion';
-import { removeToast, selectToasts } from 'app/reducers/toasts';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import usePrevious from 'app/utils/usePrevious';
-import type { ToastContent } from 'app/reducers/toasts';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { removeToast, selectToasts } from '~/redux/slices/toasts';
+import type { ToastContent } from '~/redux/slices/toasts';
 
 const ToastProvider = () => {
   const dispatch = useAppDispatch();

@@ -1,10 +1,6 @@
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router';
 import {
-  createLendableObject,
-  editLendableObject,
-} from 'app/actions/LendableObjectActions';
-import {
   EditorField,
   Fields,
   Form,
@@ -15,13 +11,17 @@ import {
   TextInput,
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
+import {
+  createLendableObject,
+  editLendableObject,
+} from '~/redux/actions/LendableObjectActions';
+import { useAppDispatch } from '~/redux/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateLendableObject,
   EditLendableObject,
-} from 'app/store/models/LendableObject';
+} from '~/redux/models/LendableObject';
 
 type FormValues = {
   id?: EntityId;

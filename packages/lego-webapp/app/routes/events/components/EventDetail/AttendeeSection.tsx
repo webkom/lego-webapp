@@ -2,19 +2,19 @@ import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import Attendance from 'app/components/UserAttendance/Attendance';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectRegistrationsFromPools } from 'app/reducers/events';
 import { getWaitingListPosition } from 'app/routes/events/components/EventDetail/getWaitingListPosition';
 import RegistrationMeta, {
   RegistrationMetaSkeleton,
 } from 'app/routes/events/components/RegistrationMeta';
 import { getEventSemesterFromStartTime } from 'app/routes/events/utils';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import { selectRegistrationsFromPools } from '~/redux/slices/events';
+import type { UserDetailedEvent } from '~/redux/models/Event';
 import type {
   PoolWithRegistrations,
   PoolRegistrationWithUser,
-} from 'app/reducers/events';
-import type { UserDetailedEvent } from 'app/store/models/Event';
+} from '~/redux/slices/events';
 
 const MIN_USER_GRID_ROWS = 2;
 const MAX_USER_GRID_ROWS = 2;

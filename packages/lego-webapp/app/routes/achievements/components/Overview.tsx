@@ -1,13 +1,13 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
 import { useEffect } from 'react';
-import { postKeypress } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';
-import { useAppDispatch } from 'app/store/hooks';
 import AchievementsInfo, {
   rarityToColorMap,
 } from 'app/utils/achievementConstants';
 import useQuery from 'app/utils/useQuery';
+import { postKeypress } from '~/redux/actions/AchievementActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from './Overview.module.css';
 
 const Overview = () => {

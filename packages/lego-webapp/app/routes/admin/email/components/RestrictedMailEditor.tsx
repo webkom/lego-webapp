@@ -3,10 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Download } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import {
-  createRestrictedMail,
-  fetchRestrictedMail,
-} from 'app/actions/RestrictedMailActions';
 import { ContentMain } from 'app/components/Content';
 import {
   TextInput,
@@ -17,11 +13,15 @@ import {
 import CheckBox from 'app/components/Form/CheckBox';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isEmail, createValidator, required } from 'app/utils/validation';
-import appConfig from '~/utils/appConfig';
-import type { DetailedRestrictedMail } from 'app/store/models/RestrictedMail';
+import {
+  createRestrictedMail,
+  fetchRestrictedMail,
+} from '~/redux/actions/RestrictedMailActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectRestrictedMailById } from '~/redux/slices/restrictedMails';
+import { appConfig } from '~/utils/appConfig';
+import type { DetailedRestrictedMail } from '~/redux/models/RestrictedMail';
 
 const validate = createValidator({
   fromAddress: [required(), isEmail()],

@@ -1,7 +1,6 @@
 import { Button, ButtonGroup, LoadingPage } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import { updatePicture } from 'app/actions/GalleryPictureActions';
 import {
   Form,
   TextArea,
@@ -10,11 +9,12 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectGalleryById } from 'app/reducers/galleries';
-import { selectGalleryPictureById } from 'app/reducers/galleryPictures';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { updatePicture } from '~/redux/actions/GalleryPictureActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectGalleryById } from '~/redux/slices/galleries';
+import { selectGalleryPictureById } from '~/redux/slices/galleryPictures';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { DetailedGallery } from 'app/store/models/Gallery';
+import type { DetailedGallery } from '~/redux/models/Gallery';
 
 type FormValues = {
   description: string;

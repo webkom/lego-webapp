@@ -1,16 +1,16 @@
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router';
-import { changePassword } from 'app/actions/UserActions';
 import {
   Form,
   TextInput,
   LegoFinalForm,
   SubmitButton,
 } from 'app/components/Form';
-import { useCurrentUser } from 'app/reducers/auth';
 import { validPassword } from 'app/routes/users/utils';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, sameAs } from 'app/utils/validation';
+import { changePassword } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import PasswordField from '../PasswordField';
 
 export type FormValues = {

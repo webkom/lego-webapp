@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { ProfilePicture } from 'app/components/Image';
 import { ROLES, type RoleType } from 'app/utils/constants';
 import styles from './GroupMember.module.css';
-import type { PublicUser } from 'app/store/models/User';
+import type { PublicUser } from '~/redux/models/User';
 
 type Props = {
   user: PublicUser;

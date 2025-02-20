@@ -1,10 +1,10 @@
 import { debounce } from 'lodash';
 import { useState } from 'react';
-import { autocomplete } from 'app/actions/SearchActions';
-import { useAppDispatch } from 'app/store/hooks';
-import type { SearchResult } from 'app/reducers/search';
-import type { AutocompleteContentType } from 'app/store/models/Autocomplete';
+import { autocomplete } from '~/redux/actions/SearchActions';
+import { useAppDispatch } from '~/redux/hooks';
 import type { ComponentType } from 'react';
+import type { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import type { SearchResult } from '~/redux/slices/search';
 
 type InjectedProps = {
   options: SearchResult[];

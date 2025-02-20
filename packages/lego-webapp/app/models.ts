@@ -1,12 +1,12 @@
-import type { EventType } from './store/models/Event';
-import type { Presence } from './store/models/Registration';
 import type { EntityId } from '@reduxjs/toolkit';
-import type Comment from 'app/store/models/Comment';
-import type { ListCompany } from 'app/store/models/Company';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
 import type { Moment } from 'moment';
+import type Comment from '~/redux/models/Comment';
+import type { ListCompany } from '~/redux/models/Company';
+import type { EventType } from '~/redux/models/Event';
+import type { ReactionsGrouped } from '~/redux/models/Reaction';
+import type { Presence } from '~/redux/models/Registration';
+import type { PublicUser } from '~/redux/models/User';
 // TODO: Id handling could be opaque
 export type Dateish = Moment | Date | string;
 export type ActionGrant = (

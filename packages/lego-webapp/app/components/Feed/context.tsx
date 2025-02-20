@@ -6,7 +6,7 @@ import type {
   FeedAttrGalleryPicture,
   FeedAttrMeetingInvitation,
   FeedAttrUser,
-} from 'app/store/models/FeedAttrCache';
+} from '~/redux/models/FeedAttrCache';
 
 const getUserTag = (user: FeedAttrUser): TagProps => ({
   link: `/users/${user.username}/`,

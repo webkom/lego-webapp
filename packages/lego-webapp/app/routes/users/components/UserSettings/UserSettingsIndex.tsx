@@ -2,9 +2,9 @@ import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useParams } from 'react-router';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { useCurrentUser } from 'app/reducers/auth';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { useCurrentUser } from '~/redux/slices/auth';
 
 const UserSettingsIndex = () => {
   const { username } = useParams<{ username: string }>();

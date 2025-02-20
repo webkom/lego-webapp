@@ -14,7 +14,6 @@ import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router';
-import { register, unregister, updateFeedback } from 'app/actions/EventActions';
 import {
   Form,
   Captcha,
@@ -23,16 +22,21 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectRegistrationForEventByUserId } from 'app/reducers/events';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Presence } from 'app/store/models/Registration';
 import { Keyboard } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, requiredIf } from 'app/utils/validation';
-import appConfig from '~/utils/appConfig';
+import {
+  register,
+  unregister,
+  updateFeedback,
+} from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { Presence } from '~/redux/models/Registration';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectRegistrationForEventByUserId } from '~/redux/slices/events';
+import { selectPenaltyByUserId } from '~/redux/slices/penalties';
+import { appConfig } from '~/utils/appConfig';
 import {
   paymentSuccess,
   paymentManual,
@@ -45,12 +49,12 @@ import {
 import styles from './Event.module.css';
 import PaymentRequestForm from './StripeElement';
 import type { EventRegistrationStatus } from 'app/models';
-import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
-} from 'app/store/models/Event';
-import type { CurrentUser } from 'app/store/models/User';
+} from '~/redux/models/Event';
+import type { CurrentUser } from '~/redux/models/User';
+import type { PoolRegistrationWithUser } from '~/redux/slices/events';
 
 /**
  *  Not using app/components/SubmitButton because that will "falsely"

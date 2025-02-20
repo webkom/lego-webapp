@@ -1,11 +1,6 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import {
-  createEmailList,
-  editEmailList,
-  fetchEmailList,
-} from 'app/actions/EmailListActions';
 import { ContentMain } from 'app/components/Content';
 import {
   TextInput,
@@ -16,11 +11,6 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectEmailListById } from 'app/reducers/emailLists';
-import { selectGroupsByIds } from 'app/reducers/groups';
-import { selectUsersByIds } from 'app/reducers/users';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { isNotNullish } from 'app/utils';
 import { ROLES, type RoleType, roleOptions } from 'app/utils/constants';
 import {
@@ -29,7 +19,17 @@ import {
   EMAIL_REGEX,
   atLeastOneFieldRequired,
 } from 'app/utils/validation';
-import type { DetailedEmailList } from 'app/store/models/EmailList';
+import {
+  createEmailList,
+  editEmailList,
+  fetchEmailList,
+} from '~/redux/actions/EmailListActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import { selectEmailListById } from '~/redux/slices/emailLists';
+import { selectGroupsByIds } from '~/redux/slices/groups';
+import { selectUsersByIds } from '~/redux/slices/users';
+import type { DetailedEmailList } from '~/redux/models/EmailList';
 
 const recipientRequired = atLeastOneFieldRequired(
   ['users', 'groups', 'additionalEmails'],

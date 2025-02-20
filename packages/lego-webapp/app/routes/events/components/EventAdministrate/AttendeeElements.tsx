@@ -8,20 +8,20 @@ import cx from 'classnames';
 import { Check, HelpCircle, Turtle, X } from 'lucide-react';
 import { Button } from 'react-aria-components';
 import { useParams } from 'react-router';
+import Tooltip from 'app/components/Tooltip';
 import {
   unregister,
   updatePayment,
   updatePresence,
-} from 'app/actions/EventActions';
-import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch } from 'app/store/hooks';
-import { Presence } from 'app/store/models/Registration';
+} from '~/redux/actions/EventActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { Presence } from '~/redux/models/Registration';
 import styles from './Administrate.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EventRegistrationPaymentStatus } from 'app/models';
-import type { SelectedAdminRegistration } from 'app/reducers/events';
 import type { ReactNode } from 'react';
 import type { PressEvent } from 'react-aria-components';
+import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
 type TooltipIconProps = {
   onPress?: (e: PressEvent) => void;

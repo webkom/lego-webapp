@@ -1,15 +1,15 @@
+import { useAppSelector } from '~/redux/hooks';
 import {
   selectMergedPool,
   selectMergedPoolWithRegistrations,
   selectPoolsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectWaitingRegistrationsForEvent,
-} from 'app/reducers/events';
-import { useAppSelector } from 'app/store/hooks';
+} from '~/redux/slices/events';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
-} from 'app/store/models/Event';
+} from '~/redux/models/Event';
 
 export function usePools(
   hasRegistrationAccess: boolean,

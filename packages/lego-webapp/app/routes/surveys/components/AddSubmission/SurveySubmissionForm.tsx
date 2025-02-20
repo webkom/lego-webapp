@@ -10,13 +10,13 @@ import {
   SubmitButton,
 } from 'app/components/Form';
 import styles from 'app/routes/surveys/components/surveys.module.css';
-import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
+import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { DetailedSurvey } from 'app/store/models/Survey';
-import type { FormSurveyAnswer } from 'app/store/models/SurveyAnswer';
-import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
-import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
+import type { DetailedSurvey } from '~/redux/models/Survey';
+import type { FormSurveyAnswer } from '~/redux/models/SurveyAnswer';
+import type { SurveyQuestion } from '~/redux/models/SurveyQuestion';
+import type { FormSurveySubmission } from '~/redux/models/SurveySubmission';
 
 type Props = {
   survey: DetailedSurvey;

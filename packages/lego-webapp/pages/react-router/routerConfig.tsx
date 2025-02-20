@@ -16,13 +16,6 @@ export const routerConfig: RouteObject[] = [
         lazy: () =>
           import('./Counter').then(({ default: Component }) => ({ Component })),
       },
-      {
-        path: 'prepare',
-        lazy: () =>
-          import('./PrepareTest').then(({ default: Component }) => ({
-            Component,
-          })),
-      },
     ],
   },
 ];

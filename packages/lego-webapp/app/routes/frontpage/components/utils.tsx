@@ -3,11 +3,11 @@ import moment from 'moment-timezone';
 import Tags from 'app/components/Tags';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import { frontpageObjectDate, isEvent } from 'app/reducers/frontpage';
 import { displayNameForEventType } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
+import { frontpageObjectDate, isEvent } from '~/redux/slices/frontpage';
 import styles from './AuthenticatedFrontpage.module.css';
-import type { ArticleWithType, EventWithType } from 'app/reducers/frontpage';
+import type { ArticleWithType, EventWithType } from '~/redux/slices/frontpage';
 
 export const itemUrl = (item?: ArticleWithType | EventWithType) => {
   if (!item) return '';

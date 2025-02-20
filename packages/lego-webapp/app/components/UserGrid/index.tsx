@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import styles from './UserGrid.module.css';
-import type { PublicUser } from 'app/store/models/User';
+import type { PublicUser } from '~/redux/models/User';
 
 const UserGrid = ({
   users,

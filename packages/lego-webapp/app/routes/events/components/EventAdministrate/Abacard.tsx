@@ -1,10 +1,13 @@
 import { useParams } from 'react-router';
-import { markUsernamePresent } from 'app/actions/EventActions';
 import Validator from 'app/components/UserValidator';
-import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { markUsernamePresent } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import {
+  selectEventById,
+  selectRegistrationGroups,
+} from '~/redux/slices/events';
 import styles from './Abacard.module.css';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import type { AdministrateEvent } from '~/redux/models/Event';
 
 const Abacard = () => {
   const { eventId } = useParams<{ eventId: string }>() as { eventId: string };

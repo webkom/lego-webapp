@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { TextInput } from 'app/components/Form';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
-import type { PublicUser } from 'app/store/models/User';
+import type { PublicUser } from '~/redux/models/User';
 
 export type PasswordFieldUser = Partial<
   Pick<PublicUser, 'username' | 'firstName' | 'lastName'>

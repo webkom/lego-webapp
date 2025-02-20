@@ -1,11 +1,11 @@
 import { Icon } from '@webkom/lego-bricks';
 import { Star } from 'lucide-react';
-import { follow, unfollow } from 'app/actions/EventActions';
 import Tooltip from 'app/components/Tooltip';
-import { useCurrentUser } from 'app/reducers/auth';
 import styles from 'app/routes/events/components/EventDetail/EventDetail.module.css';
-import { useAppDispatch } from 'app/store/hooks';
-import type { UserDetailedEvent } from 'app/store/models/Event';
+import { follow, unfollow } from '~/redux/actions/EventActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import type { UserDetailedEvent } from '~/redux/models/Event';
 
 export type InterestedButtonProps = {
   event: UserDetailedEvent;

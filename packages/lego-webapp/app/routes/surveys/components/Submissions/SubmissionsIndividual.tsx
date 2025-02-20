@@ -6,7 +6,7 @@ import { useOutletContext } from 'react-router';
 import StaticSubmission from '../StaticSubmission';
 import styles from '../surveys.module.css';
 import type { SurveysRouteContext } from 'app/routes/surveys';
-import type { SurveySubmission } from 'app/store/models/SurveySubmission';
+import type { SurveySubmission } from '~/redux/models/SurveySubmission';
 
 const SubmissionItem = ({
   submission,

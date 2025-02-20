@@ -11,34 +11,34 @@ import { Download, Pencil } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams, useNavigate, Outlet } from 'react-router';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
-import { updateGalleryCover } from 'app/actions/GalleryActions';
-import {
-  deletePicture,
-  fetchGalleryPicture,
-  fetchGalleryPictures,
-} from 'app/actions/GalleryPictureActions';
 import CommentView from 'app/components/Comments/CommentView';
 import Dropdown from 'app/components/Dropdown';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
-import { selectCommentsByIds } from 'app/reducers/comments';
-import { selectGalleryById } from 'app/reducers/galleries';
+import { Keyboard } from 'app/utils/constants';
+import { updateGalleryCover } from '~/redux/actions/GalleryActions';
+import {
+  deletePicture,
+  fetchGalleryPicture,
+  fetchGalleryPictures,
+} from '~/redux/actions/GalleryPictureActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectCommentsByIds } from '~/redux/slices/comments';
+import { selectGalleryById } from '~/redux/slices/galleries';
 import {
   selectGalleryPicturesByGalleryId,
   selectGalleryPictureById,
-} from 'app/reducers/galleryPictures';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
-import { Keyboard } from 'app/utils/constants';
-import appConfig from '~/utils/appConfig';
+} from '~/redux/slices/galleryPictures';
+import { selectPaginationNext } from '~/redux/slices/selectors';
+import { appConfig } from '~/utils/appConfig';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './GalleryPictureModal.module.css';
-import type { DetailedGallery } from 'app/store/models/Gallery';
-import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
-import type { PublicUser } from 'app/store/models/User';
 import type { ReactNode } from 'react';
+import type { DetailedGallery } from '~/redux/models/Gallery';
+import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
+import type { PublicUser } from '~/redux/models/User';
 
 const propertyGenerator: PropertyGenerator<{
   gallery: DetailedGallery;

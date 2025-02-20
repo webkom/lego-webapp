@@ -1,18 +1,18 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useCallback } from 'react';
 import { useParams } from 'react-router';
-import { fetchMembershipsPagination } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
-import { selectGroupById } from 'app/reducers/groups';
-import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
+import { fetchMembershipsPagination } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectGroupById } from '~/redux/slices/groups';
+import { selectMembershipsForGroup } from '~/redux/slices/memberships';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import AddGroupMember from './AddGroupMember';
 import GroupMembersList from './GroupMembersList';
 import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
-import type { DetailedGroup } from 'app/store/models/Group';
+import type { DetailedGroup } from '~/redux/models/Group';
 
 export const defaultGroupMembersQuery = {
   descendants: 'false' as 'false' | 'true',

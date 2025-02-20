@@ -2,14 +2,14 @@ import { Icon } from '@webkom/lego-bricks';
 import { FORM_ERROR } from 'final-form';
 import { LogIn } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { login } from 'app/actions/UserActions';
 import { Form } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
+import { login } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 
 type FormValues = {
   username: string;

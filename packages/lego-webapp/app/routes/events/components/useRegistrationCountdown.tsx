@@ -2,9 +2,9 @@ import moment from 'moment-timezone';
 import { useCallback, useEffect, useState } from 'react';
 import { registrationActionUnavailable } from '../utils';
 import type { Dateish } from 'app/models';
-import type { PoolRegistrationWithUser } from 'app/reducers/events';
-import type { DetailedEvent } from 'app/store/models/Event';
 import type { Duration } from 'moment-timezone';
+import type { DetailedEvent } from '~/redux/models/Event';
+import type { PoolRegistrationWithUser } from '~/redux/slices/events';
 
 enum CountdownState {
   RegistrationAvailable,

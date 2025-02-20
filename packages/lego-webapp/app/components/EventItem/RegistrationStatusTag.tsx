@@ -3,10 +3,10 @@ import { AlarmClock } from 'lucide-react';
 import moment from 'moment-timezone';
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { EventStatusType } from 'app/store/models/Event';
 import utilities from 'app/styles/utilities.css';
-import type { ListEvent } from 'app/store/models/Event';
+import { EventStatusType } from '~/redux/models/Event';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import type { ListEvent } from '~/redux/models/Event';
 
 type Props = {
   event: ListEvent;

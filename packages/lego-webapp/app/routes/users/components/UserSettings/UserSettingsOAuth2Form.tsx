@@ -1,16 +1,16 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useParams, useNavigate } from 'react-router';
+import { Form, LegoFinalForm, TextInput } from 'app/components/Form';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { createValidator, required } from 'app/utils/validation';
 import {
   createOAuth2Application,
   fetchOAuth2Application,
   updateOAuth2Application,
-} from 'app/actions/OAuth2Actions';
-import { Form, LegoFinalForm, TextInput } from 'app/components/Form';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectOAuth2ApplicationById } from 'app/reducers/oauth2Applications';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { createValidator, required } from 'app/utils/validation';
+} from '~/redux/actions/OAuth2Actions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectOAuth2ApplicationById } from '~/redux/slices/oauth2Applications';
 
 type FormValues = {
   name?: string;

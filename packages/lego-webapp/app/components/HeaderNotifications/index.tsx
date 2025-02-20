@@ -4,21 +4,21 @@ import cx from 'classnames';
 import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { fetchNotificationFeed } from 'app/actions/FeedActions';
-import {
-  fetchNotificationData,
-  markAllNotifications,
-} from 'app/actions/NotificationsFeedActions';
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { SpanTag } from 'app/components/Feed/Tag';
 import Time from 'app/components/Time';
-import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchNotificationFeed } from '~/redux/actions/FeedActions';
+import {
+  fetchNotificationData,
+  markAllNotifications,
+} from '~/redux/actions/NotificationsFeedActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
 import Dropdown from '../Dropdown';
 import { activityRenderers } from '../Feed';
 import styles from './HeaderNotifications.module.css';
-import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
+import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 
 const NotificationElement = ({
   notification,

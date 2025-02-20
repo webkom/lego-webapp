@@ -4,12 +4,12 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
-import { selectAllEvents } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
-import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
+import { useAppSelector } from '~/redux/hooks';
+import { selectAllEvents } from '~/redux/slices/events';
 import styles from './UpcomingRegistrations.module.css';
-import type { FrontpageEvent } from 'app/store/models/Event';
+import type { FrontpageEvent } from '~/redux/models/Event';
 
 const createTimeString = (event: FrontpageEvent) => {
   const time = moment(event.activationTime);

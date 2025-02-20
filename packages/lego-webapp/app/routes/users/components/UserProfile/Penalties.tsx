@@ -1,14 +1,14 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { deletePenalty } from 'app/actions/UserActions';
 import { FormatTime } from 'app/components/Time';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import {
   InfoField,
   LinkInfoField,
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { deletePenalty } from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectPenaltyByUserId } from '~/redux/slices/penalties';
 import styles from './Penalties.module.css';
 import PenaltyForm from './PenaltyForm';
 import type { EntityId } from '@reduxjs/toolkit';

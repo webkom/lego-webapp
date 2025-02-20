@@ -1,7 +1,7 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router';
 import { ProfilePicture } from '../Image';
-import type { UnknownUser } from 'app/store/models/User';
+import type { UnknownUser } from '~/redux/models/User';
 
 type UserLinkProps = {
   user: Pick<

@@ -14,12 +14,12 @@ import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import { colorForEventType } from 'app/routes/events/utils';
-import { EventStatusType } from 'app/store/models/Event';
 import { eventAttendanceAbsolute } from 'app/utils/eventStatus';
+import { EventStatusType } from '~/redux/models/Event';
 import RegistrationStatusTag from './RegistrationStatusTag';
 import styles from './styles.module.css';
-import type { CompleteEvent, ListEvent } from 'app/store/models/Event';
 import type { ReactNode } from 'react';
+import type { CompleteEvent, ListEvent } from '~/redux/models/Event';
 
 export type EventStyle = 'default' | 'extra-compact' | 'compact';
 

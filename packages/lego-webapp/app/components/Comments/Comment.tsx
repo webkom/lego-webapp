@@ -3,20 +3,20 @@ import { Reply, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { deleteComment } from 'app/actions/CommentActions';
 import CommentForm from 'app/components/CommentForm';
 import DisplayContent from 'app/components/DisplayContent';
 import { ProfilePicture } from 'app/components/Image';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { useCurrentUser } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
+import { deleteComment } from '~/redux/actions/CommentActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import LegoReactions from '../LegoReactions';
 import styles from './Comment.module.css';
-import type CommentType from 'app/store/models/Comment';
-import type { ContentAuthors } from 'app/store/models/Comment';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type CommentType from '~/redux/models/Comment';
+import type { ContentAuthors } from '~/redux/models/Comment';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   comment: CommentType;

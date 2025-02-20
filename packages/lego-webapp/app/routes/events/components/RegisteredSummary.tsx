@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Registrations.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { PublicUser } from 'app/store/models/User';
+import type { PublicUser } from '~/redux/models/User';
 
 export type SummaryRegistration = {
   id: EntityId;

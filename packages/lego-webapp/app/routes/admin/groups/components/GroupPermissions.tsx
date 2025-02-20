@@ -3,14 +3,14 @@ import { sortBy } from 'lodash';
 import { Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
 import { Link, useNavigate, useParams } from 'react-router';
-import { editGroup } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
-import { selectGroupById } from 'app/reducers/groups';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { editGroup } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectGroupById } from '~/redux/slices/groups';
 import AddGroupPermission from './AddGroupPermission';
 import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
-import type { DetailedGroup, UnknownGroup } from 'app/store/models/Group';
+import type { DetailedGroup, UnknownGroup } from '~/redux/models/Group';
 
 type PermissionListProps = {
   group: UnknownGroup;

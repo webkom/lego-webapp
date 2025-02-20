@@ -87,6 +87,7 @@ export default tseslint.config(
           },
         },
       ],
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
   // Disable rules of hooks for +data.ts because useConfig is allowed
@@ -118,7 +119,6 @@ export default tseslint.config(
     // Previously disabled rules
     files: ['app/**/*'],
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
       'import-x/no-named-as-default': 'off',
       'import-x/no-named-as-default-member': 'off',
       'react/prop-types': 'off',

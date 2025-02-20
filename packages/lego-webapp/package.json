@@ -16,6 +16,7 @@
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write"
   },
   "dependencies": {
+    "@gamestdio/websocket": "^0.3.2",
     "@sentry/react": "^9.1.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@webkom/react-prepare": "^1.2.0",

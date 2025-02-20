@@ -1,11 +1,11 @@
 import { LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useParams } from 'react-router';
-import { fetchForum } from 'app/actions/ForumActions';
-import { selectForumById } from 'app/reducers/forums';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchForum } from '~/redux/actions/ForumActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectForumById } from '~/redux/slices/forums';
 import ThreadList from './ThreadList';
-import type { DetailedForum } from 'app/store/models/Forum';
+import type { DetailedForum } from '~/redux/models/Forum';
 
 type ForumDetailParams = {
   forumId: string;

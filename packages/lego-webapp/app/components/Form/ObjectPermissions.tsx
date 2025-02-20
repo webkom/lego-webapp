@@ -1,7 +1,7 @@
 import { Field } from 'react-final-form';
 import { SelectInput, CheckBox } from 'app/components/Form';
-import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
 import type { FieldRenderProps } from 'react-final-form';
+import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
 
 /*
  * Usage inside 'react-final-form':

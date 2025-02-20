@@ -3,6 +3,7 @@ import cookie from 'js-cookie';
 import { createBrowserRouter, matchRoutes } from 'react-router';
 import { PageContextClient } from 'vike/types';
 import { routerConfig } from '~/pages/react-router/routerConfig';
+import { maybeRefreshToken } from '~/redux/actions/UserActions';
 import createStore from '../redux/createStore';
 
 export async function onBeforeRenderClient(pageContext: PageContextClient) {
@@ -10,6 +11,8 @@ export async function onBeforeRenderClient(pageContext: PageContextClient) {
     Sentry,
     getCookie: (key) => cookie.get(key),
   });
+  pageContext.store.dispatch(maybeRefreshToken());
+  pageContext.store.dispatch({ type: 'REHYDRATED' });
 
   // --- React router support ---
   // Determine if any of the initial routes are lazy

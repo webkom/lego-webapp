@@ -1,6 +1,6 @@
 import { createContext, useEffect } from 'react';
-import { setTheme } from 'app/reducers/theme';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { setTheme } from '~/redux/slices/theme';
 
 export const applySelectedTheme = (theme) => {
   if (!import.meta.env.SSR) {

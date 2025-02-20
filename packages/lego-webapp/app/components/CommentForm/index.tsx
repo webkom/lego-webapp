@@ -1,17 +1,17 @@
 import { Card, Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { addComment } from 'app/actions/CommentActions';
 import { Form, TextInput } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { ProfilePicture } from 'app/components/Image';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, legoEditorRequired } from 'app/utils/validation';
+import { addComment } from '~/redux/actions/CommentActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import styles from './CommentForm.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   contentTarget: ContentTarget;

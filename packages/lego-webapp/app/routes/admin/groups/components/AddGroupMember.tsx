@@ -1,11 +1,11 @@
 import { Field } from 'react-final-form';
-import { addMember } from 'app/actions/GroupActions';
 import { Form, LegoFinalForm, SelectInput } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { useAppDispatch } from 'app/store/hooks';
 import { roleOptions } from 'app/utils/constants';
 import { createValidator, required } from 'app/utils/validation';
+import { addMember } from '~/redux/actions/GroupActions';
+import { useAppDispatch } from '~/redux/hooks';
 
 const validate = createValidator({
   user: [required()],

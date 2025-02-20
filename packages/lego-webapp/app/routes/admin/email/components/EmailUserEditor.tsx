@@ -2,11 +2,6 @@ import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import {
-  createEmailUser,
-  editEmailUser,
-  fetchEmailUser,
-} from 'app/actions/EmailUserActions';
 import { ContentMain } from 'app/components/Content';
 import {
   TextInput,
@@ -17,12 +12,17 @@ import {
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
-import { selectEmailUserById } from 'app/reducers/emailUsers';
-import { selectUserById } from 'app/reducers/users';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { createValidator, required } from 'app/utils/validation';
-import type { PublicUser } from 'app/store/models/User';
+import {
+  createEmailUser,
+  editEmailUser,
+  fetchEmailUser,
+} from '~/redux/actions/EmailUserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import { selectEmailUserById } from '~/redux/slices/emailUsers';
+import { selectUserById } from '~/redux/slices/users';
+import type { PublicUser } from '~/redux/models/User';
 
 type AutocompleteUserValue = {
   title: string;

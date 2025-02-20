@@ -10,12 +10,6 @@ import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
 import {
-  addCompany,
-  deleteCompany,
-  editCompany,
-  fetchAdmin,
-} from 'app/actions/CompanyActions';
-import {
   TextEditor,
   TextInput,
   SelectInput,
@@ -27,18 +21,24 @@ import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
-import { selectCompanyById } from 'app/reducers/companies';
-import { selectUsersByIds } from 'app/reducers/users';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import {
+  addCompany,
+  deleteCompany,
+  editCompany,
+  fetchAdmin,
+} from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import { selectCompanyById } from '~/redux/slices/companies';
+import { selectUsersByIds } from '~/redux/slices/users';
 import { httpCheck } from '../utils';
 import type {
   AdminDetailCompany,
   StudentCompanyContact,
-} from 'app/store/models/Company';
-import type { AutocompleteUser } from 'app/store/models/User';
+} from '~/redux/models/Company';
+import type { AutocompleteUser } from '~/redux/models/User';
 
 const validate = createValidator({
   name: [required()],

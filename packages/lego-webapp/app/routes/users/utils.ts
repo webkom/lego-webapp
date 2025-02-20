@@ -1,4 +1,4 @@
-import { useCurrentUser } from 'app/reducers/auth';
+import { useCurrentUser } from '~/redux/slices/auth';
 
 type Data = {
   username?: string;

@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
-import { approve, deleteQuote, unapprove } from 'app/actions/QuoteActions';
 import Dropdown from 'app/components/Dropdown';
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
 import Time from 'app/components/Time';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectEmojis } from 'app/reducers/emojis';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { approve, deleteQuote, unapprove } from '~/redux/actions/QuoteActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectEmojis } from '~/redux/slices/emojis';
 import styles from './Quotes.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type Emoji from 'app/store/models/Emoji';
-import type QuoteType from 'app/store/models/Quote';
+import type Emoji from '~/redux/models/Emoji';
+import type QuoteType from '~/redux/models/Quote';
 
 type Props = {
   quote: QuoteType;

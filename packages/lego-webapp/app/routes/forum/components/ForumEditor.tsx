@@ -10,22 +10,22 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
+import { TextInput, Form, TextArea, LegoFinalForm } from 'app/components/Form';
+import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import {
   createForum,
   deleteForum,
   editForum,
   fetchForum,
-} from 'app/actions/ForumActions';
-import { TextInput, Form, TextArea, LegoFinalForm } from 'app/components/Form';
-import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectForumById } from 'app/reducers/forums';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+} from '~/redux/actions/ForumActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectForumById } from '~/redux/slices/forums';
 import type {
   CreateForum,
   DetailedForum,
   UpdateForum,
-} from 'app/store/models/Forum';
+} from '~/redux/models/Forum';
 
 type ForumEditorParams = {
   forumId?: string;

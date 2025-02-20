@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import Turnstile from 'react-turnstile';
 import { useTheme } from 'app/utils/themeUtils';
 import usePrevious from 'app/utils/usePrevious';
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 import styles from './Captcha.module.css';
 import { createField } from './Field';
 

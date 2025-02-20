@@ -32,8 +32,8 @@ import {
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Tag } from 'app/components/Tags';
 import TextWithIcon from '../TextWithIcon';
-import type { AllowedPages } from 'app/actions/MetaActions';
 import type { ReactNode } from 'react';
+import type { AllowedPages } from '~/redux/actions/MetaActions';
 
 type Link = {
   key: string;

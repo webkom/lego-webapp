@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Quote from './Quote';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type QuoteType from 'app/store/models/Quote';
+import type QuoteType from '~/redux/models/Quote';
 
 type Props = {
   quotes: QuoteType[];

@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import Comment from './Comment';
 import styles from './CommentTree.module.css';
-import type CommentType from 'app/store/models/Comment';
-import type { ContentAuthors } from 'app/store/models/Comment';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { Tree } from 'app/utils';
+import type CommentType from '~/redux/models/Comment';
+import type { ContentAuthors } from '~/redux/models/Comment';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   comments: Tree<CommentType>;

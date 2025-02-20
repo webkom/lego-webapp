@@ -14,9 +14,6 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
-import { fetch } from 'app/actions/CompanyActions';
-import { fetchEvents } from 'app/actions/EventActions';
-import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import {
   ContentMain,
@@ -28,16 +25,19 @@ import EventListCompact from 'app/components/EventListCompact';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';
 import TextWithIcon from 'app/components/TextWithIcon';
+import { fetch } from '~/redux/actions/CompanyActions';
+import { fetchEvents } from '~/redux/actions/EventActions';
+import { fetchAll as fetchAllJoblistings } from '~/redux/actions/JoblistingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
 import {
   selectCompanyById,
   selectEventsForCompany,
   selectJoblistingsForCompany,
-} from 'app/reducers/companies';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
+} from '~/redux/slices/companies';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import styles from './Company.module.css';
-import type { DetailedCompany } from 'app/store/models/Company';
+import type { DetailedCompany } from '~/redux/models/Company';
 
 const CompanyDetail = () => {
   const [viewOldEvents, setViewOldEvents] = useState(false);

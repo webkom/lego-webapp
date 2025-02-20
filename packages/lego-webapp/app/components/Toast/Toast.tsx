@@ -6,7 +6,7 @@ import { useRef } from 'react';
 import styles from './Toast.module.css';
 import type { AriaToastProps } from '@react-aria/toast';
 import type { ToastState } from '@react-stately/toast';
-import type { ToastContent } from 'app/reducers/toasts';
+import type { ToastContent } from '~/redux/slices/toasts';
 
 interface ToastProps extends AriaToastProps<ToastContent> {
   state: ToastState<ToastContent>;

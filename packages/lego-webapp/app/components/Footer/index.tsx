@@ -5,8 +5,8 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router';
 import bekk from 'app/assets/bekk_short_white.svg';
 import octocat from 'app/assets/octocat.png';
-import { useIsLoggedIn } from 'app/reducers/auth';
 import utilityStyles from 'app/styles/utilities.css';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import Circle from '../Circle';
 import styles from './Footer.module.css';
 

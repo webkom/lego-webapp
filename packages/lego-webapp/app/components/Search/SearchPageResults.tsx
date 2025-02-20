@@ -4,12 +4,12 @@ import { FolderOpen, FolderSearch } from 'lucide-react';
 import { Link } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
 import { ProfilePicture } from 'app/components/Image';
-import { isUserResult } from 'app/reducers/search';
-import { useAppSelector } from 'app/store/hooks';
 import truncateString from 'app/utils/truncateString';
+import { useAppSelector } from '~/redux/hooks';
+import { isUserResult } from '~/redux/slices/search';
 import styles from './SearchPageResults.module.css';
-import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import type { KeyboardEventHandler } from 'react';
+import type { SearchResult as SearchResultType } from '~/redux/slices/search';
 
 type Props = {
   query: string;

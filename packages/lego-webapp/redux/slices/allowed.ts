@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Meta } from '~/redux/ActionTypes';
+import { Meta } from '~/redux/actionTypes';
+import type {
+  AllowedPages,
+  FetchMetaSuccessAction,
+} from '~/redux/actions/MetaActions';
 
-const initialState = {
+const initialState: AllowedPages = {
   announcements: false,
   articles: false,
   bdb: false,
@@ -21,8 +25,6 @@ const initialState = {
   users: false,
 };
 
-export type AllowedPages = typeof initialState;
-
 const allowed = createSlice({
   name: 'allowed',
   initialState,
@@ -30,7 +32,7 @@ const allowed = createSlice({
   extraReducers: (builder) => {
     builder.addCase(
       Meta.FETCH.SUCCESS,
-      (_, action) => action.payload.isAllowed,
+      (_, action: FetchMetaSuccessAction) => action.payload.isAllowed,
     );
   },
 });

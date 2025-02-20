@@ -1,8 +1,8 @@
 import { Flex, PageContainer } from '@webkom/lego-bricks';
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import { setStatusCode } from 'app/reducers/routing';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { setStatusCode } from '~/redux/slices/routing';
 import renderAbakus from './renderAbakus';
 
 const HTTPMapping = {

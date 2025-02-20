@@ -4,20 +4,20 @@ import { groupBy, orderBy } from 'lodash';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link, useParams } from 'react-router';
-import { deleteMembershipHistory } from 'app/actions/GroupActions';
 import { CircularPicture } from 'app/components/Image';
 import Pill from 'app/components/Pill';
 import Tooltip from 'app/components/Tooltip';
 import { GroupType, type Dateish } from 'app/models';
-import { useCurrentUser } from 'app/reducers/auth';
-import { resolveGroupLink, selectGroupEntities } from 'app/reducers/groups';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { deleteMembershipHistory } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { resolveGroupLink, selectGroupEntities } from '~/redux/slices/groups';
 import { useIsCurrentUser } from '../../utils';
-import type { PublicGroup } from 'app/store/models/Group';
-import type Membership from 'app/store/models/Membership';
-import type { PastMembership } from 'app/store/models/Membership';
 import type { Optional } from 'utility-types';
+import type { PublicGroup } from '~/redux/models/Group';
+import type { PastMembership } from '~/redux/models/Membership';
+import type Membership from '~/redux/models/Membership';
 
 export const GroupMemberships = ({
   memberships,

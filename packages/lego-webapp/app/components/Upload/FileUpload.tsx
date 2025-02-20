@@ -1,8 +1,8 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import { UploadIcon } from 'lucide-react';
 import { useState, useRef } from 'react';
-import { uploadFile } from 'app/actions/FileActions';
-import { useAppDispatch } from 'app/store/hooks';
+import { uploadFile } from '~/redux/actions/FileActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from './FileUpload.module.css';
 
 type Props = {

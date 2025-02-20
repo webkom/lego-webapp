@@ -1,4 +1,4 @@
-import type Comment from 'app/store/models/Comment';
+import type Comment from '~/redux/models/Comment';
 
 const comments: Comment[] = [
   {

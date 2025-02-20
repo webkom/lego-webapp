@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import type { CompleteEvent, FrontpageEvent } from 'app/store/models/Event';
+import type { CompleteEvent, FrontpageEvent } from '~/redux/models/Event';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity

@@ -2,12 +2,12 @@ import { Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
-import { selectEventById } from 'app/reducers/events';
 import { colorForEventType } from 'app/routes/events/utils';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
+import { selectEventById } from '~/redux/slices/events';
 import styles from '../surveys.module.css';
-import type { EventForSurvey } from 'app/store/models/Event';
-import type { DetailedSurvey } from 'app/store/models/Survey';
+import type { EventForSurvey } from '~/redux/models/Event';
+import type { DetailedSurvey } from '~/redux/models/Survey';
 
 type Props = {
   survey: DetailedSurvey;

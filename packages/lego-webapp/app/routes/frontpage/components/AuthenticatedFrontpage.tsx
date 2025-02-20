@@ -4,22 +4,22 @@ import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
-import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
-import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
-import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectAllEvents } from 'app/reducers/events';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
+import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectArticles, selectArticlesByTag } from '~/redux/slices/articles';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import { selectAllEvents } from '~/redux/slices/events';
 import {
   addArticleType,
   addEventType,
   selectPinned,
-} from 'app/reducers/frontpage';
-import { selectPinnedPoll } from 'app/reducers/polls';
-import { selectRandomQuote } from 'app/reducers/quotes';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+} from '~/redux/slices/frontpage';
+import { selectPinnedPoll } from '~/redux/slices/polls';
+import { selectRandomQuote } from '~/redux/slices/quotes';
 import ArticleItem from './ArticleItem';
 import styles from './AuthenticatedFrontpage.module.css';
 import CompactEvents from './CompactEvents';
@@ -29,7 +29,7 @@ import Pinned from './Pinned';
 import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { FrontpageEvent } from 'app/store/models/Event';
+import type { FrontpageEvent } from '~/redux/models/Event';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;

@@ -1,8 +1,8 @@
 import { Button, ButtonGroup, Icon } from '@webkom/lego-bricks';
 import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
-import { removePicture } from 'app/actions/UserActions';
-import { useAppDispatch } from 'app/store/hooks';
+import { removePicture } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 
 type Props = {
   username: string;

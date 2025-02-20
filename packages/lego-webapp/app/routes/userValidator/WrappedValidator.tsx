@@ -2,12 +2,12 @@ import { Page } from '@webkom/lego-bricks';
 import { debounce } from 'lodash';
 import qs from 'qs';
 import { useLocation, useNavigate } from 'react-router';
-import { autocomplete } from 'app/actions/SearchActions';
-import { fetchUser } from 'app/actions/UserActions';
 import Validator from 'app/components/UserValidator';
-import { useAppDispatch } from 'app/store/hooks';
-import type { UserSearchResult } from 'app/reducers/search';
-import type { SearchUser } from 'app/store/models/User';
+import { autocomplete } from '~/redux/actions/SearchActions';
+import { fetchUser } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import type { SearchUser } from '~/redux/models/User';
+import type { UserSearchResult } from '~/redux/slices/search';
 
 const searchTypes = ['users.user'];
 

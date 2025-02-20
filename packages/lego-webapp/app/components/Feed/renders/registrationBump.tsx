@@ -3,8 +3,8 @@ import { isNotNullish } from 'app/utils';
 import { contextRender } from '../context';
 import { formatHeader } from './utils';
 import type ActivityRenderer from 'app/components/Feed/ActivityRenderer';
-import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
-import type { FeedAttrEvent } from 'app/store/models/FeedAttrCache';
+import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
+import type { FeedAttrEvent } from '~/redux/models/FeedAttrCache';
 
 /**
  * Normal grouping by target and date

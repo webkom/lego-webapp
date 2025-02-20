@@ -1,7 +1,7 @@
 /* eslint react/display-name: 0 */
 import { createElement } from 'react';
 import { Helmet } from 'react-helmet-async';
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 import type { ComponentType } from 'react';
 
 /**

@@ -7,9 +7,9 @@ import Dropdown from 'app/components/Dropdown';
 import { generateTreeStructure } from 'app/utils';
 import CommentTree from './CommentTree';
 import styles from './CommentView.module.css';
-import type Comment from 'app/store/models/Comment';
-import type { ContentAuthors } from 'app/store/models/Comment';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type Comment from '~/redux/models/Comment';
+import type { ContentAuthors } from '~/redux/models/Comment';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   comments: Comment[];

@@ -16,13 +16,13 @@ import {
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { deleteEvent } from 'app/actions/EventActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { TextInput } from 'app/components/Form';
-import { useAppDispatch } from 'app/store/hooks';
+import { deleteEvent } from '~/redux/actions/EventActions';
+import { useAppDispatch } from '~/redux/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { CompleteEvent } from 'app/store/models/Event';
+import type { CompleteEvent } from '~/redux/models/Event';
 
 type ButtonProps = {
   eventId: EntityId;

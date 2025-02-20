@@ -2,7 +2,7 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import { matchRoutes } from 'react-router';
 import routerConfig from 'app/routes';
 import Root from './Root';
-import type { Store } from 'app/store/createStore';
+import type { Store } from '~/redux/createStore';
 
 const renderApp = async ({
   store,

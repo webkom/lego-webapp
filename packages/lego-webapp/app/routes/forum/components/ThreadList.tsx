@@ -1,8 +1,8 @@
 import { Flex, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { fetchThreadsByForum } from 'app/actions/ForumActions';
-import { selectThreadsByForumId } from 'app/reducers/threads';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchThreadsByForum } from '~/redux/actions/ForumActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectThreadsByForumId } from '~/redux/slices/threads';
 import ThreadListEntry from './ThreadListEntry';
 import type { EntityId } from '@reduxjs/toolkit';
 

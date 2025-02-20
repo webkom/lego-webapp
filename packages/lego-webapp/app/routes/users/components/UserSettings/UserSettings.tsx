@@ -3,7 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import { fetchUser, updateUser } from 'app/actions/UserActions';
 import { ContentMain } from 'app/components/Content';
 import {
   Form,
@@ -18,13 +17,9 @@ import {
   RowSection,
 } from 'app/components/Form';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectUserByUsername } from 'app/reducers/users';
 import DeleteUser from 'app/routes/users/components/UserSettings/DeleteUser';
 import RemovePicture from 'app/routes/users/components/UserSettings/RemovePicture';
 import { useIsCurrentUser } from 'app/routes/users/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Gender } from 'app/store/models/User';
 import {
   createValidator,
   required,
@@ -34,11 +29,16 @@ import {
   isValidLinkedinId,
   isNotAbakusEmail,
 } from 'app/utils/validation';
+import { fetchUser, updateUser } from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { Gender } from '~/redux/models/User';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectUserByUsername } from '~/redux/slices/users';
 import AllergiesOrPreferencesField from '../AllergiesOrPreferencesField';
 import ChangePassword from './ChangePassword';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
-import type { CurrentUser } from 'app/store/models/User';
+import type { CurrentUser } from '~/redux/models/User';
 
 type GenderKey = keyof typeof Gender;
 

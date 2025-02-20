@@ -3,8 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
 import { Link } from 'react-router';
-import { sendContactMessage } from 'app/actions/ContactActions';
-import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import {
   Form,
   TextInput,
@@ -16,11 +14,13 @@ import {
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import { GroupType } from 'app/models';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectGroupById, selectGroupsByType } from 'app/reducers/groups';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { createValidator, maxLength, required } from 'app/utils/validation';
+import { sendContactMessage } from '~/redux/actions/ContactActions';
+import { fetchAllWithType, fetchGroup } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import { selectGroupById, selectGroupsByType } from '~/redux/slices/groups';
 
 const validate = createValidator({
   recipient_group: [required()],

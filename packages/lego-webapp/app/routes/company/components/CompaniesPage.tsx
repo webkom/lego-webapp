@@ -15,15 +15,15 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router';
-import { fetchAll } from 'app/actions/CompanyActions';
 import { CheckBox, TextInput } from 'app/components/Form';
-import { selectAllPaginatedCompanies } from 'app/reducers/companies';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
+import { fetchAll } from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectAllPaginatedCompanies } from '~/redux/slices/companies';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import styles from './CompaniesPage.module.css';
-import type { ListCompany } from 'app/store/models/Company';
+import type { ListCompany } from '~/redux/models/Company';
 
 const CompanyItem = ({ company }: { company: ListCompany }) => {
   return (

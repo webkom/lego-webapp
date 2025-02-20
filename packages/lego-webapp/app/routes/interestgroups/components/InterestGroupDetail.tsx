@@ -13,12 +13,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
-import {
-  fetchAllMemberships,
-  fetchGroup,
-  joinGroup,
-  leaveGroup,
-} from 'app/actions/GroupActions';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import {
   ContentSection,
@@ -27,14 +21,20 @@ import {
 } from 'app/components/Content';
 import DisplayContent from 'app/components/DisplayContent';
 import UserGrid from 'app/components/UserGrid';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { selectGroupById } from 'app/reducers/groups';
-import { selectMembershipsForGroup } from 'app/reducers/memberships';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import {
+  fetchAllMemberships,
+  fetchGroup,
+  joinGroup,
+  leaveGroup,
+} from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
+import { selectGroupById } from '~/redux/slices/groups';
+import { selectMembershipsForGroup } from '~/redux/slices/memberships';
 import styles from './InterestGroup.module.css';
 import InterestGroupMemberModal from './InterestGroupMemberModal';
-import type { TransformedMembership } from 'app/reducers/memberships';
-import type { PublicDetailedGroup } from 'app/store/models/Group';
+import type { PublicDetailedGroup } from '~/redux/models/Group';
+import type { TransformedMembership } from '~/redux/slices/memberships';
 
 type MembersProps = {
   memberships: TransformedMembership[];

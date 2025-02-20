@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import { ProfilePicture } from '../Image';
 import styles from './Search.module.css';
-import type { SearchResult } from 'app/reducers/search';
+import type { SearchResult } from '~/redux/slices/search';
 
 type SearchResultItemProps = {
   result: SearchResult;

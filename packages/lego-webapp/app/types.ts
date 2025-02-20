@@ -1,9 +1,9 @@
 import type { ActionGrant } from './models';
-import type { NormalizedPayloadEntities } from './store/models/entities';
 import type { AnyAction, EntityId, ThunkAction } from '@reduxjs/toolkit';
-import type { RootState } from 'app/store/createRootReducer';
 import type { JwtPayload } from 'jwt-decode';
 import type { Overwrite } from 'utility-types';
+import type { NormalizedPayloadEntities } from '~/redux/models/entities';
+import type { RootState } from '~/redux/rootReducer';
 
 export type { Reducer } from '@reduxjs/toolkit';
 

@@ -1,12 +1,12 @@
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router';
-import { editGroup } from 'app/actions/GroupActions';
 import { Form, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import TextInput from 'app/components/Form/TextInput';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
-import type { DetailedGroup, UnknownGroup } from 'app/store/models/Group';
+import { editGroup } from '~/redux/actions/GroupActions';
+import { useAppDispatch } from '~/redux/hooks';
+import type { DetailedGroup, UnknownGroup } from '~/redux/models/Group';
 
 type Props = {
   group: UnknownGroup;

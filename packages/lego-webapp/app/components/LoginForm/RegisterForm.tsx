@@ -1,7 +1,6 @@
 import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
-import { sendRegistrationEmail } from 'app/actions/UserActions';
 import {
   Form,
   TextInput,
@@ -11,9 +10,10 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import { sendRegistrationEmail } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from './RegisterForm.module.css';
 
 const isStudMail = (email: string) =>

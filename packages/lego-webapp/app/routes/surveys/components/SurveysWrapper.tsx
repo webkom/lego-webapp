@@ -1,9 +1,9 @@
 import { LoadingPage, Page, PageCover } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useParams } from 'react-router';
-import { useFetchedSurveySubmissions } from 'app/reducers/surveySubmissions';
-import { useFetchedSurvey } from 'app/reducers/surveys';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
+import { useFetchedSurveySubmissions } from '~/redux/slices/surveySubmissions';
+import { useFetchedSurvey } from '~/redux/slices/surveys';
 import { SurveyDetailTabs } from '../utils';
 import type { SurveysRouteContext } from 'app/routes/surveys';
 

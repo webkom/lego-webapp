@@ -2,7 +2,7 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import { X } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
-import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
+import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
 import styles from '../surveys.module.css';
 
 type Props = {

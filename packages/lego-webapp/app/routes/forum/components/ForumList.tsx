@@ -2,13 +2,13 @@ import { Flex, LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { MessageSquareDashed } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { fetchForums } from 'app/actions/ForumActions';
 import EmptyState from 'app/components/EmptyState';
 import { Tag } from 'app/components/Tags';
-import { selectAllForums } from 'app/reducers/forums';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchForums } from '~/redux/actions/ForumActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllForums } from '~/redux/slices/forums';
 import ForumListEntry from './ForumListEntry';
-import type { PublicForum } from 'app/store/models/Forum';
+import type { PublicForum } from '~/redux/models/Forum';
 
 const ForumList = () => {
   const dispatch = useAppDispatch();

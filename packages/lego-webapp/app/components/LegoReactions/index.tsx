@@ -1,11 +1,11 @@
 import Reactions from 'app/components/Reactions';
 import Reaction from 'app/components/Reactions/Reaction';
-import { selectEmojis } from 'app/reducers/emojis';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
+import { selectEmojis } from '~/redux/slices/emojis';
 import type { EntityId } from '@reduxjs/toolkit';
-import type Emoji from 'app/store/models/Emoji';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type Emoji from '~/redux/models/Emoji';
+import type { ReactionsGrouped } from '~/redux/models/Reaction';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   parentEntity: {

@@ -16,16 +16,19 @@ import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import EmptyState from 'app/components/EmptyState';
 import { GroupType, type Dateish } from 'app/models';
-import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';
-import { selectGroupsByType } from 'app/reducers/groups';
-import { useAppSelector } from 'app/store/hooks';
-import { Gender } from 'app/store/models/User';
+import { useAppSelector } from '~/redux/hooks';
+import { Gender } from '~/redux/models/User';
+import {
+  selectEventById,
+  selectRegistrationGroups,
+} from '~/redux/slices/events';
+import { selectGroupsByType } from '~/redux/slices/groups';
 import Analytics from './Analytics';
 import styles from './EventAttendeeStatistics.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import type { SelectedAdminRegistration } from 'app/reducers/events';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import type { AdministrateEvent } from '~/redux/models/Event';
+import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
 interface RegistrationDateDataPoint {
   name: string;

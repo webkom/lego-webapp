@@ -4,13 +4,13 @@ import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router';
-import { fetchAll } from 'app/actions/JoblistingActions';
-import { selectAllJoblistings } from 'app/reducers/joblistings';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { parseQueryString } from 'app/utils/useQuery';
+import { fetchAll } from '~/redux/actions/JoblistingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllJoblistings } from '~/redux/slices/joblistings';
 import JoblistingsList from './JoblistingList';
 import JoblistingFilters from './JoblistingRightNav';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
+import type { ListJoblisting } from '~/redux/models/Joblisting';
 
 export const defaultJoblistingsQuery = {
   order: 'deadline',

@@ -1,8 +1,8 @@
 import { contextRender } from 'app/components/Feed/context';
 import joinValues from 'app/utils/joinValues';
 import type { TagComponent } from 'app/components/Feed/ActivityRenderer';
-import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
 import type { ReactNode } from 'react';
+import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 
 type ActorsProps = {
   aggregatedActivity: AggregatedFeedActivity;

@@ -10,20 +10,20 @@ import keys from 'lodash/keys';
 import { Copy, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
-import {
-  deleteOAuth2Grant,
-  fetchOAuth2Applications,
-  fetchOAuth2Grants,
-} from 'app/actions/OAuth2Actions';
 import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { selectAllOAuth2Applications } from 'app/reducers/oauth2Applications';
-import { selectAllOAuth2Grants } from 'app/reducers/oauth2Grants';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import appConfig from '~/utils/appConfig';
+import {
+  deleteOAuth2Grant,
+  fetchOAuth2Applications,
+  fetchOAuth2Grants,
+} from '~/redux/actions/OAuth2Actions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllOAuth2Applications } from '~/redux/slices/oauth2Applications';
+import { selectAllOAuth2Grants } from '~/redux/slices/oauth2Grants';
+import { appConfig } from '~/utils/appConfig';
 import styles from './UserSettingsOAuth2.module.css';
 
 const UserSettingsOAuth2 = () => {

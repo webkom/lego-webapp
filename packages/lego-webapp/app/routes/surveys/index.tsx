@@ -1,9 +1,9 @@
 import { Outlet, type RouteObject } from 'react-router';
 import { lazyComponent } from 'app/utils/lazyComponent';
 import pageNotFound from '../pageNotFound';
-import type { EventForSurvey } from 'app/store/models/Event';
-import type { DetailedSurvey } from 'app/store/models/Survey';
-import type { SurveySubmission } from 'app/store/models/SurveySubmission';
+import type { EventForSurvey } from '~/redux/models/Event';
+import type { DetailedSurvey } from '~/redux/models/Survey';
+import type { SurveySubmission } from '~/redux/models/SurveySubmission';
 
 const SurveysOverview = lazyComponent(
   () => import('./components/SurveysOverview'),

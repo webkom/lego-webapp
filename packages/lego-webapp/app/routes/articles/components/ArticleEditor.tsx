@@ -14,12 +14,6 @@ import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
 import {
-  createArticle,
-  deleteArticle,
-  editArticle,
-  fetchArticle,
-} from 'app/actions/ArticleActions';
-import {
   EditorField,
   TextInput,
   Form,
@@ -36,10 +30,6 @@ import {
   objectPermissionsToInitialValues,
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectArticleById } from 'app/reducers/articles';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectUsersByIds } from 'app/reducers/users';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import {
@@ -47,8 +37,18 @@ import {
   required,
   validYoutubeUrl,
 } from 'app/utils/validation';
+import {
+  createArticle,
+  deleteArticle,
+  editArticle,
+  fetchArticle,
+} from '~/redux/actions/ArticleActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectArticleById } from '~/redux/slices/articles';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectUsersByIds } from '~/redux/slices/users';
 import type { EditingEvent } from 'app/routes/events/utils';
-import type { AdminDetailedArticle } from 'app/store/models/Article';
+import type { AdminDetailedArticle } from '~/redux/models/Article';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 

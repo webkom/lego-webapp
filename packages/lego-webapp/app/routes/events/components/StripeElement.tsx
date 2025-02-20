@@ -10,18 +10,18 @@ import {
 import { loadStripe } from '@stripe/stripe-js';
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { useState, useEffect, useCallback } from 'react';
-import { payment } from 'app/actions/EventActions';
-import { useAppDispatch } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
-import appConfig from '~/utils/appConfig';
+import { payment } from '~/redux/actions/EventActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { appConfig } from '~/utils/appConfig';
 import stripeStyles from './Stripe.module.css';
 import type { PaymentMethod, PaymentRequest } from '@stripe/stripe-js';
 import type { EventRegistrationPaymentStatus } from 'app/models';
 import type {
   AuthUserDetailedEvent,
   UserDetailedEvent,
-} from 'app/store/models/Event';
-import type { CurrentUser } from 'app/store/models/User';
+} from '~/redux/models/Event';
+import type { CurrentUser } from '~/redux/models/User';
 
 type Props = {
   event: AuthUserDetailedEvent | UserDetailedEvent;

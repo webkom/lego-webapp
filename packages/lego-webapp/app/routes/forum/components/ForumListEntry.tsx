@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router';
 import styles from './ForumList.module.css';
-import type { PublicForum } from 'app/store/models/Forum';
+import type { PublicForum } from '~/redux/models/Forum';
 
 const ForumListEntry = ({ forum }: { forum: PublicForum }) => {
   return (

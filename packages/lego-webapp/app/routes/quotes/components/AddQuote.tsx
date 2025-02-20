@@ -3,7 +3,6 @@ import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router';
-import { addQuotes } from 'app/actions/QuoteActions';
 import { ContentMain } from 'app/components/Content';
 import {
   Form,
@@ -13,13 +12,14 @@ import {
   SubmissionError,
 } from 'app/components/Form';
 import RandomQuote from 'app/components/RandomQuote/RandomQuote';
-import { addToast } from 'app/reducers/toasts';
-import { useAppDispatch } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
+import { addQuotes } from '~/redux/actions/QuoteActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { addToast } from '~/redux/slices/toasts';
 import styles from './Quotes.module.css';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type FormValues = {
   text: string;

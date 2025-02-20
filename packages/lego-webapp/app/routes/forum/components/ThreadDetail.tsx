@@ -2,14 +2,14 @@ import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
 import { Link, useParams } from 'react-router';
-import { fetchThreadByForum } from 'app/actions/ForumActions';
 import { CommentView } from 'app/components/Comments';
 import DisplayContent from 'app/components/DisplayContent';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectCommentsByIds } from 'app/reducers/comments';
-import { selectThreadById } from 'app/reducers/threads';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { DetailedThread } from 'app/store/models/Forum';
+import { fetchThreadByForum } from '~/redux/actions/ForumActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectCommentsByIds } from '~/redux/slices/comments';
+import { selectThreadById } from '~/redux/slices/threads';
+import type { DetailedThread } from '~/redux/models/Forum';
 
 type ThreadDetailParams = {
   forumId: string;

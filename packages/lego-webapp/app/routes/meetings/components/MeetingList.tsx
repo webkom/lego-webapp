@@ -12,24 +12,24 @@ import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
-import { fetchAll } from 'app/actions/MeetingActions';
 import EmptyState from 'app/components/EmptyState';
 import { Tag } from 'app/components/Tags';
 import Time from 'app/components/Time';
-import { useCurrentUser } from 'app/reducers/auth';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { fetchAll } from '~/redux/actions/MeetingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { useCurrentUser } from '~/redux/slices/auth';
 import {
   selectGroupedMeetings,
   type MeetingSection,
-} from 'app/reducers/meetings';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+} from '~/redux/slices/meetings';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import styles from './MeetingList.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ListMeeting } from 'app/store/models/Meeting';
-import type { CurrentUser } from 'app/store/models/User';
-import type { Pagination } from 'app/utils/legoAdapter/buildPaginationReducer';
+import type { Pagination } from '~/redux/legoAdapter/buildPaginationReducer';
+import type { ListMeeting } from '~/redux/models/Meeting';
+import type { CurrentUser } from '~/redux/models/User';
 
 function MeetingListItem({
   meeting,

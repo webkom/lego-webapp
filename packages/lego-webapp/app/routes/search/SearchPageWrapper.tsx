@@ -4,10 +4,10 @@ import { debounce } from 'lodash';
 import qs from 'qs';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router';
-import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
-import { selectResult } from 'app/reducers/search';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { search } from '~/redux/actions/SearchActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectResult } from '~/redux/slices/search';
 
 const SearchPageWrapper = () => {
   const results = useAppSelector((state) => selectResult(state));

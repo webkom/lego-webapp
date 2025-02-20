@@ -3,7 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router';
-import { fetchJoblisting } from 'app/actions/JoblistingActions';
 import {
   ContentSection,
   ContentMain,
@@ -14,13 +13,14 @@ import InfoList from 'app/components/InfoList';
 import { jobType, Year, Workplaces } from 'app/components/JoblistingItem/Items';
 import PropertyHelmet from 'app/components/PropertyHelmet';
 import Time from 'app/components/Time';
-import { selectJoblistingByIdOrSlug } from 'app/reducers/joblistings';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { isTruthy } from 'app/utils';
-import appConfig from '~/utils/appConfig';
+import { fetchJoblisting } from '~/redux/actions/JoblistingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectJoblistingByIdOrSlug } from '~/redux/slices/joblistings';
+import { appConfig } from '~/utils/appConfig';
 import type { PropertyGenerator } from 'app/components/PropertyHelmet';
-import type { DetailedJoblisting } from 'app/store/models/Joblisting';
+import type { DetailedJoblisting } from '~/redux/models/Joblisting';
 
 const propertyGenerator: PropertyGenerator<{
   joblisting: DetailedJoblisting;

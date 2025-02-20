@@ -10,15 +10,15 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
-import { fetchEmojis } from 'app/actions/EmojiActions';
-import { fetchAll, fetchQuote } from 'app/actions/QuoteActions';
 import EmptyState from 'app/components/EmptyState';
 import { SelectInput } from 'app/components/Form';
-import { selectQuoteById, selectQuotes } from 'app/reducers/quotes';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
+import { fetchEmojis } from '~/redux/actions/EmojiActions';
+import { fetchAll, fetchQuote } from '~/redux/actions/QuoteActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectQuoteById, selectQuotes } from '~/redux/slices/quotes';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import QuoteList from './QuoteList';
 
 type Option = {

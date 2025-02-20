@@ -1,14 +1,14 @@
 import { useOutletContext } from 'react-router';
 import { ContentSection, ContentMain } from 'app/components/Content';
-import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { useAppSelector } from '~/redux/hooks';
 import { getCsvUrl, getPdfUrl } from '../../utils';
 import AdminSideBar from '../AdminSideBar';
 import type { SurveysRouteContext } from 'app/routes/surveys';
-import type { EventForSurvey } from 'app/store/models/Event';
-import type { DetailedSurvey } from 'app/store/models/Survey';
-import type { SurveySubmission } from 'app/store/models/SurveySubmission';
 import type { ComponentType } from 'react';
+import type { EventForSurvey } from '~/redux/models/Event';
+import type { DetailedSurvey } from '~/redux/models/Survey';
+import type { SurveySubmission } from '~/redux/models/SurveySubmission';
 
 type ChildProps = {
   survey: DetailedSurvey;

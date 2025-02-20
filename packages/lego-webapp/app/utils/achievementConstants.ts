@@ -1,4 +1,4 @@
-import type { AchievementData } from 'app/store/models/User';
+import type { AchievementData } from '~/redux/models/User';
 
 export const rarityToColorMap = {
   0: 'Sienna',

@@ -8,7 +8,7 @@ import {
   CheckBox,
   SelectInput,
 } from 'app/components/Form';
-import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
+import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
 import {
   questionTypeOptions,
   QuestionTypeOption,

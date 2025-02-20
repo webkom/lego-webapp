@@ -3,8 +3,8 @@ import { isNotNullish } from 'app/utils';
 import joinValues from 'app/utils/joinValues';
 import { contextRender } from '../context';
 import type ActivityRenderer from 'app/components/Feed/ActivityRenderer';
-import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
-import type { FeedAttrMeetingInvitation } from 'app/store/models/FeedAttrCache';
+import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
+import type { FeedAttrMeetingInvitation } from '~/redux/models/FeedAttrCache';
 
 /**
  * Group by actor

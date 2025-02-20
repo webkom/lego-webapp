@@ -1,29 +1,29 @@
 import { Flex } from '@webkom/lego-bricks';
 import { produce } from 'immer';
 import { useOutletContext } from 'react-router';
-import { editSurvey } from 'app/actions/SurveyActions';
 import DistributionBarChart from 'app/components/Chart/BarChart';
 import ChartLabel from 'app/components/Chart/ChartLabel';
 import DistributionPieChart from 'app/components/Chart/PieChart';
 import { CHART_COLORS } from 'app/components/Chart/utils';
 import SelectInput from 'app/components/Form/SelectInput';
 import InfoBubble from 'app/components/InfoBubble';
-import { selectEventById } from 'app/reducers/events';
 import AveragePill from 'app/routes/surveys/components/Submissions/AveragePill';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { editSurvey } from '~/redux/actions/SurveyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   SurveyQuestionDisplayType,
   SurveyQuestionType,
-} from 'app/store/models/SurveyQuestion';
+} from '~/redux/models/SurveyQuestion';
+import { selectEventById } from '~/redux/slices/events';
 import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
 import styles from '../surveys.module.css';
 import type { SurveysRouteContext } from '../..';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DistributionDataPoint } from 'app/components/Chart/utils';
-import type { EventForSurvey } from 'app/store/models/Event';
-import type { DetailedSurvey } from 'app/store/models/Survey';
-import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
+import type { EventForSurvey } from '~/redux/models/Event';
+import type { DetailedSurvey } from '~/redux/models/Survey';
+import type { SurveyQuestion } from '~/redux/models/SurveyQuestion';
 
 export type GraphData = {
   [questionId: EntityId]: DistributionDataPoint[];

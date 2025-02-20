@@ -3,19 +3,19 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useLocation, useNavigate } from 'react-router';
-import { fetchMeta } from 'app/actions/MetaActions';
-import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import coverPhoto from 'app/assets/cover.png';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastProvider from 'app/components/Toast/ToastProvider';
-import { setStatusCode } from 'app/reducers/routing';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { useTheme } from 'app/utils/themeUtils';
 import withPreparedDispatch from 'app/utils/withPreparedDispatch';
-import appConfig from '~/utils/appConfig';
+import { fetchMeta } from '~/redux/actions/MetaActions';
+import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { setStatusCode } from '~/redux/slices/routing';
+import { appConfig } from '~/utils/appConfig';
 import HTTPError from '../errors/HTTPError';
 import styles from './AppRoute.module.css';
 import type { PropsWithChildren } from 'react';
@@ -53,6 +53,9 @@ const App = () => {
   const navigate = useNavigate();
   const theme = useTheme();
 
+  usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
+    serverOnly: true,
+  });
   usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
     serverOnly: true,
   });

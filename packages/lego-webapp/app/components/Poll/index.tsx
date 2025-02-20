@@ -10,13 +10,13 @@ import {
 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router';
-import { votePoll } from 'app/actions/PollActions';
 import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { votePoll } from '~/redux/actions/PollActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import styles from './Poll.module.css';
 
-import type PollType from 'app/store/models/Poll';
+import type PollType from '~/redux/models/Poll';
 
 type PollOptionRatio = PollType['options'][0] & {
   ratio: number;

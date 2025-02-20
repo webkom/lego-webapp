@@ -20,8 +20,8 @@ import type {
   PhotoConsent,
   EventSemester,
 } from 'app/models';
-import type { PoolRegistrationWithUser } from 'app/reducers/events';
-import type { Presence } from 'app/store/models/Registration';
+import type { Presence } from '~/redux/models/Registration';
+import type { PoolRegistrationWithUser } from '~/redux/slices/events';
 
 type WaitingListPosition =
   | number

@@ -1,4 +1,4 @@
-import type { CompanyInterestCompanyType } from 'app/reducers/companyInterest';
+import type { CompanyInterestCompanyType } from '~/redux/slices/companyInterest';
 
 export const EVENTS = {
   company_presentation: {

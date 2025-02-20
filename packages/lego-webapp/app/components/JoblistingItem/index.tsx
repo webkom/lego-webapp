@@ -11,7 +11,7 @@ import {
 import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import styles from './JoblistingItem.module.css';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
+import type { ListJoblisting } from '~/redux/models/Joblisting';
 
 type JobListingItemProps = {
   joblisting: ListJoblisting;

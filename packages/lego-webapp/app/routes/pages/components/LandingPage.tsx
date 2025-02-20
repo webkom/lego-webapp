@@ -11,7 +11,7 @@ import moment from 'moment-timezone';
 import { Link } from 'react-router';
 import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from 'app/assets/om-abakus-banner.png';
-import { useIsLoggedIn } from 'app/reducers/auth';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import styles from './LandingPage.module.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import EmailItem from './subcomponents/EmailItem';

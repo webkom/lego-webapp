@@ -1,15 +1,15 @@
 import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router';
-import { fetch } from 'app/actions/EmailListActions';
 import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
-import { selectEmailLists } from 'app/reducers/emailLists';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
+import { fetch } from '~/redux/actions/EmailListActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectEmailLists } from '~/redux/slices/emailLists';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 
 const emailListsDefaultQuery = {
   name: '',

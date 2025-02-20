@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { Field } from 'react-final-form';
 import { Provider } from 'react-redux';
 import { describe, it, expect } from 'vitest';
-import createRootReducer from 'app/store/createRootReducer';
+import createRootReducer from '~/redux/rootReducer';
 import LoginForm from './LoginForm';
 
 describe('components', () => {

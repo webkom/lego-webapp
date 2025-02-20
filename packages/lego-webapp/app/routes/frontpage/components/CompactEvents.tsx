@@ -6,16 +6,16 @@ import Circle from 'app/components/Circle';
 import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { selectAllEvents } from 'app/reducers/events';
 import { eventListDefaultQuery } from 'app/routes/events/components/EventsOverview';
 import { colorForEventType } from 'app/routes/events/utils';
-import { useAppSelector } from 'app/store/hooks';
-import { EventType } from 'app/store/models/Event';
 import truncateString from 'app/utils/truncateString';
 import { stringifyQuery } from 'app/utils/useQuery';
+import { useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
+import { selectAllEvents } from '~/redux/slices/events';
 import styles from './CompactEvents.module.css';
-import type { FrontpageEvent } from 'app/store/models/Event';
 import type { CSSProperties } from 'react';
+import type { FrontpageEvent } from '~/redux/models/Event';
 
 type Props = {
   className?: string;

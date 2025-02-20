@@ -1,7 +1,7 @@
-import { updatePicture } from 'app/actions/UserActions';
 import ImageUpload from 'app/components/Upload/ImageUpload';
-import { useAppDispatch } from 'app/store/hooks';
-import type { PublicUser } from 'app/store/models/User';
+import { updatePicture } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import type { PublicUser } from '~/redux/models/User';
 
 type Props = {
   user: Pick<PublicUser, 'username' | 'profilePicture'>;

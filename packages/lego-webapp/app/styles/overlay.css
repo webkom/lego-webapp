@@ -1,7 +1,7 @@
-@import url('~app/styles/variables.css');
+@import url('app/styles/variables.css');
 
 .content {
-  composes: popover from '~app/styles/utilities.css';
+  composes: popover from 'app/styles/utilities.css';
   background: var(--lego-card-color);
   border-radius: var(--border-radius-lg);
   position: absolute;

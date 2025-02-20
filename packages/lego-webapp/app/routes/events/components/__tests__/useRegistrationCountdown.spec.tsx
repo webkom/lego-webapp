@@ -2,9 +2,9 @@ import { mount } from 'enzyme';
 import moment from 'moment-timezone';
 import { describe, expect, it, vi } from 'vitest';
 import { useRegistrationCountdown } from 'app/routes/events/components/useRegistrationCountdown';
-import { EventType } from 'app/store/models/Event';
+import { EventType } from '~/redux/models/Event';
 import type { EventRegistration } from 'app/models';
-import type { UserDetailedEvent } from 'app/store/models/Event';
+import type { UserDetailedEvent } from '~/redux/models/Event';
 
 vi.useFakeTimers();
 const EVENT: UserDetailedEvent = {

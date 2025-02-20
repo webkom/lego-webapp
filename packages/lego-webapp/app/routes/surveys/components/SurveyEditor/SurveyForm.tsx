@@ -28,10 +28,10 @@ import {
 import styles from 'app/routes/surveys/components/surveys.module.css';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
-import type { EventType } from 'app/store/models/Event';
-import type { FormSurvey, FormSubmitSurvey } from 'app/store/models/Survey';
-import type { FormSurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
+import type { EventType } from '~/redux/models/Event';
+import type { FormSurvey, FormSubmitSurvey } from '~/redux/models/Survey';
+import type { FormSurveyQuestion } from '~/redux/models/SurveyQuestion';
 
 const TypedLegoForm = LegoFinalForm<FormSurvey>;
 
