@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
 import { parse } from 'cookie';
 import JSDOM from 'jsdom';
@@ -9,6 +10,7 @@ import {
 import { PageContextServer } from 'vike/types';
 import { PageContextProvider } from 'vike-react/usePageContext';
 import { routerConfig } from '~/pages/react-router/routerConfig';
+import { sentryServerConfig } from '~/sentry.server.config';
 import createStore from '../redux/createStore';
 import Wrapper from './+Wrapper';
 
@@ -43,10 +45,12 @@ const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
 };
 
 export async function onBeforeRenderHtml(pageContext: PageContextServer) {
+  sentryServerConfig();
   const cookies = parse(pageContext.headers?.['cookie'] ?? '');
   pageContext.store = createStore(
     {},
     {
+      Sentry,
       getCookie: (key) => cookies[key],
     },
   );

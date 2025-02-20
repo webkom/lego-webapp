@@ -63,12 +63,6 @@ global.log = function log(self = this) {
   return this;
 };
 
-Sentry.init({
-  dsn: appConfig.sentryDSN,
-  release: appConfig.release,
-  environment: appConfig.environment,
-  normalizeDepth: 10,
-});
 const preloadedState = window.__PRELOADED_STATE__;
 const store = createStore(preloadedState, {
   Sentry,
