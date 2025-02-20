@@ -9,8 +9,8 @@ import {
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import { Link } from 'react-router';
-import bannerDarkMode from 'app/assets/om-abakus-banner-dark-mode.png';
-import bannerLightMode from 'app/assets/om-abakus-banner.png';
+import bannerDarkMode from '~/assets/om-abakus-banner-dark-mode.png';
+import bannerLightMode from '~/assets/om-abakus-banner.png';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import styles from './LandingPage.module.css';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';

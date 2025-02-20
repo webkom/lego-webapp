@@ -3,7 +3,7 @@ import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { createBrowserRouter, matchRoutes } from 'react-router';
 import { PageContextClient } from 'vike/types';
-import { routerConfig } from '~/pages/react-router/routerConfig';
+import { routerConfig } from 'app/routes';
 import { maybeRefreshToken } from '~/redux/actions/UserActions';
 import createStore from '../redux/createStore';
 

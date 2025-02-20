@@ -1,4 +1,4 @@
-import c64 from '../../assets/fonts/c64.ttf';
+import c64 from '~/assets/fonts/c64.ttf';
 import pxxl from './pxxl';
 // this ttf is actually a bdf font, but jest doesn't want to import bdf files
 

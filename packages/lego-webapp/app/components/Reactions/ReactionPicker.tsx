@@ -1,7 +1,7 @@
 import { Card, Image } from '@webkom/lego-bricks';
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
-import emojiLoading from 'app/assets/emoji_loading.svg';
+import emojiLoading from '~/assets/emoji_loading.svg';
 import { useAppSelector } from '~/redux/hooks';
 import styles from './ReactionPicker.module.css';
 import ReactionPickerContent from './ReactionPickerContent';

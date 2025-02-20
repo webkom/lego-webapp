@@ -1,8 +1,8 @@
 import { Button, Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import mazemapLogo from 'app/assets/mazemap.svg';
 import { MazemapEmbed } from 'app/components/MazemapEmbed/index';
 import styles from 'app/routes/events/components/EventDetail/EventDetail.module.css';
+import mazemapLogo from '~/assets/mazemap.svg';
 import type { ComponentProps } from 'react';
 
 type Props = ComponentProps<typeof MazemapEmbed> & {

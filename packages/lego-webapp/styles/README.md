@@ -1,4 +1,4 @@
-# app/styles
+# styles
 
 Stuff in this folder is mostly global stuff and utilities consumable by
 component specific CSS.
@@ -13,7 +13,7 @@ from CSS Modules:
 
 ```css
 .myClassName {
-  composes: utilityClassName from 'app/styles/utilities.css';
+  composes: utilityClassName from 'styles/utilities.module.css';
 }
 ```
 
@@ -22,7 +22,7 @@ from CSS Modules:
 Variables are stored in `variables.css` and should be used in other CSS files:
 
 ```css
-@import 'app/styles/variables.css';
+@import 'styles/variables.css';
 
 .myClassName {
   background: var(--background-color);

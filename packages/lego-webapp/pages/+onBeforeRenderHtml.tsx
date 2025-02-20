@@ -10,7 +10,7 @@ import {
 } from 'react-router';
 import { PageContextServer } from 'vike/types';
 import { PageContextProvider } from 'vike-react/usePageContext';
-import { routerConfig } from '~/pages/react-router/routerConfig';
+import { routerConfig } from 'app/routes';
 import { fetchMeta } from '~/redux/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 import { sentryServerConfig } from '~/sentry.server.config';

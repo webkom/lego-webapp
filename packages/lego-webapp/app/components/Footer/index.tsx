@@ -3,10 +3,10 @@ import cx from 'classnames';
 import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Link } from 'react-router';
-import bekk from 'app/assets/bekk_short_white.svg';
-import octocat from 'app/assets/octocat.png';
-import utilityStyles from 'app/styles/utilities.css';
+import bekk from '~/assets/bekk_short_white.svg';
+import octocat from '~/assets/octocat.png';
 import { useIsLoggedIn } from '~/redux/slices/auth';
+import utilityStyles from '~/styles/utilities.module.css';
 import Circle from '../Circle';
 import styles from './Footer.module.css';
 
