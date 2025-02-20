@@ -8,7 +8,7 @@ import AchievementsInfo, {
   rarityToColorMap,
 } from 'app/utils/achievementConstants';
 import styles from './UserProfile.module.css';
-import type { Achievement } from 'app/store/models/User';
+import type { Achievement } from '~/redux/models/User';
 
 const MAX_ACHIEVEMENTS = 5;
 

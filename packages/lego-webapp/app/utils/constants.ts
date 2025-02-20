@@ -1,4 +1,4 @@
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 
 export const Keyboard = {
   ESCAPE: 'Escape',

@@ -1,19 +1,19 @@
 import { Card } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { ContentMain } from 'app/components/Content';
+import { CheckBox } from 'app/components/Form';
 import {
   fetchNotificationAlternatives,
   fetchNotificationSettings,
   updateNotificationSetting,
-} from 'app/actions/NotificationSettingsActions';
-import { updateUser } from 'app/actions/UserActions';
-import { ContentMain } from 'app/components/Content';
-import { CheckBox } from 'app/components/Form';
-import { useCurrentUser } from 'app/reducers/auth';
+} from '~/redux/actions/NotificationSettingsActions';
+import { updateUser } from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import {
   selectNotificationSettings,
   selectNotificationSettingsAlternatives,
-} from 'app/reducers/notificationSettings';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+} from '~/redux/slices/notificationSettings';
 import styles from './UserSettingsNotifications.module.css';
 
 const notificationTypeTraslations = {

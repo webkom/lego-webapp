@@ -3,20 +3,23 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { FileDown } from 'lucide-react';
 import { Link, useParams } from 'react-router';
-import { fetchAllergies } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectEventById, selectRegistrationGroups } from 'app/reducers/events';
 import HTTPError from 'app/routes/errors/HTTPError';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchAllergies } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import {
+  selectEventById,
+  selectRegistrationGroups,
+} from '~/redux/slices/events';
 import { RegistrationPill, getRegistrationInfo } from './RegistrationTables';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import type { AdministrateEvent } from '~/redux/models/Event';
 import type {
   AdministrateAllergiesUser,
   AdministrateUserWithGrade,
   CurrentUser,
-} from 'app/store/models/User';
+} from '~/redux/models/User';
 
 export const canSeeAllergies = (
   currentUser?: CurrentUser,

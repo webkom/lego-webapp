@@ -2,8 +2,8 @@ import { useState } from 'react';
 import AttendanceModal from 'app/components/UserAttendance/AttendanceModal';
 import AttendanceStatus from 'app/components/UserAttendance/AttendanceStatus';
 import UserGrid from 'app/components/UserGrid';
-import { useIsLoggedIn } from 'app/reducers/auth';
 import RegisteredSummary from 'app/routes/events/components/RegisteredSummary';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import type { AttendanceModalPool } from 'app/components/UserAttendance/AttendanceModalContent';
 import type { SummaryRegistration } from 'app/routes/events/components/RegisteredSummary';
 

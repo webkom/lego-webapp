@@ -1,7 +1,7 @@
+import type { ComponentType } from 'react';
 import type AggregatedFeedActivity, {
   FeedActivity,
-} from 'app/store/models/FeedActivity';
-import type { ComponentType } from 'react';
+} from '~/redux/models/FeedActivity';
 
 export type TagProps = {
   link: string;

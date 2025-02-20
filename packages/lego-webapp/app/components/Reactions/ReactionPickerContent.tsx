@@ -1,11 +1,11 @@
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import EmptyState from 'app/components/EmptyState';
-import { useCurrentUser } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
+import { addReaction, deleteReaction } from '~/redux/actions/ReactionActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './ReactionPickerContent.module.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   emojis: EmojiWithReactionData[];

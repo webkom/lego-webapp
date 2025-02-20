@@ -9,7 +9,6 @@ import {
 } from '@webkom/lego-bricks';
 import { FolderOpen, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { setSaveForUse } from 'app/actions/FileActions';
 import EmptyState from 'app/components/EmptyState';
 import {
   TextInput,
@@ -18,6 +17,7 @@ import {
   ImageUploadField,
 } from 'app/components/Form';
 import { colorForEventType } from 'app/routes/events/utils';
+import { setSaveForUse } from '~/redux/actions/FileActions';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from 'app/routes/events/utils';
 import type { FormApi } from 'final-form';

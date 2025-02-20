@@ -3,23 +3,23 @@ import { useMemo } from 'react';
 import {
   addSemesterStatus,
   editSemesterStatus,
-} from 'app/actions/CompanyActions';
-import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { NonEventContactStatus } from 'app/store/models/Company';
+} from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { NonEventContactStatus } from '~/redux/models/Company';
+import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
 import { getContactStatuses, getSemesterStatus } from '../utils';
 import styles from './SemesterStatus.module.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type { Semester } from 'app/models';
 import type {
-  TransformedAdminCompany,
-  TransformedSemesterStatus,
-} from 'app/reducers/companies';
-import type {
   AdminDetailCompany,
   AdminListCompany,
   CompanySemesterContactStatus,
-} from 'app/store/models/Company';
+} from '~/redux/models/Company';
+import type {
+  TransformedAdminCompany,
+  TransformedSemesterStatus,
+} from '~/redux/slices/companies';
 
 type Props = {
   semesterStatus: TransformedSemesterStatus | undefined;

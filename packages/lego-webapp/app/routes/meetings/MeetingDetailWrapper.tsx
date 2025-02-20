@@ -4,10 +4,10 @@ import { useLocation, useParams } from 'react-router';
 import {
   fetchMeeting,
   answerMeetingInvitation,
-} from 'app/actions/MeetingActions';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { MeetingTokenResponse } from 'app/reducers/meetings';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+} from '~/redux/actions/MeetingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import { MeetingTokenResponse } from '~/redux/slices/meetings';
 import MeetingAnswer from './components/MeetingAnswer';
 import MeetingDetail from './components/MeetingDetail';
 

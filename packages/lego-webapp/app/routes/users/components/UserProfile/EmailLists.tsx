@@ -6,7 +6,7 @@ import {
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { PublicEmailList } from 'app/store/models/EmailList';
+import type { PublicEmailList } from '~/redux/models/EmailList';
 
 interface Props {
   userId: EntityId;

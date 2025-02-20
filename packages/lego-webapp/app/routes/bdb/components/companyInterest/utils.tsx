@@ -1,6 +1,6 @@
 import qs from 'qs';
-import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
-import appConfig from '~/utils/appConfig';
+import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
+import { appConfig } from '~/utils/appConfig';
 import {
   COLLABORATION_TYPES,
   EVENTS,
@@ -8,7 +8,7 @@ import {
   OTHER_OFFERS,
   TARGET_GRADES,
 } from './components/Translations';
-import type CompanySemester from 'app/store/models/CompanySemester';
+import type CompanySemester from '~/redux/models/CompanySemester';
 
 export const sortSemesterChronologically = (
   a: CompanySemester,

@@ -1,9 +1,9 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { useNavigate } from 'react-router';
-import { resetMeetingToken } from 'app/reducers/meetings';
-import { useAppDispatch } from 'app/store/hooks';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import type { MeetingTokenSuccessState } from 'app/reducers/meetings';
+import { useAppDispatch } from '~/redux/hooks';
+import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
+import { resetMeetingToken } from '~/redux/slices/meetings';
+import type { MeetingTokenSuccessState } from '~/redux/slices/meetings';
 
 const statusTexts: { [value in MeetingInvitationStatus]: string } = {
   [MeetingInvitationStatus.Attending]: 'skal nå delta',

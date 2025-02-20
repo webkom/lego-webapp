@@ -1,11 +1,11 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { autocomplete, toggleSearch } from 'app/actions/SearchActions';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectAutocompleteRedux } from 'app/reducers/search';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { Keyboard } from 'app/utils/constants';
+import { autocomplete, toggleSearch } from '~/redux/actions/SearchActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import { selectAutocompleteRedux } from '~/redux/slices/search';
 import QuickLinks from './QuickLinks';
 import styles from './Search.module.css';
 import SearchBar from './SearchBar';

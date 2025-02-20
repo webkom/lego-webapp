@@ -18,18 +18,6 @@ import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router';
-import {
-  createGallery,
-  deleteGallery,
-  fetchGallery,
-  updateGallery,
-  updateGalleryCover,
-} from 'app/actions/GalleryActions';
-import {
-  fetchGalleryPictures,
-  deletePicture,
-  updatePicture,
-} from 'app/actions/GalleryPictureActions';
 import EmptyState from 'app/components/EmptyState';
 import {
   TextInput,
@@ -49,22 +37,34 @@ import {
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import GalleryComponent from 'app/components/Gallery';
-import { selectGalleryById } from 'app/reducers/galleries';
-import { selectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import { isNotNullish } from 'app/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
+import {
+  createGallery,
+  deleteGallery,
+  fetchGallery,
+  updateGallery,
+  updateGalleryCover,
+} from '~/redux/actions/GalleryActions';
+import {
+  fetchGalleryPictures,
+  deletePicture,
+  updatePicture,
+} from '~/redux/actions/GalleryPictureActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectGalleryById } from '~/redux/slices/galleries';
+import { selectGalleryPicturesByGalleryId } from '~/redux/slices/galleryPictures';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import GalleryEditorActions from './GalleryEditorActions';
 import styles from './Overview.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type { searchMapping } from 'app/reducers/search';
-import type { DetailedGallery } from 'app/store/models/Gallery';
-import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
-import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import type { DetailedGallery } from '~/redux/models/Gallery';
+import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
+import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
+import type { searchMapping } from '~/redux/slices/search';
 
 const photoOverlay = (photo: GalleryListPicture, selected: EntityId[]) => {
   const isSelected = selected.includes(photo.id);

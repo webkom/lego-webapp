@@ -4,8 +4,8 @@ import { useLocation } from 'react-router';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
-import type { SearchResult } from 'app/reducers/search';
 import type { ChangeEventHandler, KeyboardEvent } from 'react';
+import type { SearchResult } from '~/redux/slices/search';
 
 type Props<T> = {
   inputRef?: {

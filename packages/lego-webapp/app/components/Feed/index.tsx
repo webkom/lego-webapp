@@ -1,9 +1,9 @@
 import { Frown } from 'lucide-react';
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
-import { selectFeedActivitiesByFeedId } from 'app/reducers/feeds';
-import { useAppSelector } from 'app/store/hooks';
-import { FeedActivityVerb } from 'app/store/models/FeedActivity';
+import { useAppSelector } from '~/redux/hooks';
+import { FeedActivityVerb } from '~/redux/models/FeedActivity';
+import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
 import Activity from './activity';
 import AdminRegistrationRenderer from './renders/adminRegistration';
 import AnnouncementRenderer from './renders/announcement';

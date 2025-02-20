@@ -6,11 +6,11 @@ import {
   selectGalleryPictureById,
   initialUploadStatus,
   hideUploadStatus,
-} from 'app/reducers/galleryPictures';
+} from '~/redux/slices/galleryPictures';
 import styles from './PhotoUploadStatus.module.css';
-import type { UploadStatus } from 'app/reducers/galleryPictures';
-import type { RootState } from 'app/store/createRootReducer';
-import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
+import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
+import type { RootState } from '~/redux/rootReducer';
+import type { UploadStatus } from '~/redux/slices/galleryPictures';
 
 type StateProps = {
   uploadStatus: UploadStatus;

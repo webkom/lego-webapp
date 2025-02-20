@@ -4,7 +4,7 @@
  * Utility classes for use by other classes.
  *
  * Usage:
- * `composes: className from '~app/styles/utilities.css'`
+ * `composes: className from 'app/styles/utilities.css'`
  */
 
 .container {

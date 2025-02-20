@@ -3,12 +3,12 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { CircleCheck, CircleX } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
-import { fetchAll } from 'app/actions/PollActions';
 import Paginator from 'app/components/Paginator';
-import { selectAllPolls } from 'app/reducers/polls';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
+import { fetchAll } from '~/redux/actions/PollActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectAllPolls } from '~/redux/slices/polls';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import styles from './PollsList.module.css';
 
 const PollsList = () => {

@@ -11,7 +11,6 @@ import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router';
-import { createPoll, deletePoll, editPoll } from 'app/actions/PollActions';
 import {
   Form,
   LegoFinalForm,
@@ -23,12 +22,13 @@ import {
   SubmissionError,
 } from 'app/components/Form';
 import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
+import { createPoll, deletePoll, editPoll } from '~/redux/actions/PollActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from './PollEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type Poll from 'app/store/models/Poll';
 import type { ReactNode } from 'react';
+import type Poll from '~/redux/models/Poll';
 
 type Props = {
   poll?: Poll;

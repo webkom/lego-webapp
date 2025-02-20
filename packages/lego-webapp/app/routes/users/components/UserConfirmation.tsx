@@ -5,12 +5,6 @@ import qs from 'qs';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { useLocation } from 'react-router';
-import { User } from 'app/actions/ActionTypes';
-import {
-  createUser,
-  saveToken,
-  validateRegistrationToken,
-} from 'app/actions/UserActions';
 import { ContentMain } from 'app/components/Content';
 import {
   Form,
@@ -21,8 +15,6 @@ import {
   PhoneNumberInput,
   SubmitButton,
 } from 'app/components/Form';
-import { userSchema } from 'app/reducers';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -30,6 +22,14 @@ import {
   required,
   sameAs,
 } from 'app/utils/validation';
+import { User } from '~/redux/actionTypes';
+import {
+  createUser,
+  saveToken,
+  validateRegistrationToken,
+} from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { userSchema } from '~/redux/schemas';
 import { validPassword } from '../utils';
 import AllergiesOrPreferencesField from './AllergiesOrPreferencesField';
 import Confetti from './Confetti';

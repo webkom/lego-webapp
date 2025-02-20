@@ -6,8 +6,8 @@ import { ProfilePicture } from 'app/components/Image';
 import Time from 'app/components/Time';
 import styles from './activity.module.css';
 import type ActivityRenderer from 'app/components/Feed/ActivityRenderer';
-import type { FeedActivity } from 'app/store/models/FeedActivity';
-import type AggregatedFeedActivity from 'app/store/models/FeedActivity';
+import type { FeedActivity } from '~/redux/models/FeedActivity';
+import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 
 type AggregatedActivityItemProps = {
   aggregatedActivity: AggregatedFeedActivity;

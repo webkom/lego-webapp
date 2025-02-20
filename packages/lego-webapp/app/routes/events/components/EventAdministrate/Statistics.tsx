@@ -1,13 +1,13 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useState } from 'react';
-import { fetchAllWithType } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
 import { DatePicker } from 'app/components/Form';
 import { GroupType, type Dateish } from 'app/models';
 import EventAttendeeStatistics from 'app/routes/events/components/EventAttendeeStatistics';
 import styles from 'app/routes/events/components/EventAttendeeStatistics.module.css';
-import { useAppDispatch } from 'app/store/hooks';
+import { fetchAllWithType } from '~/redux/actions/GroupActions';
+import { useAppDispatch } from '~/redux/hooks';
 
 const Statistics = () => {
   const dispatch = useAppDispatch();

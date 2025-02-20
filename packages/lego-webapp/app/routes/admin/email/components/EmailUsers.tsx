@@ -1,19 +1,19 @@
 import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router';
-import { fetch } from 'app/actions/EmailUserActions';
-import { fetchAllWithType } from 'app/actions/GroupActions';
 import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { GroupType } from 'app/models';
-import { selectTransformedEmailUsers } from 'app/reducers/emailUsers';
-import { selectGroupsByType } from 'app/reducers/groups';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
+import { fetch } from '~/redux/actions/EmailUserActions';
+import { fetchAllWithType } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectTransformedEmailUsers } from '~/redux/slices/emailUsers';
+import { selectGroupsByType } from '~/redux/slices/groups';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import type { ColumnProps } from 'app/components/Table';
 
 const emailUsersDefaultQuery = {

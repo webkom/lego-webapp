@@ -3,10 +3,10 @@ import cx from 'classnames';
 import { debounce } from 'lodash';
 import { MoonStar, Sun } from 'lucide-react';
 import { useCallback } from 'react';
-import { updateUserTheme } from 'app/actions/UserActions';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
 import { applySelectedTheme, getTheme, useTheme } from 'app/utils/themeUtils';
+import { updateUserTheme } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 

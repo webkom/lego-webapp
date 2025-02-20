@@ -12,11 +12,11 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import { fetchAnalytics } from 'app/actions/EventActions';
-import { useAppDispatch } from 'app/store/hooks';
+import { fetchAnalytics } from '~/redux/actions/EventActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from './Analytics.module.css';
-import type { Analytics as AnalyticsType } from 'app/actions/EventActions';
 import type { Dateish } from 'app/models';
+import type { Analytics as AnalyticsType } from '~/redux/actions/EventActions';
 
 const initialMetricValue = {
   visitors: { title: 'Besøkende', value: 0 },

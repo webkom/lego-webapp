@@ -130,6 +130,9 @@ export const Membership = {
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP'),
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP'),
 };
+export const MembershipHistory = {
+  DELETE: generateStatuses('MembershipHistory.DELETE'),
+};
 
 export const Favorite = {
   FETCH_ALL: generateStatuses('Favorite.FETCH_ALL'),

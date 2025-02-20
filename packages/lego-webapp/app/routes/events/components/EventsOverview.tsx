@@ -10,10 +10,10 @@ import { CheckBox, DatePicker, RadioButton } from 'app/components/Form';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import { EventTime } from 'app/models';
-import { useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import type { ListEvent } from 'app/store/models/Event';
+import { useAppSelector } from '~/redux/hooks';
 import type { ParsedQs } from 'qs';
+import type { ListEvent } from '~/redux/models/Event';
 
 type FilterEventType = 'company_presentation' | 'course' | 'social' | 'other';
 type FilterRegistrationsType = 'all' | 'open' | 'future';

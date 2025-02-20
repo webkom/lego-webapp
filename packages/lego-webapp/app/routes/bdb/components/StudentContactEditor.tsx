@@ -3,25 +3,25 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
 import {
-  editCompany,
-  fetchAdmin,
-  fetchSemesters,
-} from 'app/actions/CompanyActions';
-import {
   LegoFinalForm,
   Form,
   SelectInput,
   SubmissionError,
   SubmitButton,
 } from 'app/components/Form';
-import { selectTransformedAdminCompanyById } from 'app/reducers/companies';
-import { selectCompanySemesterEntities } from 'app/reducers/companySemesters';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import useQuery from 'app/utils/useQuery';
+import {
+  editCompany,
+  fetchAdmin,
+  fetchSemesters,
+} from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import { selectTransformedAdminCompanyById } from '~/redux/slices/companies';
+import { selectCompanySemesterEntities } from '~/redux/slices/companySemesters';
 import { semesterToHumanReadable } from '../utils';
 import type { EntityId } from '@reduxjs/toolkit';
-import type CompanySemester from 'app/store/models/CompanySemester';
+import type CompanySemester from '~/redux/models/CompanySemester';
 
 export type FormValues = {
   semesterId: { label: string; value: string };

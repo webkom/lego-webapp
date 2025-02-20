@@ -1,14 +1,14 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
-import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
 import Emoji from 'app/components/Emoji';
 import Tooltip from 'app/components/Tooltip';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
+import { addReaction, deleteReaction } from '~/redux/actions/ReactionActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import styles from './Reaction.module.css';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ReactionsGrouped } from '~/redux/models/Reaction';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   className?: string;

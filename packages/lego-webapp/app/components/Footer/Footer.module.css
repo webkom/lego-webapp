@@ -1,4 +1,4 @@
-@import url('~app/styles/variables.css');
+@import url('app/styles/variables.css');
 
 .footer {
   width: 100%;
@@ -13,7 +13,7 @@
 }
 
 .footerContent {
-  composes: container from '~app/styles/utilities.css';
+  composes: container from 'app/styles/utilities.css';
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -137,7 +137,7 @@ html[data-theme='dark'] .bottom {
 }
 
 .bottomContent {
-  composes: container from '~app/styles/utilities.css';
+  composes: container from 'app/styles/utilities.css';
   display: flex;
   justify-content: space-evenly;
   align-items: center;

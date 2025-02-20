@@ -1,14 +1,14 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { fetchAll as fetchSurveys } from 'app/actions/SurveyActions';
 import Paginator from 'app/components/Paginator';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectAllSurveys } from 'app/reducers/surveys';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { fetchAll as fetchSurveys } from '~/redux/actions/SurveyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectPaginationNext } from '~/redux/slices/selectors';
+import { selectAllSurveys } from '~/redux/slices/surveys';
 import SurveyList from './SurveyList';
-import type { DetailedSurvey } from 'app/store/models/Survey';
+import type { DetailedSurvey } from '~/redux/models/Survey';
 
 const SurveyListPage = () => {
   const dispatch = useAppDispatch();

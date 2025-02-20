@@ -15,7 +15,6 @@ import diff from 'node-htmldiff';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router';
-import { setInvitationStatus } from 'app/actions/MeetingActions';
 import AddToCalendar from 'app/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import CommentView from 'app/components/Comments/CommentView';
@@ -33,24 +32,25 @@ import { MazemapEmbed } from 'app/components/MazemapEmbed';
 import Time, { FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import Attendance from 'app/components/UserAttendance/Attendance';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectCommentsByIds } from 'app/reducers/comments';
+import { PizzaAccordion } from 'app/routes/meetings/components/PizzaAccordion';
+import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import urlifyString from 'app/utils/urlifyString';
+import { setInvitationStatus } from '~/redux/actions/MeetingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectCommentsByIds } from '~/redux/slices/comments';
 import {
   selectMeetingInvitationByMeetingIdAndUserId,
   selectMeetingInvitationsForMeeting,
   statusesText,
-} from 'app/reducers/meetingInvitations';
-import { selectMeetingById } from 'app/reducers/meetings';
-import { selectUserById } from 'app/reducers/users';
-import { PizzaAccordion } from 'app/routes/meetings/components/PizzaAccordion';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
-import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import urlifyString from 'app/utils/urlifyString';
+} from '~/redux/slices/meetingInvitations';
+import { selectMeetingById } from '~/redux/slices/meetings';
+import { selectUserById } from '~/redux/slices/users';
 import styles from './MeetingDetail.module.css';
 import type { Dateish } from 'app/models';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { PublicUser } from 'app/store/models/User';
+import type { DetailedMeeting } from '~/redux/models/Meeting';
+import type { PublicUser } from '~/redux/models/User';
 
 const UserLink = ({ user }: { user?: PublicUser }) =>
   user && !isEmpty(user) ? (

@@ -8,7 +8,6 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import bekk from 'app/assets/bekk_black.svg';
 import bekkWhite from 'app/assets/bekk_white.svg';
 import buddyWeekGraphic from 'app/assets/frontpage-graphic-buddyweek.png';
@@ -19,11 +18,12 @@ import readmeGraphic from 'app/assets/frontpage-graphic-readme.png';
 import Auth from 'app/components/Auth';
 // import Banner from 'app/components/Banner';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import { selectPinned } from 'app/reducers/frontpage';
 import LatestReadme from 'app/routes/frontpage/components/LatestReadme';
 import Pinned from 'app/routes/frontpage/components/Pinned';
 import { itemUrl, renderMeta } from 'app/routes/frontpage/components/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectPinned } from '~/redux/slices/frontpage';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.module.css';
 

@@ -6,14 +6,14 @@ import Pill from 'app/components/Pill';
 import Popover from 'app/components/Popover';
 import TextWithIcon from 'app/components/TextWithIcon';
 import Time, { FromToTime } from 'app/components/Time';
-import { selectAllEvents } from 'app/reducers/events';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
+import { selectAllEvents } from '~/redux/slices/events';
 import { colorForEventType, textColorForEventType } from '../utils';
 import styles from './Calendar.module.css';
 import type { Dateish } from 'app/models';
-import type { RootState } from 'app/store/createRootReducer';
-import type { ListEvent } from 'app/store/models/Event';
 import type { Moment } from 'moment-timezone';
+import type { ListEvent } from '~/redux/models/Event';
+import type { RootState } from '~/redux/rootReducer';
 
 const renderEvent = (event: ListEvent) => {
   const {

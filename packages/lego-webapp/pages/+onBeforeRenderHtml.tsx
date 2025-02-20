@@ -13,6 +13,8 @@ import { routerConfig } from '~/pages/react-router/routerConfig';
 import { sentryServerConfig } from '~/sentry.server.config';
 import createStore from '../redux/createStore';
 import Wrapper from './+Wrapper';
+import { fetchMeta } from '~/redux/actions/MetaActions';
+import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 
 const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
   const origin = `${pageContext.urlParsed.protocol}://${pageContext.urlParsed.hostname}`;
@@ -54,6 +56,8 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
       getCookie: (key) => cookies[key],
     },
   );
+  await pageContext.store.dispatch(loginAutomaticallyIfPossible());
+  await pageContext.store.dispatch(fetchMeta());
   // SSR Support for LegoEditor
   pageContext.domParser = (val: string) => new JSDOM(val).window.document;
   // Helmet support

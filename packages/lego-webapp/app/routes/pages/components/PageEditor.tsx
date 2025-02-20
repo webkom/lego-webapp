@@ -13,13 +13,6 @@ import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
-import { uploadFile } from 'app/actions/FileActions';
-import {
-  createPage,
-  deletePage,
-  fetchPage,
-  updatePage,
-} from 'app/actions/PageActions';
 import {
   EditorField,
   TextInput,
@@ -36,14 +29,21 @@ import {
 } from 'app/components/Form/ObjectPermissions';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ImageUpload from 'app/components/Upload/ImageUpload';
-import { selectPageById } from 'app/reducers/pages';
 import { categoryOptions } from 'app/routes/pages/components/PageDetail';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { uploadFile } from '~/redux/actions/FileActions';
+import {
+  createPage,
+  deletePage,
+  fetchPage,
+  updatePage,
+} from '~/redux/actions/PageActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectPageById } from '~/redux/slices/pages';
 import styles from './PageEditor.module.css';
 import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
-import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
-import type { AuthDetailedPage } from 'app/store/models/Page';
+import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
+import type { AuthDetailedPage } from '~/redux/models/Page';
 
 export type ApiRequestBody = {
   title: string;

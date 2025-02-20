@@ -1,9 +1,9 @@
 import {
   SurveyQuestionDisplayType,
   SurveyQuestionType,
-} from 'app/store/models/SurveyQuestion';
-import type { FormSurvey } from 'app/store/models/Survey';
-import type { FormSurveyQuestion } from 'app/store/models/SurveyQuestion';
+} from '~/redux/models/SurveyQuestion';
+import type { FormSurvey } from '~/redux/models/Survey';
+import type { FormSurveyQuestion } from '~/redux/models/SurveyQuestion';
 
 export const initialQuestion: FormSurveyQuestion = {
   questionText: '',

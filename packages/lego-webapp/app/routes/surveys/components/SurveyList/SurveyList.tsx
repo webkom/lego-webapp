@@ -5,7 +5,7 @@ import { FolderOpen } from 'lucide-react';
 import EmptyState from 'app/components/EmptyState';
 import styles from '../surveys.module.css';
 import SurveyItem from './SurveyItem';
-import type { DetailedSurvey } from 'app/store/models/Survey';
+import type { DetailedSurvey } from '~/redux/models/Survey';
 
 type Props = {
   surveys: DetailedSurvey[];

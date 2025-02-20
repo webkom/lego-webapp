@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import Circle from 'app/components/Circle';
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 import { EventTypeConfig } from '../utils';
 import type { IcalToken } from 'app/models';
 

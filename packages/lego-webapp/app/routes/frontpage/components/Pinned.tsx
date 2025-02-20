@@ -1,10 +1,10 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router';
-import { isEvent } from 'app/reducers/frontpage';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
+import { isEvent } from '~/redux/slices/frontpage';
 import styles from './Pinned.module.css';
-import type { ArticleWithType, EventWithType } from 'app/reducers/frontpage';
 import type { CSSProperties, ReactElement } from 'react';
+import type { ArticleWithType, EventWithType } from '~/redux/slices/frontpage';
 
 type Props = {
   item?: ArticleWithType | EventWithType;

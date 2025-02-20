@@ -14,14 +14,6 @@ import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router';
-import { fetchMemberships } from 'app/actions/GroupActions';
-import {
-  createMeeting,
-  deleteMeeting,
-  editMeeting,
-  fetchMeeting,
-  inviteUsersAndGroups,
-} from 'app/actions/MeetingActions';
 import {
   Button,
   CheckBox,
@@ -38,11 +30,6 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import Attendance from 'app/components/UserAttendance/Attendance';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectMeetingInvitationsForMeeting } from 'app/reducers/meetingInvitations';
-import { selectMeetingById } from 'app/reducers/meetings';
-import { selectUserById } from 'app/reducers/users';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EDITOR_EMPTY } from 'app/utils/constants';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
@@ -55,12 +42,25 @@ import {
   legoEditorRequired,
   required,
 } from 'app/utils/validation';
-import appConfig from '~/utils/appConfig';
+import { fetchMemberships } from '~/redux/actions/GroupActions';
+import {
+  createMeeting,
+  deleteMeeting,
+  editMeeting,
+  fetchMeeting,
+  inviteUsersAndGroups,
+} from '~/redux/actions/MeetingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectMeetingInvitationsForMeeting } from '~/redux/slices/meetingInvitations';
+import { selectMeetingById } from '~/redux/slices/meetings';
+import { selectUserById } from '~/redux/slices/users';
+import { appConfig } from '~/utils/appConfig';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type { AutocompleteGroup } from 'app/store/models/Group';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
-import type { AutocompleteUser } from 'app/store/models/User';
+import type { AutocompleteGroup } from '~/redux/models/Group';
+import type { DetailedMeeting } from '~/redux/models/Meeting';
+import type { AutocompleteUser } from '~/redux/models/User';
 
 const time = (hours: number, minutes?: number) =>
   moment()

@@ -2,8 +2,8 @@ import { withPreparedEffect } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import type { PreparedEffectOptions } from '@webkom/react-prepare';
-import type { AppDispatch } from 'app/store/createStore';
 import type { ComponentType, DependencyList } from 'react';
+import type { AppDispatch } from '~/redux/createStore';
 
 const mapDispatch = (dispatch: AppDispatch) => ({ dispatch });
 /**

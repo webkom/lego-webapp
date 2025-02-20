@@ -6,15 +6,15 @@ import {
 } from '@webkom/lego-bricks';
 import { useParams } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
-import { useFetchedSurvey } from 'app/reducers/surveys';
-import { useAppSelector } from 'app/store/hooks';
-import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
 import useQuery from 'app/utils/useQuery';
+import { useAppSelector } from '~/redux/hooks';
+import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
+import { useFetchedSurvey } from '~/redux/slices/surveys';
 import Results from './Results';
 import type { GraphData } from './Results';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
+import type { SurveyQuestion } from '~/redux/models/SurveyQuestion';
 
 type SubmissionsPublicResultsParams = {
   surveyId: string;

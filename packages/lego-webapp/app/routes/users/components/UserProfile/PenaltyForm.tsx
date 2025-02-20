@@ -1,7 +1,6 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
-import { addPenalty } from 'app/actions/UserActions';
 import {
   Form,
   TextArea,
@@ -10,12 +9,13 @@ import {
   LegoFinalForm,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, isInteger, required } from 'app/utils/validation';
+import { addPenalty } from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import styles from './Penalties.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { searchMapping } from 'app/reducers/search';
 import type { FormApi } from 'final-form';
+import type { searchMapping } from '~/redux/slices/search';
 
 type FormValues = {
   reason: string;

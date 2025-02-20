@@ -1,11 +1,11 @@
 import { Accordion, Icon } from '@webkom/lego-bricks';
 import { ChevronRight, Pizza } from 'lucide-react';
 import { FlexRow } from 'app/components/FlexBox';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
+import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import styles from './MeetingDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { MeetingInvitationWithUser } from 'app/reducers/meetingInvitations';
-import type { ReactionsGrouped } from 'app/store/models/Reaction';
+import type { ReactionsGrouped } from '~/redux/models/Reaction';
+import type { MeetingInvitationWithUser } from '~/redux/slices/meetingInvitations';
 
 type Props = {
   meeting: {

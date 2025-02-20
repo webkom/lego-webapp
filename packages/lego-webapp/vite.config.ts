@@ -15,7 +15,7 @@ export default defineConfig({
       },
     }),
     cjsInterop({
-      dependencies: ['react-helmet-async'],
+      dependencies: ['react-helmet-async', 'redux-logger', 'lodash'],
     }),
   ],
   resolve: {
@@ -24,6 +24,7 @@ export default defineConfig({
       '~': path.resolve(__dirname, './'),
     },
   },
+
   build: {
     target: 'es2022',
     sourcemap: true,

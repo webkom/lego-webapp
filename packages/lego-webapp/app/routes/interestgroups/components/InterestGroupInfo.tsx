@@ -1,10 +1,13 @@
 import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { fetchPage } from 'app/actions/PageActions';
 import DisplayContent from 'app/components/DisplayContent/index';
-import { selectFlatpagePage, selectFlatpagePageInfo } from 'app/reducers/pages';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks/index';
+import { fetchPage } from '~/redux/actions/PageActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import {
+  selectFlatpagePage,
+  selectFlatpagePageInfo,
+} from '~/redux/slices/pages';
 import styles from './InterestGroup.module.css';
 
 const pageSlug = '39-praktisk-informasjon';

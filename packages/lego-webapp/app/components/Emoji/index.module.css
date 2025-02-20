@@ -1,7 +1,7 @@
 @font-face {
   font-family: color-emoji;
   src: local('Noto Color Emoji');
-  src: url('~app/assets/fonts/NotoColorEmoji.ttf');
+  src: url('app/assets/fonts/NotoColorEmoji.ttf');
 }
 
 .emoji {

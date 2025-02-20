@@ -2,13 +2,13 @@ import { Card, Image } from '@webkom/lego-bricks';
 import fuzzy from 'fuzzy';
 import { useMemo, useState, useCallback } from 'react';
 import emojiLoading from 'app/assets/emoji_loading.svg';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
 import styles from './ReactionPicker.module.css';
 import ReactionPickerContent from './ReactionPickerContent';
 import ReactionPickerFooter from './ReactionPickerFooter';
 import ReactionPickerHeader from './ReactionPickerHeader';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   emojis: EmojiWithReactionData[];

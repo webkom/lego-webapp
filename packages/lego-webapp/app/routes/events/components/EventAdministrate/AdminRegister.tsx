@@ -1,7 +1,6 @@
 import { LoadingIndicator } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { useParams } from 'react-router';
-import { adminRegister, waitinglistPoolId } from 'app/actions/EventActions';
 import {
   TextEditor,
   SelectInput,
@@ -10,11 +9,12 @@ import {
   SubmissionError,
 } from 'app/components/Form';
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
-import { selectPoolsForEvent } from 'app/reducers/events';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
-import type { AutocompleteUser } from 'app/store/models/User';
+import { adminRegister, waitinglistPoolId } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectPoolsForEvent } from '~/redux/slices/events';
 import type { FormApi } from 'final-form';
+import type { AutocompleteUser } from '~/redux/models/User';
 
 type FormValues = {
   users: AutocompleteUser[];

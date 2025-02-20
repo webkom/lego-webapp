@@ -3,22 +3,22 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
 import {
-  addCompanyContact,
-  editCompanyContact,
-  fetchAdmin,
-} from 'app/actions/CompanyActions';
-import {
   Form,
   LegoFinalForm,
   TextInput,
   SubmitButton,
 } from 'app/components/Form';
-import { selectCompanyById } from 'app/reducers/companies';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import {
+  addCompanyContact,
+  editCompanyContact,
+  fetchAdmin,
+} from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectCompanyById } from '~/redux/slices/companies';
 import SubmissionError from '../../../components/Form/SubmissionError';
-import type { AdminDetailCompany } from 'app/store/models/Company';
+import type { AdminDetailCompany } from '~/redux/models/Company';
 
 export type FormValues = {
   name: string;
