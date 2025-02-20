@@ -40,6 +40,10 @@ const ResultIcon = ({ result }) => {
             className={styles.searchResultItemIcon}
           />
         );
+      } else {
+        return (
+          <Icon name="help" size={28} className={styles.searchResultItemIcon} />
+        );
       }
     default:
     case 'icon':

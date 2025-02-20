@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '~/redux/rootReducer';
 import { setTest } from '~/redux/slices/test';
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 
 export default function PrepareTest() {
   const dispatch = useDispatch();

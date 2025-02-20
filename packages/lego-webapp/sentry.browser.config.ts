@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/react';
 
 export const sentryBrowserConfig = () => {
-  // eslint-disable-next-line
   import.meta.env.PROD === true &&
     Sentry.init({
       dsn: import.meta.env.PUBLIC_ENV__SENTRY_DSN,
