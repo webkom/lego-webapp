@@ -45,7 +45,7 @@ function getToken(getCookie: GetCookie): Token | undefined {
   try {
     const decoded = jwtDecode<Token>(encodedToken);
     return { ...decoded, encodedToken };
-  } catch (e) {
+  } catch (_) {
     // Treat invalid tokens as if no token is stored
     return;
   }

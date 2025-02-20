@@ -47,7 +47,7 @@ const useAutocomplete = ({
 
       setOptions(result);
       setFetching(false);
-    } catch (e) {
+    } catch (_) {
       setFetching(false);
     }
   };

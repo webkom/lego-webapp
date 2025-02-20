@@ -27,7 +27,7 @@ const LoginForm = () => {
   const onSubmit = async (values: FormValues) => {
     try {
       await dispatch(login(values.username, values.password));
-    } catch (error) {
+    } catch (_) {
       return { [FORM_ERROR]: 'Feil brukernavn eller passord' };
     }
   };

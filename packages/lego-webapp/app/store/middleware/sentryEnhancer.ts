@@ -7,7 +7,7 @@ const sentryReduxEnhancer = Sentry.createReduxEnhancer({
     try {
       const token = state.auth.token ? jwtDecode(state.auth.token) : undefined;
       return { ...state, auth: { ...state.auth, token } };
-    } catch (e) {
+    } catch (_) {
       return state;
     }
   },

@@ -4,19 +4,16 @@ import { Link } from 'react-router';
 import styles from './Tag.module.css';
 import type { ReactNode } from 'react';
 
-const tagColors = [
-  'red',
-  'gray',
-  'pink',
-  'yellow',
-  'green',
-  'cyan',
-  'blue',
-  'purple',
-  'orange',
-] as const;
-
-export type TagColors = (typeof tagColors)[number];
+export type TagColors =
+  | 'red'
+  | 'gray'
+  | 'pink'
+  | 'yellow'
+  | 'green'
+  | 'cyan'
+  | 'blue'
+  | 'purple'
+  | 'orange';
 
 type Props = {
   tag: string | ReactNode;

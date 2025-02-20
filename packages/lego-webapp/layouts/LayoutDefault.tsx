@@ -1,13 +1,8 @@
-import './style.css';
-
+import { ReactNode } from 'react';
 import logoUrl from '~/assets/logo.svg';
 import { Link } from '~/components/Link';
 
-export default function LayoutDefault({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LayoutDefault({ children }: { children: ReactNode }) {
   return (
     <div
       style={{
@@ -28,7 +23,7 @@ export default function LayoutDefault({
   );
 }
 
-function Sidebar({ children }: { children: React.ReactNode }) {
+function Sidebar({ children }: { children: ReactNode }) {
   return (
     <div
       id="sidebar"

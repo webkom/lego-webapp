@@ -54,8 +54,6 @@ class ErrorBoundary extends Component<Props, State> {
     if (__DEV__) {
       /* eslint no-console: 0 */
       console.error(error);
-
-      /* eslint no-console: 0 */
       console.error(errorInfo);
     }
 
