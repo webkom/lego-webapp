@@ -83,9 +83,9 @@ describe('Create event', () => {
     cy.get('._legoEditor_Toolbar_root').should('be.visible');
     //cy.focused().type('{enter}hello{uparrow}lol{enter}');
 
-    cy.get('._legoEditor_Toolbar_root button').first().click();
-    // Format text
     cy.focused().type('This text should be large');
+    // Format text
+    cy.get('._legoEditor_Toolbar_root button').first().click();
     cy.get('._legoEditor_root h1')
       .should('be.visible')
       .contains('This text should be large');
