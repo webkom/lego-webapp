@@ -53,6 +53,7 @@ export type AnnouncementCreateLocationState = {
 };
 
 export type FormValues = {
+  title: string | null;
   message: string;
   users?: AutocompleteUser[];
   groups?: (AutocompleteGroup | SearchGroup)[];
@@ -111,6 +112,7 @@ const AnnouncementsCreate = () => {
     message: '',
     excludeWaitingList: false,
     send: false,
+    title: null,
   };
 
   const onSubmit = (values: FormValues, form: FormApi<FormValues>) => {
@@ -144,6 +146,13 @@ const AnnouncementsCreate = () => {
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
+            <Field
+              name="title"
+              component={TextArea.Field}
+              placeholder="Skriv din tittel her ..."
+              label="Tittel"
+              required
+            />
             <Field
               name="message"
               component={TextArea.Field}
