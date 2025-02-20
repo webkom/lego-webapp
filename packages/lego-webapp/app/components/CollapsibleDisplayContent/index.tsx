@@ -3,6 +3,7 @@ import Editor from '@webkom/lego-editor';
 import '@webkom/lego-editor/dist/style.css';
 import 'react-image-crop/dist/ReactCrop.css';
 import { type CSSProperties, useRef, useState } from 'react';
+import { usePageContext } from 'vike-react/usePageContext';
 import styles from './CollapsibleDisplayContent.module.css';
 
 type Props = {
@@ -27,13 +28,7 @@ function CollapsibleDisplayContent({
   collapsedHeight = 250,
   skeleton = false,
 }: Props) {
-  let domParser = null;
-
-  if (import.meta.env.SSR) {
-    const JSDOM = require('jsdom').JSDOM;
-
-    domParser = (val) => new JSDOM(val).window.document;
-  }
+  const pageContext = usePageContext();
 
   const [isOpened, setIsOpened] = useState(false);
 
@@ -69,7 +64,7 @@ function CollapsibleDisplayContent({
             value={content}
             placeholder={placeholder}
             disabled
-            domParser={domParser}
+            domParser={pageContext.domParser}
           />
         </div>
       )}
