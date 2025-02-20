@@ -173,7 +173,7 @@ const Header = () => {
 
   useEffect(() => {
     if (
-      __CLIENT__ &&
+      !import.meta.env.SSR &&
       loggedIn &&
       currentUser &&
       (currentUser.selectedTheme === 'auto'
