@@ -1,5 +1,6 @@
 import { prepare } from '@webkom/react-prepare';
 import { parse } from 'cookie';
+import JSDOM from 'jsdom';
 import {
   createStaticHandler,
   createStaticRouter,
@@ -49,6 +50,8 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
       getCookie: (key) => cookies[key],
     },
   );
+  // SSR Support for LegoEditor
+  pageContext.domParser = (val: string) => new JSDOM(val).window.document;
   // Helmet support
   pageContext.helmetContext = {};
   // React router support

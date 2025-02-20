@@ -16,6 +16,7 @@ declare global {
       helmetContext?: {
         helmet?: HelmetServerState;
       };
+      domParser?: (value: string) => HTMLDocument;
     }
   }
 }
