@@ -27,7 +27,7 @@ function DisplayContent({
 }: Props) {
   let domParser = null;
 
-  if (!__CLIENT__) {
+  if (import.meta.env.SSR) {
     const JSDOM = require('jsdom').JSDOM;
 
     domParser = (val) => new JSDOM(val).window.document;
