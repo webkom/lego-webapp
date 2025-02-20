@@ -1,7 +1,6 @@
 import { Button, ButtonGroup, ConfirmModal } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState } from 'react';
-import { updatePhotoConsent } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
 import { PhotoConsentDomain } from 'app/models';
 import { getConsent, toReadableSemester } from 'app/routes/events/utils';
@@ -9,7 +8,8 @@ import {
   InfoField,
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
-import { useAppDispatch } from 'app/store/hooks';
+import { updatePhotoConsent } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from './PhotoConsents.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';

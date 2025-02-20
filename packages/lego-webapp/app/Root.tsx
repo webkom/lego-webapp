@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { ThemeContextListener } from 'app/utils/themeUtils';
 import routerConfig from './routes';
-import type { Store } from 'app/store/createStore';
+import type { Store } from '~/redux/createStore';
 
 type Props = {
   store: Store;

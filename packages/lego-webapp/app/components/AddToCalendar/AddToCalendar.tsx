@@ -5,8 +5,8 @@ import {
   getIcalUrlGoogle,
 } from 'app/routes/events/components/EventFooter';
 import styles from './AddToCalendar.module.css';
-import type { DetailedMeeting } from 'app/store/models/Meeting';
 import type { PropsWithChildren } from 'react';
+import type { DetailedMeeting } from '~/redux/models/Meeting';
 
 type Props = {
   icalToken: string;

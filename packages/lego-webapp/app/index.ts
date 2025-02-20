@@ -15,17 +15,8 @@ import 'app/assets/icon-384x384.png';
 import 'app/assets/icon-512x512.png';
 import 'app/assets/opensearch.xml';
 import '@webkom/lego-bricks/dist/style.css';
-import * as Sentry from '@sentry/react';
-import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
-import { fetchMeta } from 'app/actions/MetaActions';
-import {
-  loginAutomaticallyIfPossible,
-  maybeRefreshToken,
-} from 'app/actions/UserActions';
-import createStore from 'app/store/createStore';
-import appConfig from '~/utils/appConfig';
 import renderApp from './render';
 
 !import.meta.env.DEV &&
@@ -62,32 +53,6 @@ global.log = function log(self = this) {
   console.log(self);
   return this;
 };
-
-const preloadedState = window.__PRELOADED_STATE__;
-const store = createStore(preloadedState, {
-  Sentry,
-  getCookie: (key) => cookie.get(key),
-});
-
-const isSSR = window.__IS_SSR__;
-
-if (isSSR) {
-  store.dispatch(maybeRefreshToken());
-} else {
-  store
-    .dispatch(loginAutomaticallyIfPossible())
-    .then(() => store.dispatch(fetchMeta()))
-    .then(() => store.dispatch(maybeRefreshToken()));
-}
-
-store.dispatch({
-  type: 'REHYDRATED',
-});
-
-renderApp({
-  store,
-  isSSR,
-});
 
 if (module.hot) {
   module.hot.accept('./render', () => {

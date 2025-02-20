@@ -4,12 +4,6 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
-import {
-  addSemester,
-  addSemesterStatus,
-  fetchAllAdmin,
-  fetchSemesters,
-} from 'app/actions/CompanyActions';
 import { ContentMain } from 'app/components/Content';
 import {
   Form,
@@ -20,19 +14,25 @@ import {
 import LegoFinalForm from 'app/components/Form/LegoFinalForm';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectCompanyById } from 'app/reducers/companies';
-import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
 import { getContactStatuses, semesterCodeToName } from 'app/routes/bdb/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Semester } from 'app/store/models';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from 'app/utils/validation';
+import {
+  addSemester,
+  addSemesterStatus,
+  fetchAllAdmin,
+  fetchSemesters,
+} from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { Semester } from '~/redux/models';
+import { selectCompanyById } from '~/redux/slices/companies';
+import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
 import styles from './AddSemester.module.css';
 import SemesterStatusContent from './SemesterStatusContent';
 import type {
   AdminDetailCompany,
   CompanySemesterContactStatus,
-} from 'app/store/models/Company';
+} from '~/redux/models/Company';
 
 type FormValues = {
   year: number;

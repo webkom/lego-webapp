@@ -1,7 +1,7 @@
 import { Icon } from '@webkom/lego-bricks';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
-import { SurveyQuestionType } from 'app/store/models/SurveyQuestion';
-import appConfig from '~/utils/appConfig';
+import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
+import { appConfig } from '~/utils/appConfig';
 import styles from './components/surveys.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 

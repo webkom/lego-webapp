@@ -1,17 +1,17 @@
 import { Card, Page } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { useNavigate } from 'react-router';
-import { resetPassword } from 'app/actions/UserActions';
 import {
   Form,
   LegoFinalForm,
   TextInput,
   SubmitButton,
 } from 'app/components/Form';
-import { useCurrentUser } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
 import { createValidator, required, sameAs } from 'app/utils/validation';
+import { resetPassword } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import { validPassword } from '../utils';
 import PasswordField from './PasswordField';
 

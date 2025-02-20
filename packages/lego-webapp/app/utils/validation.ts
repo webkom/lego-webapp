@@ -1,7 +1,7 @@
 import { merge } from 'lodash';
 import moment from 'moment-timezone';
 import { EDITOR_EMPTY } from 'app/utils/constants';
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (

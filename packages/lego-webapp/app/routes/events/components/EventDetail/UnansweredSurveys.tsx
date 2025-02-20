@@ -1,8 +1,8 @@
 import { Card } from '@webkom/lego-bricks';
 import { Link } from 'react-router';
 import styles from './EventDetail.module.css';
-import type { PoolRegistrationWithUser } from 'app/reducers/events';
-import type { AuthUserDetailedEvent } from 'app/store/models/Event';
+import type { AuthUserDetailedEvent } from '~/redux/models/Event';
+import type { PoolRegistrationWithUser } from '~/redux/slices/events';
 
 interface Props {
   event: AuthUserDetailedEvent;

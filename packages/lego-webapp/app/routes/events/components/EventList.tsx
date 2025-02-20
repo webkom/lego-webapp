@@ -6,21 +6,21 @@ import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate, useOutletContext } from 'react-router';
-import { fetchEvents } from 'app/actions/EventActions';
 import EmptyState from 'app/components/EmptyState';
 import EventItem from 'app/components/EventItem';
 import eventItemStyles from 'app/components/EventItem/styles.module.css';
 import { EventTime } from 'app/models';
-import { useCurrentUser, useIsLoggedIn } from 'app/reducers/auth';
-import { selectAllEvents } from 'app/reducers/events';
-import { selectPaginationNext } from 'app/reducers/selectors';
 import joblistingListStyles from 'app/routes/joblistings/components/JoblistingList.module.css';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
+import { fetchEvents } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
+import { selectAllEvents } from '~/redux/slices/events';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import EventFooter from './EventFooter';
 import styles from './EventList.module.css';
 import type { EventsOutletContext } from './EventsOverview';
-import type { ListEvent } from 'app/store/models/Event';
+import type { ListEvent } from '~/redux/models/Event';
 
 type GroupedEvents = {
   currentWeek?: ListEvent[];

@@ -1,7 +1,7 @@
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
-import { EventType } from 'app/store/models/Event';
-import appConfig from '~/utils/appConfig';
+import { EventType } from '~/redux/models/Event';
+import { appConfig } from '~/utils/appConfig';
 import type {
   Event,
   TransformEvent,
@@ -11,10 +11,10 @@ import type {
   Dateish,
   EventStatusType,
 } from 'app/models';
-import type { PoolRegistrationWithUser } from 'app/reducers/events';
-import type { CompleteEvent } from 'app/store/models/Event';
-import type Penalty from 'app/store/models/Penalty';
-import type { PublicUser } from 'app/store/models/User';
+import type { CompleteEvent } from '~/redux/models/Event';
+import type Penalty from '~/redux/models/Penalty';
+import type { PublicUser } from '~/redux/models/User';
+import type { PoolRegistrationWithUser } from '~/redux/slices/events';
 
 export type ConfigProperties = {
   displayName: string;

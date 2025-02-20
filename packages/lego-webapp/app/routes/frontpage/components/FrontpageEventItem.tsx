@@ -1,11 +1,11 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router';
-import { useIsLoggedIn } from 'app/reducers/auth';
 import { colorForEventType } from 'app/routes/events/utils';
-import { useAppSelector } from 'app/store/hooks';
 import { eventStatus } from 'app/utils/eventStatus';
+import { useAppSelector } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import styles from './EventItem.module.css';
-import type { FrontpageEvent } from 'app/store/models/Event';
+import type { FrontpageEvent } from '~/redux/models/Event';
 
 type Props = {
   item?: FrontpageEvent;

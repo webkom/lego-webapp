@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import appConfig from '~/utils/appConfig';
+import { appConfig } from '~/utils/appConfig';
 import type { Dateish } from 'app/models';
 import type { TimeHTMLAttributes } from 'react';
 

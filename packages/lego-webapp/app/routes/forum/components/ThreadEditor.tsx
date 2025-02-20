@@ -11,26 +11,26 @@ import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { useNavigate, useParams } from 'react-router';
 import {
-  createThread,
-  deleteThread,
-  editThread,
-  fetchThreadByForum,
-} from 'app/actions/ForumActions';
-import {
   TextInput,
   Form,
   LegoFinalForm,
   EditorField,
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectThreadById } from 'app/reducers/threads';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import {
+  createThread,
+  deleteThread,
+  editThread,
+  fetchThreadByForum,
+} from '~/redux/actions/ForumActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectThreadById } from '~/redux/slices/threads';
 import type {
   CreateThread,
   DetailedThread,
   UpdateThread,
-} from 'app/store/models/Forum';
+} from '~/redux/models/Forum';
 
 type ThreadEditorParams = {
   forumId: string;

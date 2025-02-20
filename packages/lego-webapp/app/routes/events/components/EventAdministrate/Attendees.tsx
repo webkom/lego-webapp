@@ -3,16 +3,16 @@ import moment from 'moment-timezone';
 import { useParams } from 'react-router';
 import { ContentMain } from 'app/components/Content';
 import EmptyState from 'app/components/EmptyState';
+import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationGroups,
   selectMergedPoolWithRegistrations,
   selectPoolsWithRegistrationsForEvent,
   selectEventById,
-} from 'app/reducers/events';
-import { useAppSelector } from 'app/store/hooks';
+} from '~/redux/slices/events';
 import styles from './Abacard.module.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import type { AdministrateEvent } from '~/redux/models/Event';
 
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();

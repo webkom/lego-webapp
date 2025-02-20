@@ -1,18 +1,21 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { useOutletContext } from 'react-router';
-import { hideAnswer, showAnswer } from 'app/actions/SurveySubmissionActions';
 import EmptyState from 'app/components/EmptyState';
 import Tooltip from 'app/components/Tooltip';
-import { useAppDispatch } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
+import {
+  hideAnswer,
+  showAnswer,
+} from '~/redux/actions/SurveySubmissionActions';
+import { useAppDispatch } from '~/redux/hooks';
 import styles from '../surveys.module.css';
 import Results from './Results';
 import type { GraphData } from './Results';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { SurveysRouteContext } from 'app/routes/surveys';
-import type { AdminSurveyAnswer } from 'app/store/models/SurveyAnswer';
-import type { SurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { ReactNode } from 'react';
+import type { AdminSurveyAnswer } from '~/redux/models/SurveyAnswer';
+import type { SurveyQuestion } from '~/redux/models/SurveyQuestion';
 
 const SubmissionsSummary = () => {
   const { submissions, survey, fetchingSubmissions } =

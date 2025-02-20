@@ -1,8 +1,8 @@
+import type { PublicUserWithAbakusGroups } from '~/redux/models/User';
 import type {
   PoolRegistrationWithUser,
   PoolWithRegistrations,
-} from 'app/reducers/events';
-import type { PublicUserWithAbakusGroups } from 'app/store/models/User';
+} from '~/redux/slices/events';
 
 const isPermittedInPool = (
   user: PublicUserWithAbakusGroups,

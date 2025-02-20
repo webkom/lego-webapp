@@ -5,15 +5,6 @@ import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router';
-import {
-  fetchSemesters,
-  fetchSemestersForInterestform,
-} from 'app/actions/CompanyActions';
-import {
-  createCompanyInterest,
-  fetchCompanyInterest,
-  updateCompanyInterest,
-} from 'app/actions/CompanyInterestActions';
 import english from 'app/assets/great_britain.svg';
 import norwegian from 'app/assets/norway.svg';
 import { ContentMain } from 'app/components/Content';
@@ -31,12 +22,6 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { readmeIfy } from 'app/components/ReadmeLogo';
-import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import {
-  selectAllCompanySemesters,
-  selectCompanySemestersForInterestForm,
-} from 'app/reducers/companySemesters';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   createValidator,
@@ -44,6 +29,21 @@ import {
   isEmail,
   requiredIf,
 } from 'app/utils/validation';
+import {
+  fetchSemesters,
+  fetchSemestersForInterestform,
+} from '~/redux/actions/CompanyActions';
+import {
+  createCompanyInterest,
+  fetchCompanyInterest,
+  updateCompanyInterest,
+} from '~/redux/actions/CompanyInterestActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectCompanyInterestById } from '~/redux/slices/companyInterest';
+import {
+  selectAllCompanySemesters,
+  selectCompanySemestersForInterestForm,
+} from '~/redux/slices/companySemesters';
 import {
   interestText,
   semesterToText,
@@ -67,9 +67,9 @@ import {
   COMPANY_TYPES,
   TOOLTIP,
 } from './Translations';
-import type { DetailedCompanyInterest } from 'app/store/models/CompanyInterest';
-import type CompanySemester from 'app/store/models/CompanySemester';
 import type { ReactNode } from 'react';
+import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
+import type CompanySemester from '~/redux/models/CompanySemester';
 
 const SemesterBox = ({
   fields,

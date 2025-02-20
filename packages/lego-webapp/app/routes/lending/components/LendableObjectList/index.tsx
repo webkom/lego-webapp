@@ -11,15 +11,15 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
-import { fetchAllLendableObjects } from 'app/actions/LendableObjectActions';
 import abakus_icon from 'app/assets/icon-192x192.png';
 import EmptyState from 'app/components/EmptyState';
 import TextInput from 'app/components/Form/TextInput';
-import { selectAllLendableObjects } from 'app/reducers/lendableObjects';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
+import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import styles from './LendableObjectList.module.css';
-import type { ListLendableObject } from 'app/store/models/LendableObject';
+import type { ListLendableObject } from '~/redux/models/LendableObject';
 
 const LendableObject = ({
   lendableObject,

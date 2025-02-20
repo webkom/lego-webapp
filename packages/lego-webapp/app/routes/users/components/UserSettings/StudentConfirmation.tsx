@@ -2,18 +2,18 @@ import { ButtonGroup, Card, Modal } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
+import { ContentMain } from 'app/components/Content';
+import { Button } from 'app/components/Form';
 import {
   type ConfirmStudentAuthResponse,
   confirmStudentAuth,
   startStudentAuth,
   updateUser,
-} from 'app/actions/UserActions';
-import { ContentMain } from 'app/components/Content';
-import { Button } from 'app/components/Form';
-import { useCurrentUser } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
+} from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import styles from '../UserConfirmation.module.css';
-import type { RejectedPromiseAction } from 'app/store/middleware/promiseMiddleware';
+import type { RejectedPromiseAction } from '~/redux/middlewares/promiseMiddleware';
 
 const NotEligibleInfo = () => (
   <div className={styles.notEligibleInfo}>

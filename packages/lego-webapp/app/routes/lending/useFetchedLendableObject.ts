@@ -1,13 +1,13 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useState } from 'react';
-import { fetchLendableObjectById } from 'app/actions/LendableObjectActions';
-import { selectLendableObjectById } from 'app/reducers/lendableObjects';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetchLendableObjectById } from '~/redux/actions/LendableObjectActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
   DetailLendableObject,
   UnknownLendableObject,
-} from 'app/store/models/LendableObject';
+} from '~/redux/models/LendableObject';
 
 export const useFetchedLendableObject = (lendableObjectId: EntityId) => {
   const dispatch = useAppDispatch();

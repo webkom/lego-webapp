@@ -2,7 +2,7 @@ import { uniqBy } from 'lodash';
 import { useMemo } from 'react';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { CurrentUser, UserPermissionGroup } from 'app/store/models/User';
+import type { CurrentUser, UserPermissionGroup } from '~/redux/models/User';
 
 interface Props {
   permissionsPerGroup: CurrentUser['permissionsPerGroup'];

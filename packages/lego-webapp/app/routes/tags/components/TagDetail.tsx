@@ -3,11 +3,11 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { map, toPairs } from 'lodash';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router';
-import { fetch } from 'app/actions/TagActions';
-import { selectTagById } from 'app/reducers/tags';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { fetch } from '~/redux/actions/TagActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectTagById } from '~/redux/slices/tags';
 import styles from './TagDetail.module.css';
-import type { DetailedTag } from 'app/store/models/Tag';
+import type { DetailedTag } from '~/redux/models/Tag';
 
 const translate = (key: string) => {
   const trans = {

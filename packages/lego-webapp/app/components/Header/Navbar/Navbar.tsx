@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
-import { useIsLoggedIn } from 'app/reducers/auth';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import AboutDropdown from './AboutDropdown';
 import CareerDropdown from './CareerDropdown';
 import EventsDropdown from './EventsDropwdown';

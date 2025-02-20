@@ -9,31 +9,31 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { FileDown, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
-import { fetchSemesters } from 'app/actions/CompanyActions';
-import {
-  deleteCompanyInterest,
-  fetchAll,
-} from 'app/actions/CompanyInterestActions';
 import { ContentMain } from 'app/components/Content';
 import SelectInput from 'app/components/Form/SelectInput';
 import Table, { type ColumnProps } from 'app/components/Table';
 import Tooltip from 'app/components/Tooltip';
-import { selectCompanyInterests } from 'app/reducers/companyInterest';
-import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
-import { selectPaginationNext } from 'app/reducers/selectors';
 import {
   getClosestCompanySemester,
   getCompanySemesterBySlug,
   getSemesterSlugById,
 } from 'app/routes/bdb/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { CompanyInterestEventType } from 'app/store/models/CompanyInterest';
-import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
+import { fetchSemesters } from '~/redux/actions/CompanyActions';
+import {
+  deleteCompanyInterest,
+  fetchAll,
+} from '~/redux/actions/CompanyInterestActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
+import { EntityType } from '~/redux/models/entities';
+import { selectCompanyInterests } from '~/redux/slices/companyInterest';
+import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import { EVENT_TYPE_OPTIONS, getCsvUrl, semesterToText } from '../utils';
 import type { CompanyInterestEventTypeOption } from '../utils';
-import type CompanySemester from 'app/store/models/CompanySemester';
+import type CompanySemester from '~/redux/models/CompanySemester';
 
 type SemesterOptionType = {
   id: number;

@@ -8,7 +8,7 @@ import Tag from 'app/components/Tags/Tag';
 import {
   NonEventContactStatus,
   type CompanySemesterContactStatus,
-} from 'app/store/models/Company';
+} from '~/redux/models/Company';
 import {
   sortStatusesByProminence,
   getStatusColor,

@@ -6,7 +6,7 @@ import {
   ProfileSection,
 } from 'app/routes/users/components/UserProfile/ProfileSection';
 import styles from 'app/routes/users/components/UserProfile/UserProfile.module.css';
-import type { CurrentUser, PublicUserWithGroups } from 'app/store/models/User';
+import type { CurrentUser, PublicUserWithGroups } from '~/redux/models/User';
 
 const GithubField = ({ githubUsername }: { githubUsername: string }) => (
   <a href={`https://github.com/${githubUsername}`}>

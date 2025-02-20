@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet-async';
-import appConfig, { type AppConfig } from '~/utils/appConfig';
+import { appConfig, type AppConfig } from '~/utils/appConfig';
 import type { MetaHTMLAttributes, ReactNode } from 'react';
 
 type MetaProperty = MetaHTMLAttributes<HTMLMetaElement>;

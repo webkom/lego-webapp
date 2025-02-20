@@ -15,15 +15,6 @@ import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate, useParams } from 'react-router';
-import {
-  deleteCompanyContact,
-  deleteSemesterStatus,
-  editSemesterStatus,
-  fetchAdmin,
-  fetchSemesters,
-} from 'app/actions/CompanyActions';
-import { fetchEvents } from 'app/actions/EventActions';
-import { fetchAll as fetchAllJoblistings } from 'app/actions/JoblistingActions';
 import CollapsibleDisplayContent from 'app/components/CollapsibleDisplayContent';
 import CommentView from 'app/components/Comments/CommentView';
 import {
@@ -40,13 +31,6 @@ import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import FileUpload from 'app/components/Upload/FileUpload';
 import UserLink from 'app/components/UserLink';
-import { selectCommentsByIds } from 'app/reducers/comments';
-import {
-  selectEventsForCompany,
-  selectJoblistingsForCompany,
-  selectTransformedAdminCompanyById,
-} from 'app/reducers/companies';
-import { selectPaginationNext } from 'app/reducers/selectors';
 import SemesterStatus from 'app/routes/bdb/components/SemesterStatus';
 import {
   semesterToHumanReadable,
@@ -54,15 +38,31 @@ import {
 } from 'app/routes/bdb/utils';
 import companyStyles from 'app/routes/company/components/Company.module.css';
 import { displayNameForEventType } from 'app/routes/events/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import truncateString from 'app/utils/truncateString';
+import {
+  deleteCompanyContact,
+  deleteSemesterStatus,
+  editSemesterStatus,
+  fetchAdmin,
+  fetchSemesters,
+} from '~/redux/actions/CompanyActions';
+import { fetchEvents } from '~/redux/actions/EventActions';
+import { fetchAll as fetchAllJoblistings } from '~/redux/actions/JoblistingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectCommentsByIds } from '~/redux/slices/comments';
+import {
+  selectEventsForCompany,
+  selectJoblistingsForCompany,
+  selectTransformedAdminCompanyById,
+} from '~/redux/slices/companies';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import styles from './bdb.module.css';
 import type { ColumnProps } from 'app/components/Table';
-import type { TransformedSemesterStatus } from 'app/reducers/companies';
 import type { GroupedStudentContactsBySemester } from 'app/routes/bdb/utils';
-import type { CompanyContact } from 'app/store/models/Company';
-import type { ListEvent } from 'app/store/models/Event';
+import type { CompanyContact } from '~/redux/models/Company';
+import type { ListEvent } from '~/redux/models/Event';
+import type { TransformedSemesterStatus } from '~/redux/slices/companies';
 
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;

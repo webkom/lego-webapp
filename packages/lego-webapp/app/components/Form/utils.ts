@@ -1,6 +1,6 @@
 import { FORM_ERROR } from 'final-form';
-import type { AppDispatch } from 'app/store/createStore';
 import type { Thunk } from 'app/types';
+import type { AppDispatch } from '~/redux/createStore';
 
 /*
  * Simple utility that handles submission errors

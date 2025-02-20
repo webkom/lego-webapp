@@ -3,8 +3,8 @@ import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router';
 import { describe, it, expect } from 'vitest';
-import createRootReducer from 'app/store/createRootReducer';
 import { generateTreeStructure } from 'app/utils';
+import createRootReducer from '~/redux/rootReducer';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
 

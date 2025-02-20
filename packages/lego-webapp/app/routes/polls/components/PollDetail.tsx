@@ -4,11 +4,11 @@ import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams } from 'react-router';
-import { fetchPoll } from 'app/actions/PollActions';
 import Poll from 'app/components/Poll';
-import { selectPollById } from 'app/reducers/polls';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { fetchPoll } from '~/redux/actions/PollActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectPollById } from '~/redux/slices/polls';
 import PollEditor from './PollEditor';
 
 const PollDetail = () => {

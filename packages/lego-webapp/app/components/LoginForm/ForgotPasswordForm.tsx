@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
-import { sendForgotPasswordEmail } from 'app/actions/UserActions';
-import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import { sendForgotPasswordEmail } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 import { Form, LegoFinalForm, SubmitButton, TextInput } from '../Form';
 
 const validate = createValidator({

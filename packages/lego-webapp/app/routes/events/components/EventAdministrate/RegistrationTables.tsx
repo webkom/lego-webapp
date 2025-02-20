@@ -11,9 +11,9 @@ import {
   getConsent,
   unregistrationIsClosed,
 } from 'app/routes/events/utils';
-import { Presence } from 'app/store/models/Registration';
 import { isNotNullish } from 'app/utils';
 import { WEBKOM_GROUP_ID } from 'app/utils/constants';
+import { Presence } from '~/redux/models/Registration';
 import styles from './Administrate.module.css';
 import {
   StripeStatus,
@@ -23,11 +23,11 @@ import {
 } from './AttendeeElements';
 import type { ColumnProps } from 'app/components/Table';
 import type { PhotoConsent, EventSemester } from 'app/models';
+import type { AdministrateEvent } from '~/redux/models/Event';
 import type {
   PoolWithRegistrations,
   SelectedAdminRegistration,
-} from 'app/reducers/events';
-import type { AdministrateEvent } from 'app/store/models/Event';
+} from '~/redux/slices/events';
 
 type Props = {
   registered: SelectedAdminRegistration[];

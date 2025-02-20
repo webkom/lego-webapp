@@ -9,36 +9,39 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { useParams, useNavigate, Outlet } from 'react-router';
-import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
-import {
-  fetchGalleryPictures,
-  uploadAndCreateGalleryPicture,
-} from 'app/actions/GalleryPictureActions';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from 'app/components/PropertyHelmet';
 import ImageUpload from 'app/components/Upload/ImageUpload';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { selectGalleryById } from 'app/reducers/galleries';
-import {
-  clearGallery,
-  selectGalleryPicturesByGalleryId,
-} from 'app/reducers/galleryPictures';
-import { selectPaginationNext } from 'app/reducers/selectors';
 import LoginPage from 'app/routes/auth/components/LoginPage';
 import HTTPError from 'app/routes/errors/HTTPError';
 import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import useQuery from 'app/utils/useQuery';
-import appConfig from '~/utils/appConfig';
+import {
+  fetchGallery,
+  fetchGalleryMetadata,
+} from '~/redux/actions/GalleryActions';
+import {
+  fetchGalleryPictures,
+  uploadAndCreateGalleryPicture,
+} from '~/redux/actions/GalleryPictureActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { useIsLoggedIn } from '~/redux/slices/auth';
+import { selectGalleryById } from '~/redux/slices/galleries';
+import {
+  clearGallery,
+  selectGalleryPicturesByGalleryId,
+} from '~/redux/slices/galleryPictures';
+import { selectPaginationNext } from '~/redux/slices/selectors';
+import { appConfig } from '~/utils/appConfig';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import styles from './Overview.module.css';
 import type { DropFile } from 'app/components/Upload/ImageUpload';
-import type { DetailedGallery } from 'app/store/models/Gallery';
-import type { GalleryListPicture } from 'app/store/models/GalleryPicture';
+import type { DetailedGallery } from '~/redux/models/Gallery';
+import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
 
 const propertyGenerator: PropertyGenerator<{
   gallery: DetailedGallery;

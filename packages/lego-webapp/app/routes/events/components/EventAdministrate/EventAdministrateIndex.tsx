@@ -2,15 +2,15 @@ import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useParams } from 'react-router';
-import { fetchAdministrate } from 'app/actions/EventActions';
 import { NavigationTab } from 'app/components/NavigationTab/NavigationTab';
 import Tooltip from 'app/components/Tooltip';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectEventById } from 'app/reducers/events';
 import { canSeeAllergies } from 'app/routes/events/components/EventAdministrate/Allergies';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import { fetchAdministrate } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectEventById } from '~/redux/slices/events';
+import type { AdministrateEvent } from '~/redux/models/Event';
 
 const EventAdministrateIndex = () => {
   const { eventId } = useParams<{ eventId: string }>();

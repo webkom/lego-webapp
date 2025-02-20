@@ -4,11 +4,6 @@ import { X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import {
-  addSemester,
-  editSemester,
-  fetchSemesters,
-} from 'app/actions/CompanyActions';
-import {
   ContentMain,
   ContentSection,
   ContentSidebar,
@@ -23,13 +18,18 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import { createValidator, required } from 'app/utils/validation';
+import {
+  addSemester,
+  editSemester,
+  fetchSemesters,
+} from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { Semester } from '~/redux/models';
 import {
   selectAllCompanySemesters,
   selectCompanySemestersForInterestForm,
-} from 'app/reducers/companySemesters';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { Semester } from 'app/store/models';
-import { createValidator, required } from 'app/utils/validation';
+} from '~/redux/slices/companySemesters';
 import { semesterToText } from '../utils';
 import styles from './CompanyInterest.module.css';
 import type { FormApi } from 'final-form';

@@ -3,11 +3,11 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
 import { TagCloud as Cloud } from 'react-tagcloud';
-import { fetchAll } from 'app/actions/TagActions';
-import { selectAllTags } from 'app/reducers/tags';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { ListTag } from 'app/store/models/Tag';
+import { fetchAll } from '~/redux/actions/TagActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllTags } from '~/redux/slices/tags';
 import type { RendererFunction, Tag as CloudTag } from 'react-tagcloud';
+import type { ListTag } from '~/redux/models/Tag';
 
 const tagRenderer: RendererFunction = (tag, size, color) => (
   <Link

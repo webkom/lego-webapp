@@ -4,17 +4,17 @@ import { Link } from 'react-router';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FormatTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
-import { useCurrentUser } from 'app/reducers/auth';
-import { resolveGroupLink } from 'app/reducers/groups';
-import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import {
   penaltyHours,
   registrationCloseTime,
   unregistrationCloseTime,
 } from 'app/routes/events/utils';
-import { useAppSelector } from 'app/store/hooks';
 import { isNotNullish } from 'app/utils';
-import type { DetailedEvent } from 'app/store/models/Event';
+import { useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { resolveGroupLink } from '~/redux/slices/groups';
+import { selectPenaltyByUserId } from '~/redux/slices/penalties';
+import type { DetailedEvent } from '~/redux/models/Event';
 
 export const useDeadlineInfoList = (event?: DetailedEvent) => {
   const currentUser = useCurrentUser();

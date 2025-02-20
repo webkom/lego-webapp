@@ -1,6 +1,6 @@
 import joinValues from 'app/utils/joinValues';
 import type { TagColors } from 'app/components/Tags/Tag';
-import type { ListJoblisting, Workplace } from 'app/store/models/Joblisting';
+import type { ListJoblisting, Workplace } from '~/redux/models/Joblisting';
 
 export const Year = ({ joblisting }: { joblisting: ListJoblisting }) => (
   <span>

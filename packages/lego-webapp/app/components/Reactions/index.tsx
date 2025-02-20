@@ -2,15 +2,15 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { SmilePlus } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { fetchEmojis } from 'app/actions/EmojiActions';
-import { useIsLoggedIn } from 'app/reducers/auth';
-import { useAppDispatch } from 'app/store/hooks';
+import { fetchEmojis } from '~/redux/actions/EmojiActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import reactionStyles from './Reaction.module.css';
 import ReactionPicker from './ReactionPicker';
 import styles from './index.module.css';
 import type { EmojiWithReactionData } from 'app/components/LegoReactions';
-import type { ContentTarget } from 'app/store/utils/contentTarget';
 import type { ReactNode, SyntheticEvent } from 'react';
+import type { ContentTarget } from '~/utils/contentTarget';
 
 type Props = {
   children: ReactNode;

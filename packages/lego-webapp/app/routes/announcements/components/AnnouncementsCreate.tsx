@@ -3,10 +3,6 @@ import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
 import { useLocation } from 'react-router';
 import {
-  createAnnouncement,
-  sendAnnouncement,
-} from 'app/actions/AnnouncementsActions';
-import {
   Form,
   CheckBox,
   LegoFinalForm,
@@ -16,35 +12,39 @@ import {
 } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import Tooltip from 'app/components/Tooltip';
-import { statusesText } from 'app/reducers/meetingInvitations';
-import { selectAutocomplete } from 'app/reducers/search';
-import { useAppDispatch } from 'app/store/hooks';
-import { AutocompleteContentType } from 'app/store/models/Autocomplete';
-import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
 import { spyValues } from 'app/utils/formSpyUtils';
 import {
   atLeastOneFieldRequired,
   createValidator,
   required,
 } from 'app/utils/validation';
+import {
+  createAnnouncement,
+  sendAnnouncement,
+} from '~/redux/actions/AnnouncementsActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
+import { statusesText } from '~/redux/slices/meetingInvitations';
+import { selectAutocomplete } from '~/redux/slices/search';
 import styles from './AnnouncementsList.module.css';
+import type { FormApi } from 'final-form';
 import type {
   AutocompleteEvent,
   SearchEvent,
   UnknownEvent,
-} from 'app/store/models/Event';
+} from '~/redux/models/Event';
 import type {
   AutocompleteGroup,
   SearchGroup,
   UnknownGroup,
-} from 'app/store/models/Group';
+} from '~/redux/models/Group';
 import type {
   AutocompleteMeeting,
   SearchMeeting,
   UnknownMeeting,
-} from 'app/store/models/Meeting';
-import type { AutocompleteUser } from 'app/store/models/User';
-import type { FormApi } from 'final-form';
+} from '~/redux/models/Meeting';
+import type { AutocompleteUser } from '~/redux/models/User';
 
 export type AnnouncementCreateLocationState = {
   group?: UnknownGroup;

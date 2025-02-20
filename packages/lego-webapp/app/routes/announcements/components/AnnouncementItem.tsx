@@ -1,16 +1,16 @@
 import { Button, ButtonGroup, Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import { Link } from 'react-router';
+import Time from 'app/components/Time';
 import {
   deleteAnnouncement,
   sendAnnouncement,
-} from 'app/actions/AnnouncementsActions';
-import Time from 'app/components/Time';
-import { statusesText } from 'app/reducers/meetingInvitations';
-import { useAppDispatch } from 'app/store/hooks';
+} from '~/redux/actions/AnnouncementsActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { statusesText } from '~/redux/slices/meetingInvitations';
 import styles from './AnnouncementsList.module.css';
 import type { ActionGrant } from 'app/models';
-import type { DetailedAnnouncement } from 'app/store/models/Announcement';
+import type { DetailedAnnouncement } from '~/redux/models/Announcement';
 
 type Props = {
   announcement: DetailedAnnouncement;

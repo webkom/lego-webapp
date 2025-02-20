@@ -1,11 +1,11 @@
 import { Button, ButtonGroup, Icon, LinkButton } from '@webkom/lego-bricks';
 import { Check, Copy, FileDown, FileUp, Pencil, Plus } from 'lucide-react';
 import { useCallback, useState } from 'react';
-import { hideSurvey, shareSurvey } from 'app/actions/SurveyActions';
 import { ContentSidebar } from 'app/components/Content';
 import { CheckBox } from 'app/components/Form';
-import { useAppDispatch } from 'app/store/hooks';
-import appConfig from '~/utils/appConfig';
+import { hideSurvey, shareSurvey } from '~/redux/actions/SurveyActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { appConfig } from '~/utils/appConfig';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 

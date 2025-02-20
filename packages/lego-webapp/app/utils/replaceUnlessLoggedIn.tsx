@@ -1,5 +1,5 @@
-import { useIsLoggedIn } from 'app/reducers/auth';
 import LoginPage from 'app/routes/auth/components/LoginPage';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import type { ComponentType } from 'react';
 
 const LoginRequiredPage: ComponentType = () => <LoginPage loginRequired />;

@@ -1,13 +1,13 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { useParams, useNavigate } from 'react-router';
-import { editSurvey } from 'app/actions/SurveyActions';
-import { useFetchedSurvey, useFetchedTemplate } from 'app/reducers/surveys';
 import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
 import { questionTypeString } from 'app/routes/surveys/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import useQuery from 'app/utils/useQuery';
-import type { EventType } from 'app/store/models/Event';
-import type { FormSubmitSurvey, FormSurvey } from 'app/store/models/Survey';
+import { editSurvey } from '~/redux/actions/SurveyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useFetchedSurvey, useFetchedTemplate } from '~/redux/slices/surveys';
+import type { EventType } from '~/redux/models/Event';
+import type { FormSubmitSurvey, FormSurvey } from '~/redux/models/Survey';
 
 const defaultEditSurveyQuery = {
   templateType: '' as EventType,

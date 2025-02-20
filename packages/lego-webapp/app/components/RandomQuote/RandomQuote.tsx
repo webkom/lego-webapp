@@ -2,14 +2,14 @@ import { Card, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Plus, RefreshCcw } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
-import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import LegoReactions from 'app/components/LegoReactions';
-import { selectRandomQuote } from 'app/reducers/quotes';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectRandomQuote } from '~/redux/slices/quotes';
 import styles from './RandomQuote.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type Quote from 'app/store/models/Quote';
+import type Quote from '~/redux/models/Quote';
 
 type Props = {
   dummyQuote?: Quote;

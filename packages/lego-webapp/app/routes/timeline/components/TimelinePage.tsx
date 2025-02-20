@@ -1,11 +1,11 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { fetchPersonalFeed } from 'app/actions/FeedActions';
 import Feed from 'app/components/Feed';
-import { selectFeedById } from 'app/reducers/feeds';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import { fetchPersonalFeed } from '~/redux/actions/FeedActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectFeedById } from '~/redux/slices/feeds';
 
 const TimelinePage = () => {
   const dispatch = useAppDispatch();

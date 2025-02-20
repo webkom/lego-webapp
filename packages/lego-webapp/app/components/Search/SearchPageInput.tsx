@@ -1,4 +1,4 @@
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
 import styles from './SearchPageInput.module.css';
 import type { SyntheticEvent, KeyboardEvent } from 'react';
 

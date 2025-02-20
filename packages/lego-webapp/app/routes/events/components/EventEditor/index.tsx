@@ -11,25 +11,13 @@ import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams, Link, useLocation } from 'react-router';
-import { createEvent, editEvent, fetchEvent } from 'app/actions/EventActions';
-import {
-  uploadFile as _uploadFile,
-  fetchImageGallery,
-  setSaveForUse,
-} from 'app/actions/FileActions';
 import { Form, CheckBox, LegoFinalForm } from 'app/components/Form';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import {
-  selectPoolsWithRegistrationsForEvent,
-  selectEventByIdOrSlug,
-} from 'app/reducers/events';
-import { selectAllImageGalleryEntries } from 'app/reducers/imageGallery';
 import {
   transformEvent,
   transformEventStatusType,
   displayNameForEventType,
 } from 'app/routes/events/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
@@ -47,6 +35,22 @@ import {
   timeIsAtLeastDurationAfter,
   validYoutubeUrl,
 } from 'app/utils/validation';
+import {
+  createEvent,
+  editEvent,
+  fetchEvent,
+} from '~/redux/actions/EventActions';
+import {
+  uploadFile as _uploadFile,
+  fetchImageGallery,
+  setSaveForUse,
+} from '~/redux/actions/FileActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import {
+  selectPoolsWithRegistrationsForEvent,
+  selectEventByIdOrSlug,
+} from '~/redux/slices/events';
+import { selectAllImageGalleryEntries } from '~/redux/slices/imageGallery';
 import Admin from '../Admin';
 import EditorSection, {
   Header,
@@ -54,10 +58,10 @@ import EditorSection, {
   Registration,
   Descriptions,
 } from './EditorSection';
-import type { UploadArgs } from 'app/actions/FileActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from 'app/routes/events/utils';
-import type { AdministrateEvent } from 'app/store/models/Event';
+import type { UploadArgs } from '~/redux/actions/FileActions';
+import type { AdministrateEvent } from '~/redux/models/Event';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 

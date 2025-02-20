@@ -3,21 +3,21 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router';
-import {
-  addSubmission,
-  fetchUserSubmission,
-} from 'app/actions/SurveySubmissionActions';
 import { ContentMain, ContentSection } from 'app/components/Content';
 import Time from 'app/components/Time';
-import { useCurrentUser } from 'app/reducers/auth';
-import { selectOwnSurveySubmission } from 'app/reducers/surveySubmissions';
-import { useFetchedSurvey } from 'app/reducers/surveys';
 import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/AlreadyAnswered';
 import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
 import styles from 'app/routes/surveys/components/surveys.module.css';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
-import type { FormSurveySubmission } from 'app/store/models/SurveySubmission';
+import {
+  addSubmission,
+  fetchUserSubmission,
+} from '~/redux/actions/SurveySubmissionActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectOwnSurveySubmission } from '~/redux/slices/surveySubmissions';
+import { useFetchedSurvey } from '~/redux/slices/surveys';
+import type { FormSurveySubmission } from '~/redux/models/SurveySubmission';
 
 type AddSubmissionPageParams = {
   surveyId: string;

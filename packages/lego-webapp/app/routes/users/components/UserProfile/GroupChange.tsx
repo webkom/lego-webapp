@@ -1,11 +1,11 @@
 import { Button } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import { changeGrade } from 'app/actions/UserActions';
 import SelectInput from 'app/components/Form/SelectInput';
 import { ProfileSection } from 'app/routes/users/components/UserProfile/ProfileSection';
-import { useAppDispatch } from 'app/store/hooks';
+import { changeGrade } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { PublicGroup } from 'app/store/models/Group';
+import type { PublicGroup } from '~/redux/models/Group';
 
 type Props = {
   grades: PublicGroup[];

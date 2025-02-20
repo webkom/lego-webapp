@@ -1,14 +1,14 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Link } from 'react-router';
-import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { selectUsersWithAchievementsScore } from 'app/reducers/users';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
+import { fetchLeaderboardUsers } from '~/redux/actions/AchievementActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectPaginationNext } from '~/redux/slices/selectors';
+import { selectUsersWithAchievementsScore } from '~/redux/slices/users';
 import type { ColumnProps } from 'app/components/Table';
-import type { PublicUser } from 'app/store/models/User';
+import type { PublicUser } from '~/redux/models/User';
 
 type RankedUser = PublicUser & {
   rank: number;

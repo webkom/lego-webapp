@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import styles from './GalleryDetailsRow.module.css';
-import type { DetailedGallery } from 'app/store/models/Gallery';
+import type { DetailedGallery } from '~/redux/models/Gallery';
 
 type Props = {
   gallery: DetailedGallery;

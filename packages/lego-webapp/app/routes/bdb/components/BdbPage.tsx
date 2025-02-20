@@ -3,18 +3,18 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link } from 'react-router';
-import { fetchAllAdmin, fetchSemesters } from 'app/actions/CompanyActions';
 import { ContentMain } from 'app/components/Content';
 import { SelectInput } from 'app/components/Form';
 import Table from 'app/components/Table';
 import UserLink from 'app/components/UserLink';
-import { selectTransformedAdminCompanies } from 'app/reducers/companies';
-import { selectAllCompanySemesters } from 'app/reducers/companySemesters';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import useQuery from 'app/utils/useQuery';
+import { fetchAllAdmin, fetchSemesters } from '~/redux/actions/CompanyActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectTransformedAdminCompanies } from '~/redux/slices/companies';
+import { selectAllCompanySemesters } from '~/redux/slices/companySemesters';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import {
   contactStatuses,
   getClosestCompanySemester,
@@ -27,8 +27,8 @@ import {
 } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import type { ColumnProps } from 'app/components/Table';
-import type { TransformedStudentCompanyContact } from 'app/reducers/companies';
-import type CompanySemester from 'app/store/models/CompanySemester';
+import type CompanySemester from '~/redux/models/CompanySemester';
+import type { TransformedStudentCompanyContact } from '~/redux/slices/companies';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',

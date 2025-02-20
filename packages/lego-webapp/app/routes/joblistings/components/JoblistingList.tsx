@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from 'react-router';
 import EmptyState from 'app/components/EmptyState';
 import JoblistingItem from 'app/components/JoblistingItem';
 import sharedStyles from 'app/components/JoblistingItem/JoblistingItem.module.css';
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '~/redux/hooks';
 import styles from './JoblistingList.module.css';
-import type { ListJoblisting } from 'app/store/models/Joblisting';
+import type { ListJoblisting } from '~/redux/models/Joblisting';
 
 type JobListingsListProps = {
   joblistings: ListJoblisting[];

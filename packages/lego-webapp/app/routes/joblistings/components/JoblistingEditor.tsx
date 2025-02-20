@@ -12,13 +12,6 @@ import { useCallback, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
-import { fetchCompanyContacts } from 'app/actions/CompanyActions';
-import {
-  createJoblisting,
-  deleteJoblisting,
-  editJoblisting,
-  fetchJoblisting,
-} from 'app/actions/JoblistingActions';
 import {
   TextInput,
   EditorField,
@@ -30,9 +23,7 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
-import { selectJoblistingById } from 'app/reducers/joblistings';
 import { httpCheck } from 'app/routes/bdb/utils';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';
 import {
@@ -43,12 +34,21 @@ import {
   required,
   validYoutubeUrl,
 } from 'app/utils/validation';
+import { fetchCompanyContacts } from '~/redux/actions/CompanyActions';
+import {
+  createJoblisting,
+  deleteJoblisting,
+  editJoblisting,
+  fetchJoblisting,
+} from '~/redux/actions/JoblistingActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectJoblistingById } from '~/redux/slices/joblistings';
 import { places, jobTypes, yearValues } from '../constants';
 import styles from './JoblistingEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { searchMapping } from 'app/reducers/search';
-import type { ListCompany } from 'app/store/models/Company';
-import type { DetailedJoblisting } from 'app/store/models/Joblisting';
+import type { ListCompany } from '~/redux/models/Company';
+import type { DetailedJoblisting } from '~/redux/models/Joblisting';
+import type { searchMapping } from '~/redux/slices/search';
 
 type SelectInputObject = {
   label: string;

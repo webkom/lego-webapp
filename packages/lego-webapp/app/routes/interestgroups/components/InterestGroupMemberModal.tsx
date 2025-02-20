@@ -7,9 +7,9 @@ import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import shared from 'app/components/UserAttendance/AttendanceModalContent.module.css';
 import styles from './InterestGroupMemberList.module.css';
-import type { TransformedMembership } from 'app/reducers/memberships';
-import type { PublicUser } from 'app/store/models/User';
 import type { RoleType } from 'app/utils/constants';
+import type { PublicUser } from '~/redux/models/User';
+import type { TransformedMembership } from '~/redux/slices/memberships';
 
 const nameStyleByRole: Partial<Record<RoleType, string>> = {
   leader: styles.leader,

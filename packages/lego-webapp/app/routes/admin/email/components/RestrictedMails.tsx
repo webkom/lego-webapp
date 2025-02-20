@@ -2,13 +2,13 @@ import { Card, Flex, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { fetch } from 'app/actions/RestrictedMailActions';
 import { ContentMain } from 'app/components/Content';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
-import { selectRestrictedMails } from 'app/reducers/restrictedMails';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import type { ListRestrictedMail } from 'app/store/models/RestrictedMail';
+import { fetch } from '~/redux/actions/RestrictedMailActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectRestrictedMails } from '~/redux/slices/restrictedMails';
+import type { ListRestrictedMail } from '~/redux/models/RestrictedMail';
 
 const RestrictedMails = () => {
   const restrictedMails = useAppSelector<ListRestrictedMail[]>(

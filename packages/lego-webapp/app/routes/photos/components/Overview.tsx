@@ -3,15 +3,15 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Images } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useNavigate } from 'react-router';
-import { fetchGalleries } from 'app/actions/GalleryActions';
 import EmptyState from 'app/components/EmptyState';
 import Gallery from 'app/components/Gallery';
-import { selectAllGalleries } from 'app/reducers/galleries';
-import { selectPaginationNext } from 'app/reducers/selectors';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { EntityType } from 'app/store/models/entities';
+import { fetchGalleries } from '~/redux/actions/GalleryActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EntityType } from '~/redux/models/entities';
+import { selectAllGalleries } from '~/redux/slices/galleries';
+import { selectPaginationNext } from '~/redux/slices/selectors';
 import styles from './Overview.module.css';
-import type { ListGallery } from 'app/store/models/Gallery';
+import type { ListGallery } from '~/redux/models/Gallery';
 
 const Overview = () => {
   const galleries = useAppSelector(selectAllGalleries<ListGallery>);
