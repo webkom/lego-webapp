@@ -5,8 +5,6 @@ import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { Link, useLocation, useNavigate, useParams } from 'react-router';
-import english from 'app/assets/great_britain.svg';
-import norwegian from 'app/assets/norway.svg';
 import { ContentMain } from 'app/components/Content';
 import {
   Form,
@@ -29,6 +27,8 @@ import {
   isEmail,
   requiredIf,
 } from 'app/utils/validation';
+import english from '~/assets/flags/great_britain.svg';
+import norwegian from '~/assets/flags/norway.svg';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,

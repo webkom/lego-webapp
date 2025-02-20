@@ -1,9 +1,9 @@
 import { Flex, Icon, LinkButton, Image, Page } from '@webkom/lego-bricks';
 import { Download } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import logosDonts from 'app/assets/logos-donts.png';
-import logosDos from 'app/assets/logos-dos.png';
 import { ContentMain } from 'app/components/Content';
+import logosDonts from '~/assets/logos-donts.png';
+import logosDos from '~/assets/logos-dos.png';
 import styles from './BrandPage.module.css';
 
 const BrandPage = () => {

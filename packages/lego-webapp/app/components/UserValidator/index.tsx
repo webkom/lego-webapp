@@ -4,9 +4,9 @@ import { Check, ScanQrCode, X } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
 import { useNavigate, useParams } from 'react-router';
-import goodSound from 'app/assets/good-sound.mp3';
 import SearchPage from 'app/components/Search/SearchPage';
 import TextWithIcon from 'app/components/TextWithIcon';
+import goodSound from '~/assets/sounds/good-sound.mp3';
 import { autocomplete } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {

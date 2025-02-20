@@ -1,5 +1,5 @@
-@import url('app/styles/variables.css');
-@import url('app/styles/overlay.css');
+@import url('styles/variables.css');
+@import url('styles/overlay.css');
 
 .content {
   max-width: 500px;

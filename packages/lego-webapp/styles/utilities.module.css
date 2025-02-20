@@ -1,10 +1,10 @@
-@import url('./variables.css');
+@import url('variables.css');
 
 /**
  * Utility classes for use by other classes.
  *
  * Usage:
- * `composes: className from 'app/styles/utilities.css'`
+ * `composes: className from 'styles/utilities.css'`
  */
 
 .container {

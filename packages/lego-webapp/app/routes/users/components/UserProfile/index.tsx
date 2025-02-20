@@ -17,7 +17,6 @@ import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { QRCode } from 'react-qrcode-logo';
 import { useParams } from 'react-router';
-import frame from 'app/assets/frame.png';
 import EventListCompact from 'app/components/EventListCompact';
 import { ProfilePicture } from 'app/components/Image';
 import { GroupType } from 'app/models';
@@ -29,6 +28,7 @@ import { Permissions } from 'app/routes/users/components/UserProfile/Permissions
 import { UserInfo } from 'app/routes/users/components/UserProfile/UserInfo';
 import { useIsCurrentUser } from 'app/routes/users/utils';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
+import frame from '~/assets/frame.png';
 import { fetchPrevious, fetchUpcoming } from '~/redux/actions/EventActions';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { fetchUser } from '~/redux/actions/UserActions';
