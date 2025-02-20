@@ -2,6 +2,10 @@
   "name": "mazemap",
   "version": "2.2.1",
   "main": "mazemap.min.js",
+  "exports": {
+    ".": "./mazemap.min.js",
+    "./css": "./mazemap.min.css"
+  },
   "license": "",
   "author": "Dag Jomar Mersland <dagjomar@mazemap.com>",
   "dependencies": {},

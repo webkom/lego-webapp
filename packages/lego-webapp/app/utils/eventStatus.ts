@@ -45,6 +45,7 @@ const eventStatus = (event: FrontpageEvent, loggedIn = false): string => {
       if (eventStatusType === 'INFINITE') {
         return 'Åpent med påmelding';
       }
+      return '';
     default:
       return '';
   }
@@ -62,11 +63,12 @@ const eventAttendanceAbsolute = (
     case 'OPEN':
       return 'Åpent arrangement';
     case 'NORMAL':
-    case 'INFINITE':
+    case 'INFINITE': {
       const isFuture = moment().isBefore(activationTime);
       return isFuture
         ? `${totalCapacity} plasser`
         : `${registrationCount} / ${totalCapacity || '∞'}`;
+    }
     default:
       return '';
   }

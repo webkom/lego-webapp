@@ -2,6 +2,7 @@
 
 import eslint from '@eslint/js';
 import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
 import globals from 'globals';
 import prettier from 'eslint-config-prettier';
 import tseslint from 'typescript-eslint';
@@ -29,6 +30,10 @@ export default tseslint.config(
   react.configs.flat.recommended,
   react.configs.flat['jsx-runtime'],
   {
+    ...reactHooks.configs.recommended,
+    plugins: { 'react-hooks': reactHooks },
+  },
+  {
     languageOptions: {
       parserOptions: {
         warnOnUnsupportedTypeScriptVersion: false,
@@ -43,9 +48,17 @@ export default tseslint.config(
         1,
         {
           argsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
       '@typescript-eslint/no-namespace': 0,
+      '@typescript-eslint/no-unused-expressions': [
+        1,
+        {
+          allowShortCircuit: true,
+          allowTernary: true,
+        },
+      ],
       'import-x/order': [
         'error',
         {
@@ -76,7 +89,13 @@ export default tseslint.config(
       ],
     },
   },
-
+  // Disable rules of hooks for +data.ts because useConfig is allowed
+  {
+    files: ['**/+data.ts'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+    },
+  },
   {
     files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
     languageOptions: {
@@ -93,6 +112,16 @@ export default tseslint.config(
       react: {
         version: 'detect',
       },
+    },
+  },
+  {
+    // Previously disabled rules
+    files: ['app/**/*'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'import-x/no-named-as-default': 'off',
+      'import-x/no-named-as-default-member': 'off',
+      'react/prop-types': 'off',
     },
   },
 );

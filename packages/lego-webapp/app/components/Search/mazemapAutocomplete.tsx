@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
-import 'node_modules/mazemap/mazemap.min.css';
+import 'mazemap/css';
 
 type InjectedProps = {
   options: SelectOption[];
