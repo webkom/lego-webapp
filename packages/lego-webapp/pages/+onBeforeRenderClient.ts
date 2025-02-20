@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import cookie from 'js-cookie';
 import { createBrowserRouter, matchRoutes } from 'react-router';
 import { PageContextClient } from 'vike/types';
@@ -6,6 +7,7 @@ import createStore from '../redux/createStore';
 
 export async function onBeforeRenderClient(pageContext: PageContextClient) {
   pageContext.store = createStore(pageContext.storeInitialState, {
+    Sentry,
     getCookie: (key) => cookie.get(key),
   });
 

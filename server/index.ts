@@ -3,21 +3,8 @@ import 'regenerator-runtime/runtime';
 import fs from 'fs';
 import http from 'http';
 import https from 'https';
-import * as Sentry from '@sentry/node';
 import config from './env';
 import app from './server';
-
-Sentry.init({
-  dsn: config.sentryDSN,
-  release: config.release,
-  environment: config.environment,
-  normalizeDepth: 10,
-  integrations: [
-    Sentry.rewriteFramesIntegration({
-      root: '/app/dist/',
-    }),
-  ],
-});
 
 const server = config.https
   ? https.createServer(
