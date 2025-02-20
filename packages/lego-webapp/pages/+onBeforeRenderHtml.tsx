@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
 import { parse } from 'cookie';
 import JSDOM from 'jsdom';
+import moment from 'moment-timezone';
 import {
   createStaticHandler,
   createStaticRouter,
@@ -10,11 +11,11 @@ import {
 import { PageContextServer } from 'vike/types';
 import { PageContextProvider } from 'vike-react/usePageContext';
 import { routerConfig } from '~/pages/react-router/routerConfig';
+import { fetchMeta } from '~/redux/actions/MetaActions';
+import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 import { sentryServerConfig } from '~/sentry.server.config';
 import createStore from '../redux/createStore';
 import Wrapper from './+Wrapper';
-import { fetchMeta } from '~/redux/actions/MetaActions';
-import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 
 const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
   const origin = `${pageContext.urlParsed.protocol}://${pageContext.urlParsed.hostname}`;
@@ -48,6 +49,7 @@ const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
 
 export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   sentryServerConfig();
+  moment.locale('nb-NO');
   const cookies = parse(pageContext.headers?.['cookie'] ?? '');
   pageContext.store = createStore(
     {},
