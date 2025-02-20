@@ -1,4 +1,4 @@
-@import url('app/styles/variables.css');
+@import url('styles/variables.css');
 
 .footer {
   width: 100%;
@@ -13,13 +13,13 @@
 }
 
 .footerContent {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from 'styles/utilities.module.css';
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: var(--spacing-md);
   margin-bottom: -1px; /* In case of glitchy render */
-  background: url('app/assets/skyline.svg') bottom center no-repeat;
+  background: url('assets/skyline.svg') bottom center no-repeat;
 
   @media (--small-viewport) {
     justify-content: center;
@@ -137,7 +137,7 @@ html[data-theme='dark'] .bottom {
 }
 
 .bottomContent {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from 'styles/utilities.module.css';
   display: flex;
   justify-content: space-evenly;
   align-items: center;

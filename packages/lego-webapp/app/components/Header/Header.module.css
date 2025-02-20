@@ -1,4 +1,4 @@
-@import url('app/styles/variables.css');
+@import url('styles/variables.css');
 
 .themeChange {
   padding: var(--spacing-sm) var(--spacing-md);
@@ -58,7 +58,7 @@
 }
 
 .content {
-  composes: container from 'app/styles/utilities.css';
+  composes: container from 'styles/utilities.module.css';
   position: relative;
   display: flex;
   justify-content: space-between;

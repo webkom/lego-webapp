@@ -1,4 +1,4 @@
-@import url('app/styles/variables.css');
+@import url('styles/variables.css');
 
 .eventGroup {
   margin-bottom: var(--spacing-md);
