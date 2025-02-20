@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
 import { parse } from 'cookie';
 import JSDOM from 'jsdom';
+import moment from 'moment-timezone';
 import {
   createStaticHandler,
   createStaticRouter,
@@ -48,6 +49,7 @@ const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
 
 export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   sentryServerConfig();
+  moment.locale('nb-NO');
   const cookies = parse(pageContext.headers?.['cookie'] ?? '');
   pageContext.store = createStore(
     {},

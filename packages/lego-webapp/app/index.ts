@@ -19,36 +19,6 @@ import moment from 'moment-timezone';
 import 'moment/locale/nb';
 import renderApp from './render';
 
-!import.meta.env.DEV &&
-  console.error(`
-                     \`smMMms\`
-                     NMMMMMMN
-            \`.\`      NMMMMMMN      \`.\`
-         .omMMMm+    NMMMMMMN    +mMMMmo.
-       .yMMMMMMMM:   NMMMMMMN   :MMMMMMMMy.
-      oMMMMMMMMMN.   NMMMMMMN   .NMMMMMMMMMo
-    \`hMMMMMMMMm+\`    NMMMMMMN    \`+mMMMMMMMMh\`
-   \`dMMMMMMMN+       /NMMMMN/       +NMMMMMMMd\`
-   hMMMMMMMd.         \`/oo/\`         .dMMMMMMMh         ##       ########  ######    #######
-  /MMMMMMMd\`                          \`dMMMMMMM/        ##       ##       ##    ##  ##     ##
-  dMMMMMMM-                            -MMMMMMMd        ##       ##       ##        ##     ##
- \`MMMMMMMd                              dMMMMMMM\`       ##       ######   ##   #### ##     ##
- .MMMMMMMy                              yMMMMMMM.       ##       ##       ##    ##  ##     ##
- \`MMMMMMMm                              mMMMMMMM\`       ##       ##       ##    ##  ##     ##
-  dMMMMMMM:                            :MMMMMMMd        ######## ########  ######    #######
-  :MMMMMMMm\`                          \`mMMMMMMM:
-   yMMMMMMMm.                        .mMMMMMMMy                LEGO Er Ganske Oppdelt
-    dMMMMMMMMo\`                    \`oMMMMMMMMd            https://github.com/webkom/lego
-     yMMMMMMMMNs-                -sNMMMMMMMMy
-      /NMMMMMMMMMmy+-\`      \`-+ymMMMMMMMMMN/                   Laget med ☕ av webkom
-       \`sNMMMMMMMMMMMMMNmmNMMMMMMMMMMMMMNs\`
-         \`omMMMMMMMMMMMMMMMMMMMMMMMMMMmo\`
-            -ohNMMMMMMMMMMMMMMMMMMNho-
-                -/shdmNMMMMNmdhs/-
-
-`);
-moment.locale('nb-NO');
-
 global.log = function log(self = this) {
   console.log(self);
   return this;
