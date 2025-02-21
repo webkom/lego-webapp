@@ -14,16 +14,17 @@ interface Survey {
   id: EntityId;
   title: string;
   activeFrom: Dateish;
-  event: EntityId;
+  event: EntityId | null;
   templateType: EventType | null;
   questions: SurveyQuestion[];
   actionGrant: ActionGrant;
   token: string | null;
+  isTemplate: boolean;
 }
 
 export type PublicSurvey = Pick<
   Survey,
-  'id' | 'title' | 'event' | 'templateType'
+  'id' | 'title' | 'event' | 'templateType' | 'isTemplate'
 >;
 
 // Used on admin-pages
@@ -37,6 +38,7 @@ export type DetailedSurvey = Pick<
   | 'questions'
   | 'actionGrant'
   | 'token'
+  | 'isTemplate'
 >;
 
 interface PublicChoiceQuestionResult {
