@@ -21,6 +21,9 @@ export default function HeadDefault() {
           src="https://ls.webkom.dev/js/script.js"
         ></script>
       )}
+      <script
+        dangerouslySetInnerHTML={{ __html: pageContext.preparedStateCode }}
+      />
     </>
   );
 }
