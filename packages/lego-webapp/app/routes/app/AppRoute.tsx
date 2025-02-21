@@ -2,7 +2,8 @@ import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useLocation, useNavigate } from 'react-router';
+import { Outlet, useNavigate } from 'react-router';
+import { usePageContext } from 'vike-react/usePageContext';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
@@ -23,7 +24,7 @@ import type { PropsWithChildren } from 'react';
 const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
   const statusCode = useAppSelector((state) => state.router.statusCode);
-  const location = useLocation();
+  const pageContext = usePageContext();
 
   // Clear status code when navigating
   useEffect(() => {
@@ -32,7 +33,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
     }
     // We don't want to run this effect when the status code changes (that would instantly clear it)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, location.pathname]);
+  }, [dispatch, pageContext.urlPathname]);
 
   return (
     <div
@@ -40,7 +41,7 @@ const AppChildren = ({ children }: PropsWithChildren) => {
         flex: 1,
       }}
     >
-      <ErrorBoundary resetOnChange={location}>
+      <ErrorBoundary resetOnChange={pageContext.urlPathname}>
         <ToastProvider />
         {statusCode ? <HTTPError statusCode={statusCode} /> : <>{children}</>}
       </ErrorBoundary>
