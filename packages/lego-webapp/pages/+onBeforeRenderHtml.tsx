@@ -73,11 +73,15 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   // Fucking react-prepare
   const Page = pageContext.Page;
   if (Page)
-    await prepare(
-      <PageContextProvider pageContext={pageContext}>
-        <Wrapper>
-          <Page />
-        </Wrapper>
-      </PageContextProvider>,
-    );
+    try {
+      pageContext.preparedStateCode = await prepare(
+        <PageContextProvider pageContext={pageContext}>
+          <Wrapper>
+            <Page />
+          </Wrapper>
+        </PageContextProvider>,
+      );
+    } catch (error) {
+      console.error(error);
+    }
 }

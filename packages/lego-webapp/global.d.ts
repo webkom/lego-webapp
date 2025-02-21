@@ -21,6 +21,7 @@ declare global {
         helmet?: HelmetServerState;
       };
       domParser?: (value: string) => HTMLDocument;
+      preparedStateCode?: string;
     }
   }
 }
