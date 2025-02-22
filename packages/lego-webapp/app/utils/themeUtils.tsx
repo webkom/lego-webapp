@@ -8,7 +8,7 @@ export const applySelectedTheme = (theme) => {
       'data-theme',
       theme === 'auto' ? getOSTheme() : theme,
     );
-    global.dispatchEvent(new Event('themeChange'));
+    window.dispatchEvent(new Event('themeChange'));
     localStorage.setItem('theme', theme);
   }
 };
