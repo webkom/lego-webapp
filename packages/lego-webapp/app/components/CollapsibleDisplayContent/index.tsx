@@ -64,7 +64,7 @@ function CollapsibleDisplayContent({
             value={content}
             placeholder={placeholder}
             disabled
-            domParser={pageContext.domParser}
+            domParser={import.meta.env.SSR ? pageContext.domParser : undefined}
           />
         </div>
       )}
