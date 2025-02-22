@@ -87,13 +87,13 @@
   }
 }
 
-.logoLightMode,
-.logoDarkMode {
+img.logoLightMode,
+img.logoDarkMode {
   display: none;
 }
 
-html[data-theme='light'] .logoLightMode,
-html[data-theme='dark'] .logoDarkMode {
+html[data-theme='light'] img.logoLightMode,
+html[data-theme='dark'] img.logoDarkMode {
   display: block;
 }
 
