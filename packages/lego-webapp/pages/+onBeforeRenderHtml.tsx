@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 import { prepare } from '@webkom/react-prepare';
 import { parse } from 'cookie';
-import JSDOM from 'jsdom';
+import { JSDOM } from 'jsdom';
 import moment from 'moment-timezone';
 import {
   createStaticHandler,
@@ -58,8 +58,12 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
       getCookie: (key) => cookies[key],
     },
   );
-  await pageContext.store.dispatch(loginAutomaticallyIfPossible());
-  await pageContext.store.dispatch(fetchMeta());
+  try {
+    await pageContext.store.dispatch(loginAutomaticallyIfPossible());
+    await pageContext.store.dispatch(fetchMeta());
+  } catch (_) {
+    /* Errors will be set in the redux state */
+  }
   // SSR Support for LegoEditor
   pageContext.domParser = (val: string) => new JSDOM(val).window.document;
   // Helmet support
