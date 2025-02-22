@@ -7,8 +7,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "vike dev",
-    "dev:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=1x00000000000000000000AA ENVIRONMENT=local_staging yarn dev",
+    "dev:staging": "PUBLIC_ENV__API_URL=https://lego-staging.abakus.no/api/v1 PUBLIC_ENV__BASE_URL=https://lego-staging.abakus.no PUBLIC_ENV__WS_URL=wss://ws-staging.abakus.no PUBLIC_ENV__CAPTCHA_KEY=1x00000000000000000000AA PUBLIC_ENV__ENVIRONMENT=local_staging yarn dev",
     "build": "vike build",
+    "build:staging": "PUBLIC_ENV__API_URL=https://lego-staging.abakus.no/api/v1 PUBLIC_ENV__BASE_URL=https://lego-staging.abakus.no PUBLIC_ENV__WS_URL=wss://ws-staging.abakus.no PUBLIC_ENV__CAPTCHA_KEY=1x00000000000000000000AA PUBLIC_ENV__ENVIRONMENT=local_staging yarn build",
     "preview": "vike preview",
     "lint": "lint:js && lint:prettier",
     "lint:js": "eslint .",
