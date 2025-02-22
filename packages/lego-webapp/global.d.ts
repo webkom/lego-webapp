@@ -27,5 +27,6 @@ declare global {
     __staticRouterHydrationData: Parameters<
       typeof createBrowserRouter
     >[1]['hydrationData'];
+    __CONFIG__: AppConfig;
   }
 }

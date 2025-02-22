@@ -79,11 +79,14 @@ export default function HeadDefault() {
         // If user has selected auto and device is in dark mode; ensure we update
         // the theme before first render to screen
         selectedTheme === 'auto' ? (
-          <script
-            dangerouslySetInnerHTML={{ __html: autoThemeScript }}
-          ></script>
+          <script dangerouslySetInnerHTML={{ __html: autoThemeScript }} />
         ) : undefined
       }
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.__CONFIG__ = ${JSON.stringify(appConfig)};`,
+        }}
+      />
     </>
   );
 }
