@@ -1,5 +1,4 @@
 import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Outlet, useNavigate } from 'react-router';
@@ -10,10 +9,7 @@ import Header from 'app/components/Header';
 import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import ToastProvider from 'app/components/Toast/ToastProvider';
 import { useTheme } from 'app/utils/themeUtils';
-import withPreparedDispatch from 'app/utils/withPreparedDispatch';
 import coverPhoto from '~/assets/cover.png';
-import { fetchMeta } from '~/redux/actions/MetaActions';
-import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { setStatusCode } from '~/redux/slices/routing';
 import { appConfig } from '~/utils/appConfig';
@@ -50,16 +46,8 @@ const AppChildren = ({ children }: PropsWithChildren) => {
 };
 
 const App = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
-
-  usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
-    serverOnly: true,
-  });
-  usePreparedEffect('fetchMeta', () => dispatch(fetchMeta()), [], {
-    serverOnly: true,
-  });
 
   return (
     <LegoBricksProvider theme={theme} navigate={navigate}>
@@ -101,9 +89,4 @@ const App = () => {
   );
 };
 
-export default withPreparedDispatch(
-  'login',
-  (_, dispatch) => dispatch(loginAutomaticallyIfPossible()),
-  () => [],
-  { runSync: true, serverOnly: true },
-)(App);
+export default App;
