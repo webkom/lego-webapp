@@ -23,6 +23,7 @@ export default defineConfig({
         'redux-logger',
         'lodash',
         'moment-timezone',
+        'validator',
       ],
     }),
   ],
