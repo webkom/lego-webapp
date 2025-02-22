@@ -2,6 +2,7 @@ import { Card, Flex, Image } from '@webkom/lego-bricks';
 import { Link } from 'react-router';
 import { useAppSelector } from '~/redux/hooks';
 import { isEvent } from '~/redux/slices/frontpage';
+import utilStyles from '~/styles/utilities.module.css';
 import styles from './Pinned.module.css';
 import type { CSSProperties, ReactElement } from 'react';
 import type { ArticleWithType, EventWithType } from '~/redux/slices/frontpage';
@@ -22,7 +23,7 @@ const Pinned = ({ item, url, meta, style }: Props) => {
 
   return (
     <Flex column style={style} className={styles.pinned}>
-      <h3 className="u-ui-heading">
+      <h3 className={utilStyles.frontPageHeader}>
         {fetching || item?.pinned ? 'Festet oppslag' : 'Oppslag'}
       </h3>
 

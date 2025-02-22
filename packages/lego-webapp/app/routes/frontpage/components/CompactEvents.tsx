@@ -13,6 +13,7 @@ import { stringifyQuery } from 'app/utils/useQuery';
 import { useAppSelector } from '~/redux/hooks';
 import { EventType } from '~/redux/models/Event';
 import { selectAllEvents } from '~/redux/slices/events';
+import utilStyles from '~/styles/utilities.module.css';
 import styles from './CompactEvents.module.css';
 import type { CSSProperties } from 'react';
 import type { FrontpageEvent } from '~/redux/models/Event';
@@ -108,7 +109,7 @@ const CompactEvents = ({ className, style }: Props) => {
               ),
             }}
           >
-            <h3 className="u-ui-heading">Bedpres og kurs</h3>
+            <h3 className={utilStyles.frontPageHeader}>Bedpres og kurs</h3>
           </Link>
           <Flex column gap="var(--spacing-xs)">
             {presentations
@@ -129,7 +130,7 @@ const CompactEvents = ({ className, style }: Props) => {
               ),
             }}
           >
-            <h3 className="u-ui-heading">Sosialt</h3>
+            <h3 className={utilStyles.frontPageHeader}>Sosialt</h3>
           </Link>
           <Flex column gap="var(--spacing-xs)">
             {other

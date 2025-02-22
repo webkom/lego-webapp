@@ -76,7 +76,7 @@ html[data-theme='dark'] .bottomContent a {
   font-family: 'Open Sans', sans-serif;
 }
 
-.octocat {
+img.octocat {
   display: inline-block;
   width: 1.14rem;
   height: auto;
