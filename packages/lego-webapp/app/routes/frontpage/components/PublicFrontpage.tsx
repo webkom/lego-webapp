@@ -24,6 +24,7 @@ import readmeGraphic from '~/assets/frontpage-graphic-readme.png';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectPinned } from '~/redux/slices/frontpage';
+import utilStyles from '~/styles/utilities.module.css';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.module.css';
 
@@ -75,7 +76,7 @@ const PublicFrontpage = () => {
 
 const Welcome = () => (
   <div className={styles.welcome} style={{ gridArea: 'welcome' }}>
-    <h1 className="u-mb">Velkommen til Abakus</h1>
+    <h1>Velkommen til Abakus</h1>
     <p>
       Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> &
       <i> Cybersikkerhet og datakommunikasjon</i> på NTNU, og drives av
@@ -160,7 +161,7 @@ const usefulLinksConf = [
 
 const UsefulLinks = () => (
   <div className={styles.links}>
-    <h3 className="u-ui-heading">Nyttige lenker</h3>
+    <h3 className={utilStyles.frontPageHeader}>Nyttige lenker</h3>
 
     <Flex wrap justifyContent="space-evenly" gap="var(--spacing-lg)">
       {usefulLinksConf.map((item) => (

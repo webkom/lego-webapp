@@ -20,6 +20,7 @@ import {
 } from '~/redux/slices/frontpage';
 import { selectPinnedPoll } from '~/redux/slices/polls';
 import { selectRandomQuote } from '~/redux/slices/quotes';
+import utilStyles from '~/styles/utilities.module.css';
 import ArticleItem from './ArticleItem';
 import styles from './AuthenticatedFrontpage.module.css';
 import CompactEvents from './CompactEvents';
@@ -130,7 +131,7 @@ const Events = ({
   return (
     <Flex column className={styles.events}>
       <Link to="/events">
-        <h3 className="u-ui-heading">Arrangementer</h3>
+        <h3 className={utilStyles.frontPageHeader}>Arrangementer</h3>
       </Link>
 
       <Flex column gap="var(--spacing-md)">
@@ -174,7 +175,7 @@ const Weekly = () => {
   return (
     <Flex column className={styles.weekly}>
       <Link to="/articles?tag=weekly">
-        <h3 className="u-ui-heading">Weekly</h3>
+        <h3 className={utilStyles.frontPageHeader}>Weekly</h3>
       </Link>
 
       {(fetching && !newestWeekly) || !newestWeekly ? (
@@ -217,7 +218,7 @@ const Articles = ({
   return (
     <Flex column className={styles.articles}>
       <Link to="/articles">
-        <h3 className="u-ui-heading">Artikler</h3>
+        <h3 className={utilStyles.frontPageHeader}>Artikler</h3>
       </Link>
 
       <Flex column gap="var(--spacing-md)">
@@ -241,7 +242,7 @@ const Articles = ({
 const UpcomingRegistrationsSection = () => (
   <Flex column className={styles.registrations}>
     <Link to="/events">
-      <h3 className="u-ui-heading">Påmeldinger</h3>
+      <h3 className={utilStyles.frontPageHeader}>Påmeldinger</h3>
     </Link>
 
     <UpcomingRegistrations />
@@ -258,7 +259,7 @@ const PollItem = () => {
     (fetching || poll) && (
       <Flex column className={styles.poll}>
         <Link to="/polls">
-          <h3 className="u-ui-heading">Avstemning</h3>
+          <h3 className={utilStyles.frontPageHeader}>Avstemning</h3>
         </Link>
 
         <Poll poll={poll} />
@@ -270,7 +271,7 @@ const PollItem = () => {
 const QuoteItem = () => (
   <Flex column className={styles.quote}>
     <Link to="/quotes">
-      <h3 className="u-ui-heading">Overhørt</h3>
+      <h3 className={utilStyles.frontPageHeader}>Overhørt</h3>
     </Link>
 
     <RandomQuote />
