@@ -14,6 +14,7 @@ export default {
   // description: 'Demo showcasing Vike',
 
   passToClient: ['storeInitialState'],
+  lang: 'no',
 
   extends: vikeReact,
 } satisfies Config;
