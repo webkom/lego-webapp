@@ -28,6 +28,7 @@
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
     "react-router": "^7.2.0",
+    "react-router-dom": "^7.2.0",
     "vike-react": "^0.5.13",
     "vite-plugin-cjs-interop": "^2.1.6"
   },
