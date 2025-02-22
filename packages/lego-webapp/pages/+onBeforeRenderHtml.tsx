@@ -9,10 +9,12 @@ import {
   type StaticHandlerContext,
 } from 'react-router';
 import { PageContextServer } from 'vike/types';
+import { useConfig } from 'vike-react/useConfig';
 import { PageContextProvider } from 'vike-react/usePageContext';
 import { routerConfig } from 'app/routes';
 import { fetchMeta } from '~/redux/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
+import { selectCurrentUser } from '~/redux/slices/auth';
 import { sentryServerConfig } from '~/sentry.server.config';
 import createStore from '../redux/createStore';
 import Wrapper from './+Wrapper';
@@ -48,6 +50,8 @@ const createReactRouterFetchRequest = (pageContext: PageContextServer) => {
 };
 
 export async function onBeforeRenderHtml(pageContext: PageContextServer) {
+  const config = useConfig();
+
   sentryServerConfig();
   moment.locale('nb-NO');
   const cookies = parse(pageContext.headers?.['cookie'] ?? '');
@@ -64,6 +68,11 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   } catch (_) {
     /* Errors will be set in the redux state */
   }
+
+  const state = pageContext.store.getState();
+  const selectedTheme = selectCurrentUser(state)?.selectedTheme || 'light';
+  config({ htmlAttributes: { 'data-theme': selectedTheme } });
+
   // SSR Support for LegoEditor
   pageContext.domParser = (val: string) => new JSDOM(val).window.document;
   // Helmet support

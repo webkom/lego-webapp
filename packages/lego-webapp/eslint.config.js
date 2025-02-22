@@ -92,7 +92,7 @@ export default tseslint.config(
   },
   // Disable rules of hooks for +data.ts because useConfig is allowed
   {
-    files: ['**/+data.ts'],
+    files: ['**/+data.ts', '**/+onBeforeRenderHtml.tsx'],
     rules: {
       'react-hooks/rules-of-hooks': 'off',
     },
