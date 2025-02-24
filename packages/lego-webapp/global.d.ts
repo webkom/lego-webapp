@@ -1,8 +1,11 @@
-import { Router } from 'react-router';
+import {
+  Router,
+  createBrowserRouter,
+  type StaticHandlerContext,
+} from 'react-router';
 import { Store } from './redux/createStore';
 import { RootState } from './redux/rootReducer';
 import type { HelmetServerState } from 'react-helmet-async/lib/types';
-import type { createBrowserRouter } from 'react-router';
 
 declare global {
   namespace Vike {
@@ -13,6 +16,7 @@ declare global {
       store: Store;
       router: Router;
       // Created on server
+      routerContext?: StaticHandlerContext;
       helmetContext?: {
         helmet?: HelmetServerState;
       };
