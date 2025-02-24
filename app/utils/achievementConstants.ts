@@ -170,6 +170,38 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: false,
     },
   ],
+  genfors_count: [
+    {
+      name: 'Demokratispiren',
+      description: 'Deltatt på 1 genfors',
+      rarity: 0,
+      hidden: false,
+    },
+    {
+      name: 'Voteringvikingen',
+      description: 'Deltatt på 3 genfors',
+      rarity: 2,
+      hidden: false,
+    },
+    {
+      name: 'Politikeren',
+      description: 'Deltatt på 6 genfors',
+      rarity: 4,
+      hidden: false,
+    },
+    {
+      name: 'Studentenes forkjemper',
+      description: 'Deltatt på 8 genfors',
+      rarity: 5,
+      hidden: false,
+    },
+    {
+      name: 'Ekstremisten',
+      description: 'Deltatt på 10 genfors',
+      rarity: 7,
+      hidden: false,
+    },
+  ],
 };
 
 export default AchievementsInfo;
