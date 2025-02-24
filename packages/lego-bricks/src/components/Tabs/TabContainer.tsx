@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation } from '../../LocationContext';
 import styles from './TabContainer.module.css';
 import type { ReactNode } from 'react';
 

@@ -24,20 +24,34 @@ Component library for LEGO-webapp and other related projects.
 
 ### Provider
 
-For client-side routing (with f.ex. `react-router`) and certain dark-mode features to work, you need to wrap your application in a `Provider`.
+For client-side routing (with f.ex. `react-router`), certain dark-mode features, and components like Tabs to work you need to wrap your application in a `Provider`.
 
 ```typescript jsx
 import { Provider } from '@webkom/lego-webapp';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const App = () => {
   const navigate = useNavigate();
 
   return (
-    <Provider navigate={navigate} theme="light">
-      <YourApp />
+    <Provider navigate={navigate} useLocation={useLocation} theme="light">
+       <YourApp />
     </Provider>
   )
+}
+```
+
+The navigate hook might have additional options as the second argument, f.ex. `replace: true` to replace the current history entry instead of adding a new one. These options can be used on Links with the `routerOptions`prop.
+The types are configured with a declaration like this:
+
+```typescript
+declare module 'react-aria-components' {
+   interface RouterConfig {
+      routerOptions: {
+         replace?: boolean;
+         state?: unknown;
+      };
+   }
 }
 ```
 

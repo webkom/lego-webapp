@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { FilterX, X } from 'lucide-react';
 import { createContext, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from '../../../LocationContext';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import Flex from '../Flex';
@@ -20,7 +20,7 @@ export const Sidebar = ({ title, close, className, children }: Props) => {
   const navigate = useNavigate();
   const { pathname, search } = useLocation();
   const clearQueryParams = () => {
-    navigate(pathname);
+    navigate(pathname, undefined);
   };
 
   return (
