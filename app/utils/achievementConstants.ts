@@ -118,7 +118,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
   ],
   keypress_order: [
     {
-      name: 'Powermode\nactivate!',
+      name: 'Powermode\nactivated!',
       description: '',
       rarity: 2,
       hidden: true,
