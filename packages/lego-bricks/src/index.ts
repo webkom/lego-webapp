@@ -1,6 +1,6 @@
 import './Global.d.ts';
 import './Modules.d.ts';
-import './global.css';
+import './variables.css';
 
 export type { PressEvent } from 'react-aria-components';
 export { DialogTrigger } from 'react-aria-components';
