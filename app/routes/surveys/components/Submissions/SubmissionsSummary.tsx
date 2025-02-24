@@ -99,6 +99,7 @@ const SubmissionsSummary = () => {
   survey.questions.forEach((question) => {
     graphData[question.id] = generateQuestionData(question);
   });
+
   return (
     <Results
       survey={survey}

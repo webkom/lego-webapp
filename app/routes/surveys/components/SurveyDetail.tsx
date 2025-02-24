@@ -2,7 +2,6 @@ import { LinkButton, LoadingPage } from '@webkom/lego-bricks';
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router';
 import { ContentSection, ContentMain } from 'app/components/Content';
 import Time from 'app/components/Time';
-import { displayNameForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from 'app/store/hooks';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import AdminSideBar from './AdminSideBar';
@@ -17,13 +16,12 @@ const SurveyDetailPage = () => {
   const { surveyId } =
     useParams<SurveyDetailPageParams>() as SurveyDetailPageParams;
   const { survey, event } = useOutletContext<SurveysRouteContext>();
-
   const fetching = useAppSelector((state) => state.surveys.fetching);
   const actionGrant = survey?.actionGrant;
 
   const navigate = useNavigate();
 
-  if (!event || !actionGrant) {
+  if (!survey || !actionGrant) {
     return <LoadingPage loading={fetching} />;
   }
 
@@ -34,14 +32,13 @@ const SurveyDetailPage = () => {
   return (
     <ContentSection>
       <ContentMain>
-        {survey.templateType ? (
+        {survey.isTemplate ? (
           <h2
             style={{
               color: 'var(--lego-red-color)',
             }}
           >
-            Dette er malen for arrangementer av type{' '}
-            {displayNameForEventType(survey.templateType)}
+            Dette er malen {survey.title}
           </h2>
         ) : (
           <>
@@ -66,6 +63,7 @@ const SurveyDetailPage = () => {
         surveyId={survey.id}
         actionGrant={actionGrant}
         token={survey.token}
+        isTemplate={survey.isTemplate}
       />
     </ContentSection>
   );

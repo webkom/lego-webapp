@@ -50,7 +50,7 @@ const AddSubmissionPage = () => {
     return <LoadingIndicator loading={fetchingSubmission} />;
   }
 
-  if (survey.templateType) {
+  if (survey.isTemplate) {
     return (
       <Page
         title={survey.title}

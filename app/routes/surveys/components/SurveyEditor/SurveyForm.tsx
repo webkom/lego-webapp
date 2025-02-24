@@ -14,12 +14,9 @@ import {
   TextInput,
   SubmitButton,
   SubmissionError,
+  CheckBox,
 } from 'app/components/Form';
 import Time from 'app/components/Time';
-import {
-  EventTypeConfig,
-  displayNameForEventType,
-} from 'app/routes/events/utils';
 import Question from 'app/routes/surveys/components/SurveyEditor/Question';
 import {
   hasOptions,
@@ -28,8 +25,12 @@ import {
 import styles from 'app/routes/surveys/components/surveys.module.css';
 import { spyValues } from 'app/utils/formSpyUtils';
 import { createValidator, required } from 'app/utils/validation';
-import type { EventType } from 'app/store/models/Event';
-import type { FormSurvey, FormSubmitSurvey } from 'app/store/models/Survey';
+import type { EntityId } from '@reduxjs/toolkit';
+import type {
+  FormSurvey,
+  FormSubmitSurvey,
+  DetailedSurvey,
+} from 'app/store/models/Survey';
 import type { FormSurveyQuestion } from 'app/store/models/SurveyQuestion';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
 
@@ -38,7 +39,6 @@ const TypedLegoForm = LegoFinalForm<FormSurvey>;
 const validate = createValidator(
   {
     title: [required()],
-    event: [required()],
   },
   hasOptions,
 );
@@ -47,23 +47,25 @@ type Props = {
   isNew?: boolean;
   onSubmit: (surveyData: FormSubmitSurvey) => Promise<void>;
   initialValues: Partial<FormSurvey>;
-  templateType: EventType | undefined;
-  setTemplateType: (templateType: EventType) => void;
+  templateId: EntityId | undefined;
+  setTemplateId: (id: string) => void;
+  templates: DetailedSurvey[];
 };
 
 const SurveyForm = ({
   isNew,
   onSubmit,
   initialValues,
-  templateType,
-  setTemplateType,
+  templateId,
+  setTemplateId,
+  templates,
 }: Props) => {
   const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
 
   const internalOnSubmit = (surveyData: FormSurvey) => {
     return onSubmit({
       ...surveyData,
-      event: surveyData.event.value,
+      event: surveyData?.event?.value ?? null,
       questions: surveyData.questions.map((question, i) => ({
         ...question,
         questionType: question.questionType.value,
@@ -91,46 +93,57 @@ const SurveyForm = ({
             name="title"
             component={TextInput.Field}
           />
-          {templateType && (
+
+          {templateId && (
             <div className={styles.templateType}>
               <span>
-                Bruker mal: <i>{displayNameForEventType(templateType)}</i>
+                Bruker mal: <i>{initialValues.title}</i>
               </span>
             </div>
           )}
-          <div className={styles.templatePicker}>
-            <ConfirmModal
-              title="Bekreft bruk av mal"
-              message={
-                'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
-                'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
-              }
-              closeOnConfirm
-              onCancel={async () => setTemplatePickerOpen(false)}
-              onConfirm={async () => setTemplatePickerOpen(true)}
-            >
-              {({ openConfirmModal }) => (
-                <Button onPress={openConfirmModal}>
-                  {templateType ? 'Bytt mal' : 'Bruk mal'}
-                </Button>
-              )}
-            </ConfirmModal>
-            <Dropdown
-              className={styles.templateDropdown}
-              show={templatePickerOpen}
-              toggle={() => setTemplatePickerOpen(false)}
-              closeOnContentClick
-            >
-              <TemplateTypeDropdownItems setTemplateType={setTemplateType} />
-            </Dropdown>
-          </div>
+          <Field
+            name="isTemplate"
+            id="isTemplate"
+            label="Lagre som mal"
+            type="checkbox"
+            component={CheckBox.Field}
+          />
+
+          {templates.length > 0 && (
+            <div className={styles.templatePicker}>
+              <ConfirmModal
+                title="Bekreft bruk av mal"
+                message={
+                  'Dette vil slette alle ulagrede endringer i undersøkelsen!\n' +
+                  'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
+                }
+                closeOnConfirm
+                onCancel={async () => setTemplatePickerOpen(false)}
+                onConfirm={async () => setTemplatePickerOpen(true)}
+              >
+                {({ openConfirmModal }) => (
+                  <Button onPress={openConfirmModal}>
+                    {templateId ? 'Bytt mal' : 'Bruk mal'}
+                  </Button>
+                )}
+              </ConfirmModal>
+              <Dropdown
+                className={styles.templateDropdown}
+                show={templatePickerOpen}
+                toggle={() => setTemplatePickerOpen(false)}
+                closeOnContentClick
+              >
+                <TemplateTypeDropdownItems
+                  setTemplateId={setTemplateId}
+                  templates={templates}
+                />
+              </Dropdown>
+            </div>
+          )}
           {spyValues((values: FormSurvey) =>
             // If this is a template
-            values.templateType ? (
-              <h2>
-                Dette er malen for arrangementer av type:{' '}
-                {displayNameForEventType(values.templateType)}
-              </h2>
+            values.isTemplate ? (
+              <h2>Dette er malen {values.title}</h2>
             ) : (
               <Flex
                 gap="var(--spacing-md)"
@@ -152,6 +165,7 @@ const SurveyForm = ({
               </Flex>
             ),
           )}
+
           <FieldArray
             name="questions"
             component={Questions}
@@ -166,7 +180,7 @@ const SurveyForm = ({
             </span>
           </Card>
           <SubmissionError />
-          <SubmitButton allowPristine={isNew && !!templateType}>
+          <SubmitButton allowPristine={isNew && !!templateId}>
             {isNew ? 'Opprett' : 'Lagre'}
           </SubmitButton>
         </Form>
@@ -176,26 +190,27 @@ const SurveyForm = ({
 };
 
 type TemplateTypeDropdownItemsProps = {
-  setTemplateType: (templateType: EventType) => void;
+  setTemplateId: (templateId: EntityId) => void;
+  templates: DetailedSurvey[];
 };
 const TemplateTypeDropdownItems = ({
-  setTemplateType,
+  setTemplateId,
+  templates,
 }: TemplateTypeDropdownItemsProps) => {
   return (
     <Dropdown.List>
-      {Object.entries(EventTypeConfig).map(([key, config]) => {
-        const eventType = key as EventType;
+      {templates.map((template) => {
         return (
-          <Dropdown.ListItem key={eventType}>
+          <Dropdown.ListItem key={template.id}>
             <Link
               to="#"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setTemplateType(eventType);
+                setTemplateId(template.id);
               }}
             >
-              {config.displayName}
+              {template.title}
             </Link>
           </Dropdown.ListItem>
         );
