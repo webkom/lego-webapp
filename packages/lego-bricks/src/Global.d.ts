@@ -10,3 +10,11 @@ declare global {
     }
   }
 }
+
+declare module 'react-aria-components' {
+  interface RouterConfig {
+    routerOptions: {
+      state?: unknown;
+    };
+  }
+}

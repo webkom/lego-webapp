@@ -2,7 +2,6 @@ import cx from 'classnames';
 import { Button as AriaButton, Link as AriaLink } from 'react-aria-components';
 import { LoadingIndicator } from '../LoadingIndicator';
 import styles from './Button.module.css';
-import ReactRouterLinkButton from './ReactRouterLinkButton';
 import type { ComponentProps, ReactNode } from 'react';
 
 /**
@@ -119,21 +118,13 @@ export const LinkButton = ({
 }: LinkButtonProps) => {
   const className = getButtonClassName(rest);
 
-  if (state) {
-    return (
-      <ReactRouterLinkButton
-        className={className}
-        isDisabled={disabled}
-        state={state}
-        {...rest}
-      >
-        {children}
-      </ReactRouterLinkButton>
-    );
-  }
-
   return (
-    <AriaLink isDisabled={disabled} {...rest} className={className}>
+    <AriaLink
+      isDisabled={disabled}
+      {...rest}
+      className={className}
+      routerOptions={{ state }}
+    >
       {children}
     </AriaLink>
   );

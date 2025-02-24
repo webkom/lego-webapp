@@ -5,9 +5,4 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:storybook/recommended',
   ],
-  settings: {
-    'import/resolver': {
-      webpack: false,
-    },
-  },
 };
