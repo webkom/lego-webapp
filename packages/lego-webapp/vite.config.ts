@@ -24,6 +24,7 @@ export default defineConfig({
         'lodash',
         'moment-timezone',
         'validator',
+        'react-turnstile',
       ],
     }),
   ],
