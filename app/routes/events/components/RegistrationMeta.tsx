@@ -22,6 +22,7 @@ import type {
 } from 'app/models';
 import type { PoolRegistrationWithUser } from 'app/reducers/events';
 import type { Presence } from 'app/store/models/Registration';
+import { CircleHelp } from 'lucide-react';
 
 type WaitingListPosition =
   | number
@@ -78,10 +79,23 @@ const ConsentStatus = ({
 
     if (isConsentingWeb && isConsentingSoMe) {
       return (
-        <TextWithIconWrapper
-          iconName="camera-outline"
-          content={`Du samtykker til bilder på abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
-        />
+        <Flex gap="var(--spacing-xs)">
+          <TextWithIconWrapper
+            iconName="camera-outline"
+            content={`Du samtykke${hasEnded ? 't' : 'r'} til bilder `}
+          />
+          <TextWithIcon
+            iconNode={<CircleHelp />}
+            content=""
+            tooltipContentIcon={
+              <>
+                Du samtykke{hasEnded ? 't' : 'r'} til bilder på abakus.no og
+                sosiale medier for {readableEventSemester}.
+              </>
+            }
+            size={14}
+          />
+        </Flex>
       );
     }
 
