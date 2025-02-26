@@ -119,3 +119,27 @@
   transition: opacity var(--linear-fast);
   opacity: 0.4;
 }
+
+.groupFilters {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.collapsedIndicator {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent, var(--color-white) 90%);
+}
+
+.groupFilterButton {
+  cursor: pointer;
+
+  &.selected {
+    background-color: var(--lego-font-color);
+    color: var(--inverted-font-color);
+  }
+}

@@ -6,14 +6,18 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router';
 import { TextInput } from 'app/components/Form';
 import { ProfilePicture } from 'app/components/Image';
+import { GroupFilter } from 'app/components/UserAttendance/GroupFilter';
 import EmptyState from '../EmptyState';
 import styles from './AttendanceModalContent.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { PublicUser } from 'app/store/models/User';
+import type {
+  PublicUser,
+  PublicUserWithAbakusGroups,
+} from 'app/store/models/User';
 
 export type AttendanceModalRegistration = {
   id: EntityId;
-  user: PublicUser;
+  user: PublicUser | PublicUserWithAbakusGroups;
   pool?: EntityId;
 };
 
@@ -66,18 +70,30 @@ const AttendanceModalContent = ({
   selectedPool,
   isMeeting,
 }: Props) => {
-  const [filter, setFilter] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
+  const [groupFilter, setGroupFilter] = useState<EntityId[] | null>(null);
 
   const amendedPools = useMemo(() => generateAmendedPools(pools), [pools]);
 
   const registrations = useMemo(
+    () => amendedPools[selectedPool]?.registrations,
+    [amendedPools, selectedPool],
+  );
+
+  const filteredRegistrations = useMemo(
     () =>
-      amendedPools[selectedPool]?.registrations.filter((registration) => {
-        return registration.user.fullName
-          .toLowerCase()
-          .includes(filter.toLowerCase());
-      }),
-    [filter, amendedPools, selectedPool],
+      registrations.filter(
+        (registration) =>
+          registration.user.fullName
+            .toLowerCase()
+            .includes(search.toLowerCase()) &&
+          (groupFilter && 'abakusGroups' in registration.user
+            ? registration.user.abakusGroups.some((groupId) =>
+                groupFilter.includes(groupId),
+              )
+            : true),
+      ),
+    [registrations, search, groupFilter],
   );
 
   return (
@@ -86,13 +102,20 @@ const AttendanceModalContent = ({
         type="text"
         prefix="search"
         placeholder="Søk etter navn"
-        onChange={(e) => setFilter(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         className={styles.searchInput}
       />
 
+      {!isMeeting && (
+        <GroupFilter
+          groupFilter={groupFilter}
+          setGroupFilter={setGroupFilter}
+        />
+      )}
+
       <ul className={styles.list}>
-        {registrations.length > 0 ? (
-          registrations?.map((registration) => (
+        {filteredRegistrations.length > 0 ? (
+          filteredRegistrations?.map((registration) => (
             <li key={registration.id}>
               <Flex
                 alignItems="center"
