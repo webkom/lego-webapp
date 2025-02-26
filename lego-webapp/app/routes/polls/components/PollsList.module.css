@@ -1,0 +1,24 @@
+@import url('styles/variables.css');
+
+.pollsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: var(--spacing-md);
+
+  @media (--mobile-device) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pollListItem {
+  color: var(--lego-font-color);
+}
+
+.success {
+  color: var(--success-color);
+}
+
+.danger {
+  color: var(--danger-color);
+}

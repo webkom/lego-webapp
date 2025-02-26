@@ -1,0 +1,39 @@
+@import url('../../styles/variables.css');
+
+.visionLine {
+  border-left: 3px solid var(--lego-red-color);
+  display: flex;
+  flex-direction: column;
+  margin: var(--spacing-sm) var(--spacing-xl);
+  position: relative;
+}
+
+.dot {
+  height: 9px;
+  width: 9px;
+  background-color: var(--lego-red-color);
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  left: -6px;
+}
+
+.dot:not(.dotBottom) {
+  top: -1px;
+}
+
+.dotBottom {
+  height: 9px;
+  width: 9px;
+  background-color: var(--lego-red-color);
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  bottom: -1px;
+}
+
+@media (--mobile-device) {
+  .visionLine {
+    display: none;
+  }
+}

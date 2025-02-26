@@ -1,18 +1,19 @@
+FROM node:20-alpine AS setup
+
+WORKDIR /app/
+COPY package.json yarn.lock ./
+COPY lego-webapp/package.json lego-webapp/package.json
+COPY packages packages
+
+RUN apk add curl
+RUN yarn install
+
 FROM node:20-alpine AS builder
 
 WORKDIR /app/
 COPY . /app
 
-RUN apk add curl
-RUN yarn
-
-ENV NODE_ENV=production
-
-RUN yarn build
-
-FROM getsentry/sentry-cli:1.26.1 AS sentry
-
-WORKDIR /app/
+COPY --from=setup /app/node_modules node_modules
 
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
@@ -25,35 +26,24 @@ ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ENV SENTRY_ORG=${SENTRY_ORG}
 ENV SENTRY_PROJECT=${SENTRY_PROJECT}
 ENV SENTRY_URL=${SENTRY_URL}
-ENV RELEASE=${RELEASE}
+ENV SENTRY_RELEASE=${RELEASE}
+ENV NODE_ENV=production
 
-COPY --from=builder /app/dist dist
-COPY --from=builder /app/dist-client dist-client
-
-RUN sentry-cli releases new ${RELEASE}
-RUN sentry-cli releases set-commits ${RELEASE} --commit "webkom/lego-webapp@${COMMIT_SHA}"
-RUN sentry-cli releases \
-  files ${RELEASE} upload-sourcemaps \
-  --rewrite --url-prefix="/app/dist/" \
-  './dist/'
-RUN sentry-cli releases finalize ${RELEASE}
-RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
-RUN sentry-cli releases deploys ${RELEASE} new -e "production"
+RUN yarn build
 
 FROM node:20-alpine
-
-RUN apk add curl
 
 WORKDIR /app/
 
 ARG RELEASE
 ENV RELEASE=${RELEASE}
+ENV NODE_ENV=production
 
-COPY --from=builder /app/dist dist
-COPY --from=builder /app/dist-client dist-client
-COPY --from=builder /app/packages/lego-bricks/dist packages/lego-bricks/dist
-COPY --from=builder /app/packages/lego-bricks/package.json packages/lego-bricks/package.json
 COPY --from=builder /app/package.json .
+COPY --from=builder /app/lego-webapp/package.json ./lego-webapp/package.json
+COPY --from=builder /app/lego-webapp/server ./lego-webapp/server
+COPY --from=builder /app/lego-webapp/tsconfig.json ./lego-webapp/tsconfig.json
+COPY --from=builder /app/lego-webapp/dist ./lego-webapp/dist
 COPY --from=builder /app/node_modules node_modules
 
-ENTRYPOINT ["node", "dist/server.js"]
+ENTRYPOINT ["node", "lego-webapp/dist/server/index.mjs"]

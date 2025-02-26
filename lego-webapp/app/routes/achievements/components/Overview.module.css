@@ -1,0 +1,31 @@
+@import url('styles/variables.css');
+
+.listWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  @media (--mobile-device) {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  gap: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  color: var(--lego-font-color);
+  width: 50%;
+
+  @media (--small-viewport) {
+    width: 100%;
+  }
+}
+
+.description {
+  color: var(--secondary-font-color);
+}

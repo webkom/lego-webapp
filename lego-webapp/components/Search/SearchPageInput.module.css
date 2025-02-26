@@ -1,0 +1,39 @@
+@import url('../../styles/variables.css');
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-gray);
+  margin-bottom: 15px;
+
+  @media (--small-viewport) {
+    padding: 0 20px;
+    height: 96px;
+  }
+}
+
+.icon {
+  font-size: 24px;
+}
+
+.input {
+  flex: 1;
+  outline: none;
+  border: 0;
+  padding: 0 var(--spacing-md);
+  font-size: var(--font-size-lg);
+  color: var(--lego-font-color);
+  background: transparent;
+  overflow: hidden;
+
+  &::placeholder {
+    color: var(--placeholder-color);
+  }
+}
+
+.searchIcon {
+  color: var(--placeholder-color);
+  display: flex;
+  align-items: center;
+}
