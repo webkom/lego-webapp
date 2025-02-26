@@ -82,7 +82,7 @@ export const Card = ({
       )}
       style={{
         overflow: hideOverflow || skeleton ? 'hidden' : 'initial',
-        padding: skeleton ? '0' : '',
+        padding: skeleton ? '0' : undefined,
       }}
       {...htmlAttributes}
     >

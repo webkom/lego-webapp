@@ -26,5 +26,5 @@ localhost.pem
 localhost-key.pem
 
 # Cypress
-cypress/screenshots
-cypress/videos
+lego-webapp/cypress/screenshots
+lego-webapp/cypress/videos

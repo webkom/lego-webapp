@@ -1,0 +1,62 @@
+@import url('../../styles/variables.css');
+
+.joblistingItem {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  gap: var(--spacing-md);
+  min-width: 280px;
+  min-height: 140px;
+  height: fit-content;
+  border-radius: var(--border-radius-lg);
+  color: var(--lego-font-color);
+  transition: background-color var(--easing-fast);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+
+  @media (--mobile-device) {
+    padding: var(--spacing-xs);
+    margin-left: calc(-1 * var(--spacing-xs));
+  }
+}
+
+.companyLogo {
+  width: 120px;
+  max-height: 80px;
+  min-width: 120px;
+  object-fit: contain;
+  background: white;
+}
+
+.listItem {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  gap: var(--spacing-xs);
+
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
+
+.joblistingItemTitle {
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  margin-right: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.deadline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 145px;
+  font-size: var(--font-size-sm);
+
+  @media (--mobile-device) {
+    justify-content: flex-start;
+  }
+}

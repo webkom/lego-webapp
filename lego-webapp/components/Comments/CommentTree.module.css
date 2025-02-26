@@ -1,0 +1,17 @@
+@import url('../../styles/variables.css');
+
+.nested {
+  margin-left: var(--spacing-xl);
+
+  @media (--mobile-device) {
+    margin-left: var(--spacing-lg);
+  }
+}
+
+.root {
+  border: 0;
+}
+
+.child {
+  border: 0;
+}
