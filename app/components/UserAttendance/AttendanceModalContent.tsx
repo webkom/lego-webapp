@@ -71,7 +71,7 @@ const AttendanceModalContent = ({
   isMeeting,
 }: Props) => {
   const [search, setSearch] = useState<string>('');
-  const [groupFilter, setGroupFilter] = useState<EntityId | null>(null);
+  const [groupFilter, setGroupFilter] = useState<EntityId[] | null>(null);
 
   const amendedPools = useMemo(() => generateAmendedPools(pools), [pools]);
 
@@ -88,7 +88,9 @@ const AttendanceModalContent = ({
             .toLowerCase()
             .includes(search.toLowerCase()) &&
           (groupFilter && 'abakusGroups' in registration.user
-            ? registration.user.abakusGroups.includes(groupFilter)
+            ? registration.user.abakusGroups.some((groupId) =>
+                groupFilter.includes(groupId),
+              )
             : true),
       ),
     [registrations, search, groupFilter],
@@ -106,7 +108,6 @@ const AttendanceModalContent = ({
 
       {!isMeeting && (
         <GroupFilter
-          registrations={registrations}
           groupFilter={groupFilter}
           setGroupFilter={setGroupFilter}
         />
