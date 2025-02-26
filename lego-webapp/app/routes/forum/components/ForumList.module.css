@@ -1,0 +1,33 @@
+@import url('styles/variables.css');
+
+.listEntry {
+  border-left: 8px solid var(--color-red-4);
+  justify-content: space-between;
+  transition: background-color var(--easing-fast);
+  padding: var(--spacing-md) 1.25em;
+  margin: var(--spacing-md) 0;
+
+  h2 {
+    color: var(--lego-font-color);
+  }
+
+  &:hover {
+    background-color: rgba(255, 0, 0, var(--low-alpha));
+  }
+}
+
+.threadEntry {
+  border-left: var(--spacing-sm) solid var(--lego-font-color);
+  justify-content: space-between;
+  transition: background-color var(--easing-fast);
+  padding: var(--spacing-md) 1.25em;
+  margin: var(--spacing-md) 0;
+
+  h2 {
+    color: var(--lego-font-color);
+  }
+
+  &:hover {
+    background-color: rgba(255, 0, 0, var(--low-alpha));
+  }
+}

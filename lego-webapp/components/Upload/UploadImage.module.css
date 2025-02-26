@@ -1,0 +1,82 @@
+@import url('../../styles/variables.css');
+
+.dropArea {
+  border-radius: inherit;
+  aspect-ratio: inherit;
+  height: inherit;
+  width: inherit;
+  z-index: 0;
+  position: absolute;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.inModalUpload {
+  width: 325px;
+  height: 200.861px;
+  border-radius: var(--border-radius-lg);
+}
+
+.placeholderContainer {
+  overflow: hidden;
+  border-radius: inherit;
+  aspect-ratio: inherit;
+  height: inherit;
+  width: inherit;
+  position: absolute;
+  background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);
+  font-weight: 500;
+  padding: var(--spacing-sm) 40px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.inModalUpload .placeholderContainer {
+  background-color: var(--additive-background);
+  border: 3px dashed var(--color-blue-6);
+}
+
+.focused .placeholderContainer {
+  border: 3px dashed var(--color-orange-6);
+}
+
+.dragAccept .placeholderContainer {
+  border: 3px dashed var(--success-color);
+}
+
+.dragReject .placeholderContainer {
+  border: 3px dashed var(--danger-color);
+}
+
+.image {
+  width: 100%;
+  height: inherit;
+  object-fit: cover;
+  background: var(--color-absolute-white);
+  border-radius: inherit;
+}
+
+.cropper {
+  width: 100%;
+}
+
+.previewRow {
+  width: 325px;
+  height: 52px;
+  color: var(--secondary-font-color);
+}
+
+.previewImage {
+  width: 80px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.fileName {
+  width: 180px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
