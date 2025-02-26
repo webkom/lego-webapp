@@ -51,4 +51,5 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   const fetchRequest = createReactRouterFetchRequest(pageContext);
   const context = (await query(fetchRequest)) as StaticHandlerContext;
   pageContext.router = createStaticRouter(dataRoutes, context);
+  pageContext.routerContext = context;
 }

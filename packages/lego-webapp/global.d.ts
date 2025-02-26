@@ -1,7 +1,10 @@
-import { Router } from 'react-router';
+import {
+  Router,
+  createBrowserRouter,
+  type StaticHandlerContext,
+} from 'react-router';
 import { Store } from './redux/createStore';
 import { RootState } from './redux/rootReducer';
-import type { createBrowserRouter } from 'react-router';
 import type { Config } from '~/utils/config';
 
 declare global {
@@ -10,6 +13,7 @@ declare global {
       store: Store;
       storeInitialState: RootState;
       router: Router;
+      routerContext?: StaticHandlerContext;
     }
   }
 }
