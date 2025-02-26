@@ -26,9 +26,12 @@ export const canSeeAllergies = (
     return false;
   }
   const responsibleGroup = event.responsibleGroup?.id;
+  const responsibleUsers = event?.responsibleUsers.map((user) => user.id);
   return (
     currentUser.id === event.createdBy?.id ||
-    (!!responsibleGroup && currentUser.abakusGroups?.includes(responsibleGroup))
+    (!!responsibleGroup &&
+      currentUser.abakusGroups?.includes(responsibleGroup)) ||
+    responsibleUsers.includes(currentUser.id)
   );
 };
 
