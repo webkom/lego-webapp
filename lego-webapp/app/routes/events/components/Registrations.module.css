@@ -1,0 +1,19 @@
+@import url('styles/variables.css');
+
+.summary {
+  white-space: pre;
+  color: var(--secondary-font-color);
+  margin: var(--spacing-sm) 0;
+
+  > * {
+    min-height: var(--spacing-lg);
+  }
+}
+
+.registrationList {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

@@ -1,0 +1,145 @@
+@import url('../../styles/variables.css');
+
+.modalContainer {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  > section {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+}
+
+.modalContent {
+  overflow: hidden;
+}
+
+.searchInput {
+  flex-shrink: 0;
+}
+
+.list {
+  position: relative;
+  width: 100%;
+  min-height: 100px;
+  flex-grow: 1;
+  overflow-y: auto;
+  /* stylelint-disable indentation */
+  background:
+  /*
+  Shadow cover TOP
+  */
+    linear-gradient(
+        var(--color-white) 30%,
+        rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%)
+      )
+      center top,
+    /*
+  Shadow cover BOTTOM
+  */
+      linear-gradient(
+        rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%),
+        var(--color-white) 70%
+      )
+      center bottom,
+    /*
+  Shadow TOP
+  */
+      radial-gradient(
+        farthest-side at 50% 0,
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
+      )
+      center top,
+    /*
+  Shadow BOTTOM
+  */
+      radial-gradient(
+        farthest-side at 50% 100%,
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
+        rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
+      )
+      center bottom;
+  /* stylelint-enable indentation */
+  background-repeat: no-repeat;
+  background-size:
+    100% 40px,
+    100% 40px,
+    100% 14px,
+    100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}
+
+.list > li:nth-child(even) {
+  background-color: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 3%);
+}
+
+.row {
+  height: 50px;
+}
+
+.row > img {
+  width: 50px;
+  height: 50px;
+  margin: 0 var(--spacing-md);
+}
+
+.emptyState {
+  height: 100%;
+  justify-content: center;
+}
+
+.nav {
+  flex-shrink: 0;
+  margin: var(--spacing-sm) auto;
+  min-height: 40px;
+  height: fit-content;
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+  font-size: var(--font-size-sm);
+}
+
+.navButton {
+  border-radius: inherit;
+  text-align: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-weight: 500;
+}
+
+.activeItem {
+  background-color: var(--color-red-1);
+  box-shadow: 0 0 0 1px var(--lego-red-color);
+  color: var(--lego-red-color);
+}
+
+.opacity {
+  transition: opacity var(--linear-fast);
+  opacity: 0.4;
+}
+
+.groupFilters {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.collapsedIndicator {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent, var(--color-white) 90%);
+}
+
+.groupFilterButton {
+  cursor: pointer;
+
+  &.selected {
+    background-color: var(--lego-font-color);
+    color: var(--inverted-font-color);
+  }
+}

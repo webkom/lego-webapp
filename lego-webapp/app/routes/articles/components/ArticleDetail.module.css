@@ -1,0 +1,5 @@
+@import url('styles/variables.css');
+
+.articleReactions {
+  margin: var(--spacing-md) 0;
+}

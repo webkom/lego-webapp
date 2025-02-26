@@ -1,0 +1,27 @@
+@import url('../../styles/variables.css');
+
+.label {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xs);
+}
+
+.inline {
+  cursor: pointer;
+
+  .label {
+    font-size: inherit;
+    margin-bottom: 0;
+  }
+}
+
+.required {
+  color: var(--danger-color);
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.description {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: var(--spacing-sm);
+}
