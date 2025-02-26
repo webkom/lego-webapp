@@ -1,3 +1,7 @@
+import trofe_bronse from 'app/assets/trophies/trofe_bronse.png';
+import trofe_gull from 'app/assets/trophies/trofe_gull.png';
+import trofe_platinum from 'app/assets/trophies/trofe_platinum.png';
+import trofe_solv from 'app/assets/trophies/trofe_solv.png';
 import type { AchievementData } from 'app/store/models/User';
 
 export const rarityToColorMap = {
@@ -20,24 +24,28 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: 'Deltatt på 10 arrangementer',
       rarity: 0,
       hidden: false,
+      image: trofe_bronse,
     },
     {
       name: 'Arrangement:\nSølv',
       description: 'Deltatt på 25 arrangementer',
       rarity: 1,
       hidden: false,
+      image: trofe_solv,
     },
     {
       name: 'Arrangement:\nGull',
       description: 'Deltatt på 50 arrangementer',
       rarity: 2,
       hidden: false,
+      image: trofe_gull,
     },
     {
       name: 'Arrangement:\nPlatinum',
       description: 'Deltatt på 100 arrangementer',
       rarity: 3,
       hidden: false,
+      image: trofe_platinum,
     },
     {
       name: 'Arrangement:\nDiamant',
@@ -78,6 +86,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: '',
       rarity: 1,
       hidden: true,
+      image: trofe_solv,
     },
   ],
   event_price: [
@@ -86,12 +95,14 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: 'Betalt over 2500 i påmeldingsavgift',
       rarity: 2,
       hidden: false,
+      image: trofe_gull,
     },
     {
       name: 'Arvingen',
       description: 'Betalt over 5000 i påmeldingsavgift',
       rarity: 3,
       hidden: false,
+      image: trofe_platinum,
     },
     {
       name: 'Bærumsbaron',
@@ -106,6 +117,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: 'Lest arrangementsreglene',
       rarity: 0,
       hidden: false,
+      image: trofe_bronse,
     },
   ],
   meeting_hidden: [
@@ -114,6 +126,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: '',
       rarity: 1,
       hidden: true,
+      image: trofe_solv,
     },
   ],
   keypress_order: [
@@ -122,6 +135,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: '',
       rarity: 2,
       hidden: true,
+      image: trofe_gull,
     },
   ],
   poll_count: [
@@ -130,12 +144,14 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: 'Svart på 5 avstemninger',
       rarity: 0,
       hidden: false,
+      image: trofe_bronse,
     },
     {
       name: 'Meningsbærer',
       description: 'Svart på 25 avstemninger',
       rarity: 2,
       hidden: false,
+      image: trofe_gull,
     },
     {
       name: 'Talsperson',
@@ -150,12 +166,14 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: 'Gått 1 år uten prikk',
       rarity: 0,
       hidden: false,
+      image: trofe_bronse,
     },
     {
       name: 'Englebarn',
       description: 'Gått 2 år uten prikk',
       rarity: 3,
       hidden: false,
+      image: trofe_platinum,
     },
     {
       name: 'Eksemplarisk',
@@ -176,21 +194,24 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       description: 'Deltatt på 1 genfors',
       rarity: 0,
       hidden: false,
+      image: trofe_bronse,
     },
     {
       name: 'Voteringvikingen',
       description: 'Deltatt på 3 genfors',
       rarity: 2,
       hidden: false,
+      image: trofe_gull,
     },
     {
       name: 'Politikeren',
       description: 'Deltatt på 6 genfors',
       rarity: 4,
       hidden: false,
+      image: trofe_platinum,
     },
     {
-      name: 'Studentenes forkjemper',
+      name: 'Studentenes\nforkjemper',
       description: 'Deltatt på 8 genfors',
       rarity: 5,
       hidden: false,

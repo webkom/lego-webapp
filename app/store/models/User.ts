@@ -33,6 +33,7 @@ export interface AchievementData {
   description: string;
   rarity: number;
   hidden: boolean;
+  image?: string;
 }
 
 export const Gender = {

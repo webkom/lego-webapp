@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Image } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { postKeypress } from 'app/actions/AchievementActions';
@@ -73,27 +73,35 @@ const Overview = () => {
       <Flex className={styles.listWrapper}>
         {sortedTrophies.map((e) => (
           <Flex className={styles.listItem} key={e.name + e.rarity}>
-            <Trophy
-              size={40}
-              color={
-                rarityToColorMap[
-                  AchievementsInfo[e.identifier][e.level].rarity
-                ] ?? 'Gold'
-              }
-              style={
-                AchievementsInfo[e.identifier][e.level].rarity >= 4
-                  ? {
-                      filter: `drop-shadow(0px 0px ${
-                        AchievementsInfo[e.identifier][e.level].rarity - 1
-                      }px ${
-                        rarityToColorMap[
+            {AchievementsInfo[e.identifier][e.level].image ? (
+              <Image
+                src={AchievementsInfo[e.identifier][e.level].image ?? ''}
+                alt="Trofe"
+                className={styles.trophyImage}
+              />
+            ) : (
+              <Trophy
+                size={40}
+                color={
+                  rarityToColorMap[
+                    AchievementsInfo[e.identifier][e.level].rarity
+                  ] ?? 'Gold'
+                }
+                style={
+                  AchievementsInfo[e.identifier][e.level].rarity >= 3
+                    ? {
+                        filter: `drop-shadow(0 0 ${
                           AchievementsInfo[e.identifier][e.level].rarity
-                        ]
-                      })`,
-                    }
-                  : {}
-              }
-            />
+                        }px ${
+                          rarityToColorMap[
+                            AchievementsInfo[e.identifier][e.level].rarity
+                          ]
+                        })`,
+                      }
+                    : {}
+                }
+              />
+            )}
             <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
               <h3>{e.name}</h3>
               <span className={styles.description}>
