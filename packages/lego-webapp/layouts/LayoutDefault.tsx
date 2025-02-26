@@ -4,5 +4,5 @@ import '~/styles/globals.css';
 import '@webkom/lego-bricks/dist/style.css';
 
 export default function LayoutDefault({ children }: { children: ReactNode }) {
-  return <div>{children}</div>;
+  return <>{children}</>;
 }
