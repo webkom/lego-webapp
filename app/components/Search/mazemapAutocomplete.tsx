@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
-import 'node_modules/mazemap/mazemap.min.css';
+import '@webkom/mazemap/css';
 
 type InjectedProps = {
   options: SelectOption[];
@@ -48,7 +48,7 @@ export const useMazemapAutocomplete = () => {
     useState<MazemapSearchController>();
 
   useEffect(() => {
-    import('mazemap').then((mazemap) => {
+    import('@webkom/mazemap').then((mazemap) => {
       setMazemapSearchController(
         new mazemap.Search.SearchController({
           campusid: 1,

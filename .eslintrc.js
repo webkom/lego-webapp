@@ -41,7 +41,7 @@ module.exports = {
     'react-hooks',
     'react-redux',
   ],
-  ignorePatterns: ['mazemap/mazemap.min.*', '**/vendor/*.js'],
+  ignorePatterns: ['**/mazemap/mazemap.min.*', '**/vendor/*.js'],
   rules: {
     'import/first': 'error',
     'import/newline-after-import': 'error',

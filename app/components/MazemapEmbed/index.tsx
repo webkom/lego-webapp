@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
-import 'node_modules/mazemap/mazemap.min.css';
+import '@webkom/mazemap/css';
 import { Keyboard } from 'app/utils/constants';
 import styles from './MazemapEmbed.module.css';
 import MazemapLink from './MazemapLink';
@@ -34,7 +34,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
     if (!__DEV__) {
-      import('mazemap').then((mazemap) => setMazemap(mazemap));
+      import('@webkom/mazemap').then((mazemap) => setMazemap(mazemap));
     }
     if (!Mazemap || !hasMounted) return;
     const embeddedMazemap = new Mazemap.Map({
