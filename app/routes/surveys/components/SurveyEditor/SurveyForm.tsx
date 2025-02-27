@@ -94,13 +94,6 @@ const SurveyForm = ({
             component={TextInput.Field}
           />
 
-          {templateId && (
-            <div className={styles.templateType}>
-              <span>
-                Bruker mal: <i>{initialValues.title}</i>
-              </span>
-            </div>
-          )}
           <Field
             name="isTemplate"
             id="isTemplate"

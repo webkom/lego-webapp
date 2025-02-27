@@ -1,6 +1,5 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useNavigate } from 'react-router';
 import { fetchEvent } from 'app/actions/EventActions';
@@ -47,9 +46,7 @@ const AddSurveyPage = () => {
     'fetchAddSurveyEvent',
     () => {
       if (event) {
-        return dispatch(fetchEvent(event)).then(({ payload }) =>
-          setTemplateId(payload.entities.events[payload.result]!.id.toString()),
-        );
+        return dispatch(fetchEvent(event));
       }
     },
     [event],
@@ -65,8 +62,7 @@ const AddSurveyPage = () => {
       navigate(`/surveys/${res.payload.result}`),
     );
 
-  const fetchingTemplate = !isEmpty(fullEvent) && !template; // If we have an event but no corresponding template yet, it must still be fetching
-  if (fetching || fetchingTemplate) {
+  if (fetching || (!fullEvent && event)) {
     return <LoadingIndicator loading />;
   }
 
@@ -94,6 +90,8 @@ const AddSurveyPage = () => {
         isTemplate: false,
       }
     : {
+        title: fullEvent ? `Spørreundersøkelse for ${fullEvent.title}` : '',
+        event: eventOption,
         questions: [initialQuestion],
         activeFrom: getActiveFrom(),
       };
