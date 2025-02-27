@@ -1,4 +1,4 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button, Flex, Image } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
@@ -55,45 +55,38 @@ export const Achievements = ({
             positions="bottom"
           >
             <Flex column alignItems="center" gap="var(--spacing-xs)">
-              <Trophy
-                size={40}
-                color={
-                  rarityToColorMap[
-                    AchievementsInfo[e.identifier][e.level].rarity
-                  ] ?? 'Gold'
-                }
-                style={
-                  AchievementsInfo[e.identifier][e.level].rarity >= 3
-                    ? {
-                        filter: `drop-shadow(0 0 ${
-                          AchievementsInfo[e.identifier][e.level].rarity
-                        }px ${
-                          rarityToColorMap[
+              {AchievementsInfo[e.identifier][e.level].image ? (
+                <Image
+                  src={AchievementsInfo[e.identifier][e.level].image ?? ''}
+                  alt="Trofe"
+                  height="7vh"
+                  className={styles.trophyImage}
+                />
+              ) : (
+                <Trophy
+                  size={40}
+                  color={
+                    rarityToColorMap[
+                      AchievementsInfo[e.identifier][e.level].rarity
+                    ] ?? 'Gold'
+                  }
+                  style={
+                    AchievementsInfo[e.identifier][e.level].rarity >= 3
+                      ? {
+                          filter: `drop-shadow(0 0 ${
                             AchievementsInfo[e.identifier][e.level].rarity
-                          ]
-                        })`,
-                      }
-                    : {}
-                }
-              />
-              <span
-                style={
-                  AchievementsInfo[e.identifier][e.level].rarity >= 3
-                    ? {
-                        textShadow: `
-                          ${
+                          }px ${
                             rarityToColorMap[
                               AchievementsInfo[e.identifier][e.level].rarity
                             ]
-                          } 0 0 ${
-                            AchievementsInfo[e.identifier][e.level].rarity * 1.5
-                          }px`,
-                      }
-                    : {}
-                }
-              >
-                {AchievementsInfo[e.identifier][e.level].name}
-              </span>
+                          })`,
+                        }
+                      : {}
+                  }
+                />
+              )}
+
+              <span>{AchievementsInfo[e.identifier][e.level].name}</span>
             </Flex>
           </Tooltip>
         ))}

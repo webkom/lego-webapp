@@ -29,3 +29,8 @@
 .description {
   color: var(--secondary-font-color);
 }
+
+.trophyImage {
+  height: 100px;
+  width: auto;
+}
