@@ -1,8 +1,8 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { debounce, isEmpty, get } from 'lodash';
+import { debounce, isEmpty, get, isEqual } from 'lodash';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
@@ -106,10 +106,36 @@ const Table = <T extends { id: EntityId }>({
   const [filters, setFilters] = useState<Filters>(
     queryFiltersToFilters(props.filters),
   );
+  const prevPropsFilters = useRef(props.filters);
+  const isUpdatingFromInternalChange = useRef(false);
+
+  const handleFilterChange = useCallback((value) => {
+    isUpdatingFromInternalChange.current = true;
+    setFilters(value);
+  }, []);
 
   useEffect(() => {
-    setFilters(queryFiltersToFilters(props.filters));
+    if (isUpdatingFromInternalChange.current) {
+      isUpdatingFromInternalChange.current = false;
+      return;
+    }
+
+    if (!isEqual(props.filters, prevPropsFilters.current)) {
+      prevPropsFilters.current = props.filters;
+      setFilters(queryFiltersToFilters(props.filters));
+    }
   }, [props.filters]);
+
+  useEffect(() => {
+    debounce(() => {
+      if (onChange) {
+        const queryFilters = filtersToQueryFilters(filters);
+        prevPropsFilters.current = queryFilters;
+        onChange(queryFilters, sort);
+      }
+    }, 170)();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filters, sort]);
 
   const [isShown, setIsShown] = useState<IsShown>({});
   const [showColumn, setShowColumn] = useState<ShowColumn>({});
@@ -124,15 +150,6 @@ const Table = <T extends { id: EntityId }>({
     });
     setShowColumn(initialShowColumn);
   }, [columns]);
-
-  useEffect(() => {
-    debounce(() => {
-      if (onChange) {
-        onChange(filtersToQueryFilters(filters), sort);
-      }
-    }, 170)();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, sort]);
 
   const sortedData = useMemo<typeof data>(() => {
     let sorter = sort.sorter;
@@ -219,7 +236,7 @@ const Table = <T extends { id: EntityId }>({
                   isShown={isShown}
                   showColumn={showColumn}
                   setSort={setSort}
-                  setFilters={setFilters}
+                  setFilters={handleFilterChange}
                   setIsShown={setIsShown}
                   setShowColumn={setShowColumn}
                 />
