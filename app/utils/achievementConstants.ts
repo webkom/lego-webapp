@@ -124,6 +124,14 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: true,
     },
   ],
+  complete_profile: [
+    {
+      name: 'Komplett spiller',
+      description: '',
+      rarity: 1,
+      hidden: true,
+    },
+  ],
   poll_count: [
     {
       name: 'Aktiv Deltaker',
