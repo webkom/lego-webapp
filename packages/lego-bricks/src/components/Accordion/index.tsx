@@ -36,6 +36,7 @@ export const Accordion = ({
   const [open, setOpen] = useState(defaultOpen);
   const [initialRender, setInitialRender] = useState(true);
   const [containerHeight, setContainerHeight] = useState(0);
+  const [isTransitioning, setTransitioning] = useState(false);
 
   // useCallback works with dynamically changing children unlike useRef
   const childrenWrapperRef = useCallback((node: HTMLDivElement) => {
@@ -54,6 +55,7 @@ export const Accordion = ({
     } else {
       setOpen(!open);
     }
+    setTransitioning(true);
   };
 
   // Ensures that the open flag is triggered after the initialRender flag is changed
@@ -68,7 +70,10 @@ export const Accordion = ({
   // The specific containerHeight is only needed to animate the opening
   const openHeight = initialRender || !animated ? 'initial' : containerHeight;
 
-  const renderChildren = !removeChildrenOnClose || open;
+  // Render children if they should always be rendered,
+  // if not keep them rendered as long as the accordion is not fully closed
+  const renderChildren =
+    !removeChildrenOnClose || open || (animated && isTransitioning);
 
   const trigger = (
     <TriggerComponent
@@ -94,6 +99,7 @@ export const Accordion = ({
         style={{
           height: open ? openHeight : 0,
         }}
+        onTransitionEnd={() => setTransitioning(false)}
       >
         <div ref={childrenWrapperRef}>{renderChildren && children}</div>
       </div>
