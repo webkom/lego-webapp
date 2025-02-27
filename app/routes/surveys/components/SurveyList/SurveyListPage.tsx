@@ -13,7 +13,11 @@ import type { DetailedSurvey } from 'app/store/models/Survey';
 const SurveyListPage = () => {
   const dispatch = useAppDispatch();
 
-  usePreparedEffect('fetchSurveys', () => dispatch(fetchSurveys()), []);
+  usePreparedEffect(
+    'fetchSurveys',
+    () => dispatch(fetchSurveys({ next: false })),
+    [],
+  );
 
   const surveys = useAppSelector(selectAllSurveys) as DetailedSurvey[];
 
