@@ -180,7 +180,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   }
 
   return (
-    <Flex column gap="var(--spacing-xs)">
+    <Flex column gap="var(--spacing-sm)">
       <div
         style={{
           height: props.height || 400,
