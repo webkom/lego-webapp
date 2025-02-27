@@ -1,4 +1,4 @@
-import { Accordion, Icon } from '@webkom/lego-bricks';
+import { Accordion, Flex, Icon } from '@webkom/lego-bricks';
 import { ChevronRight, Pizza } from 'lucide-react';
 import { FlexRow } from 'app/components/FlexBox';
 import { MeetingInvitationStatus } from 'app/store/models/MeetingInvitation';
@@ -51,13 +51,21 @@ export const PizzaAccordion = ({ meeting, meetingInvitations }: Props) => {
       >
         {
           <div>
-            <h3>Skal ha pizza</h3>
+            <Flex alignItems="baseline">
+              <h3>Skal ha pizza</h3>
+              <span className={styles.pizzaCount}>({pizzaUsers.length})</span>
+            </Flex>
             <ul className={styles.pizzaList}>
               {pizzaUsers.map((user) => (
                 <li key={user}>{user}</li>
               ))}
             </ul>
-            <h3>Skal ikke ha pizza</h3>
+            <Flex alignItems="baseline">
+              <h3>Skal ikke ha pizza</h3>
+              <span className={styles.pizzaCount}>
+                ({notPizzaUsers.length})
+              </span>
+            </Flex>
             <ul className={styles.pizzaList}>
               {notPizzaUsers.map((user) => (
                 <li key={user}>{user}</li>

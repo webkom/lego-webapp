@@ -46,3 +46,9 @@
 .pizzaList {
   list-style: inside;
 }
+
+.pizzaCount {
+  margin-left: var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
