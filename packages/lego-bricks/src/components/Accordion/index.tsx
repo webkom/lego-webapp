@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './Accordion.module.css';
 
 type TriggerProps = {
@@ -13,6 +13,7 @@ type Props = {
   disabled?: boolean;
   defaultOpen?: boolean;
   animated?: boolean;
+  removeChildrenOnClose?: boolean;
   wrapperClassName?: string;
   triggerPosition?: 'top' | 'bottom';
   triggerComponent: React.ComponentType<TriggerProps>;
@@ -26,19 +27,26 @@ export const Accordion = ({
   disabled = false,
   defaultOpen = false,
   animated = true,
+  removeChildrenOnClose = false,
   triggerPosition = 'top',
   wrapperClassName,
   triggerComponent: TriggerComponent,
   children,
 }: Props) => {
-  const childrenWrapperRef = useRef<HTMLDivElement>(null);
-
   const [open, setOpen] = useState(defaultOpen);
   const [initialRender, setInitialRender] = useState(true);
   const [containerHeight, setContainerHeight] = useState(0);
 
+  // useCallback works with dynamically changing children unlike useRef
+  const childrenWrapperRef = useCallback((node: HTMLDivElement) => {
+    if (!node) return;
+    const resizeObserver = new ResizeObserver(() =>
+      setContainerHeight(node.getBoundingClientRect().height ?? 0),
+    );
+    resizeObserver.observe(node);
+  }, []);
+
   const toggleOpen = () => {
-    setContainerHeight(childrenWrapperRef.current?.clientHeight ?? 0);
     if (disabled) return;
     if (initialRender && animated) {
       // setOpen is triggered through useEffect to ensure proper order of actions
@@ -59,6 +67,8 @@ export const Accordion = ({
   // loading objects like images
   // The specific containerHeight is only needed to animate the opening
   const openHeight = initialRender || !animated ? 'initial' : containerHeight;
+
+  const renderChildren = !removeChildrenOnClose || open;
 
   const trigger = (
     <TriggerComponent
@@ -85,7 +95,7 @@ export const Accordion = ({
           height: open ? openHeight : 0,
         }}
       >
-        <div ref={childrenWrapperRef}>{children}</div>
+        <div ref={childrenWrapperRef}>{renderChildren && children}</div>
       </div>
       {triggerPosition === 'bottom' && trigger}
     </>
