@@ -16,7 +16,7 @@ import {
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import { useAppDispatch } from 'app/store/hooks';
-import { createValidator, required } from 'app/utils/validation';
+import { createValidator, required, isEmail } from 'app/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateLendableObject,
@@ -26,6 +26,7 @@ import type {
 type FormValues = {
   id?: EntityId;
   title: string;
+  contactEmail: string;
   description: string;
   image: string;
   location: string;
@@ -40,6 +41,7 @@ type Props = {
 
 const validate = createValidator({
   title: [required()],
+  contactEmail: [required(), isEmail()],
   description: [required()],
   location: [required()],
 });
@@ -80,6 +82,12 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
             label="Navn"
             name="title"
             placeholder="Grill"
+            component={TextInput.Field}
+          />
+          <Field
+            label="Kontakt e-post"
+            name="contactEmail"
+            placeholder="soundboksutleie@abakus.no"
             component={TextInput.Field}
           />
           <Field
