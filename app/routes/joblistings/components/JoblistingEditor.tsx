@@ -30,6 +30,7 @@ import {
 } from 'app/components/Form';
 import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
+import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { httpCheck } from 'app/routes/bdb/utils';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
@@ -280,6 +281,15 @@ const JoblistingEditor = () => {
                 component={DatePicker.Field}
               />
             </RowSection>
+            <RowSection>
+              <Field
+                name="rollingRecruitment"
+                label="Løpende Opptak"
+                type="checkbox"
+                component={ToggleSwitch.Field}
+              />
+            </RowSection>
+
             <RowSection>
               <Field
                 name="fromYear"
