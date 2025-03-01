@@ -2,7 +2,7 @@ import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { debounce, isEmpty, get, isEqual } from 'lodash';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useEffect, useMemo, useState, useRef, useCallback } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import BodyCell from './BodyCell';
 import HeadCell from './HeadCell';
@@ -107,19 +107,8 @@ const Table = <T extends { id: EntityId }>({
     queryFiltersToFilters(props.filters),
   );
   const prevPropsFilters = useRef(props.filters);
-  const isUpdatingFromInternalChange = useRef(false);
-
-  const handleFilterChange = useCallback((value) => {
-    isUpdatingFromInternalChange.current = true;
-    setFilters(value);
-  }, []);
 
   useEffect(() => {
-    if (isUpdatingFromInternalChange.current) {
-      isUpdatingFromInternalChange.current = false;
-      return;
-    }
-
     if (!isEqual(props.filters, prevPropsFilters.current)) {
       prevPropsFilters.current = props.filters;
       setFilters(queryFiltersToFilters(props.filters));
@@ -236,7 +225,7 @@ const Table = <T extends { id: EntityId }>({
                   isShown={isShown}
                   showColumn={showColumn}
                   setSort={setSort}
-                  setFilters={handleFilterChange}
+                  setFilters={setFilters}
                   setIsShown={setIsShown}
                   setShowColumn={setShowColumn}
                 />
