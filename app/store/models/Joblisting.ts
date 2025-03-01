@@ -37,6 +37,7 @@ interface Joblisting {
   youtubeUrl: string;
   createdAt: Dateish;
   actionGrant?: ActionGrant;
+  rollingRecruitment: boolean;
 }
 
 export type ListJoblisting = Pick<
@@ -51,6 +52,7 @@ export type ListJoblisting = Pick<
   | 'fromYear'
   | 'toYear'
   | 'createdAt'
+  | 'rollingRecruitment'
 >;
 
 export type DetailedJoblisting = Pick<
@@ -74,6 +76,7 @@ export type DetailedJoblisting = Pick<
   | 'youtubeUrl'
   | 'createdAt'
   | 'actionGrant'
+  | 'rollingRecruitment'
 >;
 
 export type UnknownJoblisting = ListJoblisting | DetailedJoblisting;

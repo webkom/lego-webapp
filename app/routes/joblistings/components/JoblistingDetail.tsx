@@ -154,7 +154,11 @@ const JoblistingDetail = () => {
                   key: 'Søknadsfrist',
                   value: (
                     <strong>
-                      <Time time={joblisting.deadline} format="ll HH:mm" />
+                      {joblisting.rollingRecruitment ? (
+                        'Snarest'
+                      ) : (
+                        <Time time={joblisting.deadline} format="ll HH:mm" />
+                      )}
                     </strong>
                   ),
                 },

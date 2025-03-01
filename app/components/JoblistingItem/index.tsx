@@ -71,10 +71,14 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         className={styles.deadline}
       >
         <Icon iconNode={<CalendarClock />} size={16} />
-        <Time
-          time={joblisting.deadline}
-          format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
-        />
+        {joblisting.rollingRecruitment ? (
+          'Snarest'
+        ) : (
+          <Time
+            time={joblisting.deadline}
+            format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
+          />
+        )}
       </Flex>
     </div>
   </Link>
