@@ -30,8 +30,31 @@ const AchievementsPageWrapper = () => {
     setQuery: setLeaderboardQuery,
   } = useQuery({
     userFullName: '',
-    abakusGroupName: '',
+    abakusGroupIds: '',
   });
+
+  const filterableGroups = [
+    {
+      name: '1. Klasse',
+      ids: [16, 22],
+    },
+    {
+      name: '2. Klasse',
+      ids: [17, 23],
+    },
+    {
+      name: '3. Klasse',
+      ids: [57, 24],
+    },
+    {
+      name: '4. Klasse',
+      ids: [19, 25],
+    },
+    {
+      name: '5. Klasse',
+      ids: [20, 26],
+    },
+  ];
 
   let sidebarContent;
   if (showFiltersOverview) {
@@ -149,51 +172,21 @@ const AchievementsPageWrapper = () => {
             }
           />
           <FilterSection title="Klasse">
-            <RadioButton
-              name="first"
-              id="first"
-              label="1. Klasse"
-              onChange={() =>
-                setLeaderboardQueryValue('abakusGroupName')('first')
-              }
-              checked={leaderboardQuery.abakusGroupName === 'first'}
-            />
-            <RadioButton
-              name="second"
-              id="second"
-              label="2. Klasse"
-              onChange={() =>
-                setLeaderboardQueryValue('abakusGroupName')('second')
-              }
-              checked={leaderboardQuery.abakusGroupName === 'second'}
-            />
-            <RadioButton
-              name="third"
-              id="third"
-              label="3. Klasse"
-              onChange={() =>
-                setLeaderboardQueryValue('abakusGroupName')('third')
-              }
-              checked={leaderboardQuery.abakusGroupName === 'third'}
-            />
-            <RadioButton
-              name="fourth"
-              id="fourth"
-              label="4. Klasse"
-              onChange={() =>
-                setLeaderboardQueryValue('abakusGroupName')('fourth')
-              }
-              checked={leaderboardQuery.abakusGroupName === 'fourth'}
-            />
-            <RadioButton
-              name="fifth"
-              id="fifth"
-              label="5. Klasse"
-              onChange={() =>
-                setLeaderboardQueryValue('abakusGroupName')('fifth')
-              }
-              checked={leaderboardQuery.abakusGroupName === 'fifth'}
-            />
+            {filterableGroups.map((group) => {
+              const groupValue = group.ids.join(',');
+              return (
+                <RadioButton
+                  key={groupValue}
+                  name="gradeLevel"
+                  id={groupValue}
+                  label={group.name}
+                  onChange={() =>
+                    setLeaderboardQueryValue('abakusGroupIds')(groupValue)
+                  }
+                  checked={leaderboardQuery.abakusGroupIds === groupValue}
+                />
+              );
+            })}
           </FilterSection>
         </FilterSection>
       ),

@@ -17,18 +17,18 @@ const Leaderboard = () => {
 
   const { query: leaderboardQuery } = useQuery({
     userFullName: '',
-    abakusGroupName: '',
+    abakusGroupIds: '',
   });
 
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setDebouncedSearch(leaderboardQuery.abakusGroupName);
+      setDebouncedSearch(leaderboardQuery.userFullName);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [leaderboardQuery.abakusGroupName]);
+  }, [leaderboardQuery.userFullName]);
 
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
@@ -44,11 +44,11 @@ const Leaderboard = () => {
       dispatch(
         fetchLeaderboardUsers({
           next: true,
-          query: { ...leaderboardQuery, abakusGroupName: debouncedSearch },
+          query: { ...leaderboardQuery, userFullName: debouncedSearch },
         }),
       );
     },
-    [dispatch, leaderboardQuery],
+    [dispatch, debouncedSearch, leaderboardQuery.abakusGroupIds],
   );
   const users = useAppSelector((state) =>
     selectUsersWithAchievementsScore(state),
@@ -100,7 +100,7 @@ const Leaderboard = () => {
           dispatch(
             fetchLeaderboardUsers({
               next: true,
-              query: { ...leaderboardQuery, abakusGroupName: debouncedSearch },
+              query: { ...leaderboardQuery, userFullName: debouncedSearch },
             }),
           );
         }}
