@@ -8,6 +8,7 @@ import { selectPaginationNext } from 'app/reducers/selectors';
 import { selectUsersWithAchievementsScore } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
 import { EntityType } from 'app/store/models/entities';
+import { useIsMobileViewport } from 'app/utils/isMobileViewport';
 import useQuery from 'app/utils/useQuery';
 import type { ColumnProps } from 'app/components/Table';
 import type { PublicUser } from 'app/store/models/User';
@@ -60,6 +61,8 @@ const Leaderboard = () => {
       ...user,
     }));
 
+  const isMobile = useIsMobileViewport();
+
   const columns: ColumnProps<PublicUser>[] = [
     {
       title: 'Rangering',
@@ -69,12 +72,12 @@ const Leaderboard = () => {
     },
     {
       title: 'Navn',
-      dataIndex: 'name',
+      dataIndex: 'fullName',
       search: false,
       inlineFiltering: false,
       render: (_, user: PublicUser) => (
         <Link to={`/users/${user.username}`}>
-          {user.firstName} {user.lastName} ({user.username})
+          {isMobile ? user.username : `${user.firstName} ${user.lastName}`}
         </Link>
       ),
     },
@@ -96,6 +99,7 @@ const Leaderboard = () => {
         data={rankedUsers}
         loading={pagination.fetching}
         hasMore={pagination.hasMore}
+        filters={leaderboardQuery}
         onLoad={() => {
           dispatch(
             fetchLeaderboardUsers({
