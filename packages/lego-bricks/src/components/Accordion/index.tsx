@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import styles from './Accordion.module.css';
 
 type TriggerProps = {
@@ -13,6 +13,7 @@ type Props = {
   disabled?: boolean;
   defaultOpen?: boolean;
   animated?: boolean;
+  persistChildren?: boolean;
   wrapperClassName?: string;
   triggerPosition?: 'top' | 'bottom';
   triggerComponent: React.ComponentType<TriggerProps>;
@@ -26,39 +27,39 @@ export const Accordion = ({
   disabled = false,
   defaultOpen = false,
   animated = true,
+  persistChildren = false,
   triggerPosition = 'top',
   wrapperClassName,
   triggerComponent: TriggerComponent,
   children,
 }: Props) => {
-  const childrenWrapperRef = useRef<HTMLDivElement>(null);
-
   const [open, setOpen] = useState(defaultOpen);
-  const [initialRender, setInitialRender] = useState(true);
   const [containerHeight, setContainerHeight] = useState(0);
+  const [isTransitioning, setTransitioning] = useState(false);
+
+  // useCallback works with dynamically changing children unlike useRef
+  const childrenWrapperRef = useCallback((node: HTMLDivElement) => {
+    if (!node) return;
+    const resizeObserver = new ResizeObserver(() =>
+      setContainerHeight(node.getBoundingClientRect().height ?? 0),
+    );
+    resizeObserver.observe(node);
+  }, []);
 
   const toggleOpen = () => {
-    setContainerHeight(childrenWrapperRef.current?.clientHeight ?? 0);
-    if (disabled) return;
-    if (initialRender && animated) {
-      // setOpen is triggered through useEffect to ensure proper order of actions
-      setInitialRender(false);
-    } else {
+    if (!disabled) {
       setOpen(!open);
+      setTransitioning(true);
     }
   };
 
-  // Ensures that the open flag is triggered after the initialRender flag is changed
-  // so the height of "initial" is changed to a numeric value to make the animation work
-  useEffect(() => {
-    if (!initialRender) setOpen(!open);
-    //eslint-disable-next-line
-  }, [initialRender]);
-
-  // Skip containerHeight calculation for initial render to facilitate supporting lazily
-  // loading objects like images
   // The specific containerHeight is only needed to animate the opening
-  const openHeight = initialRender || !animated ? 'initial' : containerHeight;
+  const openHeight = animated ? containerHeight : 'initial';
+
+  // Render children if they should always be rendered,
+  // otherwise keep them rendered as long as the accordion is not fully closed
+  const renderChildren =
+    persistChildren || open || (animated && isTransitioning);
 
   const trigger = (
     <TriggerComponent
@@ -84,8 +85,9 @@ export const Accordion = ({
         style={{
           height: open ? openHeight : 0,
         }}
+        onTransitionEnd={() => setTransitioning(false)}
       >
-        <div ref={childrenWrapperRef}>{children}</div>
+        {renderChildren && <div ref={childrenWrapperRef}>{children}</div>}
       </div>
       {triggerPosition === 'bottom' && trigger}
     </>
