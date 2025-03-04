@@ -26,6 +26,7 @@ const LatestReadme = ({
       <Accordion
         defaultOpen={expandedInitially}
         disabled={!collapsible}
+        persistChildren
         triggerComponent={({ onClick, disabled, rotateClassName }) => (
           <div
             className={cx(styles.heading, !disabled && styles.pointer)}

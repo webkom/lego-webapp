@@ -245,6 +245,7 @@ const UserSettings = () => {
       {isCurrentUser && (
         <Flex column gap="var(--spacing-md)">
           <Accordion
+            persistChildren
             triggerComponent={({ onClick, disabled, rotateClassName }) => (
               <div className={styles.advancedSettings} onClick={onClick}>
                 <Flex gap="var(--spacing-sm)" alignItems="center">

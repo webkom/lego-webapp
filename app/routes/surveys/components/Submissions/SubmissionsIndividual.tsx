@@ -20,7 +20,6 @@ const SubmissionItem = ({
   return (
     <li key={submission.id}>
       <Accordion
-        animated={false}
         triggerComponent={({ onClick, rotateClassName }) => (
           <div
             className={styles.answerTrigger}
