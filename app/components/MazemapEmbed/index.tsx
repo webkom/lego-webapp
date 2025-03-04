@@ -1,9 +1,9 @@
 import { Flex } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import '@webkom/mazemap/css';
 import { Keyboard } from 'app/utils/constants';
 import styles from './MazemapEmbed.module.css';
-import MazemapLink from './MazemapLink';
 
 type MazeMap = {
   Map: any;
@@ -16,6 +16,7 @@ type MazeMap = {
 type Props = {
   mazemapPoi: number;
   height?: number;
+  className?: string;
   linkText?: string;
 };
 
@@ -174,7 +175,6 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
             height: props.height || 400,
           }}
         />
-        <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
       </>
     );
   }
@@ -188,7 +188,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
           touchAction: 'pan-x pan-y',
         }}
         id="mazemap-embed"
-        className={styles.mazemapEmbed}
+        className={cx(styles.mazemapEmbed, props.className)}
       >
         {(blockScrollZoom || blockTouchMovement) && (
           <span className={styles.blockingText}>
@@ -198,7 +198,6 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
           </span>
         )}
       </div>
-      <MazemapLink mazemapPoi={mazemapPoi} linkText={props.linkText} />
     </Flex>
   );
 };

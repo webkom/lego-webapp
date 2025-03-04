@@ -47,16 +47,6 @@
   }
 }
 
-.mapButton {
-  gap: var(--spacing-xs);
-  font-size: var(--font-size-sm);
-}
-
-.mazemapImg {
-  width: 30px;
-  margin-left: calc(-1 * var(--spacing-xs));
-}
-
 .registrationMeta {
   margin-top: var(--spacing-sm);
 }

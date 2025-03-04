@@ -29,7 +29,7 @@ import Dropdown from 'app/components/Dropdown';
 import { ProfilePicture } from 'app/components/Image';
 import InfoList from 'app/components/InfoList';
 import LegoReactions from 'app/components/LegoReactions';
-import { MazemapEmbed } from 'app/components/MazemapEmbed';
+import { MazemapAccordion } from 'app/components/MazemapEmbed/MazemapAccordion';
 import Time, { FromToTime } from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
 import Attendance from 'app/components/UserAttendance/Attendance';
@@ -272,14 +272,13 @@ const MeetingDetails = () => {
         </ContentMain>
         <ContentSidebar>
           {attendanceButtons(statusMe, meeting.startTime)}
+
           <InfoList items={infoItems} />
 
           <Attendance isMeeting pools={sortInvitations()} />
-
           {meeting.mazemapPoi && (
-            <MazemapEmbed mazemapPoi={meeting.mazemapPoi} />
+            <MazemapAccordion mazemapPoi={meeting.mazemapPoi} />
           )}
-
           {icalToken && (
             <AddToCalendar icalToken={icalToken} meeting={meeting} />
           )}
