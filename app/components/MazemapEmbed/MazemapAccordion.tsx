@@ -1,6 +1,5 @@
 import { Accordion, Flex, Icon } from '@webkom/lego-bricks';
 import { ChevronRight } from 'lucide-react';
-import { useState } from 'react';
 import mazemapLogo from 'app/assets/mazemap.svg';
 import MazemapLink from 'app/components/MazemapEmbed/MazemapLink';
 import { MazemapEmbed } from 'app/components/MazemapEmbed/index';
@@ -12,21 +11,13 @@ type Props = ComponentProps<typeof MazemapEmbed> & {
 };
 
 export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
-  const [mapIsOpen, setMapIsOpen] = useState(defaultOpen);
-
   return (
     <>
       <Flex column gap="var(--spacing-xs)" className={styles.mazemapAccordion}>
         <Accordion
           defaultOpen={defaultOpen}
           triggerComponent={({ onClick, rotateClassName }) => (
-            <div
-              onClick={() => {
-                onClick();
-                setMapIsOpen(!mapIsOpen);
-              }}
-              className={styles.mazemapAccordionTrigger}
-            >
+            <div onClick={onClick} className={styles.mazemapAccordionTrigger}>
               <Flex alignItems="center" gap="var(--spacing-sm)">
                 <img
                   className={styles.mazemapImg}
@@ -36,10 +27,7 @@ export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
                 Kart
               </Flex>
               <Icon
-                onPress={() => {
-                  onClick();
-                  setMapIsOpen(!mapIsOpen);
-                }}
+                onPress={onClick}
                 iconNode={<ChevronRight />}
                 className={rotateClassName}
               />
@@ -47,11 +35,14 @@ export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
           )}
         >
           <MazemapEmbed {...props} className={styles.mazemapEmbed} />
+          <div className={styles.mazemapLinkContainer}>
+            <MazemapLink
+              mazemapPoi={props.mazemapPoi}
+              linkText={props.linkText}
+            />
+          </div>
         </Accordion>
       </Flex>
-      {mapIsOpen && (
-        <MazemapLink mazemapPoi={props.mazemapPoi} linkText={props.linkText} />
-      )}
     </>
   );
 };

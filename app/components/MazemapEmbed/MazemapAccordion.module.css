@@ -22,4 +22,14 @@
 .mazemapEmbed {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  border-radius: 0;
+}
+
+.mazemapLinkContainer {
+  padding: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  color: var(--lego-font-color);
 }
