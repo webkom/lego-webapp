@@ -151,7 +151,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
     "assets-webpack-plugin": "^7.1.1",
-    "babel-loader": "^9.2.1",
+    "babel-loader": "^10.0.0",
     "compression-webpack-plugin": "^11.1.0",
     "concurrently": "^9.1.0",
     "css-loader": "^6.10.0",
