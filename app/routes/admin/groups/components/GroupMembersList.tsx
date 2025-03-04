@@ -72,9 +72,10 @@ const GroupMembersList = ({
             value: role,
             label: ROLES[role],
           }}
+          name="editrole"
           options={roleOptions}
-          onChange={(value: { label: string; value: RoleType }) => {
-            dispatch(editMembership(membership, value.value)).then(() => {
+          onChange={(value) => {
+            dispatch(editMembership(membership, value)).then(() => {
               setMembershipsInEditMode((prev) => ({
                 ...prev,
                 [id]: false,
