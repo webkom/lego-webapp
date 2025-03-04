@@ -1,4 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { postKeypress } from 'app/actions/AchievementActions';
@@ -51,7 +52,7 @@ const Overview = () => {
 
   useEffect(() => {
     let count = 0;
-    const codeArr: number[] = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65, 13];
+    const codeArr: number[] = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
     const keyHandler = (event: KeyboardEvent) => {
       if (event.keyCode === codeArr[count]) {
         count++;
@@ -72,7 +73,7 @@ const Overview = () => {
     <ContentMain>
       <Flex className={styles.listWrapper}>
         {sortedTrophies.map((e) => (
-          <Flex className={styles.listItem} key={e.name + e.rarity}>
+          <Flex className={cx(styles.listItem)} key={e.name + e.rarity}>
             <Trophy
               size={40}
               color={

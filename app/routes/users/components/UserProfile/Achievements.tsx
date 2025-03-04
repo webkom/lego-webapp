@@ -1,8 +1,7 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button, Flex, LinkButton } from '@webkom/lego-bricks';
 import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import AchievementsInfo, {
   rarityToColorMap,
@@ -108,10 +107,7 @@ export const Achievements = ({
             {showAll ? 'Vis færre' : 'Vis alle'}
           </Button>
         )}
-
-        <Link to="/achievements">
-          <Button>Topplister</Button>
-        </Link>
+        <LinkButton href="/achievements">Topplister</LinkButton>
       </Flex>
     </div>
   );

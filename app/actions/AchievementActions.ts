@@ -2,11 +2,19 @@ import { userSchema } from 'app/reducers';
 import { Achievement, User } from './ActionTypes';
 import callAPI from './callAPI';
 import type { PublicUser } from 'app/store/models/User';
+import type { ParsedQs } from 'qs';
 
-export function fetchLeaderboardUsers({ next = false }: { next: boolean }) {
+export function fetchLeaderboardUsers({
+  next = false,
+  query,
+}: {
+  next: boolean;
+  query: ParsedQs;
+}) {
   return callAPI<PublicUser[]>({
     types: User.FETCH_LEADERBOARD,
     endpoint: `/achievements/leaderboard/`,
+    query,
     pagination: {
       fetchNext: next,
     },
