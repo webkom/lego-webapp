@@ -13,11 +13,16 @@ type Props = ComponentProps<typeof MazemapEmbed> & {
 export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
   return (
     <>
-      <Flex column gap="var(--spacing-xs)" className={styles.mazemapAccordion}>
+      <Flex column className={styles.mazemapAccordion}>
         <Accordion
           defaultOpen={defaultOpen}
           triggerComponent={({ onClick, rotateClassName }) => (
-            <div onClick={onClick} className={styles.mazemapAccordionTrigger}>
+            <Flex
+              alignItems="center"
+              justifyContent="space-between"
+              onClick={onClick}
+              className={styles.mazemapAccordionTrigger}
+            >
               <Flex alignItems="center" gap="var(--spacing-sm)">
                 <img
                   className={styles.mazemapImg}
@@ -31,16 +36,20 @@ export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
                 iconNode={<ChevronRight />}
                 className={rotateClassName}
               />
-            </div>
+            </Flex>
           )}
         >
           <MazemapEmbed {...props} className={styles.mazemapEmbed} />
-          <div className={styles.mazemapLinkContainer}>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={styles.mazemapLinkContainer}
+          >
             <MazemapLink
               mazemapPoi={props.mazemapPoi}
               linkText={props.linkText}
             />
-          </div>
+          </Flex>
         </Accordion>
       </Flex>
     </>
