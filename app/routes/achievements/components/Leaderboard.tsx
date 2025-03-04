@@ -1,5 +1,5 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import { fetchLeaderboardUsers } from 'app/actions/AchievementActions';
 import { ContentMain } from 'app/components/Content';
@@ -11,7 +11,7 @@ import { EntityType } from 'app/store/models/entities';
 import { useIsMobileViewport } from 'app/utils/isMobileViewport';
 import useQuery from 'app/utils/useQuery';
 import type { ColumnProps } from 'app/components/Table';
-import type { PublicUser } from 'app/store/models/User';
+import type { PublicUserWithAbakusGroups } from 'app/store/models/User';
 
 const Leaderboard = () => {
   const dispatch = useAppDispatch();
@@ -26,16 +26,24 @@ const Leaderboard = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearch(leaderboardQuery.userFullName);
-    }, 1000);
+    }, 300);
 
     return () => clearTimeout(timer);
   }, [leaderboardQuery.userFullName]);
+
+  const memoizedQuery = useMemo(
+    () => ({
+      ...leaderboardQuery,
+      userFullName: debouncedSearch,
+    }),
+    [leaderboardQuery.abakusGroupIds, debouncedSearch],
+  );
 
   const { pagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/achievements/leaderboard/',
       entity: EntityType.Users,
-      query: leaderboardQuery || {},
+      query: memoizedQuery || {},
     })(state),
   );
 
@@ -45,37 +53,55 @@ const Leaderboard = () => {
       dispatch(
         fetchLeaderboardUsers({
           next: true,
-          query: { ...leaderboardQuery, userFullName: debouncedSearch },
+          query: memoizedQuery,
         }),
       );
     },
-    [dispatch, debouncedSearch, leaderboardQuery.abakusGroupIds],
+    [dispatch, memoizedQuery],
   );
+
   const users = useAppSelector((state) =>
     selectUsersWithAchievementsScore(state),
   );
-  const rankedUsers: PublicUser[] = users
-    .slice()
+  const rankedUsers: PublicUserWithAbakusGroups[] = users
+    .filter((user: PublicUserWithAbakusGroups) => {
+      if (leaderboardQuery.userFullName) {
+        const search = leaderboardQuery.userFullName.toLowerCase();
+        const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
+        if (!fullName.includes(search)) {
+          return false;
+        }
+      }
+      if (leaderboardQuery.abakusGroupIds) {
+        const groupIds = leaderboardQuery.abakusGroupIds
+          .split(',')
+          .map((id) => Number(id.trim()));
+        if (!groupIds.some((id) => user.abakusGroups.includes(id))) {
+          return false;
+        }
+      }
+      return true;
+    })
     .sort((a, b) => a.achievementRank - b.achievementRank)
-    .map((user) => ({
-      ...user,
-    }));
+    .map((user) => ({ ...user }));
 
   const isMobile = useIsMobileViewport();
 
-  const columns: ColumnProps<PublicUser>[] = [
+  const columns: ColumnProps<PublicUserWithAbakusGroups>[] = [
     {
       title: 'Rangering',
       dataIndex: 'rank',
       search: false,
-      render: (_, user: PublicUser) => <>{user.achievementRank}</>,
+      render: (_, user: PublicUserWithAbakusGroups) => (
+        <>{user.achievementRank}</>
+      ),
     },
     {
       title: 'Navn',
       dataIndex: 'fullName',
       search: false,
       inlineFiltering: false,
-      render: (_, user: PublicUser) => (
+      render: (_, user: PublicUserWithAbakusGroups) => (
         <Link to={`/users/${user.username}`}>
           {isMobile ? user.username : `${user.firstName} ${user.lastName}`}
         </Link>
@@ -86,8 +112,10 @@ const Leaderboard = () => {
       dataIndex: 'score',
       search: false,
       inlineFiltering: false,
-      render: (_, user: PublicUser) => <>{user.achievementsScore}%</>,
-      sorter: (a: PublicUser, b: PublicUser) =>
+      render: (_, user: PublicUserWithAbakusGroups) => (
+        <>{user.achievementsScore}%</>
+      ),
+      sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
         a.achievementRank - b.achievementRank,
     },
   ];
@@ -104,7 +132,7 @@ const Leaderboard = () => {
           dispatch(
             fetchLeaderboardUsers({
               next: true,
-              query: { ...leaderboardQuery, userFullName: debouncedSearch },
+              query: memoizedQuery,
             }),
           );
         }}

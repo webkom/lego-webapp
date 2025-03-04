@@ -7,7 +7,6 @@ import { AchievementTabs } from './utils';
 const AchievementsPageWrapper = () => {
   const location = useLocation();
 
-  // Check which path is active:
   const showFiltersOverview =
     location.pathname === '/achievements' ||
     location.pathname === '/achievements/';
@@ -16,7 +15,6 @@ const AchievementsPageWrapper = () => {
     location.pathname === '/achievements/leaderboard' ||
     location.pathname === '/achievements/leaderboard/';
 
-  // 1) Filters for /achievements (overview)
   const { query, setQueryValue, setQuery } = useQuery({
     min_rarity: 'any',
     max_rarity: 'any',
@@ -24,14 +22,11 @@ const AchievementsPageWrapper = () => {
     sort_order: 'asc',
   });
 
-  const {
-    query: leaderboardQuery,
-    setQueryValue: setLeaderboardQueryValue,
-    setQuery: setLeaderboardQuery,
-  } = useQuery({
-    userFullName: '',
-    abakusGroupIds: '',
-  });
+  const { query: leaderboardQuery, setQueryValue: setLeaderboardQueryValue } =
+    useQuery({
+      userFullName: '',
+      abakusGroupIds: '',
+    });
 
   const filterableGroups = [
     {
