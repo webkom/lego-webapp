@@ -198,7 +198,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
       hidden: false,
     },
     {
-      name: 'Studentenes forkjemper',
+      name: 'Studentenes\nforkjemper',
       description: 'Deltatt på 8 genfors',
       rarity: 5,
       hidden: false,

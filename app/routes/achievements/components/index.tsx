@@ -1,6 +1,7 @@
 import { FilterSection, filterSidebar, Flex, Page } from '@webkom/lego-bricks';
 import { Outlet, useLocation } from 'react-router';
 import { RadioButton, TextInput } from 'app/components/Form';
+import { filterableGroups } from 'app/components/UserAttendance/GroupFilter';
 import useQuery from 'app/utils/useQuery';
 import { AchievementTabs } from './utils';
 
@@ -27,29 +28,6 @@ const AchievementsPageWrapper = () => {
       userFullName: '',
       abakusGroupIds: '',
     });
-
-  const filterableGroups = [
-    {
-      name: '1. Klasse',
-      ids: [16, 22],
-    },
-    {
-      name: '2. Klasse',
-      ids: [17, 23],
-    },
-    {
-      name: '3. Klasse',
-      ids: [57, 24],
-    },
-    {
-      name: '4. Klasse',
-      ids: [19, 25],
-    },
-    {
-      name: '5. Klasse',
-      ids: [20, 26],
-    },
-  ];
 
   let sidebarContent;
   if (showFiltersOverview) {

@@ -10,7 +10,7 @@ type Props = {
   setGroupFilter: (group: EntityId[] | null) => void;
 };
 
-const filterableGroups = [
+export const filterableGroups = [
   {
     name: '1. Klasse',
     ids: [16, 22],

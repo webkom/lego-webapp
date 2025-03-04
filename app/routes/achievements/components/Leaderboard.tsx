@@ -33,10 +33,10 @@ const Leaderboard = () => {
 
   const memoizedQuery = useMemo(
     () => ({
-      ...leaderboardQuery,
       userFullName: debouncedSearch,
+      abakusGroupIds: leaderboardQuery.abakusGroupIds,
     }),
-    [leaderboardQuery.abakusGroupIds, debouncedSearch],
+    [debouncedSearch, leaderboardQuery.abakusGroupIds],
   );
 
   const { pagination } = useAppSelector((state) =>
@@ -82,8 +82,7 @@ const Leaderboard = () => {
       }
       return true;
     })
-    .sort((a, b) => a.achievementRank - b.achievementRank)
-    .map((user) => ({ ...user }));
+    .sort((a, b) => a.achievementRank - b.achievementRank);
 
   const isMobile = useIsMobileViewport();
 
@@ -95,6 +94,8 @@ const Leaderboard = () => {
       render: (_, user: PublicUserWithAbakusGroups) => (
         <>{user.achievementRank}</>
       ),
+      sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
+        a.achievementRank - b.achievementRank,
     },
     {
       title: 'Navn',
@@ -116,7 +117,7 @@ const Leaderboard = () => {
         <>{user.achievementsScore}%</>
       ),
       sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
-        a.achievementRank - b.achievementRank,
+        b.achievementsScore - a.achievementsScore,
     },
   ];
 
