@@ -309,20 +309,21 @@ const MeetingEditor = () => {
                 type="checkbox"
                 component={CheckBox.Field}
               />
-              {spyValues<MeetingFormValues>((values) => {
-                return values?.useMazemap ? (
-                  <Flex alignItems="center">
+              {spyValues<MeetingFormValues>((values) =>
+                values?.useMazemap ? (
+                  <Flex gap="var(--spacing-sm)">
                     <Field
-                      label="MazeMap-rom"
+                      label="Mazemap-rom"
                       required
                       name="mazemapPoi"
                       component={SelectInput.MazemapAutocomplete}
                       placeholder="R1, Abakus, Kjel4"
                     />
-                    {values?.mazemapPoi?.value > 0 && (
+                    {values?.mazemapPoi?.value && (
                       <MazemapLink
-                        mazemapPoi={values?.mazemapPoi?.value}
-                        linkText="↗️"
+                        mazemapPoi={values.mazemapPoi?.value}
+                        iconOnly
+                        style={{ position: 'relative', top: '0.8rem' }}
                       />
                     )}
                   </Flex>
@@ -334,9 +335,8 @@ const MeetingEditor = () => {
                     placeholder="Sted for møte"
                     component={TextInput.Field}
                   />
-                );
-              })}
-
+                ),
+              )}
               <RowSection>
                 <Field
                   name="users"
