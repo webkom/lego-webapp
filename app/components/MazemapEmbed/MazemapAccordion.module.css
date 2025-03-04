@@ -1,0 +1,25 @@
+.mazemapAccordion {
+  background-color: var(--additive-background);
+  border-radius: var(--border-radius-lg);
+}
+
+.mazemapAccordionTrigger {
+  padding: var(--spacing-xs) var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  height: fit-content;
+  color: var(--lego-font-color);
+  cursor: pointer;
+}
+
+.mazemapImg {
+  width: 30px;
+  margin-left: calc(-1 * var(--spacing-xs));
+}
+
+.mazemapEmbed {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

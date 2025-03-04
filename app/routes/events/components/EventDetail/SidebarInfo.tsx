@@ -7,7 +7,7 @@ import {
   MapPin,
 } from 'lucide-react';
 import { Link } from 'react-router';
-import { MazemapButton } from 'app/components/MazemapEmbed/MazemapButton';
+import { MazemapAccordion } from 'app/components/MazemapEmbed/MazemapAccordion';
 import TextWithIcon from 'app/components/TextWithIcon';
 import { FromToTime } from 'app/components/Time';
 import styles from 'app/routes/events/components/EventDetail/EventDetail.module.css';
@@ -79,7 +79,7 @@ export const SidebarInfo = ({ event }: Props) => {
         className={styles.sidebarInfo}
       />
 
-      {event.mazemapPoi && <MazemapButton mazemapPoi={event.mazemapPoi} />}
+      {event.mazemapPoi && <MazemapAccordion mazemapPoi={event.mazemapPoi} />}
     </Flex>
   );
 };
