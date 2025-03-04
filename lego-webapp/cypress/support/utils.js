@@ -36,7 +36,7 @@ export const selectFromSelectField = (name, option, search) => {
   selectFieldDropdown(name)
     .should('not.contain', NO_OPTIONS_MESSAGE)
     .and('contain', option);
-  cy.focused().type('{enter}', { force: true });
+  selectFieldDropdown(name).contains(option).click();
 };
 
 export const fieldErrors = () => cy.get(c('fieldError'));
@@ -57,7 +57,7 @@ export const setDatePickerTime = (name, hours, minutes, isEndTime = false) => {
   field(name).click();
 
   const timePickerIndex = isEndTime ? 3 : 0;
-  cy.get(c('TimePicker-module__timePicker'))
+  cy.get(c('_timePicker'))
     .eq(timePickerIndex)
     .within(() => {
       cy.get(c('timePickerInput'))
@@ -108,30 +108,30 @@ export const confirm3DSecure2Dialog = (confirm = true) => {
 };
 
 export const fillCardDetails = (cardNumber, expiry, cvc) => {
-  cy.getIframeBody('[data-testid="cardnumber-input"] iframe')
+  cy.getIframeBody('[data-test-id="cardnumber-input"] iframe')
     .find('input[name="cardnumber"]')
     .type(cardNumber);
-  cy.getIframeBody('[data-testid="expiry-input"] iframe')
+  cy.getIframeBody('[data-test-id="expiry-input"] iframe')
     .find('input[name="exp-date"]')
     .type(expiry);
-  cy.getIframeBody('[data-testid="cvc-input"] iframe')
+  cy.getIframeBody('[data-test-id="cvc-input"] iframe')
     .find('input[name="cvc"]')
     .type(cvc);
 };
 
 export const clearCardDetails = () => {
-  cy.getIframeBody('[data-testid="cardnumber-input"] iframe')
+  cy.getIframeBody('[data-test-id="cardnumber-input"] iframe')
     .find('input[name="cardnumber"]')
     .clear();
-  cy.getIframeBody('[data-testid="expiry-input"] iframe')
+  cy.getIframeBody('[data-test-id="expiry-input"] iframe')
     .find('input[name="exp-date"]')
     .clear();
-  cy.getIframeBody('[data-testid="cvc-input"] iframe')
+  cy.getIframeBody('[data-test-id="cvc-input"] iframe')
     .find('input[name="cvc"]')
     .clear();
 };
 
-export const stripeError = () => cy.get(c('Stripe-module__error'));
+export const stripeError = () => cy.get(t('stripe') + ' ' + c('_error'));
 
 export const mockMazemapApi = () => {
   cy.intercept('GET', 'https://api.mazemap.com/search/equery/**', {

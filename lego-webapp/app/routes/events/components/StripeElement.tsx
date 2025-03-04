@@ -147,21 +147,21 @@ const CardForm = (props: CardFormProps) => {
     >
       <fieldset className={stripeStyles.elementsFieldset}>
         <legend className={stripeStyles.elementsLegend}>{props.legend}</legend>
-        <label data-testid="cardnumber-input">
+        <label data-test-id="cardnumber-input">
           Kortnummer
           <CardNumberElement
             className={stripeStyles.stripeElement}
             options={StripeElementStyle(fontColor)}
           />
         </label>
-        <label data-testid="expiry-input">
+        <label data-test-id="expiry-input">
           Utløpsdato
           <CardExpiryElement
             className={stripeStyles.stripeElement}
             options={StripeElementStyle(fontColor)}
           />
         </label>
-        <label data-testid="cvc-input">
+        <label data-test-id="cvc-input">
           CVC
           <CardCvcElement
             className={stripeStyles.stripeElement}
@@ -378,6 +378,7 @@ const PaymentForm = (props: FormProps) => {
         style={{
           display: loading ? 'none' : 'block',
         }}
+        data-test-id="stripe"
       >
         <Elements stripe={stripePromise}>
           <PaymentRequestForm

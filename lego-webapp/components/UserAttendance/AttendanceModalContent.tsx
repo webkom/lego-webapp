@@ -97,7 +97,12 @@ const AttendanceModalContent = ({
   );
 
   return (
-    <Flex column gap="var(--spacing-md)" className={styles.modalContent}>
+    <Flex
+      column
+      gap="var(--spacing-md)"
+      className={styles.modalContent}
+      data-test-id="attendance-modal-content"
+    >
       <TextInput
         type="text"
         prefix="search"

@@ -43,6 +43,7 @@ const Dropdown = ({
       ref={triggerRef}
       className={className}
       style={style}
+      data-test-id="dropdown"
     >
       {triggerComponent ||
         (iconName ? (

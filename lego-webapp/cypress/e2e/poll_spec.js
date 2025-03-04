@@ -25,6 +25,7 @@ describe('Polls', () => {
 
   it('can create poll', () => {
     cy.visit('/polls');
+    cy.waitForHydration();
 
     cy.contains('a', 'Lag ny').click();
 
@@ -84,6 +85,7 @@ describe('Polls', () => {
 
   it('can answer poll', () => {
     cy.visit('/polls/2');
+    cy.waitForHydration();
     cy.contains('13 stemmer');
     cy.contains('yo').click();
     cy.contains('14 stemmer');
@@ -91,6 +93,7 @@ describe('Polls', () => {
 
   it('can edit poll and answer it on frontpage', () => {
     cy.visit('/polls/1');
+    cy.waitForHydration();
     cy.contains('button', 'Rediger').click();
     field('title').clear().type(poll_form.title);
     field('pinned').check();
@@ -115,9 +118,10 @@ describe('Polls', () => {
     cy.url().should('not.contain', '/polls/1');
 
     cy.visit('/');
+    cy.waitForHydration();
     cy.contains('Avstemning');
     cy.contains(poll_form.title);
-    cy.get(c('Poll-module__arrowIcon')).first().click();
+    cy.get(c('_arrowIcon')).first().click();
     cy.contains('0 stemmer');
     cy.contains(poll_form.choice_1).click();
     cy.contains('1 stemme');
@@ -127,9 +131,10 @@ describe('Polls', () => {
 
   it('can delete poll', () => {
     cy.visit('/polls');
-    cy.get(c('PollsList-module__pollListItem')).should('have.length', 2);
+    cy.waitForHydration();
+    cy.get(c('_pollListItem')).should('have.length', 2);
 
-    cy.get(c('PollsList-module__pollListItem')).first().click();
+    cy.get(c('_pollListItem')).first().click();
 
     cy.contains('button', 'Rediger').click();
     cy.contains('button', 'Slett avstemning').click();
@@ -138,7 +143,8 @@ describe('Polls', () => {
     cy.get(t('Modal__content')).should('not.exist');
 
     cy.visit('/polls');
+    cy.waitForHydration();
 
-    cy.get(c('PollsList-module__pollListItem')).should('have.length', 1);
+    cy.get(c('_pollListItem')).should('have.length', 1);
   });
 });

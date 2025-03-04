@@ -1,8 +1,9 @@
-import { c } from '../support/utils.js';
+import { c, t } from '../support/utils.js';
 
 describe('The Home Page and Login', () => {
   it('successfully loads landing page', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.contains('Velkommen til Abakus');
 
     cy.contains('a', 'Arrangementer');
@@ -10,10 +11,10 @@ describe('The Home Page and Login', () => {
     cy.contains('a', 'Om Abakus');
 
     cy.contains('h3', 'Bedpres og kurs');
-    cy.contains(c('CompactEvents-module__eventItem'), 'DIPS');
+    cy.contains(c('_eventItem'), 'DIPS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains(c('CompactEvents-module__eventItem'), 'Sikkerhet og Sårbarhet');
+    cy.contains(c('_eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Oppslag');
     cy.contains('span', 'readme');
@@ -28,10 +29,12 @@ describe('The Home Page and Login', () => {
     cy.get('[name=password]').type('Webkom123{enter}');
 
     // Click dropdown for user
-    cy.get(c('Dropdown-module__content')).should('not.exist');
-    cy.get(c('Header-module__menu')).find(c('Image-module__image')).click();
+    cy.get(t('dropdown') + ' ' + c('_content')).should('not.exist');
+    cy.get('header ' + c('_menu'))
+      .find(c('_image'))
+      .click();
 
-    cy.get(c('Dropdown-module__content')).should((dropdown) => {
+    cy.get(t('dropdown') + ' ' + c('_content')).should((dropdown) => {
       expect(dropdown).to.contain(username);
       expect(dropdown).to.contain('Innstillinger');
       expect(dropdown).to.contain('Møte');
@@ -43,12 +46,13 @@ describe('The Home Page and Login', () => {
     cy.resetDb();
     cy.cachedLogin();
     cy.visit('/');
+    cy.waitForHydration();
 
     cy.contains('h3', 'Bedpres og kurs');
-    cy.contains(c('CompactEvents-module__eventItem'), 'Deloitte AS');
+    cy.contains(c('_eventItem'), 'Deloitte AS');
 
     cy.contains('h3', 'Arrangementer');
-    cy.contains(c('CompactEvents-module__eventItem'), 'Sikkerhet og Sårbarhet');
+    cy.contains(c('_eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Påmeldinger');
 

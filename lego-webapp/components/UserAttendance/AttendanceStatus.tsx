@@ -22,7 +22,7 @@ const AttendanceElement = ({
   const totalCount = registrations ? registrations.length : registrationCount;
 
   return (
-    <Flex className={styles.poolBox}>
+    <Flex className={styles.poolBox} data-test-id="pool-box">
       <strong>{name}</strong>
       <Button
         flat
@@ -57,7 +57,7 @@ const AttendanceStatus = ({
   }
 
   return (
-    <div className={styles.attendanceBox}>
+    <div className={styles.attendanceBox} data-test-id="attendance-box">
       {(pools || []).map((pool, index) => (
         <AttendanceElement
           key={index}

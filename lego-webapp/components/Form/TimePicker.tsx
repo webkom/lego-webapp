@@ -32,7 +32,7 @@ const TimePickerInput = ({
   };
 
   return (
-    <div className={styles.timePickerInput}>
+    <div className={styles.timePickerInput} data-test-id="time-picker-input">
       <button type="button" onClick={onNext} className={styles.arrowUp}>
         <Icon justifyContent="center" name="chevron-up-outline" />
       </button>

@@ -22,6 +22,7 @@ describe('Create meeting', () => {
 
   it('should show correct validation errors', () => {
     cy.visit('/meetings/create');
+    cy.waitForHydration();
     // Check that validation errors show only after we try to submit
     fieldErrors().should('not.exist');
 
@@ -32,7 +33,9 @@ describe('Create meeting', () => {
     cy.contains('button', 'Opprett møte').should('be.disabled');
     // change the meeting time to enable submit button
     field('date').click();
-    cy.get(c('TimePicker-module__arrowUp')).first().click();
+    cy.get(t('time-picker-input') + ' ' + c('_arrowUp'))
+      .first()
+      .click();
     cy.contains('Nytt møte').click(); // Click on something to close the datepicker
 
     cy.contains('button', 'Opprett møte').should('not.be.disabled').click();
@@ -82,6 +85,7 @@ describe('Create meeting', () => {
     );
 
     cy.visit('/meetings/create');
+    cy.waitForHydration();
 
     field('title').type('Test meeting');
     selectEditor().type('Meeting plan');
@@ -123,13 +127,13 @@ describe('Create meeting', () => {
       .should('contain.text', 'bedkom bedkom')
       .should('be.visible');
 
-    cy.contains(c('AttendanceStatus-module__poolBox'), 'Ikke svart')
+    cy.contains(t('pool-box'), 'Ikke svart')
       .should('contain.text', '2/2')
       .find('button')
       .click();
 
-    cy.get(c('AttendanceModalContent-module__list'))
-      .find(c('AttendanceModalContent-module__row'))
+    cy.get(t('attendance-modal-content') + ' ' + c('_list'))
+      .find(c('_row'))
       .should('have.length', 2)
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
@@ -171,6 +175,7 @@ describe('Create meeting', () => {
     );
 
     cy.visit('/meetings');
+    cy.waitForHydration();
 
     cy.contains('h3', meeting.title).click();
 
@@ -189,9 +194,9 @@ describe('Create meeting', () => {
     selectField('reportAuthor').should('contain.text', 'webkom webkom');
 
     // verify invited users modal
-    cy.get(c('AttendanceStatus-module__poolBox')).find('button').click();
+    cy.get(t('pool-box')).find('button').click();
     cy.contains(
-      c('AttendanceModalContent-module__row'),
+      t('attendance-modal-content') + ' ' + c('_row'),
       'webkom webkom',
     ).should('be.visible');
     cy.get(t('Modal__closeButton')).click();
@@ -238,13 +243,13 @@ describe('Create meeting', () => {
       .should('contain.text', 'webkom webkom')
       .should('be.visible');
 
-    cy.contains(c('AttendanceStatus-module__poolBox'), 'Ikke svart')
+    cy.contains(t('pool-box'), 'Ikke svart')
       .should('contain.text', '2/2')
       .find('button')
       .click();
 
-    cy.get(c('AttendanceModalContent-module__list'))
-      .find(c('AttendanceModalContent-module__row'))
+    cy.get(t('attendance-modal-content') + ' ' + c('_list'))
+      .find(c('_row'))
       .should('have.length', 2)
       .should('contain', 'bedkom bedkom')
       .should('contain', 'webkom webkom');
@@ -254,6 +259,7 @@ describe('Create meeting', () => {
 
   it('should show correct options for referent', () => {
     cy.visit('/meetings/create');
+    cy.waitForHydration();
 
     const verifyAuthors = (expectedAuthors) => {
       selectField('reportAuthor').click();

@@ -63,7 +63,7 @@ const CommentForm = ({
             <Flex alignItems="center" gap="var(--spacing-md)">
               {currentUser && <ProfilePicture size={40} user={currentUser} />}
 
-              <div className={styles.field}>
+              <div className={styles.field} data-test-id="comment-form">
                 <Field
                   autoFocus={autoFocus}
                   name="text"

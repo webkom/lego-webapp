@@ -33,11 +33,12 @@ describe('Profile settings', () => {
 
   it('can navigate to profile from homepage (menubar)', () => {
     cy.visit('/');
-    cy.get(c('Header-module__menu'))
+    cy.waitForHydration();
+    cy.get('header ' + c('_menu'))
       .find("[alt*='webkom sitt profilbilde']")
       .click();
     cy.contains(
-      c('Dropdown-module__content') + ' li',
+      c('_popover') + c('_content') + ' li',
       initialUser.username,
     ).click();
     cy.url().should('include', '/users/me');
@@ -45,15 +46,17 @@ describe('Profile settings', () => {
 
   it('can navigate to settings from menubar', () => {
     cy.visit('/');
-    cy.get(c('Header-module__menu'))
+    cy.waitForHydration();
+    cy.get('header ' + c('_menu'))
       .find("[alt*='webkom sitt profilbilde']")
       .click();
-    cy.contains(c('Dropdown-module__content') + ' li', 'Innstillinger').click();
+    cy.contains(c('_popover') + c('_content') + ' li', 'Innstillinger').click();
     cy.url().should('include', '/users/me/settings/profile');
   });
 
   it('can navigate to settings from profile', () => {
     cy.visit('/users/me');
+    cy.waitForHydration();
     cy.contains('Innstillinger')
       .click()
       .then(() => {
@@ -66,6 +69,7 @@ describe('Profile settings', () => {
 
   it('edit profile shows correct initial values', () => {
     cy.visit('/users/me/settings/profile');
+    cy.waitForHydration();
 
     cy.get('input[name=username]')
       .should('have.value', initialUser.username)
@@ -89,6 +93,7 @@ describe('Profile settings', () => {
 
   it('can change profile', () => {
     cy.visit('/users/me/settings/profile');
+    cy.waitForHydration();
 
     cy.contains('Lagre endringer').should('be.disabled');
 
@@ -107,6 +112,7 @@ describe('Profile settings', () => {
 
     // Check that settings were changed properly
     cy.visit('/users/me/settings/profile');
+    cy.waitForHydration();
     cy.get('input[name=username]')
       .should('have.value', updatedUser.username)
       .and('be.disabled');
@@ -129,6 +135,7 @@ describe('Profile settings', () => {
 
   it('profile settings form should show proper errors', () => {
     cy.visit('/users/me/settings/profile');
+    cy.waitForHydration();
 
     // firstName field validation
     field('firstName').clear().blur();
@@ -153,6 +160,7 @@ describe('Profile settings', () => {
 
   it('does not allow user to set @abakus.no email', () => {
     cy.visit('/users/me/settings/profile');
+    cy.waitForHydration();
     field('email').clear().type('webkom@abakus.no').blur();
     cy.contains('Lagre endringer').click();
     fieldError('email').should('contain', 'Kan ikke være Abakus-e-post');

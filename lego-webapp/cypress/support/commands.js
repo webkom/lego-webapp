@@ -1,5 +1,9 @@
 import { apiBaseUrl } from './utils.js';
 
+Cypress.Commands.add('waitForHydration', () => {
+  cy.get('[data-hydrated="true"]').should('exist');
+});
+
 Cypress.Commands.add(
   'getAuthToken',
   (username = 'webkom', password = 'Webkom123') => {

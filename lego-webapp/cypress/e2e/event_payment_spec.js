@@ -26,6 +26,7 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to create a priced event', () => {
       cy.visit('/events/create');
+      cy.waitForHydration();
       uploadHeader();
 
       // Set title, description and text
@@ -98,6 +99,7 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to register to a paid event and pay', () => {
       cy.visit('localhost:3000/events/54');
+      cy.waitForHydration();
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
@@ -128,6 +130,7 @@ describe('Event registration & payment', () => {
 
     it('Should give appropriate errors when attempting to pay', () => {
       cy.visit('localhost:3000/events/54');
+      cy.waitForHydration();
 
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
@@ -176,6 +179,7 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to pay with a 3D secure 2 card', () => {
       cy.visit('localhost:3000/events/54');
+      cy.waitForHydration();
 
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
@@ -202,6 +206,7 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to cancel a confirmation and pay with another card', () => {
       cy.visit('localhost:3000/events/54');
+      cy.waitForHydration();
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')
@@ -239,6 +244,7 @@ describe('Event registration & payment', () => {
 
     it('Should be possible to pay with interruptions in the middle', () => {
       cy.visit('localhost:3000/events/54');
+      cy.waitForHydration();
       cy.intercept('https://js.stripe.com/v*/elements*').as('stripeJs');
 
       cy.contains('button', 'Meld deg på')

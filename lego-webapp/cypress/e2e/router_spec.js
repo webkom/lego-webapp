@@ -8,10 +8,10 @@ describe('Navigate throughout app', () => {
 
   // Open the hamburgermenu and select by name, then assert by path
   const openMenuAndSelect = (name, path) => {
-    cy.get(`${c('Header-module__menu')} ${c('buttonGroup')}`).within(() => {
+    cy.get(`header ${c('_menu')} ${c('buttonGroup')}`).within(() => {
       cy.get(t('search-menu-icon')).click();
     });
-    cy.get(c('Search-module__quickLinks-'))
+    cy.get(c('_quickLinks_'))
       .first()
       .within(() => {
         cy.contains(name).click();
@@ -21,6 +21,7 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to events', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('navigation')).within(() => {
       cy.contains('Arrangementer').click();
     });
@@ -31,6 +32,7 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to joblistings', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('navigation')).within(() => {
       cy.contains('Karriere').click();
     });
@@ -40,6 +42,7 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to about-page', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('navigation')).within(() => {
       cy.contains('Om Abakus').click();
     });
@@ -50,12 +53,13 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to users profile', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('buttonGroup')).within(() => {
       cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to profile
-    cy.get(c('Dropdown'))
+    cy.get(c('_content') + c('_popover'))
       .first()
       .within(() => {
         cy.get(a('/users/me')).click();
@@ -71,12 +75,13 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to users settings', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('buttonGroup')).within(() => {
       cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to users settings
-    cy.get(c('Dropdown'))
+    cy.get(c('_content') + c('_popover'))
       .first()
       .within(() => {
         cy.contains('Innstillinger').click();
@@ -102,12 +107,13 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to users meetings', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('buttonGroup')).within(() => {
       cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Go to meetings
-    cy.get(c('Dropdown'))
+    cy.get(c('_content') + c('_popover'))
       .first()
       .within(() => {
         cy.contains('Møteinnkallinger').click();
@@ -129,6 +135,7 @@ describe('Navigate throughout app', () => {
 
   it('should be able to access the extended menu', () => {
     cy.visit('/');
+    cy.waitForHydration();
 
     // Go to the extended menu
     cy.get(c('buttonGroup')).within(() => {
@@ -148,6 +155,7 @@ describe('Navigate throughout app', () => {
 
   it('should be able to navigate to different pages in the extended menu', () => {
     cy.visit('/');
+    cy.waitForHydration();
 
     // Events
     openMenuAndSelect('Arrangementer', '/events');
@@ -204,12 +212,13 @@ describe('Navigate throughout app', () => {
 
   it('should be able to log out', () => {
     cy.visit('/');
+    cy.waitForHydration();
     cy.get(c('buttonGroup')).within(() => {
       cy.get(`img[alt="webkom sitt profilbilde"]`).click();
     });
 
     // Logg out
-    cy.get(c('Dropdown'))
+    cy.get(c('_content') + c('_popover'))
       .first()
       .within(() => {
         cy.contains('Logg ut').click();

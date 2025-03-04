@@ -2,6 +2,7 @@ import { field, selectField, NO_OPTIONS_MESSAGE } from '../support/utils.js';
 
 const createCompanyInterest = () => {
   cy.visit('/interesse');
+  cy.waitForHydration();
 
   // Select company
   selectField('company').click();
@@ -61,6 +62,7 @@ describe('Admin company interest', () => {
 
   it('should not be able to create if invalid input', () => {
     cy.visit('/interesse');
+    cy.waitForHydration();
 
     // Select company
     selectField('company').click();

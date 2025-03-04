@@ -20,6 +20,8 @@ describe('Create event', () => {
 
   it('should fill required fields before being allowed to submit', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
+
     // Check that validation errors show only after we click "Opprett"
     fieldError('cover').should('not.exist');
     fieldError('title').should('not.exist');
@@ -76,6 +78,7 @@ describe('Create event', () => {
 
   it('should be possible to use the editor', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
 
     // Click editor
     selectEditor();
@@ -169,6 +172,7 @@ describe('Create event', () => {
 
   it('should be able so set the standard fields', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
     uploadHeader();
 
     // Set title, description and text
@@ -215,6 +219,7 @@ describe('Create event', () => {
 
   it('should be possible to create TBA event', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
     uploadHeader();
 
     // Set title, description and text
@@ -246,6 +251,7 @@ describe('Create event', () => {
 
   it('should be possible to create NORMAL event', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
     uploadHeader();
 
     // Set title, description and text
@@ -328,6 +334,7 @@ describe('Create event', () => {
 
   it('should be possible to create OPEN event', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
     uploadHeader();
 
     // Set title, description and text
@@ -362,6 +369,7 @@ describe('Create event', () => {
 
   it('should be possible to create INFINITE event', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
     uploadHeader();
 
     // Set title, description and text

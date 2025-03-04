@@ -19,6 +19,7 @@ describe('Editor', () => {
 
   it('should be possible to use the editor', () => {
     cy.visit('/events/create');
+    cy.waitForHydration();
 
     // Click editor
     cy.get('div[data-slate-editor="true"]').click();
