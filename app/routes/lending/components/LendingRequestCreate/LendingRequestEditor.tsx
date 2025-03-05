@@ -1,9 +1,6 @@
 import { Field, FormSpy } from 'react-final-form';
 import { useNavigate } from 'react-router';
-import {
-  createLendableObject,
-  editLendableObject,
-} from 'app/actions/LendableObjectActions';
+import { CreateLendingRequest } from 'app/actions/LendingRequestActions';
 import {
   DatePicker,
   EditorField,
@@ -15,7 +12,6 @@ import {
   SubmitButton,
   TextInput,
 } from 'app/components/Form';
-import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import { useAppDispatch } from 'app/store/hooks';
 import { createValidator, required } from 'app/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -25,13 +21,9 @@ import { Dateish } from 'app/models';
 
 type FormValues = {
   id?: EntityId;
-  title: string;
-  description: string;
-  image: string;
-  location: string;
-  canViewGroups?: { label: string; value: EntityId }[];
-  canEditGroups?: { label: string; value: EntityId }[];
-  canEditUsers?: { label: string; value: EntityId }[];
+  start_date: Date;
+  end_date: Date;
+  comment: string;
 };
 
 type Props = {
@@ -39,10 +31,17 @@ type Props = {
 };
 
 const validate = createValidator({
-  title: [required()],
-  description: [required()],
-  location: [required()],
+  start_date: [required()],
+  end_date: [required()],
 });
+
+const onSubmit = (values) => {
+  const formValues = {
+    ...values,
+    startTime: values.date[0],
+    endTime: values.date[1],
+  };
+};
 
 // HEre
 export const LendingRequestEditor = ({ initialValues }: Props) => {
@@ -50,24 +49,10 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
   const navigate = useNavigate();
 
   return (
-    <LegoFinalForm<FormValues>
-      initialValues={initialValues}
+    <LegoFinalForm
+      onSubmit={onSubmit}
       validate={validate}
-      onSubmit={async (values) => {
-        const transformedValues: CreateLendingRequest = {
-          ...values,
-          ...normalizeObjectPermissions(values),
-        };
-        const res = await dispatch(
-          initialValues?.id
-            ? editLendableObject({ ...transformedValues, id: initialValues.id })
-            : createLendableObject({
-                ...values,
-                ...normalizeObjectPermissions(values),
-              }),
-        );
-        navigate(`/lending/${res.payload.result}`);
-      }}
+      initialValues={initialValues}
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>

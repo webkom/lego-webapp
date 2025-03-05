@@ -6,7 +6,7 @@ export default function LendingRequestCreate() {
   const title = 'Nytt lån';
 
   return (
-    <Page title={title} back={{ href: `/lending/id` }}>
+    <Page title={title} back={{ href: `/lending/` }}>
       <Helmet title={title} />
       <LendableObjectEditor
         initialValues={{
