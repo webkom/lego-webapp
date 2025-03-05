@@ -141,7 +141,7 @@ const BdbPage = () => {
     },
     {
       title: 'Studentkontakter',
-      dataIndex: 'studentContacts',
+      dataIndex: 'student_contacts',
       search: true,
       inlineFiltering: true,
       filterMapping: (studentContacts: TransformedStudentCompanyContact[]) => {
