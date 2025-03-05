@@ -30,6 +30,7 @@ import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from 'app/store/models/Event';
+import Banner from 'app/components/Banner';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -78,11 +79,11 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      {/*<Banner
-        header="Abakus har opptak!"
-        subHeader="Trykk her for å søke på komité og revy"
-        link="https://opptak.abakus.no"
-      />*/}
+      <Banner
+        header="Billetter til Abakusrevyen ute nå!"
+        subHeader="Kjøp billetter her. Forestillinger 13-14 mars"
+        link="https://byscenen.eventim-billetter.no/webshop/webticket/eventlist?production=99"
+      />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
