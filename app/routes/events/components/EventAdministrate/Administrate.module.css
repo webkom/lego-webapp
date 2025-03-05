@@ -109,6 +109,14 @@
   background-color: var(--color-red-1);
 }
 
+.greenIcon {
+  color: var(--success-color);
+}
+
+.redIcon {
+  color: var(--danger-color);
+}
+
 a.transparent:hover {
   opacity: 1;
 }
@@ -122,9 +130,4 @@ a.transparent:hover {
 .grid > li {
   padding-bottom: 5px;
   border-bottom: 1px solid var(--border-gray);
-}
-
-.consents {
-  display: flex;
-  justify-content: center;
 }
