@@ -117,6 +117,13 @@ export const LendableObjects = {
   DELETE: generateStatuses('LendableObject.DELETE') as AAT,
 };
 
+export const LendingRequests = {
+  FETCH: generateStatuses('LendingRequest.FETCH') as AAT,
+  FETCH_ADMIN: generateStatuses('LendingRequest.FETCH_ADMIN') as AAT,
+  CREATE: generateStatuses('LendingRequest.CREATE') as AAT,
+  EDIT: generateStatuses('LendingRequest.EDIT') as AAT,
+};
+
 /**
  *
  */
