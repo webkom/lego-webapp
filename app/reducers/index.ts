@@ -82,6 +82,14 @@ export const joblistingsSchema = new schema.Entity(EntityType.Joblistings);
 export const lendableObjectSchema = new schema.Entity(
   EntityType.LendableObjects,
 );
+export const lendingRequestSchema = new schema.Entity(
+  EntityType.LendingRequests,
+  {
+    lendableObject: lendableObjectSchema,
+    createdBy: userSchema,
+    updatedBy: userSchema,
+  },
+);
 export const announcementsSchema = new schema.Entity(EntityType.Announcements);
 export const feedActivitySchema = new schema.Entity(EntityType.FeedActivities);
 export const oauth2ApplicationSchema = new schema.Entity(
