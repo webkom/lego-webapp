@@ -54,6 +54,26 @@ export function removeMember(membership: {
   id: EntityId;
   abakusGroup: EntityId;
 }) {
+export function editMembership(
+  membership: MembershipType,
+  role: RoleType
+) {
+  return callAPI<MembershipType>({
+    types: Membership.UPDATE,
+    endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
+    method: 'PATCH',
+    body: {
+      membership: membership,
+      role: role,
+    },
+    schema: membershipSchema,
+    meta: {
+      errorMessage: 'Endring av medlemskap feilet',
+    },
+  });
+}
+
+export function removeMember(membership: MembershipType) {
   return callAPI({
     types: Membership.REMOVE,
     endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
