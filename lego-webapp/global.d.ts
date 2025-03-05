@@ -25,11 +25,49 @@ declare global {
     }
   }
 
+  // This type is incomplete, but contains the parts we use
+  class SearchController {
+    constructor(options: {
+      campusid: number;
+      rows: number;
+      withpois: boolean;
+      withbuilding: boolean;
+      withtype: boolean;
+      withcampus: boolean;
+      resultsFormat: string;
+    });
+    search(query: string): Promise<{
+      results: {
+        features: {
+          properties: {
+            dispPoiNames: string[];
+            dispBldNames: string[];
+            poiId: number;
+          };
+        }[];
+      };
+    }>;
+  }
+
   interface Window {
     __staticRouterHydrationData: Parameters<
       typeof createBrowserRouter
     >[1]['hydrationData'];
     __CONFIG__: AppConfig;
+    Mazemap:
+      | undefined
+      | {
+          Map: any;
+          mapboxgl: any;
+          Util: any;
+          MazeMarker: any;
+          Data: any;
+          Highlighter: any;
+          Popup: any;
+          Search: {
+            SearchController: typeof SearchController;
+          };
+        };
   }
 
   namespace NodeJS {

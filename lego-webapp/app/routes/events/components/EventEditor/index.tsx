@@ -18,6 +18,7 @@ import {
 } from 'app/routes/events/utils';
 import { Form, CheckBox, LegoFinalForm } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
+import { mazemapScript } from '~/components/MazemapEmbed';
 import {
   createEvent,
   editEvent,
@@ -337,7 +338,7 @@ const EventEditor = () => {
         href: isEditPage ? `/events/${event?.slug}` : '/events',
       }}
     >
-      <Helmet title={title} />
+      <Helmet title={title}>´{mazemapScript}</Helmet>
 
       <TypedLegoForm
         onSubmit={onSubmit}

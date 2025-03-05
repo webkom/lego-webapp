@@ -28,6 +28,7 @@ import {
 import LegoFinalForm from '~/components/Form/LegoFinalForm';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
+import { mazemapScript } from '~/components/MazemapEmbed';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
 import Attendance from '~/components/UserAttendance/Attendance';
 import { fetchMemberships } from '~/redux/actions/GroupActions';
@@ -254,7 +255,7 @@ const MeetingEditor = () => {
         href: `/meetings/${isEditPage ? meetingId : ''}`,
       }}
     >
-      <Helmet title={title} />
+      <Helmet title={title}>{mazemapScript}</Helmet>
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}

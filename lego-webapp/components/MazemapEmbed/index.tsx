@@ -2,16 +2,10 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import '@webkom/mazemap/css';
+import { Helmet } from 'react-helmet-async';
 import { Keyboard } from '~/utils/constants';
+import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
 import styles from './MazemapEmbed.module.css';
-
-type MazeMap = {
-  Map: any;
-  Data: any;
-  MazeMarker: any;
-  Util: any;
-  Highlighter: any;
-};
 
 type Props = {
   mazemapPoi: number;
@@ -22,22 +16,17 @@ type Props = {
 
 /** A component that shows a mazemap map of a given poi (e.g. room),
  * largely based on https://api.mazemap.com/js/v2.0.63/docs/#ex-data-poi
+ *
+ * REQUIRED: {mazemapScript} must be included in the pages <Helmet> component
  */
 export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const isMac = !import.meta.env.SSR && navigator.platform.indexOf('Mac') === 0;
-
-  const [hasMounted, setHasMounted] = useState<boolean>(false);
-  useEffect(() => setHasMounted(true), []);
-  //import Mazemap dynamically to prevent ssr issues
-  const [Mazemap, setMazemap] = useState<MazeMap | null>(null);
+  const Mazemap = useWaitForGlobal('Mazemap');
   const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
-    if (!import.meta.env.DEV) {
-      import('@webkom/mazemap').then((mazemap) => setMazemap(mazemap));
-    }
-    if (!Mazemap || !hasMounted) return;
+    if (!Mazemap) return;
     const embeddedMazemap = new Mazemap.Map({
       container: 'mazemap-embed',
       campuses: 1,
@@ -78,7 +67,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('keyup', onKeyUp);
-    let blockScrollZoomTimeout;
+    let blockScrollZoomTimeout: NodeJS.Timeout;
     embeddedMazemap.on('wheel', () => {
       if (zoomButtonPressed) {
         embeddedMazemap.scrollZoom.enable();
@@ -164,10 +153,10 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [Mazemap, hasMounted, mazemapPoi, isMac]);
+  }, [Mazemap, mazemapPoi, isMac]);
 
   //Allocate height for map and link before map is loaded
-  if (!hasMounted) {
+  if (!Mazemap) {
     return (
       <>
         <div
@@ -181,6 +170,15 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
   return (
     <Flex column gap="var(--spacing-sm)">
+      <Helmet
+        title="Mazemap"
+        script={[
+          {
+            type: 'text/javascript',
+            src: 'https://api.mazemap.com/js/v2.2.1/mazemap.min.js',
+          },
+        ]}
+      />
       <div
         style={{
           height: props.height || 400,
@@ -201,3 +199,11 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     </Flex>
   );
 };
+
+export const mazemapScript = (
+  <script
+    defer
+    type="text/javascript"
+    src="https://api.mazemap.com/js/v2.2.1/mazemap.min.js"
+  />
+);

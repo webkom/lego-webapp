@@ -29,6 +29,7 @@ import Dropdown from '~/components/Dropdown';
 import { ProfilePicture } from '~/components/Image';
 import InfoList from '~/components/InfoList';
 import LegoReactions from '~/components/LegoReactions';
+import { mazemapScript } from '~/components/MazemapEmbed';
 import { MazemapAccordion } from '~/components/MazemapEmbed/MazemapAccordion';
 import Time, { FromToTime } from '~/components/Time';
 import Tooltip from '~/components/Tooltip';
@@ -196,7 +197,7 @@ const MeetingDetails = () => {
         href: '/meetings',
       }}
     >
-      <Helmet title={meeting.title} />
+      <Helmet title={meeting.title}>{mazemapScript}</Helmet>
 
       <ContentSection>
         <ContentMain>

@@ -1,5 +1,6 @@
 import { debounce } from 'lodash';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
 import '@webkom/mazemap/css';
@@ -26,42 +27,23 @@ const mapRoomAndBuildingToSelectOption = (
   };
 };
 
-// This type is incomplete, but contains the parts we use
-type MazemapSearchController = {
-  search: (query: string) => Promise<{
-    results: {
-      features: {
-        properties: {
-          dispPoiNames: string[];
-          dispBldNames: string[];
-          poiId: number;
-        };
-      }[];
-    };
-  }>;
-};
-
 export const useMazemapAutocomplete = () => {
+  const Mazemap = useWaitForGlobal('Mazemap');
   const [options, setOptions] = useState<SelectOption[]>([]);
   const [fetching, setFetching] = useState(false);
-  const [mazemapSearchController, setMazemapSearchController] =
-    useState<MazemapSearchController>();
-
-  useEffect(() => {
-    import('@webkom/mazemap').then((mazemap) => {
-      setMazemapSearchController(
-        new mazemap.Search.SearchController({
-          campusid: 1,
-          rows: 10,
-          withpois: true,
-          withbuilding: false,
-          withtype: false,
-          withcampus: false,
-          resultsFormat: 'geojson',
-        }),
-      );
+  const mazemapSearchController = useMemo(() => {
+    const SearchController = Mazemap?.Search?.SearchController;
+    if (!SearchController) return null;
+    return new SearchController({
+      campusid: 1,
+      rows: 10,
+      withpois: true,
+      withbuilding: false,
+      withtype: false,
+      withcampus: false,
+      resultsFormat: 'geojson',
     });
-  }, []);
+  }, [Mazemap]);
 
   const onSearch = (query: string) => {
     if (!query) {
