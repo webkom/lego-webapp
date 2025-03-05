@@ -1,23 +1,18 @@
+import moment from 'moment';
 import { Field, FormSpy } from 'react-final-form';
 import { useNavigate } from 'react-router';
-import { CreateLendingRequest } from 'app/actions/LendingRequestActions';
+import { Dateish } from 'app/models';
 import {
   DatePicker,
   EditorField,
-  Fields,
   Form,
-  ImageUploadField,
   LegoFinalForm,
-  ObjectPermissions,
   SubmitButton,
-  TextInput,
-} from 'app/components/Form';
-import { useAppDispatch } from 'app/store/hooks';
-import { createValidator, required } from 'app/utils/validation';
+} from 'lego-webapp/components/Form';
+import { createLendingRequest } from 'lego-webapp/redux/actions/LendingRequestActions.ts';
+import { useAppDispatch } from 'lego-webapp/redux/hooks';
+import { createValidator, required } from 'lego-webapp/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { CreateLendingRequest } from 'app/store/models/LendableObject';
-import moment from 'moment';
-import { Dateish } from 'app/models';
 
 type FormValues = {
   id?: EntityId;
@@ -57,15 +52,9 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Field
-            label="Navn"
-            name="title"
-            placeholder="Grill"
-            component={TextInput.Field}
-          />
-          <Field
             label="Kommentar"
             name="description"
-            placeholder="Grill til utlån"
+            placeholder="Legg til praktisk info..."
             component={EditorField.Field}
           />
           <FormSpy subscription={{ values: true }}>

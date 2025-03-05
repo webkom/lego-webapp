@@ -15,11 +15,16 @@ const LendableObjectCreate = lazyComponent(
   () => import('./components/LendableObjectCreate'),
 );
 
+const LendingRequestCreate = lazyComponent(
+  () => import('./components/LendingRequestCreate')
+)
+
 const lendingRoute: RouteObject[] = [
   { index: true, lazy: LendableObjectsList },
   { path: ':lendableObjectId', lazy: LendableObjectDetail },
   { path: ':lendableObjectId/edit', lazy: LendableObjectEdit },
   { path: 'new', lazy: LendableObjectCreate },
+  { path: ':lendableObjectId/create', lazy: LendingRequestCreate },
   { path: '*', children: pageNotFound },
 ];
 
