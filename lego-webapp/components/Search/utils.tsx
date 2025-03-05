@@ -28,6 +28,7 @@ import {
   Send,
   Users,
   ShoppingCart,
+  Accessibility,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import { Tag } from '~/components/Tags';
@@ -187,6 +188,13 @@ const LINKS: Array<Link> = [
     title: 'Spørreundersøkelser',
     icon: <FilePieChart />,
     url: '/surveys',
+  },
+  {
+    admin: true,
+    key: 'sudo',
+    title: 'Sudo',
+    icon: <Accessibility />,
+    url: '/sudo',
   },
 ];
 

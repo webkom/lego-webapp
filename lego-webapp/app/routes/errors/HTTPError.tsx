@@ -10,7 +10,9 @@ const HTTPMapping = {
   '401': 'Du er ikke logget inn',
   '403': 'Denne siden har du ikke tilgang på',
   '404': 'Denne siden finnes ikke',
+  '418': 'Jeg er en tekanne',
   '500': 'Noe gikk veldig galt, Webkom er på saken!',
+  '1337': 'Hackerman',
 };
 const fallbackStatus = 404;
 

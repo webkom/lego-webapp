@@ -329,3 +329,10 @@ export const Thread = {
 export const Achievement = {
   CREATE: generateStatuses('Achievement.CREATE'),
 };
+
+export const Banner = {
+  FETCH: generateStatuses('Banner.FETCH'),
+  CREATE: generateStatuses('Banner.CREATE'),
+  EDIT: generateStatuses('Banner.EDIT'),
+  DELETE: generateStatuses('Banner.DELETE'),
+};

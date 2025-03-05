@@ -21,6 +21,7 @@ const initialState: AllowedPages = {
   penalties: false,
   polls: false,
   quotes: false,
+  sudo: false,
   surveys: false,
   users: false,
 };

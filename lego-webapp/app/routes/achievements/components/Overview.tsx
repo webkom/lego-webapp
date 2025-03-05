@@ -2,9 +2,10 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Trophy } from 'lucide-react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { ContentMain } from '~/components/Content';
 import { postKeypress } from '~/redux/actions/AchievementActions';
-import { useAppDispatch } from '~/redux/hooks';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import AchievementsInfo, {
   rarityToColorMap,
 } from '~/utils/achievementConstants';
@@ -49,6 +50,8 @@ const Overview = () => {
   });
 
   const dispatch = useAppDispatch();
+  const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
+  const navigate = useNavigate();
 
   useEffect(() => {
     let count = 0;
@@ -58,6 +61,9 @@ const Overview = () => {
         count++;
         if (count === codeArr.length) {
           dispatch(postKeypress({ code: codeArr.slice(0, count) }));
+          if (sudoAdminAccess) {
+            navigate('/sudo');
+          }
           count = 0;
         }
       } else {
@@ -67,7 +73,7 @@ const Overview = () => {
 
     window.addEventListener('keydown', keyHandler);
     return () => window.removeEventListener('keydown', keyHandler);
-  }, [dispatch]);
+  }, [dispatch, navigate, sudoAdminAccess]);
 
   return (
     <ContentMain>
