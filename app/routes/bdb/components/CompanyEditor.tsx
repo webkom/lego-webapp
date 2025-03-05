@@ -18,7 +18,6 @@ import {
 import {
   TextEditor,
   TextInput,
-  SelectInput,
   ImageUploadField,
   Form,
   RowSection,
@@ -28,17 +27,11 @@ import SubmissionError from 'app/components/Form/SubmissionError';
 import { SubmitButton } from 'app/components/Form/SubmitButton';
 import ToggleSwitch from 'app/components/Form/ToggleSwitch';
 import { selectCompanyById } from 'app/reducers/companies';
-import { selectUsersByIds } from 'app/reducers/users';
 import { useAppDispatch, useAppSelector } from 'app/store/hooks';
-import { AutocompleteContentType } from 'app/store/models/Autocomplete';
 import { guardLogin } from 'app/utils/replaceUnlessLoggedIn';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { httpCheck } from '../utils';
-import type {
-  AdminDetailCompany,
-  StudentCompanyContact,
-} from 'app/store/models/Company';
-import type { AutocompleteUser } from 'app/store/models/User';
+import type { AdminDetailCompany } from 'app/store/models/Company';
 
 const validate = createValidator({
   name: [required()],
@@ -52,8 +45,9 @@ type FormValues = {
   companyType?: string;
   website?: string;
   address?: string;
-  studentContact?: AutocompleteUser;
-  active?: boolean;
+  active?: boolean | 'true' | 'false';
+  phone?: string;
+  paymentMail?: string;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -63,16 +57,6 @@ const CompanyEditor = () => {
   const isNew = companyId === undefined;
   const company = useAppSelector((state) =>
     selectCompanyById<AdminDetailCompany>(state, companyId),
-  );
-  const studentContacts = useAppSelector((state) =>
-    company?.studentContacts !== null
-      ? selectUsersByIds(
-          state,
-          company?.studentContacts?.map(
-            (studentContact) => studentContact.user,
-          ),
-        )
-      : undefined,
   );
   const fetching = useAppSelector((state) => state.companies.fetching);
 
@@ -101,8 +85,6 @@ const CompanyEditor = () => {
     const body = {
       ...formContent,
       logo: formContent.logo || undefined,
-      studentContact:
-        formContent.studentContact && Number(formContent.studentContact.id),
       website: formContent.website && httpCheck(formContent.website),
       companyId: company && company.id,
     };
@@ -112,12 +94,11 @@ const CompanyEditor = () => {
     });
   };
 
-  const initialValues = !company
+  const initialValues: Partial<FormValues> = !company
     ? {
         name: '',
         description: '',
         website: '',
-        studentContacts: [] as StudentCompanyContact[],
         active: 'true',
         phone: '',
         companyType: '',
@@ -128,12 +109,6 @@ const CompanyEditor = () => {
         name: company.name,
         description: company.description,
         website: company.website,
-        studentContact:
-          studentContacts &&
-          studentContacts.map((studentContact) => ({
-            value: studentContact.id,
-            label: studentContact.fullName,
-          })),
         active: company.active,
         phone: company.phone,
         companyType: company.companyType,
@@ -200,21 +175,12 @@ const CompanyEditor = () => {
               />
             </RowSection>
 
-            <RowSection>
-              <Field
-                placeholder="Velg bedriftstype"
-                label="Type bedrift"
-                name="companyType"
-                component={TextInput.Field}
-              />
-              <Field
-                placeholder="Studentkontakter"
-                name="studentContacts"
-                isMulti
-                component={SelectInput.AutocompleteField}
-                filter={[AutocompleteContentType.User]}
-              />
-            </RowSection>
+            <Field
+              placeholder="Velg bedriftstype"
+              label="Type bedrift"
+              name="companyType"
+              component={TextInput.Field}
+            />
 
             <RowSection>
               <Field
