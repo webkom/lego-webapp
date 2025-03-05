@@ -13,7 +13,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app/
 COPY . /app
 
-COPY --from=setup /app/node_modules node_modules
+COPY --from=setup /app/node_modules /app/node_modules
 
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
