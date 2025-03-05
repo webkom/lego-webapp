@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
 import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
+import Banner from 'app/components/Banner';
 import Poll from 'app/components/Poll';
 import RandomQuote from 'app/components/RandomQuote';
 import { selectArticles, selectArticlesByTag } from 'app/reducers/articles';
@@ -30,7 +31,6 @@ import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from 'app/store/models/Event';
-import Banner from 'app/components/Banner';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
