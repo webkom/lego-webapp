@@ -29,6 +29,7 @@ import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
 import { mazemapScript } from '~/components/MazemapEmbed';
 import PropertyHelmet from '~/components/PropertyHelmet';
+import ShareButton from '~/components/ShareButton';
 import Tag from '~/components/Tags/Tag';
 import TextWithIcon from '~/components/TextWithIcon';
 import { fetchEvent } from '~/redux/actions/EventActions';
@@ -306,6 +307,15 @@ const EventDetail = () => {
                   Oppdater matallergier / preferanser
                 </Link>
               }
+            />
+          )}
+
+          <Line />
+
+          {loggedIn && (
+            <ShareButton
+              title={event?.title || 'Sjekk ut dette arrangementet!'}
+              url={`${appConfig?.webUrl}/events/${event?.id}`}
             />
           )}
 
