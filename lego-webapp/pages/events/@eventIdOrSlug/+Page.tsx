@@ -15,6 +15,7 @@ import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
 import { mazemapScript } from '~/components/MazemapEmbed';
 import PropertyHelmet from '~/components/PropertyHelmet';
+import ShareButton from '~/components/ShareButton';
 import Tag from '~/components/Tags/Tag';
 import TextWithIcon from '~/components/TextWithIcon';
 import {
@@ -303,6 +304,15 @@ const EventDetail = () => {
                   Oppdater matallergier / preferanser
                 </a>
               }
+            />
+          )}
+
+          <Line />
+
+          {loggedIn && (
+            <ShareButton
+              title={event?.title || 'Sjekk ut dette arrangementet!'}
+              url={`${appConfig?.webUrl}/events/${event?.id}`}
             />
           )}
 
