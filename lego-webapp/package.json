@@ -37,7 +37,6 @@
     "@webkom/mazemap": "^2.2.1",
     "@webkom/react-meter-bar": "^2.0.0",
     "@webkom/react-prepare": "^1.2.0",
-    "bun": "^1.2.4",
     "cookie": "^1.0.2",
     "express": "^4.21.2",
     "file-saver": "^2.0.5",
