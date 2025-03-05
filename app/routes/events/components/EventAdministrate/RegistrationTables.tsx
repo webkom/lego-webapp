@@ -1,5 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Check, Monitor, MonitorOff, Smartphone, X } from 'lucide-react';
 import { Link } from 'react-router';
 import Table from 'app/components/Table';
 import Time from 'app/components/Time';
@@ -125,22 +126,13 @@ const consentMessage = (photoConsent) =>
       : 'sosiale medier'
   }`;
 
-const iconClass = (photoConsent) =>
-  cx(
-    styles.consentIcon,
-    photoConsent?.isConsenting ? styles.greenIcon : styles.redIcon,
-    photoConsent?.domain === PhotoConsentDomain.WEBSITE
-      ? 'fa fa-desktop'
-      : 'fa fa-share-square',
-  );
-
 const ConsentIcons = ({
   LEGACY_photoConsent,
   photoConsents,
   eventSemester,
 }: {
   LEGACY_photoConsent: string;
-  photoConsents: Array<PhotoConsent>;
+  photoConsents: PhotoConsent[];
   eventSemester: EventSemester;
 }) => {
   if (allConsentsAnswered(photoConsents)) {
@@ -157,15 +149,22 @@ const ConsentIcons = ({
       eventSemester.semester,
       photoConsents,
     );
+
     return (
-      <Flex alignItems="center" justifyContent="center">
+      <Flex alignItems="center" justifyContent="center" gap="var(--spacing-xs)">
         <TooltipIcon
           content={consentMessage(webConsent)}
-          iconClass={iconClass(webConsent)}
+          iconNode={webConsent?.isConsenting ? <Monitor /> : <MonitorOff />}
+          iconClass={
+            webConsent?.isConsenting ? styles.greenIcon : styles.redIcon
+          }
         />
         <TooltipIcon
           content={consentMessage(soMeConsent)}
-          iconClass={iconClass(soMeConsent)}
+          iconNode={<Smartphone />}
+          iconClass={
+            soMeConsent?.isConsenting ? styles.greenIcon : styles.redIcon
+          }
         />
       </Flex>
     );
@@ -174,10 +173,11 @@ const ConsentIcons = ({
   return (
     <TooltipIcon
       content={LEGACY_photoConsent}
+      iconNode={LEGACY_photoConsent === 'PHOTO_CONSENT' ? <Check /> : <X />}
       iconClass={
         LEGACY_photoConsent === 'PHOTO_CONSENT'
-          ? cx('fa fa-check', styles.greenIcon)
-          : cx('fa fa-times', styles.redIcon)
+          ? styles.greenIcon
+          : styles.redIcon
       }
     />
   );
@@ -314,13 +314,11 @@ export const RegisteredTable = ({
         const photoConsents = registration.photoConsents;
         const LEGACY_photoConsent = registration.LEGACYPhotoConsent;
         return (
-          <div className={styles.consents}>
-            <ConsentIcons
-              LEGACY_photoConsent={LEGACY_photoConsent}
-              photoConsents={photoConsents}
-              eventSemester={eventSemester}
-            />
-          </div>
+          <ConsentIcons
+            LEGACY_photoConsent={LEGACY_photoConsent}
+            photoConsents={photoConsents}
+            eventSemester={eventSemester}
+          />
         );
       },
     },

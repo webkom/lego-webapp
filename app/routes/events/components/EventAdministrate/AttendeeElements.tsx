@@ -5,7 +5,14 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Check, HelpCircle, Turtle, X } from 'lucide-react';
+import {
+  Check,
+  CreditCard,
+  HandCoins,
+  HelpCircle,
+  Turtle,
+  X,
+} from 'lucide-react';
 import { Button } from 'react-aria-components';
 import { useParams } from 'react-router';
 import {
@@ -28,7 +35,7 @@ type TooltipIconProps = {
   content: string;
   transparent?: boolean;
   iconNode?: ReactNode;
-  iconClass: string;
+  iconClass?: string;
   disabled?: boolean;
   success?: boolean;
   edit?: boolean;
@@ -95,10 +102,9 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
       <TooltipIcon
         content="Møtte opp"
         iconNode={<Check />}
-        iconClass={cx(
-          presence !== 'PRESENT' && styles.transparent,
-          presence === 'PRESENT' && styles.activeSuccess,
-        )}
+        iconClass={
+          presence === 'PRESENT' ? styles.activeSuccess : styles.transparent
+        }
         success={presence === 'PRESENT'}
         onPress={() =>
           eventId &&
@@ -108,10 +114,7 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
       <TooltipIcon
         content="Møtte for sent opp (gir 1 prikk)"
         iconNode={<Turtle />}
-        iconClass={cx(
-          presence !== 'LATE' && styles.transparent,
-          presence === 'LATE' && styles.activeEdit,
-        )}
+        iconClass={presence === 'LATE' ? styles.activeEdit : styles.transparent}
         edit={presence === 'LATE'}
         onPress={() =>
           eventId &&
@@ -121,10 +124,9 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
       <TooltipIcon
         content="Ukjent"
         iconNode={<HelpCircle />}
-        iconClass={cx(
-          presence !== 'UNKNOWN' && styles.transparent,
-          presence === 'UNKNOWN' && styles.activeInfo,
-        )}
+        iconClass={
+          presence === 'UNKNOWN' ? styles.activeInfo : styles.transparent
+        }
         info={presence === 'UNKNOWN'}
         onPress={() =>
           eventId &&
@@ -134,10 +136,9 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
       <TooltipIcon
         content="Møtte ikke opp (gir 2 prikker)"
         iconNode={<X />}
-        iconClass={cx(
-          presence !== 'NOT_PRESENT' && styles.transparent,
-          presence === 'NOT_PRESENT' && styles.activeDanger,
-        )}
+        iconClass={
+          presence === 'NOT_PRESENT' ? styles.activeDanger : styles.transparent
+        }
         danger={presence === 'NOT_PRESENT'}
         onPress={() =>
           eventId &&
@@ -160,25 +161,35 @@ export const StripeStatus = ({
   return (
     <Flex alignItems="center" justifyContent="center">
       <TooltipIcon
-        content="Betalt via Stripe"
-        iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
-        transparent={paymentStatus !== 'succeeded'}
+        content="Betalt via nettsiden (Stripe)"
+        iconNode={<CreditCard />}
+        iconClass={
+          paymentStatus === 'succeeded'
+            ? styles.activeSuccess
+            : styles.transparent
+        }
+        success={paymentStatus === 'succeeded'}
+        onPress={() => {}}
         disabled
       />
       <TooltipIcon
         content="Betalt manuelt"
-        transparent={paymentStatus !== 'manual'}
-        iconName="cash-outline"
-        iconClass={styles.greenIcon}
+        iconNode={<HandCoins />}
+        iconClass={
+          paymentStatus === 'manual' ? styles.activeSuccess : styles.transparent
+        }
+        success={paymentStatus === 'manual'}
         onPress={() =>
           eventId && dispatch(updatePayment(eventId, registrationId, 'manual'))
         }
       />
       <TooltipIcon
         content="Ikke betalt"
-        transparent={['manual', 'succeeded'].includes(paymentStatus ?? '')}
-        iconName="close-outline"
-        iconClass={styles.redIcon}
+        iconNode={<X />}
+        iconClass={
+          paymentStatus === 'failed' ? styles.activeDanger : styles.transparent
+        }
+        danger={paymentStatus === 'failed'}
         onPress={() =>
           eventId && dispatch(updatePayment(eventId, registrationId, 'failed'))
         }
