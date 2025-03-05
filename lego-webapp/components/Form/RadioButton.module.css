@@ -1,0 +1,101 @@
+@import url('../../styles/variables.css');
+
+.radioButton {
+  --border-hover: var(--color-gray-4);
+  --border-active: var(--lego-red-color);
+  --inner-circle: white;
+
+  position: relative;
+}
+
+.radioButton input,
+.radioButton svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: block;
+}
+
+.label {
+  user-select: none;
+  line-height: 1.3;
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+}
+
+.radioButton input {
+  appearance: none;
+  position: relative;
+  outline: none;
+  background: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: box-shadow var(--linear-medium);
+  box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border-gray));
+
+  &:disabled {
+    background-color: var(--additive-background);
+    cursor: default;
+  }
+}
+
+.radioButton input:hover:not(:disabled),
+.radioButton input:focus:not(:disabled) {
+  --s: 2px;
+  --b: var(--border-hover);
+}
+
+.radioButton input:checked:not(:disabled) {
+  --b: var(--border-active);
+}
+
+.radioButton svg {
+  pointer-events: none;
+  fill: none;
+  stroke-width: 2px;
+  stroke: var(--stroke, var(--border-active));
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scale(var(--scale, 1)) translateZ(0);
+}
+
+.radioButton.path input:checked {
+  --s: 2px;
+
+  transition-delay: 0.2s;
+}
+
+.radioButton.bounce svg {
+  --scale: 0;
+}
+
+.radioButton.bounce {
+  --stroke: var(--inner-circle);
+}
+
+.radioButton.bounce input:checked {
+  --s: 11px;
+}
+
+.radioButton.bounce input:checked + svg {
+  animation: bounce var(--linear-medium) forwards 0.2s;
+}
+
+@keyframes bounce {
+  50% {
+    transform: scale(1.2);
+  }
+
+  75% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

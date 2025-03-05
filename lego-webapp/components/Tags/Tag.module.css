@@ -1,0 +1,172 @@
+/* stylelint-disable indentation */
+
+.linkSpacing {
+  display: inline-flex;
+}
+
+.tag {
+  /* The default red color */
+  --label-r: 192;
+  --label-g: 57;
+  --label-b: 43;
+  --label-h: 11;
+  --label-s: 79;
+  --label-l: 47;
+
+  --lightness-threshold: 0.59;
+  --border-threshold: 0.96;
+  --perceived-lightness: calc(
+    (
+        (var(--label-r) * 0.2126) + (var(--label-g) * 0.7152) +
+          (var(--label-b) * 0.0722)
+      ) /
+      255
+  );
+  --lightness-switch: max(
+    0,
+    min(
+      calc((var(--perceived-lightness) - var(--lightness-threshold)) * -1000),
+      1
+    )
+  );
+  --border-alpha: max(
+    0,
+    min(calc((var(--perceived-lightness) - var(--border-threshold)) * 100), 1)
+  );
+
+  display: inline-flex;
+  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
+  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  border-color: hsla(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) - 25) * 1%),
+    var(--border-alpha)
+  );
+  padding: 2.5px 7px;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-lg);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.5;
+  transition: var(--easing-fast);
+  transition-property: color, background, border-color, box-shadow, opacity;
+}
+
+html[data-theme='dark'] .tag {
+  --lightness-threshold: 0.6;
+  --background-alpha: 0.18;
+  --border-alpha: 0.3;
+  --lighten-by: calc(
+    ((var(--lightness-threshold) - var(--perceived-lightness)) * 100) *
+      var(--lightness-switch)
+  );
+
+  color: hsl(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) + var(--lighten-by)) * 1%)
+  );
+  background: rgba(
+    var(--label-r),
+    var(--label-g),
+    var(--label-b),
+    var(--background-alpha)
+  );
+  border-color: hsla(
+    var(--label-h),
+    calc(var(--label-s) * 1%),
+    calc((var(--label-l) + var(--lighten-by)) * 1%),
+    var(--border-alpha)
+  );
+}
+
+.active,
+.link:hover,
+.link:active {
+  opacity: 0.9;
+}
+
+.active {
+  box-shadow: 0 0 0 2.3px
+    rgba(var(--label-r), var(--label-g), var(--label-b), 40%);
+}
+
+html[data-theme='dark'] .active {
+  color: hsl(0deg, 0%, calc(var(--lightness-switch) * 100%));
+  background: rgb(var(--label-r), var(--label-g), var(--label-b));
+  border-color: rgb(var(--label-r), var(--label-g), var(--label-b));
+}
+
+.gray {
+  --label-r: 237;
+  --label-g: 237;
+  --label-b: 237;
+  --label-h: 0;
+  --label-s: 0;
+  --label-l: 92;
+}
+
+.pink {
+  --label-r: 221;
+  --label-g: 35;
+  --label-b: 206;
+  --label-h: 304;
+  --label-s: 73;
+  --label-l: 50;
+}
+
+.yellow {
+  --label-r: 255;
+  --label-g: 207;
+  --label-b: 13;
+  --label-h: 48;
+  --label-s: 100;
+  --label-l: 53;
+}
+
+.green {
+  --label-r: 60;
+  --label-g: 179;
+  --label-b: 113;
+  --label-h: 124;
+  --label-s: 58;
+  --label-l: 49;
+}
+
+.cyan {
+  --label-r: 7;
+  --label-g: 117;
+  --label-b: 125;
+  --label-h: 184;
+  --label-s: 89;
+  --label-l: 26;
+}
+
+.blue {
+  --label-r: 3;
+  --label-g: 102;
+  --label-b: 214;
+  --label-h: 211;
+  --label-s: 97;
+  --label-l: 42;
+}
+
+.purple {
+  --label-r: 83;
+  --label-g: 25;
+  --label-b: 231;
+  --label-h: 256;
+  --label-s: 81;
+  --label-l: 50;
+}
+
+.orange {
+  --label-r: 242;
+  --label-g: 92;
+  --label-b: 5;
+  --label-h: 22;
+  --label-s: 96;
+  --label-l: 48;
+}

@@ -22,7 +22,7 @@
 ```bash
 $ yarn # Install dependencies
 $ yarn build # Compile LEGO-BRICKS - only required the first time you run the project
-$ yarn start:staging # Start webserver with development backend
+$ yarn dev:staging # Start webserver with development backend
 ```
 
 Everything should be up and running on [localhost:3000](http://localhost:3000). The `:staging` suffix points the webserver at a hosted development backend.
@@ -32,7 +32,7 @@ Everything should be up and running on [localhost:3000](http://localhost:3000). 
 First, you need to have the `django` backend running, see [webkom/lego](https://github.com/webkom/lego).
 
 ```bash
-$ yarn start # Start webserver with local backend
+$ yarn dev # Start webserver with local backend
 ```
 
 ### Server side rendering (Optional)
@@ -41,7 +41,7 @@ In production (live) we use server side rendering. Due to bad hot reloading, we 
 
 ```bash
 $ yarn build
-$ yarn ssr # or yarn ssr:staging
+$ yarn preview # or yarn preview:staging
 ```
 
 ### Environment Variables
@@ -118,7 +118,7 @@ docker compose restart lego_cypress_helper # Make sure the copy is of the clean 
 Start up the node server
 
 ```bash
-$ yarn start
+$ yarn dev
 ```
 
 And start cypress in another terminal
@@ -131,7 +131,7 @@ $ yarn cypress open
 
 ```bash
 $ yarn build
-$ yarn ssr
+$ yarn preview
 ```
 
 And you run cypress headlessly (no visible browser) in another terminal
@@ -165,19 +165,7 @@ $ daphne lego.asgi:application -b 0.0.0.0 -p 8001
 Lastly, one has to run the frontend without captcha:
 
 ```bash
-$ SKIP_CAPTCHA=TRUE yarn start
-```
-
-</details>
-
-<details><summary><code>Debugging</code></summary>
-
-### Debugging
-
-To debug chunk size (size of the javascript sent to the browser), run
-
-```bash
-$ BUNDLE_ANALYZER=true yarn build
+$ SKIP_CAPTCHA=TRUE yarn dev
 ```
 
 </details>

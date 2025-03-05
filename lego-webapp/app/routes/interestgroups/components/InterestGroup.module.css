@@ -1,0 +1,92 @@
+@import url('styles/variables.css');
+
+.navigationItem {
+  flex-grow: 1;
+  color: var(--absolute-white);
+  border-radius: var(--border-radius-lg);
+  transition: background-color var(--easing-fast);
+}
+
+.navigationItem:hover {
+  background-color: var(--additive-background);
+}
+
+.logo {
+  max-height: 500px;
+  max-width: 500px;
+}
+
+.logoMedium {
+  max-height: 100px;
+  max-width: 100px;
+  border-radius: 100%;
+  flex-shrink: 0;
+}
+
+.logoSmall {
+  max-height: 50px;
+  max-width: 50px;
+  border-radius: 100%;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md);
+  margin-left: calc(-1 * var(--spacing-md));
+  gap: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  color: var(--lego-font-color);
+  transition: background-color var(--easing-fast);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+
+  @media (--mobile-device) {
+    padding: var(--spacing-xs);
+    margin-left: calc(-1 * var(--spacing-xs));
+  }
+}
+
+.inactiveListItem:hover {
+  background-color: var(--additive-background);
+}
+
+.inactiveListItem .listItemName {
+  margin: 0;
+  color: var(--placeholder-color);
+}
+
+.textEdit {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-gray);
+  margin: 8px;
+  padding: 4px;
+}
+
+.deleteButton {
+  margin-bottom: 16px;
+}
+
+.interestGroupText {
+  max-width: 40rem;
+}
+
+.interestGroupText h2 {
+  margin-top: var(--spacing-lg);
+}
+
+.interestGroupText ul {
+  margin-left: var(--spacing-lg);
+  list-style-type: disc;
+  margin-bottom: var(--spacing-md);
+}
+
+.interestGroupText ul li {
+  margin-bottom: var(--spacing-xs);
+}

@@ -1,0 +1,30 @@
+@import url('../../styles/variables.css');
+
+.randomQuote {
+  min-height: 155px;
+}
+
+.content {
+  width: 70%;
+  line-height: 1.3;
+}
+
+.quoteSource {
+  margin-top: 5px;
+  font-style: italic;
+  color: var(--secondary-font-color);
+}
+
+.quoteText {
+  font-weight: 500;
+}
+
+.quoteReactions {
+  margin-top: 5px;
+}
+
+.rotateIcon button {
+  transform: rotate(360deg);
+  transition: var(--easing-slow);
+  transform-origin: center center;
+}

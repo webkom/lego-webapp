@@ -1,0 +1,12 @@
+import { lazyComponent } from '~/utils/lazyComponent';
+import pageNotFound from '../pageNotFound';
+import type { RouteObject } from 'react-router';
+
+const SearchPageWrapper = lazyComponent(() => import('./SearchPageWrapper'));
+
+const searchRoute: RouteObject[] = [
+  { index: true, lazy: SearchPageWrapper },
+  { path: '*', children: pageNotFound },
+];
+
+export default searchRoute;

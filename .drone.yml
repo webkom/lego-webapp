@@ -86,7 +86,7 @@ steps:
       DATABASE_URL: 'postgres://lego@postgres:5432/lego'
       SECRET_KEY: 'abc123'
       SERVER_URL: 'http://api:8000'
-      FRONTEND_URL: 'http://ssr:3000'
+      FRONTEND_URL: 'http://frontend:3000'
       CACHE_URL: 'rediscache://redis/0?client_class: django_redis.client.DefaultClient'
       OAUTH_CACHE: 'redis://redis/9'
       EMAIL_URL: 'smtp://localhost'
@@ -110,7 +110,7 @@ steps:
       APNS_CERTIFICATE: '123'
       SEARCH_BACKEND: 'postgres'
       ELASTICSEARCH_HOST: 'ignored'
-      CORS_ORIGIN_DOMAINS: 'ssr:3000'
+      CORS_ORIGIN_DOMAINS: 'frontend:3000'
     when:
       event: [push]
       branch:
@@ -155,7 +155,7 @@ steps:
       - apk --no-cache add curl
       - yarn --frozen-lockfile --cache-folder /tmp/cache
 
-  - name: build_packages
+  - name: build
     image: node:20-alpine
     when:
       event: [push]
@@ -164,31 +164,7 @@ steps:
     depends_on:
       - setup
     commands:
-      - yarn build:packages
-
-  - name: build_server
-    image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
-    depends_on:
-      - setup
-      - build_packages
-    commands:
-      - yarn build:server
-
-  - name: build_client
-    image: node:20-alpine
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
-    depends_on:
-      - setup
-      - build_packages
-    commands:
-      - yarn build:client
+      - yarn build
 
   - name: test
     image: node:20-alpine
@@ -200,7 +176,6 @@ steps:
       - setup
     commands:
       - yarn test
-      - yarn test:packages
 
   - name: lint
     image: node:20-alpine
@@ -212,7 +187,6 @@ steps:
       - setup
     commands:
       - yarn lint
-      - yarn lint:packages
 
   - name: typescript
     image: node:20-slim
@@ -226,17 +200,6 @@ steps:
       - yarn types
     failure: ignore
 
-  - name: typescript_packages
-    image: node:20-slim
-    when:
-      event: [push]
-      branch:
-        exclude: [build]
-    depends_on:
-      - setup
-    commands:
-      - yarn types:packages
-
   - name: install_cypress
     image: node:20-alpine
     when:
@@ -248,9 +211,9 @@ steps:
     environment:
       CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
     commands:
-      - yarn cypress install
+      - yarn workspace lego-webapp cypress install
 
-  - name: ssr
+  - name: frontend
     image: node:20-alpine
     detach: true
     when:
@@ -258,15 +221,14 @@ steps:
       branch:
         exclude: [build]
     depends_on:
-      - build_client
-      - build_server
+      - build
     environment:
       API_URL: http://api:8000/api/v1
       BASE_URL: http://api:8000
       WS_URL: ws://api:8000
       ENVIRONMENT: ci
     commands:
-      - yarn ssr
+      - yarn workspace lego-webapp preview
 
   - name: cypress
     image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
@@ -279,19 +241,19 @@ steps:
     depends_on:
       - legocypresshelper
       - install_cypress
-      - ssr
+      - frontend
     environment:
       TZ: Europe/Oslo
       CYPRESS_API_BASE_URL: http://api:8000
       CYPRESS_RESET_DB_API: http://legocypresshelper:3030
-      CYPRESS_BASE_URL: http://ssr:3000
+      CYPRESS_BASE_URL: http://frontend:3000
       CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
       CYPRESS_RECORD_KEY:
         from_secret: cypress_record_key
     commands:
-      - ./wait-for-it.sh -t 180 ssr:3000
+      - ./wait-for-it.sh -t 180 frontend:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn cypress run --record
+      - yarn workspace lego-webapp cypress run --record
 
   - name: docker
     image: plugins/docker
@@ -301,12 +263,11 @@ steps:
       event: push
       status: success
     depends_on:
-      - build_server
-      - build_client
+      - build
       - test
       - lint
       - typescript
-      - ssr
+      - frontend
       - cypress
     environment:
       SENTRY_AUTH_TOKEN:
@@ -363,4 +324,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: 647708b901efe2a9efed86fd39baa61e12684c9fcf703881b505ad89e2f253d8
+hmac: 1f637c635932b8fe0fb1eb246ac53a05e18bd98a537d9f600aecb2701667773c

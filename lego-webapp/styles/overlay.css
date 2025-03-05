@@ -1,0 +1,63 @@
+@import url('styles/variables.css');
+
+.content {
+  composes: popover from 'styles/utilities.module.css';
+  background: var(--lego-card-color);
+  border-radius: var(--border-radius-lg);
+  position: absolute;
+  margin-top: var(--spacing-sm);
+  z-index: 110;
+
+  @media (--small-viewport) {
+    width: calc(100% - var(--spacing-sm));
+  }
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: '';
+    transform: translateX(-50%);
+    bottom: 0;
+  }
+
+  &::before {
+    border-left: 8.414px solid transparent;
+    border-right: 8.414px solid transparent;
+    border-bottom: 8.414px solid var(--border-gray);
+  }
+
+  &::after {
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid var(--lego-card-color);
+  }
+}
+
+.dropdownList {
+  border-radius: inherit;
+  overflow-y: auto;
+}
+
+.dropdownList > li > a {
+  color: var(--lego-font-color);
+}
+
+.dropdownList > li > a,
+.dropdownList > li > button {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}

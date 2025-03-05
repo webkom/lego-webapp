@@ -1,0 +1,58 @@
+@import url('variables.css');
+
+/**
+ * Utility classes for use by other classes.
+ *
+ * Usage:
+ * `composes: className from 'styles/utilities.css'`
+ */
+
+.container {
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+}
+
+.popover {
+  border: 1px solid var(--border-gray);
+  box-shadow: var(--shadow-sm);
+}
+
+.hiddenOnMobile {
+  @media (--small-viewport) {
+    display: none !important;
+  }
+}
+
+.hiddenOnDesktop {
+  display: none;
+
+  @media (--small-viewport) {
+    display: flex;
+  }
+}
+
+.frontPageHeader {
+  color: var(--lego-font-color);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-top: var(--spacing-xl);
+  margin-bottom: 0.8rem;
+
+  @media (--mobile-device) {
+    margin-top: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    margin-left: var(--spacing-sm);
+  }
+
+  @media (--small-viewport) {
+    margin-top: var(--spacing-xl);
+  }
+}
+
+:global {
+  .secondaryFontColor {
+    color: var(--secondary-font-color);
+  }
+}

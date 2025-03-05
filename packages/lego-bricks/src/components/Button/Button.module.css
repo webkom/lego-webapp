@@ -44,8 +44,8 @@
   border-radius: var(--spacing-xl);
   transition: var(--easing-fast);
   /* stylelint-disable value-list-comma-newline-after */
-  transition-property: transform, color, background-color, border-color,
-    box-shadow, opacity;
+  transition-property:
+    transform, color, background-color, border-color, box-shadow, opacity;
 
   &[data-focus-visible] {
     box-shadow: 0 0 0 1.5px var(--lego-font-color);

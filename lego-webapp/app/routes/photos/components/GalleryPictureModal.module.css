@@ -1,0 +1,50 @@
+@import url('styles/variables.css');
+
+.loadingIndicator {
+  margin: 0.375rem;
+}
+
+.content {
+  width: var(--lego-max-width);
+  max-height: calc(100vh - 100px);
+}
+
+.pictureContainer {
+  height: max(60vh, 400px);
+
+  @media (--mobile-device) {
+    /* Remove the modal-padding to make the image reach the edges on mobile */
+    margin: 0 calc(var(--spacing-xl) * -1);
+  }
+}
+
+.picture {
+  margin: auto;
+  width: auto;
+  max-height: 100%;
+}
+
+.pictureDescription {
+  text-align: center;
+}
+
+.galleryThumbnail {
+  max-width: 60px;
+  max-height: 60px;
+  border-radius: 50%;
+}
+
+.dropdown {
+  position: absolute;
+  top: 0;
+  right: 3rem;
+  margin: var(--spacing-md) var(--spacing-md) 0 0;
+}
+
+.dropdownLink {
+  color: var(--lego-font-color);
+}
+
+.form {
+  width: 100%;
+}
