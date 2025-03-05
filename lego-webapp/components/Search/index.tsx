@@ -10,7 +10,12 @@ import QuickLinks from './QuickLinks';
 import styles from './Search.module.css';
 import SearchBar from './SearchBar';
 import SearchResults from './SearchResults';
-import { getExternalLinks, getAdminLinks, getRegularLinks } from './utils';
+import {
+  getExternalLinks,
+  getAdminLinks,
+  getRegularLinks,
+  getAllLinksFiltered,
+} from './utils';
 
 const Search = () => {
   const loggedIn = useIsLoggedIn();
@@ -62,20 +67,35 @@ const Search = () => {
     debouncedAutoComplete(query);
   };
 
-  const regularLinks = getRegularLinks({
-    allowed,
-    loggedIn,
-  });
+  const { regularLinks, externalLinks, adminLinks } = useMemo(
+    () => ({
+      regularLinks: getRegularLinks({
+        allowed,
+        loggedIn,
+      }),
+      externalLinks: getExternalLinks({
+        allowed,
+        loggedIn,
+      }),
+      adminLinks: getAdminLinks({
+        allowed,
+        loggedIn,
+      }),
+    }),
+    [allowed, loggedIn],
+  );
 
-  const externalLinks = getExternalLinks({
-    allowed,
-    loggedIn,
-  });
-
-  const adminLinks = getAdminLinks({
-    allowed,
-    loggedIn,
-  });
+  const filteredLinks = useMemo(
+    () =>
+      getAllLinksFiltered(
+        {
+          allowed,
+          loggedIn,
+        },
+        query,
+      ),
+    [allowed, loggedIn, query],
+  );
 
   return (
     <div className={styles.wrapper} tabIndex={-1}>
@@ -86,36 +106,48 @@ const Search = () => {
           onQueryChanged={onQueryChanged}
         />
         <div className={styles.resultsContainer}>
-          {query.length > 0 && (
-            <SearchResults
-              results={results}
-              onCloseSearch={onCloseSearch}
-              searching={searching}
-              selectedIndex={selectedIndex}
-              query={query}
-            />
+          {query.length > 0 ? (
+            <>
+              <SearchResults
+                results={results}
+                onCloseSearch={onCloseSearch}
+                searching={searching}
+                selectedIndex={selectedIndex}
+                query={query}
+              />
+              {filteredLinks.length > 0 && (
+                <div className={styles.sidePanel}>
+                  <QuickLinks
+                    title="Sider"
+                    links={filteredLinks}
+                    onCloseSearch={onCloseSearch}
+                  />
+                </div>
+              )}
+            </>
+          ) : (
+            <div className={styles.sidePanel}>
+              <QuickLinks
+                title="Sider"
+                links={regularLinks}
+                onCloseSearch={onCloseSearch}
+              />
+              {externalLinks.length > 0 && (
+                <QuickLinks
+                  title="Andre tjenester"
+                  links={externalLinks}
+                  onCloseSearch={onCloseSearch}
+                />
+              )}
+              {adminLinks.length > 0 && (
+                <QuickLinks
+                  title="Admin"
+                  links={adminLinks}
+                  onCloseSearch={onCloseSearch}
+                />
+              )}
+            </div>
           )}
-          <div className={styles.sidePanel}>
-            <QuickLinks
-              title="Sider"
-              links={regularLinks}
-              onCloseSearch={onCloseSearch}
-            />
-            {externalLinks.length > 0 && (
-              <QuickLinks
-                title="Andre tjenester"
-                links={externalLinks}
-                onCloseSearch={onCloseSearch}
-              />
-            )}
-            {adminLinks.length > 0 && (
-              <QuickLinks
-                title="Admin"
-                links={adminLinks}
-                onCloseSearch={onCloseSearch}
-              />
-            )}
-          </div>
         </div>
       </div>
     </div>

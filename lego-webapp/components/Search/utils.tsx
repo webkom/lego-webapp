@@ -221,13 +221,11 @@ const EXTERNAL_LINKS: Link[] = [
   },
 ];
 
-const sortFn = (a: Link, b: Link) => {
-  const aSortTitle =
-    a.sortTitle || (typeof a.title === 'string' ? a.title : a.key);
-  const bSortTitle =
-    b.sortTitle || (typeof b.title === 'string' ? b.title : b.key);
-  return aSortTitle.localeCompare(bSortTitle);
-};
+const getSortTitle = (link: Link) =>
+  link.sortTitle || (typeof link.title === 'string' ? link.title : link.key);
+
+const sortFn = (a: Link, b: Link) =>
+  getSortTitle(a).localeCompare(getSortTitle(b));
 
 const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
 const SORTED_ADMIN = LINKS.filter((link) => link.admin).sort(sortFn);
@@ -235,6 +233,8 @@ type Options = {
   allowed: AllowedPages;
   loggedIn: boolean;
 };
+
+const SORTED_ALL = [...SORTED_REGULAR, ...EXTERNAL_LINKS, ...SORTED_ADMIN];
 
 /**
  * Finds the links that the user should be able to see.
@@ -266,6 +266,15 @@ export function getExternalLinks(options: Options): Array<NavigationLink> {
 }
 export function getAdminLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_ADMIN, options);
+}
+export function getAllLinksFiltered(
+  options: Options,
+  query: string,
+): Array<NavigationLink> {
+  const filteredLinks = SORTED_ALL.filter((link) =>
+    getSortTitle(link).toLowerCase().includes(query.toLowerCase()),
+  );
+  return retrieveAllowed(filteredLinks, options);
 }
 export const stripHtmlTags = (s: string): string => {
   return s.replace(/<(.|\n)*?>/g, '');
