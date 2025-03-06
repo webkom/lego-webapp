@@ -12,8 +12,8 @@ async function startServer() {
   moment.locale('nb-NO');
   const app = express();
 
-  app.use(vike());
   app.get('/healthz', healthCheck);
+  app.use(vike());
 
   app.listen(port, () => {
     console.log(`Server listening on http://localhost:${port}`);
