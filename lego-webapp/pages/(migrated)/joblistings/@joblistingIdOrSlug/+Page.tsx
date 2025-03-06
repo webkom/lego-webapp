@@ -3,7 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
-import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import {
   ContentSection,
   ContentMain,
@@ -14,6 +13,7 @@ import InfoList from '~/components/InfoList';
 import { jobType, Year, Workplaces } from '~/components/JoblistingItem/Items';
 import PropertyHelmet from '~/components/PropertyHelmet';
 import Time from '~/components/Time';
+import YoutubeCover from '~/pages/(migrated)/pages/_components/YoutubeCover';
 import { fetchJoblisting } from '~/redux/actions/JoblistingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectJoblistingByIdOrSlug } from '~/redux/slices/joblistings';

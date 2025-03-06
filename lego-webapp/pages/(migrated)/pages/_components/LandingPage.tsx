@@ -8,7 +8,6 @@ import {
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
 import bannerDarkMode from '~/assets/om-abakus-banner-dark-mode.png';
 import bannerLightMode from '~/assets/om-abakus-banner.png';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -19,7 +18,7 @@ import Statistic from './subcomponents/Statistic';
 import TextWithBoldTitle, {
   TextWithTitle,
 } from './subcomponents/TextWithTitle';
-import type { PageRenderer } from 'app/routes/pages/components/PageDetail';
+import type { PageRenderer } from '~/pages/(migrated)/pages/page/+Page';
 
 const LandingPage: PageRenderer<null> = () => {
   const loggedIn = useIsLoggedIn();
@@ -82,10 +81,10 @@ const LandingPage: PageRenderer<null> = () => {
           {loggedIn && (
             <p>
               Har du noe du vil spørre om eller fortelle oss? Ta kontakt med oss
-              på vårt <Link to="/contact">kontaktskjema</Link> eller på
-              e-postene under! På kontaktskjemaet har du mulighet til å sende
-              anonyme beskjeder, og du kan lett velge hvem som skal få mailen
-              din. Abakus har også en{' '}
+              på vårt <a href="/contact">kontaktskjema</a> eller på e-postene
+              under! På kontaktskjemaet har du mulighet til å sende anonyme
+              beskjeder, og du kan lett velge hvem som skal få mailen din.
+              Abakus har også en{' '}
               <a
                 href="https://avvik.abakus.no"
                 rel="noopener noreferrer"

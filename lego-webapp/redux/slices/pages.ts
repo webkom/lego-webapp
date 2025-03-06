@@ -15,7 +15,7 @@ import type {
   PageInfoSelector,
   PageSelector,
   UnknownSection,
-} from 'app/routes/pages/components/PageDetail';
+} from '~/pages/(migrated)/pages/page/+Page';
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { AuthDetailedPage, DetailedPage } from '~/redux/models/Page';
 import type { RootState } from '~/redux/rootReducer';

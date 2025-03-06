@@ -1,11 +1,12 @@
 import { Icon } from '@webkom/lego-bricks';
 import { ChevronDown } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router';
+import { usePageContext } from 'vike-react/usePageContext';
 import { readmeIfy } from '~/components/ReadmeLogo';
+import { useParams } from '~/utils/useParams';
 import styles from './PageHierarchy.module.css';
-import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
 import type { ReactNode } from 'react';
+import type { PageDetailParams } from '~/pages/(migrated)/pages/page/+Page';
 
 export type HierarchyEntity = {
   title: string;
@@ -42,24 +43,26 @@ const HierarchySection = ({
   hierarchySection: { title, items },
   handleCloseSidebar,
 }: HierarchySectionProps) => {
-  const { pathname } = useLocation();
+  const { urlPathname } = usePageContext();
 
   return (
     <nav className={styles.pageList}>
       {items.length > 0 && (
         <AccordionContainer title={title}>
           {items.map((item) => (
-            <Link to={item.url} key={item.url + item.title}>
+            <a href={item.url} key={item.url + item.title}>
               <div className={styles.links} onClick={handleCloseSidebar}>
                 <div
                   className={
-                    item.url === pathname ? styles.selected : styles.nonSelected
+                    item.url === urlPathname
+                      ? styles.selected
+                      : styles.nonSelected
                   }
                 >
                   {readmeIfy(item.title)}
                 </div>
               </div>
-            </Link>
+            </a>
           ))}
         </AccordionContainer>
       )}

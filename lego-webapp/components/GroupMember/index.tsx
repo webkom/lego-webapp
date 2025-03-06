@@ -1,6 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import { ProfilePicture } from '~/components/Image';
 import { ROLES, type RoleType } from '~/utils/constants';
 import styles from './GroupMember.module.css';
@@ -18,7 +17,7 @@ const GroupMember = ({ user, role, leader, co_leader, groupName }: Props) => {
   const isReadme = groupName === 'readme';
 
   return (
-    <Link to={`/users/${user.username}`}>
+    <a href={`/users/${user.username}`}>
       <Flex
         column
         gap="var(--spacing-xs)"
@@ -43,7 +42,7 @@ const GroupMember = ({ user, role, leader, co_leader, groupName }: Props) => {
         )}
         <span className={styles.name}>{user.fullName}</span>
       </Flex>
-    </Link>
+    </a>
   );
 };
 

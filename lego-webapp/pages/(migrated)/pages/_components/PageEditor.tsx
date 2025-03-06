@@ -12,8 +12,7 @@ import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router';
-import { categoryOptions } from 'app/routes/pages/components/PageDetail';
+import { navigate } from 'vike/client/router';
 import {
   EditorField,
   TextInput,
@@ -30,6 +29,7 @@ import {
 } from '~/components/Form/ObjectPermissions';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ImageUpload from '~/components/Upload/ImageUpload';
+import { categoryOptions } from '~/pages/(migrated)/pages/page/+Page';
 import { uploadFile } from '~/redux/actions/FileActions';
 import {
   createPage,
@@ -40,8 +40,9 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectPageById } from '~/redux/slices/pages';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import styles from './PageEditor.module.css';
-import type { PageDetailParams } from 'app/routes/pages/components/PageDetail';
+import type { PageDetailParams } from '~/pages/(migrated)/pages/page/+Page';
 import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
 import type { AuthDetailedPage } from '~/redux/models/Page';
 
@@ -78,7 +79,6 @@ const PageEditor = () => {
   });
   const [images, setImages] = useState<Record<string, string>>({});
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(

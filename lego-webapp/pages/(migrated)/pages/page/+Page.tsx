@@ -9,13 +9,12 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
 import { GroupType } from 'app/models';
 import HTTPError from 'app/routes/errors/HTTPError';
-import PageHierarchy from 'app/routes/pages/components/PageHierarchy';
 import DisplayContent from '~/components/DisplayContent';
 import GroupMember from '~/components/GroupMember';
 import { readmeIfy } from '~/components/ReadmeLogo';
+import PageHierarchy from '~/pages/(migrated)/pages/_components/PageHierarchy';
 import { postGettingWood } from '~/redux/actions/AchievementActions';
 import {
   fetchAllMemberships,
@@ -42,12 +41,13 @@ import {
   selectNotFoundPageInfo,
 } from '~/redux/slices/pages';
 import { isNotNullish } from '~/utils';
-import LandingPage from './LandingPage';
+import { useParams } from '~/utils/useParams';
+import LandingPage from '~/pages/(migrated)/pages/_components/LandingPage';
 import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
-import type { HierarchySectionEntity } from 'app/routes/pages/components/PageHierarchy';
 import type { Thunk } from 'app/types';
+import type { HierarchySectionEntity } from '~/pages/(migrated)/pages/_components/PageHierarchy';
 import type { AppDispatch } from '~/redux/createStore';
 import type { PublicUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
@@ -443,7 +443,7 @@ type MainPageRendererProps<T> = {
   page: T;
   PageRenderer: PageRenderer<T>;
 };
-export const MainPageRenderer = <T,>({
+const MainPageRenderer = <T,>({
   page,
   PageRenderer,
 }: MainPageRendererProps<T>) => {

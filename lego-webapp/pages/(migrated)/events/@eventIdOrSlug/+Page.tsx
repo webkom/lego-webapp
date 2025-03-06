@@ -5,7 +5,6 @@ import { FilePenLine } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
-import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import CommentView from '~/components/Comments/CommentView';
 import {
   ContentSection,
@@ -22,6 +21,7 @@ import {
   colorForEventType,
   displayNameForEventType,
 } from '~/pages/(migrated)/events/utils';
+import YoutubeCover from '~/pages/(migrated)/pages/_components/YoutubeCover';
 import { fetchEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';

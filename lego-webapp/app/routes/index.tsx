@@ -16,7 +16,6 @@ import hiddenAdminRoute from './hiddenAdmin';
 import interestGroupsRoute from './interestgroups';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
-import pagesRoute from './pages';
 import photosRoute from './photos';
 import pollsRoute from './polls';
 import quotesRoute from './quotes';
@@ -53,7 +52,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'interestgroups/*', children: interestGroupsRoute },
       { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
-      { path: 'pages/*', children: pagesRoute },
       { path: 'photos/*', children: photosRoute },
       { path: 'polls/*', children: pollsRoute },
       { path: 'quotes/*', children: quotesRoute },
