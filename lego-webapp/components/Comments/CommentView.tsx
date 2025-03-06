@@ -1,7 +1,7 @@
 import { Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { ArrowDownUpIcon } from 'lucide-react';
 import moment from 'moment';
-import { useState, type CSSProperties } from 'react';
+import { useState, type CSSProperties, Fragment } from 'react';
 import CommentForm from '~/components/CommentForm';
 import Dropdown from '~/components/Dropdown';
 import { generateTreeStructure } from '~/utils';
@@ -99,12 +99,9 @@ const CommentView = (props: Props) => {
         >
           <Dropdown.List>
             {orderingOptions.map((option: Option, index: number) => (
-              <>
+              <Fragment key={option.value}>
                 {index !== 0 && <Dropdown.Divider />}
-                <Dropdown.ListItem
-                  key={option.value}
-                  active={option === ordering}
-                >
+                <Dropdown.ListItem active={option === ordering}>
                   <button
                     onClick={() => {
                       setOrdering(option);
@@ -114,7 +111,7 @@ const CommentView = (props: Props) => {
                     {option.label}
                   </button>
                 </Dropdown.ListItem>
-              </>
+              </Fragment>
             ))}
           </Dropdown.List>
         </Dropdown>
