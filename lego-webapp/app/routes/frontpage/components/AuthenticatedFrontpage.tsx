@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router';
+import Banner from '~/components/Banner';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
@@ -79,11 +80,11 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      {/*<Banner
-        header="Abakus har opptak!"
-        subHeader="Trykk her for å søke på komité og revy"
-        link="https://opptak.abakus.no"
-      />*/}
+      <Banner
+        header="Billetter til Abakusrevyen ute nå!"
+        subHeader="Kjøp billetter her. Forestillinger 13.-14. mars"
+        link="https://byscenen.eventim-billetter.no/webshop/webticket/eventlist?production=99"
+      />
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
