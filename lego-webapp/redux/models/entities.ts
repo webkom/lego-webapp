@@ -3,6 +3,7 @@ import type OAuth2Grant from './OAuth2Grant';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { UnknownAnnouncement } from '~/redux/models/Announcement';
 import type { UnknownArticle } from '~/redux/models/Article';
+import type { Banner } from '~/redux/models/Banner';
 import type { Comment } from '~/redux/models/Comment';
 import type { UnknownCompany } from '~/redux/models/Company';
 import type { UnknownCompanyInterest } from '~/redux/models/CompanyInterest';
@@ -40,6 +41,7 @@ import type { UnknownUser } from '~/redux/models/User';
 export enum EntityType {
   Announcements = 'announcements',
   Articles = 'articles',
+  Banner = 'banners',
   Comments = 'comments',
   Companies = 'companies',
   CompanyInterests = 'companyInterest', // Why the fuck is this not plural?
@@ -82,6 +84,7 @@ export enum EntityType {
 export default interface Entities {
   [EntityType.Announcements]: Record<EntityId, UnknownAnnouncement>;
   [EntityType.Articles]: Record<EntityId, UnknownArticle>;
+  [EntityType.Banner]: Record<EntityId, Banner>;
   [EntityType.Comments]: Record<EntityId, Comment>;
   [EntityType.Companies]: Record<EntityId, UnknownCompany>;
   [EntityType.CompanyInterests]: Record<EntityId, UnknownCompanyInterest>;

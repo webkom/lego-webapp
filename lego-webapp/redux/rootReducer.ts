@@ -3,6 +3,7 @@ import allowed from '~/redux/slices/allowed';
 import announcements from '~/redux/slices/announcements';
 import articles from '~/redux/slices/articles';
 import auth from '~/redux/slices/auth';
+import banner from '~/redux/slices/banner';
 import comments from '~/redux/slices/comments';
 import companies from '~/redux/slices/companies';
 import companyInterest from '~/redux/slices/companyInterest';
@@ -54,6 +55,7 @@ export const createRootReducer = () => {
     announcements,
     articles,
     auth,
+    banner,
     comments,
     companies,
     companyInterest,

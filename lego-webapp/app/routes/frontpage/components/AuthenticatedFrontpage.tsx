@@ -7,11 +7,13 @@ import { Link } from 'react-router';
 import Banner from '~/components/Banner';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
+import { fetchCurrentPrivateBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectArticles, selectArticlesByTag } from '~/redux/slices/articles';
 import { useIsLoggedIn } from '~/redux/slices/auth';
+import { selectCurrentPrivateBanner } from '~/redux/slices/banner';
 import { selectAllEvents } from '~/redux/slices/events';
 import {
   addArticleType,
@@ -62,6 +64,16 @@ const AuthenticatedFrontpage = () => {
     [loggedIn, shouldFetchQuote],
   );
 
+  usePreparedEffect(
+    'fetchCurrentPrivateBanner',
+    () => dispatch(fetchCurrentPrivateBanner()),
+    [],
+  );
+
+  const currentPrivateBanner = useAppSelector((state) =>
+    selectCurrentPrivateBanner(state, true),
+  );
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     //Need timeout because without page scrolls to botton of events not to top of page
@@ -80,11 +92,14 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      <Banner
-        header="Billetter til Abakusrevyen ute nå!"
-        subHeader="Kjøp billetter her. Forestillinger 13.-14. mars"
-        link="https://byscenen.eventim-billetter.no/webshop/webticket/eventlist?production=99"
-      />
+      {currentPrivateBanner && (
+        <Banner
+          header={currentPrivateBanner.header}
+          subHeader={currentPrivateBanner.subheader}
+          link={currentPrivateBanner.link}
+          color={currentPrivateBanner.color}
+        />
+      )}
       <section className={styles.wrapper}>
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />

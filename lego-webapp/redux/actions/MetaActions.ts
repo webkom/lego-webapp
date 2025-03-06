@@ -18,6 +18,7 @@ export type AllowedPages = {
   penalties: boolean;
   polls: boolean;
   quotes: boolean;
+  sudo: boolean;
   surveys: boolean;
   users: boolean;
 };

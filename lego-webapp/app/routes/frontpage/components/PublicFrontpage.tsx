@@ -19,10 +19,12 @@ import forCompaniesGraphic from '~/assets/frontpage-graphic-for-companies.png';
 import komtekGraphic from '~/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from '~/assets/frontpage-graphic-readme.png';
 import Auth from '~/components/Auth';
+import Banner from '~/components/Banner';
 import { readmeIfy } from '~/components/ReadmeLogo';
-// import Banner from 'app/components/Banner';
+import { fetchCurrentPublicBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectCurrentPublicBanner } from '~/redux/slices/banner';
 import { selectPinned } from '~/redux/slices/frontpage';
 import utilStyles from '~/styles/utilities.module.css';
 import CompactEvents from './CompactEvents';
@@ -39,14 +41,26 @@ const PublicFrontpage = () => {
     [],
   );
 
+  usePreparedEffect(
+    'fetchCurrentPublicBanner',
+    () => dispatch(fetchCurrentPublicBanner()),
+    [],
+  );
+
+  const currentPublicBanner = useAppSelector((state) =>
+    selectCurrentPublicBanner(state, true),
+  );
+
   return (
     <PageContainer card={false}>
-      {/*      <Banner
-        header="Abakus har opptak!"
-        subHeader="Trykk her for mer informasjon til nye studenter"
-        link="https://ny.abakus.no"
-        color="buddyweek2024"
-      />*/}
+      {currentPublicBanner && (
+        <Banner
+          header={currentPublicBanner.header}
+          subHeader={currentPublicBanner.subheader}
+          link={currentPublicBanner.link}
+          color={currentPublicBanner.color}
+        />
+      )}
       <div className={styles.wrapper}>
         <Welcome />
         <Card className={styles.login} style={{ gridArea: 'login' }}>

@@ -13,6 +13,7 @@ import companyRoute from './company';
 import contactRoute from './contact';
 import eventsRoute from './events';
 import forumRoute from './forum';
+import hiddenAdminRoute from './hiddenAdmin';
 import interestGroupsRoute from './interestgroups';
 import joblistingsRoute from './joblistings';
 import meetingsRoute from './meetings';
@@ -62,6 +63,7 @@ export const routerConfig: RouteObject[] = [
       { path: 'photos/*', children: photosRoute },
       { path: 'polls/*', children: pollsRoute },
       { path: 'quotes/*', children: quotesRoute },
+      { path: 'sudo/*', children: hiddenAdminRoute },
       { path: 'search', children: searchRoute },
       { path: 'surveys/*', children: surveysRoute },
       { path: 'tags/*', children: tagsRoute },
