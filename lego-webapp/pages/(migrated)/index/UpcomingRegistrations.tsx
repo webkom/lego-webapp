@@ -2,7 +2,6 @@ import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { AlarmClock, Leaf } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
 import { colorForEventType } from 'app/routes/events/utils';
 import EmptyState from '~/components/EmptyState';
 import { useAppSelector } from '~/redux/hooks';
@@ -40,7 +39,7 @@ const UpcomingRegistration = ({ event }: Props) => {
   }, [event]);
 
   return (
-    <Link to={`/events/${event.slug}`}>
+    <a href={`/events/${event.slug}`}>
       <Flex
         column
         style={{
@@ -64,7 +63,7 @@ const UpcomingRegistration = ({ event }: Props) => {
           </div>
         </Flex>
       </Flex>
-    </Link>
+    </a>
   );
 };
 

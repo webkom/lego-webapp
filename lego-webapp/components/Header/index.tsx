@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import Auth from '~/components/Auth';
 import logoLightMode from '~/public/logo-dark.png';
 import logoDarkMode from '~/public/logo.png';
@@ -30,29 +30,28 @@ type AccountDropdownItemsProps = {
 };
 const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const username = useCurrentUser()?.username;
 
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <NavLink to="/users/me" onClick={onClose}>
+        <a href="/users/me" onClick={onClose}>
           <strong>{username}</strong>
           <Icon iconNode={<CircleUser />} />
-        </NavLink>
+        </a>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <Link to="/users/me/settings/profile" onClick={onClose}>
+        <a href="/users/me/settings/profile" onClick={onClose}>
           Innstillinger
           <Icon iconNode={<Settings />} />
-        </Link>
+        </a>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link to="/meetings/" onClick={onClose}>
+        <a href="/meetings/" onClick={onClose}>
           Møteinnkallinger
           <Icon iconNode={<Users />} />
-        </Link>
+        </a>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
@@ -81,7 +80,6 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
 
 const UpcomingMeetingButton = () => {
   const upcomingMeetingId = useAppSelector(selectUpcomingMeetingId);
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -103,9 +101,7 @@ const UpcomingMeetingButton = () => {
   return (
     <button
       type="button"
-      onClick={() => {
-        navigate(`/meetings/${upcomingMeetingId}`);
-      }}
+      onClick={() => navigate(`/meetings/${upcomingMeetingId}`)}
     >
       <Icon iconNode={<Users />} />
     </button>
@@ -115,7 +111,7 @@ const UpcomingMeetingButton = () => {
 const HeaderLogo = () => {
   const loading = useAppSelector((state) => state.frontpage.fetching);
   return (
-    <Link to="/">
+    <a href="/">
       <LoadingIndicator loading={loading}>
         <div className={styles.logo}>
           <Image
@@ -130,7 +126,7 @@ const HeaderLogo = () => {
           />
         </div>
       </LoadingIndicator>
-    </Link>
+    </a>
   );
 };
 

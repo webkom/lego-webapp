@@ -1,7 +1,6 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
 import { Pin } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
 import { eventListDefaultQuery } from 'app/routes/events/components/EventsOverview';
 import { colorForEventType } from 'app/routes/events/utils';
 import Circle from '~/components/Circle';
@@ -41,9 +40,9 @@ const CompactEvents = ({ className, style }: Props) => {
       .filter((event) => eventTypes.includes(event.eventType))
       .slice(0, EVENT_COLUMN_LIMIT)
       .map((event, key) => (
-        <Link
+        <a
           key={key}
-          to={`/events/${event.slug}`}
+          href={`/events/${event.slug}`}
           className={styles.eventItem}
         >
           <Flex
@@ -71,7 +70,7 @@ const CompactEvents = ({ className, style }: Props) => {
               <Time format="dd D. MMM" time={event.startTime} />
             </Flex>
           </Flex>
-        </Link>
+        </a>
       ));
   };
 
@@ -98,19 +97,11 @@ const CompactEvents = ({ className, style }: Props) => {
     <Flex column className={className} style={style}>
       <Flex className={styles.compactEvents}>
         <Flex column className={styles.compactLeft}>
-          <Link
-            to={{
-              pathname: '/events',
-              search: stringifyQuery(
-                {
-                  eventTypes: ['company_presentation', 'course'],
-                },
-                eventListDefaultQuery,
-              ),
-            }}
+          <a
+            href={`/events${stringifyQuery({ eventTypes: ['company_presentation', 'course'] }, eventListDefaultQuery)}`}
           >
             <h3 className={utilStyles.frontPageHeader}>Bedpres og kurs</h3>
-          </Link>
+          </a>
           <Flex column gap="var(--spacing-xs)">
             {presentations
               ? presentations
@@ -119,19 +110,11 @@ const CompactEvents = ({ className, style }: Props) => {
           </Flex>
         </Flex>
         <Flex column className={styles.compactRight}>
-          <Link
-            to={{
-              pathname: '/events',
-              search: stringifyQuery(
-                {
-                  eventTypes: ['social', 'other'],
-                },
-                eventListDefaultQuery,
-              ),
-            }}
+          <a
+            href={`/events${stringifyQuery({ eventTypes: ['social', 'other'] }, eventListDefaultQuery)}`}
           >
             <h3 className={utilStyles.frontPageHeader}>Sosialt</h3>
-          </Link>
+          </a>
           <Flex column gap="var(--spacing-xs)">
             {other
               ? other

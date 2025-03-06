@@ -1,11 +1,11 @@
-@import url('styles/variables.css');
+@import url('../../../styles/variables.css');
 
 .pinned {
   grid-area: pinned;
   width: 100%;
 }
 
-.body {
+div.body {
   padding: 0;
   min-height: 260px;
 

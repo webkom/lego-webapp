@@ -1,5 +1,4 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
-import { Link } from 'react-router';
 import { useAppSelector } from '~/redux/hooks';
 import { isEvent } from '~/redux/slices/frontpage';
 import utilStyles from '~/styles/utilities.module.css';
@@ -28,7 +27,7 @@ const Pinned = ({ item, url, meta, style }: Props) => {
       </h3>
 
       <Card skeleton={fetching && !item} hideOverflow className={styles.body}>
-        <Link to={url} className={styles.innerLinks}>
+        <a href={url} className={styles.innerLinks}>
           <Image
             className={styles.image}
             src={item?.cover || ''}
@@ -37,10 +36,10 @@ const Pinned = ({ item, url, meta, style }: Props) => {
             width={1667}
             alt={`Forsidebildet til ${item?.title}`}
           />
-        </Link>
+        </a>
         <div className={styles.pinnedHeading}>
           <h2 className={styles.itemTitle}>
-            <Link to={url}>{item?.title}</Link>
+            <a href={url}>{item?.title}</a>
           </h2>
           {meta}
         </div>

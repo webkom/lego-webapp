@@ -1,5 +1,4 @@
 import { Card, Image } from '@webkom/lego-bricks';
-import { Link } from 'react-router';
 import { useAppSelector } from '~/redux/hooks';
 import truncateString from '~/utils/truncateString';
 import styles from './ArticleItem.module.css';
@@ -21,7 +20,7 @@ const ArticleItem = ({ item, url, meta }: Props) => {
 
   return (
     <Card hideOverflow skeleton={fetching && !item} className={styles.body}>
-      <Link to={url} className={styles.link}>
+      <a href={url} className={styles.link}>
         <Image
           className={styles.image}
           src={item?.cover || ''}
@@ -42,7 +41,7 @@ const ArticleItem = ({ item, url, meta }: Props) => {
             {truncateString(item?.description, DESC_MAX_LENGTH)}
           </span>
         </div>
-      </Link>
+      </a>
     </Card>
   );
 };

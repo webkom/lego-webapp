@@ -3,7 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import Banner from '~/components/Banner';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
@@ -146,9 +145,9 @@ const Events = ({
 
   return (
     <Flex column className={styles.events}>
-      <Link to="/events">
+      <a href="/events">
         <h3 className={utilStyles.frontPageHeader}>Arrangementer</h3>
-      </Link>
+      </a>
 
       <Flex column gap="var(--spacing-md)">
         {fetching && !shownEvents.length
@@ -190,9 +189,9 @@ const Weekly = () => {
 
   return (
     <Flex column className={styles.weekly}>
-      <Link to="/articles?tag=weekly">
+      <a href="/articles?tag=weekly">
         <h3 className={utilStyles.frontPageHeader}>Weekly</h3>
-      </Link>
+      </a>
 
       {(fetching && !newestWeekly) || !newestWeekly ? (
         <ArticleItem url="" meta={<></>} />
@@ -233,9 +232,9 @@ const Articles = ({
 
   return (
     <Flex column className={styles.articles}>
-      <Link to="/articles">
+      <a href="/articles">
         <h3 className={utilStyles.frontPageHeader}>Artikler</h3>
-      </Link>
+      </a>
 
       <Flex column gap="var(--spacing-md)">
         {fetching && !shownArticles.length
@@ -257,9 +256,9 @@ const Articles = ({
 
 const UpcomingRegistrationsSection = () => (
   <Flex column className={styles.registrations}>
-    <Link to="/events">
+    <a href="/events">
       <h3 className={utilStyles.frontPageHeader}>Påmeldinger</h3>
-    </Link>
+    </a>
 
     <UpcomingRegistrations />
   </Flex>
@@ -274,9 +273,9 @@ const PollItem = () => {
   return (
     (fetching || poll) && (
       <Flex column className={styles.poll}>
-        <Link to="/polls">
+        <a href="/polls">
           <h3 className={utilStyles.frontPageHeader}>Avstemning</h3>
-        </Link>
+        </a>
 
         <Poll poll={poll} />
       </Flex>
@@ -286,9 +285,9 @@ const PollItem = () => {
 
 const QuoteItem = () => (
   <Flex column className={styles.quote}>
-    <Link to="/quotes">
+    <a href="/quotes">
       <h3 className={utilStyles.frontPageHeader}>Overhørt</h3>
-    </Link>
+    </a>
 
     <RandomQuote />
   </Flex>

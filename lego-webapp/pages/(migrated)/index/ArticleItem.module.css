@@ -1,6 +1,6 @@
-@import url('styles/variables.css');
+@import url('../../../styles/variables.css');
 
-.body {
+div.body {
   display: flex;
   text-align: center;
   line-height: 1.3;

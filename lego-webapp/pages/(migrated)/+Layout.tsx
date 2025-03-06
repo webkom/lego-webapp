@@ -1,8 +1,12 @@
 import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
-import { useEffect } from 'react';
+import { type PropsWithChildren, ReactNode, useEffect } from 'react';
+import 'minireset.css/minireset.css';
+import '~/styles/globals.css';
+import '@webkom/lego-bricks/dist/style.css';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { usePageContext } from 'vike-react/usePageContext';
+import HTTPError from 'app/routes/errors';
 import coverPhoto from '~/assets/cover.png';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import Footer from '~/components/Footer';
@@ -11,13 +15,11 @@ import PhotoUploadStatus from '~/components/PhotoUploadStatus';
 import ToastProvider from '~/components/Toast/ToastProvider';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { setStatusCode } from '~/redux/slices/routing';
-import { appConfig } from '~/utils/appConfig';
+import appConfig from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
-import HTTPError from '../errors/HTTPError';
-import styles from './AppRoute.module.css';
-import type { PropsWithChildren } from 'react';
+import styles from './Layout.module.css';
 
-export const AppChildren = ({ children }: PropsWithChildren) => {
+const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
   const statusCode = useAppSelector((state) => state.router.statusCode);
   const pageContext = usePageContext();
@@ -45,8 +47,7 @@ export const AppChildren = ({ children }: PropsWithChildren) => {
   );
 };
 
-const App = () => {
-  const navigate = useNavigate();
+export default function Layout({ children }: { children: ReactNode }) {
   const theme = useTheme();
 
   return (
@@ -77,9 +78,7 @@ const App = () => {
 
         <Header />
 
-        <AppChildren>
-          <Outlet />
-        </AppChildren>
+        <AppChildren>{children}</AppChildren>
 
         <PhotoUploadStatus />
 
@@ -87,6 +86,4 @@ const App = () => {
       </div>
     </LegoBricksProvider>
   );
-};
-
-export default App;
+}

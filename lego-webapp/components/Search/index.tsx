@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { autocomplete, toggleSearch } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -26,7 +26,6 @@ const Search = () => {
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const debouncedAutoComplete = useMemo(
     () => debounce((query) => dispatch(autocomplete(query)), 300),

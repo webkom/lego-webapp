@@ -3,7 +3,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Bell, BellOff, BellRing } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import { SpanTag } from '~/components/Feed/Tag';
@@ -30,7 +29,7 @@ const NotificationElement = ({
   if (activityRenderer) {
     const { Icon, Header } = activityRenderer;
     return (
-      <Link to={activityRenderer.getNotificationUrl(notification)}>
+      <a href={activityRenderer.getNotificationUrl(notification)}>
         <div
           className={cx(
             styles.notification,
@@ -51,7 +50,7 @@ const NotificationElement = ({
             </div>
           </div>
         </div>
-      </Link>
+      </a>
     );
   }
 

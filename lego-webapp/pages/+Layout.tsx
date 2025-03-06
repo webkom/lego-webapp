@@ -3,6 +3,6 @@ import 'minireset.css/minireset.css';
 import '~/styles/globals.css';
 import '@webkom/lego-bricks/dist/style.css';
 
-export default function LayoutDefault({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }

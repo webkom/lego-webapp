@@ -1,5 +1,4 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
-import { Link } from 'react-router';
 import { colorForEventType } from 'app/routes/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -22,7 +21,7 @@ const FrontpageEventItem = ({ item, url, meta }: Props) => {
 
   return (
     <Card skeleton={fetching && !item} hideOverflow className={styles.body}>
-      <Link to={url} className={styles.link}>
+      <a href={url} className={styles.link}>
         <Flex className={styles.wrapper}>
           <Flex column className={styles.leftFrontpage}>
             {item?.cover && (
@@ -50,7 +49,7 @@ const FrontpageEventItem = ({ item, url, meta }: Props) => {
             </>
           </div>
         </Flex>
-      </Link>
+      </a>
     </Card>
   );
 };

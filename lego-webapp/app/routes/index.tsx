@@ -33,7 +33,7 @@ const CompanyInterestPage = lazyComponent(
   () =>
     import('./bdb/components/companyInterest/components/CompanyInterestPage'),
 );
-const Frontpage = lazyComponent(() => import('./frontpage'));
+const Frontpage = lazyComponent(() => import('~/pages/(migrated)/index/+Page'));
 
 export const routerConfig: RouteObject[] = [
   {

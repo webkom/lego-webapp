@@ -1,5 +1,4 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { Link } from 'react-router';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from './Item.module.css';
 import type { ReactNode } from 'react';
@@ -7,13 +6,13 @@ import type { ReactNode } from 'react';
 export type ItemProps = {
   title: string;
   icon?: ReactNode;
-  to: string;
+  href: string;
   description?: string;
 };
 
-const Item = ({ icon, title, to, description }: ItemProps) => {
+export const Item = ({ icon, title, href, description }: ItemProps) => {
   return (
-    <Link to={to} className={styles.item}>
+    <a href={href} className={styles.item}>
       {icon ? (
         <TextWithIcon iconNode={icon} content={title} />
       ) : (
@@ -27,8 +26,6 @@ const Item = ({ icon, title, to, description }: ItemProps) => {
         </Flex>
       )}
       {description && <p className={styles.description}>{description}</p>}
-    </Link>
+    </a>
   );
 };
-
-export default Item;

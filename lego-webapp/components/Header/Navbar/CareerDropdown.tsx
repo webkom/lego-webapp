@@ -1,5 +1,5 @@
 import { BriefcaseBusiness, Newspaper } from 'lucide-react';
-import ItemList from './ItemList';
+import { ItemList } from './ItemList';
 import type { ItemProps } from './Item';
 
 const CareerDropdown = () => {
@@ -7,9 +7,9 @@ const CareerDropdown = () => {
     {
       title: 'Jobbannonser',
       icon: <Newspaper />,
-      to: '/joblistings',
+      href: '/joblistings',
     },
-    { title: 'Bedrifter', icon: <BriefcaseBusiness />, to: '/companies' },
+    { title: 'Bedrifter', icon: <BriefcaseBusiness />, href: '/companies' },
   ];
 
   return <ItemList items={items} />;

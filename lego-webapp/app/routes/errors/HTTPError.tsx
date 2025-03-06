@@ -1,6 +1,5 @@
 import { Flex, PageContainer } from '@webkom/lego-bricks';
 import { useEffect, useRef } from 'react';
-import { Link } from 'react-router';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { setStatusCode } from '~/redux/slices/routing';
 import renderAbakus from './renderAbakus';
@@ -51,7 +50,7 @@ const HTTPError = ({ statusCode }: Props) => {
           padding: '10px',
         }}
       >
-        <Link to="/">
+        <a href="/">
           <canvas
             id="canvas"
             ref={canvasRef}
@@ -59,7 +58,7 @@ const HTTPError = ({ statusCode }: Props) => {
               width: '100%',
             }}
           />
-        </Link>
+        </a>
         <h1
           style={{
             textAlign: 'center',
