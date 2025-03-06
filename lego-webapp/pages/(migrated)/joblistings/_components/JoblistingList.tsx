@@ -1,6 +1,11 @@
-import { Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import {
+  Button,
+  Flex,
+  Icon,
+  Skeleton,
+  useClearSearchParams,
+} from '@webkom/lego-bricks';
 import { FilterX, FolderOpen } from 'lucide-react';
-import { useLocation, useNavigate } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import JoblistingItem from '~/components/JoblistingItem';
 import sharedStyles from '~/components/JoblistingItem/JoblistingItem.module.css';
@@ -15,12 +20,7 @@ type JobListingsListProps = {
 
 const JoblistingsList = ({ joblistings, totalCount }: JobListingsListProps) => {
   const fetching = useAppSelector((state) => state.joblistings.fetching);
-
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const clearQueryParams = () => {
-    navigate(pathname);
-  };
+  const clearSearchParams = useClearSearchParams();
 
   if (joblistings.length === 0 && !fetching) {
     return (
@@ -33,7 +33,7 @@ const JoblistingsList = ({ joblistings, totalCount }: JobListingsListProps) => {
             ligger
             {totalCount === 0 && ' for øyeblikket'} ute
             {totalCount > 0 && (
-              <Button flat onPress={clearQueryParams}>
+              <Button flat onPress={clearSearchParams}>
                 <Icon iconNode={<FilterX />} size={22} />
                 Tøm filter
               </Button>

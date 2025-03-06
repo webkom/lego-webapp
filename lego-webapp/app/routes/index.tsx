@@ -14,7 +14,6 @@ import contactRoute from './contact';
 import forumRoute from './forum';
 import hiddenAdminRoute from './hiddenAdmin';
 import interestGroupsRoute from './interestgroups';
-import joblistingsRoute from './joblistings';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
 import pagesRoute from './pages';
@@ -52,7 +51,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'forum/*', children: forumRoute },
       { path: 'interest-groups/*', children: interestGroupsRoute },
       { path: 'interestgroups/*', children: interestGroupsRoute },
-      { path: 'joblistings/*', children: joblistingsRoute },
       { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
       { path: 'pages/*', children: pagesRoute },

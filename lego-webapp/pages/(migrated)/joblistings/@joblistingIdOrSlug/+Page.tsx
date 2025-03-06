@@ -2,7 +2,7 @@ import { Flex, Icon, LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router';
+import { navigate } from 'vike/client/router';
 import YoutubeCover from 'app/routes/pages/components/YoutubeCover';
 import {
   ContentSection,
@@ -19,6 +19,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectJoblistingByIdOrSlug } from '~/redux/slices/joblistings';
 import { isTruthy } from '~/utils';
 import { appConfig } from '~/utils/appConfig';
+import { useParams } from '~/utils/useParams';
 import type { PropertyGenerator } from '~/components/PropertyHelmet';
 import type { DetailedJoblisting } from '~/redux/models/Joblisting';
 
@@ -82,12 +83,13 @@ const JoblistingDetail = () => {
     [joblistingIdOrSlug],
   );
 
-  const navigate = useNavigate();
   useEffect(() => {
     if (joblisting?.slug && joblisting?.slug !== joblistingIdOrSlug) {
-      navigate(`/joblistings/${joblisting.slug}`, { replace: true });
+      navigate(`/joblistings/${joblisting.slug}`, {
+        overwriteLastHistoryEntry: true,
+      });
     }
-  }, [joblisting?.slug, navigate, joblistingIdOrSlug]);
+  }, [joblisting?.slug, joblistingIdOrSlug]);
 
   if (!joblisting) {
     return <LoadingPage cover loading={fetching} />;
@@ -137,9 +139,9 @@ const JoblistingDetail = () => {
                 {
                   key: 'Bedrift',
                   value: (
-                    <Link to={`/companies/${joblisting.company.id}`}>
+                    <a href={`/companies/${joblisting.company.id}`}>
                       {joblisting.company.name}
-                    </Link>
+                    </a>
                   ),
                 },
                 {

@@ -11,7 +11,7 @@ import { Trash2 } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { httpCheck } from 'app/routes/bdb/utils';
 import {
   TextInput,
@@ -36,6 +36,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectJoblistingById } from '~/redux/slices/joblistings';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import time from '~/utils/time';
+import { useParams } from '~/utils/useParams';
 import {
   createValidator,
   dateRequired,
@@ -85,7 +86,6 @@ const JoblistingEditor = () => {
   );
   const fetching = useAppSelector((state) => state.joblistings.fetching);
 
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   usePreparedEffect(

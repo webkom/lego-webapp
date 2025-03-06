@@ -3,13 +3,13 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useLocation } from 'react-router';
+import { usePageContext } from 'vike-react/usePageContext';
+import JoblistingsList from '~/pages/(migrated)/joblistings/_components/JoblistingList';
+import JoblistingFilters from '~/pages/(migrated)/joblistings/_components/JoblistingRightNav';
 import { fetchAll } from '~/redux/actions/JoblistingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectAllJoblistings } from '~/redux/slices/joblistings';
 import { parseQueryString } from '~/utils/useQuery';
-import JoblistingsList from './JoblistingList';
-import JoblistingFilters from './JoblistingRightNav';
 import type { ListJoblisting } from '~/redux/models/Joblisting';
 
 export const defaultJoblistingsQuery = {
@@ -50,20 +50,21 @@ function filterJoblistings(
 }
 
 const dateSort =
-  (field: string, reverse = false) =>
-  (a, b) => {
-    if (a[field] === b[field]) return (reverse ? -1 : 1) * (a.id - b.id);
-    const date1 = moment(a[field]);
-    const date2 = moment(b[field]);
+  (field: keyof ListJoblisting, reverse = false) =>
+  (a: ListJoblisting, b: ListJoblisting) => {
+    if (a[field] === b[field])
+      return (reverse ? -1 : 1) * (Number(a.id) - Number(b.id));
+    const date1 = moment(a[field] as string);
+    const date2 = moment(b[field] as string);
     return (reverse ? -1 : 1) * (date1.unix() - date2.unix());
   };
 
-const companySort = (a, b) => {
-  if (a.company.name === b.company.name) return a.id - b.id;
+const companySort = (a: ListJoblisting, b: ListJoblisting) => {
+  if (a.company.name === b.company.name) return Number(a.id) - Number(b.id);
   return a.company.name.localeCompare(b.company.name);
 };
 
-const sortJoblistings = (joblistings, sortType) => {
+const sortJoblistings = (joblistings: ListJoblisting[], sortType: string) => {
   const sorter = (() => {
     switch (sortType) {
       case 'company':
@@ -83,10 +84,10 @@ const sortJoblistings = (joblistings, sortType) => {
 
 const JoblistingsPage = () => {
   const unsortedJoblistings = useAppSelector(selectAllJoblistings);
+  const pageContext = usePageContext();
 
-  const location = useLocation();
   const { order, grades, jobTypes, workplaces } = parseQueryString(
-    location.search,
+    pageContext.urlParsed.searchOriginal ?? '',
     defaultJoblistingsQuery,
   );
 

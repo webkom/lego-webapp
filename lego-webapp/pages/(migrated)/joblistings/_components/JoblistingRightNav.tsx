@@ -1,8 +1,8 @@
 import { FilterSection } from '@webkom/lego-bricks';
-import { CheckBox, RadioButton } from '~/components/Form/';
+import { CheckBox, RadioButton } from '~/components/Form';
 import useQuery from '~/utils/useQuery';
+import { defaultJoblistingsQuery } from '../+Page';
 import { jobTypes as allJobTypes, yearValues } from '../constants';
-import { defaultJoblistingsQuery } from './JoblistingPage';
 
 const JoblistingFilters = () => {
   const { query, setQueryValue } = useQuery(defaultJoblistingsQuery);
