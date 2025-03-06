@@ -81,7 +81,7 @@ const AuthenticatedFrontpage = () => {
       <Helmet title="Hjem" />
       <Banner
         header="Billetter til Abakusrevyen ute nå!"
-        subHeader="Kjøp billetter her. Forestillinger 13-14 mars"
+        subHeader="Kjøp billetter her. Forestillinger 13.-14. mars"
         link="https://byscenen.eventim-billetter.no/webshop/webticket/eventlist?production=99"
       />
       <section className={styles.wrapper}>
