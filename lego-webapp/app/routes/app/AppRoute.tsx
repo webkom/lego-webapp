@@ -1,7 +1,7 @@
 import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
 import { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet, useLocation, useNavigate } from 'react-router';
 import { usePageContext } from 'vike-react/usePageContext';
 import coverPhoto from '~/assets/cover.png';
 import ErrorBoundary from '~/components/ErrorBoundary';
@@ -50,7 +50,16 @@ const App = () => {
   const theme = useTheme();
 
   return (
-    <LegoBricksProvider theme={theme} navigate={navigate}>
+    <LegoBricksProvider
+      theme={theme}
+      navigate={(href, options = {}) =>
+        navigate(href, {
+          replace: options.overwriteLastHistoryEntry,
+          state: options.navigationState,
+        })
+      }
+      useLocation={useLocation}
+    >
       <div className={styles.appRoute}>
         <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
           <meta property="og:image" content={coverPhoto} />

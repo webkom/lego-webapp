@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   getIcalUrl,
   getIcalUrlGoogle,
-} from 'app/routes/events/components/EventFooter';
+} from '~/pages/(migrated)/events/index/EventFooter';
 import styles from './AddToCalendar.module.css';
 import type { PropsWithChildren } from 'react';
 import type { DetailedMeeting } from '~/redux/models/Meeting';

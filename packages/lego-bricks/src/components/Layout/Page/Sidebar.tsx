@@ -1,7 +1,11 @@
 import cx from 'classnames';
 import { FilterX, X } from 'lucide-react';
 import { createContext, useContext } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import {
+  useClearSearchParams,
+  useLocation,
+  useNavigate,
+} from '../../../RouterContext';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import Flex from '../Flex';
@@ -17,11 +21,8 @@ type Props = {
 };
 
 export const Sidebar = ({ title, close, className, children }: Props) => {
-  const navigate = useNavigate();
-  const { pathname, search } = useLocation();
-  const clearQueryParams = () => {
-    navigate(pathname);
-  };
+  const { search } = useLocation();
+  const clearSearchParams = useClearSearchParams();
 
   return (
     <Flex className={cx(styles.sidebar, className)} column>
@@ -39,7 +40,7 @@ export const Sidebar = ({ title, close, className, children }: Props) => {
           {title === 'Filter' && (
             <Icon
               iconNode={<FilterX />}
-              onPress={clearQueryParams}
+              onPress={clearSearchParams}
               disabled={!search}
               size={20}
             />

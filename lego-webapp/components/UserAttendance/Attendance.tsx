@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import RegisteredSummary from 'app/routes/events/components/RegisteredSummary';
 import AttendanceModal from '~/components/UserAttendance/AttendanceModal';
 import AttendanceStatus from '~/components/UserAttendance/AttendanceStatus';
+import RegisteredSummary from '~/components/UserAttendance/RegisteredSummary';
 import UserGrid from '~/components/UserGrid';
 import { useIsLoggedIn } from '~/redux/slices/auth';
-import type { SummaryRegistration } from 'app/routes/events/components/RegisteredSummary';
 import type { AttendanceModalPool } from '~/components/UserAttendance/AttendanceModalContent';
+import type { SummaryRegistration } from '~/components/UserAttendance/RegisteredSummary';
 
 type Props = {
   pools: AttendanceModalPool[];

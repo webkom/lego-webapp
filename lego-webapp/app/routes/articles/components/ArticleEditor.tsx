@@ -43,7 +43,7 @@ import { selectUsersByIds } from '~/redux/slices/users';
 import { isNotNullish } from '~/utils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { createValidator, required, validYoutubeUrl } from '~/utils/validation';
-import type { EditingEvent } from 'app/routes/events/utils';
+import type { EditingEvent } from '~/pages/(migrated)/events/utils';
 import type { AdminDetailedArticle } from '~/redux/models/Article';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;

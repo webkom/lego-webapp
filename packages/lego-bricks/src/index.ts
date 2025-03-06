@@ -31,3 +31,4 @@ export {
 } from './components/LoadingIndicator';
 export { Modal, ConfirmModal } from './components/Modal';
 export { Skeleton } from './components/Skeleton';
+export { useLocation, useClearSearchParams, useNavigate } from './RouterContext'

@@ -1,8 +1,11 @@
 import moment from 'moment';
-import { EventTypeConfig, colorForEventType } from 'app/routes/events/utils';
+import {
+  EventTypeConfig,
+  colorForEventType,
+} from '~/pages/(migrated)/events/utils';
 import { NonEventContactStatus } from '~/redux/models/Company';
 import { EventType } from '~/redux/models/Event';
-import type { ConfigProperties } from '../events/utils';
+import type { ConfigProperties } from '../../../pages/(migrated)/events/utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
 import type { CompanySemesterContactStatus } from '~/redux/models/Company';

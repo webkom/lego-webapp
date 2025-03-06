@@ -1,9 +1,9 @@
 import { Tab } from '@webkom/lego-bricks';
 import qs from 'qs';
-import { useLocation } from 'react-router';
+import { PageContextClient } from 'vike/types';
+import { usePageContext } from 'vike-react/usePageContext';
 import type { ParsedQs } from 'qs';
 import type { ReactNode } from 'react';
-import type { Location } from 'react-router';
 
 type QueryValue = ParsedQs[string];
 
@@ -18,18 +18,18 @@ type Props = {
 
 const isActivePath = (
   activeUrls: string[],
-  location: Location,
+  url: PageContextClient['urlParsed'],
   matchQuery: boolean | Record<string, QueryValue | QueryValue[]>,
   matchSubpages: boolean,
 ) => {
-  let currentPath = location.pathname;
+  let currentPath = url.pathname;
   if (matchQuery === true) {
-    currentPath += location.search;
+    currentPath += url.searchOriginal;
   } else {
     activeUrls = activeUrls.map((url) => url.split('?')[0]);
   }
   if (typeof matchQuery === 'object') {
-    const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+    const query = qs.parse(url.searchOriginal, { ignoreQueryPrefix: true });
     for (const [key, value] of Object.entries(matchQuery)) {
       const valueList = Array.isArray(value) ? value : [value];
       if (!valueList.includes(query[key])) {
@@ -57,9 +57,14 @@ export const NavigationTab = ({
   matchSubpages = false,
   children,
 }: Props) => {
+  const { urlParsed } = usePageContext();
   const activePaths = [href, ...(additionalActivePaths || [])];
-  const location = useLocation();
-  const active = isActivePath(activePaths, location, matchQuery, matchSubpages);
+  const active = isActivePath(
+    activePaths,
+    urlParsed,
+    matchQuery,
+    matchSubpages,
+  );
 
   return (
     <Tab href={href} active={active} disabled={disabled}>

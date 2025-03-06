@@ -21,7 +21,6 @@ import {
   groupStudentContactsBySemester,
 } from 'app/routes/bdb/utils';
 import companyStyles from 'app/routes/company/components/Company.module.css';
-import { displayNameForEventType } from 'app/routes/events/utils';
 import CollapsibleDisplayContent from '~/components/CollapsibleDisplayContent';
 import CommentView from '~/components/Comments/CommentView';
 import {
@@ -38,6 +37,7 @@ import Time from '~/components/Time';
 import Tooltip from '~/components/Tooltip';
 import FileUpload from '~/components/Upload/FileUpload';
 import UserLink from '~/components/UserLink';
+import { displayNameForEventType } from '~/pages/(migrated)/events/utils';
 import {
   deleteCompanyContact,
   deleteSemesterStatus,

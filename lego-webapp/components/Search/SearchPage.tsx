@@ -1,6 +1,6 @@
+import { useLocation } from '@webkom/lego-bricks';
 import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
 import SearchPageInput from '~/components/Search/SearchPageInput';
 import SearchPageResults from '~/components/Search/SearchPageResults';
 import { Keyboard } from '~/utils/constants';

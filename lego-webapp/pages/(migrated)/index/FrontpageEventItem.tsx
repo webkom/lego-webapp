@@ -1,5 +1,5 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
-import { colorForEventType } from 'app/routes/events/utils';
+import { colorForEventType } from '~/pages/(migrated)/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { eventStatus } from '~/utils/eventStatus';

@@ -22,6 +22,8 @@ declare global {
       };
       domParser?: (value: string) => HTMLDocument;
       preparedStateCode?: string;
+      // Might be added by a navigate() call
+      navigationState?: unknown;
     }
   }
 
@@ -88,5 +90,15 @@ declare global {
         | 'ci'
         | undefined;
     }
+  }
+}
+
+declare module 'react-aria-components' {
+  interface RouterConfig {
+    routerOptions: {
+      keepScrollPosition?: boolean;
+      overwriteLastHistoryEntry?: boolean;
+      navigationState?: unknown;
+    };
   }
 }

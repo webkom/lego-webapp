@@ -1,0 +1,52 @@
+@import url('../../../../styles/variables.css');
+@import url('../index/Event.module.css');
+
+.star svg {
+  color: var(--color-orange-6);
+}
+
+.eventType {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+
+  strong {
+    margin-bottom: calc(-1 * var(--spacing-sm));
+  }
+
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.tagRow {
+  margin-top: var(--spacing-md);
+}
+
+.sidebarInfo {
+  min-height: var(--spacing-lg);
+}
+
+.paymentInfo {
+  margin-top: var(--spacing-sm);
+}
+
+.line {
+  margin: var(--spacing-sm) 0;
+  background-color: var(--border-gray);
+  height: 1px;
+}
+
+.infoList tr {
+  & td {
+    width: unset;
+  }
+
+  &:last-of-type td {
+    border-bottom: none;
+  }
+}
+
+.registrationMeta {
+  margin-top: var(--spacing-sm);
+}

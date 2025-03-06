@@ -1,9 +1,9 @@
 import { Flex } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
-import { displayNameForEventType } from 'app/routes/events/utils';
 import Tags from '~/components/Tags';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
+import { displayNameForEventType } from '~/pages/(migrated)/events/utils';
 import { frontpageObjectDate, isEvent } from '~/redux/slices/frontpage';
 import truncateString from '~/utils/truncateString';
 import styles from './AuthenticatedFrontpage.module.css';

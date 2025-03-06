@@ -8,7 +8,7 @@
   overflow: hidden;
 }
 
-.poolBox {
+div.poolBox {
   flex-grow: 1;
   min-width: 25%;
   flex-direction: column;

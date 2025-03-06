@@ -11,7 +11,6 @@ import bdbRoute from './bdb';
 import brandRoute from './brand';
 import companyRoute from './company';
 import contactRoute from './contact';
-import eventsRoute from './events';
 import forumRoute from './forum';
 import hiddenAdminRoute from './hiddenAdmin';
 import interestGroupsRoute from './interestgroups';
@@ -33,13 +32,11 @@ const CompanyInterestPage = lazyComponent(
   () =>
     import('./bdb/components/companyInterest/components/CompanyInterestPage'),
 );
-const Frontpage = lazyComponent(() => import('~/pages/(migrated)/index/+Page'));
 
 export const routerConfig: RouteObject[] = [
   {
     Component: AppRoute,
     children: [
-      { index: true, lazy: Frontpage },
       { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },
@@ -52,7 +49,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'interesse', lazy: CompanyInterestPage },
       { path: 'contact', children: contactRoute },
       { path: 'kontakt', children: contactRoute },
-      { path: 'events/*', children: eventsRoute },
       { path: 'forum/*', children: forumRoute },
       { path: 'interest-groups/*', children: interestGroupsRoute },
       { path: 'interestgroups/*', children: interestGroupsRoute },

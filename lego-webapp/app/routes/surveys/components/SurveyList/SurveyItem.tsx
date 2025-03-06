@@ -1,8 +1,8 @@
 import { Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Link } from 'react-router';
-import { colorForEventType } from 'app/routes/events/utils';
 import Time from '~/components/Time';
+import { colorForEventType } from '~/pages/(migrated)/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import { EventForSurvey, EventType } from '~/redux/models/Event';
 import { selectEventById } from '~/redux/slices/events';

@@ -1,5 +1,10 @@
 import { Provider as LegoBricksProvider } from '@webkom/lego-bricks';
-import { type PropsWithChildren, ReactNode, useEffect } from 'react';
+import {
+  ComponentProps,
+  type PropsWithChildren,
+  ReactNode,
+  useEffect,
+} from 'react';
 import 'minireset.css/minireset.css';
 import '~/styles/globals.css';
 import '@webkom/lego-bricks/dist/style.css';
@@ -47,11 +52,28 @@ const AppChildren = ({ children }: PropsWithChildren) => {
   );
 };
 
+const useLocation: ComponentProps<typeof LegoBricksProvider>['useLocation'] = <
+  S = unknown,
+>() => {
+  const pageContext = usePageContext();
+  return {
+    pathname: pageContext.urlParsed.pathname,
+    search: pageContext.urlParsed.searchOriginal ?? '',
+    navigationState: undefined as S | undefined,
+  };
+};
+
 export default function Layout({ children }: { children: ReactNode }) {
   const theme = useTheme();
 
   return (
-    <LegoBricksProvider theme={theme} navigate={navigate}>
+    <LegoBricksProvider
+      theme={theme}
+      navigate={(href, { navigationState, ...options } = {}) =>
+        navigate(href, { ...options, pageContext: { navigationState } })
+      }
+      useLocation={useLocation}
+    >
       <div className={styles.appRoute}>
         <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
           <meta property="og:image" content={coverPhoto} />

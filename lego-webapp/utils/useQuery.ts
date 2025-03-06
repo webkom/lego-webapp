@@ -1,7 +1,8 @@
 import { isEqual } from 'lodash';
 import qs from 'qs';
 import { useMemo } from 'react';
-import { useNavigate, useLocation } from 'react-router';
+import { navigate } from 'vike/client/router';
+import { usePageContext } from 'vike-react/usePageContext';
 import type { ParsedQs } from 'qs';
 
 /**
@@ -49,37 +50,30 @@ export const stringifyQuery = <Values extends ParsedQs>(
  * Hook for fetching, parsing and updating query string
  */
 const useQuery = <Values extends ParsedQs>(defaultValues: Values) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const { urlParsed } = usePageContext();
   const query = useMemo(
-    () => parseQueryString(location.search, defaultValues),
-    [location.search, defaultValues],
+    () => parseQueryString(urlParsed.searchOriginal ?? '', defaultValues),
+    [urlParsed.searchOriginal, defaultValues],
   );
 
-  const setQuery = (query: Partial<Values>) => {
-    navigate(
-      {
-        search: stringifyQuery(query, defaultValues),
-      },
-      { replace: true },
-    );
-  };
+  const setQuery = async (query: Partial<Values>) =>
+    navigate(urlParsed.pathname + stringifyQuery(query, defaultValues), {
+      overwriteLastHistoryEntry: true,
+    });
 
   const setQueryValue =
     <Key extends keyof Values>(key: Key) =>
-    (value: Values[Key]) => {
+    (value: Values[Key]) =>
       setQuery({
         ...query,
         [key]: value,
       });
-    };
 
-  const setQueryValues = (updates: Partial<Values>) => {
+  const setQueryValues = (updates: Partial<Values>) =>
     setQuery({
       ...query,
       ...updates,
     });
-  };
 
   return {
     query,

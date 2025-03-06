@@ -1,6 +1,5 @@
 import { Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import { ProfilePicture } from '~/components/Image';
 import Tooltip from '~/components/Tooltip';
 import styles from './UserGrid.module.css';
@@ -50,9 +49,9 @@ const UserGrid = ({
 
 const RegisteredUserCell = ({ user }: { user: PublicUser }) => (
   <Tooltip content={user.fullName}>
-    <Link to={`/users/${user.username}`}>
+    <a href={`/users/${user.username}`}>
       <ProfilePicture size={56} user={user} className={styles.cell} />
-    </Link>
+    </a>
   </Tooltip>
 );
 
