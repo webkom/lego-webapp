@@ -1,0 +1,45 @@
+/* stylelint-disable selector-class-pattern */
+
+/* the tree node's style */
+.tree-view {
+  overflow-y: hidden;
+}
+
+.tree-view_item {
+  /* immediate child of .tree-view, for styling convenience */
+}
+
+/* style for the children nodes container */
+.tree-view_children {
+  margin-left: 16px;
+}
+
+.tree-view_children-collapsed {
+  height: 0;
+}
+
+.tree-view_arrow {
+  cursor: pointer;
+  margin-right: 6px;
+  display: inline-block;
+  user-select: none;
+  transition: all var(--linear-fast);
+}
+
+.tree-view_arrow::after {
+  content: '▾';
+}
+
+.tree-view_arrow-empty {
+  color: yellow;
+}
+
+/* rotate the triangle to close it */
+.tree-view_arrow-collapsed {
+  transform: rotate(-90deg);
+}
+
+.info {
+  padding: 2px 10px 2px 5px;
+  user-select: none;
+}
