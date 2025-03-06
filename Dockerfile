@@ -5,7 +5,7 @@ COPY package.json yarn.lock ./
 COPY lego-webapp/package.json lego-webapp/package.json
 COPY packages packages
 
-RUN apk add curl
+RUN apk add curl # For Mazemap installation
 RUN yarn install
 
 COPY . /app
@@ -29,6 +29,8 @@ RUN yarn build
 FROM node:20-alpine
 
 WORKDIR /app/
+
+RUN apk add curl # For healthcheck
 
 ARG RELEASE
 ENV RELEASE=${RELEASE}
