@@ -1,4 +1,4 @@
-FROM node:20-alpine AS setup
+FROM node:20-alpine AS builder
 
 WORKDIR /app/
 COPY package.json yarn.lock ./
@@ -8,12 +8,7 @@ COPY packages packages
 RUN apk add curl
 RUN yarn install
 
-FROM node:20-alpine AS builder
-
-WORKDIR /app/
 COPY . /app
-
-COPY --from=setup /app/node_modules /app/node_modules
 
 ARG SENTRY_AUTH_TOKEN
 ARG SENTRY_ORG
@@ -41,9 +36,9 @@ ENV NODE_ENV=production
 
 COPY --from=builder /app/package.json .
 COPY --from=builder /app/lego-webapp/package.json ./lego-webapp/package.json
-COPY --from=builder /app/lego-webapp/server ./lego-webapp/server
 COPY --from=builder /app/lego-webapp/tsconfig.json ./lego-webapp/tsconfig.json
 COPY --from=builder /app/lego-webapp/dist ./lego-webapp/dist
+COPY --from=builder /app/lego-webapp/node_modules ./lego-webapp/node_modules
 COPY --from=builder /app/node_modules node_modules
 
 ENTRYPOINT ["node", "lego-webapp/dist/server/index.mjs"]
