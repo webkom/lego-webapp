@@ -2,7 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Trophy } from 'lucide-react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -51,7 +51,6 @@ const Overview = () => {
 
   const dispatch = useAppDispatch();
   const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
-  const navigate = useNavigate();
 
   useEffect(() => {
     let count = 0;

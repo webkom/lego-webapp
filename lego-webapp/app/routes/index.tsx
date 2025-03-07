@@ -1,7 +1,7 @@
 import { type RouteObject } from 'react-router';
 import lendingRoute from 'app/routes/lending';
 import { lazyComponent } from '~/utils/lazyComponent';
-import adminRoute from './admin';
+import adminRoute from '../../pages/(migrated)/admin';
 import { AppRoute } from './app';
 import authRoute from './auth';
 import bdbRoute from './bdb';
@@ -21,7 +21,6 @@ export const routerConfig: RouteObject[] = [
   {
     Component: AppRoute,
     children: [
-      { path: 'admin/*', children: adminRoute },
       { path: 'auth/*', children: authRoute },
       { path: 'bdb/*', children: bdbRoute },
       { path: 'companies/*', children: companyRoute },
