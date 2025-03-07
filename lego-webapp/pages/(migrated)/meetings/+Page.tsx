@@ -11,7 +11,6 @@ import { CalendarOff } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
@@ -48,7 +47,7 @@ function MeetingListItem({
       className={styles.meetingItem}
     >
       <div>
-        <Link to={`/meetings/${meeting.id}`}>
+        <a href={`/meetings/${meeting.id}`}>
           <Flex alignItems="center" gap="var(--spacing-md)">
             <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
             {userId === meeting.createdBy && (
@@ -67,7 +66,7 @@ function MeetingListItem({
               />
             )}
           </Flex>
-        </Link>
+        </a>
         <div className={styles.meetingTime}>
           <Time time={meeting.startTime} format="ll - HH:mm" />
           {` • Lokasjon: ${meeting.location}`}
@@ -198,7 +197,7 @@ const MeetingList = () => {
   return (
     <Page
       title="Dine møter"
-      actionButtons={<LinkButton href="/meetings/create">Nytt møte</LinkButton>}
+      actionButtons={<LinkButton href="/meetings/new">Nytt møte</LinkButton>}
     >
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (

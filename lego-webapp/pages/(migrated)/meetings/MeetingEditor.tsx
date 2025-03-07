@@ -13,7 +13,7 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useParams, useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import {
   Button,
   CheckBox,
@@ -48,6 +48,7 @@ import { appConfig } from '~/utils/appConfig';
 import { EDITOR_EMPTY } from '~/utils/constants';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import {
   createValidator,
   datesAreInCorrectOrder,
@@ -164,8 +165,6 @@ const MeetingEditor = () => {
         throw error;
       });
   };
-
-  const navigate = useNavigate();
 
   if (isEditPage && !meeting) {
     return <LoadingPage loading />; // TODO: proper loading behavior once separate fetching state is implemented

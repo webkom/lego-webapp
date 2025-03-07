@@ -1,5 +1,5 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
-import { useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { useAppDispatch } from '~/redux/hooks';
 import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import { resetMeetingToken } from '~/redux/slices/meetings';
@@ -17,8 +17,6 @@ const MeetingAnswer = ({
   meeting,
   status,
 }: MeetingTokenSuccessState) => {
-  const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
 
   if (!response) {

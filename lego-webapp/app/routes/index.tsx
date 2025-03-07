@@ -5,7 +5,6 @@ import { AppRoute } from './app';
 import bdbRoute from './bdb';
 import companyRoute from './company';
 import forumRoute from './forum';
-import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
 import surveysRoute from './surveys';
 
@@ -24,7 +23,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'interesse', lazy: CompanyInterestPage },
       { path: 'forum/*', children: forumRoute },
       { path: 'lending/*', children: lendingRoute },
-      { path: 'meetings/*', children: meetingsRoute },
       { path: 'surveys/*', children: surveysRoute },
       { path: '*', children: pageNotFound },
     ],

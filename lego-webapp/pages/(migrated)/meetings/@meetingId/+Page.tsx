@@ -1,6 +1,5 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
-import qs from 'qs';
-import { useLocation, useParams } from 'react-router';
+import { usePageContext } from 'vike-react/usePageContext';
 import {
   fetchMeeting,
   answerMeetingInvitation,
@@ -8,18 +7,17 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { MeetingTokenResponse } from '~/redux/slices/meetings';
-import MeetingAnswer from './components/MeetingAnswer';
-import MeetingDetail from './components/MeetingDetail';
+import { useParams } from '~/utils/useParams';
+import MeetingAnswer from './MeetingAnswer';
+import MeetingDetail from './MeetingDetail';
 
 type Params = {
   meetingId: string;
 };
 
 const MeetingDetailWrapper = () => {
-  const location = useLocation();
-  const { action, token } = qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-  });
+  const pageContext = usePageContext();
+  const { action, token } = pageContext.urlParsed.search;
 
   const { meetingId } = useParams<Params>();
   const meetingToken = useAppSelector((state) => state.meetings.meetingToken);
@@ -30,12 +28,7 @@ const MeetingDetailWrapper = () => {
   usePreparedEffect(
     `answerMeetingInvitation`,
     () => {
-      if (
-        token &&
-        action &&
-        typeof token === 'string' &&
-        typeof action === 'string'
-      ) {
+      if (token && action) {
         dispatch(answerMeetingInvitation(action, token));
       }
 

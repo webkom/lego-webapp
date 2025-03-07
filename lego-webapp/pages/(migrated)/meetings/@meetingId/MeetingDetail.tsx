@@ -14,8 +14,6 @@ import moment from 'moment-timezone';
 import diff from 'node-htmldiff';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router';
-import { PizzaAccordion } from 'app/routes/meetings/components/PizzaAccordion';
 import AddToCalendar from '~/components/AddToCalendar/AddToCalendar';
 import AnnouncementInLine from '~/components/AnnouncementInLine';
 import CommentView from '~/components/Comments/CommentView';
@@ -34,6 +32,7 @@ import { MazemapAccordion } from '~/components/MazemapEmbed/MazemapAccordion';
 import Time, { FromToTime } from '~/components/Time';
 import Tooltip from '~/components/Tooltip';
 import Attendance from '~/components/UserAttendance/Attendance';
+import { PizzaAccordion } from '~/pages/(migrated)/meetings/@meetingId/PizzaAccordion';
 import { setInvitationStatus } from '~/redux/actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
@@ -48,6 +47,7 @@ import { selectMeetingById } from '~/redux/slices/meetings';
 import { selectUserById } from '~/redux/slices/users';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import urlifyString from '~/utils/urlifyString';
+import { useParams } from '~/utils/useParams';
 import styles from './MeetingDetail.module.css';
 import type { Dateish } from 'app/models';
 import type { DetailedMeeting } from '~/redux/models/Meeting';
@@ -55,7 +55,7 @@ import type { PublicUser } from '~/redux/models/User';
 
 const UserLink = ({ user }: { user?: PublicUser }) =>
   user && !isEmpty(user) ? (
-    <Link to={`/users/${user.username}`}>{user.fullName}</Link>
+    <a href={`/users/${user.username}`}>{user.fullName}</a>
   ) : (
     <span>Ikke valgt</span>
   );
