@@ -1,8 +1,6 @@
 import { Page, LinkButton, PageCover, Card } from '@webkom/lego-bricks';
 import { Warehouse } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
-import { useFetchedLendableObject } from 'app/routes/lending/useFetchedLendableObject';
 import {
   ContentMain,
   ContentSection,
@@ -10,9 +8,11 @@ import {
 } from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
 import TextWithIcon from '~/components/TextWithIcon';
+import { useFetchedLendableObject } from '~/pages/(migrated)/lending/@lendableObjectId/useFetchedLendableObject';
+import { useParams } from '~/utils/useParams';
 
 export const LendableObjectList = () => {
-  const { lendableObjectId } = useParams<'lendableObjectId'>();
+  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
   const { lendableObject, fetching } = useFetchedLendableObject(
     lendableObjectId!,
   );

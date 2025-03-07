@@ -1,4 +1,4 @@
-import { LinkButton, LoadingIndicator, LoadingPage } from '@webkom/lego-bricks';
+import { LinkButton, LoadingIndicator } from '@webkom/lego-bricks';
 import { useContext } from 'react';
 import { navigate } from 'vike/client/router';
 import { ContentSection, ContentMain } from '~/components/Content';

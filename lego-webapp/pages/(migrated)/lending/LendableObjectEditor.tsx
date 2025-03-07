@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import {
   EditorField,
   Fields,
@@ -46,7 +46,6 @@ const validate = createValidator({
 
 export const LendableObjectEditor = ({ initialValues }: Props) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   return (
     <LegoFinalForm<FormValues>

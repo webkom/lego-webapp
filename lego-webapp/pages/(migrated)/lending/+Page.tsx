@@ -10,7 +10,6 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
 import abakus_icon from '~/public/icon-192x192.png';
@@ -27,7 +26,7 @@ const LendableObject = ({
   lendableObject: ListLendableObject;
 }) => {
   return (
-    <Link to={`/lending/${lendableObject.id}`}>
+    <a href={`/lending/${lendableObject.id}`}>
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
         <Image
           className={styles.lendableObjectImage}
@@ -38,7 +37,7 @@ const LendableObject = ({
           <h4>{lendableObject.title}</h4>
         </div>
       </Card>
-    </Link>
+    </a>
   );
 };
 
@@ -82,6 +81,7 @@ const LendableObjectList = () => {
             <TextInput
               prefix="search"
               placeholder="Grill, soundboks..."
+              value={query.search}
               onChange={(e) => setQueryValue('search')(e.target.value)}
             />
           </FilterSection>

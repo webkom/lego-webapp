@@ -1,4 +1,4 @@
-@import url('styles/variables.css');
+@import url('../../../styles/variables.css');
 
 .lendableObjectsContainer {
   display: grid;
@@ -15,7 +15,7 @@
   }
 }
 
-.lendableObjectCard {
+div.lendableObjectCard {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -23,7 +23,7 @@
   height: 100%;
 }
 
-.lendableObjectImage {
+img.lendableObjectImage {
   object-fit: cover;
   height: 100%;
 }

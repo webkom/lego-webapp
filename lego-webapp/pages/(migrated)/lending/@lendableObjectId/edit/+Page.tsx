@@ -1,12 +1,12 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
-import { LendableObjectEditor } from 'app/routes/lending/components/LendableObjectEditor';
-import { useFetchedLendableObject } from 'app/routes/lending/useFetchedLendableObject';
 import { objectPermissionsToInitialValues } from '~/components/Form/ObjectPermissions';
+import { useFetchedLendableObject } from '~/pages/(migrated)/lending/@lendableObjectId/useFetchedLendableObject';
+import { LendableObjectEditor } from '~/pages/(migrated)/lending/LendableObjectEditor';
+import { useParams } from '~/utils/useParams';
 
 export default function LendableObjectEdit() {
-  const { lendableObjectId } = useParams<'lendableObjectId'>();
+  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
   const { lendableObject, fetching } = useFetchedLendableObject(
     lendableObjectId!,
   );

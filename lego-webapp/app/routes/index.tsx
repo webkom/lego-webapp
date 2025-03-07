@@ -1,5 +1,4 @@
 import { type RouteObject } from 'react-router';
-import lendingRoute from 'app/routes/lending';
 import { lazyComponent } from '~/utils/lazyComponent';
 import { AppRoute } from './app';
 import bdbRoute from './bdb';
@@ -21,7 +20,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'register-interest', lazy: CompanyInterestPage },
       { path: 'interesse', lazy: CompanyInterestPage },
       { path: 'forum/*', children: forumRoute },
-      { path: 'lending/*', children: lendingRoute },
       { path: '*', children: pageNotFound },
     ],
   },
