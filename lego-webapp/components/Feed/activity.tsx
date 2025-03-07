@@ -1,6 +1,5 @@
 import { Card } from '@webkom/lego-bricks';
 import Linkify from 'linkify-react';
-import { Link } from 'react-router';
 import { LinkTag } from '~/components/Feed/Tag';
 import { ProfilePicture } from '~/components/Image';
 import Time from '~/components/Time';
@@ -85,9 +84,9 @@ const ActivityHeader = ({
             marginRight: 25,
           }}
         />
-        <Link to={`/users/${actor.username}/`}>
+        <a href={`/users/${actor.username}/`}>
           {actor.firstName} {actor.lastName}
-        </Link>
+        </a>
       </div>
       <i className={styles.time}>
         <Time time={activity.time} wordsAgo />

@@ -1,14 +1,9 @@
-import { Link } from 'react-router';
 import styles from '~/components/Feed/context.module.css';
 import type { TagComponent } from '~/components/Feed/ActivityRenderer';
 
 export const LinkTag: TagComponent = (props) => {
   const { linkableContent, link, text } = props;
-  return linkableContent ? (
-    <Link to={link}>{text}</Link>
-  ) : (
-    <SpanTag {...props} />
-  );
+  return linkableContent ? <a href={link}>{text}</a> : <SpanTag {...props} />;
 };
 
 export const SpanTag: TagComponent = (props) => {

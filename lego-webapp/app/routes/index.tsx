@@ -22,7 +22,6 @@ import quotesRoute from './quotes';
 import searchRoute from './search';
 import surveysRoute from './surveys';
 import tagsRoute from './tags';
-import timelineRoute from './timeline';
 
 const CompanyInterestPage = lazyComponent(
   () =>
@@ -57,7 +56,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'search', children: searchRoute },
       { path: 'surveys/*', children: surveysRoute },
       { path: 'tags/*', children: tagsRoute },
-      { path: 'timeline', children: timelineRoute },
       { path: '*', children: pageNotFound },
     ],
   },
