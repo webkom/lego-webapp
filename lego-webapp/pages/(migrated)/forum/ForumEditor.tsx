@@ -9,7 +9,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { TextInput, Form, TextArea, LegoFinalForm } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import {
@@ -21,6 +21,7 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectForumById } from '~/redux/slices/forums';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import type {
   CreateForum,
   DetailedForum,
@@ -46,8 +47,6 @@ const ForumEditor = () => {
   const fetching = useAppSelector((state) => state.forums.fetching);
 
   const dispatch = useAppDispatch();
-
-  const navigate = useNavigate();
 
   const initialValues = {
     ...forum,

@@ -1,9 +1,9 @@
 import { LinkButton, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useParams } from 'react-router';
 import { fetchForum } from '~/redux/actions/ForumActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectForumById } from '~/redux/slices/forums';
+import { useParams } from '~/utils/useParams';
 import ThreadList from './ThreadList';
 import type { DetailedForum } from '~/redux/models/Forum';
 
@@ -41,7 +41,7 @@ const ForumDetail = () => {
             Rediger
           </LinkButton>
         ),
-        <LinkButton key="create" href={`/forum/${forumId}/new`}>
+        <LinkButton key="create" href={`/forum/${forumId}/threads/new`}>
           Oprett tråd
         </LinkButton>,
       ]}

@@ -3,7 +3,6 @@ import { lazyComponent } from '~/utils/lazyComponent';
 import { AppRoute } from './app';
 import bdbRoute from './bdb';
 import companyRoute from './company';
-import forumRoute from './forum';
 import pageNotFound from './pageNotFound';
 
 const CompanyInterestPage = lazyComponent(
@@ -19,7 +18,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'companies/*', children: companyRoute },
       { path: 'register-interest', lazy: CompanyInterestPage },
       { path: 'interesse', lazy: CompanyInterestPage },
-      { path: 'forum/*', children: forumRoute },
       { path: '*', children: pageNotFound },
     ],
   },

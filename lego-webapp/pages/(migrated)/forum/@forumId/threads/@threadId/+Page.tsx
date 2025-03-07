@@ -1,7 +1,6 @@
 import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment';
-import { Link, useParams } from 'react-router';
 import { CommentView } from '~/components/Comments';
 import DisplayContent from '~/components/DisplayContent';
 import { fetchThreadByForum } from '~/redux/actions/ForumActions';
@@ -9,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectCommentsByIds } from '~/redux/slices/comments';
 import { selectThreadById } from '~/redux/slices/threads';
+import { useParams } from '~/utils/useParams';
 import type { DetailedThread } from '~/redux/models/Forum';
 
 type ThreadDetailParams = {
@@ -17,8 +17,7 @@ type ThreadDetailParams = {
 };
 
 const ThreadDetail = () => {
-  const { forumId, threadId } =
-    useParams<ThreadDetailParams>() as ThreadDetailParams;
+  const { forumId, threadId } = useParams<ThreadDetailParams>();
   const dispatch = useAppDispatch();
   const currentUser = useCurrentUser();
   usePreparedEffect(
@@ -61,9 +60,9 @@ const ThreadDetail = () => {
           {thread.createdBy && (
             <span>
               av{' '}
-              <Link to={`/users/${thread.createdBy?.username}`}>
+              <a href={`/users/${thread.createdBy?.username}`}>
                 {thread.createdBy?.fullName}
-              </Link>
+              </a>
             </span>
           )}{' '}
           den {moment(thread?.createdAt).format('lll')}

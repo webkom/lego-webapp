@@ -9,7 +9,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { TextInput, Form, LegoFinalForm, EditorField } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import {
@@ -21,6 +21,7 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectThreadById } from '~/redux/slices/threads';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import type {
   CreateThread,
   DetailedThread,
@@ -32,8 +33,7 @@ type ThreadEditorParams = {
   threadId?: string;
 };
 const ThreadEditor = () => {
-  const { threadId, forumId } =
-    useParams<ThreadEditorParams>() as ThreadEditorParams;
+  const { threadId, forumId } = useParams<ThreadEditorParams>();
   usePreparedEffect(
     'fetchThreadForEditor',
     () => threadId && dispatch(fetchThreadByForum(forumId, threadId)),
@@ -47,8 +47,6 @@ const ThreadEditor = () => {
   const fetching = useAppSelector((state) => state.threads.fetching);
 
   const dispatch = useAppDispatch();
-
-  const navigate = useNavigate();
 
   const initialValues = {
     ...thread,
