@@ -1,7 +1,6 @@
 import { type RouteObject } from 'react-router';
 import lendingRoute from 'app/routes/lending';
 import { lazyComponent } from '~/utils/lazyComponent';
-import achievementRoute from '../../pages/(migrated)/achievements';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
 import { AppRoute } from './app';
@@ -15,7 +14,6 @@ import hiddenAdminRoute from './hiddenAdmin';
 import interestGroupsRoute from './interestgroups';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
-import photosRoute from './photos';
 import surveysRoute from './surveys';
 
 const CompanyInterestPage = lazyComponent(
@@ -27,7 +25,6 @@ export const routerConfig: RouteObject[] = [
   {
     Component: AppRoute,
     children: [
-      { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },
       { path: 'auth/*', children: authRoute },
@@ -43,7 +40,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'interestgroups/*', children: interestGroupsRoute },
       { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
-      { path: 'photos/*', children: photosRoute },
       { path: 'sudo/*', children: hiddenAdminRoute },
       { path: 'surveys/*', children: surveysRoute },
       { path: '*', children: pageNotFound },

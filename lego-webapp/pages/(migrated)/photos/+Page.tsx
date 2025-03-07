@@ -2,7 +2,7 @@ import { LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Images } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import EmptyState from '~/components/EmptyState';
 import Gallery from '~/components/Gallery';
 import { fetchGalleries } from '~/redux/actions/GalleryActions';
@@ -27,8 +27,6 @@ const Overview = () => {
   const dispatch = useAppDispatch();
 
   usePreparedEffect('fetchGalleryList', () => dispatch(fetchGalleries()), []);
-
-  const navigate = useNavigate();
 
   return (
     <Page
@@ -67,7 +65,7 @@ const Overview = () => {
             body={
               actionGrant?.includes('create') && (
                 <span>
-                  Trykk <Link to="/photos/new">her</Link> for å lage et nytt et
+                  Trykk <a href="/photos/new">her</a> for å lage et nytt et
                 </span>
               )
             }

@@ -1,5 +1,4 @@
 import { Flex } from '@webkom/lego-bricks';
-import { Link } from 'react-router';
 import Time from '~/components/Time';
 import styles from './GalleryDetailsRow.module.css';
 import type { DetailedGallery } from '~/redux/models/Gallery';
@@ -19,7 +18,7 @@ const GalleryDetailsRow = ({
     <div className={small ? styles.smallDetails : undefined}>
       {gallery.event && (
         <span className={styles.detail}>
-          <Link to={`/events/${gallery.event.id}`}>{gallery.event.title}</Link>
+          <a href={`/events/${gallery.event.id}`}>{gallery.event.title}</a>
         </span>
       )}
 

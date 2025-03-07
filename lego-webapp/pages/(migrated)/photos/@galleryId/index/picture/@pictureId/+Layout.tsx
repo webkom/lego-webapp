@@ -8,9 +8,9 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import throttle from 'lodash/throttle';
 import { Download, Pencil } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { Link, useParams, useNavigate, Outlet } from 'react-router';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
+import { navigate } from 'vike/client/router';
 import CommentView from '~/components/Comments/CommentView';
 import Dropdown from '~/components/Dropdown';
 import PropertyHelmet, {
@@ -33,7 +33,8 @@ import {
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { appConfig } from '~/utils/appConfig';
 import { Keyboard } from '~/utils/constants';
-import GalleryDetailsRow from './GalleryDetailsRow';
+import { useParams } from '~/utils/useParams';
+import GalleryDetailsRow from '../../../../GalleryDetailsRow';
 import styles from './GalleryPictureModal.module.css';
 import type { ReactNode } from 'react';
 import type { DetailedGallery } from '~/redux/models/Gallery';
@@ -46,7 +47,7 @@ const propertyGenerator: PropertyGenerator<{
 }> = (props, config) => {
   if (!props.picture) return;
   const url = `${config?.webUrl}/photos/${props.gallery.id}/picture/${props.picture.id}/`;
-  // Becuase the parent route sets the title and description
+  // Because the parent route sets the title and description
   // based on the metadata of the gallery, we don't have to do it
   // explicitly here.
   return [
@@ -78,9 +79,9 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
     return (
       <span>
         <span>med </span>
-        <Link key={taggees[0].id} to={`/users/${taggees[0].username}`}>
+        <a key={taggees[0].id} href={`/users/${taggees[0].username}`}>
           {taggees[0].fullName}
-        </Link>
+        </a>
       </span>
     );
   } else {
@@ -92,7 +93,7 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
             {taggees.length === index + 1 ? (
               <span>
                 <span>{'og '}</span>
-                <Link to={`/users/${taggee.username}`}>{taggee.fullName}</Link>
+                <a href={`/users/${taggee.username}`}>{taggee.fullName}</a>
               </span>
             ) : (
               <span
@@ -100,7 +101,7 @@ const Taggees = ({ taggees }: { taggees: PublicUser[] }) => {
                   marginRight: '5px',
                 }}
               >
-                <Link to={`/users/${taggee.username}`}>{taggee.fullName}</Link>
+                <a href={`/users/${taggee.username}`}>{taggee.fullName}</a>
                 {taggees.length === index + 2 ? null : <span>,</span>}
               </span>
             )}
@@ -121,7 +122,7 @@ const Swipeable = (props: {
   return <div {...handlers}>{props.children}</div>;
 };
 
-const GalleryPictureModal = () => {
+const GalleryPictureModal = ({ children }: PropsWithChildren) => {
   const { galleryId, pictureId } = useParams<{
     galleryId: string;
     pictureId: string;
@@ -194,8 +195,6 @@ const GalleryPictureModal = () => {
     pagination.hasMore,
     pictures.length,
   ]);
-
-  const navigate = useNavigate();
 
   if (!gallery || !picture) {
     return (
@@ -312,7 +311,7 @@ const GalleryPictureModal = () => {
               />
 
               <Flex column justifyContent="space-around">
-                <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
+                <a href={`/photos/${gallery.id}`}>{gallery.title}</a>
                 <GalleryDetailsRow small gallery={gallery} />
               </Flex>
             </Flex>
@@ -340,24 +339,24 @@ const GalleryPictureModal = () => {
                 {actionGrant &&
                   actionGrant.includes('edit') && [
                     <Dropdown.ListItem key="edit">
-                      <Link
-                        to="#"
+                      <a
+                        href="#"
                         onClick={onUpdate}
                         className={styles.dropdownLink}
                       >
                         Rediger
                         <Icon iconNode={<Pencil />} size={24} />
-                      </Link>
+                      </a>
                     </Dropdown.ListItem>,
                     <Dropdown.ListItem key="cover">
-                      <Link
+                      <a
                         onClick={onUpdateGalleryCover}
-                        to="#"
+                        href="#"
                         className={styles.dropdownLink}
                       >
                         Sett som album cover
                         <Icon name="image-outline" size={24} />
-                      </Link>
+                      </a>
                     </Dropdown.ListItem>,
                     <Dropdown.Divider key="divider" />,
                     <Dropdown.ListItem
@@ -422,7 +421,7 @@ const GalleryPictureModal = () => {
             )}
           </Flex>
 
-          <Outlet />
+          {children}
 
           {picture.contentTarget && (
             <CommentView

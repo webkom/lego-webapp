@@ -7,17 +7,17 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
-import { useState } from 'react';
-import { useParams, useNavigate, Outlet } from 'react-router';
+import { PropsWithChildren, useState } from 'react';
+import { navigate } from 'vike/client/router';
 import LoginPage from 'app/routes/auth/components/LoginPage';
 import HTTPError from 'app/routes/errors/HTTPError';
-import { downloadFiles, zipFiles } from 'app/routes/photos/components/utils';
 import EmptyState from '~/components/EmptyState';
 import Gallery from '~/components/Gallery';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from '~/components/PropertyHelmet';
 import ImageUpload from '~/components/Upload/ImageUpload';
+import { downloadFiles, zipFiles } from '~/pages/(migrated)/photos/utils';
 import {
   fetchGallery,
   fetchGalleryMetadata,
@@ -36,9 +36,10 @@ import {
 } from '~/redux/slices/galleryPictures';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { appConfig } from '~/utils/appConfig';
+import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
-import GalleryDetailsRow from './GalleryDetailsRow';
-import styles from './Overview.module.css';
+import GalleryDetailsRow from '../../GalleryDetailsRow';
+import styles from '../../Overview.module.css';
 import type { DropFile } from '~/components/Upload/ImageUpload';
 import type { DetailedGallery } from '~/redux/models/Gallery';
 import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
@@ -71,8 +72,7 @@ const galleryDetailDefaultQuery = {
   upload: 'false',
 };
 
-const GalleryDetail = () => {
-  const navigate = useNavigate();
+const GalleryDetail = ({ children }: PropsWithChildren) => {
   const { query, setQueryValue } = useQuery(galleryDetailDefaultQuery);
   const upload = query.upload === 'true';
   const [downloading, setDownloading] = useState(false);
@@ -212,7 +212,7 @@ const GalleryDetail = () => {
           />
         </PropertyHelmet>
 
-        <Outlet />
+        {children}
 
         <GalleryDetailsRow gallery={gallery} showDescription />
 

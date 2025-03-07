@@ -1,6 +1,6 @@
 import { Button, ButtonGroup, LoadingPage } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import {
   Form,
   TextArea,
@@ -13,6 +13,7 @@ import { updatePicture } from '~/redux/actions/GalleryPictureActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectGalleryById } from '~/redux/slices/galleries';
 import { selectGalleryPictureById } from '~/redux/slices/galleryPictures';
+import { useParams } from '~/utils/useParams';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { DetailedGallery } from '~/redux/models/Gallery';
 
@@ -38,8 +39,6 @@ const GalleryPictureEditForm = () => {
   );
 
   const dispatch = useAppDispatch();
-
-  const navigate = useNavigate();
 
   if (!gallery || !picture) {
     return <LoadingPage loading={fetching} />;

@@ -17,7 +17,7 @@ import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import EmptyState from '~/components/EmptyState';
 import {
   TextInput,
@@ -56,9 +56,10 @@ import { selectGalleryPicturesByGalleryId } from '~/redux/slices/galleryPictures
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { isNotNullish } from '~/utils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import { createValidator, required } from '~/utils/validation';
+import styles from '../Overview.module.css';
 import GalleryEditorActions from './GalleryEditorActions';
-import styles from './Overview.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { DetailedGallery } from '~/redux/models/Gallery';
@@ -95,7 +96,7 @@ const renderEmpty = (gallery: DetailedGallery) => (
     header="Her er det ingen bilder å redigere ..."
     body={
       <span>
-        Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
+        Gå <a href={`/photos/${gallery.id}`}>hit</a> for å legge inn bilder
       </span>
     }
   />
@@ -121,7 +122,6 @@ const validate = createValidator({
 
 const GalleryEditor = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [selected, setSelected] = useState<EntityId[]>([]);
 
   const { galleryId } = useParams<{ galleryId: string }>();
