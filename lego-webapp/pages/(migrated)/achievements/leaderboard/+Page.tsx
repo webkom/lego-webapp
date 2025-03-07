@@ -1,6 +1,5 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router';
 import { ContentMain } from '~/components/Content';
 import Table from '~/components/Table';
 import { fetchLeaderboardUsers } from '~/redux/actions/AchievementActions';
@@ -103,9 +102,9 @@ const Leaderboard = () => {
       search: false,
       inlineFiltering: false,
       render: (_, user: PublicUserWithAbakusGroups) => (
-        <Link to={`/users/${user.username}`}>
+        <a href={`/users/${user.username}`}>
           {isMobile ? user.username : `${user.firstName} ${user.lastName}`}
-        </Link>
+        </a>
       ),
     },
     {

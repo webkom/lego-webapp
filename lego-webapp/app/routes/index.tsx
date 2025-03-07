@@ -1,7 +1,7 @@
 import { type RouteObject } from 'react-router';
 import lendingRoute from 'app/routes/lending';
 import { lazyComponent } from '~/utils/lazyComponent';
-import achievementRoute from './achievements';
+import achievementRoute from '../../pages/(migrated)/achievements';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
 import { AppRoute } from './app';

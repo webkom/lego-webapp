@@ -1,16 +1,12 @@
 import { lazyComponent } from '~/utils/lazyComponent';
 import type { RouteObject } from 'react-router';
 
-const Leaderboard = lazyComponent(() => import('./components/Leaderboard'));
-const Overview = lazyComponent(() => import('./components/Overview'));
-const AchievementsPageWrapper = lazyComponent(
-  () => import('./components/index'),
-);
+const Leaderboard = lazyComponent(() => import('./leaderboard/+Page'));
+const Overview = lazyComponent(() => import('./+Page'));
 
 const achievementRoute: RouteObject[] = [
   {
     path: '',
-    lazy: AchievementsPageWrapper,
     children: [
       { index: true, lazy: Overview },
       { path: 'leaderboard', lazy: Leaderboard },
