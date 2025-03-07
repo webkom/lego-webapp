@@ -1,12 +1,12 @@
 @import url('../../styles/variables.css');
 
-.section {
+div.section {
   @media (--medium-viewport) {
     flex-direction: column;
   }
 }
 
-.reverse {
+div.reverse {
   flex-direction: row-reverse;
 
   @media (--medium-viewport) {
