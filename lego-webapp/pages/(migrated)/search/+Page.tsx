@@ -2,12 +2,12 @@ import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { debounce } from 'lodash';
 import { Helmet } from 'react-helmet-async';
+import { navigate } from 'vike/client/router';
+import { usePageContext } from 'vike-react/usePageContext';
 import SearchPage from '~/components/Search/SearchPage';
 import { search } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectResult } from '~/redux/slices/search';
-import { usePageContext } from 'vike-react/usePageContext';
-import { navigate } from 'vike/client/router';
 
 const SearchPageWrapper = () => {
   const pageContext = usePageContext();

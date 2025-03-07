@@ -16,7 +16,6 @@ import interestGroupsRoute from './interestgroups';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
 import photosRoute from './photos';
-import pollsRoute from './polls';
 import surveysRoute from './surveys';
 
 const CompanyInterestPage = lazyComponent(
@@ -45,7 +44,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
       { path: 'photos/*', children: photosRoute },
-      { path: 'polls/*', children: pollsRoute },
       { path: 'sudo/*', children: hiddenAdminRoute },
       { path: 'surveys/*', children: surveysRoute },
       { path: '*', children: pageNotFound },

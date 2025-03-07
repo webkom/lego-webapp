@@ -3,13 +3,13 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
 import Poll from '~/components/Poll';
+import PollEditor from '~/pages/(migrated)/polls/PollEditor';
 import { fetchPoll } from '~/redux/actions/PollActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectPollById } from '~/redux/slices/polls';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
-import PollEditor from './PollEditor';
+import { useParams } from '~/utils/useParams';
 
 const PollDetail = () => {
   const [editing, setEditing] = useState(false);

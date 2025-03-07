@@ -2,6 +2,7 @@ import { Page } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
+import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
 import {
   Form,
@@ -19,7 +20,6 @@ import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from '~/utils/validation';
 import styles from '../Quotes.module.css';
 import type { ContentTarget } from '~/utils/contentTarget';
-import { navigate } from 'vike/client/router';
 
 type FormValues = {
   text: string;

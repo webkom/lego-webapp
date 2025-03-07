@@ -1,35 +1,27 @@
-import {
-  Button,
-  ButtonGroup,
-  ConfirmModal,
-  Icon,
-  Page,
-} from '@webkom/lego-bricks';
+import { Button, ButtonGroup, ConfirmModal, Icon } from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Plus, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router';
+import { navigate } from 'vike/client/router';
 import {
+  CheckBox,
   Form,
   LegoFinalForm,
-  TextInput,
   SelectInput,
-  TextArea,
-  CheckBox,
-  SubmitButton,
   SubmissionError,
+  SubmitButton,
+  TextArea,
+  TextInput,
 } from '~/components/Form';
 import Tooltip from '~/components/Tooltip';
+import styles from '~/pages/(migrated)/polls/@pollsId/PollEditor.module.css';
 import { createPoll, deletePoll, editPoll } from '~/redux/actions/PollActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { createValidator, required } from '~/utils/validation';
-import styles from './PollEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import type Poll from '~/redux/models/Poll';
-
 type Props = {
   poll?: Poll;
   editing?: boolean;
@@ -85,8 +77,6 @@ const PollEditor = ({
   toggleEdit = () => {},
 }: Props) => {
   const dispatch = useAppDispatch();
-
-  const navigate = useNavigate();
 
   const onSubmit = ({
     title,
@@ -225,13 +215,3 @@ const PollEditor = ({
 };
 
 export default PollEditor;
-
-export const PollCreator = () => {
-  const title = 'Ny avstemning';
-  return (
-    <Page title={title} back={{ href: '/polls' }}>
-      <Helmet title={title} />
-      <PollEditor />
-    </Page>
-  );
-};

@@ -2,7 +2,6 @@ import { Card, Flex, Icon, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { CircleCheck, CircleX } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import Paginator from '~/components/Paginator';
 import { fetchAll } from '~/redux/actions/PollActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -49,7 +48,7 @@ const PollsList = () => {
       >
         <section className={styles.pollsList}>
           {polls.map((poll) => (
-            <Link key={poll.id} to={`/polls/${poll.id}`}>
+            <a key={poll.id} href={`/polls/${poll.id}`}>
               <Card isHoverable className={styles.pollListItem}>
                 <Card.Header>{poll.title}</Card.Header>
 
@@ -78,7 +77,7 @@ const PollsList = () => {
                   </Flex>
                 </Flex>
               </Card>
-            </Link>
+            </a>
           ))}
         </section>
       </Paginator>
