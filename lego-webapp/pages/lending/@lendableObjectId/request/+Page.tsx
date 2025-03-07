@@ -22,14 +22,25 @@ import { useIsCurrentUser } from 'app/routes/users/utils';
 import styles from './LendingRequestDetail.module.css';
 import type { ReactNode } from 'react';
 import { CommentView } from '~/components/Comments';
-import { ContentSection, ContentMain, ContentSidebar } from '~/components/Content';
+import {
+  ContentSection,
+  ContentMain,
+  ContentSidebar,
+} from '~/components/Content';
 import { ProfilePicture } from '~/components/Image';
 import Tag, { TagColors } from '~/components/Tags/Tag';
 import Time from '~/components/Time';
-import { editLendingRequest, fetchLendingRequestById } from '~/redux/actions/LendingRequestActions';
+import {
+  editLendingRequest,
+  fetchLendingRequestById,
+} from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { UnknownLendableObject } from '~/redux/models/LendableObject';
-import { AdminLendingRequest, DetailLendingRequest, LendingRequestStatus } from '~/redux/models/LendingRequest';
+import {
+  AdminLendingRequest,
+  DetailLendingRequest,
+  LendingRequestStatus,
+} from '~/redux/models/LendingRequest';
 import { PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
