@@ -1,6 +1,5 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import Time from '~/components/Time';
 import { ProfilePicture } from '../Image';
 import styles from './Search.module.css';
@@ -62,7 +61,7 @@ export const SearchResultItem = ({
   isSelected,
   onCloseSearch,
 }: SearchResultItemProps) => (
-  <Link to={result.link ?? ''} onClick={onCloseSearch}>
+  <a href={result.link ?? ''} onClick={onCloseSearch}>
     <Flex
       gap="var(--spacing-sm)"
       className={cx(isSelected && styles.isSelected, styles.resultItem)}
@@ -78,7 +77,7 @@ export const SearchResultItem = ({
         </Flex>
       </div>
     </Flex>
-  </Link>
+  </a>
 );
 
 const SearchResults = ({

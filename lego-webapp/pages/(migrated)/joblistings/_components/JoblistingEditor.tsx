@@ -12,7 +12,6 @@ import { useCallback, useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
-import { httpCheck } from 'app/routes/bdb/utils';
 import {
   TextInput,
   EditorField,
@@ -25,6 +24,7 @@ import {
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
+import { httpCheck } from '~/pages/(migrated)/bdb/utils';
 import { fetchCompanyContacts } from '~/redux/actions/CompanyActions';
 import {
   createJoblisting,
