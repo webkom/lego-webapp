@@ -1,7 +1,6 @@
 import { Image, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import Paginator from '~/components/Paginator';
 import Tags from '~/components/Tags';
 import Tag from '~/components/Tags/Tag';
@@ -15,7 +14,7 @@ import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectPopularTags } from '~/redux/slices/tags';
 import { selectUsersByIds } from '~/redux/slices/users';
 import useQuery from '~/utils/useQuery';
-import styles from '../articles.module.css';
+import styles from './articles.module.css';
 import type { PublicArticle } from '~/redux/models/Article';
 
 const HEADLINE_EVENTS = 2;
@@ -27,27 +26,27 @@ export const ArticleListItem = ({ article }: { article: PublicArticle }) => {
 
   return (
     <div className={styles.item}>
-      <Link to={`/articles/${article.slug}`} className={styles.imageLink}>
+      <a href={`/articles/${article.slug}`} className={styles.imageLink}>
         <Image
           src={article.cover}
           alt="Forsidebilde"
           placeholder={article.coverPlaceholder}
         />
-      </Link>
+      </a>
       <h2 className={styles.itemTitle}>
-        <Link to={`/articles/${article.slug}`}>{article.title}</Link>
+        <a href={`/articles/${article.slug}`}>{article.title}</a>
       </h2>
 
       <span className={styles.itemInfo}>
         {authors.map((author) => (
           <span key={author.username}>
-            <Link
-              to={`/users/${author.username}`}
+            <a
+              href={`/users/${author.username}`}
               className={styles.overviewAuthor}
             >
               {' '}
               {author.fullName}
-            </Link>{' '}
+            </a>{' '}
           </span>
         ))}
 

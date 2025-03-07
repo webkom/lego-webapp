@@ -2,14 +2,14 @@ import { LinkButton, LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { useEffect } from 'react';
-import { useNavigate, useParams, Link } from 'react-router';
-import sharedStyles from 'app/routes/articles/articles.module.css';
+import { navigate } from 'vike/client/router';
 import CommentView from '~/components/Comments/CommentView';
 import DisplayContent from '~/components/DisplayContent';
 import LegoReactions from '~/components/LegoReactions';
 import PropertyHelmet from '~/components/PropertyHelmet';
 import Tags from '~/components/Tags';
 import Tag from '~/components/Tags/Tag';
+import sharedStyles from '~/pages/(migrated)/articles/articles.module.css';
 import YoutubeCover from '~/pages/(migrated)/pages/_components/YoutubeCover';
 import { fetchArticle } from '~/redux/actions/ArticleActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -18,6 +18,7 @@ import { useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCommentsByIds } from '~/redux/slices/comments';
 import { selectUsersByIds } from '~/redux/slices/users';
 import { appConfig } from '~/utils/appConfig';
+import { useParams } from '~/utils/useParams';
 import styles from './ArticleDetail.module.css';
 import type { PropertyGenerator } from '~/components/PropertyHelmet';
 import type { DetailedArticle, PublicArticle } from '~/redux/models/Article';
@@ -92,12 +93,13 @@ const ArticleDetail = () => {
     selectUsersByIds(state, article?.authors),
   );
 
-  const navigate = useNavigate();
   useEffect(() => {
     if (article?.slug && article?.slug !== articleIdOrSlug) {
-      navigate(`/articles/${article.slug}`, { replace: true });
+      navigate(`/articles/${article.slug}`, {
+        overwriteLastHistoryEntry: true,
+      });
     }
-  }, [article?.slug, navigate, articleIdOrSlug]);
+  }, [article?.slug, articleIdOrSlug]);
 
   const dispatch = useAppDispatch();
 
@@ -144,8 +146,8 @@ const ArticleDetail = () => {
           {authors?.map((e, i) => {
             return (
               <span key={e.username}>
-                <Link
-                  to={`/users/${e.username}`}
+                <a
+                  href={`/users/${e.username}`}
                   className={
                     i === authors.length - 1
                       ? sharedStyles.overviewAuthor
@@ -154,7 +156,7 @@ const ArticleDetail = () => {
                 >
                   {' '}
                   {e.fullName}
-                </Link>
+                </a>
                 {i === authors.length - 1 ? '' : ','}{' '}
               </span>
             );

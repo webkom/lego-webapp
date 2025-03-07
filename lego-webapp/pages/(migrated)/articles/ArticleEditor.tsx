@@ -12,7 +12,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import {
   EditorField,
   TextInput,
@@ -42,6 +42,7 @@ import { useCurrentUser } from '~/redux/slices/auth';
 import { selectUsersByIds } from '~/redux/slices/users';
 import { isNotNullish } from '~/utils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import { createValidator, required, validYoutubeUrl } from '~/utils/validation';
 import type { EditingEvent } from '~/pages/(migrated)/events/utils';
 import type { AdminDetailedArticle } from '~/redux/models/Article';
@@ -82,8 +83,6 @@ const ArticleEditor = () => {
     () => articleId && dispatch(fetchArticle(articleId)),
     [articleId],
   );
-
-  const navigate = useNavigate();
 
   const initialValues = {
     ...article,

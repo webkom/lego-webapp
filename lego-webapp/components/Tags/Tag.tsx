@@ -1,6 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import styles from './Tag.module.css';
 import type { ReactNode } from 'react';
 
@@ -43,7 +42,7 @@ const Tag = ({
 }: Props) => (
   <div className={styles.linkSpacing}>
     {link ? (
-      <Link
+      <a
         className={cx(
           styles.link,
           styles.tag,
@@ -51,11 +50,11 @@ const Tag = ({
           className,
           active && styles.active,
         )}
-        to={link}
+        href={link}
         style={{ color: textColor, backgroundColor }}
       >
         {tag}
-      </Link>
+      </a>
     ) : (
       <Flex
         gap="var(--spacing-xs)"

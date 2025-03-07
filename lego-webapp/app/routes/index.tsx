@@ -5,7 +5,6 @@ import achievementRoute from '../../pages/(migrated)/achievements';
 import adminRoute from './admin';
 import announcementsRoute from './announcements';
 import { AppRoute } from './app';
-import articlesRoute from './articles';
 import authRoute from './auth';
 import bdbRoute from './bdb';
 import brandRoute from './brand';
@@ -34,7 +33,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'achievements/*', children: achievementRoute },
       { path: 'admin/*', children: adminRoute },
       { path: 'announcements/*', children: announcementsRoute },
-      { path: 'articles/*', children: articlesRoute },
       { path: 'auth/*', children: authRoute },
       { path: 'bdb/*', children: bdbRoute },
       { path: 'brand/*', children: brandRoute },
