@@ -9,6 +9,7 @@ const entityTypeMappings = {
   'gallery.gallerypicture': EntityType.GalleryPictures,
   'forums.thread': EntityType.Thread,
   'comments.comment': EntityType.Comments,
+  'lending.lendingrequest': EntityType.LendingRequests,
 };
 export type EntityServerName = keyof typeof entityTypeMappings;
 export function getEntityType(serverName: EntityServerName): EntityType {
