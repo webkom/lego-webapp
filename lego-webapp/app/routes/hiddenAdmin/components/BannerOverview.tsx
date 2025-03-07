@@ -1,26 +1,17 @@
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  ConfirmModal,
-  Flex,
-  Icon,
-  LinkButton,
-  Page,
-} from '@webkom/lego-bricks';
+import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Globe, Lock } from 'lucide-react';
+import cx from 'classnames';
 import { Helmet } from 'react-helmet-async';
 import HTTPError from 'app/routes/errors';
+import Banner from '~/components/Banner';
 import { ContentSection, ContentMain } from '~/components/Content';
-import {
-  deleteBanner,
-  editBanner,
-  fetchAllBanners,
-} from '~/redux/actions/BannerActions';
+import ToggleSwitch from '~/components/Form/ToggleSwitch';
+import { editBanner, fetchAllBanners } from '~/redux/actions/BannerActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectAllBanners } from '~/redux/slices/banner';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import styles from './BannerOverview.module.css';
+import type { Banner as BannerType } from '~/redux/models/Banner';
 
 const BannerOverview = () => {
   const dispatch = useAppDispatch();
@@ -42,71 +33,86 @@ const BannerOverview = () => {
       <Helmet title={'Bannere'} />
       <ContentSection>
         <ContentMain>
-          {allBanners.map((b) => (
-            <Card key={b.id}>
-              <Flex alignItems="center" justifyContent="space-between">
-                <Flex column>
-                  <h2>Tittel: {b.header}</h2>
-                  <h3>Undertittel: {b.subheader}</h3>
-                  <p>
-                    Lenke: <a href={b.link}>{b.link}</a>
-                  </p>
-                  <ButtonGroup>
-                    <LinkButton href={`/admin/banners/edit/${b.id}/`}>
-                      Rediger
-                    </LinkButton>
-                    <ConfirmModal
-                      title="Bekreft sletting av banner"
-                      message="Er du sikker på at du vil slette dette banneret?"
-                      onConfirm={() => dispatch(deleteBanner(b.id))}
-                    >
-                      {({ openConfirmModal }) => (
-                        <Button onPress={openConfirmModal} danger>
-                          Slett
-                        </Button>
-                      )}
-                    </ConfirmModal>
-                  </ButtonGroup>
-                </Flex>
-                <Flex>
-                  <Icon
-                    iconNode={
-                      <Globe
-                        color={b.currentPublic ? '#13a452' : 'gray'}
-                        onClick={() => {
-                          dispatch(
-                            editBanner(
-                              { currentPublic: !b.currentPublic },
-                              b.id,
-                            ),
-                          ).then(() => dispatch(fetchAllBanners()));
-                        }}
-                      />
-                    }
-                    size={25}
-                    color="green"
-                    style={{ cursor: 'pointer' }}
-                  />
-
-                  <Icon
-                    iconNode={
-                      <Lock color={b.currentPrivate ? '#13a452' : 'gray'} />
-                    }
-                    size={25}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => {
-                      dispatch(
-                        editBanner({ currentPrivate: !b.currentPrivate }, b.id),
-                      ).then(() => dispatch(fetchAllBanners()));
-                    }}
-                  />
-                </Flex>
-              </Flex>
-            </Card>
+          {allBanners.map((banner) => (
+            <BannerItem key={banner.id} banner={banner} />
           ))}
         </ContentMain>
       </ContentSection>
     </Page>
+  );
+};
+
+const BannerItem = ({ banner }: { banner: BannerType }) => {
+  const dispatch = useAppDispatch();
+
+  const togglePublic = () =>
+    dispatch(
+      editBanner({ currentPublic: !banner.currentPublic }, banner.id),
+    ).then(() => dispatch(fetchAllBanners()));
+
+  const togglePrivate = () =>
+    dispatch(
+      editBanner({ currentPrivate: !banner.currentPrivate }, banner.id),
+    ).then(() => dispatch(fetchAllBanners()));
+
+  return (
+    <Card hideOverflow className={styles.card}>
+      <div className={cx(styles.cardSection, styles.bannerContainer)}>
+        <Banner
+          header={banner.header}
+          subHeader={banner.subheader}
+          link={banner.link}
+          color={banner.color}
+        />
+      </div>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        gap="var(--spacing-md)"
+        className={styles.cardSection}
+      >
+        <Flex
+          alignItems="center"
+          justifyContent="center"
+          gap="var(--spacing-md)"
+        >
+          <Flex
+            column
+            gap="var(--spacing-sm)"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <h4>Innlogget forside</h4>
+            <ToggleSwitch
+              value={banner.currentPrivate}
+              name="private"
+              checked={banner.currentPrivate}
+              onChange={togglePrivate}
+            />
+          </Flex>
+          <Flex
+            column
+            gap="var(--spacing-sm)"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <h4>Offentlig forside</h4>
+            <ToggleSwitch
+              value={banner.currentPublic}
+              name="public"
+              checked={banner.currentPublic}
+              onChange={togglePublic}
+            />
+          </Flex>
+        </Flex>
+        <LinkButton
+          href={`/admin/banners/edit/${banner.id}/`}
+          className={styles.editButton}
+        >
+          Rediger
+        </LinkButton>
+      </Flex>
+    </Card>
   );
 };
 
