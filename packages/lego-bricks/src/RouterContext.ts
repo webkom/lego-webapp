@@ -22,9 +22,14 @@ export const RouterContext = createContext<RouterContextData | null>(null);
 export const useRouterContext = () => {
   const router = useContext(RouterContext);
   if (!router) {
-    throw new Error(
-      'LegoBricksProvider not found. Make sure to wrap your app in <LegoBricksProvider>',
-    );
+    return {
+      navigate: () => {
+        throw new Error(
+          'LegoBricksProvider not found. Make sure to wrap your app in <LegoBricksProvider>',
+        );
+      },
+      useLocation: () => ({}),
+    } as unknown as RouterContextData
   }
   return router;
 };
