@@ -1,7 +1,6 @@
 import { Flex, Icon, Skeleton, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { FolderOpen, FolderSearch } from 'lucide-react';
-import { Link } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import { ProfilePicture } from '~/components/Image';
 import { useAppSelector } from '~/redux/hooks';
@@ -37,12 +36,12 @@ const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
       className={styles.searchResult}
     >
       <Flex column className={styles.textbox}>
-        <Link
+        <a
           onClick={(e) => {
             e.preventDefault();
             onSelect(result);
           }}
-          to={result.link}
+          href={result.link}
         >
           <Flex
             alignItems="center"
@@ -57,7 +56,7 @@ const SearchResult = ({ result, onSelect, isSelected }: SearchResultProps) => {
               <Icon name={result.icon} />
             )}
           </Flex>
-        </Link>
+        </a>
         {result.content && (
           <p>
             {truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 140)}
