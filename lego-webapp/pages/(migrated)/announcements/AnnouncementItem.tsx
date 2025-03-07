@@ -1,6 +1,5 @@
 import { Button, ButtonGroup, Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import Time from '~/components/Time';
 import {
   deleteAnnouncement,
@@ -36,12 +35,12 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
         {announcement.fromGroup && (
           <Flex wrap>
             {'Sendt fra: '}
-            <Link
+            <a
               className={styles.recipients}
-              to={`/admin/groups/${announcement.fromGroup.id}/`}
+              href={`/admin/groups/${announcement.fromGroup.id}/`}
             >
               {announcement.fromGroup.name}
-            </Link>
+            </a>
           </Flex>
         )}
         <Flex column>
@@ -56,13 +55,13 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               </span>
             )}
             {announcement.events.map((event, i) => (
-              <Link
+              <a
                 key={i}
                 className={styles.recipients}
-                to={`/events/${event.slug}/`}
+                href={`/events/${event.slug}/`}
               >
                 {event.title}
-              </Link>
+              </a>
             ))}
           </Flex>
           <Flex alignItems="center" gap="var(--spacing-sm)" wrap>
@@ -77,37 +76,37 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
               </span>
             )}
             {announcement.meetings.map((meeting, i) => (
-              <Link
+              <a
                 key={i}
                 className={styles.recipients}
-                to={`/meetings/${meeting.id}/`}
+                href={`/meetings/${meeting.id}/`}
               >
                 {meeting.title}
-              </Link>
+              </a>
             ))}
           </Flex>
           <Flex alignItems="center" wrap>
             {announcement.groups.length > 0 && 'Grupper: '}
             {announcement.groups.map((group, i) => (
-              <Link
+              <a
                 key={i}
                 className={styles.recipients}
-                to={`/admin/groups/${group.id}/`}
+                href={`/admin/groups/${group.id}/`}
               >
                 {group.name}
-              </Link>
+              </a>
             ))}
           </Flex>
           <Flex alignItems="center" wrap>
             {announcement.users.length > 0 && 'Brukere: '}
             {announcement.users.map((user, i) => (
-              <Link
+              <a
                 key={i}
                 className={styles.recipients}
-                to={`/users/${user.username}/`}
+                href={`/users/${user.username}/`}
               >
                 {user.fullName}
-              </Link>
+              </a>
             ))}
           </Flex>
         </Flex>

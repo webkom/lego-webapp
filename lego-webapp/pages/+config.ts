@@ -7,6 +7,7 @@ export default {
   // description: 'Demo showcasing Vike',
 
   redirects: {
+    '/kontakt': '/contact',
     // Old emails used this url for some reason
     '/185f9aa436cf7f5da598.png': '/logo-dark.png',
   },

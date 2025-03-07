@@ -2,7 +2,6 @@ import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { Field } from 'react-final-form';
-import { Link } from 'react-router';
 import { GroupType } from 'app/models';
 import {
   Form,
@@ -112,9 +111,9 @@ const ContactForm = () => {
               mulighet til å følge opp saken samtidig som du forblir anonym.
               <br />
               Les mer i våre{' '}
-              <Link to="/pages/organisasjon/117-abakus-etiske-retningslinjer">
+              <a href="/pages/organisasjon/117-abakus-etiske-retningslinjer">
                 Etiske retningslinjer
-              </Link>
+              </a>
               .
             </span>
           </Card>
