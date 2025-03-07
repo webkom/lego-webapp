@@ -8,7 +8,6 @@ import bdbRoute from './bdb';
 import companyRoute from './company';
 import forumRoute from './forum';
 import hiddenAdminRoute from './hiddenAdmin';
-import interestGroupsRoute from './interestgroups';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
 import surveysRoute from './surveys';
@@ -29,8 +28,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'register-interest', lazy: CompanyInterestPage },
       { path: 'interesse', lazy: CompanyInterestPage },
       { path: 'forum/*', children: forumRoute },
-      { path: 'interest-groups/*', children: interestGroupsRoute },
-      { path: 'interestgroups/*', children: interestGroupsRoute },
       { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
       { path: 'sudo/*', children: hiddenAdminRoute },

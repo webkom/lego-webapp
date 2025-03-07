@@ -2,7 +2,6 @@ import { LinkButton, Page, Flex, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Info, HandCoins, Plus } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import { GroupType } from 'app/models';
 import { ContentMain } from '~/components/Content';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
@@ -19,8 +18,8 @@ const NavigationItem = (props: {
 }) => {
   return (
     <Flex
-      component={Link}
-      to={props.to}
+      component="a"
+      href={props.to}
       alignItems="center"
       gap="var(--spacing-md)"
       padding="var(--spacing-md)"
@@ -60,7 +59,7 @@ const InterestGroupList = () => {
       title="Interessegrupper"
       actionButtons={
         actionGrant.includes('create') && (
-          <LinkButton href="/interest-groups/create">
+          <LinkButton href="/interest-groups/new">
             Lag ny interessegruppe
           </LinkButton>
         )
@@ -70,12 +69,12 @@ const InterestGroupList = () => {
 
       <ContentMain>
         <Flex gap="var(--spacing-xl)" wrap>
-          <NavigationItem to="/interestgroups/info" iconNode={<Info />}>
+          <NavigationItem to="/interest-groups/info" iconNode={<Info />}>
             Praktisk informasjon
             <br /> om interessegrupper
           </NavigationItem>
           <NavigationItem
-            to="/interestgroups/money-application"
+            to="/interest-groups/money-application"
             iconNode={<HandCoins />}
           >
             Send inn en
@@ -83,7 +82,7 @@ const InterestGroupList = () => {
             pengesøknad
           </NavigationItem>
           <NavigationItem
-            to="/interestgroups/create-application"
+            to="/interest-groups/create-application"
             iconNode={<Plus />}
           >
             Søk om å opprette en <br />

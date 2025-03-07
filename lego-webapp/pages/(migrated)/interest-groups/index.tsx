@@ -1,24 +1,18 @@
+import pageNotFound from 'app/routes/pageNotFound';
 import { lazyComponent } from '~/utils/lazyComponent';
-import pageNotFound from '../pageNotFound';
 import type { RouteObject } from 'react-router';
 
-const InterestGroupList = lazyComponent(
-  () => import('./components/InterestGroupList'),
-);
-const InterestGroupInfo = lazyComponent(
-  () => import('./components/InterestGroupInfo'),
-);
+const InterestGroupList = lazyComponent(() => import('./+Page'));
+const InterestGroupInfo = lazyComponent(() => import('./info/+Page'));
 const InterestGroupMoneyApplication = lazyComponent(
-  () => import('./components/InterestGroupMoneyApplication'),
+  () => import('./money-application/+Page'),
 );
 const InterestGroupCreateApplication = lazyComponent(
-  () => import('./components/InterestGroupApplyCreateApplication'),
+  () => import('./create-application/+Page'),
 );
-const InterestGroupEdit = lazyComponent(
-  () => import('./components/InterestGroupEdit'),
-);
+const InterestGroupEdit = lazyComponent(() => import('./InterestGroupEdit'));
 const InterestGroupDetail = lazyComponent(
-  () => import('./components/InterestGroupDetail'),
+  () => import('~/pages/(migrated)/interest-groups/@groupId/+Page'),
 );
 
 const interestGroupsRoute: RouteObject[] = [

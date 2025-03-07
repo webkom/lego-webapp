@@ -12,7 +12,6 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
 import AnnouncementInLine from '~/components/AnnouncementInLine';
 import {
   ContentSection,
@@ -31,8 +30,9 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectGroupById } from '~/redux/slices/groups';
 import { selectMembershipsForGroup } from '~/redux/slices/memberships';
-import styles from './InterestGroup.module.css';
-import InterestGroupMemberModal from './InterestGroupMemberModal';
+import { useParams } from '~/utils/useParams';
+import styles from '../InterestGroup.module.css';
+import InterestGroupMemberModal from '../InterestGroupMemberModal';
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { TransformedMembership } from '~/redux/slices/memberships';
 

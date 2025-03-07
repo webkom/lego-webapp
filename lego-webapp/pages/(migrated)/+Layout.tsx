@@ -59,7 +59,7 @@ const useLocation: ComponentProps<typeof LegoBricksProvider>['useLocation'] = <
   return {
     pathname: pageContext.urlParsed.pathname,
     search: pageContext.urlParsed.searchOriginal ?? '',
-    navigationState: undefined as S | undefined,
+    navigationState: pageContext.navigationState as S,
   };
 };
 

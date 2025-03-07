@@ -1,7 +1,6 @@
 import { Flex, Icon, Modal } from '@webkom/lego-bricks';
 import sortBy from 'lodash/sortBy';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import TextInput from '~/components/Form/TextInput';
 import { ProfilePicture } from '~/components/Image';
 import Tooltip from '~/components/Tooltip';
@@ -50,9 +49,9 @@ const ListedUser = ({ user, role }: { user: PublicUser; role: RoleType }) => (
     <Flex alignItems="center" gap={10} className={shared.row}>
       <ProfilePicture size={30} user={user} />
       <RoleIcon role={role} />
-      <Link to={`/users/${user.username}`}>
+      <a href={`/users/${user.username}`}>
         <span className={nameStyleByRole[role]}>{user.fullName}</span>
-      </Link>
+      </a>
     </Flex>
   </li>
 );

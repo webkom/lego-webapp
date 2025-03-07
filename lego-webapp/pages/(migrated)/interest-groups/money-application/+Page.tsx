@@ -1,13 +1,12 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
-import styles from './InterestGroup.module.css';
+import styles from '../InterestGroup.module.css';
 
 const InterestGroupApplyCash = () => {
   return (
     <Page
       title="Send inn en pengesøknad"
-      back={{ href: '/interestgroups', label: 'Interessegrupper' }}
+      back={{ href: '/interest-groups', label: 'Interessegrupper' }}
     >
       <Helmet title="Send inn en pengesøknad" />
 
@@ -24,9 +23,9 @@ const InterestGroupApplyCash = () => {
         <h2>Hvordan søke</h2>
         <p>
           Ønsker din gruppe å søke støtte, send en søknad på e-post til{' '}
-          <Link to="mailto:interessegrupper@abakus.no">
+          <a href="mailto:interessegrupper@abakus.no">
             interessegrupper@abakus.no
-          </Link>
+          </a>
           .
         </p>
         <p>
@@ -36,20 +35,22 @@ const InterestGroupApplyCash = () => {
         </p>
         <p>Legg ved utfylt mal for pengesøknad:</p>
         <p>
-          <Link
-            to="https://drive.google.com/file/d/1A0-bvDZwbHlQoZWPj8oXoeV_0go1qoy5/view?usp=sharing"
+          <a
+            href="https://drive.google.com/file/d/1A0-bvDZwbHlQoZWPj8oXoeV_0go1qoy5/view?usp=sharing"
             target="_blank"
+            rel="noreferrer"
           >
             Mal til pengesøknad
-          </Link>
+          </a>
         </p>
         <p>
-          <Link
-            to="https://drive.google.com/file/d/11MEIfLTHI1q0T76I1l7E5qllepH2PN3S/view?usp=sharing"
+          <a
+            href="https://drive.google.com/file/d/11MEIfLTHI1q0T76I1l7E5qllepH2PN3S/view?usp=sharing"
             target="_blank"
+            rel="noreferrer"
           >
             Eksempel på utfylt søknad
-          </Link>
+          </a>
         </p>
         <p>
           Søknaden vil så bli vurdert av Abakus. Det er altså ikke en garanti å
@@ -60,9 +61,9 @@ const InterestGroupApplyCash = () => {
         <p>
           Høres dette vrient ut, så fortvil ikke: Vi er her for å bistå. Bare
           send en mail til{' '}
-          <Link to="mailto:interessegrupper@abakus.no">
+          <a href="mailto:interessegrupper@abakus.no">
             interessegrupper@abakus.no
-          </Link>{' '}
+          </a>{' '}
           med spørsmål så får dere hjelp med å sette opp en søknad slik at dere
           kan søke om støtte.
         </p>

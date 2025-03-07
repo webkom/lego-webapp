@@ -16,7 +16,7 @@ const AboutDropdown = () => {
     {
       title: 'Interessegrupper',
       description: 'Utforsk og engasjer deg i en interessegruppe',
-      href: '/interestgroups',
+      href: '/interest-groups',
     },
     {
       title: 'Revyen',

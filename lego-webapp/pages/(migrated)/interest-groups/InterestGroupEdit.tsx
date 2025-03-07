@@ -1,12 +1,12 @@
 import { LoadingPage, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
 import GroupForm from 'app/routes/admin/groups/components/GroupForm';
 import { fetchGroup } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectGroupById } from '~/redux/slices/groups';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 
 const InterestGroupEdit = () => {

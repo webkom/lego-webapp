@@ -1,6 +1,5 @@
 import { Flex, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import ABAKUS_ICON from '~/public/icon-192x192.png';
 import styles from './InterestGroup.module.css';
 import type { Group } from 'app/models';
@@ -12,8 +11,8 @@ type Props = {
 
 const InterestGroupComponent = ({ group, active }: Props) => {
   return (
-    <Link
-      to={`/interest-groups/${group.id}`}
+    <a
+      href={`/interest-groups/${group.id}`}
       className={cx(styles.listItem, !active && styles.inactiveListItem)}
     >
       <Image
@@ -34,7 +33,7 @@ const InterestGroupComponent = ({ group, active }: Props) => {
           </Flex>
         )}
       </Flex>
-    </Link>
+    </a>
   );
 };
 

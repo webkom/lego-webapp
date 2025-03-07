@@ -1,5 +1,5 @@
 import { Field } from 'react-final-form';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import { GroupType } from 'app/models';
 import {
   Form,
@@ -15,6 +15,7 @@ import { createGroup, editGroup } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectGroupById } from '~/redux/slices/groups';
 import { EDITOR_EMPTY } from '~/utils/constants';
+import { useParams } from '~/utils/useParams';
 import { createValidator, required } from '~/utils/validation';
 import type { GroupPageParams } from 'app/routes/admin/groups/components/GroupPage';
 import type { DetailedGroup } from '~/redux/models/Group';
@@ -50,7 +51,6 @@ const GroupForm = ({ isInterestGroup }: Props) => {
   const isNew = !groupId;
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (values: FormValues) => {
     if (isInterestGroup) {

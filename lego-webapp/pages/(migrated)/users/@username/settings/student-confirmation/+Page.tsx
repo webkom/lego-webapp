@@ -71,7 +71,7 @@ const StudentConfirmation = () => {
     };
 
     validateStudentAuth();
-  }, [code, state, dispatch]);
+  }, [code, state, dispatch, clearSearchParams]);
 
   useEffect(() => {
     authRes?.status === 'success' && setShowMemberModal(true);

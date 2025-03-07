@@ -1,13 +1,12 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
-import styles from './InterestGroup.module.css';
+import styles from '../InterestGroup.module.css';
 
 const InterestGroupApplyCreate = () => {
   return (
     <Page
       title="Opprett interessegruppe"
-      back={{ href: '/interestgroups', label: 'Interessegrupper' }}
+      back={{ href: '/interest-groups', label: 'Interessegrupper' }}
     >
       <Helmet title="Opprett interessegruppe" />
 
@@ -15,17 +14,17 @@ const InterestGroupApplyCreate = () => {
         <p>Vil du starte en interessegruppe? Da er du på riktig sted!</p>
         <p>
           Før du oppretter en interessegruppe kan du sjekke{' '}
-          <Link to="/interest-groups">oversikten over interessegrupper</Link>{' '}
-          for å se om det allerede finnes en gruppe fra før.
+          <a href="/interest-groups">oversikten over interessegrupper</a> for å
+          se om det allerede finnes en gruppe fra før.
         </p>
 
         <br />
 
         <p>
           Det er meget lett å bli en interessegruppe, bare send en mail til{' '}
-          <Link to="mailto:interessegrupper@abakus.no">
+          <a href="mailto:interessegrupper@abakus.no">
             interessegrupper@abakus.no
-          </Link>{' '}
+          </a>{' '}
           med:
         </p>
         <ul>

@@ -76,8 +76,9 @@ const validate = createValidator({
 });
 
 const AnnouncementsCreate = () => {
-  const location = useLocation();
-  const state = location.state as AnnouncementCreateLocationState;
+  const location = useLocation<AnnouncementCreateLocationState>();
+  const state = location.navigationState;
+  console.log(state);
 
   const dispatch = useAppDispatch();
 
