@@ -9,7 +9,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
 import { PropsWithChildren, useState } from 'react';
 import { navigate } from 'vike/client/router';
-import LoginPage from 'app/routes/auth/components/LoginPage';
 import HTTPError from 'app/routes/errors/HTTPError';
 import EmptyState from '~/components/EmptyState';
 import Gallery from '~/components/Gallery';
@@ -17,6 +16,7 @@ import PropertyHelmet, {
   type PropertyGenerator,
 } from '~/components/PropertyHelmet';
 import ImageUpload from '~/components/Upload/ImageUpload';
+import LoginPage from '~/pages/(migrated)/auth/+Page';
 import { downloadFiles, zipFiles } from '~/pages/(migrated)/photos/utils';
 import {
   fetchGallery,

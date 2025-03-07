@@ -72,7 +72,7 @@ const Overview = () => {
 
     window.addEventListener('keydown', keyHandler);
     return () => window.removeEventListener('keydown', keyHandler);
-  }, [dispatch, navigate, sudoAdminAccess]);
+  }, [dispatch, sudoAdminAccess]);
 
   return (
     <ContentMain>

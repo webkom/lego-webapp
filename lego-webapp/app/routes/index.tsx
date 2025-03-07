@@ -1,13 +1,10 @@
 import { type RouteObject } from 'react-router';
 import lendingRoute from 'app/routes/lending';
 import { lazyComponent } from '~/utils/lazyComponent';
-import adminRoute from '../../pages/(migrated)/admin';
 import { AppRoute } from './app';
-import authRoute from './auth';
 import bdbRoute from './bdb';
 import companyRoute from './company';
 import forumRoute from './forum';
-import hiddenAdminRoute from './hiddenAdmin';
 import meetingsRoute from './meetings';
 import pageNotFound from './pageNotFound';
 import surveysRoute from './surveys';
@@ -21,7 +18,6 @@ export const routerConfig: RouteObject[] = [
   {
     Component: AppRoute,
     children: [
-      { path: 'auth/*', children: authRoute },
       { path: 'bdb/*', children: bdbRoute },
       { path: 'companies/*', children: companyRoute },
       { path: 'register-interest', lazy: CompanyInterestPage },
@@ -29,7 +25,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'forum/*', children: forumRoute },
       { path: 'lending/*', children: lendingRoute },
       { path: 'meetings/*', children: meetingsRoute },
-      { path: 'sudo/*', children: hiddenAdminRoute },
       { path: 'surveys/*', children: surveysRoute },
       { path: '*', children: pageNotFound },
     ],

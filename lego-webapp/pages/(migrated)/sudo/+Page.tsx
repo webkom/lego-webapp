@@ -1,6 +1,5 @@
 import { Page, Flex } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import HTTPError from 'app/routes/errors';
 import a4bc35b6c0664b45 from '~/assets/26e7499bfb6390d9/a4bc35b6c0664b45.jpg';
 import acb2777779bbf024 from '~/assets/26e7499bfb6390d9/acb2777779bbf024.jpg';
@@ -41,10 +40,10 @@ const SudoAdmin = () => {
           <h2>Handlinger:</h2>
           <ul className={styles.list}>
             <li>
-              <Link to={'/admin/banners'}>Banners</Link>
+              <a href={'/admin/banners'}>Banners</a>
             </li>
             <li>
-              <Link to={'#'}>FeatureToggle (Coming soon!)</Link>
+              <a href={'#'}>FeatureToggle (Coming soon!)</a>
             </li>
           </ul>
         </ContentMain>
