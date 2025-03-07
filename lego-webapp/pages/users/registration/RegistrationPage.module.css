@@ -1,0 +1,25 @@
+@import url('../../../styles/variables.css');
+
+.programmeList {
+  list-style: disc;
+  list-style-position: inside;
+  font-style: italic;
+}
+
+.notEligibleInfo {
+  margin-top: var(--spacing-md);
+}
+
+.infoList {
+  list-style-position: inside;
+  margin-left: var(--spacing-md);
+}
+
+.membershipModalContent {
+  width: 600px;
+  max-width: 90%;
+
+  @media (--tall-viewport) {
+    max-height: calc(100vh - 300px);
+  }
+}

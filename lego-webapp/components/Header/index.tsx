@@ -6,8 +6,6 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { navigate } from 'vike/client/router';
 import Auth from '~/components/Auth';
-import logoLightMode from '~/public/logo-dark.png';
-import logoDarkMode from '~/public/logo.png';
 import { fetchAll as fetchMeetings } from '~/redux/actions/MeetingActions';
 import { toggleSearch } from '~/redux/actions/SearchActions';
 import { logout } from '~/redux/actions/UserActions';
@@ -115,12 +113,12 @@ const HeaderLogo = () => {
       <LoadingIndicator loading={loading}>
         <div className={styles.logo}>
           <Image
-            src={logoLightMode}
+            src="/logo-dark.png"
             className={styles.logoLightMode}
             alt="Abakus sin logo"
           />
           <Image
-            src={logoDarkMode}
+            src="/logo.png"
             className={styles.logoDarkMode}
             alt="Abakus sin logo"
           />

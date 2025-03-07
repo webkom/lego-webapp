@@ -35,6 +35,15 @@ export const useLocation = <S = unknown>() =>
 export const useClearSearchParams = (options: RouterOptions = {}) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const { overwriteLastHistoryEntry = true, ...rest } = options;
-  return () => navigate(pathname, { overwriteLastHistoryEntry, ...rest });
+  const {
+    overwriteLastHistoryEntry = true,
+    keepScrollPosition = true,
+    ...rest
+  } = options;
+  return () =>
+    navigate(pathname, {
+      overwriteLastHistoryEntry,
+      keepScrollPosition,
+      ...rest,
+    });
 };

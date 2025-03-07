@@ -1,0 +1,18 @@
+@import url('../../styles/variables.css');
+
+.meetingItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.meetingItemTitle {
+  color: var(--lego-font-color);
+  font-weight: 600;
+}
+
+.meetingTime {
+  color: var(--secondary-font-color);
+}

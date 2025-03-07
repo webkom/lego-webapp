@@ -110,7 +110,7 @@ type LinkButtonProps<S = unknown> = StyleProps &
     state?: S;
   };
 
-export const LinkButton = <S = unknown>({
+export const LinkButton = <S = unknown,>({
   children,
   disabled,
   state,
@@ -119,7 +119,12 @@ export const LinkButton = <S = unknown>({
   const className = getButtonClassName(rest);
 
   return (
-    <AriaLink isDisabled={disabled} {...rest} className={className} routerOptions={{ navigationState: state }}>
+    <AriaLink
+      isDisabled={disabled}
+      {...rest}
+      className={className}
+      routerOptions={{ navigationState: state }}
+    >
       {children}
     </AriaLink>
   );

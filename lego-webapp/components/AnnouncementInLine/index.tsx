@@ -1,7 +1,7 @@
 import { Icon, LinkButton } from '@webkom/lego-bricks';
 import { Send } from 'lucide-react';
 import { useAppSelector } from '~/redux/hooks';
-import type { AnnouncementCreateLocationState } from '~/pages/(migrated)/announcements/AnnouncementsCreate';
+import type { AnnouncementCreateLocationState } from '~/pages/announcements/AnnouncementsCreate';
 import type { CompleteEvent } from '~/redux/models/Event';
 import type { UnknownGroup } from '~/redux/models/Group';
 import type { UnknownMeeting } from '~/redux/models/Meeting';

@@ -1,4 +1,4 @@
-import { semesterToText } from '~/pages/(migrated)/bdb/company-interest/utils';
+import { semesterToText } from '~/pages/bdb/company-interest/utils';
 import { Company, Event } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import {
@@ -9,7 +9,7 @@ import {
 import createQueryString from '~/utils/createQueryString';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ParsedQs } from 'qs';
-import type { FormValues as CompanyContactEditorFormValues } from '~/pages/(migrated)/bdb/@companyId/company-contacts/CompanyContactEditor';
+import type { FormValues as CompanyContactEditorFormValues } from '~/pages/bdb/@companyId/company-contacts/CompanyContactEditor';
 import type { Semester } from '~/redux/models';
 import type {
   AdminListCompany,

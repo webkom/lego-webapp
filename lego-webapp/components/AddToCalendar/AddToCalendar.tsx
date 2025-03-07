@@ -1,9 +1,6 @@
 import { Button, Card, Icon } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import {
-  getIcalUrl,
-  getIcalUrlGoogle,
-} from '~/pages/(migrated)/events/index/EventFooter';
+import { getIcalUrl, getIcalUrlGoogle } from '~/pages/events/index/EventFooter';
 import styles from './AddToCalendar.module.css';
 import type { PropsWithChildren } from 'react';
 import type { DetailedMeeting } from '~/redux/models/Meeting';

@@ -1,7 +1,7 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
 import { PhotoConsentDomain } from 'app/models';
 import TextWithIcon from '~/components/TextWithIcon';
-import styles from '~/pages/(migrated)/events/@eventIdOrSlug/EventDetail.module.css';
+import styles from '~/pages/events/@eventIdOrSlug/EventDetail.module.css';
 import {
   paymentPending,
   paymentCardDeclined,
@@ -11,7 +11,7 @@ import {
   getConsent,
   allConsentsAnswered,
   toReadableSemester,
-} from '~/pages/(migrated)/events/utils';
+} from '~/pages/events/utils';
 import type {
   EventRegistrationPaymentStatus,
   LEGACY_EventRegistrationPhotoConsent,

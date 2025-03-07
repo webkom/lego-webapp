@@ -1,7 +1,7 @@
 import { Page } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { pageSchema } from '~/redux/schemas';
-import type { ApiRequestBody } from '~/pages/(migrated)/pages/_components/PageEditor';
+import type { ApiRequestBody } from '~/pages/pages/_components/PageEditor';
 import type { AuthDetailedPage } from '~/redux/models/Page';
 
 export function fetchPage(pageSlug: string) {

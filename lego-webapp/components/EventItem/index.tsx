@@ -12,7 +12,7 @@ import Pill from '~/components/Pill';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
 import Tooltip from '~/components/Tooltip';
-import { colorForEventType } from '~/pages/(migrated)/events/utils';
+import { colorForEventType } from '~/pages/events/utils';
 import { EventStatusType } from '~/redux/models/Event';
 import { eventAttendanceAbsolute } from '~/utils/eventStatus';
 import RegistrationStatusTag from './RegistrationStatusTag';

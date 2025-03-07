@@ -3,7 +3,7 @@ import { Meeting } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { meetingSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { MeetingFormValues } from '~/pages/(migrated)/meetings/MeetingEditor';
+import type { MeetingFormValues } from '~/pages/meetings/MeetingEditor';
 import type { DetailedMeeting, ListMeeting } from '~/redux/models/Meeting';
 import type { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import type { CurrentUser } from '~/redux/models/User';

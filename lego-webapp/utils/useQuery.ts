@@ -59,6 +59,7 @@ const useQuery = <Values extends ParsedQs>(defaultValues: Values) => {
   const setQuery = async (query: Partial<Values>) =>
     navigate(urlParsed.pathname + stringifyQuery(query, defaultValues), {
       overwriteLastHistoryEntry: true,
+      keepScrollPosition: true,
     });
 
   const setQueryValue =
