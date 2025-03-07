@@ -1,8 +1,8 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useParams, useNavigate } from 'react-router';
-import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
-import { questionTypeString } from 'app/routes/surveys/utils';
+import { navigate } from 'vike/client/router';
+import SurveyForm from '~/pages/(migrated)/surveys/components/SurveyEditor/SurveyForm';
+import { questionTypeString } from '~/pages/(migrated)/surveys/utils';
 import { editSurvey, fetchTemplates } from '~/redux/actions/SurveyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
@@ -10,6 +10,7 @@ import {
   useFetchedSurvey,
   useFetchedTemplate,
 } from '~/redux/slices/surveys';
+import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
 import type {
   DetailedSurvey,
@@ -25,8 +26,7 @@ type EditSurveyPageParams = {
 };
 const EditSurveyPage = () => {
   const dispatch = useAppDispatch();
-  const { surveyId } =
-    useParams<EditSurveyPageParams>() as EditSurveyPageParams;
+  const { surveyId } = useParams<EditSurveyPageParams>();
   const { query, setQueryValue } = useQuery(defaultEditSurveyQuery);
   const { survey, event } = useFetchedSurvey('editSurvey', surveyId);
   const { templateId } = query;
@@ -39,7 +39,6 @@ const EditSurveyPage = () => {
   );
   const templates = useAppSelector(selectSurveyTemplates) as DetailedSurvey[];
 
-  const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
     dispatch(editSurvey({ surveyId, ...surveyData })).then(() =>
       navigate('..', { relative: 'path' }),

@@ -1,9 +1,9 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
-import { useNavigate } from 'react-router';
-import SurveyForm from 'app/routes/surveys/components/SurveyEditor/SurveyForm';
-import { initialQuestion } from 'app/routes/surveys/components/SurveyEditor/utils';
+import { navigate } from 'vike/client/router';
+import SurveyForm from '~/pages/(migrated)/surveys/components/SurveyEditor/SurveyForm';
+import { initialQuestion } from '~/pages/(migrated)/surveys/components/SurveyEditor/utils';
 import { fetchEvent } from '~/redux/actions/EventActions';
 import { addSurvey, fetchTemplates } from '~/redux/actions/SurveyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -56,7 +56,6 @@ const AddSurveyPage = () => {
     selectEventById<AdministrateEvent>(state, event),
   );
 
-  const navigate = useNavigate();
   const onSubmit = (surveyData: FormSubmitSurvey): Promise<void> =>
     dispatch(addSurvey(surveyData)).then((res) =>
       navigate(`/surveys/${res.payload.result}`),

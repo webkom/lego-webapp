@@ -1,13 +1,14 @@
 import { Flex } from '@webkom/lego-bricks';
 import { produce } from 'immer';
-import { useOutletContext } from 'react-router';
-import AveragePill from 'app/routes/surveys/components/Submissions/AveragePill';
+import { ReactNode, useContext } from 'react';
 import DistributionBarChart from '~/components/Chart/BarChart';
 import ChartLabel from '~/components/Chart/ChartLabel';
 import DistributionPieChart from '~/components/Chart/PieChart';
 import { CHART_COLORS } from '~/components/Chart/utils';
 import SelectInput from '~/components/Form/SelectInput';
 import InfoBubble from '~/components/InfoBubble';
+import { SurveysRouteContext } from '~/pages/(migrated)/surveys/@surveyId/(wrapper)/SurveysRouteContext';
+import AveragePill from '~/pages/(migrated)/surveys/@surveyId/(wrapper)/submissions/AveragePill';
 import { editSurvey } from '~/redux/actions/SurveyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
@@ -15,11 +16,9 @@ import {
   SurveyQuestionType,
 } from '~/redux/models/SurveyQuestion';
 import { selectEventById } from '~/redux/slices/events';
-import { QuestionTypeValue, QuestionTypeOption } from '../../utils';
-import styles from '../surveys.module.css';
-import type { SurveysRouteContext } from '../..';
+import styles from '../../../components/surveys.module.css';
+import { QuestionTypeValue, QuestionTypeOption } from '../../../utils';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ReactNode } from 'react';
 import type { DistributionDataPoint } from '~/components/Chart/utils';
 import type { EventForSurvey } from '~/redux/models/Event';
 import type { DetailedSurvey } from '~/redux/models/Survey';
@@ -83,7 +82,7 @@ const Results = ({
   const event = useAppSelector(
     (state) => selectEventById<EventForSurvey>(state, survey.event)!,
   );
-  const { fetchingSubmissions } = useOutletContext<SurveysRouteContext>();
+  const { fetchingSubmissions } = useContext(SurveysRouteContext);
 
   const info: Info[] = [
     {

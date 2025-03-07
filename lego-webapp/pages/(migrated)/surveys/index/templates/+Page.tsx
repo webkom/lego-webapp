@@ -7,7 +7,7 @@ import { EntityType } from '~/redux/models/entities';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectSurveyTemplates } from '~/redux/slices/surveys';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
-import SurveyList from './SurveyList';
+import SurveyList from '../SurveyList';
 import type { DetailedSurvey } from '~/redux/models/Survey';
 
 const SurveyTemplatesListPage = () => {

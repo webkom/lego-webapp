@@ -1,7 +1,7 @@
 import Tag from '~/components/Tags/Tag';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { GraphData } from 'app/routes/surveys/components/Submissions/Results';
 import type { TagColors } from '~/components/Tags/Tag';
+import type { GraphData } from '~/pages/(migrated)/surveys/@surveyId/(wrapper)/submissions/Results';
 import type { SurveyQuestionOption } from '~/redux/models/SurveyQuestion';
 
 type Props = {

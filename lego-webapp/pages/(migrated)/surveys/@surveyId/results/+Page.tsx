@@ -4,14 +4,14 @@ import {
   Page,
   PageCover,
 } from '@webkom/lego-bricks';
-import { useParams } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import { useAppSelector } from '~/redux/hooks';
 import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
 import { useFetchedSurvey } from '~/redux/slices/surveys';
+import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
-import Results from './Results';
-import type { GraphData } from './Results';
+import Results from '../(wrapper)/submissions/Results';
+import type { GraphData } from '../(wrapper)/submissions/Results';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import type { SurveyQuestion } from '~/redux/models/SurveyQuestion';
@@ -20,9 +20,9 @@ type SubmissionsPublicResultsParams = {
   surveyId: string;
 };
 const SubmissionPublicResultsPage = () => {
-  const { surveyId } =
-    useParams<SubmissionsPublicResultsParams>() as SubmissionsPublicResultsParams;
+  const { surveyId } = useParams<SubmissionsPublicResultsParams>();
   const { query } = useQuery({ token: '' });
+  console.log(query);
   const { survey, event } = useFetchedSurvey(
     'submissionPublicResults',
     surveyId,

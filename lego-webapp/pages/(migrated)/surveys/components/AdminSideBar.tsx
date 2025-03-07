@@ -64,7 +64,7 @@ const AdminSideBar = ({
           <h3>Admin</h3>
 
           <ButtonGroup vertical>
-            <LinkButton href="/surveys/add">
+            <LinkButton href="/surveys/new">
               <Icon iconNode={<Plus />} size={19} />
               Ny undersøkelse
             </LinkButton>

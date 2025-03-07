@@ -2,12 +2,11 @@ import { Card, LoadingIndicator, Page, PageCover } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router';
-import AlreadyAnswered from 'app/routes/surveys/components/AddSubmission/AlreadyAnswered';
-import SurveySubmissionForm from 'app/routes/surveys/components/AddSubmission/SurveySubmissionForm';
-import styles from 'app/routes/surveys/components/surveys.module.css';
 import { ContentMain, ContentSection } from '~/components/Content';
 import Time from '~/components/Time';
+import AlreadyAnswered from '~/pages/(migrated)/surveys/@surveyId/answer/AlreadyAnswered';
+import SurveySubmissionForm from '~/pages/(migrated)/surveys/@surveyId/answer/SurveySubmissionForm';
+import styles from '~/pages/(migrated)/surveys/components/surveys.module.css';
 import {
   addSubmission,
   fetchUserSubmission,
@@ -17,6 +16,7 @@ import { useCurrentUser } from '~/redux/slices/auth';
 import { selectOwnSurveySubmission } from '~/redux/slices/surveySubmissions';
 import { useFetchedSurvey } from '~/redux/slices/surveys';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useParams } from '~/utils/useParams';
 import type { FormSurveySubmission } from '~/redux/models/SurveySubmission';
 
 type AddSubmissionPageParams = {
@@ -24,8 +24,7 @@ type AddSubmissionPageParams = {
 };
 const AddSubmissionPage = () => {
   const dispatch = useAppDispatch();
-  const { surveyId } =
-    useParams<AddSubmissionPageParams>() as AddSubmissionPageParams;
+  const { surveyId } = useParams<AddSubmissionPageParams>();
   const currentUser = useCurrentUser();
   const { survey, event } = useFetchedSurvey('addSubmission', surveyId);
   const submission = useAppSelector((state) =>
@@ -111,7 +110,7 @@ const AddSubmissionPage = () => {
         <ContentMain>
           <div className={styles.surveyTime}>
             Spørreundersøkelse for arrangementet{' '}
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
+            <a href={`/events/${event.id}`}>{event.title}</a>
           </div>
 
           <div className={styles.surveyTime}>

@@ -1,25 +1,24 @@
 import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
-import { useOutletContext } from 'react-router';
+import { ReactNode, useContext } from 'react';
 import EmptyState from '~/components/EmptyState';
 import Tooltip from '~/components/Tooltip';
+import { SurveysRouteContext } from '~/pages/(migrated)/surveys/@surveyId/(wrapper)/SurveysRouteContext';
 import {
   hideAnswer,
   showAnswer,
 } from '~/redux/actions/SurveySubmissionActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { isNotNullish } from '~/utils';
-import styles from '../surveys.module.css';
-import Results from './Results';
-import type { GraphData } from './Results';
+import styles from '../../../../components/surveys.module.css';
+import Results from '../Results';
+import type { GraphData } from '../Results';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { SurveysRouteContext } from 'app/routes/surveys';
-import type { ReactNode } from 'react';
 import type { AdminSurveyAnswer } from '~/redux/models/SurveyAnswer';
 import type { SurveyQuestion } from '~/redux/models/SurveyQuestion';
 
 const SubmissionsSummary = () => {
   const { submissions, survey, fetchingSubmissions } =
-    useOutletContext<SurveysRouteContext>();
+    useContext(SurveysRouteContext);
   const dispatch = useAppDispatch();
 
   const generateTextAnswers = (question: SurveyQuestion): ReactNode => {

@@ -1,7 +1,6 @@
 import arrayMutators from 'final-form-arrays';
 import { useField } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import styles from 'app/routes/surveys/components/surveys.module.css';
 import {
   Form,
   CheckBox,
@@ -10,6 +9,7 @@ import {
   TextArea,
   SubmitButton,
 } from '~/components/Form';
+import styles from '~/pages/(migrated)/surveys/components/surveys.module.css';
 import { SurveyQuestionType } from '~/redux/models/SurveyQuestion';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';

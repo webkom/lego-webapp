@@ -5,13 +5,6 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
-import { Link } from 'react-router';
-import Question from 'app/routes/surveys/components/SurveyEditor/Question';
-import {
-  hasOptions,
-  initialQuestion,
-} from 'app/routes/surveys/components/SurveyEditor/utils';
-import styles from 'app/routes/surveys/components/surveys.module.css';
 import Dropdown from '~/components/Dropdown';
 import {
   Form,
@@ -24,6 +17,12 @@ import {
   CheckBox,
 } from '~/components/Form';
 import Time from '~/components/Time';
+import Question from '~/pages/(migrated)/surveys/components/SurveyEditor/Question';
+import {
+  hasOptions,
+  initialQuestion,
+} from '~/pages/(migrated)/surveys/components/SurveyEditor/utils';
+import styles from '~/pages/(migrated)/surveys/components/surveys.module.css';
 import { spyValues } from '~/utils/formSpyUtils';
 import { createValidator, required } from '~/utils/validation';
 import type { FieldArrayRenderProps } from 'react-final-form-arrays';
@@ -196,8 +195,8 @@ const TemplateTypeDropdownItems = ({
       {templates.map((template) => {
         return (
           <Dropdown.ListItem key={template.id}>
-            <Link
-              to="#"
+            <a
+              href="#"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -205,7 +204,7 @@ const TemplateTypeDropdownItems = ({
               }}
             >
               {template.title}
-            </Link>
+            </a>
           </Dropdown.ListItem>
         );
       })}

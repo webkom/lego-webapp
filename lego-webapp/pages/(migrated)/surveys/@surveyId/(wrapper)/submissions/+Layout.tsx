@@ -1,30 +1,14 @@
-import { useOutletContext } from 'react-router';
+import { PropsWithChildren, useContext } from 'react';
 import { ContentSection, ContentMain } from '~/components/Content';
 import { useAppSelector } from '~/redux/hooks';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
-import { getCsvUrl, getPdfUrl } from '../../utils';
-import AdminSideBar from '../AdminSideBar';
-import type { SurveysRouteContext } from 'app/routes/surveys';
-import type { ComponentType } from 'react';
-import type { EventForSurvey } from '~/redux/models/Event';
-import type { DetailedSurvey } from '~/redux/models/Survey';
-import type { SurveySubmission } from '~/redux/models/SurveySubmission';
+import AdminSideBar from '../../../components/AdminSideBar';
+import { getCsvUrl, getPdfUrl } from '../../../utils';
+import { SurveysRouteContext } from '../SurveysRouteContext';
 
-type ChildProps = {
-  survey: DetailedSurvey;
-  event: EventForSurvey;
-  submissions: SurveySubmission[];
-  fetchingSubmissions: boolean;
-};
-export type SubmissionsPageChild = ComponentType<ChildProps>;
+const SubmissionsPage = ({ children }: PropsWithChildren) => {
+  const { survey } = useContext(SurveysRouteContext);
 
-type Props = {
-  children: SubmissionsPageChild;
-};
-
-const SubmissionsPage = ({ children: Children }: Props) => {
-  const { survey, event, submissions, fetchingSubmissions } =
-    useOutletContext<SurveysRouteContext>();
   const authToken = useAppSelector((state) => state.auth.token);
 
   if (survey.isTemplate) {
@@ -36,14 +20,7 @@ const SubmissionsPage = ({ children: Children }: Props) => {
   }
   return (
     <ContentSection>
-      <ContentMain>
-        <Children
-          survey={survey!}
-          event={event!}
-          submissions={submissions}
-          fetchingSubmissions={fetchingSubmissions}
-        />
-      </ContentMain>
+      <ContentMain>{children}</ContentMain>
 
       <AdminSideBar
         isTemplate={survey.isTemplate}

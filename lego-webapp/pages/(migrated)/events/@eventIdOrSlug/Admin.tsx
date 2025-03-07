@@ -130,7 +130,7 @@ const Admin = ({ actionGrant, event }: Props) => {
               Gå til spørreundersøkelse
             </LinkButton>
           ) : (
-            <LinkButton href={`/surveys/add/?event=${event.id}`}>
+            <LinkButton href={`/surveys/new/?event=${event.id}`}>
               <Icon iconNode={<FilePieChart />} size={19} />
               Lag spørreundersøkelse
             </LinkButton>

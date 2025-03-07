@@ -1,12 +1,11 @@
 import { Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import Time from '~/components/Time';
 import { colorForEventType } from '~/pages/(migrated)/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import { EventForSurvey, EventType } from '~/redux/models/Event';
 import { selectEventById } from '~/redux/slices/events';
-import styles from '../surveys.module.css';
+import styles from '../components/surveys.module.css';
 import type { DetailedSurvey } from '~/redux/models/Survey';
 
 type Props = {
@@ -28,9 +27,9 @@ const SurveyItem = ({ survey }: Props) => {
       }}
     >
       <div>
-        <Link to={`/surveys/${String(survey.id)}`}>
+        <a href={`/surveys/${String(survey.id)}`}>
           <h3 className={styles.surveyItemTitle}>{survey.title}</h3>
-        </Link>
+        </a>
 
         {survey.isTemplate ? (
           <div className={styles.surveyTime}>
@@ -40,7 +39,7 @@ const SurveyItem = ({ survey }: Props) => {
           <div>
             <div className={styles.surveyTime}>
               For arrangement{' '}
-              <Link to={`/events/${event?.id}`}>{event?.title}</Link>
+              <a href={`/events/${event?.id}`}>{event?.title}</a>
             </div>
 
             <div className={styles.surveyTime}>

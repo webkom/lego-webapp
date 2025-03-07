@@ -1,11 +1,10 @@
 import { Accordion, Icon, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
-import { useState } from 'react';
-import { useOutletContext } from 'react-router';
-import StaticSubmission from '../StaticSubmission';
-import styles from '../surveys.module.css';
-import type { SurveysRouteContext } from 'app/routes/surveys';
+import { useContext, useState } from 'react';
+import { SurveysRouteContext } from '~/pages/(migrated)/surveys/@surveyId/(wrapper)/SurveysRouteContext';
+import StaticSubmission from '../../../../components/StaticSubmission';
+import styles from '../../../../components/surveys.module.css';
 import type { SurveySubmission } from '~/redux/models/SurveySubmission';
 
 const SubmissionItem = ({
@@ -16,7 +15,7 @@ const SubmissionItem = ({
   index: number;
 }) => {
   const [open, setOpen] = useState(false);
-  const { survey } = useOutletContext<SurveysRouteContext>();
+  const { survey } = useContext(SurveysRouteContext);
   return (
     <li key={submission.id}>
       <Accordion
@@ -51,8 +50,7 @@ const SubmissionItem = ({
 };
 
 const SubmissionPage = () => {
-  const { submissions, fetchingSubmissions } =
-    useOutletContext<SurveysRouteContext>();
+  const { submissions, fetchingSubmissions } = useContext(SurveysRouteContext);
 
   if (fetchingSubmissions) {
     return (

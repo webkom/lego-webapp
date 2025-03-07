@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import { FolderOpen } from 'lucide-react';
 import EmptyState from '~/components/EmptyState';
-import styles from '../surveys.module.css';
+import styles from '../components/surveys.module.css';
 import SurveyItem from './SurveyItem';
 import type { DetailedSurvey } from '~/redux/models/Survey';
 

@@ -1,28 +1,27 @@
-import { LinkButton, LoadingPage } from '@webkom/lego-bricks';
-import { Link, useNavigate, useOutletContext, useParams } from 'react-router';
+import { LinkButton, LoadingIndicator, LoadingPage } from '@webkom/lego-bricks';
+import { useContext } from 'react';
+import { navigate } from 'vike/client/router';
 import { ContentSection, ContentMain } from '~/components/Content';
 import Time from '~/components/Time';
+import { SurveysRouteContext } from '~/pages/(migrated)/surveys/@surveyId/(wrapper)/SurveysRouteContext';
 import { useAppSelector } from '~/redux/hooks';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
-import AdminSideBar from './AdminSideBar';
-import StaticSubmission from './StaticSubmission';
-import styles from './surveys.module.css';
-import type { SurveysRouteContext } from 'app/routes/surveys';
+import { useParams } from '~/utils/useParams';
+import AdminSideBar from '../../components/AdminSideBar';
+import StaticSubmission from '../../components/StaticSubmission';
+import styles from '../../components/surveys.module.css';
 
 type SurveyDetailPageParams = {
   surveyId: string;
 };
 const SurveyDetailPage = () => {
-  const { surveyId } =
-    useParams<SurveyDetailPageParams>() as SurveyDetailPageParams;
-  const { survey, event } = useOutletContext<SurveysRouteContext>();
+  const { surveyId } = useParams<SurveyDetailPageParams>();
+  const { survey, event } = useContext(SurveysRouteContext);
   const fetching = useAppSelector((state) => state.surveys.fetching);
   const actionGrant = survey?.actionGrant;
 
-  const navigate = useNavigate();
-
   if (!survey || !actionGrant) {
-    return <LoadingPage loading={fetching} />;
+    return <LoadingIndicator loading={fetching} />;
   }
 
   if (!actionGrant?.includes('edit')) {
@@ -44,7 +43,7 @@ const SurveyDetailPage = () => {
           <>
             <div className={styles.surveyTime}>
               Spørreundersøkelse for{' '}
-              <Link to={`/events/${event.id}`}>{event.title}</Link>
+              <a href={`/events/${event.id}`}>{event.title}</a>
             </div>
 
             <div className={styles.surveyTime}>

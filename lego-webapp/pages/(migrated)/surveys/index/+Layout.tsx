@@ -1,13 +1,13 @@
 import { LinkButton, Page } from '@webkom/lego-bricks';
-import { Outlet } from 'react-router';
+import { PropsWithChildren } from 'react';
 import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
 
-const SurveysOverview = () => {
+const SurveysOverview = ({ children }: PropsWithChildren) => {
   return (
     <Page
       title="Spørreundersøkelser"
       actionButtons={
-        <LinkButton href="/surveys/add">Ny undersøkelse</LinkButton>
+        <LinkButton href="/surveys/new">Ny undersøkelse</LinkButton>
       }
       tabs={
         <>
@@ -18,7 +18,7 @@ const SurveysOverview = () => {
         </>
       }
     >
-      <Outlet />
+      {children}
     </Page>
   );
 };

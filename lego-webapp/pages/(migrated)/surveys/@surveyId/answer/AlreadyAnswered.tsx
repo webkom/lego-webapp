@@ -1,6 +1,6 @@
 import { Card, Page } from '@webkom/lego-bricks';
 import { ContentMain } from '~/components/Content';
-import StaticSubmission from '../StaticSubmission';
+import StaticSubmission from '../../components/StaticSubmission';
 import type { DetailedSurvey } from '~/redux/models/Survey';
 import type { SurveySubmission } from '~/redux/models/SurveySubmission';
 
