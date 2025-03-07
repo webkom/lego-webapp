@@ -6,7 +6,7 @@
   background-color: var(--additive-background);
 }
 
-.skeletonCell {
+div.skeletonCell {
   /* The same dimensions as the profile pictures  */
   width: 56px;
   height: 56px;
