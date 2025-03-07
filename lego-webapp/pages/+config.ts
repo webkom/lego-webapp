@@ -13,6 +13,11 @@ export default {
   // title: 'My Vike App',
   // description: 'Demo showcasing Vike',
 
+  redirects: {
+    // Old emails used this url for some reason
+    '/185f9aa436cf7f5da598.png': '/logo-dark.png',
+  },
+
   passToClient: ['storeInitialState'],
   lang: 'no',
   stream: 'web',
