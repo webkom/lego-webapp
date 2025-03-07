@@ -14,6 +14,7 @@ import HTTPError from 'app/routes/errors/HTTPError';
 import DisplayContent from '~/components/DisplayContent';
 import GroupMember from '~/components/GroupMember';
 import { readmeIfy } from '~/components/ReadmeLogo';
+import LandingPage from '~/pages/(migrated)/pages/_components/LandingPage';
 import PageHierarchy from '~/pages/(migrated)/pages/_components/PageHierarchy';
 import { postGettingWood } from '~/redux/actions/AchievementActions';
 import {
@@ -42,7 +43,6 @@ import {
 } from '~/redux/slices/pages';
 import { isNotNullish } from '~/utils';
 import { useParams } from '~/utils/useParams';
-import LandingPage from '~/pages/(migrated)/pages/_components/LandingPage';
 import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';

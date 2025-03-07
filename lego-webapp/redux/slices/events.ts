@@ -3,7 +3,7 @@ import { groupBy, orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { isCurrentUser as checkIfCurrentUser } from 'app/routes/users/utils';
+import { isCurrentUser as checkIfCurrentUser } from '~/pages/(migrated)/users/utils';
 import { Event } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';

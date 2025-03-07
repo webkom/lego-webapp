@@ -24,7 +24,6 @@ import surveysRoute from './surveys';
 import tagsRoute from './tags';
 import timelineRoute from './timeline';
 import validatorRoute from './userValidator';
-import usersRoute from './users';
 
 const CompanyInterestPage = lazyComponent(
   () =>
@@ -61,7 +60,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'tags/*', children: tagsRoute },
       { path: 'timeline', children: timelineRoute },
       { path: 'validator', children: validatorRoute },
-      { path: 'users/*', children: usersRoute },
       { path: '*', children: pageNotFound },
     ],
   },
