@@ -20,7 +20,6 @@ import {
   semesterToHumanReadable,
   groupStudentContactsBySemester,
 } from 'app/routes/bdb/utils';
-import companyStyles from 'app/routes/company/components/Company.module.css';
 import CollapsibleDisplayContent from '~/components/CollapsibleDisplayContent';
 import CommentView from '~/components/Comments/CommentView';
 import {
@@ -37,6 +36,7 @@ import Time from '~/components/Time';
 import Tooltip from '~/components/Tooltip';
 import FileUpload from '~/components/Upload/FileUpload';
 import UserLink from '~/components/UserLink';
+import companyStyles from '~/pages/(migrated)/companies/@companyId/Company.module.css';
 import { displayNameForEventType } from '~/pages/(migrated)/events/utils';
 import {
   deleteCompanyContact,

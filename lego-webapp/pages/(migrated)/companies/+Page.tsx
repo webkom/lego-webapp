@@ -14,7 +14,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Link } from 'react-router';
 import { CheckBox, TextInput } from '~/components/Form';
 import { fetchAll } from '~/redux/actions/CompanyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -27,7 +26,7 @@ import type { ListCompany } from '~/redux/models/Company';
 
 const CompanyItem = ({ company }: { company: ListCompany }) => {
   return (
-    <Link to={`/companies/${company.id}`}>
+    <a href={`/companies/${company.id}`}>
       <Card isHoverable hideOverflow className={styles.companyItem}>
         <div className={styles.companyItemContent}>
           <div className={styles.companyLogoContainer}>
@@ -72,7 +71,7 @@ const CompanyItem = ({ company }: { company: ListCompany }) => {
           </Flex>
         </div>
       </Card>
-    </Link>
+    </a>
   );
 };
 

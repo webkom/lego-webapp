@@ -13,7 +13,6 @@ import { isEmpty } from 'lodash';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
 import CollapsibleDisplayContent from '~/components/CollapsibleDisplayContent';
 import {
   ContentMain,
@@ -36,6 +35,7 @@ import {
   selectJoblistingsForCompany,
 } from '~/redux/slices/companies';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import { useParams } from '~/utils/useParams';
 import styles from './Company.module.css';
 import type { DetailedCompany } from '~/redux/models/Company';
 

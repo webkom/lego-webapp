@@ -1,4 +1,4 @@
-@import url('styles/variables.css');
+@import url('../../../styles/variables.css');
 
 .picture {
   background-color: var(--color-white);
@@ -21,7 +21,7 @@
   color: var(--lego-link-color);
 }
 
-.companyItem {
+div.companyItem {
   width: 220px;
   height: 220px;
   padding: 0;
