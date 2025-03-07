@@ -21,7 +21,6 @@ import pollsRoute from './polls';
 import quotesRoute from './quotes';
 import searchRoute from './search';
 import surveysRoute from './surveys';
-import tagsRoute from './tags';
 
 const CompanyInterestPage = lazyComponent(
   () =>
@@ -55,7 +54,6 @@ export const routerConfig: RouteObject[] = [
       { path: 'sudo/*', children: hiddenAdminRoute },
       { path: 'search', children: searchRoute },
       { path: 'surveys/*', children: surveysRoute },
-      { path: 'tags/*', children: tagsRoute },
       { path: '*', children: pageNotFound },
     ],
   },

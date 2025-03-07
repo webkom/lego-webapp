@@ -1,7 +1,6 @@
 import { LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router';
 import { TagCloud as Cloud } from 'react-tagcloud';
 import { fetchAll } from '~/redux/actions/TagActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -10,9 +9,9 @@ import type { RendererFunction, Tag as CloudTag } from 'react-tagcloud';
 import type { ListTag } from '~/redux/models/Tag';
 
 const tagRenderer: RendererFunction = (tag, size, color) => (
-  <Link
+  <a
     key={tag.value}
-    to={`/tags/${tag.value}`}
+    href={`/tags/${tag.value}`}
     style={{
       fontSize: `${size}px`,
       color: color,
@@ -21,7 +20,7 @@ const tagRenderer: RendererFunction = (tag, size, color) => (
     }}
   >
     {tag.value}
-  </Link>
+  </a>
 );
 
 const TagCloud = () => {

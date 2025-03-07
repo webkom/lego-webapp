@@ -2,10 +2,10 @@ import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { map, toPairs } from 'lodash';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router';
 import { fetch } from '~/redux/actions/TagActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectTagById } from '~/redux/slices/tags';
+import { useParams } from '~/utils/useParams';
 import styles from './TagDetail.module.css';
 import type { DetailedTag } from '~/redux/models/Tag';
 
@@ -23,9 +23,9 @@ const translate = (key: string) => {
 const link = (key: string, tag: string) => {
   const links = {
     article: (
-      <Link to={`/articles?tag=${tag}`}>
+      <a href={`/articles?tag=${tag}`}>
         <h4>{translate(key)}</h4>
-      </Link>
+      </a>
     ),
   };
   return links[key] || <h4>{translate(key)}</h4>;
