@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router';
 import Dropdown from '~/components/Dropdown';
 import Reactions from '~/components/Reactions';
 import Reaction from '~/components/Reactions/Reaction';
@@ -72,7 +71,7 @@ const Quote = ({
           }}
         />
         <h3 className={styles.theQuote}>
-          <Link to={`/quotes/${quote.id}`}>{quote.text}</Link>
+          <a href={`/quotes/${quote.id}`}>{quote.text}</a>
         </h3>
       </div>
 
@@ -97,14 +96,16 @@ const Quote = ({
                 >
                   <Dropdown.List>
                     {currentUser?.username !== quote.createdBy?.username && (
-                      <Dropdown.ListItem
-                        onClick={() =>
-                          quote.approved
-                            ? dispatch(unapprove(quote.id))
-                            : dispatch(approve(quote.id))
-                        }
-                      >
-                        {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
+                      <Dropdown.ListItem>
+                        <button
+                          onClick={() =>
+                            quote.approved
+                              ? dispatch(unapprove(quote.id))
+                              : dispatch(approve(quote.id))
+                          }
+                        >
+                          {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
+                        </button>
                       </Dropdown.ListItem>
                     )}
 

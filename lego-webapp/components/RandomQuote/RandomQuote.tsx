@@ -59,7 +59,7 @@ const RandomQuote = ({ dummyQuote, useReactions = true }: Props) => {
             onPress={onPress}
             className={cx(animation && styles.rotateIcon)}
           />
-          <Icon to="/quotes/add" iconNode={<Plus />} />
+          <Icon to="/quotes/new" iconNode={<Plus />} />
         </Flex>
       </Flex>
 

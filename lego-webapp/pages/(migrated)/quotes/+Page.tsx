@@ -9,7 +9,6 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import { useParams } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import { SelectInput } from '~/components/Form';
 import { fetchEmojis } from '~/redux/actions/EmojiActions';
@@ -19,7 +18,8 @@ import { selectQuoteById, selectQuotes } from '~/redux/slices/quotes';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import useQuery from '~/utils/useQuery';
-import QuoteList from './QuoteList';
+import QuoteList from '~/pages/(migrated)/quotes/QuoteList';
+import { useParams } from '~/utils/useParams';
 
 type Option = {
   label: string;
@@ -121,7 +121,7 @@ const QuotePage = () => {
               Godkjenn sitater
             </LinkButton>
           ),
-          <LinkButton key="add" href="/quotes/add">
+          <LinkButton key="add" href="/quotes/new">
             Legg til sitat
           </LinkButton>,
         ]

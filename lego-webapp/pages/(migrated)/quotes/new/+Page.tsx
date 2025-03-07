@@ -2,7 +2,6 @@ import { Page } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router';
 import { ContentMain } from '~/components/Content';
 import {
   Form,
@@ -18,8 +17,9 @@ import { addToast } from '~/redux/slices/toasts';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from '~/utils/validation';
-import styles from './Quotes.module.css';
+import styles from '../Quotes.module.css';
 import type { ContentTarget } from '~/utils/contentTarget';
+import { navigate } from 'vike/client/router';
 
 type FormValues = {
   text: string;
@@ -38,7 +38,6 @@ const validate = createValidator({
 
 const AddQuote = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const removeUnnecessaryDash = (source: string) => {
     const dashIndex = source.indexOf('-');
