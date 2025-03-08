@@ -7,10 +7,13 @@ import renderAbakus from './renderAbakus';
 const HTTPMapping = {
   '400': 'Noe gikk galt med forespørselen',
   '401': 'Du er ikke logget inn',
+  '402': 'Betaling påkrevd',
   '403': 'Denne siden har du ikke tilgang på',
   '404': 'Denne siden finnes ikke',
   '418': 'Jeg er en tekanne',
+  '428': 'Forutsetning påkrevd',
   '500': 'Noe gikk veldig galt, Webkom er på saken!',
+  '509': 'Båndbreddebegrensning nådd',
   '1337': 'Hackerman',
 };
 const fallbackStatus = 404;

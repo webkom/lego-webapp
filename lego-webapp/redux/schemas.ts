@@ -167,3 +167,4 @@ export const forumSchema = new schema.Entity(EntityType.Forums, {
 });
 
 export const bannerSchema = new schema.Entity(EntityType.Banner);
+export const featureFlagSchema = new schema.Entity(EntityType.FeatureFlag);

@@ -336,3 +336,11 @@ export const Banner = {
   EDIT: generateStatuses('Banner.EDIT'),
   DELETE: generateStatuses('Banner.DELETE'),
 };
+
+export const FeatureFlag = {
+  FETCH_ALL: generateStatuses('FeatureFlag.FETCH_ALL'),
+  FETCH: generateStatuses('FeatureFlag.FETCH'),
+  CREATE: generateStatuses('FeatureFlag.CREATE'),
+  EDIT: generateStatuses('FeatureFlag.EDIT'),
+  DELETE: generateStatuses('FeatureFlag.DELETE'),
+};

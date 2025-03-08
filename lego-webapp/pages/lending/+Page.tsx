@@ -12,9 +12,11 @@ import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
+import HTTPError from '~/components/errors/HTTPError';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
+import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
 import styles from './LendableObjectList.module.css';
 import type { ListLendableObject } from '~/redux/models/LendableObject';
@@ -62,6 +64,9 @@ const LendableObjectList = () => {
   const filteredLendableObjects = lendableObjects.filter((lendableObjects) =>
     lendableObjects.title.toLowerCase().includes(query.search.toLowerCase()),
   );
+  if (!useFeatureFlag('lending')) {
+    return <HTTPError />;
+  }
 
   const title = 'Utlån';
   return (

@@ -12,6 +12,7 @@ import type { UnknownEmailList } from '~/redux/models/EmailList';
 import type EmailUser from '~/redux/models/EmailUser';
 import type Emoji from '~/redux/models/Emoji';
 import type { UnknownEvent } from '~/redux/models/Event';
+import type { UnkownFeatureFlag } from '~/redux/models/FeatureFlag';
 import type Feed from '~/redux/models/Feed';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 import type { UnknownForum, UnknownThread } from '~/redux/models/Forum';
@@ -50,6 +51,7 @@ export enum EntityType {
   EmailUsers = 'emailUsers',
   Emojis = 'emojis',
   Events = 'events',
+  FeatureFlag = 'featureFlags',
   FeedActivities = 'feedActivities',
   Feeds = 'feeds',
   Forums = 'forums',
@@ -93,6 +95,7 @@ export default interface Entities {
   [EntityType.EmailUsers]: Record<EntityId, EmailUser>;
   [EntityType.Emojis]: Record<EntityId, Emoji>;
   [EntityType.Events]: Record<EntityId, UnknownEvent>;
+  [EntityType.FeatureFlag]: Record<EntityId, UnkownFeatureFlag>;
   [EntityType.FeedActivities]: Record<EntityId, AggregatedFeedActivity>;
   [EntityType.Feeds]: Record<EntityId, Feed>;
   [EntityType.Forums]: Record<EntityId, UnknownForum>;
