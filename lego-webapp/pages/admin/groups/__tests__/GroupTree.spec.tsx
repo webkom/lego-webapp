@@ -48,7 +48,7 @@ describe('<GroupTree />', () => {
     const wrapper = shallow(
       <GroupTree groups={rootGroups} pathname="/admin/groups/1/settings" />,
     );
-    const links = wrapper.find(Link);
+    const links = wrapper.find('a');
     expect(wrapper.find(TreeView)).toHaveLength(0);
     expect(links).toHaveLength(1);
   });

@@ -29,7 +29,7 @@ export const useRouterContext = () => {
         );
       },
       useLocation: () => ({}),
-    } as unknown as RouterContextData
+    } as unknown as RouterContextData;
   }
   return router;
 };

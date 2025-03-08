@@ -1,11 +1,7 @@
 import cx from 'classnames';
 import { FilterX, X } from 'lucide-react';
 import { createContext, useContext } from 'react';
-import {
-  useClearSearchParams,
-  useLocation,
-  useNavigate,
-} from '../../../RouterContext';
+import { useClearSearchParams, useLocation } from '../../../RouterContext';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import Flex from '../Flex';
