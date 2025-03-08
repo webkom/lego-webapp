@@ -1,20 +1,21 @@
-import { LoadingPage, Page } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  LoadingPage,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate, useParams } from 'react-router';
 import HTTPError from 'app/routes/errors';
 import { Color, COLORS } from '~/components/Banner';
-import {
-  TextInput,
-  Form,
-  LegoFinalForm,
-  CheckBox,
-  SelectInput,
-} from '~/components/Form';
+import { TextInput, Form, LegoFinalForm, SelectInput } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import {
   createBanner,
+  deleteBanner,
   editBanner,
   fetchBannerById,
 } from '~/redux/actions/BannerActions';
@@ -57,6 +58,9 @@ const BannerEditor = () => {
       : editBanner(postData, bannerId);
     dispatch(action).then(() => navigate('/admin/banners'));
   };
+
+  const onDelete = () =>
+    dispatch(deleteBanner(bannerId!)).then(() => navigate('/admin/banners'));
 
   const colorToRepresentation: Record<Color, string> = {
     red: 'Rød',
@@ -113,25 +117,30 @@ const BannerEditor = () => {
             <Field
               placeholder="Rød"
               name="color"
-              label="Farge"
+              label="Stil"
               options={colorOptions}
               component={SelectInput.Field}
               required
               id="color"
             />
-            <Field
-              name="currentPrivate"
-              label="Vis på innlogget forside"
-              type="checkbox"
-              component={CheckBox.Field}
-            />
-            <Field
-              name="currentPublic"
-              label="Vis på offentlig forside"
-              type="checkbox"
-              component={CheckBox.Field}
-            />
-            <SubmitButton>{isNew ? 'Opprett' : 'Lagre endringer'}</SubmitButton>
+            <Flex gap="var(--spacing-md)">
+              <SubmitButton>
+                {isNew ? 'Opprett' : 'Lagre endringer'}
+              </SubmitButton>
+              {!isNew && (
+                <ConfirmModal
+                  title="Bekreft sletting av banner"
+                  message="Er du sikker på at du vil slette dette banneret?"
+                  onConfirm={onDelete}
+                >
+                  {({ openConfirmModal }) => (
+                    <Button onPress={openConfirmModal} danger>
+                      Slett
+                    </Button>
+                  )}
+                </ConfirmModal>
+              )}
+            </Flex>
           </Form>
         )}
       </LegoFinalForm>
