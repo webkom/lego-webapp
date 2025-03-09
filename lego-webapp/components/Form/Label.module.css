@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .label {
   font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-xs);

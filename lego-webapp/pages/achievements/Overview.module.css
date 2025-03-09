@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .listWrapper {
   display: flex;
   flex-wrap: wrap;

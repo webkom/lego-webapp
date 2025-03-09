@@ -1,5 +1,3 @@
-@import url('../../../styles/variables.css');
-
 .navigation {
   display: flex;
   flex-direction: row;

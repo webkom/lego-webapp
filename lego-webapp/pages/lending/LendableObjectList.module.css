@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .lendableObjectsContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

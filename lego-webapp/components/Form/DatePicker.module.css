@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .calendar th,
 .calendar td {
   width: calc(100% / 7);

@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .reactionPicker {
   composes: popover from '../../styles/utilities.module.css';
   position: relative;

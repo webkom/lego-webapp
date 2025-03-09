@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .scannerButton {
   margin-bottom: var(--spacing-md);
 }

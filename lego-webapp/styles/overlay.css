@@ -1,5 +1,3 @@
-@import url('styles/variables.css');
-
 .content {
   composes: popover from 'styles/utilities.module.css';
   background: var(--lego-card-color);

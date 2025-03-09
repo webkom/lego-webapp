@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .compactEvents {
   display: flex;
   justify-content: space-between;
