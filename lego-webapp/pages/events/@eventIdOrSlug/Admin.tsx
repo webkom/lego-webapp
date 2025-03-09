@@ -136,7 +136,7 @@ const Admin = ({ actionGrant, event }: Props) => {
             </LinkButton>
           )}
 
-          <LinkButton href="/events/create" state={{ id: event.id }}>
+          <LinkButton href="/events/new" state={{ id: event.id }}>
             <Icon iconNode={<Copy />} size={19} />
             Lag kopi av arrangement
           </LinkButton>

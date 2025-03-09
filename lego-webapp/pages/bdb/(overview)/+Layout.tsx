@@ -16,12 +16,12 @@ const BdbOverview = ({ children }: PropsWithChildren) => {
         isCompanyInterest ? (
           <LinkButton
             key="new-company-interest"
-            href="/bdb/company-interest/create"
+            href="/bdb/company-interest/new"
           >
             Ny bedriftsinteresse
           </LinkButton>
         ) : (
-          <LinkButton key="new-company" href="/bdb/add">
+          <LinkButton key="new-company" href="/bdb/new">
             Ny bedrift
           </LinkButton>
         )

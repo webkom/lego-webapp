@@ -522,7 +522,7 @@ const BdbDetail = () => {
         <Flex column gap="var(--spacing-sm)">
           <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Bedriftskontakter</h3>
-            <LinkButton href={`/bdb/${company.id}/company-contacts/add`}>
+            <LinkButton href={`/bdb/${company.id}/company-contacts/new`}>
               Legg til bedriftskontakt
             </LinkButton>
           </Flex>
@@ -541,7 +541,7 @@ const BdbDetail = () => {
         <Flex column gap="var(--spacing-sm)">
           <Flex wrap justifyContent="space-between" alignItems="center">
             <h3>Semesterstatuser</h3>
-            <LinkButton href={`/bdb/${company.id}/semesters/add`}>
+            <LinkButton href={`/bdb/${company.id}/semesters/new`}>
               Legg til nytt semester
             </LinkButton>
           </Flex>

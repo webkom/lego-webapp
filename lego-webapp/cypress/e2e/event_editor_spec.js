@@ -18,7 +18,7 @@ describe('Editor', () => {
   });
 
   it('should be possible to use the editor', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
 
     // Click editor
@@ -100,7 +100,7 @@ describe('Editor', () => {
     // Create event
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
 
     // Verify that created event looks good..

@@ -202,7 +202,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
       }
       actionButtons={
         actionGrant.includes('create') && (
-          <LinkButton href="/events/create">Lag nytt</LinkButton>
+          <LinkButton href="/events/new">Lag nytt</LinkButton>
         )
       }
       tabs={

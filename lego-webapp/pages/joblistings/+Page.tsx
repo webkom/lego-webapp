@@ -118,7 +118,7 @@ const JoblistingsPage = () => {
       })}
       actionButtons={
         actionGrant.includes('create') && (
-          <LinkButton href="/joblistings/create">Ny jobbannonse</LinkButton>
+          <LinkButton href="/joblistings/new">Ny jobbannonse</LinkButton>
         )
       }
     >
