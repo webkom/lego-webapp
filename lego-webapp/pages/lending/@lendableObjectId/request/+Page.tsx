@@ -13,14 +13,9 @@ import {
   CircleDashed,
   CircleX,
   MoveRight,
-  Tag,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams } from 'react-router';
-import { useIsCurrentUser } from 'app/routes/users/utils';
-import styles from './LendingRequestDetail.module.css';
-import type { ReactNode } from 'react';
 import { CommentView } from '~/components/Comments';
 import {
   ContentSection,
@@ -30,21 +25,25 @@ import {
 import { ProfilePicture } from '~/components/Image';
 import Tag, { TagColors } from '~/components/Tags/Tag';
 import Time from '~/components/Time';
+import { useIsCurrentUser } from '~/pages/users/utils';
 import {
-  editLendingRequest,
   fetchLendingRequestById,
+  editLendingRequest,
 } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { UnknownLendableObject } from '~/redux/models/LendableObject';
 import {
-  AdminLendingRequest,
-  DetailLendingRequest,
   LendingRequestStatus,
+  DetailLendingRequest,
+  AdminLendingRequest,
 } from '~/redux/models/LendingRequest';
 import { PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
+import { useParams } from '~/utils/useParams';
+import styles from './LendingRequestDetail.module.css';
+import type { ReactNode } from 'react';
 
 const statusMap: Record<
   LendingRequestStatus,
@@ -230,16 +229,16 @@ const RequestingUser = ({ user }: { user?: PublicUserWithGroups }) => {
   return (
     <Card className={styles.requestingUser}>
       <Flex alignItems="center" gap={16}>
-        <Link to={`/users/${user.username}`}>
+        <a href={`/users/${user.username}`}>
           <ProfilePicture user={user} size={75} />
-        </Link>
+        </a>
         <Flex column justifyContent="center" gap={4}>
-          <Link to={`/users/${user.username}`}>
+          <a href={`/users/${user.username}`}>
             <h4>{user.fullName}</h4>
-          </Link>
-          <Link to={`mailto:${user.internalEmailAddress}`}>
+          </a>
+          <a href={`mailto:${user.internalEmailAddress}`}>
             {user.internalEmailAddress}
-          </Link>
+          </a>
         </Flex>
       </Flex>
     </Card>
