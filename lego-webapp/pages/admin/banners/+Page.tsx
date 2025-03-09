@@ -106,7 +106,7 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           </Flex>
         </Flex>
         <LinkButton
-          href={`/admin/banners/edit/${banner.id}/`}
+          href={`/admin/banners/${banner.id}/edit/`}
           className={styles.editButton}
         >
           Rediger

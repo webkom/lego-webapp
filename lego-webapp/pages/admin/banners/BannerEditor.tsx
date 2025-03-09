@@ -86,7 +86,13 @@ const BannerEditor = () => {
       <Helmet title={title} />
       <LegoFinalForm
         onSubmit={onSubmit}
-        initialValues={banner}
+        initialValues={{
+          ...banner,
+          color: {
+            label: colorToRepresentation[banner?.color as Color],
+            value: banner?.color,
+          },
+        }}
         validate={validate}
       >
         {({ handleSubmit }) => (

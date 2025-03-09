@@ -1,4 +1,5 @@
-import { Page, Flex } from '@webkom/lego-bricks';
+import { Page, Flex, Card, Icon } from '@webkom/lego-bricks';
+import { Flag, Rss } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import a4bc35b6c0664b45 from '~/assets/26e7499bfb6390d9/a4bc35b6c0664b45.jpg';
 import acb2777779bbf024 from '~/assets/26e7499bfb6390d9/acb2777779bbf024.jpg';
@@ -11,6 +12,57 @@ import HTTPError from '~/components/errors/HTTPError';
 import { useAppSelector } from '~/redux/hooks';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import styles from './SudoAdmin.module.css';
+
+type PanelItem = {
+  link: string;
+  tag: string;
+  description: string;
+  iconNode: JSX.Element;
+};
+
+const links: PanelItem[] = [
+  {
+    link: '/admin/banners',
+    tag: 'Bannere',
+    description: 'Legg til og endre bannere som vises på forsiden',
+    iconNode: <Rss />,
+  },
+  {
+    link: '/admin/featureflags',
+    tag: 'Feature Flagg',
+    description:
+      'Legg til og endre feature flagg. Endre hva slags innhold som vises.',
+    iconNode: <Flag />,
+  },
+];
+
+const ControlPanelItem = ({ link, tag, description, iconNode }: PanelItem) => (
+  <a href={link}>
+    <Card>
+      <Icon iconNode={iconNode} size={20} />
+      <h3>{tag}</h3>
+      <p>{description}</p>
+    </Card>
+  </a>
+);
+const AdminControlPanel = () => {
+  return (
+    <div className={styles.controlPanel}>
+      <h2>Kontrollpanel</h2>
+      <Flex>
+        {links.map((l) => (
+          <ControlPanelItem
+            key={l.tag}
+            link={l.link}
+            tag={l.tag}
+            description={l.description}
+            iconNode={l.iconNode}
+          />
+        ))}
+      </Flex>
+    </div>
+  );
+};
 
 const SudoAdmin = () => {
   const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
@@ -36,16 +88,8 @@ const SudoAdmin = () => {
               alt="An image was supposed to be here but is not"
               width={400}
             />
+            <AdminControlPanel />
           </Flex>
-          <h2>Handlinger:</h2>
-          <ul className={styles.list}>
-            <li>
-              <a href={'/admin/banners'}>Banners</a>
-            </li>
-            <li>
-              <a href={'#'}>FeatureToggle (Coming soon!)</a>
-            </li>
-          </ul>
         </ContentMain>
       </ContentSection>
     </Page>

@@ -205,9 +205,7 @@ describe('Navigate throughout app', () => {
     openMenuAndSelect('Forum', '/forum');
     cy.contains('Forum');
 
-    // Lending
-    openMenuAndSelect('Utlån', '/lending');
-    cy.contains('Prinsessekjole');
+    // Lending is currently featureflagged and was removed from this test
   });
 
   it('should be able to log out', () => {
