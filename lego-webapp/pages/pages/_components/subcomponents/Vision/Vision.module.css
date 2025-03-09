@@ -1,0 +1,38 @@
+@import url('../../../../../styles/variables.css');
+
+.title {
+  font-size: var(--font-size-lg);
+  color: var(--lego-red-color);
+  font-family: Inter, sans-serif;
+  font-weight: 600;
+}
+
+.titleLeft {
+  text-align: right;
+}
+
+.summary {
+  font-size: var(--font-size-lg);
+}
+
+.summaryLeft {
+  text-align: right;
+}
+
+.paragraph {
+  opacity: 0.9;
+}
+
+.paragraphLeft {
+  text-align: right;
+}
+
+@media (--mobile-device) {
+  .title,
+  .titleLeft,
+  .summaryLeft,
+  .paragraphLeft,
+  .summary {
+    text-align: center;
+  }
+}

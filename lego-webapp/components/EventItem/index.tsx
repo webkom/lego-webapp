@@ -8,12 +8,11 @@ import {
   Timer,
 } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
-import { colorForEventType } from 'app/routes/events/utils';
 import Pill from '~/components/Pill';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
 import Tooltip from '~/components/Tooltip';
+import { colorForEventType } from '~/pages/events/utils';
 import { EventStatusType } from '~/redux/models/Event';
 import { eventAttendanceAbsolute } from '~/utils/eventStatus';
 import RegistrationStatusTag from './RegistrationStatusTag';
@@ -126,8 +125,8 @@ const EventItem = ({
   switch (eventStyle) {
     case 'extra-compact':
       return (
-        <Link
-          to={`/events/${event.slug}`}
+        <a
+          href={`/events/${event.slug}`}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
@@ -150,12 +149,12 @@ const EventItem = ({
               />
             )}
           </Flex>
-        </Link>
+        </a>
       );
     case 'compact':
       return (
-        <Link
-          to={`/events/${event.slug}`}
+        <a
+          href={`/events/${event.slug}`}
           style={{ borderColor: colorForEventType(event.eventType) }}
           className={styles.eventItemCompact}
         >
@@ -185,13 +184,13 @@ const EventItem = ({
               ))}
             </Flex>
           )}
-        </Link>
+        </a>
       );
     case 'default':
     default:
       return (
-        <Link
-          to={`/events/${event.slug}`}
+        <a
+          href={`/events/${event.slug}`}
           style={{
             borderColor: colorForEventType(event.eventType),
           }}
@@ -236,7 +235,7 @@ const EventItem = ({
               isRegistrationSameYear={isRegistrationSameYear}
             />
           </Flex>
-        </Link>
+        </a>
       );
   }
 };

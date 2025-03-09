@@ -1,8 +1,3 @@
-import {
-  Router,
-  createBrowserRouter,
-  type StaticHandlerContext,
-} from 'react-router';
 import { Store } from './redux/createStore';
 import { RootState } from './redux/rootReducer';
 import type { HelmetServerState } from 'react-helmet-async/lib/types';
@@ -14,14 +9,14 @@ declare global {
       storeInitialState: RootState;
       // Created on server and client
       store: Store;
-      router: Router;
       // Created on server
-      routerContext?: StaticHandlerContext;
       helmetContext?: {
         helmet?: HelmetServerState;
       };
       domParser?: (value: string) => HTMLDocument;
       preparedStateCode?: string;
+      // Might be added by a navigate() call
+      navigationState?: unknown;
     }
   }
 
@@ -50,9 +45,6 @@ declare global {
   }
 
   interface Window {
-    __staticRouterHydrationData: Parameters<
-      typeof createBrowserRouter
-    >[1]['hydrationData'];
     __CONFIG__: AppConfig;
     Mazemap:
       | undefined
@@ -88,5 +80,15 @@ declare global {
         | 'ci'
         | undefined;
     }
+  }
+}
+
+declare module 'react-aria-components' {
+  interface RouterConfig {
+    routerOptions: {
+      keepScrollPosition?: boolean;
+      overwriteLastHistoryEntry?: boolean;
+      navigationState?: unknown;
+    };
   }
 }

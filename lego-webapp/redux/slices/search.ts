@@ -2,7 +2,7 @@ import { produce } from 'immer';
 import { get } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import { categoryOptions } from 'app/routes/pages/components/PageDetail';
+import { categoryOptions } from '~/pages/pages/page/+Page';
 import { Search } from '~/redux/actionTypes';
 import { resolveGroupLink } from '~/redux/slices/groups';
 import type { User, Event, Group, Meeting, Dateish } from 'app/models';

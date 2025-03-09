@@ -3,7 +3,7 @@ import { get, debounce } from 'lodash';
 import { Check, ScanQrCode, X } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';
-import { useNavigate, useParams } from 'react-router';
+import { navigate } from 'vike/client/router';
 import goodSound from '~/assets/sounds/good-sound.mp3';
 import SearchPage from '~/components/Search/SearchPage';
 import TextWithIcon from '~/components/TextWithIcon';
@@ -14,6 +14,7 @@ import {
   type UserSearchResult,
 } from '~/redux/slices/search';
 import { addToast } from '~/redux/slices/toasts';
+import { useParams } from '~/utils/useParams';
 import styles from './Validator.module.css';
 import type { ReactNode } from 'react';
 import type { Required } from 'utility-types';
@@ -58,12 +59,11 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
 
   const dispatch = useAppDispatch();
 
-  const navigate = useNavigate();
   const url = `/events/${eventId}/administrate/abacard?q=`;
 
   const clearSearch = useCallback(() => {
     navigate(url);
-  }, [navigate, url]);
+  }, [url]);
 
   const onQueryChanged = debounce((query) => {
     navigate(url + query);

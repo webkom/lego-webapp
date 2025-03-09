@@ -21,7 +21,7 @@ describe('Create meeting', () => {
   });
 
   it('should show correct validation errors', () => {
-    cy.visit('/meetings/create');
+    cy.visit('/meetings/new');
     cy.waitForHydration();
     // Check that validation errors show only after we try to submit
     fieldErrors().should('not.exist');
@@ -84,7 +84,7 @@ describe('Create meeting', () => {
       'inviteToMeeting',
     );
 
-    cy.visit('/meetings/create');
+    cy.visit('/meetings/new');
     cy.waitForHydration();
 
     field('title').type('Test meeting');
@@ -258,7 +258,7 @@ describe('Create meeting', () => {
   });
 
   it('should show correct options for referent', () => {
-    cy.visit('/meetings/create');
+    cy.visit('/meetings/new');
     cy.waitForHydration();
 
     const verifyAuthors = (expectedAuthors) => {

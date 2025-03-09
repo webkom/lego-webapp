@@ -2,7 +2,6 @@ import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
 import bekk from '~/assets/bekk_short_white.svg';
 import octocat from '~/assets/octocat.png';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -63,7 +62,7 @@ const Footer = () => {
             Sem Sælands vei 7-9 <br />
             7491 Trondheim
           </p>
-          {loggedIn && <Link to="/contact">Kontaktskjema</Link>}
+          {loggedIn && <a href="/contact">Kontaktskjema</a>}
           <a
             href="https://avvik.abakus.no"
             rel="noopener noreferrer"
@@ -125,12 +124,12 @@ const Footer = () => {
               alt="Bekk sin logo"
             />
           </a>
-          <Link to="/pages/personvern/114-informasjonskapsler">
+          <a href="/pages/personvern/114-informasjonskapsler">
             Informasjonskapsler (cookies)
-          </Link>
-          <Link to="/pages/personvern/124-personvernserklring">
+          </a>
+          <a href="/pages/personvern/124-personvernserklring">
             Personvernerklæring
-          </Link>
+          </a>
           <span>© {moment().year()} Abakus</span>
         </div>
       </div>

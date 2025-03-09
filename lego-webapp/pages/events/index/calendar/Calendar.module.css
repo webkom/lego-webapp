@@ -1,0 +1,103 @@
+@import url('../../../../styles/variables.css');
+
+:root {
+  --calendar-border: 1px solid var(--border-gray);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 0 var(--spacing-md);
+}
+
+.headerDate {
+  text-transform: capitalize;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, calc(100% / 7));
+  max-width: 100%;
+}
+
+.cell {
+  position: relative;
+  padding-top: 26px;
+  min-height: 120px;
+  background: var(--color-white);
+  border-right: var(--calendar-border);
+  border-bottom: var(--calendar-border);
+
+  &:nth-child(7n + 1) {
+    border-left: var(--calendar-border);
+  }
+
+  &:nth-child(-n + 7) {
+    border-top: var(--calendar-border);
+  }
+}
+
+.eventPill {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  padding: 2px 5px;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  margin: 3px;
+  line-height: 1.25;
+}
+
+.eventTitle {
+  font-size: var(--font-size-xs);
+  color: var(--color-white);
+}
+
+.dayNumber {
+  position: absolute;
+  top: var(--spacing-xs);
+  right: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  line-height: var(--spacing-lg);
+}
+
+.currentDay {
+  width: var(--spacing-lg);
+  height: var(--spacing-lg);
+  border-radius: 50%;
+  color: var(--color-absolute-white);
+  text-align: center;
+  background-color: var(--lego-red-color);
+}
+
+.popoverEventTitle {
+  display: inline-block;
+  line-height: 1.3;
+}
+
+.popoverEventTitleText {
+  vertical-align: middle;
+}
+
+.popoverEventDescription {
+  line-height: 1.3;
+}
+
+.textWithIcon {
+  font-size: var(--font-size-sm);
+}
+
+.weekdayHeading {
+  padding-right: 1px;
+  text-align: right;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.prevNextMonthDay {
+  color: var(--color-gray-4);
+}
+
+.previousEvent {
+  opacity: 0.5;
+}

@@ -1,5 +1,4 @@
 import { Flex } from '@webkom/lego-bricks';
-import { Link } from 'react-router';
 import { ProfilePicture } from '../Image';
 import type { UnknownUser } from '~/redux/models/User';
 
@@ -14,7 +13,7 @@ const UserLink = ({ user }: UserLinkProps) => {
   return (
     <Flex wrap alignItems="center" gap="var(--spacing-sm)">
       <ProfilePicture size={24} user={user} />
-      <Link to={`/users/${user.username}`}>{user.fullName}</Link>
+      <a href={`/users/${user.username}`}>{user.fullName}</a>
     </Flex>
   );
 };

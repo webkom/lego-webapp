@@ -1,0 +1,35 @@
+@import url('../../styles/variables.css');
+
+.lendableObjectsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: var(--spacing-xl);
+
+  @media (width <= 60em) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--small-viewport) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+div.lendableObjectCard {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  height: 100%;
+}
+
+img.lendableObjectImage {
+  object-fit: cover;
+  height: 100%;
+}
+
+.lendableObjectFooter {
+  display: flex;
+  justify-content: center;
+  color: var(--lego-font-color);
+}

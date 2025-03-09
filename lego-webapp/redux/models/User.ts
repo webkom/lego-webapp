@@ -67,7 +67,7 @@ interface User {
   isAbakusMember: boolean;
   isAbakomMember: boolean;
   pastMemberships: PastMembership[];
-  selectedTheme: string;
+  selectedTheme: 'light' | 'dark' | 'auto';
   permissionsPerGroup: {
     abakusGroup: UserPermissionGroup;
     permissions: string[];

@@ -1,4 +1,4 @@
-import Item from './Item';
+import { Item } from './Item';
 import styles from './ItemGrid.module.css';
 import type { ItemProps } from './Item';
 
@@ -6,19 +6,12 @@ type Props = {
   items: ItemProps[];
 };
 
-const ItemGrid = ({ items }: Props) => {
+export const ItemGrid = ({ items }: Props) => {
   return (
     <div className={styles.grid}>
       {items.map((item) => (
-        <Item
-          key={item.title}
-          title={item.title}
-          description={item.description}
-          to={item.to}
-        />
+        <Item key={item.title} {...item} />
       ))}
     </div>
   );
 };
-
-export default ItemGrid;

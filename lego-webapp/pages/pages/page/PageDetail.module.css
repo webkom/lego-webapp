@@ -1,0 +1,50 @@
+@import url('../../../styles/variables.css');
+
+.header {
+  text-align: center;
+  margin: 0 auto;
+}
+
+.skeletonHeader {
+  width: 18rem;
+  height: 3rem;
+}
+
+.skeletonBody1 {
+  margin-top: var(--spacing-xl);
+  width: 60%;
+  height: 80px;
+}
+
+.skeletonBody2 {
+  margin-top: var(--spacing-md);
+  width: 40%;
+  height: 65px;
+}
+
+.skeletonBody3 {
+  margin-top: var(--spacing-md);
+  width: 80%;
+  height: 70px;
+}
+
+.heading {
+  text-align: center;
+  margin: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+}
+
+.members {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  margin-left: -20px;
+  margin-right: -20px;
+}
+
+@media (--mobile-device) {
+  .header {
+    word-break: break-word;
+    margin-top: 0;
+  }
+}

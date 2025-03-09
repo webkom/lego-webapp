@@ -1,0 +1,28 @@
+@import url('../../styles/variables.css');
+
+.eventItem {
+  border-left: 4px solid transparent;
+  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-md);
+  min-height: 60px; /* Needed for the skeleton components */
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+  transition: border-color var(--easing-fast);
+
+  &:hover {
+    background-color: var(--additive-background);
+  }
+}
+
+.title {
+  color: var(--lego-font-color);
+  margin: 0;
+}
+
+.time {
+  font-weight: 600;
+  margin-left: var(--spacing-xs);
+}
+
+.filler {
+  margin-top: var(--spacing-xl);
+}

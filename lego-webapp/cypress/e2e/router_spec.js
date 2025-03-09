@@ -123,7 +123,7 @@ describe('Navigate throughout app', () => {
 
     // Go to create new
     cy.contains('Nytt møte').click();
-    cy.url().should('contain', '/meetings/create');
+    cy.url().should('contain', '/meetings/new');
     cy.contains('Nytt møte');
     cy.contains('Tittel');
 

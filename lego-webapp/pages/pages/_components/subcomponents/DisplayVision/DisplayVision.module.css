@@ -1,0 +1,34 @@
+@import url('../../../../../styles/variables.css');
+
+.vision {
+  display: flex;
+  margin: 0 auto;
+  max-width: 44rem;
+}
+
+.visionTitle {
+  text-align: center;
+}
+
+.sectionLeft {
+  flex-basis: 50%;
+}
+
+.sectionRight {
+  flex-basis: 50%;
+}
+
+@media (--mobile-device) {
+  .vision {
+    flex-wrap: wrap;
+  }
+
+  .sectionRight {
+    flex-basis: 100%;
+    margin-top: 0;
+  }
+
+  .sectionLeft {
+    flex-basis: 100%;
+  }
+}

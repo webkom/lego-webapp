@@ -2,7 +2,6 @@ import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { Reply, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
-import { Link } from 'react-router';
 import CommentForm from '~/components/CommentForm';
 import DisplayContent from '~/components/DisplayContent';
 import { ProfilePicture } from '~/components/Image';
@@ -46,15 +45,13 @@ const Comment = ({
         {author ? (
           <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center" gap="var(--spacing-md)">
-              <Link to={`/users/${author.username}`}>
+              <a href={`/users/${author.username}`}>
                 <ProfilePicture size={40} user={author} />
-              </Link>
+              </a>
 
               <Flex column className={styles.username}>
                 <Flex alignItems="center" gap="var(--spacing-sm)">
-                  <Link to={`/users/${author.username}`}>
-                    {author.fullName}
-                  </Link>
+                  <a href={`/users/${author.username}`}>{author.fullName}</a>
                   {[contentAuthors].flat().includes(author.id) && (
                     <Tag
                       icon="shield-checkmark-outline"

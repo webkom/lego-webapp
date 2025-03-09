@@ -1,6 +1,5 @@
-import qs from 'qs';
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { usePageContext } from 'vike-react/usePageContext';
 import SearchPageInput from '~/components/Search/SearchPageInput';
 import SearchPageResults from '~/components/Search/SearchPageResults';
 import { Keyboard } from '~/utils/constants';
@@ -20,14 +19,10 @@ type Props<T> = {
 const SearchPage = <SearchType extends SearchResult>(
   props: Props<SearchType>,
 ) => {
-  const location = useLocation();
+  const pageContext = usePageContext();
 
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
-  const [query, setQuery] = useState<unknown>(
-    qs.parse(location.search, {
-      ignoreQueryPrefix: true,
-    }).q || '',
-  );
+  const [query, setQuery] = useState(pageContext.urlParsed.search.q);
 
   useEffect(() => {
     // Make sure the selectedIndex is within 0 <= index < results.length:
@@ -77,12 +72,11 @@ const SearchPage = <SearchType extends SearchResult>(
   };
 
   const { inputRef, placeholder, results } = props;
-  const value = typeof query === 'string' ? query : '';
   return (
     <div>
       <SearchPageInput
         inputRef={inputRef}
-        value={value}
+        value={query}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         onChange={handleQueryChange}
@@ -91,7 +85,7 @@ const SearchPage = <SearchType extends SearchResult>(
       <SearchPageResults
         onKeyDown={handleKeyDown}
         onSelect={handleSelect}
-        query={value}
+        query={query}
         results={results.filter(({ link }) => link)}
         selectedIndex={selectedIndex}
       />

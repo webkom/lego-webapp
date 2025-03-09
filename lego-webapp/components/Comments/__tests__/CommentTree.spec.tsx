@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router';
 import { describe, it, expect } from 'vitest';
 import { createRootReducer } from '~/redux/rootReducer';
 import { generateTreeStructure } from '~/utils';
@@ -52,13 +51,11 @@ describe('<CommentTree />', () => {
   });
   it('should nest comments', () => {
     const wrapper = mount(
-      <MemoryRouter>
-        <Provider store={store}>
-          {/*eslint-disable*/}
-          {/* @ts-ignore*/}
-          <CommentTree comments={tree} />
-        </Provider>
-      </MemoryRouter>,
+      <Provider store={store}>
+        {/*eslint-disable*/}
+        {/* @ts-ignore*/}
+        <CommentTree comments={tree} />
+      </Provider>,
     );
     const rootElements = wrapper.find('[data-ischild=false]');
     const rootElement = rootElements.at(1);
