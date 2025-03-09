@@ -25,6 +25,7 @@ import {
 import { ProfilePicture } from '~/components/Image';
 import Tag, { TagColors } from '~/components/Tags/Tag';
 import Time from '~/components/Time';
+import HTTPError from '~/components/errors/HTTPError';
 import { useIsCurrentUser } from '~/pages/users/utils';
 import {
   fetchLendingRequestById,
@@ -41,6 +42,7 @@ import { PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
+import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import styles from './LendingRequestDetail.module.css';
 import type { ReactNode } from 'react';
@@ -120,6 +122,10 @@ const LendingRequest = () => {
     selectUserById<PublicUserWithGroups>(state, lendingRequest?.createdBy),
   );
   const isCurrentUser = useIsCurrentUser(createdByUser?.username);
+
+  if (!useFeatureFlag('lending')) {
+    return <HTTPError />;
+  }
 
   if (fetching) {
     return <LoadingIndicator loading />;
