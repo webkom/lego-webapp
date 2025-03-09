@@ -62,7 +62,7 @@ const CommentView = (props: Props) => {
   );
   const [displaySorting, setDisplaySorting] = useState(false);
 
-  const sortedComments = comments.sort((a: Comment, b: Comment) => {
+  const sortedComments = comments.slice().sort((a: Comment, b: Comment) => {
     if (ordering.value === 'createdAt') {
       return moment(b.createdAt).valueOf() - moment(a.createdAt).valueOf();
     } else if (ordering.value === 'createdAtInv') {

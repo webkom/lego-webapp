@@ -1,6 +1,9 @@
+import type Comment from './Comment';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { ActionGrant } from 'app/models';
+import type { ContentTarget } from '~/utils/contentTarget';
 
-enum LendingRequestStatus {
+export enum LendingRequestStatus {
   Unapproved = 'unapproved',
   Approved = 'approved',
   Denied = 'denied',
@@ -16,9 +19,24 @@ interface LendingRequest {
   status: LendingRequestStatus;
   startDate: string;
   endDate: string;
+  text: string;
+  comments: Comment[];
+  contentTarget: ContentTarget;
+  actionGrant: ActionGrant;
 }
 
 export type ListLendingRequest = Pick<
+  LendingRequest,
+  | 'id'
+  | 'createdBy'
+  | 'lendableObject'
+  | 'status'
+  | 'startDate'
+  | 'endDate'
+  | 'actionGrant'
+>;
+
+export type DetailLendingRequest = Pick<
   LendingRequest,
   | 'id'
   | 'createdBy'
@@ -27,9 +45,13 @@ export type ListLendingRequest = Pick<
   | 'status'
   | 'startDate'
   | 'endDate'
+  | 'text'
+  | 'comments'
+  | 'contentTarget'
+  | 'actionGrant'
 >;
 
-export type AdminLendingRequest = ListLendingRequest;
+export type AdminLendingRequest = DetailLendingRequest;
 
 export type UnknownLendingRequest = ListLendingRequest | AdminLendingRequest;
 
@@ -37,6 +59,5 @@ export type CreateLendingRequest = Pick<
   LendingRequest,
   'lendableObject' | 'startDate' | 'endDate'
 >;
-export type EditLendingRequest = Partial<
-  Pick<LendingRequest, 'id' | 'status' | 'startDate' | 'endDate'>
->;
+export type EditLendingRequest = Required<Pick<LendingRequest, 'id'>> &
+  Partial<Pick<LendingRequest, 'status' | 'startDate' | 'endDate'>>;
