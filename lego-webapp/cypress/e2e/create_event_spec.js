@@ -19,7 +19,7 @@ describe('Create event', () => {
   });
 
   it('should fill required fields before being allowed to submit', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
 
     // Check that validation errors show only after we click "Opprett"
@@ -68,7 +68,7 @@ describe('Create event', () => {
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
 
     // Verify that created event looks good..
@@ -77,7 +77,7 @@ describe('Create event', () => {
   });
 
   it('should be possible to use the editor', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
 
     // Click editor
@@ -159,7 +159,7 @@ describe('Create event', () => {
     // Create event
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
 
     // Verify that created event looks good..
@@ -171,7 +171,7 @@ describe('Create event', () => {
   });
 
   it('should be able so set the standard fields', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
     uploadHeader();
 
@@ -208,7 +208,7 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
     cy.contains('Standard event');
     cy.contains('Bedriftspresentasjon');
@@ -218,7 +218,7 @@ describe('Create event', () => {
   });
 
   it('should be possible to create TBA event', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
     uploadHeader();
 
@@ -242,7 +242,7 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
     cy.contains('Ubestemt event');
     cy.contains('mer info kommer');
@@ -250,7 +250,7 @@ describe('Create event', () => {
   });
 
   it('should be possible to create NORMAL event', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
     uploadHeader();
 
@@ -320,7 +320,7 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
     cy.contains('0/20');
     cy.contains('0/30');
@@ -333,7 +333,7 @@ describe('Create event', () => {
   });
 
   it('should be possible to create OPEN event', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
     uploadHeader();
 
@@ -360,7 +360,7 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
     cy.contains('Fest');
     cy.contains('Open event');
@@ -368,7 +368,7 @@ describe('Create event', () => {
   });
 
   it('should be possible to create INFINITE event', () => {
-    cy.visit('/events/create');
+    cy.visit('/events/new');
     cy.waitForHydration();
     uploadHeader();
 
@@ -413,7 +413,7 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
     // Verify that created event looks good..
-    cy.url().should('not.contain', '/events/create');
+    cy.url().should('not.contain', '/events/new');
     cy.url().should('contain', '/events/');
     cy.contains('Annet');
     cy.contains('Mange');

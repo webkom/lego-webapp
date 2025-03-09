@@ -15,7 +15,7 @@ describe('Create joblisting', () => {
   });
 
   it('Makes sure required fields are filled before allowing submit', () => {
-    cy.visit('/joblistings/create');
+    cy.visit('/joblistings/new');
     cy.waitForHydration();
     // Check that validation errors show only after we click "Lagre endringer"
     fieldError('title').should('not.exist');
