@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .link {
   display: block;
   margin: 0 var(--spacing-md);
