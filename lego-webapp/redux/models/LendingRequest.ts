@@ -1,5 +1,6 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import type ObjectPermissionsMixin from 'app/store/models/ObjectPermissionsMixin';
+import { ListLendableObject } from '~/redux/models/LendableObject';
 
 enum LendingRequestStatus {
   Unapproved = 'unapproved',
@@ -33,6 +34,10 @@ export type ListLendingRequest = Pick<
 export type AdminLendingRequest = ListLendingRequest & ObjectPermissionsMixin;
 
 export type UnknownLendingRequest = ListLendingRequest | AdminLendingRequest;
+
+export type TransformedLendingRequest = ListLendingRequest & {
+  lendableObject: ListLendableObject;
+};
 
 export type CreateLendingRequest = Pick<
   LendingRequest,

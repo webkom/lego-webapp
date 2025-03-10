@@ -9,13 +9,16 @@ import { lendingRequestSchema } from '../schemas';
 import callAPI from './callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
 
-export const fetchLendingRequests = () =>
+export const fetchLendingRequests = ({ next = false }) =>
   callAPI<ListLendingRequest[]>({
     types: LendingRequests.FETCH,
     endpoint: '/lending/requests/',
     schema: [lendingRequestSchema],
     meta: {
       errorMessage: 'Henting av utlånsforespørsler feilet',
+    },
+    pagination: {
+      fetchNext: next,
     },
     propagateError: true,
   });

@@ -33,3 +33,29 @@
   justify-content: center;
   color: var(--lego-font-color);
 }
+
+.lendingRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.lendingRequestCard {
+  color: var(--lego-font-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.lendingRequestImage {
+  height: 80px;
+  width: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+}
+
+.divider {
+  border-bottom: 2px solid var(--border-gray);
+  margin: var(--spacing-md) 0;
+}
