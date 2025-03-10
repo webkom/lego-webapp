@@ -21,3 +21,7 @@
 .editButton {
   flex-shrink: 0;
 }
+
+.bannerPreview {
+  border-radius: var(--border-radius-lg);
+}

@@ -6,10 +6,11 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Field } from 'react-final-form';
+import cx from 'classnames';
+import { Field, useFormState } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
-import { Color, COLORS } from '~/components/Banner';
+import Banner, { Color, COLORS } from '~/components/Banner';
 import { TextInput, Form, LegoFinalForm, SelectInput } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import HTTPError from '~/components/errors/HTTPError';
@@ -25,10 +26,21 @@ import { selectBannerById } from '~/redux/slices/banner';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import { createValidator, required } from '~/utils/validation';
+import styles from './BannerOverview.module.css';
+
+const colorToRepresentation: Record<Color, string> = {
+  red: 'Rød',
+  white: 'Hvit',
+  gray: 'Grå',
+  lightBlue: 'Lyseblå',
+  itdageneBlue: 'IT-dagene Blå',
+  buddyweek2024: 'Fadderuke',
+};
 
 type BannerEditorParams = {
   bannerId?: string;
 };
+
 const BannerEditor = () => {
   const { bannerId } = useParams<BannerEditorParams>();
 
@@ -61,15 +73,6 @@ const BannerEditor = () => {
   const onDelete = () =>
     dispatch(deleteBanner(bannerId!)).then(() => navigate('/admin/banners'));
 
-  const colorToRepresentation: Record<Color, string> = {
-    red: 'Rød',
-    white: 'Hvit',
-    gray: 'Grå',
-    lightBlue: 'Lyseblå',
-    itdageneBlue: 'IT-dagene Blå',
-    buddyweek2024: 'Fadderuke',
-  };
-
   const colorOptions = (Object.keys(COLORS) as Color[]).sort().map((color) => ({
     value: color,
     label: colorToRepresentation[color],
@@ -97,6 +100,7 @@ const BannerEditor = () => {
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
+            <BannerPreview />
             <Field
               placeholder="Revyen har opptak!"
               name="header"
@@ -150,6 +154,27 @@ const BannerEditor = () => {
         )}
       </LegoFinalForm>
     </Page>
+  );
+};
+
+const BannerPreview = () => {
+  const { values } = useFormState();
+
+  return (
+    <div
+      className={cx(
+        styles.cardSection,
+        styles.bannerContainer,
+        styles.bannerPreview,
+      )}
+    >
+      <Banner
+        header={values.header ?? 'Tittel'}
+        subHeader={values.subheader}
+        link={values.link ?? 'https://abakus.no'}
+        color={values.color.value}
+      />
+    </div>
   );
 };
 

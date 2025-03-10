@@ -10,6 +10,7 @@
   animation-duration: 4s;
   animation-iteration-count: infinite;
   animation-delay: 5s;
+  transition: var(--easing-fast);
 }
 
 .subHeader {
@@ -20,31 +21,43 @@
   margin: 0;
 }
 
-.red {
-  background-color: var(--color-red-5);
-  color: var(--color-absolute-white);
+div.red {
+  color: var(--color-red-7);
+  background-color: transparent;
+  border: 3px solid var(--color-red-7);
+
+  &:hover {
+    background-color: var(--color-red-7);
+    color: var(--color-white);
+  }
 }
 
-.gray {
+div.gray {
   background-color: var(--color-gray-4);
   color: var(--color-white);
 }
 
-.white {
+div.white {
   color: var(--color-black);
 }
 
-.lightBlue {
+div.lightBlue {
   background-color: var(--color-blue-5);
   color: var(--color-white);
 }
 
-.itdageneBlue {
-  background-color: #0778bc;
-  color: var(--color-white);
+div.itdageneBlue {
+  background-color: transparent;
+  color: #0778bc;
+  border: 3px solid #0778bc;
+
+  &:hover {
+    background-color: #0778bc;
+    color: var(--color-white);
+  }
 }
 
-.buddyweek2024 {
+div.buddyweek2024 {
   border: 5px dashed var(--lego-red-color);
 }
 
