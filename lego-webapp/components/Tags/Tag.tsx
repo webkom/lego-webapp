@@ -17,10 +17,12 @@ export type TagColors =
 type Props = {
   tag: string | ReactNode;
   icon?: string;
+  iconNode?: ReactNode;
   iconSize?: number;
   color?: TagColors;
   link?: string;
   className?: string;
+  gap?: string;
   active?: boolean;
   textColor?: string;
   backgroundColor?: string;
@@ -32,10 +34,12 @@ type Props = {
 const Tag = ({
   tag,
   icon,
+  iconNode,
   iconSize,
   color = 'red',
   link,
   className,
+  gap,
   active,
   textColor,
   backgroundColor,
@@ -57,12 +61,13 @@ const Tag = ({
       </a>
     ) : (
       <Flex
-        gap="var(--spacing-xs)"
+        gap={gap || 'var(--spacing-xs)'}
         alignItems="center"
         className={cx(styles.tag, styles[color], className)}
         style={{ color: textColor, backgroundColor: backgroundColor }}
       >
-        {icon && <Icon name={icon} size={iconSize ?? 16} />}
+        {icon && !iconNode && <Icon name={icon} size={iconSize ?? 16} />}
+        {iconNode && <Icon iconNode={iconNode} size={iconSize ?? 16} />}
         {tag}
       </Flex>
     )}
