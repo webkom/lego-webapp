@@ -66,6 +66,12 @@ img.lendingRequestImage {
   gap: var(--spacing-md);
 }
 
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .statusTag .rotate {
   animation: spinner 5s linear infinite;
 }

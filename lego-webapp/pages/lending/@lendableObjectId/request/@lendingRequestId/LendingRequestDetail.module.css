@@ -1,9 +1,3 @@
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .buttonWrapper,
 .buttonWrapper button {
   width: 100%;
