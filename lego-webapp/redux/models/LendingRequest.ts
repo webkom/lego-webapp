@@ -1,8 +1,8 @@
+import { ListLendableObject } from '~/redux/models/LendableObject';
 import type Comment from './Comment';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
 import type { ContentTarget } from '~/utils/contentTarget';
-import { ListLendableObject } from '~/redux/models/LendableObject';
 
 export enum LendingRequestStatus {
   Unapproved = 'unapproved',

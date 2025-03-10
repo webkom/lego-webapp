@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 import { LendingRequests } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
+import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 import { EntityType } from '~/redux/models/entities';
 import { RootState } from '~/redux/rootReducer';
-import { createSelector } from 'reselect';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
-import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 const legoAdapter = createLegoAdapter(EntityType.LendingRequests);
 
