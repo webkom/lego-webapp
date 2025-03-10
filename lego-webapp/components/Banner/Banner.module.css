@@ -23,7 +23,7 @@
 
 div.red {
   color: var(--color-red-7);
-  background-color: var(--lego-background-color);
+  background-color: transparent;
   border: 3px solid var(--color-red-7);
 
   &:hover {
@@ -47,7 +47,7 @@ div.lightBlue {
 }
 
 div.itdageneBlue {
-  background-color: var(--color-background-color);
+  background-color: transparent;
   color: #0778bc;
   border: 3px solid #0778bc;
 
