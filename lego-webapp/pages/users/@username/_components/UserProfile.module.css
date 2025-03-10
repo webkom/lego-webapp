@@ -1,0 +1,146 @@
+.header {
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @media (--medium-viewport) {
+    justify-content: space-around;
+    gap: var(--spacing-md);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  padding-top: var(--spacing-md);
+}
+
+.frameMargin {
+  margin-top: var(--spacing-xl);
+}
+
+.sidebar {
+  min-width: 348.53px; /* The width of the info cards below */
+  position: relative;
+}
+
+img.frame {
+  width: 207px;
+  height: 207px;
+  margin: -2px 0 0 1px;
+  object-fit: scale-down;
+  position: absolute;
+}
+
+.leftMarginContent {
+  padding-left: var(--spacing-lg);
+}
+
+.rightContent {
+  flex: 2;
+  min-width: 320px;
+  width: 100%;
+
+  @media (--medium-viewport) {
+    padding-left: 0;
+    align-items: center;
+
+    div {
+      justify-content: center;
+    }
+  }
+}
+
+.info {
+  flex: 1;
+}
+
+.infoCard {
+  margin-bottom: var(--spacing-lg);
+}
+
+.infoCardFooter {
+  font-style: italic;
+  font-size: var(--font-size-sm);
+}
+
+.infoFieldName {
+  font-weight: 500;
+}
+
+.infoFieldContent {
+  color: var(--secondary-font-color);
+}
+
+.bottomMargin {
+  margin-bottom: var(--spacing-lg);
+}
+
+.settingsIcon {
+  transition: transform var(--easing-medium);
+}
+
+.settingsButton:hover .settingsIcon {
+  transform: rotate(90deg);
+}
+
+.soMeIcon {
+  color: var(--lego-font-color);
+  margin-right: var(--spacing-sm);
+}
+
+.badges {
+  position: relative;
+  display: inline-block;
+}
+
+.membershipBadge {
+  &.inactive {
+    filter: grayscale(100%);
+    opacity: 0.7;
+  }
+}
+
+.removeBadge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  color: var(--danger-color);
+  background-color: var(--lego-card-color);
+  border-radius: 50%;
+  padding: 2px;
+  opacity: 0;
+  transition: opacity var(--easing-md);
+  cursor: pointer;
+}
+
+.badgeContainer {
+  position: relative;
+}
+
+.badgeContainer:hover .removeBadge {
+  opacity: 1;
+}
+
+.achievements {
+  width: 100%;
+  padding-top: var(--spacing-md);
+}
+
+.trophy {
+  text-align: center;
+  white-space: pre-line;
+  font-weight: 500;
+  cursor: default;
+}
+
+.trophyDetailTooltip {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.trophyLinks {
+  margin-top: var(--spacing-md);
+}

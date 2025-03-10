@@ -1,19 +1,12 @@
 import { usePageContext } from 'vike-react/usePageContext';
+import HTTPError from '~/components/errors/HTTPError';
+import { useAppSelector } from '~/redux/hooks';
 
 export default function Page() {
   const { is404 } = usePageContext();
+  const statusCode = useAppSelector((state) => state.router.statusCode);
   if (is404) {
-    return (
-      <>
-        <h1>404 Page Not Found</h1>
-        <p>Noe gikk veldig galt, Webkom er på saken!</p>
-      </>
-    );
+    return <HTTPError statusCode={404} />;
   }
-  return (
-    <>
-      <h1>500 Internal Server Error</h1>
-      <p>Noe gikk veldig galt, Webkom er på saken!</p>
-    </>
-  );
+  return <HTTPError statusCode={statusCode ?? undefined} />;
 }

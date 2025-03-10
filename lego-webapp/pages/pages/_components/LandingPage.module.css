@@ -1,0 +1,143 @@
+.pageContainer {
+  position: relative;
+  margin-top: -15px;
+}
+
+.banner {
+  width: 100%;
+  max-width: 55rem;
+  display: block;
+  margin: var(--spacing-md) auto;
+  object-fit: scale-down;
+}
+
+.statisticsContainer {
+  margin: var(--spacing-xl) 0;
+}
+
+.emailContainer {
+  margin-bottom: 30px;
+}
+
+div > .locationContainerItem {
+  margin: 0 1%;
+  flex-basis: 31.3333%;
+  width: 31.3333%;
+
+  @media (--medium-viewport) {
+    flex-basis: 50%;
+    margin: 0;
+  }
+
+  @media (--small-viewport) {
+    flex-basis: 98%;
+  }
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  margin-top: 0.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.abakusInNumbers {
+  display: none;
+  text-align: center;
+}
+
+.contactTitle {
+  text-align: center;
+  margin: var(--spacing-xl) auto 0;
+}
+
+.contactUsLink {
+  color: var(--lego-link-color);
+  margin-left: auto;
+  margin-right: var(--spacing-lg);
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  &:hover {
+    color: var(--lego-red-color-hover);
+  }
+}
+
+.emailIcon {
+  margin-top: var(--spacing-sm);
+  margin-right: var(--spacing-md);
+}
+
+.soMeIcon {
+  margin-right: var(--spacing-md);
+}
+
+.houseIcon {
+  margin-top: var(--spacing-sm);
+  margin-right: var(--spacing-md);
+}
+
+.organizationIcon {
+  margin-right: var(--spacing-md);
+}
+
+.socialMediaContainer {
+  margin-bottom: var(--spacing-xl);
+}
+
+.socialMediaType {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin: 0 auto;
+  align-items: center;
+}
+
+@media (--mobile-device) {
+  .abakusInNumbers {
+    display: block;
+  }
+
+  .whoWhatWhyContainer {
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .locationContainer {
+    flex-wrap: wrap;
+  }
+
+  .emailIcon,
+  .houseIcon,
+  .organizationIcon {
+    display: none;
+  }
+
+  .contactUsLink {
+    top: var(--spacing-sm);
+  }
+
+  .pageContainer {
+    padding: 0;
+    padding-top: var(--spacing-xl);
+  }
+
+  .statisticsContainer {
+    display: flex;
+  }
+}
+
+img.bannerLightMode,
+img.bannerDarkMode {
+  display: none;
+}
+
+html[data-theme='light'] img.bannerLightMode {
+  display: block;
+}
+
+html[data-theme='dark'] img.bannerDarkMode {
+  display: block;
+}

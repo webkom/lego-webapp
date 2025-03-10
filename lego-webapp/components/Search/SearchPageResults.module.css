@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .searchResult {
   padding-left: var(--spacing-md);
   border-left: 4px solid transparent;

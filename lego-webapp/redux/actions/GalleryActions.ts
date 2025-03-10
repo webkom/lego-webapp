@@ -2,8 +2,8 @@ import { Gallery } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { gallerySchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { FormValues as GalleryEditorFormValues } from 'app/routes/photos/components/GalleryEditor';
 import type { ParsedQs } from 'qs';
+import type { FormValues as GalleryEditorFormValues } from '~/pages/photos/new/+Page';
 import type { DetailedGallery } from '~/redux/models/Gallery';
 
 export const fetchGalleries = ({

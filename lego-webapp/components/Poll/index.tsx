@@ -9,7 +9,6 @@ import {
   Info,
 } from 'lucide-react';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
 import EmptyState from '~/components/EmptyState';
 import Tooltip from '~/components/Tooltip';
 import { votePoll } from '~/redux/actions/PollActions';
@@ -100,7 +99,7 @@ const Poll = ({
         className={styles.topBar}
       >
         <Icon iconNode={<ChartNoAxesColumn />} className={styles.pollIcon} />
-        <Link to={`/polls/${pollId}`} className={styles.titleLink}>
+        <a href={`/polls/${pollId}`} className={styles.titleLink}>
           <Flex
             alignItems="center"
             className={styles.title}
@@ -112,7 +111,7 @@ const Poll = ({
               <>{title}</>
             )}
           </Flex>
-        </Link>
+        </a>
       </Flex>
       <Accordion
         disabled={alwaysOpen}

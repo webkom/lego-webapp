@@ -1,6 +1,5 @@
 import { Card } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import styles from './Banner.module.css';
 import type { ReactNode } from 'react';
 import type { $Keys } from 'utility-types';
@@ -15,7 +14,6 @@ export const COLORS = {
 };
 export type Color = $Keys<typeof COLORS>;
 type LinkComponentProps = {
-  internal: boolean;
   link: string;
   children: ReactNode;
   className?: string;
@@ -25,21 +23,11 @@ type Props = {
   subHeader?: string;
   link: string;
   color?: Color;
-  internal?: boolean; // true will use internal router: <Link />
   className?: string;
 };
 
-const LinkComponent = ({
-  internal,
-  link,
-  children,
-  className,
-}: LinkComponentProps) => {
-  return internal ? (
-    <Link to={link} className={cx(styles.link, className)}>
-      {children}
-    </Link>
-  ) : (
+const LinkComponent = ({ link, children, className }: LinkComponentProps) => {
+  return (
     <a
       href={link}
       target="_blank"
@@ -51,16 +39,9 @@ const LinkComponent = ({
   );
 };
 
-const Banner = ({
-  header,
-  subHeader,
-  link,
-  color,
-  internal = false,
-  className,
-}: Props) => {
+const Banner = ({ header, subHeader, link, color, className }: Props) => {
   return (
-    <LinkComponent className={className} internal={internal} link={link}>
+    <LinkComponent className={className} link={link}>
       <Card className={cx(styles.header, color && COLORS[color])}>
         <h1>{header}</h1>
         {subHeader && <h4 className={styles.subHeader}>{subHeader}</h4>}

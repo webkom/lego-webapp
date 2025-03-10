@@ -25,7 +25,7 @@ describe('Event registration & payment', () => {
     });
 
     it('Should be possible to create a priced event', () => {
-      cy.visit('/events/create');
+      cy.visit('/events/new');
       cy.waitForHydration();
       uploadHeader();
 
@@ -85,7 +85,7 @@ describe('Event registration & payment', () => {
       cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
       // Verify that created event looks good..
-      cy.url().should('not.contain', '/events/create');
+      cy.url().should('not.contain', '/events/new');
       cy.url().should('contain', '/events/');
       cy.contains('0/20').should('be.visible');
       cy.contains('Arrangement').should('be.visible');

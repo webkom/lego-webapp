@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { sortSemesterChronologically } from 'app/routes/bdb/components/companyInterest/utils';
+import { sortSemesterChronologically } from '~/pages/bdb/company-interest/utils';
 import { Company } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';

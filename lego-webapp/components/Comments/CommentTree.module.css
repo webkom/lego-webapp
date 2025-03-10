@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .nested {
   margin-left: var(--spacing-xl);
 

@@ -2,7 +2,7 @@ import { Announcements } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { announcementsSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { FormValues as CreateAnnouncementFormValues } from 'app/routes/announcements/components/AnnouncementsCreate';
+import type { FormValues as CreateAnnouncementFormValues } from '~/pages/announcements/AnnouncementsCreate';
 import type {
   DetailedAnnouncement,
   ListAnnouncement,

@@ -1,0 +1,50 @@
+.pinned {
+  grid-area: pinned;
+  width: 100%;
+}
+
+div.body {
+  padding: 0;
+  min-height: 260px;
+
+  @media (--mobile-device) {
+    min-height: 180px;
+  }
+}
+
+.innerLinks {
+  display: block;
+
+  @media (--mobile-device) {
+    height: inherit;
+  }
+}
+
+.image {
+  object-fit: contain;
+  background: white;
+
+  @media (--mobile-device) {
+    object-fit: scale-down;
+    border-right: none;
+    display: block;
+  }
+}
+
+.pinnedHeading {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.itemTitle {
+  margin: 0;
+  line-height: 1.3;
+  font-size: var(--font-size-lg);
+  word-break: normal;
+}
+
+.itemTitle > a {
+  color: var(--lego-font-color);
+}

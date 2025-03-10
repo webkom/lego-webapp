@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router';
 import Dropdown from '~/components/Dropdown';
+import { Link } from '~/components/Link';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import AboutDropdown from './AboutDropdown';
 import CareerDropdown from './CareerDropdown';
@@ -65,14 +65,14 @@ const Navbar = () => {
           return;
 
         const navLinkItem = (
-          <NavLink
+          <Link
             key={link.to}
-            to={link.to}
+            href={link.to}
             className={({ isActive }) => (isActive ? styles.activeItem : '')}
             onMouseEnter={() => focusLinkAtIndex(i)}
           >
             {link.title}
-          </NavLink>
+          </Link>
         );
 
         if (link.dropdown === undefined) return navLinkItem;

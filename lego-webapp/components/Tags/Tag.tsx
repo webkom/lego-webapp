@@ -1,6 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Link } from 'react-router';
 import styles from './Tag.module.css';
 import type { ReactNode } from 'react';
 
@@ -18,10 +17,12 @@ export type TagColors =
 type Props = {
   tag: string | ReactNode;
   icon?: string;
+  iconNode?: ReactNode;
   iconSize?: number;
   color?: TagColors;
   link?: string;
   className?: string;
+  gap?: string;
   active?: boolean;
   textColor?: string;
   backgroundColor?: string;
@@ -33,17 +34,19 @@ type Props = {
 const Tag = ({
   tag,
   icon,
+  iconNode,
   iconSize,
   color = 'red',
   link,
   className,
+  gap,
   active,
   textColor,
   backgroundColor,
 }: Props) => (
   <div className={styles.linkSpacing}>
     {link ? (
-      <Link
+      <a
         className={cx(
           styles.link,
           styles.tag,
@@ -51,19 +54,20 @@ const Tag = ({
           className,
           active && styles.active,
         )}
-        to={link}
+        href={link}
         style={{ color: textColor, backgroundColor }}
       >
         {tag}
-      </Link>
+      </a>
     ) : (
       <Flex
-        gap="var(--spacing-xs)"
+        gap={gap || 'var(--spacing-xs)'}
         alignItems="center"
         className={cx(styles.tag, styles[color], className)}
         style={{ color: textColor, backgroundColor: backgroundColor }}
       >
-        {icon && <Icon name={icon} size={iconSize ?? 16} />}
+        {icon && !iconNode && <Icon name={icon} size={iconSize ?? 16} />}
+        {iconNode && <Icon iconNode={iconNode} size={iconSize ?? 16} />}
         {tag}
       </Flex>
     )}

@@ -3,7 +3,6 @@ import cx from 'classnames';
 import { flatMap } from 'lodash';
 import { Send } from 'lucide-react';
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router';
 import { TextInput } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
 import { GroupFilter } from '~/components/UserAttendance/GroupFilter';
@@ -133,9 +132,9 @@ const AttendanceModalContent = ({
                 )}
               >
                 <ProfilePicture size={30} user={registration.user} />
-                <Link to={`/users/${registration.user.username}`}>
+                <a href={`/users/${registration.user.username}`}>
                   {registration.user.fullName}
-                </Link>
+                </a>
               </Flex>
             </li>
           ))

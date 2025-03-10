@@ -1,0 +1,20 @@
+.chartContainer {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-md);
+  padding: 6px;
+
+  @media (--mobile-device) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.graphCard {
+  margin-top: var(--spacing-md);
+}
+
+.filterContainer > label {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+}

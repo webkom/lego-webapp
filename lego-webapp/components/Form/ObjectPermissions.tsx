@@ -71,7 +71,7 @@ const ObjectPermissions = ({
   ].filter(Boolean);
 };
 
-const toIds = (mapping) => mapping.value;
+export const toIds = (mapping) => mapping.value;
 
 export const normalizeObjectPermissions = ({
   requireAuth,

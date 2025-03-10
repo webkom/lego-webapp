@@ -1,7 +1,6 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import { CalendarClock } from 'lucide-react';
 import moment from 'moment';
-import { Link } from 'react-router';
 import {
   jobType,
   Year,
@@ -18,8 +17,8 @@ type JobListingItemProps = {
 };
 
 const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
-  <Link
-    to={`/joblistings/${joblisting.slug}/`}
+  <a
+    href={`/joblistings/${joblisting.slug}/`}
     className={styles.joblistingItem}
   >
     {joblisting.company.logo && (
@@ -81,7 +80,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         )}
       </Flex>
     </div>
-  </Link>
+  </a>
 );
 
 export default JoblistingItem;

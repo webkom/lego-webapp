@@ -1,0 +1,62 @@
+.interestBox {
+  width: 32%;
+  min-width: 300px;
+}
+
+.yearForm {
+  width: 100px;
+  display: block;
+}
+
+.textEditor {
+  @media (--small-viewport) {
+    width: 300px;
+  }
+}
+
+.semesterBox {
+  justify-content: space-between;
+  width: 125px;
+}
+
+.topline {
+  height: 1px;
+  background-color: var(--border-gray);
+  margin: var(--spacing-md) 0;
+}
+
+.companyInterestList {
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.companyInterestList table {
+  width: 900px;
+}
+
+.companyList th {
+  padding: 5px 0;
+  border-top: 1px solid var(--border-gray);
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.companyInterestList th,
+.companyInterestList td {
+  width: 275px;
+  justify-content: space-between;
+  padding-left: 7px;
+  text-align: left;
+  display: table-cell;
+  border-bottom: 1px dashed var(--color-black);
+}
+
+.flag {
+  height: 3em;
+  width: 5em;
+  object-fit: cover;
+}
+
+.label {
+  color: var(--danger-color);
+}

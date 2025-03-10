@@ -1,0 +1,6 @@
+.entity {
+  flex: 1;
+  min-width: 200px;
+  margin: 5px;
+  text-align: center;
+}

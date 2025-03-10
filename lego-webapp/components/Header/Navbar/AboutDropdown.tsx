@@ -1,4 +1,4 @@
-import ItemGrid from './ItemGrid';
+import { ItemGrid } from './ItemGrid';
 import type { ItemProps } from './Item';
 
 const AboutDropdown = () => {
@@ -6,32 +6,32 @@ const AboutDropdown = () => {
     {
       title: 'Generelt',
       description: 'Alt du trenger å vite om landets beste linjeforening',
-      to: '/pages/info-om-abakus',
+      href: '/pages/info-om-abakus',
     },
     {
       title: 'For bedrifter',
       description: 'Les om alt Abakus kan tilby din bedrift',
-      to: '/pages/bedrifter/for-bedrifter',
+      href: '/pages/bedrifter/for-bedrifter',
     },
     {
       title: 'Interessegrupper',
       description: 'Utforsk og engasjer deg i en interessegruppe',
-      to: '/interestgroups',
+      href: '/interest-groups',
     },
     {
       title: 'Revyen',
       description: 'Les om revyen og revygruppene i Abakus',
-      to: '/pages/grupper/104-revyen',
+      href: '/pages/grupper/104-revyen',
     },
     {
       title: 'Komiteer',
       description: 'Les om ansvarsområdene til komiteene i Abakus',
-      to: '/pages/komiteer/4',
+      href: '/pages/komiteer/4',
     },
     {
       title: 'Kontakt Abakus',
       description: 'Nå ut til Hovedstyret, revyen eller komiteene',
-      to: '/contact',
+      href: '/contact',
     },
   ];
 

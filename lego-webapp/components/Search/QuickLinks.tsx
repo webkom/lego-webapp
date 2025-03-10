@@ -1,4 +1,3 @@
-import ResolveLink from '../ResolveLink';
 import styles from './Search.module.css';
 import type { NavigationLink } from './utils';
 
@@ -13,13 +12,15 @@ const QuickLinks = ({ title, links, onCloseSearch }: Props) => {
     <div>
       <h2 className={styles.quickLinksHeader}>{title}</h2>
       <div className={styles.quickLinks}>
-        {links.map((link) => (
-          <ResolveLink
-            key={link[0]}
-            link={link}
+        {links.map(([href, name]) => (
+          <a
+            key={href}
+            href={href}
             className={styles.quickLink}
             onClick={onCloseSearch}
-          />
+          >
+            {name}
+          </a>
         ))}
       </div>
     </div>

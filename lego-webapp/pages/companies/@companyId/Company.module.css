@@ -1,0 +1,8 @@
+.companyInfo {
+  min-width: 180px;
+  min-height: 21px;
+}
+
+.toggleEventsView {
+  margin: var(--spacing-sm) 0;
+}

@@ -123,7 +123,7 @@ describe('Navigate throughout app', () => {
 
     // Go to create new
     cy.contains('Nytt møte').click();
-    cy.url().should('contain', '/meetings/create');
+    cy.url().should('contain', '/meetings/new');
     cy.contains('Nytt møte');
     cy.contains('Tittel');
 
@@ -205,9 +205,7 @@ describe('Navigate throughout app', () => {
     openMenuAndSelect('Forum', '/forum');
     cy.contains('Forum');
 
-    // Lending
-    openMenuAndSelect('Utlån', '/lending');
-    cy.contains('Prinsessekjole');
+    // Lending is currently featureflagged and was removed from this test
   });
 
   it('should be able to log out', () => {

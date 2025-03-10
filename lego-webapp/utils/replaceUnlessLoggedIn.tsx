@@ -1,4 +1,4 @@
-import LoginPage from 'app/routes/auth/components/LoginPage';
+import LoginPage from '~/pages/auth/+Page';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import type { ComponentType } from 'react';
 
