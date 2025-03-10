@@ -1,3 +1,11 @@
 .list {
   list-style-type: disc;
 }
+
+.controlPanelItem {
+  color: var(--lego-font-color);
+}
+
+.controlPanelItem h3 {
+  color: var(--lego-link-color);
+}

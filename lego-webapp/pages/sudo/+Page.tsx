@@ -36,28 +36,23 @@ const links: PanelItem[] = [
   },
 ];
 
-const ControlPanelItem = ({ link, tag, description, iconNode }: PanelItem) => (
-  <a href={link}>
-    <Card>
-      <Icon iconNode={iconNode} size={20} />
-      <h3>{tag}</h3>
-      <p>{description}</p>
+const ControlPanelItem = ({ link }: { link: PanelItem }) => (
+  <a href={link.link} className={styles.controlPanelItem}>
+    <Card isHoverable>
+      <Icon iconNode={link.iconNode} size={20} />
+      <h3>{link.tag}</h3>
+      <p>{link.description}</p>
     </Card>
   </a>
 );
+
 const AdminControlPanel = () => {
   return (
     <div className={styles.controlPanel}>
       <h2>Kontrollpanel</h2>
-      <Flex>
-        {links.map((l) => (
-          <ControlPanelItem
-            key={l.tag}
-            link={l.link}
-            tag={l.tag}
-            description={l.description}
-            iconNode={l.iconNode}
-          />
+      <Flex gap="var(--spacing-md)">
+        {links.map((link) => (
+          <ControlPanelItem key={link.tag} link={link} />
         ))}
       </Flex>
     </div>
