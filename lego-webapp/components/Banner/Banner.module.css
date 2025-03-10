@@ -23,7 +23,7 @@
 
 div.red {
   color: var(--color-red-7);
-  background-color: var(--color-background-color);
+  background-color: var(--lego-background-color);
   border: 3px solid var(--color-red-7);
 
   &:hover {
