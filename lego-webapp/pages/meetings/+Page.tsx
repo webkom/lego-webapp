@@ -5,21 +5,23 @@ import {
   LinkButton,
   ButtonGroup,
   Page,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { CalendarOff } from 'lucide-react';
+import { CalendarOff, Pin } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
-import { fetchAll } from '~/redux/actions/MeetingActions';
+import { fetchAll, fetchRecurring } from '~/redux/actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
 import {
   selectGroupedMeetings,
+  selectMyRecurringMeetings,
   type MeetingSection,
 } from '~/redux/slices/meetings';
 import { selectPaginationNext } from '~/redux/slices/selectors';
@@ -49,7 +51,13 @@ function MeetingListItem({
       <div>
         <a href={`/meetings/${meeting.id}`}>
           <Flex alignItems="center" gap="var(--spacing-md)">
+            {meeting.recurring === 0 && userId === meeting.createdBy && (
+              <Icon iconNode={<Pin />} />
+            )}
             <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
+            {meeting.recurring >= 0 && (
+              <Tag tag="Ukentlig" color="cyan" icon="refresh" />
+            )}
             {userId === meeting.createdBy && (
               <Tag
                 tag="Forfatter"
@@ -91,9 +99,11 @@ const MeetingListView = ({
     {sections.map((item, key) => (
       <div key={key}>
         <h3 className={styles.heading}>{item.title}</h3>
-        {item.meetings.map((item, key) => (
-          <MeetingListItem key={key} userId={currentUser.id} meeting={item} />
-        ))}
+        {item.meetings
+          .sort((m: ListMeeting, n: ListMeeting) => n.recurring - m.recurring)
+          .map((item, key) => (
+            <MeetingListItem key={key} userId={currentUser.id} meeting={item} />
+          ))}
       </div>
     ))}
     {!sections.length && (
@@ -176,6 +186,10 @@ const MeetingList = () => {
     [],
   );
 
+  usePreparedEffect('fetchRecurringMeetings', () => fetchRecurring(), []);
+
+  const myRecurringMeetings = useAppSelector(selectMyRecurringMeetings);
+
   useEffect(() => {
     if (
       !initialFetchAttempted &&
@@ -201,13 +215,20 @@ const MeetingList = () => {
     >
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (
-        <MeetingListView
-          currentUser={currentUser}
-          sections={meetingSections}
-          fetchMorePagination={fetchMorePagination}
-          fetchOlderPagination={fetchOlderPagination}
-        />
+        <>
+          <h3 className={styles.heading}>Dine ukentlige møter</h3>
+          {myRecurringMeetings.map((m) => (
+            <MeetingListItem key={m.id} meeting={m} userId={m.createdBy} />
+          ))}
+          <MeetingListView
+            currentUser={currentUser}
+            sections={meetingSections}
+            fetchMorePagination={fetchMorePagination}
+            fetchOlderPagination={fetchOlderPagination}
+          />
+        </>
       )}
+
       <LoadingIndicator
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
       />

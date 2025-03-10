@@ -9,7 +9,7 @@ import { addReactionCases } from './reactions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Moment } from 'moment-timezone';
 import type { AnyAction } from 'redux';
-import type { ListMeeting } from '~/redux/models/Meeting';
+import type { ListMeeting, UnknownMeeting } from '~/redux/models/Meeting';
 import type { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import type { PublicUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
@@ -45,7 +45,7 @@ const meetingsSlice = createSlice({
     },
   },
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [Meeting.FETCH],
+    fetchActions: [Meeting.FETCH, Meeting.FETCH_RECURRING],
     deleteActions: [Meeting.DELETE],
     extraCases: (addCase) => {
       addCommentCases(EntityType.Meetings, addCase);
@@ -198,4 +198,14 @@ export const selectUpcomingMeetings = (state: RootState) =>
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,
   (upcomingMeetings) => upcomingMeetings[0]?.id as EntityId | undefined,
+);
+
+export const selectMyRecurringMeetings = createSelector(
+  (state: RootState) => state.auth.id,
+  (state: RootState) =>
+    selectMeetingsByField('recurring', (recurring) => recurring === 0)(state),
+  (selfId, recurringMeetings) =>
+    recurringMeetings.filter(
+      (meeting: ListMeeting) => meeting.createdBy === selfId,
+    ) as ListMeeting[],
 );
