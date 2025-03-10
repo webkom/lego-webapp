@@ -7,13 +7,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import {
-  CircleAlert,
-  CircleCheckBig,
-  CircleDashed,
-  CircleX,
-  MoveRight,
-} from 'lucide-react';
+import { MoveRight } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { CommentView } from '~/components/Comments';
@@ -23,9 +17,9 @@ import {
   ContentSidebar,
 } from '~/components/Content';
 import { ProfilePicture } from '~/components/Image';
-import Tag, { TagColors } from '~/components/Tags/Tag';
 import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
+import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
 import { useIsCurrentUser } from '~/pages/users/utils';
 import {
   fetchLendingRequestById,
@@ -45,48 +39,6 @@ import { selectUserById } from '~/redux/slices/users';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import styles from './LendingRequestDetail.module.css';
-import type { ReactNode } from 'react';
-
-const statusMap: Record<
-  LendingRequestStatus,
-  {
-    tag: string;
-    buttonText: string;
-    icon: ReactNode;
-    color: TagColors;
-  }
-> = {
-  [LendingRequestStatus.Unapproved]: {
-    tag: 'Venter på godkjenning',
-    buttonText: 'Fjern godkjenning',
-    icon: <CircleDashed className={styles.rotate} />,
-    color: 'orange',
-  },
-  [LendingRequestStatus.Approved]: {
-    tag: 'Godkjent',
-    buttonText: 'Godkjenn',
-    icon: <CircleCheckBig />,
-    color: 'green',
-  },
-  [LendingRequestStatus.Denied]: {
-    tag: 'Avslått',
-    buttonText: 'Avslå',
-    icon: <CircleX />,
-    color: 'red',
-  },
-  [LendingRequestStatus.Cancelled]: {
-    tag: 'Kansellert',
-    buttonText: 'Kanseller forespørsel',
-    icon: <CircleX />,
-    color: 'red',
-  },
-  [LendingRequestStatus.ChangesRequested]: {
-    tag: 'Endringer forespurt',
-    buttonText: 'Forespør endringer',
-    icon: <CircleAlert />,
-    color: 'orange',
-  },
-};
 
 type Params = {
   lendingRequestId: string;
@@ -152,20 +104,13 @@ const LendingRequest = () => {
             <h3>Kommentar</h3>
             <p>{lendingRequest.text}</p>
             <CommentView
-              comments={lendingRequest.comments}
+              comments={lendingRequest.comments || []}
               contentTarget={lendingRequest.contentTarget}
             />
           </ContentMain>
           <ContentSidebar>
             <h3>Status</h3>
-            <Tag
-              iconNode={statusMap[lendingRequest.status].icon}
-              iconSize={22}
-              color={statusMap[lendingRequest.status].color}
-              tag={statusMap[lendingRequest.status].tag}
-              className={styles.statusTag}
-              gap="var(--spacing-md)"
-            />
+            <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
             {isCurrentUser && (
               <div className={styles.buttonWrapper}>
                 <UpdateButton

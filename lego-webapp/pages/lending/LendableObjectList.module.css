@@ -31,3 +31,47 @@ img.lendableObjectImage {
   justify-content: center;
   color: var(--lego-font-color);
 }
+
+.lendingRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.lendingRequestCard {
+  color: var(--lego-font-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+img.lendingRequestImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+}
+
+.divider {
+  border-bottom: 2px solid var(--border-gray);
+  margin: var(--spacing-md) 0;
+}
+
+.statusTag {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  justify-content: center;
+  font-size: var(--font-size-md);
+  gap: var(--spacing-md);
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusTag .rotate {
+  animation: spinner 5s linear infinite;
+}

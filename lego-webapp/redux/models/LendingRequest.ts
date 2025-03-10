@@ -1,3 +1,4 @@
+import { ListLendableObject } from '~/redux/models/LendableObject';
 import type Comment from './Comment';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant } from 'app/models';
@@ -54,6 +55,10 @@ export type DetailLendingRequest = Pick<
 export type AdminLendingRequest = DetailLendingRequest;
 
 export type UnknownLendingRequest = ListLendingRequest | AdminLendingRequest;
+
+export type TransformedLendingRequest = ListLendingRequest & {
+  lendableObject: ListLendableObject;
+};
 
 export type CreateLendingRequest = Pick<
   LendingRequest,
