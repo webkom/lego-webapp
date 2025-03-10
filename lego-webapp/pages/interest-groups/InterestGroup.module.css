@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .navigationItem {
   flex-grow: 1;
   color: var(--absolute-white);

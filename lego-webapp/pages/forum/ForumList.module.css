@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .listEntry {
   border-left: 8px solid var(--color-red-4);
   justify-content: space-between;

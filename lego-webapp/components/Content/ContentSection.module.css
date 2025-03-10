@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 div.section {
   @media (--medium-viewport) {
     flex-direction: column;
