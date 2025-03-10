@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .poll {
   background-color: var(--lego-card-color);
   width: 100%;

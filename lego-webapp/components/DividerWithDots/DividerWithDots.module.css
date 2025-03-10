@@ -1,5 +1,3 @@
-@import url('../../styles/variables.css');
-
 .visionLine {
   border-left: 3px solid var(--lego-red-color);
   display: flex;

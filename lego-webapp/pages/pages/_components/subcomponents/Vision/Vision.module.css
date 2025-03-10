@@ -1,5 +1,3 @@
-@import url('../../../../../styles/variables.css');
-
 .title {
   font-size: var(--font-size-lg);
   color: var(--lego-red-color);
