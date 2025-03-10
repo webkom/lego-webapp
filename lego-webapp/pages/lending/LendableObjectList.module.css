@@ -46,9 +46,9 @@ img.lendableObjectImage {
   gap: var(--spacing-md);
 }
 
-.lendingRequestImage {
-  height: 80px;
+img.lendingRequestImage {
   width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: var(--border-radius-lg);
 }
@@ -56,4 +56,16 @@ img.lendableObjectImage {
 .divider {
   border-bottom: 2px solid var(--border-gray);
   margin: var(--spacing-md) 0;
+}
+
+.statusTag {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  justify-content: center;
+  font-size: var(--font-size-md);
+  gap: var(--spacing-md);
+}
+
+.statusTag .rotate {
+  animation: spinner 5s linear infinite;
 }

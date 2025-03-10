@@ -14,13 +14,11 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
 import { FolderOpen, MoveRight } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
-import styles from './LendableObjectList.module.css';
-import type { ListLendableObject } from '~/redux/models/LendableObject';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
-import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
+import LendingStatusTag from '~/pages/lending/LendingStatusTag';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -31,6 +29,8 @@ import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
+import styles from './LendableObjectList.module.css';
+import type { ListLendableObject } from '~/redux/models/LendableObject';
 
 const LendableObject = ({
   lendableObject,
@@ -59,28 +59,30 @@ const LendingRequest = ({
   lendingRequest: TransformedLendingRequest;
 }) => {
   return (
-    <Link
-      to={`/lending/${lendingRequest.lendableObject.id}/${lendingRequest.id}`}
+    <a
+      href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id}`}
     >
       <Card isHoverable hideOverflow className={styles.lendingRequestCard}>
         <Image
           className={styles.lendingRequestImage}
           height={80}
           width={80}
-          src={lendingRequest.lendableObject.image || abakus_icon}
+          src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
           alt={`${lendingRequest.lendableObject.title}`}
         />
-        <Flex column gap="var(--spacing-sm)">
-          <h4>{lendingRequest.lendableObject.title}</h4>
-          <Flex alignItems="center" gap={8}>
-            <Time time={lendingRequest.startDate} format="DD. MMM" />
-            <Icon iconNode={<MoveRight />} size={19} />
-            <Time time={lendingRequest.endDate} format="DD. MMM" />
+        <Flex justifyContent="space-between" width="100%">
+          <Flex column gap="var(--spacing-sm)">
+            <h4>{lendingRequest.lendableObject.title}</h4>
+            <Flex alignItems="center" gap={8}>
+              <Time time={lendingRequest.startDate} format="DD. MMM" />
+              <Icon iconNode={<MoveRight />} size={19} />
+              <Time time={lendingRequest.endDate} format="DD. MMM" />
+            </Flex>
           </Flex>
+          <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
         </Flex>
-        <Tag tag={lendingRequest.status} />
       </Card>
-    </Link>
+    </a>
   );
 };
 
@@ -136,6 +138,9 @@ const LendableObjectList = () => {
   const filteredLendableObjects = lendableObjects.filter((lendableObjects) =>
     lendableObjects.title.toLowerCase().includes(query.search.toLowerCase()),
   );
+
+  const canSeeLendingRequests = useFeatureFlag('lending-request');
+
   if (!useFeatureFlag('lending')) {
     return <HTTPError />;
   }
@@ -165,39 +170,40 @@ const LendableObjectList = () => {
       })}
     >
       <Helmet title={title} />
-
-      <h3>Dine utlånsforespørsler</h3>
-
-      <LoadingIndicator loading={requestsPagination.fetching}>
-        {lendingRequests.length ? (
-          <div className={styles.lendingRequestsContainer}>
-            {lendingRequests.map((lendingRequest) => (
-              <LendingRequest
-                key={lendingRequest.id}
-                lendingRequest={lendingRequest}
+      {canSeeLendingRequests && (
+        <>
+          <h3>Dine utlånsforespørsler</h3>
+          <LoadingIndicator loading={requestsPagination.fetching}>
+            {lendingRequests.length ? (
+              <div className={styles.lendingRequestsContainer}>
+                {lendingRequests.map((lendingRequest) => (
+                  <LendingRequest
+                    key={lendingRequest.id}
+                    lendingRequest={lendingRequest}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyState
+                iconNode={<FolderOpen />}
+                body={<span>Ingen utlånsforespørsler</span>}
               />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            iconNode={<FolderOpen />}
-            body={<span>Ingen utlånsforespørsler</span>}
-          />
-        )}
-        {requestsPagination.hasMore && (
-          <Button
-            onPress={fetchMoreLendingRequests}
-            isPending={!isEmpty(lendingRequests) && requestsPagination.fetching}
-          >
-            Last inn mer
-          </Button>
-        )}
-      </LoadingIndicator>
-
-      <div className={styles.divider} />
-
+            )}
+            {requestsPagination.hasMore && (
+              <Button
+                onPress={fetchMoreLendingRequests}
+                isPending={
+                  !isEmpty(lendingRequests) && requestsPagination.fetching
+                }
+              >
+                Last inn mer
+              </Button>
+            )}
+          </LoadingIndicator>
+          <div className={styles.divider} />
+        </>
+      )}
       <h3>Tilgjengelige utlånsobjekter</h3>
-
       <LoadingIndicator loading={fetchingObjects}>
         {filteredLendableObjects.length ? (
           <div className={styles.lendableObjectsContainer}>

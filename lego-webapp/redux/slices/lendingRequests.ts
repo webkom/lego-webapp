@@ -5,6 +5,7 @@ import { EntityType } from '~/redux/models/entities';
 import { RootState } from '~/redux/rootReducer';
 import { createSelector } from 'reselect';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
+import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 const legoAdapter = createLegoAdapter(EntityType.LendingRequests);
 
@@ -34,7 +35,7 @@ export const selectTransformedLendingRequests = createSelector(
       return {
         ...lendingRequest,
         lendableObject,
-      };
+      } as TransformedLendingRequest;
     });
   },
 );

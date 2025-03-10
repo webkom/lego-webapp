@@ -1,15 +1,3 @@
-.statusTag {
-  width: 100%;
-  padding: var(--spacing-sm);
-  justify-content: center;
-  font-size: var(--font-size-md);
-  gap: var(--spacing-md);
-}
-
-.statusTag .rotate {
-  animation: spinner 5s linear infinite;
-}
-
 @keyframes spinner {
   to {
     transform: rotate(360deg);
