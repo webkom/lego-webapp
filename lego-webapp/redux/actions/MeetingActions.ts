@@ -20,7 +20,7 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-export function fetchTemplates() {
+export function fetchMeetingTemplates() {
   return callAPI<ListMeeting[]>({
     types: Meeting.FETCH_TEMPLATES,
     endpoint: '/meetings/templates/',

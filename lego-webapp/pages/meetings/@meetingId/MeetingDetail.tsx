@@ -289,7 +289,7 @@ const MeetingDetails = () => {
           <div>
             <h3>Admin</h3>
             <ButtonGroup>
-              <AnnouncementInLine meeting={meeting} />
+              {!meeting.isTemplate && <AnnouncementInLine meeting={meeting} />}
               {canEdit && (
                 <LinkButton href={`/meetings/${meeting.id}/edit`}>
                   <Icon iconNode={<Pencil />} size={19} />

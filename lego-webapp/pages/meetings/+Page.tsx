@@ -15,7 +15,10 @@ import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
-import { fetchAll, fetchTemplates } from '~/redux/actions/MeetingActions';
+import {
+  fetchAll,
+  fetchMeetingTemplates,
+} from '~/redux/actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
@@ -189,7 +192,11 @@ const MeetingList = () => {
     [],
   );
 
-  usePreparedEffect('fetchgMeetingTemplates', () => fetchTemplates(), []);
+  usePreparedEffect(
+    'fetchgMeetingTemplates',
+    () => fetchMeetingTemplates(),
+    [],
+  );
 
   const myTemplates = useAppSelector(selectMyMeetingTemplates);
 

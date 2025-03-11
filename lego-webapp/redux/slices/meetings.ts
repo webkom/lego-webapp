@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Meeting } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { addCommentCases } from '~/redux/slices/comments';
+import { fetchMeeting } from '../actions/MeetingActions';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { addReactionCases } from './reactions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Moment } from 'moment-timezone';
 import type { AnyAction } from 'redux';
-import type { ListMeeting, UnknownMeeting } from '~/redux/models/Meeting';
+import type { DetailedMeeting, ListMeeting } from '~/redux/models/Meeting';
 import type { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import type { PublicUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
@@ -215,3 +218,16 @@ export const selectMyMeetingTemplates = createSelector(
       (meeting: ListMeeting) => meeting.createdBy === selfId,
     ) as ListMeeting[],
 );
+
+export const useFetchedMeetingTemplate = (
+  prepareId: string,
+  id?: EntityId,
+): DetailedMeeting | undefined => {
+  const dispatch = useAppDispatch();
+  usePreparedEffect(
+    `useFetchedMeetingTemplate-${prepareId}`,
+    () => id && dispatch(fetchMeeting(id.toString())),
+    [id],
+  );
+  return useAppSelector((state: RootState) => selectMeetingById(state, id));
+};
