@@ -86,6 +86,7 @@ export type MeetingSection = {
 export const selectGroupedMeetings = createSelector(
   selectAllMeetings,
   (meetings) => {
+    const filteredMeetings = meetings.filter((m) => !m.isTemplate);
     const currentTime = moment();
     const currentYear = currentTime.year();
     const currentWeek = currentTime.week();
@@ -136,7 +137,9 @@ export const selectGroupedMeetings = createSelector(
 
     // Account for the possibility of items being loaded before others - messing up the sorting
     // Sorted descendingly to generate semesters in the correct order
-    const sortedMeetings: ListMeeting[] = (meetings as ListMeeting[]).sort(
+    const sortedMeetings: ListMeeting[] = (
+      filteredMeetings as ListMeeting[]
+    ).sort(
       (meeting1, meeting2) =>
         Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime)),
     );

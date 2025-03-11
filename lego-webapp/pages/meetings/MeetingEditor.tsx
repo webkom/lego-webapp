@@ -246,7 +246,11 @@ const MeetingEditor = () => {
         isTemplate: false,
       };
 
-  const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
+  const title = isEditPage
+    ? meeting?.isTemplate
+      ? `Redigerer malen: ${meeting.title}`
+      : `Redigerer: ${meeting?.title}`
+    : 'Nytt møte';
 
   return (
     <Page

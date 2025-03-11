@@ -76,7 +76,10 @@ function MeetingListItem({
           </Flex>
         </a>
         <div className={styles.meetingTime}>
-          <Time time={meeting.startTime} format="ll - HH:mm" />
+          <Time
+            time={meeting.startTime}
+            format={meeting.isRecurring ? 'dddd - HH:mm' : 'll - HH:mm'}
+          />
           {` • Lokasjon: ${meeting.location}`}
         </div>
       </div>
@@ -100,7 +103,7 @@ const MeetingListView = ({
       <div key={key}>
         <h3 className={styles.heading}>{item.title}</h3>
         {item.meetings
-          .sort((m: ListMeeting, n: ListMeeting) => n.recurring - m.recurring)
+          .filter((m) => !m.isTemplate)
           .map((item, key) => (
             <MeetingListItem key={key} userId={currentUser.id} meeting={item} />
           ))}
@@ -216,10 +219,15 @@ const MeetingList = () => {
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (
         <>
-          <h3 className={styles.heading}>Dine maler</h3>
-          {myTemplates.map((m) => (
-            <MeetingListItem key={m.id} meeting={m} userId={m.createdBy} />
-          ))}
+          {myTemplates?.length > 0 && (
+            <>
+              <h3 className={styles.heading}>Dine maler</h3>
+              {myTemplates.map((m) => (
+                <MeetingListItem key={m.id} meeting={m} userId={m.createdBy} />
+              ))}
+            </>
+          )}
+
           <MeetingListView
             currentUser={currentUser}
             sections={meetingSections}
