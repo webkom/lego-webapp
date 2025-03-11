@@ -15,13 +15,13 @@ import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
-import { fetchAll, fetchRecurring } from '~/redux/actions/MeetingActions';
+import { fetchAll, fetchTemplates } from '~/redux/actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
 import {
   selectGroupedMeetings,
-  selectMyRecurringMeetings,
+  selectMyMeetingTemplates,
   type MeetingSection,
 } from '~/redux/slices/meetings';
 import { selectPaginationNext } from '~/redux/slices/selectors';
@@ -51,11 +51,11 @@ function MeetingListItem({
       <div>
         <a href={`/meetings/${meeting.id}`}>
           <Flex alignItems="center" gap="var(--spacing-md)">
-            {meeting.recurring === 0 && userId === meeting.createdBy && (
-              <Icon iconNode={<Pin />} />
-            )}
+            {meeting.isRecurring &&
+              meeting.isTemplate &&
+              userId === meeting.createdBy && <Icon iconNode={<Pin />} />}
             <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
-            {meeting.recurring >= 0 && (
+            {meeting.isRecurring && (
               <Tag tag="Ukentlig" color="cyan" icon="refresh" />
             )}
             {userId === meeting.createdBy && (
@@ -186,9 +186,9 @@ const MeetingList = () => {
     [],
   );
 
-  usePreparedEffect('fetchRecurringMeetings', () => fetchRecurring(), []);
+  usePreparedEffect('fetchgMeetingTemplates', () => fetchTemplates(), []);
 
-  const myRecurringMeetings = useAppSelector(selectMyRecurringMeetings);
+  const myTemplates = useAppSelector(selectMyMeetingTemplates);
 
   useEffect(() => {
     if (
@@ -216,8 +216,8 @@ const MeetingList = () => {
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (
         <>
-          <h3 className={styles.heading}>Dine ukentlige møter</h3>
-          {myRecurringMeetings.map((m) => (
+          <h3 className={styles.heading}>Dine maler</h3>
+          {myTemplates.map((m) => (
             <MeetingListItem key={m.id} meeting={m} userId={m.createdBy} />
           ))}
           <MeetingListView

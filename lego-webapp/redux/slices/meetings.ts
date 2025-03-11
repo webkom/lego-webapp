@@ -45,7 +45,7 @@ const meetingsSlice = createSlice({
     },
   },
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [Meeting.FETCH, Meeting.FETCH_RECURRING],
+    fetchActions: [Meeting.FETCH, Meeting.FETCH_TEMPLATES],
     deleteActions: [Meeting.DELETE],
     extraCases: (addCase) => {
       addCommentCases(EntityType.Meetings, addCase);
@@ -200,10 +200,13 @@ export const selectUpcomingMeetingId = createSelector(
   (upcomingMeetings) => upcomingMeetings[0]?.id as EntityId | undefined,
 );
 
-export const selectMyRecurringMeetings = createSelector(
+export const selectMyMeetingTemplates = createSelector(
   (state: RootState) => state.auth.id,
   (state: RootState) =>
-    selectMeetingsByField('recurring', (recurring) => recurring === 0)(state),
+    selectMeetingsByField(
+      'isTemplate',
+      (isTemplate) => isTemplate === true,
+    )(state),
   (selfId, recurringMeetings) =>
     recurringMeetings.filter(
       (meeting: ListMeeting) => meeting.createdBy === selfId,

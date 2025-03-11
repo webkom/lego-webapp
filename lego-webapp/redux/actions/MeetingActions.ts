@@ -20,13 +20,13 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-export function fetchRecurring() {
+export function fetchTemplates() {
   return callAPI<ListMeeting[]>({
-    types: Meeting.FETCH_RECURRING,
-    endpoint: '/meetings/recurring/',
+    types: Meeting.FETCH_TEMPLATES,
+    endpoint: '/meetings/templates/',
     schema: [meetingSchema],
     meta: {
-      errorMessage: 'Henting av møter feilet',
+      errorMessage: 'Henting av møter-maler feilet',
     },
     propagateError: true,
   });
@@ -98,7 +98,8 @@ export function createMeeting({
   reportAuthor,
   mazemapPoi,
   useMazemap,
-  recurring,
+  isRecurring,
+  isTemplate,
 }: MeetingFormValues) {
   return callAPI<DetailedMeeting>({
     types: Meeting.CREATE,
@@ -113,7 +114,8 @@ export function createMeeting({
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
       mazemapPoi: calculateMazemapPoi(useMazemap, mazemapPoi),
-      recurring: recurring,
+      isRecurring: isRecurring,
+      isTemplate: isTemplate,
     },
     schema: meetingSchema,
     meta: {
@@ -175,7 +177,8 @@ export function editMeeting({
   id,
   mazemapPoi,
   useMazemap,
-  recurring,
+  isRecurring,
+  isTemplate,
 }: MeetingFormValues) {
   return callAPI<DetailedMeeting>({
     types: Meeting.EDIT,
@@ -191,7 +194,8 @@ export function editMeeting({
       startTime: moment(startTime).toISOString(),
       reportAuthor: reportAuthor && reportAuthor.id,
       mazemapPoi: calculateMazemapPoi(useMazemap, mazemapPoi),
-      recurring: recurring,
+      isRecurring: isRecurring,
+      isTemplate: isTemplate,
     },
     schema: meetingSchema,
     meta: {

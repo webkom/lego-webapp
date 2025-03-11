@@ -81,7 +81,8 @@ export type MeetingFormValues = {
   description?: string;
   date?: [Dateish, Dateish];
   useMazemap: boolean;
-  recurring: boolean;
+  isRecurring: boolean;
+  isTemplate?: boolean;
   mazemapPoi?: { value: number; label: string };
   location?: string;
   reportAuthor?: { value: EntityId; label: string; id: EntityId };
@@ -186,15 +187,12 @@ const MeetingEditor = () => {
     : [];
 
   const onSubmit = (values) => {
-    console.log(values.recurring, typeof values.recurring);
     const formValues = {
       ...values,
       startTime: values.date[0],
       endTime: values.date[1],
-      recurring: values?.recurring ? 0 : -1,
     };
     delete formValues.date;
-    console.log(formValues);
 
     return dispatch(
       isEditPage ? editMeeting(formValues) : createMeeting(formValues),
@@ -240,12 +238,12 @@ const MeetingEditor = () => {
           value: meeting.mazemapPoi,
         },
         useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
-        recurring: meeting?.recurring === 0,
       }
     : {
         date: [time(16, 15), time(18)],
         report: EDITOR_EMPTY,
         useMazemap: true,
+        isTemplate: false,
       };
 
   const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
@@ -288,12 +286,23 @@ const MeetingEditor = () => {
                 placeholder="Dette vises i kalenderen til de inviterte, så gjerne putt zoom-lenka her..."
                 component={TextArea.Field}
               />
-              <Field
-                name="recurring"
-                label="Ukentlig møte"
-                component={CheckBox.Field}
-                type="checkbox"
-              />
+              {(!isEditPage || (isEditPage && initialValues.isTemplate)) && (
+                <Field
+                  name="isTemplate"
+                  label="Lagre som mal"
+                  component={CheckBox.Field}
+                  type="checkbox"
+                />
+              )}
+              {(!isEditPage || (isEditPage && initialValues.isTemplate)) && (
+                <Field
+                  name="isRecurring"
+                  label="Ukentlig møte"
+                  component={CheckBox.Field}
+                  type="checkbox"
+                />
+              )}
+
               <FormSpy subscription={{ values: true }}>
                 {({ values }) => (
                   <Field

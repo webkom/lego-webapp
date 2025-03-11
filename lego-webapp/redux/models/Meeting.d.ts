@@ -25,7 +25,8 @@ interface Meeting {
   invitations: EntityId[];
   comments: EntityId[];
   contentTarget: ContentTarget;
-  recurring: number;
+  isRecurring: boolean;
+  isTemplate: boolean;
   mazemapPoi?: number;
   reactionsGrouped?: ReactionsGrouped[];
   actionGrant: ActionGrant;
@@ -49,7 +50,8 @@ export type DetailedMeeting = Pick<
   | 'mazemapPoi'
   | 'reactionsGrouped'
   | 'actionGrant'
-  | 'recurring'
+  | 'isTemplate'
+  | 'isRecurring'
 >;
 
 export type ListMeeting = Pick<
@@ -62,7 +64,8 @@ export type ListMeeting = Pick<
   | 'endTime'
   | 'reportAuthor'
   | 'mazemapPoi'
-  | 'recurring'
+  | 'isRecurring'
+  | 'isTemplate'
 >;
 
 export type SearchMeeting = Pick<
