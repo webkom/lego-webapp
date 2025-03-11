@@ -29,7 +29,7 @@
     "@reduxjs/toolkit": "^2.6.0",
     "@sentry/node": "^9.2.0",
     "@sentry/react": "^9.1.0",
-    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/react-stripe-js": "^3.4.0",
     "@stripe/stripe-js": "^5.7.0",
     "@vitejs/plugin-react": "^4.3.4",
     "@webkom/lego-bricks": "^1.3.6",
