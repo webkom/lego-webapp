@@ -1,4 +1,6 @@
-.compactEvents {
+@import url('styles/custom-media.css');
+
+div.compactEvents {
   display: flex;
   justify-content: space-between;
   white-space: nowrap;

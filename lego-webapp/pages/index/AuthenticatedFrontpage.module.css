@@ -1,4 +1,6 @@
-.wrapper {
+@import url('styles/custom-media.css');
+
+div.wrapper {
   display: grid;
   grid-template:
     'compact-events registrations'

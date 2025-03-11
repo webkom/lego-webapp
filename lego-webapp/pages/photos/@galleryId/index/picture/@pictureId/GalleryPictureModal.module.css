@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .loadingIndicator {
   margin: 0.375rem;
 }

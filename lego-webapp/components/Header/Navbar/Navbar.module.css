@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .navigation {
   display: flex;
   flex-direction: row;

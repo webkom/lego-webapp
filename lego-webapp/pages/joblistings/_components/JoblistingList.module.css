@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .emptyState {
   max-width: 280px;
   text-align: center;

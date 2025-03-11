@@ -1,0 +1,5 @@
+@custom-media --small-viewport (max-width: 35em);
+@custom-media --medium-viewport (max-width: 45em);
+@custom-media --mobile-device (max-width: 992px);
+@custom-media --lego-max-width (max-width: 1100px);
+@custom-media --tall-viewport (min-height: 900px);

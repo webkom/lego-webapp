@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .container {
   flex-basis: calc(100% / 3);
   margin: 0 var(--spacing-sm);

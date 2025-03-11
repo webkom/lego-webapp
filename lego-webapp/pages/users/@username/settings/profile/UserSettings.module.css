@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .right {
   flex: 1;
 }

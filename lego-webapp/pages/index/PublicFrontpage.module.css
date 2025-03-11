@@ -1,4 +1,6 @@
-.wrapper {
+@import url('styles/custom-media.css');
+
+div.wrapper {
   display: grid;
   grid-gap: var(--spacing-xl);
   grid-template-columns: 1fr 1fr 1fr;
@@ -46,7 +48,6 @@
 
 .usefulLink {
   width: 325px;
-  height: 400px;
   line-height: 1.3;
 }
 
