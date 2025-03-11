@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .latestReadme {
   flex: 1;
   position: relative;

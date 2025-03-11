@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .calendar th,
 .calendar td {
   width: calc(100% / 7);

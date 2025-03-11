@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .themeChange {
   padding: var(--spacing-sm) var(--spacing-md);
   line-height: 1.3;

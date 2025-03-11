@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .footer {
   width: 100%;
   background-color: var(--lego-red-color);

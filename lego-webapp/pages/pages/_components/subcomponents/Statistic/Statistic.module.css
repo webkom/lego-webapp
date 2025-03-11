@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .container {
   margin: 0 var(--spacing-md) var(--spacing-md);
   line-height: 1.3;

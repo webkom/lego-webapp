@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .toggleIcon {
   visibility: visible;
   transition: color var(--linear-fast);

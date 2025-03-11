@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .link {
   color: var(--lego-font-color);
   width: 100%;
@@ -46,7 +48,7 @@ div.body {
   }
 }
 
-.wrapper {
+div.wrapper {
   display: flex;
   width: 100%;
   height: 100%;
