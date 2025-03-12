@@ -11,12 +11,8 @@ type Props = {
 const ShareButton: React.FC<Props> = ({ title, url }) => {
   const dispatch = useAppDispatch();
   const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({ title, url });
-      } catch (error) {
-        console.error('Kunne ikke dele:', error);
-      }
+    if (navigator?.canShare?.({ title, url })) {
+      navigator.share({ title, url });
     } else {
       {
         navigator.clipboard.writeText(url);
@@ -25,7 +21,6 @@ const ShareButton: React.FC<Props> = ({ title, url }) => {
         addToast({
           message: 'Link er kopiert til utklippstavlen',
           type: 'success',
-          dismissAfter: 10000,
         }),
       );
     }
@@ -33,8 +28,9 @@ const ShareButton: React.FC<Props> = ({ title, url }) => {
 
   return (
     <Button onPress={handleShare}>
-      <Flex justifyContent="center">
-        <Icon name="share" iconNode={<ShareIcon />} size={20} />
+      <Flex justifyContent="center" gap="var(--spacing-sm)">
+        <Icon iconNode={<ShareIcon />} size={20} />
+        {title}
       </Flex>
     </Button>
   );

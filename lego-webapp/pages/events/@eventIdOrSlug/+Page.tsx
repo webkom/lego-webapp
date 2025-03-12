@@ -309,12 +309,10 @@ const EventDetail = () => {
 
           <Line />
 
-          {loggedIn && (
-            <ShareButton
-              title={event?.title || 'Sjekk ut dette arrangementet!'}
-              url={`${appConfig?.webUrl}/events/${event?.id}`}
-            />
-          )}
+          <ShareButton
+            title={'Del arrangement'}
+            url={`${appConfig?.webUrl}/events/${event?.id}`}
+          />
 
           {(actionGrant.includes('edit') || actionGrant.includes('delete')) && (
             <Line />
