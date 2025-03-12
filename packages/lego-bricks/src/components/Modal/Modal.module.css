@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: var(--visual-viewport-height);
   background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 10%);
   backdrop-filter: blur(3px);
   display: flex;
@@ -55,7 +55,7 @@ html[data-theme='dark'] .overlay {
    * which moves the modal content out of the top of the screen if it 
    * is too tall
   */
-  max-height: calc(100vh - 100px);
+  max-height: calc(var(--visual-viewport-height) - 100px);
   padding: var(--spacing-xl);
   background: var(--color-white);
   outline: none;
