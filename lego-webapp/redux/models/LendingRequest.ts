@@ -1,7 +1,7 @@
 import { ListLendableObject } from '~/redux/models/LendableObject';
 import type Comment from './Comment';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { ContentTarget } from '~/utils/contentTarget';
 
 export enum LendingRequestStatus {
@@ -18,8 +18,8 @@ interface LendingRequest {
   updatedBy: EntityId;
   lendableObject: EntityId;
   status: LendingRequestStatus;
-  startDate: string;
-  endDate: string;
+  startDate: Dateish;
+  endDate: Dateish;
   text: string;
   comments: Comment[];
   contentTarget: ContentTarget;
@@ -62,7 +62,7 @@ export type TransformedLendingRequest = ListLendingRequest & {
 
 export type CreateLendingRequest = Pick<
   LendingRequest,
-  'lendableObject' | 'startDate' | 'endDate'
+  'lendableObject' | 'startDate' | 'endDate' | 'text'
 >;
 export type EditLendingRequest = Required<Pick<LendingRequest, 'id'>> &
   Partial<Pick<LendingRequest, 'status' | 'startDate' | 'endDate'>>;
