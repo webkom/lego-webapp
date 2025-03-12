@@ -38,8 +38,8 @@ import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
-import styles from './LendingRequestDetail.module.css';
 import useQuery from '~/utils/useQuery';
+import styles from './LendingRequestDetail.module.css';
 
 type Params = {
   lendingRequestId: string;
