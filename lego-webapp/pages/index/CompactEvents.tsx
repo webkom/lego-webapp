@@ -11,7 +11,6 @@ import { useAppSelector } from '~/redux/hooks';
 import { EventType } from '~/redux/models/Event';
 import { selectAllEvents } from '~/redux/slices/events';
 import utilStyles from '~/styles/utilities.module.css';
-import truncateString from '~/utils/truncateString';
 import { stringifyQuery } from '~/utils/useQuery';
 import styles from './CompactEvents.module.css';
 import type { CSSProperties } from 'react';
@@ -48,14 +47,14 @@ const CompactEvents = ({ className, style }: Props) => {
           <Flex
             alignItems="center"
             justifyContent="space-between"
-            gap="var(--spacing-md)"
+            gap="var(--spacing-sm)"
           >
             <Flex alignItems="center" gap="var(--spacing-sm)">
               <Circle
                 size="var(--font-size-xs)"
                 color={colorForEventType(event.eventType)}
               />
-              <span>{truncateString(event.title, 27)}</span>
+              <span className={styles.eventItemTitle}>{event.title}</span>
             </Flex>
             <Flex alignItems="center" gap="var(--spacing-xs)">
               {event.pinned && (

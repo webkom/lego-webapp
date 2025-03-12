@@ -41,3 +41,32 @@ div.compactEvents {
   transform: rotate(-20deg);
   color: var(--lego-link-color);
 }
+
+/**
+ * Calculate max-width of the title based on the break-points for x columns
+*/
+
+.eventItemTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: calc((var(--lego-max-width) / 3) - 4 * var(--spacing-md) - 6.5rem);
+}
+
+@media (--lego-max-width) {
+  .eventItemTitle {
+    max-width: calc((100vw / 3) - 4 * var(--spacing-md) - 6.5rem);
+  }
+}
+
+@media (--mobile-device) {
+  .eventItemTitle {
+    max-width: calc((100vw / 2) - 4 * var(--spacing-md) - 6.5rem);
+  }
+}
+
+@media (--medium-viewport) {
+  .eventItemTitle {
+    max-width: calc((100vw / 1) - 4 * var(--spacing-md) - 6.5rem);
+  }
+}
