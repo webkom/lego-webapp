@@ -26,8 +26,7 @@ const LendingRequestCard = ({
             height={80}
             width={80}
             src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
-            alt={`
-      }${lendingRequest.lendableObject.title}`}
+            alt={lendingRequest.lendableObject.title}
           />
           <Flex>
             <Flex column gap="var(--spacing-sm)" justifyContent="center">

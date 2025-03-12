@@ -28,7 +28,6 @@ export const selectTransformedLendingRequests = createSelector(
   selectAllLendingRequests,
   selectAllLendableObjects,
   (lendingRequests, lendableObjects) => {
-    console.log(lendingRequests);
     return lendingRequests.map((lendingRequest) => {
       const lendableObject = lendableObjects.find(
         (lendableObject) => lendableObject.id === lendingRequest.lendableObject,
