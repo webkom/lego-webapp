@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Meeting } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { addCommentCases } from '~/redux/slices/comments';
+import { fetchMeeting } from '../actions/MeetingActions';
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { addReactionCases } from './reactions';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Moment } from 'moment-timezone';
 import type { AnyAction } from 'redux';
-import type { ListMeeting } from '~/redux/models/Meeting';
+import type { DetailedMeeting, ListMeeting } from '~/redux/models/Meeting';
 import type { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import type { PublicUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
@@ -45,7 +48,7 @@ const meetingsSlice = createSlice({
     },
   },
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [Meeting.FETCH],
+    fetchActions: [Meeting.FETCH, Meeting.FETCH_TEMPLATES],
     deleteActions: [Meeting.DELETE],
     extraCases: (addCase) => {
       addCommentCases(EntityType.Meetings, addCase);
@@ -86,6 +89,7 @@ export type MeetingSection = {
 export const selectGroupedMeetings = createSelector(
   selectAllMeetings,
   (meetings) => {
+    const filteredMeetings = meetings.filter((m) => !m.isTemplate);
     const currentTime = moment();
     const currentYear = currentTime.year();
     const currentWeek = currentTime.week();
@@ -136,7 +140,9 @@ export const selectGroupedMeetings = createSelector(
 
     // Account for the possibility of items being loaded before others - messing up the sorting
     // Sorted descendingly to generate semesters in the correct order
-    const sortedMeetings: ListMeeting[] = (meetings as ListMeeting[]).sort(
+    const sortedMeetings: ListMeeting[] = (
+      filteredMeetings as ListMeeting[]
+    ).sort(
       (meeting1, meeting2) =>
         Number(moment(meeting2.endTime)) - Number(moment(meeting1.endTime)),
     );
@@ -199,3 +205,29 @@ export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,
   (upcomingMeetings) => upcomingMeetings[0]?.id as EntityId | undefined,
 );
+
+export const selectMyMeetingTemplates = createSelector(
+  (state: RootState) => state.auth.id,
+  (state: RootState) =>
+    selectMeetingsByField(
+      'isTemplate',
+      (isTemplate) => isTemplate === true,
+    )(state),
+  (selfId, recurringMeetings) =>
+    recurringMeetings.filter(
+      (meeting: ListMeeting) => meeting.createdBy === selfId,
+    ) as ListMeeting[],
+);
+
+export const useFetchedMeetingTemplate = (
+  prepareId: string,
+  id?: EntityId,
+): DetailedMeeting | undefined => {
+  const dispatch = useAppDispatch();
+  usePreparedEffect(
+    `useFetchedMeetingTemplate-${prepareId}`,
+    () => id && dispatch(fetchMeeting(id.toString())),
+    [id],
+  );
+  return useAppSelector((state: RootState) => selectMeetingById(state, id));
+};

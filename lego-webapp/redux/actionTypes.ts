@@ -108,6 +108,7 @@ export const Announcements = {
 
 export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH'),
+  FETCH_TEMPLATES: generateStatuses('Meeting.FETCH_TEMPLATES'),
   SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS'),
   CREATE: generateStatuses('Meeting.CREATE'),
   EDIT: generateStatuses('Meeting.EDIT'),

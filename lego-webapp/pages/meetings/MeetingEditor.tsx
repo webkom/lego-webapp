@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
+import Dropdown from '~/components/Dropdown';
 import {
   Button,
   CheckBox,
@@ -37,18 +38,24 @@ import {
   deleteMeeting,
   editMeeting,
   fetchMeeting,
+  fetchMeetingTemplates,
   inviteUsersAndGroups,
 } from '~/redux/actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectMeetingInvitationsForMeeting } from '~/redux/slices/meetingInvitations';
-import { selectMeetingById } from '~/redux/slices/meetings';
-import { selectUserById } from '~/redux/slices/users';
+import {
+  selectMeetingById,
+  selectMyMeetingTemplates,
+  useFetchedMeetingTemplate,
+} from '~/redux/slices/meetings';
+import { selectUserById, selectUsersByIds } from '~/redux/slices/users';
 import { appConfig } from '~/utils/appConfig';
 import { EDITOR_EMPTY } from '~/utils/constants';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
+import useQuery from '~/utils/useQuery';
 import {
   createValidator,
   datesAreInCorrectOrder,
@@ -58,11 +65,12 @@ import {
   legoEditorRequired,
   required,
 } from '~/utils/validation';
+import styles from './MeetingEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
 import type { AutocompleteGroup } from '~/redux/models/Group';
 import type { DetailedMeeting } from '~/redux/models/Meeting';
-import type { AutocompleteUser } from '~/redux/models/User';
+import type { AutocompleteUser, PublicUser } from '~/redux/models/User';
 
 const time = (hours: number, minutes?: number) =>
   moment()
@@ -81,6 +89,8 @@ export type MeetingFormValues = {
   description?: string;
   date?: [Dateish, Dateish];
   useMazemap: boolean;
+  isRecurring: boolean;
+  isTemplate?: boolean;
   mazemapPoi?: { value: number; label: string };
   location?: string;
   reportAuthor?: { value: EntityId; label: string; id: EntityId };
@@ -141,6 +151,27 @@ const MeetingEditor = () => {
     [],
   );
 
+  usePreparedEffect(
+    'fetchMeetingTemplates',
+    () => dispatch(fetchMeetingTemplates()),
+    [],
+  );
+
+  const defaultEditMeetingQuery = {
+    templateId: '',
+  };
+
+  const { query, setQueryValue } = useQuery(defaultEditMeetingQuery);
+
+  const myTemplates = useAppSelector(selectMyMeetingTemplates);
+  const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
+  const template = useFetchedMeetingTemplate('createMeeting', query.templateId);
+  const templateInvitees = useAppSelector((state) =>
+    selectUsersByIds(
+      state,
+      template?.invitations.map((e) => e.toString().split('-')[1]),
+    ),
+  ) as PublicUser[]; // I have no idea why invitees is stored like this dont ask me
   const fetchAndSetGroupMembers = async (groupId: number) => {
     dispatch(fetchMemberships({ groupId, propagateError: false }))
       .then((res) => {
@@ -220,30 +251,60 @@ const MeetingEditor = () => {
   const actionGrant = meeting?.actionGrant;
   const canDelete = actionGrant?.includes('delete');
 
-  const initialValues = isEditPage
-    ? {
-        ...meeting,
-        date: [meeting.startTime, meeting.endTime],
-        reportAuthor: reportAuthor && {
-          id: reportAuthor.id,
-          value: reportAuthor.username,
-          label: reportAuthor.fullName,
-        },
-        report: meeting.report,
-        description: meeting.description ?? '',
-        mazemapPoi: meeting.mazemapPoi && {
-          label: meeting.location,
-          value: meeting.mazemapPoi,
-        },
-        useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
-      }
-    : {
-        date: [time(16, 15), time(18)],
-        report: EDITOR_EMPTY,
-        useMazemap: true,
-      };
+  let initialValues;
+  if (template) {
+    initialValues = {
+      ...template,
+      date: [template?.startTime, template?.endTime],
+      reportAuthor: reportAuthor && {
+        id: reportAuthor.id,
+        value: reportAuthor.username,
+        label: reportAuthor.fullName,
+      },
+      report: template.report ?? '',
+      description: template.description ?? '',
+      mazemapPoi: template.mazemapPoi && {
+        label: template.location,
+        value: template.mazemapPoi,
+      },
+      useMazemap: template.mazemapPoi !== undefined && template.mazemapPoi > 0,
+      isTemplate: false,
+      isRecurring: false,
+      users: templateInvitees.map((user) => {
+        return { label: user.username, value: user.id, id: user.id };
+      }),
+    };
+  } else if (isEditPage) {
+    initialValues = {
+      ...meeting,
+      date: [meeting.startTime, meeting.endTime],
+      reportAuthor: reportAuthor && {
+        id: reportAuthor.id,
+        value: reportAuthor.username,
+        label: reportAuthor.fullName,
+      },
+      report: meeting.report,
+      description: meeting.description ?? '',
+      mazemapPoi: meeting.mazemapPoi && {
+        label: meeting.location,
+        value: meeting.mazemapPoi,
+      },
+      useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
+    };
+  } else {
+    initialValues = {
+      date: [time(16, 15), time(18)],
+      report: EDITOR_EMPTY,
+      useMazemap: true,
+      isTemplate: false,
+    };
+  }
 
-  const title = isEditPage ? `Redigerer: ${meeting.title}` : 'Nytt møte';
+  const title = isEditPage
+    ? meeting?.isTemplate
+      ? `Redigerer malen: ${meeting.title}`
+      : `Redigerer: ${meeting?.title}`
+    : 'Nytt møte';
 
   return (
     <Page
@@ -260,10 +321,58 @@ const MeetingEditor = () => {
         initialValues={initialValues}
         validate={validate}
         subscription={{}}
+        key={query.templateId}
       >
         {({ handleSubmit, form }) => {
           return (
             <Form onSubmit={handleSubmit}>
+              {myTemplates.length > 0 && (
+                <div className={styles.templatePicker}>
+                  <ConfirmModal
+                    title="Bekreft bruk av mal"
+                    message={
+                      'Dette vil slette alle ulagrede endringer i møtet!\n' +
+                      'Lagrede endringer vil ikke overskrives før du trykker "Lagre".'
+                    }
+                    closeOnConfirm
+                    onCancel={async () => setTemplatePickerOpen(false)}
+                    onConfirm={async () => setTemplatePickerOpen(true)}
+                  >
+                    {({ openConfirmModal }) => (
+                      <Button onPress={openConfirmModal}>
+                        {query.templateId ? 'Bytt mal' : 'Bruk mal'}
+                      </Button>
+                    )}
+                  </ConfirmModal>
+                  <Dropdown
+                    className={styles.templateDropdown}
+                    show={templatePickerOpen}
+                    toggle={() => setTemplatePickerOpen(false)}
+                    closeOnContentClick
+                  >
+                    <Dropdown.List>
+                      {myTemplates.map((template) => {
+                        return (
+                          <Dropdown.ListItem key={template.id}>
+                            <a
+                              href="#"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setQueryValue('templateId')(
+                                  template.id.toString(),
+                                );
+                              }}
+                            >
+                              {template.title}
+                            </a>
+                          </Dropdown.ListItem>
+                        );
+                      })}
+                    </Dropdown.List>
+                  </Dropdown>
+                </div>
+              )}
               <Field
                 name="title"
                 label="Tittel"
@@ -283,6 +392,23 @@ const MeetingEditor = () => {
                 placeholder="Dette vises i kalenderen til de inviterte, så gjerne putt zoom-lenka her..."
                 component={TextArea.Field}
               />
+              {(!isEditPage || (isEditPage && initialValues.isTemplate)) && (
+                <Field
+                  name="isTemplate"
+                  label="Lagre som mal"
+                  component={CheckBox.Field}
+                  type="checkbox"
+                />
+              )}
+              {(!isEditPage || (isEditPage && initialValues.isTemplate)) && (
+                <Field
+                  name="isRecurring"
+                  label="Ukentlig møte"
+                  component={CheckBox.Field}
+                  type="checkbox"
+                />
+              )}
+
               <FormSpy subscription={{ values: true }}>
                 {({ values }) => (
                   <Field

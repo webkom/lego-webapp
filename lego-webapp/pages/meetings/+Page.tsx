@@ -5,21 +5,26 @@ import {
   LinkButton,
   ButtonGroup,
   Page,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { CalendarOff } from 'lucide-react';
+import { CalendarOff, Pin } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
-import { fetchAll } from '~/redux/actions/MeetingActions';
+import {
+  fetchAll,
+  fetchMeetingTemplates,
+} from '~/redux/actions/MeetingActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
 import {
   selectGroupedMeetings,
+  selectMyMeetingTemplates,
   type MeetingSection,
 } from '~/redux/slices/meetings';
 import { selectPaginationNext } from '~/redux/slices/selectors';
@@ -49,7 +54,13 @@ function MeetingListItem({
       <div>
         <a href={`/meetings/${meeting.id}`}>
           <Flex alignItems="center" gap="var(--spacing-md)">
+            {meeting.isRecurring &&
+              meeting.isTemplate &&
+              userId === meeting.createdBy && <Icon iconNode={<Pin />} />}
             <h3 className={styles.meetingItemTitle}>{meeting.title}</h3>
+            {meeting.isRecurring && (
+              <Tag tag="Ukentlig" color="cyan" icon="refresh" />
+            )}
             {userId === meeting.createdBy && (
               <Tag
                 tag="Forfatter"
@@ -68,7 +79,10 @@ function MeetingListItem({
           </Flex>
         </a>
         <div className={styles.meetingTime}>
-          <Time time={meeting.startTime} format="ll - HH:mm" />
+          <Time
+            time={meeting.startTime}
+            format={meeting.isRecurring ? 'dddd - HH:mm' : 'll - HH:mm'}
+          />
           {` • Lokasjon: ${meeting.location}`}
         </div>
       </div>
@@ -91,9 +105,11 @@ const MeetingListView = ({
     {sections.map((item, key) => (
       <div key={key}>
         <h3 className={styles.heading}>{item.title}</h3>
-        {item.meetings.map((item, key) => (
-          <MeetingListItem key={key} userId={currentUser.id} meeting={item} />
-        ))}
+        {item.meetings
+          .filter((m) => !m.isTemplate)
+          .map((item, key) => (
+            <MeetingListItem key={key} userId={currentUser.id} meeting={item} />
+          ))}
       </div>
     ))}
     {!sections.length && (
@@ -176,6 +192,14 @@ const MeetingList = () => {
     [],
   );
 
+  usePreparedEffect(
+    'fetchgMeetingTemplates',
+    () => fetchMeetingTemplates(),
+    [],
+  );
+
+  const myTemplates = useAppSelector(selectMyMeetingTemplates);
+
   useEffect(() => {
     if (
       !initialFetchAttempted &&
@@ -201,13 +225,25 @@ const MeetingList = () => {
     >
       <Helmet title="Dine møter" />
       {meetingSections && currentUser && (
-        <MeetingListView
-          currentUser={currentUser}
-          sections={meetingSections}
-          fetchMorePagination={fetchMorePagination}
-          fetchOlderPagination={fetchOlderPagination}
-        />
+        <>
+          {myTemplates?.length > 0 && (
+            <>
+              <h3 className={styles.heading}>Dine maler</h3>
+              {myTemplates.map((m) => (
+                <MeetingListItem key={m.id} meeting={m} userId={m.createdBy} />
+              ))}
+            </>
+          )}
+
+          <MeetingListView
+            currentUser={currentUser}
+            sections={meetingSections}
+            fetchMorePagination={fetchMorePagination}
+            fetchOlderPagination={fetchOlderPagination}
+          />
+        </>
       )}
+
       <LoadingIndicator
         loading={fetchMorePagination.fetching || fetchOlderPagination.fetching}
       />
