@@ -6,23 +6,19 @@ import {
   filterSidebar,
   FilterSection,
   LinkButton,
-  Flex,
   Button,
-  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import { FolderOpen, MoveRight } from 'lucide-react';
+import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
-import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
-import LendingStatusTag from '~/pages/lending/LendingStatusTag';
+import LendingRequestCard from '~/pages/lending/LendingRequestCard';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 import { EntityType } from '~/redux/models/entities';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
@@ -48,39 +44,6 @@ const LendableObject = ({
         <div className={styles.lendableObjectFooter}>
           <h4>{lendableObject.title}</h4>
         </div>
-      </Card>
-    </a>
-  );
-};
-
-const LendingRequest = ({
-  lendingRequest,
-}: {
-  lendingRequest: TransformedLendingRequest;
-}) => {
-  return (
-    <a
-      href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id}`}
-    >
-      <Card isHoverable hideOverflow className={styles.lendingRequestCard}>
-        <Image
-          className={styles.lendingRequestImage}
-          height={80}
-          width={80}
-          src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
-          alt={`${lendingRequest.lendableObject.title}`}
-        />
-        <Flex justifyContent="space-between" width="100%">
-          <Flex column gap="var(--spacing-sm)">
-            <h4>{lendingRequest.lendableObject.title}</h4>
-            <Flex alignItems="center" gap={8}>
-              <Time time={lendingRequest.startDate} format="DD. MMM" />
-              <Icon iconNode={<MoveRight />} size={19} />
-              <Time time={lendingRequest.endDate} format="DD. MMM" />
-            </Flex>
-          </Flex>
-          <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
-        </Flex>
       </Card>
     </a>
   );
@@ -127,8 +90,12 @@ const LendableObjectList = () => {
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
 
-  const actionGrant = useAppSelector(
+  const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
+  );
+
+  const requestsActionGrant = useAppSelector(
+    (state) => state.lendingRequests.actionGrant,
   );
 
   const fetchingObjects = useAppSelector(
@@ -151,8 +118,11 @@ const LendableObjectList = () => {
       title={title}
       actionButtons={
         <>
-          {actionGrant.includes('create') && (
+          {objectsActionGrant.includes('create') && (
             <LinkButton href="/lending/new">Nytt utlånsobjekt</LinkButton>
+          )}
+          {requestsActionGrant.includes('admin') && (
+            <LinkButton href="/lending/admin">Administrator</LinkButton>
           )}
         </>
       }
@@ -177,7 +147,7 @@ const LendableObjectList = () => {
             {lendingRequests.length ? (
               <div className={styles.lendingRequestsContainer}>
                 {lendingRequests.map((lendingRequest) => (
-                  <LendingRequest
+                  <LendingRequestCard
                     key={lendingRequest.id}
                     lendingRequest={lendingRequest}
                   />

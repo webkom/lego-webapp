@@ -46,6 +46,10 @@ img.lendableObjectImage {
   flex-direction: row;
   align-items: center;
   gap: var(--spacing-md);
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 img.lendingRequestImage {
@@ -58,6 +62,15 @@ img.lendingRequestImage {
 .divider {
   border-bottom: 2px solid var(--border-gray);
   margin: var(--spacing-md) 0;
+}
+
+.tagContainer {
+  margin-left: auto;
+  width: 100%;
+}
+
+.tagContainer > div {
+  width: 100%;
 }
 
 .statusTag {

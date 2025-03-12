@@ -14,7 +14,7 @@ const lendingRequestSlice = createSlice({
   initialState: legoAdapter.getInitialState(),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
-    fetchActions: [LendingRequests.FETCH],
+    fetchActions: [LendingRequests.FETCH, LendingRequests.FETCH_ADMIN],
   }),
 });
 

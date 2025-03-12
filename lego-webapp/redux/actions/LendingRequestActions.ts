@@ -23,13 +23,16 @@ export const fetchLendingRequests = ({ next = false }) =>
     propagateError: true,
   });
 
-export const fetchLendingRequestsAdmin = () =>
+export const fetchLendingRequestsAdmin = ({ next = false }) =>
   callAPI<AdminLendingRequest[]>({
     types: LendingRequests.FETCH_ADMIN,
     endpoint: '/lending/requests/admin/',
     schema: [lendingRequestSchema],
     meta: {
       errorMessage: 'Henting av utlånsforespørsler feilet',
+    },
+    pagination: {
+      fetchNext: next,
     },
     propagateError: true,
   });
