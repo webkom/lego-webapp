@@ -39,6 +39,7 @@ import { selectUserById } from '~/redux/slices/users';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import styles from './LendingRequestDetail.module.css';
+import useQuery from '~/utils/useQuery';
 
 type Params = {
   lendingRequestId: string;
@@ -46,6 +47,10 @@ type Params = {
 };
 
 const LendingRequest = () => {
+  const { query, setQueryValue } = useQuery({
+    fromAdmin: '',
+  });
+
   const dispatch = useAppDispatch();
   const [fetching, setFetching] = useState(false);
 
@@ -88,7 +93,11 @@ const LendingRequest = () => {
   const title = `Forespørsel ${lendableObject?.title ? ` - ${lendableObject.title}` : ''}`;
 
   return (
-    <Page title={title} back={{ href: '/lending' }} skeleton={fetching}>
+    <Page
+      title={title}
+      back={{ href: query.fromAdmin ? '/lending/admin' : '/lending' }}
+      skeleton={fetching}
+    >
       <Helmet title={title} />
       {lendingRequest && (
         <ContentSection>
