@@ -20,25 +20,29 @@ const LendingRequestCard = ({
         `}
     >
       <Card isHoverable hideOverflow className={styles.lendingRequestCard}>
-        <Image
-          className={styles.lendingRequestImage}
-          height={80}
-          width={80}
-          src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
-          alt={`
+        <Flex width="100%" gap="var(--spacing-md)">
+          <Image
+            className={styles.lendingRequestImage}
+            height={80}
+            width={80}
+            src={lendingRequest.lendableObject.image || '/icon-192x192.png'}
+            alt={`
       }${lendingRequest.lendableObject.title}`}
-        />
-        <Flex justifyContent="space-between" width="100%">
-          <Flex column gap="var(--spacing-sm)">
-            <h4>{lendingRequest.lendableObject.title}</h4>
-            <Flex alignItems="center" gap={8}>
-              <Time time={lendingRequest.startDate} format="DD. MMM" />
-              <Icon iconNode={<MoveRight />} size={19} />
-              <Time time={lendingRequest.endDate} format="DD. MMM" />
+          />
+          <Flex>
+            <Flex column gap="var(--spacing-sm)" justifyContent="center">
+              <h4>{lendingRequest.lendableObject.title}</h4>
+              <Flex alignItems="center" gap={8}>
+                <Time time={lendingRequest.startDate} format="DD. MMM" />
+                <Icon iconNode={<MoveRight />} size={19} />
+                <Time time={lendingRequest.endDate} format="DD. MMM" />
+              </Flex>
             </Flex>
           </Flex>
-          <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
         </Flex>
+        <div className={styles.tagContainer}>
+          <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
+        </div>
       </Card>
     </a>
   );
