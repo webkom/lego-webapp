@@ -1,8 +1,9 @@
 import { Accordion, Flex, Icon } from '@webkom/lego-bricks';
 import { ChevronRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import mazemapLogo from '~/assets/mazemap.svg';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
-import { MazemapEmbed } from '~/components/MazemapEmbed/index';
+import { MazemapEmbed, mazemapScript } from '~/components/MazemapEmbed/index';
 import styles from './MazemapAccordion.module.css';
 import type { ComponentProps } from 'react';
 
@@ -14,6 +15,7 @@ export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
   return (
     <>
       <Flex column className={styles.mazemapAccordion}>
+        <Helmet title="Mazemap">{mazemapScript}</Helmet>
         <Accordion
           persistChildren
           defaultOpen={defaultOpen}

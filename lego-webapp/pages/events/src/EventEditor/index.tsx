@@ -10,11 +10,9 @@ import arrayMutators from 'final-form-arrays';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
-import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { Form, CheckBox, LegoFinalForm } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import { mazemapScript } from '~/components/MazemapEmbed';
 import {
   transformEvent,
   transformEventStatusType,
@@ -342,8 +340,6 @@ const EventEditor = () => {
         href: isEditPage ? `/events/${event?.slug}` : '/events',
       }}
     >
-      <Helmet title={title}>´{mazemapScript}</Helmet>
-
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}

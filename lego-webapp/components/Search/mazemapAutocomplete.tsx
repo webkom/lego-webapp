@@ -1,5 +1,7 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { mazemapScript } from '~/components/MazemapEmbed';
 import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
@@ -84,12 +86,15 @@ const withMazemapAutocomplete = <P,>({
     const { options, onSearch, fetching } = useMazemapAutocomplete();
 
     return (
+      <>
+        <Helmet title="Mazemap Search">{mazemapScript}</Helmet>
       <WrappedComponent
         {...props}
         options={options}
         onSearch={onSearch}
         fetching={fetching}
       />
+      </>
     );
   };
   const displayName =
