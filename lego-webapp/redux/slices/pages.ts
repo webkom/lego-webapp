@@ -126,16 +126,6 @@ export const selectFlatpagePage: PageSelector<Flatpage> = createSelector(
   selectPageById,
   (page) => (page && 'content' in page ? { content: page.content } : undefined),
 );
-const separateRoles = [
-  'retiree',
-  'active_retiree',
-  'alumni',
-  'retiree_email',
-  'leader',
-  'co-leader',
-];
-// Map all the other roles as if they were regular members
-const defaultRole = 'member';
 
 const groupMemberships = (memberships: Membership[], groupId: EntityId) => {
   // Sort memberships by whether they belong to the given group

@@ -77,13 +77,13 @@ const rolePriority: Record<RoleType, number> = {
   recruiting: 3,
   development: 3,
   editor: 3,
-  retiree: 3,
+  retiree: 5,
   media_relations: 3,
-  alumni: 3,
+  alumni: 5,
   webmaster: 3,
   interest_group_admin: 3,
   alumni_admin: 3,
-  retiree_email: 3,
+  retiree_email: 5,
   company_admin: 3,
   dugnad_admin: 3,
   trip_admin: 3,
@@ -126,6 +126,24 @@ export type GroupPage = {
 const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const sortedMemberships = [...membershipsByRole].sort(sortMemberships);
+
+  const leaders = sortedMemberships.filter((u) =>
+    u.roles.some((role) => ['leader', 'co-leader'].includes(role)),
+  );
+
+  const retirees = sortedMemberships.filter((u) =>
+    u.roles.some((role) =>
+      ['active_retiree', 'retiree', 'alumni', 'retiree_email'].includes(role),
+    ),
+  );
+
+  const leaderIds = new Set(leaders.map((u) => u.user.id));
+  const retireeIds = new Set(retirees.map((u) => u.user.id));
+
+  const members = sortedMemberships.filter(
+    (u) => !leaderIds.has(u.user.id) && !retireeIds.has(u.user.id),
+  );
+
   return (
     <article>
       <DisplayContent content={text} />
@@ -134,7 +152,7 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
           <h3 className={styles.heading}>Medlemmer</h3>
           <Flex column justifyContent="center">
             <Flex wrap justifyContent="center">
-              {sortedMemberships.map(({ user, roles }) => (
+              {leaders.map(({ user, roles }) => (
                 <GroupMember
                   user={user}
                   roles={roles}
@@ -143,6 +161,31 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
                 />
               ))}
             </Flex>
+            <Flex wrap justifyContent="center">
+              {members.map(({ user, roles }) => (
+                <GroupMember
+                  user={user}
+                  roles={roles}
+                  key={user.id}
+                  groupName={name}
+                />
+              ))}
+            </Flex>
+            {retirees.length > 0 && (
+              <>
+                <h3 className={styles.heading}>Panger</h3>
+                <Flex wrap justifyContent="center">
+                  {retirees.map(({ user, roles }) => (
+                    <GroupMember
+                      user={user}
+                      roles={roles}
+                      key={user.id}
+                      groupName={name}
+                    />
+                  ))}
+                </Flex>
+              </>
+            )}
           </Flex>
         </>
       )}

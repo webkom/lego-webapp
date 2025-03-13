@@ -84,6 +84,7 @@ export function editMembership(membership: {
       id: membership.id,
       groupId: membership.abakusGroup,
       errorMessage: 'Endring av medlemskap feilet',
+      successMessage: 'Endring av medlemskap fullført',
     },
   });
 }

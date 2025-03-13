@@ -2,6 +2,7 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import React from 'react';
 import { ProfilePicture } from '~/components/Image';
+import Tooltip from '~/components/Tooltip';
 import { ROLES, type RoleType } from '~/utils/constants';
 import styles from './GroupMember.module.css';
 import type { PublicUser } from '~/redux/models/User';
@@ -18,33 +19,34 @@ const DisplayElement: React.FC<{
   user: PublicUser;
 }> = ({ roles, groupName, user }) => {
   const isReadme = groupName === 'readme';
-  let titleElement = null;
-
-  if (roles?.includes('leader')) {
-    titleElement = (
-      <span className={styles.title}>
-        {isReadme ? 'Redaktør' : ROLES['leader']}
-      </span>
-    );
-  } else if (roles?.includes('co-leader')) {
-    titleElement = <span className={styles.title}>{ROLES['co-leader']}</span>;
-  } else if ((roles && roles.length > 1) || (roles && roles[0] !== 'member')) {
-    titleElement = (
-      <span className={styles.title}>
-        {roles?.map((role) => (
-          <span key={role}>
-            {ROLES[role]}
-            <br />
-          </span>
-        ))}
-      </span>
-    );
-  }
+  const filteredRoles = roles?.filter((role) => role !== 'member') || [];
+  const visibleRoles = filteredRoles.slice(0, 2);
+  const hiddenRoles = filteredRoles.slice(2);
+  const titleElement = filteredRoles.length > 0 && (
+    <>
+      {visibleRoles.map((role) => (
+        <span key={role} className={styles.title}>
+          {isReadme && role === 'leader' ? 'Redaktør' : ROLES[role]}
+        </span>
+      ))}
+      {hiddenRoles.length > 0 && (
+        <Tooltip
+          style={{ display: 'inline' }}
+          content={hiddenRoles.map((role) => ROLES[role]).join(', ')}
+          positions={'right'}
+        >
+          <span className={styles.title}>+{hiddenRoles.length}</span>
+        </Tooltip>
+      )}
+    </>
+  );
 
   return (
     <div className={styles.container}>
-      <ProfilePicture user={user} size={90} />
-      <span className={styles.name}>{user.fullName}</span>
+      <a href={`/users/${user.username}`} className={styles.container}>
+        <ProfilePicture user={user} size={90} />
+        <span className={styles.name}>{user.fullName}</span>
+      </a>
       <br />
       {titleElement}
     </div>
@@ -53,20 +55,18 @@ const DisplayElement: React.FC<{
 
 const GroupMember = ({ user, roles, groupName }: Props) => {
   return (
-    <a href={`/users/${user.username}`}>
-      <Flex
-        column
-        gap="var(--spacing-xs)"
-        alignItems="center"
-        className={cx(
-          styles.member,
-          roles?.includes('leader') && styles.leader,
-          roles?.includes('co-leader') && styles.coLeader,
-        )}
-      >
-        <DisplayElement roles={roles} groupName={groupName} user={user} />
-      </Flex>
-    </a>
+    <Flex
+      column
+      gap="var(--spacing-xs)"
+      alignItems="center"
+      className={cx(
+        styles.member,
+        roles?.includes('leader') && styles.leader,
+        roles?.includes('co-leader') && styles.coLeader,
+      )}
+    >
+      <DisplayElement roles={roles} groupName={groupName} user={user} />
+    </Flex>
   );
 };
 
