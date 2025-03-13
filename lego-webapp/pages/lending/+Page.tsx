@@ -121,7 +121,7 @@ const LendableObjectList = () => {
           {objectsActionGrant.includes('create') && (
             <LinkButton href="/lending/new">Nytt utlånsobjekt</LinkButton>
           )}
-          {requestsActionGrant.includes('admin') && (
+          {canSeeLendingRequests && requestsActionGrant.includes('admin') && (
             <LinkButton href="/lending/admin">Administrator</LinkButton>
           )}
         </>

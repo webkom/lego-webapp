@@ -52,11 +52,12 @@ export const editLendingRequest = (data: EditLendingRequest) =>
   callAPI<ListLendingRequest>({
     types: LendingRequests.EDIT,
     endpoint: `/lending/requests/${data.id}/`,
-    method: 'PUT',
+    method: 'PATCH',
     schema: lendingRequestSchema,
     body: data,
     meta: {
       errorMessage: 'Endring av utlånsforespørsel feilet',
+      successMessage: 'Endring av utlånsforespørsel fullført',
     },
   });
 
@@ -69,5 +70,6 @@ export const createLendingRequest = (data: CreateLendingRequest) =>
     body: data,
     meta: {
       errorMessage: 'Opprettelse av utlånsforespørsel feilet',
+      successMessage: 'Opprettelse av utlånsforespørsel fullført',
     },
   });
