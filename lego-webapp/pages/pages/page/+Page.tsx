@@ -126,7 +126,6 @@ export type GroupPage = {
 const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const sortedMemberships = [...membershipsByRole].sort(sortMemberships);
-  console.log(name);
   return (
     <article>
       <DisplayContent content={text} />

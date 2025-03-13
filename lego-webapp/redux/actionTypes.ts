@@ -133,6 +133,7 @@ export const CompanyInterestForm = {
 };
 export const Membership = {
   CREATE: generateStatuses('Membership.CREATE'),
+  EDIT: generateStatuses('Membership.EDIT'),
   UPDATE: generateStatuses('Membership.UPDATE'),
   REMOVE: generateStatuses('Membership.REMOVE'),
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP'),
