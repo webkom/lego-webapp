@@ -1,7 +1,9 @@
-import { Flex } from '@webkom/lego-bricks';
+import React, { useState } from 'react';
+import { Flex, Icon, Button } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
+import Dropdown from '~/components/Dropdown';
 import {
   SelectInput,
   TextInput,
@@ -22,6 +24,9 @@ import { spyValues } from '~/utils/formSpyUtils';
 import styles from '../EventEditor.module.css';
 import renderPools from '../renderPools';
 import type { EditingEvent } from '~/pages/events/utils';
+import { Trash2, CirclePlus, Settings2 } from 'lucide-react';
+import cx from 'classnames';
+
 
 type Props = {
   values: EditingEvent;
@@ -79,6 +84,152 @@ type NormalOrInfiniteStatusTypeProps = Props;
 const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
   values,
 }) => {
+  // Question state
+  const [feedbackQuestions, setFeedbackQuestions] = useState<Array<{
+    text: string;
+    required: boolean;
+    type?: string;
+    options?: string[];
+  }>>([]);
+  const [questionInput, setQuestionInput] = useState("");
+  const [dropdownOpen, setDropdownOpen] = useState<number | null>(null);
+
+  // Add these two missing state variables:
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingQuestion, setEditingQuestion] = useState({
+    text: '',
+    type: '',
+    required: false,
+    options: [] as string[]
+  });
+
+  // Define question type options
+  const questionTypeOptions = [
+    { label: 'Tekstfelt', value: 'text' },
+    { label: 'Checkboxer', value: 'checkboxes' },
+    { label: 'Radioknapper', value: 'radio' },
+  ];
+
+  // State for question type, options, etc.
+  const [questionType, setQuestionType] = useState(questionTypeOptions[0].value);
+  const [questionOptions, setQuestionOptions] = useState<string[]>([]);
+  const [newOption, setNewOption] = useState('');
+  const [simpleDropdownOpen, setSimpleDropdownOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  const toggleSimpleDropdown = () => {
+    setSimpleDropdownOpen(!simpleDropdownOpen);
+  };
+
+  const simpleOptions = [
+    { label: 'Option A', value: 'a' },
+    { label: 'Option B', value: 'b' }
+  ];
+
+
+  const handleSelectChange = (selected) => {
+    setSelectedOption(selected?.value);
+    console.log('Selected:', selected?.value);
+  };
+
+  const handleAddOption = () => {
+    if (newOption.trim()) {
+      setQuestionOptions([...questionOptions, newOption.trim()]);
+      setNewOption('');
+    }
+  };
+
+  // Remove an option from the question
+  const handleRemoveOption = (optionIndex: number) => {
+    setQuestionOptions(questionOptions.filter((_, i) => i !== optionIndex));
+  };
+
+  // Function to add a new question
+  const handleAddQuestion = () => {
+    if (questionInput.trim() !== '') {
+      const newQuestion = {
+        text: questionInput.trim(),
+        required: false,
+        type: questionType,
+        options:
+          questionType === 'checkboxes' || questionType === 'radio'
+            ? questionOptions
+            : []
+      };
+      setFeedbackQuestions([...feedbackQuestions, newQuestion]);
+
+      // Reset local fields after adding
+      setQuestionInput('');
+      setQuestionOptions([]);
+      setQuestionType(questionTypeOptions[0].value);
+    }
+  };
+
+  // Function to remove a question
+  const handleRemoveQuestion = (indexToRemove: number) => {
+    setFeedbackQuestions(feedbackQuestions.filter((_, index) => index !== indexToRemove));
+    setDropdownOpen(null);
+  };
+
+  // Function to start editing a question
+  const handleEditQuestion = (index: number) => {
+    const questionToEdit = feedbackQuestions[index];
+    setEditingIndex(index);
+    setEditingQuestion({
+      text: questionToEdit.text,
+      type: questionToEdit.type || questionTypeOptions[0].value,
+      required: questionToEdit.required,
+      options: questionToEdit.options || []
+    });
+    setQuestionInput(questionToEdit.text);
+    setQuestionType(questionToEdit.type || questionTypeOptions[0].value);
+    setQuestionOptions(questionToEdit.options || []);
+  };
+
+  // Function to save the edited question
+  const handleSaveEdit = () => {
+    if (editingIndex !== null && questionInput.trim()) {
+      const updatedQuestions = [...feedbackQuestions];
+      updatedQuestions[editingIndex] = {
+        text: questionInput.trim(),
+        required: editingQuestion.required,
+        type: questionType,
+        options:
+          questionType === 'checkboxes' || questionType === 'radio'
+            ? questionOptions
+            : []
+      };
+
+      setFeedbackQuestions(updatedQuestions);
+
+      // Reset edit state
+      setEditingIndex(null);
+      setQuestionInput('');
+      setQuestionOptions([]);
+      setQuestionType(questionTypeOptions[0].value);
+    }
+  };
+
+  // Function to cancel editing
+  const handleCancelEdit = () => {
+    setEditingIndex(null);
+    setQuestionInput('');
+    setQuestionOptions([]);
+    setQuestionType(questionTypeOptions[0].value);
+  };
+
+  // Function to toggle required status
+  const toggleQuestionRequired = (index: number) => {
+    const updatedQuestions = [...feedbackQuestions];
+    updatedQuestions[index].required = !updatedQuestions[index].required;
+    setFeedbackQuestions(updatedQuestions);
+  };
+
+  // Toggle dropdown menu
+  const toggleDropdown = (index: number) => {
+    setDropdownOpen(dropdownOpen === index ? null : index);
+  };
+
   return (
     <>
       <div>
@@ -189,20 +340,154 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
       />
       {values.hasFeedbackQuestion && (
         <div className={styles.subSection}>
-          <Field
-            name="feedbackDescription"
-            placeholder="Burger eller sushi?"
-            component={TextInput.Field}
-            warn={containsAllergier}
-          />
-          <Field
-            name="feedbackRequired"
-            label="Obligatorisk"
-            type="checkbox"
-            component={CheckBox.Field}
-          />
+          <div className={styles.feedbackQuestion}>
+            <div className={styles.feedbackInputRow}>
+              <SelectInput
+                name="questionTypeSelect"
+                label={editingIndex !== null ? "Rediger spørsmålstype" : "Spørsmålstype"}
+                options={questionTypeOptions}
+                onChange={(selected) => setQuestionType(selected.value)}
+                value={questionTypeOptions.find(
+                  (opt) => opt.value === questionType
+                )} 
+              />
+
+              {/* Question text input */}
+              <TextInput
+                placeholder={editingIndex !== null ? "Rediger spørsmål..." : "Skriv et spørsmål..."}
+                value={questionInput}
+                onChange={(e) => setQuestionInput(e.target.value)}
+              />
+
+              {/* Add/Save question button */}
+              {editingIndex !== null ? (
+                <>
+                  <Button
+                    onPress={handleSaveEdit}
+                    disabled={!questionInput.trim()}
+                    style={{ backgroundColor: 'var(--success-color)' }}
+                  >
+                    Lagre endringer
+                  </Button>
+                  <Button
+                    onPress={handleCancelEdit}
+                    style={{ backgroundColor: 'var(--danger-color)' }}
+                  >
+                    Avbryt
+                  </Button>
+                </>
+              ) : (
+                <Button onPress={handleAddQuestion} disabled={!questionInput.trim()}>
+                  <Icon iconNode={<CirclePlus />} size={16} />
+                  Legg til spørsmål
+                </Button>
+              )}
+            </div>
+
+            {/* Options for checkbox/radio questions */}
+            {(questionType === 'checkboxes' || questionType === 'radio') && (
+              <div style={{ marginTop: 'var(--spacing-sm)' }}>
+                <h4>Alternativer:</h4>
+                <div className={styles.optionsInputRow}>
+                  <TextInput
+                    placeholder="Legg til et alternativ..."
+                    value={newOption}
+                    onChange={(e) => setNewOption(e.target.value)}
+                  />
+                  <Button onPress={handleAddOption} disabled={!newOption.trim()}>
+                    <Icon iconNode={<CirclePlus />} size={16} />
+                    Legg til alternativ
+                  </Button>
+                </div>
+
+                {questionOptions.length > 0 && (
+                  <ul>
+                    {questionOptions.map((option, index) => (
+                      <li key={index} className={styles.optionItem}>
+                        <span>{option}</span>
+                        <Button
+                          onPress={() => handleRemoveOption(index)}
+                        >
+                          <Icon iconNode={<Trash2 />} size={16} />
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
+            {/* List of added questions */}
+            {feedbackQuestions.length > 0 && (
+              <div className={styles.feedbackOptions}>
+                <h4>Spørsmål som vil bli stilt:</h4>
+                <ul>
+                  {feedbackQuestions.map((question, index) => (
+                    <li key={index} className={styles.feedbackQuestionItem}>
+                      <span className={styles.question}>
+                        {question.text}
+                        {question.required ? ' (Obligatorisk)' : ''}
+                        {' — '}
+                        <em>{question.type}</em>
+                      </span>
+
+                      {/* Show options if applicable */}
+                      {question.options?.length > 0 && (
+                        <ul>
+                          {question.options.map((opt, optIndex) => (
+                            <li key={optIndex} className={styles.optionItem}>
+                              <span>{opt}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      <div className={styles.questionActions}>
+                        {/* Toggle required button */}
+                        <Button
+                          onPress={() => toggleQuestionRequired(index)}
+                          disabled={editingIndex !== null}
+                          size="sm"
+                          className={cx(
+                            styles.requiredButton,
+                            question.required && styles.active
+                          )}
+                        >
+                          {question.required ? 'Obligatorisk' : 'Valgfri'}
+                        </Button>
+                        
+                        {/* Edit button */}
+                        <Button
+                          onPress={() => handleEditQuestion(index)}
+                          disabled={editingIndex !== null}
+                        >
+                          <Icon iconNode={<Settings2 />} size={16} />
+                        </Button>
+                        
+                        {/* Delete button */}
+                        <Button
+                          onPress={() => handleRemoveQuestion(index)}
+                          disabled={editingIndex === index}
+                        >
+                          <Icon iconNode={<Trash2 />} size={16} />
+                        </Button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Hidden field to store questions */}
+            <input
+              type="hidden"
+              name="feedbackQuestionsList"
+              value={JSON.stringify(feedbackQuestions)}
+            />
+          </div>
         </div>
       )}
+
       <div>
         <h3>Pools</h3>
         <Attendance pools={values.pools} showUserGrid={false} />
@@ -219,6 +504,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             label="Sammenslåingstidspunkt"
             description="Tidspunkt for å slå sammen poolene"
             name="mergeTime"
+
             component={DatePicker.Field}
           />
         )}

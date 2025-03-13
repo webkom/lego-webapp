@@ -148,3 +148,135 @@
     }
   }
 }
+
+.feedbackQuestion {
+  padding: var(--spacing-sm);
+}
+
+/* Improved feedback input row styling */
+.feedbackInputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Type dropdown - keep it compact */
+.feedbackInputRow > *:nth-child(1) {
+  flex: 0 0 200px;
+  min-width: 150px;
+}
+
+/* Text input - give it most of the space */
+.feedbackInputRow > *:nth-child(2) {
+  flex: 1;
+}
+
+/* Action buttons - keep them small */
+.feedbackInputRow > *:nth-child(n+3) {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+/* Override for the options row */
+.optionsInputRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.optionsInputRow > *:first-child {
+  flex: 1;
+}
+
+.optionsInputRow > *:last-child {
+  flex: 0 0 auto;
+}
+
+.optionItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.optionItem > span {
+  flex: 1;
+  margin-right: var(--spacing-sm);
+}
+
+/* Required toggle button */
+.requiredButton {
+  margin-left: var(--spacing-sm);
+  background-color: var(--lego-gray-medium);
+  color: var(--white);
+  font-size: var(--font-size-sm);
+  padding: 0 var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.requiredButton.active {
+  background-color: var(--lego-red-color);
+}
+
+.feedbackOptions {
+  margin-top: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
+}
+
+.feedbackOptions h4 {
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+}
+
+.feedbackOptions ul {
+  list-style-type: disc;
+  margin-left: var(--spacing-md);
+}
+
+.feedbackQuestionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+  padding: var(--spacing-xs) 0;
+}
+
+.feedbackQuestionItem button {
+  margin-left: var(--spacing-md);
+}
+
+.question {
+  flex: 1;
+  text-align: left;
+  background-color: transparent; 
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+}
+
+.questionActions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.questionActions button {
+  margin-left: var(--spacing-sm);
+  white-space: nowrap;
+}
+
+.simpleDropdownExample {
+  margin: var(--spacing-md) 0;
+  padding: var(--spacing-sm);
+  border: 1px dashed var(--border-gray);
+  border-radius: var(--border-radius-md);
+}
+.feedbackQuestionType {
+  margin-bottom: var(--spacing-sm);
+  width: 30%;
+}
+/* .feedbackInputRow{
+
+} */
