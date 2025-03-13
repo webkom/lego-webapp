@@ -12,6 +12,7 @@ import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
 import { jobType, Year, Workplaces } from '~/components/JoblistingItem/Items';
 import PropertyHelmet from '~/components/PropertyHelmet';
+import ShareButton from '~/components/ShareButton';
 import Time from '~/components/Time';
 import YoutubeCover from '~/pages/pages/_components/YoutubeCover';
 import { fetchJoblisting } from '~/redux/actions/JoblistingActions';
@@ -186,6 +187,11 @@ const JoblistingDetail = () => {
               Søk her
             </LinkButton>
           )}
+
+          <ShareButton
+            title={'Del jobbannonse'}
+            url={`${appConfig?.webUrl}/joblistings/${joblisting?.id}`}
+          />
 
           {(joblisting.responsible || joblisting.contactMail) && (
             <div>
