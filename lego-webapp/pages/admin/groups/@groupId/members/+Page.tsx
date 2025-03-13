@@ -41,6 +41,7 @@ const GroupMembers = () => {
       pagination,
     }),
   );
+  console.log(memberships);
 
   const group = useAppSelector((state) =>
     selectGroupById<DetailedGroup>(state, groupId),

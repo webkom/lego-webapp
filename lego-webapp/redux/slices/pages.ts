@@ -20,6 +20,9 @@ import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { AuthDetailedPage, DetailedPage } from '~/redux/models/Page';
 import type { RootState } from '~/redux/rootReducer';
 import type { TransformedMembership } from '~/redux/slices/memberships';
+import { GroupMembership } from 'app/models';
+import Membership from '../models/Membership';
+import moment from 'moment-timezone';
 
 const legoAdapter = createLegoAdapter(EntityType.Pages, {
   selectId: (page) => page.slug,
@@ -136,22 +139,41 @@ const separateRoles = [
 // Map all the other roles as if they were regular members
 const defaultRole = 'member';
 
-const groupMemberships = (
-  memberships: TransformedMembership[],
-  groupId: EntityId,
-) => {
-  // Sort membership so that the membership in the group is ordered before the descendants. When removing duplicates, the
-  // descendant memberships will be removed if there are duplicates
-  const membershipsUniqUsers = uniqBy(
-    sortBy(
-      memberships,
-      (membership) => Number(membership.abakusGroup) !== Number(groupId),
-    ),
-    (membership) => membership.user.id,
+const groupMemberships = (memberships: Membership[], groupId: EntityId) => {
+  // Sort memberships by whether they belong to the given group
+  const sortedMemberships = sortBy(
+    memberships,
+    (m) => Number(m.abakusGroup) !== Number(groupId),
   );
-  return groupBy(sortBy(membershipsUniqUsers, 'user.fullName'), ({ role }) =>
-    separateRoles.includes(role) ? role : defaultRole,
+
+  const membershipMap = new Map();
+
+  for (const membership of sortedMemberships) {
+    if (!membershipMap.has(membership.user)) {
+      membershipMap.set(membership.user, {
+        user: membership.user,
+        roles: new Set([membership.role]),
+        createdAt: membership.createdAt,
+      });
+    } else {
+      const existing = membershipMap.get(membership.user);
+      existing.roles.add(membership.role);
+
+      if (moment(membership.createdAt) < moment(existing.createdAt)) {
+        existing.createdAt = membership.createdAt;
+      }
+    }
+  }
+
+  const combinedMemberships = Array.from(membershipMap.values()).map(
+    ({ user, roles, createdAt }) => ({
+      user,
+      roles: Array.from(roles),
+      createdAt,
+    }),
   );
+
+  return combinedMemberships;
 };
 
 export const selectCommitteePageInfo: PageInfoSelector = createSelector(
