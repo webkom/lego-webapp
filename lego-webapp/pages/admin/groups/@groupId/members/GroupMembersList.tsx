@@ -5,7 +5,7 @@ import { SelectInput } from '~/components/Form';
 import Table from '~/components/Table';
 import { defaultGroupMembersQuery } from '~/pages/admin/groups/@groupId/members/+Page';
 import { useIsCurrentUser } from '~/pages/users/utils';
-import { removeMember, addMember } from '~/redux/actions/GroupActions';
+import { removeMember, editMembership } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectGroupEntities } from '~/redux/slices/groups';
 import { isNotNullish } from '~/utils';
@@ -77,11 +77,10 @@ const GroupMembersList = ({
               ...prev,
               [id]: false,
             }));
-            await dispatch(removeMember(membership));
             await dispatch(
-              addMember({
-                userId: membership.user.id,
-                groupId: membership.abakusGroup,
+              editMembership({
+                id: membership.id,
+                abakusGroup: membership.abakusGroup,
                 role: value.value,
               }),
             );
