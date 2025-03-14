@@ -277,6 +277,24 @@
   margin-bottom: var(--spacing-sm);
   width: 30%;
 }
-/* .feedbackInputRow{
+.handle {
+  cursor: grab;
+}
 
-} */
+.saveEditButton {
+  margin-top: var(--spacing-md);
+  background-color: var(--success-color) 
+}
+
+.cancelEditButton {
+  margin-top: var(--spacing-md);
+  background-color: var(--danger-color) 
+}
+
+/* Remove the custom tooltip styles as we'll use the standard Tooltip component */
+.tooltipContainer,
+.tooltip,
+.tooltip::after,
+.tooltipContainer:hover .tooltip {
+  /* Remove these styles */
+}

@@ -84,7 +84,6 @@ type NormalOrInfiniteStatusTypeProps = Props;
 const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
   values,
 }) => {
-  // Question state
   const [feedbackQuestions, setFeedbackQuestions] = useState<Array<{
     text: string;
     required: boolean;
@@ -94,7 +93,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
   const [questionInput, setQuestionInput] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState<number | null>(null);
 
-  // Add these two missing state variables:
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingQuestion, setEditingQuestion] = useState({
     text: '',
@@ -103,14 +101,12 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
     options: [] as string[]
   });
 
-  // Define question type options
   const questionTypeOptions = [
     { label: 'Tekstfelt', value: 'text' },
     { label: 'Checkboxer', value: 'checkboxes' },
     { label: 'Radioknapper', value: 'radio' },
   ];
 
-  // State for question type, options, etc.
   const [questionType, setQuestionType] = useState(questionTypeOptions[0].value);
   const [questionOptions, setQuestionOptions] = useState<string[]>([]);
   const [newOption, setNewOption] = useState('');
@@ -139,12 +135,10 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
     }
   };
 
-  // Remove an option from the question
   const handleRemoveOption = (optionIndex: number) => {
     setQuestionOptions(questionOptions.filter((_, i) => i !== optionIndex));
   };
 
-  // Function to add a new question
   const handleAddQuestion = () => {
     if (questionInput.trim() !== '') {
       const newQuestion = {
@@ -158,20 +152,17 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
       };
       setFeedbackQuestions([...feedbackQuestions, newQuestion]);
 
-      // Reset local fields after adding
       setQuestionInput('');
       setQuestionOptions([]);
       setQuestionType(questionTypeOptions[0].value);
     }
   };
 
-  // Function to remove a question
   const handleRemoveQuestion = (indexToRemove: number) => {
     setFeedbackQuestions(feedbackQuestions.filter((_, index) => index !== indexToRemove));
     setDropdownOpen(null);
   };
 
-  // Function to start editing a question
   const handleEditQuestion = (index: number) => {
     const questionToEdit = feedbackQuestions[index];
     setEditingIndex(index);
@@ -186,7 +177,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
     setQuestionOptions(questionToEdit.options || []);
   };
 
-  // Function to save the edited question
   const handleSaveEdit = () => {
     if (editingIndex !== null && questionInput.trim()) {
       const updatedQuestions = [...feedbackQuestions];
@@ -202,7 +192,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
 
       setFeedbackQuestions(updatedQuestions);
 
-      // Reset edit state
       setEditingIndex(null);
       setQuestionInput('');
       setQuestionOptions([]);
@@ -210,7 +199,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
     }
   };
 
-  // Function to cancel editing
   const handleCancelEdit = () => {
     setEditingIndex(null);
     setQuestionInput('');
@@ -349,17 +337,15 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
                 onChange={(selected) => setQuestionType(selected.value)}
                 value={questionTypeOptions.find(
                   (opt) => opt.value === questionType
-                )} 
+                )}
               />
 
-              {/* Question text input */}
               <TextInput
                 placeholder={editingIndex !== null ? "Rediger spørsmål..." : "Skriv et spørsmål..."}
                 value={questionInput}
                 onChange={(e) => setQuestionInput(e.target.value)}
               />
 
-              {/* Add/Save question button */}
               {editingIndex !== null ? (
                 <>
                   <Button
@@ -377,14 +363,23 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
                   </Button>
                 </>
               ) : (
-                <Button onPress={handleAddQuestion} disabled={!questionInput.trim()}>
+                <Button
+                  onPress={handleAddQuestion}
+                  disabled={!questionInput.trim() || (questionOptions.length < 2 && (questionType === 'checkboxes' || questionType === 'radio'))}
+                  title={
+                    questionInput.trim() &&
+                    questionOptions.length < 2 &&
+                    (questionType === 'checkboxes' || questionType === 'radio')
+                      ? "Må minst ha 2 alternativ"
+                      : undefined
+                  }
+                >
                   <Icon iconNode={<CirclePlus />} size={16} />
                   Legg til spørsmål
                 </Button>
               )}
             </div>
 
-            {/* Options for checkbox/radio questions */}
             {(questionType === 'checkboxes' || questionType === 'radio') && (
               <div style={{ marginTop: 'var(--spacing-sm)' }}>
                 <h4>Alternativer:</h4>
@@ -455,7 +450,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
                         >
                           {question.required ? 'Obligatorisk' : 'Valgfri'}
                         </Button>
-                        
+
                         {/* Edit button */}
                         <Button
                           onPress={() => handleEditQuestion(index)}
@@ -463,7 +458,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
                         >
                           <Icon iconNode={<Settings2 />} size={16} />
                         </Button>
-                        
+
                         {/* Delete button */}
                         <Button
                           onPress={() => handleRemoveQuestion(index)}
@@ -492,8 +487,7 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
         <h3>Pools</h3>
         <Attendance pools={values.pools} showUserGrid={false} />
         <div className={styles.metaList}>
-          <FieldArray
-            name="pools"
+          <FieldArray name="pools"
             component={renderPools}
             startTime={values.startTime}
             eventStatusType={values.eventStatusType?.value}
@@ -504,7 +498,6 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
             label="Sammenslåingstidspunkt"
             description="Tidspunkt for å slå sammen poolene"
             name="mergeTime"
-
             component={DatePicker.Field}
           />
         )}
@@ -512,3 +505,4 @@ const NormalOrInfiniteStatusType: React.FC<NormalOrInfiniteStatusTypeProps> = ({
     </>
   );
 };
+
