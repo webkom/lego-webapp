@@ -8,6 +8,7 @@ const AllergiesOrPreferencesField = () => (
     description="Dette brukes kun på arrangementer for å kartlegge bestilling av mat, og vil ikke vises offentlig"
     placeholder="F.eks. laktoseintoleranse, nøtteallergi ..."
     component={TextInput.Field}
+    parse={(value) => value}
   />
 );
 

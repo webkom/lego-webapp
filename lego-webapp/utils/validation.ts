@@ -186,6 +186,8 @@ export const isValidAllergy: Validator<string | undefined> =
 export const isValidGithubUsername =
   (message = 'Ikke et gyldig GitHub-brukernavn') =>
   (value: string) => {
+    if (value === '') return [true] as const; // Allow empty usernames
+
     const validRegex = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 
     return [validRegex.test(value), message] as const;

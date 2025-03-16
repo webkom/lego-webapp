@@ -136,6 +136,7 @@ const UserSettings = () => {
                   label="Brukernavn"
                   name="username"
                   readOnly
+                  required
                   component={TextInput.Field}
                   disabled
                 />
@@ -145,6 +146,7 @@ const UserSettings = () => {
                     placeholder="Fornavn"
                     label="Fornavn"
                     name="firstName"
+                    required
                     component={TextInput.Field}
                   />
 
@@ -152,6 +154,7 @@ const UserSettings = () => {
                     placeholder="Etternavn"
                     label="Etternavn"
                     name="lastName"
+                    required
                     component={TextInput.Field}
                   />
                 </RowSection>
@@ -161,6 +164,7 @@ const UserSettings = () => {
                     placeholder="abc@xyz.no"
                     label="E-post"
                     name="email"
+                    required
                     prefixIconNode={<Icon iconNode={<Mail />} />}
                     component={TextInput.Field}
                   />
@@ -168,6 +172,7 @@ const UserSettings = () => {
                     label="Telefonnummer"
                     name="phoneNumber"
                     component={PhoneNumberInput.Field}
+                    parse={(value) => value ?? ''}
                   />
                 </RowSection>
 
@@ -193,6 +198,7 @@ const UserSettings = () => {
                 name="githubUsername"
                 prefixIconNode={<Icon iconNode={<Github />} />}
                 component={TextInput.Field}
+                parse={(value) => value}
               />
 
               <Field
@@ -200,6 +206,7 @@ const UserSettings = () => {
                 name="linkedinId"
                 prefixIconNode={<Icon iconNode={<Linkedin />} />}
                 component={TextInput.Field}
+                parse={(value) => value}
               />
             </RowSection>
 
