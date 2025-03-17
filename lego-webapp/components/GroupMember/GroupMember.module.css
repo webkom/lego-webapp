@@ -47,3 +47,9 @@
 .name {
   text-align: center;
 }
+
+.tooltipContainer {
+  display: inline-flex;
+  margin: 0;
+  margin-top: -0.25rem;
+}

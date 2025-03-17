@@ -23,7 +23,7 @@ const DisplayRoles: React.FC<{
   const visibleRoles = filteredRoles.slice(0, 2);
   const hiddenRoles = filteredRoles.slice(2);
   const titleElement = filteredRoles.length > 0 && (
-    <>
+    <Flex column alignItems="center">
       {visibleRoles.map((role) => (
         <span key={role} className={styles.title}>
           {isReadme && role === 'leader' ? 'Redaktør' : ROLES[role]}
@@ -31,14 +31,14 @@ const DisplayRoles: React.FC<{
       ))}
       {hiddenRoles.length > 0 && (
         <Tooltip
-          style={{ display: 'inline' }}
+          className={styles.tooltipContainer}
           content={hiddenRoles.map((role) => ROLES[role]).join(', ')}
           positions={'right'}
         >
           <span className={styles.title}>+{hiddenRoles.length}</span>
         </Tooltip>
       )}
-    </>
+    </Flex>
   );
 
   return (
