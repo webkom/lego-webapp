@@ -275,6 +275,32 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_8,
     },
   ],
+  gala_count: [
+    {
+      name: 'Festløve',
+      description: 'Deltatt på 1 galla',
+      rarity: 0,
+      hidden: false,
+    },
+    {
+      name: 'Gallaholiker',
+      description: 'Deltatt på 5 gallaer',
+      rarity: 3,
+      hidden: false,
+    },
+    {
+      name: 'Daljeh*re',
+      description: 'Deltatt på 10 gallaer',
+      rarity: 5,
+      hidden: false,
+    },
+    {
+      name: 'Ordensmedlem',
+      description: 'Deltatt på 15 gallaer',
+      rarity: 6,
+      hidden: false,
+    },
+  ],
 };
 
 export type DetailedAchievementData = AchievementData & { level?: number };
