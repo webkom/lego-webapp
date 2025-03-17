@@ -3492,10 +3492,10 @@
     magic-string "^0.30.0"
     ts-dedent "^2.0.0"
 
-"@storybook/components@8.6.0", "@storybook/components@^8.3.6":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-8.6.0.tgz#8fb3d00ac726e937a7ca1f4e7892948e759bd92b"
-  integrity sha512-k5MQAuLPt5KOaa5J4QvX/WKucaiFTMJiEX5lsSaY6qON6Sx8PtnLQxVwWF7BIMW/jLpd94BUxrVjVrQKlwoLKQ==
+"@storybook/components@8.6.6", "@storybook/components@^8.3.6":
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-8.6.6.tgz#4e0866ed492f4bcbe510aa97541ab694e52a66c4"
+  integrity sha512-YiUPqrp76//r6tkfosHwkpERPEnZfI2Io0e3A9MLG1mYOWeMsHi5XcZum/7Opt1BF2nACDn5aTkg2GMGc9H+Vg==
 
 "@storybook/core@8.4.7":
   version "8.4.7"
@@ -3561,15 +3561,15 @@
     "@storybook/global" "^5.0.0"
     "@vitest/utils" "^2.1.1"
 
-"@storybook/manager-api@8.6.0", "@storybook/manager-api@^8.3.6":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-8.6.0.tgz#2023a8fc83f28fca04e8fe3baf2fe5a921d05d69"
-  integrity sha512-ddBibYrO3yQCdtZBqQYqfABjR9eS+llvt2NFDajfyQw+zmuNIZfw4BDGKH1WHE4wm/kXmlFFhPHXaHgAPTRPfQ==
+"@storybook/manager-api@8.6.6", "@storybook/manager-api@^8.3.6":
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/manager-api/-/manager-api-8.6.6.tgz#b3209f41364ba6e5367ea971b7cd970f38529021"
+  integrity sha512-Wm/PvY9IZuCGxlqg2Rt6M95WaXnCPl0wHunTD6vDIgnnjzEzLUeigrsHOSh617tIOQ1F9i3J9UegaslImuqXGg==
 
-"@storybook/preview-api@8.6.0", "@storybook/preview-api@^8.3.6":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/preview-api/-/preview-api-8.6.0.tgz#5069c10ed6ede7314526fa26c48484000c1020ce"
-  integrity sha512-c/sZj4Tb+DtdCndcjoFUneUwl2XUdQckqN4nf1SuIJ/BXRbAexlD04fvPJ4wzmwUNg8EQF7BhTWVNDa1RvJz2w==
+"@storybook/preview-api@8.6.6", "@storybook/preview-api@^8.3.6":
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/preview-api/-/preview-api-8.6.6.tgz#6b61bc5f9216526043405f7f8815660c8492b017"
+  integrity sha512-My6lrZ89DWFAjLYAhTztHFxOlS0z8SD7yYsAHMD7oUYF31O/h6aveT3n7da5Vlc8MuNVzuGeXh4zBWkJawTYxg==
 
 "@storybook/react-dom-shim@8.3.6":
   version "8.3.6"
@@ -3581,10 +3581,10 @@
   resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-8.4.7.tgz#f0dd5bbf2fc185def72d9d08a11c8de22f152c2a"
   integrity sha512-6bkG2jvKTmWrmVzCgwpTxwIugd7Lu+2btsLAqhQSzDyIj2/uhMNp8xIMr/NBDtLgq3nomt9gefNa9xxLwk/OMg==
 
-"@storybook/react-dom-shim@8.6.0":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-8.6.0.tgz#54229f716bb48ae90737bae24fe75f7c85ed9917"
-  integrity sha512-5Y+vMHhcx0xnaNsLQMbkmjc3zkDn/fGBNsiLH2e4POvW3ZQvOxjoyxAsEQaKwLtFgsdCFSd2tR89F6ItYrA2JQ==
+"@storybook/react-dom-shim@8.6.6":
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/react-dom-shim/-/react-dom-shim-8.6.6.tgz#4eeda1a1fc1b75a02f02fc63e5037acb5ec4b3d0"
+  integrity sha512-1+hpswa55PVmH0X9GBKsD6KUwWPzsX9ifI/NKVJNTW/qKOFIdBdaKf6rsX5wOUnEsvoM9eiaPIPfNCOu3OP20g==
 
 "@storybook/react-vite@^8.3.6":
   version "8.3.6"
@@ -3627,17 +3627,17 @@
     type-fest "~2.19"
     util-deprecate "^1.0.2"
 
-"@storybook/react@^8.6.0":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-8.6.0.tgz#55b55c78c5211e72d3b919d2a94a2d620031e2be"
-  integrity sha512-go0KhCFcOhxkTdaMCxeuJxmc/5CaiaO76+SBzIoPIMWEh9tZQmKb+vojdKcFZswHjZV3zA1uJFUzyympspRffA==
+"@storybook/react@^8.6.6":
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/react/-/react-8.6.6.tgz#044a10b1093af5bba01e5372093b8f1177fa2b86"
+  integrity sha512-IQA9SCxVoUZNfsCdxJvcqZyTuFJQXoxVkLeRnD8rJ6hc/uW3kD0yUzX9Gb6XhfKyT2mW9os4F6Z+ZcYJj+UM5w==
   dependencies:
-    "@storybook/components" "8.6.0"
+    "@storybook/components" "8.6.6"
     "@storybook/global" "^5.0.0"
-    "@storybook/manager-api" "8.6.0"
-    "@storybook/preview-api" "8.6.0"
-    "@storybook/react-dom-shim" "8.6.0"
-    "@storybook/theming" "8.6.0"
+    "@storybook/manager-api" "8.6.6"
+    "@storybook/preview-api" "8.6.6"
+    "@storybook/react-dom-shim" "8.6.6"
+    "@storybook/theming" "8.6.6"
 
 "@storybook/test@8.4.1":
   version "8.4.1"
@@ -3667,10 +3667,10 @@
     "@vitest/expect" "2.0.5"
     "@vitest/spy" "2.0.5"
 
-"@storybook/theming@8.6.0", "@storybook/theming@^8.3.6":
-  version "8.6.0"
-  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-8.6.0.tgz#1c1026e776407641ff13650d06529bfd7edcb643"
-  integrity sha512-te7dl0ZXnEyKS4LW+QHc3MP7nurWhWhmClY7G2WKNW9eHenb9zvXkcAQt6c4OWhrJi01CAYoXmZNJP0jEzxRRQ==
+"@storybook/theming@8.6.6", "@storybook/theming@^8.3.6":
+  version "8.6.6"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-8.6.6.tgz#8e13e69a5767fd541b86866b8e31f8d6ea4cf235"
+  integrity sha512-Ms5myBwNZYkytCIqwOD6sIvi+o6vKBUqPuG+YiQ2jb76PT0HIuQJBfoAvowtMA2BO2vxAa5A7rgAYRzP5jKInw==
 
 "@stripe/react-stripe-js@^3.1.1":
   version "3.1.1"
