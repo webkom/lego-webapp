@@ -31,6 +31,7 @@ import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import { mazemapScript } from '~/components/MazemapEmbed';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
+import Tooltip from '~/components/Tooltip';
 import Attendance from '~/components/UserAttendance/Attendance';
 import { fetchMemberships } from '~/redux/actions/GroupActions';
 import {
@@ -401,12 +402,17 @@ const MeetingEditor = () => {
                 />
               )}
               {(!isEditPage || (isEditPage && initialValues.isTemplate)) && (
-                <Field
-                  name="isRecurring"
-                  label="Ukentlig møte"
-                  component={CheckBox.Field}
-                  type="checkbox"
-                />
+                <Tooltip
+                  content="Ukentlige møter generer kun møter fra starttidspunktet til malen"
+                  positions={'left'}
+                >
+                  <Field
+                    name="isRecurring"
+                    label="Ukentlig møte"
+                    component={CheckBox.Field}
+                    type="checkbox"
+                  />
+                </Tooltip>
               )}
 
               <FormSpy subscription={{ values: true }}>

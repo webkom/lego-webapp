@@ -197,9 +197,9 @@ export const selectGroupedMeetings = createSelector(
 export const selectUpcomingMeetings = (state: RootState) =>
   selectMeetingsByField('endTime', (endTime, filterTime) =>
     moment(endTime).isAfter(filterTime),
-  )(state, moment()).sort((a, b) =>
-    moment(a.startTime).diff(moment(b.startTime)),
-  );
+  )(state, moment())
+    .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
+    .filter((meeting: ListMeeting) => !meeting.isTemplate);
 
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,
