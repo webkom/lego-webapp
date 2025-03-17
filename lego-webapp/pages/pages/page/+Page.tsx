@@ -127,21 +127,22 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const sortedMemberships = [...membershipsByRole].sort(sortMemberships);
 
-  const leaders = sortedMemberships.filter((u) =>
-    u.roles.some((role) => ['leader', 'co-leader'].includes(role)),
+  const leaders = sortedMemberships.filter((membership) =>
+    membership.roles.some((role) => ['leader', 'co-leader'].includes(role)),
   );
 
-  const retirees = sortedMemberships.filter((u) =>
-    u.roles.some((role) =>
+  const retirees = sortedMemberships.filter((membership) =>
+    membership.roles.some((role) =>
       ['active_retiree', 'retiree', 'alumni', 'retiree_email'].includes(role),
     ),
   );
 
-  const leaderIds = new Set(leaders.map((u) => u.user.id));
-  const retireeIds = new Set(retirees.map((u) => u.user.id));
+  const leaderIds = new Set(leaders.map((membership) => membership.user.id));
+  const retireeIds = new Set(retirees.map((membership) => membership.user.id));
 
   const members = sortedMemberships.filter(
-    (u) => !leaderIds.has(u.user.id) && !retireeIds.has(u.user.id),
+    (membership) =>
+      !leaderIds.has(membership.user.id) && !retireeIds.has(membership.user.id),
   );
 
   return (

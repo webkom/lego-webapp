@@ -13,9 +13,9 @@ type Props = {
   groupName?: string;
 };
 
-const DisplayElement: React.FC<{
-  roles: RoleType[] | undefined;
-  groupName: string | undefined;
+const DisplayRoles: React.FC<{
+  roles?: RoleType[];
+  groupName?: string;
   user: PublicUser;
 }> = ({ roles, groupName, user }) => {
   const isReadme = groupName === 'readme';
@@ -42,14 +42,15 @@ const DisplayElement: React.FC<{
   );
 
   return (
-    <div className={styles.container}>
-      <a href={`/users/${user.username}`} className={styles.container}>
-        <ProfilePicture user={user} size={90} />
-        <span className={styles.name}>{user.fullName}</span>
+    <Flex column alignItems="center">
+      <a href={`/users/${user.username}`}>
+        <Flex column alignItems="center">
+          <ProfilePicture user={user} size={90} />
+          <span className={styles.name}>{user.fullName}</span>
+        </Flex>
       </a>
-      <br />
       {titleElement}
-    </div>
+    </Flex>
   );
 };
 
@@ -65,7 +66,7 @@ const GroupMember = ({ user, roles, groupName }: Props) => {
         roles?.includes('co-leader') && styles.coLeader,
       )}
     >
-      <DisplayElement roles={roles} groupName={groupName} user={user} />
+      <DisplayRoles roles={roles} groupName={groupName} user={user} />
     </Flex>
   );
 };

@@ -4,6 +4,9 @@
   background: radial-gradient(rgba(255, 140, 0, 0.2), rgba(255, 140, 0, 0));
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
   transition: all 0.3s ease-in-out;
+  &:hover {
+    box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+  }
 }
 
 .member.coLeader img {
@@ -12,23 +15,18 @@
   background: linear-gradient(rgba(128, 128, 128, 0.2), rgba(128, 128, 128, 0));
   box-shadow: 0 0 8px rgba(128, 128, 128, 0.4);
   transition: all 0.3s ease-in-out;
-}
-
-.member.leader img:hover {
-  box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
-}
-
-.member.coLeader img:hover {
-  box-shadow: 0 0 15px rgba(214, 214, 214, 0.6);
+  &:hover {
+    box-shadow: 0 0 15px rgba(214, 214, 214, 0.6);
+  }
 }
 
 .member img {
   border: 4px solid var(--border-gray);
   transition: transform 0.3s ease-in-out;
-}
 
-.member img:hover {
-  transform: scale(1.07);
+  &:hover {
+    transform: scale(1.07);
+  }
 }
 
 .member {
@@ -48,10 +46,4 @@
 
 .name {
   text-align: center;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
