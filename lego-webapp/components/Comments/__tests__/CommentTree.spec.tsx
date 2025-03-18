@@ -27,6 +27,7 @@ const store = configureStore({
       entities: {},
       actionGrant: ['view'],
       fetching: false,
+      fetchingAchievements: false,
       paginationNext: {},
     },
     emojis: {

@@ -47,7 +47,7 @@ type Params = {
 };
 
 const LendingRequest = () => {
-  const { query, setQueryValue } = useQuery({
+  const { query } = useQuery({
     fromAdmin: '',
   });
 

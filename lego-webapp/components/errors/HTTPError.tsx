@@ -26,12 +26,13 @@ type Props = {
 };
 
 const HTTPError = ({ statusCode }: Props) => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const storedStatusCode = useAppSelector((state) => state.router.statusCode);
 
   const effectiveStatusCode = statusCode || storedStatusCode || fallbackStatus;
 
   useEffect(() => {
+    if (!canvasRef.current) return;
     renderAbakus(effectiveStatusCode.toString(), canvasRef.current);
   }, [effectiveStatusCode, statusCode, storedStatusCode]);
 

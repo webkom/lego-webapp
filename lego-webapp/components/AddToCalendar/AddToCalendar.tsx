@@ -1,5 +1,7 @@
 import { Button, Card, Icon } from '@webkom/lego-bricks';
+import moment from 'moment-timezone';
 import { useState } from 'react';
+import { Dateish } from 'app/models';
 import { getIcalUrl, getIcalUrlGoogle } from '~/pages/events/index/EventFooter';
 import styles from './AddToCalendar.module.css';
 import type { PropsWithChildren } from 'react';
@@ -10,11 +12,11 @@ type Props = {
   meeting: DetailedMeeting;
 };
 
-const formatTimeForGoogle = (dateTime: string) => {
-  return dateTime.replace(/-|:/g, '');
+const formatTimeForGoogle = (dateTime: Dateish) => {
+  return moment(dateTime).toISOString().replace(/[-:]/g, '');
 };
 
-const getGoogleCalendarLink = (meeting) => {
+const getGoogleCalendarLink = (meeting: DetailedMeeting) => {
   const baseURL = 'https://calendar.google.com/calendar/event';
   const params = new URLSearchParams({
     action: 'TEMPLATE',
