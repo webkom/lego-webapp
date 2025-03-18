@@ -2,11 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { sortBy } from 'lodash';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
+import { Dateish } from 'app/models';
 import { Page } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { selectMembershipsForGroup } from '~/redux/slices/memberships';
+import { RoleType } from '~/utils/constants';
 import Membership from '../models/Membership';
+import { PublicUser } from '../models/User';
 import { selectGroupById, selectGroupsByType } from './groups';
 import { selectPaginationNext } from './selectors';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -21,9 +24,6 @@ import type {
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { AuthDetailedPage, DetailedPage } from '~/redux/models/Page';
 import type { RootState } from '~/redux/rootReducer';
-import { RoleType } from '~/utils/constants';
-import { PublicUser } from '../models/User';
-import { Dateish } from 'app/models';
 
 const legoAdapter = createLegoAdapter(EntityType.Pages, {
   selectId: (page) => page.slug,

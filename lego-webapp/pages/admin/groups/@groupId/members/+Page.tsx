@@ -1,11 +1,15 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
+import moment from 'moment-timezone';
 import { useCallback } from 'react';
 import { ContentMain } from '~/components/Content';
 import { fetchMembershipsPagination } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectGroupById } from '~/redux/slices/groups';
-import { selectMembershipsForGroup } from '~/redux/slices/memberships';
+import {
+  selectMembershipsForGroup,
+  TransformedMembership,
+} from '~/redux/slices/memberships';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
@@ -40,6 +44,22 @@ const GroupMembers = () => {
       descendants: showDescendants,
       pagination,
     }),
+  );
+
+  const sortedMemberships = memberships.toSorted(
+    (a: TransformedMembership, b: TransformedMembership) => {
+      const userA = a.user.username;
+      const userB = b.user.username;
+
+      if (userA !== userB) {
+        return userA.localeCompare(userB);
+      }
+
+      const dateA = a.firstJoinDate ? moment(a.firstJoinDate).valueOf() : 0;
+      const dateB = b.firstJoinDate ? moment(b.firstJoinDate).valueOf() : 0;
+
+      return dateA - dateB;
+    },
   );
 
   const group = useAppSelector((state) =>
@@ -85,7 +105,7 @@ const GroupMembers = () => {
           key={Number(groupId) + Number(showDescendants)}
           hasMore={hasMore}
           fetching={pagination.fetching}
-          memberships={memberships}
+          memberships={sortedMemberships}
           fetchMemberships={fetchMemberships}
         />
       </div>
