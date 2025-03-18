@@ -22,7 +22,6 @@ type SubmissionsPublicResultsParams = {
 const SubmissionPublicResultsPage = () => {
   const { surveyId } = useParams<SubmissionsPublicResultsParams>();
   const { query } = useQuery({ token: '' });
-  console.log(query);
   const { survey, event } = useFetchedSurvey(
     'submissionPublicResults',
     surveyId,

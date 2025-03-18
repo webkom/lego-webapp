@@ -117,6 +117,14 @@ const MeetingDetails = () => {
     }));
   };
 
+  const templateInvitations = [
+    {
+      name: 'Inviterte Brukere',
+      capacity: meetingInvitations.length,
+      registrations: meetingInvitations,
+    },
+  ];
+
   const [changelogOpen, setChangelogOpen] = useState(false);
   const [_diff, setDiff] = useState('');
 
@@ -167,10 +175,12 @@ const MeetingDetails = () => {
     meeting.reactionsGrouped?.find((reaction) => reaction.emoji === ':pizza:')
       ?.count ?? false;
   const infoItems = [
-    {
-      key: 'Din status',
-      value: statusMe ? statusesText[statusMe] : 'Ukjent',
-    },
+    meeting.isTemplate
+      ? {}
+      : {
+          key: 'Din status',
+          value: statusMe ? statusesText[statusMe] : 'Ukjent',
+        },
     {
       key: 'Når',
       value: <FromToTime from={meeting.startTime} to={meeting.endTime} />,
@@ -207,7 +217,7 @@ const MeetingDetails = () => {
             <div>{urlifyString(meeting.description)}</div>
           )}
           <Flex alignItems="center" gap="var(--spacing-sm)">
-            <h2>Referat</h2>
+            <h2>{meeting.isTemplate ? 'Referatmal' : 'Referat'}</h2>
             {meeting.reportChangelogs?.length > 1 && (
               <Dropdown
                 show={changelogOpen}
@@ -274,11 +284,15 @@ const MeetingDetails = () => {
           <DisplayContent content={meeting.report} />
         </ContentMain>
         <ContentSidebar>
-          {attendanceButtons(statusMe, meeting.startTime)}
+          {!meeting.isTemplate &&
+            attendanceButtons(statusMe, meeting.startTime)}
 
           <InfoList items={infoItems} />
 
-          <Attendance isMeeting pools={sortInvitations()} />
+          <Attendance
+            isMeeting
+            pools={meeting.isTemplate ? templateInvitations : sortInvitations()}
+          />
           {meeting.mazemapPoi && (
             <MazemapAccordion mazemapPoi={meeting.mazemapPoi} />
           )}

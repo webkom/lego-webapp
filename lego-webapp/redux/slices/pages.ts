@@ -1,10 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { groupBy, sortBy, uniqBy } from 'lodash';
+import { sortBy } from 'lodash';
+import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
+import { Dateish } from 'app/models';
 import { Page } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { selectMembershipsForGroup } from '~/redux/slices/memberships';
+import { RoleType } from '~/utils/constants';
+import Membership from '../models/Membership';
+import { PublicUser } from '../models/User';
 import { selectGroupById, selectGroupsByType } from './groups';
 import { selectPaginationNext } from './selectors';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -19,7 +24,6 @@ import type {
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { AuthDetailedPage, DetailedPage } from '~/redux/models/Page';
 import type { RootState } from '~/redux/rootReducer';
-import type { TransformedMembership } from '~/redux/slices/memberships';
 
 const legoAdapter = createLegoAdapter(EntityType.Pages, {
   selectId: (page) => page.slug,
@@ -125,33 +129,54 @@ export const selectFlatpagePage: PageSelector<Flatpage> = createSelector(
   selectPageById,
   (page) => (page && 'content' in page ? { content: page.content } : undefined),
 );
-const separateRoles = [
-  'retiree',
-  'active_retiree',
-  'alumni',
-  'retiree_email',
-  'leader',
-  'co-leader',
-];
-// Map all the other roles as if they were regular members
-const defaultRole = 'member';
 
-const groupMemberships = (
-  memberships: TransformedMembership[],
-  groupId: EntityId,
-) => {
-  // Sort membership so that the membership in the group is ordered before the descendants. When removing duplicates, the
-  // descendant memberships will be removed if there are duplicates
-  const membershipsUniqUsers = uniqBy(
-    sortBy(
-      memberships,
-      (membership) => Number(membership.abakusGroup) !== Number(groupId),
-    ),
-    (membership) => membership.user.id,
+const groupMemberships = (memberships: Membership[], groupId: EntityId) => {
+  // Sort memberships by whether they belong to the given group
+  const sortedMemberships = sortBy(
+    memberships,
+    (m) => Number(m.abakusGroup) !== Number(groupId),
   );
-  return groupBy(sortBy(membershipsUniqUsers, 'user.fullName'), ({ role }) =>
-    separateRoles.includes(role) ? role : defaultRole,
+
+  const membershipMap = new Map();
+
+  for (const membership of sortedMemberships) {
+    if (!membershipMap.has(membership.user)) {
+      membershipMap.set(membership.user, {
+        user: membership.user,
+        roles: new Set([membership.role]),
+        createdAt: membership.createdAt,
+        firstJoinDate: membership.firstJoinDate,
+      });
+    } else {
+      const existing = membershipMap.get(membership.user);
+      existing.roles.add(membership.role);
+
+      if (moment(membership.createdAt) < moment(existing.createdAt)) {
+        existing.createdAt = membership.createdAt;
+      }
+    }
+  }
+
+  const combinedMemberships = Array.from(membershipMap.values()).map(
+    ({
+      user,
+      roles,
+      createdAt,
+      firstJoinDate,
+    }: {
+      user: PublicUser;
+      roles: RoleType[];
+      createdAt: Dateish;
+      firstJoinDate: Dateish;
+    }) => ({
+      user,
+      roles: Array.from(roles),
+      createdAt,
+      firstJoinDate,
+    }),
   );
+
+  return combinedMemberships;
 };
 
 export const selectCommitteePageInfo: PageInfoSelector = createSelector(

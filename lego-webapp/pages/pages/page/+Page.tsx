@@ -7,6 +7,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import moment from 'moment-timezone';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
@@ -45,7 +46,7 @@ import { isNotNullish } from '~/utils';
 import { useParams } from '~/utils/useParams';
 import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type { Thunk } from 'app/types';
 import type { HierarchySectionEntity } from '~/pages/pages/_components/PageHierarchy';
 import type { AppDispatch } from '~/redux/createStore';
@@ -69,56 +70,125 @@ const FlatpageRenderer: PageRenderer<Flatpage> = ({ page }) => (
 
 export type GroupPage = {
   membershipsByRole: {
-    [key: string]: {
-      user: PublicUser;
-      role: RoleType;
-    }[];
-  };
+    user: PublicUser;
+    roles: RoleType[];
+    createdAt: Dateish;
+    firstJoinDate: Dateish;
+  }[];
   text: string;
   name: string;
 };
+
+const rolePriority: Record<RoleType, number> = {
+  leader: 1,
+  'co-leader': 2,
+  member: 3,
+  active_retiree: 4,
+  treasurer: 3,
+  recruiting: 3,
+  development: 3,
+  editor: 3,
+  retiree: 4,
+  media_relations: 3,
+  alumni: 4,
+  webmaster: 3,
+  interest_group_admin: 3,
+  alumni_admin: 3,
+  retiree_email: 4,
+  company_admin: 3,
+  dugnad_admin: 3,
+  trip_admin: 3,
+  sponsor_admin: 3,
+  social_admin: 3,
+  merch_admin: 3,
+  hs_representative: 3,
+  cuddling_manager: 3,
+  photo_admin: 3,
+  graphic_admin: 3,
+  social_media_admin: 3,
+};
+
+const sortMemberships = (
+  a: { roles: RoleType[]; firstJoinDate: Dateish },
+  b: { roles: RoleType[]; firstJoinDate: Dateish },
+) => {
+  const getHighestPriority = (roles: RoleType[]) =>
+    Math.min(...roles.map((role) => rolePriority[role] ?? 3));
+
+  const priorityA = getHighestPriority(a.roles);
+  const priorityB = getHighestPriority(b.roles);
+
+  if (priorityA !== priorityB) {
+    return priorityA - priorityB;
+  }
+
+  return moment(a.firstJoinDate).valueOf() - moment(b.firstJoinDate).valueOf();
+};
+
 const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   const { membershipsByRole, text, name } = page;
-  const {
-    leader: leaders = [],
-    'co-leader': co_leaders = [],
-    member: members = [],
-    active_retiree: activeRetirees = [],
-  } = membershipsByRole;
+  const sortedMemberships = [...membershipsByRole].sort(sortMemberships);
+
+  const leaders = sortedMemberships.filter((membership) =>
+    membership.roles.some((role) => ['leader', 'co-leader'].includes(role)),
+  );
+
+  const retirees = sortedMemberships.filter((membership) =>
+    membership.roles.some((role) =>
+      ['active_retiree', 'retiree', 'alumni', 'retiree_email'].includes(role),
+    ),
+  );
+
+  const leaderIds = new Set(leaders.map((membership) => membership.user.id));
+  const retireeIds = new Set(retirees.map((membership) => membership.user.id));
+
+  const members = sortedMemberships.filter(
+    (membership) =>
+      !leaderIds.has(membership.user.id) && !retireeIds.has(membership.user.id),
+  );
 
   return (
     <article>
       <DisplayContent content={text} />
-      {Object.values(membershipsByRole).some((array) => array.length > 0) && (
+      {sortedMemberships.length > 0 && (
         <>
           <h3 className={styles.heading}>Medlemmer</h3>
-
           <Flex column justifyContent="center">
             <Flex wrap justifyContent="center">
-              {leaders.map(({ user }) => (
+              {leaders.map(({ user, roles }) => (
                 <GroupMember
                   user={user}
+                  roles={roles}
                   key={user.id}
-                  leader
                   groupName={name}
                 />
               ))}
-              {co_leaders.map(({ user }) => (
-                <GroupMember user={user} key={user.id} co_leader />
+            </Flex>
+            <Flex wrap justifyContent="center">
+              {members.map(({ user, roles }) => (
+                <GroupMember
+                  user={user}
+                  roles={roles}
+                  key={user.id}
+                  groupName={name}
+                />
               ))}
             </Flex>
-
-            <div className={styles.members}>
-              {members.map(({ user, role }) => (
-                <GroupMember user={user} role={role} key={user.id} />
-              ))}
-            </div>
-
-            <div className={styles.members}>
-              {activeRetirees.map(({ user }) => (
-                <GroupMember user={user} key={user.id} />
-              ))}
-            </div>
+            {retirees.length > 0 && (
+              <>
+                <h3 className={styles.heading}>Panger</h3>
+                <Flex wrap justifyContent="center">
+                  {retirees.map(({ user, roles }) => (
+                    <GroupMember
+                      user={user}
+                      roles={roles}
+                      key={user.id}
+                      groupName={name}
+                    />
+                  ))}
+                </Flex>
+              </>
+            )}
           </Flex>
         </>
       )}

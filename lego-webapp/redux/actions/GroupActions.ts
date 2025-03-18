@@ -67,6 +67,28 @@ export function removeMember(membership: {
   });
 }
 
+export function editMembership(membership: {
+  id: EntityId;
+  abakusGroup: EntityId;
+  role: RoleType;
+}) {
+  return callAPI({
+    types: Membership.EDIT,
+    endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
+    method: 'PATCH',
+    schema: membershipSchema,
+    body: {
+      role: membership.role,
+    },
+    meta: {
+      id: membership.id,
+      groupId: membership.abakusGroup,
+      errorMessage: 'Endring av medlemskap feilet',
+      successMessage: 'Endring av medlemskap fullført',
+    },
+  });
+}
+
 export function fetchGroup(groupId: EntityId, { propagateError = true } = {}) {
   return callAPI({
     types: Group.FETCH,
