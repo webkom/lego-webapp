@@ -1,6 +1,8 @@
 import type { ComponentType } from 'react';
-import type AggregatedFeedActivity, {
+import AggregatedFeedActivity, {
   FeedActivity,
+  FeedActivityVerb,
+  FeedActivityVerbAttr,
 } from '~/redux/models/FeedActivity';
 
 export type TagProps = {
@@ -11,21 +13,23 @@ export type TagProps = {
 
 export type TagComponent = ComponentType<TagProps>;
 
-type HeaderProps = {
-  aggregatedActivity: AggregatedFeedActivity;
+type HeaderProps<Verb extends FeedActivityVerb> = {
+  aggregatedActivity: AggregatedFeedActivity<Verb>;
   tag: TagComponent;
 };
 
-type ContentProps = {
-  aggregatedActivity: AggregatedFeedActivity;
+type ContentProps<Verb extends FeedActivityVerb> = {
+  aggregatedActivity: AggregatedFeedActivity<Verb>;
   activity: FeedActivity;
 };
 
-type ActivityRenderer = {
-  Header: ComponentType<HeaderProps>;
-  Content: ComponentType<ContentProps>;
+type ActivityRenderer<Verb extends FeedActivityVerb = FeedActivityVerb> = {
+  Header: ComponentType<HeaderProps<Verb>>;
+  Content: ComponentType<ContentProps<Verb>>;
   Icon: ComponentType;
-  getNotificationUrl: (aggregatedActivity: AggregatedFeedActivity) => string;
+  getNotificationUrl: (
+    aggregatedActivity: AggregatedFeedActivity<Verb>,
+  ) => string;
 };
 
 export default ActivityRenderer;
