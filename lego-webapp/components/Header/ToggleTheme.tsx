@@ -1,11 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { debounce } from 'lodash';
 import { MoonStar, Sun } from 'lucide-react';
-import { useCallback } from 'react';
-import { updateUserTheme } from '~/redux/actions/UserActions';
-import { useAppDispatch } from '~/redux/hooks';
-import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
@@ -19,29 +14,14 @@ type Props = {
 };
 
 const ToggleTheme = ({ className, children, isButton = true }: Props) => {
-  const dispatch = useAppDispatch();
-  const loggedIn = useIsLoggedIn();
-  const username = useCurrentUser()?.username;
   const icon = useIcon();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedUpdateUserTheme = useCallback(
-    debounce((username, newTheme) => {
-      dispatch(updateUserTheme(username, newTheme));
-    }, 2000),
-    [dispatch],
-  );
-
-  const handleThemeChange = useCallback(
-    (e: MouseEvent) => {
-      e.preventDefault();
-      const currentTheme = getTheme();
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      applySelectedTheme(newTheme);
-      loggedIn && username && debouncedUpdateUserTheme(username, newTheme);
-    },
-    [loggedIn, username, debouncedUpdateUserTheme],
-  );
+  const handleThemeChange = (e: MouseEvent) => {
+    e.preventDefault();
+    const currentTheme = getTheme();
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applySelectedTheme(newTheme);
+  };
 
   const Component = isButton ? 'button' : 'div';
   return (
