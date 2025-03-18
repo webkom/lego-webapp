@@ -21,6 +21,9 @@ import type {
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { AuthDetailedPage, DetailedPage } from '~/redux/models/Page';
 import type { RootState } from '~/redux/rootReducer';
+import { RoleType } from '~/utils/constants';
+import { PublicUser } from '../models/User';
+import { Dateish } from 'app/models';
 
 const legoAdapter = createLegoAdapter(EntityType.Pages, {
   selectId: (page) => page.slug,
@@ -142,6 +145,7 @@ const groupMemberships = (memberships: Membership[], groupId: EntityId) => {
         user: membership.user,
         roles: new Set([membership.role]),
         createdAt: membership.createdAt,
+        firstJoinDate: membership.firstJoinDate,
       });
     } else {
       const existing = membershipMap.get(membership.user);
@@ -154,10 +158,21 @@ const groupMemberships = (memberships: Membership[], groupId: EntityId) => {
   }
 
   const combinedMemberships = Array.from(membershipMap.values()).map(
-    ({ user, roles, createdAt }) => ({
+    ({
+      user,
+      roles,
+      createdAt,
+      firstJoinDate,
+    }: {
+      user: PublicUser;
+      roles: RoleType[];
+      createdAt: Dateish;
+      firstJoinDate: Dateish;
+    }) => ({
       user,
       roles: Array.from(roles),
       createdAt,
+      firstJoinDate,
     }),
   );
 

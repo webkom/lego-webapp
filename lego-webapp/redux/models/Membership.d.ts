@@ -11,6 +11,7 @@ export default interface Membership {
   isActive: boolean;
   emailListsEnabled: boolean;
   createdAt: Dateish;
+  firstJoinDate: Dateish; //This is the first date the member joined this group based on history
 }
 
 export interface PastMembership extends Membership {

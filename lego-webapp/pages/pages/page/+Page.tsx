@@ -68,6 +68,17 @@ const FlatpageRenderer: PageRenderer<Flatpage> = ({ page }) => (
   </article>
 );
 
+export type GroupPage = {
+  membershipsByRole: {
+    user: PublicUser;
+    roles: RoleType[];
+    createdAt: Dateish;
+    firstJoinDate: Dateish;
+  }[];
+  text: string;
+  name: string;
+};
+
 const rolePriority: Record<RoleType, number> = {
   leader: 1,
   'co-leader': 2,
@@ -77,13 +88,13 @@ const rolePriority: Record<RoleType, number> = {
   recruiting: 3,
   development: 3,
   editor: 3,
-  retiree: 5,
+  retiree: 4,
   media_relations: 3,
-  alumni: 5,
+  alumni: 4,
   webmaster: 3,
   interest_group_admin: 3,
   alumni_admin: 3,
-  retiree_email: 5,
+  retiree_email: 4,
   company_admin: 3,
   dugnad_admin: 3,
   trip_admin: 3,
@@ -98,8 +109,8 @@ const rolePriority: Record<RoleType, number> = {
 };
 
 const sortMemberships = (
-  a: { roles: RoleType[]; createdAt: Dateish },
-  b: { roles: RoleType[]; createdAt: Dateish },
+  a: { roles: RoleType[]; firstJoinDate: Dateish },
+  b: { roles: RoleType[]; firstJoinDate: Dateish },
 ) => {
   const getHighestPriority = (roles: RoleType[]) =>
     Math.min(...roles.map((role) => rolePriority[role] ?? 3));
@@ -111,18 +122,9 @@ const sortMemberships = (
     return priorityA - priorityB;
   }
 
-  return moment(a.createdAt).valueOf() - moment(b.createdAt).valueOf();
+  return moment(a.firstJoinDate).valueOf() - moment(b.firstJoinDate).valueOf();
 };
 
-export type GroupPage = {
-  membershipsByRole: {
-    user: PublicUser;
-    roles: RoleType[];
-    createdAt: Dateish;
-  }[];
-  text: string;
-  name: string;
-};
 const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   const { membershipsByRole, text, name } = page;
   const sortedMemberships = [...membershipsByRole].sort(sortMemberships);
