@@ -51,7 +51,6 @@ export const PizzaAccordion = ({ meeting, meetingInvitations }: Props) => {
       >
         {
           <div>
-            <h3>Pizzaer: {(pizzaUsers.length / 2.67).toFixed(2)}</h3>
             <Flex alignItems="baseline">
               <h3>Skal ha pizza</h3>
               <span className={styles.pizzaCount}>({pizzaUsers.length})</span>
