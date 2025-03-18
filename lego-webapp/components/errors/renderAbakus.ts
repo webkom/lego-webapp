@@ -2,8 +2,13 @@ import c64 from '~/assets/fonts/c64.ttf';
 import pxxl from './pxxl';
 // this ttf is actually a bdf font, but jest doesn't want to import bdf files
 
+type Pixel = {
+  x: number;
+  y: number;
+};
+
 function animateAbakus(
-  canvas,
+  canvas: HTMLCanvasElement,
   {
     radius = 10,
     padding = 6,
@@ -12,7 +17,7 @@ function animateAbakus(
     lineSpacing = 5,
     sideWidth = 10,
     width = 640,
-    PIXELS,
+    PIXELS = [] as Pixel[],
   } = {},
 ) {
   const height = 6 * (2 * radius + padding + lineSpacing) + 2 * offsetY;
@@ -25,7 +30,9 @@ function animateAbakus(
   const d = ((maxX - minX) * (radius * 2 + padding)) / 2 + sideWidth * 2;
   const offsetX = width / 2 - d;
 
-  function draw(time) {
+  if (!context) return;
+
+  const draw = (time) => {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < 7; i++) {
@@ -58,7 +65,7 @@ function animateAbakus(
       context.closePath();
       context.fill();
     });
-  }
+  };
 
   const start = Date.now();
 
@@ -70,8 +77,8 @@ function animateAbakus(
   requestAnimationFrame(render);
 }
 
-const render = (statusCode, canvas) =>
-  pxxl(c64, statusCode, function (pixels) {
+const render = (statusCode: string, canvas: HTMLCanvasElement) =>
+  pxxl(c64, statusCode, function (pixels: Pixel[]) {
     animateAbakus(canvas, {
       PIXELS: pixels,
     });

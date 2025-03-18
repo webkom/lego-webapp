@@ -1,5 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import DisplayContent from '~/components/DisplayContent';
+import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { contextRender } from '../context';
 import { UserActors } from './utils';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
@@ -8,7 +9,7 @@ import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
  * Comments are grouped by the comment target and date.
  * This makes it possible to use the latest activity to generate the header.
  */
-const CommentRenderer: ActivityRenderer = {
+const CommentRenderer: ActivityRenderer<FeedActivityVerb.Comment> = {
   Header: ({ aggregatedActivity, tag: Tag }) => {
     const target =
       aggregatedActivity.context[aggregatedActivity.lastActivity.target];

@@ -1,13 +1,14 @@
 import { Icon } from '@webkom/lego-bricks';
 import { GroupType } from 'app/models';
 import DisplayContent from '~/components/DisplayContent';
+import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { contextRender } from '../context';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
 /**
  * Grouped by object...
  */
-const GroupJoinRenderer: ActivityRenderer = {
+const GroupJoinRenderer: ActivityRenderer<FeedActivityVerb.GroupJoin> = {
   Header: ({ aggregatedActivity, tag: Tag }) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const actor = aggregatedActivity.context[latestActivity.actor];

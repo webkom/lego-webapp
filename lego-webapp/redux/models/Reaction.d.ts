@@ -15,6 +15,6 @@ export interface ReactionsGrouped {
   unicodeString: string;
   count: number;
   hasReacted: boolean;
-  reactionId?: EntityId;
+  reactionId: EntityId;
   users?: PublicUser[];
 }
