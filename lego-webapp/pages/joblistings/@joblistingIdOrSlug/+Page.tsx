@@ -188,11 +188,6 @@ const JoblistingDetail = () => {
             </LinkButton>
           )}
 
-          <ShareButton
-            title={'Del jobbannonse'}
-            url={`${appConfig?.webUrl}/joblistings/${joblisting?.id}`}
-          />
-
           {(joblisting.responsible || joblisting.contactMail) && (
             <div>
               <h3>Kontaktinfo</h3>
@@ -241,6 +236,11 @@ const JoblistingDetail = () => {
               </Flex>
             </div>
           )}
+
+          <ShareButton
+            title={'Del jobbannonse'}
+            url={`${appConfig?.webUrl}/joblistings/${joblisting?.id}`}
+          />
 
           {(canEdit || canDelete) && (
             <div>
