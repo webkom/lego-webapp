@@ -122,7 +122,7 @@ const JoblistingsPage = () => {
         )
       }
     >
-      <Helmet title="Karriere" />
+      <Helmet title="Huzzle Season💼" />
       <JoblistingsList
         joblistings={joblistings}
         totalCount={unsortedJoblistings.length}

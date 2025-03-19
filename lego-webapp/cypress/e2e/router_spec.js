@@ -34,7 +34,7 @@ describe('Navigate throughout app', () => {
     cy.visit('/');
     cy.waitForHydration();
     cy.get(c('navigation')).within(() => {
-      cy.contains('Karriere').click();
+      cy.contains('Huzzle Season💼').click();
     });
     cy.url().should('contain', '/joblistings');
     cy.contains('Jobbannonser');
@@ -198,7 +198,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Generelt');
 
     // Quotes
-    openMenuAndSelect('Overhørt', '/quotes');
+    openMenuAndSelect('👀 🤫OVERHØRT🗣️🦻😬', '/quotes');
     cy.contains('Just do it!');
 
     // Forum

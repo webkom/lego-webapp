@@ -127,7 +127,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'quotes',
-    title: 'Overhørt',
+    title: '👀 🤫OVERHØRT🗣️🦻😬',
     icon: sample([
       <MessageCircleWarning key="1" />,
       <MessageCircleHeart key="2" />,
