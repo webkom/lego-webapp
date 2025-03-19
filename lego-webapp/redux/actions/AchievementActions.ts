@@ -33,7 +33,7 @@ export function postGettingWood() {
     types: Achievement.CREATE,
     meta: {
       errorMessage: 'Oppretting av trofé feilet.',
-      successMessage: 'Trofé oppnådd: "Skaffe tre"',
+      successMessage: 'Trofe oppnådd: "Skaffe tre"',
     },
   });
 }
@@ -45,8 +45,8 @@ export function postKeypress({ code }: { code: number[] }) {
     body: { code },
     types: Achievement.CREATE,
     meta: {
-      errorMessage: 'Oppretting av trofé feilet.',
-      successMessage: 'Trofé oppnådd: "Powermode activated!"',
+      errorMessage: 'Oppretting av trofe feilet.',
+      successMessage: 'Trofe oppnådd: "Powermode activated!"',
     },
   });
 }
