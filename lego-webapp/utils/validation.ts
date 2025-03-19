@@ -6,7 +6,7 @@ import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
   message?: string,
-) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
+) => (value: T, context: C) => Readonly<[false, string] | [true, string?]>;
 
 type AsyncValidator<T = any, C = any> = (
   message?: string,
@@ -55,8 +55,13 @@ export const conditionalValidation = (conditionalFn, validationFnGenerator) => {
   };
 };
 
-export const atLeastOneFieldRequired =
-  (fieldNames: string[], message = 'Du må fylle ut minst ett felt') =>
+export const atLeastOneFieldRequired: (
+  fieldNames: string[],
+  message?: string,
+) => ReturnType<
+  Validator<unknown, Record<string, string | string[] | undefined>>
+> =
+  (fieldNames, message = 'Du må fylle ut minst ett felt') =>
   (_, allValues) => {
     const hasAtLeastOneValue = fieldNames.some((fieldName) => {
       const value = allValues[fieldName];
