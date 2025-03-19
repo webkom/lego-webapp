@@ -1,14 +1,10 @@
 import { Flex } from '@webkom/lego-bricks';
-import cx from 'classnames';
-import { Trophy } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import AchievementsInfo, {
-  rarityToColorMap,
-} from '~/utils/achievementConstants';
+import AchievementsInfo from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
 import styles from './Overview.module.css';
 
@@ -78,27 +74,11 @@ const Overview = () => {
     <ContentMain>
       <Flex className={styles.listWrapper}>
         {sortedTrophies.map((e) => (
-          <Flex className={cx(styles.listItem)} key={e.name + e.rarity}>
-            <Trophy
-              size={40}
-              color={
-                rarityToColorMap[
-                  AchievementsInfo[e.identifier][e.level].rarity
-                ] ?? 'Gold'
-              }
-              style={
-                AchievementsInfo[e.identifier][e.level].rarity >= 4
-                  ? {
-                      filter: `drop-shadow(0px 0px ${
-                        AchievementsInfo[e.identifier][e.level].rarity - 1
-                      }px ${
-                        rarityToColorMap[
-                          AchievementsInfo[e.identifier][e.level].rarity
-                        ]
-                      })`,
-                    }
-                  : {}
-              }
+          <Flex className={styles.listItem} key={e.name + e.rarity}>
+            <img
+              src={AchievementsInfo[e.identifier][e.level].image ?? ''}
+              alt="Trofe"
+              className={styles.trophyImage}
             />
             <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
               <h3>{e.name}</h3>
