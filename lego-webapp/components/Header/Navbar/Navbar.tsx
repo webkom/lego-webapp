@@ -33,7 +33,7 @@ const Navbar = () => {
       visibility: 'always',
     },
     {
-      title: 'Karriere',
+      title: 'Huzzle Season💼',
       to: '/joblistings',
       dropdown: <CareerDropdown />,
       visibility: 'logged-in-only',

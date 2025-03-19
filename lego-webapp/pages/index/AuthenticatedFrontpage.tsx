@@ -287,7 +287,7 @@ const PollItem = () => {
 const QuoteItem = () => (
   <Flex column className={styles.quote}>
     <a href="/quotes">
-      <h3 className={utilStyles.frontPageHeader}>Overhørt</h3>
+      <h3 className={utilStyles.frontPageHeader}>👀 🤫OVERHØRT🗣️🦻😬</h3>
     </a>
 
     <RandomQuote />
