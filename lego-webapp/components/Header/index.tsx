@@ -113,12 +113,12 @@ const HeaderLogo = () => {
       <LoadingIndicator loading={loading}>
         <div className={styles.logo}>
           <Image
-            src="/logo-dark.png"
+            src="/logo-cuz-deepfried-dark.png"
             className={styles.logoLightMode}
             alt="Abakus sin logo"
           />
           <Image
-            src="/logo.png"
+            src="/logo-cuz-deepfried.png"
             className={styles.logoDarkMode}
             alt="Abakus sin logo"
           />
