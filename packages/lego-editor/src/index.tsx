@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import cx from 'classnames';
 import { Figure } from './extensions/figure';
 import { ImageWithFileKey } from './extensions/image.ts';
+import { Link } from '@tiptap/extension-link';
 
 export type ImageUploadFn = (
   file: File,
@@ -29,6 +30,12 @@ const extensions = [
   Underline,
   ImageWithFileKey,
   Figure,
+  Link.configure({
+    openOnClick: false,
+    autolink: true,
+    defaultProtocol: 'https',
+    protocols: ['http', 'https', 'mailto'],
+  }),
 ];
 
 export const Editor = ({
@@ -74,7 +81,7 @@ export const Editor = ({
 
   return (
     <div className={cx(styles.container, className)}>
-      <Toolbar editor={editor} imageUpload={imageUpload} />
+      <Toolbar editor={editor} disabled={disabled} imageUpload={imageUpload} />
       <TipTapEditorContent editor={editor} className={styles.content} />
     </div>
   );

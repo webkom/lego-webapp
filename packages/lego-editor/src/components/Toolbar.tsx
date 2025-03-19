@@ -18,6 +18,7 @@ import {
   Strikethrough,
   Underline,
   Image,
+  Link,
 } from 'lucide-react';
 import { ImageUploadModal } from './ImageUploadModal';
 import { ImageUploadFn } from '../index';
@@ -52,16 +53,22 @@ const ToolbarButton = ({
 
 type ImageUploadButtonProps = {
   editor: Editor;
+  disabled?: boolean;
   imageUpload: ImageUploadFn;
 };
 
-const ImageUploadButton = ({ editor, imageUpload }: ImageUploadButtonProps) => {
+const ImageUploadButton = ({
+  editor,
+  disabled,
+  imageUpload,
+}: ImageUploadButtonProps) => {
   const [imageUploadModalOpen, setImageUploadModalOpen] = useState(false);
 
   return (
     <>
       <ToolbarButton
         onClick={() => setImageUploadModalOpen(true)}
+        disabled={disabled}
         active={editor.isActive('image')}
       >
         <Image size={18} />
@@ -76,12 +83,48 @@ const ImageUploadButton = ({ editor, imageUpload }: ImageUploadButtonProps) => {
   );
 };
 
+type ToolbarLinkButtonProps = {
+  editor: Editor;
+  disabled?: boolean;
+};
+
+const parseUrl = (url: string) =>
+  url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')
+    ? url
+    : `https://${url}`;
+
+const ToolbarLinkButton = ({ editor, disabled }: ToolbarLinkButtonProps) => {
+  return (
+    <ToolbarButton
+      onClick={() => {
+        if (editor.isActive('link')) {
+          editor.chain().focus().unsetLink().run();
+          return;
+        } else {
+          const url = window.prompt('Enter the URL');
+          if (!url) return;
+          editor
+            .chain()
+            .focus()
+            .setLink({ href: parseUrl(url) })
+            .run();
+        }
+      }}
+      disabled={disabled}
+      active={editor.isActive('link')}
+    >
+      <Link size={18} />
+    </ToolbarButton>
+  );
+};
+
 type Props = {
   editor: Editor | null;
+  disabled?: boolean;
   imageUpload: ImageUploadFn;
 };
 
-const Toolbar = ({ editor, imageUpload }: Props): ReactNode => {
+const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
   if (!editor) {
     return null;
   }
@@ -90,89 +133,106 @@ const Toolbar = ({ editor, imageUpload }: Props): ReactNode => {
     <div className={styles.root}>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+        disabled={disabled}
         active={editor.isActive('heading', { level: 1 })}
       >
         <Heading1 size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+        disabled={disabled}
         active={editor.isActive('heading', { level: 2 })}
       >
         <Heading2 size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+        disabled={disabled}
         active={editor.isActive('heading', { level: 3 })}
       >
         <Heading3 size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+        disabled={disabled}
         active={editor.isActive('heading', { level: 4 })}
       >
         <Heading4 size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBold().run()}
+        disabled={disabled}
         active={editor.isActive('bold')}
       >
         <Bold size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleItalic().run()}
+        disabled={disabled}
         active={editor.isActive('italic')}
       >
         <Italic size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleUnderline().run()}
+        disabled={disabled}
         active={editor.isActive('underline')}
       >
         <Underline size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleStrike().run()}
+        disabled={disabled}
         active={editor.isActive('strike')}
       >
         <Strikethrough size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleCode().run()}
+        disabled={disabled}
         active={editor.isActive('code')}
       >
         <Code size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        disabled={disabled}
         active={editor.isActive('codeBlock')}
       >
         <Code2 size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleBulletList().run()}
+        disabled={disabled}
         active={editor.isActive('bulletList')}
       >
         <List size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
+        disabled={disabled}
         active={editor.isActive('orderedList')}
       >
         <ListOrdered size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().sinkListItem('listItem').run()}
-        disabled={!editor.can().sinkListItem('listItem')}
+        disabled={disabled || !editor.can().sinkListItem('listItem')}
       >
         <Indent size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().liftListItem('listItem').run()}
-        disabled={!editor.can().liftListItem('listItem')}
+        disabled={disabled || !editor.can().liftListItem('listItem')}
       >
         <Outdent size={18} />
       </ToolbarButton>
-      <ImageUploadButton editor={editor} imageUpload={imageUpload} />
+      <ToolbarLinkButton editor={editor} disabled={disabled} />
+      <ImageUploadButton
+        editor={editor}
+        disabled={disabled}
+        imageUpload={imageUpload}
+      />
     </div>
   );
 };

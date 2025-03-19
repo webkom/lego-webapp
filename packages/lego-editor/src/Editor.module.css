@@ -42,10 +42,6 @@
     pointer-events: none;
   }
 
-  a {
-    cursor: text;
-  }
-
   code {
     background-color: var(--additive-background);
     border-radius: var(--border-radius-sm);

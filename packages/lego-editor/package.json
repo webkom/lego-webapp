@@ -42,6 +42,7 @@
   "dependencies": {
     "@tiptap/core": "^2.11.5",
     "@tiptap/extension-image": "^2.11.5",
+    "@tiptap/extension-link": "^2.11.5",
     "@tiptap/extension-placeholder": "^2.9.1",
     "@tiptap/extension-underline": "^2.9.1",
     "@tiptap/html": "^2.9.1",
