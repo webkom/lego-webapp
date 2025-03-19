@@ -5,6 +5,7 @@ packages:
 catalog:
   "@types/react": ^18.3.18
   "@types/react-dom": ^18.3.5
+  classnames: ^2.5.1
   eslint: ^9.20.1
   lucide-react: ^0.483.0
   react-aria-components: ^1.7.1
