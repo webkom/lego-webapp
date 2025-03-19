@@ -70,12 +70,15 @@ export const atLeastOneFieldRequired: (
     return [hasAtLeastOneValue, message] as const;
   };
 
-export const legoEditorRequired =
+export const legoEditorRequired: Validator<string | undefined> =
   (message = 'Feltet må fylles ut') =>
   (value) =>
     [!!value && value !== EDITOR_EMPTY, message] as const;
 
-export const maxLength =
+export const maxLength: (
+  length: number,
+  message?: string,
+) => ReturnType<Validator<string | undefined>> =
   (length, message = `Kan ikke være lengre enn ${length} tegn`) =>
   (value) =>
     [!value || value.length < length, message] as const;
