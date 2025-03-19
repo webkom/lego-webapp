@@ -187,16 +187,16 @@ const Events = ({
       <Flex column gap="var(--spacing-md)">
         {fetching && !shownEvents.length
           ? Array.from({ length: EVENTS_TO_SHOW }).map((_, index) => (
-              <FrontpageEventItem key={index} url="" meta={<></>} />
-            ))
+            <FrontpageEventItem key={index} url="" meta={<></>} />
+          ))
           : shownEvents.map((event) => (
-              <FrontpageEventItem
-                key={event.id}
-                item={event}
-                url={itemUrl(event)}
-                meta={renderMeta(event)}
-              />
-            ))}
+            <FrontpageEventItem
+              key={event.id}
+              item={event}
+              url={itemUrl(event)}
+              meta={renderMeta(event)}
+            />
+          ))}
       </Flex>
     </Flex>
   );
@@ -214,10 +214,10 @@ const Weekly = () => {
     () =>
       weeklyArticles.length
         ? addArticleType(
-            weeklyArticles.sort((a, b) =>
-              moment(b.createdAt).diff(moment(a.createdAt)),
-            )[0],
-          )
+          weeklyArticles.sort((a, b) =>
+            moment(b.createdAt).diff(moment(a.createdAt)),
+          )[0],
+        )
         : undefined,
     [weeklyArticles],
   );
@@ -274,16 +274,16 @@ const Articles = ({
       <Flex column gap="var(--spacing-md)">
         {fetching && !shownArticles.length
           ? Array.from({ length: ARTICLES_TO_SHOW }).map((_, index) => (
-              <ArticleItem key={index} url="" meta={<></>} />
-            ))
+            <ArticleItem key={index} url="" meta={<></>} />
+          ))
           : shownArticles.map((article) => (
-              <ArticleItem
-                key={article.id}
-                item={article}
-                url={itemUrl(article)}
-                meta={renderMeta(article)}
-              />
-            ))}
+            <ArticleItem
+              key={article.id}
+              item={article}
+              url={itemUrl(article)}
+              meta={renderMeta(article)}
+            />
+          ))}
       </Flex>
     </Flex>
   );
