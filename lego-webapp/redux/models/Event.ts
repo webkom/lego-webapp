@@ -80,6 +80,7 @@ export interface CompleteEvent {
   isForeignLanguage: boolean;
   unregistered: EntityId[];
   userReg?: ReadRegistration;
+  showCompanyDescription: boolean;
 
   // for survey
   attendedCount: number;
@@ -136,6 +137,7 @@ export type ListEvent = Pick<
   | 'responsibleUsers'
   | 'actionGrant'
   | 'userReg'
+  | 'showCompanyDescription'
 > &
   ObjectPermissionsMixin;
 
@@ -189,6 +191,7 @@ export type DetailedEvent = Pick<
   | 'isForeignLanguage'
   | 'actionGrant'
   | 'isAdmitted'
+  | 'showCompanyDescription'
 > &
   ObjectPermissionsMixin;
 

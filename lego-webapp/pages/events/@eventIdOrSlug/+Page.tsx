@@ -212,6 +212,12 @@ const EventDetail = () => {
               ))}
             </Flex>
           )}
+          <Flex column>
+            <h3>Om bedriften</h3>
+            {event?.showCompanyDescription && event.company && (
+              <>{event.company?.description}</>
+            )}
+          </Flex>
         </ContentMain>
 
         <ContentSidebar>

@@ -1,6 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { EditorField, TextEditor } from '~/components/Form';
+import { CheckBox, EditorField, TextEditor } from '~/components/Form';
 import Tag from '~/components/Tags/Tag';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';
@@ -29,6 +29,12 @@ const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
         className={styles.descriptionEditor}
         uploadFile={uploadFile}
         required
+      />
+      <Field
+        label="Vis bedriftsbeskrivelse på arrangement"
+        name="showCompanyDescription"
+        component={CheckBox.Field}
+        type="checkbox"
       />
       {values.tags?.length > 0 && (
         <Flex className={styles.tagRow}>
