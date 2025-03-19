@@ -40,6 +40,7 @@ import ModalVideoPlayer, {
   SubwaySurfers,
 } from '~/components/ModalVideoPlayer';
 import { Modal } from 'react-overlays';
+import SimpleImageReplacer from '~/components/SimpleImageReplacer';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -151,6 +152,7 @@ const AuthenticatedFrontpage = () => {
           scrollToTop={scrollToTop}
         />
       </PageContainer>
+      <SimpleImageReplacer />
     </>
   );
 };

@@ -1,0 +1,45 @@
+/* ...existing styles... */
+
+.feedbackQuestionsSection {
+  margin-top: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid var(--border-gray);
+}
+
+.feedbackQuestionContainer {
+  margin-bottom: var(--spacing-md);
+}
+
+.feedbackQuestionLabel {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--spacing-xs);
+}
+
+.requiredMark {
+  color: var(--danger-color);
+  margin-left: var(--spacing-xs);
+}
+
+.checkboxGroup, .radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding-left: var(--spacing-sm);
+}
+
+.radioGroup > * {
+  margin-bottom: var(--spacing-xs);
+}
+
+/* For horizontal radio layouts on wider screens */
+@media (min-width: 600px) {
+  .radioGroup.horizontal {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .radioGroup.horizontal > * {
+    margin-right: var(--spacing-md);
+  }
+}
