@@ -147,13 +147,16 @@ steps:
       - redis
       - api
     volumes:
-      - name: yarn_cache
-        path: /tmp/cache
+      - name: pnpm-store
+        path: /drone/src/.pnpm-store
     environment:
       CYPRESS_INSTALL_BINARY: 0
     commands:
       - apk --no-cache add curl
-      - yarn --frozen-lockfile --cache-folder /tmp/cache
+      - npm i -g corepack
+      - corepack enable
+      - pnpm config set store-dir .pnpm-store
+      - pnpm install --frozen-lockfile
 
   - name: build
     image: node:20-alpine
@@ -164,7 +167,9 @@ steps:
     depends_on:
       - setup
     commands:
-      - yarn build
+      - npm i -g corepack
+      - corepack enable
+      - pnpm build
 
   - name: test
     image: node:20-alpine
@@ -175,7 +180,9 @@ steps:
     depends_on:
       - setup
     commands:
-      - yarn test
+      - npm i -g corepack
+      - corepack enable
+      - pnpm test
 
   - name: lint
     image: node:20-alpine
@@ -186,7 +193,9 @@ steps:
     depends_on:
       - setup
     commands:
-      - yarn lint
+      - npm i -g corepack
+      - corepack enable
+      - pnpm lint
 
   - name: typescript
     image: node:20-slim
@@ -197,7 +206,9 @@ steps:
     depends_on:
       - setup
     commands:
-      - yarn types
+      - npm i -g corepack
+      - corepack enable
+      - pnpm types
     failure: ignore
 
   - name: install_cypress
@@ -211,7 +222,9 @@ steps:
     environment:
       CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
     commands:
-      - yarn workspace lego-webapp cypress install
+      - npm i -g corepack
+      - corepack enable
+      - pnpm --filter lego-webapp exec cypress install
 
   - name: frontend
     image: node:20-alpine
@@ -228,7 +241,9 @@ steps:
       WS_URL: ws://api:8000
       ENVIRONMENT: ci
     commands:
-      - yarn workspace lego-webapp preview
+      - npm i -g corepack
+      - corepack enable
+      - pnpm --filter lego-webapp preview
 
   - name: cypress
     image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
@@ -253,7 +268,9 @@ steps:
     commands:
       - ./wait-for-it.sh -t 180 frontend:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn workspace lego-webapp cypress run --record
+      - npm i -g corepack
+      - corepack enable
+      - pnpm --filter lego-webapp exec cypress run --record
 
   - name: docker
     image: plugins/docker
@@ -315,13 +332,13 @@ steps:
         - build
 
 volumes:
-  - name: yarn_cache
+  - name: pnpm-store
     host:
-      path: /tmp/drone-cache/yarn
+      path: /tmp/drone-cache/pnpm
 
 image_pull_secrets:
   - dockerconfigjson
 
 ---
 kind: signature
-hmac: 1f637c635932b8fe0fb1eb246ac53a05e18bd98a537d9f600aecb2701667773c
+hmac: a95a62f4328792b24179fb0d7e53961e15c410622f6cad6b359c0abe25bd9c1c
