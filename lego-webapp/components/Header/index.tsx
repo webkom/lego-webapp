@@ -174,7 +174,9 @@ const Header = () => {
         ? getTheme() !== getOSTheme()
         : getTheme() !== currentUser.selectedTheme)
     ) {
-      applySelectedTheme(currentUser.selectedTheme || 'light');
+      applySelectedTheme(currentUser.selectedTheme || 'light', {
+        updateUserTheme: false,
+      });
     }
   }, [loggedIn, currentUser]);
 
