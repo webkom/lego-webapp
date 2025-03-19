@@ -17,8 +17,10 @@ import { useAppDispatch } from '~/redux/hooks';
 import { addToast } from '~/redux/slices/toasts';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { createValidator, required } from '~/utils/validation';
 import styles from '../Quotes.module.css';
+import eggNull from "./egg.png";
 import type { ContentTarget } from '~/utils/contentTarget';
 
 type FormValues = {
@@ -38,6 +40,7 @@ const validate = createValidator({
 
 const AddQuote = () => {
   const dispatch = useAppDispatch();
+  const showEgg = useFeatureFlag("easter2025"); 
 
   const removeUnnecessaryDash = (source: string) => {
     const dashIndex = source.indexOf('-');
@@ -121,6 +124,8 @@ const AddQuote = () => {
                     useReactions={false}
                   />
                 ))}
+
+              {showEgg && <img src={eggNull} alt="Easter egg"/>}
               </div>
             </div>
           </ContentMain>
