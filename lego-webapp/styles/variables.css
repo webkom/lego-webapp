@@ -1,7 +1,10 @@
 :root {
   color-scheme: light;
 
-  --lego-brainrot-background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.679));
+  --lego-brainrot-background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.679)
+  );
   --lego-background-color: #f8f9fa;
   --lego-card-color: #fff;
 
@@ -126,10 +129,10 @@
   --spacing-xl: 2rem;
 
   --font-size-xs: 0.84rem;
-    --font-size-sm: 1.05rem;
-    --font-size-md: 1.2rem;
-    --font-size-lg: 1.35rem;
-    --font-size-xl: 2.25rem;
+  --font-size-sm: 1.05rem;
+  --font-size-md: 1.2rem;
+  --font-size-lg: 1.35rem;
+  --font-size-xl: 2.25rem;
 
   --border-radius-sm: 0.3rem;
   --border-radius-md: 0.5rem;
@@ -165,7 +168,10 @@
 
 [data-theme='dark'] {
   color-scheme: dark;
-  --lego-brainrot-background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.679));
+  --lego-brainrot-background: linear-gradient(
+    rgba(0, 0, 0, 0.9),
+    rgba(0, 0, 0, 0.679)
+  );
   --lego-background-color: #0d0d0d;
   --lego-card-color: #222;
 

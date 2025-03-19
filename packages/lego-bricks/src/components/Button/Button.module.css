@@ -9,8 +9,8 @@
   --button-success-background-active: var(--color-green-9);
   --button-success-box-shadow-focus: #2c974b44;
   --button-crazy-border: 5px dashed pink;
-    --button-crazy-shadow: 0 0 10px 5px yellow;
-    --button-crazy-transform: rotate(10deg) scale(1.1);
+  --button-crazy-shadow: 0 0 10px 5px yellow;
+  --button-crazy-transform: rotate(10deg) scale(1.1);
 }
 
 [data-theme='dark'] {
@@ -35,19 +35,22 @@
   width: fit-content;
   padding: 0 var(--spacing-md);
   font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-weight: 900;
+  font-weight: 900;
   background-color: var(--button-background);
   color: var(--button-color);
   outline: none;
   cursor: pointer;
   border-radius: 50%;
   transition: var(--easing-fast);
-  transition-property: transform, color, background-color, border-color, box-shadow, opacity;
-    box-shadow: var(--button-crazy-shadow);
-    transform: var(--button-crazy-transform);
+  transition-property:
+    transform, color, background-color, border-color, box-shadow, opacity;
+  box-shadow: var(--button-crazy-shadow);
+  transform: var(--button-crazy-transform);
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 1.5px var(--lego-font-color), var(--button-crazy-shadow);
+    box-shadow:
+      0 0 0 1.5px var(--lego-font-color),
+      var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
@@ -94,7 +97,9 @@
   }
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus), var(--button-crazy-shadow);
+    box-shadow:
+      0 0 0 3px var(--button-dark-box-shadow-focus),
+      var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
@@ -144,7 +149,9 @@
   box-shadow: none;
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 3px var(--button-success-box-shadow-focus), var(--button-crazy-shadow);
+    box-shadow:
+      0 0 0 3px var(--button-success-box-shadow-focus),
+      var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
@@ -180,7 +187,9 @@
   --button-color: var(--lego-font-color);
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus), var(--button-crazy-shadow);
+    box-shadow:
+      0 0 0 3px var(--button-dark-box-shadow-focus),
+      var(--button-crazy-shadow);
   }
 
   &[data-hovered] {

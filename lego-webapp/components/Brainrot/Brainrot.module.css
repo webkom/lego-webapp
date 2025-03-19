@@ -1,71 +1,75 @@
 .brainrotButtonContainer {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  background-color: #ff00ff;
+  /* Bright magenta background */
+  border: 5px dashed #00ff00;
+  /* Green dashed border */
+  transform: rotate(-5deg);
+  /* Slightly rotated */
+  box-shadow:
+    0 0 10px #0000ff,
+    0 0 20px #ff0000,
+    0 0 30px #00ff00;
+  /* Multiple colored shadows */
+  animation:
+    brainrotAnimation 2s infinite alternate,
+    colorChange 3s infinite alternate;
+  /* Animation */
+}
+
+@keyframes brainrotAnimation {
+  0% {
+    transform: rotate(-5deg) scale(1);
+  }
+
+  100% {
+    transform: rotate(5deg) scale(1.1);
+  }
+}
+
+@keyframes colorChange {
+  0% {
     background-color: #ff00ff;
-        /* Bright magenta background */
-        border: 5px dashed #00ff00;
-        /* Green dashed border */
-        transform: rotate(-5deg);
-        /* Slightly rotated */
-        box-shadow: 0 0 10px #0000ff, 0 0 20px #ff0000, 0 0 30px #00ff00;
-        /* Multiple colored shadows */
-        animation: brainrotAnimation 2s infinite alternate, colorChange 3s infinite alternate;
-        /* Animation */
-    }
-    
-    @keyframes brainrotAnimation {
-        0% {
-            transform: rotate(-5deg) scale(1);
-        }
-    
-        100% {
-            transform: rotate(5deg) scale(1.1);
-        }
-    }
-    
-    @keyframes colorChange {
-        0% {
-            background-color: #ff00ff;
-            border-color: #00ff00;
-        }
-    
-        50% {
-            background-color: #00ff00;
-            border-color: #ff00ff;
-        }
-    
-        100% {
-            background-color: #ff00ff;
-            border-color: #00ff00;
-        }
-    }
-    
-    .brainrotButton {
-        background-color: #ff00ff;
-        color: #00ff00;
-        border: 2px solid #0000ff;
-        padding: 0.5rem 1rem;
-        font-size: 1.2rem;
-        cursor: pointer;
-        animation: buttonAnimation 1.5s infinite alternate;
-    }
-    
-    @keyframes buttonAnimation {
-        0% {
-            transform: scale(1);
-            box-shadow: 0 0 5px #ff00ff;
-        }
-    
-        100% {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px #00ff00;
-        }
-    }
-    
-    
-    .brainrotButtonText {
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-transform: uppercase;
+    border-color: #00ff00;
+  }
+
+  50% {
+    background-color: #00ff00;
+    border-color: #ff00ff;
+  }
+
+  100% {
+    background-color: #ff00ff;
+    border-color: #00ff00;
+  }
+}
+
+.brainrotButton {
+  background-color: #ff00ff;
+  color: #00ff00;
+  border: 2px solid #0000ff;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  animation: buttonAnimation 1.5s infinite alternate;
+}
+
+@keyframes buttonAnimation {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px #ff00ff;
+  }
+
+  100% {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #00ff00;
+  }
+}
+
+.brainrotButtonText {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
 }
