@@ -11,7 +11,7 @@ export default {
     '/interestgroups': '/interest-groups',
     '/admin/email': '/admin/email/lists',
     // Old emails used this url for some reason
-    '/185f9aa436cf7f5da598.png': '/logo-dark.png',
+    '/185f9aa436cf7f5da598.png': '/logo-cuz-deepfried-dark.png',
   },
 
   passToClient: ['storeInitialState'],
