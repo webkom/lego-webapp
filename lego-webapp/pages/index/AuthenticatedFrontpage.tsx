@@ -33,6 +33,7 @@ import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
+import BrainrotButton from '~/components/Brainrot/BrainrotButton';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -90,6 +91,7 @@ const AuthenticatedFrontpage = () => {
 
   return (
     <PageContainer card={false}>
+      <BrainrotButton></BrainrotButton>
       <Helmet title="Hjem" />
       {currentPrivateBanner && (
         <Banner
@@ -286,7 +288,7 @@ const PollItem = () => {
 const QuoteItem = () => (
   <Flex column className={styles.quote}>
     <a href="/quotes">
-      <h3 className={utilStyles.frontPageHeader}>👀 🤫OVERHØRT🗣️🦻😬</h3>
+      <h3 className={utilStyles.frontPageHeader}>👀 🤫OVERHØRT🗣️🦻💦</h3>
     </a>
 
     <RandomQuote />
