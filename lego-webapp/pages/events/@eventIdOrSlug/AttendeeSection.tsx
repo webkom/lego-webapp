@@ -16,6 +16,69 @@ import type {
   PoolRegistrationWithUser,
 } from '~/redux/slices/events';
 
+// Import necessary components for feedback questions
+import { Field } from 'react-final-form';
+import { TextInput, CheckBox, RadioButton } from '~/components/Form';
+import styles from './AttendeeSection.module.css';
+
+// Add new component for rendering feedback questions
+const FeedbackQuestionField = ({ question, name }) => {
+  switch (question.type) {
+    case 'text':
+      return (
+        <Field
+          name={`${name}.${question.id}`}
+          label={question.text}
+          required={question.required}
+          component={TextInput.Field}
+          placeholder="Ditt svar..."
+        />
+      );
+      
+    case 'checkboxes':
+      return (
+        <div className={styles.feedbackQuestionContainer}>
+          <label className={styles.feedbackQuestionLabel}>
+            {question.text} {question.required && <span className={styles.requiredMark}>*</span>}
+          </label>
+          <div className={styles.checkboxGroup}>
+            {question.options.map((option, i) => (
+              <Field
+                key={i}
+                name={`${name}.${question.id}.${i}`}
+                component={CheckBox.Field}
+                label={option}
+              />
+            ))}
+          </div>
+        </div>
+      );
+      
+    case 'radio':
+      return (
+        <div className={styles.feedbackQuestionContainer}>
+          <label className={styles.feedbackQuestionLabel}>
+            {question.text} {question.required && <span className={styles.requiredMark}>*</span>}
+          </label>
+          <div className={styles.radioGroup}>
+            {question.options.map((option, i) => (
+              <Field
+                key={i}
+                name={`${name}.${question.id}`}
+                component={RadioButton.Field}
+                value={option}
+                label={option}
+              />
+            ))}
+          </div>
+        </div>
+      );
+      
+    default:
+      return null;
+  }
+};
+
 const MIN_USER_GRID_ROWS = 2;
 const MAX_USER_GRID_ROWS = 2;
 
@@ -51,6 +114,11 @@ export const AttendeeSection = ({
   // The UserGrid is expanded when there's less than 5 minutes till activation
   const minUserGridRows =
     event && fiveMinutesBeforeActivation ? MIN_USER_GRID_ROWS : 0;
+    
+  // Parse feedback questions from event
+  const feedbackQuestions = event?.feedbackQuestionsList 
+    ? JSON.parse(event.feedbackQuestionsList) 
+    : [];
 
   return (
     <Flex column>
@@ -70,16 +138,32 @@ export const AttendeeSection = ({
         (showSkeleton || !event ? (
           <RegistrationMetaSkeleton />
         ) : (
-          <RegistrationMeta
-            useConsent={event.useConsent}
-            fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
-            photoConsents={event.photoConsents}
-            eventSemester={getEventSemesterFromStartTime(event.startTime)}
-            hasEnded={moment(event.endTime).isBefore(currentMoment)}
-            registration={currentRegistration}
-            isPriced={event.isPriced}
-            waitingListPosition={waitingListPosition}
-          />
+          <>
+            <RegistrationMeta
+              useConsent={event.useConsent}
+              fiveMinutesBeforeActivation={fiveMinutesBeforeActivation}
+              photoConsents={event.photoConsents}
+              eventSemester={getEventSemesterFromStartTime(event.startTime)}
+              hasEnded={moment(event.endTime).isBefore(currentMoment)}
+              registration={currentRegistration}
+              isPriced={event.isPriced}
+              waitingListPosition={waitingListPosition}
+            />
+            
+            {/* Render feedback questions section */}
+            {event.hasFeedbackQuestion && feedbackQuestions.length > 0 && (
+              <div className={styles.feedbackQuestionsSection}>
+                <h3>{event.feedbackDescription || 'Påmeldingsspørsmål'}</h3>
+                {feedbackQuestions.map((question, index) => (
+                  <FeedbackQuestionField 
+                    key={index}
+                    question={{ ...question, id: index }}
+                    name="feedbackAnswers"
+                  />
+                ))}
+              </div>
+            )}
+          </>
         ))}
     </Flex>
   );

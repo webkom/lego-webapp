@@ -1,6 +1,7 @@
+
 import SimpleImageReplacer from '~/components/SimpleImageReplacer';
 
-const RootLayout = ({ children }) => {
+const Layout = ({ children }) => {
   return (
     <>
       {children}
@@ -9,4 +10,4 @@ const RootLayout = ({ children }) => {
   );
 };
 
-export default RootLayout;
+export default Layout;
