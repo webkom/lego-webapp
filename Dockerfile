@@ -9,7 +9,7 @@ COPY packages packages
 
 RUN corepack enable
 RUN apk add curl # For Mazemap installation
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 COPY . /app
 
