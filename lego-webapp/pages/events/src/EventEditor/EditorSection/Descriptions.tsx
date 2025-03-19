@@ -1,11 +1,10 @@
 import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
-import { EditorField, TextEditor } from '~/components/Form';
+import { CheckBox, EditorField, TextEditor } from '~/components/Form';
 import Tag from '~/components/Tags/Tag';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';
 import type { UploadArgs } from '~/redux/actions/FileActions';
-import ToggleSwitch from '~/components/Form/ToggleSwitch';
 
 type Props = {
   uploadFile: (uploadArgs: UploadArgs) => void;
@@ -34,7 +33,7 @@ const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
       <Field
         label="Vis bedriftsbeskrivelse på arrangement"
         name="showCompanyDescription"
-        component={ToggleSwitch.Field}
+        component={CheckBox.Field}
         type="checkbox"
       />
       {values.tags?.length > 0 && (
