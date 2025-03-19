@@ -1,17 +1,19 @@
 import styles from './Brainrot.module.css';
-import { Button } from '@webkom/lego-bricks'
-import React, { useState } from 'react'
+import { Button } from '@webkom/lego-bricks';
+import React, { useState } from 'react';
 
-const BrainrotButton = () => {
-  const [clickCounter, setClickCounter] = useState(0)
+type Props = {
+  count: number;
+  onClick: () => void;
+};
+
+const BrainrotButton = ({ count, onClick }: Props) => {
   return (
     <div className={styles.brainrotButtonContainer}>
-      <Button onPress={() => setClickCounter(clickCounter + 1)}>
-        Click me😛
-      </Button>
-      {clickCounter > 0 && <p>Clicked {clickCounter} times</p>}
-    </div >
-  )
-}
+      <Button onPress={onClick}>Click me😛</Button>
+      {count > 0 && <p>Clicked {count} times</p>}
+    </div>
+  );
+};
 
-export default BrainrotButton
+export default BrainrotButton;
