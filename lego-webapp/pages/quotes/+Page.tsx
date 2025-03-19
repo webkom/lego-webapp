@@ -93,7 +93,7 @@ const QuotePage = () => {
 
   return (
     <Page
-      title={approved ? '👀 🤫OVERHØRT🗣️🦻😬' : 'Ikke-godkjente sitater'}
+      title={approved ? '👀 🤫OVERHØRT🗣️🦻💦' : 'Ikke-godkjente sitater'}
       back={!approved || isSingle ? { href: '/quotes' } : undefined}
       sidebar={
         approved
@@ -127,7 +127,7 @@ const QuotePage = () => {
         ]
       }
     >
-      <Helmet title="👀 🤫OVERHØRT🗣️🦻😬" />
+      <Helmet title="👀 🤫OVERHØRT🗣️🦻💦" />
 
       {errorMessage ? (
         <EmptyState iconNode={<FolderOpen />} body={errorMessage} />

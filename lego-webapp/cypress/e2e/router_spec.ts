@@ -198,7 +198,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Generelt');
 
     // Quotes
-    openMenuAndSelect('👀 🤫OVERHØRT🗣️🦻😬', '/quotes');
+    openMenuAndSelect('👀 🤫OVERHØRT🗣️🦻💦', '/quotes');
     cy.contains('Just do it!');
 
     // Forum
