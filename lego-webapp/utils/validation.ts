@@ -83,10 +83,13 @@ export const maxLength: (
   (value) =>
     [!value || value.length < length, message] as const;
 
-export const maxSize =
-  (size, message = `Må være mindre enn ${size}`) =>
+export const maxSize: (
+  maxValue: number,
+  message?: string,
+) => ReturnType<Validator<number | undefined>> =
+  (maxValue, message = `Må være mindre enn ${maxValue}`) =>
   (value) =>
-    [!value || value < size, message] as const;
+    [!value || value < maxValue, message] as const;
 
 export const minSize =
   (size, message = `Må være mer enn ${size}`) =>
