@@ -140,10 +140,10 @@ const RestrictedMailEditor = () => {
             />
             <Field
               disabled={!isNew}
-              label="Arrangementer"
+              label="Skibidi events😛💯🚽"
               name="events"
               isMulti
-              placeholder="Arrangementer du ønsker å sende e-post til"
+              placeholder="Skibidi events😛💯🚽 du ønsker å sende e-post til"
               filter={['events.event']}
               component={SelectInput.AutocompleteField}
             />

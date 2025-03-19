@@ -267,7 +267,7 @@ export const FORM_LABELS = {
     english: 'Semester',
   },
   events: {
-    norwegian: 'Arrangementer',
+    norwegian: 'Skibidi events😛💯🚽',
     english: 'Events',
   },
   otherOffers: {

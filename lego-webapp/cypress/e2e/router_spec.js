@@ -23,10 +23,10 @@ describe('Navigate throughout app', () => {
     cy.visit('/');
     cy.waitForHydration();
     cy.get(c('navigation')).within(() => {
-      cy.contains('Arrangementer').click();
+      cy.contains('Skibidi events😛💯🚽').click();
     });
     cy.url().should('contain', '/events');
-    cy.contains('Denne uken');
+    cy.contains('Denne 😂ruken😭🚨🚨🚨🚨🚨');
     cy.contains('Oversikt');
   });
 
@@ -143,13 +143,13 @@ describe('Navigate throughout app', () => {
     });
     cy.url().should('contain', '/');
     cy.contains('Sider');
-    cy.contains('Arrangementer');
+    cy.contains('Skibidi events😛💯🚽');
     cy.contains('Artikler');
 
     // Go back
     cy.get(t('search-menu-icon')).click();
     cy.url().should('contain', '/');
-    cy.contains('Arrangementer');
+    cy.contains('Skibidi events😛💯🚽');
     cy.contains('Påmeldinger');
   });
 
@@ -158,7 +158,7 @@ describe('Navigate throughout app', () => {
     cy.waitForHydration();
 
     // Events
-    openMenuAndSelect('Arrangementer', '/events');
+    openMenuAndSelect('Skibidi events😛💯🚽', '/events');
     cy.contains('Oversikt');
 
     // Articles

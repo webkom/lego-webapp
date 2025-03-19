@@ -6,14 +6,14 @@ describe('The Home Page and Login', () => {
     cy.waitForHydration();
     cy.contains('Velkommen til Abakus');
 
-    cy.contains('a', 'Arrangementer');
+    cy.contains('a', 'Skibidi events😛💯🚽');
     cy.contains('a', 'For bedrifter');
     cy.contains('a', 'Om Abakus');
 
     cy.contains('h3', 'Bedpres og kurs');
     cy.contains(c('_eventItem'), 'DIPS');
 
-    cy.contains('h3', 'Arrangementer');
+    cy.contains('h3', 'Skibidi events😛💯🚽');
     cy.contains(c('_eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Oppslag');
@@ -51,7 +51,7 @@ describe('The Home Page and Login', () => {
     cy.contains('h3', 'Bedpres og kurs');
     cy.contains(c('_eventItem'), 'Deloitte AS');
 
-    cy.contains('h3', 'Arrangementer');
+    cy.contains('h3', 'Skibidi events😛💯🚽');
     cy.contains(c('_eventItem'), 'Sikkerhet og Sårbarhet');
 
     cy.contains('h3', 'Påmeldinger');

@@ -27,7 +27,7 @@ const Navbar = () => {
       visibility: 'logged-out-only',
     },
     {
-      title: 'Arrangementer',
+      title: 'Skibidi events😛💯🚽',
       to: '/events',
       dropdown: <EventsDropdown />,
       visibility: 'always',

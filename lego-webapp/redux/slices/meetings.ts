@@ -101,7 +101,7 @@ export const selectGroupedMeetings = createSelector(
       }
     > = [
       {
-        title: 'Denne uken',
+        title: 'Denne 😂ruken😭🚨🚨🚨🚨🚨',
         meetings: [],
         belongsInGroup: (endTime) =>
           endTime.year() === currentYear &&
@@ -109,7 +109,7 @@ export const selectGroupedMeetings = createSelector(
           currentTime < endTime,
       },
       {
-        title: 'Neste uke',
+        title: 'Neste 😂ruke😭💩👉⌚️',
         meetings: [],
         belongsInGroup: (endTime) =>
           endTime.year() === currentYear && endTime.week() === currentWeek + 1,

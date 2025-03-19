@@ -104,7 +104,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
 
   return (
     <Page
-      title="Arrangementer"
+      title="Skibidi events😛💯🚽"
       sidebar={
         showFilters
           ? filterSidebar({

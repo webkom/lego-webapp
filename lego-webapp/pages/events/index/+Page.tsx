@@ -240,11 +240,20 @@ const EventList = () => {
 
   return (
     <>
-      <Helmet title="Arrangementer" />
+      <Helmet title="Skibidi events😛💯🚽" />
       <EventListGroup name="Tidligere" events={groupedEvents.previous} />
-      <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
-      <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
-      <EventListGroup name="Senere" events={groupedEvents.later} />
+      <EventListGroup
+        name="Denne 😂ruken😭🚨🚨🚨🚨🚨"
+        events={groupedEvents.currentWeek}
+      />
+      <EventListGroup
+        name="Neste 😂ruke😭💩👉⌚️"
+        events={groupedEvents.nextWeek}
+      />
+      <EventListGroup
+        name="BRoo ikke stress det er lenge til😴"
+        events={groupedEvents.later}
+      />
       {isEmpty(events) && pagination.fetching && (
         <>
           <div className={styles.eventGroup}>

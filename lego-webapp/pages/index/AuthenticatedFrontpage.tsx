@@ -146,7 +146,7 @@ const Events = ({
   return (
     <Flex column className={styles.events}>
       <a href="/events">
-        <h3 className={utilStyles.frontPageHeader}>Arrangementer</h3>
+        <h3 className={utilStyles.frontPageHeader}>Skibidi events😛💯🚽</h3>
       </a>
 
       <Flex column gap="var(--spacing-md)">
