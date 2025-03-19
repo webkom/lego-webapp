@@ -41,29 +41,44 @@
   height: 622px !important;
 }
 
-.subwaySurfers {
+.draggableContainer {
   position: fixed;
-  width: 341px;
-  height: 606px;
-  background-color: black;
   z-index: 9999;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  overflow: hidden;
-  border-radius: 10px;
+  cursor: grab;
+  padding: 500px;
+  background: none;
 }
 
-.subwaySurfers iframe {
-  object-fit: fill;
+.draggableContainer:active {
+  cursor: grabbing;
 }
 
 .handlebar {
   width: 100%;
-  height: 30px;
-  background-color: gray;
+  height: 50px;
+  background-color: plum;
   cursor: grab;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.subwaySurfers {
+  width: 341px;
+  height: 606px;
+  background-color: black;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 9001;
+}
+
+.subwaySurfers iframe {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
 }
