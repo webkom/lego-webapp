@@ -3,22 +3,21 @@
   --button-color-white: var(--inverted-font-color);
   --button-background: var(--additive-background);
   --button-background-hover: var(--color-gray-2);
-
   --button-dark-box-shadow-focus: #db373744;
-
   --button-success-background: var(--color-green-7);
   --button-success-background-hover: var(--color-green-8);
   --button-success-background-active: var(--color-green-9);
   --button-success-box-shadow-focus: #2c974b44;
+  --button-crazy-border: 5px dashed pink;
+    --button-crazy-shadow: 0 0 10px 5px yellow;
+    --button-crazy-transform: rotate(10deg) scale(1.1);
 }
 
 [data-theme='dark'] {
   --button-color: var(--lego-font-color);
   --button-color-white: var(--lego-font-color);
   --button-background-hover: var(--color-gray-3);
-
   --button-dark-box-shadow-focus: #ff737344;
-
   --button-success-background: var(--color-green-4);
   --button-success-background-hover: var(--color-green-5);
   --button-success-background-active: var(--success-color);
@@ -26,7 +25,7 @@
 }
 
 .button {
-  border: none;
+  border: var(--button-crazy-border);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -35,38 +34,42 @@
   height: 2.3em;
   width: fit-content;
   padding: 0 var(--spacing-md);
-  font-family: Inter, sans-serif;
-  font-weight: 600;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-weight: 900;
   background-color: var(--button-background);
   color: var(--button-color);
   outline: none;
   cursor: pointer;
-  border-radius: var(--spacing-xl);
+  border-radius: 50%;
   transition: var(--easing-fast);
-  /* stylelint-disable value-list-comma-newline-after */
-  transition-property:
-    transform, color, background-color, border-color, box-shadow, opacity;
+  transition-property: transform, color, background-color, border-color, box-shadow, opacity;
+    box-shadow: var(--button-crazy-shadow);
+    transform: var(--button-crazy-transform);
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 1.5px var(--lego-font-color);
+    box-shadow: 0 0 0 1.5px var(--lego-font-color), var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
     background-color: var(--button-background-hover);
+    transform: scale(1.2) rotate(15deg);
   }
 
   &[data-pressed] {
     background-color: var(--color-gray-3);
+    transform: scale(0.9) rotate(-10deg);
   }
 
   &[data-disabled] {
     box-shadow: initial;
     cursor: not-allowed;
     opacity: 0.5;
+    transform: none;
   }
 
   > a {
     color: var(--color-gray-8);
+    text-decoration: underline wavy red;
   }
 }
 
@@ -77,6 +80,7 @@
 
   &[data-pressed] {
     background-color: var(--color-gray-7);
+    transform: scale(0.8) rotate(-20deg);
   }
 }
 
@@ -90,15 +94,17 @@
   }
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
+    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus), var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
     background-color: var(--color-red-7);
+    transform: scale(1.2) rotate(15deg);
   }
 
   &[data-pressed] {
     background-color: var(--color-red-8);
+    transform: scale(0.9) rotate(-10deg);
   }
 }
 
@@ -116,12 +122,14 @@
     background-color: var(--danger-color);
     border-color: var(--danger-color);
     color: var(--button-color-white);
+    transform: scale(1.2) rotate(15deg);
   }
 
   &[data-pressed] {
     background-color: var(--color-red-7);
     border-color: var(--color-red-7);
     color: var(--button-color-white);
+    transform: scale(0.9) rotate(-10deg);
   }
 
   &[data-disabled] {
@@ -136,15 +144,17 @@
   box-shadow: none;
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 3px var(--button-success-box-shadow-focus);
+    box-shadow: 0 0 0 3px var(--button-success-box-shadow-focus), var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
     background-color: var(--button-success-background-hover);
+    transform: scale(1.2) rotate(15deg);
   }
 
   &[data-pressed] {
     background-color: var(--button-success-background-active);
+    transform: scale(0.9) rotate(-10deg);
   }
 }
 
@@ -154,10 +164,12 @@
 
   &[data-hovered] {
     background-color: var(--additive-background);
+    transform: scale(1.2) rotate(15deg);
   }
 
   &[data-pressed] {
     background-color: var(--color-gray-2);
+    transform: scale(0.9) rotate(-10deg);
   }
 }
 
@@ -168,22 +180,25 @@
   --button-color: var(--lego-font-color);
 
   &[data-focus-visible] {
-    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
+    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus), var(--button-crazy-shadow);
   }
 
   &[data-hovered] {
     background-color: var(--lego-font-color);
     --button-color: var(--inverted-font-color);
+    transform: scale(1.2) rotate(15deg);
   }
 
   &[data-pressed] {
     background-color: var(--color-gray-8);
+    transform: scale(0.9) rotate(-10deg);
   }
 }
 
 .small {
   padding: 0 0.6rem;
   font-size: var(--font-size-sm);
+  transform: scale(0.8);
 }
 
 .normal {
@@ -192,4 +207,5 @@
 
 .large {
   font-size: var(--font-size-lg);
+  transform: scale(1.2);
 }
