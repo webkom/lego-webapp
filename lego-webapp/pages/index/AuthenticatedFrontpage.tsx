@@ -35,13 +35,28 @@ import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
 import BrainrotButton from '~/components/Brainrot/BrainrotButton';
+import ModalVideoPlayer, {
+  getRandomVideoId,
+} from '~/components/ModalVideoPlayer';
+import { Modal } from 'react-overlays';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
 
 const AuthenticatedFrontpage = () => {
+  const [showModal, setShowModal] = useState(false);
+
   const [eventsToShow, setEventsToShow] = useState(EVENTS_TO_SHOW);
   const [articlesToShow, setArticlesToShow] = useState(ARTICLES_TO_SHOW);
+
+  const [clickCount, setClickCount] = useState(0);
+
+  const onButtonClick = () => {
+    setClickCount(clickCount + 1);
+    if (clickCount % 7 === 0) {
+      setShowModal(true);
+    }
+  };
 
   const showMore = () => {
     setEventsToShow(eventsToShow + 6);
@@ -92,8 +107,17 @@ const AuthenticatedFrontpage = () => {
 
   return (
     <PageContainer card={false}>
-      <BrainrotButton></BrainrotButton>
+      <BrainrotButton
+        count={clickCount}
+        onClick={onButtonClick}
+      ></BrainrotButton>
+      <ModalVideoPlayer
+        videoId={getRandomVideoId()}
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
       <Helmet title="Hjem" />
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
       {currentPrivateBanner && (
         <Banner
           header={currentPrivateBanner.header}
