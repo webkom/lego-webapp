@@ -11,7 +11,9 @@ const BrainrotButton = ({ count, onClick }: Props) => {
   return (
     <div className={styles.brainrotButtonContainer}>
       <Button onPress={onClick}>Click me😛</Button>
-      {count > 0 && <p>Clicked {count} times</p>}
+      {count > 0 && (
+        <p className={styles.brainrotButtonText}>Clicked {count} times</p>
+      )}
     </div>
   );
 };
