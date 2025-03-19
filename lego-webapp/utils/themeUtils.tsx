@@ -62,7 +62,6 @@ export const ThemeContextListener = () => {
   );
 
   useEffect(() => {
-    
     const handleThemeChange = (event?: Event) => {
       const currentTheme = getTheme();
       dispatch(setTheme(currentTheme)); // Synchronize local state
