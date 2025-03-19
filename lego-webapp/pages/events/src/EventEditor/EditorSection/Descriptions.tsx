@@ -5,6 +5,7 @@ import Tag from '~/components/Tags/Tag';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';
 import type { UploadArgs } from '~/redux/actions/FileActions';
+import ToggleSwitch from '~/components/Form/ToggleSwitch';
 
 type Props = {
   uploadFile: (uploadArgs: UploadArgs) => void;
@@ -29,6 +30,12 @@ const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
         className={styles.descriptionEditor}
         uploadFile={uploadFile}
         required
+      />
+      <Field
+        label="Vis bedriftsbeskrivelse på arrangement"
+        name="showCompanyDescription"
+        component={ToggleSwitch.Field}
+        type="checkbox"
       />
       {values.tags?.length > 0 && (
         <Flex className={styles.tagRow}>

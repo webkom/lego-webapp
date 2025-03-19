@@ -270,6 +270,7 @@ export type Event = EventBase & {
   documentType?: 'event';
   responsibleUsers: EntityId[];
   isForeignLanguage: boolean;
+  showCompanyDescription: boolean;
 };
 
 type EventTransformPool = EventPoolBase & {
@@ -288,6 +289,7 @@ export type TransformEvent = EventBase & {
   responsibleUsers: PublicUser[];
   isForeignLanguage: boolean;
   date: [Dateish, Dateish];
+  showCompanyDescription: boolean;
 };
 
 export type Workplace = {
