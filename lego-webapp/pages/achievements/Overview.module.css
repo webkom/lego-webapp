@@ -12,25 +12,36 @@
 }
 
 .listItem {
-  display: flex;
-  align-items: center;
-  padding: var(--spacing-md);
-  margin-left: calc(-1 * var(--spacing-md));
+  /* display: flex;
+  align-items: center; */
+  /* padding: var(--spacing-md); */
+  /* margin-left: calc(-1 * var(--spacing-md));
   gap: var(--spacing-md);
   border-radius: var(--border-radius-lg);
-  color: var(--lego-font-color);
-  width: 50%;
+  color: var(--lego-font-color); */
+  /* width: 100%; */
 
-  @media (--small-viewport) {
+  /* @media (--small-viewport) {
     width: 100%;
-  }
+  } */
 }
 
 .description {
   color: var(--secondary-font-color);
 }
 
-.trophyImage {
+div.achievementImageCard {
+  padding: var(--spacing-sm);
+  cursor: pointer;
+}
+
+.currentAchievementImage {
   height: 100px;
-  width: auto;
+  width: 100px;
+}
+
+.trophyImage {
+  height: 50px;
+  width: 50px;
+  /* width: auto; */
 }
