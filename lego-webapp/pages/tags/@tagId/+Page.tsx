@@ -12,7 +12,7 @@ import type { DetailedTag } from '~/redux/models/Tag';
 const translate = (key: string) => {
   const trans = {
     article: 'Artikler',
-    event: 'Arrangementer',
+    event: 'Skibidi events😛💯🚽',
     quote: 'Sitater',
     joblisting: 'Jobbannonser',
     poll: 'Avstemninger',

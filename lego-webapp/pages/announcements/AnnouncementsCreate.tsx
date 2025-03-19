@@ -172,7 +172,7 @@ const AnnouncementsCreate = () => {
                 <RowSection className={styles.rowRec}>
                   <Field
                     name="events"
-                    placeholder="Arrangementer"
+                    placeholder="Skibidi events😛💯🚽"
                     filter={['events.event']}
                     isMulti
                     component={SelectInput.AutocompleteField}

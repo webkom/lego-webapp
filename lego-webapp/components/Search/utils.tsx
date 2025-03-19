@@ -88,7 +88,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'events',
-    title: 'Arrangementer',
+    title: 'Skibidi events😛💯🚽',
     icon: <CalendarRange />,
     url: '/events',
   },

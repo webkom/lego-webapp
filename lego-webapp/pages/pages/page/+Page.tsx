@@ -279,7 +279,7 @@ const sections: Record<string, UnknownSection> = {
     fetchItemActions: [fetchPage],
   },
   arrangementer: {
-    title: 'Arrangementer',
+    title: 'Skibidi events😛💯🚽',
     section: 'arrangementer',
     pageInfoSelector: selectFlatpagePageInfo,
     pageSelector: selectFlatpagePage,

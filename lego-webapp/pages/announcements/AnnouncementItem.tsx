@@ -48,7 +48,7 @@ const AnnouncementItem = ({ announcement, actionGrant }: Props) => {
           <Flex alignItems="center" gap="var(--spacing-sm)" wrap>
             {announcement.events.length > 0 && (
               <span>
-                Arrangementer
+                Skibidi events😛💯🚽
                 {announcement.excludeWaitingList
                   ? ' (ekskludert venteliste): '
                   : ': '}
