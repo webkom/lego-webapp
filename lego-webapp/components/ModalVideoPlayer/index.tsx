@@ -36,48 +36,10 @@ const Modal = ({ videoId, isOpen, onClose }: Props) => {
     return null;
   }
 
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-  const handleMouseDown = (e) => {
-    setDragging(true);
-    setOffset({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y,
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (dragging) {
-      setPosition({
-        x: e.clientX - offset.x,
-        y: e.clientY - offset.y,
-      });
-    }
-  };
-
-  const handleMouseUp = () => {
-    setDragging(false);
-  };
-
   return (
-    <div
-      className={styles.modalWrapper}
-      style={{
-        position: 'fixed',
-        top: position.y,
-        left: position.x,
-        zIndex: 9999,
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-    >
+    <div className={styles.modalWrapper}>
       {/* Drag handle */}
-      <div className={styles.dragHandle} onMouseDown={handleMouseDown}>
-        Drag Me
-      </div>
-
+      <div className={styles.dragHandle}>Drag Me</div>
       <div className={styles.videoContainer}>
         <ModalVideo
           channel="youtube"
@@ -112,22 +74,23 @@ export const SubwaySurfers = () => {
 
   return (
     <div
-      className={styles.subwaySurfers}
+      className={styles.draggableContainer}
       style={{ top: position.y, left: position.x, position: 'fixed' }}
+      onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
-      <div className={styles.handlebar} onMouseDown={handleMouseDown}>
-        Drag Me
+      <div className={styles.handlebar}>Drag Me</div>
+      <div className={styles.subwaySurfers}>
+        <iframe
+          width="341"
+          height="606"
+          src="https://www.youtube.com/embed/zZ7AimPACzc?si=1T8ZHljl4IlT6VQO&autoplay=1&mute=1&loop=1&controls=0"
+          title="YouTube video player"
+          allow="autoplay; encrypted-media; picture-in-picture"
+        ></iframe>
       </div>
-      <iframe
-        width="341"
-        height="606"
-        src="https://www.youtube.com/embed/zZ7AimPACzc?si=1T8ZHljl4IlT6VQO&autoplay=1&mute=1&loop=1&playlist=L_fcrOyoWZ8&controls=0"
-        title="YouTube video player"
-        allow="autoplay; encrypted-media; picture-in-picture"
-      ></iframe>
     </div>
   );
 };
