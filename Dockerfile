@@ -1,12 +1,15 @@
 FROM node:20-alpine AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
 WORKDIR /app/
-COPY package.json yarn.lock ./
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY lego-webapp/package.json lego-webapp/package.json
 COPY packages packages
 
+RUN corepack enable
 RUN apk add curl # For Mazemap installation
-RUN yarn install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 COPY . /app
 
@@ -24,7 +27,7 @@ ENV SENTRY_URL=${SENTRY_URL}
 ENV SENTRY_RELEASE=${RELEASE}
 ENV NODE_ENV=production
 
-RUN yarn build
+RUN pnpm build
 
 FROM node:20-alpine
 

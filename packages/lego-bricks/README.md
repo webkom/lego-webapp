@@ -6,7 +6,7 @@ Component library for LEGO-webapp and other related projects.
 
 1. Add the package
    ```sh
-   yarn add @webkom/lego-bricks
+   pnpm add @webkom/lego-bricks
    ```
 2. Import components and stylesheet in your project
 
@@ -46,12 +46,12 @@ const App = () => {
 We use storybook to demo and test components. To start it run:
 
 ```sh
-yarn storybook
+pnpm storybook
 ```
 
 ### Publishing new version
 
 1. Bump version in `package.json`
 2. Make sure everything is merged into master
-3. Run `yarn build` to compile the package
-4. Run `yarn publish` to publish the package to npm
+3. Run `pnpm build` to compile the package
+4. Run `pnpm publish` to publish the package to npm

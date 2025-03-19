@@ -19,21 +19,30 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/lego-bricks.js",
-      "require": "./dist/lego-bricks.umd.cjs"
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
     },
-    "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
+    "./dist/style.css": "./src/global.css"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/lego-bricks.js",
+        "require": "./dist/lego-bricks.umd.cjs"
+      },
+      "./dist/style.css": {
+        "import": "./dist/lego-bricks.css",
+        "require": "./dist/lego-bricks.css"
+      }
     }
   },
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build": "vite build && yarn build:types",
+    "build": "vite build && pnpm build:types",
     "build:types": "tsc -d --emitDeclarationOnly",
     "build:storybook": "storybook build",
-    "lint": "yarn lint:js && yarn lint:prettier",
+    "lint": "pnpm lint:js && pnpm lint:prettier",
     "lint:js": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
@@ -43,15 +52,19 @@
   },
   "dependencies": {
     "classnames": "^2.5.1",
-    "lucide-react": "^0.453.0",
-    "react-aria-components": "^1.4.1"
+    "cropperjs": "^1.6.2",
+    "lucide-react": "catalog:",
+    "react-aria-components": "catalog:",
+    "react-cropper": "^2.3.3",
+    "react-dropzone": "^14.3.8"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "catalog:",
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@cfaester/enzyme-adapter-react-18": "^0.8.0",
+    "@react-types/shared": "^3.28.0",
     "@storybook/addon-essentials": "^8.6.4",
     "@storybook/addon-interactions": "^8.6.4",
     "@storybook/addon-links": "^8.6.4",
@@ -60,8 +73,8 @@
     "@storybook/react-vite": "^8.6.4",
     "@storybook/test": "^8.6.4",
     "@types/express": "^5.0.0",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.3.3",
     "enzyme": "^3.9.0",
     "eslint": "^8.57.1",
@@ -71,8 +84,8 @@
     "eslint-plugin-storybook": "^0.11.1",
     "postcss-custom-media": "^11.0.3",
     "storybook": "^8.6.4",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.12",
-    "vitest": "^2.1.9"
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
   }
 }

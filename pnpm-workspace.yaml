@@ -1,0 +1,15 @@
+packages:
+  - 'lego-webapp'
+  - 'packages/**'
+
+catalog:
+  "@types/react": ^18.3.18
+  "@types/react-dom": ^18.3.5
+  eslint: ^9.20.1
+  lucide-react: ^0.483.0
+  react-aria-components: ^1.4.1
+  react-dom: ^18.3.1
+  react: ^18.3.1
+  typescript: ^5.6.3
+  vite: ^6.2.2
+  vitest: ^2.1.9

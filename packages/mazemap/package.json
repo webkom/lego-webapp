@@ -9,11 +9,6 @@
     "./css": "./mazemap.min.css"
   },
   "scripts": {
-    "build": "exit 0",
-    "lint": "exit 0",
-    "prettier": "exit 0",
-    "types": "exit 0",
-    "test": "echo \"Warning: No test specified\" && exit 0",
     "install": "sh install.sh 2.2.1"
   }
 }

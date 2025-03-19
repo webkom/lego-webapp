@@ -9,7 +9,7 @@ import {
   LegoFinalForm,
   SubmitButton,
   TextInput,
-} from 'lego-webapp/components/Form';
+} from '~/components/Form';
 import HTTPError from '~/components/errors/HTTPError';
 import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch } from '~/redux/hooks';
