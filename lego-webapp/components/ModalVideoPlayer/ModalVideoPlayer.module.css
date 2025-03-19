@@ -3,6 +3,7 @@
   user-select: none;
   width: 350px; /* Adjust width */
   height: 622px; /* 9:16 aspect ratio */
+  top: 0;
 }
 
 .videoContainer {
@@ -11,6 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  top: 0;
 }
 
 /* Drag handle */
@@ -37,4 +39,31 @@
 .modalVideo iframe {
   width: 350px !important; /* Match aspect ratio */
   height: 622px !important;
+}
+
+.subwaySurfers {
+  position: fixed;
+  width: 341px;
+  height: 606px;
+  background-color: black;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.subwaySurfers iframe {
+  object-fit: fill;
+}
+
+.handlebar {
+  width: 100%;
+  height: 30px;
+  background-color: gray;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
 }

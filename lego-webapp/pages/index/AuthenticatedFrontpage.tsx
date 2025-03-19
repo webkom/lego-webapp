@@ -37,6 +37,7 @@ import type { FrontpageEvent } from '~/redux/models/Event';
 import BrainrotButton from '~/components/Brainrot/BrainrotButton';
 import ModalVideoPlayer, {
   getRandomVideoId,
+  SubwaySurfers,
 } from '~/components/ModalVideoPlayer';
 import { Modal } from 'react-overlays';
 
@@ -106,44 +107,51 @@ const AuthenticatedFrontpage = () => {
   );
 
   return (
-    <PageContainer card={false}>
-      <BrainrotButton
-        count={clickCount}
-        onClick={onButtonClick}
-      ></BrainrotButton>
-      <ModalVideoPlayer
-        videoId={getRandomVideoId()}
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-      />
-      <Helmet title="Hjem" />
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
-      {currentPrivateBanner && (
-        <Banner
-          header={currentPrivateBanner.header}
-          subHeader={currentPrivateBanner.subheader}
-          link={currentPrivateBanner.link}
-          color={currentPrivateBanner.color}
+    <>
+      <SubwaySurfers />
+      <PageContainer card={false}>
+        <BrainrotButton
+          count={clickCount}
+          onClick={onButtonClick}
+        ></BrainrotButton>
+        <ModalVideoPlayer
+          videoId={getRandomVideoId()}
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
         />
-      )}
-      <section className={styles.wrapper}>
-        <CompactEvents className={styles.compactEvents} />
-        <UpcomingRegistrationsSection />
-        <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
-        <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
-        <PollItem />
-        <QuoteItem />
-        {readMe}
-        <Weekly />
-        <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
-      </section>
+        <Helmet title="Hjem" />
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)} />
+        {currentPrivateBanner && (
+          <Banner
+            header={currentPrivateBanner.header}
+            subHeader={currentPrivateBanner.subheader}
+            link={currentPrivateBanner.link}
+            color={currentPrivateBanner.color}
+          />
+        )}
+        <section className={styles.wrapper}>
+          <CompactEvents className={styles.compactEvents} />
+          <UpcomingRegistrationsSection />
+          <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
+          <Pinned
+            item={pinned}
+            url={itemUrl(pinned)}
+            meta={renderMeta(pinned)}
+          />
+          <PollItem />
+          <QuoteItem />
+          {readMe}
+          <Weekly />
+          <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
+        </section>
 
-      <ShowMoreButton
-        eventsToShow={eventsToShow}
-        showMore={showMore}
-        scrollToTop={scrollToTop}
-      />
-    </PageContainer>
+        <ShowMoreButton
+          eventsToShow={eventsToShow}
+          showMore={showMore}
+          scrollToTop={scrollToTop}
+        />
+      </PageContainer>
+    </>
   );
 };
 

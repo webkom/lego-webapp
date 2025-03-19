@@ -26,13 +26,11 @@ button {
 body {
   line-height: 1.3;
   font-family: 'Comic Sans MS', cursive, sans-serif;
-  background:
-      var(--lego-brainrot-background),
-      url('../public/brainrotgif.gif');
-    background-size: cover;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-position: center;
+  background: var(--lego-brainrot-background), url('../public/brainrotgif.gif');
+  background-size: cover;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
   color: var(--lego-font-color);
   transition: color var(--linear-medium);
   position: relative;

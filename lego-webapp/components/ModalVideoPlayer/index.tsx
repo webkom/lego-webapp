@@ -91,4 +91,45 @@ const Modal = ({ videoId, isOpen, onClose }: Props) => {
   );
 };
 
+export const SubwaySurfers = () => {
+  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (e) => {
+    setDragging(true);
+    setOffset({ x: e.clientX - position.x, y: e.clientY - position.y });
+  };
+
+  const handleMouseMove = (e) => {
+    if (!dragging) return;
+    setPosition({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+  };
+
+  const handleMouseUp = () => {
+    setDragging(false);
+  };
+
+  return (
+    <div
+      className={styles.subwaySurfers}
+      style={{ top: position.y, left: position.x, position: 'fixed' }}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      <div className={styles.handlebar} onMouseDown={handleMouseDown}>
+        Drag Me
+      </div>
+      <iframe
+        width="341"
+        height="606"
+        src="https://www.youtube.com/embed/zZ7AimPACzc?si=1T8ZHljl4IlT6VQO&autoplay=1&mute=1&loop=1&playlist=L_fcrOyoWZ8&controls=0"
+        title="YouTube video player"
+        allow="autoplay; encrypted-media; picture-in-picture"
+      ></iframe>
+    </div>
+  );
+};
+
 export default Modal;
