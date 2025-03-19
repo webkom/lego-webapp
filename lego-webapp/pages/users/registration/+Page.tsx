@@ -57,7 +57,7 @@ const UserConfirmationForm = () => {
     'fetchUserConfirmation',
     () => {
       if (search.token) {
-        return dispatch(validateRegistrationToken(token));
+        return dispatch(validateRegistrationToken(search.token));
       }
     },
     [],
