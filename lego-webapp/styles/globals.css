@@ -26,7 +26,19 @@ button {
 body {
   line-height: 1.3;
   font-family: Inter, sans-serif;
-  background: var(--lego-background-color);
+  background:
+      linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.679)),
+      url('../public/brainrotgif.gif');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* background: repeating-linear-gradient(45deg,
+                                                            red,
+                                                            red 10px,
+                                                            gray 10px,
+                                                            gray 20px);
+                                                        background-size: cover; */
   color: var(--lego-font-color);
   transition: color var(--linear-medium);
   position: relative;
