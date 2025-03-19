@@ -1,5 +1,5 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
-import { ShareIcon } from 'lucide-react';
+import { Share2, ShareIcon } from 'lucide-react';
 import { useAppDispatch } from 'lego-webapp/redux/hooks';
 import { addToast } from '~/redux/slices/toasts';
 
