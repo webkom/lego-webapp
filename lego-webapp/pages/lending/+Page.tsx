@@ -10,7 +10,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import { FolderOpen } from 'lucide-react';
+import { Circle, Contact, FolderOpen, Package } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
@@ -36,17 +36,29 @@ const LendableObject = ({
   return (
     <a href={`/lending/${lendableObject.id}`}>
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
-        <Image
-          className={styles.lendableObjectImage}
-          src={lendableObject.image || '/icon-192x192.png'}
-          alt={`${lendableObject.title}`}
-        />
+        <div className={styles.lendableObjectImageContainer}>
+          <Image
+            className={styles.lendableObjectImage}
+            src={lendableObject.image || '/icon-192x192.png'}
+            alt={`${lendableObject.title}`}
+          />
+        </div>
         <div className={styles.lendableObjectFooter}>
-          <h4>{lendableObject.title}</h4>
+          <div className={styles.lendableObjectInfobox}>
+            <div>
+              <h3>{truncateText(lendableObject.title, 15)}</h3>
+              <p>{<Contact size={18} />}Revyen</p>
+              <p>{<Package size={18} />}A3-lagerrom</p>
+            </div>
+          </div>
         </div>
       </Card>
     </a>
   );
+};
+
+const truncateText = (text: string, maxLength: number): string => {
+  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
 };
 
 const LendableObjectList = () => {
