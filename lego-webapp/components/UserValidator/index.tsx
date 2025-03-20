@@ -7,13 +7,13 @@ import { navigate } from 'vike/client/router';
 import goodSound from '~/assets/sounds/good-sound.mp3';
 import SearchPage from '~/components/Search/SearchPage';
 import TextWithIcon from '~/components/TextWithIcon';
+import { addToast } from '~/components/Toast/ToastProvider';
 import { autocomplete } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectAutocompleteRedux,
   type UserSearchResult,
 } from '~/redux/slices/search';
-import { addToast } from '~/redux/slices/toasts';
 import { useParams } from '~/utils/useParams';
 import styles from './Validator.module.css';
 import type { ReactNode } from 'react';
@@ -112,10 +112,10 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
       if (success) {
         showSuccessModal(result.message);
       } else {
-        dispatch(addToast({ message: result.message }));
+        addToast({ message: result.message });
       }
     },
-    [showScanner, dispatch],
+    [showScanner],
   );
 
   /**

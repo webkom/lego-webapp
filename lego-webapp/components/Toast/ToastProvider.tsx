@@ -1,41 +1,66 @@
-import { useToastState } from '@react-stately/toast';
-import { useEffect } from 'react';
-import { ToastRegion } from '~/components/Toast/ToastRegion';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { removeToast, selectToasts } from '~/redux/slices/toasts';
-import usePrevious from '~/utils/usePrevious';
-import type { ToastContent } from '~/redux/slices/toasts';
+import { Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import { Check, X } from 'lucide-react';
+import {
+  Text,
+  UNSTABLE_Toast as Toast,
+  UNSTABLE_ToastQueue as ToastQueue,
+  UNSTABLE_ToastRegion as AriaToastRegion,
+  UNSTABLE_ToastContent as ToastContent,
+  Button,
+} from 'react-aria-components';
+import { flushSync } from 'react-dom';
+import styles from '~/components/Toast/Toast.module.css';
 
-const ToastProvider = () => {
-  const dispatch = useAppDispatch();
-  const toasts = useAppSelector(selectToasts);
-  const previousToasts = usePrevious(toasts);
+export type ToastContentType = {
+  message: string;
+  type?: 'success' | 'error';
+};
 
-  const toastState = useToastState<ToastContent>({
-    maxVisibleToasts: 5,
-    hasExitAnimation: true,
+export const toastQueue = new ToastQueue<ToastContentType>({
+  maxVisibleToasts: 5,
+  wrapUpdate: (fn) => {
+    if ('startViewTransition' in document) {
+      document.startViewTransition(() => {
+        flushSync(fn);
+      });
+    } else {
+      fn();
+    }
+  },
+});
+
+export const addToast = (toast: ToastContentType & { dismissAfter?: number }) =>
+  toastQueue.add(toast, {
+    timeout: toast.dismissAfter ?? 5000,
   });
 
-  // sync toastState with redux state
-  useEffect(() => {
-    const previous = previousToasts || [];
-
-    for (const toast of toasts) {
-      if (!previous.find((t) => t.id === toast.id)) {
-        toastState.add(
-          { message: toast.message, type: toast.type },
-          {
-            timeout: toast.dismissAfter,
-            onClose: () => dispatch(removeToast(toast.id)),
-          },
-        );
-      }
-    }
-  }, [dispatch, previousToasts, toastState, toasts]);
-
-  return toastState.visibleToasts.length ? (
-    <ToastRegion state={toastState} />
-  ) : null;
-};
+const ToastProvider = () => (
+  <AriaToastRegion queue={toastQueue} className={styles.toastRegion}>
+    {({ toast }) => (
+      <Toast
+        style={{ viewTransitionName: toast.key }}
+        toast={toast}
+        className={cx(
+          styles.toast,
+          toast.content.type && styles[toast.content.type],
+        )}
+      >
+        <Button slot="close">
+          <Icon
+            iconNode={toast.content.type === 'success' ? <Check /> : <X />}
+            success={toast.content.type === 'success'}
+            danger={toast.content.type === 'error'}
+            className={!toast.content.type ? styles.defaultIcon : undefined}
+            size={18}
+          />
+        </Button>
+        <ToastContent>
+          <Text slot="title">{toast.content.message}</Text>
+        </ToastContent>
+      </Toast>
+    )}
+  </AriaToastRegion>
+);
 
 export default ToastProvider;

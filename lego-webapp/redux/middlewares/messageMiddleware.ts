@@ -1,14 +1,14 @@
 import { get } from 'lodash';
-import type { Middleware, UnknownAction } from '@reduxjs/toolkit';
+import { ToastContentType } from '~/components/Toast/ToastProvider';
+import type { Middleware } from '@reduxjs/toolkit';
 import type { SentryType } from '~/redux/createStore';
-import type { ToastContent } from '~/redux/slices/toasts';
 
 const createMessageMiddleware =
   (
-    actionToDispatch: (content: ToastContent) => UnknownAction,
+    addToast: (content: ToastContentType) => void,
     Sentry?: SentryType,
   ): Middleware =>
-  ({ dispatch }) =>
+  () =>
   (next) =>
   (action: any) => {
     const success = action.success && get(action, ['meta', 'successMessage']);
@@ -18,8 +18,8 @@ const createMessageMiddleware =
       return next(action);
     }
 
-    let message: ToastContent['message'];
-    let type: ToastContent['type'];
+    let message: ToastContentType['message'];
+    let type: ToastContentType['type'];
 
     if (error) {
       message = typeof error === 'function' ? error(action.error) : error;
@@ -30,8 +30,8 @@ const createMessageMiddleware =
       type = 'success';
     }
 
-    if (actionToDispatch) {
-      dispatch(actionToDispatch({ message, type }));
+    if (addToast) {
+      addToast({ message, type });
     }
 
     return next(action);

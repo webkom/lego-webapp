@@ -12,9 +12,9 @@ import {
   SubmissionError,
 } from '~/components/Form';
 import RandomQuote from '~/components/RandomQuote/RandomQuote';
+import { addToast } from '~/components/Toast/ToastProvider';
 import { addQuotes } from '~/redux/actions/QuoteActions';
 import { useAppDispatch } from '~/redux/hooks';
-import { addToast } from '~/redux/slices/toasts';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { createValidator, required } from '~/utils/validation';
@@ -56,14 +56,12 @@ const AddQuote = () => {
       }),
     ).then(() => {
       navigate('/quotes');
-      dispatch(
-        addToast({
-          message:
-            'Sitat ble sendt inn, og vil dukke opp her hvis det blir godkjent!',
-          type: 'success',
-          dismissAfter: 10000,
-        }),
-      );
+      addToast({
+        message:
+          'Sitat ble sendt inn, og vil dukke opp her hvis det blir godkjent!',
+        type: 'success',
+        dismissAfter: 10000,
+      });
     });
 
   return (
