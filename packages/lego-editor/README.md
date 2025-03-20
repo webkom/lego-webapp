@@ -1,50 +1,66 @@
-# React + TypeScript + Vite
+# lego-editor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Editor made for [lego-webapp](https://github.com/webkom/lego-webapp) written with [TipTap](https://tiptap.dev/docs)
 
-Currently, two official plugins are available:
+## Installation
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
+```bash
+pnpm add @webkom/lego-editor
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Development
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
+To test the editor using the development application, you can run the following commands:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-});
+```bash
+cd packages/lego-editor
+pnpm dev
+```
+
+### Formatting with Prettier
+
+```bash
+pnpm prettier
+```
+
+### Building and publishing
+
+```
+pnpm lint
+pnpm build
+pnpm publish
+```
+
+## Usage
+
+### Rich-text editor
+
+```tsx
+import '@webkom/lego-editor/dist/index.css';
+import { Editor } from '@webkom/lego-editor';
+
+const App = () => {
+  const [content, setContent] = useState('');
+
+  return (
+    <Editor
+      placeholder="Write something..."
+      content={content}
+      onChange={setContent}
+    />
+  );
+};
+```
+
+### static Editor content display
+
+```tsx
+import '@webkom/lego-editor/dist/index.css';
+import { EditorContent } from '@webkom/lego-editor';
+
+const App = () => {
+  const content = '<p>Hello, world!</p>';
+
+  return <EditorContent content={content} />;
+};
 ```
