@@ -135,7 +135,7 @@ const Overview = () => {
     const { identifier, name, description, achievements } = group;
     const achievedLevel = getAchievedLevel(identifier);
 
-    // Use value from achievement if user has achieved it 
+    // Use value from achievement if user has achieved it
     // or group only has that one achievement
     const mappedName =
       achievedLevel >= 0

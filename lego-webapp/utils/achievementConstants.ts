@@ -287,7 +287,7 @@ export type AchievementGroupInfo = {
   achievements: DetailedAchievementData[];
 };
 
-// Name and description defined here function as default values 
+// Name and description defined here function as default values
 // and may be overridden by the achievements own name and description
 export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
   {
