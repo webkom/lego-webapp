@@ -161,7 +161,6 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
 
   return (
     <Page
-      back={{ href: '/users/me' }}
       tabs={<AchievementTabs />}
       title={
         <Flex alignItems="center" gap="var(--spacing-sm)">

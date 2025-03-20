@@ -29,6 +29,7 @@ import {
   Users,
   ShoppingCart,
   Accessibility,
+  Trophy,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import { Tag } from '~/components/Tags';
@@ -153,6 +154,13 @@ const LINKS: Array<Link> = [
     title: 'Avstemninger',
     icon: <ChartNoAxesColumn />,
     url: '/polls',
+  },
+  {
+    key: 'achievements',
+    title: 'Trofeer',
+    icon: <Trophy />,
+    url: '/achievements',
+    requireLogin: true,
   },
   {
     admin: true,
