@@ -20,6 +20,9 @@ export const Tab = ({ active, disabled, onPress, href, children }: Props) => {
       {href ? (
         <Link
           href={href}
+          routerOptions={{
+            keepScrollPosition: true,
+          }}
           isDisabled={disabled}
           onPress={onPress}
           className={className}

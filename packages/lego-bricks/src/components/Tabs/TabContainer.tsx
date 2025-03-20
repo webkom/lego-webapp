@@ -58,7 +58,7 @@ export const TabContainer = ({ className, lineColor, children }: Props) => {
       });
     }
     checkScroll();
-  }, [children, location.pathname]);
+  }, [location.pathname]);
 
   useEffect(() => {
     const element = tabListRef.current;
