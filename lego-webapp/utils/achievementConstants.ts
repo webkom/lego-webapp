@@ -293,7 +293,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
   {
     identifier: 'event_count',
     name: 'Arrangement deltakelse',
-    description: 'Deltatt på X arrangementer',
+    description: 'Deltatt på 10 arrangementer',
     achievements: AchievementsInfo['event_count'],
   },
   {
@@ -305,7 +305,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
   {
     identifier: 'event_price',
     name: 'Arrangement betaling',
-    description: 'Betalt over X i påmeldingsavgift',
+    description: 'Betalt over 2500 i påmeldingsavgift',
     achievements: AchievementsInfo['event_price'],
   },
   {
@@ -317,19 +317,19 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
   {
     identifier: 'poll_count',
     name: 'Avstemninger',
-    description: 'Svart på X avstemninger',
+    description: 'Svart på 5 avstemninger',
     achievements: AchievementsInfo['poll_count'],
   },
   {
     identifier: 'penalty_period',
     name: 'Prikk',
-    description: 'Gått X år uten prikk',
+    description: 'Gått 1 år uten prikk',
     achievements: AchievementsInfo['penalty_period'],
   },
   {
     identifier: 'genfors_count',
     name: 'Genfors',
-    description: 'Deltatt på X genfors',
+    description: 'Deltatt på 1 genfors',
     achievements: AchievementsInfo['genfors_count'],
   },
   {
