@@ -32,7 +32,7 @@ import type { TransformedStudentCompanyContact } from '~/redux/slices/companies'
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
   name: '',
-  studentContact: '',
+  studentContacts: '',
   semester: '',
   search: '',
   status: '',
@@ -60,14 +60,21 @@ const BdbPage = () => {
     [companySemesters, query.semester],
   );
 
+  const backendQuery = useMemo(() => {
+    const { studentContacts, ...restOfQuery } = query;
+
+    return {
+      ...restOfQuery,
+      student_contacts: studentContacts,
+      semester_id: String(currentCompanySemester?.id),
+    };
+  }, [query, currentCompanySemester?.id]);
+
   const { pagination } = useAppSelector(
     selectPaginationNext({
       endpoint: '/bdb/',
       entity: EntityType.Companies,
-      query: {
-        ...query,
-        semester_id: String(currentCompanySemester?.id),
-      },
+      query: backendQuery,
     }),
   );
 
@@ -144,6 +151,7 @@ const BdbPage = () => {
       dataIndex: 'student_contacts',
       search: true,
       inlineFiltering: true,
+      filterIndex: 'studentContacts',
       filterMapping: (studentContacts: TransformedStudentCompanyContact[]) => {
         if (studentContacts && typeof studentContacts === 'object') {
           return studentContacts
@@ -249,15 +257,7 @@ const BdbPage = () => {
         filters={query}
         onLoad={() => {
           currentCompanySemester?.id &&
-            dispatch(
-              fetchAllAdmin(
-                {
-                  ...query,
-                  semester_id: currentCompanySemester.id,
-                },
-                true,
-              ),
-            );
+            dispatch(fetchAllAdmin(backendQuery, true));
         }}
         hasMore={pagination.hasMore}
       />
