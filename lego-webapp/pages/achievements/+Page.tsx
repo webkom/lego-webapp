@@ -12,6 +12,7 @@ import { useCurrentUser } from '~/redux/slices/auth';
 import { selectUserByUsername } from '~/redux/slices/users';
 import {
   AchievementGroupInfo,
+  AchievementIdentifier,
   GroupedAchievementsInfo,
 } from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
@@ -117,11 +118,11 @@ const Overview = () => {
   );
   const userAchievements = user?.achievements;
 
-  const getAchievedLevel = (group: AchievementGroupInfo) => {
+  const getAchievedLevel = (identifier: AchievementIdentifier) => {
     return !userAchievements
       ? -1
       : userAchievements
-          .filter((achievement) => achievement.identifier === group.identifier)
+          .filter((achievement) => achievement.identifier === identifier)
           .reduce(
             (max, achievement) =>
               max.level > achievement.level ? max : achievement,
@@ -131,19 +132,33 @@ const Overview = () => {
 
   // Map group fields to achieved level or use default values
   const groupedAchievements = GroupedAchievementsInfo.map((group) => {
-    const achievedLevel = getAchievedLevel(group);
-    const achieved = achievedLevel >= 0;
+    const { identifier, name, description, achievements } = group;
+    const achievedLevel = getAchievedLevel(identifier);
+
+    // Use value from achievement if user has achieved it 
+    // or group only has that one achievement
+    const mappedName =
+      achievedLevel >= 0
+        ? achievements[achievedLevel].name
+        : achievements.length == 1
+          ? achievements[0].name
+          : name;
+    const mappedDescription =
+      achievedLevel >= 0
+        ? achievements[achievedLevel].description
+        : achievements.length == 1
+          ? achievements[0].description
+          : description;
+
     return {
       ...group,
       userAchievedLevel: achievedLevel,
-      name: achieved ? group.achievements[achievedLevel].name : group.name,
-      description: achieved
-        ? group.achievements[achievedLevel].description
-        : group.description,
-      achievements: group.achievements.map((achievement, index) => ({
+      name: mappedName,
+      description: mappedDescription,
+      achievements: achievements.map((achievement, index) => ({
         ...achievement,
         level: index,
-        identifier: group.identifier,
+        identifier: identifier,
       })),
     };
   });
