@@ -27,7 +27,29 @@ export const rarityToColorMap = {
   9: '#BF00FF',
 };
 
-const AchievementsInfo: Record<string, AchievementData[]> = {
+export const AchievementIdentifier = {
+  event_count: 'event_count',
+  event_rank: 'event_rank',
+  quote_count: 'quote_count',
+  event_price: 'event_price',
+  event_rules: 'event_rules',
+  meeting_hidden: 'meeting_hidden',
+  keypress_order: 'keypress_order',
+  complete_profile: 'complete_profile',
+  poll_count: 'poll_count',
+  penalty_period: 'penalty_period',
+  genfors_count: 'genfors_count',
+} as const;
+
+export type AchievementIdentifier =
+  (typeof AchievementIdentifier)[keyof typeof AchievementIdentifier];
+
+export const HIDDEN_DESCRIPTION = '?????????';
+
+export const AchievementsInfo: Record<
+  AchievementIdentifier,
+  AchievementData[]
+> = {
   event_count: [
     {
       name: 'Arrangement:\nBronse',
@@ -98,7 +120,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
   quote_count: [
     {
       name: 'Psssst',
-      description: '',
+      description: HIDDEN_DESCRIPTION,
       rarity: 1,
       hidden: true,
       image: trofe_sjeldenhetsgrad_2,
@@ -139,7 +161,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
   meeting_hidden: [
     {
       name: 'Er det noen her?',
-      description: '',
+      description: HIDDEN_DESCRIPTION,
       rarity: 1,
       hidden: true,
       image: trofe_sjeldenhetsgrad_2,
@@ -148,7 +170,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
   keypress_order: [
     {
       name: 'Powermode\nactivated!',
-      description: '',
+      description: HIDDEN_DESCRIPTION,
       rarity: 2,
       hidden: true,
       image: trofe_sjeldenhetsgrad_3,
@@ -157,7 +179,7 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
   complete_profile: [
     {
       name: 'Komplett spiller',
-      description: '',
+      description: HIDDEN_DESCRIPTION,
       rarity: 1,
       hidden: true,
       image: trofe_sjeldenhetsgrad_2,
@@ -254,5 +276,88 @@ const AchievementsInfo: Record<string, AchievementData[]> = {
     },
   ],
 };
+
+export type DetailedAchievementData = AchievementData & { level?: number };
+
+export type AchievementGroupInfo = {
+  identifier: AchievementIdentifier;
+  name: string;
+  description?: string;
+  userAchievedLevel?: number;
+  achievements: DetailedAchievementData[];
+};
+
+export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
+  {
+    identifier: 'event_count',
+    name: 'Arrangement deltakelse',
+    description: 'Deltatt på X arrangementer',
+    achievements: AchievementsInfo['event_count'],
+  },
+  {
+    identifier: 'event_rank',
+    name: 'Arrangement rangering',
+    description: 'Plassering i antall arrangementer',
+    achievements: AchievementsInfo['event_rank'],
+  },
+  {
+    identifier: 'event_price',
+    name: 'Arrangement betaling',
+    description: 'Betalt over X i påmeldingsavgift',
+    achievements: AchievementsInfo['event_price'],
+  },
+  {
+    identifier: 'event_rules',
+    name: 'Arrangement regler',
+    description: 'Lest arrangementsreglene',
+    achievements: AchievementsInfo['event_rules'],
+  },
+  {
+    identifier: 'poll_count',
+    name: 'Avstemninger',
+    description: 'Svart på X avstemninger',
+    achievements: AchievementsInfo['poll_count'],
+  },
+  {
+    identifier: 'penalty_period',
+    name: 'Prikk',
+    description: 'Gått X år uten prikk',
+    achievements: AchievementsInfo['penalty_period'],
+  },
+  {
+    identifier: 'genfors_count',
+    name: 'Genfors',
+    description: 'Deltatt på X genfors',
+    achievements: AchievementsInfo['genfors_count'],
+  },
+  {
+    // hidden
+    identifier: 'meeting_hidden',
+    name: 'Er det noen her?',
+    description: HIDDEN_DESCRIPTION,
+    achievements: AchievementsInfo['meeting_hidden'],
+  },
+  {
+    // hidden
+    identifier: 'keypress_order',
+    name: 'Powermode activated!',
+    description: HIDDEN_DESCRIPTION,
+    achievements: AchievementsInfo['keypress_order'],
+  },
+  {
+    // hidden
+    identifier: 'complete_profile',
+    name: 'Komplett spiller',
+    description: HIDDEN_DESCRIPTION,
+    achievements: AchievementsInfo['complete_profile'],
+  },
+  {
+    // hidden
+    identifier: 'quote_count',
+    name: 'Psssst',
+    description: HIDDEN_DESCRIPTION,
+    achievements: AchievementsInfo['quote_count'],
+  },
+];
 
 export default AchievementsInfo;

@@ -1,103 +1,100 @@
 import { Card, Flex, Icon } from '@webkom/lego-bricks';
-import { CircleHelp } from 'lucide-react';
-import { ReactNode, useEffect } from 'react';
+import cx from 'classnames';
+import { Ghost } from 'lucide-react';
+import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
-import { ExclusifyUnion } from 'app/types';
 import { ContentMain } from '~/components/Content';
 import Tooltip from '~/components/Tooltip';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import {
-  AchievementData,
-  CurrentUser,
-  PublicUserWithGroups,
-} from '~/redux/models/User';
+import { CurrentUser } from '~/redux/models/User';
 import { useCurrentUser } from '~/redux/slices/auth';
-import { selectUserById, selectUserByUsername } from '~/redux/slices/users';
-import AchievementsInfo from '~/utils/achievementConstants';
+import { selectUserByUsername } from '~/redux/slices/users';
+import {
+  AchievementGroupInfo,
+  GroupedAchievementsInfo,
+} from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
-import { useIsCurrentUser } from '../users/utils';
 import styles from './Overview.module.css';
-
-const AchievementTooltip = ({
-  achievement,
-  children,
-}: {
-  achievement: any;
-  children: ReactNode;
-}) => {
-  return (
-    <Tooltip
-      content={
-        <Flex column gap="var(--spacing-sm)">
-          <h3>{achievement.name}</h3>
-          {achievement.description && (
-            <span>
-              {achievement.hidden ? '?????????' : achievement.description}
-            </span>
-          )}
-          {achievement.rarity && (
-            <span>Sjeldenhet: {achievement.rarity + 1}</span>
-          )}
-        </Flex>
-      }
-      positions={['bottom', 'top', 'right', 'left']}
-      style={{ height: 'auto' }}
-    >
-      {children}
-    </Tooltip>
-  );
-};
 
 const AchievementGroup = ({
   achievementGroup,
-  userLevel,
 }: {
-  achievementGroup: any;
-  userLevel: number;
+  achievementGroup: AchievementGroupInfo & { userAchievedLevel: number };
 }) => {
+  const userLevel = achievementGroup.userAchievedLevel;
   return (
-    <Card hideOverflow className={styles.listItem}>
+    <Card>
       <Flex
-        gap="var(--spacing-sm)"
-        alignItems="baseline"
-        margin="0 0 var(--spacing-md) 0"
+        alignItems="center"
+        justifyContent="space-between"
+        gap="var(--spacing-md)"
+        className={styles.achievementGroup}
       >
-        <h3>{achievementGroup[0].identifier}</h3>
-        <span>deltatt på x arrangementer</span>
-      </Flex>
-      <Flex justifyContent="space-between" alignItems="baseline">
-        <Flex alignItems="center" justifyContent="center">
-          {userLevel === -1 ? (
-            <AchievementTooltip
-              achievement={{
-                name: 'Uoppnådd trofe',
-              }}
-            >
-              <span style={{ fontSize: 100 }}>?</span>
-            </AchievementTooltip>
-          ) : (
-            <AchievementTooltip achievement={achievementGroup[userLevel]}>
-              <img
-                src={achievementGroup[userLevel].image ?? ''}
-                alt="Current trophy"
-                className={styles.currentAchievementImage}
-              />
-            </AchievementTooltip>
-          )}
+        <Flex
+          alignItems="center"
+          gap="var(--spacing-md)"
+          className={styles.currentContainer}
+        >
+          <img
+            src={
+              userLevel < 0
+                ? achievementGroup.achievements[0].image
+                : achievementGroup.achievements[userLevel].image
+            }
+            alt="Trofe"
+            className={cx(
+              styles.achievement,
+              styles.current,
+              userLevel < 0 && styles.unachieved,
+            )}
+          />
+          <Flex
+            column
+            gap="var(--spacing-sm)"
+            className={cx(userLevel < 0 && styles.unachieved)}
+          >
+            <h4>{achievementGroup.name}</h4>
+            <span>{achievementGroup.description}</span>
+          </Flex>
         </Flex>
-        <Flex gap="var(--spacing-sm)">
-          {achievementGroup.map((achievement: any, i: number) => (
-            <AchievementTooltip key={i} achievement={achievement}>
-              <Card className={styles.achievementImageCard}>
-                <img
-                  src={achievement.image ?? ''}
-                  alt="Trofe"
-                  className={styles.trophyImage}
-                />
-              </Card>
-            </AchievementTooltip>
-          ))}
+        <Flex
+          wrap
+          gap="var(--spacing-sm)"
+          justifyContent="flex-end"
+          className={styles.allAchievements}
+        >
+          {achievementGroup.achievements.length > 1 &&
+            achievementGroup.achievements.map((achievement: any, i: number) => (
+              <Tooltip
+                key={i}
+                positions={['top', 'bottom', 'right', 'left']}
+                content={
+                  <Flex
+                    column
+                    gap="var(--spacing-sm)"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <h4>{achievement.name}</h4>
+                    {achievement.description && (
+                      <span>{achievement.description}</span>
+                    )}
+                  </Flex>
+                }
+              >
+                <Card className={styles.achievementImageCard}>
+                  <img
+                    src={achievement.image ?? ''}
+                    alt="Trofe"
+                    className={cx(
+                      styles.achievement,
+                      userLevel < achievement.level && styles.unachieved,
+                    )}
+                  />
+                </Card>
+              </Tooltip>
+            ))}
         </Flex>
       </Flex>
     </Card>
@@ -108,8 +105,9 @@ const Overview = () => {
   const { query } = useQuery({
     min_rarity: 'any',
     max_rarity: 'any',
-    sort: 'none',
-    sort_order: 'asc',
+    sort: 'rarity',
+    sort_order: 'desc',
+    completed: 'all',
   });
 
   const currentUser = useCurrentUser();
@@ -117,41 +115,72 @@ const Overview = () => {
   const user = useAppSelector((state) =>
     selectUserByUsername<CurrentUser>(state, username),
   );
-  const userAchievements = user?.achievements ?? [];
+  const userAchievements = user?.achievements;
 
-  const achievementsGrouped = Object.entries(AchievementsInfo).map(
-    ([key, achievements]) =>
-      achievements.map((achievement, index) => ({
+  const getAchievedLevel = (group: AchievementGroupInfo) => {
+    return !userAchievements
+      ? -1
+      : userAchievements
+          .filter((achievement) => achievement.identifier === group.identifier)
+          .reduce(
+            (max, achievement) =>
+              max.level > achievement.level ? max : achievement,
+            { level: -1 },
+          ).level;
+  };
+
+  // Map group fields to achieved level or use default values
+  const groupedAchievements = GroupedAchievementsInfo.map((group) => {
+    const achievedLevel = getAchievedLevel(group);
+    const achieved = achievedLevel >= 0;
+    return {
+      ...group,
+      userAchievedLevel: achievedLevel,
+      name: achieved ? group.achievements[achievedLevel].name : group.name,
+      description: achieved
+        ? group.achievements[achievedLevel].description
+        : group.description,
+      achievements: group.achievements.map((achievement, index) => ({
         ...achievement,
-        identifier: key,
         level: index,
+        identifier: group.identifier,
       })),
-  );
+    };
+  });
 
-  const filteredAchievementsGrouped = achievementsGrouped.map((group) =>
-    group.filter((achievement) => {
-      const rarity = achievement.rarity;
-      const minRarity =
-        query.min_rarity !== 'any' ? parseInt(query.min_rarity, 10) : 0;
-      const maxRarity =
-        query.max_rarity !== 'any' ? parseInt(query.max_rarity, 10) : Infinity;
-      return rarity >= minRarity && rarity <= maxRarity;
-    }),
-  );
+  const filteredAchievementsGrouped = groupedAchievements.filter((group) => {
+    if (query.completed === 'all') return true;
+    if (query.completed === 'true') return group.userAchievedLevel >= 0;
+    if (query.completed === 'false') return group.userAchievedLevel < 0;
+    return true;
+  });
 
-  // needed ?
-  const sortedAchievementsGrouped = filteredAchievementsGrouped.map((group) =>
-    [...group].sort((a, b) => {
-      let comparison = 0;
-      if (query.sort === 'rarity') comparison = a.rarity - b.rarity;
-      if (query.sort === 'alphabetical')
-        comparison = a.name.localeCompare(b.name);
-      if (query.sort === 'hidden')
-        comparison = a.hidden === b.hidden ? 0 : a.hidden ? -1 : 1;
+  const sortedAchievementsGrouped = filteredAchievementsGrouped.sort((a, b) => {
+    let comparison = 0;
+    if (query.sort === 'none') comparison = 0;
+    if (query.sort === 'alphabetical')
+      comparison = b.name.localeCompare(a.name);
+    if (query.sort === 'hidden')
+      comparison = (a.description ? -1 : 1) - (b.description ? -1 : 1);
+    if (query.sort === 'rarity') {
+      // Give priority to achieved
+      const aAchievedRarity =
+        a.userAchievedLevel < 0
+          ? undefined
+          : a.achievements[a.userAchievedLevel].rarity + 10;
+      const bAchievedRarity =
+        b.userAchievedLevel < 0
+          ? undefined
+          : b.achievements[b.userAchievedLevel].rarity + 10;
 
-      return query.sort_order === 'desc' ? -comparison : comparison;
-    }),
-  );
+      const aRarity = aAchievedRarity ?? a.achievements[0].rarity;
+      const bRarity = bAchievedRarity ?? b.achievements[0].rarity;
+
+      comparison = aRarity - bRarity;
+    }
+
+    return query.sort_order === 'desc' ? -comparison : comparison;
+  });
 
   const dispatch = useAppDispatch();
   const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
@@ -178,26 +207,23 @@ const Overview = () => {
     return () => window.removeEventListener('keydown', keyHandler);
   }, [dispatch, sudoAdminAccess]);
 
-  const hasAchievementGroup = (group: any) => {
-    return userAchievements
-      .filter((achievement) => achievement.identifier === group[0].identifier)
-      .reduce(
-        (max, achievement) =>
-          max.level > achievement.level ? max : achievement,
-        { level: -1 },
-      );
-  };
-
   return (
     <ContentMain>
       <Flex column gap="var(--spacing-md)">
-        {sortedAchievementsGrouped.map((group, index) => (
-          <AchievementGroup
-            key={index}
-            achievementGroup={group}
-            userLevel={hasAchievementGroup(group).level}
-          />
-        ))}
+        {sortedAchievementsGrouped.length > 0 ? (
+          sortedAchievementsGrouped.map((group, index) => (
+            <AchievementGroup key={index} achievementGroup={group} />
+          ))
+        ) : (
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            gap="var(--spacing-md)"
+          >
+            <Icon iconNode={<Ghost />} />
+            <span>Ingen resultat..</span>
+          </Flex>
+        )}
       </Flex>
     </ContentMain>
   );

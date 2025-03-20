@@ -1,47 +1,46 @@
 @import url('styles/custom-media.css');
 
-.listWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-
+div.achievementGroup {
   @media (--mobile-device) {
-    flex-direction: column;
-    gap: var(--spacing-xs);
+    flex-wrap: wrap;
   }
 }
 
-.listItem {
-  /* display: flex;
-  align-items: center; */
-  /* padding: var(--spacing-md); */
-  /* margin-left: calc(-1 * var(--spacing-md));
-  gap: var(--spacing-md);
-  border-radius: var(--border-radius-lg);
-  color: var(--lego-font-color); */
-  /* width: 100%; */
-
-  /* @media (--small-viewport) {
+div.currentContainer {
+  width: 60%;
+  @media (--mobile-device) {
     width: 100%;
-  } */
+  }
 }
 
-.description {
-  color: var(--secondary-font-color);
+.achievementGroup div.allAchievements {
+  width: 40%;
+  @media (--mobile-device) {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
-div.achievementImageCard {
+.achievementGroup div.achievementImageCard {
   padding: var(--spacing-sm);
   cursor: pointer;
+  line-height: 0;
 }
 
-.currentAchievementImage {
+img.achievement {
+  height: 50px;
+  width: 50px;
+}
+
+img.achievement.current {
   height: 100px;
   width: 100px;
 }
 
-.trophyImage {
-  height: 50px;
-  width: 50px;
-  /* width: auto; */
+div.unachieved {
+  color: var(--secondary-font-color);
+}
+
+img.unachieved {
+  opacity: 0.25;
 }

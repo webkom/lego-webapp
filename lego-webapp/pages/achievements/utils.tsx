@@ -10,11 +10,12 @@ export const AchievementTabs = () => (
 export const overviewDefaultSearch = {
   userFullName: '',
   abakusGroupIds: '',
+  completed: 'all',
 };
 
 export const leaderboardDefaultSearch = {
   min_rarity: 'any',
   max_rarity: 'any',
-  sort: 'none',
-  sort_order: 'asc',
+  sort: 'rarity',
+  sort_order: 'desc',
 };
