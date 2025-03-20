@@ -100,13 +100,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
   const word = multiple ? 'bildene' : 'bildet';
 
   return (
-    <div
-      onClick={(e) => {
-        // Call preventDefault to avoid labels from triggering click on input
-        e.preventDefault();
-      }}
-      className={styles.dropArea}
-    >
+    <div className={styles.dropArea}>
       <div
         {...getRootProps({
           className: cx(styles.dropArea, style),
