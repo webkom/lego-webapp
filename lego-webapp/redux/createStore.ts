@@ -1,10 +1,10 @@
 import { configureStore, Tuple } from '@reduxjs/toolkit';
+import { addToast } from '~/components/Toast/ToastProvider';
 import loggerMiddleware from '~/redux/middlewares/loggerMiddleware';
 import createMessageMiddleware from '~/redux/middlewares/messageMiddleware';
 import promiseMiddleware from '~/redux/middlewares/promiseMiddleware';
 import createSentryReduxEnhancer from '~/redux/middlewares/sentryEnhancer';
 import createWebSocketMiddleware from '~/redux/middlewares/websocketMiddleware';
-import { addToast } from '~/redux/slices/toasts';
 import { isTruthy } from '~/utils';
 import { createRootReducer, RootState } from './rootReducer';
 import type * as SentryServer from '@sentry/node';
@@ -40,7 +40,7 @@ const createStore = (
         .prepend(promiseMiddleware())
         .concat(
           new Tuple(
-            createMessageMiddleware((message) => addToast(message), Sentry),
+            createMessageMiddleware(addToast, Sentry),
             !import.meta.env.SSR && createWebSocketMiddleware(),
             !import.meta.env.SSR && import.meta.env.DEV && loggerMiddleware,
           ).filter(isTruthy),

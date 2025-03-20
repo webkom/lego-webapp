@@ -1,8 +1,8 @@
 import WebSocketClient from '@gamestdio/websocket';
+import { addToast } from '~/components/Toast/ToastProvider';
 import { User, Event } from '~/redux/actionTypes';
 import { fetchFollowers } from '~/redux/actions/EventActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
-import { addToast } from '~/redux/slices/toasts';
 import { appConfig } from '~/utils/appConfig';
 import createQueryString from '~/utils/createQueryString';
 import type { Middleware } from '@reduxjs/toolkit';
@@ -39,16 +39,14 @@ const createWebSocketMiddleware = (): Middleware => {
         const message = meta.successMessage || meta.errorMessage;
 
         if (message) {
-          dispatch(
-            addToast({
-              message,
-              type: meta.successMessage
-                ? 'success'
-                : meta.errorMessage
-                  ? 'error'
-                  : undefined,
-            }),
-          );
+          addToast({
+            message,
+            type: meta.successMessage
+              ? 'success'
+              : meta.errorMessage
+                ? 'error'
+                : undefined,
+          });
         }
       };
 
