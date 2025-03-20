@@ -15,7 +15,7 @@
       "types": "./src/index.tsx",
       "import": "./src/index.tsx"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./dist/style.css": "./src/global.css"
   },
   "publishConfig": {
     "exports": {

@@ -7,7 +7,7 @@ import {
 } from '@tiptap/core';
 
 export interface FigureOptions {
-  HTMLAttributes: Record<string, any>;
+  HTMLAttributes: Record<string, unknown>;
 }
 
 declare module '@tiptap/core' {

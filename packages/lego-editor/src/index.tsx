@@ -1,4 +1,5 @@
 import './declaration.d.ts';
+import './global.css';
 import { useEditor, EditorContent as TipTapEditorContent } from '@tiptap/react';
 import { generateHTML, generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
