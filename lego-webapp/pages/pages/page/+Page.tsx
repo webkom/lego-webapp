@@ -7,6 +7,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
+import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -43,6 +44,7 @@ import {
   selectNotFoundPageInfo,
 } from '~/redux/slices/pages';
 import { isNotNullish } from '~/utils';
+import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import styles from './PageDetail.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -53,7 +55,6 @@ import type { AppDispatch } from '~/redux/createStore';
 import type { PublicUser } from '~/redux/models/User';
 import type { RootState } from '~/redux/rootReducer';
 import type { RoleType } from '~/utils/constants';
-
 type PageRendererProps<T> = {
   page: T;
 };
@@ -445,11 +446,19 @@ const PageDetail = () => {
     }
   }, [dispatch, pageSlug]);
 
+  const isEaster = useFeatureFlag('easter2025');
+
   usePreparedEffect(
     'fetchPageDetail',
     () => loadData(pageSlug || '', sectionName, loggedIn, dispatch),
     [pageSlug],
   );
+  if (pageSlug === '124-personvernserklring' && isEaster) {
+    cookie.set(
+      'privacypolicy',
+      'https://vaargalla2.s3.eu-west-2.amazonaws.com/a55255d56729afe9c09256ed97292aa3.png',
+    );
+  }
 
   const actionGrant = pageInfo?.actionGrant || [];
 
