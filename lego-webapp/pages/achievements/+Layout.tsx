@@ -18,7 +18,7 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
   );
   const isOverviewPage = !isLeaderboardPage;
 
-  const { query, setQueryValue, setQuery } = useQuery({
+  const { query, setQueryValue } = useQuery({
     ...leaderboardDefaultSearch,
     ...overviewDefaultSearch,
   });
@@ -27,63 +27,31 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
     ? filterSidebar({
         children: (
           <>
-            <FilterSection title="Sjeldenhet">
+            <FilterSection title="Fremdrift">
               <RadioButton
                 name="filter"
                 id="all"
                 label="Alle"
-                onChange={() =>
-                  setQuery({
-                    ...query,
-                    min_rarity: 'any',
-                    max_rarity: 'any',
-                  })
-                }
-                checked={
-                  query.min_rarity === 'any' && query.max_rarity === 'any'
-                }
+                onChange={() => setQueryValue('completed')('all')}
+                checked={query.completed === 'all'}
               />
               <RadioButton
                 name="filter"
-                id="0_3"
-                label="0-3"
-                onChange={() =>
-                  setQuery({ ...query, min_rarity: '0', max_rarity: '3' })
-                }
-                checked={query.min_rarity === '0' && query.max_rarity === '3'}
+                id="completed"
+                label="Oppnådde"
+                onChange={() => setQueryValue('completed')('true')}
+                checked={query.completed === 'true'}
               />
               <RadioButton
                 name="filter"
-                id="4_6"
-                label="4-6"
-                onChange={() =>
-                  setQuery({ ...query, min_rarity: '4', max_rarity: '6' })
-                }
-                checked={query.min_rarity === '4' && query.max_rarity === '6'}
-              />
-              <RadioButton
-                name="filter"
-                id="7_plus"
-                label="7+"
-                onChange={() =>
-                  setQuery({
-                    ...query,
-                    min_rarity: '7',
-                    max_rarity: 'any',
-                  })
-                }
-                checked={query.min_rarity === '7' && query.max_rarity === 'any'}
+                id="not_completed"
+                label="Uoppnådde"
+                onChange={() => setQueryValue('completed')('false')}
+                checked={query.completed === 'false'}
               />
             </FilterSection>
 
             <FilterSection title="Sortering">
-              <RadioButton
-                name="sort"
-                id="sort_none"
-                label="Ingen"
-                onChange={() => setQueryValue('sort')('none')}
-                checked={query.sort === 'none'}
-              />
               <RadioButton
                 name="sort"
                 id="sort_rarity"
@@ -110,17 +78,17 @@ const AchievementsPageWrapper = ({ children }: PropsWithChildren) => {
             <FilterSection title="Sorteringsrekkefølge">
               <RadioButton
                 name="sort_order"
-                id="order_asc"
-                label="Stigende"
-                onChange={() => setQueryValue('sort_order')('asc')}
-                checked={query.sort_order === 'asc'}
-              />
-              <RadioButton
-                name="sort_order"
                 id="order_desc"
                 label="Synkende"
                 onChange={() => setQueryValue('sort_order')('desc')}
                 checked={query.sort_order === 'desc'}
+              />
+              <RadioButton
+                name="sort_order"
+                id="order_asc"
+                label="Stigende"
+                onChange={() => setQueryValue('sort_order')('asc')}
+                checked={query.sort_order === 'asc'}
               />
             </FilterSection>
           </>

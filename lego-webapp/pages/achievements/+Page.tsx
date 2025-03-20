@@ -1,46 +1,198 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import cx from 'classnames';
+import { Ghost } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
+import Tooltip from '~/components/Tooltip';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import AchievementsInfo from '~/utils/achievementConstants';
+import { CurrentUser } from '~/redux/models/User';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { selectUserByUsername } from '~/redux/slices/users';
+import {
+  AchievementGroupInfo,
+  AchievementIdentifier,
+  GroupedAchievementsInfo,
+} from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
 import styles from './Overview.module.css';
+
+const AchievementGroup = ({
+  achievementGroup,
+}: {
+  achievementGroup: AchievementGroupInfo & { userAchievedLevel: number };
+}) => {
+  const userLevel = achievementGroup.userAchievedLevel;
+  return (
+    <Card>
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        gap="var(--spacing-md)"
+        className={styles.achievementGroup}
+      >
+        <Flex
+          alignItems="center"
+          gap="var(--spacing-md)"
+          className={styles.currentContainer}
+        >
+          <img
+            src={
+              userLevel < 0
+                ? achievementGroup.achievements[0].image
+                : achievementGroup.achievements[userLevel].image
+            }
+            alt="Trofe"
+            className={cx(
+              styles.achievement,
+              styles.current,
+              userLevel < 0 && styles.unachieved,
+            )}
+          />
+          <Flex
+            column
+            gap="var(--spacing-sm)"
+            className={cx(userLevel < 0 && styles.unachieved)}
+          >
+            <h4>{achievementGroup.name}</h4>
+            <span>{achievementGroup.description}</span>
+          </Flex>
+        </Flex>
+        <Flex
+          wrap
+          gap="var(--spacing-sm)"
+          justifyContent="flex-end"
+          className={styles.allAchievements}
+        >
+          {achievementGroup.achievements.length > 1 &&
+            achievementGroup.achievements.map((achievement: any, i: number) => (
+              <Tooltip
+                key={i}
+                positions={['top', 'bottom', 'right', 'left']}
+                content={
+                  <Flex
+                    column
+                    gap="var(--spacing-sm)"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    <h4>{achievement.name}</h4>
+                    {achievement.description && (
+                      <span>{achievement.description}</span>
+                    )}
+                  </Flex>
+                }
+              >
+                <Card className={styles.achievementImageCard}>
+                  <img
+                    src={achievement.image ?? ''}
+                    alt="Trofe"
+                    className={cx(
+                      styles.achievement,
+                      userLevel < achievement.level && styles.unachieved,
+                    )}
+                  />
+                </Card>
+              </Tooltip>
+            ))}
+        </Flex>
+      </Flex>
+    </Card>
+  );
+};
 
 const Overview = () => {
   const { query } = useQuery({
     min_rarity: 'any',
     max_rarity: 'any',
-    sort: 'none',
-    sort_order: 'asc',
+    sort: 'rarity',
+    sort_order: 'desc',
+    completed: 'all',
   });
 
-  const allTrophies = Object.entries(AchievementsInfo).flatMap(
-    ([key, achievements]) =>
-      achievements.map((achievement, index) => ({
-        ...achievement,
-        identifier: key,
-        level: index,
-      })),
+  const currentUser = useCurrentUser();
+  const username = currentUser?.username;
+  const user = useAppSelector((state) =>
+    selectUserByUsername<CurrentUser>(state, username),
   );
+  const userAchievements = user?.achievements;
 
-  const filteredTrophies = allTrophies.filter((trophy) => {
-    const rarity = trophy.rarity;
-    const minRarity =
-      query.min_rarity !== 'any' ? parseInt(query.min_rarity, 10) : 0;
-    const maxRarity =
-      query.max_rarity !== 'any' ? parseInt(query.max_rarity, 10) : Infinity;
-    return rarity >= minRarity && rarity <= maxRarity;
+  const getAchievedLevel = (identifier: AchievementIdentifier) => {
+    return !userAchievements
+      ? -1
+      : userAchievements
+          .filter((achievement) => achievement.identifier === identifier)
+          .reduce(
+            (max, achievement) =>
+              max.level > achievement.level ? max : achievement,
+            { level: -1 },
+          ).level;
+  };
+
+  // Map group fields to achieved level or use default values
+  const groupedAchievements = GroupedAchievementsInfo.map((group) => {
+    const { identifier, name, description, achievements } = group;
+    const achievedLevel = getAchievedLevel(identifier);
+
+    // Use value from achievement if user has achieved it
+    // or group only has that one achievement
+    const mappedName =
+      achievedLevel >= 0
+        ? achievements[achievedLevel].name
+        : achievements.length == 1
+          ? achievements[0].name
+          : name;
+    const mappedDescription =
+      achievedLevel >= 0
+        ? achievements[achievedLevel].description
+        : achievements.length == 1
+          ? achievements[0].description
+          : description;
+
+    return {
+      ...group,
+      userAchievedLevel: achievedLevel,
+      name: mappedName,
+      description: mappedDescription,
+      achievements: achievements.map((achievement, index) => ({
+        ...achievement,
+        level: index,
+        identifier: identifier,
+      })),
+    };
   });
 
-  const sortedTrophies = [...filteredTrophies].sort((a, b) => {
+  const filteredAchievementsGrouped = groupedAchievements.filter((group) => {
+    if (query.completed === 'all') return true;
+    if (query.completed === 'true') return group.userAchievedLevel >= 0;
+    if (query.completed === 'false') return group.userAchievedLevel < 0;
+    return true;
+  });
+
+  const sortedAchievementsGrouped = filteredAchievementsGrouped.sort((a, b) => {
     let comparison = 0;
-    if (query.sort === 'rarity') comparison = a.rarity - b.rarity;
+    if (query.sort === 'none') comparison = 0;
     if (query.sort === 'alphabetical')
-      comparison = a.name.localeCompare(b.name);
+      comparison = b.name.localeCompare(a.name);
     if (query.sort === 'hidden')
-      comparison = a.hidden === b.hidden ? 0 : a.hidden ? -1 : 1;
+      comparison = (a.description ? -1 : 1) - (b.description ? -1 : 1);
+    if (query.sort === 'rarity') {
+      // Give priority to achieved
+      const aAchievedRarity =
+        a.userAchievedLevel < 0
+          ? undefined
+          : a.achievements[a.userAchievedLevel].rarity + 10;
+      const bAchievedRarity =
+        b.userAchievedLevel < 0
+          ? undefined
+          : b.achievements[b.userAchievedLevel].rarity + 10;
+
+      const aRarity = aAchievedRarity ?? a.achievements[0].rarity;
+      const bRarity = bAchievedRarity ?? b.achievements[0].rarity;
+
+      comparison = aRarity - bRarity;
+    }
 
     return query.sort_order === 'desc' ? -comparison : comparison;
   });
@@ -72,25 +224,21 @@ const Overview = () => {
 
   return (
     <ContentMain>
-      <Flex className={styles.listWrapper}>
-        {sortedTrophies.map((e) => (
-          <Flex className={styles.listItem} key={e.name + e.rarity}>
-            <img
-              src={AchievementsInfo[e.identifier][e.level].image ?? ''}
-              alt="Trofe"
-              className={styles.trophyImage}
-            />
-            <Flex column gap="var(--spacing-sm)" className="secondaryFontColor">
-              <h3>{e.name}</h3>
-              <span className={styles.description}>
-                {e.hidden ? '?????????' : e.description}
-              </span>
-              <span className={styles.description}>
-                Sjeldenhet: {e.rarity + 1}
-              </span>
-            </Flex>
+      <Flex column gap="var(--spacing-md)">
+        {sortedAchievementsGrouped.length > 0 ? (
+          sortedAchievementsGrouped.map((group, index) => (
+            <AchievementGroup key={index} achievementGroup={group} />
+          ))
+        ) : (
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            gap="var(--spacing-md)"
+          >
+            <Icon iconNode={<Ghost />} />
+            <span>Ingen resultat..</span>
           </Flex>
-        ))}
+        )}
       </Flex>
     </ContentMain>
   );

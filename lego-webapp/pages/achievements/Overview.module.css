@@ -1,36 +1,46 @@
 @import url('styles/custom-media.css');
 
-.listWrapper {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-
+div.achievementGroup {
   @media (--mobile-device) {
-    flex-direction: column;
-    gap: var(--spacing-xs);
+    flex-wrap: wrap;
   }
 }
 
-.listItem {
-  display: flex;
-  align-items: center;
-  padding: var(--spacing-md);
-  margin-left: calc(-1 * var(--spacing-md));
-  gap: var(--spacing-md);
-  border-radius: var(--border-radius-lg);
-  color: var(--lego-font-color);
-  width: 50%;
-
-  @media (--small-viewport) {
+div.currentContainer {
+  width: 60%;
+  @media (--mobile-device) {
     width: 100%;
   }
 }
 
-.description {
+.achievementGroup div.allAchievements {
+  width: 40%;
+  @media (--mobile-device) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+.achievementGroup div.achievementImageCard {
+  padding: var(--spacing-sm);
+  cursor: pointer;
+  line-height: 0;
+}
+
+img.achievement {
+  height: 50px;
+  width: 50px;
+}
+
+img.achievement.current {
+  height: 100px;
+  width: 100px;
+}
+
+div.unachieved {
   color: var(--secondary-font-color);
 }
 
-.trophyImage {
-  height: 100px;
-  width: auto;
+img.unachieved {
+  opacity: 0.25;
 }
