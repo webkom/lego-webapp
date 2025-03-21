@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useState } from 'react';
+import { HTMLProps, MouseEventHandler, ReactNode, useState } from 'react';
 import cx from 'classnames';
 import styles from './Toolbar.module.css';
 import { Editor } from '@tiptap/react';
@@ -35,9 +35,11 @@ const ToolbarButton = ({
   disabled,
   active,
   children,
-}: ButtonProps) => {
+  ...props
+}: ButtonProps & HTMLProps<HTMLButtonElement>) => {
   return (
     <button
+      {...props}
       className={cx(
         styles.button,
         active && styles.active,
@@ -70,6 +72,7 @@ const ImageUploadButton = ({
         onClick={() => setImageUploadModalOpen(true)}
         disabled={disabled}
         active={editor.isActive('image')}
+        aria-label="Image"
       >
         <Image size={18} />
       </ToolbarButton>
@@ -130,7 +133,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
   }
 
   return (
-    <div className={styles.root}>
+    <div className={styles.root} data-test-id="lego-editor-toolbar">
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         disabled={disabled}

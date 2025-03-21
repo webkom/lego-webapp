@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/node';
 import { parse } from 'cookie';
-import { JSDOM } from 'jsdom';
 import { PageContextServer } from 'vike/types';
 import { useConfig } from 'vike-react/useConfig';
 import { PageContextProvider } from 'vike-react/usePageContext';
@@ -35,8 +34,6 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   const selectedTheme = selectCurrentUser(state)?.selectedTheme || 'light';
   config({ htmlAttributes: { 'data-theme': selectedTheme } });
 
-  // SSR Support for LegoEditor
-  pageContext.domParser = (val: string) => new JSDOM(val).window.document;
   // Helmet support
   pageContext.helmetContext = {};
   // Fucking react-prepare

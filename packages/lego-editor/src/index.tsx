@@ -24,6 +24,7 @@ type Props = {
   disabled?: boolean;
   className?: string;
   imageUpload: ImageUploadFn;
+  name?: string;
 };
 
 const extensions = [
@@ -46,6 +47,7 @@ export const Editor = ({
   disabled,
   className,
   imageUpload,
+  name,
 }: Props) => {
   const [prevContent, setPrevContent] = useState<string | undefined>(content);
 
@@ -81,9 +83,14 @@ export const Editor = ({
   }, [disabled, editor]);
 
   return (
-    <div className={cx(styles.container, className)}>
+    <div className={cx(styles.container, className)} data-test-id="lego-editor">
       <Toolbar editor={editor} disabled={disabled} imageUpload={imageUpload} />
-      <TipTapEditorContent editor={editor} className={styles.content} />
+      <TipTapEditorContent
+        editor={editor}
+        className={styles.content}
+        name={name}
+        data-test-id="lego-editor-content"
+      />
     </div>
   );
 };
@@ -99,6 +106,7 @@ export const EditorContent = ({ content }: { content: string }) => {
 
   return (
     <div
+      data-test-id="lego-editor-content"
       className={styles.content}
       dangerouslySetInnerHTML={{ __html: html }}
     />

@@ -46,7 +46,6 @@ import {
   validYoutubeUrl,
 } from '~/utils/validation';
 import { places, jobTypes, yearValues } from '../constants';
-import styles from './JoblistingEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ListCompany } from '~/redux/models/Company';
 import type { DetailedJoblisting } from '~/redux/models/Joblisting';
@@ -173,7 +172,7 @@ const JoblistingEditor = () => {
   const initialValues = {
     ...joblisting,
     text: joblisting?.text || '<p></p>',
-    description: joblisting?.description || '',
+    description: joblisting?.description || '<p></p>',
     company: joblisting?.company
       ? {
           label: joblisting.company.name,
@@ -343,7 +342,6 @@ const JoblistingEditor = () => {
             </RowSection>
             <Field
               name="description"
-              className={styles.descriptionField}
               label="Søknadsintro"
               placeholder="Søknadsintro"
               component={EditorField.Field}
@@ -352,7 +350,6 @@ const JoblistingEditor = () => {
             />
             <Field
               name="text"
-              className={styles.textField}
               placeholder="Søknadstekst"
               label="Søknadstekst"
               component={EditorField.Field}
