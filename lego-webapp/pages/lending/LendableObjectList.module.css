@@ -60,12 +60,6 @@ img.lendableObjectImage {
   margin-right: 4px;
 }
 
-.lendableObjectInfoboxStatus {
-  position: absolute;
-  bottom: 13px;
-  right: 8px;
-}
-
 .lendableObjectFooter {
   border-top: 1.5px solid var(--border-gray);
   width: 100%;
