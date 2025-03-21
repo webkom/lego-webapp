@@ -7,6 +7,7 @@ import {
   FilterSection,
   LinkButton,
   Button,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
@@ -20,6 +21,7 @@ import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
+import { selectGroupsByIds } from '~/redux/slices/groups';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
@@ -33,6 +35,9 @@ const LendableObject = ({
 }: {
   lendableObject: ListLendableObject;
 }) => {
+  const resposibleGroups = useAppSelector((state) =>
+    selectGroupsByIds(state, lendableObject.canEditGroups),
+  );
   return (
     <a href={`/lending/${lendableObject.id}`}>
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
@@ -47,8 +52,14 @@ const LendableObject = ({
           <div className={styles.lendableObjectInfobox}>
             <div>
               <h3>{truncateText(lendableObject.title, 15)}</h3>
-              <p>{<Contact size={18} />}Revyen</p>
-              <p>{<Package size={18} />}A3-lagerrom</p>
+              <p>
+                {<Icon iconNode={<Contact />} size={18} />}
+                {resposibleGroups.map((g) => g.name)}
+              </p>
+              <p>
+                {<Icon iconNode={<Package />} size={18} />}
+                {lendableObject.location}
+              </p>
             </div>
           </div>
         </div>
