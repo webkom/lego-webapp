@@ -1,4 +1,4 @@
-import { field, selectField, NO_OPTIONS_MESSAGE } from '../support/utils.js';
+import { field, selectField, NO_OPTIONS_MESSAGE } from '../support/utils';
 
 const createCompanyInterest = () => {
   cy.visit('/interesse');

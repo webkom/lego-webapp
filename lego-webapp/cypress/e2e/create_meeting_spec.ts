@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
-import config from '../support/config.js';
+import 'moment/locale/nb';
+import config from '../support/config';
 import {
   c,
   t,
@@ -12,7 +13,7 @@ import {
   selectFromSelectField,
   selectFieldDropdown,
   selectField,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Create meeting', () => {
   beforeEach(() => {

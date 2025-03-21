@@ -1,8 +1,32 @@
-import { apiBaseUrl } from './utils.js';
+import { apiBaseUrl } from './utils';
 
-Cypress.Commands.add('waitForHydration', () => {
-  cy.get('[data-hydrated="true"]').should('exist');
-});
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      waitForHydration(): Chainable<JQuery<HTMLElement>>;
+      getAuthToken(username?: string, password?: string): Chainable<string>;
+      setAuthToken(token: string): Chainable<Cookie>;
+      login(username?: string, password?: string): Chainable<Cookie>;
+      cachedLogin(username?: string, password?: string): Chainable<Cookie>;
+      upload_file(
+        selector: string,
+        fileName: string,
+        type?: string,
+      ): Chainable<JQuery<HTMLElement>>;
+      resetDb(): Chainable<Response<unknown>>;
+      getIframeBody(selector: string): Chainable<unknown>;
+      findIframeBody(selector: string): Chainable<JQuery<HTMLElement>>;
+      apiRequest(
+        options: Partial<Cypress.RequestOptions>,
+        username?: string,
+      ): Chainable<Response<unknown>>;
+    }
+  }
+}
+
+Cypress.Commands.add('waitForHydration', () =>
+  cy.get('[data-hydrated="true"]').should('exist'),
+);
 
 Cypress.Commands.add(
   'getAuthToken',
