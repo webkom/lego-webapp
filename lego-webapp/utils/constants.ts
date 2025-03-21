@@ -38,6 +38,7 @@ export const ROLES = {
   photo_admin: 'Foto- og filmansvarlig',
   graphic_admin: 'Grafiskansvarlig',
   social_media_admin: 'SoMe-ansvarlig',
+  booking_admin: 'Bookingansvarlig',
 };
 
 export type RoleType = keyof typeof ROLES;
