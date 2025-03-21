@@ -1,5 +1,4 @@
-import Bar from '@webkom/react-meter-bar';
-import '@webkom/react-meter-bar/style.css';
+import { MeterBar } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useEffect, useMemo, useState } from 'react';
 import { isNotNullish } from '~/utils';
@@ -73,10 +72,14 @@ const PasswordStrengthMeter = ({ password, user }: Props) => {
   );
 };
 
-const PasswordStrengthBar = ({ strengthScore }: { strengthScore: number }) => {
+const PasswordStrengthBar = ({
+  strengthScore,
+}: {
+  strengthScore: 0 | 1 | 2 | 3 | 4;
+}) => {
   return (
     <div className={styles.removeLabels}>
-      <Bar
+      <MeterBar
         labels={[1, 2, 3, 4, 5]}
         labelColor="#000"
         progress={strengthScore * 25}

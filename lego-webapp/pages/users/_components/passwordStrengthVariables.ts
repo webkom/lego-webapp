@@ -12,7 +12,7 @@ export const barColor = {
   3: 'var(--color-green-6)',
   4: 'var(--color-green-7)',
 };
-export const passwordFeedbackMessages = {
+export const passwordFeedbackMessages: Record<string, string> = {
   'Add another word or two. Uncommon words are better.':
     'Legg til et ord eller to. Uvanlige ord er best.',
   'Straight rows of keys are easy to guess':
