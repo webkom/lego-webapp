@@ -1,6 +1,7 @@
 import {
   Button,
   Icon,
+  ImageUpload,
   LinkButton,
   LoadingPage,
   Page,
@@ -14,7 +15,6 @@ import Gallery from '~/components/Gallery';
 import PropertyHelmet, {
   type PropertyGenerator,
 } from '~/components/PropertyHelmet';
-import ImageUpload from '~/components/Upload/ImageUpload';
 import HTTPError from '~/components/errors/HTTPError';
 import LoginPage from '~/pages/auth/+Page';
 import { downloadFiles, zipFiles } from '~/pages/photos/utils';
@@ -40,7 +40,7 @@ import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
 import GalleryDetailsRow from '../../GalleryDetailsRow';
 import styles from '../../Overview.module.css';
-import type { DropFile } from '~/components/Upload/ImageUpload';
+import type { DropFile } from '@webkom/lego-bricks';
 import type { DetailedGallery } from '~/redux/models/Gallery';
 import type { GalleryListPicture } from '~/redux/models/GalleryPicture';
 

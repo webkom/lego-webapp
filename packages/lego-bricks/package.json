@@ -51,7 +51,7 @@
     "types": "tsc"
   },
   "dependencies": {
-    "classnames": "^2.5.1",
+    "classnames": "catalog:",
     "cropperjs": "^1.6.2",
     "lucide-react": "catalog:",
     "react-aria-components": "catalog:",

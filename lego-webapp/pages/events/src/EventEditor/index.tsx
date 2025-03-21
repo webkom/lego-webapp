@@ -294,7 +294,7 @@ const EventEditor = () => {
           }),
         ],
         description: '',
-        text: '',
+        text: '<p></p>',
         eventType: '',
         eventStatusType: {
           value: 'TBA',

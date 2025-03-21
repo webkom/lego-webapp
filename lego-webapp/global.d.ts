@@ -13,7 +13,6 @@ declare global {
       helmetContext?: {
         helmet?: HelmetServerState;
       };
-      domParser?: (value: string) => HTMLDocument;
       preparedStateCode?: string;
       // Might be added by a navigate() call
       navigationState?: unknown;

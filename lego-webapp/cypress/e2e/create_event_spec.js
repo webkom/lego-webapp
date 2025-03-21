@@ -10,6 +10,9 @@ import {
   setDatePickerTime,
   uploadHeader,
   NO_OPTIONS_MESSAGE,
+  getEditorToolbar,
+  getEditorContent,
+  ctrlKey,
 } from '../support/utils.js';
 
 describe('Create event', () => {
@@ -32,7 +35,6 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('be.disabled');
     // click editor to initialize form and enable Opprett button
     selectEditor().type('test');
-    cy.wait(1000);
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -83,50 +85,44 @@ describe('Create event', () => {
     // Click editor
     selectEditor();
     // Sidebar is visible
-    cy.get('._legoEditor_Toolbar_root').should('be.visible');
+    getEditorToolbar().should('be.visible');
     //cy.focused().type('{enter}hello{uparrow}lol{enter}');
 
     cy.focused().type('This text should be large');
     // Format text
-    cy.get('._legoEditor_Toolbar_root button').first().click();
-    cy.get('._legoEditor_root h1')
+    getEditorToolbar().find('button').first().click();
+    getEditorContent()
+      .find(`h1`)
       .should('be.visible')
       .contains('This text should be large');
-    //cy.focused().type('{enter}{backspace}');
+    cy.focused().type('{enter}');
 
     // Format bold and italic with keyboard shortcuts
-    //cy.focused();
-    //.type('{ctrl}b')
-    //.type('This should be bold{ctrl}b')
-    //.type('{ctrl}i')
-    //.type('This should be italic{ctrl}i')
-    //.type('No format');
-    //cy.get('._legoEditor_root strong').contains('This should be bold');
-    //cy.get('._legoEditor_root em').contains('This should be italic');
-    //cy.get('._legoEditor_root p span')
-    //.last()
-    //.contains('No format');
+    cy.focused()
+      .type(`${ctrlKey}b`)
+      .type(`This should be bold${ctrlKey}b`)
+      .type(`${ctrlKey}i`)
+      .type(`This should be italic${ctrlKey}i`)
+      .type('{enter}No format');
+    getEditorContent().find('strong').contains('This should be bold');
+    getEditorContent().find('em').contains('This should be italic');
+    getEditorContent().find('p').last().contains('No format');
 
     // No image in article before adding it
-    cy.get('._legoEditor_root img').should('not.exist');
+    getEditorContent().find('img').should('not.exist');
 
     // Open file upload modal
-    cy.get(c('_legoEditor_imageUploader')).should('not.exist');
+    cy.get(c('_modal')).should('not.exist');
 
-    cy.get('._legoEditor_root button[aria-label=Image]').click();
+    getEditorToolbar().find('button[aria-label=Image]').click();
 
-    cy.get(c('_legoEditor_imageUploader')).should('be.visible');
+    cy.get(c('_modal')).should('be.visible');
 
     // Upload file
     cy.upload_file(
-      '._legoEditor_imageUploader_dropZone',
+      `${c('_modal')} ${c('_dropArea')} span`,
       'images/screenshot.png',
     );
-
-    // This is needed so that the crop module is activated because of how we mock upload files in these tests
-    cy.get('.ReactCrop__drag-handle.ord-n').click({
-      force: true,
-    });
 
     cy.get(t('Modal__content'))
       .get('button')
@@ -135,16 +131,12 @@ describe('Create event', () => {
       .click();
 
     // Image is inside article
-    cy.get('._legoEditor_figure').should('be.visible');
-    cy.get('._legoEditor_img').should('be.visible').and('have.attr', 'src');
-
-    // Caption is created
-    cy.get('._legoEditor_figcaption').should('be.visible').contains('Caption');
+    getEditorContent().find('img').should('be.visible').and('have.attr', 'src');
 
     // Navigate past image with arrow keys and add text on bottom
-    //cy.get('div[data-slate-editor="true"]').click();
-    //cy.focused().type('{downarrow}');
-    //cy.focused().type('{enter}EOF{enter}');
+    selectEditor();
+    cy.focused().type('{downarrow}');
+    cy.focused().type('{enter}EOF{enter}');
     cy.focused().type('EOF');
 
     // Fill rest of form
@@ -166,7 +158,7 @@ describe('Create event', () => {
     cy.contains('Pils på Webkomkontoret!');
     cy.contains('Sosialt');
     cy.contains('This text should be large');
-    cy.get('._legoEditor_img').should('be.visible');
+    getEditorContent().find('img').should('be.visible');
     cy.contains('EOF');
   });
 
@@ -379,7 +371,6 @@ describe('Create event', () => {
 
     // Select type
     selectField('eventType').click();
-    cy.wait(50);
     cy.focused().type('anne{enter}', { force: true });
 
     // Select regitrationType

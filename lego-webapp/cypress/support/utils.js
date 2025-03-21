@@ -3,6 +3,9 @@ import mockMazemapApiResponse from '../fixtures/mockApiResponses/mazemap.json';
 export const apiBaseUrl =
   Cypress.env('API_BASE_URL') || 'http://localhost:8000';
 
+const IS_MACOS = Cypress.platform.toLowerCase().search('darwin') !== -1;
+export const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
+
 export const NO_OPTIONS_MESSAGE = 'Ingen treff';
 
 // CSS Selector to match classnames by their prefix
@@ -45,13 +48,18 @@ export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 
 export const button = (buttonText) => cy.contains('button', buttonText);
 
-export const selectEditor = (name, options = {}) =>
+export const getEditor = (name, options = {}) =>
   name
-    ? cy
-        .get(`[name="${name}"] div[data-slate-editor="true"]`, options)
-        .click()
-        .click()
-    : cy.get('div[data-slate-editor="true"]', options).click().click();
+    ? cy.get(`${t('lego-editor')} [name="${name}"]`, options)
+    : cy.get(t('lego-editor'), options);
+
+export const getEditorToolbar = (name, options = {}) =>
+  getEditor(name, options).find(t('lego-editor-toolbar'));
+
+export const getEditorContent = () => cy.get(t('lego-editor-content'));
+
+export const selectEditor = (name, options = {}) =>
+  getEditor(name, options).find('div[contenteditable]').click();
 
 export const setDatePickerTime = (name, hours, minutes, isEndTime = false) => {
   field(name).click();

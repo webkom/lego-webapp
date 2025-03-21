@@ -68,10 +68,6 @@ Cypress.Commands.add('resetDb', () => {
   });
 });
 
-Cypress.Commands.overwrite('type', (originalFn, subject, string, options) =>
-  originalFn(subject, string, Object.assign({}, options, { delay: 1 })),
-);
-
 // Commands for interacting with iframes
 Cypress.Commands.add('getIframeBody', (selector) => {
   return cy

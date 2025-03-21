@@ -40,12 +40,9 @@ describe('Create joblisting', () => {
     cy.contains('button', 'Opprett').click();
     cy.get(c('fieldError')).should('exist');
 
-    // TODO sometimes there is an issue in the joblisting editor where you have to click
-    // the top editor twice. Not a breaking bug.
     const description = 'A joblisting description';
     const text = 'Joblisting text';
     selectEditor('description').type(description);
-    cy.wait(500);
     selectEditor('text').type(text);
 
     selectEditor('description', { timeout: 2000 }).should(
@@ -56,14 +53,9 @@ describe('Create joblisting', () => {
 
     cy.get(c('fieldError')).should('not.exist');
 
-    //TODO: når du fyller ut og så fjerner teksten igjen så skal det ikke funke.
-    //cy.get('div[data-slate-editor="true"]')
-    //.first()
-    //.clear();
-    //cy.contains('button', 'Lagre endringer').should('be.disabled');
-
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
-    //TODO: check new url
+    cy.url().should('not.contain', '/joblistings/new');
+    cy.url().should('contain', '/joblistings/');
     cy.contains('h1', 'Sommerjobb hos BEKK');
   });
 });

@@ -113,7 +113,7 @@ describe('Create meeting', () => {
 
     cy.contains('h1', 'Test meeting').should('be.visible');
     cy.contains('time', '10:00').should('be.visible');
-    cy.contains(c('legoEditor_disabled'), 'Meeting plan').should('be.visible');
+    cy.contains(t('lego-editor-content'), 'Meeting plan').should('be.visible');
     cy.contains('div', 'Når')
       .should('contain.text', '10:00 - 13:37')
       .should('be.visible');
@@ -208,7 +208,6 @@ describe('Create meeting', () => {
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
 
     selectEditor().type('{enter}{enter}Meeting report');
-    cy.wait(200); // wait for lego-editor debounce
 
     fieldError('title').should('not.exist');
     fieldError('report').should('not.exist');
@@ -226,8 +225,8 @@ describe('Create meeting', () => {
 
     cy.contains('h1', meeting.title).should('be.visible');
     cy.contains('time', '17:15').should('be.visible');
-    cy.contains(c('legoEditor_disabled'), 'Meeting plan').should('be.visible');
-    cy.contains(c('legoEditor_disabled'), 'Meeting report').should(
+    cy.contains(t('lego-editor-content'), 'Meeting plan').should('be.visible');
+    cy.contains(t('lego-editor-content'), 'Meeting report').should(
       'be.visible',
     );
     cy.contains('div', 'Når')
