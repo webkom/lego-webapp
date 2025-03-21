@@ -1,0 +1,51 @@
+.progressBar {
+  position: relative;
+
+  .labelHolder {
+    height: 20px;
+    padding-bottom: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .progressBg {
+    position: relative;
+    height: 20px;
+    margin-bottom: 10px;
+
+    background-color: rgb(238, 238, 238);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .progress {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 20%;
+
+    background-color: palevioletred;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .separator {
+    height: 100%;
+    width: 1px;
+
+    background-color: orangered;
+  }
+}
+
+.label {
+  display: inline-block;
+  position: absolute;
+}
+
+.label:not(:first-child) {
+  transform: translateX(-50%);
+}
+
+.label:last-child {
+  transform: translateX(-100%);
+}
