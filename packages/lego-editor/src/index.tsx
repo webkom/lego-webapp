@@ -99,9 +99,9 @@ export const Editor = ({
  * Render the content of the editor with the same styling as within the editor
  * @param content - the content to render as HTML
  */
-export const EditorContent = ({ content }: { content: string }) => {
+export const EditorContent = ({ content }: { content: string | undefined }) => {
   // Round-trip the content through TipTap to ensure it's sanitized
-  const json = generateJSON(content, extensions);
+  const json = generateJSON(content ?? '', extensions);
   const html = generateHTML(json, extensions);
 
   return (

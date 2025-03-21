@@ -25,7 +25,7 @@ pnpm prettier
 
 ### Building and publishing
 
-```
+```bash
 pnpm lint
 pnpm build
 pnpm publish

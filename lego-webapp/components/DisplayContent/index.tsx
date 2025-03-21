@@ -34,7 +34,7 @@ function DisplayContent({
 
   return (
     <div key={content} id={id} style={style} className={className}>
-      <EditorContent content={content ?? ''} />
+      <EditorContent content={content} />
     </div>
   );
 }

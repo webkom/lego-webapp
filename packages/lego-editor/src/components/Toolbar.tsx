@@ -92,7 +92,10 @@ type ToolbarLinkButtonProps = {
 };
 
 const parseUrl = (url: string) =>
-  url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')
+  url.startsWith('http://') ||
+  url.startsWith('https://') ||
+  url.startsWith('mailto:') ||
+  url.startsWith('/')
     ? url
     : `https://${url}`;
 

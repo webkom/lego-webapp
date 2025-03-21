@@ -51,7 +51,7 @@ function CollapsibleDisplayContent({
           className={className}
           ref={ref}
         >
-          <EditorContent content={content ?? ''} />
+          <EditorContent content={content} />
         </div>
       )}
       {useCollapse && (
