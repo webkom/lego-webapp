@@ -1,4 +1,4 @@
-import { c, a, t, selectTab } from '../support/utils.js';
+import { c, a, t, selectTab } from '../support/utils';
 
 describe('Navigate throughout app', () => {
   beforeEach(() => {

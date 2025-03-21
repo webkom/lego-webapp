@@ -33,7 +33,11 @@ export const selectField = (name) =>
 export const selectFieldDropdown = (name) =>
   cy.get(`[id=react-select-${name}-listbox]`);
 
-export const selectFromSelectField = (name, option, search) => {
+export const selectFromSelectField = (
+  name: string,
+  option: string,
+  search?: string,
+) => {
   selectField(name).click();
   cy.focused().type(search ?? option, { force: true });
   selectFieldDropdown(name)
@@ -48,17 +52,17 @@ export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
 
 export const button = (buttonText) => cy.contains('button', buttonText);
 
-export const getEditor = (name, options = {}) =>
+export const getEditor = (name?: string, options = {}) =>
   name
     ? cy.get(`${t('lego-editor')} [name="${name}"]`, options)
     : cy.get(t('lego-editor'), options);
 
-export const getEditorToolbar = (name, options = {}) =>
+export const getEditorToolbar = (name?: string, options = {}) =>
   getEditor(name, options).find(t('lego-editor-toolbar'));
 
 export const getEditorContent = () => cy.get(t('lego-editor-content'));
 
-export const selectEditor = (name, options = {}) =>
+export const selectEditor = (name?: string, options = {}) =>
   getEditor(name, options).find('div[contenteditable]').click();
 
 export const setDatePickerTime = (name, hours, minutes, isEndTime = false) => {

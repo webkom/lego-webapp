@@ -11,7 +11,7 @@ import {
   selectFromSelectField,
   setDatePickerDate,
   setDatePickerTime,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Event registration & payment', () => {
   if (Cypress.env('ENABLE_STRIPE')) {

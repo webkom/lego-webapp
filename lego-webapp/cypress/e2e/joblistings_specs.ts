@@ -6,7 +6,7 @@ import {
   selectFieldDropdown,
   selectEditor,
   NO_OPTIONS_MESSAGE,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Create joblisting', () => {
   beforeEach(() => {
