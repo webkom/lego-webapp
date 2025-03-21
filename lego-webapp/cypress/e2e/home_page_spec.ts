@@ -1,4 +1,4 @@
-import { c, t } from '../support/utils.js';
+import { c, t } from '../support/utils';
 
 describe('The Home Page and Login', () => {
   it('successfully loads landing page', () => {

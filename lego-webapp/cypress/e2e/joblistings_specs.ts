@@ -6,7 +6,7 @@ import {
   selectFieldDropdown,
   selectEditor,
   NO_OPTIONS_MESSAGE,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Create joblisting', () => {
   beforeEach(() => {
@@ -45,11 +45,8 @@ describe('Create joblisting', () => {
     selectEditor('description').type(description);
     selectEditor('text').type(text);
 
-    selectEditor('description', { timeout: 2000 }).should(
-      'contain',
-      description,
-    );
-    selectEditor('text', { timeout: 2000 }).should('contain', text);
+    selectEditor('description').should('contain', description);
+    selectEditor('text').should('contain', text);
 
     cy.get(c('fieldError')).should('not.exist');
 

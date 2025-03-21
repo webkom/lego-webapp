@@ -5,7 +5,7 @@ import {
   fieldError,
   selectField,
   selectFieldDropdown,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Polls', () => {
   beforeEach(() => {

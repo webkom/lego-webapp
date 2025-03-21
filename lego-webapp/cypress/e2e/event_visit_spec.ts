@@ -1,4 +1,4 @@
-import { c, t } from '../support/utils.js';
+import { c, t } from '../support/utils';
 
 describe('View event', () => {
   beforeEach(() => {

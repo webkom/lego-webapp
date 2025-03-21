@@ -1,4 +1,4 @@
-import { field, fieldError, button } from '../support/utils.js';
+import { field, fieldError, button } from '../support/utils';
 
 describe('Change password', () => {
   beforeEach(() => {

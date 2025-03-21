@@ -9,20 +9,20 @@ export const ctrlKey = IS_MACOS ? '{cmd}' : '{ctrl}';
 export const NO_OPTIONS_MESSAGE = 'Ingen treff';
 
 // CSS Selector to match classnames by their prefix
-export const c = (classname) => `[class*="${classname}"]`;
+export const c = (classname: string) => `[class*="${classname}"]`;
 
 // Find links by their path
-export const a = (path) => `a[href="${path}"]`;
+export const a = (path: string) => `a[href="${path}"]`;
 
-export const t = (testId) => `[data-test-id="${testId}"]`;
+export const t = (testId: string) => `[data-test-id="${testId}"]`;
 
-export const selectTab = (tabName) =>
+export const selectTab = (tabName: string) =>
   cy.get(t('tab')).contains(tabName).click();
 
-export const field = (name) => cy.get(`[name="${name}"]`);
+export const field = (name: string) => cy.get(`[name="${name}"]`);
 
 // Used for react-select elements that cannot be found with the normal field method
-export const selectField = (name) =>
+export const selectField = (name: string) =>
   cy
     .get(`[id="react-select-${name}-input"]`)
     .parent()
@@ -30,10 +30,14 @@ export const selectField = (name) =>
     .parent()
     .parent();
 
-export const selectFieldDropdown = (name) =>
+export const selectFieldDropdown = (name: string) =>
   cy.get(`[id=react-select-${name}-listbox]`);
 
-export const selectFromSelectField = (name, option, search) => {
+export const selectFromSelectField = (
+  name: string,
+  option: string,
+  search?: string,
+) => {
   selectField(name).click();
   cy.focused().type(search ?? option, { force: true });
   selectFieldDropdown(name)
@@ -44,24 +48,30 @@ export const selectFromSelectField = (name, option, search) => {
 
 export const fieldErrors = () => cy.get(c('fieldError'));
 
-export const fieldError = (name) => cy.get(`[data-error-field-name="${name}"`);
+export const fieldError = (name: string) =>
+  cy.get(`[data-error-field-name="${name}"`);
 
-export const button = (buttonText) => cy.contains('button', buttonText);
+export const button = (buttonText: string) => cy.contains('button', buttonText);
 
-export const getEditor = (name, options = {}) =>
+export const getEditor = (name?: string) =>
   name
-    ? cy.get(`${t('lego-editor')} [name="${name}"]`, options)
-    : cy.get(t('lego-editor'), options);
+    ? cy.get(`${t('lego-editor')} [name="${name}"]`)
+    : cy.get(t('lego-editor'));
 
-export const getEditorToolbar = (name, options = {}) =>
-  getEditor(name, options).find(t('lego-editor-toolbar'));
+export const getEditorToolbar = (name?: string) =>
+  getEditor(name).find(t('lego-editor-toolbar'));
 
 export const getEditorContent = () => cy.get(t('lego-editor-content'));
 
-export const selectEditor = (name, options = {}) =>
-  getEditor(name, options).find('div[contenteditable]').click();
+export const selectEditor = (name?: string) =>
+  getEditor(name).find('div[contenteditable]').click();
 
-export const setDatePickerTime = (name, hours, minutes, isEndTime = false) => {
+export const setDatePickerTime = (
+  name: string,
+  hours: string,
+  minutes: string,
+  isEndTime = false,
+) => {
   field(name).click();
 
   const timePickerIndex = isEndTime ? 3 : 0;
@@ -87,7 +97,11 @@ export const setDatePickerTime = (name, hours, minutes, isEndTime = false) => {
   field(name).click();
 };
 
-export const setDatePickerDate = (name, date, isNextMonth = false) => {
+export const setDatePickerDate = (
+  name: string,
+  date: string | number,
+  isNextMonth = false,
+) => {
   field(name).click();
 
   if (isNextMonth) {
@@ -115,7 +129,11 @@ export const confirm3DSecure2Dialog = (confirm = true) => {
     .click();
 };
 
-export const fillCardDetails = (cardNumber, expiry, cvc) => {
+export const fillCardDetails = (
+  cardNumber: string,
+  expiry: string,
+  cvc: string,
+) => {
   cy.getIframeBody('[data-test-id="cardnumber-input"] iframe')
     .find('input[name="cardnumber"]')
     .type(cardNumber);
