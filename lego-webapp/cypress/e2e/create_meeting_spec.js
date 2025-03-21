@@ -208,7 +208,6 @@ describe('Create meeting', () => {
     selectFromSelectField('users', 'bedkom bedkom (bedkom)', 'bedkom');
 
     selectEditor().type('{enter}{enter}Meeting report');
-    cy.wait(200); // wait for lego-editor debounce
 
     fieldError('title').should('not.exist');
     fieldError('report').should('not.exist');

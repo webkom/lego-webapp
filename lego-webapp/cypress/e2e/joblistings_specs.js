@@ -43,7 +43,6 @@ describe('Create joblisting', () => {
     const description = 'A joblisting description';
     const text = 'Joblisting text';
     selectEditor('description').type(description);
-    cy.wait(500);
     selectEditor('text').type(text);
 
     selectEditor('description', { timeout: 2000 }).should(

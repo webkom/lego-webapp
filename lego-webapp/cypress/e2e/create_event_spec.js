@@ -11,7 +11,6 @@ import {
   uploadHeader,
   NO_OPTIONS_MESSAGE,
   getEditorToolbar,
-  getEditor,
   getEditorContent,
   ctrlKey,
 } from '../support/utils.js';
@@ -36,7 +35,6 @@ describe('Create event', () => {
     cy.contains('button', 'Opprett').should('be.disabled');
     // click editor to initialize form and enable Opprett button
     selectEditor().type('test');
-    cy.wait(1000);
 
     cy.contains('button', 'Opprett').should('not.be.disabled').click();
 
@@ -373,7 +371,6 @@ describe('Create event', () => {
 
     // Select type
     selectField('eventType').click();
-    cy.wait(50);
     cy.focused().type('anne{enter}', { force: true });
 
     // Select regitrationType
