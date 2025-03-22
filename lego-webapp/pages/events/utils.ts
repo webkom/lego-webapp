@@ -260,6 +260,7 @@ export const transformEvent = (data: TransformEvent) => ({
   feedbackRequired: data.hasFeedbackQuestion && data.feedbackRequired,
   isForeignLanguage: data.isForeignLanguage,
   showCompanyDescription: data.showCompanyDescription,
+  tags: (data.tags || []).map((tag) => tag.value.toLowerCase()),
 });
 export const paymentPending = 'pending';
 export const paymentSuccess = 'succeeded';

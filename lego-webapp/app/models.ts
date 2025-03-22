@@ -111,8 +111,6 @@ export type User = {
   linkedinId?: string;
 };
 
-export type Tags = string;
-
 export enum GroupType {
   Committee = 'komite',
   Board = 'styre',
@@ -168,7 +166,7 @@ type EventBase = {
   endTime: Dateish;
   mergeTime: Dateish | null | undefined;
   useCaptcha: boolean;
-  tags: Array<Tags>;
+  tags: string[];
   separateDeadlines: boolean;
   registrationDeadlineHours: number;
   unregistrationDeadline: Dateish;

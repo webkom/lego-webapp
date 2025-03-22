@@ -280,6 +280,10 @@ const EventEditor = () => {
         separateDeadlines:
           event.registrationDeadlineHours !== event.unregistrationDeadlineHours,
         hasFeedbackQuestion: !!event.feedbackDescription,
+        tags: (event?.tags || []).map((tag) => ({
+          label: tag,
+          value: tag,
+        })),
       }
     : {
         title: '',
