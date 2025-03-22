@@ -39,6 +39,7 @@ export const AchievementIdentifier = {
   poll_count: 'poll_count',
   penalty_period: 'penalty_period',
   genfors_count: 'genfors_count',
+  gala_count: 'gala_count',
 } as const;
 
 export type AchievementIdentifier =
@@ -275,6 +276,36 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_8,
     },
   ],
+  gala_count: [
+    {
+      name: 'Festløve',
+      description: 'Deltatt på 1 galla',
+      rarity: 0,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_1,
+    },
+    {
+      name: 'Gallaholiker',
+      description: 'Deltatt på 5 gallaer',
+      rarity: 3,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_4,
+    },
+    {
+      name: 'Daljeh*re',
+      description: 'Deltatt på 10 gallaer',
+      rarity: 5,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_6,
+    },
+    {
+      name: 'Ordensmedlem',
+      description: 'Deltatt på 15 gallaer',
+      rarity: 6,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_7,
+    },
+  ],
 };
 
 export type DetailedAchievementData = AchievementData & { level?: number };
@@ -331,6 +362,12 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Genfors',
     description: 'Deltatt på X genfors',
     achievements: AchievementsInfo['genfors_count'],
+  },
+  {
+    identifier: 'gala_count',
+    name: 'Galla',
+    description: 'Deltatt på X gallaer',
+    achievements: AchievementsInfo['gala_count'],
   },
   {
     // hidden
