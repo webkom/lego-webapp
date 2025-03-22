@@ -27,17 +27,16 @@ function CollapsibleDisplayContent({
   const [isOpened, setIsOpened] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
-  const useCollapse =
-    collapsedHeight < ref.current?.clientHeight || !ref.current;
+  const useCollapse = ref.current && collapsedHeight < ref.current.clientHeight;
 
   return (
     <div
       className={styles.collapse}
       style={{
         height: !useCollapse
-          ? null
+          ? undefined
           : isOpened
-            ? ref.current?.clientHeight + 50
+            ? ref.current.clientHeight + 50
             : collapsedHeight + 'px',
       }}
     >

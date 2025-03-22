@@ -29,7 +29,9 @@ const isActivePath = (
     activeUrls = activeUrls.map((url) => url.split('?')[0]);
   }
   if (typeof matchQuery === 'object') {
-    const query = qs.parse(url.searchOriginal, { ignoreQueryPrefix: true });
+    const query = qs.parse(url.searchOriginal ?? '', {
+      ignoreQueryPrefix: true,
+    });
     for (const [key, value] of Object.entries(matchQuery)) {
       const valueList = Array.isArray(value) ? value : [value];
       if (!valueList.includes(query[key])) {

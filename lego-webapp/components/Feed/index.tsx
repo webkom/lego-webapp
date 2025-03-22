@@ -1,6 +1,7 @@
 import { Frown } from 'lucide-react';
 import EmptyState from '~/components/EmptyState';
 import ErrorBoundary from '~/components/ErrorBoundary';
+import ActivityRenderer from '~/components/Feed/ActivityRenderer';
 import { useAppSelector } from '~/redux/hooks';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
@@ -16,9 +17,8 @@ import RegistrationBumpRenderer from './renders/registrationBump';
 import RestrictedMailSentRenderer from './renders/restrictedMail';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
-import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
-export const activityRenderers: Record<FeedActivityVerb, ActivityRenderer> = {
+export const activityRenderers = {
   [FeedActivityVerb.Comment]: CommentRenderer,
   [FeedActivityVerb.CommentReply]: CommentReplyRenderer,
   [FeedActivityVerb.MeetingInvitation]: MeetingInvitationRenderer,
@@ -29,6 +29,10 @@ export const activityRenderers: Record<FeedActivityVerb, ActivityRenderer> = {
   [FeedActivityVerb.GroupJoin]: GroupJoinRenderer,
   [FeedActivityVerb.EventRegister]: EventRegisterRenderer,
 };
+
+export const getActivityRenderer = <Verb extends FeedActivityVerb>(
+  verb: Verb,
+) => activityRenderers[verb] as unknown as ActivityRenderer<Verb>;
 
 type Props = {
   feedId: EntityId;
@@ -47,7 +51,7 @@ const Feed = ({ feedId }: Props): ReactNode => {
     >
       {feedActivities.length ? (
         feedActivities.map((item) => {
-          const activityRenderer = activityRenderers[item.verb];
+          const activityRenderer = getActivityRenderer(item.verb);
           return activityRenderer ? (
             <ErrorBoundary hidden key={item.id}>
               <Activity

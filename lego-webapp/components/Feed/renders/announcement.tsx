@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { contextRender } from '../context';
 import styles from '../context.module.css';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
@@ -6,7 +7,7 @@ import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 /**
  * Group by object
  */
-const AnnouncementRenderer: ActivityRenderer = {
+const AnnouncementRenderer: ActivityRenderer<FeedActivityVerb.Announcement> = {
   Header: ({ aggregatedActivity, tag: Tag }) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const actor = aggregatedActivity.context[latestActivity.actor];
