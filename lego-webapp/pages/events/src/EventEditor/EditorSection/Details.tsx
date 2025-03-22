@@ -75,6 +75,17 @@ const Details: React.FC<Props> = ({ values }) => {
         />
       </Flex>
       <Flex className={styles.editorSectionRow}>
+        <Field
+          name="tags"
+          label="Tags"
+          filter={['tags.tag']}
+          placeholder="Skriv inn tags"
+          component={SelectInput.AutocompleteField}
+          isMulti
+          tags
+        />
+      </Flex>
+      <Flex className={styles.editorSectionRow}>
         <Flex column className={styles.editorSectionColumn}>
           <Label
             label="Sted"
