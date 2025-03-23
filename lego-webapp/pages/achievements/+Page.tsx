@@ -14,6 +14,7 @@ import {
   AchievementGroupInfo,
   AchievementIdentifier,
   GroupedAchievementsInfo,
+  rarityToColorMap,
   rarityToTranslationMap,
 } from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
@@ -25,6 +26,26 @@ const AchievementGroup = ({
   achievementGroup: AchievementGroupInfo & { userAchievedLevel: number };
 }) => {
   const userLevel = achievementGroup.userAchievedLevel;
+
+  const TitleWithRarity = ({
+    title,
+    rarity,
+  }: {
+    title: string;
+    rarity: Rarity;
+  }) => {
+    const rarityString = rarityToTranslationMap[rarity];
+    const rarityColor = rarityToColorMap[rarity];
+    return (
+      <Flex gap="var(--spacing-xs)" alignItems="baseline">
+        <h4>{title}</h4>
+        <i className={styles.rarity} style={{ color: rarityColor }}>
+          {rarityString}
+        </i>
+      </Flex>
+    );
+  };
+
   return (
     <Card>
       <Flex
@@ -56,20 +77,15 @@ const AchievementGroup = ({
             gap="var(--spacing-sm)"
             className={cx(userLevel < 0 && styles.unachieved)}
           >
-            <h4>{achievementGroup.name}</h4>
+            <TitleWithRarity
+              title={achievementGroup.name}
+              rarity={
+                userLevel >= 0
+                  ? achievementGroup.achievements[userLevel].rarity
+                  : achievementGroup.achievements[0].rarity
+              }
+            />
             <span>{achievementGroup.description}</span>
-            <span>
-              Sjeldenhet:{' '}
-              <i>
-                {userLevel >= 0
-                  ? rarityToTranslationMap[
-                      achievementGroup.achievements[userLevel].rarity
-                    ]
-                  : rarityToTranslationMap[
-                      achievementGroup.achievements[0].rarity
-                    ]}
-              </i>
-            </span>
           </Flex>
         </Flex>
         <Flex
@@ -90,21 +106,12 @@ const AchievementGroup = ({
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <h4>{achievement.name}</h4>
+                    <TitleWithRarity
+                      title={achievement.name}
+                      rarity={achievement.rarity as Rarity}
+                    />
                     {achievement.description && (
-                      <>
-                        <span>{achievement.description}</span>
-                        <span>
-                          Sjeldenhet:{' '}
-                          <i>
-                            {
-                              rarityToTranslationMap[
-                                achievement.rarity as Rarity
-                              ]
-                            }
-                          </i>
-                        </span>
-                      </>
+                      <span>{achievement.description}</span>
                     )}
                   </Flex>
                 }
