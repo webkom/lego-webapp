@@ -7,13 +7,14 @@ import { ContentMain } from '~/components/Content';
 import Tooltip from '~/components/Tooltip';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { CurrentUser } from '~/redux/models/User';
+import { CurrentUser, Rarity } from '~/redux/models/User';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectUserByUsername } from '~/redux/slices/users';
 import {
   AchievementGroupInfo,
   AchievementIdentifier,
   GroupedAchievementsInfo,
+  rarityToTranslationMap,
 } from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
 import styles from './Overview.module.css';
@@ -57,6 +58,18 @@ const AchievementGroup = ({
           >
             <h4>{achievementGroup.name}</h4>
             <span>{achievementGroup.description}</span>
+            <span>
+              Sjeldenhet:{' '}
+              <i>
+                {userLevel >= 0
+                  ? rarityToTranslationMap[
+                      achievementGroup.achievements[userLevel].rarity
+                    ]
+                  : rarityToTranslationMap[
+                      achievementGroup.achievements[0].rarity
+                    ]}
+              </i>
+            </span>
           </Flex>
         </Flex>
         <Flex
@@ -79,7 +92,19 @@ const AchievementGroup = ({
                   >
                     <h4>{achievement.name}</h4>
                     {achievement.description && (
-                      <span>{achievement.description}</span>
+                      <>
+                        <span>{achievement.description}</span>
+                        <span>
+                          Sjeldenhet:{' '}
+                          <i>
+                            {
+                              rarityToTranslationMap[
+                                achievement.rarity as Rarity
+                              ]
+                            }
+                          </i>
+                        </span>
+                      </>
                     )}
                   </Flex>
                 }
