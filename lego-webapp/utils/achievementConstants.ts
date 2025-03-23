@@ -11,27 +11,14 @@ import trofe_sjeldenhetsgrad_8 from 'assets/trophies/trofe_sjeldenhetsgrad_8.png
 
 import type { AchievementData, Rarity } from '~/redux/models/User';
 
-export const rarityToColorMap = {
-  0: 'Sienna',
-  1: 'Silver',
-  2: 'Gold',
-  3: '#2f9cc5',
-  4: '#0fdee0',
-  5: 'MediumSeaGreen',
-  6: '#911b1b',
-  7: 'Crimson',
-  8: '#9340FF',
-  9: '#BF00FF',
-};
-
-export const rarityToTranslationMap: Record<Rarity, string> = {
-  0: 'Vanlig', // Bronze
-  1: 'Uvanlig', // Silver
-  2: 'Sjelden', // Gold
-  3: 'Obskur', // Platinum
-  4: 'Mytisk', // Diamond
-  5: 'Mester',
-  6: 'Legendarisk',
+export const rarityMap: Record<Rarity, { name: string; color: string }> = {
+  0: { name: 'Vanlig', color: 'Sienna' }, // Bronze
+  1: { name: 'Uvanlig', color: 'Silver' }, // Silver
+  2: { name: 'Sjelden', color: 'Gold' }, // Gold
+  3: { name: 'Obskur', color: '#2f9cc5' }, // Platinum
+  4: { name: 'Mytisk', color: '#0fdee0' }, // Diamond
+  5: { name: 'Mester', color: 'MediumSeaGreen' },
+  6: { name: 'Legendarisk', color: '#911b1b' },
 };
 
 export const AchievementIdentifier = {

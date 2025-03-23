@@ -14,11 +14,28 @@ import {
   AchievementGroupInfo,
   AchievementIdentifier,
   GroupedAchievementsInfo,
-  rarityToColorMap,
-  rarityToTranslationMap,
+  rarityMap,
 } from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
 import styles from './Overview.module.css';
+
+const TitleWithRarity = ({
+  title,
+  rarity,
+}: {
+  title: string;
+  rarity: Rarity;
+}) => {
+  const { name, color } = rarityMap[rarity];
+  return (
+    <Flex gap="var(--spacing-xs)" alignItems="baseline">
+      <h4>{title}</h4>
+      <i className={styles.rarity} style={{ color: color }}>
+        {name}
+      </i>
+    </Flex>
+  );
+};
 
 const AchievementGroup = ({
   achievementGroup,
@@ -26,26 +43,6 @@ const AchievementGroup = ({
   achievementGroup: AchievementGroupInfo & { userAchievedLevel: number };
 }) => {
   const userLevel = achievementGroup.userAchievedLevel;
-
-  const TitleWithRarity = ({
-    title,
-    rarity,
-  }: {
-    title: string;
-    rarity: Rarity;
-  }) => {
-    const rarityString = rarityToTranslationMap[rarity];
-    const rarityColor = rarityToColorMap[rarity];
-    return (
-      <Flex gap="var(--spacing-xs)" alignItems="baseline">
-        <h4>{title}</h4>
-        <i className={styles.rarity} style={{ color: rarityColor }}>
-          {rarityString}
-        </i>
-      </Flex>
-    );
-  };
-
   return (
     <Card>
       <Flex
