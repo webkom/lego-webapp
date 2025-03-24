@@ -26,6 +26,7 @@ import { selectGroupsByIds } from '~/redux/slices/groups';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import truncateString from '~/utils/truncateString';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
 import styles from './LendableObjectList.module.css';
@@ -40,13 +41,7 @@ const LendableObject = ({
     selectGroupsByIds(state, lendableObject.responsibleGroups),
   );
 
-  const formatGroups = (groups: { name: string }[]) => {
-    if (groups.length === 0) return 'Ukjent';
-
-    const formatted = groups.map((g) => g.name).join(', ');
-
-    return readmeIfy(formatted);
-  };
+  const formattedGroups = formatGroups(responsibleGroups) || "";
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
@@ -61,10 +56,10 @@ const LendableObject = ({
         <div className={styles.lendableObjectFooter}>
           <div className={styles.lendableObjectInfobox}>
             <div>
-              <h3>{truncateText(lendableObject.title, 15)}</h3>
+              <h3>{truncateString(lendableObject.title, 15)}</h3>
               <p>
                 {<Icon iconNode={<Contact />} size={18} />}
-                {truncateText(formatGroups(responsibleGroups), 15)}
+                {readmeIfy(truncateString(formattedGroups, 15))}
               </p>
               <p>
                 {<Icon iconNode={<Package />} size={18} />}
@@ -78,8 +73,12 @@ const LendableObject = ({
   );
 };
 
-const truncateText = (text: string, maxLength: number): string => {
-  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+const formatGroups = (groups: { name: string }[]) => {
+  if (groups.length === 0) return "Ukjent";
+
+  const formatted = groups.map((g) => g.name).join(", ");
+
+  return formatted;
 };
 
 const LendableObjectList = () => {
