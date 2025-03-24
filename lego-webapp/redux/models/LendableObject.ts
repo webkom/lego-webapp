@@ -15,7 +15,7 @@ interface LendableObject {
 export type ListLendableObject = Pick<
   LendableObject,
   'id' | 'title' | 'description' | 'image' | 'location' | 'canLend'
-> & { canEditGroups: EntityId[] };
+> & { responsibleGroups: EntityId[] };
 
 export type DetailLendableObject = ListLendableObject &
   Pick<LendableObject, 'actionGrant'> &

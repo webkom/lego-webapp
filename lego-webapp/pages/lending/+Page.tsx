@@ -33,10 +33,10 @@ import type { ListLendableObject } from '~/redux/models/LendableObject';
 const LendableObject = ({
   lendableObject,
 }: {
-  lendableObject: ListLendableObject;
+    lendableObject: ListLendableObject;
 }) => {
   const resposibleGroups = useAppSelector((state) =>
-    selectGroupsByIds(state, lendableObject.canEditGroups),
+    selectGroupsByIds(state, lendableObject.responsibleGroups),
   );
   return (
     <a href={`/lending/${lendableObject.id}`}>
