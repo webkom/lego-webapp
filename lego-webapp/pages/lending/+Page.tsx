@@ -43,13 +43,11 @@ const LendableObject = ({
   const formatGroups = (groups: { name: string }[]) => {
     if (groups.length === 0) return 'Ukjent';
 
-    const formatted = groups
-      .map((g) => g.name)
-      .join(', ')
+    const formatted = groups.map((g) => g.name).join(', ');
 
-    return readmeIfy(formatted)
+    return readmeIfy(formatted);
   };
-  
+
   return (
     <a href={`/lending/${lendableObject.id}`}>
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
@@ -79,7 +77,6 @@ const LendableObject = ({
     </a>
   );
 };
-
 
 const truncateText = (text: string, maxLength: number): string => {
   return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
