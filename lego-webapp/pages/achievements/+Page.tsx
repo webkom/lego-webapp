@@ -19,17 +19,17 @@ import {
 import useQuery from '~/utils/useQuery';
 import styles from './Overview.module.css';
 
-const TitleWithRarity = ({
+export const TitleWithRarity = ({
   title,
   rarity,
 }: {
-  title: string;
+  title?: string;
   rarity: Rarity;
 }) => {
   const { name, color } = rarityMap[rarity];
   return (
     <Flex gap="var(--spacing-xs)" alignItems="baseline">
-      <h4>{title}</h4>
+      {title && <h4>{title}</h4>}
       <i className={styles.rarity} style={{ color: color }}>
         {name}
       </i>

@@ -2,6 +2,7 @@ import { Button, Flex, LinkButton } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import Tooltip from '~/components/Tooltip';
+import { TitleWithRarity } from '~/pages/achievements/+Page';
 import AchievementsInfo from '~/utils/achievementConstants';
 import styles from './UserProfile.module.css';
 import type { Achievement } from '~/redux/models/User';
@@ -46,6 +47,9 @@ export const Achievements = ({
                 </p>
                 <p>Oppnådd {moment(e.updatedAt).format('D. MMMM YYYY')}</p>
                 <p>{e.percentage.toFixed(1)}% har denne!</p>
+                <TitleWithRarity
+                  rarity={AchievementsInfo[e.identifier][e.level].rarity}
+                />
               </div>
             }
             positions="bottom"
