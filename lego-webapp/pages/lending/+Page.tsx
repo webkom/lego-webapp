@@ -56,7 +56,9 @@ const LendableObject = ({
         <div className={styles.lendableObjectFooter}>
           <div className={styles.lendableObjectInfobox}>
             <div>
-              <h3>{truncateString(lendableObject.title, 15)}</h3>
+              <h3 title={lendableObject.title}>
+                {truncateString(lendableObject.title, 15)}
+              </h3>
               <p title={formattedGroups}>
                 <Icon iconNode={<Contact />} size={18} />
                 {readmeIfy(truncateString(formattedGroups, 15))}
