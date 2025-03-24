@@ -5,9 +5,7 @@ import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import { navigate } from 'vike/client/router';
 import Tooltip from '~/components/Tooltip';
-import AchievementsInfo, {
-  rarityToColorMap,
-} from '~/utils/achievementConstants';
+import AchievementsInfo, { rarityMap } from '~/utils/achievementConstants';
 import styles from './UserProfile.module.css';
 import type { Achievement } from '~/redux/models/User';
 
@@ -80,9 +78,8 @@ export const AchievementsBox = ({
                 <Trophy
                   size={40}
                   color={
-                    rarityToColorMap[
-                      AchievementsInfo[e.identifier][e.level].rarity
-                    ] ?? 'Gold'
+                    rarityMap[AchievementsInfo[e.identifier][e.level].rarity]
+                      .color ?? 'Gold'
                   }
                   style={
                     AchievementsInfo[e.identifier][e.level].rarity >= 4
@@ -90,9 +87,9 @@ export const AchievementsBox = ({
                           filter: `drop-shadow(0px 0px ${
                             AchievementsInfo[e.identifier][e.level].rarity - 1
                           }px ${
-                            rarityToColorMap[
+                            rarityMap[
                               AchievementsInfo[e.identifier][e.level].rarity
-                            ]
+                            ].color
                           })`,
                         }
                       : {}

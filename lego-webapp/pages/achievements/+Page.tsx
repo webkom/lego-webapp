@@ -7,16 +7,35 @@ import { ContentMain } from '~/components/Content';
 import Tooltip from '~/components/Tooltip';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { CurrentUser } from '~/redux/models/User';
+import { CurrentUser, Rarity } from '~/redux/models/User';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectUserByUsername } from '~/redux/slices/users';
 import {
   AchievementGroupInfo,
   AchievementIdentifier,
   GroupedAchievementsInfo,
+  rarityMap,
 } from '~/utils/achievementConstants';
 import useQuery from '~/utils/useQuery';
 import styles from './Overview.module.css';
+
+export const TitleWithRarity = ({
+  title,
+  rarity,
+}: {
+  title?: string;
+  rarity: Rarity;
+}) => {
+  const { name, color } = rarityMap[rarity];
+  return (
+    <Flex gap="var(--spacing-xs)" alignItems="baseline">
+      {title && <h4>{title}</h4>}
+      <i className={styles.rarity} style={{ color: color }}>
+        {name}
+      </i>
+    </Flex>
+  );
+};
 
 const AchievementGroup = ({
   achievementGroup,
@@ -55,7 +74,14 @@ const AchievementGroup = ({
             gap="var(--spacing-sm)"
             className={cx(userLevel < 0 && styles.unachieved)}
           >
-            <h4>{achievementGroup.name}</h4>
+            <TitleWithRarity
+              title={achievementGroup.name}
+              rarity={
+                userLevel >= 0
+                  ? achievementGroup.achievements[userLevel].rarity
+                  : achievementGroup.achievements[0].rarity
+              }
+            />
             <span>{achievementGroup.description}</span>
           </Flex>
         </Flex>
@@ -77,7 +103,10 @@ const AchievementGroup = ({
                     alignItems="center"
                     justifyContent="center"
                   >
-                    <h4>{achievement.name}</h4>
+                    <TitleWithRarity
+                      title={achievement.name}
+                      rarity={achievement.rarity as Rarity}
+                    />
                     {achievement.description && (
                       <span>{achievement.description}</span>
                     )}

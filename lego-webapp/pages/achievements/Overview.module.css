@@ -44,3 +44,8 @@ div.unachieved {
 img.unachieved {
   opacity: 0.25;
 }
+
+i.rarity {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+}
