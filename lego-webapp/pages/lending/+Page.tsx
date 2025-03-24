@@ -41,7 +41,7 @@ const LendableObject = ({
     selectGroupsByIds(state, lendableObject.responsibleGroups),
   );
 
-  const formattedGroups = formatGroups(responsibleGroups) || "";
+  const formattedGroups = formatGroups(responsibleGroups) || '';
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
@@ -57,8 +57,8 @@ const LendableObject = ({
           <div className={styles.lendableObjectInfobox}>
             <div>
               <h3>{truncateString(lendableObject.title, 15)}</h3>
-              <p>
-                {<Icon iconNode={<Contact />} size={18} />}
+              <p title={formattedGroups}>
+                <Icon iconNode={<Contact />} size={18} />
                 {readmeIfy(truncateString(formattedGroups, 15))}
               </p>
               <p>
@@ -74,11 +74,7 @@ const LendableObject = ({
 };
 
 const formatGroups = (groups: { name: string }[]) => {
-  if (groups.length === 0) return "Ukjent";
-
-  const formatted = groups.map((g) => g.name).join(", ");
-
-  return formatted;
+  return groups.length > 0 ? groups.map((g) => g.name).join(', ') : 'Ukjent';
 };
 
 const LendableObjectList = () => {
