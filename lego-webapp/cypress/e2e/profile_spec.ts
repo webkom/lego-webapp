@@ -4,7 +4,7 @@ import {
   fieldError,
   selectField,
   selectFromSelectField,
-} from '../support/utils.js';
+} from '../support/utils';
 
 describe('Profile settings', () => {
   beforeEach(() => {
