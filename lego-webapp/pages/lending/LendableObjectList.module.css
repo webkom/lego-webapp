@@ -23,15 +23,47 @@ div.lendableObjectCard {
   height: 100%;
 }
 
-img.lendableObjectImage {
-  object-fit: cover;
+.lendableObjectImageContainer {
+  width: 100%;
   height: 100%;
 }
 
-.lendableObjectFooter {
+img.lendableObjectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lendableObjectInfobox {
   display: flex;
-  justify-content: center;
+  position: relative;
+  justify-content: space-between;
+  padding: var(--spacing-sm);
+}
+
+.lendableObjectInfobox h3 {
+  padding: 0;
+  margin: 0;
+}
+
+.lendableObjectInfobox p {
+  display: flex;
+  align-items: center;
+  font-size: var(--font-size-md);
+  line-height: var(--spacing-lg);
+  margin: 0;
+}
+
+.lendableObjectInfobox svg {
+  margin-right: var(--spacing-xs);
+}
+
+.lendableObjectFooter {
+  border-top: 1.5px solid var(--border-gray);
+  width: 100%;
+  height: 100px;
   color: var(--lego-font-color);
+  background-color: var(--additive-background);
 }
 
 .lendingRequestsContainer {

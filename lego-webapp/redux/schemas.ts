@@ -81,6 +81,7 @@ export const companySchema = new schema.Entity(EntityType.Companies, {
 export const joblistingsSchema = new schema.Entity(EntityType.Joblistings);
 export const lendableObjectSchema = new schema.Entity(
   EntityType.LendableObjects,
+  { responsibleGroups: [groupSchema] },
 );
 export const lendingRequestSchema = new schema.Entity(
   EntityType.LendingRequests,

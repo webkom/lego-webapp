@@ -7,22 +7,26 @@ import {
   FilterSection,
   LinkButton,
   Button,
+  Icon,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
-import { FolderOpen } from 'lucide-react';
+import { Contact, FolderOpen, Package } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
+import { readmeIfy } from '~/components/ReadmeLogo';
 import HTTPError from '~/components/errors/HTTPError';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
+import { selectGroupsByIds } from '~/redux/slices/groups';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import truncateString from '~/utils/truncateString';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
 import styles from './LendableObjectList.module.css';
@@ -33,20 +37,46 @@ const LendableObject = ({
 }: {
   lendableObject: ListLendableObject;
 }) => {
+  const responsibleGroups = useAppSelector((state) =>
+    selectGroupsByIds(state, lendableObject.responsibleGroups),
+  );
+
+  const formattedGroups = formatGroups(responsibleGroups) || '';
+
   return (
     <a href={`/lending/${lendableObject.id}`}>
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
-        <Image
-          className={styles.lendableObjectImage}
-          src={lendableObject.image || '/icon-192x192.png'}
-          alt={`${lendableObject.title}`}
-        />
+        <div className={styles.lendableObjectImageContainer}>
+          <Image
+            className={styles.lendableObjectImage}
+            src={lendableObject.image || '/icon-192x192.png'}
+            alt={`${lendableObject.title}`}
+          />
+        </div>
         <div className={styles.lendableObjectFooter}>
-          <h4>{lendableObject.title}</h4>
+          <div className={styles.lendableObjectInfobox}>
+            <div>
+              <h3 title={lendableObject.title}>
+                {truncateString(lendableObject.title, 15)}
+              </h3>
+              <p title={formattedGroups}>
+                <Icon iconNode={<Contact />} size={18} />
+                {readmeIfy(truncateString(formattedGroups, 15))}
+              </p>
+              <p>
+                {<Icon iconNode={<Package />} size={18} />}
+                {lendableObject.location}
+              </p>
+            </div>
+          </div>
         </div>
       </Card>
     </a>
   );
+};
+
+const formatGroups = (groups: { name: string }[]) => {
+  return groups.length > 0 ? groups.map((g) => g.name).join(', ') : 'Ukjent';
 };
 
 const LendableObjectList = () => {
