@@ -1,12 +1,13 @@
 import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
 import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
 import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
+import trofe_rank_1 from 'assets/trophies/trofe_rank_1.png';
 import trofe_sjeldenhetsgrad_1 from 'assets/trophies/trofe_sjeldenhetsgrad_1.png';
+import trofe_sjeldenhetsgrad_10 from 'assets/trophies/trofe_sjeldenhetsgrad_10.png';
 import trofe_sjeldenhetsgrad_2 from 'assets/trophies/trofe_sjeldenhetsgrad_2.png';
 import trofe_sjeldenhetsgrad_3 from 'assets/trophies/trofe_sjeldenhetsgrad_3.png';
 import trofe_sjeldenhetsgrad_4 from 'assets/trophies/trofe_sjeldenhetsgrad_4.png';
 import trofe_sjeldenhetsgrad_5 from 'assets/trophies/trofe_sjeldenhetsgrad_5.png';
-import trofe_sjeldenhetsgrad_7 from 'assets/trophies/trofe_sjeldenhetsgrad_7.png';
 import trofe_sjeldenhetsgrad_8 from 'assets/trophies/trofe_sjeldenhetsgrad_8.png';
 
 import type { AchievementData, Rarity } from '~/redux/models/User';
@@ -14,10 +15,10 @@ import type { AchievementData, Rarity } from '~/redux/models/User';
 export const rarityMap: Record<Rarity, { name: string; color: string }> = {
   0: { name: 'Vanlig', color: 'Sienna' }, // Bronze
   1: { name: 'Uvanlig', color: 'Silver' }, // Silver
-  2: { name: 'Sjelden', color: 'Gold' }, // Gold
+  2: { name: 'Sjelden', color: '#dcaf18' }, // Gold
   3: { name: 'Obskur', color: '#2f9cc5' }, // Platinum
-  4: { name: 'Mytisk', color: '#0fdee0' }, // Diamond
-  5: { name: 'Mester', color: 'MediumSeaGreen' },
+  4: { name: 'Episk', color: '#0fdee0' }, // Diamond
+  5: { name: 'Mytisk', color: '#7f20b8' },
   6: { name: 'Legendarisk', color: '#911b1b' },
 };
 
@@ -95,21 +96,21 @@ export const AchievementsInfo: Record<
       description: '3. plass - flest arrangementer',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_7,
+      image: trofe_sjeldenhetsgrad_10,
     },
     {
       name: 'Arrangement:\nStormester',
       description: '2. plass - flest arrangementer',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_7,
+      image: trofe_sjeldenhetsgrad_10,
     },
     {
       name: 'Arrangement:\nFyrtårn',
       description: '1. plass - flest arrangementer',
       rarity: 6,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_8,
+      image: trofe_rank_1,
     },
   ],
   quote_count: [
@@ -230,7 +231,7 @@ export const AchievementsInfo: Record<
       description: 'Gått 4 år uten prikk',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_7,
+      image: trofe_sjeldenhetsgrad_10,
     },
   ],
   genfors_count: [
@@ -267,7 +268,7 @@ export const AchievementsInfo: Record<
       description: 'Deltatt på 10 genfors',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_7,
+      image: trofe_sjeldenhetsgrad_10,
     },
   ],
   gala_count: [
@@ -297,7 +298,7 @@ export const AchievementsInfo: Record<
       description: 'Deltatt på 15 gallaer',
       rarity: 5,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_7,
+      image: trofe_sjeldenhetsgrad_10,
     },
   ],
 };
