@@ -15,6 +15,7 @@ import { Contact, FolderOpen, Package } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
+import { readmeIfy } from '~/components/ReadmeLogo';
 import HTTPError from '~/components/errors/HTTPError';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
@@ -46,7 +47,7 @@ const LendableObject = ({
       .map((g) => g.name)
       .join(', ')
 
-    return formatted
+    return readmeIfy(formatted)
   };
   
   return (
