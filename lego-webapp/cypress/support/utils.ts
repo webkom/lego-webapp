@@ -49,7 +49,7 @@ export const selectFromSelectField = (
 export const fieldErrors = () => cy.get(c('fieldError'));
 
 export const fieldError = (name: string) =>
-  cy.get(`[data-error-field-name="${name}"`);
+  cy.get(`[data-error-field-name="${name}"]`);
 
 export const button = (buttonText: string) => cy.contains('button', buttonText);
 
