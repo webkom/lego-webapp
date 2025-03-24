@@ -33,11 +33,22 @@ import type { ListLendableObject } from '~/redux/models/LendableObject';
 const LendableObject = ({
   lendableObject,
 }: {
-    lendableObject: ListLendableObject;
+  lendableObject: ListLendableObject;
 }) => {
-  const resposibleGroups = useAppSelector((state) =>
+  const responsibleGroups = useAppSelector((state) =>
     selectGroupsByIds(state, lendableObject.responsibleGroups),
   );
+
+  const formatGroups = (groups: { name: string }[]) => {
+    if (groups.length === 0) return 'Ukjent';
+
+    const formatted = groups
+      .map((g) => g.name)
+      .join(', ')
+
+    return formatted
+  };
+  
   return (
     <a href={`/lending/${lendableObject.id}`}>
       <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
@@ -54,7 +65,7 @@ const LendableObject = ({
               <h3>{truncateText(lendableObject.title, 15)}</h3>
               <p>
                 {<Icon iconNode={<Contact />} size={18} />}
-                {resposibleGroups.map((g) => g.name)}
+                {truncateText(formatGroups(responsibleGroups), 15)}
               </p>
               <p>
                 {<Icon iconNode={<Package />} size={18} />}
@@ -68,8 +79,9 @@ const LendableObject = ({
   );
 };
 
+
 const truncateText = (text: string, maxLength: number): string => {
-  return text.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
 };
 
 const LendableObjectList = () => {
