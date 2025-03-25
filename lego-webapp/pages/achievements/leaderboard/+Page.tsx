@@ -118,6 +118,15 @@ const Leaderboard = () => {
       sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
         b.achievementsScore - a.achievementsScore,
     },
+    {
+      title: 'Arrangementer',
+      dataIndex: 'eventCount',
+      search: false,
+      inlineFiltering: false,
+      render: (_, user: PublicUserWithAbakusGroups) => <>{user.eventCount}</>,
+      sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
+        b.eventCount - a.eventCount,
+    },
   ];
 
   return (

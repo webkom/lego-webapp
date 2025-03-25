@@ -311,6 +311,7 @@ export type AchievementGroupInfo = {
   description?: string;
   userAchievedLevel?: number;
   achievements: DetailedAchievementData[];
+  isLeveled: boolean; // Does requirements(level2) => requirements(level1)
 };
 
 // Name and description defined here function as default values
@@ -321,48 +322,56 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Arrangement deltakelse',
     description: 'Deltatt på X arrangementer',
     achievements: AchievementsInfo['event_count'],
+    isLeveled: true,
   },
   {
     identifier: 'event_rank',
     name: 'Arrangement rangering',
     description: 'Plassering i antall arrangementer',
     achievements: AchievementsInfo['event_rank'],
+    isLeveled: true,
   },
   {
     identifier: 'event_price',
     name: 'Arrangement betaling',
     description: 'Betalt over X i påmeldingsavgift',
     achievements: AchievementsInfo['event_price'],
+    isLeveled: true,
   },
   {
     identifier: 'event_rules',
     name: 'Arrangement regler',
     description: 'Lest arrangementsreglene',
     achievements: AchievementsInfo['event_rules'],
+    isLeveled: true,
   },
   {
     identifier: 'poll_count',
     name: 'Avstemninger',
     description: 'Svart på X avstemninger',
     achievements: AchievementsInfo['poll_count'],
+    isLeveled: true,
   },
   {
     identifier: 'penalty_period',
     name: 'Prikk',
     description: 'Gått X år uten prikk',
     achievements: AchievementsInfo['penalty_period'],
+    isLeveled: true,
   },
   {
     identifier: 'genfors_count',
     name: 'Genfors',
     description: 'Deltatt på X genfors',
     achievements: AchievementsInfo['genfors_count'],
+    isLeveled: true,
   },
   {
     identifier: 'gala_count',
     name: 'Galla',
     description: 'Deltatt på X gallaer',
     achievements: AchievementsInfo['gala_count'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -370,6 +379,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Er det noen her?',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['meeting_hidden'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -377,6 +387,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Powermode activated!',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['keypress_order'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -384,6 +395,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Komplett spiller',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['complete_profile'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -391,6 +403,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Psssst',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['quote_count'],
+    isLeveled: true,
   },
 ];
 

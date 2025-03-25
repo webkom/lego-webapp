@@ -88,6 +88,7 @@ interface User {
   achievements: Achievement[];
   achievementsScore: number;
   achievementRank: number;
+  eventCount: number;
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
@@ -126,6 +127,7 @@ export type CurrentUser = Pick<
   | 'achievements'
   | 'achievementsScore'
   | 'achievementRank'
+  | 'eventCount'
 >;
 
 export type PublicUser = Pick<
@@ -144,6 +146,7 @@ export type PublicUser = Pick<
   | 'achievements'
   | 'achievementsScore'
   | 'achievementRank'
+  | 'eventCount'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &

@@ -119,7 +119,9 @@ const AchievementGroup = ({
                     alt="Trofe"
                     className={cx(
                       styles.achievement,
-                      userLevel < achievement.level && styles.unachieved,
+                      achievementGroup.isLeveled
+                        ? userLevel < achievement.level && styles.unachieved
+                        : userLevel !== achievement.level && styles.unachieved,
                     )}
                   />
                 </Card>
