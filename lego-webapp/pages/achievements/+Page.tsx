@@ -132,7 +132,7 @@ const Overview = () => {
 
   // Map group fields to achieved level or use default values
   const groupedAchievements = GroupedAchievementsInfo.map((group) => {
-    const { identifier, name, description, achievements } = group;
+    const { identifier, achievements } = group;
     const achievedLevel = getAchievedLevel(identifier);
 
     // Use value from achievement if user has achieved it
@@ -140,15 +140,11 @@ const Overview = () => {
     const mappedName =
       achievedLevel >= 0
         ? achievements[achievedLevel].name
-        : achievements.length == 1
-          ? achievements[0].name
-          : name;
+        : achievements[0].name;
     const mappedDescription =
       achievedLevel >= 0
         ? achievements[achievedLevel].description
-        : achievements.length == 1
-          ? achievements[0].description
-          : description;
+        : achievements[0].description;
 
     return {
       ...group,
