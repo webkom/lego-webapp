@@ -26,6 +26,7 @@ interface CompleteCompanyInterest {
   semesters: EntityId[];
   createdAt: Dateish;
   officeInTrondheim: boolean;
+  wantsThursdayEvent: boolean;
   events: CompanyInterestEventType[];
   companyCourseThemes: string[];
   otherOffers: string[];
@@ -70,6 +71,7 @@ export type DetailedCompanyInterest = Pick<
   | 'companyToCompanyComment'
   | 'companyPresentationComment'
   | 'officeInTrondheim'
+  | 'wantsThursdayEvent'
 >;
 
 export type ListCompanyInterest = Pick<

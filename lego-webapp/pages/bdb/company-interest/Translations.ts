@@ -133,10 +133,6 @@ export const OTHER_OFFERS = {
     norwegian: 'Profilering på sosiale medier',
     english: 'Profiling on social media',
   },
-  thursday_event: {
-    norwegian: 'Ønsker arrangement torsdag',
-    english: 'Wish event thursday',
-  },
 };
 
 export const COMPANY_TYPES: Record<
@@ -235,6 +231,16 @@ export const FORM_LABELS = {
   officeInTrondheim: {
     norwegian: 'Har dere kontorer i Trondheim egnet for besøk?',
     english: 'Do you have offices in Trondheim suited for visiting?',
+  },
+  wantsThursdayEvent: {
+    norwegian: 'Ønsker dere arrangement på torsdag?',
+    english: 'Would you like to have the event on Thursday?',
+  },
+  wantsThursdayEventInfo: {
+    norwegian:
+      'Torsdags-arrangementer er av de mest populære blant studentene, og vi ser ofte høyere påmelding og større engasjement disse dagene.',
+    english:
+      'Thursday events are among the most popular with students, and we often see higher attendance and greater engagement on these days.',
   },
   contactPerson: {
     header: {
