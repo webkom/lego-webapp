@@ -32,7 +32,6 @@ export function postGettingWood() {
     method: 'POST',
     types: Achievement.CREATE,
     meta: {
-      errorMessage: 'Oppretting av trofé feilet.',
       successMessage: 'Trofe oppnådd: "Skaffe tre"',
     },
   });
@@ -45,8 +44,18 @@ export function postKeypress({ code }: { code: number[] }) {
     body: { code },
     types: Achievement.CREATE,
     meta: {
-      errorMessage: 'Oppretting av trofe feilet.',
       successMessage: 'Trofe oppnådd: "Powermode activated!"',
+    },
+  });
+}
+
+export function triggerAchievementRecheck() {
+  return callAPI({
+    endpoint: `/achievements/recheck_all/`,
+    types: Achievement.RECHECK,
+    meta: {
+      errorMessage: 'Sjekking av trofeer feilet.',
+      successMessage: 'Sjekking af trofeer fullført.',
     },
   });
 }
