@@ -1,5 +1,6 @@
 import { Card, Flex, Icon, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { SquareArrowUpRightIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -33,7 +34,6 @@ import UpcomingRegistrations from './UpcomingRegistrations';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
-import { SquareArrowUpRightIcon } from 'lucide-react';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
