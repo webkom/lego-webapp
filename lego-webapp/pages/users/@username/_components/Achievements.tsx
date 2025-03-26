@@ -86,7 +86,7 @@ export const Achievements = ({
             {showAll ? 'Vis færre' : 'Vis alle'}
           </Button>
         )}
-        <LinkButton href="/achievements">Topplister</LinkButton>
+        <LinkButton href="/achievements/leaderboard">Topplister</LinkButton>
       </Flex>
     </div>
   );
