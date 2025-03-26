@@ -15,6 +15,7 @@ import type { CompleteEvent } from '~/redux/models/Event';
 import type Penalty from '~/redux/models/Penalty';
 import type { PublicUser } from '~/redux/models/User';
 import type { PoolRegistrationWithUser } from '~/redux/slices/events';
+import { EntityId } from '@reduxjs/toolkit';
 
 export type ConfigProperties = {
   displayName: string;
@@ -363,6 +364,9 @@ export const transformEventStatusType = (eventStatusType: string) => {
     }) || eventStatusTypes[0]
   );
 };
+
+export const getCsvUrl = (eventId: EntityId) =>
+  `${appConfig.serverUrl}/events/${eventId}/csv/`;
 
 export const getEventSemesterFromStartTime = (
   startTime: Dateish,
