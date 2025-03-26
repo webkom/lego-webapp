@@ -502,7 +502,7 @@ importers:
         version: 18.3.5(@types/react@18.3.18)
       '@vitejs/plugin-react-swc':
         specifier: ^3.5.0
-        version: 3.8.1(@swc/helpers@0.5.11)(vite@5.4.12(@types/node@22.7.7))
+        version: 3.8.1(@swc/helpers@0.5.11)(vite@6.2.2(@types/node@22.7.7))
       eslint:
         specifier: ^9.13.0
         version: 9.21.0
@@ -522,10 +522,10 @@ importers:
         specifier: ^8.11.0
         version: 8.25.0(eslint@9.21.0)(typescript@5.6.3)
       vite:
-        specifier: ^5.4.10
-        version: 5.4.12(@types/node@22.7.7)
+        specifier: 'catalog:'
+        version: 6.2.2(@types/node@22.7.7)
       vitest:
-        specifier: ^2.1.5
+        specifier: 'catalog:'
         version: 2.1.9(@types/node@22.7.7)(jsdom@26.0.0)
 
   packages/mazemap: {}
@@ -10386,10 +10386,10 @@ snapshots:
       - encoding
       - supports-color
 
-  '@vitejs/plugin-react-swc@3.8.1(@swc/helpers@0.5.11)(vite@5.4.12(@types/node@22.7.7))':
+  '@vitejs/plugin-react-swc@3.8.1(@swc/helpers@0.5.11)(vite@6.2.2(@types/node@22.7.7))':
     dependencies:
       '@swc/core': 1.11.11(@swc/helpers@0.5.11)
-      vite: 5.4.12(@types/node@22.7.7)
+      vite: 6.2.2(@types/node@22.7.7)
     transitivePeerDependencies:
       - '@swc/helpers'
 
