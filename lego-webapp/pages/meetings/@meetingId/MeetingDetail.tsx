@@ -8,7 +8,7 @@ import {
   Modal,
   Page,
 } from '@webkom/lego-bricks';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { ListRestart, Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
 import diff from 'node-htmldiff';

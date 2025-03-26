@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { omit, union } from 'lodash';
+import { omit, union } from 'lodash-es';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
 import { Event } from '~/redux/actionTypes';

@@ -1,5 +1,5 @@
 import { Flex, Icon, Modal } from '@webkom/lego-bricks';
-import sortBy from 'lodash/sortBy';
+import { sortBy } from 'lodash-es';
 import { useState } from 'react';
 import TextInput from '~/components/Form/TextInput';
 import { ProfilePicture } from '~/components/Image';

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Frontpage } from '~/redux/actionTypes';

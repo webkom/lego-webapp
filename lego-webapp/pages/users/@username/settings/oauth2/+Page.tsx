@@ -6,7 +6,7 @@ import {
   LinkButton,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import keys from 'lodash/keys';
+import { keys } from 'lodash-es';
 import { Copy, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { ContentMain } from '~/components/Content';

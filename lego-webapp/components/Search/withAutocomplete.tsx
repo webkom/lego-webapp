@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useState } from 'react';
 import { autocomplete } from '~/redux/actions/SearchActions';
 import { useAppDispatch } from '~/redux/hooks';

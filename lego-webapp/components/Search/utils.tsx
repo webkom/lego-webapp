@@ -1,5 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
-import { sample } from 'lodash';
+import { sample } from 'lodash-es';
 import {
   Banana,
   BookImage,

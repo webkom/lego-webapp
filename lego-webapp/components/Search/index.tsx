@@ -1,4 +1,4 @@
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { useMemo, useState } from 'react';
 import { navigate } from 'vike/client/router';
 import { autocomplete, toggleSearch } from '~/redux/actions/SearchActions';
