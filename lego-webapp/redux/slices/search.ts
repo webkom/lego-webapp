@@ -1,5 +1,5 @@
 import { produce } from 'immer';
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { categoryOptions } from '~/pages/pages/page/+Page';

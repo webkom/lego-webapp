@@ -1,6 +1,6 @@
 import { LoadingIndicator, PageCover } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { useState } from 'react';
 import Youtube from 'react-youtube';
 import getParamsFromUrl from '~/utils/getParamsFromUrl';

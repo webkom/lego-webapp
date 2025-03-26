@@ -1,5 +1,5 @@
 import { Button, Flex, Icon, Modal } from '@webkom/lego-bricks';
-import { get, debounce } from 'lodash';
+import { get, debounce } from 'lodash-es';
 import { Check, ScanQrCode, X } from 'lucide-react';
 import { useCallback, useRef, useState } from 'react';
 import { QrReader } from 'react-qr-reader';

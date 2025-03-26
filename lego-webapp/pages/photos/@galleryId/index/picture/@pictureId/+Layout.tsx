@@ -6,7 +6,7 @@ import {
   LoadingIndicator,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import throttle from 'lodash/throttle';
+import { throttle } from 'lodash-es';
 import { Download, Pencil } from 'lucide-react';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';

@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from 'lodash-es';
 import { ToastContentType } from '~/components/Toast/ToastProvider';
 import type { Middleware } from '@reduxjs/toolkit';
 import type { SentryType } from '~/redux/createStore';
