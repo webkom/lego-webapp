@@ -330,6 +330,7 @@ export const Thread = {
 
 export const Achievement = {
   CREATE: generateStatuses('Achievement.CREATE'),
+  RECHECK: generateStatuses('Achievement.RECHECK'),
 };
 
 export const Banner = {

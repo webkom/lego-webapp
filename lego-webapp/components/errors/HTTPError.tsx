@@ -12,6 +12,7 @@ const HTTPMapping = {
   '404': 'Denne siden finnes ikke',
   '418': 'Jeg er en tekanne',
   '428': 'Forutsetning påkrevd',
+  '450': 'Blokkert av Windows foreldrekontroll',
   '500': 'Noe gikk veldig galt, Webkom er på saken!',
   '509': 'Båndbreddebegrensning nådd',
   '1337': 'Hackerman',

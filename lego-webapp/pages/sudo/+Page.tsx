@@ -1,5 +1,5 @@
 import { Page, Flex, Card, Icon } from '@webkom/lego-bricks';
-import { Flag, Rss } from 'lucide-react';
+import { Flag, Rss, Trophy } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import a4bc35b6c0664b45 from '~/assets/26e7499bfb6390d9/a4bc35b6c0664b45.jpg';
 import acb2777779bbf024 from '~/assets/26e7499bfb6390d9/acb2777779bbf024.jpg';
@@ -34,6 +34,12 @@ const links: PanelItem[] = [
       'Legg til og endre feature flagg. Endre hva slags innhold som vises.',
     iconNode: <Flag />,
   },
+  {
+    link: '/sudo/achievements',
+    tag: 'Achievements',
+    description: 'Administrer trofe-systemet.',
+    iconNode: <Trophy />,
+  },
 ];
 
 const ControlPanelItem = ({ link }: { link: PanelItem }) => (
@@ -48,14 +54,17 @@ const ControlPanelItem = ({ link }: { link: PanelItem }) => (
 
 const AdminControlPanel = () => {
   return (
-    <div className={styles.controlPanel}>
+    <Flex
+      className={styles.controlPanel}
+      gap="var(--spacing-md)"
+      column
+      width={'100%'}
+    >
       <h2>Kontrollpanel</h2>
-      <Flex gap="var(--spacing-md)">
-        {links.map((link) => (
-          <ControlPanelItem key={link.tag} link={link} />
-        ))}
-      </Flex>
-    </div>
+      {links.map((link) => (
+        <ControlPanelItem key={link.tag} link={link} />
+      ))}
+    </Flex>
   );
 };
 
