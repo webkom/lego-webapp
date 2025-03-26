@@ -1,7 +1,10 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import { FileDown } from 'lucide-react';
 import moment from 'moment-timezone';
 import { ContentMain } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
+import Tooltip from '~/components/Tooltip';
+import { getCsvUrl } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationGroups,
@@ -13,9 +16,6 @@ import { useParams } from '~/utils/useParams';
 import styles from '../abacard/Abacard.module.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import type { AdministrateEvent } from '~/redux/models/Event';
-import Tooltip from '~/components/Tooltip';
-import { FileDown } from 'lucide-react';
-import { getCsvUrl } from '~/pages/events/utils';
 
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import { pick, sumBy, find } from 'lodash-es';
+=======
+import { EntityId } from '@reduxjs/toolkit';
+import { pick, sumBy, find } from 'lodash';
+>>>>>>> fb1584184 (Lint)
 import moment from 'moment-timezone';
 import { EventType } from '~/redux/models/Event';
 import { appConfig } from '~/utils/appConfig';
@@ -15,7 +20,6 @@ import type { CompleteEvent } from '~/redux/models/Event';
 import type Penalty from '~/redux/models/Penalty';
 import type { PublicUser } from '~/redux/models/User';
 import type { PoolRegistrationWithUser } from '~/redux/slices/events';
-import { EntityId } from '@reduxjs/toolkit';
 
 export type ConfigProperties = {
   displayName: string;
