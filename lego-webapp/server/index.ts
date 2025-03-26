@@ -1,22 +1,22 @@
 import * as Sentry from '@sentry/node';
 import express from 'express';
 import moment from 'moment-timezone';
-import vike from 'vike-node/express';
+import { apply } from 'vike-server/express';
+import { serve } from 'vike-server/express/serve';
 import healthCheck from './healthCheck.js';
 
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
-startServer();
-
-async function startServer() {
+function startServer() {
   moment.locale('nb-NO');
-  const app = express();
+  let app = express();
 
   app.get('/healthz', healthCheck);
-  app.use(vike());
+  apply(app);
 
-  app.listen(port, () => {
-    console.log(`Server listening on http://localhost:${port}`);
-  });
+  app = serve(app, { port });
   Sentry.setupExpressErrorHandler(app);
+  return app;
 }
+
+export default startServer();

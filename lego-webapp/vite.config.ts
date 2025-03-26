@@ -3,7 +3,6 @@ import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react';
 import postcssCustomMedia from 'postcss-custom-media';
 import vike from 'vike/plugin';
-import vikeNode from 'vike-node/plugin';
 import { defineConfig } from 'vite';
 import { patchCssModules } from 'vite-css-modules';
 import { cjsInterop } from 'vite-plugin-cjs-interop';
@@ -11,9 +10,8 @@ import { cjsInterop } from 'vite-plugin-cjs-interop';
 export default defineConfig({
   plugins: [
     patchCssModules(),
-    vike({}),
-    vikeNode('server/index.ts'),
-    react({}),
+    vike(),
+    react(),
     sentryVitePlugin({
       sourcemaps: {
         disable: false,
