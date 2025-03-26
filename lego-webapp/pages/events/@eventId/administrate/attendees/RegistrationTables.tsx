@@ -11,6 +11,7 @@ import {
   getConsent,
   unregistrationIsClosed,
 } from '~/pages/events/utils';
+import { consentDomainStrings } from '~/pages/users/@username/_components/PhotoConsents';
 import { Presence } from '~/redux/models/Registration';
 import { isNotNullish } from '~/utils';
 import { WEBKOM_GROUP_ID } from '~/utils/constants';
@@ -116,14 +117,10 @@ export const getRegistrationInfo = (registration) => {
   return registrationInfo;
 };
 
-const consentMessage = (photoConsent) =>
+const consentMessage = (photoConsent: PhotoConsent) =>
   `Brukeren godkjenner ${
     photoConsent?.isConsenting ? ' ' : 'IKKE '
-  } at bilder publiseres på ${
-    photoConsent?.domain === PhotoConsentDomain.WEBSITE
-      ? 'abakus.no'
-      : 'sosiale medier'
-  }`;
+  } at bilder publiseres på ${consentDomainStrings[photoConsent?.domain]}`;
 
 const ConsentIcons = ({
   LEGACY_photoConsent,

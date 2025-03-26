@@ -10,9 +10,15 @@ import {
 } from '~/pages/users/@username/_components/ProfileSection';
 import { updatePhotoConsent } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
+import { capitalize } from '~/utils';
 import styles from './PhotoConsents.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PhotoConsent } from 'app/models';
+
+export const consentDomainStrings = {
+  [PhotoConsentDomain.WEBSITE]: 'abakus.no',
+  [PhotoConsentDomain.SOCIAL_MEDIA]: 'sosiale medier',
+};
 
 const ConsentManager = ({
   consent,
@@ -33,15 +39,12 @@ const ConsentManager = ({
         ? 'Du ga samtykket den '
         : 'Du trakk samtykket den '
       : 'Du har ikke tatt stilling til samtykket.';
-  const presentableDomain =
-    consent.domain === PhotoConsentDomain.WEBSITE
-      ? 'Abakus.no'
-      : 'Sosiale medier';
+  const consentDomainString = consentDomainStrings[consent.domain];
   return (
-    <InfoField name={presentableDomain}>
+    <InfoField name={capitalize(consentDomainString)}>
       <h5>
-        Jeg godtar at Abakus kan legge ut bilder av meg på {presentableDomain} i
-        perioden {toReadableSemester(consent)}:
+        Jeg godtar at Abakus kan legge ut bilder av meg på {consentDomainString}{' '}
+        i perioden {toReadableSemester(consent)}:
       </h5>
       <div className={styles.statusContainer}>
         {consentStatus}
@@ -54,11 +57,11 @@ const ConsentManager = ({
       <ButtonGroup>
         <ConfirmModal
           closeOnConfirm={true}
-          title={`Trekke bildesamtykke på ${presentableDomain}`}
+          title={`Trekke bildesamtykke på ${consentDomainString}`}
           message={
             <>
               Er du sikker på at du vil trekke bildesamtykket ditt for
-              {toReadableSemester(consent)} på {presentableDomain}? Dersom du
+              {toReadableSemester(consent)} på {consentDomainString}? Dersom du
               ønsker å fjerne noen spesifikke bilder, kan du i stedet sende en
               e-post til <a href="mailto:pr@abakus.no">pr@abakus.no</a> med
               informasjon om hvilke bilder du vil fjerne.
