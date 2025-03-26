@@ -212,7 +212,7 @@ const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
           padding={'var(--spacing-xl) 0'}
         >
           <h3>{successMessage}</h3>
-          <Icon name="checkmark" success size={160} />
+          <Icon iconNode={<Check />} success size={160} />
         </Flex>
       </Modal>
       <Modal

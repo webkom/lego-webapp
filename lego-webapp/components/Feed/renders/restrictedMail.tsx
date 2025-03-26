@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { Send } from 'lucide-react';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
 /**
@@ -9,7 +10,7 @@ import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 const RestrictedMailSentRenderer: ActivityRenderer = {
   Header: () => <b>Begrenset e-post sendt ut til alle mottakere</b>,
   Content: () => null,
-  Icon: () => <Icon name="at" />,
+  Icon: () => <Icon iconNode={<Send />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const mail = aggregatedActivity.context[latestActivity.object];

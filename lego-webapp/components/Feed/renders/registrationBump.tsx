@@ -5,6 +5,7 @@ import { formatHeader } from './utils';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 import type { FeedAttrEvent } from '~/redux/models/FeedAttrCache';
+import { CalendarCheck } from 'lucide-react';
 
 /**
  * Normal grouping by target and date
@@ -29,7 +30,7 @@ const RegistrationBumpRenderer: ActivityRenderer = {
     );
   },
   Content: () => null,
-  Icon: () => <Icon name="calendar" />,
+  Icon: () => <Icon iconNode={<CalendarCheck />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const events = getEvents(aggregatedActivity);
 

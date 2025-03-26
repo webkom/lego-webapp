@@ -3,6 +3,7 @@ import { GroupType } from 'app/models';
 import DisplayContent from '~/components/DisplayContent';
 import { contextRender } from '../context';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
+import { Users } from 'lucide-react';
 
 /**
  * Grouped by object...
@@ -45,7 +46,7 @@ const GroupJoinRenderer: ActivityRenderer = {
       </div>
     );
   },
-  Icon: () => <Icon name="people-outline" />,
+  Icon: () => <Icon iconNode={<Users />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const group = aggregatedActivity.context[latestActivity.target];

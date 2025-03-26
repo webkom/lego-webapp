@@ -2,6 +2,7 @@ import { Icon } from '@webkom/lego-bricks';
 import { contextRender } from '../context';
 import { UserActors } from './utils';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
+import { CalendarCheck } from 'lucide-react';
 
 /**
  * Grouped by target and date, standard...
@@ -20,7 +21,7 @@ const EventRegisterRenderer: ActivityRenderer = {
     );
   },
   Content: () => null,
-  Icon: () => <Icon name="chatbubble" />,
+  Icon: () => <Icon iconNode={<CalendarCheck />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const event = aggregatedActivity.context[latestActivity.target];

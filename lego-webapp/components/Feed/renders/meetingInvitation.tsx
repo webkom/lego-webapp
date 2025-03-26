@@ -5,6 +5,7 @@ import { contextRender } from '../context';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 import type { FeedAttrMeetingInvitation } from '~/redux/models/FeedAttrCache';
+import { CalendarDays } from 'lucide-react';
 
 /**
  * Group by actor
@@ -36,7 +37,7 @@ const MeetingInvitationRenderer: ActivityRenderer = {
     );
   },
   Content: () => null,
-  Icon: () => <Icon name="calendar" />,
+  Icon: () => <Icon iconNode={<CalendarDays />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const meetingInvitations = getMeetingInvitations(aggregatedActivity);
 

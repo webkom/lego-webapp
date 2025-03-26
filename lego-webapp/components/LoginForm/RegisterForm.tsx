@@ -15,6 +15,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { spyValues } from '~/utils/formSpyUtils';
 import { createValidator, required, isEmail } from '~/utils/validation';
 import styles from './RegisterForm.module.css';
+import { HelpCircle } from 'lucide-react';
 
 const isStudMail = (email: string) =>
   email.toLowerCase().endsWith('@stud.ntnu.no') ||
@@ -94,7 +95,7 @@ const RegisterForm = () => {
                         >
                           <Flex alignItems="center" gap="var(--spacing-xs)">
                             automatisk sletting
-                            <Icon name="help-circle-outline" size={18} />
+                            <Icon iconNode={<HelpCircle />} size={18} />
                           </Flex>
                         </Tooltip>{' '}
                         av brukeren din.

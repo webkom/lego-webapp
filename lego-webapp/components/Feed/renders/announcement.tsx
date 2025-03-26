@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { MessageSquareWarning } from 'lucide-react';
 import { contextRender } from '../context';
 import styles from '../context.module.css';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
@@ -27,7 +28,7 @@ const AnnouncementRenderer: ActivityRenderer = {
     );
   },
   Content: () => null,
-  Icon: () => <Icon name="chatbubbles" />,
+  Icon: () => <Icon iconNode={<MessageSquareWarning />} />,
   getNotificationUrl: () => `/timeline`,
 };
 

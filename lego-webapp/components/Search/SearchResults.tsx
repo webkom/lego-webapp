@@ -1,5 +1,6 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { HelpCircle } from 'lucide-react';
 import Time from '~/components/Time';
 import { ProfilePicture } from '../Image';
 import styles from './Search.module.css';
@@ -19,7 +20,7 @@ type SearchResultProps = {
   query: string;
 };
 
-const ResultIcon = ({ result }) => {
+const ResultIcon = ({ result }: { result: SearchResult }) => {
   switch (result.iconType) {
     case 'profilePic':
       return (
@@ -41,7 +42,11 @@ const ResultIcon = ({ result }) => {
         );
       } else {
         return (
-          <Icon name="help" size={28} className={styles.searchResultItemIcon} />
+          <Icon
+            iconNode={<HelpCircle />}
+            size={28}
+            className={styles.searchResultItemIcon}
+          />
         );
       }
     default:

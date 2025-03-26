@@ -1,4 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
+import { CalendarCheck } from 'lucide-react';
 import { isNotNullish } from '~/utils';
 import { contextRender } from '../context';
 import { formatHeader } from './utils';
@@ -30,7 +31,7 @@ const AdminRegistrationRenderer: ActivityRenderer = {
     );
   },
   Content: () => null,
-  Icon: () => <Icon name="calendar" />,
+  Icon: () => <Icon iconNode={<CalendarCheck />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const events = getEvents(aggregatedActivity);
 

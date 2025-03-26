@@ -1,4 +1,5 @@
 import { Button, Card, Icon } from '@webkom/lego-bricks';
+import { CalendarPlus } from 'lucide-react';
 import { useState } from 'react';
 import { getIcalUrl, getIcalUrlGoogle } from '~/pages/events/index/EventFooter';
 import styles from './AddToCalendar.module.css';
@@ -36,7 +37,7 @@ const AddToCalendarToggle = ({ icalToken, meeting }: Props) => {
   return (
     <div>
       <Button onPress={() => setCalendarIsOpen(!calendarIsOpen)}>
-        <Icon name="calendar-outline" size={19} />
+        <Icon iconNode={<CalendarPlus />} size={19} />
         {!calendarIsOpen ? 'Vis kalenderimport' : 'Skjul kalenderimport'}
       </Button>
 

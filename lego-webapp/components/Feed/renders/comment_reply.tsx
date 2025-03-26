@@ -4,6 +4,7 @@ import { contextRender } from '../context';
 import { getCommentUrl } from './comment';
 import { UserActors } from './utils';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
+import { MessageSquareReply } from 'lucide-react';
 
 /**
  * Comments are grouped by the comment target and date.
@@ -25,7 +26,7 @@ const CommentReplyRenderer: ActivityRenderer = {
   Content: ({ activity }) => (
     <DisplayContent content={activity.extraContext.content} />
   ),
-  Icon: () => <Icon name="chatbubble" />,
+  Icon: () => <Icon iconNode={<MessageSquareReply />} />,
   getNotificationUrl: (aggregatedActivity) => {
     const latestActivity = aggregatedActivity.lastActivity;
     const target = aggregatedActivity.context[latestActivity.target];
