@@ -1,3 +1,4 @@
+import { EntityId } from '@reduxjs/toolkit';
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
 import { EventType } from '~/redux/models/Event';
@@ -15,7 +16,6 @@ import type { CompleteEvent } from '~/redux/models/Event';
 import type Penalty from '~/redux/models/Penalty';
 import type { PublicUser } from '~/redux/models/User';
 import type { PoolRegistrationWithUser } from '~/redux/slices/events';
-import { EntityId } from '@reduxjs/toolkit';
 
 export type ConfigProperties = {
   displayName: string;
