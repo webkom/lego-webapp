@@ -35,7 +35,7 @@ export const LoadingIndicator = ({
     );
   }
 
-  return children ? <div>{children}</div> : null;
+  return children ? <>{children}</> : null;
 };
 
 type LoadingPageProps = {

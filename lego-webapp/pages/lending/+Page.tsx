@@ -1,5 +1,4 @@
 import {
-  Card,
   LoadingIndicator,
   Image,
   Page,
@@ -8,6 +7,9 @@ import {
   LinkButton,
   Button,
   Icon,
+  BaseCard,
+  CardFooter,
+  Flex,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash';
@@ -45,7 +47,7 @@ const LendableObject = ({
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
-      <Card isHoverable hideOverflow className={styles.lendableObjectCard}>
+      <BaseCard hoverable className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
           <Image
             className={styles.lendableObjectImage}
@@ -53,24 +55,21 @@ const LendableObject = ({
             alt={`${lendableObject.title}`}
           />
         </div>
-        <div className={styles.lendableObjectFooter}>
-          <div className={styles.lendableObjectInfobox}>
-            <div>
-              <h3 title={lendableObject.title}>
-                {truncateString(lendableObject.title, 15)}
-              </h3>
-              <p title={formattedGroups}>
-                <Icon iconNode={<Contact />} size={18} />
-                {readmeIfy(truncateString(formattedGroups, 15))}
-              </p>
-              <p>
-                {<Icon iconNode={<Package />} size={18} />}
-                {lendableObject.location}
-              </p>
-            </div>
-          </div>
-        </div>
-      </Card>
+        <CardFooter className={styles.lendableObjectInfobox}>
+          <Flex>
+            {/* Flex is needed for css title truncation */}
+            <h3 title={lendableObject.title}>{lendableObject.title}</h3>
+          </Flex>
+          <p title={formattedGroups}>
+            <Icon iconNode={<Contact />} size={18} />
+            {readmeIfy(truncateString(formattedGroups, 15))}
+          </p>
+          <p>
+            {<Icon iconNode={<Package />} size={18} />}
+            {lendableObject.location}
+          </p>
+        </CardFooter>
+      </BaseCard>
     </a>
   );
 };

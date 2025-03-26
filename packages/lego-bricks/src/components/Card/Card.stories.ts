@@ -1,3 +1,4 @@
+import styles from './Card.stories.module.css';
 import { Card } from '.';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -15,6 +16,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     children: 'Default card',
+  },
+};
+
+export const Skeleton: Story = {
+  args: {
+    children: 'Default card',
+    skeleton: true,
+    className: styles.skeletonCard,
   },
 };
 

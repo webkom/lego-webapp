@@ -1,6 +1,5 @@
 import {
   Button,
-  Card,
   Flex,
   Icon,
   LoadingIndicator,
@@ -9,8 +8,11 @@ import {
   LinkButton,
   filterSidebar,
   FilterSection,
+  BaseCard,
+  CardFooter,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { BriefcaseBusinessIcon, CalendarIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -27,50 +29,46 @@ import type { ListCompany } from '~/redux/models/Company';
 const CompanyItem = ({ company }: { company: ListCompany }) => {
   return (
     <a href={`/companies/${company.id}`}>
-      <Card isHoverable hideOverflow className={styles.companyItem}>
-        <div className={styles.companyItemContent}>
-          <div className={styles.companyLogoContainer}>
-            <div className={styles.companyLogo}>
-              <Image
-                src={company.logo ?? ''}
-                placeholder={company.logoPlaceholder}
-                alt={`${company.name} logo`}
-              />
-            </div>
-          </div>
+      <BaseCard hoverable className={styles.companyItem}>
+        <Flex className={styles.companyLogo}>
+          <Image
+            src={company.logo ?? ''}
+            placeholder={company.logoPlaceholder}
+            alt={`${company.name} logo`}
+          />
+        </Flex>
+        <CardFooter
+          className={styles.companyInfo}
+          justifyContent="center"
+          alignItems="center"
+          gap="3rem"
+        >
           <Flex
-            justifyContent="center"
+            column
             alignItems="center"
-            gap="3rem"
-            className={styles.companyInfo}
+            className={
+              company.joblistingCount && company.joblistingCount > 0
+                ? styles.interestingCount
+                : undefined
+            }
           >
-            <Flex
-              column
-              alignItems="center"
-              className={
-                company.joblistingCount && company.joblistingCount > 0
-                  ? styles.interestingCount
-                  : undefined
-              }
-            >
-              <Icon name="briefcase" size={20} />
-              <span>{company.joblistingCount}</span>
-            </Flex>
-            <Flex
-              column
-              alignItems="center"
-              className={
-                company.eventCount && company.eventCount > 0
-                  ? styles.interestingCount
-                  : undefined
-              }
-            >
-              <Icon name="calendar-clear" size={20} />
-              <span>{company.eventCount}</span>
-            </Flex>
+            <Icon iconNode={<BriefcaseBusinessIcon />} size={20} />
+            <span>{company.joblistingCount}</span>
           </Flex>
-        </div>
-      </Card>
+          <Flex
+            column
+            alignItems="center"
+            className={
+              company.eventCount && company.eventCount > 0
+                ? styles.interestingCount
+                : undefined
+            }
+          >
+            <Icon iconNode={<CalendarIcon />} size={20} />
+            <span>{company.eventCount}</span>
+          </Flex>
+        </CardFooter>
+      </BaseCard>
     </a>
   );
 };
@@ -215,11 +213,11 @@ const CompaniesPage = () => {
 
       <Flex wrap justifyContent="center" className={styles.iconInfoPlacement}>
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          <Icon name="briefcase" />
+          <Icon iconNode={<BriefcaseBusinessIcon />} />
           <span>Aktive jobbannonser</span>
         </Flex>
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          <Icon name="calendar-clear" />
+          <Icon iconNode={<CalendarIcon />} />
           <span>Kommende arrangementer</span>
         </Flex>
       </Flex>

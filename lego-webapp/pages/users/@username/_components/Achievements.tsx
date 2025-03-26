@@ -1,4 +1,10 @@
-import { Button, Flex, LinkButton } from '@webkom/lego-bricks';
+import {
+  BaseCard,
+  Button,
+  CardFooter,
+  Flex,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import Tooltip from '~/components/Tooltip';
@@ -7,7 +13,7 @@ import AchievementsInfo from '~/utils/achievementConstants';
 import styles from './UserProfile.module.css';
 import type { Achievement } from '~/redux/models/User';
 
-const MAX_ACHIEVEMENTS = 5;
+const MAX_ACHIEVEMENTS = 4;
 
 export const Achievements = ({
   achievements,
@@ -31,7 +37,7 @@ export const Achievements = ({
   return (
     <div className={styles.achievements}>
       <h3>Trofeer</h3>
-      <Flex wrap gap="var(--spacing-sm) var(--spacing-md)">
+      <div className={styles.trophyContainer}>
         {topAchievements.map((e) => (
           <Tooltip
             key={AchievementsInfo[e.identifier][e.level].name}
@@ -54,18 +60,22 @@ export const Achievements = ({
             }
             positions="bottom"
           >
-            <Flex column alignItems="center" gap="var(--spacing-xs)">
-              <img
-                src={AchievementsInfo[e.identifier][e.level].image ?? ''}
-                alt="Trofe"
-                height="7vh"
-                className={styles.trophyImage}
-              />
-              <span>{AchievementsInfo[e.identifier][e.level].name}</span>
-            </Flex>
+            <BaseCard className={styles.trophyCard}>
+              <Flex justifyContent="center" className={styles.trophyCardImage}>
+                <img
+                  src={AchievementsInfo[e.identifier][e.level].image ?? ''}
+                  alt="Trofe"
+                  height="7vh"
+                  className={styles.trophyImage}
+                />
+              </Flex>
+              <CardFooter justifyContent="center" alignItems="center">
+                {AchievementsInfo[e.identifier][e.level].name}
+              </CardFooter>
+            </BaseCard>
           </Tooltip>
         ))}
-      </Flex>
+      </div>
       <Flex gap="var(--spacing-md)" className={styles.trophyLinks}>
         {achievements.length > MAX_ACHIEVEMENTS && (
           <Button
