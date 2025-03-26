@@ -135,4 +135,14 @@
       -moz-outline-radius: 3px;
     }
   }
+
+  ins {
+    background-color: var(--color-green-3);
+    text-decoration: inherit;
+  }
+
+  del {
+    background-color: var(--color-red-2);
+    text-decoration: inherit;
+  }
 }
