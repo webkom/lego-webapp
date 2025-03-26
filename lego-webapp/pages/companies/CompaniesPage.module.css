@@ -28,14 +28,6 @@ div.companyItem {
   word-wrap: break-word;
 }
 
-.companyItemContent {
-  justify-content: space-between;
-  flex-direction: column;
-  text-align: center;
-  display: flex;
-  height: 100%;
-}
-
 .iconLink {
   color: var(--lego-link-color);
   display: flex;
@@ -53,26 +45,19 @@ div.companyItem {
   color: var(--lego-red-color);
 }
 
-.companyLogoContainer {
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-}
-
 .companyLogo {
   align-items: center;
-  margin: auto;
   justify-content: center;
-  display: flex;
+  height: 100%;
   padding: 0 21px;
-}
 
-.companyLogo img {
-  object-fit: contain;
-  display: block;
-  max-height: 88px;
-  background: white;
+  img {
+    margin: auto;
+    object-fit: contain;
+    display: block;
+    max-height: 88px;
+    background: white;
+  }
 }
 
 .companyLogoDetail {

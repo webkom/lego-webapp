@@ -3,6 +3,7 @@ import { CircleAlert, CircleCheck, Info, TriangleAlert } from 'lucide-react';
 import { Icon } from '../Icon';
 import Flex from '../Layout/Flex';
 import { Skeleton } from '../Skeleton';
+import { BaseCard } from './BaseCard';
 import styles from './Card.module.css';
 import type { HTMLAttributes, ReactNode } from 'react';
 
@@ -17,12 +18,12 @@ const CardHeader = ({ children, className }: CardHeaderProps) => (
   <div className={cx(styles.header, className)}>{children}</div>
 );
 
-type CardContentProps = {
+type ContentWithIconProps = {
   severity?: Severity;
   children: ReactNode;
 };
 
-const CardContent = ({ children, severity }: CardContentProps) => {
+const ContentWithIcon = ({ children, severity }: ContentWithIconProps) => {
   let icon;
 
   switch (severity) {
@@ -72,26 +73,25 @@ export const Card = ({
   ...htmlAttributes
 }: Props) => {
   return (
-    <div
+    <BaseCard
+      hoverable={isHoverable}
+      shadow={shadow}
       className={cx(
         className,
-        styles.card,
-        shadow && styles.shadow,
-        isHoverable && styles.isHoverable,
+        !skeleton && styles.padded,
         severity && styles[severity],
       )}
       style={{
         overflow: hideOverflow || skeleton ? 'hidden' : 'initial',
-        padding: skeleton ? '0' : undefined,
       }}
       {...htmlAttributes}
     >
       {skeleton ? (
         <Skeleton />
       ) : (
-        <CardContent severity={severity}>{children}</CardContent>
+        <ContentWithIcon severity={severity}>{children}</ContentWithIcon>
       )}
-    </div>
+    </BaseCard>
   );
 };
 

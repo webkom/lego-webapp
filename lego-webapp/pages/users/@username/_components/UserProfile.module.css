@@ -133,6 +133,10 @@ img.frame {
   white-space: pre-line;
   font-weight: 500;
   cursor: default;
+
+  > div {
+    height: 100%;
+  }
 }
 
 .trophyDetailTooltip {
@@ -150,4 +154,26 @@ img.frame {
 .trophyImage {
   height: 100px;
   width: auto;
+}
+
+.trophyContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: var(--spacing-sm);
+
+  @media (--lego-max-width) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.trophyCard {
+  height: 100%;
+
+  .trophyCardImage {
+    margin: var(--spacing-sm);
+  }
+
+  div:last-child {
+    flex-grow: 1;
+  }
 }

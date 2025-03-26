@@ -103,6 +103,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@types/react-infinite-scroller": "^1.2.5",
     "@types/redux-logger": "^3.0.13",
     "@types/validator": "^13.12.2",
     "@typescript-eslint/parser": "^8.26.1",
