@@ -76,7 +76,7 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_4,
     },
     {
-      name: 'Hater FOMO',
+      name: 'FOMO-allergiker',
       description: 'Deltatt på 150 arrangementer',
       rarity: 4,
       hidden: false,
@@ -106,7 +106,7 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_10,
     },
     {
-      name: 'Høye eksellense\nav arrangementer',
+      name: 'Høye eksellense av arrangementer',
       description: '1. plass - flest arrangementer',
       rarity: 6,
       hidden: false,
