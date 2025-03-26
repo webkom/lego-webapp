@@ -12,6 +12,8 @@ import cx from 'classnames';
 import { Figure } from './extensions/figure';
 import { ImageWithFileKey } from './extensions/image.ts';
 import { Link } from '@tiptap/extension-link';
+import { Diff } from './extensions/diff.ts';
+import { Strike } from './extensions/strike.ts';
 
 export type ImageUploadFn = (
   file: File,
@@ -28,7 +30,9 @@ type Props = {
 };
 
 const extensions = [
-  StarterKit.configure({ orderedList: {} }),
+  StarterKit.configure({ orderedList: {}, strike: false }),
+  Diff,
+  Strike,
   Underline,
   ImageWithFileKey,
   Figure,
