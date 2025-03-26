@@ -30,6 +30,7 @@ import {
   ShoppingCart,
   Accessibility,
   Trophy,
+  MessageSquareQuote,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import { Tag } from '~/components/Tags';
@@ -227,6 +228,13 @@ const EXTERNAL_LINKS: Link[] = [
     title: 'Wiki',
     icon: <ScrollText />,
     url: 'https://wiki.abakus.no',
+  },
+  {
+    key: 'blog',
+    requireLogin: false,
+    title: 'Utviklerbloggen',
+    icon: <MessageSquareQuote />,
+    url: 'https://webkom.dev',
   },
   {
     key: 'ababart',
