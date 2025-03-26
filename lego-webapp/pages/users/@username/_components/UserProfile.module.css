@@ -1,28 +1,43 @@
 @import url('styles/custom-media.css');
 
-.header {
-  align-items: flex-start;
-  justify-content: space-between;
+.pageGrid {
+  display: grid;
+  grid-template-areas:
+    'profile-picture header'
+    'info header'
+    'info events';
+  grid-template-columns: 348.53px 1fr; /* The width of the info cards below */
+  gap: var(--spacing-md) var(--spacing-lg);
 
   @media (--medium-viewport) {
-    justify-content: space-around;
-    gap: var(--spacing-md);
+    grid-template-areas:
+      'profile-picture'
+      'header'
+      'info'
+      'events';
+    grid-template-columns: 1fr;
   }
 }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  padding-top: var(--spacing-md);
+.profilePicture {
+  grid-area: profile-picture;
+}
+
+.header {
+  grid-area: header;
+}
+
+.info {
+  grid-area: info;
+}
+
+.events {
+  grid-area: events;
 }
 
 .frameMargin {
-  margin-top: var(--spacing-xl);
-}
-
-.sidebar {
-  min-width: 348.53px; /* The width of the info cards below */
-  position: relative;
+  margin-top: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 }
 
 img.frame {
@@ -33,27 +48,16 @@ img.frame {
   position: absolute;
 }
 
-.leftMarginContent {
-  padding-left: var(--spacing-lg);
-}
-
 .rightContent {
-  flex: 2;
-  min-width: 320px;
-  width: 100%;
+  align-items: flex-start;
 
   @media (--medium-viewport) {
-    padding-left: 0;
     align-items: center;
 
     div {
       justify-content: center;
     }
   }
-}
-
-.info {
-  flex: 1;
 }
 
 .infoCard {
