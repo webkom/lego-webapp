@@ -1,4 +1,4 @@
-import { Card, ConfirmModal, Flex, Page } from '@webkom/lego-bricks';
+import { Button, Card, ConfirmModal, Flex, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import ContentMain from '~/components/Content/ContentMain';
 import HTTPError from '~/components/errors/HTTPError';
@@ -32,24 +32,22 @@ const SudoAchievements = () => {
         >
           <ConfirmModal
             title="Bekreft resjekking av trofeer"
-            message="Er du sikker på at du vil sjekke alle trofeer på nytt?"
+            message="Er du sikker på at du vil sjekke alle trofeer på nytt? Obs! Dette kan være noe krevende for serveren. Ikke spam.
+"
             onConfirm={() => dispatch(triggerAchievementRecheck())}
           >
             {({ openConfirmModal }) => (
-              <Card
-                isHoverable
-                onClick={() => openConfirmModal()}
+              <Button
+                onPress={openConfirmModal}
                 className={styles.sudoTrophyCard}
               >
-                <h2>Valider alle trofeer</h2>
-                Obs! Dette kan være noe krevende for serveren. Ikke spam.
-              </Card>
+                Revalider alle trofeer
+              </Button>
             )}
           </ConfirmModal>
-          <Card isHoverable className={styles.sudoTrophyCard}>
-            <h2>Tildel trofeer</h2>
-            Coming later...
-          </Card>
+          <Button className={styles.sudoTrophyCard}>
+            Tildel trofeer (coming later)
+          </Button>
         </Flex>
       </ContentMain>
     </Page>
