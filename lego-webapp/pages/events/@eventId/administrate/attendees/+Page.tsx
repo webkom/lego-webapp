@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { ContentMain } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
@@ -13,6 +13,9 @@ import { useParams } from '~/utils/useParams';
 import styles from '../abacard/Abacard.module.css';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import type { AdministrateEvent } from '~/redux/models/Event';
+import Tooltip from '~/components/Tooltip';
+import { FileDown } from 'lucide-react';
+import { getCsvUrl } from '~/pages/events/utils';
 
 const Attendees = () => {
   const { eventId } = useParams<{ eventId: string }>();
@@ -65,7 +68,16 @@ const Attendees = () => {
     <ContentMain>
       <Flex column gap="var(--spacing-sm)">
         <Flex alignItems="center" justifyContent="space-between">
-          <h3>Påmeldte</h3>
+          <Flex gap="var(--spacing-xs)" alignItems="center">
+            <h3>Påmeldte</h3>
+            <Tooltip content="Last ned en CSV-fil med alle påmeldte">
+              <Icon
+                to={event?.id ? getCsvUrl(event.id) : '#'}
+                iconNode={<FileDown />}
+                size={19}
+              />
+            </Tooltip>
+          </Flex>
           <div>
             <div className={styles.attendeeStatistics}>
               {`${registerCount}/${event?.registrationCount || '?'} ${
