@@ -276,9 +276,7 @@ const UserProfile = () => {
               <h3>
                 Dine tidligere arrangementer (
                 {!previousEventsPagination.fetching
-                  ? previousEvents === undefined
-                    ? 0
-                    : previousEvents.length
+                  ? (sortedPreviousEvents?.length ?? 0)
                   : '...'}
                 )
               </h3>
