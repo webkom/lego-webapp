@@ -1,8 +1,6 @@
 import { ListLendableObject } from '~/redux/models/LendableObject';
-import type Comment from './Comment';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
-import type { ContentTarget } from '~/utils/contentTarget';
 
 export enum LendingRequestStatus {
   Unapproved = 'unapproved',
@@ -21,8 +19,6 @@ interface LendingRequest {
   startDate: Dateish;
   endDate: Dateish;
   text: string;
-  comments: Comment[];
-  contentTarget: ContentTarget;
   actionGrant: ActionGrant;
 }
 
@@ -47,8 +43,6 @@ export type DetailLendingRequest = Pick<
   | 'startDate'
   | 'endDate'
   | 'text'
-  | 'comments'
-  | 'contentTarget'
   | 'actionGrant'
 >;
 
