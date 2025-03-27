@@ -3,20 +3,20 @@ import Linkify from 'linkify-react';
 import { LinkTag } from '~/components/Feed/Tag';
 import { ProfilePicture } from '~/components/Image';
 import Time from '~/components/Time';
+import { FeedActivity, FeedActivityVerb } from '~/redux/models/FeedActivity';
 import styles from './activity.module.css';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
-import type { FeedActivity } from '~/redux/models/FeedActivity';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 
-type AggregatedActivityItemProps = {
-  aggregatedActivity: AggregatedFeedActivity;
-  activityRenderer: ActivityRenderer;
+type AggregatedActivityItemProps<Verb extends FeedActivityVerb> = {
+  aggregatedActivity: AggregatedFeedActivity<Verb>;
+  activityRenderer: ActivityRenderer<Verb>;
 };
 
-const AggregatedActivityItem = ({
+const AggregatedActivityItem = <Verb extends FeedActivityVerb>({
   aggregatedActivity,
   activityRenderer,
-}: AggregatedActivityItemProps) => {
+}: AggregatedActivityItemProps<Verb>) => {
   const { Header, Content } = activityRenderer;
 
   return (

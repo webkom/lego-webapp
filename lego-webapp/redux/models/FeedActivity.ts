@@ -1,6 +1,14 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type { UnknownFeedAttr } from '~/redux/models/FeedAttrCache';
+import type {
+  FeedAttrAnnouncement,
+  FeedAttrEvent,
+  FeedAttrGroup,
+  FeedAttrMeetingInvitation,
+  FeedAttrRegistration,
+  FeedAttrRestrictedMail,
+  UnknownFeedAttr,
+} from '~/redux/models/FeedAttrCache';
 import type { ContentTarget } from '~/utils/contentTarget';
 
 export enum FeedActivityVerb {
@@ -15,6 +23,18 @@ export enum FeedActivityVerb {
   EventRegister = 'event_register',
 }
 
+export type FeedActivityVerbAttr = {
+  [FeedActivityVerb.Comment]: UnknownFeedAttr;
+  [FeedActivityVerb.CommentReply]: UnknownFeedAttr;
+  [FeedActivityVerb.MeetingInvitation]: FeedAttrMeetingInvitation;
+  [FeedActivityVerb.RestrictedMailSent]: FeedAttrRestrictedMail;
+  [FeedActivityVerb.RegistrationBump]: FeedAttrRegistration;
+  [FeedActivityVerb.AdminRegistration]: FeedAttrRegistration;
+  [FeedActivityVerb.Announcement]: FeedAttrAnnouncement;
+  [FeedActivityVerb.GroupJoin]: FeedAttrGroup;
+  [FeedActivityVerb.EventRegister]: FeedAttrEvent;
+};
+
 export interface FeedActivity {
   activityId: EntityId;
   verb: number;
@@ -25,10 +45,12 @@ export interface FeedActivity {
   target: ContentTarget;
 }
 
-export default interface AggregatedFeedActivity {
+export default interface AggregatedFeedActivity<
+  Verb extends FeedActivityVerb = FeedActivityVerb,
+> {
   id: EntityId;
   orderingKey: string;
-  verb: FeedActivityVerb;
+  verb: Verb;
   createdAt: Dateish;
   updatedAt: Dateish;
   lastActivity: FeedActivity;
@@ -37,5 +59,5 @@ export default interface AggregatedFeedActivity {
   actorIds: EntityId[];
   read: boolean;
   seen: boolean;
-  context: Record<string, UnknownFeedAttr>;
+  context: Record<string, FeedActivityVerbAttr[Verb]>;
 }

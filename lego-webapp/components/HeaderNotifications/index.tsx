@@ -15,7 +15,7 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
 import Dropdown from '../Dropdown';
-import { activityRenderers } from '../Feed';
+import { getActivityRenderer } from '../Feed';
 import styles from './HeaderNotifications.module.css';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 
@@ -24,7 +24,7 @@ const NotificationElement = ({
 }: {
   notification: AggregatedFeedActivity;
 }) => {
-  const activityRenderer = activityRenderers[notification.verb];
+  const activityRenderer = getActivityRenderer(notification.verb);
 
   if (activityRenderer) {
     const { Icon, Header } = activityRenderer;
