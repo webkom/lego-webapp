@@ -10,7 +10,6 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { MoveRight } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { CommentView } from '~/components/Comments';
 import {
   ContentSection,
   ContentMain,
@@ -112,10 +111,6 @@ const LendingRequest = () => {
             </Flex>
             <h3>Kommentar</h3>
             <p>{lendingRequest.text}</p>
-            <CommentView
-              comments={lendingRequest.comments || []}
-              contentTarget={lendingRequest.contentTarget}
-            />
           </ContentMain>
           <ContentSidebar>
             <h3>Status</h3>
