@@ -12,8 +12,9 @@ import {
 } from '~/components/Form';
 import HTTPError from '~/components/errors/HTTPError';
 import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
-import { useAppDispatch } from '~/redux/hooks';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { CreateLendingRequest } from '~/redux/models/LendingRequest';
+import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -63,7 +64,7 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
           />
           <Field name="date" label="Dato" range component={DatePicker.Field} />
 
-          <SubmitButton>Lån objekt</SubmitButton>
+          <SubmitButton>Send forespørsel</SubmitButton>
         </Form>
       )}
     </LegoFinalForm>
@@ -71,7 +72,11 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
 };
 
 export default function LendingRequestCreate() {
-  const title = 'Nytt lån';
+  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, lendableObjectId),
+  );
+  const title = `Ny utlånsforespørsel - ${lendableObject?.title}`;
 
   return (
     <Page title={title} back={{ href: `/lending/` }}>
