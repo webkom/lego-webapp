@@ -90,7 +90,7 @@
     "vaul": "^1.1.2",
     "vike-react": "^0.5.13",
     "vike-server": "^1.0.3",
-    "vite-plugin-cjs-interop": "^2.1.6",
+    "vite-plugin-cjs-interop": "^2.2.0",
     "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
