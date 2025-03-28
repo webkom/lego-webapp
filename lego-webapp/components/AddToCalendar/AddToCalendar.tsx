@@ -1,6 +1,6 @@
 import { Accordion, Flex, Icon } from '@webkom/lego-bricks';
-import moment from 'moment-timezone';
 import { CalendarIcon, ChevronRight } from 'lucide-react';
+import moment from 'moment-timezone';
 import { Dateish } from 'app/models';
 import { getIcalUrl, getIcalUrlGoogle } from '~/pages/events/index/EventFooter';
 import styles from './AddToCalendar.module.css';
