@@ -314,24 +314,3 @@ export function fetchFollowers(eventId: EntityId, currentUserId: EntityId) {
     },
   });
 }
-
-export type Analytics = {
-  bounceRate: number | null;
-  date: string;
-  pageviews: number | null;
-  visitDuration: number | null;
-  visitors: number | null;
-};
-
-export function fetchAnalytics(eventId: EntityId) {
-  return callAPI<{
-    results: Analytics[];
-  }>({
-    types: Event.FETCH_ANALYTICS,
-    endpoint: `/events/${String(eventId)}/statistics/`,
-    method: 'GET',
-    meta: {
-      errorMessage: 'Henting av analyse feilet',
-    },
-  });
-}

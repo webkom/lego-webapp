@@ -15,8 +15,3 @@
 .graphCard {
   margin-top: var(--spacing-md);
 }
-
-.filterContainer > label {
-  font-size: var(--font-size-lg);
-  margin-bottom: var(--spacing-sm);
-}

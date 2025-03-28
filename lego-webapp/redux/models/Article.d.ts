@@ -1,11 +1,11 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish } from 'app/models';
-import type AllowedPermissionsMixin from '~/redux/models/AllowedPermissionsMixin';
 import type { AutocompleteContentType } from '~/redux/models/Autocomplete';
-import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
+import type { PermissionAction } from '~/redux/models/ObjectPermissionsMixin';
 import type { ReactionsGrouped } from '~/redux/models/Reaction';
 import type { ContentTarget } from '~/utils/contentTarget';
 
+type ArticlePermissions = PermissionAction | 'statistics';
 interface CompleteArticle {
   id: EntityId;
   title: string;
@@ -22,6 +22,7 @@ interface CompleteArticle {
   pinned: boolean;
   reactionsGrouped?: ReactionsGrouped[];
   youtubeUrl: string;
+  actionGrant: ArticlePermissions[];
 }
 
 export type DetailedArticle = Pick<
@@ -44,8 +45,8 @@ export type DetailedArticle = Pick<
   | 'canEditUsers'
   | 'canViewGroups'
   | 'canEditGroups'
-> &
-  AllowedPermissionsMixin;
+  | 'actionGrant'
+>;
 
 export type AdminDetailedArticle = DetailedArticle & ObjectPermissionsMixin;
 
@@ -69,8 +70,8 @@ export type PublicArticle = Pick<
   | 'tags'
   | 'createdAt'
   | 'pinned'
-> &
-  AllowedPermissionsMixin;
+  | 'actionGrant'
+>;
 
 export type UnknownArticle = (
   | DetailedArticle
