@@ -36,6 +36,7 @@ const ToggleSwitch = ({
       <input type="hidden" name={name} value={isSelected ? 'true' : 'false'} />
       <ToggleButton
         {...props}
+        type="button"
         id={id}
         isSelected={isSelected}
         onChange={onChange}
