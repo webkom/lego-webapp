@@ -238,9 +238,9 @@ export const FORM_LABELS = {
   },
   wantsThursdayEventInfo: {
     norwegian:
-      'Torsdags-arrangementer er av de mest populære blant studentene, og vi ser ofte høyere påmelding og større engasjement disse dagene.',
+      'Torsdags-arrangementer er av de mest populære blant studentene, og vi ser ofte høyere påmelding og større engasjement på torsdager.',
     english:
-      'Thursday events are among the most popular with students, and we often see higher attendance and greater engagement on these days.',
+      'Thursday events are among the most popular with students, and we often see higher attendance and greater engagement on thursdays.',
   },
   contactPerson: {
     header: {
