@@ -33,6 +33,7 @@ export type CompanyInterestEntity = {
   semesters: CompanySemester[];
   companyType: CompanyInterestCompanyType;
   officeInTrondheim: boolean;
+  wantsThursdayEvent: boolean;
 };
 
 const legoAdapter = createLegoAdapter(EntityType.CompanyInterests);
