@@ -1,4 +1,4 @@
-import { isArray } from 'lodash';
+import { isArray } from 'lodash-es';
 import { createInitialPagination } from '~/redux/legoAdapter/buildPaginationReducer';
 import createQueryString from '~/utils/createQueryString';
 import type { schema, Schema } from 'normalizr';

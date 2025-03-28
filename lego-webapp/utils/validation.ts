@@ -1,4 +1,4 @@
-import { merge } from 'lodash';
+import { merge } from 'lodash-es';
 import moment from 'moment-timezone';
 import { appConfig } from '~/utils/appConfig';
 import { EDITOR_EMPTY } from '~/utils/constants';

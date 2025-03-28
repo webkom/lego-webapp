@@ -1,6 +1,6 @@
 import { Card, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { Field } from 'react-final-form';
 import { GroupType } from 'app/models';
 import {

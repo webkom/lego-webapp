@@ -1,6 +1,6 @@
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { debounce, isEmpty, get, isEqual } from 'lodash';
+import { debounce, isEmpty, get, isEqual } from 'lodash-es';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { useEffect, useMemo, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroller';

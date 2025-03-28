@@ -6,7 +6,7 @@ import {
   useClearSearchParams,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty, orderBy } from 'lodash';
+import { isEmpty, orderBy } from 'lodash-es';
 import { FilterX, FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect, useContext } from 'react';

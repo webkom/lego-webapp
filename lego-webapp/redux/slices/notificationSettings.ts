@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { keyBy } from 'lodash';
+import { keyBy } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { NotificationSettings } from '~/redux/actionTypes';
 import type { AnyAction } from 'redux';

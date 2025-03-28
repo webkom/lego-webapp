@@ -21,7 +21,6 @@ export default defineConfig({
       dependencies: [
         'react-helmet-async',
         'redux-logger',
-        'lodash',
         'moment-timezone',
         'validator',
         'react-turnstile',

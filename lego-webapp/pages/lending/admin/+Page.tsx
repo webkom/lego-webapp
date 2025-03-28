@@ -7,7 +7,7 @@ import {
   Button,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
