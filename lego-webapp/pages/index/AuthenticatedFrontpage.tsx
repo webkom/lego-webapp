@@ -1,5 +1,6 @@
-import { Flex, Icon, PageContainer } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { SquareArrowUpRightIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -109,6 +110,7 @@ const AuthenticatedFrontpage = () => {
         {readMe}
         <Weekly />
         <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
+        <Blog />
       </section>
 
       <ShowMoreButton
@@ -204,6 +206,19 @@ const Weekly = () => {
         />
       )}
     </Flex>
+  );
+};
+
+const Blog = () => {
+  return (
+    <a href="https://webkom.dev" className={styles.blog}>
+      <Card>
+        <Flex justifyContent="space-between" alignItems="center">
+          <h3 className={styles.blogTitle}>Utviklarbloggen</h3>
+          <SquareArrowUpRightIcon />
+        </Flex>
+      </Card>
+    </a>
   );
 };
 
