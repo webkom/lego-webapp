@@ -1,5 +1,7 @@
 import { debounce } from 'lodash';
 import { useMemo, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { mazemapScript } from '~/components/MazemapEmbed';
 import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
@@ -17,12 +19,12 @@ type SelectOption = {
 };
 
 const mapRoomAndBuildingToSelectOption = (
+  value: number,
   poiName: string,
   buildingName: string,
-  value: number,
 ): SelectOption => {
   return {
-    label: stripHtmlTags(poiName + ', ' + buildingName),
+    label: [poiName, buildingName].filter(Boolean).join(', '),
     value: value,
   };
 };
@@ -59,9 +61,9 @@ export const useMazemapAutocomplete = () => {
           setOptions(
             results.results.features.map((result) =>
               mapRoomAndBuildingToSelectOption(
+                result.properties.poiId,
                 result.properties.dispPoiNames[0],
                 result.properties.dispBldNames[0],
-                result.properties.poiId,
               ),
             ),
           );
@@ -84,12 +86,15 @@ const withMazemapAutocomplete = <P,>({
     const { options, onSearch, fetching } = useMazemapAutocomplete();
 
     return (
-      <WrappedComponent
-        {...props}
-        options={options}
-        onSearch={onSearch}
-        fetching={fetching}
-      />
+      <>
+        <Helmet title="Mazemap Search">{mazemapScript}</Helmet>
+        <WrappedComponent
+          {...props}
+          options={options}
+          onSearch={onSearch}
+          fetching={fetching}
+        />
+      </>
     );
   };
   const displayName =

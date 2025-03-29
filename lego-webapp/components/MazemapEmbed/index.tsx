@@ -170,15 +170,6 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
   return (
     <Flex column gap="var(--spacing-sm)">
-      <Helmet
-        title="Mazemap"
-        script={[
-          {
-            type: 'text/javascript',
-            src: 'https://api.mazemap.com/js/v2.2.1/mazemap.min.js',
-          },
-        ]}
-      />
       <div
         style={{
           height: props.height || 400,
