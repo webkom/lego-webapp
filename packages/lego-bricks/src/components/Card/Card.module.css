@@ -2,7 +2,6 @@
   background: var(--lego-card-color);
   border-radius: var(--border-radius-lg);
   border: 1.5px solid var(--border-gray);
-  line-height: 1.3;
   overflow: hidden;
 }
 
