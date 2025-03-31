@@ -1,4 +1,4 @@
-import { Button, Card, ConfirmModal, Flex, Page } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex, Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import ContentMain from '~/components/Content/ContentMain';
 import HTTPError from '~/components/errors/HTTPError';

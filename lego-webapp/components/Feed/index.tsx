@@ -1,7 +1,7 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Frown } from 'lucide-react';
 import EmptyState from '~/components/EmptyState';
 import ErrorBoundary from '~/components/ErrorBoundary';
-import ActivityRenderer from '~/components/Feed/ActivityRenderer';
 import { useAppSelector } from '~/redux/hooks';
 import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
@@ -17,6 +17,7 @@ import RegistrationBumpRenderer from './renders/registrationBump';
 import RestrictedMailSentRenderer from './renders/restrictedMail';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
+import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
 export const activityRenderers = {
   [FeedActivityVerb.Comment]: CommentRenderer,
@@ -44,7 +45,9 @@ const Feed = ({ feedId }: Props): ReactNode => {
   );
 
   return (
-    <div
+    <Flex
+      column
+      gap="var(--spacing-md)"
       style={{
         width: '100%',
       }}
@@ -67,7 +70,7 @@ const Feed = ({ feedId }: Props): ReactNode => {
           body="Ingen aktiviteter i feeden ..."
         />
       )}
-    </div>
+    </Flex>
   );
 };
 

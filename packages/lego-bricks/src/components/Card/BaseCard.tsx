@@ -39,13 +39,18 @@ export const CardContent = ({
 
 export const CardFooter = ({
   children,
+  variant = 'background',
   className,
   ...flexProps
 }: {
   children: ReactNode;
+  variant: 'background' | 'border';
   className?: string;
 } & ComponentProps<typeof Flex>) => (
-  <Flex className={cx(styles.footer, className)} {...flexProps}>
+  <Flex
+    className={cx(styles.footer, styles[variant], className)}
+    {...flexProps}
+  >
     {children}
   </Flex>
 );
