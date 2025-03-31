@@ -29,7 +29,6 @@ const notificationTypeTraslations = {
   restricted_mail_sent:
     'Engangs-e-poster som sendes til bestemte grupper (begrenset e-post)',
   company_interest_created: 'Ny bedriftsinteresse',
-  comment: 'Ny kommentar',
   comment_reply: 'Svar på kommentar',
   announcement: 'Kunngjøring/Viktig melding',
   survey_created: 'Ny spørreundersøkelse',
