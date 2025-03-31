@@ -66,7 +66,7 @@ describe('The Home Page and Login', () => {
     cy.contains('h2', 'Deloitte AS');
     cy.contains('h2', 'Mesan');
     cy.contains('h2', 'Sikkerhet og Sårbarhet').should('not.exist');
-    cy.get('ion-icon[name="chevron-down-outline"]').click();
+    cy.get(t('frontpage-show-more')).click();
     cy.contains('h2', 'Sikkerhet og Sårbarhet');
     cy.contains('a', 'Artikkel med youtube cover');
   });
