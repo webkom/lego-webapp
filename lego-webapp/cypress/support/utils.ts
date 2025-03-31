@@ -105,11 +105,11 @@ export const setDatePickerDate = (
   field(name).click();
 
   if (isNextMonth) {
-    cy.get('button:not(:disabled)[class*="prevOrNextMonth"]')
+    cy.get(`button:not(:disabled)${c('prevOrNextMonth')}`)
       .contains(new RegExp('^' + date + '$', 'g'))
       .click();
   } else {
-    cy.get('button:not(:disabled):not([class*="prevOrNextMonth"])')
+    cy.get(`button:not(:disabled):not(${c('prevOrNextMonth')})`)
       .contains(new RegExp('^' + date + '$', 'g'))
       .click();
   }
