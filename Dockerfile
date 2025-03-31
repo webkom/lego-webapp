@@ -46,4 +46,4 @@ COPY --from=builder /app/lego-webapp/dist ./lego-webapp/dist
 COPY --from=builder /app/lego-webapp/node_modules ./lego-webapp/node_modules
 COPY --from=builder /app/node_modules node_modules
 
-ENTRYPOINT ["node", "lego-webapp/dist/server/index.mjs"]
+ENTRYPOINT ["node", "lego-webapp/dist/server/index.js"]
