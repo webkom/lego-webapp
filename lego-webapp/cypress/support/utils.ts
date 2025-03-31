@@ -105,15 +105,14 @@ export const setDatePickerDate = (
   field(name).click();
 
   if (isNextMonth) {
-    cy.get('ion-icon[name="arrow-forward-outline"]')
-      .first()
-      .should('not.be.disabled')
+    cy.get('button:not(:disabled)[class*="prevOrNextMonth"]')
+      .contains(new RegExp('^' + date + '$', 'g'))
+      .click();
+  } else {
+    cy.get('button:not(:disabled):not([class*="prevOrNextMonth"])')
+      .contains(new RegExp('^' + date + '$', 'g'))
       .click();
   }
-
-  cy.get('button:not(:disabled):not([class*="prevOrNextMonth"])')
-    .contains(new RegExp('^' + date + '$', 'g'))
-    .click();
 
   field(name).click();
 };
