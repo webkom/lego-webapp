@@ -1,3 +1,4 @@
+import { EntityId } from '@reduxjs/toolkit';
 import { pick, sumBy, find } from 'lodash';
 import moment from 'moment-timezone';
 import { EventType } from '~/redux/models/Event';
@@ -363,6 +364,9 @@ export const transformEventStatusType = (eventStatusType: string) => {
     }) || eventStatusTypes[0]
   );
 };
+
+export const getCsvUrl = (eventId: EntityId) =>
+  `${appConfig.serverUrl}/events/${eventId}/csv/`;
 
 export const getEventSemesterFromStartTime = (
   startTime: Dateish,

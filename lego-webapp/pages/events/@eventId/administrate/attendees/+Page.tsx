@@ -1,7 +1,10 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
+import { FileDown } from 'lucide-react';
 import moment from 'moment-timezone';
 import { ContentMain } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
+import Tooltip from '~/components/Tooltip';
+import { getCsvUrl } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationGroups,
@@ -65,7 +68,16 @@ const Attendees = () => {
     <ContentMain>
       <Flex column gap="var(--spacing-sm)">
         <Flex alignItems="center" justifyContent="space-between">
-          <h3>Påmeldte</h3>
+          <Flex gap="var(--spacing-xs)" alignItems="center">
+            <h3>Påmeldte</h3>
+            <Tooltip content="Last ned en CSV-fil med alle påmeldte">
+              <Icon
+                to={event?.id ? getCsvUrl(event.id) : '#'}
+                iconNode={<FileDown />}
+                size={19}
+              />
+            </Tooltip>
+          </Flex>
           <div>
             <div className={styles.attendeeStatistics}>
               {`${registerCount}/${event?.registrationCount || '?'} ${
