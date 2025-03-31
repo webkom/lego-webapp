@@ -1,5 +1,5 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import { Fragment } from 'react';
 import { navigate } from 'vike/client/router';

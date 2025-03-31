@@ -1,6 +1,6 @@
 import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { groupBy, orderBy } from 'lodash';
+import { groupBy, orderBy } from 'lodash-es';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { GroupType, type Dateish } from 'app/models';

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { union } from 'lodash';
+import { union } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { Feed } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
