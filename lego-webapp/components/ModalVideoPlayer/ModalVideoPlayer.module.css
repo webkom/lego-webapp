@@ -45,7 +45,6 @@
   position: fixed;
   z-index: 9999;
   cursor: grab;
-  padding: 500px;
   background: none;
 }
 
