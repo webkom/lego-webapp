@@ -54,7 +54,7 @@ const Modal = ({ videoId, isOpen, onClose }: Props) => {
 };
 
 export const SubwaySurfers = () => {
-  const [position, setPosition] = useState({ x: 100, y: 100 });
+  const [position, setPosition] = useState({ x: 250, y: 300 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
 
