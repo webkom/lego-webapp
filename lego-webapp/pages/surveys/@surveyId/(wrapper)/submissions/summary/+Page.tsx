@@ -1,7 +1,6 @@
-import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton, Tooltip } from '@webkom/lego-bricks';
 import { ReactNode, useContext } from 'react';
 import EmptyState from '~/components/EmptyState';
-import Tooltip from '~/components/Tooltip';
 import { SurveysRouteContext } from '~/pages/surveys/@surveyId/(wrapper)/SurveysRouteContext';
 import {
   hideAnswer,

@@ -11,6 +11,7 @@ export { Button, LinkButton } from './components/Button';
 export { ButtonGroup } from './components/Button/ButtonGroup';
 export { TabContainer } from './components/Tabs/TabContainer';
 export { Tab } from './components/Tabs/Tab';
+export { Tooltip } from './components/Tooltip';
 export {
   Page,
   PageContainer,

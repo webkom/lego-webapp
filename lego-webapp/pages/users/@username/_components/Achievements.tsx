@@ -4,10 +4,10 @@ import {
   CardFooter,
   Flex,
   LinkButton,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
-import Tooltip from '~/components/Tooltip';
 import { TitleWithRarity } from '~/pages/achievements/+Page';
 import AchievementsInfo from '~/utils/achievementConstants';
 import styles from './UserProfile.module.css';

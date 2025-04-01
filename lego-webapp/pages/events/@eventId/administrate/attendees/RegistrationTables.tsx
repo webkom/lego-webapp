@@ -1,10 +1,9 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Check, Monitor, MonitorOff, Smartphone, X } from 'lucide-react';
 import { PhotoConsentDomain } from 'app/models';
 import Table from '~/components/Table';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,

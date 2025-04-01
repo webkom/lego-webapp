@@ -1,4 +1,4 @@
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import { Reply, Trash2 } from 'lucide-react';
 import moment from 'moment';
 import { useState } from 'react';
@@ -7,7 +7,6 @@ import DisplayContent from '~/components/DisplayContent';
 import { ProfilePicture } from '~/components/Image';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import { deleteComment } from '~/redux/actions/CommentActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';

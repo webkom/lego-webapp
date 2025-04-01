@@ -1,7 +1,6 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { HelpCircle } from 'lucide-react';
-import Tooltip from '~/components/Tooltip';
 import styles from './Label.module.css';
 import type { HTMLProps, ReactNode } from 'react';
 

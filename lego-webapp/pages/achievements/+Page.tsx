@@ -1,10 +1,9 @@
-import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Ghost } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
-import Tooltip from '~/components/Tooltip';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { CurrentUser, Rarity } from '~/redux/models/User';

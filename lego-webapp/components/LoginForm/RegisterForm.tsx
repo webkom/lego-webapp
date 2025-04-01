@@ -1,4 +1,4 @@
-import { Button, ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, ConfirmModal, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import { useEffect, useState } from 'react';
 import { Field } from 'react-final-form';
 import {
@@ -9,7 +9,6 @@ import {
   SubmissionError,
   LegoFinalForm,
 } from '~/components/Form';
-import Tooltip from '~/components/Tooltip';
 import { sendRegistrationEmail } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { spyValues } from '~/utils/formSpyUtils';

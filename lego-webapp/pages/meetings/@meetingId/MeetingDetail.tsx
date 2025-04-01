@@ -7,6 +7,7 @@ import {
   LoadingPage,
   Modal,
   Page,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
 import { ListRestart, Pencil } from 'lucide-react';
@@ -30,7 +31,6 @@ import LegoReactions from '~/components/LegoReactions';
 import { mazemapScript } from '~/components/MazemapEmbed';
 import { MazemapAccordion } from '~/components/MazemapEmbed/MazemapAccordion';
 import Time, { FromToTime } from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import Attendance from '~/components/UserAttendance/Attendance';
 import { PizzaAccordion } from '~/pages/meetings/@meetingId/PizzaAccordion';
 import { setInvitationStatus } from '~/redux/actions/MeetingActions';

@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   LinkButton,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { keys } from 'lodash-es';
@@ -13,7 +14,6 @@ import { ContentMain } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
 import Table from '~/components/Table';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import {
   deleteOAuth2Grant,
   fetchOAuth2Applications,

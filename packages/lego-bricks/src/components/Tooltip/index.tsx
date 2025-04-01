@@ -15,7 +15,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const Tooltip = ({
+export const Tooltip = ({
   children,
   content,
   className,
@@ -57,5 +57,3 @@ const Tooltip = ({
     </div>
   );
 };
-
-export default Tooltip;

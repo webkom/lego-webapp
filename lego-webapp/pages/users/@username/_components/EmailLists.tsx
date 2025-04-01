@@ -1,5 +1,5 @@
+import { Tooltip } from '@webkom/lego-bricks';
 import { useMemo } from 'react';
-import Tooltip from '~/components/Tooltip';
 import {
   InfoField,
   ProfileSection,

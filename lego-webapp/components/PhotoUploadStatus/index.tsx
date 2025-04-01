@@ -1,7 +1,6 @@
-import { Card, Flex, Icon, Image } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
 import { X } from 'lucide-react';
 import { connect } from 'react-redux';
-import Tooltip from '~/components/Tooltip';
 import {
   selectGalleryPictureById,
   initialUploadStatus,
