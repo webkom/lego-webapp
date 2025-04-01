@@ -34,7 +34,7 @@
   height: 2.3em;
   width: fit-content;
   padding: 0 var(--spacing-md);
-  font-family: 'Comic Sans MS', cursive, sans-serif;
+  font-family: 'Comic Sans MS', 'Comic Neue', cursive, sans-serif;
   font-weight: 900;
   background-color: var(--button-background);
   color: var(--button-color);

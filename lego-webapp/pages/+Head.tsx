@@ -57,6 +57,10 @@ export default function HeadDefault() {
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700&display=swap"
         rel="stylesheet"
       />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+        rel="stylesheet"
+      />
       {import.meta.env.SSR && [
         pageContext.helmetContext?.helmet?.title.toComponent(),
         pageContext.helmetContext?.helmet?.meta.toComponent(),
