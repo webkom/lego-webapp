@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalVideo from 'react-modal-video';
 import 'react-modal-video/css/modal-video.css'; // Import styles for react-modal-video
 import styles from './ModalVideoPlayer.module.css'; // Import our custom styles
@@ -57,6 +57,7 @@ export const SubwaySurfers = () => {
   const [position, setPosition] = useState({ x: 250, y: 300 });
   const [dragging, setDragging] = useState(false);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const divRef = React.useRef<HTMLDivElement>(null);
 
   const handleMouseDown = (e) => {
     setDragging(true);
@@ -72,8 +73,53 @@ export const SubwaySurfers = () => {
     setDragging(false);
   };
 
+  useEffect(() => {
+    const handleTouchStart = (e) => {
+      const touch = e.touches[0];
+      setDragging(true);
+      setOffset({
+        x: touch.clientX - position.x,
+        y: touch.clientY - position.y,
+      });
+    };
+
+    const handleTouchMove = (e) => {
+      e.preventDefault();
+      if (!dragging) return;
+      const touch = e.touches[0];
+      setPosition({ x: touch.clientX - offset.x, y: touch.clientY - offset.y });
+    };
+
+    const handleTouchEnd = () => {
+      setDragging(false);
+    };
+
+    const divElement = divRef.current;
+    if (!divElement) return;
+
+    divElement.addEventListener('touchstart', handleTouchStart, {
+      passive: false,
+    });
+    divElement.addEventListener('touchmove', handleTouchMove, {
+      passive: false,
+    });
+    divElement.addEventListener('touchend', handleTouchEnd, {
+      passive: false,
+    });
+    divElement.addEventListener('touchcancel', handleTouchEnd, {
+      passive: false,
+    });
+    return () => {
+      divElement.removeEventListener('touchstart', handleTouchStart);
+      divElement.removeEventListener('touchmove', handleTouchMove);
+      divElement.removeEventListener('touchend', handleTouchEnd);
+      divElement.removeEventListener('touchcancel', handleTouchEnd);
+    };
+  }, [dragging, offset.x, offset.y, position.x, position.y]);
+
   return (
     <div
+      ref={divRef}
       className={styles.draggableContainer}
       style={{ top: position.y, left: position.x, position: 'fixed' }}
       onMouseDown={handleMouseDown}
