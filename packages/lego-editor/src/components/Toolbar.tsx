@@ -30,7 +30,7 @@ type ButtonProps = {
   children: ReactNode;
 };
 
-const ToolbarButton = ({
+export const ToolbarButton = ({
   onClick,
   disabled,
   active,

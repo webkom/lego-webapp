@@ -2,9 +2,14 @@ import {
   findChildrenInRange,
   mergeAttributes,
   Node,
-  nodeInputRule,
   Tracker,
 } from '@tiptap/core';
+import { NodeSelection } from '@tiptap/pm/state';
+import {
+  NodeViewContent,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+} from '@tiptap/react';
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, unknown>;
@@ -37,8 +42,6 @@ declare module '@tiptap/core' {
   }
 }
 
-export const inputRegex = /!\[(.+|:?)]\((\S+)(?:(?:\s+)["'](\S+)["'])?\)/;
-
 export const Figure = Node.create<FigureOptions>({
   name: 'figure',
 
@@ -51,8 +54,6 @@ export const Figure = Node.create<FigureOptions>({
   group: 'block',
 
   content: 'inline*',
-
-  draggable: true,
 
   isolating: true,
 
@@ -165,6 +166,8 @@ export const Figure = Node.create<FigureOptions>({
               type: this.name,
               attrs: {
                 src: node.attrs.src,
+                alt: node.attrs.alt,
+                title: node.attrs.title,
                 fileKey: node.attrs.fileKey,
               },
             });
@@ -204,6 +207,8 @@ export const Figure = Node.create<FigureOptions>({
               type: 'image',
               attrs: {
                 src: node.attrs.src,
+                alt: node.attrs.alt,
+                title: node.attrs.title,
                 fileKey: node.attrs.fileKey,
               },
             });
@@ -211,17 +216,30 @@ export const Figure = Node.create<FigureOptions>({
         },
     };
   },
-  addInputRules() {
-    return [
-      nodeInputRule({
-        find: inputRegex,
-        type: this.type,
-        getAttributes: (match) => {
-          const [, src, alt, title] = match;
 
-          return { src, alt, title };
-        },
-      }),
-    ];
+  addNodeView() {
+    return ReactNodeViewRenderer(({ node, view, getPos, selected }) => {
+      return (
+        <NodeViewWrapper>
+          <figure className={selected ? 'ProseMirror-selectednode' : ''}>
+            <img
+              src={node.attrs.src}
+              data-file-key={node.attrs.fileKey}
+              alt={node.attrs.alt}
+              title={node.attrs.title}
+              onClick={() => {
+                // select the figure
+                const { state, dispatch } = view;
+                let tr = state.tr;
+                const selection = NodeSelection.create(state.doc, getPos());
+                tr = tr.setSelection(selection);
+                dispatch(tr);
+              }}
+            />
+            <NodeViewContent as="figcaption" />
+          </figure>
+        </NodeViewWrapper>
+      );
+    });
   },
 });
