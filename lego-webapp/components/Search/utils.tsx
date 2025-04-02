@@ -188,7 +188,7 @@ const LINKS: Array<Link> = [
     key: 'email',
     title: 'E-post',
     icon: <MailSearch />,
-    url: '/admin/email',
+    url: '/admin/email/lists',
   },
   {
     admin: true,

@@ -114,6 +114,10 @@
     overflow: hidden;
     background: var(--additive-background);
 
+    &:global(.ProseMirror-selectednode) {
+      outline: 2px solid var(--color-blue-6);
+    }
+
     figcaption {
       text-align: center;
       padding: var(--spacing-xs);
@@ -126,13 +130,14 @@
   }
 
   img {
+    margin: auto;
+    display: block;
     max-width: 100%;
     max-height: 40em;
     border-radius: var(--border-radius-md);
 
     &:global(.ProseMirror-selectednode) {
       outline: 2px solid var(--color-blue-6);
-      -moz-outline-radius: 3px;
     }
   }
 
