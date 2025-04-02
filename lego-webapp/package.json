@@ -88,8 +88,9 @@
     "slugify": "^1.6.6",
     "validator": "^13.12.0",
     "vaul": "^1.1.2",
+    "vike": "^0.4.227",
     "vike-react": "^0.5.13",
-    "vike-server": "^1.0.3",
+    "vike-server": "^1.0.11",
     "vite-plugin-cjs-interop": "^2.1.6",
     "zxcvbn": "^4.4.2"
   },
@@ -120,7 +121,6 @@
     "typescript": "catalog:",
     "typescript-eslint": "^8.24.0",
     "utility-types": "^3.11.0",
-    "vike": "^0.4.227",
     "vite": "catalog:",
     "vite-css-modules": "^1.8.4",
     "vitest": "catalog:"
