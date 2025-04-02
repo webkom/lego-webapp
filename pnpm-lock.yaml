@@ -252,8 +252,8 @@ importers:
         specifier: ^0.5.13
         version: 0.5.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(vike@0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7)))
       vike-server:
-        specifier: ^1.0.11
-        version: 1.0.11(vike@0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7)))(vite@6.2.3(@types/node@22.7.7))
+        specifier: ^1.0.12
+        version: 1.0.12(vike@0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7)))(vite@6.2.3(@types/node@22.7.7))
       vite-plugin-cjs-interop:
         specifier: ^2.2.0
         version: 2.2.0(vite@6.2.3(@types/node@22.7.7))
@@ -3358,8 +3358,8 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  '@universal-middleware/compress@0.2.24':
-    resolution: {integrity: sha512-rOYcKZb3DVtheaDCi4zqf7LT87RUoVi5BIaB2c71hMiGg68vR8s2gALagLjg1HR6Yc6OUDZjiodsPEmTYy2AxQ==}
+  '@universal-middleware/compress@0.2.25':
+    resolution: {integrity: sha512-Hzebydxs8vU82w55pEbA7YrIxbmW31sR+qFITcISelIrp+NLXHktvOGQay5FdMDk2YnizHPbWFxh77ZHrkQtkQ==}
 
   '@universal-middleware/core@0.4.6':
     resolution: {integrity: sha512-TEe6WFEfLLKUUpaF/3NHVwf2lhqvHtIeaA2TcjTW8/O+Q2uugpe79D/1U/ulDknDwG4vgUrKgLaxuDQy/bELXg==}
@@ -3390,11 +3390,11 @@ packages:
   '@universal-middleware/elysia@0.4.7':
     resolution: {integrity: sha512-8RKEUmFQpX5nB1PBTnvhFPsD5B5GqEHu7Ykul9cS3XyaB0E9xWkULstmJa5NBm9s/Huw6Bc+/kDPyva1Bswj3w==}
 
-  '@universal-middleware/express@0.4.11':
-    resolution: {integrity: sha512-wcrMt9kAH+SVg98vsS2qIYwhoupriRZ9IIqDyilXOWPQ48tEk1+qR27Etlx+eHKA5wS35cCzB8xmGUuZaHgdnA==}
+  '@universal-middleware/express@0.4.12':
+    resolution: {integrity: sha512-CiRwat1JRRrL3Adi7Xla4Eq6XVHOvFKzTyYqe9Q4aOXeeTtt+1kMzt9vCbwzAq9y4tIWSaN7+JkKIulmPTD01A==}
 
-  '@universal-middleware/fastify@0.5.12':
-    resolution: {integrity: sha512-n7YM8iGpF1BMsDGcxtQs31ZW1FEfvwA0gjNQtBcBc3CHDGfNPZdm//LANhroK3YPTA1y0uxKDP/4zL/dmWZ0CQ==}
+  '@universal-middleware/fastify@0.5.13':
+    resolution: {integrity: sha512-QhDGrJf4W2sBKHEoqlr5QvOTzsSRnv8nUJSZh52trJCenHyL/ngDjTE91VwZDzyq3VD9cZqL5giieGJLdeYC5w==}
 
   '@universal-middleware/h3@0.4.8':
     resolution: {integrity: sha512-yscEFz3MGI1zpYMGmHo+QLhdiLyTZ7dLFQIeiYOgSNyZv5/MdX7nXkXJvafjNnCrXgXZwJ1Xvi7arSOpBWfvcQ==}
@@ -3405,8 +3405,8 @@ packages:
   '@universal-middleware/hono@0.4.8':
     resolution: {integrity: sha512-txBMdtakdRHEBC1OoOMqFxTwj0d/drN1AOYOlncy+Wj0ZuLMonh9Avv5XkpJned9jePwl8v6lDZjFTr40YnMWA==}
 
-  '@universal-middleware/sirv@0.1.15':
-    resolution: {integrity: sha512-wKdq28Qe3ZY/K83SK3Z4sXMU2L8poyGEb25EH6+7tjPU/qbpKZI47X/UqPJNNLfENG8Da/wMfSNRjr6Jvynbmg==}
+  '@universal-middleware/sirv@0.1.16':
+    resolution: {integrity: sha512-rn9+KxPMlkrpNf+KYFGHFQSs+m9bmlOA09ZDl2JcMGYaF1GoiZuW4TJbQ3lCqHFeKyvyXtMzyqtiirqLqw8vIA==}
 
   '@vitejs/plugin-react-swc@3.8.1':
     resolution: {integrity: sha512-aEUPCckHDcFyxpwFm0AIkbtv6PpUp3xTb9wYGFjtABynXjCYKkWoxX0AOK9NT9XCrdk6mBBUOeHQS+RKdcNO1A==}
@@ -6716,8 +6716,8 @@ packages:
       react-dom: '>=18.0.0'
       vike: '>=0.4.182'
 
-  vike-server@1.0.11:
-    resolution: {integrity: sha512-XRSoC4rkNDz8Qs9D0Iq0GWMeBoSOx4W7Bb6r1WK53iyBuyVz+XW3f+G2dU6ldjH4bdHG/tQ2fB0ucneJvfbmRQ==}
+  vike-server@1.0.12:
+    resolution: {integrity: sha512-iEhOqtZeWsno/ruLE+pTreDQuKZ6epJtkkQuI//4+ZJB0IXo6aHk3/X/aEdR27xCfGGEye4vUrbNJqdJL0V0VQ==}
     peerDependencies:
       vike: ^0.4.227
       vite: '>=6'
@@ -10302,7 +10302,7 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@universal-middleware/compress@0.2.24': {}
+  '@universal-middleware/compress@0.2.25': {}
 
   '@universal-middleware/core@0.4.6':
     dependencies:
@@ -10321,7 +10321,7 @@ snapshots:
       - h3
       - hono
 
-  '@universal-middleware/express@0.4.11':
+  '@universal-middleware/express@0.4.12':
     dependencies:
       '@universal-middleware/core': 0.4.6
     transitivePeerDependencies:
@@ -10333,10 +10333,10 @@ snapshots:
       - h3
       - hono
 
-  '@universal-middleware/fastify@0.5.12':
+  '@universal-middleware/fastify@0.5.13':
     dependencies:
       '@universal-middleware/core': 0.4.6
-      '@universal-middleware/express': 0.4.11
+      '@universal-middleware/express': 0.4.12
       fastify-raw-body: 5.0.0
     transitivePeerDependencies:
       - '@cloudflare/workers-types'
@@ -10383,7 +10383,7 @@ snapshots:
       - h3
       - hono
 
-  '@universal-middleware/sirv@0.1.15':
+  '@universal-middleware/sirv@0.1.16':
     dependencies:
       mrmime: 2.0.1
       totalist: 3.0.1
@@ -14355,19 +14355,19 @@ snapshots:
       react-streaming: 0.3.50(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       vike: 0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7))
 
-  vike-server@1.0.11(vike@0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7)))(vite@6.2.3(@types/node@22.7.7)):
+  vike-server@1.0.12(vike@0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7)))(vite@6.2.3(@types/node@22.7.7)):
     dependencies:
       '@brillout/picocolors': 1.0.26
       '@brillout/vite-plugin-server-entry': 0.7.1
-      '@universal-middleware/compress': 0.2.24
+      '@universal-middleware/compress': 0.2.25
       '@universal-middleware/core': 0.4.6
       '@universal-middleware/elysia': 0.4.7
-      '@universal-middleware/express': 0.4.11
-      '@universal-middleware/fastify': 0.5.12
+      '@universal-middleware/express': 0.4.12
+      '@universal-middleware/fastify': 0.5.13
       '@universal-middleware/h3': 0.4.8
       '@universal-middleware/hattip': 0.4.7
       '@universal-middleware/hono': 0.4.8
-      '@universal-middleware/sirv': 0.1.15
+      '@universal-middleware/sirv': 0.1.16
       esbuild: 0.25.2
       vike: 0.4.227(react-streaming@0.4.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@6.2.3(@types/node@22.7.7))
     optionalDependencies:
