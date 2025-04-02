@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import {
   RowSection,
@@ -9,7 +9,6 @@ import {
 } from '~/components/Form';
 import { Label } from '~/components/Form/Label';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
-import Tooltip from '~/components/Tooltip';
 import { EventTypeConfig } from '~/pages/events/utils';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';

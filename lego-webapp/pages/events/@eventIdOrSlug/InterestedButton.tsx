@@ -1,6 +1,5 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Icon, Tooltip } from '@webkom/lego-bricks';
 import { Star } from 'lucide-react';
-import Tooltip from '~/components/Tooltip';
 import styles from '~/pages/events/@eventIdOrSlug/EventDetail.module.css';
 import { follow, unfollow } from '~/redux/actions/EventActions';
 import { useAppDispatch } from '~/redux/hooks';

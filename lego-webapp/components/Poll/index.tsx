@@ -1,4 +1,11 @@
-import { Accordion, Button, Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import {
+  Accordion,
+  Button,
+  Flex,
+  Icon,
+  Skeleton,
+  Tooltip,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { sortBy } from 'lodash-es';
 import {
@@ -10,7 +17,6 @@ import {
 } from 'lucide-react';
 import moment from 'moment-timezone';
 import EmptyState from '~/components/EmptyState';
-import Tooltip from '~/components/Tooltip';
 import { votePoll } from '~/redux/actions/PollActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import styles from './Poll.module.css';

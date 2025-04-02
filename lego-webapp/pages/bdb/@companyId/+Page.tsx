@@ -7,6 +7,7 @@ import {
   Page,
   LinkButton,
   PageCover,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
@@ -28,7 +29,6 @@ import joblistingStyles from '~/components/JoblistingItem/JoblistingItem.module.
 import Table from '~/components/Table';
 import TextWithIcon from '~/components/TextWithIcon';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import FileUpload from '~/components/Upload/FileUpload';
 import UserLink from '~/components/UserLink';
 import SemesterStatus from '~/pages/bdb/SemesterStatus';

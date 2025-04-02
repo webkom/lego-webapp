@@ -1,8 +1,8 @@
+import { Tooltip } from '@webkom/lego-bricks';
 import { CircleHelp } from 'lucide-react';
 import moment from 'moment-timezone';
 import TextWithIcon from '~/components/TextWithIcon';
 import { FormatTime } from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import {
   penaltyHours,
   registrationCloseTime,

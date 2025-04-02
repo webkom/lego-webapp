@@ -15,7 +15,7 @@ type Props = {
   disabled?: boolean;
 };
 
-const Tooltip = ({
+export const Tooltip = ({
   children,
   content,
   className,
@@ -34,6 +34,14 @@ const Tooltip = ({
       onClick={onClick}
       onMouseEnter={() => setHovered(!disabled && !!content && true)}
       onMouseLeave={() => setHovered(false)}
+      // Support keyboard navigation if onClick (for accessibility)
+      role={onClick ? 'button' : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+          onClick();
+        }
+      }}
     >
       <Popover
         isOpen={hovered}
@@ -57,5 +65,3 @@ const Tooltip = ({
     </div>
   );
 };
-
-export default Tooltip;

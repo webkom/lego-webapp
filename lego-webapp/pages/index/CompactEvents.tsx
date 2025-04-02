@@ -1,10 +1,9 @@
-import { Flex, Icon, Skeleton } from '@webkom/lego-bricks';
+import { Flex, Icon, Skeleton, Tooltip } from '@webkom/lego-bricks';
 import { Pin } from 'lucide-react';
 import moment from 'moment-timezone';
 import Circle from '~/components/Circle';
 import EmptyState from '~/components/EmptyState';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import { eventListDefaultQuery } from '~/pages/events/index/+Layout';
 import { colorForEventType } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';

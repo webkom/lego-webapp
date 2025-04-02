@@ -5,6 +5,7 @@ import {
   Icon,
   LoadingPage,
   Page,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash-es';
@@ -31,7 +32,6 @@ import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import { mazemapScript } from '~/components/MazemapEmbed';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
-import Tooltip from '~/components/Tooltip';
 import Attendance from '~/components/UserAttendance/Attendance';
 import { fetchMemberships } from '~/redux/actions/GroupActions';
 import {

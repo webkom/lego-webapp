@@ -1,8 +1,7 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useState } from 'react';
 import Emoji from '~/components/Emoji';
-import Tooltip from '~/components/Tooltip';
 import { addReaction, deleteReaction } from '~/redux/actions/ReactionActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';

@@ -1,9 +1,8 @@
-import { Flex, Icon, Modal } from '@webkom/lego-bricks';
+import { Flex, Icon, Modal, Tooltip } from '@webkom/lego-bricks';
 import { sortBy } from 'lodash-es';
 import { useState } from 'react';
 import TextInput from '~/components/Form/TextInput';
 import { ProfilePicture } from '~/components/Image';
-import Tooltip from '~/components/Tooltip';
 import shared from '~/components/UserAttendance/AttendanceModalContent.module.css';
 import styles from './InterestGroupMemberList.module.css';
 import type { PublicUser } from '~/redux/models/User';
