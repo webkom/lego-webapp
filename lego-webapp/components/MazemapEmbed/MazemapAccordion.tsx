@@ -16,6 +16,7 @@ export const MazemapAccordion = ({ defaultOpen = false, ...props }: Props) => {
       <Flex column className={styles.mazemapAccordion}>
         <Accordion
           defaultOpen={defaultOpen}
+          persistChildren={true}
           triggerComponent={({ onClick, rotateClassName }) => (
             <Flex
               alignItems="center"

@@ -1,7 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
-import '@webkom/mazemap/css';
 import { Helmet } from 'react-helmet-async';
 import { Keyboard } from '~/utils/constants';
 import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
@@ -17,7 +16,7 @@ type Props = {
 /** A component that shows a mazemap map of a given poi (e.g. room),
  * largely based on https://api.mazemap.com/js/v2.0.63/docs/#ex-data-poi
  *
- * REQUIRED: {mazemapScript} must be included in the pages <Helmet> component
+ * REQUIRED: {mazemapDeps} must be included in the pages <Helmet> component
  */
 export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const isMac = !import.meta.env.SSR && navigator.platform.indexOf('Mac') === 0;
@@ -170,15 +169,6 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
   return (
     <Flex column gap="var(--spacing-sm)">
-      <Helmet
-        title="Mazemap"
-        script={[
-          {
-            type: 'text/javascript',
-            src: 'https://api.mazemap.com/js/v2.2.1/mazemap.min.js',
-          },
-        ]}
-      />
       <div
         style={{
           height: props.height || 400,
@@ -200,10 +190,16 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   );
 };
 
-export const mazemapScript = (
-  <script
-    defer
-    type="text/javascript"
-    src="https://api.mazemap.com/js/v2.2.1/mazemap.min.js"
-  />
+export const mazemapDeps = (
+  <>
+    <script
+      defer
+      type="text/javascript"
+      src="https://api.mazemap.com/js/v2.2.1/mazemap.min.js"
+    />
+    <link
+      rel="stylesheet"
+      href="https://api.mazemap.com/js/v2.2.1/mazemap.min.css"
+    />
+  </>
 );
