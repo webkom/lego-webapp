@@ -61,7 +61,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               target="_blank"
             >
-              Endringslogg
+              Utviklerbloggen
             </a>
           </Flex>
         </div>

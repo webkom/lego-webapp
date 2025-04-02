@@ -110,7 +110,6 @@ const AuthenticatedFrontpage = () => {
         {readMe}
         <Weekly />
         <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
-        <Blog />
       </section>
 
       <ShowMoreButton
@@ -206,19 +205,6 @@ const Weekly = () => {
         />
       )}
     </Flex>
-  );
-};
-
-const Blog = () => {
-  return (
-    <a href="https://webkom.dev" className={styles.blog}>
-      <Card>
-        <Flex justifyContent="space-between" alignItems="center">
-          <h3 className={styles.blogTitle}>Utviklarbloggen</h3>
-          <SquareArrowUpRightIcon />
-        </Flex>
-      </Card>
-    </a>
   );
 };
 
