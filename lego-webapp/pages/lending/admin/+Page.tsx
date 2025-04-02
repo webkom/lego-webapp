@@ -11,11 +11,13 @@ import { isEmpty } from 'lodash-es';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
-import TextInput from '~/components/Form/TextInput';
+import { CheckBox } from '~/components/Form';
 import HTTPError from '~/components/errors/HTTPError';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
+import { statusMap } from '~/pages/lending/LendingStatusTag';
 import { fetchLendingRequestsAdmin } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { LendingRequestStatus } from '~/redux/models/LendingRequest';
 import { EntityType } from '~/redux/models/entities';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
@@ -25,15 +27,20 @@ import styles from '../LendableObjectList.module.css';
 
 const LendingAdmin = () => {
   const { query, setQueryValue } = useQuery({
-    search: '',
+    status: 'unapproved,changes_requested',
   });
 
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchAdminLendingRequests',
-    () => dispatch(fetchLendingRequestsAdmin({})),
-    [],
+    () =>
+      dispatch(
+        fetchLendingRequestsAdmin({
+          query,
+        }),
+      ),
+    [query.status],
   );
 
   const { pagination: requestsPagination } = useAppSelector((state) =>
@@ -47,6 +54,7 @@ const LendingAdmin = () => {
   const fetchMoreLendingRequests = () => {
     return dispatch(
       fetchLendingRequestsAdmin({
+        query,
         next: true,
       }),
     );
@@ -59,6 +67,16 @@ const LendingAdmin = () => {
   const actionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
   );
+
+  const statuses = (query.status?.split(',') || []).filter((s) => !isEmpty(s));
+
+  const handleStatusToggle = (status: string) => {
+    const newStatuses = statuses.includes(status)
+      ? statuses.filter((s) => s !== status)
+      : [...statuses, status];
+
+    setQueryValue('status')(newStatuses.join(','));
+  };
 
   if (!useFeatureFlag('lending')) {
     return <HTTPError />;
@@ -78,14 +96,21 @@ const LendingAdmin = () => {
       }
       sidebar={filterSidebar({
         children: (
-          <FilterSection title="Søk">
-            <TextInput
-              prefix="search"
-              placeholder="Grill, soundboks..."
-              value={query.search}
-              onChange={(e) => setQueryValue('search')(e.target.value)}
-            />
-          </FilterSection>
+          <>
+            <FilterSection title="Status">
+              {Object.values(LendingRequestStatus).map((status) => (
+                <CheckBox
+                  key={status}
+                  id={status}
+                  label={statusMap[status].tag}
+                  checked={statuses.includes(status)}
+                  onChange={() => {
+                    handleStatusToggle(status);
+                  }}
+                />
+              ))}
+            </FilterSection>
+          </>
         ),
       })}
     >
