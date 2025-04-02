@@ -1,3 +1,4 @@
+import { EntityId } from '@reduxjs/toolkit';
 import {
   Button,
   Card,
@@ -7,14 +8,22 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { MoveRight } from 'lucide-react';
+import { MessageCircleIcon, MoveRight } from 'lucide-react';
 import { useState } from 'react';
+import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import {
   ContentSection,
   ContentMain,
   ContentSidebar,
 } from '~/components/Content';
+import {
+  Form,
+  LegoFinalForm,
+  SubmissionError,
+  SubmitButton,
+  TextInput,
+} from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
 import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
@@ -23,6 +32,7 @@ import { useIsCurrentUser } from '~/pages/users/utils';
 import {
   fetchLendingRequestById,
   editLendingRequest,
+  commentOnLendingRequest,
 } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { UnknownLendableObject } from '~/redux/models/LendableObject';
@@ -30,6 +40,7 @@ import {
   LendingRequestStatus,
   DetailLendingRequest,
   AdminLendingRequest,
+  TimelineEntry,
 } from '~/redux/models/LendingRequest';
 import { PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
@@ -109,8 +120,22 @@ const LendingRequest = () => {
               <Icon iconNode={<MoveRight />} size={19} />
               <Time time={lendingRequest.endDate} format="ll - HH:mm" />
             </Flex>
-            <h3>Kommentar</h3>
+            <h3>Kommentar til forespørsel</h3>
             <p>{lendingRequest.text}</p>
+            <h3>Tidslinje</h3>
+            <Flex column>
+              {lendingRequest.timelineEntries.map(
+                (entry: TimelineEntry, index) => (
+                  <TimeLineEntry
+                    entry={entry}
+                    key={entry.id}
+                    isLast={index === lendingRequest.timelineEntries.length - 1}
+                  />
+                ),
+              )}
+            </Flex>
+            <h3>Kommenter</h3>
+            <CommentForm lendingRequestId={lendingRequest.id} />
           </ContentMain>
           <ContentSidebar>
             <h3>Status</h3>
@@ -174,6 +199,106 @@ const UpdateButton = ({
       <Icon iconNode={statusMap[toStatus].icon} size={19} />
       <span>{statusMap[toStatus].buttonText}</span>
     </Button>
+  );
+};
+
+const CommentForm = ({ lendingRequestId }: { lendingRequestId: EntityId }) => {
+  const dispatch = useAppDispatch();
+
+  return (
+    <Card>
+      <LegoFinalForm
+        validateOnSubmitOnly
+        onSubmit={(values: { text: any }, form) => {
+          dispatch(
+            commentOnLendingRequest({
+              message: values.text,
+              lending_request: lendingRequestId,
+            }),
+          ).then(() => {
+            form.reset();
+          });
+        }}
+      >
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              gap="var(--spacing-md)"
+            >
+              <div className={styles.commentField} data-test-id="comment-form">
+                <Field
+                  name="text"
+                  placeholder="Skriv en kommentar ..."
+                  component={TextInput.Field}
+                  removeBorder
+                  maxLength={140}
+                />
+              </div>
+
+              <SubmitButton className={styles.submitButton}>Send</SubmitButton>
+            </Flex>
+            <SubmissionError />
+          </Form>
+        )}
+      </LegoFinalForm>
+    </Card>
+  );
+};
+
+const TimeLineEntry = ({
+  entry,
+  isLast,
+}: {
+  entry: TimelineEntry;
+  isLast: boolean;
+}) => {
+  return (
+    <Flex
+      alignItems="flex-start"
+      gap="var(--spacing-sm)"
+      key={entry.createdAt as string}
+    >
+      <Flex
+        column
+        alignItems="center"
+        style={{
+          color: statusMap[entry.status]?.color,
+        }}
+      >
+        <Icon
+          iconNode={statusMap[entry.status]?.icon || <MessageCircleIcon />}
+          size={24}
+        />
+        {!isLast && <div className={styles.timelineLine} />}
+      </Flex>
+      <Flex
+        alignItems="center"
+        gap="var(--spacing-sm)"
+        width="100%"
+        justifyContent="space-between"
+      >
+        <Flex alignItems="center" gap="var(--spacing-sm)">
+          <a href={`/users/${entry.createdBy?.username}`}>
+            <Flex gap="var(--spacing-sm)" alignItems="center">
+              <ProfilePicture user={entry.createdBy} size={24} />
+              <h4>{entry.createdBy?.fullName}</h4>
+            </Flex>
+          </a>
+          <span className={styles.entryStatus}>
+            {entry.isSystem
+              ? `${statusMap[entry.status]?.doneText}.`
+              : entry.message}
+          </span>
+        </Flex>
+        <Time
+          className={styles.timelineTime}
+          time={entry.createdAt}
+          format="DD. MMM HH:mm"
+        />
+      </Flex>
+    </Flex>
   );
 };
 

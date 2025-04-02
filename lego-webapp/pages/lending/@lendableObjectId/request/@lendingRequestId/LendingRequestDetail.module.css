@@ -6,3 +6,17 @@
 .requestingUser h4 {
   color: var(--lego-font-color);
 }
+
+.commentField {
+  width: 100%;
+}
+
+.timelineTime .timelineMessage {
+  color: var(--secondary-font-color);
+}
+
+.timelineLine {
+  width: 1px;
+  height: var(--spacing-xl);
+  background-color: var(--lego-font-color);
+}
