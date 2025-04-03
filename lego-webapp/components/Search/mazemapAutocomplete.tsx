@@ -3,7 +3,6 @@ import { useMemo, useState } from 'react';
 import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
 import { stripHtmlTags } from './utils';
 import type { ComponentType } from 'react';
-import '@webkom/mazemap/css';
 
 type InjectedProps = {
   options: SelectOption[];

@@ -13,7 +13,7 @@ import {
 } from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
-import { mazemapScript } from '~/components/MazemapEmbed';
+import { mazemapDeps } from '~/components/MazemapEmbed';
 import PropertyHelmet from '~/components/PropertyHelmet';
 import Tag from '~/components/Tags/Tag';
 import TextWithIcon from '~/components/TextWithIcon';
@@ -195,7 +195,7 @@ const EventDetail = () => {
             rel="canonical"
             href={`${appConfig?.webUrl}/events/${event.id}`}
           />
-          {mazemapScript}
+          {mazemapDeps}
         </PropertyHelmet>
       )}
 
