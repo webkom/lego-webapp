@@ -1,6 +1,6 @@
-type PermissionAction = 'list' | 'create' | 'view' | 'edit' | 'delete';
+export type PermissionAction = 'list' | 'create' | 'view' | 'edit' | 'delete';
 
-interface AllowedPermissionsMixin {
+export interface AllowedPermissionsMixin {
   actionGrant: PermissionAction[];
 }
 

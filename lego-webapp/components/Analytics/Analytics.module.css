@@ -1,14 +1,15 @@
-.metrics {
-  min-height: 80px;
-}
-
 .metricHeader {
-  font-weight: 500;
   color: var(--secondary-font-color);
+  font-weight: 500;
 }
 
 .metricNumber {
   font-size: var(--font-size-xl);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+}
+
+.datePickerLabel {
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
 }

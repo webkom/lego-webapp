@@ -124,9 +124,18 @@ const ArticleDetail = () => {
         />
       }
       actionButtons={
-        article.actionGrant?.includes('edit') && (
-          <LinkButton href={`/articles/${article.id}/edit`}>Rediger</LinkButton>
-        )
+        <>
+          {article.actionGrant?.includes('edit') && (
+            <LinkButton href={`/articles/${article.id}/edit`}>
+              Rediger
+            </LinkButton>
+          )}
+          {article.actionGrant?.includes('statistics') && (
+            <LinkButton href={`/articles/${article.id}/statistics`}>
+              Statistikk
+            </LinkButton>
+          )}
+        </>
       }
     >
       <PropertyHelmet
