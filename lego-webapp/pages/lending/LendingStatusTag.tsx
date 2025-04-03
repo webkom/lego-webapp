@@ -15,43 +15,43 @@ export const statusMap: Record<
   {
     tag: string;
     buttonText: string;
-    doneText?: string;
     icon: ReactNode;
     color: TagColors;
   }
 > = {
+  [LendingRequestStatus.Created]: {
+    tag: 'Ny forespørsel',
+    buttonText: 'Opprett forespørsel',
+    icon: <CircleDashed className={styles.rotate} />,
+    color: 'blue',
+  },
   [LendingRequestStatus.Unapproved]: {
     tag: 'Venter på godkjenning',
     buttonText: 'Fjern godkjenning',
-    doneText: 'fjernet godkjenning',
     icon: <CircleDashed className={styles.rotate} />,
     color: 'orange',
   },
   [LendingRequestStatus.Approved]: {
     tag: 'Godkjent',
     buttonText: 'Godkjenn',
-    doneText: 'godkjente forespørselen',
     icon: <CircleCheckBig />,
     color: 'green',
   },
   [LendingRequestStatus.Denied]: {
     tag: 'Avslått',
     buttonText: 'Avslå',
-    doneText: 'avslo forespørselen',
     icon: <CircleX />,
     color: 'red',
   },
   [LendingRequestStatus.Cancelled]: {
     tag: 'Kansellert',
     buttonText: 'Kanseller forespørsel',
-    doneText: 'kansellerte forespørselen',
     icon: <CircleX />,
     color: 'red',
   },
   [LendingRequestStatus.ChangesRequested]: {
     tag: 'Endringer forespurt',
     buttonText: 'Forespør endringer',
-    doneText: 'forespurte endringer',
     icon: <CircleAlert />,
     color: 'orange',
   },

@@ -25,6 +25,7 @@ import {
   TextInput,
 } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
+import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
 import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
@@ -42,7 +43,7 @@ import {
   AdminLendingRequest,
   TimelineEntry,
 } from '~/redux/models/LendingRequest';
-import { PublicUserWithGroups } from '~/redux/models/User';
+import { PublicUser, PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
@@ -124,7 +125,7 @@ const LendingRequest = () => {
             <p>{lendingRequest.text}</p>
             <h3>Tidslinje</h3>
             <Flex column>
-              {lendingRequest.timelineEntries.map(
+              {lendingRequest.timelineEntries?.map(
                 (entry: TimelineEntry, index) => (
                   <TimeLineEntry
                     entry={entry}
@@ -255,21 +256,13 @@ const TimeLineEntry = ({
   isLast: boolean;
 }) => {
   return (
-    <Flex
-      alignItems="flex-start"
-      gap="var(--spacing-sm)"
-      key={entry.createdAt as string}
-    >
-      <Flex
-        column
-        alignItems="center"
-        style={{
-          color: statusMap[entry.status]?.color,
-        }}
-      >
-        <Icon
+    <Flex alignItems="flex-start" gap="var(--spacing-sm)">
+      <Flex column alignItems="center">
+        <Tag
+          className={styles.timelineTag}
           iconNode={statusMap[entry.status]?.icon || <MessageCircleIcon />}
-          size={24}
+          tag=""
+          color={statusMap[entry.status]?.color || 'blue'}
         />
         {!isLast && <div className={styles.timelineLine} />}
       </Flex>
@@ -280,17 +273,14 @@ const TimeLineEntry = ({
         justifyContent="space-between"
       >
         <Flex alignItems="center" gap="var(--spacing-sm)">
-          <a href={`/users/${entry.createdBy?.username}`}>
+          <a href={`/users/${entry.createdBy.username}`}>
             <Flex gap="var(--spacing-sm)" alignItems="center">
-              <ProfilePicture user={entry.createdBy} size={24} />
-              <h4>{entry.createdBy?.fullName}</h4>
+              <ProfilePicture user={entry.createdBy} size={32} />
+              <h4>{entry.createdBy.fullName}</h4>
             </Flex>
           </a>
-          <span className={styles.entryStatus}>
-            {entry.isSystem
-              ? `${statusMap[entry.status]?.doneText}.`
-              : entry.message}
-          </span>
+
+          <span className={styles.timelineMessage}>{`${entry.message}.`}</span>
         </Flex>
         <Time
           className={styles.timelineTime}

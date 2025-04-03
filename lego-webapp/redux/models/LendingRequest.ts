@@ -1,8 +1,10 @@
 import { ListLendableObject } from '~/redux/models/LendableObject';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish, User } from 'app/models';
+import { PublicUser } from '~/redux/models/User';
 
 export enum LendingRequestStatus {
+  Created = 'created',
   Unapproved = 'unapproved',
   Approved = 'approved',
   Denied = 'denied',
@@ -14,6 +16,7 @@ interface LendingRequest {
   id: EntityId;
   createdBy: EntityId;
   updatedBy: EntityId;
+  createdAt: Dateish;
   lendableObject: EntityId;
   status: LendingRequestStatus;
   startDate: Dateish;
@@ -39,6 +42,7 @@ export type DetailLendingRequest = Pick<
   LendingRequest,
   | 'id'
   | 'createdBy'
+  | 'createdAt'
   | 'updatedBy'
   | 'lendableObject'
   | 'status'
@@ -66,7 +70,7 @@ export type EditLendingRequest = Required<Pick<LendingRequest, 'id'>> &
 
 export type TimelineEntry = {
   id: EntityId;
-  createdBy: User;
+  createdBy: PublicUser;
   createdAt: Dateish;
   message: string;
   isSystem: boolean;
