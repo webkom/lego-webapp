@@ -20,7 +20,6 @@
   padding: var(--spacing-md);
   margin-left: calc(-1 * var(--spacing-md));
   justify-content: space-between;
-  line-height: 1.3;
 
   @media (--mobile-device) {
     max-width: 100%;

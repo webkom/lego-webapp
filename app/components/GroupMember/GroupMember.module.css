@@ -1,0 +1,24 @@
+.member img {
+  border: 4px solid var(--border-gray);
+}
+
+.member.leader img {
+  border-color: var(--color-orange-6);
+}
+
+.member {
+  flex: 1;
+  flex-grow: 0;
+  min-width: 120px;
+  max-width: 100px;
+  margin: var(--spacing-md) var(--spacing-sm);
+}
+
+.title {
+  font-size: var(--font-size-xs);
+  color: var(--secondary-font-color);
+}
+
+.name {
+  text-align: center;
+}

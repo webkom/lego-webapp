@@ -71,15 +71,10 @@
 
 .popoverEventTitle {
   display: inline-block;
-  line-height: 1.3;
 }
 
 .popoverEventTitleText {
   vertical-align: middle;
-}
-
-.popoverEventDescription {
-  line-height: 1.3;
 }
 
 .textWithIcon {

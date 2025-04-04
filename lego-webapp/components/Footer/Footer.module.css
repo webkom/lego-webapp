@@ -90,7 +90,6 @@ img.octocat {
 }
 
 .section p {
-  line-height: 1.3;
   margin-bottom: var(--spacing-sm);
 }
 

@@ -42,7 +42,6 @@ div.body {
 
 .itemTitle {
   margin: 0;
-  line-height: 1.3;
   font-size: var(--font-size-lg);
   word-break: normal;
 }
