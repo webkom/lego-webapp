@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .buttonWrapper,
 .buttonWrapper button {
   width: 100%;
@@ -11,14 +13,27 @@
   width: 100%;
 }
 
-.timelineTime, .timelineMessage {
+.timelineTime,
+.timelineMessage {
   color: var(--secondary-font-color);
 }
 
 .timelineLine {
   width: 1px;
-  height: var(--spacing-xl);
+  height: 2rem;
   background-color: var(--lego-font-color);
+
+  @media (--small-viewport) {
+    height: 4rem;
+  }
+}
+
+.timelineEntry {
+  @media (--small-viewport) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    padding-top: var(--spacing-xs);
+  }
 }
 
 .timelineTag {

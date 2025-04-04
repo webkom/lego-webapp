@@ -43,7 +43,7 @@ import {
   AdminLendingRequest,
   TimelineEntry,
 } from '~/redux/models/LendingRequest';
-import { PublicUser, PublicUserWithGroups } from '~/redux/models/User';
+import { PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
@@ -267,6 +267,7 @@ const TimeLineEntry = ({
         {!isLast && <div className={styles.timelineLine} />}
       </Flex>
       <Flex
+        className={styles.timelineEntry}
         alignItems="center"
         gap="var(--spacing-sm)"
         width="100%"

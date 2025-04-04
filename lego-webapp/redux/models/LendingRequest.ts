@@ -1,7 +1,7 @@
 import { ListLendableObject } from '~/redux/models/LendableObject';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { ActionGrant, Dateish, User } from 'app/models';
 import { PublicUser } from '~/redux/models/User';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { ActionGrant, Dateish } from 'app/models';
 
 export enum LendingRequestStatus {
   Created = 'created',
