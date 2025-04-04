@@ -19,6 +19,12 @@ export const statusMap: Record<
     color: TagColors;
   }
 > = {
+  [LendingRequestStatus.Created]: {
+    tag: 'Ny forespørsel',
+    buttonText: 'Opprett forespørsel',
+    icon: <CircleDashed className={styles.rotate} />,
+    color: 'blue',
+  },
   [LendingRequestStatus.Unapproved]: {
     tag: 'Venter på godkjenning',
     buttonText: 'Fjern godkjenning',
