@@ -1,4 +1,4 @@
-import { Card } from '@webkom/lego-bricks';
+import { BaseCard, CardContent, CardFooter, Flex } from '@webkom/lego-bricks';
 import Linkify from 'linkify-react';
 import { LinkTag } from '~/components/Feed/Tag';
 import { ProfilePicture } from '~/components/Image';
@@ -20,13 +20,8 @@ const AggregatedActivityItem = <Verb extends FeedActivityVerb>({
   const { Header, Content } = activityRenderer;
 
   return (
-    <Card
-      style={{
-        padding: '0',
-        margin: 'var(--spacing-sm) 0 var(--spacing-md) 0',
-      }}
-    >
-      <div className={styles.header}>
+    <BaseCard>
+      <CardContent>
         <Linkify
           options={{
             rel: 'noopener noreferrer',
@@ -44,22 +39,24 @@ const AggregatedActivityItem = <Verb extends FeedActivityVerb>({
         >
           <Header aggregatedActivity={aggregatedActivity} tag={LinkTag} />
         </Linkify>
-      </div>
-      {aggregatedActivity.activities.map((activity, i) => (
-        <div key={i}>
-          <ActivityHeader
-            aggregatedActivity={aggregatedActivity}
-            activity={activity}
-          />
-          <div className={styles.activityContent}>
-            <Content
+      </CardContent>
+      <CardFooter variant="border">
+        {aggregatedActivity.activities.map((activity, i) => (
+          <div key={activity.activityId}>
+            <ActivityFooter
               aggregatedActivity={aggregatedActivity}
               activity={activity}
             />
+            <div className={styles.activityContent}>
+              <Content
+                aggregatedActivity={aggregatedActivity}
+                activity={activity}
+              />
+            </div>
           </div>
-        </div>
-      ))}
-    </Card>
+        ))}
+      </CardFooter>
+    </BaseCard>
   );
 };
 
@@ -68,30 +65,26 @@ type ActivityHeaderProps = {
   activity: FeedActivity;
 };
 
-const ActivityHeader = ({
+const ActivityFooter = ({
   aggregatedActivity,
   activity,
 }: ActivityHeaderProps) => {
   const actor = aggregatedActivity.context[activity.actor];
   if (actor.contentType !== 'users.user') return null;
   return (
-    <div className={styles.activityHeader}>
-      <div className={styles.activityHeaderItem}>
-        <ProfilePicture
-          size={40}
-          user={actor}
-          style={{
-            marginRight: 25,
-          }}
-        />
-        <a href={`/users/${actor.username}/`}>
-          {actor.firstName} {actor.lastName}
-        </a>
-      </div>
+    <Flex
+      alignItems="center"
+      gap="var(--spacing-sm)"
+      className={styles.activityFooter}
+    >
+      <ProfilePicture size={40} user={actor} />
+      <a href={`/users/${actor.username}/`}>
+        {actor.firstName} {actor.lastName}
+      </a>
       <i className={styles.time}>
         <Time time={activity.time} wordsAgo />
       </i>
-    </div>
+    </Flex>
   );
 };
 

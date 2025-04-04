@@ -121,6 +121,13 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .footer {
-  background-color: var(--additive-background);
   padding: var(--spacing-sm);
+
+  &.background {
+    background-color: var(--additive-background);
+  }
+
+  &.border {
+    border-top: 1px solid var(--border-gray);
+  }
 }
