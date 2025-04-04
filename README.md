@@ -20,7 +20,7 @@
 > For all the alternative ways to run the project, you will need to run `pnpm build` to compile [lego-bricks](#lego-bricks) the first time you run the project. After this, it will build automatically when changed.
 
 ```bash
-$ pnpm # Install dependencies
+$ pnpm i # Install dependencies
 $ pnpm build # Compile LEGO-BRICKS - only required the first time you run the project
 $ pnpm dev:staging # Start webserver with development backend
 ```
