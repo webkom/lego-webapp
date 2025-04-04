@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { type AnyAction, createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { Feed } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
@@ -14,6 +14,11 @@ const feedActivitiesSlice = createSlice({
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Feed.FETCH],
+    extraCases: (addCase) => {
+      addCase('SOCKET_NEW_NOTIFICATION', (state, action: AnyAction) => {
+        legoAdapter.upsertOne(state, action.payload);
+      });
+    },
   }),
 });
 
