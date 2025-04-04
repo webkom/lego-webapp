@@ -4,10 +4,10 @@ import type { ActionGrant, Dateish } from 'app/models';
 
 export enum LendingRequestStatus {
   Unapproved = 'unapproved',
+  ChangesRequested = 'changes_requested',
   Approved = 'approved',
   Denied = 'denied',
   Cancelled = 'cancelled',
-  ChangesRequested = 'changes_requested',
 }
 
 interface LendingRequest {
