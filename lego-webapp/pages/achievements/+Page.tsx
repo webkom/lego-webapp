@@ -101,6 +101,7 @@ const AchievementGroup = ({
                     gap="var(--spacing-sm)"
                     alignItems="center"
                     justifyContent="center"
+                    align-text="center"
                   >
                     <TitleWithRarity
                       title={achievement.name}
