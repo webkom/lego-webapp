@@ -14,6 +14,7 @@ import {
 } from '~/redux/actions/NotificationsFeedActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
+import { selectUnreadNotificationsCount } from '~/redux/slices/notificationsFeed';
 import Dropdown from '../Dropdown';
 import { getActivityRenderer } from '../Feed';
 import styles from './HeaderNotifications.module.css';
@@ -90,7 +91,7 @@ const HeaderNotificationsContent = () => {
 
 const NotificationsDropdown = () => {
   const dispatch = useAppDispatch();
-  const notificationsData = useAppSelector((state) => state.notificationsFeed);
+  const unreadCount = useAppSelector(selectUnreadNotificationsCount);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   usePreparedEffect(
@@ -102,8 +103,6 @@ const NotificationsDropdown = () => {
       ]),
     [],
   );
-
-  const { unreadCount } = notificationsData;
 
   return (
     <Dropdown

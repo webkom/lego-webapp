@@ -35,6 +35,18 @@ const feedsSlice = createSlice({
           ),
         });
       });
+      addCase('SOCKET_NEW_NOTIFICATION', (state, action: AnyAction) => {
+        legoAdapter.upsertOne(state, {
+          id: 'notifications',
+          type: 'notifications',
+          activities: union(
+            state.entities.notifications
+              ? state.entities.notifications.activities || []
+              : [],
+            [action.payload.id],
+          ),
+        });
+      });
     },
   }),
 });
