@@ -304,6 +304,13 @@ export const AchievementsInfo: Record<
   ],
   easter_winner: [
     {
+      name: 'Påskeeggjakten 2024',
+      description: 'Vinner av påskeeggjakten 2024',
+      rarity: 2,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_3,
+    },
+    {
       name: 'Påskeeggjakten 2025',
       description: 'Vinner av påskeeggjakten 2025',
       rarity: 2,

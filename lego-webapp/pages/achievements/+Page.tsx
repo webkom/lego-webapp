@@ -90,46 +90,43 @@ const AchievementGroup = ({
           justifyContent="flex-end"
           className={styles.allAchievements}
         >
-          {achievementGroup.achievements.length > 1 ||
-            (!achievementGroup.isLeveled &&
-              achievementGroup.achievements.map(
-                (achievement: any, i: number) => (
-                  <Tooltip
-                    key={i}
-                    positions={['top', 'bottom', 'right', 'left']}
-                    content={
-                      <Flex
-                        column
-                        gap="var(--spacing-sm)"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <TitleWithRarity
-                          title={achievement.name}
-                          rarity={achievement.rarity as Rarity}
-                        />
-                        {achievement.description && (
-                          <span>{achievement.description}</span>
-                        )}
-                      </Flex>
-                    }
+          {(achievementGroup.achievements.length > 1 ||
+            !achievementGroup.isLeveled) &&
+            achievementGroup.achievements.map((achievement: any, i: number) => (
+              <Tooltip
+                key={i}
+                positions={['top', 'bottom', 'right', 'left']}
+                content={
+                  <Flex
+                    column
+                    gap="var(--spacing-sm)"
+                    alignItems="center"
+                    justifyContent="center"
                   >
-                    <Card className={styles.achievementImageCard}>
-                      <img
-                        src={achievement.image ?? ''}
-                        alt="Trofe"
-                        className={cx(
-                          styles.achievement,
-                          achievementGroup.isLeveled
-                            ? userLevel < achievement.level && styles.unachieved
-                            : userLevel !== achievement.level &&
-                                styles.unachieved,
-                        )}
-                      />
-                    </Card>
-                  </Tooltip>
-                ),
-              ))}
+                    <TitleWithRarity
+                      title={achievement.name}
+                      rarity={achievement.rarity as Rarity}
+                    />
+                    {achievement.description && (
+                      <span>{achievement.description}</span>
+                    )}
+                  </Flex>
+                }
+              >
+                <Card className={styles.achievementImageCard}>
+                  <img
+                    src={achievement.image ?? ''}
+                    alt="Trofe"
+                    className={cx(
+                      styles.achievement,
+                      achievementGroup.isLeveled
+                        ? userLevel < achievement.level && styles.unachieved
+                        : userLevel !== achievement.level && styles.unachieved,
+                    )}
+                  />
+                </Card>
+              </Tooltip>
+            ))}
         </Flex>
       </Flex>
     </Card>
