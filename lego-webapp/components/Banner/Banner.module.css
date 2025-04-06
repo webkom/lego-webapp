@@ -61,6 +61,41 @@ div.buddyweek2024 {
   border: 5px dashed var(--lego-red-color);
 }
 
+.countdown {
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: inherit;
+  transition: var(--easing-fast);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-xs);
+}
+
+.countdownPrefix,
+.countdownTime,
+.countdownSuffix {
+  display: inline-block;
+  margin: 0 var(--spacing-xs);
+}
+
+.countdownRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.headerTitle {
+  text-align: center;
+  margin: 0;
+  z-index: 1;
+}
+
 @keyframes wiggle {
   0% {
     transform: rotate(0deg);
@@ -84,5 +119,17 @@ div.buddyweek2024 {
 
   100% {
     transform: rotate(0deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
   }
 }

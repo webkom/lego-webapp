@@ -6,6 +6,11 @@ export type Banner = {
   currentPrivate: boolean;
   currentPublic: boolean;
   color: Color;
+  showCountdown?: boolean;
+  countdownEndDate?: string | null;
+  countdownPrefix?: string | null;
+  countdownSuffix?: string | null;
+  countdownEndMessage?: string | null;
 };
 
 export type CreateBanner = {
@@ -15,4 +20,9 @@ export type CreateBanner = {
   currentPrivate?: boolean;
   currentPublic?: boolean;
   color?: Color;
+  showCountdown?: boolean;
+  countdownEndDate?: string | null;
+  countdownPrefix?: string | null;
+  countdownSuffix?: string | null;
+  countdownEndMessage?: string | null;
 };
