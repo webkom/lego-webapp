@@ -118,7 +118,7 @@ const BannerEditor = () => {
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <BannerPreview />
+            <BannerFormPreview />
             <Field
               name="header"
               placeholder="Revyen har opptak!"
@@ -235,6 +235,7 @@ const CountdownFields = () => {
     </div>
   );
 };
+
 interface CountdownProps {
   showCountdown: boolean;
   countdownEndDate?: Date | null | undefined;
@@ -242,7 +243,8 @@ interface CountdownProps {
   countdownSuffix?: string | null;
   countdownEndMessage?: string | null;
 }
-const BannerPreview = () => {
+
+const BannerFormPreview = () => {
   const [isClientSide, setIsClientSide] = useState(false);
   const { values } = useFormState();
 
@@ -286,3 +288,6 @@ const BannerPreview = () => {
     </div>
   );
 };
+
+
+export default BannerEditor;
