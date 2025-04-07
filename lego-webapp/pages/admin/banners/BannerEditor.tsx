@@ -94,6 +94,7 @@ const BannerEditor = () => {
   const validate = createValidator({
     header: [required()],
     color: [required()],
+    link: [required()],
   });
 
   const title = isNew ? 'Nytt banner' : `Redigerer: ${banner?.header}`;
@@ -137,6 +138,7 @@ const BannerEditor = () => {
               placeholder="revyen.abakus.no/søknå!"
               label="Link"
               component={TextInput.Field}
+              required
               id="link"
             />
             <Field
