@@ -1,5 +1,6 @@
 import { Card } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Dateish } from 'app/models';
 import Countdown from '~/components/Countdown';
 import styles from './Banner.module.css';
 import type { ReactNode } from 'react';
@@ -25,7 +26,7 @@ type Props = {
   link?: string;
   color?: Color;
   className?: string;
-  countdownEndDate?: Date | string;
+  countdownEndDate?: Dateish | string;
   countdownEndMessage?: string;
 };
 
@@ -51,8 +52,7 @@ const Banner = ({
   countdownEndDate,
   countdownEndMessage = 'Tiden er ute!',
 }: Props) => {
-  const hasCountdown =
-    countdownEndDate !== undefined && countdownEndDate !== null;
+  const hasCountdown = countdownEndDate != null;
 
   return (
     <LinkComponent className={className} link={link}>

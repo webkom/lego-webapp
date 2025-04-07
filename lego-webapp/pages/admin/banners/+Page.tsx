@@ -2,17 +2,16 @@ import { Card, Flex, LinkButton, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { Helmet } from 'react-helmet-async';
-import Banner from '~/components/Banner'; 
-import { ContentSection, ContentMain } from '~/components/Content'; 
-import ToggleSwitch from '~/components/Form/ToggleSwitch'; 
-import HTTPError from '~/components/errors/HTTPError'; 
-import { editBanner, fetchAllBanners } from '~/redux/actions/BannerActions'; 
-import { useAppDispatch, useAppSelector } from '~/redux/hooks'; 
-import { selectAllBanners } from '~/redux/slices/banner'; 
-import { guardLogin } from '~/utils/replaceUnlessLoggedIn'; 
-import styles from './BannerOverview.module.css'; 
-import type { Banner as BannerType } from '~/redux/models/Banner'; 
-
+import Banner from '~/components/Banner';
+import { ContentSection, ContentMain } from '~/components/Content';
+import ToggleSwitch from '~/components/Form/ToggleSwitch';
+import HTTPError from '~/components/errors/HTTPError';
+import { editBanner, fetchAllBanners } from '~/redux/actions/BannerActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllBanners } from '~/redux/slices/banner';
+import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
+import styles from './BannerOverview.module.css';
+import type { Banner as BannerType } from '~/redux/models/Banner';
 const BannerOverview = () => {
   const dispatch = useAppDispatch();
 
@@ -49,22 +48,32 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
   const dispatch = useAppDispatch();
 
   const togglePublic = () => {
-    dispatch(editBanner({ ...banner, currentPublic: !banner.currentPublic }, banner.id))
+    dispatch(
+      editBanner(
+        { ...banner, currentPublic: !banner.currentPublic },
+        banner.id,
+      ),
+    )
       .then(() => {
         dispatch(fetchAllBanners());
       })
       .catch((error) => {
-        console.error("Failed to toggle public banner:", error);
+        console.error('Failed to toggle public banner:', error);
       });
   };
 
   const togglePrivate = () => {
-    dispatch(editBanner({ ...banner, currentPrivate: !banner.currentPrivate }, banner.id))
+    dispatch(
+      editBanner(
+        { ...banner, currentPrivate: !banner.currentPrivate },
+        banner.id,
+      ),
+    )
       .then(() => {
         dispatch(fetchAllBanners());
       })
       .catch((error) => {
-        console.error("Failed to toggle private banner:", error);
+        console.error('Failed to toggle private banner:', error);
       });
   };
 
@@ -72,10 +81,7 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
     ? new Date(banner.countdownEndDate)
     : undefined;
 
-  const validCountdownDate =
-    countdownDate && !isNaN(countdownDate.getTime())
-      ? countdownDate
-      : undefined;
+  const validCountdownDate = banner.countdownEndDate || undefined;
 
   const countdownMessage = banner.countdownEndMessage ?? undefined;
 

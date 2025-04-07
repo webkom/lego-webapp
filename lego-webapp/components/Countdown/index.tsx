@@ -1,17 +1,21 @@
 import cx from 'classnames';
+import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
+import { Dateish } from 'app/models';
 import styles from './Countdown.module.css';
 
 type CountdownProps = {
-  endDate?: Date | string;
+  endDate?: Dateish | string;
   endMessage?: string;
   className?: string;
+  timezone?: string;
 };
 
 const Countdown = ({
   endDate,
   endMessage = 'Tiden er ute!',
   className,
+  timezone = 'Europe/Oslo',
 }: CountdownProps) => {
   const [timeRemaining, setTimeRemaining] = useState('');
   const [countdownEnded, setCountdownEnded] = useState(false);
@@ -23,10 +27,9 @@ const Countdown = ({
 
     if (!endDate) return;
 
-    const parsedEndDate =
-      typeof endDate === 'string' ? new Date(endDate) : endDate;
+    const parsedEndDate = moment(endDate).tz(timezone);
 
-    if (isNaN(parsedEndDate.getTime())) {
+    if (!parsedEndDate.isValid()) {
       console.error('Invalid countdown end date:', endDate);
       setTimeRemaining('Ugyldig dato');
       setIsValidDate(false);
@@ -37,8 +40,8 @@ const Countdown = ({
 
     const updateCountdown = () => {
       try {
-        const now = new Date();
-        const diff = parsedEndDate.getTime() - now.getTime();
+        const now = moment().tz(timezone);
+        const diff = parsedEndDate.valueOf() - now.valueOf();
 
         if (diff <= 0) {
           setCountdownEnded(true);
@@ -49,12 +52,11 @@ const Countdown = ({
         const formatUnit = (value: number, unit1: string, unitN: string) =>
           value > 0 ? `${value} ${value === 1 ? unit1 : unitN}` : '';
 
-        const daysLeft = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hoursLeft = Math.floor(
-          (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-        );
-        const minutesLeft = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secondsLeft = Math.floor((diff % (1000 * 60)) / 1000);
+        const duration = moment.duration(diff);
+        const daysLeft = Math.floor(duration.asDays());
+        const hoursLeft = duration.hours();
+        const minutesLeft = duration.minutes();
+        const secondsLeft = duration.seconds();
 
         const units = [
           formatUnit(daysLeft, 'dag', 'dager'),
@@ -74,7 +76,7 @@ const Countdown = ({
     const interval = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(interval);
-  }, [endDate, endMessage]);
+  }, [endDate, endMessage, timezone]);
 
   if (!endDate || !isValidDate) return null;
 

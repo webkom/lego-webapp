@@ -18,25 +18,25 @@ const lendingRequestSlice = createSlice({
 
 export default lendingRequestSlice.reducer;
 
-// Export base selectors from the adapter
-const baseSelectors = legoAdapter.getSelectors((state: RootState) => state.banner);
+const baseSelectors = legoAdapter.getSelectors(
+  (state: RootState) => state.banner,
+);
 
-// Export wrapped selectors that handle undefined entities
 export const selectAllBanners = baseSelectors.selectAllPaginated;
 export const selectBannerById = baseSelectors.selectById;
 
-// Create safer byField selectors
 const selectBannersByFieldSafe = (field: string) => ({
   single: (state: RootState) => {
-    // Get all banners and filter safely
     const banners = baseSelectors.selectAllPaginated(state);
-    const filtered = banners.filter(banner => 
-      banner && banner[field as keyof typeof banner] === true
+    const filtered = banners.filter(
+      (banner) => banner && banner[field as keyof typeof banner] === true,
     );
     return filtered.length > 0 ? filtered[0] : undefined;
-  }
+  },
 });
 
 export const selectBannersByField = baseSelectors.selectByField;
-export const selectCurrentPrivateBanner = selectBannersByFieldSafe('currentPrivate').single;
-export const selectCurrentPublicBanner = selectBannersByFieldSafe('currentPublic').single;
+export const selectCurrentPrivateBanner =
+  selectBannersByFieldSafe('currentPrivate').single;
+export const selectCurrentPublicBanner =
+  selectBannersByFieldSafe('currentPublic').single;
