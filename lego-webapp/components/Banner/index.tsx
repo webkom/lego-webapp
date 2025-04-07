@@ -49,7 +49,7 @@ const Banner = ({
   color,
   className,
   countdownEndDate,
-  countdownEndMessage = 'Tiden er ute!',
+  countdownEndMessage,
 }: Props) => {
   const hasCountdown =
     countdownEndDate !== undefined && countdownEndDate !== null;
