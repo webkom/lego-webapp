@@ -34,7 +34,7 @@ catalogs:
       specifier: ^5.6.3
       version: 5.6.3
     vite:
-      specifier: ^6.2.5
+      specifier: ^6.2.3
       version: 6.2.5
     vitest:
       specifier: ^3.0.9
@@ -389,8 +389,8 @@ importers:
         specifier: ^8.6.4
         version: 8.6.4(storybook@8.6.4(prettier@3.5.3))
       '@storybook/addon-links':
-        specifier: ^8.6.4
-        version: 8.6.4(react@18.3.1)(storybook@8.6.4(prettier@3.5.3))
+        specifier: ^8.6.12
+        version: 8.6.12(react@18.3.1)(storybook@8.6.4(prettier@3.5.3))
       '@storybook/blocks':
         specifier: ^8.6.4
         version: 8.6.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.6.4(prettier@3.5.3))
@@ -2533,11 +2533,11 @@ packages:
     peerDependencies:
       storybook: ^8.6.4
 
-  '@storybook/addon-links@8.6.4':
-    resolution: {integrity: sha512-TaSIteYLJ12+dVBk7fW96ZvNIFizKs+Vo/YuNAe4xTzFJRrjLkFj9htLVi/dusMfn7lYo5DHIns08LuM+po1Dg==}
+  '@storybook/addon-links@8.6.12':
+    resolution: {integrity: sha512-AfKujFHoAxhxq4yu+6NwylltS9lf5MPs1eLLXvOlwo3l7Y/c68OdxJ7j68vLQhs9H173WVYjKyjbjFxJWf/YYg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0-beta
-      storybook: ^8.6.4
+      storybook: ^8.6.12
     peerDependenciesMeta:
       react:
         optional: true
@@ -9304,7 +9304,7 @@ snapshots:
       storybook: 8.6.4(prettier@3.5.3)
       ts-dedent: 2.2.0
 
-  '@storybook/addon-links@8.6.4(react@18.3.1)(storybook@8.6.4(prettier@3.5.3))':
+  '@storybook/addon-links@8.6.12(react@18.3.1)(storybook@8.6.4(prettier@3.5.3))':
     dependencies:
       '@storybook/global': 5.0.0
       storybook: 8.6.4(prettier@3.5.3)
