@@ -1,0 +1,6 @@
+.countdown {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  margin: var(--spacing-sm) 0;
+}

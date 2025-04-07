@@ -61,6 +61,16 @@ div.buddyweek2024 {
   border: 5px dashed var(--lego-red-color);
 }
 
+.countdown {
+  margin: var(--spacing-sm) 0;
+  font-weight: bold;
+}
+
+.countdownTime {
+  font-size: 1.2rem;
+  color: inherit;
+}
+
 @keyframes wiggle {
   0% {
     transform: rotate(0deg);
