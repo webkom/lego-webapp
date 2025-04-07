@@ -60,7 +60,9 @@ const PublicFrontpage = () => {
           link={currentPublicBanner.link}
           color={currentPublicBanner.color}
           countdownEndDate={currentPublicBanner.countdownEndDate || undefined}
-          countdownEndMessage={currentPublicBanner.countdownEndMessage || undefined}
+          countdownEndMessage={
+            currentPublicBanner.countdownEndMessage || undefined
+          }
         />
       )}
       <div className={styles.wrapper}>

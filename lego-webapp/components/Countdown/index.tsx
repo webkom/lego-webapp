@@ -8,10 +8,10 @@ type CountdownProps = {
   className?: string;
 };
 
-const Countdown = ({ 
-  endDate, 
-  endMessage = 'Tiden er ute!', 
-  className 
+const Countdown = ({
+  endDate,
+  endMessage = 'Tiden er ute!',
+  className,
 }: CountdownProps) => {
   const [timeRemaining, setTimeRemaining] = useState('');
   const [countdownEnded, setCountdownEnded] = useState(false);
@@ -22,9 +22,10 @@ const Countdown = ({
     setCountdownEnded(false);
 
     if (!endDate) return;
-    
-    const parsedEndDate = typeof endDate === 'string' ? new Date(endDate) : endDate;
-    
+
+    const parsedEndDate =
+      typeof endDate === 'string' ? new Date(endDate) : endDate;
+
     if (isNaN(parsedEndDate.getTime())) {
       console.error('Invalid countdown end date:', endDate);
       setTimeRemaining('Ugyldig dato');
@@ -33,7 +34,7 @@ const Countdown = ({
     }
 
     setIsValidDate(true);
-    
+
     const updateCountdown = () => {
       try {
         const now = new Date();
@@ -71,12 +72,12 @@ const Countdown = ({
 
     updateCountdown();
     const interval = setInterval(updateCountdown, 1000);
-    
+
     return () => clearInterval(interval);
   }, [endDate, endMessage]);
 
   if (!endDate || !isValidDate) return null;
-  
+
   return (
     <div className={cx(styles.countdown, className)}>
       {countdownEnded ? endMessage : timeRemaining}

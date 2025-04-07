@@ -51,17 +51,18 @@ const Banner = ({
   countdownEndDate,
   countdownEndMessage = 'Tiden er ute!',
 }: Props) => {
-  const hasCountdown = countdownEndDate !== undefined && countdownEndDate !== null;
-  
+  const hasCountdown =
+    countdownEndDate !== undefined && countdownEndDate !== null;
+
   return (
     <LinkComponent className={className} link={link}>
       <Card className={cx(styles.header, color && COLORS[color])}>
         <h1 className={styles.headerTitle}>{header}</h1>
         {hasCountdown && (
           <div className={styles.countdown}>
-            <Countdown 
-              endDate={countdownEndDate} 
-              endMessage={countdownEndMessage} 
+            <Countdown
+              endDate={countdownEndDate}
+              endMessage={countdownEndMessage}
               className={styles.countdownTime}
             />
           </div>

@@ -65,21 +65,23 @@ const BannerEditor = () => {
   if (!sudoAdminAccess) return <HTTPError statusCode={418} />;
   if (!isNew && !banner) return <LoadingPage loading />;
 
-const onSubmit = (data: CreateBanner) => {
-  const postData = {
-    ...data,
-    color: data.color.value ?? 'red',
-    countdown_end_date: data.countdownEndDate
-      ? new Date(data.countdownEndDate).toISOString()
-      : null,
-    countdown_end_message: data.countdownEndDate ? data.countdownEndMessage || null : null,
-  };
+  const onSubmit = (data: CreateBanner) => {
+    const postData = {
+      ...data,
+      color: data.color.value ?? 'red',
+      countdown_end_date: data.countdownEndDate
+        ? new Date(data.countdownEndDate).toISOString()
+        : null,
+      countdown_end_message: data.countdownEndDate
+        ? data.countdownEndMessage || null
+        : null,
+    };
 
-  const action = isNew
-    ? createBanner(postData)
-    : editBanner(postData, bannerId);
-  dispatch(action).then(() => navigate('/admin/banners'));
-};
+    const action = isNew
+      ? createBanner(postData)
+      : editBanner(postData, bannerId);
+    dispatch(action).then(() => navigate('/admin/banners'));
+  };
 
   const onDelete = () =>
     dispatch(deleteBanner(bannerId!)).then(() => navigate('/admin/banners'));
@@ -161,10 +163,10 @@ const onSubmit = (data: CreateBanner) => {
                   />
                 </div>
                 <Field name="countdownEndDate">
-                  {({ input: { value } }) => 
+                  {({ input: { value } }) =>
                     value ? (
-                      <Button 
-                        danger 
+                      <Button
+                        danger
                         onPress={() => form.change('countdownEndDate', null)}
                       >
                         Fjern nedtelling
@@ -235,7 +237,7 @@ const BannerFormPreview = () => {
         bannerProps.countdownEndMessage = values.countdownEndMessage;
       }
     } catch (e) {
-      console.error("Invalid date format:", values.countdownEndDate);
+      console.error('Invalid date format:', values.countdownEndDate);
     }
   }
 
@@ -253,4 +255,3 @@ const BannerFormPreview = () => {
 };
 
 export default BannerEditor;
-
