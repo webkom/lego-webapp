@@ -47,13 +47,21 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
 
   const togglePublic = () =>
     dispatch(
-      editBanner({ currentPublic: !banner.currentPublic }, banner.id),
-    ).then(() => dispatch(fetchAllBanners()));
+      editBanner({ ...banner, currentPublic: !banner.currentPublic }, banner.id)
+    ).then(() => dispatch(fetchAllBanners())); 
 
   const togglePrivate = () =>
     dispatch(
-      editBanner({ currentPrivate: !banner.currentPrivate }, banner.id),
+      editBanner({ ...banner, currentPrivate: !banner.currentPrivate }, banner.id)
     ).then(() => dispatch(fetchAllBanners()));
+
+  const countdownDate = banner.countdownEndDate
+    ? new Date(banner.countdownEndDate)
+    : undefined;
+
+  const validCountdownDate = countdownDate && !isNaN(countdownDate.getTime())
+    ? countdownDate
+    : undefined;
 
   return (
     <Card hideOverflow className={styles.card}>
@@ -63,6 +71,8 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           subHeader={banner.subheader}
           link={banner.link}
           color={banner.color}
+          countdownEndDate={validCountdownDate}
+          countdownEndMessage={banner.countdownEndMessage ?? undefined}
         />
       </div>
       <Flex
@@ -76,7 +86,7 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           justifyContent="center"
           gap="var(--spacing-md)"
         >
-          <Flex
+           <Flex
             column
             gap="var(--spacing-sm)"
             alignItems="center"
@@ -84,8 +94,6 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           >
             <h4>Innlogget forside</h4>
             <ToggleSwitch
-              value={banner.currentPrivate}
-              name="private"
               checked={banner.currentPrivate}
               onChange={togglePrivate}
             />
@@ -97,9 +105,7 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
             justifyContent="center"
           >
             <h4>Offentlig forside</h4>
-            <ToggleSwitch
-              value={banner.currentPublic}
-              name="public"
+             <ToggleSwitch
               checked={banner.currentPublic}
               onChange={togglePublic}
             />
@@ -115,5 +121,4 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
     </Card>
   );
 };
-
 export default guardLogin(BannerOverview);

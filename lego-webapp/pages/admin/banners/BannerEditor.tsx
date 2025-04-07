@@ -17,7 +17,6 @@ import {
   Form,
   LegoFinalForm,
   SelectInput,
-  CheckBox,
   DatePicker,
 } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
@@ -66,23 +65,21 @@ const BannerEditor = () => {
   if (!sudoAdminAccess) return <HTTPError statusCode={418} />;
   if (!isNew && !banner) return <LoadingPage loading />;
 
-  const onSubmit = (data: CreateBanner) => {
-    const postData = {
-      ...data,
-      color: data.color.value ?? 'red',
-      countdownEndDate:
-        data.showCountdown && data.countdownEndDate
-          ? new Date(data.countdownEndDate).toISOString()
-          : null,
-      countdownPrefix: data.showCountdown ? data.countdownPrefix : null,
-      countdownSuffix: data.showCountdown ? data.countdownSuffix : null,
-      countdownEndMessage: data.showCountdown ? data.countdownEndMessage : null,
-    };
-    const action = isNew
-      ? createBanner(postData)
-      : editBanner(postData, bannerId);
-    dispatch(action).then(() => navigate('/admin/banners'));
+const onSubmit = (data: CreateBanner) => {
+  const postData = {
+    ...data,
+    color: data.color.value ?? 'red',
+    countdown_end_date: data.countdownEndDate
+      ? new Date(data.countdownEndDate).toISOString()
+      : null,
+    countdown_end_message: data.countdownEndDate ? data.countdownEndMessage || null : null,
   };
+
+  const action = isNew
+    ? createBanner(postData)
+    : editBanner(postData, bannerId);
+  dispatch(action).then(() => navigate('/admin/banners'));
+};
 
   const onDelete = () =>
     dispatch(deleteBanner(bannerId!)).then(() => navigate('/admin/banners'));
@@ -97,7 +94,7 @@ const BannerEditor = () => {
     color: [required()],
   });
 
-  const title = isNew ? 'Ny banner' : `Redigerer: ${banner?.header}`;
+  const title = isNew ? 'Nytt banner' : `Redigerer: ${banner?.header}`;
 
   return (
     <Page title={title} back={{ href: '/admin/banners' }}>
@@ -106,7 +103,6 @@ const BannerEditor = () => {
         onSubmit={onSubmit}
         initialValues={{
           ...banner,
-          showCountdown: banner?.showCountdown ?? false,
           color: banner
             ? {
                 value: banner.color,
@@ -116,7 +112,7 @@ const BannerEditor = () => {
         }}
         validate={validate}
       >
-        {({ handleSubmit }) => (
+        {({ handleSubmit, form }) => (
           <Form onSubmit={handleSubmit}>
             <BannerFormPreview />
             <Field
@@ -151,16 +147,43 @@ const BannerEditor = () => {
               id="color"
             />
 
-            <Field
-              name="showCountdown"
-              type="checkbox"
-              label="Vis nedtelling"
-              component={CheckBox.Field}
-              id="showCountdown"
-              normalize={(value) => !!value}
-            />
+            <div style={{ marginTop: 'var(--spacing-sm)' }}>
+              <Flex gap="var(--spacing-md)" alignItems="flex-end">
+                <div style={{ flexGrow: 1 }}>
+                  <Field
+                    name="countdownEndDate"
+                    label="Nedtelling til (tom for ingen nedtelling)"
+                    component={DatePicker.Field}
+                    id="countdownEndDate"
+                    showTimeSelect
+                    dateFormat="dd.MM.yyyy HH:mm"
+                    minDate={new Date()}
+                  />
+                </div>
+                <Field name="countdownEndDate">
+                  {({ input: { value } }) => 
+                    value ? (
+                      <Button 
+                        danger 
+                        onPress={() => form.change('countdownEndDate', null)}
+                      >
+                        Fjern nedtelling
+                      </Button>
+                    ) : null
+                  }
+                </Field>
+              </Flex>
+            </div>
 
-            <CountdownFields />
+            <div style={{ marginTop: 'var(--spacing-md)' }}>
+              <Field
+                name="countdownEndMessage"
+                placeholder="Tiden er ute!"
+                label="Melding når nedtelling er ferdig"
+                component={TextInput.Field}
+                id="countdownEndMessage"
+              />
+            </div>
 
             <Flex gap="var(--spacing-md)">
               <SubmitButton>
@@ -187,86 +210,32 @@ const BannerEditor = () => {
   );
 };
 
-const CountdownFields = () => {
-  const { values } = useFormState();
-
-  if (!values.showCountdown) return null;
-
-  return (
-    <div style={{ marginTop: 'var(--spacing-sm)' }}>
-      <Field
-        name="countdownEndDate"
-        label="Nedtelling slutter"
-        component={DatePicker.Field}
-        id="countdownEndDate"
-        showTimeSelect
-        dateFormat="dd.MM.yyyy HH:mm"
-        minDate={new Date()}
-      />
-      <div style={{ marginTop: 'var(--spacing-md)' }}>
-        <Flex gap="var(--spacing-md)">
-          <Field
-            name="countdownPrefix"
-            placeholder="Gjenstår:"
-            label="Nedtelling tekst (venstre)"
-            component={TextInput.Field}
-            id="countdownPrefix"
-            style={{ flex: 1 }}
-          />
-          <Field
-            name="countdownSuffix"
-            placeholder="til opptak!"
-            label="Nedtelling tekst (høyre)"
-            component={TextInput.Field}
-            id="countdownSuffix"
-            style={{ flex: 1 }}
-          />
-        </Flex>
-      </div>
-      <div style={{ marginTop: 'var(--spacing-md)' }}>
-        <Field
-          name="countdownEndMessage"
-          placeholder="Tiden er ute!"
-          label="Melding når nedtelling er ferdig"
-          component={TextInput.Field}
-          id="countdownEndMessage"
-        />
-      </div>
-    </div>
-  );
-};
-
-interface CountdownProps {
-  showCountdown: boolean;
-  countdownEndDate?: Date | null | undefined;
-  countdownPrefix?: string | null;
-  countdownSuffix?: string | null;
-  countdownEndMessage?: string | null;
-}
-
 const BannerFormPreview = () => {
-  const [isClientSide, setIsClientSide] = useState(false);
   const { values } = useFormState();
 
-  useEffect(() => {
-    setIsClientSide(true);
-  }, []);
-
-  const countdownProps = {
-    showCountdown: !!values.showCountdown && isClientSide,
+  const bannerProps: {
+    header: string;
+    subHeader?: string;
+    link?: string;
+    color?: Color;
+    countdownEndDate?: Date;
+    countdownEndMessage?: string;
+  } = {
+    header: values.header || 'Tittel',
+    subHeader: values.subheader,
+    link: values.link || 'https://abakus.no',
+    color: values.color?.value as Color | undefined,
   };
-  if (countdownProps.showCountdown && values.countdownEndDate) {
-    const formattedDate = new Date(values.countdownEndDate);
 
-    if (!isNaN(formattedDate.getTime())) {
-      const safeProps = {
-        countdownEndDate: formattedDate,
-        countdownPrefix: values.countdownPrefix || undefined,
-        countdownSuffix: values.countdownSuffix || undefined,
-        countdownEndMessage: values.countdownEndMessage || undefined,
-      };
-
-      Object.assign(countdownProps, safeProps);
+  if (values.countdownEndDate) {
+    try {
+      const endDate = new Date(values.countdownEndDate);
+      if (!isNaN(endDate.getTime())) {
+        bannerProps.countdownEndDate = endDate;
+        bannerProps.countdownEndMessage = values.countdownEndMessage;
+      }
+    } catch (e) {
+      console.error("Invalid date format:", values.countdownEndDate);
     }
   }
 
@@ -278,16 +247,10 @@ const BannerFormPreview = () => {
         styles.bannerPreview,
       )}
     >
-      <Banner
-        header={values.header || 'Tittel'}
-        subHeader={values.subheader}
-        link={values.link || 'https://abakus.no'}
-        color={values.color?.value}
-        {...countdownProps}
-      />
+      <Banner {...bannerProps} />
     </div>
   );
 };
 
-
 export default BannerEditor;
+

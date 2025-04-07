@@ -98,6 +98,12 @@ const AuthenticatedFrontpage = () => {
           subHeader={currentPrivateBanner.subheader}
           link={currentPrivateBanner.link}
           color={currentPrivateBanner.color}
+          countdownEndDate={
+            currentPrivateBanner.countdownEndDate || undefined
+          }
+          countdownEndMessage={
+            currentPrivateBanner.countdownEndMessage || undefined
+          }
         />
       )}
       <section className={styles.wrapper}>
