@@ -42,6 +42,7 @@ const colorToRepresentation: Record<Color, string> = {
   lightBlue: 'Lyseblå',
   itdageneBlue: 'IT-dagene Blå',
   buddyweek2024: 'Fadderuke',
+  easter: 'Påske',
 };
 
 type BannerEditorParams = {

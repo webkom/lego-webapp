@@ -56,14 +56,59 @@ div.itdageneBlue {
     color: var(--color-white);
   }
 }
+div.easter {
+  background: linear-gradient(135deg, #ffebee, #e1f5fe, #f3e5f5, #e8f5e9);
+  border: 3px dashed #c9aee9;
+  color: #6a5687;
+  position: relative;
+  overflow: hidden;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 40px;
+    background-color: rgba(255, 245, 225, 0.7);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  &::before {
+    top: 15px;
+    left: 20px;
+    transform: rotate(-20deg);
+    box-shadow:
+      170px 50px 0 7px rgba(255, 218, 248, 0.7),
+      60px 100px 0 7px rgba(212, 240, 240, 0.7),
+      220px 180px 0 9px rgba(210, 230, 255, 0.7);
+  }
+
+  &::after {
+    bottom: 15px;
+    right: 20px;
+    transform: rotate(15deg);
+    box-shadow:
+      -110px -5px 0 7px rgba(255, 218, 248, 0.7),
+      -330px -10px 0 12px rgba(230, 255, 245, 0.7),
+      -250px 110px 0 13px rgba(255, 229, 217, 0.7);
+  }
+
+  .headerTitle,
+  .subHeader,
+  .countdown {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #ffcdd2, #b3e5fc, #e1bee7, #c8e6c9);
+    border-color: #ba68c8;
+  }
+}
 
 div.buddyweek2024 {
   border: 5px dashed var(--lego-red-color);
-}
-
-.countdown {
-  margin: var(--spacing-sm) 0;
-  font-weight: bold;
 }
 
 .countdownTime {

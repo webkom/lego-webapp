@@ -13,6 +13,7 @@ export const COLORS = {
   lightBlue: styles.lightBlue,
   itdageneBlue: styles.itdageneBlue,
   buddyweek2024: styles.buddyweek2024,
+  easter: styles.easter,
 };
 export type Color = $Keys<typeof COLORS>;
 type LinkComponentProps = {
