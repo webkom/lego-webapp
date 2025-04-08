@@ -56,6 +56,55 @@ div.itdageneBlue {
     color: var(--color-white);
   }
 }
+div.easter {
+  background: linear-gradient(135deg, #ffebee, #e1f5fe, #f3e5f5, #e8f5e9);
+  border: 3px dashed #c9aee9;
+  color: #6a5687;
+  position: relative;
+  overflow: hidden;
+
+  &::before, &::after {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  &::before {
+    top: 15px;
+    left: 20px;
+    transform: rotate(-20deg);
+    box-shadow: 110px 10px 0 -5px rgba(255, 228, 225, 0.7),
+                220px -5px 0 -8px rgba(230, 255, 230, 0.7),
+                330px 15px 0 -3px rgba(230, 230, 255, 0.7);
+  }
+
+  &::after {
+    bottom: 15px;
+    right: 20px;
+    transform: rotate(15deg);
+    box-shadow: -110px -5px 0 -5px rgba(255, 245, 225, 0.7),
+                -220px 10px 0 -8px rgba(245, 230, 255, 0.7),
+                -330px -10px 0 -3px rgba(230, 255, 245, 0.7);
+  }
+
+  .headerTitle, .subHeader, .countdown {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    background: linear-gradient(135deg, #ffcdd2, #b3e5fc, #e1bee7, #c8e6c9);
+    border-color: #ba68c8;
+    transform: scale(1.01);
+    transition: all 0.3s ease;
+  }
+}
+
+
 
 div.buddyweek2024 {
   border: 5px dashed var(--lego-red-color);
