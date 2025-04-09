@@ -1,8 +1,10 @@
+@import '../../../custom-media.css';
+
 .content {
   width: 100%;
   padding: var(--spacing-xl);
 
-  @media (max-width: 45em) {
+  @media (--medium-viewport) {
     padding: 1rem;
   }
 
