@@ -28,7 +28,6 @@
   background: rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 50%);
   font-weight: 500;
   padding: var(--spacing-sm) 40px;
-  line-height: 1.3;
   text-align: center;
 }
 
