@@ -1,13 +1,11 @@
 import { Icon } from '@webkom/lego-bricks';
-import AggregatedFeedActivity, {
-  FeedActivityVerb,
-} from '~/redux/models/FeedActivity';
-import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
-import styles from '../activity.module.css';
 import { CircleAlert } from 'lucide-react';
+import { FeedActivityVerb } from '~/redux/models/FeedActivity';
+import styles from '../activity.module.css';
+import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
 const PenaltyRenderer: ActivityRenderer<FeedActivityVerb.Penalty> = {
-  Header: ({ aggregatedActivity, tag: Tag }) => {
+  Header: ({ aggregatedActivity }) => {
     const latestActivity = aggregatedActivity.lastActivity;
 
     return (

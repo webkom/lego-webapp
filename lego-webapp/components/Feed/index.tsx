@@ -13,12 +13,12 @@ import CommentReplyRenderer from './renders/comment_reply';
 import EventRegisterRenderer from './renders/event_register';
 import GroupJoinRenderer from './renders/group';
 import MeetingInvitationRenderer from './renders/meetingInvitation';
+import PenaltyRenderer from './renders/penaltyNotification';
 import RegistrationBumpRenderer from './renders/registrationBump';
 import RestrictedMailSentRenderer from './renders/restrictedMail';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
-import PenaltyRenderer from './renders/penaltyNotification';
 
 export const activityRenderers = {
   [FeedActivityVerb.Comment]: CommentRenderer,
