@@ -34,7 +34,7 @@ catalogs:
       specifier: ^5.6.3
       version: 5.6.3
     vite:
-      specifier: ^6.2.5
+      specifier: ^6.2.3
       version: 6.2.5
     vitest:
       specifier: ^3.0.9
