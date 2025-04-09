@@ -21,6 +21,12 @@ catalogs:
     lucide-react:
       specifier: ^0.483.0
       version: 0.483.0
+    postcss-custom-media:
+      specifier: ^11.0.5
+      version: 11.0.5
+    postcss-nested:
+      specifier: ^7.0.2
+      version: 7.0.2
     react:
       specifier: ^18.3.1
       version: 18.3.1
@@ -34,7 +40,7 @@ catalogs:
       specifier: ^5.6.3
       version: 5.6.3
     vite:
-      specifier: ^6.2.5
+      specifier: ^6.2.3
       version: 6.2.5
     vitest:
       specifier: ^3.0.9
@@ -150,8 +156,11 @@ importers:
         specifier: ^3.6.2
         version: 3.6.2
       postcss-custom-media:
-        specifier: ^11.0.3
+        specifier: 'catalog:'
         version: 11.0.5(postcss@8.5.3)
+      postcss-nested:
+        specifier: 'catalog:'
+        version: 7.0.2(postcss@8.5.3)
       qs:
         specifier: ^6.14.0
         version: 6.14.0
@@ -357,6 +366,12 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 0.483.0(react@18.3.1)
+      postcss-custom-media:
+        specifier: 'catalog:'
+        version: 11.0.5(postcss@8.5.3)
+      postcss-nested:
+        specifier: 'catalog:'
+        version: 7.0.2(postcss@8.5.3)
       react:
         specifier: 'catalog:'
         version: 18.3.1
@@ -433,9 +448,6 @@ importers:
       eslint-plugin-storybook:
         specifier: ^0.11.1
         version: 0.11.1(eslint@8.57.1)(typescript@5.6.3)
-      postcss-custom-media:
-        specifier: ^11.0.3
-        version: 11.0.5(postcss@8.5.3)
       storybook:
         specifier: ^8.6.4
         version: 8.6.4(prettier@3.5.3)
@@ -5425,6 +5437,12 @@ packages:
     engines: {node: ^10 || ^12 || >= 14}
     peerDependencies:
       postcss: ^8.1.0
+
+  postcss-nested@7.0.2:
+    resolution: {integrity: sha512-5osppouFc0VR9/VYzYxO03VaDa3e8F23Kfd6/9qcZTUI8P58GIYlArOET2Wq0ywSl2o2PjELhYOFI4W7l5QHKw==}
+    engines: {node: '>=18.0'}
+    peerDependencies:
+      postcss: ^8.2.14
 
   postcss-selector-parser@7.0.0:
     resolution: {integrity: sha512-9RbEr1Y7FFfptd/1eEdntyjMwLeghW1bHX9GWjXo19vx4ytPQhANltvVxDggzJl7mnWM+dX28kb6cyS/4iQjlQ==}
@@ -12709,6 +12727,11 @@ snapshots:
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.3)
       postcss: 8.5.3
+
+  postcss-nested@7.0.2(postcss@8.5.3):
+    dependencies:
+      postcss: 8.5.3
+      postcss-selector-parser: 7.0.0
 
   postcss-selector-parser@7.0.0:
     dependencies:

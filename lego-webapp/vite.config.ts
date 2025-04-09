@@ -2,6 +2,7 @@ import path from 'node:path';
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react';
 import postcssCustomMedia from 'postcss-custom-media';
+import postcssNested from 'postcss-nested';
 import vike from 'vike/plugin';
 import { defineConfig } from 'vite';
 import { patchCssModules } from 'vite-css-modules';
@@ -39,7 +40,7 @@ export default defineConfig({
   },
   css: {
     postcss: {
-      plugins: [postcssCustomMedia()],
+      plugins: [postcssCustomMedia(), postcssNested()],
     },
   },
 

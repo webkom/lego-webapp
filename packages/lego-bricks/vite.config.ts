@@ -1,6 +1,8 @@
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
 import postcssCustomMedia from 'postcss-custom-media';
+// @ts-ignore
+import postcssNested from 'postcss-nested';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -25,7 +27,7 @@ export default defineConfig({
   },
   css: {
     postcss: {
-      plugins: [postcssCustomMedia()],
+      plugins: [postcssCustomMedia(), postcssNested()],
     },
   },
   plugins: [react()],
