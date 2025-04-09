@@ -61,7 +61,6 @@ const HeaderNotificationsContent = () => {
   const notifications = useAppSelector((state) =>
     selectFeedActivitiesByFeedId(state, 'notifications'),
   );
-  console.log(notifications);
   const fetchingNotifications = useAppSelector(
     (state) => state.feedActivities.fetching,
   );
