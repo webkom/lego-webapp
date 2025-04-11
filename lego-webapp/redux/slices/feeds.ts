@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { union } from 'lodash-es';
+import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Feed } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
@@ -35,6 +36,18 @@ const feedsSlice = createSlice({
           ),
         });
       });
+      addCase('SOCKET_NEW_NOTIFICATION', (state, action: AnyAction) => {
+        legoAdapter.upsertOne(state, {
+          id: 'notifications',
+          type: 'notifications',
+          activities: union(
+            state.entities.notifications
+              ? state.entities.notifications.activities || []
+              : [],
+            [action.payload.id],
+          ),
+        });
+      });
     },
   }),
 });
@@ -57,4 +70,10 @@ export const selectFeedActivitiesByFeedId = createSelector(
 
     return feed.activities.map((id) => feedActivityEntities[id]);
   },
+);
+
+export const selectNotifications = createSelector(
+  (state: RootState) => selectFeedActivitiesByFeedId(state, 'notifications'),
+  (notifications) =>
+    notifications.sort((a, b) => moment(b.updatedAt).diff(a.updatedAt)),
 );
