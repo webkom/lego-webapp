@@ -1,3 +1,5 @@
+@import '../../../custom-media.css';
+
 .sidebar {
   position: relative;
   max-width: calc(var(--lego-max-width) / 4);
@@ -10,7 +12,7 @@
 .sidebarTrigger.mobileOnly {
   display: none;
 
-  @media (max-width: 45em) {
+  @media (--medium-viewport) {
     display: inline;
   }
 }

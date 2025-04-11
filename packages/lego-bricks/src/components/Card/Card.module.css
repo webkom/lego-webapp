@@ -1,3 +1,5 @@
+@import '../../custom-media.css';
+
 .baseCard {
   background: var(--lego-card-color);
   border-radius: var(--border-radius-lg);
@@ -12,7 +14,7 @@
 .withIcon {
   gap: var(--spacing-md);
 
-  @media (max-width: 35em) {
+  @media (--small-viewport) {
     flex-direction: column;
     gap: var(--spacing-sm);
   }
