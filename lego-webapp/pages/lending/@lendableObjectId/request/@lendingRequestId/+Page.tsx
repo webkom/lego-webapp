@@ -256,8 +256,8 @@ const TimeLineEntry = ({
   isLast: boolean;
 }) => {
   return (
-    <Flex alignItems="flex-start" gap="var(--spacing-sm)">
-      <Flex column alignItems="center">
+    <div className={styles.timelineContainer}>
+      <Flex column alignItems="center" className={styles.timelineTagContainer}>
         <Tag
           className={styles.timelineTag}
           iconNode={statusMap[entry.status]?.icon || <MessageCircleIcon />}
@@ -266,30 +266,29 @@ const TimeLineEntry = ({
         />
         {!isLast && <div className={styles.timelineLine} />}
       </Flex>
-      <Flex
-        className={styles.timelineEntry}
-        alignItems="center"
-        gap="var(--spacing-sm)"
-        width="100%"
-        justifyContent="space-between"
-      >
-        <Flex alignItems="center" gap="var(--spacing-sm)">
-          <a href={`/users/${entry.createdBy.username}`}>
-            <Flex gap="var(--spacing-sm)" alignItems="center">
-              <ProfilePicture user={entry.createdBy} size={32} />
-              <h4>{entry.createdBy.fullName}</h4>
-            </Flex>
-          </a>
-
-          <span className={styles.timelineMessage}>{`${entry.message}.`}</span>
-        </Flex>
-        <Time
-          className={styles.timelineTime}
-          time={entry.createdAt}
-          format="DD. MMM HH:mm"
-        />
-      </Flex>
-    </Flex>
+      <a href={`/users/${entry.createdBy.username}`}>
+        <div
+          className={
+            entry.isSystem
+              ? styles.timelineEntrySystemContainer
+              : styles.timelineEntryMessageContainer
+          }
+        >
+          <ProfilePicture user={entry.createdBy} size={32} />
+          <h4 className={styles.timelineUsername}>
+            {entry.createdBy.fullName}
+          </h4>
+          <span
+            className={styles.timelineText}
+          >{`${entry.isSystem ? statusMap[entry.status].timelineText : entry.message}`}</span>
+          <Time
+            className={styles.timelineTime}
+            time={entry.createdAt}
+            format="DD. MMM HH:mm"
+          />
+        </div>
+      </a>
+    </div>
   );
 };
 

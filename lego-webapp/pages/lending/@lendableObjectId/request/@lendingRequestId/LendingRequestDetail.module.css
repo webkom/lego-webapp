@@ -13,27 +13,79 @@
   width: 100%;
 }
 
-.timelineTime,
-.timelineMessage {
+.timelineContainer {
+  display: grid;
+  grid-template-columns: var(--spacing-lg) 1fr auto;
+  column-gap: var(--spacing-md);
+}
+
+.timelineContainer time,
+.timelineContainer span {
   color: var(--secondary-font-color);
 }
 
 .timelineLine {
   width: 1px;
-  height: 2rem;
+  height: 100%;
+  padding: var(--spacing-md) 0;
   background-color: var(--lego-font-color);
 
-  @media (--small-viewport) {
-    height: 4rem;
+  @media (--mobile-device) {
+    padding: var(--spacing-lg) 0;
   }
 }
 
-.timelineEntry {
-  @media (--small-viewport) {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    padding-top: var(--spacing-xs);
+.timelineEntryMessageContainer,
+.timelineEntrySystemContainer {
+  margin-bottom: var(--spacing-md);
+  display: grid;
+  column-gap: var(--spacing-md);
+  align-items: center;
+}
+
+.timelineEntrySystemContainer {
+  grid-template-columns: 32px auto 1fr auto;
+
+  @media (--mobile-device) {
+    grid-template-columns: 32px auto 1fr;
+    row-gap: var(--spacing-sm);
+    padding-bottom: var(--spacing-lg);
   }
+}
+
+.timelineEntryMessageContainer {
+  background: var(--lego-card-color);
+  border-radius: var(--border-radius-lg);
+  border: 1.5px solid var(--border-gray);
+  box-shadow: var(--shadow-sm);
+
+  padding: var(--spacing-md);
+  grid-template-columns: 32px auto auto;
+}
+
+.timelineEntryMessageContainer > .timelineText {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 1;
+  grid-column-end: 4;
+  margin-top: var(--spacing-sm);
+}
+
+.timelineEntrySystemContainer > .timelineTime {
+  text-align: start;
+  @media (--mobile-device) {
+    order: -1;
+    grid-column-start: 1;
+    grid-column-end: 4;
+  }
+}
+
+.timelineEntryMessageContainer > .timelineTime {
+  text-align: end;
+}
+
+.timelineTagContainer {
+  height: 100%;
 }
 
 .timelineTag {
