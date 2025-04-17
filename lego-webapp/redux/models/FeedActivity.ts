@@ -21,6 +21,7 @@ export enum FeedActivityVerb {
   Announcement = 'announcement',
   GroupJoin = 'group_join',
   EventRegister = 'event_register',
+  Penalty = 'penalty',
 }
 
 export type FeedActivityVerbAttr = {
@@ -33,6 +34,7 @@ export type FeedActivityVerbAttr = {
   [FeedActivityVerb.Announcement]: FeedAttrAnnouncement;
   [FeedActivityVerb.GroupJoin]: FeedAttrGroup;
   [FeedActivityVerb.EventRegister]: FeedAttrEvent;
+  [FeedActivityVerb.Penalty]: UnknownFeedAttr;
 };
 
 export interface FeedActivity {
