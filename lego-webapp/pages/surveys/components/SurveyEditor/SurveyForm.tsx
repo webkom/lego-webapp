@@ -65,7 +65,7 @@ const SurveyForm = ({
   const internalOnSubmit = (surveyData: FormSurvey) => {
     return onSubmit({
       ...surveyData,
-      event: surveyData?.event?.value ?? null,
+      event: surveyData.isTemplate ? null : (surveyData?.event?.value ?? null),
       questions: surveyData.questions.map((question, i) => ({
         ...question,
         questionType: question.questionType.value,
