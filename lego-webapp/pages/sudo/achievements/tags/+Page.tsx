@@ -9,26 +9,22 @@ import {
   SubmitButton,
 } from '~/components/Form';
 import HTTPError from '~/components/errors/HTTPError';
-import { editEvent } from '~/redux/actions/EventActions';
+import { editPartialEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 
-
-
-
 export const EventtagEditor = () => {
-
   const dispatch = useAppDispatch();
 
   const onSubmit = (values) => {
+    const event = values.event;
     const finalValues = {
-      id: values.event.value,
-      tags: values.tags.map(t => t.value)
+      id: event.value,
+      tags: values.tags.map((t) => t.value),
     };
-    dispatch(editEvent(finalValues)).then(() =>
-      navigate('/lending/'),
+    dispatch(editPartialEvent(finalValues)).then(() =>
+      navigate('/sudo/achievements/'),
     );
   };
-
 
   return (
     <LegoFinalForm onSubmit={onSubmit}>
@@ -44,7 +40,7 @@ export const EventtagEditor = () => {
             name="tags"
             label="Tags"
             filter={['tags.tag']}
-            placeholder="Skriv inn tags (trophy:gala or trophy:genfors)"
+            placeholder="Skriv inn tags (trophy:gala or trophy:genfors), vil overskrive"
             component={SelectInput.AutocompleteField}
             isMulti
             tags
