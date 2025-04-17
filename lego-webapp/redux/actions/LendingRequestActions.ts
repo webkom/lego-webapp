@@ -1,6 +1,7 @@
 import {
   AdminLendingRequest,
   CreateLendingRequest,
+  DetailLendingRequest,
   EditLendingRequest,
   ListLendingRequest,
 } from '~/redux/models/LendingRequest';
@@ -59,6 +60,22 @@ export const editLendingRequest = (data: EditLendingRequest) =>
     meta: {
       errorMessage: 'Endring av utlånsforespørsel feilet',
       successMessage: 'Endring av utlånsforespørsel fullført',
+    },
+  });
+
+export const commentOnLendingRequest = (data: {
+  message: string;
+  lending_request: EntityId;
+}) =>
+  callAPI<DetailLendingRequest>({
+    types: LendingRequests.EDIT,
+    endpoint: `/lending/timelineentries/`,
+    method: 'POST',
+    schema: lendingRequestSchema,
+    body: data,
+    meta: {
+      errorMessage: 'Kommentering av utlånsforespørsel feilet',
+      successMessage: 'Kommentering av utlånsforespørsel fullført',
     },
   });
 
