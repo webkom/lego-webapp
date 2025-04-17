@@ -109,6 +109,18 @@ export function editEvent(event: Record<string, any>) {
   });
 }
 
+export function editPartialEvent(event: Record<string, any>) {
+  return callAPI<DetailedEvent>({
+    types: Event.EDIT,
+    endpoint: `/events/${event.id}/`,
+    method: 'PATCH',
+    body: { ...event, cover: event.cover || undefined },
+    meta: {
+      errorMessage: 'Endring av arrangement feilet',
+    },
+  });
+}
+
 export function deleteEvent(eventId: EntityId) {
   return callAPI({
     types: Event.DELETE,
