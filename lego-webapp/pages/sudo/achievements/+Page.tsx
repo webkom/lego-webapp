@@ -1,4 +1,10 @@
-import { Button, ConfirmModal, Flex, LinkButton, Page } from '@webkom/lego-bricks';
+import {
+  Button,
+  ConfirmModal,
+  Flex,
+  LinkButton,
+  Page,
+} from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import ContentMain from '~/components/Content/ContentMain';
 import HTTPError from '~/components/errors/HTTPError';
@@ -48,7 +54,12 @@ const SudoAchievements = () => {
           <Button className={styles.sudoTrophyCard}>
             Tildel trofeer (coming later)
           </Button>
-          <LinkButton href='/sudo/achievements/tags'>Endre på tags</LinkButton>
+          <LinkButton
+            className={styles.sudoTrophyCard}
+            href="/sudo/achievements/tags"
+          >
+            Endre på tags
+          </LinkButton>
         </Flex>
       </ContentMain>
     </Page>
