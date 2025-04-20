@@ -3,7 +3,7 @@ import callAPI from '~/redux/actions/callAPI';
 import { eventSchema, eventAdministrateSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Thunk, Action } from 'app/types';
-import type { DetailedEvent } from '~/redux/models/Event';
+import type { DetailedEvent, UnknownEvent } from '~/redux/models/Event';
 import type { Presence, ReadRegistration } from '~/redux/models/Registration';
 
 export const waitinglistPoolId = -1;
@@ -102,6 +102,20 @@ export function editEvent(event: Record<string, any>) {
     types: Event.EDIT,
     endpoint: `/events/${event.id}/`,
     method: 'PUT',
+    body: { ...event, cover: event.cover || undefined },
+    meta: {
+      errorMessage: 'Endring av arrangement feilet',
+    },
+  });
+}
+
+export function editPartialEvent(
+  event: { id: EntityId } & Partial<DetailedEvent>,
+) {
+  return callAPI<DetailedEvent>({
+    types: Event.EDIT,
+    endpoint: `/events/${event.id}/`,
+    method: 'PATCH',
     body: { ...event, cover: event.cover || undefined },
     meta: {
       errorMessage: 'Endring av arrangement feilet',
