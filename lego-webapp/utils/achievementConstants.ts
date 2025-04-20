@@ -1,3 +1,6 @@
+import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
+import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
+import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
 import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
 import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
 import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
@@ -9,7 +12,6 @@ import trofe_sjeldenhetsgrad_3 from 'assets/trophies/trofe_sjeldenhetsgrad_3.png
 import trofe_sjeldenhetsgrad_4 from 'assets/trophies/trofe_sjeldenhetsgrad_4.png';
 import trofe_sjeldenhetsgrad_5 from 'assets/trophies/trofe_sjeldenhetsgrad_5.png';
 import trofe_sjeldenhetsgrad_8 from 'assets/trophies/trofe_sjeldenhetsgrad_8.png';
-
 import type { AchievementData, Rarity } from '~/redux/models/User';
 
 export const rarityMap: Record<Rarity, { name: string; color: string }> = {
@@ -304,18 +306,25 @@ export const AchievementsInfo: Record<
   ],
   easter_winner: [
     {
-      name: 'Påskeeggjakten 2024',
-      description: 'Vinner av påskeeggjakten 2024',
+      name: 'Påskeeggjakten 2024\nVinner',
+      description: 'Vinner - påskeeggjakten 2024',
       rarity: 2,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_3,
+      image: easter_winner_24,
     },
     {
-      name: 'Påskeeggjakten 2025',
-      description: 'Vinner av påskeeggjakten 2025',
+      name: 'Påskeeggjakten 2025\nUtfordrer',
+      description: 'Utfordrer - påskeeggjakten 2025',
+      rarity: 1,
+      hidden: false,
+      image: easter_contender_25,
+    },
+    {
+      name: 'Påskeeggjakten 2025\nVinner',
+      description: 'Vinner - påskeeggjakten 2025',
       rarity: 2,
       hidden: false,
-      image: trofe_sjeldenhetsgrad_3,
+      image: easter_winner_25,
     },
   ],
 };
