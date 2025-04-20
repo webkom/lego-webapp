@@ -12,9 +12,11 @@ import HTTPError from '~/components/errors/HTTPError';
 import { editPartialEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 
-export const EventtagEditor = () => {
+export default function EventTagEditor() {
+  const title = 'Legg til tag på arrangement';
+  const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
   const dispatch = useAppDispatch();
-
+  if (!sudoAdminAccess) return <HTTPError statusCode={450} />;
   const onSubmit = (values) => {
     const event = values.event;
     const finalValues = {
@@ -25,42 +27,31 @@ export const EventtagEditor = () => {
       navigate('/sudo/achievements/'),
     );
   };
-
   return (
-    <LegoFinalForm onSubmit={onSubmit}>
-      {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
-          <Field
-            name="event"
-            placeholder="Velg event"
-            filter={['events.event']}
-            component={SelectInput.AutocompleteField}
-          />
-          <Field
-            name="tags"
-            label="Tags"
-            filter={['tags.tag']}
-            placeholder="Skriv inn tags (trophy:gala or trophy:genfors), vil overskrive"
-            component={SelectInput.AutocompleteField}
-            isMulti
-            tags
-          />
-          <SubmitButton>Endre tags på event</SubmitButton>
-        </Form>
-      )}
-    </LegoFinalForm>
-  );
-};
-
-export default function EventTagEditor() {
-  const title = `Legg til tag på event`;
-  const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
-  if (!sudoAdminAccess) return <HTTPError statusCode={450} />;
-
-  return (
-    <Page title={title} back={{ href: `/sudo/achievements/` }}>
+    <Page title={title} back={{ href: '/sudo/achievements/' }}>
       <Helmet title={title} />
-      <EventtagEditor />
+      <LegoFinalForm onSubmit={onSubmit}>
+        {({ handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field
+              name="event"
+              placeholder="Velg arrangement"
+              filter={['events.event']}
+              component={SelectInput.AutocompleteField}
+            />
+            <Field
+              name="tags"
+              label="Tags (overskrives)"
+              filter={['tags.tag']}
+              placeholder="Skriv inn tags (trophy:gala, trophy:genfors)..."
+              component={SelectInput.AutocompleteField}
+              isMulti
+              tags
+            />
+            <SubmitButton>Endre tags på arrangement</SubmitButton>
+          </Form>
+        )}
+      </LegoFinalForm>
     </Page>
   );
 }
