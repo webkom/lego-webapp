@@ -16,7 +16,7 @@ import {
 } from '~/redux/slices/notificationSettings';
 import styles from './UserSettingsNotifications.module.css';
 
-const notificationTypeTraslations = {
+const notificationTypeTranslations = {
   weekly_mail: 'Ukesmail',
   event_bump: 'Rykker opp fra venteliste på arrangement',
   event_admin_registration: 'Adminregistrering',
@@ -132,7 +132,7 @@ const UserSettingsNotifications = () => {
             return (
               <tr key={key}>
                 <td>
-                  {notificationTypeTraslations[notificationType] ||
+                  {notificationTypeTranslations[notificationType] ||
                     notificationType.replace(/_/g, ' ')}
                 </td>
                 {alternatives.channels.map((channel, key) => (

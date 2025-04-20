@@ -9,3 +9,7 @@
 .time {
   color: var(--secondary-font-color);
 }
+
+.redText {
+  color: var(--lego-red-color);
+}

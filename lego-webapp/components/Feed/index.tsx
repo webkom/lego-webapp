@@ -13,6 +13,7 @@ import CommentReplyRenderer from './renders/comment_reply';
 import EventRegisterRenderer from './renders/event_register';
 import GroupJoinRenderer from './renders/group';
 import MeetingInvitationRenderer from './renders/meetingInvitation';
+import PenaltyRenderer from './renders/penaltyNotification';
 import RegistrationBumpRenderer from './renders/registrationBump';
 import RestrictedMailSentRenderer from './renders/restrictedMail';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -29,6 +30,7 @@ export const activityRenderers = {
   [FeedActivityVerb.Announcement]: AnnouncementRenderer,
   [FeedActivityVerb.GroupJoin]: GroupJoinRenderer,
   [FeedActivityVerb.EventRegister]: EventRegisterRenderer,
+  [FeedActivityVerb.Penalty]: PenaltyRenderer,
 };
 
 export const getActivityRenderer = <Verb extends FeedActivityVerb>(
