@@ -1,5 +1,6 @@
-import easter_contender from 'assets/trophies/easter-contender-trophy.png';
-import easter_winner from 'assets/trophies/easter-winner-trophy.png';
+import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
+import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
+import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
 import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
 import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
 import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
@@ -309,21 +310,21 @@ export const AchievementsInfo: Record<
       description: 'Vinner - påskeeggjakten 2024',
       rarity: 2,
       hidden: false,
-      image: easter_winner,
+      image: easter_winner_24,
     },
     {
       name: 'Påskeeggjakten 2025\nUtfordrer',
       description: 'Utfordrer - påskeeggjakten 2025',
       rarity: 1,
       hidden: false,
-      image: easter_contender,
+      image: easter_contender_25,
     },
     {
       name: 'Påskeeggjakten 2025\nVinner',
       description: 'Vinner - påskeeggjakten 2025',
       rarity: 2,
       hidden: false,
-      image: easter_winner,
+      image: easter_winner_25,
     },
   ],
 };
