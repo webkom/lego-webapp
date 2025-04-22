@@ -29,7 +29,7 @@ export const Achievements = ({
             if (AchievementsInfo[b.identifier][b.level].rarity ===
                 AchievementsInfo[a.identifier][a.level].rarity) {
                 
-              return b.identifier === "event_rank" ? b ? a 
+              return b.identifier === "event_rank" ? 1 : 0 
             }
 
             
