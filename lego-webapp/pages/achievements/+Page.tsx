@@ -28,7 +28,7 @@ export const TitleWithRarity = ({
 }) => {
   const { name, color } = rarityMap[rarity];
   return (
-    <Flex gap="var(--spacing-xs)" alignItems="baseline">
+    <Flex gap="var(--spacing-xs)" alignItems="baseline" wrap="true" justifyContent="center">
       {title && <h4>{title}</h4>}
       <i className={styles.rarity} style={{ color: color }}>
         {name}
@@ -102,7 +102,6 @@ const AchievementGroup = ({
                     gap="var(--spacing-sm)"
                     alignItems="center"
                     justifyContent="center"
-                    align-text="center"
                   >
                     <TitleWithRarity
                       title={achievement.name}
