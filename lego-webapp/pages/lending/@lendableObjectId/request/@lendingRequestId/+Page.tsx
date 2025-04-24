@@ -130,6 +130,7 @@ const LendingRequest = () => {
                   <TimeLineEntry
                     entry={entry}
                     key={entry.id}
+                    isFirst={index === 0}
                     isLast={index === lendingRequest.timelineEntries.length - 1}
                   />
                 ),
@@ -251,20 +252,25 @@ const CommentForm = ({ lendingRequestId }: { lendingRequestId: EntityId }) => {
 const TimeLineEntry = ({
   entry,
   isLast,
+  isFirst,
 }: {
   entry: TimelineEntry;
   isLast: boolean;
+  isFirst: boolean;
 }) => {
   return (
     <div className={styles.timelineContainer}>
       <Flex column alignItems="center" className={styles.timelineTagContainer}>
+        {!isFirst && !entry.isSystem && (
+          <div className={styles.timelineLineStart} />
+        )}
         <Tag
           className={styles.timelineTag}
           iconNode={statusMap[entry.status]?.icon || <MessageCircleIcon />}
           tag=""
           color={statusMap[entry.status]?.color || 'blue'}
         />
-        {!isLast && <div className={styles.timelineLine} />}
+        {!isLast && <div className={styles.timelineLineEnd} />}
       </Flex>
       <a href={`/users/${entry.createdBy.username}`}>
         <div
@@ -278,14 +284,14 @@ const TimeLineEntry = ({
           <h4 className={styles.timelineUsername}>
             {entry.createdBy.fullName}
           </h4>
-          <span
-            className={styles.timelineText}
-          >{`${entry.isSystem ? statusMap[entry.status].timelineText : entry.message}`}</span>
           <Time
             className={styles.timelineTime}
             time={entry.createdAt}
             format="DD. MMM HH:mm"
           />
+          <span
+            className={styles.timelineText}
+          >{`${entry.isSystem ? statusMap[entry.status].timelineText : entry.message}`}</span>
         </div>
       </a>
     </div>
