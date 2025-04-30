@@ -75,7 +75,6 @@ div.companyItem {
 }
 
 .infoText {
-  display: flex;
   font-size: var(--font-size-md);
 }
 
