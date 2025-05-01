@@ -3,6 +3,7 @@ import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { Dateish } from 'app/models';
 import styles from './Countdown.module.css';
+import { sendContactMessage } from '~/redux/actions/ContactActions';
 
 type CountdownProps = {
   endDate?: Dateish | string;
@@ -62,8 +63,10 @@ const Countdown = ({
           formatUnit(daysLeft, 'dag', 'dager'),
           formatUnit(hoursLeft, 'time', 'timer'),
           formatUnit(minutesLeft, 'minutt', 'minutter'),
-          formatUnit(secondsLeft, 'sekund', 'sekunder'),
-        ].filter(Boolean);
+        ];
+
+        const seconds = `${secondsLeft} ${secondsLeft === 1 ? 'sekund' : 'sekunder'}`;
+        units.push(seconds);
 
         setTimeRemaining(units.join(', '));
       } catch (error) {
