@@ -4,3 +4,28 @@
   font-weight: bold;
   margin: var(--spacing-sm) 0;
 }
+
+.unitContainer {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs);
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-event-black);
+}
+
+.value {
+  font-family: monospace;
+  font-size: var(--font-size-xl);
+}
+
+.label {
+  font-family: monospace;
+  font-size: var(--font-size-sm);
+  color: var(--color-event-black);
+}

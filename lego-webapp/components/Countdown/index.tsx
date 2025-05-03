@@ -17,12 +17,13 @@ const Countdown = ({
   className,
   timezone = 'Europe/Oslo',
 }: CountdownProps) => {
-  const [timeRemaining, setTimeRemaining] = useState('');
+  const [timeRemaining, setTimeRemaining] = useState<
+    { value: string; label: string }[]
+  >([]);
   const [countdownEnded, setCountdownEnded] = useState(false);
   const [isValidDate, setIsValidDate] = useState(false);
 
   useEffect(() => {
-    setTimeRemaining('');
     setCountdownEnded(false);
 
     if (!endDate) return;
@@ -31,7 +32,6 @@ const Countdown = ({
 
     if (!parsedEndDate.isValid()) {
       console.error('Invalid countdown end date:', endDate);
-      setTimeRemaining('Ugyldig dato');
       setIsValidDate(false);
       return;
     }
@@ -45,12 +45,8 @@ const Countdown = ({
 
         if (diff <= 0) {
           setCountdownEnded(true);
-          setTimeRemaining('');
           return;
         }
-
-        const formatUnit = (value: number, unit1: string, unitN: string) =>
-          value > 0 ? `${value} ${value === 1 ? unit1 : unitN}` : '';
 
         const duration = moment.duration(diff);
         const daysLeft = Math.floor(duration.asDays());
@@ -59,16 +55,21 @@ const Countdown = ({
         const secondsLeft = duration.seconds();
 
         const units = [
-          formatUnit(daysLeft, 'dag', 'dager'),
-          formatUnit(hoursLeft, 'time', 'timer'),
-          formatUnit(minutesLeft, 'minutt', 'minutter'),
-          formatUnit(secondsLeft, 'sekund', 'sekunder'),
-        ].filter(Boolean);
+          {
+            value: String(daysLeft).padStart(2, '0'),
+            label: daysLeft === 1 ? 'dag' : 'dager',
+          },
+          {
+            value: String(hoursLeft).padStart(2, '0'),
+            label: hoursLeft === 1 ? 'time' : 'timer',
+          },
+          { value: String(minutesLeft).padStart(2, '0'), label: 'min' },
+          { value: String(secondsLeft).padStart(2, '0'), label: 'sek' },
+        ];
 
-        setTimeRemaining(units.join(', '));
+        setTimeRemaining(units);
       } catch (error) {
         console.error('Error updating countdown:', error);
-        setTimeRemaining('Feil med nedtelling');
       }
     };
 
@@ -82,7 +83,18 @@ const Countdown = ({
 
   return (
     <div className={cx(styles.countdown, className)}>
-      {countdownEnded ? endMessage : timeRemaining}
+      {countdownEnded ? (
+        endMessage
+      ) : (
+        <div className={styles.unitContainer}>
+          {timeRemaining.map((unit, index) => (
+            <div key={index} className={styles.unit}>
+              <div className={styles.value}>{unit.value}</div>
+              <div className={styles.label}>{unit.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
