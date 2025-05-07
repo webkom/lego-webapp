@@ -8,6 +8,7 @@
 
   @media (--small-viewport) {
     grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
   }
 }
 
