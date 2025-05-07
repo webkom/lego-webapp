@@ -5,7 +5,7 @@ import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
 
 const EmailRouteWrapper = ({ children }: PropsWithChildren) => (
   <Page
-    title="Administer e-post"
+    title="Administrer e-post"
     tabs={
       <>
         <NavigationTab href="/admin/email/lists" matchSubpages>
