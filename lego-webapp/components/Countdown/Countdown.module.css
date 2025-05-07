@@ -20,12 +20,17 @@
 }
 
 .value {
-  font-family: monospace;
   font-size: var(--font-size-xl);
 }
 
 .label {
-  font-family: monospace;
   font-size: var(--font-size-sm);
   color: var(--color-event-black);
+}
+
+.value,
+.label {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 }
