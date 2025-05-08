@@ -1,5 +1,5 @@
 import { Page, LinkButton, PageCover, Card } from '@webkom/lego-bricks';
-import { Warehouse } from 'lucide-react';
+import { Package } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import {
   ContentMain,
@@ -55,7 +55,7 @@ export const LendableObjectList = () => {
           </ContentMain>
           <ContentSidebar>
             <TextWithIcon
-              iconNode={<Warehouse />}
+              iconNode={<Package />}
               size={20}
               content={lendableObject.location}
             />
