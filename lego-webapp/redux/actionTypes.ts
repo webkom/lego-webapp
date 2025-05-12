@@ -152,6 +152,8 @@ export const Favorite = {
 export const Comment = {
   ADD: generateStatuses('Comment.ADD'),
   DELETE: generateStatuses('Comment.DELETE'),
+  SOCKET_ADD: generateStatuses('Comment.SOCKET_ADD'),
+  SOCKET_DELETE: generateStatuses('Comment.SOCKET_DELETE'),
 };
 
 export const Company = {
