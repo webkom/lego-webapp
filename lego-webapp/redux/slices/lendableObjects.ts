@@ -13,6 +13,17 @@ const lendableObjectsSlice = createSlice({
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [LendableObjects.FETCH],
     deleteActions: [LendableObjects.DELETE],
+    extraCases: (addCase) => {
+      addCase(LendableObjects.FETCH_AVAILABILITY.SUCCESS, (state, action) => {
+        const id = action.meta.id;
+        legoAdapter.updateOne(state, {
+          id,
+          changes: {
+            availability: action.payload,
+          },
+        });
+      });
+    },
   }),
 });
 

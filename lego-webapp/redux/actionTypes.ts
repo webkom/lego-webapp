@@ -88,6 +88,7 @@ export const Joblistings = {
 
 export const LendableObjects = {
   FETCH: generateStatuses('LendableObject.FETCH_ALL'),
+  FETCH_AVAILABILITY: generateStatuses('LendableObject.FETCH_AVAILABILITY'),
   CREATE: generateStatuses('LendableObject.CREATE'),
   EDIT: generateStatuses('LendableObject.EDIT'),
   DELETE: generateStatuses('LendableObject.DELETE'),

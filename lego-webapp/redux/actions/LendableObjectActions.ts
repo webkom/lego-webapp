@@ -54,3 +54,22 @@ export const createLendableObject = (data: CreateLendableObject) =>
       errorMessage: 'Opprettelse av utlånsobjekt feilet',
     },
   });
+
+export const fetchLendableObjectAvailability = (
+  id: EntityId,
+  query: {
+    year?: number;
+    month?: number;
+  },
+) =>
+  callAPI<[string, string][]>({
+    types: LendableObjects.FETCH_AVAILABILITY,
+    endpoint: `/lending/objects/${id}/availability/`,
+    meta: {
+      errorMessage: 'Henting av utlånsobjekt feilet',
+      id,
+      query,
+    },
+    query,
+    propagateError: true,
+  });
