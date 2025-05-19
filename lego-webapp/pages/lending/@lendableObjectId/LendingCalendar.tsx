@@ -240,8 +240,8 @@ const LendingCalendar = ({
                             {selectedTimeRange && (
                               <div className={styles.selectedTimeRange}>
                                 {selectedTimeRange.fullDay
-                                  ? 'Valgt: Hele dagen'
-                                  : `Valgt: ${selectedTimeRange.start}-${selectedTimeRange.end}`}
+                                  ? ''
+                                  : `${selectedTimeRange.start}-${selectedTimeRange.end}`}
                               </div>
                             )}
 
@@ -252,9 +252,7 @@ const LendingCalendar = ({
                                 </div>
                               ))
                             ) : (
-                              <div className={styles.timeRange}>
-                                Utilgjengelig
-                              </div>
+                              <div className={styles.timeRange} />
                             )}
                           </div>
                         </div>
@@ -266,6 +264,26 @@ const LendingCalendar = ({
           )}
         </tbody>
       </table>
+      <Flex
+        justifyContent="center"
+        gap="var(--spacing-lg)"
+        className={styles.calendarLegend}
+      >
+        <Flex alignItems="center" gap="var(--spacing-xs)">
+          <div className={styles.legendItem}>
+            <div className={cx(styles.legendColor, styles.selectedColor)}></div>
+            <span>Valgt periode</span>
+          </div>
+        </Flex>
+        <Flex alignItems="center" gap="var(--spacing-xs)">
+          <div className={styles.legendItem}>
+            <div
+              className={cx(styles.legendColor, styles.unavailableColor)}
+            ></div>
+            <span>Utilgjengelig</span>
+          </div>
+        </Flex>
+      </Flex>
     </div>
   );
 };

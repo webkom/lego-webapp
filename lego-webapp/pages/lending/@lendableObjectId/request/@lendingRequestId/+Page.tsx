@@ -28,6 +28,7 @@ import { ProfilePicture } from '~/components/Image';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
+import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
 import { useIsCurrentUser } from '~/pages/users/utils';
 import {
@@ -51,7 +52,6 @@ import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
 import styles from './LendingRequestDetail.module.css';
-import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 
 type Params = {
   lendingRequestId: string;
