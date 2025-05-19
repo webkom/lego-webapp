@@ -51,6 +51,7 @@ import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
 import styles from './LendingRequestDetail.module.css';
+import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 
 type Params = {
   lendingRequestId: string;
@@ -113,6 +114,14 @@ const LendingRequest = () => {
       {lendingRequest && (
         <ContentSection>
           <ContentMain>
+            <LendingCalendar
+              lendableObjectId={lendableObjectId}
+              selectedRange={
+                lendingRequest.startDate
+                  ? [lendingRequest.startDate, lendingRequest.endDate]
+                  : undefined
+              }
+            />
             <h3>Forespørrende bruker</h3>
             <RequestingUser user={createdByUser} />
             <h3>Periode</h3>

@@ -20,6 +20,12 @@ type LendingCalendarProps = {
   selectedRange?: [Dateish, Dateish];
 };
 
+type TimeRange = {
+  start: string;
+  end: string;
+  fullDay: boolean;
+};
+
 const LendingCalendar = ({
   lendableObjectId,
   selectedRange,
@@ -55,10 +61,13 @@ const LendingCalendar = ({
     );
   };
 
-  const getUnavailableTimeRanges = (day: Moment) => {
+  const getUnavailableTimeRanges = (
+    selected: TimeRange | null,
+    day: Moment,
+  ) => {
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
-    const timeRanges: { start: string; end: string; fullDay: boolean }[] = [];
+    const timeRanges: TimeRange[] = [];
 
     if (!lendableObject?.availability) {
       return [];
@@ -74,13 +83,22 @@ const LendingCalendar = ({
         const overlapStart = moment.max(startDate, dayStart);
         const overlapEnd = moment.min(endDate, dayEnd);
 
-        timeRanges.push({
+        const newTimeRange = {
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
-        });
+        };
+
+        const isSimilarToSelected =
+          selected &&
+          selected.start === newTimeRange.start &&
+          selected.end === newTimeRange.end;
+
+        if (!isSimilarToSelected) {
+          timeRanges.push(newTimeRange);
+        }
       }
     }
 
@@ -91,7 +109,7 @@ const LendingCalendar = ({
     if (!selectedRange || !selectedRange[0] || !selectedRange[1]) return null;
 
     const dayStart = day.clone().startOf('day');
-    const dayEnd = day.clone().endOf('day').subtract(1, 'minute');
+    const dayEnd = day.clone().endOf('day');
 
     const startDate = moment(selectedRange[0]);
     const endDate = moment(selectedRange[1]);
@@ -103,7 +121,9 @@ const LendingCalendar = ({
       return {
         start: overlapStart.format('HH:mm'),
         end: overlapEnd.format('HH:mm'),
-        fullDay: overlapStart.isSame(dayStart) && overlapEnd.isSame(dayEnd),
+        fullDay:
+          overlapStart.format('HH:mm') === '00:00' &&
+          overlapEnd.format('HH:mm') === '23:59',
       };
     }
 
@@ -112,7 +132,7 @@ const LendingCalendar = ({
 
   const isFullyUnavailable = (day: Moment) => {
     const dayStart = day.clone().startOf('day');
-    const dayEnd = day.clone().endOf('day').subtract(1, 'minute');
+    const dayEnd = day.clone().endOf('day');
 
     if (!lendableObject?.availability) {
       return false;
@@ -183,11 +203,16 @@ const LendingCalendar = ({
                 {createMonthlyCalendar(currentMonth)
                   .slice(i * 7, i * 7 + 7)
                   .map((dateProps, j) => {
-                    const timeRanges = getUnavailableTimeRanges(dateProps.day);
                     const selectedTimeRange = getSelectedTimeRange(
                       dateProps.day,
                     );
-                    const fully = isFullyUnavailable(dateProps.day);
+                    const timeRanges = getUnavailableTimeRanges(
+                      selectedTimeRange,
+                      dateProps.day,
+                    );
+                    const fully =
+                      timeRanges.length > 0 &&
+                      isFullyUnavailable(dateProps.day);
                     const inSelectedRange = isInSelectedRange(dateProps.day);
                     const isEndpoint = isSelectedEndpoint(dateProps.day);
 
