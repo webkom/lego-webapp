@@ -98,7 +98,10 @@ export default function LendingRequestCreate() {
   return (
     <Page title={title} back={{ href: `/lending/` }}>
       <Helmet title={title} />
-      <LendingCalendar selectedRange={range} />
+      <LendingCalendar
+        selectedRange={range}
+        lendableObjectId={lendableObjectId}
+      />
       <Card>
         <Flex column gap="var(--spacing-md)">
           <h3>Ny forespørsel</h3>

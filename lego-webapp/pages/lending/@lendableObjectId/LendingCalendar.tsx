@@ -1,22 +1,53 @@
+import { EntityId } from '@reduxjs/toolkit';
 import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import moment, { Moment } from 'moment-timezone';
 import { useState } from 'react';
+import {
+  fetchLendableObjectAvailability,
+  fetchLendableObjectById,
+} from '~/redux/actions/LendableObjectActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import createMonthlyCalendar from '~/utils/createMonthlyCalendar';
 import styles from './LendingCalendar.module.css';
 import type { Dateish } from 'app/models';
 
 type LendingCalendarProps = {
-  unavailableRanges?: [Dateish, Dateish][];
+  lendableObjectId: EntityId;
   selectedRange?: [Dateish, Dateish];
 };
 
 const LendingCalendar = ({
-  unavailableRanges = [],
+  lendableObjectId,
   selectedRange,
 }: LendingCalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState(moment());
+
+  const dispatch = useAppDispatch();
+
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, lendableObjectId),
+  );
+
+  usePreparedEffect(
+    'fetchLendingCalendar',
+    async () => {
+      if (!lendableObject) {
+        await dispatch(fetchLendableObjectById(lendableObjectId));
+      }
+
+      return dispatch(
+        fetchLendableObjectAvailability(lendableObjectId, {
+          year: currentMonth.year(),
+          month: currentMonth.month() + 1,
+        }),
+      );
+    },
+    [lendableObjectId, currentMonth],
+  );
 
   const navigateMonth = (direction: 'prev' | 'next') => {
     setCurrentMonth(
@@ -29,7 +60,11 @@ const LendingCalendar = ({
     const dayEnd = day.clone().endOf('day');
     const timeRanges: { start: string; end: string; fullDay: boolean }[] = [];
 
-    for (const [start, end] of unavailableRanges) {
+    if (!lendableObject?.availability) {
+      return [];
+    }
+
+    for (const [start, end] of lendableObject.availability) {
       if (!start || !end) continue;
 
       const startDate = moment(start);
@@ -42,7 +77,9 @@ const LendingCalendar = ({
         timeRanges.push({
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
-          fullDay: overlapStart.isSame(dayStart) && overlapEnd.isSame(dayEnd),
+          fullDay:
+            overlapStart.format('HH:mm') === '00:00' &&
+            overlapEnd.format('HH:mm') === '23:59',
         });
       }
     }
@@ -54,7 +91,7 @@ const LendingCalendar = ({
     if (!selectedRange || !selectedRange[0] || !selectedRange[1]) return null;
 
     const dayStart = day.clone().startOf('day');
-    const dayEnd = day.clone().endOf('day');
+    const dayEnd = day.clone().endOf('day').subtract(1, 'minute');
 
     const startDate = moment(selectedRange[0]);
     const endDate = moment(selectedRange[1]);
@@ -75,9 +112,13 @@ const LendingCalendar = ({
 
   const isFullyUnavailable = (day: Moment) => {
     const dayStart = day.clone().startOf('day');
-    const dayEnd = day.clone().endOf('day');
+    const dayEnd = day.clone().endOf('day').subtract(1, 'minute');
 
-    for (const [start, end] of unavailableRanges) {
+    if (!lendableObject?.availability) {
+      return false;
+    }
+
+    for (const [start, end] of lendableObject.availability) {
       if (!start || !end) continue;
       const startDate = moment(start);
       const endDate = moment(end);
@@ -147,7 +188,6 @@ const LendingCalendar = ({
                       dateProps.day,
                     );
                     const fully = isFullyUnavailable(dateProps.day);
-                    const hasRanges = timeRanges.length > 0;
                     const inSelectedRange = isInSelectedRange(dateProps.day);
                     const isEndpoint = isSelectedEndpoint(dateProps.day);
 
@@ -180,15 +220,13 @@ const LendingCalendar = ({
                               </div>
                             )}
 
-                            {hasRanges &&
-                              !fully &&
+                            {!fully ? (
                               timeRanges.map((range, idx) => (
                                 <div key={idx} className={styles.timeRange}>
                                   {`${range.start}-${range.end}`}
                                 </div>
-                              ))}
-
-                            {fully && (
+                              ))
+                            ) : (
                               <div className={styles.timeRange}>
                                 Utilgjengelig
                               </div>
