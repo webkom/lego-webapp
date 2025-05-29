@@ -4,7 +4,7 @@ import { ReactNode, useEffect } from 'react';
 import { Websockets as WebsocketsAT } from '~/redux/actionTypes';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { WebsocketsStatus as WebsocketsStatusType } from '~/redux/models/Websockets';
-import { GROUP_STATUS_PENDING } from '~/redux/slices/websockets';
+import { STATUS_ERROR } from '~/redux/slices/websockets';
 import styles from './WebsocketStatus.module.css';
 
 type ChildrenProps = {
@@ -27,8 +27,14 @@ const WebsocketGroupProvider = ({ group, children }: Props) => {
   const groupStatus =
     useAppSelector(
       (state) => state.websockets.groups.find((g) => g.group === group)?.status,
-    ) || GROUP_STATUS_PENDING;
+    ) || STATUS_ERROR;
 
+  const status = {
+    connected: websocketsStatus.connected && groupStatus.connected,
+    pending: websocketsStatus.pending || groupStatus.pending,
+    error: websocketsStatus.error || groupStatus.error,
+  };
+  // Ensure proper order of connection
   useEffect(() => {
     if (websocketsStatus.connected && !websocketsStatus.error) {
       dispatch({
@@ -39,10 +45,23 @@ const WebsocketGroupProvider = ({ group, children }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [websocketsStatus.connected, websocketsStatus.error]);
 
+  // Clean up
+  useEffect(() => {
+    return () => {
+      if (websocketsStatus.connected && !websocketsStatus.error) {
+        dispatch({
+          type: WebsocketsAT.GROUP_LEAVE.BEGIN,
+          payload: { group: group },
+        });
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const WebsocketsStatusComponent = () => {
-    const iconNode = groupStatus?.connected ? (
+    const iconNode = status?.connected ? (
       <Radio />
-    ) : groupStatus?.pending ? (
+    ) : status?.pending ? (
       <LoaderCircle className={styles.spin} />
     ) : (
       <Unplug />
@@ -63,7 +82,7 @@ const WebsocketGroupProvider = ({ group, children }: Props) => {
 
   return children({
     WebsocketStatus: () => <WebsocketsStatusComponent />,
-    ...groupStatus,
+    ...status,
   });
 };
 

@@ -3,32 +3,34 @@ import { Websockets as WebsocketsAT } from '../actionTypes';
 import { Websockets, WebsocketsGroup } from '../models/Websockets';
 import { EntityType } from '../models/entities';
 
-const GROUP_STATUS_INITIAL = {
+const STATUS_INITIAL = {
   connected: false,
   pending: false,
   error: false,
 };
 
-export const GROUP_STATUS_PENDING = {
-  ...GROUP_STATUS_INITIAL,
-  pending: true,
-};
-
-const GROUP_STATUS_CONNECTED = {
-  ...GROUP_STATUS_INITIAL,
+const STATUS_CONNECTED = {
+  ...STATUS_INITIAL,
   connected: true,
 };
 
-export const GROUP_STATUS_ERROR = {
-  ...GROUP_STATUS_INITIAL,
+export const STATUS_PENDING = {
+  ...STATUS_INITIAL,
+  pending: true,
+};
+
+const STATUS_PINGING = {
+  ...STATUS_CONNECTED,
+  pending: true,
+}
+
+export const STATUS_ERROR = {
+  ...STATUS_INITIAL,
   error: true,
 };
 
 const initialState: Websockets = {
-  status: {
-    connected: false,
-    error: false,
-  },
+  status: STATUS_INITIAL,
   groups: [] as WebsocketsGroup[],
 };
 
@@ -38,32 +40,40 @@ const websocketsSlice = createSlice({
   reducers: {},
   extraReducers: ({ addCase }) => {
     addCase(WebsocketsAT.CONNECTED, (state) => {
-      state.status.connected = true;
+      state.status = STATUS_CONNECTED;
     });
     addCase(WebsocketsAT.CLOSED, (state) => {
-      state.status.connected = false;
+      state.status = STATUS_INITIAL;
+      state.groups = []
     });
     addCase(WebsocketsAT.ERROR, (state) => {
-      state.status.error = true;
+      state.status = STATUS_ERROR;
+      state.groups = []
     });
+    addCase(WebsocketsAT.PING.BEGIN, (state) => {
+      state.status = STATUS_PINGING;
+    })
+    addCase(WebsocketsAT.PING.SUCCESS, (state) => {
+      state.status = STATUS_CONNECTED;
+    })
     addCase(WebsocketsAT.GROUP_JOIN.BEGIN, (state, action) => {
-      if (!setGroupStatus(state, action, GROUP_STATUS_PENDING))
+      if (!setGroupStatus(state, action, STATUS_PENDING))
         state.groups.push({
           group: action.payload.group,
-          status: GROUP_STATUS_PENDING,
+          status: STATUS_PENDING,
         });
     });
     addCase(WebsocketsAT.GROUP_JOIN.SUCCESS, (state, action) => {
-      setGroupStatus(state, action, GROUP_STATUS_CONNECTED);
+      setGroupStatus(state, action, STATUS_CONNECTED);
     });
     addCase(WebsocketsAT.GROUP_JOIN.FAILURE, (state, action) => {
-      setGroupStatus(state, action, GROUP_STATUS_ERROR);
+      setGroupStatus(state, action, STATUS_ERROR);
     });
     addCase(WebsocketsAT.GROUP_LEAVE.BEGIN, (state, action) => {
-      setGroupStatus(state, action, GROUP_STATUS_PENDING);
+      setGroupStatus(state, action, STATUS_PENDING);
     });
     addCase(WebsocketsAT.GROUP_LEAVE.SUCCESS, (state, action) => {
-      setGroupStatus(state, action, GROUP_STATUS_INITIAL);
+      setGroupStatus(state, action, STATUS_INITIAL);
     });
   },
 });
