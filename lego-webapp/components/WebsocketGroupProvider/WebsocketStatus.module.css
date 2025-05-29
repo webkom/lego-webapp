@@ -1,0 +1,13 @@
+.wsStatusIcon {
+    padding: var(--spacing-sm);
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
