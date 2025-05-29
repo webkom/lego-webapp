@@ -339,9 +339,9 @@ export const FeatureFlag = {
 };
 
 export const Websockets = {
-  CONNECTED: "Websockets.CONNECTED",
-  CLOSED: "Websockets.CLOSED",
-  ERROR: "Websockets.ERROR",
+  CONNECTED: 'Websockets.CONNECTED',
+  CLOSED: 'Websockets.CLOSED',
+  ERROR: 'Websockets.ERROR',
   GROUP_JOIN: generateStatuses('Websockets.GROUP_JOIN'),
   GROUP_LEAVE: generateStatuses('Websockets.GROUP_LEAVE'),
-}
+};

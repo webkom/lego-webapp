@@ -1,9 +1,9 @@
 .wsStatusIcon {
-    padding: var(--spacing-sm);
+  padding: var(--spacing-sm);
 }
 
 .spin {
-    animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
