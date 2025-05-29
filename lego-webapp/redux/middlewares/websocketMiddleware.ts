@@ -88,15 +88,17 @@ const createWebSocketMiddleware = (): Middleware => {
         socket = null;
         return next(action);
       }
-      
+
       if (socket && socket.readyState === 1) {
         switch (action.type) {
           case WebsocketsAT.GROUP_JOIN.BEGIN:
           case WebsocketsAT.GROUP_LEAVE.BEGIN:
-            socket.send(JSON.stringify({
-              type: action.type,
-              payload: action.payload
-            }));
+            socket.send(
+              JSON.stringify({
+                type: action.type,
+                payload: action.payload,
+              }),
+            );
         }
         return next(action);
       }

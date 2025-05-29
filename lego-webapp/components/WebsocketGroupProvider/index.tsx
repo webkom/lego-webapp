@@ -12,7 +12,7 @@ type ChildrenProps = {
   connected: boolean;
   pending: boolean;
   error: boolean;
-}
+};
 
 type Props = {
   group: string;
@@ -21,9 +21,14 @@ type Props = {
 
 const WebsocketGroupProvider = ({ group, children }: Props) => {
   const dispatch = useAppDispatch();
-  const websocketsStatus: WebsocketsStatusType = useAppSelector((state) => state.websockets.status);
-  const groupStatus = useAppSelector((state) => state.websockets.groups.find(g => g.group === group)?.status) || GROUP_STATUS_PENDING
-  
+  const websocketsStatus: WebsocketsStatusType = useAppSelector(
+    (state) => state.websockets.status,
+  );
+  const groupStatus =
+    useAppSelector(
+      (state) => state.websockets.groups.find((g) => g.group === group)?.status,
+    ) || GROUP_STATUS_PENDING;
+
   useEffect(() => {
     if (websocketsStatus.connected && !websocketsStatus.error) {
       dispatch({
@@ -58,7 +63,7 @@ const WebsocketGroupProvider = ({ group, children }: Props) => {
 
   return children({
     WebsocketStatus: () => <WebsocketsStatusComponent />,
-    ...groupStatus
+    ...groupStatus,
   });
 };
 
