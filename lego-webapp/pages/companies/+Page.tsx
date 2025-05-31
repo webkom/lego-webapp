@@ -198,7 +198,14 @@ const CompaniesPage = () => {
 
             <p className={styles.infoText}>
               Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
-              kontakt med Bedkom, vi tar gjerne imot innspill!
+              kontakt med{' '}
+              <a
+                className={styles.infoText}
+                href="https://abakus.no/pages/komiteer/6"
+              >
+                Bedkom
+              </a>
+              , vi tar gjerne imot innspill!
             </p>
             <Button
               flat
