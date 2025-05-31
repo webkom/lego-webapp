@@ -1,0 +1,126 @@
+.calendar {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar th,
+.calendar td {
+  width: calc(100% / 7);
+  text-align: center;
+  font-size: var(--font-size-md);
+  transition: background var(--easing-blazingly-fast);
+}
+
+.calendarContainer {
+  margin-bottom: var(--spacing-md);
+}
+
+.today {
+  background-color: var(--color-gray-2);
+}
+
+.prevOrNextMonth {
+  opacity: 0.5;
+}
+
+.timeRangesContainer {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  background-color: var(--color-white);
+}
+
+.timeRangesList {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.timeRangeItem {
+  padding: var(--spacing-xs) 0;
+  margin-bottom: var(--spacing-xs);
+  border-left: 3px solid var(--color-red-4);
+  padding-left: var(--spacing-sm);
+}
+
+.dayCell {
+  vertical-align: top;
+  padding: 0;
+  border: 1px solid var(--color-gray-2);
+}
+
+.calendarDayWrapper {
+  height: 100%;
+  width: 100%;
+  padding: var(--spacing-sm);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.dayNumber {
+  font-weight: bold;
+  align-self: flex-start;
+  margin-bottom: var(--spacing-xs);
+}
+
+.inlineTimes {
+  font-size: var(--font-size-sm);
+  overflow-y: visible;
+  width: 100%;
+}
+
+.timeRange,
+.selectedTimeRange {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  white-space: normal;
+  word-break: break-word;
+  border-radius: 2px;
+  min-height: 1.5rem;
+}
+
+.timeRange {
+  background-color: var(--color-red-2);
+  border-left: 3px solid var(--color-red-4);
+}
+
+.selectedTimeRange {
+  background-color: var(--color-green-2);
+  border-left: 3px solid var(--color-green-4);
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.calendarLegend {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) 0;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+.legendColor {
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.selectedColor {
+  background-color: var(--color-green-2);
+  border: 2px solid var(--color-green-4);
+}
+
+.unavailableColor {
+  background-color: var(--color-red-2);
+  border: 2px solid var(--color-red-4);
+}

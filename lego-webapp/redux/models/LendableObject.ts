@@ -1,5 +1,5 @@
 import type { EntityId } from '@reduxjs/toolkit';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, Dateish } from 'app/models';
 import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
 
 interface LendableObject {
@@ -10,11 +10,18 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
+  availability?: [Dateish, Dateish][];
 }
 
 export type ListLendableObject = Pick<
   LendableObject,
-  'id' | 'title' | 'description' | 'image' | 'location' | 'canLend'
+  | 'id'
+  | 'title'
+  | 'description'
+  | 'image'
+  | 'location'
+  | 'canLend'
+  | 'availability'
 > & { responsibleGroups: EntityId[] };
 
 export type DetailLendableObject = ListLendableObject &

@@ -28,6 +28,7 @@ import { ProfilePicture } from '~/components/Image';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
 import HTTPError from '~/components/errors/HTTPError';
+import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
 import { useIsCurrentUser } from '~/pages/users/utils';
 import {
@@ -113,6 +114,14 @@ const LendingRequest = () => {
       {lendingRequest && (
         <ContentSection>
           <ContentMain>
+            <LendingCalendar
+              lendableObjectId={lendableObjectId}
+              selectedRange={
+                lendingRequest.startDate
+                  ? [lendingRequest.startDate, lendingRequest.endDate]
+                  : undefined
+              }
+            />
             <h3>Forespørrende bruker</h3>
             <RequestingUser user={createdByUser} />
             <h3>Periode</h3>
