@@ -24,9 +24,18 @@ export const Achievements = ({
 
   const sortedAchievements = useMemo(() => {
     return [...achievements].sort(
-      (a, b) =>
-        AchievementsInfo[b.identifier][b.level].rarity -
-        AchievementsInfo[a.identifier][a.level].rarity,
+      (a, b) => {
+
+            if (AchievementsInfo[b.identifier][b.level].rarity ===
+                AchievementsInfo[a.identifier][a.level].rarity) {
+                
+              return b.identifier === "event_rank" ? 1 : 0 
+            }
+
+            
+            return AchievementsInfo[b.identifier][b.level].rarity -
+                   AchievementsInfo[a.identifier][a.level].rarity
+            }
     );
   }, [achievements]);
 

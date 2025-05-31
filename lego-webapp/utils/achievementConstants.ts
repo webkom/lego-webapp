@@ -51,42 +51,42 @@ export const AchievementsInfo: Record<
 > = {
   event_count: [
     {
-      name: 'Arrangement:\nBronse',
+      name: 'Nykommer',
       description: 'Deltatt på 10 arrangementer',
       rarity: 0,
       hidden: false,
       image: trofe_sjeldenhetsgrad_1,
     },
     {
-      name: 'Arrangement:\nSølv',
+      name: 'Sosial sommerfugl',
       description: 'Deltatt på 25 arrangementer',
       rarity: 1,
       hidden: false,
       image: trofe_sjeldenhetsgrad_2,
     },
     {
-      name: 'Arrangement:\nGull',
+      name: 'Arrangementsjunkie',
       description: 'Deltatt på 50 arrangementer',
       rarity: 2,
       hidden: false,
       image: trofe_sjeldenhetsgrad_3,
     },
     {
-      name: 'Arrangement:\nPlatinum',
+      name: 'Oppmøtemeister',
       description: 'Deltatt på 100 arrangementer',
       rarity: 3,
       hidden: false,
       image: trofe_sjeldenhetsgrad_4,
     },
     {
-      name: 'Arrangement:\nDiamant',
+      name: 'FOMO-allergiker',
       description: 'Deltatt på 150 arrangementer',
       rarity: 4,
       hidden: false,
       image: trofe_sjeldenhetsgrad_5,
     },
     {
-      name: 'Arrangement:\nLegende',
+      name: 'Sosial legende',
       description: 'Deltatt på 200 arrangementer',
       rarity: 6,
       hidden: false,
@@ -95,21 +95,21 @@ export const AchievementsInfo: Record<
   ],
   event_rank: [
     {
-      name: 'Arrangement:\nMester',
+      name: 'Arrangementsridderen',
       description: '3. plass - flest arrangementer',
       rarity: 5,
       hidden: false,
       image: trofe_sjeldenhetsgrad_10,
     },
     {
-      name: 'Arrangement:\nStormester',
+      name: 'Arrangementsmonarken',
       description: '2. plass - flest arrangementer',
       rarity: 5,
       hidden: false,
       image: trofe_sjeldenhetsgrad_10,
     },
     {
-      name: 'Arrangement:\nFyrtårn',
+      name: 'Høye eksellense av arrangementer',
       description: '1. plass - flest arrangementer',
       rarity: 6,
       hidden: false,
@@ -297,7 +297,7 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_5,
     },
     {
-      name: 'Ordensmedlem',
+      name: 'Galladiator',
       description: 'Deltatt på 15 gallaer',
       rarity: 5,
       hidden: false,
