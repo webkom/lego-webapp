@@ -149,6 +149,19 @@ img.frame {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  animation: tooltipAnimation 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  padding: var(--spacing-xs);
+}
+
+@keyframes tooltipAnimation {
+  from {
+    transform: translateY(20px) scale(0.9) rotateX(-6deg);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  }
+  to {
+    transform: translateY(0) scale(1) rotateX(0deg);
+    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.25));
+  }
 }
 
 .trophyLinks {
