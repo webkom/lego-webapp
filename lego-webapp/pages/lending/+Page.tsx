@@ -52,11 +52,11 @@ const LendableObject = ({
           {lendableObject.image ? (
             <Image
               className={styles.lendableObjectImage}
-              src={lendableObject.image || '/icon-192x192.png'}
+              src={lendableObject.image}
               alt={`${lendableObject.title}`}
             />
           ) : (
-            <Icon iconNode={<ImageOff />}></Icon>
+            <Icon iconNode={<ImageOff />} />
           )}
         </div>
         <CardFooter className={styles.lendableObjectInfobox}>
