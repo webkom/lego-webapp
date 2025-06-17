@@ -13,8 +13,11 @@
 }
 
 div.lendableObjectCard {
-  height: 100%;
+  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
+  min-height: 200px;
 }
 
 .lendableObjectImageContainer {
@@ -26,6 +29,15 @@ img.lendableObjectImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.defaultObjectImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  color: var(--color-gray-2);
 }
 
 .lendableObjectInfobox {

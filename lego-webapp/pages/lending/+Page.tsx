@@ -56,7 +56,11 @@ const LendableObject = ({
               alt={`${lendableObject.title}`}
             />
           ) : (
-            <Icon iconNode={<ImageOff />} />
+            <Icon
+              className={styles.defaultObjectImage}
+              iconNode={<ImageOff />}
+              size={100}
+            />
           )}
         </div>
         <CardFooter className={styles.lendableObjectInfobox}>
