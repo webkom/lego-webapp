@@ -13,7 +13,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
-import { Contact, FolderOpen, Package } from 'lucide-react';
+import { Contact, FolderOpen, ImageOff, Package } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
@@ -49,11 +49,15 @@ const LendableObject = ({
     <a href={`/lending/${lendableObject.id}`}>
       <BaseCard hoverable className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
-          <Image
-            className={styles.lendableObjectImage}
-            src={lendableObject.image || '/icon-192x192.png'}
-            alt={`${lendableObject.title}`}
-          />
+          {lendableObject.image ? (
+            <Image
+              className={styles.lendableObjectImage}
+              src={lendableObject.image || '/icon-192x192.png'}
+              alt={`${lendableObject.title}`}
+            />
+          ) : (
+            <Icon iconNode={<ImageOff />}></Icon>
+          )}
         </div>
         <CardFooter className={styles.lendableObjectInfobox}>
           <Flex>
@@ -151,7 +155,7 @@ const LendableObjectList = () => {
             <LinkButton href="/lending/admin">Administrator</LinkButton>
           )}
           {objectsActionGrant.includes('create') && (
-            <LinkButton href="/lending/new">Nytt Utstyr</LinkButton>
+            <LinkButton href="/lending/new">Nytt utstyr</LinkButton>
           )}
         </>
       }
@@ -203,7 +207,7 @@ const LendableObjectList = () => {
         </>
       )}
       <div className={styles.lendingSubsection}>
-        <h3>Tilgjengelig Utstyr</h3>
+        <h3>Tilgjengelig utstyr</h3>
       </div>
       <LoadingIndicator loading={fetchingObjects}>
         {filteredLendableObjects.length ? (
