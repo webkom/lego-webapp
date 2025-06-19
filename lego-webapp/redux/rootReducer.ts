@@ -47,6 +47,7 @@ import tags from '~/redux/slices/tags';
 import theme from '~/redux/slices/theme';
 import threads from '~/redux/slices/threads';
 import users from '~/redux/slices/users';
+import websockets from '~/redux/slices/websockets';
 
 export const createRootReducer = () => {
   return combineReducers({
@@ -98,6 +99,7 @@ export const createRootReducer = () => {
     theme,
     threads,
     users,
+    websockets,
   });
 };
 
