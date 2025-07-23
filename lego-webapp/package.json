@@ -27,7 +27,7 @@
     "@reduxjs/toolkit": "^2.6.0",
     "@sentry/node": "^9.2.0",
     "@sentry/react": "^9.1.0",
-    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/react-stripe-js": "^3.8.0",
     "@stripe/stripe-js": "^5.7.0",
     "@types/lodash-es": "^4.17.12",
     "@types/zxcvbn": "^4.4.5",
