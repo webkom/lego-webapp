@@ -73,7 +73,7 @@
     "@storybook/addon-links": "^8.6.4",
     "@storybook/blocks": "^8.6.4",
     "@storybook/react": "^8.6.4",
-    "@storybook/react-vite": "^8.6.4",
+    "@storybook/react-vite": "^9.1.0",
     "@storybook/test": "^8.6.4",
     "@types/express": "^4.17.21",
     "@types/react": "catalog:",
