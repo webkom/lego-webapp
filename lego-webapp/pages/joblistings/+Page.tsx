@@ -79,7 +79,9 @@ const sortJoblistings = (joblistings: ListJoblisting[], sortType: string) => {
     }
   })();
 
-  return joblistings.sort(sorter);
+  return joblistings
+    .slice()
+    .sort((a, b) => Number(b.isPinned) - Number(a.isPinned) || sorter(a, b));
 };
 
 const JoblistingsPage = () => {
