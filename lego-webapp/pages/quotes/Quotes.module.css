@@ -1,7 +1,10 @@
 @import url('styles/custom-media.css');
 
 .quoteTitle {
-  color: var(--lego-font-color) !important;
+  color: var(--lego-font-color);
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xs);
+  font-weight: bold;
 }
 
 .quoteDate {

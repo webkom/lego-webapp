@@ -62,11 +62,9 @@ const Quote = ({
   return (
     <Card>
       <Flex justifyContent="space-between">
-        <h3>
-          <a className={styles.quoteTitle} href={`/quotes/${quote.id}`}>
-            {quote.text}
-          </a>
-        </h3>
+        <a className={styles.quoteTitle} href={`/quotes/${quote.id}`}>
+          {quote.text}
+        </a>
         <div className={cx(styles.quoteDate, styles.largeViewportOnly)}>
           {<Time time={quote.createdAt} wordsAgo />}
         </div>
