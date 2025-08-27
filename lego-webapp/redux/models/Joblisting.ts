@@ -38,6 +38,7 @@ interface Joblisting {
   createdAt: Dateish;
   actionGrant?: ActionGrant;
   rollingRecruitment: boolean;
+  isPinned: boolean;
 }
 
 export type ListJoblisting = Pick<
@@ -53,6 +54,7 @@ export type ListJoblisting = Pick<
   | 'toYear'
   | 'createdAt'
   | 'rollingRecruitment'
+  | 'isPinned'
 >;
 
 export type DetailedJoblisting = Pick<
@@ -77,6 +79,7 @@ export type DetailedJoblisting = Pick<
   | 'createdAt'
   | 'actionGrant'
   | 'rollingRecruitment'
+  | 'isPinned'
 >;
 
 export type UnknownJoblisting = ListJoblisting | DetailedJoblisting;
