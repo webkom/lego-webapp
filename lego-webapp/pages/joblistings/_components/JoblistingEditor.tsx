@@ -297,7 +297,6 @@ const JoblistingEditor = () => {
               />
             </RowSection>
 
-
             <RowSection>
               <Field
                 name="fromYear"
