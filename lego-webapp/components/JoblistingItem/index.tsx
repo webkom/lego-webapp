@@ -1,5 +1,5 @@
 import { Flex, Icon, Image } from '@webkom/lego-bricks';
-import { CalendarClock } from 'lucide-react';
+import { CalendarClock, Pin } from 'lucide-react';
 import moment from 'moment';
 import {
   jobType,
@@ -64,20 +64,21 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           )}
         </Flex>
       </Flex>
-      <Flex
-        alignItems="center"
-        gap="var(--spacing-sm)"
-        className={styles.deadline}
-      >
-        <Icon iconNode={<CalendarClock />} size={16} />
-        {joblisting.rollingRecruitment ? (
-          'Snarest'
-        ) : (
-          <Time
-            time={joblisting.deadline}
-            format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
-          />
-        )}
+      <Flex className={styles.infoLeft}>
+        <div className={styles.pin}>
+          {joblisting.isPinned && <Icon iconNode={<Pin />} size={16} />}
+        </div>
+        <div className={styles.deadline}>
+          <Icon iconNode={<CalendarClock />} size={16} />
+          {joblisting.rollingRecruitment ? (
+            'Snarest'
+          ) : (
+            <Time
+              time={joblisting.deadline}
+              format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
+            />
+          )}
+        </div>
       </Flex>
     </div>
   </a>
