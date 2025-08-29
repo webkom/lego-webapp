@@ -70,7 +70,7 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
         className={styles.infoLeft}
       >
         {joblisting.isPinned && (
-          <Tooltip className={styles.pin} content={<p>Sponset innlegg</p>}>
+          <Tooltip className={styles.pin} content={'Sponset innlegg'}>
             <Icon iconNode={<Pin />} size={16} />
           </Tooltip>
         )}
