@@ -50,26 +50,19 @@ img.companyLogo {
 }
 
 .infoLeft {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   min-width: 145px;
   font-size: var(--font-size-sm);
 
   @media (--mobile-device) {
-    justify-content: flex-start;
+    align-items: flex-start;
   }
-}
-
-.deadline {
-  display: flex;
-  align-items: center;
-  align-self: flex-end;
-  justify-content: flex-end;
-  gap: var(--spacing-sm);
 }
 
 .pin {
   align-self: flex-end;
   transform: rotate(45deg);
+
+  @media (--mobile-device) {
+    align-self: flex-start;
+  }
 }
