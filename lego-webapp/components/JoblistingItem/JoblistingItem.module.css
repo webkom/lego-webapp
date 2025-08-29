@@ -49,14 +49,20 @@ img.companyLogo {
   margin-bottom: var(--spacing-sm);
 }
 
-.deadline {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.infoLeft {
   min-width: 145px;
   font-size: var(--font-size-sm);
 
   @media (--mobile-device) {
-    justify-content: flex-start;
+    align-items: flex-start;
+  }
+}
+
+.pin {
+  align-self: flex-end;
+  transform: rotate(45deg);
+
+  @media (--mobile-device) {
+    align-self: flex-start;
   }
 }
