@@ -119,7 +119,7 @@ const LandingPage: PageRenderer<null> = () => {
         <div>
           <h3>Sosiale medier</h3>
           <p>
-            Har du lyst til å følge med på hva de forskjellige delene av abakus
+            Har du lyst til å følge med på hva de forskjellige delene av Abakus
             driver med? Følg oss på sosiale medier!
           </p>
           <Flex wrap gap="var(--spacing-md)">
@@ -227,7 +227,7 @@ const info = {
   officeAddress: 'Realfagsbygget A-blokka \nTredje etasje, rom A3.133',
   webkomOfficeAddress:
     'EL-bygget rom F-252 \nO.S. Bragstads plass 2F \nNTNU Gløshaugen',
-  officeHours: 'Hver tirsdag kl. 1315 - 1400 \npå Realfagsbygget',
+  officeHours: 'Hver onsdag kl. 1215 - 1300 \npå Realfagsbygget',
   organizationNo: '98 60 37 314 MVA',
 };
 const committeeEmails = [
