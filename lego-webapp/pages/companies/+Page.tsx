@@ -200,7 +200,6 @@ const CompaniesPage = () => {
               Savner du en bedrift? Savner du noe informasjon om en bedrift? Ta
               kontakt med{' '}
               <a
-                className={styles.infoText}
                 href="https://abakus.no/pages/komiteer/6"
               >
                 Bedkom
