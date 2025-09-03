@@ -55,6 +55,13 @@ export const statusMap: Record<
     icon: <CircleX />,
     color: 'red',
   },
+  [LendingRequestStatus.ChangesResolved]: {
+    tag: 'Venter på godkjenning',
+    buttonText: 'Løs endringer',
+    timelineText: 'løste endringer',
+    icon: <CircleDashed className={styles.rotate} />,
+    color: 'orange',
+  },
   [LendingRequestStatus.ChangesRequested]: {
     tag: 'Endringer forespurt',
     buttonText: 'Forespør endringer',

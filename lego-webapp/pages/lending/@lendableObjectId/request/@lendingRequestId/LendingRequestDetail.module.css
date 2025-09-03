@@ -13,6 +13,10 @@
   width: 100%;
 }
 
+.noComment {
+  color: var(--secondary-font-color);
+}
+
 .timelineContainer {
   display: grid;
   grid-template-columns: var(--spacing-lg) 1fr auto;

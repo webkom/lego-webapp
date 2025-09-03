@@ -131,7 +131,11 @@ const LendingRequest = () => {
               <Time time={lendingRequest.endDate} format="ll - HH:mm" />
             </Flex>
             <h3>Kommentar til forespørsel</h3>
-            <p>{lendingRequest.text}</p>
+            <p>
+              {lendingRequest.text || (
+                <span className={styles.noComment}>Ingen kommentar</span>
+              )}
+            </p>
             <h3>Tidslinje</h3>
             <Flex column>
               {lendingRequest.timelineEntries?.map(
@@ -152,17 +156,32 @@ const LendingRequest = () => {
             <h3>Status</h3>
             <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
             {isCurrentUser && (
-              <div className={styles.buttonWrapper}>
+              <Flex
+                column
+                gap="var(--spacing-sm)"
+                className={styles.buttonWrapper}
+              >
+                {lendingRequest.status ==
+                  LendingRequestStatus.ChangesRequested && (
+                  <UpdateButton
+                    toStatus={LendingRequestStatus.ChangesResolved}
+                    lendingRequest={lendingRequest}
+                  />
+                )}
                 <UpdateButton
                   toStatus={LendingRequestStatus.Cancelled}
                   lendingRequest={lendingRequest}
                 />
-              </div>
+              </Flex>
             )}
             {isAdmin && (
               <>
                 <h3>Admin</h3>
-                <Flex column gap={8} className={styles.buttonWrapper}>
+                <Flex
+                  column
+                  gap="var(--spacing-sm)"
+                  className={styles.buttonWrapper}
+                >
                   <UpdateButton
                     toStatus={
                       lendingRequest.status === LendingRequestStatus.Approved
