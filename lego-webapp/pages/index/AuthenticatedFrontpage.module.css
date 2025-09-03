@@ -4,7 +4,7 @@ section.wrapper {
   display: grid;
   grid-template:
     'compact-events registrations'
-    'pinned weekly'
+    'pinned hovedstyret'
     'events poll'
     'events quote'
     'events readme'
@@ -23,7 +23,7 @@ section.wrapper {
       'poll'
       'quote'
       'readme'
-      'weekly'
+      'hovedstyret'
       'articles'
       'blog'
       'events';
@@ -41,6 +41,9 @@ section.wrapper {
 
 .registrations {
   grid-area: registrations;
+}
+.hovedstyret {
+  grid-area: hovedstyret;
 }
 
 .poll {
