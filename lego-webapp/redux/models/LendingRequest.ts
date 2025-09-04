@@ -7,6 +7,7 @@ export enum LendingRequestStatus {
   Created = 'created',
   Unapproved = 'unapproved',
   ChangesRequested = 'changes_requested',
+  ChangesResolved = 'changes_resolved',
   Approved = 'approved',
   Denied = 'denied',
   Cancelled = 'cancelled',
