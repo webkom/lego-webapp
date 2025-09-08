@@ -1,10 +1,10 @@
-import { Icon, Flex, Card } from "@webkom/lego-bricks";
+import { Icon, Flex } from "@webkom/lego-bricks";
 import { BookOpenText, FileText, ShieldAlert } from "lucide-react";
 import styles from './HsSection.module.css';
 
 const HsSectionContent = () => {
     return (
-      <Card hideOverflow className={styles.container}>
+      <div className={styles.container}>
 
         <Flex column gap="var(--spacing-xs)">
           <a
@@ -17,7 +17,7 @@ const HsSectionContent = () => {
             Notion
           </a>
           <a
-            href="https://drive.google.com/drive/folders/1UB6lU3tWvSRK3qIWHasSGCysfD1DLPSA?usp=sharing"
+            href="https://drive.google.com/drive/folders/0B81c-8ZaKBCgUjFPS2Nab3VpVWM?resourcekey=0-xn6rSLIJmRJk78ZFzym5sQ&usp=drive_link"
             target="_blank"
             rel="noreferrer"
             className={`${styles.item} ${styles.accentMinutes} ${styles.fullWidthButton}`}
@@ -35,7 +35,7 @@ const HsSectionContent = () => {
             Varslingsportal
           </a>
         </Flex>
-      </Card>
+      </div>
     )
 }
 
