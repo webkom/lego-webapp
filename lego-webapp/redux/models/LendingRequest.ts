@@ -22,7 +22,6 @@ interface LendingRequest {
   status: LendingRequestStatus;
   startDate: Dateish;
   endDate: Dateish;
-  text: string;
   actionGrant: ActionGrant;
   timelineEntries: TimelineEntry[];
 }
@@ -49,7 +48,6 @@ export type DetailLendingRequest = Pick<
   | 'status'
   | 'startDate'
   | 'endDate'
-  | 'text'
   | 'actionGrant'
   | 'timelineEntries'
 >;
@@ -64,8 +62,8 @@ export type TransformedLendingRequest = ListLendingRequest & {
 
 export type CreateLendingRequest = Pick<
   LendingRequest,
-  'lendableObject' | 'startDate' | 'endDate' | 'text'
->;
+  'lendableObject' | 'startDate' | 'endDate'
+> & { comment: string };
 export type EditLendingRequest = Required<Pick<LendingRequest, 'id'>> &
   Partial<Pick<LendingRequest, 'status' | 'startDate' | 'endDate'>>;
 

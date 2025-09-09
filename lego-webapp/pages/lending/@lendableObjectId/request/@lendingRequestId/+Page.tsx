@@ -8,7 +8,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { Clock, MessageCircleIcon, MoveRight, User } from 'lucide-react';
+import { Clock, MessageCircleIcon, User } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
@@ -117,12 +117,6 @@ const LendingRequest = () => {
                   : undefined
               }
             />
-            <h3>Kommentar</h3>
-            <p>
-              {lendingRequest.text || (
-                <span className={styles.noComment}>Ingen kommentar</span>
-              )}
-            </p>
             <h3>Tidslinje</h3>
             <Flex column>
               {lendingRequest.timelineEntries?.map(
