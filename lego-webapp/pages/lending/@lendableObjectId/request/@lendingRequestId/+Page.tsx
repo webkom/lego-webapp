@@ -8,7 +8,7 @@ import {
   Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { MessageCircleIcon, MoveRight } from 'lucide-react';
+import { Clock, MessageCircleIcon, MoveRight, User } from 'lucide-react';
 import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
@@ -26,8 +26,8 @@ import {
 } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
 import { Tag } from '~/components/Tags';
-import Time from '~/components/Time';
-import HTTPError from '~/components/errors/HTTPError';
+import TextWithIcon from '~/components/TextWithIcon';
+import Time, { FromToTime } from '~/components/Time';
 import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
 import { useIsCurrentUser } from '~/pages/users/utils';
@@ -117,15 +117,7 @@ const LendingRequest = () => {
                   : undefined
               }
             />
-            <h3>Forespørrende bruker</h3>
-            <RequestingUser user={createdByUser} />
-            <h3>Periode</h3>
-            <Flex alignItems="center" gap={8}>
-              <Time time={lendingRequest.startDate} format="ll - HH:mm" />
-              <Icon iconNode={<MoveRight />} size={19} />
-              <Time time={lendingRequest.endDate} format="ll - HH:mm" />
-            </Flex>
-            <h3>Kommentar til forespørsel</h3>
+            <h3>Kommentar</h3>
             <p>
               {lendingRequest.text || (
                 <span className={styles.noComment}>Ingen kommentar</span>
@@ -148,6 +140,26 @@ const LendingRequest = () => {
             <CommentForm lendingRequestId={lendingRequest.id} />
           </ContentMain>
           <ContentSidebar>
+            <h3>Detaljer</h3>
+            <TextWithIcon
+              iconNode={<Clock />}
+              size={20}
+              content={
+                <FromToTime
+                  from={lendingRequest.startDate}
+                  to={lendingRequest.endDate}
+                />
+              }
+              className={styles.sidebarInfo}
+            />
+            <TextWithIcon
+              iconNode={<User />}
+              content={
+                <a href={`/users/${createdByUser?.username}`}>
+                  {createdByUser?.fullName}
+                </a>
+              }
+            />
             <h3>Status</h3>
             <LendingStatusTag lendingRequestStatus={lendingRequest.status} />
             {isCurrentUser && (
@@ -318,29 +330,6 @@ const TimeLineEntry = ({
         </div>
       </a>
     </div>
-  );
-};
-
-const RequestingUser = ({ user }: { user?: PublicUserWithGroups }) => {
-  if (!user) {
-    return <div>Ukjent bruker?</div>;
-  }
-  return (
-    <Card className={styles.requestingUser}>
-      <Flex alignItems="center" gap={16}>
-        <a href={`/users/${user.username}`}>
-          <ProfilePicture user={user} size={75} />
-        </a>
-        <Flex column justifyContent="center" gap={4}>
-          <a href={`/users/${user.username}`}>
-            <h4>{user.fullName}</h4>
-          </a>
-          <a href={`mailto:${user.internalEmailAddress}`}>
-            {user.internalEmailAddress}
-          </a>
-        </Flex>
-      </Flex>
-    </Card>
   );
 };
 
