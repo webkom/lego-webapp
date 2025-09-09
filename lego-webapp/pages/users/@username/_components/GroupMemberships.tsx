@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash-es';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useMemo } from 'react';
 import { GroupType, type Dateish } from 'app/models';
 import { CircularPicture } from '~/components/Image';
 import Pill from '~/components/Pill';
