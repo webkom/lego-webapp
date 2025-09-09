@@ -29,7 +29,6 @@ import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import truncateString from '~/utils/truncateString';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
 import styles from './LendableObjectList.module.css';
 import type { ListLendableObject } from '~/redux/models/LendableObject';

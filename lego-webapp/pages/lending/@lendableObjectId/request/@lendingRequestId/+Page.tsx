@@ -48,7 +48,6 @@ import { PublicUserWithGroups } from '~/redux/models/User';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { selectLendingRequestById } from '~/redux/slices/lendingRequests';
 import { selectUserById } from '~/redux/slices/users';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
 import styles from './LendingRequestDetail.module.css';
@@ -91,10 +90,6 @@ const LendingRequest = () => {
     selectUserById<PublicUserWithGroups>(state, lendingRequest?.createdBy),
   );
   const isCurrentUser = useIsCurrentUser(createdByUser?.username);
-
-  if (!useFeatureFlag('lending')) {
-    return <HTTPError />;
-  }
 
   if (fetching) {
     return <LoadingIndicator loading />;
