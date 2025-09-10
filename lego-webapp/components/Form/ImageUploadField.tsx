@@ -12,7 +12,12 @@ type Props = {
   onChange: (fileToken: string) => void;
 } & Omit<ComponentProps<typeof ImageUpload>, 'onSubmit'>;
 
-const ImageUploadField = ({ className, style, ...props }: Props) => {
+const ImageUploadField = ({
+  className,
+  style,
+  aspectRatio,
+  ...props
+}: Props) => {
   const dispatch = useAppDispatch();
 
   const onSubmit = (file: File | Array<DropFile>) => {
@@ -30,7 +35,7 @@ const ImageUploadField = ({ className, style, ...props }: Props) => {
   return (
     <div
       className={cx(styles.base, styles.coverImage, className && className)}
-      style={style}
+      style={{ aspectRatio, ...style }}
     >
       <ImageUpload onSubmit={onSubmit} {...props} />
     </div>
