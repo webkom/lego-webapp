@@ -23,20 +23,19 @@ export const Achievements = ({
   const [showAll, setShowAll] = useState(false);
 
   const sortedAchievements = useMemo(() => {
-    return [...achievements].sort(
-      (a, b) => {
+    return [...achievements].sort((a, b) => {
+      if (
+        AchievementsInfo[b.identifier][b.level].rarity ===
+        AchievementsInfo[a.identifier][a.level].rarity
+      ) {
+        return b.identifier === 'event_rank' ? 1 : 0;
+      }
 
-            if (AchievementsInfo[b.identifier][b.level].rarity ===
-                AchievementsInfo[a.identifier][a.level].rarity) {
-                
-              return b.identifier === "event_rank" ? 1 : 0 
-            }
-
-            
-            return AchievementsInfo[b.identifier][b.level].rarity -
-                   AchievementsInfo[a.identifier][a.level].rarity
-            }
-    );
+      return (
+        AchievementsInfo[b.identifier][b.level].rarity -
+        AchievementsInfo[a.identifier][a.level].rarity
+      );
+    });
   }, [achievements]);
 
   const topAchievements = showAll
