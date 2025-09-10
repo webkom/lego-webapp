@@ -97,7 +97,7 @@ html[data-theme='dark'] img.logoDarkMode {
 }
 
 .searchButton {
-  z-index: 301;
+  z-index: 90;
 }
 
 .iconWrapper {
