@@ -1,5 +1,5 @@
 import { Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
-import { CalendarClock, Pin } from 'lucide-react';
+import { Baseline, CalendarClock, Pin } from 'lucide-react';
 import moment from 'moment';
 import {
   jobType,
@@ -40,7 +40,14 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           {moment(joblisting.createdAt).isAfter(
             moment().subtract(3, 'days'),
           ) && <Tag tag="Ny" color="green" />}
-          <span>{joblisting.title}</span>
+          <Flex alignItems="baseline" gap="var(--spacing-xs)">
+            <span>{joblisting.title}</span>
+            {joblisting.isPinned && (
+              <Tooltip className={styles.pin} content={'Festet annonse'}>
+                <Icon iconNode={<Pin />} size={16} />
+              </Tooltip>
+            )}
+          </Flex>
         </Flex>
         <Flex alignItems="center" gap="var(--spacing-xs)">
           {joblisting.company.name}
@@ -54,36 +61,33 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
             </>
           )}
         </Flex>
-        <Flex alignItems="center" gap="var(--spacing-xs)">
-          <Year joblisting={joblisting} />
-          {joblisting.workplaces && (
-            <>
-              <span>•</span>
-              <Workplaces places={joblisting.workplaces} />
-            </>
-          )}
-        </Flex>
-      </Flex>
-      <Flex
-        column={true}
-        justifyContent="space-between"
-        className={styles.infoLeft}
-      >
-        {joblisting.isPinned && (
-          <Tooltip className={styles.pin} content={'Festet annonse'}>
-            <Icon iconNode={<Pin />} size={16} />
-          </Tooltip>
-        )}
-        <Flex justifyContent="flex-end" gap={8}>
-          <Icon iconNode={<CalendarClock />} size={16} />
-          {joblisting.rollingRecruitment ? (
-            'Snarest'
-          ) : (
-            <Time
-              time={joblisting.deadline}
-              format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
-            />
-          )}
+        <Flex
+          gap="var(--spacing-sm)"
+          justifyContent="space-between"
+          className={styles.joblistingItemBottom}
+        >
+          <Flex alignItems="center" gap="var(--spacing-xs)">
+            <Year joblisting={joblisting} />
+            {joblisting.workplaces && (
+              <>
+                <span>•</span>
+                <Workplaces places={joblisting.workplaces} />
+              </>
+            )}
+          </Flex>
+          <Flex>
+            <div className={styles.joblistingCalender}>
+              <Icon iconNode={<CalendarClock />} size={16} />
+              {joblisting.rollingRecruitment ? (
+                'Snarest'
+              ) : (
+                <Time
+                  time={joblisting.deadline}
+                  format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
+                />
+              )}
+            </div>
+          </Flex>
         </Flex>
       </Flex>
     </div>

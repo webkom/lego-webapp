@@ -32,7 +32,6 @@ img.companyLogo {
 }
 
 .listItem {
-  display: flex;
   flex: 1;
   justify-content: space-between;
   gap: var(--spacing-xs);
@@ -49,20 +48,17 @@ img.companyLogo {
   margin-bottom: var(--spacing-sm);
 }
 
-.infoLeft {
-  min-width: 145px;
-  font-size: var(--font-size-sm);
-
+.joblistingItemBottom {
   @media (--mobile-device) {
-    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
-.pin {
-  align-self: flex-end;
-  transform: rotate(45deg);
+.joblistingCalender {
+  display: flex;
+  gap: var(--spacing-xs);
+}
 
-  @media (--mobile-device) {
-    align-self: flex-start;
-  }
+.pin {
+  transform: rotate(45deg);
 }
