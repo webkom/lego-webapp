@@ -40,14 +40,14 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           {moment(joblisting.createdAt).isAfter(
             moment().subtract(3, 'days'),
           ) && <Tag tag="Ny" color="green" />}
-          <Flex alignItems="baseline" gap="var(--spacing-xs)">
+          <div className={styles.titleRow}>
             <span>{joblisting.title}</span>
             {joblisting.isPinned && (
               <Tooltip className={styles.pin} content={'Festet annonse'}>
                 <Icon iconNode={<Pin />} size={16} />
               </Tooltip>
             )}
-          </Flex>
+          </div>
         </Flex>
         <Flex alignItems="center" gap="var(--spacing-xs)">
           {joblisting.company.name}

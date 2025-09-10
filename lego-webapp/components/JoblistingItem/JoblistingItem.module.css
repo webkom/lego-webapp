@@ -48,6 +48,13 @@ img.companyLogo {
   margin-bottom: var(--spacing-sm);
 }
 
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+}
+
 .joblistingItemBottom {
   @media (--mobile-device) {
     flex-direction: column;
