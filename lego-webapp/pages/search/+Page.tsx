@@ -1,6 +1,6 @@
 import { Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { usePageContext } from 'vike-react/usePageContext';

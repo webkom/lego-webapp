@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import { Frown } from 'lucide-react';
 import EmptyState from '~/components/EmptyState';
 import ErrorBoundary from '~/components/ErrorBoundary';
@@ -12,13 +13,14 @@ import CommentReplyRenderer from './renders/comment_reply';
 import EventRegisterRenderer from './renders/event_register';
 import GroupJoinRenderer from './renders/group';
 import MeetingInvitationRenderer from './renders/meetingInvitation';
+import PenaltyRenderer from './renders/penaltyNotification';
 import RegistrationBumpRenderer from './renders/registrationBump';
 import RestrictedMailSentRenderer from './renders/restrictedMail';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
 
-export const activityRenderers: Record<FeedActivityVerb, ActivityRenderer> = {
+export const activityRenderers = {
   [FeedActivityVerb.Comment]: CommentRenderer,
   [FeedActivityVerb.CommentReply]: CommentReplyRenderer,
   [FeedActivityVerb.MeetingInvitation]: MeetingInvitationRenderer,
@@ -28,7 +30,12 @@ export const activityRenderers: Record<FeedActivityVerb, ActivityRenderer> = {
   [FeedActivityVerb.Announcement]: AnnouncementRenderer,
   [FeedActivityVerb.GroupJoin]: GroupJoinRenderer,
   [FeedActivityVerb.EventRegister]: EventRegisterRenderer,
+  [FeedActivityVerb.Penalty]: PenaltyRenderer,
 };
+
+export const getActivityRenderer = <Verb extends FeedActivityVerb>(
+  verb: Verb,
+) => activityRenderers[verb] as unknown as ActivityRenderer<Verb>;
 
 type Props = {
   feedId: EntityId;
@@ -40,14 +47,16 @@ const Feed = ({ feedId }: Props): ReactNode => {
   );
 
   return (
-    <div
+    <Flex
+      column
+      gap="var(--spacing-md)"
       style={{
         width: '100%',
       }}
     >
       {feedActivities.length ? (
         feedActivities.map((item) => {
-          const activityRenderer = activityRenderers[item.verb];
+          const activityRenderer = getActivityRenderer(item.verb);
           return activityRenderer ? (
             <ErrorBoundary hidden key={item.id}>
               <Activity
@@ -63,7 +72,7 @@ const Feed = ({ feedId }: Props): ReactNode => {
           body="Ingen aktiviteter i feeden ..."
         />
       )}
-    </div>
+    </Flex>
   );
 };
 

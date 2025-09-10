@@ -1,5 +1,4 @@
-import { Button, Flex, Skeleton } from '@webkom/lego-bricks';
-import Tooltip from '~/components/Tooltip';
+import { Button, Flex, Skeleton, Tooltip } from '@webkom/lego-bricks';
 import styles from './AttendanceStatus.module.css';
 import type { AttendanceModalPool } from './AttendanceModalContent';
 

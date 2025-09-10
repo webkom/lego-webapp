@@ -1,7 +1,6 @@
-import { Skeleton } from '@webkom/lego-bricks';
+import { Skeleton, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ProfilePicture } from '~/components/Image';
-import Tooltip from '~/components/Tooltip';
 import styles from './UserGrid.module.css';
 import type { PublicUser } from '~/redux/models/User';
 

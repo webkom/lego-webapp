@@ -1,16 +1,16 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Check, Monitor, MonitorOff, Smartphone, X } from 'lucide-react';
 import { PhotoConsentDomain } from 'app/models';
 import Table from '~/components/Table';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import {
   getEventSemesterFromStartTime,
   allConsentsAnswered,
   getConsent,
   unregistrationIsClosed,
 } from '~/pages/events/utils';
+import { consentDomainStrings } from '~/pages/users/@username/_components/PhotoConsents';
 import { Presence } from '~/redux/models/Registration';
 import { isNotNullish } from '~/utils';
 import { WEBKOM_GROUP_ID } from '~/utils/constants';
@@ -116,14 +116,10 @@ export const getRegistrationInfo = (registration) => {
   return registrationInfo;
 };
 
-const consentMessage = (photoConsent) =>
+const consentMessage = (photoConsent: PhotoConsent) =>
   `Brukeren godkjenner ${
     photoConsent?.isConsenting ? ' ' : 'IKKE '
-  } at bilder publiseres på ${
-    photoConsent?.domain === PhotoConsentDomain.WEBSITE
-      ? 'abakus.no'
-      : 'sosiale medier'
-  }`;
+  } at bilder publiseres på ${consentDomainStrings[photoConsent?.domain]}`;
 
 const ConsentIcons = ({
   LEGACY_photoConsent,

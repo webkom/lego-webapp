@@ -53,6 +53,9 @@ export function generateTreeStructure<
   }, []);
 }
 
+export const capitalize = (s: string) =>
+  s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
 export const isTruthy = <T>(x: T | null | undefined | false | '' | 0): x is T =>
   Boolean(x);
 

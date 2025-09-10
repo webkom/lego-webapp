@@ -14,7 +14,7 @@ import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { Form, CheckBox, LegoFinalForm } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import { mazemapScript } from '~/components/MazemapEmbed';
+import { mazemapDeps } from '~/components/MazemapEmbed';
 import {
   transformEvent,
   transformEventStatusType,
@@ -342,7 +342,7 @@ const EventEditor = () => {
         href: isEditPage ? `/events/${event?.slug}` : '/events',
       }}
     >
-      <Helmet title={title}>´{mazemapScript}</Helmet>
+      <Helmet title={title}>{mazemapDeps}</Helmet>
 
       <TypedLegoForm
         onSubmit={onSubmit}

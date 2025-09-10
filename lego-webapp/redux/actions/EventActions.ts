@@ -3,7 +3,7 @@ import callAPI from '~/redux/actions/callAPI';
 import { eventSchema, eventAdministrateSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Thunk, Action } from 'app/types';
-import type { DetailedEvent } from '~/redux/models/Event';
+import type { DetailedEvent, UnknownEvent } from '~/redux/models/Event';
 import type { Presence, ReadRegistration } from '~/redux/models/Registration';
 
 export const waitinglistPoolId = -1;
@@ -102,6 +102,20 @@ export function editEvent(event: Record<string, any>) {
     types: Event.EDIT,
     endpoint: `/events/${event.id}/`,
     method: 'PUT',
+    body: { ...event, cover: event.cover || undefined },
+    meta: {
+      errorMessage: 'Endring av arrangement feilet',
+    },
+  });
+}
+
+export function editPartialEvent(
+  event: { id: EntityId } & Partial<DetailedEvent>,
+) {
+  return callAPI<DetailedEvent>({
+    types: Event.EDIT,
+    endpoint: `/events/${event.id}/`,
+    method: 'PATCH',
     body: { ...event, cover: event.cover || undefined },
     meta: {
       errorMessage: 'Endring av arrangement feilet',
@@ -311,27 +325,6 @@ export function fetchFollowers(eventId: EntityId, currentUserId: EntityId) {
       eventId,
       currentUserId,
       errorMessage: 'Henting av stjernemarkering feilet',
-    },
-  });
-}
-
-export type Analytics = {
-  bounceRate: number | null;
-  date: string;
-  pageviews: number | null;
-  visitDuration: number | null;
-  visitors: number | null;
-};
-
-export function fetchAnalytics(eventId: EntityId) {
-  return callAPI<{
-    results: Analytics[];
-  }>({
-    types: Event.FETCH_ANALYTICS,
-    endpoint: `/events/${String(eventId)}/statistics/`,
-    method: 'GET',
-    meta: {
-      errorMessage: 'Henting av analyse feilet',
     },
   });
 }

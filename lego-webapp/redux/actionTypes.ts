@@ -36,6 +36,7 @@ export const Event = {
 
 export const Article = {
   FETCH: generateStatuses('Article.FETCH'),
+  FETCH_ANALYTICS: generateStatuses('Article.FETCH_ANALYTICS'),
   CREATE: generateStatuses('Article.CREATE'),
   EDIT: generateStatuses('Article.EDIT'),
   DELETE: generateStatuses('Article.DELETE'),
@@ -87,6 +88,7 @@ export const Joblistings = {
 
 export const LendableObjects = {
   FETCH: generateStatuses('LendableObject.FETCH_ALL'),
+  FETCH_AVAILABILITY: generateStatuses('LendableObject.FETCH_AVAILABILITY'),
   CREATE: generateStatuses('LendableObject.CREATE'),
   EDIT: generateStatuses('LendableObject.EDIT'),
   DELETE: generateStatuses('LendableObject.DELETE'),

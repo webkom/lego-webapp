@@ -1,3 +1,5 @@
+@import '../../../custom-media.css';
+
 div.container {
   position: relative;
   display: grid;
@@ -20,7 +22,7 @@ div.card {
 }
 
 .sidebar {
-  @media (max-width: 45em) {
+  @media (--medium-viewport) {
     display: none;
   }
 }

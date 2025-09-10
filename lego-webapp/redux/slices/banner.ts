@@ -17,12 +17,26 @@ const lendingRequestSlice = createSlice({
 });
 
 export default lendingRequestSlice.reducer;
-export const {
-  selectAllPaginated: selectAllBanners,
-  selectById: selectBannerById,
-  selectByField: selectBannersByField,
-} = legoAdapter.getSelectors((state: RootState) => state.banner);
+
+const baseSelectors = legoAdapter.getSelectors(
+  (state: RootState) => state.banner,
+);
+
+export const selectAllBanners = baseSelectors.selectAllPaginated;
+export const selectBannerById = baseSelectors.selectById;
+
+const selectBannersByFieldSafe = (field: string) => ({
+  single: (state: RootState) => {
+    const banners = baseSelectors.selectAllPaginated(state);
+    const filtered = banners.filter(
+      (banner) => banner && banner[field as keyof typeof banner] === true,
+    );
+    return filtered.length > 0 ? filtered[0] : undefined;
+  },
+});
+
+export const selectBannersByField = baseSelectors.selectByField;
 export const selectCurrentPrivateBanner =
-  selectBannersByField('currentPrivate').single;
+  selectBannersByFieldSafe('currentPrivate').single;
 export const selectCurrentPublicBanner =
-  selectBannersByField('currentPublic').single;
+  selectBannersByFieldSafe('currentPublic').single;

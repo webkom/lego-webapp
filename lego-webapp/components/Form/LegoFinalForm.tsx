@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty, isEqual } from 'lodash-es';
 import { Form } from 'react-final-form';
 import { handleSubmissionErrorFinalForm } from '~/components/Form/utils';
 import type { FormProps } from 'react-final-form';

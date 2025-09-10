@@ -1,3 +1,6 @@
+import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
+import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
+import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
 import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
 import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
 import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
@@ -9,7 +12,6 @@ import trofe_sjeldenhetsgrad_3 from 'assets/trophies/trofe_sjeldenhetsgrad_3.png
 import trofe_sjeldenhetsgrad_4 from 'assets/trophies/trofe_sjeldenhetsgrad_4.png';
 import trofe_sjeldenhetsgrad_5 from 'assets/trophies/trofe_sjeldenhetsgrad_5.png';
 import trofe_sjeldenhetsgrad_8 from 'assets/trophies/trofe_sjeldenhetsgrad_8.png';
-
 import type { AchievementData, Rarity } from '~/redux/models/User';
 
 export const rarityMap: Record<Rarity, { name: string; color: string }> = {
@@ -35,6 +37,7 @@ export const AchievementIdentifier = {
   penalty_period: 'penalty_period',
   genfors_count: 'genfors_count',
   gala_count: 'gala_count',
+  easter_winner: 'easter_winner',
 } as const;
 
 export type AchievementIdentifier =
@@ -301,6 +304,29 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_10,
     },
   ],
+  easter_winner: [
+    {
+      name: 'Påskeeggjakten 2024\nVinner',
+      description: 'Vinner - påskeeggjakten 2024',
+      rarity: 2,
+      hidden: false,
+      image: easter_winner_24,
+    },
+    {
+      name: 'Påskeeggjakten 2025\nUtfordrer',
+      description: 'Utfordrer - påskeeggjakten 2025',
+      rarity: 1,
+      hidden: false,
+      image: easter_contender_25,
+    },
+    {
+      name: 'Påskeeggjakten 2025\nVinner',
+      description: 'Vinner - påskeeggjakten 2025',
+      rarity: 2,
+      hidden: false,
+      image: easter_winner_25,
+    },
+  ],
 };
 
 export type DetailedAchievementData = AchievementData & { level?: number };
@@ -311,6 +337,7 @@ export type AchievementGroupInfo = {
   description?: string;
   userAchievedLevel?: number;
   achievements: DetailedAchievementData[];
+  isLeveled: boolean; // Does requirements(level2) => requirements(level1)
 };
 
 // Name and description defined here function as default values
@@ -321,48 +348,56 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Arrangement deltakelse',
     description: 'Deltatt på X arrangementer',
     achievements: AchievementsInfo['event_count'],
+    isLeveled: true,
   },
   {
     identifier: 'event_rank',
     name: 'Arrangement rangering',
     description: 'Plassering i antall arrangementer',
     achievements: AchievementsInfo['event_rank'],
+    isLeveled: true,
   },
   {
     identifier: 'event_price',
     name: 'Arrangement betaling',
     description: 'Betalt over X i påmeldingsavgift',
     achievements: AchievementsInfo['event_price'],
+    isLeveled: true,
   },
   {
     identifier: 'event_rules',
     name: 'Arrangement regler',
     description: 'Lest arrangementsreglene',
     achievements: AchievementsInfo['event_rules'],
+    isLeveled: true,
   },
   {
     identifier: 'poll_count',
     name: 'Avstemninger',
     description: 'Svart på X avstemninger',
     achievements: AchievementsInfo['poll_count'],
+    isLeveled: true,
   },
   {
     identifier: 'penalty_period',
     name: 'Prikk',
     description: 'Gått X år uten prikk',
     achievements: AchievementsInfo['penalty_period'],
+    isLeveled: true,
   },
   {
     identifier: 'genfors_count',
     name: 'Genfors',
     description: 'Deltatt på X genfors',
     achievements: AchievementsInfo['genfors_count'],
+    isLeveled: true,
   },
   {
     identifier: 'gala_count',
     name: 'Galla',
     description: 'Deltatt på X gallaer',
     achievements: AchievementsInfo['gala_count'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -370,6 +405,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Er det noen her?',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['meeting_hidden'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -377,6 +413,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Powermode activated!',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['keypress_order'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -384,6 +421,7 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Komplett spiller',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['complete_profile'],
+    isLeveled: true,
   },
   {
     // hidden
@@ -391,6 +429,14 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Psssst',
     description: HIDDEN_DESCRIPTION,
     achievements: AchievementsInfo['quote_count'],
+    isLeveled: true,
+  },
+  {
+    identifier: 'easter_winner',
+    name: 'Webkom Påskeeggjakt',
+    description: "Vinnere av Webkom's påskeeggjakt",
+    achievements: AchievementsInfo['easter_winner'],
+    isLeveled: false,
   },
 ];
 

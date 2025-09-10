@@ -5,9 +5,10 @@ import {
   Icon,
   LoadingPage,
   Page,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { unionBy } from 'lodash';
+import { unionBy } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
@@ -29,9 +30,8 @@ import {
 import LegoFinalForm from '~/components/Form/LegoFinalForm';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import { mazemapScript } from '~/components/MazemapEmbed';
+import { mazemapDeps } from '~/components/MazemapEmbed';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
-import Tooltip from '~/components/Tooltip';
 import Attendance from '~/components/UserAttendance/Attendance';
 import { fetchMemberships } from '~/redux/actions/GroupActions';
 import {
@@ -316,7 +316,7 @@ const MeetingEditor = () => {
         href: `/meetings/${isEditPage ? meetingId : ''}`,
       }}
     >
-      <Helmet title={title}>{mazemapScript}</Helmet>
+      <Helmet title={title}>{mazemapDeps}</Helmet>
       <LegoFinalForm
         onSubmit={onSubmit}
         initialValues={initialValues}

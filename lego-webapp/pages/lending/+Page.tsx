@@ -12,8 +12,8 @@ import {
   Flex,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash';
-import { Contact, FolderOpen, Package } from 'lucide-react';
+import { isEmpty } from 'lodash-es';
+import { Contact, FolderOpen, ImageOff, Package } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import TextInput from '~/components/Form/TextInput';
@@ -49,11 +49,19 @@ const LendableObject = ({
     <a href={`/lending/${lendableObject.id}`}>
       <BaseCard hoverable className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
-          <Image
-            className={styles.lendableObjectImage}
-            src={lendableObject.image || '/icon-192x192.png'}
-            alt={`${lendableObject.title}`}
-          />
+          {lendableObject.image ? (
+            <Image
+              className={styles.lendableObjectImage}
+              src={lendableObject.image}
+              alt={`${lendableObject.title}`}
+            />
+          ) : (
+            <Icon
+              className={styles.defaultObjectImage}
+              iconNode={<ImageOff />}
+              size={100}
+            />
+          )}
         </div>
         <CardFooter className={styles.lendableObjectInfobox}>
           <Flex>
@@ -135,23 +143,17 @@ const LendableObjectList = () => {
     lendableObjects.title.toLowerCase().includes(query.search.toLowerCase()),
   );
 
-  const canSeeLendingRequests = useFeatureFlag('lending-request');
-
-  if (!useFeatureFlag('lending')) {
-    return <HTTPError />;
-  }
-
   const title = 'Utlån';
   return (
     <Page
       title={title}
       actionButtons={
         <>
-          {objectsActionGrant.includes('create') && (
-            <LinkButton href="/lending/new">Nytt utlånsobjekt</LinkButton>
-          )}
-          {canSeeLendingRequests && requestsActionGrant.includes('admin') && (
+          {requestsActionGrant.includes('admin') && (
             <LinkButton href="/lending/admin">Administrator</LinkButton>
+          )}
+          {objectsActionGrant.includes('create') && (
+            <LinkButton href="/lending/new">Nytt utstyr</LinkButton>
           )}
         </>
       }
@@ -169,40 +171,36 @@ const LendableObjectList = () => {
       })}
     >
       <Helmet title={title} />
-      {canSeeLendingRequests && (
-        <>
-          <h3>Dine utlånsforespørsler</h3>
-          <LoadingIndicator loading={requestsPagination.fetching}>
-            {lendingRequests.length ? (
-              <div className={styles.lendingRequestsContainer}>
-                {lendingRequests.map((lendingRequest) => (
-                  <LendingRequestCard
-                    key={lendingRequest.id}
-                    lendingRequest={lendingRequest}
-                  />
-                ))}
-              </div>
-            ) : (
-              <EmptyState
-                iconNode={<FolderOpen />}
-                body={<span>Ingen utlånsforespørsler</span>}
+      <LoadingIndicator loading={requestsPagination.fetching}>
+        {lendingRequests.length ? (
+          <div className={styles.lendingRequestsContainer}>
+            {lendingRequests.map((lendingRequest) => (
+              <LendingRequestCard
+                key={lendingRequest.id}
+                lendingRequest={lendingRequest}
               />
-            )}
-            {requestsPagination.hasMore && (
-              <Button
-                onPress={fetchMoreLendingRequests}
-                isPending={
-                  !isEmpty(lendingRequests) && requestsPagination.fetching
-                }
-              >
-                Last inn mer
-              </Button>
-            )}
-          </LoadingIndicator>
-          <div className={styles.divider} />
-        </>
-      )}
-      <h3>Tilgjengelige utlånsobjekter</h3>
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            className={styles.lendingRequestEmpty}
+            iconNode={<FolderOpen />}
+            body={<span>Du har ingen utlånsforespørsler</span>}
+          />
+        )}
+        {requestsPagination.hasMore && (
+          <Button
+            onPress={fetchMoreLendingRequests}
+            isPending={!isEmpty(lendingRequests) && requestsPagination.fetching}
+          >
+            Last inn mer
+          </Button>
+        )}
+      </LoadingIndicator>
+      <div className={styles.divider} />
+      <div className={styles.lendingSubsection}>
+        <h3>Tilgjengelig utstyr</h3>
+      </div>
       <LoadingIndicator loading={fetchingObjects}>
         {filteredLendableObjects.length ? (
           <div className={styles.lendableObjectsContainer}>

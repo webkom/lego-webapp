@@ -81,7 +81,7 @@ const Leaderboard = () => {
       }
       return true;
     })
-    .sort((a, b) => a.achievementRank - b.achievementRank);
+    .sort((a, b) => b.achievementsScore - a.achievementsScore);
 
   const isMobile = useIsMobileViewport();
 
@@ -94,7 +94,7 @@ const Leaderboard = () => {
         <>{user.achievementRank}</>
       ),
       sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
-        a.achievementRank - b.achievementRank,
+        b.achievementsScore - a.achievementsScore,
     },
     {
       title: 'Navn',

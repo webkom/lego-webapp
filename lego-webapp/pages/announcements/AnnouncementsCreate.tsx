@@ -1,5 +1,11 @@
-import { ButtonGroup, Card, Flex, useLocation } from '@webkom/lego-bricks';
-import { isEmpty } from 'lodash';
+import {
+  ButtonGroup,
+  Card,
+  Flex,
+  useLocation,
+  Tooltip,
+} from '@webkom/lego-bricks';
+import { isEmpty } from 'lodash-es';
 import { Field } from 'react-final-form';
 import {
   Form,
@@ -10,7 +16,6 @@ import {
   RowSection,
 } from '~/components/Form';
 import { SubmitButton } from '~/components/Form/SubmitButton';
-import Tooltip from '~/components/Tooltip';
 import {
   createAnnouncement,
   sendAnnouncement,

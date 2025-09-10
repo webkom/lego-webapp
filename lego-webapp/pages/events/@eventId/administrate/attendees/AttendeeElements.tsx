@@ -3,6 +3,7 @@ import {
   Flex,
   Icon,
   LoadingIndicator,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import {
@@ -14,7 +15,6 @@ import {
   X,
 } from 'lucide-react';
 import { Button } from 'react-aria-components';
-import Tooltip from '~/components/Tooltip';
 import {
   unregister,
   updatePayment,

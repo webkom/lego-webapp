@@ -7,8 +7,9 @@ import {
   LoadingIndicator,
   ProgressBar,
   Skeleton,
+  Tooltip,
 } from '@webkom/lego-bricks';
-import { sumBy } from 'lodash';
+import { sumBy } from 'lodash-es';
 import { CircleHelp, UserMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useEffect } from 'react';
@@ -20,7 +21,6 @@ import {
   SubmissionError,
   LegoFinalForm,
 } from '~/components/Form';
-import Tooltip from '~/components/Tooltip';
 import {
   paymentSuccess,
   paymentManual,

@@ -1,6 +1,10 @@
 import './declaration.d.ts';
 import './global.css';
-import { useEditor, EditorContent as TipTapEditorContent } from '@tiptap/react';
+import {
+  useEditor,
+  EditorContent as TipTapEditorContent,
+  BubbleMenu,
+} from '@tiptap/react';
 import { generateHTML, generateJSON } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -9,9 +13,12 @@ import Toolbar from './components/Toolbar';
 import styles from './Editor.module.css';
 import { useEffect, useState } from 'react';
 import cx from 'classnames';
-import { Figure } from './extensions/figure';
+import { Figure } from './extensions/figure.tsx';
 import { ImageWithFileKey } from './extensions/image.ts';
 import { Link } from '@tiptap/extension-link';
+import { Diff } from './extensions/diff.ts';
+import { Strike } from './extensions/strike.ts';
+import { ImageMenu } from './components/ImageMenu.tsx';
 
 export type ImageUploadFn = (
   file: File,
@@ -28,7 +35,9 @@ type Props = {
 };
 
 const extensions = [
-  StarterKit.configure({ orderedList: {} }),
+  StarterKit.configure({ orderedList: {}, strike: false }),
+  Diff,
+  Strike,
   Underline,
   ImageWithFileKey,
   Figure,
@@ -85,6 +94,9 @@ export const Editor = ({
   return (
     <div className={cx(styles.container, className)} data-test-id="lego-editor">
       <Toolbar editor={editor} disabled={disabled} imageUpload={imageUpload} />
+      <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
+        <ImageMenu editor={editor} />
+      </BubbleMenu>
       <TipTapEditorContent
         editor={editor}
         className={styles.content}

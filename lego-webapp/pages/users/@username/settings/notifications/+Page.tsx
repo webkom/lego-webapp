@@ -16,7 +16,7 @@ import {
 } from '~/redux/slices/notificationSettings';
 import styles from './UserSettingsNotifications.module.css';
 
-const notificationTypeTraslations = {
+const notificationTypeTranslations = {
   weekly_mail: 'Ukesmail',
   event_bump: 'Rykker opp fra venteliste på arrangement',
   event_admin_registration: 'Adminregistrering',
@@ -29,7 +29,6 @@ const notificationTypeTraslations = {
   restricted_mail_sent:
     'Engangs-e-poster som sendes til bestemte grupper (begrenset e-post)',
   company_interest_created: 'Ny bedriftsinteresse',
-  comment: 'Ny kommentar',
   comment_reply: 'Svar på kommentar',
   announcement: 'Kunngjøring/Viktig melding',
   survey_created: 'Ny spørreundersøkelse',
@@ -133,7 +132,7 @@ const UserSettingsNotifications = () => {
             return (
               <tr key={key}>
                 <td>
-                  {notificationTypeTraslations[notificationType] ||
+                  {notificationTypeTranslations[notificationType] ||
                     notificationType.replace(/_/g, ' ')}
                 </td>
                 {alternatives.channels.map((channel, key) => (

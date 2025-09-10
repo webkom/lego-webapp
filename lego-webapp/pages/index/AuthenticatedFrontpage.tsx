@@ -1,5 +1,6 @@
 import { Flex, Icon, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { ChevronDown, ChevronUp, SquareArrowUpRightIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -97,6 +98,10 @@ const AuthenticatedFrontpage = () => {
           subHeader={currentPrivateBanner.subheader}
           link={currentPrivateBanner.link}
           color={currentPrivateBanner.color}
+          countdownEndDate={currentPrivateBanner.countdownEndDate || undefined}
+          countdownEndMessage={
+            currentPrivateBanner.countdownEndMessage || undefined
+          }
         />
       )}
       <section className={styles.wrapper}>
@@ -305,13 +310,13 @@ const ShowMoreButton = ({
   const events = useAppSelector(selectAllEvents<FrontpageEvent>);
 
   return (
-    <div className={styles.showMore}>
+    <div className={styles.showMore} data-test-id="frontpage-show-more">
       {events.length > eventsToShow && (
-        <Icon onPress={showMore} name="chevron-down-outline" size={30} />
+        <Icon onPress={showMore} iconNode={<ChevronDown />} size={30} />
       )}
 
       {events.length < eventsToShow && (
-        <Icon onPress={scrollToTop} name="chevron-up-outline" size={30} />
+        <Icon onPress={scrollToTop} iconNode={<ChevronUp />} size={30} />
       )}
     </div>
   );

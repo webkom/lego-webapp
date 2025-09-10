@@ -1,12 +1,11 @@
-import { ConfirmModal, Flex, Icon } from '@webkom/lego-bricks';
+import { ConfirmModal, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { groupBy, orderBy } from 'lodash';
+import { groupBy, orderBy } from 'lodash-es';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
 import { GroupType, type Dateish } from 'app/models';
 import { CircularPicture } from '~/components/Image';
 import Pill from '~/components/Pill';
-import Tooltip from '~/components/Tooltip';
 import styles from '~/pages/users/@username/_components/UserProfile.module.css';
 import { deleteMembershipHistory } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';

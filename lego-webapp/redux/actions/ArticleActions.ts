@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import { Article } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { articleSchema } from '~/redux/schemas';

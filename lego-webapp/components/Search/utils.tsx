@@ -1,5 +1,5 @@
 import { Flex } from '@webkom/lego-bricks';
-import { sample } from 'lodash';
+import { sample } from 'lodash-es';
 import {
   Banana,
   BookImage,
@@ -30,6 +30,7 @@ import {
   ShoppingCart,
   Accessibility,
   Trophy,
+  MessageSquareQuote,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import { Tag } from '~/components/Tags';
@@ -188,7 +189,7 @@ const LINKS: Array<Link> = [
     key: 'email',
     title: 'E-post',
     icon: <MailSearch />,
-    url: '/admin/email',
+    url: '/admin/email/lists',
   },
   {
     admin: true,
@@ -227,6 +228,13 @@ const EXTERNAL_LINKS: Link[] = [
     title: 'Wiki',
     icon: <ScrollText />,
     url: 'https://wiki.abakus.no',
+  },
+  {
+    key: 'blog',
+    requireLogin: false,
+    title: 'Utviklerbloggen',
+    icon: <MessageSquareQuote />,
+    url: 'https://webkom.dev',
   },
   {
     key: 'ababart',

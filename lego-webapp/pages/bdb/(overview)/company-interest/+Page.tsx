@@ -4,6 +4,7 @@ import {
   Flex,
   Icon,
   LinkButton,
+  Tooltip,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FileDown, Trash2 } from 'lucide-react';
@@ -11,7 +12,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { ContentMain } from '~/components/Content';
 import SelectInput from '~/components/Form/SelectInput';
 import Table, { type ColumnProps } from '~/components/Table';
-import Tooltip from '~/components/Tooltip';
 import {
   getClosestCompanySemester,
   getCompanySemesterBySlug,

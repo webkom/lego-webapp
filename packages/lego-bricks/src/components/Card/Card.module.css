@@ -1,8 +1,9 @@
+@import '../../custom-media.css';
+
 .baseCard {
   background: var(--lego-card-color);
   border-radius: var(--border-radius-lg);
   border: 1.5px solid var(--border-gray);
-  line-height: 1.3;
   overflow: hidden;
 }
 
@@ -13,7 +14,7 @@
 .withIcon {
   gap: var(--spacing-md);
 
-  @media (max-width: 35em) {
+  @media (--small-viewport) {
     flex-direction: column;
     gap: var(--spacing-sm);
   }
@@ -121,6 +122,13 @@ html[data-theme='dark'] .danger a:hover {
 }
 
 .footer {
-  background-color: var(--additive-background);
   padding: var(--spacing-sm);
+
+  &.background {
+    background-color: var(--additive-background);
+  }
+
+  &.border {
+    border-top: 1px solid var(--border-gray);
+  }
 }

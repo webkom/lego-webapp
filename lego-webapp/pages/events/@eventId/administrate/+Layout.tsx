@@ -1,9 +1,8 @@
-import { Page } from '@webkom/lego-bricks';
+import { Page, Tooltip } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { PropsWithChildren } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
-import Tooltip from '~/components/Tooltip';
 import { canSeeAllergies } from '~/pages/events/@eventId/administrate/allergies/+Page';
 import { fetchAdministrate } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';

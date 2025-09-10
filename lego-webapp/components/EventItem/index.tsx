@@ -1,4 +1,4 @@
-import { Flex, Icon, Image } from '@webkom/lego-bricks';
+import { Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
 import {
   Calendar,
   CalendarClock,
@@ -11,7 +11,6 @@ import moment from 'moment-timezone';
 import Pill from '~/components/Pill';
 import Tag from '~/components/Tags/Tag';
 import Time from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import { colorForEventType } from '~/pages/events/utils';
 import { EventStatusType } from '~/redux/models/Event';
 import { eventAttendanceAbsolute } from '~/utils/eventStatus';

@@ -1,4 +1,10 @@
-import { Button, ButtonGroup, ConfirmModal, Icon } from '@webkom/lego-bricks';
+import {
+  Button,
+  ButtonGroup,
+  ConfirmModal,
+  Icon,
+  Tooltip,
+} from '@webkom/lego-bricks';
 import arrayMutators from 'final-form-arrays';
 import { Plus, Trash2 } from 'lucide-react';
 import { Field } from 'react-final-form';
@@ -14,7 +20,6 @@ import {
   TextArea,
   TextInput,
 } from '~/components/Form';
-import Tooltip from '~/components/Tooltip';
 import styles from '~/pages/polls/@pollsId/PollEditor.module.css';
 import { createPoll, deletePoll, editPoll } from '~/redux/actions/PollActions';
 import { useAppDispatch } from '~/redux/hooks';

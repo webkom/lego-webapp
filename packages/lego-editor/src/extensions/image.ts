@@ -19,16 +19,15 @@ export const ImageWithFileKey = Image.extend({
       ...this.parent?.(),
       fileKey: {
         default: null,
-        parseHTML: (element) =>
-          element.querySelector('img')?.getAttribute('data-file-key'),
+        parseHTML: (element) => element?.getAttribute('data-file-key'),
       },
     };
   },
-  renderHTML({ HTMLAttributes }) {
+  renderHTML({ HTMLAttributes: { fileKey, ...HTMLAttributes } }) {
     return [
       'img',
       mergeAttributes(HTMLAttributes, {
-        ['data-file-key']: HTMLAttributes.fileKey,
+        ['data-file-key']: fileKey,
       }),
     ];
   },

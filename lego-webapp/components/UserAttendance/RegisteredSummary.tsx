@@ -1,5 +1,4 @@
-import { Flex, Skeleton } from '@webkom/lego-bricks';
-import Tooltip from '~/components/Tooltip';
+import { Flex, Skeleton, Tooltip } from '@webkom/lego-bricks';
 import styles from './Registrations.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicUser } from '~/redux/models/User';

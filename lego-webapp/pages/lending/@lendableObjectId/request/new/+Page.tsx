@@ -1,4 +1,5 @@
-import { Page } from '@webkom/lego-bricks';
+import { Card, Flex, Page } from '@webkom/lego-bricks';
+import { useState } from 'react';
 import { Field } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
@@ -11,9 +12,11 @@ import {
   TextInput,
 } from '~/components/Form';
 import HTTPError from '~/components/errors/HTTPError';
+import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
-import { useAppDispatch } from '~/redux/hooks';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { CreateLendingRequest } from '~/redux/models/LendingRequest';
+import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -27,9 +30,13 @@ type FormValues = {
 
 type Props = {
   initialValues?: Partial<FormValues>;
+  onRangeChange?: (range: [Dateish, Dateish]) => void;
 };
 
-export const LendingRequestEditor = ({ initialValues }: Props) => {
+export const LendingRequestEditor = ({
+  initialValues,
+  onRangeChange,
+}: Props) => {
   const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
 
   const dispatch = useAppDispatch();
@@ -61,9 +68,19 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
             placeholder="Legg til praktisk info..."
             component={TextInput.Field}
           />
-          <Field name="date" label="Dato" range component={DatePicker.Field} />
+          <Field
+            name="date"
+            label="Dato"
+            range
+            component={DatePicker.Field}
+            onChange={(value: [Dateish, Dateish]) => {
+              if (onRangeChange && value && value.length === 2) {
+                onRangeChange(value);
+              }
+            }}
+          />
 
-          <SubmitButton>Lån objekt</SubmitButton>
+          <SubmitButton>Send forespørsel</SubmitButton>
         </Form>
       )}
     </LegoFinalForm>
@@ -71,12 +88,26 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
 };
 
 export default function LendingRequestCreate() {
-  const title = 'Nytt lån';
+  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
+  const [range, setRange] = useState<[Dateish, Dateish] | undefined>();
+  const lendableObject = useAppSelector((state) =>
+    selectLendableObjectById(state, lendableObjectId),
+  );
+  const title = `Ny utlånsforespørsel - ${lendableObject?.title}`;
 
   return (
     <Page title={title} back={{ href: `/lending/` }}>
       <Helmet title={title} />
-      <LendingRequestEditor />
+      <LendingCalendar
+        selectedRange={range}
+        lendableObjectId={lendableObjectId}
+      />
+      <Card>
+        <Flex column gap="var(--spacing-md)">
+          <h3>Ny forespørsel</h3>
+          <LendingRequestEditor onRangeChange={setRange} />
+        </Flex>
+      </Card>
     </Page>
   );
 }

@@ -1,8 +1,7 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import React from 'react';
 import { ProfilePicture } from '~/components/Image';
-import Tooltip from '~/components/Tooltip';
 import { ROLES, type RoleType } from '~/utils/constants';
 import styles from './GroupMember.module.css';
 import type { PublicUser } from '~/redux/models/User';

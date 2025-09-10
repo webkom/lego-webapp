@@ -13,9 +13,10 @@ import {
   markAllNotifications,
 } from '~/redux/actions/NotificationsFeedActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
+import { selectNotifications } from '~/redux/slices/feeds';
+import { selectUnreadNotificationsCount } from '~/redux/slices/notificationsFeed';
 import Dropdown from '../Dropdown';
-import { activityRenderers } from '../Feed';
+import { getActivityRenderer } from '../Feed';
 import styles from './HeaderNotifications.module.css';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
 
@@ -24,7 +25,7 @@ const NotificationElement = ({
 }: {
   notification: AggregatedFeedActivity;
 }) => {
-  const activityRenderer = activityRenderers[notification.verb];
+  const activityRenderer = getActivityRenderer(notification.verb);
 
   if (activityRenderer) {
     const { Icon, Header } = activityRenderer;
@@ -58,9 +59,7 @@ const NotificationElement = ({
 };
 
 const HeaderNotificationsContent = () => {
-  const notifications = useAppSelector((state) =>
-    selectFeedActivitiesByFeedId(state, 'notifications'),
-  );
+  const notifications = useAppSelector(selectNotifications);
   const fetchingNotifications = useAppSelector(
     (state) => state.feedActivities.fetching,
   );
@@ -90,7 +89,7 @@ const HeaderNotificationsContent = () => {
 
 const NotificationsDropdown = () => {
   const dispatch = useAppDispatch();
-  const notificationsData = useAppSelector((state) => state.notificationsFeed);
+  const unreadCount = useAppSelector(selectUnreadNotificationsCount);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   usePreparedEffect(
@@ -102,8 +101,6 @@ const NotificationsDropdown = () => {
       ]),
     [],
   );
-
-  const { unreadCount } = notificationsData;
 
   return (
     <Dropdown

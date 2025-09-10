@@ -1,5 +1,7 @@
-import { Button, Card, Icon } from '@webkom/lego-bricks';
-import { useState } from 'react';
+import { Accordion, Flex, Icon } from '@webkom/lego-bricks';
+import { CalendarIcon, ChevronRight } from 'lucide-react';
+import moment from 'moment-timezone';
+import { Dateish } from 'app/models';
 import { getIcalUrl, getIcalUrlGoogle } from '~/pages/events/index/EventFooter';
 import styles from './AddToCalendar.module.css';
 import type { PropsWithChildren } from 'react';
@@ -10,11 +12,11 @@ type Props = {
   meeting: DetailedMeeting;
 };
 
-const formatTimeForGoogle = (dateTime: string) => {
-  return dateTime.replace(/-|:/g, '');
+const formatTimeForGoogle = (dateTime: Dateish) => {
+  return moment(dateTime).toISOString().replace(/[-:]/g, '');
 };
 
-const getGoogleCalendarLink = (meeting) => {
+const getGoogleCalendarLink = (meeting: DetailedMeeting) => {
   const baseURL = 'https://calendar.google.com/calendar/event';
   const params = new URLSearchParams({
     action: 'TEMPLATE',
@@ -31,17 +33,25 @@ const getGoogleCalendarLink = (meeting) => {
 };
 
 const AddToCalendarToggle = ({ icalToken, meeting }: Props) => {
-  const [calendarIsOpen, setCalendarIsOpen] = useState(false);
-
   return (
-    <div>
-      <Button onPress={() => setCalendarIsOpen(!calendarIsOpen)}>
-        <Icon name="calendar-outline" size={19} />
-        {!calendarIsOpen ? 'Vis kalenderimport' : 'Skjul kalenderimport'}
-      </Button>
-
-      {calendarIsOpen && (
-        <Card className={styles.calendarImportCard}>
+    <div className={styles.calendarTrigger}>
+      <Accordion
+        triggerComponent={({ onClick, rotateClassName }) => (
+          <div onClick={onClick}>
+            <Flex alignItems="center" className={styles.calendarContainer}>
+              <Icon iconNode={<CalendarIcon />} /> Kalenderimport
+            </Flex>
+            <Icon
+              onPress={() => {
+                onClick();
+              }}
+              iconNode={<ChevronRight />}
+              className={rotateClassName}
+            />
+          </div>
+        )}
+      >
+        <Flex alignItems="baseline" column>
           <h3>Google kalender</h3>
           <CalendarLink href={getGoogleCalendarLink(meeting)}>
             Importer kun dette møtet
@@ -56,8 +66,8 @@ const AddToCalendarToggle = ({ icalToken, meeting }: Props) => {
           <CalendarLink href={getIcalUrl(icalToken, 'personal')}>
             Synkroniser alle dine møter og favorittarrangementer
           </CalendarLink>
-        </Card>
-      )}
+        </Flex>
+      </Accordion>
     </div>
   );
 };

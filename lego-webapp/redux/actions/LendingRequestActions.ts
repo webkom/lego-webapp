@@ -1,6 +1,7 @@
 import {
   AdminLendingRequest,
   CreateLendingRequest,
+  DetailLendingRequest,
   EditLendingRequest,
   ListLendingRequest,
 } from '~/redux/models/LendingRequest';
@@ -23,11 +24,12 @@ export const fetchLendingRequests = ({ next = false }) =>
     propagateError: true,
   });
 
-export const fetchLendingRequestsAdmin = ({ next = false }) =>
+export const fetchLendingRequestsAdmin = ({ query, next = false }) =>
   callAPI<AdminLendingRequest[]>({
     types: LendingRequests.FETCH_ADMIN,
     endpoint: '/lending/requests/admin/',
     schema: [lendingRequestSchema],
+    query,
     meta: {
       errorMessage: 'Henting av utlånsforespørsler feilet',
     },
@@ -58,6 +60,22 @@ export const editLendingRequest = (data: EditLendingRequest) =>
     meta: {
       errorMessage: 'Endring av utlånsforespørsel feilet',
       successMessage: 'Endring av utlånsforespørsel fullført',
+    },
+  });
+
+export const commentOnLendingRequest = (data: {
+  message: string;
+  lending_request: EntityId;
+}) =>
+  callAPI<DetailLendingRequest>({
+    types: LendingRequests.EDIT,
+    endpoint: `/lending/timelineentries/`,
+    method: 'POST',
+    schema: lendingRequestSchema,
+    body: data,
+    meta: {
+      errorMessage: 'Kommentering av utlånsforespørsel feilet',
+      successMessage: 'Kommentering av utlånsforespørsel fullført',
     },
   });
 

@@ -52,6 +52,17 @@ const Footer = () => {
             >
               Backend
             </a>
+            <Circle
+              size="var(--spacing-xs)"
+              color="var(--color-absolute-white)"
+            />
+            <a
+              href="https://webkom.dev"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Utviklerbloggen
+            </a>
           </Flex>
         </div>
 

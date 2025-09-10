@@ -1,4 +1,4 @@
-import { pick, sumBy, find } from 'lodash';
+import { pick, sumBy, find } from 'lodash-es';
 import moment from 'moment-timezone';
 import { EventType } from '~/redux/models/Event';
 import { appConfig } from '~/utils/appConfig';

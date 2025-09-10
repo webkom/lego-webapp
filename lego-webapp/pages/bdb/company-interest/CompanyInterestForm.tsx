@@ -242,6 +242,7 @@ type CompanyInterestFormEntity = {
   companyPresentationComment: string;
   companyType: string;
   officeInTrondheim: boolean;
+  wantsThursdayEvent: boolean;
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -367,6 +368,7 @@ const CompanyInterestForm = ({ language }: Props) => {
     })),
     participantRange: (participantRange && participantRange[0]) || null,
     officeInTrondheim: companyInterest?.officeInTrondheim || false,
+    wantsThursdayEvent: companyInterest?.wantsThursdayEvent || false,
     semesters: edit
       ? semesters
           .map((semester) => ({
@@ -403,6 +405,7 @@ const CompanyInterestForm = ({ language }: Props) => {
       contactPerson: data.contactPerson,
       mail: data.mail,
       phone: data.phone,
+      wantsThursdayEvent: data.wantsThursdayEvent,
       officeInTrondheim: data.officeInTrondheim,
       semesters: data.semesters
         .filter((semester) => semester.checked)
@@ -592,11 +595,21 @@ const CompanyInterestForm = ({ language }: Props) => {
                     ))}
                   </MultiSelectGroup>
                 </Flex>
-                <Flex column className={styles.interestBox}>
+                <Flex
+                  column
+                  className={styles.interestBox}
+                  gap="var(--spacing-md)"
+                >
                   <Field
                     name="officeInTrondheim"
                     component={ToggleSwitch.Field}
                     label={FORM_LABELS.officeInTrondheim[language]}
+                  />
+                  <Field
+                    name="wantsThursdayEvent"
+                    component={ToggleSwitch.Field}
+                    label={FORM_LABELS.wantsThursdayEvent[language]}
+                    description={FORM_LABELS.wantsThursdayEventInfo[language]}
                   />
                 </Flex>
                 <Flex column className={styles.interestBox}>

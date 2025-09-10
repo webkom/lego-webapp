@@ -1,12 +1,12 @@
 import CircularPicture from './CircularPicture';
 import type { ComponentProps } from 'react';
-import type { UnknownUser } from '~/redux/models/User';
 
 type Props = {
-  user: Pick<
-    UnknownUser,
-    'profilePicture' | 'username' | 'profilePicturePlaceholder'
-  >;
+  user: {
+    profilePicture: string;
+    profilePicturePlaceholder?: string;
+    username: string;
+  };
   size: number;
   className?: string;
   alt?: string;

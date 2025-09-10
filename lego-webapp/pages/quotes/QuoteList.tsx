@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import { useState } from 'react';
 import Quote from './Quote';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -13,7 +14,7 @@ const QuoteList = ({ quotes, actionGrant }: Props) => {
   const [displayAdminId, setDisplayAdminId] = useState<EntityId>();
 
   return (
-    <ul>
+    <Flex column gap={'var(--spacing-lg)'}>
       {quotes.filter(Boolean).map((quote) => (
         <Quote
           actionGrant={actionGrant}
@@ -27,7 +28,7 @@ const QuoteList = ({ quotes, actionGrant }: Props) => {
           displayAdmin={quote.id === displayAdminId}
         />
       ))}
-    </ul>
+    </Flex>
   );
 };
 

@@ -1,5 +1,7 @@
 import { Card } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Dateish } from 'app/models';
+import Countdown from '~/components/Countdown';
 import styles from './Banner.module.css';
 import type { ReactNode } from 'react';
 import type { $Keys } from 'utility-types';
@@ -11,19 +13,22 @@ export const COLORS = {
   lightBlue: styles.lightBlue,
   itdageneBlue: styles.itdageneBlue,
   buddyweek2024: styles.buddyweek2024,
+  easter: styles.easter,
 };
 export type Color = $Keys<typeof COLORS>;
 type LinkComponentProps = {
-  link: string;
+  link?: string;
   children: ReactNode;
   className?: string;
 };
 type Props = {
   header: string;
   subHeader?: string;
-  link: string;
+  link?: string;
   color?: Color;
   className?: string;
+  countdownEndDate?: Dateish | string;
+  countdownEndMessage?: string;
 };
 
 const LinkComponent = ({ link, children, className }: LinkComponentProps) => {
@@ -39,11 +44,30 @@ const LinkComponent = ({ link, children, className }: LinkComponentProps) => {
   );
 };
 
-const Banner = ({ header, subHeader, link, color, className }: Props) => {
+const Banner = ({
+  header,
+  subHeader,
+  link,
+  color,
+  className,
+  countdownEndDate,
+  countdownEndMessage = 'Tiden er ute!',
+}: Props) => {
+  const hasCountdown = countdownEndDate != null;
+
   return (
     <LinkComponent className={className} link={link}>
       <Card className={cx(styles.header, color && COLORS[color])}>
-        <h1>{header}</h1>
+        <h1 className={styles.headerTitle}>{header}</h1>
+        {hasCountdown && (
+          <div className={styles.countdown}>
+            <Countdown
+              endDate={countdownEndDate}
+              endMessage={countdownEndMessage}
+              className={styles.countdownTime}
+            />
+          </div>
+        )}
         {subHeader && <h4 className={styles.subHeader}>{subHeader}</h4>}
       </Card>
     </LinkComponent>

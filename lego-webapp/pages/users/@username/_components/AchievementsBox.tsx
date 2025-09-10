@@ -1,10 +1,9 @@
-import { Button, Flex } from '@webkom/lego-bricks';
+import { Button, Flex, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Trophy } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState, useMemo } from 'react';
 import { navigate } from 'vike/client/router';
-import Tooltip from '~/components/Tooltip';
 import AchievementsInfo, { rarityMap } from '~/utils/achievementConstants';
 import styles from './UserProfile.module.css';
 import type { Achievement } from '~/redux/models/User';

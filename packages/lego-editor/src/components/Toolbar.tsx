@@ -22,22 +22,25 @@ import {
 } from 'lucide-react';
 import { ImageUploadModal } from './ImageUploadModal';
 import { ImageUploadFn } from '../index';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 
 type ButtonProps = {
   onClick: MouseEventHandler;
   disabled?: boolean;
   active?: boolean;
+  tooltip?: string;
   children: ReactNode;
 };
 
-const ToolbarButton = ({
+export const ToolbarButton = ({
   onClick,
   disabled,
   active,
+  tooltip,
   children,
   ...props
 }: ButtonProps & HTMLProps<HTMLButtonElement>) => {
-  return (
+  const node = (
     <button
       {...props}
       className={cx(
@@ -50,6 +53,13 @@ const ToolbarButton = ({
     >
       {children}
     </button>
+  );
+  return tooltip ? (
+    <Tooltip content={tooltip} positions={['top']}>
+      {node}
+    </Tooltip>
+  ) : (
+    node
   );
 };
 
@@ -72,6 +82,7 @@ const ImageUploadButton = ({
         onClick={() => setImageUploadModalOpen(true)}
         disabled={disabled}
         active={editor.isActive('image')}
+        tooltip="Legg til bilde"
         aria-label="Image"
       >
         <Image size={18} />
@@ -107,7 +118,7 @@ const ToolbarLinkButton = ({ editor, disabled }: ToolbarLinkButtonProps) => {
           editor.chain().focus().unsetLink().run();
           return;
         } else {
-          const url = window.prompt('Enter the URL');
+          const url = window.prompt('Velg URL');
           if (!url) return;
           editor
             .chain()
@@ -118,6 +129,7 @@ const ToolbarLinkButton = ({ editor, disabled }: ToolbarLinkButtonProps) => {
       }}
       disabled={disabled}
       active={editor.isActive('link')}
+      tooltip={editor.isActive('link') ? 'Fjern lenke' : 'Legg til lenke'}
     >
       <Link size={18} />
     </ToolbarButton>
@@ -136,11 +148,12 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
   }
 
   return (
-    <div className={styles.root} data-test-id="lego-editor-toolbar">
+    <Flex className={styles.root} data-test-id="lego-editor-toolbar">
       <ToolbarButton
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         disabled={disabled}
         active={editor.isActive('heading', { level: 1 })}
+        tooltip="Overskrift 1"
       >
         <Heading1 size={18} />
       </ToolbarButton>
@@ -148,6 +161,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         disabled={disabled}
         active={editor.isActive('heading', { level: 2 })}
+        tooltip="Overskrift 2"
       >
         <Heading2 size={18} />
       </ToolbarButton>
@@ -155,6 +169,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
         disabled={disabled}
         active={editor.isActive('heading', { level: 3 })}
+        tooltip="Overskrift 3"
       >
         <Heading3 size={18} />
       </ToolbarButton>
@@ -162,6 +177,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
         disabled={disabled}
         active={editor.isActive('heading', { level: 4 })}
+        tooltip="Overskrift 4"
       >
         <Heading4 size={18} />
       </ToolbarButton>
@@ -169,6 +185,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={disabled}
         active={editor.isActive('bold')}
+        tooltip="Fet skrift"
       >
         <Bold size={18} />
       </ToolbarButton>
@@ -176,6 +193,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={disabled}
         active={editor.isActive('italic')}
+        tooltip="Kursiv"
       >
         <Italic size={18} />
       </ToolbarButton>
@@ -183,6 +201,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         disabled={disabled}
         active={editor.isActive('underline')}
+        tooltip="Understrek"
       >
         <Underline size={18} />
       </ToolbarButton>
@@ -190,6 +209,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleStrike().run()}
         disabled={disabled}
         active={editor.isActive('strike')}
+        tooltip="Gjennomstreking"
       >
         <Strikethrough size={18} />
       </ToolbarButton>
@@ -197,6 +217,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleCode().run()}
         disabled={disabled}
         active={editor.isActive('code')}
+        tooltip="Inline kode"
       >
         <Code size={18} />
       </ToolbarButton>
@@ -204,6 +225,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleCodeBlock().run()}
         disabled={disabled}
         active={editor.isActive('codeBlock')}
+        tooltip="Kodeblokk"
       >
         <Code2 size={18} />
       </ToolbarButton>
@@ -211,6 +233,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         disabled={disabled}
         active={editor.isActive('bulletList')}
+        tooltip="Punktliste"
       >
         <List size={18} />
       </ToolbarButton>
@@ -218,18 +241,21 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         disabled={disabled}
         active={editor.isActive('orderedList')}
+        tooltip="Nummerert liste"
       >
         <ListOrdered size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().sinkListItem('listItem').run()}
         disabled={disabled || !editor.can().sinkListItem('listItem')}
+        tooltip="Legg til innrykk"
       >
         <Indent size={18} />
       </ToolbarButton>
       <ToolbarButton
         onClick={() => editor.chain().focus().liftListItem('listItem').run()}
         disabled={disabled || !editor.can().liftListItem('listItem')}
+        tooltip="Fjern innrykk"
       >
         <Outdent size={18} />
       </ToolbarButton>
@@ -239,7 +265,7 @@ const Toolbar = ({ editor, disabled, imageUpload }: Props): ReactNode => {
         disabled={disabled}
         imageUpload={imageUpload}
       />
-    </div>
+    </Flex>
   );
 };
 

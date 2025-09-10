@@ -7,6 +7,7 @@ import {
   ImageUploadField,
   LegoFinalForm,
   ObjectPermissions,
+  SelectInput,
   SubmitButton,
   TextInput,
 } from '~/components/Form';
@@ -93,10 +94,18 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
             placeholder="Grill til utlån"
             component={EditorField.Field}
           />
-
           <Fields
             component={ObjectPermissions}
-            names={['canViewGroups', 'canEditUsers', 'canEditGroups']}
+            names={['canViewGroups', 'canEditGroups']}
+          />
+
+          <Field
+            name="canEditUsers"
+            label="Anvsarlige brukere (Får epostvarsel)"
+            component={SelectInput.AutocompleteField}
+            isMulti
+            filter={['users.user']}
+            placeholder="Velg brukere"
           />
 
           <SubmitButton>Lagre</SubmitButton>

@@ -7,8 +7,9 @@ import {
   LoadingPage,
   Modal,
   Page,
+  Tooltip,
 } from '@webkom/lego-bricks';
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'lodash-es';
 import { ListRestart, Pencil } from 'lucide-react';
 import moment from 'moment-timezone';
 import diff from 'node-htmldiff';
@@ -27,10 +28,9 @@ import Dropdown from '~/components/Dropdown';
 import { ProfilePicture } from '~/components/Image';
 import InfoList from '~/components/InfoList';
 import LegoReactions from '~/components/LegoReactions';
-import { mazemapScript } from '~/components/MazemapEmbed';
+import { mazemapDeps } from '~/components/MazemapEmbed';
 import { MazemapAccordion } from '~/components/MazemapEmbed/MazemapAccordion';
 import Time, { FromToTime } from '~/components/Time';
-import Tooltip from '~/components/Tooltip';
 import Attendance from '~/components/UserAttendance/Attendance';
 import { PizzaAccordion } from '~/pages/meetings/@meetingId/PizzaAccordion';
 import { setInvitationStatus } from '~/redux/actions/MeetingActions';
@@ -209,7 +209,7 @@ const MeetingDetails = () => {
         href: '/meetings',
       }}
     >
-      <Helmet title={meeting.title}>{mazemapScript}</Helmet>
+      <Helmet title={meeting.title}>{mazemapDeps}</Helmet>
 
       <ContentSection>
         <ContentMain>

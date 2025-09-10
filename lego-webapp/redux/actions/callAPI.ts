@@ -1,4 +1,4 @@
-import { omit, isArray } from 'lodash';
+import { omit, isArray } from 'lodash-es';
 import { normalize } from 'normalizr';
 import { logout } from '~/redux/actions/UserActions';
 import { selectIsLoggedIn } from '~/redux/slices/auth';

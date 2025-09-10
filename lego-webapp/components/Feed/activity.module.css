@@ -1,30 +1,15 @@
-.header {
-  display: flex;
-  align-items: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-bottom: 1.5px solid var(--border-gray);
-  word-break: break-word;
-  white-space: pre-line;
-}
-
-.activityHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  padding: var(--spacing-sm) var(--spacing-md);
-}
-
-.activityHeaderItem {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-}
-
 .activityContent {
   padding: 0 var(--spacing-md);
 }
 
+.activityFooter {
+  margin-left: var(--spacing-sm);
+}
+
 .time {
   color: var(--secondary-font-color);
+}
+
+.redText {
+  color: var(--lego-red-color);
 }

@@ -54,9 +54,12 @@
     "classnames": "catalog:",
     "cropperjs": "^1.6.2",
     "lucide-react": "catalog:",
+    "postcss-custom-media": "catalog:",
+    "postcss-nested": "catalog:",
     "react-aria-components": "catalog:",
     "react-cropper": "^2.3.3",
-    "react-dropzone": "^14.3.8"
+    "react-dropzone": "^14.3.8",
+    "react-tiny-popover": "^8.1.6"
   },
   "peerDependencies": {
     "react": "catalog:",
@@ -72,7 +75,7 @@
     "@storybook/react": "^8.6.4",
     "@storybook/react-vite": "^8.6.4",
     "@storybook/test": "^8.6.4",
-    "@types/express": "^5.0.0",
+    "@types/express": "^4.17.21",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.3.3",
@@ -82,7 +85,6 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-storybook": "^0.11.1",
-    "postcss-custom-media": "^11.0.3",
     "storybook": "^8.6.4",
     "typescript": "catalog:",
     "vite": "catalog:",

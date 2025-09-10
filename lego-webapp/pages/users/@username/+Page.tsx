@@ -11,7 +11,7 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { uniqBy, orderBy } from 'lodash';
+import { uniqBy, orderBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
@@ -173,14 +173,18 @@ const UserProfile = () => {
     >
       <Helmet title={`${firstName} ${lastName}`} />
 
-      <Flex wrap className={styles.header}>
+      <div className={styles.pageGrid}>
         <Flex
           column
           alignItems="center"
           gap="var(--spacing-sm)"
-          className={styles.sidebar}
+          className={styles.profilePicture}
         >
-          <Flex alignItems="center" justifyContent="center">
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={cx(hasFrame && styles.frameMargin)}
+          >
             {hasFrame && (
               <Image alt="Gullramme" className={styles.frame} src={frame} />
             )}
@@ -188,7 +192,7 @@ const UserProfile = () => {
           </Flex>
           {isCurrentUser && (
             <DialogTrigger>
-              <Button className={cx(hasFrame && styles.frameMargin)}>
+              <Button>
                 <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
@@ -204,7 +208,7 @@ const UserProfile = () => {
         <Flex
           alignItems="center"
           column
-          className={cx(styles.rightContent, styles.leftMarginContent)}
+          className={cx(styles.rightContent, styles.header)}
         >
           <GroupMemberships
             memberships={memberships}
@@ -215,9 +219,7 @@ const UserProfile = () => {
             <Achievements achievements={user.achievements} />
           )}
         </Flex>
-      </Flex>
 
-      <Flex wrap className={styles.content}>
         <div className={styles.info}>
           <UserInfo user={user} />
 
@@ -261,7 +263,7 @@ const UserProfile = () => {
               <GSuiteInfo emailAddress={user.emailAddress} />
             )}
         </div>
-        <div className={cx(styles.rightContent, styles.leftMarginContent)}>
+        <div className={styles.events}>
           {isCurrentUser && (
             <div className={styles.bottomMargin}>
               <h3>Dine kommende arrangementer</h3>
@@ -274,9 +276,7 @@ const UserProfile = () => {
               <h3>
                 Dine tidligere arrangementer (
                 {!previousEventsPagination.fetching
-                  ? previousEvents === undefined
-                    ? 0
-                    : previousEvents.length
+                  ? (sortedPreviousEvents?.length ?? 0)
                   : '...'}
                 )
               </h3>
@@ -289,7 +289,7 @@ const UserProfile = () => {
             </div>
           )}
         </div>
-      </Flex>
+      </div>
     </Page>
   );
 };

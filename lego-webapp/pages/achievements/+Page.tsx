@@ -1,10 +1,9 @@
-import { Card, Flex, Icon } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Ghost } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
-import Tooltip from '~/components/Tooltip';
 import { postKeypress } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { CurrentUser, Rarity } from '~/redux/models/User';
@@ -91,7 +90,8 @@ const AchievementGroup = ({
           justifyContent="flex-end"
           className={styles.allAchievements}
         >
-          {achievementGroup.achievements.length > 1 &&
+          {(achievementGroup.achievements.length > 1 ||
+            !achievementGroup.isLeveled) &&
             achievementGroup.achievements.map((achievement: any, i: number) => (
               <Tooltip
                 key={i}
@@ -119,7 +119,9 @@ const AchievementGroup = ({
                     alt="Trofe"
                     className={cx(
                       styles.achievement,
-                      userLevel < achievement.level && styles.unachieved,
+                      achievementGroup.isLeveled
+                        ? userLevel < achievement.level && styles.unachieved
+                        : userLevel !== achievement.level && styles.unachieved,
                     )}
                   />
                 </Card>
@@ -169,11 +171,15 @@ const Overview = () => {
     const mappedName =
       achievedLevel >= 0
         ? achievements[achievedLevel].name
-        : achievements[0].name;
+        : group.isLeveled
+          ? achievements[0].name
+          : group.name;
     const mappedDescription =
       achievedLevel >= 0
         ? achievements[achievedLevel].description
-        : achievements[0].description;
+        : group.isLeveled
+          ? achievements[0].description
+          : group.description;
 
     return {
       ...group,

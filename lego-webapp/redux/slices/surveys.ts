@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import { createSelector } from 'reselect';
 import { Survey } from '~/redux/actionTypes';
 import {

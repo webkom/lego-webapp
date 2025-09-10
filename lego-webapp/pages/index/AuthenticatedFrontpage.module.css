@@ -9,6 +9,7 @@ section.wrapper {
     'events quote'
     'events readme'
     'events articles'
+    'events blog'
     'events .'
     / 2fr 1fr;
   padding: 0 var(--spacing-md);
@@ -24,6 +25,7 @@ section.wrapper {
       'readme'
       'weekly'
       'articles'
+      'blog'
       'events';
   }
 
@@ -65,6 +67,15 @@ section.wrapper {
   grid-area: events;
 }
 
+.blog {
+  grid-area: blog;
+  color: var(--lego-font-color);
+}
+
+.blogTitle {
+  margin: 0;
+}
+
 .showMore {
   display: flex;
   justify-content: center;
@@ -73,5 +84,4 @@ section.wrapper {
 
 .meta {
   color: var(--secondary-font-color);
-  line-height: 1.3;
 }

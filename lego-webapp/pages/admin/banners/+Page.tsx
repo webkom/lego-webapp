@@ -12,14 +12,16 @@ import { selectAllBanners } from '~/redux/slices/banner';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import styles from './BannerOverview.module.css';
 import type { Banner as BannerType } from '~/redux/models/Banner';
-
 const BannerOverview = () => {
   const dispatch = useAppDispatch();
+
   usePreparedEffect('fetchAllBanners', () => dispatch(fetchAllBanners()), [
     dispatch,
   ]);
+
   const allBanners = useAppSelector((state) => selectAllBanners(state));
   const sudoAdminAccess = useAppSelector((state) => state.allowed.sudo);
+
   if (!sudoAdminAccess) return <HTTPError statusCode={418} />;
 
   return (
@@ -45,15 +47,43 @@ const BannerOverview = () => {
 const BannerItem = ({ banner }: { banner: BannerType }) => {
   const dispatch = useAppDispatch();
 
-  const togglePublic = () =>
+  const togglePublic = () => {
     dispatch(
-      editBanner({ currentPublic: !banner.currentPublic }, banner.id),
-    ).then(() => dispatch(fetchAllBanners()));
+      editBanner(
+        { ...banner, currentPublic: !banner.currentPublic },
+        banner.id,
+      ),
+    )
+      .then(() => {
+        dispatch(fetchAllBanners());
+      })
+      .catch((error) => {
+        console.error('Failed to toggle public banner:', error);
+      });
+  };
 
-  const togglePrivate = () =>
+  const togglePrivate = () => {
     dispatch(
-      editBanner({ currentPrivate: !banner.currentPrivate }, banner.id),
-    ).then(() => dispatch(fetchAllBanners()));
+      editBanner(
+        { ...banner, currentPrivate: !banner.currentPrivate },
+        banner.id,
+      ),
+    )
+      .then(() => {
+        dispatch(fetchAllBanners());
+      })
+      .catch((error) => {
+        console.error('Failed to toggle private banner:', error);
+      });
+  };
+
+  const countdownDate = banner.countdownEndDate
+    ? new Date(banner.countdownEndDate)
+    : undefined;
+
+  const validCountdownDate = banner.countdownEndDate || undefined;
+
+  const countdownMessage = banner.countdownEndMessage ?? undefined;
 
   return (
     <Card hideOverflow className={styles.card}>
@@ -63,8 +93,11 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           subHeader={banner.subheader}
           link={banner.link}
           color={banner.color}
+          countdownEndDate={validCountdownDate}
+          countdownEndMessage={countdownMessage}
         />
       </div>
+
       <Flex
         justifyContent="space-between"
         alignItems="center"
@@ -84,8 +117,6 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           >
             <h4>Innlogget forside</h4>
             <ToggleSwitch
-              value={banner.currentPrivate}
-              name="private"
               checked={banner.currentPrivate}
               onChange={togglePrivate}
             />
@@ -98,13 +129,12 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
           >
             <h4>Offentlig forside</h4>
             <ToggleSwitch
-              value={banner.currentPublic}
-              name="public"
               checked={banner.currentPublic}
               onChange={togglePublic}
             />
           </Flex>
         </Flex>
+
         <LinkButton
           href={`/admin/banners/${banner.id}/edit/`}
           className={styles.editButton}
