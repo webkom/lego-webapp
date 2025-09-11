@@ -9,7 +9,6 @@ import {
 import DisplayContent from '~/components/DisplayContent';
 import TextWithIcon from '~/components/TextWithIcon';
 import { useFetchedLendableObject } from '~/pages/lending/@lendableObjectId/useFetchedLendableObject';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 
 export const LendableObjectList = () => {
@@ -19,7 +18,6 @@ export const LendableObjectList = () => {
   );
 
   const title = lendableObject ? `Utlån: ${lendableObject.title}` : undefined;
-  const lendingRequestActive = useFeatureFlag('lending-request');
   return (
     <Page
       title={title}
@@ -31,7 +29,7 @@ export const LendableObjectList = () => {
               Rediger
             </LinkButton>
           ) : undefined}
-          {lendableObject?.canLend && lendingRequestActive && (
+          {lendableObject?.canLend && (
             <LinkButton href={`/lending/${lendableObjectId}/request/new`}>
               Lån
             </LinkButton>

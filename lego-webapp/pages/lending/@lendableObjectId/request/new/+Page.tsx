@@ -11,20 +11,18 @@ import {
   SubmitButton,
   TextInput,
 } from '~/components/Form';
-import HTTPError from '~/components/errors/HTTPError';
 import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { CreateLendingRequest } from '~/redux/models/LendingRequest';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
 import type { EntityId } from '@reduxjs/toolkit';
 
 type FormValues = {
   date: Dateish[];
   endDate: Dateish;
-  text: string;
+  comment: string;
   lendableObject: EntityId;
 };
 
@@ -52,11 +50,6 @@ export const LendingRequestEditor = ({
       navigate('/lending/'),
     );
   };
-  const lendingRequestActive = useFeatureFlag('lending-request');
-
-  if (!lendingRequestActive) {
-    return <HTTPError />;
-  }
 
   return (
     <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>
@@ -64,7 +57,7 @@ export const LendingRequestEditor = ({
         <Form onSubmit={handleSubmit}>
           <Field
             label="Kommentar"
-            name="text"
+            name="comment"
             placeholder="Legg til praktisk info..."
             component={TextInput.Field}
           />

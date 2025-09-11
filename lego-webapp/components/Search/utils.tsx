@@ -80,7 +80,6 @@ const LINKS: Array<Link> = [
     title: (
       <Flex alignItems="center" gap="var(--spacing-sm)">
         Utlån
-        <Tag tag="Beta" color="purple" />
       </Flex>
     ),
     sortTitle: 'Utlån',

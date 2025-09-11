@@ -21,7 +21,6 @@ import { LendingRequestStatus } from '~/redux/models/LendingRequest';
 import { EntityType } from '~/redux/models/entities';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
 import styles from '../LendableObjectList.module.css';
 
@@ -77,10 +76,6 @@ const LendingAdmin = () => {
 
     setQueryValue('status')(newStatuses.join(','));
   };
-
-  if (!useFeatureFlag('lending')) {
-    return <HTTPError />;
-  }
 
   const title = 'Utlån - Admin';
   return (
