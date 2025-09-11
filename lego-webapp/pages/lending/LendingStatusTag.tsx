@@ -13,7 +13,8 @@ import styles from './LendableObjectList.module.css';
 export const statusMap: Record<
   LendingRequestStatus,
   {
-    tag: string;
+    name: string;
+    label: string;
     buttonText: string;
     timelineText: string;
     icon: ReactNode;
@@ -21,49 +22,56 @@ export const statusMap: Record<
   }
 > = {
   [LendingRequestStatus.Created]: {
-    tag: 'Ny forespørsel',
+    name: 'Ny forespørsel',
+    label: 'Ny forespørsel',
     buttonText: 'Opprett forespørsel',
     timelineText: 'opprettet forespørsel',
     icon: <CircleDashed className={styles.rotate} />,
     color: 'blue',
   },
   [LendingRequestStatus.Unapproved]: {
-    tag: 'Venter på godkjenning',
+    name: 'Venter på godkjenning',
+    label: 'Venter på godkjenning',
     buttonText: 'Fjern godkjenning',
     timelineText: 'fjernet godkjenning',
     icon: <CircleDashed className={styles.rotate} />,
     color: 'orange',
   },
   [LendingRequestStatus.Approved]: {
-    tag: 'Godkjent',
+    name: 'Godkjent',
+    label: 'Godkjent',
     buttonText: 'Godkjenn',
     timelineText: 'godkjente forespørsel',
     icon: <CircleCheckBig />,
     color: 'green',
   },
   [LendingRequestStatus.Denied]: {
-    tag: 'Avslått',
+    name: 'Avslått',
+    label: 'Avslått',
     buttonText: 'Avslå',
     timelineText: 'avslo forespørsel',
     icon: <CircleX />,
     color: 'red',
   },
   [LendingRequestStatus.Cancelled]: {
-    tag: 'Kansellert',
+    name: 'Kansellert',
+    label: 'Kansellert',
     buttonText: 'Kanseller forespørsel',
     timelineText: 'kansellerte forespørsel',
     icon: <CircleX />,
     color: 'red',
   },
   [LendingRequestStatus.ChangesResolved]: {
-    tag: 'Venter på godkjenning',
+    name: 'Endringer løst',
+    label: 'Venter på godkjenning',
     buttonText: 'Løs endringer',
     timelineText: 'løste endringer',
     icon: <CircleDashed className={styles.rotate} />,
     color: 'orange',
   },
   [LendingRequestStatus.ChangesRequested]: {
-    tag: 'Endringer forespurt',
+    name: 'Endringer forespurt',
+    label: 'Endringer forespurt',
     buttonText: 'Forespør endringer',
     timelineText: 'forespurte endringer',
     icon: <CircleAlert />,
@@ -84,7 +92,7 @@ const LendingStatusTag = ({ lendingRequestStatus }: LendingStatusTagProps) => {
       iconNode={statusMap[lendingRequestStatus].icon}
       iconSize={22}
       color={statusMap[lendingRequestStatus].color}
-      tag={statusMap[lendingRequestStatus].tag}
+      tag={statusMap[lendingRequestStatus].label}
       className={styles.statusTag}
       gap="var(--spacing-md)"
     />
