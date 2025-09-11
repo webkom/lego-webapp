@@ -15,7 +15,6 @@ import type { UnknownEvent } from '~/redux/models/Event';
 import type { UnkownFeatureFlag } from '~/redux/models/FeatureFlag';
 import type Feed from '~/redux/models/Feed';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
-import type { UnknownForum, UnknownThread } from '~/redux/models/Forum';
 import type { UnknownGallery } from '~/redux/models/Gallery';
 import type { UnknownGalleryPicture } from '~/redux/models/GalleryPicture';
 import type { UnknownGroup } from '~/redux/models/Group';
@@ -54,7 +53,6 @@ export enum EntityType {
   FeatureFlag = 'featureFlags',
   FeedActivities = 'feedActivities',
   Feeds = 'feeds',
-  Forums = 'forums',
   Galleries = 'galleries',
   GalleryPictures = 'galleryPictures',
   Groups = 'groups',
@@ -78,7 +76,6 @@ export enum EntityType {
   SurveySubmissions = 'surveySubmissions',
   Surveys = 'surveys',
   Tags = 'tags',
-  Thread = 'threads',
   Users = 'users',
 }
 
@@ -98,7 +95,6 @@ export default interface Entities {
   [EntityType.FeatureFlag]: Record<EntityId, UnkownFeatureFlag>;
   [EntityType.FeedActivities]: Record<EntityId, AggregatedFeedActivity>;
   [EntityType.Feeds]: Record<EntityId, Feed>;
-  [EntityType.Forums]: Record<EntityId, UnknownForum>;
   [EntityType.Galleries]: Record<EntityId, UnknownGallery>;
   [EntityType.GalleryPictures]: Record<EntityId, UnknownGalleryPicture>;
   [EntityType.Groups]: Record<EntityId, UnknownGroup>;
@@ -122,7 +118,6 @@ export default interface Entities {
   [EntityType.SurveySubmissions]: Record<EntityId, SurveySubmission>;
   [EntityType.Surveys]: Record<EntityId, UnknownSurvey>;
   [EntityType.Tags]: Record<EntityId, UnknownTag>;
-  [EntityType.Thread]: Record<EntityId, UnknownThread>;
   [EntityType.Users]: Record<EntityId, UnknownUser>;
 }
 
