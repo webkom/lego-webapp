@@ -1,5 +1,6 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
+import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import ContactForm from './ContactForm';
 
 const Contact = () => {
@@ -11,4 +12,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default guardLogin(Contact);

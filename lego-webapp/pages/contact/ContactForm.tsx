@@ -7,7 +7,6 @@ import {
   Form,
   TextInput,
   TextArea,
-  CheckBox,
   Captcha,
   SelectInput,
   LegoFinalForm,
@@ -147,26 +146,6 @@ const ContactForm = () => {
             label="Melding"
             name="message"
             component={TextArea.Field}
-          />
-
-          <p>
-            Du har også mulighet til å sende meldingen anonymt. Ved anonym
-            innsendelse vil de som mottar meldingen ikke få vite hvem som har
-            opprettet den, men de vil da heller ikke ha mulighet til å svare. Av
-            den grunn kan ikke ønsker om innsyn sendes inn anonymt.
-          </p>
-
-          {!loggedIn && (
-            <b>Du er ikke logget inn, så din melding vil være anonym.</b>
-          )}
-
-          <Field
-            label="Send som anonym avsender"
-            name="anonymous"
-            component={CheckBox.Field}
-            type="checkbox"
-            readOnly={!loggedIn}
-            disabled={!loggedIn}
           />
 
           <Field
