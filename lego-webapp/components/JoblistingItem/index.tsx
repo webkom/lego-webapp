@@ -37,17 +37,23 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           gap="var(--spacing-xs)"
           className={styles.joblistingItemTitle}
         >
-          {moment(joblisting.createdAt).isAfter(
-            moment().subtract(3, 'days'),
-          ) && <Tag tag="Ny" color="green" />}
-          <div className={styles.titleRow}>
-            <span>{joblisting.title}</span>
+          <Flex
+            justifyContent="space-between"
+            alignItems="baseline"
+            width="100%"
+          >
+            <h3>
+              {moment(joblisting.createdAt).isAfter(
+                moment().subtract(3, 'days'),
+              ) && <Tag className={styles.titleTag} tag="Ny" color="green" />}
+              {joblisting.title}
+            </h3>
             {joblisting.isPinned && (
               <Tooltip className={styles.pin} content={'Festet annonse'}>
-                <Icon iconNode={<Pin />} size={16} />
+                <Icon iconNode={<Pin />} size={18} />
               </Tooltip>
             )}
-          </div>
+          </Flex>
         </Flex>
         <Flex alignItems="center" gap="var(--spacing-xs)">
           {joblisting.company.name}
