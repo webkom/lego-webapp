@@ -41,18 +41,21 @@ img.companyLogo {
   }
 }
 
-.joblistingItemTitle {
+.joblistingItemTitle h3 {
   font-weight: 600;
   font-size: var(--font-size-lg);
   margin-right: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
+  width: 70%;
+
+  & > div {
+    display: inline-block;
+  }
 }
 
-.titleRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  width: 100%;
+.titleTag {
+  vertical-align: middle;
+  margin-right: var(--spacing-xs);
 }
 
 .joblistingItemBottom {
