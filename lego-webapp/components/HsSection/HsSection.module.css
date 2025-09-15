@@ -13,32 +13,63 @@
 }
 
 .item {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  border-radius: var(--border-radius-sm);
-  transition: background-color var(--easing-blazingly-fast);
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
+  transition: background-color var(--easing-blazingly-fast), border-color var(--easing-fast);
+  gap: var(--spacing-md);
   background: transparent;
   text-decoration: none;
   color: var(--lego-font-color);
   margin-left: calc(-1 * var(--spacing-sm));
+  border-left: 4px solid transparent;
+  padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-sm);
+  min-height: 60px;
+  border-top-right-radius: var(--border-radius-md);
+  border-bottom-right-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: transparent;
+  text-decoration: none;
 
   &:hover {
     background-color: var(--additive-background);
   }
 }
 
+
+.accentNotion {
+  border-left-color: var(--color-green-6);
+}
 .accentNotion svg {
   color: var(--color-green-6);
 }
 
+.accentMinutes {
+  border-left-color: var(--color-blue-6);
+}
 .accentMinutes svg {
   color: var(--color-blue-6);
 }
 
+.accentWarning {
+  border-left-color: var(--danger-color);
+}
 .accentWarning svg {
   color: var(--danger-color);
+}
+
+/* New styles for title/subtext layout */
+.textWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  color: var(--lego-font-color);
+  margin: 0;
+}
+
+.subtext {
+  color: var(--secondary-font-color);
 }
 
 @media (--mobile-device) {

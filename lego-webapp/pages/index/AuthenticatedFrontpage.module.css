@@ -5,9 +5,9 @@ section.wrapper {
   grid-template:
     'compact-events registrations'
     'pinned hovedstyret'
-    'pinned readme'
     'events poll'
     'events quote'
+    'events readme'
     'events articles'
     'events blog'
     'events .'
@@ -56,10 +56,6 @@ section.wrapper {
 
 .readMe {
   grid-area: readme;
-}
-
-.weekly {
-  grid-area: weekly;
 }
 
 .articles {
