@@ -1,4 +1,4 @@
-import {Flex, Icon, PageContainer } from '@webkom/lego-bricks';
+import { Flex, Icon, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import moment from 'moment-timezone';

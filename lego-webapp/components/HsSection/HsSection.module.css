@@ -13,7 +13,9 @@
 }
 
 .item {
-  transition: background-color var(--easing-blazingly-fast), border-color var(--easing-fast);
+  transition:
+    background-color var(--easing-blazingly-fast),
+    border-color var(--easing-fast);
   gap: var(--spacing-md);
   background: transparent;
   text-decoration: none;
@@ -34,7 +36,6 @@
     background-color: var(--additive-background);
   }
 }
-
 
 .accentNotion svg {
   color: var(--color-green-6);
@@ -68,4 +69,3 @@
     width: 100%;
   }
 }
-
