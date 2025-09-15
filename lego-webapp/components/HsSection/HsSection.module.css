@@ -36,23 +36,14 @@
 }
 
 
-.accentNotion {
-  border-left-color: var(--color-green-6);
-}
 .accentNotion svg {
   color: var(--color-green-6);
 }
 
-.accentMinutes {
-  border-left-color: var(--color-blue-6);
-}
 .accentMinutes svg {
   color: var(--color-blue-6);
 }
 
-.accentWarning {
-  border-left-color: var(--danger-color);
-}
 .accentWarning svg {
   color: var(--danger-color);
 }
