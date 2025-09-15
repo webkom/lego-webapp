@@ -1,17 +1,18 @@
 import { Flex, Icon, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { ChevronDown, ChevronUp, SquareArrowUpRightIcon } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Banner from '~/components/Banner';
+import HsSectionContent from '~/components/HsSection/HsSection';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
 import { fetchCurrentPrivateBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { selectArticles, selectArticlesByTag } from '~/redux/slices/articles';
+import { selectArticles } from '~/redux/slices/articles';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCurrentPrivateBanner } from '~/redux/slices/banner';
 import { selectAllEvents } from '~/redux/slices/events';
@@ -112,7 +113,7 @@ const AuthenticatedFrontpage = () => {
         <PollItem />
         <QuoteItem />
         {readMe}
-        <Weekly />
+        <HSSection />
         <Articles pinnedId={pinned?.id} numberToShow={articlesToShow} />
       </section>
 
@@ -172,42 +173,11 @@ const Events = ({
   );
 };
 
-const Weekly = () => {
-  const weeklyArticles = useAppSelector((state) =>
-    selectArticlesByTag(state, 'weekly'),
-  );
-  const fetching = useAppSelector(
-    (state) => state.frontpage.fetching || state.articles.fetching,
-  );
-
-  const newestWeekly = useMemo(
-    () =>
-      weeklyArticles.length
-        ? addArticleType(
-            weeklyArticles.sort((a, b) =>
-              moment(b.createdAt).diff(moment(a.createdAt)),
-            )[0],
-          )
-        : undefined,
-    [weeklyArticles],
-  );
-
+const HSSection = () => {
   return (
-    <Flex column className={styles.weekly}>
-      <a href="/articles?tag=weekly">
-        <h3 className={utilStyles.frontPageHeader}>Weekly</h3>
-      </a>
-
-      {(fetching && !newestWeekly) || !newestWeekly ? (
-        <ArticleItem url="" meta={<></>} />
-      ) : (
-        <ArticleItem
-          key={newestWeekly.id}
-          item={newestWeekly}
-          url={itemUrl(newestWeekly)}
-          meta={renderMeta(newestWeekly)}
-        />
-      )}
+    <Flex column className={styles.hovedstyret}>
+      <h3 className={utilStyles.frontPageHeader}>Hovedstyret</h3>
+      <HsSectionContent />
     </Flex>
   );
 };
