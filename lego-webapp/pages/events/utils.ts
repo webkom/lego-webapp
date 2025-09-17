@@ -43,6 +43,11 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: 'var(--color-event-red)',
     textColor: '#FFF',
   },
+  [EventType.GALA]: {
+    displayName: 'Galla',
+    color: '#ffd700',
+    textColor: 'var(--color-white)',
+  },
   [EventType.BREAKFAST_TALK]: {
     displayName: 'Frokostforedrag',
     color: '#86D1D0',
@@ -71,11 +76,6 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   [EventType.OTHER]: {
     displayName: 'Annet',
     color: 'var(--color-event-black)',
-    textColor: 'var(--color-white)',
-  },
-  [EventType.GALA]: {
-    displayName: 'Galla',
-    color: '#ffd700',
     textColor: 'var(--color-white)',
   },
 };
