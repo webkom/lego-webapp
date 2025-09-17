@@ -99,7 +99,7 @@ export const createRootReducer = () => {
     theme,
     threads,
     users,
-    status
+    status,
   });
 };
 
