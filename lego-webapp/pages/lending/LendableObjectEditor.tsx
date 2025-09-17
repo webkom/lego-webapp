@@ -108,7 +108,7 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
             label="Grupper med lånetilgang"
             component={SelectInput.AutocompleteField}
             isMulti
-            filter={['users.user']}
+            filter={['users.abakusgroup']}
             placeholder="Velg brukere"
           />
           <Field
@@ -116,7 +116,7 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
             label="Ansvarlige grupper"
             component={SelectInput.AutocompleteField}
             isMulti
-            filter={['users.user']}
+            filter={['users.abakusgroup']}
             description="Grupper som har endretilgang"
             placeholder="Velg brukere"
           />
