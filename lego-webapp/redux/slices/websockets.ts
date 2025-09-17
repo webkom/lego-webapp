@@ -39,11 +39,11 @@ const websocketsSlice = createSlice({
     });
     addCase(WebsocketsAT.CLOSED, (state) => {
       state.status = STATUS_INITIAL;
-      state.groups = []
+      state.groups = [];
     });
     addCase(WebsocketsAT.ERROR, (state) => {
       state.status = STATUS_ERROR;
-      state.groups = []
+      state.groups = [];
     });
     addCase(WebsocketsAT.GROUP_JOIN.BEGIN, (state, action) => {
       if (!setGroupStatus(state, action, STATUS_PENDING))
