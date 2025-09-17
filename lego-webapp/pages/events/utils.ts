@@ -35,7 +35,7 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   },
   [EventType.PARTY]: {
     displayName: 'Fest',
-    color: '#ff55da',
+    color: '#d867c0',
     textColor: '#000',
   },
   [EventType.SOCIAL]: {
