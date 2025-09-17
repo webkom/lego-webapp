@@ -1,5 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { AnyAction } from 'redux';
+import { createSlice, AnyAction } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { Comment as CommentAT } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
