@@ -19,6 +19,7 @@ export enum EventType {
   OTHER = 'other',
   PARTY = 'party',
   SOCIAL = 'social',
+  GALA = 'gala',
 }
 
 export enum EventStatusType {

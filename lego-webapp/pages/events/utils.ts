@@ -35,7 +35,7 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   },
   [EventType.PARTY]: {
     displayName: 'Fest',
-    color: '#FCD748',
+    color: '#fc9348ff',
     textColor: '#000',
   },
   [EventType.SOCIAL]: {
@@ -71,6 +71,11 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   [EventType.OTHER]: {
     displayName: 'Annet',
     color: 'var(--color-event-black)',
+    textColor: 'var(--color-white)',
+  },
+  [EventType.GALA]: {
+    displayName: 'Galla',
+    color: '#ffd700',
     textColor: 'var(--color-white)',
   },
 };
