@@ -19,11 +19,6 @@ export const STATUS_PENDING = {
   pending: true,
 };
 
-const STATUS_PINGING = {
-  ...STATUS_CONNECTED,
-  pending: true,
-}
-
 export const STATUS_ERROR = {
   ...STATUS_INITIAL,
   error: true,
@@ -50,12 +45,6 @@ const websocketsSlice = createSlice({
       state.status = STATUS_ERROR;
       state.groups = []
     });
-    addCase(WebsocketsAT.PING.BEGIN, (state) => {
-      state.status = STATUS_PINGING;
-    })
-    addCase(WebsocketsAT.PING.SUCCESS, (state) => {
-      state.status = STATUS_CONNECTED;
-    })
     addCase(WebsocketsAT.GROUP_JOIN.BEGIN, (state, action) => {
       if (!setGroupStatus(state, action, STATUS_PENDING))
         state.groups.push({
