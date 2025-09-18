@@ -35,13 +35,18 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   },
   [EventType.PARTY]: {
     displayName: 'Fest',
-    color: '#FCD748',
+    color: '#d867c0',
     textColor: '#000',
   },
   [EventType.SOCIAL]: {
     displayName: 'Sosialt',
     color: 'var(--color-event-red)',
     textColor: '#FFF',
+  },
+  [EventType.GALA]: {
+    displayName: 'Galla',
+    color: '#ffd700',
+    textColor: 'var(--color-white)',
   },
   [EventType.BREAKFAST_TALK]: {
     displayName: 'Frokostforedrag',
