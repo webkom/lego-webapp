@@ -1,11 +1,12 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Moon, Sun } from 'lucide-react';
-import { type ReactNode, type MouseEvent, useState } from 'react';
+import { Divide, MoonStar, Sun } from 'lucide-react';
 import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
+import type { ReactNode, MouseEvent } from 'react';
+import { differenceBy } from 'lodash-es';
 
-const useIcon = () => (useTheme() === 'dark' ? <Sun /> : <Moon />);
+const useIcon = () => (useTheme() === 'dark' ? <Sun /> : <MoonStar />);
 
 type Props = {
   className?: string;
@@ -15,17 +16,12 @@ type Props = {
 
 const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   const icon = useIcon();
-  const theme = useTheme();
-  const [animate, setAnimate] = useState(false);
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
     const currentTheme = getTheme();
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     applySelectedTheme(newTheme);
-
-    setAnimate(true);
-    setTimeout(() => setAnimate(false), 200);
   };
 
   const Component = isButton ? 'button' : 'div';
@@ -36,23 +32,13 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
       onClick={handleThemeChange}
     >
       {children}
-      <div className={styles.iconWrapper}>
-        <Icon
-          iconNode={<Moon />}
-          className={cx(
-            styles.toggleIcon,
-            theme === 'light' ? styles.enter : styles.exit,
-          )}
-          style={{ position: 'absolute' }}
-        />
-        <Icon
-          iconNode={<Sun />}
-          className={cx(
-            styles.toggleIcon,
-            theme === 'dark' ? styles.enter : styles.exit,
-          )}
-        />
-      </div>
+      <Icon
+        iconNode={icon}
+        className={cx(
+          styles.toggleIcon,
+          useTheme() === 'light' ? styles.moon : styles.sun,
+        )}
+      />
     </Component>
   );
 };
