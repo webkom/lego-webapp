@@ -1,12 +1,9 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Divide, MoonStar, Sun } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
-import { differenceBy } from 'lodash-es';
-
-const useIcon = () => (useTheme() === 'dark' ? <Sun /> : <MoonStar />);
 
 type Props = {
   className?: string;
@@ -15,7 +12,7 @@ type Props = {
 };
 
 const ToggleTheme = ({ className, children, isButton = true }: Props) => {
-  const icon = useIcon();
+  const theme = useTheme();
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
@@ -25,20 +22,18 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   };
 
   const Component = isButton ? 'button' : 'div';
+
   return (
     <Component
       name="Endre tema"
-      className={className}
+      className={cx(className, styles.toggleWrapper)}
       onClick={handleThemeChange}
     >
       {children}
-      <Icon
-        iconNode={icon}
-        className={cx(
-          styles.toggleIcon,
-          useTheme() === 'light' ? styles.moon : styles.sun,
-        )}
-      />
+      <div className={styles.iconTrack} data-theme={theme}>
+        <Icon iconNode={<Sun />} className={styles.icon} />
+        <Icon iconNode={<Moon />} className={styles.icon} />
+      </div>
     </Component>
   );
 };
