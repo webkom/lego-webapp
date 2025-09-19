@@ -24,3 +24,24 @@
 .sun:hover {
   color: var(--color-orange-6);
 }
+
+.iconWrapper {
+  display: grid;
+  position: "relative";
+  overflow: hidden;
+}
+
+.toggleIcon {
+  transform: translateX(-50%);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.enter {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.exit {
+  transform: translate(-50%, -120%);
+  opacity: 0;
+}
