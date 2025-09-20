@@ -8,8 +8,9 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ImageDown, ImagePlus, Images, Pencil } from 'lucide-react';
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, useState, useRef, useEffect } from 'react';
 import { navigate } from 'vike/client/router';
+import { usePageContext } from 'vike-react/usePageContext';
 import EmptyState from '~/components/EmptyState';
 import Gallery from '~/components/Gallery';
 import PropertyHelmet, {
@@ -77,6 +78,9 @@ const GalleryDetail = ({ children }: PropsWithChildren) => {
   const upload = query.upload === 'true';
   const [downloading, setDownloading] = useState(false);
 
+  const scrollRef = useRef(0);
+  const pageContext = usePageContext();
+
   const { galleryId } = useParams<{ galleryId: string }>();
   const gallery = useAppSelector((state) =>
     selectGalleryById<DetailedGallery>(state, galleryId),
@@ -99,6 +103,14 @@ const GalleryDetail = ({ children }: PropsWithChildren) => {
   const loggedIn = useIsLoggedIn();
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (pageContext.urlPathname === `/photos/${gallery.id}`) {
+      setTimeout(() => {
+        window.scrollTo(0, scrollRef.current);
+      }, 0);
+    }
+  }, [pageContext.urlPathname, gallery.id]);
 
   usePreparedEffect(
     'fetchGalleryDetail',
@@ -125,6 +137,7 @@ const GalleryDetail = ({ children }: PropsWithChildren) => {
   };
 
   const handleClick = (picture: GalleryListPicture) => {
+    scrollRef.current = window.scrollY;
     navigate(`/photos/${gallery.id}/picture/${picture.id}`);
   };
 
