@@ -1,6 +1,8 @@
-import { Page, LinkButton, PageCover, Card } from '@webkom/lego-bricks';
+import { Page, LinkButton, Image, Card, Flex } from '@webkom/lego-bricks';
 import { Package } from 'lucide-react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Dateish } from 'app/models';
 import {
   ContentMain,
   ContentSection,
@@ -10,18 +12,21 @@ import DisplayContent from '~/components/DisplayContent';
 import TextWithIcon from '~/components/TextWithIcon';
 import { useFetchedLendableObject } from '~/pages/lending/@lendableObjectId/useFetchedLendableObject';
 import { useParams } from '~/utils/useParams';
+import LendingCalendar from './LendingCalendar';
+import LendingRequestEditor from './LendingRequestEditor';
+import styles from './Page.module.css';
 
 export const LendableObjectList = () => {
   const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
   const { lendableObject, fetching } = useFetchedLendableObject(
     lendableObjectId!,
   );
+  const [range, setRange] = useState<[Dateish, Dateish] | undefined>();
 
   const title = lendableObject ? `Utlån: ${lendableObject.title}` : undefined;
   return (
     <Page
       title={title}
-      cover={<PageCover image={lendableObject?.image} skeleton={fetching} />}
       actionButtons={
         <>
           {!fetching && lendableObject.actionGrant.includes('edit') ? (
@@ -29,11 +34,6 @@ export const LendableObjectList = () => {
               Rediger
             </LinkButton>
           ) : undefined}
-          {lendableObject?.canLend && (
-            <LinkButton href={`/lending/${lendableObjectId}/request/new`}>
-              Lån
-            </LinkButton>
-          )}
         </>
       }
       back={{ href: '/lending' }}
@@ -41,24 +41,41 @@ export const LendableObjectList = () => {
     >
       <Helmet title={title || 'Utlån'} />
       {lendableObject && (
-        <ContentSection>
-          <ContentMain>
-            {lendableObject && !lendableObject.canLend && (
-              <Card severity="warning">
-                Du har ikke tilgang til å låne dette objektet, men kan se det
-                pga. admin-rettigheter.
+        <Flex column gap="var(--spacing-md)">
+          <Flex gap="var(--spacing-lg)">
+            <div className={styles.description}>
+              {lendableObject && !lendableObject.canLend && (
+                <Card severity="warning">
+                  Du har ikke tilgang til å låne dette objektet, men kan se det
+                  pga. admin-rettigheter.
+                </Card>
+              )}
+              <DisplayContent content={lendableObject.description} />
+              <TextWithIcon
+                iconNode={<Package />}
+                size={20}
+                content={lendableObject.location}
+              />
+            </div>
+            {lendableObject.image && (
+              <Card className={styles.card}>
+                <Image
+                  className={styles.image}
+                  alt="image of lendeable object"
+                  src={lendableObject.image}
+                />
               </Card>
             )}
-            <DisplayContent content={lendableObject.description} />
-          </ContentMain>
-          <ContentSidebar>
-            <TextWithIcon
-              iconNode={<Package />}
-              size={20}
-              content={lendableObject.location}
+          </Flex>
+          <div className={styles.border} />
+          <div>
+            <LendingCalendar
+              selectedRange={range}
+              lendableObjectId={lendableObjectId}
             />
-          </ContentSidebar>
-        </ContentSection>
+            <LendingRequestEditor onRangeChange={setRange} />
+          </div>
+        </Flex>
       )}
     </Page>
   );

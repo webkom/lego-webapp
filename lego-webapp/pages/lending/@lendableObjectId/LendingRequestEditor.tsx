@@ -1,7 +1,5 @@
-import { Card, Flex, Page } from '@webkom/lego-bricks';
-import { useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
 import { Field } from 'react-final-form';
-import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { Dateish } from 'app/models';
 import {
@@ -11,13 +9,10 @@ import {
   SubmitButton,
   TextInput,
 } from '~/components/Form';
-import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
 import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useAppDispatch } from '~/redux/hooks';
 import { CreateLendingRequest } from '~/redux/models/LendingRequest';
-import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import { useParams } from '~/utils/useParams';
-import type { EntityId } from '@reduxjs/toolkit';
 
 type FormValues = {
   date: Dateish[];
@@ -26,15 +21,15 @@ type FormValues = {
   lendableObject: EntityId;
 };
 
-type Props = {
+type LendingRequestEditorProps = {
   initialValues?: Partial<FormValues>;
   onRangeChange?: (range: [Dateish, Dateish]) => void;
 };
 
-export const LendingRequestEditor = ({
+const LendingRequestEditor = ({
   initialValues,
   onRangeChange,
-}: Props) => {
+}: LendingRequestEditorProps) => {
   const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
 
   const dispatch = useAppDispatch();
@@ -56,12 +51,6 @@ export const LendingRequestEditor = ({
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Field
-            label="Kommentar"
-            name="comment"
-            placeholder="Legg til praktisk info..."
-            component={TextInput.Field}
-          />
-          <Field
             name="date"
             label="Dato"
             range
@@ -72,6 +61,12 @@ export const LendingRequestEditor = ({
               }
             }}
           />
+          <Field
+            label="Kommentar"
+            name="comment"
+            placeholder="Legg til praktisk info..."
+            component={TextInput.Field}
+          />
 
           <SubmitButton>Send forespørsel</SubmitButton>
         </Form>
@@ -80,27 +75,4 @@ export const LendingRequestEditor = ({
   );
 };
 
-export default function LendingRequestCreate() {
-  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
-  const [range, setRange] = useState<[Dateish, Dateish] | undefined>();
-  const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, lendableObjectId),
-  );
-  const title = `Ny utlånsforespørsel - ${lendableObject?.title}`;
-
-  return (
-    <Page title={title} back={{ href: `/lending/` }}>
-      <Helmet title={title} />
-      <LendingCalendar
-        selectedRange={range}
-        lendableObjectId={lendableObjectId}
-      />
-      <Card>
-        <Flex column gap="var(--spacing-md)">
-          <h3>Ny forespørsel</h3>
-          <LendingRequestEditor onRangeChange={setRange} />
-        </Flex>
-      </Card>
-    </Page>
-  );
-}
+export default LendingRequestEditor;
