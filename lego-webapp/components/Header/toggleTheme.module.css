@@ -37,3 +37,7 @@
   color: var(--color-blue-8);
   transition: color var(--linear-fast);
 }
+
+.noTransition .iconTrack {
+  transition: none !important;
+}
