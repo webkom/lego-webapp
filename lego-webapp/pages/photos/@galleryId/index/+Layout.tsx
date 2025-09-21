@@ -138,7 +138,9 @@ const GalleryDetail = ({ children }: PropsWithChildren) => {
 
   const handleClick = (picture: GalleryListPicture) => {
     scrollRef.current = window.scrollY;
-    navigate(`/photos/${gallery.id}/picture/${picture.id}`);
+    navigate(`/photos/${gallery.id}/picture/${picture.id}`, {
+      keepScrollPosition: true,
+    });
   };
 
   const downloadGallery = () => {
