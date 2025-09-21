@@ -1,26 +1,43 @@
 @import url('styles/custom-media.css');
 
-.toggleIcon {
-  visibility: visible;
+.toggleWrapper {
+  display: inline-flex;
+  height: 35px;
+  overflow: hidden;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.iconTrack {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--easing-slow);
+}
+
+.icon {
+  padding-bottom: var(--spacing-sm);
+}
+
+.iconTrack[data-theme='dark'] {
+  transform: translateY(8px);
+}
+
+.iconTrack[data-theme='light'] {
+  transform: translateY(-24px);
+}
+
+.icon:first-child:hover {
+  color: var(--color-orange-6);
   transition: color var(--linear-fast);
 }
 
-.moon {
-  @media (--mobile-device) {
-    color: var(--color-blue-8);
-  }
-}
-
-.sun {
-  @media (--mobile-device) {
-    color: var(--color-orange-6);
-  }
-}
-
-.moon:hover {
+.icon:last-child:hover {
   color: var(--color-blue-8);
+  transition: color var(--linear-fast);
 }
 
-.sun:hover {
-  color: var(--color-orange-6);
+.noTransition .iconTrack {
+  transition: none !important;
 }

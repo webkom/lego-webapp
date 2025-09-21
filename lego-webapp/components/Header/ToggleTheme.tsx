@@ -1,11 +1,10 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { MoonStar, Sun } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
-
-const useIcon = () => (useTheme() === 'dark' ? <Sun /> : <MoonStar />);
 
 type Props = {
   className?: string;
@@ -14,7 +13,12 @@ type Props = {
 };
 
 const ToggleTheme = ({ className, children, isButton = true }: Props) => {
-  const icon = useIcon();
+  const theme = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
@@ -24,20 +28,20 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   };
 
   const Component = isButton ? 'button' : 'div';
+
   return (
     <Component
       name="Endre tema"
-      className={className}
+      className={cx(className, styles.toggleWrapper, {
+        [styles.noTransition]: !mounted,
+      })}
       onClick={handleThemeChange}
     >
       {children}
-      <Icon
-        iconNode={icon}
-        className={cx(
-          styles.toggleIcon,
-          useTheme() === 'light' ? styles.moon : styles.sun,
-        )}
-      />
+      <div className={styles.iconTrack} data-theme={theme}>
+        <Icon iconNode={<Sun />} className={styles.icon} />
+        <Icon iconNode={<MoonStar />} className={styles.icon} />
+      </div>
     </Component>
   );
 };
