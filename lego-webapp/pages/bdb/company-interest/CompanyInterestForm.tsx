@@ -55,6 +55,7 @@ import {
   COLLABORATION_TYPES,
   COMPANY_TYPES,
   TOOLTIP,
+  COLLABORATION_DESCRIPTIONS,
 } from './Translations';
 import {
   interestText,
@@ -67,6 +68,7 @@ import {
   PARTICIPANT_RANGE_MAP,
   sortSemesterChronologically,
   PARTICIPANT_RANGE_TYPES,
+  collaborationDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
@@ -202,6 +204,11 @@ const CollaborationBox = ({
         label={COLLABORATION_TYPES[collaborationToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
+        description={
+          COLLABORATION_DESCRIPTIONS[collaborationDescriptionToString(key)][
+            language
+          ]
+        }
       />
     ))}
   </Flex>
@@ -478,13 +485,13 @@ const CompanyInterestForm = ({ language }: Props) => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    {
-      name: 'bedex',
-      translated: EVENTS.bedex[language],
-      description: interestText.bedexDescription[language],
-      commentName: 'bedexComment',
-      commentPlaceholder: interestText.bedexComment[language],
-    },
+    // {
+    //   name: 'bedex',
+    //   translated: EVENTS.bedex[language],
+    //   description: interestText.bedexDescription[language],
+    //   commentName: 'bedexComment',
+    //   commentPlaceholder: interestText.bedexComment[language],
+    // },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -505,6 +512,11 @@ const CompanyInterestForm = ({ language }: Props) => {
       description: interestText.companyToCompanyDescription[language],
       commentName: 'companyToCompanyComment',
       commentPlaceholder: interestText.companyToCompanyComment[language],
+    },
+    {
+      name: 'collaboration_revue',
+      translated: COLLABORATION_TYPES.collaboration_revue[language],
+      description: interestText.revueCollaboration[language],
     },
   ];
 
