@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Banner from '~/components/Banner';
+import CommandPalette from '~/components/CommandPalette';
 import HsSectionContent from '~/components/HsSection/HsSection';
 import Poll from '~/components/Poll';
 import RandomQuote from '~/components/RandomQuote';
@@ -93,6 +94,7 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
+      <CommandPalette />
       {currentPrivateBanner && (
         <Banner
           header={currentPrivateBanner.header}
