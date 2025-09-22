@@ -10,14 +10,14 @@ type Props = {
   className?: string;
   children?: ReactNode;
   isButton?: boolean;
-  variant?: 'default' | 'header';
+  variant?: 'navbar' | 'header';
 };
 
 const ToggleTheme = ({
   className,
   children,
   isButton = true,
-  variant = 'default',
+  variant = 'navbar',
 }: Props) => {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);

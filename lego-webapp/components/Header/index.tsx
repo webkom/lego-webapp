@@ -212,7 +212,7 @@ const Header = () => {
           <Navbar />
           <div className={styles.buttonGroup}>
             <ToggleTheme
-              variant="default"
+              variant="navbar"
               className={cx(loggedIn && utilStyles.hiddenOnMobile)}
             />
 

@@ -4,7 +4,9 @@
   display: inline-flex;
   height: 35px;
   overflow: hidden;
+}
 
+.navbar {
   @media (--mobile-device) {
     display: none;
   }
@@ -20,11 +22,11 @@
   padding-bottom: var(--spacing-sm);
 }
 
-.default .iconTrack[data-theme='dark'] {
+.navbar .iconTrack[data-theme='dark'] {
   transform: translateY(8px);
 }
 
-.default .iconTrack[data-theme='light'] {
+.navbar .iconTrack[data-theme='light'] {
   transform: translateY(-24px);
 }
 
