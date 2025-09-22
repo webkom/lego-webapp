@@ -7,6 +7,7 @@
   align-items: center;
   cursor: pointer;
   transition: background-color var(--linear-medium);
+  width: 100%;
 
   & button {
     padding: 0;

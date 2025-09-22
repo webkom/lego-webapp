@@ -10,9 +10,15 @@ type Props = {
   className?: string;
   children?: ReactNode;
   isButton?: boolean;
+  variant?: 'navbar' | 'header';
 };
 
-const ToggleTheme = ({ className, children, isButton = true }: Props) => {
+const ToggleTheme = ({
+  className,
+  children,
+  isButton = true,
+  variant = 'navbar',
+}: Props) => {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -32,7 +38,7 @@ const ToggleTheme = ({ className, children, isButton = true }: Props) => {
   return (
     <Component
       name="Endre tema"
-      className={cx(className, styles.toggleWrapper, {
+      className={cx(className, styles.toggleWrapper, styles[variant], {
         [styles.noTransition]: !mounted,
       })}
       onClick={handleThemeChange}
