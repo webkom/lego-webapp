@@ -20,12 +20,20 @@
   padding-bottom: var(--spacing-sm);
 }
 
-.iconTrack[data-theme='dark'] {
+.default .iconTrack[data-theme='dark'] {
   transform: translateY(8px);
 }
 
-.iconTrack[data-theme='light'] {
+.default .iconTrack[data-theme='light'] {
   transform: translateY(-24px);
+}
+
+.header .iconTrack[data-theme='dark'] {
+  transform: translateY(20px);
+}
+
+.header .iconTrack[data-theme='light'] {
+  transform: translateY(-12px);
 }
 
 .icon:first-child:hover {
