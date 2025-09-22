@@ -9,7 +9,6 @@ export type AllowedPages = {
   companies: boolean;
   email: boolean;
   events: boolean;
-  forums: boolean;
   galleries: boolean;
   groups: boolean;
   interestGroups: boolean;

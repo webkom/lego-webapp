@@ -15,7 +15,6 @@ import events from '~/redux/slices/events';
 import featureFlags from '~/redux/slices/featureFlags';
 import feedActivities from '~/redux/slices/feedActivities';
 import feeds from '~/redux/slices/feeds';
-import forums from '~/redux/slices/forums';
 import frontpage from '~/redux/slices/frontpage';
 import galleries from '~/redux/slices/galleries';
 import galleryPictures from '~/redux/slices/galleryPictures';
@@ -45,7 +44,6 @@ import surveySubmissions from '~/redux/slices/surveySubmissions';
 import surveys from '~/redux/slices/surveys';
 import tags from '~/redux/slices/tags';
 import theme from '~/redux/slices/theme';
-import threads from '~/redux/slices/threads';
 import users from '~/redux/slices/users';
 
 export const createRootReducer = () => {
@@ -66,7 +64,6 @@ export const createRootReducer = () => {
     featureFlags,
     feedActivities,
     feeds,
-    forums,
     frontpage,
     galleries,
     galleryPictures,
@@ -96,7 +93,6 @@ export const createRootReducer = () => {
     surveys,
     tags,
     theme,
-    threads,
     users,
   });
 };

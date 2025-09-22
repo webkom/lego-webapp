@@ -12,7 +12,6 @@ const initialState: AllowedPages = {
   companies: false,
   email: false,
   events: false,
-  forums: false,
   galleries: false,
   groups: false,
   interestGroups: false,
