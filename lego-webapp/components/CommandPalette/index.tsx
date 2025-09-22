@@ -1,4 +1,5 @@
-import { Modal } from '@webkom/lego-bricks';
+import { Modal, Flex, Icon } from '@webkom/lego-bricks';
+import { SearchCode, Settings } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Autocomplete,
@@ -53,14 +54,41 @@ const CommandPalette = () => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onOpenChange={setOpen} showCloseButton={false}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={setOpen}
+        showCloseButton={false}
+        contentClassName={styles.modalContainer}
+      >
         <Autocomplete filter={contains}>
-          <TextField aria-label="Search commands" className={styles.inputField}>
-            <Input autoFocus placeholder="Søk kommandoer..." />
-          </TextField>
-          <Menu items={commands}>
-            {({ label }) => <CommandItem>{label}</CommandItem>}
-          </Menu>
+          <Flex
+            className={styles.modalTopContainer}
+            padding="var(--spacing-sm)"
+            gap="var(--spacing-sm)"
+          >
+            <Icon iconNode={<SearchCode />} size={22} />
+            <TextField
+              aria-label="Search commands"
+              className={styles.inputField}
+            >
+              <Input autoFocus placeholder="Søk kommandoer..." />
+            </TextField>
+          </Flex>
+          <Flex
+            style={{ padding: 'var(--spacing-sm)', gap: 'var(--spacing-sm)' }}
+          >
+            <Menu items={commands}>
+              {({ label }) => <CommandItem>{label}</CommandItem>}
+            </Menu>
+          </Flex>
+          <Flex
+            style={{
+              padding: 'var(--spacing-sm)',
+              borderTop: '0.1px solid var(--color-gray-2)',
+            }}
+          >
+            <Icon iconNode={<Settings />} size={16} />
+          </Flex>
         </Autocomplete>
       </Modal>
     </>

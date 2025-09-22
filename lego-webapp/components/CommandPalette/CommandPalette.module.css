@@ -1,0 +1,15 @@
+.modalContainer {
+  padding: 0;
+}
+
+.modalTopContainer {
+ border-bottom: 0.1px solid var(--color-gray-2);
+}
+
+.inputField input {
+  border: none;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  font-size: var(--font-size-lg);
+}
