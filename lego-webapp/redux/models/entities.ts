@@ -33,6 +33,7 @@ import type Quote from '~/redux/models/Quote';
 import type Reaction from '~/redux/models/Reaction';
 import type { UnknownRegistration } from '~/redux/models/Registration';
 import type { UnknownRestrictedMail } from '~/redux/models/RestrictedMail';
+import type { SystemStatus } from '~/redux/models/Status';
 import type { UnknownSurvey } from '~/redux/models/Survey';
 import type { SurveySubmission } from '~/redux/models/SurveySubmission';
 import type { UnknownTag } from '~/redux/models/Tag';
@@ -77,6 +78,7 @@ export enum EntityType {
   Surveys = 'surveys',
   Tags = 'tags',
   Users = 'users',
+  SystemStatus = 'systemStatus',
 }
 
 // Most fetch success redux actions are normalized such that payload.entities is a subset of this interface.
@@ -119,6 +121,7 @@ export default interface Entities {
   [EntityType.Surveys]: Record<EntityId, UnknownSurvey>;
   [EntityType.Tags]: Record<EntityId, UnknownTag>;
   [EntityType.Users]: Record<EntityId, UnknownUser>;
+  [EntityType.SystemStatus]: Record<EntityId, SystemStatus>;
 }
 
 type InferEntityType<T> = {

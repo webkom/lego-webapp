@@ -157,7 +157,12 @@
   }
 
   &[data-pressed] {
-    background-color: var(--color-gray-2);
+    background-color: rgba(
+      var(--rgb-min),
+      var(--rgb-min),
+      var(--rgb-min),
+      calc(var(--low-alpha) * 2)
+    );
   }
 }
 
