@@ -1,15 +1,77 @@
-.modalContainer {
-  padding: 0;
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
 }
 
-.modalTopContainer {
- border-bottom: 0.1px solid var(--color-gray-2);
+.modal {
+  animation: fade-in 5s ease-out;
 }
 
-.inputField input {
-  border: none;
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-xs);
+  gap: var(--spacing-xs);
+  border-radius: var(--border-radius-md);
+  width: 100vw;
+  max-width: 500px;
+  background: var(--lego-card-color);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.topContainer {
+  width: 100%;
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.textField {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-sm);
+}
+
+.input {
+  padding: var(--spacing-xs);
+  background-color: var(--lego-card-color);
+  font-size: var(--font-size-md);
   outline: none;
-  background: transparent;
-  box-shadow: none;
-  font-size: var(--font-size-lg);
+  border: none;
+}
+
+.menu {
+  max-height: 15rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.menu::-webkit-scrollbar {
+  display: none;
+}
+
+.menuItem {
+  display: flex;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: default;
+}
+
+.menuItem[data-focus-visible] {
+  background: #8b5cf6; /* dark purple */
+  color: white;
+}
+
+.menuItem:hover {
+  background: #ede9fe; /* light purple */
+}
+
+.menuItem[aria-selected="true"] {
+  background: #8b5cf6; /* dark purple */
+  color: white;
 }
