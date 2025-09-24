@@ -1,3 +1,5 @@
+import { Icon } from '@webkom/lego-bricks';
+import { CornerDownRight, Command } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Autocomplete,
@@ -7,25 +9,15 @@ import {
   DialogTrigger,
   Menu,
   MenuItem,
+  MenuSection,
+  Header,
   ModalOverlay,
   TextField,
+  Collection,
   useFilter,
-  Button,
 } from 'react-aria-components';
 import styles from './CommandPalette.module.css';
-
-type Command = { id: string; label: string };
-
-const commands: Command[] = [
-  { id: 'new-file', label: 'Create new file…' },
-  { id: 'new-folder', label: 'Create new folder…' },
-  { id: 'assign', label: 'Assign to…' },
-  { id: 'assign-me', label: 'Assign to me' },
-  { id: 'status', label: 'Change status…' },
-  { id: 'priority', label: 'Change priority…' },
-  { id: 'label-add', label: 'Add label…' },
-  { id: 'label-remove', label: 'Remove label…' },
-];
+import commands from './commands';
 
 const CommandItem = (props: React.ComponentProps<typeof MenuItem>) => (
   <MenuItem {...props} className={styles.menuItem} />
@@ -60,8 +52,8 @@ const CommandPalette = () => {
   return (
     <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
       <ModalOverlay className={styles.overlay} isDismissable>
-        <Modal className={styles.modal}>
-          <Dialog className={styles.dialog}>
+        <Modal>
+          <Dialog>
             <div className={styles.container}>
               <Autocomplete filter={contains}>
                 <div className={styles.topContainer}>
@@ -76,8 +68,48 @@ const CommandPalette = () => {
                     />
                   </TextField>
                 </div>
-                <Menu items={commands} className={styles.menu}>
-                  {({ label }) => <CommandItem>{label}</CommandItem>}
+                <Menu
+                  items={commands}
+                  selectionMode="single"
+                  className={styles.menu}
+                  onSelectionChange={(keys) => {
+                    const [id] = Array.from(keys);
+                    const cmd = commands
+                      .flatMap((s) => s.items)
+                      .find((c) => c.id === id);
+                    cmd?.action();
+                    setOpen(false);
+                  }}
+                >
+                  {(section) => (
+                    <MenuSection id={section.name}>
+                      <Header className={styles.menuHeader}>
+                        {section.name}
+                      </Header>
+                      <Collection items={section.items}>
+                        {(item) => (
+                          <CommandItem id={item.id} textValue={item.label}>
+                            {({ isSelected, isFocused, isHovered }) => (
+                              <>
+                                {(isSelected || isFocused || isHovered) &&
+                                  section.name === 'Navigasjon' && (
+                                    <Icon
+                                      iconNode={<CornerDownRight />}
+                                      size={16}
+                                    />
+                                  )}
+                                {(isSelected || isFocused || isHovered) &&
+                                  section.name === 'Kommandoer' && (
+                                    <Icon iconNode={<Command />} size={16} />
+                                  )}
+                                <span>{item.label}</span>
+                              </>
+                            )}
+                          </CommandItem>
+                        )}
+                      </Collection>
+                    </MenuSection>
+                  )}
                 </Menu>
               </Autocomplete>
             </div>

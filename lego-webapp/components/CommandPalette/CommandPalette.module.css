@@ -8,8 +8,25 @@
   z-index: 50;
 }
 
-.modal {
-  animation: fade-in 5s ease-out;
+.overlay[data-entering] {
+  opacity: 0;
+  animation: fadeIn var(--easing-fast) forwards;
+}
+
+.overlay[data-exiting] {
+  opacity: 1;
+  animation: fadeOut var(--easing-fast) forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
 }
 
 .container {
@@ -21,7 +38,7 @@
   width: 100vw;
   max-width: 500px;
   background: var(--lego-card-color);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  box-shadow: var(--shadow-xs);
 }
 
 .topContainer {
@@ -43,35 +60,44 @@
   border: none;
 }
 
+.input::placeholder {
+  color: var(--placeholder-color);
+}
+
 .menu {
   max-height: 15rem;
   overflow-y: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
 
-.menu::-webkit-scrollbar {
-  display: none;
+.menuHeader {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--placeholder-color);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  text-transform: uppercase;
 }
 
 .menuItem {
   display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-sm);
   width: 100%;
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
+  border-radius: var(--border-radius-sm);
   cursor: default;
 }
 
-.menuItem[data-focus-visible] {
-  background: #8b5cf6; /* dark purple */
-  color: white;
-}
-
 .menuItem:hover {
-  background: #ede9fe; /* light purple */
+  background: var(--color-gray-2);
 }
 
-.menuItem[aria-selected="true"] {
-  background: #8b5cf6; /* dark purple */
-  color: white;
+.menuItem[data-focus-visible] {
+  background: var(--color-gray-2);
+  color: var(--lego-font-color);
+}
+
+.menuItem[aria-selected='true'] {
+  background: var(--color-gray-2);
+  color: var(--lego-font-color);
 }
