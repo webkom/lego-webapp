@@ -35,10 +35,13 @@ export const PARTICIPANT_RANGE_TYPES = {
 };
 
 export const PARTICIPANT_RANGE_MAP = {
-  first: [10, 40],
-  second: [30, 60],
-  third: [60, 100],
-  fourth: [100, null],
+  first: [0, 10],
+  second: [10, 20],
+  third: [20, 30],
+  fourth: [30, 40],
+  fifth: [40, 50],
+  sixth: [50, 60],
+  seventh: [60, null],
 };
 
 export type CompanyInterestEventTypeOption = {
