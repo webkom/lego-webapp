@@ -1,4 +1,5 @@
 import { navigate } from 'vike/client/router';
+import { logout } from '~/redux/actions/UserActions';
 
 type Command = {
   id: string;
@@ -11,7 +12,7 @@ type CommandSection = {
   items: Command[];
 };
 
-const commands: CommandSection[] = [
+const createCommands = (dispatch: any): CommandSection[] => [
   {
     name: 'Navigasjon',
     items: [
@@ -63,12 +64,30 @@ const commands: CommandSection[] = [
         action: () => navigate('/meetings/new'),
       },
       {
+        id: 'Create quote',
+        label: 'Lag sitat',
+        action: () => navigate('/quotes/new'),
+      },
+      {
         id: 'Create album',
         label: 'Lag album',
         action: () => navigate('/photos/new'),
       },
     ],
   },
+  {
+    name: '',
+    items: [
+      {
+        id: 'logout',
+        label: 'Logg ut',
+        action: () => {
+          dispatch(logout());
+          navigate('/');
+        },
+      },
+    ],
+  },
 ];
 
-export default commands;
+export default createCommands;

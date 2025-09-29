@@ -32,13 +32,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: var(--spacing-xs);
-  gap: var(--spacing-xs);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-gray);
   border-radius: var(--border-radius-md);
-  width: 100vw;
-  max-width: 500px;
   background: var(--lego-card-color);
   box-shadow: var(--shadow-xs);
+  width: 100vw;
+  max-width: 500px;
 }
 
 .topContainer {
@@ -66,9 +67,15 @@
 
 .menu {
   max-height: 15rem;
+  padding: 0 var(--spacing-xs);
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
+.menu::-webkit-scrollbar {
+  display: none;
+}
 .menuHeader {
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -77,19 +84,29 @@
   text-transform: uppercase;
 }
 
+.menuItemContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.leftGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  min-width: 0;
+}
+
 .menuItem {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
   padding: var(--spacing-sm);
   font-size: var(--font-size-sm);
-  width: 100%;
   border-radius: var(--border-radius-sm);
+  width: 100%;
   cursor: default;
-}
-
-.menuItem:hover {
-  background: var(--color-gray-2);
 }
 
 .menuItem[data-focus-visible] {
@@ -97,7 +114,91 @@
   color: var(--lego-font-color);
 }
 
-.menuItem[aria-selected='true'] {
+.menuItem[data-hovered] {
   background: var(--color-gray-2);
   color: var(--lego-font-color);
+}
+
+.bottomContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-sm);
+  border-top: 1px solid var(--border-gray);
+  background-color: var(--color-gray-2);
+  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  opacity: 0.6;
+  height: 1.8rem;
+  width: 100%;
+  z-index: 100;
+  color: var(--lego-font-color);
+}
+
+.bottomContainer p {
+  margin: 0;
+}
+
+.buttonSettings {
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-xs);
+}
+
+.buttonSettings[data-hovered] {
+  background-color: var(--color-gray-3);
+}
+
+.logOut {
+  color: var(--danger-color);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* When opening Command Settings */
+.settingsDrawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 1.8rem;
+  background: var(--lego-card-color);
+  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+  box-shadow: var(--shadow-md);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.settingsDrawer[data-state='entering'] {
+  animation: slideUp var(--easing-fast) forwards;
+}
+.settingsDrawer[data-state='exiting'] {
+  animation: slideDown var(--easing-fast) forwards;
+}
+
+.settingsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
 }
