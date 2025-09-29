@@ -16,7 +16,7 @@ const CommandPaletteSettings = ({ isOpen, onClose }: Props) => {
       setState('entering');
     } else {
       setState('exiting');
-      const timeout = setTimeout(() => setShouldRender(false), 200); // match var(--easing-medium)
+      const timeout = setTimeout(() => setShouldRender(false), 200);
       return () => clearTimeout(timeout);
     }
   }, [isOpen]);

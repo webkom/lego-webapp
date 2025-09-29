@@ -43,7 +43,10 @@
 }
 
 .topContainer {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: var(--spacing-sm);
   border-bottom: 1px solid var(--border-gray);
 }
 
@@ -51,6 +54,15 @@
   display: flex;
   flex-direction: column;
   padding: var(--spacing-sm);
+}
+
+.escButton {
+  cursor: default;
+  color: var(--color-gray-6);
+  font-size: var(--font-size-sm);
+  padding: var(--spacing-xs);
+  border: 1px solid var(--border-gray);
+  border-radius: var(--border-radius-sm);
 }
 
 .input {
@@ -84,18 +96,17 @@
   text-transform: uppercase;
 }
 
-.menuItemContent {
+.itemRow {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.leftGroup {
+.itemLeft {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  min-width: 0;
+  gap: var(--spacing-sm);
 }
 
 .menuItem {

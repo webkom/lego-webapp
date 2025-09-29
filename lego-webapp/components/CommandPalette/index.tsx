@@ -1,10 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
-import {
-  CornerDownRight,
-  SlidersHorizontal,
-  Terminal,
-  LogOut,
-} from 'lucide-react';
+import { CornerDownRight, SlidersHorizontal, LogOut } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Autocomplete,
@@ -53,16 +48,16 @@ const CommandPalette = () => {
       } else if (e.key === 'Escape') {
         e.preventDefault();
         if (showSettings) {
-          setShowSettings(false); // let settings animate out
+          setShowSettings(false);
         } else {
-          setOpen(false); // then close the palette
+          setOpen(false);
         }
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  },);
+  });
 
   return (
     <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
@@ -82,6 +77,20 @@ const CommandPalette = () => {
                       className={styles.input}
                     />
                   </TextField>
+                  <Button
+                    type="button"
+                    onPress={() => {
+                      if (showSettings) {
+                        setShowSettings(false);
+                      } else {
+                        setOpen(false);
+                      }
+                    }}
+                    className={styles.escButton}
+                    aria-label="Close command palette"
+                  >
+                    Esc
+                  </Button>
                 </div>
                 <Menu
                   items={commands}
@@ -103,26 +112,27 @@ const CommandPalette = () => {
                         {(item) => (
                           <CommandItem id={item.id} textValue={item.label}>
                             {({ isFocused }) => (
-                              <>
-                                {isFocused && section.name === 'Navigasjon' && (
-                                  <Icon
-                                    iconNode={<CornerDownRight />}
-                                    size={15}
-                                  />
-                                )}
-                                {isFocused && section.name === 'Kommandoer' && (
-                                  <Icon iconNode={<Terminal />} size={15} />
-                                )}
-                                {item.label !== 'Logg ut' && (
-                                  <span>{item.label}</span>
-                                )}
-                                {item.id === 'logout' && (
+                              <div className={styles.itemRow}>
+                                {item.id === 'logout' ? (
                                   <div className={styles.logOut}>
                                     <Icon iconNode={<LogOut />} size={15} />
                                     {item.label}
                                   </div>
+                                ) : (
+                                  <div className={styles.itemLeft}>
+                                    {item.icon && <span>{item.icon}</span>}
+                                    <span>{item.label}</span>
+                                  </div>
                                 )}
-                              </>
+
+                                {isFocused && (
+                                  <Icon
+                                    iconNode={<CornerDownRight />}
+                                    size={17}
+                                    style={{ transform: 'scaleX(-1)' }}
+                                  />
+                                )}
+                              </div>
                             )}
                           </CommandItem>
                         )}
