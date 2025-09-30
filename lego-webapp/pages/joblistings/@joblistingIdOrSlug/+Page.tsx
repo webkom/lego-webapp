@@ -153,6 +153,14 @@ const JoblistingDetail = () => {
                   value: <Workplaces places={joblisting.workplaces} />,
                 },
                 {
+                  key: 'Publisert',
+                  value: (
+                    <strong>
+                      <Time time={joblisting.visibleFrom} format="ll HH:mm" />
+                    </strong>
+                  ),
+                },
+                {
                   key: 'Søknadsfrist',
                   value: (
                     <strong>
@@ -161,14 +169,6 @@ const JoblistingDetail = () => {
                       ) : (
                         <Time time={joblisting.deadline} format="ll HH:mm" />
                       )}
-                    </strong>
-                  ),
-                },
-                {
-                  key: 'Publisert',
-                  value: (
-                    <strong>
-                      <Time time={joblisting.createdAt} format="ll HH:mm" />
                     </strong>
                   ),
                 },
