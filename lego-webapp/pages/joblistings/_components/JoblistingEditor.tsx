@@ -59,7 +59,6 @@ type SelectInputObject = {
 const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
   title: [required('Du må gi jobbannonsen en tittel')],
-  description: [required('Du må skrive en søknadsintro')],
   text: [legoEditorRequired('Du må skrive en søknadstekst')],
   company: [required('Du må angi en bedrift for jobbannonsen')],
   workplaces: [required('Arbeidssteder må oppgis')],
@@ -348,14 +347,6 @@ const JoblistingEditor = () => {
                 parse={(value) => value}
               />
             </RowSection>
-            <Field
-              name="description"
-              label="Søknadsintro"
-              placeholder="Søknadsintro"
-              component={EditorField.Field}
-              initialized
-              required
-            />
             <Field
               name="text"
               placeholder="Søknadstekst"
