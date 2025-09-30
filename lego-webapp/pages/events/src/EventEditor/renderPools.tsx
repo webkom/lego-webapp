@@ -64,6 +64,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           component={DatePicker.Field}
         />
         <Field
+          disabled={fields.value[index].registrations?.length > 0}
           label="Grupper med rettighet"
           name={`pools[${index}].permissionGroups`}
           validate={(value) => {
@@ -75,7 +76,11 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           filter={['users.abakusgroup']}
           component={SelectInput.AutocompleteField}
           isMulti
-          SuggestionComponent={PoolSuggestion}
+          SuggestionComponent={
+            fields.value[index].registrations?.length > 0
+              ? undefined
+              : PoolSuggestion
+          }
         />
         {['NORMAL'].includes(eventStatusType) && (
           <div className={styles.centeredButton}>
