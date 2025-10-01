@@ -1,4 +1,5 @@
 import { Flex, Skeleton } from '@webkom/lego-bricks';
+import { CircleHelp } from 'lucide-react';
 import { PhotoConsentDomain } from 'app/models';
 import TextWithIcon from '~/components/TextWithIcon';
 import styles from '~/pages/events/@eventIdOrSlug/EventDetail.module.css';
@@ -77,10 +78,23 @@ const ConsentStatus = ({
 
     if (isConsentingWeb && isConsentingSoMe) {
       return (
-        <TextWithIconWrapper
-          iconName="camera-outline"
-          content={`Du samtykker til bilder på abakus.no og sosiale medier for semesteret ${readableEventSemester}`}
-        />
+        <Flex gap="var(--spacing-xs)">
+          <TextWithIconWrapper
+            iconName="camera-outline"
+            content={`Du samtykke${hasEnded ? 't' : 'r'} til bilder `}
+          />
+          <TextWithIcon
+            iconNode={<CircleHelp />}
+            content=""
+            tooltipContentIcon={
+              <>
+                Du samtykke{hasEnded ? 't' : 'r'} til bilder på abakus.no og
+                sosiale medier for {readableEventSemester}.
+              </>
+            }
+            size={14}
+          />
+        </Flex>
       );
     }
 
