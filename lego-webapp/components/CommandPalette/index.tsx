@@ -1,5 +1,10 @@
 import { Icon } from '@webkom/lego-bricks';
-import { CornerDownRight, SlidersHorizontal, LogOut } from 'lucide-react';
+import {
+  CornerDownRight,
+  SlidersHorizontal,
+  LogOut,
+  Ellipsis,
+} from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Autocomplete,
@@ -18,6 +23,7 @@ import {
   useFilter,
 } from 'react-aria-components';
 import { useDispatch } from 'react-redux';
+import { recordCommandUsage } from '~/redux/actions/UserCommandActions';
 import styles from './CommandPalette.module.css';
 import CommandPaletteSettings from './CommandPaletteSettings';
 import createCommands from './commands';
@@ -25,6 +31,21 @@ import createCommands from './commands';
 const CommandItem = (props: React.ComponentProps<typeof MenuItem>) => (
   <MenuItem {...props} className={styles.menuItem} />
 );
+
+// Buffer dispatch
+let usageBuffer: Record<string, number> = {};
+
+const bufferUsage = (id: string): void => {
+  usageBuffer[id] = (usageBuffer[id] || 0) + 1;
+};
+
+const flushUsage = (dispatch: any): void => {
+  if (Object.keys(usageBuffer).length > 0) {
+    const updates = { ...usageBuffer };
+    usageBuffer = {};
+    dispatch(recordCommandUsage(updates));
+  }
+};
 
 const CommandPalette = () => {
   const [isOpen, setOpen] = useState(false);
@@ -59,8 +80,16 @@ const CommandPalette = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   });
 
+  // Dispatch on CommandPalette close
+  const handleOpenChange = (open: boolean) => {
+    setOpen(open);
+    if (!open) {
+      flushUsage(dispatch);
+    }
+  };
+
   return (
-    <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
+    <DialogTrigger isOpen={isOpen} onOpenChange={handleOpenChange}>
       <ModalOverlay className={styles.overlay} isDismissable>
         <Modal>
           <Dialog>
@@ -99,7 +128,11 @@ const CommandPalette = () => {
                     const cmd = commands
                       .flatMap((s) => s.items)
                       .find((c) => c.id === id);
-                    cmd?.action();
+
+                    if (cmd) {
+                      bufferUsage(cmd.id);
+                      cmd.action();
+                    }
                     setOpen(false);
                   }}
                 >
