@@ -12,3 +12,21 @@ export function recordCommandUsage(updates: Record<string, number>) {
     },
   });
 }
+
+type SuggestedCommand = {
+  commandId: string;
+  pinnedPosition: number | null;
+  usageCount: number;
+  lastUsed: string;
+};
+
+export function fetchCommandSuggestions() {
+  return callAPI<{ pinned: any[]; suggested: SuggestedCommand[] }>({
+    types: UserCommand.FETCH_SUGGESTIONS,
+    endpoint: '/user-commands/suggestions/',
+    method: 'GET',
+    meta: {
+      errorMessage: 'Kunne ikke hente kommandoforslag',
+    },
+  });
+}

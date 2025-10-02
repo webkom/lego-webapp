@@ -1,10 +1,5 @@
 import { Icon } from '@webkom/lego-bricks';
-import {
-  CornerDownRight,
-  SlidersHorizontal,
-  LogOut,
-  Ellipsis,
-} from 'lucide-react';
+import { CornerDownRight, SlidersHorizontal, LogOut } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   Autocomplete,
@@ -22,8 +17,12 @@ import {
   Button,
   useFilter,
 } from 'react-aria-components';
-import { useDispatch } from 'react-redux';
-import { recordCommandUsage } from '~/redux/actions/UserCommandActions';
+import {
+  fetchCommandSuggestions,
+  recordCommandUsage,
+} from '~/redux/actions/UserCommandActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectAllUserCommands } from '~/redux/slices/userCommands';
 import styles from './CommandPalette.module.css';
 import CommandPaletteSettings from './CommandPaletteSettings';
 import createCommands from './commands';
@@ -51,8 +50,18 @@ const CommandPalette = () => {
   const [isOpen, setOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const { contains } = useFilter({ sensitivity: 'base' });
-  const dispatch = useDispatch();
-  const commands = useMemo(() => createCommands(dispatch), [dispatch]);
+  const dispatch = useAppDispatch();
+
+  const suggestions = useAppSelector(selectAllUserCommands);
+
+  const commands = useMemo(
+    () => createCommands(dispatch, suggestions),
+    [dispatch, suggestions],
+  );
+
+  useEffect(() => {
+    dispatch(fetchCommandSuggestions());
+  }, [dispatch]);
 
   const isMac = useMemo(
     () =>
@@ -161,7 +170,7 @@ const CommandPalette = () => {
                                 {isFocused && (
                                   <Icon
                                     iconNode={<CornerDownRight />}
-                                    size={17}
+                                    size={16}
                                     style={{ transform: 'scaleX(-1)' }}
                                   />
                                 )}

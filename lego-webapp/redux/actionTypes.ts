@@ -220,6 +220,7 @@ export const User = {
 
 export const UserCommand = {
   RECORD_USAGE: generateStatuses('UserCommand.RECORD_USAGE'),
+  FETCH_SUGGESTIONS: generateStatuses('UserCommand.FETCH_SUGGESTIONS'),
 };
 
 export const Penalty = {

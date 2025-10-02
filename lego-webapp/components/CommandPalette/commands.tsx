@@ -14,9 +14,12 @@ import {
   Quote,
   Trophy,
   Settings,
+  MessageSquareQuote,
+  Landmark,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
 import { logout } from '~/redux/actions/UserActions';
+import { UserCommandEntity } from '~/redux/slices/userCommands';
 
 type Command = {
   id: string;
@@ -30,126 +33,174 @@ type CommandSection = {
   items: Command[];
 };
 
-const createCommands = (dispatch: any): CommandSection[] => [
-  {
-    name: 'Navigasjon',
-    items: [
-      {
-        id: 'home',
-        label: 'Hjem',
-        action: () => navigate('/'),
-        icon: <Icon iconNode={<Home />} size={15} />,
-      },
-      {
-        id: 'profile',
-        label: 'Profil',
-        action: () => navigate('/users/me'),
-        icon: <Icon iconNode={<CircleUser />} size={15} />,
-      },
-      {
-        id: 'events',
-        label: 'Arrangementer',
-        action: () => navigate('/events'),
-        icon: <Icon iconNode={<CalendarRange />} size={15} />,
-      },
-      {
-        id: 'meetings',
-        label: 'Møter',
-        action: () => navigate('/meetings'),
-        icon: <Icon iconNode={<Users />} size={15} />,
-      },
-      {
-        id: 'lending',
-        label: 'Utlån',
-        action: () => navigate('/lending'),
-        icon: <Icon iconNode={<ShoppingCart />} size={15} />,
-      },
-      {
-        id: 'interest groups',
-        label: 'Interessegrupper',
-        action: () => navigate('/interest-groups'),
-        icon: <Icon iconNode={<Banana />} size={15} />,
-      },
-      {
-        id: 'joblistings',
-        label: 'Jobbannonser',
-        action: () => navigate('/joblistings'),
-        icon: <Icon iconNode={<Newspaper />} size={15} />,
-      },
-      {
-        id: 'companies',
-        label: 'Bedrifter',
-        action: () => navigate('/companies'),
-        icon: <Icon iconNode={<Briefcase />} size={15} />,
-      },
-      {
-        id: 'articler',
-        label: 'Artikler',
-        action: () => navigate('/articles'),
-        icon: <Icon iconNode={<BookOpen />} size={15} />,
-      },
-      {
-        id: 'gallery',
-        label: 'Album',
-        action: () => navigate('/photos'),
-        icon: <Icon iconNode={<BookImage />} size={15} />,
-      },
-      {
-        id: 'quotes',
-        label: 'Overhørt',
-        action: () => navigate('/quotes'),
-        icon: <Icon iconNode={<Quote />} size={15} />,
-      },
-      {
-        id: 'trophies',
-        label: 'Trofeer',
-        action: () => navigate('/trophies'),
-        icon: <Icon iconNode={<Trophy />} size={15} />,
-      },
-      {
-        id: 'settings',
-        label: 'Innstillinger',
-        action: () => navigate('/users/me/settings/profile'),
-        icon: <Icon iconNode={<Settings />} size={15} />,
-      },
-    ],
-  },
-  {
-    name: 'Kommandoer',
-    items: [
-      {
-        id: 'Create meeting notice',
-        label: 'Lag møteinnkalling',
-        action: () => navigate('/meetings/new'),
-        icon: <Icon iconNode={<Terminal />} size={15} />,
-      },
-      {
-        id: 'Create quote',
-        label: 'Lag sitat',
-        action: () => navigate('/quotes/new'),
-        icon: <Icon iconNode={<Terminal />} size={15} />,
-      },
-      {
-        id: 'Create album',
-        label: 'Lag album',
-        action: () => navigate('/photos/new'),
-        icon: <Icon iconNode={<Terminal />} size={15} />,
-      },
-    ],
-  },
-  {
-    name: '',
-    items: [
-      {
-        id: 'logout',
-        label: 'Logg ut',
-        action: () => {
-          dispatch(logout());
-          navigate('/');
+const createCommands = (
+  dispatch: any,
+  suggestions: UserCommandEntity[] = [],
+): CommandSection[] => {
+  const allSections: CommandSection[] = [
+    {
+      name: 'Navigasjon',
+      items: [
+        {
+          id: 'home',
+          label: 'Hjem',
+          action: () => navigate('/'),
+          icon: <Icon iconNode={<Home />} size={15} />,
         },
-      },
-    ],
-  },
-];
+        {
+          id: 'profile',
+          label: 'Profil',
+          action: () => navigate('/users/me'),
+          icon: <Icon iconNode={<CircleUser />} size={15} />,
+        },
+        {
+          id: 'events',
+          label: 'Arrangementer',
+          action: () => navigate('/events'),
+          icon: <Icon iconNode={<CalendarRange />} size={15} />,
+        },
+        {
+          id: 'meetings',
+          label: 'Møter',
+          action: () => navigate('/meetings'),
+          icon: <Icon iconNode={<Users />} size={15} />,
+        },
+        {
+          id: 'lending',
+          label: 'Utlån',
+          action: () => navigate('/lending'),
+          icon: <Icon iconNode={<ShoppingCart />} size={15} />,
+        },
+        {
+          id: 'interest groups',
+          label: 'Interessegrupper',
+          action: () => navigate('/interest-groups'),
+          icon: <Icon iconNode={<Banana />} size={15} />,
+        },
+        {
+          id: 'joblistings',
+          label: 'Jobbannonser',
+          action: () => navigate('/joblistings'),
+          icon: <Icon iconNode={<Newspaper />} size={15} />,
+        },
+        {
+          id: 'companies',
+          label: 'Bedrifter',
+          action: () => navigate('/companies'),
+          icon: <Icon iconNode={<Briefcase />} size={15} />,
+        },
+        {
+          id: 'articler',
+          label: 'Artikler',
+          action: () => navigate('/articles'),
+          icon: <Icon iconNode={<BookOpen />} size={15} />,
+        },
+        {
+          id: 'gallery',
+          label: 'Album',
+          action: () => navigate('/photos'),
+          icon: <Icon iconNode={<BookImage />} size={15} />,
+        },
+        {
+          id: 'quotes',
+          label: 'Overhørt',
+          action: () => navigate('/quotes'),
+          icon: <Icon iconNode={<Quote />} size={15} />,
+        },
+        {
+          id: 'trophies',
+          label: 'Trofeer',
+          action: () => navigate('/trophies'),
+          icon: <Icon iconNode={<Trophy />} size={15} />,
+        },
+        {
+          id: 'the fund',
+          label: 'Fondet',
+          action: () => navigate('https://fondet.abakus.no/'),
+          icon: <Icon iconNode={<Landmark />} size={15} />,
+        },
+        {
+          id: 'developerblog',
+          label: 'Utviklerbloggen',
+          action: () => navigate('https://webkom.dev/'),
+          icon: <Icon iconNode={<MessageSquareQuote />} size={15} />,
+        },
+        {
+          id: 'settings',
+          label: 'Innstillinger',
+          action: () => navigate('/users/me/settings/profile'),
+          icon: <Icon iconNode={<Settings />} size={15} />,
+        },
+      ],
+    },
+    {
+      name: 'Kommandoer',
+      items: [
+        {
+          id: '_create meeting notice',
+          label: 'Lag møteinnkalling',
+          action: () => navigate('/meetings/new'),
+          icon: <Icon iconNode={<Terminal />} size={15} />,
+        },
+        {
+          id: '_create receipt',
+          label: 'Lag kvittering',
+          action: () => navigate('https://kvittering.abakus.no/'),
+          icon: <Icon iconNode={<Terminal />} size={15} />,
+        },
+        {
+          id: '_create quote',
+          label: 'Lag sitat',
+          action: () => navigate('/quotes/new'),
+          icon: <Icon iconNode={<Terminal />} size={15} />,
+        },
+        {
+          id: '_create album',
+          label: 'Lag album',
+          action: () => navigate('/photos/new'),
+          icon: <Icon iconNode={<Terminal />} size={15} />,
+        },
+        {
+          id: '_create lendingobject',
+          label: 'Lag utlånsobjekt',
+          action: () => navigate('/lending/new'),
+          icon: <Icon iconNode={<Terminal />} size={15} />,
+        },
+      ],
+    },
+    {
+      name: 'Systemvalg',
+      items: [
+        {
+          id: 'logout',
+          label: 'Logg ut',
+          action: () => {
+            dispatch(logout());
+            navigate('/');
+          },
+        },
+      ],
+    },
+  ];
+
+  // Flatten all commands once for easy lookup
+  const flatCommands = allSections.flatMap((s) => s.items);
+
+  const suggestedItems: Command[] = suggestions
+    .map((s) => flatCommands.find((c) => c.id === s.id))
+    .filter(Boolean) as Command[];
+
+  // Deduplicate: remove suggested items from their original sections
+  const dedupedSections = allSections.map((section) => ({
+    ...section,
+    items: section.items.filter(
+      (item) => !suggestions.some((s) => s.id === item.id),
+    ),
+  }));
+
+  return suggestedItems.length > 0
+    ? [{ name: 'Forslag', items: suggestedItems }, ...dedupedSections]
+    : allSections;
+};
 
 export default createCommands;
