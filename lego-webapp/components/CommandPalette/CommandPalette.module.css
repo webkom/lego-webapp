@@ -122,11 +122,7 @@
   cursor: default;
 }
 
-.menuItem[data-focus-visible] {
-  background: var(--color-gray-2);
-  color: var(--lego-font-color);
-}
-
+.menuItem[data-focus-visible],
 .menuItem[data-hovered] {
   background: var(--color-gray-2);
   color: var(--lego-font-color);

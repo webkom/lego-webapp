@@ -90,7 +90,7 @@ const createCommands = (
           icon: <Icon iconNode={<Briefcase />} size={15} />,
         },
         {
-          id: 'articler',
+          id: 'articles',
           label: 'Artikler',
           action: () => navigate('/articles'),
           icon: <Icon iconNode={<BookOpen />} size={15} />,
@@ -137,31 +137,31 @@ const createCommands = (
       name: 'Kommandoer',
       items: [
         {
-          id: '_create meeting notice',
+          id: 'createMeetingNotice',
           label: 'Lag møteinnkalling',
           action: () => navigate('/meetings/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
-          id: '_create receipt',
+          id: 'createReceipt',
           label: 'Lag kvittering',
           action: () => navigate('https://kvittering.abakus.no/'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
-          id: '_create quote',
+          id: 'createQuote',
           label: 'Lag sitat',
           action: () => navigate('/quotes/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
-          id: '_create album',
+          id: 'createAlbum',
           label: 'Lag album',
           action: () => navigate('/photos/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
-          id: '_create lendingobject',
+          id: 'createLendingobject',
           label: 'Lag utlånsobjekt',
           action: () => navigate('/lending/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
@@ -199,7 +199,7 @@ const createCommands = (
   }));
 
   return suggestedItems.length > 0
-    ? [{ name: 'Forslag', items: suggestedItems }, ...dedupedSections]
+    ? [{ name: 'Dine forslag', items: suggestedItems }, ...dedupedSections]
     : allSections;
 };
 
