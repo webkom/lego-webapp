@@ -31,11 +31,11 @@
   gap: var(--spacing-sm);
   font-size: var(--font-size-xs);
   text-transform: uppercase;
-  
+
   font-family: 'Open Sans', sans-serif;
 }
 
-.creatorContent a{
+.creatorContent a {
   color: #5d0909 !important;
 }
 

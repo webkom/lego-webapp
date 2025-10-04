@@ -80,7 +80,6 @@ export enum EntityType {
   Tags = 'tags',
   Thread = 'threads',
   Users = 'users',
-  UserCommands = 'userCommands',
 }
 
 // Most fetch success redux actions are normalized such that payload.entities is a subset of this interface.

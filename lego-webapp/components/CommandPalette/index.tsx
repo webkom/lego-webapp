@@ -20,9 +20,9 @@ import {
 import {
   fetchCommandSuggestions,
   recordCommandUsage,
-} from '~/redux/actions/UserCommandActions';
+} from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { selectAllUserCommands } from '~/redux/slices/userCommands';
+import { selectCommandSuggestions } from '~/redux/slices/users';
 import styles from './CommandPalette.module.css';
 import CommandPaletteSettings from './CommandPaletteSettings';
 import createCommands from './commands';
@@ -31,37 +31,19 @@ const CommandItem = (props: React.ComponentProps<typeof MenuItem>) => (
   <MenuItem {...props} className={styles.menuItem} />
 );
 
-// Buffer dispatch
-let usageBuffer: Record<string, number> = {};
-
-const bufferUsage = (id: string): void => {
-  usageBuffer[id] = (usageBuffer[id] || 0) + 1;
-};
-
-const flushUsage = (dispatch: any): void => {
-  if (Object.keys(usageBuffer).length > 0) {
-    const updates = { ...usageBuffer };
-    usageBuffer = {};
-    dispatch(recordCommandUsage(updates));
-  }
-};
-
 const CommandPalette = () => {
   const [isOpen, setOpen] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const { contains } = useFilter({ sensitivity: 'base' });
   const dispatch = useAppDispatch();
 
-  const suggestions = useAppSelector(selectAllUserCommands);
-
-  const commands = useMemo(
-    () => createCommands(dispatch, suggestions),
-    [dispatch, suggestions],
-  );
+  const suggestionIds = useAppSelector(selectCommandSuggestions);
 
   useEffect(() => {
     dispatch(fetchCommandSuggestions());
   }, [dispatch]);
+
+  const commands = createCommands(dispatch, suggestionIds);
 
   const isMac = useMemo(
     () =>
@@ -89,16 +71,8 @@ const CommandPalette = () => {
     return () => document.removeEventListener('keydown', handleKeyDown);
   });
 
-  // Dispatch on CommandPalette close
-  const handleOpenChange = (open: boolean) => {
-    setOpen(open);
-    if (!open) {
-      flushUsage(dispatch);
-    }
-  };
-
   return (
-    <DialogTrigger isOpen={isOpen} onOpenChange={handleOpenChange}>
+    <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
       <ModalOverlay className={styles.overlay} isDismissable>
         <Modal>
           <Dialog>
@@ -139,7 +113,7 @@ const CommandPalette = () => {
                       .find((c) => c.id === id);
 
                     if (cmd) {
-                      bufferUsage(cmd.id);
+                      dispatch(recordCommandUsage(cmd.id));
                       cmd.action();
                     }
                     setOpen(false);

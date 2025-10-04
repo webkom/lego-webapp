@@ -46,7 +46,6 @@ import surveys from '~/redux/slices/surveys';
 import tags from '~/redux/slices/tags';
 import theme from '~/redux/slices/theme';
 import threads from '~/redux/slices/threads';
-import userCommands from '~/redux/slices/userCommands';
 import users from '~/redux/slices/users';
 
 export const createRootReducer = () => {
@@ -99,7 +98,6 @@ export const createRootReducer = () => {
     theme,
     threads,
     users,
-    userCommands,
   });
 };
 

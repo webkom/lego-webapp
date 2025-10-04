@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 import { createSelector } from 'reselect';
-import { User, Event, MembershipHistory } from '~/redux/actionTypes';
+import {
+  User,
+  Event,
+  MembershipHistory,
+  UserCommand,
+} from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { eventSchema, registrationSchema } from '~/redux/schemas';
@@ -27,6 +32,10 @@ export type UserEntity = {
   selectedTheme?: string;
   photoConsents?: Array<PhotoConsent>;
   isStudent?: boolean;
+  commandSuggestions?: {
+    visible: { id: string; lastUsed: string }[];
+    buffer: { id: string; lastUsed: string }[];
+  };
 };
 
 const legoAdapter = createLegoAdapter(EntityType.Users);
@@ -58,6 +67,16 @@ const usersSlice = createSlice({
           (membership) => membership.abakusGroup.id !== action.meta.groupId,
         );
       });
+      addCase(
+        UserCommand.FETCH_SUGGESTIONS.SUCCESS,
+        (state, action: AnyAction) => {
+          const { visible = [], buffer = [] } = action.payload;
+          state.suggestions = {
+            visible,
+            buffer,
+          };
+        },
+      );
     },
     extraMatchers: (addMatcher) => {
       addMatcher(
@@ -125,4 +144,12 @@ export const selectUsersWithAchievementsScore = createSelector(
         user.achievementsScore != null,
     );
   },
+);
+
+export const selectCommandSuggestions = createSelector(
+  (state: RootState) => state.users.suggestions ?? { visible: [], buffer: [] },
+  (suggestions) => [
+    ...(suggestions.visible ?? []),
+    ...(suggestions.buffer ?? []),
+  ],
 );

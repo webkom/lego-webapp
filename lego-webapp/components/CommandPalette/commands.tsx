@@ -19,7 +19,6 @@ import {
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
 import { logout } from '~/redux/actions/UserActions';
-import { UserCommandEntity } from '~/redux/slices/userCommands';
 
 type Command = {
   id: string;
@@ -35,7 +34,7 @@ type CommandSection = {
 
 const createCommands = (
   dispatch: any,
-  suggestions: UserCommandEntity[] = [],
+  suggestionIds: string[] = [],
 ): CommandSection[] => {
   const allSections: CommandSection[] = [
     {
@@ -183,19 +182,15 @@ const createCommands = (
     },
   ];
 
-  // Flatten all commands once for easy lookup
   const flatCommands = allSections.flatMap((s) => s.items);
 
-  const suggestedItems: Command[] = suggestions
-    .map((s) => flatCommands.find((c) => c.id === s.id))
+  const suggestedItems: Command[] = suggestionIds
+    .map((id) => flatCommands.find((c) => c.id === id))
     .filter(Boolean) as Command[];
 
-  // Deduplicate: remove suggested items from their original sections
   const dedupedSections = allSections.map((section) => ({
     ...section,
-    items: section.items.filter(
-      (item) => !suggestions.some((s) => s.id === item.id),
-    ),
+    items: section.items.filter((item) => !suggestionIds.includes(item.id)),
   }));
 
   return suggestedItems.length > 0
