@@ -1,0 +1,8 @@
+.thumbnail {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.detailsContainer {
+  flex: 1;
+}

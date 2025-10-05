@@ -19,6 +19,7 @@ import {
 } from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { createValidator, required } from '~/utils/validation';
+import style from './LendableObjectEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateLendableObject,
@@ -72,7 +73,7 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Flex gap="var(--spacing-lg)">
-            <div style={{ width: '250px' }}>
+            <div className={style.thumbnail}>
               <Field
                 name="image"
                 component={ImageUploadField}
@@ -80,7 +81,11 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                 img={initialValues?.image}
               />
             </div>
-            <Flex column style={{ flexGrow: '1' }} gap="var(--spacing-md)">
+            <Flex
+              column
+              className={style.detailsContainer}
+              gap="var(--spacing-md)"
+            >
               <Flex gap="var(--spacing-md)">
                 <Field
                   label="Navn"
