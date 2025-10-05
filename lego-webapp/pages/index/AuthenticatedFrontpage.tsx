@@ -94,7 +94,6 @@ const AuthenticatedFrontpage = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Hjem" />
-      <CommandPalette />
       {currentPrivateBanner && (
         <Banner
           header={currentPrivateBanner.header}

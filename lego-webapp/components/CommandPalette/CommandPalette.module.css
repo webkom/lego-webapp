@@ -1,53 +1,43 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 50;
+  transition: opacity var(--easing-fast);
 }
 
 .overlay[data-entering] {
   opacity: 0;
-  animation: fadeIn var(--easing-fast) forwards;
 }
 
 .overlay[data-exiting] {
-  opacity: 1;
-  animation: fadeOut var(--easing-fast) forwards;
-}
-
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-  }
+  opacity: 0;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  position: relative;
   overflow: hidden;
-  border: 1px solid var(--border-gray);
-  border-radius: var(--border-radius-md);
-  background: var(--lego-card-color);
-  box-shadow: var(--shadow-xs);
+  position: relative;
   width: 100vw;
   max-width: 500px;
+  border: 1px solid var(--color-gray-3);
+  border-radius: var(--border-radius-md);
+  background: var(--lego-card-transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-md);
 }
 
 .topContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: var(--spacing-sm);
-  border-bottom: 1px solid var(--border-gray);
+  padding: var(--spacing-xs);
+  padding-right: var(--spacing-md);
+  border-bottom: 1px solid var(--color-gray-3);
 }
 
 .textField {
@@ -59,19 +49,19 @@
 
 .escButton {
   cursor: default;
+  padding: var(--spacing-xs);
   color: var(--color-gray-6);
   font-size: var(--font-size-sm);
-  padding: var(--spacing-xs);
-  border: 1px solid var(--border-gray);
+  border: 1px solid var(--color-gray-3);
   border-radius: var(--border-radius-sm);
 }
 
 .input {
   padding: var(--spacing-xs);
-  background-color: var(--lego-card-color);
   font-size: var(--font-size-md);
   outline: none;
   border: none;
+  background: transparent;
 }
 
 .input::placeholder {
@@ -91,8 +81,8 @@
 }
 
 .menuHeader {
-  font-size: var(--font-size-xs);
   font-weight: 600;
+  font-size: var(--font-size-xs);
   color: var(--placeholder-color);
   padding: var(--spacing-sm) 0 var(--spacing-xs) var(--spacing-sm);
   text-transform: uppercase;
@@ -100,9 +90,9 @@
 
 .itemRow {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .itemLeft {
@@ -120,38 +110,40 @@
   border-radius: var(--border-radius-sm);
   width: 100%;
   cursor: default;
+  background: transparent;
 }
 
 .menuItem[data-focus-visible],
 .menuItem[data-hovered] {
-  background: var(--color-gray-2);
+  background: rgba(140, 140, 140, 0.1);
   color: var(--lego-font-color);
 }
 
 .bottomContainer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  align-content: center;
+
+  gap: var(--spacing-sm);
   font-size: var(--font-size-xs);
-  padding: var(--spacing-sm);
-  border-top: 1px solid var(--border-gray);
-  background-color: var(--color-gray-2);
+  background-color: var(--color-gray-3);
   border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  width: 100%;
   opacity: 0.6;
   height: 1.8rem;
-  width: 100%;
-  z-index: 100;
+  padding: var(--spacing-md);
   color: var(--lego-font-color);
 }
 
 .bottomContainer p {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
   margin: 0;
 }
 
 .buttonSettings {
-  border-radius: var(--border-radius-sm);
   padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
 }
 
 .buttonSettings[data-hovered] {
@@ -159,55 +151,8 @@
 }
 
 .logOut {
-  color: var(--danger-color);
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-}
-
-/* When opening Command Settings */
-.settingsDrawer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 1.8rem;
-  background: var(--lego-card-color);
-  border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
-  box-shadow: var(--shadow-md);
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-@keyframes slideDown {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(100%);
-    opacity: 0;
-  }
-}
-
-.settingsDrawer[data-state='entering'] {
-  animation: slideUp var(--easing-fast) forwards;
-}
-.settingsDrawer[data-state='exiting'] {
-  animation: slideDown var(--easing-fast) forwards;
-}
-
-.settingsHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-sm);
+  color: var(--danger-color);
 }

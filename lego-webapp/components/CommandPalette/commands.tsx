@@ -16,6 +16,7 @@ import {
   Settings,
   MessageSquareQuote,
   Landmark,
+  LogOut,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
 import { logout } from '~/redux/actions/UserActions';
@@ -173,6 +174,7 @@ const createCommands = (
         {
           id: 'logout',
           label: 'Logg ut',
+          icon: <Icon iconNode={<LogOut />} size={15} />,
           action: () => {
             dispatch(logout());
             navigate('/');
