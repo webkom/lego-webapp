@@ -116,13 +116,13 @@ const createCommands = (
         {
           id: 'the fund',
           label: 'Fondet',
-          action: () => navigate('https://fondet.abakus.no/'),
+          action: () => window.open('https://fondet.abakus.no/', '_blank'),
           icon: <Icon iconNode={<Landmark />} size={15} />,
         },
         {
           id: 'developerblog',
           label: 'Utviklerbloggen',
-          action: () => navigate('https://webkom.dev/'),
+          action: () => window.open('https://webkom.dev/', '_blank'),
           icon: <Icon iconNode={<MessageSquareQuote />} size={15} />,
         },
         {
@@ -145,7 +145,7 @@ const createCommands = (
         {
           id: 'createReceipt',
           label: 'Lag kvittering',
-          action: () => navigate('https://kvittering.abakus.no/'),
+          action: () => window.open('https://kvittering.abakus.no/', '_blank'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
