@@ -37,7 +37,7 @@ const ImageUploadField = ({
       className={cx(styles.base, styles.coverImage, className && className)}
       style={{ aspectRatio, ...style }}
     >
-      <ImageUpload onSubmit={onSubmit} {...props} />
+      <ImageUpload aspectRatio={aspectRatio} onSubmit={onSubmit} {...props} />
     </div>
   );
 };
