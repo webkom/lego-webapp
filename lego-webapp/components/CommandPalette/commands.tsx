@@ -72,7 +72,7 @@ const createCommands = (
           icon: <Icon iconNode={<ShoppingCart />} size={15} />,
         },
         {
-          id: 'interest groups',
+          id: 'interestGroups',
           label: 'Interessegrupper',
           action: () => navigate('/interest-groups'),
           icon: <Icon iconNode={<Banana />} size={15} />,
@@ -114,13 +114,13 @@ const createCommands = (
           icon: <Icon iconNode={<Trophy />} size={15} />,
         },
         {
-          id: 'the fund',
+          id: 'theFund',
           label: 'Fondet',
           action: () => window.open('https://fondet.abakus.no/', '_blank'),
           icon: <Icon iconNode={<Landmark />} size={15} />,
         },
         {
-          id: 'developerblog',
+          id: 'developerBlog',
           label: 'Utviklerbloggen',
           action: () => window.open('https://webkom.dev/', '_blank'),
           icon: <Icon iconNode={<MessageSquareQuote />} size={15} />,
@@ -158,12 +158,6 @@ const createCommands = (
           id: 'createAlbum',
           label: 'Lag album',
           action: () => navigate('/photos/new'),
-          icon: <Icon iconNode={<Terminal />} size={15} />,
-        },
-        {
-          id: 'createLendingobject',
-          label: 'Lag utlånsobjekt',
-          action: () => navigate('/lending/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
       ],
