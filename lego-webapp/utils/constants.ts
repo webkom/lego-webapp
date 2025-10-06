@@ -40,6 +40,8 @@ export const ROLES = {
   social_media_admin: 'SoMe-ansvarlig',
   booking_admin: 'Bookingansvarlig',
   purchasing_manager: 'Innkjøpsansvarlig',
+  event_manager: 'Arrangementansvarlig',
+  snackoverflow_manager: 'SnackOverflow-ansvarlig',
 };
 
 export type RoleType = keyof typeof ROLES;
