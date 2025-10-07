@@ -101,7 +101,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
 
         <Header />
-        <CommandPalette />
+        {typeof window !== 'undefined' && <CommandPalette />}
 
         <AppChildren>{children}</AppChildren>
 
