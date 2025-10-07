@@ -24,8 +24,7 @@
   border-left: 4px solid transparent;
   padding: var(--spacing-sm) 0 var(--spacing-sm) var(--spacing-sm);
   min-height: 60px;
-  border-top-right-radius: var(--border-radius-md);
-  border-bottom-right-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-md);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);

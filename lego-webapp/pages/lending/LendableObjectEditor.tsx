@@ -1,3 +1,4 @@
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { navigate } from 'vike/client/router';
 import {
@@ -18,6 +19,7 @@ import {
 } from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { createValidator, required } from '~/utils/validation';
+import style from './LendableObjectEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateLendableObject,
@@ -70,44 +72,68 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
+          <Flex gap="var(--spacing-lg)">
+            <div className={style.thumbnail}>
+              <Field
+                name="image"
+                component={ImageUploadField}
+                aspectRatio={1}
+                img={initialValues?.image}
+              />
+            </div>
+            <Flex
+              column
+              className={style.detailsContainer}
+              gap="var(--spacing-md)"
+            >
+              <Flex gap="var(--spacing-md)">
+                <Field
+                  label="Navn"
+                  name="title"
+                  placeholder="Grill"
+                  component={TextInput.Field}
+                />
+                <Field
+                  label="Lokasjon"
+                  name="location"
+                  placeholder="A3-lageret"
+                  component={TextInput.Field}
+                />
+              </Flex>
+              <Field
+                label="Beskrivelse"
+                name="description"
+                placeholder="Grill til utlån"
+                component={EditorField.Field}
+              />
+            </Flex>
+          </Flex>
           <Field
-            name="image"
-            component={ImageUploadField}
-            aspectRatio={20 / 6}
-            img={initialValues?.image}
+            name="canViewGroups"
+            label="Grupper med lånetilgang"
+            component={SelectInput.AutocompleteField}
+            isMulti
+            filter={['users.abakusgroup']}
+            placeholder="Velg brukere"
           />
           <Field
-            label="Navn"
-            name="title"
-            placeholder="Grill"
-            component={TextInput.Field}
+            name="canEditGroups"
+            label="Ansvarlige grupper"
+            component={SelectInput.AutocompleteField}
+            isMulti
+            filter={['users.abakusgroup']}
+            description="Grupper som har endretilgang"
+            placeholder="Velg brukere"
           />
-          <Field
-            label="Lokasjon"
-            name="location"
-            placeholder="A3-lageret"
-            component={TextInput.Field}
-          />
-          <Field
-            label="Beskrivelse"
-            name="description"
-            placeholder="Grill til utlån"
-            component={EditorField.Field}
-          />
-          <Fields
-            component={ObjectPermissions}
-            names={['canViewGroups', 'canEditGroups']}
-          />
-
           <Field
             name="canEditUsers"
-            label="Anvsarlige brukere (Får epostvarsel)"
+            label="Ansvarlige brukere"
             component={SelectInput.AutocompleteField}
+            description="Brukere som mottar e-postvarsler"
             isMulti
             filter={['users.user']}
             placeholder="Velg brukere"
           />
-
           <SubmitButton>Lagre</SubmitButton>
         </Form>
       )}

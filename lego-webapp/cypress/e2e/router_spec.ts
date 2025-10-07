@@ -201,10 +201,6 @@ describe('Navigate throughout app', () => {
     openMenuAndSelect('Overhørt', '/quotes');
     cy.contains('Just do it!');
 
-    // Forum
-    openMenuAndSelect('Forum', '/forum');
-    cy.contains('Forum');
-
     // Lending is currently featureflagged and was removed from this test
   });
 

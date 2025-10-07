@@ -55,6 +55,7 @@ import {
   COLLABORATION_TYPES,
   COMPANY_TYPES,
   TOOLTIP,
+  COLLABORATION_DESCRIPTIONS,
 } from './Translations';
 import {
   interestText,
@@ -67,6 +68,7 @@ import {
   PARTICIPANT_RANGE_MAP,
   sortSemesterChronologically,
   PARTICIPANT_RANGE_TYPES,
+  collaborationDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
@@ -202,6 +204,11 @@ const CollaborationBox = ({
         label={COLLABORATION_TYPES[collaborationToString(key)][language]}
         type="checkbox"
         component={CheckBox.Field}
+        description={
+          COLLABORATION_DESCRIPTIONS[collaborationDescriptionToString(key)][
+            language
+          ]
+        }
       />
     ))}
   </Flex>
@@ -214,13 +221,21 @@ const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => (
     alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
   />
 );
-
+type CompanyObjectProps = {
+  label: string | undefined,
+  title: string | undefined,
+  value?: string
+}
+type CompanyCheckBoxProps = {
+  name: string,
+  checked: boolean
+}
 type CompanyInterestFormEntity = {
-  companyName: string;
-  company: number | null | undefined;
-  contactPerson: string;
-  mail: string;
-  phone: string;
+  companyName?: string;
+  company: CompanyObjectProps;
+  contactPerson?: string;
+  mail?: string;
+  phone?: string;
   semesters: Array<CompanySemester & { checked: boolean }>;
   events: Array<{
     name: string;
@@ -231,18 +246,21 @@ type CompanyInterestFormEntity = {
     name: string;
     checked: boolean;
   }>;
-  comment: string;
-  courseComment: string;
-  breakfastTalkComment: string;
-  otherEventComment: string;
-  startupComment: string;
-  lunchPresentationComment: string;
-  bedexComment: string;
-  companyToCompanyComment: string;
-  companyPresentationComment: string;
-  companyType: string;
+  comment?: string;
+  courseComment?: string;
+  breakfastTalkComment?: string;
+  otherEventComment?: string;
+  startupComment?: string;
+  lunchPresentationComment?: string;
+  bedexComment?: string;
+  companyToCompanyComment?: string;
+  companyPresentationComment?: string;
+  companyType?: string;
   officeInTrondheim: boolean;
   wantsThursdayEvent: boolean;
+  participantRange: string | null
+  collaborations: CompanyCheckBoxProps[];
+  targetGrades: CompanyCheckBoxProps[];
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -373,7 +391,7 @@ const CompanyInterestForm = ({ language }: Props) => {
       ? semesters
           .map((semester) => ({
             ...semester,
-            checked: companyInterest?.semesters?.includes(semester.id),
+            checked: !!companyInterest?.semesters?.includes(semester.id),
           }))
           .filter((semester) => semester.activeInterestForm || semester.checked)
           .sort(sortSemesterChronologically)
@@ -391,7 +409,7 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
-    const nameOnly = company['__isNew__'] || !company.value;
+    const nameOnly = company && (company['__isNew__'] || !company.value);
     const companyId = nameOnly ? null : Number(company['value']);
     const companyName = nameOnly ? company['label'] : '';
 
@@ -478,13 +496,13 @@ const CompanyInterestForm = ({ language }: Props) => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    {
-      name: 'bedex',
-      translated: EVENTS.bedex[language],
-      description: interestText.bedexDescription[language],
-      commentName: 'bedexComment',
-      commentPlaceholder: interestText.bedexComment[language],
-    },
+    // {
+    //   name: 'bedex',
+    //   translated: EVENTS.bedex[language],
+    //   description: interestText.bedexDescription[language],
+    //   commentName: 'bedexComment',
+    //   commentPlaceholder: interestText.bedexComment[language],
+    // },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -505,6 +523,11 @@ const CompanyInterestForm = ({ language }: Props) => {
       description: interestText.companyToCompanyDescription[language],
       commentName: 'companyToCompanyComment',
       commentPlaceholder: interestText.companyToCompanyComment[language],
+    },
+    {
+      name: 'collaboration_revue',
+      translated: COLLABORATION_TYPES.collaboration_revue[language],
+      description: interestText.revueCollaboration[language],
     },
   ];
 

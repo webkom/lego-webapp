@@ -1,0 +1,18 @@
+.card {
+  margin: var(--spacing-md) 0;
+  padding: 0;
+  width: 250px;
+}
+
+.border {
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.image {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.description {
+  flex-grow: 1;
+}

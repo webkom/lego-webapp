@@ -314,22 +314,6 @@ export const Reaction = {
   DELETE: generateStatuses('Reaction.DELETE'),
 };
 
-export const Forum = {
-  FETCH_ALL: generateStatuses('Forum.FETCH_ALL'),
-  CREATE: generateStatuses('Forum.CREATE'),
-  FETCH: generateStatuses('Forum. FETCH'),
-  DELETE: generateStatuses('Forum.DELETE'),
-  UPDATE: generateStatuses('Forum.UPDATE'),
-};
-
-export const Thread = {
-  FETCH_ALL: generateStatuses('Thread.FETCH_ALL'),
-  CREATE: generateStatuses('Thread.CREATE'),
-  FETCH: generateStatuses('Thread. FETCH'),
-  DELETE: generateStatuses('Thread.DELETE'),
-  UPDATE: generateStatuses('Thread.UPDATE'),
-};
-
 export const Achievement = {
   CREATE: generateStatuses('Achievement.CREATE'),
   RECHECK: generateStatuses('Achievement.RECHECK'),

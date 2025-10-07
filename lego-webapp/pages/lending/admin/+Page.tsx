@@ -12,7 +12,6 @@ import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { CheckBox } from '~/components/Form';
-import HTTPError from '~/components/errors/HTTPError';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
 import { statusMap } from '~/pages/lending/LendingStatusTag';
 import { fetchLendingRequestsAdmin } from '~/redux/actions/LendingRequestActions';
@@ -26,7 +25,7 @@ import styles from '../LendableObjectList.module.css';
 
 const LendingAdmin = () => {
   const { query, setQueryValue } = useQuery({
-    status: 'unapproved,changes_requested',
+    status: 'created,unapproved,changes_requested,changes_resolved',
   });
 
   const dispatch = useAppDispatch();
@@ -97,7 +96,7 @@ const LendingAdmin = () => {
                 <CheckBox
                   key={status}
                   id={status}
-                  label={statusMap[status].tag}
+                  label={statusMap[status].name}
                   checked={statuses.includes(status)}
                   onChange={() => {
                     handleStatusToggle(status);
