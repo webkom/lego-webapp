@@ -57,17 +57,17 @@ const ThreadEditor = () => {
 
   const onSubmit = (data: UpdateThread | CreateThread) => {
     const resolveForumId = forumId ? forumId : thread?.forum;
-    const body = {
+    const body: CreateThread = {
       ...(isNew ? {} : { id: threadId }),
       title: data.title,
       content: data.content,
-      forum: resolveForumId,
+      forum: resolveForumId as string,
     };
 
     const action = isNew ? createThread(body) : editThread(body);
     dispatch(action).then((res) => {
       navigate(
-        `/forum/${forumId}/threads/${isNew ? res.payload.result : thread.id}`,
+        `/forum/${forumId}/threads/${isNew ? res.payload.result : thread?.id}`,
       );
     });
   };

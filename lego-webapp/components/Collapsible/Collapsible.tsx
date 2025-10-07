@@ -1,6 +1,7 @@
 import { Icon } from '@webkom/lego-bricks';
 import { useState, useRef } from 'react';
 import styles from './Collapsible.module.css';
+import type { ReactNode } from 'react';
 
 type CollapsibleProps = {
   collapsedHeight: number;

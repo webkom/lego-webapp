@@ -113,7 +113,7 @@ const PageEditor = () => {
       category: data.category?.value,
     };
 
-    if (images[form.picture]) {
+    if (form.picture && images[form.picture]) {
       body.picture = form.picture;
     } else {
       delete body.picture;
@@ -122,7 +122,7 @@ const PageEditor = () => {
     return dispatch(isNew ? createPage(body) : updatePage(pageSlug, body)).then(
       (result) => {
         const slug = result.payload.result;
-        const pageCategory = result.payload.entities.pages[slug].category;
+        const pageCategory = result.payload.entities.pages[slug]?.category;
         navigate(`/pages/${pageCategory}/${slug}`);
       },
     );
@@ -157,7 +157,7 @@ const PageEditor = () => {
                 aspectRatio={20 / 6}
                 onSubmit={setPicture}
                 img={
-                  images[form.picture] ? images[form.picture] : page?.picture
+                   form.picture ? (images[form.picture] ? images[form.picture] : page?.picture) : page?.picture
                 }
               />
             </div>

@@ -111,7 +111,7 @@ export const selectUserWithGroups = createSelector(
       ...user,
       abakusGroups:
         'abakusGroups' in user
-          ? user.abakusGroups.map((groupId) => groupEntities[groupId])
+          ? (user.abakusGroups as EntityId[]).map((groupId) => groupEntities[groupId])
           : [],
     };
   },

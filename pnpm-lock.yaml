@@ -53,6 +53,13 @@ importers:
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
+    devDependencies:
+      '@types/redux':
+        specifier: ^3.6.31
+        version: 3.6.31
+      redux:
+        specifier: ^5.0.1
+        version: 5.0.1
 
   lego-webapp:
     dependencies:
@@ -3100,6 +3107,9 @@ packages:
 
   '@types/redux-logger@3.0.13':
     resolution: {integrity: sha512-jylqZXQfMxahkuPcO8J12AKSSCQngdEWQrw7UiLUJzMBcv1r4Qg77P6mjGLjM27e5gFQDPD8vwUMJ9AyVxFSsg==}
+
+  '@types/redux@3.6.31':
+    resolution: {integrity: sha512-UEa68g5Q1EPG4Wsnxqhbl0luFVRyX5dbKF3MQstkoWawSNKLulS2WsZZbALsPUX4Ax6SY9faqEs6dPM47cBAcg==}
 
   '@types/resolve@1.20.6':
     resolution: {integrity: sha512-A4STmOXPhMUtHH+S6ymgE2GiBSMqf4oTvcQZMcHzokuTLVYzXTB8ttjcgxOVaAp2lGwEdzZ0J+cRbbeevQj1UQ==}
@@ -9918,6 +9928,8 @@ snapshots:
   '@types/redux-logger@3.0.13':
     dependencies:
       redux: 5.0.1
+
+  '@types/redux@3.6.31': {}
 
   '@types/resolve@1.20.6': {}
 

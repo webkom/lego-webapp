@@ -30,7 +30,7 @@ type Props<Option, IsMulti extends boolean = false> = {
 
 export type SuggestionComponent<Option = { label: string; value: number }> =
   ComponentType<{
-    value: Option[];
+    value: Option[] | Option | null | undefined;
     onChange?: (event: ChangeEvent | string | Option[]) => void;
   }>;
 
@@ -39,7 +39,7 @@ export const selectStyles: StylesConfig = {
     ...styles,
     cursor: 'pointer',
     opacity: isDisabled ? '0.5' : 1,
-    backgroundColor: isDisabled && undefined,
+    backgroundColor: isDisabled ? undefined : "",
     border: '1.5px solid var(--border-gray)',
     borderRadius: 'var(--border-radius-md)',
     fontSize: '14px',

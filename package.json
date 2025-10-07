@@ -32,5 +32,9 @@
   "prettier": {
     "singleQuote": true
   },
-  "packageManager": "pnpm@10.6.5"
+  "packageManager": "pnpm@10.6.5",
+  "devDependencies": {
+    "@types/redux": "^3.6.31",
+    "redux": "^5.0.1"
+  }
 }

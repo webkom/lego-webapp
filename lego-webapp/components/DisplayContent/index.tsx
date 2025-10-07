@@ -5,7 +5,7 @@ import styles from './DisplayContent.module.css';
 import type { CSSProperties } from 'react';
 
 type Props = {
-  content: string;
+  content: string | undefined;
   id?: string;
   className?: string;
   style?: CSSProperties;

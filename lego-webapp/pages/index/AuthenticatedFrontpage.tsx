@@ -72,7 +72,7 @@ const AuthenticatedFrontpage = () => {
   );
 
   const currentPrivateBanner = useAppSelector((state) =>
-    selectCurrentPrivateBanner(state, true),
+    selectCurrentPrivateBanner(state),
   );
 
   const scrollToTop = () => {
