@@ -2,7 +2,7 @@ import cookie from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 import moment from 'moment-timezone';
 import { normalize } from 'normalizr';
-import { User, Penalty, UserCommand } from '~/redux/actionTypes';
+import { User, Penalty } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { userSchema, penaltySchema } from '~/redux/schemas';
 import { setStatusCode } from '~/redux/slices/routing';
@@ -524,7 +524,7 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
 
 export function fetchCommandSuggestions() {
   return callAPI({
-    types: UserCommand.FETCH_SUGGESTIONS,
+    types: User.FETCH_SUGGESTIONS,
     endpoint: '/user-commands/suggestions/',
     method: 'GET',
   });
@@ -532,7 +532,7 @@ export function fetchCommandSuggestions() {
 
 export function recordCommandUsage(commandId: string) {
   return callAPI({
-    types: UserCommand.RECORD_USAGE,
+    types: User.USAGE_SUGGESTION,
     endpoint: '/user-commands/use/',
     method: 'POST',
     body: { command_id: commandId },

@@ -37,7 +37,7 @@ const createCommands = (
   dispatch: any,
   suggestionIds: string[] = [],
 ): CommandSection[] => {
-  const allSections: CommandSection[] = [
+  const sections: CommandSection[] = [
     {
       name: 'Navigasjon',
       items: [
@@ -178,20 +178,20 @@ const createCommands = (
     },
   ];
 
-  const flatCommands = allSections.flatMap((s) => s.items);
+  const allCommands = sections.flatMap((section) => section.items);
 
   const suggestedItems: Command[] = suggestionIds
-    .map((id) => flatCommands.find((c) => c.id === id))
+    .map((id) => allCommands.find((c) => c.id === id))
     .filter(Boolean) as Command[];
 
-  const dedupedSections = allSections.map((section) => ({
+  const filteredSections = sections.map((section) => ({
     ...section,
     items: section.items.filter((item) => !suggestionIds.includes(item.id)),
   }));
 
-  return suggestedItems.length > 0
-    ? [{ name: 'Dine forslag', items: suggestedItems }, ...dedupedSections]
-    : allSections;
+  return suggestedItems.length
+    ? [{ name: 'Dine forslag', items: suggestedItems }, ...filteredSections]
+    : sections;
 };
 
 export default createCommands;
