@@ -23,7 +23,7 @@ import {
   recordCommandUsage,
 } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { selectCurrentUser } from '~/redux/slices/auth';
+import { useCurrentUser } from '~/redux/slices/auth';
 import { selectCommandSuggestions } from '~/redux/slices/users';
 import styles from './CommandPalette.module.css';
 import createCommands from './commands';
@@ -36,13 +36,9 @@ const CommandPalette = () => {
   const [isOpen, setOpen] = useState(false);
   const { contains } = useFilter({ sensitivity: 'base' });
   const dispatch = useAppDispatch();
+  const currentUser = useCurrentUser();
 
-  const currentUser = useAppSelector(selectCurrentUser);
-  const currentUserId = currentUser?.id;
-
-  const suggestionIds = useAppSelector((state) =>
-    selectCommandSuggestions(state, currentUserId).slice(0, 3),
-  );
+  const suggestionIds = useAppSelector(selectCommandSuggestions);
 
   useEffect(() => {
     if (currentUser) {
@@ -51,7 +47,6 @@ const CommandPalette = () => {
   }, [currentUser, dispatch]);
 
   const commands = createCommands(dispatch, suggestionIds);
-  console.log('COMMANDS STRUCTURE:', commands);
   const allItems = commands.flatMap((s) => s.items);
 
   const isMac = /mac(os|intosh)/i.test(navigator.userAgent);

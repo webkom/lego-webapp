@@ -95,9 +95,15 @@ export const selectUsersByIds = createSelector(
 );
 
 export const selectCommandSuggestions = createSelector(
-  (state: RootState, userId?: EntityId) =>
-    userId ? selectUserById(state, userId) : undefined,
-  (user) => user?.commandSuggestions ?? [],
+  [
+    (state: RootState) => state.users.entities,
+    (state: RootState) => state.auth.id,
+  ],
+  (userEntities, userId) => {
+    if (!userId) return [];
+    const user = userEntities[userId];
+    return user?.commandSuggestions?.slice(0, 3) ?? [];
+  },
 );
 
 export const selectUserWithGroups = createSelector(
