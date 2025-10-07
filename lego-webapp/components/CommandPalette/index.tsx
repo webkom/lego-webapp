@@ -45,8 +45,10 @@ const CommandPalette = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchCommandSuggestions());
-  }, []);
+    if (currentUser) {
+      dispatch(fetchCommandSuggestions());
+    }
+  }, [currentUser, dispatch]);
 
   const commands = createCommands(dispatch, suggestionIds);
   console.log('COMMANDS STRUCTURE:', commands);
