@@ -97,12 +97,13 @@ export const selectUsersByIds = createSelector(
 export const selectCommandSuggestions = createSelector(
   [
     (state: RootState) => state.users.entities,
-    (state: RootState) => state.auth.id,
+    (state: RootState) => state.auth?.id,
   ],
   (userEntities, userId) => {
     if (!userId) return [];
-    const user = userEntities[userId];
-    return user?.commandSuggestions?.slice(0, 3) ?? [];
+    const user = userEntities?.[userId];
+    const suggestions = user?.commandSuggestions;
+    return Array.isArray(suggestions) ? suggestions.slice(0, 3) : [];
   },
 );
 
