@@ -51,7 +51,6 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
           <Icon iconNode={<Users />} />
         </a>
       </Dropdown.ListItem>
-      <Dropdown.Divider />
       <Dropdown.ListItem>
         <ToggleTheme
           variant="header"
