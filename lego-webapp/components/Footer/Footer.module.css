@@ -130,6 +130,9 @@ img.octocat {
 
 .section p {
   margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .rightSection {

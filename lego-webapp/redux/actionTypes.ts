@@ -216,7 +216,9 @@ export const User = {
   ),
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN'),
+  RECORD_COMMAND_USAGE: generateStatuses('User.RECORD_COMMAND_USAGE'),
 };
+
 export const Penalty = {
   FETCH: generateStatuses('Penalty.FETCH'),
   CREATE: generateStatuses('Penalty.CREATE'),
