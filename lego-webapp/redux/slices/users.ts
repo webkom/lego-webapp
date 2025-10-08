@@ -27,10 +27,7 @@ export type UserEntity = {
   selectedTheme?: string;
   photoConsents?: Array<PhotoConsent>;
   isStudent?: boolean;
-  commandSuggestions?: {
-    visible: { id: string; lastUsed: string }[];
-    buffer: { id: string; lastUsed: string }[];
-  };
+  commandSuggestions?: Array<string>;
 };
 
 const legoAdapter = createLegoAdapter(EntityType.Users);
@@ -104,19 +101,6 @@ export const selectUsersByIds = createSelector(
   selectUserEntities,
   (_: RootState, userIds: EntityId[] = []) => userIds,
   (userEntities, userIds) => userIds.map((userId) => userEntities[userId]),
-);
-
-export const selectCommandSuggestions = createSelector(
-  [
-    (state: RootState) => state.users.entities,
-    (state: RootState) => state.auth?.id,
-  ],
-  (userEntities, userId) => {
-    if (!userId) return [];
-    const user = userEntities?.[userId];
-    const suggestions = user?.commandSuggestions;
-    return Array.isArray(suggestions) ? suggestions.slice(0, 3) : [];
-  },
 );
 
 export const selectUserWithGroups = createSelector(

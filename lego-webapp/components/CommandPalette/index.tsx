@@ -18,13 +18,9 @@ import {
   useFilter,
   Key,
 } from 'react-aria-components';
-import {
-  fetchCommandSuggestions,
-  recordCommandUsage,
-} from '~/redux/actions/UserActions';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { recordCommandUsage } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
-import { selectCommandSuggestions } from '~/redux/slices/users';
 import styles from './CommandPalette.module.css';
 import createCommands from './commands';
 
@@ -36,7 +32,7 @@ const CommandPalette = () => {
   const [isOpen, setOpen] = useState(false);
   const { contains } = useFilter({ sensitivity: 'base' });
   const dispatch = useAppDispatch();
-  const suggestionIds = useAppSelector(selectCommandSuggestions);
+  const suggestionIds = useCurrentUser()?.commandSuggestions;
 
   const commands = createCommands(dispatch, suggestionIds);
   const allItems = commands.flatMap((s) => s.items);

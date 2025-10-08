@@ -522,14 +522,6 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
   );
 }
 
-export function fetchCommandSuggestions() {
-  return callAPI({
-    types: User.FETCH_SUGGESTIONS,
-    endpoint: '/user-commands/suggestions/',
-    method: 'GET',
-  });
-}
-
 export function recordCommandUsage(commandId: string) {
   return callAPI({
     types: User.USAGE_SUGGESTION,
