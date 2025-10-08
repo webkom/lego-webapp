@@ -1,10 +1,17 @@
 :root {
   color-scheme: light;
 
-  --lego-background-color: #f8f9fa;
-  --lego-card-color: #fff;
+  --light-background-color: #f8f9fa;
+  --dark-background-color: #0d0d0d;
+  --light-card-color: #fff;
+  --dark-card-color: #222;
+  --light-font-color: #0d0d0d;
+  --dark-font-color: #f2f2f2;
 
-  --lego-font-color: var(--color-gray-9);
+  --lego-background-color: var(--light-background-color);
+  --lego-card-color: var(--light-card-color);
+
+  --lego-font-color: var(--light-font-color);
   --inverted-font-color: var(--color-gray-1);
   --secondary-font-color: #606060;
   --placeholder-color: var(--color-gray-5);
@@ -19,7 +26,6 @@
   --lego-max-width: 1100px;
 
   --lego-header-height: 120px;
-  --lego-main-nav-height: 50px;
   --development-banner-height: 0px;
 
   --color-event-red: #b11c11;
@@ -28,7 +34,7 @@
   --color-absolute-white: #fff; /* White on dark mode as well */
   --color-white: var(--color-absolute-white);
   --color-absolute-black: #000; /* Black on dark mode as well */
-  --color-black: #000;
+  --color-black: var(--color-absolute-black);
 
   --border-gray: var(--color-gray-2);
 
@@ -44,7 +50,7 @@
     var(--low-alpha)
   );
 
-  --color-gray-1: #f2f2f2;
+  --color-gray-1: var(--dark-font-color);
   --color-gray-2: #e7e7e7;
   --color-gray-3: #d9d9d9;
   --color-gray-4: #b6b6b6;
@@ -52,7 +58,7 @@
   --color-gray-6: #757575;
   --color-gray-7: #595959;
   --color-gray-8: #373737;
-  --color-gray-9: #0d0d0d;
+  --color-gray-9: var(--dark-font-color);
 
   --color-blue-1: #e6f1ff;
   --color-blue-2: #cee4fe;
@@ -165,8 +171,9 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --lego-background-color: #0d0d0d;
-  --lego-card-color: #222;
+  --lego-background-color: var(--dark-background-color);
+  --lego-card-color: var(--dark-card-color);
+  --lego-font-color: var(--dark-font-color);
 
   --secondary-font-color: #aaa;
 
@@ -183,7 +190,7 @@
 
   --low-alpha: 10%;
 
-  --color-gray-1: #0d0d0d;
+  --color-gray-1: var(--light-font-color);
   --color-gray-2: #373737;
   --color-gray-3: #595959;
   --color-gray-4: #757575;
@@ -191,7 +198,7 @@
   --color-gray-6: #b6b6b6;
   --color-gray-7: #d9d9d9;
   --color-gray-8: #e7e7e7;
-  --color-gray-9: #f2f2f2;
+  --color-gray-9: var(--light-font-color);
 
   --color-blue-1: #102a47;
   --color-blue-2: #0f3158;

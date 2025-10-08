@@ -8,8 +8,6 @@ import {
   Form,
   LegoFinalForm,
   TextInput,
-  MultiSelectGroup,
-  RadioButton,
   PhoneNumberInput,
   SelectInput,
   SubmitButton,
@@ -37,6 +35,7 @@ import AllergiesOrPreferencesField from '../../../_components/AllergiesOrPrefere
 import ChangePassword from './ChangePassword';
 import DeleteUser from './DeleteUser';
 import RemovePicture from './RemovePicture';
+import ThemeSelector from './ThemeSelector';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from '~/redux/models/User';
@@ -210,29 +209,7 @@ const UserSettings = () => {
               />
             </RowSection>
 
-            <MultiSelectGroup legend="Fargetema" name="selectedTheme">
-              <Field
-                name="selectedTheme"
-                label="Auto"
-                value="auto"
-                type="radio"
-                component={RadioButton.Field}
-              />
-              <Field
-                name="selectedTheme"
-                label="Lyst"
-                value="light"
-                type="radio"
-                component={RadioButton.Field}
-              />
-              <Field
-                name="selectedTheme"
-                label="Mørkt"
-                value="dark"
-                type="radio"
-                component={RadioButton.Field}
-              />
-            </MultiSelectGroup>
+            <ThemeSelector />
 
             {showAbakusMembership && (
               <Field
