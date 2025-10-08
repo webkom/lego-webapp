@@ -33,33 +33,15 @@ const CommandItem = (props: React.ComponentProps<typeof MenuItem>) => (
 );
 
 const CommandPalette = () => {
-  const isServer = typeof window === 'undefined';
-
   const [isOpen, setOpen] = useState(false);
-  const [isMac, setIsMac] = useState(false);
   const { contains } = useFilter({ sensitivity: 'base' });
   const dispatch = useAppDispatch();
-  const currentUser = useCurrentUser();
   const suggestionIds = useAppSelector(selectCommandSuggestions);
-
-  useEffect(() => {
-    if (isServer) return;
-    setIsMac(/mac(os|intosh)/i.test(navigator.userAgent));
-  }, [isServer]);
-
-  useEffect(() => {
-    if (isServer) return;
-    if (currentUser) dispatch(fetchCommandSuggestions());
-  }, [isServer, currentUser, dispatch]);
-
-  useEffect(() => {
-    if (currentUser) {
-      dispatch(fetchCommandSuggestions());
-    }
-  }, [currentUser, dispatch]);
 
   const commands = createCommands(dispatch, suggestionIds);
   const allItems = commands.flatMap((s) => s.items);
+
+  const isMac = /mac(os|intosh)/i.test(navigator.userAgent);
 
   const togglePalette = useCallback(() => setOpen((prev) => !prev), []);
   const closePalette = useCallback(() => setOpen(false), []);
@@ -111,8 +93,6 @@ const CommandPalette = () => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   });
-
-  if (isServer) return null;
 
   return (
     <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>

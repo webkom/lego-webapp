@@ -37,7 +37,10 @@ const legoAdapter = createLegoAdapter(EntityType.Users);
 
 const usersSlice = createSlice({
   name: EntityType.Users,
-  initialState: legoAdapter.getInitialState({ fetchingAchievements: false }),
+  initialState: legoAdapter.getInitialState({
+    fetchingAchievements: false,
+    fetchingCommandSuggestions: false,
+  }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [User.FETCH, User.FETCH_LEADERBOARD],
@@ -55,6 +58,15 @@ const usersSlice = createSlice({
       });
       addCase(User.FETCH_LEADERBOARD.FAILURE, (state) => {
         state.fetchingAchievements = false;
+      });
+      addCase(User.FETCH_SUGGESTIONS.BEGIN, (state) => {
+        state.fetchingCommandSuggestions = true;
+      });
+      addCase(User.FETCH_SUGGESTIONS.SUCCESS, (state) => {
+        state.fetchingCommandSuggestions = false;
+      });
+      addCase(User.FETCH_SUGGESTIONS.FAILURE, (state) => {
+        state.fetchingCommandSuggestions = false;
       });
       addCase(MembershipHistory.DELETE.SUCCESS, (state, action) => {
         const user = state.entities[action.meta.userId] as CurrentUser;
