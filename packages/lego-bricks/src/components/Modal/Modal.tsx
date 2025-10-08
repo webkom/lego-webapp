@@ -84,7 +84,7 @@ const Modal = forwardRef<HTMLElement, Props>(
                   </Heading>
                 )}
 
-                {showCloseButton !== false && (
+                {showCloseButton && (
                   <Icon
                     iconNode={<X />}
                     onPress={close}

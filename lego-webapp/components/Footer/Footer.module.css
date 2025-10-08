@@ -26,19 +26,6 @@
   }
 }
 
-.creatorContent {
-  align-items: baseline;
-  gap: var(--spacing-sm);
-  font-size: var(--font-size-xs);
-  text-transform: uppercase;
-
-  font-family: 'Open Sans', sans-serif;
-}
-
-.creatorContent a {
-  color: #5d0909 !important;
-}
-
 /* stylelint-disable no-descending-specificity */
 .footerContent a {
   color: var(--color-red-8);
@@ -104,6 +91,9 @@ img.octocat {
 
 .section p {
   margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .rightSection {

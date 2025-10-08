@@ -39,7 +39,7 @@ const CommandPalette = () => {
 
   const isMac = /mac(os|intosh)/i.test(navigator.userAgent);
 
-  const togglePalette = useCallback(() => setOpen((prev) => !prev), []);
+  const togglePalette = () => setOpen((prev) => !prev);
   const closePalette = useCallback(() => setOpen(false), []);
 
   const handleCommandSelect = useCallback(
