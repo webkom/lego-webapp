@@ -37,7 +37,9 @@ const CommandPalette = () => {
   const commands = createCommands(dispatch, suggestionIds);
   const allItems = commands.flatMap((s) => s.items);
 
-  const isMac = /mac(os|intosh)/i.test(navigator.userAgent);
+  const isMac =
+    typeof window !== 'undefined' &&
+    /mac(os|intosh)/i.test(navigator.userAgent);
 
   const togglePalette = () => setOpen((prev) => !prev);
   const closePalette = useCallback(() => setOpen(false), []);
@@ -56,6 +58,8 @@ const CommandPalette = () => {
   );
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'k' && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
@@ -88,7 +92,7 @@ const CommandPalette = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  });
+  }, [isMac, isOpen, togglePalette]);
 
   return (
     <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
