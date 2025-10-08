@@ -41,7 +41,7 @@ const CommandPalette = () => {
     typeof window !== 'undefined' &&
     /mac(os|intosh)/i.test(navigator.userAgent);
 
-  const togglePalette = () => setOpen((prev) => !prev);
+  const togglePalette = useCallback(() => setOpen((prev) => !prev), []);
   const closePalette = useCallback(() => setOpen(false), []);
 
   const handleCommandSelect = useCallback(

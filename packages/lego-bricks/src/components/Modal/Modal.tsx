@@ -62,7 +62,7 @@ const Modal = forwardRef<HTMLElement, Props>(
       dialogRole,
       title,
       children,
-      showCloseButton,
+      showCloseButton = true,
     },
     ref,
   ) => {
