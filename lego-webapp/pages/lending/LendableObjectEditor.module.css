@@ -1,8 +1,32 @@
+@import url('styles/custom-media.css');
+
 .thumbnail {
-  width: 250px;
+  min-width: 212px;
   flex-shrink: 0;
+  @media (--small-viewport) {
+    align-self: center;
+    min-width: 66%;
+  }
 }
 
 .detailsContainer {
   flex: 1;
+  padding: 0 var(--spacing-md);
+  min-width: 0;
+  @media (--small-viewport) {
+    padding: 0;
+  }
+}
+
+.fields {
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+}
+
+.nameLocation {
+  display: flex;
+  @media (--small-viewport) {
+    padding: var(--spacing-md) 0;
+  }
 }

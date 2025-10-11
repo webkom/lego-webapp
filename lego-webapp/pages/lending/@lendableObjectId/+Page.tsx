@@ -41,8 +41,8 @@ export const LendableObjectList = () => {
     >
       <Helmet title={title || 'Utlån'} />
       {lendableObject && (
-        <Flex column gap="var(--spacing-md)">
-          <Flex gap="var(--spacing-lg)">
+        <div className={styles.container}>
+          <div className={styles.info}>
             <div className={styles.description}>
               {lendableObject && !lendableObject.canLend && (
                 <Card severity="warning">
@@ -66,7 +66,7 @@ export const LendableObjectList = () => {
                 />
               </Card>
             )}
-          </Flex>
+          </div>
           <div className={styles.border} />
           <div>
             <LendingCalendar
@@ -75,7 +75,7 @@ export const LendableObjectList = () => {
             />
             <LendingRequestEditor onRangeChange={setRange} />
           </div>
-        </Flex>
+        </div>
       )}
     </Page>
   );

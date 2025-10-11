@@ -72,7 +72,7 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Flex gap="var(--spacing-lg)">
+          <Flex className={style.fields}>
             <div className={style.thumbnail}>
               <Field
                 name="image"
@@ -86,7 +86,7 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
               className={style.detailsContainer}
               gap="var(--spacing-md)"
             >
-              <Flex gap="var(--spacing-md)">
+              <Flex gap="var(--spacing-md)" className={style.nameLocation}>
                 <Field
                   label="Navn"
                   name="title"
