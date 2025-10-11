@@ -29,7 +29,6 @@ const validate = createValidator({
 const REVUE_BOARD_GROUP_ID = 59;
 
 const ContactForm = () => {
-
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),
   );
@@ -78,11 +77,7 @@ const ContactForm = () => {
   }));
 
   return (
-    <LegoFinalForm
-      onSubmit={onSubmit}
-      validate={validate}
-      validateOnSubmitOnly
-    >
+    <LegoFinalForm onSubmit={onSubmit} validate={validate} validateOnSubmitOnly>
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <p>

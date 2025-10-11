@@ -27,7 +27,8 @@ const Contact = () => {
               varslingsportal
             </a>
             . Da sikrer du at saken din blir behandlet best mulig, og du har
-            mulighet til å følge opp saken samtidig som du forblir <strong>anonym</strong>.
+            mulighet til å følge opp saken samtidig som du forblir{' '}
+            <strong>anonym</strong>.
             <br />
             Les mer i våre{' '}
             <a href="/pages/organisasjon/117-abakus-etiske-retningslinjer">
@@ -37,16 +38,16 @@ const Contact = () => {
           </span>
         </Card>
 
-      {loggedIn ? (
-        <ContactForm />
-      ) : (
-        <span>
-          <h3>Du er ikke innlogget</h3>
-          Du må være innlogget for å benytte dette skjemaet. Dersom du ikke har
-          abakus bruker se andre kontaktmuligheter under{' '}
-          <a href="/pages/info-om-abakus#contact">Om Abakus - Kontakt Oss</a>.
-        </span>
-      )}
+        {loggedIn ? (
+          <ContactForm />
+        ) : (
+          <span>
+            <h3>Du er ikke innlogget</h3>
+            Du må være innlogget for å benytte dette skjemaet. Dersom du ikke
+            har abakus bruker se andre kontaktmuligheter under{' '}
+            <a href="/pages/info-om-abakus#contact">Om Abakus - Kontakt Oss</a>.
+          </span>
+        )}
       </Flex>
     </Page>
   );
