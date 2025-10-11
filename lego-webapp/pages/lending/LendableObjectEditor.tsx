@@ -1,13 +1,10 @@
-import { Flex, Tooltip } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { navigate } from 'vike/client/router';
 import {
   EditorField,
-  Fields,
   Form,
   ImageUploadField,
   LegoFinalForm,
-  ObjectPermissions,
   SelectInput,
   SubmitButton,
   TextInput,
@@ -72,7 +69,7 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Flex gap="var(--spacing-lg)">
+          <div className={style.fields}>
             <div className={style.thumbnail}>
               <Field
                 name="image"
@@ -81,12 +78,8 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                 img={initialValues?.image}
               />
             </div>
-            <Flex
-              column
-              className={style.detailsContainer}
-              gap="var(--spacing-md)"
-            >
-              <Flex gap="var(--spacing-md)">
+            <div className={style.detailsContainer}>
+              <div className={style.nameLocation}>
                 <Field
                   label="Navn"
                   name="title"
@@ -99,15 +92,15 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                   placeholder="A3-lageret"
                   component={TextInput.Field}
                 />
-              </Flex>
+              </div>
               <Field
                 label="Beskrivelse"
                 name="description"
                 placeholder="Grill til utlån"
                 component={EditorField.Field}
               />
-            </Flex>
-          </Flex>
+            </div>
+          </div>
           <Field
             name="canViewGroups"
             label="Grupper med lånetilgang"
