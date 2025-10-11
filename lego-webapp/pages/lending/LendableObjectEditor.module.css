@@ -19,6 +19,7 @@
 }
 
 .fields {
+  display: flex;
   @media (--small-viewport) {
     flex-direction: column;
   }
@@ -26,6 +27,8 @@
 
 .nameLocation {
   display: flex;
+  gap: var(--spacing-md);
+  padding-bottom: var(--spacing-md);
   @media (--small-viewport) {
     padding: var(--spacing-md) 0;
   }
