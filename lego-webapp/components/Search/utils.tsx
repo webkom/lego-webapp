@@ -184,6 +184,12 @@ const LINKS: Array<Link> = [
     url: '/surveys',
   },
   {
+    key: 'mine-surveys',
+    title: 'Spørreundersøkelser',
+    icon: <FilePieChart />,
+    url: '/surveys/mine',
+  },
+  {
     admin: true,
     key: 'sudo',
     title: 'Sudo',

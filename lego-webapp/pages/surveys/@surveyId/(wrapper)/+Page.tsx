@@ -20,7 +20,7 @@ const SurveyDetailPage = () => {
   const fetching = useAppSelector((state) => state.surveys.fetching);
   const actionGrant = survey?.actionGrant;
 
-  if (!survey || !actionGrant) {
+  if (!survey || !event || !actionGrant) {
     return <LoadingIndicator loading={fetching} />;
   }
 

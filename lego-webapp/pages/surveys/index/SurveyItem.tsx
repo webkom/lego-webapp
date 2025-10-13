@@ -10,9 +10,10 @@ import type { DetailedSurvey } from '~/redux/models/Survey';
 
 type Props = {
   survey: DetailedSurvey;
+  linkToAnswer?: boolean;
 };
 
-const SurveyItem = ({ survey }: Props) => {
+const SurveyItem = ({ survey, linkToAnswer = false }: Props) => {
   const event = useAppSelector((state) =>
     selectEventById<EventForSurvey>(state, survey?.event),
   );
@@ -27,7 +28,9 @@ const SurveyItem = ({ survey }: Props) => {
       }}
     >
       <div>
-        <a href={`/surveys/${String(survey.id)}`}>
+        <a
+          href={`/surveys/${String(survey.id)}${linkToAnswer ? '/answer' : ''}`}
+        >
           <h3 className={styles.surveyItemTitle}>{survey.title}</h3>
         </a>
 

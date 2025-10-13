@@ -11,9 +11,15 @@ type Props = {
   surveys: DetailedSurvey[];
   fetching: boolean;
   isTemplates?: boolean;
+  isMine?: boolean;
 };
 
-const SurveyList = ({ surveys, fetching, isTemplates }: Props) => {
+const SurveyList = ({
+  surveys,
+  fetching,
+  isTemplates,
+  isMine = false,
+}: Props) => {
   if (isEmpty(surveys) && !fetching) {
     return (
       <EmptyState
@@ -26,7 +32,11 @@ const SurveyList = ({ surveys, fetching, isTemplates }: Props) => {
   return (
     <div>
       {surveys.map((survey) => (
-        <SurveyItem key={survey.id} survey={survey} />
+        <SurveyItem
+          key={survey.id}
+          survey={survey}
+          linkToAnswer={!isTemplates && isMine}
+        />
       ))}
       {fetching && (
         <Skeleton

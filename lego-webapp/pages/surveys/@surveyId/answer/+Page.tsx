@@ -33,6 +33,8 @@ const AddSubmissionPage = () => {
     }),
   );
 
+  const fetchingSurveys = useAppSelector((state) => state.surveys.fetching);
+
   const fetchingSubmission = useAppSelector(
     (state) => state.surveySubmissions.fetching,
   );
@@ -45,7 +47,7 @@ const AddSubmissionPage = () => {
     [surveyId, currentUser?.id],
   );
 
-  if (!survey || !event || !currentUser) {
+  if (!survey || !currentUser) {
     return <LoadingIndicator loading={fetchingSubmission} />;
   }
 
@@ -83,6 +85,10 @@ const AddSubmissionPage = () => {
         </ContentMain>
       </Page>
     );
+  }
+
+  if (!survey.questions || !event) {
+    return <LoadingIndicator loading={fetchingSurveys} />;
   }
 
   const initialValues: FormSurveySubmission = {

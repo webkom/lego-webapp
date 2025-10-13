@@ -49,6 +49,11 @@ export const selectAllSurveys = createSelector(selectAll, (surveys) =>
   surveys.filter((survey) => !survey.isTemplate),
 );
 
+export const selectAllAttendedBySelfSurveys = createSelector(
+  selectAllSurveys,
+  (surveys) => surveys.filter((survey) => survey.attendedBySelf),
+);
+
 export const selectSurveyTemplates = createSelector(selectAll, (surveys) =>
   surveys.filter((survey) => survey.isTemplate),
 );

@@ -1,14 +1,13 @@
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
-import { navigate } from 'vike/client/router';
 import Paginator from '~/components/Paginator';
 import { fetchAll as fetchSurveys } from '~/redux/actions/SurveyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectPaginationNext } from '~/redux/slices/selectors';
-import { selectAllSurveys } from '~/redux/slices/surveys';
+import { selectAllAttendedBySelfSurveys } from '~/redux/slices/surveys';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
-import SurveyList from './SurveyList';
+import SurveyList from '../SurveyList';
 import type { DetailedSurvey } from '~/redux/models/Survey';
 
 const SurveyListPage = () => {
@@ -20,13 +19,9 @@ const SurveyListPage = () => {
     [],
   );
 
-  const actionGrant = useAppSelector((state) => state.surveys.actionGrant);
-
-  if (!actionGrant?.includes('edit')) {
-    navigate(`/surveys/mine`);
-  }
-
-  const surveys = useAppSelector(selectAllSurveys) as DetailedSurvey[];
+  const surveys = useAppSelector(
+    selectAllAttendedBySelfSurveys,
+  ) as DetailedSurvey[];
 
   const { pagination } = useAppSelector(
     selectPaginationNext({
@@ -51,11 +46,7 @@ const SurveyListPage = () => {
           );
         }}
       >
-        <SurveyList
-          surveys={surveys}
-          fetching={pagination.fetching}
-          isAdminLink
-        />
+        <SurveyList surveys={surveys} fetching={pagination.fetching} isMine />
       </Paginator>
     </>
   );

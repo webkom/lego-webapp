@@ -24,7 +24,7 @@ interface Survey {
 
 export type PublicSurvey = Pick<
   Survey,
-  'id' | 'title' | 'event' | 'templateType' | 'isTemplate'
+  'id' | 'title' | 'event' | 'templateType' | 'isTemplate' | 'attendedBySelf'
 >;
 
 // Used on admin-pages
@@ -39,6 +39,7 @@ export type DetailedSurvey = Pick<
   | 'actionGrant'
   | 'token'
   | 'isTemplate'
+  | 'attendedBySelf'
 >;
 
 interface PublicChoiceQuestionResult {
