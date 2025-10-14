@@ -2,6 +2,7 @@ import { Flex, Modal } from '@webkom/lego-bricks';
 import React from 'react';
 import styles from './ChristmasCalendar.module.css';
 
+<<<<<<< HEAD
 type ChristmasCalendarType = {
   className: string;
 };
@@ -104,6 +105,15 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
               <div className={styles.abakusWire} />
             </div>
           ))}
+=======
+const ChristmasCalendar = () => {
+    return (
+        <div>
+            <h3 className={utilStyles.frontPageHeader}>Julekalender</h3>
+            <Flex gap="var(--spacing-sm)">
+                <ChristmasCalendarSlot day={1}/>
+            </Flex>
+>>>>>>> 3eed1db37 (falk)
         </div>
         <AbakusPole />
       </Flex>
