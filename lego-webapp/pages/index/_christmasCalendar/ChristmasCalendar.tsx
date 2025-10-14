@@ -9,10 +9,6 @@ const ChristmasCalendar = () => {
             <h3 className={utilStyles.frontPageHeader}>Julekalender</h3>
             <Flex gap="var(--spacing-sm)">
                 <ChristmasCalendarSlot day={1}/>
-                <ChristmasCalendarSlot day={2}/>
-                <ChristmasCalendarSlot day={3}/>
-                <ChristmasCalendarSlot day={4}/>
-                <ChristmasCalendarSlot day={5}/>
             </Flex>
         </div>
     )
