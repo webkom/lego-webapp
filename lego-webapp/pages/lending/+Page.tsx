@@ -13,12 +13,12 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
-import { Contact, FolderOpen, ImageOff, Package } from 'lucide-react';
+import { Contact, FolderOpen, ImageOff, Package, Tag } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
+import { CheckBox } from '~/components/Form';
 import TextInput from '~/components/Form/TextInput';
 import { readmeIfy } from '~/components/ReadmeLogo';
-import HTTPError from '~/components/errors/HTTPError';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
@@ -28,6 +28,7 @@ import { selectGroupsByIds } from '~/redux/slices/groups';
 import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import { LENDABLE_CATEGORY, FilterLendingCategory } from '~/utils/constants';
 import truncateString from '~/utils/truncateString';
 import useQuery from '~/utils/useQuery';
 import styles from './LendableObjectList.module.css';
@@ -75,6 +76,10 @@ const LendableObject = ({
             {<Icon iconNode={<Package />} size={18} />}
             {lendableObject.location}
           </p>
+          <p>
+            {<Icon iconNode={<Tag />} size={18} />}
+            {LENDABLE_CATEGORY[lendableObject.category]}
+          </p>
         </CardFooter>
       </BaseCard>
     </a>
@@ -85,10 +90,13 @@ const formatGroups = (groups: { name: string }[]) => {
   return groups.length > 0 ? groups.map((g) => g.name).join(', ') : 'Ukjent';
 };
 
+const defaultLendingQuery = {
+  search: '',
+  lendingCategories: [] as FilterLendingCategory[],
+};
+
 const LendableObjectList = () => {
-  const { query, setQueryValue } = useQuery({
-    search: '',
-  });
+  const { query, setQueryValue } = useQuery(defaultLendingQuery);
 
   const dispatch = useAppDispatch();
 
@@ -138,9 +146,30 @@ const LendableObjectList = () => {
     (state) => state.lendableObjects.fetching,
   );
 
-  const filteredLendableObjects = lendableObjects.filter((lendableObjects) =>
-    lendableObjects.title.toLowerCase().includes(query.search.toLowerCase()),
-  );
+  const filteredLendableObjects = lendableObjects.filter((obj) => {
+    const matchesSearch = obj.title
+      .toLowerCase()
+      .includes(query.search.toLowerCase());
+    const matchesCategory =
+      query.lendingCategories.length === 0 ||
+      query.lendingCategories.includes(obj.category as FilterLendingCategory);
+    return matchesSearch && matchesCategory;
+  });
+
+  const toggleLendingCategory = (category: FilterLendingCategory) => () => {
+    setQueryValue('lendingCategories')(
+      query.lendingCategories.includes(category)
+        ? query.lendingCategories.filter((t) => t !== category)
+        : [...query.lendingCategories, category],
+    );
+  };
+
+  const showCategoryOutdoor = query.lendingCategories.includes('outdoors');
+  const showCategoryPhotography =
+    query.lendingCategories.includes('photography');
+  const showCategorySpeaker = query.lendingCategories.includes('speaker');
+  const showCategoryFurniture = query.lendingCategories.includes('furniture');
+  const showCategoryOther = query.lendingCategories.includes('other');
 
   const title = 'Utlån';
   return (
@@ -158,14 +187,48 @@ const LendableObjectList = () => {
       }
       sidebar={filterSidebar({
         children: (
-          <FilterSection title="Søk">
-            <TextInput
-              prefix="search"
-              placeholder="Grill, soundboks..."
-              value={query.search}
-              onChange={(e) => setQueryValue('search')(e.target.value)}
-            />
-          </FilterSection>
+          <>
+            <FilterSection title="Søk">
+              <TextInput
+                prefix="search"
+                placeholder="Grill, soundboks..."
+                value={query.search}
+                onChange={(e) => setQueryValue('search')(e.target.value)}
+              />
+            </FilterSection>
+            <FilterSection title="Kategori">
+              <CheckBox
+                id="outdoors"
+                label="Utendørs"
+                checked={showCategoryOutdoor}
+                onChange={toggleLendingCategory('outdoors')}
+              />
+              <CheckBox
+                id="photography"
+                label="Fotografi"
+                checked={showCategoryPhotography}
+                onChange={toggleLendingCategory('photography')}
+              />
+              <CheckBox
+                id="speaker"
+                label="Høytaler"
+                checked={showCategorySpeaker}
+                onChange={toggleLendingCategory('speaker')}
+              />
+              <CheckBox
+                id="furniture"
+                label="Møbler"
+                checked={showCategoryFurniture}
+                onChange={toggleLendingCategory('furniture')}
+              />
+              <CheckBox
+                id="other"
+                label="Annet"
+                checked={showCategoryOther}
+                onChange={toggleLendingCategory('other')}
+              />
+            </FilterSection>
+          </>
         ),
       })}
     >

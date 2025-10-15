@@ -11,6 +11,7 @@ interface LendableObject {
   canLend: boolean;
   actionGrant: ActionGrant;
   availability?: [Dateish, Dateish][];
+  category: string;
 }
 
 export type ListLendableObject = Pick<
@@ -22,6 +23,7 @@ export type ListLendableObject = Pick<
   | 'location'
   | 'canLend'
   | 'availability'
+  | 'category'
 > & { responsibleGroups: EntityId[] };
 
 export type DetailLendableObject = ListLendableObject &
