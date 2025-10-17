@@ -1,5 +1,29 @@
 @import url('styles/custom-media.css');
 
+.filterCategoryContainer {
+  width: 100%;
+  margin: var(--spacing-md) 0;
+  padding: 0 var(--spacing-md);
+
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(6, 1fr);
+  @media (--mobile-device) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  & > * {
+    width: 100%;
+  }
+  
+  & .checked {
+    color: var(--lego-red-color);
+  }
+}
+
+
 .lendableObjectsContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

@@ -2,7 +2,6 @@ import {
   LoadingIndicator,
   Image,
   Page,
-  filterSidebar,
   FilterSection,
   LinkButton,
   Button,
@@ -12,11 +11,25 @@ import {
   Flex,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import cx from 'classnames';
 import { isEmpty } from 'lodash-es';
-import { Contact, FolderOpen, ImageOff, Package, Tag } from 'lucide-react';
+import {
+  Armchair,
+  Camera,
+  Contact,
+  FileQuestion,
+  FolderOpen,
+  Guitar,
+  ImageOff,
+  Package,
+  Speaker,
+  Tag,
+  TentTree,
+} from 'lucide-react';
+import { ReactNode } from 'react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
-import { CheckBox } from '~/components/Form';
+import ComponentAsCheckBox from '~/components/Form/ComponentAsCheckBox';
 import TextInput from '~/components/Form/TextInput';
 import { readmeIfy } from '~/components/ReadmeLogo';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
@@ -164,12 +177,14 @@ const LendableObjectList = () => {
     );
   };
 
-  const showCategoryOutdoor = query.lendingCategories.includes('outdoors');
-  const showCategoryPhotography =
-    query.lendingCategories.includes('photography');
-  const showCategorySpeaker = query.lendingCategories.includes('speaker');
-  const showCategoryFurniture = query.lendingCategories.includes('furniture');
-  const showCategoryOther = query.lendingCategories.includes('other');
+  const categoryIconMap: Record<FilterLendingCategory, ReactNode> = {
+    outdoors: <TentTree />,
+    photography: <Camera />,
+    instrument: <Guitar />,
+    speaker: <Speaker />,
+    furniture: <Armchair />,
+    other: <FileQuestion />,
+  };
 
   const title = 'Utlån';
   return (
@@ -185,54 +200,42 @@ const LendableObjectList = () => {
           )}
         </>
       }
-      sidebar={filterSidebar({
-        children: (
-          <>
-            <FilterSection title="Søk">
-              <TextInput
-                prefix="search"
-                placeholder="Grill, soundboks..."
-                value={query.search}
-                onChange={(e) => setQueryValue('search')(e.target.value)}
-              />
-            </FilterSection>
-            <FilterSection title="Kategori">
-              <CheckBox
-                id="outdoors"
-                label="Utendørs"
-                checked={showCategoryOutdoor}
-                onChange={toggleLendingCategory('outdoors')}
-              />
-              <CheckBox
-                id="photography"
-                label="Fotografi"
-                checked={showCategoryPhotography}
-                onChange={toggleLendingCategory('photography')}
-              />
-              <CheckBox
-                id="speaker"
-                label="Høytaler"
-                checked={showCategorySpeaker}
-                onChange={toggleLendingCategory('speaker')}
-              />
-              <CheckBox
-                id="furniture"
-                label="Møbler"
-                checked={showCategoryFurniture}
-                onChange={toggleLendingCategory('furniture')}
-              />
-              <CheckBox
-                id="other"
-                label="Annet"
-                checked={showCategoryOther}
-                onChange={toggleLendingCategory('other')}
-              />
-            </FilterSection>
-          </>
-        ),
-      })}
     >
       <Helmet title={title} />
+
+      <FilterSection title="">
+        <TextInput
+          prefix="search"
+          placeholder="Grill, soundboks..."
+          value={query.search}
+          onChange={(e) => setQueryValue('search')(e.target.value)}
+        />
+      </FilterSection>
+      <div className={styles.filterCategoryContainer}>
+        {Object.entries(LENDABLE_CATEGORY).map(([category, value]) => (
+          <ComponentAsCheckBox
+            name="category"
+            id={category}
+            key={category}
+            label={value}
+            component={({ checked, focused }) => (
+              <Icon
+                iconNode={categoryIconMap[category]}
+                size={32}
+                className={cx(
+                  checked && styles.checked,
+                  focused && styles.focused,
+                )}
+              />
+            )}
+            checked={query.lendingCategories.includes(
+              category as FilterLendingCategory,
+            )}
+            onChange={toggleLendingCategory(category as FilterLendingCategory)}
+          />
+        ))}
+      </div>
+
       <LoadingIndicator loading={requestsPagination.fetching}>
         {lendingRequests.length ? (
           <div className={styles.lendingRequestsContainer}>
