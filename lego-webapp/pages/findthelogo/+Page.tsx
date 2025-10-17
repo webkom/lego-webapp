@@ -4,7 +4,7 @@ import styles from "./FindTheLogo.module.css"
 
 const FindTheLogoPage = () => {
   return (
-      <Modal isOpen={true} title="Luke 29" contentClassName={styles.modal}><FindTheLogo/></Modal>
+      <Modal isOpen={true} title="Luke 29" contentClassName={styles.modal}><FindTheLogo index={0}/></Modal>
   )
 }
 

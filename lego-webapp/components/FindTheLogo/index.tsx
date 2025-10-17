@@ -14,29 +14,36 @@ import {
 } from '~/components/Form';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
-import { fetchAllWithType} from '~/redux/actions/GroupActions';
-import { addToast } from '../Toast/ToastProvider';
+import { fetchAllWithType } from '~/redux/actions/GroupActions';
+
+type StyleType = {
+  [key: string]: string
+};
 
 type FindGameType = {
   logo: string;
+  bgImage: string;
+  style: StyleType;
   state: number;
   setState: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const FindGame = ({ logo, state, setState }: FindGameType) => {
+const FindGame = ({
+  logo,
+  bgImage,
+  style,
+  state,
+  setState,
+}: FindGameType) => {
   return (
     <Flex column>
       <h2>Finn logoen til en komité!</h2>
       <div className={styles.frame}>
         <div className={styles.source}>
-          <Image
-            src="../../assets/om-abakus-banner.png"
-            alt="Bilde"
-            className={styles.bgImage}
-          />
+          <Image src={bgImage} alt="Bilde" className={styles.bgImage} />
           <button
             className={styles.logoButton}
-            style={{ top: 0, left: 0 }}
+            style={style}
             onClick={() => setState(state + 1)}
           >
             <Image src={logo} alt="Logo" />
@@ -48,13 +55,18 @@ const FindGame = ({ logo, state, setState }: FindGameType) => {
 };
 
 type GuessCommitteeType = {
-  answer: string
+  answer: string;
   state: number;
-  setState: React.Dispatch<React.SetStateAction<number>>
-  setCorrect: React.Dispatch<React.SetStateAction<boolean>>
-}
+  setState: React.Dispatch<React.SetStateAction<number>>;
+  setCorrect: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const GuessCommittee = ({answer, state, setState, setCorrect}: GuessCommitteeType) => {
+const GuessCommittee = ({
+  answer,
+  state,
+  setState,
+  setCorrect,
+}: GuessCommitteeType) => {
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),
   );
@@ -85,10 +97,10 @@ const GuessCommittee = ({answer, state, setState, setCorrect}: GuessCommitteeTyp
     label: 'Revy',
   };
 
-  const onSubmit = ({committeeGuess}, form) => {
-    form.reset()
-    setCorrect(committeeGuess.label === answer ? true : false)
-    setState(state + 1)
+  const onSubmit = ({ committeeGuess }, form) => {
+    form.reset();
+    setCorrect(committeeGuess.label === answer ? true : false);
+    setState(state + 1);
   };
 
   return (
@@ -97,12 +109,12 @@ const GuessCommittee = ({answer, state, setState, setCorrect}: GuessCommitteeTyp
       <LegoFinalForm onSubmit={onSubmit}>
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
-            <Flex gap={"var(--spacing-md)"}>
+            <Flex gap={'var(--spacing-md)'}>
               <Field
                 name="committeeGuess"
                 placeholder="Velg komité"
                 options={[hsRecipient, ...recipientOptions, revyRecipient]}
-                value={'test'}
+                value={'committeeGuess'}
                 component={SelectInput.Field}
                 clearable={false}
               />
@@ -116,26 +128,51 @@ const GuessCommittee = ({answer, state, setState, setCorrect}: GuessCommitteeTyp
 };
 
 type FinalStateType = {
-  correct: boolean
-}
+  correct: boolean;
+};
 
-const FinalState = ({correct}: FinalStateType) => {
-  return(
-    correct ? <Flex column><h2>Du gjetta riktig!</h2></Flex> : <Flex column><h2>Du gjetta feil...</h2><p>...men du fullfører fortsatt luka.</p></Flex>
-  )
-}
+const FinalState = ({ correct }: FinalStateType) => {
+  return correct ? (
+    <Flex column>
+      <h2>Du gjetta riktig!</h2>
+    </Flex>
+  ) : (
+    <Flex column>
+      <h2>Du gjetta feil</h2>
+      <p>...men du fullfører fortsatt luka!</p>
+    </Flex>
+  );
+};
 
-const FindTheLogo = () => {
-  const committee = 'Webkom';
-  const logo =
-    'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png';
+const FindTheLogo = ({ index }: { index: number }) => {
+  const slots = [
+    {
+      committee: 'readme',
+      logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png',
+      bgImage:
+        'https://thumbor.abakus.no/kP2YsGjSIizc9O_h0pp3rTiIIjI=/0x700/smart/IMG_8436_Lsoofzd.JPG',
+      style: { left: '37%', top: '35%', opacity: "3%" },
+    },
+  ];
+  const slotToday = slots[index];
 
   const [state, setState] = React.useState(0);
-  const [correct, setCorrect] = React.useState(false)
+  const [correct, setCorrect] = React.useState(false);
   const states = [
-    <FindGame logo={logo} state={state} setState={setState} />,
-    <GuessCommittee answer={committee} state={state} setState={setState} setCorrect={setCorrect} />,
-    <FinalState correct={correct}/>
+    <FindGame
+      logo={slotToday.logo}
+      bgImage={slotToday.bgImage}
+      style={slotToday.style}
+      state={state}
+      setState={setState}
+    />,
+    <GuessCommittee
+      answer={slotToday.committee}
+      state={state}
+      setState={setState}
+      setCorrect={setCorrect}
+    />,
+    <FinalState correct={correct} />,
   ];
 
   return states[state];
