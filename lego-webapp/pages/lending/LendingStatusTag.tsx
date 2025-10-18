@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 import { Tag } from '~/components/Tags';
 import { TagColors } from '~/components/Tags/Tag';
 import { LendingRequestStatus } from '~/redux/models/LendingRequest';
-import styles from './LendableObjectList.module.css';
+import styles from './LendingPage.module.css';
 
 export const statusMap: Record<
   LendingRequestStatus,

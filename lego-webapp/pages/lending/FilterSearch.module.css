@@ -1,0 +1,21 @@
+.filterCategoryContainer {
+  width: 100%;
+  margin: var(--spacing-xs) 0;
+  border-bottom: 1px solid var(--color-gray-2);
+
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: var(--spacing-sm);
+  grid-template-columns: repeat(6, 1fr);
+  @media (--mobile-device) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  & > * {
+    width: 100%;
+  }
+
+  & .checked {
+    color: var(--lego-red-color);
+  }
+}

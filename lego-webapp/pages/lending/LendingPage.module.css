@@ -1,0 +1,24 @@
+@import url('styles/custom-media.css');
+
+section.wrapper {
+  display: grid;
+  grid-template:
+    'filter-search request-inbox'
+    'item-index request-inbox'
+    / 2.75fr 1.25fr;
+  padding: 0 var(--spacing-md);
+  gap: var(--spacing-lg);
+}
+
+.requestInbox {
+  grid-area: request-inbox;
+  border: 2px solid black;
+}
+
+.filterSearch {
+  grid-area: filter-search;
+}
+
+.itemIndex {
+  grid-area: item-index;
+}

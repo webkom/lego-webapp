@@ -1,0 +1,28 @@
+.lendingRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.lendingRequestEmpty {
+  margin: var(--spacing-md) 0;
+}
+
+.lendingRequestCard {
+  color: var(--lego-font-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-md);
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+}
+
+img.lendingRequestImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+}
