@@ -110,7 +110,7 @@ const createCommands = (
         {
           id: 'trophies',
           label: 'Trofeer',
-          action: () => navigate('/trophies'),
+          action: () => navigate('/achievements'),
           icon: <Icon iconNode={<Trophy />} size={15} />,
         },
         {

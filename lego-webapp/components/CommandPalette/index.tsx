@@ -6,7 +6,6 @@ import {
   Input,
   Modal,
   Dialog,
-  DialogTrigger,
   Menu,
   MenuItem,
   MenuSection,
@@ -92,93 +91,93 @@ const CommandPalette = () => {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isMac, isOpen, togglePalette]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <DialogTrigger isOpen={isOpen} onOpenChange={setOpen}>
-      <ModalOverlay className={styles.overlay} isDismissable>
-        <Modal>
-          <Dialog>
-            <div className={styles.container}>
-              <Autocomplete filter={contains}>
-                <div className={styles.topContainer}>
-                  <TextField
-                    aria-label="Search commands"
-                    className={styles.textField}
-                  >
-                    <Input
-                      placeholder="Søk på kommandoer…"
-                      autoFocus
-                      className={styles.input}
-                    />
-                  </TextField>
-                  <Button
-                    onPress={closePalette}
-                    className={styles.escButton}
-                    aria-label="Close command palette"
-                  >
-                    Esc
-                  </Button>
-                </div>
-                <Menu
-                  items={commands}
-                  className={styles.menu}
-                  onAction={handleCommandSelect}
+    <ModalOverlay
+      isOpen={isOpen}
+      onOpenChange={setOpen}
+      className={styles.overlay}
+      isDismissable
+    >
+      <Modal>
+        <Dialog>
+          <div className={styles.container}>
+            <Autocomplete filter={contains}>
+              <div className={styles.topContainer}>
+                <TextField
+                  aria-label="Search commands"
+                  className={styles.textField}
                 >
-                  {(section) => (
-                    <MenuSection id={section.name}>
-                      <Header className={styles.menuHeader}>
-                        {section.name}
-                      </Header>
-                      <Collection items={section.items}>
-                        {(item) => (
-                          <CommandItem id={item.id} textValue={item.label}>
-                            {({ isFocused }) => (
-                              <div className={styles.itemRow}>
-                                <div
-                                  className={
-                                    item.id === 'logout'
-                                      ? styles.logOut
-                                      : styles.itemLeft
-                                  }
-                                >
-                                  {item.icon && <span>{item.icon}</span>}
-                                  <span>{item.label}</span>
-                                </div>
-                                {isFocused && (
-                                  <Icon
-                                    iconNode={<CornerDownRight />}
-                                    size={16}
-                                    style={{
-                                      transform: 'scaleX(-1)',
-                                    }}
-                                  />
-                                )}
-                              </div>
-                            )}
-                          </CommandItem>
-                        )}
-                      </Collection>
-                    </MenuSection>
-                  )}
-                </Menu>
-              </Autocomplete>
-              <div className={styles.bottomContainer}>
-                <p>
-                  <Icon iconNode={<ArrowDown />} size={12} />
-                  Ctrl + J
-                </p>
-                <p>|</p>
-                <p>
-                  <Icon iconNode={<ArrowUp />} size={12} />
-                  Ctrl + K
-                </p>
+                  <Input
+                    placeholder="Søk på kommandoer…"
+                    autoFocus
+                    className={styles.input}
+                  />
+                </TextField>
+                <Button
+                  onPress={closePalette}
+                  className={styles.escButton}
+                  aria-label="Close command palette"
+                >
+                  Esc
+                </Button>
               </div>
+              <Menu
+                items={commands}
+                className={styles.menu}
+                onAction={handleCommandSelect}
+              >
+                {(section) => (
+                  <MenuSection id={section.name}>
+                    <Header className={styles.menuHeader}>
+                      {section.name}
+                    </Header>
+                    <Collection items={section.items}>
+                      {(item) => (
+                        <CommandItem id={item.id} textValue={item.label}>
+                          {({ isFocused }) => (
+                            <div className={styles.itemRow}>
+                              <div
+                                className={
+                                  item.id === 'logout'
+                                    ? styles.logOut
+                                    : styles.itemLeft
+                                }
+                              >
+                                {item.icon && <span>{item.icon}</span>}
+                                <span>{item.label}</span>
+                              </div>
+                              {isFocused && (
+                                <Icon
+                                  iconNode={<CornerDownRight />}
+                                  size={16}
+                                  style={{
+                                    transform: 'scaleX(-1)',
+                                  }}
+                                />
+                              )}
+                            </div>
+                          )}
+                        </CommandItem>
+                      )}
+                    </Collection>
+                  </MenuSection>
+                )}
+              </Menu>
+            </Autocomplete>
+            <div className={styles.bottomContainer}>
+              <Icon iconNode={<ArrowDown />} size={12} />
+              <span className={styles.textBox}>Ctrl + J</span>
+              <span>|</span>
+              <Icon iconNode={<ArrowUp />} size={12} />
+              <span className={styles.textBox}>Ctrl + K</span>
             </div>
-          </Dialog>
-        </Modal>
-      </ModalOverlay>
-    </DialogTrigger>
+          </div>
+        </Dialog>
+      </Modal>
+    </ModalOverlay>
   );
 };
 
