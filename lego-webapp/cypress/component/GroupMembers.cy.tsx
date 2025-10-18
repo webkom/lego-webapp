@@ -1,5 +1,5 @@
 import { PageContextProvider } from 'vike-react/usePageContext';
-import memberships from '../fixtures/memberships';
+import memberships from '~/cypress/fixtures/memberships';
 import GroupMembersList from '~/pages/admin/groups/@groupId/members/GroupMembersList';
 
 const mockPageContext = {

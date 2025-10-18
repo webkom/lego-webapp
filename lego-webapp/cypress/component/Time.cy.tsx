@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { default as Time, FormatTime, FromToTime } from '../../components/Time';
+import { default as Time, FormatTime, FromToTime } from '~/components/Time';
 
 describe('(<Time />', () => {
   const dateTime = '2016-02-02T22:17:21.838103Z';

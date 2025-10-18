@@ -1,5 +1,5 @@
-import type Comment from '~/redux/models/Comment';
 import { PublicUser } from '~/redux/models/User';
+import type Comment from '~/redux/models/Comment';
 
 const comments: Comment[] = [
   {

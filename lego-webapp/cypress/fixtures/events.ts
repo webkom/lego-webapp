@@ -1,6 +1,5 @@
 import moment from 'moment';
-import type { UserDetailedEvent } from '~/redux/models/Event';
-import { EventType } from '~/redux/models/Event';
+import { EventType, type UserDetailedEvent } from '~/redux/models/Event';
 
 const EVENT: UserDetailedEvent = {
   canEditGroups: [],

@@ -1,5 +1,5 @@
-import GroupTree from '../../pages/admin/groups/GroupTree';
-import groups from '../fixtures/groups';
+import groups from '~/cypress/fixtures/groups';
+import GroupTree from '~/pages/admin/groups/GroupTree';
 
 describe('<GroupTree />', () => {
   it('should render the child nodes as links', () => {

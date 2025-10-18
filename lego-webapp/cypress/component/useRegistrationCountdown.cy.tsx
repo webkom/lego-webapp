@@ -1,8 +1,8 @@
-import { default as moment, Moment } from 'moment';
-import EVENT from '../fixtures/events';
+import { default as moment } from 'moment';
+import EVENT from '~/cypress/fixtures/events';
+import { useRegistrationCountdown } from '~/pages/events/@eventIdOrSlug/useRegistrationCountdown';
 import type { Dateish, EventRegistration } from 'app/models';
 import type { UserDetailedEvent } from '~/redux/models/Event';
-import { useRegistrationCountdown } from '~/pages/events/@eventIdOrSlug/useRegistrationCountdown';
 
 const CountdownComponent = ({
   event = EVENT,

@@ -1,5 +1,5 @@
-import CommentView from '../../components/Comments/CommentView';
-import comments from '../fixtures/comments';
+import CommentView from '~/components/Comments/CommentView';
+import comments from '~/cypress/fixtures/comments';
 
 describe('<CommentView />', () => {
   beforeEach(() => {
