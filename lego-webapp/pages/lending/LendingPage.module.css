@@ -8,6 +8,13 @@ section.wrapper {
     / 2.75fr 1.25fr;
   padding: 0 var(--spacing-md);
   gap: var(--spacing-lg);
+
+  @media (--mobile-device) {
+    grid-template:
+      'filter-search'
+      'request-inbox'
+      'item-index';
+  }
 }
 
 .requestInbox {

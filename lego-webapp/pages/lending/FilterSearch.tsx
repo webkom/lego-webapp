@@ -46,6 +46,7 @@ const FilterSearch = ({
         placeholder="Grill, soundboks..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
+        className={styles.textInput}
       />
       <div className={styles.filterCategoryContainer}>
         {Object.entries(LENDABLE_CATEGORY).map(([category, value]) => (

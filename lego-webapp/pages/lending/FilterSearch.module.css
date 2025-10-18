@@ -1,3 +1,5 @@
+@import url('styles/custom-media.css');
+
 .filterCategoryContainer {
   width: 100%;
   margin: var(--spacing-xs) 0;
