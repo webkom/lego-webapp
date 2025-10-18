@@ -1,5 +1,5 @@
-import { Flex, Icon, Image } from '@webkom/lego-bricks';
-import { CalendarClock } from 'lucide-react';
+import { Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
+import { Baseline, CalendarClock, Pin } from 'lucide-react';
 import moment from 'moment';
 import {
   jobType,
@@ -37,10 +37,23 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
           gap="var(--spacing-xs)"
           className={styles.joblistingItemTitle}
         >
-          {moment(joblisting.createdAt).isAfter(
-            moment().subtract(3, 'days'),
-          ) && <Tag tag="Ny" color="green" />}
-          <span>{joblisting.title}</span>
+          <Flex
+            justifyContent="space-between"
+            alignItems="baseline"
+            width="100%"
+          >
+            <h3>
+              {moment(joblisting.createdAt).isAfter(
+                moment().subtract(3, 'days'),
+              ) && <Tag className={styles.titleTag} tag="Ny" color="green" />}
+              {joblisting.title}
+            </h3>
+            {joblisting.isPinned && (
+              <Tooltip className={styles.pin} content={'Festet annonse'}>
+                <Icon iconNode={<Pin />} size={18} />
+              </Tooltip>
+            )}
+          </Flex>
         </Flex>
         <Flex alignItems="center" gap="var(--spacing-xs)">
           {joblisting.company.name}
@@ -54,30 +67,34 @@ const JoblistingItem = ({ joblisting }: JobListingItemProps) => (
             </>
           )}
         </Flex>
-        <Flex alignItems="center" gap="var(--spacing-xs)">
-          <Year joblisting={joblisting} />
-          {joblisting.workplaces && (
-            <>
-              <span>•</span>
-              <Workplaces places={joblisting.workplaces} />
-            </>
-          )}
+        <Flex
+          gap="var(--spacing-sm)"
+          justifyContent="space-between"
+          className={styles.joblistingItemBottom}
+        >
+          <Flex alignItems="center" gap="var(--spacing-xs)">
+            <Year joblisting={joblisting} />
+            {joblisting.workplaces && (
+              <>
+                <span>•</span>
+                <Workplaces places={joblisting.workplaces} />
+              </>
+            )}
+          </Flex>
+          <Flex>
+            <div className={styles.joblistingCalender}>
+              <Icon iconNode={<CalendarClock />} size={16} />
+              {joblisting.rollingRecruitment ? (
+                'Snarest'
+              ) : (
+                <Time
+                  time={joblisting.deadline}
+                  format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
+                />
+              )}
+            </div>
+          </Flex>
         </Flex>
-      </Flex>
-      <Flex
-        alignItems="center"
-        gap="var(--spacing-sm)"
-        className={styles.deadline}
-      >
-        <Icon iconNode={<CalendarClock />} size={16} />
-        {joblisting.rollingRecruitment ? (
-          'Snarest'
-        ) : (
-          <Time
-            time={joblisting.deadline}
-            format={`ll ${moment(joblisting.deadline).format('HH:mm') !== '23:59' ? 'HH:mm' : ''}`}
-          />
-        )}
       </Flex>
     </div>
   </a>

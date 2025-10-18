@@ -88,6 +88,7 @@ export const Joblistings = {
 
 export const LendableObjects = {
   FETCH: generateStatuses('LendableObject.FETCH_ALL'),
+  FETCH_AVAILABILITY: generateStatuses('LendableObject.FETCH_AVAILABILITY'),
   CREATE: generateStatuses('LendableObject.CREATE'),
   EDIT: generateStatuses('LendableObject.EDIT'),
   DELETE: generateStatuses('LendableObject.DELETE'),
@@ -217,7 +218,9 @@ export const User = {
   ),
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN'),
+  RECORD_COMMAND_USAGE: generateStatuses('User.RECORD_COMMAND_USAGE'),
 };
+
 export const Penalty = {
   FETCH: generateStatuses('Penalty.FETCH'),
   CREATE: generateStatuses('Penalty.CREATE'),
@@ -313,22 +316,6 @@ export const Poll = {
 export const Reaction = {
   ADD: generateStatuses('Reaction.ADD'),
   DELETE: generateStatuses('Reaction.DELETE'),
-};
-
-export const Forum = {
-  FETCH_ALL: generateStatuses('Forum.FETCH_ALL'),
-  CREATE: generateStatuses('Forum.CREATE'),
-  FETCH: generateStatuses('Forum. FETCH'),
-  DELETE: generateStatuses('Forum.DELETE'),
-  UPDATE: generateStatuses('Forum.UPDATE'),
-};
-
-export const Thread = {
-  FETCH_ALL: generateStatuses('Thread.FETCH_ALL'),
-  CREATE: generateStatuses('Thread.CREATE'),
-  FETCH: generateStatuses('Thread. FETCH'),
-  DELETE: generateStatuses('Thread.DELETE'),
-  UPDATE: generateStatuses('Thread.UPDATE'),
 };
 
 export const Achievement = {

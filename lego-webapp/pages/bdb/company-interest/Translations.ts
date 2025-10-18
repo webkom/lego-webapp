@@ -21,10 +21,10 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  bedex: {
-    norwegian: 'Bedriftsekskursjon (BedEx)',
-    english: 'Company excursion (BedEx)',
-  },
+  // bedex: {
+  //   norwegian: 'Bedriftsekskursjon (BedEx)',
+  //   english: 'Company excursion (BedEx)',
+  // },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -83,9 +83,9 @@ export const TOOLTIP = {
   },
   company_to_company: {
     norwegian:
-      'Bedrift-til-bedrift er et arrangement som arrangeres i samarbeid med to andre bedrifter. 3 grupper med studenter rullerer på å besøke bedriftene deres i ca. 40 minutter og ser hvordan dere har det i deres lokaler. Her kan dere presentere caser fra deres bedrift, ha escape room, konkurranser eller finne på noe annet gøy. Etter at alle gruppene har besøkt alle bedriftene, drar alle ut på felles mingling.',
+      'Bli med på et unikt arrangement hvor studentene roterer mellom bedriftenes Trondheimskontorer. Hver bedrift får ca. 40 minutter med hver gruppe av studenter. Opplegget kan inkludere en introduksjon til bedriften og spennende konkurranser. Til slutt samles alle for mingling, hvor dere kan knytte nye kontakter og dele erfaringer.',
     english:
-      'Company-to-company is an event organized in collaboration with two other companies. 3 groups of students rotate to visit their companies for approximately 40 minutes and have a look around your workspace. Here you can present cases from your company, have escape rooms, competitions or come up with something else fun. After all the groups have visited all the businesses, everyone goes out for joint mingling.',
+      'Join a unique event where students rotate between the offices of the companies in Trondheim. Each company gets approx. 40 minutes with each group of students. The program can include an introduction to the company and exciting competitions. Finally, everyone gathers for more socializing, where you can make new contacts and share experiences.',
   },
 };
 
@@ -170,10 +170,10 @@ export const COLLABORATION_TYPES = {
     norwegian: 'Samarbeid med TIHLDE linjeforening',
     english: 'Event in collaboration with TIHLDE',
   },
-  // collaboration_revue: {
-  //   norwegian: 'Samarbeid med Revyen',
-  //   english: 'Collaboration with the revue',
-  // },
+  collaboration_revue: {
+    norwegian: 'Samarbeid med Revyen',
+    english: 'Collaboration with the revue',
+  },
   // collaboration_anniversary: {
   //   english: "Collaboration with Abakus' anniversary committee*",
   //   norwegian: 'Samarbeid med Abakus sitt Jubileum*',
@@ -182,6 +182,27 @@ export const COLLABORATION_TYPES = {
   //   english: "Collaboration with the revue's anniversary committee*",
   //   norwegian: 'Samarbeid med Revyen sitt Jubileum*',
   // },
+};
+
+export const COLLABORATION_DESCRIPTIONS = {
+  collaboration_omega: {
+    norwegian: 'Samarbeid med Omega linjeforening',
+    english: 'Event in collaboration with Omega',
+  },
+  collaboration_online: {
+    norwegian: 'Samarbeid med Online linjeforening',
+    english: 'Event in collaboration with Online',
+  },
+  collaboration_tihlde: {
+    norwegian: 'Samarbeid med TIHLDE linjeforening',
+    english: 'Event in collaboration with TIHLDE',
+  },
+  collaboration_revue: {
+    norwegian:
+      'Hver vår er det premiere på Abakus sin egne revy. Ta med studentene på en hyggelig kveld hvor dere presenterer selskapet deres, før dere sammen drar og ser på årets revy!',
+    english:
+      'Every spring, Abakus puts on its own revue. Invite the students to a pleasant evening where you present your company, before heading together to watch this year’s revue!',
+  },
 };
 
 export const TARGET_GRADES = {

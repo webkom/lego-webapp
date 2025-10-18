@@ -7,6 +7,7 @@ import {
   SURVEY_OFFERS,
   OTHER_OFFERS,
   TARGET_GRADES,
+  COLLABORATION_DESCRIPTIONS,
 } from './Translations';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
@@ -24,17 +25,23 @@ export const sortSemesterChronologically = (
 };
 
 export const PARTICIPANT_RANGE_TYPES = {
-  first: '10-30',
-  second: '30-60',
-  third: '60-100',
-  fourth: '100+',
+  first: '0-10',
+  second: '10-20',
+  third: '20-30',
+  fourth: '30-40',
+  fifth: '40-50',
+  sixth: '50-60',
+  seventh: '60+',
 };
 
 export const PARTICIPANT_RANGE_MAP = {
-  first: [10, 40],
-  second: [30, 60],
-  third: [60, 100],
-  fourth: [100, null],
+  first: [0, 10],
+  second: [10, 20],
+  third: [20, 30],
+  fourth: [30, 40],
+  fifth: [40, 50],
+  sixth: [50, 60],
+  seventh: [60, null],
 };
 
 export type CompanyInterestEventTypeOption = {
@@ -82,6 +89,11 @@ export const collaborationToString = (collab) =>
 export const targetGradeToString = (targetGrade) =>
   Object.keys(TARGET_GRADES)[
     Number(targetGrade.charAt(targetGrade.length - 2))
+  ];
+
+export const collaborationDescriptionToString = (collab) =>
+  Object.keys(COLLABORATION_DESCRIPTIONS)[
+    Number(collab.charAt(collab.length - 2))
   ];
 
 export const getCsvUrl = (

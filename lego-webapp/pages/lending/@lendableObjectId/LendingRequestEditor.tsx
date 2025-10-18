@@ -1,6 +1,5 @@
-import { Page } from '@webkom/lego-bricks';
+import { EntityId } from '@reduxjs/toolkit';
 import { Field } from 'react-final-form';
-import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { Dateish } from 'app/models';
 import {
@@ -10,27 +9,27 @@ import {
   SubmitButton,
   TextInput,
 } from '~/components/Form';
-import HTTPError from '~/components/errors/HTTPError';
 import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useAppDispatch } from '~/redux/hooks';
 import { CreateLendingRequest } from '~/redux/models/LendingRequest';
-import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import { useParams } from '~/utils/useParams';
-import type { EntityId } from '@reduxjs/toolkit';
 
 type FormValues = {
   date: Dateish[];
   endDate: Dateish;
-  text: string;
+  comment: string;
   lendableObject: EntityId;
 };
 
-type Props = {
+type LendingRequestEditorProps = {
   initialValues?: Partial<FormValues>;
+  onRangeChange?: (range: [Dateish, Dateish]) => void;
 };
 
-export const LendingRequestEditor = ({ initialValues }: Props) => {
+const LendingRequestEditor = ({
+  initialValues,
+  onRangeChange,
+}: LendingRequestEditorProps) => {
   const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
 
   const dispatch = useAppDispatch();
@@ -46,23 +45,28 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
       navigate('/lending/'),
     );
   };
-  const lendingRequestActive = useFeatureFlag('lending-request');
-
-  if (!lendingRequestActive) {
-    return <HTTPError />;
-  }
 
   return (
     <LegoFinalForm onSubmit={onSubmit} initialValues={initialValues}>
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
           <Field
+            name="date"
+            label="Dato"
+            range
+            component={DatePicker.Field}
+            onChange={(value: [Dateish, Dateish]) => {
+              if (onRangeChange && value && value.length === 2) {
+                onRangeChange(value);
+              }
+            }}
+          />
+          <Field
             label="Kommentar"
-            name="text"
+            name="comment"
             placeholder="Legg til praktisk info..."
             component={TextInput.Field}
           />
-          <Field name="date" label="Dato" range component={DatePicker.Field} />
 
           <SubmitButton>Send forespørsel</SubmitButton>
         </Form>
@@ -71,17 +75,4 @@ export const LendingRequestEditor = ({ initialValues }: Props) => {
   );
 };
 
-export default function LendingRequestCreate() {
-  const { lendableObjectId } = useParams<{ lendableObjectId: string }>();
-  const lendableObject = useAppSelector((state) =>
-    selectLendableObjectById(state, lendableObjectId),
-  );
-  const title = `Ny utlånsforespørsel - ${lendableObject?.title}`;
-
-  return (
-    <Page title={title} back={{ href: `/lending/` }}>
-      <Helmet title={title} />
-      <LendingRequestEditor />
-    </Page>
-  );
-}
+export default LendingRequestEditor;

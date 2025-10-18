@@ -1,0 +1,36 @@
+@import url('styles/custom-media.css');
+
+.card {
+  margin: var(--spacing-md) 0;
+  padding: 0;
+  width: 250px;
+}
+
+.border {
+  border-bottom: 2px solid var(--border-gray);
+}
+
+.image {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.description {
+  flex-grow: 1;
+}
+
+.container {
+  margin: var(--spacing-sm) 0;
+  font-size: var(--font-size-md);
+  color: var(--color-gray-6);
+}
+
+.info {
+  font-size: var(--font-size-md);
+  display: flex;
+
+  @media (--small-viewport) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}

@@ -1,3 +1,5 @@
+import { Card, Flex } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { useState } from 'react';
 import Dropdown from '~/components/Dropdown';
 import Reactions from '~/components/Reactions';
@@ -58,87 +60,23 @@ const Quote = ({
   }
 
   return (
-    <li className={styles.singleQuote}>
-      <div className={styles.leftQuote}>
-        <i
-          className="fa fa-quote-right"
-          style={{
-            fontSize: '100px',
-            color: 'var(--additive-background)',
-            marginRight: '30px',
-            order: '0',
-            height: '0',
-          }}
-        />
-        <h3 className={styles.theQuote}>
-          <a href={`/quotes/${quote.id}`}>{quote.text}</a>
-        </h3>
-      </div>
-
-      <div className={styles.quoteBottom}>
-        <span className={styles.quoteSource}>
-          <i>- {quote.source}</i>
-        </span>
-
-        <div className={styles.bottomRow}>
-          <div className={styles.quoteDate}>
-            {<Time time={quote.createdAt} wordsAgo />}
-          </div>
-
-          <div className={styles.bottomRight}>
-            {actionGrant?.includes('approve') && (
-              <div className={styles.quoteAdmin}>
-                <Dropdown
-                  show={displayAdmin}
-                  toggle={toggleDisplayAdmin}
-                  closeOnContentClick
-                  iconName="ellipsis-horizontal"
-                >
-                  <Dropdown.List>
-                    {currentUser?.username !== quote.createdBy?.username && (
-                      <Dropdown.ListItem>
-                        <button
-                          onClick={() =>
-                            quote.approved
-                              ? dispatch(unapprove(quote.id))
-                              : dispatch(approve(quote.id))
-                          }
-                        >
-                          {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
-                        </button>
-                      </Dropdown.ListItem>
-                    )}
-
-                    {!deleting ? (
-                      <Dropdown.ListItem danger>
-                        <button
-                          onClick={(e) => {
-                            if (e) {
-                              e.preventDefault();
-                              e.stopPropagation();
-                            }
-
-                            setDeleting(!deleting);
-                          }}
-                        >
-                          Slett
-                        </button>
-                      </Dropdown.ListItem>
-                    ) : (
-                      <Dropdown.ListItem>
-                        <button onClick={() => dispatch(deleteQuote(quote.id))}>
-                          Er du sikker?
-                        </button>
-                      </Dropdown.ListItem>
-                    )}
-                  </Dropdown.List>
-                </Dropdown>
-              </div>
-            )}
-          </div>
+    <Card>
+      <Flex justifyContent="space-between">
+        <a className={styles.quoteTitle} href={`/quotes/${quote.id}`}>
+          {quote.text}
+        </a>
+        <div className={cx(styles.quoteDate, styles.largeViewportOnly)}>
+          {<Time time={quote.createdAt} wordsAgo />}
         </div>
+      </Flex>
+
+      <i>- {quote.source}</i>
+
+      <div className={cx(styles.quoteDate, styles.smallViewportOnly)}>
+        {<Time time={quote.createdAt} wordsAgo />}
       </div>
-      <div className={styles.quoteReactions}>
+
+      <Flex justifyContent={'space-between'} className={styles.bottomBar}>
         <Reactions emojis={mappedEmojis} contentTarget={quote.contentTarget}>
           {quote.reactionsGrouped.map((reaction) => (
             <Reaction
@@ -148,8 +86,57 @@ const Quote = ({
             />
           ))}
         </Reactions>
-      </div>
-    </li>
+        {actionGrant?.includes('approve') && (
+          <div>
+            <Dropdown
+              show={displayAdmin}
+              toggle={toggleDisplayAdmin}
+              closeOnContentClick
+              iconName="ellipsis-horizontal"
+            >
+              <Dropdown.List>
+                {currentUser?.username !== quote.createdBy?.username && (
+                  <Dropdown.ListItem>
+                    <button
+                      onClick={() =>
+                        quote.approved
+                          ? dispatch(unapprove(quote.id))
+                          : dispatch(approve(quote.id))
+                      }
+                    >
+                      {quote.approved ? 'Fjern godkjenning' : 'Godkjenn'}
+                    </button>
+                  </Dropdown.ListItem>
+                )}
+
+                {!deleting ? (
+                  <Dropdown.ListItem danger>
+                    <button
+                      onClick={(e) => {
+                        if (e) {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }
+
+                        setDeleting(!deleting);
+                      }}
+                    >
+                      Slett
+                    </button>
+                  </Dropdown.ListItem>
+                ) : (
+                  <Dropdown.ListItem>
+                    <button onClick={() => dispatch(deleteQuote(quote.id))}>
+                      Er du sikker?
+                    </button>
+                  </Dropdown.ListItem>
+                )}
+              </Dropdown.List>
+            </Dropdown>
+          </div>
+        )}
+      </Flex>
+    </Card>
   );
 };
 

@@ -51,9 +51,12 @@ const AccountDropdownItems = ({ onClose }: AccountDropdownItemsProps) => {
           <Icon iconNode={<Users />} />
         </a>
       </Dropdown.ListItem>
-      <Dropdown.Divider />
       <Dropdown.ListItem>
-        <ToggleTheme className={styles.themeChange} isButton={false}>
+        <ToggleTheme
+          variant="header"
+          className={styles.themeChange}
+          isButton={false}
+        >
           Endre tema
         </ToggleTheme>
       </Dropdown.ListItem>
@@ -208,6 +211,7 @@ const Header = () => {
           <Navbar />
           <div className={styles.buttonGroup}>
             <ToggleTheme
+              variant="navbar"
               className={cx(loggedIn && utilStyles.hiddenOnMobile)}
             />
 

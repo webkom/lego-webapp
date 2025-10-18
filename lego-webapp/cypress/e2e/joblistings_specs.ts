@@ -3,8 +3,8 @@ import {
   field,
   fieldError,
   selectField,
-  selectFieldDropdown,
   selectEditor,
+  selectFieldDropdown,
   NO_OPTIONS_MESSAGE,
 } from '../support/utils';
 
@@ -19,7 +19,6 @@ describe('Create joblisting', () => {
     cy.waitForHydration();
     // Check that validation errors show only after we click "Lagre endringer"
     fieldError('title').should('not.exist');
-    fieldError('description').should('not.exist');
     fieldError('eventType').should('not.exist');
     cy.contains('button', 'Opprett').should('be.disabled');
 
@@ -40,12 +39,9 @@ describe('Create joblisting', () => {
     cy.contains('button', 'Opprett').click();
     cy.get(c('fieldError')).should('exist');
 
-    const description = 'A joblisting description';
     const text = 'Joblisting text';
-    selectEditor('description').type(description);
     selectEditor('text').type(text);
 
-    selectEditor('description').should('contain', description);
     selectEditor('text').should('contain', text);
 
     cy.get(c('fieldError')).should('not.exist');

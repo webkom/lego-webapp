@@ -32,7 +32,6 @@ img.companyLogo {
 }
 
 .listItem {
-  display: flex;
   flex: 1;
   justify-content: space-between;
   gap: var(--spacing-xs);
@@ -42,21 +41,34 @@ img.companyLogo {
   }
 }
 
-.joblistingItemTitle {
+.joblistingItemTitle h3 {
   font-weight: 600;
   font-size: var(--font-size-lg);
   margin-right: var(--spacing-sm);
   margin-bottom: var(--spacing-sm);
+  width: 70%;
+
+  & > div {
+    display: inline-block;
+  }
 }
 
-.deadline {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 145px;
-  font-size: var(--font-size-sm);
+.titleTag {
+  vertical-align: middle;
+  margin-right: var(--spacing-xs);
+}
 
+.joblistingItemBottom {
   @media (--mobile-device) {
-    justify-content: flex-start;
+    flex-direction: column;
   }
+}
+
+.joblistingCalender {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.pin {
+  transform: rotate(45deg);
 }

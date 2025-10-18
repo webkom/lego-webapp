@@ -12,7 +12,6 @@ import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
 import { CheckBox } from '~/components/Form';
-import HTTPError from '~/components/errors/HTTPError';
 import LendingRequestCard from '~/pages/lending/LendingRequestCard';
 import { statusMap } from '~/pages/lending/LendingStatusTag';
 import { fetchLendingRequestsAdmin } from '~/redux/actions/LendingRequestActions';
@@ -21,13 +20,12 @@ import { LendingRequestStatus } from '~/redux/models/LendingRequest';
 import { EntityType } from '~/redux/models/entities';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
-import { useFeatureFlag } from '~/utils/useFeatureFlag';
 import useQuery from '~/utils/useQuery';
 import styles from '../LendableObjectList.module.css';
 
 const LendingAdmin = () => {
   const { query, setQueryValue } = useQuery({
-    status: 'unapproved,changes_requested',
+    status: 'created,unapproved,changes_requested,changes_resolved',
   });
 
   const dispatch = useAppDispatch();
@@ -78,10 +76,6 @@ const LendingAdmin = () => {
     setQueryValue('status')(newStatuses.join(','));
   };
 
-  if (!useFeatureFlag('lending')) {
-    return <HTTPError />;
-  }
-
   const title = 'Utlån - Admin';
   return (
     <Page
@@ -102,7 +96,7 @@ const LendingAdmin = () => {
                 <CheckBox
                   key={status}
                   id={status}
-                  label={statusMap[status].tag}
+                  label={statusMap[status].name}
                   checked={statuses.includes(status)}
                   onChange={() => {
                     handleStatusToggle(status);

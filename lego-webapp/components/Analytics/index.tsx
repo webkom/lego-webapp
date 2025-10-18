@@ -22,24 +22,21 @@ import { DatePicker } from '../Form';
 import styles from './Analytics.module.css';
 import type { Dateish } from 'app/models';
 
-const initialMetricValue: Metrics = {
-  visitors: { title: 'Besøkende', value: 0 },
-  pageviews: { title: 'Sidevisninger', value: 0 },
-  visitDuration: { title: 'Besøkstid', value: 0 },
-};
+const initialMetricValue = () =>
+  ({
+    visitors: { title: 'Besøkende', value: 0 },
+    pageviews: { title: 'Sidevisninger', value: 0 },
+    visitDuration: { title: 'Besøkstid', value: 0 },
+  }) as Metrics;
 
-const calculateMetrics = (data: AnalyticsType[]) => {
-  // Copy initialMetricValue to avoid mutating it
-  const initialValue = { ...initialMetricValue };
-
-  return data.reduce((acc, item) => {
+const calculateMetrics = (data: AnalyticsType[]) =>
+  data.reduce((acc, item) => {
     acc.visitors.value += item.visitors || 0;
     acc.pageviews.value += item.pageviews || 0;
     acc.visitDuration.value += item.visitDuration || 0;
 
     return acc;
-  }, initialValue);
-};
+  }, initialMetricValue());
 
 type Metric = {
   title: string;
@@ -60,7 +57,7 @@ type Props = {
 };
 
 const Analytics = ({ entity, id, title, description }: Props) => {
-  const [metrics, setMetrics] = useState<Metrics>(initialMetricValue);
+  const [metrics, setMetrics] = useState<Metrics>(initialMetricValue());
   const [data, setData] = useState<AnalyticsType[]>([]);
 
   const [dateRange, setDateRange] = useState<[Dateish, Dateish]>([
@@ -87,7 +84,6 @@ const Analytics = ({ entity, id, title, description }: Props) => {
         }),
       ).then((response) => {
         let filteredData = response.payload.results;
-        console.log(filteredData);
 
         if (viewStartTime) {
           filteredData = filteredData.filter((item) =>

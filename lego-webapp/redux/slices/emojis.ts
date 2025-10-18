@@ -10,10 +10,17 @@ const legoAdapter = createLegoAdapter(EntityType.Emojis, {
 
 const emojisSlice = createSlice({
   name: EntityType.Emojis,
-  initialState: legoAdapter.getInitialState(),
+  initialState: legoAdapter.getInitialState({
+    hasFetchedAll: false,
+  }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [Emoji.FETCH, Emoji.FETCH_ALL],
+    extraCases: (addCase) => {
+      addCase(Emoji.FETCH_ALL.SUCCESS, (state) => {
+        state.hasFetchedAll = true;
+      });
+    },
   }),
 });
 

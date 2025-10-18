@@ -59,7 +59,6 @@ type SelectInputObject = {
 const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
   title: [required('Du må gi jobbannonsen en tittel')],
-  description: [required('Du må skrive en søknadsintro')],
   text: [legoEditorRequired('Du må skrive en søknadstekst')],
   company: [required('Du må angi en bedrift for jobbannonsen')],
   workplaces: [required('Arbeidssteder må oppgis')],
@@ -103,6 +102,7 @@ const JoblistingEditor = () => {
     const payload = {
       ...newJoblisting,
       id: joblistingId,
+      isPinned: newJoblisting.isPinned,
       fromYear: newJoblisting.fromYear?.value,
       toYear: newJoblisting.toYear?.value,
       visibleFrom: newJoblisting.visibleRange[0],
@@ -171,6 +171,7 @@ const JoblistingEditor = () => {
 
   const initialValues = {
     ...joblisting,
+    isPinned: joblisting?.isPinned ?? false,
     text: joblisting?.text || '<p></p>',
     description: joblisting?.description || '<p></p>',
     company: joblisting?.company
@@ -287,6 +288,12 @@ const JoblistingEditor = () => {
                 type="checkbox"
                 component={ToggleSwitch.Field}
               />
+              <Field
+                name="isPinned"
+                label="Fest til toppen"
+                type="checkbox"
+                component={ToggleSwitch.Field}
+              />
             </RowSection>
 
             <RowSection>
@@ -340,14 +347,6 @@ const JoblistingEditor = () => {
                 parse={(value) => value}
               />
             </RowSection>
-            <Field
-              name="description"
-              label="Søknadsintro"
-              placeholder="Søknadsintro"
-              component={EditorField.Field}
-              initialized
-              required
-            />
             <Field
               name="text"
               placeholder="Søknadstekst"

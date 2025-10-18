@@ -3,6 +3,7 @@
 
   --lego-background-color: #f8f9fa;
   --lego-card-color: #fff;
+  --lego-card-transparent: rgba(255, 255, 255, 0.9);
 
   --lego-font-color: var(--color-gray-9);
   --inverted-font-color: var(--color-gray-1);
@@ -167,6 +168,7 @@
 
   --lego-background-color: #0d0d0d;
   --lego-card-color: #222;
+  --lego-card-transparent: rgba(34, 34, 34, 0.9);
 
   --secondary-font-color: #aaa;
 

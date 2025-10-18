@@ -160,12 +160,5 @@ export const followersEventSchema = new schema.Entity(
   },
 );
 
-export const threadSchema = new schema.Entity(EntityType.Thread, {
-  comments: [commentSchema],
-});
-export const forumSchema = new schema.Entity(EntityType.Forums, {
-  threads: [threadSchema],
-});
-
 export const bannerSchema = new schema.Entity(EntityType.Banner);
 export const featureFlagSchema = new schema.Entity(EntityType.FeatureFlag);

@@ -5,6 +5,6 @@
 
 .coverImage {
   width: 100%;
-  aspect-ratio: 3.3;
+  aspect-ratio: 1;
   background: var(--additive-background);
 }

@@ -5,12 +5,12 @@
   width: 100%;
 }
 
-.requestingUser h4 {
-  color: var(--lego-font-color);
-}
-
 .commentField {
   width: 100%;
+}
+
+.noComment {
+  color: var(--secondary-font-color);
 }
 
 .timelineContainer {

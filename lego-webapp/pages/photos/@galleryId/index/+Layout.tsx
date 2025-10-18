@@ -125,7 +125,9 @@ const GalleryDetail = ({ children }: PropsWithChildren) => {
   };
 
   const handleClick = (picture: GalleryListPicture) => {
-    navigate(`/photos/${gallery.id}/picture/${picture.id}`);
+    navigate(`/photos/${gallery.id}/picture/${picture.id}`, {
+      keepScrollPosition: true,
+    });
   };
 
   const downloadGallery = () => {

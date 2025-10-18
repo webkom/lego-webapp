@@ -521,3 +521,12 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
     },
   );
 }
+
+export function recordCommandUsage(commandId: string) {
+  return callAPI({
+    types: User.RECORD_COMMAND_USAGE,
+    endpoint: '/user-commands/use/',
+    method: 'POST',
+    body: { command_id: commandId },
+  });
+}

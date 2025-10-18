@@ -214,7 +214,9 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
   };
 
   const onUpdate = () => {
-    navigate(`/photos/${gallery.id}/picture/${picture.id}/edit`);
+    navigate(`/photos/${gallery.id}/picture/${picture.id}/edit`, {
+      keepScrollPosition: true,
+    });
   };
 
   const onUpdateGalleryCover = () => {
@@ -225,7 +227,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
   const handleDelete = (currentClickedDeletePicture: number) => {
     if (clickedDeletePicture === currentClickedDeletePicture) {
       dispatch(deletePicture(gallery.id, picture.id)).then(() => {
-        navigate(`/photos/${gallery.id}`);
+        navigate(`/photos/${gallery.id}`, { keepScrollPosition: true });
       });
     } else {
       setClickedDeletePicture(currentClickedDeletePicture);
@@ -236,6 +238,7 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
     if ((next && isLastLoadedImage) || (!next && isFirstImage)) return;
     navigate(
       `/photos/${gallery.id}/picture/${pictures[pictureIndex + (next ? 1 : -1)].id}`,
+      { keepScrollPosition: true },
     );
   };
 
@@ -282,7 +285,9 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
 
   return (
     <Modal
-      onOpenChange={(open) => !open && navigate(`/photos/${gallery.id}`)}
+      onOpenChange={(open) =>
+        !open && navigate(`/photos/${gallery.id}`, { keepScrollPosition: true })
+      }
       isOpen
       contentClassName={styles.content}
       aria-label={`Bilde ${picture.id} av ${gallery.title}`}

@@ -7,7 +7,6 @@ const entityTypeMappings = {
   'companies.company': EntityType.Companies,
   'meetings.meeting': EntityType.Meetings,
   'gallery.gallerypicture': EntityType.GalleryPictures,
-  'forums.thread': EntityType.Thread,
   'comments.comment': EntityType.Comments,
   'lending.lendingrequest': EntityType.LendingRequests,
 };

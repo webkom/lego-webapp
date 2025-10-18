@@ -3,6 +3,7 @@ import cx from 'classnames';
 import { groupBy, orderBy } from 'lodash-es';
 import { CircleMinus } from 'lucide-react';
 import moment from 'moment-timezone';
+import { useMemo } from 'react';
 import { GroupType, type Dateish } from 'app/models';
 import { CircularPicture } from '~/components/Image';
 import Pill from '~/components/Pill';
@@ -65,10 +66,20 @@ export const GroupMemberships = ({
     ],
   );
 
+  const sortedMembershipsAsPills = useMemo(
+    () =>
+      membershipsAsPills.toSorted((a, b) =>
+        a.abakusGroup.name
+          .toLowerCase()
+          .localeCompare(b.abakusGroup.name.toLowerCase()),
+      ),
+    [membershipsAsPills],
+  );
+
   return (
     <Flex column gap="var(--spacing-sm)" className={styles.rightContent}>
       <Flex wrap gap="var(--spacing-sm)">
-        {membershipsAsPills.map((membership) => (
+        {sortedMembershipsAsPills.map((membership) => (
           <GroupPill key={membership.id} group={membership.abakusGroup} />
         ))}
       </Flex>

@@ -19,6 +19,7 @@ type Props = {
   dialogRole?: 'dialog' | 'alertdialog';
   title?: ReactNode;
   children: ReactNode | ((opts: { close: () => void }) => ReactNode);
+  showCloseButton?: boolean;
 };
 
 /**
@@ -61,6 +62,7 @@ const Modal = forwardRef<HTMLElement, Props>(
       dialogRole,
       title,
       children,
+      showCloseButton = true,
     },
     ref,
   ) => {
@@ -81,16 +83,21 @@ const Modal = forwardRef<HTMLElement, Props>(
                     {title}
                   </Heading>
                 )}
-                <Icon
-                  iconNode={<X />}
-                  onPress={close}
-                  className={styles.closeButton}
-                  data-test-id="Modal__closeButton"
-                  // Fix to avoid clicking the element behind the modal when using touch devices
-                  ref={(ref) =>
-                    ref?.addEventListener('touchend', (e) => e.preventDefault())
-                  }
-                />
+
+                {showCloseButton && (
+                  <Icon
+                    iconNode={<X />}
+                    onPress={close}
+                    className={styles.closeButton}
+                    data-test-id="Modal__closeButton"
+                    // Fix to avoid clicking the element behind the modal when using touch devices
+                    ref={(ref) =>
+                      ref?.addEventListener('touchend', (e) =>
+                        e.preventDefault(),
+                      )
+                    }
+                  />
+                )}
                 {typeof children === 'function'
                   ? children({ close })
                   : children}

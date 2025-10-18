@@ -19,7 +19,6 @@ import {
   MessageCircleWarning,
   MessageCircleQuestion,
   MessageCircleX,
-  MessagesSquare,
   MountainSnow,
   Newspaper,
   Phone,
@@ -33,7 +32,6 @@ import {
   MessageSquareQuote,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
-import { Tag } from '~/components/Tags';
 import TextWithIcon from '../TextWithIcon';
 import type { ReactNode } from 'react';
 import type { AllowedPages } from '~/redux/actions/MetaActions';
@@ -63,24 +61,11 @@ const LINKS: Array<Link> = [
     url: '/articles',
   },
   {
-    key: 'forum',
-    title: (
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        Forum
-        <Tag tag="Beta" color="purple" />
-      </Flex>
-    ),
-    sortTitle: 'Forum',
-    icon: <MessagesSquare />,
-    url: '/forum',
-  },
-  {
     key: 'lending',
     requireLogin: true,
     title: (
       <Flex alignItems="center" gap="var(--spacing-sm)">
         Utlån
-        <Tag tag="Beta" color="purple" />
       </Flex>
     ),
     sortTitle: 'Utlån',

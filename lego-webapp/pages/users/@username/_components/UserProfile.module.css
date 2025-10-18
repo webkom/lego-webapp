@@ -151,10 +151,6 @@ img.frame {
   justify-content: space-between;
 }
 
-.trophyLinks {
-  margin-top: var(--spacing-md);
-}
-
 .trophyImage {
   height: 100px;
   width: auto;

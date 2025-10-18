@@ -37,6 +37,8 @@ const notificationTypeTranslations = {
     'Varsel om at kontoen din snart blir slettet grunnet inaktivitet',
   deleted_warning:
     'Varsel om at kontoen din har blitt slettet grunnet inaktivitet',
+  lending_request: 'Utlånsforespørsel',
+  lending_request_status_update: 'Statusoppdatering om utlånsforespørsel',
 };
 
 const UserSettingsNotifications = () => {

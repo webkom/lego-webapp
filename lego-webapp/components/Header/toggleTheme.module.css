@@ -1,26 +1,53 @@
 @import url('styles/custom-media.css');
 
-.toggleIcon {
-  visibility: visible;
+.toggleWrapper {
+  display: inline-flex;
+  height: 35px;
+  overflow: hidden;
+}
+
+.navbar {
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.iconTrack {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--easing-slow);
+}
+
+.icon {
+  padding-bottom: var(--spacing-sm);
+}
+
+.navbar .iconTrack[data-theme='dark'] {
+  transform: translateY(8px);
+}
+
+.navbar .iconTrack[data-theme='light'] {
+  transform: translateY(-24px);
+}
+
+.header .iconTrack[data-theme='dark'] {
+  transform: translateY(20px);
+}
+
+.header .iconTrack[data-theme='light'] {
+  transform: translateY(-12px);
+}
+
+.icon:first-child:hover {
+  color: var(--color-orange-6);
   transition: color var(--linear-fast);
 }
 
-.moon {
-  @media (--mobile-device) {
-    color: var(--color-blue-8);
-  }
-}
-
-.sun {
-  @media (--mobile-device) {
-    color: var(--color-orange-6);
-  }
-}
-
-.moon:hover {
+.icon:last-child:hover {
   color: var(--color-blue-8);
+  transition: color var(--linear-fast);
 }
 
-.sun:hover {
-  color: var(--color-orange-6);
+.noTransition .iconTrack {
+  transition: none !important;
 }
