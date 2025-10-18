@@ -31,6 +31,7 @@ const store = () =>
         actionGrant: ['view'],
         fetching: false,
         paginationNext: {},
+        hasFetchedAll: true,
       },
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
