@@ -5,7 +5,7 @@
     "lib": ["esnext", "dom"],
     "sourceMap": true,
     "types": ["cypress", "node"],
-    "resolveJsonModule": true,
+    "resolveJsonModule": true
   },
   "include": ["**/*.{ts, tsx}"]
 }

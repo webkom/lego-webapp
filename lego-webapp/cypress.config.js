@@ -18,10 +18,10 @@ export default defineConfig({
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
   },
   component: {
-    specPattern: "cypress/component/**/*.cy.{js,jsx,ts,tsx}",
+    specPattern: 'cypress/component/**/*.cy.{js,jsx,ts,tsx}',
     devServer: {
-      framework: "react",
-      bundler: "vite",
+      framework: 'react',
+      bundler: 'vite',
     },
   },
 });

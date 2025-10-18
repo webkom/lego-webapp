@@ -1,2 +1,2 @@
-import './commands'
-import './component-commands'
+import './commands';
+import './component-commands';
