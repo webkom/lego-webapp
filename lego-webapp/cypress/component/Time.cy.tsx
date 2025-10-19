@@ -9,7 +9,7 @@ describe('(<Time />', () => {
     cy.get('time')
       .should('exist')
       .and('have.attr', 'dateTime', dateTime)
-      .and('have.text', '2016-02-3');
+      .and('have.text', '2016-02-2');
   });
 
   it('should show a date with a custom format', () => {
