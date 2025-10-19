@@ -58,7 +58,6 @@ const ComponentAsCheckbox = ({
       }
     },
   };
-  
 
   return (
     <Flex

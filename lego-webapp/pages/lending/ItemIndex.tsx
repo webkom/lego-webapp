@@ -79,31 +79,35 @@ const formatGroups = (groups: { name: string }[]) => {
 
 const ItemIndex = ({ lendableObjects, isFetching, searchQuery }: Props) => {
   return (
-    <LoadingIndicator loading={isFetching}>
-      {lendableObjects.length ? (
-        <div className={styles.lendableObjectsContainer}>
-          {lendableObjects.map((lendableObject) => (
-            <LendableObject
-              key={lendableObject.id}
-              lendableObject={lendableObject}
-            />
-          ))}
-        </div>
-      ) : (
-        <EmptyState
-          iconNode={<FolderOpen />}
-          body={
-            searchQuery ? (
-              <span>
-                Fant ingen treff på søket <em>{searchQuery}</em>
-              </span>
-            ) : (
-              <span>Ingen tilgjengelige utlånsobjekter</span>
-            )
-          }
-        />
-      )}
-    </LoadingIndicator>
+    <>
+      <h3>Tilgjengelig utstyr</h3>
+      <LoadingIndicator loading={isFetching}>
+        {lendableObjects.length ? (
+          <div className={styles.lendableObjectsContainer}>
+            {lendableObjects.map((lendableObject) => (
+              <LendableObject
+                key={lendableObject.id}
+                lendableObject={lendableObject}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            iconNode={<FolderOpen />}
+            className={styles.emptyLendableObjectsContainer}
+            body={
+              searchQuery ? (
+                <span>
+                  Fant ingen treff for <em>{searchQuery}</em>
+                </span>
+              ) : (
+                <span>Ingen tilgjengelige utlånsobjekter</span>
+              )
+            }
+          />
+        )}
+      </LoadingIndicator>
+    </>
   );
 };
 

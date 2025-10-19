@@ -1,3 +1,11 @@
+.lendingRequestWrapper {
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: var(--spacing-lg);
+  height: auto;
+}
+
 .lendingRequestsContainer {
   display: flex;
   flex-direction: column;
@@ -5,7 +13,17 @@
 }
 
 .lendingRequestEmpty {
-  margin: var(--spacing-md) 0;
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-gray-2);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.loadMoreButton {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -17px;
 }
 
 .lendingRequestCard {
@@ -25,4 +43,13 @@ img.lendingRequestImage {
   height: 80px;
   object-fit: cover;
   border-radius: var(--border-radius-lg);
+}
+
+.thumbnail {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.detailsContainer {
+  flex: 1;
 }

@@ -10,6 +10,7 @@ section.wrapper {
   gap: var(--spacing-lg);
 
   @media (--mobile-device) {
+    gap: var(--spacing-md);
     grid-template:
       'filter-search'
       'request-inbox'
@@ -17,13 +18,34 @@ section.wrapper {
   }
 }
 
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-gray);
+}
+
+@media (--mobile-device) {
+  .divider {
+    margin-top: var(--spacing-md);
+  }
+}
+
+.topSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+}
+
 .requestInbox {
   grid-area: request-inbox;
-  border: 2px solid black;
 }
 
 .filterSearch {
   grid-area: filter-search;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
 .itemIndex {

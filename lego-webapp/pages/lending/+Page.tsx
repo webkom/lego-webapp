@@ -1,4 +1,4 @@
-import { PageContainer } from '@webkom/lego-bricks';
+import { PageContainer, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
@@ -58,6 +58,7 @@ const LendableObjectList = () => {
   const lendingRequests = useAppSelector((state) =>
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
+  console.log('Requests:', lendingRequests);
 
   const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
@@ -93,6 +94,17 @@ const LendableObjectList = () => {
   return (
     <PageContainer card={false}>
       <Helmet title={title} />
+      <div className={styles.topSection}>
+        <h1>{title}</h1>
+        <div className={styles.actionButtons}>
+          {requestsActionGrant.includes('admin') && (
+            <LinkButton href="/lending/admin">Administrator</LinkButton>
+          )}
+          {objectsActionGrant.includes('create') && (
+            <LinkButton href="/lending/new">Nytt utstyr</LinkButton>
+          )}
+        </div>
+      </div>
       <section className={styles.wrapper}>
         <div className={styles.filterSearch}>
           <FilterSearch

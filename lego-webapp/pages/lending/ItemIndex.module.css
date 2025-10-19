@@ -12,6 +12,10 @@
   }
 }
 
+.emptyLendableObjectsContainer {
+  min-height: 350px;
+}
+
 div.lendableObjectCard {
   display: flex;
   flex-direction: column;
