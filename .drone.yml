@@ -270,7 +270,8 @@ steps:
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
       - npm i -g corepack
       - corepack enable
-      - pnpm --filter lego-webapp exec cypress run --record
+      - pnpm --filter lego-webapp exec cypress run --e2e --record
+      - pnpm --filter lego-webapp exec cypress run --component --record
 
   - name: docker
     image: plugins/docker
