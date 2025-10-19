@@ -48,7 +48,7 @@ const RequestInbox = ({
                 fontSize: 'var(--font-size-sm)',
               }}
             >
-              Hent flere
+              Se mer
             </Button>
           </div>
         )}

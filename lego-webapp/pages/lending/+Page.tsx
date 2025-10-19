@@ -100,9 +100,6 @@ const LendableObjectList = () => {
           {requestsActionGrant.includes('admin') && (
             <LinkButton href="/lending/admin">Administrator</LinkButton>
           )}
-          {objectsActionGrant.includes('create') && (
-            <LinkButton href="/lending/new">Nytt utstyr</LinkButton>
-          )}
         </div>
       </div>
       <section className={styles.wrapper}>
@@ -127,6 +124,7 @@ const LendableObjectList = () => {
             lendableObjects={filteredLendableObjects}
             isFetching={fetchingObjects}
             searchQuery={query.search}
+            canCreate={objectsActionGrant.includes('create')}
           />
         </div>
       </section>

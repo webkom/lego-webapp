@@ -4,8 +4,16 @@ import {
   BaseCard,
   CardFooter,
   Flex,
+  LinkButton,
 } from '@webkom/lego-bricks';
-import { Contact, ImageOff, Package, Tag, FolderOpen } from 'lucide-react';
+import {
+  Contact,
+  ImageOff,
+  Package,
+  Tag,
+  FolderOpen,
+  Plus,
+} from 'lucide-react';
 import EmptyState from '../../components/EmptyState';
 import { readmeIfy } from '../../components/ReadmeLogo';
 import { useAppSelector } from '../../redux/hooks';
@@ -19,6 +27,7 @@ type Props = {
   lendableObjects: ListLendableObject[];
   isFetching: boolean;
   searchQuery: string;
+  canCreate: boolean;
 };
 
 const LendableObject = ({
@@ -73,17 +82,34 @@ const LendableObject = ({
   );
 };
 
+const CreateLendableObjectCard = () => {
+  return (
+    <BaseCard className={styles.createNewContainer}>
+      <LinkButton round className={styles.createNewIcon} href="/lending/new">
+        <Icon iconNode={<Plus />} size={35} />
+      </LinkButton>
+      <p>Lag utlånsobjekt</p>
+    </BaseCard>
+  );
+};
+
 const formatGroups = (groups: { name: string }[]) => {
   return groups.length > 0 ? groups.map((g) => g.name).join(', ') : 'Ukjent';
 };
 
-const ItemIndex = ({ lendableObjects, isFetching, searchQuery }: Props) => {
+const ItemIndex = ({
+  lendableObjects,
+  isFetching,
+  searchQuery,
+  canCreate,
+}: Props) => {
   return (
     <>
       <h3>Tilgjengelig utstyr</h3>
       <LoadingIndicator loading={isFetching}>
         {lendableObjects.length ? (
           <div className={styles.lendableObjectsContainer}>
+            {canCreate && <CreateLendableObjectCard />}
             {lendableObjects.map((lendableObject) => (
               <LendableObject
                 key={lendableObject.id}

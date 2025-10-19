@@ -8,7 +8,7 @@
 
   @media (--small-viewport) {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
+    gap: var(--spacing-md);
   }
 }
 
@@ -116,4 +116,44 @@ div.lendableObjectCard {
 
 .lendingSubsection {
   margin-bottom: var(--spacing-md);
+}
+
+.createNewContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+  border: 1px solid var(--color-gray-3);
+  background: linear-gradient(
+    180deg,
+    var(--lego-card-color) 0%,
+    var(--lego-card-transparent) 100%
+  );
+  border-radius: var(--border-radius-lg);
+  transition:
+    background var(--linear-medium),
+    box-shadow var(--linear-medium);
+}
+
+.createNewIcon {
+  color: var(--lego-font-color);
+  padding: var(--spacing-xs);
+  border: 1px dashed var(--color-gray-5);
+  border-radius: 50%;
+  background-color: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background-color var(--linear-medium),
+    border-color var(--linear-medium),
+    transform var(--linear-medium);
+}
+
+.createNewIcon:hover {
+  background-color: var(--color-gray-2);
+  border-color: var(--color-gray-4);
+  transform: scale(1.1);
 }
