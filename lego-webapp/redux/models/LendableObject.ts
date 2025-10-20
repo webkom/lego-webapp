@@ -1,3 +1,4 @@
+import { FilterLendingCategory } from '~/utils/constants';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
 import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
@@ -11,7 +12,7 @@ interface LendableObject {
   canLend: boolean;
   actionGrant: ActionGrant;
   availability?: [Dateish, Dateish][];
-  category: string;
+  category: FilterLendingCategory;
 }
 
 export type ListLendableObject = Pick<

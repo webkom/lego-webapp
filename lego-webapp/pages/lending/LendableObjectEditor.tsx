@@ -15,6 +15,7 @@ import {
   editLendableObject,
 } from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch } from '~/redux/hooks';
+import { FilterLendingCategory, LENDABLE_CATEGORY } from '~/utils/constants';
 import { createValidator, required } from '~/utils/validation';
 import style from './LendableObjectEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -29,6 +30,7 @@ type FormValues = {
   description: string;
   image: string;
   location: string;
+  category: { label: string; value: FilterLendingCategory };
   canViewGroups?: { label: string; value: EntityId }[];
   canEditGroups?: { label: string; value: EntityId }[];
   canEditUsers?: { label: string; value: EntityId }[];
@@ -46,7 +48,6 @@ const validate = createValidator({
 
 export const LendableObjectEditor = ({ initialValues }: Props) => {
   const dispatch = useAppDispatch();
-
   return (
     <LegoFinalForm<FormValues>
       initialValues={initialValues}
@@ -91,6 +92,18 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                   name="location"
                   placeholder="A3-lageret"
                   component={TextInput.Field}
+                />
+                <Field
+                  label="Kategori"
+                  name="category"
+                  placeholder="Fotografi"
+                  options={Object.entries(LENDABLE_CATEGORY).map(
+                    ([key, value]) => ({
+                      label: value,
+                      value: key,
+                    }),
+                  )}
+                  component={SelectInput.Field}
                 />
               </div>
               <Field
