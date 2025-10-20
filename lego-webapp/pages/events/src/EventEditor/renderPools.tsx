@@ -1,4 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Tooltip } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { Field } from 'react-final-form';
 import { TextInput, DatePicker, SelectInput, Button } from '~/components/Form';
@@ -18,80 +18,97 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
       flex: 1,
     }}
   >
-    {fields.map((pool, index) => (
-      <Flex
-        column
-        gap="var(--spacing-sm)"
-        key={index}
-        className={styles.poolBox}
-      >
-        <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
-        <Field
-          label="Navn"
-          name={`pools[${index}].name`}
-          validate={(value) => {
-            if (!value || value === '') {
-              return 'Navn er påkrevd';
-            }
-            return undefined;
-          }}
-          component={TextInput.Field}
-        />
-        {['NORMAL'].includes(eventStatusType) && (
+    {fields.map((pool, index) => {
+      const registrationOpened = fields.value[index].registrations?.length > 0;
+
+      return (
+        <Flex
+          column
+          gap="var(--spacing-sm)"
+          key={index}
+          className={styles.poolBox}
+        >
+          <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
           <Field
-            label="Kapasitet"
-            name={`pools[${index}].capacity`}
+            label="Navn"
+            name={`pools[${index}].name`}
             validate={(value) => {
-              if (!value || isNaN(parseInt(value, 10))) {
-                return 'Kapasitet er påkrevd og må være et tall';
-              }
-              if (Number(value) < 0) {
-                return 'Kapasitet kan ikke være negativt';
-              }
-              if (Number(value) < 1) {
-                return 'Pools må ha minst 1 plass';
+              if (!value || value === '') {
+                return 'Navn er påkrevd';
               }
               return undefined;
             }}
-            type="number"
-            placeholder="20,30,50"
             component={TextInput.Field}
           />
-        )}
-        <Field
-          label="Aktiveringstidspunkt"
-          name={`pools[${index}].activationDate`}
-          component={DatePicker.Field}
-        />
-        <Field
-          label="Grupper med rettighet"
-          name={`pools[${index}].permissionGroups`}
-          validate={(value) => {
-            if (!value || value.length === 0) {
-              return 'Rettighetsgruppe er påkrevd';
+          {['NORMAL'].includes(eventStatusType) && (
+            <Field
+              label="Kapasitet"
+              name={`pools[${index}].capacity`}
+              validate={(value) => {
+                if (!value || isNaN(parseInt(value, 10))) {
+                  return 'Kapasitet er påkrevd og må være et tall';
+                }
+                if (Number(value) < 0) {
+                  return 'Kapasitet kan ikke være negativt';
+                }
+                if (Number(value) < 1) {
+                  return 'Pools må ha minst 1 plass';
+                }
+                return undefined;
+              }}
+              type="number"
+              placeholder="20,30,50"
+              component={TextInput.Field}
+            />
+          )}
+          <Field
+            label="Aktiveringstidspunkt"
+            name={`pools[${index}].activationDate`}
+            component={DatePicker.Field}
+            disabled={registrationOpened}
+          />
+          <Tooltip
+            className={styles.poolBox}
+            content={
+              registrationOpened
+                ? 'Grupper kan ikke endres etter at påmelding har startet. For å legge til nye grupper, opprett en ny pool.'
+                : undefined
             }
-            return undefined;
-          }}
-          filter={['users.abakusgroup']}
-          component={SelectInput.AutocompleteField}
-          isMulti
-          SuggestionComponent={PoolSuggestion}
-        />
-        {['NORMAL'].includes(eventStatusType) && (
-          <div className={styles.centeredButton}>
-            <Button
-              disabled={
-                fields.value[index].registrations?.length > 0 ||
-                fields.length === 1
+          >
+            <Field
+              disabled={registrationOpened}
+              label="Grupper med rettighet"
+              name={`pools[${index}].permissionGroups`}
+              validate={(value) => {
+                if (!value || value.length === 0) {
+                  return 'Rettighetsgruppe er påkrevd';
+                }
+                return undefined;
+              }}
+              filter={['users.abakusgroup']}
+              component={SelectInput.AutocompleteField}
+              isMulti
+              SuggestionComponent={
+                registrationOpened ? undefined : PoolSuggestion
               }
-              onPress={() => fields.remove(index)}
-            >
-              Fjern pool
-            </Button>
-          </div>
-        )}
-      </Flex>
-    ))}
+            />
+          </Tooltip>
+          {['NORMAL'].includes(eventStatusType) && (
+            <div className={styles.centeredButton}>
+              <Button
+                disabled={
+                  fields.value[index].registrations?.length > 0 ||
+                  fields.length === 1
+                }
+                onPress={() => fields.remove(index)}
+              >
+                Fjern pool
+              </Button>
+            </div>
+          )}
+        </Flex>
+      );
+    })}
     {['NORMAL'].includes(eventStatusType) && (
       <li>
         <div className={styles.addPoolButton}>

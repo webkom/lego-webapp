@@ -391,7 +391,7 @@ describe('Create event', () => {
 
     // Set the first pool
     field('pools[0].name').clear().type('Mange').blur();
-    selectField('pools[0].\\permissionGroups').click();
+    selectField('pools[0]\\.permissionGroups').click();
     cy.focused().type('Abaku', { force: true });
     selectFieldDropdown('pools\\[0\\]\\.permissionGroups')
       .should('not.contain', NO_OPTIONS_MESSAGE)

@@ -20,6 +20,7 @@ type BaseDatePickerProps = {
   name?: string;
   dropdownClassName?: string;
   onFocus: () => void;
+  disabled?: boolean;
 };
 
 type SingleDatePickerProps = BaseDatePickerProps & {
@@ -48,6 +49,7 @@ const DatePicker = ({
   dateFormat = 'lll',
   name,
   range = false,
+  disabled = false,
 }: Props) => {
   const [pickerOpen, setPickerOpen] = useState(false);
 
@@ -275,7 +277,7 @@ const DatePicker = ({
 
   return (
     <Dropdown
-      show={pickerOpen}
+      show={!disabled && pickerOpen}
       toggle={() => togglePicker()}
       triggerComponent={
         <TextInput
@@ -284,6 +286,7 @@ const DatePicker = ({
           value={displayValue}
           name={name}
           readOnly
+          disabled={disabled}
         />
       }
       componentClass="div"
