@@ -55,9 +55,7 @@ const LendableObjectList = () => {
 
   const lendableObjects = useAppSelector(selectAllLendableObjects);
 
-  const lendingRequests = useAppSelector((state) =>
-    selectTransformedLendingRequests(state, { pagination: requestsPagination }),
-  );
+  const lendingRequests = useAppSelector(selectTransformedLendingRequests);
   console.log('Requests:', lendingRequests);
 
   const objectsActionGrant = useAppSelector(

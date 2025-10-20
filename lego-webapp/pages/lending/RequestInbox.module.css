@@ -27,14 +27,14 @@
 }
 
 .lendingRequestCard {
-  color: var(--lego-font-color);
   display: flex;
   flex-direction: row;
   align-items: center;
+  color: var(--lego-font-color);
   gap: var(--spacing-md);
 
   @media (--small-viewport) {
-    flex-direction: column;
+
   }
 }
 

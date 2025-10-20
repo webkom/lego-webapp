@@ -76,7 +76,7 @@ const FilterSearch = ({
         placeholder="Grill, soundboks..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
-        className={styles.textInput}
+        className={styles.searchField}
       />
       <div
         className={cx(

@@ -2,7 +2,7 @@
 
 .filterCategoryWrapper {
   width: 100%;
-  margin: var(--spacing-xs) 0;
+  margin-top: var(--spacing-sm);
   position: relative;
 }
 
@@ -69,4 +69,14 @@
   .filterCategoryWrapper.showRightShadow::after {
     opacity: 1;
   }
+}
+
+div.searchField {
+  height: 50px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.searchField input {
+  font-size: var(--font-size-md);
 }
