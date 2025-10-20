@@ -58,7 +58,6 @@ const CommandPalette = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'k' && (isMac ? e.metaKey : e.ctrlKey)) {
         e.preventDefault();
@@ -92,7 +91,7 @@ const CommandPalette = () => {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isOpen]);
 
   return (
     <ModalOverlay
