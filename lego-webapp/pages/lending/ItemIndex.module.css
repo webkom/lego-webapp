@@ -122,8 +122,8 @@ div.lendableObjectCard {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--spacing-sm);
-  border: 1px solid var(--color-gray-3);
+  gap: var(--spacing-md);
+  border: 1px dashed var(--color-gray-3);
   background: linear-gradient(
     180deg,
     var(--lego-card-color) 0%,
@@ -139,7 +139,6 @@ div.lendableObjectCard {
   color: var(--lego-font-color);
   padding: var(--spacing-xs);
   border: 1px dashed var(--color-gray-5);
-  border-radius: 50%;
   background-color: transparent;
 
   display: flex;
