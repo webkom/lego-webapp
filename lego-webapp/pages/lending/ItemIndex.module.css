@@ -156,3 +156,7 @@ div.lendableObjectCard {
   border-color: var(--color-gray-4);
   transform: scale(1.1);
 }
+
+.skeletonCard {
+  border-radius: var(--border-radius-lg);
+}

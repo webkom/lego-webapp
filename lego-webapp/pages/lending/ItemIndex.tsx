@@ -5,6 +5,7 @@ import {
   CardFooter,
   Flex,
   LinkButton,
+  Skeleton,
 } from '@webkom/lego-bricks';
 import {
   Contact,
@@ -106,9 +107,15 @@ const ItemIndex = ({
   return (
     <>
       <h3>Tilgjengelig utstyr</h3>
-      <LoadingIndicator loading={isFetching}>
-        {lendableObjects.length ? (
-          <div className={styles.lendableObjectsContainer}>
+      <div className={styles.lendableObjectsContainer}>
+        {isFetching ? (
+          <Skeleton
+            array={6}
+            height={304.783}
+            className={styles.skeletonCard}
+          />
+        ) : lendableObjects.length ? (
+          <>
             {canCreate && <CreateLendableObjectCard />}
             {lendableObjects.map((lendableObject) => (
               <LendableObject
@@ -116,7 +123,7 @@ const ItemIndex = ({
                 lendableObject={lendableObject}
               />
             ))}
-          </div>
+          </>
         ) : (
           <EmptyState
             iconNode={<FolderOpen />}
@@ -132,7 +139,7 @@ const ItemIndex = ({
             }
           />
         )}
-      </LoadingIndicator>
+      </div>
     </>
   );
 };
