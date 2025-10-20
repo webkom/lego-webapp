@@ -25,7 +25,9 @@ const LendingRequestCard = ({
           <Flex>
             <Flex column gap="var(--spacing-sm)">
               <Flex column gap="var(--spacing-xs)">
-                <h4>{truncateString(lendingRequest.lendableObject.title, 30)}</h4>
+                <h4>
+                  {truncateString(lendingRequest.lendableObject.title, 30)}
+                </h4>
                 <Flex gap="var(--spacing-sm)">
                   <Time time={lendingRequest.startDate} format="DD. MMM" />
                   <Icon iconNode={<MoveRight />} size={19} />

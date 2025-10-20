@@ -2,6 +2,7 @@
 
 .lendableObjectsContainer {
   display: grid;
+  min-height: 51vh;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 1fr;
   gap: var(--spacing-md);
@@ -14,7 +15,8 @@
 }
 
 .emptyLendableObjectsContainer {
-  min-height: 350px;
+  min-height: 51vh;
+  grid-column: 1 / -1;
 }
 
 div.lendableObjectCard {
@@ -120,6 +122,7 @@ div.lendableObjectCard {
   padding: var(--spacing-xs);
   border: 1px dashed var(--color-gray-5);
   background-color: var(--lego-card-color);
+  z-index: 1;
 
   display: flex;
   align-items: center;

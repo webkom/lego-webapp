@@ -87,7 +87,7 @@ const LendableObject = ({
 
 const CreateLendableObjectCard = () => {
   const categoryKeys = Object.keys(LENDABLE_CATEGORY);
-  const backgroundIcons = [...categoryKeys, ...categoryKeys]
+  const backgroundIcons = [...categoryKeys, ...categoryKeys];
   return (
     <BaseCard className={styles.createNewContainer}>
       <div className={styles.animatedBackground}>
@@ -100,10 +100,7 @@ const CreateLendableObjectCard = () => {
               transform: `translate(${(Math.round(Math.random()) * 2 - 1) * (Math.random() * 50)}%, ${(Math.round(Math.random()) * 2 - 1) * (Math.random() * 50)}%)`,
             }}
           >
-            <Icon
-              iconNode={categoryIconMap[category]}
-              size={32}
-            />
+            <Icon iconNode={categoryIconMap[category]} size={32} />
           </div>
         ))}
       </div>
@@ -129,13 +126,15 @@ const ItemIndex = ({
     <>
       <h3>Tilgjengelig utstyr</h3>
       <div className={styles.lendableObjectsContainer}>
-        {isFetching ? (
+        {isFetching && (
           <Skeleton
             array={6}
             height={304.783}
             className={styles.skeletonCard}
           />
-        ) : lendableObjects.length ? (
+        )}
+
+        {!isFetching && lendableObjects.length > 0 && (
           <>
             {canCreate && <CreateLendableObjectCard />}
             {lendableObjects.map((lendableObject) => (
@@ -145,7 +144,9 @@ const ItemIndex = ({
               />
             ))}
           </>
-        ) : (
+        )}
+
+        {!isFetching && lendableObjects.length === 0 && (
           <EmptyState
             iconNode={<FolderOpen />}
             className={styles.emptyLendableObjectsContainer}
@@ -164,5 +165,4 @@ const ItemIndex = ({
     </>
   );
 };
-
 export default ItemIndex;
