@@ -7,6 +7,7 @@ import {
   LinkButton,
   Skeleton,
 } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import {
   Contact,
   ImageOff,
@@ -21,6 +22,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { selectGroupsByIds } from '../../redux/slices/groups';
 import { LENDABLE_CATEGORY } from '../../utils/constants';
 import truncateString from '../../utils/truncateString';
+import { categoryIconMap } from './FilterSearch';
 import styles from './ItemIndex.module.css';
 import type { ListLendableObject } from '../../redux/models/LendableObject';
 
@@ -84,8 +86,27 @@ const LendableObject = ({
 };
 
 const CreateLendableObjectCard = () => {
+  const categoryKeys = Object.keys(LENDABLE_CATEGORY);
+  const backgroundIcons = [...categoryKeys, ...categoryKeys]
   return (
     <BaseCard className={styles.createNewContainer}>
+      <div className={styles.animatedBackground}>
+        {backgroundIcons.map((category, index) => (
+          <div
+            key={index}
+            className={cx(styles.animatedBackgroundIcon, styles.x)}
+            style={{
+              animationDelay: `${Math.random() * 10}s`,
+              transform: `translate(${(Math.round(Math.random()) * 2 - 1) * (Math.random() * 50)}%, ${(Math.round(Math.random()) * 2 - 1) * (Math.random() * 50)}%)`,
+            }}
+          >
+            <Icon
+              iconNode={categoryIconMap[category]}
+              size={32}
+            />
+          </div>
+        ))}
+      </div>
       <LinkButton round className={styles.createNewIcon} href="/lending/new">
         <Icon iconNode={<Plus />} size={35} />
       </LinkButton>

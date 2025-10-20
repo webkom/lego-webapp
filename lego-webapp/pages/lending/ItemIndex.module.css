@@ -124,22 +124,19 @@ div.lendableObjectCard {
   align-items: center;
   gap: var(--spacing-md);
   border: 1px dashed var(--color-gray-3);
-  background: linear-gradient(
-    180deg,
-    var(--lego-card-color) 0%,
-    var(--lego-card-transparent) 100%
-  );
+  background-color: var(--lego-card-color);
   border-radius: var(--border-radius-lg);
   transition:
     background var(--linear-medium),
     box-shadow var(--linear-medium);
+  position: relative;
 }
 
 .createNewIcon {
   color: var(--lego-font-color);
   padding: var(--spacing-xs);
   border: 1px dashed var(--color-gray-5);
-  background-color: transparent;
+  background-color: var(--lego-card-color);
 
   display: flex;
   align-items: center;
@@ -155,6 +152,43 @@ div.lendableObjectCard {
   background-color: var(--color-gray-2);
   border-color: var(--color-gray-4);
   transform: scale(1.1);
+}
+
+.createNewContainer .animatedBackground {
+  --speed: 7.7777s;
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  padding: var(--spacing-md);
+
+  & .animatedBackgroundIcon {
+    margin: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: flicker var(--speed) linear infinite alternate;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .skeletonCard {

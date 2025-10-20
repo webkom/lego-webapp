@@ -25,7 +25,7 @@ type Props = {
   onToggle: (category: FilterLendingCategory) => () => void;
 };
 
-const categoryIconMap: Record<FilterLendingCategory, ReactNode> = {
+export const categoryIconMap: Record<FilterLendingCategory, ReactNode> = {
   outdoors: <TentTree />,
   photography: <Camera />,
   instrument: <Guitar />,
