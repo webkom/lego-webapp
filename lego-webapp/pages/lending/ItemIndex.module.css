@@ -97,24 +97,6 @@ div.lendableObjectCard {
   width: 100%;
 }
 
-.statusTag {
-  width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  justify-content: center;
-  font-size: var(--font-size-md);
-  gap: var(--spacing-md);
-}
-
-@keyframes spinner {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.statusTag .rotate {
-  animation: spinner 5s linear infinite;
-}
-
 .lendingSubsection {
   margin-bottom: var(--spacing-md);
 }

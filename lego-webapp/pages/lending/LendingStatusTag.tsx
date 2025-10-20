@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 import { Tag } from '~/components/Tags';
 import { TagColors } from '~/components/Tags/Tag';
 import { LendingRequestStatus } from '~/redux/models/LendingRequest';
-import styles from './LendingPage.module.css';
+import styles from './RequestInbox.module.css';
 
 export const statusMap: Record<
   LendingRequestStatus,
@@ -59,7 +59,7 @@ export const statusMap: Record<
     buttonText: 'Kanseller forespørsel',
     timelineText: 'kansellerte forespørsel',
     icon: <CircleX />,
-    color: 'red',
+    color: 'gray',
   },
   [LendingRequestStatus.ChangesResolved]: {
     name: 'Endringer løst',
@@ -90,11 +90,11 @@ const LendingStatusTag = ({ lendingRequestStatus }: LendingStatusTagProps) => {
   return (
     <Tag
       iconNode={statusMap[lendingRequestStatus].icon}
-      iconSize={22}
+      iconSize={18}
       color={statusMap[lendingRequestStatus].color}
       tag={statusMap[lendingRequestStatus].label}
       className={styles.statusTag}
-      gap="var(--spacing-md)"
+      gap="var(--spacing-sm)"
     />
   );
 };

@@ -19,23 +19,24 @@
   box-shadow: var(--shadow-sm);
 }
 
-.loadMoreButton {
+.loadMoreRequest {
   display: flex;
   justify-content: center;
   position: relative;
   top: -17px;
 }
 
+.loadMoreButton {
+  background-color: var(--color-gray-2);
+  font-size: var(--font-size-sm);
+}
+
 .lendingRequestCard {
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: var(--spacing-md);
   color: var(--lego-font-color);
-  gap: var(--spacing-md);
-
-  @media (--small-viewport) {
-
-  }
 }
 
 img.lendingRequestImage {
@@ -52,4 +53,20 @@ img.lendingRequestImage {
 
 .detailsContainer {
   flex: 1;
+}
+
+.statusTag {
+  width: 100%;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusTag .rotate {
+  animation: spinner 5s linear infinite;
 }

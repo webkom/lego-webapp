@@ -39,14 +39,11 @@ const RequestInbox = ({
           />
         )}
         {hasMore && (
-          <div className={styles.loadMoreButton}>
+          <div className={styles.loadMoreRequest}>
             <Button
               onPress={onLoadMore}
               isPending={!isEmpty(lendingRequests) && isFetching}
-              style={{
-                backgroundColor: 'var(--color-gray-2)',
-                fontSize: 'var(--font-size-sm)',
-              }}
+              className={styles.loadMoreButton}
             >
               Se mer
             </Button>
