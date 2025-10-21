@@ -80,7 +80,7 @@ const eventsSlice = createSlice({
             ];
           }
         } else {
-          registrationCount && registrationCount++;
+          registrationCount++;
         }
 
         stateEvent.registrationCount = registrationCount;
