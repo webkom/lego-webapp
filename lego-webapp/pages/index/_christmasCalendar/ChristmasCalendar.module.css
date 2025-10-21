@@ -1,0 +1,14 @@
+.abakusPole {
+  background-color: var(--color-orange-4);
+  width: 20px;
+  height: 200px;
+  border-radius: var(--border-radius-md);
+}
+
+.abakusBrick {
+  background-color: var(--color-orange-4);
+  width: 60px;
+  height: 20px;
+  border-radius: var(--border-radius-lg);
+  margin-top: -10px;
+}
