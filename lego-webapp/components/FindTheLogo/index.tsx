@@ -17,7 +17,7 @@ import { isEmpty } from 'lodash-es';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 
 type StyleType = {
-  [key: string]: string
+  [key: string]: string;
 };
 
 type FindGameType = {
@@ -28,13 +28,7 @@ type FindGameType = {
   setState: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const FindGame = ({
-  logo,
-  bgImage,
-  style,
-  state,
-  setState,
-}: FindGameType) => {
+const FindGame = ({ logo, bgImage, style, state, setState }: FindGameType) => {
   return (
     <Flex column>
       <h2>Finn logoen til en komité!</h2>
@@ -151,7 +145,7 @@ const FindTheLogo = ({ index }: { index: number }) => {
       logo: 'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png',
       bgImage:
         'https://thumbor.abakus.no/kP2YsGjSIizc9O_h0pp3rTiIIjI=/0x700/smart/IMG_8436_Lsoofzd.JPG',
-      style: { left: '37%', top: '35%', opacity: "3%" },
+      style: { left: '37%', top: '35%', opacity: '5%' },
     },
   ];
   const slotToday = slots[index];
