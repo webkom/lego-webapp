@@ -1,6 +1,6 @@
-import { LoadingIndicator, Button } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button, Icon } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
-import { Leaf } from 'lucide-react';
+import { Leaf, Inbox } from 'lucide-react';
 import EmptyState from '../../components/EmptyState';
 import LendingRequestCard from './LendingRequestCard';
 import styles from './RequestInbox.module.css';
@@ -11,6 +11,7 @@ type Props = {
   isFetching: boolean;
   hasMore: boolean;
   onLoadMore: () => void;
+  className?: string;
 };
 
 const RequestInbox = ({
@@ -18,10 +19,15 @@ const RequestInbox = ({
   isFetching,
   hasMore,
   onLoadMore,
+  className,
 }: Props) => {
   return (
-    <LoadingIndicator loading={isFetching}>
-      <div className={styles.lendingRequestWrapper}>
+    <div className={className}>
+      <div className={styles.lendingRequestMailBoxTitle}>
+        <Icon iconNode={<Inbox />} />
+        <h3>Innboks</h3>
+      </div>
+      <LoadingIndicator loading={isFetching}>
         {lendingRequests.length ? (
           <div className={styles.lendingRequestsContainer}>
             {lendingRequests.map((lendingRequest) => (
@@ -49,8 +55,8 @@ const RequestInbox = ({
             </Button>
           </div>
         )}
-      </div>
-    </LoadingIndicator>
+      </LoadingIndicator>
+    </div>
   );
 };
 

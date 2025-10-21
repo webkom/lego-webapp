@@ -1,22 +1,19 @@
-.lendingRequestWrapper {
+.lendingRequestMailBoxTitle {
   display: flex;
-  flex-direction: column;
-  position: sticky;
-  top: var(--spacing-lg);
-  height: auto;
+  align-items: center;
+  padding-left: var(--spacing-sm);
+  gap: var(--spacing-sm);
 }
 
 .lendingRequestsContainer {
   display: flex;
   flex-direction: column;
+  margin-top: var(--spacing-xs);
   gap: var(--spacing-md);
 }
 
 .lendingRequestEmpty {
   padding: var(--spacing-lg);
-  border: 1px solid var(--color-gray-2);
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-sm);
 }
 
 .loadMoreRequest {

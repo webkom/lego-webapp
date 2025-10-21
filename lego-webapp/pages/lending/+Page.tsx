@@ -52,11 +52,19 @@ const LendableObjectList = () => {
       }),
     );
   };
-
   const lendableObjects = useAppSelector(selectAllLendableObjects);
 
-  const lendingRequests = useAppSelector(selectTransformedLendingRequests);
-  console.log('Requests:', lendingRequests);
+  const originalLendingRequests = useAppSelector(
+    selectTransformedLendingRequests,
+  );
+  const lendingRequests = originalLendingRequests.slice(0, 4);
+
+  /*
+  This is to be fixed
+  const lendingRequests = useAppSelector((state) =>
+    selectTransformedLendingRequests(state, { pagination: requestsPagination }),
+  );
+  */
 
   const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
@@ -92,39 +100,39 @@ const LendableObjectList = () => {
   return (
     <PageContainer card={false}>
       <Helmet title={title} />
-      <div className={styles.topSection}>
-        <h1>{title}</h1>
-        <div className={styles.actionButtons}>
-          {requestsActionGrant.includes('admin') && (
-            <LinkButton href="/lending/admin">Administrator</LinkButton>
-          )}
+      <div className={styles.topHeader}>
+        <div className={styles.topSection}>
+          <h1>{title}</h1>
+          <div className={styles.actionButtons}>
+            {requestsActionGrant.includes('admin') && (
+              <LinkButton href="/lending/admin">Administrator</LinkButton>
+            )}
+          </div>
         </div>
+        <div className={styles.divider}></div>
       </div>
       <section className={styles.wrapper}>
-        <div className={styles.filterSearch}>
-          <FilterSearch
-            search={query.search}
-            onSearchChange={setQueryValue('search')}
-            selected={query.lendingCategories}
-            onToggle={toggleLendingCategory}
-          />
-        </div>
-        <div className={styles.requestInbox}>
-          <RequestInbox
-            lendingRequests={lendingRequests}
-            isFetching={requestsPagination.fetching}
-            hasMore={requestsPagination.hasMore}
-            onLoadMore={fetchMoreLendingRequests}
-          />
-        </div>
-        <div className={styles.lendingIndex}>
-          <ItemIndex
-            lendableObjects={filteredLendableObjects}
-            isFetching={fetchingObjects}
-            searchQuery={query.search}
-            canCreate={objectsActionGrant.includes('create')}
-          />
-        </div>
+        <FilterSearch
+          search={query.search}
+          onSearchChange={setQueryValue('search')}
+          selected={query.lendingCategories}
+          onToggle={toggleLendingCategory}
+          className={styles.filterSearch}
+        />
+        <RequestInbox
+          lendingRequests={lendingRequests}
+          isFetching={requestsPagination.fetching}
+          hasMore={requestsPagination.hasMore}
+          onLoadMore={fetchMoreLendingRequests}
+          className={styles.requestInbox}
+        />
+        <ItemIndex
+          lendableObjects={filteredLendableObjects}
+          isFetching={fetchingObjects}
+          searchQuery={query.search}
+          canCreate={objectsActionGrant.includes('create')}
+          className={styles.lendingIndex}
+        />
       </section>
     </PageContainer>
   );

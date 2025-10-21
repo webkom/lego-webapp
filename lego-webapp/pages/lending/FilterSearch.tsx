@@ -23,6 +23,7 @@ type Props = {
   onSearchChange: (value: string) => void;
   selected: FilterLendingCategory[];
   onToggle: (category: FilterLendingCategory) => () => void;
+  className?: string;
 };
 
 export const categoryIconMap: Record<FilterLendingCategory, ReactNode> = {
@@ -39,6 +40,7 @@ const FilterSearch = ({
   onSearchChange,
   selected,
   onToggle,
+  className,
 }: Props) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftShadow, setShowLeftShadow] = useState(false);
@@ -70,45 +72,49 @@ const FilterSearch = ({
   }, []);
 
   return (
-    <FilterSection title="">
-      <TextInput
-        prefix="search"
-        placeholder="Grill, soundboks..."
-        value={search}
-        onChange={(e) => onSearchChange(e.target.value)}
-        className={styles.searchField}
-      />
-      <div
-        className={cx(
-          styles.filterCategoryWrapper,
-          showLeftShadow && styles.showLeftShadow,
-          showRightShadow && styles.showRightShadow,
-        )}
-      >
-        <div ref={scrollRef} className={styles.filterCategoryContainer}>
-          {Object.entries(LENDABLE_CATEGORY).map(([category, value]) => (
-            <ComponentAsCheckBox
-              name="category"
-              id={category}
-              key={category}
-              label={value}
-              component={({ checked, focused }) => (
-                <Icon
-                  iconNode={categoryIconMap[category as FilterLendingCategory]}
-                  size={32}
-                  className={cx(
-                    checked && styles.checked,
-                    focused && styles.focused,
-                  )}
-                />
-              )}
-              checked={selected.includes(category as FilterLendingCategory)}
-              onChange={onToggle(category as FilterLendingCategory)}
-            />
-          ))}
+    <div className={className}>
+      <FilterSection title="">
+        <TextInput
+          prefix="search"
+          placeholder="Grill, soundboks..."
+          value={search}
+          onChange={(e) => onSearchChange(e.target.value)}
+          className={styles.searchField}
+        />
+        <div
+          className={cx(
+            styles.filterCategoryWrapper,
+            showLeftShadow && styles.showLeftShadow,
+            showRightShadow && styles.showRightShadow,
+          )}
+        >
+          <div ref={scrollRef} className={styles.filterCategoryContainer}>
+            {Object.entries(LENDABLE_CATEGORY).map(([category, value]) => (
+              <ComponentAsCheckBox
+                name="category"
+                id={category}
+                key={category}
+                label={value}
+                component={({ checked, focused }) => (
+                  <Icon
+                    iconNode={
+                      categoryIconMap[category as FilterLendingCategory]
+                    }
+                    size={32}
+                    className={cx(
+                      checked && styles.checked,
+                      focused && styles.focused,
+                    )}
+                  />
+                )}
+                checked={selected.includes(category as FilterLendingCategory)}
+                onChange={onToggle(category as FilterLendingCategory)}
+              />
+            ))}
+          </div>
         </div>
-      </div>
-    </FilterSection>
+      </FilterSection>
+    </div>
   );
 };
 

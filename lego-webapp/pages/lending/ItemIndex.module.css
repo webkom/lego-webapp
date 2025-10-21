@@ -2,11 +2,12 @@
 
 .lendableObjectsContainer {
   display: grid;
-  min-height: 51vh;
+  min-height: 30vh;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 1fr;
   gap: var(--spacing-md);
   margin-top: var(--spacing-md);
+  margin-bottom: 100px;
 
   @media (--small-viewport) {
     grid-template-columns: repeat(2, 1fr);
@@ -15,14 +16,7 @@
 }
 
 .emptyLendableObjectsContainer {
-  min-height: 51vh;
   grid-column: 1 / -1;
-}
-
-div.lendableObjectCard {
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 }
 
 .lendableObjectImageContainer {
@@ -83,20 +77,6 @@ div.lendableObjectCard {
     line-height: var(--spacing-lg);
     margin: 0;
   }
-}
-
-.divider {
-  border-bottom: 2px solid var(--border-gray);
-  margin: var(--spacing-md) 0;
-}
-
-.tagContainer {
-  margin-left: auto;
-  width: 100%;
-}
-
-.tagContainer > div {
-  width: 100%;
 }
 
 .lendingSubsection {

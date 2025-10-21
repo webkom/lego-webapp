@@ -1,5 +1,4 @@
 import {
-  LoadingIndicator,
   Icon,
   BaseCard,
   CardFooter,
@@ -31,6 +30,7 @@ type Props = {
   isFetching: boolean;
   searchQuery: string;
   canCreate: boolean;
+  className?: string;
 };
 
 const LendableObject = ({
@@ -46,7 +46,7 @@ const LendableObject = ({
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
-      <BaseCard hoverable className={styles.lendableObjectCard}>
+      <BaseCard hoverable shadow className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
           {lendableObject.image ? (
             <img
@@ -64,8 +64,9 @@ const LendableObject = ({
         </div>
         <CardFooter className={styles.lendableObjectInfobox}>
           <Flex>
-            {/* Flex is needed for css title truncation */}
-            <h3 title={lendableObject.title}>{lendableObject.title}</h3>
+            <h3 title={lendableObject.title}>
+              {truncateString(lendableObject.title, 25)}
+            </h3>
           </Flex>
           <p title={formattedGroups}>
             <Icon iconNode={<Contact />} size={18} />
@@ -121,9 +122,10 @@ const ItemIndex = ({
   isFetching,
   searchQuery,
   canCreate,
+  className,
 }: Props) => {
   return (
-    <>
+    <div className={className}>
       <h3>Tilgjengelig utstyr</h3>
       <div className={styles.lendableObjectsContainer}>
         {isFetching && (
@@ -162,7 +164,7 @@ const ItemIndex = ({
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 export default ItemIndex;
