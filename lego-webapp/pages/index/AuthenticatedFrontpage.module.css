@@ -3,6 +3,7 @@
 section.wrapper {
   display: grid;
   grid-template:
+    'christmas-calendar christmas-calendar'
     'compact-events registrations'
     'pinned hovedstyret'
     'events poll'
@@ -44,6 +45,9 @@ section.wrapper {
 }
 .hovedstyret {
   grid-area: hovedstyret;
+}
+.christmasCalendar {
+  grid-area: christmas-calendar;
 }
 
 .poll {

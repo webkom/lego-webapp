@@ -1,43 +1,28 @@
-import utilStyles from '~/styles/utilities.module.css';
-import styles from './ChristmasCalendar.module.css'
-import { Button, Flex, Modal } from '@webkom/lego-bricks';
-import { useState } from 'react';
+import { Flex } from '@webkom/lego-bricks';
+import styles from './ChristmasCalendar.module.css';
 
-const ChristmasCalendar = () => {
-    return (
-        <div>
-            <h3 className={utilStyles.frontPageHeader}>Julekalender</h3>
-            <Flex gap="var(--spacing-sm)">
-                <ChristmasCalendarSlot day={1}/>
-                <ChristmasCalendarSlot day={2}/>
-                <ChristmasCalendarSlot day={3}/>
-                <ChristmasCalendarSlot day={4}/>
-                <ChristmasCalendarSlot day={5}/>
-            </Flex>
-        </div>
-    )
-}
+type ChristmasCalendarType = {
+  className: string;
+};
 
-type ChristmasCalendarSlotType = {
-    day: number;
-    color?: string;
-}
+const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
+  return (
+    <div className={className}>
+      <Flex>
+        <AbakusPole/>
+        <AbakusPole/>
+      </Flex>
+    </div>
+  );
+};
 
-const ChristmasCalendarSlot = (props: ChristmasCalendarSlotType) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <div>
-            <Button onPress={() => setIsOpen(true)}>Luke {props.day}</Button>
-            <Modal
-            isOpen={isOpen}
-            onOpenChange={setIsOpen}
-            title={`Luke ${props.day}`}
-            >
-                Morsom video
-            </Modal>
-        </div>
-    )
+const AbakusPole = () => {
+  return(
+    <Flex column alignItems='center'>
+      <div className={styles.abakusPole}/>
+      <div className={styles.abakusBrick}/>
+    </Flex>
+  )
 }
 
 export default ChristmasCalendar;

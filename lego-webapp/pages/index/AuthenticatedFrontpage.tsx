@@ -32,10 +32,10 @@ import FrontpageEventItem from './FrontpageEventItem';
 import LatestReadme from './LatestReadme';
 import Pinned from './Pinned';
 import UpcomingRegistrations from './UpcomingRegistrations';
+import ChristmasCalendar from './_christmasCalendar/ChristmasCalendar';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
-import ChristmasCalendar from './_christmasCalendar/ChristmasCalendar';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -110,7 +110,8 @@ const AuthenticatedFrontpage = () => {
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
         <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
-        <ChristmasCalendar/>
+        <ChristmasCalendar className={styles.christmasCalendar}/>
+        <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
         <PollItem />
         <QuoteItem />
         {readMe}
