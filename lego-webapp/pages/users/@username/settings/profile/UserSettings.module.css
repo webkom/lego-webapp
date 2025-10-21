@@ -13,3 +13,8 @@
     flex-direction: column;
   }
 }
+
+.socialLinks {
+  flex: 1;
+  width: 100%;
+}

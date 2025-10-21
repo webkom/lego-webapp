@@ -118,7 +118,7 @@ const UserSettings = () => {
         subscription={{}}
       >
         {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} className={styles.settings}>
             <Flex gap="var(--spacing-xl)" className={styles.mobileColumn}>
               <Flex
                 column
@@ -129,8 +129,12 @@ const UserSettings = () => {
                 <UserImage user={user} />
                 <RemovePicture username={user.username} />
               </Flex>
-
-              <Flex column gap="var(--spacing-md)" className={styles.right}>
+              <Flex
+                column
+                gap="var(--spacing-md)"
+                className={styles.right}
+                basis={false}
+              >
                 <Field
                   placeholder="Brukernavn"
                   label="Brukernavn"
@@ -192,23 +196,32 @@ const UserSettings = () => {
               </Flex>
             </Flex>
 
-            <RowSection>
-              <Field
-                label="GitHub-brukernavn"
-                name="githubUsername"
-                prefixIconNode={<Icon iconNode={<Github />} />}
-                component={TextInput.Field}
-                parse={(value) => value}
-              />
+            <Flex
+              column
+              justifyContent="center"
+              alignItems="center"
+              gap="var(--spacing-sm)"
+              width={'100%'}
+              basis={false}
+            >
+              <RowSection className={styles.socialLinks}>
+                <Field
+                  label="GitHub-brukernavn"
+                  name="githubUsername"
+                  prefixIconNode={<Icon iconNode={<Github />} />}
+                  component={TextInput.Field}
+                  parse={(value) => value}
+                />
 
-              <Field
-                label="LinkedIn-ID"
-                name="linkedinId"
-                prefixIconNode={<Icon iconNode={<Linkedin />} />}
-                component={TextInput.Field}
-                parse={(value) => value}
-              />
-            </RowSection>
+                <Field
+                  label="LinkedIn-ID"
+                  name="linkedinId"
+                  prefixIconNode={<Icon iconNode={<Linkedin />} />}
+                  component={TextInput.Field}
+                  parse={(value) => value}
+                />
+              </RowSection>
+            </Flex>
 
             <MultiSelectGroup legend="Fargetema" name="selectedTheme">
               <Field
