@@ -271,7 +271,23 @@ steps:
       - npm i -g corepack
       - corepack enable
       - pnpm --filter lego-webapp exec cypress run --e2e --record
-      - pnpm --filter lego-webapp exec cypress run --component --record
+  
+  - name: cypress_component
+    image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
+    when:
+      event: [push]
+      branch:
+        exclude: [build]
+    depends_on:
+      - install_cypress
+      - build
+    environment: 
+        TZ: Europe/Oslo
+        CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
+    commands:
+      - npm i -g corepack
+      - corepack enable
+      - pnpm --filter lego-webapp exec cypress run --component
 
   - name: docker
     image: plugins/docker
