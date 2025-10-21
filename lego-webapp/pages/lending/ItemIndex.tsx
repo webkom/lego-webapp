@@ -129,11 +129,7 @@ const ItemIndex = ({
       <h3>Tilgjengelig utstyr</h3>
       <div className={styles.lendableObjectsContainer}>
         {isFetching && (
-          <Skeleton
-            array={6}
-            height={304.783}
-            className={styles.skeletonCard}
-          />
+          <Skeleton array={6} height={250} className={styles.skeletonCard} />
         )}
 
         {!isFetching && lendableObjects.length > 0 && (

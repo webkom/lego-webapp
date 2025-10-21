@@ -8,6 +8,7 @@ import type { TransformedLendingRequest } from '../../redux/models/LendingReques
 
 type Props = {
   lendingRequests: TransformedLendingRequest[];
+  totalFetched: number;
   isFetching: boolean;
   hasMore: boolean;
   onLoadMore: () => void;
@@ -16,48 +17,53 @@ type Props = {
 
 const RequestInbox = ({
   lendingRequests,
+  totalFetched,
   isFetching,
   hasMore,
   onLoadMore,
   className,
 }: Props) => {
+  const hasRequests = lendingRequests.length > 0;
+  const canLoadMore =
+    !isFetching &&
+    hasMore &&
+    hasRequests &&
+    lendingRequests.length < totalFetched;
+
   return (
     <div className={className}>
-      <div className={styles.lendingRequestMailBox}>
-        <div className={styles.lendingRequestMailBoxTitle}>
-          <Icon iconNode={<Inbox />} />
-          <h3>Innboks</h3>
-        </div>
-        <LoadingIndicator loading={isFetching}>
-          {lendingRequests.length ? (
-            <div className={styles.lendingRequestsContainer}>
-              {lendingRequests.map((lendingRequest) => (
-                <LendingRequestCard
-                  key={lendingRequest.id}
-                  lendingRequest={lendingRequest}
-                />
-              ))}
-            </div>
-          ) : (
-            <EmptyState
-              className={styles.lendingRequestEmpty}
-              iconNode={<Leaf />}
-              body={<span>Du har ingen utlånsforespørsler</span>}
-            />
-          )}
-          {hasMore && (
-            <div className={styles.loadMoreRequest}>
-              <Button
-                onPress={onLoadMore}
-                isPending={!isEmpty(lendingRequests) && isFetching}
-                className={styles.loadMoreButton}
-              >
-                Se mer
-              </Button>
-            </div>
-          )}
-        </LoadingIndicator>
-      </div>
+      <header className={styles.lendingRequestMailBoxTitle}>
+        <Icon iconNode={<Inbox />} />
+        <h3>Innboks</h3>
+      </header>
+
+      <LoadingIndicator loading={isFetching}>
+        {hasRequests ? (
+          <div className={styles.lendingRequestsContainer}>
+            {lendingRequests.map((req) => (
+              <LendingRequestCard key={req.id} lendingRequest={req} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            className={styles.lendingRequestEmpty}
+            iconNode={<Leaf />}
+            body={<span>Du har ingen utlånsforespørsler</span>}
+          />
+        )}
+
+        {canLoadMore && (
+          <div className={styles.loadMoreRequest}>
+            <Button
+              onPress={onLoadMore}
+              isPending={!isEmpty(lendingRequests) && isFetching}
+              className={styles.loadMoreButton}
+            >
+              Se mer
+            </Button>
+          </div>
+        )}
+      </LoadingIndicator>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { PageContainer, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
@@ -14,7 +15,6 @@ import FilterSearch from './FilterSearch';
 import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
 import RequestInbox from './RequestInbox';
-import { useState } from 'react';
 
 const defaultLendingQuery = {
   search: '',
@@ -63,7 +63,9 @@ const LendableObjectList = () => {
   const lendingRequests = originalLendingRequests.slice(0, visibleCount);
 
   const handleLoadMore = () => {
-    fetchMoreLendingRequests();
+    if (requestsPagination.hasMore) {
+      fetchMoreLendingRequests();
+    }
     setVisibleCount((prev) => prev + 4);
   };
 
@@ -129,6 +131,7 @@ const LendableObjectList = () => {
         />
         <RequestInbox
           lendingRequests={lendingRequests}
+          totalFetched={originalLendingRequests.length}
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
