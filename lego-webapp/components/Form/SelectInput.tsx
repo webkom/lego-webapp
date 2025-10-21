@@ -39,7 +39,7 @@ export const selectStyles: StylesConfig = {
     ...styles,
     cursor: 'pointer',
     opacity: isDisabled ? '0.5' : 1,
-    backgroundColor: isDisabled ? undefined : "",
+    backgroundColor: isDisabled ? undefined : '',
     border: '1.5px solid var(--border-gray)',
     borderRadius: 'var(--border-radius-md)',
     fontSize: '14px',

@@ -222,14 +222,14 @@ const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => (
   />
 );
 type CompanyObjectProps = {
-  label: string | undefined,
-  title: string | undefined,
-  value?: string
-}
+  label: string | undefined;
+  title: string | undefined;
+  value?: string;
+};
 type CompanyCheckBoxProps = {
-  name: string,
-  checked: boolean
-}
+  name: string;
+  checked: boolean;
+};
 type CompanyInterestFormEntity = {
   companyName?: string;
   company: CompanyObjectProps;
@@ -258,7 +258,7 @@ type CompanyInterestFormEntity = {
   companyType?: string;
   officeInTrondheim: boolean;
   wantsThursdayEvent: boolean;
-  participantRange: string | null
+  participantRange: string | null;
   collaborations: CompanyCheckBoxProps[];
   targetGrades: CompanyCheckBoxProps[];
 };

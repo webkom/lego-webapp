@@ -39,7 +39,10 @@ const InterestGroupQuestions = () => {
       <Helmet title={pageTitle} />
 
       <div className={styles.interestGroupText}>
-        <DisplayContent content={page?.content || ""} skeleton={!page?.content} />
+        <DisplayContent
+          content={page?.content || ''}
+          skeleton={!page?.content}
+        />
       </div>
     </Page>
   );

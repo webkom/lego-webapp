@@ -52,9 +52,7 @@ const getFieldErrorArray = async <T>(
  * @deprecated
  * use createValidator (with async=true) instead
  */
-export const createAsyncValidator = <T>(
-  fieldValidators: FieldValidators,
-) => {
+export const createAsyncValidator = <T>(fieldValidators: FieldValidators) => {
   return async (formData: T) => {
     const fieldErrorArray = await getFieldErrorArray(fieldValidators, formData);
 

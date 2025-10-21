@@ -157,7 +157,11 @@ const PageEditor = () => {
                 aspectRatio={20 / 6}
                 onSubmit={setPicture}
                 img={
-                   form.picture ? (images[form.picture] ? images[form.picture] : page?.picture) : page?.picture
+                  form.picture
+                    ? images[form.picture]
+                      ? images[form.picture]
+                      : page?.picture
+                    : page?.picture
                 }
               />
             </div>

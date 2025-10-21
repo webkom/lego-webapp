@@ -95,16 +95,16 @@ const PoolSuggestion: SuggestionComponent = ({
         prevGroups.filter((group) => !children?.includes(group)),
       );
       // Remove all the suggested values
-      return (selectedValues ? (
-        Array.isArray(selectedValues) ? 
-        (
-          selectedValues.filter(
-            (selectedValue) => !suggestedValueArr?.includes(selectedValue.value)
-          )
-        ) : (
-          (!suggestedValueArr?.includes(selectedValues.value) ? [selectedValues] :  [])
-        )
-      ) : []);
+      return selectedValues
+        ? Array.isArray(selectedValues)
+          ? selectedValues.filter(
+              (selectedValue) =>
+                !suggestedValueArr?.includes(selectedValue.value),
+            )
+          : !suggestedValueArr?.includes(selectedValues.value)
+            ? [selectedValues]
+            : []
+        : [];
     }
 
     // Add implicit groups
@@ -114,15 +114,14 @@ const PoolSuggestion: SuggestionComponent = ({
     return [
       // Remove all selected values that are children of the toggled suggestion
       // Ensure selectedValues is an array before filtering
-      ...(selectedValues 
-        ? (Array.isArray(selectedValues)
-            ? selectedValues.filter(
-                (selectedValue) => !children?.includes(selectedValue.value)
-              )
-            : (!children?.includes(selectedValues.value) 
-                ? [selectedValues] 
-                : [])
-          )
+      ...(selectedValues
+        ? Array.isArray(selectedValues)
+          ? selectedValues.filter(
+              (selectedValue) => !children?.includes(selectedValue.value),
+            )
+          : !children?.includes(selectedValues.value)
+            ? [selectedValues]
+            : []
         : []),
       // Add new values that are not already implicit or selected
       ...suggestedValues.filter(
