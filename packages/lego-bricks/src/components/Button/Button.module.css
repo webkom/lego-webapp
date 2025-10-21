@@ -201,10 +201,6 @@
 
 .round {
   border-radius: 50%;
-  padding: var(--spacing-md);
   width: fit-content;
   height: fit-content;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }

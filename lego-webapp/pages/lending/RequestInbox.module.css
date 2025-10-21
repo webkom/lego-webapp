@@ -1,3 +1,9 @@
+.lendingRequestMailBox {
+  padding: var(--spacing-sm);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+}
+
 .lendingRequestMailBoxTitle {
   display: flex;
   align-items: center;
@@ -9,7 +15,7 @@
   display: flex;
   flex-direction: column;
   margin-top: var(--spacing-xs);
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 
 .lendingRequestEmpty {
@@ -20,12 +26,16 @@
   display: flex;
   justify-content: center;
   position: relative;
-  top: -17px;
+  top: 25px;
 }
 
 .loadMoreButton {
   background-color: var(--color-gray-2);
   font-size: var(--font-size-sm);
+}
+
+.loadMoreButton:hover {
+  background-color: var(--color-gray-3);
 }
 
 .lendingRequestCard {

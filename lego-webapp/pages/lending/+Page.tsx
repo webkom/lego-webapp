@@ -14,6 +14,7 @@ import FilterSearch from './FilterSearch';
 import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
 import RequestInbox from './RequestInbox';
+import { useState } from 'react';
 
 const defaultLendingQuery = {
   search: '',
@@ -57,7 +58,14 @@ const LendableObjectList = () => {
   const originalLendingRequests = useAppSelector(
     selectTransformedLendingRequests,
   );
-  const lendingRequests = originalLendingRequests.slice(0, 4);
+  const [visibleCount, setVisibleCount] = useState(4);
+
+  const lendingRequests = originalLendingRequests.slice(0, visibleCount);
+
+  const handleLoadMore = () => {
+    fetchMoreLendingRequests();
+    setVisibleCount((prev) => prev + 4);
+  };
 
   /*
   This is to be fixed
@@ -123,7 +131,7 @@ const LendableObjectList = () => {
           lendingRequests={lendingRequests}
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
-          onLoadMore={fetchMoreLendingRequests}
+          onLoadMore={handleLoadMore}
           className={styles.requestInbox}
         />
         <ItemIndex

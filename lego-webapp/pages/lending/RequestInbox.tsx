@@ -23,39 +23,41 @@ const RequestInbox = ({
 }: Props) => {
   return (
     <div className={className}>
-      <div className={styles.lendingRequestMailBoxTitle}>
-        <Icon iconNode={<Inbox />} />
-        <h3>Innboks</h3>
+      <div className={styles.lendingRequestMailBox}>
+        <div className={styles.lendingRequestMailBoxTitle}>
+          <Icon iconNode={<Inbox />} />
+          <h3>Innboks</h3>
+        </div>
+        <LoadingIndicator loading={isFetching}>
+          {lendingRequests.length ? (
+            <div className={styles.lendingRequestsContainer}>
+              {lendingRequests.map((lendingRequest) => (
+                <LendingRequestCard
+                  key={lendingRequest.id}
+                  lendingRequest={lendingRequest}
+                />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              className={styles.lendingRequestEmpty}
+              iconNode={<Leaf />}
+              body={<span>Du har ingen utlånsforespørsler</span>}
+            />
+          )}
+          {hasMore && (
+            <div className={styles.loadMoreRequest}>
+              <Button
+                onPress={onLoadMore}
+                isPending={!isEmpty(lendingRequests) && isFetching}
+                className={styles.loadMoreButton}
+              >
+                Se mer
+              </Button>
+            </div>
+          )}
+        </LoadingIndicator>
       </div>
-      <LoadingIndicator loading={isFetching}>
-        {lendingRequests.length ? (
-          <div className={styles.lendingRequestsContainer}>
-            {lendingRequests.map((lendingRequest) => (
-              <LendingRequestCard
-                key={lendingRequest.id}
-                lendingRequest={lendingRequest}
-              />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            className={styles.lendingRequestEmpty}
-            iconNode={<Leaf />}
-            body={<span>Du har ingen utlånsforespørsler</span>}
-          />
-        )}
-        {hasMore && (
-          <div className={styles.loadMoreRequest}>
-            <Button
-              onPress={onLoadMore}
-              isPending={!isEmpty(lendingRequests) && isFetching}
-              className={styles.loadMoreButton}
-            >
-              Se mer
-            </Button>
-          </div>
-        )}
-      </LoadingIndicator>
     </div>
   );
 };
