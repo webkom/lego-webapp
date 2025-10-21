@@ -1,20 +1,20 @@
 import { Flex, Image, LoadingIndicator } from '@webkom/lego-bricks';
-import styles from './index.module.css';
+import { usePreparedEffect } from '@webkom/react-prepare';
+import { isEmpty } from 'lodash-es';
 import React from 'react';
 import { Field } from 'react-final-form';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { selectGroupsByType } from '~/redux/slices/groups';
 import { GroupType } from 'app/models';
-import { isNotNullish } from '~/utils';
 import {
   Form,
   LegoFinalForm,
   SelectInput,
   SubmitButton,
 } from '~/components/Form';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import { isEmpty } from 'lodash-es';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { selectGroupsByType } from '~/redux/slices/groups';
+import { isNotNullish } from '~/utils';
+import styles from './FindTheLogo.module.css';
 
 type StyleType = {
   [key: string]: string;
@@ -154,6 +154,7 @@ const FindTheLogo = ({ index }: { index: number }) => {
   const [correct, setCorrect] = React.useState(false);
   const states = [
     <FindGame
+      key={0}
       logo={slotToday.logo}
       bgImage={slotToday.bgImage}
       style={slotToday.style}
@@ -161,12 +162,13 @@ const FindTheLogo = ({ index }: { index: number }) => {
       setState={setState}
     />,
     <GuessCommittee
+      key={1}
       answer={slotToday.committee}
       state={state}
       setState={setState}
       setCorrect={setCorrect}
     />,
-    <FinalState correct={correct} />,
+    <FinalState key={2} correct={correct} />,
   ];
 
   return states[state];
