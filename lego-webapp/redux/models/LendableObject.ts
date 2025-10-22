@@ -35,7 +35,7 @@ export type UnknownLendableObject = ListLendableObject | DetailLendableObject;
 
 export type EditLendableObject = Pick<
   LendableObject,
-  'id' | 'title' | 'description' | 'image' | 'location'
+  'id' | 'title' | 'description' | 'image' | 'location' | 'category'
 > & {
   canViewGroups: EntityId[];
   canEditGroups: EntityId[];

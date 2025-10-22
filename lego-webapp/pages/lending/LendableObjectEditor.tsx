@@ -44,6 +44,7 @@ const validate = createValidator({
   title: [required()],
   description: [required()],
   location: [required()],
+  category: [required()],
 });
 
 export const LendableObjectEditor = ({ initialValues }: Props) => {
@@ -55,15 +56,13 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
       onSubmit={async (values) => {
         const transformedValues: CreateLendableObject | EditLendableObject = {
           ...values,
+          category: values.category.value,
           ...normalizeObjectPermissions(values),
         };
         const res = await dispatch(
           initialValues?.id
             ? editLendableObject({ ...transformedValues, id: initialValues.id })
-            : createLendableObject({
-                ...values,
-                ...normalizeObjectPermissions(values),
-              }),
+            : createLendableObject(transformedValues),
         );
         navigate(`/lending/${res.payload.result}`);
       }}
