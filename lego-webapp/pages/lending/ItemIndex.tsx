@@ -15,6 +15,7 @@ import {
   FolderOpen,
   Plus,
 } from 'lucide-react';
+import { useMemo } from 'react';
 import EmptyState from '../../components/EmptyState';
 import { readmeIfy } from '../../components/ReadmeLogo';
 import { useAppSelector } from '../../redux/hooks';
@@ -86,24 +87,28 @@ const LendableObject = ({
   );
 };
 
+const BackgroundIcon = ({ category }: { category: string }) => {
+  const randomVal = useMemo(() => Math.random(), []);
+  return (
+    <Icon
+      className={cx(styles.animatedBackgroundIcon, styles.x)}
+      style={{
+        animationDelay: `${randomVal * 5}s`,
+        transform: `translate(${(Math.round(randomVal) * 2 - 1) * (randomVal * 50)}%, ${(Math.round(randomVal) * 2 - 1) * (randomVal * 50)}%)`,
+      }}
+      iconNode={categoryIconMap[category]}
+      size={32}
+    />
+  )
+}
+
 const CreateLendableObjectCard = () => {
   const categoryKeys = Object.keys(LENDABLE_CATEGORY);
   const backgroundIcons = [...categoryKeys, ...categoryKeys];
   return (
     <BaseCard className={styles.createNewContainer}>
       <div className={styles.animatedBackground}>
-        {backgroundIcons.map((category, index) => (
-          <div
-            key={index}
-            className={cx(styles.animatedBackgroundIcon, styles.x)}
-            style={{
-              animationDelay: `${Math.random() * 10}s`,
-              transform: `translate(${(Math.round(Math.random()) * 2 - 1) * (Math.random() * 50)}%, ${(Math.round(Math.random()) * 2 - 1) * (Math.random() * 50)}%)`,
-            }}
-          >
-            <Icon iconNode={categoryIconMap[category]} size={32} />
-          </div>
-        ))}
+        {backgroundIcons.map((category, index) => <BackgroundIcon category={category} key={index} />)}
       </div>
       <LinkButton round className={styles.createNewIcon} href="/lending/new">
         <Icon iconNode={<Plus />} size={35} />
