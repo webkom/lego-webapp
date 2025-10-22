@@ -16,15 +16,15 @@ import {
   Plus,
 } from 'lucide-react';
 import { useMemo } from 'react';
-import EmptyState from '../../components/EmptyState';
-import { readmeIfy } from '../../components/ReadmeLogo';
-import { useAppSelector } from '../../redux/hooks';
-import { selectGroupsByIds } from '../../redux/slices/groups';
-import { LENDABLE_CATEGORY } from '../../utils/constants';
-import truncateString from '../../utils/truncateString';
+import EmptyState from '~/components/EmptyState';
+import { readmeIfy } from '~/components/ReadmeLogo';
+import { useAppSelector } from '~/redux/hooks';
+import { selectGroupsByIds } from '~/redux/slices/groups';
+import { LENDABLE_CATEGORY } from '~/utils/constants';
+import truncateString from '~/utils/truncateString';
 import { categoryIconMap } from './FilterSearch';
 import styles from './ItemIndex.module.css';
-import type { ListLendableObject } from '../../redux/models/LendableObject';
+import type { ListLendableObject } from '~/redux/models/LendableObject';
 
 type Props = {
   lendableObjects: ListLendableObject[];

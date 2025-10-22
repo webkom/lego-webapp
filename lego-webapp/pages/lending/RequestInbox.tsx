@@ -4,7 +4,7 @@ import { Leaf, Inbox } from 'lucide-react';
 import EmptyState from '../../components/EmptyState';
 import LendingRequestCard from './LendingRequestCard';
 import styles from './RequestInbox.module.css';
-import type { TransformedLendingRequest } from '../../redux/models/LendingRequest';
+import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 type Props = {
   lendingRequests: TransformedLendingRequest[];

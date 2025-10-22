@@ -3,7 +3,7 @@ import { MoveRight } from 'lucide-react';
 import Time from '~/components/Time';
 import LendingStatusTag from '~/pages/lending/LendingStatusTag';
 import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
-import truncateString from '../../utils/truncateString';
+import truncateString from '~/utils/truncateString';
 import styles from './RequestInbox.module.css';
 
 const LendingRequestCard = ({

@@ -9,8 +9,8 @@ import {
   Boxes,
 } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
-import ComponentAsCheckBox from '../../components/Form/ComponentAsCheckBox';
-import TextInput from '../../components/Form/TextInput';
+import ComponentAsCheckBox from '~/components/Form/ComponentAsCheckBox';
+import TextInput from '~/components/Form/TextInput';
 import {
   LENDABLE_CATEGORY,
   FilterLendingCategory,
