@@ -60,7 +60,7 @@ const LendableObjectList = () => {
   );
   const [visibleCount, setVisibleCount] = useState(4);
 
-  const lendingRequests = originalLendingRequests.slice(0, 0);
+  const lendingRequests = originalLendingRequests.slice(0, visibleCount);
 
   const handleLoadMore = () => {
     if (requestsPagination.hasMore) {
