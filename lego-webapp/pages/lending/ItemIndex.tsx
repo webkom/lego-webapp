@@ -99,8 +99,8 @@ const BackgroundIcon = ({ category }: { category: string }) => {
       iconNode={categoryIconMap[category]}
       size={32}
     />
-  )
-}
+  );
+};
 
 const CreateLendableObjectCard = () => {
   const categoryKeys = Object.keys(LENDABLE_CATEGORY);
@@ -108,7 +108,9 @@ const CreateLendableObjectCard = () => {
   return (
     <BaseCard className={styles.createNewContainer}>
       <div className={styles.animatedBackground}>
-        {backgroundIcons.map((category, index) => <BackgroundIcon category={category} key={index} />)}
+        {backgroundIcons.map((category, index) => (
+          <BackgroundIcon category={category} key={index} />
+        ))}
       </div>
       <LinkButton round className={styles.createNewIcon} href="/lending/new">
         <Icon iconNode={<Plus />} size={35} />
