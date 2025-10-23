@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Button, Flex, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -24,6 +24,15 @@ type TimeRange = {
   start: string;
   end: string;
   fullDay: boolean;
+};
+
+type TimeRangeWithUser = {
+  start: string;
+  end: string;
+  fullDay: boolean;
+  userDisplayName: String;
+  userName: String;
+
 };
 
 const LendingCalendar = ({
@@ -64,16 +73,16 @@ const LendingCalendar = ({
   const getUnavailableTimeRanges = (
     selected: TimeRange | null,
     day: Moment,
-  ) => {
+  ): TimeRangeWithUser[] => {
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
-    const timeRanges: TimeRange[] = [];
+    const timeRanges: TimeRangeWithUser[] = [];
 
     if (!lendableObject?.availability) {
       return [];
     }
 
-    for (const [start, end] of lendableObject.availability) {
+    for (const [start, end, userDisplayName, userName] of lendableObject.availability) {
       if (!start || !end) continue;
 
       const startDate = moment(start);
@@ -89,6 +98,8 @@ const LendingCalendar = ({
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
+          userDisplayName: userDisplayName || 'Ukjent bruker',
+          userName: userName || '',
         };
 
         const isSimilarToSelected =
@@ -149,6 +160,27 @@ const LendingCalendar = ({
     }
 
     return false;
+  };
+
+  const getFullAvailableLender = (day: Moment) => {
+    const dayStart = day.clone().startOf('day');
+    const dayEnd = day.clone().endOf('day');
+
+    if (!lendableObject?.availability) {
+      return false;
+    }
+
+    for (const [start, end, userDisplayName, userName] of lendableObject.availability) {
+      if (!start || !end) continue;
+      const startDate = moment(start);
+      const endDate = moment(end);
+
+      if (startDate.isSameOrBefore(dayStart) && endDate.isSameOrAfter(dayEnd)) {
+        return [userDisplayName, userName];
+      }
+    }
+
+    return null;
   };
 
   const isInSelectedRange = (day: Moment) => {
@@ -213,6 +245,9 @@ const LendingCalendar = ({
                     const fully =
                       timeRanges.length > 0 &&
                       isFullyUnavailable(dateProps.day);
+                    const fullLender = fully ? getFullAvailableLender(dateProps.day) : null;
+                    const userDisplayName = fullLender ? fullLender[0] : null;
+                    const userName = fullLender ? fullLender[1] : null;
                     const inSelectedRange = isInSelectedRange(dateProps.day);
                     const isEndpoint = isSelectedEndpoint(dateProps.day);
 
@@ -247,12 +282,16 @@ const LendingCalendar = ({
 
                             {!fully ? (
                               timeRanges.map((range, idx) => (
-                                <div key={idx} className={styles.timeRange}>
-                                  {`${range.start}-${range.end}`}
-                                </div>
+                                 <Tooltip className={styles.pin} content={range.userName ? <>Lånt av: <a className={styles.lendingUserLink} href={`/users/${range.userName}`}><>{range.userDisplayName}</></a></> : <span>Lånt av: {range.userDisplayName}</span>}>
+                                  <div key={idx} className={styles.timeRange}>
+                                    {`${range.start}-${range.end}`}
+                                  </div>
+                                </Tooltip>
                               ))
                             ) : (
-                              <div className={styles.timeRange} />
+                              <Tooltip className={styles.pin} content={fullLender ? <>Lånt av: <a className={styles.lendingUserLink} href={`/users/${userName}`}><>{userDisplayName}</></a></> : <span>Lånt av: {userDisplayName}</span>}>
+                                <div className={styles.timeRange} />
+                              </Tooltip>
                             )}
                           </div>
                         </div>
