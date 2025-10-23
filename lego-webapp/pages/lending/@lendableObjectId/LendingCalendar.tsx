@@ -32,7 +32,6 @@ type TimeRangeWithUser = {
   fullDay: boolean;
   userDisplayName: String;
   userName: String;
-
 };
 
 const LendingCalendar = ({
@@ -82,7 +81,12 @@ const LendingCalendar = ({
       return [];
     }
 
-    for (const [start, end, userDisplayName, userName] of lendableObject.availability) {
+    for (const [
+      start,
+      end,
+      userDisplayName,
+      userName,
+    ] of lendableObject.availability) {
       if (!start || !end) continue;
 
       const startDate = moment(start);
@@ -170,7 +174,12 @@ const LendingCalendar = ({
       return false;
     }
 
-    for (const [start, end, userDisplayName, userName] of lendableObject.availability) {
+    for (const [
+      start,
+      end,
+      userDisplayName,
+      userName,
+    ] of lendableObject.availability) {
       if (!start || !end) continue;
       const startDate = moment(start);
       const endDate = moment(end);
@@ -245,7 +254,9 @@ const LendingCalendar = ({
                     const fully =
                       timeRanges.length > 0 &&
                       isFullyUnavailable(dateProps.day);
-                    const fullLender = fully ? getFullAvailableLender(dateProps.day) : null;
+                    const fullLender = fully
+                      ? getFullAvailableLender(dateProps.day)
+                      : null;
                     const userDisplayName = fullLender ? fullLender[0] : null;
                     const userName = fullLender ? fullLender[1] : null;
                     const inSelectedRange = isInSelectedRange(dateProps.day);
@@ -282,14 +293,50 @@ const LendingCalendar = ({
 
                             {!fully ? (
                               timeRanges.map((range, idx) => (
-                                 <Tooltip className={styles.pin} content={range.userName ? <>Lånt av: <a className={styles.lendingUserLink} href={`/users/${range.userName}`}><>{range.userDisplayName}</></a></> : <span>Lånt av: {range.userDisplayName}</span>}>
+                                <Tooltip
+                                  className={styles.pin}
+                                  content={
+                                    range.userName ? (
+                                      <>
+                                        Lånt av:{' '}
+                                        <a
+                                          className={styles.lendingUserLink}
+                                          href={`/users/${range.userName}`}
+                                        >
+                                          <>{range.userDisplayName}</>
+                                        </a>
+                                      </>
+                                    ) : (
+                                      <span>
+                                        Lånt av: {range.userDisplayName}
+                                      </span>
+                                    )
+                                  }
+                                >
                                   <div key={idx} className={styles.timeRange}>
                                     {`${range.start}-${range.end}`}
                                   </div>
                                 </Tooltip>
                               ))
                             ) : (
-                              <Tooltip className={styles.pin} content={fullLender ? <>Lånt av: <a className={styles.lendingUserLink} href={`/users/${userName}`}><>{userDisplayName}</></a></> : <span>Lånt av: {userDisplayName}</span>}>
+                              <Tooltip
+                                className={styles.pin}
+                                content={
+                                  fullLender ? (
+                                    <>
+                                      Lånt av:{' '}
+                                      <a
+                                        className={styles.lendingUserLink}
+                                        href={`/users/${userName}`}
+                                      >
+                                        <>{userDisplayName}</>
+                                      </a>
+                                    </>
+                                  ) : (
+                                    <span>Lånt av: {userDisplayName}</span>
+                                  )
+                                }
+                              >
                                 <div className={styles.timeRange} />
                               </Tooltip>
                             )}
