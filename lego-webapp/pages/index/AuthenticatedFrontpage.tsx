@@ -110,7 +110,7 @@ const AuthenticatedFrontpage = () => {
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
         <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
-        <ChristmasCalendar className={styles.christmasCalendar}/>
+        <ChristmasCalendar className={styles.christmasCalendar} />
         <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
         <PollItem />
         <QuoteItem />
