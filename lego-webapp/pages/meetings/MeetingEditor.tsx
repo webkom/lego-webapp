@@ -97,6 +97,8 @@ export type MeetingFormValues = {
   reportAuthor?: { value: EntityId; label: string; id: EntityId };
   users?: AutocompleteUser[];
   groups?: AutocompleteGroup[];
+  startTime?: Dateish;
+  endTime?: Dateish;
 };
 
 const validate = createValidator({
@@ -180,9 +182,9 @@ const MeetingEditor = () => {
 
         const members = Object.values(res.payload.entities.users || {}).map(
           (member) => ({
-            value: member.username,
-            label: member.fullName,
-            id: member.id,
+            value: member?.username,
+            label: member?.fullName,
+            id: member?.id,
             groupId: groupId,
           }),
         );
@@ -278,19 +280,19 @@ const MeetingEditor = () => {
   } else if (isEditPage) {
     initialValues = {
       ...meeting,
-      date: [meeting.startTime, meeting.endTime],
+      date: [meeting?.startTime, meeting?.endTime],
       reportAuthor: reportAuthor && {
         id: reportAuthor.id,
         value: reportAuthor.username,
         label: reportAuthor.fullName,
       },
-      report: meeting.report,
-      description: meeting.description ?? '',
-      mazemapPoi: meeting.mazemapPoi && {
-        label: meeting.location,
-        value: meeting.mazemapPoi,
+      report: meeting?.report,
+      description: meeting?.description ?? '',
+      mazemapPoi: meeting?.mazemapPoi && {
+        label: meeting?.location,
+        value: meeting?.mazemapPoi,
       },
-      useMazemap: meeting.mazemapPoi !== undefined && meeting.mazemapPoi > 0,
+      useMazemap: meeting?.mazemapPoi !== undefined && meeting?.mazemapPoi > 0,
     };
   } else {
     initialValues = {
@@ -556,7 +558,7 @@ const MeetingEditor = () => {
                 <Button
                   flat
                   onPress={() =>
-                    navigate(`/meetings/${isEditPage ? meeting.id : ''}`)
+                    navigate(`/meetings/${isEditPage ? meeting?.id : ''}`)
                   }
                 >
                   Avbryt

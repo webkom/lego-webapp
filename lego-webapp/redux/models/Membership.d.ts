@@ -4,8 +4,8 @@ import type { PublicGroup } from '~/redux/models/Group';
 import type { RoleType } from '~/utils/constants';
 
 export default interface Membership {
-  id: EntityId;
   user: EntityId;
+  id: EntityId;
   abakusGroup: EntityId;
   role: RoleType;
   isActive: boolean;

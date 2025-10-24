@@ -84,7 +84,7 @@ const SearchPage = <SearchType extends SearchResult>(
 
       <SearchPageResults
         onKeyDown={handleKeyDown}
-        onSelect={handleSelect}
+        onSelect={handleSelect as (arg0: SearchResult) => void}
         query={query}
         results={results.filter(({ link }) => link)}
         selectedIndex={selectedIndex}

@@ -202,7 +202,7 @@ export const selectCommitteePage: PageSelector<GroupPage> = createSelector(
         query: {
           descendants: 'true',
         },
-        entity: 'memberships',
+        entity: EntityType.Memberships,
         endpoint: `/groups/${pageSlug}/memberships/`,
       })(state).pagination,
     }),
