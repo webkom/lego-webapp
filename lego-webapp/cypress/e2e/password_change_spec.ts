@@ -1,4 +1,4 @@
-import { field, fieldError, button } from '../support/utils';
+import { field, fieldError, button } from '~/cypress/support/utils';
 
 describe('Change password', () => {
   beforeEach(() => {

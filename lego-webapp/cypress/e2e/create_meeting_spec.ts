@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
-import config from '../support/config';
+import config from '~/cypress/support/config';
 import {
   c,
   t,
@@ -13,7 +13,7 @@ import {
   selectFromSelectField,
   selectFieldDropdown,
   selectField,
-} from '../support/utils';
+} from '~/cypress/support/utils';
 
 describe('Create meeting', () => {
   beforeEach(() => {

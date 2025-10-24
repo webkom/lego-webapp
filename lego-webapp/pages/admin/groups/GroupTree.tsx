@@ -32,7 +32,12 @@ function generateTreeView(groups, pathname) {
 
       if (group.children.length) {
         return (
-          <TreeView key={group.id} nodeLabel={link} defaultCollapsed={false}>
+          <TreeView
+            key={group.id}
+            nodeLabel={link}
+            defaultCollapsed={false}
+            data-testid="tree-view"
+          >
             {generateTreeView(group.children, pathname)}
           </TreeView>
         );
@@ -53,7 +58,7 @@ type Props = {
 
 function GroupTree({ groups, pathname }: Props) {
   const tree = generateTreeStructure(groups);
-  return <div>{generateTreeView(tree, pathname)}</div>;
+  return <div data-testid="group-tree">{generateTreeView(tree, pathname)}</div>;
 }
 
 export default GroupTree;

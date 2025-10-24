@@ -1,4 +1,4 @@
-import mockMazemapApiResponse from '../fixtures/mockApiResponses/mazemap.json';
+import mockMazemapApiResponse from '~/cypress/fixtures/mockApiResponses/mazemap.json';
 
 export const apiBaseUrl =
   Cypress.env('API_BASE_URL') || 'http://localhost:8000';

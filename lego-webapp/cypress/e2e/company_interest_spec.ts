@@ -1,4 +1,8 @@
-import { field, selectField, NO_OPTIONS_MESSAGE } from '../support/utils';
+import {
+  field,
+  selectField,
+  NO_OPTIONS_MESSAGE,
+} from '~/cypress/support/utils';
 
 const createCompanyInterest = () => {
   cy.visit('/interesse');

@@ -46,8 +46,6 @@
     "lint:js": "eslint 'src/**/*.{js,ts,tsx}'",
     "lint:prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --check",
     "prettier": "prettier '**/*.{ts,tsx,js,css,md,json}' --write",
-    "test": "vitest run",
-    "test:watch": "vitest",
     "types": "tsc"
   },
   "dependencies": {
@@ -66,7 +64,6 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@cfaester/enzyme-adapter-react-18": "^0.8.0",
     "@react-types/shared": "^3.28.0",
     "@storybook/addon-essentials": "^8.6.4",
     "@storybook/addon-interactions": "^8.6.4",
@@ -79,7 +76,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.3.3",
-    "enzyme": "^3.9.0",
     "eslint": "^8.57.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",

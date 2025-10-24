@@ -1,4 +1,4 @@
-import { c, a, t, selectTab } from '../support/utils';
+import { c, a, t, selectTab } from '~/cypress/support/utils';
 
 describe('Navigate throughout app', () => {
   beforeEach(() => {

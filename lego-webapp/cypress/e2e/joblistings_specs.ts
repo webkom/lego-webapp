@@ -6,7 +6,7 @@ import {
   selectEditor,
   selectFieldDropdown,
   NO_OPTIONS_MESSAGE,
-} from '../support/utils';
+} from '~/cypress/support/utils';
 
 describe('Create joblisting', () => {
   beforeEach(() => {

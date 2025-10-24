@@ -13,7 +13,7 @@ import {
   getEditorToolbar,
   getEditorContent,
   ctrlKey,
-} from '../support/utils';
+} from '~/cypress/support/utils';
 
 describe('Create event', () => {
   beforeEach(() => {
