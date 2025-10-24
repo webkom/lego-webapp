@@ -1,0 +1,52 @@
+.interactable {
+  --border: var(--border-gray);
+  --border-hover: var(--color-gray-4);
+  --s: 0;
+
+  width: fit-content;
+  height: fit-content;
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 var(--s, 1px) var(--b, var(--border));
+
+  &:hover:not(:disabled) {
+    background-color: var(--additive-background);
+  }
+  &.focused:not(:disabled) {
+    --s: 2px;
+    --b: var(--border-hover);
+  }
+  & *:disabled {
+    color: var(--secondary-font-color);
+    cursor: default;
+  }
+}
+
+.screenReaderOnly {
+  /* Hides element but keeps them accessible */
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  position: absolute;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.label {
+  user-select: none;
+  pointer-events: none;
+
+  &:not(.disabled) {
+    cursor: pointer;
+  }
+}
+
+.fieldLabel {
+  width: fit-content;
+}

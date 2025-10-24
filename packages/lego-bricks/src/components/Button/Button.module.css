@@ -198,3 +198,9 @@
 .large {
   font-size: var(--font-size-lg);
 }
+
+.round {
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+}
