@@ -46,6 +46,7 @@ import surveys from '~/redux/slices/surveys';
 import tags from '~/redux/slices/tags';
 import theme from '~/redux/slices/theme';
 import users from '~/redux/slices/users';
+import websockets from '~/redux/slices/websockets';
 
 export const createRootReducer = () => {
   return combineReducers({
@@ -96,6 +97,7 @@ export const createRootReducer = () => {
     theme,
     users,
     status,
+    websockets,
   });
 };
 

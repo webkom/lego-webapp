@@ -152,6 +152,8 @@ export const Favorite = {
 export const Comment = {
   ADD: generateStatuses('Comment.ADD'),
   DELETE: generateStatuses('Comment.DELETE'),
+  SOCKET_ADD: generateStatuses('Comment.SOCKET_ADD'),
+  SOCKET_DELETE: generateStatuses('Comment.SOCKET_DELETE'),
 };
 
 export const Company = {
@@ -334,4 +336,12 @@ export const FeatureFlag = {
   CREATE: generateStatuses('FeatureFlag.CREATE'),
   EDIT: generateStatuses('FeatureFlag.EDIT'),
   DELETE: generateStatuses('FeatureFlag.DELETE'),
+};
+
+export const Websockets = {
+  CONNECTED: 'Websockets.CONNECTED',
+  CLOSED: 'Websockets.CLOSED',
+  ERROR: 'Websockets.ERROR',
+  GROUP_JOIN: generateStatuses('Websockets.GROUP_JOIN'),
+  GROUP_LEAVE: generateStatuses('Websockets.GROUP_LEAVE'),
 };
