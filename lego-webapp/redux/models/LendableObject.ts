@@ -10,7 +10,7 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
-  availability?: [Dateish, Dateish][];
+  availability?: [Dateish, Dateish, String?, String?][];
 }
 
 export type ListLendableObject = Pick<
