@@ -1,5 +1,5 @@
 import { Icon, Flex } from '@webkom/lego-bricks';
-import { BookOpenText, FileText, MailWarning,} from 'lucide-react';
+import { BookOpenText, FileText, MailWarning } from 'lucide-react';
 import styles from './HsSection.module.css';
 
 const HsSectionContent = () => {
@@ -51,7 +51,7 @@ const HsSectionContent = () => {
         </a>
       </Flex>
     </div>
-  ); 
+  );
 };
 
 export default HsSectionContent;
