@@ -1,5 +1,5 @@
 import { Icon, Flex } from '@webkom/lego-bricks';
-import { BookOpenText, FileText, ShieldAlert } from 'lucide-react';
+import { BookOpenText, FileText, MailWarning } from 'lucide-react';
 import styles from './HsSection.module.css';
 
 const HsSectionContent = () => {
@@ -41,7 +41,7 @@ const HsSectionContent = () => {
           rel="noreferrer"
           className={`${styles.item} ${styles.accentWarning} ${styles.fullWidthButton}`}
         >
-          <Icon iconNode={<ShieldAlert size={18} />} />
+          <Icon iconNode={<MailWarning size={18} />} />
           <div className={styles.textWrapper}>
             <h4 className={styles.title}>Varslingsportal</h4>
             <span className={`secondaryFontColor ${styles.subtext}`}>
