@@ -48,7 +48,7 @@
     "jszip": "^3.10.1",
     "jwt-decode": "^4.0.0",
     "linkify-react": "^4.2.0",
-    "linkifyjs": "^4.2.0",
+    "linkifyjs": "^4.3.2",
     "lodash-es": "^4.17.21",
     "lucide-react": "catalog:",
     "minireset.css": "^0.0.7",
