@@ -4,7 +4,7 @@ import {
   fieldError,
   selectField,
   selectFromSelectField,
-} from '../support/utils';
+} from '~/cypress/support/utils';
 
 describe('Profile settings', () => {
   beforeEach(() => {

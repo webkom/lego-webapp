@@ -20,6 +20,7 @@ declare global {
         options: Partial<Cypress.RequestOptions>,
         username?: string,
       ): Chainable<Response<unknown>>;
+      mount: typeof mount;
     }
   }
 }

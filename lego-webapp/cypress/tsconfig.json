@@ -5,7 +5,14 @@
     "lib": ["esnext", "dom"],
     "sourceMap": true,
     "types": ["cypress", "node"],
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "jsxImportSource": "react",
+    "baseUrl": "../",
+    "paths": {
+      "app/*": ["./app/*"],
+      "~/*": ["./*"]
+    }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "**/*.tsx"]
 }
