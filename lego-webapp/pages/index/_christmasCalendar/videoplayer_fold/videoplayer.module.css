@@ -1,0 +1,19 @@
+.video{
+    display: block;
+    margin: 0 auto;
+    width: 75%;
+}
+
+.box{
+    margin: 50px auto;
+    height: 50px;
+    width: 400px;
+    text-align: center;
+
+}
+
+.text{
+    font-size: 24pt;
+    margin: 50px;
+    text-align: center;
+}
