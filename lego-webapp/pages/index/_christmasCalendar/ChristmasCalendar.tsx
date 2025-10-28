@@ -1,4 +1,4 @@
-import { DialogTrigger, Flex, Modal } from '@webkom/lego-bricks';
+import { Flex, Modal } from '@webkom/lego-bricks';
 import React from 'react';
 import styles from './ChristmasCalendar.module.css';
 
@@ -76,7 +76,12 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
                 <Flex gap={(Math.random() * 0.9 + 0.2) * 10}>
                   {row.map((content, index) =>
                     complete[4 * rowIndex + index] ? (
-                      <AbakusBall key={index} date={4 * rowIndex + index + 1} content={content} complete={complete}/>
+                      <AbakusBall
+                        key={index}
+                        date={4 * rowIndex + index + 1}
+                        content={content}
+                        complete={complete}
+                      />
                     ) : null,
                   )}
                 </Flex>
@@ -86,7 +91,12 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
                 >
                   {row.map((content, index) =>
                     !complete[4 * rowIndex + index] ? (
-                      <AbakusBall key={index} date={4 * rowIndex + index + 1} content={content} complete={complete} />
+                      <AbakusBall
+                        key={index}
+                        date={4 * rowIndex + index + 1}
+                        content={content}
+                        complete={complete}
+                      />
                     ) : null,
                   )}
                 </Flex>
@@ -103,27 +113,33 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
 
 type AbakusBallType = {
   date: number;
-  content: React.ReactElement
-  complete: Array<boolean>
+  content: React.ReactElement;
+  complete: Array<boolean>;
 };
 
 const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
-  const [open, setOpen] = React.useState(false)
-  const TEST_DATE = 10
+  const [open, setOpen] = React.useState(false);
+  const TEST_DATE = 10;
 
   return (
     <>
-    <button
-      className={
-        Number(date) === TEST_DATE
-          ? `${styles.abakusBall} ${styles.ballShake}`
-          : styles.abakusBall
-      }
-      onClick={() => TEST_DATE >= Number(date) && !complete[date-1] ? setOpen(true) : false }
-    >
-      <p>{date}</p>
-    </button>
-    <Modal isOpen={open} onOpenChange={setOpen} title={`Luke ${date}`}>{content}</Modal>
+      <button
+        className={
+          Number(date) === TEST_DATE
+            ? `${styles.abakusBall} ${styles.ballShake}`
+            : styles.abakusBall
+        }
+        onClick={() =>
+          TEST_DATE >= Number(date) && !complete[date - 1]
+            ? setOpen(true)
+            : false
+        }
+      >
+        <p>{date}</p>
+      </button>
+      <Modal isOpen={open} onOpenChange={setOpen} title={`Luke ${date}`}>
+        {content}
+      </Modal>
     </>
   );
 };
