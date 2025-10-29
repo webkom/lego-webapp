@@ -45,8 +45,7 @@ const Footer = () => {
             <Image alt="Octocat" className={styles.octocat} src={octocat} />
             <p>av Webkom</p>
           </a>
-            
-          
+
           <p>
             Er du interessert i hvordan LEGO fungerer, eller vil du rapportere
             en bug? I så fall kan du gå inn på vår GitHub. Her tar vi gjerne
