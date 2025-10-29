@@ -4,8 +4,8 @@ import styles from './videoplayer.module.css';
 
 const Videospiller = ({
   question = '',
-  videoFile_1 = "",
-  videoFile_2 = "",
+  videoFile_1 = '',
+  videoFile_2 = '',
   fasit = '-1',
 }) => {
   const [videoFile, setVideoFile] = useState(videoFile_1);
