@@ -43,10 +43,10 @@ const Footer = () => {
           <a href="https://github.com/webkom" className={styles.gitHubLink}>
             <h2 className={styles.subHeader}>LEG</h2>
             <Image alt="Octocat" className={styles.octocat} src={octocat} />
-          </a>
-          <a href="https://github.com/webkom" className={styles.gitHubLink}>
             <p>av Webkom</p>
           </a>
+            
+          
           <p>
             Er du interessert i hvordan LEGO fungerer, eller vil du rapportere
             en bug? I så fall kan du gå inn på vår GitHub. Her tar vi gjerne

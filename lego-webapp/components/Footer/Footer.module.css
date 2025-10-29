@@ -123,6 +123,9 @@ img.octocat {
   transition: transform var(--easing-slow);
   transform-style: preserve-3d;
 }
+.gitHubLink {
+  display: inline-block;
+}
 
 .gitHubLink:hover .octocat {
   transform: rotate(360deg);
