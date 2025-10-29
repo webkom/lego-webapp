@@ -85,6 +85,7 @@ const CompactEvents = ({ className, style }: Props) => {
     EventType.EVENT,
     EventType.SOCIAL,
     EventType.PARTY,
+    EventType.GALA,
   ]);
 
   const fetching = useAppSelector(

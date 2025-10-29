@@ -37,6 +37,9 @@ type StyleProps = {
 
   /** Ghost button styling */
   ghost?: boolean;
+
+  /** Round button styling */
+  round?: boolean;
 };
 
 const getButtonClassName = ({
@@ -48,6 +51,7 @@ const getButtonClassName = ({
   success = false,
   flat = false,
   ghost = false,
+  round = false,
 }: StyleProps) =>
   cx(
     styles.button,
@@ -58,6 +62,7 @@ const getButtonClassName = ({
     success && styles.success,
     flat && styles.flat,
     ghost && styles.ghost,
+    round && styles.round,
     className,
   );
 

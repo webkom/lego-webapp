@@ -21,7 +21,7 @@ import { EntityType } from '~/redux/models/entities';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import useQuery from '~/utils/useQuery';
-import styles from '../LendableObjectList.module.css';
+import styles from '../LendingPage.module.css';
 
 const LendingAdmin = () => {
   const { query, setQueryValue } = useQuery({

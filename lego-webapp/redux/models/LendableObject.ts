@@ -1,3 +1,4 @@
+import { FilterLendingCategory } from '~/utils/constants';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
 import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
@@ -10,7 +11,10 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
+
   availability?: [Dateish, Dateish, String?, String?][];
+  category: FilterLendingCategory;
+
 }
 
 export type ListLendableObject = Pick<
@@ -22,6 +26,7 @@ export type ListLendableObject = Pick<
   | 'location'
   | 'canLend'
   | 'availability'
+  | 'category'
 > & { responsibleGroups: EntityId[] };
 
 export type DetailLendableObject = ListLendableObject &
@@ -32,7 +37,7 @@ export type UnknownLendableObject = ListLendableObject | DetailLendableObject;
 
 export type EditLendableObject = Pick<
   LendableObject,
-  'id' | 'title' | 'description' | 'image' | 'location'
+  'id' | 'title' | 'description' | 'image' | 'location' | 'category'
 > & {
   canViewGroups: EntityId[];
   canEditGroups: EntityId[];

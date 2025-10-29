@@ -30,6 +30,7 @@ type Props<C extends ElementType> = {
   margin?: number | string;
   width?: number | string;
   gap?: number | string;
+  basis?: boolean;
 } & ComponentPropsWithRef<C>;
 
 /**
@@ -50,6 +51,7 @@ const Flex = <C extends ElementType = 'div'>({
   width,
   gap,
   style,
+  basis = true,
   ...htmlAttributes
 }: Props<C>) => (
   <Component
@@ -61,6 +63,7 @@ const Flex = <C extends ElementType = 'div'>({
       styles[`justifyContent__${justifyContent}`],
       styles[`alignItems__${alignItems}`],
       className,
+      !basis && styles[`basis__small`],
     )}
     style={{
       padding,

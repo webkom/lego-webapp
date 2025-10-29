@@ -79,3 +79,7 @@
 .alignItems__stretch {
   align-items: stretch;
 }
+
+.basis__small .flex {
+  flex-basis: 0;
+}

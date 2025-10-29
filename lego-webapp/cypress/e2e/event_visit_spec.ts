@@ -1,4 +1,4 @@
-import { c, t } from '../support/utils';
+import { c, t } from '~/cypress/support/utils';
 
 describe('View event', () => {
   beforeEach(() => {

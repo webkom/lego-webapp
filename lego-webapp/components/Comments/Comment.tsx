@@ -40,7 +40,7 @@ const Comment = ({
 
   return (
     <>
-      <div className={styles.comment}>
+      <div className={styles.comment} data-testid="comment">
         {author ? (
           <Flex alignItems="center" justifyContent="space-between">
             <Flex alignItems="center" gap="var(--spacing-md)">

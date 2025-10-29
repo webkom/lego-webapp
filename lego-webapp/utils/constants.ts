@@ -11,6 +11,17 @@ export const Keyboard = {
   CONTROL: 'Control',
 };
 
+export const LENDABLE_CATEGORY = {
+  outdoors: 'Utendørs',
+  photography: 'Fotografi',
+  instrument: 'Instrument',
+  speaker: 'Høytaler',
+  furniture: 'Møbler',
+  other: 'Annet',
+};
+
+export type FilterLendingCategory = keyof typeof LENDABLE_CATEGORY;
+
 export const ROLES = {
   member: 'Medlem (standard)',
   leader: 'Leder',
