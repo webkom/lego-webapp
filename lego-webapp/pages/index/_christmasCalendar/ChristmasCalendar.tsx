@@ -1,7 +1,6 @@
-import utilStyles from '~/styles/utilities.module.css';
-import styles from './ChristmasCalendar.module.css';
 import { Button, Flex, Modal } from '@webkom/lego-bricks';
 import { useState } from 'react';
+import utilStyles from '~/styles/utilities.module.css';
 
 const ChristmasCalendar = () => {
   return (
