@@ -1,0 +1,149 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  transition: opacity var(--easing-fast);
+}
+
+.overlay[data-entering] {
+  opacity: 0;
+}
+
+.overlay[data-exiting] {
+  opacity: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  max-width: 500px;
+  border: 1px solid var(--color-gray-3);
+  border-radius: var(--border-radius-md);
+  background: var(--lego-card-transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-md);
+}
+
+.topContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-xs);
+  padding-right: var(--spacing-md);
+  border-bottom: 1px solid var(--color-gray-3);
+}
+
+.textField {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-sm);
+  width: 100%;
+}
+
+.escButton {
+  cursor: default;
+  padding: var(--spacing-xs);
+  color: var(--color-gray-6);
+  font-size: var(--font-size-sm);
+  border: 1px solid var(--color-gray-3);
+  border-radius: var(--border-radius-sm);
+}
+
+.input {
+  padding: var(--spacing-xs);
+  font-size: var(--font-size-md);
+  outline: none;
+  border: none;
+  background: transparent;
+}
+
+.input::placeholder {
+  color: var(--placeholder-color);
+}
+
+.menu {
+  max-height: 15rem;
+  padding: 0 var(--spacing-xs);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.menu::-webkit-scrollbar {
+  display: none;
+}
+
+.menuHeader {
+  font-weight: 600;
+  font-size: var(--font-size-xs);
+  color: var(--placeholder-color);
+  padding: var(--spacing-sm) 0 var(--spacing-xs) var(--spacing-sm);
+  text-transform: uppercase;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.itemLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  border-radius: var(--border-radius-sm);
+  width: 100%;
+  cursor: default;
+  background: transparent;
+}
+
+.menuItem[data-focus-visible],
+.menuItem[data-hovered] {
+  background: rgba(140, 140, 140, 0.1);
+  color: var(--lego-font-color);
+}
+
+.bottomContainer {
+  display: flex;
+  align-items: center;
+
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  background-color: var(--color-gray-3);
+  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  width: 100%;
+  opacity: 0.6;
+  height: 1.8rem;
+  padding: var(--spacing-md);
+  color: var(--lego-font-color);
+}
+
+.textBox {
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-gray-4);
+  user-select: none;
+}
+
+.logOut {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  color: var(--danger-color);
+}

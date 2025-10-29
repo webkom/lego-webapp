@@ -66,7 +66,7 @@ function CommentTree({
     );
   });
 
-  return <div>{tree}</div>;
+  return <div data-testid="comment-tree">{tree}</div>;
 }
 
 export default CommentTree;

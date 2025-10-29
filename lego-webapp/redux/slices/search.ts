@@ -98,7 +98,7 @@ export const searchMapping: SearchMapping = {
   },
   'events.event': {
     label: (event) =>
-      `${event.title} (${moment(event.startTime).format('YYYY-MM-DD')})`,
+      `${event.title} (${moment(event.startTime).format('DD.MM.YYYY')})`,
     title: 'title',
     type: 'Arrangement',
     date: 'startTime',
@@ -172,7 +172,7 @@ export const searchMapping: SearchMapping = {
   },
   'meetings.meeting': {
     label: (meeting) =>
-      `${meeting.title} (${moment(meeting.startTime).format('YYYY-MM-DD')})`,
+      `${meeting.title} (${moment(meeting.startTime).format('DD.MM.YYYY')})`,
     title: 'title',
     type: 'Møte',
     date: 'startTime',

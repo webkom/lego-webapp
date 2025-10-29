@@ -1,0 +1,58 @@
+@import url('styles/custom-media.css');
+
+section.wrapper {
+  display: grid;
+  grid-template-columns: 2.75fr 1.25fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'filter-search request-inbox'
+    'item-index request-inbox';
+  gap: var(--spacing-lg);
+  padding: 0 var(--spacing-md);
+  height: 100%;
+  min-height: 67vh;
+}
+
+@media (--mobile-device) {
+  section.wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    gap: var(--spacing-md);
+    grid-template-areas:
+      'filter-search'
+      'request-inbox'
+      'item-index';
+  }
+}
+
+.requestInbox {
+  grid-area: request-inbox;
+}
+
+.filterSearch {
+  grid-area: filter-search;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.itemIndex {
+  grid-area: item-index;
+}
+
+.divider {
+  height: 2px;
+  padding: 0 var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+  background-color: var(--border-gray);
+}
+
+.topSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topHeader {
+  padding: 0 var(--spacing-md);
+}

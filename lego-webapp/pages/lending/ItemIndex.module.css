@@ -1,0 +1,161 @@
+@import url('styles/custom-media.css');
+
+.lendableObjectsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+  margin-bottom: 100px;
+
+  @media (--small-viewport) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+}
+
+.emptyLendableObjectsContainer {
+  grid-column: 1 / -1;
+}
+
+.lendableObjectImageContainer {
+  position: relative;
+  width: 100%;
+  padding-top: 66.66%;
+  overflow: hidden;
+}
+
+.lendableObjectImageContainer img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.defaultObjectImage {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.defaultObjectImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-gray-2);
+}
+
+.lendableObjectInfobox {
+  flex-direction: column;
+  flex-grow: 1;
+  color: var(--lego-font-color);
+
+  h3 {
+    width: 0;
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    padding: 0;
+    margin: 0;
+  }
+
+  svg {
+    margin-right: var(--spacing-xs);
+  }
+
+  p {
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-sm);
+    line-height: var(--spacing-lg);
+    margin: 0;
+  }
+}
+
+.lendingSubsection {
+  margin-bottom: var(--spacing-md);
+}
+
+.createNewContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-md);
+  border: 1px dashed var(--color-gray-3);
+  background-color: var(--lego-card-color);
+  border-radius: var(--border-radius-lg);
+  transition:
+    background var(--linear-medium),
+    box-shadow var(--linear-medium);
+  position: relative;
+}
+
+.createNewIcon {
+  color: var(--lego-font-color);
+  padding: var(--spacing-xs);
+  border: 1px dashed var(--color-gray-5);
+  background-color: var(--lego-card-color);
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    background-color var(--linear-medium),
+    border-color var(--linear-medium),
+    transform var(--linear-medium);
+}
+
+.createNewIcon:hover {
+  background-color: var(--color-gray-2);
+  border-color: var(--color-gray-4);
+  transform: scale(1.1);
+}
+
+.createNewContainer .animatedBackground {
+  --speed: 6.7s;
+
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  padding: var(--spacing-md);
+
+  & .animatedBackgroundIcon {
+    margin: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: flicker var(--speed) linear infinite alternate;
+  }
+}
+
+@keyframes flicker {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.skeletonCard {
+  border-radius: var(--border-radius-lg);
+}

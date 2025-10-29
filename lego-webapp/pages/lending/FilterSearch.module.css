@@ -1,0 +1,82 @@
+@import url('styles/custom-media.css');
+
+.filterCategoryWrapper {
+  width: 100%;
+  margin-top: var(--spacing-sm);
+  position: relative;
+}
+
+.filterCategoryContainer {
+  display: grid;
+  gap: var(--spacing-sm);
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 1fr;
+
+  & > * {
+    width: 100%;
+  }
+
+  & .checked {
+    color: var(--lego-red-color);
+  }
+}
+
+@media (--mobile-device) {
+  .filterCategoryContainer {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-left: 1px solid var(--color-gray-2);
+    border-right: 1px solid var(--color-gray-2);
+    border-radius: var(--border-radius-md);
+  }
+
+  .filterCategoryContainer > * {
+    scroll-snap-align: start;
+  }
+
+  /* Dynamic shadows for scrollable content */
+  .filterCategoryWrapper::before,
+  .filterCategoryWrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: var(--border-radius-md);
+  }
+
+  .filterCategoryWrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-gray-2), transparent);
+  }
+
+  .filterCategoryWrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-gray-2), transparent);
+  }
+
+  /* Show shadows when content is scrollable */
+  .filterCategoryWrapper.showLeftShadow::before {
+    opacity: 1;
+  }
+
+  .filterCategoryWrapper.showRightShadow::after {
+    opacity: 1;
+  }
+}
+
+div.searchField {
+  height: 50px;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.searchField input {
+  font-size: var(--font-size-md);
+}

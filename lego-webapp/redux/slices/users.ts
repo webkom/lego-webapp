@@ -27,13 +27,16 @@ export type UserEntity = {
   selectedTheme?: string;
   photoConsents?: Array<PhotoConsent>;
   isStudent?: boolean;
+  commandSuggestions?: Array<string>;
 };
 
 const legoAdapter = createLegoAdapter(EntityType.Users);
 
 const usersSlice = createSlice({
   name: EntityType.Users,
-  initialState: legoAdapter.getInitialState({ fetchingAchievements: false }),
+  initialState: legoAdapter.getInitialState({
+    fetchingAchievements: false,
+  }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [User.FETCH, User.FETCH_LEADERBOARD],

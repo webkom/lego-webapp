@@ -112,7 +112,7 @@ export const PresenceIcons = ({ presence, registrationId }: PresenceProps) => {
         }
       />
       <TooltipIcon
-        content="Møtte for sent opp (gir 1 prikk)"
+        content="Møtte for sent opp (gi 1 prikk)"
         iconNode={<Turtle />}
         iconClass={presence === 'LATE' ? styles.activeEdit : styles.transparent}
         edit={presence === 'LATE'}

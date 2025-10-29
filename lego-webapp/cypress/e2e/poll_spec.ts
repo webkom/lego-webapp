@@ -5,7 +5,7 @@ import {
   fieldError,
   selectField,
   selectFieldDropdown,
-} from '../support/utils';
+} from '~/cypress/support/utils';
 
 describe('Polls', () => {
   beforeEach(() => {

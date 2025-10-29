@@ -12,6 +12,7 @@ import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import { usePageContext } from 'vike-react/usePageContext';
 import coverPhoto from '~/assets/cover.png';
+import CommandPalette from '~/components/CommandPalette';
 import ErrorBoundary from '~/components/ErrorBoundary';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
@@ -100,6 +101,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
 
         <Header />
+        <CommandPalette />
 
         <AppChildren>{children}</AppChildren>
 

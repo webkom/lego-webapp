@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { objectPermissionsToInitialValues } from '~/components/Form/ObjectPermissions';
 import { useFetchedLendableObject } from '~/pages/lending/@lendableObjectId/useFetchedLendableObject';
 import { LendableObjectEditor } from '~/pages/lending/LendableObjectEditor';
+import { LENDABLE_CATEGORY } from '~/utils/constants';
 import { useParams } from '~/utils/useParams';
 
 export default function LendableObjectEdit() {
@@ -26,6 +27,10 @@ export default function LendableObjectEdit() {
         <LendableObjectEditor
           initialValues={{
             ...lendableObject,
+            category: {
+              value: lendableObject.category,
+              label: LENDABLE_CATEGORY[lendableObject.category],
+            },
             ...objectPermissionsToInitialValues(lendableObject),
           }}
         />

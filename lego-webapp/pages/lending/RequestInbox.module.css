@@ -1,0 +1,73 @@
+.lendingRequestMailBoxTitle {
+  display: flex;
+  align-items: center;
+  padding-left: var(--spacing-sm);
+  gap: var(--spacing-sm);
+}
+
+.lendingRequestsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-xs);
+  gap: var(--spacing-sm);
+}
+
+.lendingRequestEmpty {
+  padding: var(--spacing-lg);
+}
+
+.loadMoreRequest {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: -17px;
+}
+
+.loadMoreButton {
+  background-color: var(--color-gray-2);
+  font-size: var(--font-size-sm);
+}
+
+.loadMoreButton:hover {
+  background-color: var(--color-gray-3);
+}
+
+.lendingRequestCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: var(--spacing-md);
+  color: var(--lego-font-color);
+}
+
+img.lendingRequestImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--border-radius-lg);
+}
+
+.thumbnail {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.detailsContainer {
+  flex: 1;
+}
+
+.statusTag {
+  width: 100%;
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-xs) var(--spacing-md);
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusTag .rotate {
+  animation: spinner 5s linear infinite;
+}

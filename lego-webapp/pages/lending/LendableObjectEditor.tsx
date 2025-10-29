@@ -1,13 +1,10 @@
-import { Flex, Tooltip } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { navigate } from 'vike/client/router';
 import {
   EditorField,
-  Fields,
   Form,
   ImageUploadField,
   LegoFinalForm,
-  ObjectPermissions,
   SelectInput,
   SubmitButton,
   TextInput,
@@ -18,6 +15,7 @@ import {
   editLendableObject,
 } from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch } from '~/redux/hooks';
+import { FilterLendingCategory, LENDABLE_CATEGORY } from '~/utils/constants';
 import { createValidator, required } from '~/utils/validation';
 import style from './LendableObjectEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -32,6 +30,7 @@ type FormValues = {
   description: string;
   image: string;
   location: string;
+  category: { label: string; value: FilterLendingCategory };
   canViewGroups?: { label: string; value: EntityId }[];
   canEditGroups?: { label: string; value: EntityId }[];
   canEditUsers?: { label: string; value: EntityId }[];
@@ -45,11 +44,11 @@ const validate = createValidator({
   title: [required()],
   description: [required()],
   location: [required()],
+  category: [required()],
 });
 
 export const LendableObjectEditor = ({ initialValues }: Props) => {
   const dispatch = useAppDispatch();
-
   return (
     <LegoFinalForm<FormValues>
       initialValues={initialValues}
@@ -57,22 +56,20 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
       onSubmit={async (values) => {
         const transformedValues: CreateLendableObject | EditLendableObject = {
           ...values,
+          category: values.category.value,
           ...normalizeObjectPermissions(values),
         };
         const res = await dispatch(
           initialValues?.id
             ? editLendableObject({ ...transformedValues, id: initialValues.id })
-            : createLendableObject({
-                ...values,
-                ...normalizeObjectPermissions(values),
-              }),
+            : createLendableObject(transformedValues),
         );
         navigate(`/lending/${res.payload.result}`);
       }}
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Flex gap="var(--spacing-lg)">
+          <div className={style.fields}>
             <div className={style.thumbnail}>
               <Field
                 name="image"
@@ -81,12 +78,8 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                 img={initialValues?.image}
               />
             </div>
-            <Flex
-              column
-              className={style.detailsContainer}
-              gap="var(--spacing-md)"
-            >
-              <Flex gap="var(--spacing-md)">
+            <div className={style.detailsContainer}>
+              <div className={style.nameLocation}>
                 <Field
                   label="Navn"
                   name="title"
@@ -99,15 +92,27 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                   placeholder="A3-lageret"
                   component={TextInput.Field}
                 />
-              </Flex>
+                <Field
+                  label="Kategori"
+                  name="category"
+                  placeholder="Fotografi"
+                  options={Object.entries(LENDABLE_CATEGORY).map(
+                    ([key, value]) => ({
+                      label: value,
+                      value: key,
+                    }),
+                  )}
+                  component={SelectInput.Field}
+                />
+              </div>
               <Field
                 label="Beskrivelse"
                 name="description"
                 placeholder="Grill til utlån"
                 component={EditorField.Field}
               />
-            </Flex>
-          </Flex>
+            </div>
+          </div>
           <Field
             name="canViewGroups"
             label="Grupper med lånetilgang"
