@@ -30,8 +30,8 @@ type TimeRangeWithUser = {
   start: string;
   end: string;
   fullDay: boolean;
-  userDisplayName: String;
-  userName: String;
+  userDisplayName: string;
+  userName: string;
 };
 
 const LendingCalendar = ({
@@ -294,6 +294,7 @@ const LendingCalendar = ({
                             {!fully ? (
                               timeRanges.map((range, idx) => (
                                 <Tooltip
+                                  key={idx}
                                   className={styles.pin}
                                   content={
                                     range.userName ? (
@@ -320,6 +321,7 @@ const LendingCalendar = ({
                               ))
                             ) : (
                               <Tooltip
+                                key={idx}
                                 className={styles.pin}
                                 content={
                                   fullLender ? (

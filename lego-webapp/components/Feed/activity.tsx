@@ -41,7 +41,7 @@ const AggregatedActivityItem = <Verb extends FeedActivityVerb>({
         </Linkify>
       </CardContent>
       <CardFooter variant="border">
-        {aggregatedActivity.activities.map((activity, i) => (
+        {aggregatedActivity.activities.map((activity, _) => (
           <div key={activity.activityId}>
             <ActivityFooter
               aggregatedActivity={aggregatedActivity}

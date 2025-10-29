@@ -11,7 +11,7 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
-  availability?: [Dateish, Dateish, String?, String?][];
+  availability?: [Dateish, Dateish, string?, string?][];
   category: FilterLendingCategory;
 }
 

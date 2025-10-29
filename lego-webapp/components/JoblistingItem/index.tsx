@@ -1,5 +1,5 @@
 import { Flex, Icon, Image, Tooltip } from '@webkom/lego-bricks';
-import { Baseline, CalendarClock, Pin } from 'lucide-react';
+import {CalendarClock, Pin } from 'lucide-react';
 import moment from 'moment';
 import {
   jobType,
