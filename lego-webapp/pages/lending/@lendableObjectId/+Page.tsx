@@ -1,13 +1,8 @@
-import { Page, LinkButton, Image, Card, Flex } from '@webkom/lego-bricks';
+import { Page, LinkButton, Image, Card } from '@webkom/lego-bricks';
 import { Package } from 'lucide-react';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Dateish } from 'app/models';
-import {
-  ContentMain,
-  ContentSection,
-  ContentSidebar,
-} from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
 import TextWithIcon from '~/components/TextWithIcon';
 import { useFetchedLendableObject } from '~/pages/lending/@lendableObjectId/useFetchedLendableObject';
