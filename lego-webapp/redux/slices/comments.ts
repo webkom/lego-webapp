@@ -6,11 +6,11 @@ import { EntityType } from '~/redux/models/entities';
 import { parseContentTarget } from '~/utils/contentTarget';
 import { addReactionCases } from './reactions';
 import type {
+  AnyAction,
   EntityId,
   EntityState,
   ActionReducerMapBuilder,
 } from '@reduxjs/toolkit';
-import type { AnyAction } from 'redux';
 import type { RootState } from '~/redux/rootReducer';
 
 export const addCommentCases = (

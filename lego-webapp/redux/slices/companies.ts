@@ -9,9 +9,8 @@ import { isNotNullish } from '~/utils';
 import { selectCompanySemesterEntities } from './companySemesters';
 import { selectAllEvents } from './events';
 import { selectUserEntities } from './users';
-import type { EntityId } from '@reduxjs/toolkit';
+import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type { Semester } from 'app/models';
-import type { AnyAction } from 'redux';
 import type { Overwrite } from 'utility-types';
 import type {
   AdminDetailCompany,
