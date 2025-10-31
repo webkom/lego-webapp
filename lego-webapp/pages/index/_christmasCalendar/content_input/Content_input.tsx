@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styles from './content_input.module.css';
-import sample from './placeholder.jpg'
+import sample from './placeholder.jpg';
 import { TextInput } from '~/components/Form';
 
 const Content_input = ({
@@ -8,38 +8,33 @@ const Content_input = ({
   question = 'Hva er 2 - 3?',
   answer = '-1',
 }) => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if (inputValue == answer){
-        setMessage("Rikitg!")
+      if (inputValue == answer) {
+        setMessage('Rikitg!');
+      } else {
+        setMessage('Feil');
       }
-      else{
-        setMessage("Feil")
-      }
-
     }
   };
 
-
-
   return (
     <>
-      <img src={image} alt=""/>
+      <img src={image} alt="" />
 
       <p className={styles.text}>{question}</p>
       <TextInput
-          className={styles.box}
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Skriv inn svaret ditt"
-          centered={true}
-        />
+        className={styles.box}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Skriv inn svaret ditt"
+        centered={true}
+      />
       <p className={styles.text}>{message}</p>
-
     </>
   );
 };
