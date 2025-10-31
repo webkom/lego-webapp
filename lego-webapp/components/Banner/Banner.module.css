@@ -111,9 +111,139 @@ div.buddyweek2024 {
   border: 5px dashed var(--lego-red-color);
 }
 
+div.christmas {
+  background-image: url('../../assets/christmas-banner.svg');
+  background-size: 120%;
+  background-position: right;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background-color: rgba(246, 216, 148, 1);
+    border-radius: 100%;
+  }
+
+  &::before {
+    top: 15px;
+    left: 150px;
+    animation: pulseBefore 5s ease-in-out infinite;
+    /* box-shadow:
+      70px 5px 0 1px rgba(246, 216, 148, 1),
+      30px 10px 0 0 rgba(246, 216, 148, 1),
+      -50px 20px 0 0 rgba(246, 216, 148, 1),
+      -20px 30px 0 0 rgba(246, 216, 148, 1); */
+  }
+
+  &::after {
+    top: 15px;
+    right: 200px;
+    animation: pulseAfter 5s ease-in-out infinite;
+    /* box-shadow:
+      -20px 5px 0 1px rgba(246, 216, 148, 1),
+      25px 20px 0 0 rgba(246, 216, 148, 1),
+      60px 40px 0 0 rgba(246, 216, 148, 1),
+      90px 0 0 0 rgba(246, 216, 148, 1); */
+  }
+
+  .headerTitle {
+    background: linear-gradient(
+      50deg,
+      rgb(245, 239, 161),
+      #e3ac72,
+      rgba(246, 216, 148, 1),
+      #f6eb8b
+    );
+    background-clip: text;
+    color: transparent;
+  }
+
+  .subHeader {
+    color: #e3ac72;
+  }
+}
+
 .countdownTime {
   font-size: 1.2rem;
   color: inherit;
+}
+
+@keyframes pulseBefore {
+  0% {
+    box-shadow:
+      70px 5px 0 1px rgba(246, 216, 148, 1),
+      30px 10px 0 0 rgba(246, 216, 148, 0.75),
+      -50px 20px 0 0 rgba(246, 216, 148, 1),
+      -20px 30px 0 0 rgba(246, 216, 148, 1);
+  }
+  25% {
+    box-shadow:
+      70px 5px 0 1px rgba(246, 216, 148, 0.75),
+      30px 10px 0 0 rgba(246, 216, 148, 0.5),
+      -50px 20px 0 0 rgba(246, 216, 148, 1),
+      -20px 30px 0 0 rgba(246, 216, 148, 1);
+  }
+  50% {
+    box-shadow:
+      70px 5px 0 1px rgba(246, 216, 148, 0.5),
+      30px 10px 0 0 rgba(246, 216, 148, 0.75),
+      -50px 20px 0 0 rgba(246, 216, 148, 1),
+      -20px 30px 0 0 rgba(246, 216, 148, 1);
+  }
+  75% {
+    box-shadow:
+      70px 5px 0 1px rgba(246, 216, 148, 0.75),
+      30px 10px 0 0 rgba(246, 216, 148, 1),
+      -50px 20px 0 0 rgba(246, 216, 148, 1),
+      -20px 30px 0 0 rgba(246, 216, 148, 1);
+  }
+  100% {
+    box-shadow:
+      70px 5px 0 1px rgba(246, 216, 148, 1),
+      30px 10px 0 0 rgba(246, 216, 148, 0.75),
+      -50px 20px 0 0 rgba(246, 216, 148, 1),
+      -20px 30px 0 0 rgba(246, 216, 148, 1);
+  }
+}
+
+@keyframes pulseAfter {
+  0% {
+    box-shadow:
+      -20px 5px 0 1px rgba(246, 216, 148, 1),
+      25px 20px 0 0 rgba(246, 216, 148, 1),
+      60px 40px 0 0 rgba(246, 216, 148, 1),
+      90px 0 0 0 rgba(246, 216, 148, 1);
+  }
+  25% {
+    box-shadow:
+      -20px 5px 0 1px rgba(246, 216, 148, 1),
+      25px 20px 0 0 rgba(246, 216, 148, 1),
+      60px 40px 0 0 rgba(246, 216, 148, 1),
+      90px 0 0 0 rgba(246, 216, 148, 1);
+  }
+  50% {
+    box-shadow:
+      -20px 5px 0 1px rgba(246, 216, 148, 1),
+      25px 20px 0 0 rgba(246, 216, 148, 1),
+      60px 40px 0 0 rgba(246, 216, 148, 1),
+      90px 0 0 0 rgba(246, 216, 148, 1);
+  }
+  75% {
+    box-shadow:
+      -20px 5px 0 1px rgba(246, 216, 148, 1),
+      25px 20px 0 0 rgba(246, 216, 148, 1),
+      60px 40px 0 0 rgba(246, 216, 148, 1),
+      90px 0 0 0 rgba(246, 216, 148, 1);
+  }
+  100% {
+    box-shadow:
+      -20px 5px 0 1px rgba(246, 216, 148, 1),
+      25px 20px 0 0 rgba(246, 216, 148, 1),
+      60px 40px 0 0 rgba(246, 216, 148, 1),
+      90px 0 0 0 rgba(246, 216, 148, 1);
+  }
 }
 
 @keyframes wiggle {

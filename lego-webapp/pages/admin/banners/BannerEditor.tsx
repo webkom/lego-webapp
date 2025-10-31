@@ -7,7 +7,6 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { useEffect, useState } from 'react';
 import { Field, useFormState } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
@@ -30,7 +29,6 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { CreateBanner } from '~/redux/models/Banner';
 import { selectBannerById } from '~/redux/slices/banner';
-import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import { createValidator, required } from '~/utils/validation';
 import styles from './BannerOverview.module.css';
@@ -43,6 +41,7 @@ const colorToRepresentation: Record<Color, string> = {
   itdageneBlue: 'IT-dagene Blå',
   buddyweek2024: 'Fadderuke',
   easter: 'Påske',
+  christmas: 'Jul'
 };
 
 type BannerEditorParams = {
