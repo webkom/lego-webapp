@@ -122,32 +122,31 @@ div.christmas {
     position: absolute;
     width: 5px;
     height: 5px;
-    background-color: rgba(246, 216, 148, 1);
+    background-color: rgb(187, 27, 43);
     border-radius: 100%;
+    transition:
+      transform 1.5s ease,
+      opacity 1s ease;
   }
 
   &::before {
-    top: 15px;
+    top: -5px;
     left: 150px;
-    animation: pulseBefore 5s ease-in-out infinite;
-    /* box-shadow:
-      70px 5px 0 1px rgba(246, 216, 148, 1),
-      30px 10px 0 0 rgba(246, 216, 148, 1),
-      -50px 20px 0 0 rgba(246, 216, 148, 1),
-      -20px 30px 0 0 rgba(246, 216, 148, 1); */
+    animation: pulseBefore 3s ease-in-out infinite;
   }
 
   &::after {
-    top: 15px;
+    top: -5px;
     right: 200px;
-    animation: pulseAfter 5s ease-in-out infinite;
-    /* box-shadow:
-      -20px 5px 0 1px rgba(246, 216, 148, 1),
-      25px 20px 0 0 rgba(246, 216, 148, 1),
-      60px 40px 0 0 rgba(246, 216, 148, 1),
-      90px 0 0 0 rgba(246, 216, 148, 1); */
+    animation: pulseAfter 3s ease-in-out infinite;
   }
 
+  &:hover::before,
+  &:hover::after {
+    transform: translateY(80px);
+    opacity: 0;
+    animation-play-state: paused;
+  }
   .headerTitle {
     background: linear-gradient(
       50deg,
@@ -158,10 +157,25 @@ div.christmas {
     );
     background-clip: text;
     color: transparent;
+    transition: all 0.6s ease;
   }
 
   .subHeader {
     color: #e3ac72;
+    transition: all 0.6s ease;
+  }
+
+  &:hover .headerTitle {
+    text-shadow:
+      0 0 4px rgba(246, 216, 148, 0.4),
+      0 0 10px rgba(246, 216, 148, 0.25),
+      0 0 20px rgba(246, 216, 148, 0.15);
+  }
+
+  &:hover .subHeader {
+    text-shadow:
+      0 0 3px rgba(246, 216, 148, 0.25),
+      0 0 8px rgba(246, 216, 148, 0.15);
   }
 }
 
@@ -173,76 +187,86 @@ div.christmas {
 @keyframes pulseBefore {
   0% {
     box-shadow:
-      70px 5px 0 1px rgba(246, 216, 148, 1),
-      30px 10px 0 0 rgba(246, 216, 148, 0.75),
-      -50px 20px 0 0 rgba(246, 216, 148, 1),
-      -20px 30px 0 0 rgba(246, 216, 148, 1);
+      70px 15px 0 0.5px rgba(246, 216, 148, 1),
+      30px 20px 0 0 rgba(246, 216, 148, 0.5),
+      5px 10px 0 0 rgba(246, 216, 148, 1),
+      -50px 30px 0 0 rgba(246, 216, 148, 0.75),
+      -20px 40px 0 0 rgba(246, 216, 148, 0.5);
   }
   25% {
     box-shadow:
-      70px 5px 0 1px rgba(246, 216, 148, 0.75),
-      30px 10px 0 0 rgba(246, 216, 148, 0.5),
-      -50px 20px 0 0 rgba(246, 216, 148, 1),
-      -20px 30px 0 0 rgba(246, 216, 148, 1);
+      70px 15px 0 0.25px rgba(246, 216, 148, 0.5),
+      30px 20px 0 0 rgba(246, 216, 148, 0.75),
+      5px 10px 0 0.5px rgba(246, 216, 148, 0.75),
+      -50px 30px 0 0 rgba(246, 216, 148, 0.5),
+      -20px 40px 0 0 rgba(246, 216, 148, 1);
   }
   50% {
     box-shadow:
-      70px 5px 0 1px rgba(246, 216, 148, 0.5),
-      30px 10px 0 0 rgba(246, 216, 148, 0.75),
-      -50px 20px 0 0 rgba(246, 216, 148, 1),
-      -20px 30px 0 0 rgba(246, 216, 148, 1);
+      70px 15px 0 0px rgba(246, 216, 148, 0.75),
+      30px 20px 0 0 rgba(246, 216, 148, 1),
+      5px 10px 0 0.25px rgba(246, 216, 148, 1),
+      -50px 30px 0 0 rgba(246, 216, 148, 0.5),
+      -20px 40px 0 0 rgba(246, 216, 148, 1);
   }
   75% {
     box-shadow:
-      70px 5px 0 1px rgba(246, 216, 148, 0.75),
-      30px 10px 0 0 rgba(246, 216, 148, 1),
-      -50px 20px 0 0 rgba(246, 216, 148, 1),
-      -20px 30px 0 0 rgba(246, 216, 148, 1);
+      70px 15px 0 0.25px rgba(246, 216, 148, 0.5),
+      30px 20px 0 0 rgba(246, 216, 148, 0.75),
+      5px 10px 0 0.5px rgba(246, 216, 148, 0.5),
+      -50px 30px 0 0 rgba(246, 216, 148, 1),
+      -20px 40px 0 0 rgba(246, 216, 148, 0.75);
   }
   100% {
     box-shadow:
-      70px 5px 0 1px rgba(246, 216, 148, 1),
-      30px 10px 0 0 rgba(246, 216, 148, 0.75),
-      -50px 20px 0 0 rgba(246, 216, 148, 1),
-      -20px 30px 0 0 rgba(246, 216, 148, 1);
+      70px 15px 0 0.5px rgba(246, 216, 148, 1),
+      30px 20px 0 0 rgba(246, 216, 148, 0.5),
+      5px 10px 0 0 rgba(246, 216, 148, 1),
+      -50px 30px 0 0 rgba(246, 216, 148, 0.75),
+      -20px 40px 0 0 rgba(246, 216, 148, 0.5);
   }
 }
 
 @keyframes pulseAfter {
   0% {
     box-shadow:
-      -20px 5px 0 1px rgba(246, 216, 148, 1),
-      25px 20px 0 0 rgba(246, 216, 148, 1),
-      60px 40px 0 0 rgba(246, 216, 148, 1),
-      90px 0 0 0 rgba(246, 216, 148, 1);
+      -20px 25px 0 1px rgba(246, 216, 148, 0.5),
+      5px 10px 0 0 rgba(246, 216, 148, 0.75),
+      25px 40px 0 0 rgba(246, 216, 148, 1),
+      60px 60px 0 0 rgba(246, 216, 148, 0.5),
+      90px 20px 0 0 rgba(246, 216, 148, 0.75);
   }
   25% {
     box-shadow:
-      -20px 5px 0 1px rgba(246, 216, 148, 1),
-      25px 20px 0 0 rgba(246, 216, 148, 1),
-      60px 40px 0 0 rgba(246, 216, 148, 1),
-      90px 0 0 0 rgba(246, 216, 148, 1);
+      -20px 25px 0 1px rgba(246, 216, 148, 1),
+      5px 10px 0 0 rgba(246, 216, 148, 0.5),
+      25px 40px 0 0 rgba(246, 216, 148, 0.75),
+      60px 60px 0 0 rgba(246, 216, 148, 0.75),
+      90px 20px 0 0 rgba(246, 216, 148, 1);
   }
   50% {
     box-shadow:
-      -20px 5px 0 1px rgba(246, 216, 148, 1),
-      25px 20px 0 0 rgba(246, 216, 148, 1),
-      60px 40px 0 0 rgba(246, 216, 148, 1),
-      90px 0 0 0 rgba(246, 216, 148, 1);
+      -20px 25px 0 1px rgba(246, 216, 148, 0.75),
+      5px 10px 0 0 rgba(246, 216, 148, 1),
+      25px 40px 0 0 rgba(246, 216, 148, 0.5),
+      60px 60px 0 0 rgba(246, 216, 148, 0.5),
+      90px 20px 0 0 rgba(246, 216, 148, 0.75);
   }
   75% {
     box-shadow:
-      -20px 5px 0 1px rgba(246, 216, 148, 1),
-      25px 20px 0 0 rgba(246, 216, 148, 1),
-      60px 40px 0 0 rgba(246, 216, 148, 1),
-      90px 0 0 0 rgba(246, 216, 148, 1);
+      -20px 25px 0 1px rgba(246, 216, 148, 1),
+      5px 10px 0 0 rgba(246, 216, 148, 0.5),
+      25px 40px 0 0 rgba(246, 216, 148, 0.75),
+      60px 60px 0 0 rgba(246, 216, 148, 1),
+      90px 20px 0 0 rgba(246, 216, 148, 0.5);
   }
   100% {
     box-shadow:
-      -20px 5px 0 1px rgba(246, 216, 148, 1),
-      25px 20px 0 0 rgba(246, 216, 148, 1),
-      60px 40px 0 0 rgba(246, 216, 148, 1),
-      90px 0 0 0 rgba(246, 216, 148, 1);
+      -20px 25px 0 1px rgba(246, 216, 148, 0.5),
+      5px 10px 0 0 rgba(246, 216, 148, 0.75),
+      25px 40px 0 0 rgba(246, 216, 148, 1),
+      60px 60px 0 0 rgba(246, 216, 148, 0.5),
+      90px 20px 0 0 rgba(246, 216, 148, 0.75);
   }
 }
 
