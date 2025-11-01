@@ -29,7 +29,7 @@ const getValidationErrors = async <T, S>(
 };
 
 const getFieldErrorArray = async <T>(
-  fieldValidators: FieldValidators<T>,
+  fieldValidators: FieldValidators,
   formData: T,
 ): Promise<[string, string[]][]> => {
   return (
@@ -52,9 +52,7 @@ const getFieldErrorArray = async <T>(
  * @deprecated
  * use createValidator (with async=true) instead
  */
-export const createAsyncValidator = <T>(
-  fieldValidators: FieldValidators<T>,
-) => {
+export const createAsyncValidator = <T>(fieldValidators: FieldValidators) => {
   return async (formData: T) => {
     const fieldErrorArray = await getFieldErrorArray(fieldValidators, formData);
 

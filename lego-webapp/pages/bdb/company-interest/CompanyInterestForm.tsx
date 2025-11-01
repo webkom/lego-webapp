@@ -221,13 +221,21 @@ const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => (
     alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
   />
 );
-
+type CompanyObjectProps = {
+  label: string | undefined;
+  title: string | undefined;
+  value?: string;
+};
+type CompanyCheckBoxProps = {
+  name: string;
+  checked: boolean;
+};
 type CompanyInterestFormEntity = {
-  companyName: string;
-  company: number | null | undefined;
-  contactPerson: string;
-  mail: string;
-  phone: string;
+  companyName?: string;
+  company: CompanyObjectProps;
+  contactPerson?: string;
+  mail?: string;
+  phone?: string;
   semesters: Array<CompanySemester & { checked: boolean }>;
   events: Array<{
     name: string;
@@ -238,18 +246,21 @@ type CompanyInterestFormEntity = {
     name: string;
     checked: boolean;
   }>;
-  comment: string;
-  courseComment: string;
-  breakfastTalkComment: string;
-  otherEventComment: string;
-  startupComment: string;
-  lunchPresentationComment: string;
-  bedexComment: string;
-  companyToCompanyComment: string;
-  companyPresentationComment: string;
-  companyType: string;
+  comment?: string;
+  courseComment?: string;
+  breakfastTalkComment?: string;
+  otherEventComment?: string;
+  startupComment?: string;
+  lunchPresentationComment?: string;
+  bedexComment?: string;
+  companyToCompanyComment?: string;
+  companyPresentationComment?: string;
+  companyType?: string;
   officeInTrondheim: boolean;
   wantsThursdayEvent: boolean;
+  participantRange: string | null;
+  collaborations: CompanyCheckBoxProps[];
+  targetGrades: CompanyCheckBoxProps[];
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -380,7 +391,7 @@ const CompanyInterestForm = ({ language }: Props) => {
       ? semesters
           .map((semester) => ({
             ...semester,
-            checked: companyInterest?.semesters?.includes(semester.id),
+            checked: !!companyInterest?.semesters?.includes(semester.id),
           }))
           .filter((semester) => semester.activeInterestForm || semester.checked)
           .sort(sortSemesterChronologically)
@@ -398,7 +409,7 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
-    const nameOnly = company['__isNew__'] || !company.value;
+    const nameOnly = company && (company['__isNew__'] || !company.value);
     const companyId = nameOnly ? null : Number(company['value']);
     const companyName = nameOnly ? company['label'] : '';
 

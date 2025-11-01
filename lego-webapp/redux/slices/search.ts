@@ -245,7 +245,7 @@ const transformResult = (result: RawSearchResult) => {
       item[field] = result[value] || value;
     }
   });
-  item.link = fields.link ? item.link : item.path + item.value;
+  item.link = fields.link ? item.link : (item.path || '') + (item.value || '');
   return item as SearchResult;
 };
 
