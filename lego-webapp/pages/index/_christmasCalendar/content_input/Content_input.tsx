@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import styles from './content_input.module.css';
-import sample from './placeholder.jpg';
 import { TextInput } from '~/components/Form';
+import styles from './content_input.module.css';
 
 const Content_input = ({
-  image = sample,
+  image = "",
   question = 'Hva er 2 - 3?',
   answer = '-1',
 }) => {
