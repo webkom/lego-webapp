@@ -3,7 +3,7 @@ import { TextInput } from '~/components/Form';
 import styles from './content_input.module.css';
 
 const Content_input = ({
-  image = "",
+  image = '',
   question = 'Hva er 2 - 3?',
   answer = '-1',
 }) => {
