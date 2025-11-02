@@ -116,6 +116,7 @@ div.christmas {
   background-size: 120%;
   background-position: right;
   border: 3px solid #e3ac72;
+  position: relative;
 
   &::before,
   &::after {
