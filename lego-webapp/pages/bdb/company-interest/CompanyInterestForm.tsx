@@ -1,6 +1,7 @@
 import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
+import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -77,22 +78,38 @@ import type CompanySemester from '~/redux/models/CompanySemester';
 const SemesterBox = ({
   fields,
   language,
+  setCheckedAutumnSemester,
 }: {
   fields: any;
   language: string;
-}): ReactNode => (
-  <Flex column gap="var(--spacing-md)">
-    {fields.map((item, index) => (
-      <Field
-        key={`semesters[${index}]`}
-        name={`semesters[${index}].checked`}
-        label={semesterToText({ ...fields.value[index], language })}
-        type="checkbox"
-        component={CheckBox.Field}
+  setCheckedAutumnSemester: React.Dispatch<React.SetStateAction<boolean>>;
+}): ReactNode => {
+  return (
+    <>
+      <FormSpy
+        subscription={{ values: true }}
+        onChange={({ values }) => {
+          const hasAutumn = values?.semesters?.some(
+            (s) => s.checked && s.semester === 'autumn',
+          );
+          setCheckedAutumnSemester(!!hasAutumn);
+        }}
       />
-    ))}
-  </Flex>
-);
+
+      <Flex column gap="var(--spacing-md)">
+        {fields.map((item, index) => (
+          <Field
+            key={`semesters[${index}]`}
+            name={`semesters[${index}].checked`}
+            label={semesterToText({ ...fields.value[index], language })}
+            type="checkbox"
+            component={CheckBox.Field}
+          />
+        ))}
+      </Flex>
+    </>
+  );
+};
 
 const SurveyOffersBox = ({
   fields,
@@ -117,9 +134,11 @@ const SurveyOffersBox = ({
 const EventBox = ({
   fields,
   language,
+  checkedAutumnSemester,
 }: {
   fields: any;
   language: string;
+  checkedAutumnSemester: boolean;
 }): ReactNode => (
   <FormSpy subscription={{ values: true }}>
     {(props) => {
@@ -127,6 +146,14 @@ const EventBox = ({
       if (!props.values.officeInTrondheim) {
         fields.forEach((field, index) => {
           if (fields.value[index].name == 'company_to_company') {
+            filteredFields.splice(index, 1);
+          }
+        });
+      }
+      console.log(checkedAutumnSemester);
+      if (!checkedAutumnSemester) {
+        fields.forEach((field, index) => {
+          if (fields.value[index].name == 'bedex') {
             filteredFields.splice(index, 1);
           }
         });
@@ -326,6 +353,8 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const dispatch = useAppDispatch();
 
+  const [checkedAutumnSemester, setCheckedAutumnSemester] = useState(false);
+
   usePreparedEffect(
     'fetchCompanyInterestPage',
     () =>
@@ -496,13 +525,13 @@ const CompanyInterestForm = ({ language }: Props) => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    // {
-    //   name: 'bedex',
-    //   translated: EVENTS.bedex[language],
-    //   description: interestText.bedexDescription[language],
-    //   commentName: 'bedexComment',
-    //   commentPlaceholder: interestText.bedexComment[language],
-    // },
+    {
+      name: 'bedex',
+      translated: EVENTS.bedex[language],
+      description: interestText.bedexDescription[language],
+      commentName: 'bedexComment',
+      commentPlaceholder: interestText.bedexComment[language],
+    },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -670,6 +699,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                       name="semesters"
                       language={language}
                       component={SemesterBox}
+                      setCheckedAutumnSemester={setCheckedAutumnSemester}
                     />
                   </MultiSelectGroup>
                 </Flex>
@@ -683,6 +713,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                       name="events"
                       language={language}
                       component={EventBox}
+                      checkedAutumnSemester={checkedAutumnSemester}
                     />
                   </MultiSelectGroup>
                 </Flex>

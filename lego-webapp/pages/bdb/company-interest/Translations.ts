@@ -21,10 +21,10 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  // bedex: {
-  //   norwegian: 'Bedriftsekskursjon (BedEx)',
-  //   english: 'Company excursion (BedEx)',
-  // },
+  bedex: {
+    norwegian: 'Bedriftsekskursjon (BedEx)',
+    english: 'Company excursion (BedEx)',
+  },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -65,9 +65,9 @@ export const TOOLTIP = {
   },
   bedex: {
     norwegian:
-      'BedEx er Abakus sin bedriftsekskursjon til Oslo, spesialtilrettelagt for studenter i 4. og 5. klasse. Gjennom et firedagers opphold i Oslo, får studentene muligheten til å besøke 6 fremstående bedrifter. Disse bedriftene ønsker studentene velkommen i sine lokaler, hvor de gjennom nøye planlagte aktiviteter og direkte dialog med ansatte, tilbyr dybdeinnsikt i både sine operasjoner og arbeidskultur. BedEx-teamet organiserer en gruppeflyvning fra Trondheim til Oslo på formiddagen tirsdag 10. september, samt hotellopphold frem til og med fredag 13. september. Returreisen står hver student fritt til å arrangere selv, noe som gir rom for de som ønsker å tilbringe ekstra tid med familie i området eller nyte en forlenget helg i Oslo.',
+      'BedEx er Abakus sin bedriftsekskursjon til Oslo, spesialtilrettelagt for studenter i 4. og 5. klasse. Gjennom et firedagers opphold i Oslo, får studentene muligheten til å besøke 6 fremstående bedrifter. Disse bedriftene ønsker studentene velkommen i sine lokaler, hvor de gjennom nøye planlagte aktiviteter og direkte dialog med ansatte, tilbyr dybdeinnsikt i både sine operasjoner og arbeidskultur. BedEx-teamet organiserer en gruppeflyvning fra Trondheim til Oslo på formiddagen tirsdag 10. september, samt hotellopphold frem til og med fredag 13. september. Returreisen står hver student fritt til å arrangere selv, noe som gir rom for de som ønsker å tilbringe ekstra tid med familie i området eller nyte en forlenget helg i Oslo. Merk: Kun mulighet høst-semesteret.',
     english:
-      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo.",
+      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo. Note: Only possible during the autumn semester.",
   },
   other: {
     norwegian:
