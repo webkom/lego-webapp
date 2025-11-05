@@ -14,9 +14,9 @@ export const Keyboard = {
 export const LENDABLE_CATEGORY = {
   outdoors: 'Utendørs',
   photography: 'Fotografi',
-  instrument: 'Instrument',
-  speaker: 'Høytaler',
+  music: 'Musikk',
   furniture: 'Møbler',
+  services: 'Tjenester',
   other: 'Annet',
 };
 
