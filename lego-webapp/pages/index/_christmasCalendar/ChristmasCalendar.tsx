@@ -2,7 +2,6 @@ import utilStyles from '~/styles/utilities.module.css';
 import styles from './ChristmasCalendar.module.css'
 import { Button, Flex, Modal } from '@webkom/lego-bricks';
 import { useState } from 'react';
-import QuizGame from './QuizGame/QuizGame';
 
 const ChristmasCalendar = () => {
     return (
@@ -34,9 +33,8 @@ const ChristmasCalendarSlot = (props: ChristmasCalendarSlotType) => {
             isOpen={isOpen}
             onOpenChange={setIsOpen}
             title={`Luke ${props.day}`}
-            contentClassName={styles.modal}
             >
-                <QuizGame index={0}/>
+                Morsom video
             </Modal>
         </div>
     )
