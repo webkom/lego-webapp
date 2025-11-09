@@ -60,6 +60,9 @@ img.lendingRequestImage {
   width: 100%;
   font-size: var(--font-size-xs);
   padding: var(--spacing-xs) var(--spacing-md);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes spinner {
