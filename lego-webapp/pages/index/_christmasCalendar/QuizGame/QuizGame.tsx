@@ -10,21 +10,104 @@ const QuizGame = ({ index }: QuizGameType) => {
   const slots = [
     [
       {
-        question: 'What is the capital of France?',
-        options: ['Berlin', 'Madrid', 'Paris', 'Lisbon'],
+        question: 'Hvor mange interessegrupper er det i Abakus?',
+        options: ['32', '27', '28', '34'],
+        answer: '32',
+      },
+      {
+        question: 'Hvilke av disse er ikke en av abakus sine verdier?',
+        options: ['Bærekraft', 'Attraktiv', 'Effektiv', 'Åpen'],
+        answer: 'Effektiv',
+      },
+      {
+        question: 'Hvilket år bel abakus stiftet?',
+        options: ['1992', '1997', '1981', '1993'],
+        answer: '1997',
+      },
+    ],
+    [
+      {
+        question: 'Hvilken dag feires Lucia-dagen?',
+        options: ['13. des', '25. des', '17. des', '11. des'],
         answer: 'Paris',
       },
       {
-        question: 'Which language is used for web development?',
-        options: ['Python', 'Java', 'C++', 'JavaScript'],
+        question: 'Hvilket land kommer feiringen opprinnelig fra?',
+        options: ['Sverige', 'Spania', 'Italia', 'Østerrike'],
         answer: 'JavaScript',
+      },
+      {
+        question: 'Hva symboliserer lysene Lucia bærer på hodet?',
+        options: ['Dagene blir lysere', 'Høstens avslutning', 'Lysets seier over mørket', 'Den hellige ånd'],
+        answer: 'Lysets seier over mørket',
+      },
+    ],
+        [
+      {
+        question: 'Hva er hovedingrediensen i brunost?',
+        options: ['Myse', 'Rømme', 'Sukker', 'Geit'],
+        answer: 'Myse',
+      },
+      {
+        question: 'Hvilken varm drikke er mest populær i Norge?',
+        options: ['Kakao', 'Te', 'Kaffe', 'Gløgg'],
+        answer: 'Kaffe',
+      },
+      {
+        question: 'Hva er tradisjonelt norsk pålegg laget av potet og fisk?',
+        options: ['Røkelaks', 'Potetsalat', 'Lutefisk', 'Laksepaté'],
+        answer: 'Lutefisk',
+      },
+      {
+        question: 'Hva slags kjøtt brukes vanligvis i pinnekjøtt?',
+        options: ['Ku', 'Okse', 'Geit', 'Sau'],
+        answer: 'Sau',
+      },
+    ],
+        [
+      {
+        question: 'Norge har flere elger enn innbyggere?',
+        options: ['Sant', 'Usant'],
+        answer: 'Usant',
+      },
+      {
+        question: 'I Sverige finnes det en offisiell konkurranse i å spise lussekatter på tid',
+        options: ['Sant', 'Usant'],
+        answer: 'Usant',
+      },
+      {
+        question: 'I Norge er brunost laget av geitemelk, mens i Sveits er brunost laget av ku-melk',
+        options: ['Sant', 'Usant'],
+        answer: 'Sant',
+      },
+      {
+        question: 'Julenissen har egen postkode i Norge',
+        options: ['Sant', 'Usant'],
+        answer: 'Sant',
+      },
+            {
+        question: 'Den lengste dagen (der sola ikke går ned) i Norge varer i over 24 timer på Svalbard om sommeren',
+        options: ['Sant', 'Usant'],
+        answer: 'Sant',
+      },
+    ],
+        [
+      {
+        question: 'Hvilket krydder brukes ofte for å skape juleduft hjemme?',
+        options: ['Gurkemeie', 'Kanel', 'Kardemomme', 'Chilli'],
+        answer: 'Kanel',
+      },
+      {
+        question: 'Hva er ofte synonymt med “kos” på norsk??',
+        options: ['Stress', 'Eksamen', 'Varme, hygge og ro', 'Intervaller'],
+        answer: 'Varme, hygge og ro',
       },
       {
         question: 'Who developed the theory of relativity?',
         options: ['Newton', 'Einstein', 'Galileo', 'Tesla'],
         answer: 'Einstein',
       },
-    ],
+    ]
   ];
 
   const questions = slots[index];
