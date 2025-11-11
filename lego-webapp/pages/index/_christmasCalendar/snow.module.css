@@ -1,4 +1,3 @@
-
 .container {
   position: fixed;
   top: 0;
@@ -10,7 +9,6 @@
   z-index: -1;
 }
 
-
 .snowWrapper {
   position: absolute;
   top: -10%;
@@ -19,7 +17,6 @@
   animation-iteration-count: infinite;
   will-change: transform;
 }
-
 
 .snow {
   position: relative;
@@ -36,14 +33,20 @@
   will-change: transform, opacity;
 }
 
-
 @keyframes fall {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(110vh); }
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(110vh);
+  }
 }
 
-
 @keyframes sway {
-  from { transform: translateX(0); }
-  to   { transform: translateX(var(--amplitude)); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--amplitude));
+  }
 }

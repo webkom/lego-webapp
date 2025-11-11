@@ -6,15 +6,23 @@ export default function SnowBackground() {
     () =>
       Array.from({ length: 50 }).map(() => {
         const left = `${Math.floor(Math.random() * 100)}%`;
-        const fallDuration = `${Math.floor(Math.random() * 21) + 30}s`; 
+        const fallDuration = `${Math.floor(Math.random() * 21) + 30}s`;
         const fallDelay = `${Math.floor(Math.random() * 30)}s`;
-        const size = `${Math.floor(Math.random() * 9) + 4}px`; 
-        const swayDuration = `${Math.floor(Math.random() * 3) + 3}s`; 
-        const amplitude = `${Math.floor(Math.random() * 4) + 2}px`; 
+        const size = `${Math.floor(Math.random() * 9) + 4}px`;
+        const swayDuration = `${Math.floor(Math.random() * 3) + 3}s`;
+        const amplitude = `${Math.floor(Math.random() * 4) + 2}px`;
         const opacity = Math.random() * 0.6 + 0.4;
-        return { left, fallDuration, fallDelay, size, swayDuration, amplitude, opacity };
+        return {
+          left,
+          fallDuration,
+          fallDelay,
+          size,
+          swayDuration,
+          amplitude,
+          opacity,
+        };
       }),
-    []
+    [],
   );
 
   return (
