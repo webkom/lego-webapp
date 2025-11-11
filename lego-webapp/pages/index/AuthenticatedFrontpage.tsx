@@ -36,6 +36,7 @@ import ChristmasCalendar from './_christmasCalendar/ChristmasCalendar';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
+import SnowBackground from './_christmasCalendar/snow';
 
 const EVENTS_TO_SHOW = 9;
 const ARTICLES_TO_SHOW = 2;
@@ -93,6 +94,7 @@ const AuthenticatedFrontpage = () => {
 
   return (
     <PageContainer card={false}>
+      <SnowBackground />
       <Helmet title="Hjem" />
       {currentPrivateBanner && (
         <Banner
