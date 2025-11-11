@@ -107,6 +107,7 @@ const AuthenticatedFrontpage = () => {
         />
       )}
       <section className={styles.wrapper}>
+        <ChristmasCalendar />
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
         <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
