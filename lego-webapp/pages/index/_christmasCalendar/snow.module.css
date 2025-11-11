@@ -1,4 +1,4 @@
-/* Bakgrunn + container */
+
 .container {
   position: fixed;
   top: 0;
@@ -10,25 +10,40 @@
   z-index: -1;
 }
 
-/* Snøfnuggene */
-.snow {
+
+.snowWrapper {
   position: absolute;
-  top: -2%;
+  top: -10%;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
+
+.snow {
+  position: relative;
+  top: 0;
   width: 10px;
   height: 10px;
   background: white;
   border-radius: 50%;
   opacity: 0.8;
-  animation: fall linear infinite;
+  animation-name: sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  will-change: transform, opacity;
 }
 
-/* Animasjon for fall */
+
 @keyframes fall {
-  0% {
-    transform: translateY(0);
-    transform: translateX()
-  }
-  100% {
-    transform: translateY(100vh);
-  }
+  0% { transform: translateY(0); }
+  100% { transform: translateY(110vh); }
+}
+
+
+@keyframes sway {
+  from { transform: translateX(0); }
+  to   { transform: translateX(var(--amplitude)); }
 }
