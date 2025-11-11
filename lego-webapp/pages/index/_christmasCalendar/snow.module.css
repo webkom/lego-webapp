@@ -1,0 +1,34 @@
+/* Bakgrunn + container */
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  filter: drop-shadow(0 0 10px white);
+  z-index: -1;
+}
+
+/* Snøfnuggene */
+.snow {
+  position: absolute;
+  top: -2%;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: fall linear infinite;
+}
+
+/* Animasjon for fall */
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    transform: translateX()
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
