@@ -38,11 +38,16 @@ const QuizGame = ({ index }: QuizGameType) => {
       },
       {
         question: 'Hva symboliserer lysene Lucia bærer på hodet?',
-        options: ['Dagene blir lysere', 'Høstens avslutning', 'Lysets seier over mørket', 'Den hellige ånd'],
+        options: [
+          'Dagene blir lysere',
+          'Høstens avslutning',
+          'Lysets seier over mørket',
+          'Den hellige ånd',
+        ],
         answer: 'Lysets seier over mørket',
       },
     ],
-        [
+    [
       {
         question: 'Hva er hovedingrediensen i brunost?',
         options: ['Myse', 'Rømme', 'Sukker', 'Geit'],
@@ -64,19 +69,21 @@ const QuizGame = ({ index }: QuizGameType) => {
         answer: 'Sau',
       },
     ],
-        [
+    [
       {
         question: 'Norge har flere elger enn innbyggere?',
         options: ['Sant', 'Usant'],
         answer: 'Usant',
       },
       {
-        question: 'I Sverige finnes det en offisiell konkurranse i å spise lussekatter på tid',
+        question:
+          'I Sverige finnes det en offisiell konkurranse i å spise lussekatter på tid',
         options: ['Sant', 'Usant'],
         answer: 'Usant',
       },
       {
-        question: 'I Norge er brunost laget av geitemelk, mens i Sveits er brunost laget av ku-melk',
+        question:
+          'I Norge er brunost laget av geitemelk, mens i Sveits er brunost laget av ku-melk',
         options: ['Sant', 'Usant'],
         answer: 'Sant',
       },
@@ -85,13 +92,14 @@ const QuizGame = ({ index }: QuizGameType) => {
         options: ['Sant', 'Usant'],
         answer: 'Sant',
       },
-            {
-        question: 'Den lengste dagen (der sola ikke går ned) i Norge varer i over 24 timer på Svalbard om sommeren',
+      {
+        question:
+          'Den lengste dagen (der sola ikke går ned) i Norge varer i over 24 timer på Svalbard om sommeren',
         options: ['Sant', 'Usant'],
         answer: 'Sant',
       },
     ],
-        [
+    [
       {
         question: 'Hvilket krydder brukes ofte for å skape juleduft hjemme?',
         options: ['Gurkemeie', 'Kanel', 'Kardemomme', 'Chilli'],
@@ -107,7 +115,7 @@ const QuizGame = ({ index }: QuizGameType) => {
         options: ['Newton', 'Einstein', 'Galileo', 'Tesla'],
         answer: 'Einstein',
       },
-    ]
+    ],
   ];
 
   const questions = slots[index];
