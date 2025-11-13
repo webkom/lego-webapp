@@ -33,6 +33,7 @@ import LatestReadme from './LatestReadme';
 import Pinned from './Pinned';
 import UpcomingRegistrations from './UpcomingRegistrations';
 import ChristmasCalendar from './_christmasCalendar/ChristmasCalendar';
+import SnowBackground from './_christmasCalendar/snow';
 import { itemUrl, renderMeta } from './utils';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { FrontpageEvent } from '~/redux/models/Event';
@@ -93,6 +94,7 @@ const AuthenticatedFrontpage = () => {
 
   return (
     <PageContainer card={false}>
+      <SnowBackground />
       <Helmet title="Hjem" />
       {currentPrivateBanner && (
         <Banner
