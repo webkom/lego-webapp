@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import styles from './ContentInput.module.css';
 import { TextInput } from '~/components/Form';
+import styles from './ContentInput.module.css';
 
 const Content_input = ({
   image = '',
