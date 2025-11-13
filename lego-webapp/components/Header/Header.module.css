@@ -98,6 +98,10 @@ html[data-theme='dark'] img.logoDarkMode {
 }
 
 .searchButton {
+  display: flex;
+  width: 24px;
+  align-items: center;
+  box-sizing: content-box;
   z-index: 301;
 }
 
@@ -105,6 +109,10 @@ html[data-theme='dark'] img.logoDarkMode {
   position: relative;
   width: 24px;
   height: 24px;
+}
+
+.searching {
+  position: fixed;
 }
 
 .menuIcon,
