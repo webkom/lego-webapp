@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import styles from './VideoPlayer.module.css';
 import { TextInput } from '~/components/Form';
+import styles from './VideoPlayer.module.css';
 
 const Videospiller = ({
   question = '',
