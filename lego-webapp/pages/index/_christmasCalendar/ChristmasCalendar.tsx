@@ -34,8 +34,7 @@ const ChristmasCalendarSlot = (props: ChristmasCalendarSlotType) => {
         onOpenChange={setIsOpen}
         title={`Luke ${props.day}`}
         contentClassName={styles.window}
-      >
-      </Modal>
+      ></Modal>
     </div>
   );
 };
