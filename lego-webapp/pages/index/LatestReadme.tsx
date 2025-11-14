@@ -1,4 +1,4 @@
-import { Accordion, Card, Flex, Icon, Image } from '@webkom/lego-bricks';
+import { Accordion, Card, Flex, Icon, Image, LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import { readmeIfy } from '~/components/ReadmeLogo';
@@ -51,6 +51,11 @@ const LatestReadme = ({
               <Image src={image} alt={`Forsidebildet til ${title}`} />
             </a>
           ))}
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "var(--spacing-sm)"}}>
+          <LinkButton href="https://readme.abakus.no">
+            Se alle
+          </LinkButton>
         </div>
       </Accordion>
     </Card>
