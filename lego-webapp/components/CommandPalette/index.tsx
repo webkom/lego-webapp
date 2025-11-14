@@ -58,31 +58,71 @@ const CommandPalette = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (isMac ? e.metaKey : e.ctrlKey)) {
-        e.preventDefault();
-        togglePalette();
-      }
 
-      if (isOpen) {
-        if (e.ctrlKey && e.key.toLowerCase() === 'j') {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase();
+
+      if (isMac) {
+        if (key === 'k' && e.metaKey && !e.ctrlKey && !e.altKey) {
           e.preventDefault();
-          const downEvent = new KeyboardEvent('keydown', {
-            key: 'ArrowDown',
-            code: 'ArrowDown',
-            bubbles: true,
-          });
-          document.activeElement?.dispatchEvent(downEvent);
+          togglePalette();
           return;
         }
-        if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+      } else {
+        if (key === 'k' && e.ctrlKey && e.shiftKey && !e.altKey) {
           e.preventDefault();
-          const upEvent = new KeyboardEvent('keydown', {
-            key: 'ArrowUp',
-            code: 'ArrowUp',
-            bubbles: true,
-          });
-          document.activeElement?.dispatchEvent(upEvent);
+          togglePalette();
+          return;
+        }
+      }
+
+      if (!isOpen) return;
+
+      if (isMac) {
+        // macOS navigation: Ctrl + J/K
+        if (e.ctrlKey && !e.metaKey && !e.altKey && key === 'j') {
+          e.preventDefault();
+          document.activeElement?.dispatchEvent(
+            new KeyboardEvent('keydown', {
+              key: 'ArrowDown',
+              code: 'ArrowDown',
+              bubbles: true,
+            }),
+          );
+          return;
+        }
+        if (e.ctrlKey && !e.metaKey && !e.altKey && key === 'k') {
+          e.preventDefault();
+          document.activeElement?.dispatchEvent(
+            new KeyboardEvent('keydown', {
+              key: 'ArrowUp',
+              code: 'ArrowUp',
+              bubbles: true,
+            }),
+          );
+          return;
+        }
+      } else {
+        if (e.ctrlKey && e.shiftKey && !e.metaKey && !e.altKey && key === 'j') {
+          e.preventDefault();
+          document.activeElement?.dispatchEvent(
+            new KeyboardEvent('keydown', {
+              key: 'ArrowDown',
+              code: 'ArrowDown',
+              bubbles: true,
+            }),
+          );
+          return;
+        }
+        if (e.ctrlKey && e.shiftKey && !e.metaKey && !e.altKey && key === 'k') {
+          e.preventDefault();
+          document.activeElement?.dispatchEvent(
+            new KeyboardEvent('keydown', {
+              key: 'ArrowUp',
+              code: 'ArrowUp',
+              bubbles: true,
+            }),
+          );
           return;
         }
       }
@@ -167,11 +207,23 @@ const CommandPalette = () => {
               </Menu>
             </Autocomplete>
             <div className={styles.bottomContainer}>
-              <Icon iconNode={<ArrowDown />} size={12} />
-              <span className={styles.textBox}>Ctrl + J</span>
-              <span>|</span>
-              <Icon iconNode={<ArrowUp />} size={12} />
-              <span className={styles.textBox}>Ctrl + K</span>
+              {isMac ? (
+                <>
+                  <Icon iconNode={<ArrowDown />} size={12} />
+                  <span className={styles.textBox}>Ctrl + J</span>
+                  <span>|</span>
+                  <Icon iconNode={<ArrowUp />} size={12} />
+                  <span className={styles.textBox}>Ctrl + K</span>
+                </>
+              ) : (
+                <>
+                  <Icon iconNode={<ArrowDown />} size={12} />
+                  <span className={styles.textBox}>Ctrl + Shift + J</span>
+                  <span>|</span>
+                  <Icon iconNode={<ArrowUp />} size={12} />
+                  <span className={styles.textBox}>Ctrl + Shift + K</span>
+                </>
+              )}
             </div>
           </div>
         </Dialog>
