@@ -307,10 +307,12 @@ const LendingCalendar = ({
                                           <>{range.userDisplayName}</>
                                         </a>
                                       </>
-                                    ) : (
+                                    ) : range.userDisplayName ? (
                                       <span>
                                         Lånt av: {range.userDisplayName}
                                       </span>
+                                    ) : (
+                                      <span>Låner kunne ikke hentes</span>
                                     )
                                   }
                                 >
@@ -324,7 +326,7 @@ const LendingCalendar = ({
                                 key={`${dateProps.day.format('YYYY-MM-DD')}-full`}
                                 className={styles.pin}
                                 content={
-                                  fullLender ? (
+                                  fullLender && userName? (
                                     <>
                                       Lånt av:{' '}
                                       <a
@@ -334,8 +336,10 @@ const LendingCalendar = ({
                                         <>{userDisplayName}</>
                                       </a>
                                     </>
-                                  ) : (
+                                  ) : userDisplayName ? (
                                     <span>Lånt av: {userDisplayName}</span>
+                                  ) : (
+                                    <span>Låner kunne ikke hentes</span>
                                   )
                                 }
                               >
