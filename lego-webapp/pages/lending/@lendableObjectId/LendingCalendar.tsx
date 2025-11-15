@@ -321,7 +321,7 @@ const LendingCalendar = ({
                               ))
                             ) : (
                               <Tooltip
-                                key={idx}
+                                key={`${dateProps.day.format('YYYY-MM-DD')}-full`}
                                 className={styles.pin}
                                 content={
                                   fullLender ? (
