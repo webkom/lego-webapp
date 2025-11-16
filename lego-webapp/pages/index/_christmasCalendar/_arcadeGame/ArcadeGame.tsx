@@ -1,0 +1,20 @@
+import { Button, Modal } from '@webkom/lego-bricks';
+import { useState } from 'react';
+import styles from './ArcadeGame.module.css';
+import ArcadeGameBox from './ArcadeGameCanvas';
+
+const ArcadeGameModal = () => {
+    const [isOpen, setIsOpen] = useState(true); 
+
+    return (
+        <div>
+            <Button onPress={() => setIsOpen(true)}>ArcadeGame</Button>
+            <Modal isOpen={isOpen} onOpenChange={setIsOpen} contentClassName={styles.modal} title={`ArcadeGame`}>
+                <p>Trykk på space for å starte! </p>
+                <ArcadeGameBox/>
+            </Modal>
+        </div>
+    );
+};
+
+export default ArcadeGameModal;
