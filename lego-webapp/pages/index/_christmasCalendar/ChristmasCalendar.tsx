@@ -1,15 +1,15 @@
 import { Flex, Modal } from '@webkom/lego-bricks';
 import React from 'react';
 import styles from './ChristmasCalendar.module.css';
+import ArcadeGameBox from './_arcadeGame/ArcadeGameCanvas';
 
-<<<<<<< HEAD
 type ChristmasCalendarType = {
   className: string;
 };
 
 const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
   const content = [
-    <p key={1}>test</p>,
+    <p key={1}>{<ArcadeGameBox dateNr={1}/>}</p>,
     <p key={2}>test</p>,
     <p key={3}>test</p>,
     <p key={4}>test</p>,
@@ -105,15 +105,6 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
               <div className={styles.abakusWire} />
             </div>
           ))}
-=======
-const ChristmasCalendar = () => {
-    return (
-        <div>
-            <h3 className={utilStyles.frontPageHeader}>Julekalender</h3>
-            <Flex gap="var(--spacing-sm)">
-                <ChristmasCalendarSlot day={1}/>
-            </Flex>
->>>>>>> 3eed1db37 (falk)
         </div>
         <AbakusPole />
       </Flex>
@@ -147,7 +138,7 @@ const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
       >
         <p>{date}</p>
       </button>
-      <Modal isOpen={open} onOpenChange={setOpen} title={`Luke ${date}`}>
+      <Modal contentClassName={styles.slotModal} isOpen={open} onOpenChange={setOpen} title={`Luke ${date}`}>
         {content}
       </Modal>
     </>
