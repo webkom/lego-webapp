@@ -8,8 +8,11 @@ type ArcadeGameModalProps = {
 };
 
 const ArcadeGameModal = ({ dateNr = 1 }: ArcadeGameModalProps) => {
+  const [isOpen, setIsOpen] = useState(true);
+
   return (
     <div>
+      <Button onPress={() => setIsOpen(true)}>ArcadeGame</Button>
       <Modal
         isOpen={isOpen}
         onOpenChange={setIsOpen}
