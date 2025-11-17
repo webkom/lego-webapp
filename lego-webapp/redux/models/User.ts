@@ -89,6 +89,7 @@ interface User {
   achievementsScore: number;
   achievementRank: number;
   commandSuggestions?: Array<string>;
+  christmasSlots: {slot: {slot: number}}[]
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
@@ -128,6 +129,7 @@ export type CurrentUser = Pick<
   | 'achievementsScore'
   | 'achievementRank'
   | 'commandSuggestions'
+  | 'christmasSlots'
 >;
 
 export type PublicUser = Pick<
