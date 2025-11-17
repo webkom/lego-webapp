@@ -1,6 +1,7 @@
 import { Flex, Modal } from '@webkom/lego-bricks';
 import React from 'react';
 import styles from './ChristmasCalendar.module.css';
+import ArcadeGameBox from './_arcadeGame/ArcadeGameCanvas';
 
 type ChristmasCalendarType = {
   className: string;
@@ -8,26 +9,26 @@ type ChristmasCalendarType = {
 
 const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
   const content = [
-    <p key={1}>test</p>,
+    <p key={1}>{<ArcadeGameBox dateNr={1} />}</p>,
     <p key={2}>test</p>,
     <p key={3}>test</p>,
     <p key={4}>test</p>,
     <p key={5}>test</p>,
     <p key={6}>test</p>,
     <p key={7}>test</p>,
-    <p key={8}>test</p>,
+    <p key={8}>{<ArcadeGameBox dateNr={8} />}</p>,
     <p key={9}>test</p>,
     <p key={10}>test</p>,
-    <p key={11}>test</p>,
+    <p key={11}>{<ArcadeGameBox dateNr={11} />}</p>,
     <p key={12}>test</p>,
     <p key={13}>test</p>,
     <p key={14}>test</p>,
-    <p key={15}>test</p>,
+    <p key={15}>{<ArcadeGameBox dateNr={15} />}</p>,
     <p key={16}>test</p>,
     <p key={17}>test</p>,
     <p key={18}>test</p>,
     <p key={19}>test</p>,
-    <p key={20}>test</p>,
+    <p key={20}>{<ArcadeGameBox dateNr={20} />}</p>,
     <p key={21}>test</p>,
     <p key={22}>test</p>,
     <p key={23}>test</p>,
@@ -137,7 +138,12 @@ const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
       >
         <p>{date}</p>
       </button>
-      <Modal isOpen={open} onOpenChange={setOpen} title={`Luke ${date}`}>
+      <Modal
+        contentClassName={styles.slotModal}
+        isOpen={open}
+        onOpenChange={setOpen}
+        title={`Luke ${date}`}
+      >
         {content}
       </Modal>
     </>
