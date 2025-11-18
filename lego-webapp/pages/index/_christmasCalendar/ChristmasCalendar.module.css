@@ -83,3 +83,8 @@
   border-radius: var(--border-radius-lg);
   margin-top: -10px;
 }
+
+.window {
+  width: 90%;
+  height: 90%;
+}
