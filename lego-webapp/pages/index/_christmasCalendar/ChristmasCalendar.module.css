@@ -47,6 +47,10 @@
   animation: shake 1s ease-in-out infinite;
 }
 
+.slotModal {
+  height: fit-content;
+}
+
 @keyframes shake {
   0%,
   60%,
