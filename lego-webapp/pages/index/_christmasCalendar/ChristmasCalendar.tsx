@@ -9,7 +9,7 @@ type ChristmasCalendarType = {
 
 const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
   const content = [
-    <p key={1}>{<ArcadeGameBox dateNr={1} />}</p>,
+    <p key=m{1}>{<ArcadeGameBox dateNr={1} />}</p>,
     <p key={2}>test</p>,
     <p key={3}>test</p>,
     <p key={4}>test</p>,

@@ -97,7 +97,7 @@ const ArcadeGameBox = ({ dateNr = 1 }: ArcadeGameBoxProps) => {
     };
 
     // INITIAL VALUES
-    const fps = 15;
+    const fps = 10;
     const DESIGN_W = 420;
     const DESIGN_H = 420;
     const START_Y = 3;
