@@ -31,6 +31,7 @@
   animation-iteration-count: infinite;
   animation-direction: alternate;
   will-change: transform, opacity;
+  box-shadow: 2px 2px 10px #888;
 }
 
 @keyframes fall {
