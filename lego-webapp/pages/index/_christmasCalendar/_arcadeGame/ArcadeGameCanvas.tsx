@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import styles from './ArcadeGame.module.css';
 
 type ArcadeGameBoxProps = {
   dateNr?: number;
@@ -122,8 +123,8 @@ const ArcadeGameBox = ({ dateNr = 1 }: ArcadeGameBoxProps) => {
 
     // SIZE HANDLER
     const setSize = () => {
-      const cssW = parent?.clientWidth;
-      const cssH = Math.round(cssW * (DESIGN_H / DESIGN_W));
+      const cssW = parent.clientWidth;
+      const cssH = parent.clientHeight;
 
       canvas.style.width = `${cssW}px`;
       canvas.style.height = `${cssH}px`;
@@ -281,7 +282,11 @@ const ArcadeGameBox = ({ dateNr = 1 }: ArcadeGameBoxProps) => {
     };
   });
 
-  return <canvas ref={ref} style={{ display: 'block' }} />;
+  return (
+    <div className={styles.arcadeGameWrapper}>
+      <canvas ref={ref} />
+    </div>
+  );
 };
 
 export default ArcadeGameBox;
