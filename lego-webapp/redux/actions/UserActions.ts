@@ -524,7 +524,7 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
 
 export function updateChristmasSlots({
   slots,
-  username
+  username,
 }: {
   slots: number[];
   username: string;

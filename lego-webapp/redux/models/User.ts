@@ -88,7 +88,7 @@ interface User {
   achievements: Achievement[];
   achievementsScore: number;
   achievementRank: number;
-  christmasSlots: number[]
+  christmasSlots: number[];
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
