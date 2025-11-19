@@ -217,7 +217,7 @@ export const User = {
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN'),
   RECORD_COMMAND_USAGE: generateStatuses('User.RECORD_COMMAND_USAGE'),
-  UPDATE_CHRISTMAS_SLOTS: generateStatuses('User.UPDATE_CHRISTMAS_SLOTS')
+  UPDATE_CHRISTMAS_SLOTS: generateStatuses('User.UPDATE_CHRISTMAS_SLOTS'),
 };
 
 export const Penalty = {
