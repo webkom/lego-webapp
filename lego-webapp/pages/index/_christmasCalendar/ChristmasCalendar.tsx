@@ -1,6 +1,6 @@
 import { Flex, Modal } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import React from 'react';
+import React, { useRef } from 'react';
 import { fetchUser } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
@@ -22,37 +22,49 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
         dispatch(fetchUser(currentUser.username));
       }
     },
-    [currentUser?.username],
+    [],
   );
 
   const content = React.useMemo(
     () => [
-      <p key={1}><ArcadeGameBox dateNr={1} /></p>,
+      <ArcadeGameBox key={1} dateNr={1} slots={currentUser?.christmasSlots} />,
       <p key={2}>test</p>,
       <p key={3}>test</p>,
       <p key={4}>test</p>,
       <p key={5}>test</p>,
       <p key={6}>test</p>,
       <p key={7}>test</p>,
-      <p key={8}><ArcadeGameBox dateNr={8} /></p>,
+      <ArcadeGameBox key={8} dateNr={8} slots={currentUser?.christmasSlots} />,
       <p key={9}>test</p>,
       <p key={10}>test</p>,
-      <p key={11}><ArcadeGameBox dateNr={11} /></p>,
+      <ArcadeGameBox
+        key={11}
+        dateNr={11}
+        slots={currentUser?.christmasSlots}
+      />,
       <p key={12}>test</p>,
       <p key={13}>test</p>,
       <p key={14}>test</p>,
-      <p key={15}><ArcadeGameBox dateNr={15} /></p>,
+      <ArcadeGameBox
+        key={15}
+        dateNr={15}
+        slots={currentUser?.christmasSlots}
+      />,
       <p key={16}>test</p>,
       <p key={17}>test</p>,
       <p key={18}>test</p>,
       <p key={19}>test</p>,
-      <p key={20}><ArcadeGameBox dateNr={20} /></p>,
+      <ArcadeGameBox
+        key={20}
+        dateNr={20}
+        slots={currentUser?.christmasSlots}
+      />,
       <p key={21}>test</p>,
       <p key={22}>test</p>,
       <p key={23}>test</p>,
       <p key={24}>test</p>,
     ],
-  []
+    [currentUser?.christmasSlots],
   );
 
   const rows = React.useMemo(() => {
@@ -69,17 +81,13 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
         left: (Math.random() * 0.9 + 0.2) * 10,
         right: (Math.random() * 0.9 + 0.2) * 10,
       })),
-    [rows.length]
+    [rows.length],
   );
 
   if (!currentUser) return null;
 
-  const christmasSlots = currentUser.christmasSlots.map(
-    (slot) => slot.slot.slot,
-  );
-
   const complete = Array.from({ length: 24 }, (_, i) =>
-    christmasSlots.includes(i + 1),
+    currentUser.christmasSlots.includes(i + 1),
   );
 
   return (
@@ -99,14 +107,11 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
                         content={content}
                         complete={complete}
                       />
-                    ) : null
+                    ) : null,
                   )}
                 </Flex>
 
-                <Flex
-                  gap={gapMatrix[rowIndex].right}
-                  justifyContent="flex-end"
-                >
+                <Flex gap={gapMatrix[rowIndex].right} justifyContent="flex-end">
                   {row.map((content, index) =>
                     !complete[4 * rowIndex + index] ? (
                       <AbakusBall
@@ -115,7 +120,7 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
                         content={content}
                         complete={complete}
                       />
-                    ) : null
+                    ) : null,
                   )}
                 </Flex>
               </div>
@@ -130,7 +135,6 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
   );
 };
 
-
 type AbakusBallType = {
   date: number;
   content: React.ReactElement;
@@ -140,6 +144,24 @@ type AbakusBallType = {
 const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
   const [open, setOpen] = React.useState(false);
   const currentDate = new Date().getDate();
+
+  const currentUser = useCurrentUser();
+  const dispatch = useAppDispatch();
+
+  const firstRender = useRef(true);
+
+  usePreparedEffect(
+    'fetchChristmasSlots',
+    () => {
+      if (firstRender.current) {
+        firstRender.current = false;
+        return;
+      }
+
+      dispatch(fetchUser(currentUser?.username));
+    },
+    [open],
+  );
 
   return (
     <>

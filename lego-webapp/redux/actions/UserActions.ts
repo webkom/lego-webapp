@@ -522,6 +522,27 @@ export function updateUserTheme(username: string, theme: 'light' | 'dark') {
   );
 }
 
+export function updateChristmasSlots({
+  slots,
+  username
+}: {
+  slots: number[];
+  username: string;
+}) {
+  return callAPI({
+    types: User.UPDATE_CHRISTMAS_SLOTS,
+    endpoint: `/users/${username}/`,
+    method: 'PATCH',
+    body: {
+      christmasSlots: slots,
+    },
+    meta: {
+      errorMessage: 'Luka ble ikke gjennomført',
+      successMessage: `Luka ble gjennomført!`,
+    },
+  });
+}
+
 export function recordCommandUsage(commandId: string) {
   return callAPI({
     types: User.RECORD_COMMAND_USAGE,
