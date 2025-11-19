@@ -216,6 +216,7 @@ export const User = {
   ),
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN'),
+  UPDATE_CHRISTMAS_SLOTS: generateStatuses('User.UPDATE_CHRISTMAS_SLOTS')
 };
 export const Penalty = {
   FETCH: generateStatuses('Penalty.FETCH'),
