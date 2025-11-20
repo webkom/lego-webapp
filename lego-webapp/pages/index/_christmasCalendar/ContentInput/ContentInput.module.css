@@ -1,18 +1,39 @@
-img {
+/* Make images scale to the container and never exceed viewport height
+   Use max-height in vh so images don't force the modal to grow beyond the
+   viewport. object-fit keeps aspect ratio. */
+.image {
   display: block;
-  margin: 0 auto;
-  width: 60%;
+  margin: 2em auto;
+  max-width: 100%;
+  max-height: 40vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
+/* Input box — responsive width, avoid fixed heights which can overflow
+   when the modal is small. */
 .box {
-  margin: 50px auto;
-  height: 70px;
-  width: 400px;
-  size: 100px;
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 40em;
+  box-sizing: border-box;
+  padding: 0.25rem 0.5rem;
+  min-height: 5rem;
 }
 
+/* Text styling — limit the maximum font size so very large values don't
+   blow up the modal on small screens. */
 .text {
-  font-size: 24pt;
-  margin: 50px;
+  font-size: clamp(1.2rem, 2vw, 5rem);
   text-align: center;
+  word-break: break-word;
+}
+
+/* Helper class to be used on the modal's content wrapper when this
+   component is shown inside a modal. It constrains the content to the
+   viewport and enables internal scrolling instead of letting the modal
+   overflow. */
+.modalContent {
+  max-height: calc(100vh - 4rem); /* leave room for padding/margins */
 }

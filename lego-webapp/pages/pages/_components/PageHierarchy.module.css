@@ -1,7 +1,7 @@
 @import url('styles/custom-media.css');
 
 .sidebar {
-  width: 15rem;
+  width: s;
   display: flex;
   flex-direction: column;
   margin: 0;

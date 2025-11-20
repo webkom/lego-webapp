@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { updateChristmasSlots } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
+import styles from './ArcadeGame.module.css';
 
 type ArcadeGameBoxProps = {
   dateNr: number;
@@ -103,7 +104,7 @@ const ArcadeGameBox = ({ dateNr }: ArcadeGameBoxProps) => {
     };
 
     // INITIAL VALUES
-    const fps = 15;
+    const fps = 10;
     const DESIGN_W = 420;
     const DESIGN_H = 420;
     const START_Y = 3;
@@ -128,8 +129,8 @@ const ArcadeGameBox = ({ dateNr }: ArcadeGameBoxProps) => {
 
     // SIZE HANDLER
     const setSize = () => {
-      const cssW = parent?.clientWidth;
-      const cssH = Math.round(cssW * (DESIGN_H / DESIGN_W));
+      const cssW = parent.clientWidth;
+      const cssH = parent.clientHeight;
 
       canvas.style.width = `${cssW}px`;
       canvas.style.height = `${cssH}px`;
@@ -295,7 +296,11 @@ const ArcadeGameBox = ({ dateNr }: ArcadeGameBoxProps) => {
     };
   });
 
-  return <canvas ref={ref} style={{ display: 'block' }} />;
+  return (
+    <div className={styles.arcadeGameWrapper}>
+      <canvas ref={ref} />
+    </div>
+  );
 };
 
 export default ArcadeGameBox;

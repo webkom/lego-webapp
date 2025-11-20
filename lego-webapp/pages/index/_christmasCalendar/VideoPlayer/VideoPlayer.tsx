@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextInput } from '~/components/Form';
 import styles from './VideoPlayer.module.css';
 
-const Videospiller = ({
+const VideoPlayer = ({
   question = '',
   videoFile_1 = '',
   videoFile_2 = '',
@@ -74,4 +74,4 @@ const Videospiller = ({
   );
 };
 
-export default Videospiller;
+export default VideoPlayer;
