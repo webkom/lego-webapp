@@ -5,9 +5,8 @@ import { useCurrentUser } from '~/redux/slices/auth';
 
 type ArcadeGameBoxProps = {
   dateNr: number;
-  slots: number[] | undefined;
 };
-const ArcadeGameBox = ({ dateNr, slots }: ArcadeGameBoxProps) => {
+const ArcadeGameBox = ({ dateNr }: ArcadeGameBoxProps) => {
   const currentUser = useCurrentUser();
   const dispatch = useAppDispatch();
 
@@ -259,10 +258,10 @@ const ArcadeGameBox = ({ dateNr, slots }: ArcadeGameBoxProps) => {
               player.w = numberDataFormatted[0]['w'];
               player.space = numberDataFormatted[0]['space'];
 
-              if (currentUser && slots) {
+              if (currentUser) {
                 dispatch(
                   updateChristmasSlots({
-                    slots: [...slots, dateNr],
+                    slots: [...currentUser.christmasSlots, dateNr],
                     username: currentUser.username,
                   }),
                 );
