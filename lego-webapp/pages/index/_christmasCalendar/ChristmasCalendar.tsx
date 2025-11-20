@@ -27,44 +27,32 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
 
   const content = React.useMemo(
     () => [
-      <ArcadeGameBox key={1} dateNr={1} slots={currentUser?.christmasSlots} />,
+      <ArcadeGameBox key={1} dateNr={1} />,
       <p key={2}>test</p>,
       <p key={3}>test</p>,
       <p key={4}>test</p>,
       <p key={5}>test</p>,
       <p key={6}>test</p>,
       <p key={7}>test</p>,
-      <ArcadeGameBox key={8} dateNr={8} slots={currentUser?.christmasSlots} />,
+      <ArcadeGameBox key={8} dateNr={8} />,
       <p key={9}>test</p>,
       <p key={10}>test</p>,
-      <ArcadeGameBox
-        key={11}
-        dateNr={11}
-        slots={currentUser?.christmasSlots}
-      />,
+      <ArcadeGameBox key={11} dateNr={11} />,
       <p key={12}>test</p>,
       <p key={13}>test</p>,
       <p key={14}>test</p>,
-      <ArcadeGameBox
-        key={15}
-        dateNr={15}
-        slots={currentUser?.christmasSlots}
-      />,
+      <ArcadeGameBox key={15} dateNr={15} />,
       <p key={16}>test</p>,
       <p key={17}>test</p>,
       <p key={18}>test</p>,
       <p key={19}>test</p>,
-      <ArcadeGameBox
-        key={20}
-        dateNr={20}
-        slots={currentUser?.christmasSlots}
-      />,
+      <ArcadeGameBox key={20} dateNr={20} />,
       <p key={21}>test</p>,
       <p key={22}>test</p>,
       <p key={23}>test</p>,
       <p key={24}>test</p>,
     ],
-    [currentUser?.christmasSlots],
+    [],
   );
 
   const rows = React.useMemo(() => {
