@@ -2,7 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import { Button, Flex, Image, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GroupType } from 'app/models';
 import { SelectInput } from '~/components/Form';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
@@ -29,7 +29,23 @@ type FindGameType = {
 };
 
 const FindGame = ({ logo, bgImage, style, state, setState }: FindGameType) => {
-  return (
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 768px)');
+    setMatches(media.matches);
+
+    const listener = (e: MediaQueryListEvent) => setMatches(e.matches);
+    media.addEventListener('change', listener);
+    return () => media.removeEventListener('change', listener);
+  }, []);
+
+  return matches ? (
+    <h2 style={{ textAlign: 'center' }}>
+      Skjermen er for liten for å spille. Snu enheten horisonalt eller gjør
+      vinduet større!
+    </h2>
+  ) : (
     <Flex column>
       <h2>Finn logoen til en komité!</h2>
       <div className={styles.frame}>
