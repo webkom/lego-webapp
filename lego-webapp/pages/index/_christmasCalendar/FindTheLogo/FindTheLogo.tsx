@@ -6,7 +6,9 @@ import React, { useEffect, useState } from 'react';
 import { GroupType } from 'app/models';
 import { SelectInput } from '~/components/Form';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
+import { updateChristmasSlots } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import { selectGroupsByType } from '~/redux/slices/groups';
 import { isNotNullish } from '~/utils';
 import styles from './FindTheLogo.module.css';
@@ -69,6 +71,7 @@ type GuessCommitteeType = {
   state: number;
   setState: React.Dispatch<React.SetStateAction<number>>;
   setCorrect: React.Dispatch<React.SetStateAction<boolean>>;
+  date: number;
 };
 
 const GuessCommittee = ({
@@ -76,7 +79,10 @@ const GuessCommittee = ({
   state,
   setState,
   setCorrect,
+  date,
 }: GuessCommitteeType) => {
+  const currentUser = useCurrentUser();
+
   const committees = useAppSelector((state) =>
     selectGroupsByType(state, GroupType.Committee),
   );
@@ -119,6 +125,15 @@ const GuessCommittee = ({
     if (selectedCommittee && selectedCommittee.label === answer) {
       setCorrect(true);
       setState(state + 1);
+
+      if (currentUser) {
+        dispatch(
+          updateChristmasSlots({
+            slots: [...currentUser.christmasSlots, date],
+            username: currentUser.username,
+          }),
+        );
+      }
     } else {
       setState(state + 1);
     }
@@ -154,7 +169,6 @@ type FinalStateType = {
   logo: string;
   committee: string;
   style: StyleType;
-
   setState: React.Dispatch<React.SetStateAction<number>>;
 };
 
@@ -259,6 +273,7 @@ const FindTheLogo = ({ date }: { date: number }) => {
       state={state}
       setState={setState}
       setCorrect={setCorrect}
+      date={date}
     />,
     <FinalState
       key={2}
