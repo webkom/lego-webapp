@@ -4,8 +4,12 @@
 
 .source {
   position: relative;
-  height: 100%;
   width: 80%;
+}
+
+.finalSource {
+  position: relative;
+  width: 60%;
 }
 
 .logoButton {

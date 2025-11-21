@@ -25,6 +25,7 @@ type Props<Option, IsMulti extends boolean = false> = {
   isMulti?: boolean;
   isClearable?: boolean;
   filter?: string[];
+  insideModal?: boolean;
   SuggestionComponent?: SuggestionComponent<Option>;
 } & Pick<ComponentProps<Creatable>, 'onBlur'>;
 
@@ -148,7 +149,9 @@ const SelectInput = <
           onSearch?.(value);
           return value;
         }}
-        menuPortalTarget={import.meta.env.SSR ? null : document.body}
+        menuPortalTarget={
+          props.insideModal ? null : import.meta.env.SSR ? null : document.body
+        }
         styles={selectStyle ?? selectStyles}
         theme={selectTheme}
         blurInputOnSelect={false}
