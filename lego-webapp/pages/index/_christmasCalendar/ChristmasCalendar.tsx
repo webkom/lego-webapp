@@ -25,64 +25,59 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
     },
     [],
   );
-    
-  const content = [
-    <ArcadeGameBox dateNr={1} key={1} />,
-    <p key={2}>test</p>,
-    <p key={3}>test</p>,
-    <p key={4}>test</p>,
-    <ContentInput key={5} day={5} />,
-    <p key={6}>test</p>,
-    <p key={7}>test</p>,
-    <ArcadeGameBox dateNr={8} key={8} />,
-    <p key={9}>test</p>,
-    <ContentInput key={10} day={10} />,
-    <ArcadeGameBox dateNr={11} key={11} />,
-    <ContentInput key={12} day={12} />,
-    <p key={13}>test</p>,
-    <p key={14}>test</p>,
-    <ArcadeGameBox dateNr={15} key={15} />,
-    <p key={16}>test</p>,
-    <p key={17}>test</p>,
-    <p key={18}>test</p>,
-    <ContentInput key={19} day={19} />,
-    <ArcadeGameBox dateNr={20} key={20} />,
-    <p key={21}>test</p>,
-    <ContentInput key={22} day={22} />,
-    <p key={23}>test</p>,
-    <p key={24}>test</p>,
-  ];
-  const rows: Array<Array<React.ReactElement>> = [];
-  const complete = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
 
-  for (let i = 0; i < content.length; i += 4) {
-    rows.push(content.slice(i, i + 4));
-  }
+  const content = React.useMemo(
+    () => [
+      <ArcadeGameBox dateNr={1} key={1} />,
+      <p key={2}>test</p>,
+      <p key={3}>test</p>,
+      <p key={4}>test</p>,
+      <ContentInput key={5} day={5} />,
+      <p key={6}>test</p>,
+      <p key={7}>test</p>,
+      <ArcadeGameBox dateNr={8} key={8} />,
+      <p key={9}>test</p>,
+      <ContentInput key={10} day={10} />,
+      <ArcadeGameBox dateNr={11} key={11} />,
+      <ContentInput key={12} day={12} />,
+      <p key={13}>test</p>,
+      <p key={14}>test</p>,
+      <ArcadeGameBox dateNr={15} key={15} />,
+      <p key={16}>test</p>,
+      <p key={17}>test</p>,
+      <p key={18}>test</p>,
+      <ContentInput key={19} day={19} />,
+      <ArcadeGameBox dateNr={20} key={20} />,
+      <p key={21}>test</p>,
+      <ContentInput key={22} day={22} />,
+      <p key={23}>test</p>,
+      <p key={24}>test</p>,
+    ],
+    [],
+  );
+
+  const rows = React.useMemo(() => {
+    const r: React.ReactElement[][] = [];
+    for (let i = 0; i < content.length; i += 4) {
+      r.push(content.slice(i, i + 4));
+    }
+    return r;
+  }, [content]);
+
+  const gapMatrix = React.useMemo(
+    () =>
+      Array.from({ length: rows.length }, () => ({
+        left: (Math.random() * 0.9 + 0.2) * 10,
+        right: (Math.random() * 0.9 + 0.2) * 10,
+      })),
+    [rows.length],
+  );
+
+  if (!currentUser) return null;
+
+  const complete = Array.from({ length: 24 }, (_, i) =>
+    currentUser.christmasSlots.includes(i + 1),
+  );
 
   return (
     <div className={className}>
