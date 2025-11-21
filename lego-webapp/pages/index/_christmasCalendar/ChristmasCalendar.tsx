@@ -6,6 +6,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './ChristmasCalendar.module.css';
 import ContentInput from './ContentInput/ContentInput';
+import QuizGame from './QuizGame/QuizGame';
 import ArcadeGameBox from './_arcadeGame/ArcadeGameCanvas';
 
 type ChristmasCalendarType = {
@@ -30,25 +31,25 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
     () => [
       <ArcadeGameBox dateNr={1} key={1} />,
       <p key={2}>test</p>,
-      <p key={3}>test</p>,
+      <QuizGame key={3} date={3} />,
       <p key={4}>test</p>,
       <ContentInput key={5} day={5} />,
-      <p key={6}>test</p>,
+      <QuizGame key={6} date={6} />,
       <p key={7}>test</p>,
       <ArcadeGameBox dateNr={8} key={8} />,
       <p key={9}>test</p>,
       <ContentInput key={10} day={10} />,
       <ArcadeGameBox dateNr={11} key={11} />,
       <ContentInput key={12} day={12} />,
-      <p key={13}>test</p>,
+      <QuizGame key={13} date={13} />,
       <p key={14}>test</p>,
       <ArcadeGameBox dateNr={15} key={15} />,
       <p key={16}>test</p>,
-      <p key={17}>test</p>,
+      <QuizGame key={17} date={17} />,
       <p key={18}>test</p>,
       <ContentInput key={19} day={19} />,
       <ArcadeGameBox dateNr={20} key={20} />,
-      <p key={21}>test</p>,
+      <QuizGame key={21} date={21} />,
       <ContentInput key={22} day={22} />,
       <p key={23}>test</p>,
       <p key={24}>test</p>,

@@ -41,8 +41,8 @@ const info = {
 };
 
 const ContentInput = ({ day = -1 }) => {
-  const currentUser = useCurrentUser()
-  const dispatch = useAppDispatch()
+  const currentUser = useCurrentUser();
+  const dispatch = useAppDispatch();
 
   const { answer, question, image } = info[day] || {};
   const [message, setMessage] = useState('');
@@ -54,8 +54,13 @@ const ContentInput = ({ day = -1 }) => {
         setMessage('Riktig!');
 
         if (currentUser) {
-          dispatch(updateChristmasSlots({slots: [...currentUser.christmasSlots, day], username: currentUser.username}))
-        }        
+          dispatch(
+            updateChristmasSlots({
+              slots: [...currentUser.christmasSlots, day],
+              username: currentUser.username,
+            }),
+          );
+        }
       } else {
         setMessage('Feil...');
       }
