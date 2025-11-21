@@ -1,12 +1,8 @@
 import { Flex, Modal } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
-import React, { useRef } from 'react';
-import { fetchUser } from '~/redux/actions/UserActions';
-import { useAppDispatch } from '~/redux/hooks';
-import { useCurrentUser } from '~/redux/slices/auth';
+import React from 'react';
 import styles from './ChristmasCalendar.module.css';
 import ContentInput from './ContentInput/ContentInput';
-import QuizGame from './QuizGame/QuizGame';
+import FindTheLogo from './FindTheLogo/FindTheLogo';
 import ArcadeGameBox from './_arcadeGame/ArcadeGameCanvas';
 
 type ChristmasCalendarType = {
@@ -14,81 +10,73 @@ type ChristmasCalendarType = {
 };
 
 const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
-  const currentUser = useCurrentUser();
-  const dispatch = useAppDispatch();
+  const content = [
+    <ArcadeGameBox dateNr={1} key={1} />,
+    <p key={2}>test</p>,
+    <p key={3}>test</p>,
+    <FindTheLogo key={4} date={4} />,
+    <ContentInput key={5} day={5} />,
+    <p key={6}>test</p>,
+    <p key={7}>test</p>,
+    <ArcadeGameBox dateNr={8} key={8} />,
+    <FindTheLogo key={9} date={9} />,
+    <ContentInput key={10} day={10} />,
+    <ArcadeGameBox dateNr={11} key={11} />,
+    <ContentInput key={12} day={12} />,
+    <p key={13}>test</p>,
+    <FindTheLogo key={14} date={14} />,
+    <ArcadeGameBox dateNr={15} key={15} />,
+    <p key={16}>test</p>,
+    <p key={17}>test</p>,
+    <FindTheLogo key={18} date={18} />,
+    <ContentInput key={19} day={19} />,
+    <ArcadeGameBox dateNr={20} key={20} />,
+    <p key={21}>test</p>,
+    <ContentInput key={22} day={22} />,
+    <FindTheLogo key={23} date={23} />,
+    <p key={24}>test</p>,
+  ];
+  const rows: Array<Array<React.ReactElement>> = [];
+  const complete = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
 
-  usePreparedEffect(
-    'fetchChristmasSlots',
-    () => {
-      if (currentUser) {
-        dispatch(fetchUser(currentUser.username));
-      }
-    },
-    [],
-  );
-
-  const content = React.useMemo(
-    () => [
-      <ArcadeGameBox dateNr={1} key={1} />,
-      <p key={2}>test</p>,
-      <QuizGame key={3} date={3} />,
-      <p key={4}>test</p>,
-      <ContentInput key={5} day={5} />,
-      <QuizGame key={6} date={6} />,
-      <p key={7}>test</p>,
-      <ArcadeGameBox dateNr={8} key={8} />,
-      <p key={9}>test</p>,
-      <ContentInput key={10} day={10} />,
-      <ArcadeGameBox dateNr={11} key={11} />,
-      <ContentInput key={12} day={12} />,
-      <QuizGame key={13} date={13} />,
-      <p key={14}>test</p>,
-      <ArcadeGameBox dateNr={15} key={15} />,
-      <p key={16}>test</p>,
-      <QuizGame key={17} date={17} />,
-      <p key={18}>test</p>,
-      <ContentInput key={19} day={19} />,
-      <ArcadeGameBox dateNr={20} key={20} />,
-      <QuizGame key={21} date={21} />,
-      <ContentInput key={22} day={22} />,
-      <p key={23}>test</p>,
-      <p key={24}>test</p>,
-    ],
-    [],
-  );
-
-  const rows = React.useMemo(() => {
-    const r: React.ReactElement[][] = [];
-    for (let i = 0; i < content.length; i += 4) {
-      r.push(content.slice(i, i + 4));
-    }
-    return r;
-  }, [content]);
-
-  const gapMatrix = React.useMemo(
-    () =>
-      Array.from({ length: rows.length }, () => ({
-        left: (Math.random() * 0.9 + 0.2) * 10,
-        right: (Math.random() * 0.9 + 0.2) * 10,
-      })),
-    [rows.length],
-  );
-
-  if (!currentUser) return null;
-
-  const complete = Array.from({ length: 24 }, (_, i) =>
-    currentUser.christmasSlots.includes(i + 1),
-  );
+  for (let i = 0; i < content.length; i += 4) {
+    rows.push(content.slice(i, i + 4));
+  }
 
   return (
     <div className={className}>
-      <Flex width="100%">
+      <Flex width={'100%'}>
         <AbakusPole />
         <div className={styles.abakusContainer}>
           {rows.map((row, rowIndex) => (
             <div key={rowIndex} className={styles.abakusRow}>
               <div className={styles.abakusBalls}>
-                <Flex gap={gapMatrix[rowIndex].left}>
+                <Flex gap={(Math.random() * 0.9 + 0.2) * 10}>
                   {row.map((content, index) =>
                     complete[4 * rowIndex + index] ? (
                       <AbakusBall
@@ -100,8 +88,10 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
                     ) : null,
                   )}
                 </Flex>
-
-                <Flex gap={gapMatrix[rowIndex].right} justifyContent="flex-end">
+                <Flex
+                  gap={(Math.random() * 0.9 + 0.2) * 10}
+                  justifyContent="flex-end"
+                >
                   {row.map((content, index) =>
                     !complete[4 * rowIndex + index] ? (
                       <AbakusBall
@@ -114,7 +104,6 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
                   )}
                 </Flex>
               </div>
-
               <div className={styles.abakusWire} />
             </div>
           ))}
@@ -133,36 +122,18 @@ type AbakusBallType = {
 
 const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
   const [open, setOpen] = React.useState(false);
-  const currentDate = new Date().getDate();
-
-  const currentUser = useCurrentUser();
-  const dispatch = useAppDispatch();
-
-  const firstRender = useRef(true);
-
-  usePreparedEffect(
-    'fetchChristmasSlots',
-    () => {
-      if (firstRender.current) {
-        firstRender.current = false;
-        return;
-      }
-
-      dispatch(fetchUser(currentUser?.username));
-    },
-    [open],
-  );
+  const TEST_DATE = 24;
 
   return (
     <>
       <button
         className={
-          Number(date) === currentDate
+          Number(date) === TEST_DATE
             ? `${styles.abakusBall} ${styles.ballShake}`
             : styles.abakusBall
         }
         onClick={() =>
-          currentDate >= Number(date) && !complete[date - 1]
+          TEST_DATE >= Number(date) && !complete[date - 1]
             ? setOpen(true)
             : false
         }
