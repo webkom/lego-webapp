@@ -111,14 +111,20 @@ const QuizGame = ({ date }: QuizGameType) => {
         answer: 'Kanel',
       },
       {
-        question: 'Hva er ofte synonymt med “kos” på norsk??',
+        question: 'Hva er ofte synonymt med “kos” på norsk?',
         options: ['Stress', 'Eksamen', 'Varme, hygge og ro', 'Intervaller'],
         answer: 'Varme, hygge og ro',
       },
       {
-        question: 'Who developed the theory of relativity?',
-        options: ['Newton', 'Einstein', 'Galileo', 'Tesla'],
-        answer: 'Einstein',
+        question:
+          'Hvem har stemmen i den norske versjonen av "Tre nøtter i Askepott"?',
+        options: [
+          'Henki Kolstad',
+          'Knut Risan',
+          'Per Wilhelm Asplin',
+          'Arve Opsahl',
+        ],
+        answer: 'Knut Risan',
       },
     ],
   };
