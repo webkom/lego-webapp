@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { TextInput } from '~/components/Form';
+import { updateChristmasSlots } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import abacord from '../../../../assets/Christmas_calender/abacord_logo.png';
 import song from '../../../../assets/Christmas_calender/christmas_song.png';
 import emoji from '../../../../assets/Christmas_calender/emoji.jpg';
@@ -21,7 +24,7 @@ const info = {
     image: kenken,
   },
   12: {
-    answer: 'abachord',
+    answer: 'abacord',
     question: 'Hva er navnet på logoen?',
     image: abacord,
   },
@@ -38,6 +41,9 @@ const info = {
 };
 
 const ContentInput = ({ day = -1 }) => {
+  const currentUser = useCurrentUser();
+  const dispatch = useAppDispatch();
+
   const { answer, question, image } = info[day] || {};
   const [message, setMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -46,6 +52,15 @@ const ContentInput = ({ day = -1 }) => {
     if (e.key === 'Enter') {
       if (inputValue.toLowerCase() == answer.toLowerCase()) {
         setMessage('Riktig!');
+
+        if (currentUser) {
+          dispatch(
+            updateChristmasSlots({
+              slots: [...currentUser.christmasSlots, day],
+              username: currentUser.username,
+            }),
+          );
+        }
       } else {
         setMessage('Feil...');
       }
