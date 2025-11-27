@@ -71,7 +71,7 @@ const ContentInput = ({ day = -1 }) => {
     <>
       <img className={styles.image} src={image} alt="" />
 
-      <p className={styles.text}>{question}</p>
+      <div className={styles.text}>{question}</div>
       <TextInput
         className={styles.box}
         value={inputValue}
@@ -80,7 +80,7 @@ const ContentInput = ({ day = -1 }) => {
         placeholder="Skriv inn svaret ditt"
         centered={true}
       />
-      <p className={styles.text}>{message}</p>
+      <div className={styles.text}>{message}</div>
     </>
   );
 };
