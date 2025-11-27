@@ -2,6 +2,7 @@
   display: block;
   margin: 0 auto;
   width: 75%;
+  height: 35rem;
 }
 
 .box {
@@ -12,7 +13,9 @@
 }
 
 .text {
-  font-size: 24pt;
-  margin: 50px;
+  font-size: clamp(1.2rem, 2vw, 5rem);
   text-align: center;
+  width: 80%;
+  margin: 3rem auto;
+  word-break: break-word;
 }

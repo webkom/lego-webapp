@@ -8,6 +8,7 @@ import styles from './ChristmasCalendar.module.css';
 import ContentInput from './ContentInput/ContentInput';
 import FindTheLogo from './FindTheLogo/FindTheLogo';
 import QuizGame from './QuizGame/QuizGame';
+import VideoPlayer from './VideoPlayer/VideoPlayer';
 import ArcadeGameBox from './_arcadeGame/ArcadeGameCanvas';
 
 type ChristmasCalendarType = {
@@ -31,12 +32,12 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
   const content = React.useMemo(
     () => [
       <ArcadeGameBox dateNr={1} key={1} />,
-      <p key={2}>test</p>,
+      <VideoPlayer key={2} day={2} />,
       <QuizGame key={3} date={3} />,
       <FindTheLogo key={4} date={4} />,
       <ContentInput key={5} day={5} />,
       <QuizGame key={6} date={6} />,
-      <p key={7}>test</p>,
+      <VideoPlayer key={7} day={7} />,
       <ArcadeGameBox dateNr={8} key={8} />,
       <FindTheLogo key={9} date={9} />,
       <ContentInput key={10} day={10} />,
@@ -45,7 +46,7 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
       <QuizGame key={13} date={13} />,
       <FindTheLogo key={14} date={14} />,
       <ArcadeGameBox dateNr={15} key={15} />,
-      <p key={16}>test</p>,
+      <VideoPlayer key={16} day={16} />,
       <QuizGame key={17} date={17} />,
       <FindTheLogo key={18} date={18} />,
       <ContentInput key={19} day={19} />,
@@ -53,7 +54,6 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
       <QuizGame key={21} date={21} />,
       <ContentInput key={22} day={22} />,
       <FindTheLogo key={23} date={23} />,
-      <p key={24}>test</p>,
     ],
     [],
   );

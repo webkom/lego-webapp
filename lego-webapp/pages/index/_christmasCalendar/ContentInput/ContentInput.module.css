@@ -14,7 +14,7 @@
 /* Input box — responsive width, avoid fixed heights which can overflow
    when the modal is small. */
 .box {
-  margin: 1.5rem auto;
+  margin: 10rem auto;
   width: 100%;
   max-width: 40em;
   box-sizing: border-box;
@@ -27,6 +27,8 @@
 .text {
   font-size: clamp(1.2rem, 2vw, 5rem);
   text-align: center;
+  width: 80%;
+  margin: auto;
   word-break: break-word;
 }
 
