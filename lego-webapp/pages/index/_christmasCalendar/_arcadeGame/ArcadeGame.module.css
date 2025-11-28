@@ -1,7 +1,3 @@
-p {
-  position: absolute;
-}
-
 .arcadeGameWrapper {
   display: flex;
   justify-content: center;
