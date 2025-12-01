@@ -1,12 +1,17 @@
 import { useEffect, useRef } from 'react';
+import { useCurrentUser } from '~/redux/slices/auth';
+import { updateChristmasSlots } from '~/redux/actions/UserActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import styles from './ArcadeGame.module.css';
 
 type ArcadeGameBoxProps = {
   dateNr?: number;
 };
 const ArcadeGameBox = ({ dateNr = 1 }: ArcadeGameBoxProps) => {
+  const currentUser = useCurrentUser();
   const ref = useRef<HTMLCanvasElement | null>(null);
   const listeningRef = useRef(false);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (listeningRef.current) return;
@@ -253,6 +258,15 @@ const ArcadeGameBox = ({ dateNr = 1 }: ArcadeGameBoxProps) => {
               player.y = START_Y;
               player.w = numberDataFormatted[0]['w'];
               player.space = numberDataFormatted[0]['space'];
+
+              if (currentUser) {
+                dispatch(
+                  updateChristmasSlots({
+                    slots: [...currentUser.christmasSlots, dateNr],
+                    username: currentUser.username,
+                  }),
+                );
+              }
             }
           }
 

@@ -89,7 +89,7 @@ interface User {
   achievementsScore: number;
   achievementRank: number;
   commandSuggestions?: Array<string>;
-  christmasSlots: number[]
+  christmasSlots: number[];
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
