@@ -19,12 +19,12 @@ import Header from '~/components/Header';
 import PhotoUploadStatus from '~/components/PhotoUploadStatus';
 import ToastProvider from '~/components/Toast/ToastProvider';
 import HTTPError from '~/components/errors/HTTPError';
+import SnowBackground from '~/pages/index/_christmasCalendar/snow';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { setStatusCode } from '~/redux/slices/routing';
 import appConfig from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
 import styles from './Layout.module.css';
-import SnowBackground from '~/pages/index/_christmasCalendar/snow';
 
 const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
-import { useCurrentUser } from '~/redux/slices/auth';
 import { updateChristmasSlots } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './ArcadeGame.module.css';
 
 type ArcadeGameBoxProps = {
