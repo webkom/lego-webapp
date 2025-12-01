@@ -24,6 +24,7 @@ import { setStatusCode } from '~/redux/slices/routing';
 import appConfig from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
 import styles from './Layout.module.css';
+import SnowBackground from '~/pages/index/_christmasCalendar/snow';
 
 const AppChildren = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
@@ -100,6 +101,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
         )}
 
+        <SnowBackground />
         <Header />
         <CommandPalette />
 
