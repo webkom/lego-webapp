@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { TextInput } from '~/components/Form';
+import { updateChristmasSlots } from '~/redux/actions/UserActions';
+import { useAppDispatch } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './VideoPlayer.module.css';
 
 const info = {
@@ -40,6 +43,9 @@ const VideoPlayer = ({ day = -1 }) => {
   const playerInstanceRef = useRef<any>(null);
   const submittedValueRef = useRef('');
 
+  const currentUser = useCurrentUser();
+  const dispatch = useAppDispatch();
+
   const handleVideoEnd = useCallback(() => {
     setShowText(true);
     setShowBox(false);
@@ -51,13 +57,21 @@ const VideoPlayer = ({ day = -1 }) => {
         submittedNumber <= answer + margin
       ) {
         setText('Gratulerer! Riktig svar var: ' + answer);
+        if (currentUser) {
+          dispatch(
+            updateChristmasSlots({
+              slots: [...currentUser.christmasSlots, day],
+              username: currentUser.username,
+            }),
+          );
+        }
       } else {
         setText('Du svarte dessverre galt. Riktig svar var: ' + answer);
       }
     } else {
       setShowBox(true);
     }
-  }, [answer, margin]);
+  }, [answer, currentUser, day, dispatch, margin]);
 
   useEffect(() => {
     // Load YouTube IFrame API if not already loaded
