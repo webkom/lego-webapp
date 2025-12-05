@@ -33,6 +33,10 @@ type Props = {
 };
 
 const LinkComponent = ({ link, children, className }: LinkComponentProps) => {
+  if (!link) {
+    return <span className={cx(styles.noLink, className)}>{children}</span>;
+  }
+
   return (
     <a
       href={link}
