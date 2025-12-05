@@ -3,6 +3,10 @@
   margin: 0 var(--spacing-md);
 }
 
+.noLink {
+  cursor: default;
+}
+
 .header {
   text-align: center;
   margin-bottom: var(--spacing-xl);
