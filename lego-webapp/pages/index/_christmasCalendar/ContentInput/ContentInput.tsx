@@ -29,7 +29,7 @@ const info = {
     image: abacord,
   },
   19: {
-    answer: 'Polar expressen',
+    answer: 'Polarekspressen',
     question: 'Hvilken kjent julefilm er dette?',
     image: emoji,
   },
