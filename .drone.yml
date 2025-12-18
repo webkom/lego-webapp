@@ -160,6 +160,8 @@ steps:
 
   - name: build
     image: node:20-alpine
+    environment:
+      NODE_OPTIONS: --max-old-space-size=4096
     when:
       event: [push]
       branch:
@@ -236,6 +238,7 @@ steps:
     depends_on:
       - build
     environment:
+      NODE_OPTIONS: --max-old-space-size=2048
       API_URL: http://api:8000/api/v1
       BASE_URL: http://api:8000
       WS_URL: ws://api:8000
@@ -271,7 +274,7 @@ steps:
       - npm i -g corepack
       - corepack enable
       - pnpm --filter lego-webapp exec cypress run --e2e --record
-  
+
   - name: cypress_component
     image: cypress/browsers:node-20.18.0-chrome-130.0.6723.69-1-ff-131.0.3-edge-130.0.2849.52-1
     when:
@@ -281,7 +284,7 @@ steps:
     depends_on:
       - install_cypress
       - build
-    environment: 
+    environment:
         TZ: Europe/Oslo
         CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
     commands:

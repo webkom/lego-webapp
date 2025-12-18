@@ -15,7 +15,7 @@ export default defineConfig({
     react(),
     sentryVitePlugin({
       sourcemaps: {
-        disable: false,
+        disable: true,
       },
     }),
     cjsInterop({
@@ -46,7 +46,7 @@ export default defineConfig({
 
   build: {
     target: 'es2022',
-    sourcemap: true,
+    sourcemap: false,
     cssCodeSplit: false,
     rollupOptions: {
       output: {
