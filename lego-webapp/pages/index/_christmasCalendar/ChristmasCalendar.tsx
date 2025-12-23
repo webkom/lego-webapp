@@ -136,8 +136,7 @@ type AbakusBallType = {
 
 const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
   const [open, setOpen] = React.useState(false);
-  //  const currentDate = new Date().getDate();
-  const currentDate = 24;
+  const currentDate = new Date().getDate();
   const currentUser = useCurrentUser();
   const dispatch = useAppDispatch();
 
