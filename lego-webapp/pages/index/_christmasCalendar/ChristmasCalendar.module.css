@@ -92,3 +92,8 @@
   width: 90%;
   height: 90%;
 }
+
+.watermark {
+  text-align: center;
+  margin-top: 10px;
+}
