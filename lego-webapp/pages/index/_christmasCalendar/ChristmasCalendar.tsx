@@ -6,6 +6,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './ChristmasCalendar.module.css';
 import ContentInput from './ContentInput/ContentInput';
+import FinalSlot from './FinalSlot/FinalSlot';
 import FindTheLogo from './FindTheLogo/FindTheLogo';
 import QuizGame from './QuizGame/QuizGame';
 import VideoPlayer from './VideoPlayer/VideoPlayer';
@@ -54,6 +55,7 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
       <QuizGame key={21} date={21} />,
       <ContentInput key={22} day={22} />,
       <FindTheLogo key={23} date={23} />,
+      <FinalSlot key={24} />,
     ],
     [],
   );
@@ -135,7 +137,6 @@ type AbakusBallType = {
 const AbakusBall = ({ date, content, complete }: AbakusBallType) => {
   const [open, setOpen] = React.useState(false);
   const currentDate = new Date().getDate();
-
   const currentUser = useCurrentUser();
   const dispatch = useAppDispatch();
 
