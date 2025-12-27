@@ -62,5 +62,7 @@ div.wrapper {
 .usefulLinkGraphic {
   margin: 0 auto;
   width: auto;
-  height: 40%;
+  height: auto;
+  max-height: 40vh;
+  object-fit: contain;
 }
