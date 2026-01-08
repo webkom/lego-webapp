@@ -160,8 +160,6 @@ steps:
 
   - name: build
     image: node:20-alpine
-    environment:
-      NODE_OPTIONS: --max-old-space-size=4096
     when:
       event: [push]
       branch:
@@ -361,4 +359,4 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: d484b5559ac6b6f659f7665d5db9e33a7b4a859e576764f066c6e5c217c86322
+hmac: c7e50bfcec2b7a481bc69e26c282ffc48c24c4665cb22816b17d87e2ebc07ce9
