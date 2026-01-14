@@ -225,7 +225,12 @@ const Header = () => {
               className={styles.searchButton}
               data-test-id="search-menu-icon"
             >
-              <div className={styles.iconWrapper}>
+              <div
+                className={cx(
+                  styles.iconWrapper,
+                  searchOpen && styles.searching,
+                )}
+              >
                 <Icon
                   iconNode={<Menu />}
                   size={24}
