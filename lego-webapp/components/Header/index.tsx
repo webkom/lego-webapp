@@ -1,7 +1,7 @@
-import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
+import { Icon, Image, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
+import { CircleUser, LogOut, Menu, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { navigate } from 'vike/client/router';
@@ -116,12 +116,12 @@ const HeaderLogo = () => {
       <LoadingIndicator loading={loading}>
         <div className={styles.logo}>
           <Image
-            src="/logo-dark.png"
+            src="/logo-ski-dark.png"
             className={styles.logoLightMode}
             alt="Abakus sin logo"
           />
           <Image
-            src="/logo.png"
+            src="/logo-ski.png"
             className={styles.logoDarkMode}
             alt="Abakus sin logo"
           />

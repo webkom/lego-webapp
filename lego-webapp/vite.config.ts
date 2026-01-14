@@ -15,7 +15,7 @@ export default defineConfig({
     react(),
     sentryVitePlugin({
       sourcemaps: {
-        disable: false,
+        disable: true,
       },
     }),
     cjsInterop({
