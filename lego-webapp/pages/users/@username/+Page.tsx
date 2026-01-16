@@ -20,6 +20,7 @@ import { GroupType } from 'app/models';
 import frame from '~/assets/frame.png';
 import EventListCompact from '~/components/EventListCompact';
 import { ProfilePicture } from '~/components/Image';
+import { ProfileCard } from '~/components/ProfileCard';
 import { Achievements } from '~/pages/users/@username/_components/Achievements';
 import { EmailLists } from '~/pages/users/@username/_components/EmailLists';
 import { GSuiteInfo } from '~/pages/users/@username/_components/GSuiteInfo';
@@ -172,7 +173,12 @@ const UserProfile = () => {
       }
     >
       <Helmet title={`${firstName} ${lastName}`} />
-
+      <DialogTrigger>
+        <Button>
+          <p>Trykk meg</p>
+        </Button>
+        <ProfileCard />
+      </DialogTrigger>
       <div className={styles.pageGrid}>
         <Flex
           column
