@@ -1,5 +1,5 @@
 import { Icon, Flex } from '@webkom/lego-bricks';
-import { BookOpenText, Coins, FileText, MailWarning, PiggyBank } from 'lucide-react';
+import { BookOpenText, FileText, MailWarning, PiggyBank } from 'lucide-react';
 import styles from './HsSection.module.css';
 
 const HsSectionContent = () => {
