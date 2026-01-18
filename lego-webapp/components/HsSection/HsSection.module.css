@@ -49,7 +49,7 @@
 }
 
 .accentMoneyRequest svg {
-  color: var(--color-orange-6)
+  color: var(--color-orange-6);
 }
 
 /* New styles for title/subtext layout */
