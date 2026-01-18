@@ -1,5 +1,5 @@
 import { Icon, Flex } from '@webkom/lego-bricks';
-import { BookOpenText, FileText, MailWarning } from 'lucide-react';
+import { BookOpenText, FileText, MailWarning, PiggyBank } from 'lucide-react';
 import styles from './HsSection.module.css';
 
 const HsSectionContent = () => {
@@ -46,6 +46,20 @@ const HsSectionContent = () => {
             <h4 className={styles.title}>Varslingsportal</h4>
             <span className={`secondaryFontColor ${styles.subtext}`}>
               Send inn et anonymt varsel
+            </span>
+          </div>
+        </a>
+        <a
+          href="https://drive.google.com/drive/folders/1ioLyk3MFFeNaZWNItYEGhdumytFdShmL?usp=sharing"
+          target="_blank"
+          rel="noreferrer"
+          className={`${styles.item} ${styles.accentMoneyRequest} ${styles.fullWidthButton}`}
+        >
+          <Icon iconNode={<PiggyBank size={18} />} />
+          <div className={styles.textWrapper}>
+            <h4 className={styles.title}>Pengesøknader</h4>
+            <span className={`secondaryFontColor ${styles.subtext}`}>
+              Se pengesøknader sendt inn til HS
             </span>
           </div>
         </a>

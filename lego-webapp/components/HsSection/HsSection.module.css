@@ -48,6 +48,10 @@
   color: var(--danger-color);
 }
 
+.accentMoneyRequest svg {
+  color: var(--color-orange-6);
+}
+
 /* New styles for title/subtext layout */
 .textWrapper {
   display: flex;
