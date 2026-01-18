@@ -85,44 +85,50 @@ const ChristmasCalendar = ({ className }: ChristmasCalendarType) => {
 
   return (
     <div className={className}>
-      <Flex width="100%">
-        <AbakusPole />
-        <div className={styles.abakusContainer}>
-          {rows.map((row, rowIndex) => (
-            <div key={rowIndex} className={styles.abakusRow}>
-              <div className={styles.abakusBalls}>
-                <Flex gap={gapMatrix[rowIndex].left}>
-                  {row.map((content, index) =>
-                    complete[4 * rowIndex + index] ? (
-                      <AbakusBall
-                        key={index}
-                        date={4 * rowIndex + index + 1}
-                        content={content}
-                        complete={complete}
-                      />
-                    ) : null,
-                  )}
-                </Flex>
+      <Flex column width="100%">
+        <Flex>
+          <AbakusPole />
+          <div className={styles.abakusContainer}>
+            {rows.map((row, rowIndex) => (
+              <div key={rowIndex} className={styles.abakusRow}>
+                <div className={styles.abakusBalls}>
+                  <Flex gap={gapMatrix[rowIndex].left}>
+                    {row.map((content, index) =>
+                      complete[4 * rowIndex + index] ? (
+                        <AbakusBall
+                          key={index}
+                          date={4 * rowIndex + index + 1}
+                          content={content}
+                          complete={complete}
+                        />
+                      ) : null,
+                    )}
+                  </Flex>
 
-                <Flex gap={gapMatrix[rowIndex].right} justifyContent="flex-end">
-                  {row.map((content, index) =>
-                    !complete[4 * rowIndex + index] ? (
-                      <AbakusBall
-                        key={index}
-                        date={4 * rowIndex + index + 1}
-                        content={content}
-                        complete={complete}
-                      />
-                    ) : null,
-                  )}
-                </Flex>
+                  <Flex
+                    gap={gapMatrix[rowIndex].right}
+                    justifyContent="flex-end"
+                  >
+                    {row.map((content, index) =>
+                      !complete[4 * rowIndex + index] ? (
+                        <AbakusBall
+                          key={index}
+                          date={4 * rowIndex + index + 1}
+                          content={content}
+                          complete={complete}
+                        />
+                      ) : null,
+                    )}
+                  </Flex>
+                </div>
+
+                <div className={styles.abakusWire} />
               </div>
-
-              <div className={styles.abakusWire} />
-            </div>
-          ))}
-        </div>
-        <AbakusPole />
+            ))}
+          </div>
+          <AbakusPole />
+        </Flex>
+        <p className={styles.watermark}>Laget med ☕ av de nye i Webkom</p>
       </Flex>
     </div>
   );
