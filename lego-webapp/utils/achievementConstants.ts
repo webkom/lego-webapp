@@ -1,3 +1,4 @@
+import christmas_calendar_25 from 'assets/trophies/christmas-calendar-25.png';
 import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
 import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
 import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
@@ -38,6 +39,7 @@ export const AchievementIdentifier = {
   genfors_count: 'genfors_count',
   gala_count: 'gala_count',
   easter_winner: 'easter_winner',
+  christmas_calendar: 'christmas_calendar',
 } as const;
 
 export type AchievementIdentifier =
@@ -327,6 +329,15 @@ export const AchievementsInfo: Record<
       image: easter_winner_25,
     },
   ],
+  christmas_calendar: [
+    {
+      name: 'Julekalenderen 2025',
+      description: 'Gjennomførte julekalenderen 2025',
+      rarity: 2,
+      hidden: false,
+      image: christmas_calendar_25,
+    },
+  ],
 };
 
 export type DetailedAchievementData = AchievementData & { level?: number };
@@ -436,6 +447,13 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     name: 'Webkom Påskeeggjakt',
     description: "Vinnere av Webkom's påskeeggjakt",
     achievements: AchievementsInfo['easter_winner'],
+    isLeveled: false,
+  },
+  {
+    identifier: 'christmas_calendar',
+    name: 'Webkom Julekalender',
+    description: "Gjennomførte Webkom's julekalender",
+    achievements: AchievementsInfo['christmas_calendar'],
     isLeveled: false,
   },
 ];
