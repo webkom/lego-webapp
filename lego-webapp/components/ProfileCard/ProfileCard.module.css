@@ -2,11 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .info h2 {
   font-weight: bold;
   font-family: monospace;
+  text-transform: uppercase;
   padding-top: var(--spacing-md);
 }
 
@@ -14,11 +16,38 @@
   color: var(--secondary-font-color);
   font-weight: bold;
   font-family: monospace;
+  padding: var(--spacing-xs) var(--spacing-md);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.gradeRectangle {
+  border: 0.5px solid var(--lego-font-color);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--color-gray-1);
+  color: var(--lego-font-color);
+  padding: var(--spacing-xs);
+}
+
+.gradeRectangle p {
+  font-size: var(--font-size-sm);
+}
+
+.bottomInfo p {
+  font-size: var(--font-size-xs);
+  color: var(--secondary-font-color);
+  margin: 0;
+}
+
+.bottomInfo h3 {
+  font-size: var(--font-size-md);
+  font-weight: normal;
+  margin: 0;
 }
 
 .divider {
   width: 100%;
   height: 1px;
   background-color: var(--color-gray-3);
-  margin: 1.5rem 0;
+  margin: 2rem 0;
 }
