@@ -47,7 +47,7 @@ html[data-theme='dark'] .overlay {
 .modal {
   position: fixed;
   width: 475px;
-  max-width: 90%;
+  max-width: 87%;
   /**
    * max-height must be smaller than the height of .overlay
    * This is because we use align-items: center to vertically center, 
