@@ -27,16 +27,18 @@ export const ProfileCard = ({
   return (
     <Flex column justifyContent="center" margin="var(--spacing-xl) 0 0 0">
       <div className={styles.info}>
-        <QRCode
-          value={username}
-          qrStyle="fluid"
-          size={190}
-          quietZone={20}
-          eyeRadius={{
-            outer: 10,
-            inner: 6,
-          }}
-        />
+        <div className={styles.qrCanvas}>
+          <QRCode
+            value={username}
+            qrStyle="fluid"
+            size={190}
+            quietZone={20}
+            eyeRadius={{
+              outer: 10,
+              inner: 6,
+            }}
+          />
+        </div>
         <h2>
           {firstName} {lastName}
         </h2>
@@ -45,7 +47,7 @@ export const ProfileCard = ({
         </div>
       </div>
       <div className={styles.divider}></div>
-      <Flex alignItems='center' justifyContent='space-between'>
+      <Flex alignItems="center" justifyContent="space-between">
         <div className={styles.bottomInfo}>
           <p>BRUKERNAVN:</p>
           <h3>{username}</h3>

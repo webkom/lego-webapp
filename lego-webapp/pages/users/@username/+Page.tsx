@@ -179,21 +179,6 @@ const UserProfile = () => {
       }
     >
       <Helmet title={`${firstName} ${lastName}`} />
-      <DialogTrigger>
-        <Button>
-          <p>Trykk meg</p>
-        </Button>
-        <Modal>
-          <ProfileCard
-            firstName={firstName}
-            lastName={lastName}
-            username={user.username}
-            grade={gradeGroup?.name}
-            memberships={memberships}
-            groupEntities={groupEntities}
-          />
-        </Modal>
-      </DialogTrigger>
       <div className={styles.pageGrid}>
         <Flex
           column
@@ -217,11 +202,15 @@ const UserProfile = () => {
                 <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
-              <Modal title="ABA-ID">
-                <Flex column alignItems="center">
-                  <QRCode value={user.username ?? ''} />
-                  <h2>{user.username}</h2>
-                </Flex>
+              <Modal>
+                <ProfileCard
+                  firstName={firstName}
+                  lastName={lastName}
+                  username={user.username}
+                  grade={gradeGroup?.name}
+                  memberships={memberships}
+                  groupEntities={groupEntities}
+                />
               </Modal>
             </DialogTrigger>
           )}

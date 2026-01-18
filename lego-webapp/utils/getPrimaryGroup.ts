@@ -16,8 +16,5 @@ export const getPrimaryGroupWithLogo = (
       .filter(
         (m) => m.abakusGroup?.logo && m.abakusGroup.type !== GroupType.Interest,
       ),
-    [
-      (m) => m.abakusGroup.type !== GroupType.Board,
-      (m) => !m.isActive,
-    ],
+    [(m) => m.abakusGroup.type !== GroupType.Board, (m) => !m.isActive],
   )[0];

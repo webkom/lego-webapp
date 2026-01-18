@@ -5,6 +5,12 @@
   text-align: center;
 }
 
+.qrCanvas {
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background: white;
+}
+
 .info h2 {
   font-weight: bold;
   font-family: monospace;
