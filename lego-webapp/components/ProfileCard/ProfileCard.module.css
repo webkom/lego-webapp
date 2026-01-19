@@ -15,7 +15,6 @@
   font-weight: bold;
   font-family: monospace;
   text-transform: uppercase;
-  padding-top: var(--spacing-md);
 }
 
 .info p {

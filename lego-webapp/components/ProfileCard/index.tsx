@@ -52,16 +52,16 @@ export const ProfileCard = ({
           <p>BRUKERNAVN:</p>
           <h3>{username}</h3>
         </div>
-        <div className={styles.groupLogo}>
-          {primaryMembership && (
+        {primaryMembership && (
+          <div className={styles.groupLogo}>
             <CircularPicture
               src={primaryMembership.abakusGroup.logo!}
               alt={primaryMembership.abakusGroup.name}
               size={40}
               className={styles.groupLogo}
             />
-          )}
-        </div>
+          </div>
+        )}
       </Flex>
     </Flex>
   );

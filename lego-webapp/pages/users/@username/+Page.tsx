@@ -202,7 +202,7 @@ const UserProfile = () => {
                 <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
-              <Modal>
+              <Modal title="ABA-ID">
                 <ProfileCard
                   firstName={firstName}
                   lastName={lastName}
