@@ -32,7 +32,7 @@ export const ProfileCard = ({
             value={username}
             qrStyle="fluid"
             size={190}
-            quietZone={20}
+            quietZone={15}
             eyeRadius={{
               outer: 10,
               inner: 6,
