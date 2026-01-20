@@ -79,6 +79,7 @@ const PublicFrontpage = () => {
           item={pinned}
           url={itemUrl(pinned)}
           meta={renderMeta(pinned)}
+          wiggle={false}
         />
         <LatestReadme
           expandedInitially
