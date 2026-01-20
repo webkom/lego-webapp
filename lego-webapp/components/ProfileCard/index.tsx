@@ -1,11 +1,11 @@
 import { Flex } from '@webkom/lego-bricks';
 import { QRCode } from 'react-qrcode-logo';
-import styles from './ProfileCard.module.css';
-import type Membership from '~/redux/models/Membership';
 import abakusBall from '~/assets/abakus-ball.png';
 import { CircularPicture } from '~/components/Image';
 import { PublicGroup } from '~/redux/models/Group';
 import { getPrimaryGroupWithLogo } from '~/utils/getPrimaryGroup';
+import styles from './ProfileCard.module.css';
+import type Membership from '~/redux/models/Membership';
 
 interface Props {
   firstName: string;

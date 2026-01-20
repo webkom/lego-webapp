@@ -15,7 +15,6 @@ import { uniqBy, orderBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
-import { QRCode } from 'react-qrcode-logo';
 import { GroupType } from 'app/models';
 import frame from '~/assets/frame.png';
 import EventListCompact from '~/components/EventListCompact';

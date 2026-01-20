@@ -3,8 +3,6 @@ import cx from 'classnames';
 import {
   TentTree,
   Camera,
-  Guitar,
-  Speaker,
   Armchair,
   Boxes,
   Handshake,
