@@ -3,7 +3,6 @@ import {
   Button,
   CardFooter,
   Flex,
-  LinkButton,
   Tooltip,
 } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
