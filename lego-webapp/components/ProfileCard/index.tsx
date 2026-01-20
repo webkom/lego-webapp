@@ -1,10 +1,11 @@
 import { Flex } from '@webkom/lego-bricks';
 import { QRCode } from 'react-qrcode-logo';
+import styles from './ProfileCard.module.css';
+import type Membership from '~/redux/models/Membership';
+import abakusBall from '~/assets/abakus-ball.png';
 import { CircularPicture } from '~/components/Image';
 import { PublicGroup } from '~/redux/models/Group';
 import { getPrimaryGroupWithLogo } from '~/utils/getPrimaryGroup';
-import styles from './ProfileCard.module.css';
-import type Membership from '~/redux/models/Membership';
 
 interface Props {
   firstName: string;
@@ -52,16 +53,22 @@ export const ProfileCard = ({
           <p>BRUKERNAVN:</p>
           <h3>{username}</h3>
         </div>
-        {primaryMembership && (
-          <div className={styles.groupLogo}>
-            <CircularPicture
-              src={primaryMembership.abakusGroup.logo!}
-              alt={primaryMembership.abakusGroup.name}
-              size={40}
-              className={styles.groupLogo}
-            />
-          </div>
-        )}
+        <div className={styles.groupLogo}>
+          <CircularPicture
+            src={
+              primaryMembership?.abakusGroup.name
+                ? primaryMembership.abakusGroup.logo!
+                : abakusBall
+            }
+            alt={
+              primaryMembership?.abakusGroup.name
+                ? primaryMembership?.abakusGroup.name
+                : 'Abakus kule'
+            }
+            size={40}
+            className={styles.groupLogo}
+          ></CircularPicture>
+        </div>
       </Flex>
     </Flex>
   );
