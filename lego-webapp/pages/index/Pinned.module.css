@@ -5,7 +5,20 @@
   width: 100%;
 }
 
-div.body {
+div.authenticatedBody {
+  padding: 0;
+  min-height: 260px;
+  animation-name: wiggle;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-delay: 5s;
+
+  @media (--mobile-device) {
+    min-height: 180px;
+  }
+}
+
+div.publicBody {
   padding: 0;
   min-height: 260px;
 
@@ -48,4 +61,30 @@ div.body {
 
 .itemTitle > a {
   color: var(--lego-font-color);
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(-1.5deg);
+  }
+
+  10% {
+    transform: rotate(0deg);
+  }
+
+  15% {
+    transform: rotate(1.5deg);
+  }
+
+  20% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
 }
