@@ -28,10 +28,12 @@ const BdbOverview = ({ children }: PropsWithChildren) => {
       }
       tabs={
         <>
-          <NavigationTab href="/bdb">Semesterstatuser</NavigationTab>
+          <NavigationTab href="/bdb">Aktiv</NavigationTab>
+          <NavigationTab href="/bdb/job-openings">Jobbannonser</NavigationTab>
           <NavigationTab href="/bdb/company-interest">
             Bedriftsinteresser
           </NavigationTab>
+          <NavigationTab href="/bdb/archive">Arkiv</NavigationTab>
         </>
       }
     >
