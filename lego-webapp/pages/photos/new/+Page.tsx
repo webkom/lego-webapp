@@ -117,7 +117,6 @@ const TypedLegoForm = LegoFinalForm<FormValues>;
 const validate = createValidator({
   title: [required('Du må gi albumet en tittel')],
   location: [required('Du må velge en lokasjon for albumet')],
-  photographers: [required('Du må velge minst én fotograf')],
 });
 
 const GalleryEditor = () => {
@@ -314,7 +313,6 @@ const GalleryEditor = () => {
               placeholder="Skriv inn navn på fotografer"
               component={SelectInput.AutocompleteField}
               isMulti
-              required
             />
             <Field
               name="event"
