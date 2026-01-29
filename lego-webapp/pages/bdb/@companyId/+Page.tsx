@@ -441,18 +441,7 @@ const BdbDetail = () => {
   ];
 
   return (
-    <Page
-      cover={
-        <PageCover
-          image={company?.logo}
-          imagePlaceholder={company?.logoPlaceholder}
-          skeleton={showSkeleton}
-        />
-      }
-      title={title}
-      back={{
-        href: '/bdb',
-      }}
+    <Page 
       actionButtons={
         <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>
           Rediger
@@ -471,7 +460,7 @@ const BdbDetail = () => {
           )}
         </ContentMain>
 
-        <ContentSidebar>
+       <ContentSidebar>
           {showSkeleton
             ? companyInfo.map((info, index) => (
                 <TextWithIcon
