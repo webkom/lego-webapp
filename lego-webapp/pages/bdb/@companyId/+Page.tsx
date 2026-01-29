@@ -458,12 +458,6 @@ const BdbDetail = () => {
           Rediger
         </LinkButton>
       }
-      tabs={ 
-        <>
-          <NavigationTab href={`/bdb/${companyId}`}> Bedriftsinformasjon </NavigationTab>
-          <NavigationTab href={`/bdb/${companyId}/satistics`} matchSubpages> Statistikk </NavigationTab>
-        </>
-      }
     >
       <Helmet title={title} />
 
@@ -606,3 +600,4 @@ const BdbDetail = () => {
 };
 
 export default BdbDetail;
+
