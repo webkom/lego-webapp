@@ -64,6 +64,7 @@ import type { GroupedStudentContactsBySemester } from '~/pages/bdb/utils';
 import type { CompanyContact } from '~/redux/models/Company';
 import type { ListEvent } from '~/redux/models/Event';
 import type { TransformedSemesterStatus } from '~/redux/slices/companies';
+import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
 
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;
@@ -456,6 +457,12 @@ const BdbDetail = () => {
         <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>
           Rediger
         </LinkButton>
+      }
+      tabs={ 
+        <>
+          <NavigationTab href={`/bdb/${companyId}`}> Bedriftsinformasjon </NavigationTab>
+          <NavigationTab href={`/bdb/${companyId}/satistics`} matchSubpages> Statistikk </NavigationTab>
+        </>
       }
     >
       <Helmet title={title} />
