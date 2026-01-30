@@ -64,6 +64,7 @@ import type { GroupedStudentContactsBySemester } from '~/pages/bdb/utils';
 import type { CompanyContact } from '~/redux/models/Company';
 import type { ListEvent } from '~/redux/models/Event';
 import type { TransformedSemesterStatus } from '~/redux/slices/companies';
+import { NavigationTab } from '~/components/NavigationTab/NavigationTab';
 
 type RenderFileProps = {
   semesterStatus: TransformedSemesterStatus;
@@ -440,18 +441,7 @@ const BdbDetail = () => {
   ];
 
   return (
-    <Page
-      cover={
-        <PageCover
-          image={company?.logo}
-          imagePlaceholder={company?.logoPlaceholder}
-          skeleton={showSkeleton}
-        />
-      }
-      title={title}
-      back={{
-        href: '/bdb',
-      }}
+    <Page 
       actionButtons={
         <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>
           Rediger
@@ -470,7 +460,7 @@ const BdbDetail = () => {
           )}
         </ContentMain>
 
-        <ContentSidebar>
+       <ContentSidebar>
           {showSkeleton
             ? companyInfo.map((info, index) => (
                 <TextWithIcon
@@ -599,3 +589,4 @@ const BdbDetail = () => {
 };
 
 export default BdbDetail;
+
