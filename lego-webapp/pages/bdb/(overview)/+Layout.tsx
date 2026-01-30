@@ -34,6 +34,7 @@ const BdbOverview = ({ children }: PropsWithChildren) => {
             Bedriftsinteresser
           </NavigationTab>
           <NavigationTab href="/bdb/archive">Arkiv</NavigationTab>
+          <NavigationTab href="/bdb/statistics">Statistikk</NavigationTab>
         </>
       }
     >
