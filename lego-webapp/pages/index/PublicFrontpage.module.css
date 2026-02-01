@@ -69,5 +69,5 @@ div.wrapper {
 
 .infoButtons {
   display: flex;
-  gap: 1rem;
+  gap: var(--spacing-sm);
 }
