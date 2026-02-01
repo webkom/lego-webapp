@@ -1,4 +1,11 @@
-import { Accordion, Card, Flex, Icon, Image, LinkButton } from '@webkom/lego-bricks';
+import {
+  Accordion,
+  Card,
+  Flex,
+  Icon,
+  Image,
+  LinkButton,
+} from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import { readmeIfy } from '~/components/ReadmeLogo';
@@ -53,9 +60,7 @@ const LatestReadme = ({
           ))}
         </div>
         <div className={styles.seeAllButton}>
-          <LinkButton href="https://readme.abakus.no">
-            Se alle
-          </LinkButton>
+          <LinkButton href="https://readme.abakus.no">Se alle</LinkButton>
         </div>
       </Accordion>
     </Card>
