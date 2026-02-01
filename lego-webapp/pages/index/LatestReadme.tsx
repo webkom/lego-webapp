@@ -52,7 +52,7 @@ const LatestReadme = ({
             </a>
           ))}
         </div>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "var(--spacing-sm)"}}>
+        <div className={styles.seeAllButton}>
           <LinkButton href="https://readme.abakus.no">
             Se alle
           </LinkButton>
