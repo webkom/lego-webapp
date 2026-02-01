@@ -66,3 +66,8 @@ div.wrapper {
   max-height: 40vh;
   object-fit: contain;
 }
+
+.infoButtons {
+  display: flex;
+  gap: 1rem;
+}
