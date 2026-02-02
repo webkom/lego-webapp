@@ -108,7 +108,7 @@ const Welcome = () => (
     <LinkButton dark href="/pages/info-om-abakus" >
       Les mer om oss
     </LinkButton>
-    <LinkButton dark href="/pages/info-om-abakus" className = {styles.LinkButton}>
+    <LinkButton dark href="/pages/generelt/131-exchange-student" className = {styles.LinkButton}>
       Exchange student?
     </LinkButton>
   </div>
