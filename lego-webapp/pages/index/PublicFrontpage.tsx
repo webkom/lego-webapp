@@ -105,16 +105,18 @@ const Welcome = () => (
       studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU,
       fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
     </p>
-    <LinkButton dark href="/pages/info-om-abakus">
-      Les mer om oss
-    </LinkButton>
-    <LinkButton
-      dark
-      href="/pages/generelt/131-exchange-student"
-      className={styles.LinkButton}
-    >
-      Exchange student?
-    </LinkButton>
+    <div className={styles.LinkButtonContainer}>
+      <LinkButton dark href="/pages/info-om-abakus">
+        Les mer om oss
+      </LinkButton>
+      <LinkButton
+        dark
+        href="/pages/generelt/131-exchange-student"
+        className={styles.LinkButton}
+      >
+        Exchange student?
+      </LinkButton>
+    </div>
   </div>
 );
 
