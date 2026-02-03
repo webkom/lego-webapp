@@ -26,7 +26,6 @@ import type { ColumnProps } from '~/components/Table';
 import type CompanySemester from '~/redux/models/CompanySemester';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 
-
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
   name: '',
@@ -36,8 +35,7 @@ const companiesDefaultQuery = {
   status: '',
 };
 
-const JOB_TYPES = ['Sommerjobb', 'Fulltid', 'Deltid',  'Masteroppgave'];
-
+const JOB_TYPES = ['Sommerjobb', 'Fulltid', 'Deltid', 'Masteroppgave'];
 
 type JobListing = {
   id: string;
@@ -51,8 +49,10 @@ type CompanyProfile = {
   expiredListings: JobListing[];
 };
 
-type CompanyWithStats = ReturnType<typeof selectTransformedAdminCompanies>[number] & CompanyProfile;
-
+type CompanyWithStats = ReturnType<
+  typeof selectTransformedAdminCompanies
+>[number] &
+  CompanyProfile;
 
 const getDateDaysAgo = (days: number) => {
   const date = new Date();
@@ -96,7 +96,6 @@ const generateCompanyProfile = (): CompanyProfile => {
     expiredListings,
   };
 };
-
 
 const JobListingPage = () => {
   const { query, setQuery } = useQuery(companiesDefaultQuery);
@@ -150,7 +149,10 @@ const JobListingPage = () => {
           result.payload.entities.companySemesters,
         ).filter((companySemester) => companySemester !== undefined);
 
-        const semester = resolveCurrentSemester(query.semester, companySemesters);
+        const semester = resolveCurrentSemester(
+          query.semester,
+          companySemesters,
+        );
         return dispatch(
           fetchAllAdmin({ ...query, semester_id: semester!.id }, false),
         );
@@ -193,12 +195,23 @@ const JobListingPage = () => {
           <Flex alignItems="center" justifyContent="center" gap="5px">
             {isActive ? (
               <>
-                <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: '#14532d' }} />
+                <div
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    backgroundColor: '#14532d',
+                  }}
+                />
                 <span style={{ color: '#14532d', fontWeight: 500 }}>Aktiv</span>
               </>
             ) : (
               <>
-                <Icon iconNode={<Clock />} size={14} style={{ color: 'var(--text-gray)' }} />
+                <Icon
+                  iconNode={<Clock />}
+                  size={14}
+                  style={{ color: 'var(--text-gray)' }}
+                />
                 <span style={{ color: 'var(--text-gray)' }}>Utløpt</span>
               </>
             )}
@@ -237,7 +250,7 @@ const JobListingPage = () => {
                   color: 'var(--text-gray)',
                   border: '1px solid var(--border-gray)',
                   textDecoration: 'line-through',
-                  cursor: 'help'
+                  cursor: 'help',
                 }}
               >
                 {job.type}
@@ -253,8 +266,8 @@ const JobListingPage = () => {
     <ContentMain>
       <Card severity="info" style={{ marginBottom: 'var(--spacing-md)' }}>
         <Card.Header>Jobbannonser uten arrangement</Card.Header>
-        Oversikt over bedrifter med jobbannonser som ikke har holdt arrangementer.
-        Hold over utlysningene for å se dato.
+        Oversikt over bedrifter med jobbannonser som ikke har holdt
+        arrangementer. Hold over utlysningene for å se dato.
       </Card>
 
       <Flex wrap justifyContent="space-between" alignItems="center">
@@ -278,15 +291,18 @@ const JobListingPage = () => {
               .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
               .sort((a, b) => b.year - a.year)
               .map((semester) => ({
-                label: semesterToHumanReadable(semester.semester, semester.year),
+                label: semesterToHumanReadable(
+                  semester.semester,
+                  semester.year,
+                ),
                 value: semester.id as number,
               }))}
             value={{
               label: currentCompanySemester
                 ? semesterToHumanReadable(
-                  currentCompanySemester.semester,
-                  currentCompanySemester.year,
-                )
+                    currentCompanySemester.semester,
+                    currentCompanySemester.year,
+                  )
                 : 'Velg semester',
               value: currentCompanySemester?.id as number,
             }}
@@ -339,7 +355,7 @@ const JobListingPage = () => {
         filters={query}
         onLoad={() => {
           currentCompanySemester?.id &&
-          dispatch(fetchAllAdmin(backendQuery, true));
+            dispatch(fetchAllAdmin(backendQuery, true));
         }}
         hasMore={pagination.hasMore}
       />

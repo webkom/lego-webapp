@@ -441,7 +441,7 @@ const BdbDetail = () => {
   ];
 
   return (
-    <Page 
+    <Page
       actionButtons={
         <LinkButton key="edit" href={`/bdb/${companyId}/edit`}>
           Rediger
@@ -460,7 +460,7 @@ const BdbDetail = () => {
           )}
         </ContentMain>
 
-       <ContentSidebar>
+        <ContentSidebar>
           {showSkeleton
             ? companyInfo.map((info, index) => (
                 <TextWithIcon
@@ -589,4 +589,3 @@ const BdbDetail = () => {
 };
 
 export default BdbDetail;
-

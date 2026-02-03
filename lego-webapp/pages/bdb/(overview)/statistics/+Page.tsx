@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useMemo } from 'react';
 import { ContentMain } from '~/components/Content';
 import { SelectInput } from '~/components/Form';
+import type { ColumnProps } from '~/components/Table';
 import Table from '~/components/Table';
 import { fetchAllAdmin, fetchSemesters } from '~/redux/actions/CompanyActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -20,9 +21,9 @@ import {
   getSemesterSlugOffset,
   semesterToHumanReadable,
 } from '../../utils';
-import type { ColumnProps } from '~/components/Table';
 import type CompanySemester from '~/redux/models/CompanySemester';
-
+import ToggleSwitch from '~/components/Form/ToggleSwitch';
+import styles from './Statistics.module.css';
 
 const companiesDefaultQuery = {
   active: '' as '' | 'true' | 'false',
@@ -33,7 +34,9 @@ const companiesDefaultQuery = {
   status: '',
 };
 
-type CompanyWithStats = ReturnType<typeof selectTransformedAdminCompanies>[number] & {
+type CompanyWithStats = ReturnType<
+  typeof selectTransformedAdminCompanies
+>[number] & {
   eventCount: number;
   attendeeCount: number;
   maxCapacity: number;
@@ -45,17 +48,25 @@ type CompanyWithStats = ReturnType<typeof selectTransformedAdminCompanies>[numbe
 
 const generateRandomStats = () => {
   const maxCapacity = [20, 40, 60, 100][Math.floor(Math.random() * 4)];
-  const registrationCount =  Math.floor(Math.random() * (maxCapacity + 20));
-  const attendeeCount = registrationCount > maxCapacity ? maxCapacity : registrationCount;
-  const waitingList = registrationCount > maxCapacity ? registrationCount - maxCapacity : 0;
-  const noShow = Math.floor(Math.random()*5);
-  const eventType = ["Bedpress", "Kurs", "FrokostForedrag", "Lunsjpresentasjon", "Nexus"][Math.floor(Math.random()*5)];
+  const registrationCount = Math.floor(Math.random() * (maxCapacity + 20));
+  const attendeeCount =
+    registrationCount > maxCapacity ? maxCapacity : registrationCount;
+  const waitingList =
+    registrationCount > maxCapacity ? registrationCount - maxCapacity : 0;
+  const noShow = Math.floor(Math.random() * 5);
+  const eventType = [
+    'Bedpress',
+    'Kurs',
+    'FrokostForedrag',
+    'Lunsjpresentasjon',
+    'Nexus',
+  ][Math.floor(Math.random() * 5)];
 
   const today = new Date();
   const pastDate = new Date(
-    today.getFullYear() - Math.floor(Math.random() * 5 +1 ),
+    today.getFullYear() - Math.floor(Math.random() * 5 + 1),
     Math.floor(Math.random() * 12),
-    Math.floor(Math.random() * 28)
+    Math.floor(Math.random() * 28),
   );
 
   return {
@@ -66,7 +77,7 @@ const generateRandomStats = () => {
     dropOffCount: Math.floor(Math.random() * 5),
     averageRating: (Math.random() * 2 + 3).toFixed(1),
     lastPresentationDate: pastDate,
-    noShow
+    noShow,
   };
 };
 
@@ -74,7 +85,6 @@ const BdbPage = () => {
   const { query, setQuery } = useQuery(companiesDefaultQuery);
   const companySemesters = useAppSelector(selectAllCompanySemesters);
   const dispatch = useAppDispatch();
-
 
   const resolveCurrentSemester = (
     slug: string | undefined,
@@ -91,7 +101,6 @@ const BdbPage = () => {
     () => resolveCurrentSemester(query.semester, companySemesters),
     [companySemesters, query.semester],
   );
-
 
   const backendQuery = useMemo(() => {
     const { studentContacts, ...restOfQuery } = query;
@@ -133,7 +142,6 @@ const BdbPage = () => {
     [query.semester],
   );
 
-
   const companiesWithStats: CompanyWithStats[] = useMemo(() => {
     return companies.map((company) => ({
       ...company,
@@ -153,10 +161,16 @@ const BdbPage = () => {
   const semesterStats = useMemo(() => {
     if (recentCompanies.length === 0) return null;
 
-    const totalEvents = Math.floor(Math.random() * 5) + recentCompanies.length
-    const totalAttendees = recentCompanies.reduce((acc, curr) => acc + curr.attendeeCount, 0);
+    const totalEvents = Math.floor(Math.random() * 5) + recentCompanies.length;
+    const totalAttendees = recentCompanies.reduce(
+      (acc, curr) => acc + curr.attendeeCount,
+      0,
+    );
 
-    const totalRating = recentCompanies.reduce((acc, curr) => acc + parseFloat(curr.averageRating), 0);
+    const totalRating = recentCompanies.reduce(
+      (acc, curr) => acc + parseFloat(curr.averageRating),
+      0,
+    );
     const avgRating = (totalRating / recentCompanies.length).toFixed(1);
 
     return {
@@ -166,7 +180,6 @@ const BdbPage = () => {
       avgRating,
     };
   }, [recentCompanies]);
-
 
   const columns: ColumnProps<CompanyWithStats>[] = [
     {
@@ -185,7 +198,8 @@ const BdbPage = () => {
       title: 'Påmeldte (Venteliste)',
       dataIndex: 'attendeeCount',
       centered: true,
-      render: (_, stat) => `${stat.attendeeCount}/${stat.maxCapacity} (${stat.waitlistCount}) `,
+      render: (_, stat) =>
+        `${stat.attendeeCount}/${stat.maxCapacity} (${stat.waitlistCount}) `,
     },
     {
       title: 'Rating',
@@ -199,7 +213,6 @@ const BdbPage = () => {
     },
   ];
 
-
   return (
     <ContentMain>
       {semesterStats && (
@@ -209,13 +222,17 @@ const BdbPage = () => {
               <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>
                 {semesterStats.companyCount}
               </span>
-              <span style={{ color: 'var(--text-gray)' }}>Aktive bedrifter</span>
+              <span style={{ color: 'var(--text-gray)' }}>
+                Aktive bedrifter
+              </span>
             </Flex>
             <Flex column alignItems="center">
               <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>
                 {semesterStats.totalEvents}
               </span>
-              <span style={{ color: 'var(--text-gray)' }}>Totalt arrangementer</span>
+              <span style={{ color: 'var(--text-gray)' }}>
+                Totalt arrangementer
+              </span>
             </Flex>
             <Flex column alignItems="center">
               <span style={{ fontSize: '2rem', fontWeight: 'bold' }}>
@@ -232,62 +249,69 @@ const BdbPage = () => {
           </Flex>
         </Card>
       )}
-
-      <Flex width="fit-content" style={{ marginBottom: 'var(--spacing-sm)' }}>
-        <Icon
-          iconNode={<ChevronLeft />}
-          onPress={() =>
-            setQuery({
-              ...query,
-              semester: getSemesterSlugOffset(
-                currentCompanySemester!.id,
-                companySemesters,
-                'previous',
-              ),
-            })
-          }
-        />
-        <SelectInput
-          name="semester"
-          options={companySemesters
-            .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
-            .sort((a, b) => b.year - a.year)
-            .map((semester) => ({
-              label: semesterToHumanReadable(semester.semester, semester.year),
-              value: semester.id as number,
-            }))}
-          value={{
-            label: currentCompanySemester
-              ? semesterToHumanReadable(
-                  currentCompanySemester.semester,
-                  currentCompanySemester.year,
-                )
-              : 'Velg semester',
-            value: currentCompanySemester?.id as number,
-          }}
-          onChange={(e) =>
-            setQuery({
-              ...query,
-              semester: getSemesterSlugById(
-                (e as { label: string; value: number }).value,
-                companySemesters,
-              ),
-            })
-          }
-        />
-        <Icon
-          iconNode={<ChevronRight />}
-          onPress={() =>
-            setQuery({
-              ...query,
-              semester: getSemesterSlugOffset(
-                currentCompanySemester!.id,
-                companySemesters,
-                'next',
-              ),
-            })
-          }
-        />
+      <Flex>
+        <Flex width="fit-content" style={{ marginBottom: 'var(--spacing-sm)' }}>
+          <Icon
+            iconNode={<ChevronLeft />}
+            onPress={() =>
+              setQuery({
+                ...query,
+                semester: getSemesterSlugOffset(
+                  currentCompanySemester!.id,
+                  companySemesters,
+                  'previous',
+                ),
+              })
+            }
+          />
+          <SelectInput
+            name="semester"
+            options={companySemesters
+              .sort((_, b) => (b.semester === 'autumn' ? 1 : -1))
+              .sort((a, b) => b.year - a.year)
+              .map((semester) => ({
+                label: semesterToHumanReadable(
+                  semester.semester,
+                  semester.year,
+                ),
+                value: semester.id as number,
+              }))}
+            value={{
+              label: currentCompanySemester
+                ? semesterToHumanReadable(
+                    currentCompanySemester.semester,
+                    currentCompanySemester.year,
+                  )
+                : 'Velg semester',
+              value: currentCompanySemester?.id as number,
+            }}
+            onChange={(e) =>
+              setQuery({
+                ...query,
+                semester: getSemesterSlugById(
+                  (e as { label: string; value: number }).value,
+                  companySemesters,
+                ),
+              })
+            }
+          />
+          <Icon
+            iconNode={<ChevronRight />}
+            onPress={() =>
+              setQuery({
+                ...query,
+                semester: getSemesterSlugOffset(
+                  currentCompanySemester!.id,
+                  companySemesters,
+                  'next',
+                ),
+              })
+            }
+          />
+        </Flex>
+        <Flex className={styles.viewSwitch}>
+          <ToggleSwitch />
+        </Flex>
       </Flex>
 
       <Table

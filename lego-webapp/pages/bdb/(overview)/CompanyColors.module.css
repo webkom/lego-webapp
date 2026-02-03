@@ -1,96 +1,93 @@
 html,
 html[data-theme='light'] {
-    --l1-bg: #f0f9ff;
-    --l1-border: #bae6fd;
-    --l1-text: #0c4a6e;
+  --l1-bg: #f0f9ff;
+  --l1-border: #bae6fd;
+  --l1-text: #0c4a6e;
 
-    --l2-bg: #f0fdf4;
-    --l2-border: #bbf7d0;
-    --l2-text: #14532d;
+  --l2-bg: #f0fdf4;
+  --l2-border: #bbf7d0;
+  --l2-text: #14532d;
 
-    --l3-bg: #fff1f2;
-    --l3-border: #fecdd3;
-    --l3-text: #881337;
+  --l3-bg: #fff1f2;
+  --l3-border: #fecdd3;
+  --l3-text: #881337;
 
-    --l4-bg: #fffbeb;
-    --l4-border: #fde68a;
-    --l4-text: #78350f;
+  --l4-bg: #fffbeb;
+  --l4-border: #fde68a;
+  --l4-text: #78350f;
 
-    --l5-bg: #faf5ff;
-    --l5-border: #e9d5ff;
-    --l5-text: #581c87;
+  --l5-bg: #faf5ff;
+  --l5-border: #e9d5ff;
+  --l5-text: #581c87;
 }
 
 html[data-theme='dark'] {
-    --l1-bg: #0c2336;
-    --l1-border: #164e6e;
-    --l1-text: #bae6fd;
+  --l1-bg: #0c2336;
+  --l1-border: #164e6e;
+  --l1-text: #bae6fd;
 
-    --l2-bg: #0b2919;
-    --l2-border: #185234;
-    --l2-text: #bbf7d0;
+  --l2-bg: #0b2919;
+  --l2-border: #185234;
+  --l2-text: #bbf7d0;
 
-    --l3-bg: #331016;
-    --l3-border: #611e2d;
-    --l3-text: #fecdd3;
+  --l3-bg: #331016;
+  --l3-border: #611e2d;
+  --l3-text: #fecdd3;
 
-    --l4-bg: #312208;
-    --l4-border: #5c4010;
-    --l4-text: #fde68a;
+  --l4-bg: #312208;
+  --l4-border: #5c4010;
+  --l4-text: #fde68a;
 
-    --l5-bg: #20102e;
-    --l5-border: #4a266b;
-    --l5-text: #e9d5ff;
+  --l5-bg: #20102e;
+  --l5-border: #4a266b;
+  --l5-text: #e9d5ff;
 }
 
-
-
 .tag {
-    display: inline-block;
-    margin: var(--spacing-xs);
-    padding: var(--spacing-xs) var(--spacing-sm);
-    border-radius: 6px;
-    font-size: var(--font-size-sm);
-    line-height: var(--spacing-md);
-    border: 1px solid transparent;
-    align-content: center;
+  display: inline-block;
+  margin: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 6px;
+  font-size: var(--font-size-sm);
+  line-height: var(--spacing-md);
+  border: 1px solid transparent;
+  align-content: center;
 }
 
 .level1 {
-    background-color: var(--l1-bg);
-    border-color: var(--l1-border);
-    color: var(--l1-text);
+  background-color: var(--l1-bg);
+  border-color: var(--l1-border);
+  color: var(--l1-text);
 }
 
 .level2 {
-    background-color: var(--l2-bg);
-    border-color: var(--l2-border);
-    color: var(--l2-text);
+  background-color: var(--l2-bg);
+  border-color: var(--l2-border);
+  color: var(--l2-text);
 }
 
 .level3 {
-    background-color: var(--l3-bg);
-    border-color: var(--l3-border);
-    color: var(--l3-text);
+  background-color: var(--l3-bg);
+  border-color: var(--l3-border);
+  color: var(--l3-text);
 }
 
 .level4 {
-    background-color: var(--l4-bg);
-    border-color: var(--l4-border);
-    color: var(--l4-text);
+  background-color: var(--l4-bg);
+  border-color: var(--l4-border);
+  color: var(--l4-text);
 }
 
 .level5 {
-    background-color: var(--l5-bg);
-    border-color: var(--l5-border);
-    color: var(--l5-text);
+  background-color: var(--l5-bg);
+  border-color: var(--l5-border);
+  color: var(--l5-text);
 }
 
-
-.eventContainers{
-    justify-content: space-around;
-    flex: 1;
-    flex-direction: row;
+.eventContainers {
+  justify-content: space-around;
+  flex: 1;
+  flex-direction: row;
 }
 .tooltip {
   visibility: hidden;
@@ -113,11 +110,11 @@ html[data-theme='dark'] {
   white-space: nowrap;
   font-size: 0.75rem;
   font-weight: normal;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .tooltip::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 100%;
   left: 50%;

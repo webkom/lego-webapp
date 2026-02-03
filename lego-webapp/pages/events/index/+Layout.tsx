@@ -205,7 +205,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
           <LinkButton href="/events/new">Lag nytt</LinkButton>
         )
       }
-      tabs={ 
+      tabs={
         <>
           <NavigationTab href="/events">Oversikt</NavigationTab>
           <NavigationTab href="/events/calendar" matchSubpages>
