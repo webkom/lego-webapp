@@ -66,3 +66,20 @@ div.wrapper {
   max-height: 40vh;
   object-fit: contain;
 }
+
+.LinkButton {
+  background-color: var(--lego-background-color);
+  border: 2px solid var(--color-red-6);
+  color: var(--color-red-6);
+}
+.LinkButton:hover {
+  background-color: var(--color-gray-1);
+  border: 2px solid var(--lego-red-color-hover);
+  color: var(--lego-red-color-hover);
+}
+
+div.LinkButtonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
