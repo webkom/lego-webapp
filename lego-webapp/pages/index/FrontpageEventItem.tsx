@@ -36,7 +36,6 @@ const FrontpageEventItem = ({ item, url, meta }: Props) => {
             )}
             <span className={styles.info}>{info}</span>
           </Flex>
-
           <div
             className={styles.right}
             style={{
