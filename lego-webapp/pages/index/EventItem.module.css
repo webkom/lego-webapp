@@ -84,7 +84,7 @@ div.wrapper {
 
 .info {
   display: flex;
-  padding: 3px 6px;
+  padding: var(--spacing-xs) var(--spacing-sm);
   height: 30%;
   justify-content: center;
   align-items: center;
