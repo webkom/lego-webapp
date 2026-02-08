@@ -13,15 +13,12 @@
 
 .info h2 {
   font-weight: bold;
-  font-family: monospace;
-  text-transform: uppercase;
   margin-top: var(--spacing-md);
 }
 
 .info p {
   color: var(--secondary-font-color);
   font-weight: bold;
-  font-family: monospace;
   padding: var(--spacing-xs) var(--spacing-md);
   text-transform: uppercase;
   margin: 0;
