@@ -30,6 +30,7 @@ import {
   fetchImageGallery,
   setSaveForUse,
 } from '~/redux/actions/FileActions';
+import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectPoolsWithRegistrationsForEvent,
@@ -63,7 +64,6 @@ import EditorSection, {
   Descriptions,
   LendingSection,
 } from './EditorSection';
-import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from '~/pages/events/utils';
 import type { UploadArgs } from '~/redux/actions/FileActions';
@@ -393,7 +393,7 @@ const EventEditor = () => {
             <EditorSection title="Påmelding" initiallyExpanded={!isEditPage}>
               <Registration values={values} />
             </EditorSection>
-            <EditorSection title="Utstyrslån" initiallyExpanded={false}>
+            <EditorSection title="Utstyrslån" initiallyExpanded={true}>
               <LendingSection values={values} />
             </EditorSection>
             <EditorSection title="Beskrivelse" collapsible={false}>
