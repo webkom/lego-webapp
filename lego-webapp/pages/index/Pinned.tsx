@@ -1,4 +1,5 @@
 import { Card, Flex, Image } from '@webkom/lego-bricks';
+import cx from 'classnames';
 import { useAppSelector } from '~/redux/hooks';
 import { isEvent } from '~/redux/slices/frontpage';
 import utilStyles from '~/styles/utilities.module.css';
@@ -11,9 +12,10 @@ type Props = {
   url: string;
   meta: ReactElement<'span'> | null;
   style?: CSSProperties;
+  wiggle?: boolean;
 };
 
-const Pinned = ({ item, url, meta, style }: Props) => {
+const Pinned = ({ item, url, meta, style, wiggle }: Props) => {
   const fetching = useAppSelector(
     (state) =>
       state.frontpage.fetching ||
@@ -26,7 +28,11 @@ const Pinned = ({ item, url, meta, style }: Props) => {
         {fetching || item?.pinned ? 'Festet oppslag' : 'Oppslag'}
       </h3>
 
-      <Card skeleton={fetching && !item} hideOverflow className={styles.body}>
+      <Card
+        skeleton={fetching && !item}
+        hideOverflow
+        className={cx(styles.publicBody, wiggle && styles.authenticatedBody)}
+      >
         <a href={url} className={styles.innerLinks}>
           <Image
             className={styles.image}
