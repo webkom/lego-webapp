@@ -1,7 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Keyboard } from '~/utils/constants';
 import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
 import styles from './MazemapEmbed.module.css';
