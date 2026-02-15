@@ -11,7 +11,6 @@ import { Download, Pencil } from 'lucide-react';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { useSwipeable, RIGHT, LEFT } from 'react-swipeable';
 import { navigate } from 'vike/client/router';
-import CommentView from '~/components/Comments/CommentView';
 import Dropdown from '~/components/Dropdown';
 import PropertyHelmet, {
   type PropertyGenerator,
@@ -24,7 +23,6 @@ import {
 } from '~/redux/actions/GalleryPictureActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
-import { selectCommentsByIds } from '~/redux/slices/comments';
 import { selectGalleryById } from '~/redux/slices/galleries';
 import {
   selectGalleryPicturesByGalleryId,
@@ -132,9 +130,6 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
   );
   const picture = useAppSelector((state) =>
     selectGalleryPictureById(state, pictureId),
-  );
-  const comments = useAppSelector((state) =>
-    selectCommentsByIds(state, picture?.comments),
   );
   const fetching = useAppSelector(
     (state) => state.galleries.fetching || state.galleryPictures.fetching,
@@ -427,13 +422,6 @@ const GalleryPictureModal = ({ children }: PropsWithChildren) => {
           </Flex>
 
           {children}
-
-          {picture.contentTarget && (
-            <CommentView
-              contentTarget={picture.contentTarget}
-              comments={comments}
-            />
-          )}
         </Flex>
       </Swipeable>
     </Modal>

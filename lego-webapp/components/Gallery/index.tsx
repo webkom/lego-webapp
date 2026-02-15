@@ -18,6 +18,7 @@ type Props<T> = {
   renderEmpty?: () => ReactNode;
 };
 
+
 const Gallery = <T extends ListGallery | GalleryListPicture>({
   onClick = () => {},
   renderOverlay,
