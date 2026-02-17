@@ -30,6 +30,8 @@ export const PizzaAccordion = ({ meeting, meetingInvitations }: Props) => {
   const notPizzaUsers = attendingUsers
     .filter((name) => !pizzaUsers.includes(name))
     .sort();
+  const numPizzasToOrder = Math.round((pizzaUsers.length * 3) / 8);
+  const numPizzaDifference = numPizzasToOrder * 8 - pizzaUsers.length * 3; // Calculate how much the ordered pizza amount differs from the needed amount
 
   return (
     <div className={styles.pizzaTrigger}>
@@ -71,6 +73,20 @@ export const PizzaAccordion = ({ meeting, meetingInvitations }: Props) => {
                 <li key={user}>{user}</li>
               ))}
             </ul>
+            <h3>Pizzakalkulator</h3>
+            <p>Pizzaer å bestille: {<span>{numPizzasToOrder}</span>}</p>
+            {numPizzaDifference < 0 && (
+              <p>
+                Antall personer som må ofre et stykke:{' '}
+                {Math.abs(numPizzaDifference)}
+              </p>
+            )}
+            {numPizzaDifference === 0 && (
+              <p>Det blir 3 stykker til alle og ingen til overs</p>
+            )}
+            {numPizzaDifference > 0 && (
+              <p>Det blir {numPizzaDifference} stykke(r) til overs</p>
+            )}
           </div>
         }
       </Accordion>
