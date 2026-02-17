@@ -20,14 +20,9 @@ type Props = {
  */
 const InfoList = ({ items, className }: Props) => {
   return (
-    <Flex column gap="var(--spacing-sm)" className={className}>
+    <Flex column gap="var(--spacing-md)" className={className}>
       {items.filter(isNotNullish).map(({ key, keyNode, value }) => (
-        <Flex
-          alignItems="center"
-          justifyContent="space-between"
-          gap="var(--spacing-md)"
-          key={key}
-        >
+        <Flex justifyContent="space-between" gap="var(--spacing-md)" key={key}>
           {keyNode ?? <span>{key}</span>}
 
           <span className={styles.value}>{value}</span>
