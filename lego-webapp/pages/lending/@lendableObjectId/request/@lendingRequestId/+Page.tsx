@@ -176,31 +176,35 @@ const LendingRequest = () => {
               </Flex>
             )}
             {isAdmin && (
-              <>
+              <div>
                 <h3>Admin</h3>
-                <Flex
-                  column
-                  gap="var(--spacing-sm)"
-                  className={styles.buttonWrapper}
-                >
-                  <UpdateButton
-                    toStatus={
-                      lendingRequest.status === LendingRequestStatus.Approved
-                        ? LendingRequestStatus.Unapproved
-                        : LendingRequestStatus.Approved
-                    }
-                    lendingRequest={lendingRequest}
-                  />
-                  <UpdateButton
-                    toStatus={LendingRequestStatus.Denied}
-                    lendingRequest={lendingRequest}
-                  />
-                  <UpdateButton
-                    toStatus={LendingRequestStatus.ChangesRequested}
-                    lendingRequest={lendingRequest}
-                  />
-                </Flex>
-              </>
+                {isCurrentUser ? (
+                  <p>Du kan ikke administrere din egen forespørsel</p>
+                ) : (
+                  <Flex
+                    column
+                    gap="var(--spacing-sm)"
+                    className={styles.buttonWrapper}
+                  >
+                    <UpdateButton
+                      toStatus={
+                        lendingRequest.status === LendingRequestStatus.Approved
+                          ? LendingRequestStatus.Unapproved
+                          : LendingRequestStatus.Approved
+                      }
+                      lendingRequest={lendingRequest}
+                    />
+                    <UpdateButton
+                      toStatus={LendingRequestStatus.Denied}
+                      lendingRequest={lendingRequest}
+                    />
+                    <UpdateButton
+                      toStatus={LendingRequestStatus.ChangesRequested}
+                      lendingRequest={lendingRequest}
+                    />
+                  </Flex>
+                )}
+              </div>
             )}
           </ContentSidebar>
         </ContentSection>
