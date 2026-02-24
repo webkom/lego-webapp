@@ -1,4 +1,5 @@
 import {
+  Button,
   ConfirmModal,
   Flex,
   Icon,
@@ -13,7 +14,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty } from 'lodash-es';
 import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import CollapsibleDisplayContent from '~/components/CollapsibleDisplayContent';
@@ -24,6 +25,7 @@ import {
   ContentSidebar,
 } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
+import { TextInput } from '~/components/Form';
 import JoblistingItem from '~/components/JoblistingItem';
 import joblistingStyles from '~/components/JoblistingItem/JoblistingItem.module.css';
 import Table from '~/components/Table';
@@ -40,6 +42,7 @@ import companyStyles from '~/pages/companies/@companyId/Company.module.css';
 import { displayNameForEventType } from '~/pages/events/utils';
 import {
   deleteCompanyContact,
+  editCompanyContact,
   deleteSemesterStatus,
   editSemesterStatus,
   fetchAdmin,
@@ -58,7 +61,10 @@ import {
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import truncateString from '~/utils/truncateString';
 import { useParams } from '~/utils/useParams';
+import { EMAIL_REGEX } from '~/utils/validation';
 import styles from '../bdb.module.css';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { KeyboardEvent } from 'react';
 import type { ColumnProps } from '~/components/Table';
 import type { GroupedStudentContactsBySemester } from '~/pages/bdb/utils';
 import type { CompanyContact } from '~/redux/models/Company';
@@ -78,6 +84,31 @@ type RenderFileProps = {
     semesterStatus: TransformedSemesterStatus,
   ) => Promise<unknown>;
 };
+
+type EditableCompanyContact = {
+  name: string;
+  role: string;
+  mail: string;
+  phone: string;
+};
+
+const formatCompanyContactForEdit = (
+  companyContact: CompanyContact,
+): EditableCompanyContact => ({
+  name: companyContact.name ?? '',
+  role: companyContact.role ?? '',
+  mail: companyContact.mail ?? '',
+  phone: companyContact.phone ?? '',
+});
+
+const normalizeEditableCompanyContact = (
+  companyContact: EditableCompanyContact,
+): EditableCompanyContact => ({
+  name: companyContact.name.trim(),
+  role: companyContact.role.trim(),
+  mail: companyContact.mail.trim(),
+  phone: companyContact.phone.trim(),
+});
 
 export const RenderFile = ({
   type,
@@ -161,6 +192,12 @@ const BdbDetail = () => {
   );
 
   const dispatch = useAppDispatch();
+  const [editingCompanyContactId, setEditingCompanyContactId] =
+    useState<EntityId | null>(null);
+  const [editingCompanyContact, setEditingCompanyContact] =
+    useState<EditableCompanyContact | null>(null);
+  const [savingCompanyContactId, setSavingCompanyContactId] =
+    useState<EntityId | null>(null);
 
   usePreparedEffect(
     'fetchBdbDetail',
@@ -183,9 +220,91 @@ const BdbDetail = () => {
     [company?.studentContacts],
   );
 
+  const stopEditingCompanyContact = () => {
+    setEditingCompanyContactId(null);
+    setEditingCompanyContact(null);
+  };
+
+  const startEditingCompanyContact = (companyContact: CompanyContact) => {
+    setEditingCompanyContactId(companyContact.id);
+    setEditingCompanyContact(formatCompanyContactForEdit(companyContact));
+  };
+
+  const updateEditingCompanyContact = (
+    key: keyof EditableCompanyContact,
+    value: string,
+  ) =>
+    setEditingCompanyContact((currentValue) =>
+      currentValue ? { ...currentValue, [key]: value } : currentValue,
+    );
+
   if (!company || !('semesterStatuses' in company)) {
     return <LoadingIndicator loading />;
   }
+
+  const isEditingCompanyContact = (companyContact: CompanyContact) =>
+    editingCompanyContactId === companyContact.id;
+
+  const canSaveCompanyContact = (companyContact: CompanyContact) => {
+    if (!editingCompanyContact || !isEditingCompanyContact(companyContact)) {
+      return false;
+    }
+
+    const current = normalizeEditableCompanyContact(editingCompanyContact);
+    const original = normalizeEditableCompanyContact(
+      formatCompanyContactForEdit(companyContact),
+    );
+
+    const hasUpdatedFields =
+      current.name !== original.name ||
+      current.role !== original.role ||
+      current.mail !== original.mail ||
+      current.phone !== original.phone;
+
+    const hasValidMail = !current.mail || EMAIL_REGEX.test(current.mail);
+
+    return Boolean(current.name) && hasValidMail && hasUpdatedFields;
+  };
+
+  const saveCompanyContactUpdate = async (companyContact: CompanyContact) => {
+    if (
+      !editingCompanyContact ||
+      !isEditingCompanyContact(companyContact) ||
+      !canSaveCompanyContact(companyContact)
+    ) {
+      return;
+    }
+
+    setSavingCompanyContactId(companyContact.id);
+    try {
+      await dispatch(
+        editCompanyContact({
+          companyId: company.id,
+          companyContactId: companyContact.id,
+          ...normalizeEditableCompanyContact(editingCompanyContact),
+        }),
+      );
+      stopEditingCompanyContact();
+    } finally {
+      setSavingCompanyContactId(null);
+    }
+  };
+
+  const onCompanyContactKeyDown = async (
+    event: KeyboardEvent<HTMLInputElement>,
+    companyContact: CompanyContact,
+  ) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      stopEditingCompanyContact();
+      return;
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      await saveCompanyContactUpdate(companyContact);
+    }
+  };
 
   const addFileToSemester = async (
     fileToken: string,
@@ -271,18 +390,80 @@ const BdbDetail = () => {
     {
       title: 'Navn',
       dataIndex: 'name',
+      render: (name, companyContact) =>
+        isEditingCompanyContact(companyContact) ? (
+          <TextInput
+            className={styles.companyContactInput}
+            value={editingCompanyContact?.name ?? ''}
+            onChange={(event) =>
+              updateEditingCompanyContact('name', event.target.value)
+            }
+            onKeyDown={(event) =>
+              void onCompanyContactKeyDown(event, companyContact)
+            }
+          />
+        ) : (
+          name
+        ),
     },
     {
       title: 'Rolle',
       dataIndex: 'role',
+      render: (role, companyContact) =>
+        isEditingCompanyContact(companyContact) ? (
+          <TextInput
+            className={styles.companyContactInput}
+            value={editingCompanyContact?.role ?? ''}
+            onChange={(event) =>
+              updateEditingCompanyContact('role', event.target.value)
+            }
+            onKeyDown={(event) =>
+              void onCompanyContactKeyDown(event, companyContact)
+            }
+          />
+        ) : (
+          role
+        ),
     },
     {
       title: 'E-post',
       dataIndex: 'mail',
+      render: (mail, companyContact) =>
+        isEditingCompanyContact(companyContact) ? (
+          <TextInput
+            type="email"
+            className={styles.companyContactInput}
+            value={editingCompanyContact?.mail ?? ''}
+            onChange={(event) =>
+              updateEditingCompanyContact('mail', event.target.value)
+            }
+            onKeyDown={(event) =>
+              void onCompanyContactKeyDown(event, companyContact)
+            }
+          />
+        ) : (
+          mail
+        ),
     },
     {
       title: 'Telefon',
       dataIndex: 'phone',
+      render: (phone, companyContact) =>
+        isEditingCompanyContact(companyContact) ? (
+          <TextInput
+            type="tel"
+            className={styles.companyContactInput}
+            value={editingCompanyContact?.phone ?? ''}
+            onChange={(event) =>
+              updateEditingCompanyContact('phone', event.target.value)
+            }
+            onKeyDown={(event) =>
+              void onCompanyContactKeyDown(event, companyContact)
+            }
+          />
+        ) : (
+          phone
+        ),
     },
     {
       title: 'Oppdatert',
@@ -294,36 +475,65 @@ const BdbDetail = () => {
     {
       title: '',
       dataIndex: '',
-      render: (_, contact) =>
-        contact && (
+      render: (_, companyContact) => {
+        if (!companyContact) {
+          return null;
+        }
+
+        const isEditing = isEditingCompanyContact(companyContact);
+        const isSaving = savingCompanyContactId === companyContact.id;
+        const isLocked = editingCompanyContactId !== null;
+
+        return isEditing ? (
+          <Flex
+            justifyContent="center"
+            alignItems="center"
+            gap="var(--spacing-sm)"
+            className={styles.companyContactActions}
+          >
+            <Button
+              size="small"
+              onPress={() => saveCompanyContactUpdate(companyContact)}
+              disabled={isSaving || !canSaveCompanyContact(companyContact)}
+            >
+              Lagre
+            </Button>
+            <Button size="small" flat onPress={stopEditingCompanyContact}>
+              Avbryt
+            </Button>
+          </Flex>
+        ) : (
           <Flex>
             <Icon
-              to={`/bdb/${String(company.id)}/company-contacts/${String(
-                contact.id,
-              )}`}
               name="pencil"
               edit
               size={20}
+              disabled={isLocked}
+              onPress={() =>
+                !isLocked && startEditingCompanyContact(companyContact)
+              }
             />
             <ConfirmModal
               title="Slett bedriftskontakt"
               message="Er du sikker på at du vil slette denne bedriftskontakten?"
               onConfirm={() =>
-                dispatch(deleteCompanyContact(company.id, contact.id))
+                dispatch(deleteCompanyContact(company.id, companyContact.id))
               }
               closeOnConfirm
             >
               {({ openConfirmModal }) => (
                 <Icon
-                  onPress={openConfirmModal}
+                  onPress={() => !isLocked && openConfirmModal()}
                   iconNode={<Trash2 />}
                   danger
+                  disabled={isLocked}
                   size={20}
                 />
               )}
             </ConfirmModal>
           </Flex>
-        ),
+        );
+      },
     },
   ];
 
