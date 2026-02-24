@@ -48,7 +48,7 @@ export default function EventTagEditor() {
               isMulti
               tags
             />
-            <SubmitButton>Endre tags på arrangement</SubmitButton>
+            <SubmitButton>Endre tags</SubmitButton>
           </Form>
         )}
       </LegoFinalForm>

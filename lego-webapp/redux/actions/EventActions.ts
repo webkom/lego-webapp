@@ -119,7 +119,7 @@ export function editPartialEvent(
     body: { ...event, cover: event.cover || undefined },
     meta: {
       errorMessage: 'Endring av arrangement feilet',
-      successMessage: 'Endring av arrangement fullført'
+      successMessage: 'Endring av arrangement fullført',
     },
   });
 }
