@@ -41,7 +41,7 @@ export default function EventTagEditor() {
             />
             <Field
               name="tags"
-              label="Tags (overskrives)"
+              label="Tags (overskrives. La feltet stå tomt for å slette alle tags)"
               filter={['tags.tag']}
               placeholder="Skriv inn tags (trophy:gala, trophy:genfors)..."
               component={SelectInput.AutocompleteField}
