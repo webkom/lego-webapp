@@ -22,7 +22,8 @@
 }
 
 .companyContactInput {
-  min-width: 130px;
+  width: 100%;
+  min-width: 0;
 }
 
 .companyContactActions {
