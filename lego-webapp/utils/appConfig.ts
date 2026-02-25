@@ -14,7 +14,7 @@ export interface AppConfig {
 
 const env = import.meta.env.SSR ? process.env : ({} as Record<string, string>);
 
-const defaultAppConfig = {
+export const defaultAppConfig = {
   serverUrl: env.API_URL || 'http://127.0.0.1:8000/api/v1',
   wsServerUrl: env.WS_URL || 'ws://127.0.0.1:8001',
   baseUrl: env.BASE_URL || 'http://127.0.0.1:8000',
