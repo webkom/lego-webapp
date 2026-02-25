@@ -1,8 +1,8 @@
 import { Flex, LinkButton, Image, Icon } from '@webkom/lego-bricks';
 import { Download } from 'lucide-react';
-import styles from './GraphicProfileExtraContentBlock.module.css';
 import logosDonts from '~/assets/logos-donts.png';
 import logosDos from '~/assets/logos-dos.png';
+import styles from './GraphicProfileExtraContentBlock.module.css';
 
 const GraphicProfileExtraContentBlock = () => (
   <>
