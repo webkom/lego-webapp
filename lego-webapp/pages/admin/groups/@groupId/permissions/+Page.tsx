@@ -121,7 +121,7 @@ const PermissionList = ({ group }: PermissionListProps) => {
         {parentPermissionsList.length ? (
           parentPermissionsList
         ) : (
-          <EmptyState body="Ingen nåværenede rettighete" />
+          <EmptyState body="Ingen nåværenede rettigheter" />
         )}
       </div>
       <div>

@@ -9,14 +9,14 @@ import english from '~/assets/flags/great_britain.svg';
 import norwegian from '~/assets/flags/norway.svg';
 import { ContentMain } from '~/components/Content';
 import {
+  CheckBox,
   Form,
+  LegoFinalForm,
+  MultiSelectGroup,
+  RadioButton,
+  SelectInput,
   TextEditor,
   TextInput,
-  LegoFinalForm,
-  CheckBox,
-  SelectInput,
-  RadioButton,
-  MultiSelectGroup,
 } from '~/components/Form';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
@@ -41,34 +41,34 @@ import { spyValues } from '~/utils/formSpyUtils';
 import { useParams } from '~/utils/useParams';
 import {
   createValidator,
-  required,
   isEmail,
+  required,
   requiredIf,
 } from '~/utils/validation';
 import styles from './CompanyInterestForm.module.css';
 import {
+  COLLABORATION_DESCRIPTIONS,
+  COLLABORATION_TYPES,
+  COMPANY_TYPES,
   EVENTS,
+  FORM_LABELS,
   OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
-  FORM_LABELS,
-  COLLABORATION_TYPES,
-  COMPANY_TYPES,
   TOOLTIP,
-  COLLABORATION_DESCRIPTIONS,
 } from './Translations';
 import {
-  interestText,
-  semesterToText,
-  targetGradeToString,
-  eventToString,
-  surveyOffersToString,
-  otherOffersToString,
-  collaborationToString,
-  PARTICIPANT_RANGE_MAP,
-  sortSemesterChronologically,
-  PARTICIPANT_RANGE_TYPES,
   collaborationDescriptionToString,
+  collaborationToString,
+  eventToString,
+  interestText,
+  otherOffersToString,
+  PARTICIPANT_RANGE_MAP,
+  PARTICIPANT_RANGE_TYPES,
+  semesterToText,
+  sortSemesterChronologically,
+  surveyOffersToString,
+  targetGradeToString,
 } from './utils';
 import type { ReactNode } from 'react';
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
@@ -496,13 +496,13 @@ const CompanyInterestForm = ({ language }: Props) => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    // {
-    //   name: 'bedex',
-    //   translated: EVENTS.bedex[language],
-    //   description: interestText.bedexDescription[language],
-    //   commentName: 'bedexComment',
-    //   commentPlaceholder: interestText.bedexComment[language],
-    // },
+    {
+      name: 'bedex',
+      translated: EVENTS.bedex[language],
+      description: interestText.bedexDescription[language],
+      commentName: 'bedexComment',
+      commentPlaceholder: interestText.bedexComment[language],
+    },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -753,8 +753,7 @@ const CompanyInterestForm = ({ language }: Props) => {
               {eventTypeEntities.map((eventTypeEntity) => {
                 return spyValues((values: CompanyInterestFormEntity) => {
                   const showComment = values.events?.some(
-                    (e) =>
-                      e.name === eventTypeEntity.name && e.checked === true,
+                    (e) => e.name === eventTypeEntity.name && e.checked,
                   );
 
                   return (
