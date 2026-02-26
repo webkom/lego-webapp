@@ -226,8 +226,8 @@ const EventEditor = () => {
           const lendingRequestData: CreateLendingRequest = {
             lendableObject: values.lendingObjects[i].value,
             comment: values.lendingDescription[i] || '',
-            startDate: values.startTime,
-            endDate: values.endTime,
+            startDate: moment(values.date[0]).toISOString(),
+            endDate: moment(values.date[1]).toISOString(),
           };
           dispatch(createLendingRequest(lendingRequestData));
         }
