@@ -14,6 +14,9 @@ export const fetchAllLendableObjects = () =>
     types: LendableObjects.FETCH,
     endpoint: '/lending/objects/',
     schema: [lendableObjectSchema],
+    pagination: {
+      fetchNext: false,
+    },
     meta: {
       errorMessage: 'Henting av utlånsobjekter feilet',
     },

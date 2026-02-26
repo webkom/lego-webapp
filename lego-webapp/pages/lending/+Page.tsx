@@ -6,7 +6,7 @@ import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
-import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
+import { selectLendableObjectsForIndex } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
@@ -53,7 +53,7 @@ const LendableObjectList = () => {
       }),
     );
   };
-  const lendableObjects = useAppSelector(selectAllLendableObjects);
+  const lendableObjects = useAppSelector(selectLendableObjectsForIndex);
 
   const originalLendingRequests = useAppSelector(
     selectTransformedLendingRequests,
