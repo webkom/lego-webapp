@@ -55,6 +55,18 @@ export const createLendableObject = (data: CreateLendableObject) =>
     },
   });
 
+export const deleteLendableObject = (id: EntityId) =>
+  callAPI<void>({
+    types: LendableObjects.DELETE,
+    endpoint: `/lending/objects/${id}/`,
+    method: 'DELETE',
+    meta: {
+      id,
+      errorMessage: 'Sletting av utlånsobjekt feilet',
+      successMessage: 'Utlånsobjekt slettet',
+    },
+  });
+
 export const fetchLendableObjectAvailability = (
   id: EntityId,
   query: {
