@@ -25,10 +25,10 @@ export default function LendableObjectEdit() {
 
   const title = fetching ? undefined : `Redigerer: ${lendableObject.title}`;
 
-  const onDelete = async () => {
-    await dispatch(deleteLendableObject(lendableObjectId!));
-    navigate('/lending');
-  };
+  const onDelete = () =>
+    dispatch(deleteLendableObject(lendableObjectId!)).then(() =>
+      navigate('/lending'),
+    );
 
   return (
     <Page
@@ -42,7 +42,6 @@ export default function LendableObjectEdit() {
             title="Slett utlånsobjekt"
             message="Er du sikker på at du vil slette dette utlånsobjektet?"
             onConfirm={onDelete}
-            closeOnConfirm
           >
             {({ openConfirmModal }) => (
               <Button onPress={openConfirmModal} danger>

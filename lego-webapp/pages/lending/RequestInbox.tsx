@@ -25,10 +25,8 @@ const RequestInbox = ({
 }: Props) => {
   const hasRequests = lendingRequests.length > 0;
   const canLoadMore =
-    !isFetching &&
-    hasMore &&
-    hasRequests &&
-    lendingRequests.length < totalFetched;
+    hasMore && hasRequests && lendingRequests.length < totalFetched;
+  const showInitialLoading = isFetching && !hasRequests;
 
   return (
     <div className={className}>
@@ -37,33 +35,37 @@ const RequestInbox = ({
         <h3>Innboks</h3>
       </header>
 
-      <LoadingIndicator loading={isFetching}>
-        {hasRequests ? (
-          <div className={styles.lendingRequestsContainer}>
-            {lendingRequests.map((req) => (
-              <LendingRequestCard key={req.id} lendingRequest={req} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState
-            className={styles.lendingRequestEmpty}
-            iconNode={<Leaf />}
-            body={<span>Du har ingen utlånsforespørsler</span>}
-          />
-        )}
+      {showInitialLoading ? (
+        <LoadingIndicator loading />
+      ) : (
+        <>
+          {hasRequests ? (
+            <div className={styles.lendingRequestsContainer}>
+              {lendingRequests.map((req) => (
+                <LendingRequestCard key={req.id} lendingRequest={req} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState
+              className={styles.lendingRequestEmpty}
+              iconNode={<Leaf />}
+              body={<span>Du har ingen utlånsforespørsler</span>}
+            />
+          )}
 
-        {canLoadMore && (
-          <div className={styles.loadMoreRequest}>
-            <Button
-              onPress={onLoadMore}
-              isPending={!isEmpty(lendingRequests) && isFetching}
-              className={styles.loadMoreButton}
-            >
-              Se mer
-            </Button>
-          </div>
-        )}
-      </LoadingIndicator>
+          {canLoadMore && (
+            <div className={styles.loadMoreRequest}>
+              <Button
+                onPress={onLoadMore}
+                isPending={!isEmpty(lendingRequests) && isFetching}
+                className={styles.loadMoreButton}
+              >
+                Se mer
+              </Button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

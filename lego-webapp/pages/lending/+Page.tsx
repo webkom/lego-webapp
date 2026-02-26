@@ -69,13 +69,6 @@ const LendableObjectList = () => {
     setVisibleCount((prev) => prev + 4);
   };
 
-  /*
-  This is to be fixed
-  const lendingRequests = useAppSelector((state) =>
-    selectTransformedLendingRequests(state, { pagination: requestsPagination }),
-  );
-  */
-
   const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
   );

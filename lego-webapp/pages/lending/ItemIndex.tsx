@@ -131,15 +131,17 @@ const ItemIndex = ({
   canCreate,
   className,
 }: Props) => {
+  const hasLendableObjects = lendableObjects.length > 0;
+
   return (
     <div className={className}>
       <h3>Tilgjengelig utstyr</h3>
       <div className={styles.lendableObjectsContainer}>
-        {isFetching && (
+        {isFetching && !hasLendableObjects && (
           <Skeleton array={6} height={250} className={styles.skeletonCard} />
         )}
 
-        {!isFetching && lendableObjects.length > 0 && (
+        {hasLendableObjects && (
           <>
             {canCreate && <CreateLendableObjectCard />}
             {lendableObjects.map((lendableObject) => (
@@ -151,7 +153,7 @@ const ItemIndex = ({
           </>
         )}
 
-        {!isFetching && lendableObjects.length === 0 && (
+        {!isFetching && !hasLendableObjects && (
           <EmptyState
             iconNode={<FolderOpen />}
             className={styles.emptyLendableObjectsContainer}
