@@ -47,7 +47,7 @@ const LendableObject = ({
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
-      <BaseCard hoverable shadow className={styles.lendableObjectCard}>
+      <BaseCard hoverable className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
           {lendableObject.image ? (
             <img

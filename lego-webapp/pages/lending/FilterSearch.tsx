@@ -74,6 +74,7 @@ const FilterSearch = ({
   return (
     <div className={className}>
       <FilterSection title="">
+        <h3 className={styles.header}>Søk etter utstyr</h3>
         <TextInput
           prefix="search"
           placeholder="Grill, soundboks..."
