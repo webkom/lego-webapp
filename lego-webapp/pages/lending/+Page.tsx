@@ -111,42 +111,44 @@ const LendableObjectList = () => {
   };
 
   useEffect(() => {
+    if (!heartRef.current) return;
+
     const ctx = gsap.context(() => {
-      const shapes = gsap.utils.toArray(
+      const shapes = gsap.utils.toArray<SVGGeometryElement>(
         'svg path, svg line, svg polyline, svg polygon, svg circle, svg rect',
       );
 
-      shapes.forEach((el) => {
-        if (typeof el.getTotalLength === 'function') {
-          const length = el.getTotalLength();
-          el.style.strokeDasharray = `${length}`;
-          el.style.strokeDashoffset = `${length}`;
-          el.style.opacity = '1';
-        }
+      shapes.forEach((shape) => {
+        const length = shape.getTotalLength();
+
+        gsap.set(shape, {
+          strokeDasharray: length,
+          strokeDashoffset: length,
+          opacity: 1,
+        });
       });
 
-      gsap
-        .timeline()
-        .to(
-          shapes,
-          {
-            strokeDashoffset: 0,
-            duration: 1.8,
-            ease: 'power2.out',
-            stagger: 0.06,
-          },
-          0,
-        )
-        .fromTo(
-          shapes,
-          { stroke: 'var(--lego-font-color)' },
-          {
-            stroke: 'oklch(63.7% 0.237 25.331)',
-            duration: 2.3,
-            ease: 'power2.out',
-          },
-          0,
-        );
+      const tl = gsap.timeline();
+
+      tl.to(
+        shapes,
+        {
+          strokeDashoffset: 0,
+          duration: 1.8,
+          ease: 'power2.out',
+          stagger: 0.06,
+        },
+        0,
+      ).fromTo(
+        shapes,
+        { stroke: 'var(--lego-font-color)' },
+        {
+          stroke: 'oklch(63.7% 0.237 25.331)',
+          duration: 2.3,
+          ease: 'power2.out',
+        },
+        0,
+      );
     }, heartRef);
 
     return () => ctx.revert();
