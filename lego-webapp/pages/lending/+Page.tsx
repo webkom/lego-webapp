@@ -42,7 +42,8 @@ const LendableObjectList = () => {
     selectPaginationNext({
       endpoint: '/lending/requests/',
       entity: EntityType.LendingRequests,
-      query,
+      // Requests are fetched on this page without filters.
+      query: {},
     })(state),
   );
 

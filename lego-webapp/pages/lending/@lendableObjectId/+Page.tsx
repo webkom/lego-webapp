@@ -40,7 +40,7 @@ export const LendableObjectList = () => {
       title={title}
       actionButtons={
         <>
-          {!fetching && lendableObject.actionGrant.includes('edit') ? (
+          {!fetching && lendableObject?.actionGrant.includes('edit') ? (
             <LinkButton href={`/lending/${lendableObjectId}/edit`}>
               Rediger
             </LinkButton>
