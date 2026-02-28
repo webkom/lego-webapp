@@ -133,7 +133,6 @@ const ItemIndex = ({
 }: Props) => {
   return (
     <div className={className}>
-      <h3>Tilgjengelig utstyr</h3>
       <div className={styles.lendableObjectsContainer}>
         {isFetching && (
           <Skeleton array={6} height={250} className={styles.skeletonCard} />

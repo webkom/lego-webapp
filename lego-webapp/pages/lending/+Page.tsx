@@ -180,12 +180,12 @@ const LendableObjectList = () => {
             <h4>Hvordan bruke utlånssystemet?</h4>
             <p>
               Dette er et digitalt lånessystem for å gjøre utlån enkelt og
-              oversiktlig. Alle brukere er velkommen til å bruke denne
-              løsningen. Registrer alltid lån/retur, ta godt vare på utstyret,
-              og lever tilbake til avtalt tid. Oppdager du feil eller skade, gi
-              beskjed så fort som mulig. Hvert utlånsobjekt tilhører en komité.
-              Reglene for utlån kan derfor variere, og du må følge
-              retningslinjene som gjelder for den aktuelle komiteen.
+              oversiktlig. Alle brukere er velkommen til å bruke løsningen.
+              Registrer alltid lån/retur, ta godt vare på utstyret, og lever
+              tilbake til avtalt tid. Oppdager du feil eller skade, gi beskjed
+              så fort som mulig. Hvert utlånsobjekt tilhører en komité. Reglene
+              for utlån kan derfor variere, og du må følge retningslinjene som
+              gjelder for den aktuelle komiteen.
             </p>
           </div>
         </div>
