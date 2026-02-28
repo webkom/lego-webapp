@@ -15,6 +15,7 @@ import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
 import { mazemapDeps } from '~/components/MazemapEmbed';
 import PropertyHelmet from '~/components/PropertyHelmet';
+import ShareButton from '~/components/ShareButton';
 import Tag from '~/components/Tags/Tag';
 import TextWithIcon from '~/components/TextWithIcon';
 import {
@@ -311,6 +312,13 @@ const EventDetail = () => {
               }
             />
           )}
+
+          <Line />
+
+          <ShareButton
+            title={'Del arrangement'}
+            url={`${appConfig?.webUrl}/events/${event?.id}`}
+          />
 
           {(actionGrant.includes('edit') || actionGrant.includes('delete')) && (
             <Line />

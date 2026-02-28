@@ -12,6 +12,7 @@ import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
 import { jobType, Year, Workplaces } from '~/components/JoblistingItem/Items';
 import PropertyHelmet from '~/components/PropertyHelmet';
+import ShareButton from '~/components/ShareButton';
 import Time from '~/components/Time';
 import YoutubeCover from '~/pages/pages/_components/YoutubeCover';
 import { fetchJoblisting } from '~/redux/actions/JoblistingActions';
@@ -235,6 +236,11 @@ const JoblistingDetail = () => {
               </Flex>
             </div>
           )}
+
+          <ShareButton
+            title={'Del jobbannonse'}
+            url={`${appConfig?.webUrl}/joblistings/${joblisting?.id}`}
+          />
 
           {(canEdit || canDelete) && (
             <div>
