@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
+import { LendingRequestStatus } from '~/redux/models/LendingRequest';
+import { createRootReducer, type RootState } from '~/redux/rootReducer';
 import { selectTransformedLendingRequests } from '../lendingRequests';
 import type { ListLendableObject } from '~/redux/models/LendableObject';
 import type { ListLendingRequest } from '~/redux/models/LendingRequest';
-import { LendingRequestStatus } from '~/redux/models/LendingRequest';
-import { createRootReducer, type RootState } from '~/redux/rootReducer';
 
 const createLendingRequest = (
   id: number,
