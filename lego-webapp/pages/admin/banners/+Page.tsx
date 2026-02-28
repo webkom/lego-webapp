@@ -77,10 +77,6 @@ const BannerItem = ({ banner }: { banner: BannerType }) => {
       });
   };
 
-  const countdownDate = banner.countdownEndDate
-    ? new Date(banner.countdownEndDate)
-    : undefined;
-
   const validCountdownDate = banner.countdownEndDate || undefined;
 
   const countdownMessage = banner.countdownEndMessage ?? undefined;
