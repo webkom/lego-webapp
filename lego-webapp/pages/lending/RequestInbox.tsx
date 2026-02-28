@@ -25,10 +25,8 @@ const RequestInbox = ({
 }: Props) => {
   const hasRequests = lendingRequests.length > 0;
   const canLoadMore =
-    !isFetching &&
-    hasMore &&
-    hasRequests &&
-    lendingRequests.length < totalFetched;
+    hasMore && hasRequests && lendingRequests.length < totalFetched;
+  const showInitialLoading = isFetching && !hasRequests;
 
   return (
     <div className={className}>
@@ -48,18 +46,19 @@ const RequestInbox = ({
           />
         )}
 
-        {canLoadMore && (
-          <div className={styles.loadMoreRequest}>
-            <Button
-              onPress={onLoadMore}
-              isPending={!isEmpty(lendingRequests) && isFetching}
-              className={styles.loadMoreButton}
-            >
-              Se mer
-            </Button>
-          </div>
-        )}
-      </LoadingIndicator>
+          {canLoadMore && (
+            <div className={styles.loadMoreRequest}>
+              <Button
+                onPress={onLoadMore}
+                isPending={!isEmpty(lendingRequests) && isFetching}
+                className={styles.loadMoreButton}
+              >
+                Se mer
+              </Button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 };

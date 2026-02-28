@@ -17,7 +17,7 @@ import {
 import { useAppDispatch } from '~/redux/hooks';
 import { FilterLendingCategory, LENDABLE_CATEGORY } from '~/utils/constants';
 import { createValidator, required } from '~/utils/validation';
-import style from './LendableObjectEditor.module.css';
+import styles from './LendableObjectEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type {
   CreateLendableObject,
@@ -69,8 +69,8 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
     >
       {({ handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <div className={style.fields}>
-            <div className={style.thumbnail}>
+          <div className={styles.fields}>
+            <div className={styles.thumbnail}>
               <Field
                 name="image"
                 component={ImageUploadField}
@@ -78,8 +78,8 @@ export const LendableObjectEditor = ({ initialValues }: Props) => {
                 img={initialValues?.image}
               />
             </div>
-            <div className={style.detailsContainer}>
-              <div className={style.nameLocation}>
+            <div className={styles.detailsContainer}>
+              <div className={styles.nameLocation}>
                 <Field
                   label="Navn"
                   name="title"

@@ -14,6 +14,9 @@ export const fetchAllLendableObjects = () =>
     types: LendableObjects.FETCH,
     endpoint: '/lending/objects/',
     schema: [lendableObjectSchema],
+    pagination: {
+      fetchNext: false,
+    },
     meta: {
       errorMessage: 'Henting av utlånsobjekter feilet',
     },
@@ -52,6 +55,18 @@ export const createLendableObject = (data: CreateLendableObject) =>
     body: data,
     meta: {
       errorMessage: 'Opprettelse av utlånsobjekt feilet',
+    },
+  });
+
+export const deleteLendableObject = (id: EntityId) =>
+  callAPI<void>({
+    types: LendableObjects.DELETE,
+    endpoint: `/lending/objects/${id}/`,
+    method: 'DELETE',
+    meta: {
+      id,
+      errorMessage: 'Sletting av utlånsobjekt feilet',
+      successMessage: 'Utlånsobjekt slettet',
     },
   });
 
