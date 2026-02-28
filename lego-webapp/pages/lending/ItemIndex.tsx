@@ -48,7 +48,7 @@ const LendableObject = ({
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
-      <BaseCard hoverable className={styles.lendableObjectCard}>
+      <BaseCard className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
           {lendableObject.image ? (
             <Image
@@ -65,7 +65,7 @@ const LendableObject = ({
             />
           )}
         </div>
-        <CardFooter className={styles.lendableObjectInfobox}>
+        <CardFooter variant="border" className={styles.lendableObjectInfobox}>
           <Flex>
             <h3 title={lendableObject.title}>
               {truncateString(lendableObject.title, 25)}

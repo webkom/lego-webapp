@@ -51,10 +51,6 @@
   background-color: var(--additive-background);
 }
 
-.lendingRequestCard:hover {
-  background-color: var(--additive-background);
-}
-
 img.lendingRequestImage {
   width: 80px;
   height: 80px;

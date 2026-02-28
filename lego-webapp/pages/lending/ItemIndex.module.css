@@ -30,7 +30,7 @@
 
 .lendableObjectImage {
   width: 100%;
-  height: 100%;
+  height: 105%;
   display: block;
   object-fit: cover;
   object-position: center;
@@ -52,15 +52,21 @@
 }
 
 .lendableObjectCard {
-  --additive-background: var(--lego-card-color);
+  transition:
+    box-shadow var(--easing-fast),
+    background-color var(--easing-fast);
+}
+
+.lendableObjectCard:hover .lendableObjectInfobox {
+  background-color: var(--additive-background);
 }
 
 .lendableObjectInfobox {
   flex-direction: column;
-  gap: var(--spacing-xs);
   flex-grow: 1;
   color: var(--lego-font-color);
-  background-color: var(--color-gray-2);
+  background-color: inherit;
+  transition: background-color var(--easing-fast);
 
   h3 {
     width: 0;
@@ -69,7 +75,8 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     padding: 0;
-    margin: 0;
+    margin-top: 0;
+    margin-bottom: var(--spacing-xs);
   }
 
   svg {
@@ -82,6 +89,7 @@
     font-size: var(--font-size-sm);
     line-height: var(--spacing-lg);
     margin: 0;
+    color: var(--secondary-font-color);
   }
 }
 
