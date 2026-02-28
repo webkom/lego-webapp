@@ -118,6 +118,8 @@ export type EditingEvent = Event & {
   responsibleUsers: PublicUser[];
   saveToImageGallery: boolean;
   date: [Dateish, Dateish];
+  lendingObjects: Option[];
+  lendingDescription: string[];
 };
 
 // Event fields that should be created or updated based on the API.

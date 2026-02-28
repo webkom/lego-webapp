@@ -30,6 +30,7 @@ import {
   fetchImageGallery,
   setSaveForUse,
 } from '~/redux/actions/FileActions';
+import { createLendingRequest } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectPoolsWithRegistrationsForEvent,
@@ -61,11 +62,13 @@ import EditorSection, {
   Details,
   Registration,
   Descriptions,
+  LendingSection,
 } from './EditorSection';
 import type { ActionGrant } from 'app/models';
 import type { EditingEvent } from '~/pages/events/utils';
 import type { UploadArgs } from '~/redux/actions/FileActions';
 import type { AdministrateEvent } from '~/redux/models/Event';
+import type { CreateLendingRequest } from '~/redux/models/LendingRequest';
 
 const TypedLegoForm = LegoFinalForm<EditingEvent>;
 
@@ -206,15 +209,30 @@ const EventEditor = () => {
   }
 
   const onSubmit = (values: EditingEvent) => {
-    (isEditPage
+    const eventAction = isEditPage
       ? dispatch(editEvent(transformEvent(values)))
-      : dispatch(createEvent(transformEvent(values)))
-    ).then((res) => {
+      : dispatch(createEvent(transformEvent(values)));
+
+    eventAction.then((res) => {
       const key: string = values.cover.split(':')[0];
       const token: string = values.cover.split(':')[1];
       if (values.saveToImageGallery) {
         dispatch(setSaveForUse(key, token, true));
       }
+
+      // Create lending request if lendingObjects exist and we're creating a new event
+      if (values.lendingObjects && values.lendingObjects.length > 0) {
+        for (let i = 0; i < values.lendingObjects.length; i++) {
+          const lendingRequestData: CreateLendingRequest = {
+            lendableObject: values.lendingObjects[i].value,
+            comment: values.lendingDescription[i] || '',
+            startDate: moment(values.date[0]).toISOString(),
+            endDate: moment(values.date[1]).toISOString(),
+          };
+          dispatch(createLendingRequest(lendingRequestData));
+        }
+      }
+
       navigate(
         isEditPage
           ? `/events/${eventIdOrSlug}`
@@ -369,19 +387,18 @@ const EventEditor = () => {
                 setImageGalleryUrl={setImageGalleryUrl}
               />
             </EditorSection>
-
             <EditorSection title="Detaljer" initiallyExpanded={!isEditPage}>
               <Details values={values} />
             </EditorSection>
-
             <EditorSection title="Påmelding" initiallyExpanded={!isEditPage}>
               <Registration values={values} />
             </EditorSection>
-
+            <EditorSection title="Utstyrslån" initiallyExpanded={true}>
+              <LendingSection values={values} />
+            </EditorSection>
             <EditorSection title="Beskrivelse" collapsible={false}>
               <Descriptions uploadFile={uploadFile} values={values} />
             </EditorSection>
-
             {!isEditPage && (
               <Field
                 label={
@@ -419,7 +436,6 @@ const EventEditor = () => {
                 required
               />
             )}
-
             <ButtonGroup>
               {isEditPage && (
                 <LinkButton flat href={`/events/${eventIdOrSlug}`}>
@@ -430,7 +446,6 @@ const EventEditor = () => {
                 {isEditPage ? 'Lagre endringer' : 'Opprett'}
               </SubmitButton>
             </ButtonGroup>
-
             {isEditPage && <Admin actionGrant={actionGrant} event={values} />}
           </Form>
         )}

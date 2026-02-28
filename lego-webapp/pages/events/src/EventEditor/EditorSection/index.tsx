@@ -58,3 +58,4 @@ export { default as Header } from './Header';
 export { default as Details } from './Details';
 export { default as Registration } from './Registration';
 export { default as Descriptions } from './Descriptions';
+export { default as LendingSection } from './LendingSection';
