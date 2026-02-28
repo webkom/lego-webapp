@@ -124,3 +124,7 @@
   background-color: var(--color-red-2);
   border: 2px solid var(--color-red-4);
 }
+
+.lendingUserLink:hover {
+  text-decoration: underline;
+}
