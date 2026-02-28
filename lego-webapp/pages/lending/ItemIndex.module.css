@@ -51,6 +51,10 @@
   color: var(--color-gray-2);
 }
 
+.lendableObjectCard {
+  --additive-background: var(--lego-card-color);
+}
+
 .lendableObjectInfobox {
   flex-direction: column;
   gap: var(--spacing-xs);
