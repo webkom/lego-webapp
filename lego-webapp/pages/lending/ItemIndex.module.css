@@ -21,7 +21,7 @@
 .lendableObjectImageContainer {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 1.2 / 1;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -30,7 +30,7 @@
 
 .lendableObjectImage {
   width: 100%;
-  height: 105%;
+  height: 100%;
   display: block;
   object-fit: cover;
   object-position: center;
