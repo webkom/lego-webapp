@@ -5,6 +5,7 @@ import {
   Flex,
   LinkButton,
   Skeleton,
+  Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import {
@@ -47,13 +48,14 @@ const LendableObject = ({
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
-      <BaseCard hoverable className={styles.lendableObjectCard}>
+      <BaseCard className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
           {lendableObject.image ? (
-            <img
+            <Image
               className={styles.lendableObjectImage}
               src={lendableObject.image}
-              alt={`${lendableObject.title}`}
+              alt={`Bildet av ${lendableObject.title}`}
+              decoding="async"
             />
           ) : (
             <Icon
@@ -63,7 +65,7 @@ const LendableObject = ({
             />
           )}
         </div>
-        <CardFooter className={styles.lendableObjectInfobox}>
+        <CardFooter variant="border" className={styles.lendableObjectInfobox}>
           <Flex>
             <h3 title={lendableObject.title}>
               {truncateString(lendableObject.title, 25)}
@@ -76,10 +78,6 @@ const LendableObject = ({
           <p>
             {<Icon iconNode={<Package />} size={18} />}
             {lendableObject.location}
-          </p>
-          <p>
-            {<Icon iconNode={<Tag />} size={18} />}
-            {LENDABLE_CATEGORY[lendableObject.category]}
           </p>
         </CardFooter>
       </BaseCard>
@@ -115,7 +113,7 @@ const CreateLendableObjectCard = () => {
       <LinkButton round className={styles.createNewIcon} href="/lending/new">
         <Icon iconNode={<Plus />} size={35} />
       </LinkButton>
-      <p>Lag utlånsobjekt</p>
+      <h4>Lag nytt utlånsobjekt</h4>
     </BaseCard>
   );
 };
