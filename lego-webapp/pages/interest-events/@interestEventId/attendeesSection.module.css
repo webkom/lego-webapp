@@ -8,7 +8,7 @@
   width: 38px;
   height: 38px;
   border-radius: 38px;
-  border: 2px solid var(--color-absolute-white);
+  border: 2px solid var(--color-white);
 }
 .attendeesProgressInfo {
   display: flex;
