@@ -26,11 +26,11 @@ const RequestInbox = ({
   const hasRequests = lendingRequests.length > 0;
   const canLoadMore =
     hasMore && hasRequests && lendingRequests.length < totalFetched;
-  const showInitialLoading = isFetching && !hasRequests;
 
   return (
     <div className={className}>
       <h3 className={styles.header}>Din innboks</h3>
+
       <LoadingIndicator loading={isFetching}>
         {hasRequests ? (
           <div className={styles.lendingRequestsContainer}>
@@ -46,19 +46,18 @@ const RequestInbox = ({
           />
         )}
 
-          {canLoadMore && (
-            <div className={styles.loadMoreRequest}>
-              <Button
-                onPress={onLoadMore}
-                isPending={!isEmpty(lendingRequests) && isFetching}
-                className={styles.loadMoreButton}
-              >
-                Se mer
-              </Button>
-            </div>
-          )}
-        </>
-      )}
+        {canLoadMore && (
+          <div className={styles.loadMoreRequest}>
+            <Button
+              onPress={onLoadMore}
+              isPending={!isEmpty(lendingRequests) && isFetching}
+              className={styles.loadMoreButton}
+            >
+              Se mer
+            </Button>
+          </div>
+        )}
+      </LoadingIndicator>
     </div>
   );
 };
