@@ -1,0 +1,18 @@
+.title {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--secondary-font-color);
+}
+
+.rightInfoBox {
+  width: 360px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-gray-2);
+  box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.033);
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  align-items: start;
+}
