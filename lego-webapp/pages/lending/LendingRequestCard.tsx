@@ -24,7 +24,7 @@ const LendingRequestCard = ({
       }
         `}
     >
-      <Card isHoverable hideOverflow className={styles.lendingRequestCard}>
+      <Card className={styles.lendingRequestCard}>
         <Flex width="100%">
           <Flex>
             <Flex column gap="var(--spacing-sm)">

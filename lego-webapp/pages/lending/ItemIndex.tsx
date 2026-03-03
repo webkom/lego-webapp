@@ -47,7 +47,7 @@ const LendableObject = ({
 
   return (
     <a href={`/lending/${lendableObject.id}`}>
-      <BaseCard hoverable shadow className={styles.lendableObjectCard}>
+      <BaseCard hoverable className={styles.lendableObjectCard}>
         <div className={styles.lendableObjectImageContainer}>
           {lendableObject.image ? (
             <img
@@ -135,7 +135,6 @@ const ItemIndex = ({
 
   return (
     <div className={className}>
-      <h3>Tilgjengelig utstyr</h3>
       <div className={styles.lendableObjectsContainer}>
         {isFetching && !hasLendableObjects && (
           <Skeleton array={6} height={250} className={styles.skeletonCard} />
