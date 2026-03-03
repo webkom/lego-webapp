@@ -23,6 +23,10 @@
   top: -17px;
 }
 
+.header {
+  margin-bottom: 7px;
+}
+
 .loadMoreButton {
   background-color: var(--color-gray-2);
   font-size: var(--font-size-sm);
@@ -38,6 +42,10 @@
   align-items: center;
   padding: var(--spacing-md);
   color: var(--lego-font-color);
+}
+
+.lendingRequestCard:hover {
+  background-color: var(--additive-background);
 }
 
 img.lendingRequestImage {

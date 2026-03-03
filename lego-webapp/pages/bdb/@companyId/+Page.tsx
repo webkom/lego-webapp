@@ -1,4 +1,5 @@
 import {
+  Button,
   ConfirmModal,
   Flex,
   Icon,
@@ -24,6 +25,7 @@ import {
   ContentSidebar,
 } from '~/components/Content';
 import EmptyState from '~/components/EmptyState';
+import { TextInput } from '~/components/Form';
 import JoblistingItem from '~/components/JoblistingItem';
 import joblistingStyles from '~/components/JoblistingItem/JoblistingItem.module.css';
 import Table from '~/components/Table';
@@ -40,6 +42,7 @@ import companyStyles from '~/pages/companies/@companyId/Company.module.css';
 import { displayNameForEventType } from '~/pages/events/utils';
 import {
   deleteCompanyContact,
+  editCompanyContact,
   deleteSemesterStatus,
   editSemesterStatus,
   fetchAdmin,
@@ -58,8 +61,15 @@ import {
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import truncateString from '~/utils/truncateString';
 import { useParams } from '~/utils/useParams';
+import { EMAIL_REGEX } from '~/utils/validation';
 import styles from '../bdb.module.css';
-import type { ColumnProps } from '~/components/Table';
+import type {
+  ColumnProps,
+  EditCellContext,
+  EditDraft,
+  RowActionContext,
+  TableEditableProps,
+} from '~/components/Table';
 import type { GroupedStudentContactsBySemester } from '~/pages/bdb/utils';
 import type { CompanyContact } from '~/redux/models/Company';
 import type { ListEvent } from '~/redux/models/Event';
@@ -78,6 +88,43 @@ type RenderFileProps = {
     semesterStatus: TransformedSemesterStatus,
   ) => Promise<unknown>;
 };
+
+type EditableCompanyContact = {
+  name: string;
+  role: string;
+  mail: string;
+  phone: string;
+};
+
+const formatCompanyContactForEdit = (
+  companyContact: CompanyContact,
+): EditableCompanyContact => ({
+  name: companyContact.name ?? '',
+  role: companyContact.role ?? '',
+  mail: companyContact.mail ?? '',
+  phone: companyContact.phone ?? '',
+});
+
+const normalizeEditableCompanyContact = (
+  companyContact: EditableCompanyContact,
+): EditableCompanyContact => ({
+  name: companyContact.name.trim(),
+  role: companyContact.role.trim(),
+  mail: companyContact.mail.trim(),
+  phone: companyContact.phone.trim(),
+});
+
+const editDraftValueToString = (value: unknown) =>
+  value === null || value === undefined ? '' : String(value);
+
+const editableCompanyContactFromDraft = (
+  draft: EditDraft<CompanyContact>,
+): EditableCompanyContact => ({
+  name: editDraftValueToString(draft.name),
+  role: editDraftValueToString(draft.role),
+  mail: editDraftValueToString(draft.mail),
+  phone: editDraftValueToString(draft.phone),
+});
 
 export const RenderFile = ({
   type,
@@ -267,22 +314,44 @@ const BdbDetail = () => {
       },
     ];
 
+  const renderCompanyContactInput = (
+    { value, setValue, isSaving, error }: EditCellContext<CompanyContact>,
+    inputType: 'text' | 'email' | 'tel' = 'text',
+  ) => (
+    <TextInput
+      type={inputType}
+      className={styles.companyContactInput}
+      value={editDraftValueToString(value)}
+      disabled={isSaving}
+      aria-invalid={!!error}
+      onChange={(event) => setValue(event.target.value)}
+    />
+  );
+
   const contactsColumns: ColumnProps<CompanyContact>[] = [
     {
       title: 'Navn',
       dataIndex: 'name',
+      editable: true,
+      editRender: (context) => renderCompanyContactInput(context),
     },
     {
       title: 'Rolle',
       dataIndex: 'role',
+      editable: true,
+      editRender: (context) => renderCompanyContactInput(context),
     },
     {
       title: 'E-post',
       dataIndex: 'mail',
+      editable: true,
+      editRender: (context) => renderCompanyContactInput(context, 'email'),
     },
     {
       title: 'Telefon',
       dataIndex: 'phone',
+      editable: true,
+      editRender: (context) => renderCompanyContactInput(context, 'tel'),
     },
     {
       title: 'Oppdatert',
@@ -291,41 +360,98 @@ const BdbDetail = () => {
         <>{moment(contact.updatedAt).format('YYYY-MM-DD')}</>
       ),
     },
-    {
-      title: '',
-      dataIndex: '',
-      render: (_, contact) =>
-        contact && (
-          <Flex>
+  ];
+
+  const companyContactRowActions = ({
+    row: companyContact,
+    isEditing,
+    isSaving,
+    canSave,
+    isLocked,
+    startEdit,
+    cancelEdit,
+    saveEdit,
+  }: RowActionContext<CompanyContact>) =>
+    isEditing ? (
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        gap="var(--spacing-sm)"
+        className={styles.companyContactActions}
+      >
+        <Button
+          size="small"
+          onPress={() => void saveEdit()}
+          disabled={isSaving || !canSave}
+        >
+          Lagre
+        </Button>
+        <Button size="small" flat onPress={cancelEdit} disabled={isSaving}>
+          Avbryt
+        </Button>
+      </Flex>
+    ) : (
+      <Flex className={styles.companyContactActions}>
+        <Icon
+          name="pencil"
+          edit
+          size={20}
+          disabled={isLocked}
+          onPress={() => !isLocked && startEdit()}
+        />
+        <ConfirmModal
+          title="Slett bedriftskontakt"
+          message="Er du sikker på at du vil slette denne bedriftskontakten?"
+          onConfirm={() =>
+            dispatch(deleteCompanyContact(company.id, companyContact.id))
+          }
+          closeOnConfirm
+        >
+          {({ openConfirmModal }) => (
             <Icon
-              to={`/bdb/${String(company.id)}/company-contacts/${String(
-                contact.id,
-              )}`}
-              name="pencil"
-              edit
+              onPress={() => !isLocked && openConfirmModal()}
+              iconNode={<Trash2 />}
+              danger
+              disabled={isLocked}
               size={20}
             />
-            <ConfirmModal
-              title="Slett bedriftskontakt"
-              message="Er du sikker på at du vil slette denne bedriftskontakten?"
-              onConfirm={() =>
-                dispatch(deleteCompanyContact(company.id, contact.id))
-              }
-              closeOnConfirm
-            >
-              {({ openConfirmModal }) => (
-                <Icon
-                  onPress={openConfirmModal}
-                  iconNode={<Trash2 />}
-                  danger
-                  size={20}
-                />
-              )}
-            </ConfirmModal>
-          </Flex>
-        ),
+          )}
+        </ConfirmModal>
+      </Flex>
+    );
+
+  const companyContactTableEditable: TableEditableProps<CompanyContact> = {
+    enabled: true,
+    actionColumnWidth: 170,
+    getInitialDraft: (companyContact) =>
+      formatCompanyContactForEdit(companyContact),
+    validateDraft: (draft) => {
+      const companyContact = normalizeEditableCompanyContact(
+        editableCompanyContactFromDraft(draft),
+      );
+      const errors = {
+        name: companyContact.name ? undefined : 'Navn må fylles ut',
+        mail:
+          !companyContact.mail || EMAIL_REGEX.test(companyContact.mail)
+            ? undefined
+            : 'Ugyldig e-post',
+      };
+      return Object.values(errors).some(Boolean) ? errors : null;
     },
-  ];
+    onSaveRow: async (companyContact, draft) => {
+      const normalizedDraft = normalizeEditableCompanyContact(
+        editableCompanyContactFromDraft(draft),
+      );
+      await dispatch(
+        editCompanyContact({
+          companyId: company.id,
+          companyContactId: companyContact.id,
+          ...normalizedDraft,
+        }),
+      );
+    },
+    renderRowActions: companyContactRowActions,
+  };
 
   const eventColumns: ColumnProps<ListEvent>[] = [
     {
@@ -530,6 +656,7 @@ const BdbDetail = () => {
             <Table
               columns={contactsColumns}
               data={company.companyContacts}
+              editable={companyContactTableEditable}
               hasMore={false}
               loading={showSkeleton}
             />

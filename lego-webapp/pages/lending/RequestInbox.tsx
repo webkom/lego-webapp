@@ -1,6 +1,6 @@
-import { LoadingIndicator, Button, Icon } from '@webkom/lego-bricks';
+import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
-import { Leaf, Inbox } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 import EmptyState from '../../components/EmptyState';
 import LendingRequestCard from './LendingRequestCard';
 import styles from './RequestInbox.module.css';
@@ -32,11 +32,7 @@ const RequestInbox = ({
 
   return (
     <div className={className}>
-      <header className={styles.lendingRequestMailBoxTitle}>
-        <Icon iconNode={<Inbox />} />
-        <h3>Innboks</h3>
-      </header>
-
+      <h3 className={styles.header}>Din innboks</h3>
       <LoadingIndicator loading={isFetching}>
         {hasRequests ? (
           <div className={styles.lendingRequestsContainer}>
