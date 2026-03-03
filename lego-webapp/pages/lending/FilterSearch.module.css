@@ -21,6 +21,10 @@
   }
 }
 
+.header {
+  margin-bottom: 0;
+}
+
 @media (--mobile-device) {
   .filterCategoryContainer {
     display: flex;
