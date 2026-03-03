@@ -28,14 +28,30 @@ export const selectTransformedLendingRequests = createSelector(
   selectAllLendingRequests,
   selectAllLendableObjects,
   (lendingRequests, lendableObjects) => {
-    return lendingRequests.map((lendingRequest) => {
-      const lendableObject = lendableObjects.find(
-        (lendableObject) => lendableObject.id === lendingRequest.lendableObject,
-      );
-      return {
-        ...lendingRequest,
+    const lendableObjectsById = new Map(
+      lendableObjects.map((lendableObject) => [
+        lendableObject.id,
         lendableObject,
-      } as TransformedLendingRequest;
-    });
+      ]),
+    );
+
+    return lendingRequests.reduce<TransformedLendingRequest[]>(
+      (result, lendingRequest) => {
+        const lendableObject = lendableObjectsById.get(
+          lendingRequest.lendableObject,
+        );
+
+        if (!lendableObject) {
+          return result;
+        }
+
+        result.push({
+          ...lendingRequest,
+          lendableObject,
+        });
+        return result;
+      },
+      [],
+    );
   },
 );
