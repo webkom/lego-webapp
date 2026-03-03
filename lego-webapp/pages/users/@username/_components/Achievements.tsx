@@ -1,9 +1,4 @@
-import {
-  BaseCard,
-  CardFooter,
-  Flex,
-  Tooltip,
-} from '@webkom/lego-bricks';
+import { BaseCard, CardFooter, Flex, Tooltip } from '@webkom/lego-bricks';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import Collapsible from '~/components/Collapsible/Collapsible';
