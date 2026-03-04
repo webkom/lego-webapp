@@ -98,9 +98,7 @@ const UserSettings = () => {
       gender: values.gender.value,
     };
 
-    dispatch(updateUser(body)).then(() => {
-      navigate('/users/me');
-    });
+    dispatch(updateUser(body));
   };
 
   const initialValues: FormValues = {
