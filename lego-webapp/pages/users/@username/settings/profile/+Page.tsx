@@ -2,14 +2,11 @@ import { Accordion, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
 import {
   Form,
   LegoFinalForm,
   TextInput,
-  MultiSelectGroup,
-  RadioButton,
   PhoneNumberInput,
   SelectInput,
   SubmitButton,
@@ -37,6 +34,7 @@ import AllergiesOrPreferencesField from '../../../_components/AllergiesOrPrefere
 import ChangePassword from './ChangePassword';
 import DeleteUser from './DeleteUser';
 import RemovePicture from './RemovePicture';
+import ThemeSelector from './ThemeSelector';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from '~/redux/models/User';
@@ -99,14 +97,23 @@ const UserSettings = () => {
       gender: values.gender.value,
     };
 
-    dispatch(updateUser(body)).then(() => {
-      navigate('/users/me');
-    });
+    dispatch(updateUser(body));
   };
 
+  // Only seed fields this form actually owns, otherwise unrelated user updates
+  // can reinitialize the form and reset the pristine state during hydration.
   const initialValues: FormValues = {
-    ...user,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
     gender: { label: Gender[user.gender], value: user.gender },
+    allergies: user.allergies,
+    email: user.email,
+    phoneNumber: user.phoneNumber ?? '',
+    selectedTheme: user.selectedTheme,
+    isAbakusMember: user.isAbakusMember,
+    githubUsername: user.githubUsername ?? '',
+    linkedinId: user.linkedinId ?? '',
   };
 
   return (
@@ -115,6 +122,7 @@ const UserSettings = () => {
         onSubmit={onSubmit}
         initialValues={initialValues}
         validate={validate}
+        keepDirtyOnReinitialize
         subscription={{}}
       >
         {({ handleSubmit }) => (
@@ -223,29 +231,7 @@ const UserSettings = () => {
               </RowSection>
             </Flex>
 
-            <MultiSelectGroup legend="Fargetema" name="selectedTheme">
-              <Field
-                name="selectedTheme"
-                label="Auto"
-                value="auto"
-                type="radio"
-                component={RadioButton.Field}
-              />
-              <Field
-                name="selectedTheme"
-                label="Lyst"
-                value="light"
-                type="radio"
-                component={RadioButton.Field}
-              />
-              <Field
-                name="selectedTheme"
-                label="Mørkt"
-                value="dark"
-                type="radio"
-                component={RadioButton.Field}
-              />
-            </MultiSelectGroup>
+            <ThemeSelector />
 
             {showAbakusMembership && (
               <Field
