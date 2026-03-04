@@ -122,6 +122,7 @@ const UserSettings = () => {
         onSubmit={onSubmit}
         initialValues={initialValues}
         validate={validate}
+        keepDirtyOnReinitialize
         subscription={{}}
       >
         {({ handleSubmit }) => (

@@ -1,9 +1,7 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Check, MoonStar, Sun, SunMoon } from 'lucide-react';
-import { useEffect } from 'react';
-import { Field, useForm } from 'react-final-form';
-import { useTheme } from '~/utils/themeUtils';
+import { Field } from 'react-final-form';
 import styles from './ThemeSelector.module.css';
 import type { ReactNode } from 'react';
 
@@ -32,13 +30,6 @@ const themeOptions: ThemeOption[] = [
 ];
 
 const ThemeSelector = () => {
-  const form = useForm();
-  const theme = useTheme();
-
-  useEffect(() => {
-    form.change('selectedTheme', theme);
-  }, [form, theme]);
-
   return (
     <div>
       <label className={styles.label}>Fargetema</label>
