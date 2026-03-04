@@ -43,6 +43,7 @@ export const editLendableObject = (data: EditLendableObject) =>
     body: data,
     meta: {
       errorMessage: 'Endring av utlånsobjekt feilet',
+      successMessage: 'Ending av utlånsobjekt fullført',
     },
   });
 
@@ -55,6 +56,7 @@ export const createLendableObject = (data: CreateLendableObject) =>
     body: data,
     meta: {
       errorMessage: 'Opprettelse av utlånsobjekt feilet',
+      successMessage: 'Opprettelse av utlånsobjekt vellykket',
     },
   });
 
