@@ -25,14 +25,12 @@ const RequestInbox = ({
 }: Props) => {
   const hasRequests = lendingRequests.length > 0;
   const canLoadMore =
-    !isFetching &&
-    hasMore &&
-    hasRequests &&
-    lendingRequests.length < totalFetched;
+    hasMore && hasRequests && lendingRequests.length < totalFetched;
 
   return (
     <div className={className}>
       <h3 className={styles.header}>Din innboks</h3>
+
       <LoadingIndicator loading={isFetching}>
         {hasRequests ? (
           <div className={styles.lendingRequestsContainer}>

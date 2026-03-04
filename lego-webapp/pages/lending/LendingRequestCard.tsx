@@ -13,6 +13,10 @@ const LendingRequestCard = ({
   lendingRequest: TransformedLendingRequest;
   isFromAdmin?: boolean;
 }) => {
+  if (!lendingRequest.lendableObject) {
+    return null;
+  }
+
   return (
     <a
       href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id} ${
