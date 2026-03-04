@@ -2,7 +2,6 @@ import { Accordion, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
-import { navigate } from 'vike/client/router';
 import { ContentMain } from '~/components/Content';
 import {
   Form,
@@ -101,9 +100,20 @@ const UserSettings = () => {
     dispatch(updateUser(body));
   };
 
+  // Only seed fields this form actually owns, otherwise unrelated user updates
+  // can reinitialize the form and reset the pristine state during hydration.
   const initialValues: FormValues = {
-    ...user,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
     gender: { label: Gender[user.gender], value: user.gender },
+    allergies: user.allergies,
+    email: user.email,
+    phoneNumber: user.phoneNumber ?? '',
+    selectedTheme: user.selectedTheme,
+    isAbakusMember: user.isAbakusMember,
+    githubUsername: user.githubUsername ?? '',
+    linkedinId: user.linkedinId ?? '',
   };
 
   return (
