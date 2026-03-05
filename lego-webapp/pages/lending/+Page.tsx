@@ -8,7 +8,7 @@ import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
-import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
+import { selectLendableObjectsForIndex } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
@@ -46,7 +46,8 @@ const LendableObjectList = () => {
     selectPaginationNext({
       endpoint: '/lending/requests/',
       entity: EntityType.LendingRequests,
-      query,
+      // Requests are fetched on this page without filters.
+      query: {},
     })(state),
   );
 
@@ -57,7 +58,7 @@ const LendableObjectList = () => {
       }),
     );
   };
-  const lendableObjects = useAppSelector(selectAllLendableObjects);
+  const lendableObjects = useAppSelector(selectLendableObjectsForIndex);
 
   const originalLendingRequests = useAppSelector(
     selectTransformedLendingRequests,
@@ -72,13 +73,6 @@ const LendableObjectList = () => {
     }
     setVisibleCount((prev) => prev + 4);
   };
-
-  /*
-  This is to be fixed
-  const lendingRequests = useAppSelector((state) =>
-    selectTransformedLendingRequests(state, { pagination: requestsPagination }),
-  );
-  */
 
   const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
