@@ -120,6 +120,7 @@ const ArticleEditor = () => {
       content: data.content,
       tags: (data.tags || []).map((tag) => tag.value.toLowerCase()),
       pinned: data.pinned,
+      wiggle: data.wiggle,
     };
 
     dispatch(
@@ -176,12 +177,21 @@ const ArticleEditor = () => {
               component={CheckBox.Field}
             />
             {values.pinned && (
-              <Card severity="warning">
-                <Card.Header>Obs!</Card.Header>
-                <p>
-                  Du må ha godkjenning fra Ledelsen for å feste til forsiden.
-                </p>
-              </Card>
+              <>
+                <Card severity="warning">
+                  <Card.Header>Obs!</Card.Header>
+                  <p>
+                    Du må ha godkjenning fra Ledelsen for å feste til forsiden.
+                  </p>
+                </Card>
+
+                <Field
+                  label="Wiggle på forsiden"
+                  name="wiggle"
+                  type="checkbox"
+                  component={CheckBox.Field}
+                />
+              </>
             )}
 
             <Field
