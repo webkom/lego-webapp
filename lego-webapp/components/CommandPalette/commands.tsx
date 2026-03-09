@@ -1,4 +1,4 @@
-import { Icon } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import {
   Home,
   CircleUser,
@@ -19,11 +19,12 @@ import {
   LogOut,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
+import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
 
 type Command = {
   id: string;
-  label: string;
+  label: string | React.ReactNode;
   action: () => void;
   icon?: React.ReactNode;
 };
@@ -67,7 +68,11 @@ const createCommands = (
         },
         {
           id: 'lending',
-          label: 'Utlån',
+          label: (
+            <Flex alignItems="center" gap={10}>
+              Utlån <Tag tag="Nytt!!" color="pink" />
+            </Flex>
+          ),
           action: () => navigate('/lending'),
           icon: <Icon iconNode={<ShoppingCart />} size={15} />,
         },

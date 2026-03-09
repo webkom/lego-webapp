@@ -13,7 +13,7 @@
 }
 
 .lendingRequestEmpty {
-  padding: var(--spacing-lg);
+  padding-top: var(--spacing-xl);
 }
 
 .loadMoreRequest {
