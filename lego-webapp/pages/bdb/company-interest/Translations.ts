@@ -210,7 +210,7 @@ export const OTHER_DESCRIPTIONS = {
     norwegian:
       'readme er Gløshaugens største linjeforeningsmagasin, som kommer ut tre ganger i semesteret, og vi har et opplag på 500 eksemplarer hver utgave. Magasinet er gratis, distribueres på hele NTNUs campus Gløshaugen, og når ut til over 900 studenter innenfor datateknologi, cybersikkerhet, datakommunikasjon og informasjonsteknologi.',
     english:
-      'readme er Gløshaugens største linjeforeningsmagasin, som kommer ut tre ganger i semesteret, og vi har et opplag på 500 eksemplarer hver utgave. Magasinet er gratis, distribueres på hele NTNUs campus Gløshaugen, og når ut til over 900 studenter innenfor datateknologi, cybersikkerhet, datakommunikasjon og informasjonsteknologi.',
+      'readme is the largest student association magazine at Gløshaugen. It is published three times per semester, with a print run of 500 copies per issue. The magazine is free, distributed across NTNU’s Gløshaugen campus, and reaches more than 900 students in computer science, cyber security, data communications, and information technology',
   },
   prof_social_media: {
     norwegian: '',

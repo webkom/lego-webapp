@@ -75,6 +75,10 @@ import {
 import type { ReactNode } from 'react';
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
 import type CompanySemester from '~/redux/models/CompanySemester';
+import LatestReadme from '~/pages/index/LatestReadme';
+import { fetchReadmes } from '~/redux/actions/FrontpageActions'; 
+import { useEffect } from 'react';
+
 
 const SemesterBox = ({
   fields,
@@ -191,6 +195,12 @@ const OtherBox = ({
         }
       />
     ))}
+  </Flex>
+);
+
+const readMe = (
+  <Flex className={styles.readMe}>
+    <LatestReadme expandedInitially={false} />
   </Flex>
 );
 
@@ -538,6 +548,12 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const title = edit ? 'Bedriftsinteresse' : FORM_LABELS.mainHeading[language];
 
+  const dispatch1 = useAppDispatch();
+
+  useEffect(() => {
+    dispatch1(fetchReadmes(2));
+  }, [dispatch1]);
+
   return (
     <Page
       title={title}
@@ -747,6 +763,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                       component={OtherBox}
                     />
                   </MultiSelectGroup>
+                  {readMe}
                 </Flex>
               </Flex>
               <div className={styles.topline} />
