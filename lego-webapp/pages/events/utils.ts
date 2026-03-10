@@ -48,6 +48,11 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#d867c0',
     textColor: 'var(--color-white)',
   },
+  [EventType.INTEREST_EVENT]: {
+    displayName: 'Interessearrangement',
+    color: '#E9B13B',
+    textColor: '#000',
+  },
   [EventType.BREAKFAST_TALK]: {
     displayName: 'Frokostforedrag',
     color: '#86D1D0',

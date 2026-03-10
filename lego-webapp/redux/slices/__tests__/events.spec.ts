@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Event } from '~/redux/actionTypes';
-import events from '../events';
+import { EventType } from '~/redux/models/Event';
+import events, { selectInterestEvents } from '../events';
 import type { UnknownEvent } from '~/redux/models/Event';
 
 describe('reducers', () => {
@@ -35,6 +36,37 @@ describe('reducers', () => {
           },
         },
       });
+    });
+  });
+  describe('selectors', () => {
+    it('selectInterestEvents returns only interest events', () => {
+      const state = {
+        events: {
+          ...baseState,
+          ids: [1, 2, 3],
+          entities: {
+            1: {
+              id: 1,
+              title: 'ordinary',
+              eventType: EventType.EVENT,
+            },
+            2: {
+              id: 2,
+              title: 'interest',
+              eventType: EventType.INTEREST_EVENT,
+            },
+            3: {
+              id: 3,
+              title: 'course',
+              eventType: EventType.COURSE,
+            },
+          },
+        },
+      };
+
+      expect(selectInterestEvents(state as any)).toEqual([
+        state.events.entities[2],
+      ]);
     });
   });
   describe('event registrations', () => {
