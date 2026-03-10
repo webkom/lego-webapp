@@ -12,7 +12,7 @@ export const AttendeesSection = () => {
             <img
               src="../../../assets/ordinaergenfors2026_ZzXnBwJ.webp"
               key={i}
-              alt='Attendee'
+              alt="Attendee"
               style={{ left: `${i * 9}%` }}
             />
           ))}

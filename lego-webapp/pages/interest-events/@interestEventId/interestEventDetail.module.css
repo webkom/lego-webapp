@@ -58,8 +58,6 @@
   gap: var(--spacing-md);
 }
 
-
-
 .infoBarTop > div {
   display: flex;
   gap: var(--spacing-sm);
