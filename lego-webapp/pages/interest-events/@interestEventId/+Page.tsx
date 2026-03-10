@@ -5,7 +5,7 @@ import { AttendeesSection } from './AttendeesSection';
 import { OrganizerSection } from './OrganizerSection';
 import styles from './interestEventDetail.module.css';
 
-const interestEventPage = () => {
+const InterestEventPage = () => {
   return (
     <>
       <div className={styles.mainPage}>
@@ -20,11 +20,11 @@ const interestEventPage = () => {
               <Heart className={styles.heartIcon} />
             </div>
             <div className={styles.infoBarTop}>
-              <div className={styles.infoBarClock}>
+              <div>
                 <Clock className={styles.barIcon} />
                 <p>Onsdag 18. feb., 16:15 - 23:00</p>
               </div>
-              <div className={styles.infoBarMapPin}>
+              <div>
                 <MapPin className={styles.barIcon} />
                 <p>R7, Realfagbygget</p>
               </div>
@@ -76,4 +76,4 @@ const interestEventPage = () => {
   );
 };
 
-export default interestEventPage;
+export default InterestEventPage;

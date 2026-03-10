@@ -1,4 +1,3 @@
-import { Icon } from '@webkom/lego-bricks';
 import { Clock } from 'lucide-react';
 import styles from './attendSection.module.css';
 import boxStyles from './boxes.module.css';
@@ -11,8 +10,8 @@ export const AttendSection = () => {
       <span>Du er ikke påmeldt</span>
 
       <button className={styles.attendButton}>Meld deg på</button>
-      <div className={styles.attendExtraInfo}>
-        Ved å melde deg på samykker du til arrangementreglene
+      <div>
+        Ved å melde deg på samtykker du til arrangementreglene
       </div>
       <div className={styles.attendBottomInfo}>
         <Clock className={styles.timeInfoIcon} />

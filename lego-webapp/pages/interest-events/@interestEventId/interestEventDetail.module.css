@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('styles/custom-media.css');
 
 /* PAGE WRAPPER */
 .mainPage {
@@ -52,17 +52,13 @@
   margin-top: var(--spacing-md);
 }
 
-/* TIME AND LOCATOIN */
+/* TIME AND LOCATION */
 .infoBarTop {
   display: flex;
   gap: var(--spacing-md);
 }
 
-@media (max-width: 1023px) {
-  .infoBarTop {
-    flex-direction: column;
-  }
-}
+
 
 .infoBarTop > div {
   display: flex;
@@ -76,8 +72,20 @@
 .rightSection {
   margin-top: var(--spacing-sm);
   display: flex;
+  width: 360px;
   flex-direction: column;
   gap: var(--spacing-md);
 }
 
-/* EVENT DETAILS */
+/* Mobile */
+@media (--ipad-device) {
+  .infoBarTop {
+    flex-direction: column;
+  }
+  .splitSection {
+    flex-direction: column;
+  }
+  .rightSection {
+    width: auto;
+  }
+}

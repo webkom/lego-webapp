@@ -1,6 +1,6 @@
 .userIcons {
   position: relative;
-  width: 100%;
+  width: 340px;
   height: 38px;
 }
 .userIcons > img {
@@ -32,5 +32,5 @@
   height: 100%;
   width: 40%;
   border-radius: 8px;
-  background-color: #e9b13b;
+  background-color: var(--color-interest-yellow);
 }

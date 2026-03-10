@@ -13,6 +13,8 @@
   --lego-red-color: var(--color-red-5);
   --lego-red-color-hover: var(--color-red-6);
   --lego-link-color: var(--lego-red-color);
+  
+  --color-interest-yellow: #e9b13b;
 
   --danger-color: var(--color-red-6);
   --success-color: var(--color-green-6);

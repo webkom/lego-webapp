@@ -12,6 +12,7 @@ export const AttendeesSection = () => {
             <img
               src="../../../assets/ordinaergenfors2026_ZzXnBwJ.webp"
               key={i}
+              alt='Attendee'
               style={{ left: `${i * 9}%` }}
             />
           ))}
@@ -23,8 +24,8 @@ export const AttendeesSection = () => {
 
       <Flex column gap={'var(--spacing-sm)'} width={'100%'}>
         <div className={styles.attendeesProgressInfo}>
-          <div className={styles.attendeesType}>Engasjerte abakuler</div>
-          <div className={styles.capacity}>39/100</div>
+          <div>Engasjerte abakuler</div>
+          <div>39/100</div>
         </div>
         <div className={styles.attendeesBar}>
           <div className={styles.attendeesBarProgress}></div>

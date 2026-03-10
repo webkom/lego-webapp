@@ -12,8 +12,8 @@ export const OrganizerSection = () => {
       <Flex justifyContent={'space-between'} width={'100%'}>
         <div>Kontakt</div>
         <ul className={styles.organizerList}>
-          <li>Oskar Aasland Larsen</li>
-          <li>Agnes Fagerfjord Nørve</li>
+          <li>Filip grøtulf filipsen</li>
+          <li>Ben ten bendiksen</li>
         </ul>
       </Flex>
     </div>

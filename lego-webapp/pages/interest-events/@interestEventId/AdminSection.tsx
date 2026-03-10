@@ -7,7 +7,6 @@ export const AdminSection = () => {
   return (
     <div className={boxStyles.rightInfoBox}>
       <Flex
-        className={styles.adminTop}
         justifyContent={'space-between'}
         alignItems={'center'}
         width={'100%'}

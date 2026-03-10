@@ -17,7 +17,7 @@
 .attendButton {
   background-color: var(--color-black);
   font-weight: 600;
-  border-radius: 24px;
+  border-radius: 9999px;
   color: var(--color-white);
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.2);
   padding: var(--spacing-md);
@@ -26,7 +26,7 @@
 .attendBottomInfo {
   background-color: var(--color-orange-2);
   padding: var(--spacing-xs) var(--spacing-sm);
-  border: 1px solid var(--color-orange-4);
+  border: 1px solid var(--color-orange-8);
   border-radius: var(--spacing-md);
   color: var(--color-orange-8);
   display: flex;
