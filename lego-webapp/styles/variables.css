@@ -14,6 +14,8 @@
   --lego-red-color-hover: var(--color-red-6);
   --lego-link-color: var(--lego-red-color);
 
+  --color-interest-yellow: #e9b13b;
+
   --danger-color: var(--color-red-6);
   --success-color: var(--color-green-6);
 
@@ -130,6 +132,7 @@
   --font-size-md: 1rem;
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.875rem;
+  --font-size-xxl: 2.5rem;
 
   --border-radius-sm: 0.3rem;
   --border-radius-md: 0.5rem;
