@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    gap: var(--spacing-md);
+    overflow: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow: auto;
+
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}

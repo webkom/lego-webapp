@@ -2,14 +2,23 @@ import { Icon } from '@webkom/lego-bricks';
 import { Calendar, User } from 'lucide-react';
 import styles from './EventCard.module.css';
 
-const EventCard = (
-  title: string,
-  date: string,
-  attending: number,
-  capacity: number,
-  image: string,
-  link: string,
-) => {
+type EventCardProps = {
+  title: string;
+  date: string;
+  attending: number;
+  capacity: number;
+  image: string;
+  link: string;
+};
+
+const EventCard = ({
+  title,
+  date,
+  attending,
+  capacity,
+  image,
+  link
+}: EventCardProps) => {
   return (
     <a href={link}>
       <div className={styles.container}>
