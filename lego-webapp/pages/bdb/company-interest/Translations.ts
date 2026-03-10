@@ -205,6 +205,19 @@ export const COLLABORATION_DESCRIPTIONS = {
   },
 };
 
+export const OTHER_DESCRIPTIONS = {
+  ad_readme: {
+    norwegian:
+      'readme er Gløshaugens største linjeforeningsmagasin, som kommer ut tre ganger i semesteret, og vi har et opplag på 500 eksemplarer hver utgave. Magasinet er gratis, distribueres på hele NTNUs campus Gløshaugen, og når ut til over 900 studenter innenfor datateknologi, cybersikkerhet, datakommunikasjon og informasjonsteknologi.',
+    english:
+      'readme er Gløshaugens største linjeforeningsmagasin, som kommer ut tre ganger i semesteret, og vi har et opplag på 500 eksemplarer hver utgave. Magasinet er gratis, distribueres på hele NTNUs campus Gløshaugen, og når ut til over 900 studenter innenfor datateknologi, cybersikkerhet, datakommunikasjon og informasjonsteknologi.',
+  },
+  prof_social_media: {
+    norwegian: '',
+    english: '',
+  },
+};
+
 export const TARGET_GRADES = {
   '1': {
     norwegian: '1. klasse',

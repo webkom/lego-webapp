@@ -52,6 +52,7 @@ import {
   COMPANY_TYPES,
   EVENTS,
   FORM_LABELS,
+  OTHER_DESCRIPTIONS,
   OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
@@ -69,6 +70,7 @@ import {
   sortSemesterChronologically,
   surveyOffersToString,
   targetGradeToString,
+  othersDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
@@ -184,6 +186,9 @@ const OtherBox = ({
         label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
+        description={
+          OTHER_DESCRIPTIONS[othersDescriptionToString(key)][language]
+        }
       />
     ))}
   </Flex>
