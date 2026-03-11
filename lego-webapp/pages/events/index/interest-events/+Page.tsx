@@ -1,17 +1,15 @@
-import { Button, Flex, Skeleton } from '@webkom/lego-bricks';
+import { Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { isEmpty, orderBy } from 'lodash-es';
 import { FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { EventTime } from 'app/models';
 import { EventsOutletContext } from '../+Layout';
+import type { EntityId } from '@reduxjs/toolkit';
 import type { ListEvent } from '~/redux/models/Event';
 import EmptyState from '~/components/EmptyState';
 import EventItem from '~/components/EventItem';
-import eventItemStyles from '~/components/EventItem/styles.module.css';
-import EventFooter from '~/pages/events/index/EventFooter';
 import styles from '~/pages/events/index/EventList.module.css';
 import { fetchEvents } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -21,223 +19,254 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectInterestEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 
-type GroupedEvents = {
-  currentWeek?: ListEvent[];
-  nextWeek?: ListEvent[];
-  later?: ListEvent[];
-  previous?: ListEvent[];
+type EventWithResponsibleGroup = ListEvent & {
+  responsibleGroup?: {
+    id: EntityId;
+    name: string;
+  };
 };
 
-const GROUPS = ['currentWeek', 'nextWeek', 'later', 'previous'] as const;
+type GroupedEvents = {
+  interestedEvents?: EventWithResponsibleGroup[];
+  upcomingEvents?: EventWithResponsibleGroup[];
+  pastEvents?: EventWithResponsibleGroup[];
+};
+
+const GROUPS = ['interestedEvents', 'upcomingEvents', 'pastEvents'] as const;
+
+const GROUP_LABELS: Record<(typeof GROUPS)[number], string> = {
+  interestedEvents: 'Dine interessegrupper',
+  upcomingEvents: 'Kommende',
+  pastEvents: 'Tidligere',
+};
+
+const isPastEvent = (event: ListEvent) =>
+  moment(event.startTime).isBefore(moment());
+
+const belongsToUserInterestGroup = (
+  event: EventWithResponsibleGroup,
+  currentUserGroupIds: EntityId[],
+) =>
+  event.responsibleGroup?.id != null &&
+  currentUserGroupIds.includes(event.responsibleGroup.id);
 
 const groupEvents = (
-  events: ListEvent[],
-  field: EventTime = EventTime.start,
+  events: EventWithResponsibleGroup[],
+  currentUserGroupIds: EntityId[],
 ): GroupedEvents => {
-  const nextWeek = moment().add(1, 'week');
-  const groups = {
-    currentWeek: (event: ListEvent) =>
-      moment(event[field]).isSame(moment(), 'week'),
-    nextWeek: (event: ListEvent) =>
-      moment(event[field]).isSame(nextWeek, 'week'),
-    later: (event: ListEvent) => moment(event[field]).isAfter(nextWeek),
-    previous: (event: ListEvent) => moment(event[field]).isBefore(moment()),
+  const upcomingEvents = orderBy(
+    events.filter((event) => !isPastEvent(event)),
+    'startTime',
+    'asc',
+  );
+  const pastEvents = orderBy(
+    events.filter((event) => isPastEvent(event)),
+    'startTime',
+    'desc',
+  );
+
+  return {
+    interestedEvents: [
+      ...upcomingEvents.filter((event) =>
+        belongsToUserInterestGroup(event, currentUserGroupIds),
+      ),
+      ...pastEvents.filter((event) =>
+        belongsToUserInterestGroup(event, currentUserGroupIds),
+      ),
+    ],
+    upcomingEvents,
+    pastEvents,
   };
-
-  const initialGroups: GroupedEvents = {};
-
-  return events.reduce((result, event) => {
-    for (const groupName of GROUPS) {
-      if (groups[groupName](event)) {
-        result[groupName] = [...(result[groupName] || []), event];
-        break;
-      }
-    }
-
-    return result;
-  }, initialGroups);
 };
 
-const EventListGroup = ({
+const EventListRow = ({
   name,
   events = [],
 }: {
   name: string;
-  events?: ListEvent[];
+  events?: EventWithResponsibleGroup[];
 }) => {
-  return isEmpty(events) ? null : (
-    <div className={styles.eventGroup}>
+  if (isEmpty(events)) {
+    return null;
+  }
+
+  return (
+    <section className={styles.eventGroup}>
       <h3 className={styles.eventGroupTitle}>{name}</h3>
-      <Flex column gap="var(--spacing-md)">
+      <div className={styles.horizontalEventRow}>
         {events.map((event) => (
-          <EventItem key={event.id} event={event} showTags={false} />
+          <div key={event.id} className={styles.horizontalEventCard}>
+            <EventItem event={event} eventStyle="compact" showTags={false} />
+          </div>
         ))}
-      </Flex>
-    </div>
+      </div>
+    </section>
   );
 };
 
+const EventListSkeleton = () => (
+  <>
+    {GROUPS.map((groupName) => (
+      <div key={groupName} className={styles.eventGroup}>
+        <Skeleton className={styles.skeletonEventGroupTitle} />
+        <div className={styles.horizontalEventRow}>
+          <Skeleton array={3} className={styles.horizontalEventCardSkeleton} />
+        </div>
+      </div>
+    ))}
+  </>
+);
+
 const InterestEventList = () => {
   const { query, regDateFilter } = useContext(EventsOutletContext);
-  const { field, filterRegDateFunc } = regDateFilter;
+  const { filterRegDateFunc } = regDateFilter;
 
-  const icalToken = useCurrentUser()?.icalToken;
+  const currentUser = useCurrentUser();
   const loggedIn = useIsLoggedIn();
   const dispatch = useAppDispatch();
 
-  const [previousStart, setPreviousStart] = useState(
-    moment().subtract(1, 'month'),
-  );
-  const [previousEvents, setPreviousEvents] = useState<ListEvent[]>([]);
+  const today = moment();
+  const todayString = today.format('YYYY-MM-DD');
+  const fromDate = query.from ? moment(query.from) : undefined;
+  const toDate = query.to ? moment(query.to) : undefined;
+  const shouldFetchUpcoming = !toDate || !toDate.isBefore(today, 'day');
+  const shouldFetchPast = !fromDate || !fromDate.isAfter(today, 'day');
 
-  const fetchQuery = {
+  const upcomingQuery = {
     date_after:
-      query.from ||
-      (query.showPrevious === 'true'
-        ? previousStart.format('YYYY-MM-DD')
-        : moment().format('YYYY-MM-DD')),
-    date_before:
-      query.to ||
-      (query.showPrevious === 'true'
-        ? moment().format('YYYY-MM-DD')
-        : undefined),
+      fromDate && fromDate.isAfter(today, 'day') ? query.from : todayString,
+    date_before: query.to || undefined,
     event_type: EventType.INTEREST_EVENT,
-    ordering: query.showPrevious === 'true' ? '-start_time' : 'start_time',
+    ordering: 'start_time',
   };
 
-  const { pagination } = useAppSelector(
+  const pastQuery = {
+    date_after: query.from || undefined,
+    date_before:
+      toDate && toDate.isBefore(today, 'day') ? query.to : todayString,
+    event_type: EventType.INTEREST_EVENT,
+    ordering: '-start_time',
+  };
+
+  const { pagination: upcomingPagination } = useAppSelector(
     selectPaginationNext({
       entity: EntityType.Events,
       endpoint: '/events/',
-      query: fetchQuery,
+      query: upcomingQuery,
     }),
   );
 
-  const { pagination: previousPagination } = useAppSelector(
+  const { pagination: pastPagination } = useAppSelector(
     selectPaginationNext({
       entity: EntityType.Events,
       endpoint: '/events/',
-      query: {
-        date_before: moment().format('YYYY-MM-DD'),
-        event_type: EventType.INTEREST_EVENT,
-      },
+      query: pastQuery,
     }),
   );
 
-  const events = useAppSelector((state) =>
-    selectInterestEvents(state, { pagination }),
+  const upcomingEvents = useAppSelector((state) =>
+    shouldFetchUpcoming
+      ? (selectInterestEvents(state, {
+          pagination: upcomingPagination,
+        }) as EventWithResponsibleGroup[])
+      : [],
+  );
+
+  const pastEvents = useAppSelector((state) =>
+    shouldFetchPast
+      ? (selectInterestEvents(state, {
+          pagination: pastPagination,
+        }) as EventWithResponsibleGroup[])
+      : [],
   );
 
   usePreparedEffect(
-    'fetchInterestEventList',
+    'fetchUpcomingInterestEvents',
     () =>
-      dispatch(
-        fetchEvents({
-          query: fetchQuery,
-        }),
-      ),
-    [loggedIn, query.from, query.to, query.showPrevious],
+      shouldFetchUpcoming
+        ? dispatch(
+            fetchEvents({
+              query: upcomingQuery,
+            }),
+          )
+        : undefined,
+    [loggedIn, query.from, query.to],
   );
 
+  usePreparedEffect(
+    'fetchPastInterestEvents',
+    () =>
+      shouldFetchPast
+        ? dispatch(
+            fetchEvents({
+              query: pastQuery,
+            }),
+          )
+        : undefined,
+    [loggedIn, query.from, query.to],
+  );
+
+  const filteredEvents = [...upcomingEvents, ...pastEvents]
+    .filter(
+      (event, index, self) =>
+        index ===
+        self.findIndex((existingEvent) => existingEvent.id === event.id),
+    )
+    .filter(filterRegDateFunc);
+
+  const groupedEvents = groupEvents(
+    filteredEvents,
+    currentUser?.abakusGroups || [],
+  );
+
+  const hasEvents = GROUPS.some(
+    (groupName) => !isEmpty(groupedEvents[groupName]),
+  );
+  const isFetching =
+    (shouldFetchUpcoming && upcomingPagination.fetching) ||
+    (shouldFetchPast && pastPagination.fetching);
+  const hasMore =
+    (shouldFetchUpcoming && upcomingPagination.hasMore) ||
+    (shouldFetchPast && pastPagination.hasMore);
+
   const fetchMore = () => {
-    if (query.from || query.to) {
-      return dispatch(
+    if (shouldFetchUpcoming && upcomingPagination.hasMore) {
+      dispatch(
         fetchEvents({
-          query: fetchQuery,
+          query: upcomingQuery,
           next: true,
         }),
       );
     }
 
-    if (query.showPrevious === 'true') {
-      const newStart = previousStart.clone().subtract(1, 'month');
-      setPreviousStart(newStart);
-
-      return dispatch(
+    if (shouldFetchPast && pastPagination.hasMore) {
+      dispatch(
         fetchEvents({
-          query: {
-            ...fetchQuery,
-            date_after: newStart.format('YYYY-MM-DD'),
-            date_before: moment().format('YYYY-MM-DD'),
-          },
+          query: pastQuery,
+          next: true,
         }),
       );
     }
-
-    return dispatch(
-      fetchEvents({
-        query: fetchQuery,
-        next: true,
-      }),
-    );
   };
-
-  useEffect(() => {
-    if (!pagination.fetching && events.length > 0) {
-      setPreviousEvents(events);
-    }
-  }, [events, pagination.fetching]);
-
-  const groupedEvents = groupEvents(
-    orderBy(
-      [...previousEvents, ...events]
-        .filter(
-          (event, index, self) =>
-            index ===
-            self.findIndex((existingEvent) => existingEvent.id === event.id),
-        )
-        .filter(filterRegDateFunc),
-      field,
-      query.showPrevious === 'true' ? 'desc' : 'asc',
-    ),
-    field,
-  );
 
   return (
     <>
       <Helmet title="Interessearrangementer" />
-      <EventListGroup name="Tidligere" events={groupedEvents.previous} />
-      <EventListGroup name="Denne uken" events={groupedEvents.currentWeek} />
-      <EventListGroup name="Neste uke" events={groupedEvents.nextWeek} />
-      <EventListGroup name="Senere" events={groupedEvents.later} />
-      {isEmpty(events) && pagination.fetching && (
-        <>
-          <div className={styles.eventGroup}>
-            <Skeleton className={styles.skeletonEventGroupTitle} />
-            <Flex column gap="var(--spacing-md)">
-              <Skeleton array={3} className={eventItemStyles.eventItem} />
-            </Flex>
-          </div>
-          <div className={styles.eventGroup}>
-            <Skeleton className={styles.skeletonEventGroupTitle} />
-            <Flex column gap="var(--spacing-md)">
-              <Skeleton array={5} className={eventItemStyles.eventItem} />
-            </Flex>
-          </div>
-        </>
-      )}
-      {isEmpty(groupedEvents) && !pagination.fetching && (
+      {GROUPS.map((groupName) => (
+        <EventListRow
+          key={groupName}
+          name={GROUP_LABELS[groupName]}
+          events={groupedEvents[groupName]}
+        />
+      ))}
+      {!hasEvents && isFetching && <EventListSkeleton />}
+      {!hasEvents && !isFetching && (
         <EmptyState
           iconNode={<FolderOpen />}
           header="Her var det tomt ..."
           body="Ingen interessearrangementer ligger ute akkurat nå."
         />
       )}
-      {(query.showPrevious === 'true' && (!query.from || !query.to)
-        ? previousPagination.hasMore
-        : pagination.hasMore) && (
-        <Button
-          onPress={fetchMore}
-          isPending={
-            !isEmpty(events) &&
-            (pagination.fetching || previousPagination.fetching)
-          }
-        >
-          Last inn mer
-        </Button>
-      )}
-      <div className={styles.bottomBorder} />
-      {icalToken && <EventFooter icalToken={icalToken} />}
     </>
   );
 };
