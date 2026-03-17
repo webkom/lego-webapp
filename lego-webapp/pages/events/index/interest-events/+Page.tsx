@@ -5,9 +5,6 @@ import { FolderOpen } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { EventsOutletContext } from '../+Layout';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { ListEvent } from '~/redux/models/Event';
 import EmptyState from '~/components/EmptyState';
 import EventItem from '~/components/EventItem';
 import styles from '~/pages/events/index/EventList.module.css';
@@ -18,6 +15,9 @@ import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectInterestEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import { EventsOutletContext } from '../+Layout';
+import type { EntityId } from '@reduxjs/toolkit';
+import type { ListEvent } from '~/redux/models/Event';
 
 type EventWithResponsibleGroup = ListEvent & {
   responsibleGroup?: {
