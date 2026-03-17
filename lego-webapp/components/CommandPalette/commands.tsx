@@ -24,7 +24,8 @@ import { logout } from '~/redux/actions/UserActions';
 
 type Command = {
   id: string;
-  label: string | React.ReactNode;
+  renderLabel: string | React.ReactNode;
+  searchText: string;
   action: () => void;
   icon?: React.ReactNode;
 };
@@ -44,95 +45,110 @@ const createCommands = (
       items: [
         {
           id: 'home',
-          label: 'Hjem',
+          renderLabel: 'Hjem',
+          searchText: 'Hjem',
           action: () => navigate('/'),
           icon: <Icon iconNode={<Home />} size={15} />,
         },
         {
           id: 'profile',
-          label: 'Profil',
+          renderLabel: 'Profil',
+          searchText: 'Profil',
           action: () => navigate('/users/me'),
           icon: <Icon iconNode={<CircleUser />} size={15} />,
         },
         {
           id: 'events',
-          label: 'Arrangementer',
+          renderLabel: 'Arrangementer',
+          searchText: 'Arrangementer',
           action: () => navigate('/events'),
           icon: <Icon iconNode={<CalendarRange />} size={15} />,
         },
         {
           id: 'meetings',
-          label: 'Møter',
+          renderLabel: 'Møter',
+          searchText: 'Møter',
           action: () => navigate('/meetings'),
           icon: <Icon iconNode={<Users />} size={15} />,
         },
         {
           id: 'lending',
-          label: (
+          renderLabel: (
             <Flex alignItems="center" gap={10}>
               Utlån <Tag tag="Nytt!!" color="pink" />
             </Flex>
           ),
+          searchText: 'Utlån',
           action: () => navigate('/lending'),
           icon: <Icon iconNode={<ShoppingCart />} size={15} />,
         },
         {
           id: 'interestGroups',
-          label: 'Interessegrupper',
+          renderLabel: 'Interessegrupper',
+          searchText: 'Interessegrupper',
           action: () => navigate('/interest-groups'),
           icon: <Icon iconNode={<Banana />} size={15} />,
         },
         {
           id: 'joblistings',
-          label: 'Jobbannonser',
+          renderLabel: 'Jobbannonser',
+          searchText: 'Jobbannonser',
           action: () => navigate('/joblistings'),
           icon: <Icon iconNode={<Newspaper />} size={15} />,
         },
         {
           id: 'companies',
-          label: 'Bedrifter',
+          renderLabel: 'Bedrifter',
+          searchText: 'Bedrifter',
           action: () => navigate('/companies'),
           icon: <Icon iconNode={<Briefcase />} size={15} />,
         },
         {
           id: 'articles',
-          label: 'Artikler',
+          renderLabel: 'Artikler',
+          searchText: 'Artikler',
           action: () => navigate('/articles'),
           icon: <Icon iconNode={<BookOpen />} size={15} />,
         },
         {
           id: 'gallery',
-          label: 'Album',
+          renderLabel: 'Album',
+          searchText: 'Album',
           action: () => navigate('/photos'),
           icon: <Icon iconNode={<BookImage />} size={15} />,
         },
         {
           id: 'quotes',
-          label: 'Overhørt',
+          renderLabel: 'Overhørt',
+          searchText: 'Overhørt',
           action: () => navigate('/quotes'),
           icon: <Icon iconNode={<Quote />} size={15} />,
         },
         {
           id: 'trophies',
-          label: 'Trofeer',
+          renderLabel: 'Trofeer',
+          searchText: 'Trofeer',
           action: () => navigate('/achievements'),
           icon: <Icon iconNode={<Trophy />} size={15} />,
         },
         {
           id: 'theFund',
-          label: 'Fondet',
+          renderLabel: 'Fondet',
+          searchText: 'Fondet',
           action: () => window.open('https://fondet.abakus.no/', '_blank'),
           icon: <Icon iconNode={<Landmark />} size={15} />,
         },
         {
           id: 'developerBlog',
-          label: 'Utviklerbloggen',
+          renderLabel: 'Utviklerbloggen',
+          searchText: 'Utviklerbloggen',
           action: () => window.open('https://webkom.dev/', '_blank'),
           icon: <Icon iconNode={<MessageSquareQuote />} size={15} />,
         },
         {
           id: 'settings',
-          label: 'Innstillinger',
+          renderLabel: 'Innstillinger',
+          searchText: 'Innstillinger',
           action: () => navigate('/users/me/settings/profile'),
           icon: <Icon iconNode={<Settings />} size={15} />,
         },
@@ -143,25 +159,29 @@ const createCommands = (
       items: [
         {
           id: 'createMeetingNotice',
-          label: 'Lag møteinnkalling',
+          renderLabel: 'Lag møteinnkalling',
+          searchText: 'Lag møteinnkalling',
           action: () => navigate('/meetings/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
           id: 'createReceipt',
-          label: 'Lag kvittering',
+          renderLabel: 'Lag kvittering',
+          searchText: 'Lag kvittering',
           action: () => window.open('https://kvittering.abakus.no/', '_blank'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
           id: 'createQuote',
-          label: 'Lag sitat',
+          renderLabel: 'Lag sitat',
+          searchText: 'Lag sitat',
           action: () => navigate('/quotes/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
         {
           id: 'createAlbum',
-          label: 'Lag album',
+          renderLabel: 'Lag album',
+          searchText: 'Lag album',
           action: () => navigate('/photos/new'),
           icon: <Icon iconNode={<Terminal />} size={15} />,
         },
@@ -172,7 +192,8 @@ const createCommands = (
       items: [
         {
           id: 'logout',
-          label: 'Logg ut',
+          renderLabel: 'Logg ut',
+          searchText: 'Logg ut',
           icon: <Icon iconNode={<LogOut />} size={15} />,
           action: () => {
             dispatch(logout());
