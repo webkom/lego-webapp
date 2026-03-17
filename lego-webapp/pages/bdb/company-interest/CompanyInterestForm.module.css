@@ -62,3 +62,28 @@
 .label {
   color: var(--danger-color);
 }
+
+.readMe :global([class*="heading"]) {
+  font-size: var(--font-size-xl);
+}
+
+
+.readMe :global([class*="thumbnailContainer"]) {
+  padding-top: 5px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, min-content);
+  gap: var(--spacing-xs);
+  overflow: hidden;
+
+  @media (--mobile-device) {
+    gap: var(--spacing-xs);
+  }
+
+  @media (--small-viewport) {
+    gap: var(--spacing-xs);
+  }
+}
+.readMe{
+  padding-top: 25px;
+}

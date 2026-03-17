@@ -76,14 +76,9 @@ import type { ReactNode } from 'react';
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
 import type CompanySemester from '~/redux/models/CompanySemester';
 import LatestReadme from '~/pages/index/LatestReadme';
-<<<<<<< HEAD
 import { fetchReadmes } from '~/redux/actions/FrontpageActions'; 
 import { useEffect } from 'react';
 
-=======
-import { fetchReadmes } from '~/redux/actions/FrontpageActions';
-import { useEffect } from 'react';
->>>>>>> 8620cbd1c (added info window and latest readme front pages)
 
 const SemesterBox = ({
   fields,
