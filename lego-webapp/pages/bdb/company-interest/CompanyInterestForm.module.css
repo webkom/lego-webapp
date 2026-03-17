@@ -63,12 +63,11 @@
   color: var(--danger-color);
 }
 
-.readMe :global([class*="heading"]) {
+.readMe :global([class*='heading']) {
   font-size: var(--font-size-xl);
 }
 
-
-.readMe :global([class*="thumbnailContainer"]) {
+.readMe :global([class*='thumbnailContainer']) {
   padding-top: 5px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -84,6 +83,6 @@
     gap: var(--spacing-xs);
   }
 }
-.readMe{
+.readMe {
   padding-top: 25px;
 }
