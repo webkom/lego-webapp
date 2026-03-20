@@ -3,11 +3,14 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
-import { ContentMain, ContentSection, ContentSidebar } from '~/components/Content';
+import {
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
+} from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
 import { jobType, Workplaces, Year } from '~/components/JoblistingItem/Items';
-import type { PropertyGenerator } from '~/components/PropertyHelmet';
 import PropertyHelmet from '~/components/PropertyHelmet';
 import Time from '~/components/Time';
 import YoutubeCover from '~/pages/pages/_components/YoutubeCover';
@@ -17,6 +20,7 @@ import { selectJoblistingByIdOrSlug } from '~/redux/slices/joblistings';
 import { isTruthy } from '~/utils';
 import { appConfig } from '~/utils/appConfig';
 import { useParams } from '~/utils/useParams';
+import type { PropertyGenerator } from '~/components/PropertyHelmet';
 import type { DetailedJoblisting } from '~/redux/models/Joblisting';
 
 const propertyGenerator: PropertyGenerator<{
