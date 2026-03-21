@@ -3,30 +3,26 @@
   display: inline-grid;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
-  padding: 4px;
+  padding: var(--spacing-xs);
   border-radius: 999px;
   background: var(--additive-background);
-  isolation: isolate;
 }
 
 .root::before {
   content: '';
   position: absolute;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
+  top: var(--spacing-xs);
+  bottom: var(--spacing-xs);
+  left: var(--spacing-xs);
   width: calc((100% - 8px) / var(--pill-switch-count));
-  border-radius: 999px;
+  border-radius: var(--border-radius-lg);
   background: var(--lego-font-color);
   transform: translateX(calc(100% * var(--pill-switch-index)));
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
-  z-index: 0;
 }
 
 .button {
   position: relative;
-  z-index: 1;
-  border: 0;
   border-radius: 999px;
   background: transparent;
   color: var(--lego-font-color);
@@ -42,5 +38,5 @@
 
 .button:focus-visible {
   outline: 2px solid var(--lego-font-color);
-  outline-offset: 2px;
+  outline-offset: var(--spacing-xs);
 }
