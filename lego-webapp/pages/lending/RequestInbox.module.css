@@ -1,3 +1,11 @@
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
 .lendingRequestMailBoxTitle {
   display: flex;
   align-items: center;
@@ -24,7 +32,7 @@
 }
 
 .header {
-  margin-bottom: 7px;
+  margin: 0;
 }
 
 .loadMoreButton {
@@ -81,4 +89,11 @@ img.lendingRequestImage {
 
 .statusTag .rotate {
   animation: spinner 5s linear infinite;
+}
+
+@media (max-width: 640px) {
+  .headerRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }

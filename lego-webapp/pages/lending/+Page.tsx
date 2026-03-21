@@ -16,15 +16,21 @@ import useQuery from '~/utils/useQuery';
 import FilterSearch from './FilterSearch';
 import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
-import RequestInbox from './RequestInbox';
+import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
 
 const defaultLendingQuery = {
   search: '',
   lendingCategories: [] as FilterLendingCategory[],
+  ordering: '-created_at' as LendingRequestOrdering,
 };
 
 const LendableObjectList = () => {
   const { query, setQueryValue } = useQuery(defaultLendingQuery);
+  const requestOrdering: LendingRequestOrdering =
+    query.ordering === 'created_at' ? 'created_at' : '-created_at';
+  const requestQuery = {
+    ordering: requestOrdering,
+  };
 
   const dispatch = useAppDispatch();
 
@@ -38,30 +44,35 @@ const LendableObjectList = () => {
 
   usePreparedEffect(
     'fetchAllLendingRequests',
-    () => dispatch(fetchLendingRequests({})),
-    [],
+    () =>
+      dispatch(
+        fetchLendingRequests({
+          query: requestQuery,
+        }),
+      ),
+    [requestOrdering],
   );
 
   const { pagination: requestsPagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/lending/requests/',
       entity: EntityType.LendingRequests,
-      // Requests are fetched on this page without filters.
-      query: {},
+      query: requestQuery,
     })(state),
   );
 
   const fetchMoreLendingRequests = () => {
     return dispatch(
       fetchLendingRequests({
+        query: requestQuery,
         next: true,
       }),
     );
   };
   const lendableObjects = useAppSelector(selectLendableObjectsForIndex);
 
-  const originalLendingRequests = useAppSelector(
-    selectTransformedLendingRequests,
+  const originalLendingRequests = useAppSelector((state) =>
+    selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
   const [visibleCount, setVisibleCount] = useState(4);
 
@@ -103,6 +114,10 @@ const LendableObjectList = () => {
         : [...query.lendingCategories, category],
     );
   };
+
+  useEffect(() => {
+    setVisibleCount(4);
+  }, [requestOrdering]);
 
   useEffect(() => {
     if (!heartRef.current) return;
@@ -196,6 +211,8 @@ const LendableObjectList = () => {
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
+          ordering={requestOrdering}
+          onOrderingChange={setQueryValue('ordering')}
           className={styles.requestInbox}
         />
         <ItemIndex

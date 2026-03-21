@@ -1,10 +1,18 @@
 import { LoadingIndicator, Button } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
 import { Leaf } from 'lucide-react';
+import PillSwitch, { type PillSwitchOption } from '~/components/PillSwitch';
 import EmptyState from '../../components/EmptyState';
 import LendingRequestCard from './LendingRequestCard';
 import styles from './RequestInbox.module.css';
 import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
+
+export type LendingRequestOrdering = 'created_at' | '-created_at';
+
+const orderingOptions: PillSwitchOption<LendingRequestOrdering>[] = [
+  { label: 'Nyeste', value: '-created_at' },
+  { label: 'Eldste', value: 'created_at' },
+];
 
 type Props = {
   lendingRequests: TransformedLendingRequest[];
@@ -12,6 +20,8 @@ type Props = {
   isFetching: boolean;
   hasMore: boolean;
   onLoadMore: () => void;
+  ordering: LendingRequestOrdering;
+  onOrderingChange: (ordering: LendingRequestOrdering) => void;
   className?: string;
 };
 
@@ -21,6 +31,8 @@ const RequestInbox = ({
   isFetching,
   hasMore,
   onLoadMore,
+  ordering,
+  onOrderingChange,
   className,
 }: Props) => {
   const hasRequests = lendingRequests.length > 0;
@@ -29,7 +41,15 @@ const RequestInbox = ({
 
   return (
     <div className={className}>
-      <h3 className={styles.header}>Din innboks</h3>
+      <div className={styles.headerRow}>
+        <h3 className={styles.header}>Din innboks</h3>
+        <PillSwitch
+          options={orderingOptions}
+          value={ordering}
+          onChange={onOrderingChange}
+          ariaLabel="Sorter utlånsforespørsler"
+        />
+      </div>
 
       <LoadingIndicator loading={isFetching}>
         {hasRequests ? (
