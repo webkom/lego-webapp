@@ -1,4 +1,4 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
 import { Leaf } from 'lucide-react';
 import { useRef } from 'react';
@@ -39,15 +39,17 @@ const RequestInbox = ({
   className,
 }: Props) => {
   const listRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
   const requestIds = lendingRequests.map((request) => String(request.id));
   const hasRequests = lendingRequests.length > 0;
+  const showInitialLoading = !hasRequests && isFetching;
   const showEmptyState = !hasRequests && !isFetching;
   const canLoadMore = canLoadMoreRequests({
     hasMore,
     shownCount: lendingRequests.length,
     fetchedCount: totalFetched,
   });
-  useAnimateRequestInbox(listRef, requestIds);
+  useAnimateRequestInbox(listRef, requestIds, canLoadMore ? loadMoreRef : undefined);
 
   return (
     <div className={className}>
@@ -60,6 +62,11 @@ const RequestInbox = ({
           ariaLabel="Sorter utlånsforespørsler"
         />
       </div>
+      {showInitialLoading && (
+        <div className={styles.loadingState}>
+          <LoadingIndicator loading />
+        </div>
+      )}
       {hasRequests && (
         <div ref={listRef} className={styles.lendingRequestsContainer}>
           {lendingRequests.map((req) => (
@@ -81,7 +88,7 @@ const RequestInbox = ({
         />
       )}
       {canLoadMore && (
-        <div className={styles.loadMoreRequest}>
+        <div ref={loadMoreRef} className={styles.loadMoreRequest}>
           <Button
             onPress={onLoadMore}
             isPending={!isEmpty(lendingRequests) && isFetching}

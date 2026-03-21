@@ -2,26 +2,43 @@ import { gsap } from 'gsap';
 import { useLayoutEffect, useRef } from 'react';
 import type { RefObject } from 'react';
 
-const getIdsToAnimate = (currentIds: string[], previousIds: string[]) => {
+const getAnimationStep = (currentIds: string[], previousIds: string[]) => {
+  if (previousIds.length === 0) {
+    return {
+      ids: [],
+      animateButton: false,
+    };
+  }
+
   const isAppend =
     previousIds.length > 0 &&
     currentIds.length > previousIds.length &&
     previousIds.every((id, index) => currentIds[index] === id);
 
   if (isAppend) {
-    return currentIds.slice(previousIds.length);
+    return {
+      ids: currentIds.slice(previousIds.length),
+      animateButton: true,
+    };
   }
 
   if (currentIds.join(',') !== previousIds.join(',')) {
-    return currentIds;
+    return {
+      ids: currentIds,
+      animateButton: false,
+    };
   }
 
-  return [];
+  return {
+    ids: [],
+    animateButton: false,
+  };
 };
 
 const useAnimateRequestInbox = (
   listRef: RefObject<HTMLDivElement | null>,
   requestIds: string[],
+  buttonRef?: RefObject<HTMLDivElement | null>,
 ) => {
   const previousIdsRef = useRef<string[]>([]);
 
@@ -31,9 +48,11 @@ const useAnimateRequestInbox = (
       return;
     }
 
-    const idsToAnimate = new Set(
-      getIdsToAnimate(requestIds, previousIdsRef.current),
+    const { ids, animateButton } = getAnimationStep(
+      requestIds,
+      previousIdsRef.current,
     );
+    const idsToAnimate = new Set(ids);
 
     if (!idsToAnimate.size) {
       previousIdsRef.current = requestIds;
@@ -49,7 +68,16 @@ const useAnimateRequestInbox = (
       return;
     }
 
-    gsap.fromTo(
+    const timeline = gsap.timeline();
+
+    if (animateButton && buttonRef?.current) {
+      gsap.set(buttonRef.current, {
+        autoAlpha: 0,
+        y: -8,
+      });
+    }
+
+    timeline.fromTo(
       cards,
       {
         y: -18,
@@ -65,8 +93,20 @@ const useAnimateRequestInbox = (
       },
     );
 
+    if (animateButton && buttonRef?.current) {
+      timeline.to(buttonRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.2,
+          ease: 'power2.out',
+          clearProps: 'transform,opacity,visibility',
+        });
+    }
+
     previousIdsRef.current = requestIds;
-  }, [listRef, requestIds]);
+
+    return () => timeline.kill();
+  }, [buttonRef, listRef, requestIds]);
 };
 
 export default useAnimateRequestInbox;

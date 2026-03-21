@@ -32,6 +32,12 @@
   transform-origin: top center;
 }
 
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-xl) 0;
+}
+
 .lendingRequestEmpty {
   padding-top: var(--spacing-xl);
 }
