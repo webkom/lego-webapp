@@ -1,9 +1,17 @@
+@import url('styles/custom-media.css');
+
 .headerRow {
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-sm);
+
+  @media (--small-viewport) {
+    align-items: center;
+    flex-direction: row;
+  }
 }
 
 .lendingRequestMailBoxTitle {
@@ -89,11 +97,4 @@ img.lendingRequestImage {
 
 .statusTag .rotate {
   animation: spinner 5s linear infinite;
-}
-
-@media (max-width: 640px) {
-  .headerRow {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }

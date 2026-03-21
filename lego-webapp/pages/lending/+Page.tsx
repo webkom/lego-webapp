@@ -17,6 +17,11 @@ import FilterSearch from './FilterSearch';
 import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
 import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
+import {
+  REQUEST_INBOX_PAGE_SIZE,
+  getNextVisibleCount,
+  shouldFetchMoreRequests,
+} from './requestInboxPagination';
 
 const defaultLendingQuery = {
   search: '',
@@ -74,15 +79,24 @@ const LendableObjectList = () => {
   const originalLendingRequests = useAppSelector((state) =>
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
-  const [visibleCount, setVisibleCount] = useState(4);
+  const [visibleCount, setVisibleCount] = useState(REQUEST_INBOX_PAGE_SIZE);
 
   const lendingRequests = originalLendingRequests.slice(0, visibleCount);
 
   const handleLoadMore = () => {
-    if (requestsPagination.hasMore) {
+    const nextVisibleCount = getNextVisibleCount(visibleCount);
+
+    if (
+      shouldFetchMoreRequests({
+        nextVisibleCount,
+        fetchedCount: originalLendingRequests.length,
+        hasMore: requestsPagination.hasMore,
+        isFetching: requestsPagination.fetching,
+      })
+    ) {
       fetchMoreLendingRequests();
     }
-    setVisibleCount((prev) => prev + 4);
+    setVisibleCount(nextVisibleCount);
   };
 
   const objectsActionGrant = useAppSelector(
@@ -116,7 +130,7 @@ const LendableObjectList = () => {
   };
 
   useEffect(() => {
-    setVisibleCount(4);
+    setVisibleCount(REQUEST_INBOX_PAGE_SIZE);
   }, [requestOrdering]);
 
   useEffect(() => {

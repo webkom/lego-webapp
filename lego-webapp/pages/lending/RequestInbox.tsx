@@ -5,6 +5,7 @@ import PillSwitch, { type PillSwitchOption } from '~/components/PillSwitch';
 import EmptyState from '../../components/EmptyState';
 import LendingRequestCard from './LendingRequestCard';
 import styles from './RequestInbox.module.css';
+import { canLoadMoreRequests } from './requestInboxPagination';
 import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 export type LendingRequestOrdering = 'created_at' | '-created_at';
@@ -36,8 +37,11 @@ const RequestInbox = ({
   className,
 }: Props) => {
   const hasRequests = lendingRequests.length > 0;
-  const canLoadMore =
-    hasMore && hasRequests && lendingRequests.length < totalFetched;
+  const canLoadMore = canLoadMoreRequests({
+    hasMore,
+    shownCount: lendingRequests.length,
+    fetchedCount: totalFetched,
+  });
 
   return (
     <div className={className}>
