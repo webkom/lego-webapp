@@ -2,43 +2,38 @@ import cx from 'classnames';
 import styles from './PillSwitch.module.css';
 import type { CSSProperties } from 'react';
 
-export type PillSwitchOption<Value extends string> = {
+export type PillSwitchOption = {
   label: string;
-  value: Value;
+  value: string;
 };
 
-type Props<Value extends string> = {
-  options: PillSwitchOption<Value>[];
-  value: Value;
-  onChange: (value: Value) => void;
+type Props = {
+  options: PillSwitchOption[];
+  value: string;
+  onChange: (value: string) => void;
   ariaLabel: string;
   className?: string;
 };
 
-function PillSwitch<Value extends string>({
+const PillSwitch = ({
   options,
   value,
   onChange,
   ariaLabel,
   className,
-}: Props<Value>) {
+}: Props) => {
   const activeIndex = Math.max(
     options.findIndex((option) => option.value === value),
     0,
   );
+  const indicatorStyle: CSSProperties = {
+    width: `${100 / options.length}%`,
+    transform: `translateX(${activeIndex * 100}%)`,
+  };
 
   return (
-    <div
-      className={cx(styles.root, className)}
-      role="group"
-      aria-label={ariaLabel}
-      style={
-        {
-          '--pill-switch-count': options.length,
-          '--pill-switch-index': activeIndex,
-        } as CSSProperties
-      }
-    >
+    <div className={cx(styles.root, className)} role="group" aria-label={ariaLabel}>
+      <span className={styles.indicator} style={indicatorStyle} />
       {options.map((option) => (
         <button
           key={option.value}
@@ -53,6 +48,6 @@ function PillSwitch<Value extends string>({
       ))}
     </div>
   );
-}
+};
 
 export default PillSwitch;
