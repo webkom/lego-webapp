@@ -28,6 +28,10 @@
   gap: var(--spacing-sm);
 }
 
+.requestCardWrapper {
+  transform-origin: top center;
+}
+
 .lendingRequestEmpty {
   padding-top: var(--spacing-xl);
 }
