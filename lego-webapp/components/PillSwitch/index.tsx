@@ -2,15 +2,15 @@ import cx from 'classnames';
 import styles from './PillSwitch.module.css';
 import type { CSSProperties } from 'react';
 
-export type PillSwitchOption = {
+export type PillSwitchOption<Value extends string> = {
   label: string;
-  value: string;
+  value: Value;
 };
 
-type Props = {
-  options: PillSwitchOption[];
-  value: string;
-  onChange: (value: string) => void;
+type Props<Value extends string> = {
+  options: PillSwitchOption<Value>[];
+  value: Value;
+  onChange: (value: Value) => void;
   ariaLabel: string;
   className?: string;
 };
@@ -21,19 +21,24 @@ const PillSwitch = ({
   onChange,
   ariaLabel,
   className,
-}: Props) => {
+}: Props<string>) => {
   const activeIndex = Math.max(
     options.findIndex((option) => option.value === value),
     0,
   );
-  const indicatorStyle: CSSProperties = {
-    width: `${100 / options.length}%`,
-    transform: `translateX(${activeIndex * 100}%)`,
-  };
 
   return (
-    <div className={cx(styles.root, className)} role="group" aria-label={ariaLabel}>
-      <span className={styles.indicator} style={indicatorStyle} />
+    <div
+      className={cx(styles.root, className)}
+      role="group"
+      aria-label={ariaLabel}
+      style={
+        {
+          '--pill-switch-count': options.length,
+          '--pill-switch-index': activeIndex,
+        } as CSSProperties
+      }
+    >
       {options.map((option) => (
         <button
           key={option.value}
