@@ -3,6 +3,17 @@ export const REQUEST_INBOX_PAGE_SIZE = 4;
 export const getNextVisibleCount = (visibleCount: number) =>
   visibleCount + REQUEST_INBOX_PAGE_SIZE;
 
+export const getVisibleRequestCount = ({
+  visibleCount,
+  currentOrdering,
+  previousOrdering,
+}: {
+  visibleCount: number;
+  currentOrdering: string;
+  previousOrdering: string;
+}) =>
+  currentOrdering === previousOrdering ? visibleCount : REQUEST_INBOX_PAGE_SIZE;
+
 export const canLoadMoreRequests = ({
   hasMore,
   shownCount,

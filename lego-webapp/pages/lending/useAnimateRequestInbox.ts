@@ -43,6 +43,23 @@ const useAnimateRequestInbox = (
   const previousIdsRef = useRef<string[]>([]);
 
   useLayoutEffect(() => {
+    const button = buttonRef?.current;
+    const cards = listRef.current
+      ? Array.from(
+          listRef.current.querySelectorAll<HTMLElement>('[data-request-id]'),
+        )
+      : [];
+
+    if (cards.length) {
+      gsap.killTweensOf(cards);
+      gsap.set(cards, { clearProps: 'transform,opacity' });
+    }
+
+    if (button) {
+      gsap.killTweensOf(button);
+      gsap.set(button, { clearProps: 'transform,opacity,visibility' });
+    }
+
     if (!listRef.current || requestIds.length === 0) {
       previousIdsRef.current = requestIds;
       return;
@@ -59,26 +76,26 @@ const useAnimateRequestInbox = (
       return;
     }
 
-    const cards = Array.from(
+    const cardsToAnimate = Array.from(
       listRef.current.querySelectorAll<HTMLElement>('[data-request-id]'),
     ).filter((card) => idsToAnimate.has(card.dataset.requestId ?? ''));
 
-    if (!cards.length) {
+    if (!cardsToAnimate.length) {
       previousIdsRef.current = requestIds;
       return;
     }
 
     const timeline = gsap.timeline();
 
-    if (animateButton && buttonRef?.current) {
-      gsap.set(buttonRef.current, {
+    if (animateButton && button) {
+      gsap.set(button, {
         autoAlpha: 0,
         y: -8,
       });
     }
 
     timeline.fromTo(
-      cards,
+      cardsToAnimate,
       {
         y: -18,
         opacity: 0,
@@ -93,19 +110,25 @@ const useAnimateRequestInbox = (
       },
     );
 
-    if (animateButton && buttonRef?.current) {
-      timeline.to(buttonRef.current, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.2,
-          ease: 'power2.out',
-          clearProps: 'transform,opacity,visibility',
-        });
+    if (animateButton && button) {
+      timeline.to(button, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.2,
+        ease: 'power2.out',
+        clearProps: 'transform,opacity,visibility',
+      });
     }
 
     previousIdsRef.current = requestIds;
 
-    return () => timeline.kill();
+    return () => {
+      timeline.kill();
+      gsap.set(cardsToAnimate, { clearProps: 'transform,opacity' });
+      if (button) {
+        gsap.set(button, { clearProps: 'transform,opacity,visibility' });
+      }
+    };
   }, [buttonRef, listRef, requestIds]);
 };
 

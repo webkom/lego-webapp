@@ -49,7 +49,11 @@ const RequestInbox = ({
     shownCount: lendingRequests.length,
     fetchedCount: totalFetched,
   });
-  useAnimateRequestInbox(listRef, requestIds, canLoadMore ? loadMoreRef : undefined);
+  useAnimateRequestInbox(
+    listRef,
+    requestIds,
+    canLoadMore ? loadMoreRef : undefined,
+  );
 
   return (
     <div className={className}>

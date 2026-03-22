@@ -20,6 +20,7 @@ import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
 import {
   REQUEST_INBOX_PAGE_SIZE,
   getNextVisibleCount,
+  getVisibleRequestCount,
   shouldFetchMoreRequests,
 } from './requestInboxPagination';
 
@@ -80,11 +81,17 @@ const LendableObjectList = () => {
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
   const [visibleCount, setVisibleCount] = useState(REQUEST_INBOX_PAGE_SIZE);
+  const previousRequestOrderingRef = useRef(requestOrdering);
+  const visibleRequestCount = getVisibleRequestCount({
+    visibleCount,
+    currentOrdering: requestOrdering,
+    previousOrdering: previousRequestOrderingRef.current,
+  });
 
-  const lendingRequests = originalLendingRequests.slice(0, visibleCount);
+  const lendingRequests = originalLendingRequests.slice(0, visibleRequestCount);
 
   const handleLoadMore = () => {
-    const nextVisibleCount = getNextVisibleCount(visibleCount);
+    const nextVisibleCount = getNextVisibleCount(visibleRequestCount);
 
     if (
       shouldFetchMoreRequests({
@@ -130,6 +137,7 @@ const LendableObjectList = () => {
   };
 
   useEffect(() => {
+    previousRequestOrderingRef.current = requestOrdering;
     setVisibleCount(REQUEST_INBOX_PAGE_SIZE);
   }, [requestOrdering]);
 
