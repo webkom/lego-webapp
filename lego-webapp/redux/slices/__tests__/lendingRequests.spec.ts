@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createInitialPagination } from '~/redux/legoAdapter/buildPaginationReducer';
 import { LendingRequestStatus } from '~/redux/models/LendingRequest';
 import { createRootReducer, type RootState } from '~/redux/rootReducer';
 import { selectTransformedLendingRequests } from '../lendingRequests';
@@ -94,5 +95,31 @@ describe('selectTransformedLendingRequests', () => {
     const state = createState([], []);
 
     expect(selectTransformedLendingRequests(state)).toEqual([]);
+  });
+
+  it('uses pagination ids when a scoped request list is provided', () => {
+    const state = createState(
+      [
+        createLendingRequest(1, 10),
+        createLendingRequest(2, 11),
+        createLendingRequest(3, 12),
+      ],
+      [
+        createLendableObject(10),
+        createLendableObject(11),
+        createLendableObject(12),
+      ],
+    );
+
+    const pagination = {
+      ...createInitialPagination({ ordering: '-created_at' }),
+      ids: [3, 1],
+    };
+
+    expect(
+      selectTransformedLendingRequests(state, { pagination }).map(
+        (request) => request.id,
+      ),
+    ).toEqual([3, 1]);
   });
 });
