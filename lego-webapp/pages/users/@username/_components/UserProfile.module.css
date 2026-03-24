@@ -203,11 +203,20 @@ img.frame {
   z-index: 0;
   left: 50%;
   bottom: 46px;
-  height: 40px;
+  height: 25px;
   transform-origin: center bottom;
   animation: logoWiggle 2.4s ease-in-out infinite;
   will-change: transform;
   pointer-events: none;
+  transition:
+    bottom var(--easing-slow),
+    height var(--easing-slow);
+}
+
+.trophy:hover .logo,
+.trophyCard:hover .logo {
+  bottom: 50px;
+  height: 40px;
 }
 
 @keyframes logoWiggle {
