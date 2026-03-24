@@ -1,7 +1,8 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Flex, Icon, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Check, MoonStar, Sun, SunMoon } from 'lucide-react';
 import { Field } from 'react-final-form';
+import img from '~/assets/interest-group-logos/246e97d49e465e7d5ac7096c02318a9051ac7357c6a36031d5880c678958ea31.png';
 import styles from './ThemeSelector.module.css';
 import type { ReactNode } from 'react';
 
@@ -68,6 +69,7 @@ const ThemeSelector = () => {
             )}
           </Field>
         ))}
+        <Image src={img} alt="theme" className={styles.themeIcon}/>
       </Flex>
     </div>
   );
