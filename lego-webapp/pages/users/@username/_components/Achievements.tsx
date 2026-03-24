@@ -37,6 +37,7 @@ export const Achievements = ({
           <Tooltip
             key={AchievementsInfo[e.identifier][e.level].name}
             className={styles.trophy}
+            containerClassName={styles.trophyTooltipPopover}
             content={
               <div className={styles.trophyDetailTooltip}>
                 <p>
