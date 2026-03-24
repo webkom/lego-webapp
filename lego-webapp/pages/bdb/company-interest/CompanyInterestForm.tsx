@@ -1,6 +1,7 @@
 import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
+import { useEffect } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -22,6 +23,7 @@ import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import { readmeIfy } from '~/components/ReadmeLogo';
+import LatestReadme from '~/pages/index/LatestReadme';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,
@@ -31,6 +33,7 @@ import {
   fetchCompanyInterest,
   updateCompanyInterest,
 } from '~/redux/actions/CompanyInterestActions';
+import { fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCompanyInterestById } from '~/redux/slices/companyInterest';
 import {
@@ -73,11 +76,9 @@ import {
   othersDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
+
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
 import type CompanySemester from '~/redux/models/CompanySemester';
-import LatestReadme from '~/pages/index/LatestReadme';
-import { fetchReadmes } from '~/redux/actions/FrontpageActions';
-import { useEffect } from 'react';
 
 const SemesterBox = ({
   fields,
@@ -353,6 +354,10 @@ const CompanyInterestForm = ({ language }: Props) => {
     [companyInterestId, edit],
   );
 
+  useEffect(() => {
+    dispatch(fetchReadmes(2));
+  }, [dispatch]);
+
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(OTHER_OFFERS);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
@@ -546,12 +551,6 @@ const CompanyInterestForm = ({ language }: Props) => {
   ];
 
   const title = edit ? 'Bedriftsinteresse' : FORM_LABELS.mainHeading[language];
-
-  const dispatch1 = useAppDispatch();
-
-  useEffect(() => {
-    dispatch1(fetchReadmes(2));
-  }, [dispatch1]);
 
   return (
     <Page
