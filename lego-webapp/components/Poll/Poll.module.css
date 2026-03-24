@@ -153,3 +153,7 @@
 .arrowIcon {
   color: var(--color-absolute-white);
 }
+
+.icon {
+  width: 5%;
+}
