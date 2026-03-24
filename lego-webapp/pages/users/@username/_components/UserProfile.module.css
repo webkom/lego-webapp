@@ -151,6 +151,10 @@ img.frame {
   justify-content: space-between;
 }
 
+.trophyTooltipPopover {
+  z-index: 60;
+}
+
 .trophyImage {
   height: 100px;
   width: auto;
