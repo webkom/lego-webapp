@@ -135,3 +135,9 @@ html[data-theme='dark'] img.logoDarkMode {
   transform: rotate(-90deg);
   opacity: 0;
 }
+
+.topLogo {
+  display: block;
+  position: absolute;
+  left: -4500px;
+}

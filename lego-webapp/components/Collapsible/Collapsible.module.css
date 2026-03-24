@@ -1,6 +1,7 @@
 .showMore {
   display: flex;
   justify-content: center;
+  z-index: 50;
   height: 50px;
   width: 100%;
   position: absolute;

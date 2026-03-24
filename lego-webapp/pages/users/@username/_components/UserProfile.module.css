@@ -151,9 +151,27 @@ img.frame {
   justify-content: space-between;
 }
 
+.trophyTooltipPopover {
+  z-index: 60;
+}
+
 .trophyImage {
   height: 100px;
   width: auto;
+  position: relative;
+  z-index: 1;
+  
+  .img {
+    z-index: 2;
+  }
+}
+
+.trophyImageStack {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
 }
 
 .trophyContainer {
@@ -167,6 +185,8 @@ img.frame {
 }
 
 .trophyCard {
+  position: relative;
+  z-index: 2;
   height: 100%;
 
   .trophyCardImage {
@@ -175,5 +195,55 @@ img.frame {
 
   div:last-child {
     flex-grow: 1;
+  }
+}
+
+.logo {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  bottom: 46px;
+  height: 25px;
+  transform-origin: center bottom;
+  animation: logoWiggle 2.4s ease-in-out infinite;
+  will-change: transform;
+  pointer-events: none;
+  transition:
+    bottom var(--easing-slow),
+    height var(--easing-slow);
+}
+
+.trophy:hover .logo,
+.trophyCard:hover .logo {
+  bottom: 50px;
+  height: 40px;
+}
+
+@keyframes logoWiggle {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg) translateY(0);
+  }
+
+  20% {
+    transform: translateX(-50%) rotate(-8deg) translateY(-1px);
+  }
+
+  40% {
+    transform: translateX(-50%) rotate(7deg) translateY(0);
+  }
+
+  60% {
+    transform: translateX(-50%) rotate(-5deg) translateY(-2px);
+  }
+
+  80% {
+    transform: translateX(-50%) rotate(4deg) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo {
+    animation: none;
   }
 }

@@ -1,4 +1,5 @@
 import { BaseCard, CardFooter, Flex, Tooltip } from '@webkom/lego-bricks';
+import logo from '/assets/interest-group-logos/19581e27de7ced00ff1ce50b2047e7a567c76b1cbaebabe5ef03f7c3017bb5b7.png';
 import moment from 'moment-timezone';
 import { useMemo } from 'react';
 import Collapsible from '~/components/Collapsible/Collapsible';
@@ -36,6 +37,7 @@ export const Achievements = ({
           <Tooltip
             key={AchievementsInfo[e.identifier][e.level].name}
             className={styles.trophy}
+            containerClassName={styles.trophyTooltipPopover}
             content={
               <div className={styles.trophyDetailTooltip}>
                 <p>
@@ -56,12 +58,25 @@ export const Achievements = ({
           >
             <BaseCard className={styles.trophyCard}>
               <Flex justifyContent="center" className={styles.trophyCardImage}>
-                <img
-                  src={AchievementsInfo[e.identifier][e.level].image ?? ''}
-                  alt="Trofe"
-                  height="7vh"
-                  className={styles.trophyImage}
-                />
+                {AchievementsInfo[e.identifier][e.level].name ==
+                'Skaffe tre' ? (
+                  <div className={styles.trophyImageStack}>
+                    <img src={logo} alt="logo" className={styles.logo} />
+                    <img
+                      src={AchievementsInfo[e.identifier][e.level].image ?? ''}
+                      alt="Trofe"
+                      height="7vh"
+                      className={styles.trophyImage}
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={AchievementsInfo[e.identifier][e.level].image ?? ''}
+                    alt="Trofe"
+                    height="7vh"
+                    className={styles.trophyImage}
+                  />
+                )}
               </Flex>
               <CardFooter justifyContent="center" alignItems="center">
                 {AchievementsInfo[e.identifier][e.level].name}
