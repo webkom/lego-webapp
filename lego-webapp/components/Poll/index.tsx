@@ -171,7 +171,7 @@ const Poll = ({
           <Tooltip content="Avstemningen er anonym">
             <Icon iconNode={<Info />} size={17} />
           </Tooltip>
-          <Image src={img} alt="icon" className={styles.icon}/>
+          <Image src={img} alt="icon" className={styles.icon} />
         </Flex>
       </Accordion>
     </Flex>

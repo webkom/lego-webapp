@@ -69,7 +69,7 @@ const ThemeSelector = () => {
             )}
           </Field>
         ))}
-        <Image src={img} alt="theme" className={styles.themeIcon}/>
+        <Image src={img} alt="theme" className={styles.themeIcon} />
       </Flex>
     </div>
   );

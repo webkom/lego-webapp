@@ -16,7 +16,11 @@ import { selectArticles } from '~/redux/slices/articles';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCurrentPrivateBanner } from '~/redux/slices/banner';
 import { selectAllEvents } from '~/redux/slices/events';
-import { addArticleType, addEventType, selectPinned } from '~/redux/slices/frontpage';
+import {
+  addArticleType,
+  addEventType,
+  selectPinned,
+} from '~/redux/slices/frontpage';
 import { selectPinnedPoll } from '~/redux/slices/polls';
 import { selectRandomQuote } from '~/redux/slices/quotes';
 import utilStyles from '~/styles/utilities.module.css';
