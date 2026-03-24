@@ -46,3 +46,7 @@
     min-width: 260px;
   }
 }
+
+.result {
+  width: 20vw;
+}
