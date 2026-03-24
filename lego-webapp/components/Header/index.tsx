@@ -125,6 +125,7 @@ const HeaderLogo = () => {
             className={styles.logoDarkMode}
             alt="Abakus sin logo"
           />
+          <img src="../../../assets/interest-group-logos/4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a.png" className={styles.topLogo}/>
         </div>
       </LoadingIndicator>
     </a>
