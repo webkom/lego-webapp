@@ -23,4 +23,13 @@
 	382.75,299.64 383.47,339.69 375.32,339.69 372.17,318.66 366.67,339.69 351.62,309.19 336.47,339.69 330.2,318.66 327.82,339.69 
 	319.67,339.69 318.94,299.64 312.61,280.56 308.34,292.05 293.83,292.05 294.12,277.55 287.6,264.14 281.23,277.55 281.23,400 "/>
 <circle class="st1" cx="202.85" cy="397.04" r="5.08"/>
+
+<!-- Easter egg leaning against the right side of the left building, sitting on ground -->
+<g transform="translate(209, 378) rotate(15)">
+  <!-- Egg shape: taller top, wider bottom using a path -->
+  <path d="M0,-22 C10,-22 16,-10 16,4 C16,14 9,22 0,22 C-9,22 -16,14 -16,4 C-16,-10 -10,-22 0,-22 Z" fill="#B21C17"/>
+  <!-- Red "3" in the center -->
+  <text x="0" y="7" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#E21617">3</text>
+</g>
+
 </svg>

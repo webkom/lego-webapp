@@ -160,7 +160,7 @@ img.frame {
   width: auto;
   position: relative;
   z-index: 1;
-  
+
   .img {
     z-index: 2;
   }
