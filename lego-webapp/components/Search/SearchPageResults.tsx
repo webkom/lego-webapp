@@ -1,6 +1,7 @@
 import { Flex, Icon, Skeleton, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { FolderOpen, FolderSearch } from 'lucide-react';
+import img from '~/assets/interest-group-logos/6d9fe235439f43ae344214caae1e6388d0f8aecc3c4ab917522fc2f00367374f.png';
 import EmptyState from '~/components/EmptyState';
 import { ProfilePicture } from '~/components/Image';
 import { useAppSelector } from '~/redux/hooks';
@@ -100,6 +101,13 @@ const SearchPageResults = ({
         }
       />
     );
+  }
+
+  if (
+    query ===
+    String.fromCharCode(112, 229, 115, 107, 101, 101, 103, 103)
+  ) {
+    return <Image src={img} alt="test" className={styles.result} />;
   }
 
   return (
