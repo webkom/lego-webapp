@@ -19,15 +19,17 @@ import {
   LogOut,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
+import closePaletteImage from '~/assets/interest-group-logos/785f3ec7eb32f30b90cd0fcf3657d388b5ff4297f2f9716ff66e9b69c05ddd09.png';
 import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
+import type { ReactNode } from 'react';
 
 type Command = {
   id: string;
-  renderLabel: string | React.ReactNode;
+  renderLabel: string | ReactNode;
   searchText: string;
   action: () => void;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 };
 
 type CommandSection = {
@@ -198,6 +200,23 @@ const createCommands = (
           action: () => {
             dispatch(logout());
             navigate('/');
+          },
+        },
+        {
+          id: 'a',
+          renderLabel: 'Lukk kommandopaletten',
+          searchText: 'Lukk kommandopaletten',
+          icon: (
+            <img
+              src={closePaletteImage}
+              alt=""
+              width={15}
+              height={15}
+              style={{ display: 'block' }}
+            />
+          ),
+          action: () => {
+            // This is a no-op, the actual closing is handled in the CommandPalette component
           },
         },
       ],
