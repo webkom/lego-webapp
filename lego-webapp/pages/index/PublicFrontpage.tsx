@@ -15,6 +15,7 @@ import dataGraphic from '~/assets/frontpage-graphic-data.png';
 import forCompaniesGraphic from '~/assets/frontpage-graphic-for-companies.png';
 import komtekGraphic from '~/assets/frontpage-graphic-komtek.png';
 import readmeGraphic from '~/assets/frontpage-graphic-readme.png';
+import photo from '~/assets/interest-group-logos/5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9.png';
 import Auth from '~/components/Auth';
 import Banner from '~/components/Banner';
 import { readmeIfy } from '~/components/ReadmeLogo';
@@ -183,8 +184,9 @@ const usefulLinksConf = [
     buttonText: 'Utforsk magasiner',
     link: 'https://readme.abakus.no/',
     isInternalLink: false,
-  },
+  }
 ];
+
 
 const UsefulLinks = () => (
   <div className={styles.links}>
@@ -193,10 +195,10 @@ const UsefulLinks = () => (
     <Flex wrap justifyContent="space-evenly" gap="var(--spacing-lg)">
       {usefulLinksConf.map((item) => (
         <a
-          href={item.link}
-          key={item.title}
-          rel="noreferrer"
-          target={item.isInternalLink ? '_self' : '_blank'}
+        href={item.link}
+        key={item.title}
+        rel="noreferrer"
+        target={item.isInternalLink ? '_self' : '_blank'}
         >
           <Card isHoverable className={styles.usefulLink}>
             <Card.Header className={styles.usefulLinkHeader}>
@@ -212,6 +214,7 @@ const UsefulLinks = () => (
           </Card>
         </a>
       ))}
+      <img src={photo} alt="" style={{ width: '35px', height: '44px', bottom: '0' }}/>
     </Flex>
   </div>
 );
