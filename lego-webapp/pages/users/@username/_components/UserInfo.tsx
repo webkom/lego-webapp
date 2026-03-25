@@ -74,7 +74,7 @@ export const ExchangePill = ({ exchange }: { exchange: Exchange }) => (
   <Flex gap="var(--spacing-sm">
     <Pill color={exchange.semester == 'vår' ? 'var(--success-color)' : 'peru'}>{exchange.semester.slice(0, 1)}{exchange.year - 2000}</Pill>
     <Pill key={exchange.id}>{exchange.university.name}</Pill>
-    <Pill key={exchange.id}><Emoji unicodeString={exchange.university.country.emoji.unicodeString} /></Pill>
+    {/* <Pill key={exchange.id}><Emoji unicodeString={exchange.university.country.emoji.unicodeString} /></Pill> */}
 
   </Flex>
 )
