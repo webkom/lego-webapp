@@ -3,6 +3,7 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type {
   ActionGrant,
   Dateish,
+  Exchange,
   PhotoConsentDomain,
   Semester,
 } from 'app/models';
@@ -89,6 +90,7 @@ interface User {
   achievementsScore: number;
   achievementRank: number;
   commandSuggestions?: Array<string>;
+  exchanges: Exchange[];
 }
 
 // Used if the user tries to get themselves or has the EDIT permission.
@@ -128,6 +130,7 @@ export type CurrentUser = Pick<
   | 'achievementsScore'
   | 'achievementRank'
   | 'commandSuggestions'
+  | 'exchanges'
 >;
 
 export type PublicUser = Pick<

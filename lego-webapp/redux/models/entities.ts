@@ -12,6 +12,7 @@ import type { UnknownEmailList } from '~/redux/models/EmailList';
 import type EmailUser from '~/redux/models/EmailUser';
 import type Emoji from '~/redux/models/Emoji';
 import type { UnknownEvent } from '~/redux/models/Event';
+import type { Exchange } from '~/redux/models/Exchange';
 import type { UnkownFeatureFlag } from '~/redux/models/FeatureFlag';
 import type Feed from '~/redux/models/Feed';
 import type AggregatedFeedActivity from '~/redux/models/FeedActivity';
@@ -79,6 +80,7 @@ export enum EntityType {
   Tags = 'tags',
   Users = 'users',
   SystemStatus = 'systemStatus',
+  Exchanges = 'exchanges'
 }
 
 // Most fetch success redux actions are normalized such that payload.entities is a subset of this interface.
@@ -94,6 +96,7 @@ export default interface Entities {
   [EntityType.EmailUsers]: Record<EntityId, EmailUser>;
   [EntityType.Emojis]: Record<EntityId, Emoji>;
   [EntityType.Events]: Record<EntityId, UnknownEvent>;
+  [EntityType.Exchanges]: Record<EntityId, Exchange>
   [EntityType.FeatureFlag]: Record<EntityId, UnkownFeatureFlag>;
   [EntityType.FeedActivities]: Record<EntityId, AggregatedFeedActivity>;
   [EntityType.Feeds]: Record<EntityId, Feed>;

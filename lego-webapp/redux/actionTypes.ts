@@ -335,3 +335,7 @@ export const FeatureFlag = {
   EDIT: generateStatuses('FeatureFlag.EDIT'),
   DELETE: generateStatuses('FeatureFlag.DELETE'),
 };
+
+export const Exchange = {
+  FETCH_ALL: generateStatuses('Exchange.FETCH_ALL')
+}

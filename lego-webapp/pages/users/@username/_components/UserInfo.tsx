@@ -1,10 +1,13 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
+import Emoji from '~/components/Emoji';
+import Pill from '~/components/Pill';
 import {
   EmailInfoField,
   InfoField,
   ProfileSection,
 } from '~/pages/users/@username/_components/ProfileSection';
 import styles from '~/pages/users/@username/_components/UserProfile.module.css';
+import { Exchange } from '~/redux/models/Exchange';
 import type { CurrentUser, PublicUserWithGroups } from '~/redux/models/User';
 
 const GithubField = ({ githubUsername }: { githubUsername: string }) => (
@@ -55,3 +58,23 @@ export const UserInfo = ({ user }: Props) => (
     </Flex>
   </ProfileSection>
 );
+
+export const ExchangesInfo = ({ exchanges }: { exchanges: Exchange[] }) => (
+  // <ProfileSection title="Utvekslingsopphold">
+  //   {exchanges.map((exchange) => <ExchangePill key={exchange.id} exchange={exchange} />)}
+  // </ProfileSection >
+  <>
+    <h3>Utvekslingsopphold</h3>
+    <>  {exchanges.map((exchange) => <ExchangePill key={exchange.id} exchange={exchange} />)}
+    </>
+  </>
+);
+
+export const ExchangePill = ({ exchange }: { exchange: Exchange }) => (
+  <Flex gap="var(--spacing-sm">
+    <Pill color={exchange.semester == 'vår' ? 'var(--success-color)' : 'peru'}>{exchange.semester.slice(0, 1)}{exchange.year - 2000}</Pill>
+    <Pill key={exchange.id}>{exchange.university.name}</Pill>
+    <Pill key={exchange.id}><Emoji unicodeString={exchange.university.country.emoji.unicodeString} /></Pill>
+
+  </Flex>
+)
