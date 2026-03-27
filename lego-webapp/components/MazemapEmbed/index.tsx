@@ -185,7 +185,7 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
 
   if (webglError) {
     return (
-      <Flex gap={'5px'} justifyContent="center">
+      <Flex gap={'var(--spacing-xs)'} justifyContent="center">
         <p>Nettleseren støtter ikke WebGL.</p>
         <Tooltip content="Prøv å slå på grafikkakselerasjon i nettleserinnstillingene dine.">
           <Icon iconNode={<Info />} size={18} />
