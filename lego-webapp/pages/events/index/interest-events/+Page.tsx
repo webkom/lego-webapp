@@ -6,7 +6,6 @@ import moment from 'moment-timezone';
 import { useContext } from 'react';
 import { Helmet } from 'react-helmet-async';
 import EmptyState from '~/components/EmptyState';
-import EventItem from '~/components/EventItem';
 import styles from '~/pages/events/index/EventList.module.css';
 import { fetchEvents } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -15,6 +14,7 @@ import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectInterestEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
+import EventRows from './EventRows';
 import { EventsOutletContext } from '../+Layout';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ListEvent } from '~/redux/models/Event';
@@ -32,9 +32,10 @@ type GroupedEvents = {
   pastEvents?: EventWithResponsibleGroup[];
 };
 
-const GROUPS = ['interestedEvents', 'upcomingEvents', 'pastEvents'] as const;
+const ROW_ORDER = ['interestedEvents', 'upcomingEvents', 'pastEvents'] as const;
+type GroupName = (typeof ROW_ORDER)[number];
 
-const GROUP_LABELS: Record<(typeof GROUPS)[number], string> = {
+const GROUP_LABELS: Record<GroupName, string> = {
   interestedEvents: 'Dine interessegrupper',
   upcomingEvents: 'Kommende',
   pastEvents: 'Tidligere',
@@ -50,30 +51,31 @@ const belongsToUserInterestGroup = (
   event.responsibleGroup?.id != null &&
   currentUserGroupIds.includes(event.responsibleGroup.id);
 
+const sortUpcomingEvents = (events: EventWithResponsibleGroup[]) =>
+  orderBy(events, 'startTime', 'asc');
+
+const sortPastEvents = (events: EventWithResponsibleGroup[]) =>
+  orderBy(events, 'startTime', 'desc');
+
 const groupEvents = (
   events: EventWithResponsibleGroup[],
   currentUserGroupIds: EntityId[],
 ): GroupedEvents => {
-  const upcomingEvents = orderBy(
+  const upcomingEvents = sortUpcomingEvents(
     events.filter((event) => !isPastEvent(event)),
-    'startTime',
-    'asc',
   );
-  const pastEvents = orderBy(
+  const pastEvents = sortPastEvents(
     events.filter((event) => isPastEvent(event)),
-    'startTime',
-    'desc',
+  );
+  const interestedUpcomingEvents = upcomingEvents.filter((event) =>
+    belongsToUserInterestGroup(event, currentUserGroupIds),
+  );
+  const interestedPastEvents = pastEvents.filter((event) =>
+    belongsToUserInterestGroup(event, currentUserGroupIds),
   );
 
   return {
-    interestedEvents: [
-      ...upcomingEvents.filter((event) =>
-        belongsToUserInterestGroup(event, currentUserGroupIds),
-      ),
-      ...pastEvents.filter((event) =>
-        belongsToUserInterestGroup(event, currentUserGroupIds),
-      ),
-    ],
+    interestedEvents: [...interestedUpcomingEvents, ...interestedPastEvents],
     upcomingEvents,
     pastEvents,
   };
@@ -92,21 +94,14 @@ const EventListRow = ({
 
   return (
     <section className={styles.eventGroup}>
-      <h3 className={styles.eventGroupTitle}>{name}</h3>
-      <div className={styles.horizontalEventRow}>
-        {events.map((event) => (
-          <div key={event.id} className={styles.horizontalEventCard}>
-            <EventItem event={event} eventStyle="compact" showTags={false} />
-          </div>
-        ))}
-      </div>
+      <EventRows title={name} events={events} />
     </section>
   );
 };
 
 const EventListSkeleton = () => (
   <>
-    {GROUPS.map((groupName) => (
+    {ROW_ORDER.map((groupName) => (
       <div key={groupName} className={styles.eventGroup}>
         <Skeleton className={styles.skeletonEventGroupTitle} />
         <div className={styles.horizontalEventRow}>
@@ -219,7 +214,7 @@ const InterestEventList = () => {
     currentUser?.abakusGroups || [],
   );
 
-  const hasEvents = GROUPS.some(
+  const hasEvents = ROW_ORDER.some(
     (groupName) => !isEmpty(groupedEvents[groupName]),
   );
   const isFetching =
@@ -252,7 +247,7 @@ const InterestEventList = () => {
   return (
     <>
       <Helmet title="Interessearrangementer" />
-      {GROUPS.map((groupName) => (
+      {ROW_ORDER.map((groupName) => (
         <EventListRow
           key={groupName}
           name={GROUP_LABELS[groupName]}

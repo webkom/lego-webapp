@@ -1,36 +1,22 @@
-import EventCard from "./EventCard";
+import InterestEventCard from './InterestEventCard';
 import styles from './EventRows.module.css';
-import norwayFlag from '~/assets/flags/norway.svg';
-
+import type { ListEvent } from '~/redux/models/Event';
 
 type EventRowsProps = {
   title: string;
+  events: ListEvent[];
 };
 
-const EventRows = ({
-  title
-}: EventRowsProps) => {
+const EventRows = ({ title, events }: EventRowsProps) => {
   return (
-    <div>
-      <h2>{title}</h2>
-      <h4>Vis Alle</h4>
+    <div className={styles.outerContainer}>
+      <h3 className={styles.title}>{title}</h3>
       <div className={styles.container}>
-        <EventCard
-          title="Arrangement 1"
-          date="20.10"
-          attending={50}
-          capacity={100}
-          image={norwayFlag}
-          link="#"
-        />
-        <EventCard
-          title="Arrangement 1"
-          date="20.10"
-          attending={50}
-          capacity={100}
-          image={norwayFlag}
-          link="#"
-        />
+        {events.map((event) => (
+          <div key={event.id} className={styles.card}>
+            <InterestEventCard event={event} />
+          </div>
+        ))}
       </div>
     </div>
   );
