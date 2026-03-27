@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { isCurrentUser as checkIfCurrentUser } from '~/pages/users/utils';
 import { Event } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
+import { EventType } from '~/redux/models/Event';
 import { EntityType } from '~/redux/models/entities';
 import { eventSchema } from '~/redux/schemas';
 import { addCommentCases } from '~/redux/slices/comments';
@@ -20,6 +21,7 @@ import type { Optional, Overwrite } from 'utility-types';
 import type {
   AuthUserDetailedEvent,
   DetailedEvent,
+  ListEvent,
   UserDetailedEvent,
 } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
@@ -171,6 +173,17 @@ export const selectEventByIdOrSlug = createSelector(
   selectEventById,
   (eventBySlug, eventById) => eventBySlug || eventById,
 );
+
+export const selectEventsByType = selectEventsByField('eventType');
+export const selectInterestEvents = (
+  state: RootState,
+  options?: Parameters<typeof selectAllEvents>[1],
+) =>
+  selectAllEvents<
+    ListEvent | DetailedEvent | UserDetailedEvent | AuthUserDetailedEvent
+  >(state, options).filter(
+    (event) => event.eventType === EventType.INTEREST_EVENT,
+  );
 
 export type PoolRegistrationWithUser = Overwrite<
   ReadRegistration,
