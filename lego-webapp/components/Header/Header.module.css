@@ -95,6 +95,8 @@ img.logoDarkMode {
 html[data-theme='light'] img.logoLightMode,
 html[data-theme='dark'] img.logoDarkMode {
   display: block;
+  height: 50px;
+  width: auto;
 }
 
 .searchButton {
