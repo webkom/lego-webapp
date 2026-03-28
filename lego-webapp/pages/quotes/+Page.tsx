@@ -9,6 +9,7 @@ import {
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { components } from 'react-select';
 import EmptyState from '~/components/EmptyState';
 import { SelectInput } from '~/components/Form';
 import QuoteList from '~/pages/quotes/QuoteList';
@@ -20,7 +21,6 @@ import { selectPaginationNext } from '~/redux/slices/selectors';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
-import { components } from 'react-select';
 
 type Option = {
   label: string;
@@ -136,7 +136,7 @@ const QuotePage = () => {
                     }
                     isClearable={false}
                     options={orderingOptions}
-                    components={{Option : CustomOption}}
+                    components={{ Option: CustomOption }}
                   />
                 </FilterSection>
               ),

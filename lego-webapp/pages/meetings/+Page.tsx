@@ -114,7 +114,10 @@ const MeetingListView = ({
     ))}
     {!sections.length && (
       <EmptyState
-        iconNode={<CalendarOff />}
+        iconNode={<img 
+          src={'../../../assets/interest-group-logos/3e1e967e9b793e908f8eae83c74dba9bcccce6a5535b4b462bd9994537bfe15c.png'} 
+          style = {{width : 30}}>
+          </img>}
         header={`Du har ingen ${
           !fetchMorePagination.hasMore && fetchOlderPagination.hasMore
             ? 'kommende'
