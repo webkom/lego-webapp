@@ -69,17 +69,20 @@ div.wrapper {
 
 .LinkButton {
   background-color: var(--lego-background-color);
-  border: 2px solid var(--color-red-6);
-  color: var(--color-red-6);
+  border: 2px solid var(--color-blue-6);
+  color: var(--color-blue-6);
 }
 .LinkButton:hover {
   background-color: var(--color-gray-1);
-  border: 2px solid var(--lego-red-color-hover);
-  color: var(--lego-red-color-hover);
+  border: 2px solid var(--lego-blue-color-hover);
 }
 
 div.LinkButtonContainer {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.links a {
+  color: var(--tihlde-color);
 }

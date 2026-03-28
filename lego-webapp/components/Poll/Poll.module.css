@@ -93,7 +93,7 @@
 
 .pollGraph {
   animation: graph var(--easing-fast);
-  background-color: var(--tihlde-color);
+  background-color: var(--color-blue-7);
   padding: var(--spacing-xs);
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--color-absolute-white);

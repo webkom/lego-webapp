@@ -106,7 +106,11 @@ const Welcome = () => (
       fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
     </p>
     <div className={styles.LinkButtonContainer}>
-      <LinkButton dark href="/pages/info-om-abakus">
+      <LinkButton
+        dark
+        href="/pages/info-om-abakus"
+        className={styles.LinkButton}
+      >
         Les mer om oss
       </LinkButton>
       <LinkButton
