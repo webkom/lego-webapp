@@ -184,9 +184,8 @@ const usefulLinksConf = [
     buttonText: 'Utforsk magasiner',
     link: 'https://readme.abakus.no/',
     isInternalLink: false,
-  }
+  },
 ];
-
 
 const UsefulLinks = () => (
   <div className={styles.links}>
@@ -195,10 +194,10 @@ const UsefulLinks = () => (
     <Flex wrap justifyContent="space-evenly" gap="var(--spacing-lg)">
       {usefulLinksConf.map((item) => (
         <a
-        href={item.link}
-        key={item.title}
-        rel="noreferrer"
-        target={item.isInternalLink ? '_self' : '_blank'}
+          href={item.link}
+          key={item.title}
+          rel="noreferrer"
+          target={item.isInternalLink ? '_self' : '_blank'}
         >
           <Card isHoverable className={styles.usefulLink}>
             <Card.Header className={styles.usefulLinkHeader}>
@@ -214,15 +213,11 @@ const UsefulLinks = () => (
           </Card>
         </a>
       ))}
-<<<<<<< HEAD
-      <img src={photo} alt="" style={{ width: '35px', height: '44px', bottom: '0' }}/>
-=======
       <img
         src={photo}
         alt=""
         style={{ width: '35px', height: '44px', bottom: '0' }}
       />
->>>>>>> 594f1b8adf6985863f325a53daa2989651912f1d
     </Flex>
   </div>
 );
