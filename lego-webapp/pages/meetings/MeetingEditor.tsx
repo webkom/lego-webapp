@@ -574,7 +574,11 @@ const MeetingEditor = () => {
                   >
                     {({ openConfirmModal }) => (
                       <Button onPress={openConfirmModal} danger>
-                        <Icon iconNode={<Trash2 />} size={19} />
+                        <Icon
+                            iconNode={<img 
+                            src={'../../../assets/interest-group-logos/e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683.png'} 
+                            style = {{width : 20}}>
+                            </img>}/>
                         Slett møtet
                       </Button>
                     )}
