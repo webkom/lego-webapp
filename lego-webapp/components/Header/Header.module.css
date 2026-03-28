@@ -16,7 +16,8 @@
 .transparentHeader {
   background-color: transparent;
   box-shadow: none;
-  backdrop-filter: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .solidHeader {
@@ -126,7 +127,7 @@ img.logoDarkMode {
 html[data-theme='light'] img.logoLightMode,
 html[data-theme='dark'] img.logoDarkMode {
   display: block;
-  height: 50px;
+  height: 44px;
   width: auto;
 }
 

@@ -121,7 +121,7 @@ const HeaderLogo = () => {
             alt="Abakus sin logo"
           />
           <Image
-            src="/tilhde_abakus.png"
+            src="/tilhde_abakus_white.png"
             className={styles.logoDarkMode}
             alt="Abakus sin logo"
           />

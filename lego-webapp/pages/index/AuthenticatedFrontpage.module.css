@@ -9,9 +9,9 @@
     linear-gradient(
       180deg,
       #d1daff 10%,
-      rgba(209, 218, 255, 0.82) 14%,
-      rgba(206, 228, 254, 0.42) 25%,
-      rgba(230, 241, 255, 0.12) 29%,
+      rgba(209, 218, 255, 0.82) 20%,
+      rgba(206, 228, 254, 0.42) 26%,
+      rgba(230, 241, 255, 0.12) 30%,
       rgba(230, 241, 255, 0) 50%
     );
 }
@@ -260,13 +260,62 @@ section.wrapper {
 }
 
 @media (--mobile-device) {
+  .page {
+    background:
+      linear-gradient(
+        180deg,
+        #d1daff 0%,
+        rgba(209, 218, 255, 0.82) 20%,
+        rgba(206, 228, 254, 0.42) 27%,
+        rgba(230, 241, 255, 0.12) 20%,
+        rgba(230, 241, 255, 0) 50%
+      );
+  }
+
+  :global([data-theme='dark']) .page {
+    background:
+      linear-gradient(
+        180deg,
+        #292877 0%,
+        #1a2360 10%,
+        #021631 25%,
+        #021631 15%,
+        var(--lego-background-color) 28%,
+        var(--lego-background-color) 100%
+      );
+  }
+
   .waveViewport {
     height: 9rem;
     inset: -6.5rem calc(50% - 50vw) auto;
   }
 
+  .waveTop {
+    opacity: 0.28;
+  }
+
+  .waveMiddle {
+    opacity: 0.42;
+  }
+
+  .waveBottom {
+    opacity: 0.58;
+  }
+
+  :global([data-theme='dark']) .waveTop {
+    opacity: 0.2;
+  }
+
+  :global([data-theme='dark']) .waveMiddle {
+    opacity: 0.3;
+  }
+
+  :global([data-theme='dark']) .waveBottom {
+    opacity: 0.4;
+  }
+
   .waveSvg {
-    transform: scaleY(0.64);
+    transform: scaleY(0.48);
   }
 
   .lowerContent {

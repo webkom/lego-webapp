@@ -23,11 +23,18 @@ html[data-theme='dark'] .footer {
   justify-content: space-between;
   padding: var(--spacing-md);
   margin-bottom: -1px; /* In case of glitchy render */
-  background: url('../../assets/recolored_logo.png') bottom center no-repeat;
+  background: url('../../assets/recolored_logo_light.png') bottom center
+    no-repeat;
+  background-size: 65% auto;
 
   @media (--small-viewport) {
     justify-content: center;
+    background-size: 110% auto;
   }
+}
+
+html[data-theme='dark'] .footerContent {
+  background-image: url('../../assets/recolored_logo.png');
 }
 
 .statusDot {

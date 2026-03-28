@@ -57,7 +57,7 @@ const FrontpageEventItem = ({ item, url, meta }: Props) => {
                 <Icon iconNode={<Calendar />} strokeWidth={1.2} size={20} />{' '}
                 {startTime}
               </Flex>
-              <Flex gap={5}>
+              <Flex className={styles.comitteeInfo} gap={5}>
                 <Icon iconNode={<Shapes />} strokeWidth={1.2} size={20} />
                 {comitteeName && <>{comitteeName} |</>}
                 {eventType}
