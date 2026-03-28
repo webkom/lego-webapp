@@ -42,7 +42,11 @@ const Footer = () => {
         <div className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
           <a href="https://github.com/webkom" className={styles.gitHubLink}>
             <h2 className={styles.subHeader}>LEG</h2>
-            <Image alt="Octocat" className={styles.octocat} src={blue_octocat} />
+            <Image
+              alt="Octocat"
+              className={styles.octocat}
+              src={blue_octocat}
+            />
             <p>av Webkom</p>
           </a>
 
@@ -183,10 +187,16 @@ const Footer = () => {
               alt="Bekk sin logo"
             />
           </a>
-          <a style={{color: "var(--color-blue-5)"}} href="/pages/personvern/114-informasjonskapsler">
+          <a
+            style={{ color: 'var(--color-blue-5)' }}
+            href="/pages/personvern/114-informasjonskapsler"
+          >
             Informasjonskapsler (cookies)
           </a>
-          <a style={{color: "var(--color-blue-5)"}} href="/pages/personvern/124-personvernserklring">
+          <a
+            style={{ color: 'var(--color-blue-5)' }}
+            href="/pages/personvern/124-personvernserklring"
+          >
             Personvernerklæring
           </a>
           <span>© {moment().year()} Abakus</span>

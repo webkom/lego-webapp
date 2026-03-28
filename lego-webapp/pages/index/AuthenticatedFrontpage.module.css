@@ -5,15 +5,14 @@
   margin-top: calc(-1 * var(--lego-header-height));
   padding-top: var(--lego-header-height);
   overflow-x: clip;
-  background:
-    linear-gradient(
-      180deg,
-      #d1daff 10%,
-      rgba(209, 218, 255, 0.82) 20%,
-      rgba(206, 228, 254, 0.42) 26%,
-      rgba(230, 241, 255, 0.12) 30%,
-      rgba(230, 241, 255, 0) 50%
-    );
+  background: linear-gradient(
+    180deg,
+    #d1daff 10%,
+    rgba(209, 218, 255, 0.82) 20%,
+    rgba(206, 228, 254, 0.42) 26%,
+    rgba(230, 241, 255, 0.12) 30%,
+    rgba(230, 241, 255, 0) 50%
+  );
 }
 
 .content {
@@ -121,14 +120,13 @@ section.wrapper {
   height: clamp(12rem, 22vw, 18rem);
   overflow: hidden;
   pointer-events: none;
-  background:
-    linear-gradient(
-      180deg,
-      transparent 0%,
-      transparent 70%,
-      rgba(209, 218, 255, 0.58) 82%,
-      rgba(230, 241, 255, 0.18) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 70%,
+    rgba(209, 218, 255, 0.58) 82%,
+    rgba(230, 241, 255, 0.18) 100%
+  );
 }
 
 .blog {
@@ -194,16 +192,15 @@ section.wrapper {
 }
 
 :global([data-theme='dark']) .page {
-  background:
-    linear-gradient(
-      180deg,
-      #292877 0%,
-      #1a2360 14%,
-      #021631 20%,
-      #021631 25%,
-      var(--lego-background-color) 30%,
-      var(--lego-background-color) 100%
-    );
+  background: linear-gradient(
+    180deg,
+    #292877 0%,
+    #1a2360 14%,
+    #021631 20%,
+    #021631 25%,
+    var(--lego-background-color) 30%,
+    var(--lego-background-color) 100%
+  );
 }
 
 :global([data-theme='dark']) .waveTop {
@@ -219,14 +216,13 @@ section.wrapper {
 }
 
 :global([data-theme='dark']) .waveViewport {
-  background:
-    linear-gradient(
-      180deg,
-      transparent 100%,
-      transparent 100%,
-      rgba(2, 22, 49, 0.42) 100%,
-      #021631 100%
-    );
+  background: linear-gradient(
+    180deg,
+    transparent 100%,
+    transparent 100%,
+    rgba(2, 22, 49, 0.42) 100%,
+    #021631 100%
+  );
 }
 
 @keyframes waveTop {
@@ -261,28 +257,26 @@ section.wrapper {
 
 @media (--mobile-device) {
   .page {
-    background:
-      linear-gradient(
-        180deg,
-        #d1daff 0%,
-        rgba(209, 218, 255, 0.82) 20%,
-        rgba(206, 228, 254, 0.42) 27%,
-        rgba(230, 241, 255, 0.12) 20%,
-        rgba(230, 241, 255, 0) 50%
-      );
+    background: linear-gradient(
+      180deg,
+      #d1daff 0%,
+      rgba(209, 218, 255, 0.82) 20%,
+      rgba(206, 228, 254, 0.42) 27%,
+      rgba(230, 241, 255, 0.12) 20%,
+      rgba(230, 241, 255, 0) 50%
+    );
   }
 
   :global([data-theme='dark']) .page {
-    background:
-      linear-gradient(
-        180deg,
-        #292877 0%,
-        #1a2360 10%,
-        #021631 25%,
-        #021631 15%,
-        var(--lego-background-color) 28%,
-        var(--lego-background-color) 100%
-      );
+    background: linear-gradient(
+      180deg,
+      #292877 0%,
+      #1a2360 10%,
+      #021631 25%,
+      #021631 15%,
+      var(--lego-background-color) 28%,
+      var(--lego-background-color) 100%
+    );
   }
 
   .waveViewport {

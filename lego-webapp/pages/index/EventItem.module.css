@@ -57,9 +57,9 @@ div.body {
 }
 
 .comitteeInfo {
-   @media (--mobile-device) {
-     display: none;
-   }
+  @media (--mobile-device) {
+    display: none;
+  }
 }
 
 .itemInfo {
@@ -67,7 +67,7 @@ div.body {
   flex-direction: column;
   gap: var(--spacing-xs);
   color: var(--secondary-font-color);
-  
+
   @media (--mobile-device) {
     justify-content: center;
     font-size: var(--font-size-sm);
