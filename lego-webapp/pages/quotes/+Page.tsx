@@ -20,26 +20,54 @@ import { selectPaginationNext } from '~/redux/slices/selectors';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import useQuery from '~/utils/useQuery';
+import { components } from 'react-select';
 
 type Option = {
   label: string;
   value: string;
+  path: string;
 };
 
 const orderingOptions: Array<Option> = [
   {
     label: 'nyeste',
     value: '-created_at',
+    path: '',
   },
   {
     label: 'flest reaksjoner',
     value: '-reaction_count',
+    path: '',
+  },
+  {
+    label: 'ultra-sortering',
+    value: 'wings',
+    path: '../../../assets/interest-group-logos/1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb.png',
   },
 ];
 
 const defaultQuotesQuery = {
   approved: 'true',
   ordering: '-created_at',
+};
+
+const CustomOption = (props) => {
+  const { data } = props;
+
+  return (
+    <components.Option {...props}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <span>{data.label}</span>
+        {data.path && (
+          <img
+            src={data.path}
+            alt=""
+            style={{ width: 20, height: 20, objectFit: 'contain' }}
+          />
+        )}
+      </div>
+    </components.Option>
+  );
 };
 
 const QuotePage = () => {
@@ -108,6 +136,7 @@ const QuotePage = () => {
                     }
                     isClearable={false}
                     options={orderingOptions}
+                    components={{Option : CustomOption}}
                   />
                 </FilterSection>
               ),
