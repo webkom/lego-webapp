@@ -90,7 +90,7 @@ export const displayNameForEventType = (eventType: EventType) => {
 
 // Returns the color code of an EventType
 export const colorForEventType = (eventType: EventType = EventType.OTHER) => {
-  return 'var(--tihlde-color)';
+  return EventTypeConfig[eventType]?.color;
 };
 
 // Returns a color that is appropriate to be used for text put on top of a background with the color code of an EventType

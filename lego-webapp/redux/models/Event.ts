@@ -258,6 +258,7 @@ export type FrontpageEvent = Pick<
   | 'tags'
   | 'activationTime'
   | 'isAdmitted'
+  | 'responsibleGroup'
   | 'pinned'
 >;
 

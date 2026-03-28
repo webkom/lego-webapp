@@ -1,8 +1,8 @@
-import { Card, Flex, Image } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, Image } from '@webkom/lego-bricks';
+import { Calendar, Shapes } from 'lucide-react';
+import { Children, isValidElement } from 'react';
 import { colorForEventType } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
-import { useIsLoggedIn } from '~/redux/slices/auth';
-import { eventStatus } from '~/utils/eventStatus';
 import styles from './EventItem.module.css';
 import type { FrontpageEvent } from '~/redux/models/Event';
 
@@ -13,39 +13,56 @@ type Props = {
 };
 
 const FrontpageEventItem = ({ item, url, meta }: Props) => {
-  const loggedIn = useIsLoggedIn();
-  const info = item && eventStatus(item, loggedIn);
+  const comitteeName = item?.responsibleGroup?.name;
   const fetching = useAppSelector(
     (state) => state.frontpage.fetching || state.events.fetching,
   );
+  const metaChildren = Children.toArray(meta?.props?.children).filter(Boolean);
+  const startTime = metaChildren[0];
+  const eventType = [...metaChildren]
+    .reverse()
+    .find(
+      (child) =>
+        isValidElement(child) &&
+        child.type === 'span' &&
+        typeof child.props.children === 'string' &&
+        child.props.children.trim() !== '•',
+    );
 
   return (
     <Card skeleton={fetching && !item} hideOverflow className={styles.body}>
       <a href={url} className={styles.link}>
-        <Flex className={styles.wrapper}>
+        <Flex
+          className={styles.wrapper}
+          style={{
+            border: `1px solid ${colorForEventType(item?.eventType)}`,
+            borderRadius: 'var(--border-radius-md)',
+          }}
+        >
           <Flex column className={styles.leftFrontpage}>
             {item?.cover && (
               <Image
                 className={styles.imageFrontpage}
-                width={270}
-                height={80}
                 src={item?.cover || ''}
                 alt={`Forsidebildet til ${item?.title}`}
+                style={{ borderRadius: 'var(--border-radius-md)' }}
                 placeholder={item?.coverPlaceholder}
               />
-            )}
-            <span className={styles.info}>{info}</span>
+            )}{' '}
           </Flex>
-          <div
-            className={styles.right}
-            style={{
-              borderBottom: `5px solid ${colorForEventType(item?.eventType)}`,
-            }}
-          >
-            <>
-              <h2 className={styles.itemTitle}>{item?.title}</h2>
-              {meta}
-            </>
+          <div className={styles.right}>
+            <h2 className={styles.itemTitle}>{item?.title}</h2>
+            <div className={styles.itemInfo}>
+              <Flex alignItems="center" gap={5}>
+                <Icon iconNode={<Calendar />} strokeWidth={1.2} size={20} />{' '}
+                {startTime}
+              </Flex>
+              <Flex gap={5}>
+                <Icon iconNode={<Shapes />} strokeWidth={1.2} size={20} />
+                {comitteeName && <>{comitteeName} |</>}
+                {eventType}
+              </Flex>
+            </div>
           </div>
         </Flex>
       </a>

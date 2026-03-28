@@ -28,8 +28,9 @@ div.body {
 .imageFrontpage {
   object-fit: cover;
   background: white;
-  height: 70%;
+  height: 100%;
   width: 270px;
+  padding: 5px;
 
   @media (--mobile-device) {
     height: auto;
@@ -38,14 +39,26 @@ div.body {
 }
 
 .right {
-  text-align: center;
-  padding: 20px;
+  text-align: start;
+  padding-top: 0.75rem;
+  padding-left: var(--spacing-md);
   height: 100%;
   flex: 1;
 
   @media (--mobile-device) {
     border: none;
   }
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  color: var(--secondary-font-color);
+}
+
+.itemInfo p {
+  margin: 0;
 }
 
 div.wrapper {
@@ -82,22 +95,11 @@ div.wrapper {
   }
 }
 
-.info {
-  display: flex;
-  padding: var(--spacing-xs) var(--spacing-sm);
-  height: 30%;
-  justify-content: center;
-  align-items: center;
-
-  @media (--mobile-device) {
-    display: none;
-  }
-}
-
 .itemTitle {
   margin: 0;
-  min-height: 40px;
-  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.3rem;
+  font-weight: 800;
   word-break: break-word;
   overflow: hidden;
 

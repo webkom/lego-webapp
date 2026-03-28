@@ -2,7 +2,7 @@
 
 .baseCard {
   background: var(--lego-card-color);
-  border-radius: var(--border-radius-lg);
+  border-radius: var(--border-radius-md);
   border: 1.5px solid var(--border-gray);
   overflow: hidden;
 }
