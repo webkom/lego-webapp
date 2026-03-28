@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
 import bekk from '~/assets/bekk_short_white.svg';
-import octocat from '~/assets/octocat.png';
+import blue_octocat from '~/assets/bluee_octocat.png';
 import { fetchSystemStatus } from '~/redux/actions/StatusActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -42,7 +42,7 @@ const Footer = () => {
         <div className={cx(styles.section, utilityStyles.hiddenOnMobile)}>
           <a href="https://github.com/webkom" className={styles.gitHubLink}>
             <h2 className={styles.subHeader}>LEG</h2>
-            <Image alt="Octocat" className={styles.octocat} src={octocat} />
+            <Image alt="Octocat" className={styles.octocat} src={blue_octocat} />
             <p>av Webkom</p>
           </a>
 

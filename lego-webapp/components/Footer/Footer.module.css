@@ -2,7 +2,7 @@
 
 .footer {
   width: 100%;
-  background-color: var(--lego-red-color);
+  background-color: var(--tihlde-color);
   color: var(--color-absolute-white);
   margin-top: var(--spacing-xl);
   font-size: var(--font-size-sm);
@@ -19,7 +19,7 @@
   justify-content: space-between;
   padding: var(--spacing-md);
   margin-bottom: -1px; /* In case of glitchy render */
-  background: url('../../assets/skyline.svg') bottom center no-repeat;
+  background: url('../../assets/recolored_logo.png') bottom center no-repeat;
 
   @media (--small-viewport) {
     justify-content: center;
@@ -67,11 +67,11 @@
 
 /* stylelint-disable no-descending-specificity */
 .footerContent a {
-  color: var(--color-red-8);
+  color: var(--color-blue-5);
   margin-bottom: var(--spacing-sm);
 
   &:hover:not(.statusLink) {
-    color: var(--color-red-7);
+    color: var(--color-blue-7);
   }
 }
 
@@ -80,10 +80,10 @@
 }
 
 html[data-theme='dark'] .footerContent a {
-  color: var(--color-red-2);
+  color: var(--color-blue-2);
 
   &:hover:not(.statusLink) {
-    color: var(--color-red-3);
+    color: var(--color-blue-3);
   }
 }
 
@@ -96,10 +96,10 @@ html[data-theme='dark'] .footerContent a {
 }
 
 html[data-theme='dark'] .bottomContent a {
-  color: var(--color-red-1);
+  color: var(--color-blue-1);
 
   &:hover {
-    color: var(--color-red-2);
+    color: var(--color-blue-2);
   }
 }
 /* stylelint-enable no-descending-specificity */
@@ -111,7 +111,7 @@ html[data-theme='dark'] .bottomContent a {
 .subHeader {
   display: inline;
   text-transform: uppercase;
-  color: #5d0909;
+  color: var(--color-blue-5);
   font-family: 'Open Sans', sans-serif;
 }
 
@@ -173,11 +173,11 @@ img.octocat {
 
 .bottom {
   width: 100%;
-  background-color: var(--color-red-7);
+  background-color: var(--color-blue-7);
 }
 
 html[data-theme='dark'] .bottom {
-  background-color: var(--color-red-4);
+  background-color: var(--color-blue-4);
 }
 
 .bottomContent {

@@ -12,7 +12,7 @@
 .topBar {
   width: 100%;
   z-index: 2;
-  background-color: var(--lego-red-color);
+  background-color: var(--tihlde-color);
 }
 
 .pollIcon {
@@ -93,7 +93,7 @@
 
 .pollGraph {
   animation: graph var(--easing-fast);
-  background-color: var(--lego-red-color);
+  background-color: var(--tihlde-color);
   padding: var(--spacing-xs);
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--color-absolute-white);
@@ -132,7 +132,7 @@
 
 .bottomBar {
   position: relative;
-  background-color: var(--lego-red-color);
+  background-color: var(--tihlde-color);
   width: 100%;
   padding: 6.25rem 0 var(--spacing-md);
   top: -4.75rem;
