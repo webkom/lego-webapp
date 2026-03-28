@@ -30,6 +30,7 @@ import {
   Accessibility,
   Trophy,
   MessageSquareQuote,
+  Lock,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import Tag from '~/components/Tags/Tag';
@@ -72,6 +73,18 @@ const LINKS: Array<Link> = [
     sortTitle: 'Utlån',
     icon: <ShoppingCart />,
     url: '/lending',
+  },
+  {
+    key: 'locked',
+    requireLogin: true,
+    title: (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        ??? <Tag tag="!!!" color="red"></Tag>
+      </Flex>
+    ),
+    sortTitle: 'Utlån',
+    icon: <Lock />,
+    url: '/locked',
   },
   {
     key: 'events',

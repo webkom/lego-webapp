@@ -214,7 +214,15 @@ const UsefulLinks = () => (
           </Card>
         </a>
       ))}
+<<<<<<< HEAD
       <img src={photo} alt="" style={{ width: '35px', height: '44px', bottom: '0' }}/>
+=======
+      <img
+        src={photo}
+        alt=""
+        style={{ width: '35px', height: '44px', bottom: '0' }}
+      />
+>>>>>>> 594f1b8adf6985863f325a53daa2989651912f1d
     </Flex>
   </div>
 );

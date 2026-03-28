@@ -11,6 +11,7 @@ import moment from 'moment-timezone';
 import { useEffect, type ComponentType } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
+import song from '~/assets/sounds/mystery_song.opus';
 import DisplayContent from '~/components/DisplayContent';
 import GroupMember from '~/components/GroupMember';
 import { readmeIfy } from '~/components/ReadmeLogo';
@@ -207,6 +208,15 @@ const GroupRenderer: PageRenderer<GroupPage> = ({ page }) => {
   return (
     <article>
       <DisplayContent content={text} />
+      <p>
+        Kanskje Wonderwall egentlig bare er vinden som hvisker til Abakus om
+        ting ingen helt forstår.
+      </p>
+      {name === 'Webkom' && (
+        <audio controls>
+          <source src={song} type="audio/ogg; codecs=opus" />
+        </audio>
+      )}
       {sortedMemberships.length > 0 && (
         <>
           <h3 className={styles.heading}>Medlemmer</h3>

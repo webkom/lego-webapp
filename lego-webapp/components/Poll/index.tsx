@@ -3,6 +3,7 @@ import {
   Button,
   Flex,
   Icon,
+  Image,
   Skeleton,
   Tooltip,
 } from '@webkom/lego-bricks';
@@ -16,6 +17,7 @@ import {
   Info,
 } from 'lucide-react';
 import moment from 'moment-timezone';
+import img from '~/assets/interest-group-logos/56c9bce1894f39d889a6275cbd7a231946a5a5f71b3d76ad4093d73448467bb1.png';
 import EmptyState from '~/components/EmptyState';
 import { votePoll } from '~/redux/actions/PollActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -169,6 +171,7 @@ const Poll = ({
           <Tooltip content="Avstemningen er anonym">
             <Icon iconNode={<Info />} size={17} />
           </Tooltip>
+          <Image src={img} alt="icon" className={styles.icon} />
         </Flex>
       </Accordion>
     </Flex>

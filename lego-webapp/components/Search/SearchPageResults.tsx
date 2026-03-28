@@ -103,10 +103,14 @@ const SearchPageResults = ({
     );
   }
 
+<<<<<<< HEAD
   if (
     query ===
     String.fromCharCode(112, 229, 115, 107, 101, 101, 103, 103)
   ) {
+=======
+  if (query === String.fromCharCode(112, 229, 115, 107, 101, 101, 103, 103)) {
+>>>>>>> 594f1b8adf6985863f325a53daa2989651912f1d
     return <Image src={img} alt="test" className={styles.result} />;
   }
 
