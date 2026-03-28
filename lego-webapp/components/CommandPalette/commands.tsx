@@ -17,6 +17,7 @@ import {
   MessageSquareQuote,
   Landmark,
   LogOut,
+  Lock,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
 import closePaletteImage from '~/assets/interest-group-logos/785f3ec7eb32f30b90cd0fcf3657d388b5ff4297f2f9716ff66e9b69c05ddd09.png';

@@ -565,7 +565,7 @@ const Locked = () => {
         )}
       </div>
 
-      <p>Du har det, men sier det sjelden. Andre bruker det hele tiden.</p>
+      <p>Du har det, men sier det sjelden. Vi bruker det hele tiden.</p>
 
       <TextInput
         value={inputValue}
