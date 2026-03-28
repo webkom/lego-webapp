@@ -1,7 +1,7 @@
 import { Flex, Icon, Image, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Facebook, Instagram, Linkedin, Slack } from 'lucide-react';
+import { Facebook, Instagram, Linkedin, Lock, Slack } from 'lucide-react';
 import moment from 'moment-timezone';
 import bekk from '~/assets/bekk_short_white.svg';
 import octocat from '~/assets/octocat.png';
@@ -169,6 +169,9 @@ const Footer = () => {
                 iconNode={<Linkedin />}
                 className={styles.socialMediaIcon}
               />
+            </a>
+            <a href="/locked" rel="noopener noreferrer" target="_blank">
+              <Icon iconNode={<Lock />} className={styles.socialMediaIcon} />
             </a>
           </div>
         </div>
