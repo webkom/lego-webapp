@@ -1,9 +1,61 @@
 @import url('styles/custom-media.css');
 
+.page {
+  position: relative;
+  margin-top: calc(-1 * var(--lego-header-height));
+  padding-top: var(--lego-header-height);
+  overflow-x: clip;
+  background:
+    linear-gradient(
+      180deg,
+      #d1daff 10%,
+      rgba(209, 218, 255, 0.82) 14%,
+      rgba(206, 228, 254, 0.42) 25%,
+      rgba(230, 241, 255, 0.12) 29%,
+      rgba(230, 241, 255, 0) 50%
+    );
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
 section.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--spacing-md) var(--spacing-xl);
+  gap: var(--spacing-xl);
+
+  h3 {
+    margin-top: 0;
+    margin-left: 0;
+  }
+}
+
+.topGrid {
+  display: grid;
+  grid-template: 'compact-events registrations' / 2fr 1fr;
+  gap: var(--spacing-xl);
+
+  @media (--mobile-device) {
+    grid-template:
+      'compact-events'
+      'registrations';
+  }
+}
+
+.lowerContent {
+  position: relative;
+  padding-top: clamp(3rem, 8vw, 5.5rem);
+  isolation: isolate;
+}
+
+.lowerGrid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template:
-    'compact-events registrations'
     'pinned hovedstyret'
     'events poll'
     'events quote'
@@ -12,13 +64,10 @@ section.wrapper {
     'events blog'
     'events .'
     / 2fr 1fr;
-  padding: 0 var(--spacing-md);
   gap: var(--spacing-xl);
 
   @media (--mobile-device) {
     grid-template:
-      'compact-events'
-      'registrations'
       'pinned'
       'readme'
       'poll'
@@ -27,11 +76,6 @@ section.wrapper {
       'articles'
       'blog'
       'events';
-  }
-
-  h3 {
-    margin-top: 0;
-    margin-left: 0;
   }
 }
 
@@ -66,6 +110,27 @@ section.wrapper {
   grid-area: events;
 }
 
+.waveViewport {
+  --wave-fill-top: var(--lego-background-color);
+  --wave-fill-middle: var(--lego-background-color);
+  --wave-fill-bottom: var(--lego-background-color);
+  position: absolute;
+  inset: clamp(-9rem, -14vw, -6rem) calc(50% - 50vw) auto;
+  width: 100vw;
+  max-width: none;
+  height: clamp(12rem, 22vw, 18rem);
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 70%,
+      rgba(209, 218, 255, 0.58) 82%,
+      rgba(230, 241, 255, 0.18) 100%
+    );
+}
+
 .blog {
   grid-area: blog;
   color: var(--lego-font-color);
@@ -83,4 +148,136 @@ section.wrapper {
 
 .meta {
   color: var(--secondary-font-color);
+}
+
+.waveInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.waveLayer {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transform-origin: bottom;
+  will-change: transform;
+}
+
+.waveTop {
+  color: var(--wave-fill-top);
+  opacity: 0.2;
+  animation: waveTop 28s linear infinite;
+}
+
+.waveMiddle {
+  color: var(--wave-fill-middle);
+  opacity: 0.32;
+  animation: waveMiddle 20s linear infinite;
+}
+
+.waveBottom {
+  color: var(--wave-fill-bottom);
+  opacity: 0.44;
+  animation: waveBottom 14s linear infinite;
+}
+
+.waveSvg {
+  flex: 0 0 33.3334%;
+  width: 33.3334%;
+  height: 100%;
+  fill: currentColor;
+  transform: scaleY(0.56);
+  transform-origin: center bottom;
+}
+
+:global([data-theme='dark']) .page {
+  background:
+    linear-gradient(
+      180deg,
+      #292877 0%,
+      #1a2360 14%,
+      #021631 20%,
+      #021631 25%,
+      var(--lego-background-color) 30%,
+      var(--lego-background-color) 100%
+    );
+}
+
+:global([data-theme='dark']) .waveTop {
+  opacity: 0.12;
+}
+
+:global([data-theme='dark']) .waveMiddle {
+  opacity: 0.2;
+}
+
+:global([data-theme='dark']) .waveBottom {
+  opacity: 0.28;
+}
+
+:global([data-theme='dark']) .waveViewport {
+  background:
+    linear-gradient(
+      180deg,
+      transparent 100%,
+      transparent 100%,
+      rgba(2, 22, 49, 0.42) 100%,
+      #021631 100%
+    );
+}
+
+@keyframes waveTop {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-33.3334%, 0, 0);
+  }
+}
+
+@keyframes waveMiddle {
+  from {
+    transform: translate3d(-6%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-39.3334%, 0, 0);
+  }
+}
+
+@keyframes waveBottom {
+  from {
+    transform: translate3d(-12%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-45.3334%, 0, 0);
+  }
+}
+
+@media (--mobile-device) {
+  .waveViewport {
+    height: 9rem;
+    inset: -6.5rem calc(50% - 50vw) auto;
+  }
+
+  .waveSvg {
+    transform: scaleY(0.64);
+  }
+
+  .lowerContent {
+    padding-top: 2.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveTop,
+  .waveMiddle,
+  .waveBottom {
+    animation: none;
+  }
 }

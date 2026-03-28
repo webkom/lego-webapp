@@ -17,6 +17,7 @@ import ErrorBoundary from '~/components/ErrorBoundary';
 import Footer from '~/components/Footer';
 import Header from '~/components/Header';
 import PhotoUploadStatus from '~/components/PhotoUploadStatus';
+import Search from '~/components/Search';
 import ToastProvider from '~/components/Toast/ToastProvider';
 import HTTPError from '~/components/errors/HTTPError';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -67,6 +68,7 @@ const useLocation: ComponentProps<typeof LegoBricksProvider>['useLocation'] = <
 
 export default function Layout({ children }: { children: ReactNode }) {
   const theme = useTheme();
+  const searchOpen = useAppSelector((state) => state.search.open);
 
   return (
     <LegoBricksProvider
@@ -101,6 +103,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         )}
 
         <Header />
+        {searchOpen && <Search />}
         <CommandPalette />
 
         <AppChildren>{children}</AppChildren>

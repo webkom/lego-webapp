@@ -3,7 +3,7 @@
 .wrapper {
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 300;
   overflow-y: auto;
   display: flex;
   justify-content: center;
@@ -22,14 +22,28 @@
 }
 
 .content {
+  position: relative;
   width: var(--lego-max-width);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-lg);
+  padding-top: var(--spacing-md);
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  color: var(--lego-font-color);
+  background-color: transparent;
 }
 
 .inputContainer {
-  margin: var(--development-banner-height) var(--spacing-md) 0;
+  margin: 0 var(--spacing-md);
   height: var(--lego-header-height);
   border-bottom: 1.5px solid var(--border-gray);
 }

@@ -1,5 +1,36 @@
 @import url('styles/custom-media.css');
 
+.header {
+  z-index: 10;
+  transition:
+    background-color var(--linear-medium),
+    box-shadow var(--linear-medium),
+    backdrop-filter var(--linear-medium);
+}
+
+.frontpageHeader {
+  position: sticky;
+  top: 0;
+}
+
+.transparentHeader {
+  background-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+.solidHeader {
+  background-color: var(--lego-card-transparent);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0.96;
+}
+
+html[data-theme='dark'] .solidHeader {
+  background-color: #00132a;
+}
+
 .themeChange {
   padding: var(--spacing-sm) var(--spacing-md);
   display: flex;
@@ -79,7 +110,7 @@
 
 .dropdown {
   width: 355px;
-  z-index: 10;
+  z-index: 310;
   padding: var(--spacing-md);
 
   @media (--small-viewport) {
@@ -104,7 +135,7 @@ html[data-theme='dark'] img.logoDarkMode {
   width: 24px;
   align-items: center;
   box-sizing: content-box;
-  z-index: 301;
+  position: relative;
 }
 
 .iconWrapper {
@@ -115,6 +146,7 @@ html[data-theme='dark'] img.logoDarkMode {
 
 .searching {
   position: fixed;
+  z-index: 400;
 }
 
 .menuIcon,

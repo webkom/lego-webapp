@@ -5,6 +5,7 @@ import { CircleUser, LogOut, Menu, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { navigate } from 'vike/client/router';
+import { usePageContext } from 'vike-react/usePageContext';
 import Auth from '~/components/Auth';
 import { fetchAll as fetchMeetings } from '~/redux/actions/MeetingActions';
 import { toggleSearch } from '~/redux/actions/SearchActions';
@@ -18,7 +19,6 @@ import { applySelectedTheme, getOSTheme, getTheme } from '~/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
-import Search from '../Search';
 import styles from './Header.module.css';
 import Navbar from './Navbar/Navbar';
 import ToggleTheme from './ToggleTheme';
@@ -167,6 +167,9 @@ const Header = () => {
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
   const searchOpen = useAppSelector((state) => state.search.open);
+  const { urlPathname } = usePageContext();
+  const isFrontpage = urlPathname === '/';
+  const [isAtTop, setIsAtTop] = useState(true);
 
   useEffect(() => {
     if (
@@ -202,8 +205,31 @@ const Header = () => {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [dispatch, searchOpen]);
 
+  useEffect(() => {
+    if (!isFrontpage) {
+      setIsAtTop(false);
+      return;
+    }
+
+    const handleScroll = () => {
+      setIsAtTop(window.scrollY <= 8);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isFrontpage]);
+
+  const transparentHeader = isFrontpage && isAtTop && !searchOpen;
+
   return (
-    <header>
+    <header
+      className={cx(
+        styles.header,
+        isFrontpage && styles.frontpageHeader,
+        transparentHeader ? styles.transparentHeader : styles.solidHeader,
+      )}
+    >
       <div className={styles.content}>
         <HeaderLogo />
 
@@ -249,7 +275,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {searchOpen && <Search />}
     </header>
   );
 };

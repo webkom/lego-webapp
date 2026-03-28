@@ -12,6 +12,10 @@
   }
 }
 
+html[data-theme='dark'] .footer {
+  background-color: #021631;
+}
+
 .footerContent {
   composes: container from '../../styles/utilities.module.css';
   display: flex;
@@ -177,7 +181,7 @@ img.octocat {
 }
 
 html[data-theme='dark'] .bottom {
-  background-color: var(--color-blue-4);
+  background-color: #021631;
 }
 
 .bottomContent {

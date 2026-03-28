@@ -103,6 +103,7 @@ const Search = () => {
           query={query}
           handleKeyDown={handleKeyDown}
           onQueryChanged={onQueryChanged}
+          onCloseSearch={onCloseSearch}
         />
         <div className={styles.resultsContainer}>
           {query.length > 0 ? (

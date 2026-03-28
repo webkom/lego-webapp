@@ -1,5 +1,5 @@
 import { Flex, Icon } from '@webkom/lego-bricks';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import styles from './Search.module.css';
 import type { Dispatch, KeyboardEventHandler, SetStateAction } from 'react';
 
@@ -7,6 +7,7 @@ type Props = {
   query: string;
   onQueryChanged: Dispatch<SetStateAction<string>>;
   handleKeyDown: KeyboardEventHandler<HTMLElement>;
+  onCloseSearch: () => void;
 };
 
 const searchFields = [
@@ -20,7 +21,12 @@ const searchFields = [
   },
 ];
 
-const SearchBar = ({ query, onQueryChanged, handleKeyDown }: Props) => {
+const SearchBar = ({
+  query,
+  onQueryChanged,
+  handleKeyDown,
+  onCloseSearch,
+}: Props) => {
   return (
     <Flex
       className={styles.inputContainer}
@@ -42,6 +48,9 @@ const SearchBar = ({ query, onQueryChanged, handleKeyDown }: Props) => {
           ref={(input) => input && k.autoFocus && input.focus()}
         />
       ))}
+      <button className={styles.closeButton} onClick={onCloseSearch}>
+        <Icon iconNode={<X />} size={24} />
+      </button>
     </Flex>
   );
 };
