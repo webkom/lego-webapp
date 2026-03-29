@@ -1,6 +1,8 @@
 import { Flex } from '@webkom/lego-bricks';
 import { sample } from 'lodash-es';
 import {
+  Accessibility,
+  ArrowUpDown,
   Banana,
   BookImage,
   BookOpenText,
@@ -13,24 +15,23 @@ import {
   Gamepad,
   Group,
   Info,
+  Lock,
   MailSearch,
   MailWarning,
   MessageCircleHeart,
-  MessageCircleWarning,
   MessageCircleQuestion,
+  MessageCircleWarning,
   MessageCircleX,
+  MessageSquareQuote,
   MountainSnow,
   Newspaper,
   Phone,
   ReceiptText,
   ScrollText,
   Send,
-  Users,
   ShoppingCart,
-  Accessibility,
   Trophy,
-  MessageSquareQuote,
-  Lock,
+  Users,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import Tag from '~/components/Tags/Tag';
@@ -125,6 +126,18 @@ const LINKS: Array<Link> = [
     title: 'Møter',
     icon: <Users />,
     url: '/meetings',
+  },
+  {
+    key: 'SixSeven',
+    requireLogin: true,
+    title: (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        ??? <Tag tag="67" color="red"></Tag>
+      </Flex>
+    ),
+    sortTitle: 'Utlån',
+    icon: <ArrowUpDown />,
+    url: '/SixSeven',
   },
   {
     key: 'quotes',

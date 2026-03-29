@@ -1,21 +1,14 @@
 import {
-  Icon,
   BaseCard,
   CardFooter,
   Flex,
+  Icon,
+  Image,
   LinkButton,
   Skeleton,
-  Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import {
-  Contact,
-  ImageOff,
-  Package,
-  Tag,
-  FolderOpen,
-  Plus,
-} from 'lucide-react';
+import { Contact, FolderOpen, ImageOff, Package, Plus } from 'lucide-react';
 import { useMemo } from 'react';
 import EmptyState from '~/components/EmptyState';
 import { readmeIfy } from '~/components/ReadmeLogo';
