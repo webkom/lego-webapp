@@ -35,6 +35,7 @@ import styles from '../InterestGroup.module.css';
 import InterestGroupMemberModal from '../InterestGroupMemberModal';
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { TransformedMembership } from '~/redux/slices/memberships';
+import img from '~/assets/interest-group-logos/facacd6fc89c9e17c806d01fde148136.png';
 
 type MembersProps = {
   memberships: TransformedMembership[];
@@ -75,15 +76,20 @@ const ButtonRow = ({ group, memberships }: ButtonRowProps) => {
     : () => dispatch(joinGroup(group.id, currentUser));
 
   return (
-    <ButtonGroup>
-      <Button
-        success={membership === undefined}
-        danger={membership !== undefined}
-        onPress={onClick}
-      >
-        {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
-      </Button>
-    </ButtonGroup>
+    <>
+      <ButtonGroup>
+        <Button
+          success={membership === undefined}
+          danger={membership !== undefined}
+          onPress={onClick}
+        >
+          {membership ? 'Forlat gruppen' : 'Bli med i gruppen'}
+        </Button>
+      </ButtonGroup>
+      {membership && group.name === 'AbaCraft' && (
+        <Image src={img} alt="something" />
+      )}{' '}
+    </>
   );
 };
 

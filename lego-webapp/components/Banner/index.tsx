@@ -71,7 +71,9 @@ const Banner = ({
       <Card className={cx(styles.header, color && COLORS[color])}>
         <h1 className={styles.headerTitle}>{header}</h1>
 
-        {hasCountdown && showEgg && <Image src={img} alt="Egg" className={styles.egg} />}
+        {hasCountdown && showEgg && (
+          <Image src={img} alt="Egg" className={styles.egg} />
+        )}
 
         {hasCountdown && (
           <div className={styles.countdown}>
