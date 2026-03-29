@@ -3,20 +3,21 @@ import {
   DialogTrigger,
   Flex,
   Icon,
-  Modal,
   Image,
-  Page,
-  LoadingPage,
   LinkButton,
+  LoadingPage,
+  Modal,
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { uniqBy, orderBy } from 'lodash-es';
+import { orderBy, uniqBy } from 'lodash-es';
 import { QrCode, SettingsIcon } from 'lucide-react';
 import moment from 'moment-timezone';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
 import frame from '~/assets/frame.png';
+import EventItem from '~/components/EventItem';
 import EventListCompact from '~/components/EventListCompact';
 import { ProfilePicture } from '~/components/Image';
 import { ProfileCard } from '~/components/ProfileCard';
@@ -31,10 +32,11 @@ import { fetchPrevious, fetchUpcoming } from '~/redux/actions/EventActions';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { fetchUser } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventStatusType, EventType, ListEvent } from '~/redux/models/Event';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectAllEvents } from '~/redux/slices/events';
-import { selectGroupsByType, selectGroupEntities } from '~/redux/slices/groups';
+import { selectGroupEntities, selectGroupsByType } from '~/redux/slices/groups';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectUserByUsername } from '~/redux/slices/users';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
@@ -45,7 +47,6 @@ import Penalties from './_components/Penalties';
 import PhotoConsents from './_components/PhotoConsents';
 import styles from './_components/UserProfile.module.css';
 import type { ExclusifyUnion } from 'app/types';
-import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 import type { CurrentUser, PublicUserWithGroups } from '~/redux/models/User';
 
@@ -294,6 +295,33 @@ const UserProfile = () => {
                 noEventsMessage="Du har ingen tidligere arrangementer"
                 eventStyle="extra-compact"
                 loading={previousEventsPagination.fetching}
+              />
+              <EventItem
+                event={{
+                  id: 4053,
+                  title: '???',
+                  slug: '4053',
+                  description: 'Dette er svært mystisk',
+                  cover: '',
+                  coverPlaceholder: '',
+                  eventType: EventType.OTHER,
+                  eventStatusType: EventStatusType.TBA,
+                  location: 'Hjemme hos haren',
+                  startTime: '1990-01-01T12:00:00Z',
+                  endTime: '1990-01-01T14:00:00Z',
+                  showCompanyDescription: false,
+                  totalCapacity: 0,
+                  registrationCount: 0,
+                  tags: [],
+                  company: undefined,
+                  activationTime: '1990-01-01T00:00:00Z',
+                  isAdmitted: false,
+                  survey: undefined,
+                  thumbnail: '',
+                  responsibleUsers: [],
+                }}
+                showTags={false}
+                eventStyle="default"
               />
             </div>
           )}
