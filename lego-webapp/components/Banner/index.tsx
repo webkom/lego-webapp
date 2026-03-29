@@ -1,6 +1,7 @@
-import { Card } from '@webkom/lego-bricks';
+import { Card, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { Dateish } from 'app/models';
+import img from '~/assets/interest-group-logos/5e6d79e3bdf170ee76d909a3961a95d7.png';
 import Countdown from '~/components/Countdown';
 import styles from './Banner.module.css';
 import type { ReactNode } from 'react';
@@ -16,12 +17,15 @@ export const COLORS = {
   easter: styles.easter,
   christmas: styles.christmas,
 };
+
 export type Color = $Keys<typeof COLORS>;
+
 type LinkComponentProps = {
   link?: string;
   children: ReactNode;
   className?: string;
 };
+
 type Props = {
   header: string;
   subHeader?: string;
@@ -59,11 +63,16 @@ const Banner = ({
   countdownEndMessage = 'Tiden er ute!',
 }: Props) => {
   const hasCountdown = countdownEndDate != null;
+  const currentHour = new Date().getHours();
+  const showEgg = currentHour >= 2 && currentHour < 5;
 
   return (
     <LinkComponent className={className} link={link}>
       <Card className={cx(styles.header, color && COLORS[color])}>
         <h1 className={styles.headerTitle}>{header}</h1>
+
+        {hasCountdown && showEgg && <Image src={img} alt="Egg" className={styles.egg} />}
+
         {hasCountdown && (
           <div className={styles.countdown}>
             <Countdown
@@ -73,6 +82,7 @@ const Banner = ({
             />
           </div>
         )}
+
         {subHeader && <h4 className={styles.subHeader}>{subHeader}</h4>}
       </Card>
     </LinkComponent>

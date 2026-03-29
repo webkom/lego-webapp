@@ -300,3 +300,11 @@ div.christmas {
     transform: rotate(0deg);
   }
 }
+
+
+.egg {
+  display: block;
+  margin: 0 auto 0.4rem;
+  max-width: 30px;
+  height: auto;
+}
