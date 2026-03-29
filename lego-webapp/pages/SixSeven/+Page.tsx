@@ -104,6 +104,7 @@ const SixSeven = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [danceCompleted, setDanceCompleted] = useState(false);
+  const [cameraError, setCameraError] = useState(false); // Used if they disable access.
 
   useEffect(() => {
     const videoElement = videoRef.current;
@@ -117,7 +118,7 @@ const SixSeven = () => {
       canvasCtx.save();
       canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
 
-      // Flip horizontally for a mirror effect
+      // Flip horizontally for a mirror effect, looks more normal that way
       canvasCtx.translate(canvasElement.width, 0);
       canvasCtx.scale(-1, 1);
       canvasCtx.drawImage(
@@ -165,7 +166,7 @@ const SixSeven = () => {
       const barH = 30;
 
       canvasCtx.fillStyle = '#333333';
-      canvasCtx.fillRect(barX, barY, barW, barH); // Background
+      canvasCtx.fillRect(barX, barY, barW, barH);
 
       const fillWidth = (processor.danceMeter / processor.meterMax) * barW;
       canvasCtx.fillStyle = '#FF00FF';
@@ -208,7 +209,10 @@ const SixSeven = () => {
       height: 720,
     });
 
-    camera.start();
+    camera.start().catch((error: Error) => {
+      console.error('Camera failed to start:', error);
+      setCameraError(true);
+    });
 
     return () => {
       camera.stop();
@@ -223,14 +227,31 @@ const SixSeven = () => {
         flexDirection: 'column',
         alignItems: 'center',
         fontFamily: 'sans-serif',
+        marginTop: '20px',
       }}
     >
       {danceCompleted ? (
-        <Flex column gap={30}>
+        <Flex
+          column
+          gap={30}
+          alignItems="center"
+          width={'400px'}
+          style={{ textAlign: 'center' }}
+        >
           <Image src={img} alt="6-7" />
           <h2>
-            Gratulerer! Som takk for den fine dansen får du dette fine egget!
+            Gratulerer! Som takk for den fine dansen får du dette fantastiske
+            egget!
           </h2>
+        </Flex>
+      ) : cameraError ? (
+        <Flex column gap={20} alignItems="center">
+          <h2>Kamera-tilgang mangler :(</h2>
+          <p>
+            For å skaffe dette egget, trenger vi tilgang til kameraet ditt.
+            Vennligst tillat kamerabruk i nettleseren din og oppdater siden.
+            Ingenting blir lagret noen plass!
+          </p>
         </Flex>
       ) : (
         <div style={{ position: 'relative', width: '1280px', height: '720px' }}>
@@ -249,8 +270,8 @@ const SixSeven = () => {
           />
         </div>
       )}
-      <p>{danceCompleted}</p>
     </div>
   );
 };
+
 export default SixSeven;

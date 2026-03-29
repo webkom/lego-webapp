@@ -7,17 +7,26 @@ import {
   Image,
   LinkButton,
   LoadingIndicator,
-  Page
+  Page,
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Pencil } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import img from '~/assets/interest-group-logos/facacd6fc89c9e17c806d01fde148136.png';
 import AnnouncementInLine from '~/components/AnnouncementInLine';
-import { ContentMain, ContentSection, ContentSidebar } from '~/components/Content';
+import {
+  ContentMain,
+  ContentSection,
+  ContentSidebar,
+} from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
 import UserGrid from '~/components/UserGrid';
-import { fetchAllMemberships, fetchGroup, joinGroup, leaveGroup } from '~/redux/actions/GroupActions';
+import {
+  fetchAllMemberships,
+  fetchGroup,
+  joinGroup,
+  leaveGroup,
+} from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectGroupById } from '~/redux/slices/groups';
