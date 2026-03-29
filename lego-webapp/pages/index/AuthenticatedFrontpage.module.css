@@ -1,18 +1,29 @@
 @import url('styles/custom-media.css');
 
 .page {
+  --frontpage-top-background-height: clamp(34rem, 100vh, 56rem);
   position: relative;
   margin-top: calc(-1 * var(--lego-header-height));
   padding-top: var(--lego-header-height);
   overflow-x: clip;
-  background: linear-gradient(
-    180deg,
-    #d1daff 10%,
-    rgba(209, 218, 255, 0.82) 20%,
-    rgba(206, 228, 254, 0.42) 26%,
-    rgba(230, 241, 255, 0.12) 30%,
-    rgba(230, 241, 255, 0) 50%
-  );
+  background-color: var(--lego-background-color);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--frontpage-top-background-height);
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      #c8d5ff 0%,
+      rgba(207, 219, 255, 0.96) 18%,
+      rgba(201, 222, 255, 0.74) 32%,
+      rgba(211, 229, 255, 0.48) 48%,
+      rgba(226, 239, 255, 0.22) 68%,
+      rgba(230, 241, 255, 0) 100%
+    );
+  }
 }
 
 .content {
@@ -122,10 +133,11 @@ section.wrapper {
   pointer-events: none;
   background: linear-gradient(
     180deg,
-    transparent 0%,
-    transparent 70%,
-    rgba(209, 218, 255, 0.58) 82%,
-    rgba(230, 241, 255, 0.18) 100%
+    rgba(204, 221, 255, 0.08) 0%,
+    rgba(204, 221, 255, 0.16) 42%,
+    rgba(202, 219, 255, 0.5) 72%,
+    rgba(209, 218, 255, 0.82) 86%,
+    rgba(230, 241, 255, 0.3) 100%
   );
 }
 
@@ -192,15 +204,19 @@ section.wrapper {
 }
 
 :global([data-theme='dark']) .page {
-  background: linear-gradient(
-    180deg,
-    #292877 0%,
-    #1a2360 14%,
-    #021631 20%,
-    #021631 25%,
-    var(--lego-background-color) 30%,
-    var(--lego-background-color) 100%
-  );
+  background-color: var(--lego-background-color);
+
+  &::before {
+    background: linear-gradient(
+      180deg,
+      #343192 0%,
+      rgba(43, 52, 129, 0.99) 14%,
+      rgba(21, 41, 96, 0.96) 30%,
+      rgba(8, 29, 66, 0.91) 48%,
+      rgba(4, 24, 54, 0.54) 72%,
+      var(--lego-background-color) 100%
+    );
+  }
 }
 
 :global([data-theme='dark']) .waveTop {
@@ -218,9 +234,10 @@ section.wrapper {
 :global([data-theme='dark']) .waveViewport {
   background: linear-gradient(
     180deg,
-    transparent 100%,
-    transparent 100%,
-    rgba(2, 22, 49, 0.42) 100%,
+    rgba(8, 32, 74, 0.14) 0%,
+    rgba(7, 31, 70, 0.28) 40%,
+    rgba(5, 27, 60, 0.62) 70%,
+    rgba(3, 24, 53, 0.88) 84%,
     #021631 100%
   );
 }
@@ -257,26 +274,32 @@ section.wrapper {
 
 @media (--mobile-device) {
   .page {
-    background: linear-gradient(
-      180deg,
-      #d1daff 0%,
-      rgba(209, 218, 255, 0.82) 20%,
-      rgba(206, 228, 254, 0.42) 27%,
-      rgba(230, 241, 255, 0.12) 20%,
-      rgba(230, 241, 255, 0) 50%
-    );
+    --frontpage-top-background-height: clamp(28rem, 95vh, 40rem);
+
+    &::before {
+      background: linear-gradient(
+        180deg,
+        #c8d5ff 0%,
+        rgba(207, 219, 255, 0.96) 18%,
+        rgba(201, 222, 255, 0.74) 34%,
+        rgba(211, 229, 255, 0.44) 52%,
+        rgba(230, 241, 255, 0.2) 72%,
+        rgba(230, 241, 255, 0) 100%
+      );
+    }
   }
 
   :global([data-theme='dark']) .page {
-    background: linear-gradient(
-      180deg,
-      #292877 0%,
-      #1a2360 10%,
-      #021631 25%,
-      #021631 15%,
-      var(--lego-background-color) 28%,
-      var(--lego-background-color) 100%
-    );
+    &::before {
+      background: linear-gradient(
+        180deg,
+        #343192 0%,
+        rgba(43, 52, 129, 0.99) 14%,
+        rgba(21, 41, 96, 0.94) 34%,
+        rgba(5, 27, 60, 0.48) 64%,
+        var(--lego-background-color) 100%
+      );
+    }
   }
 
   .waveViewport {
