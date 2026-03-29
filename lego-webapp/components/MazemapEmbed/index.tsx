@@ -1,5 +1,6 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Icon, Tooltip } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Info } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Keyboard } from '~/utils/constants';
 import { useWaitForGlobal } from '~/utils/useWaitForGlobal';
@@ -22,30 +23,40 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
   const Mazemap = useWaitForGlobal('Mazemap');
   const [blockScrollZoom, setBlockScrollZoom] = useState<boolean>(false);
   const [blockTouchMovement, setBlockTouchZoom] = useState<boolean>(false);
+  const [webglError, setWebglError] = useState<boolean>(false);
+
   //initialize map only once, mazemapPoi will probably not change
   useEffect(() => {
     if (!Mazemap) return;
-    const embeddedMazemap = new Mazemap.Map({
-      container: 'mazemap-embed',
-      campuses: 1,
-      center: {
-        lng: 10.4042965,
-        lat: 63.4154135,
-      },
-      zLevel: 3,
-      zoom: 16,
-      minZoom: 10,
-      maxZoom: 20,
-      zLevelControl: true,
-      scrollZoom: false,
-      doubleClickZoom: false,
-      dragRotate: false,
-      dragPan: false,
-      touchZoomRotate: false,
-      touchPitch: false,
-      //this is a horrible feature
-      pitchWithRotate: false,
-    });
+
+    let embeddedMazemap;
+
+    try {
+      embeddedMazemap = new Mazemap.Map({
+        container: 'mazemap-embed',
+        campuses: 1,
+        center: {
+          lng: 10.4042965,
+          lat: 63.4154135,
+        },
+        zLevel: 3,
+        zoom: 16,
+        minZoom: 10,
+        maxZoom: 20,
+        zLevelControl: true,
+        scrollZoom: false,
+        doubleClickZoom: false,
+        dragRotate: false,
+        dragPan: false,
+        touchZoomRotate: false,
+        touchPitch: false,
+        //this is a horrible feature
+        pitchWithRotate: false,
+      });
+    } catch {
+      setWebglError(true);
+      return;
+    }
 
     embeddedMazemap.dragPan._mousePan.enable();
 
@@ -150,6 +161,12 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     return () => {
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
+
+      try {
+        embeddedMazemap?.remove?.();
+      } catch {
+        //ignore
+      }
     };
   }, [Mazemap, mazemapPoi, isMac]);
 
@@ -166,27 +183,39 @@ export const MazemapEmbed = ({ mazemapPoi, ...props }: Props) => {
     );
   }
 
-  return (
-    <Flex column gap="var(--spacing-sm)">
-      <div
-        style={{
-          height: props.height || 400,
-          opacity: blockScrollZoom || blockTouchMovement ? 0.5 : 1,
-          touchAction: 'pan-x pan-y',
-        }}
-        id="mazemap-embed"
-        className={cx(styles.mazemapEmbed, props.className)}
-      >
-        {(blockScrollZoom || blockTouchMovement) && (
-          <span className={styles.blockingText}>
-            {blockScrollZoom
-              ? `Hold ${isMac ? '⌘' : 'ctrl'} for å zoome`
-              : 'Bruk to fingre for å flytte kartet'}
-          </span>
-        )}
-      </div>
-    </Flex>
-  );
+  if (webglError) {
+    return (
+      <Flex gap={'var(--spacing-xs)'} justifyContent="center">
+        <p>Nettleseren støtter ikke WebGL.</p>
+        <Tooltip content="Prøv å slå på grafikkakselerasjon i nettleserinnstillingene dine.">
+          <Icon iconNode={<Info />} size={18} />
+        </Tooltip>
+      </Flex>
+    );
+  }
+  {
+    return (
+      <Flex column gap="var(--spacing-sm)">
+        <div
+          style={{
+            height: props.height || 400,
+            opacity: blockScrollZoom || blockTouchMovement ? 0.5 : 1,
+            touchAction: 'pan-x pan-y',
+          }}
+          id="mazemap-embed"
+          className={cx(styles.mazemapEmbed, props.className)}
+        >
+          {(blockScrollZoom || blockTouchMovement) && (
+            <span className={styles.blockingText}>
+              {blockScrollZoom
+                ? `Hold ${isMac ? '⌘' : 'ctrl'} for å zoome`
+                : 'Bruk to fingre for å flytte kartet'}
+            </span>
+          )}
+        </div>
+      </Flex>
+    );
+  }
 };
 
 export const mazemapDeps = (
