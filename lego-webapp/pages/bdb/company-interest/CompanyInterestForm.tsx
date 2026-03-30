@@ -1,7 +1,6 @@
 import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import arrayMutators from 'final-form-arrays';
-import { useEffect } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
@@ -354,9 +353,11 @@ const CompanyInterestForm = ({ language }: Props) => {
     [companyInterestId, edit],
   );
 
-  useEffect(() => {
-    dispatch(fetchReadmes(2));
-  }, [dispatch]);
+  usePreparedEffect(
+    'fetchReadmes',
+    () => dispatch(fetchReadmes(2)),
+    [dispatch],
+  );
 
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(OTHER_OFFERS);
