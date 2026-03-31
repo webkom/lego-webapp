@@ -187,16 +187,10 @@ const Footer = () => {
               alt="Bekk sin logo"
             />
           </a>
-          <a
-            style={{ color: 'var(--color-blue-5)' }}
-            href="/pages/personvern/114-informasjonskapsler"
-          >
+          <a href="/pages/personvern/114-informasjonskapsler">
             Informasjonskapsler (cookies)
           </a>
-          <a
-            style={{ color: 'var(--color-blue-5)' }}
-            href="/pages/personvern/124-personvernserklring"
-          >
+          <a href="/pages/personvern/124-personvernserklring">
             Personvernerklæring
           </a>
           <span>© {moment().year()} Abakus</span>

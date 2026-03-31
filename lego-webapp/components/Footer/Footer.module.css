@@ -91,7 +91,7 @@ html[data-theme='dark'] .footerContent {
 }
 
 html[data-theme='dark'] .footerContent a {
-  color: var(--color-blue-2);
+  color: var(--color-blue-5);
 
   &:hover:not(.statusLink) {
     color: var(--color-blue-3);
@@ -99,15 +99,15 @@ html[data-theme='dark'] .footerContent a {
 }
 
 .bottomContent a {
-  color: var(--color-red-9);
+  color: var(--color-blue-5);
 
   &:hover {
-    color: var(--color-red-8);
+    color: var(--color-blue-7);
   }
 }
 
 html[data-theme='dark'] .bottomContent a {
-  color: var(--color-blue-1);
+  color: var(--color-blue-5);
 
   &:hover {
     color: var(--color-blue-2);
