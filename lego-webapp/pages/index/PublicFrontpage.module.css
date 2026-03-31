@@ -1,17 +1,41 @@
 @import url('styles/custom-media.css');
 
-div.wrapper {
-  display: grid;
-  grid-gap: var(--spacing-xl);
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-auto-rows: auto;
-  grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links links';
-  padding: 0 var(--spacing-md);
+.page {
+  --frontpage-top-background-height: clamp(34rem, 100vh, 56rem);
+  position: relative;
+  margin-top: calc(-1 * var(--lego-header-height));
+  padding-top: var(--lego-header-height);
+  overflow-x: clip;
+  background-color: var(--lego-background-color);
 
-  @media (--mobile-device) {
-    grid-template-columns: 1fr;
-    grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links';
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--frontpage-top-background-height);
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      #c8d5ff 0%,
+      rgba(207, 219, 255, 0.96) 18%,
+      rgba(201, 222, 255, 0.74) 32%,
+      rgba(211, 229, 255, 0.48) 48%,
+      rgba(226, 239, 255, 0.22) 68%,
+      rgba(230, 241, 255, 0) 100%
+    );
   }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+section.wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--spacing-md) var(--spacing-xl);
+  gap: var(--spacing-xl);
 
   h1 {
     margin-top: 0;
@@ -23,16 +47,79 @@ div.wrapper {
   }
 }
 
-.welcome i {
-  display: inline;
+.topGrid {
+  display: grid;
+  grid-template:
+    'welcome welcome login'
+    'events events login'
+    / minmax(0, 1fr) minmax(0, 1fr) minmax(18rem, 0.9fr);
+  gap: var(--spacing-xl);
+
+  @media (--mobile-device) {
+    grid-template:
+      'welcome'
+      'login'
+      'events';
+  }
+}
+
+.welcome {
+  grid-area: welcome;
+
+  i {
+    display: inline;
+  }
 }
 
 .login {
+  grid-area: login;
   height: fit-content;
+}
+
+.events {
+  grid-area: events;
+}
+
+.lowerContent {
+  position: relative;
+  padding-top: clamp(3rem, 8vw, 5.5rem);
+  isolation: isolate;
+}
+
+.lowerGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template:
+    'article hsp'
+    'article readme'
+    'links links'
+    / minmax(0, 2fr) minmax(18rem, 1fr);
+  gap: var(--spacing-xl);
+
+  @media (--mobile-device) {
+    grid-template:
+      'hsp'
+      'article'
+      'readme'
+      'links';
+  }
+}
+
+.article {
+  grid-area: article;
 }
 
 .links {
   grid-area: links;
+}
+
+.hspCard {
+  grid-area: hsp;
+}
+
+.readme {
+  grid-area: readme;
 }
 
 .hsp {
@@ -40,14 +127,26 @@ div.wrapper {
 }
 
 .hspImage {
-  width: 50%;
+  width: min(50%, 18rem);
   height: auto;
   display: block;
   margin: auto;
 }
 
 .usefulLink {
-  width: 325px;
+  width: 100%;
+  height: 100%;
+}
+
+.usefulLinksGrid {
+  align-items: stretch;
+}
+
+.usefulLinkItem {
+  display: block;
+  flex: 1 1 325px;
+  width: min(100%, 325px);
+  max-width: 325px;
 }
 
 .usefulLinkHeader {
@@ -80,9 +179,241 @@ div.wrapper {
 div.LinkButtonContainer {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  gap: var(--spacing-sm);
 }
 
 .links a {
   color: var(--tihlde-color);
+}
+
+.waveViewport {
+  --wave-fill-top: var(--lego-background-color);
+  --wave-fill-middle: var(--lego-background-color);
+  --wave-fill-bottom: var(--lego-background-color);
+  position: absolute;
+  inset: clamp(-9rem, -14vw, -6rem) calc(50% - 50vw) auto;
+  width: 100vw;
+  max-width: none;
+  height: clamp(12rem, 22vw, 18rem);
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(204, 221, 255, 0.08) 0%,
+    rgba(204, 221, 255, 0.16) 42%,
+    rgba(202, 219, 255, 0.5) 72%,
+    rgba(209, 218, 255, 0.82) 86%,
+    rgba(230, 241, 255, 0.3) 100%
+  );
+}
+
+.waveInner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.waveLayer {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transform-origin: bottom;
+  will-change: transform;
+}
+
+.waveTop {
+  color: var(--wave-fill-top);
+  opacity: 0.2;
+  animation: waveTop 28s linear infinite;
+}
+
+.waveMiddle {
+  color: var(--wave-fill-middle);
+  opacity: 0.32;
+  animation: waveMiddle 20s linear infinite;
+}
+
+.waveBottom {
+  color: var(--wave-fill-bottom);
+  opacity: 0.44;
+  animation: waveBottom 14s linear infinite;
+}
+
+.waveSvg {
+  flex: 0 0 33.3334%;
+  width: 33.3334%;
+  height: 100%;
+  fill: currentColor;
+  transform: scaleY(0.56);
+  transform-origin: center bottom;
+}
+
+:global([data-theme='dark']) .page {
+  background-color: var(--lego-background-color);
+
+  &::before {
+    background: linear-gradient(
+      180deg,
+      #343192 0%,
+      rgba(43, 52, 129, 0.99) 14%,
+      rgba(21, 41, 96, 0.96) 30%,
+      rgba(8, 29, 66, 0.91) 48%,
+      rgba(4, 24, 54, 0.54) 72%,
+      var(--lego-background-color) 100%
+    );
+  }
+}
+
+:global([data-theme='dark']) .waveTop {
+  opacity: 0.12;
+}
+
+:global([data-theme='dark']) .waveMiddle {
+  opacity: 0.2;
+}
+
+:global([data-theme='dark']) .waveBottom {
+  opacity: 0.28;
+}
+
+:global([data-theme='dark']) .waveViewport {
+  background: linear-gradient(
+    180deg,
+    rgba(8, 32, 74, 0.14) 0%,
+    rgba(7, 31, 70, 0.28) 40%,
+    rgba(5, 27, 60, 0.62) 70%,
+    rgba(3, 24, 53, 0.88) 84%,
+    #021631 100%
+  );
+}
+
+@keyframes waveTop {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-33.3334%, 0, 0);
+  }
+}
+
+@keyframes waveMiddle {
+  from {
+    transform: translate3d(-6%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-39.3334%, 0, 0);
+  }
+}
+
+@keyframes waveBottom {
+  from {
+    transform: translate3d(-12%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-45.3334%, 0, 0);
+  }
+}
+
+@media (--mobile-device) {
+  .topGrid {
+    position: relative;
+    z-index: 2;
+  }
+
+  .lowerContent {
+    z-index: 1;
+  }
+
+  .page {
+    --frontpage-top-background-height: clamp(36rem, 122vh, 52rem);
+
+    &::before {
+      background: linear-gradient(
+        180deg,
+        #c8d5ff 0%,
+        rgba(207, 219, 255, 0.96) 18%,
+        rgba(201, 222, 255, 0.8) 40%,
+        rgba(211, 229, 255, 0.54) 64%,
+        rgba(230, 241, 255, 0.24) 84%,
+        rgba(230, 241, 255, 0) 100%
+      );
+    }
+  }
+
+  :global([data-theme='dark']) .page {
+    &::before {
+      background: linear-gradient(
+        180deg,
+        #343192 0%,
+        rgba(43, 52, 129, 0.99) 14%,
+        rgba(21, 41, 96, 0.95) 44%,
+        rgba(5, 27, 60, 0.58) 80%,
+        var(--lego-background-color) 100%
+      );
+    }
+  }
+
+  .waveViewport {
+    height: 9rem;
+    inset: -45rem calc(50% - 50vw) auto;
+    z-index: -10;
+  }
+
+  .waveTop {
+    opacity: 0.28;
+  }
+
+  .waveMiddle {
+    opacity: 0.42;
+  }
+
+  .waveBottom {
+    opacity: 0.58;
+  }
+
+  :global([data-theme='dark']) .waveTop {
+    opacity: 0.2;
+  }
+
+  :global([data-theme='dark']) .waveMiddle {
+    opacity: 0.3;
+  }
+
+  :global([data-theme='dark']) .waveBottom {
+    opacity: 0.4;
+  }
+
+  .waveSvg {
+    transform: scaleY(0.48);
+  }
+
+  .lowerContent {
+    padding-top: 2.5rem;
+  }
+
+  .usefulLink {
+    width: 100%;
+  }
+
+  .usefulLinkItem {
+    width: 100%;
+    max-width: none;
+  }
+
+  .usefulLinkGraphic {
+    max-height: 16rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveTop,
+  .waveMiddle,
+  .waveBottom {
+    animation: none;
+  }
 }

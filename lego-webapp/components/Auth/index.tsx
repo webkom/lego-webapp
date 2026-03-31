@@ -14,6 +14,7 @@ import {
   RegisterForm,
 } from '~/components/LoginForm';
 import { ContentMain } from '../Content';
+import styles from './Login.module.css';
 import type { ComponentType } from 'react';
 
 enum AuthMode {
@@ -80,7 +81,7 @@ const Auth = ({ asPage = false, loginRequired = false }: Props) => {
   }
 
   return (
-    <Flex column gap="var(--spacing-sm)">
+    <Flex className={styles.wrapper} column gap="var(--spacing-sm)">
       <Flex
         wrap
         gap="var(--spacing-sm)"

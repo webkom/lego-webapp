@@ -29,6 +29,7 @@ import { selectPinned } from '~/redux/slices/frontpage';
 import utilStyles from '~/styles/utilities.module.css';
 import CompactEvents from './CompactEvents';
 import styles from './PublicFrontpage.module.css';
+import WaveSvg from './WaveSvg';
 
 const PublicFrontpage = () => {
   const dispatch = useAppDispatch();
@@ -52,53 +53,90 @@ const PublicFrontpage = () => {
   );
 
   return (
-    <PageContainer card={false}>
-      {currentPublicBanner && (
-        <Banner
-          header={currentPublicBanner.header}
-          subHeader={currentPublicBanner.subheader}
-          link={currentPublicBanner.link}
-          color={currentPublicBanner.color}
-          countdownEndDate={currentPublicBanner.countdownEndDate || undefined}
-          countdownEndMessage={
-            currentPublicBanner.countdownEndMessage || undefined
-          }
-        />
-      )}
-      <div className={styles.wrapper}>
-        <Welcome />
-        <Card className={styles.login} style={{ gridArea: 'login' }}>
-          <Auth />
-        </Card>
-        <CompactEvents style={{ gridArea: 'events' }} />
-        <Card style={{ gridArea: 'hsp' }}>
-          <HspInfo />
-        </Card>
-        <Pinned
-          style={{ gridArea: 'article' }}
-          item={pinned}
-          url={itemUrl(pinned)}
-          meta={renderMeta(pinned)}
-        />
-        <LatestReadme
-          expandedInitially
-          collapsible={false}
-          style={{ gridArea: 'readme' }}
-          displayCount={2}
-        />
-        <UsefulLinks />
-      </div>
-    </PageContainer>
+    <div className={styles.page}>
+      <PageContainer card={false}>
+        <div className={styles.content}>
+          {currentPublicBanner && (
+            <Banner
+              header={currentPublicBanner.header}
+              subHeader={currentPublicBanner.subheader}
+              link={currentPublicBanner.link}
+              color={currentPublicBanner.color}
+              countdownEndDate={
+                currentPublicBanner.countdownEndDate || undefined
+              }
+              countdownEndMessage={
+                currentPublicBanner.countdownEndMessage || undefined
+              }
+            />
+          )}
+          <section className={styles.wrapper}>
+            <div className={styles.topGrid}>
+              <Welcome />
+              <Card className={styles.login}>
+                <Auth />
+              </Card>
+              <CompactEvents className={styles.events} />
+            </div>
+            <div className={styles.lowerContent}>
+              <div aria-hidden="true" className={styles.waveViewport}>
+                <div className={styles.waveInner}>
+                  <div className={`${styles.waveLayer} ${styles.waveTop}`}>
+                    <WaveSvg className={styles.waveSvg} type="top" />
+                    <WaveSvg className={styles.waveSvg} type="top" />
+                    <WaveSvg className={styles.waveSvg} type="top" />
+                  </div>
+                  <div className={`${styles.waveLayer} ${styles.waveMiddle}`}>
+                    <WaveSvg className={styles.waveSvg} type="mid" />
+                    <WaveSvg className={styles.waveSvg} type="mid" />
+                    <WaveSvg className={styles.waveSvg} type="mid" />
+                  </div>
+                  <div className={`${styles.waveLayer} ${styles.waveBottom}`}>
+                    <WaveSvg className={styles.waveSvg} type="btm" />
+                    <WaveSvg className={styles.waveSvg} type="btm" />
+                    <WaveSvg className={styles.waveSvg} type="btm" />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.lowerGrid}>
+                <div className={styles.article}>
+                  <Pinned
+                    item={pinned}
+                    url={itemUrl(pinned)}
+                    meta={renderMeta(pinned)}
+                  />
+                </div>
+                <Card className={styles.hspCard}>
+                  <HspInfo />
+                </Card>
+                <div className={styles.readme}>
+                  <LatestReadme
+                    expandedInitially
+                    collapsible={false}
+                    displayCount={2}
+                  />
+                </div>
+                <UsefulLinks />
+              </div>
+            </div>
+          </section>
+        </div>
+      </PageContainer>
+    </div>
   );
 };
 
 const Welcome = () => (
-  <div className={styles.welcome} style={{ gridArea: 'welcome' }}>
+  <div className={styles.welcome}>
     <h1>Velkommen til Abakus</h1>
     <p>
-      Abakus er linjeforeningen for studentene ved <i>Datateknologi</i> &
-      <i> Cybersikkerhet og datakommunikasjon</i> på NTNU, og drives av
-      studenter ved disse studiene.
+      Abakus er linjeforeningen for studentene ved{' '}
+      <s>
+        <i>Datateknologi</i> &<i> Cybersikkerhet og datakommunikasjon</i>
+      </s>{" "}
+      Dataingeniør, Digital infrastruktur og cybersikkerhet, Digital
+      forretningsutvikling, Digital transformasjon og Informasjonsbehandling på
+      NTNU, og drives av studenter ved disse studiene.
     </p>
     <p>
       Abakus{"'"} formål er å gi disse studentene veiledning i
@@ -153,19 +191,19 @@ const usefulLinksConf = [
     isInternalLink: false,
   },
   {
-    title: 'Datateknologi',
+    title: 'Dataingeniør',
     image: dataGraphic,
     description:
-      'Datateknologi er en helt sentral del av alle fremtidsrettede teknologier; som for eksempel kunstig intelligens, medisinsk teknologi og søkemotorteknologi.',
+      'Dataingeniør er en helt sentral del av alle fremtidsrettede teknologier; som for eksempel kunstig intelligens, medisinsk teknologi og søkemotorteknologi.',
     buttonText: 'Sjekk ut studiet',
     link: 'https://www.ntnu.no/studier/mtdt',
     isInternalLink: false,
   },
   {
-    title: 'Cybersikkerhet og datakommunikasjon',
+    title: 'Digital infrastruktur og cybersikkerhet',
     image: komtekGraphic,
     description:
-      'Vi bruker stadig mer av livene våre på nett, på jobb som i fritid. Cybersikkerhet og datakommunikasjon blir stadig viktigere i en digital verden.',
+      'Vi bruker stadig mer av livene våre på nett, på jobb som i fritid. Digital infrastruktur og cybersikkerhet blir stadig viktigere i en digital verden.',
     buttonText: 'Sjekk ut studiet',
     link: 'https://www.ntnu.no/studier/mtkom',
     isInternalLink: false,
@@ -180,7 +218,7 @@ const usefulLinksConf = [
     isInternalLink: true,
   },
   {
-    title: 'readme',
+    title: 'Töddel',
     image: readmeGraphic,
     description:
       'Abakus har sitt eget magasin, readme. Her kan du lese om hva vi driver med, og få et innblikk i oss som organisasjon.',
@@ -194,13 +232,19 @@ const UsefulLinks = () => (
   <div className={styles.links}>
     <h3 className={utilStyles.frontPageHeader}>Nyttige lenker</h3>
 
-    <Flex wrap justifyContent="space-evenly" gap="var(--spacing-lg)">
+    <Flex
+      className={styles.usefulLinksGrid}
+      wrap
+      justifyContent="space-evenly"
+      gap="var(--spacing-lg)"
+    >
       {usefulLinksConf.map((item) => (
         <a
           href={item.link}
           key={item.title}
           rel="noreferrer"
           target={item.isInternalLink ? '_self' : '_blank'}
+          className={styles.usefulLinkItem}
         >
           <Card isHoverable className={styles.usefulLink}>
             <Card.Header className={styles.usefulLinkHeader}>

@@ -33,7 +33,7 @@ const LatestReadme = ({
             onClick={!disabled ? onClick : undefined}
           >
             <Flex justifyContent="space-between" alignItems="center">
-              {readmeIfy('readme')}
+            <h2 className={styles.toddel}>TÖDDEL</h2>
               {!disabled && (
                 <Icon
                   onPress={onClick}

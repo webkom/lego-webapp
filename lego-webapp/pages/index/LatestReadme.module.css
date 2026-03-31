@@ -11,6 +11,10 @@
   padding: 0;
 }
 
+.toddel {
+  color: var(--tihlde-color);
+}
+
 .pointer {
   cursor: pointer;
 }
