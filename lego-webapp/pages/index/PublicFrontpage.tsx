@@ -133,7 +133,7 @@ const Welcome = () => (
       Abakus er linjeforeningen for studentene ved{' '}
       <s>
         <i>Datateknologi</i> &<i> Cybersikkerhet og datakommunikasjon</i>
-      </s>{" "}
+      </s>{' '}
       Dataingeniør, Digital infrastruktur og cybersikkerhet, Digital
       forretningsutvikling, Digital transformasjon og Informasjonsbehandling på
       NTNU, og drives av studenter ved disse studiene.
