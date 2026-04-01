@@ -353,11 +353,9 @@ const CompanyInterestForm = ({ language }: Props) => {
     [companyInterestId, edit],
   );
 
-  usePreparedEffect(
-    'fetchReadmes',
-    () => dispatch(fetchReadmes(2)),
-    [dispatch],
-  );
+  usePreparedEffect('fetchReadmes', () => dispatch(fetchReadmes(2)), [
+    dispatch,
+  ]);
 
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(OTHER_OFFERS);
