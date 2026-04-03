@@ -300,7 +300,7 @@ const UserProfile = () => {
                 event={{
                   id: 4100, // When testing with staging, use 4053
                   title: '???',
-                  slug: '4053',
+                  slug: '4100', // When testing with staging, use 4053
                   description: 'Dette er svært mystisk',
                   cover: '',
                   coverPlaceholder: '',
