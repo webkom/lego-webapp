@@ -9,12 +9,12 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { unionBy } from 'lodash-es';
-import { Trash2 } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
+import deleteMeetingIcon from '~/assets/interest-group-logos/e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683.png';
 import Dropdown from '~/components/Dropdown';
 import {
   Button,
@@ -577,9 +577,8 @@ const MeetingEditor = () => {
                         <Icon
                           iconNode={
                             <img
-                              src={
-                                '../../../assets/interest-group-logos/e7f6c011776e8db7cd330b54174fd76f7d0216b612387a5ffcfb81e6f0919683.png'
-                              }
+                              src={deleteMeetingIcon}
+                              alt="Slett møtet"
                               style={{ width: 20 }}
                             ></img>
                           }

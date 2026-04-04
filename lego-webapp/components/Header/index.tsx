@@ -5,6 +5,7 @@ import { CircleUser, LogOut, Menu, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { navigate } from 'vike/client/router';
+import topLogo from '~/assets/interest-group-logos/4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a.png';
 import Auth from '~/components/Auth';
 import { fetchAll as fetchMeetings } from '~/redux/actions/MeetingActions';
 import { toggleSearch } from '~/redux/actions/SearchActions';
@@ -125,10 +126,7 @@ const HeaderLogo = () => {
             className={styles.logoDarkMode}
             alt="Abakus sin logo"
           />
-          <img
-            src="../../../assets/interest-group-logos/4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a.png"
-            className={styles.topLogo}
-          />
+          <img src={topLogo} className={styles.topLogo} alt="" />
         </div>
       </LoadingIndicator>
     </a>
