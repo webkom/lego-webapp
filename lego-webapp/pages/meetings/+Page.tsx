@@ -12,6 +12,7 @@ import { CalendarOff, Pin } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import img from '~/assets/interest-group-logos/3e1e967e9b793e908f8eae83c74dba9bcccce6a5535b4b462bd9994537bfe15c.png';
 import EmptyState from '~/components/EmptyState';
 import { Tag } from '~/components/Tags';
 import Time from '~/components/Time';
@@ -114,14 +115,7 @@ const MeetingListView = ({
     ))}
     {!sections.length && (
       <EmptyState
-        iconNode={
-          <img
-            src={
-              '../../../assets/interest-group-logos/3e1e967e9b793e908f8eae83c74dba9bcccce6a5535b4b462bd9994537bfe15c.png'
-            }
-            style={{ width: 30 }}
-          ></img>
-        }
+        iconNode={<img src={img} style={{ width: 30 }}></img>}
         header={`Du har ingen ${
           !fetchMorePagination.hasMore && fetchOlderPagination.hasMore
             ? 'kommende'
