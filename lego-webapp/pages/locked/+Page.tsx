@@ -1,6 +1,7 @@
-import { Flex, Button, Icon } from '@webkom/lego-bricks';
+import { Button, Flex, Icon } from '@webkom/lego-bricks';
 import { Lock, LockOpen } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Something from '~/assets/interest-group-logos/9184e9e6028eb484b8782b9f0cf60190.png';
 import { TextInput } from '~/components/Form';
 import { useCurrentUser } from '~/redux/slices/auth';
 
@@ -554,8 +555,8 @@ const Locked = () => {
 
         {isAuthorized && (
           <img
-            src="../../assets/interest-group-logos/9184e9e6028eb484b8782b9f0cf60190.png"
-            alt="An image was supposed to be here but is not"
+            src={Something}
+            alt="Låst-bilde"
             width={200}
             style={{
               animation:

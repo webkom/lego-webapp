@@ -10,6 +10,7 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { FolderOpen } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { components } from 'react-select';
+import img from '~/assets/interest-group-logos/1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb.png';
 import EmptyState from '~/components/EmptyState';
 import { SelectInput } from '~/components/Form';
 import QuoteList from '~/pages/quotes/QuoteList';
@@ -42,7 +43,7 @@ const orderingOptions: Array<Option> = [
   {
     label: 'ultra-sortering',
     value: 'wings',
-    path: '../../../assets/interest-group-logos/1a6562590ef19d1045d06c4055742d38288e9e6dcd71ccde5cee80f1d5a774eb.png',
+    path: img,
   },
 ];
 
