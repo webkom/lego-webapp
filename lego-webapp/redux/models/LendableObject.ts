@@ -25,7 +25,7 @@ export type ListLendableObject = Pick<
   | 'canLend'
   | 'availability'
   | 'category'
-> & { responsibleGroups: EntityId[] };
+> & { responsibleGroups: EntityId[], available?: boolean /* Currently used by event management to show availability of lending objects in given timeframe */ };
 
 export type DetailLendableObject = ListLendableObject &
   Pick<LendableObject, 'actionGrant'> &

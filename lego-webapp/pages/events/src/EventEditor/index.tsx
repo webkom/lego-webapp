@@ -393,7 +393,7 @@ const EventEditor = () => {
             <EditorSection title="Påmelding" initiallyExpanded={!isEditPage}>
               <Registration values={values} />
             </EditorSection>
-            <EditorSection title="Utstyrslån" initiallyExpanded={true}>
+            <EditorSection title="Utstyrslån" initiallyExpanded={!isEditPage}>
               <LendingSection values={values} />
             </EditorSection>
             <EditorSection title="Beskrivelse" collapsible={false}>

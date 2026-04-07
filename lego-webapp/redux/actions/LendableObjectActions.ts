@@ -8,6 +8,7 @@ import type {
   EditLendableObject,
   ListLendableObject,
 } from '~/redux/models/LendableObject';
+import { Dateish } from 'app/models';
 
 export const fetchAllLendableObjects = () =>
   callAPI<ListLendableObject[]>({
@@ -16,6 +17,21 @@ export const fetchAllLendableObjects = () =>
     schema: [lendableObjectSchema],
     meta: {
       errorMessage: 'Henting av utlånsobjekter feilet',
+    },
+    propagateError: true,
+  });
+
+
+export const fetchAvailableLendableObjectIdsByDate = (
+  start_date: string | Dateish,
+  end_date: string | Dateish,
+) =>
+  callAPI<EntityId[]>({
+    types: LendableObjects.FETCH_AVAILABLE,
+    endpoint: '/lending/objects/available/',
+    query: { start_date, end_date },
+    meta: {
+      errorMessage: 'Henting av tilgjengelige utlånsobjekter feilet',
     },
     propagateError: true,
   });

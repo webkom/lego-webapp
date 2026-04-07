@@ -26,6 +26,8 @@ type Props<Option, IsMulti extends boolean = false> = {
   isClearable?: boolean;
   filter?: string[];
   SuggestionComponent?: SuggestionComponent<Option>;
+  formatOptionLabel?: ComponentProps<typeof Select>['formatOptionLabel'];
+  isOptionDisabled?: ComponentProps<typeof Select>['isOptionDisabled'];
 } & Pick<ComponentProps<Creatable>, 'onBlur'>;
 
 export type SuggestionComponent<Option = { label: string; value: number }> =
@@ -96,6 +98,7 @@ const SelectInput = <
   creatable,
   onSearch,
   SuggestionComponent,
+  isOptionDisabled,
   ...props
 }: Props<Option, IsMulti>) => {
   if (props.tags) {
@@ -117,6 +120,7 @@ const SelectInput = <
           value={value}
           isValidNewOption={isValidNewOption}
           options={options}
+          isOptionDisabled={isOptionDisabled}
           isLoading={fetching}
           styles={selectStyle ?? selectStyles}
           theme={selectTheme}
@@ -143,6 +147,7 @@ const SelectInput = <
         instanceId={name}
         value={value}
         options={options}
+        isOptionDisabled={isOptionDisabled}
         isLoading={fetching}
         onInputChange={(value) => {
           onSearch?.(value);
