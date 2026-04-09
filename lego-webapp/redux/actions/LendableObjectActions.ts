@@ -6,6 +6,7 @@ import type {
   CreateLendableObject,
   DetailLendableObject,
   EditLendableObject,
+  LendableObjectAvailability,
   ListLendableObject,
 } from '~/redux/models/LendableObject';
 
@@ -79,7 +80,7 @@ export const fetchLendableObjectAvailability = (
     month?: number;
   },
 ) =>
-  callAPI<[string, string][]>({
+  callAPI<LendableObjectAvailability[]>({
     types: LendableObjects.FETCH_AVAILABILITY,
     endpoint: `/lending/objects/${id}/availability/`,
     meta: {

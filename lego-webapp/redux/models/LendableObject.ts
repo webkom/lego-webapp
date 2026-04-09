@@ -3,6 +3,14 @@ import type { EntityId } from '@reduxjs/toolkit';
 import type { ActionGrant, Dateish } from 'app/models';
 import type ObjectPermissionsMixin from '~/redux/models/ObjectPermissionsMixin';
 
+export type LendableObjectAvailability = {
+  startDate: Dateish;
+  endDate: Dateish;
+  createdByName?: string;
+  createdByUsername?: string;
+  lendingRequestId?: EntityId;
+};
+
 interface LendableObject {
   id: EntityId;
   title: string;
@@ -11,7 +19,7 @@ interface LendableObject {
   location: string;
   canLend: boolean;
   actionGrant: ActionGrant;
-  availability?: [Dateish, Dateish][];
+  availability?: LendableObjectAvailability[];
   category: FilterLendingCategory;
 }
 

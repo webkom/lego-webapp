@@ -23,7 +23,35 @@ type LendingCalendarProps = {
 type TimeRange = {
   start: string;
   end: string;
-  fullDay: boolean;
+  startsOnDay: boolean;
+  endsOnDay: boolean;
+};
+
+type AvailabilityEntry = TimeRange & {
+  createdByName?: string;
+  createdByUsername?: string;
+  lendingRequestId?: EntityId;
+};
+
+const formatTimeRangeLabel = ({
+  start,
+  end,
+  startsOnDay,
+  endsOnDay,
+}: Pick<TimeRange, 'start' | 'end' | 'startsOnDay' | 'endsOnDay'>) => {
+  if (startsOnDay && endsOnDay) {
+    return `${start}-${end}`;
+  }
+
+  if (startsOnDay) {
+    return `Fra ${start}`;
+  }
+
+  if (endsOnDay) {
+    return `Til ${end}`;
+  }
+
+  return '';
 };
 
 const LendingCalendar = ({
@@ -37,6 +65,10 @@ const LendingCalendar = ({
   const lendableObject = useAppSelector((state) =>
     selectLendableObjectById(state, lendableObjectId),
   );
+  const canEditLendingRequests =
+    !!lendableObject &&
+    'actionGrant' in lendableObject &&
+    lendableObject.actionGrant.includes('edit');
 
   usePreparedEffect(
     'fetchLendingCalendar',
@@ -64,31 +96,38 @@ const LendingCalendar = ({
   const getUnavailableTimeRanges = (
     selected: TimeRange | null,
     day: Moment,
-  ) => {
+  ): AvailabilityEntry[] => {
     const dayStart = day.clone().startOf('day');
     const dayEnd = day.clone().endOf('day');
-    const timeRanges: TimeRange[] = [];
+    const timeRanges: AvailabilityEntry[] = [];
 
     if (!lendableObject?.availability) {
       return [];
     }
 
-    for (const [start, end] of lendableObject.availability) {
-      if (!start || !end) continue;
+    for (const availability of lendableObject.availability) {
+      const { startDate, endDate } = availability;
 
-      const startDate = moment(start);
-      const endDate = moment(end);
+      if (!startDate || !endDate) continue;
 
-      if (startDate.isSameOrBefore(dayEnd) && endDate.isSameOrAfter(dayStart)) {
-        const overlapStart = moment.max(startDate, dayStart);
-        const overlapEnd = moment.min(endDate, dayEnd);
+      const startMoment = moment(startDate);
+      const endMoment = moment(endDate);
 
-        const newTimeRange = {
+      if (
+        startMoment.isSameOrBefore(dayEnd) &&
+        endMoment.isSameOrAfter(dayStart)
+      ) {
+        const overlapStart = moment.max(startMoment, dayStart);
+        const overlapEnd = moment.min(endMoment, dayEnd);
+
+        const newTimeRange: AvailabilityEntry = {
           start: overlapStart.format('HH:mm'),
           end: overlapEnd.format('HH:mm'),
-          fullDay:
-            overlapStart.format('HH:mm') === '00:00' &&
-            overlapEnd.format('HH:mm') === '23:59',
+          startsOnDay: startMoment.isSame(day, 'day'),
+          endsOnDay: endMoment.isSame(day, 'day'),
+          createdByName: availability.createdByName,
+          createdByUsername: availability.createdByUsername,
+          lendingRequestId: availability.lendingRequestId,
         };
 
         const isSimilarToSelected =
@@ -121,34 +160,12 @@ const LendingCalendar = ({
       return {
         start: overlapStart.format('HH:mm'),
         end: overlapEnd.format('HH:mm'),
-        fullDay:
-          overlapStart.format('HH:mm') === '00:00' &&
-          overlapEnd.format('HH:mm') === '23:59',
+        startsOnDay: startDate.isSame(day, 'day'),
+        endsOnDay: endDate.isSame(day, 'day'),
       };
     }
 
     return null;
-  };
-
-  const isFullyUnavailable = (day: Moment) => {
-    const dayStart = day.clone().startOf('day');
-    const dayEnd = day.clone().endOf('day');
-
-    if (!lendableObject?.availability) {
-      return false;
-    }
-
-    for (const [start, end] of lendableObject.availability) {
-      if (!start || !end) continue;
-      const startDate = moment(start);
-      const endDate = moment(end);
-
-      if (startDate.isSameOrBefore(dayStart) && endDate.isSameOrAfter(dayEnd)) {
-        return true;
-      }
-    }
-
-    return false;
   };
 
   const isInSelectedRange = (day: Moment) => {
@@ -210,9 +227,6 @@ const LendingCalendar = ({
                       selectedTimeRange,
                       dateProps.day,
                     );
-                    const fully =
-                      timeRanges.length > 0 &&
-                      isFullyUnavailable(dateProps.day);
                     const inSelectedRange = isInSelectedRange(dateProps.day);
                     const isEndpoint = isSelectedEndpoint(dateProps.day);
 
@@ -239,20 +253,37 @@ const LendingCalendar = ({
                           <div className={styles.inlineTimes}>
                             {selectedTimeRange && (
                               <div className={styles.selectedTimeRange}>
-                                {selectedTimeRange.fullDay
-                                  ? ''
-                                  : `${selectedTimeRange.start}-${selectedTimeRange.end}`}
+                                {formatTimeRangeLabel(selectedTimeRange)}
                               </div>
                             )}
 
-                            {!fully ? (
-                              timeRanges.map((range, idx) => (
+                            {timeRanges.map((range, idx) =>
+                              range.lendingRequestId &&
+                              canEditLendingRequests ? (
+                                <a
+                                  key={idx}
+                                  href={`/lending/${lendableObjectId}/request/${range.lendingRequestId}`}
+                                  className={cx(
+                                    styles.timeRange,
+                                    styles.timeRangeLink,
+                                  )}
+                                >
+                                  <span className={styles.timeRangeLabel}>
+                                    {formatTimeRangeLabel(range)}
+                                  </span>
+                                  {range.createdByName && (
+                                    <span className={styles.timeRangeMeta}>
+                                      {range.createdByName}
+                                    </span>
+                                  )}
+                                </a>
+                              ) : (
                                 <div key={idx} className={styles.timeRange}>
-                                  {`${range.start}-${range.end}`}
+                                  <span className={styles.timeRangeLabel}>
+                                    {formatTimeRangeLabel(range)}
+                                  </span>
                                 </div>
-                              ))
-                            ) : (
-                              <div className={styles.timeRange} />
+                              ),
                             )}
                           </div>
                         </div>
