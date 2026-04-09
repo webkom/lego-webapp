@@ -98,8 +98,8 @@ const LendingRequest = () => {
   const isAdmin = lendingRequest?.actionGrant?.includes('edit');
   const isRequestOwner = currentUser?.id === lendingRequest?.createdBy;
   const canRequestChanges =
-    lendingRequest?.createdBy != currentUser &&
-    lendingRequest?.actionGrant('edit');
+    lendingRequest?.createdBy != currentUser?.id &&
+    lendingRequest?.actionGrant?.includes('edit');
 
   const title = `Forespørsel ${lendableObject?.title ? ` - ${lendableObject.title}` : ''}`;
 
