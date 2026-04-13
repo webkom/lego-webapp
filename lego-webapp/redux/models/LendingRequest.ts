@@ -19,6 +19,7 @@ interface LendingRequest {
   updatedBy: EntityId;
   createdAt: Dateish;
   lendableObject: EntityId;
+  archived: boolean;
   status: LendingRequestStatus;
   startDate: Dateish;
   endDate: Dateish;
@@ -31,6 +32,7 @@ export type ListLendingRequest = Pick<
   | 'id'
   | 'createdBy'
   | 'lendableObject'
+  | 'archived'
   | 'status'
   | 'startDate'
   | 'endDate'
@@ -45,6 +47,7 @@ export type DetailLendingRequest = Pick<
   | 'createdAt'
   | 'updatedBy'
   | 'lendableObject'
+  | 'archived'
   | 'status'
   | 'startDate'
   | 'endDate'
@@ -65,7 +68,9 @@ export type CreateLendingRequest = Pick<
   'lendableObject' | 'startDate' | 'endDate'
 > & { comment: string };
 export type EditLendingRequest = Required<Pick<LendingRequest, 'id'>> &
-  Partial<Pick<LendingRequest, 'status' | 'startDate' | 'endDate'>>;
+  Partial<
+    Pick<LendingRequest, 'status' | 'startDate' | 'endDate' | 'archived'>
+  >;
 
 export type TimelineEntry = {
   id: EntityId;

@@ -5,14 +5,14 @@ export const getNextVisibleCount = (visibleCount: number) =>
 
 export const getVisibleRequestCount = ({
   visibleCount,
-  currentOrdering,
-  previousOrdering,
+  currentArchived,
+  previousArchived,
 }: {
   visibleCount: number;
-  currentOrdering: string;
-  previousOrdering: string;
+  currentArchived: string;
+  previousArchived: string;
 }) =>
-  currentOrdering === previousOrdering ? visibleCount : REQUEST_INBOX_PAGE_SIZE;
+  currentArchived === previousArchived ? visibleCount : REQUEST_INBOX_PAGE_SIZE;
 
 export const canLoadMoreRequests = ({
   hasMore,
