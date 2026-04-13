@@ -15,7 +15,9 @@ type Props<Option, IsMulti extends boolean = false> = {
   fetching?: boolean;
   className?: string;
   selectStyle?: StylesConfig<Option, IsMulti>;
-  onChange?: (event: ChangeEvent | string | Option[] | Option) => void;
+  onChange?: (
+    event: ChangeEvent | string | readonly Option[] | Option | null,
+  ) => void;
   onSearch?: (search: string) => void;
   isValidNewOption?: (arg0: string) => boolean;
   value?: Option | Option[] | null;
@@ -122,7 +124,7 @@ const SelectInput = <
           options={options}
           isOptionDisabled={isOptionDisabled}
           isLoading={fetching}
-          styles={selectStyle ?? selectStyles}
+          styles={selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)}
           theme={selectTheme}
           onInputChange={(value) => {
             onSearch?.(value);
@@ -154,7 +156,7 @@ const SelectInput = <
           return value;
         }}
         menuPortalTarget={import.meta.env.SSR ? null : document.body}
-        styles={selectStyle ?? selectStyles}
+        styles={selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)}
         theme={selectTheme}
         blurInputOnSelect={false}
         loadingMessage={() => LOADING_MESSAGE}

@@ -32,6 +32,7 @@ import {
   MessageSquareQuote,
 } from 'lucide-react';
 import ReadmeLogo from '~/components/ReadmeLogo';
+import Tag from '~/components/Tags/Tag';
 import TextWithIcon from '../TextWithIcon';
 import type { ReactNode } from 'react';
 import type { AllowedPages } from '~/redux/actions/MetaActions';
@@ -65,7 +66,7 @@ const LINKS: Array<Link> = [
     requireLogin: true,
     title: (
       <Flex alignItems="center" gap="var(--spacing-sm)">
-        Utlån
+        Utlån <Tag tag="Nytt!!" color="pink"></Tag>
       </Flex>
     ),
     sortTitle: 'Utlån',

@@ -22,6 +22,7 @@ import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import { readmeIfy } from '~/components/ReadmeLogo';
+import LatestReadme from '~/pages/index/LatestReadme';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,
@@ -31,6 +32,7 @@ import {
   fetchCompanyInterest,
   updateCompanyInterest,
 } from '~/redux/actions/CompanyInterestActions';
+import { fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCompanyInterestById } from '~/redux/slices/companyInterest';
 import {
@@ -52,6 +54,7 @@ import {
   COMPANY_TYPES,
   EVENTS,
   FORM_LABELS,
+  OTHER_DESCRIPTIONS,
   OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
@@ -69,8 +72,10 @@ import {
   sortSemesterChronologically,
   surveyOffersToString,
   targetGradeToString,
+  othersDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
+
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
@@ -184,8 +189,17 @@ const OtherBox = ({
         label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
+        description={
+          OTHER_DESCRIPTIONS[othersDescriptionToString(key)][language]
+        }
       />
     ))}
+  </Flex>
+);
+
+const readMe = (
+  <Flex className={styles.readMe}>
+    <LatestReadme expandedInitially={true} />
   </Flex>
 );
 
@@ -338,6 +352,10 @@ const CompanyInterestForm = ({ language }: Props) => {
       ]),
     [companyInterestId, edit],
   );
+
+  usePreparedEffect('fetchReadmes', () => dispatch(fetchReadmes(2)), [
+    dispatch,
+  ]);
 
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(OTHER_OFFERS);
@@ -742,6 +760,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                       component={OtherBox}
                     />
                   </MultiSelectGroup>
+                  {readMe}
                 </Flex>
               </Flex>
               <div className={styles.topline} />

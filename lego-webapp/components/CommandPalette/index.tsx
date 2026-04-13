@@ -135,7 +135,7 @@ const CommandPalette = () => {
                     </Header>
                     <Collection items={section.items}>
                       {(item) => (
-                        <CommandItem id={item.id} textValue={item.label}>
+                        <CommandItem id={item.id} textValue={item.searchText}>
                           {({ isFocused }) => (
                             <div className={styles.itemRow}>
                               <div
@@ -146,7 +146,7 @@ const CommandPalette = () => {
                                 }
                               >
                                 {item.icon && <span>{item.icon}</span>}
-                                <span>{item.label}</span>
+                                <span>{item.renderLabel}</span>
                               </div>
                               {isFocused && (
                                 <Icon

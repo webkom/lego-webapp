@@ -20,7 +20,8 @@ type QueryFilters = Record<string, string | undefined>;
 export type IsShown = Record<string, boolean>;
 export type ShowColumn = Record<string, number>;
 export type EditPrimitive = string | number | boolean | null | undefined;
-export type EditDraft<T = unknown> = Record<string, EditPrimitive>;
+export type EditDraft<T = unknown> = Record<string, EditPrimitive> &
+  Partial<Record<keyof T, EditPrimitive>>;
 export type EditErrors = Record<string, string | undefined>;
 
 export type RowActionContext<T extends { id: EntityId }> = {

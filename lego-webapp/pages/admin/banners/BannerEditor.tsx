@@ -236,8 +236,8 @@ const BannerFormPreview = () => {
         bannerProps.countdownEndDate = endDate;
         bannerProps.countdownEndMessage = values.countdownEndMessage;
       }
-    } catch (e) {
-      console.error('Invalid date format:', values.countdownEndDate);
+    } catch (error) {
+      console.error('Invalid date format:', values.countdownEndDate, error);
     }
   }
 

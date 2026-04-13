@@ -42,4 +42,6 @@ export type EditLendableObject = Pick<
   canEditUsers: EntityId[];
 };
 
+export type DeleteLendableObject = Pick<LendableObject, 'id'>;
+
 export type CreateLendableObject = Omit<EditLendableObject, 'id'>;
