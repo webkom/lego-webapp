@@ -2,15 +2,18 @@ import { usePreparedEffect } from '@webkom/react-prepare';
 import { Field } from 'react-final-form';
 import { SelectInput, TextInput } from '~/components/Form';
 import { type EditingEvent } from '~/pages/events/utils';
-import { fetchAllLendableObjects, fetchAvailableLendableObjectIdsByDate } from '~/redux/actions/LendableObjectActions';
+import {
+  fetchAllLendableObjects,
+  fetchAvailableLendableObjectIdsByDate,
+} from '~/redux/actions/LendableObjectActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectAllLendableObjects,
   selectAvailableLendableObjectIds,
 } from '~/redux/slices/lendableObjects';
-import type { FormatOptionLabelMeta, StylesConfig } from 'react-select';
 import styles from '../EventEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { FormatOptionLabelMeta, StylesConfig } from 'react-select';
 
 type Props = {
   values: EditingEvent;
@@ -55,23 +58,22 @@ const LendingSection: React.FC<Props> = ({ values }) => {
   const availabilityKnown = availableLendableObjectIds !== null;
   const lendingObjectOptions: LendingObjectOption[] = availableObjects.map(
     (obj) => ({
-    label: obj.title,
-    value: obj.id,
-    isAvailable: !availabilityKnown || availableObjectIds.has(obj.id),
+      label: obj.title,
+      value: obj.id,
+      isAvailable: !availabilityKnown || availableObjectIds.has(obj.id),
     }),
   );
 
-  const lendingSelectStyle: StylesConfig<
-    LendingObjectOption,
-    true
-  > = {
+  const lendingSelectStyle: StylesConfig<LendingObjectOption, true> = {
     option: (base, state) => ({
       ...base,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
       gap: '0.75rem',
-      color: state.data.isAvailable ? 'var(--lego-font-color)' : 'var(--placeholder-color)',
+      color: state.data.isAvailable
+        ? 'var(--lego-font-color)'
+        : 'var(--placeholder-color)',
       fontWeight: state.data.isAvailable ? 500 : 400,
       opacity: state.data.isAvailable ? 1 : 0.65,
     }),
@@ -90,9 +92,28 @@ const LendingSection: React.FC<Props> = ({ values }) => {
     }
 
     return (
-      <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between', gap: '0.75rem' }}>
-        <span style={{ textDecoration: option.isAvailable ? 'none' : 'line-through' }}>{option.label}</span>
-        <span style={{ fontSize: '12px', color: 'var(--placeholder-color)', textDecoration: 'none' }}>
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'space-between',
+          gap: '0.75rem',
+        }}
+      >
+        <span
+          style={{
+            textDecoration: option.isAvailable ? 'none' : 'line-through',
+          }}
+        >
+          {option.label}
+        </span>
+        <span
+          style={{
+            fontSize: '12px',
+            color: 'var(--placeholder-color)',
+            textDecoration: 'none',
+          }}
+        >
           Ikke tilgjengelig i den valgte perioden
         </span>
       </div>

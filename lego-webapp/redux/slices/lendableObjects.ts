@@ -1,10 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type AnyAction, type EntityId } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { LendableObjects } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { AnyAction } from '@reduxjs/toolkit';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import type { ListLendableObject } from '~/redux/models/LendableObject';
 import type { RootState } from '~/redux/rootReducer';
@@ -21,18 +19,24 @@ const lendableObjectsSlice = createSlice({
     fetchActions: [LendableObjects.FETCH],
     deleteActions: [LendableObjects.DELETE],
     extraCases: (addCase) => {
-      addCase(LendableObjects.FETCH_AVAILABLE.SUCCESS, (state, action: AnyAction) => {
-        state.availableIds = action.payload;
-      });
-      addCase(LendableObjects.FETCH_AVAILABILITY.SUCCESS, (state, action: AnyAction) => {
-        const id = action.meta.id;
-        legoAdapter.updateOne(state, {
-          id,
-          changes: {
-            availability: action.payload,
-          },
-        });
-      });
+      addCase(
+        LendableObjects.FETCH_AVAILABLE.SUCCESS,
+        (state, action: AnyAction) => {
+          state.availableIds = action.payload;
+        },
+      );
+      addCase(
+        LendableObjects.FETCH_AVAILABILITY.SUCCESS,
+        (state, action: AnyAction) => {
+          const id = action.meta.id;
+          legoAdapter.updateOne(state, {
+            id,
+            changes: {
+              availability: action.payload,
+            },
+          });
+        },
+      );
     },
   }),
 });

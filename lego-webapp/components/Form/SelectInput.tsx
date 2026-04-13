@@ -124,7 +124,9 @@ const SelectInput = <
           options={options}
           isOptionDisabled={isOptionDisabled}
           isLoading={fetching}
-          styles={selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)}
+          styles={
+            selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)
+          }
           theme={selectTheme}
           onInputChange={(value) => {
             onSearch?.(value);

@@ -2,13 +2,13 @@ import { LendableObjects } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { lendableObjectSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type {
   CreateLendableObject,
   DetailLendableObject,
   EditLendableObject,
   ListLendableObject,
 } from '~/redux/models/LendableObject';
-import { Dateish } from 'app/models';
 
 export const fetchAllLendableObjects = () =>
   callAPI<ListLendableObject[]>({
@@ -23,7 +23,6 @@ export const fetchAllLendableObjects = () =>
     },
     propagateError: true,
   });
-
 
 export const fetchAvailableLendableObjectIdsByDate = (
   start_date: string | Dateish,
