@@ -24,6 +24,7 @@ type TimeRange = {
   start: string;
   end: string;
   fullDay: boolean;
+  user?: string;
 };
 
 const LendingCalendar = ({
@@ -73,7 +74,7 @@ const LendingCalendar = ({
       return [];
     }
 
-    for (const [start, end] of lendableObject.availability) {
+    for (const [start, end, user] of lendableObject.availability) {
       if (!start || !end) continue;
 
       const startDate = moment(start);
@@ -89,6 +90,7 @@ const LendingCalendar = ({
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
+          user
         };
 
         const isSimilarToSelected =
@@ -142,14 +144,13 @@ const LendingCalendar = ({
       if (!start || !end) continue;
       const startDate = moment(start);
       const endDate = moment(end);
-
       if (startDate.isSameOrBefore(dayStart) && endDate.isSameOrAfter(dayEnd)) {
         return true;
       }
     }
 
     return false;
-  };
+  }; 
 
   const isInSelectedRange = (day: Moment) => {
     if (!selectedRange || !selectedRange[0] || !selectedRange[1]) return false;
@@ -206,6 +207,9 @@ const LendingCalendar = ({
                     const selectedTimeRange = getSelectedTimeRange(
                       dateProps.day,
                     );
+                    const selectTimeRangeText = selectedTimeRange?.fullDay
+                                  ? ''
+                                  : `${selectedTimeRange?.start}-${selectedTimeRange?.end}`
                     const timeRanges = getUnavailableTimeRanges(
                       selectedTimeRange,
                       dateProps.day,
@@ -239,21 +243,14 @@ const LendingCalendar = ({
                           <div className={styles.inlineTimes}>
                             {selectedTimeRange && (
                               <div className={styles.selectedTimeRange}>
-                                {selectedTimeRange.fullDay
-                                  ? ''
-                                  : `${selectedTimeRange.start}-${selectedTimeRange.end}`}
+                                {selectTimeRangeText}
                               </div>
                             )}
-
-                            {!fully ? (
-                              timeRanges.map((range, idx) => (
+                              {timeRanges.map((range, idx) =>(
                                 <div key={idx} className={styles.timeRange}>
-                                  {`${range.start}-${range.end}`}
+                                  {!fully ? `${range.start}-${range.end} ${range.user}` : `${range.user}`}
                                 </div>
-                              ))
-                            ) : (
-                              <div className={styles.timeRange} />
-                            )}
+                              ))}
                           </div>
                         </div>
                       </td>
