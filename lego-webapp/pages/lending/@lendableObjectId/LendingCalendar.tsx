@@ -90,7 +90,7 @@ const LendingCalendar = ({
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
-          user
+          user,
         };
 
         const isSimilarToSelected =
@@ -150,7 +150,7 @@ const LendingCalendar = ({
     }
 
     return false;
-  }; 
+  };
 
   const isInSelectedRange = (day: Moment) => {
     if (!selectedRange || !selectedRange[0] || !selectedRange[1]) return false;
@@ -208,8 +208,8 @@ const LendingCalendar = ({
                       dateProps.day,
                     );
                     const selectTimeRangeText = selectedTimeRange?.fullDay
-                                  ? ''
-                                  : `${selectedTimeRange?.start}-${selectedTimeRange?.end}`
+                      ? ''
+                      : `${selectedTimeRange?.start}-${selectedTimeRange?.end}`;
                     const timeRanges = getUnavailableTimeRanges(
                       selectedTimeRange,
                       dateProps.day,
@@ -246,11 +246,13 @@ const LendingCalendar = ({
                                 {selectTimeRangeText}
                               </div>
                             )}
-                              {timeRanges.map((range, idx) =>(
-                                <div key={idx} className={styles.timeRange}>
-                                  {!fully ? `${range.start}-${range.end} ${range.user}` : `${range.user}`}
-                                </div>
-                              ))}
+                            {timeRanges.map((range, idx) => (
+                              <div key={idx} className={styles.timeRange}>
+                                {!fully
+                                  ? `${range.start}-${range.end} ${range.user}`
+                                  : `${range.user}`}
+                              </div>
+                            ))}
                           </div>
                         </div>
                       </td>
