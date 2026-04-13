@@ -42,9 +42,11 @@ type Props = {
 
 const validate = createValidator({
   title: [required()],
+  image: [required()],
   description: [required()],
   location: [required()],
   category: [required()],
+  canEditUsers: [required()],
 });
 
 export const LendableObjectEditor = ({ initialValues }: Props) => {
