@@ -67,10 +67,13 @@
   flex-direction: row;
   align-items: center;
   padding: var(--spacing-md);
-  color: var(--lego-font-color);
   transition:
     box-shadow var(--easing-fast),
     background-color var(--easing-fast);
+}
+
+.lendingRequestCard > div > a {
+  color: var(--lego-font-color);
 }
 
 .lendingRequestCard:hover {

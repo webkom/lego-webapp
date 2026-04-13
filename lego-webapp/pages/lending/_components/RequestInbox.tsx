@@ -10,11 +10,11 @@ import { canLoadMoreRequests } from './requestInboxPagination';
 import useAnimateRequestInbox from './useAnimateRequestInbox';
 import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
-export type LendingRequestOrdering = 'created_at' | '-created_at';
+export type LendingRequestArchivedFilter = 'true' | 'false';
 
-const orderingOptions: PillSwitchOption<LendingRequestOrdering>[] = [
-  { label: 'Nyeste', value: '-created_at' },
-  { label: 'Eldste', value: 'created_at' },
+const archivedOptions: PillSwitchOption<LendingRequestArchivedFilter>[] = [
+  { label: 'Aktiv', value: 'false' },
+  { label: 'Arkivert', value: 'true' },
 ];
 
 type Props = {
@@ -23,8 +23,12 @@ type Props = {
   isFetching: boolean;
   hasMore: boolean;
   onLoadMore: () => void;
-  ordering: LendingRequestOrdering;
-  onOrderingChange: (ordering: LendingRequestOrdering) => void;
+  onArchive: (
+    requestId: TransformedLendingRequest['id'],
+    archived: boolean,
+  ) => void;
+  archived: LendingRequestArchivedFilter;
+  onArchivedChange: (archived: LendingRequestArchivedFilter) => void;
   className?: string;
 };
 
@@ -34,8 +38,9 @@ const RequestInbox = ({
   isFetching,
   hasMore,
   onLoadMore,
-  ordering,
-  onOrderingChange,
+  onArchive,
+  archived,
+  onArchivedChange,
   className,
 }: Props) => {
   const listRef = useRef<HTMLDivElement>(null);
@@ -60,9 +65,11 @@ const RequestInbox = ({
       <div className={styles.headerRow}>
         <h3 className={styles.header}>Din innboks</h3>
         <PillSwitch
-          options={orderingOptions}
-          value={ordering}
-          onChange={onOrderingChange}
+          options={archivedOptions}
+          value={archived}
+          onChange={(value) =>
+            onArchivedChange(value === 'true' ? 'true' : 'false')
+          }
           ariaLabel="Sorter utlånsforespørsler"
         />
       </div>
@@ -73,13 +80,15 @@ const RequestInbox = ({
       )}
       {hasRequests && (
         <div ref={listRef} className={styles.lendingRequestsContainer}>
-          {lendingRequests.map((req) => (
+          {lendingRequests
+            .filter((req) => req.archived === (archived === 'true'))
+            .map((req) => (
             <div
               key={req.id}
               data-request-id={String(req.id)}
               className={styles.requestCardWrapper}
             >
-              <LendingRequestCard lendingRequest={req} />
+              <LendingRequestCard lendingRequest={req} onArchive={onArchive} />
             </div>
           ))}
         </div>
