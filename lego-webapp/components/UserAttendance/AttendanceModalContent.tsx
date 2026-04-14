@@ -2,10 +2,12 @@ import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { flatMap } from 'lodash-es';
 import { Send } from 'lucide-react';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { TextInput } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
 import { GroupFilter } from '~/components/UserAttendance/GroupFilter';
+import { useAppSelector } from '~/redux/hooks';
+import { selectGroupEntities } from '~/redux/slices/groups';
 import EmptyState from '../EmptyState';
 import styles from './AttendanceModalContent.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -63,6 +65,9 @@ const generateAmendedPools = (pools: AttendanceModalPool[]) => {
   return [summaryPool, ...pools];
 };
 
+const normalizeSearchValue = (value: string) =>
+  value.toLowerCase().trim().replace(/\s+/g, ' ');
+
 const AttendanceModalContent = ({
   pools,
   togglePool,
@@ -71,6 +76,7 @@ const AttendanceModalContent = ({
 }: Props) => {
   const [search, setSearch] = useState<string>('');
   const [groupFilter, setGroupFilter] = useState<EntityId[] | null>(null);
+  const groupEntities = useAppSelector(selectGroupEntities);
 
   const amendedPools = useMemo(() => generateAmendedPools(pools), [pools]);
 
@@ -79,21 +85,33 @@ const AttendanceModalContent = ({
     [amendedPools, selectedPool],
   );
 
-  const filteredRegistrations = useMemo(
-    () =>
-      registrations.filter(
-        (registration) =>
-          registration.user.fullName
-            .toLowerCase()
-            .includes(search.toLowerCase()) &&
-          (groupFilter && 'abakusGroups' in registration.user
-            ? registration.user.abakusGroups.some((groupId) =>
-                groupFilter.includes(groupId),
-              )
-            : true),
-      ),
-    [registrations, search, groupFilter],
-  );
+  const filteredRegistrations = useMemo(() => {
+    const normalizedSearch = normalizeSearchValue(search);
+
+    return (registrations ?? []).filter((registration) => {
+      const nameMatch = normalizeSearchValue(
+        registration.user.fullName,
+      ).includes(normalizedSearch);
+
+      const groupSearchMatch =
+        'abakusGroups' in registration.user &&
+        registration.user.abakusGroups.some(
+          (groupId) =>
+            normalizeSearchValue(groupEntities[groupId]?.name ?? '') ===
+            normalizedSearch,
+        );
+
+      const groupFilterMatch =
+        !groupFilter ||
+        ('abakusGroups' in registration.user &&
+          registration.user.abakusGroups.some((groupId) =>
+            groupFilter.includes(groupId),
+          ));
+
+      if (!normalizedSearch) return groupFilterMatch;
+      return (nameMatch || groupSearchMatch) && groupFilterMatch;
+    });
+  }, [registrations, search, groupFilter, groupEntities]);
 
   return (
     <Flex
