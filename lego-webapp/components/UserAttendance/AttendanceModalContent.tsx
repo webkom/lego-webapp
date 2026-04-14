@@ -7,6 +7,7 @@ import { TextInput } from '~/components/Form';
 import { ProfilePicture } from '~/components/Image';
 import { GroupFilter } from '~/components/UserAttendance/GroupFilter';
 import { useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import { selectGroupEntities } from '~/redux/slices/groups';
 import EmptyState from '../EmptyState';
 import styles from './AttendanceModalContent.module.css';
@@ -77,12 +78,18 @@ const AttendanceModalContent = ({
   const [search, setSearch] = useState<string>('');
   const [groupFilter, setGroupFilter] = useState<EntityId[] | null>(null);
   const groupEntities = useAppSelector(selectGroupEntities);
+  const currentUser = useCurrentUser();
 
   const amendedPools = useMemo(() => generateAmendedPools(pools), [pools]);
 
   const registrations = useMemo(
     () => amendedPools[selectedPool]?.registrations,
     [amendedPools, selectedPool],
+  );
+
+  const currentUserGroupIds = useMemo(
+    () => new Set(currentUser?.abakusGroups ?? []),
+    [currentUser],
   );
 
   const filteredRegistrations = useMemo(() => {
@@ -97,21 +104,23 @@ const AttendanceModalContent = ({
         'abakusGroups' in registration.user &&
         registration.user.abakusGroups.some(
           (groupId) =>
+            currentUserGroupIds.has(groupId) &&
             normalizeSearchValue(groupEntities[groupId]?.name ?? '') ===
-            normalizedSearch,
+              normalizedSearch,
         );
 
       const groupFilterMatch =
         !groupFilter ||
         ('abakusGroups' in registration.user &&
-          registration.user.abakusGroups.some((groupId) =>
-            groupFilter.includes(groupId),
+          registration.user.abakusGroups.some(
+            (groupId) =>
+              currentUserGroupIds.has(groupId) && groupFilter.includes(groupId),
           ));
 
       if (!normalizedSearch) return groupFilterMatch;
       return (nameMatch || groupSearchMatch) && groupFilterMatch;
     });
-  }, [registrations, search, groupFilter, groupEntities]);
+  }, [registrations, search, groupFilter, groupEntities, currentUserGroupIds]);
 
   return (
     <Flex
