@@ -124,3 +124,11 @@
   background-color: var(--color-red-2);
   border: 2px solid var(--color-red-4);
 }
+
+.clickableRequestCell {
+  position: absolute;
+  display: block;
+  width: 100%;
+  inset: 0;
+  height: 100%;
+}
