@@ -1,0 +1,15 @@
+.frame {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--spacing-xl) clamp(1rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-gray);
+  margin: var(--spacing-md) 0;
+}

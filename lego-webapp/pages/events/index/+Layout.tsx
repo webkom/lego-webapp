@@ -211,9 +211,6 @@ export const Layout = ({ children }: PropsWithChildren) => {
           <NavigationTab href="/events/calendar" matchSubpages>
             Kalender
           </NavigationTab>
-          <NavigationTab href="/events/interest-events" matchSubpages>
-            Interessegrupper
-          </NavigationTab>
         </>
       }
     >
