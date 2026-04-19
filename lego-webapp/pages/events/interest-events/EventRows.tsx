@@ -3,7 +3,7 @@ import { CalendarX2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import styles from './EventRows.module.css';
 import InterestEventCard from './InterestEventCard';
-import type { EventWithResponsibleGroup } from './types';
+import type { ListEvent } from '~/redux/models/Event';
 import EmptyState from '~/components/EmptyState';
 
 const CARD_WIDTH = 200;
@@ -13,7 +13,7 @@ const SCROLL_AMOUNT = CARD_WIDTH + CARD_GAP;
 type Props = {
   title: string;
   subtitle?: string;
-  events: EventWithResponsibleGroup[];
+  events: ListEvent[];
 };
 
 const EventRows = ({ title, subtitle, events }: Props) => {

@@ -9,7 +9,8 @@ import { selectInterestEvents } from '~/redux/slices/events';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import useQuery from '~/utils/useQuery';
 import { groupEvents } from './utils';
-import type { EventWithResponsibleGroup, GroupedEvents } from './types';
+import type { GroupedEvents } from './types';
+import type { ListEvent } from '~/redux/models/Event';
 
 const DEFAULT_QUERY = { from: '', to: '' };
 
@@ -68,7 +69,7 @@ export const useInterestEvents = (): UseInterestEventsResult => {
     shouldFetchUpcoming
       ? (selectInterestEvents(state, {
           pagination: upcomingPagination,
-        }) as EventWithResponsibleGroup[])
+        }) as ListEvent[])
       : [],
   );
 
@@ -76,7 +77,7 @@ export const useInterestEvents = (): UseInterestEventsResult => {
     shouldFetchPast
       ? (selectInterestEvents(state, {
           pagination: pastPagination,
-        }) as EventWithResponsibleGroup[])
+        }) as ListEvent[])
       : [],
   );
 

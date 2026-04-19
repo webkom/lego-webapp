@@ -1,8 +1,8 @@
 import { orderBy } from 'lodash-es';
 import moment from 'moment-timezone';
+import type { GroupedEvents, GroupName } from './types';
 import type { EntityId } from '@reduxjs/toolkit';
-import type { EventWithResponsibleGroup, GroupedEvents, GroupName } from './types';
-import { ROW_ORDER } from './types';
+import type { ListEvent } from '~/redux/models/Event';
 
 export const GROUP_LABELS: Record<GroupName, string> = {
   dineGrupper: 'Dine grupper',
@@ -34,7 +34,7 @@ export const emptyGroupedEvents = (): GroupedEvents => ({
 });
 
 export const groupEvents = (
-  events: EventWithResponsibleGroup[],
+  events: ListEvent[],
   currentUserGroupIds: EntityId[],
 ): GroupedEvents => {
   const now = moment();
@@ -43,7 +43,7 @@ export const groupEvents = (
   const result = emptyGroupedEvents();
   const seen = new Set<EntityId>();
 
-  const assign = (event: EventWithResponsibleGroup, bucket: GroupName) => {
+  const assign = (event: ListEvent, bucket: GroupName) => {
     if (seen.has(event.id)) return;
     seen.add(event.id);
     result[bucket].push(event);

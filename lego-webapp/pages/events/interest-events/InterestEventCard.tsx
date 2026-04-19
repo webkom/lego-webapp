@@ -2,10 +2,10 @@ import { Flex, Image } from '@webkom/lego-bricks';
 import { MapPin } from 'lucide-react';
 import moment from 'moment-timezone';
 import styles from './InterestEventCard.module.css';
-import type { EventWithResponsibleGroup } from './types';
+import type { ListEvent } from '~/redux/models/Event';
 
 type Props = {
-  event: EventWithResponsibleGroup;
+  event: ListEvent;
 };
 
 const InterestEventCard = ({ event }: Props) => {

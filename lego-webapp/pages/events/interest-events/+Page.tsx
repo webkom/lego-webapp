@@ -76,13 +76,6 @@ const InterestEventList = () => {
         />
       ))}
       {!hasEvents && isFetching && <EventListSkeleton />}
-      {!hasEvents && !isFetching && (
-        <EmptyState
-          iconNode={<FolderOpen />}
-          header="Her var det tomt ..."
-          body="Ingen interessearrangementer ligger ute akkurat nå."
-        />
-      )}
     </div>
   );
 };
