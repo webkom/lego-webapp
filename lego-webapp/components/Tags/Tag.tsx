@@ -1,7 +1,7 @@
-import { Flex, Icon } from '@webkom/lego-bricks';
+import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './Tag.module.css';
-import type { ReactNode } from 'react';
+import type { MouseEventHandler, ReactNode } from 'react';
 
 export type TagColors =
   | 'red'
@@ -26,6 +26,9 @@ type Props = {
   active?: boolean;
   textColor?: string;
   backgroundColor?: string;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  title?: string;
+  ariaLabel?: string;
 };
 
 /**
@@ -43,35 +46,60 @@ const Tag = ({
   active,
   textColor,
   backgroundColor,
-}: Props) => (
-  <div className={styles.linkSpacing}>
-    {link ? (
-      <a
-        className={cx(
-          styles.link,
-          styles.tag,
-          styles[color],
-          className,
-          active && styles.active,
-        )}
-        href={link}
-        style={{ color: textColor, backgroundColor }}
-      >
-        {tag}
-      </a>
-    ) : (
-      <Flex
-        gap={gap || 'var(--spacing-xs)'}
-        alignItems="center"
-        className={cx(styles.tag, styles[color], className)}
-        style={{ color: textColor, backgroundColor: backgroundColor }}
-      >
-        {icon && !iconNode && <Icon name={icon} size={iconSize ?? 16} />}
-        {iconNode && <Icon iconNode={iconNode} size={iconSize ?? 16} />}
-        {tag}
-      </Flex>
-    )}
-  </div>
-);
+  onClick,
+  title,
+  ariaLabel,
+}: Props) => {
+  const tagClassName = cx(
+    styles.tag,
+    styles[color],
+    className,
+    active && styles.active,
+    onClick && styles.buttonTag,
+  );
+  const style = {
+    color: textColor,
+    backgroundColor,
+    gap: gap || 'var(--spacing-xs)',
+  };
+  const content = (
+    <>
+      {icon && !iconNode && <Icon name={icon} size={iconSize ?? 16} />}
+      {iconNode && <Icon iconNode={iconNode} size={iconSize ?? 16} />}
+      {tag}
+    </>
+  );
+
+  return (
+    <div className={styles.linkSpacing}>
+      {link ? (
+        <a
+          className={cx(styles.link, tagClassName)}
+          href={link}
+          style={style}
+          title={title}
+          aria-label={ariaLabel}
+        >
+          {content}
+        </a>
+      ) : onClick ? (
+        <button
+          type="button"
+          className={tagClassName}
+          style={style}
+          onClick={onClick}
+          title={title}
+          aria-label={ariaLabel}
+        >
+          {content}
+        </button>
+      ) : (
+        <span className={tagClassName} style={style} title={title}>
+          {content}
+        </span>
+      )}
+    </div>
+  );
+};
 
 export default Tag;

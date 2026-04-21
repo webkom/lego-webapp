@@ -1,7 +1,4 @@
-import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useState } from 'react';
-import Pill from '~/components/Pill';
 import styles from './AttendanceModalContent.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 
@@ -34,35 +31,46 @@ export const filterableGroups = [
 ];
 
 export const GroupFilter = ({ groupFilter, setGroupFilter }: Props) => {
-  const [hovered, setHovered] = useState(false);
-  const expanded = hovered || groupFilter !== null;
-
   return (
-    <Flex
-      wrap
-      gap="var(--spacing-sm)"
-      style={{ maxHeight: expanded ? undefined : '3rem' }}
-      className={styles.groupFilters}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {filterableGroups.map((group) => (
-        <Pill
-          key={group.name}
-          onClick={() =>
-            groupFilter === group.ids
-              ? setGroupFilter(null)
-              : setGroupFilter(group.ids)
-          }
-          className={cx(
-            styles.groupFilterButton,
-            groupFilter === group.ids && styles.selected,
-          )}
+    <div className={styles.groupFilterBar}>
+      <span className={styles.groupFilterLabel}>Kull</span>
+
+      <div
+        className={styles.groupFilters}
+        role="group"
+        aria-label="Filtrer på kull"
+      >
+        {filterableGroups.map((group) => {
+          const active = groupFilter === group.ids;
+
+          return (
+            <button
+              key={group.name}
+              type="button"
+              aria-pressed={active}
+              className={cx(
+                styles.groupFilterButton,
+                active && styles.groupFilterButtonActive,
+              )}
+              onClick={() =>
+                active ? setGroupFilter(null) : setGroupFilter(group.ids)
+              }
+            >
+              {group.name}
+            </button>
+          );
+        })}
+      </div>
+
+      {groupFilter !== null && (
+        <button
+          type="button"
+          className={styles.groupFilterClear}
+          onClick={() => setGroupFilter(null)}
         >
-          {group.name}
-        </Pill>
-      ))}
-      {!expanded && <div className={styles.collapsedIndicator} />}
-    </Flex>
+          Nullstill
+        </button>
+      )}
+    </div>
   );
 };

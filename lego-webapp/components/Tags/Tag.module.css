@@ -37,6 +37,7 @@
   --tag-lightness: clamp(12%, calc((var(--label-l) - 18) * 1%), 42%);
 
   display: inline-flex;
+  align-items: center;
   color: hsl(var(--label-h), calc(var(--label-s) * 1%), var(--tag-lightness));
   background: rgba(
     var(--label-r),
@@ -57,8 +58,15 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   line-height: 1.5;
+  white-space: nowrap;
   transition: var(--easing-fast);
   transition-property: color, background, border-color, box-shadow, opacity;
+}
+
+.buttonTag {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
 }
 
 html[data-theme='dark'] .tag {
