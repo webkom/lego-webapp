@@ -35,7 +35,9 @@
   background: transparent;
   color: var(--lego-font-color);
   cursor: pointer;
-  transition: background 0.15s ease, opacity 0.15s ease;
+  transition:
+    background 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .arrow:hover:not(:disabled) {

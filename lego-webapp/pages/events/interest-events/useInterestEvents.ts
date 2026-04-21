@@ -93,9 +93,7 @@ export const useInterestEvents = (): UseInterestEventsResult => {
   usePreparedEffect(
     'fetchPastInterestEvents',
     () =>
-      shouldFetchPast
-        ? dispatch(fetchEvents({ query: pastQuery }))
-        : undefined,
+      shouldFetchPast ? dispatch(fetchEvents({ query: pastQuery })) : undefined,
     [loggedIn, query.from, query.to],
   );
 
