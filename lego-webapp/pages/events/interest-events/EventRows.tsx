@@ -1,10 +1,10 @@
 import { Flex } from '@webkom/lego-bricks';
 import { CalendarX2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import EmptyState from '~/components/EmptyState';
 import styles from './EventRows.module.css';
 import InterestEventCard from './InterestEventCard';
 import type { ListEvent } from '~/redux/models/Event';
-import EmptyState from '~/components/EmptyState';
 
 const CARD_WIDTH = 200;
 const CARD_GAP = 16;

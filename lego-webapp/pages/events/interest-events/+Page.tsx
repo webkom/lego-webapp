@@ -1,11 +1,9 @@
 import { Skeleton } from '@webkom/lego-bricks';
-import { FolderOpen } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import EmptyState from '~/components/EmptyState';
 import EventRows from './EventRows';
-import PageHero from './PageHero';
 import pageStyles from './Page.module.css';
+import PageHero from './PageHero';
 import { ROW_ORDER } from './types';
 import { useInterestEvents } from './useInterestEvents';
 import { GROUP_LABELS, GROUP_SUBTITLES, getWeekSubtitle } from './utils';
