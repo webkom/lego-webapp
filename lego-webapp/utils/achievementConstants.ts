@@ -1,7 +1,10 @@
 import christmas_calendar_25 from 'assets/trophies/christmas-calendar-25.png';
 import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
+import easter_contender_26 from 'assets/trophies/easter-contender-trophy-26.png';
+import easter_participant_26 from 'assets/trophies/easter-participant-trophy-26.png';
 import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
 import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
+import easter_winner_26 from 'assets/trophies/easter-winner-trophy-26.png';
 import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
 import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
 import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
@@ -327,6 +330,27 @@ export const AchievementsInfo: Record<
       rarity: 2,
       hidden: false,
       image: easter_winner_25,
+    },
+    {
+      name: 'Påskeeggjakten 2026\nDeltaker',
+      description: 'Deltaker - påskeeggjakten 2026',
+      rarity: 0,
+      hidden: false,
+      image: easter_participant_26,
+    },
+    {
+      name: 'Påskeeggjakten 2026\nUtfordrer',
+      description: 'Utfordrer - påskeeggjakten 2026',
+      rarity: 1,
+      hidden: false,
+      image: easter_contender_26,
+    },
+    {
+      name: 'Påskeeggjakten 2026\nVinner',
+      description: 'Vinner - påskeeggjakten 2026',
+      rarity: 2,
+      hidden: false,
+      image: easter_winner_26,
     },
   ],
   christmas_calendar: [
