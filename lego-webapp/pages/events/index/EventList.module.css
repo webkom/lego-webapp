@@ -2,6 +2,36 @@
   margin-bottom: var(--spacing-md);
 }
 
+.eventGroupTitle {
+  margin: 0 0 var(--spacing-sm);
+}
+
+.horizontalEventRow {
+  display: grid;
+  grid-auto-columns: minmax(280px, 320px);
+  grid-auto-flow: column;
+  gap: var(--spacing-md);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-bottom: var(--spacing-xs);
+  scroll-snap-type: x proximity;
+}
+
+.horizontalEventCard {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.horizontalEventCard > a {
+  height: 100%;
+}
+
+.horizontalEventCardSkeleton {
+  display: block;
+  min-height: 220px;
+  width: 100%;
+}
+
 .skeletonEventGroupTitle {
   width: 200px;
   min-height: 28.59px;

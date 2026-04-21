@@ -20,7 +20,7 @@ const EventsDropdown = () => {
         <Gamepad key="2" />,
         <MountainSnow key="3" />,
       ]),
-      href: '/interest-events',
+      href: '/events/interest-events',
     },
   ];
 

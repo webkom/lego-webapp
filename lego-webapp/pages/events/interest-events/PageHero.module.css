@@ -1,0 +1,103 @@
+.hero {
+  padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--secondary-font-color);
+  margin: 0;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ebb03b;
+  flex-shrink: 0;
+}
+
+.highlight {
+  color: #ebb03b;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.description {
+  margin: 0;
+  max-width: 480px;
+  color: var(--secondary-font-color);
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xs);
+}
+
+.searchWrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  border: 1.5px solid var(--border-gray);
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  background: var(--additive-background);
+  cursor: text;
+  width: 280px;
+  transition: border-color 0.15s ease;
+}
+
+.searchWrapper:focus-within {
+  border-color: var(--lego-font-color);
+}
+
+.searchIcon {
+  color: var(--secondary-font-color);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--lego-font-color);
+  font-size: var(--font-size-sm);
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: var(--secondary-font-color);
+}
+
+.infoBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: #ebb03b;
+  color: #000;
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.infoBtn:hover {
+  background: #d99e30;
+}
