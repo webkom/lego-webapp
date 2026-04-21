@@ -1,0 +1,36 @@
+.userIcons {
+  position: relative;
+  width: 340px;
+  height: 38px;
+}
+.userIcons > img {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-radius: 38px;
+  border: 2px solid var(--color-white);
+}
+.attendeesProgressInfo {
+  display: flex;
+  color: var(--secondary-font-color);
+  justify-content: space-between;
+  width: 100%;
+}
+
+.attendeeNames {
+  color: var(--secondary-font-color);
+}
+
+.attendeesBar {
+  width: 100%;
+  height: 8px;
+  border-radius: 8px;
+  background-color: var(--color-gray-3);
+}
+
+.attendeesBarProgress {
+  height: 100%;
+  width: 40%;
+  border-radius: 8px;
+  background-color: var(--color-interest-yellow);
+}
