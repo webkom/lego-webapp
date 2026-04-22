@@ -135,8 +135,6 @@ const LendingSection: React.FC<Props> = ({ values }) => {
         isMulti
         description="Dette gjør det mulig for arrangementet å låne objekter for et arrangmenet. Dette gjøres ved å lage en separat utlånsforespørsel etter at arrangementet er opprettet, i ditt navn. Objektene vil ikke være reservert før utlånsforespørselen er godkjent. Objektene vil heller ikke endres hvis arrangment endres på. Du er selv ansvarlig for å sjekke at objektene er tilgjengelige for utlån på det tidspunktet arrangementet skal være. "
       />
-      {console.log(values)}
-      {console.log(values.lendingObjects)}
 
       {values.lendingObjects &&
         values.lendingObjects.length > 0 &&
