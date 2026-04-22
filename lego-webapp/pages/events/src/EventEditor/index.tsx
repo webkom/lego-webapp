@@ -213,32 +213,36 @@ const EventEditor = () => {
       ? dispatch(editEvent(transformEvent(values)))
       : dispatch(createEvent(transformEvent(values)));
 
-    eventAction.then((res) => {
-      const key: string = values.cover.split(':')[0];
-      const token: string = values.cover.split(':')[1];
-      if (values.saveToImageGallery) {
-        dispatch(setSaveForUse(key, token, true));
-      }
-
-      // Create lending request if lendingObjects exist and we're creating a new event
-      if (values.lendingObjects && values.lendingObjects.length > 0) {
-        for (let i = 0; i < values.lendingObjects.length; i++) {
-          const lendingRequestData: CreateLendingRequest = {
-            lendableObject: values.lendingObjects[i].value,
-            comment: values.lendingDescription[i] || '',
-            startDate: moment(values.date[0]).toISOString(),
-            endDate: moment(values.date[1]).toISOString(),
-          };
-          dispatch(createLendingRequest(lendingRequestData));
+    eventAction
+      .then((res) => {
+        const key: string = values.cover.split(':')[0];
+        const token: string = values.cover.split(':')[1];
+        if (values.saveToImageGallery) {
+          void dispatch(setSaveForUse(key, token, true));
         }
-      }
 
-      navigate(
-        isEditPage
-          ? `/events/${eventIdOrSlug}`
-          : `/events/${res.payload.result}`,
-      );
-    });
+        // Create lending request if lendingObjects exist and we're creating a new event
+        if (values.lendingObjects && values.lendingObjects.length > 0) {
+          for (let i = 0; i < values.lendingObjects.length; i++) {
+            const lendingRequestData: CreateLendingRequest = {
+              lendableObject: values.lendingObjects[i].value,
+              comment: values.lendingDescription[i] || '',
+              startDate: moment(values.date[0]).toISOString(),
+              endDate: moment(values.date[1]).toISOString(),
+            };
+            void dispatch(createLendingRequest(lendingRequestData));
+          }
+        }
+
+        navigate(
+          isEditPage
+            ? `/events/${eventIdOrSlug}`
+            : `/events/${res.payload.result}`,
+        );
+      })
+      .catch(() => {
+        // Errors are handled by middleware/toasts; avoid uncaught promise rejections.
+      });
   };
 
   const initialValues = event

@@ -174,15 +174,32 @@ export const ImageUpload = ({
   const onSubmit = () => {
     if (crop && !props.multiple && file) {
       const { name } = file;
-      if (cropper.current) {
-        cropper.current.getCroppedCanvas().toBlob((image) => {
-          if (!image) return;
-          const file = new File([image], name);
-          props.onSubmit(file);
-          setImg(URL.createObjectURL(image));
-          closeModal();
-        });
+      const croppedCanvas = cropper.current?.getCroppedCanvas();
+
+      if (!croppedCanvas) {
+        // Cropper can be initialized before the underlying canvas is ready.
+        // Fall back to the original file to avoid crashing the upload flow.
+        props.onSubmit(file);
+        setImg(URL.createObjectURL(file));
+        closeModal();
+        return;
       }
+
+      croppedCanvas.toBlob((image) => {
+        if (!image) {
+          props.onSubmit(file);
+          setImg(URL.createObjectURL(file));
+          closeModal();
+          return;
+        }
+
+        const croppedFile = new File([image], name, { type: image.type });
+        props.onSubmit(croppedFile);
+        setImg(URL.createObjectURL(image));
+        closeModal();
+      }, file.type || 'image/png');
+
+      return;
     }
 
     if (props.multiple && files.length) {
