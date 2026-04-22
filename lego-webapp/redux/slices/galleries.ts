@@ -6,7 +6,10 @@ import { EntityType } from '~/redux/models/entities';
 import type { RootState } from '~/redux/rootReducer';
 
 const legoAdapter = createLegoAdapter(EntityType.Galleries, {
-  sortComparer: (a, b) => moment(b.takenAt).diff(a.takenAt),
+  sortComparer: (a, b) => {
+    if (a.isPinned != b.isPinned) return a.isPinned ? -1 : 1;
+    return moment(b.takenAt).diff(a.takenAt);
+  },
 });
 const galleriesSlice = createSlice({
   name: EntityType.Galleries,
