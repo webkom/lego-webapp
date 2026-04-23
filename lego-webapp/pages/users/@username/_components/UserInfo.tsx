@@ -22,7 +22,7 @@ const LinkedInField = ({
   linkedinId: string;
   fullName: string;
 }) => (
-  <a href={linkedinId.startsWith('http') ? linkedinId : `https://www.linkedin.com/in/${linkedinId}`}>
+  <a href={`https://www.linkedin.com/in/${linkedinId}`}>
     <Flex alignItems="center">
       <Icon name={'logo-linkedin'} className={styles.soMeIcon} />
       {fullName}
