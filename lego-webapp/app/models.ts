@@ -339,3 +339,22 @@ export type EventAdministrate = Omit<Event, 'createdBy' | 'comments'> & {
   createdBy: number;
   comments: number[];
 };
+
+export type Country = {
+  id: number;
+  name: string;
+};
+
+export type University = {
+  id: EntityId;
+  name: string;
+  country: string;
+}
+
+export type Exchange = {
+  id: number;
+  student: PublicUser;
+  university: University;
+  semester: 'vår' | 'høst';
+  year: number;
+};
