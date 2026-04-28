@@ -5,7 +5,10 @@ import { HeartHandshake } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
-import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
+import {
+  editLendingRequest,
+  fetchLendingRequests,
+} from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectLendableObjectsForIndex } from '~/redux/slices/lendableObjects';
@@ -16,26 +19,35 @@ import useQuery from '~/utils/useQuery';
 import FilterSearch from './FilterSearch';
 import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
-import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
+import RequestInbox, {
+  type LendingRequestArchivedFilter,
+} from './RequestInbox';
 import {
   REQUEST_INBOX_PAGE_SIZE,
   getNextVisibleCount,
   getVisibleRequestCount,
   shouldFetchMoreRequests,
 } from './requestInboxPagination';
+import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 const defaultLendingQuery = {
   search: '',
   lendingCategories: [] as FilterLendingCategory[],
-  ordering: '-created_at' as LendingRequestOrdering,
+  archived: 'false' as LendingRequestArchivedFilter,
 };
 
 const LendableObjectList = () => {
   const { query, setQueryValue } = useQuery(defaultLendingQuery);
-  const requestOrdering: LendingRequestOrdering =
-    query.ordering === 'created_at' ? 'created_at' : '-created_at';
+  const requestArchived: LendingRequestArchivedFilter =
+    query.archived === 'true' ? 'true' : 'false';
   const requestQuery = {
-    ordering: requestOrdering,
+    archived: requestArchived,
+  };
+  const activeRequestQuery = {
+    archived: 'false' as const,
+  };
+  const archivedRequestQuery = {
+    archived: 'true' as const,
   };
 
   const dispatch = useAppDispatch();
@@ -56,7 +68,7 @@ const LendableObjectList = () => {
           query: requestQuery,
         }),
       ),
-    [requestOrdering],
+    [requestArchived],
   );
 
   const { pagination: requestsPagination } = useAppSelector((state) =>
@@ -81,11 +93,11 @@ const LendableObjectList = () => {
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
   const [visibleCount, setVisibleCount] = useState(REQUEST_INBOX_PAGE_SIZE);
-  const previousRequestOrderingRef = useRef(requestOrdering);
+  const previousRequestArchivedRef = useRef(requestArchived);
   const visibleRequestCount = getVisibleRequestCount({
     visibleCount,
-    currentOrdering: requestOrdering,
-    previousOrdering: previousRequestOrderingRef.current,
+    currentArchived: requestArchived,
+    previousArchived: previousRequestArchivedRef.current,
   });
 
   const lendingRequests = originalLendingRequests.slice(0, visibleRequestCount);
@@ -104,6 +116,17 @@ const LendableObjectList = () => {
       fetchMoreLendingRequests();
     }
     setVisibleCount(nextVisibleCount);
+  };
+
+  const handleArchiveRequest = async (
+    requestId: TransformedLendingRequest['id'],
+    archived: boolean,
+  ) => {
+    await dispatch(editLendingRequest({ id: requestId, archived }));
+    await Promise.all([
+      dispatch(fetchLendingRequests({ query: activeRequestQuery })),
+      dispatch(fetchLendingRequests({ query: archivedRequestQuery })),
+    ]);
   };
 
   const objectsActionGrant = useAppSelector(
@@ -137,9 +160,9 @@ const LendableObjectList = () => {
   };
 
   useEffect(() => {
-    previousRequestOrderingRef.current = requestOrdering;
+    previousRequestArchivedRef.current = requestArchived;
     setVisibleCount(REQUEST_INBOX_PAGE_SIZE);
-  }, [requestOrdering]);
+  }, [requestArchived]);
 
   useEffect(() => {
     if (!heartRef.current) return;
@@ -233,8 +256,9 @@ const LendableObjectList = () => {
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
-          ordering={requestOrdering}
-          onOrderingChange={setQueryValue('ordering')}
+          onArchive={handleArchiveRequest}
+          archived={requestArchived}
+          onArchivedChange={setQueryValue('archived')}
           className={styles.requestInbox}
         />
         <ItemIndex
