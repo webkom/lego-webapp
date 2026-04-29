@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { sortBy } from 'lodash-es';
+import { sortBy, shuffle } from 'lodash-es';
 import {
   ChartNoAxesColumn,
   ChevronDown,
@@ -185,11 +185,12 @@ type VoteOpenProps = {
 
 const VoteOpen = ({ details, poll, options }: VoteOpenProps) => {
   const dispatch = useAppDispatch();
+  const shuffledOptions = shuffle(options);
 
   return (
     <Flex column alignItems="center" className={styles.optionWrapper}>
       {details && <p className={styles.description}>{poll.description}</p>}
-      {options.map((option) => (
+      {shuffledOptions.map((option) => (
         <Flex key={option.id} width="90%">
           <Button
             className={styles.voteButton}
