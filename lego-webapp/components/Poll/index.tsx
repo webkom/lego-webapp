@@ -185,7 +185,9 @@ type VoteOpenProps = {
 
 const VoteOpen = ({ details, poll, options }: VoteOpenProps) => {
   const dispatch = useAppDispatch();
-  const shuffledOptions = shuffle(options);
+  const shuffledOptions = options.sort((a, b) =>
+    a.id.toString().localeCompare(b.id.toString()),
+  );
 
   return (
     <Flex column alignItems="center" className={styles.optionWrapper}>
