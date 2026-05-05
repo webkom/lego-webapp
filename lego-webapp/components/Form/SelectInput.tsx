@@ -15,7 +15,9 @@ type Props<Option, IsMulti extends boolean = false> = {
   fetching?: boolean;
   className?: string;
   selectStyle?: StylesConfig<Option, IsMulti>;
-  onChange?: (event: ChangeEvent | string | Option[] | Option) => void;
+  onChange?: (
+    event: ChangeEvent | string | readonly Option[] | Option | null,
+  ) => void;
   onSearch?: (search: string) => void;
   isValidNewOption?: (arg0: string) => boolean;
   value?: Option | Option[] | null;
@@ -26,6 +28,8 @@ type Props<Option, IsMulti extends boolean = false> = {
   isClearable?: boolean;
   filter?: string[];
   SuggestionComponent?: SuggestionComponent<Option>;
+  formatOptionLabel?: ComponentProps<typeof Select>['formatOptionLabel'];
+  isOptionDisabled?: ComponentProps<typeof Select>['isOptionDisabled'];
 } & Pick<ComponentProps<Creatable>, 'onBlur'>;
 
 export type SuggestionComponent<Option = { label: string; value: number }> =
@@ -96,6 +100,7 @@ const SelectInput = <
   creatable,
   onSearch,
   SuggestionComponent,
+  isOptionDisabled,
   ...props
 }: Props<Option, IsMulti>) => {
   if (props.tags) {
@@ -117,8 +122,11 @@ const SelectInput = <
           value={value}
           isValidNewOption={isValidNewOption}
           options={options}
+          isOptionDisabled={isOptionDisabled}
           isLoading={fetching}
-          styles={selectStyle ?? selectStyles}
+          styles={
+            selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)
+          }
           theme={selectTheme}
           onInputChange={(value) => {
             onSearch?.(value);
@@ -143,13 +151,14 @@ const SelectInput = <
         instanceId={name}
         value={value}
         options={options}
+        isOptionDisabled={isOptionDisabled}
         isLoading={fetching}
         onInputChange={(value) => {
           onSearch?.(value);
           return value;
         }}
         menuPortalTarget={import.meta.env.SSR ? null : document.body}
-        styles={selectStyle ?? selectStyles}
+        styles={selectStyle ?? (selectStyles as StylesConfig<Option, IsMulti>)}
         theme={selectTheme}
         blurInputOnSelect={false}
         loadingMessage={() => LOADING_MESSAGE}
