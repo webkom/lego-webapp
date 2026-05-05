@@ -20,7 +20,6 @@ const LatestReadme = ({
   displayCount = 4,
 }: Props) => {
   const readmes = useAppSelector((state) => state.readme);
-
   return (
     <Card className={styles.latestReadme} style={style}>
       <Accordion

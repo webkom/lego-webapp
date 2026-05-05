@@ -1,6 +1,10 @@
+import christmas_calendar_25 from 'assets/trophies/christmas-calendar-25.png';
 import easter_contender_25 from 'assets/trophies/easter-contender-trophy-25.png';
+import easter_contender_26 from 'assets/trophies/easter-contender-trophy-26.png';
+import easter_participant_26 from 'assets/trophies/easter-participant-trophy-26.png';
 import easter_winner_24 from 'assets/trophies/easter-winner-trophy-24.png';
 import easter_winner_25 from 'assets/trophies/easter-winner-trophy-25.png';
+import easter_winner_26 from 'assets/trophies/easter-winner-trophy-26.png';
 import trofe_aktiv_bidragsyter_1 from 'assets/trophies/trofe_aktiv_bidragsyter_1.png';
 import trofe_aktiv_bidragsyter_2 from 'assets/trophies/trofe_aktiv_bidragsyter_2.png';
 import trofe_aktiv_bidragsyter_3 from 'assets/trophies/trofe_aktiv_bidragsyter_3.png';
@@ -37,7 +41,10 @@ export const AchievementIdentifier = {
   penalty_period: 'penalty_period',
   genfors_count: 'genfors_count',
   gala_count: 'gala_count',
-  easter_winner: 'easter_winner',
+  easter_2024: 'easter_2024',
+  easter_2025: 'easter_2025',
+  easter_2026: 'easter_2026',
+  christmas_calendar: 'christmas_calendar',
 } as const;
 
 export type AchievementIdentifier =
@@ -304,7 +311,7 @@ export const AchievementsInfo: Record<
       image: trofe_sjeldenhetsgrad_10,
     },
   ],
-  easter_winner: [
+  easter_2024: [
     {
       name: 'Påskeeggjakten 2024\nVinner',
       description: 'Vinner - påskeeggjakten 2024',
@@ -312,6 +319,8 @@ export const AchievementsInfo: Record<
       hidden: false,
       image: easter_winner_24,
     },
+  ],
+  easter_2025: [
     {
       name: 'Påskeeggjakten 2025\nUtfordrer',
       description: 'Utfordrer - påskeeggjakten 2025',
@@ -325,6 +334,38 @@ export const AchievementsInfo: Record<
       rarity: 2,
       hidden: false,
       image: easter_winner_25,
+    },
+  ],
+  easter_2026: [
+    {
+      name: 'Påskeeggjakten 2026\nDeltaker',
+      description: 'Deltaker - påskeeggjakten 2026',
+      rarity: 0,
+      hidden: false,
+      image: easter_participant_26,
+    },
+    {
+      name: 'Påskeeggjakten 2026\nUtfordrer',
+      description: 'Utfordrer - påskeeggjakten 2026',
+      rarity: 1,
+      hidden: false,
+      image: easter_contender_26,
+    },
+    {
+      name: 'Påskeeggjakten 2026\nVinner',
+      description: 'Vinner - påskeeggjakten 2026',
+      rarity: 2,
+      hidden: false,
+      image: easter_winner_26,
+    },
+  ],
+  christmas_calendar: [
+    {
+      name: 'Julekalenderen 2025',
+      description: 'Gjennomførte julekalenderen 2025',
+      rarity: 2,
+      hidden: false,
+      image: christmas_calendar_25,
     },
   ],
 };
@@ -432,12 +473,44 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     isLeveled: true,
   },
   {
-    identifier: 'easter_winner',
-    name: 'Webkom Påskeeggjakt',
-    description: "Vinnere av Webkom's påskeeggjakt",
-    achievements: AchievementsInfo['easter_winner'],
+    identifier: 'easter_2024',
+    name: 'Webkom Påskeeggjakt 2024',
+    description: "Premier fra Webkom's påskeeggjakt 2024",
+    achievements: AchievementsInfo['easter_2024'],
+    isLeveled: false,
+  },
+  {
+    identifier: 'easter_2025',
+    name: 'Webkom Påskeeggjakt 2025',
+    description: "Premier fra Webkom's påskeeggjakt 2025",
+    achievements: AchievementsInfo['easter_2025'],
+    isLeveled: false,
+  },
+  {
+    identifier: 'easter_2026',
+    name: 'Webkom Påskeeggjakt 2026',
+    description: "Premier fra Webkom's påskeeggjakt 2026",
+    achievements: AchievementsInfo['easter_2026'],
+    isLeveled: false,
+  },
+  {
+    identifier: 'christmas_calendar',
+    name: 'Webkom Julekalender',
+    description: "Gjennomførte Webkom's julekalender",
+    achievements: AchievementsInfo['christmas_calendar'],
     isLeveled: false,
   },
 ];
+
+export const getAchievementInfo = ({
+  identifier,
+  level,
+}: {
+  identifier: AchievementIdentifier;
+  level: number;
+}) => AchievementsInfo[identifier]?.[level];
+
+export const getAchievementGroupInfo = (identifier: AchievementIdentifier) =>
+  GroupedAchievementsInfo.find((group) => group.identifier === identifier);
 
 export default AchievementsInfo;

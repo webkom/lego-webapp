@@ -4,13 +4,13 @@ import { Pencil } from 'lucide-react';
 import { useEffect } from 'react';
 import { navigate } from 'vike/client/router';
 import {
-  ContentSection,
   ContentMain,
+  ContentSection,
   ContentSidebar,
 } from '~/components/Content';
 import DisplayContent from '~/components/DisplayContent';
 import InfoList from '~/components/InfoList';
-import { jobType, Year, Workplaces } from '~/components/JoblistingItem/Items';
+import { jobType, Workplaces, Year } from '~/components/JoblistingItem/Items';
 import PropertyHelmet from '~/components/PropertyHelmet';
 import Time from '~/components/Time';
 import YoutubeCover from '~/pages/pages/_components/YoutubeCover';
@@ -64,8 +64,6 @@ const MailWrapper = ({ mail }: { mail: string }) => (
     <wbr />@{mail.split('@')[1]}
   </a>
 );
-
-const NotGiven = () => <span className="secondaryFontColor">Ikke oppgitt</span>;
 
 const JoblistingDetail = () => {
   const { joblistingIdOrSlug } = useParams();
@@ -206,28 +204,33 @@ const JoblistingDetail = () => {
                     {showContactMail && <h4>Kontaktperson</h4>}
                     <InfoList
                       items={[
-                        {
-                          key: 'Navn',
-                          value: joblisting.responsible.name || <NotGiven />,
-                        },
-                        {
-                          key: 'E-post',
-                          value: joblisting.responsible.mail ? (
-                            <MailWrapper mail={joblisting.responsible.mail} />
-                          ) : (
-                            <NotGiven />
-                          ),
-                        },
-                        {
-                          key: 'Telefon',
-                          value: joblisting.responsible.phone ? (
-                            <a href={`tel:${joblisting.responsible.phone}`}>
-                              {joblisting.responsible.phone}
-                            </a>
-                          ) : (
-                            <NotGiven />
-                          ),
-                        },
+                        joblisting.responsible.name
+                          ? {
+                              key: 'Navn',
+                              value: joblisting.responsible.name,
+                            }
+                          : null,
+
+                        joblisting.responsible.mail
+                          ? {
+                              key: 'E-post',
+                              value: (
+                                <MailWrapper
+                                  mail={joblisting.responsible.mail}
+                                />
+                              ),
+                            }
+                          : null,
+                        joblisting.responsible.phone
+                          ? {
+                              key: 'Telefon',
+                              value: (
+                                <a href={`tel:${joblisting.responsible.phone}`}>
+                                  {joblisting.responsible.phone}
+                                </a>
+                              ),
+                            }
+                          : null,
                       ]}
                     />
                   </div>

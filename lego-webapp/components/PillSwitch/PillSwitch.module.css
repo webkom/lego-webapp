@@ -1,0 +1,42 @@
+.root {
+  position: relative;
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  padding: var(--spacing-xs);
+  border-radius: 999px;
+  background: var(--additive-background);
+}
+
+.root::before {
+  content: '';
+  position: absolute;
+  top: var(--spacing-xs);
+  bottom: var(--spacing-xs);
+  left: var(--spacing-xs);
+  width: calc((100% - 8px) / var(--pill-switch-count));
+  border-radius: var(--border-radius-lg);
+  background: var(--lego-font-color);
+  transform: translateX(calc(100% * var(--pill-switch-index)));
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.button {
+  position: relative;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--lego-font-color);
+  font-size: var(--font-size-sm);
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: color 180ms ease;
+}
+
+.button[data-active='true'] {
+  color: var(--lego-background-color);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--lego-font-color);
+  outline-offset: var(--spacing-xs);
+}

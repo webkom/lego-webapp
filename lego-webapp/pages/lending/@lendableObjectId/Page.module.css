@@ -1,12 +1,52 @@
 @import url('styles/custom-media.css');
 
-.card {
-  margin: var(--spacing-md) 0;
+.container {
+  margin: var(--spacing-sm) 0;
+  font-size: var(--font-size-md);
+}
+
+.infoRight {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.info {
+  display: flex;
+  gap: var(--spacing-md);
+  font-size: var(--font-size-md);
+  position: relative;
+
+  @media (--small-viewport) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+}
+
+.imageCard {
   padding: 0;
   width: 250px;
+  height: fit-content;
+}
+
+.practicalInfo {
+  padding: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  gap: var(--spacing-xs);
+
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.practicalInfo > h4 {
+  color: var(--lego-font-color);
+  font-size: var(--font-size-md);
+  margin-bottom: var(--spacing-xs);
 }
 
 .border {
+  margin: var(--spacing-md) 0;
   border-bottom: 2px solid var(--border-gray);
 }
 
@@ -17,20 +57,4 @@
 
 .description {
   flex-grow: 1;
-}
-
-.container {
-  margin: var(--spacing-sm) 0;
-  font-size: var(--font-size-md);
-  color: var(--color-gray-6);
-}
-
-.info {
-  font-size: var(--font-size-md);
-  display: flex;
-
-  @media (--small-viewport) {
-    flex-direction: column-reverse;
-    align-items: center;
-  }
 }

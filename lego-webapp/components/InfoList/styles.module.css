@@ -6,3 +6,8 @@
   white-space: pre-wrap;
   word-break: break-word;
 }
+.value > ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}

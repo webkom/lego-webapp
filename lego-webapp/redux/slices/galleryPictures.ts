@@ -3,8 +3,7 @@ import { Gallery, GalleryPicture } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
 import { addCommentCases } from '~/redux/slices/comments';
-import type { EntityId, PayloadAction } from '@reduxjs/toolkit';
-import type { AnyAction } from 'redux';
+import type { EntityId, PayloadAction, AnyAction } from '@reduxjs/toolkit';
 import type { RootState } from '~/redux/rootReducer';
 
 export type UploadStatus = {

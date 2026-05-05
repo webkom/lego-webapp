@@ -33,3 +33,8 @@
     padding: var(--spacing-md) 0;
   }
 }
+
+.actionButtons {
+  display: flex;
+  gap: var(--spacing-md);
+}
