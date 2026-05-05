@@ -3,7 +3,7 @@ import callAPI from '~/redux/actions/callAPI';
 import { eventSchema, eventAdministrateSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Thunk, Action } from 'app/types';
-import type { DetailedEvent, UnknownEvent } from '~/redux/models/Event';
+import type { DetailedEvent } from '~/redux/models/Event';
 import type { Presence, ReadRegistration } from '~/redux/models/Registration';
 
 export const waitinglistPoolId = -1;
@@ -119,6 +119,7 @@ export function editPartialEvent(
     body: { ...event, cover: event.cover || undefined },
     meta: {
       errorMessage: 'Endring av arrangement feilet',
+      successMessage: 'Endring av arrangement fullført',
     },
   });
 }

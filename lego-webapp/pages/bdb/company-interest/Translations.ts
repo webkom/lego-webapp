@@ -21,10 +21,10 @@ export const EVENTS = {
   //   norwegian: 'Digital presentasjon',
   //   english: 'Digital presentation',
   // },
-  // bedex: {
-  //   norwegian: 'Bedriftsekskursjon (BedEx)',
-  //   english: 'Company excursion (BedEx)',
-  // },
+  bedex: {
+    norwegian: 'Bedriftsekskursjon (BedEx)',
+    english: 'Company excursion (BedEx)',
+  },
   other: {
     norwegian: 'Alternativt arrangement',
     english: 'Other event',
@@ -202,6 +202,19 @@ export const COLLABORATION_DESCRIPTIONS = {
       'Hver vår er det premiere på Abakus sin egne revy. Ta med studentene på en hyggelig kveld hvor dere presenterer selskapet deres, før dere sammen drar og ser på årets revy!',
     english:
       'Every spring, Abakus puts on its own revue. Invite the students to a pleasant evening where you present your company, before heading together to watch this year’s revue!',
+  },
+};
+
+export const OTHER_DESCRIPTIONS = {
+  ad_readme: {
+    norwegian:
+      'readme er Gløshaugens største linjeforeningsmagasin, som kommer ut tre ganger i semesteret, og vi har et opplag på 500 eksemplarer hver utgave. Magasinet er gratis, distribueres på hele NTNUs campus Gløshaugen, og når ut til over 900 studenter innenfor datateknologi, cybersikkerhet, datakommunikasjon og informasjonsteknologi.',
+    english:
+      'readme is the largest student association magazine at Gløshaugen. It is published three times per semester, with a print run of 500 copies per issue. The magazine is free, distributed across NTNU’s Gløshaugen campus, and reaches more than 900 students in computer science, cyber security, data communications, and information technology',
+  },
+  prof_social_media: {
+    norwegian: '',
+    english: '',
   },
 };
 

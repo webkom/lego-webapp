@@ -1,3 +1,19 @@
+@import url('styles/custom-media.css');
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+
+  @media (--small-viewport) {
+    align-items: center;
+    flex-direction: row;
+  }
+}
+
 .lendingRequestMailBoxTitle {
   display: flex;
   align-items: center;
@@ -12,8 +28,18 @@
   gap: var(--spacing-sm);
 }
 
+.requestCardWrapper {
+  transform-origin: top center;
+}
+
+.loadingState {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-xl) 0;
+}
+
 .lendingRequestEmpty {
-  padding: var(--spacing-lg);
+  padding-top: var(--spacing-xl);
 }
 
 .loadMoreRequest {
@@ -21,6 +47,10 @@
   justify-content: center;
   position: relative;
   top: -17px;
+}
+
+.header {
+  margin: 0;
 }
 
 .loadMoreButton {
@@ -38,6 +68,13 @@
   align-items: center;
   padding: var(--spacing-md);
   color: var(--lego-font-color);
+  transition:
+    box-shadow var(--easing-fast),
+    background-color var(--easing-fast);
+}
+
+.lendingRequestCard:hover {
+  background-color: var(--additive-background);
 }
 
 img.lendingRequestImage {

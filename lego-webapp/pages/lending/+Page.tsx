@@ -1,12 +1,14 @@
-import { PageContainer, LinkButton } from '@webkom/lego-bricks';
+import { PageContainer, LinkButton, Icon } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
-import { useState } from 'react';
+import { gsap } from 'gsap';
+import { HeartHandshake } from 'lucide-react';
+import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
-import { selectAllLendableObjects } from '~/redux/slices/lendableObjects';
+import { selectLendableObjectsForIndex } from '~/redux/slices/lendableObjects';
 import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
@@ -14,17 +16,31 @@ import useQuery from '~/utils/useQuery';
 import FilterSearch from './FilterSearch';
 import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
-import RequestInbox from './RequestInbox';
+import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
+import {
+  REQUEST_INBOX_PAGE_SIZE,
+  getNextVisibleCount,
+  getVisibleRequestCount,
+  shouldFetchMoreRequests,
+} from './requestInboxPagination';
 
 const defaultLendingQuery = {
   search: '',
   lendingCategories: [] as FilterLendingCategory[],
+  ordering: '-created_at' as LendingRequestOrdering,
 };
 
 const LendableObjectList = () => {
   const { query, setQueryValue } = useQuery(defaultLendingQuery);
+  const requestOrdering: LendingRequestOrdering =
+    query.ordering === 'created_at' ? 'created_at' : '-created_at';
+  const requestQuery = {
+    ordering: requestOrdering,
+  };
 
   const dispatch = useAppDispatch();
+
+  const heartRef = useRef(null);
 
   usePreparedEffect(
     'fetchAllLendableObjects',
@@ -34,47 +50,61 @@ const LendableObjectList = () => {
 
   usePreparedEffect(
     'fetchAllLendingRequests',
-    () => dispatch(fetchLendingRequests({})),
-    [],
+    () =>
+      dispatch(
+        fetchLendingRequests({
+          query: requestQuery,
+        }),
+      ),
+    [requestOrdering],
   );
 
   const { pagination: requestsPagination } = useAppSelector((state) =>
     selectPaginationNext({
       endpoint: '/lending/requests/',
       entity: EntityType.LendingRequests,
-      query,
+      query: requestQuery,
     })(state),
   );
 
   const fetchMoreLendingRequests = () => {
     return dispatch(
       fetchLendingRequests({
+        query: requestQuery,
         next: true,
       }),
     );
   };
-  const lendableObjects = useAppSelector(selectAllLendableObjects);
+  const lendableObjects = useAppSelector(selectLendableObjectsForIndex);
 
-  const originalLendingRequests = useAppSelector(
-    selectTransformedLendingRequests,
-  );
-  const [visibleCount, setVisibleCount] = useState(4);
-
-  const lendingRequests = originalLendingRequests.slice(0, visibleCount);
-
-  const handleLoadMore = () => {
-    if (requestsPagination.hasMore) {
-      fetchMoreLendingRequests();
-    }
-    setVisibleCount((prev) => prev + 4);
-  };
-
-  /*
-  This is to be fixed
-  const lendingRequests = useAppSelector((state) =>
+  const originalLendingRequests = useAppSelector((state) =>
     selectTransformedLendingRequests(state, { pagination: requestsPagination }),
   );
-  */
+  const [visibleCount, setVisibleCount] = useState(REQUEST_INBOX_PAGE_SIZE);
+  const previousRequestOrderingRef = useRef(requestOrdering);
+  const visibleRequestCount = getVisibleRequestCount({
+    visibleCount,
+    currentOrdering: requestOrdering,
+    previousOrdering: previousRequestOrderingRef.current,
+  });
+
+  const lendingRequests = originalLendingRequests.slice(0, visibleRequestCount);
+
+  const handleLoadMore = () => {
+    const nextVisibleCount = getNextVisibleCount(visibleRequestCount);
+
+    if (
+      shouldFetchMoreRequests({
+        nextVisibleCount,
+        fetchedCount: originalLendingRequests.length,
+        hasMore: requestsPagination.hasMore,
+        isFetching: requestsPagination.fetching,
+      })
+    ) {
+      fetchMoreLendingRequests();
+    }
+    setVisibleCount(nextVisibleCount);
+  };
 
   const objectsActionGrant = useAppSelector(
     (state) => state.lendableObjects.actionGrant,
@@ -106,6 +136,55 @@ const LendableObjectList = () => {
     );
   };
 
+  useEffect(() => {
+    previousRequestOrderingRef.current = requestOrdering;
+    setVisibleCount(REQUEST_INBOX_PAGE_SIZE);
+  }, [requestOrdering]);
+
+  useEffect(() => {
+    if (!heartRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const shapes = gsap.utils.toArray<SVGGeometryElement>(
+        'svg path, svg line, svg polyline, svg polygon, svg circle, svg rect',
+      );
+
+      shapes.forEach((shape) => {
+        const length = shape.getTotalLength();
+
+        gsap.set(shape, {
+          strokeDasharray: length,
+          strokeDashoffset: length,
+          opacity: 1,
+        });
+      });
+
+      const tl = gsap.timeline();
+
+      tl.to(
+        shapes,
+        {
+          strokeDashoffset: 0,
+          duration: 1.8,
+          ease: 'power2.out',
+          stagger: 0.06,
+        },
+        0,
+      ).fromTo(
+        shapes,
+        { stroke: 'var(--lego-font-color)' },
+        {
+          stroke: 'oklch(63.7% 0.237 25.331)',
+          duration: 2.3,
+          ease: 'power2.out',
+        },
+        0,
+      );
+    }, heartRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const title = 'Utlån';
   return (
     <PageContainer card={false}>
@@ -122,6 +201,25 @@ const LendableObjectList = () => {
         <div className={styles.divider}></div>
       </div>
       <section className={styles.wrapper}>
+        <div className={styles.topText}>
+          <div className={styles.infoText} ref={heartRef}>
+            <Icon
+              className={styles.heartIcon}
+              iconNode={<HeartHandshake />}
+              strokeWidth={0.8}
+            />
+            <h4>Hvordan bruke utlånssystemet?</h4>
+            <p>
+              Dette er et digitalt lånessystem for å gjøre utlån enkelt og
+              oversiktlig. Alle brukere er velkommen til å bruke løsningen.
+              Registrer alltid lån/retur, ta godt vare på utstyret, og lever
+              tilbake til avtalt tid. Oppdager du feil eller skade, gi beskjed
+              så fort som mulig. Hvert utlånsobjekt tilhører en komité. Reglene
+              for utlån kan derfor variere, og du må følge retningslinjene som
+              gjelder for den aktuelle komiteen.
+            </p>
+          </div>
+        </div>
         <FilterSearch
           search={query.search}
           onSearchChange={setQueryValue('search')}
@@ -135,6 +233,8 @@ const LendableObjectList = () => {
           isFetching={requestsPagination.fetching}
           hasMore={requestsPagination.hasMore}
           onLoadMore={handleLoadMore}
+          ordering={requestOrdering}
+          onOrderingChange={setQueryValue('ordering')}
           className={styles.requestInbox}
         />
         <ItemIndex
@@ -142,7 +242,7 @@ const LendableObjectList = () => {
           isFetching={fetchingObjects}
           searchQuery={query.search}
           canCreate={objectsActionGrant.includes('create')}
-          className={styles.lendingIndex}
+          className={styles.itemIndex}
         />
       </section>
     </PageContainer>

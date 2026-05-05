@@ -28,7 +28,7 @@ div.body {
 .imageFrontpage {
   object-fit: cover;
   background: white;
-  height: 80px;
+  height: 70%;
   width: 270px;
 
   @media (--mobile-device) {
@@ -83,8 +83,11 @@ div.wrapper {
 }
 
 .info {
-  text-align: center;
-  padding: 3px 6px;
+  display: flex;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  height: 30%;
+  justify-content: center;
+  align-items: center;
 
   @media (--mobile-device) {
     display: none;

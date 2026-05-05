@@ -20,3 +20,12 @@
   display: flex;
   justify-content: center;
 }
+
+.companyContactInput {
+  width: 100%;
+  min-width: 0;
+}
+
+.companyContactActions {
+  min-width: 150px;
+}

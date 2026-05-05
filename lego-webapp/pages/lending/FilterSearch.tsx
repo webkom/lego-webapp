@@ -3,10 +3,10 @@ import cx from 'classnames';
 import {
   TentTree,
   Camera,
-  Guitar,
-  Speaker,
   Armchair,
   Boxes,
+  Handshake,
+  Music4,
 } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import ComponentAsCheckBox from '~/components/Form/ComponentAsCheckBox';
@@ -29,9 +29,9 @@ type Props = {
 export const categoryIconMap: Record<FilterLendingCategory, ReactNode> = {
   outdoors: <TentTree />,
   photography: <Camera />,
-  instrument: <Guitar />,
-  speaker: <Speaker />,
+  music: <Music4 />,
   furniture: <Armchair />,
+  services: <Handshake />,
   other: <Boxes />,
 };
 
@@ -74,6 +74,7 @@ const FilterSearch = ({
   return (
     <div className={className}>
       <FilterSection title="">
+        <h3 className={styles.header}>Søk etter utstyr</h3>
         <TextInput
           prefix="search"
           placeholder="Grill, soundboks..."

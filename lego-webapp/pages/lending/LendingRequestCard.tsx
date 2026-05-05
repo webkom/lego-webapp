@@ -13,6 +13,10 @@ const LendingRequestCard = ({
   lendingRequest: TransformedLendingRequest;
   isFromAdmin?: boolean;
 }) => {
+  if (!lendingRequest.lendableObject) {
+    return null;
+  }
+
   return (
     <a
       href={`/lending/${lendingRequest.lendableObject.id}/request/${lendingRequest.id} ${
@@ -20,7 +24,7 @@ const LendingRequestCard = ({
       }
         `}
     >
-      <Card isHoverable hideOverflow className={styles.lendingRequestCard}>
+      <Card className={styles.lendingRequestCard}>
         <Flex width="100%">
           <Flex>
             <Flex column gap="var(--spacing-sm)">

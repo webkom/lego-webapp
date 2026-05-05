@@ -9,19 +9,20 @@ import english from '~/assets/flags/great_britain.svg';
 import norwegian from '~/assets/flags/norway.svg';
 import { ContentMain } from '~/components/Content';
 import {
+  CheckBox,
   Form,
+  LegoFinalForm,
+  MultiSelectGroup,
+  RadioButton,
+  SelectInput,
   TextEditor,
   TextInput,
-  LegoFinalForm,
-  CheckBox,
-  SelectInput,
-  RadioButton,
-  MultiSelectGroup,
 } from '~/components/Form';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import { readmeIfy } from '~/components/ReadmeLogo';
+import LatestReadme from '~/pages/index/LatestReadme';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,
@@ -31,6 +32,7 @@ import {
   fetchCompanyInterest,
   updateCompanyInterest,
 } from '~/redux/actions/CompanyInterestActions';
+import { fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCompanyInterestById } from '~/redux/slices/companyInterest';
 import {
@@ -41,36 +43,39 @@ import { spyValues } from '~/utils/formSpyUtils';
 import { useParams } from '~/utils/useParams';
 import {
   createValidator,
-  required,
   isEmail,
+  required,
   requiredIf,
 } from '~/utils/validation';
 import styles from './CompanyInterestForm.module.css';
 import {
+  COLLABORATION_DESCRIPTIONS,
+  COLLABORATION_TYPES,
+  COMPANY_TYPES,
   EVENTS,
+  FORM_LABELS,
+  OTHER_DESCRIPTIONS,
   OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
-  FORM_LABELS,
-  COLLABORATION_TYPES,
-  COMPANY_TYPES,
   TOOLTIP,
-  COLLABORATION_DESCRIPTIONS,
 } from './Translations';
 import {
-  interestText,
-  semesterToText,
-  targetGradeToString,
-  eventToString,
-  surveyOffersToString,
-  otherOffersToString,
-  collaborationToString,
-  PARTICIPANT_RANGE_MAP,
-  sortSemesterChronologically,
-  PARTICIPANT_RANGE_TYPES,
   collaborationDescriptionToString,
+  collaborationToString,
+  eventToString,
+  interestText,
+  otherOffersToString,
+  PARTICIPANT_RANGE_MAP,
+  PARTICIPANT_RANGE_TYPES,
+  semesterToText,
+  sortSemesterChronologically,
+  surveyOffersToString,
+  targetGradeToString,
+  othersDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
+
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
@@ -184,8 +189,17 @@ const OtherBox = ({
         label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
         type="checkbox"
         component={CheckBox.Field}
+        description={
+          OTHER_DESCRIPTIONS[othersDescriptionToString(key)][language]
+        }
       />
     ))}
+  </Flex>
+);
+
+const readMe = (
+  <Flex className={styles.readMe}>
+    <LatestReadme expandedInitially={true} />
   </Flex>
 );
 
@@ -221,13 +235,21 @@ const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => (
     alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
   />
 );
-
+type CompanyObjectProps = {
+  label: string | undefined;
+  title: string | undefined;
+  value?: string;
+};
+type CompanyCheckBoxProps = {
+  name: string;
+  checked: boolean;
+};
 type CompanyInterestFormEntity = {
-  companyName: string;
-  company: number | null | undefined;
-  contactPerson: string;
-  mail: string;
-  phone: string;
+  companyName?: string;
+  company: CompanyObjectProps;
+  contactPerson?: string;
+  mail?: string;
+  phone?: string;
   semesters: Array<CompanySemester & { checked: boolean }>;
   events: Array<{
     name: string;
@@ -238,18 +260,21 @@ type CompanyInterestFormEntity = {
     name: string;
     checked: boolean;
   }>;
-  comment: string;
-  courseComment: string;
-  breakfastTalkComment: string;
-  otherEventComment: string;
-  startupComment: string;
-  lunchPresentationComment: string;
-  bedexComment: string;
-  companyToCompanyComment: string;
-  companyPresentationComment: string;
-  companyType: string;
+  comment?: string;
+  courseComment?: string;
+  breakfastTalkComment?: string;
+  otherEventComment?: string;
+  startupComment?: string;
+  lunchPresentationComment?: string;
+  bedexComment?: string;
+  companyToCompanyComment?: string;
+  companyPresentationComment?: string;
+  companyType?: string;
   officeInTrondheim: boolean;
   wantsThursdayEvent: boolean;
+  participantRange: string | null;
+  collaborations: CompanyCheckBoxProps[];
+  targetGrades: CompanyCheckBoxProps[];
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -328,6 +353,10 @@ const CompanyInterestForm = ({ language }: Props) => {
     [companyInterestId, edit],
   );
 
+  usePreparedEffect('fetchReadmes', () => dispatch(fetchReadmes(2)), [
+    dispatch,
+  ]);
+
   const allEvents = Object.keys(EVENTS);
   const allOtherOffers = Object.keys(OTHER_OFFERS);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
@@ -380,7 +409,7 @@ const CompanyInterestForm = ({ language }: Props) => {
       ? semesters
           .map((semester) => ({
             ...semester,
-            checked: companyInterest?.semesters?.includes(semester.id),
+            checked: !!companyInterest?.semesters?.includes(semester.id),
           }))
           .filter((semester) => semester.activeInterestForm || semester.checked)
           .sort(sortSemesterChronologically)
@@ -398,7 +427,7 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
-    const nameOnly = company['__isNew__'] || !company.value;
+    const nameOnly = company && (company['__isNew__'] || !company.value);
     const companyId = nameOnly ? null : Number(company['value']);
     const companyName = nameOnly ? company['label'] : '';
 
@@ -485,13 +514,13 @@ const CompanyInterestForm = ({ language }: Props) => {
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
-    // {
-    //   name: 'bedex',
-    //   translated: EVENTS.bedex[language],
-    //   description: interestText.bedexDescription[language],
-    //   commentName: 'bedexComment',
-    //   commentPlaceholder: interestText.bedexComment[language],
-    // },
+    {
+      name: 'bedex',
+      translated: EVENTS.bedex[language],
+      description: interestText.bedexDescription[language],
+      commentName: 'bedexComment',
+      commentPlaceholder: interestText.bedexComment[language],
+    },
     {
       name: 'other',
       translated: EVENTS.other[language],
@@ -731,6 +760,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                       component={OtherBox}
                     />
                   </MultiSelectGroup>
+                  {readMe}
                 </Flex>
               </Flex>
               <div className={styles.topline} />
@@ -742,8 +772,7 @@ const CompanyInterestForm = ({ language }: Props) => {
               {eventTypeEntities.map((eventTypeEntity) => {
                 return spyValues((values: CompanyInterestFormEntity) => {
                   const showComment = values.events?.some(
-                    (e) =>
-                      e.name === eventTypeEntity.name && e.checked === true,
+                    (e) => e.name === eventTypeEntity.name && e.checked,
                   );
 
                   return (

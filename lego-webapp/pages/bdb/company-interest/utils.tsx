@@ -8,6 +8,7 @@ import {
   OTHER_OFFERS,
   TARGET_GRADES,
   COLLABORATION_DESCRIPTIONS,
+  OTHER_DESCRIPTIONS,
 } from './Translations';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
@@ -85,6 +86,9 @@ export const otherOffersToString = (offer) =>
 
 export const collaborationToString = (collab) =>
   Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
+
+export const othersDescriptionToString = (others) =>
+  Object.keys(OTHER_DESCRIPTIONS)[Number(others.charAt(others.length - 2))];
 
 export const targetGradeToString = (targetGrade) =>
   Object.keys(TARGET_GRADES)[

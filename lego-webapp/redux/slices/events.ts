@@ -15,8 +15,7 @@ import {
   selectAllRegistrations,
   selectRegistrationEntities,
 } from './registrations';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { AnyAction } from 'redux';
+import type { EntityId, AnyAction } from '@reduxjs/toolkit';
 import type { Optional, Overwrite } from 'utility-types';
 import type {
   AuthUserDetailedEvent,

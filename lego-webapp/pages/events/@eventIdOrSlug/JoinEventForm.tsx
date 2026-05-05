@@ -155,6 +155,13 @@ const PaymentForm = ({
     }}
   >
     <h3>Betaling</h3>
+    <Card className={styles.warningBox} severity="warning">
+      <Card.Header>Advarsel</Card.Header>
+      <span>
+        Vi har for øyeblikket problemer med Stripe. Derfor fungerer ikke Apple
+        Pay akkurat nå.
+      </span>
+    </Card>
     <div className={styles.eventPrice} title="Special price for you my friend!">
       Du skal betale{' '}
       <b>{(event.price / 100).toFixed(2).replace('.', ',')} kr</b>

@@ -1,7 +1,7 @@
-import { Icon, LoadingIndicator, Image } from '@webkom/lego-bricks';
+import { Icon, Image, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
-import { Menu, CircleUser, LogOut, Settings, Users, X } from 'lucide-react';
+import { CircleUser, LogOut, Menu, Settings, Users, X } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useState } from 'react';
 import { navigate } from 'vike/client/router';
@@ -225,7 +225,12 @@ const Header = () => {
               className={styles.searchButton}
               data-test-id="search-menu-icon"
             >
-              <div className={styles.iconWrapper}>
+              <div
+                className={cx(
+                  styles.iconWrapper,
+                  searchOpen && styles.searching,
+                )}
+              >
                 <Icon
                   iconNode={<Menu />}
                   size={24}
