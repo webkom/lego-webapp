@@ -24,6 +24,8 @@ type TimeRange = {
   start: string;
   end: string;
   fullDay: boolean;
+  id?: number;
+  canEditRequest?: boolean;
 };
 
 const LendingCalendar = ({
@@ -73,7 +75,12 @@ const LendingCalendar = ({
       return [];
     }
 
-    for (const [start, end] of lendableObject.availability) {
+    for (const [
+      start,
+      end,
+      id,
+      canEditRequest,
+    ] of lendableObject.availability) {
       if (!start || !end) continue;
 
       const startDate = moment(start);
@@ -89,6 +96,8 @@ const LendingCalendar = ({
           fullDay:
             overlapStart.format('HH:mm') === '00:00' &&
             overlapEnd.format('HH:mm') === '23:59',
+          id: id,
+          canEditRequest: canEditRequest,
         };
 
         const isSimilarToSelected =
@@ -216,6 +225,11 @@ const LendingCalendar = ({
                     const inSelectedRange = isInSelectedRange(dateProps.day);
                     const isEndpoint = isSelectedEndpoint(dateProps.day);
 
+                    // possibly several accepted timeranges
+                    const firstTimeRange = timeRanges[0];
+                    const requestId = firstTimeRange?.id;
+                    const canEdit = firstTimeRange?.canEditRequest;
+
                     return (
                       <td
                         key={j}
@@ -232,6 +246,13 @@ const LendingCalendar = ({
                             isEndpoint && styles.selectedEndpoint,
                           )}
                         >
+                          {canEdit && (
+                            <a
+                              href={`${lendableObjectId}/request/${requestId}/`}
+                              className={styles.clickableRequestCell}
+                            />
+                          )}
+
                           <div className={styles.dayNumber}>
                             {dateProps.day.date()}
                           </div>
