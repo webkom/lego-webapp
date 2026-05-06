@@ -1,11 +1,12 @@
 import { Reaction } from '~/redux/actionTypes';
-import callAPI from '~/redux/actions/callAPI';
+import callAPI, { APIResult, APIResult2 } from '~/redux/actions/callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AppDispatch } from '~/redux/createStore';
 import type { RejectedPromiseAction } from '~/redux/middlewares/promiseMiddleware';
 import type { ReactionResponse } from '~/redux/models/Reaction';
 import type { CurrentUser } from '~/redux/models/User';
 import type { HttpError } from '~/utils/fetchJSON';
+import { Thunk } from 'app/types';
 
 export function addReaction({
   emoji,
@@ -17,7 +18,7 @@ export function addReaction({
   user?: CurrentUser;
   contentTarget: string;
   unicodeString: string;
-}) {
+}): APIResult2<ReactionResponse> {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI<ReactionResponse>({
@@ -48,6 +49,8 @@ export function addReaction({
 
         action.meta.errorMessage = errorMessage;
         dispatch(action);
+
+        throw action;
       },
     );
   };

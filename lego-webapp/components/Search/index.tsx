@@ -4,7 +4,7 @@ import { navigate } from 'vike/client/router';
 import { autocomplete, toggleSearch } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
-import { selectAutocompleteRedux } from '~/redux/slices/search';
+import { selectAutocomplete } from '~/redux/slices/search';
 import { Keyboard } from '~/utils/constants';
 import QuickLinks from './QuickLinks';
 import styles from './Search.module.css';
@@ -19,7 +19,7 @@ import {
 
 const Search = () => {
   const loggedIn = useIsLoggedIn();
-  const results = useAppSelector(selectAutocompleteRedux);
+  const results = useAppSelector(selectAutocomplete);
   const searching = useAppSelector((state) => state.search.searching);
   const allowed = useAppSelector((state) => state.allowed);
   const [query, setQuery] = useState('');

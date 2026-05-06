@@ -1,20 +1,20 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Search } from '~/redux/actionTypes';
-import callAPI from '~/redux/actions/callAPI';
-import { selectAutocomplete } from '~/redux/slices/search';
+import callAPI, { APIResult, APIResult2, NullableAPIResult2 } from '~/redux/actions/callAPI';
+import { RawSearchResult, SearchResult, transformAutocompletes } from '~/redux/slices/search';
 import type { Thunk } from 'app/types';
 import type { AppDispatch } from '~/redux/createStore';
 
 export const toggleSearch = createAction(Search.TOGGLE_OPEN);
 
-export function autocomplete(query: string, filter?: Array<string>) {
+export function autocomplete(query: string, filter?: Array<string>): NullableAPIResult2<SearchResult[]> {
   return (dispatch: AppDispatch) => {
     if (!query) {
-      return Promise.resolve([]);
+      return null;
     }
 
     return dispatch(
-      callAPI({
+      callAPI<RawSearchResult[]>({
         endpoint: '/search-autocomplete/',
         types: Search.AUTOCOMPLETE,
         method: 'POST',
@@ -28,7 +28,10 @@ export function autocomplete(query: string, filter?: Array<string>) {
         },
       }),
     ).then((action) =>
-      selectAutocomplete(action ? (action as any).payload : []),
+      (action && {
+        ...action,
+        payload: transformAutocompletes(action.payload),
+      })
     );
   };
 }

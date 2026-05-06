@@ -24,7 +24,7 @@ import { useAppDispatch } from '~/redux/hooks';
 import { AutocompleteContentType } from '~/redux/models/Autocomplete';
 import { MeetingInvitationStatus } from '~/redux/models/MeetingInvitation';
 import { statusesText } from '~/redux/slices/meetingInvitations';
-import { selectAutocomplete } from '~/redux/slices/search';
+import { transformAutocompletes } from '~/redux/slices/search';
 import { spyValues } from '~/utils/formSpyUtils';
 import {
   atLeastOneFieldRequired,
@@ -88,7 +88,7 @@ const AnnouncementsCreate = () => {
 
   const initialValues: FormValues = {
     groups: state?.group
-      ? selectAutocomplete([
+      ? transformAutocompletes([
           {
             contentType: AutocompleteContentType.Group,
             ...state.group,
@@ -96,7 +96,7 @@ const AnnouncementsCreate = () => {
         ])
       : [],
     events: state?.event
-      ? selectAutocomplete([
+      ? transformAutocompletes([
           {
             contentType: AutocompleteContentType.Event,
             ...state.event,
@@ -104,7 +104,7 @@ const AnnouncementsCreate = () => {
         ])
       : [],
     meetings: state?.meeting
-      ? selectAutocomplete([
+      ? transformAutocompletes([
           {
             contentType: AutocompleteContentType.Meeting,
             ...state.meeting,

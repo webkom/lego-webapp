@@ -33,11 +33,13 @@ const useAutocomplete = ({
 
     try {
       // Set the result to the response result
-      let result: SearchResult[] = await dispatch(autocomplete(query, filter));
+      let result = await dispatch(autocomplete(query, filter));
+
+      if (result == null) return;
 
       // Retain a query with no match
-      if (retainFailedQuery && result.length === 0) {
-        result = [
+      if (retainFailedQuery && result.payload.length === 0) {
+        result.payload = [
           {
             title: query,
             label: query,
@@ -45,7 +47,7 @@ const useAutocomplete = ({
         ];
       }
 
-      setOptions(result);
+      setOptions(result.payload);
       setFetching(false);
     } catch (_) {
       setFetching(false);

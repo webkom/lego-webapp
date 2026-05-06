@@ -11,7 +11,8 @@ import { addToast } from '~/components/Toast/ToastProvider';
 import { autocomplete } from '~/redux/actions/SearchActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
-  selectAutocompleteRedux,
+  selectAutocomplete,
+  selectAutocompleteOfType,
   type UserSearchResult,
 } from '~/redux/slices/search';
 import { useParams } from '~/utils/useParams';
@@ -43,14 +44,14 @@ const isUser = (user: SearchUser | Res): user is SearchUser => {
 };
 
 const Validator = ({ handleSelect, validateAbakusGroup }: Props) => {
-  const input = useRef<HTMLInputElement | null | undefined>(null);
+  const input = useRef<HTMLInputElement | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [scanResults, setScanResults] = useState<ScanResult[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [showScanner, setShowScanner] = useState(false);
 
   const { eventId } = useParams<{ eventId: string }>();
-  const results = useAppSelector((state) => selectAutocompleteRedux(state));
+  const results = useAppSelector((state) => selectAutocompleteOfType<UserSearchResult>("users.user")(state));
 
   const showSuccessModal = (message: string) => {
     setSuccessMessage(message);
