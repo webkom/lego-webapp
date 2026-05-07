@@ -33,7 +33,7 @@ const useAutocomplete = ({
 
     try {
       // Set the result to the response result
-      let result = await dispatch(autocomplete(query, filter));
+      const result = await dispatch(autocomplete(query, filter));
 
       if (result == null) return;
 

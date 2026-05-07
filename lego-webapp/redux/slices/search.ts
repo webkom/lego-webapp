@@ -257,10 +257,17 @@ export const selectAutocomplete = createSelector(
   (autocomplete) => autocomplete.map(transformResult).filter(Boolean),
 );
 
-export const selectAutocompleteOfType = <T extends SearchResult>(contentType: string) => createSelector(
-  (state: RootState) => state.search.autocomplete,
-  (autocomplete: RawSearchResult[]) => autocomplete.filter(result => result.contentType == contentType).map(transformResult).filter(Boolean) as T[],
-);
+export const selectAutocompleteOfType = <T extends SearchResult>(
+  contentType: string,
+) =>
+  createSelector(
+    (state: RootState) => state.search.autocomplete,
+    (autocomplete: RawSearchResult[]) =>
+      autocomplete
+        .filter((result) => result.contentType == contentType)
+        .map(transformResult)
+        .filter(Boolean) as T[],
+  );
 
 export const selectResult = createSelector(
   (state: RootState) => state.search.results,

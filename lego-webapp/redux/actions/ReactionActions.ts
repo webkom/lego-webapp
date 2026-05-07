@@ -1,12 +1,11 @@
 import { Reaction } from '~/redux/actionTypes';
-import callAPI, { APIPromiseResult, APIPromiseResultStrict } from '~/redux/actions/callAPI';
+import callAPI, { APIPromiseResultStrict } from '~/redux/actions/callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AppDispatch } from '~/redux/createStore';
 import type { RejectedPromiseAction } from '~/redux/middlewares/promiseMiddleware';
 import type { ReactionResponse } from '~/redux/models/Reaction';
 import type { CurrentUser } from '~/redux/models/User';
 import type { HttpError } from '~/utils/fetchJSON';
-import { Thunk } from 'app/types';
 
 export function addReaction({
   emoji,

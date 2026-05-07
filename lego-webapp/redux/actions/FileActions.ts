@@ -1,11 +1,9 @@
 import slug from 'slugify';
 import { File as FileType, ImageGallery } from '~/redux/actionTypes';
 import { imageGallerySchema } from '~/redux/schemas';
-import callAPI, { CallAPIOptionsMeta, APIPromiseResulteResult } from './callAPI';
+import callAPI, { CallAPIOptionsMeta, APIPromiseResult } from './callAPI';
 import type { AppDispatch } from '~/redux/createStore';
 import type { SignedPost } from '~/redux/models/File';
-import { ResolvedPromiseAction } from '../middlewares/promiseMiddleware';
-import { Thunk } from 'app/types';
 
 const slugifyFilename: (filename: string) => string = (filename) => {
   // Slug options
@@ -53,14 +51,14 @@ export type UploadArgs = {
 interface UploadFileMeta extends CallAPIOptionsMeta {
   fileKey: string;
   fileToken: string;
-};
+}
 
 export function uploadFile({
   file,
   fileName,
   isPublic = false,
   timeout,
-}: UploadArgs): APIPromiseResulteResult<void, UploadFileMeta>  {
+}: UploadArgs): APIPromiseResult<void, UploadFileMeta> {
   return (dispatch: AppDispatch) =>
     dispatch(
       fetchSignedPost(fileName || ('name' in file ? file.name : ''), isPublic),

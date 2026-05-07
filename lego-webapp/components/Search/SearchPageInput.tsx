@@ -1,6 +1,6 @@
 import { useAppSelector } from '~/redux/hooks';
 import styles from './SearchPageInput.module.css';
-import type { KeyboardEvent, Ref, ChangeEventHandler, KeyboardEventHandler } from 'react';
+import type { Ref, ChangeEventHandler, KeyboardEventHandler } from 'react';
 
 type Props = {
   inputRef?: Ref<HTMLInputElement>;

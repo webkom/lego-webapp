@@ -17,8 +17,11 @@ export const readmeIfy = (text: string | null | undefined) =>
     <span>
       {text
         .split(/readme/)
-        .flatMap((substring, index, splits) => index < splits.length - 1 ? [substring, <ReadmeLogo key={substring} />] : substring)
-      }
+        .flatMap((substring, index, splits) =>
+          index < splits.length - 1
+            ? [substring, <ReadmeLogo key={substring} />]
+            : substring,
+        )}
     </span>
   );
 export default ReadmeLogo;

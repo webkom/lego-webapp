@@ -1,13 +1,22 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Search } from '~/redux/actionTypes';
-import callAPI, { APIPromiseResult, APIPromiseResultStrict, NullableAPIPromiseResultStrict } from '~/redux/actions/callAPI';
-import { RawSearchResult, SearchResult, transformAutocompletes } from '~/redux/slices/search';
+import callAPI, {
+  NullableAPIPromiseResultStrict,
+} from '~/redux/actions/callAPI';
+import {
+  RawSearchResult,
+  SearchResult,
+  transformAutocompletes,
+} from '~/redux/slices/search';
 import type { Thunk } from 'app/types';
 import type { AppDispatch } from '~/redux/createStore';
 
 export const toggleSearch = createAction(Search.TOGGLE_OPEN);
 
-export function autocomplete(query: string, filter?: Array<string>): NullableAPIPromiseResultStrict<SearchResult[]> {
+export function autocomplete(
+  query: string,
+  filter?: Array<string>,
+): NullableAPIPromiseResultStrict<SearchResult[]> {
   return (dispatch: AppDispatch) => {
     if (!query) {
       return null;
@@ -27,11 +36,12 @@ export function autocomplete(query: string, filter?: Array<string>): NullableAPI
           errorMessage: 'Autofyll feilet',
         },
       }),
-    ).then((action) =>
-      (action && {
-        ...action,
-        payload: transformAutocompletes(action.payload),
-      })
+    ).then(
+      (action) =>
+        action && {
+          ...action,
+          payload: transformAutocompletes(action.payload),
+        },
     );
   };
 }

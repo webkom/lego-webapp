@@ -8,7 +8,10 @@ import { isUserResult } from '~/redux/slices/search';
 import truncateString from '~/utils/truncateString';
 import styles from './SearchPageResults.module.css';
 import type { KeyboardEventHandler } from 'react';
-import type { SearchResult, SearchResult as SearchResultType } from '~/redux/slices/search';
+import type {
+  SearchResult,
+  SearchResult as SearchResultType,
+} from '~/redux/slices/search';
 
 type Props<T extends SearchResultType> = {
   query: string;
@@ -23,7 +26,11 @@ type SearchResultProps<T extends SearchResultType> = {
   isSelected: boolean;
 };
 
-const SearchResult = <T extends SearchResultType>({ result, onSelect, isSelected }: SearchResultProps<T>) => {
+const SearchResult = <T extends SearchResultType>({
+  result,
+  onSelect,
+  isSelected,
+}: SearchResultProps<T>) => {
   if (!result.link) return;
 
   return (
