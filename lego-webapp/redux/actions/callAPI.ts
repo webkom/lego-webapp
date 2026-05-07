@@ -108,13 +108,13 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   };
 };
 
-export type APIResult<T, Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+export type APIPromiseResult<T, Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
     Record<string, unknown>> = Thunk<
   Promise<ResolvedPromiseAction<T | NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 >;
-export type APIResult2<T, Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+export type APIPromiseResultStrict<T, Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
     Record<string, unknown>> = Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
-export type NullableAPIResult2<T, Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+export type NullableAPIPromiseResultStrict<T, Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
     Record<string, unknown>> = Thunk<null | Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
 
 export default function callAPI<
@@ -133,7 +133,7 @@ export default function callAPI<
     Record<string, unknown>,
 >(
   props: Omit<CallAPIOptions<Meta>, 'schema'>,
-): APIResult2<T, Meta>;
+): APIPromiseResultStrict<T, Meta>;
 
 export default function callAPI<
   T = unknown,
@@ -155,7 +155,7 @@ export default function callAPI<
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions<Meta>): APIResult<T, Meta> {
+}: CallAPIOptions<Meta>): APIPromiseResult<T, Meta> {
   return async (dispatch: AppDispatch, getState) => {
     const requestOptions: HttpRequestOptions = {
       method,

@@ -1,13 +1,13 @@
 import { createAction } from '@reduxjs/toolkit';
 import { Search } from '~/redux/actionTypes';
-import callAPI, { APIResult, APIResult2, NullableAPIResult2 } from '~/redux/actions/callAPI';
+import callAPI, { APIPromiseResult, APIPromiseResultStrict, NullableAPIPromiseResultStrict } from '~/redux/actions/callAPI';
 import { RawSearchResult, SearchResult, transformAutocompletes } from '~/redux/slices/search';
 import type { Thunk } from 'app/types';
 import type { AppDispatch } from '~/redux/createStore';
 
 export const toggleSearch = createAction(Search.TOGGLE_OPEN);
 
-export function autocomplete(query: string, filter?: Array<string>): NullableAPIResult2<SearchResult[]> {
+export function autocomplete(query: string, filter?: Array<string>): NullableAPIPromiseResultStrict<SearchResult[]> {
   return (dispatch: AppDispatch) => {
     if (!query) {
       return null;

@@ -1,7 +1,7 @@
 import slug from 'slugify';
 import { File as FileType, ImageGallery } from '~/redux/actionTypes';
 import { imageGallerySchema } from '~/redux/schemas';
-import callAPI, { CallAPIOptionsMeta, APIResult } from './callAPI';
+import callAPI, { CallAPIOptionsMeta, APIPromiseResulteResult } from './callAPI';
 import type { AppDispatch } from '~/redux/createStore';
 import type { SignedPost } from '~/redux/models/File';
 import { ResolvedPromiseAction } from '../middlewares/promiseMiddleware';
@@ -60,7 +60,7 @@ export function uploadFile({
   fileName,
   isPublic = false,
   timeout,
-}: UploadArgs): APIResult<void, UploadFileMeta>  {
+}: UploadArgs): APIPromiseResulteResult<void, UploadFileMeta>  {
   return (dispatch: AppDispatch) =>
     dispatch(
       fetchSignedPost(fileName || ('name' in file ? file.name : ''), isPublic),
