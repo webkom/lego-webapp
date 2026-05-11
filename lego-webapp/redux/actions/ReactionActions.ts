@@ -1,5 +1,5 @@
 import { Reaction } from '~/redux/actionTypes';
-import callAPI from '~/redux/actions/callAPI';
+import callAPI, { APIPromiseResultStrict } from '~/redux/actions/callAPI';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { AppDispatch } from '~/redux/createStore';
 import type { RejectedPromiseAction } from '~/redux/middlewares/promiseMiddleware';
@@ -17,7 +17,7 @@ export function addReaction({
   user?: CurrentUser;
   contentTarget: string;
   unicodeString: string;
-}) {
+}): APIPromiseResultStrict<ReactionResponse> {
   return (dispatch: AppDispatch) => {
     return dispatch(
       callAPI<ReactionResponse>({
@@ -48,6 +48,8 @@ export function addReaction({
 
         action.meta.errorMessage = errorMessage;
         dispatch(action);
+
+        throw action;
       },
     );
   };

@@ -82,7 +82,7 @@ type CallAPIMeta<ExtraMeta = Record<string, never>> = ExtraMeta & {
   body?: Record<string, unknown> | string;
   schemaKey?: string;
 };
-type CallAPIOptionsMeta = {
+export type CallAPIOptionsMeta = {
   errorMessage?: string;
   successMessage?: string;
 };
@@ -108,6 +108,24 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   };
 };
 
+export type APIPromiseResult<
+  T,
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
+> = Thunk<
+  Promise<ResolvedPromiseAction<T | NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
+>;
+export type APIPromiseResultStrict<
+  T,
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
+> = Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+export type NullableAPIPromiseResultStrict<
+  T,
+  Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
+    Record<string, unknown>,
+> = Thunk<null | Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+
 export default function callAPI<
   T = unknown,
   Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
@@ -117,13 +135,13 @@ export default function callAPI<
 ): Thunk<
   Promise<ResolvedPromiseAction<NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
 >;
+
 export default function callAPI<
   T = unknown,
   Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
     Record<string, unknown>,
->(
-  props: Omit<CallAPIOptions<Meta>, 'schema'>,
-): Thunk<Promise<ResolvedPromiseAction<T, CallAPIMeta<Meta>>>>;
+>(props: Omit<CallAPIOptions<Meta>, 'schema'>): APIPromiseResultStrict<T, Meta>;
+
 export default function callAPI<
   T = unknown,
   Meta extends CallAPIOptionsMeta = CallAPIOptionsMeta &
@@ -144,9 +162,7 @@ export default function callAPI<
   enableOptimistic = false,
   requiresAuthentication = true,
   timeout,
-}: CallAPIOptions<Meta>): Thunk<
-  Promise<ResolvedPromiseAction<T | NormalizedApiPayload<T>, CallAPIMeta<Meta>>>
-> {
+}: CallAPIOptions<Meta>): APIPromiseResult<T, Meta> {
   return async (dispatch: AppDispatch, getState) => {
     const requestOptions: HttpRequestOptions = {
       method,
