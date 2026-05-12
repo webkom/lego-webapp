@@ -1,10 +1,10 @@
 import { Card, Flex, Icon, Image } from '@webkom/lego-bricks';
 import { MoveRight } from 'lucide-react';
+import LendingStatusTag from './LendingStatusTag';
+import styles from './RequestInbox.module.css';
 import Time from '~/components/Time';
-import LendingStatusTag from '~/pages/lending/LendingStatusTag';
 import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 import truncateString from '~/utils/truncateString';
-import styles from './RequestInbox.module.css';
 
 const LendingRequestCard = ({
   lendingRequest,

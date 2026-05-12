@@ -1,7 +1,7 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
 import { objectPermissionsInitialValues } from '~/components/Form/ObjectPermissions';
-import { LendableObjectEditor } from '~/pages/lending/LendableObjectEditor';
+import { LendableObjectEditor } from '~/pages/lending/_components/LendableObjectEditor';
 
 export default function LendableObjectCreate() {
   const title = 'Nytt ulånsobjekt';

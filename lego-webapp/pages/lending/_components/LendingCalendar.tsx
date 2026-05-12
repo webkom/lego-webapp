@@ -5,6 +5,8 @@ import cx from 'classnames';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import moment, { Moment } from 'moment-timezone';
 import { useState } from 'react';
+import styles from './LendingCalendar.module.css';
+import type { Dateish } from 'app/models';
 import {
   fetchLendableObjectAvailability,
   fetchLendableObjectById,
@@ -12,8 +14,6 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectLendableObjectById } from '~/redux/slices/lendableObjects';
 import createMonthlyCalendar from '~/utils/createMonthlyCalendar';
-import styles from './LendingCalendar.module.css';
-import type { Dateish } from 'app/models';
 
 type LendingCalendarProps = {
   lendableObjectId: EntityId;
