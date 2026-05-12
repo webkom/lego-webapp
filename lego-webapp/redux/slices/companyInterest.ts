@@ -5,7 +5,6 @@ import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
 import { EntityType } from '~/redux/models/entities';
 import type { EntityId } from '@reduxjs/toolkit';
-import type CompanySemester from '~/redux/models/CompanySemester';
 import type { RootState } from '~/redux/rootReducer';
 
 export enum CompanyInterestCompanyType {
@@ -19,21 +18,31 @@ export enum CompanyInterestCompanyType {
 }
 
 export type CompanyInterestEntity = {
-  id: number;
-  companyName: string;
-  mail: string;
-  contactPerson: string;
-  companyPresentation: boolean;
-  course: boolean;
-  breakfastTalk: boolean;
-  lunchPresentation: boolean;
-  readme: boolean;
-  collaboration: boolean;
-  comment: boolean;
-  semesters: CompanySemester[];
-  companyType: CompanyInterestCompanyType;
-  officeInTrondheim: boolean;
+  companyName?: string;
+  company: number | null;
+  companyType?: string;
+  contactPerson?: string;
+  mail?: string;
+  phone?: string;
   wantsThursdayEvent: boolean;
+  officeInTrondheim: boolean;
+  semesters: EntityId[];
+  events: string[];
+  companyCourseThemes: string[];
+  otherOffers: string[];
+  collaborations: string[];
+  targetGrades: number[];
+  participantRangeStart: number | null;
+  participantRangeEnd: number | null;
+  comment?: string;
+  courseComment?: string;
+  breakfastTalkComment?: string;
+  otherEventComment?: string;
+  startupComment?: string;
+  lunchPresentationComment?: string;
+  bedexComment?: string;
+  companyToCompanyComment?: string;
+  companyPresentationComment?: string;
 };
 
 const legoAdapter = createLegoAdapter(EntityType.CompanyInterests);
