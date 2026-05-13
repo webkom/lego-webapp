@@ -1,11 +1,5 @@
 import { Field } from 'react-final-form';
 import { navigate } from 'vike/client/router';
-import styles from './LendableObjectEditor.module.css';
-import type { EntityId } from '@reduxjs/toolkit';
-import type {
-  CreateLendableObject,
-  EditLendableObject,
-} from '~/redux/models/LendableObject';
 import {
   EditorField,
   Form,
@@ -23,6 +17,12 @@ import {
 import { useAppDispatch } from '~/redux/hooks';
 import { FilterLendingCategory, LENDABLE_CATEGORY } from '~/utils/constants';
 import { createValidator, required } from '~/utils/validation';
+import styles from './LendableObjectEditor.module.css';
+import type { EntityId } from '@reduxjs/toolkit';
+import type {
+  CreateLendableObject,
+  EditLendableObject,
+} from '~/redux/models/LendableObject';
 
 type FormValues = {
   id?: EntityId;

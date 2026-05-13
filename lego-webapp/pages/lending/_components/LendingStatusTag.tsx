@@ -5,10 +5,10 @@ import {
   CircleX,
 } from 'lucide-react';
 import { ReactNode } from 'react';
-import styles from './RequestInbox.module.css';
 import { Tag } from '~/components/Tags';
 import { TagColors } from '~/components/Tags/Tag';
 import { LendingRequestStatus } from '~/redux/models/LendingRequest';
+import styles from './RequestInbox.module.css';
 
 export const statusMap: Record<
   LendingRequestStatus,

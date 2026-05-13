@@ -9,11 +9,11 @@ import {
   Music4,
 } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
-import styles from './FilterSearch.module.css';
-import type { ReactNode } from 'react';
 import ComponentAsCheckBox from '~/components/Form/ComponentAsCheckBox';
 import TextInput from '~/components/Form/TextInput';
 import { LENDABLE_CATEGORY, FilterLendingCategory } from '~/utils/constants';
+import styles from './FilterSearch.module.css';
+import type { ReactNode } from 'react';
 
 type Props = {
   search: string;

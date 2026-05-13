@@ -2,13 +2,13 @@ import { Button, LoadingIndicator } from '@webkom/lego-bricks';
 import { isEmpty } from 'lodash-es';
 import { Leaf } from 'lucide-react';
 import { useRef } from 'react';
+import EmptyState from '~/components/EmptyState';
+import PillSwitch, { type PillSwitchOption } from '~/components/PillSwitch';
 import LendingRequestCard from './LendingRequestCard';
 import styles from './RequestInbox.module.css';
 import { canLoadMoreRequests } from './requestInboxPagination';
 import useAnimateRequestInbox from './useAnimateRequestInbox';
 import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
-import EmptyState from '~/components/EmptyState';
-import PillSwitch, { type PillSwitchOption } from '~/components/PillSwitch';
 
 export type LendingRequestOrdering = 'created_at' | '-created_at';
 
