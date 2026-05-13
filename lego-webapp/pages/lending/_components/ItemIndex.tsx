@@ -8,13 +8,7 @@ import {
   Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import {
-  Contact,
-  ImageOff,
-  Package,
-  FolderOpen,
-  Plus,
-} from 'lucide-react';
+import { Contact, ImageOff, Package, FolderOpen, Plus } from 'lucide-react';
 import { useMemo } from 'react';
 import { categoryIconMap } from './FilterSearch';
 import styles from './ItemIndex.module.css';

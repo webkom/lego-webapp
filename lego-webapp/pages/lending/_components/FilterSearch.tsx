@@ -13,10 +13,7 @@ import styles from './FilterSearch.module.css';
 import type { ReactNode } from 'react';
 import ComponentAsCheckBox from '~/components/Form/ComponentAsCheckBox';
 import TextInput from '~/components/Form/TextInput';
-import {
-  LENDABLE_CATEGORY,
-  FilterLendingCategory,
-} from '~/utils/constants';
+import { LENDABLE_CATEGORY, FilterLendingCategory } from '~/utils/constants';
 
 type Props = {
   search: string;
