@@ -196,9 +196,11 @@ export const isValidGithubUsername =
 export const isValidLinkedinId =
   (message = 'Ikke en gyldig LinkedIn-ID') =>
   (value: string) => {
-    const validRegex = /^[a-zA-Z0-9-]{0,70}$/i;
-
-    return [validRegex.test(value), message] as const;
+    if (!value) return [true] as const;
+    const urlMatch = value.match(/linkedin\.com\/in\/([^/?#]+)/);
+    const id = urlMatch ? urlMatch[1] : value;
+    const validRegex = /^[a-zA-Z0-9À-ɏ-]{0,70}$/;
+    return [validRegex.test(decodeURIComponent(id)), message] as const;
   };
 
 export const ifField =
