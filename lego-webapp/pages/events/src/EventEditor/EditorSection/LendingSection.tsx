@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import {
   selectAllLendableObjects,
   selectAvailableLendableObjectIds,
+  selectLendableObjectsUnavailable,
 } from '~/redux/slices/lendableObjects';
 import styles from '../EventEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -29,6 +30,10 @@ const LendingSection: React.FC<Props> = ({ values }) => {
   const dispatch = useAppDispatch();
   const availableLendableObjectIds = useAppSelector(
     selectAvailableLendableObjectIds,
+  );
+
+  const lendingObjectsUnavailable = useAppSelector(
+    selectLendableObjectsUnavailable,
   );
 
   usePreparedEffect(
@@ -119,6 +124,14 @@ const LendingSection: React.FC<Props> = ({ values }) => {
       </div>
     );
   };
+
+  if (lendingObjectsUnavailable) {
+    return (
+      <p className={styles.lendingUnavailable}>
+        Det er ikke mulig å låne objekter i eventsystemet for øyeblikket.
+      </p>
+    );
+  }
 
   return (
     <>

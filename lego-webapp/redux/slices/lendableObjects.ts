@@ -13,18 +13,36 @@ const lendableObjectsSlice = createSlice({
   name: EntityType.LendableObjects,
   initialState: legoAdapter.getInitialState({
     availableIds: null as EntityId[] | null,
+    fetchFailed: false,
+    availabilityFetchFailed: false,
   }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [LendableObjects.FETCH],
     deleteActions: [LendableObjects.DELETE],
     extraCases: (addCase) => {
+      addCase(LendableObjects.FETCH.BEGIN, (state) => {
+        state.fetchFailed = false;
+      });
+      addCase(LendableObjects.FETCH.SUCCESS, (state) => {
+        state.fetchFailed = false;
+      });
+      addCase(LendableObjects.FETCH.FAILURE, (state) => {
+        state.fetchFailed = true;
+      });
+      addCase(LendableObjects.FETCH_AVAILABLE.BEGIN, (state) => {
+        state.availabilityFetchFailed = false;
+      });
       addCase(
         LendableObjects.FETCH_AVAILABLE.SUCCESS,
         (state, action: AnyAction) => {
+          state.availabilityFetchFailed = false;
           state.availableIds = action.payload;
         },
       );
+      addCase(LendableObjects.FETCH_AVAILABLE.FAILURE, (state) => {
+        state.availabilityFetchFailed = true;
+      });
       addCase(
         LendableObjects.FETCH_AVAILABILITY.SUCCESS,
         (state, action: AnyAction) => {
@@ -54,6 +72,10 @@ export const {
 
 export const selectAvailableLendableObjectIds = (state: RootState) =>
   state.lendableObjects.availableIds;
+
+export const selectLendableObjectsUnavailable = (state: RootState) =>
+  state.lendableObjects.fetchFailed ||
+  state.lendableObjects.availabilityFetchFailed;
 
 export const selectLendableObjectsForIndex = createSelector(
   (state: RootState) => state,
