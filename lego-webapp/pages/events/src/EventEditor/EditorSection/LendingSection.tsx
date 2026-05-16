@@ -11,6 +11,7 @@ import {
   selectAllLendableObjects,
   selectAvailableLendableObjectIds,
   selectLendableObjectsUnavailable,
+  clearAvailableIds,
 } from '~/redux/slices/lendableObjects';
 import styles from '../EventEditor.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -38,21 +39,44 @@ const LendingSection: React.FC<Props> = ({ values }) => {
 
   usePreparedEffect(
     'fetchAllLendableObjects',
-    () => dispatch(fetchAllLendableObjects()),
+    () =>
+      dispatch(fetchAllLendableObjects()).catch((err) => {
+        // Log to aid debugging; slice will still mark fetch failure.
+        // eslint-disable-next-line no-console
+        console.error('fetchAllLendableObjects failed', err);
+      }),
     [],
   );
 
   usePreparedEffect(
     'fetchAvailableLendableObjectIdsByDate',
     () => {
-      if (values.startTime && values.endTime) {
+      // Debounce fetches to avoid rapid requests while the user edits dates.
+      let timeout: ReturnType<typeof setTimeout> | null = null;
+
+      if (!values.startTime || !values.endTime) {
+        // Clear previously known availability when dates are cleared
+        dispatch(clearAvailableIds());
+        return;
+      }
+
+      timeout = setTimeout(() => {
         dispatch(
           fetchAvailableLendableObjectIdsByDate(
             values.startTime,
             values.endTime,
           ),
-        );
-      }
+        ).catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error('fetchAvailableLendableObjectIdsByDate failed', err);
+        });
+      }, 300);
+
+      return () => {
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+      };
     },
     [values.startTime, values.endTime],
   );

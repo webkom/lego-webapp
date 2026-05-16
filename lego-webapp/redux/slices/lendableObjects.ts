@@ -16,7 +16,12 @@ const lendableObjectsSlice = createSlice({
     fetchFailed: false,
     availabilityFetchFailed: false,
   }),
-  reducers: {},
+  reducers: {
+    clearAvailableIds(state) {
+      state.availableIds = null;
+      state.availabilityFetchFailed = false;
+    },
+  },
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [LendableObjects.FETCH],
     deleteActions: [LendableObjects.DELETE],
@@ -60,6 +65,8 @@ const lendableObjectsSlice = createSlice({
 });
 
 export default lendableObjectsSlice.reducer;
+
+export const { clearAvailableIds } = lendableObjectsSlice.actions;
 
 const baseSelectors = legoAdapter.getSelectors(
   (state: RootState) => state.lendableObjects,
