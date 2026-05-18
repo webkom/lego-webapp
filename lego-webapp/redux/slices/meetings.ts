@@ -193,12 +193,15 @@ export const selectGroupedMeetings = createSelector(
   },
 );
 
-export const selectUpcomingMeetings = (state: RootState) =>
-  selectMeetingsByField('endTime', (endTime, filterTime) =>
-    moment(endTime).isAfter(filterTime),
-  )(state, moment())
-    .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
-    .filter((meeting: ListMeeting) => !meeting.isTemplate);
+export const selectUpcomingMeetings = createSelector(
+  selectAllMeetings,
+  (meetings) => {
+    const now = moment();
+    return (meetings as ListMeeting[])
+      .filter((m) => !m.isTemplate && moment(m.endTime).isAfter(now))
+      .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)));
+  },
+);
 
 export const selectUpcomingMeetingId = createSelector(
   selectUpcomingMeetings,

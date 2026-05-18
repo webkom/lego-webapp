@@ -68,22 +68,39 @@ describe('lendableObjects', () => {
   it('applies availability success only for matching request id', () => {
     const initial = lendableObjects(undefined, { type: '@@INIT' } as any);
 
-    const begin = { type: LendableObjects.FETCH_AVAILABLE.BEGIN, meta: { requestId: 'r1' } } as any;
+    const begin = {
+      type: LendableObjects.FETCH_AVAILABLE.BEGIN,
+      meta: { requestId: 'r1' },
+    } as any;
     const stateAfterBegin = lendableObjects(initial, begin);
     expect(stateAfterBegin.lastAvailabilityRequestId).toBe('r1');
 
-    const staleSuccess = { type: LendableObjects.FETCH_AVAILABLE.SUCCESS, payload: [1, 2], meta: { requestId: 'r0' } } as any;
+    const staleSuccess = {
+      type: LendableObjects.FETCH_AVAILABLE.SUCCESS,
+      payload: [1, 2],
+      meta: { requestId: 'r0' },
+    } as any;
     const stateAfterStale = lendableObjects(stateAfterBegin, staleSuccess);
     expect(stateAfterStale.availableIds).toBeNull();
 
-    const matchSuccess = { type: LendableObjects.FETCH_AVAILABLE.SUCCESS, payload: [3], meta: { requestId: 'r1' } } as any;
+    const matchSuccess = {
+      type: LendableObjects.FETCH_AVAILABLE.SUCCESS,
+      payload: [3],
+      meta: { requestId: 'r1' },
+    } as any;
     const stateAfterMatch = lendableObjects(stateAfterBegin, matchSuccess);
     expect(stateAfterMatch.availableIds).toEqual([3]);
   });
 
   it('clearAvailableIds action clears availability', () => {
-    const afterSuccess = lendableObjects(undefined, { type: LendableObjects.FETCH_AVAILABLE.SUCCESS, payload: [9], meta: { requestId: 'r' } } as any);
-    const afterClear = lendableObjects(afterSuccess, { type: 'lendableObjects/clearAvailableIds' } as any);
+    const afterSuccess = lendableObjects(undefined, {
+      type: LendableObjects.FETCH_AVAILABLE.SUCCESS,
+      payload: [9],
+      meta: { requestId: 'r' },
+    } as any);
+    const afterClear = lendableObjects(afterSuccess, {
+      type: 'lendableObjects/clearAvailableIds',
+    } as any);
     expect(afterClear.availableIds).toBeNull();
   });
 });

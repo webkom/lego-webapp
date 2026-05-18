@@ -36,11 +36,14 @@ const lendableObjectsSlice = createSlice({
       addCase(LendableObjects.FETCH.FAILURE, (state) => {
         state.fetchFailed = true;
       });
-      addCase(LendableObjects.FETCH_AVAILABLE.BEGIN, (state, action: AnyAction) => {
-        state.availabilityFetchFailed = false;
-        // store the request id so we can ignore stale responses
-        state.lastAvailabilityRequestId = action.meta?.requestId ?? null;
-      });
+      addCase(
+        LendableObjects.FETCH_AVAILABLE.BEGIN,
+        (state, action: AnyAction) => {
+          state.availabilityFetchFailed = false;
+          // store the request id so we can ignore stale responses
+          state.lastAvailabilityRequestId = action.meta?.requestId ?? null;
+        },
+      );
       addCase(
         LendableObjects.FETCH_AVAILABLE.SUCCESS,
         (state, action: AnyAction) => {
@@ -54,13 +57,16 @@ const lendableObjectsSlice = createSlice({
           state.availableIds = action.payload;
         },
       );
-      addCase(LendableObjects.FETCH_AVAILABLE.FAILURE, (state, action: AnyAction) => {
-        const requestId = action.meta?.requestId ?? null;
-        if (requestId && state.lastAvailabilityRequestId !== requestId) {
-          return;
-        }
-        state.availabilityFetchFailed = true;
-      });
+      addCase(
+        LendableObjects.FETCH_AVAILABLE.FAILURE,
+        (state, action: AnyAction) => {
+          const requestId = action.meta?.requestId ?? null;
+          if (requestId && state.lastAvailabilityRequestId !== requestId) {
+            return;
+          }
+          state.availabilityFetchFailed = true;
+        },
+      );
       addCase(
         LendableObjects.FETCH_AVAILABILITY.SUCCESS,
         (state, action: AnyAction) => {

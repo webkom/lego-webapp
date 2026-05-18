@@ -34,6 +34,7 @@ import {
 } from '~/redux/actions/CompanyInterestActions';
 import { fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
 import { selectCompanyInterestById } from '~/redux/slices/companyInterest';
 import {
   selectAllCompanySemesters,
@@ -357,7 +358,7 @@ const CompanyInterestForm = ({ language }: Props) => {
     dispatch,
   ]);
 
-  const allEvents = Object.keys(EVENTS);
+  const allEvents = Object.keys(EVENTS) as CompanyInterestEventType[];
   const allOtherOffers = Object.keys(OTHER_OFFERS);
   const allCollaborations = Object.keys(COLLABORATION_TYPES);
   const allTargetGrades = Object.keys(TARGET_GRADES);
@@ -474,15 +475,14 @@ const CompanyInterestForm = ({ language }: Props) => {
       companyPresentationComment: data.companyPresentationComment,
     };
 
-    dispatch(
-      edit
-        ? updateCompanyInterest(companyInterestId, newData)
-        : createCompanyInterest(newData, isEnglish),
-    ).then(() => {
-      navigate(
-        allowedBdb ? '/bdb/company-interest' : '/pages/bedrifter/for-bedrifter',
-      );
-    });
+    if (edit && companyInterestId) {
+      await dispatch(updateCompanyInterest(companyInterestId, newData));
+    } else {
+      await dispatch(createCompanyInterest(newData, isEnglish));
+    }
+    navigate(
+      allowedBdb ? '/bdb/company-interest' : '/pages/bedrifter/for-bedrifter',
+    );
   };
 
   const eventTypeEntities = [
@@ -659,11 +659,11 @@ const CompanyInterestForm = ({ language }: Props) => {
                     legend={FORM_LABELS.companyCourseThemes[language]}
                     description={FORM_LABELS.companyCourseThemesInfo[language]}
                   >
-                    <FieldArray
-                      name="companyCourseThemes"
-                      language={language}
-                      component={SurveyOffersBox}
-                    />
+                    <FieldArray name="companyCourseThemes">
+                      {(props) => (
+                        <SurveyOffersBox {...props} language={language} />
+                      )}
+                    </FieldArray>
                   </MultiSelectGroup>
                 </Flex>
               </Flex>
@@ -684,11 +684,11 @@ const CompanyInterestForm = ({ language }: Props) => {
                     legend={FORM_LABELS.semesters[language]}
                     required
                   >
-                    <FieldArray
-                      name="semesters"
-                      language={language}
-                      component={SemesterBox}
-                    />
+                    <FieldArray name="semesters">
+                      {(props) => (
+                        <SemesterBox {...props} language={language} />
+                      )}
+                    </FieldArray>
                   </MultiSelectGroup>
                 </Flex>
                 <Flex column className={styles.interestBox}>
@@ -697,11 +697,9 @@ const CompanyInterestForm = ({ language }: Props) => {
                     legend={FORM_LABELS.events[language]}
                     required
                   >
-                    <FieldArray
-                      name="events"
-                      language={language}
-                      component={EventBox}
-                    />
+                    <FieldArray name="events">
+                      {(props) => <EventBox {...props} language={language} />}
+                    </FieldArray>
                   </MultiSelectGroup>
                 </Flex>
                 <Flex column className={styles.interestBox}>
@@ -709,11 +707,11 @@ const CompanyInterestForm = ({ language }: Props) => {
                     name="collaborations"
                     legend={FORM_LABELS.collaborations[language]}
                   >
-                    <FieldArray
-                      name="collaborations"
-                      language={language}
-                      component={CollaborationBox}
-                    />
+                    <FieldArray name="collaborations">
+                      {(props) => (
+                        <CollaborationBox {...props} language={language} />
+                      )}
+                    </FieldArray>
                   </MultiSelectGroup>
                 </Flex>
               </Flex>
@@ -724,11 +722,11 @@ const CompanyInterestForm = ({ language }: Props) => {
                     name="targetGrades"
                     legend={FORM_LABELS.targetGrades[language]}
                   >
-                    <FieldArray
-                      name="targetGrades"
-                      language={language}
-                      component={TargetGradeBox}
-                    />
+                    <FieldArray name="targetGrades">
+                      {(props) => (
+                        <TargetGradeBox {...props} language={language} />
+                      )}
+                    </FieldArray>
                   </MultiSelectGroup>
                 </Flex>
 
@@ -754,11 +752,9 @@ const CompanyInterestForm = ({ language }: Props) => {
                     name="otherOffers"
                     legend={FORM_LABELS.otherOffers[language]}
                   >
-                    <FieldArray
-                      name="otherOffers"
-                      language={language}
-                      component={OtherBox}
-                    />
+                    <FieldArray name="otherOffers">
+                      {(props) => <OtherBox {...props} language={language} />}
+                    </FieldArray>
                   </MultiSelectGroup>
                   {readMe}
                 </Flex>
@@ -770,6 +766,8 @@ const CompanyInterestForm = ({ language }: Props) => {
               </div>
 
               {eventTypeEntities.map((eventTypeEntity) => {
+                if (!eventTypeEntity.commentName) return null;
+                const { commentName, commentPlaceholder } = eventTypeEntity;
                 return spyValues((values: CompanyInterestFormEntity) => {
                   const showComment = values.events?.some(
                     (e) => e.name === eventTypeEntity.name && e.checked,
@@ -786,8 +784,8 @@ const CompanyInterestForm = ({ language }: Props) => {
 
                         <p>{eventTypeEntity.description}</p>
                         <Field
-                          placeholder={eventTypeEntity.commentPlaceholder}
-                          name={eventTypeEntity.commentName}
+                          placeholder={commentPlaceholder}
+                          name={commentName}
                           component={TextEditor.Field}
                           rows={10}
                           className={styles.textEditor}
