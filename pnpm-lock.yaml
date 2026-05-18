@@ -249,8 +249,8 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1
       slugify:
-        specifier: ^1.6.6
-        version: 1.6.6
+        specifier: ^1.6.9
+        version: 1.6.9
       validator:
         specifier: ^13.15.20
         version: 13.15.20
@@ -6395,8 +6395,8 @@ packages:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
 
-  slugify@1.6.6:
-    resolution: {integrity: sha512-h+z7HKHYXj6wJU+AnS/+IH8Uh9fdcX1Lrhg1/VMdf9PwoBQXFcXiAdsy2tSK0P6gKwJLXp02r90ahUCqHk9rrw==}
+  slugify@1.6.9:
+    resolution: {integrity: sha512-vZ7rfeehZui7wQs438JXBckYLkIIdfHOXsaVEUMyS5fHo1483l1bMdo0EDSWYclY0yZKFOipDy4KHuKs6ssvdg==}
     engines: {node: '>=8.0.0'}
 
   source-map-js@1.2.1:
@@ -14147,7 +14147,7 @@ snapshots:
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
 
-  slugify@1.6.6: {}
+  slugify@1.6.9: {}
 
   source-map-js@1.2.1: {}
 
