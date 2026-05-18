@@ -15,6 +15,7 @@ const lendableObjectsSlice = createSlice({
     availableIds: null as EntityId[] | null,
     fetchFailed: false,
     availabilityFetchFailed: false,
+    lastAvailabilityRequestId: null as string | null,
   }),
   reducers: {
     clearAvailableIds(state) {
@@ -35,17 +36,29 @@ const lendableObjectsSlice = createSlice({
       addCase(LendableObjects.FETCH.FAILURE, (state) => {
         state.fetchFailed = true;
       });
-      addCase(LendableObjects.FETCH_AVAILABLE.BEGIN, (state) => {
+      addCase(LendableObjects.FETCH_AVAILABLE.BEGIN, (state, action: AnyAction) => {
         state.availabilityFetchFailed = false;
+        // store the request id so we can ignore stale responses
+        state.lastAvailabilityRequestId = action.meta?.requestId ?? null;
       });
       addCase(
         LendableObjects.FETCH_AVAILABLE.SUCCESS,
         (state, action: AnyAction) => {
+          // Only apply success payload if it matches the latest request id
+          const requestId = action.meta?.requestId ?? null;
+          if (requestId && state.lastAvailabilityRequestId !== requestId) {
+            // stale response — ignore
+            return;
+          }
           state.availabilityFetchFailed = false;
           state.availableIds = action.payload;
         },
       );
-      addCase(LendableObjects.FETCH_AVAILABLE.FAILURE, (state) => {
+      addCase(LendableObjects.FETCH_AVAILABLE.FAILURE, (state, action: AnyAction) => {
+        const requestId = action.meta?.requestId ?? null;
+        if (requestId && state.lastAvailabilityRequestId !== requestId) {
+          return;
+        }
         state.availabilityFetchFailed = true;
       });
       addCase(
