@@ -24,7 +24,7 @@ export type EditDraft<T = unknown> = Record<string, EditPrimitive> &
   Partial<Record<keyof T, EditPrimitive>>;
 export type EditErrors = Record<string, string | undefined>;
 
-export type RowActionContext<T extends { id: EntityId }> = {
+export type RowActionContext<T> = {
   row: T;
   isEditing: boolean;
   isSaving: boolean;
@@ -36,7 +36,7 @@ export type RowActionContext<T extends { id: EntityId }> = {
   saveEdit: () => Promise<void>;
 };
 
-export type EditCellContext<T extends { id: EntityId }> = {
+export type EditCellContext<T> = {
   row: T;
   column: ColumnProps<T>;
   value: EditPrimitive;
@@ -111,7 +111,7 @@ type TableProps<T extends { id: EntityId }> = {
   className?: string;
 };
 
-const isVisible = ({ visible = true }: ColumnProps) => visible;
+const isVisible = <T,>({ visible = true }: ColumnProps<T>) => visible;
 const hasValidationErrors = (errors?: EditErrors | null) =>
   Boolean(errors && Object.values(errors).some(Boolean));
 
@@ -233,10 +233,13 @@ const Table = <T extends { id: EntityId }>({
       return editable.getInitialDraft(row);
     }
 
-    return editableColumns.reduce((draft, column) => {
-      draft[column.dataIndex] = get(row, column.dataIndex) as EditPrimitive;
-      return draft;
-    }, {} as EditDraft<T>);
+    return editableColumns.reduce<Record<string, EditPrimitive>>(
+      (draft, column) => {
+        draft[column.dataIndex] = get(row, column.dataIndex) as EditPrimitive;
+        return draft;
+      },
+      {},
+    ) as EditDraft<T>;
   };
 
   const getDraftForRow = (row: T): EditDraft<T> => {
