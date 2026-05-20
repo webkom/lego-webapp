@@ -2,6 +2,7 @@ import { LendableObjects } from '~/redux/actionTypes';
 import callAPI from '~/redux/actions/callAPI';
 import { lendableObjectSchema } from '~/redux/schemas';
 import type { EntityId } from '@reduxjs/toolkit';
+import type { Dateish } from 'app/models';
 import type {
   CreateLendableObject,
   DetailLendableObject,
@@ -19,6 +20,20 @@ export const fetchAllLendableObjects = () =>
     },
     meta: {
       errorMessage: 'Henting av utlånsobjekter feilet',
+    },
+    propagateError: true,
+  });
+
+export const fetchAvailableLendableObjectIdsByDate = (
+  start_date: string | Dateish,
+  end_date: string | Dateish,
+) =>
+  callAPI<EntityId[]>({
+    types: LendableObjects.FETCH_AVAILABLE,
+    endpoint: '/lending/objects/available/',
+    query: { start_date, end_date },
+    meta: {
+      errorMessage: 'Henting av tilgjengelige utlånsobjekter feilet',
     },
     propagateError: true,
   });

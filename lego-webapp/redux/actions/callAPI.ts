@@ -269,6 +269,9 @@ export default function callAPI<
       requestOptions,
     );
 
+    // Attach a requestId to meta for request identity (used to ignore stale responses)
+    const requestId = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+
     const action: PromiseAction<
       T | NormalizedApiPayload<T>,
       CallAPIMeta<Meta>
@@ -282,6 +285,7 @@ export default function callAPI<
           paginationForRequest && paginationForRequest.paginationKey,
         cursor,
         ...meta,
+        requestId,
         optimisticId: optimisticPayload ? optimisticPayload.result : undefined,
         enableOptimistic,
         endpoint,

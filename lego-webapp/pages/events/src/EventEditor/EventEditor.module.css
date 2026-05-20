@@ -41,6 +41,11 @@
   margin-top: var(--spacing-sm);
 }
 
+.lendingUnavailable {
+  color: var(--secondary-font-color);
+  margin: var(--spacing-sm) 0;
+}
+
 .metaList {
   display: flex;
   align-items: center;

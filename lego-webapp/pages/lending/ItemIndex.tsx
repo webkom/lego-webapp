@@ -8,14 +8,7 @@ import {
   Image,
 } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import {
-  Contact,
-  ImageOff,
-  Package,
-  Tag,
-  FolderOpen,
-  Plus,
-} from 'lucide-react';
+import { Contact, ImageOff, Package, FolderOpen, Plus } from 'lucide-react';
 import { useMemo } from 'react';
 import EmptyState from '~/components/EmptyState';
 import { readmeIfy } from '~/components/ReadmeLogo';

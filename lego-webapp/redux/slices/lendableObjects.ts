@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, type AnyAction, type EntityId } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { LendableObjects } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
@@ -11,26 +11,81 @@ const legoAdapter = createLegoAdapter(EntityType.LendableObjects);
 
 const lendableObjectsSlice = createSlice({
   name: EntityType.LendableObjects,
-  initialState: legoAdapter.getInitialState(),
-  reducers: {},
+  initialState: legoAdapter.getInitialState({
+    availableIds: null as EntityId[] | null,
+    fetchFailed: false,
+    availabilityFetchFailed: false,
+    lastAvailabilityRequestId: null as string | null,
+  }),
+  reducers: {
+    clearAvailableIds(state) {
+      state.availableIds = null;
+      state.availabilityFetchFailed = false;
+    },
+  },
   extraReducers: legoAdapter.buildReducers({
     fetchActions: [LendableObjects.FETCH],
     deleteActions: [LendableObjects.DELETE],
     extraCases: (addCase) => {
-      addCase(LendableObjects.FETCH_AVAILABILITY.SUCCESS, (state, action) => {
-        const id = action.meta.id;
-        legoAdapter.updateOne(state, {
-          id,
-          changes: {
-            availability: action.payload,
-          },
-        });
+      addCase(LendableObjects.FETCH.BEGIN, (state) => {
+        state.fetchFailed = false;
       });
+      addCase(LendableObjects.FETCH.SUCCESS, (state) => {
+        state.fetchFailed = false;
+      });
+      addCase(LendableObjects.FETCH.FAILURE, (state) => {
+        state.fetchFailed = true;
+      });
+      addCase(
+        LendableObjects.FETCH_AVAILABLE.BEGIN,
+        (state, action: AnyAction) => {
+          state.availabilityFetchFailed = false;
+          // store the request id so we can ignore stale responses
+          state.lastAvailabilityRequestId = action.meta?.requestId ?? null;
+        },
+      );
+      addCase(
+        LendableObjects.FETCH_AVAILABLE.SUCCESS,
+        (state, action: AnyAction) => {
+          // Only apply success payload if it matches the latest request id
+          const requestId = action.meta?.requestId ?? null;
+          if (requestId && state.lastAvailabilityRequestId !== requestId) {
+            // stale response — ignore
+            return;
+          }
+          state.availabilityFetchFailed = false;
+          state.availableIds = action.payload;
+        },
+      );
+      addCase(
+        LendableObjects.FETCH_AVAILABLE.FAILURE,
+        (state, action: AnyAction) => {
+          const requestId = action.meta?.requestId ?? null;
+          if (requestId && state.lastAvailabilityRequestId !== requestId) {
+            return;
+          }
+          state.availabilityFetchFailed = true;
+        },
+      );
+      addCase(
+        LendableObjects.FETCH_AVAILABILITY.SUCCESS,
+        (state, action: AnyAction) => {
+          const id = action.meta.id;
+          legoAdapter.updateOne(state, {
+            id,
+            changes: {
+              availability: action.payload,
+            },
+          });
+        },
+      );
     },
   }),
 });
 
 export default lendableObjectsSlice.reducer;
+
+export const { clearAvailableIds } = lendableObjectsSlice.actions;
 
 const baseSelectors = legoAdapter.getSelectors(
   (state: RootState) => state.lendableObjects,
@@ -40,6 +95,13 @@ export const {
   selectById: selectLendableObjectById,
   selectAll: selectAllLendableObjects,
 } = baseSelectors;
+
+export const selectAvailableLendableObjectIds = (state: RootState) =>
+  state.lendableObjects.availableIds;
+
+export const selectLendableObjectsUnavailable = (state: RootState) =>
+  state.lendableObjects.fetchFailed ||
+  state.lendableObjects.availabilityFetchFailed;
 
 export const selectLendableObjectsForIndex = createSelector(
   (state: RootState) => state,
