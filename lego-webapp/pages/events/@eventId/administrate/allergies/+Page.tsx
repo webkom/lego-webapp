@@ -64,17 +64,19 @@ const Allergies = () => {
 
   const dispatch = useAppDispatch();
 
+  const canSee = canSeeAllergies(currentUser, event);
+
   usePreparedEffect(
     'fetchAllergies',
-    () => eventId && dispatch(fetchAllergies(eventId)),
-    [eventId],
+    () => eventId && canSee && dispatch(fetchAllergies(eventId)),
+    [eventId, canSee],
   );
 
   if (!event?.id) {
     return <LoadingIndicator loading={fetching} />;
   }
 
-  if (!canSeeAllergies(currentUser, event)) {
+  if (!canSee) {
     return <HTTPError statusCode={403} />;
   }
 
