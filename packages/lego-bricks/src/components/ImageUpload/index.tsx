@@ -143,6 +143,7 @@ export const ImageUpload = ({
   ...props
 }: Props) => {
   const cropper = useRef<Cropper>();
+  const [cropReady, setCropReady] = useState(false);
   const [cropOpen, setCropOpen] = useState(inModal);
   const [files, setFiles] = useState<DropFile[]>([]);
   const file: DropFile | undefined = files[0];
@@ -163,6 +164,7 @@ export const ImageUpload = ({
       const file = droppedFiles[0];
       file.preview = URL.createObjectURL(file);
       setFiles([file]);
+      setCropReady(false);
       setCropOpen(true);
     }
 
@@ -174,8 +176,9 @@ export const ImageUpload = ({
   const onSubmit = () => {
     if (crop && !props.multiple && file) {
       const { name } = file;
-      if (cropper.current) {
-        cropper.current.getCroppedCanvas().toBlob((image) => {
+      const croppedCanvas = cropper.current?.getCroppedCanvas();
+      if (croppedCanvas) {
+        croppedCanvas.toBlob((image) => {
           if (!image) return;
           const file = new File([image], name);
           props.onSubmit(file);
@@ -240,6 +243,7 @@ export const ImageUpload = ({
               onInitialized={(c) => {
                 cropper.current = c;
               }}
+              ready={() => setCropReady(true)}
               src={preview}
               className={styles.cropper}
               aspectRatio={aspectRatio}
@@ -264,7 +268,10 @@ export const ImageUpload = ({
             </Button>
             <Button
               secondary
-              disabled={files.length === 0 && !preview}
+              disabled={
+                (files.length === 0 && !preview) ||
+                (!!preview && crop && !props.multiple && !cropReady)
+              }
               onPress={onSubmit}
             >
               Last opp
