@@ -14,8 +14,8 @@ import { payment } from '~/redux/actions/EventActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { appConfig } from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
-import { confirmPaymentRequest } from './confirmPaymentRequest';
 import stripeStyles from './Stripe.module.css';
+import { confirmPaymentRequest } from './confirmPaymentRequest';
 import type {
   PaymentRequest,
   PaymentRequestPaymentMethodEvent,
