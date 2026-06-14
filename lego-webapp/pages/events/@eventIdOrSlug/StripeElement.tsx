@@ -15,7 +15,10 @@ import { useAppDispatch } from '~/redux/hooks';
 import { appConfig } from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
 import stripeStyles from './Stripe.module.css';
-import type { PaymentMethod, PaymentRequest } from '@stripe/stripe-js';
+import type {
+  PaymentRequest,
+  PaymentRequestPaymentMethodEvent,
+} from '@stripe/stripe-js';
 import type { EventRegistrationPaymentStatus } from 'app/models';
 import type {
   AuthUserDetailedEvent,
@@ -45,16 +48,6 @@ type CardFormProps = SharedFormProps & {
 type PaymentRequestFormProps = SharedFormProps & {
   setCanPaymentRequest: (arg0: boolean) => void;
 };
-
-// See https://stripe.com/docs/js/appendix/payment_response#payment_response_object-complete
-// for the statuses
-type CompleteStatus =
-  | 'success'
-  | 'fail'
-  | 'invalid_payer_name'
-  | 'invalid_payer_phone'
-  | 'invalid_payer_email'
-  | 'invalid_shipping_address';
 
 function StripeElementStyle(fontColor) {
   return {
@@ -177,17 +170,10 @@ const CardForm = (props: CardFormProps) => {
 };
 
 const PaymentRequestForm = (props: PaymentRequestFormProps) => {
-  const [complete, setComplete] = useState<
-    ((status: CompleteStatus) => void) | null
-  >(null);
   const [paymentRequest, setPaymentRequest] = useState<PaymentRequest | null>(
     null,
   );
   const [canMakePayment, setCanMakePayment] = useState(false);
-  const [paymentStarted, setPaymentStarted] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(
-    null,
-  );
 
   const stripe = useStripe();
 
@@ -201,27 +187,73 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     setCanPaymentRequest,
   } = props;
 
-  const completePayment = useCallback(
-    async (clientSecret) => {
-      if (!complete || !paymentMethod || !stripe) {
+  // Create the PaymentRequest instance once Stripe and the event are ready.
+  useEffect(() => {
+    if (paymentRequest || !stripe || !event) {
+      return;
+    }
+
+    const paymentReq = stripe.paymentRequest({
+      currency: 'nok',
+      total: {
+        label: event.title,
+        amount: event.price,
+      },
+      requestPayerName: true,
+      requestPayerEmail: true,
+      requestPayerPhone: true,
+      country: 'NO',
+    });
+
+    paymentReq.canMakePayment().then((result) => {
+      setCanMakePayment(!!result);
+      setCanPaymentRequest(!!result);
+    });
+
+    setPaymentRequest(paymentReq);
+  }, [paymentRequest, stripe, event, setCanPaymentRequest]);
+
+  // (Re)register the `paymentmethod` listener whenever its dependencies change,
+  // so it always confirms with the current clientSecret. The handler *must*
+  // call `complete()` within 30s to dismiss the Apple Pay / Google Pay sheet –
+  // otherwise it spins forever.
+  useEffect(() => {
+    if (!paymentRequest || !stripe) {
+      return;
+    }
+
+    const handlePaymentMethod = async ({
+      paymentMethod,
+      complete,
+    }: PaymentRequestPaymentMethodEvent) => {
+      if (!clientSecret) {
+        complete('fail');
+        setError(
+          'Betalingen er ikke klar enda. Vent et øyeblikk og prøv igjen.',
+        );
         return;
       }
 
       const { error: confirmError } = await stripe.confirmCardPayment(
         clientSecret,
-        {
-          payment_method: paymentMethod.id,
-        },
+        { payment_method: paymentMethod.id },
         { handleActions: false },
       );
 
       if (confirmError) {
         complete('fail');
+        setError(
+          confirmError.message ??
+            'Det oppsto en ukjent feil. Hvis problemet vedvarer, ta kontakt med Webkom.',
+        );
         return;
       }
 
+      // Dismiss the payment sheet before handling any required next actions
+      // (e.g. 3D Secure), as recommended by Stripe.
       complete('success');
       setLoading(true);
+
       const { error } = await stripe.confirmCardPayment(clientSecret);
 
       if (error) {
@@ -234,83 +266,20 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
       }
 
       setLoading(false);
-    },
-    [stripe, complete, paymentMethod, setError, setSuccess, setLoading],
-  );
-
-  const completePaymentManual = useCallback(
-    async (status: CompleteStatus) => {
-      if (!complete) {
-        return;
-      }
-
-      complete(status);
-
-      if (status === 'success') {
-        setSuccess();
-      }
-    },
-    [complete, setSuccess],
-  );
-
-  useEffect(() => {
-    if (!paymentRequest && stripe && event) {
-      // Create a paymentRequest instance
-      const paymentReq = stripe.paymentRequest({
-        currency: 'nok',
-        total: {
-          label: event.title,
-          amount: event.price,
-        },
-        requestPayerName: true,
-        requestPayerEmail: true,
-        requestPayerPhone: true,
-        country: 'NO',
-      });
-      // Complete the payment
-      paymentReq.on('paymentmethod', async ({ paymentMethod, complete }) => {
-        setComplete(() => complete);
-        setPaymentMethod(paymentMethod);
-
-        if (clientSecret) {
-          completePayment(clientSecret);
-        }
-      });
-      // Render the Payment Request Button Element
-      paymentReq.canMakePayment().then((result) => {
-        setCanMakePayment(!!result);
-        setCanPaymentRequest(!!result);
-      });
-      setPaymentRequest(paymentReq);
-    }
-  }, [
-    paymentRequest,
-    clientSecret,
-    stripe,
-    event,
-    completePayment,
-    setCanPaymentRequest,
-  ]);
-
-  useEffect(() => {
-    if (clientSecret && completePayment && !paymentStarted) {
-      setPaymentStarted(true);
-      completePayment(clientSecret);
-    }
-  }, [clientSecret, completePayment, paymentStarted, completePaymentManual]);
-
-  useEffect(() => {
-    return () => {
-      completePaymentManual('fail');
     };
-  }, [completePaymentManual]);
+
+    paymentRequest.on('paymentmethod', handlePaymentMethod);
+
+    return () => {
+      paymentRequest.off('paymentmethod', handlePaymentMethod);
+    };
+  }, [paymentRequest, stripe, clientSecret, setError, setSuccess, setLoading]);
 
   useEffect(() => {
-    if (paymentError && setError && completePaymentManual) {
-      completePaymentManual('fail');
+    if (paymentError) {
       setError(paymentError);
     }
-  }, [paymentError, completePaymentManual, setError]);
+  }, [paymentError, setError]);
 
   return (
     <div
@@ -320,14 +289,6 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     >
       {canMakePayment && paymentRequest && (
         <PaymentRequestButtonElement
-          onClick={(e) => {
-            if (paymentMethod) {
-              e.preventDefault();
-              setError(
-                'Det skjedde en feil under prosesseringen av betalingen. Vennligst refresh siden for å prøve igjen.',
-              );
-            }
-          }}
           className={stripeStyles.PaymentRequestButton}
           options={{
             style: {
