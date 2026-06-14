@@ -14,6 +14,7 @@ import { payment } from '~/redux/actions/EventActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { appConfig } from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
+import { confirmPaymentRequest } from './confirmPaymentRequest';
 import stripeStyles from './Stripe.module.css';
 import type {
   PaymentRequest,
@@ -222,51 +223,19 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
       return;
     }
 
-    const handlePaymentMethod = async ({
+    const handlePaymentMethod = ({
       paymentMethod,
       complete,
-    }: PaymentRequestPaymentMethodEvent) => {
-      if (!clientSecret) {
-        complete('fail');
-        setError(
-          'Betalingen er ikke klar enda. Vent et øyeblikk og prøv igjen.',
-        );
-        return;
-      }
-
-      const { error: confirmError } = await stripe.confirmCardPayment(
+    }: PaymentRequestPaymentMethodEvent) =>
+      confirmPaymentRequest({
+        stripe,
         clientSecret,
-        { payment_method: paymentMethod.id },
-        { handleActions: false },
-      );
-
-      if (confirmError) {
-        complete('fail');
-        setError(
-          confirmError.message ??
-            'Det oppsto en ukjent feil. Hvis problemet vedvarer, ta kontakt med Webkom.',
-        );
-        return;
-      }
-
-      // Dismiss the payment sheet before handling any required next actions
-      // (e.g. 3D Secure), as recommended by Stripe.
-      complete('success');
-      setLoading(true);
-
-      const { error } = await stripe.confirmCardPayment(clientSecret);
-
-      if (error) {
-        setError(
-          error.message ??
-            'Det oppsto en ukjent feil. Hvis problemet vedvarer, ta kontakt med Webkom.',
-        );
-      } else {
-        setSuccess();
-      }
-
-      setLoading(false);
-    };
+        paymentMethod,
+        complete,
+        setError,
+        setLoading,
+        setSuccess,
+      });
 
     paymentRequest.on('paymentmethod', handlePaymentMethod);
 
