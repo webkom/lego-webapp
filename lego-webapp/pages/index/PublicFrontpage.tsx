@@ -27,7 +27,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCurrentPublicBanner } from '~/redux/slices/banner';
 import { selectPinned } from '~/redux/slices/frontpage';
 import utilStyles from '~/styles/utilities.module.css';
-import CompactEvents from './CompactEvents';
+import CompactEvents from './NewCompactEvents';
 import styles from './PublicFrontpage.module.css';
 
 const PublicFrontpage = () => {
