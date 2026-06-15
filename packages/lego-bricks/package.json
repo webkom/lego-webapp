@@ -80,7 +80,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-promise": "^7.2.1",
-    "eslint-plugin-storybook": "^0.11.1",
+    "eslint-plugin-storybook": "^10.4.5",
     "storybook": "^8.6.17",
     "typescript": "catalog:",
     "vite": "catalog:",
