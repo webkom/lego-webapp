@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@react-types/shared": "^3.28.0",
-    "@storybook/addon-essentials": "^8.6.4",
+    "@storybook/addon-essentials": "^8.6.14",
     "@storybook/addon-interactions": "^8.6.4",
     "@storybook/addon-links": "^10.0.1",
     "@storybook/blocks": "^8.6.4",
