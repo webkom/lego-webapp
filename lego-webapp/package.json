@@ -82,7 +82,7 @@
     "react-treeview": "^0.4.7",
     "react-turnstile": "^1.1.4",
     "react-youtube": "^10.1.0",
-    "recharts": "^2.15.1",
+    "recharts": "^3.8.1",
     "redux-logger": "^3.0.6",
     "reselect": "^5.1.1",
     "slugify": "^1.6.6",
