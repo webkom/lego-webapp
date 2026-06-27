@@ -161,8 +161,7 @@ export type AdministrateUser = Pick<User, 'abakusGroups'> & PublicUser;
 
 // Used in event administrate view
 export type AdministrateUserWithGrade = (
-  | AdministrateUser
-  | AdministrateAllergiesUser
+  AdministrateUser | AdministrateAllergiesUser
 ) & {
   grade: PublicGroup;
 };

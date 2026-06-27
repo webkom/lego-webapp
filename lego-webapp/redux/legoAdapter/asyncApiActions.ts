@@ -40,13 +40,15 @@ interface AsyncApiAction<Meta extends BaseMeta = BaseMeta, Payload = null> {
   payload: Payload;
 }
 
-export interface AsyncApiActionBegin<Meta extends BaseMeta = BaseMeta>
-  extends AsyncApiAction<Meta> {
+export interface AsyncApiActionBegin<
+  Meta extends BaseMeta = BaseMeta,
+> extends AsyncApiAction<Meta> {
   type: `${string}.BEGIN`;
 }
 
-export interface AsyncApiActionFailure<Meta extends BaseMeta = BaseMeta>
-  extends AsyncApiAction<Meta> {
+export interface AsyncApiActionFailure<
+  Meta extends BaseMeta = BaseMeta,
+> extends AsyncApiAction<Meta> {
   type: `${string}.FAILURE`;
 }
 
@@ -57,8 +59,9 @@ export interface AsyncApiActionSuccess<
   type: `${string}.SUCCESS`;
 }
 
-export interface AsyncApiActionSuccessWithEntityType<T extends EntityType>
-  extends AsyncApiActionSuccess<FetchMeta, FetchPayload> {
+export interface AsyncApiActionSuccessWithEntityType<
+  T extends EntityType,
+> extends AsyncApiActionSuccess<FetchMeta, FetchPayload> {
   payload: AsyncApiActionSuccess['payload'] & NormalizedEntityPayload<T>;
 }
 

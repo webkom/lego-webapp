@@ -79,8 +79,8 @@ const Results = ({
   numberOfSubmissions,
 }: Props) => {
   const dispatch = useAppDispatch();
-  const event = useAppSelector(
-    (state) => selectEventById<EventForSurvey>(state, survey.event)!,
+  const event = useAppSelector((state) =>
+    selectEventById<EventForSurvey>(state, survey.event)!,
   );
   const { fetchingSubmissions } = useContext(SurveysRouteContext);
 

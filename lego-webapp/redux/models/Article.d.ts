@@ -74,9 +74,7 @@ export type PublicArticle = Pick<
 >;
 
 export type UnknownArticle = (
-  | DetailedArticle
-  | AdminDetailedArticle
-  | PublicArticle
+  DetailedArticle | AdminDetailedArticle | PublicArticle
 ) & {
   comments?: EntityId[];
   reactionsGrouped?: ReactionsGrouped[];

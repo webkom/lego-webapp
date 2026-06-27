@@ -38,7 +38,7 @@
     /*
   Shadow cover BOTTOM
   */
-      linear-gradient(
+    linear-gradient(
         rgba(var(--rgb-max), var(--rgb-max), var(--rgb-max), 0%),
         var(--color-white) 70%
       )
@@ -46,7 +46,7 @@
     /*
   Shadow TOP
   */
-      radial-gradient(
+    radial-gradient(
         farthest-side at 50% 0,
         rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
         rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)
@@ -55,7 +55,7 @@
     /*
   Shadow BOTTOM
   */
-      radial-gradient(
+    radial-gradient(
         farthest-side at 50% 100%,
         rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 15%),
         rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 0%)

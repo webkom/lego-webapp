@@ -57,9 +57,7 @@ const eventsSlice = createSlice({
         const eventId = action.meta.eventId;
         const registration = action.payload;
         const stateEvent = state.entities[eventId] as
-          | DetailedEvent
-          | UserDetailedEvent
-          | AuthUserDetailedEvent;
+          DetailedEvent | UserDetailedEvent | AuthUserDetailedEvent;
 
         if (!stateEvent) {
           return;
@@ -95,9 +93,7 @@ const eventsSlice = createSlice({
             currentUser,
           } = action.meta;
           const stateEvent = state.entities[eventId] as
-            | DetailedEvent
-            | UserDetailedEvent
-            | AuthUserDetailedEvent;
+            DetailedEvent | UserDetailedEvent | AuthUserDetailedEvent;
           const registration = action.payload;
 
           if (!stateEvent) {
@@ -135,14 +131,12 @@ const eventsSlice = createSlice({
       );
       addCase(Event.FOLLOW.SUCCESS, (state, action: AnyAction) => {
         const event = state.entities[action.meta.body.target] as
-          | UserDetailedEvent
-          | undefined;
+          UserDetailedEvent | undefined;
         if (event) event.following = action.payload.id;
       });
       addCase(Event.UNFOLLOW.SUCCESS, (state, action: AnyAction) => {
         const event = state.entities[action.meta.eventId] as
-          | UserDetailedEvent
-          | undefined;
+          UserDetailedEvent | undefined;
         if (event) event.following = false;
       });
       addCase(Event.FETCH_FOLLOWERS.SUCCESS, (state, action: AnyAction) => {

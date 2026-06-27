@@ -88,5 +88,4 @@ export type ListCompanyInterest = Pick<
 >;
 
 export type UnknownCompanyInterest =
-  | ListCompanyInterest
-  | DetailedCompanyInterest;
+  ListCompanyInterest | DetailedCompanyInterest;

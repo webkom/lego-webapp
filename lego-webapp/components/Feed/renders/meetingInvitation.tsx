@@ -56,8 +56,7 @@ const getMeetingInvitations = (aggregatedActivity: AggregatedFeedActivity) =>
     .map(
       (activity) =>
         aggregatedActivity.context[activity.object] as
-          | FeedAttrMeetingInvitation
-          | undefined,
+          FeedAttrMeetingInvitation | undefined,
     )
     .filter(isNotNullish);
 

@@ -10,12 +10,7 @@ import type { RoleType } from '~/utils/constants';
 // TODO: Id handling could be opaque
 export type Dateish = Moment | Date | string;
 export type ActionGrant = (
-  | 'create'
-  | 'edit'
-  | 'delete'
-  | 'list'
-  | 'view'
-  | string
+  'create' | 'edit' | 'delete' | 'list' | 'view' | string
 )[];
 export type IcalToken = string;
 export enum EventTime {
@@ -181,9 +176,7 @@ type EventBase = {
 export type Permission = string;
 
 export type LEGACY_EventRegistrationPhotoConsent =
-  | 'PHOTO_NOT_CONSENT'
-  | 'PHOTO_CONSENT'
-  | 'UNKNOWN';
+  'PHOTO_NOT_CONSENT' | 'PHOTO_CONSENT' | 'UNKNOWN';
 export type EventRegistrationPaymentStatus =
   | 'pending'
   | 'manual'

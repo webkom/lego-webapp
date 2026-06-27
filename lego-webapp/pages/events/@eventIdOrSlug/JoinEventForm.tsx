@@ -222,9 +222,9 @@ const JoinEventForm = ({
     !fetching && !formOpen && !event.activationTime && !registration;
   const showPenaltyNotice = Boolean(
     event.heedPenalties &&
-      moment().isAfter(event.unregistrationDeadline) &&
-      registration &&
-      registration.pool,
+    moment().isAfter(event.unregistrationDeadline) &&
+    registration &&
+    registration.pool,
   );
   const registrationPending =
     pendingRegistration?.status === 'PENDING_REGISTER' ||

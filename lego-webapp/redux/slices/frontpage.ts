@@ -66,8 +66,6 @@ export const selectPinned = createSelector(
     );
 
     return pinnedObjects[0] satisfies
-      | ArticleWithType
-      | EventWithType
-      | undefined;
+      ArticleWithType | EventWithType | undefined;
   },
 );

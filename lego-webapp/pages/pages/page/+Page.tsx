@@ -283,14 +283,11 @@ type Section<T = unknown> = {
   hierarchySectionSelector: HierarchySectionSelector;
   fetchAll?: () => Thunk<void>;
   fetchItemActions: (
-    | ((id: string) => Thunk<void>)
-    | ((id: EntityId) => Thunk<void>)
+    ((id: string) => Thunk<void>) | ((id: EntityId) => Thunk<void>)
   )[];
 };
 export type UnknownSection =
-  | Section<Flatpage>
-  | Section<GroupPage>
-  | Section<null>;
+  Section<Flatpage> | Section<GroupPage> | Section<null>;
 
 const fetchAllMembershipsWithDecendants = (groupId: EntityId) =>
   fetchAllMemberships(groupId, true);

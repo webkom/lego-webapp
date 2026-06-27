@@ -73,11 +73,7 @@ declare global {
       SENTRY_DSN: string;
       RELEASE: string;
       ENVIRONMENT:
-        | 'production'
-        | 'staging'
-        | 'local_staging'
-        | 'ci'
-        | undefined;
+        'production' | 'staging' | 'local_staging' | 'ci' | undefined;
     }
   }
 }

@@ -43,8 +43,7 @@ export type DetailedSurvey = Pick<
 
 interface PublicChoiceQuestionResult {
   questionType:
-    | SurveyQuestionType.MultipleChoice
-    | SurveyQuestionType.SingleChoice;
+    SurveyQuestionType.MultipleChoice | SurveyQuestionType.SingleChoice;
   [key: number]: number;
 }
 interface PublicTextQuestionResult {

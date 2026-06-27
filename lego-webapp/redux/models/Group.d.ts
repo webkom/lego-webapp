@@ -68,10 +68,7 @@ export type AutocompleteGroup = Pick<Group, 'name' | 'type' | 'logo' | 'id'> & {
 };
 
 export type UnknownGroup =
-  | PublicGroup
-  | DetailedGroup
-  | PublicListGroup
-  | PublicDetailedGroup;
+  PublicGroup | DetailedGroup | PublicListGroup | PublicDetailedGroup;
 
 // Used when a group is a field in another model
 export type FieldGroup = Pick<Group, 'id' | 'name' | 'contactEmail' | 'type'>;

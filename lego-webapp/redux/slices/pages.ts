@@ -110,9 +110,7 @@ export const selectPageHierarchy = createSelector(
 export const selectFlatpagePageInfo: PageInfoSelector = createSelector(
   (state: RootState, pageSlug: string) =>
     selectPageById(state, pageSlug) as
-      | DetailedPage
-      | AuthDetailedPage
-      | undefined,
+      DetailedPage | AuthDetailedPage | undefined,
   (_: RootState, pageSlug: string) => pageSlug,
   (page, pageSlug) =>
     page

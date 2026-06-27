@@ -26,8 +26,10 @@ export type WithRequiredProp<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
 
 // The base redux-state of the entity-slice
-interface LegoEntityState<Entity, Id extends EntityId>
-  extends EntityState<Entity, Id> {
+interface LegoEntityState<Entity, Id extends EntityId> extends EntityState<
+  Entity,
+  Id
+> {
   actionGrant: ActionGrant;
   fetching: boolean;
   paginationNext: { [key: string]: Pagination };

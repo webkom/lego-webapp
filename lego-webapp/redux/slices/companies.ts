@@ -123,8 +123,7 @@ export type TransformedSemesterStatus = Overwrite<
 
 export type TransformedAdminCompany<
   T extends AdminDetailCompany | AdminListCompany =
-    | AdminDetailCompany
-    | AdminListCompany,
+    AdminDetailCompany | AdminListCompany,
 > = Overwrite<
   T,
   {

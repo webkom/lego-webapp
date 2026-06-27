@@ -43,6 +43,4 @@ export type DetailedRestrictedMail = Pick<
   NormalRestrictedMail;
 
 export type UnknownRestrictedMail =
-  | ListRestrictedMail
-  | NormalRestrictedMail
-  | DetailedRestrictedMail;
+  ListRestrictedMail | NormalRestrictedMail | DetailedRestrictedMail;

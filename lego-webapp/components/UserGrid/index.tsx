@@ -31,7 +31,9 @@ const UserGrid = ({
       maxHeight: maxRows * size + (maxRows - 1) * padding + 3.3,
     }}
   >
-    {users?.map((user) => <RegisteredUserCell key={user.id} user={user} />)}
+    {users?.map((user) => (
+      <RegisteredUserCell key={user.id} user={user} />
+    ))}
 
     {minRows > 0 && (
       <Skeleton

@@ -426,8 +426,7 @@ type ConfirmStudentAuthErrorResponse =
     detail: string;
   };
 export type ConfirmStudentAuthResponse =
-  | ConfirmStudentAuthBaseResponse
-  | ConfirmStudentAuthErrorResponse;
+  ConfirmStudentAuthBaseResponse | ConfirmStudentAuthErrorResponse;
 export function confirmStudentAuth(
   code: string | qs.ParsedQs | string[] | qs.ParsedQs[],
   state: string | qs.ParsedQs | string[] | qs.ParsedQs[],
