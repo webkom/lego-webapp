@@ -167,6 +167,13 @@ const Header = () => {
   const loggedIn = useIsLoggedIn();
   const currentUser = useCurrentUser();
   const searchOpen = useAppSelector((state) => state.search.open);
+  const [renderSearch, setRenderSearch] = useState(searchOpen);
+
+  useEffect(() => {
+    if (searchOpen) {
+      setRenderSearch(true);
+    }
+  }, [searchOpen]);
 
   useEffect(() => {
     if (
@@ -249,7 +256,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {searchOpen && <Search />}
+      {renderSearch && (
+        <Search closing={!searchOpen} onClosed={() => setRenderSearch(false)} />
+      )}
     </header>
   );
 };

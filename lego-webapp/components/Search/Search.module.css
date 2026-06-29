@@ -11,6 +11,10 @@
   animation: fade-in var(--easing-fast) forwards;
 }
 
+.wrapper.closing {
+  animation: fade-out var(--easing-fast) forwards;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -18,6 +22,16 @@
 
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
 
