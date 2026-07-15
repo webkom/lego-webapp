@@ -1,5 +1,6 @@
-import { LinkButton } from '@webkom/lego-bricks';
+import { Image, LinkButton } from '@webkom/lego-bricks';
 import { ChevronRight } from 'lucide-react';
+import bekkLogo from '~/assets/bekk_short_white.svg';
 import styles from './MainSponsor.module.css';
 import useSectionReveal from './useSectionReveal';
 
@@ -17,7 +18,7 @@ const MainSponsor = () => {
             rel="noreferrer"
             target="_blank"
           >
-            Bekk
+            <Image src={bekkLogo} alt="Bekk sin logo" />
           </a>
           <p className={styles.meta}>Partner siden 2024 · Oslo · Trondheim</p>
         </div>
