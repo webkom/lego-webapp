@@ -1,19 +1,21 @@
 import { PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import Banner from '~/components/Banner';
+import CompactEvents from '~/pages/index/_components/CompactEvents';
+import Hero from '~/pages/index/_components/public/Hero';
+import MainSponsor from '~/pages/index/_components/public/MainSponsor';
+import PinnedPost from '~/pages/index/_components/public/PinnedPost';
+import ReadmeShowcase, {
+  SHOWCASED_EDITIONS,
+} from '~/pages/index/_components/public/ReadmeShowcase';
+import UsefulLinks from '~/pages/index/_components/public/UsefulLinks';
+import useSectionReveal from '~/pages/index/_components/public/useSectionReveal';
 import { fetchCurrentPublicBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCurrentPublicBanner } from '~/redux/slices/banner';
 import { selectPinned } from '~/redux/slices/frontpage';
-import CompactEvents from './CompactEvents';
-import Hero from './Hero';
-import MainSponsor from './MainSponsor';
-import PinnedPost from './PinnedPost';
 import styles from './PublicFrontpage.module.css';
-import ReadmeShowcase, { SHOWCASED_EDITIONS } from './ReadmeShowcase';
-import UsefulLinks from './UsefulLinks';
-import useSectionReveal from './useSectionReveal';
 
 const PublicFrontpage = () => {
   const dispatch = useAppDispatch();
