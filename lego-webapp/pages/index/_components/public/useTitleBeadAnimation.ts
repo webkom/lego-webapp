@@ -1,24 +1,14 @@
 import { gsap } from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 import { useLayoutEffect, useRef } from 'react';
+import { GRID_SIZE, ROW_OFFSET } from './heroBeads';
 
 gsap.registerPlugin(CustomEase);
 
-const GRID_SIZE = 40;
-/* The dot pattern uses background-position top 0, so rows sit at 20 + 40n */
-const ROW_OFFSET = 20;
 const FLIGHT_DURATION = 4.5;
 
-/* Spawn out in the bead-field bleed, right of the login card's right edge */
 const START_BEYOND_RIGHT = 60;
 
-/**
- * Flies a bead from the hero's bead grid along a grid row until it lands as
- * the title's period. The bead field glides into alignment so a grid row runs
- * exactly through the dot, whatever the viewport, and the bead rides the
- * moving row. Skipped (dot shown directly) on reduced motion and on mobile
- * where the bead field is hidden.
- */
 const useTitleBeadAnimation = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const beadFieldRef = useRef<HTMLDivElement>(null);
@@ -46,7 +36,6 @@ const useTitleBeadAnimation = () => {
       };
     }
 
-    // Long, gentle deceleration so the bead settles elegantly into place
     const flightEase = CustomEase.create('titleBeadFlight', '0.5, 0, 0.15, 1');
 
     const beadEls = Array.from(beadLayer.children) as HTMLElement[];
@@ -78,7 +67,6 @@ const useTitleBeadAnimation = () => {
       if (finished) return;
       finished = true;
       flightTween?.kill();
-      // Overlay the dot exactly before swapping, so the handoff is invisible
       const containerRect = container.getBoundingClientRect();
       const dotRect = titleDot.getBoundingClientRect();
       if (containerRect.width && dotRect.width) {
@@ -93,9 +81,6 @@ const useTitleBeadAnimation = () => {
       gsap.set(titleDot, { opacity: 1 });
       gsap.set(travelBead, { autoAlpha: 0 });
     };
-
-    // Glide (never snap) the grid and beads so the row nearest the title dot
-    // runs exactly through its center
     let currentShift: number | null = null;
     const alignGrid = (shift: number, immediate = false) => {
       if (currentShift !== null && Math.abs(shift - currentShift) < 0.5) return;
@@ -136,8 +121,6 @@ const useTitleBeadAnimation = () => {
       fallbackTimer = setTimeout(finish, (FLIGHT_DURATION + 1.5) * 1000);
 
       const flight = { progress: 0 };
-      // Measured every frame: the bead follows the currently-shifting row and
-      // tracks the dot through font swaps and resizes
       const position = () => {
         const containerRect = container.getBoundingClientRect();
         const dotRect = titleDot.getBoundingClientRect();
@@ -151,9 +134,6 @@ const useTitleBeadAnimation = () => {
           ROW_OFFSET + GRID_SIZE * Math.round((endY - ROW_OFFSET) / GRID_SIZE);
         reserveDotRow(nearestRow);
         alignGrid(endY - nearestRow);
-
-        // Ride the row where it currently is, converging on the dot as the
-        // grid finishes aligning
         const rowY = nearestRow + Number(gsap.getProperty(beadField, 'y'));
         const startX = containerRect.width + START_BEYOND_RIGHT;
         gsap.set(travelBead, {
@@ -184,8 +164,6 @@ const useTitleBeadAnimation = () => {
       });
     };
 
-    // Wait out the entrance animation, and give web fonts a chance to settle
-    // before takeoff (per-frame tracking covers late swaps regardless)
     const launchTimer = setTimeout(() => {
       if (document.fonts.status === 'loaded') {
         launch();

@@ -1,7 +1,6 @@
 @import url('styles/custom-media.css');
 
 .sponsor {
-  /* Fixed brand surface — the same in both themes */
   background: var(--color-bekk-background);
   color: #f2eee3;
   margin: var(--spacing-xl) 0;

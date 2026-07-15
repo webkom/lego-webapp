@@ -31,8 +31,6 @@
   }
 }
 
-/* 01 · Fadderperioden — featured on the inverse card surface: the dark
-   theme's card color in light mode and vice versa */
 .featured {
   grid-column: span 4;
   display: flex;
@@ -108,15 +106,12 @@ html[data-theme='dark'] .featured {
   align-self: flex-start;
 }
 
-/* 02 · For bedrifter — tall card, image over text */
 .tall {
   grid-column: span 2;
   grid-row: span 2;
   display: flex;
   flex-direction: column;
 
-  /* The image area absorbs the extra height, keeping the text and its link
-     together at the bottom */
   .body {
     flex: none;
   }
@@ -137,7 +132,6 @@ html[data-theme='dark'] .featured {
   }
 }
 
-/* 03/04 · Study cards — image beside text */
 .study {
   grid-column: span 2;
   display: flex;

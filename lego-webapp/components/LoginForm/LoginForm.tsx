@@ -19,9 +19,7 @@ type FormValues = {
 };
 
 type Props = {
-  /** Rendered right below the password field, e.g. a "Glemt passord?" link */
   afterFields?: ReactNode;
-  /** Rendered beside the submit button, which then splits the row in two */
   secondaryAction?: ReactNode;
 };
 

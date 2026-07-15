@@ -136,10 +136,9 @@
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
+  --spacing-xxl: 3rem;
 
-  /*
-   * Space between the page content and the footer
-   */
+  /* Space between the page content and the footer */
   --footer-spacing-sm: 3rem; /* 48px */
   --footer-spacing-md: 4.5rem; /* 72px */
   --footer-spacing-lg: 6rem; /* 96px */

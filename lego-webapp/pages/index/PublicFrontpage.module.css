@@ -2,10 +2,7 @@
 
 div.wrapper {
   display: grid;
-
-  /* Section rhythm: generous air between the page's rows */
-  grid-gap: calc(var(--spacing-xl) * 1.5);
-
+  grid-gap: var(--spacing-xxl);
   /* minmax(0, …) so no item's min-content width can blow the columns past
      the viewport */
   grid-template-columns: repeat(2, minmax(0, 1fr));

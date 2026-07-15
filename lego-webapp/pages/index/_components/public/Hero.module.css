@@ -38,8 +38,6 @@
   );
   background-size: 40px 40px;
 
-  /* top 0 keeps the first dot row whole (a row at the very edge would be
-     clipped in half); rows sit at y = 20 + 40n */
   background-position: right 20px top 0;
   /* Two fade layers (they union): the second covers only the middle rows and
      completes its ramp earlier, so those rows stay visible further left */
@@ -77,8 +75,6 @@
   background: var(--lego-red-color);
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
-
-  /* Hold the first keyframe during animation-delay */
   animation-fill-mode: backwards;
 }
 
@@ -98,10 +94,6 @@
   animation-name: slide-c;
 }
 
-/* Beads sweep along the 40px grid rows in both directions; the ones parked
-   nearest the border may drift slightly past the max-width edge. Leftward
-   travel is kept short so beads never wander into the zone where the masked
-   grid has faded out. */
 @keyframes slide-a {
   from {
     transform: translateX(80px);
@@ -139,9 +131,6 @@
   flex-wrap: wrap;
   gap: calc(var(--spacing-xl) * 2);
   align-items: flex-start;
-
-  /* Left gutter matches the navbar; no right gutter so the login card sits
-     flush with the --lego-max-width border */
   padding: var(--spacing-xl) 0 calc(var(--spacing-xl) * 2) var(--spacing-md);
 
   @media (--mobile-device) {
@@ -230,7 +219,6 @@
   align-items: center;
 }
 
-/* The outlined variant from the original frontpage */
 .secondaryAction {
   background-color: var(--lego-background-color);
   border: 2px solid var(--color-red-6);
@@ -254,7 +242,7 @@
   }
 }
 
-/* Entrance animation (pure CSS, so content shows without JS as well) */
+/* Entrance animation (pure CSS, no GSAP, so content shows without JS as well) */
 @keyframes fade-up-in {
   from {
     opacity: 0;

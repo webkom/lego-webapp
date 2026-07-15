@@ -14,6 +14,13 @@ type Props = {
 
 export const SHOWCASED_EDITIONS = 4;
 
+const CROP_CORNERS = [
+  'TopLeft',
+  'TopRight',
+  'BottomLeft',
+  'BottomRight',
+] as const;
+
 const issueLabel = (utgave: number, year: number) =>
   `Utgave ${utgave} - ${year}`;
 
@@ -41,22 +48,13 @@ const ReadmeShowcase = ({ style }: Props) => {
       }}
     >
       <div className={styles.raster} aria-hidden="true" />
-      <span
-        className={cx(styles.cropMark, styles.cropTopLeft)}
-        aria-hidden="true"
-      />
-      <span
-        className={cx(styles.cropMark, styles.cropTopRight)}
-        aria-hidden="true"
-      />
-      <span
-        className={cx(styles.cropMark, styles.cropBottomLeft)}
-        aria-hidden="true"
-      />
-      <span
-        className={cx(styles.cropMark, styles.cropBottomRight)}
-        aria-hidden="true"
-      />
+      {CROP_CORNERS.map((corner) => (
+        <span
+          key={corner}
+          className={cx(styles.cropMark, styles[`crop${corner}`])}
+          aria-hidden="true"
+        />
+      ))}
       {editions.length > 0 && (
         <a
           className={styles.featuredCover}

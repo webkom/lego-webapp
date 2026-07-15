@@ -18,15 +18,11 @@
   }
 }
 
-/* The image absorbs the card's extra height, so the body ends right under
-   the metadata instead of leaving a gap */
 .imageWrapper {
   position: relative;
   width: 100%;
   flex-grow: 1;
   overflow: hidden;
-
-  /* Floor: slightly taller than the natural 10:3 banner */
   aspect-ratio: 3 / 1;
 }
 

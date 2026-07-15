@@ -33,9 +33,6 @@ const useSectionReveal = <T extends HTMLElement = HTMLElement>() => {
       duration: 0.65,
       ease: 'power2.out',
       stagger: 0.12,
-
-      // Hand the elements back to the stylesheet, so CSS hover transforms
-      // aren't overridden by leftover inline styles
       clearProps: 'opacity,visibility,transform',
     });
 
