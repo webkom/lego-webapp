@@ -20,7 +20,7 @@ const MainSponsor = () => {
           >
             <Image src={bekkLogo} alt="Bekk sin logo" />
           </a>
-          <p className={styles.meta}>Partner siden 2024 · Oslo · Trondheim</p>
+          <p className={styles.meta}>Partner siden 2025 · Oslo · Trondheim</p>
         </div>
         <div className={styles.pitch} data-reveal>
           <p className={styles.quote}>
