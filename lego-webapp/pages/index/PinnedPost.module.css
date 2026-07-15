@@ -1,0 +1,81 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--lego-card-color);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  color: var(--lego-font-color);
+  box-shadow: var(--shadow-xs);
+
+  &:hover {
+    color: var(--lego-font-color);
+  }
+
+  &:hover .image {
+    transform: scale(1.015);
+  }
+}
+
+/* The image absorbs the card's extra height, so the body ends right under
+   the metadata instead of leaving a gap */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+
+  /* Floor: slightly taller than the natural 10:3 banner */
+  aspect-ratio: 3 / 1;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--easing-medium);
+}
+
+.badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(23, 20, 15, 0.88);
+  color: rgba(242, 238, 227, 0.55);
+  font-family: var(--font-family-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+}
+
+.title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 0.84rem;
+  color: var(--color-gray-5);
+}

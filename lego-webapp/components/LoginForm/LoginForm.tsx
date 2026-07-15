@@ -10,10 +10,19 @@ import TextInput from '~/components/Form/TextInput';
 import { login } from '~/redux/actions/UserActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { createValidator, required } from '~/utils/validation';
+import styles from './LoginForm.module.css';
+import type { ReactNode } from 'react';
 
 type FormValues = {
   username: string;
   password: string;
+};
+
+type Props = {
+  /** Rendered right below the password field, e.g. a "Glemt passord?" link */
+  afterFields?: ReactNode;
+  /** Rendered beside the submit button, which then splits the row in two */
+  secondaryAction?: ReactNode;
 };
 
 const validate = createValidator({
@@ -21,7 +30,7 @@ const validate = createValidator({
   password: [required()],
 });
 
-const LoginForm = () => {
+const LoginForm = ({ afterFields, secondaryAction }: Props) => {
   const dispatch = useAppDispatch();
 
   const onSubmit = async (values: FormValues) => {
@@ -35,31 +44,44 @@ const LoginForm = () => {
   return (
     <div onClick={(e) => e.stopPropagation()}>
       <LegoFinalForm onSubmit={onSubmit} validate={validate} subscription={{}}>
-        {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
-            <Field
-              name="username"
-              placeholder="Brukernavn"
-              showErrors={false}
-              autoComplete="username"
-              component={TextInput.Field}
-            />
-
-            <Field
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              placeholder="Passord"
-              showErrors={false}
-              component={TextInput.Field}
-            />
-
-            <SubmissionError />
+        {({ handleSubmit }) => {
+          const submitButton = (
             <SubmitButton>
               <Icon iconNode={<LogIn />} size={19} /> Logg inn
             </SubmitButton>
-          </Form>
-        )}
+          );
+          return (
+            <Form onSubmit={handleSubmit}>
+              <Field
+                name="username"
+                placeholder="Brukernavn"
+                showErrors={false}
+                autoComplete="username"
+                component={TextInput.Field}
+              />
+
+              <Field
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Passord"
+                showErrors={false}
+                component={TextInput.Field}
+              />
+
+              {afterFields}
+              <SubmissionError />
+              {secondaryAction ? (
+                <div className={styles.actions}>
+                  {submitButton}
+                  {secondaryAction}
+                </div>
+              ) : (
+                submitButton
+              )}
+            </Form>
+          );
+        }}
       </LegoFinalForm>
     </div>
   );

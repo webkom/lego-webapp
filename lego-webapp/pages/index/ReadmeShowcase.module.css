@@ -1,0 +1,221 @@
+@import url('styles/custom-media.css');
+
+/* "Forsiden" — the newest issue takes the stage, older issues as a compact
+   mono archive list */
+.card {
+  position: relative;
+  display: flex;
+  background: var(--lego-card-color);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xs);
+  color: var(--lego-font-color);
+
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
+
+/* Magasin-raster — editorial layout grid: thin column lines, crop marks in
+   the corners and a vertical colophon, like a magazine spread before print */
+.raster {
+  position: absolute;
+  inset: 0;
+
+  /* Hide the leftmost line without shifting the 25% rhythm of the rest */
+  padding-left: 15%;
+  background-clip: content-box;
+  background-image: linear-gradient(
+    90deg,
+    var(--additive-background) 1px,
+    transparent 1px
+  );
+  background-size: 25% 100%;
+  background-position: 12px 0;
+  pointer-events: none;
+}
+
+.cropMark {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+
+.cropTopLeft {
+  top: 10px;
+  left: 10px;
+  border-top: 1.5px solid var(--color-gray-4);
+  border-left: 1.5px solid var(--color-gray-4);
+  border-top-left-radius: var(--border-radius-sm);
+}
+
+.cropTopRight {
+  top: 10px;
+  right: 10px;
+  border-top: 1.5px solid var(--color-gray-4);
+  border-right: 1.5px solid var(--color-gray-4);
+  border-top-right-radius: var(--border-radius-sm);
+}
+
+.cropBottomLeft {
+  bottom: 10px;
+  left: 10px;
+  border-bottom: 1.5px solid var(--color-gray-4);
+  border-left: 1.5px solid var(--color-gray-4);
+  border-bottom-left-radius: var(--border-radius-sm);
+}
+
+.cropBottomRight {
+  bottom: 10px;
+  right: 10px;
+  border-bottom: 1.5px solid var(--color-gray-4);
+  border-right: 1.5px solid var(--color-gray-4);
+  border-bottom-right-radius: var(--border-radius-sm);
+}
+
+.featuredCover {
+  display: block;
+  position: relative;
+  flex: none;
+
+  /* Match the archive scans (620×755) so the sides aren't cropped away */
+  aspect-ratio: 620 / 755;
+
+  /* Stretch from the subtitle's top edge to the list's bottom edge; the
+     aspect ratio derives the width from that height */
+  align-self: stretch;
+  margin: var(--spacing-lg) 0 var(--spacing-lg) var(--spacing-xl);
+  transition: transform var(--easing-medium);
+
+  &:hover {
+    transform: scale(1.015);
+  }
+
+  @media (--mobile-device) {
+    align-self: center;
+    width: min(70%, 280px);
+    margin: var(--spacing-lg) 0 0;
+  }
+}
+
+/* The covers overlay each other inside the frame; gsap crossfades between
+   them, and until it takes over only the newest edition is visible */
+.coverLayer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+
+  &:first-child {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* The nested selector outweighs the base .image class from lego-bricks,
+     whose height: auto would leave the bottom of the frame uncovered. The
+     scans keep their baked-in white page margin — cropping it exactly is
+     impossible since its thickness varies per edition. */
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-lg)
+    calc(var(--spacing-lg) + var(--spacing-xs));
+}
+
+.eyebrow {
+  font-family: var(--font-family-mono);
+  font-size: 11px;
+
+  /* Flush with the top of the cover across the aisle */
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gray-5);
+}
+
+.wordmark {
+  font-size: 1.625rem;
+  font-weight: 800;
+  margin: var(--spacing-xs) 0;
+}
+
+.wordmarkDot {
+  color: var(--lego-red-color);
+}
+
+.archive {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--border-gray);
+}
+
+.archiveRow {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: 11px var(--spacing-sm);
+  color: var(--lego-font-color);
+
+  /* Rows are both <button> (pick a cover) and <a> (the archive link) */
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border-gray);
+  cursor: pointer;
+  font-family: var(--font-family-mono);
+  font-size: 12.5px;
+  text-transform: uppercase;
+  transition:
+    color var(--easing-fast),
+    background-color var(--easing-fast);
+
+  &:hover {
+    color: var(--lego-font-color);
+    background: var(--additive-background);
+  }
+
+  .arrow {
+    transition: transform var(--easing-fast);
+  }
+
+  &:hover .arrow {
+    transform: translateX(4px);
+  }
+}
+
+/* Rotation progress — the active row's bar is tweened by gsap, and its
+   completion is what advances the showcase to the next edition */
+.fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--additive-background);
+  transform: scaleX(0);
+  transform-origin: left;
+  pointer-events: none;
+}
+
+.archiveAllRow {
+  font-weight: 700;
+  color: var(--lego-red-color);
+
+  &:hover {
+    color: var(--lego-red-color);
+  }
+}

@@ -1,0 +1,10 @@
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+}
+
+/* Both actions fill their column (Button defaults to fit-content) */
+.actions button {
+  width: 100%;
+}

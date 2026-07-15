@@ -1,0 +1,118 @@
+@import url('styles/custom-media.css');
+
+.sponsor {
+  /* Fixed brand surface — the same in both themes */
+  background: var(--color-bekk-background);
+  color: #f2eee3;
+  margin: var(--spacing-xl) 0;
+  overflow: hidden;
+}
+
+.inner {
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+  padding: calc(var(--spacing-xl) * 1.5) var(--spacing-md);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--spacing-xl) * 2);
+
+  @media (--mobile-device) {
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+}
+
+.brand {
+  flex: 1 1 380px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-family-mono);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(242, 238, 227, 0.55);
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+
+  color: var(--color-bekk-font);
+  font-size: clamp(3.5rem, 7vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  transition: color var(--easing-fast);
+
+  &:hover {
+    color: var(--color-absolute-white);
+  }
+}
+
+.meta {
+  margin: 0;
+  font-family: var(--font-family-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(242, 238, 227, 0.5);
+}
+
+.pitch {
+  flex: 1 1 440px;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-lg);
+}
+
+.quote {
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  color: rgba(242, 238, 227, 0.85);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.outlineAction {
+  border: 1px solid rgba(242, 238, 227, 0.4);
+  background: none;
+  color: #f2eee3;
+
+  &[data-hovered] {
+    border-color: #f2eee3;
+    background: none;
+    color: var(--color-absolute-white);
+  }
+
+  &[data-pressed] {
+    background: none;
+  }
+
+  .arrow {
+    transition: transform var(--easing-fast);
+  }
+
+  &[data-hovered] .arrow {
+    transform: translateX(4px);
+  }
+}
