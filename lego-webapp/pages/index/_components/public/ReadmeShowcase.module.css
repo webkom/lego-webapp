@@ -116,7 +116,7 @@
 
 .eyebrow {
   font-family: var(--font-family-mono);
-  font-size: 11px;
+  font-size: var(--font-size-xs);
   line-height: 1;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -124,7 +124,7 @@
 }
 
 .wordmark {
-  font-size: 1.625rem;
+  font-size: var(--font-size-xl);
   font-weight: 800;
   margin: var(--spacing-xs) 0;
 }
@@ -154,7 +154,7 @@
   border-bottom: 1px solid var(--border-gray);
   cursor: pointer;
   font-family: var(--font-family-mono);
-  font-size: 12.5px;
+  font-size: var(--font-size-sm);
   text-transform: uppercase;
   transition:
     color var(--easing-fast),

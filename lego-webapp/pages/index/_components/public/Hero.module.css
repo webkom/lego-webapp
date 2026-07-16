@@ -195,7 +195,7 @@
 .studyChip {
   display: inline-block;
   font-family: var(--font-family-mono);
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: var(--lego-font-color);
   background: var(--lego-card-color);
   border: 1px solid var(--color-gray-3);

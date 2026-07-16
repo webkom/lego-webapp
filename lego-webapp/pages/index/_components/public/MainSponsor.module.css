@@ -76,7 +76,7 @@
 
 .quote {
   margin: 0;
-  font-size: 1.1875rem;
+  font-size: var(--font-size-lg);
   line-height: 1.55;
   color: rgba(242, 238, 227, 0.85);
 }

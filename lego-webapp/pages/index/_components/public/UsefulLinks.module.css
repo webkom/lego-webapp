@@ -78,7 +78,7 @@ html[data-theme='dark'] .featured {
 
 .eyebrow {
   font-family: var(--font-family-mono);
-  font-size: 11.5px;
+  font-size: var(--font-size-xs);
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -87,14 +87,14 @@ html[data-theme='dark'] .featured {
 }
 
 .featuredTitle {
-  font-size: 1.5rem;
+  font-size: var(--font-size-xl);
   font-weight: 800;
   letter-spacing: -0.02em;
   color: inherit;
 }
 
 .featuredText {
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
   line-height: 1.6;
   color: inherit;
   opacity: 0.7;
@@ -166,7 +166,7 @@ html[data-theme='dark'] .featured {
 }
 
 .title {
-  font-size: 1.0625rem;
+  font-size: var(--font-size-lg);
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--lego-font-color);
@@ -180,7 +180,7 @@ html[data-theme='dark'] .featured {
 }
 
 .text {
-  font-size: 0.84rem;
+  font-size: var(--font-size-sm);
   line-height: 1.5;
   color: var(--secondary-font-color);
 }
@@ -189,7 +189,7 @@ html[data-theme='dark'] .featured {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
-  font-size: 0.84rem;
+  font-size: var(--font-size-sm);
   font-weight: 600;
   align-self: flex-start;
   transition: color var(--easing-fast);
