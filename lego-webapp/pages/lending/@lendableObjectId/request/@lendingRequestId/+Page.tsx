@@ -28,8 +28,10 @@ import { ProfilePicture } from '~/components/Image';
 import { Tag } from '~/components/Tags';
 import TextWithIcon from '~/components/TextWithIcon';
 import Time, { FromToTime } from '~/components/Time';
-import LendingCalendar from '~/pages/lending/@lendableObjectId/LendingCalendar';
-import LendingStatusTag, { statusMap } from '~/pages/lending/LendingStatusTag';
+import LendingCalendar from '~/pages/lending/_components/LendingCalendar';
+import LendingStatusTag, {
+  statusMap,
+} from '~/pages/lending/_components/LendingStatusTag';
 import {
   fetchLendingRequestById,
   editLendingRequest,

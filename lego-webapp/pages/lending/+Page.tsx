@@ -2,6 +2,18 @@ import { PageContainer, LinkButton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
+import FilterSearch from '~/pages/lending/_components/FilterSearch';
+import HowToSection from '~/pages/lending/_components/HowToSection';
+import ItemIndex from '~/pages/lending/_components/ItemIndex';
+import RequestInbox, {
+  type LendingRequestOrdering,
+} from '~/pages/lending/_components/RequestInbox';
+import {
+  REQUEST_INBOX_PAGE_SIZE,
+  getNextVisibleCount,
+  getVisibleRequestCount,
+  shouldFetchMoreRequests,
+} from '~/pages/lending/_components/requestInboxPagination';
 import { fetchAllLendableObjects } from '~/redux/actions/LendableObjectActions';
 import { fetchLendingRequests } from '~/redux/actions/LendingRequestActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -11,17 +23,7 @@ import { selectTransformedLendingRequests } from '~/redux/slices/lendingRequests
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
 import useQuery from '~/utils/useQuery';
-import FilterSearch from './FilterSearch';
-import HowToSection from './HowToSection';
-import ItemIndex from './ItemIndex';
 import styles from './LendingPage.module.css';
-import RequestInbox, { type LendingRequestOrdering } from './RequestInbox';
-import {
-  REQUEST_INBOX_PAGE_SIZE,
-  getNextVisibleCount,
-  getVisibleRequestCount,
-  shouldFetchMoreRequests,
-} from './requestInboxPagination';
 
 const defaultLendingQuery = {
   search: '',
