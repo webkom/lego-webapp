@@ -40,3 +40,9 @@
     transform: scale(1.05);
   }
 }
+
+.seeAllButton {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-sm);
+}
