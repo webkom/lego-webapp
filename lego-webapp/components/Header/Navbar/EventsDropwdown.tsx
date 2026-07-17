@@ -1,4 +1,5 @@
-import { AlignLeft, Banana, CalendarRange } from 'lucide-react';
+import { AlignLeft, CalendarRange } from 'lucide-react';
+import InterestGroupIcon from '~/components/InterestGroupIcon';
 import { ItemList } from './ItemList';
 import type { ItemProps } from './Item';
 
@@ -8,7 +9,7 @@ const EventsDropdown = () => {
     { title: 'Kalender', icon: <CalendarRange />, href: '/events/calendar' },
     {
       title: 'Interessegrupper',
-      icon: <Banana />,
+      icon: <InterestGroupIcon />,
       href: '/events/interest',
     },
   ];

@@ -1,7 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import { sample } from 'lodash-es';
 import {
-  Banana,
   BookImage,
   BookOpenText,
   BriefcaseBusiness,
@@ -10,7 +9,6 @@ import {
   Database,
   ExternalLink,
   FilePieChart,
-  Gamepad,
   Group,
   Info,
   MailSearch,
@@ -19,7 +17,6 @@ import {
   MessageCircleWarning,
   MessageCircleQuestion,
   MessageCircleX,
-  MountainSnow,
   Newspaper,
   Phone,
   ReceiptText,
@@ -31,6 +28,7 @@ import {
   Trophy,
   MessageSquareQuote,
 } from 'lucide-react';
+import InterestGroupIcon from '~/components/InterestGroupIcon';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import Tag from '~/components/Tags/Tag';
 import TextWithIcon from '../TextWithIcon';
@@ -94,12 +92,8 @@ const LINKS: Array<Link> = [
   {
     key: 'interest-groups',
     title: 'Interessegrupper',
-    icon: sample([
-      <Banana key="1" />,
-      <Gamepad key="2" />,
-      <MountainSnow key="3" />,
-    ]),
-    url: '/interest-groups',
+    icon: <InterestGroupIcon />,
+    url: '/events/interest',
   },
   {
     key: 'galleries',

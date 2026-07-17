@@ -22,7 +22,7 @@ const agendaDefaultQuery = {
 
 const MAX_ROWS = 6;
 const MORE_STEP = 5;
-const SCROLL_AFTER = 10;
+const SCROLL_AFTER = 12;
 
 type Props = {
   spotlightEventId?: EntityId;
@@ -145,7 +145,6 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
           ))}
           <ShowMoreRow
             hiddenEvents={hiddenEvents}
-            lastShownEvent={shownEvents[shownEvents.length - 1]}
             isPast={isPast}
             onShowMore={showMore}
           />

@@ -6,7 +6,7 @@ const InterestGroupApplyCash = () => {
   return (
     <Page
       title="Send inn en pengesøknad"
-      back={{ href: '/interest-groups', label: 'Interessegrupper' }}
+      back={{ href: '/events/interest', label: 'Interessegrupper' }}
     >
       <Helmet title="Send inn en pengesøknad" />
 

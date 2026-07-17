@@ -14,17 +14,11 @@ import type { ListEvent } from '~/redux/models/Event';
 
 type Props = {
   hiddenEvents: ListEvent[];
-  lastShownEvent?: ListEvent;
   isPast: boolean;
   onShowMore: () => void;
 };
 
-const ShowMoreRow = ({
-  hiddenEvents,
-  lastShownEvent,
-  isPast,
-  onShowMore,
-}: Props) => {
+const ShowMoreRow = ({ hiddenEvents, isPast, onShowMore }: Props) => {
   const nextHidden = hiddenEvents[0];
 
   if (!nextHidden) return null;
@@ -32,9 +26,6 @@ const ShowMoreRow = ({
   const nextStart = moment(nextHidden.startTime);
   const nextKey = groupKeyOf(nextStart, isPast);
   const nextLabel = isPast ? weekLabel(nextStart) : dayLabel(nextStart);
-  const continuesShownDay =
-    lastShownEvent &&
-    groupKeyOf(moment(lastShownEvent.startTime), isPast) === nextKey;
 
   const peekEvents = hiddenEvents
     .filter((event) => groupKeyOf(moment(event.startTime), isPast) === nextKey)
@@ -53,9 +44,7 @@ const ShowMoreRow = ({
         <div className={cx(styles.dayName, styles.dayNameMuted)}>
           {nextLabel.label}
         </div>
-        <div className={styles.dayDate}>
-          {continuesShownDay ? 'fortsetter …' : nextLabel.subLabel}
-        </div>
+        <div className={styles.dayDate}>{nextLabel.subLabel}</div>
       </div>
       <div className={styles.peek}>
         <div className={styles.peekRows} aria-hidden>

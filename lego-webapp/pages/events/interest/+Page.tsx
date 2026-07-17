@@ -1,8 +1,14 @@
-import { LinkButton, PageContainer, Skeleton } from '@webkom/lego-bricks';
+import {
+  Button,
+  LinkButton,
+  PageContainer,
+  Skeleton,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import styles from '~/pages/events/interest/InterestEvents.module.css';
 import EventAgenda from '~/pages/events/interest/_components/EventAgenda';
+import GroupsSection from '~/pages/events/interest/_components/GroupsSection';
 import Spotlight from '~/pages/events/interest/_components/Spotlight';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
 import { useIsLoggedIn } from '~/redux/slices/auth';
@@ -22,15 +28,22 @@ const InterestEvents = () => {
         <div className={styles.heroText}>
           <h1>Interessegrupper</h1>
           <p className={styles.lead}>
-            Lavterskel sosiale grupper drevet av studenter — klatring, LAN,
-            brettspill, løping og vinsmaking. Ingen krav til nivå, alle er
-            velkomne.
+            Lavterskel sosiale grupper drevet av studenter. Det kan være
+            klatring, LAN, brettspill, løping eller cavasøndag!
           </p>
           <div className={styles.heroActions}>
-            <LinkButton secondary size="large" href="/interest-groups">
+            <Button
+              secondary
+              size="large"
+              onPress={() =>
+                document
+                  .getElementById('grupper')
+                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }
+            >
               Bli med
-            </LinkButton>
-            <LinkButton ghost size="large" href="/interest-groups/info">
+            </Button>
+            <LinkButton ghost size="large" href="/interest-groups/">
               Mer info
             </LinkButton>
           </div>
@@ -42,6 +55,7 @@ const InterestEvents = () => {
         )}
       </section>
       <EventAgenda spotlightEventId={spotlightEvent?.id} />
+      <GroupsSection />
     </PageContainer>
   );
 };

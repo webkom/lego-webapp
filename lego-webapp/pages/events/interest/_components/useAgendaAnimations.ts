@@ -7,7 +7,7 @@ import type { RefObject } from 'react';
 gsap.registerPlugin(CustomEase);
 
 // Fast start with a long, soft settle — quick without feeling rushed
-const agendaEase = CustomEase.create('agendaEase', '0.16, 1, 0.3, 1');
+export const agendaEase = CustomEase.create('agendaEase', '0.16, 1, 0.3, 1');
 
 type AgendaAnimationState = {
   isPast: boolean;

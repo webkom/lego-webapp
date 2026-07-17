@@ -2,7 +2,6 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import {
   Home,
   CircleUser,
-  Banana,
   CalendarRange,
   Users,
   ShoppingCart,
@@ -19,6 +18,7 @@ import {
   LogOut,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
+import InterestGroupIcon from '~/components/InterestGroupIcon';
 import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
 
@@ -86,8 +86,8 @@ const createCommands = (
           id: 'interestGroups',
           renderLabel: 'Interessegrupper',
           searchText: 'Interessegrupper',
-          action: () => navigate('/interest-groups'),
-          icon: <Icon iconNode={<Banana />} size={15} />,
+          action: () => navigate('/events/interest'),
+          icon: <Icon iconNode={<InterestGroupIcon />} size={15} />,
         },
         {
           id: 'joblistings',
