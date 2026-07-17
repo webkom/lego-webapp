@@ -53,8 +53,14 @@ export default function HeadDefault() {
           src="https://ls.webkom.dev/js/script.js"
         ></script>
       )}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Open+Sans:wght@700&display=swap"
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="anonymous"
+      />
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400..800&family=Open+Sans:wght@700&display=swap"
         rel="stylesheet"
       />
       {import.meta.env.SSR && [

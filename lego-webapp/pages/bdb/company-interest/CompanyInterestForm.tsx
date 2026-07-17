@@ -22,7 +22,7 @@ import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import { readmeIfy } from '~/components/ReadmeLogo';
-import LatestReadme from '~/pages/index/LatestReadme';
+import LatestReadme from '~/pages/index/_components/authenticated/LatestReadme';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,

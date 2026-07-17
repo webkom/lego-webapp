@@ -1,0 +1,286 @@
+@import url('styles/custom-media.css');
+
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Everything except the bead background stays within --lego-max-width */
+.inner {
+  position: relative;
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+}
+
+/* The moving beads, constrained to the max-width container */
+.beadLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+/* Abakus bead-grid motif; bleeds past the max-width to the viewport edge */
+.beadField {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 58%;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    var(--color-gray-3) 2.5px,
+    transparent 2.6px
+  );
+  background-size: 40px 40px;
+
+  background-position: right 20px top 0;
+  /* Two fade layers (they union): the second covers only the middle rows and
+     completes its ramp earlier, so those rows stay visible further left */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.9) 50%),
+    linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.9) 32%);
+  -webkit-mask-size:
+    100% 100%,
+    100% 44%;
+  -webkit-mask-position:
+    0 0,
+    0 50%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image:
+    linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.9) 50%),
+    linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.9) 32%);
+  mask-size:
+    100% 100%,
+    100% 44%;
+  mask-position:
+    0 0,
+    0 50%;
+  mask-repeat: no-repeat;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.bead {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--lego-red-color);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: backwards;
+}
+
+.beadDark {
+  background: var(--lego-font-color);
+}
+
+.beadA {
+  animation-name: slide-a;
+}
+
+.beadB {
+  animation-name: slide-b;
+}
+
+.beadC {
+  animation-name: slide-c;
+}
+
+@keyframes slide-a {
+  from {
+    transform: translateX(80px);
+  }
+
+  to {
+    transform: translateX(-100px);
+  }
+}
+
+@keyframes slide-b {
+  from {
+    transform: translateX(50px);
+  }
+
+  to {
+    transform: translateX(-70px);
+  }
+}
+
+@keyframes slide-c {
+  from {
+    transform: translateX(100px);
+  }
+
+  to {
+    transform: translateX(-140px);
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--spacing-xl) * 2);
+  align-items: flex-start;
+  padding: var(--spacing-xl) 0 calc(var(--spacing-xl) * 2) var(--spacing-md);
+
+  @media (--mobile-device) {
+    gap: var(--spacing-xl);
+    padding-right: var(--spacing-md);
+  }
+}
+
+.intro {
+  flex: 1 1 520px;
+  min-width: 300px;
+}
+
+.title {
+  margin: 0 0 var(--spacing-lg);
+  font-size: clamp(2.75rem, 6vw, 4.375rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+
+/* Revealed by useTitleBeadAnimation once the traveling bead lands */
+.titleDot {
+  display: inline-block;
+  width: 0.19em;
+  height: 0.19em;
+  border-radius: 50%;
+  background: var(--lego-red-color);
+  margin-left: 0.05em;
+  opacity: 0;
+}
+
+/* The bead that flies along a grid row into the title; driven by GSAP */
+.travelBead {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  border-radius: 50%;
+  background: var(--lego-red-color);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.lead {
+  margin: 0 0 var(--spacing-md);
+  max-width: 580px;
+  font-size: var(--font-size-lg);
+  line-height: 1.65;
+  color: var(--lego-font-color);
+}
+
+.secondaryLead {
+  margin: 0 0 var(--spacing-xl);
+  max-width: 580px;
+  font-size: var(--font-size-md);
+  line-height: 1.65;
+  color: var(--secondary-font-color);
+}
+
+.studyChip {
+  display: inline-block;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  color: var(--lego-font-color);
+  background: var(--lego-card-color);
+  border: 1px solid var(--color-gray-3);
+  border-radius: 999px;
+  padding: 2px 11px;
+  margin: 2px 0;
+  vertical-align: 1px;
+  transition: var(--easing-fast);
+  transition-property: color, border-color;
+
+  &:hover {
+    border-color: var(--lego-red-color);
+    color: var(--lego-red-color);
+  }
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.secondaryAction {
+  background-color: var(--lego-background-color);
+  border: 2px solid var(--color-red-6);
+  color: var(--color-red-6);
+
+  &[data-hovered] {
+    background-color: var(--color-gray-1);
+    border-color: var(--lego-red-color-hover);
+    color: var(--lego-red-color-hover);
+  }
+}
+
+.loginCard {
+  flex: 0 1 340px;
+  min-width: 300px;
+  height: fit-content;
+  box-shadow: var(--shadow-md);
+
+  @media (--mobile-device) {
+    flex-basis: 100%;
+  }
+}
+
+/* Entrance animation (pure CSS, no GSAP, so content shows without JS as well) */
+@keyframes fade-up-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeUp {
+  animation: fade-up-in 550ms var(--easing) both;
+}
+
+.fadeUpDelay1 {
+  animation-delay: 80ms;
+}
+
+.fadeUpDelay2 {
+  animation-delay: 160ms;
+}
+
+.fadeUpDelay3 {
+  animation-delay: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fadeUp {
+    animation: none;
+  }
+
+  .bead {
+    animation-name: none;
+  }
+
+  .titleDot {
+    opacity: 1;
+  }
+}
