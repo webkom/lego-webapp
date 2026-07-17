@@ -154,6 +154,7 @@ const AccountDropdown = () => {
     <Dropdown
       show={accountOpen}
       toggle={() => setAccountOpen(!accountOpen)}
+      className={styles.hideOnDesktop}
       contentClassName={styles.dropdown}
       triggerComponent={<Icon iconNode={<CircleUser />} />}
     >

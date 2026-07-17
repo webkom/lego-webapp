@@ -238,7 +238,7 @@
   box-shadow: var(--shadow-md);
 
   @media (--mobile-device) {
-    flex-basis: 100%;
+    display: none;
   }
 }
 

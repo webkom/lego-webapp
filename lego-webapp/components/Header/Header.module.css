@@ -57,6 +57,14 @@
   }
 }
 
+.hideOnDesktop {
+  display: none;
+
+  @media (--mobile-device) {
+    display: inline-block;
+  }
+}
+
 .content {
   composes: container from '../../styles/utilities.module.css';
   position: relative;
