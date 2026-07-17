@@ -1,0 +1,39 @@
+.gradient0 {
+  background: linear-gradient(
+    135deg,
+    var(--color-orange-1),
+    var(--color-orange-5)
+  );
+}
+
+.gradient1 {
+  background: linear-gradient(
+    135deg,
+    var(--color-orange-2),
+    var(--color-orange-6)
+  );
+}
+
+.gradient2 {
+  background: linear-gradient(
+    135deg,
+    var(--color-orange-3),
+    var(--color-yellow-4)
+  );
+}
+
+.gradient3 {
+  background: linear-gradient(
+    135deg,
+    var(--color-yellow-1),
+    var(--color-yellow-3)
+  );
+}
+
+.gradient4 {
+  background: linear-gradient(
+    135deg,
+    var(--color-orange-2),
+    var(--color-orange-5)
+  );
+}

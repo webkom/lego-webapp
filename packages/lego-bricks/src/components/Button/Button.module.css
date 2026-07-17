@@ -186,6 +186,30 @@
   }
 }
 
+.dashed {
+  background: none;
+  box-shadow: none;
+  border: 1.5px dashed var(--color-gray-4);
+  --button-color: var(--lego-font-color);
+
+  &[data-focus-visible] {
+    box-shadow: 0 0 0 3px var(--button-dark-box-shadow-focus);
+  }
+
+  &[data-hovered] {
+    background-color: var(--additive-background);
+  }
+
+  &[data-pressed] {
+    background-color: rgba(
+      var(--rgb-min),
+      var(--rgb-min),
+      var(--rgb-min),
+      calc(var(--low-alpha) * 2)
+    );
+  }
+}
+
 .small {
   padding: 0 0.6rem;
   font-size: var(--font-size-sm);

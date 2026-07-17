@@ -1,0 +1,360 @@
+@import url('styles/custom-media.css');
+
+.agenda {
+  padding: clamp(24px, 4vw, 48px) var(--spacing-md) var(--spacing-md);
+
+  --circle-size: 44px;
+  --row-height: calc(var(--circle-size) + 2 * var(--spacing-md));
+  --day-column: 180px;
+  --day-column-overlap: calc(var(--day-column) + var(--spacing-lg));
+}
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  padding-bottom: var(--spacing-md);
+
+  h2 {
+    margin: 0;
+    font-size: clamp(1.625rem, 3.5vw, 2.375rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+}
+
+.header::after,
+.dayRow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--border-radius-md);
+  right: var(--border-radius-md);
+  border-bottom: 1px solid var(--border-gray);
+}
+
+.list {
+  min-height: calc(5 * var(--row-height));
+  overflow-x: clip;
+}
+
+.scrollableList {
+  max-height: calc(10 * var(--row-height));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.dayRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--day-column) 1fr;
+  gap: 0 var(--spacing-lg);
+  align-items: start;
+
+  @media (--medium-viewport) {
+    display: block;
+  }
+}
+
+.dayLabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: var(--row-height);
+  padding-left: var(--spacing-md);
+  pointer-events: none;
+
+  @media (--medium-viewport) {
+    height: auto;
+    padding: var(--spacing-md) 0 var(--spacing-xs) var(--spacing-md);
+  }
+}
+
+.dayName {
+  font-size: var(--font-size-lg);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.dayNameHighlight {
+  color: var(--lego-red-color);
+}
+
+.dayNameMuted {
+  color: var(--color-gray-5);
+}
+
+.dayDate {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.eventWrapper {
+  cursor: pointer;
+  margin-left: calc(-1 * var(--day-column-overlap));
+  transition: background var(--easing-fast);
+  border-radius: var(--border-radius-md);
+
+  &[data-expanded='true'] {
+    background: var(--additive-background);
+
+    .eventRow {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  @media (--medium-viewport) {
+    margin-left: 0;
+  }
+}
+
+.eventRow {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+  padding: var(--spacing-md);
+  padding-left: calc(var(--day-column-overlap) + var(--spacing-md));
+  transition: background var(--easing-fast);
+  border-radius: var(--border-radius-md);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+
+  @media (--medium-viewport) {
+    padding-left: var(--spacing-md);
+  }
+}
+
+.eventMonogram {
+  width: var(--circle-size);
+  height: var(--circle-size);
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  color: var(--color-orange-8);
+}
+
+.eventLogo {
+  flex: none;
+  object-fit: cover;
+}
+
+.eventInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.eventTitleLine {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.eventTitle {
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.eventGroup {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-orange-7);
+}
+
+.eventMeta {
+  margin-top: 3px;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms var(--easing);
+
+  > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  [data-expanded='true'] & {
+    grid-template-rows: 1fr;
+  }
+}
+
+.eventDescription {
+  margin: 0;
+  max-width: 620px;
+  min-height: 8rem;
+  padding: 0 var(--spacing-md) var(--spacing-lg)
+    calc(
+      var(--day-column-overlap) + var(--spacing-md) + var(--circle-size) + 20px
+    );
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+  color: var(--secondary-font-color);
+  text-wrap: pretty;
+
+  @media (--medium-viewport) {
+    padding-left: var(--spacing-md);
+  }
+}
+
+.createRow {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+  margin-left: calc(-1 * var(--day-column-overlap));
+  padding: var(--spacing-md);
+  padding-left: calc(var(--day-column-overlap) + var(--spacing-md));
+  border-radius: var(--border-radius-md);
+  color: var(--lego-font-color);
+  cursor: pointer;
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: rgba(245, 165, 36, 0.09);
+  }
+
+  @media (--medium-viewport) {
+    margin-left: 0;
+    padding-left: var(--spacing-md);
+  }
+}
+
+.createCircle {
+  width: var(--circle-size);
+  height: var(--circle-size);
+  border-radius: 50%;
+  flex: none;
+  border: 1.5px dashed var(--color-gray-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-6);
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+}
+
+.createTitle {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.createAction {
+  flex: none;
+}
+
+.showMoreRow {
+  cursor: pointer;
+}
+
+.peek {
+  position: relative;
+}
+
+.peekRows {
+  pointer-events: none;
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.peekRow {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 20px);
+  padding: var(--spacing-md);
+}
+
+.peekOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    color-mix(in srgb, var(--lego-background-color) 20%, transparent),
+    color-mix(in srgb, var(--lego-background-color) 92%, transparent) 78%,
+    var(--lego-background-color)
+  );
+}
+
+.showMoreShift {
+  display: inline-block;
+  transform: translateX(calc(-0.5 * var(--day-column-overlap)));
+
+  @media (--medium-viewport) {
+    transform: none;
+  }
+}
+
+.showMoreButton {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 0 var(--spacing-md);
+  border: 1.5px solid var(--color-gray-3);
+  border-radius: var(--spacing-xl);
+  background: var(--lego-card-color);
+  color: var(--lego-font-color);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background var(--easing-fast),
+    color var(--easing-fast),
+    border-color var(--easing-fast),
+    transform var(--easing-fast);
+
+  &:hover {
+    background: var(--lego-font-color);
+    border-color: var(--lego-font-color);
+    color: var(--inverted-font-color);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.skeletonRow {
+  height: var(--row-height);
+  margin: var(--spacing-md) 0;
+  border-radius: var(--border-radius-md);
+}
+
+.emptyLabel {
+  padding: var(--spacing-lg) 0;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
