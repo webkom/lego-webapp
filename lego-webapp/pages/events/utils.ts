@@ -73,6 +73,11 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#00509E',
     textColor: 'var(--color-absolute-white)',
   },
+  [EventType.INTEREST_EVENT]: {
+    displayName: 'Interessearrangement',
+    color: '#F5A623',
+    textColor: '#000',
+  },
   [EventType.OTHER]: {
     displayName: 'Annet',
     color: 'var(--color-event-black)',
@@ -104,7 +109,7 @@ export const textColorForEventType = (eventType: EventType) => {
 type Option<T = string, K = string> = { label: T; value: K };
 
 export type EditingEvent = Event & {
-  eventType: EventType;
+  eventType: Option<string, EventType>;
   company: Option;
   responsibleGroup: Option;
   isGroupOnly: boolean;
@@ -181,6 +186,17 @@ const calculateMazemapPoi = (data) => {
  * @param pools: the event groups as specified by the CreateEvent forms
  */
 const calculatePools = (data) => {
+  // Name, access, and activation on interest event pools are decided by the
+  // backend - only the capacity is up to the creator. The id is sent so
+  // edits update the existing pool in place.
+  if (data.eventType?.value === EventType.INTEREST_EVENT) {
+    return data.pools.slice(0, 1).map((pool) => ({
+      ...pick(pool, ['id']),
+      // An empty capacity means unlimited
+      capacity: pool.capacity || 0,
+    }));
+  }
+
   switch (data.eventStatusType?.value) {
     case 'TBA':
     case 'OPEN':

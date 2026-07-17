@@ -108,20 +108,39 @@
   opacity: 0.82;
 }
 
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
 .joinButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  /* Equal width across states so the joined flip doesn't reflow the text */
+  min-width: 8em;
   height: 2.875rem;
   padding: 0 var(--spacing-lg);
+  border: 0;
   border-radius: var(--spacing-xl);
   background: var(--color-absolute-white);
   color: var(--light-font-color);
+  font-family: inherit;
   font-size: var(--font-size-sm);
   font-weight: 700;
+  cursor: pointer;
   transition: transform var(--easing-fast);
 
   &:active {
     transform: scale(0.96);
   }
+}
+
+.joinButtonJoined {
+  animation: pop var(--bounce);
 }

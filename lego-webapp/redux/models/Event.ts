@@ -14,6 +14,7 @@ export enum EventType {
   COMPANY_PRESENTATION = 'company_presentation',
   COURSE = 'course',
   EVENT = 'event',
+  INTEREST_EVENT = 'interest_event',
   NEXUS_EVENT = 'nexus_event',
   LUNCH_PRESENTATION = 'lunch_presentation',
   OTHER = 'other',

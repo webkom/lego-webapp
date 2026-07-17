@@ -31,6 +31,7 @@ import {
   setSaveForUse,
 } from '~/redux/actions/FileActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import {
   selectPoolsWithRegistrationsForEvent,
   selectEventByIdOrSlug,
@@ -105,11 +106,19 @@ const validate = createValidator({
       ],
     ),
   ],
+  responsibleGroup: [
+    requiredIf(
+      (allValues) => allValues.eventType?.value === EventType.INTEREST_EVENT,
+      'Interessearrangementer må ha en ansvarlig interessegruppe',
+    ),
+  ],
   isClarified: [
     requiredIf(
       (allValues) =>
-        // Only require if we are creating a new event
-        allValues.id === undefined,
+        // Only require if we are creating a new event, and not an interest
+        // event (they don't go through the event calendar)
+        allValues.id === undefined &&
+        allValues.eventType?.value !== EventType.INTEREST_EVENT,
       'Arrangementet må være avklart i arrangementskalenderen',
     ),
   ],
@@ -382,43 +391,44 @@ const EventEditor = () => {
               <Descriptions uploadFile={uploadFile} values={values} />
             </EditorSection>
 
-            {!isEditPage && (
-              <Field
-                label={
-                  <span>
-                    Arrangementet er avklart i{' '}
-                    <a href="/pages/arrangementer/86-arrangementskalender">
-                      arrangementskalenderen
-                    </a>
-                  </span>
-                }
-                description={
-                  <>
-                    Jeg er kjent med at jeg kun kan bruke rettighetene mine til
-                    å opprette et Abakusarrangement som er i tråd med{' '}
-                    <a
-                      style={{ display: 'contents' }}
-                      href="/pages/arrangementer/86-arrangementskalender"
-                    >
-                      arrangementskalenderen
-                    </a>{' '}
-                    og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
-                    <a
-                      style={{ display: 'contents' }}
-                      href="mailto:hs@abakus.no"
-                    >
-                      hs@abakus.no
-                    </a>{' '}
-                    dersom jeg er usikker eller ønsker å opprette et
-                    annet/eksternt arrangement.
-                  </>
-                }
-                name="isClarified"
-                type="checkbox"
-                component={CheckBox.Field}
-                required
-              />
-            )}
+            {!isEditPage &&
+              values.eventType?.value !== EventType.INTEREST_EVENT && (
+                <Field
+                  label={
+                    <span>
+                      Arrangementet er avklart i{' '}
+                      <a href="/pages/arrangementer/86-arrangementskalender">
+                        arrangementskalenderen
+                      </a>
+                    </span>
+                  }
+                  description={
+                    <>
+                      Jeg er kjent med at jeg kun kan bruke rettighetene mine
+                      til å opprette et Abakusarrangement som er i tråd med{' '}
+                      <a
+                        style={{ display: 'contents' }}
+                        href="/pages/arrangementer/86-arrangementskalender"
+                      >
+                        arrangementskalenderen
+                      </a>{' '}
+                      og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
+                      <a
+                        style={{ display: 'contents' }}
+                        href="mailto:hs@abakus.no"
+                      >
+                        hs@abakus.no
+                      </a>{' '}
+                      dersom jeg er usikker eller ønsker å opprette et
+                      annet/eksternt arrangement.
+                    </>
+                  }
+                  name="isClarified"
+                  type="checkbox"
+                  component={CheckBox.Field}
+                  required
+                />
+              )}
 
             <ButtonGroup>
               {isEditPage && (

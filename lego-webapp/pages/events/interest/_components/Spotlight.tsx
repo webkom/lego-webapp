@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import moment from 'moment-timezone';
 import Time from '~/components/Time';
+import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import {
   attendanceLabel,
   groupGradient,
@@ -23,6 +24,7 @@ type Props = {
 
 const Spotlight = ({ event }: Props) => {
   const group = event.responsibleGroup;
+  const { joinable, joined, label, title, onPress } = useJoinEvent(event);
 
   if (!group) return null;
 
@@ -30,7 +32,7 @@ const Spotlight = ({ event }: Props) => {
   const prefix = badgePrefix(start);
 
   return (
-    <a href={`/events/${event.slug}`} className={styles.spotlight}>
+    <div className={styles.spotlight}>
       <div
         className={cx(styles.background, groupGradient(group))}
         aria-hidden
@@ -56,9 +58,18 @@ const Spotlight = ({ event }: Props) => {
             {event.location} · {attendanceLabel(event)}
           </span>
         </div>
-        <span className={styles.joinButton}>Bli med</span>
+        {joinable && (
+          <button
+            type="button"
+            title={title}
+            className={cx(styles.joinButton, joined && styles.joinButtonJoined)}
+            onClick={onPress}
+          >
+            {label}
+          </button>
+        )}
       </div>
-    </a>
+    </div>
   );
 };
 

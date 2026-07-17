@@ -63,8 +63,9 @@ const useAgendaAnimations = (
       el.dataset.animated = '1';
     });
 
-    // The show-more row stays put when revealing more events, and so does the
-    // day that was already visible as its ghost preview
+    // Revealed rows get the same rise-stagger as landing on the page. The
+    // persisting show-more row stays put, and so does the day that was
+    // already visible as its ghost preview - the cascade starts after it
     const newRows = isInitial
       ? unmarked
       : unmarked.filter(

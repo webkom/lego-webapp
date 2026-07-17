@@ -1,0 +1,55 @@
+.attendance {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding-top: 2px;
+}
+
+.faceRow {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+  transition: opacity var(--easing-fast);
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
+
+/* Overlapping facepile, ringed with the page background */
+.face {
+  border: 2px solid var(--lego-background-color);
+
+  &:not(:first-child) {
+    margin-left: -8px;
+  }
+}
+
+.extraPill {
+  height: 26px;
+  min-width: 26px;
+  padding: 0 5px;
+  margin-left: -8px;
+  border-radius: 999px;
+  border: 2px solid var(--lego-background-color);
+  background: var(--additive-background);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.attendLine {
+  font-size: var(--font-size-sm);
+  line-height: 1.55;
+  color: var(--secondary-font-color);
+  text-wrap: pretty;
+
+  b {
+    font-weight: 700;
+    color: var(--lego-font-color);
+  }
+}

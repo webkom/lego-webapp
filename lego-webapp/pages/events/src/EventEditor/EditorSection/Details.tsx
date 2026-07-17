@@ -1,5 +1,7 @@
 import { Flex, Tooltip } from '@webkom/lego-bricks';
+import { useEffect } from 'react';
 import { Field } from 'react-final-form';
+import { GroupType } from 'app/models';
 import {
   RowSection,
   SelectInput,
@@ -10,6 +12,10 @@ import {
 import { Label } from '~/components/Form/Label';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
 import { EventTypeConfig } from '~/pages/events/utils';
+import { fetchAllWithType } from '~/redux/actions/GroupActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
+import { selectGroupsByType } from '~/redux/slices/groups';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';
 
@@ -18,6 +24,19 @@ type Props = {
 };
 
 const Details: React.FC<Props> = ({ values }) => {
+  const isInterestEvent = values.eventType?.value === EventType.INTEREST_EVENT;
+
+  const dispatch = useAppDispatch();
+  const interestGroups = useAppSelector((state) =>
+    selectGroupsByType(state, GroupType.Interest),
+  );
+
+  useEffect(() => {
+    if (isInterestEvent) {
+      dispatch(fetchAllWithType(GroupType.Interest));
+    }
+  }, [isInterestEvent, dispatch]);
+
   return (
     <>
       <RowSection>
@@ -44,15 +63,30 @@ const Details: React.FC<Props> = ({ values }) => {
         />
       </RowSection>
       <RowSection>
-        <Field
-          name="responsibleGroup"
-          label="Ansvarlig gruppe"
-          filter={['users.abakusgroup']}
-          fieldClassName={styles.metaField}
-          component={SelectInput.AutocompleteField}
-          placeholder="Ansvar for arrangement"
-          isClearable
-        />
+        {isInterestEvent ? (
+          <Field
+            name="responsibleGroup"
+            label="Ansvarlig interessegruppe"
+            fieldClassName={styles.metaField}
+            component={SelectInput.Field}
+            options={interestGroups.map((group) => ({
+              label: group.name,
+              value: group.id,
+            }))}
+            placeholder="Velg interessegruppe"
+            required
+          />
+        ) : (
+          <Field
+            name="responsibleGroup"
+            label="Ansvarlig gruppe"
+            filter={['users.abakusgroup']}
+            fieldClassName={styles.metaField}
+            component={SelectInput.AutocompleteField}
+            placeholder="Ansvar for arrangement"
+            isClearable
+          />
+        )}
         <Field
           name="responsibleUsers"
           label="Ansvarlige brukere"

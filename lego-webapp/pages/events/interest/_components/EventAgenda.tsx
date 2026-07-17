@@ -6,6 +6,7 @@ import moment from 'moment-timezone';
 import { useEffect, useRef, useState } from 'react';
 import PillSwitch from '~/components/PillSwitch';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
+import useIsInterestGroupLeader from '~/pages/events/interest/useIsInterestGroupLeader';
 import { groupEvents, groupKeyOf } from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
 import useQuery from '~/utils/useQuery';
@@ -35,7 +36,9 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
   const [expandedId, setExpandedId] = useState<EntityId | null>(null);
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
-  const showCreateRow = !isPast && actionGrant.includes('create');
+  const isInterestGroupLeader = useIsInterestGroupLeader();
+  const showCreateRow =
+    !isPast && (actionGrant.includes('create') || isInterestGroupLeader);
   const initialCount = MAX_ROWS - (showCreateRow ? 1 : 0);
 
   const [shown, setShown] = useState<{ isPast: boolean; count: number } | null>(

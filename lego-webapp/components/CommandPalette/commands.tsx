@@ -73,18 +73,18 @@ const createCommands = (
         },
         {
           id: 'lending',
-          renderLabel: (
-            <Flex alignItems="center" gap={10}>
-              Utlån <Tag tag="Nytt!!" color="pink" />
-            </Flex>
-          ),
+          renderLabel: 'Utlån',
           searchText: 'Utlån',
           action: () => navigate('/lending'),
           icon: <Icon iconNode={<ShoppingCart />} size={15} />,
         },
         {
           id: 'interestGroups',
-          renderLabel: 'Interessegrupper',
+          renderLabel: (
+            <Flex alignItems="center" gap={10}>
+              Interessegrupper <Tag tag="Nytt!!" color="pink" />
+            </Flex>
+          ),
           searchText: 'Interessegrupper',
           action: () => navigate('/events/interest'),
           icon: <Icon iconNode={<InterestGroupIcon />} size={15} />,

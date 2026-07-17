@@ -62,11 +62,7 @@ const LINKS: Array<Link> = [
   {
     key: 'lending',
     requireLogin: true,
-    title: (
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        Utlån <Tag tag="Nytt!!" color="pink"></Tag>
-      </Flex>
-    ),
+    title: 'Utlån',
     sortTitle: 'Utlån',
     icon: <ShoppingCart />,
     url: '/lending',
@@ -91,7 +87,11 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'interest-groups',
-    title: 'Interessegrupper',
+    title: (
+      <Flex alignItems="center" gap="var(--spacing-sm)">
+        Interessegrupper <Tag tag="Nytt!!" color="pink"></Tag>
+      </Flex>
+    ),
     icon: <InterestGroupIcon />,
     url: '/events/interest',
   },
