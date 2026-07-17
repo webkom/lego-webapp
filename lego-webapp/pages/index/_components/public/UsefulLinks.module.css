@@ -154,6 +154,10 @@ html[data-theme='dark'] .featured {
     max-height: 165px;
     object-fit: contain;
   }
+
+  @media (--mobile-device) {
+    width: 120px;
+  }
 }
 
 .body {
@@ -170,6 +174,7 @@ html[data-theme='dark'] .featured {
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--lego-font-color);
+  overflow-wrap: break-word;
 }
 
 .textGroup {
