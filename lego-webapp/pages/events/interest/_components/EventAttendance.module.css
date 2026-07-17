@@ -27,14 +27,14 @@
 }
 
 .extraPill {
-  height: 26px;
-  min-width: 26px;
+  height: 32px;
+  min-width: 32px;
   padding: 0 5px;
   margin-left: -8px;
   border-radius: 999px;
-  border: 2px solid var(--lego-background-color);
-  background: var(--additive-background);
-  color: var(--secondary-font-color);
+  border: 1.75px solid var(--lego-background-color);
+  background: var(--color-gray-2);
+  color: var(--lego-font-color);
   font-size: var(--font-size-xs);
   font-weight: 700;
   display: inline-flex;
@@ -43,13 +43,16 @@
 }
 
 .attendLine {
-  font-size: var(--font-size-sm);
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-xs);
   line-height: 1.55;
   color: var(--secondary-font-color);
-  text-wrap: pretty;
 
-  b {
-    font-weight: 700;
-    color: var(--lego-font-color);
+  /* One line per span - long names truncate instead of wrapping */
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

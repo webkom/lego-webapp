@@ -8,7 +8,8 @@ import PillSwitch from '~/components/PillSwitch';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
 import useIsInterestGroupLeader from '~/pages/events/interest/useIsInterestGroupLeader';
 import { groupEvents, groupKeyOf } from '~/pages/events/interest/utils';
-import { useAppSelector } from '~/redux/hooks';
+import { fetchEvent } from '~/redux/actions/EventActions';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import useQuery from '~/utils/useQuery';
 import CreateEventRow from './CreateEventRow';
 import styles from './EventAgenda.module.css';
@@ -23,7 +24,6 @@ const agendaDefaultQuery = {
 
 const MAX_ROWS = 6;
 const MORE_STEP = 5;
-const SCROLL_AFTER = 12;
 
 type Props = {
   spotlightEventId?: EntityId;
@@ -72,6 +72,18 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
   const hiddenEvents = modeEvents.slice(visibleCount);
   const dayGroups = groupEvents(shownEvents, isPast);
 
+  // Attendance lives in the detail payload, so warm it for every visible row -
+  // on landing, and again as show-more reveals new ones
+  const dispatch = useAppDispatch();
+  const requestedDetails = useRef(new Set<EntityId>());
+  useEffect(() => {
+    for (const event of shownEvents) {
+      if ('pools' in event || requestedDetails.current.has(event.id)) continue;
+      requestedDetails.current.add(event.id);
+      dispatch(fetchEvent(event.id));
+    }
+  }, [shownEvents, dispatch]);
+
   const showMore = () => {
     if (modeEvents.length <= visibleCount + MORE_STEP && current.hasMore) {
       current.fetchMore();
@@ -107,12 +119,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
           }
         />
       </div>
-      <div
-        className={cx(
-          styles.list,
-          shownEvents.length > SCROLL_AFTER && styles.scrollableList,
-        )}
-      >
+      <div className={styles.list}>
         <div ref={listWrapRef}>
           {showCreateRow && <CreateEventRow />}
           {dayGroups.map((day) => (

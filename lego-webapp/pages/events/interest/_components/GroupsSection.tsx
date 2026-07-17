@@ -224,10 +224,8 @@ const GroupsSection = () => {
     }
   };
 
-  const sortedGroups = [...groups].sort(
-    (a, b) =>
-      Number(isMemberOf(b)) - Number(isMemberOf(a)) ||
-      Number(b.active) - Number(a.active),
+  const sortedGroups = [...groups].sort((a, b) =>
+    a.name.localeCompare(b.name, 'nb'),
   );
 
   const pageCount = Math.max(

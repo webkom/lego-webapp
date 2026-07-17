@@ -1,11 +1,9 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { useEffect } from 'react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
-import { fetchEvent } from '~/redux/actions/EventActions';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
@@ -26,16 +24,6 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
   const group = event.responsibleGroup;
   const { joinable, joined, isFull, label, title, onPress } =
     useJoinEvent(event);
-
-  const dispatch = useAppDispatch();
-
-  // Pools only exist on the detail serializer, so fetch it the first time
-  // the row opens; joins and leaves keep the stored detail fresh after that
-  useEffect(() => {
-    if (expanded && !('pools' in event)) {
-      dispatch(fetchEvent(event.id));
-    }
-  }, [expanded, event, dispatch]);
 
   const registrations = useAppSelector((state) =>
     selectRegistrationsFromPools(state, event.id),

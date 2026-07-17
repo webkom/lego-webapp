@@ -42,7 +42,7 @@ export const attendanceLabel = (event: ListEvent): string => {
   const count = event.registrationCount ?? 0;
 
   if (event.totalCapacity) {
-    return `${count} av ${event.totalCapacity} plasser tatt`;
+    return `${count} av ${event.totalCapacity} plasser`;
   }
 
   return `${count} blir med`;

@@ -181,8 +181,8 @@
 
 .createTile {
   &::after {
-    border-bottom-style: dashed;
-    border-bottom-color: var(--color-gray-4);
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-gray-2);
   }
 
   &:hover {

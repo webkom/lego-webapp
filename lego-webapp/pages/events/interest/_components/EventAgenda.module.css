@@ -7,6 +7,9 @@
   --row-height: calc(var(--circle-size) + 2 * var(--spacing-md));
   --day-column: 180px;
   --day-column-overlap: calc(var(--day-column) + var(--spacing-lg));
+  --row-inline-pad: clamp(var(--spacing-md), 2vw, var(--spacing-lg));
+  --row-gap: clamp(10px, 2vw, 20px);
+  --panel-gap: calc(var(--spacing-lg) + var(--spacing-md));
 }
 
 .header {
@@ -41,17 +44,6 @@
   overflow-x: clip;
 }
 
-.scrollableList {
-  max-height: calc(12 * var(--row-height));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 .dayRow {
   position: relative;
   display: grid;
@@ -69,12 +61,12 @@
   flex-direction: column;
   justify-content: center;
   height: var(--row-height);
-  padding-left: var(--spacing-md);
+  padding-left: var(--row-inline-pad);
   pointer-events: none;
 
   @media (--medium-viewport) {
     height: auto;
-    padding: var(--spacing-md) 0 var(--spacing-xs) var(--spacing-md);
+    padding: var(--spacing-md) 0 var(--spacing-xs) var(--row-inline-pad);
   }
 }
 
@@ -122,9 +114,9 @@
 .eventRow {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 2vw, 20px);
-  padding: var(--spacing-md);
-  padding-left: calc(var(--day-column-overlap) + var(--spacing-md));
+  gap: var(--row-gap);
+  padding: var(--spacing-md) var(--row-inline-pad);
+  padding-left: calc(var(--day-column-overlap) + var(--row-inline-pad));
   transition: background var(--easing-fast);
   border-radius: var(--border-radius-md);
 
@@ -133,7 +125,7 @@
   }
 
   @media (--medium-viewport) {
-    padding-left: var(--spacing-md);
+    padding-left: var(--row-inline-pad);
   }
 }
 
@@ -253,8 +245,8 @@
 .eventPanelContent {
   display: flex;
   align-items: flex-start;
-  gap: calc(var(--spacing-lg) + var(--spacing-md));
-  padding: 0 var(--spacing-md) var(--spacing-lg);
+  gap: var(--panel-gap);
+  padding: var(--spacing-sm) var(--row-inline-pad) var(--spacing-md);
   opacity: 0;
   transform: translateY(-5px);
   transition:
@@ -272,8 +264,14 @@
   }
 }
 
+/* Wide enough that the description next to it starts exactly under the
+   event title: panel padding + this width + panel gap = title's offset in
+   the row. Derived from the same tokens, so it holds if they change */
 .eventAttendance {
-  width: calc(var(--day-column) - var(--spacing-md));
+  width: calc(
+    var(--day-column-overlap) + var(--circle-size) + var(--row-gap) -
+      var(--panel-gap)
+  );
   flex: none;
   cursor: default;
 
@@ -287,7 +285,7 @@
   margin: 0;
   min-width: min(220px, 100%);
   max-width: 620px;
-  min-height: 8rem;
+  max-height: 5rem;
   font-size: var(--font-size-sm);
   line-height: 1.7;
   color: var(--secondary-font-color);
@@ -297,10 +295,10 @@
 .createRow {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 2vw, 20px);
+  gap: var(--row-gap);
   margin-left: calc(-1 * var(--day-column-overlap));
-  padding: var(--spacing-md);
-  padding-left: calc(var(--day-column-overlap) + var(--spacing-md));
+  padding: var(--spacing-md) var(--row-inline-pad);
+  padding-left: calc(var(--day-column-overlap) + var(--row-inline-pad));
   border-radius: var(--border-radius-md);
   color: var(--lego-font-color);
   cursor: pointer;
@@ -312,7 +310,7 @@
 
   @media (--medium-viewport) {
     margin-left: 0;
-    padding-left: var(--spacing-md);
+    padding-left: var(--row-inline-pad);
   }
 }
 
@@ -362,8 +360,8 @@
 .peekRow {
   display: flex;
   align-items: center;
-  gap: clamp(10px, 2vw, 20px);
-  padding: var(--spacing-md);
+  gap: var(--row-gap);
+  padding: var(--spacing-md) var(--row-inline-pad);
 }
 
 .peekOverlay {
@@ -424,7 +422,7 @@
 }
 
 .emptyLabel {
-  padding: var(--spacing-lg) 0;
+  padding: var(--spacing-lg) var(--row-inline-pad);
   font-size: var(--font-size-sm);
   color: var(--secondary-font-color);
 }

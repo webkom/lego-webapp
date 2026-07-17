@@ -35,6 +35,19 @@
   margin-top: var(--spacing-lg);
 }
 
+/* Same outline counterpart to the dark button as the public frontpage hero */
+.secondaryAction {
+  background-color: var(--lego-background-color);
+  border: 2px solid var(--color-red-6);
+  color: var(--color-red-6);
+
+  &[data-hovered] {
+    background-color: var(--color-gray-1);
+    border-color: var(--lego-red-color-hover);
+    color: var(--lego-red-color-hover);
+  }
+}
+
 .spotlightSkeleton {
   flex: 1.25;
   min-width: min(440px, 100%);

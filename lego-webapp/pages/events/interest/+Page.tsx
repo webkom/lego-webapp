@@ -33,17 +33,20 @@ const InterestEvents = () => {
           </p>
           <div className={styles.heroActions}>
             <Button
-              secondary
-              size="large"
+              dark
               onPress={() =>
                 document
                   .getElementById('grupper')
                   ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
               }
             >
-              Bli med
+              Bli med i en gruppe
             </Button>
-            <LinkButton ghost size="large" href="/interest-groups/">
+            <LinkButton
+              dark
+              className={styles.secondaryAction}
+              href="/interest-groups/"
+            >
               Mer info
             </LinkButton>
           </div>

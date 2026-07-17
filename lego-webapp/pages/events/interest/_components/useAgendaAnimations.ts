@@ -114,7 +114,7 @@ const useAgendaAnimations = (
     }
 
     // Reveals change the list's height in one step — animate the container to
-    // its new (possibly scroll-capped) height alongside the rising rows
+    // its new height alongside the rising rows
     const list = wrap.parentElement;
     const prevHeight = listHeightRef.current;
     let heightAnimated = false;

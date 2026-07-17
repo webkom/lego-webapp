@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ProfilePicture } from '~/components/Image';
 import AttendanceModal from '~/components/UserAttendance/AttendanceModal';
-import { activateOnKey } from '~/pages/events/interest/utils';
+import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
 import { EventStatusType } from '~/redux/models/Event';
 import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './EventAttendance.module.css';
@@ -36,24 +36,31 @@ const EventAttendance = ({
         (registration) => registration.user.id === currentUser.id,
       )
     : undefined;
-  const ordered = you
-    ? [you, ...registrations.filter((registration) => registration !== you)]
-    : registrations;
+  const others = registrations.filter((registration) => registration !== you);
+  const ordered = you ? [you, ...others] : registrations;
   const faces = ordered.slice(0, MAX_FACES);
   const extra = count - faces.length;
 
-  const verb = isPast ? 'var med' : 'kommer';
-  let bold = '';
-  let rest: string;
+  // Line 1: the first two first names, never your own (most related first -
+  // selectRegistrationsFromPools orders by sharedMemberships).
+  // Line 2: how many more are registered
+  const names = others
+    .slice(0, 2)
+    .map((registration) => registration.user.firstName.split(' ')[0]);
+  // You aren't named, but you still count among the "+ N andre"
+  const hidden = count - names.length;
+
+  let lines: string[];
   if (event.eventStatusType === EventStatusType.OPEN) {
-    rest = 'ingen påmelding — bare møt opp';
+    lines = [attendanceLabel(event)];
   } else if (count === 0) {
-    rest = isPast ? 'ingen var med' : 'ingen påmeldt ennå';
-  } else if (you) {
-    bold = 'Du';
-    rest = count > 1 ? ` + ${count - 1} andre ${verb}` : ` ${verb}`;
+    lines = [isPast ? 'ingen var med' : 'ingen påmeldt ennå'];
+  } else if (names.length === 0) {
+    lines = [count === 1 ? '1 påmeldt' : `${count} påmeldte`];
   } else {
-    rest = `${count} ${verb}`;
+    lines = [names.join(', ')];
+    if (hidden === 1) lines.push('+ 1 annet medlem');
+    else if (hidden > 1) lines.push(`+ ${hidden} andre medlemmer`);
   }
 
   return (
@@ -72,7 +79,7 @@ const EventAttendance = ({
               <ProfilePicture
                 key={registration.id}
                 user={registration.user}
-                size={26}
+                size={32}
                 className={styles.face}
               />
             ))}
@@ -80,8 +87,9 @@ const EventAttendance = ({
           </div>
         )}
         <div className={styles.attendLine}>
-          {bold && <b>{bold}</b>}
-          {rest}
+          {lines.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
         </div>
       </div>
       <AttendanceModal
