@@ -130,6 +130,7 @@ export type ListEvent = Pick<
   | 'thumbnail'
   | 'totalCapacity'
   | 'company'
+  | 'responsibleGroup'
   | 'registrationCount'
   | 'tags'
   | 'activationTime'

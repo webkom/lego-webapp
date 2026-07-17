@@ -1,0 +1,43 @@
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(24px, 3vw, 44px);
+  padding: clamp(24px, 4vw, 52px) var(--spacing-md) var(--spacing-sm);
+}
+
+.heroText {
+  flex: 1;
+  min-width: min(300px, 100%);
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+}
+
+.lead {
+  margin: var(--spacing-md) 0 0;
+  max-width: 600px;
+  line-height: 1.6;
+  color: var(--secondary-font-color);
+  text-wrap: pretty;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.spotlightSkeleton {
+  flex: 1.25;
+  min-width: min(440px, 100%);
+  min-height: clamp(170px, 16vw, 210px);
+  border-radius: var(--border-radius-lg);
+}
