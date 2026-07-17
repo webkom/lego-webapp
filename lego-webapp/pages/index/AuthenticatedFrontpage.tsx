@@ -20,6 +20,7 @@ import {
   addArticleType,
   addEventType,
   selectPinned,
+  isArticle,
 } from '~/redux/slices/frontpage';
 import { selectPinnedPoll } from '~/redux/slices/polls';
 import { selectRandomQuote } from '~/redux/slices/quotes';
@@ -109,7 +110,12 @@ const AuthenticatedFrontpage = () => {
         <CompactEvents className={styles.compactEvents} />
         <UpcomingRegistrationsSection />
         <Events pinnedId={pinned?.id} numberToShow={eventsToShow} />
-        <Pinned item={pinned} url={itemUrl(pinned)} meta={renderMeta(pinned)} />
+        <Pinned
+          item={pinned}
+          url={itemUrl(pinned)}
+          meta={renderMeta(pinned)}
+          wiggle={pinned && isArticle(pinned) ? pinned.wiggle : false}
+        />
         <PollItem />
         <QuoteItem />
         {readMe}

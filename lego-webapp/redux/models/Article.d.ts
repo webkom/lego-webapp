@@ -23,6 +23,7 @@ interface CompleteArticle {
   reactionsGrouped?: ReactionsGrouped[];
   youtubeUrl: string;
   actionGrant: ArticlePermissions[];
+  wiggle: boolean;
 }
 
 export type DetailedArticle = Pick<
@@ -46,6 +47,7 @@ export type DetailedArticle = Pick<
   | 'canViewGroups'
   | 'canEditGroups'
   | 'actionGrant'
+  | 'wiggle'
 >;
 
 export type AdminDetailedArticle = DetailedArticle & ObjectPermissionsMixin;
@@ -71,6 +73,7 @@ export type PublicArticle = Pick<
   | 'createdAt'
   | 'pinned'
   | 'actionGrant'
+  | 'wiggle'
 >;
 
 export type UnknownArticle = (
