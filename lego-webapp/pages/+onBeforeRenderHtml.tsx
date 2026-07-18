@@ -6,8 +6,10 @@ import { PageContextProvider } from 'vike-react/usePageContext';
 import { fetchMeta } from '~/redux/actions/MetaActions';
 import { loginAutomaticallyIfPossible } from '~/redux/actions/UserActions';
 import { selectCurrentUser } from '~/redux/slices/auth';
+import { setTheme } from '~/redux/slices/theme';
 import { sentryServerConfig } from '~/sentry.server.config';
 import { prepareWithTimeout } from '~/utils/prepareWithTimeout';
+import { resolveTheme } from '~/utils/themeUtils';
 import createStore from '../redux/createStore';
 import Wrapper from './+Wrapper';
 
@@ -31,17 +33,13 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   }
 
   const state = pageContext.store.getState();
-  // No-JS fallback only - the +Head bootstrap script re-resolves the theme
-  // (device choice, OS preference) before first paint
-  const accountTheme = selectCurrentUser(state)?.selectedTheme;
-  config({
-    htmlAttributes: {
-      'data-theme':
-        accountTheme === 'dark' || accountTheme === 'light'
-          ? accountTheme
-          : 'light',
-    },
-  });
+  const theme = resolveTheme(
+    selectCurrentUser(state)?.selectedTheme,
+    null,
+    false,
+  );
+  pageContext.store.dispatch(setTheme(theme));
+  config({ htmlAttributes: { 'data-theme': theme } });
 
   // Helmet support
   pageContext.helmetContext = {};

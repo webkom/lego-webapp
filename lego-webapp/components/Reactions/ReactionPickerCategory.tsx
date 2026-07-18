@@ -11,7 +11,7 @@ import {
   Plane,
   Smile,
 } from 'lucide-react';
-import { getTheme } from '~/utils/themeUtils';
+import { useTheme } from '~/utils/themeUtils';
 import styles from './ReactionPickerCategory.module.css';
 
 type Props = {
@@ -21,9 +21,9 @@ type Props = {
   isSearching: boolean;
 };
 
-const mapCategoryNameToIcon = (name, isActive) => {
+const mapCategoryNameToIcon = (name, isActive, theme) => {
   const fill = isActive
-    ? getTheme() === 'dark'
+    ? theme === 'dark'
       ? 'var(--color-blue-5)'
       : 'var(--color-blue-6)'
     : 'transparent';
@@ -64,6 +64,7 @@ const ReactionPickerCategory = ({
   onCategoryClick,
   isSearching,
 }: Props) => {
+  const theme = useTheme();
   const categoryClasses = [styles.category];
 
   if (isActive) {
@@ -78,7 +79,10 @@ const ReactionPickerCategory = ({
     <div title={name} onClick={() => onCategoryClick(name)}>
       <div className={styles.container}>
         <div className={cx(categoryClasses)}>
-          <Icon size={22} iconNode={mapCategoryNameToIcon(name, isActive)} />
+          <Icon
+            size={22}
+            iconNode={mapCategoryNameToIcon(name, isActive, theme)}
+          />
         </div>
       </div>
     </div>

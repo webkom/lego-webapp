@@ -8,7 +8,7 @@ import { themeBootstrapScript } from '~/utils/themeUtils';
 export default function HeadDefault() {
   const pageContext = usePageContext();
   const state = pageContext.store.getState();
-  const selectedTheme = selectCurrentUser(state)?.selectedTheme || 'auto';
+  const selectedTheme = selectCurrentUser(state)?.selectedTheme;
 
   return (
     <>
@@ -73,7 +73,6 @@ export default function HeadDefault() {
           dangerouslySetInnerHTML={{ __html: pageContext.preparedStateCode }}
         />
       )}
-      {/* Resolve and apply the theme before first paint */}
       <script
         dangerouslySetInnerHTML={{
           __html: themeBootstrapScript(selectedTheme),

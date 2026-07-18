@@ -510,7 +510,10 @@ export function resetPassword({
   });
 }
 
-export function updateUserTheme(username: string, theme: 'light' | 'dark') {
+export function updateUserTheme(
+  username: string,
+  theme: 'light' | 'dark' | 'auto',
+) {
   return updateUser(
     {
       username,

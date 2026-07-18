@@ -1,114 +1,106 @@
-import { throttle } from 'lodash-es';
 import { useEffect } from 'react';
+import { Thunk } from 'app/types';
 import { updateUserTheme } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { selectCurrentUser, useCurrentUser } from '~/redux/slices/auth';
+import { selectCurrentUser } from '~/redux/slices/auth';
 import { setTheme } from '~/redux/slices/theme';
 import type { AppDispatch } from '~/redux/createStore';
-import type { RootState } from '~/redux/rootReducer';
 
 export type ThemePreference = 'light' | 'dark' | 'auto';
-export type ResolvedTheme = 'light' | 'dark';
+type ResolvedTheme = 'light' | 'dark';
 
-// The one precedence rule for the whole app: an explicit account theme wins,
-// then an explicit choice stored on this device, then the OS. 'auto' (and
-// anything unknown) falls through to the next level
+const THEME_STORAGE_KEY = 'theme-preference';
+const LEGACY_THEME_STORAGE_KEY = 'theme';
+const PREFERS_DARK_QUERY = '(prefers-color-scheme: dark)';
+
 export const resolveTheme = (
   account: unknown,
   stored: unknown,
   osDark: boolean,
-): ResolvedTheme =>
-  account === 'dark' || account === 'light'
-    ? account
-    : stored === 'dark' || stored === 'light'
-      ? stored
-      : osDark
-        ? 'dark'
-        : 'light';
+): ResolvedTheme => {
+  if (account === 'dark' || account === 'light') return account;
+  if (account !== 'auto' && (stored === 'dark' || stored === 'light'))
+    return stored;
+  return osDark ? 'dark' : 'light';
+};
 
-// Pre-paint script for +Head, built from resolveTheme itself so the theme
-// painted first can never disagree with what ThemeManager applies after
-// hydration
-export const themeBootstrapScript = (account: ThemePreference) => `
+export const themeBootstrapScript = (account: ThemePreference | undefined) => `
 (function () {
   try {
     var stored = null;
-    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    try { stored = localStorage.getItem('${THEME_STORAGE_KEY}'); } catch (e) {}
+    var osDark = window.matchMedia('${PREFERS_DARK_QUERY}').matches;
     document.documentElement.setAttribute(
       'data-theme',
-      (${resolveTheme.toString()})(
-        ${JSON.stringify(account)},
-        stored,
-        window.matchMedia('(prefers-color-scheme: dark)').matches
-      )
+      (${resolveTheme.toString()})(${JSON.stringify(account ?? null).replace(/</g, '\\u003c')}, stored, osDark)
     );
   } catch (e) {}
 })();`;
 
-const osPrefersDark = () =>
-  window.matchMedia('(prefers-color-scheme: dark)').matches;
+const osPrefersDark = () => window.matchMedia(PREFERS_DARK_QUERY).matches;
 
 const storedPreference = () => {
   try {
-    return localStorage.getItem('theme');
+    return localStorage.getItem(THEME_STORAGE_KEY);
   } catch {
     return null;
   }
 };
 
-// The only place data-theme is written after first paint
+const writeStoredPreference = (preference: ThemePreference) => {
+  try {
+    if (preference === 'auto') localStorage.removeItem(THEME_STORAGE_KEY);
+    else localStorage.setItem(THEME_STORAGE_KEY, preference);
+  } catch {
+    return;
+  }
+};
+
+const removeLegacyStoredPreference = () => {
+  try {
+    localStorage.removeItem(LEGACY_THEME_STORAGE_KEY);
+  } catch {
+    return;
+  }
+};
+
 const applyResolvedTheme = (dispatch: AppDispatch, resolved: ResolvedTheme) => {
   document.documentElement.setAttribute('data-theme', resolved);
   dispatch(setTheme(resolved));
 };
 
-export const getTheme = (): ResolvedTheme =>
-  !import.meta.env.SSR &&
-  document.documentElement.getAttribute('data-theme') === 'dark'
-    ? 'dark'
-    : 'light';
-
 export const useTheme = () => useAppSelector((state) => state.theme.theme);
 
-// Throttle ensures instant feedback the first time the user changes theme,
-// but also ensures the user can't spam the server with requests
-const syncUserTheme = throttle(
-  (dispatch: AppDispatch, username: string, theme: ResolvedTheme) =>
-    dispatch(updateUserTheme(username, theme)),
-  2000,
-);
-
-// The user explicitly picked a theme: store the choice on this device, apply
-// it, and sync it to their account when logged in
 export const applySelectedTheme =
-  (preference: ResolvedTheme) =>
-  (dispatch: AppDispatch, getState: () => RootState) => {
+  (preference: ThemePreference): Thunk<void> =>
+  (dispatch, getState) => {
     if (import.meta.env.SSR) return;
+    if (
+      preference !== 'light' &&
+      preference !== 'dark' &&
+      preference !== 'auto'
+    )
+      return;
 
-    try {
-      localStorage.setItem('theme', preference);
-    } catch {
-      /* storage unavailable - the theme still applies for this page view */
-    }
+    const username = selectCurrentUser(getState())?.username;
+    if (username) dispatch(updateUserTheme(username, preference));
+    else writeStoredPreference(preference);
 
     applyResolvedTheme(
       dispatch,
-      resolveTheme(null, preference, osPrefersDark()),
+      resolveTheme(preference, null, osPrefersDark()),
     );
-
-    const username = selectCurrentUser(getState())?.username;
-    if (username) syncUserTheme(dispatch, username, preference);
   };
 
-// Owns the theme after hydration: applies the resolved theme on mount and
-// re-resolves when the account preference changes (login, settings save),
-// when another tab changes the stored choice, or when the OS switches
-// appearance while the preference is 'auto'
 export const ThemeManager = () => {
   const dispatch = useAppDispatch();
-  const accountTheme = useCurrentUser()?.selectedTheme;
+  const accountTheme = useAppSelector(
+    (state) => selectCurrentUser(state)?.selectedTheme,
+  );
 
   useEffect(() => {
+    removeLegacyStoredPreference();
+
     const resolve = () =>
       applyResolvedTheme(
         dispatch,
@@ -118,16 +110,15 @@ export const ThemeManager = () => {
     resolve();
 
     const onStorage = (event: StorageEvent) => {
-      if (event.key === 'theme') resolve();
+      if (event.key === THEME_STORAGE_KEY || event.key === null) resolve();
     };
-    const osQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
+    const osQuery = window.matchMedia(PREFERS_DARK_QUERY);
     window.addEventListener('storage', onStorage);
-    osQuery.addEventListener('change', resolve);
+    osQuery.addEventListener?.('change', resolve);
 
     return () => {
       window.removeEventListener('storage', onStorage);
-      osQuery.removeEventListener('change', resolve);
+      osQuery.removeEventListener?.('change', resolve);
     };
   }, [dispatch, accountTheme]);
 

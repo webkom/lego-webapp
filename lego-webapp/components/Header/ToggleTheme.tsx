@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { MoonStar, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from '~/redux/hooks';
-import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
+import { applySelectedTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 
@@ -30,7 +30,7 @@ const ToggleTheme = ({
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(applySelectedTheme(getTheme() === 'dark' ? 'light' : 'dark'));
+    dispatch(applySelectedTheme(theme === 'dark' ? 'light' : 'dark'));
   };
 
   const Component = isButton ? 'button' : 'div';

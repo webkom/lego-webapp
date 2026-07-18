@@ -165,7 +165,6 @@ const AccountDropdown = () => {
 const Header = () => {
   const dispatch = useAppDispatch();
   const loggedIn = useIsLoggedIn();
-  const currentUser = useCurrentUser();
   const searchOpen = useAppSelector((state) => state.search.open);
   const [renderSearch, setRenderSearch] = useState(searchOpen);
 
