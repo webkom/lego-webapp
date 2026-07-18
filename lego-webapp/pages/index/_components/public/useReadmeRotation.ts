@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { useEffect, useRef, useState } from 'react';
 
-const ROTATION_SECONDS = 10;
+const ROTATION_SECONDS = 6;
 const CROSSFADE_SECONDS = 0.6;
 
 /**
