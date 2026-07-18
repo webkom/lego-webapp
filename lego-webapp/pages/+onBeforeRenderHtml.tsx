@@ -31,8 +31,17 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   }
 
   const state = pageContext.store.getState();
-  const selectedTheme = selectCurrentUser(state)?.selectedTheme || 'light';
-  config({ htmlAttributes: { 'data-theme': selectedTheme } });
+  // No-JS fallback only - the +Head bootstrap script re-resolves the theme
+  // (device choice, OS preference) before first paint
+  const accountTheme = selectCurrentUser(state)?.selectedTheme;
+  config({
+    htmlAttributes: {
+      'data-theme':
+        accountTheme === 'dark' || accountTheme === 'light'
+          ? accountTheme
+          : 'light',
+    },
+  });
 
   // Helmet support
   pageContext.helmetContext = {};

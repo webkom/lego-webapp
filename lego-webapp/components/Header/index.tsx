@@ -14,7 +14,6 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectUpcomingMeetingId } from '~/redux/slices/meetings';
 import utilStyles from '~/styles/utilities.module.css';
 import { Keyboard } from '~/utils/constants';
-import { applySelectedTheme, getOSTheme, getTheme } from '~/utils/themeUtils';
 import Dropdown from '../Dropdown';
 import NotificationsDropdown from '../HeaderNotifications';
 import { ProfilePicture } from '../Image';
@@ -175,21 +174,6 @@ const Header = () => {
       setRenderSearch(true);
     }
   }, [searchOpen]);
-
-  useEffect(() => {
-    if (
-      !import.meta.env.SSR &&
-      loggedIn &&
-      currentUser &&
-      (currentUser.selectedTheme === 'auto'
-        ? getTheme() !== getOSTheme()
-        : getTheme() !== currentUser.selectedTheme)
-    ) {
-      applySelectedTheme(currentUser.selectedTheme || 'light', {
-        updateUserTheme: false,
-      });
-    }
-  }, [loggedIn, currentUser]);
 
   useEffect(() => {
     if (searchOpen) {

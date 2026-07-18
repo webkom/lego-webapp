@@ -1,101 +1,135 @@
 import { throttle } from 'lodash-es';
-import { createContext, useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { updateUserTheme } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
+import { selectCurrentUser, useCurrentUser } from '~/redux/slices/auth';
 import { setTheme } from '~/redux/slices/theme';
+import type { AppDispatch } from '~/redux/createStore';
+import type { RootState } from '~/redux/rootReducer';
 
-type ThemeChangeEventDetail = {
-  updateUserTheme?: boolean;
+export type ThemePreference = 'light' | 'dark' | 'auto';
+export type ResolvedTheme = 'light' | 'dark';
+
+// The one precedence rule for the whole app: an explicit account theme wins,
+// then an explicit choice stored on this device, then the OS. 'auto' (and
+// anything unknown) falls through to the next level
+export const resolveTheme = (
+  account: unknown,
+  stored: unknown,
+  osDark: boolean,
+): ResolvedTheme =>
+  account === 'dark' || account === 'light'
+    ? account
+    : stored === 'dark' || stored === 'light'
+      ? stored
+      : osDark
+        ? 'dark'
+        : 'light';
+
+// Pre-paint script for +Head, built from resolveTheme itself so the theme
+// painted first can never disagree with what ThemeManager applies after
+// hydration
+export const themeBootstrapScript = (account: ThemePreference) => `
+(function () {
+  try {
+    var stored = null;
+    try { stored = localStorage.getItem('theme'); } catch (e) {}
+    document.documentElement.setAttribute(
+      'data-theme',
+      (${resolveTheme.toString()})(
+        ${JSON.stringify(account)},
+        stored,
+        window.matchMedia('(prefers-color-scheme: dark)').matches
+      )
+    );
+  } catch (e) {}
+})();`;
+
+const osPrefersDark = () =>
+  window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+const storedPreference = () => {
+  try {
+    return localStorage.getItem('theme');
+  } catch {
+    return null;
+  }
 };
 
-type ApplySelectedThemeOptions = {
-  updateUserTheme?: boolean;
+// The only place data-theme is written after first paint
+const applyResolvedTheme = (dispatch: AppDispatch, resolved: ResolvedTheme) => {
+  document.documentElement.setAttribute('data-theme', resolved);
+  dispatch(setTheme(resolved));
 };
 
-export const applySelectedTheme = (
-  theme: 'light' | 'dark' | 'auto',
-  options: ApplySelectedThemeOptions = {
-    updateUserTheme: true,
-  },
-) => {
-  if (import.meta.env.SSR) return;
-
-  document.documentElement.setAttribute(
-    'data-theme',
-    theme === 'auto' ? getOSTheme() : theme,
-  );
-
-  window.dispatchEvent(
-    new CustomEvent<ThemeChangeEventDetail>('themeChange', {
-      detail: {
-        updateUserTheme: options.updateUserTheme,
-      },
-    }),
-  );
-
-  localStorage.setItem('theme', theme);
-};
-
-export const getTheme = (): 'dark' | 'light' =>
+export const getTheme = (): ResolvedTheme =>
   !import.meta.env.SSR &&
   document.documentElement.getAttribute('data-theme') === 'dark'
     ? 'dark'
     : 'light';
 
-export const ThemeContext = createContext<'dark' | 'light'>(getTheme());
+export const useTheme = () => useAppSelector((state) => state.theme.theme);
 
-export const ThemeContextListener = () => {
+// Throttle ensures instant feedback the first time the user changes theme,
+// but also ensures the user can't spam the server with requests
+const syncUserTheme = throttle(
+  (dispatch: AppDispatch, username: string, theme: ResolvedTheme) =>
+    dispatch(updateUserTheme(username, theme)),
+  2000,
+);
+
+// The user explicitly picked a theme: store the choice on this device, apply
+// it, and sync it to their account when logged in
+export const applySelectedTheme =
+  (preference: ResolvedTheme) =>
+  (dispatch: AppDispatch, getState: () => RootState) => {
+    if (import.meta.env.SSR) return;
+
+    try {
+      localStorage.setItem('theme', preference);
+    } catch {
+      /* storage unavailable - the theme still applies for this page view */
+    }
+
+    applyResolvedTheme(
+      dispatch,
+      resolveTheme(null, preference, osPrefersDark()),
+    );
+
+    const username = selectCurrentUser(getState())?.username;
+    if (username) syncUserTheme(dispatch, username, preference);
+  };
+
+// Owns the theme after hydration: applies the resolved theme on mount and
+// re-resolves when the account preference changes (login, settings save),
+// when another tab changes the stored choice, or when the OS switches
+// appearance while the preference is 'auto'
+export const ThemeManager = () => {
   const dispatch = useAppDispatch();
-  const username = useCurrentUser()?.username;
-  const loggedIn = useIsLoggedIn();
-
-  // Throttle ensures instant feedback first time user changes theme,
-  // but also ensures user cant spam the server with requests
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const throttledUpdateUserTheme = useCallback(
-    throttle(
-      (username, theme) => dispatch(updateUserTheme(username, theme)),
-      2000,
-    ),
-    [dispatch],
-  );
+  const accountTheme = useCurrentUser()?.selectedTheme;
 
   useEffect(() => {
-    const handleThemeChange = (event?: Event) => {
-      const currentTheme = getTheme();
-      dispatch(setTheme(currentTheme)); // Synchronize local state
+    const resolve = () =>
+      applyResolvedTheme(
+        dispatch,
+        resolveTheme(accountTheme, storedPreference(), osPrefersDark()),
+      );
 
-      if (
-        (event as CustomEvent<ThemeChangeEventDetail> | undefined)?.detail
-          ?.updateUserTheme &&
-        loggedIn &&
-        username
-      )
-        throttledUpdateUserTheme(username, currentTheme); // Synchronize server state
+    resolve();
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === 'theme') resolve();
     };
+    const osQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    handleThemeChange();
-    window.addEventListener('themeChange', handleThemeChange);
+    window.addEventListener('storage', onStorage);
+    osQuery.addEventListener('change', resolve);
 
-    // Optimistically update theme from localStorage
-    const cachedTheme =
-      localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
-    applySelectedTheme(cachedTheme, { updateUserTheme: false });
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      osQuery.removeEventListener('change', resolve);
+    };
+  }, [dispatch, accountTheme]);
 
-    return () => window.removeEventListener('themeChange', handleThemeChange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, loggedIn, username]);
-
-  return <></>;
-};
-
-export const useTheme = () => {
-  return useAppSelector((state) => state.theme.theme);
-};
-
-export const getOSTheme = () => {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return null;
 };

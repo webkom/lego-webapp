@@ -3,15 +3,7 @@
 import { usePageContext } from 'vike-react/usePageContext';
 import { selectCurrentUser } from '~/redux/slices/auth';
 import { appConfig } from '~/utils/appConfig';
-
-const autoThemeScript = `
-(function () {
-  try {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  } catch (e) {}
-})();`;
+import { themeBootstrapScript } from '~/utils/themeUtils';
 
 export default function HeadDefault() {
   const pageContext = usePageContext();
@@ -81,13 +73,12 @@ export default function HeadDefault() {
           dangerouslySetInnerHTML={{ __html: pageContext.preparedStateCode }}
         />
       )}
-      {
-        // If user has selected auto and device is in dark mode; ensure we update
-        // the theme before first render to screen
-        selectedTheme === 'auto' ? (
-          <script dangerouslySetInnerHTML={{ __html: autoThemeScript }} />
-        ) : undefined
-      }
+      {/* Resolve and apply the theme before first paint */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: themeBootstrapScript(selectedTheme),
+        }}
+      />
       <script
         dangerouslySetInnerHTML={{
           __html: `window.__CONFIG__ = ${JSON.stringify(appConfig)};`,
