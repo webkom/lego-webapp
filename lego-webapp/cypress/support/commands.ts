@@ -1,4 +1,7 @@
 import { apiBaseUrl } from './utils';
+import type { MountOptions, MountReturn } from 'cypress/react';
+import type { ReactNode } from 'react';
+import type store from '~/cypress/fixtures/store';
 
 declare global {
   namespace Cypress {
@@ -20,7 +23,10 @@ declare global {
         options: Partial<Cypress.RequestOptions>,
         username?: string,
       ): Chainable<Response<unknown>>;
-      mount: typeof mount;
+      mount(
+        component: ReactNode,
+        options?: MountOptions & { reduxStore?: ReturnType<typeof store> },
+      ): Chainable<MountReturn>;
     }
   }
 }
