@@ -24,6 +24,7 @@ import {
 import YoutubeCover from '~/pages/pages/_components/YoutubeCover';
 import { fetchEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCommentsByIds } from '~/redux/slices/comments';
 import { selectEventByIdOrSlug } from '~/redux/slices/events';
@@ -149,17 +150,19 @@ const EventDetail = () => {
   return (
     <Page
       cover={
-        <YoutubeCover
-          image={event?.cover || event?.company?.logo}
-          imagePlaceholder={
-            event?.coverPlaceholder || event?.company?.logoPlaceholder
-          }
-          youtubeUrl={event?.youtubeUrl}
-          skeleton={
-            fetching &&
-            !(event?.cover || event?.company?.logo || event?.youtubeUrl)
-          }
-        />
+        event?.eventType === EventType.INTEREST_EVENT ? undefined : (
+          <YoutubeCover
+            image={event?.cover || event?.company?.logo}
+            imagePlaceholder={
+              event?.coverPlaceholder || event?.company?.logoPlaceholder
+            }
+            youtubeUrl={event?.youtubeUrl}
+            skeleton={
+              fetching &&
+              !(event?.cover || event?.company?.logo || event?.youtubeUrl)
+            }
+          />
+        )
       }
       title={
         event && (
