@@ -1,5 +1,10 @@
 @import url('styles/custom-media.css');
 
+.banner {
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+}
+
 div.wrapper {
   display: grid;
   grid-gap: var(--spacing-xxl);
