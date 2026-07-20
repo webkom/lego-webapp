@@ -1,6 +1,7 @@
 import type { EntityId } from '@reduxjs/toolkit';
 import type { GroupType, ActionGrant } from 'app/models';
 import type { AutocompleteContentType } from '~/redux/models/Autocomplete';
+import type { RoleType } from '~/utils/constants';
 
 interface Group {
   id: EntityId;
@@ -21,6 +22,7 @@ interface Group {
   showBadge: boolean;
   active: boolean;
   actionGrant: ActionGrant;
+  userMembership: { id: EntityId; role: RoleType } | null;
 }
 
 export type DetailedGroup = Pick<
@@ -55,7 +57,8 @@ export type PublicGroup = Pick<
   | 'active'
 >;
 
-export type PublicListGroup = Pick<Group, 'numberOfUsers'> & PublicGroup;
+export type PublicListGroup = Pick<Group, 'numberOfUsers' | 'userMembership'> &
+  PublicGroup;
 
 export type PublicDetailedGroup = Pick<Group, 'text' | 'actionGrant'> &
   PublicListGroup;

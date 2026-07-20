@@ -1,7 +1,9 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { Star } from 'lucide-react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
+import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
 import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
@@ -22,6 +24,8 @@ type Props = {
 
 const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
   const group = event.responsibleGroup;
+  const memberGroupIds = useMemberGroupIds();
+  const isMemberGroup = !!group && memberGroupIds.has(group.id);
   const { joinable, joined, isFull, label, title, onPress } =
     useJoinEvent(event);
 
@@ -46,7 +50,19 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
         <div className={styles.eventInfo}>
           <div className={styles.eventTitleLine}>
             <span className={styles.eventTitle}>{event.title}</span>
-            {group && <span className={styles.eventGroup}>{group.name}</span>}
+            {group && (
+              <span className={styles.eventGroup}>
+                {group.name}
+                {isMemberGroup && (
+                  <span
+                    className={styles.memberStar}
+                    title="Du er medlem av denne gruppen"
+                  >
+                    <Star size={12} fill="currentColor" />
+                  </span>
+                )}
+              </span>
+            )}
           </div>
           <div className={styles.eventMeta}>
             <Time

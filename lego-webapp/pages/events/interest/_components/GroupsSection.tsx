@@ -1,5 +1,4 @@
 import { Skeleton } from '@webkom/lego-bricks';
-import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import gsap from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
@@ -16,7 +15,6 @@ import { GroupType } from 'app/models';
 import { activateOnKey } from '~/pages/events/interest/utils';
 import {
   fetchAllWithType,
-  fetchMemberships,
   joinGroup,
   leaveGroup,
 } from '~/redux/actions/GroupActions';
@@ -25,7 +23,7 @@ import { useCurrentUser } from '~/redux/slices/auth';
 import { resolveGroupLink, selectGroupsByType } from '~/redux/slices/groups';
 import GroupCircle from './GroupCircle';
 import styles from './GroupsSection.module.css';
-import { agendaEase } from './useAgendaAnimations';
+import { agendaEase, slideSwap } from './useAgendaAnimations';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicListGroup } from '~/redux/models/Group';
 import type { TransformedMembership } from '~/redux/slices/memberships';
@@ -150,73 +148,42 @@ const GroupTile = ({
 
 const GroupsSection = () => {
   const [page, setPage] = useState(0);
-  const [membershipOverrides, setMembershipOverrides] = useState<
-    Record<EntityId, boolean>
-  >({});
   const [pendingGroupId, setPendingGroupId] = useState<EntityId | null>(null);
   const [justJoinedId, setJustJoinedId] = useState<EntityId | null>(null);
 
   const groups = useAppSelector((state) =>
-    selectGroupsByType(state, GroupType.Interest),
-  ) as PublicListGroup[];
+    selectGroupsByType<PublicListGroup>(state, GroupType.Interest),
+  );
   const fetching = useAppSelector((state) => state.groups.fetching);
   const currentUser = useCurrentUser();
-  const memberGroupIds = currentUser?.abakusGroups ?? [];
 
   const dispatch = useAppDispatch();
-
-  usePreparedEffect(
-    'fetchInterestGroups',
-    () => dispatch(fetchAllWithType(GroupType.Interest)),
-    [],
-  );
-
-  // Join/leave changes aren't reflected in currentUser.abakusGroups, so
-  // completed toggles are tracked here to keep the marks in sync
-  const isMemberOf = (group: PublicListGroup) =>
-    membershipOverrides[group.id] ?? memberGroupIds.includes(group.id);
 
   const toggleMembership = async (group: PublicListGroup) => {
     if (!currentUser || pendingGroupId !== null) return;
 
     setPendingGroupId(group.id);
     try {
-      if (isMemberOf(group)) {
-        // Leaving requires the membership id, which only lives on the
-        // memberships endpoint
-        const result = (await dispatch(
-          fetchMemberships({
-            groupId: group.id,
-            query: { userUsername: currentUser.username },
-          }),
-        )) as unknown as {
-          payload?: {
-            entities?: {
-              memberships?: Record<string, { id: EntityId; user: EntityId }>;
-            };
-          };
-        };
-        const membership = Object.values(
-          result.payload?.entities?.memberships ?? {},
-        ).find((m) => m.user === currentUser.id);
-
-        if (membership) {
-          // leaveGroup only reads the membership id and the user's username
-          await dispatch(
-            leaveGroup(
-              {
-                ...membership,
-                user: currentUser,
-              } as unknown as TransformedMembership,
-              group.id,
-            ),
-          );
-          setMembershipOverrides((o) => ({ ...o, [group.id]: false }));
-          setJustJoinedId((id) => (id === group.id ? null : id));
-        }
+      if (group.userMembership) {
+        // leaveGroup only reads the membership id and the user's username
+        await dispatch(
+          leaveGroup(
+            {
+              ...group.userMembership,
+              user: currentUser,
+            } as unknown as TransformedMembership,
+            group.id,
+          ),
+        );
       } else {
         await dispatch(joinGroup(group.id, currentUser));
-        setMembershipOverrides((o) => ({ ...o, [group.id]: true }));
+      }
+      await dispatch(fetchAllWithType(GroupType.Interest));
+
+      // Set after the refetch so the check-draw animation runs on fresh marks
+      if (group.userMembership) {
+        setJustJoinedId((id) => (id === group.id ? null : id));
+      } else {
         setJustJoinedId(group.id);
       }
     } finally {
@@ -248,24 +215,11 @@ const GroupsSection = () => {
 
     if (!grid || prevPage === currentPage) return;
 
-    const timeline = gsap
-      .timeline()
-      .fromTo(
-        grid,
-        { x: currentPage > prevPage ? 72 : -72 },
-        { x: 0, duration: 0.55, ease: agendaEase, clearProps: 'transform' },
-      )
-      .fromTo(
-        grid,
-        { opacity: 0 },
-        {
-          opacity: 1,
-          duration: 0.25,
-          ease: 'power1.out',
-          clearProps: 'opacity',
-        },
-        0,
-      );
+    const timeline = slideSwap(
+      gsap.timeline(),
+      grid,
+      currentPage > prevPage ? 72 : -72,
+    );
 
     return () => {
       timeline.kill();
@@ -318,7 +272,7 @@ const GroupsSection = () => {
           <GroupTile
             key={group.id}
             group={group}
-            isMember={isMemberOf(group)}
+            isMember={!!group.userMembership}
             justJoined={justJoinedId === group.id}
             pending={pendingGroupId === group.id}
             onToggleMembership={

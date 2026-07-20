@@ -6,18 +6,27 @@ import {
 } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
+import { GroupType } from 'app/models';
 import styles from '~/pages/events/interest/InterestEvents.module.css';
 import EventAgenda from '~/pages/events/interest/_components/EventAgenda';
 import GroupsSection from '~/pages/events/interest/_components/GroupsSection';
 import Spotlight from '~/pages/events/interest/_components/Spotlight';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
+import { fetchAllWithType } from '~/redux/actions/GroupActions';
+import { useAppDispatch } from '~/redux/hooks';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 
 const InterestEvents = () => {
   const loggedIn = useIsLoggedIn();
   const upcoming = useInterestEvents(false);
+  const dispatch = useAppDispatch();
 
   usePreparedEffect('fetchInterestEvents', upcoming.fetch, [loggedIn]);
+  usePreparedEffect(
+    'fetchInterestGroups',
+    () => dispatch(fetchAllWithType(GroupType.Interest)),
+    [loggedIn],
+  );
 
   const spotlightEvent = upcoming.events[0];
 

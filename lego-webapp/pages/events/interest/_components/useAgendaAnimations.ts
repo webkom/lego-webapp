@@ -9,8 +9,28 @@ gsap.registerPlugin(CustomEase);
 // Fast start with a long, soft settle — quick without feeling rushed
 export const agendaEase = CustomEase.create('agendaEase', '0.16, 1, 0.3, 1');
 
+// The shared swap transition for mode and pager changes: slide in sideways
+// from the given offset while fading in
+export const slideSwap = (
+  timeline: gsap.core.Timeline,
+  target: gsap.TweenTarget,
+  fromX: number,
+) =>
+  timeline
+    .fromTo(
+      target,
+      { x: fromX },
+      { x: 0, duration: 0.55, ease: agendaEase, clearProps: 'transform' },
+    )
+    .fromTo(
+      target,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.25, ease: 'power1.out', clearProps: 'opacity' },
+      0,
+    );
+
 type AgendaAnimationState = {
-  isPast: boolean;
+  modeIndex: number;
   shownCount: number;
   peekDayKey: string | null;
 };
@@ -19,9 +39,9 @@ type AgendaAnimationState = {
 // sideways in the tab's direction instead
 const useAgendaAnimations = (
   listWrapRef: RefObject<HTMLDivElement | null>,
-  { isPast, shownCount, peekDayKey }: AgendaAnimationState,
+  { modeIndex, shownCount, peekDayKey }: AgendaAnimationState,
 ) => {
-  const prevIsPastRef = useRef(isPast);
+  const prevModeIndexRef = useRef(modeIndex);
   const hasAnimatedRef = useRef(false);
   const peekedDayRef = useRef<string | null>(null);
   const listHeightRef = useRef<number | null>(null);
@@ -46,7 +66,7 @@ const useAgendaAnimations = (
 
     const prevHasAnimated = hasAnimatedRef.current;
     const prevPeekedDay = peekedDayRef.current;
-    const prevIsPast = prevIsPastRef.current;
+    const prevModeIndex = prevModeIndexRef.current;
 
     const isInitial = !prevHasAnimated;
     hasAnimatedRef.current = true;
@@ -77,26 +97,10 @@ const useAgendaAnimations = (
     const timeline = gsap.timeline();
     let targets: HTMLElement[] = [];
 
-    if (prevIsPastRef.current !== isPast) {
-      prevIsPastRef.current = isPast;
+    if (prevModeIndex !== modeIndex) {
+      prevModeIndexRef.current = modeIndex;
       targets = [wrap];
-      timeline
-        .fromTo(
-          wrap,
-          { x: isPast ? 72 : -72 },
-          { x: 0, duration: 0.55, ease: agendaEase, clearProps: 'transform' },
-        )
-        .fromTo(
-          wrap,
-          { opacity: 0 },
-          {
-            opacity: 1,
-            duration: 0.25,
-            ease: 'power1.out',
-            clearProps: 'opacity',
-          },
-          0,
-        );
+      slideSwap(timeline, wrap, modeIndex > prevModeIndex ? 72 : -72);
     } else if (newRows.length > 0) {
       targets = newRows;
       timeline.fromTo(
@@ -148,7 +152,6 @@ const useAgendaAnimations = (
         });
         hasAnimatedRef.current = prevHasAnimated;
         peekedDayRef.current = prevPeekedDay;
-        prevIsPastRef.current = prevIsPast;
       }
 
       timeline.kill();
@@ -159,7 +162,7 @@ const useAgendaAnimations = (
         gsap.set(list, { clearProps: 'height' });
       }
     };
-  }, [listWrapRef, isPast, shownCount, peekDayKey]);
+  }, [listWrapRef, modeIndex, shownCount, peekDayKey]);
 };
 
 export default useAgendaAnimations;

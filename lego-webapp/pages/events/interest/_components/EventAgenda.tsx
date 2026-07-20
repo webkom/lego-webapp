@@ -7,9 +7,11 @@ import { useEffect, useRef, useState } from 'react';
 import PillSwitch from '~/components/PillSwitch';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
 import useIsInterestGroupLeader from '~/pages/events/interest/useIsInterestGroupLeader';
+import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
 import { groupEvents, groupKeyOf } from '~/pages/events/interest/utils';
 import { fetchEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useCurrentUser } from '~/redux/slices/auth';
 import useQuery from '~/utils/useQuery';
 import CreateEventRow from './CreateEventRow';
 import styles from './EventAgenda.module.css';
@@ -19,8 +21,11 @@ import useAgendaAnimations from './useAgendaAnimations';
 import type { EntityId } from '@reduxjs/toolkit';
 
 const agendaDefaultQuery = {
-  mode: '' as '' | 'tidligere',
+  mode: '' as '' | 'tidligere' | 'mine',
 };
+
+// Pill order, used to slide the list in the direction of the mode switch
+const MODE_ORDER = ['', 'mine', 'tidligere'] as const;
 
 const MAX_ROWS = 6;
 const MORE_STEP = 5;
@@ -32,8 +37,12 @@ type Props = {
 const EventAgenda = ({ spotlightEventId }: Props) => {
   const { query, setQueryValue } = useQuery(agendaDefaultQuery);
   const isPast = query.mode === 'tidligere';
+  const isMine = query.mode === 'mine';
 
   const [expandedId, setExpandedId] = useState<EntityId | null>(null);
+
+  const currentUser = useCurrentUser();
+  const memberGroupIds = useMemberGroupIds();
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
   const isInterestGroupLeader = useIsInterestGroupLeader();
@@ -41,11 +50,11 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     !isPast && (actionGrant.includes('create') || isInterestGroupLeader);
   const initialCount = MAX_ROWS - (showCreateRow ? 1 : 0);
 
-  const [shown, setShown] = useState<{ isPast: boolean; count: number } | null>(
+  const [shown, setShown] = useState<{ mode: string; count: number } | null>(
     null,
   );
   const visibleCount =
-    shown && shown.isPast === isPast ? shown.count : initialCount;
+    shown && shown.mode === query.mode ? shown.count : initialCount;
 
   const upcoming = useInterestEvents(false);
   const past = useInterestEvents(true);
@@ -65,9 +74,18 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const upcomingEvents = upcoming.events.filter(
+    (event) => event.id !== spotlightEventId,
+  );
+  const memberEvents = upcomingEvents.filter(
+    (event) =>
+      event.responsibleGroup && memberGroupIds.has(event.responsibleGroup.id),
+  );
   const modeEvents = isPast
     ? past.events
-    : upcoming.events.filter((event) => event.id !== spotlightEventId);
+    : isMine
+      ? memberEvents
+      : upcomingEvents;
   const shownEvents = modeEvents.slice(0, visibleCount);
   const hiddenEvents = modeEvents.slice(visibleCount);
   const dayGroups = groupEvents(shownEvents, isPast);
@@ -89,7 +107,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
       current.fetchMore();
     }
 
-    setShown({ isPast, count: visibleCount + MORE_STEP });
+    setShown({ mode: query.mode, count: visibleCount + MORE_STEP });
   };
 
   const listWrapRef = useRef<HTMLDivElement>(null);
@@ -98,7 +116,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     : null;
 
   useAgendaAnimations(listWrapRef, {
-    isPast,
+    modeIndex: MODE_ORDER.indexOf(query.mode),
     shownCount: shownEvents.length,
     peekDayKey,
   });
@@ -108,14 +126,17 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
       <div className={styles.header}>
         <h2>Arrangementer</h2>
         <PillSwitch
-          ariaLabel="Vis kommende eller tidligere arrangementer"
+          ariaLabel="Filtrer arrangementer"
           options={[
             { label: 'Kommende', value: 'kommende' },
+            ...(currentUser ? [{ label: 'Mine grupper', value: 'mine' }] : []),
             { label: 'Tidligere', value: 'tidligere' },
           ]}
-          value={isPast ? 'tidligere' : 'kommende'}
+          value={query.mode === '' ? 'kommende' : query.mode}
           onChange={(value) =>
-            setQueryValue('mode')(value === 'tidligere' ? value : '')
+            setQueryValue('mode')(
+              value === 'tidligere' || value === 'mine' ? value : '',
+            )
           }
         />
       </div>
@@ -163,9 +184,11 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
           )}
           {isEmpty(shownEvents) && !current.fetching && (
             <div className={styles.emptyLabel}>
-              {isPast
-                ? 'Ingenting her ennå.'
-                : 'Ingen kommende arrangementer akkurat nå.'}
+              {isMine
+                ? 'Ingen kommende arrangementer fra gruppene dine — bli med i flere grupper nedenfor.'
+                : isPast
+                  ? 'Ingenting her ennå.'
+                  : 'Ingen kommende arrangementer akkurat nå.'}
             </div>
           )}
         </div>
