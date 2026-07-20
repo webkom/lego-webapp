@@ -73,12 +73,7 @@ const TypedLegoForm = LegoFinalForm<EditingEvent>;
 const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
   title: [required('Tittel er påkrevd')],
-  description: [
-    requiredIf(
-      (allValues) => allValues.eventType?.value !== EventType.INTEREST_EVENT,
-      'Kalenderbeskrivelse er påkrevd',
-    ),
-  ],
+  description: [required('Kalenderbeskrivelse er påkrevd')],
   text: [legoEditorRequired('Innhold er påkrevd')],
   eventType: [required('Arrangementstype er påkrevd')],
   location: [

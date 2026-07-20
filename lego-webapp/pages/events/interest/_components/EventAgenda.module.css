@@ -284,6 +284,17 @@
   }
 }
 
+.panelAction {
+  flex: none;
+  margin-left: auto;
+  align-self: flex-end;
+
+  @media (--medium-viewport) {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
 .eventDescription {
   flex: 1;
   margin: 0;

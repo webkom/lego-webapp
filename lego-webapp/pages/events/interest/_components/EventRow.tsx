@@ -1,20 +1,15 @@
-import { Button } from '@webkom/lego-bricks';
+import { Button, Icon, LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Check, Star } from 'lucide-react';
+import { ArrowRight, Check, Star } from 'lucide-react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
-import {
-  activateOnKey,
-  attendanceLabel,
-  htmlToPlainText,
-} from '~/pages/events/interest/utils';
+import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from '~/redux/slices/events';
-import truncateString from '~/utils/truncateString';
 import styles from './EventAgenda.module.css';
 import EventAttendance from './EventAttendance';
 import GroupCircle from './GroupCircle';
@@ -116,12 +111,16 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
                 isPast={isPast}
               />
             </div>
-            <p className={styles.eventDescription}>
-              {truncateString(
-                htmlToPlainText('text' in event ? (event.text as string) : ''),
-                250,
-              )}
-            </p>
+            <p className={styles.eventDescription}>{event.description}</p>
+            <span
+              className={styles.panelAction}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <LinkButton size="small" flat href={`/events/${event.slug}`}>
+                Se arrangementet
+                <Icon iconNode={<ArrowRight />} size={16} />
+              </LinkButton>
+            </span>
           </div>
         </div>
       </div>

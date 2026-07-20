@@ -21,12 +21,6 @@ export const groupGradient = (group: PublicGroup) =>
 export const groupMonogram = (group: PublicGroup) =>
   group.name.replace('Aba', '').slice(0, 2).toUpperCase();
 
-export const htmlToPlainText = (html?: string) =>
-  html
-    ?.replace(/<[^>]+>/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim() ?? '';
-
 export const activateOnKey =
   (action: () => void) => (e: KeyboardEvent<HTMLElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {

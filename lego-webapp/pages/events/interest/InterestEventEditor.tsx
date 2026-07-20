@@ -12,6 +12,7 @@ import {
   EditorField,
   Form,
   SelectInput,
+  TextEditor,
   TextInput,
 } from '~/components/Form';
 import LegoFinalForm from '~/components/Form/LegoFinalForm';
@@ -22,14 +23,23 @@ import useIsInterestGroupLeader, {
   LEADER_ROLES,
 } from '~/pages/events/interest/useIsInterestGroupLeader';
 import { EventTypeConfig, transformEvent } from '~/pages/events/utils';
-import { createEvent } from '~/redux/actions/EventActions';
+import {
+  createEvent,
+  editEvent,
+  fetchEvent,
+} from '~/redux/actions/EventActions';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EventType } from '~/redux/models/Event';
+import {
+  selectEventByIdOrSlug,
+  selectPoolsForEvent,
+} from '~/redux/slices/events';
 import { selectGroupsByType } from '~/redux/slices/groups';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import time from '~/utils/time';
+import { useParams } from '~/utils/useParams';
 import {
   createValidator,
   datesAreInCorrectOrder,
@@ -41,10 +51,13 @@ import {
 } from '~/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { Dateish, TransformEvent } from 'app/models';
+import type { UserDetailedEvent } from '~/redux/models/Event';
 import type { PublicListGroup } from '~/redux/models/Group';
 
 type InterestEventFormValues = {
+  id?: EntityId;
   title?: string;
+  description?: string;
   text?: string;
   eventType: { value: EventType; label: string };
   responsibleGroup?: { label: string; value: EntityId };
@@ -53,7 +66,7 @@ type InterestEventFormValues = {
   useMazemap: boolean;
   mazemapPoi?: { label: string; value: number };
   location?: string;
-  pools: { capacity?: number | string }[];
+  pools: { id?: EntityId; capacity?: number | string }[];
   isGroupOnly: boolean;
   canViewGroups: [];
   isPriced: boolean;
@@ -61,6 +74,7 @@ type InterestEventFormValues = {
 
 const validate = createValidator({
   title: [required('Du må gi arrangementet en tittel')],
+  description: [required('Du må skrive en kort beskrivelse')],
   text: [legoEditorRequired('Du må skrive en hovedbeskrivelse')],
   responsibleGroup: [required('Du må velge en ansvarlig interessegruppe')],
   date: [
@@ -78,12 +92,27 @@ const validate = createValidator({
 const TypedLegoForm = LegoFinalForm<InterestEventFormValues>;
 
 const InterestEventEditor = () => {
+  const { eventIdOrSlug } = useParams<{ eventIdOrSlug?: string }>();
+  const isEditPage = eventIdOrSlug !== undefined;
+  const event = useAppSelector((state) =>
+    selectEventByIdOrSlug(state, eventIdOrSlug),
+  ) as UserDetailedEvent | undefined;
+  const eventPools = useAppSelector((state) =>
+    selectPoolsForEvent(state, event?.id),
+  );
+
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
     'fetchInterestEventEditorGroups',
     () => dispatch(fetchAllWithType(GroupType.Interest)),
     [],
+  );
+
+  usePreparedEffect(
+    'fetchInterestEventEdit',
+    () => (eventIdOrSlug ? dispatch(fetchEvent(eventIdOrSlug)) : undefined),
+    [eventIdOrSlug],
   );
 
   const isInterestGroupLeader = useIsInterestGroupLeader();
@@ -94,13 +123,21 @@ const InterestEventEditor = () => {
   );
 
   const canCreateForAll = actionGrant.includes('create');
-  const allowed = isInterestGroupLeader || canCreateForAll;
+  const allowed = isEditPage
+    ? !!event &&
+      event.eventType === EventType.INTEREST_EVENT &&
+      (event.actionGrant ?? []).includes('edit')
+    : isInterestGroupLeader || canCreateForAll;
 
   useEffect(() => {
-    if (!fetching && !allowed) {
+    if (isEditPage) {
+      if (event && !allowed) {
+        navigate(`/events/${eventIdOrSlug}`);
+      }
+    } else if (!fetching && !allowed) {
       navigate('/events/interest');
     }
-  }, [fetching, allowed]);
+  }, [isEditPage, event, eventIdOrSlug, fetching, allowed]);
 
   if (!allowed) {
     return <LoadingPage loading />;
@@ -117,32 +154,78 @@ const InterestEventEditor = () => {
         )
   ).map((group) => ({ label: group.name, value: group.id }));
 
-  const initialValues: Partial<InterestEventFormValues> = {
-    eventType: {
-      value: EventType.INTEREST_EVENT,
-      label: EventTypeConfig[EventType.INTEREST_EVENT].displayName,
-    },
-    responsibleGroup: groupOptions.length === 1 ? groupOptions[0] : undefined,
-    date: [time({ hours: 17, minutes: 15 }), time({ hours: 20, minutes: 15 })],
-    pools: [{}],
-    useMazemap: false,
+  const eventTypeOption = {
+    value: EventType.INTEREST_EVENT,
+    label: EventTypeConfig[EventType.INTEREST_EVENT].displayName,
+  };
+  const sharedValues = {
     isGroupOnly: false,
-    canViewGroups: [],
+    canViewGroups: [] as [],
     isPriced: false,
-    responsibleUsers: [],
+    responsibleUsers: [] as [],
+  };
+  const initialValues: Partial<InterestEventFormValues> =
+    isEditPage && event
+      ? {
+          ...sharedValues,
+          id: event.id,
+          eventType: eventTypeOption,
+          title: event.title,
+          description: event.description,
+          text: event.text,
+          date: [event.startTime, event.endTime],
+          useMazemap: !!event.mazemapPoi && event.mazemapPoi > 0,
+          mazemapPoi: event.mazemapPoi
+            ? { label: event.location, value: event.mazemapPoi }
+            : undefined,
+          location: event.location,
+          responsibleGroup: event.responsibleGroup && {
+            label: event.responsibleGroup.name,
+            value: event.responsibleGroup.id,
+          },
+          pools: eventPools.length
+            ? [{ id: eventPools[0].id, capacity: eventPools[0].capacity }]
+            : [{}],
+        }
+      : {
+          ...sharedValues,
+          eventType: eventTypeOption,
+          responsibleGroup:
+            groupOptions.length === 1 ? groupOptions[0] : undefined,
+          date: [
+            time({ hours: 17, minutes: 15 }),
+            time({ hours: 20, minutes: 15 }),
+          ],
+          pools: [{}],
+          useMazemap: false,
+        };
+
+  const onSubmit = (values: InterestEventFormValues) => {
+    const payload = transformEvent(values as unknown as TransformEvent);
+    if (isEditPage) {
+      return dispatch(editEvent(payload)).then(() =>
+        navigate(`/events/${eventIdOrSlug}`),
+      );
+    }
+    return dispatch(createEvent(payload)).then((res) =>
+      navigate(`/events/${res.payload.result}`),
+    );
   };
 
-  const onSubmit = (values: InterestEventFormValues) =>
-    dispatch(
-      createEvent(transformEvent(values as unknown as TransformEvent)),
-    ).then((res) => navigate(`/events/${res.payload.result}`));
+  const pageTitle = isEditPage
+    ? `Redigerer: ${event?.title}`
+    : 'Nytt interessearrangement';
 
   return (
     <Page
-      title="Nytt interessearrangement"
-      back={{ label: 'Interessegrupper', href: '/events/interest' }}
+      title={pageTitle}
+      back={
+        isEditPage
+          ? { label: 'Tilbake', href: `/events/${eventIdOrSlug}` }
+          : { label: 'Interessegrupper', href: '/events/interest' }
+      }
     >
-      <Helmet title="Nytt interessearrangement">{mazemapDeps}</Helmet>
+      <Helmet title={pageTitle}>{mazemapDeps}</Helmet>
       <TypedLegoForm
         onSubmit={onSubmit}
         initialValues={initialValues}
@@ -156,6 +239,14 @@ const InterestEventEditor = () => {
               label="Tittel"
               placeholder="Klatrekveld"
               component={TextInput.Field}
+              required
+            />
+            <Field
+              name="description"
+              label="Kort beskrivelse"
+              description="Kort og fengende tekst som vises under arrangementet i agendaen — skriv noe som fanger oppmerksomheten"
+              placeholder="Bli med på ..."
+              component={TextEditor.Field}
               required
             />
             <Field
@@ -213,10 +304,21 @@ const InterestEventEditor = () => {
             />
             <SubmissionError />
             <ButtonGroup>
-              <Button flat onPress={() => navigate('/events/interest')}>
+              <Button
+                flat
+                onPress={() =>
+                  navigate(
+                    isEditPage
+                      ? `/events/${eventIdOrSlug}`
+                      : '/events/interest',
+                  )
+                }
+              >
                 Avbryt
               </Button>
-              <SubmitButton>Opprett</SubmitButton>
+              <SubmitButton>
+                {isEditPage ? 'Lagre endringer' : 'Opprett'}
+              </SubmitButton>
             </ButtonGroup>
           </Form>
         )}

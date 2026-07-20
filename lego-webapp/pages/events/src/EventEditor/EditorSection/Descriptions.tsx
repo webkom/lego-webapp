@@ -2,7 +2,6 @@ import { Flex } from '@webkom/lego-bricks';
 import { Field } from 'react-final-form';
 import { CheckBox, EditorField, TextEditor } from '~/components/Form';
 import Tag from '~/components/Tags/Tag';
-import { EventType } from '~/redux/models/Event';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';
 import type { UploadArgs } from '~/redux/actions/FileActions';
@@ -13,19 +12,15 @@ type Props = {
 };
 
 const Descriptions: React.FC<Props> = ({ uploadFile, values }) => {
-  const isInterestEvent = values.eventType?.value === EventType.INTEREST_EVENT;
-
   return (
     <>
-      {!isInterestEvent && (
-        <Field
-          name="description"
-          label="Kalenderbeskrivelse"
-          placeholder="Kom på fest den ..."
-          component={TextEditor.Field}
-          required
-        />
-      )}
+      <Field
+        name="description"
+        label="Kalenderbeskrivelse"
+        placeholder="Kom på fest den ..."
+        component={TextEditor.Field}
+        required
+      />
       <Field
         name="text"
         label="Hovedbeskrivelse"

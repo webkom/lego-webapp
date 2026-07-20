@@ -123,7 +123,13 @@ const Admin = ({ actionGrant, event }: Props) => {
           )}
 
           {canEdit && (
-            <LinkButton href={`/events/${event.slug}/edit`}>
+            <LinkButton
+              href={
+                isInterestEvent
+                  ? `/events/interest/${event.slug}/edit`
+                  : `/events/${event.slug}/edit`
+              }
+            >
               <Icon iconNode={<Pencil />} size={19} />
               Rediger
             </LinkButton>
