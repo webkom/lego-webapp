@@ -58,11 +58,11 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   grid-auto-rows: var(--tile-height);
   gap: 0 var(--spacing-xl);
   margin-top: var(--spacing-sm);
-  min-height: calc(5 * var(--tile-height));
+  min-height: calc(4 * var(--tile-height));
 
   @media (--medium-viewport) {
     grid-template-columns: 1fr;

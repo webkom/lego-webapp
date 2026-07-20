@@ -21,6 +21,7 @@ import {
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { resolveGroupLink, selectGroupsByType } from '~/redux/slices/groups';
+import { useIsMobileViewport } from '~/utils/isMobileViewport';
 import GroupCircle from './GroupCircle';
 import styles from './GroupsSection.module.css';
 import { agendaEase, slideSwap } from './useAgendaAnimations';
@@ -30,7 +31,8 @@ import type { TransformedMembership } from '~/redux/slices/memberships';
 
 gsap.registerPlugin(DrawSVGPlugin);
 
-const GROUPS_PER_PAGE = 15;
+const TILES_PER_PAGE = 16;
+const TILES_PER_PAGE_MOBILE = 8;
 
 const subline = (group: PublicListGroup) => {
   const status = group.active ? `${group.numberOfUsers} medlemmer` : 'inaktiv';
@@ -191,18 +193,29 @@ const GroupsSection = () => {
     }
   };
 
-  const sortedGroups = [...groups].sort((a, b) =>
-    a.name.localeCompare(b.name, 'nb'),
+  const sortedGroups = [...groups].sort(
+    (a, b) =>
+      Number(b.active) - Number(a.active) || a.name.localeCompare(b.name, 'nb'),
   );
 
-  const pageCount = Math.max(
-    1,
-    Math.ceil(sortedGroups.length / GROUPS_PER_PAGE),
-  );
+  const isMobile = useIsMobileViewport();
+  const tilesPerPage = isMobile ? TILES_PER_PAGE_MOBILE : TILES_PER_PAGE;
+  // The create tile takes the first slot on page 0
+  const firstPageCapacity = tilesPerPage - 1;
+  const pageCount =
+    1 +
+    Math.max(
+      0,
+      Math.ceil((sortedGroups.length - firstPageCapacity) / tilesPerPage),
+    );
   const currentPage = Math.min(page, pageCount - 1);
+  const pageStart =
+    currentPage === 0
+      ? 0
+      : firstPageCapacity + (currentPage - 1) * tilesPerPage;
   const pageGroups = sortedGroups.slice(
-    currentPage * GROUPS_PER_PAGE,
-    (currentPage + 1) * GROUPS_PER_PAGE,
+    pageStart,
+    pageStart + (currentPage === 0 ? firstPageCapacity : tilesPerPage),
   );
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -253,21 +266,23 @@ const GroupsSection = () => {
         </div>
       </div>
       <div ref={gridRef} className={styles.grid}>
-        <a
-          href="/interest-groups/create-application"
-          title="Start en ny gruppe"
-          className={cx(styles.tile, styles.createTile)}
-        >
-          <span className={styles.createCircle} aria-hidden>
-            <Plus size={14} />
-          </span>
-          <span className={styles.tileText}>
-            <span className={styles.tileName}>Start en ny gruppe</span>
-            <span className={styles.tileSubline}>
-              har du en idé? det tar to minutter
+        {currentPage === 0 && (
+          <a
+            href="/interest-groups/create-application"
+            title="Start en ny gruppe"
+            className={cx(styles.tile, styles.createTile)}
+          >
+            <span className={styles.createCircle} aria-hidden>
+              <Plus size={14} />
             </span>
-          </span>
-        </a>
+            <span className={styles.tileText}>
+              <span className={styles.tileName}>Start en ny gruppe</span>
+              <span className={styles.tileSubline}>
+                har du en idé? det tar to minutter
+              </span>
+            </span>
+          </a>
+        )}
         {pageGroups.map((group) => (
           <GroupTile
             key={group.id}
