@@ -36,6 +36,7 @@ import {
   selectPoolsForEvent,
 } from '~/redux/slices/events';
 import { selectGroupsByType } from '~/redux/slices/groups';
+import { EDITOR_EMPTY } from '~/utils/constants';
 import { spyValues } from '~/utils/formSpyUtils';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import time from '~/utils/time';
@@ -46,7 +47,6 @@ import {
   dateRequired,
   ifField,
   ifNotField,
-  legoEditorRequired,
   required,
 } from '~/utils/validation';
 import type { EntityId } from '@reduxjs/toolkit';
@@ -75,7 +75,6 @@ type InterestEventFormValues = {
 const validate = createValidator({
   title: [required('Du må gi arrangementet en tittel')],
   description: [required('Du må skrive en kort beskrivelse')],
-  text: [legoEditorRequired('Du må skrive en hovedbeskrivelse')],
   responsibleGroup: [required('Du må velge en ansvarlig interessegruppe')],
   date: [
     dateRequired('Du må velge start- og sluttdato'),
@@ -190,6 +189,7 @@ const InterestEventEditor = () => {
       : {
           ...sharedValues,
           eventType: eventTypeOption,
+          text: EDITOR_EMPTY,
           responsibleGroup:
             groupOptions.length === 1 ? groupOptions[0] : undefined,
           date: [
@@ -253,7 +253,6 @@ const InterestEventEditor = () => {
               name="text"
               label="Hovedbeskrivelse"
               component={EditorField.Field}
-              required
             />
             <Field
               name="responsibleGroup"
