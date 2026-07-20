@@ -113,9 +113,9 @@ const useJoinEvent = (event: ListEvent) => {
     joined,
     isFull,
     label: isAdmitted
-      ? 'Med ✓'
+      ? 'Med'
       : isWaitlisted
-        ? 'I kø ✓'
+        ? 'I kø'
         : isFull
           ? 'Venteliste'
           : 'Bli med',

@@ -1,4 +1,5 @@
 .spotlight {
+  cursor: pointer;
   position: relative;
   flex: 1.25;
   min-width: min(440px, 100%);
@@ -119,6 +120,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--spacing-xs);
   /* Equal width across states so the joined flip doesn't reflow the text */
   min-width: 8em;
   height: 2.875rem;

@@ -1,6 +1,6 @@
 import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { Star } from 'lucide-react';
+import { Check, Star } from 'lucide-react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
@@ -87,6 +87,7 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
                 onClick={onPress}
               >
                 {label}
+                <Check size={14} />
               </button>
             ) : (
               <Button

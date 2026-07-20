@@ -1,8 +1,11 @@
 import cx from 'classnames';
+import { Check } from 'lucide-react';
 import moment from 'moment-timezone';
+import { navigate } from 'vike/client/router';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import {
+  activateOnKey,
   attendanceLabel,
   groupGradient,
   groupMonogram,
@@ -32,7 +35,14 @@ const Spotlight = ({ event }: Props) => {
   const prefix = badgePrefix(start);
 
   return (
-    <div className={styles.spotlight}>
+    <div
+      className={styles.spotlight}
+      role="button"
+      tabIndex={0}
+      title="Se arrangementet"
+      onClick={() => navigate(`/events/${event.slug}`)}
+      onKeyDown={activateOnKey(() => navigate(`/events/${event.slug}`))}
+    >
       <div
         className={cx(styles.background, groupGradient(group))}
         aria-hidden
@@ -63,9 +73,13 @@ const Spotlight = ({ event }: Props) => {
             type="button"
             title={title}
             className={cx(styles.joinButton, joined && styles.joinButtonJoined)}
-            onClick={onPress}
+            onClick={(e) => {
+              e.stopPropagation();
+              onPress();
+            }}
           >
             {label}
+            {joined && <Check size={15} />}
           </button>
         )}
       </div>

@@ -206,6 +206,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--spacing-xs);
   height: 2.3em;
   padding: 0 0.6rem;
   border: 1.5px solid var(--color-gray-3);
