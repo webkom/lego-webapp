@@ -15,7 +15,9 @@ const useIsInterestGroupLeader = () => {
 
   return interestGroups.some(
     (group) =>
-      group.userMembership && LEADER_ROLES.includes(group.userMembership.role),
+      group.active &&
+      group.userMembership &&
+      LEADER_ROLES.includes(group.userMembership.role),
   );
 };
 
