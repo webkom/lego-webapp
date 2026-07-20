@@ -4,12 +4,17 @@ import { Star } from 'lucide-react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
-import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
+import {
+  activateOnKey,
+  attendanceLabel,
+  htmlToPlainText,
+} from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from '~/redux/slices/events';
+import truncateString from '~/utils/truncateString';
 import styles from './EventAgenda.module.css';
 import EventAttendance from './EventAttendance';
 import GroupCircle from './GroupCircle';
@@ -110,7 +115,12 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
                 isPast={isPast}
               />
             </div>
-            <p className={styles.eventDescription}>{event.description}</p>
+            <p className={styles.eventDescription}>
+              {truncateString(
+                htmlToPlainText('text' in event ? (event.text as string) : ''),
+                250,
+              )}
+            </p>
           </div>
         </div>
       </div>

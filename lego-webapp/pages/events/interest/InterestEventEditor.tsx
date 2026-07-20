@@ -12,7 +12,6 @@ import {
   EditorField,
   Form,
   SelectInput,
-  TextEditor,
   TextInput,
 } from '~/components/Form';
 import LegoFinalForm from '~/components/Form/LegoFinalForm';
@@ -46,7 +45,6 @@ import type { PublicListGroup } from '~/redux/models/Group';
 
 type InterestEventFormValues = {
   title?: string;
-  description?: string;
   text?: string;
   eventType: { value: EventType; label: string };
   responsibleGroup?: { label: string; value: EntityId };
@@ -63,7 +61,6 @@ type InterestEventFormValues = {
 
 const validate = createValidator({
   title: [required('Du må gi arrangementet en tittel')],
-  description: [required('Du må skrive en kalenderbeskrivelse')],
   text: [legoEditorRequired('Du må skrive en hovedbeskrivelse')],
   responsibleGroup: [required('Du må velge en ansvarlig interessegruppe')],
   date: [
@@ -159,14 +156,6 @@ const InterestEventEditor = () => {
               label="Tittel"
               placeholder="Klatrekveld"
               component={TextInput.Field}
-              required
-            />
-            <Field
-              name="description"
-              label="Kalenderbeskrivelse"
-              description="Kort tekst som vises i arrangementslisten og kalenderen."
-              placeholder="Bli med på ..."
-              component={TextEditor.Field}
               required
             />
             <Field
