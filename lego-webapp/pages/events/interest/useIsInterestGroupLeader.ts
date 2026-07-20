@@ -4,7 +4,7 @@ import { selectGroupsByType } from '~/redux/slices/groups';
 import type { PublicListGroup } from '~/redux/models/Group';
 import type { RoleType } from '~/utils/constants';
 
-const LEADER_ROLES: RoleType[] = ['leader', 'co-leader'];
+export const LEADER_ROLES: RoleType[] = ['leader', 'co-leader'];
 
 // Mirrors the backend rule: leaders of an interest group can create interest
 // events. Relies on the page's existing interest-group fetch.

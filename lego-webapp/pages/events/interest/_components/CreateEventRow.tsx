@@ -5,7 +5,7 @@ import { navigate } from 'vike/client/router';
 import { activateOnKey } from '~/pages/events/interest/utils';
 import styles from './EventAgenda.module.css';
 
-const goToCreateEvent = () => navigate('/events/new');
+const goToCreateEvent = () => navigate('/events/interest/new');
 
 const CreateEventRow = () => (
   <div className={styles.dayRow}>
@@ -28,7 +28,7 @@ const CreateEventRow = () => (
         <LinkButton
           size="small"
           dashed
-          href="/events/new"
+          href="/events/interest/new"
           className={styles.createAction}
         >
           Opprett
