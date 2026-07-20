@@ -6,7 +6,7 @@ const InterestGroupApplyCreate = () => {
   return (
     <Page
       title="Opprett interessegruppe"
-      back={{ href: '/events/interest', label: 'Interessegrupper' }}
+      back={{ href: '/interest-groups/', label: 'Interessegrupper' }}
     >
       <Helmet title="Opprett interessegruppe" />
 

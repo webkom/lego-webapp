@@ -28,7 +28,7 @@ const InterestGroupQuestions = () => {
   return (
     <Page
       title={pageTitle}
-      back={{ href: '/events/interest', label: 'Interessegrupper' }}
+      back={{ href: '/interest-groups/', label: 'Interessegrupper' }}
       actionButtons={
         actionGrant.includes('edit') &&
         pageInfo?.editUrl && (
