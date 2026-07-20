@@ -33,41 +33,45 @@ const InterestEvents = () => {
   return (
     <PageContainer card={false}>
       <Helmet title="Interessegruppearrangementer" />
-      <section className={styles.hero}>
-        <div className={styles.heroText}>
-          <h1>Interessegrupper</h1>
-          <p className={styles.lead}>
-            Lavterskel sosiale grupper drevet av studenter. Det kan være
-            klatring, LAN, brettspill, løping eller cavasøndag!
-          </p>
-          <div className={styles.heroActions}>
-            <Button
-              dark
-              onPress={() =>
-                document
-                  .getElementById('grupper')
-                  ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }
-            >
-              Bli med i en gruppe
-            </Button>
-            <LinkButton
-              dark
-              className={styles.secondaryAction}
-              href="/interest-groups/"
-            >
-              Mer info
-            </LinkButton>
+      <div className={styles.page}>
+        <section className={styles.hero}>
+          <div className={styles.heroText}>
+            <h1>Interessegrupper</h1>
+            <p className={styles.lead}>
+              Lavterskel sosiale grupper drevet av studenter. Det kan være
+              klatring, LAN, brettspill, løping eller cavasøndag!
+            </p>
+            <div className={styles.heroActions}>
+              <Button
+                dark
+                onPress={() =>
+                  document
+                    .getElementById('grupper')
+                    ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }
+              >
+                Bli med i en gruppe
+              </Button>
+              <LinkButton
+                dark
+                className={styles.secondaryAction}
+                href="/interest-groups/"
+              >
+                Mer info
+              </LinkButton>
+            </div>
           </div>
-        </div>
-        {spotlightEvent ? (
-          <Spotlight event={spotlightEvent} />
-        ) : (
-          upcoming.fetching && <Skeleton className={styles.spotlightSkeleton} />
-        )}
-      </section>
-      <EventAgenda spotlightEventId={spotlightEvent?.id} />
-      <GroupsSection />
+          {spotlightEvent ? (
+            <Spotlight event={spotlightEvent} />
+          ) : (
+            upcoming.fetching && (
+              <Skeleton className={styles.spotlightSkeleton} />
+            )
+          )}
+        </section>
+        <EventAgenda spotlightEventId={spotlightEvent?.id} />
+        <GroupsSection />
+      </div>
     </PageContainer>
   );
 };

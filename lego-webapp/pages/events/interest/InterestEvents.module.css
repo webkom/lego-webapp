@@ -1,9 +1,16 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vw, 48px);
+  padding: clamp(24px, 4vw, 52px) 0 var(--footer-spacing-lg);
+}
+
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: clamp(24px, 3vw, 44px);
-  padding: clamp(24px, 4vw, 52px) var(--spacing-md) var(--spacing-sm);
+  padding: 0 var(--spacing-md);
 }
 
 .heroText {

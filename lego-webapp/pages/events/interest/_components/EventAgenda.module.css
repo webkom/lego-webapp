@@ -1,13 +1,13 @@
 @import url('styles/custom-media.css');
 
 .agenda {
-  padding: clamp(24px, 4vw, 48px) var(--spacing-md) var(--spacing-md);
+  padding: 0 var(--spacing-md);
 
   --circle-size: 44px;
   --row-height: calc(var(--circle-size) + 2 * var(--spacing-md));
   --day-column: 180px;
   --day-column-overlap: calc(var(--day-column) + var(--spacing-lg));
-  --row-inline-pad: clamp(var(--spacing-md), 2vw, var(--spacing-lg));
+  --row-inline-pad: clamp(var(--spacing-md), 3vw, 48px);
   --row-gap: clamp(10px, 2vw, 20px);
   --panel-gap: calc(var(--spacing-lg) + var(--spacing-md));
 }
@@ -23,9 +23,6 @@
 
   h2 {
     margin: 0;
-    font-size: clamp(1.625rem, 3.5vw, 2.375rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
   }
 }
 
@@ -73,7 +70,6 @@
 .dayName {
   font-size: var(--font-size-lg);
   font-weight: 800;
-  letter-spacing: -0.01em;
 }
 
 .dayNameHighlight {
@@ -87,6 +83,7 @@
 .dayDate {
   margin-top: var(--spacing-xs);
   font-size: var(--font-size-sm);
+  font-weight: 600;
   color: var(--secondary-font-color);
   font-variant-numeric: tabular-nums;
 }
@@ -139,7 +136,7 @@
   justify-content: center;
   overflow: hidden;
   font-size: var(--font-size-xs);
-  font-weight: 800;
+  font-weight: 600;
   color: var(--color-orange-8);
 }
 
@@ -163,7 +160,6 @@
 .eventTitle {
   font-size: var(--font-size-md);
   font-weight: 700;
-  letter-spacing: -0.01em;
 }
 
 .eventGroup {
@@ -343,7 +339,6 @@
   min-width: 0;
   font-size: var(--font-size-md);
   font-weight: 700;
-  letter-spacing: -0.01em;
 }
 
 .createAction {

@@ -1,7 +1,7 @@
 @import url('styles/custom-media.css');
 
 .groups {
-  padding: clamp(20px, 3vw, 36px) var(--spacing-md) var(--spacing-xl);
+  padding: 0 var(--spacing-md);
   scroll-margin-top: var(--spacing-md);
 
   /* GroupCircle sizes itself from this, same as in the agenda */
@@ -18,9 +18,6 @@
 
   h2 {
     margin: 0;
-    font-size: clamp(1.625rem, 3.5vw, 2.375rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
   }
 }
 
@@ -107,7 +104,6 @@
 .tileName {
   font-size: var(--font-size-sm);
   font-weight: 700;
-  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
