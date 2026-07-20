@@ -36,7 +36,13 @@ const useInterestEvents = (isPast: boolean) => {
 
   const events = useAppSelector((state) =>
     selectAllEvents<ListEvent>(state, { pagination }),
-  ).filter(isInterestEvent);
+  )
+    .filter(isInterestEvent)
+    .sort(
+      (a, b) =>
+        (moment(a.startTime).valueOf() - moment(b.startTime).valueOf()) *
+        (isPast ? -1 : 1),
+    );
 
   const dispatch = useAppDispatch();
 
