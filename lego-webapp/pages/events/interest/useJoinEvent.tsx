@@ -25,10 +25,16 @@ const useJoinEvent = (event: ListEvent) => {
   // the store version wins once a join, leave, or row expansion has run
   const registration = storedRegistration ?? event.userReg;
 
+  // activationTime is null when the user has no access to any pool (e.g.
+  // not an Abakus member), but also when they are already registered - only
+  // the first case blocks joining
+  const lacksPoolAccess = !registration && event.activationTime == null;
+
   // OPEN and TBA events have no registration to join, and interest events
   // are joinable until they start
   const joinable =
     !!currentUser &&
+    !lacksPoolAccess &&
     (event.eventStatusType === EventStatusType.NORMAL ||
       event.eventStatusType === EventStatusType.INFINITE) &&
     moment().isBefore(event.startTime);
