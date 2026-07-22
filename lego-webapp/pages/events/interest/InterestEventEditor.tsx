@@ -19,6 +19,7 @@ import LegoFinalForm from '~/components/Form/LegoFinalForm';
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import { mazemapDeps } from '~/components/MazemapEmbed';
+import InterestCapacityField from '~/pages/events/interest/InterestCapacityField';
 import useIsInterestGroupLeader, {
   LEADER_ROLES,
 } from '~/pages/events/interest/useIsInterestGroupLeader';
@@ -310,13 +311,7 @@ const InterestEventEditor = () => {
                 />
               ),
             )}
-            <Field
-              name="pools[0].capacity"
-              label="Kapasitet (0 = ubegrenset)"
-              description="Interessearrangementer er åpne for alle i Abakus fra de opprettes og frem til arrangementsstart"
-              type="number"
-              component={TextInput.Field}
-            />
+            <InterestCapacityField />
             <SubmissionError />
             <ButtonGroup>
               <Button

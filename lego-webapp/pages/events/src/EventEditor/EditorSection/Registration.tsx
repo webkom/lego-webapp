@@ -11,6 +11,7 @@ import {
 } from '~/components/Form';
 import { FormatTime } from '~/components/Time';
 import Attendance from '~/components/UserAttendance/Attendance';
+import InterestCapacityField from '~/pages/events/interest/InterestCapacityField';
 import {
   containsAllergier,
   eventStatusTypes,
@@ -63,15 +64,7 @@ const Registrations: React.FC<Props> = ({ values }) => {
         // The backend opens interest events to all of Abakus from creation
         // until start - only the capacity is up to the creator
         if (isInterestEvent) {
-          return (
-            <Field
-              label="Kapasitet (0 = ubegrenset)"
-              description="Interessearrangementer er åpne for alle i Abakus fra de opprettes og frem til arrangementsstart"
-              name="pools[0].capacity"
-              type="number"
-              component={TextInput.Field}
-            />
-          );
+          return <InterestCapacityField />;
         }
 
         return (
