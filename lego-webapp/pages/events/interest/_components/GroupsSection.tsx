@@ -1,4 +1,4 @@
-import { Skeleton } from '@webkom/lego-bricks';
+import { ConfirmModal, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import gsap from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
@@ -27,7 +27,6 @@ import styles from './GroupsSection.module.css';
 import { agendaEase, slideSwap } from './useAgendaAnimations';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { PublicListGroup } from '~/redux/models/Group';
-import type { TransformedMembership } from '~/redux/slices/memberships';
 
 gsap.registerPlugin(DrawSVGPlugin);
 
@@ -99,6 +98,30 @@ const GroupTile = ({
     <RotateCcw size={13} />
   );
 
+  const markButton = (onPress: () => void) => (
+    <button
+      ref={markRef}
+      type="button"
+      aria-label={isMember ? `Forlat ${group.name}` : `Bli med i ${group.name}`}
+      className={cx(
+        styles.tileMark,
+        styles.tileMarkInteractive,
+        isMember && styles.tileMarkMember,
+      )}
+      disabled={pending}
+      onClick={(e) => {
+        e.stopPropagation();
+        onPress();
+      }}
+    >
+      {mark}
+    </button>
+  );
+
+  // Leaving as leader hands the group to a co-leader, or deactivates it if
+  // there is none - too much to hide behind a one-tap toggle
+  const leaderLeaving = isMember && group.userMembership?.role === 'leader';
+
   return (
     <div
       role="button"
@@ -118,25 +141,17 @@ const GroupTile = ({
         <span className={styles.tileSubline}>{subline(group)}</span>
       </span>
       {onToggleMembership ? (
-        <button
-          ref={markRef}
-          type="button"
-          aria-label={
-            isMember ? `Forlat ${group.name}` : `Bli med i ${group.name}`
-          }
-          className={cx(
-            styles.tileMark,
-            styles.tileMarkInteractive,
-            isMember && styles.tileMarkMember,
-          )}
-          disabled={pending}
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleMembership();
-          }}
-        >
-          {mark}
-        </button>
+        leaderLeaving ? (
+          <ConfirmModal
+            title={`Forlat ${group.name}`}
+            message="Du er leder for gruppen. En nestleder tar over hvis gruppen har en — ellers blir gruppen deaktivert. Er du sikker?"
+            onConfirm={onToggleMembership}
+          >
+            {({ openConfirmModal }) => markButton(openConfirmModal)}
+          </ConfirmModal>
+        ) : (
+          markButton(onToggleMembership)
+        )
       ) : (
         <span
           className={cx(styles.tileMark, isMember && styles.tileMarkMember)}
@@ -167,13 +182,9 @@ const GroupsSection = () => {
     setPendingGroupId(group.id);
     try {
       if (group.userMembership) {
-        // leaveGroup only reads the membership id and the user's username
         await dispatch(
           leaveGroup(
-            {
-              ...group.userMembership,
-              user: currentUser,
-            } as unknown as TransformedMembership,
+            { id: group.userMembership.id, user: currentUser },
             group.id,
           ),
         );
@@ -188,6 +199,9 @@ const GroupsSection = () => {
       } else {
         setJustJoinedId(group.id);
       }
+    } catch {
+      // joinGroup/leaveGroup carry errorMessage metas, so failures have
+      // already been toasted - the mark just settles back
     } finally {
       setPendingGroupId(null);
     }

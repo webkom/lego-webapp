@@ -6,7 +6,6 @@ import type { GroupType } from 'app/models';
 import type { AppDispatch } from '~/redux/createStore';
 import type MembershipType from '~/redux/models/Membership';
 import type { CurrentUser } from '~/redux/models/User';
-import type { TransformedMembership } from '~/redux/slices/memberships';
 import type { RoleType } from '~/utils/constants';
 
 export type AddMemberArgs = {
@@ -177,7 +176,10 @@ export function joinGroup(
 }
 
 export function leaveGroup(
-  membership: TransformedMembership,
+  // Only the id and the member's username are read - callers without a full
+  // membership entity (e.g. the group list's userMembership) can pass a
+  // minimal object
+  membership: { id: EntityId; user: { username: string } },
   groupId: EntityId,
 ) {
   return (dispatch: AppDispatch) => {
