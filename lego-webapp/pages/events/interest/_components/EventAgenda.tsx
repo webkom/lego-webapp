@@ -93,17 +93,19 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
   const hiddenEvents = modeEvents.slice(visibleCount);
   const dayGroups = groupEvents(shownEvents, isPast);
 
-  // Attendance lives in the detail payload, so warm it for every visible row -
-  // on landing, and again as show-more reveals new ones
+  // The facepile and waiting list live in the detail payload - fetched
+  // lazily on row expansion, so landing on the page costs no detail requests
   const dispatch = useAppDispatch();
   const requestedDetails = useRef(new Set<EntityId>());
   useEffect(() => {
-    for (const event of shownEvents) {
-      if ('pools' in event || requestedDetails.current.has(event.id)) continue;
-      requestedDetails.current.add(event.id);
-      dispatch(fetchEvent(event.id));
+    if (expandedId === null || requestedDetails.current.has(expandedId)) {
+      return;
     }
-  }, [shownEvents, dispatch]);
+    const event = modeEvents.find((event) => event.id === expandedId);
+    if (!event || 'pools' in event) return;
+    requestedDetails.current.add(expandedId);
+    dispatch(fetchEvent(expandedId));
+  }, [expandedId, modeEvents, dispatch]);
 
   const showMore = () => {
     if (modeEvents.length <= visibleCount + MORE_STEP && current.hasMore) {
