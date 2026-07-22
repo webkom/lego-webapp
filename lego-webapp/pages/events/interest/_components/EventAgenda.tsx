@@ -36,12 +36,15 @@ type Props = {
 
 const EventAgenda = ({ spotlightEventId }: Props) => {
   const { query, setQueryValue } = useQuery(agendaDefaultQuery);
-  const isPast = query.mode === 'tidligere';
-  const isMine = query.mode === 'mine';
+  const currentUser = useCurrentUser();
+
+  // "Mine grupper" needs a logged-in user - deep links fall back to upcoming
+  const mode = query.mode === 'mine' && !currentUser ? '' : query.mode;
+  const isPast = mode === 'tidligere';
+  const isMine = mode === 'mine';
 
   const [expandedId, setExpandedId] = useState<EntityId | null>(null);
 
-  const currentUser = useCurrentUser();
   const memberGroupIds = useMemberGroupIds();
 
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
@@ -54,7 +57,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     null,
   );
   const visibleCount =
-    shown && shown.mode === query.mode ? shown.count : initialCount;
+    shown && shown.mode === mode ? shown.count : initialCount;
 
   const upcoming = useInterestEvents(false);
   const past = useInterestEvents(true);
@@ -107,7 +110,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
       current.fetchMore();
     }
 
-    setShown({ mode: query.mode, count: visibleCount + MORE_STEP });
+    setShown({ mode, count: visibleCount + MORE_STEP });
   };
 
   const listWrapRef = useRef<HTMLDivElement>(null);
@@ -116,7 +119,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     : null;
 
   useAgendaAnimations(listWrapRef, {
-    modeIndex: MODE_ORDER.indexOf(query.mode),
+    modeIndex: MODE_ORDER.indexOf(mode),
     shownCount: shownEvents.length,
     peekDayKey,
   });
@@ -132,7 +135,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
             ...(currentUser ? [{ label: 'Mine grupper', value: 'mine' }] : []),
             { label: 'Tidligere', value: 'tidligere' },
           ]}
-          value={query.mode === '' ? 'kommende' : query.mode}
+          value={mode === '' ? 'kommende' : mode}
           onChange={(value) =>
             setQueryValue('mode')(
               value === 'tidligere' || value === 'mine' ? value : '',
