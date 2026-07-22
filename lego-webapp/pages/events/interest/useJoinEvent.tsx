@@ -93,16 +93,13 @@ const useJoinEvent = (event: ListEvent) => {
           : undefined;
 
       if (!registrationId) {
-        const result = (await dispatch(fetchEvent(event.id))) as unknown as {
-          payload?: {
-            entities?: {
-              registrations?: Record<string, { id: EntityId; user: EntityId }>;
-            };
-          };
-        };
-        registrationId = Object.values(
-          result.payload?.entities?.registrations ?? {},
-        ).find((registration) => registration.user === currentUser.id)?.id;
+        await dispatch(fetchEvent(event.id));
+        const refreshed = dispatch((_dispatch, getState) =>
+          selectRegistrationForEventByUserId(getState(), registrationProps),
+        );
+        if (refreshed && refreshed.status !== 'SUCCESS_UNREGISTER') {
+          registrationId = refreshed.id;
+        }
       }
 
       if (registrationId) {
