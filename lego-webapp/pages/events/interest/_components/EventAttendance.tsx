@@ -53,6 +53,9 @@ const EventAttendance = ({
   let lines: string[];
   if (event.eventStatusType === EventStatusType.OPEN) {
     lines = [attendanceLabel(event)];
+  } else if (!currentUser && count === 0) {
+    // Counts and registrations are only serialized for logged-in users
+    lines = ['logg inn for å se påmeldte'];
   } else if (count === 0) {
     lines = [isPast ? 'ingen var med' : 'ingen påmeldt ennå'];
   } else if (names.length === 0) {

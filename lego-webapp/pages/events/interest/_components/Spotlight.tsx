@@ -33,6 +33,7 @@ const Spotlight = ({ event }: Props) => {
 
   const start = moment(event.startTime);
   const prefix = badgePrefix(start);
+  const attendance = attendanceLabel(event);
 
   return (
     <div
@@ -65,7 +66,8 @@ const Spotlight = ({ event }: Props) => {
           <span className={styles.groupName}>{group.name}</span>
           <h2>{event.title}</h2>
           <span className={styles.meta}>
-            {event.location} · {attendanceLabel(event)}
+            {event.location}
+            {attendance && <> · {attendance}</>}
           </span>
         </div>
         {joinable && (

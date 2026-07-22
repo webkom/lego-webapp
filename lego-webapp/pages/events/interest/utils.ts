@@ -39,7 +39,13 @@ export const attendanceLabel = (event: ListEvent): string => {
     return 'ingen påmelding — bare møt opp';
   }
 
-  const count = event.registrationCount ?? 0;
+  // Attendance counts are only serialized for logged-in users - showing
+  // "0 blir med" to visitors would just be wrong
+  if (event.registrationCount == null) {
+    return '';
+  }
+
+  const count = event.registrationCount;
 
   if (event.totalCapacity) {
     return `${count} av ${event.totalCapacity} plasser`;

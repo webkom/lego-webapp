@@ -28,6 +28,7 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
   const isMemberGroup = !!group && memberGroupIds.has(group.id);
   const { joinable, joined, isFull, label, title, onPress } =
     useJoinEvent(event);
+  const attendance = attendanceLabel(event);
 
   const registrations = useAppSelector((state) =>
     selectRegistrationsFromPools(state, event.id),
@@ -69,7 +70,8 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
               time={event.startTime}
               format={isPast ? 'dddd HH:mm' : 'HH:mm'}
             />{' '}
-            · {event.location} · {attendanceLabel(event)}
+            · {event.location}
+            {attendance && <> · {attendance}</>}
           </div>
         </div>
         {!isPast && joinable && (
