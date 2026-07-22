@@ -38,6 +38,7 @@ import ThemeSelector from './ThemeSelector';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from '~/redux/models/User';
+import type { ThemePreference } from '~/utils/themeUtils';
 
 type GenderKey = keyof typeof Gender;
 
@@ -49,7 +50,7 @@ type FormValues = {
   allergies: string;
   email: string;
   phoneNumber?: string;
-  selectedTheme: string;
+  selectedTheme: ThemePreference;
   isAbakusMember: boolean;
   githubUsername?: string;
   linkedinId?: string;

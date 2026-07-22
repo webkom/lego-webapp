@@ -2,7 +2,8 @@ import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { MoonStar, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { applySelectedTheme, getTheme, useTheme } from '~/utils/themeUtils';
+import { useAppDispatch } from '~/redux/hooks';
+import { applySelectedTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 
@@ -20,6 +21,7 @@ const ToggleTheme = ({
   variant = 'navbar',
 }: Props) => {
   const theme = useTheme();
+  const dispatch = useAppDispatch();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -28,9 +30,7 @@ const ToggleTheme = ({
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
-    const currentTheme = getTheme();
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    applySelectedTheme(newTheme);
+    dispatch(applySelectedTheme(theme === 'dark' ? 'light' : 'dark'));
   };
 
   const Component = isButton ? 'button' : 'div';

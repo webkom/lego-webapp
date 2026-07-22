@@ -1,101 +1,126 @@
-import { throttle } from 'lodash-es';
-import { createContext, useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
+import { Thunk } from 'app/types';
 import { updateUserTheme } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
+import { selectCurrentUser } from '~/redux/slices/auth';
 import { setTheme } from '~/redux/slices/theme';
+import type { AppDispatch } from '~/redux/createStore';
 
-type ThemeChangeEventDetail = {
-  updateUserTheme?: boolean;
+export type ThemePreference = 'light' | 'dark' | 'auto';
+type ResolvedTheme = 'light' | 'dark';
+
+const THEME_STORAGE_KEY = 'theme-preference';
+const LEGACY_THEME_STORAGE_KEY = 'theme';
+const PREFERS_DARK_QUERY = '(prefers-color-scheme: dark)';
+
+export const resolveTheme = (
+  account: unknown,
+  stored: unknown,
+  osDark: boolean,
+): ResolvedTheme => {
+  if (account === 'dark' || account === 'light') return account;
+  if (account !== 'auto' && (stored === 'dark' || stored === 'light'))
+    return stored;
+  return osDark ? 'dark' : 'light';
 };
 
-type ApplySelectedThemeOptions = {
-  updateUserTheme?: boolean;
+export const themeBootstrapScript = (account: ThemePreference | undefined) => `
+(function () {
+  try {
+    var stored = null;
+    try { stored = localStorage.getItem('${THEME_STORAGE_KEY}'); } catch (e) {}
+    var osDark = window.matchMedia('${PREFERS_DARK_QUERY}').matches;
+    document.documentElement.setAttribute(
+      'data-theme',
+      (${resolveTheme.toString()})(${JSON.stringify(account ?? null).replace(/</g, '\\u003c')}, stored, osDark)
+    );
+  } catch (e) {}
+})();`;
+
+const osPrefersDark = () => window.matchMedia(PREFERS_DARK_QUERY).matches;
+
+const storedPreference = () => {
+  try {
+    return localStorage.getItem(THEME_STORAGE_KEY);
+  } catch {
+    return null;
+  }
 };
 
-export const applySelectedTheme = (
-  theme: 'light' | 'dark' | 'auto',
-  options: ApplySelectedThemeOptions = {
-    updateUserTheme: true,
-  },
-) => {
-  if (import.meta.env.SSR) return;
-
-  document.documentElement.setAttribute(
-    'data-theme',
-    theme === 'auto' ? getOSTheme() : theme,
-  );
-
-  window.dispatchEvent(
-    new CustomEvent<ThemeChangeEventDetail>('themeChange', {
-      detail: {
-        updateUserTheme: options.updateUserTheme,
-      },
-    }),
-  );
-
-  localStorage.setItem('theme', theme);
+const writeStoredPreference = (preference: ThemePreference) => {
+  try {
+    if (preference === 'auto') localStorage.removeItem(THEME_STORAGE_KEY);
+    else localStorage.setItem(THEME_STORAGE_KEY, preference);
+  } catch {
+    return;
+  }
 };
 
-export const getTheme = (): 'dark' | 'light' =>
-  !import.meta.env.SSR &&
-  document.documentElement.getAttribute('data-theme') === 'dark'
-    ? 'dark'
-    : 'light';
+const removeLegacyStoredPreference = () => {
+  try {
+    localStorage.removeItem(LEGACY_THEME_STORAGE_KEY);
+  } catch {
+    return;
+  }
+};
 
-export const ThemeContext = createContext<'dark' | 'light'>(getTheme());
+const applyResolvedTheme = (dispatch: AppDispatch, resolved: ResolvedTheme) => {
+  document.documentElement.setAttribute('data-theme', resolved);
+  dispatch(setTheme(resolved));
+};
 
-export const ThemeContextListener = () => {
+export const useTheme = () => useAppSelector((state) => state.theme.theme);
+
+export const applySelectedTheme =
+  (preference: ThemePreference): Thunk<void> =>
+  (dispatch, getState) => {
+    if (import.meta.env.SSR) return;
+    if (
+      preference !== 'light' &&
+      preference !== 'dark' &&
+      preference !== 'auto'
+    )
+      return;
+
+    const username = selectCurrentUser(getState())?.username;
+    if (username) dispatch(updateUserTheme(username, preference));
+    else writeStoredPreference(preference);
+
+    applyResolvedTheme(
+      dispatch,
+      resolveTheme(preference, null, osPrefersDark()),
+    );
+  };
+
+export const ThemeManager = () => {
   const dispatch = useAppDispatch();
-  const username = useCurrentUser()?.username;
-  const loggedIn = useIsLoggedIn();
-
-  // Throttle ensures instant feedback first time user changes theme,
-  // but also ensures user cant spam the server with requests
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const throttledUpdateUserTheme = useCallback(
-    throttle(
-      (username, theme) => dispatch(updateUserTheme(username, theme)),
-      2000,
-    ),
-    [dispatch],
+  const accountTheme = useAppSelector(
+    (state) => selectCurrentUser(state)?.selectedTheme,
   );
 
   useEffect(() => {
-    const handleThemeChange = (event?: Event) => {
-      const currentTheme = getTheme();
-      dispatch(setTheme(currentTheme)); // Synchronize local state
+    removeLegacyStoredPreference();
 
-      if (
-        (event as CustomEvent<ThemeChangeEventDetail> | undefined)?.detail
-          ?.updateUserTheme &&
-        loggedIn &&
-        username
-      )
-        throttledUpdateUserTheme(username, currentTheme); // Synchronize server state
+    const resolve = () =>
+      applyResolvedTheme(
+        dispatch,
+        resolveTheme(accountTheme, storedPreference(), osPrefersDark()),
+      );
+
+    resolve();
+
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === THEME_STORAGE_KEY || event.key === null) resolve();
     };
+    const osQuery = window.matchMedia(PREFERS_DARK_QUERY);
+    window.addEventListener('storage', onStorage);
+    osQuery.addEventListener?.('change', resolve);
 
-    handleThemeChange();
-    window.addEventListener('themeChange', handleThemeChange);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+      osQuery.removeEventListener?.('change', resolve);
+    };
+  }, [dispatch, accountTheme]);
 
-    // Optimistically update theme from localStorage
-    const cachedTheme =
-      localStorage.getItem('theme') === 'dark' ? 'dark' : 'light';
-    applySelectedTheme(cachedTheme, { updateUserTheme: false });
-
-    return () => window.removeEventListener('themeChange', handleThemeChange);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, loggedIn, username]);
-
-  return <></>;
-};
-
-export const useTheme = () => {
-  return useAppSelector((state) => state.theme.theme);
-};
-
-export const getOSTheme = () => {
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
+  return null;
 };
