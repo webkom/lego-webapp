@@ -190,6 +190,8 @@ const calculatePools = (data) => {
       return [
         {
           ...pick(data.pools[0], poolCreateAndUpdateFields),
+          // An empty capacity means unlimited
+          capacity: data.pools[0].capacity || 0,
           activationDate: moment(data.pools[0].activationDate).toISOString(),
           permissionGroups: data.pools[0].permissionGroups.map(
             (group) => group.value,
