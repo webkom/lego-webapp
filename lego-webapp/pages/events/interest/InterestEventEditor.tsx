@@ -27,6 +27,7 @@ import {
   createEvent,
   editEvent,
   fetchEvent,
+  fetchEvents,
 } from '~/redux/actions/EventActions';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -114,9 +115,21 @@ const InterestEventEditor = () => {
     [eventIdOrSlug],
   );
 
+  // The create grant rides on the events list response, so keyword admins
+  // navigating straight here would be bounced without this fetch
+  usePreparedEffect(
+    'fetchInterestEventEditorGrants',
+    () =>
+      isEditPage
+        ? Promise.resolve()
+        : dispatch(fetchEvents({ query: { page_size: 1 } })),
+    [isEditPage],
+  );
+
   const isInterestGroupLeader = useIsInterestGroupLeader();
   const actionGrant = useAppSelector((state) => state.events.actionGrant);
   const fetching = useAppSelector((state) => state.groups.fetching);
+  const eventsFetching = useAppSelector((state) => state.events.fetching);
   const interestGroups = useAppSelector((state) =>
     selectGroupsByType<PublicListGroup>(state, GroupType.Interest),
   );
@@ -132,11 +145,14 @@ const InterestEventEditor = () => {
     if (isEditPage) {
       if (event && !allowed) {
         navigate(`/events/${eventIdOrSlug}`);
+      } else if (!event && !eventsFetching) {
+        // The fetch settled without an event - bad id or no view access
+        navigate('/events/interest');
       }
-    } else if (!fetching && !allowed) {
+    } else if (!fetching && !eventsFetching && !allowed) {
       navigate('/events/interest');
     }
-  }, [isEditPage, event, eventIdOrSlug, fetching, allowed]);
+  }, [isEditPage, event, eventIdOrSlug, fetching, eventsFetching, allowed]);
 
   if (!allowed) {
     return <LoadingPage loading />;
