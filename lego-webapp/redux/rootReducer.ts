@@ -12,6 +12,7 @@ import emailLists from '~/redux/slices/emailLists';
 import emailUsers from '~/redux/slices/emailUsers';
 import emojis from '~/redux/slices/emojis';
 import events from '~/redux/slices/events';
+import exchanges from '~/redux/slices/exchanges';
 import featureFlags from '~/redux/slices/featureFlags';
 import feedActivities from '~/redux/slices/feedActivities';
 import feeds from '~/redux/slices/feeds';
@@ -62,6 +63,7 @@ export const createRootReducer = () => {
     emailLists,
     emailUsers,
     events,
+    exchanges,
     featureFlags,
     feedActivities,
     feeds,

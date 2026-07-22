@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { categoryOptions } from '~/pages/pages/page/+Page';
 import { Search } from '~/redux/actionTypes';
 import { resolveGroupLink } from '~/redux/slices/groups';
-import type { User, Event, Group, Meeting, Dateish } from 'app/models';
+import type { User, Event, Group, Meeting, Dateish, University } from 'app/models';
 import type { SearchArticle } from '~/redux/models/Article';
 import type { SearchCompany } from '~/redux/models/Company';
 import type { RootState } from '~/redux/rootReducer';
@@ -56,6 +56,7 @@ interface SearchMapping {
   'tags.tag': SearchResultMapping<Record<string, string>>;
   'users.abakusgroup': SearchResultMapping<Group>;
   'meetings.meeting': SearchResultMapping<Meeting>;
+  'universities.university': SearchResultMapping<University>;
 }
 
 export type RawSearchResult = object & {
@@ -182,6 +183,20 @@ export const searchMapping: SearchMapping = {
     path: '/meetings/',
     value: 'id',
     content: (item) => item['description'],
+  },
+  'users.university': {
+    label: (university) => {
+      const name = university.name || '';
+      const country = university.country?.name || '';
+      return country ? `${name}, ${country}` : name;
+    },
+    title: 'name',
+    type: 'Universitet',
+    icon: 'graduation-cap',
+    iconType: 'icon',
+    color: '#000000',
+    value: 'id',
+    content: (university) => university.country?.name,
   },
 };
 type State = typeof initialState;

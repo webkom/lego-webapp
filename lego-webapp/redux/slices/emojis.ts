@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSelector, createSlice, EntityId } from '@reduxjs/toolkit';
 import { Emoji } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
@@ -27,4 +27,9 @@ const emojisSlice = createSlice({
 export default emojisSlice.reducer;
 export const { selectAll: selectEmojis } = legoAdapter.getSelectors<RootState>(
   (state) => state.emojis,
+);
+export const selectEmojisByIds = createSelector(
+  selectEmojis,
+  (_: RootState, ids: EntityId[] = []) => ids,
+  (entities, ids) => ids.map((id) => entities[id]),
 );

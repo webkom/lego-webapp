@@ -25,15 +25,17 @@ import { EmailLists } from '~/pages/users/@username/_components/EmailLists';
 import { GSuiteInfo } from '~/pages/users/@username/_components/GSuiteInfo';
 import { GroupTree } from '~/pages/users/@username/_components/GroupTree';
 import { Permissions } from '~/pages/users/@username/_components/Permissions';
-import { UserInfo } from '~/pages/users/@username/_components/UserInfo';
+import { Exchanges, ExchangesInfo, UserInfo } from '~/pages/users/@username/_components/UserInfo';
 import { useIsCurrentUser } from '~/pages/users/utils';
 import { fetchPrevious, fetchUpcoming } from '~/redux/actions/EventActions';
+// import { fetchExchanges } from '~/redux/actions/ExchangeActions';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { fetchUser } from '~/redux/actions/UserActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectAllEvents } from '~/redux/slices/events';
+import { selectAllExchanges } from '~/redux/slices/exchanges';
 import { selectGroupsByType, selectGroupEntities } from '~/redux/slices/groups';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectUserByUsername } from '~/redux/slices/users';
@@ -48,6 +50,9 @@ import type { ExclusifyUnion } from 'app/types';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 import type { CurrentUser, PublicUserWithGroups } from '~/redux/models/User';
+import { query } from 'express';
+import { selectEmojisByIds } from '~/redux/slices/emojis';
+import { useEffect } from 'react';
 
 const UserProfile = () => {
   const params = useParams<{ username: string }>();
@@ -106,6 +111,9 @@ const UserProfile = () => {
 
   const groupEntities = useAppSelector(selectGroupEntities);
 
+  const emojis = useAppSelector((state) =>
+    selectEmojisByIds(state, [':japan:'])
+  )
   const dispatch = useAppDispatch();
 
   usePreparedEffect(
@@ -137,6 +145,7 @@ const UserProfile = () => {
     abakusEmailLists = [],
     permissionsPerGroup = [],
     photoConsents,
+    exchanges = [],
   } = user;
 
   const allAbakusGroupsWithPerms = uniqBy(
@@ -232,6 +241,9 @@ const UserProfile = () => {
         <div className={styles.info}>
           <UserInfo user={user} />
 
+          {exchanges?.length > 0 &&
+            <ExchangesInfo exchanges={exchanges} />
+          }
           {showSettings && <Penalties userId={user.id} />}
 
           {showSettings && photoConsents && photoConsents.length > 0 && (

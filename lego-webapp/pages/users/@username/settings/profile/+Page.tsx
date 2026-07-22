@@ -1,7 +1,9 @@
 import { Accordion, Flex, Icon, LoadingIndicator } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import arrayMutators from 'final-form-arrays';
 import { ChevronRight, Github, Linkedin, Mail } from 'lucide-react';
 import { Field } from 'react-final-form';
+
 import { ContentMain } from '~/components/Content';
 import {
   Form,
@@ -12,6 +14,7 @@ import {
   SubmitButton,
   SubmissionError,
   RowSection,
+  MultiSelectGroup,
 } from '~/components/Form';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import { useIsCurrentUser } from '~/pages/users/utils';
@@ -38,6 +41,7 @@ import ThemeSelector from './ThemeSelector';
 import UserImage from './UserImage';
 import styles from './UserSettings.module.css';
 import type { CurrentUser } from '~/redux/models/User';
+import ExchangeField from '../../_components/ExchangeField';
 
 type GenderKey = keyof typeof Gender;
 
@@ -53,6 +57,11 @@ type FormValues = {
   isAbakusMember: boolean;
   githubUsername?: string;
   linkedinId?: string;
+  exchanges: Array<{
+    university: { label: string; value: number };
+    semester: 'V' | 'H';
+    year: number;
+  }>;
 };
 
 const TypedLegoForm = LegoFinalForm<FormValues>;
@@ -95,7 +104,14 @@ const UserSettings = () => {
     const body = {
       ...values,
       gender: values.gender.value,
-    };
+      exchanges: values.exchanges
+        ?.filter((ex) => ex.university && ex.semester && ex.year)
+        .map((ex) => ({
+          university_id: ex.university!.value,
+          semester: ex.semester!,
+          year: ex.year!,
+        })) || [],
+    }
 
     dispatch(updateUser(body));
   };
@@ -114,6 +130,14 @@ const UserSettings = () => {
     isAbakusMember: user.isAbakusMember,
     githubUsername: user.githubUsername ?? '',
     linkedinId: user.linkedinId ?? '',
+    exchanges: user.exchanges?.map((exchange) => ({
+      university: {
+        label: `${exchange.university.name}, ${exchange.university.country.name}`,
+        value: exchange.university.id,
+      },
+      semester: exchange.semester,
+      year: exchange.year,
+    })) || [],
   };
 
   return (
@@ -124,6 +148,8 @@ const UserSettings = () => {
         validate={validate}
         keepDirtyOnReinitialize
         subscription={{}}
+        mutators={{ ...arrayMutators }}
+
       >
         {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit} className={styles.settings}>
@@ -229,6 +255,31 @@ const UserSettings = () => {
                   parse={(value) => value}
                 />
               </RowSection>
+
+              <ExchangeField />
+              <MultiSelectGroup legend="Fargetema" name="selectedTheme">
+                <Field
+                  name="selectedTheme"
+                  label="Auto"
+                  value="auto"
+                  type="radio"
+                  component={RadioButton.Field}
+                />
+                <Field
+                  name="selectedTheme"
+                  label="Lyst"
+                  value="light"
+                  type="radio"
+                  component={RadioButton.Field}
+                />
+                <Field
+                  name="selectedTheme"
+                  label="Mørkt"
+                  value="dark"
+                  type="radio"
+                  component={RadioButton.Field}
+                />
+              </MultiSelectGroup>
             </Flex>
 
             <ThemeSelector />

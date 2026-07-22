@@ -162,3 +162,5 @@ export const followersEventSchema = new schema.Entity(
 
 export const bannerSchema = new schema.Entity(EntityType.Banner);
 export const featureFlagSchema = new schema.Entity(EntityType.FeatureFlag);
+
+export const exchangeSchema = new schema.Entity(EntityType.Exchanges);
