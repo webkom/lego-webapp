@@ -1,19 +1,57 @@
-import { Button, Icon, LinkButton } from '@webkom/lego-bricks';
+import { Button } from '@webkom/lego-bricks';
 import cx from 'classnames';
-import { ArrowRight, Check, Star } from 'lucide-react';
+import { ArrowRight, Check, Share2, Star } from 'lucide-react';
+import { useRef, useState } from 'react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
-import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
+import {
+  activateOnKey,
+  attendanceLabel,
+  truncateWords,
+} from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from '~/redux/slices/events';
+import { appConfig } from '~/utils/appConfig';
 import styles from './EventAgenda.module.css';
 import EventAttendance from './EventAttendance';
 import GroupCircle from './GroupCircle';
 import type { ListEvent } from '~/redux/models/Event';
+
+const ShareButton = ({ slug }: { slug: string }) => {
+  const [copied, setCopied] = useState(false);
+  const copyTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+  const share = () => {
+    navigator.clipboard
+      .writeText(`${appConfig.webUrl}/events/${slug}`)
+      .then(() => {
+        clearTimeout(copyTimeout.current);
+        setCopied(true);
+        copyTimeout.current = setTimeout(() => setCopied(false), 2000);
+      });
+  };
+
+  return (
+    <button
+      type="button"
+      className={cx(styles.stripShare, copied && styles.stripShareCopied)}
+      title="Del arrangementet"
+      onClick={share}
+    >
+      <span className={styles.stripIconCircle}>
+        {copied ? <Check size={14} /> : <Share2 size={14} />}
+      </span>
+      <span className={styles.stripShareLabel}>
+        <span className={styles.stripShareIdle}>Del</span>
+        <span className={styles.stripShareDone}>Kopiert!</span>
+      </span>
+    </button>
+  );
+};
 
 type Props = {
   event: ListEvent;
@@ -113,16 +151,27 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
                 isPast={isPast}
               />
             </div>
-            <p className={styles.eventDescription}>{event.description}</p>
-            <span
-              className={styles.panelAction}
+            <p className={styles.eventDescription}>
+              {truncateWords(event.description, 40)}
+            </p>
+            <div
+              className={styles.panelStrip}
               onClick={(e) => e.stopPropagation()}
             >
-              <LinkButton size="small" flat href={`/events/${event.slug}`}>
+              <a
+                className={styles.stripLink}
+                href={`/events/${event.slug}`}
+                title="Åpne arrangementssiden"
+              >
+                <span className={styles.stripIconRail}>
+                  <span className={styles.stripIconCircle}>
+                    <ArrowRight size={14} />
+                  </span>
+                </span>
                 Se arrangementet
-                <Icon iconNode={<ArrowRight />} size={16} />
-              </LinkButton>
-            </span>
+              </a>
+              <ShareButton slug={event.slug} />
+            </div>
           </div>
         </div>
       </div>

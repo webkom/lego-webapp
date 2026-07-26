@@ -62,11 +62,9 @@ const ShowMoreRow = ({ hiddenEvents, isPast, onShowMore }: Props) => {
           ))}
         </div>
         <div className={styles.peekOverlay}>
-          <span className={styles.showMoreShift}>
-            <span className={styles.showMoreButton}>
-              Vis {hiddenEvents.length} til
-              <ChevronDown size={13} />
-            </span>
+          <span className={styles.showMoreButton}>
+            Vis {hiddenEvents.length} til
+            <ChevronDown size={13} />
           </span>
         </div>
       </div>

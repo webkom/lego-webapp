@@ -6,8 +6,7 @@
   --circle-size: 44px;
   --row-height: calc(var(--circle-size) + 2 * var(--spacing-md));
   --day-column: 180px;
-  --day-column-overlap: calc(var(--day-column) + var(--spacing-lg));
-  --row-inline-pad: clamp(var(--spacing-md), 3vw, 48px);
+  --row-inline-pad: clamp(var(--spacing-md), 2vw, 32px);
   --row-gap: clamp(10px, 2vw, 20px);
   --panel-gap: calc(var(--spacing-lg) + var(--spacing-md));
 }
@@ -26,14 +25,24 @@
   }
 }
 
+/* Hairline divider whose ends fade out long before the corner radius, so
+   it dissolves into the rounding instead of hard-stopping at a tangent
+   point. Percentage stops keep the fade proportional on every viewport */
 .header::after,
 .dayRow::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: var(--border-radius-md);
-  right: var(--border-radius-md);
-  border-bottom: 1px solid var(--border-gray);
+  left: 0;
+  right: 0;
+  height: 0.5px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border-gray) 10%,
+    var(--border-gray) 90%,
+    transparent
+  );
 }
 
 .list {
@@ -41,15 +50,40 @@
   overflow-x: clip;
 }
 
+/* The date section carries its own card-white panel, docking into the
+   info column */
 .dayRow {
   position: relative;
   display: grid;
   grid-template-columns: var(--day-column) 1fr;
   gap: 0 var(--spacing-lg);
   align-items: start;
+  background: linear-gradient(var(--lego-card-color), var(--lego-card-color))
+    left / calc(var(--day-column) + var(--spacing-lg)) 100% no-repeat;
 
   @media (--medium-viewport) {
     display: block;
+    background: none;
+  }
+}
+
+/* The list reads as one panel: only the agenda's outer corners round.
+   :last-child follows pagination - whichever row is currently last
+   carries the bottom corners */
+.dayRow:first-child {
+  border-top-left-radius: var(--border-radius-lg);
+
+  .createRow,
+  .eventWrapper:first-child {
+    border-top-right-radius: var(--border-radius-lg);
+  }
+}
+
+.dayRow:last-child {
+  border-bottom-left-radius: var(--border-radius-lg);
+
+  .eventWrapper:last-child {
+    border-bottom-right-radius: var(--border-radius-lg);
   }
 }
 
@@ -88,23 +122,17 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* The tinted surface covers the info column only - the day column next to
+   it stays on the page background. overflow clips the inner surfaces to
+   this rounding, and to the outer corners on the first/last wrapper */
 .eventWrapper {
   cursor: pointer;
-  margin-left: calc(-1 * var(--day-column-overlap));
   transition: background var(--easing-fast);
-  border-radius: var(--border-radius-md);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  overflow: hidden;
 
   &[data-expanded='true'] {
     background: var(--additive-background);
-
-    .eventRow {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
-  }
-
-  @media (--medium-viewport) {
-    margin-left: 0;
   }
 }
 
@@ -113,16 +141,10 @@
   align-items: center;
   gap: var(--row-gap);
   padding: var(--spacing-md) var(--row-inline-pad);
-  padding-left: calc(var(--day-column-overlap) + var(--row-inline-pad));
   transition: background var(--easing-fast);
-  border-radius: var(--border-radius-md);
 
   &:hover {
     background: var(--additive-background);
-  }
-
-  @media (--medium-viewport) {
-    padding-left: var(--row-inline-pad);
   }
 }
 
@@ -244,12 +266,13 @@
   }
 }
 
-/* Attendance sits under the day column, description beside it. The content
+/* Attendance rail under the group circle, description beside it. The content
    slides and fades in slightly after the panel starts opening */
 .eventPanelContent {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--panel-gap);
+  gap: var(--spacing-md) var(--panel-gap);
   padding: var(--spacing-sm) var(--row-inline-pad) var(--spacing-md);
   opacity: 0;
   transform: translateY(-5px);
@@ -268,30 +291,121 @@
   }
 }
 
-/* Wide enough that the description next to it starts exactly under the
-   event title: panel padding + this width + panel gap = title's offset in
-   the row. Derived from the same tokens, so it holds if they change */
+/* Sized by its own faces and names - the description follows right after,
+   capped so a long name truncates instead of pushing it away */
 .eventAttendance {
-  width: calc(
-    var(--day-column-overlap) + var(--circle-size) + var(--row-gap) -
-      var(--panel-gap)
-  );
+  max-width: 160px;
   flex: none;
   cursor: default;
+}
 
-  @media (--medium-viewport) {
-    width: auto;
+/* Full-bleed footer strip: the event-page link left, share right. Bleeds
+   through the panel padding to the card's edges and bottom corners */
+.panelStrip {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  width: calc(100% + 2 * var(--row-inline-pad));
+  margin: 0 calc(-1 * var(--row-inline-pad)) calc(-1 * var(--spacing-md));
+  border-top: 1px solid var(--color-gray-3);
+  cursor: default;
+}
+
+.stripLink,
+.stripShare {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) var(--row-inline-pad);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--lego-font-color);
+}
+
+.stripLink {
+  flex: 1;
+  min-width: 0;
+  gap: var(--row-gap);
+  transition:
+    background var(--easing-fast),
+    color var(--easing-fast);
+
+  &:hover {
+    background: rgba(245, 165, 36, 0.09);
+    color: var(--color-orange-7);
   }
 }
 
-.panelAction {
+/* Centers the arrow under the group circle; the label then starts at the
+   title's offset */
+.stripIconRail {
+  width: var(--circle-size);
   flex: none;
-  margin-left: auto;
-  align-self: flex-end;
+  display: flex;
+  justify-content: center;
+}
 
-  @media (--medium-viewport) {
-    margin-left: 0;
-    align-self: flex-start;
+.stripIconCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.stripShare {
+  flex: none;
+  gap: var(--spacing-sm);
+  border: 0;
+  border-left: 1px solid var(--color-gray-3);
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+
+  .stripIconCircle {
+    transition: transform var(--easing-fast);
+  }
+
+  &:active .stripIconCircle {
+    transform: scale(0.88);
+  }
+}
+
+/* Del ⇄ Kopiert! crossfade on a shared grid cell, so the zone keeps its
+   width; the icon pops in like the joined pill */
+.stripShareLabel {
+  display: grid;
+  text-align: left;
+
+  > span {
+    grid-area: 1 / 1;
+    transition: opacity var(--easing-fast);
+  }
+}
+
+.stripShareDone {
+  opacity: 0;
+}
+
+.stripShareCopied {
+  .stripShareIdle {
+    opacity: 0;
+  }
+
+  .stripShareDone {
+    opacity: 1;
+  }
+
+  .stripIconCircle {
+    animation: pop var(--bounce);
   }
 }
 
@@ -311,21 +425,14 @@
   display: flex;
   align-items: center;
   gap: var(--row-gap);
-  margin-left: calc(-1 * var(--day-column-overlap));
   padding: var(--spacing-md) var(--row-inline-pad);
-  padding-left: calc(var(--day-column-overlap) + var(--row-inline-pad));
-  border-radius: var(--border-radius-md);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--lego-font-color);
   cursor: pointer;
   transition: background var(--easing-fast);
 
   &:hover {
     background: rgba(245, 165, 36, 0.09);
-  }
-
-  @media (--medium-viewport) {
-    margin-left: 0;
-    padding-left: var(--row-inline-pad);
   }
 }
 
@@ -390,15 +497,6 @@
   );
 }
 
-.showMoreShift {
-  display: inline-block;
-  transform: translateX(calc(-0.5 * var(--day-column-overlap)));
-
-  @media (--medium-viewport) {
-    transform: none;
-  }
-}
-
 .showMoreButton {
   height: 36px;
   display: inline-flex;
@@ -432,7 +530,7 @@
 .skeletonRow {
   height: var(--row-height);
   margin: var(--spacing-md) 0;
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-lg);
 }
 
 .emptyLabel {
