@@ -261,14 +261,15 @@ const InterestEventEditor = () => {
             <Field
               name="description"
               label="Kort beskrivelse"
-              description="Kort og fengende tekst som vises under arrangementet i agendaen — skriv noe som fanger oppmerksomheten"
-              placeholder="Bli med på ..."
+              description="Kort og fengende tekst som vises under arrangementet i agendaen"
+              placeholder="Bli med Abarun på ukas løpetur langs Nidelva - rolig tempo, god stemning og boller etterpå!"
               component={TextEditor.Field}
               required
             />
             <Field
               name="text"
               label="Hovedbeskrivelse"
+              description="Vises på selve arrangementssiden. Kan være den samme som korte beskrivelsen"
               component={EditorField.Field}
             />
             <Field

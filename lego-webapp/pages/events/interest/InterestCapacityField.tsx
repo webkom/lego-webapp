@@ -8,7 +8,8 @@ import { TextInput } from '~/components/Form';
 const InterestCapacityField = () => (
   <Field
     name="pools[0].capacity"
-    label="Kapasitet (0 = ubegrenset)"
+    label="Kapasitet"
+    placeholder="0 = ubegrenset"
     description="Interessearrangementer er åpne for alle i Abakus fra de opprettes og frem til arrangementsstart"
     type="number"
     component={TextInput.Field}

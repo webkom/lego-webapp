@@ -315,9 +315,7 @@ const GroupsSection = () => {
           <Skeleton array={5} className={styles.skeletonTile} />
         )}
       </div>
-      <div className={styles.note}>
-        Du kan starte opp inaktive grupper igjen
-      </div>
+      <div className={styles.note}>Du kan starte opp en inaktiv gruppe</div>
     </section>
   );
 };
