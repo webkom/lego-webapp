@@ -23,7 +23,7 @@ const GroupCircle = ({ group }: Props) => {
 
   return (
     <span
-      className={cx(styles.eventMonogram, group && groupGradient(group))}
+      className={cx(styles.eventMonogram, group && groupGradient)}
       aria-hidden
     >
       {group && groupMonogram(group)}

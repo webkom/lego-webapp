@@ -106,6 +106,12 @@
   opacity: 0.82;
 }
 
+.attendees {
+  display: block;
+  width: fit-content;
+  margin-top: var(--spacing-sm);
+}
+
 @keyframes pop {
   from {
     transform: scale(0.9);

@@ -7,16 +7,7 @@ import type { KeyboardEvent } from 'react';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
 
-const GRADIENTS = [
-  gradients.gradient0,
-  gradients.gradient1,
-  gradients.gradient2,
-  gradients.gradient3,
-  gradients.gradient4,
-];
-
-export const groupGradient = (group: PublicGroup) =>
-  GRADIENTS[(Number(group.id) || 0) % GRADIENTS.length];
+export const groupGradient = gradients.gradient;
 
 export const groupMonogram = (group: PublicGroup) =>
   group.name.replace('Aba', '').slice(0, 2).toUpperCase();
@@ -28,6 +19,11 @@ export const activateOnKey =
       action();
     }
   };
+
+export const truncateWords = (text: string, limit: number) => {
+  const words = text.split(/\s+/);
+  return words.length <= limit ? text : `${words.slice(0, limit).join(' ')} …`;
+};
 
 export const isToday = (time: Moment) => time.isSame(moment(), 'day');
 

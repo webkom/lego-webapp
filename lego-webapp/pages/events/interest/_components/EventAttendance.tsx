@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { useState } from 'react';
 import { ProfilePicture } from '~/components/Image';
 import AttendanceModal from '~/components/UserAttendance/AttendanceModal';
@@ -9,13 +10,16 @@ import type { AttendanceModalRegistration } from '~/components/UserAttendance/At
 import type { ListEvent } from '~/redux/models/Event';
 import type { PoolRegistrationWithUser } from '~/redux/slices/events';
 
-const MAX_FACES = 5;
+const MAX_FACES = 3;
 
 type Props = {
   event: ListEvent;
   registrations: PoolRegistrationWithUser[];
   waitingRegistrations: AttendanceModalRegistration[];
   isPast: boolean;
+  // Faces only, ringed for the spotlight gradient - the spotlight meta line
+  // already carries the attendance text
+  spotlight?: boolean;
 };
 
 const EventAttendance = ({
@@ -23,6 +27,7 @@ const EventAttendance = ({
   registrations,
   waitingRegistrations,
   isPast,
+  spotlight,
 }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState(0);
@@ -68,7 +73,7 @@ const EventAttendance = ({
 
   return (
     <>
-      <div className={styles.attendance}>
+      <div className={cx(styles.attendance, spotlight && styles.spotlight)}>
         {faces.length > 0 && (
           <div
             role="button"
@@ -82,18 +87,20 @@ const EventAttendance = ({
               <ProfilePicture
                 key={registration.id}
                 user={registration.user}
-                size={32}
+                size={spotlight ? 30 : 32}
                 className={styles.face}
               />
             ))}
             {extra > 0 && <span className={styles.extraPill}>+{extra}</span>}
           </div>
         )}
-        <div className={styles.attendLine}>
-          {lines.map((line) => (
-            <span key={line}>{line}</span>
-          ))}
-        </div>
+        {!spotlight && (
+          <div className={styles.attendLine}>
+            {lines.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </div>
+        )}
       </div>
       <AttendanceModal
         pools={[
