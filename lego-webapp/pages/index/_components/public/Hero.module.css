@@ -131,11 +131,12 @@
   flex-wrap: wrap;
   gap: calc(var(--spacing-xl) * 2);
   align-items: flex-start;
-  padding: var(--spacing-xl) 0 calc(var(--spacing-xl) * 2) var(--spacing-md);
+  padding: var(--spacing-md) 0 calc(var(--spacing-xl) * 2) var(--spacing-md);
 
   @media (--mobile-device) {
     gap: var(--spacing-xl);
     padding-right: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
   }
 }
 
@@ -185,7 +186,7 @@
 }
 
 .secondaryLead {
-  margin: 0 0 var(--spacing-xl);
+  margin: 0 0 var(--spacing-md);
   max-width: 580px;
   font-size: var(--font-size-md);
   line-height: 1.65;

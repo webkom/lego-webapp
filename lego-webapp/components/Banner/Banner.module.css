@@ -1,6 +1,13 @@
-.link {
+@import url('styles/custom-media.css');
+
+.link,
+.noLink {
   display: block;
-  margin: 0 var(--spacing-md);
+  margin: 0 var(--spacing-md) var(--spacing-xl);
+
+  @media (--mobile-device) {
+    margin-bottom: var(--spacing-md);
+  }
 }
 
 .noLink {
@@ -9,7 +16,6 @@
 
 .header {
   text-align: center;
-  margin-bottom: var(--spacing-xl);
   animation-name: wiggle;
   animation-duration: 4s;
   animation-iteration-count: infinite;

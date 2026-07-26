@@ -41,23 +41,23 @@ const PublicFrontpage = () => {
     [],
   );
 
-  const currentPublicBanner = useAppSelector((state) =>
-    selectCurrentPublicBanner(state, true),
-  );
+  const currentPublicBanner = useAppSelector(selectCurrentPublicBanner);
 
   return (
     <>
       {currentPublicBanner && (
-        <Banner
-          header={currentPublicBanner.header}
-          subHeader={currentPublicBanner.subheader}
-          link={currentPublicBanner.link}
-          color={currentPublicBanner.color}
-          countdownEndDate={currentPublicBanner.countdownEndDate || undefined}
-          countdownEndMessage={
-            currentPublicBanner.countdownEndMessage || undefined
-          }
-        />
+        <div className={styles.banner}>
+          <Banner
+            header={currentPublicBanner.header}
+            subHeader={currentPublicBanner.subheader}
+            link={currentPublicBanner.link}
+            color={currentPublicBanner.color}
+            countdownEndDate={currentPublicBanner.countdownEndDate || undefined}
+            countdownEndMessage={
+              currentPublicBanner.countdownEndMessage || undefined
+            }
+          />
+        </div>
       )}
       {/* Outside PageContainer so the bead background can bleed past
           --lego-max-width */}
