@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import { User } from 'lucide-react';
 import { useState } from 'react';
 import { ProfilePicture } from '~/components/Image';
 import AttendanceModal from '~/components/UserAttendance/AttendanceModal';
@@ -42,6 +43,12 @@ const EventAttendance = ({
   const ordered = you ? [you, ...others] : registrations;
   const faces = ordered.slice(0, MAX_FACES);
   const extra = count - faces.length;
+  // The pile always shows three circles grey placeholders
+  const placeholders =
+    event.eventStatusType === EventStatusType.OPEN
+      ? 0
+      : MAX_FACES - faces.length;
+  const hasAttendees = faces.length > 0;
 
   const names = others
     .slice(0, 2)
@@ -52,9 +59,9 @@ const EventAttendance = ({
   if (event.eventStatusType === EventStatusType.OPEN) {
     lines = [attendanceLabel(event)];
   } else if (!currentUser && count === 0) {
-    lines = ['logg inn for å se påmeldte'];
+    lines = ['Logg inn for å se påmeldte'];
   } else if (count === 0) {
-    lines = [isPast ? 'ingen var med' : 'ingen påmeldt ennå'];
+    lines = [isPast ? 'Ingen var med' : 'Ingen påmeldt'];
   } else if (names.length === 0) {
     lines = [count === 1 ? '1 påmeldt' : `${count} påmeldte`];
   } else {
@@ -66,14 +73,16 @@ const EventAttendance = ({
   return (
     <>
       <div className={cx(styles.attendance, spotlight && styles.spotlight)}>
-        {faces.length > 0 && (
+        {(hasAttendees || placeholders > 0) && (
           <div
-            role="button"
-            tabIndex={0}
-            title="Se hvem som kommer"
-            className={styles.faceRow}
-            onClick={() => setModalOpen(true)}
-            onKeyDown={activateOnKey(() => setModalOpen(true))}
+            role={hasAttendees ? 'button' : undefined}
+            tabIndex={hasAttendees ? 0 : undefined}
+            title={hasAttendees ? 'Se hvem som kommer' : undefined}
+            className={cx(styles.faceRow, !hasAttendees && styles.faceRowEmpty)}
+            onClick={hasAttendees ? () => setModalOpen(true) : undefined}
+            onKeyDown={
+              hasAttendees ? activateOnKey(() => setModalOpen(true)) : undefined
+            }
           >
             {faces.map((registration) => (
               <ProfilePicture
@@ -82,6 +91,11 @@ const EventAttendance = ({
                 size={spotlight ? 30 : 32}
                 className={styles.face}
               />
+            ))}
+            {Array.from({ length: placeholders }, (_, index) => (
+              <span key={index} className={styles.facePlaceholder}>
+                <User size={spotlight ? 16 : 18} />
+              </span>
             ))}
             {extra > 0 && <span className={styles.extraPill}>+{extra}</span>}
           </div>

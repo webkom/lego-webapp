@@ -25,6 +25,33 @@
   }
 }
 
+/* No hover cue or pointer when there is no one to show in the modal */
+.faceRowEmpty {
+  cursor: default;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* Solid fill so stacked circles cover the neighbor they overlap */
+.facePlaceholder {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 2px solid var(--lego-background-color);
+  background: var(--color-gray-2);
+  color: var(--lego-font-color);
+
+  &:not(:first-child) {
+    margin-left: -8px;
+  }
+}
+
 .extraPill {
   height: 32px;
   min-width: 32px;
@@ -45,6 +72,12 @@
   padding-top: 0;
 
   .face {
+    border-color: rgba(255, 255, 255, 90%);
+  }
+
+  .facePlaceholder {
+    width: 30px;
+    height: 30px;
     border-color: rgba(255, 255, 255, 90%);
   }
 

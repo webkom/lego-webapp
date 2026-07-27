@@ -8,7 +8,6 @@
   --day-column: 180px;
   --row-inline-pad: clamp(var(--spacing-md), 2vw, 32px);
   --row-gap: clamp(10px, 2vw, 20px);
-  --panel-gap: calc(var(--spacing-lg) + var(--spacing-md));
 }
 
 .header {
@@ -124,7 +123,7 @@
 
 .dayName {
   font-size: var(--font-size-lg);
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .dayNameHighlight {
@@ -138,7 +137,6 @@
 .dayDate {
   margin-top: var(--spacing-xs);
   font-size: var(--font-size-sm);
-  font-weight: 600;
   color: var(--secondary-font-color);
   font-variant-numeric: tabular-nums;
 }
@@ -202,15 +200,13 @@
 
 .eventTitle {
   font-size: var(--font-size-md);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .eventGroup {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--color-orange-7);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--lego-font-color);
 }
 
 .memberStar {
@@ -293,7 +289,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--spacing-md) var(--panel-gap);
+  gap: var(--spacing-md) var(--spacing-lg);
   padding: var(--spacing-sm) var(--row-inline-pad) var(--spacing-md);
   opacity: 0;
   transform: translateY(-5px);
@@ -338,7 +334,7 @@
   align-items: center;
   padding: var(--spacing-md) var(--row-inline-pad);
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: 500;
   color: var(--lego-font-color);
 }
 
@@ -478,7 +474,7 @@
   flex: 1;
   min-width: 0;
   font-size: var(--font-size-md);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .createAction {
@@ -529,7 +525,7 @@
   background: var(--lego-card-color);
   color: var(--lego-font-color);
   font-size: var(--font-size-sm);
-  font-weight: 700;
+  font-weight: 600;
   box-shadow: var(--shadow-sm);
   transition:
     background var(--easing-fast),

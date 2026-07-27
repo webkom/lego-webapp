@@ -10,8 +10,8 @@ const goToCreateEvent = () => navigate('/events/interest/new');
 const CreateEventRow = () => (
   <div className={styles.dayRow}>
     <div className={styles.dayLabel}>
-      <div className={cx(styles.dayName, styles.dayNameMuted)}>Din tur?</div>
-      <div className={styles.dayDate}>når det passer deg</div>
+      <div className={cx(styles.dayName, styles.dayNameMuted)}>Når da?</div>
+      <div className={styles.dayDate}>Løpetur eller cava?</div>
     </div>
     <div
       className={styles.createRow}
