@@ -35,8 +35,6 @@ export const attendanceLabel = (event: ListEvent): string => {
     return 'ingen påmelding — bare møt opp';
   }
 
-  // Attendance counts are only serialized for logged-in users - showing
-  // "0 blir med" to visitors would just be wrong
   if (event.registrationCount == null) {
     return '';
   }
@@ -107,7 +105,6 @@ export const weekLabel = (start: Moment) => {
   };
 };
 
-// Upcoming events are grouped by day; past events by week
 export const groupKeyOf = (start: Moment, isPast: boolean) =>
   isPast ? start.format('GGGG-WW') : start.format('YYYY-MM-DD');
 

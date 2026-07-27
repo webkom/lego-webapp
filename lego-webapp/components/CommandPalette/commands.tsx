@@ -18,9 +18,9 @@ import {
   LogOut,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
-import InterestGroupIcon from '~/components/InterestGroupIcon';
 import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
+import getInterestIcon from '~/utils/getInterestIcon';
 
 type Command = {
   id: string;
@@ -39,6 +39,7 @@ const createCommands = (
   dispatch: any,
   suggestionIds: string[] = [],
 ): CommandSection[] => {
+  const InterestIcon = getInterestIcon();
   const sections: CommandSection[] = [
     {
       name: 'Navigasjon',
@@ -82,12 +83,12 @@ const createCommands = (
           id: 'interestGroups',
           renderLabel: (
             <Flex alignItems="center" gap={10}>
-              Interessegrupper <Tag tag="Nytt!!" color="pink" />
+              Interessegrupper <Tag tag="Nytt!!" color="orange" />
             </Flex>
           ),
           searchText: 'Interessegrupper',
           action: () => navigate('/events/interest'),
-          icon: <Icon iconNode={<InterestGroupIcon />} size={15} />,
+          icon: <Icon iconNode={<InterestIcon />} size={15} />,
         },
         {
           id: 'joblistings',

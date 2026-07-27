@@ -127,7 +127,6 @@
   align-items: center;
   justify-content: center;
   gap: var(--spacing-xs);
-  /* Equal width across states so the joined flip doesn't reflow the text */
   min-width: 8em;
   height: 2.875rem;
   padding: 0 var(--spacing-lg);

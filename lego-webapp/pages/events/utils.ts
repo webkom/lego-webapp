@@ -75,8 +75,8 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   },
   [EventType.INTEREST_EVENT]: {
     displayName: 'Interessearrangement',
-    color: '#F5A623',
-    textColor: '#000',
+    color: 'var(--color-orange-6)',
+    textColor: 'var(--color-absolute-black)',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',

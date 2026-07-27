@@ -46,8 +46,6 @@ const Spotlight = ({ event }: Props) => {
     selectWaitingRegistrationsForEvent(state, event.id),
   );
 
-  // The facepile lives in the detail payload, and the agenda's warm loop
-  // skips the spotlighted event
   const dispatch = useAppDispatch();
   const requestedDetail = useRef<EntityId | null>(null);
   useEffect(() => {
@@ -60,8 +58,6 @@ const Spotlight = ({ event }: Props) => {
 
   const start = moment(event.startTime);
   const prefix = badgePrefix(start);
-  // The facepile carries the attendance - the label only adds value when
-  // the event has no registration at all
   const attendance =
     event.eventStatusType === EventStatusType.OPEN
       ? attendanceLabel(event)

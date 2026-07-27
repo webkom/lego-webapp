@@ -147,7 +147,6 @@ const InterestEventEditor = () => {
       if (event && !allowed) {
         navigate(`/events/${eventIdOrSlug}`);
       } else if (!event && !eventsFetching) {
-        // The fetch settled without an event - bad id or no view access
         navigate('/events/interest');
       }
     } else if (!fetching && !eventsFetching && !allowed) {

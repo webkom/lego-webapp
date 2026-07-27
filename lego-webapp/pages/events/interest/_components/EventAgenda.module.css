@@ -25,22 +25,31 @@
   }
 }
 
-/* Hairline divider whose ends fade out long before the corner radius, so
-   it dissolves into the rounding instead of hard-stopping at a tangent
-   point. Percentage stops keep the fade proportional on every viewport */
 .header::after,
 .dayRow::after {
   content: '';
   position: absolute;
   bottom: 0;
+  left: var(--border-radius-lg);
+  right: var(--border-radius-lg);
+  height: 1px;
+  background: var(--border-gray);
+}
+
+/* Dividers between rows run to the left edge - only the agenda's top and
+   bottom lines are inset to respect the outer corner rounding */
+.dayRow:not(:last-child)::after {
   left: 0;
-  right: 0;
-  height: 0.5px;
+}
+
+/* The agenda's top and bottom lines fade softly at the ends */
+.header::after,
+.dayRow:last-child::after {
   background: linear-gradient(
     to right,
     transparent,
-    var(--border-gray) 10%,
-    var(--border-gray) 90%,
+    var(--border-gray) 48px,
+    var(--border-gray) calc(100% - 48px),
     transparent
   );
 }

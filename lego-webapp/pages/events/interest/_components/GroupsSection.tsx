@@ -56,7 +56,6 @@ const GroupTile = ({
   const link = resolveGroupLink(group) ?? `/interest-groups/${group.id}`;
   const markRef = useRef<HTMLButtonElement>(null);
 
-  // Pop the mark and draw the check stroke on the +→✓ transition
   useLayoutEffect(() => {
     const mark = markRef.current;
     const check = mark?.querySelector('path');
@@ -70,8 +69,6 @@ const GroupTile = ({
         { scale: 1, duration: 0.3, ease: 'back.out(1.7)', clearProps: 'all' },
         0,
       )
-      // The check path starts at its top-right tip, so draw it backwards to
-      // get the natural left-to-right handwriting motion
       .fromTo(
         check,
         { drawSVG: '100% 100%' },
@@ -193,7 +190,6 @@ const GroupsSection = () => {
       }
       await dispatch(fetchAllWithType(GroupType.Interest));
 
-      // Set after the refetch so the check-draw animation runs on fresh marks
       if (group.userMembership) {
         setJustJoinedId((id) => (id === group.id ? null : id));
       } else {
@@ -214,7 +210,6 @@ const GroupsSection = () => {
 
   const isMobile = useIsMobileViewport();
   const tilesPerPage = isMobile ? TILES_PER_PAGE_MOBILE : TILES_PER_PAGE;
-  // The create tile takes the first slot on page 0
   const firstPageCapacity = tilesPerPage - 1;
   const pageCount =
     1 +

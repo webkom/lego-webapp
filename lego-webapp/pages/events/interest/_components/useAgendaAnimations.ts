@@ -6,11 +6,8 @@ import type { RefObject } from 'react';
 
 gsap.registerPlugin(CustomEase);
 
-// Fast start with a long, soft settle — quick without feeling rushed
 export const agendaEase = CustomEase.create('agendaEase', '0.16, 1, 0.3, 1');
 
-// The shared swap transition for mode and pager changes: slide in sideways
-// from the given offset while fading in
 export const slideSwap = (
   timeline: gsap.core.Timeline,
   target: gsap.TweenTarget,
@@ -35,8 +32,6 @@ type AgendaAnimationState = {
   peekDayKey: string | null;
 };
 
-// Rows rise in staggered as they appear; switching mode slides the whole list
-// sideways in the tab's direction instead
 const useAgendaAnimations = (
   listWrapRef: RefObject<HTMLDivElement | null>,
   { modeIndex, shownCount, peekDayKey }: AgendaAnimationState,
@@ -46,8 +41,6 @@ const useAgendaAnimations = (
   const peekedDayRef = useRef<string | null>(null);
   const listHeightRef = useRef<number | null>(null);
 
-  // ResizeObserver fires after layout effects, so when a new batch of rows
-  // lands the ref still holds the list's pre-update height to animate from
   useLayoutEffect(() => {
     const list = listWrapRef.current?.parentElement;
     if (!list) return;
@@ -74,8 +67,6 @@ const useAgendaAnimations = (
     const peekedDay = prevPeekedDay;
     peekedDayRef.current = peekDayKey;
 
-    // DOM nodes survive re-renders while this effect re-runs, so a dataset
-    // flag is what tells freshly mounted rows apart from already-shown ones
     const unmarked = (Array.from(wrap.children) as HTMLElement[]).filter(
       (el) => !el.dataset.animated,
     );
@@ -83,9 +74,6 @@ const useAgendaAnimations = (
       el.dataset.animated = '1';
     });
 
-    // Revealed rows get the same rise-stagger as landing on the page. The
-    // persisting show-more row stays put, and so does the day that was
-    // already visible as its ghost preview - the cascade starts after it
     const newRows = isInitial
       ? unmarked
       : unmarked.filter(
@@ -117,8 +105,6 @@ const useAgendaAnimations = (
       );
     }
 
-    // Reveals change the list's height in one step — animate the container to
-    // its new height alongside the rising rows
     const list = wrap.parentElement;
     const prevHeight = listHeightRef.current;
     let heightAnimated = false;
@@ -143,9 +129,6 @@ const useAgendaAnimations = (
     }
 
     return () => {
-      // StrictMode remounts clean up right after mount and replay the effect;
-      // an interrupted animation must revert its bookkeeping so the replay
-      // (and rapidly interrupted runs) animate the same elements again
       if (targets.length > 0 && timeline.progress() < 1) {
         unmarked.forEach((el) => {
           delete el.dataset.animated;

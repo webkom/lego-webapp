@@ -17,8 +17,6 @@ type Props = {
   registrations: PoolRegistrationWithUser[];
   waitingRegistrations: AttendanceModalRegistration[];
   isPast: boolean;
-  // Faces only, ringed for the spotlight gradient - the spotlight meta line
-  // already carries the attendance text
   spotlight?: boolean;
 };
 
@@ -35,7 +33,6 @@ const EventAttendance = ({
 
   const count = registrations.length || event.registrationCount || 0;
 
-  // You come first in the facepile, like the design's known faces
   const you = currentUser
     ? registrations.find(
         (registration) => registration.user.id === currentUser.id,
@@ -46,20 +43,15 @@ const EventAttendance = ({
   const faces = ordered.slice(0, MAX_FACES);
   const extra = count - faces.length;
 
-  // Line 1: the first two first names, never your own (most related first -
-  // selectRegistrationsFromPools orders by sharedMemberships).
-  // Line 2: how many more are registered
   const names = others
     .slice(0, 2)
     .map((registration) => registration.user.firstName.split(' ')[0]);
-  // You aren't named, but you still count among the "+ N andre"
   const hidden = count - names.length;
 
   let lines: string[];
   if (event.eventStatusType === EventStatusType.OPEN) {
     lines = [attendanceLabel(event)];
   } else if (!currentUser && count === 0) {
-    // Counts and registrations are only serialized for logged-in users
     lines = ['logg inn for å se påmeldte'];
   } else if (count === 0) {
     lines = [isPast ? 'ingen var med' : 'ingen påmeldt ennå'];

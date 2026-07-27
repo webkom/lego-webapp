@@ -28,9 +28,9 @@ import {
   Trophy,
   MessageSquareQuote,
 } from 'lucide-react';
-import InterestGroupIcon from '~/components/InterestGroupIcon';
 import ReadmeLogo from '~/components/ReadmeLogo';
 import Tag from '~/components/Tags/Tag';
+import getInterestIcon from '~/utils/getInterestIcon';
 import TextWithIcon from '../TextWithIcon';
 import type { ReactNode } from 'react';
 import type { AllowedPages } from '~/redux/actions/MetaActions';
@@ -45,147 +45,150 @@ type Link = {
   icon?: ReactNode;
 };
 
-const LINKS: Array<Link> = [
-  {
-    key: 'contact',
-    requireLogin: true,
-    title: 'Kontakt Abakus',
-    icon: <Phone />,
-    url: '/contact',
-  },
-  {
-    key: 'articles',
-    title: 'Artikler',
-    icon: <BookOpenText />,
-    url: '/articles',
-  },
-  {
-    key: 'lending',
-    requireLogin: true,
-    title: 'Utlån',
-    sortTitle: 'Utlån',
-    icon: <ShoppingCart />,
-    url: '/lending',
-  },
-  {
-    key: 'events',
-    title: 'Arrangementer',
-    icon: <CalendarRange />,
-    url: '/events',
-  },
-  {
-    key: 'aboutUs',
-    title: 'Om Abakus',
-    icon: <Info />,
-    url: '/pages/info-om-abakus',
-  },
-  {
-    key: 'readme',
-    title: <ReadmeLogo />,
-    sortTitle: 'Readme',
-    url: 'https://readme.abakus.no',
-  },
-  {
-    key: 'interest-groups',
-    title: (
-      <Flex alignItems="center" gap="var(--spacing-sm)">
-        Interessegrupper <Tag tag="Nytt!!" color="pink"></Tag>
-      </Flex>
-    ),
-    icon: <InterestGroupIcon />,
-    url: '/events/interest',
-  },
-  {
-    key: 'galleries',
-    title: 'Album',
-    icon: <BookImage />,
-    url: '/photos',
-  },
-  {
-    key: 'meetings',
-    title: 'Møter',
-    icon: <Users />,
-    url: '/meetings',
-  },
-  {
-    key: 'quotes',
-    title: 'Overhørt',
-    icon: sample([
-      <MessageCircleWarning key="1" />,
-      <MessageCircleHeart key="2" />,
-      <MessageCircleQuestion key="3" />,
-      <MessageCircleX key="4" />,
-    ]),
-    url: '/quotes/',
-  },
-  {
-    key: 'companies',
-    title: 'Bedrifter',
-    icon: <BriefcaseBusiness />,
-    url: '/companies',
-  },
-  {
-    key: 'jobListings',
-    title: 'Jobbannonser',
-    icon: <Newspaper />,
-    url: '/joblistings',
-  },
-  {
-    key: 'polls',
-    title: 'Avstemninger',
-    icon: <ChartNoAxesColumn />,
-    url: '/polls',
-  },
-  {
-    key: 'achievements',
-    title: 'Trofeer',
-    icon: <Trophy />,
-    url: '/achievements',
-    requireLogin: true,
-  },
-  {
-    admin: true,
-    key: 'announcements',
-    title: 'Kunngjøringer',
-    icon: <Send />,
-    url: '/announcements',
-  },
-  {
-    admin: true,
-    key: 'bdb',
-    title: 'Bedriftsdatabase',
-    icon: <Database />,
-    url: '/bdb',
-  },
-  {
-    admin: true,
-    key: 'groups',
-    title: 'Grupper',
-    icon: <Group />,
-    url: '/admin/groups',
-  },
-  {
-    admin: true,
-    key: 'email',
-    title: 'E-post',
-    icon: <MailSearch />,
-    url: '/admin/email/lists',
-  },
-  {
-    admin: true,
-    key: 'surveys',
-    title: 'Spørreundersøkelser',
-    icon: <FilePieChart />,
-    url: '/surveys',
-  },
-  {
-    admin: true,
-    key: 'sudo',
-    title: 'Sudo',
-    icon: <Accessibility />,
-    url: '/sudo',
-  },
-];
+const getLinks = (): Array<Link> => {
+  const InterestIcon = getInterestIcon();
+  return [
+    {
+      key: 'contact',
+      requireLogin: true,
+      title: 'Kontakt Abakus',
+      icon: <Phone />,
+      url: '/contact',
+    },
+    {
+      key: 'articles',
+      title: 'Artikler',
+      icon: <BookOpenText />,
+      url: '/articles',
+    },
+    {
+      key: 'lending',
+      requireLogin: true,
+      title: 'Utlån',
+      sortTitle: 'Utlån',
+      icon: <ShoppingCart />,
+      url: '/lending',
+    },
+    {
+      key: 'events',
+      title: 'Arrangementer',
+      icon: <CalendarRange />,
+      url: '/events',
+    },
+    {
+      key: 'aboutUs',
+      title: 'Om Abakus',
+      icon: <Info />,
+      url: '/pages/info-om-abakus',
+    },
+    {
+      key: 'readme',
+      title: <ReadmeLogo />,
+      sortTitle: 'Readme',
+      url: 'https://readme.abakus.no',
+    },
+    {
+      key: 'interest-groups',
+      title: (
+        <Flex alignItems="center" gap="var(--spacing-sm)">
+          Interessegrupper <Tag tag="Nytt!!" color="orange"></Tag>
+        </Flex>
+      ),
+      icon: <InterestIcon />,
+      url: '/events/interest',
+    },
+    {
+      key: 'galleries',
+      title: 'Album',
+      icon: <BookImage />,
+      url: '/photos',
+    },
+    {
+      key: 'meetings',
+      title: 'Møter',
+      icon: <Users />,
+      url: '/meetings',
+    },
+    {
+      key: 'quotes',
+      title: 'Overhørt',
+      icon: sample([
+        <MessageCircleWarning key="1" />,
+        <MessageCircleHeart key="2" />,
+        <MessageCircleQuestion key="3" />,
+        <MessageCircleX key="4" />,
+      ]),
+      url: '/quotes/',
+    },
+    {
+      key: 'companies',
+      title: 'Bedrifter',
+      icon: <BriefcaseBusiness />,
+      url: '/companies',
+    },
+    {
+      key: 'jobListings',
+      title: 'Jobbannonser',
+      icon: <Newspaper />,
+      url: '/joblistings',
+    },
+    {
+      key: 'polls',
+      title: 'Avstemninger',
+      icon: <ChartNoAxesColumn />,
+      url: '/polls',
+    },
+    {
+      key: 'achievements',
+      title: 'Trofeer',
+      icon: <Trophy />,
+      url: '/achievements',
+      requireLogin: true,
+    },
+    {
+      admin: true,
+      key: 'announcements',
+      title: 'Kunngjøringer',
+      icon: <Send />,
+      url: '/announcements',
+    },
+    {
+      admin: true,
+      key: 'bdb',
+      title: 'Bedriftsdatabase',
+      icon: <Database />,
+      url: '/bdb',
+    },
+    {
+      admin: true,
+      key: 'groups',
+      title: 'Grupper',
+      icon: <Group />,
+      url: '/admin/groups',
+    },
+    {
+      admin: true,
+      key: 'email',
+      title: 'E-post',
+      icon: <MailSearch />,
+      url: '/admin/email/lists',
+    },
+    {
+      admin: true,
+      key: 'surveys',
+      title: 'Spørreundersøkelser',
+      icon: <FilePieChart />,
+      url: '/surveys',
+    },
+    {
+      admin: true,
+      key: 'sudo',
+      title: 'Sudo',
+      icon: <Accessibility />,
+      url: '/sudo',
+    },
+  ];
+};
 
 const EXTERNAL_LINKS: Link[] = [
   {
@@ -231,14 +234,18 @@ const getSortTitle = (link: Link) =>
 const sortFn = (a: Link, b: Link) =>
   getSortTitle(a).localeCompare(getSortTitle(b));
 
-const SORTED_REGULAR = LINKS.filter((link) => !link.admin).sort(sortFn);
-const SORTED_ADMIN = LINKS.filter((link) => link.admin).sort(sortFn);
+const getSortedRegular = () =>
+  getLinks()
+    .filter((link) => !link.admin)
+    .sort(sortFn);
+const getSortedAdmin = () =>
+  getLinks()
+    .filter((link) => link.admin)
+    .sort(sortFn);
 type Options = {
   allowed: AllowedPages;
   loggedIn: boolean;
 };
-
-const SORTED_ALL = [...SORTED_REGULAR, ...EXTERNAL_LINKS, ...SORTED_ADMIN];
 
 /**
  * Finds the links that the user should be able to see.
@@ -263,19 +270,24 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
 export type NavigationLink = [string, ReactNode]; // [url, label(as a react-node)]
 
 export function getRegularLinks(options: Options): Array<NavigationLink> {
-  return retrieveAllowed(SORTED_REGULAR, options);
+  return retrieveAllowed(getSortedRegular(), options);
 }
 export function getExternalLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(EXTERNAL_LINKS, options);
 }
 export function getAdminLinks(options: Options): Array<NavigationLink> {
-  return retrieveAllowed(SORTED_ADMIN, options);
+  return retrieveAllowed(getSortedAdmin(), options);
 }
 export function getAllLinksFiltered(
   options: Options,
   query: string,
 ): Array<NavigationLink> {
-  const filteredLinks = SORTED_ALL.filter((link) =>
+  const allLinks = [
+    ...getSortedRegular(),
+    ...EXTERNAL_LINKS,
+    ...getSortedAdmin(),
+  ];
+  const filteredLinks = allLinks.filter((link) =>
     getSortTitle(link).toLowerCase().includes(query.toLowerCase()),
   );
   return retrieveAllowed(filteredLinks, options);

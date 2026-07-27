@@ -24,7 +24,6 @@ const agendaDefaultQuery = {
   mode: '' as '' | 'tidligere' | 'mine',
 };
 
-// Pill order, used to slide the list in the direction of the mode switch
 const MODE_ORDER = ['', 'mine', 'tidligere'] as const;
 
 const MAX_ROWS = 6;
@@ -38,7 +37,6 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
   const { query, setQueryValue } = useQuery(agendaDefaultQuery);
   const currentUser = useCurrentUser();
 
-  // "Mine grupper" needs a logged-in user - deep links fall back to upcoming
   const mode = query.mode === 'mine' && !currentUser ? '' : query.mode;
   const isPast = mode === 'tidligere';
   const isMine = mode === 'mine';
@@ -69,7 +67,6 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
     [isPast],
   );
 
-  // Prefetch past events so toggling to "Tidligere" is instant
   useEffect(() => {
     if (!isPast) {
       past.fetch();
@@ -93,8 +90,7 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
   const hiddenEvents = modeEvents.slice(visibleCount);
   const dayGroups = groupEvents(shownEvents, isPast);
 
-  // Attendance lives in the detail payload, so warm it for every visible row -
-  // on landing, and again as show-more reveals new ones
+  // Attendance lives in the detail payload, so warm it for every visible row
   const dispatch = useAppDispatch();
   const requestedDetails = useRef(new Set<EntityId>());
   useEffect(() => {

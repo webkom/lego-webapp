@@ -42,7 +42,6 @@
   margin-top: var(--spacing-lg);
 }
 
-/* Same outline counterpart to the dark button as the public frontpage hero */
 .secondaryAction {
   background-color: var(--lego-background-color);
   border: 2px solid var(--color-red-6);

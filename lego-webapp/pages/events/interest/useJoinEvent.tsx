@@ -21,17 +21,10 @@ const useJoinEvent = (event: ListEvent) => {
   const storedRegistration = useAppSelector((state) =>
     selectRegistrationForEventByUserId(state, registrationProps),
   );
-  // The list payload carries the user's own registration for cold loads;
-  // the store version wins once a join, leave, or row expansion has run
   const registration = storedRegistration ?? event.userReg;
 
-  // activationTime is null when the user has no access to any pool (e.g.
-  // not an Abakus member), but also when they are already registered - only
-  // the first case blocks joining
   const lacksPoolAccess = !registration && event.activationTime == null;
 
-  // OPEN and TBA events have no registration to join, and interest events
-  // are joinable until they start
   const joinable =
     !!currentUser &&
     !lacksPoolAccess &&
@@ -48,8 +41,6 @@ const useJoinEvent = (event: ListEvent) => {
     registration?.status === 'PENDING_REGISTER' ||
     registration?.status === 'PENDING_UNREGISTER';
 
-  // Being in a pool is what admission means; the list serializer's
-  // isAdmitted only covers events whose registration isn't known
   const isAdmitted = registration ? !!registration.pool : event.isAdmitted;
   const isWaitlisted =
     !!registration &&
@@ -85,8 +76,6 @@ const useJoinEvent = (event: ListEvent) => {
 
     setPending(true);
     try {
-      // The registration id normally comes from the list payload or the
-      // store; the detail fetch is a fallback for stale state
       let registrationId: EntityId | undefined =
         registration && registration.status !== 'SUCCESS_UNREGISTER'
           ? registration.id

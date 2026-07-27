@@ -143,8 +143,6 @@ const Events = ({
     () =>
       allEvents
         .filter((item) => item.id !== pinnedId)
-        // The store also holds interest events fetched by /events/interest -
-        // they have their own page and stay off the frontpage
         .filter((item) => item.eventType !== EventType.INTEREST_EVENT)
         .filter((item) => moment(item.startTime).isAfter(moment()))
         .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))

@@ -17,7 +17,6 @@
   }
 }
 
-/* Overlapping facepile, ringed with the page background */
 .face {
   border: 2px solid var(--lego-background-color);
 
@@ -42,7 +41,6 @@
   justify-content: center;
 }
 
-/* On the spotlight gradient the page-background ring would read as a halo */
 .spotlight {
   padding-top: 0;
 
@@ -67,7 +65,6 @@
   line-height: 1.55;
   color: var(--secondary-font-color);
 
-  /* One line per span - long names truncate instead of wrapping */
   span {
     white-space: nowrap;
     overflow: hidden;

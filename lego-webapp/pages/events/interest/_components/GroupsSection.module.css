@@ -4,7 +4,6 @@
   padding: 0 var(--spacing-md);
   scroll-margin-top: var(--spacing-md);
 
-  /* GroupCircle sizes itself from this, same as in the agenda */
   --circle-size: 44px;
   --tile-height: calc(var(--circle-size) + 2 * var(--spacing-sm) + 4px);
 }
@@ -78,7 +77,6 @@
   color: var(--lego-font-color);
   transition: background var(--easing-fast);
 
-  /* Inset separator, matching the rounded tile background */
   &::after {
     content: '';
     position: absolute;
