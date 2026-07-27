@@ -20,11 +20,6 @@ export const activateOnKey =
     }
   };
 
-export const truncateWords = (text: string, limit: number) => {
-  const words = text.split(/\s+/);
-  return words.length <= limit ? text : `${words.slice(0, limit).join(' ')} …`;
-};
-
 export const isToday = (time: Moment) => time.isSame(moment(), 'day');
 
 export const isTomorrow = (time: Moment) =>

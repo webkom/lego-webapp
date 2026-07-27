@@ -2,8 +2,10 @@ import { Skeleton } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import { isEmpty } from 'lodash-es';
+import { Leaf } from 'lucide-react';
 import moment from 'moment-timezone';
 import { useEffect, useRef, useState } from 'react';
+import EmptyState from '~/components/EmptyState';
 import PillSwitch from '~/components/PillSwitch';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
 import useIsInterestGroupLeader from '~/pages/events/interest/useIsInterestGroupLeader';
@@ -139,7 +141,12 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
           }
         />
       </div>
-      <div className={styles.list}>
+      <div
+        className={cx(
+          styles.list,
+          isEmpty(shownEvents) && !current.fetching && styles.listEmpty,
+        )}
+      >
         <div ref={listWrapRef}>
           {showCreateRow && <CreateEventRow />}
           {dayGroups.map((day) => (
@@ -182,13 +189,11 @@ const EventAgenda = ({ spotlightEventId }: Props) => {
             <Skeleton array={initialCount} className={styles.skeletonRow} />
           )}
           {isEmpty(shownEvents) && !current.fetching && (
-            <div className={styles.emptyLabel}>
-              {isMine
-                ? 'Ingen kommende arrangementer fra gruppene dine — bli med i flere grupper nedenfor.'
-                : isPast
-                  ? 'Ingenting her ennå.'
-                  : 'Ingen kommende arrangementer akkurat nå.'}
-            </div>
+            <EmptyState
+              iconNode={<Leaf />}
+              body="Ingen interessearrangementer"
+              className={styles.emptyState}
+            />
           )}
         </div>
       </div>

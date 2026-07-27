@@ -5,17 +5,14 @@ import { useRef, useState } from 'react';
 import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import useMemberGroupIds from '~/pages/events/interest/useMemberGroupIds';
-import {
-  activateOnKey,
-  attendanceLabel,
-  truncateWords,
-} from '~/pages/events/interest/utils';
+import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
 import { useAppSelector } from '~/redux/hooks';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
 } from '~/redux/slices/events';
 import { appConfig } from '~/utils/appConfig';
+import truncateString from '~/utils/truncateString';
 import styles from './EventAgenda.module.css';
 import EventAttendance from './EventAttendance';
 import GroupCircle from './GroupCircle';
@@ -152,7 +149,7 @@ const EventRow = ({ event, isPast, expanded, onToggle }: Props) => {
               />
             </div>
             <p className={styles.eventDescription}>
-              {truncateWords(event.description, 40)}
+              {truncateString(event.description, 250)}
             </p>
             <div
               className={styles.panelStrip}

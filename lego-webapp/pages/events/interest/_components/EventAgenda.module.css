@@ -36,10 +36,13 @@
   background: var(--border-gray);
 }
 
-/* Dividers between rows run to the left edge - only the agenda's top and
-   bottom lines are inset to respect the outer corner rounding */
 .dayRow:not(:last-child)::after {
   left: 0;
+  background: linear-gradient(
+    to right,
+    var(--border-gray) calc(100% - 48px),
+    transparent
+  );
 }
 
 /* The agenda's top and bottom lines fade softly at the ends */
@@ -57,6 +60,15 @@
 .list {
   min-height: calc(5 * var(--row-height));
   overflow-x: clip;
+}
+
+.listEmpty {
+  min-height: 0;
+}
+
+.emptyState {
+  height: calc(3 * var(--row-height));
+  justify-content: center;
 }
 
 /* The date section carries its own card-white panel, docking into the
@@ -540,10 +552,4 @@
   height: var(--row-height);
   margin: var(--spacing-md) 0;
   border-radius: var(--border-radius-lg);
-}
-
-.emptyLabel {
-  padding: var(--spacing-lg) var(--row-inline-pad);
-  font-size: var(--font-size-sm);
-  color: var(--secondary-font-color);
 }
