@@ -1,0 +1,7 @@
+.legend {
+  display: grid;
+  grid-template-rows: repeat(6, auto);
+  grid-auto-flow: column;
+  column-gap: var(--spacing-lg);
+  row-gap: var(--spacing-sm);
+}

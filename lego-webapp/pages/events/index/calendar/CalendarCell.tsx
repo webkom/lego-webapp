@@ -7,7 +7,6 @@ import TextWithIcon from '~/components/TextWithIcon';
 import Time, { FromToTime } from '~/components/Time';
 import { colorForEventType, textColorForEventType } from '~/pages/events/utils';
 import { useAppSelector } from '~/redux/hooks';
-import { EventType } from '~/redux/models/Event';
 import { selectAllEvents } from '~/redux/slices/events';
 import styles from './Calendar.module.css';
 import type { Dateish } from 'app/models';
@@ -134,13 +133,11 @@ const selectEvents = createSelector(
   (events, day) =>
     events.filter(
       (event) =>
-        event.eventType !== EventType.INTEREST_EVENT &&
-        (moment(event.startTime).isSame(day, 'day') ||
-          (moment(event.startTime).isSameOrBefore(day, 'day') &&
-            moment(event.endTime).isSameOrAfter(day, 'day') &&
-            moment.duration(
-              moment(event.endTime).diff(moment(event.startTime)),
-            ) > moment.duration(1, 'days'))),
+        moment(event.startTime).isSame(day, 'day') ||
+        (moment(event.startTime).isSameOrBefore(day, 'day') &&
+          moment(event.endTime).isSameOrAfter(day, 'day') &&
+          moment.duration(moment(event.endTime).diff(moment(event.startTime))) >
+            moment.duration(1, 'days')),
     ),
 );
 

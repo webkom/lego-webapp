@@ -7,7 +7,6 @@ import styles from '~/pages/events/index/calendar/Calendar.module.css';
 import CalendarCell from '~/pages/events/index/calendar/CalendarCell';
 import { fetchEvents } from '~/redux/actions/EventActions';
 import { useAppDispatch } from '~/redux/hooks';
-import { EventType } from '~/redux/models/Event';
 import { useCurrentUser } from '~/redux/slices/auth';
 import createMonthlyCalendar from '~/utils/createMonthlyCalendar';
 import { useParams } from '~/utils/useParams';
@@ -49,7 +48,6 @@ const Calendar = () => {
         const query = {
           date_after: dateAfter.format('YYYY-MM-DD'),
           date_before: dateBefore.format('YYYY-MM-DD'),
-          exclude_event_type: EventType.INTEREST_EVENT,
           page_size: 1000,
         };
         return dispatch(

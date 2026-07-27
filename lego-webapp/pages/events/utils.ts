@@ -22,15 +22,21 @@ export type ConfigProperties = {
   textColor: string;
 };
 
+// Sorted alphabetically by displayName, with "Annet" last
 export const EventTypeConfig: Record<EventType, ConfigProperties> = {
+  [EventType.ALTERNATIVE_PRESENTATION]: {
+    displayName: 'Alternativ bedpres',
+    color: '#8A2BE2',
+    textColor: '#FFF',
+  },
+  [EventType.EVENT]: {
+    displayName: 'Arrangement',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
+  },
   [EventType.COMPANY_PRESENTATION]: {
     displayName: 'Bedriftspresentasjon',
     color: '#A1C34A',
-    textColor: '#000',
-  },
-  [EventType.COURSE]: {
-    displayName: 'Kurs',
-    color: '#52B0EC',
     textColor: '#000',
   },
   [EventType.PARTY]: {
@@ -38,19 +44,24 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#ffd700',
     textColor: '#000',
   },
-  [EventType.SOCIAL]: {
-    displayName: 'Sosialt',
-    color: 'var(--color-event-red)',
-    textColor: '#FFF',
+  [EventType.BREAKFAST_TALK]: {
+    displayName: 'Frokostforedrag',
+    color: '#86D1D0',
+    textColor: '#000',
   },
   [EventType.GALA]: {
     displayName: 'Galla',
     color: '#d867c0',
     textColor: 'var(--color-white)',
   },
-  [EventType.BREAKFAST_TALK]: {
-    displayName: 'Frokostforedrag',
-    color: '#86D1D0',
+  [EventType.INTEREST_EVENT]: {
+    displayName: 'Interessearrangement',
+    color: 'var(--color-orange-6)',
+    textColor: 'var(--color-absolute-black)',
+  },
+  [EventType.COURSE]: {
+    displayName: 'Kurs',
+    color: '#52B0EC',
     textColor: '#000',
   },
   [EventType.LUNCH_PRESENTATION]: {
@@ -58,25 +69,15 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#A1C34A',
     textColor: '#000',
   },
-  [EventType.EVENT]: {
-    displayName: 'Arrangement',
-    color: 'var(--color-event-red)',
-    textColor: '#FFF',
-  },
-  [EventType.ALTERNATIVE_PRESENTATION]: {
-    displayName: 'Alternativ bedpres',
-    color: '#8A2BE2',
-    textColor: '#FFF',
-  },
   [EventType.NEXUS_EVENT]: {
     displayName: 'NEXUS-arrangement',
     color: '#00509E',
     textColor: 'var(--color-absolute-white)',
   },
-  [EventType.INTEREST_EVENT]: {
-    displayName: 'Interessearrangement',
-    color: 'var(--color-orange-6)',
-    textColor: 'var(--color-absolute-black)',
+  [EventType.SOCIAL]: {
+    displayName: 'Sosialt',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',
