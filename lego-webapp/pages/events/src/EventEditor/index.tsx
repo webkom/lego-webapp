@@ -74,12 +74,7 @@ const validate = createValidator({
   youtubeUrl: [validYoutubeUrl()],
   title: [required('Tittel er påkrevd')],
   description: [required('Kalenderbeskrivelse er påkrevd')],
-  text: [
-    conditionalValidation(
-      (allValues) => allValues.eventType?.value !== EventType.INTEREST_EVENT,
-      () => [legoEditorRequired('Innhold er påkrevd')],
-    ),
-  ],
+  text: [legoEditorRequired('Innhold er påkrevd')],
   eventType: [required('Arrangementstype er påkrevd')],
   location: [
     requiredIf((allValues) => !allValues.useMazemap, 'Sted er påkrevd'),
@@ -111,19 +106,11 @@ const validate = createValidator({
       ],
     ),
   ],
-  responsibleGroup: [
-    requiredIf(
-      (allValues) => allValues.eventType?.value === EventType.INTEREST_EVENT,
-      'Interessearrangementer må ha en ansvarlig interessegruppe',
-    ),
-  ],
   isClarified: [
     requiredIf(
       (allValues) =>
-        // Only require if we are creating a new event, and not an interest
-        // event (they don't go through the event calendar)
-        allValues.id === undefined &&
-        allValues.eventType?.value !== EventType.INTEREST_EVENT,
+        // Only require if we are creating a new event
+        allValues.id === undefined,
       'Arrangementet må være avklart i arrangementskalenderen',
     ),
   ],
@@ -201,12 +188,22 @@ const EventEditor = () => {
   };
 
   useEffect(() => {
-    if (isEditPage && event?.slug && event?.slug !== eventIdOrSlug) {
+    if (!isEditPage || !event?.slug) {
+      return;
+    }
+
+    // Interest events accept a narrower set of fields than this form offers,
+    // so they are edited in their own editor
+    if (event.eventType === EventType.INTEREST_EVENT) {
+      navigate(`/events/interest/${event.slug}/edit`, {
+        overwriteLastHistoryEntry: true,
+      });
+    } else if (event.slug !== eventIdOrSlug) {
       navigate(`/events/${event.slug}/edit`, {
         overwriteLastHistoryEntry: true,
       });
     }
-  }, [event?.slug, eventIdOrSlug, isEditPage]);
+  }, [event?.slug, event?.eventType, eventIdOrSlug, isEditPage]);
 
   const [useImageGallery, setUseImageGallery] = useState(false);
   const [imageGalleryUrl, setImageGalleryUrl] = useState('');
@@ -217,6 +214,11 @@ const EventEditor = () => {
 
   if (isEditPage && !actionGrant.includes('edit')) {
     return null;
+  }
+
+  // Held until the effect above has moved on to the interest editor
+  if (isEditPage && event.eventType === EventType.INTEREST_EVENT) {
+    return <LoadingPage loading />;
   }
 
   const onSubmit = (values: EditingEvent) => {
@@ -396,44 +398,43 @@ const EventEditor = () => {
               <Descriptions uploadFile={uploadFile} values={values} />
             </EditorSection>
 
-            {!isEditPage &&
-              values.eventType?.value !== EventType.INTEREST_EVENT && (
-                <Field
-                  label={
-                    <span>
-                      Arrangementet er avklart i{' '}
-                      <a href="/pages/arrangementer/86-arrangementskalender">
-                        arrangementskalenderen
-                      </a>
-                    </span>
-                  }
-                  description={
-                    <>
-                      Jeg er kjent med at jeg kun kan bruke rettighetene mine
-                      til å opprette et Abakusarrangement som er i tråd med{' '}
-                      <a
-                        style={{ display: 'contents' }}
-                        href="/pages/arrangementer/86-arrangementskalender"
-                      >
-                        arrangementskalenderen
-                      </a>{' '}
-                      og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
-                      <a
-                        style={{ display: 'contents' }}
-                        href="mailto:hs@abakus.no"
-                      >
-                        hs@abakus.no
-                      </a>{' '}
-                      dersom jeg er usikker eller ønsker å opprette et
-                      annet/eksternt arrangement.
-                    </>
-                  }
-                  name="isClarified"
-                  type="checkbox"
-                  component={CheckBox.Field}
-                  required
-                />
-              )}
+            {!isEditPage && (
+              <Field
+                label={
+                  <span>
+                    Arrangementet er avklart i{' '}
+                    <a href="/pages/arrangementer/86-arrangementskalender">
+                      arrangementskalenderen
+                    </a>
+                  </span>
+                }
+                description={
+                  <>
+                    Jeg er kjent med at jeg kun kan bruke rettighetene mine til
+                    å opprette et Abakusarrangement som er i tråd med{' '}
+                    <a
+                      style={{ display: 'contents' }}
+                      href="/pages/arrangementer/86-arrangementskalender"
+                    >
+                      arrangementskalenderen
+                    </a>{' '}
+                    og Abakus sine blesteregler, og at jeg må ta kontakt med{' '}
+                    <a
+                      style={{ display: 'contents' }}
+                      href="mailto:hs@abakus.no"
+                    >
+                      hs@abakus.no
+                    </a>{' '}
+                    dersom jeg er usikker eller ønsker å opprette et
+                    annet/eksternt arrangement.
+                  </>
+                }
+                name="isClarified"
+                type="checkbox"
+                component={CheckBox.Field}
+                required
+              />
+            )}
 
             <ButtonGroup>
               {isEditPage && (

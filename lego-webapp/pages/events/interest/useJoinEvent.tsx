@@ -1,7 +1,7 @@
 import moment from 'moment-timezone';
 import { useMemo, useState } from 'react';
 import { fetchEvent, register, unregister } from '~/redux/actions/EventActions';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useAppDispatch, useAppSelector, useAppStore } from '~/redux/hooks';
 import { EventStatusType } from '~/redux/models/Event';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { selectRegistrationForEventByUserId } from '~/redux/slices/events';
@@ -12,6 +12,7 @@ const useJoinEvent = (event: ListEvent) => {
   const [pending, setPending] = useState(false);
 
   const dispatch = useAppDispatch();
+  const store = useAppStore();
   const currentUser = useCurrentUser();
 
   const registrationProps = useMemo(
@@ -83,8 +84,10 @@ const useJoinEvent = (event: ListEvent) => {
 
       if (!registrationId) {
         await dispatch(fetchEvent(event.id));
-        const refreshed = dispatch((_dispatch, getState) =>
-          selectRegistrationForEventByUserId(getState(), registrationProps),
+        // The render's registration predates the fetch, so read the store
+        const refreshed = selectRegistrationForEventByUserId(
+          store.getState(),
+          registrationProps,
         );
         if (refreshed && refreshed.status !== 'SUCCESS_UNREGISTER') {
           registrationId = refreshed.id;

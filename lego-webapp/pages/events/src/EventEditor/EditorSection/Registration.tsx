@@ -11,7 +11,6 @@ import {
 } from '~/components/Form';
 import { FormatTime } from '~/components/Time';
 import Attendance from '~/components/UserAttendance/Attendance';
-import InterestCapacityField from '~/pages/events/interest/InterestCapacityField';
 import {
   containsAllergier,
   eventStatusTypes,
@@ -19,7 +18,6 @@ import {
   tooLow,
   unregistrationEditingCloseTime,
 } from '~/pages/events/utils';
-import { EventType } from '~/redux/models/Event';
 import { spyValues } from '~/utils/formSpyUtils';
 import styles from '../EventEditor.module.css';
 import renderPools from '../renderPools';
@@ -41,16 +39,11 @@ const Registrations: React.FC<Props> = ({ values }) => {
     permissionGroups: [],
   };
 
-  const isInterestEvent = values.eventType?.value === EventType.INTEREST_EVENT;
-
   return (
     <>
       {spyValues((values: EditingEvent) => {
         // Adding an initial pool if the event status type allows for it and there are no current pools
-        if (
-          isInterestEvent ||
-          ['NORMAL', 'INFINITE'].includes(values.eventStatusType?.value)
-        ) {
+        if (['NORMAL', 'INFINITE'].includes(values.eventStatusType?.value)) {
           if (values.pools.length === 0) {
             values.pools = [initialPool];
           }
@@ -59,12 +52,6 @@ const Registrations: React.FC<Props> = ({ values }) => {
           if (values.pools.length > 0) {
             values.pools = [];
           }
-        }
-
-        // The backend opens interest events to all of Abakus from creation
-        // until start - only the capacity is up to the creator
-        if (isInterestEvent) {
-          return <InterestCapacityField />;
         }
 
         return (
@@ -78,10 +65,9 @@ const Registrations: React.FC<Props> = ({ values }) => {
         );
       })}
 
-      {!isInterestEvent &&
-        ['NORMAL', 'INFINITE'].includes(values.eventStatusType?.value) && (
-          <NormalOrInfiniteStatusType values={values} />
-        )}
+      {['NORMAL', 'INFINITE'].includes(values.eventStatusType?.value) && (
+        <NormalOrInfiniteStatusType values={values} />
+      )}
     </>
   );
 };

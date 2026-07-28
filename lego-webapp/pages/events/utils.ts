@@ -86,6 +86,13 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
   },
 };
 
+// Interest events have their own page, editor and colour legend, and are
+// filtered out of the event list and calendar - the surfaces that speak for
+// those two list the types below instead of the full config
+export const nonInterestEventTypes = Object.entries(EventTypeConfig).filter(
+  ([eventType]) => eventType !== EventType.INTEREST_EVENT,
+);
+
 // Returns the string representation of an EventType
 export const displayNameForEventType = (eventType: EventType) => {
   return (

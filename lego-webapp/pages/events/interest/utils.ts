@@ -14,6 +14,10 @@ export const groupMonogram = (group: PublicGroup) =>
 
 export const activateOnKey =
   (action: () => void) => (e: KeyboardEvent<HTMLElement>) => {
+    if (e.target !== e.currentTarget) {
+      return;
+    }
+
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       action();

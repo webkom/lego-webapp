@@ -32,7 +32,7 @@ const EventAttendance = ({
   const [modalTab, setModalTab] = useState(0);
   const currentUser = useCurrentUser();
 
-  const count = registrations.length || event.registrationCount || 0;
+  const count = event.registrationCount ?? registrations.length;
 
   const you = currentUser
     ? registrations.find(
@@ -50,9 +50,11 @@ const EventAttendance = ({
       : MAX_FACES - faces.length;
   const hasAttendees = faces.length > 0;
 
-  const names = others
+  const names = ordered
     .slice(0, 2)
-    .map((registration) => registration.user.firstName.split(' ')[0]);
+    .map((registration) =>
+      registration === you ? 'Du' : registration.user.firstName.split(' ')[0],
+    );
   const hidden = count - names.length;
 
   let lines: string[];

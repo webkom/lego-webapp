@@ -428,7 +428,7 @@
   max-height: 5rem;
   font-size: var(--font-size-sm);
   line-height: 1.7;
-  color: var(--secondary-font-color);
+  color: var(--lego-font-color);
   text-wrap: pretty;
 }
 

@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { GroupType } from 'app/models';
 import { useAppSelector } from '~/redux/hooks';
 import { selectGroupsByType } from '~/redux/slices/groups';
@@ -10,10 +11,15 @@ const useMemberGroupIds = (): Set<EntityId> => {
     selectGroupsByType<PublicListGroup>(state, GroupType.Interest),
   );
 
-  return new Set(
-    interestGroups
-      .filter((group) => group.userMembership)
-      .map((group) => group.id),
+  // Every agenda row calls this, so build the set once per group change
+  return useMemo(
+    () =>
+      new Set(
+        interestGroups
+          .filter((group) => group.userMembership)
+          .map((group) => group.id),
+      ),
+    [interestGroups],
   );
 };
 
