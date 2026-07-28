@@ -25,7 +25,6 @@
   }
 }
 
-/* No hover cue or pointer when there is no one to show in the modal */
 .faceRowEmpty {
   cursor: default;
 

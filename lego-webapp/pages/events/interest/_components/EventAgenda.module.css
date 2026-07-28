@@ -8,6 +8,7 @@
   --day-column: 180px;
   --row-inline-pad: clamp(var(--spacing-md), 2vw, 32px);
   --row-gap: clamp(10px, 2vw, 20px);
+  --orange-hover: rgba(245, 165, 36, 0.09);
 }
 
 .header {
@@ -32,7 +33,6 @@
   left: var(--border-radius-lg);
   right: var(--border-radius-lg);
   height: 1px;
-  background: var(--border-gray);
 }
 
 .dayRow:not(:last-child)::after {
@@ -70,8 +70,6 @@
   justify-content: center;
 }
 
-/* The date section carries its own card-white panel, docking into the
-   info column */
 .dayRow {
   position: relative;
   display: grid;
@@ -141,9 +139,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* The tinted surface covers the info column only - the day column next to
-   it stays on the page background. overflow clips the inner surfaces to
-   this rounding, and to the outer corners on the first/last wrapper */
 .eventWrapper {
   cursor: pointer;
   transition: background var(--easing-fast);
@@ -155,11 +150,17 @@
   }
 }
 
-.eventRow {
+/* Shared row geometry - event rows, the create row, and the peek teasers */
+.eventRow,
+.createRow,
+.peekRow {
   display: flex;
   align-items: center;
   gap: var(--row-gap);
   padding: var(--spacing-md) var(--row-inline-pad);
+}
+
+.eventRow {
   transition: background var(--easing-fast);
 
   &:hover {
@@ -167,7 +168,8 @@
   }
 }
 
-.eventMonogram {
+.eventMonogram,
+.createCircle {
   width: var(--circle-size);
   height: var(--circle-size);
   border-radius: 50%;
@@ -175,6 +177,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.eventMonogram {
   overflow: hidden;
   font-size: var(--font-size-xs);
   font-weight: 600;
@@ -240,7 +245,6 @@
   min-width: 5.2em;
 }
 
-/* Joined counterpart to the small "Bli med" button - press again to leave */
 .joinedPill {
   display: inline-flex;
   align-items: center;
@@ -283,8 +287,6 @@
   }
 }
 
-/* Attendance rail under the group circle, description beside it. The content
-   slides and fades in slightly after the panel starts opening */
 .eventPanelContent {
   display: flex;
   flex-wrap: wrap;
@@ -304,20 +306,15 @@
 
   @media (--medium-viewport) {
     flex-direction: column;
-    gap: var(--spacing-md);
   }
 }
 
-/* Sized by its own faces and names - the description follows right after,
-   capped so a long name truncates instead of pushing it away */
 .eventAttendance {
   max-width: 160px;
   flex: none;
   cursor: default;
 }
 
-/* Full-bleed footer strip: the event-page link left, share right. Bleeds
-   through the panel padding to the card's edges and bottom corners */
 .panelStrip {
   flex: none;
   display: flex;
@@ -347,13 +344,11 @@
     color var(--easing-fast);
 
   &:hover {
-    background: rgba(245, 165, 36, 0.09);
+    background: var(--orange-hover);
     color: var(--color-orange-7);
   }
 }
 
-/* Centers the arrow under the group circle; the label then starts at the
-   title's offset */
 .stripIconRail {
   width: var(--circle-size);
   flex: none;
@@ -396,8 +391,7 @@
   }
 }
 
-/* Del ⇄ Kopiert! crossfade on a shared grid cell, so the zone keeps its
-   width; the icon pops in like the joined pill */
+/* Del and Kopiert crossfade on a shared grid cell */
 .stripShareLabel {
   display: grid;
   text-align: left;
@@ -439,29 +433,18 @@
 }
 
 .createRow {
-  display: flex;
-  align-items: center;
-  gap: var(--row-gap);
-  padding: var(--spacing-md) var(--row-inline-pad);
   border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
   color: var(--lego-font-color);
   cursor: pointer;
   transition: background var(--easing-fast);
 
   &:hover {
-    background: rgba(245, 165, 36, 0.09);
+    background: var(--orange-hover);
   }
 }
 
 .createCircle {
-  width: var(--circle-size);
-  height: var(--circle-size);
-  border-radius: 50%;
-  flex: none;
   border: 1.5px dashed var(--color-gray-4);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   color: var(--color-gray-6);
   transition: background var(--easing-fast);
 
@@ -493,13 +476,6 @@
   pointer-events: none;
   filter: grayscale(1);
   opacity: 0.5;
-}
-
-.peekRow {
-  display: flex;
-  align-items: center;
-  gap: var(--row-gap);
-  padding: var(--spacing-md) var(--row-inline-pad);
 }
 
 .peekOverlay {
