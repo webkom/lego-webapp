@@ -1,10 +1,11 @@
-# Description
+## Description
 
-Please write a summary of the changes, and please include relevant motivation and context. Remember to label your pull request properly; e.g. **bug-fix**, **new-feature** or **docs**.
+<!-- What changed, and why? Include motivation and context. -->
+<!-- Label the PR: bug-fix, new-feature, docs, etc. -->
 
-# Result
+## Result
 
-If you've made visual changes, please check the boxes below and include images showing the changes. Descriptions are appreciated.
+<!-- For visual changes, fill in the table and tick the boxes. -->
 
 - [ ] Changes look good on both light and dark theme.
 - [ ] Changes look good with different viewports (mobile, tablet, etc.).
@@ -32,7 +33,9 @@ If you've made visual changes, please check the boxes below and include images s
     </tr>
 </table>
 
-# Testing
+## Testing
+
+<!-- What did you test, and how? Add steps to reproduce if it helps a reviewer. -->
 
 - [ ] I have thoroughly tested my changes.
 
@@ -40,4 +43,6 @@ Please describe what and how the changes have been tested, and provide instructi
 
 ---
 
-Resolves ... (either GitHub issue or Linear task)
+Dependent on <!-- ... backend PR link, delete if none --> 
+
+Resolves <!-- ... #123 -->
