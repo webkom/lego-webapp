@@ -4,12 +4,38 @@ import type { PaymentMethod, Stripe } from '@stripe/stripe-js';
 
 const paymentMethod = { id: 'pm_123' } as unknown as PaymentMethod;
 
-type ConfirmResult = { error?: { message?: string } };
+const GENERIC_ERROR =
+  'Det oppsto en ukjent feil. Hvis problemet vedvarer, ta kontakt med Webkom.';
 
-const setup = (confirmResults: ConfirmResult[]) => {
+// Shapes returned by stripe.confirmCardPayment, see
+// https://docs.stripe.com/js/payment_intents/confirm_card_payment
+const requiresAction = {
+  paymentIntent: { id: 'pi_123', status: 'requires_action' },
+};
+const succeeded = { paymentIntent: { id: 'pi_123', status: 'succeeded' } };
+const declined = {
+  error: {
+    type: 'card_error',
+    code: 'card_declined',
+    message: 'Your card was declined.',
+  },
+};
+const authenticationFailure = {
+  error: {
+    type: 'card_error',
+    code: 'payment_intent_authentication_failure',
+    message: 'We are unable to authenticate your payment method.',
+  },
+};
+
+type ConfirmOutcome = Record<string, unknown> | Error;
+
+const setup = (outcomes: ConfirmOutcome[]) => {
   const confirmCardPayment = vi.fn();
-  confirmResults.forEach((result) =>
-    confirmCardPayment.mockResolvedValueOnce(result),
+  outcomes.forEach((outcome) =>
+    outcome instanceof Error
+      ? confirmCardPayment.mockRejectedValueOnce(outcome)
+      : confirmCardPayment.mockResolvedValueOnce(outcome),
   );
   return {
     stripe: { confirmCardPayment } as unknown as Stripe,
@@ -23,7 +49,7 @@ const setup = (confirmResults: ConfirmResult[]) => {
 
 describe('confirmPaymentRequest', () => {
   it('dismisses the wallet sheet and finalises the payment on success', async () => {
-    const ctx = setup([{}, {}]); // both confirmation steps succeed
+    const ctx = setup([requiresAction, succeeded]);
 
     await confirmPaymentRequest({
       ...ctx,
@@ -48,7 +74,7 @@ describe('confirmPaymentRequest', () => {
   });
 
   it('fails the sheet and surfaces the error when confirmation is rejected', async () => {
-    const ctx = setup([{ error: { message: 'Card declined' } }]);
+    const ctx = setup([declined]);
 
     await confirmPaymentRequest({
       ...ctx,
@@ -57,14 +83,14 @@ describe('confirmPaymentRequest', () => {
     });
 
     expect(ctx.complete).toHaveBeenCalledWith('fail');
-    expect(ctx.setError).toHaveBeenCalledWith('Card declined');
+    expect(ctx.setError).toHaveBeenCalledWith('Your card was declined.');
     expect(ctx.setSuccess).not.toHaveBeenCalled();
     // Must not run the second confirmation after a failure.
     expect(ctx.confirmCardPayment).toHaveBeenCalledTimes(1);
   });
 
   it('still reports an error if a required next action fails after success', async () => {
-    const ctx = setup([{}, { error: { message: '3D Secure failed' } }]);
+    const ctx = setup([requiresAction, authenticationFailure]);
 
     await confirmPaymentRequest({
       ...ctx,
@@ -73,8 +99,42 @@ describe('confirmPaymentRequest', () => {
     });
 
     expect(ctx.complete).toHaveBeenCalledWith('success');
-    expect(ctx.setError).toHaveBeenCalledWith('3D Secure failed');
+    expect(ctx.setError).toHaveBeenCalledWith(
+      'We are unable to authenticate your payment method.',
+    );
     expect(ctx.setSuccess).not.toHaveBeenCalled();
+    expect(ctx.setLoading).toHaveBeenLastCalledWith(false);
+  });
+
+  it('fails the sheet when the first confirmation rejects', async () => {
+    const ctx = setup([new Error('Network error')]);
+
+    await confirmPaymentRequest({
+      ...ctx,
+      clientSecret: 'cs_test',
+      paymentMethod,
+    });
+
+    expect(ctx.complete).toHaveBeenCalledWith('fail');
+    expect(ctx.setError).toHaveBeenCalledWith(GENERIC_ERROR);
+    expect(ctx.setSuccess).not.toHaveBeenCalled();
+    expect(ctx.confirmCardPayment).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the sheet dismissed when the next action rejects', async () => {
+    const ctx = setup([requiresAction, new Error('Network error')]);
+
+    await confirmPaymentRequest({
+      ...ctx,
+      clientSecret: 'cs_test',
+      paymentMethod,
+    });
+
+    expect(ctx.complete).toHaveBeenCalledTimes(1);
+    expect(ctx.complete).toHaveBeenCalledWith('success');
+    expect(ctx.setError).toHaveBeenCalledWith(GENERIC_ERROR);
+    expect(ctx.setSuccess).not.toHaveBeenCalled();
+    expect(ctx.setLoading).toHaveBeenLastCalledWith(false);
   });
 
   it('fails the sheet without charging when there is no clientSecret', async () => {
