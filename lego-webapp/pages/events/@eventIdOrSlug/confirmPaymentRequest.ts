@@ -7,6 +7,9 @@ import type {
 const GENERIC_ERROR =
   'Det oppsto en ukjent feil. Hvis problemet vedvarer, ta kontakt med Webkom.';
 
+export const PAYMENT_NOT_READY_ERROR =
+  'Betalingen er ikke klar enda. Vent et øyeblikk og prøv igjen.';
+
 type ConfirmPaymentRequestArgs = {
   stripe: Stripe;
   clientSecret: string | undefined;
@@ -24,7 +27,8 @@ type ConfirmPaymentRequestArgs = {
  * `complete()` must be called on every path to dismiss the wallet sheet –
  * if it isn't, the Apple Pay / Google Pay sheet spins forever (the bug this
  * replaced). `complete('success')` is sent before running any required next
- * actions (e.g. 3D Secure), as recommended by Stripe.
+ * actions (e.g. 3D Secure), as recommended by Stripe:
+ * https://docs.stripe.com/stripe-js/elements/payment-request-button#complete-payment-intents
  */
 export const confirmPaymentRequest = async ({
   stripe,
@@ -37,31 +41,41 @@ export const confirmPaymentRequest = async ({
 }: ConfirmPaymentRequestArgs) => {
   if (!clientSecret) {
     complete('fail');
-    setError('Betalingen er ikke klar enda. Vent et øyeblikk og prøv igjen.');
+    setError(PAYMENT_NOT_READY_ERROR);
     return;
   }
 
-  const { error: confirmError } = await stripe.confirmCardPayment(
-    clientSecret,
-    { payment_method: paymentMethod.id },
-    { handleActions: false },
-  );
+  try {
+    const { error: confirmError } = await stripe.confirmCardPayment(
+      clientSecret,
+      { payment_method: paymentMethod.id },
+      { handleActions: false },
+    );
 
-  if (confirmError) {
+    if (confirmError) {
+      complete('fail');
+      setError(confirmError.message ?? GENERIC_ERROR);
+      return;
+    }
+  } catch {
     complete('fail');
-    setError(confirmError.message ?? GENERIC_ERROR);
+    setError(GENERIC_ERROR);
     return;
   }
 
   complete('success');
   setLoading(true);
 
-  const { error } = await stripe.confirmCardPayment(clientSecret);
+  try {
+    const { error } = await stripe.confirmCardPayment(clientSecret);
 
-  if (error) {
-    setError(error.message ?? GENERIC_ERROR);
-  } else {
-    setSuccess();
+    if (error) {
+      setError(error.message ?? GENERIC_ERROR);
+    } else {
+      setSuccess();
+    }
+  } catch {
+    setError(GENERIC_ERROR);
   }
 
   setLoading(false);

@@ -9,13 +9,16 @@ import {
 } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { Button, Card, LoadingIndicator } from '@webkom/lego-bricks';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { payment } from '~/redux/actions/EventActions';
 import { useAppDispatch } from '~/redux/hooks';
 import { appConfig } from '~/utils/appConfig';
 import { useTheme } from '~/utils/themeUtils';
 import stripeStyles from './Stripe.module.css';
-import { confirmPaymentRequest } from './confirmPaymentRequest';
+import {
+  PAYMENT_NOT_READY_ERROR,
+  confirmPaymentRequest,
+} from './confirmPaymentRequest';
 import type {
   PaymentRequest,
   PaymentRequestPaymentMethodEvent,
@@ -97,24 +100,29 @@ const CardForm = (props: CardFormProps) => {
         setError(
           'Teknisk feil, skjemaet har ikke blitt startet riktig. Ta kontakt med Webkom om problemet vedvarer.',
         );
+        setLoading(false);
         return;
       }
-      const { error } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            email: currentUser.email,
-            name: currentUser.fullName,
+      try {
+        const { error } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: card,
+            billing_details: {
+              email: currentUser.email,
+              name: currentUser.fullName,
+            },
           },
-        },
-      });
+        });
 
-      if (error) {
-        setError(
-          error.message ?? 'Det skjedde en ukjent feil med betalingen din.',
-        );
-      } else {
-        setSuccess();
+        if (error) {
+          setError(
+            error.message ?? 'Det skjedde en ukjent feil med betalingen din.',
+          );
+        } else {
+          setSuccess();
+        }
+      } catch {
+        setError('Det skjedde en ukjent feil med betalingen din.');
       }
 
       setLoading(false);
@@ -175,8 +183,10 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     null,
   );
   const [canMakePayment, setCanMakePayment] = useState(false);
+  const paymentRequested = useRef(false);
 
   const stripe = useStripe();
+  const dispatch = useAppDispatch();
 
   const {
     event,
@@ -213,6 +223,19 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
 
     setPaymentRequest(paymentReq);
   }, [paymentRequest, stripe, event, setCanPaymentRequest]);
+
+  // The card form requests the payment intent when it is submitted, but the
+  // wallet sheet confirms the moment the user authorises it – there is no
+  // submit step to hang it off. Request it as soon as we know a wallet is
+  // available, so the clientSecret is in place before the sheet can open.
+  useEffect(() => {
+    if (!canMakePayment || clientSecret || paymentRequested.current) {
+      return;
+    }
+
+    paymentRequested.current = true;
+    dispatch(payment(event.id));
+  }, [canMakePayment, clientSecret, dispatch, event.id]);
 
   // (Re)register the `paymentmethod` listener whenever its dependencies change,
   // so it always confirms with the current clientSecret. The handler *must*
@@ -258,6 +281,12 @@ const PaymentRequestForm = (props: PaymentRequestFormProps) => {
     >
       {canMakePayment && paymentRequest && (
         <PaymentRequestButtonElement
+          onClick={(e) => {
+            if (!clientSecret) {
+              e.preventDefault();
+              setError(PAYMENT_NOT_READY_ERROR);
+            }
+          }}
           className={stripeStyles.PaymentRequestButton}
           options={{
             style: {
