@@ -15,22 +15,28 @@
 > Make sure your images do not contain any real user information.
 
 <table>
+  <thead>
     <tr>
-        <td width="25%">Description</td>
-        <td>Before</td>
-        <td>After</td>
+      <th width="25%">Description</th>
+      <th>Before</th>
+      <th>After</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
-        <td>
-            ...
-        </td>
-        <td>
-            ...
-        </td>
-        <td>
-            ...
-        </td>
+      <td>...</td>
+      <td>
+
+<!-- paste image/video URL directly under this line -->
+
+</td>
+      <td>
+
+<!-- paste image/video URL directly under this line -->
+
+</td>
     </tr>
+  </tbody>
 </table>
 
 ## Testing
