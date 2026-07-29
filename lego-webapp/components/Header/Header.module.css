@@ -105,11 +105,12 @@ html[data-theme='dark'] img.logoDarkMode {
   display: block;
 }
 
-.searchButton {
+.searchButton.searchButton {
   display: flex;
   width: 24px;
   align-items: center;
   box-sizing: content-box;
+  padding-right: 0;
   z-index: 301;
 }
 
