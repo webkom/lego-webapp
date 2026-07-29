@@ -1,5 +1,6 @@
 import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { useId } from 'react';
 import { Label } from '~/components/Form/Label';
 import styles from './Field.module.css';
 import type { ComponentType } from 'react';
@@ -9,18 +10,38 @@ const FieldError = ({
   error,
   fieldName,
 }: {
-  error?: string;
+  error: string;
   fieldName?: string;
-}) =>
-  error ? (
-    <Flex
-      alignItems="center"
-      className={styles.fieldError}
-      data-error-field-name={fieldName}
-    >
-      {typeof error === 'object' ? JSON.stringify(error) : error}
-    </Flex>
-  ) : null;
+}) => (
+  <Flex
+    alignItems="center"
+    className={styles.fieldError}
+    data-error-field-name={fieldName}
+  >
+    {error}
+  </Flex>
+);
+
+/**
+ * Flattens an error into the messages to display. Validation errors reach us as
+ * a string, an array (one entry per item of an array field) or an object keyed
+ * by subfield, so anything but a string was previously dropped without a trace.
+ */
+export const toErrorMessages = (error: unknown): string[] => {
+  if (error === null || error === undefined || error === false) {
+    return [];
+  }
+  if (typeof error === 'string') {
+    return error.trim() ? [error] : [];
+  }
+  if (Array.isArray(error)) {
+    return error.flatMap(toErrorMessages);
+  }
+  if (typeof error === 'object') {
+    return Object.values(error).flatMap(toErrorMessages);
+  }
+  return [String(error)];
+};
 
 /**
  * Renders validation errors over the content below by default, so showing one
@@ -31,14 +52,14 @@ export const RenderErrorMessage = ({
   error,
   fieldName,
   inline = false,
+  id,
 }: {
-  error: Array<string> | string;
+  error: unknown;
   fieldName?: string;
   inline?: boolean;
+  id?: string;
 }) => {
-  const errors = (Array.isArray(error) ? error.flat(Infinity) : [error]).filter(
-    Boolean,
-  );
+  const errors = [...new Set(toErrorMessages(error))];
 
   if (errors.length === 0) {
     return null;
@@ -46,6 +67,7 @@ export const RenderErrorMessage = ({
 
   return (
     <div
+      id={id}
       className={inline ? styles.fieldErrorFlow : styles.fieldErrorOverlay}
       role="alert"
     >
@@ -61,6 +83,8 @@ type Options = {
   noLabel?: boolean;
   // Sets the label to be inline with the component
   inlineLabel?: boolean;
+  // The component renders the label itself, so no wrapper is added around it
+  ownLabel?: boolean;
 };
 
 /**
@@ -84,23 +108,34 @@ export function createField<T, ExtraProps extends object>(
       onChange,
       showErrors = true,
       className = null,
+      id,
       ...props
     } = fieldProps;
     const { error, submitError, touched } = meta;
     const anyError = error || submitError;
-    const hasError = showErrors && touched && anyError && anyError.length > 0;
+    const hasError =
+      !!showErrors && !!touched && toErrorMessages(anyError).length > 0;
     const fieldName = input?.name;
-    const { noLabel, inlineLabel } = options || {};
+    const { noLabel, inlineLabel, ownLabel } = options || {};
+
+    const generatedId = useId();
+    const fieldId = id ?? generatedId;
+    const errorId = `${fieldId}-error`;
 
     const component = (
       <Component
-        {...(input as FieldInputProps<T>)}
+        id={fieldId}
         {...(props as ExtraProps)}
-        label={!noLabel && !inlineLabel && label}
+        {...(input as FieldInputProps<T>)}
+        label={ownLabel ? label : !noLabel && !inlineLabel && label}
+        required={ownLabel ? required : undefined}
         onChange={(value) => {
           input.onChange?.(value);
           onChange?.(value);
         }}
+        aria-invalid={hasError || undefined}
+        aria-describedby={hasError ? errorId : undefined}
+        aria-required={required || undefined}
         className={cx(className, hasError && styles.inputWithError)}
       />
     );
@@ -111,18 +146,27 @@ export function createField<T, ExtraProps extends object>(
         className={cx(styles.field, fieldClassName)}
         style={fieldStyle}
       >
-        <Label
-          className={labelClassName}
-          label={label}
-          noLabel={noLabel}
-          description={description}
-          inline={inlineLabel}
-          required={required}
-        >
-          {component}
-        </Label>
+        {ownLabel ? (
+          component
+        ) : (
+          <Label
+            className={labelClassName}
+            htmlFor={noLabel ? undefined : fieldId}
+            label={label}
+            noLabel={noLabel}
+            description={description}
+            inline={inlineLabel}
+            required={required}
+          >
+            {component}
+          </Label>
+        )}
         {hasError && (
-          <RenderErrorMessage error={anyError} fieldName={fieldName} />
+          <RenderErrorMessage
+            id={errorId}
+            error={anyError}
+            fieldName={fieldName}
+          />
         )}
       </Flex>
     );
