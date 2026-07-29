@@ -18,6 +18,10 @@
   }
 }
 
+.pageContent.pageContent {
+  padding: var(--spacing-md);
+}
+
 .hiddenTabs {
   display: none;
 }
@@ -53,6 +57,10 @@
 .back:hover .backIcon,
 .back:focus .backIcon {
   transform: translateX(calc(-1 * var(--spacing-xs)));
+}
+
+.infoCard.infoCard {
+  padding: var(--spacing-md);
 }
 
 .content {

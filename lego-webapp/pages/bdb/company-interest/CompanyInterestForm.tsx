@@ -732,7 +732,13 @@ const CompanyInterestForm = ({ language }: Props) => {
   const title = edit ? 'Bedriftsinteresse' : FORM_LABELS.mainHeading[language];
 
   return (
-    <Page card={false} classNames={{ tabContainer: styles.hiddenTabs }}>
+    <Page
+      card={false}
+      classNames={{
+        content: styles.pageContent,
+        tabContainer: styles.hiddenTabs,
+      }}
+    >
       <Helmet title={title} />
 
       <LegoFinalForm
@@ -766,11 +772,13 @@ const CompanyInterestForm = ({ language }: Props) => {
 
             <div className={styles.content}>
               {!edit && (
-                <Card severity="info">
-                  {FORM_LABELS.subHeading[language]}
-                  <a href="mailto:bedriftskontakt@abakus.no">
-                    bedriftskontakt@abakus.no
-                  </a>
+                <Card severity="info" className={styles.infoCard}>
+                  <span>
+                    {FORM_LABELS.subHeading[language]}
+                    <a href="mailto:bedriftskontakt@abakus.no">
+                      bedriftskontakt@abakus.no
+                    </a>
+                  </span>
                 </Card>
               )}
 
