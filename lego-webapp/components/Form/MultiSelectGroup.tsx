@@ -21,7 +21,7 @@ const MultiSelectGroup = ({
   children,
 }: Props) => {
   return (
-    <>
+    <div className={styles.multiSelectGroup}>
       <FieldSet legend={legend} description={description} required={required}>
         <div className={styles.group}>
           {Children.map(children, (child) =>
@@ -69,7 +69,7 @@ const MultiSelectGroup = ({
           return <></>;
         }}
       </FormSpy>
-    </>
+    </div>
   );
 };
 

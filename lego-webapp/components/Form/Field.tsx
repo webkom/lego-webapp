@@ -22,24 +22,38 @@ const FieldError = ({
     </Flex>
   ) : null;
 
+/**
+ * Renders validation errors over the content below by default, so showing one
+ * does not shift the surrounding layout. Pass `inline` where the message owns
+ * its space in the flow, such as form level submission errors.
+ */
 export const RenderErrorMessage = ({
   error,
   fieldName,
+  inline = false,
 }: {
   error: Array<string> | string;
   fieldName?: string;
+  inline?: boolean;
 }) => {
-  if (Array.isArray(error)) {
-    return (
-      <>
-        {error.map((error) => (
-          <RenderErrorMessage key={error} error={error} fieldName={fieldName} />
-        ))}
-      </>
-    );
+  const errors = (Array.isArray(error) ? error.flat(Infinity) : [error]).filter(
+    Boolean,
+  );
+
+  if (errors.length === 0) {
+    return null;
   }
 
-  return <FieldError error={error} fieldName={fieldName} />;
+  return (
+    <div
+      className={inline ? styles.fieldErrorFlow : styles.fieldErrorOverlay}
+      role="alert"
+    >
+      {errors.map((error, index) => (
+        <FieldError key={index} error={error} fieldName={fieldName} />
+      ))}
+    </div>
+  );
 };
 
 type Options = {
@@ -108,9 +122,7 @@ export function createField<T, ExtraProps extends object>(
           {component}
         </Label>
         {hasError && (
-          <div className={styles.fieldErrorOverlay} role="alert">
-            <RenderErrorMessage error={anyError} fieldName={fieldName} />
-          </div>
+          <RenderErrorMessage error={anyError} fieldName={fieldName} />
         )}
       </Flex>
     );
