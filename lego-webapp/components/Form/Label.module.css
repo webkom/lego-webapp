@@ -10,12 +10,40 @@
   margin-bottom: 0;
 }
 
-.inline {
-  cursor: pointer;
+.descriptionText {
+  margin-bottom: var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
 
+/* The label sits closer to its description than to the control below it. */
+.labelRow:has(+ .descriptionText) {
+  margin-bottom: var(--spacing-xs);
+}
+
+.inline {
   .label {
     font-size: inherit;
   }
+
+  .descriptionText {
+    margin-top: var(--spacing-xs);
+    margin-bottom: 0;
+  }
+}
+
+/* Everything the field reveals shares this column, so it aligns with the label
+   text without repeating the control's width anywhere. */
+.inlineColumn {
+  min-width: 0;
+}
+
+/* Only the label and its description toggle the control, so only they are
+   styled as something to click. */
+.inlineLabel {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
 }
 
 .required {

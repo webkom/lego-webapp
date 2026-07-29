@@ -44,11 +44,16 @@ export const FieldDescription = ({
   </>
 );
 
+/** Where a field's description is shown: behind a help icon, or as text. */
+export type DescriptionPosition = 'tooltip' | 'inline';
+
 type LabelProps = HTMLProps<HTMLLabelElement> & {
   label: ReactNode;
   noLabel?: boolean;
   description?: string;
   descriptionId?: string;
+  descriptionPosition?: DescriptionPosition;
+  inlineContent?: ReactNode;
   required?: boolean;
   inline?: boolean;
 };
@@ -58,6 +63,8 @@ export const Label = ({
   noLabel,
   description,
   descriptionId,
+  descriptionPosition = 'tooltip',
+  inlineContent,
   required,
   inline,
   children,
@@ -65,21 +72,42 @@ export const Label = ({
 }: LabelProps) => {
   const LabelComponent = noLabel ? 'span' : 'label';
 
+  /* Visible text carries the id itself, so aria-describedby resolves to what
+     is on screen rather than to a copy kept for assistive technology. */
+  const descriptionText = description && descriptionPosition === 'inline' && (
+    <p id={descriptionId} className={styles.descriptionText}>
+      {description}
+    </p>
+  );
+
   const labelElement = (
-    <LabelComponent {...labelProps}>
-      {inline ? (
-        <Flex
-          alignItems="center"
-          gap="var(--spacing-sm)"
-          className={styles.inline}
-        >
-          {children}
-          <LabelText label={label} required={required} />
-        </Flex>
-      ) : (
-        <LabelText label={label} required={required} />
-      )}
+    <LabelComponent
+      {...labelProps}
+      className={cx(labelProps.className, inline && styles.inlineLabel)}
+    >
+      <LabelText label={label} required={required} />
+      {inline && descriptionText}
     </LabelComponent>
+  );
+
+  /* The control sits beside a column holding the label, its description and
+     whatever the field reveals, so all three line up under the label text
+     whatever the control's width. The revealed content is a sibling of the
+     <label> rather than a child: interactive content inside a label toggles
+     the control it belongs to. The control keeps its association through
+     htmlFor, so nothing has to be nested for the two to stay bound. */
+  const inlineLayout = (
+    <Flex
+      alignItems={descriptionText || inlineContent ? 'flex-start' : 'center'}
+      gap="var(--spacing-sm)"
+      className={styles.inline}
+    >
+      {children}
+      <Flex column className={styles.inlineColumn}>
+        {labelElement}
+        {inlineContent}
+      </Flex>
+    </Flex>
   );
 
   const row = (
@@ -88,8 +116,8 @@ export const Label = ({
       gap="var(--spacing-xs)"
       className={cx(styles.labelRow, inline && styles.inlineRow)}
     >
-      {labelElement}
-      {description && (
+      {inline ? inlineLayout : labelElement}
+      {description && descriptionPosition === 'tooltip' && (
         <FieldDescription description={description} id={descriptionId} />
       )}
     </Flex>
@@ -100,6 +128,7 @@ export const Label = ({
   ) : (
     <>
       {row}
+      {descriptionText}
       {children}
     </>
   );

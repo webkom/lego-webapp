@@ -103,6 +103,8 @@ export function createField<T, ExtraProps extends object>(
       label,
       fieldStyle,
       description,
+      descriptionPosition,
+      inlineContent,
       fieldClassName,
       labelClassName,
       onChange,
@@ -159,6 +161,8 @@ export function createField<T, ExtraProps extends object>(
             noLabel={noLabel}
             description={description}
             descriptionId={descriptionId}
+            descriptionPosition={descriptionPosition}
+            inlineContent={inlineContent}
             inline={inlineLabel}
             required={required}
           >

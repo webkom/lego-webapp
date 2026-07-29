@@ -4,12 +4,14 @@ import { FormSpy } from 'react-final-form';
 import { FieldSet } from '~/components/Form/FieldSet';
 import { RenderErrorMessage, toErrorMessages } from './Field';
 import styles from './MultiSelectGroup.module.css';
+import type { DescriptionPosition } from './Label';
 import type { ReactElement } from 'react';
 
 type Props = {
   name: string;
   legend: string;
   description?: string;
+  descriptionPosition?: DescriptionPosition;
   required?: boolean;
   children: ReactElement | ReactElement[];
 };
@@ -18,6 +20,7 @@ const MultiSelectGroup = ({
   name,
   legend,
   description,
+  descriptionPosition,
   required,
   children,
 }: Props) => {
@@ -40,6 +43,7 @@ const MultiSelectGroup = ({
               legend={legend}
               description={description}
               descriptionId={descriptionId}
+              descriptionPosition={descriptionPosition}
               required={required}
               aria-invalid={hasError || undefined}
               aria-describedby={
