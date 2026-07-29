@@ -108,7 +108,9 @@ export function createField<T, ExtraProps extends object>(
           {component}
         </Label>
         {hasError && (
-          <RenderErrorMessage error={anyError} fieldName={fieldName} />
+          <div className={styles.fieldErrorOverlay} role="alert">
+            <RenderErrorMessage error={anyError} fieldName={fieldName} />
+          </div>
         )}
       </Flex>
     );

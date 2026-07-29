@@ -1,5 +1,6 @@
 .field {
   width: 100%;
+  position: relative;
 }
 
 .inputWithError {
@@ -15,4 +16,15 @@
   color: var(--color-absolute-white);
   font-size: var(--font-size-sm);
   border-radius: var(--border-radius-md);
+}
+
+.fieldErrorOverlay {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: none;
 }
