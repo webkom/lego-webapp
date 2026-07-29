@@ -121,6 +121,9 @@ export function createField<T, ExtraProps extends object>(
     const generatedId = useId();
     const fieldId = id ?? generatedId;
     const errorId = `${fieldId}-error`;
+    const descriptionId = `${fieldId}-description`;
+    const describedBy =
+      cx(description && descriptionId, hasError && errorId) || undefined;
 
     const component = (
       <Component
@@ -134,7 +137,7 @@ export function createField<T, ExtraProps extends object>(
           onChange?.(value);
         }}
         aria-invalid={hasError || undefined}
-        aria-describedby={hasError ? errorId : undefined}
+        aria-describedby={describedBy}
         aria-required={required || undefined}
         className={cx(className, hasError && styles.inputWithError)}
       />
@@ -155,6 +158,7 @@ export function createField<T, ExtraProps extends object>(
             label={label}
             noLabel={noLabel}
             description={description}
+            descriptionId={descriptionId}
             inline={inlineLabel}
             required={required}
           >

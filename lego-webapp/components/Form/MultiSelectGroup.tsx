@@ -1,3 +1,4 @@
+import cx from 'classnames';
 import { Children, cloneElement, useId } from 'react';
 import { FormSpy } from 'react-final-form';
 import { FieldSet } from '~/components/Form/FieldSet';
@@ -20,7 +21,9 @@ const MultiSelectGroup = ({
   required,
   children,
 }: Props) => {
-  const errorId = `${useId()}-error`;
+  const groupId = useId();
+  const errorId = `${groupId}-error`;
+  const descriptionId = `${groupId}-description`;
 
   return (
     <FormSpy subscription={{ errors: true, submitErrors: true, touched: true }}>
@@ -36,9 +39,13 @@ const MultiSelectGroup = ({
             <FieldSet
               legend={legend}
               description={description}
+              descriptionId={descriptionId}
               required={required}
               aria-invalid={hasError || undefined}
-              aria-describedby={hasError ? errorId : undefined}
+              aria-describedby={
+                cx(description && descriptionId, hasError && errorId) ||
+                undefined
+              }
               aria-required={required || undefined}
             >
               <div className={styles.group}>

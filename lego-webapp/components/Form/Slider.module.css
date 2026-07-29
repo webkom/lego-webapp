@@ -1,0 +1,164 @@
+.slider {
+  --slider-thumb: 18px;
+  --slider-progress: 0;
+
+  width: 100%;
+}
+
+/* Every stop, the fill and the native thumb share this inset, so the
+   decoration lines up with the thumb the browser positions for us. */
+.track {
+  position: relative;
+  height: 46px;
+}
+
+.line,
+.fill {
+  position: absolute;
+  top: 16px;
+  left: calc(var(--slider-thumb) / 2);
+  height: 2px;
+  border-radius: 2px;
+}
+
+.line {
+  right: calc(var(--slider-thumb) / 2);
+  background-color: var(--border-gray);
+}
+
+.fill {
+  width: calc((100% - var(--slider-thumb)) * var(--slider-progress));
+  background-color: var(--lego-red-color);
+  transition: width var(--easing-medium);
+}
+
+.dot {
+  position: absolute;
+  top: 14px;
+  left: calc(
+    var(--slider-thumb) / 2 + (100% - var(--slider-thumb)) * var(--slider-stop)
+  );
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background-color: var(--color-gray-3);
+  transition: background-color var(--easing-fast);
+}
+
+.dotOn {
+  background-color: var(--lego-red-color);
+}
+
+.tick {
+  position: absolute;
+  top: 28px;
+  left: calc(
+    var(--slider-thumb) / 2 + (100% - var(--slider-thumb)) * var(--slider-stop)
+  );
+  transform: translateX(-50%);
+  color: var(--color-gray-5);
+  font-size: var(--font-size-xs);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  transition: color var(--easing-fast);
+}
+
+.tickOn {
+  color: var(--lego-red-color);
+  font-weight: 600;
+}
+
+.value {
+  color: var(--color-gray-5);
+  font-size: var(--font-size-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.slider:not(.unset) .value {
+  color: var(--lego-red-color);
+  font-weight: 600;
+}
+
+/* The input carries the interaction and the thumb; everything else is
+   decoration, so the track itself is transparent. */
+.input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+  margin: 0;
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+
+.input:disabled {
+  cursor: not-allowed;
+}
+
+/* The native thumb stays for dragging and keyboard, but is invisible: a thumb
+   the browser positions cannot be transitioned, so the visible one below is
+   drawn separately and eased between stops. */
+.input::-webkit-slider-thumb {
+  appearance: none;
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+}
+
+.input::-moz-range-thumb {
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.thumb {
+  position: absolute;
+  top: 7px;
+  left: calc(
+    var(--slider-thumb) / 2 + (100% - var(--slider-thumb)) *
+      var(--slider-progress)
+  );
+  width: var(--slider-thumb);
+  height: var(--slider-thumb);
+  margin-left: calc(var(--slider-thumb) / -2);
+  border-radius: 50%;
+  background-color: var(--lego-red-color);
+  box-shadow:
+    0 0 0 3px var(--lego-background-color),
+    var(--shadow-sm);
+  pointer-events: none;
+  transition: left var(--easing-medium);
+  animation: sliderThumbPop var(--bounce) both;
+}
+
+.slider:has(.input:focus-visible) .thumb {
+  outline: 2px solid var(--lego-font-color);
+  outline-offset: var(--spacing-xs);
+}
+
+@keyframes sliderThumbPop {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.slider:has(.input:disabled) {
+  opacity: 0.5;
+}

@@ -10,6 +10,7 @@ export { default as RadioButton } from './RadioButton';
 export { default as MultiSelectGroup } from './MultiSelectGroup';
 export { default as CheckBox } from './CheckBox';
 export { default as Chip } from './Chip';
+export { default as Slider } from './Slider';
 export { default as SelectInput } from './SelectInput';
 export { default as PhoneNumberInput } from './PhoneNumberInput';
 export { default as Captcha } from './Captcha';

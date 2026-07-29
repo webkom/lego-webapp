@@ -1,6 +1,13 @@
 .label {
   font-size: var(--font-size-sm);
+}
+
+.labelRow {
   margin-bottom: var(--spacing-sm);
+}
+
+.inlineRow {
+  margin-bottom: 0;
 }
 
 .inline {
@@ -8,7 +15,6 @@
 
   .label {
     font-size: inherit;
-    margin-bottom: 0;
   }
 }
 
@@ -21,5 +27,17 @@
 .description {
   display: inline-block;
   vertical-align: top;
-  margin-left: var(--spacing-sm);
+}
+
+.screenReaderOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
 }
