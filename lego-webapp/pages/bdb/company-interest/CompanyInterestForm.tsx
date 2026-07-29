@@ -17,6 +17,7 @@ import {
   MultiSelectGroup,
   RowSection,
   SelectInput,
+  Slider,
   TextEditor,
   TextInput,
 } from '~/components/Form';
@@ -938,21 +939,17 @@ const CompanyInterestForm = ({ language }: Props) => {
                     </div>
                   </RowSection>
 
-                  <MultiSelectGroup
+                  <Field
                     name="participantRange"
-                    legend={FORM_LABELS.participantRange[language]}
-                  >
-                    {Object.keys(PARTICIPANT_RANGE_TYPES).map((key) => (
-                      <Field
-                        key={key}
-                        name={key}
-                        value={key}
-                        label={PARTICIPANT_RANGE_TYPES[key]}
-                        type="radio"
-                        component={Chip.Field}
-                      />
-                    ))}
-                  </MultiSelectGroup>
+                    label={FORM_LABELS.participantRange[language]}
+                    placeholder={
+                      isEnglish ? 'Pick a range' : 'Velg antall deltagere'
+                    }
+                    options={Object.entries(PARTICIPANT_RANGE_TYPES).map(
+                      ([value, rangeLabel]) => ({ value, label: rangeLabel }),
+                    )}
+                    component={Slider.Field}
+                  />
 
                   <MultiSelectGroup
                     name="events"
