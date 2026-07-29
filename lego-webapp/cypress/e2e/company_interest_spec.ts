@@ -24,10 +24,12 @@ const createCompanyInterest = () => {
   field('phone').click().type('90909090');
   field('officeInTrondheim').click({ force: true });
 
-  field('semesters[0].checked').check();
+  // Chips hide their input visually, so it has to be checked with force, the
+  // same way the toggle switch above is clicked.
+  field('semesters[0].checked').check({ force: true });
   field('events[0].checked').check();
   field('otherOffers[0].checked').check();
-  field('companyType').check();
+  field('companyType').check({ force: true });
   field('comment').type('random comment');
   field('companyPresentationComment').type('some pitch for presentation');
 

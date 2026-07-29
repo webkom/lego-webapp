@@ -201,13 +201,7 @@
 .optionRow {
   display: flex;
   flex-wrap: wrap;
-  row-gap: var(--spacing-sm);
-  column-gap: var(--spacing-lg);
-}
-
-.optionRow > div,
-.inlineOption.inlineOption {
-  width: auto;
+  gap: var(--spacing-sm);
 }
 
 .toggleGroup {

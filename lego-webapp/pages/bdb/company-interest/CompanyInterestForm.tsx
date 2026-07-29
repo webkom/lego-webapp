@@ -11,10 +11,10 @@ import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
 import {
   CheckBox,
+  Chip,
   Form,
   LegoFinalForm,
   MultiSelectGroup,
-  RadioButton,
   RowSection,
   SelectInput,
   TextEditor,
@@ -241,7 +241,7 @@ const SemesterBox = ({
         name={`semesters[${index}].checked`}
         label={semesterToText({ ...fields.value[index], language })}
         type="checkbox"
-        component={CheckBox.Field}
+        component={Chip.Field}
       />
     ))}
   </div>
@@ -261,7 +261,7 @@ const SurveyOffersBox = ({
         name={`companyCourseThemes[${index}].checked`}
         label={SURVEY_OFFERS[surveyOffersToString(item)][language]}
         type="checkbox"
-        component={CheckBox.Field}
+        component={Chip.Field}
       />
     ))}
   </div>
@@ -337,7 +337,7 @@ const TargetGradeBox = ({
         name={`targetGrades[${index}].checked`}
         label={TARGET_GRADES[targetGradeToString(key)][language]}
         type="checkbox"
-        component={CheckBox.Field}
+        component={Chip.Field}
       />
     ))}
   </div>
@@ -862,8 +862,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                         value={key}
                         label={COMPANY_TYPES[key][language]}
                         type="radio"
-                        component={RadioButton.Field}
-                        fieldClassName={styles.inlineOption}
+                        component={Chip.Field}
                         showErrors={false}
                       />
                     ))}
@@ -950,8 +949,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                         value={key}
                         label={PARTICIPANT_RANGE_TYPES[key]}
                         type="radio"
-                        component={RadioButton.Field}
-                        fieldClassName={styles.inlineOption}
+                        component={Chip.Field}
                       />
                     ))}
                   </MultiSelectGroup>
