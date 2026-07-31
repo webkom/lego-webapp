@@ -49,8 +49,8 @@
    on its own and each state just reassigns the variables it cares about. */
 .chip:has(.input:checked) {
   --chip-border: var(--lego-red-color);
-  --chip-background: var(--color-red-1);
-  --chip-color: var(--color-red-9);
+  --chip-background: var(--selected-background);
+  --chip-color: var(--color-red-7);
 }
 
 .chip:has(.input:checked):hover {

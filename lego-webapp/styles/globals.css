@@ -47,7 +47,7 @@ a {
 }
 
 p {
-  margin-bottom: var(--spacing-sm);
+  margin: 0;
   line-height: 1.3;
 }
 

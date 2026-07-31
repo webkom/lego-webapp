@@ -56,6 +56,7 @@ type LabelProps = HTMLProps<HTMLLabelElement> & {
   inlineContent?: ReactNode;
   required?: boolean;
   inline?: boolean;
+  trailing?: boolean;
 };
 
 export const Label = ({
@@ -67,6 +68,7 @@ export const Label = ({
   inlineContent,
   required,
   inline,
+  trailing,
   children,
   ...labelProps
 }: LabelProps) => {
@@ -98,15 +100,21 @@ export const Label = ({
      htmlFor, so nothing has to be nested for the two to stay bound. */
   const inlineLayout = (
     <Flex
-      alignItems={descriptionText || inlineContent ? 'flex-start' : 'center'}
+      alignItems={
+        !trailing && (descriptionText || inlineContent)
+          ? 'flex-start'
+          : 'center'
+      }
+      justifyContent={trailing ? 'space-between' : undefined}
       gap="var(--spacing-sm)"
-      className={styles.inline}
+      className={cx(styles.inline, trailing && styles.inlineTrailing)}
     >
-      {children}
+      {!trailing && children}
       <Flex column className={styles.inlineColumn}>
         {labelElement}
         {inlineContent}
       </Flex>
+      {trailing && children}
     </Flex>
   );
 

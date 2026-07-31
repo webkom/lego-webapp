@@ -85,6 +85,8 @@ type Options = {
   inlineLabel?: boolean;
   // The component renders the label itself, so no wrapper is added around it
   ownLabel?: boolean;
+  // Places the component after its label, the way a switch sits
+  trailingControl?: boolean;
 };
 
 /**
@@ -118,7 +120,7 @@ export function createField<T, ExtraProps extends object>(
     const hasError =
       !!showErrors && !!touched && toErrorMessages(anyError).length > 0;
     const fieldName = input?.name;
-    const { noLabel, inlineLabel, ownLabel } = options || {};
+    const { noLabel, inlineLabel, ownLabel, trailingControl } = options || {};
 
     const generatedId = useId();
     const fieldId = id ?? generatedId;
@@ -164,6 +166,7 @@ export function createField<T, ExtraProps extends object>(
             descriptionPosition={descriptionPosition}
             inlineContent={inlineContent}
             inline={inlineLabel}
+            trailing={trailingControl}
             required={required}
           >
             {component}

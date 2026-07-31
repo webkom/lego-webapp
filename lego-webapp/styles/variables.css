@@ -57,6 +57,14 @@
     var(--low-alpha)
   );
 
+  /* Wash marking a chosen control. Derived from the brand colour, so it follows
+     the theme without needing its own dark mode value. */
+  --selected-background: color-mix(
+    in srgb,
+    var(--lego-red-color) 4%,
+    transparent
+  );
+
   --color-gray-1: var(--dark-font-color);
   --color-gray-2: #e7e7e7;
   --color-gray-3: #d9d9d9;

@@ -6,12 +6,13 @@
   gap: var(--spacing-lg);
 }
 
+/* Columns start together rather than centring against each other, so their
+   labels line up even when one column is taller than its neighbour. */
 .rowSection {
-  align-items: center;
+  align-items: flex-start;
 
   @media (--medium-viewport) {
     flex-direction: column;
-    align-items: flex-start;
   }
 }
 

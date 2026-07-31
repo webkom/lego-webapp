@@ -1,5 +1,9 @@
 .fieldSet {
   border: 0;
+
+  & legend {
+    margin-bottom: var(--spacing-sm);
+  }
 }
 
 .description {
