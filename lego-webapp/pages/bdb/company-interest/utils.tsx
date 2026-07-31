@@ -1,15 +1,7 @@
 import qs from 'qs';
 import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
 import { appConfig } from '~/utils/appConfig';
-import {
-  COLLABORATION_TYPES,
-  EVENTS,
-  SURVEY_OFFERS,
-  OTHER_OFFERS,
-  TARGET_GRADES,
-  COLLABORATION_DESCRIPTIONS,
-  OTHER_DESCRIPTIONS,
-} from './Translations';
+import { EVENTS, SURVEY_OFFERS, TARGET_GRADES } from './Translations';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
 export const sortSemesterChronologically = (
@@ -81,23 +73,9 @@ export const eventToString = (event) =>
 export const surveyOffersToString = (offer) =>
   Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
 
-export const otherOffersToString = (offer) =>
-  Object.keys(OTHER_OFFERS)[Number(offer.charAt(offer.length - 2))];
-
-export const collaborationToString = (collab) =>
-  Object.keys(COLLABORATION_TYPES)[Number(collab.charAt(collab.length - 2))];
-
-export const othersDescriptionToString = (others) =>
-  Object.keys(OTHER_DESCRIPTIONS)[Number(others.charAt(others.length - 2))];
-
 export const targetGradeToString = (targetGrade) =>
   Object.keys(TARGET_GRADES)[
     Number(targetGrade.charAt(targetGrade.length - 2))
-  ];
-
-export const collaborationDescriptionToString = (collab) =>
-  Object.keys(COLLABORATION_DESCRIPTIONS)[
-    Number(collab.charAt(collab.length - 2))
   ];
 
 export const getCsvUrl = (
@@ -213,12 +191,6 @@ export const interestText = {
     english:
       'Please write a little bit about the type of presentation you would like in terms of content and networking. In contrast to the company presentation, this is scheduled to start at lunchtime and will hold networking at Gløshaugen.',
   },
-  courseDescription: {
-    norwegian:
-      'På et faglig arrangement skal dere lære bort noe til studentene. Dette kan være gjennom foredrag, workshops eller lignende. Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
-    english:
-      'At a course or workshop, you must teach something to the students. This can be through talks or interactive workshops. Tell us what you can hold a course about, and feel free to pitch a complete idea for carrying out the course. Is there something you can teach that coincides with the topics the students have answered that they want, or do you do something else the students will be interested in?',
-  },
   breakfastTalkDescription: {
     norwegian:
       'Frokostforedragene foregår fra klokken 8 til 10/11, og holdes vanligvis på campus. Tildeling av frokostforedrag skjer uavhengig av andre tildelinger, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har blant annet vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
@@ -231,11 +203,17 @@ export const interestText = {
     english:
       "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo.",
   },
+  courseDescription: {
+    norwegian:
+      'Fortell hva dere kan holde kurs i, og pitch gjerne en fullstendig idé til gjennomføring av kurset. Er det noe dere kan lære bort som sammenfaller med temaene studentene har svart at de ønsker seg, eller driver dere med noe annet studentene vil være interesserte i?',
+    english:
+      'Tell us what you can hold a course about, and feel free to pitch a complete idea for carrying out the course. Is there something you can teach that coincides with the topics the students have answered that they want, or do you do something else the students will be interested in?',
+  },
   otherEventDescription: {
     norwegian:
-      'Har dere ønsker om å arrangere noe mer enn en vanlig bedriftspresentasjon eller noe som ikke helt passer som et faglig arrangement? Skriv en beskrivelse av hva dere har tenkt eller ønsker. Også mulig å sparre med oss så kan vi finne på spennende arrangementer.',
+      'Skriv en beskrivelse av hva dere har tenkt eller ønsker. Også mulig å sparre med oss så kan vi finne på spennende arrangementer.',
     english:
-      "Do you have any wishes to arrange something more than a regular company presentation or something that doesn't quite fit as a professional event? Write a description of what you have in mind or want. It is also possible to brainstorm with us so that we can come up with exciting events.",
+      'Write a description of what you have in mind or want. It is also possible to brainstorm with us so that we can come up with exciting events.',
   },
   startUpDescription: {
     norwegian:

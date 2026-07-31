@@ -39,7 +39,7 @@ export const EVENTS = {
   },
 };
 
-export const TOOLTIP = {
+export const EVENT_DESCRIPTIONS = {
   company_presentation: {
     norwegian:
       'Kom og fortell om hvem dere er og hva dere gjør i bedriften deres.',
@@ -59,15 +59,15 @@ export const TOOLTIP = {
   },
   breakfast_talk: {
     norwegian:
-      'Frokostforedragene foregår fra klokken 8 til 10/11, og holdes vanligvis på campus. Tildeling av frokostforedrag skjer uavhengig av andre tildelinger, så dere kan få frokostforedrag i tillegg til et annet arrangement. Vi ønsker gjerne at dere foreslår temaer til frokostforedraget dere ønsker å holde. Det er åpent for alt. Tidligere temaer har blant annet vært softskills, spennende caser fra jobb, teknologiutvikling, motivasjonsforedrag eller bærekraft.',
+      'Morgenforedrag på campus kl. 08–10/11 med fritt temavalg, tildelt uavhengig av andre arrangementer.',
     english:
-      'The breakfast talks take place from 8 am to 10/11 am, and are usually held on campus. Allocation of breakfast talks takes place independently of other allocations, so you can receive breakfast lectures in addition to another event. We would like you to suggest topics for the breakfast talks you wish to give. We are open to everything. Previous topics have included soft skills, exciting cases from work, technology development, motivational talks or sustainability.',
+      'Morning talks on campus from 8–10/11, on a topic of your choosing, allocated independently of other events.',
   },
   bedex: {
     norwegian:
-      'BedEx er Abakus sin bedriftsekskursjon til Oslo, spesialtilrettelagt for studenter i 4. og 5. klasse. Gjennom et firedagers opphold i Oslo, får studentene muligheten til å besøke 6 fremstående bedrifter. Disse bedriftene ønsker studentene velkommen i sine lokaler, hvor de gjennom nøye planlagte aktiviteter og direkte dialog med ansatte, tilbyr dybdeinnsikt i både sine operasjoner og arbeidskultur. BedEx-teamet organiserer en gruppeflyvning fra Trondheim til Oslo på formiddagen tirsdag 10. september, samt hotellopphold frem til og med fredag 13. september. Returreisen står hver student fritt til å arrangere selv, noe som gir rom for de som ønsker å tilbringe ekstra tid med familie i området eller nyte en forlenget helg i Oslo.',
+      'Fire dagers bedriftsekskursjon til Oslo for 4.- og 5.-klassinger, med besøk hos seks bedrifter. Vi organiserer felles flyreise fra Trondheim og hotell 10.–13. september.',
     english:
-      "BedEx is Abakus' company excursion to Oslo for students in their 4th and 5th year of study. During a four-day stay in Oslo, students have the opportunity to visit 6 prominent companies. These companies welcome the students to their premises, where, through carefully planned activities and direct dialogue with employees, they provide in-depth insight into both their operations and work culture. The BedEx team organizes a group flight from Trondheim to Oslo on the morning of tuesday September 10, as well as hotel accommodation until friday September 13. Each student is free to arrange their journey back to Trondheim, allowing those who wish to spend extra time with family in the area or enjoy an extended weekend in Oslo.",
+      'A four day company excursion to Oslo for 4th and 5th years, visiting six companies. We organise a group flight from Trondheim and hotel from 10–13 September.',
   },
   other: {
     norwegian:
@@ -125,13 +125,13 @@ export const SURVEY_OFFERS = {
 };
 
 export const OTHER_OFFERS = {
-  readme: {
-    norwegian: 'Annonse i readme',
-    english: 'Advertisement in readme',
-  },
   social_media: {
     norwegian: 'Profilering på sosiale medier',
     english: 'Profiling on social media',
+  },
+  readme: {
+    norwegian: 'Annonse i readme',
+    english: 'Advertisement in readme',
   },
 };
 
@@ -185,37 +185,33 @@ export const COLLABORATION_TYPES = {
 };
 
 export const COLLABORATION_DESCRIPTIONS = {
-  collaboration_omega: {
-    norwegian: 'Samarbeid med Omega linjeforening',
-    english: 'Event in collaboration with Omega',
-  },
-  collaboration_online: {
-    norwegian: 'Samarbeid med Online linjeforening',
-    english: 'Event in collaboration with Online',
-  },
-  collaboration_tihlde: {
-    norwegian: 'Samarbeid med TIHLDE linjeforening',
-    english: 'Event in collaboration with TIHLDE',
-  },
   collaboration_revue: {
     norwegian:
-      'Hver vår er det premiere på Abakus sin egne revy. Ta med studentene på en hyggelig kveld hvor dere presenterer selskapet deres, før dere sammen drar og ser på årets revy!',
+      'Hold bedriftspresentasjon på revydatoen, med promotering på revygensere, plakater o.l.',
     english:
-      'Every spring, Abakus puts on its own revue. Invite the students to a pleasant evening where you present your company, before heading together to watch this year’s revue!',
+      'Give a company presentation on the revue date, with promotion on revue merch, posters etc.',
   },
 };
 
-export const OTHER_DESCRIPTIONS = {
-  ad_readme: {
-    norwegian:
-      'readme er Gløshaugens største linjeforeningsmagasin, som kommer ut tre ganger i semesteret, og vi har et opplag på 500 eksemplarer hver utgave. Magasinet er gratis, distribueres på hele NTNUs campus Gløshaugen, og når ut til over 900 studenter innenfor datateknologi, cybersikkerhet, datakommunikasjon og informasjonsteknologi.',
-    english:
-      'readme is the largest student association magazine at Gløshaugen. It is published three times per semester, with a print run of 500 copies per issue. The magazine is free, distributed across NTNU’s Gløshaugen campus, and reaches more than 900 students in computer science, cyber security, data communications, and information technology',
+export const README_PROMO = {
+  tagline: {
+    norwegian: 'Gløshaugens største linjeforeningsmagasin',
+    english: 'The largest student magazine at Gløshaugen',
   },
-  prof_social_media: {
-    norwegian: '',
-    english: '',
-  },
+  stats: [
+    {
+      norwegian: '500 eksemplarer per utgave',
+      english: '500 copies per issue',
+    },
+    {
+      norwegian: 'Tre utgaver i semesteret',
+      english: 'Three issues per semester',
+    },
+    {
+      norwegian: 'Når 900+ teknologistudenter på campus',
+      english: 'Reaches 900+ tech students on campus',
+    },
+  ],
 };
 
 export const TARGET_GRADES = {
@@ -272,9 +268,9 @@ export const FORM_LABELS = {
   },
   wantsThursdayEventInfo: {
     norwegian:
-      'Torsdags-arrangementer er av de mest populære blant studentene, og vi ser ofte høyere påmelding og større engasjement på torsdager.',
+      'Torsdags-arrangementer er av de mest populære blant studentene, med høyere påmelding og større engasjement.',
     english:
-      'Thursday events are among the most popular with students, and we often see higher attendance and greater engagement on thursdays.',
+      'Thursday events are among the most popular with students, with higher sign-up numbers and greater engagement.',
   },
   contactPerson: {
     header: {
@@ -332,9 +328,9 @@ export const FORM_LABELS = {
   },
   companyCourseThemesInfo: {
     norwegian:
-      'Dette er temaer som studenter har uttrykt interesse for å lære mer om i vår bedriftsundersøkelse. Kryss av for de temaene dere kan ønske å holde kurs om eller snakke om på deres presentasjoner. (Uforpliktende)',
+      'Studentene har etterspurt disse temaene i bedriftsundersøkelsen vår. Kryss av for det dere kunne tenke dere å holde kurs om eller ta opp i presentasjonen. (Uforpliktende)',
     english:
-      'These are topics that students expressed interest in learning more about in our company survey. Check off the topics that you might be interested in arranging a course or workshop about or talk about in your presentations. (Non-binding)',
+      "Students asked for these topics in our company survey. Tick the ones you'd consider running a course on or covering in your presentation. (No commitment)",
   },
   participantRange: {
     norwegian: 'Antall deltagere',
@@ -349,13 +345,13 @@ export const FORM_LABELS = {
     english: 'Submit interest',
   },
   eventDescriptionHeader: {
-    norwegian: 'Pitch/forklar dine ønsker for arrangementet',
-    english: 'Pitch/explain your wishes for the event',
+    norwegian: 'Pitch/beskriv ønsket deres',
+    english: 'Pitch/describe your wishes',
   },
   eventDescriptionIntro: {
     norwegian:
-      'Skriv gjerne litt om hvilke type arrangementer dere ønsker å arrangere. Vi prøver å planlegge med flere ulike typer arrangementer og bedrifter der vi prøver å lage et variert, spennende og nyskapende program. Våre bedriftskontakter har også muligheten til å hjelpe med å utvikle gode arrangementer.',
+      'Fortell gjerne litt om hvilke typer arrangementer dere ønsker å holde. Vi ønsker et variert og nyskapende program, og bedriftskontaktene våre hjelper gjerne til med å utvikle arrangementet.',
     english:
-      'Please write a bit about what types of events you would like to arrange. We try to plan with several different types of events and companies, where we try to create a varied, exciting and innovative program. Our company contacts also have the opportunity to help develop good events.',
+      "Tell us a bit about the kind of events you'd like to host. We aim for a varied and innovative programme, and our company contacts are happy to help develop the event with you.",
   },
 };

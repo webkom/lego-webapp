@@ -63,6 +63,15 @@
   padding: var(--spacing-md);
 }
 
+/* The card normally stacks its icon above the text on small screens, which
+   strands the icon on a row of its own; beside the text it stays a note. */
+@media (--small-viewport) {
+  .infoCard :global([class*='withIcon']) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
 .content {
   grid-area: content;
   font-size: var(--font-size-sm);
@@ -180,7 +189,7 @@
 }
 
 .section {
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
 }
 
 .sectionHeader {
@@ -195,7 +204,6 @@
   color: var(--lego-red-color);
   font-size: var(--font-size-lg);
   font-weight: 700;
-  letter-spacing: 0.08em;
 }
 
 .optionRow {
@@ -208,44 +216,102 @@
   display: flex;
   flex-direction: column;
   border: 1.5px solid var(--border-gray);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-lg);
 
   & > * {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md);
   }
 
   & > * + * {
     border-top: 1.5px solid var(--border-gray);
   }
+}
 
-  & label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
+.toggleRow {
+  cursor: pointer;
+}
+
+.participantSlider {
+  width: 60%;
+
+  @media (--medium-viewport) {
+    width: 100%;
   }
 }
 
-.eventOption {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+/* The surrounding group is a wrapping row built for chips, so a column of cards
+   has to claim the width itself rather than shrink to its longest label. */
+.cardList {
+  width: 100%;
 }
 
+.eventCard {
+  padding: var(--spacing-md);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+  transition:
+    border-color var(--easing-fast),
+    background-color var(--easing-fast);
+}
+
+/* The whole card is the control, as in the design. The label's overlay covers
+   the card so a click anywhere reaches it, which is safe only because these
+   cards hold nothing else interactive the way the event cards hold a pitch. */
+.optionCard {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Carried by the option's own label rather than any label in the card: an event
+   card also holds the pitch's label, which would otherwise lay a second overlay
+   over the whole card and swallow the editor. */
+.optionLabel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* The field wrapper is positioned so its error overlay can anchor to it, which
+   would make it the containing block for the label overlay above and shrink it
+   to the label. These options report errors through the group, not each on
+   their own, so nothing here needs that anchor. */
+.optionField {
+  position: static;
+}
+
+/* Same selected fill as Chip, so every choice on the page reads as picked the
+   same way. */
+.eventCard:has(input:checked) {
+  border-color: var(--lego-red-color);
+  background-color: var(--selected-background);
+}
+
+/* Sits above the label overlay that makes the rest of the card selectable, so
+   the editor inside stays reachable instead of being covered by it. */
 .eventPitch {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  margin-left: var(--spacing-xs);
-  padding-left: var(--spacing-md);
-  border-left: 2px solid var(--border-gray);
+  margin-top: var(--spacing-md);
+}
+
+.eventsFootnote {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  padding-top: var(--spacing-xs);
 }
 
 .otherOffers {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+}
+
+.priorityReasoning {
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
 }
 
 .mutedText {
@@ -257,25 +323,94 @@
   align-self: flex-start;
 }
 
+/* Form inputs inherit their background, so on a selected card the pitch would
+   take the card's tint and stop reading as something you type into. */
 .textEditor {
+  background-color: var(--lego-card-color);
   width: 100%;
 }
 
-.readMe {
-  max-width: 280px;
+.readmePromo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--additive-background);
+  transition: background-color var(--easing-fast);
 }
 
-.readMe :global([class*='heading']) {
-  font-size: var(--font-size-lg);
+/* Picks up the tint once the readme offer is selected, so the promo reads as
+   part of the choice rather than decoration beside it. */
+.readmePromoOn {
+  background-color: var(--selected-background);
 }
 
-.readMe :global([class*='thumbnailContainer']) {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-sm);
-  padding-top: 0;
-  margin: 0;
+.readmeCovers {
+  display: flex;
+  flex: none;
+  padding-right: var(--spacing-sm);
+}
+
+.readmeCover {
+  width: 110px;
   overflow: hidden;
+
+  &:first-child {
+    rotate: -4deg;
+  }
+
+  /* Tucked under its neighbour so the pair reads as a stack of issues. */
+  &:last-child {
+    margin-top: var(--spacing-sm);
+    margin-left: calc(-1 * var(--spacing-lg));
+    rotate: 3deg;
+  }
+}
+
+.readmeWordmark {
+  font-size: var(--font-size-xl);
+
+  a {
+    color: var(--lego-font-color);
+  }
+}
+
+.readmeDot {
+  color: var(--lego-red-color);
+}
+
+.readmeTagline {
+  margin: var(--spacing-xs) 0 var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.readmeStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  color: var(--color-gray-8);
+  font-size: var(--font-size-sm);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--lego-red-color);
+    flex: none;
+  }
 }
 
 .yearForm {

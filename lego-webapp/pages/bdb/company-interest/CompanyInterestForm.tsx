@@ -1,11 +1,18 @@
-import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import {
+  Card,
+  Flex,
+  Icon,
+  Image,
+  LoadingIndicator,
+  Page,
+} from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import cx from 'classnames';
 import arrayMutators from 'final-form-arrays';
 import { gsap } from 'gsap';
 import { ArrowLeft, Check } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Field, FormSpy } from 'react-final-form';
+import { Field, FormSpy, useForm } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
@@ -26,7 +33,6 @@ import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
 import PillSwitch from '~/components/PillSwitch';
 import { readmeIfy } from '~/components/ReadmeLogo';
-import LatestReadme from '~/pages/index/_components/authenticated/LatestReadme';
 import {
   fetchSemesters,
   fetchSemestersForInterestform,
@@ -59,26 +65,22 @@ import {
   COMPANY_TYPES,
   EVENTS,
   FORM_LABELS,
-  OTHER_DESCRIPTIONS,
+  README_PROMO,
   OTHER_OFFERS,
   SURVEY_OFFERS,
   TARGET_GRADES,
-  TOOLTIP,
+  EVENT_DESCRIPTIONS,
 } from './Translations';
 import {
-  collaborationDescriptionToString,
-  collaborationToString,
   interestText,
-  otherOffersToString,
   PARTICIPANT_RANGE_MAP,
   PARTICIPANT_RANGE_TYPES,
   semesterToText,
   sortSemesterChronologically,
   surveyOffersToString,
   targetGradeToString,
-  othersDescriptionToString,
 } from './utils';
-import type { ReactNode } from 'react';
+import type { MouseEvent, ReactNode } from 'react';
 import type { PillSwitchOption } from '~/components/PillSwitch';
 
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
@@ -279,7 +281,7 @@ const EventBox = ({
 }): ReactNode => (
   <FormSpy subscription={{ values: true }}>
     {({ values }) => (
-      <Flex column gap="var(--spacing-md)">
+      <Flex column gap="var(--spacing-sm)">
         <p className={styles.mutedText}>
           {FORM_LABELS.eventDescriptionIntro[language]}
         </p>
@@ -294,28 +296,41 @@ const EventBox = ({
               (eventTypeEntity) => eventTypeEntity.name === name,
             );
             return (
-              <div key={name} className={styles.eventOption}>
+              <div
+                key={name}
+                className={cx(styles.eventCard, styles.optionCard)}
+              >
                 <Field
                   name={`events[${index}].checked`}
                   label={EVENTS[name][language]}
                   type="checkbox"
                   component={CheckBox.Field}
-                  description={TOOLTIP[name][language]}
+                  description={EVENT_DESCRIPTIONS[name][language]}
+                  descriptionPosition="inline"
+                  fieldClassName={styles.optionField}
+                  labelClassName={styles.optionLabel}
+                  inlineContent={
+                    values.events?.[index]?.checked &&
+                    entity?.commentName && (
+                      <div className={styles.eventPitch}>
+                        {entity.description && (
+                          <p className={styles.mutedText}>
+                            {entity.description}
+                          </p>
+                        )}
+                        <Field
+                          placeholder={entity.commentPlaceholder}
+                          name={entity.commentName}
+                          label={FORM_LABELS.eventDescriptionHeader[language]}
+                          component={TextEditor.Field}
+                          rows={6}
+                          className={styles.textEditor}
+                          required
+                        />
+                      </div>
+                    )
+                  }
                 />
-                {values.events?.[index]?.checked && entity?.commentName && (
-                  <div className={styles.eventPitch}>
-                    <p className={styles.mutedText}>{entity.description}</p>
-                    <Field
-                      placeholder={entity.commentPlaceholder}
-                      name={entity.commentName}
-                      label={FORM_LABELS.eventDescriptionHeader[language]}
-                      component={TextEditor.Field}
-                      rows={6}
-                      className={styles.textEditor}
-                      required
-                    />
-                  </div>
-                )}
               </div>
             );
           })}
@@ -351,21 +366,105 @@ const OtherBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-md)">
-    {fields.map((key, index) => (
-      <Field
-        key={`otherOffers[${index}]`}
-        name={`otherOffers[${index}].checked`}
-        label={readmeIfy(OTHER_OFFERS[otherOffersToString(key)][language])}
-        type="checkbox"
-        component={CheckBox.Field}
-        description={
-          OTHER_DESCRIPTIONS[othersDescriptionToString(key)][language]
-        }
-      />
-    ))}
+  <Flex column gap="var(--spacing-sm)" className={styles.cardList}>
+    {fields.map((item, index) => {
+      const name = fields.value[index].name;
+      return (
+        <div key={name} className={cx(styles.eventCard, styles.optionCard)}>
+          <Field
+            name={`otherOffers[${index}].checked`}
+            label={readmeIfy(OTHER_OFFERS[name][language])}
+            type="checkbox"
+            component={CheckBox.Field}
+            fieldClassName={styles.optionField}
+            labelClassName={styles.optionLabel}
+          />
+        </div>
+      );
+    })}
   </Flex>
 );
+
+/**
+ * A switch row where the whole row is the control.
+ *
+ * The switch is a react-aria button, and react-aria only honours a click it did
+ * not receive a press for when the click looks programmatic, so an overlay that
+ * forwards through the label works in a test and does nothing under a real
+ * cursor. The row changes the value itself instead, and stays out of the way
+ * when the press landed on the switch, which already handles itself.
+ */
+const ToggleRow = ({
+  name,
+  label,
+  description,
+}: {
+  name: string;
+  label: string;
+  description?: string;
+}): ReactNode => {
+  const form = useForm();
+
+  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
+    if ((event.target as HTMLElement).closest('button')) {
+      return;
+    }
+    form.change(name, !form.getState().values[name]);
+  };
+
+  return (
+    <div className={styles.toggleRow} onClick={handleClick}>
+      <Field
+        name={name}
+        component={ToggleSwitch.Field}
+        label={label}
+        description={description}
+        descriptionPosition={description ? 'inline' : undefined}
+      />
+    </div>
+  );
+};
+
+const ReadmePromo = ({ language }: { language: Language }): ReactNode => {
+  const readmes = useAppSelector((state) => state.readme);
+
+  return spyValues((values: CompanyInterestFormEntity) => {
+    const selected = values.otherOffers?.some(
+      (offer) => offer.name === 'readme' && offer.checked,
+    );
+    return (
+      <div className={cx(styles.readmePromo, selected && styles.readmePromoOn)}>
+        <div className={styles.readmeCovers}>
+          {readmes.slice(0, 2).map(({ image, pdf, title }) => (
+            <a key={title} href={pdf} className={styles.readmeCover}>
+              <Image src={image} alt={`Forsidebildet til ${title}`} />
+            </a>
+          ))}
+        </div>
+        <div>
+          <div className={styles.readmeWordmark}>
+            <a
+              href={'https://readme.abakus.no/'}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {readmeIfy('readme')}
+              <span className={styles.readmeDot}>.</span>
+            </a>
+          </div>
+          <p className={styles.readmeTagline}>
+            {README_PROMO.tagline[language]}
+          </p>
+          <ul className={styles.readmeStats}>
+            {README_PROMO.stats.map((stat) => (
+              <li key={stat.english}>{stat[language]}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  });
+};
 
 const CollaborationBox = ({
   fields,
@@ -374,21 +473,24 @@ const CollaborationBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-md)">
-    {fields.map((key, index) => (
-      <Field
-        key={`collaborations[${index}]`}
-        name={`collaborations[${index}].checked`}
-        label={COLLABORATION_TYPES[collaborationToString(key)][language]}
-        type="checkbox"
-        component={CheckBox.Field}
-        description={
-          COLLABORATION_DESCRIPTIONS[collaborationDescriptionToString(key)][
-            language
-          ]
-        }
-      />
-    ))}
+  <Flex column gap="var(--spacing-sm)" className={styles.cardList}>
+    {fields.map((item, index) => {
+      const name = fields.value[index].name;
+      return (
+        <div key={name} className={cx(styles.eventCard, styles.optionCard)}>
+          <Field
+            name={`collaborations[${index}].checked`}
+            label={COLLABORATION_TYPES[name][language]}
+            type="checkbox"
+            component={CheckBox.Field}
+            description={COLLABORATION_DESCRIPTIONS[name]?.[language]}
+            descriptionPosition="inline"
+            fieldClassName={styles.optionField}
+            labelClassName={styles.optionLabel}
+          />
+        </div>
+      );
+    })}
   </Flex>
 );
 
@@ -482,7 +584,7 @@ type CompanyInterestFormEntity = {
 type EventTypeEntity = {
   name: string;
   translated: string;
-  description: string;
+  description?: string;
   commentName?: string;
   commentPlaceholder?: string;
 };
@@ -870,14 +972,12 @@ const CompanyInterestForm = ({ language }: Props) => {
                   </MultiSelectGroup>
 
                   <div className={styles.toggleGroup}>
-                    <Field
+                    <ToggleRow
                       name="officeInTrondheim"
-                      component={ToggleSwitch.Field}
                       label={FORM_LABELS.officeInTrondheim[language]}
                     />
-                    <Field
+                    <ToggleRow
                       name="wantsThursdayEvent"
-                      component={ToggleSwitch.Field}
                       label={FORM_LABELS.wantsThursdayEvent[language]}
                       description={FORM_LABELS.wantsThursdayEventInfo[language]}
                     />
@@ -887,6 +987,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                     name="companyCourseThemes"
                     legend={FORM_LABELS.companyCourseThemes[language]}
                     description={FORM_LABELS.companyCourseThemesInfo[language]}
+                    descriptionPosition="inline"
                   >
                     <FieldArray name="companyCourseThemes">
                       {(props) => (
@@ -949,6 +1050,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                       ([value, rangeLabel]) => ({ value, label: rangeLabel }),
                     )}
                     component={Slider.Field}
+                    className={styles.participantSlider}
                   />
 
                   <MultiSelectGroup
@@ -966,6 +1068,10 @@ const CompanyInterestForm = ({ language }: Props) => {
                       )}
                     </FieldArray>
                   </MultiSelectGroup>
+                  <p className={styles.eventsFootnote}>
+                    * Bedrift-til-bedrift blir tilgjengelig om dere har kontorer
+                    i Trondheim.
+                  </p>
 
                   <MultiSelectGroup
                     name="collaborations"
@@ -987,9 +1093,7 @@ const CompanyInterestForm = ({ language }: Props) => {
                         {(props) => <OtherBox {...props} language={language} />}
                       </FieldArray>
                     </MultiSelectGroup>
-                    <div className={styles.readMe}>
-                      <LatestReadme collapsible={false} displayCount={2} />
-                    </div>
+                    <ReadmePromo language={language} />
                   </div>
                 </FormSection>
 
@@ -1000,7 +1104,9 @@ const CompanyInterestForm = ({ language }: Props) => {
                 >
                   {!edit && (
                     <div>
-                      <b>{interestText.priorityReasoningTitle[language]}</b>
+                      <p className={styles.priorityReasoning}>
+                        {interestText.priorityReasoningTitle[language]}
+                      </p>
                       <p className={styles.mutedText}>
                         {interestText.priorityReasoning[language]}
                       </p>
@@ -1009,7 +1115,11 @@ const CompanyInterestForm = ({ language }: Props) => {
 
                   <SubmissionError />
 
-                  <SubmitButton className={styles.submitButton}>
+                  <SubmitButton
+                    dark
+                    size="large"
+                    className={styles.submitButton}
+                  >
                     {edit
                       ? 'Oppdater bedriftsinteresse'
                       : FORM_LABELS.create[language]}
