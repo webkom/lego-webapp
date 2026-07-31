@@ -57,8 +57,7 @@
     var(--low-alpha)
   );
 
-  /* Wash marking a chosen control. Derived from the brand colour, so it follows
-     the theme without needing its own dark mode value. */
+  /* Wash marking a chosen control; follows the brand colour across themes. */
   --selected-background: color-mix(
     in srgb,
     var(--lego-red-color) 4%,

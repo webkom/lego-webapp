@@ -83,8 +83,6 @@
   font-weight: 600;
 }
 
-/* The input carries the interaction and the thumb; everything else is
-   decoration, so the track itself is transparent. */
 .input {
   position: absolute;
   top: 0;
@@ -101,9 +99,8 @@
   cursor: not-allowed;
 }
 
-/* The native thumb stays for dragging and keyboard, but is invisible: a thumb
-   the browser positions cannot be transitioned, so the visible one below is
-   drawn separately and eased between stops. */
+/* The native thumb cannot be transitioned, so it is invisible and a separate
+   decorative thumb is eased between stops. */
 .input::-webkit-slider-thumb {
   appearance: none;
   width: var(--slider-thumb);

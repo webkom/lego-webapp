@@ -26,8 +26,7 @@
     color var(--easing-fast);
 }
 
-/* Visually hidden, but still focusable and exposed to assistive technology.
-   display: none would drop it from the tab order and strand keyboard users. */
+/* Visually hidden, not display: none, which would drop it from the tab order. */
 .input {
   position: absolute;
   width: 1px;
@@ -45,8 +44,6 @@
   --chip-border: var(--color-gray-4);
 }
 
-/* :has(.input:checked) already outranks :hover, so the selected palette wins
-   on its own and each state just reassigns the variables it cares about. */
 .chip:has(.input:checked) {
   --chip-border: var(--lego-red-color);
   --chip-background: var(--selected-background);
@@ -57,7 +54,7 @@
   --chip-border: var(--lego-red-color-hover);
 }
 
-/* The input's own focus ring is hidden with it, so the pill carries it. */
+/* The pill carries the hidden input's focus ring. */
 .chip:has(.input:focus-visible) {
   outline: 2px solid var(--lego-font-color);
   outline-offset: var(--spacing-xs);

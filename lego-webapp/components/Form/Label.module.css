@@ -17,7 +17,6 @@
   font-size: var(--font-size-sm);
 }
 
-/* The label sits closer to its description than to the control below it. */
 .labelRow:has(+ .descriptionText) {
   margin-bottom: var(--spacing-xs);
 }
@@ -33,20 +32,14 @@
   }
 }
 
-/* Everything the field reveals shares this column, so it aligns with the label
-   text without repeating the control's width anywhere. */
 .inlineColumn {
   min-width: 0;
 }
 
-/* A control on the trailing edge, as switches sit. The row has to fill the
-   field for the space between the text and the control to be real. */
 .inlineTrailing {
   flex: 1;
 }
 
-/* Only the label and its description toggle the control, so only they are
-   styled as something to click. */
 .inlineLabel {
   display: flex;
   flex-direction: column;

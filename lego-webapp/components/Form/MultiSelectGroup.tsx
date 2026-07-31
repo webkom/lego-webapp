@@ -65,6 +65,7 @@ const MultiSelectGroup = ({
                 id={errorId}
                 error={messages}
                 fieldName={name}
+                variant="text"
               />
             )}
           </div>

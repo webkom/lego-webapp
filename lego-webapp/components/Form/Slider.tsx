@@ -22,13 +22,8 @@ type Props = {
   className?: string;
 };
 
-/**
- * Picks one of a small, ordered set of options along a track.
- *
- * Built on a native range input so dragging, arrow keys, Home/End and touch
- * all come from the platform. The dots, fill and tick labels are decorative
- * and sit under the input, which is transparent apart from its thumb.
- */
+/* Picks one of a small, ordered set of options along a native range input;
+   the dots, fill and tick labels are decoration underneath it. */
 const Slider = ({
   options,
   value,

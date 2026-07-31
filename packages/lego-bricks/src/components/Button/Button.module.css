@@ -80,9 +80,7 @@
   }
 }
 
-/* The brand tokens rather than a fixed rung of the ramp, so the red button
-   matches every other red in the app and stays put across themes: both resolve
-   to the same pair of reds in light and dark. */
+/* Brand tokens, so the red button matches every other red across themes. */
 .dark {
   background-color: var(--lego-red-color);
   color: var(--button-color-white);

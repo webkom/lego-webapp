@@ -9,14 +9,8 @@ type Props = {
   className?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-/**
- * A pill shaped alternative to RadioButton and CheckBox. Pass type="radio" for
- * a single choice group and type="checkbox" for a multiple choice one, exactly
- * as with the controls it replaces.
- *
- * The native input stays in the accessibility tree and the tab order, it is
- * only hidden visually, so the pill keeps keyboard and screen reader support.
- */
+/* A pill shaped alternative to RadioButton (type="radio") and CheckBox
+   (type="checkbox"). */
 const Chip = ({ id, label, required, checked, className, ...props }: Props) => (
   <label className={cx(styles.chip, className)} htmlFor={id}>
     <input {...props} id={id} checked={checked} className={styles.input} />

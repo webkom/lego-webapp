@@ -1,32 +1,46 @@
-import { Flex } from '@webkom/lego-bricks';
+import { Flex, Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
+import { CircleAlert } from 'lucide-react';
 import { useId } from 'react';
 import { Label } from '~/components/Form/Label';
 import styles from './Field.module.css';
 import type { ComponentType } from 'react';
 import type { FieldInputProps, FieldRenderProps } from 'react-final-form';
 
+/* overlay floats below the field, inline owns its place in the flow, and
+   text is a quiet note for controls an overlay cannot cover sensibly. */
+export type ErrorVariant = 'overlay' | 'inline' | 'text';
+
 const FieldError = ({
   error,
   fieldName,
+  variant,
 }: {
   error: string;
   fieldName?: string;
+  variant: ErrorVariant;
 }) => (
   <Flex
     alignItems="center"
-    className={styles.fieldError}
+    gap="var(--spacing-xs)"
+    className={cx(
+      styles.fieldError,
+      variant === 'text' && styles.fieldErrorQuiet,
+    )}
     data-error-field-name={fieldName}
   >
+    {variant === 'text' && (
+      <Icon
+        iconNode={<CircleAlert />}
+        size={16}
+        className={styles.fieldErrorIcon}
+      />
+    )}
     {error}
   </Flex>
 );
 
-/**
- * Flattens an error into the messages to display. Validation errors reach us as
- * a string, an array (one entry per item of an array field) or an object keyed
- * by subfield, so anything but a string was previously dropped without a trace.
- */
+/* Validation errors arrive as a string, an array or an object per subfield. */
 export const toErrorMessages = (error: unknown): string[] => {
   if (error === null || error === undefined || error === false) {
     return [];
@@ -43,20 +57,21 @@ export const toErrorMessages = (error: unknown): string[] => {
   return [String(error)];
 };
 
-/**
- * Renders validation errors over the content below by default, so showing one
- * does not shift the surrounding layout. Pass `inline` where the message owns
- * its space in the flow, such as form level submission errors.
- */
+const ERROR_CONTAINER: Record<ErrorVariant, string> = {
+  overlay: styles.fieldErrorOverlay,
+  inline: styles.fieldErrorFlow,
+  text: styles.fieldErrorText,
+};
+
 export const RenderErrorMessage = ({
   error,
   fieldName,
-  inline = false,
+  variant = 'overlay',
   id,
 }: {
   error: unknown;
   fieldName?: string;
-  inline?: boolean;
+  variant?: ErrorVariant;
   id?: string;
 }) => {
   const errors = [...new Set(toErrorMessages(error))];
@@ -66,13 +81,14 @@ export const RenderErrorMessage = ({
   }
 
   return (
-    <div
-      id={id}
-      className={inline ? styles.fieldErrorFlow : styles.fieldErrorOverlay}
-      role="alert"
-    >
+    <div id={id} className={ERROR_CONTAINER[variant]} role="alert">
       {errors.map((error, index) => (
-        <FieldError key={index} error={error} fieldName={fieldName} />
+        <FieldError
+          key={index}
+          error={error}
+          fieldName={fieldName}
+          variant={variant}
+        />
       ))}
     </div>
   );
@@ -87,6 +103,8 @@ type Options = {
   ownLabel?: boolean;
   // Places the component after its label, the way a switch sits
   trailingControl?: boolean;
+  // How validation errors are shown, see ErrorVariant
+  errorVariant?: ErrorVariant;
 };
 
 /**
@@ -120,7 +138,8 @@ export function createField<T, ExtraProps extends object>(
     const hasError =
       !!showErrors && !!touched && toErrorMessages(anyError).length > 0;
     const fieldName = input?.name;
-    const { noLabel, inlineLabel, ownLabel, trailingControl } = options || {};
+    const { noLabel, inlineLabel, ownLabel, trailingControl, errorVariant } =
+      options || {};
 
     const generatedId = useId();
     const fieldId = id ?? generatedId;
@@ -177,6 +196,7 @@ export function createField<T, ExtraProps extends object>(
             id={errorId}
             error={anyError}
             fieldName={fieldName}
+            variant={errorVariant}
           />
         )}
       </Flex>
