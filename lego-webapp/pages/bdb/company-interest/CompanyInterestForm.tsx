@@ -52,6 +52,7 @@ import {
 } from '~/redux/slices/companySemesters';
 import { spyValues } from '~/utils/formSpyUtils';
 import { useParams } from '~/utils/useParams';
+import useQuery from '~/utils/useQuery';
 import {
   createValidator,
   isEmail,
@@ -539,19 +540,32 @@ const LANGUAGE_OPTIONS: PillSwitchOption<Language>[] = [
   { label: 'English', value: 'english' },
 ];
 
-const LANGUAGE_ROUTES: Record<Language, string> = {
-  norwegian: '/interesse',
-  english: '/register-interest',
+/**
+ * The language lives in the URL rather than in which URL, so switching only
+ * rewrites the query string in place and the mounted form keeps every value.
+ * The default stays out of the URL, leaving /interesse canonical.
+ */
+const LANGUAGE_QUERY_DEFAULTS = { lang: 'no' };
+
+const useFormLanguage = (): Language => {
+  const { query } = useQuery(LANGUAGE_QUERY_DEFAULTS);
+  return query.lang === 'en' ? 'english' : 'norwegian';
 };
 
-const LanguageSwitch = ({ language }: { language: Language }) => (
-  <PillSwitch
-    options={LANGUAGE_OPTIONS}
-    value={language}
-    onChange={(value) => navigate(LANGUAGE_ROUTES[value])}
-    ariaLabel={language === 'english' ? 'Language' : 'Språk'}
-  />
-);
+const LanguageSwitch = ({ language }: { language: Language }) => {
+  const { setQueryValue } = useQuery(LANGUAGE_QUERY_DEFAULTS);
+
+  return (
+    <PillSwitch
+      options={LANGUAGE_OPTIONS}
+      value={language}
+      onChange={(value) =>
+        setQueryValue('lang')(value === 'english' ? 'en' : 'no')
+      }
+      ariaLabel={language === 'english' ? 'Language' : 'Språk'}
+    />
+  );
+};
 type CompanyObjectProps = {
   label: string | undefined;
   title: string | undefined;
@@ -666,11 +680,8 @@ const validate = createValidator({
   companyToCompanyComment: [requiredIfEventType('company_to_company')],
 });
 
-type Props = {
-  language: Language;
-};
-
-const CompanyInterestForm = ({ language }: Props) => {
+const CompanyInterestForm = () => {
+  const language = useFormLanguage();
   const { companyInterestId } = useParams();
   const edit = companyInterestId !== undefined;
   const companyInterest = useAppSelector((state) =>

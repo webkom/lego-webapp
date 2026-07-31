@@ -42,11 +42,30 @@ describe('Company interest', () => {
   beforeEach(() => {
     cy.resetDb();
   });
-  it.only('Should be able to create company interest', () => {
+  it('Should be able to create company interest', () => {
     createCompanyInterest();
     // Success toast
     cy.contains('Bedriftsinteresse opprettet');
     cy.url().should('include', '/pages/bedrifter/for-bedrifter');
+  });
+
+  it('should keep filled fields when switching language', () => {
+    cy.visit('/interesse');
+    cy.waitForHydration();
+
+    field('contactPerson').click().type('webkom');
+    field('semesters[0].checked').check({ force: true });
+
+    cy.contains('button', 'English').click();
+    cy.url().should('include', 'lang=en');
+    cy.contains('Submit interest');
+    field('contactPerson').should('have.value', 'webkom');
+    field('semesters[0].checked').should('be.checked');
+
+    cy.contains('button', 'Norsk').click();
+    cy.url().should('not.include', 'lang=en');
+    cy.contains('Send bedriftsinteresse');
+    field('contactPerson').should('have.value', 'webkom');
   });
 });
 
