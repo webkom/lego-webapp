@@ -414,13 +414,41 @@ type CompanyObjectProps = {
   title: string | undefined;
   value?: string;
 };
+
+/**
+ * The company the form starts on, or nothing at all when none is known.
+ *
+ * Returning an option with empty fields instead of nothing leaves the select
+ * holding a value, and it only offers its placeholder while it holds none.
+ */
+const companySelection = (
+  companyInterest?: DetailedCompanyInterest,
+): CompanyObjectProps | undefined => {
+  if (companyInterest?.company) {
+    return {
+      label: companyInterest.company.name,
+      title: companyInterest.company.name,
+      value: '' + companyInterest.company.id,
+    };
+  }
+
+  if (companyInterest?.companyName) {
+    return {
+      label: companyInterest.companyName,
+      title: companyInterest.companyName,
+    };
+  }
+
+  return undefined;
+};
+
 type CompanyCheckBoxProps = {
   name: string;
   checked: boolean;
 };
 type CompanyInterestFormEntity = {
   companyName?: string;
-  company: CompanyObjectProps;
+  company?: CompanyObjectProps;
   contactPerson?: string;
   mail?: string;
   phone?: string;
@@ -552,16 +580,7 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const initialValues: CompanyInterestFormEntity = {
     ...companyInterest,
-    company: companyInterest?.company
-      ? {
-          label: companyInterest.company.name,
-          title: companyInterest.company.name,
-          value: '' + companyInterest.company.id,
-        }
-      : {
-          label: companyInterest?.companyName,
-          title: companyInterest?.companyName,
-        },
+    company: companySelection(companyInterest),
     events: allEvents.map((event) => ({
       name: event,
       checked: companyInterest?.events.includes(event) || false,
@@ -608,9 +627,9 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
-    const nameOnly = company && (company['__isNew__'] || !company.value);
-    const companyId = nameOnly ? null : Number(company['value']);
-    const companyName = nameOnly ? company['label'] : '';
+    const nameOnly = !company?.value || company['__isNew__'];
+    const companyId = nameOnly ? null : Number(company.value);
+    const companyName = nameOnly ? (company?.label ?? '') : '';
 
     const [range_start, range_end] = data.participantRange
       ? PARTICIPANT_RANGE_MAP[data.participantRange]

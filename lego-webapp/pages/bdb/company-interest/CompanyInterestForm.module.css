@@ -264,9 +264,7 @@
 }
 
 .textEditor {
-  @media (--small-viewport) {
-    width: 300px;
-  }
+  width: 100%;
 }
 
 .readMe {
