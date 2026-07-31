@@ -78,8 +78,6 @@ import {
   PARTICIPANT_RANGE_TYPES,
   semesterToText,
   sortSemesterChronologically,
-  surveyOffersToString,
-  targetGradeToString,
 } from './utils';
 import type { MouseEvent, ReactNode } from 'react';
 import type { PillSwitchOption } from '~/components/PillSwitch';
@@ -231,39 +229,19 @@ const StepRail = ({ language }: { language: Language }): ReactNode => {
   });
 };
 
-const SemesterBox = ({
+const ChipOptions = ({
   fields,
-  language,
+  getLabel,
 }: {
   fields: any;
-  language: string;
+  getLabel: (value: any) => ReactNode;
 }): ReactNode => (
   <div className={styles.optionRow}>
     {fields.map((item, index) => (
       <Field
-        key={`semesters[${index}]`}
-        name={`semesters[${index}].checked`}
-        label={semesterToText({ ...fields.value[index], language })}
-        type="checkbox"
-        component={Chip.Field}
-      />
-    ))}
-  </div>
-);
-
-const SurveyOffersBox = ({
-  fields,
-  language,
-}: {
-  fields: any;
-  language: string;
-}): ReactNode => (
-  <div className={styles.optionRow}>
-    {fields.map((item, index) => (
-      <Field
-        key={`companyCourseThemes[${index}]`}
-        name={`companyCourseThemes[${index}].checked`}
-        label={SURVEY_OFFERS[surveyOffersToString(item)][language]}
+        key={item}
+        name={`${item}.checked`}
+        label={getLabel(fields.value[index])}
         type="checkbox"
         component={Chip.Field}
       />
@@ -371,32 +349,14 @@ const EventBox = ({
   </FormSpy>
 );
 
-const TargetGradeBox = ({
+const CardOptions = ({
   fields,
-  language,
+  getLabel,
+  getDescription,
 }: {
   fields: any;
-  language: string;
-}): ReactNode => (
-  <div className={styles.optionRow}>
-    {fields.map((key, index) => (
-      <Field
-        key={`targetGrades[${index}]`}
-        name={`targetGrades[${index}].checked`}
-        label={TARGET_GRADES[targetGradeToString(key)][language]}
-        type="checkbox"
-        component={Chip.Field}
-      />
-    ))}
-  </div>
-);
-
-const OtherBox = ({
-  fields,
-  language,
-}: {
-  fields: any;
-  language: string;
+  getLabel: (name: string) => ReactNode;
+  getDescription?: (name: string) => string | undefined;
 }): ReactNode => (
   <Flex column gap="var(--spacing-sm)" className={styles.cardList}>
     {fields.map((item, index) => {
@@ -404,10 +364,12 @@ const OtherBox = ({
       return (
         <div key={name} className={cx(styles.eventCard, styles.optionCard)}>
           <Field
-            name={`otherOffers[${index}].checked`}
-            label={readmeIfy(OTHER_OFFERS[name][language])}
+            name={`${item}.checked`}
+            label={getLabel(name)}
             type="checkbox"
             component={CheckBox.Field}
+            description={getDescription?.(name)}
+            descriptionPosition="inline"
             fieldClassName={styles.optionField}
             labelClassName={styles.optionLabel}
           />
@@ -507,44 +469,13 @@ const ReadmePromo = ({ language }: { language: Language }): ReactNode => {
   });
 };
 
-const CollaborationBox = ({
-  fields,
-  language,
-}: {
-  fields: any;
-  language: string;
-}): ReactNode => (
-  <Flex column gap="var(--spacing-sm)" className={styles.cardList}>
-    {fields.map((item, index) => {
-      const name = fields.value[index].name;
-      return (
-        <div key={name} className={cx(styles.eventCard, styles.optionCard)}>
-          <Field
-            name={`collaborations[${index}].checked`}
-            label={COLLABORATION_TYPES[name][language]}
-            type="checkbox"
-            component={CheckBox.Field}
-            description={COLLABORATION_DESCRIPTIONS[name]?.[language]}
-            descriptionPosition="inline"
-            fieldClassName={styles.optionField}
-            labelClassName={styles.optionLabel}
-          />
-        </div>
-      );
-    })}
-  </Flex>
-);
-
 const LANGUAGE_OPTIONS: PillSwitchOption<Language>[] = [
   { label: 'Norsk', value: 'norwegian' },
   { label: 'English', value: 'english' },
 ];
 
-/**
- * The language lives in the URL rather than in which URL, so switching only
- * rewrites the query string in place and the mounted form keeps every value.
- * The default stays out of the URL, leaving /interesse canonical.
- */
+/* Language lives in ?lang, so switching rewrites the URL in place and the
+   mounted form keeps every value. The default stays out of the URL. */
 const LANGUAGE_QUERY_DEFAULTS = { lang: 'no' };
 
 const useFormLanguage = (): Language => {
@@ -572,12 +503,8 @@ type CompanyObjectProps = {
   value?: string;
 };
 
-/**
- * The company the form starts on, or nothing at all when none is known.
- *
- * Returning an option with empty fields instead of nothing leaves the select
- * holding a value, and it only offers its placeholder while it holds none.
- */
+/* No company means no value: the select only shows its placeholder while
+   it holds nothing, and an empty option counts as something. */
 const companySelection = (
   companyInterest?: DetailedCompanyInterest,
 ): CompanyObjectProps | undefined => {
@@ -637,7 +564,6 @@ type CompanyInterestFormEntity = {
 };
 type EventTypeEntity = {
   name: string;
-  translated: string;
   description?: string;
   commentName?: string;
   commentPlaceholder?: string;
@@ -672,7 +598,7 @@ const validate = createValidator({
   semesters: [required()],
   breakfastTalkComment: [requiredIfEventType('breakfast_talk')],
   companyPresentationComment: [requiredIfEventType('company_presentation')],
-  lunchPresentationComment: [requiredIfEventType('lunsh_presentation')],
+  lunchPresentationComment: [requiredIfEventType('lunch_presentation')],
   courseComment: [requiredIfEventType('course')],
   bedexComment: [requiredIfEventType('bedex')],
   otherEventComment: [requiredIfEventType('other')],
@@ -841,64 +767,51 @@ const CompanyInterestForm = () => {
   const eventTypeEntities: EventTypeEntity[] = [
     {
       name: 'company_presentation',
-      translated: EVENTS.company_presentation[language],
       description: interestText.companyPresentationDescription[language],
       commentName: 'companyPresentationComment',
       commentPlaceholder: interestText.companyPresentationComment[language],
     },
     {
       name: 'lunch_presentation',
-      translated: EVENTS.lunch_presentation[language],
-      description: interestText.lunchPresentationDescriptiont[language],
+      description: interestText.lunchPresentationDescription[language],
       commentName: 'lunchPresentationComment',
       commentPlaceholder: interestText.lunchPresentationComment[language],
     },
     {
       name: 'course',
-      translated: EVENTS.course[language],
       description: interestText.courseDescription[language],
       commentName: 'courseComment',
       commentPlaceholder: interestText.courseComment[language],
     },
     {
       name: 'breakfast_talk',
-      translated: EVENTS.breakfast_talk[language],
       description: interestText.breakfastTalkDescription[language],
       commentName: 'breakfastTalkComment',
       commentPlaceholder: interestText.breakfastTalkComment[language],
     },
     {
       name: 'bedex',
-      translated: EVENTS.bedex[language],
       description: interestText.bedexDescription[language],
       commentName: 'bedexComment',
       commentPlaceholder: interestText.bedexComment[language],
     },
     {
       name: 'other',
-      translated: EVENTS.other[language],
       description: interestText.otherEventDescription[language],
       commentName: 'otherEventComment',
       commentPlaceholder: interestText.otherEventComment[language],
     },
     // {
     //   name: 'start_up',
-    //   translated: EVENTS.start_up[language],
     //   description: interestText.startUpDescription[language],
     //   commentName: 'startupComment',
     //   commentPlaceholder: interestText.startUpComment[language],
     // },
     {
       name: 'company_to_company',
-      translated: EVENTS.company_to_company[language],
       description: interestText.companyToCompanyDescription[language],
       commentName: 'companyToCompanyComment',
       commentPlaceholder: interestText.companyToCompanyComment[language],
-    },
-    {
-      name: 'collaboration_revue',
-      translated: COLLABORATION_TYPES.collaboration_revue[language],
-      description: interestText.revueCollaboration[language],
     },
   ];
 
@@ -1045,7 +958,10 @@ const CompanyInterestForm = () => {
                   >
                     <FieldArray name="companyCourseThemes">
                       {(props) => (
-                        <SurveyOffersBox {...props} language={language} />
+                        <ChipOptions
+                          {...props}
+                          getLabel={({ name }) => SURVEY_OFFERS[name][language]}
+                        />
                       )}
                     </FieldArray>
                   </MultiSelectGroup>
@@ -1074,7 +990,12 @@ const CompanyInterestForm = () => {
                       >
                         <FieldArray name="targetGrades">
                           {(props) => (
-                            <TargetGradeBox {...props} language={language} />
+                            <ChipOptions
+                              {...props}
+                              getLabel={({ name }) =>
+                                TARGET_GRADES[name][language]
+                              }
+                            />
                           )}
                         </FieldArray>
                       </MultiSelectGroup>
@@ -1087,7 +1008,12 @@ const CompanyInterestForm = () => {
                       >
                         <FieldArray name="semesters">
                           {(props) => (
-                            <SemesterBox {...props} language={language} />
+                            <ChipOptions
+                              {...props}
+                              getLabel={(value) =>
+                                semesterToText({ ...value, language })
+                              }
+                            />
                           )}
                         </FieldArray>
                       </MultiSelectGroup>
@@ -1133,7 +1059,15 @@ const CompanyInterestForm = () => {
                   >
                     <FieldArray name="collaborations">
                       {(props) => (
-                        <CollaborationBox {...props} language={language} />
+                        <CardOptions
+                          {...props}
+                          getLabel={(name) =>
+                            COLLABORATION_TYPES[name][language]
+                          }
+                          getDescription={(name) =>
+                            COLLABORATION_DESCRIPTIONS[name]?.[language]
+                          }
+                        />
                       )}
                     </FieldArray>
                   </MultiSelectGroup>
@@ -1144,7 +1078,14 @@ const CompanyInterestForm = () => {
                       legend={FORM_LABELS.otherOffers[language]}
                     >
                       <FieldArray name="otherOffers">
-                        {(props) => <OtherBox {...props} language={language} />}
+                        {(props) => (
+                          <CardOptions
+                            {...props}
+                            getLabel={(name) =>
+                              readmeIfy(OTHER_OFFERS[name][language])
+                            }
+                          />
+                        )}
                       </FieldArray>
                     </MultiSelectGroup>
                     <ReadmePromo language={language} />
