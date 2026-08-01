@@ -36,10 +36,6 @@
   min-width: 0;
 }
 
-.inlineTrailing {
-  flex: 1;
-}
-
 .inlineLabel {
   display: flex;
   flex-direction: column;

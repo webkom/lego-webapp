@@ -57,7 +57,7 @@
     var(--low-alpha)
   );
 
-  /* Wash marking a chosen control; follows the brand colour across themes. */
+  /* Marking a chosen control */
   --selected-background: color-mix(
     in srgb,
     var(--lego-red-color) 4%,

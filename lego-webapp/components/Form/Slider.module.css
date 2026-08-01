@@ -8,8 +8,6 @@
   width: 100%;
 }
 
-/* Every stop, the fill and the native thumb share this inset, so the
-   decoration lines up with the thumb the browser positions for us. */
 .track {
   position: relative;
   height: 46px;
@@ -147,6 +145,13 @@
 .slider:has(.input:focus-visible) .thumb {
   outline: 2px solid var(--lego-font-color);
   outline-offset: var(--spacing-xs);
+}
+
+/* There is no thumb before a value is picked, so the track carries the ring. */
+.unset:has(.input:focus-visible) .track {
+  outline: 2px solid var(--lego-font-color);
+  outline-offset: var(--spacing-xs);
+  border-radius: var(--border-radius-md);
 }
 
 @keyframes sliderThumbPop {

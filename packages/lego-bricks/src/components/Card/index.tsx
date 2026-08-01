@@ -90,7 +90,7 @@ export const Card = ({
   children,
   className,
   shadow = true,
-  hideOverflow = false,
+  hideOverflow: _hideOverflow,
   isHoverable = false,
   skeleton = false,
   severity,
@@ -106,9 +106,6 @@ export const Card = ({
         !skeleton && styles.padded,
         severity && styles[severity],
       )}
-      style={{
-        overflow: hideOverflow || skeleton ? 'hidden' : 'initial',
-      }}
       {...htmlAttributes}
     >
       {skeleton ? (

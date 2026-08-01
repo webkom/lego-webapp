@@ -22,8 +22,11 @@ type FieldDescriptionProps = {
   id?: string;
 };
 
-/* Sits next to the label, not inside it: a tooltip nested in a <label>
-   toggles the very control it explains. */
+/**
+ * Sits next to the label rather than inside it. A tooltip nested in a <label>
+ * activates the control it is meant to explain, so clicking the help icon used
+ * to toggle the very checkbox or radio the user wanted to read about.
+ */
 export const FieldDescription = ({
   description,
   id,
@@ -50,7 +53,6 @@ type LabelProps = HTMLProps<HTMLLabelElement> & {
   inlineContent?: ReactNode;
   required?: boolean;
   inline?: boolean;
-  trailing?: boolean;
 };
 
 export const Label = ({
@@ -62,7 +64,6 @@ export const Label = ({
   inlineContent,
   required,
   inline,
-  trailing,
   children,
   ...labelProps
 }: LabelProps) => {
@@ -84,26 +85,17 @@ export const Label = ({
     </LabelComponent>
   );
 
-  /* The control sits beside a column of label, description and revealed
-     content. The revealed content stays outside the <label>: interactive
-     content inside one toggles the control it belongs to. */
   const inlineLayout = (
     <Flex
-      alignItems={
-        !trailing && (descriptionText || inlineContent)
-          ? 'flex-start'
-          : 'center'
-      }
-      justifyContent={trailing ? 'space-between' : undefined}
+      alignItems={descriptionText || inlineContent ? 'flex-start' : 'center'}
       gap="var(--spacing-sm)"
-      className={cx(styles.inline, trailing && styles.inlineTrailing)}
+      className={styles.inline}
     >
-      {!trailing && children}
+      {children}
       <Flex column className={styles.inlineColumn}>
         {labelElement}
         {inlineContent}
       </Flex>
-      {trailing && children}
     </Flex>
   );
 

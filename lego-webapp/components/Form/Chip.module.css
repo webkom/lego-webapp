@@ -26,7 +26,6 @@
     color var(--easing-fast);
 }
 
-/* Visually hidden, not display: none, which would drop it from the tab order. */
 .input {
   position: absolute;
   width: 1px;

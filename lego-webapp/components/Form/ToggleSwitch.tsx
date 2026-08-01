@@ -48,10 +48,7 @@ const ToggleSwitch = ({
   );
 };
 
-const RawField = createField(ToggleSwitch, {
-  inlineLabel: true,
-  trailingControl: true,
-});
+const RawField = createField(ToggleSwitch, { inlineLabel: true });
 
 const StyledField = (props: ComponentProps<typeof RawField>) => (
   <RawField {...props} />

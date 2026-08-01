@@ -98,7 +98,7 @@ const UserSettings = () => {
       gender: values.gender.value,
     };
 
-    dispatch(updateUser(body));
+    return dispatch(updateUser(body));
   };
 
   // Only seed fields this form actually owns, otherwise unrelated user updates

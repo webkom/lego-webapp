@@ -7,8 +7,9 @@ import styles from './Field.module.css';
 import type { ComponentType } from 'react';
 import type { FieldInputProps, FieldRenderProps } from 'react-final-form';
 
-/* overlay floats below the field, inline owns its place in the flow, and
-   text is a quiet note for controls an overlay cannot cover sensibly. */
+/* inline owns its place in the flow, text is a quiet note without the red
+   block, and overlay floats below the field for the rare layout with room
+   under it to spare, since it paints over whatever follows. */
 export type ErrorVariant = 'overlay' | 'inline' | 'text';
 
 const FieldError = ({
@@ -66,7 +67,7 @@ const ERROR_CONTAINER: Record<ErrorVariant, string> = {
 export const RenderErrorMessage = ({
   error,
   fieldName,
-  variant = 'overlay',
+  variant = 'inline',
   id,
 }: {
   error: unknown;
@@ -101,8 +102,6 @@ type Options = {
   inlineLabel?: boolean;
   // The component renders the label itself, so no wrapper is added around it
   ownLabel?: boolean;
-  // Places the component after its label, the way a switch sits
-  trailingControl?: boolean;
   // How validation errors are shown, see ErrorVariant
   errorVariant?: ErrorVariant;
 };
@@ -128,6 +127,8 @@ export function createField<T, ExtraProps extends object>(
       fieldClassName,
       labelClassName,
       onChange,
+      onBlur,
+      onFocus,
       showErrors = true,
       className = null,
       id,
@@ -138,8 +139,7 @@ export function createField<T, ExtraProps extends object>(
     const hasError =
       !!showErrors && !!touched && toErrorMessages(anyError).length > 0;
     const fieldName = input?.name;
-    const { noLabel, inlineLabel, ownLabel, trailingControl, errorVariant } =
-      options || {};
+    const { noLabel, inlineLabel, ownLabel, errorVariant } = options || {};
 
     const generatedId = useId();
     const fieldId = id ?? generatedId;
@@ -158,6 +158,14 @@ export function createField<T, ExtraProps extends object>(
         onChange={(value) => {
           input.onChange?.(value);
           onChange?.(value);
+        }}
+        onBlur={(value) => {
+          input.onBlur?.(value);
+          onBlur?.(value);
+        }}
+        onFocus={(value) => {
+          input.onFocus?.(value);
+          onFocus?.(value);
         }}
         aria-invalid={hasError || undefined}
         aria-describedby={describedBy}
@@ -185,7 +193,6 @@ export function createField<T, ExtraProps extends object>(
             descriptionPosition={descriptionPosition}
             inlineContent={inlineContent}
             inline={inlineLabel}
-            trailing={trailingControl}
             required={required}
           >
             {component}

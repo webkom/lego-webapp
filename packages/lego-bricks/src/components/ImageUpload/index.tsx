@@ -23,6 +23,7 @@ type BaseProps = {
   aspectRatio?: number;
   onDrop?: () => void;
   onClose?: () => void;
+  id?: string;
 };
 
 type Props = BaseProps &
@@ -40,6 +41,7 @@ type UploadAreaProps = {
   multiple?: boolean;
   image: string | null | undefined;
   accept: Accept;
+  id?: string;
 };
 
 const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
@@ -68,7 +70,13 @@ const FilePreview = ({ file, onRemove }: FilePreviewProps) => {
   );
 };
 
-const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
+const UploadArea = ({
+  multiple,
+  onDrop,
+  image,
+  accept,
+  id,
+}: UploadAreaProps) => {
   const onDropCallback = useCallback(
     (files: Array<DropFile>) => {
       files[0] && !multiple ? onDrop(files.slice(-1)) : onDrop(files);
@@ -130,7 +138,7 @@ const UploadArea = ({ multiple, onDrop, image, accept }: UploadAreaProps) => {
         {image && (
           <Image alt="Opplastet bilde" className={styles.image} src={image} />
         )}
-        <input {...getInputProps()} />
+        <input {...getInputProps({ id })} />
       </div>
     </div>
   );
@@ -140,6 +148,7 @@ export const ImageUpload = ({
   crop = true,
   inModal = false,
   aspectRatio,
+  id,
   ...props
 }: Props) => {
   const cropper = useRef<Cropper>();
@@ -220,6 +229,7 @@ export const ImageUpload = ({
           multiple={props.multiple}
           image={img}
           accept={accept}
+          id={id}
         />
       )}
       <Modal

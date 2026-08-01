@@ -3,7 +3,12 @@ import cx from 'classnames';
 import { createField } from './Field';
 import { LabelText } from './Label';
 import styles from './Slider.module.css';
-import type { CSSProperties, ReactNode } from 'react';
+import type {
+  CSSProperties,
+  KeyboardEvent,
+  PointerEvent,
+  ReactNode,
+} from 'react';
 
 export type SliderOption = {
   value: string;
@@ -40,6 +45,18 @@ const Slider = ({
   const lastIndex = Math.max(options.length - 1, 1);
   const selected = index >= 0;
   const progress = selected ? index / lastIndex : 0;
+
+  /* With nothing selected the input is parked on the first stop, so picking
+     that stop is not a change the browser reports. Commit what the input holds
+     once the interaction ends. */
+  const commitUnset = (
+    event: PointerEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (selected) {
+      return;
+    }
+    onChange?.(options[Number(event.currentTarget.value)].value);
+  };
 
   return (
     <div
@@ -100,6 +117,8 @@ const Slider = ({
           onChange={(event) =>
             onChange?.(options[Number(event.target.value)].value)
           }
+          onPointerUp={commitUnset}
+          onKeyUp={commitUnset}
         />
       </div>
     </div>
