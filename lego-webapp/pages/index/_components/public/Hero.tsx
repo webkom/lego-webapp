@@ -4,6 +4,24 @@ import Auth from '~/components/Auth';
 import styles from './Hero.module.css';
 import { beads, beadRight, beadRowCenter, beadTop } from './heroBeads';
 import useTitleBeadAnimation from './useTitleBeadAnimation';
+import type { CSSProperties } from 'react';
+
+type StudyChipProps = {
+  href: string;
+  label: string;
+};
+
+const StudyChip = ({ href, label }: StudyChipProps) => (
+  <a
+    className={styles.studyChip}
+    href={href}
+    rel="noreferrer"
+    target="_blank"
+    style={{ '--chars': label.length } as CSSProperties}
+  >
+    <span className={styles.typewriter}>{label}</span>
+  </a>
+);
 
 const Hero = () => {
   const {
@@ -54,23 +72,15 @@ const Hero = () => {
             </h1>
             <p className={cx(styles.lead, styles.fadeUp, styles.fadeUpDelay1)}>
               Abakus er linjeforeningen for studentene ved{' '}
-              <a
-                className={styles.studyChip}
+              <StudyChip
                 href="https://www.ntnu.no/studier/mtdt"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Datateknologi
-              </a>{' '}
+                label="Datateknologi"
+              />{' '}
               og{' '}
-              <a
-                className={styles.studyChip}
+              <StudyChip
                 href="https://www.ntnu.no/studier/mtkom"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Cybersikkerhet og datakommunikasjon
-              </a>{' '}
+                label="Cybersikkerhet og datakommunikasjon"
+              />{' '}
               på NTNU, og drives av studenter ved disse studiene.
             </p>
             <p
