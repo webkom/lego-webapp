@@ -3,6 +3,7 @@ import cx from 'classnames';
 import Auth from '~/components/Auth';
 import styles from './Hero.module.css';
 import { beads, beadRight, beadRowCenter, beadTop } from './heroBeads';
+import useScrambleText from './useScrambleText';
 import useTitleBeadAnimation from './useTitleBeadAnimation';
 import type { CSSProperties } from 'react';
 
@@ -11,17 +12,36 @@ type StudyChipProps = {
   label: string;
 };
 
-const StudyChip = ({ href, label }: StudyChipProps) => (
+const TypedChip = ({ href, label }: StudyChipProps) => (
   <a
-    className={styles.studyChip}
+    className={cx(styles.studyChip, styles.typedChip)}
     href={href}
     rel="noreferrer"
     target="_blank"
     style={{ '--chars': label.length } as CSSProperties}
   >
-    <span className={styles.typewriter}>{label}</span>
+    <span className={styles.typedText}>{label}</span>
   </a>
 );
+
+const ScrambledChip = ({ href, label }: StudyChipProps) => {
+  const textRef = useScrambleText(label);
+
+  return (
+    <a
+      className={styles.studyChip}
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+      aria-label={label}
+      style={{ '--chars': label.length } as CSSProperties}
+    >
+      <span className={styles.scrambledText} ref={textRef} aria-hidden="true">
+        {label}
+      </span>
+    </a>
+  );
+};
 
 const Hero = () => {
   const {
@@ -72,12 +92,12 @@ const Hero = () => {
             </h1>
             <p className={cx(styles.lead, styles.fadeUp, styles.fadeUpDelay1)}>
               Abakus er linjeforeningen for studentene ved{' '}
-              <StudyChip
+              <TypedChip
                 href="https://www.ntnu.no/studier/mtdt"
                 label="Datateknologi"
               />{' '}
               og{' '}
-              <StudyChip
+              <ScrambledChip
                 href="https://www.ntnu.no/studier/mtkom"
                 label="Cybersikkerhet og datakommunikasjon"
               />{' '}

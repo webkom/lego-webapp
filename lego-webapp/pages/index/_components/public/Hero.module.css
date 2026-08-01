@@ -193,13 +193,9 @@
   color: var(--secondary-font-color);
 }
 
-/* --chars comes from the StudyChip component */
 .studyChip {
   --chip-padding-x: 11px;
-  --type-delay: 0.6s;
-  --type-duration: calc(var(--chars) * 45ms);
 
-  position: relative;
   display: inline-block;
   font-family: var(--font-family-mono);
   font-size: var(--font-size-sm);
@@ -219,7 +215,14 @@
   }
 }
 
-.studyChip::after {
+.typedChip {
+  --type-delay: 0.6s;
+  --type-duration: calc(var(--chars) * 45ms);
+
+  position: relative;
+}
+
+.typedChip::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -235,7 +238,7 @@
 }
 
 /* Mono font, so one step of the clip reveals exactly one character */
-.typewriter {
+.typedText {
   display: inline-block;
   animation: chip-type var(--type-duration) steps(var(--chars))
     var(--type-delay) both;
@@ -243,11 +246,11 @@
 
 @keyframes chip-type {
   from {
-    clip-path: inset(-0.25em 100% -0.25em 0);
+    clip-path: inset(0 100% 0 0);
   }
 
   to {
-    clip-path: inset(-0.25em 0 -0.25em 0);
+    clip-path: inset(0);
   }
 }
 
@@ -275,6 +278,13 @@
   to {
     opacity: 0;
   }
+}
+
+/* Holds the pill open while the scrambled text grows into it */
+.scrambledText {
+  display: inline-block;
+  width: calc(var(--chars) * 1ch);
+  white-space: nowrap;
 }
 
 .actions {
@@ -349,11 +359,11 @@
     opacity: 1;
   }
 
-  .typewriter {
+  .typedText {
     animation: none;
   }
 
-  .studyChip::after {
+  .typedChip::after {
     display: none;
   }
 }
