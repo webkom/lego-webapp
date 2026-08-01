@@ -1,6 +1,7 @@
 import {
   field,
   selectField,
+  t,
   NO_OPTIONS_MESSAGE,
 } from '~/cypress/support/utils';
 
@@ -77,14 +78,17 @@ describe('Admin company interest', () => {
 
   it('should be able to create and delete interest', () => {
     createCompanyInterest();
-    cy.url().should('include', `/companyInterest`);
+    cy.url().should('include', '/bdb/company-interest');
 
-    cy.contains('BEKK');
-    cy.contains('webkom@webkom.no');
-    cy.contains('90909090');
-    cy.contains('Slett').click().click();
+    cy.contains('tr', 'BEKK').within(() => {
+      cy.contains('webkom');
+      cy.contains('webkom@webkom.no');
+    });
 
-    cy.should('not.contain', 'BEKK');
+    cy.contains('tr', 'BEKK').find('button').click();
+    cy.get(t('Modal__content')).should('be.visible').contains('Ja').click();
+
+    cy.contains('tr', 'BEKK').should('not.exist');
   });
 
   it('should not be able to create if invalid input', () => {
@@ -95,7 +99,7 @@ describe('Admin company interest', () => {
     selectField('company').click();
     cy.focused().type('BEKK', { force: true });
     selectField('company')
-      .find('.Select-menu-outer')
+      .find('[id=react-select-company-listbox]')
       .should('not.contain', NO_OPTIONS_MESSAGE)
       .and('contain', 'BEKK');
     cy.focused().type('{enter}', { force: true });
@@ -104,18 +108,19 @@ describe('Admin company interest', () => {
 
     field('mail').click().type('webkom@webko');
 
-    field('phone').click().type('');
+    // Phone is left empty on purpose, it is required
+    field('phone').click();
 
     field('comment').type('random comment');
 
     cy.contains('Send bedriftsinteresse').click();
 
-    cy.url().should('not.include', `/companyInterest`);
+    cy.url().should('include', '/interesse');
   });
 
   it('should be able to edit company interest', () => {
     createCompanyInterest();
-    cy.url().should('include', `/companyInterest`);
+    cy.url().should('include', '/bdb/company-interest');
     cy.contains('BEKK').click();
     cy.url().should('include', `edit`);
 
@@ -126,9 +131,9 @@ describe('Admin company interest', () => {
 
     field('contactPerson').type('plebkom');
 
-    field('semesters[0].checked').should('have.attr', 'checked');
-    field('events[0].checked').should('have.attr', 'checked');
-    field('otherOffers[0].checked').should('have.attr', 'checked');
+    field('semesters[0].checked').should('be.checked');
+    field('events[0].checked').should('be.checked');
+    field('otherOffers[0].checked').should('be.checked');
 
     cy.contains('Oppdater bedriftsinteresse').click();
     cy.url().should('not.include', `edit`);

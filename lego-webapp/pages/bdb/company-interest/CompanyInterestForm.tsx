@@ -439,7 +439,13 @@ const ReadmePromo = ({ language }: { language: Language }): ReactNode => {
       <div className={cx(styles.readmePromo, selected && styles.readmePromoOn)}>
         <div className={styles.readmeCovers}>
           {readmes.slice(0, 2).map(({ image, pdf, title }) => (
-            <a key={title} href={pdf} className={styles.readmeCover}>
+            <a
+              key={title}
+              href={pdf}
+              rel="noreferrer"
+              target="_blank"
+              className={styles.readmeCover}
+            >
               <Image src={image} alt={`Forsidebildet til ${title}`} />
             </a>
           ))}
