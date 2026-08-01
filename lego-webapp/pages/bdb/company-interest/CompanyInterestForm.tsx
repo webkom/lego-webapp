@@ -12,7 +12,7 @@ import arrayMutators from 'final-form-arrays';
 import { gsap } from 'gsap';
 import { ArrowLeft, Check } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { Field, FormSpy, useForm } from 'react-final-form';
+import { Field, FormSpy, useField, useForm } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
@@ -270,6 +270,37 @@ const SurveyOffersBox = ({
   </div>
 );
 
+const COMPANY_TO_COMPANY = 'company_to_company';
+
+/* Bedrift-til-bedrift is only on offer to companies with an office in
+   Trondheim. Taking the office away has to clear the choice too: an event that
+   is checked but not on screen still submits, and still holds the form back on
+   its pitch, which is required and nowhere to be seen. */
+const ClearHiddenCompanyToCompany = (): null => {
+  const form = useForm();
+  const {
+    input: { value: officeInTrondheim },
+  } = useField('officeInTrondheim', { subscription: { value: true } });
+
+  useEffect(() => {
+    if (officeInTrondheim) {
+      return;
+    }
+
+    const events = form.getState().values.events ?? [];
+    const index = events.findIndex(
+      (event) => event.name === COMPANY_TO_COMPANY,
+    );
+
+    if (events[index]?.checked) {
+      form.change(`events[${index}].checked`, false);
+      form.change('companyToCompanyComment', undefined);
+    }
+  }, [officeInTrondheim, form]);
+
+  return null;
+};
+
 const EventBox = ({
   fields,
   language,
@@ -289,7 +320,7 @@ const EventBox = ({
           .map((item, index) => ({ name: fields.value[index].name, index }))
           .filter(
             ({ name }) =>
-              values.officeInTrondheim || name !== 'company_to_company',
+              values.officeInTrondheim || name !== COMPANY_TO_COMPANY,
           )
           .map(({ name, index }) => {
             const entity = eventTypeEntities.find(
@@ -385,15 +416,9 @@ const OtherBox = ({
   </Flex>
 );
 
-/**
- * A switch row where the whole row is the control.
- *
- * The switch is a react-aria button, and react-aria only honours a click it did
- * not receive a press for when the click looks programmatic, so an overlay that
- * forwards through the label works in a test and does nothing under a real
- * cursor. The row changes the value itself instead, and stays out of the way
- * when the press landed on the switch, which already handles itself.
- */
+/* The whole row toggles. A react-aria switch ignores the click a <label>
+   forwards to it, so the row carries its own text and writes the value, and
+   steps aside for a press that landed on the switch. */
 const ToggleRow = ({
   name,
   label,
@@ -404,22 +429,37 @@ const ToggleRow = ({
   description?: string;
 }): ReactNode => {
   const form = useForm();
+  const {
+    input: { value },
+  } = useField(name, { subscription: { value: true } });
+
+  const labelId = `${name}-label`;
+  const descriptionId = `${name}-description`;
 
   const handleClick = (event: MouseEvent<HTMLDivElement>) => {
     if ((event.target as HTMLElement).closest('button')) {
       return;
     }
-    form.change(name, !form.getState().values[name]);
+    form.change(name, !value);
   };
 
   return (
     <div className={styles.toggleRow} onClick={handleClick}>
+      <div className={styles.toggleText}>
+        <span id={labelId} className={styles.toggleLabel}>
+          {label}
+        </span>
+        {description && (
+          <p id={descriptionId} className={styles.toggleDescription}>
+            {description}
+          </p>
+        )}
+      </div>
       <Field
         name={name}
         component={ToggleSwitch.Field}
-        label={label}
-        description={description}
-        descriptionPosition={description ? 'inline' : undefined}
+        fieldClassName={styles.toggleControl}
+        aria-labelledby={description ? `${labelId} ${descriptionId}` : labelId}
       />
     </div>
   );
@@ -867,6 +907,7 @@ const CompanyInterestForm = ({ language }: Props) => {
         onSubmit={onSubmit}
         validate={validate}
         initialValues={initialValues}
+        keepDirtyOnReinitialize
         subscription={{}}
         mutators={{
           ...arrayMutators,
@@ -905,6 +946,8 @@ const CompanyInterestForm = ({ language }: Props) => {
               )}
 
               <Form onSubmit={handleSubmit}>
+                <ClearHiddenCompanyToCompany />
+
                 <FormSection
                   id={SECTIONS[0].id}
                   number={1}

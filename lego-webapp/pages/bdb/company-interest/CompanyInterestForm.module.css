@@ -63,8 +63,7 @@
   padding: var(--spacing-md);
 }
 
-/* The card normally stacks its icon above the text on small screens, which
-   strands the icon on a row of its own; beside the text it stays a note. */
+/* Keep the icon beside the text instead of the stacked small-screen layout. */
 @media (--small-viewport) {
   .infoCard :global([class*='withIcon']) {
     flex-direction: row;
@@ -228,7 +227,31 @@
 }
 
 .toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
   cursor: pointer;
+}
+
+.toggleText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.toggleLabel {
+  font-weight: 600;
+}
+
+.toggleDescription {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.toggleControl {
+  width: auto;
+  flex: none;
 }
 
 .participantSlider {
@@ -239,8 +262,6 @@
   }
 }
 
-/* The surrounding group is a wrapping row built for chips, so a column of cards
-   has to claim the width itself rather than shrink to its longest label. */
 .cardList {
   width: 100%;
 }
@@ -254,40 +275,29 @@
     background-color var(--easing-fast);
 }
 
-/* The whole card is the control, as in the design. The label's overlay covers
-   the card so a click anywhere reaches it, which is safe only because these
-   cards hold nothing else interactive the way the event cards hold a pitch. */
+/* The whole card selects, via the label's overlay below. */
 .optionCard {
   position: relative;
   cursor: pointer;
 }
 
-/* Carried by the option's own label rather than any label in the card: an event
-   card also holds the pitch's label, which would otherwise lay a second overlay
-   over the whole card and swallow the editor. */
 .optionLabel::after {
   content: '';
   position: absolute;
   inset: 0;
 }
 
-/* The field wrapper is positioned so its error overlay can anchor to it, which
-   would make it the containing block for the label overlay above and shrink it
-   to the label. These options report errors through the group, not each on
-   their own, so nothing here needs that anchor. */
+/* Unpositioned, so the label's overlay stretches to the card around it rather
+   than to the field. */
 .optionField {
   position: static;
 }
 
-/* Same selected fill as Chip, so every choice on the page reads as picked the
-   same way. */
 .eventCard:has(input:checked) {
   border-color: var(--lego-red-color);
   background-color: var(--selected-background);
 }
 
-/* Sits above the label overlay that makes the rest of the card selectable, so
-   the editor inside stays reachable instead of being covered by it. */
 .eventPitch {
   position: relative;
   z-index: 1;
@@ -323,8 +333,7 @@
   align-self: flex-start;
 }
 
-/* Form inputs inherit their background, so on a selected card the pitch would
-   take the card's tint and stop reading as something you type into. */
+/* Inputs inherit their background, which on a tinted card hides the field. */
 .textEditor {
   background-color: var(--lego-card-color);
   width: 100%;
@@ -341,8 +350,6 @@
   transition: background-color var(--easing-fast);
 }
 
-/* Picks up the tint once the readme offer is selected, so the promo reads as
-   part of the choice rather than decoration beside it. */
 .readmePromoOn {
   background-color: var(--selected-background);
 }
@@ -361,7 +368,6 @@
     rotate: -4deg;
   }
 
-  /* Tucked under its neighbour so the pair reads as a stack of issues. */
   &:last-child {
     margin-top: var(--spacing-sm);
     margin-left: calc(-1 * var(--spacing-lg));
