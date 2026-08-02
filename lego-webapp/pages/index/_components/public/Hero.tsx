@@ -3,7 +3,45 @@ import cx from 'classnames';
 import Auth from '~/components/Auth';
 import styles from './Hero.module.css';
 import { beads, beadRight, beadRowCenter, beadTop } from './heroBeads';
+import useScrambleText from './useScrambleText';
 import useTitleBeadAnimation from './useTitleBeadAnimation';
+import type { CSSProperties } from 'react';
+
+type StudyChipProps = {
+  href: string;
+  label: string;
+};
+
+const TypedChip = ({ href, label }: StudyChipProps) => (
+  <a
+    className={cx(styles.studyChip, styles.typedChip)}
+    href={href}
+    rel="noreferrer"
+    target="_blank"
+    style={{ '--chars': label.length } as CSSProperties}
+  >
+    <span className={styles.typedText}>{label}</span>
+  </a>
+);
+
+const ScrambledChip = ({ href, label }: StudyChipProps) => {
+  const textRef = useScrambleText(label);
+
+  return (
+    <a
+      className={styles.studyChip}
+      href={href}
+      rel="noreferrer"
+      target="_blank"
+      aria-label={label}
+      style={{ '--chars': label.length } as CSSProperties}
+    >
+      <span className={styles.scrambledText} ref={textRef} aria-hidden="true">
+        {label}
+      </span>
+    </a>
+  );
+};
 
 const Hero = () => {
   const {
@@ -54,23 +92,15 @@ const Hero = () => {
             </h1>
             <p className={cx(styles.lead, styles.fadeUp, styles.fadeUpDelay1)}>
               Abakus er linjeforeningen for studentene ved{' '}
-              <a
-                className={styles.studyChip}
+              <TypedChip
                 href="https://www.ntnu.no/studier/mtdt"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Datateknologi
-              </a>{' '}
+                label="Datateknologi"
+              />{' '}
               og{' '}
-              <a
-                className={styles.studyChip}
+              <ScrambledChip
                 href="https://www.ntnu.no/studier/mtkom"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Cybersikkerhet og datakommunikasjon
-              </a>{' '}
+                label="Cybersikkerhet og datakommunikasjon"
+              />{' '}
               på NTNU, og drives av studenter ved disse studiene.
             </p>
             <p

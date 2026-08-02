@@ -21,11 +21,6 @@
     box-shadow var(--easing-medium),
     transform var(--easing-medium);
 
-  &:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-4px);
-  }
-
   &:hover .arrow {
     transform: translateX(4px);
   }
