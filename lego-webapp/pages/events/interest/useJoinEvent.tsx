@@ -67,6 +67,9 @@ const useJoinEvent = (event: ListEvent) => {
         }),
       );
       dispatch(fetchEvent(event.id));
+    } catch {
+      // register carries an errorMessage meta, so the failure has already
+      // been toasted - the button just settles back
     } finally {
       setPending(false);
     }
@@ -98,6 +101,9 @@ const useJoinEvent = (event: ListEvent) => {
         await dispatch(unregister({ eventId: event.id, registrationId }));
         dispatch(fetchEvent(event.id));
       }
+    } catch {
+      // unregister carries an errorMessage meta, so the failure has already
+      // been toasted - the button just settles back
     } finally {
       setPending(false);
     }
