@@ -25,13 +25,9 @@ const useScrambleText = (text: string) => {
     element.textContent = '';
     element.style.visibility = 'visible';
 
-    const paintTime =
-      performance.getEntriesByType('paint')[0]?.startTime ?? performance.now();
-    const elapsed = (performance.now() - paintTime) / 1000;
-
     const tween = gsap.to(element, {
       duration: SCRAMBLE_DURATION,
-      delay: Math.max(0, TYPEWRITER_HANDOFF - elapsed),
+      delay: TYPEWRITER_HANDOFF,
       ease: 'none',
       scrambleText: { text, chars: SCRAMBLE_CHARS, speed: 1 },
     });
