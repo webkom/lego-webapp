@@ -65,15 +65,18 @@ const useLocation: ComponentProps<typeof LegoBricksProvider>['useLocation'] = <
   };
 };
 
+const bricksNavigate: ComponentProps<typeof LegoBricksProvider>['navigate'] = (
+  href,
+  { navigationState, ...options } = {},
+) => navigate(href, { ...options, pageContext: { navigationState } });
+
 export default function Layout({ children }: { children: ReactNode }) {
   const theme = useTheme();
 
   return (
     <LegoBricksProvider
       theme={theme}
-      navigate={(href, { navigationState, ...options } = {}) =>
-        navigate(href, { ...options, pageContext: { navigationState } })
-      }
+      navigate={bricksNavigate}
       useLocation={useLocation}
     >
       <div className={styles.appRoute}>
