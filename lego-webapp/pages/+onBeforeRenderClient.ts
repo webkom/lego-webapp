@@ -3,6 +3,7 @@ import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { PageContextClient } from 'vike/types';
 import { maybeRefreshToken } from '~/redux/actions/UserActions';
+import { setTheme } from '~/redux/slices/theme';
 import createStore from '../redux/createStore';
 import 'moment/dist/locale/nb';
 
@@ -42,6 +43,13 @@ export async function onBeforeRenderClient(pageContext: PageContextClient) {
       Sentry,
       getCookie: (key) => cookie.get(key),
     });
+    pageContext.store.dispatch(
+      setTheme(
+        document.documentElement.getAttribute('data-theme') === 'dark'
+          ? 'dark'
+          : 'light',
+      ),
+    );
     pageContext.store.dispatch(maybeRefreshToken());
     pageContext.store.dispatch({ type: 'REHYDRATED' });
   }
