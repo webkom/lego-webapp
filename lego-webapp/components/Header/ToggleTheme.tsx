@@ -1,7 +1,6 @@
 import { Icon } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { MoonStar, Sun } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useAppDispatch } from '~/redux/hooks';
 import { applySelectedTheme, useTheme } from '~/utils/themeUtils';
 import styles from './toggleTheme.module.css';
@@ -22,11 +21,6 @@ const ToggleTheme = ({
 }: Props) => {
   const theme = useTheme();
   const dispatch = useAppDispatch();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   const handleThemeChange = (e: MouseEvent) => {
     e.preventDefault();
@@ -38,13 +32,11 @@ const ToggleTheme = ({
   return (
     <Component
       name="Endre tema"
-      className={cx(className, styles.toggleWrapper, styles[variant], {
-        [styles.noTransition]: !mounted,
-      })}
+      className={cx(className, styles.toggleWrapper, styles[variant])}
       onClick={handleThemeChange}
     >
       {children}
-      <div className={styles.iconTrack} data-theme={theme}>
+      <div className={styles.iconTrack}>
         <Icon iconNode={<Sun />} className={styles.icon} />
         <Icon iconNode={<MoonStar />} className={styles.icon} />
       </div>
