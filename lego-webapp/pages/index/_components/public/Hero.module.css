@@ -280,11 +280,20 @@
   }
 }
 
-/* Holds the pill open while the scrambled text grows into it */
+/* Holds the pill open while the scrambled text grows into it; hidden until the
+   scramble runs, or revealed at 1.5s + 2s by CSS alone if JS never arrives */
 .scrambledText {
   display: inline-block;
   width: calc(var(--chars) * 1ch);
   white-space: nowrap;
+  visibility: hidden;
+  animation: scramble-reveal 1ms linear 3.5s forwards;
+}
+
+@keyframes scramble-reveal {
+  to {
+    visibility: visible;
+  }
 }
 
 .actions {
@@ -365,5 +374,10 @@
 
   .typedChip::after {
     display: none;
+  }
+
+  .scrambledText {
+    visibility: visible;
+    animation: none;
   }
 }

@@ -20,7 +20,10 @@ const useScrambleText = (text: string) => {
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    if (getComputedStyle(element).visibility === 'visible') return;
+
     element.textContent = '';
+    element.style.visibility = 'visible';
 
     const tween = gsap.to(element, {
       duration: SCRAMBLE_DURATION,
@@ -32,6 +35,7 @@ const useScrambleText = (text: string) => {
     return () => {
       tween.kill();
       element.textContent = text;
+      element.style.visibility = '';
     };
   }, [text]);
 
