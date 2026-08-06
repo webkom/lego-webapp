@@ -20,6 +20,7 @@ import styles from '~/pages/events/index/EventList.module.css';
 import joblistingListStyles from '~/pages/joblistings/_components/JoblistingList.module.css';
 import { fetchEvents } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import { EntityType } from '~/redux/models/entities';
 import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectAllEvents } from '~/redux/slices/events';
@@ -114,6 +115,7 @@ const EventList = () => {
         ? moment().format('YYYY-MM-DD')
         : undefined),
     ordering: query.showPrevious === 'true' ? '-start_time' : 'start_time',
+    exclude_event_type: EventType.INTEREST_EVENT,
   };
 
   const { pagination } = useAppSelector(

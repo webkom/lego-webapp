@@ -2,7 +2,6 @@ import { Flex, Icon } from '@webkom/lego-bricks';
 import {
   Home,
   CircleUser,
-  Banana,
   CalendarRange,
   Users,
   ShoppingCart,
@@ -21,6 +20,7 @@ import {
 import { navigate } from 'vike/client/router';
 import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
+import getInterestIcon from '~/utils/getInterestIcon';
 
 type Command = {
   id: string;
@@ -39,6 +39,7 @@ const createCommands = (
   dispatch: any,
   suggestionIds: string[] = [],
 ): CommandSection[] => {
+  const InterestIcon = getInterestIcon();
   const sections: CommandSection[] = [
     {
       name: 'Navigasjon',
@@ -73,21 +74,21 @@ const createCommands = (
         },
         {
           id: 'lending',
-          renderLabel: (
-            <Flex alignItems="center" gap={10}>
-              Utlån <Tag tag="Nytt!!" color="pink" />
-            </Flex>
-          ),
+          renderLabel: 'Utlån',
           searchText: 'Utlån',
           action: () => navigate('/lending'),
           icon: <Icon iconNode={<ShoppingCart />} size={15} />,
         },
         {
           id: 'interestGroups',
-          renderLabel: 'Interessegrupper',
+          renderLabel: (
+            <Flex alignItems="center" gap={10}>
+              Interessegrupper <Tag tag="Nytt!!" color="orange" />
+            </Flex>
+          ),
           searchText: 'Interessegrupper',
-          action: () => navigate('/interest-groups'),
-          icon: <Icon iconNode={<Banana />} size={15} />,
+          action: () => navigate('/events/interest'),
+          icon: <Icon iconNode={<InterestIcon />} size={15} />,
         },
         {
           id: 'joblistings',

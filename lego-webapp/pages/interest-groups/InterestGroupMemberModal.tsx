@@ -56,7 +56,7 @@ const ListedUser = ({ user, role }: { user: PublicUser; role: RoleType }) => (
 );
 
 // Reversed sort order
-const SORT_ORDER = ['member', 'co_leader', 'leader'];
+const SORT_ORDER = ['member', 'co-leader', 'leader'];
 type Props = {
   memberships: TransformedMembership[];
 };

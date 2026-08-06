@@ -6,7 +6,7 @@ const InterestGroupApplyCreate = () => {
   return (
     <Page
       title="Opprett interessegruppe"
-      back={{ href: '/interest-groups', label: 'Interessegrupper' }}
+      back={{ href: '/interest-groups/', label: 'Interessegrupper' }}
     >
       <Helmet title="Opprett interessegruppe" />
 
@@ -14,7 +14,7 @@ const InterestGroupApplyCreate = () => {
         <p>Vil du starte en interessegruppe? Da er du på riktig sted!</p>
         <p>
           Før du oppretter en interessegruppe kan du sjekke{' '}
-          <a href="/interest-groups">oversikten over interessegrupper</a> for å
+          <a href="/events/interest">oversikten over interessegrupper</a> for å
           se om det allerede finnes en gruppe fra før.
         </p>
 

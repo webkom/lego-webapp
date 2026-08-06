@@ -18,6 +18,7 @@ import { fetchCurrentPrivateBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { fetchRandomQuote } from '~/redux/actions/QuoteActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { EventType } from '~/redux/models/Event';
 import { selectArticles } from '~/redux/slices/articles';
 import { useIsLoggedIn } from '~/redux/slices/auth';
 import { selectCurrentPrivateBanner } from '~/redux/slices/banner';
@@ -142,6 +143,7 @@ const Events = ({
     () =>
       allEvents
         .filter((item) => item.id !== pinnedId)
+        .filter((item) => item.eventType !== EventType.INTEREST_EVENT)
         .filter((item) => moment(item.startTime).isAfter(moment()))
         .sort((a, b) => moment(a.startTime).diff(moment(b.startTime)))
         .slice(0, numberToShow)

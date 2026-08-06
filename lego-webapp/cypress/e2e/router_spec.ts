@@ -178,7 +178,7 @@ describe('Navigate throughout app', () => {
     cy.contains('Album');
 
     // Interestgroups
-    openMenuAndSelect('Interessegrupper', '/interest-groups');
+    openMenuAndSelect('Interessegrupper', '/events/interest');
     cy.contains('Interessegrupper');
 
     // Joblistings

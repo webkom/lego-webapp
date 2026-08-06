@@ -22,15 +22,21 @@ export type ConfigProperties = {
   textColor: string;
 };
 
+// Sorted alphabetically by displayName, with "Annet" last
 export const EventTypeConfig: Record<EventType, ConfigProperties> = {
+  [EventType.ALTERNATIVE_PRESENTATION]: {
+    displayName: 'Alternativ bedpres',
+    color: '#8A2BE2',
+    textColor: '#FFF',
+  },
+  [EventType.EVENT]: {
+    displayName: 'Arrangement',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
+  },
   [EventType.COMPANY_PRESENTATION]: {
     displayName: 'Bedriftspresentasjon',
     color: '#A1C34A',
-    textColor: '#000',
-  },
-  [EventType.COURSE]: {
-    displayName: 'Kurs',
-    color: '#52B0EC',
     textColor: '#000',
   },
   [EventType.PARTY]: {
@@ -38,19 +44,24 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#ffd700',
     textColor: '#000',
   },
-  [EventType.SOCIAL]: {
-    displayName: 'Sosialt',
-    color: 'var(--color-event-red)',
-    textColor: '#FFF',
+  [EventType.BREAKFAST_TALK]: {
+    displayName: 'Frokostforedrag',
+    color: '#86D1D0',
+    textColor: '#000',
   },
   [EventType.GALA]: {
     displayName: 'Galla',
     color: '#d867c0',
     textColor: 'var(--color-white)',
   },
-  [EventType.BREAKFAST_TALK]: {
-    displayName: 'Frokostforedrag',
-    color: '#86D1D0',
+  [EventType.INTEREST_EVENT]: {
+    displayName: 'Interessearrangement',
+    color: 'var(--color-orange-6)',
+    textColor: 'var(--color-absolute-black)',
+  },
+  [EventType.COURSE]: {
+    displayName: 'Kurs',
+    color: '#52B0EC',
     textColor: '#000',
   },
   [EventType.LUNCH_PRESENTATION]: {
@@ -58,20 +69,15 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     color: '#A1C34A',
     textColor: '#000',
   },
-  [EventType.EVENT]: {
-    displayName: 'Arrangement',
-    color: 'var(--color-event-red)',
-    textColor: '#FFF',
-  },
-  [EventType.ALTERNATIVE_PRESENTATION]: {
-    displayName: 'Alternativ bedpres',
-    color: '#8A2BE2',
-    textColor: '#FFF',
-  },
   [EventType.NEXUS_EVENT]: {
     displayName: 'NEXUS-arrangement',
     color: '#00509E',
     textColor: 'var(--color-absolute-white)',
+  },
+  [EventType.SOCIAL]: {
+    displayName: 'Sosialt',
+    color: 'var(--color-event-red)',
+    textColor: '#FFF',
   },
   [EventType.OTHER]: {
     displayName: 'Annet',
@@ -79,6 +85,13 @@ export const EventTypeConfig: Record<EventType, ConfigProperties> = {
     textColor: 'var(--color-white)',
   },
 };
+
+// Interest events have their own page, editor and colour legend, and are
+// filtered out of the event list and calendar - the surfaces that speak for
+// those two list the types below instead of the full config
+export const nonInterestEventTypes = Object.entries(EventTypeConfig).filter(
+  ([eventType]) => eventType !== EventType.INTEREST_EVENT,
+);
 
 // Returns the string representation of an EventType
 export const displayNameForEventType = (eventType: EventType) => {
@@ -104,7 +117,7 @@ export const textColorForEventType = (eventType: EventType) => {
 type Option<T = string, K = string> = { label: T; value: K };
 
 export type EditingEvent = Event & {
-  eventType: EventType;
+  eventType: Option<string, EventType>;
   company: Option;
   responsibleGroup: Option;
   isGroupOnly: boolean;
@@ -181,6 +194,17 @@ const calculateMazemapPoi = (data) => {
  * @param pools: the event groups as specified by the CreateEvent forms
  */
 const calculatePools = (data) => {
+  // Name, access, and activation on interest event pools are decided by the
+  // backend - only the capacity is up to the creator. The id is sent so
+  // edits update the existing pool in place.
+  if (data.eventType?.value === EventType.INTEREST_EVENT) {
+    return data.pools.slice(0, 1).map((pool) => ({
+      ...pick(pool, ['id']),
+      // An empty capacity means unlimited
+      capacity: pool.capacity || 0,
+    }));
+  }
+
   switch (data.eventStatusType?.value) {
     case 'TBA':
     case 'OPEN':

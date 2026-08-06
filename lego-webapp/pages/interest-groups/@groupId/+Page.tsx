@@ -161,7 +161,7 @@ const InterestGroupDetail = () => {
   const logo = group.logo;
 
   return (
-    <Page title={group.name} back={{ href: '/interest-groups' }}>
+    <Page title={group.name} back={{ href: '/events/interest' }}>
       <Helmet title={group.name} />
       <ContentSection>
         <ContentMain>

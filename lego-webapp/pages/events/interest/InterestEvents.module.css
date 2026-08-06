@@ -1,0 +1,62 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 4vw, 48px);
+  padding: clamp(24px, 4vw, 52px) 0 var(--footer-spacing-lg);
+}
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(24px, 3vw, 44px);
+  padding: 0 var(--spacing-md);
+}
+
+.heroText {
+  flex: 1;
+  min-width: min(300px, 100%);
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+}
+
+.lead {
+  margin: var(--spacing-md) 0 0;
+  max-width: 600px;
+  line-height: 1.6;
+  color: var(--secondary-font-color);
+  text-wrap: pretty;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.secondaryAction {
+  background-color: var(--lego-background-color);
+  border: 2px solid var(--color-red-6);
+  color: var(--color-red-6);
+
+  &[data-hovered] {
+    background-color: var(--color-gray-1);
+    border-color: var(--lego-red-color-hover);
+    color: var(--lego-red-color-hover);
+  }
+}
+
+.spotlightSkeleton {
+  flex: 1.25;
+  min-width: min(440px, 100%);
+  min-height: clamp(170px, 16vw, 210px);
+  border-radius: var(--border-radius-lg);
+}

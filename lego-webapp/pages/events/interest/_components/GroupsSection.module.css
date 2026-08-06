@@ -1,0 +1,213 @@
+@import url('styles/custom-media.css');
+
+.groups {
+  padding: 0 var(--spacing-md);
+  scroll-margin-top: var(--spacing-md);
+
+  --circle-size: 44px;
+  --tile-height: calc(var(--circle-size) + 2 * var(--spacing-sm) + 4px);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.pageArrows {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.pageArrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-gray-3);
+  background: transparent;
+  color: var(--lego-font-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background var(--easing-fast),
+    opacity var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+    background: transparent;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: var(--tile-height);
+  gap: 0 var(--spacing-xl);
+  margin-top: var(--spacing-sm);
+  min-height: calc(4 * var(--tile-height));
+
+  @media (--medium-viewport) {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius-md);
+  color: var(--lego-font-color);
+  transition: background var(--easing-fast);
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: var(--border-radius-md);
+    right: var(--border-radius-md);
+    border-bottom: 1px solid var(--border-gray);
+  }
+
+  &:hover {
+    background: var(--additive-background);
+    color: var(--lego-font-color);
+  }
+}
+
+.tileText {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tileName {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tileSubline {
+  font-size: var(--font-size-xs);
+  color: var(--secondary-font-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tileMark {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--color-gray-4);
+  color: var(--color-gray-6);
+}
+
+.tileMarkMember {
+  border: none;
+  background: var(--color-orange-6);
+  color: var(--color-orange-9);
+}
+
+.tileMarkInteractive {
+  padding: 0;
+  cursor: pointer;
+  transition:
+    background var(--easing-fast),
+    transform var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+
+  &:active {
+    transform: scale(0.93);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  &.tileMarkMember {
+    background: var(--color-orange-6);
+
+    &:hover {
+      background: var(--color-orange-5);
+    }
+  }
+}
+
+.tileInactive {
+  > :first-child {
+    filter: grayscale(1);
+    opacity: 0.7;
+  }
+
+  .tileName {
+    color: var(--secondary-font-color);
+  }
+}
+
+.createTile {
+  &::after {
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-gray-2);
+  }
+
+  &:hover {
+    background: rgba(245, 165, 36, 0.09);
+  }
+}
+
+.createCircle {
+  width: var(--circle-size);
+  height: var(--circle-size);
+  border-radius: 50%;
+  flex: none;
+  border: 1.5px dashed var(--color-gray-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray-6);
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+}
+
+.skeletonTile {
+  height: calc(var(--circle-size) + 2 * var(--spacing-sm));
+  border-radius: var(--border-radius-md);
+}
+
+.note {
+  margin-top: var(--spacing-md);
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}

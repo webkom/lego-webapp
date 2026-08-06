@@ -1,0 +1,527 @@
+@import url('styles/custom-media.css');
+
+.agenda {
+  padding: 0 var(--spacing-md);
+
+  --circle-size: 44px;
+  --row-height: calc(var(--circle-size) + 2 * var(--spacing-md));
+  --day-column: 180px;
+  --row-inline-pad: clamp(var(--spacing-md), 2vw, 32px);
+  --row-gap: clamp(10px, 2vw, 20px);
+  --orange-hover: rgba(245, 165, 36, 0.09);
+}
+
+.header {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  padding-bottom: var(--spacing-md);
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.header::after,
+.dayRow::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: var(--border-radius-lg);
+  right: var(--border-radius-lg);
+  height: 1px;
+}
+
+.dayRow:not(:last-child)::after {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--border-gray) calc(100% - 48px),
+    transparent
+  );
+}
+
+/* The agenda's top and bottom lines fade softly at the ends */
+.header::after,
+.dayRow:last-child::after {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--border-gray) 48px,
+    var(--border-gray) calc(100% - 48px),
+    transparent
+  );
+}
+
+.list {
+  min-height: calc(5 * var(--row-height));
+  overflow-x: clip;
+}
+
+.listEmpty {
+  min-height: 0;
+}
+
+.emptyState {
+  height: calc(3 * var(--row-height));
+  justify-content: center;
+}
+
+.dayRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--day-column) 1fr;
+  gap: 0 var(--spacing-lg);
+  align-items: start;
+  background: linear-gradient(var(--lego-card-color), var(--lego-card-color))
+    left / calc(var(--day-column) + var(--spacing-lg)) 100% no-repeat;
+
+  @media (--medium-viewport) {
+    display: block;
+    background: none;
+  }
+}
+
+/* The list reads as one panel: only the agenda's outer corners round.
+   :last-child follows pagination - whichever row is currently last
+   carries the bottom corners */
+.dayRow:first-child {
+  border-top-left-radius: var(--border-radius-lg);
+
+  .createRow,
+  .eventWrapper:first-child {
+    border-top-right-radius: var(--border-radius-lg);
+  }
+}
+
+.dayRow:last-child {
+  border-bottom-left-radius: var(--border-radius-lg);
+
+  .eventWrapper:last-child {
+    border-bottom-right-radius: var(--border-radius-lg);
+  }
+}
+
+.dayLabel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: var(--row-height);
+  padding-left: var(--row-inline-pad);
+  pointer-events: none;
+
+  @media (--medium-viewport) {
+    height: auto;
+    padding: var(--spacing-md) 0 var(--spacing-xs) var(--row-inline-pad);
+  }
+}
+
+.dayName {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.dayNameHighlight {
+  color: var(--lego-red-color);
+}
+
+.dayNameMuted {
+  color: var(--color-gray-5);
+}
+
+.dayDate {
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.eventWrapper {
+  cursor: pointer;
+  transition: background var(--easing-fast);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  overflow: hidden;
+
+  &[data-expanded='true'] {
+    background: var(--additive-background);
+  }
+}
+
+/* Shared row geometry - event rows, the create row, and the peek teasers */
+.eventRow,
+.createRow,
+.peekRow {
+  display: flex;
+  align-items: center;
+  gap: var(--row-gap);
+  padding: var(--spacing-md) var(--row-inline-pad);
+}
+
+.eventRow {
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+}
+
+.eventMonogram,
+.createCircle {
+  width: var(--circle-size);
+  height: var(--circle-size);
+  border-radius: 50%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eventMonogram {
+  overflow: hidden;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-orange-8);
+}
+
+.eventLogo {
+  flex: none;
+  object-fit: cover;
+}
+
+.eventInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.eventTitleLine {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.eventTitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+.eventGroup {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--lego-font-color);
+}
+
+.memberStar {
+  display: inline-flex;
+  vertical-align: -1px;
+  margin-left: 4px;
+  color: var(--color-orange-6);
+}
+
+.eventMeta {
+  margin-top: 3px;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Shared width across the join button's states so flips don't reflow */
+.joinAction {
+  min-width: 5.2em;
+}
+
+.joinedPill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  height: 2.3em;
+  padding: 0 0.6rem;
+  border: 1.5px solid var(--color-gray-3);
+  border-radius: var(--spacing-xl);
+  background: var(--lego-card-color);
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--lego-font-color);
+  cursor: pointer;
+  animation: pop var(--bounce);
+  transition: border-color var(--easing-fast);
+
+  &:hover {
+    border-color: var(--lego-font-color);
+  }
+
+  &:active {
+    transform: scale(0.93);
+  }
+}
+
+.eventPanel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  [data-expanded='true'] & {
+    grid-template-rows: 1fr;
+  }
+}
+
+.eventPanelContent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--spacing-md) var(--spacing-lg);
+  padding: var(--spacing-sm) var(--row-inline-pad) var(--spacing-md);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition:
+    opacity 220ms ease 50ms,
+    transform 300ms cubic-bezier(0.2, 0.8, 0.25, 1) 50ms;
+
+  [data-expanded='true'] & {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (--medium-viewport) {
+    flex-direction: column;
+  }
+}
+
+.eventAttendance {
+  max-width: 160px;
+  flex: none;
+  cursor: default;
+}
+
+.panelStrip {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  width: calc(100% + 2 * var(--row-inline-pad));
+  margin: 0 calc(-1 * var(--row-inline-pad)) calc(-1 * var(--spacing-md));
+  border-top: 1px solid var(--color-gray-3);
+  cursor: default;
+}
+
+.stripLink,
+.stripShare {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-md) var(--row-inline-pad);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--lego-font-color);
+}
+
+.stripLink {
+  flex: 1;
+  min-width: 0;
+  gap: var(--row-gap);
+  transition:
+    background var(--easing-fast),
+    color var(--easing-fast);
+
+  &:hover {
+    background: var(--orange-hover);
+    color: var(--color-orange-7);
+  }
+}
+
+.stripIconRail {
+  width: var(--circle-size);
+  flex: none;
+  display: flex;
+  justify-content: center;
+}
+
+.stripIconCircle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.stripShare {
+  flex: none;
+  gap: var(--spacing-sm);
+  border: 0;
+  border-left: 1px solid var(--color-gray-3);
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+
+  .stripIconCircle {
+    transition: transform var(--easing-fast);
+  }
+
+  &:active .stripIconCircle {
+    transform: scale(0.88);
+  }
+}
+
+/* Del and Kopiert crossfade on a shared grid cell */
+.stripShareLabel {
+  display: grid;
+  text-align: left;
+
+  > span {
+    grid-area: 1 / 1;
+    transition: opacity var(--easing-fast);
+  }
+}
+
+.stripShareDone {
+  opacity: 0;
+}
+
+.stripShareCopied {
+  .stripShareIdle {
+    opacity: 0;
+  }
+
+  .stripShareDone {
+    opacity: 1;
+  }
+
+  .stripIconCircle {
+    animation: pop var(--bounce);
+  }
+}
+
+.eventDescription {
+  flex: 1;
+  margin: 0;
+  min-width: min(220px, 100%);
+  max-width: 620px;
+  max-height: 5rem;
+  font-size: var(--font-size-sm);
+  line-height: 1.7;
+  color: var(--lego-font-color);
+  text-wrap: pretty;
+}
+
+.createRow {
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  color: var(--lego-font-color);
+  cursor: pointer;
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--orange-hover);
+  }
+}
+
+.createCircle {
+  border: 1.5px dashed var(--color-gray-4);
+  color: var(--color-gray-6);
+  transition: background var(--easing-fast);
+
+  &:hover {
+    background: var(--additive-background);
+  }
+}
+
+.createTitle {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+}
+
+.createAction {
+  flex: none;
+}
+
+.showMoreRow {
+  cursor: pointer;
+}
+
+.peek {
+  position: relative;
+}
+
+.peekRows {
+  pointer-events: none;
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+.peekOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(
+    color-mix(in srgb, var(--lego-background-color) 20%, transparent),
+    color-mix(in srgb, var(--lego-background-color) 92%, transparent) 78%,
+    var(--lego-background-color)
+  );
+}
+
+.showMoreButton {
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 0 var(--spacing-md);
+  border: 1.5px solid var(--color-gray-3);
+  border-radius: var(--spacing-xl);
+  background: var(--lego-card-color);
+  color: var(--lego-font-color);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition:
+    background var(--easing-fast),
+    color var(--easing-fast),
+    border-color var(--easing-fast),
+    transform var(--easing-fast);
+
+  &:hover {
+    background: var(--lego-font-color);
+    border-color: var(--lego-font-color);
+    color: var(--inverted-font-color);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.skeletonRow {
+  height: var(--row-height);
+  margin: var(--spacing-md) 0;
+  border-radius: var(--border-radius-lg);
+}

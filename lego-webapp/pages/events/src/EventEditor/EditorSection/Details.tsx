@@ -9,7 +9,7 @@ import {
 } from '~/components/Form';
 import { Label } from '~/components/Form/Label';
 import MazemapLink from '~/components/MazemapEmbed/MazemapLink';
-import { EventTypeConfig } from '~/pages/events/utils';
+import { nonInterestEventTypes } from '~/pages/events/utils';
 import styles from '../EventEditor.module.css';
 import type { EditingEvent } from '~/pages/events/utils';
 
@@ -26,7 +26,7 @@ const Details: React.FC<Props> = ({ values }) => {
           label="Type arrangement"
           fieldClassName={styles.metaField}
           component={SelectInput.Field}
-          options={Object.entries(EventTypeConfig).map(([key, config]) => ({
+          options={nonInterestEventTypes.map(([key, config]) => ({
             label: config.displayName,
             value: key,
           }))}
