@@ -14,9 +14,11 @@ import {
   Turtle,
   X,
 } from 'lucide-react';
+import { useState, type ReactNode } from 'react';
 import { Button } from 'react-aria-components';
+import { TextInput } from '~/components/Form';
 import {
-  unregister,
+  adminUnregister,
   updatePayment,
   updatePresence,
 } from '~/redux/actions/EventActions';
@@ -26,7 +28,6 @@ import { useParams } from '~/utils/useParams';
 import styles from '../Administrate.module.css';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { EventRegistrationPaymentStatus } from 'app/models';
-import type { ReactNode } from 'react';
 import type { PressEvent } from 'react-aria-components';
 import type { SelectedAdminRegistration } from '~/redux/slices/events';
 
@@ -205,6 +206,7 @@ export const Unregister = ({
 }: UnregisterProps) => {
   const dispatch = useAppDispatch();
   const { eventId } = useParams<{ eventId: string }>();
+  const [reason, setReason] = useState('');
 
   return (
     <>
@@ -213,15 +215,29 @@ export const Unregister = ({
       ) : (
         <ConfirmModal
           title="Bekreft avregistrering"
-          message={`Er du sikker på at du vil melde av "${registration.user.fullName}"?`}
+          message={
+            <Flex column gap="var(--spacing-sm)">
+              <p>
+                Er du sikker på at du vil melde av &quot;
+                {registration.user.fullName}
+                &quot;?
+              </p>
+              <TextInput
+                type="text"
+                placeholder="Begrunnelse"
+                onChange={(e) => setReason(e.target.value)}
+              />
+            </Flex>
+          }
           onConfirm={() => {
             if (!eventId) return;
             dispatch(
-              unregister({
+              adminUnregister(
                 eventId,
-                registrationId: registration.id,
-                admin: true,
-              }),
+                registration.user.id,
+                registration.id,
+                reason || 'Avregistrert av administrator',
+              ),
             );
           }}
           closeOnConfirm

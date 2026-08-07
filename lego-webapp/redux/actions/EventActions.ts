@@ -166,11 +166,9 @@ export function register({
 export function unregister({
   eventId,
   registrationId,
-  admin = false,
 }: {
   eventId: EntityId;
   registrationId: EntityId;
-  admin?: boolean;
 }) {
   return callAPI({
     types: Event.REQUEST_UNREGISTER,
@@ -179,7 +177,6 @@ export function unregister({
     body: {},
     meta: {
       errorMessage: 'Avregistrering fra arrangement feilet',
-      admin,
       id: Number(registrationId),
     },
   });
@@ -205,6 +202,29 @@ export function adminRegister(
     meta: {
       errorMessage: 'Admin registrering feilet',
       successMessage: 'Brukeren ble registrert',
+    },
+  });
+}
+
+export function adminUnregister(
+  eventId: EntityId,
+  userId: EntityId,
+  registrationId: EntityId,
+  adminUnregistrationReason: string,
+) {
+  return callAPI({
+    types: Event.REQUEST_UNREGISTER,
+    endpoint: `/events/${eventId}/registrations/admin_unregister/`,
+    method: 'POST',
+    body: {
+      user: userId,
+      adminUnregistrationReason,
+    },
+    meta: {
+      errorMessage: 'Admin avregistrering feilet',
+      successMessage: 'Brukeren ble avregistrert',
+      admin: true,
+      id: Number(registrationId),
     },
   });
 }

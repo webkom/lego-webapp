@@ -7,6 +7,7 @@ import { FeedActivityVerb } from '~/redux/models/FeedActivity';
 import { selectFeedActivitiesByFeedId } from '~/redux/slices/feeds';
 import Activity from './activity';
 import AdminRegistrationRenderer from './renders/adminRegistration';
+import AdminUnregistrationRenderer from './renders/adminUnregistration';
 import AnnouncementRenderer from './renders/announcement';
 import CommentRenderer from './renders/comment';
 import CommentReplyRenderer from './renders/comment_reply';
@@ -27,6 +28,7 @@ export const activityRenderers = {
   [FeedActivityVerb.RestrictedMailSent]: RestrictedMailSentRenderer,
   [FeedActivityVerb.RegistrationBump]: RegistrationBumpRenderer,
   [FeedActivityVerb.AdminRegistration]: AdminRegistrationRenderer,
+  [FeedActivityVerb.AdminUnregistration]: AdminUnregistrationRenderer,
   [FeedActivityVerb.Announcement]: AnnouncementRenderer,
   [FeedActivityVerb.GroupJoin]: GroupJoinRenderer,
   [FeedActivityVerb.EventRegister]: EventRegisterRenderer,
