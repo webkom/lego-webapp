@@ -22,12 +22,16 @@ const createCompanyInterest = () => {
   field('mail').click().type('webkom@webkom.no');
 
   field('phone').click().type('90909090');
-  field('officeInTrondheim').click({ force: true });
+  // The switch is a button next to the hidden input the field is found by
+  field('officeInTrondheim').parent().find('button').click();
 
-  field('semesters[0].checked').check();
-  field('events[0].checked').check();
-  field('otherOffers[0].checked').check();
-  field('companyType').check();
+  // Chips hide their input visually and the option cards cover theirs with the
+  // label overlay that makes the whole card clickable, so every box below has
+  // to be checked with force, the same way the toggle switch above is clicked.
+  field('semesters[0].checked').check({ force: true });
+  field('events[0].checked').check({ force: true });
+  field('otherOffers[0].checked').check({ force: true });
+  field('companyType').check({ force: true });
   field('comment').type('random comment');
   field('companyPresentationComment').type('some pitch for presentation');
 

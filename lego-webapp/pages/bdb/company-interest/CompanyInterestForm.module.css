@@ -63,6 +63,14 @@
   padding: var(--spacing-md);
 }
 
+/* Keep the icon beside the text instead of the stacked small-screen layout. */
+@media (--small-viewport) {
+  .infoCard :global([class*='withIcon']) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
 .content {
   grid-area: content;
   font-size: var(--font-size-sm);
@@ -180,7 +188,7 @@
 }
 
 .section {
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
 }
 
 .sectionHeader {
@@ -195,63 +203,125 @@
   color: var(--lego-red-color);
   font-size: var(--font-size-lg);
   font-weight: 700;
-  letter-spacing: 0.08em;
 }
 
 .optionRow {
   display: flex;
   flex-wrap: wrap;
-  row-gap: var(--spacing-sm);
-  column-gap: var(--spacing-lg);
-}
-
-.optionRow > div,
-.inlineOption.inlineOption {
-  width: auto;
+  gap: var(--spacing-sm);
 }
 
 .toggleGroup {
   display: flex;
   flex-direction: column;
   border: 1.5px solid var(--border-gray);
-  border-radius: var(--border-radius-md);
+  border-radius: var(--border-radius-lg);
 
   & > * {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-md);
   }
 
   & > * + * {
     border-top: 1.5px solid var(--border-gray);
   }
+}
 
-  & label {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-md);
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  cursor: pointer;
+}
+
+.toggleText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.toggleLabel {
+  font-weight: 600;
+}
+
+.toggleDescription {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.toggleControl {
+  width: auto;
+  flex: none;
+}
+
+.participantSlider {
+  width: 60%;
+
+  @media (--medium-viewport) {
+    width: 100%;
   }
 }
 
-.eventOption {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
+.cardList {
+  width: 100%;
+}
+
+.eventCard {
+  padding: var(--spacing-md);
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-lg);
+  transition:
+    border-color var(--easing-fast),
+    background-color var(--easing-fast);
+}
+
+/* The whole card selects, via the label's overlay below. */
+.optionCard {
+  position: relative;
+  cursor: pointer;
+}
+
+.optionLabel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+}
+
+/* Unpositioned, so the label's overlay stretches to the card around it rather
+   than to the field. */
+.optionField {
+  position: static;
+}
+
+.eventCard:has(input:checked) {
+  border-color: var(--lego-red-color);
+  background-color: var(--selected-background);
 }
 
 .eventPitch {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
-  margin-left: var(--spacing-xs);
-  padding-left: var(--spacing-md);
-  border-left: 2px solid var(--border-gray);
+  margin-top: var(--spacing-md);
+}
+
+.eventsFootnote {
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+  padding-top: var(--spacing-xs);
 }
 
 .otherOffers {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
+}
+
+.priorityReasoning {
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
 }
 
 .mutedText {
@@ -263,25 +333,90 @@
   align-self: flex-start;
 }
 
+/* Inputs inherit their background, which on a tinted card hides the field. */
 .textEditor {
+  background-color: var(--lego-card-color);
   width: 100%;
 }
 
-.readMe {
-  max-width: 280px;
+.readmePromo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  border-radius: var(--border-radius-lg);
+  background-color: var(--additive-background);
+  transition: background-color var(--easing-fast);
 }
 
-.readMe :global([class*='heading']) {
-  font-size: var(--font-size-lg);
+.readmePromoOn {
+  background-color: var(--selected-background);
 }
 
-.readMe :global([class*='thumbnailContainer']) {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-sm);
-  padding-top: 0;
-  margin: 0;
+.readmeCovers {
+  display: flex;
+  flex: none;
+  padding-right: var(--spacing-sm);
+}
+
+.readmeCover {
+  width: 110px;
   overflow: hidden;
+
+  &:first-child {
+    rotate: -4deg;
+  }
+
+  &:last-child {
+    margin-top: var(--spacing-sm);
+    margin-left: calc(-1 * var(--spacing-lg));
+    rotate: 3deg;
+  }
+}
+
+.readmeWordmark {
+  font-size: var(--font-size-xl);
+
+  a {
+    color: var(--lego-font-color);
+  }
+}
+
+.readmeDot {
+  color: var(--lego-red-color);
+}
+
+.readmeTagline {
+  margin: var(--spacing-xs) 0 var(--spacing-sm);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.readmeStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  color: var(--color-gray-8);
+  font-size: var(--font-size-sm);
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  li::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--lego-red-color);
+    flex: none;
+  }
 }
 
 .yearForm {
