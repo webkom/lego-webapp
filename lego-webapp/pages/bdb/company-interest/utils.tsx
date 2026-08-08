@@ -1,7 +1,6 @@
 import qs from 'qs';
 import { CompanyInterestEventType } from '~/redux/models/CompanyInterest';
 import { appConfig } from '~/utils/appConfig';
-import { EVENTS, SURVEY_OFFERS, TARGET_GRADES } from './Translations';
 import type CompanySemester from '~/redux/models/CompanySemester';
 
 export const sortSemesterChronologically = (
@@ -67,17 +66,6 @@ export const EVENT_TYPE_OPTIONS: CompanyInterestEventTypeOption[] = [
   },
 ];
 
-export const eventToString = (event) =>
-  Object.keys(EVENTS)[Number(event.charAt(event.length - 2))];
-
-export const surveyOffersToString = (offer) =>
-  Object.keys(SURVEY_OFFERS)[Number(offer.charAt(offer.length - 2))];
-
-export const targetGradeToString = (targetGrade) =>
-  Object.keys(TARGET_GRADES)[
-    Number(targetGrade.charAt(targetGrade.length - 2))
-  ];
-
 export const getCsvUrl = (
   year: number | string,
   semester: string,
@@ -89,7 +77,7 @@ export const getCsvUrl = (
     event,
   })}`;
 
-export const SEMESTER_TRANSLATION = {
+const SEMESTER_TRANSLATION = {
   spring: {
     norwegian: 'Vår',
     english: 'Spring',
@@ -151,23 +139,6 @@ export const interestText = {
     norwegian: 'Skriv litt om hva slags bedriftspresentasjon dere ønsker.',
     english: 'Write a litte about the company presentation event you wish for.',
   },
-  bedex: {
-    norwegian:
-      '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx»',
-    english: '«Remember to rank dates and groupsize if you have checked BedEx»',
-  },
-  anniversaryCollaboration: {
-    norwegian:
-      '*Samarbeid med Jubileum vil si promoteringsmuligheter på Abakus sitt jubileum i vår, eller Revyen sitt Jubileum i november 2021. Dersom det er av interesse, vil dere informeres om hva et slikt samarbeid vil innebære.',
-    english:
-      '*A collaboration with the anniversary committees would mean great opportunities  for your company to promote oneself. Either while Abakus has its anniversary in the  spring, or while the revue´s anniversary is celebrated in November 2021. If this is of  interest, we will further inform you what exactly is offered your company.',
-  },
-  revueCollaboration: {
-    norwegian:
-      '**Samarbeid med Revyen innebærer at dere får holde bedriftspresentasjon på datoen for Revyen, samt gode promoteringsmuligheter (logo på revy-gensere, logo på revyplakater o.l.)',
-    english:
-      '**A collaboration with the Revue means being their main sponsor. The Revue is a “show”, made and starred by students, and is widely popular within Abakus. As part of the collaboration, we offer you to give a Company presentation the same date as the revue. The company proceeds to join the students at the show after the presentation, guaranteeing a popular event. We also offer promotion opportunities, including your logo on merch/posters associated with the revue, etc.',
-  },
   priorityReasoningTitle: {
     norwegian: 'Abakus sin begrunnelse for prioritering',
     english: 'How we in Abakus prioritize',
@@ -185,7 +156,7 @@ export const interestText = {
       'We would like for you to describe the type of company presentation you want. Do you have any thoughts about the content of the presentation that you want to focus on or the type of networking afterwards?',
   },
 
-  lunchPresentationDescriptiont: {
+  lunchPresentationDescription: {
     norwegian:
       'Skriv gjerne litt om hvordan presentasjon dere ønsker i forhold til innhold og mingling. I motsetning til bedriftspresentasjon legger denne opp til å starte ved lunsjtider og holder minglingen på Gløshaugen.',
     english:

@@ -15,6 +15,7 @@ export default {
     '/pages/organisasjon/46-fondstyret/edit':
       '/pages/organisasjon/46-fondet/edit', // backwards compat for renamed slug
     '/pages/organisasjon/46-fondstyret': '/pages/organisasjon/46-fondet', // backwards compat for renamed slug
+    '/register-interest': '/interesse?lang=en', // the English form is the same page in another language
   },
 
   passToClient: ['storeInitialState'],
