@@ -1,19 +1,21 @@
-import { Card, Flex, LoadingIndicator, Page } from '@webkom/lego-bricks';
+import { Card, Flex, Icon, LoadingIndicator, Page } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import cx from 'classnames';
 import arrayMutators from 'final-form-arrays';
+import { gsap } from 'gsap';
+import { ArrowLeft, Check } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { Field, FormSpy } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import { Helmet } from 'react-helmet-async';
 import { navigate } from 'vike/client/router';
-import english from '~/assets/flags/great_britain.svg';
-import norwegian from '~/assets/flags/norway.svg';
-import { ContentMain } from '~/components/Content';
 import {
   CheckBox,
   Form,
   LegoFinalForm,
   MultiSelectGroup,
   RadioButton,
+  RowSection,
   SelectInput,
   TextEditor,
   TextInput,
@@ -21,6 +23,7 @@ import {
 import SubmissionError from '~/components/Form/SubmissionError';
 import { SubmitButton } from '~/components/Form/SubmitButton';
 import ToggleSwitch from '~/components/Form/ToggleSwitch';
+import PillSwitch from '~/components/PillSwitch';
 import { readmeIfy } from '~/components/ReadmeLogo';
 import LatestReadme from '~/pages/index/_components/authenticated/LatestReadme';
 import {
@@ -64,7 +67,6 @@ import {
 import {
   collaborationDescriptionToString,
   collaborationToString,
-  eventToString,
   interestText,
   otherOffersToString,
   PARTICIPANT_RANGE_MAP,
@@ -76,9 +78,154 @@ import {
   othersDescriptionToString,
 } from './utils';
 import type { ReactNode } from 'react';
+import type { PillSwitchOption } from '~/components/PillSwitch';
 
 import type { DetailedCompanyInterest } from '~/redux/models/CompanyInterest';
 import type CompanySemester from '~/redux/models/CompanySemester';
+
+type Language = 'english' | 'norwegian';
+
+const SECTIONS = [
+  { id: 'contact', norwegian: 'Kontakt', english: 'Contact' },
+  { id: 'about', norwegian: 'Om bedriften', english: 'About the company' },
+  { id: 'wishes', norwegian: 'Ønsker', english: 'Your wishes' },
+  { id: 'submit', norwegian: 'Send inn', english: 'Submit' },
+] as const;
+
+const FormSection = ({
+  id,
+  number,
+  title,
+  children,
+}: {
+  id: string;
+  number: number;
+  title: string;
+  children: ReactNode;
+}): ReactNode => (
+  <section id={id} className={styles.sectionAnchor}>
+    <Card shadow={false} className={styles.section}>
+      <Flex
+        alignItems="baseline"
+        gap="var(--spacing-sm)"
+        className={styles.sectionHeader}
+      >
+        <span className={styles.sectionNumber}>
+          {String(number).padStart(2, '0')}
+        </span>
+        <h2>{title}</h2>
+      </Flex>
+      {children}
+    </Card>
+  </section>
+);
+
+const sectionsCompleted = (values: CompanyInterestFormEntity) => {
+  const contact = !!(
+    values.company?.label &&
+    values.contactPerson &&
+    values.mail &&
+    values.phone
+  );
+  const about = !!(values.companyType && values.comment);
+  const wishes = !!(
+    values.semesters?.some((semester) => semester.checked) &&
+    values.events?.some((event) => event.checked)
+  );
+  return [contact, about, wishes, contact && about && wishes];
+};
+
+const StepRail = ({ language }: { language: Language }): ReactNode => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const fillRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const fill = fillRef.current;
+    if (!fill) {
+      return;
+    }
+
+    gsap.set(fill, { '--rail-progress': 0 });
+    const tweenProgress = gsap.quickTo(fill, '--rail-progress', {
+      duration: 0.25,
+      ease: 'power3.out',
+    });
+
+    const update = () => {
+      const tops = SECTIONS.map(({ id }) => {
+        const element = document.getElementById(id);
+        return element
+          ? element.getBoundingClientRect().top + window.scrollY
+          : 0;
+      });
+      const probe = window.scrollY + window.innerHeight / 3;
+
+      let index = 0;
+      tops.forEach((top, i) => {
+        if (probe >= top) {
+          index = i;
+        }
+      });
+
+      const next = tops[index + 1];
+      const withinSection = next
+        ? (probe - tops[index]) / Math.max(1, next - tops[index])
+        : 0;
+
+      setActiveIndex(index);
+      tweenProgress(
+        probe < tops[0]
+          ? 0
+          : Math.min(1, (index + withinSection) / (SECTIONS.length - 1)),
+      );
+    };
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    return () => {
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+      gsap.killTweensOf(fill);
+    };
+  }, []);
+
+  return spyValues((values: CompanyInterestFormEntity) => {
+    const completed = sectionsCompleted(values);
+    return (
+      <nav className={styles.rail}>
+        <span className={styles.railTrack} />
+        <span ref={fillRef} className={styles.railTrackFill} />
+        {SECTIONS.map((section, index) => (
+          <a
+            key={section.id}
+            href={`#${section.id}`}
+            className={cx(
+              styles.railStep,
+              index === activeIndex && styles.railStepActive,
+            )}
+          >
+            <span
+              className={cx(
+                styles.railNode,
+                completed[index] && styles.railNodeDone,
+              )}
+            >
+              {index + 1}
+              {completed[index] && (
+                <span className={styles.railNodeFill}>
+                  <Icon iconNode={<Check />} size={14} />
+                </span>
+              )}
+            </span>
+            {section[language]}
+          </a>
+        ))}
+      </nav>
+    );
+  });
+};
 
 const SemesterBox = ({
   fields,
@@ -87,7 +234,7 @@ const SemesterBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-md)">
+  <div className={styles.optionRow}>
     {fields.map((item, index) => (
       <Field
         key={`semesters[${index}]`}
@@ -97,7 +244,7 @@ const SemesterBox = ({
         component={CheckBox.Field}
       />
     ))}
-  </Flex>
+  </div>
 );
 
 const SurveyOffersBox = ({
@@ -107,7 +254,7 @@ const SurveyOffersBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-md)">
+  <div className={styles.optionRow}>
     {fields.map((item, index) => (
       <Field
         key={`companyCourseThemes[${index}]`}
@@ -117,41 +264,62 @@ const SurveyOffersBox = ({
         component={CheckBox.Field}
       />
     ))}
-  </Flex>
+  </div>
 );
 
 const EventBox = ({
   fields,
   language,
+  eventTypeEntities,
 }: {
   fields: any;
   language: string;
+  eventTypeEntities: EventTypeEntity[];
 }): ReactNode => (
   <FormSpy subscription={{ values: true }}>
-    {(props) => {
-      const filteredFields = fields.map((field) => field); // This is just to get an array instead of what fields is (which is an object that mimics an iterable). See: https://github.com/final-form/react-final-form-arrays#fieldarrayrenderprops
-      if (!props.values.officeInTrondheim) {
-        fields.forEach((field, index) => {
-          if (fields.value[index].name == 'company_to_company') {
-            filteredFields.splice(index, 1);
-          }
-        });
-      }
-      return (
-        <Flex column gap="var(--spacing-md)">
-          {filteredFields.map((key, index) => (
-            <Field
-              key={`events[${index}]`}
-              name={`events[${index}].checked`}
-              label={EVENTS[eventToString(key)][language]}
-              type="checkbox"
-              component={CheckBox.Field}
-              description={TOOLTIP[eventToString(key)][language]}
-            />
-          ))}
-        </Flex>
-      );
-    }}
+    {({ values }) => (
+      <Flex column gap="var(--spacing-md)">
+        <p className={styles.mutedText}>
+          {FORM_LABELS.eventDescriptionIntro[language]}
+        </p>
+        {fields
+          .map((item, index) => ({ name: fields.value[index].name, index }))
+          .filter(
+            ({ name }) =>
+              values.officeInTrondheim || name !== 'company_to_company',
+          )
+          .map(({ name, index }) => {
+            const entity = eventTypeEntities.find(
+              (eventTypeEntity) => eventTypeEntity.name === name,
+            );
+            return (
+              <div key={name} className={styles.eventOption}>
+                <Field
+                  name={`events[${index}].checked`}
+                  label={EVENTS[name][language]}
+                  type="checkbox"
+                  component={CheckBox.Field}
+                  description={TOOLTIP[name][language]}
+                />
+                {values.events?.[index]?.checked && entity?.commentName && (
+                  <div className={styles.eventPitch}>
+                    <p className={styles.mutedText}>{entity.description}</p>
+                    <Field
+                      placeholder={entity.commentPlaceholder}
+                      name={entity.commentName}
+                      label={FORM_LABELS.eventDescriptionHeader[language]}
+                      component={TextEditor.Field}
+                      rows={6}
+                      className={styles.textEditor}
+                      required
+                    />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+      </Flex>
+    )}
   </FormSpy>
 );
 
@@ -162,7 +330,7 @@ const TargetGradeBox = ({
   fields: any;
   language: string;
 }): ReactNode => (
-  <Flex column gap="var(--spacing-md)">
+  <div className={styles.optionRow}>
     {fields.map((key, index) => (
       <Field
         key={`targetGrades[${index}]`}
@@ -172,7 +340,7 @@ const TargetGradeBox = ({
         component={CheckBox.Field}
       />
     ))}
-  </Flex>
+  </div>
 );
 
 const OtherBox = ({
@@ -195,12 +363,6 @@ const OtherBox = ({
         }
       />
     ))}
-  </Flex>
-);
-
-const readMe = (
-  <Flex className={styles.readMe}>
-    <LatestReadme expandedInitially={true} />
   </Flex>
 );
 
@@ -229,11 +391,22 @@ const CollaborationBox = ({
   </Flex>
 );
 
-const LanguageFlag = ({ language }: { language: 'english' | 'norwegian' }) => (
-  <img
-    src={language === 'english' ? norwegian : english}
-    className={styles.flag}
-    alt={language === 'english' ? 'Flag of Britain' : 'Norges flagg'}
+const LANGUAGE_OPTIONS: PillSwitchOption<Language>[] = [
+  { label: 'Norsk', value: 'norwegian' },
+  { label: 'English', value: 'english' },
+];
+
+const LANGUAGE_ROUTES: Record<Language, string> = {
+  norwegian: '/interesse',
+  english: '/register-interest',
+};
+
+const LanguageSwitch = ({ language }: { language: Language }) => (
+  <PillSwitch
+    options={LANGUAGE_OPTIONS}
+    value={language}
+    onChange={(value) => navigate(LANGUAGE_ROUTES[value])}
+    ariaLabel={language === 'english' ? 'Language' : 'Språk'}
   />
 );
 type CompanyObjectProps = {
@@ -241,13 +414,41 @@ type CompanyObjectProps = {
   title: string | undefined;
   value?: string;
 };
+
+/**
+ * The company the form starts on, or nothing at all when none is known.
+ *
+ * Returning an option with empty fields instead of nothing leaves the select
+ * holding a value, and it only offers its placeholder while it holds none.
+ */
+const companySelection = (
+  companyInterest?: DetailedCompanyInterest,
+): CompanyObjectProps | undefined => {
+  if (companyInterest?.company) {
+    return {
+      label: companyInterest.company.name,
+      title: companyInterest.company.name,
+      value: '' + companyInterest.company.id,
+    };
+  }
+
+  if (companyInterest?.companyName) {
+    return {
+      label: companyInterest.companyName,
+      title: companyInterest.companyName,
+    };
+  }
+
+  return undefined;
+};
+
 type CompanyCheckBoxProps = {
   name: string;
   checked: boolean;
 };
 type CompanyInterestFormEntity = {
   companyName?: string;
-  company: CompanyObjectProps;
+  company?: CompanyObjectProps;
   contactPerson?: string;
   mail?: string;
   phone?: string;
@@ -276,6 +477,13 @@ type CompanyInterestFormEntity = {
   participantRange: string | null;
   collaborations: CompanyCheckBoxProps[];
   targetGrades: CompanyCheckBoxProps[];
+};
+type EventTypeEntity = {
+  name: string;
+  translated: string;
+  description: string;
+  commentName?: string;
+  commentPlaceholder?: string;
 };
 
 const requiredIfEventType = (eventType: string) =>
@@ -316,7 +524,7 @@ const validate = createValidator({
 });
 
 type Props = {
-  language: 'english' | 'norwegian';
+  language: Language;
 };
 
 const CompanyInterestForm = ({ language }: Props) => {
@@ -372,16 +580,7 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const initialValues: CompanyInterestFormEntity = {
     ...companyInterest,
-    company: companyInterest?.company
-      ? {
-          label: companyInterest.company.name,
-          title: companyInterest.company.name,
-          value: '' + companyInterest.company.id,
-        }
-      : {
-          label: companyInterest?.companyName,
-          title: companyInterest?.companyName,
-        },
+    company: companySelection(companyInterest),
     events: allEvents.map((event) => ({
       name: event,
       checked: companyInterest?.events.includes(event) || false,
@@ -428,9 +627,9 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   const onSubmit = async (data: CompanyInterestFormEntity) => {
     const { company } = data;
-    const nameOnly = company && (company['__isNew__'] || !company.value);
-    const companyId = nameOnly ? null : Number(company['value']);
-    const companyName = nameOnly ? company['label'] : '';
+    const nameOnly = !company?.value || company['__isNew__'];
+    const companyId = nameOnly ? null : Number(company.value);
+    const companyName = nameOnly ? (company?.label ?? '') : '';
 
     const [range_start, range_end] = data.participantRange
       ? PARTICIPANT_RANGE_MAP[data.participantRange]
@@ -485,7 +684,7 @@ const CompanyInterestForm = ({ language }: Props) => {
     );
   };
 
-  const eventTypeEntities = [
+  const eventTypeEntities: EventTypeEntity[] = [
     {
       name: 'company_presentation',
       translated: EVENTS.company_presentation[language],
@@ -553,71 +752,104 @@ const CompanyInterestForm = ({ language }: Props) => {
 
   return (
     <Page
-      title={title}
-      back={allowedBdb ? { href: '/bdb/company-interest' } : undefined}
-      actionButtons={
-        !edit && (
-          <a href={isEnglish ? '/interesse' : '/register-interest'}>
-            <LanguageFlag language={language} />
-          </a>
-        )
-      }
+      card={false}
+      classNames={{
+        content: styles.pageContent,
+        tabContainer: styles.hiddenTabs,
+      }}
     >
       <Helmet title={title} />
 
-      <ContentMain>
-        {!edit && (
-          <Card severity="info">
-            {FORM_LABELS.subHeading[language]}
-            <a href="mailto:bedriftskontakt@abakus.no">
-              bedriftskontakt@abakus.no
-            </a>
-          </Card>
-        )}
-        <LegoFinalForm
-          onSubmit={onSubmit}
-          validate={validate}
-          initialValues={initialValues}
-          subscription={{}}
-          mutators={{
-            ...arrayMutators,
-          }}
-        >
-          {({ handleSubmit }) => (
-            <Form onSubmit={handleSubmit}>
-              <Field
-                name="company"
-                label={FORM_LABELS.company.header[language]}
-                placeholder={FORM_LABELS.company.placeholder[language]}
-                filter={['companies.company']}
-                component={SelectInput.AutocompleteField}
-                creatable
-                required
-              />
-              <Field
-                label={FORM_LABELS.contactPerson.header[language]}
-                placeholder={FORM_LABELS.contactPerson.placeholder[language]}
-                name="contactPerson"
-                component={TextInput.Field}
-                required
-              />
-              <Field
-                label={FORM_LABELS.mail[language]}
-                placeholder={FORM_LABELS.mail.placeholder[language]}
-                name="mail"
-                component={TextInput.Field}
-                required
-              />
-              <Field
-                label={FORM_LABELS.phone[language]}
-                placeholder={FORM_LABELS.phone.placeholder[language]}
-                name="phone"
-                component={TextInput.Field}
-                required
-              />
+      <LegoFinalForm
+        onSubmit={onSubmit}
+        validate={validate}
+        initialValues={initialValues}
+        subscription={{}}
+        mutators={{
+          ...arrayMutators,
+        }}
+      >
+        {({ handleSubmit }) => (
+          <div className={styles.layout}>
+            <StepRail language={language} />
 
-              <Flex wrap justifyContent="space-between">
-                <Flex column className={styles.interestBox}>
+            {allowedBdb && (
+              <a href="/bdb/company-interest" className={styles.back}>
+                <Icon
+                  iconNode={<ArrowLeft />}
+                  size={18}
+                  className={styles.backIcon}
+                />
+                Tilbake
+              </a>
+            )}
+
+            <div className={styles.header}>
+              <h1>{title}</h1>
+              {!edit && <LanguageSwitch language={language} />}
+            </div>
+
+            <div className={styles.content}>
+              {!edit && (
+                <Card severity="info" className={styles.infoCard}>
+                  <span>
+                    {FORM_LABELS.subHeading[language]}
+                    <a href="mailto:bedriftskontakt@abakus.no">
+                      bedriftskontakt@abakus.no
+                    </a>
+                  </span>
+                </Card>
+              )}
+
+              <Form onSubmit={handleSubmit}>
+                <FormSection
+                  id={SECTIONS[0].id}
+                  number={1}
+                  title={SECTIONS[0][language]}
+                >
+                  <RowSection>
+                    <Field
+                      name="company"
+                      label={FORM_LABELS.company.header[language]}
+                      placeholder={FORM_LABELS.company.placeholder[language]}
+                      filter={['companies.company']}
+                      component={SelectInput.AutocompleteField}
+                      creatable
+                      required
+                    />
+                    <Field
+                      label={FORM_LABELS.contactPerson.header[language]}
+                      placeholder={
+                        FORM_LABELS.contactPerson.placeholder[language]
+                      }
+                      name="contactPerson"
+                      component={TextInput.Field}
+                      required
+                    />
+                  </RowSection>
+                  <RowSection>
+                    <Field
+                      label={FORM_LABELS.mail[language]}
+                      placeholder={FORM_LABELS.mail.placeholder[language]}
+                      name="mail"
+                      component={TextInput.Field}
+                      required
+                    />
+                    <Field
+                      label={FORM_LABELS.phone[language]}
+                      placeholder={FORM_LABELS.phone.placeholder[language]}
+                      name="phone"
+                      component={TextInput.Field}
+                      required
+                    />
+                  </RowSection>
+                </FormSection>
+
+                <FormSection
+                  id={SECTIONS[1].id}
+                  number={2}
+                  title={SECTIONS[1][language]}
+                >
                   <MultiSelectGroup
                     required
                     legend={FORM_LABELS.companyTypes[language]}
@@ -631,29 +863,26 @@ const CompanyInterestForm = ({ language }: Props) => {
                         label={COMPANY_TYPES[key][language]}
                         type="radio"
                         component={RadioButton.Field}
+                        fieldClassName={styles.inlineOption}
                         showErrors={false}
                       />
                     ))}
                   </MultiSelectGroup>
-                </Flex>
-                <Flex
-                  column
-                  className={styles.interestBox}
-                  gap="var(--spacing-md)"
-                >
-                  <Field
-                    name="officeInTrondheim"
-                    component={ToggleSwitch.Field}
-                    label={FORM_LABELS.officeInTrondheim[language]}
-                  />
-                  <Field
-                    name="wantsThursdayEvent"
-                    component={ToggleSwitch.Field}
-                    label={FORM_LABELS.wantsThursdayEvent[language]}
-                    description={FORM_LABELS.wantsThursdayEventInfo[language]}
-                  />
-                </Flex>
-                <Flex column className={styles.interestBox}>
+
+                  <div className={styles.toggleGroup}>
+                    <Field
+                      name="officeInTrondheim"
+                      component={ToggleSwitch.Field}
+                      label={FORM_LABELS.officeInTrondheim[language]}
+                    />
+                    <Field
+                      name="wantsThursdayEvent"
+                      component={ToggleSwitch.Field}
+                      label={FORM_LABELS.wantsThursdayEvent[language]}
+                      description={FORM_LABELS.wantsThursdayEventInfo[language]}
+                    />
+                  </div>
+
                   <MultiSelectGroup
                     name="companyCourseThemes"
                     legend={FORM_LABELS.companyCourseThemes[language]}
@@ -665,72 +894,51 @@ const CompanyInterestForm = ({ language }: Props) => {
                       )}
                     </FieldArray>
                   </MultiSelectGroup>
-                </Flex>
-              </Flex>
-              <Field
-                placeholder={interestText.comment[language]}
-                name="comment"
-                component={TextEditor.Field}
-                rows={10}
-                className={styles.textEditor}
-                label={FORM_LABELS.comment[language]}
-                required
-              />
-              <div className={styles.topline} />
-              <Flex wrap justifyContent="space-between" gap="var(--spacing-md)">
-                <Flex column className={styles.interestBox}>
-                  <MultiSelectGroup
-                    name="semesters"
-                    legend={FORM_LABELS.semesters[language]}
-                    required
-                  >
-                    <FieldArray name="semesters">
-                      {(props) => (
-                        <SemesterBox {...props} language={language} />
-                      )}
-                    </FieldArray>
-                  </MultiSelectGroup>
-                </Flex>
-                <Flex column className={styles.interestBox}>
-                  <MultiSelectGroup
-                    name="events"
-                    legend={FORM_LABELS.events[language]}
-                    required
-                  >
-                    <FieldArray name="events">
-                      {(props) => <EventBox {...props} language={language} />}
-                    </FieldArray>
-                  </MultiSelectGroup>
-                </Flex>
-                <Flex column className={styles.interestBox}>
-                  <MultiSelectGroup
-                    name="collaborations"
-                    legend={FORM_LABELS.collaborations[language]}
-                  >
-                    <FieldArray name="collaborations">
-                      {(props) => (
-                        <CollaborationBox {...props} language={language} />
-                      )}
-                    </FieldArray>
-                  </MultiSelectGroup>
-                </Flex>
-              </Flex>
 
-              <Flex wrap justifyContent="space-between">
-                <Flex column className={styles.interestBox}>
-                  <MultiSelectGroup
-                    name="targetGrades"
-                    legend={FORM_LABELS.targetGrades[language]}
-                  >
-                    <FieldArray name="targetGrades">
-                      {(props) => (
-                        <TargetGradeBox {...props} language={language} />
-                      )}
-                    </FieldArray>
-                  </MultiSelectGroup>
-                </Flex>
+                  <Field
+                    placeholder={interestText.comment[language]}
+                    name="comment"
+                    component={TextEditor.Field}
+                    rows={10}
+                    className={styles.textEditor}
+                    label={FORM_LABELS.comment[language]}
+                    required
+                  />
+                </FormSection>
 
-                <Flex column className={styles.interestBox}>
+                <FormSection
+                  id={SECTIONS[2].id}
+                  number={3}
+                  title={SECTIONS[2][language]}
+                >
+                  <RowSection>
+                    <div>
+                      <MultiSelectGroup
+                        name="targetGrades"
+                        legend={FORM_LABELS.targetGrades[language]}
+                      >
+                        <FieldArray name="targetGrades">
+                          {(props) => (
+                            <TargetGradeBox {...props} language={language} />
+                          )}
+                        </FieldArray>
+                      </MultiSelectGroup>
+                    </div>
+                    <div>
+                      <MultiSelectGroup
+                        name="semesters"
+                        legend={FORM_LABELS.semesters[language]}
+                        required
+                      >
+                        <FieldArray name="semesters">
+                          {(props) => (
+                            <SemesterBox {...props} language={language} />
+                          )}
+                        </FieldArray>
+                      </MultiSelectGroup>
+                    </div>
+                  </RowSection>
+
                   <MultiSelectGroup
                     name="participantRange"
                     legend={FORM_LABELS.participantRange[language]}
@@ -743,79 +951,80 @@ const CompanyInterestForm = ({ language }: Props) => {
                         label={PARTICIPANT_RANGE_TYPES[key]}
                         type="radio"
                         component={RadioButton.Field}
+                        fieldClassName={styles.inlineOption}
                       />
                     ))}
                   </MultiSelectGroup>
-                </Flex>
-                <Flex column className={styles.interestBox}>
+
                   <MultiSelectGroup
-                    name="otherOffers"
-                    legend={FORM_LABELS.otherOffers[language]}
+                    name="events"
+                    legend={FORM_LABELS.events[language]}
+                    required
                   >
-                    <FieldArray name="otherOffers">
-                      {(props) => <OtherBox {...props} language={language} />}
+                    <FieldArray name="events">
+                      {(props) => (
+                        <EventBox
+                          {...props}
+                          language={language}
+                          eventTypeEntities={eventTypeEntities}
+                        />
+                      )}
                     </FieldArray>
                   </MultiSelectGroup>
-                  {readMe}
-                </Flex>
-              </Flex>
-              <div className={styles.topline} />
-              <div>
-                <h3>{FORM_LABELS.eventDescriptionHeader[language]}</h3>
-                <span>{FORM_LABELS.eventDescriptionIntro[language]}</span>
-              </div>
 
-              {eventTypeEntities.map((eventTypeEntity) => {
-                if (!eventTypeEntity.commentName) return null;
-                const { commentName, commentPlaceholder } = eventTypeEntity;
-                return spyValues((values: CompanyInterestFormEntity) => {
-                  const showComment = values.events?.some(
-                    (e) => e.name === eventTypeEntity.name && e.checked,
-                  );
+                  <MultiSelectGroup
+                    name="collaborations"
+                    legend={FORM_LABELS.collaborations[language]}
+                  >
+                    <FieldArray name="collaborations">
+                      {(props) => (
+                        <CollaborationBox {...props} language={language} />
+                      )}
+                    </FieldArray>
+                  </MultiSelectGroup>
 
-                  return (
-                    showComment && (
-                      <>
-                        <div className={styles.topline} />
-                        <Flex alignItems="center" gap={2}>
-                          <h3>{eventTypeEntity.translated}</h3>
-                          <span className={styles.label}>*</span>
-                        </Flex>
+                  <div className={styles.otherOffers}>
+                    <MultiSelectGroup
+                      name="otherOffers"
+                      legend={FORM_LABELS.otherOffers[language]}
+                    >
+                      <FieldArray name="otherOffers">
+                        {(props) => <OtherBox {...props} language={language} />}
+                      </FieldArray>
+                    </MultiSelectGroup>
+                    <div className={styles.readMe}>
+                      <LatestReadme collapsible={false} displayCount={2} />
+                    </div>
+                  </div>
+                </FormSection>
 
-                        <p>{eventTypeEntity.description}</p>
-                        <Field
-                          placeholder={commentPlaceholder}
-                          name={commentName}
-                          component={TextEditor.Field}
-                          rows={10}
-                          className={styles.textEditor}
-                        />
-                      </>
-                    )
-                  );
-                });
-              })}
+                <FormSection
+                  id={SECTIONS[3].id}
+                  number={4}
+                  title={SECTIONS[3][language]}
+                >
+                  {!edit && (
+                    <div>
+                      <b>{interestText.priorityReasoningTitle[language]}</b>
+                      <p className={styles.mutedText}>
+                        {interestText.priorityReasoning[language]}
+                      </p>
+                    </div>
+                  )}
 
-              {!edit && (
-                <div>
-                  <div className={styles.topline} />
-                  <b>{interestText.priorityReasoningTitle[language]}</b>
-                  <br />
-                  {interestText.priorityReasoning[language]}
-                </div>
-              )}
+                  <SubmissionError />
 
-              <SubmissionError />
-
-              <SubmitButton>
-                {edit
-                  ? 'Oppdater bedriftsinteresse'
-                  : FORM_LABELS.create[language]}
-              </SubmitButton>
-            </Form>
-          )}
-        </LegoFinalForm>
-      </ContentMain>
+                  <SubmitButton className={styles.submitButton}>
+                    {edit
+                      ? 'Oppdater bedriftsinteresse'
+                      : FORM_LABELS.create[language]}
+                  </SubmitButton>
+                </FormSection>
+              </Form>
+            </div>
+          </div>
+        )}
+      </LegoFinalForm>
     </Page>
   );
 };

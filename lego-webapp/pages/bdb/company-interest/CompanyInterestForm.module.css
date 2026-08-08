@@ -1,66 +1,274 @@
 @import url('styles/custom-media.css');
 
-.interestBox {
-  width: 32%;
-  min-width: 300px;
-}
+.layout {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  grid-template-areas:
+    'back header'
+    'rail content';
+  gap: var(--spacing-md) var(--spacing-xxl);
+  align-items: start;
 
-.yearForm {
-  width: 100px;
-  display: block;
-}
-
-.textEditor {
-  @media (--small-viewport) {
-    width: 300px;
+  @media (--mobile-device) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'back'
+      'header'
+      'content';
   }
 }
 
-.semesterBox {
+.pageContent.pageContent {
+  padding: var(--spacing-md);
+}
+
+.hiddenTabs {
+  display: none;
+}
+
+.header {
+  grid-area: header;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  width: 125px;
+  gap: var(--spacing-md);
+
+  & h1 {
+    margin: 0;
+  }
 }
 
-.topline {
-  height: 1px;
-  background-color: var(--border-gray);
-  margin: var(--spacing-md) 0;
+.back {
+  grid-area: back;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  width: fit-content;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
-.companyInterestList {
-  @media (--small-viewport) {
+.backIcon {
+  transition: transform var(--easing-medium);
+}
+
+.back:hover .backIcon,
+.back:focus .backIcon {
+  transform: translateX(calc(-1 * var(--spacing-xs)));
+}
+
+.infoCard.infoCard {
+  padding: var(--spacing-md);
+}
+
+.content {
+  grid-area: content;
+  font-size: var(--font-size-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  min-width: 0;
+}
+
+.rail {
+  --rail-step-height: 40px;
+  --rail-progress: 0;
+
+  grid-area: rail;
+  position: sticky;
+  top: var(--spacing-md);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+
+  @media (--mobile-device) {
     display: none;
   }
 }
 
-.companyInterestList table {
-  width: 900px;
+.railTrack,
+.railTrackFill {
+  position: absolute;
+  top: calc(var(--rail-step-height) / 2);
+  left: calc(var(--spacing-sm) + 11px);
+  width: 2px;
+  border-radius: 2px;
 }
 
-.companyList th {
-  padding: 5px 0;
-  border-top: 1px solid var(--border-gray);
-  border-bottom: 1px solid var(--border-gray);
+.railTrack {
+  height: calc(100% - var(--rail-step-height));
+  background-color: var(--border-gray);
 }
 
-.companyInterestList th,
-.companyInterestList td {
-  width: 275px;
-  justify-content: space-between;
-  padding-left: 7px;
-  text-align: left;
-  display: table-cell;
-  border-bottom: 1px dashed var(--color-black);
+.railTrackFill {
+  height: calc((100% - var(--rail-step-height)) * var(--rail-progress));
+  background-color: var(--lego-red-color);
 }
 
-.flag {
-  height: 3em;
-  width: 5em;
-  object-fit: cover;
+.railStep {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  height: var(--rail-step-height);
+  padding: 0 var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+
+  &:hover {
+    background-color: var(--additive-background);
+    color: var(--lego-font-color);
+  }
 }
 
-.label {
-  color: var(--danger-color);
+.railStepActive {
+  color: var(--lego-font-color);
+  font-weight: 600;
+}
+
+.railNode {
+  z-index: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1.5px solid var(--border-gray);
+  border-radius: 50%;
+  background-color: var(--lego-background-color);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  transition: border-color var(--easing-medium);
+}
+
+.railStepActive .railNode {
+  border-color: var(--lego-font-color);
+}
+
+.railNodeDone {
+  border-color: var(--lego-red-color);
+}
+
+.railNodeFill {
+  position: absolute;
+  inset: -1.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--lego-red-color);
+  color: var(--color-absolute-white);
+  animation: railNodePop var(--bounce) both;
+}
+
+@keyframes railNodePop {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.sectionAnchor {
+  scroll-margin-top: var(--spacing-md);
+}
+
+.section {
+  gap: var(--spacing-md);
+}
+
+.sectionHeader {
+  margin-bottom: var(--spacing-xs);
+
+  & h2 {
+    font-size: var(--font-size-lg);
+  }
+}
+
+.sectionNumber {
+  color: var(--lego-red-color);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.optionRow {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--spacing-sm);
+  column-gap: var(--spacing-lg);
+}
+
+.optionRow > div,
+.inlineOption.inlineOption {
+  width: auto;
+}
+
+.toggleGroup {
+  display: flex;
+  flex-direction: column;
+  border: 1.5px solid var(--border-gray);
+  border-radius: var(--border-radius-md);
+
+  & > * {
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  & > * + * {
+    border-top: 1.5px solid var(--border-gray);
+  }
+
+  & label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+  }
+}
+
+.eventOption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.eventPitch {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  margin-left: var(--spacing-xs);
+  padding-left: var(--spacing-md);
+  border-left: 2px solid var(--border-gray);
+}
+
+.otherOffers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.mutedText {
+  color: var(--secondary-font-color);
+  font-size: var(--font-size-sm);
+}
+
+.submitButton {
+  align-self: flex-start;
+}
+
+.textEditor {
+  width: 100%;
+}
+
+.readMe {
+  max-width: 280px;
 }
 
 .readMe :global([class*='heading']) {
@@ -68,22 +276,15 @@
 }
 
 .readMe :global([class*='thumbnailContainer']) {
-  padding-top: 0px;
-  margin: 0px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, min-content);
-  gap: var(--spacing-xs);
+  gap: var(--spacing-sm);
+  padding-top: 0;
+  margin: 0;
   overflow: hidden;
-
-  @media (--mobile-device) {
-    gap: var(--spacing-xs);
-  }
-
-  @media (--small-viewport) {
-    gap: var(--spacing-xs);
-  }
 }
-.readMe {
-  padding-top: 25px;
+
+.yearForm {
+  width: 100px;
+  display: block;
 }
