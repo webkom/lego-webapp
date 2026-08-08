@@ -68,8 +68,11 @@ const CheckBox = ({
 
 const RawField = createField(CheckBox, { inlineLabel: true });
 
-const StyledField = (props: ComponentProps<typeof RawField>) => (
-  <RawField labelClassName={styles.fieldLabel} {...props} />
+const StyledField = ({
+  labelClassName,
+  ...props
+}: ComponentProps<typeof RawField> & { labelClassName?: string }) => (
+  <RawField labelClassName={cx(styles.fieldLabel, labelClassName)} {...props} />
 );
 
 CheckBox.Field = StyledField;

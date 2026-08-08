@@ -23,5 +23,5 @@ function TextEditor({ className, ...props }: Props) {
   );
 }
 
-TextEditor.Field = createField(TextEditor);
+TextEditor.Field = createField(TextEditor, { errorVariant: 'text' });
 export default TextEditor;

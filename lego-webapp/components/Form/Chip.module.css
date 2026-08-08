@@ -1,0 +1,65 @@
+.chipField.chipField {
+  width: auto;
+}
+
+.chip {
+  --chip-border: var(--border-gray);
+  --chip-background: var(--lego-card-color);
+  --chip-color: var(--color-gray-8);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  height: 34px;
+  padding: 0 var(--spacing-md);
+  border: 1.5px solid var(--chip-border);
+  border-radius: 999px;
+  background-color: var(--chip-background);
+  color: var(--chip-color);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    border-color var(--easing-fast),
+    background-color var(--easing-fast),
+    color var(--easing-fast);
+}
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+}
+
+.chip:hover {
+  --chip-border: var(--color-gray-4);
+}
+
+.chip:has(.input:checked) {
+  --chip-border: var(--lego-red-color);
+  --chip-background: var(--selected-background);
+  --chip-color: var(--color-red-7);
+}
+
+.chip:has(.input:checked):hover {
+  --chip-border: var(--lego-red-color-hover);
+}
+
+/* The pill carries the hidden input's focus ring. */
+.chip:has(.input:focus-visible) {
+  outline: 2px solid var(--lego-font-color);
+  outline-offset: var(--spacing-xs);
+}
+
+.chip:has(.input:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -80,8 +80,9 @@
   }
 }
 
+/* Brand tokens, so the red button matches every other red across themes. */
 .dark {
-  background-color: var(--color-red-6);
+  background-color: var(--lego-red-color);
   color: var(--button-color-white);
   box-shadow: none;
 
@@ -94,7 +95,7 @@
   }
 
   &[data-hovered] {
-    background-color: var(--color-red-7);
+    background-color: var(--lego-red-color-hover);
   }
 
   &[data-pressed] {
@@ -220,7 +221,7 @@
 }
 
 .large {
-  font-size: var(--font-size-lg);
+  padding: var(--spacing-lg) var(--spacing-xl);
 }
 
 .round {

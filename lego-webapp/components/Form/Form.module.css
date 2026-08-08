@@ -6,20 +6,25 @@
   gap: var(--spacing-lg);
 }
 
+/* flex-start keeps the labels aligned when one column is taller. */
 .rowSection {
-  align-items: center;
+  align-items: flex-start;
 
   @media (--medium-viewport) {
     flex-direction: column;
-    align-items: flex-start;
   }
 }
 
 .rowSection > div {
   flex: 1;
   min-width: 0;
+}
 
-  @media (--medium-viewport) {
+/* Doubled class to outweigh the mobile flex-basis lego-bricks gives children
+   of wrapping flexes, which in this stacked column becomes a fixed height. */
+@media (--medium-viewport) {
+  .rowSection.rowSection > div {
     width: 100%;
+    flex-basis: auto;
   }
 }

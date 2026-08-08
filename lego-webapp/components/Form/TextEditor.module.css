@@ -6,6 +6,8 @@
   padding: var(--spacing-xs) var(--spacing-sm);
   outline: none;
 
+  resize: vertical;
+
   &::placeholder {
     color: var(--placeholder-color);
   }

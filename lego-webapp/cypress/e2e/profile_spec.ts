@@ -106,6 +106,7 @@ describe('Profile settings', () => {
     cy.get('input[name=email]').clear().type(updatedUser.email);
 
     cy.contains('Lagre endringer').should('not.be.disabled').click();
+    cy.contains('Oppdatering av bruker fullført');
 
     cy.url().should('include', '/users/me');
     cy.contains('Innstillinger').click();

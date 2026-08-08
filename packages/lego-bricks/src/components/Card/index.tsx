@@ -20,25 +20,48 @@ const CardHeader = ({ children, className }: CardHeaderProps) => (
 
 type ContentWithIconProps = {
   severity?: Severity;
+  iconSize?: number;
   children: ReactNode;
 };
 
-const ContentWithIcon = ({ children, severity }: ContentWithIconProps) => {
+const ContentWithIcon = ({
+  children,
+  severity,
+  iconSize,
+}: ContentWithIconProps) => {
   let icon;
 
   switch (severity) {
     case 'danger':
-      icon = <Icon iconNode={<CircleAlert />} className={styles.dangerIcon} />;
+      icon = (
+        <Icon
+          iconNode={<CircleAlert />}
+          size={iconSize}
+          className={styles.dangerIcon}
+        />
+      );
       break;
     case 'info':
-      icon = <Icon iconNode={<Info />} className={styles.infoIcon} />;
+      icon = (
+        <Icon iconNode={<Info />} size={iconSize} className={styles.infoIcon} />
+      );
       break;
     case 'success':
-      icon = <Icon iconNode={<CircleCheck />} className={styles.successIcon} />;
+      icon = (
+        <Icon
+          iconNode={<CircleCheck />}
+          size={iconSize}
+          className={styles.successIcon}
+        />
+      );
       break;
     case 'warning':
       icon = (
-        <Icon iconNode={<TriangleAlert />} className={styles.warningIcon} />
+        <Icon
+          iconNode={<TriangleAlert />}
+          size={iconSize}
+          className={styles.warningIcon}
+        />
       );
       break;
   }
@@ -46,7 +69,7 @@ const ContentWithIcon = ({ children, severity }: ContentWithIconProps) => {
   return icon !== undefined ? (
     <Flex className={styles.withIcon}>
       {icon}
-      <Flex column>{children}</Flex>
+      <div className={styles.withIconContent}>{children}</div>
     </Flex>
   ) : (
     <>{children}</>
@@ -60,16 +83,18 @@ type Props = {
   isHoverable?: boolean;
   skeleton?: boolean;
   severity?: Severity;
+  iconSize?: number;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const Card = ({
   children,
   className,
   shadow = true,
-  hideOverflow = false,
+  hideOverflow: _hideOverflow,
   isHoverable = false,
   skeleton = false,
   severity,
+  iconSize,
   ...htmlAttributes
 }: Props) => {
   return (
@@ -81,15 +106,14 @@ export const Card = ({
         !skeleton && styles.padded,
         severity && styles[severity],
       )}
-      style={{
-        overflow: hideOverflow || skeleton ? 'hidden' : 'initial',
-      }}
       {...htmlAttributes}
     >
       {skeleton ? (
         <Skeleton />
       ) : (
-        <ContentWithIcon severity={severity}>{children}</ContentWithIcon>
+        <ContentWithIcon severity={severity} iconSize={iconSize}>
+          {children}
+        </ContentWithIcon>
       )}
     </BaseCard>
   );
