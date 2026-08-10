@@ -8,16 +8,32 @@ import { EntityType } from '~/redux/models/entities';
 import { selectArticles } from './articles';
 import { selectAllEvents } from './events';
 
+import type { AnyAction, EntityId } from '@reduxjs/toolkit';
 import type { PublicArticle } from '~/redux/models/Article';
 import type { FrontpageEvent } from '~/redux/models/Event';
+import type { RootState } from '~/redux/rootReducer';
+
+type NormalizedFrontpage = {
+  articles?: EntityId[];
+  events?: EntityId[];
+};
 
 const frontpageSlice = createSlice({
   name: 'frontpage',
   initialState: {
     fetching: false,
+    articleIds: [] as EntityId[],
+    eventIds: [] as EntityId[],
   },
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(Frontpage.FETCH.SUCCESS, (state, action: AnyAction) => {
+      const frontpage = Object.values<NormalizedFrontpage>(
+        action.payload.entities.frontpage ?? {},
+      )[0];
+      state.articleIds = frontpage?.articles ?? [];
+      state.eventIds = frontpage?.events ?? [];
+    });
     buildFetchingReducer(builder, [Frontpage.FETCH]);
   },
 });
@@ -55,9 +71,20 @@ export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
 export const selectPinned = createSelector(
   selectArticles<PublicArticle>,
   selectAllEvents<FrontpageEvent>,
-  (articles, events) => {
+  (state: RootState) => state.frontpage.articleIds,
+  (state: RootState) => state.frontpage.eventIds,
+  (articles, events, articleIds, eventIds) => {
+    const frontpageArticleIds = new Set(articleIds);
+    const frontpageEventIds = new Set(eventIds);
     const pinnedObjects = sortBy(
-      [...articles.map(addArticleType), ...events.map(addEventType)],
+      [
+        ...articles
+          .filter((article) => frontpageArticleIds.has(article.id))
+          .map(addArticleType),
+        ...events
+          .filter((event) => frontpageEventIds.has(event.id))
+          .map(addEventType),
+      ],
       [
         (object) => (object.pinned ? 0 : 1), // Sort pinned objects first
         (object) => Math.abs(moment().diff(frontpageObjectDate(object))), // Sort by most recently published/starting soonest
