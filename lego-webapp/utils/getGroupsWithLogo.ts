@@ -14,8 +14,10 @@ export const getGroupsWithLogo = (
         ...m,
         abakusGroup: groupEntities[m.abakusGroup],
       }))
-      .filter(
-        (m) => m.abakusGroup?.logo && m.abakusGroup.type !== GroupType.Interest,
-      ),
-    [(m) => m.abakusGroup.type !== GroupType.Board, (m) => !m.isActive],
+      .filter((m) => m.abakusGroup?.logo),
+    [
+      (m) => m.abakusGroup.type !== GroupType.Board,
+      (m) => m.abakusGroup.type === GroupType.Interest,
+      (m) => !m.isActive,
+    ],
   );

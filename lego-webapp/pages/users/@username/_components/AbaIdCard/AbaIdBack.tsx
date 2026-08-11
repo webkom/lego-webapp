@@ -2,6 +2,8 @@ import cx from 'classnames';
 import styles from './AbaIdCard.module.css';
 import type { AbaIdGroup } from './index';
 
+const MAX_VISIBLE_GROUPS = 10;
+
 type Props = {
   username: string;
   groups: AbaIdGroup[];
@@ -24,14 +26,19 @@ const AbaIdBack = ({ username, groups, hidden }: Props) => (
 
       {groups.length > 0 && (
         <div className={styles.field}>
-          <span className={styles.fieldLabel}>Verv</span>
+          <span className={styles.fieldLabel}>Grupper</span>
           <div className={styles.groupPills}>
-            {groups.map((group) => (
+            {groups.slice(0, MAX_VISIBLE_GROUPS).map((group) => (
               <span key={group.id} className={styles.groupPill}>
                 <img src={group.logo} alt="" className={styles.groupLogo} />
                 {group.name}
               </span>
             ))}
+            {groups.length > MAX_VISIBLE_GROUPS && (
+              <span className={styles.groupPill}>
+                +{groups.length - MAX_VISIBLE_GROUPS}
+              </span>
+            )}
           </div>
         </div>
       )}
