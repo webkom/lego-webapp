@@ -121,7 +121,10 @@ describe('Admin company interest', () => {
   it('should be able to edit company interest', () => {
     createCompanyInterest();
     cy.url().should('include', '/bdb/company-interest');
-    cy.contains('BEKK').click();
+    cy.contains('a', 'BEKK')
+      .should('have.attr', 'href')
+      .and('include', '/edit');
+    cy.contains('a', 'BEKK').click();
     cy.url().should('include', `edit`);
 
     field('contactPerson').should('have.value', 'webkom');
