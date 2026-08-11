@@ -3,7 +3,6 @@ import {
   DialogTrigger,
   Flex,
   Icon,
-  Modal,
   Image,
   Page,
   LoadingPage,
@@ -19,7 +18,7 @@ import { GroupType } from 'app/models';
 import frame from '~/assets/frame.png';
 import EventListCompact from '~/components/EventListCompact';
 import { ProfilePicture } from '~/components/Image';
-import { ProfileCard } from '~/components/ProfileCard';
+import AbaIdCard from '~/pages/users/@username/_components/AbaIdCard';
 import { Achievements } from '~/pages/users/@username/_components/Achievements';
 import { EmailLists } from '~/pages/users/@username/_components/EmailLists';
 import { GSuiteInfo } from '~/pages/users/@username/_components/GSuiteInfo';
@@ -37,6 +36,7 @@ import { selectAllEvents } from '~/redux/slices/events';
 import { selectGroupsByType, selectGroupEntities } from '~/redux/slices/groups';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectUserByUsername } from '~/redux/slices/users';
+import { getGroupsWithLogo } from '~/utils/getGroupsWithLogo';
 import { guardLogin } from '~/utils/replaceUnlessLoggedIn';
 import { useParams } from '~/utils/useParams';
 import GroupChange from './_components/GroupChange';
@@ -156,6 +156,15 @@ const UserProfile = () => {
     .map((groupId) => groupEntities[groupId])
     .find((group) => group?.type === GroupType.Grade);
 
+  const abaIdGroups = uniqBy(
+    getGroupsWithLogo(memberships, groupEntities).filter((m) => m.isActive),
+    (m) => m.abakusGroup.id,
+  ).map(({ abakusGroup }) => ({
+    id: abakusGroup.id,
+    name: abakusGroup.name,
+    logo: abakusGroup.logo!,
+  }));
+
   const hasFrame = FRAMEID.includes(user.id as number);
 
   return (
@@ -201,16 +210,12 @@ const UserProfile = () => {
                 <Icon iconNode={<QrCode />} size={19} />
                 Vis ABA-ID
               </Button>
-              <Modal title="ABA-ID">
-                <ProfileCard
-                  firstName={firstName}
-                  lastName={lastName}
-                  username={user.username}
-                  grade={gradeGroup?.name}
-                  memberships={memberships}
-                  groupEntities={groupEntities}
-                />
-              </Modal>
+              <AbaIdCard
+                fullName={user.fullName}
+                username={user.username}
+                grade={gradeGroup?.name}
+                groups={abaIdGroups}
+              />
             </DialogTrigger>
           )}
         </Flex>
