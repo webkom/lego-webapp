@@ -61,7 +61,7 @@
   min-height: calc(4 * var(--tile-height));
 
   @media (--medium-viewport) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     min-height: 0;
   }
 }
