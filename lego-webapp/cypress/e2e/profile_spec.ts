@@ -182,7 +182,13 @@ describe('ABA-ID', () => {
 
   it('shows the front of the card', () => {
     abaId().should('be.visible').and('contain', '// ABA-ID');
-    abaId().find('canvas').should('be.visible');
+    abaId()
+      .find('canvas')
+      .should(($canvas) => {
+        const { width, height } = $canvas[0].getBoundingClientRect();
+        expect(width).to.be.greaterThan(0);
+        expect(height).to.be.greaterThan(0);
+      });
     cy.get(t('AbaId__front'))
       .should('have.attr', 'aria-hidden', 'false')
       .and('contain', 'webkom')
