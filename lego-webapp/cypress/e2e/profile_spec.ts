@@ -4,6 +4,7 @@ import {
   fieldError,
   selectField,
   selectFromSelectField,
+  t,
 } from '~/cypress/support/utils';
 
 describe('Profile settings', () => {
@@ -165,5 +166,60 @@ describe('Profile settings', () => {
     field('email').clear().type('webkom@abakus.no').blur();
     cy.contains('Lagre endringer').click();
     fieldError('email').should('contain', 'Kan ikke være Abakus-e-post');
+  });
+});
+
+describe('ABA-ID', () => {
+  const abaId = () => cy.get('[role="dialog"][aria-label="ABA-ID"]');
+
+  beforeEach(() => {
+    cy.resetDb();
+    cy.cachedLogin();
+    cy.visit('/users/me');
+    cy.waitForHydration();
+    cy.contains('button', 'Vis ABA-ID').click();
+  });
+
+  it('shows the front of the card', () => {
+    abaId().should('be.visible').and('contain', '// ABA-ID');
+    abaId()
+      .find('canvas')
+      .should(($canvas) => {
+        const { width, height } = $canvas[0].getBoundingClientRect();
+        expect(width).to.be.greaterThan(0);
+        expect(height).to.be.greaterThan(0);
+      });
+    cy.get(t('AbaId__front'))
+      .should('have.attr', 'aria-hidden', 'false')
+      .and('contain', 'webkom')
+      .and('contain', 'abakus.no');
+  });
+
+  it('flips to the back and shows the username', () => {
+    cy.get(t('AbaId__back')).should('have.attr', 'aria-hidden', 'true');
+
+    cy.get('[aria-label="Snu kortet"]')
+      .should('have.attr', 'aria-pressed', 'false')
+      .click()
+      .should('have.attr', 'aria-pressed', 'true');
+
+    cy.get(t('AbaId__front')).should('have.attr', 'aria-hidden', 'true');
+    cy.get(t('AbaId__back'))
+      .should('have.attr', 'aria-hidden', 'false')
+      .and('contain', 'Brukernavn')
+      .and('contain', 'webkom');
+  });
+
+  it('closes on escape and reopens on the front', () => {
+    cy.get('[aria-label="Snu kortet"]').click();
+    cy.get('body').type('{esc}');
+    abaId().should('not.exist');
+
+    cy.contains('button', 'Vis ABA-ID').click();
+    cy.get('[aria-label="Snu kortet"]').should(
+      'have.attr',
+      'aria-pressed',
+      'false',
+    );
   });
 });
