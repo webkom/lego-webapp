@@ -10,7 +10,7 @@ trigger:
 
 steps:
   - name: postgres
-    image: postgres:12.3
+    image: postgres:17
     detach: true
     environment:
       POSTGRES_USER: lego
