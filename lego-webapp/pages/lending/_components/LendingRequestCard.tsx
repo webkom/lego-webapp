@@ -69,14 +69,20 @@ const LendingRequestCard = ({
           </Flex>
         </a>
         {!isFromAdmin && (
-          <div onClick={preventCardNavigation}>
+          <div
+            className={styles.archiveButtonWrapper}
+            onClick={preventCardNavigation}
+          >
             <Button
+              flat
+              size="small"
+              className={styles.archiveButton}
               onPress={() =>
                 onArchive?.(lendingRequest.id, !lendingRequest.archived)
               }
             >
+              <Icon iconNode={<Archive />} size={16} />
               {lendingRequest.archived ? 'Fjern arkivering' : 'Arkiver'}
-              <Icon iconNode={<Archive />} size={19} />
             </Button>
           </div>
         )}

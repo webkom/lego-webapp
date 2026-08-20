@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import FilterSearch from '~/pages/lending/_components/FilterSearch';
 import HowToSection from '~/pages/lending/_components/HowToSection';
 import ItemIndex from '~/pages/lending/_components/ItemIndex';
+import RequestInbox from '~/pages/lending/_components/RequestInbox';
 import {
   REQUEST_INBOX_PAGE_SIZE,
   getNextVisibleCount,
@@ -24,6 +25,7 @@ import { selectPaginationNext } from '~/redux/slices/selectors';
 import { FilterLendingCategory } from '~/utils/constants';
 import useQuery from '~/utils/useQuery';
 import styles from './LendingPage.module.css';
+import type { LendingRequestArchivedFilter } from '~/pages/lending/_components/RequestInbox';
 import type { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 
 const defaultLendingQuery = {
