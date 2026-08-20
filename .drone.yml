@@ -67,9 +67,7 @@ steps:
       - cd /app
       - python manage.py reset_db --noinput
       - python manage.py migrate
-      - python manage.py migrate_search
       - python manage.py load_fixtures --development
-      - python manage.py rebuild_index
       - python manage.py runserver 0.0.0.0:8000
     environment:
       PORT: '8000'
@@ -241,7 +239,8 @@ steps:
         from_secret: cypress_record_key
     commands:
       - ./wait-for-it.sh -t 180 frontend:3000
-      - ./wait-for-it.sh -t 180 legocypresshelper:3030
+      - ./wait-for-it.sh -t 480 api:8000
+      - ./wait-for-it.sh -t 60 legocypresshelper:3030
       - npm i -g corepack
       - corepack enable
       - pnpm --filter lego-webapp exec cypress run --e2e --record
@@ -336,6 +335,6 @@ image_pull_secrets:
 
 ---
 kind: signature
-hmac: d12d2d383b8a8aded8fa0499320c1c93137356ad5e4a5777892d80c93b33c9b9
+hmac: 38879c03334760e06fbe43ae23dbdfcaebdd8d73b265f98b644f86d21019cad3
 
 ...
