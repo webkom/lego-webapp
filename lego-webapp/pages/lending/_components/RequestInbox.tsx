@@ -83,14 +83,17 @@ const RequestInbox = ({
           {lendingRequests
             .filter((req) => req.archived === (archived === 'true'))
             .map((req) => (
-            <div
-              key={req.id}
-              data-request-id={String(req.id)}
-              className={styles.requestCardWrapper}
-            >
-              <LendingRequestCard lendingRequest={req} onArchive={onArchive} />
-            </div>
-          ))}
+              <div
+                key={req.id}
+                data-request-id={String(req.id)}
+                className={styles.requestCardWrapper}
+              >
+                <LendingRequestCard
+                  lendingRequest={req}
+                  onArchive={onArchive}
+                />
+              </div>
+            ))}
         </div>
       )}
       {showEmptyState && (
