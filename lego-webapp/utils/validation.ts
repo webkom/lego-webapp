@@ -6,7 +6,7 @@ import type { ValidationErrors } from 'final-form';
 
 type Validator<T = any, C = any> = (
   message?: string,
-) => (value: T, context?: C) => Readonly<[false, string] | [true, string?]>;
+) => (value: T, context: C) => Readonly<[false, string] | [true, string?]>;
 
 type AsyncValidator<T = any, C = any> = (
   message?: string,
@@ -55,8 +55,13 @@ export const conditionalValidation = (conditionalFn, validationFnGenerator) => {
   };
 };
 
-export const atLeastOneFieldRequired =
-  (fieldNames: string[], message = 'Du må fylle ut minst ett felt') =>
+export const atLeastOneFieldRequired: (
+  fieldNames: string[],
+  message?: string,
+) => ReturnType<
+  Validator<unknown, Record<string, string | string[] | undefined>>
+> =
+  (fieldNames, message = 'Du må fylle ut minst ett felt') =>
   (_, allValues) => {
     const hasAtLeastOneValue = fieldNames.some((fieldName) => {
       const value = allValues[fieldName];
@@ -65,20 +70,26 @@ export const atLeastOneFieldRequired =
     return [hasAtLeastOneValue, message] as const;
   };
 
-export const legoEditorRequired =
+export const legoEditorRequired: Validator<string | undefined> =
   (message = 'Feltet må fylles ut') =>
   (value) =>
     [!!value && value !== EDITOR_EMPTY, message] as const;
 
-export const maxLength =
+export const maxLength: (
+  length: number,
+  message?: string,
+) => ReturnType<Validator<string | undefined>> =
   (length, message = `Kan ikke være lengre enn ${length} tegn`) =>
   (value) =>
     [!value || value.length < length, message] as const;
 
-export const maxSize =
-  (size, message = `Må være mindre enn ${size}`) =>
+export const maxSize: (
+  maxValue: number,
+  message?: string,
+) => ReturnType<Validator<number | undefined>> =
+  (maxValue, message = `Må være mindre enn ${maxValue}`) =>
   (value) =>
-    [!value || value < size, message] as const;
+    [!value || value < maxValue, message] as const;
 
 export const minSize =
   (size, message = `Må være mer enn ${size}`) =>
