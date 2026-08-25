@@ -14,12 +14,15 @@ const CommentReplyRenderer: ActivityRenderer<FeedActivityVerb.CommentReply> = {
   Header: ({ aggregatedActivity, tag: Tag }) => {
     const target =
       aggregatedActivity.context[aggregatedActivity.lastActivity.target];
+    const renderFn = target?.contentType
+      ? contextRender[target.contentType]
+      : null;
 
     return (
       <b>
         <UserActors aggregatedActivity={aggregatedActivity} Tag={Tag} /> svarte
         på din kommentar på{' '}
-        <Tag {...contextRender[target.contentType](target)} />
+        {renderFn ? <Tag {...renderFn(target)} /> : 'et element'}
       </b>
     );
   },

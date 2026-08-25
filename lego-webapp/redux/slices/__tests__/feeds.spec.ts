@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { Feed } from '~/redux/actionTypes';
-import feeds from '../feeds';
+import { createRootReducer } from '~/redux/rootReducer';
+import feeds, { selectFeedActivitiesByFeedId } from '../feeds';
 import type { FeedType } from '~/redux/models/Feed';
 
 describe('reducers', () => {
@@ -36,6 +37,62 @@ describe('reducers', () => {
           },
         },
       });
+    });
+
+    it('skips feed activity IDs that have not been normalized', () => {
+      const initialState = createRootReducer()(undefined, {
+        type: '@@test/init',
+      });
+      const presentActivity = {
+        id: 'present',
+        orderingKey: 'present',
+        verb: 'comment',
+        createdAt: '',
+        updatedAt: '',
+        lastActivity: {
+          activityId: 'present',
+          verb: 0,
+          time: '',
+          extraContext: {},
+          actor: '',
+          object: '',
+          target: '',
+        },
+        activities: [],
+        activityCount: 0,
+        actorIds: [],
+        read: false,
+        seen: false,
+        context: {},
+      };
+      const state = {
+        ...initialState,
+        feeds: {
+          ...initialState.feeds,
+          entities: {
+            ...initialState.feeds.entities,
+            personal: {
+              id: 'personal',
+              type: 'personal',
+              activities: ['missing', 'present'],
+            },
+          },
+        },
+        feedActivities: {
+          ...initialState.feedActivities,
+          entities: {
+            ...initialState.feedActivities.entities,
+            present: presentActivity,
+          },
+        },
+      };
+
+      expect(selectFeedActivitiesByFeedId(state, 'personal')).toEqual([
+        expect.objectContaining({
+          id: 'present',
+          verb: 'comment',
+        }),
+      ]);
     });
   });
 });
