@@ -1,12 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-import { pick, sumBy, find } from 'lodash-es';
-=======
-=======
->>>>>>> fb1584184ca156f981bf4b03ecddbb4c45cb2bec
 import { EntityId } from '@reduxjs/toolkit';
 import { pick, sumBy, find } from 'lodash';
->>>>>>> fb1584184 (Lint)
 import moment from 'moment-timezone';
 import { EventType } from '~/redux/models/Event';
 import { appConfig } from '~/utils/appConfig';

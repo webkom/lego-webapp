@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import {
   Button,
   ConfirmModal,
@@ -7,12 +5,6 @@ import {
   LinkButton,
   Page,
 } from '@webkom/lego-bricks';
-=======
-import { Button, ConfirmModal, Flex, Page } from '@webkom/lego-bricks';
->>>>>>> fb1584184 (Lint)
-=======
-import { Button, ConfirmModal, Flex, Page } from '@webkom/lego-bricks';
->>>>>>> fb1584184ca156f981bf4b03ecddbb4c45cb2bec
 import { Helmet } from 'react-helmet-async';
 import ContentMain from '~/components/Content/ContentMain';
 import HTTPError from '~/components/errors/HTTPError';
