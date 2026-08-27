@@ -88,6 +88,9 @@ interface User {
   achievements: Achievement[];
   achievementsScore: number;
   achievementRank: number;
+  rankWeekAgo: number | null;
+  rankMonthAgo: number | null;
+  eventCount: number | null;
   commandSuggestions?: Array<string>;
 }
 
@@ -127,6 +130,9 @@ export type CurrentUser = Pick<
   | 'achievements'
   | 'achievementsScore'
   | 'achievementRank'
+  | 'rankMonthAgo'
+  | 'rankWeekAgo'
+  | 'eventCount'
   | 'commandSuggestions'
 >;
 
@@ -146,6 +152,9 @@ export type PublicUser = Pick<
   | 'achievements'
   | 'achievementsScore'
   | 'achievementRank'
+  | 'rankMonthAgo'
+  | 'rankWeekAgo'
+  | 'eventCount'
 >;
 
 export type PublicUserWithAbakusGroups = Pick<User, 'abakusGroups'> &

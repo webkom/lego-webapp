@@ -106,6 +106,11 @@ type CallAPIOptions<Meta extends CallAPIOptionsMeta> = {
   pagination?: {
     fetchNext: boolean;
   };
+  // Evaluated once the response arrives, right before it is dispatched to
+  // the store. If it returns true, the fetched entities are dropped instead
+  // of being merged in — used to ignore a response that was superseded by a
+  // newer request for the same data before it resolved.
+  discardResultIf?: () => boolean;
 };
 
 export type APIPromiseResult<
@@ -158,6 +163,7 @@ export default function callAPI<
   meta = {} as Meta,
   schema,
   pagination,
+  discardResultIf,
   propagateError = false,
   enableOptimistic = false,
   requiresAuthentication = true,
@@ -297,6 +303,18 @@ export default function callAPI<
         .then((response) =>
           normalizeJsonResponse(response as HttpResponse<ApiResponse<T>>),
         )
+        .then((normalized) => {
+          if (
+            discardResultIf?.() &&
+            typeof normalized === 'object' &&
+            normalized !== null &&
+            'entities' in normalized
+          ) {
+            return { ...normalized, entities: {} };
+          }
+
+          return normalized;
+        })
         .catch((error) => {
           throw handleError(error, propagateError, loggedIn, dispatch);
         }),
