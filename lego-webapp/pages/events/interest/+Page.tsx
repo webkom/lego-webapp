@@ -52,12 +52,8 @@ const InterestEvents = () => {
               >
                 Bli med i en gruppe
               </Button>
-              <LinkButton
-                dark
-                className={styles.secondaryAction}
-                href="/interest-groups/"
-              >
-                Mer info
+              <LinkButton ghost href="/events/interest/info">
+                Praktisk info
               </LinkButton>
             </div>
           </div>

@@ -37,7 +37,7 @@ const InterestGroupEdit = () => {
     <Page
       title={title}
       back={{
-        href: `/interest-groups/${editing ? groupId : ''}`,
+        href: `/events/interest/interest-groups/${editing ? groupId : ''}`,
       }}
     >
       <Helmet title={title} />

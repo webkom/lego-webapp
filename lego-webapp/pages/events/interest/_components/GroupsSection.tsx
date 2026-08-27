@@ -1,4 +1,4 @@
-import { ConfirmModal, Skeleton } from '@webkom/lego-bricks';
+import { ConfirmModal, Flex, LinkButton, Skeleton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import gsap from 'gsap';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
@@ -22,6 +22,7 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useCurrentUser } from '~/redux/slices/auth';
 import { resolveGroupLink, selectGroupsByType } from '~/redux/slices/groups';
 import { useIsMobileViewport } from '~/utils/isMobileViewport';
+import useIsInterestGroupLeader from '../useIsInterestGroupLeader';
 import GroupCircle from './GroupCircle';
 import styles from './GroupsSection.module.css';
 import { agendaEase, slideSwap } from './useAgendaAnimations';
@@ -53,7 +54,7 @@ const GroupTile = ({
   pending,
   onToggleMembership,
 }: TileProps) => {
-  const link = resolveGroupLink(group) ?? `/interest-groups/${group.id}`;
+  const link = resolveGroupLink(group);
   const markRef = useRef<HTMLButtonElement>(null);
 
   useLayoutEffect(() => {
@@ -126,7 +127,7 @@ const GroupTile = ({
       title={
         group.active
           ? 'Se gruppen'
-          : 'Inaktiv gruppe — se hvordan du starter den opp igjen'
+          : 'Inaktiv gruppe - se hvordan du starter den opp igjen'
       }
       className={cx(styles.tile, !group.active && styles.tileInactive)}
       onClick={() => navigate(link)}
@@ -141,7 +142,7 @@ const GroupTile = ({
         leaderLeaving ? (
           <ConfirmModal
             title={`Forlat ${group.name}`}
-            message="Du er leder for gruppen. En nestleder tar over hvis gruppen har en — ellers blir gruppen deaktivert. Er du sikker?"
+            message="Du er leder for gruppen. En nestleder tar over hvis gruppen har en - ellers blir gruppen deaktivert. Er du sikker?"
             onConfirm={onToggleMembership}
           >
             {({ openConfirmModal }) => markButton(openConfirmModal)}
@@ -230,6 +231,8 @@ const GroupsSection = () => {
   const gridRef = useRef<HTMLDivElement>(null);
   const prevPageRef = useRef(currentPage);
 
+  const isInterestGroupLeader = useIsInterestGroupLeader();
+
   useLayoutEffect(() => {
     const grid = gridRef.current;
     const prevPage = prevPageRef.current;
@@ -252,7 +255,18 @@ const GroupsSection = () => {
   return (
     <section id="grupper" className={styles.groups}>
       <div className={styles.header}>
-        <h2>Finn din greie</h2>
+        <Flex gap={'var(--spacing-lg)'}>
+          <h2>Finn din greie</h2>
+          {isInterestGroupLeader && (
+            <LinkButton
+              dark
+              href="/events/interest/money-application"
+              size="small"
+            >
+              Send pengesøknad
+            </LinkButton>
+          )}
+        </Flex>
         <div className={styles.pageArrows}>
           <button
             type="button"
@@ -277,7 +291,7 @@ const GroupsSection = () => {
       <div ref={gridRef} className={styles.grid}>
         {currentPage === 0 && (
           <a
-            href="/interest-groups/create-application"
+            href="/events/interest/create-application"
             title="Start en ny gruppe"
             className={cx(styles.tile, styles.createTile)}
           >

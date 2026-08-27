@@ -8,7 +8,7 @@ import {
   selectFlatpagePage,
   selectFlatpagePageInfo,
 } from '~/redux/slices/pages';
-import styles from '../InterestGroup.module.css';
+import styles from '../InterestInfo.module.css';
 
 const pageSlug = '39-praktisk-informasjon';
 const pageTitle = 'Praktisk informasjon om interessegrupper';
@@ -28,7 +28,7 @@ const InterestGroupQuestions = () => {
   return (
     <Page
       title={pageTitle}
-      back={{ href: '/interest-groups/', label: 'Interessegrupper' }}
+      back={{ href: '/events/interest', label: 'Interessegrupper' }}
       actionButtons={
         actionGrant.includes('edit') &&
         pageInfo?.editUrl && (

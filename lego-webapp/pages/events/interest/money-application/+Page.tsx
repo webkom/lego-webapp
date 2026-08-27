@@ -1,12 +1,12 @@
 import { Page } from '@webkom/lego-bricks';
 import { Helmet } from 'react-helmet-async';
-import styles from '../InterestGroup.module.css';
+import styles from '../InterestInfo.module.css';
 
 const InterestGroupApplyCash = () => {
   return (
     <Page
       title="Send inn en pengesøknad"
-      back={{ href: '/interest-groups/', label: 'Interessegrupper' }}
+      back={{ href: '/events/interest/', label: 'Interessegrupper' }}
     >
       <Helmet title="Send inn en pengesøknad" />
 

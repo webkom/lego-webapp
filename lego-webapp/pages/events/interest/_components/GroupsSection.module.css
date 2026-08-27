@@ -76,6 +76,7 @@
   border-radius: var(--border-radius-md);
   color: var(--lego-font-color);
   transition: background var(--easing-fast);
+  cursor: pointer;
 
   &::after {
     content: '';
