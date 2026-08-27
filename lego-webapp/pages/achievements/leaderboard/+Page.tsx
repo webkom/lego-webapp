@@ -1,3 +1,4 @@
+import { Button } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { useEffect, useMemo, useState } from 'react';
 import { ContentMain } from '~/components/Content';
@@ -12,12 +13,59 @@ import useQuery from '~/utils/useQuery';
 import type { ColumnProps } from '~/components/Table';
 import type { PublicUserWithAbakusGroups } from '~/redux/models/User';
 
+type RankType = 'achievement_score' | 'event_count';
+
+const RANK_TYPE_LABELS: Record<RankType, string> = {
+  achievement_score: 'Score',
+  event_count: 'Arrangementer',
+};
+
+const RankChange = ({
+  current,
+  previous,
+}: {
+  current: number;
+  previous: number | null;
+}) => {
+  if (previous === null) {
+    return <span aria-label="Ingen historikk enda">-</span>;
+  }
+
+  const diff = previous - current;
+
+  if (diff === 0) {
+    return <span aria-label="Ingen endring"> =</span>;
+  }
+
+  if (diff > 0) {
+    return (
+      <span
+        style={{ color: 'var(--color-green-7)' }}
+        aria-label={`Opp ${diff} plasser`}
+      >
+        ↑ {diff}
+      </span>
+    );
+  }
+
+  return (
+    <span
+      style={{ color: 'var(--color-red-7)' }}
+      aria-label={`Ned ${Math.abs(diff)} plasser`}
+    >
+      ↓ {diff}
+      {Math.abs(diff)}
+    </span>
+  );
+};
+
 const Leaderboard = () => {
   const dispatch = useAppDispatch();
 
-  const { query: leaderboardQuery } = useQuery({
+  const { query: leaderboardQuery, setQueryValue } = useQuery({
     userFullName: '',
     abakusGroupIds: '',
+    type: 'achievement_score' as RankType,
   });
 
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -34,8 +82,9 @@ const Leaderboard = () => {
     () => ({
       userFullName: debouncedSearch,
       abakusGroupIds: leaderboardQuery.abakusGroupIds,
+      type: leaderboardQuery.type,
     }),
-    [debouncedSearch, leaderboardQuery.abakusGroupIds],
+    [debouncedSearch, leaderboardQuery.abakusGroupIds, leaderboardQuery.type],
   );
 
   const { pagination } = useAppSelector((state) =>
@@ -62,6 +111,7 @@ const Leaderboard = () => {
   const users = useAppSelector((state) =>
     selectUsersWithAchievementsScore(state),
   );
+
   const rankedUsers: PublicUserWithAbakusGroups[] = users
     .filter((user: PublicUserWithAbakusGroups) => {
       if (leaderboardQuery.userFullName) {
@@ -81,9 +131,10 @@ const Leaderboard = () => {
       }
       return true;
     })
-    .sort((a, b) => b.achievementsScore - a.achievementsScore);
+    .sort((a, b) => a.achievementRank - b.achievementRank);
 
   const isMobile = useIsMobileViewport();
+  const isEventCountType = leaderboardQuery.type === 'event_count';
 
   const columns: ColumnProps<PublicUserWithAbakusGroups>[] = [
     {
@@ -93,8 +144,6 @@ const Leaderboard = () => {
       render: (_, user: PublicUserWithAbakusGroups) => (
         <>{user.achievementRank}</>
       ),
-      sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
-        b.achievementsScore - a.achievementsScore,
     },
     {
       title: 'Navn',
@@ -107,21 +156,74 @@ const Leaderboard = () => {
         </a>
       ),
     },
+    ...(!isEventCountType
+      ? [
+          {
+            title: 'Fullføringsprosent',
+            dataIndex: 'score',
+            search: false,
+            inlineFiltering: false,
+            render: (_, user: PublicUserWithAbakusGroups) => (
+              <>{user.achievementsScore}%</>
+            ),
+          } as ColumnProps<PublicUserWithAbakusGroups>,
+        ]
+      : [
+          {
+            title: 'Antall',
+            dataIndex: 'eventCount',
+            search: false,
+            inlineFiltering: false,
+            render: (_, user: PublicUserWithAbakusGroups) => (
+              <>{user.eventCount ?? 0}</>
+            ),
+          } as ColumnProps<PublicUserWithAbakusGroups>,
+        ]),
     {
-      title: 'Fullføringsprosent',
-      dataIndex: 'score',
+      title: 'Siste uke',
+      dataIndex: 'rankWeekAgo',
       search: false,
       inlineFiltering: false,
       render: (_, user: PublicUserWithAbakusGroups) => (
-        <>{user.achievementsScore}%</>
+        <RankChange
+          current={user.achievementRank}
+          previous={user.rankWeekAgo}
+        />
       ),
-      sorter: (a: PublicUserWithAbakusGroups, b: PublicUserWithAbakusGroups) =>
-        b.achievementsScore - a.achievementsScore,
+    },
+    {
+      title: 'Siste måned',
+      dataIndex: 'rankMonthAgo',
+      search: false,
+      inlineFiltering: false,
+      render: (_, user: PublicUserWithAbakusGroups) => (
+        <RankChange
+          current={user.achievementRank}
+          previous={user.rankMonthAgo}
+        />
+      ),
     },
   ];
 
   return (
     <ContentMain>
+      <div
+        role="group"
+        aria-label="Velg rangeringstype"
+        style={{ display: 'flex', gap: 8, marginBottom: 16 }}
+      >
+        {(Object.keys(RANK_TYPE_LABELS) as RankType[]).map((rankType) => (
+          <Button
+            key={rankType}
+            aria-pressed={leaderboardQuery.type === rankType}
+            disabled={leaderboardQuery.type === rankType}
+            onPress={() => setQueryValue('type')(rankType)}
+          >
+            {RANK_TYPE_LABELS[rankType]}
+          </Button>
+        ))}
+      </div>
+
       <Table
         columns={columns}
         data={rankedUsers}
