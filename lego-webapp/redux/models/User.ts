@@ -47,6 +47,13 @@ export const Gender = {
 
 export type UserPermissionGroup = Pick<PublicGroup, 'id' | 'name'>;
 
+interface UserAchievementScore {
+  value: number;
+  rank: number | null; //If no rank history exists for eventCount
+  rankWeekAgo: number | null;
+  rankMonthAgo: number | null;
+}
+
 interface User {
   id: EntityId;
   username: string;
@@ -86,11 +93,8 @@ interface User {
   linkedinId?: string;
   actionGrant?: ActionGrant;
   achievements: Achievement[];
-  achievementsScore: number;
-  achievementRank: number;
-  rankWeekAgo: number | null;
-  rankMonthAgo: number | null;
-  eventCount: number | null;
+  achievementsScore: UserAchievementScore;
+  eventCount: UserAchievementScore | null;
   commandSuggestions?: Array<string>;
 }
 
@@ -129,9 +133,6 @@ export type CurrentUser = Pick<
   | 'actionGrant'
   | 'achievements'
   | 'achievementsScore'
-  | 'achievementRank'
-  | 'rankMonthAgo'
-  | 'rankWeekAgo'
   | 'eventCount'
   | 'commandSuggestions'
 >;
@@ -151,9 +152,6 @@ export type PublicUser = Pick<
   | 'linkedinId'
   | 'achievements'
   | 'achievementsScore'
-  | 'achievementRank'
-  | 'rankMonthAgo'
-  | 'rankWeekAgo'
   | 'eventCount'
 >;
 

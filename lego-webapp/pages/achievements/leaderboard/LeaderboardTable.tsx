@@ -29,10 +29,10 @@ const RankChange = ({
   current,
   previous,
 }: {
-  current: number;
+  current: number | null;
   previous: number | null;
 }) => {
-  if (previous === null) {
+  if (current === null || previous === null) {
     return <span aria-label="Ingen historikk enda">-</span>;
   }
 
@@ -140,12 +140,15 @@ const LeaderboardTable = ({ type }: Props) => {
     })
     .sort((a, b) =>
       type === 'event_count'
-        ? (b.eventCount ?? 0) - (a.eventCount ?? 0)
-        : b.achievementsScore - a.achievementsScore,
+        ? (b.eventCount?.value ?? 0) - (a.eventCount?.value ?? 0)
+        : b.achievementsScore.value - a.achievementsScore.value,
     );
 
   const isMobile = useIsMobileViewport();
   const isEventCountType = type === 'event_count';
+
+  const getRankScore = (user: PublicUserWithAbakusGroups) =>
+    isEventCountType ? user.eventCount : user.achievementsScore;
 
   const columns: ColumnProps<PublicUserWithAbakusGroups>[] = [
     {
@@ -153,7 +156,7 @@ const LeaderboardTable = ({ type }: Props) => {
       dataIndex: 'rank',
       search: false,
       render: (_, user: PublicUserWithAbakusGroups) => (
-        <>{user.achievementRank}</>
+        <>{getRankScore(user)?.rank ?? '-'}</>
       ),
     },
     {
@@ -175,7 +178,7 @@ const LeaderboardTable = ({ type }: Props) => {
             search: false,
             inlineFiltering: false,
             render: (_, user: PublicUserWithAbakusGroups) => (
-              <>{user.achievementsScore}%</>
+              <>{user.achievementsScore.value}%</>
             ),
           } as ColumnProps<PublicUserWithAbakusGroups>,
         ]
@@ -186,7 +189,7 @@ const LeaderboardTable = ({ type }: Props) => {
             search: false,
             inlineFiltering: false,
             render: (_, user: PublicUserWithAbakusGroups) => (
-              <>{user.eventCount ?? 0}</>
+              <>{user.eventCount?.value ?? 0}</>
             ),
           } as ColumnProps<PublicUserWithAbakusGroups>,
         ]),
@@ -195,24 +198,30 @@ const LeaderboardTable = ({ type }: Props) => {
       dataIndex: 'rankWeekAgo',
       search: false,
       inlineFiltering: false,
-      render: (_, user: PublicUserWithAbakusGroups) => (
-        <RankChange
-          current={user.achievementRank}
-          previous={user.rankWeekAgo}
-        />
-      ),
+      render: (_, user: PublicUserWithAbakusGroups) => {
+        const score = getRankScore(user);
+        return (
+          <RankChange
+            current={score?.rank ?? null}
+            previous={score?.rankWeekAgo ?? null}
+          />
+        );
+      },
     },
     {
       title: 'Siste måned',
       dataIndex: 'rankMonthAgo',
       search: false,
       inlineFiltering: false,
-      render: (_, user: PublicUserWithAbakusGroups) => (
-        <RankChange
-          current={user.achievementRank}
-          previous={user.rankMonthAgo}
-        />
-      ),
+      render: (_, user: PublicUserWithAbakusGroups) => {
+        const score = getRankScore(user);
+        return (
+          <RankChange
+            current={score?.rank ?? null}
+            previous={score?.rankMonthAgo ?? null}
+          />
+        );
+      },
     },
   ];
 
