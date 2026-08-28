@@ -12,10 +12,6 @@
 }
 
 .card {
-  transition:
-    box-shadow var(--easing-medium),
-    transform var(--easing-medium);
-
   &:hover .arrow {
     transform: translateX(4px);
   }
