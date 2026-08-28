@@ -7,7 +7,7 @@ import { setTheme } from '~/redux/slices/theme';
 import type { AppDispatch } from '~/redux/createStore';
 
 export type ThemePreference = 'light' | 'dark' | 'auto';
-type ResolvedTheme = 'light' | 'dark';
+export type ResolvedTheme = 'light' | 'dark';
 
 const THEME_STORAGE_KEY = 'theme-preference';
 const LEGACY_THEME_STORAGE_KEY = 'theme';

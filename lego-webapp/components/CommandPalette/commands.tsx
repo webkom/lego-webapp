@@ -16,11 +16,15 @@ import {
   MessageSquareQuote,
   Landmark,
   LogOut,
+  MoonStar,
+  Sun,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
 import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
 import getInterestIcon from '~/utils/getInterestIcon';
+import { applySelectedTheme } from '~/utils/themeUtils';
+import type { ResolvedTheme } from '~/utils/themeUtils';
 
 type Command = {
   id: string;
@@ -38,8 +42,12 @@ type CommandSection = {
 const createCommands = (
   dispatch: any,
   suggestionIds: string[] = [],
+  theme: ResolvedTheme,
 ): CommandSection[] => {
   const InterestIcon = getInterestIcon();
+  const nextTheme = theme === 'dark' ? 'light' : 'dark';
+  const themeLabel =
+    nextTheme === 'dark' ? 'Bytt til mørkt tema' : 'Bytt til lyst tema';
   const sections: CommandSection[] = [
     {
       name: 'Navigasjon',
@@ -191,6 +199,18 @@ const createCommands = (
     {
       name: 'Systemvalg',
       items: [
+        {
+          id: 'toggleTheme',
+          renderLabel: themeLabel,
+          searchText: themeLabel,
+          icon: (
+            <Icon
+              iconNode={nextTheme === 'dark' ? <MoonStar /> : <Sun />}
+              size={15}
+            />
+          ),
+          action: () => dispatch(applySelectedTheme(nextTheme)),
+        },
         {
           id: 'logout',
           renderLabel: 'Logg ut',
