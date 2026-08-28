@@ -138,7 +138,11 @@ const LeaderboardTable = ({ type }: Props) => {
       }
       return true;
     })
-    .sort((a, b) => a.achievementRank - b.achievementRank);
+    .sort((a, b) =>
+      type === 'event_count'
+        ? (b.eventCount ?? 0) - (a.eventCount ?? 0)
+        : b.achievementsScore - a.achievementsScore,
+    );
 
   const isMobile = useIsMobileViewport();
   const isEventCountType = type === 'event_count';
