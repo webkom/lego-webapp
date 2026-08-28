@@ -127,7 +127,7 @@ export const selectUsersWithAchievementsScore = createSelector(
   (userEntities): PublicUserWithAbakusGroups[] => {
     return Object.values(userEntities).filter(
       (user): user is PublicUserWithAbakusGroups =>
-        user.achievementsScore != null,
+        user.achievementScore?.value != null,
     );
   },
 );
