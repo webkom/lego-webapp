@@ -141,14 +141,14 @@ const LeaderboardTable = ({ type }: Props) => {
     .sort((a, b) =>
       type === 'event_count'
         ? (b.eventCount?.value ?? 0) - (a.eventCount?.value ?? 0)
-        : b.achievementsScore.value - a.achievementsScore.value,
+        : (b.achievementScore.value ?? 0) - (a.achievementScore.value ?? 0),
     );
 
   const isMobile = useIsMobileViewport();
   const isEventCountType = type === 'event_count';
 
   const getRankScore = (user: PublicUserWithAbakusGroups) =>
-    isEventCountType ? user.eventCount : user.achievementsScore;
+    isEventCountType ? user.eventCount : user.achievementScore;
 
   const columns: ColumnProps<PublicUserWithAbakusGroups>[] = [
     {
@@ -178,7 +178,7 @@ const LeaderboardTable = ({ type }: Props) => {
             search: false,
             inlineFiltering: false,
             render: (_, user: PublicUserWithAbakusGroups) => (
-              <>{user.achievementsScore.value}%</>
+              <>{user.achievementScore.value}%</>
             ),
           } as ColumnProps<PublicUserWithAbakusGroups>,
         ]
