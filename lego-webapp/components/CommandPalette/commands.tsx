@@ -47,7 +47,7 @@ const createCommands = (
   const InterestIcon = getInterestIcon();
   const nextTheme = theme === 'dark' ? 'light' : 'dark';
   const themeLabel =
-    nextTheme === 'dark' ? 'Bytt til mørkt tema' : 'Bytt til lyst tema';
+    nextTheme === 'dark' ? 'Mørkt tema' : 'Lyst tema';
   const sections: CommandSection[] = [
     {
       name: 'Navigasjon',
