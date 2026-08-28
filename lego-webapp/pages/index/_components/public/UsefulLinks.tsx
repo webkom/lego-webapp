@@ -1,4 +1,4 @@
-import { Image, LinkButton } from '@webkom/lego-bricks';
+import { BaseCard, Image, LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import moment from 'moment-timezone';
@@ -24,12 +24,16 @@ const UsefulLinks = ({ style }: Props) => {
         Nyttige lenker
       </h3>
       <div className={styles.bento}>
-        <div className={cx(styles.card, styles.featured)} data-reveal>
+        <BaseCard
+          shadow
+          column={false}
+          className={cx(styles.card, styles.featured)}
+          data-reveal
+        >
           <div className={styles.featuredImage}>
             <Image src={buddyWeekGraphic} alt="Fadderperioden" />
           </div>
           <div className={styles.featuredBody}>
-            <span className={styles.eyebrow}>{'// Studiestart'}</span>
             <span className={styles.featuredTitle}>
               Fadderperioden {moment().year()}
             </span>
@@ -47,9 +51,9 @@ const UsefulLinks = ({ style }: Props) => {
               Les deg opp
             </LinkButton>
           </div>
-        </div>
+        </BaseCard>
 
-        <div className={cx(styles.card, styles.tall)} data-reveal>
+        <BaseCard shadow className={cx(styles.card, styles.tall)} data-reveal>
           <div className={styles.tallImage}>
             <Image src={forCompaniesGraphic} alt="For bedrifter" />
           </div>
@@ -69,9 +73,14 @@ const UsefulLinks = ({ style }: Props) => {
               </a>
             </div>
           </div>
-        </div>
+        </BaseCard>
 
-        <div className={cx(styles.card, styles.study)} data-reveal>
+        <BaseCard
+          shadow
+          column={false}
+          className={cx(styles.card, styles.study)}
+          data-reveal
+        >
           <div className={styles.studyImage}>
             <Image src={dataGraphic} alt="Datateknologi" />
           </div>
@@ -93,9 +102,14 @@ const UsefulLinks = ({ style }: Props) => {
               </a>
             </div>
           </div>
-        </div>
+        </BaseCard>
 
-        <div className={cx(styles.card, styles.study)} data-reveal>
+        <BaseCard
+          shadow
+          column={false}
+          className={cx(styles.card, styles.study)}
+          data-reveal
+        >
           <div className={styles.studyImage}>
             <Image
               src={komtekGraphic}
@@ -122,7 +136,7 @@ const UsefulLinks = ({ style }: Props) => {
               </a>
             </div>
           </div>
-        </div>
+        </BaseCard>
       </div>
     </section>
   );

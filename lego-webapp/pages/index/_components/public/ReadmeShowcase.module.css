@@ -1,14 +1,8 @@
 @import url('styles/custom-media.css');
 
-.card {
+div.card {
+  flex: 1;
   position: relative;
-  display: flex;
-  background: var(--lego-card-color);
-  border: 1.5px solid var(--border-gray);
-  border-radius: var(--border-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-xs);
-  color: var(--lego-font-color);
 
   @media (--mobile-device) {
     flex-direction: column;
@@ -69,7 +63,7 @@
   flex: none;
   aspect-ratio: 620 / 755;
   align-self: stretch;
-  margin: var(--spacing-lg) 0 var(--spacing-lg) var(--spacing-xl);
+  margin: var(--spacing-lg) 0 var(--spacing-lg) var(--spacing-lg);
   transition: transform var(--easing-medium);
 
   &:hover {
@@ -110,23 +104,11 @@
   flex-direction: column;
   flex: 1;
   min-width: 0;
-  padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-lg)
-    calc(var(--spacing-lg) + var(--spacing-xs));
-}
-
-.eyebrow {
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  line-height: 1;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-gray-5);
 }
 
 .wordmark {
   font-size: var(--font-size-xl);
   font-weight: 800;
-  margin: var(--spacing-xs) 0;
 }
 
 .wordmarkDot {

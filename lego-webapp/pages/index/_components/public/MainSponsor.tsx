@@ -11,16 +11,15 @@ const MainSponsor = () => {
     <section className={styles.sponsor} ref={sectionRef}>
       <div className={styles.inner}>
         <div className={styles.brand} data-reveal>
-          <p className={styles.eyebrow}>{'// Hovedsamarbeidspartner'}</p>
           <a
             className={styles.wordmark}
             href="https://www.bekk.no/"
             rel="noreferrer"
             target="_blank"
           >
+            <span className={styles.label}>Hovedsamarbeidspartner</span>
             <Image src={bekkLogo} alt="Bekk sin logo" />
           </a>
-          <p className={styles.meta}>siden 2025 · Oslo · Trondheim</p>
         </div>
         <div className={styles.pitch} data-reveal>
           <p className={styles.quote}>
