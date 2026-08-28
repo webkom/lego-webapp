@@ -36,13 +36,6 @@ const usersSlice = createSlice({
   name: EntityType.Users,
   initialState: legoAdapter.getInitialState({
     fetchingAchievements: false,
-    // Sequence number of the most recently *started* leaderboard fetch.
-    // Compared against the requestId a fetch was assigned, so a response
-    // that resolves after a newer fetch has already begun (e.g. the user
-    // switched rank type before the previous request returned) can be
-    // detected and dropped instead of overwriting fresher data with stale
-    // achievementRank/achievementsScore/eventCount values.
-    leaderboardRequestId: 0,
   }),
   reducers: {},
   extraReducers: legoAdapter.buildReducers({
@@ -53,11 +46,8 @@ const usersSlice = createSlice({
         if (!users) return;
         legoAdapter.upsertMany(state, users);
       });
-      addCase(User.FETCH_LEADERBOARD.BEGIN, (state, action: AnyAction) => {
+      addCase(User.FETCH_LEADERBOARD.BEGIN, (state) => {
         state.fetchingAchievements = true;
-        if (typeof action.meta?.requestId === 'number') {
-          state.leaderboardRequestId = action.meta.requestId;
-        }
       });
       addCase(User.FETCH_LEADERBOARD.SUCCESS, (state) => {
         state.fetchingAchievements = false;
