@@ -4,13 +4,13 @@ import moment from 'moment';
 import { useState, type CSSProperties, Fragment } from 'react';
 import CommentForm from '~/components/CommentForm';
 import Dropdown from '~/components/Dropdown';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import { generateTreeStructure } from '~/utils';
 import CommentTree from './CommentTree';
 import styles from './CommentView.module.css';
 import type Comment from '~/redux/models/Comment';
 import type { ContentAuthors } from '~/redux/models/Comment';
 import type { ContentTarget } from '~/utils/contentTarget';
-import { useIsLoggedIn } from '~/redux/slices/auth';
 
 type Props = {
   comments: Comment[];
