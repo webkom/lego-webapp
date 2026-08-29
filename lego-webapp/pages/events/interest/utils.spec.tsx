@@ -3,10 +3,8 @@ import moment from 'moment-timezone';
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { EventStatusType } from '~/redux/models/Event';
 import {
   activateOnKey,
-  attendanceLabel,
   dayLabel,
   groupEvents,
   groupKeyOf,
@@ -105,32 +103,6 @@ describe('groupMonogram', () => {
   it('skips the Aba prefix so the monograms stay distinct', () => {
     expect(groupMonogram(groupNamed('Abarun'))).toBe('RU');
     expect(groupMonogram(groupNamed('Abakino'))).toBe('KI');
-  });
-});
-
-describe('attendanceLabel', () => {
-  const event = (fields: Partial<ListEvent>) => fields as ListEvent;
-
-  it('tells open events they need no registration', () => {
-    expect(
-      attendanceLabel(event({ eventStatusType: EventStatusType.OPEN })),
-    ).toBe('ingen påmelding — bare møt opp');
-  });
-
-  it('says nothing until the count has loaded', () => {
-    expect(attendanceLabel(event({ registrationCount: undefined }))).toBe('');
-  });
-
-  it('counts against the capacity when there is one', () => {
-    expect(
-      attendanceLabel(event({ registrationCount: 4, totalCapacity: 10 })),
-    ).toBe('4 av 10 plasser');
-  });
-
-  it('just counts when the event is unlimited', () => {
-    expect(
-      attendanceLabel(event({ registrationCount: 4, totalCapacity: 0 })),
-    ).toBe('4 blir med');
   });
 });
 

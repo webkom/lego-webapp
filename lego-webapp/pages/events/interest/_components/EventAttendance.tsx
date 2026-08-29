@@ -3,8 +3,7 @@ import { User } from 'lucide-react';
 import { useState } from 'react';
 import { ProfilePicture } from '~/components/Image';
 import AttendanceModal from '~/components/UserAttendance/AttendanceModal';
-import { activateOnKey, attendanceLabel } from '~/pages/events/interest/utils';
-import { EventStatusType } from '~/redux/models/Event';
+import { activateOnKey } from '~/pages/events/interest/utils';
 import { useCurrentUser } from '~/redux/slices/auth';
 import styles from './EventAttendance.module.css';
 import type { AttendanceModalRegistration } from '~/components/UserAttendance/AttendanceModalContent';
@@ -44,10 +43,7 @@ const EventAttendance = ({
   const faces = ordered.slice(0, MAX_FACES);
   const extra = count - faces.length;
   // The pile always shows three circles grey placeholders
-  const placeholders =
-    event.eventStatusType === EventStatusType.OPEN
-      ? 0
-      : MAX_FACES - faces.length;
+  const placeholders = MAX_FACES - faces.length;
   const hasAttendees = faces.length > 0;
 
   const names = ordered
@@ -58,9 +54,7 @@ const EventAttendance = ({
   const hidden = count - names.length;
 
   let lines: string[];
-  if (event.eventStatusType === EventStatusType.OPEN) {
-    lines = [attendanceLabel(event)];
-  } else if (!currentUser && count === 0) {
+  if (!currentUser && count === 0) {
     lines = ['Logg inn for å se påmeldte'];
   } else if (count === 0) {
     lines = [isPast ? 'Ingen var med' : 'Ingen påmeldt'];
