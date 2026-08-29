@@ -17,6 +17,7 @@ import MeetingInvitationRenderer from './renders/meetingInvitation';
 import PenaltyRenderer from './renders/penaltyNotification';
 import RegistrationBumpRenderer from './renders/registrationBump';
 import RestrictedMailSentRenderer from './renders/restrictedMail';
+import TrophyRenderer from './renders/trophy';
 import type { EntityId } from '@reduxjs/toolkit';
 import type { ReactNode } from 'react';
 import type ActivityRenderer from '~/components/Feed/ActivityRenderer';
@@ -33,6 +34,7 @@ export const activityRenderers = {
   [FeedActivityVerb.GroupJoin]: GroupJoinRenderer,
   [FeedActivityVerb.EventRegister]: EventRegisterRenderer,
   [FeedActivityVerb.Penalty]: PenaltyRenderer,
+  [FeedActivityVerb.Trophy]: TrophyRenderer,
 };
 
 export const getActivityRenderer = <Verb extends FeedActivityVerb>(
