@@ -16,11 +16,15 @@ import {
   MessageSquareQuote,
   Landmark,
   LogOut,
+  MoonStar,
+  Sun,
 } from 'lucide-react';
 import { navigate } from 'vike/client/router';
 import Tag from '~/components/Tags/Tag';
 import { logout } from '~/redux/actions/UserActions';
 import getInterestIcon from '~/utils/getInterestIcon';
+import { applySelectedTheme } from '~/utils/themeUtils';
+import type { ResolvedTheme } from '~/utils/themeUtils';
 
 type Command = {
   id: string;
@@ -38,8 +42,11 @@ type CommandSection = {
 const createCommands = (
   dispatch: any,
   suggestionIds: string[] = [],
+  theme: ResolvedTheme,
 ): CommandSection[] => {
   const InterestIcon = getInterestIcon();
+  const nextTheme = theme === 'dark' ? 'light' : 'dark';
+  const themeLabel = nextTheme === 'dark' ? 'Mørkt tema' : 'Lyst tema';
   const sections: CommandSection[] = [
     {
       name: 'Navigasjon',
@@ -49,35 +56,35 @@ const createCommands = (
           renderLabel: 'Hjem',
           searchText: 'Hjem',
           action: () => navigate('/'),
-          icon: <Icon iconNode={<Home />} size={15} />,
+          icon: <Icon iconNode={<Home />} size={16} />,
         },
         {
           id: 'profile',
           renderLabel: 'Profil',
           searchText: 'Profil',
           action: () => navigate('/users/me'),
-          icon: <Icon iconNode={<CircleUser />} size={15} />,
+          icon: <Icon iconNode={<CircleUser />} size={16} />,
         },
         {
           id: 'events',
           renderLabel: 'Arrangementer',
           searchText: 'Arrangementer',
           action: () => navigate('/events'),
-          icon: <Icon iconNode={<CalendarRange />} size={15} />,
+          icon: <Icon iconNode={<CalendarRange />} size={16} />,
         },
         {
           id: 'meetings',
           renderLabel: 'Møter',
           searchText: 'Møter',
           action: () => navigate('/meetings'),
-          icon: <Icon iconNode={<Users />} size={15} />,
+          icon: <Icon iconNode={<Users />} size={16} />,
         },
         {
           id: 'lending',
           renderLabel: 'Utlån',
           searchText: 'Utlån',
           action: () => navigate('/lending'),
-          icon: <Icon iconNode={<ShoppingCart />} size={15} />,
+          icon: <Icon iconNode={<ShoppingCart />} size={16} />,
         },
         {
           id: 'interestGroups',
@@ -88,70 +95,70 @@ const createCommands = (
           ),
           searchText: 'Interessegrupper',
           action: () => navigate('/events/interest'),
-          icon: <Icon iconNode={<InterestIcon />} size={15} />,
+          icon: <Icon iconNode={<InterestIcon />} size={16} />,
         },
         {
           id: 'joblistings',
           renderLabel: 'Jobbannonser',
           searchText: 'Jobbannonser',
           action: () => navigate('/joblistings'),
-          icon: <Icon iconNode={<Newspaper />} size={15} />,
+          icon: <Icon iconNode={<Newspaper />} size={16} />,
         },
         {
           id: 'companies',
           renderLabel: 'Bedrifter',
           searchText: 'Bedrifter',
           action: () => navigate('/companies'),
-          icon: <Icon iconNode={<Briefcase />} size={15} />,
+          icon: <Icon iconNode={<Briefcase />} size={16} />,
         },
         {
           id: 'articles',
           renderLabel: 'Artikler',
           searchText: 'Artikler',
           action: () => navigate('/articles'),
-          icon: <Icon iconNode={<BookOpen />} size={15} />,
+          icon: <Icon iconNode={<BookOpen />} size={16} />,
         },
         {
           id: 'gallery',
           renderLabel: 'Album',
           searchText: 'Album',
           action: () => navigate('/photos'),
-          icon: <Icon iconNode={<BookImage />} size={15} />,
+          icon: <Icon iconNode={<BookImage />} size={16} />,
         },
         {
           id: 'quotes',
           renderLabel: 'Overhørt',
           searchText: 'Overhørt',
           action: () => navigate('/quotes'),
-          icon: <Icon iconNode={<Quote />} size={15} />,
+          icon: <Icon iconNode={<Quote />} size={16} />,
         },
         {
           id: 'trophies',
           renderLabel: 'Trofeer',
           searchText: 'Trofeer',
           action: () => navigate('/achievements'),
-          icon: <Icon iconNode={<Trophy />} size={15} />,
+          icon: <Icon iconNode={<Trophy />} size={16} />,
         },
         {
           id: 'theFund',
           renderLabel: 'Fondet',
           searchText: 'Fondet',
           action: () => window.open('https://fondet.abakus.no/', '_blank'),
-          icon: <Icon iconNode={<Landmark />} size={15} />,
+          icon: <Icon iconNode={<Landmark />} size={16} />,
         },
         {
           id: 'developerBlog',
           renderLabel: 'Utviklerbloggen',
           searchText: 'Utviklerbloggen',
           action: () => window.open('https://webkom.dev/', '_blank'),
-          icon: <Icon iconNode={<MessageSquareQuote />} size={15} />,
+          icon: <Icon iconNode={<MessageSquareQuote />} size={16} />,
         },
         {
           id: 'settings',
           renderLabel: 'Innstillinger',
           searchText: 'Innstillinger',
           action: () => navigate('/users/me/settings/profile'),
-          icon: <Icon iconNode={<Settings />} size={15} />,
+          icon: <Icon iconNode={<Settings />} size={16} />,
         },
       ],
     },
@@ -163,28 +170,28 @@ const createCommands = (
           renderLabel: 'Lag møteinnkalling',
           searchText: 'Lag møteinnkalling',
           action: () => navigate('/meetings/new'),
-          icon: <Icon iconNode={<Terminal />} size={15} />,
+          icon: <Icon iconNode={<Terminal />} size={16} />,
         },
         {
           id: 'createReceipt',
           renderLabel: 'Lag kvittering',
           searchText: 'Lag kvittering',
           action: () => window.open('https://kvittering.abakus.no/', '_blank'),
-          icon: <Icon iconNode={<Terminal />} size={15} />,
+          icon: <Icon iconNode={<Terminal />} size={16} />,
         },
         {
           id: 'createQuote',
           renderLabel: 'Lag sitat',
           searchText: 'Lag sitat',
           action: () => navigate('/quotes/new'),
-          icon: <Icon iconNode={<Terminal />} size={15} />,
+          icon: <Icon iconNode={<Terminal />} size={16} />,
         },
         {
           id: 'createAlbum',
           renderLabel: 'Lag album',
           searchText: 'Lag album',
           action: () => navigate('/photos/new'),
-          icon: <Icon iconNode={<Terminal />} size={15} />,
+          icon: <Icon iconNode={<Terminal />} size={16} />,
         },
       ],
     },
@@ -192,10 +199,22 @@ const createCommands = (
       name: 'Systemvalg',
       items: [
         {
+          id: 'toggleTheme',
+          renderLabel: themeLabel,
+          searchText: themeLabel,
+          icon: (
+            <Icon
+              iconNode={nextTheme === 'dark' ? <MoonStar /> : <Sun />}
+              size={16}
+            />
+          ),
+          action: () => dispatch(applySelectedTheme(nextTheme)),
+        },
+        {
           id: 'logout',
           renderLabel: 'Logg ut',
           searchText: 'Logg ut',
-          icon: <Icon iconNode={<LogOut />} size={15} />,
+          icon: <Icon iconNode={<LogOut />} size={16} />,
           action: () => {
             dispatch(logout());
             navigate('/');
