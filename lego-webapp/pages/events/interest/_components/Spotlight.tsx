@@ -7,15 +7,12 @@ import Time from '~/components/Time';
 import useJoinEvent from '~/pages/events/interest/useJoinEvent';
 import {
   activateOnKey,
-  attendanceLabel,
-  groupGradient,
   groupMonogram,
   isToday,
   isTomorrow,
 } from '~/pages/events/interest/utils';
 import { fetchEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import { EventStatusType } from '~/redux/models/Event';
 import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent,
@@ -58,10 +55,6 @@ const Spotlight = ({ event }: Props) => {
 
   const start = moment(event.startTime);
   const prefix = badgePrefix(start);
-  const attendance =
-    event.eventStatusType === EventStatusType.OPEN
-      ? attendanceLabel(event)
-      : '';
 
   return (
     <div
@@ -72,7 +65,7 @@ const Spotlight = ({ event }: Props) => {
       onClick={() => navigate(`/events/${event.slug}`)}
       onKeyDown={activateOnKey(() => navigate(`/events/${event.slug}`))}
     >
-      <div className={cx(styles.background, groupGradient)} aria-hidden />
+      <div className={styles.background} aria-hidden />
       <div className={styles.scrim} aria-hidden />
       <span className={cx(styles.badge, isToday(start) && styles.badgeToday)}>
         {prefix ? (
@@ -90,10 +83,7 @@ const Spotlight = ({ event }: Props) => {
         <div className={styles.info}>
           <span className={styles.groupName}>{group.name}</span>
           <h2>{event.title}</h2>
-          <span className={styles.meta}>
-            {event.location}
-            {attendance && <> · {attendance}</>}
-          </span>
+          <span className={styles.meta}>{event.location}</span>
           {registrations.length > 0 && (
             <span
               className={styles.attendees}

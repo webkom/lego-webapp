@@ -25,6 +25,7 @@
 .background {
   position: absolute;
   inset: 0;
+  background: var(--color-orange-6);
   transition: transform var(--easing-slow);
 }
 

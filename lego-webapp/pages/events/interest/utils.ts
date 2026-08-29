@@ -1,13 +1,9 @@
 import moment from 'moment-timezone';
-import { EventStatusType } from '~/redux/models/Event';
 import { capitalize } from '~/utils';
-import gradients from './gradients.module.css';
 import type { Moment } from 'moment-timezone';
 import type { KeyboardEvent } from 'react';
 import type { ListEvent } from '~/redux/models/Event';
 import type { PublicGroup } from '~/redux/models/Group';
-
-export const groupGradient = gradients.gradient;
 
 export const groupMonogram = (group: PublicGroup) =>
   group.name.replace('Aba', '').slice(0, 2).toUpperCase();
@@ -28,24 +24,6 @@ export const isToday = (time: Moment) => time.isSame(moment(), 'day');
 
 export const isTomorrow = (time: Moment) =>
   time.isSame(moment().add(1, 'day'), 'day');
-
-export const attendanceLabel = (event: ListEvent): string => {
-  if (event.eventStatusType === EventStatusType.OPEN) {
-    return 'ingen påmelding — bare møt opp';
-  }
-
-  if (event.registrationCount == null) {
-    return '';
-  }
-
-  const count = event.registrationCount;
-
-  if (event.totalCapacity) {
-    return `${count} av ${event.totalCapacity} plasser`;
-  }
-
-  return `${count} blir med`;
-};
 
 export type DayGroup = {
   key: string;
