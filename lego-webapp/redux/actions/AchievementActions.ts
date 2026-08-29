@@ -2,7 +2,34 @@ import { Achievement, User } from '~/redux/actionTypes';
 import { userSchema } from '~/redux/schemas';
 import callAPI from './callAPI';
 import type { ParsedQs } from 'qs';
+import type { RankType } from '~/pages/achievements/utils';
 import type { PublicUser } from '~/redux/models/User';
+import type { AchievementIdentifier } from '~/utils/achievementConstants';
+
+export type RankHistoryPoint = {
+  date: string;
+  rank: number;
+  value: number;
+};
+
+export type ScoreDistributionBin = {
+  min: number;
+  max: number;
+  count: number;
+};
+
+export type ScoreDistribution = {
+  bins: ScoreDistributionBin[];
+  totalCount: number;
+  yourValue: number | null;
+  percentile: number | null;
+};
+
+export type AchievementRarity = {
+  identifier: AchievementIdentifier;
+  level: number;
+  percentage: number;
+};
 
 export function fetchLeaderboardUsers({
   next = false,
@@ -22,6 +49,41 @@ export function fetchLeaderboardUsers({
     method: 'GET',
     meta: {
       errorMessage: 'Henting av brukere feilet',
+    },
+  });
+}
+
+export function fetchRankHistory({ type }: { type: RankType }) {
+  return callAPI<RankHistoryPoint[]>({
+    types: Achievement.FETCH_RANK_HISTORY,
+    endpoint: `/achievements/leaderboard/rank_history/`,
+    query: { type },
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av rangeringshistorikk feilet',
+    },
+  });
+}
+
+export function fetchScoreDistribution({ type }: { type: RankType }) {
+  return callAPI<ScoreDistribution>({
+    types: Achievement.FETCH_DISTRIBUTION,
+    endpoint: `/achievements/leaderboard/distribution/`,
+    query: { type },
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av poengfordeling feilet',
+    },
+  });
+}
+
+export function fetchAchievementRarity() {
+  return callAPI<AchievementRarity[]>({
+    types: Achievement.FETCH_RARITY,
+    endpoint: `/achievements/rarity/`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av trofé-sjeldenhet feilet',
     },
   });
 }

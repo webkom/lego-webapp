@@ -1,0 +1,36 @@
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.name {
+  font-size: 0.8rem;
+  color: var(--secondary-font-color);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  height: 1.25rem;
+  border-radius: var(--border-radius-md);
+  background-color: var(--border-gray);
+  overflow: hidden;
+}
+
+.segment {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius-md);
+  transition: width var(--easing-medium);
+}
+
+.tooltipContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}

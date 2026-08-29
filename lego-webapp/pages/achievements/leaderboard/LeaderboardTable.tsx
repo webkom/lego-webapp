@@ -1,28 +1,46 @@
-import { LinkButton } from '@webkom/lego-bricks';
+import { Flex } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
+import { Trophy } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ContentMain } from '~/components/Content';
 import Table from '~/components/Table';
+import { RankTypeToggle } from '~/pages/achievements/utils';
 import { fetchLeaderboardUsers } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
 import { selectPaginationNext } from '~/redux/slices/selectors';
 import { selectUsersWithAchievementsScore } from '~/redux/slices/users';
+import { rarityMap } from '~/utils/achievementConstants';
 import { useIsMobileViewport } from '~/utils/isMobileViewport';
 import useQuery from '~/utils/useQuery';
 import type { ColumnProps } from '~/components/Table';
+import type { RankType } from '~/pages/achievements/utils';
 import type { PublicUserWithAbakusGroups } from '~/redux/models/User';
 
-export type RankType = 'achievement_score' | 'event_count';
-
-export const RANK_TYPE_PATHS: Record<RankType, string> = {
-  achievement_score: '/achievements/leaderboard',
-  event_count: '/achievements/leaderboard/event-count',
+// Reuses the app's existing bronze/silver/gold rarity-tier colors so a top-3
+// placement reads as "medal" without inventing a new color language.
+const PODIUM_COLORS: Record<number, string> = {
+  1: rarityMap[2].color,
+  2: rarityMap[1].color,
+  3: rarityMap[0].color,
 };
 
-const RANK_TYPE_LABELS: Record<RankType, string> = {
-  achievement_score: 'Score',
-  event_count: 'Arrangementer',
+const RankBadge = ({ rank }: { rank: number | null }) => {
+  if (rank === null) {
+    return <>-</>;
+  }
+
+  const podiumColor = PODIUM_COLORS[rank];
+  if (!podiumColor) {
+    return <>{rank}</>;
+  }
+
+  return (
+    <Flex alignItems="center" gap="var(--spacing-xs)">
+      <Trophy size={14} color={podiumColor} aria-hidden />
+      <span style={{ color: podiumColor, fontWeight: 600 }}>{rank}</span>
+    </Flex>
+  );
 };
 
 const RankChange = ({
@@ -156,7 +174,7 @@ const LeaderboardTable = ({ type }: Props) => {
       dataIndex: 'rank',
       search: false,
       render: (_, user: PublicUserWithAbakusGroups) => (
-        <>{getRankScore(user)?.rank ?? '-'}</>
+        <RankBadge rank={getRankScore(user)?.rank ?? null} />
       ),
     },
     {
@@ -227,22 +245,7 @@ const LeaderboardTable = ({ type }: Props) => {
 
   return (
     <ContentMain>
-      <div
-        role="group"
-        aria-label="Velg rangeringstype"
-        style={{ display: 'flex', gap: 8, marginBottom: 16 }}
-      >
-        {(Object.keys(RANK_TYPE_LABELS) as RankType[]).map((rankType) => (
-          <LinkButton
-            key={rankType}
-            aria-pressed={type === rankType}
-            disabled={type === rankType}
-            href={RANK_TYPE_PATHS[rankType]}
-          >
-            {RANK_TYPE_LABELS[rankType]}
-          </LinkButton>
-        ))}
-      </div>
+      <RankTypeToggle type={type} basePath="/achievements/leaderboard" />
 
       <Table
         columns={columns}

@@ -319,6 +319,9 @@ export const Reaction = {
 export const Achievement = {
   CREATE: generateStatuses('Achievement.CREATE'),
   RECHECK: generateStatuses('Achievement.RECHECK'),
+  FETCH_RANK_HISTORY: generateStatuses('Achievement.FETCH_RANK_HISTORY'),
+  FETCH_DISTRIBUTION: generateStatuses('Achievement.FETCH_DISTRIBUTION'),
+  FETCH_RARITY: generateStatuses('Achievement.FETCH_RARITY'),
 };
 
 export const Banner = {
