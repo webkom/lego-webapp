@@ -17,7 +17,6 @@ type Props = {
   registrations: PoolRegistrationWithUser[];
   waitingRegistrations: AttendanceModalRegistration[];
   isPast: boolean;
-  spotlight?: boolean;
 };
 
 const EventAttendance = ({
@@ -25,7 +24,6 @@ const EventAttendance = ({
   registrations,
   waitingRegistrations,
   isPast,
-  spotlight,
 }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTab, setModalTab] = useState(0);
@@ -68,7 +66,7 @@ const EventAttendance = ({
 
   return (
     <>
-      <div className={cx(styles.attendance, spotlight && styles.spotlight)}>
+      <div className={styles.attendance}>
         {(hasAttendees || placeholders > 0) && (
           <div
             role={hasAttendees ? 'button' : undefined}
@@ -84,25 +82,23 @@ const EventAttendance = ({
               <ProfilePicture
                 key={registration.id}
                 user={registration.user}
-                size={spotlight ? 30 : 32}
+                size={32}
                 className={styles.face}
               />
             ))}
             {Array.from({ length: placeholders }, (_, index) => (
               <span key={index} className={styles.facePlaceholder}>
-                <User size={spotlight ? 16 : 18} />
+                <User size={18} />
               </span>
             ))}
             {extra > 0 && <span className={styles.extraPill}>+{extra}</span>}
           </div>
         )}
-        {!spotlight && (
-          <div className={styles.attendLine}>
-            {lines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
-        )}
+        <div className={styles.attendLine}>
+          {lines.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </div>
       </div>
       <AttendanceModal
         pools={[

@@ -68,7 +68,7 @@ export const frontpageObjectDate = (object: ArticleWithType | EventWithType) =>
     ? moment(object.startTime)
     : moment(object.createdAt);
 
-export const selectPinned = createSelector(
+export const selectFrontpageItems = createSelector(
   selectArticles<PublicArticle>,
   selectAllEvents<FrontpageEvent>,
   (state: RootState) => state.frontpage.articleIds,
@@ -76,7 +76,8 @@ export const selectPinned = createSelector(
   (articles, events, articleIds, eventIds) => {
     const frontpageArticleIds = new Set(articleIds);
     const frontpageEventIds = new Set(eventIds);
-    const pinnedObjects = sortBy(
+
+    return sortBy(
       [
         ...articles
           .filter((article) => frontpageArticleIds.has(article.id))
@@ -90,11 +91,29 @@ export const selectPinned = createSelector(
         (object) => Math.abs(moment().diff(frontpageObjectDate(object))), // Sort by most recently published/starting soonest
         (object) => object.id,
       ],
-    );
+    ) satisfies (ArticleWithType | EventWithType)[];
+  },
+);
 
-    return pinnedObjects[0] satisfies
-      | ArticleWithType
-      | EventWithType
-      | undefined;
+const FEATURED_WINDOW_DAYS = 7;
+const MAX_FEATURED = 3;
+
+const isCurrent = (object: ArticleWithType | EventWithType) => {
+  const date = frontpageObjectDate(object);
+
+  return isEvent(object)
+    ? date.isBefore(moment().add(FEATURED_WINDOW_DAYS, 'days'))
+    : date.isAfter(moment().subtract(FEATURED_WINDOW_DAYS, 'days'));
+};
+
+export const selectFeaturedItems = createSelector(
+  selectFrontpageItems,
+  (items) => {
+    const featured = items
+      .filter((object) => object.pinned || isCurrent(object))
+      .slice(0, MAX_FEATURED);
+
+    // The slot has never been empty
+    return featured.length > 0 ? featured : items.slice(0, 1);
   },
 );

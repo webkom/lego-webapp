@@ -1,16 +1,10 @@
-import {
-  Button,
-  LinkButton,
-  PageContainer,
-  Skeleton,
-} from '@webkom/lego-bricks';
+import { Button, LinkButton, PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import { Helmet } from 'react-helmet-async';
 import { GroupType } from 'app/models';
 import styles from '~/pages/events/interest/InterestEvents.module.css';
 import EventAgenda from '~/pages/events/interest/_components/EventAgenda';
 import GroupsSection from '~/pages/events/interest/_components/GroupsSection';
-import Spotlight from '~/pages/events/interest/_components/Spotlight';
 import useInterestEvents from '~/pages/events/interest/useInterestEvents';
 import { fetchAllWithType } from '~/redux/actions/GroupActions';
 import { useAppDispatch } from '~/redux/hooks';
@@ -27,8 +21,6 @@ const InterestEvents = () => {
     () => dispatch(fetchAllWithType(GroupType.Interest)),
     [loggedIn],
   );
-
-  const spotlightEvent = upcoming.events[0];
 
   return (
     <PageContainer card={false}>
@@ -57,15 +49,8 @@ const InterestEvents = () => {
               </LinkButton>
             </div>
           </div>
-          {spotlightEvent ? (
-            <Spotlight event={spotlightEvent} />
-          ) : (
-            upcoming.fetching && (
-              <Skeleton className={styles.spotlightSkeleton} />
-            )
-          )}
         </section>
-        <EventAgenda spotlightEventId={spotlightEvent?.id} />
+        <EventAgenda />
         <GroupsSection />
       </div>
     </PageContainer>

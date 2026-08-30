@@ -2,7 +2,7 @@ import { PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import Banner from '~/components/Banner';
 import CompactEvents from '~/pages/index/_components/CompactEvents';
-import Pinned from '~/pages/index/_components/Pinned';
+import FrontpageSpotlight from '~/pages/index/_components/FrontpageSpotlight';
 import Hero from '~/pages/index/_components/public/Hero';
 import MainSponsor from '~/pages/index/_components/public/MainSponsor';
 import ReadmeShowcase, {
@@ -10,22 +10,20 @@ import ReadmeShowcase, {
 } from '~/pages/index/_components/public/ReadmeShowcase';
 import UsefulLinks from '~/pages/index/_components/public/UsefulLinks';
 import useSectionReveal from '~/pages/index/_components/public/useSectionReveal';
-import { itemUrl, renderMeta } from '~/pages/index/utils';
 import { fetchCurrentPublicBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { selectCurrentPublicBanner } from '~/redux/slices/banner';
-import { selectPinned } from '~/redux/slices/frontpage';
 import styles from './PublicFrontpage.module.css';
 
 const PublicFrontpage = () => {
   const dispatch = useAppDispatch();
-  const pinned = useAppSelector(selectPinned);
 
-  // CompactEvents and Pinned are shared with the authenticated frontpage, so
-  // their reveals live on wrappers here rather than inside the components
+  // CompactEvents and the spotlight are shared with the authenticated
+  // frontpage, so their reveals live on wrappers here rather than inside the
+  // components
   const eventsRevealRef = useSectionReveal<HTMLDivElement>();
-  const pinnedRevealRef = useSectionReveal<HTMLDivElement>();
+  const spotlightRevealRef = useSectionReveal<HTMLDivElement>();
 
   usePreparedEffect(
     'fetchIndex',
@@ -70,12 +68,8 @@ const PublicFrontpage = () => {
           <div style={{ gridArea: 'events' }} ref={eventsRevealRef}>
             <CompactEvents />
           </div>
-          <div style={{ gridArea: 'article' }} ref={pinnedRevealRef}>
-            <Pinned
-              item={pinned}
-              url={itemUrl(pinned)}
-              meta={renderMeta(pinned)}
-            />
+          <div style={{ gridArea: 'article' }} ref={spotlightRevealRef}>
+            <FrontpageSpotlight />
           </div>
           <ReadmeShowcase style={{ gridArea: 'readme' }} />
           <UsefulLinks style={{ gridArea: 'links' }} />

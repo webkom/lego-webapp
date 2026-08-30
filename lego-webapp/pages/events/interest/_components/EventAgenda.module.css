@@ -185,8 +185,6 @@
   font-weight: 600;
 }
 
-/* Only a circle standing in for a real group is filled - a groupless event
-   keeps an empty circle as a spacer. */
 .eventMonogramFilled {
   background: var(--color-orange-6);
   color: var(--color-absolute-orange-9);
