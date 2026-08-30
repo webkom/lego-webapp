@@ -4,6 +4,7 @@ import { RankTypeToggle } from '~/pages/achievements/utils';
 import RankHistoryChart from './_components/RankHistoryChart';
 import RarityOverviewChart from './_components/RarityOverviewChart';
 import ScoreDistributionChart from './_components/ScoreDistributionChart';
+import TopClimbersCard from './_components/TopClimbersCard';
 import type { RankType } from '~/pages/achievements/utils';
 
 type Props = {
@@ -16,6 +17,7 @@ const Statistics = ({ type }: Props) => (
       <RankTypeToggle type={type} basePath="/achievements/statistics" />
 
       <RankHistoryChart type={type} />
+      <TopClimbersCard type={type} />
       <ScoreDistributionChart type={type} />
       <RarityOverviewChart />
     </Flex>

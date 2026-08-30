@@ -4,7 +4,7 @@ import { Trophy } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { ContentMain } from '~/components/Content';
 import Table from '~/components/Table';
-import { RankTypeToggle } from '~/pages/achievements/utils';
+import { RankChange, RankTypeToggle } from '~/pages/achievements/utils';
 import { fetchLeaderboardUsers } from '~/redux/actions/AchievementActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { EntityType } from '~/redux/models/entities';
@@ -29,11 +29,7 @@ const RankBadge = ({ rank }: { rank: number | null }) => {
   const podiumColor = rank !== null ? PODIUM_COLORS[rank] : undefined;
 
   return (
-    <Flex
-      alignItems="center"
-      justifyContent="center"
-      gap="var(--spacing-xs)"
-    >
+    <Flex alignItems="center" justifyContent="center" gap="var(--spacing-xs)">
       <Trophy
         size={14}
         color={podiumColor}
@@ -41,49 +37,13 @@ const RankBadge = ({ rank }: { rank: number | null }) => {
         style={{ visibility: podiumColor ? 'visible' : 'hidden' }}
       />
       <span
-        style={podiumColor ? { color: podiumColor, fontWeight: 600 } : undefined}
+        style={
+          podiumColor ? { color: podiumColor, fontWeight: 600 } : undefined
+        }
       >
         {rank ?? '-'}
       </span>
     </Flex>
-  );
-};
-
-const RankChange = ({
-  current,
-  previous,
-}: {
-  current: number | null;
-  previous: number | null;
-}) => {
-  if (current === null || previous === null) {
-    return <span aria-label="Ingen historikk enda">-</span>;
-  }
-
-  const diff = previous - current;
-
-  if (diff === 0) {
-    return <span aria-label="Ingen endring"> =</span>;
-  }
-
-  if (diff > 0) {
-    return (
-      <span
-        style={{ color: 'var(--color-green-7)' }}
-        aria-label={`Opp ${diff} plasser`}
-      >
-        ↑ {diff}
-      </span>
-    );
-  }
-
-  return (
-    <span
-      style={{ color: 'var(--color-red-7)' }}
-      aria-label={`Ned ${Math.abs(diff)} plasser`}
-    >
-      ↓ {Math.abs(diff)}
-    </span>
   );
 };
 

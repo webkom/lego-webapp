@@ -50,6 +50,18 @@ export const AchievementIdentifier = {
 export type AchievementIdentifier =
   (typeof AchievementIdentifier)[keyof typeof AchievementIdentifier];
 
+// Identifiers with no automatic requirement_function - the only ones a
+// human grants by hand. Must match MANUAL_ACHIEVEMENTS in the backend's
+// lego/apps/achievements/constants.py - grant_trophy.py and the sudo trophy
+// grant page both restrict to this set while the "trophy-grant-all" feature
+// flag is off.
+export const MANUAL_ACHIEVEMENT_IDENTIFIERS: AchievementIdentifier[] = [
+  'christmas_calendar',
+  'easter_2024',
+  'easter_2025',
+  'easter_2026',
+];
+
 export const HIDDEN_DESCRIPTION = '?????????';
 
 export const AchievementsInfo: Record<

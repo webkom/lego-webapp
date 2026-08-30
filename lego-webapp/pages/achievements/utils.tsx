@@ -49,6 +49,50 @@ export const RankTypeToggle = ({
   </TabContainer>
 );
 
+/**
+ * Rank delta since some earlier baseline, shared by the leaderboard table's
+ * "Siste uke"/"Siste måned" columns and the statistics page's top-climbers
+ * list. null current/previous means "no history to compare against yet"
+ * rather than "no change".
+ */
+export const RankChange = ({
+  current,
+  previous,
+}: {
+  current: number | null;
+  previous: number | null;
+}) => {
+  if (current === null || previous === null) {
+    return <span aria-label="Ingen historikk enda">-</span>;
+  }
+
+  const diff = previous - current;
+
+  if (diff === 0) {
+    return <span aria-label="Ingen endring"> =</span>;
+  }
+
+  if (diff > 0) {
+    return (
+      <span
+        style={{ color: 'var(--color-green-7)' }}
+        aria-label={`Opp ${diff} plasser`}
+      >
+        ↑ {diff}
+      </span>
+    );
+  }
+
+  return (
+    <span
+      style={{ color: 'var(--color-red-7)' }}
+      aria-label={`Ned ${Math.abs(diff)} plasser`}
+    >
+      ↓ {Math.abs(diff)}
+    </span>
+  );
+};
+
 export const overviewDefaultSearch = {
   userFullName: '',
   abakusGroupIds: '',
