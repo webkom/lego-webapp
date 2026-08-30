@@ -33,7 +33,7 @@ const RankHistoryChart = ({ type }: Props) => {
     ? 'Fullføringsprosent'
     : 'Antall arrangementer';
   const formatValue = (value: number) =>
-    isPercentage ? `${value}%` : `${value}`;
+    isPercentage ? `${Math.round(value * 100) / 100}%` : `${value}`;
 
   usePreparedEffect(
     'fetchRankHistory',
@@ -82,6 +82,7 @@ const RankHistoryChart = ({ type }: Props) => {
             <YAxis
               reversed
               allowDecimals={false}
+              domain={[1, 'dataMax']}
               tick={{ fill: 'var(--secondary-font-color)' }}
               stroke="var(--border-gray)"
               label={{

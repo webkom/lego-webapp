@@ -32,21 +32,23 @@ const buildRows = (rarities: AchievementRarity[]): RarityRow[] => {
     ]);
   }
 
-  return Array.from(byIdentifier.entries()).map(([identifier, rows]) => ({
-    name: getAchievementGroupInfo(identifier)?.name ?? identifier,
-    // Ascending by level: index 0 (widest, most common) is drawn first, so
-    // each rarer/narrower level after it paints on top and stays visible.
-    levels: rows
-      .sort((a, b) => a.level - b.level)
-      .map((row) => {
-        const info = AchievementsInfo[identifier]?.[row.level];
-        return {
-          percentage: row.percentage,
-          color: info ? rarityMap[info.rarity].color : 'var(--color-blue-6)',
-          levelName: info?.name ?? `Nivå ${row.level + 1}`,
-        };
-      }),
-  }));
+  return Array.from(byIdentifier.entries())
+    .map(([identifier, rows]) => ({
+      name: getAchievementGroupInfo(identifier)?.name ?? identifier,
+      // Ascending by level: index 0 (widest, most common) is drawn first, so
+      // each rarer/narrower level after it paints on top and stays visible.
+      levels: rows
+        .sort((a, b) => a.level - b.level)
+        .map((row) => {
+          const info = AchievementsInfo[identifier]?.[row.level];
+          return {
+            percentage: row.percentage,
+            color: info ? rarityMap[info.rarity].color : 'var(--color-blue-6)',
+            levelName: info?.name ?? `Nivå ${row.level + 1}`,
+          };
+        }),
+    }))
+    .sort((a, b) => b.levels[0].percentage - a.levels[0].percentage);
 };
 
 const RarityBar = ({ row }: { row: RarityRow }) => (
@@ -54,7 +56,11 @@ const RarityBar = ({ row }: { row: RarityRow }) => (
     content={
       <div className={styles.tooltipContent}>
         {row.levels.map((level) => (
-          <span key={level.levelName}>
+          <span key={level.levelName} className={styles.tooltipRow}>
+            <span
+              className={styles.swatch}
+              style={{ backgroundColor: level.color }}
+            />
             {level.levelName}: {level.percentage}%
           </span>
         ))}
