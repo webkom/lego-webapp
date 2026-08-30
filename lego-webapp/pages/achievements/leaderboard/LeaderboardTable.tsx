@@ -26,19 +26,25 @@ const PODIUM_COLORS: Record<number, string> = {
 };
 
 const RankBadge = ({ rank }: { rank: number | null }) => {
-  if (rank === null) {
-    return <>-</>;
-  }
-
-  const podiumColor = PODIUM_COLORS[rank];
-  if (!podiumColor) {
-    return <>{rank}</>;
-  }
+  const podiumColor = rank !== null ? PODIUM_COLORS[rank] : undefined;
 
   return (
-    <Flex alignItems="center" gap="var(--spacing-xs)">
-      <Trophy size={14} color={podiumColor} aria-hidden />
-      <span style={{ color: podiumColor, fontWeight: 600 }}>{rank}</span>
+    <Flex
+      alignItems="center"
+      justifyContent="center"
+      gap="var(--spacing-xs)"
+    >
+      <Trophy
+        size={14}
+        color={podiumColor}
+        aria-hidden
+        style={{ visibility: podiumColor ? 'visible' : 'hidden' }}
+      />
+      <span
+        style={podiumColor ? { color: podiumColor, fontWeight: 600 } : undefined}
+      >
+        {rank ?? '-'}
+      </span>
     </Flex>
   );
 };
