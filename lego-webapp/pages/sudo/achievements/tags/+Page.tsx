@@ -11,6 +11,9 @@ import {
 import HTTPError from '~/components/errors/HTTPError';
 import { editPartialEvent } from '~/redux/actions/EventActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { PageChaos } from '../PageChaos';
+import win95 from '../win95.module.css';
+import { win95SelectStyles } from '../win95SelectStyles';
 
 export default function EventTagEditor() {
   const title = 'Legg til tag på arrangement';
@@ -30,28 +33,66 @@ export default function EventTagEditor() {
   return (
     <Page title={title} back={{ href: '/sudo/achievements/' }}>
       <Helmet title={title} />
-      <LegoFinalForm onSubmit={onSubmit}>
-        {({ handleSubmit }) => (
-          <Form onSubmit={handleSubmit}>
-            <Field
-              name="event"
-              placeholder="Velg arrangement"
-              filter={['events.event']}
-              component={SelectInput.AutocompleteField}
-            />
-            <Field
-              name="tags"
-              label="Tags (overskrives. La feltet stå tomt for å slette alle tags)"
-              filter={['tags.tag']}
-              placeholder="Skriv inn tags (trophy:gala, trophy:genfors)..."
-              component={SelectInput.AutocompleteField}
-              isMulti
-              tags
-            />
-            <SubmitButton>Endre tags</SubmitButton>
-          </Form>
-        )}
-      </LegoFinalForm>
+      <PageChaos />
+      <div className={win95.desktop}>
+        <div className={win95.window}>
+          <div className={win95.titleBar}>
+            <span>Arrangement-tags - Egenskaper</span>
+            <div className={win95.titleBarButtons}>
+              <button className={win95.titleBarButton} disabled>
+                _
+              </button>
+              <button className={win95.titleBarButton} disabled>
+                □
+              </button>
+              <button className={win95.titleBarButton} disabled>
+                ✕
+              </button>
+            </div>
+          </div>
+
+          <div className={win95.clientArea}>
+            <LegoFinalForm onSubmit={onSubmit}>
+              {({ handleSubmit }) => (
+                <Form onSubmit={handleSubmit}>
+                  <fieldset className={win95.groupBox}>
+                    <legend className={win95.groupBoxLabel}>Arrangement</legend>
+                    <Field
+                      name="event"
+                      placeholder="Velg arrangement"
+                      filter={['events.event']}
+                      component={SelectInput.AutocompleteField}
+                      selectStyle={win95SelectStyles}
+                    />
+                  </fieldset>
+
+                  <fieldset className={win95.groupBox}>
+                    <legend className={win95.groupBoxLabel}>Tags</legend>
+                    <Field
+                      name="tags"
+                      label="Overskrives - la feltet stå tomt for å slette alle tags"
+                      filter={['tags.tag']}
+                      placeholder="Skriv inn tags (trophy:gala, trophy:genfors)..."
+                      component={SelectInput.AutocompleteField}
+                      selectStyle={win95SelectStyles}
+                      isMulti
+                      tags
+                    />
+                  </fieldset>
+
+                  <div className={win95.winButtonRow}>
+                    <SubmitButton className={win95.winButton}>
+                      Endre tags
+                    </SubmitButton>
+                  </div>
+                </Form>
+              )}
+            </LegoFinalForm>
+          </div>
+
+          <div className={win95.statusBar}>Klar</div>
+        </div>
+      </div>
     </Page>
   );
 }
