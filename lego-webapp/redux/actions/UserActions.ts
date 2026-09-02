@@ -243,7 +243,6 @@ export function updatePicture({
             profilePicture: action.meta.fileToken,
           },
           {
-            noRedirect: true,
             updateProfilePicture: true,
           },
         ),
@@ -514,15 +513,10 @@ export function updateUserTheme(
   username: string,
   theme: 'light' | 'dark' | 'auto',
 ) {
-  return updateUser(
-    {
-      username,
-      selectedTheme: theme,
-    },
-    {
-      noRedirect: true,
-    },
-  );
+  return updateUser({
+    username,
+    selectedTheme: theme,
+  });
 }
 
 export function recordCommandUsage(commandId: string) {

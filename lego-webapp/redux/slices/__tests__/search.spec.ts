@@ -1,9 +1,13 @@
 import { describe, it, expect } from 'vitest';
 import { Search } from '~/redux/actionTypes';
-import search from '../search';
+import search, { RawSearchResult } from '../search';
 
 describe('reducers', () => {
   describe('search', () => {
+    const mockSearchResult = [
+      { contentType: 'A' },
+      { contentType: 'B' },
+    ] as RawSearchResult[];
     it('Search should populate default state correctly', () => {
       const prevState = undefined;
       const randomAction = {};
@@ -72,10 +76,10 @@ describe('reducers', () => {
         meta: {
           query: 'abakus',
         },
-        payload: [1, 2, 3],
+        payload: mockSearchResult,
       };
       expect(search(prevState, action)).toEqual({
-        results: [1, 2, 3],
+        results: mockSearchResult,
         autocomplete: [],
         query: 'abakus',
         searching: false,
@@ -95,7 +99,7 @@ describe('reducers', () => {
         meta: {
           query: 'abakus',
         },
-        payload: [1, 2, 3],
+        payload: mockSearchResult,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
@@ -118,11 +122,11 @@ describe('reducers', () => {
         meta: {
           query: 'abakus',
         },
-        payload: [1, 2, 3],
+        payload: mockSearchResult,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
-        autocomplete: [1, 2, 3],
+        autocomplete: mockSearchResult,
         query: 'abakus',
         searching: false,
         open: false,
@@ -141,7 +145,7 @@ describe('reducers', () => {
         meta: {
           query: 'abakus',
         },
-        payload: [1, 2, 3],
+        payload: mockSearchResult,
       };
       expect(search(prevState, action)).toEqual({
         results: [],
@@ -192,7 +196,7 @@ describe('reducers', () => {
     it('Search.TOGGLE_OPEN works to open search', () => {
       const prevState = {
         results: [],
-        autocomplete: [1, 2, 3],
+        autocomplete: mockSearchResult,
         query: '',
         searching: false,
         open: false,
@@ -211,7 +215,7 @@ describe('reducers', () => {
     it('Search.TOGGLE_OPEN works to close search', () => {
       const prevState = {
         results: [],
-        autocomplete: [1, 2, 3],
+        autocomplete: mockSearchResult,
         query: '',
         searching: false,
         open: true,

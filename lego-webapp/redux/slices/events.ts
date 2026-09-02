@@ -65,12 +65,12 @@ const eventsSlice = createSlice({
           return;
         }
 
-        let registrationCount = stateEvent.registrationCount;
+        let registrationCount = stateEvent.registrationCount ?? 0;
         const hasRegistrationAccess = 'waitingRegistrations' in stateEvent;
         let waitingRegistrationCount = stateEvent.waitingRegistrationCount ?? 0;
 
         if (!registration.pool) {
-          waitingRegistrationCount = waitingRegistrationCount + 1;
+          waitingRegistrationCount++;
 
           if (hasRegistrationAccess) {
             stateEvent.waitingRegistrations = [
@@ -112,7 +112,7 @@ const eventsSlice = createSlice({
             stateEvent.activationTime = activationTimeFromMeta;
           }
 
-          if (fromPool) {
+          if (fromPool && stateEvent.registrationCount !== undefined) {
             stateEvent.registrationCount--;
           } else if (stateEvent.waitingRegistrationCount !== undefined) {
             stateEvent.waitingRegistrationCount--;

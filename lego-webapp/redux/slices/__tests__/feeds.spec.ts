@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { Feed } from '~/redux/actionTypes';
+import { Feed as FeedAT } from '~/redux/actionTypes';
+import Feed from '~/redux/models/Feed';
 import feeds from '../feeds';
-import type { FeedType } from '~/redux/models/Feed';
 
 describe('reducers', () => {
   describe('feeds', () => {
@@ -12,11 +12,11 @@ describe('reducers', () => {
         fetching: false,
         ids: ['x'],
         entities: {
-          x: {} as FeedType,
+          x: {} as Feed,
         },
       };
       const action = {
-        type: Feed.FETCH.SUCCESS,
+        type: FeedAT.FETCH.SUCCESS,
         meta: {
           feedId: 'user-123',
         },

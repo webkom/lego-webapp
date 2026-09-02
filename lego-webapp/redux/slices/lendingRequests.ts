@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 import { LendingRequests } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
+import { ListLendableObject } from '~/redux/models/LendableObject';
 import { TransformedLendingRequest } from '~/redux/models/LendingRequest';
 import { EntityType } from '~/redux/models/entities';
 import { RootState } from '~/redux/rootReducer';
@@ -26,7 +27,7 @@ export const {
 
 export const selectTransformedLendingRequests = createSelector(
   selectAllLendingRequests,
-  selectAllLendableObjects,
+  (state: RootState) => selectAllLendableObjects<ListLendableObject>(state),
   (lendingRequests, lendableObjects) => {
     const lendableObjectsById = new Map(
       lendableObjects.map((lendableObject) => [
