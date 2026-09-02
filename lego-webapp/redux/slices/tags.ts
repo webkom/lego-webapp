@@ -36,5 +36,7 @@ export const selectPopularTags = createSelector(
     entity: EntityType.Tags,
   }),
   (state, { pagination }) =>
-    selectPaginatedTags(state, { pagination: pagination as Pagination<string> }),
+    selectPaginatedTags(state, {
+      pagination: pagination as Pagination<string>,
+    }),
 );
