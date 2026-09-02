@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import { CircularPicture } from '~/components/Image';
 import { groupMonogram } from '~/pages/events/interest/utils';
 import styles from './EventAgenda.module.css';
@@ -22,10 +21,7 @@ const GroupCircle = ({ group }: Props) => {
   }
 
   return (
-    <span
-      className={cx(styles.eventMonogram, group && styles.eventMonogramFilled)}
-      aria-hidden
-    >
+    <span className={styles.eventMonogram}>
       {group && groupMonogram(group)}
     </span>
   );

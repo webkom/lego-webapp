@@ -183,9 +183,6 @@
   overflow: hidden;
   font-size: var(--font-size-xs);
   font-weight: 600;
-}
-
-.eventMonogramFilled {
   background: var(--color-orange-6);
   color: var(--color-absolute-orange-9);
 }
