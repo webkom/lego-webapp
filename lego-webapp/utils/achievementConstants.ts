@@ -45,6 +45,7 @@ export const AchievementIdentifier = {
   easter_2025: 'easter_2025',
   easter_2026: 'easter_2026',
   christmas_calendar: 'christmas_calendar',
+  perfect_week: 'perfect_week',
 } as const;
 
 export type AchievementIdentifier =
@@ -380,6 +381,23 @@ export const AchievementsInfo: Record<
       image: christmas_calendar_25,
     },
   ],
+  perfect_week: [
+    {
+      name: 'Strykmesteren',
+      description: 'Deltatt på alle arrangementer (min. 3) i løpet av en uke',
+      rarity: 3,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_4,
+    },
+    {
+      name: 'Kontekrigeren',
+      description:
+        'Deltatt på alle arrangementer (min. 3 per uke) to uker på rad',
+      rarity: 5,
+      hidden: false,
+      image: trofe_sjeldenhetsgrad_10,
+    },
+  ],
 };
 
 export type DetailedAchievementData = AchievementData & { level?: number };
@@ -511,6 +529,13 @@ export const GroupedAchievementsInfo: AchievementGroupInfo[] = [
     description: "Gjennomførte Webkom's julekalender",
     achievements: AchievementsInfo['christmas_calendar'],
     isLeveled: false,
+  },
+  {
+    identifier: 'perfect_week',
+    name: 'Perfekt uke',
+    description: 'Deltatt på alle arrangementer i minst én uke',
+    achievements: AchievementsInfo['perfect_week'],
+    isLeveled: true,
   },
 ];
 
