@@ -6,7 +6,7 @@ const InterestGroupApplyCreate = () => {
   return (
     <Page
       title="Opprett interessegruppe"
-      back={{ href: '/interest-groups/', label: 'Interessegrupper' }}
+      back={{ href: '/events/interest/', label: 'Interessegrupper' }}
     >
       <Helmet title="Opprett interessegruppe" />
 
@@ -21,7 +21,7 @@ const InterestGroupApplyCreate = () => {
         <br />
 
         <p>
-          Det er meget lett å bli en interessegruppe, bare send en mail til{' '}
+          Det er meget lett å starte en interessegruppe, bare send en mail til{' '}
           <a href="mailto:interessegrupper@abakus.no">
             interessegrupper@abakus.no
           </a>{' '}
