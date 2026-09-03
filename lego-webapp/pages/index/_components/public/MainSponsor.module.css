@@ -12,9 +12,6 @@
   margin: 0 auto;
   padding: var(--spacing-xxl) var(--spacing-md);
   gap: 4rem;
-  /* Kept here rather than on Flex's `wrap` prop: that prop also hands direct
-     flex children a 15em basis below --mobile-device, overriding the bases
-     below. */
   flex-wrap: wrap;
 
   @media (--mobile-device) {
@@ -23,7 +20,6 @@
   }
 }
 
-/* The two columns stack once they no longer both fit side by side */
 .brand {
   flex: 1 1 380px;
 }

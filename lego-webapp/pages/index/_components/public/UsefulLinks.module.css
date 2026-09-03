@@ -1,13 +1,44 @@
 @import url('styles/custom-media.css');
 
 .bento {
+  /* Temporary as I plan the design system, that will 
+  take subtitles and headings styles into account */
+  --card-title-weight: 700;
+  --card-title-letter-spacing: -0.01em;
+  --card-text-line-height: 1.5;
+  --card-link-weight: 600;
+  --featured-title-weight: 800;
+  --featured-title-letter-spacing: -0.02em;
+  --featured-text-line-height: 1.6;
+  --featured-text-max-width: 350px;
+
+  /* Card sizes, one per card shape */
+  --featured-min-height: 220px;
+  --featured-image-width: 260px;
+  --featured-image-height: 190px;
+  --tall-image-min-height: 200px;
+  --tall-image-height: 340px;
+  --study-image-width: 175px;
+
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
   gap: var(--spacing-lg);
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: minmax(var(--featured-min-height), auto) auto;
+  grid-template-areas:
+    'featured featured featured featured tall tall'
+    'data     data     komtek   komtek   tall tall';
 
   @media (--mobile-device) {
-    display: flex;
-    flex-direction: column;
+    --featured-image-width: 100%;
+    --study-image-width: 120px;
+
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(var(--featured-min-height), auto) repeat(3, auto);
+    grid-template-areas:
+      'featured'
+      'tall'
+      'data'
+      'komtek';
   }
 }
 
@@ -18,8 +49,7 @@
 }
 
 div.featured {
-  grid-column: span 4;
-  min-height: 220px;
+  grid-area: featured;
   background: var(--dark-card-color);
   border-color: var(--dark-card-color);
   color: var(--inverted-font-color);
@@ -35,45 +65,35 @@ html[data-theme='dark'] .featured {
 }
 
 .featuredImage {
-  width: 260px;
+  width: var(--featured-image-width);
   flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: var(--spacing-md);
 
   img {
     max-width: 100%;
-    max-height: 190px;
+    max-height: var(--featured-image-height);
     object-fit: contain;
-  }
-
-  @media (--mobile-device) {
-    width: 100%;
   }
 }
 
 .featuredBody {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   flex: 1;
   padding: var(--spacing-lg) var(--spacing-xl);
 }
 
 .featuredTitle {
   font-size: var(--font-size-xl);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: var(--featured-title-weight);
+  letter-spacing: var(--featured-title-letter-spacing);
   color: inherit;
 }
 
 .featuredText {
   font-size: var(--font-size-sm);
-  line-height: 1.6;
+  line-height: var(--featured-text-line-height);
   color: inherit;
-  opacity: 0.7;
-  max-width: 350px;
+  opacity: 0.85;
+  max-width: var(--featured-text-max-width);
 }
 
 .featuredAction {
@@ -82,8 +102,7 @@ html[data-theme='dark'] .featured {
 }
 
 .tall {
-  grid-column: span 2;
-  grid-row: span 2;
+  grid-area: tall;
 
   .body {
     flex: none;
@@ -92,50 +111,42 @@ html[data-theme='dark'] .featured {
 
 .tallImage {
   flex: 1;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  min-height: var(--tall-image-min-height);
   padding: var(--spacing-md);
 
   img {
     max-width: 100%;
-    max-height: 340px;
+    max-height: var(--tall-image-height);
     object-fit: contain;
   }
 }
 
 .study {
-  grid-column: span 2;
-
   .body {
     padding-left: var(--spacing-sm);
   }
 }
 
+.studyData {
+  grid-area: data;
+}
+
+.studyKomtek {
+  grid-area: komtek;
+}
+
 .studyImage {
-  width: 175px;
+  width: var(--study-image-width);
   flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: var(--spacing-sm);
 
   img {
     max-width: 100%;
-    max-height: 165px;
     object-fit: contain;
-  }
-
-  @media (--mobile-device) {
-    width: 120px;
   }
 }
 
 .body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   flex: 1;
   min-width: 0;
   padding: var(--spacing-md) var(--spacing-lg);
@@ -143,31 +154,25 @@ html[data-theme='dark'] .featured {
 
 .title {
   font-size: var(--font-size-lg);
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-weight: var(--card-title-weight);
+  letter-spacing: var(--card-title-letter-spacing);
   color: var(--lego-font-color);
   overflow-wrap: break-word;
 }
 
 .textGroup {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
   margin-top: auto;
 }
 
 .text {
   font-size: var(--font-size-sm);
-  line-height: 1.5;
+  line-height: var(--card-text-line-height);
   color: var(--secondary-font-color);
 }
 
 .textLink {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-xs);
   font-size: var(--font-size-sm);
-  font-weight: 600;
+  font-weight: var(--card-link-weight);
   align-self: flex-start;
   transition: color var(--easing-fast);
 

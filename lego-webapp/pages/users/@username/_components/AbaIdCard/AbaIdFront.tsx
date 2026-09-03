@@ -51,7 +51,7 @@ const AbaIdFront = ({ fullName, username, grade, hidden }: Props) => {
           alt="Abakus sin logo"
           className={cx(styles.wordmark, styles.wordmarkDarkMode)}
         />
-        <span className={styles.eyebrow}>{'// ABA-ID'}</span>
+        <span className={styles.eyebrow}>{'ABA-ID'}</span>
       </div>
 
       <div className={styles.frontBody}>
