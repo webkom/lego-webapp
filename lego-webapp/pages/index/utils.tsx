@@ -10,8 +10,7 @@ import {
 import { frontpageObjectDate, isEvent } from '~/redux/slices/frontpage';
 import truncateString from '~/utils/truncateString';
 import styles from './AuthenticatedFrontpage.module.css';
-import type { EntityId } from '@reduxjs/toolkit';
-import type { Dateish } from 'app/models';
+import type { SpotlightItem } from '~/components/Spotlight';
 import type { ArticleWithType, EventWithType } from '~/redux/slices/frontpage';
 
 const itemTimeFormat = (item: ArticleWithType | EventWithType) => {
@@ -65,21 +64,6 @@ export const renderMeta = (item?: ArticleWithType | EventWithType) => {
       )}
     </Flex>
   );
-};
-
-export type SpotlightItem = {
-  id: EntityId;
-  url: string;
-  title: string;
-  cover?: string;
-  coverPlaceholder?: string;
-  /** Shown beside the dot, e.g. an event type or "Artikkel" */
-  category: string;
-  categoryColor: string;
-  location?: string;
-  time: Dateish;
-  timeFormat: string;
-  pinned?: boolean;
 };
 
 export const toSpotlightItems = (

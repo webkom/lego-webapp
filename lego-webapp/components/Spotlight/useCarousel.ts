@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 
 const useCarousel = (count: number) => {
   const [index, setIndex] = useState(0);
-  // matchMedia is unavailable while server-rendering
   const [animated, setAnimated] = useState(false);
 
   useEffect(() => {

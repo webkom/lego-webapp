@@ -1,27 +1,17 @@
-.spotlight {
-  display: flex;
-  flex-direction: column;
-}
-
-.header {
-  display: flex;
-  align-items: baseline;
-  gap: var(--spacing-sm);
-}
-
 .card {
   position: relative;
   border-radius: var(--border-radius-lg);
-
   background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
 
   --corner-inset: var(--spacing-lg);
   --corner-width: 88px;
   --segment-height: 5px;
+
+  &:hover .coverImage {
+    transform: scale(1.015);
+  }
 }
 
-/* Own box, not a display override on the flex BaseCard, which would race on
-   stylesheet order */
 .stage {
   display: grid;
   grid-template-areas: 'slide';
@@ -31,16 +21,10 @@
   grid-area: slide;
   position: relative;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
   color: var(--lego-font-color);
 
   &:hover {
     color: var(--lego-font-color);
-  }
-
-  &:hover .coverImage {
-    transform: scale(1.015);
   }
 }
 
@@ -61,8 +45,6 @@
 
 .cover {
   position: relative;
-
-  /* The ratio thumbor serves covers at, so they are never upscaled or cropped */
   aspect-ratio: 10 / 3;
   flex: none;
   overflow: hidden;
@@ -81,35 +63,39 @@
 
   padding: var(--spacing-md) calc(var(--corner-inset) + var(--corner-width))
     var(--spacing-md) var(--spacing-lg);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: var(--spacing-xs);
-
-  /* Absorbs the difference when a neighbour's title wraps, so every cover
-     stays the same height */
   flex: 1;
 }
 
 .category {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   white-space: nowrap;
+
+  /* Holds its width so a long title shrinks instead */
+  flex: none;
 }
 
-/* The icon belongs to its date, so it sits tighter than the row gap */
 .date {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
 }
 
 .location {
   white-space: nowrap;
 }
 
+.heading {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--lego-font-color);
+}
+
 .title {
+  margin: 0;
+  min-width: 0;
   font-size: var(--font-size-lg);
   font-weight: 700;
   line-height: 1.25;
@@ -118,15 +104,10 @@
 }
 
 .meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 3px var(--spacing-md);
   font-size: var(--font-size-sm);
   color: var(--secondary-font-color);
 }
 
-/* Mirrors the cover box so the arrows centre on the image, not the whole card */
 .coverControls {
   position: absolute;
   inset: 0 0 auto;
@@ -142,9 +123,6 @@
   pointer-events: auto;
   width: 38px;
   height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 50%;
 
   background: rgba(12, 12, 14, 42%);
@@ -170,9 +148,6 @@
   right: var(--corner-inset);
   bottom: var(--corner-inset);
   z-index: 20;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
 }
 
 .segment {
