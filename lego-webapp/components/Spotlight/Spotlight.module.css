@@ -4,7 +4,7 @@
   background: rgba(var(--rgb-min), var(--rgb-min), var(--rgb-min), 2%);
 
   --corner-inset: var(--spacing-lg);
-  --corner-width: 88px;
+  --corner-width: 150px;
   --segment-height: 5px;
 
   &:hover .coverImage {
@@ -67,13 +67,21 @@
 }
 
 .category {
+  position: absolute;
+  right: var(--corner-inset);
+  bottom: var(--corner-inset);
+  margin-bottom: var(--spacing-sm);
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-xs);
   white-space: nowrap;
+  font-size: var(--font-size-sm);
+  color: var(--secondary-font-color);
+}
 
-  /* Holds its width so a long title shrinks instead */
-  flex: none;
+/* Clears the slider so it sits directly on top of it */
+.categoryAboveSlider {
+  bottom: calc(var(--corner-inset) + var(--segment-height) + var(--spacing-xs));
 }
 
 .date {
