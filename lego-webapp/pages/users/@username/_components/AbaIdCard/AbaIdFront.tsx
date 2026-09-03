@@ -1,3 +1,4 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { useMemo } from 'react';
 import { QRCode } from 'react-qrcode-logo';
@@ -35,12 +36,13 @@ const AbaIdFront = ({ fullName, username, grade, hidden }: Props) => {
   );
 
   return (
-    <div
+    <Flex
+      column
       className={cx(styles.face, styles.front)}
       aria-hidden={hidden}
       data-test-id="AbaId__front"
     >
-      <div className={styles.faceHeader}>
+      <Flex alignItems="center" justifyContent="space-between">
         <img
           src="/logo-dark.png"
           alt="Abakus sin logo"
@@ -51,25 +53,29 @@ const AbaIdFront = ({ fullName, username, grade, hidden }: Props) => {
           alt="Abakus sin logo"
           className={cx(styles.wordmark, styles.wordmarkDarkMode)}
         />
-        <span className={styles.eyebrow}>{'// ABA-ID'}</span>
-      </div>
+        <span className={styles.eyebrow}>ABA-ID</span>
+      </Flex>
 
-      <div className={styles.frontBody}>
+      <Flex column justifyContent="center" className={styles.frontBody}>
         <div className={styles.qrPlate}>{qrCode}</div>
-        <div className={styles.identity}>
+        <Flex column alignItems="center" gap="var(--spacing-sm)">
           <h2 className={styles.name}>{fullName}</h2>
           {grade && <span className={styles.gradePill}>{grade}</span>}
-        </div>
-      </div>
+        </Flex>
+      </Flex>
 
-      <div className={styles.faceFooter}>
+      <Flex
+        alignItems="center"
+        justifyContent="space-between"
+        className={styles.faceFooter}
+      >
         <span>abakus.no</span>
         <span>NTNU · TRONDHEIM</span>
-      </div>
+      </Flex>
 
       <div className={styles.edge} />
       <div className={styles.foil} />
-    </div>
+    </Flex>
   );
 };
 

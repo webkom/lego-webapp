@@ -1,6 +1,8 @@
+import { Flex } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import styles from './AbaIdCard.module.css';
 import type { AbaIdGroup } from './index';
+import type { ReactNode } from 'react';
 
 const MAX_VISIBLE_GROUPS = 10;
 
@@ -10,44 +12,59 @@ type Props = {
   hidden: boolean;
 };
 
+const Field = ({ label, children }: { label: string; children: ReactNode }) => (
+  <Flex column gap="var(--spacing-sm)">
+    <span className={styles.fieldLabel}>{label}</span>
+    {children}
+  </Flex>
+);
+
+const GroupPill = ({ children }: { children: ReactNode }) => (
+  <Flex
+    component="span"
+    alignItems="center"
+    gap="var(--spacing-xs)"
+    className={styles.groupPill}
+  >
+    {children}
+  </Flex>
+);
+
 const AbaIdBack = ({ username, groups, hidden }: Props) => (
-  <div
+  <Flex
+    column
     className={cx(styles.face, styles.back)}
     aria-hidden={hidden}
     data-test-id="AbaId__back"
   >
     <div className={styles.stripe} />
 
-    <div className={styles.backBody}>
-      <div className={styles.field}>
-        <span className={styles.fieldLabel}>Brukernavn</span>
+    <Flex column gap="var(--spacing-lg)" className={styles.backBody}>
+      <Field label="Brukernavn">
         <div className={styles.fieldValue}>{username}</div>
-      </div>
+      </Field>
 
       {groups.length > 0 && (
-        <div className={styles.field}>
-          <span className={styles.fieldLabel}>Grupper</span>
-          <div className={styles.groupPills}>
+        <Field label="Grupper">
+          <Flex gap="var(--spacing-sm)" className={styles.groupPills}>
             {groups.slice(0, MAX_VISIBLE_GROUPS).map((group) => (
-              <span key={group.id} className={styles.groupPill}>
+              <GroupPill key={group.id}>
                 <img src={group.logo} alt="" className={styles.groupLogo} />
                 {group.name}
-              </span>
+              </GroupPill>
             ))}
             {groups.length > MAX_VISIBLE_GROUPS && (
-              <span className={styles.groupPill}>
-                +{groups.length - MAX_VISIBLE_GROUPS}
-              </span>
+              <GroupPill>+{groups.length - MAX_VISIBLE_GROUPS}</GroupPill>
             )}
-          </div>
-        </div>
+          </Flex>
+        </Field>
       )}
 
       <div className={styles.backFooter}>abakus.no</div>
-    </div>
+    </Flex>
 
     <div className={styles.foil} />
-  </div>
+  </Flex>
 );
 
 export default AbaIdBack;

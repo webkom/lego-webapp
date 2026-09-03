@@ -2,7 +2,7 @@
 
 .sponsor {
   background: var(--color-bekk-background);
-  color: #f2eee3;
+  color: var(--dark-font-color);
   margin: var(--spacing-xl) 0;
   overflow: hidden;
 }
@@ -10,11 +10,9 @@
 .inner {
   max-width: var(--lego-max-width);
   margin: 0 auto;
-  padding: calc(var(--spacing-xl) * 1.5) var(--spacing-md);
-  display: flex;
+  padding: var(--spacing-xxl) var(--spacing-md);
+  gap: 4rem;
   flex-wrap: wrap;
-  align-items: center;
-  gap: calc(var(--spacing-xl) * 2);
 
   @media (--mobile-device) {
     gap: var(--spacing-xl);
@@ -24,80 +22,53 @@
 
 .brand {
   flex: 1 1 380px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-md);
 }
 
-.eyebrow {
-  margin: 0;
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(242, 238, 227, 0.55);
+.pitch {
+  flex: 1 1 440px;
 }
 
 .wordmark {
-  display: block;
+  color: inherit;
   transition: opacity var(--easing-fast);
 
   &:hover {
+    color: inherit;
     opacity: 0.8;
   }
 
   img {
     display: block;
     width: auto;
-    height: clamp(2.5rem, 5vw, 4rem);
+    height: clamp(3rem, 6.5vw, 5rem);
   }
 }
 
-.meta {
-  margin: 0;
-  font-family: var(--font-family-mono);
-  font-size: var(--font-size-xs);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(242, 238, 227, 0.5);
-}
-
-.pitch {
-  flex: 1 1 440px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-lg);
+.label {
+  font-size: var(--font-size-lg);
+  opacity: 0.75;
 }
 
 .quote {
   margin: 0;
   font-size: var(--font-size-lg);
   line-height: 1.55;
-  color: rgba(242, 238, 227, 0.85);
+  opacity: 0.85;
 }
 
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-
   @media (--mobile-device) {
     display: none;
   }
 }
 
 .outlineAction {
-  border: 1px solid rgba(242, 238, 227, 0.4);
+  border: 1px solid var(--color-gray-5);
   background: none;
-  color: #f2eee3;
+  color: var(--dark-font-color);
 
   &[data-hovered] {
-    border-color: #f2eee3;
+    border-color: var(--color-absolute-white);
     background: none;
     color: var(--color-absolute-white);
   }

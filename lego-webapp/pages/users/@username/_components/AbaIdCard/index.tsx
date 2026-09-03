@@ -20,7 +20,6 @@ type Props = {
   groups: AbaIdGroup[];
 };
 
-/** Mounts with the overlay, so the card always opens on its front. */
 const AbaIdStage = ({ fullName, username, grade, groups }: Props) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const zoneRef = useCardTilt();

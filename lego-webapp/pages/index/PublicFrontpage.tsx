@@ -2,14 +2,15 @@ import { PageContainer } from '@webkom/lego-bricks';
 import { usePreparedEffect } from '@webkom/react-prepare';
 import Banner from '~/components/Banner';
 import CompactEvents from '~/pages/index/_components/CompactEvents';
+import Pinned from '~/pages/index/_components/Pinned';
 import Hero from '~/pages/index/_components/public/Hero';
 import MainSponsor from '~/pages/index/_components/public/MainSponsor';
-import PinnedPost from '~/pages/index/_components/public/PinnedPost';
 import ReadmeShowcase, {
   SHOWCASED_EDITIONS,
 } from '~/pages/index/_components/public/ReadmeShowcase';
 import UsefulLinks from '~/pages/index/_components/public/UsefulLinks';
 import useSectionReveal from '~/pages/index/_components/public/useSectionReveal';
+import { itemUrl, renderMeta } from '~/pages/index/utils';
 import { fetchCurrentPublicBanner } from '~/redux/actions/BannerActions';
 import { fetchData, fetchReadmes } from '~/redux/actions/FrontpageActions';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
@@ -21,9 +22,10 @@ const PublicFrontpage = () => {
   const dispatch = useAppDispatch();
   const pinned = useAppSelector(selectPinned);
 
-  // CompactEvents is shared with the authenticated frontpage, so its reveal
-  // lives on a wrapper here rather than inside the component
+  // CompactEvents and Pinned are shared with the authenticated frontpage, so
+  // their reveals live on wrappers here rather than inside the components
   const eventsRevealRef = useSectionReveal<HTMLDivElement>();
+  const pinnedRevealRef = useSectionReveal<HTMLDivElement>();
 
   usePreparedEffect(
     'fetchIndex',
@@ -68,7 +70,13 @@ const PublicFrontpage = () => {
           <div style={{ gridArea: 'events' }} ref={eventsRevealRef}>
             <CompactEvents />
           </div>
-          <PinnedPost style={{ gridArea: 'article' }} item={pinned} />
+          <div style={{ gridArea: 'article' }} ref={pinnedRevealRef}>
+            <Pinned
+              item={pinned}
+              url={itemUrl(pinned)}
+              meta={renderMeta(pinned)}
+            />
+          </div>
           <ReadmeShowcase style={{ gridArea: 'readme' }} />
           <UsefulLinks style={{ gridArea: 'links' }} />
         </div>

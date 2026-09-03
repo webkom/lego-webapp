@@ -1,4 +1,4 @@
-import { Image, LinkButton } from '@webkom/lego-bricks';
+import { BaseCard, Flex, Image, LinkButton } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import moment from 'moment-timezone';
@@ -15,21 +15,79 @@ type Props = {
   style?: CSSProperties;
 };
 
+const BUDDY_WEEK_URL = 'https://ny.abakus.no/#fadderperioden';
+const FOR_COMPANIES_URL = '/pages/bedrifter/for-bedrifter';
+
+/** `cell` is the bento cell each card is placed in, see the grid in the stylesheet */
+const STUDIES = [
+  {
+    cell: styles.studyData,
+    graphic: dataGraphic,
+    title: 'Datateknologi',
+    text: 'En sentral del av alle fremtidsrettede teknologier - alt fra KI til medisinsk teknologi.',
+    url: 'https://www.ntnu.no/studier/mtdt',
+  },
+  {
+    cell: styles.studyKomtek,
+    graphic: komtekGraphic,
+    title: 'Cybersikkerhet og datakommunikasjon',
+    text: 'Vi lever stadig mer av livene våre på nett. Sikkerhet blir bare viktigere.',
+    url: 'https://www.ntnu.no/studier/mtkom',
+  },
+];
+
+type CardBodyProps = {
+  title: string;
+  text: string;
+  linkText: string;
+  url: string;
+  external?: boolean;
+};
+
+const CardBody = ({ title, text, linkText, url, external }: CardBodyProps) => (
+  <Flex column gap="var(--spacing-sm)" className={styles.body}>
+    <span className={styles.title}>{title}</span>
+    <Flex column gap="var(--spacing-sm)" className={styles.textGroup}>
+      <span className={styles.text}>{text}</span>
+      <Flex
+        component="a"
+        alignItems="center"
+        gap="var(--spacing-xs)"
+        className={styles.textLink}
+        href={url}
+        rel={external ? 'noreferrer' : undefined}
+        target={external ? '_blank' : undefined}
+      >
+        {linkText}
+        <ChevronRight className={styles.arrow} size={14} />
+      </Flex>
+    </Flex>
+  </Flex>
+);
+
 const UsefulLinks = ({ style }: Props) => {
   const sectionRef = useSectionReveal();
 
   return (
-    <section style={style} ref={sectionRef}>
+    <Flex column component="section" style={style} componentRef={sectionRef}>
       <h3 className={utilStyles.frontPageHeader} data-reveal>
         Nyttige lenker
       </h3>
       <div className={styles.bento}>
-        <div className={cx(styles.card, styles.featured)} data-reveal>
-          <div className={styles.featuredImage}>
+        <BaseCard
+          shadow
+          column={false}
+          className={cx(styles.card, styles.featured)}
+          data-reveal
+        >
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={styles.featuredImage}
+          >
             <Image src={buddyWeekGraphic} alt="Fadderperioden" />
-          </div>
-          <div className={styles.featuredBody}>
-            <span className={styles.eyebrow}>{'// Studiestart'}</span>
+          </Flex>
+          <Flex column gap="var(--spacing-sm)" className={styles.featuredBody}>
             <span className={styles.featuredTitle}>
               Fadderperioden {moment().year()}
             </span>
@@ -40,91 +98,57 @@ const UsefulLinks = ({ style }: Props) => {
             <LinkButton
               dark
               className={styles.featuredAction}
-              href="https://ny.abakus.no/#fadderperioden"
+              href={BUDDY_WEEK_URL}
               rel="noreferrer"
               target="_blank"
             >
               Les deg opp
             </LinkButton>
-          </div>
-        </div>
+          </Flex>
+        </BaseCard>
 
-        <div className={cx(styles.card, styles.tall)} data-reveal>
-          <div className={styles.tallImage}>
+        <BaseCard shadow className={cx(styles.card, styles.tall)} data-reveal>
+          <Flex
+            alignItems="center"
+            justifyContent="center"
+            className={styles.tallImage}
+          >
             <Image src={forCompaniesGraphic} alt="For bedrifter" />
-          </div>
-          <div className={styles.body}>
-            <span className={styles.title}>For bedrifter</span>
-            <div className={styles.textGroup}>
-              <span className={styles.text}>
-                Informasjon om bedriftspresentasjoner, prosedyrer og samarbeid
-                med Abakus.
-              </span>
-              <a
-                className={styles.textLink}
-                href="/pages/bedrifter/for-bedrifter"
-              >
-                Undersøk muligheter{' '}
-                <ChevronRight className={styles.arrow} size={14} />
-              </a>
-            </div>
-          </div>
-        </div>
+          </Flex>
+          <CardBody
+            title="For bedrifter"
+            text="Informasjon om bedriftspresentasjoner, prosedyrer og samarbeid med Abakus."
+            linkText="Undersøk muligheter"
+            url={FOR_COMPANIES_URL}
+          />
+        </BaseCard>
 
-        <div className={cx(styles.card, styles.study)} data-reveal>
-          <div className={styles.studyImage}>
-            <Image src={dataGraphic} alt="Datateknologi" />
-          </div>
-          <div className={styles.body}>
-            <span className={styles.title}>Datateknologi</span>
-            <div className={styles.textGroup}>
-              <span className={styles.text}>
-                En sentral del av alle fremtidsrettede teknologier - alt fra KI
-                til medisinsk teknologi.
-              </span>
-              <a
-                className={styles.textLink}
-                href="https://www.ntnu.no/studier/mtdt"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Sjekk ut studiet{' '}
-                <ChevronRight className={styles.arrow} size={14} />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div className={cx(styles.card, styles.study)} data-reveal>
-          <div className={styles.studyImage}>
-            <Image
-              src={komtekGraphic}
-              alt="Cybersikkerhet og datakommunikasjon"
+        {STUDIES.map(({ cell, graphic, title, text, url }) => (
+          <BaseCard
+            key={title}
+            shadow
+            column={false}
+            className={cx(styles.card, styles.study, cell)}
+            data-reveal
+          >
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              className={styles.studyImage}
+            >
+              <Image src={graphic} alt={title} />
+            </Flex>
+            <CardBody
+              title={title}
+              text={text}
+              linkText="Sjekk ut studiet"
+              url={url}
+              external
             />
-          </div>
-          <div className={styles.body}>
-            <span className={styles.title}>
-              Cybersikkerhet og datakommunikasjon
-            </span>
-            <div className={styles.textGroup}>
-              <span className={styles.text}>
-                Vi lever stadig mer av livene våre på nett. Sikkerhet blir bare
-                viktigere.
-              </span>
-              <a
-                className={styles.textLink}
-                href="https://www.ntnu.no/studier/mtkom"
-                rel="noreferrer"
-                target="_blank"
-              >
-                Sjekk ut studiet{' '}
-                <ChevronRight className={styles.arrow} size={14} />
-              </a>
-            </div>
-          </div>
-        </div>
+          </BaseCard>
+        ))}
       </div>
-    </section>
+    </Flex>
   );
 };
 

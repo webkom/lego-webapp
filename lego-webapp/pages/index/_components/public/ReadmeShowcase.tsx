@@ -1,8 +1,9 @@
-import { Image } from '@webkom/lego-bricks';
+import { BaseCard, CardContent, Flex, Image } from '@webkom/lego-bricks';
 import cx from 'classnames';
 import { ChevronRight } from 'lucide-react';
 import { readmeIfy } from '~/components/ReadmeLogo';
 import { useAppSelector } from '~/redux/hooks';
+import utilStyles from '~/styles/utilities.module.css';
 import styles from './ReadmeShowcase.module.css';
 import useReadmeRotation from './useReadmeRotation';
 import useSectionReveal from './useSectionReveal';
@@ -12,7 +13,7 @@ type Props = {
   style?: CSSProperties;
 };
 
-export const SHOWCASED_EDITIONS = 4;
+export const SHOWCASED_EDITIONS = 3;
 
 const CROP_CORNERS = [
   'TopLeft',
@@ -36,84 +37,87 @@ const ReadmeShowcase = ({ style }: Props) => {
     pauseRotation,
     resumeRotation,
   } = useReadmeRotation(editions.length);
-  const revealRef = useSectionReveal<HTMLDivElement>();
+  const sectionRef = useSectionReveal();
 
   return (
-    <div
-      className={styles.card}
-      style={style}
-      ref={(el) => {
-        cardRef.current = el;
-        revealRef.current = el;
-      }}
-    >
-      <div className={styles.raster} aria-hidden="true" />
-      {CROP_CORNERS.map((corner) => (
-        <span
-          key={corner}
-          className={cx(styles.cropMark, styles[`crop${corner}`])}
-          aria-hidden="true"
-        />
-      ))}
-      {editions.length > 0 && (
-        <a
-          className={styles.featuredCover}
-          href={editions[activeIndex].pdf}
-          rel="noreferrer"
-          target="_blank"
-          onMouseEnter={pauseRotation}
-          onMouseLeave={resumeRotation}
-        >
-          {editions.map(({ image, title }, index) => (
-            <div
-              key={title}
-              className={styles.coverLayer}
-              ref={(el) => {
-                coverLayerRefs.current[index] = el;
-              }}
-            >
-              <Image src={image} alt={`Forsidebildet til ${title}`} />
-            </div>
-          ))}
-        </a>
-      )}
-      <div className={styles.info}>
-        <span className={styles.eyebrow}>{'// Vårt studentmagasin'}</span>
-        <span className={styles.wordmark}>
-          {readmeIfy('readme')}
-          <span className={styles.wordmarkDot}>.</span>
-        </span>
-        <div className={styles.archive}>
-          {editions.map(({ title, utgave, year }, index) => (
-            <button
-              key={title}
-              type="button"
-              className={styles.archiveRow}
-              onClick={() => setActiveIndex(index)}
-            >
-              <span
-                className={styles.fill}
-                aria-hidden="true"
-                ref={(el) => {
-                  fillRefs.current[index] = el;
-                }}
-              />
-              <span>{issueLabel(utgave, year)}</span>
-              <ChevronRight className={styles.arrow} size={14} />
-            </button>
-          ))}
+    <Flex column component="section" style={style} componentRef={sectionRef}>
+      <h3 className={utilStyles.frontPageHeader} data-reveal>
+        Vårt studentmagasin
+      </h3>
+      <BaseCard
+        shadow
+        column={false}
+        className={styles.card}
+        componentRef={cardRef}
+        data-reveal
+      >
+        <div className={styles.raster} aria-hidden="true" />
+        {CROP_CORNERS.map((corner) => (
+          <span
+            key={corner}
+            className={cx(styles.cropMark, styles[`crop${corner}`])}
+            aria-hidden="true"
+          />
+        ))}
+        {editions.length > 0 && (
           <a
-            className={cx(styles.archiveRow, styles.archiveAllRow)}
-            href="https://readme.abakus.no/"
+            className={styles.featuredCover}
+            href={editions[activeIndex].pdf}
             rel="noreferrer"
             target="_blank"
+            onMouseEnter={pauseRotation}
+            onMouseLeave={resumeRotation}
           >
-            <span>Se hele arkivet</span>
-            <ChevronRight className={styles.arrow} size={14} />
+            {editions.map(({ image, title }, index) => (
+              <div
+                key={title}
+                className={styles.coverLayer}
+                ref={(el) => {
+                  coverLayerRefs.current[index] = el;
+                }}
+              >
+                <Image src={image} alt={`Forsidebildet til ${title}`} />
+              </div>
+            ))}
           </a>
-        </div>
-      </div>
-    </div>
+        )}
+        <CardContent className={styles.info}>
+          <span className={styles.wordmark}>
+            {readmeIfy('readme')}
+            <span className={styles.wordmarkDot}>.</span>
+          </span>
+          <div className={styles.archive}>
+            {editions.map(({ title, utgave, year }, index) => (
+              <button
+                key={title}
+                type="button"
+                className={styles.archiveRow}
+                onClick={() => setActiveIndex(index)}
+              >
+                <span
+                  className={styles.fill}
+                  aria-hidden="true"
+                  ref={(el) => {
+                    fillRefs.current[index] = el;
+                  }}
+                />
+                <span>{issueLabel(utgave, year)}</span>
+                <ChevronRight className={styles.arrow} size={14} />
+              </button>
+            ))}
+            <a
+              className={cx(styles.archiveRow, styles.archiveAllRow)}
+              href="https://readme.abakus.no/"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span>Se hele arkivet</span>
+              <ChevronRight className={styles.arrow} size={14} />
+            </a>
+          </div>
+        </CardContent>
+      </BaseCard>
+    </Flex>
   );
 };
 

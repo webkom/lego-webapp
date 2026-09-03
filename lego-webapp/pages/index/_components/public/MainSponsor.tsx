@@ -1,54 +1,73 @@
-import { Image, LinkButton } from '@webkom/lego-bricks';
+import { Flex, Image, LinkButton } from '@webkom/lego-bricks';
 import { ChevronRight } from 'lucide-react';
 import bekkLogo from '~/assets/bekk_short_white.svg';
 import styles from './MainSponsor.module.css';
 import useSectionReveal from './useSectionReveal';
 
+const BEKK_URL = 'https://www.bekk.no/';
+const BEKK_CAREERS_URL = 'https://www.bekk.no/jobb';
+
 const MainSponsor = () => {
   const sectionRef = useSectionReveal();
 
   return (
-    <section className={styles.sponsor} ref={sectionRef}>
-      <div className={styles.inner}>
-        <div className={styles.brand} data-reveal>
-          <p className={styles.eyebrow}>{'// Hovedsamarbeidspartner'}</p>
-          <a
+    <Flex
+      column
+      component="section"
+      className={styles.sponsor}
+      componentRef={sectionRef}
+    >
+      <Flex alignItems="center" className={styles.inner}>
+        <Flex
+          column
+          gap="var(--spacing-md)"
+          alignItems="flex-start"
+          className={styles.brand}
+          data-reveal
+        >
+          <span className={styles.label}>Hovedsamarbeidspartner</span>
+          <Flex
+            column
+            alignItems="flex-start"
+            gap="var(--spacing-sm)"
+            component="a"
             className={styles.wordmark}
-            href="https://www.bekk.no/"
+            href={BEKK_URL}
             rel="noreferrer"
             target="_blank"
           >
             <Image src={bekkLogo} alt="Bekk sin logo" />
-          </a>
-          <p className={styles.meta}>siden 2025 · Oslo · Trondheim</p>
-        </div>
-        <div className={styles.pitch} data-reveal>
+          </Flex>
+        </Flex>
+
+        <Flex
+          column
+          alignItems="flex-start"
+          gap="var(--spacing-lg)"
+          className={styles.pitch}
+          data-reveal
+        >
           <p className={styles.quote}>
             «Vi lager tjenester som hjelper mennesker i hver by og bygd, krik og
             krok, hver eneste dag. Vi er et fellesskap. Et fagmiljø.»
           </p>
-          <div className={styles.actions}>
-            <LinkButton
-              dark
-              href="https://www.bekk.no/"
-              rel="noreferrer"
-              target="_blank"
-            >
+          <Flex wrap gap="var(--spacing-md)" className={styles.actions}>
+            <LinkButton dark href={BEKK_URL} rel="noreferrer" target="_blank">
               Les mer om Bekk
             </LinkButton>
             <LinkButton
               className={styles.outlineAction}
-              href="https://www.bekk.no/jobb"
+              href={BEKK_CAREERS_URL}
               rel="noreferrer"
               target="_blank"
             >
               Se karrieremuligheter{' '}
               <ChevronRight className={styles.arrow} size={16} />
             </LinkButton>
-          </div>
-        </div>
-      </div>
-    </section>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 };
 

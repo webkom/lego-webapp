@@ -181,7 +181,7 @@ describe('ABA-ID', () => {
   });
 
   it('shows the front of the card', () => {
-    abaId().should('be.visible').and('contain', '// ABA-ID');
+    abaId().should('be.visible').and('contain', 'ABA-ID');
     abaId()
       .find('canvas')
       .should(($canvas) => {
