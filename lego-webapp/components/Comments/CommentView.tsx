@@ -4,6 +4,7 @@ import moment from 'moment';
 import { useState, type CSSProperties, Fragment } from 'react';
 import CommentForm from '~/components/CommentForm';
 import Dropdown from '~/components/Dropdown';
+import { useIsLoggedIn } from '~/redux/slices/auth';
 import { generateTreeStructure } from '~/utils';
 import CommentTree from './CommentTree';
 import styles from './CommentView.module.css';
@@ -61,6 +62,7 @@ const CommentView = (props: Props) => {
     newOnTop ? orderingOptions[0] : orderingOptions[1],
   );
   const [displaySorting, setDisplaySorting] = useState(false);
+  const loggedIn = useIsLoggedIn();
 
   const sortedComments = comments.slice().sort((a: Comment, b: Comment) => {
     if (ordering.value === 'createdAt') {
@@ -76,6 +78,8 @@ const CommentView = (props: Props) => {
     return 0;
   });
   const tree = generateTreeStructure(sortedComments);
+
+  if (!loggedIn) return null;
 
   return (
     <div style={style}>
