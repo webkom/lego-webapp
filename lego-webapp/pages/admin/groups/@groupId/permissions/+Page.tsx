@@ -93,7 +93,9 @@ const PermissionList = ({ group }: PermissionListProps) => {
                       }),
                     ).then(() => {
                       if (group.type === 'interesse') {
-                        navigate(`/interest-groups/${group.id}`);
+                        navigate(
+                          `/events/interest/interest-groups/${group.id}`,
+                        );
                       }
                     })
                   }

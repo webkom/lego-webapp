@@ -31,8 +31,8 @@ import { useCurrentUser, useIsLoggedIn } from '~/redux/slices/auth';
 import { selectGroupById } from '~/redux/slices/groups';
 import { selectMembershipsForGroup } from '~/redux/slices/memberships';
 import { useParams } from '~/utils/useParams';
-import styles from '../InterestGroup.module.css';
 import InterestGroupMemberModal from '../InterestGroupMemberModal';
+import styles from './InterestGroupDetail.module.css';
 import type { PublicDetailedGroup } from '~/redux/models/Group';
 import type { TransformedMembership } from '~/redux/slices/memberships';
 

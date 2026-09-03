@@ -58,7 +58,7 @@ const GroupForm = ({ isInterestGroup }: Props) => {
     }
     dispatch(isNew ? createGroup(values) : editGroup(values)).then(() => {
       if (group?.type === 'interesse') {
-        navigate(`/interest-groups/${group.id}`);
+        navigate(`/events/interest/interest-groups/${group.id}`);
       }
     });
   };

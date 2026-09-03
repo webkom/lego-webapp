@@ -8,7 +8,13 @@ export default {
 
   redirects: {
     '/kontakt': '/contact',
-    '/interestgroups': '/interest-groups',
+    '/interestgroups': '/events/interest',
+    '/interest-groups': '/events/interest',
+    '/interest-groups/info': '/events/interest/info',
+    '/interest-groups/money-application': '/events/interest/money-application',
+    '/interest-groups/create-application':
+      '/events/interest/create-application',
+    '/interest-groups/*': '/events/interest/interest-groups/*',
     '/admin/email': '/admin/email/lists',
     // Old emails used this url for some reason
     '/185f9aa436cf7f5da598.png': '/logo-dark.png',
