@@ -111,20 +111,7 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
                     gap="var(--spacing-xs)"
                     className={styles.caption}
                   >
-                    <Flex
-                      justifyContent="space-between"
-                      alignItems="baseline"
-                      gap="var(--spacing-sm)"
-                    >
-                      <h4 className={styles.title}>{item.title}</h4>
-                      <span className={styles.category}>
-                        <Circle
-                          size="var(--font-size-xs)"
-                          color={item.categoryColor}
-                        />
-                        {item.category}
-                      </span>
-                    </Flex>
+                    <h4 className={styles.title}>{item.title}</h4>
                     <Flex
                       wrap
                       alignItems="center"
@@ -145,6 +132,18 @@ const Spotlight = ({ items, fetching = false, className, style }: Props) => {
                       )}
                     </Flex>
                   </Flex>
+                  <span
+                    className={cx(
+                      styles.category,
+                      hasMultiple && styles.categoryAboveSlider,
+                    )}
+                  >
+                    <Circle
+                      size="var(--font-size-xs)"
+                      color={item.categoryColor}
+                    />
+                    {item.category}
+                  </span>
                 </Flex>
               );
             })}
