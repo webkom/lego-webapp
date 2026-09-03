@@ -10,11 +10,12 @@
 .inner {
   max-width: var(--lego-max-width);
   margin: 0 auto;
-  padding: calc(var(--spacing-xl) * 1.5) var(--spacing-md);
-  display: flex;
+  padding: var(--spacing-xxl) var(--spacing-md);
+  gap: 4rem;
+  /* Kept here rather than on Flex's `wrap` prop: that prop also hands direct
+     flex children a 15em basis below --mobile-device, overriding the bases
+     below. */
   flex-wrap: wrap;
-  align-items: center;
-  gap: calc(var(--spacing-xl) * 2);
 
   @media (--mobile-device) {
     gap: var(--spacing-xl);
@@ -22,19 +23,16 @@
   }
 }
 
+/* The two columns stack once they no longer both fit side by side */
 .brand {
   flex: 1 1 380px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+}
+
+.pitch {
+  flex: 1 1 440px;
 }
 
 .wordmark {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-sm);
   color: inherit;
   transition: opacity var(--easing-fast);
 
@@ -55,15 +53,6 @@
   opacity: 0.75;
 }
 
-.pitch {
-  flex: 1 1 440px;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-lg);
-}
-
 .quote {
   margin: 0;
   font-size: var(--font-size-lg);
@@ -72,10 +61,6 @@
 }
 
 .actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-md);
-
   @media (--mobile-device) {
     display: none;
   }
