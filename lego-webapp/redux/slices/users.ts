@@ -55,7 +55,7 @@ const usersSlice = createSlice({
       addCase(User.FETCH_LEADERBOARD.FAILURE, (state) => {
         state.fetchingAchievements = false;
       });
-      addCase(MembershipHistory.DELETE.SUCCESS, (state, action) => {
+      addCase(MembershipHistory.DELETE.SUCCESS, (state, action: AnyAction) => {
         const user = state.entities[action.meta.userId] as CurrentUser;
         user.pastMemberships = user.pastMemberships.filter(
           (membership) => membership.abakusGroup.id !== action.meta.groupId,

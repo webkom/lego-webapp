@@ -2,11 +2,14 @@ import { createSlice } from '@reduxjs/toolkit';
 import { sortBy } from 'lodash-es';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
-import { Dateish } from 'app/models';
+import { Dateish, GroupType } from 'app/models';
 import { Page } from '~/redux/actionTypes';
 import createLegoAdapter from '~/redux/legoAdapter/createLegoAdapter';
 import { EntityType } from '~/redux/models/entities';
-import { selectMembershipsForGroup } from '~/redux/slices/memberships';
+import {
+  selectMembershipsForGroup,
+  TransformedMembership,
+} from '~/redux/slices/memberships';
 import { RoleType } from '~/utils/constants';
 import Membership from '../models/Membership';
 import { PublicUser } from '../models/User';
@@ -75,7 +78,7 @@ export const selectPagesForHierarchy = (
   );
 
 const createGroupSelector = (
-  type: string,
+  type: GroupType,
   section: string,
 ): HierarchySectionSelector =>
   createSelector(
@@ -94,11 +97,17 @@ const createGroupSelector = (
   );
 
 export const selectCommitteeForHierarchy = createGroupSelector(
-  'komite',
+  GroupType.Committee,
   'komiteer',
 );
-export const selectRevueForHierarchy = createGroupSelector('revy', 'revy');
-export const selectBoardsForHierarchy = createGroupSelector('styre', 'styrer');
+export const selectRevueForHierarchy = createGroupSelector(
+  GroupType.Revue,
+  'revy',
+);
+export const selectBoardsForHierarchy = createGroupSelector(
+  GroupType.Board,
+  'styrer',
+);
 export const selectPageHierarchy = createSelector(
   (_: RootState, sections: UnknownSection[]) => sections,
   (state: RootState) => state,
@@ -130,7 +139,10 @@ export const selectFlatpagePage: PageSelector<Flatpage> = createSelector(
   (page) => (page && 'content' in page ? { content: page.content } : undefined),
 );
 
-const groupMemberships = (memberships: Membership[], groupId: EntityId) => {
+const groupMemberships = (
+  memberships: (Membership | TransformedMembership)[],
+  groupId: EntityId,
+) => {
   // Sort memberships by whether they belong to the given group
   const sortedMemberships = sortBy(
     memberships,
