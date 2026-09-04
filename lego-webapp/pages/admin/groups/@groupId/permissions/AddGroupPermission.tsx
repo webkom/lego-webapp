@@ -35,7 +35,7 @@ const AddGroupPermission = ({ group }: Props) => {
     dispatch(editGroup(updatedGroup)).then(() => {
       form.reset();
       if (group.type === 'interesse') {
-        navigate(`/interest-groups/${group.id}`);
+        navigate(`/events/interest/interest-groups/${group.id}`);
       }
     });
   };
